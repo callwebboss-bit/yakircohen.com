@@ -1,0 +1,201 @@
+/**
+ * Contextual internal links (max 2–3 per page) — edit here when adding routes.
+ * Rendered by ContextualIntroParagraph; anchor text stays natural Hebrew.
+ */
+
+export type IntroSegment =
+  | { type: "text"; value: string }
+  | { type: "link"; href: string; label: string };
+
+export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
+  "/podcast": [
+    { type: "text", value: "מגיעים לאולפן, מדברים, ויוצאים עם פרק מוכן. לפרק בודד בחרו " },
+    { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
+    { type: "text", value: ", לשכירת חדר בלבד — " },
+    { type: "link", href: "/podcast/podcast-studio-modiin", label: "אולפן במודיעין" },
+    { type: "text", value: ", או ל" },
+    { type: "link", href: "/podcast/podcast-production", label: "ליווי ארוך טווח מא׳ עד ת׳" },
+    { type: "text", value: "." },
+  ],
+  "/podcast/podcast-recording": [
+    { type: "text", value: "הפתרון המלא כולל צילום, הקלטה ועריכה. כבר יש לכם קובץ גולמי? עברו ל" },
+    { type: "link", href: "/podcast/podcast-editing", label: "עריכת פודקאסט מקצועית" },
+    { type: "text", value: ". לחדר בלבד — " },
+    { type: "link", href: "/podcast/podcast-studio-modiin", label: "השכרת סטודיו במודיעין" },
+    { type: "text", value: "." },
+  ],
+  "/podcast/podcast-studio-modiin": [
+    { type: "text", value: "הקלטה שקטה בחדר מבודד עם ליווי טכני. רוצים גם צילום ועריכה? ראו " },
+    { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
+    { type: "text", value: ". לפרק שכבר הקלטתם — " },
+    { type: "link", href: "/podcast/podcast-editing", label: "עריכה מלאה" },
+    { type: "text", value: "." },
+  ],
+  "/podcast/podcast-editing": [
+    { type: "text", value: "שולחים את הקובץ הגולמי ומקבלים פרק מוכן לפרסום. להקלטה באולפן — " },
+    { type: "link", href: "/podcast/podcast-studio-modiin", label: "סטודיו במודיעין" },
+    { type: "text", value: ". לפרויקט שלם — " },
+    { type: "link", href: "/podcast/podcast-production", label: "ליווי מא׳ עד ת׳" },
+    { type: "text", value: "." },
+  ],
+  "/podcast/podcast-production": [
+    { type: "text", value: "בונים פורמט, מיתוג ולוח שידורים. מתחילים מפרק ראשון? אפשר ב" },
+    { type: "link", href: "/podcast/podcast-recording", label: "הפקה מלאה לפרק בודד" },
+    { type: "text", value: " או ב" },
+    { type: "link", href: "/podcast/podcast-studio-modiin", label: "השכרת אולפן" },
+    { type: "text", value: " לפי קצב שלכם." },
+  ],
+  "/podcast/mobile-podcast-at-home": [
+    { type: "text", value: "האולפן מגיע אליכם — בית, משרד או אירוע. לפרק באולפן במודיעין ראו " },
+    { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
+    { type: "text", value: ". לעריכה בלבד — " },
+    { type: "link", href: "/podcast/podcast-editing", label: "עריכת פודקאסט" },
+    { type: "text", value: "." },
+  ],
+  "/podcast/podcast-with-grandpa": [
+    { type: "text", value: "חוויה משפחתית שמשלבת פודקאסט ו" },
+    { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר מקצועית" },
+    { type: "text", value: ". לפרק רגיל באולפן — " },
+    { type: "link", href: "/podcast/podcast-recording", label: "הפקה מלאה" },
+    { type: "text", value: "." },
+  ],
+  "/events/dj-events": [
+    { type: "text", value: "תקליטן שמבין את הרחבה ואת הקהל. משלימים עם " },
+    { type: "link", href: "/events/stage-led-dj", label: "עמדת LED לתקליטן" },
+    { type: "text", value: ", " },
+    { type: "link", href: "/events/equipment", label: "הגברה וציוד" },
+    { type: "text", value: " ו" },
+    { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
+    { type: "text", value: "." },
+  ],
+  "/events/stage-led-dj": [
+    { type: "text", value: "במה דיגיטלית שמחליפה את שולחן התקליטן הקלאסי. לסאונד מלא — " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן לאירועים" },
+    { type: "text", value: ". לאפקטים נוספים — " },
+    { type: "link", href: "/events/attractions", label: "אטרקציות לאירועים" },
+    { type: "text", value: "." },
+  ],
+  "/events/wedding-attractions-packages": [
+    { type: "text", value: "חבילות שמרכזות DJ, אפקטים וציוד. בוחרים " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן לחתונה" },
+    { type: "text", value: ", " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "עשן לרגע הכניסה" },
+    { type: "text", value: " או " },
+    { type: "link", href: "/events/stage-led-dj", label: "עמדת LED" },
+    { type: "text", value: " לפי הסגנון שלכם." },
+  ],
+  "/events/equipment": [
+    { type: "text", value: "השכרת רמקולים, מיקרופונים ותאורה לאירוע. לזמר חי — " },
+    { type: "link", href: "/events/equipment/singer-amplification", label: "הגברה לזמרים" },
+    { type: "text", value: ". לליווי מוזיקלי — " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן מקצועי" },
+    { type: "text", value: "." },
+  ],
+  "/studio/recording-studio": [
+    { type: "text", value: "חדר אקוסטי, מיקרופונים ומפיק בצד. להקלטת שיר לאירוע — " },
+    { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר במודיעין" },
+    { type: "text", value: ". לפודקאסט — " },
+    { type: "link", href: "/podcast", label: "מרכז הפודקאסט" },
+    { type: "text", value: "." },
+  ],
+  "/studio/recording-song-modiin": [
+    { type: "text", value: "שיר מקורי או קאבר — מוכן להשמעה באירוע. לברכות מוקלטות — " },
+    { type: "link", href: "/studio/blessings", label: "הקלטת ברכות" },
+    { type: "text", value: ". לאולפן כללי — " },
+    { type: "link", href: "/studio/recording-studio", label: "אולפן הקלטות" },
+    { type: "text", value: "." },
+  ],
+  "/studio/blessings": [
+    { type: "text", value: "ברכות מרגשות באולפן או מהבית. לחתן וכלה — " },
+    { type: "link", href: "/studio/blessings/bride-groom-blessing", label: "ברכת חתן וכלה" },
+    { type: "text", value: ". לשיר מתנה — " },
+    { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions": [
+    { type: "text", value: "אפקטים לאירועים עם צוות בשטח. לחתונה משלבים " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן" },
+    { type: "text", value: ", " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "עשן לכניסה" },
+    { type: "text", value: " ו" },
+    { type: "link", href: "/events/stage-led-dj", label: "עמדת LED" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/bubble-machine": [
+    { type: "text", value: "בועות סבון שממלאות את הרחבה בצבעים. לווריאציה עם עשן — " },
+    { type: "link", href: "/events/attractions/bubble-machine/smoke-bubble-machine-events", label: "מכונת בועות עשן" },
+    { type: "text", value: ". לשילוב בחבילה — " },
+    { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות אטרקציות" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/bubble-machine/smoke-bubble-machine-events": [
+    { type: "text", value: "בועות ועשן יחד לרגע כניסה דרמטי. לבועות קלאסיות — " },
+    { type: "link", href: "/events/attractions/bubble-machine", label: "מכונת בועות סבון" },
+    { type: "text", value: ". לעשן בחופה — " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "מכונת עשן לחתונה" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/cold-fireworks": [
+    { type: "text", value: "זיקוקים קרים בטוחים לרגע הכניסה. משדרגים עם " },
+    { type: "link", href: "/events/attractions/confetti-cannon", label: "תותח קונפטי" },
+    { type: "text", value: " או " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "עשן לחתונה" },
+    { type: "text", value: ". ל-DJ ורחבה — " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן לאירועים" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/confetti-cannon": [
+    { type: "text", value: "קונפטי מדויק לרגע השיא. לזיקוקים קרים — " },
+    { type: "link", href: "/events/attractions/cold-fireworks", label: "זיקוקים קרים" },
+    { type: "text", value: ". לרחבה מלאה — " },
+    { type: "link", href: "/events/attractions/giant-balloons", label: "בלוני ענק" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/giant-balloons": [
+    { type: "text", value: "בלוני ענק שמגדילים את האנרגיה ברחבה. משלימים עם " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן" },
+    { type: "text", value: " ו" },
+    { type: "link", href: "/events/attractions/confetti-cannon", label: "קונפטי" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/wedding-smoking-machine": [
+    { type: "text", value: "עשן לרגע הכניסה בלי להעלים את הזוג. לאולמות גדולים — " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events", label: "עשן כבד לאירועים" },
+    { type: "text", value: ". לזיקוקים — " },
+    { type: "link", href: "/events/attractions/cold-fireworks", label: "זיקוקים קרים" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events": [
+    { type: "text", value: "עשן כבד לאולמות וחללים גדולים. לחתונות בגן — " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "עשן לחתונה" },
+    { type: "text", value: ". לתותחי עשן — " },
+    { type: "link", href: "/events/attractions/smoke-cannons-for-events", label: "תותחי עשן" },
+    { type: "text", value: "." },
+  ],
+  "/events/attractions/smoke-cannons-for-events": [
+    { type: "text", value: "תותחי עשן מדויקים לרגעים בוהקים. לעשן בחופה — " },
+    { type: "link", href: "/events/attractions/wedding-smoking-machine", label: "מכונת עשן לחתונה" },
+    { type: "text", value: ". לחבילה מלאה — " },
+    { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
+    { type: "text", value: "." },
+  ],
+  "/events/equipment/singer-amplification": [
+    { type: "text", value: "הגברה נקייה לזמר חי על הבמה. ל-DJ ורחבה — " },
+    { type: "link", href: "/events/dj-events", label: "תקליטן לאירועים" },
+    { type: "text", value: ". לציוד מלא — " },
+    { type: "link", href: "/events/equipment", label: "השכרת הגברה" },
+    { type: "text", value: "." },
+  ],
+  "/photo-slideshow": [
+    { type: "text", value: "מצגת תמונות מעוצבת לרגעים מרגשים באירוע. לצילום חתונה — " },
+    { type: "link", href: "/photography/wedding", label: "צילום חתונות" },
+    { type: "text", value: ". לוידאו — " },
+    { type: "link", href: "/video/event-filming", label: "צילום אירועים" },
+    { type: "text", value: "." },
+  ],
+};
+
+export function getIntroSegments(pathname: string): IntroSegment[] | undefined {
+  const normalized = pathname.replace(/\/$/, "") || "/";
+  return PAGE_INTRO_SEGMENTS[normalized];
+}

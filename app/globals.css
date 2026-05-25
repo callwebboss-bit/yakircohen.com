@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────────────────────────
+   Yakir Cohen Productions - Tailwind v4 (Hebrew RTL)
+   Palette: light background, near-black text, red accents (#D42B2B)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-background: #fafaf8;
+  --color-foreground: #1a1a1a;
+  --color-muted: #525252;
+  --color-muted-foreground: #737373;
+  --color-border: #e5e5e5;
+  --color-surface: #ffffff;
+  --color-brand-red: #d42b2b;
+  --color-brand-red-light: #e04a4a;
+  --color-brand-red-dark: #b32424;
+
+  --font-sans: var(--font-heebo), "Heebo", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif-hebrew), "Noto Serif Hebrew", "David Libre",
+    Georgia, "Times New Roman", serif;
+
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+
+  --width-content: 72rem;
+  --width-narrow: 48rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    direction: rtl;
+    text-align: right;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply min-h-dvh bg-background font-sans text-foreground;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  ::selection {
+    @apply bg-brand-red/20 text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-red;
+  }
+
+  /* next/image `fill` uses absolute sizing; height:auto collapses the hero frame */
+  img:not([data-nimg="fill"]),
+  video {
+    max-width: 100%;
+    height: auto;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html.a11y-large-text {
+  font-size: 112.5%;
+}
+
+html.a11y-high-contrast body {
+  filter: contrast(1.25);
+}
+
+html.a11y-highlight-links a[href] {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
 }

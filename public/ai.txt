@@ -1,0 +1,8 @@
+# AI crawlers — see full site summary
+# https://yakircohen.com/llms.txt
+
+User-agent: *
+Allow: /
+
+Sitemap: https://yakircohen.com/sitemap.xml
+LLM-summary: https://yakircohen.com/llms.txt
