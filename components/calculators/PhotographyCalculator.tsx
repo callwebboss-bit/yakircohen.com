@@ -1,8 +1,12 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
   ADDON_SECTION_LABELS,
   AI_BUNDLE_DISCOUNT,
@@ -13,6 +17,12 @@ import {
   getPackageLabel,
   type PhotographyAddonSection,
 } from "@/lib/data/photography-calculator";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateIsraeliMobile,
+  validatePersonName,
+} from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
@@ -78,9 +88,15 @@ function SelectableRow({
 }
 
 export default function PhotographyCalculator({ className }: { className?: string }) {
+  const router = useRouter();
   const [hours, setHours] = useState(8);
   const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
+  const [contactForm, setContactForm] = useState({ name: "", phone: "" });
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: "photography_calculator",
+  });
 
   const toggleAddon = (id: string) => {
     setSelectedAddons((prev) => {
@@ -145,13 +161,43 @@ export default function PhotographyCalculator({ className }: { className?: strin
   );
 
   const handleWhatsAppClick = useCallback(() => {
-    notifyLeadByEmail({
-      formId: "photography_calculator",
-      subject: "ליד חדש — צילום אירועים",
-      body: waMessageText,
-    });
-    openWhatsAppLead(whatsappHref);
-  }, [waMessageText, whatsappHref]);
+    const errs = attemptSubmit(
+      () => {
+        const nameR = validatePersonName(contactForm.name);
+        const phoneR = validateIsraeliMobile(contactForm.phone);
+        const errors = {
+          ...(nameR.ok ? {} : (nameR.errors ?? {})),
+          ...(phoneR.ok ? {} : (phoneR.errors ?? {})),
+        };
+        if (Object.keys(errors).length) {
+          return { ok: false as const, errors };
+        }
+        return { ok: true as const, normalizedPhone: phoneR.ok ? phoneR.normalizedPhone : undefined };
+      },
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : contactForm.phone.trim();
+        const fullBody = [
+          `שם: ${sanitizeLeadText(contactForm.name, 60)}`,
+          `טלפון: ${displayPhone}`,
+          "",
+          waMessageText,
+        ].join("\n");
+        const href = buildWhatsAppHref({ text: fullBody, utm_campaign: "photography_calculator" });
+        openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "photography_calculator",
+          subject: "ליד חדש — צילום אירועים",
+          body: fullBody,
+          name: sanitizeLeadText(contactForm.name, 60),
+          phone: displayPhone,
+        });
+        router.push("/thank-you?service=photography");
+      },
+    );
+    setFieldErrors(errs ?? {});
+  }, [attemptSubmit, contactForm, waMessageText, router]);
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
 
@@ -291,6 +337,56 @@ export default function PhotographyCalculator({ className }: { className?: strin
             ))}
           </div>
         </section>
+
+        <section className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
+          <HoneypotField value={honeypot} onChange={setHoneypot} />
+          <LeadFormAlert message={globalError} className="mb-4" />
+          <h3 className="mb-4 text-base font-bold text-foreground">📋 פרטי קשר לשמירת תאריך</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label htmlFor="photo-name" className="mb-1.5 block text-xs font-semibold text-foreground">
+                שם מלא *
+              </label>
+              <input
+                id="photo-name"
+                type="text"
+                value={contactForm.name}
+                onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
+                placeholder="הכנס שם מלא"
+                aria-invalid={Boolean(fieldErrors.name)}
+                className={cn(
+                  "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
+                  fieldErrors.name ? "border-brand-red" : "border-border",
+                )}
+              />
+              {fieldErrors.name && (
+                <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.name}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="photo-phone" className="mb-1.5 block text-xs font-semibold text-foreground">
+                טלפון *
+              </label>
+              <input
+                id="photo-phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                value={contactForm.phone}
+                onChange={(e) => setContactForm((f) => ({ ...f, phone: e.target.value }))}
+                placeholder="050-0000000"
+                aria-invalid={Boolean(fieldErrors.phone)}
+                className={cn(
+                  "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
+                  fieldErrors.phone ? "border-brand-red" : "border-border",
+                )}
+              />
+              {fieldErrors.phone && (
+                <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.phone}</p>
+              )}
+            </div>
+          </div>
+        </section>
       </div>
 
       <CalculatorStickyBar
@@ -299,6 +395,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
         whatsappHref={whatsappHref}
         onWhatsAppClick={handleWhatsAppClick}
         showCta
+        primaryDisabled={contactForm.name.trim().length < 2 || contactForm.phone.trim().length < 9}
       />
     </div>
   );

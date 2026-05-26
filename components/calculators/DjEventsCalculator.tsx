@@ -177,6 +177,7 @@ function isDjReserveFormValid(form: FormState): boolean {
 }
 
 export default function DjEventsCalculator({ className }: { className?: string }) {
+  const router = useRouter();
   const [festivalSelected, setFestivalSelected] = useState(false);
   const [djId, setDjId] = useState<DjId | null>(null);
   const [starId, setStarId] = useState<StarId | null>(null);
@@ -336,10 +337,12 @@ export default function DjEventsCalculator({ className }: { className?: string }
           name: sanitizeLeadText(form.name, 60),
           phone: displayPhone,
         });
+        router.push("/thank-you?service=dj");
       },
     );
     setFieldErrors(errs ?? {});
   }, [
+    router,
     attemptSubmit,
     form,
     hasSelection,

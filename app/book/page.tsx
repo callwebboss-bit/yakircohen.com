@@ -7,6 +7,8 @@ import BookingCalculator from "@/components/marketing/BookingCalculator";
 import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
 import FilterGate from "@/components/marketing/FilterGate";
 import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
+import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
+import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
 
 export const metadata: Metadata = constructMetadata({
   title: "הזמנה מקוונת | יקיר כהן הפקות",
@@ -124,6 +126,38 @@ export default function BookPage() {
           </p>
         </header>
         <EventsBookingWizard />
+      </section>
+
+      {/* ── DJ לאירועים ── */}
+      <section
+        id="dj"
+        className="mx-auto max-w-[72rem] scroll-mt-24 border-t border-border px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      >
+        <header className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            DJ לאירועים
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            חבילת פסטיבל, DJ, רגע של כוכב ואפקטים — בנו את האירוע שלכם
+          </p>
+        </header>
+        <DjEventsCalculator />
+      </section>
+
+      {/* ── צילום אירועים ── */}
+      <section
+        id="photography"
+        className="mx-auto max-w-[72rem] scroll-mt-24 border-t border-border px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      >
+        <header className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            צילום אירועים
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            בחירת שעות, תוספות ושירותי AI לצילום — מחיר שקוף, בלי הפתעות
+          </p>
+        </header>
+        <PhotographyCalculator />
       </section>
 
       {/* ── Clips & digital (legacy calculator) ── */}
