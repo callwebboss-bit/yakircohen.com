@@ -75,8 +75,10 @@ export function useBookingDraft<T>(
     if (saved == null) return;
     const next = deserialize(saved);
     if (next != null) {
-      setState(next);
-      setRestored(true);
+      queueMicrotask(() => {
+        setState(next);
+        setRestored(true);
+      });
     }
   }, [storageKey, setState, deserialize, enabled]);
 

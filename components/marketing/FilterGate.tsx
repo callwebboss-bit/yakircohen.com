@@ -77,22 +77,24 @@ export default function FilterGate() {
   const [purpose, setPurpose] = useState<PurposeId | null>(null);
 
   useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
-      if (saved) {
-        const answers: FilterAnswers = JSON.parse(saved);
-        if (answers.timeline === "just_browsing") {
-          setGateState("browsing");
+    queueMicrotask(() => {
+      try {
+        const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
+        if (saved) {
+          const answers: FilterAnswers = JSON.parse(saved);
+          if (answers.timeline === "just_browsing") {
+            setGateState("browsing");
+          } else {
+            if (answers.purpose === "gift") setGiftMode(true);
+            setGateState("wizard");
+          }
         } else {
-          if (answers.purpose === "gift") setGiftMode(true);
-          setGateState("wizard");
+          setGateState("gate");
         }
-      } else {
+      } catch {
         setGateState("gate");
       }
-    } catch {
-      setGateState("gate");
-    }
+    });
   }, []);
 
   const canAdvance = timeline !== null && purpose !== null;

@@ -1,0 +1,64 @@
+---
+description: yakircohen.com stack, architecture, env, build, and deployment rules
+alwaysApply: true
+---
+
+# yakircohen.com — Project Rules
+
+## Stack
+
+- Next.js 16.2.6 (App Router) + React 19 + TypeScript 5
+- Tailwind CSS v4 (PostCSS plugin only — no classic `tailwind.config.js`)
+- Pagefind for search (build-time)
+- Vercel (production), GitHub Actions CI
+
+## Architecture
+
+- `app/` — all pages (App Router)
+- `components/` — shared UI
+- `hooks/` — custom hooks
+- `lib/` — utilities (includes `legacy-redirects`)
+- `public/` — static assets
+- `scripts/` — audit scripts (images, links, headings, pagefind)
+
+## Never
+
+- Add `"use client"` unless required — Server Components by default
+- Use `pages/` router — everything under `app/`
+- Add `tailwind.config.js` — Tailwind v4 is PostCSS-only
+- Change `next.config.ts` without explicit approval — security headers and redirects live there
+- Put secrets in code — Vercel env vars only
+- Remove or rename `RESEND_API_KEY` / `LEAD_NOTIFY_EMAIL` from env docs or usage
+
+## Always
+
+- New pages: `generateMetadata()` with title, description, and OG
+- Images: Next.js `<Image>` (not raw `<img>`), except where an existing pattern intentionally uses `<img>` (e.g. lazy YouTube thumbnails)
+- External links: `target="_blank" rel="noopener noreferrer"`
+- Before commit: `npm run lint` and `npm run build` (or `build:full` when search/index changes)
+- Commit messages: `feat:`, `fix:`, `chore:`, `docs:` prefixes
+
+## Environment (Vercel production)
+
+- `RESEND_API_KEY` — Resend email API
+- `LEAD_NOTIFY_EMAIL` — lead notifications (e.g. callwebboss@gmail.com)
+
+## API
+
+- `app/api/lead-notify/route.ts` — email on form submit; requires both env vars above
+
+## Build scripts
+
+- `npm run dev` — local dev
+- `npm run build` — standard build
+- `npm run build:full` — build + Pagefind (Vercel `vercel-build`)
+- `npm run lint` — required before commit
+- `npm run audit:images` / `audit:links` — asset and link checks
+- `npm run check:youtube` — validate YouTube video IDs
+
+## Domain & deploy
+
+- Production: https://yakircohen.com
+- Preview only: yakircohen-com.vercel.app (do not share with clients)
+- Push to `main` → Vercel auto-deploy
+- GitHub Actions runs lint + build — do not force-push to `main` if CI fails
