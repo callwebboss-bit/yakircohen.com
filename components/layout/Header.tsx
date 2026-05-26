@@ -8,6 +8,7 @@ import {
   SiteNavMobileDrawer,
   useSiteNavMenu,
 } from "@/components/layout/SiteNav";
+import SiteSearch from "@/components/ui/SiteSearch";
 import { SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
 
 export default function Header() {
@@ -54,6 +55,15 @@ export default function Header() {
           <SiteNavDesktop />
 
           <div className="flex shrink-0 items-center gap-2">
+            <div className="hidden w-[14rem] lg:block">
+              <SiteSearch />
+            </div>
+            <Link
+              href="/business/social-media"
+              className="hidden min-h-11 items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold transition-colors hover:border-brand-red/40 hover:text-brand-red xl:inline-flex"
+            >
+              קידום סושיאל
+            </Link>
             <Link
               href="/book"
               className="hidden min-h-11 items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold transition-colors hover:border-brand-red/40 hover:text-brand-red md:inline-flex"

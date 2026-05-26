@@ -18,7 +18,9 @@ export type LegacyRedirect = {
 
 /** Map legacy path → canonical path (before prefix rules) */
 const LEGACY_PATH_MAP: Record<string, string> = {
+  /** Google Sites / קישורים ישנים — דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
+  "/home/": "/",
   "/recording": "/studio",
   "/studio-main": "/studio",
   "/online-studio": "/online",

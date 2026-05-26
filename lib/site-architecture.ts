@@ -36,6 +36,11 @@ export const DUPLICATE_PAGE_NOTES: readonly {
   reason: string;
 }[] = [
   {
+    duplicate: "/home",
+    canonical: "/",
+    reason: "כתובת ישנה מ-Google Sites — 301 לשורש; אין עמוד נפרד בשם home",
+  },
+  {
     duplicate: "/podcast/podcast-studio",
     canonical: "/podcast/podcast-studio-modiin",
     reason: "אותו אולפן — עמוד SEO מלא אחד (השכרת סטודיו במודיעין)",
@@ -193,6 +198,10 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "הזמנה מקוונת", href: "/book" },
   { label: "מגזין", href: "/blog" },
+  {
+    label: "קידום סושיאל - יקיר איזמירלי",
+    href: "/business/social-media",
+  },
   { label: "אודות", href: "/about" },
   { label: "שאלות נפוצות", href: "/about/faq" },
   { label: "צור קשר", href: "/contact" },

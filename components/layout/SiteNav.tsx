@@ -10,6 +10,7 @@ import {
 } from "@/lib/site-architecture";
 import { SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import SiteSearch from "@/components/ui/SiteSearch";
 
 const NAV_ICONS: Record<string, string> = {
   podcast: "🎙️",
@@ -324,6 +325,9 @@ export function SiteNavMobileDrawer({
 
       {/* ── Scrollable body (min-h-0 required for flex scroll) ── */}
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-5 sm:py-5">
+        <div className="mb-4">
+          <SiteSearch />
+        </div>
         <p className="mb-3 text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">
           שירותים
         </p>
