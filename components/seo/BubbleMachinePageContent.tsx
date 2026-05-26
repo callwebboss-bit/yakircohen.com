@@ -4,9 +4,10 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   BUBBLE_CONCERNS,
   BUBBLE_HIGHLIGHTS,
@@ -30,6 +31,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getEventsService("attractions-bubble-machine");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function BubbleMachinePageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -49,16 +51,8 @@ export default function BubbleMachinePageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/bubble-machine" className="max-w-3xl" />
         <section
@@ -357,6 +351,8 @@ export default function BubbleMachinePageContent() {
           </header>
           <AttractionsCalculatorLazy className="mt-8" />
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

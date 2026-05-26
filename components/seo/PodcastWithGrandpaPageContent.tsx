@@ -2,11 +2,12 @@ import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   PODCAST_GRANDPA_AUDIENCES,
   PODCAST_GRANDPA_DAY_PARTS,
@@ -33,6 +34,7 @@ const pageHero = resolvePodcastFolderHero(
   PODCAST_GRANDPA_TITLE,
   youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["podcast-with-grandpa"]),
 );
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function PodcastWithGrandpaPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -52,7 +54,7 @@ export default function PodcastWithGrandpaPageContent() {
       utmCampaign="podcast_grandpa"
       scarcityLabel="🎙️👴👵 חוויה משפחתית במודיעין"
       ctaLabel="תיאום החוויה בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-with-grandpa" className="max-w-3xl" />
@@ -69,6 +71,13 @@ export default function PodcastWithGrandpaPageContent() {
             והגשמת חלום בהקלטת שיר באולפן מקצועי.
           </p>
         </section>
+
+        <ShowcaseVideoSection
+          heading="דוגמה מהאולפן"
+          subheading="פודקאסט משפחתי עם סבא וסבתא"
+          videos={[PODCAST_GRANDPA_EXAMPLE_VIDEO]}
+          initialVisible={1}
+        />
 
         <section aria-labelledby="day-heading">
           <header className="mx-auto max-w-2xl text-center">
@@ -236,17 +245,9 @@ export default function PodcastWithGrandpaPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder="podcast"
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["podcast-with-grandpa"],
-          )}
-          mediaType="video"
-          galleryLabel="פודקאסט עם סבא וסבתא"
-          videoTitle={PODCAST_GRANDPA_EXAMPLE_VIDEO.title}
-          videoHeadingId="example-heading"
-          videoHeading="דוגמה מהאולפן"
-          footer={
-            <RecordingSongExampleVideos videos={[PODCAST_GRANDPA_EXAMPLE_VIDEO]} />
-          }
+          playlistEmbedUrl={null}
+          mediaType="gallery"
+          galleryLabel="תמונות מהחוויה"
         />
 
         <FAQAccordion

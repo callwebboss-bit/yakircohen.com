@@ -4,12 +4,14 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import Link from "next/link";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
-import { PODCAST_EXAMPLE_VIDEOS } from "@/lib/data/podcast-hub-page";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   STUDIO_MODIIN_FAQS,
   STUDIO_MODIIN_HERO_FEATURES,
@@ -29,6 +31,7 @@ const pageHero = resolvePodcastFolderHero(
   STUDIO_MODIIN_TITLE,
   youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"]),
 );
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function PodcastStudioModiinPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -47,10 +50,20 @@ export default function PodcastStudioModiinPageContent() {
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
       ctaLabel="תיאום הקלטה בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-studio-modiin" className="max-w-3xl" />
+
+        <ShowcaseVideoSection
+          heading="דוגמאות מהסטודיו במודיעין"
+          subheading="פודקאסטים שהוקלטו אצלנו - לחצו לצפייה"
+          videos={PODCAST_SHOWCASE_VIDEOS}
+          initialVisible={3}
+        />
+
+        <PodcastSpotifySample />
+
         <section className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
@@ -151,17 +164,9 @@ export default function PodcastStudioModiinPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder="podcast"
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"],
-          )}
-          mediaType="video"
-          galleryLabel="פודקאסט מהסטודיו במודיעין"
-          videoTitle="פודקאסט מהסטודיו במודיעין"
-          videoHeadingId="examples-heading"
-          videoHeading="דוגמאות מהאולפן"
-          footer={
-            <RecordingSongExampleVideos videos={PODCAST_EXAMPLE_VIDEOS} />
-          }
+          playlistEmbedUrl={null}
+          mediaType="gallery"
+          galleryLabel="תמונות מהסטודיו"
         />
 
         <section aria-labelledby="pricing-heading">

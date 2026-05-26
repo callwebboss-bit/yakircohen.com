@@ -10,8 +10,10 @@ import {
   SERVICE_SHOWCASE_VIDEO_ID,
   type HeroScrollTarget,
 } from "@/lib/service-portfolio-hero";
+import { sliceHeroFeatures } from "@/lib/service-page-ui";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 
 export type ServicePageLayoutProps = {
   title: string;
@@ -29,12 +31,21 @@ export type ServicePageLayoutProps = {
   /** Cover image in hero (never a raw video iframe in the header). */
   heroImageSrc?: string;
   heroImageAlt?: string;
+  /** Render a YouTube embed inside the hero (instead of the cover image). */
+  heroVideoEmbedUrl?: string | null;
+  heroVideoTitle?: string;
   /** Play overlay + scroll link only when a video/audio embed section exists. */
   heroScrollTarget?: HeroScrollTarget;
   heroVideoSectionId?: string;
   heroGallerySectionId?: string;
   /** Inline WhatsApp + book CTAs under the subtitle (default on). */
   showHeroCtas?: boolean;
+  /** הצג כפתור הזמנה מקוונת ב-Hero (ברירת מחדל: כן). */
+  showBookCtaInHero?: boolean;
+  /** הסתר קישור גלילה לוידאו/גלריה מתחת ל-CTA */
+  showHeroScrollLink?: boolean;
+  /** מגביל נקודות ✓ מתחת ל-Hero (ברירת מחדל: 3) */
+  maxHeroFeatures?: number;
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -52,6 +63,22 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 const HERO_FRAME_CLASS =
   "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-neutral-200 shadow-[0_16px_48px_rgba(0,0,0,0.1)] sm:aspect-[5/4] lg:aspect-[4/3]";
+
+function ServiceHeroVideoVisual({
+  heroVideoEmbedUrl,
+  heroVideoTitle,
+}: {
+  heroVideoEmbedUrl: string;
+  heroVideoTitle: string;
+}) {
+  return (
+    <LazyYouTubeEmbed
+      embedUrl={heroVideoEmbedUrl}
+      title={heroVideoTitle}
+      className="rounded-2xl border border-border shadow-[0_16px_48px_rgba(0,0,0,0.1)]"
+    />
+  );
+}
 
 function ServiceHeroVisual({
   heroImageSrc,
@@ -144,11 +171,21 @@ export default function ServicePageLayout({
   className,
   heroImageSrc,
   heroImageAlt = "",
+  heroVideoEmbedUrl,
+  heroVideoTitle,
   heroScrollTarget,
   heroVideoSectionId = SERVICE_SHOWCASE_VIDEO_ID,
   heroGallerySectionId = SERVICE_PORTFOLIO_GALLERY_ID,
   showHeroCtas = true,
+  showBookCtaInHero = false,
+  showHeroScrollLink,
+  maxHeroFeatures,
 }: ServicePageLayoutProps) {
+  const heroFeatures = sliceHeroFeatures(features, maxHeroFeatures);
+  const hasHeroImage = Boolean(heroImageSrc?.trim());
+  const hasHeroVideo = Boolean(heroVideoEmbedUrl?.trim());
+  const resolvedShowHeroScrollLink =
+    showHeroScrollLink !== undefined ? showHeroScrollLink : hasHeroImage;
   const baseText = whatsappText?.trim() || buildServiceWhatsAppText(title);
   const inquiryText = startingPrice ? `${baseText} - מחיר: ${startingPrice}` : baseText;
 
@@ -168,8 +205,7 @@ export default function ServicePageLayout({
         ? "צפו בגלריית תמונות ↓"
         : null;
 
-  const hasHeroImage = Boolean(heroImageSrc?.trim());
-  const hasHeroGrid = hasHeroImage;
+  const hasHeroGrid = hasHeroImage || hasHeroVideo;
 
   return (
     <article className={cn("bg-background", className)}>
@@ -181,7 +217,7 @@ export default function ServicePageLayout({
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,rgba(212,43,43,0.14),transparent_62%)]"
           aria-hidden="true"
         />
-        {!hasHeroImage ? (
+        {!hasHeroGrid ? (
           <div
             className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,rgba(212,43,43,0.04)_50%,transparent_100%)]"
             aria-hidden
@@ -231,13 +267,15 @@ export default function ServicePageLayout({
                   <WhatsAppIcon />
                   {ctaLabel}
                 </a>
-                <Button as="link" href="/book" variant="outline">
-                  הזמנה מקוונת
-                </Button>
+                {showBookCtaInHero ? (
+                  <Button as="link" href="/book" variant="outline">
+                    הזמנה מקוונת
+                  </Button>
+                ) : null}
               </div>
             ) : null}
 
-            {scrollHref && scrollLinkLabel ? (
+            {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (
               <Link
                 href={scrollHref}
                 className="mt-5 inline-flex text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
@@ -247,7 +285,16 @@ export default function ServicePageLayout({
             ) : null}
           </div>
 
-          {hasHeroImage && heroImageSrc ? (
+          {hasHeroVideo && heroVideoEmbedUrl ? (
+            <div className="mt-10 w-full min-w-0 lg:mt-0">
+              <ServiceHeroVideoVisual
+                heroVideoEmbedUrl={heroVideoEmbedUrl}
+                heroVideoTitle={heroVideoTitle ?? title}
+              />
+            </div>
+          ) : null}
+
+          {!hasHeroVideo && hasHeroImage && heroImageSrc ? (
             <div className="mt-10 w-full min-w-0 lg:mt-0">
               <ServiceHeroVisual
                 heroImageSrc={heroImageSrc}
@@ -261,7 +308,7 @@ export default function ServicePageLayout({
         </div>
       </header>
 
-      {features.length > 0 ? (
+      {heroFeatures.length > 0 ? (
         <section
           className="border-b border-border bg-surface py-12 sm:py-16"
           aria-labelledby="service-features-heading"
@@ -270,8 +317,13 @@ export default function ServicePageLayout({
             <h2 id="service-features-heading" className="sr-only">
               יתרונות ושירותים
             </h2>
-            <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {features.map((feature) => (
+            <ul
+              className={cn(
+                "grid grid-cols-1 gap-4",
+                heroFeatures.length <= 3 ? "md:grid-cols-3" : "md:grid-cols-2",
+              )}
+            >
+              {heroFeatures.map((feature) => (
                 <li
                   key={feature}
                   className="flex gap-3 rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-foreground"

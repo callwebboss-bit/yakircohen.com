@@ -90,7 +90,7 @@ function DesktopDropdown({ category }: { category: SiteNavCategory }) {
             className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-red hover:bg-surface"
             onClick={() => setOpen(false)}
           >
-            {category.label} — סקירה
+            {category.label} - סקירה
           </Link>
           <ul className="mt-1 max-h-[min(calc(100dvh-7rem),36rem)] overflow-y-auto overscroll-contain pe-0.5 [scrollbar-gutter:stable]">
             {category.children

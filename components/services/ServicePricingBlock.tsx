@@ -5,33 +5,28 @@ export type ServicePricingBlockProps = {
   tiers: readonly ServicePricingTier[];
   serviceTitle: string;
   utmCampaignPrefix?: string;
+  /** בתוך כרטיס עמוד — בלי padding חיצוני וכותרת כפולה */
+  embedded?: boolean;
+  hideHeader?: boolean;
 };
 
 export default function ServicePricingBlock({
   tiers,
   serviceTitle,
   utmCampaignPrefix = "service_pricing",
+  embedded = false,
+  hideHeader = false,
 }: ServicePricingBlockProps) {
   if (tiers.length === 0) return null;
 
-  return (
-    <section
-      className="border-b border-border bg-background py-12 sm:py-16"
-      aria-labelledby="service-pricing-heading"
+  const grid = (
+    <ul
+      className={
+        embedded
+          ? "grid grid-cols-1 gap-5 md:grid-cols-2"
+          : "mt-10 grid grid-cols-1 gap-5 md:grid-cols-2"
+      }
     >
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-        <header className="mx-auto max-w-2xl text-center">
-          <h2
-            id="service-pricing-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-          >
-            חבילות ומחירון שקוף
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מחירים התחלתיים - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
-          </p>
-        </header>
-        <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
           {tiers.map((tier, index) => {
             const packageLabel = `${tier.name} - ${serviceTitle}`;
             const whatsappHref = buildWhatsAppHref({
@@ -70,7 +65,33 @@ export default function ServicePricingBlock({
               </li>
             );
           })}
-        </ul>
+    </ul>
+  );
+
+  if (embedded) {
+    return grid;
+  }
+
+  return (
+    <section
+      className="border-b border-border bg-background py-12 sm:py-16"
+      aria-labelledby={hideHeader ? undefined : "service-pricing-heading"}
+    >
+      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        {!hideHeader ? (
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="service-pricing-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              חבילות ומחירון שקוף
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              מחירים התחלתיים - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
+            </p>
+          </header>
+        ) : null}
+        {grid}
       </div>
     </section>
   );

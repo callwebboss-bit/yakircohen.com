@@ -5,9 +5,10 @@ import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   CONFETTI_BENEFITS,
   CONFETTI_CANNON_TYPES,
@@ -32,6 +33,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getEventsService("attractions-confetti-cannon");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function ConfettiCannonPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -48,16 +50,8 @@ export default function ConfettiCannonPageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       scarcityLabel={service.scarcityLabel}
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/confetti-cannon" className="max-w-3xl" />
         <section
@@ -346,6 +340,8 @@ export default function ConfettiCannonPageContent() {
           </header>
           <AttractionsCalculatorLazy className="mt-8" />
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

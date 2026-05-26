@@ -1,0 +1,137 @@
+import Link from "next/link";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
+import FAQAccordion from "@/components/ui/FAQAccordion";
+import {
+  EVENT_HOST_PROCESS,
+  EVENT_HOST_WHY,
+} from "@/lib/data/events-host-page";
+import { getEventsService } from "@/lib/data/services";
+import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+
+const service = getEventsService("events-host");
+const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
+
+export default function EventsHostPageContent() {
+  return (
+    <ServicePageLayout
+      title={service.title}
+      subtitle={service.subtitle}
+      features={service.features}
+      whatsappText={service.whatsappText}
+      utmCampaign={service.utmCampaign}
+      scarcityLabel={service.scarcityLabel}
+      {...heroProps}
+    >
+      <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
+        <ContextualIntroParagraph pathname="/events/host" className="max-w-3xl" />
+
+        <section className="max-w-3xl" aria-labelledby="host-why-heading">
+          <h2
+            id="host-why-heading"
+            className="text-2xl font-semibold text-foreground"
+          >
+            למה מנחה מקצועי משנה את האירוע?
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            בלי מנחה, כל אחד מנהל חלק אחר: DJ מחכה, צלם מחפש רגע, משפחה לוחצת על
+            הזמנים. מנחה טוב מחבר את הכל לזרימה אחת, שומר על כבוד ושמחה, ומשאיר
+            לכם מקום לחוות את הערב.
+          </p>
+        </section>
+
+        <section aria-labelledby="host-blocks-heading">
+          <h2 id="host-blocks-heading" className="sr-only">
+            יתרונות
+          </h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {EVENT_HOST_WHY.map((block) => (
+              <article
+                key={block.title}
+                className="rounded-2xl border border-border bg-surface p-6"
+              >
+                <h3 className="font-semibold text-foreground">{block.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{block.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="host-process-heading">
+          <h2
+            id="host-process-heading"
+            className="text-xl font-semibold text-foreground"
+          >
+            איך זה עובד
+          </h2>
+          <ol className="mt-6 space-y-4">
+            {EVENT_HOST_PROCESS.map((item) => (
+              <li
+                key={item.step}
+                className="flex gap-4 rounded-xl border border-border bg-background p-5"
+              >
+                <span className="font-serif text-lg font-bold text-brand-red">
+                  {item.step}
+                </span>
+                <div>
+                  <h3 className="font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {service.faqs.length > 0 ? (
+          <section aria-labelledby="host-faq-heading">
+            <h2 id="host-faq-heading" className="text-xl font-semibold text-foreground">
+              שאלות נפוצות
+            </h2>
+            <div className="mt-4">
+              <FAQAccordion items={[...service.faqs]} />
+            </div>
+          </section>
+        ) : null}
+
+        <div className="rounded-2xl border border-brand-red/25 bg-brand-red/5 p-6 text-center">
+          <p className="text-sm font-semibold text-foreground">
+            רוצים לשלב גם DJ ואטרקציות?
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            אפשר לבנות חבילה משולבת ולחסוך בעלויות.
+          </p>
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/events/dj-events"
+              className="rounded-xl bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
+            >
+              DJ וחבילות אירועים
+            </Link>
+            <Link
+              href="/book#events"
+              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40"
+            >
+              הזמנת אטרקציות
+            </Link>
+          </div>
+        </div>
+
+        <ServiceShowcaseSections
+          assetsFolder={service.assetsFolder}
+          playlistEmbedUrl={service.playlistEmbedUrl}
+          mediaType={service.mediaType}
+          galleryLabel="מנחה אירועים"
+          videoTitle="דוגמה מהשטח — אירוע חי"
+          videoHeading="צפו בדוגמה"
+          videoDescription="הוידאו נטען בלחיצה"
+          galleryLayout="masonry"
+        />
+        <PageRelatedFooter pathname="/events/host" />
+      </div>
+    </ServicePageLayout>
+  );
+}

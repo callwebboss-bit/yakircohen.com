@@ -24,20 +24,23 @@ export type WhatsAppWidgetProps = {
 /**
  * Builds a wa.me deep-link with every dynamic query value passed through
  * `encodeURIComponent` to preserve Hebrew text and prevent URL breakage.
+ * Pass `source` to append "📍 מקור: …" to the message body (not as a UTM param).
  */
 export function buildWhatsAppHref({
   text,
   utm_source,
   utm_campaign,
   phone = CONTACT_PHONE_WHATSAPP,
+  source,
 }: Pick<
   WhatsAppWidgetProps,
   "text" | "utm_source" | "utm_campaign" | "phone"
->): string {
+> & { source?: string }): string {
+  const fullText = source && text ? `${text}\n\n📍 מקור: ${source}` : text;
   const queryParts: string[] = [];
 
-  if (text) {
-    queryParts.push(`text=${encodeURIComponent(text)}`);
+  if (fullText) {
+    queryParts.push(`text=${encodeURIComponent(fullText)}`);
   }
   if (utm_source) {
     queryParts.push(`utm_source=${encodeURIComponent(utm_source)}`);

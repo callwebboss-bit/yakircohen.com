@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
+import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
@@ -26,6 +27,8 @@ export default function StudioHubPage() {
   return (
     <ServicePageFromRegistry service={service} portfolioLabel="סביבת האולפן">
       <div className="space-y-16">
+        <StudioHubValueSection />
+
         <section aria-labelledby="studio-tracks-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2

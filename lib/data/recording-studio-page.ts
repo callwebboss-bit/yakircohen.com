@@ -67,6 +67,10 @@ export const RECORDING_STUDIO_OFFERINGS: readonly RecordingStudioOffering[] = [
 export const RECORDING_STUDIO_EXAMPLE_VIDEOS: readonly RecordingStudioExampleVideo[] =
   [
     {
+      videoId: "ne023hwMqH0",
+      title: "איך נראה באולפן — הקלטת קבוצה",
+    },
+    {
       videoId: "PCmsH0BLcXg",
       title: "תיקון זיופים  -  עם ובלי עריכה",
     },

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import YouTube from "@/components/YouTube";
 import { constructMetadata } from "@/lib/metadata";
+import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
@@ -151,6 +153,31 @@ export default function VoiceoverCoursePage() {
             היכולת לצבוע טקסט יבש בצבעים של רגש ומשמעות, זו מה שמבדיל בין
             חובבן למקצוען. וזו בדיוק היכולת שלומדים כאן.
           </p>
+        </div>
+      </section>
+
+      {/* ── Studio demo ── */}
+      <section
+        className="border-b border-border bg-surface py-12 sm:py-14"
+        aria-labelledby="academy-voiceover-demo-heading"
+      >
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+          <h2
+            id="academy-voiceover-demo-heading"
+            className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
+          >
+            דוגמת קריינות מהאולפן
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            שמעו איך נשמעת קריינות מקצועית לפני שמתחילים את המסלול.
+          </p>
+          <div className="mx-auto mt-8 aspect-video max-w-2xl overflow-hidden rounded-2xl bg-neutral-900">
+            <YouTube
+              videoId={ACADEMY_VOICEOVER_DEMO.videoId}
+              title={ACADEMY_VOICEOVER_DEMO.title}
+              fillParent
+            />
+          </div>
         </div>
       </section>
 

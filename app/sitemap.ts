@@ -101,6 +101,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Booking & vouchers ─────────────────────────────────────────────────────
   { url: url("book"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("pricing"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("voucher"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── Online & courses ─────────────────────────────────────────────────────────

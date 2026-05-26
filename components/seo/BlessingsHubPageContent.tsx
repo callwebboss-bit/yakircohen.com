@@ -5,6 +5,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   BLESSING_BENEFITS,
   BLESSING_POST_PRODUCTION_STEPS,
@@ -19,6 +20,7 @@ const service = getStudioService("blessings-hub");
 const subLinks = getBlessingsSubLinks();
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function BlessingsHubPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -34,7 +36,7 @@ export default function BlessingsHubPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />

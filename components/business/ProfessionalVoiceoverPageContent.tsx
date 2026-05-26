@@ -1,8 +1,10 @@
 import Link from "next/link";
+import YouTube from "@/components/YouTube";
 import {
   DJ_SET_VOICEOVER_BENEFITS,
   DJ_SET_VOICEOVER_PACKAGE,
 } from "@/lib/data/professional-voiceover-page";
+import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
@@ -62,6 +64,27 @@ export default function ProfessionalVoiceoverPageContent() {
           >
             הזמינו חבילת קריינות ←
           </a>
+        </div>
+      </section>
+
+      <section
+        className="border-b border-border bg-surface py-12"
+        aria-labelledby="dj-voiceover-demo-heading"
+      >
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+          <h2
+            id="dj-voiceover-demo-heading"
+            className="text-lg font-semibold text-foreground"
+          >
+            דוגמת קריינות מהאולפן
+          </h2>
+          <div className="mx-auto mt-6 aspect-video max-w-2xl overflow-hidden rounded-2xl bg-neutral-900">
+            <YouTube
+              videoId={ACADEMY_VOICEOVER_DEMO.videoId}
+              title={ACADEMY_VOICEOVER_DEMO.title}
+              fillParent
+            />
+          </div>
         </div>
       </section>
 

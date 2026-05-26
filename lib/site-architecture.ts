@@ -67,12 +67,12 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       {
         label: "הפקה מלאה (24 שעות)",
         href: "/podcast/podcast-recording",
-        description: "צילום + עריכה — מ-2,500 ₪",
+        description: "צילום + עריכה - מ-2,500 ₪",
       },
       {
         label: "השכרת סטודיו במודיעין",
         href: "/podcast/podcast-studio-modiin",
-        description: "הקלטה באולפן — חצי שעה 750 ₪ · שעה 1,500 ₪ (לפני מע״מ)",
+        description: "הקלטה באולפן - חצי שעה 750 ₪ · שעה 1,500 ₪ (לפני מע״מ)",
       },
       {
         label: "עריכת פודקאסט",
@@ -112,6 +112,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "אולפן נייד", href: "/studio/mobile-studio" },
       { label: "אולפן ירושלים", href: "/studio/studio-jerusalem" },
       { label: "מחירון", href: "/studio/pricing" },
+      { label: "מחירון מרכזי", href: "/pricing" },
     ],
   },
   {
@@ -179,7 +180,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "AI + מוזיקה", href: "/academy/ai-music" },
       { label: "קורס גמגום", href: "/academy/stuttering-course" },
       {
-        label: "שיעור פרטי — 990 / 1,280 ₪",
+        label: "שיעור פרטי - 990 / 1,280 ₪",
         href: "/academy/private-lessons",
         description: "60 או 90 דקות 1:1",
       },

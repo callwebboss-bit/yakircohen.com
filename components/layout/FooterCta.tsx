@@ -6,6 +6,9 @@ export default function FooterCta() {
       layout="card"
       variant="site"
       headingId="footer-cta-heading"
+      heading="רוצים להתחיל?"
+      description="הזמנה מקוונת או ייעוץ קצר — נחזור אליכם בהקדם."
+      className="mt-8"
     />
   );
 }

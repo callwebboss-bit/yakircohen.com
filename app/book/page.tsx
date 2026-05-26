@@ -4,6 +4,9 @@ import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import BookingCalculator from "@/components/marketing/BookingCalculator";
+import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
+import FilterGate from "@/components/marketing/FilterGate";
+import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
 
 export const metadata: Metadata = constructMetadata({
   title: "הזמנה מקוונת | יקיר כהן הפקות",
@@ -77,9 +80,63 @@ export default function BookPage() {
         </div>
       </section>
 
-      {/* ── Booking calculator ── */}
-      <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-        <BookingCalculator />
+      {/* ── Studio recordings wizard ── */}
+      <section
+        id="studio"
+        className="mx-auto max-w-[72rem] scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      >
+        <header className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            הקלטות באולפן
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            שירים, ברכות וקריינות — בחירת מסלול מלאה
+          </p>
+        </header>
+        <FilterGate />
+      </section>
+
+      <section
+        id="podcast"
+        className="mx-auto max-w-[72rem] scroll-mt-24 border-t border-border px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      >
+        <header className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            פודקאסט
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            בחירת חבילה, תאריך ושליחה בוואטסאפ
+          </p>
+        </header>
+        <PodcastBookingWizard />
+      </section>
+
+      <section
+        id="events"
+        className="mx-auto max-w-[72rem] scroll-mt-24 border-t border-border px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
+      >
+        <header className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            אטרקציות לאירועים
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            חבילות משולבות וחיסכון אוטומטי
+          </p>
+        </header>
+        <EventsBookingWizard />
+      </section>
+
+      {/* ── Clips & digital (legacy calculator) ── */}
+      <section className="mx-auto max-w-[72rem] border-t border-border px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <header className="mb-8 text-center">
+          <h2 className="font-serif text-2xl font-semibold text-foreground">
+            קליפים ושירותים דיגיטליים
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            עריכה, AI ושירותים נוספים
+          </p>
+        </header>
+        <BookingCalculator excludeCategories={["recordings", "podcasts", "events"]} />
       </section>
 
       <section className="border-t border-border bg-surface py-8">

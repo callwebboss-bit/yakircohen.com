@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import {
   formatCurrency,
@@ -12,6 +12,8 @@ import {
   type PodcastPackage,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
+import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -88,30 +90,34 @@ export default function PodcastCalculator({ className }: { className?: string })
   const pkg = PODCAST_PACKAGES.find((p) => p.id === selectedId) ?? null;
   const total = (pkg?.price ?? 0) + blocks * PODCAST_OVERTIME_RATE;
 
-  const whatsappHref = useMemo(() => {
-    if (!pkg) {
-      return buildWhatsAppHref({
-        text: buildServiceWhatsAppText("הפקת פודקאסט"),
-        utm_campaign: "podcast_calculator",
-      });
-    }
-
+  const waText = useMemo(() => {
+    if (!pkg) return buildServiceWhatsAppText("הפקת פודקאסט");
     const overtime =
       blocks > 0
         ? `זמן נוסף: +${blocks * 30} דק׳ (${formatCurrency(blocks * PODCAST_OVERTIME_RATE)})`
         : "";
-
-    const lines = [
+    return [
       buildServiceWhatsAppText(`חבילת ${pkg.name}`),
       overtime,
       `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
-    ].filter(Boolean);
-
-    return buildWhatsAppHref({
-      text: lines.join("\n"),
-      utm_campaign: "podcast_calculator",
-    });
+    ]
+      .filter(Boolean)
+      .join("\n");
   }, [pkg, blocks, total]);
+
+  const whatsappHref = useMemo(
+    () => buildWhatsAppHref({ text: waText, utm_campaign: "podcast_calculator" }),
+    [waText],
+  );
+
+  const handleWhatsAppClick = useCallback(() => {
+    notifyLeadByEmail({
+      formId: "podcast_calculator",
+      subject: "ליד חדש — פודקאסט",
+      body: waText,
+    });
+    openWhatsAppLead(whatsappHref);
+  }, [waText, whatsappHref]);
 
   return (
     <div className={cn("pb-28", className)}>
@@ -165,6 +171,7 @@ export default function PodcastCalculator({ className }: { className?: string })
           totalLabel="סה״כ לפני מע״מ"
           subLabel={`${formatCurrencyWithVat(total)} כולל מע״מ`}
           whatsappHref={whatsappHref}
+          onWhatsAppClick={handleWhatsAppClick}
           showCta
         />
       ) : null}

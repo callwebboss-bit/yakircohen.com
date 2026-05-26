@@ -65,7 +65,7 @@
 | `events/attractions/confetti-cannon/` | 9 | |
 | `events/attractions/bubble-machine/` | 7 | |
 | `studio/blessings/video-clip/` | 6 | |
-| `photography/wedding/` | 5 | חתונות + צילום אירועים (משותף) |
+| `photography/wedding/` | 5+ | **שורש** = Best of Weddings (עד 12) · **`archive/`** = אירועים קטנים (עד 12) |
 | `events/attractions/giant-balloons/` | 5 | |
 | `studio/blessings/bar-mitzvah/` | 5 | |
 | `studio/jerusalem/` | 4 | |
@@ -96,7 +96,7 @@
 | `events/wedding-packages` | /events/wedding-attractions-packages |
 | `events/attractions/*` | עמודי אטרקציות תחת /events/attractions/ |
 | `video/photo-slideshow` | /photo-slideshow |
-| `photography/wedding` | /photography/wedding, /photography/events |
+| `photography/wedding` | /photography/wedding (גלריה כפולה: שורש + archive), /photography/events |
 
 ---
 

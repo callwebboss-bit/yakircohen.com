@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -63,6 +64,11 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     utm_campaign: "dj_course_faq_youth",
   },
 ];
+
+const DJ_COURSE_HERO_IMAGE_FILENAME = "ידידיה קורס דיגיי גיל 50.webp";
+const DJ_COURSE_HERO_IMAGE_SRC = `/images/services/dj-course/${encodeURIComponent(
+  DJ_COURSE_HERO_IMAGE_FILENAME,
+)}`;
 
 export default function DjCoursePage() {
   const ctaHref = buildWhatsAppHref({
@@ -136,6 +142,21 @@ export default function DjCoursePage() {
             >
               לכל מסלולי האקדמיה
             </Link>
+          </div>
+
+          <div className="mt-8 w-full">
+            <figure className="mx-auto max-w-2xl overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+              <div className="relative aspect-[16/10]">
+                <Image
+                  src={DJ_COURSE_HERO_IMAGE_SRC}
+                  alt="קורס DJ"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 48rem"
+                  priority
+                />
+              </div>
+            </figure>
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import VoiceoverServicesPageContent from "@/components/seo/VoiceoverServicesPageContent";
 import {
   getVoiceoverService,
   metadataFromService,
@@ -9,10 +9,5 @@ const service = getVoiceoverService("voiceover-services");
 export const metadata = metadataFromService(service);
 
 export default function VoiceoverServicesPage() {
-  return (
-    <ServicePageFromRegistry
-      service={service}
-      portfolioLabel="דוגמאות קריינות מסחרית ומרכזיות"
-    />
-  );
+  return <VoiceoverServicesPageContent />;
 }

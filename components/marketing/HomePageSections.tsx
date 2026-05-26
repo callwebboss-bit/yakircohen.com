@@ -265,6 +265,23 @@ export default function HomePageSections({
         className="bg-surface"
       />
 
+      <section className="border-b border-border bg-surface pb-16 pt-2 sm:pb-20">
+        <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
+          <p className="mx-auto mb-6 max-w-lg text-sm text-muted-foreground">
+            מוכנים לשיר, ברכה או פרק ראשון? בחרו מסלול, קבלו מחיר ושלחו הזמנה בוואטסאפ.
+          </p>
+          <Link
+            href="/book"
+            className={cn(
+              "inline-flex items-center justify-center rounded-md bg-brand-red px-8 py-3 text-sm font-semibold text-white",
+              "transition-colors duration-normal ease-luxury hover:bg-brand-red-light",
+            )}
+          >
+            הזמינו הקלטה באולפן
+          </Link>
+        </div>
+      </section>
+
       <section className="bg-background py-16 sm:py-20" aria-labelledby="geo-heading">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-surface px-6 py-10 text-center sm:px-10">

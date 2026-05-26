@@ -4,283 +4,32 @@ import { useState, useMemo } from "react";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
-import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import {
+  BADGE_LABELS,
+  CATEGORIES,
+  EVENT_BUNDLE_TIERS,
+  EVENT_BUNDLE_4PLUS,
+  EVENT_GIFT_THRESHOLD,
+  SERVICES,
+  UPSELLS,
+  getEventBundlePrice,
+  type ServiceCategory,
+} from "@/lib/data/booking-calculator-services";
 import { cn } from "@/lib/utils";
 
 /* ─── Types ─────────────────────────────────────────────────────────────────── */
 
-type ServiceCategory = "recordings" | "podcasts" | "clips" | "events" | "ai";
-
-type Service = {
-  name: string;
-  category: ServiceCategory;
-  price: number;
-  icon: string;
-  desc: string;
-  badge?: "popular" | "new" | "kids";
-  upsells: string[];
+type BookingCalculatorProps = {
+  excludeCategories?: ServiceCategory[];
 };
-
-type Upsell = {
-  name: string;
-  price: number;
-  desc: string;
-};
-
-/* ─── Data ──────────────────────────────────────────────────────────────────── */
-
-const SERVICES: Record<string, Service> = {
-  recording_basic: {
-    name: "הקלטת שיר בסיסית",
-    category: "recordings",
-    price: 590,
-    icon: "🎤",
-    desc: "הקלטה מקצועית עם מיקס ומאסטרינג כלול",
-    upsells: ["warmup", "melodyne", "production_full", "stems", "video_pro", "video_studio", "raw_only"],
-  },
-  recording_premium: {
-    name: "הקלטת שיר פרמיום",
-    category: "recordings",
-    price: 1190,
-    icon: "🌟",
-    desc: "חבילה מושלמת עם כל התוספות",
-    upsells: ["warmup", "melodyne", "production_full", "stems", "video_pro"],
-  },
-  podcast_basic: {
-    name: "הקלטת פודקאסט",
-    category: "podcasts",
-    price: STUDIO_HALF_HOUR_NIS,
-    icon: "🎙️",
-    desc: "הקלטה מקצועית באולפן, מוכנה לשחרור",
-    upsells: ["editing_advanced", "full_edit", "custom_graphics", "highlights", "premium_package"],
-  },
-  podcast_advanced: {
-    name: "פודקאסט מתקדם",
-    category: "podcasts",
-    price: 1500,
-    icon: "🎙️",
-    desc: "כולל עריכה מלאה, גרפיקה ותוצרים לכל פלטפורמה",
-    upsells: ["custom_graphics", "highlights"],
-  },
-  clip_basic: {
-    name: "קליפ בסיסי",
-    category: "clips",
-    price: 2500,
-    icon: "🎬",
-    desc: "צילום ועריכה מקצועית לשיר או לתוכן",
-    upsells: [],
-  },
-  clip_pro: {
-    name: "קליפ מקצועי",
-    category: "clips",
-    price: 5000,
-    icon: "🎬",
-    desc: "הפקה מלאה עם צוות מקצועי ואיכות פרסומית",
-    upsells: [],
-  },
-  event_smoke: {
-    name: "עשן כבד",
-    category: "events",
-    price: 1750,
-    icon: "💨",
-    badge: "popular",
-    desc: "אטרקציה מרהיבה לכניסה מרשימה",
-    upsells: [],
-  },
-  event_bubbles: {
-    name: "בועות סבון",
-    category: "events",
-    price: 1750,
-    icon: "🫧",
-    badge: "kids",
-    desc: "מושלם לאירועי ילדים ובני מצווה",
-    upsells: [],
-  },
-  event_balloons: {
-    name: "בלונים ענקיים",
-    category: "events",
-    price: 1750,
-    icon: "🎈",
-    desc: "בלונים ענקיים מרשימים לצילום וכניסה",
-    upsells: [],
-  },
-  event_sparklers: {
-    name: "זיקוקים קרים",
-    category: "events",
-    price: 1750,
-    icon: "❄️",
-    badge: "popular",
-    desc: "זיקוקים בטוחים ומרהיבים לרגע הגדול",
-    upsells: [],
-  },
-  event_confetti: {
-    name: "קונפטי",
-    category: "events",
-    price: 1750,
-    icon: "🎊",
-    desc: "פיצוץ קונפטי צבעוני ומרגש",
-    upsells: [],
-  },
-  event_drummer: {
-    name: "מתופף",
-    category: "events",
-    price: 1750,
-    icon: "🥁",
-    desc: "מתופף מקצועי שמכניס אנרגיה לאירוע",
-    upsells: [],
-  },
-  event_smoke_cannon: {
-    name: "תותחי עשן צבעוני",
-    category: "events",
-    price: 1750,
-    icon: "🌈",
-    badge: "new",
-    desc: "תותחי עשן בצבעים מרהיבים לצילום",
-    upsells: [],
-  },
-  event_smoke_gun: {
-    name: "רובה עשן",
-    category: "events",
-    price: 1750,
-    icon: "💨",
-    badge: "new",
-    desc: "רובה עשן מקצועי לאפקטים ממוקדים",
-    upsells: [],
-  },
-  event_slideshow: {
-    name: "מצגת תמונות",
-    category: "events",
-    price: 1750,
-    icon: "📸",
-    desc: "מצגת תמונות מרגשת ליום הולדת ואירועים משפחתיים",
-    upsells: [],
-  },
-  event_foam: {
-    name: "תותח קצף לילדים",
-    category: "events",
-    price: 1750,
-    icon: "🎉",
-    badge: "kids",
-    desc: "כיף מטורף לילדים שיזכרו לכל החיים",
-    upsells: [],
-  },
-  podcast_grandpa: {
-    name: "פודקאסט עם סבא",
-    category: "events",
-    price: 1750,
-    icon: "🎙️",
-    desc: "מתנה מרגשת שנשארת לדורות, כולל הקלטת שיר",
-    upsells: [],
-  },
-  sound_rental: {
-    name: "השכרת ציוד הגברה",
-    category: "events",
-    price: 1750,
-    icon: "🔊",
-    desc: "מערכת הגברה מקצועית לאירוע שלכם",
-    upsells: [],
-  },
-  ai_voice: {
-    name: "שיפור קול מהנייד",
-    category: "ai",
-    price: 250,
-    icon: "🎤",
-    desc: "הפיכת הקלטת וואטסאפ לאולפנית, כולל MP3",
-    upsells: [],
-  },
-  ai_mixing: {
-    name: "מיקס ומאסטרינג",
-    category: "ai",
-    price: 1750,
-    icon: "🎚️",
-    desc: "עיבוד מקצועי מלא בכל הפורמטים",
-    upsells: [],
-  },
-  ai_podcast_edit: {
-    name: "עריכת פודקאסט",
-    category: "ai",
-    price: 750,
-    icon: "🎬",
-    desc: "ניקוי רעשים, שיפור סאונד, הוצאת MP3/MP4",
-    upsells: [],
-  },
-  ai_video_edit: {
-    name: "עריכת סרטונים קצרים",
-    category: "ai",
-    price: 750,
-    icon: "📱",
-    desc: "רילס/שורטס/טיקטוק עם כתוביות ואפקטים",
-    upsells: [],
-  },
-  ai_volume: {
-    name: "שינוי והתאמת ווליום",
-    category: "ai",
-    price: 250,
-    icon: "🔊",
-    desc: "עד שעת הקלטה, איזון דינמי",
-    upsells: [],
-  },
-  ai_rescue: {
-    name: "הצלת הקלטות פגומות",
-    category: "ai",
-    price: 250,
-    icon: "🆘",
-    desc: "לכל 5 דקות: ניקוי רעשים ושחזור איכות",
-    upsells: [],
-  },
-  ai_photos: {
-    name: "שדרוג תמונות (AI)",
-    category: "ai",
-    price: 250,
-    icon: "📸",
-    desc: "לכל 10 תמונות: רזולוציה, צבעים, חדות",
-    upsells: [],
-  },
-};
-
-const UPSELLS: Record<string, Upsell> = {
-  warmup: { name: "חימום קולי מודרך", price: 0, desc: "20 דקות לפני ההקלטה, כלול במחיר" },
-  melodyne: { name: "Melodyne - תיקון זיופים", price: 200, desc: "שיפור דיוק קולי מקצועי" },
-  production_full: { name: "הפקה מלאה מקצועית", price: 1200, desc: "עד 5 כלים, עיבוד מקצועי" },
-  stems: { name: "Stems - רצועות נפרדות", price: 300, desc: "קבצים נפרדים לכל כלי" },
-  video_pro: { name: "צילום וידאו מקצועי", price: 850, desc: "צלם מקצועי לקליפ או מזכרת" },
-  video_studio: { name: "צילום במצלמות אולפן", price: 400, desc: "צילום באיכות HD" },
-  raw_only: { name: "הקלטה גולמית בלבד", price: 0, desc: "ללא עיבוד, קובץ גולמי" },
-  editing_advanced: { name: "עריכה מתקדמת", price: 590, desc: "לכל שעה שצולמה, פתיח וסגיר" },
-  full_edit: { name: "עריכה מלאה של וידאו", price: 750, desc: "עריכה + מיקס + גרפיקה" },
-  custom_graphics: { name: "התאמה אישית מתקדמת", price: 450, desc: "גרפיקה וטקסטים מותאמים" },
-  highlights: { name: "רגעי שיא (עד 3 דקות)", price: 300, desc: "Highlights לרילס/טיקטוק" },
-  premium_package: { name: "חבילת ראש שקט - הכל!", price: 3540, desc: "הפקה מלאה ומושלמת" },
-};
-
-const CATEGORIES = [
-  { id: "all", label: "הכל", icon: "🎯" },
-  { id: "recordings", label: "הקלטות", icon: "🎤" },
-  { id: "podcasts", label: "פודקאסטים", icon: "🎙️" },
-  { id: "clips", label: "קליפים", icon: "🎬" },
-  { id: "events", label: "אטרקציות", icon: "🎉" },
-  { id: "ai", label: "שירותים דיגיטליים", icon: "💻" },
-] as const;
-
-const BADGE_LABELS: Record<string, string> = { popular: "פופולרי", new: "חדש", kids: "לילדים" };
-
-// Tiered bundle pricing  -  must match AttractionsCalculator
-const EVENT_BUNDLE_TIERS: Record<number, number> = { 1: 1750, 2: 3200, 3: 4450 };
-const EVENT_BUNDLE_4PLUS = 5500;
-const EVENT_GIFT_THRESHOLD = 4;
-
-function getEventBundlePrice(count: number): number {
-  if (count <= 0) return 0;
-  if (count >= EVENT_GIFT_THRESHOLD) return EVENT_BUNDLE_4PLUS;
-  return EVENT_BUNDLE_TIERS[count] ?? count * 1750;
-}
 
 /* ─── Component ─────────────────────────────────────────────────────────────── */
 
@@ -293,7 +42,9 @@ type FormState = {
   notes: string;
 };
 
-export default function BookingCalculator() {
+export default function BookingCalculator({
+  excludeCategories = [],
+}: BookingCalculatorProps) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedServices, setSelectedServices] = useState<Set<string>>(new Set());
   const [selectedUpsells, setSelectedUpsells] = useState<Set<string>>(new Set());
@@ -307,8 +58,22 @@ export default function BookingCalculator() {
   });
 
   const filtered = useMemo(
-    () => Object.entries(SERVICES).filter(([, s]) => activeCategory === "all" || s.category === activeCategory),
-    [activeCategory],
+    () =>
+      Object.entries(SERVICES).filter(([, s]) => {
+        if (excludeCategories.includes(s.category)) return false;
+        return activeCategory === "all" || s.category === activeCategory;
+      }),
+    [activeCategory, excludeCategories],
+  );
+
+  const visibleCategories = useMemo(
+    () =>
+      CATEGORIES.filter(
+        (c) =>
+          c.id === "all" ||
+          !excludeCategories.includes(c.id as ServiceCategory),
+      ),
+    [excludeCategories],
   );
 
   const allSelected = Array.from(selectedServices);
@@ -414,6 +179,15 @@ export default function BookingCalculator() {
           utm_campaign: "booking_calculator",
         });
         openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "booking_calculator",
+          subject: "ליד חדש — מחשבון הזמנות",
+          body: parts,
+          name: sanitizeLeadText(form.name, 60),
+          phone: result.normalizedPhone
+            ? formatPhoneForDisplay(result.normalizedPhone)
+            : form.phone.trim(),
+        });
         setDone(true);
       },
     );
@@ -432,7 +206,7 @@ export default function BookingCalculator() {
     <div>
       {/* ── Category tabs ── */}
       <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
-        {CATEGORIES.map((cat) => (
+        {visibleCategories.map((cat) => (
           <button
             key={cat.id}
             type="button"

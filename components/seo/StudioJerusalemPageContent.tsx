@@ -5,6 +5,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   JERUSALEM_POPULAR_SERVICES,
   JERUSALEM_PROCESS,
@@ -20,6 +21,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getStudioService("studio-jerusalem");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function StudioJerusalemPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -35,7 +37,7 @@ export default function StudioJerusalemPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/studio-jerusalem" className="max-w-3xl" />

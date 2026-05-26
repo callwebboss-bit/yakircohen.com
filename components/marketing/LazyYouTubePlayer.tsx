@@ -30,6 +30,8 @@ export type LazyYouTubePlayerProps = {
   className?: string;
   /** Overlay before play (default from pricing.ts). */
   watchLabel?: string;
+  /** טוען את הנגן מיד (לסרטון ראשי בעמוד). */
+  defaultActive?: boolean;
 };
 
 export default function LazyYouTubePlayer({
@@ -38,10 +40,11 @@ export default function LazyYouTubePlayer({
   fillParent = false,
   className,
   watchLabel = VIDEO_WATCH_LABEL,
+  defaultActive = false,
 }: LazyYouTubePlayerProps) {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(defaultActive);
   const [thumbnailSrc, setThumbnailSrc] = useState(
-    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
   );
 
   const embedSrc =
@@ -87,7 +90,7 @@ export default function LazyYouTubePlayer({
             loading="lazy"
             onError={() =>
               setThumbnailSrc(
-                `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+                `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
               )
             }
           />

@@ -6,6 +6,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   PODCAST_PRODUCTION_COMPARE,
   PODCAST_PRODUCTION_FAQS,
@@ -18,6 +19,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const PRODUCTION_TITLE = "הפקת פודקאסט מא׳ עד ת׳";
 const pageHero = resolvePodcastFolderHero(PRODUCTION_TITLE);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function PodcastProductionPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -36,7 +38,7 @@ export default function PodcastProductionPageContent() {
       whatsappText="שלום, מעוניין בליווי והפקת פודקאסט משלב הרעיון"
       utmCampaign="podcast_production"
       ctaLabel="שיחת אפיון בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-production" className="max-w-3xl" />

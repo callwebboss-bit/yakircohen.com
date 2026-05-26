@@ -75,6 +75,8 @@ export type PricingTier = {
   id: string;
   name: string;
   price: string;
+  /** לתצוגת מע״מ — מספר לפני מע״מ */
+  priceExVat?: number;
   priceNote?: string;
   description: string;
   highlights: readonly string[];
@@ -146,7 +148,7 @@ export const STUDIO_SERVICES = {
       "חנייה נוחה, נגיש מירושלים והמרכז",
     ],
     assetsFolder: "studio/hub",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["studio-hub"]),
     mediaType: "gallery",
     whatsappText: "שלום, מעוניין לשמוע על שירותי האולפן והברכות",
     utmCampaign: "studio_hub",
@@ -551,7 +553,9 @@ export const STUDIO_SERVICES = {
       "אפשרות להוסיף וידאו או קליפ משלים",
     ],
     assetsFolder: "studio/blessings/bar-mitzvah",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["blessings-bar-mitzvah"],
+    ),
     mediaType: "gallery",
     whatsappText: "שלום, מעוניין בברכה או דרשה לבר/בת מצווה",
     utmCampaign: "blessings_bar_mitzvah",
@@ -589,7 +593,9 @@ export const STUDIO_SERVICES = {
       "אפשרות לשלב קליפ וידאו עם ההקלטה",
     ],
     assetsFolder: "studio/blessings/bride-groom-blessing",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["blessings-bride-groom"],
+    ),
     mediaType: "gallery",
     whatsappText: "שלום, מעוניין בברכת חתן/כלה מוקלטת באולפן",
     utmCampaign: "blessings_bride_groom",
@@ -661,6 +667,7 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       id: "half-hour",
       name: "חצי שעה באולפן",
       price: formatNis(STUDIO_HALF_HOUR_NIS),
+      priceExVat: STUDIO_HALF_HOUR_NIS,
       priceNote: "30 דקות · פודקאסט קצר / הקלטה",
       description: "התחלה משתלמת - פודקאסט, ברכה קצרה או הקלטה.",
       highlights: [
@@ -676,6 +683,7 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       id: "hourly",
       name: "שעת אולפן",
       price: formatNis(STUDIO_ONE_HOUR_NIS),
+      priceExVat: STUDIO_ONE_HOUR_NIS,
       priceNote: "60 דקות הקלטה",
       description: "הקלטה גמישה לדיבור, שירה, ברכה או פרק ארוך יותר.",
       highlights: [
@@ -690,7 +698,8 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       id: "song-package",
       name: "חבילת הקלטת שיר",
       price: "₪1,800",
-      priceNote: "עד 3 שעות אולפן",
+      priceExVat: 1800,
+      priceNote: "עד 3 שעות אולפן · לפני מע״מ",
       description: "החבילה הפופולרית לשיר במתנה או הקלטה אישית.",
       highlights: [
         "הקלטה מודרכת עם טיונינג ווקאלי",
@@ -704,7 +713,8 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       id: "single-production",
       name: "הפקת סינגל מלא",
       price: "₪3,500",
-      priceNote: "החל מ-",
+      priceExVat: 3500,
+      priceNote: "החל מ- · לפני מע״מ",
       description: "הפקה מקצועית כולל עיבוד, מיקס ומאסטר.",
       highlights: [
         "עד 6 שעות אולפן כולל עריכה",
@@ -789,7 +799,7 @@ export const VOICEOVER_SERVICES = {
       "קורס קריינות פרונטלי למי שרוצה לבנות קריירה בשטח",
     ],
     assetsFolder: "podcast",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["voiceover-hub"]),
     mediaType: "gallery",
     whatsappText: "שלום, מעוניין לשמוע על שירותי הקריינות",
     utmCampaign: "voiceover_hub",
@@ -825,7 +835,9 @@ export const VOICEOVER_SERVICES = {
       "מסירת קבצים מוכנים לשילוב בעריכת וידאו או שידור",
     ],
     assetsFolder: "podcast",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["voiceover-services"],
+    ),
     mediaType: "gallery",
     whatsappText: "שלום, מעוניין בשירותי קריינות מקצועיים",
     utmCampaign: "voiceover_services",
@@ -873,9 +885,9 @@ export const VOICEOVER_SERVICES = {
       "משוב אישי ותוכנית שיפור בין מפגשים",
       "הכנה לבניית דמו ריק וכניסה לשוק העבודה",
     ],
-    assetsFolder: "dj-course",
-    playlistEmbedUrl: null,
-    mediaType: "none",
+    assetsFolder: "voiceover",
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["voiceover-course"]),
+    mediaType: "video",
     whatsappText:
       "שלום, אשמח לקבל פרטים וסילבוס על קורס הקריינות הפרונטלי",
     utmCampaign: "voiceover_course",
@@ -1091,7 +1103,7 @@ export const EVENTS_SERVICES = {
       },
     ],
     assetsFolder: "events/equipment",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["events-equipment"]),
     mediaType: "gallery",
     whatsappText:
       "שלום, מעוניין/ת בהשכרת הגברה לאירוע  -  אשמח להצעת מחיר (תאריך, מיקום, משך)",
@@ -1189,7 +1201,9 @@ export const EVENTS_SERVICES = {
       },
     ],
     assetsFolder: "events/equipment/singer-amplification",
-    playlistEmbedUrl: null,
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["events-singer-amplification"],
+    ),
     mediaType: "gallery",
     whatsappText:
       "שלום, מעוניין/ת בהגברה לזמר/להקה  -  אשמח להצעת מחיר (תאריך, מיקום, חבילה)",
@@ -1315,8 +1329,8 @@ export const EVENTS_SERVICES = {
       "שמירה על אווירה מכבדת, חגיגית ומדויקת",
     ],
     assetsFolder: "events/attractions/led-booth",
-    playlistEmbedUrl: null,
-    mediaType: "none",
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["events-host"]),
+    mediaType: "video",
     whatsappText: "שלום, מעוניין בשירותי הנחייה וניהול אירוע מקצועי",
     utmCampaign: "events_host",
     faqs: [
@@ -2687,8 +2701,8 @@ export const PHOTOGRAPHY_SERVICES = {
       },
     ],
     assetsFolder: "photography/wedding",
-    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["photography-wedding"]),
-    mediaType: "video",
+    playlistEmbedUrl: null,
+    mediaType: "gallery",
     whatsappText:
       "שלום, מעוניין/ת בצלם לחתונה/אירוע קטן  -  אשמח להצעת מחיר",
     utmCampaign: "photography_wedding",

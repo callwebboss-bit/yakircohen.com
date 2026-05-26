@@ -219,12 +219,17 @@ const FINE_PRINT = [
   { icon: "💳", label: "תשלום", text: "מראש בלינק מאובטח. מסלול חצי-שנתי: תשלום מלא מראש." },
   { icon: "📋", label: "מע\"מ", text: "כל המחירים הם ללא מע\"מ. יש להוסיף 18%." },
   { icon: "🎯", label: "אפיון", text: "מפגש אפיון (450 שקלים + מע\"מ) מתקזז מלאה מהרכישה הראשונה." },
+  {
+    icon: "🕒",
+    label: "מחירים",
+    text: "המחירים המוצגים באתר הם נכון לעכשיו ועשויים להשתנות בהתאם לזמינות, עומס ותיאום עבודה.",
+  },
   { icon: "👨‍👧", label: "מעבדה", text: "נוכחות הורה חובה עד גיל 16." },
 ] as const;
 
 export default function AcademyPage() {
   const assessmentHref = buildWhatsAppHref({
-    text: "היי יקיר! אשמח לקבוע מפגש אפיון של 30 דקות. אני מתעניין/ת במסלולי הלימוד והאקדמיה.",
+    text: "היי יקיר! אשמח לקבוע מפגש אפיון של 30 דקות. אני מתעניין/ת במסלולי הלימוד והאקדמיה. מחיר: 450 ₪ + מע\"מ",
     utm_source: "academy",
     utm_campaign: "academy_assessment",
   });
@@ -370,7 +375,7 @@ export default function AcademyPage() {
         <div className="grid gap-6 sm:grid-cols-3">
           {ACADEMY_TRACKS.map((track) => {
             const href = buildWhatsAppHref({
-              text: track.waText,
+              text: `${track.waText} - מחיר: ${track.price} ₪ + מע\"מ`,
               utm_source: "academy",
               utm_campaign: track.utm,
             });
@@ -478,7 +483,7 @@ export default function AcademyPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           {RETAINER_PLANS.map((plan) => {
             const href = buildWhatsAppHref({
-              text: plan.waText,
+              text: `${plan.waText} - מחיר: ${plan.price} ₪ + מע\"מ`,
               utm_source: "academy",
               utm_campaign: plan.utm,
             });

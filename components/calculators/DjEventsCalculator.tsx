@@ -12,6 +12,7 @@ import {
   sanitizeLeadText,
   validateDjReserve,
 } from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -327,6 +328,13 @@ export default function DjEventsCalculator({ className }: { className?: string }
           utm_campaign: "dj_calculator",
         });
         openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "dj_events_calculator",
+          subject: "ליד חדש — DJ ואירועים",
+          body: lines.join("\n"),
+          name: sanitizeLeadText(form.name, 60),
+          phone: displayPhone,
+        });
       },
     );
     setFieldErrors(errs ?? {});

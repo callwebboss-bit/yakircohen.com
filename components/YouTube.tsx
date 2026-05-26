@@ -14,6 +14,8 @@ export type YouTubeProps = {
   title?: string;
   fillParent?: boolean;
   className?: string;
+  /** טוען embed מיד בלי לחיצה על thumbnail */
+  defaultActive?: boolean;
 };
 
 /** Extracts a watch ID from a URL or returns the string when already an ID. */
@@ -44,6 +46,7 @@ export default function YouTube({
   title = FEATURED_YOUTUBE_TITLE,
   fillParent = false,
   className,
+  defaultActive = false,
 }: YouTubeProps) {
   const resolvedId = parseYouTubeVideoId(videoId);
   const isPlaceholder =
@@ -84,6 +87,7 @@ export default function YouTube({
       fillParent={fillParent}
       className={className}
       watchLabel={VIDEO_WATCH_LABEL}
+      defaultActive={defaultActive}
     />
   );
 }

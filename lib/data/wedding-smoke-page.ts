@@ -15,23 +15,36 @@ export type WeddingSmokeCompareRow = {
   good: string;
 };
 
+import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
+
 export type WeddingSmokeExampleVideo = {
   videoId: string;
   title: string;
 };
 
-export const WEDDING_SMOKE_FEATURED_VIDEO_ID = "Hggvb8jmNU8";
+/** סרטון ראשי — `/events/attractions/wedding-smoking-machine` */
+export const WEDDING_SMOKE_FEATURED_VIDEO_ID =
+  YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke"];
+
+/** סרטון עשן כבד גדול — גם בעמוד heavy-smoke-large-events */
+export const WEDDING_SMOKE_LARGE_VIDEO_ID =
+  YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke-large"];
 
 export const WEDDING_SMOKE_LARGE_VIDEO: WeddingSmokeExampleVideo = {
-  videoId: "ZDsMSF8sbNs",
+  videoId: WEDDING_SMOKE_LARGE_VIDEO_ID,
   title: "עשן כבד גדול  -  אירועים גדולים ורחבות פתוחות",
 };
 
+/** דוגמאות נוספות (לא כוללות את הסרטון הראשי בעמוד) */
 export const WEDDING_SMOKE_EXAMPLE_VIDEOS: readonly WeddingSmokeExampleVideo[] = [
   { videoId: "tLxvSRgOwGM", title: "הסבר על עשן כבד מקצועי" },
   { videoId: "O4MwVBjL2v8", title: "נפתח מושלם גם בחוץ" },
   { videoId: "WYg81S29A-k", title: "ההבדל  -  עשן איכותי לאירועים" },
 ] as const;
+
+/** דוגמאות לעמוד עשן גדול — ללא כפילות של הסרטון הראשי שם */
+export const HEAVY_SMOKE_EXAMPLE_VIDEOS: readonly WeddingSmokeExampleVideo[] =
+  WEDDING_SMOKE_EXAMPLE_VIDEOS;
 
 export const WEDDING_SMOKE_USE_CASES: readonly WeddingSmokeUseCase[] = [
   {

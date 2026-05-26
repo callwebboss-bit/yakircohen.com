@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import PhotographyEventsPageContent from "@/components/seo/PhotographyEventsPageContent";
 import {
   getPhotographyService,
   metadataFromService,
@@ -9,10 +9,5 @@ const service = getPhotographyService("photography-events");
 export const metadata = metadataFromService(service);
 
 export default function PhotographyEventsPage() {
-  return (
-    <ServicePageFromRegistry
-      service={service}
-      portfolioLabel="צילום אירועים וכנסים"
-    />
-  );
+  return <PhotographyEventsPageContent />;
 }

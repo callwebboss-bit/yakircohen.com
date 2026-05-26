@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
 import {
@@ -13,6 +13,8 @@ import {
   getPackageLabel,
   type PhotographyAddonSection,
 } from "@/lib/data/photography-calculator";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
+import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -117,7 +119,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
 
   const { name: pkgName, sub: pkgSub } = getPackageLabel(hours);
 
-  const whatsappHref = useMemo(() => {
+  const waMessageText = useMemo(() => {
     const lines = [
       buildServiceWhatsAppText("חבילת צילום לאירוע"),
       "",
@@ -134,12 +136,22 @@ export default function PhotographyCalculator({ className }: { className?: strin
       "",
       `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
     ].filter(Boolean);
-
-    return buildWhatsAppHref({
-      text: lines.join("\n"),
-      utm_campaign: "photography_calculator",
-    });
+    return lines.join("\n");
   }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
+
+  const whatsappHref = useMemo(
+    () => buildWhatsAppHref({ text: waMessageText, utm_campaign: "photography_calculator" }),
+    [waMessageText],
+  );
+
+  const handleWhatsAppClick = useCallback(() => {
+    notifyLeadByEmail({
+      formId: "photography_calculator",
+      subject: "ליד חדש — צילום אירועים",
+      body: waMessageText,
+    });
+    openWhatsAppLead(whatsappHref);
+  }, [waMessageText, whatsappHref]);
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
 
@@ -285,6 +297,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
         total={total}
         subLabel={bundleActive ? `חיסכון: ${formatCurrency(AI_BUNDLE_DISCOUNT)}` : undefined}
         whatsappHref={whatsappHref}
+        onWhatsAppClick={handleWhatsAppClick}
         showCta
       />
     </div>

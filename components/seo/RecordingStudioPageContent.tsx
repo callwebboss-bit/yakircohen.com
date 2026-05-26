@@ -1,26 +1,24 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
-  RECORDING_STUDIO_EXAMPLE_VIDEOS,
   RECORDING_STUDIO_HIGHLIGHTS,
   RECORDING_STUDIO_OFFERINGS,
 } from "@/lib/data/recording-studio-page";
+import { RECORDING_STUDIO_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
-import {
-  youtubeEmbedUrl,
-  YOUTUBE_SERVICE_EMBED_IDS,
-} from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getStudioService("studio-recording-studio");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function RecordingStudioPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -36,7 +34,7 @@ export default function RecordingStudioPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/recording-studio" className="max-w-3xl" />
@@ -44,22 +42,18 @@ export default function RecordingStudioPageContent() {
           מעל 2,000 תושבי מודיעין והסביבה כבר הקליטו אצלנו
         </p>
 
+        <ShowcaseVideoSection
+          heading="בואו לסיור באולפן"
+          subheading="צפו בסרטונים כדי להבין איך נראה סשן הקלטה באולפן שלנו במודיעין"
+          videos={RECORDING_STUDIO_VIDEOS}
+          initialVisible={4}
+        />
+
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["studio-recording-studio"],
-          )}
-          mediaType="video"
+          playlistEmbedUrl={null}
+          mediaType="gallery"
           galleryLabel="אולפן הקלטות במודיעין"
-          videoTitle="סיור באולפן הקלטות"
-          videoHeadingId="studio-tour-heading"
-          videoHeading="בואו לסיור באולפן"
-          videoDescription="צפו בסרטון כדי להבין איך נראה סשן הקלטה באולפן שלנו במודיעין"
-          footer={
-            <p className="text-center text-sm text-muted-foreground">
-              הסטנדרט של תעשיית המוזיקה  -  עכשיו במודיעין. מחכים לתיאום סשן בוואטסאפ.
-            </p>
-          }
         />
 
         <section aria-labelledby="offerings-heading">
@@ -152,20 +146,6 @@ export default function RecordingStudioPageContent() {
           >
             אולפן לירושלמים  -  30 דק׳ מירושלים ←
           </Link>
-        </section>
-
-        <section aria-labelledby="examples-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="examples-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              דוגמאות מהאולפן
-            </h2>
-          </header>
-          <RecordingSongExampleVideos
-            videos={RECORDING_STUDIO_EXAMPLE_VIDEOS}
-          />
         </section>
 
         {service.faqs.length > 0 ? (

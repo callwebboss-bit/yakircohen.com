@@ -96,6 +96,8 @@ export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[]
     videoId: "VntWmw5Su6c",
     title: "הפקת רוק כבד  -  שיר מקורי ליום הולדת",
   },
+  { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה — חברים" },
+  { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
 ] as const;
 
 export const RECORDING_SONG_FEATURED_VIDEO_ID = "8i4K2f5gQfM";

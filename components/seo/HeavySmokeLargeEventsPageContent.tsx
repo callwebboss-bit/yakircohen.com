@@ -5,9 +5,10 @@ import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   HEAVY_SMOKE_EVENT_TYPES,
   HEAVY_SMOKE_INCLUDES,
@@ -16,21 +17,18 @@ import {
   HEAVY_SMOKE_SLOGAN_LINES,
   HEAVY_SMOKE_WHY_US,
 } from "@/lib/data/heavy-smoke-large-page";
-import { WEDDING_SMOKE_EXAMPLE_VIDEOS } from "@/lib/data/wedding-smoke-page";
+import { HEAVY_SMOKE_EXAMPLE_VIDEOS } from "@/lib/data/wedding-smoke-page";
 import { getEventsService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
 } from "@/lib/constants";
-import {
-  youtubeEmbedUrl,
-  YOUTUBE_SERVICE_EMBED_IDS,
-} from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getEventsService("attractions-heavy-smoke-large");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function HeavySmokeLargeEventsPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -47,16 +45,8 @@ export default function HeavySmokeLargeEventsPageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       scarcityLabel={service.scarcityLabel}
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events" className="max-w-3xl" />
         <p className="text-center">
@@ -92,9 +82,7 @@ export default function HeavySmokeLargeEventsPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke-large"],
-          )}
+          playlistEmbedUrl={service.playlistEmbedUrl}
           mediaType="video"
           galleryLabel="עשן כבד לאירועים גדולים"
           videoTitle="עשן כבד גדול  -  אירועים גדולים"
@@ -102,7 +90,7 @@ export default function HeavySmokeLargeEventsPageContent() {
           videoHeading="אפקט קולנועי  -  עשן כבד לאירועים גדולים"
           videoDescription="מילוי רחבה פתוחה תוך שניות  -  וידאו נטען בלחיצה"
           footer={
-            <RecordingSongExampleVideos videos={WEDDING_SMOKE_EXAMPLE_VIDEOS} />
+            <RecordingSongExampleVideos videos={HEAVY_SMOKE_EXAMPLE_VIDEOS} />
           }
         />
 
@@ -243,6 +231,8 @@ export default function HeavySmokeLargeEventsPageContent() {
           </header>
           <AttractionsCalculatorLazy className="mt-8" />
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

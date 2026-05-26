@@ -1,3 +1,4 @@
+import PriceWithVat from "@/components/booking/PriceWithVat";
 import type { PricingTier } from "@/lib/data/services";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -34,9 +35,15 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               ) : null}
 
               <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
-              <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
-                {tier.price}
-              </p>
+              {tier.priceExVat != null ? (
+                <div className="mt-2">
+                  <PriceWithVat amountExVat={tier.priceExVat} size="lg" />
+                </div>
+              ) : (
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+                  {tier.price}
+                </p>
+              )}
               {tier.priceNote ? (
                 <p className="mt-1 text-xs text-muted-foreground">{tier.priceNote}</p>
               ) : null}

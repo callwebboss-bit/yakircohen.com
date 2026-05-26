@@ -21,6 +21,7 @@ import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site-url";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import { FAQ_EXTRA_ITEMS } from "@/lib/data/faq-extra-items";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -98,6 +99,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
       "שלום, יש לנו פרויקט סאונד שצריך לסיים עד [תאריך]. מה הכי מהיר שאפשר לתזמן הקלטה ועריכה?",
     utm_campaign: "faq_delivery_time",
   },
+  ...FAQ_EXTRA_ITEMS,
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────────

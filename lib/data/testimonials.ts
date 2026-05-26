@@ -9,14 +9,16 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "דנה לוי",
     role: "מפיקה עצמאית, מודיעין",
     initials: "דל",
+    datePublished: "2025-11-12",
   },
   {
     id: "2",
     quote:
       "הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים.",
-    name: "אורי מזרחי",
-    role: "יזם תוכן, ירושלים",
-    initials: "אמ",
+    name: "דניאל גרין",
+    role: "יזם, יבואן גרין אנד קו ישראל",
+    initials: "דג",
+    datePublished: "2026-01-08",
   },
   {
     id: "3",

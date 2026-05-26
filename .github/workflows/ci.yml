@@ -36,5 +36,5 @@ jobs:
       - name: Audit headings
         run: npm run audit:headings
 
-      - name: Build
-        run: npm run build
+      - name: Build (with Pagefind)
+        run: npm run build:full

@@ -69,42 +69,59 @@ const BADGE_STYLES: Record<string, string> = {
   paypal: "bg-gradient-to-br from-[#003087] to-[#0070BA]",
 };
 
-export default function FooterPaymentMethods() {
+export type FooterPaymentMethodsProps = {
+  compact?: boolean;
+};
+
+export default function FooterPaymentMethods({
+  compact = false,
+}: FooterPaymentMethodsProps) {
   return (
     <section
-      className="mt-12 border-t border-border pt-10"
+      className={cn(
+        "border-t border-border",
+        compact ? "mt-8 pt-6" : "mt-12 pt-10",
+      )}
       aria-labelledby="footer-payments-heading"
     >
-      <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
+      <div
+        className={cn(
+          "flex flex-col gap-4",
+          !compact && "md:flex-row md:items-center md:justify-between md:gap-8",
+          compact && "sm:flex-row sm:items-center sm:justify-between",
+        )}
+      >
         <div className="min-w-0">
           <h2
             id="footer-payments-heading"
-            className="text-sm font-semibold tracking-wide text-foreground"
+            className="text-sm font-semibold text-foreground"
           >
             אמצעי תשלום
           </h2>
-          <p className="mt-2 max-w-md text-xs leading-relaxed text-muted-foreground">
-            סליקה מאובטחת · אשראי, אפליקציות תשלום וחשבונית מס מסודרת
-          </p>
+          {!compact ? (
+            <p className="mt-2 max-w-md text-xs leading-relaxed text-muted-foreground">
+              סליקה מאובטחת · אשראי, אפליקציות תשלום וחשבונית מס מסודרת
+            </p>
+          ) : null}
         </div>
 
         <div
-          className="inline-flex w-full shrink-0 items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 sm:w-auto"
+          className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2"
           role="status"
           aria-label="חיבור מאובטח SSL"
         >
-          <LockSslIcon className="h-8 w-8 shrink-0 text-emerald-700" />
-          <div>
-            <p className="text-xs font-bold text-emerald-900">SSL מאובטח</p>
-            <p className="text-[0.65rem] text-emerald-800">
-              תקשורת מוצפנת · סליקה מאושרת
-            </p>
-          </div>
+          <LockSslIcon
+            className={cn("shrink-0 text-emerald-700", compact ? "h-5 w-5" : "h-8 w-8")}
+          />
+          <p className="text-xs font-semibold text-emerald-900">SSL מאובטח</p>
         </div>
       </div>
 
       <ul
-        className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start"
+        className={cn(
+          "flex flex-wrap gap-2",
+          compact ? "mt-4 justify-start" : "mt-5 justify-center md:justify-start",
+        )}
         role="list"
       >
         {PAYMENT_METHODS.map((method) => (
@@ -135,10 +152,12 @@ export default function FooterPaymentMethods() {
         ))}
       </ul>
 
-      <p className="mt-4 text-center text-[0.65rem] leading-relaxed text-muted-foreground md:text-start">
-        התשלום מתבצע דרך ספק סליקה מאושר. פרטי כרטיס אשראי אינם נשמרים באתר.
-        ניתן לשלם גם ב־Bit, PayBox, Apple Pay ו־PayPal לפי תיאום.
-      </p>
+      {!compact ? (
+        <p className="mt-4 text-center text-[0.65rem] leading-relaxed text-muted-foreground md:text-start">
+          התשלום מתבצע דרך ספק סליקה מאושר. פרטי כרטיס אשראי אינם נשמרים באתר.
+          ניתן לשלם גם ב־Bit, PayBox, Apple Pay ו־PayPal לפי תיאום.
+        </p>
+      ) : null}
     </section>
   );
 }

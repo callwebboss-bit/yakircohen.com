@@ -1,12 +1,12 @@
 import Link from "next/link";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   BAT_MITZVAH_CLIP_TYPES,
   BAT_MITZVAH_PRODUCTION_STYLES,
   GIFT_VOUCHER_STEPS,
-  STUDIO_GIFT_EXTRA_VIDEOS,
   STUDIO_GIFT_FAQ,
   STUDIO_GIFT_IDEAS,
 } from "@/lib/data/studio-gifts-page";
@@ -194,15 +194,12 @@ export default function StudioGiftsPageContent() {
       </section>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <header className="mb-8 text-center">
-          <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
-            עוד דוגמאות מהאולפן
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-            קליפים ושירים שהוקלטו כמתנה - לחצו להפעלה
-          </p>
-        </header>
-        <RecordingSongExampleVideos videos={STUDIO_GIFT_EXTRA_VIDEOS} />
+        <ShowcaseVideoSection
+          heading="דוגמאות מתנה מהאולפן"
+          subheading="קליפים ושירים שהוקלטו כמתנה - הסרטון הראשון נטען מיד"
+          videos={STUDIO_GIFTS_VIDEOS}
+          initialVisible={4}
+        />
       </section>
 
       <section className="border-t border-border bg-surface py-12">

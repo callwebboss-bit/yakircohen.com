@@ -50,6 +50,8 @@ export type MediaGalleryProps = {
    * Shown after primary images, via a separate “הצג עוד מהארכיון” control.
    */
   archiveImages?: Array<GalleryItem | string>;
+  /** הצג שורת ספירה בתחתית (ברירת מחדל: כן) */
+  showFooterHint?: boolean;
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -317,6 +319,7 @@ export default function MediaGallery({
   embedded = false,
   layout = "masonry",
   archiveImages = [],
+  showFooterHint = true,
 }: MediaGalleryProps) {
   const primaryItems = useMemo(() => images.map(normalize), [images]);
   const archiveItems = useMemo(
@@ -516,16 +519,11 @@ export default function MediaGallery({
           </div>
         ) : null}
 
-        {/* ── Gallery count ── */}
-        <p className="mt-6 text-center text-xs text-muted-foreground">
-          {visiblePrimary.length} תמונות מוצגות
-          {archiveCount > 0 && !archiveVisible
-            ? ` · עוד ${archiveCount} בארכיון`
-            : archiveVisible
-              ? ` · כולל ${archiveCount} מהארכיון`
-              : null}
-          {" · לחצו על תמונה להגדלה"}
-        </p>
+        {showFooterHint ? (
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            לחצו על תמונה להגדלה
+          </p>
+        ) : null}
       </div>
 
       {/* ── Lightbox - rendered outside the list, anchored to viewport ── */}

@@ -4,9 +4,10 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   SMOKE_BUBBLE_ADVANTAGES,
   SMOKE_BUBBLE_COMPARE,
@@ -23,6 +24,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getEventsService("attractions-smoke-bubble-machine");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function SmokeBubbleMachinePageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -39,16 +41,8 @@ export default function SmokeBubbleMachinePageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       scarcityLabel="היט 2026  -  ביקוש גבוה בעונת האירועים"
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/bubble-machine/smoke-bubble-machine-events" className="max-w-3xl" />
         <p className="text-center">
@@ -205,6 +199,8 @@ export default function SmokeBubbleMachinePageContent() {
         <section aria-labelledby="calculator-heading">
           <AttractionsCalculatorLazy className="py-0" />
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

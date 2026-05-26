@@ -3,15 +3,17 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import TableOfContents from "@/components/ui/TableOfContents";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import AudioPlayer from "@/components/marketing/AudioPlayer";
+import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { PODCAST_SAMPLE_TRACKS } from "@/lib/data/podcast-samples";
+import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
-  PODCAST_EXAMPLE_VIDEOS,
   PODCAST_HUB_AUDIENCES,
   PODCAST_HUB_CTA_BENEFITS,
   PODCAST_HUB_FAQS,
@@ -43,6 +45,7 @@ const pageHero = resolvePodcastFolderHero(
   PODCAST_HUB_TITLE,
   youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"]),
 );
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 const PODCAST_TRACKS = [
   {
@@ -63,7 +66,7 @@ const PODCAST_TRACKS = [
   {
     href: "/podcast/podcast-studio-modiin",
     title: "השכרת סטודיו / אולפן במודיעין",
-    description: "הקלטה שקטה, חדר מבודד וליווי טכני — מ-750 ₪.",
+    description: "הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.",
   },
   {
     href: "/podcast/mobile-podcast-at-home",
@@ -100,10 +103,20 @@ export default function PodcastHubPageContent() {
       utmCampaign="podcast_hub"
       scarcityLabel="פרק מוכן תוך 24 שעות"
       ctaLabel="קבעו הקלטה בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
+
+        <ShowcaseVideoSection
+          heading="דוגמאות לפודקאסטים מהאולפן"
+          subheading="הסרטון הראשון נטען מיד - שאר הדוגמאות בלחיצה"
+          videos={PODCAST_SHOWCASE_VIDEOS}
+          initialVisible={4}
+        />
+
+        <PodcastSpotifySample />
+
         <TableOfContents entries={PODCAST_HUB_TOC} className="max-w-xs" />
         <section
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 sm:p-8"
@@ -278,22 +291,9 @@ export default function PodcastHubPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder="podcast"
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"],
-          )}
-          mediaType="video"
-          galleryLabel="דוגמאות לפודקאסטים מהאולפן"
-          videoTitle="דוגמה ראשית  -  פודקאסט מהאולפן"
-          videoHeadingId="podcast-examples-heading"
-          videoHeading="דוגמאות לפודקאסטים"
-          videoDescription="פרקים שהפקנו באולפן  -  וידאו נטען בלחיצה"
-          footer={
-            <RecordingSongExampleVideos videos={PODCAST_EXAMPLE_VIDEOS} />
-          }
-          secondaryEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["podcast-studio"],
-          )}
-          secondaryEmbedTitle="אולפן פודקאסט  -  היכרות"
+          playlistEmbedUrl={null}
+          mediaType="gallery"
+          galleryLabel="תמונות מהאולפן"
         />
 
         <section aria-labelledby="pricing-calculator-heading">

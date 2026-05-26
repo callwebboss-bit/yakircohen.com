@@ -3,6 +3,7 @@ import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideo
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   MOBILE_STUDIO_AUDIENCE,
   MOBILE_STUDIO_CHECKLIST,
@@ -20,6 +21,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getStudioService("studio-mobile-studio");
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function MobileStudioPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -35,7 +37,7 @@ export default function MobileStudioPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">

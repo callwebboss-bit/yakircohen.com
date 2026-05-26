@@ -1,11 +1,13 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   SINGER_ADDONS,
   SINGER_PACKAGES,
@@ -15,6 +17,7 @@ import {
   SINGER_WHY_BLOCKS,
 } from "@/lib/data/singer-amplification-page";
 import { getEventsService } from "@/lib/data/services";
+import { SINGER_AMPLIFICATION_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -24,6 +27,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getEventsService("events-singer-amplification");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function SingerAmplificationPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -39,18 +43,18 @@ export default function SingerAmplificationPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/equipment/singer-amplification" className="max-w-3xl" />
+
+        <ShowcaseVideoSection
+          headingId="singer-amplification-videos"
+          heading="הגברה לזמרים בשטח"
+          subheading="דוגמה מהאירוע — ציוד מקצועי והקמה מהירה"
+          videos={SINGER_AMPLIFICATION_VIDEOS}
+        />
+
         <section className="max-w-3xl" aria-labelledby="singer-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             בטן, לחץ, מחשבות על המיקרופון  -  אם הסאונד לא טוב, כל החזרות יורדות
@@ -269,6 +273,8 @@ export default function SingerAmplificationPageContent() {
             אולפן הקלטות
           </Link>
         </p>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

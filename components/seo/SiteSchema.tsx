@@ -1,6 +1,11 @@
 import { SITE_URL } from "@/lib/site-url";
 import { CONTACT_PHONE_E164, SOCIAL_LINKS } from "@/lib/constants";
-import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
+import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
+import {
+  EVENT_ATTRACTION_FROM_NIS,
+  STUDIO_HALF_HOUR_NIS,
+  STUDIO_ONE_HOUR_NIS,
+} from "@/lib/data/pricing";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
 import { buildReviewSchemaGraph } from "@/lib/review-schema";
@@ -116,45 +121,51 @@ const schema = {
       makesOffer: [
         {
           "@type": "Offer",
-          name: "הקלטת שיר לאירוע",
-          description:
-            "הקלטה, מיקס ועריכת שיר לחתונה, בר מצווה ואירועים",
-          price: "990",
+          name: "חצי שעה באולפן",
+          description: "הקלטה קצרה, פודקאסט או ברכה — מחיר לפני מע״מ",
+          price: String(STUDIO_HALF_HOUR_NIS),
           priceCurrency: "ILS",
-          url: `${BASE}/studio/recording-song-modiin`,
+          url: `${BASE}/studio/pricing`,
         },
         {
           "@type": "Offer",
-          name: "DJ ועיצוב לאירועים",
-          description:
-            "מערכות LED, DJ מקצועי ואטרקציות לחתונות ואירועים",
-          price: "2500",
+          name: "שעת אולפן מלאה",
+          description: "הקלטה באולפן במודיעין — מחיר לפני מע״מ",
+          price: String(STUDIO_ONE_HOUR_NIS),
           priceCurrency: "ILS",
-          url: `${BASE}/events/dj-events`,
+          url: `${BASE}/studio/pricing`,
         },
         {
           "@type": "Offer",
-          name: "פודקאסט  -  פרק קצר (30 דקות)",
-          description: "הקלטה ועריכה בסיסית באולפן במודיעין",
-          price: String(PODCAST_STARTER_PRICE),
+          name: "הקלטת שיר לאירוע (חבילה)",
+          description: "הקלטה, מיקס ועריכה לחתונה ואירועים",
+          price: "1800",
+          priceCurrency: "ILS",
+          url: `${BASE}/book`,
+        },
+        {
+          "@type": "Offer",
+          name: "אטרקציה לאירוע",
+          description: "עשן, בועות, זיקוקים ועוד — מחיר התחלתי לפני מע״מ",
+          price: String(EVENT_ATTRACTION_FROM_NIS),
+          priceCurrency: "ILS",
+          url: `${BASE}/events/attractions`,
+        },
+        ...PODCAST_PACKAGES.slice(0, 2).map((pkg) => ({
+          "@type": "Offer" as const,
+          name: pkg.name,
+          description: pkg.summary,
+          price: String(pkg.price),
           priceCurrency: "ILS",
           url: `${BASE}/podcast`,
-        },
+        })),
         {
           "@type": "Offer",
-          name: "הפקת פודקאסט מלאה",
-          description: "צילום, הקלטה, עריכה  -  פרק מוכן תוך 24 שעות",
-          price: "2500",
+          name: "מחירון מרכזי",
+          description: "כל המחירים במקום אחד",
+          price: String(STUDIO_ONE_HOUR_NIS),
           priceCurrency: "ILS",
-          url: `${BASE}/podcast/podcast-recording`,
-        },
-        {
-          "@type": "Offer",
-          name: "קורסי DJ ומוזיקה",
-          description: "לימודי DJ, אקדמיה למוזיקה ופיתוח קול",
-          price: "480",
-          priceCurrency: "ILS",
-          url: `${BASE}/academy`,
+          url: `${BASE}/pricing`,
         },
       ],
     },

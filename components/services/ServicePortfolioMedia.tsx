@@ -7,6 +7,7 @@ import { ensureImageAlt } from "@/lib/image-alt";
 import { buildPortfolioImageGalleryJsonLd } from "@/lib/portfolio-schema";
 import { SERVICE_PORTFOLIO_GALLERY_ID } from "@/lib/service-portfolio-hero";
 import { listServicePortfolioImageSet } from "@/lib/service-portfolio-images";
+import { SERVICE_GALLERY_MAX_IMAGES } from "@/lib/service-page-ui";
 import { cn } from "@/lib/utils";
 
 export type ServicePortfolioMediaProps = {
@@ -32,7 +33,7 @@ const PORTFOLIO_COPY: Partial<Record<ServiceMediaType, string>> = {
   audio: "דוגמאות מהאולפן - איכות סאונד ברמה מקצועית",
 };
 
-const DEFAULT_GALLERY_INITIAL = 8;
+const DEFAULT_GALLERY_INITIAL = SERVICE_GALLERY_MAX_IMAGES;
 
 export default function ServicePortfolioMedia({
   assetsFolder,
@@ -61,7 +62,11 @@ export default function ServicePortfolioMedia({
       ? "תמונות מהשטח · לחצו על תמונה להגדלה"
       : (PORTFOLIO_COPY[mediaType] ?? "דוגמאות מהפרויקטים שלנו");
 
-  const galleryItems = primary.map((image, index) => ({
+  const cappedPrimary = primary.slice(0, SERVICE_GALLERY_MAX_IMAGES);
+  const remainingSlots = Math.max(0, SERVICE_GALLERY_MAX_IMAGES - cappedPrimary.length);
+  const cappedArchive = archive.slice(0, remainingSlots);
+
+  const galleryItems = cappedPrimary.map((image, index) => ({
     src: image.src,
     alt: ensureImageAlt(image.alt, {
       filename: image.filename,
@@ -69,7 +74,7 @@ export default function ServicePortfolioMedia({
     }),
   }));
 
-  const archiveGalleryItems = archive.map((image, index) => ({
+  const archiveGalleryItems = cappedArchive.map((image, index) => ({
     src: image.src,
     alt: ensureImageAlt(image.alt, {
       filename: image.filename,
@@ -109,12 +114,6 @@ export default function ServicePortfolioMedia({
           {label}
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>
-        {displayGallery ? (
-          <p className="mt-1 text-xs text-muted-foreground">
-            {primary.length} תמונות ראשיות
-            {archive.length > 0 ? ` · ${archive.length} בארכיון` : ""} · לחצו להגדלה
-          </p>
-        ) : null}
       </header>
 
       <div className="space-y-6">
@@ -124,11 +123,8 @@ export default function ServicePortfolioMedia({
             archiveImages={archiveGalleryItems}
             embedded
             layout={galleryLayout}
-            initialVisible={
-              primary.length > galleryInitialVisible
-                ? galleryInitialVisible
-                : undefined
-            }
+            initialVisible={Math.min(galleryInitialVisible, SERVICE_GALLERY_MAX_IMAGES)}
+            showFooterHint={false}
           />
         ) : !hasEmbed && mediaType !== "audio" ? (
           <div

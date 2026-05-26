@@ -1,7 +1,9 @@
 "use client";
 
 import Script from "next/script";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -202,12 +204,46 @@ export function InstagramFeed({
    overlays until then with the same opacity-swap technique as InstagramFeed.
    ───────────────────────────────────────────────────────────────────────────── */
 
+/** ביקורות מקומיות — גיבוי מהיר בלי iframe */
+function LocalReviewsStrip() {
+  const items = SITE_TESTIMONIALS.slice(0, 4);
+  return (
+    <div className="space-y-3" aria-label="ביקורות לקוחות">
+      {items.map((item) => (
+        <blockquote
+          key={item.id}
+          className="rounded-xl border border-border bg-surface p-4 text-sm leading-relaxed text-muted-foreground"
+        >
+          <p className="text-foreground">&ldquo;{item.quote}&rdquo;</p>
+          <footer className="mt-2 text-xs font-semibold text-foreground">
+            {item.name}
+            {item.role ? (
+              <span className="font-normal text-muted-foreground"> · {item.role}</span>
+            ) : null}
+          </footer>
+        </blockquote>
+      ))}
+      <p className="text-center text-xs text-muted-foreground">
+        <Link
+          href="https://www.google.com/maps/search/?api=1&query=יקיר+כהן+הפקות+מודיעין"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-brand-red hover:underline"
+        >
+          עוד ביקורות ב-Google Maps
+        </Link>
+      </p>
+    </div>
+  );
+}
+
 export function GoogleReviews({
   heading,
   subheading,
   className,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
+  const [preferLocal, setPreferLocal] = useState(false);
 
   return (
     <section
@@ -232,40 +268,57 @@ export function GoogleReviews({
         </header>
       )}
 
-      {/* Container: fixed-height so absolute iframe and skeleton share the same box */}
-      <div className="relative min-h-[500px] overflow-hidden rounded-2xl border border-border">
-        {/* ── Pulse skeleton overlay ── */}
-        <div
-          aria-hidden={isReady}
+      <div className="mb-4 flex flex-wrap justify-center gap-2 text-xs">
+        <button
+          type="button"
+          onClick={() => setPreferLocal(false)}
           className={cn(
-            "absolute inset-0 z-10 p-4",
-            "transition-opacity duration-500 ease-luxury",
-            isReady ? "pointer-events-none opacity-0" : "opacity-100",
+            "rounded-full px-3 py-1.5 font-semibold",
+            !preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
           )}
         >
-          <ReviewsSkeleton />
-        </div>
-
-        {/*
-         * iframe: absolute inset-0 fills the container.
-         * loading="lazy" lets the browser defer the request until the iframe
-         * is near the viewport - complementing the lazyOnload Script strategy
-         * used by InstagramFeed. The onLoad event triggers the skeleton fade.
-         */}
-        <iframe
-          src="https://ff74d962794e489d84eaf017cae85dd5.elf.site/"
-          title="ביקורות Google של יקיר כהן הפקות"
-          loading="lazy"
+          ביקורות Google (חי)
+        </button>
+        <button
+          type="button"
+          onClick={() => setPreferLocal(true)}
           className={cn(
-            "absolute inset-0 h-full w-full border-0",
-            "transition-opacity duration-500 ease-luxury",
-            isReady ? "opacity-100" : "opacity-0",
+            "rounded-full px-3 py-1.5 font-semibold",
+            preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
           )}
-          /* Allow Elfsight full permissions without exposing sensitive APIs */
-          allow="fullscreen"
-          onLoad={() => setIsReady(true)}
-        />
+        >
+          ביקורות מהאתר
+        </button>
       </div>
+
+      {preferLocal ? (
+        <LocalReviewsStrip />
+      ) : (
+        <div className="relative max-h-[min(720px,85vh)] min-h-[420px] overflow-y-auto overflow-x-hidden rounded-2xl border border-border sm:min-h-[560px]">
+          <div
+            aria-hidden={isReady}
+            className={cn(
+              "sticky top-0 z-10 p-4",
+              "transition-opacity duration-500 ease-luxury",
+              isReady ? "pointer-events-none opacity-0" : "opacity-100",
+            )}
+          >
+            <ReviewsSkeleton />
+          </div>
+          <iframe
+            src="https://ff74d962794e489d84eaf017cae85dd5.elf.site/"
+            title="ביקורות Google של יקיר כהן הפקות"
+            loading="lazy"
+            className={cn(
+              "min-h-[720px] w-full border-0",
+              "transition-opacity duration-500 ease-luxury",
+              isReady ? "opacity-100" : "opacity-0",
+            )}
+            allow="fullscreen"
+            onLoad={() => setIsReady(true)}
+          />
+        </div>
+      )}
     </section>
   );
 }

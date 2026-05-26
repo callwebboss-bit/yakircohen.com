@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import BlessingsBarMitzvahPageContent from "@/components/seo/BlessingsBarMitzvahPageContent";
 import {
   getStudioService,
   metadataFromService,
@@ -9,10 +9,5 @@ const service = getStudioService("blessings-bar-mitzvah");
 export const metadata = metadataFromService(service);
 
 export default function BarMitzvahBlessingPage() {
-  return (
-    <ServicePageFromRegistry
-      service={service}
-      portfolioLabel="דוגמאות ברכות לבר/בת מצווה"
-    />
-  );
+  return <BlessingsBarMitzvahPageContent />;
 }

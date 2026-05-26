@@ -1,6 +1,6 @@
 ﻿export const PODCAST_GRANDPA_EXAMPLE_VIDEO = {
-  videoId: "0XXeBgOm4XA",
-  title: "פודקאסט עם סבא  -  דוגמה מהאולפן",
+  videoId: "GFYoIU-UseE",
+  title: "פודקאסט עם סבא או סבתא — דוגמה מהאולפן",
 } as const;
 
 export const PODCAST_GRANDPA_HERO_FEATURES: readonly string[] = [

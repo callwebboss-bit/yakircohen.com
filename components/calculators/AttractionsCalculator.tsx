@@ -22,6 +22,7 @@ import {
   type GeoKey,
 } from "@/lib/data/attractions-calculator";
 import { validateAttractionsOrder } from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -285,32 +286,44 @@ export default function AttractionsCalculator({ className }: { className?: strin
   const hasGift = qualifiesForGift(count);
   const selectedIds = useMemo(() => [...selected], [selected]);
 
-  const whatsappHref = useMemo(() => {
-    const text = buildAttractionsOrderWhatsApp({
-      selectedIds,
-      geo,
-      form,
-      bundlePrice,
-      geoFee,
-      total,
-      hasGift,
-    });
-    return buildWhatsAppHref({
-      text,
-      utm_campaign: "attractions_calculator",
-    });
-  }, [selectedIds, geo, form, bundlePrice, geoFee, total, hasGift]);
+  const waText = useMemo(
+    () =>
+      buildAttractionsOrderWhatsApp({
+        selectedIds,
+        geo,
+        form,
+        bundlePrice,
+        geoFee,
+        total,
+        hasGift,
+      }),
+    [selectedIds, geo, form, bundlePrice, geoFee, total, hasGift],
+  );
+
+  const whatsappHref = useMemo(
+    () => buildWhatsAppHref({ text: waText, utm_campaign: "attractions_calculator" }),
+    [waText],
+  );
 
   const selectedItems = ATTRACTIONS.filter((a) => selected.has(a.id));
 
   const sendWhatsAppOrder = useCallback(() => {
     const errs = attemptSubmit(
       () => validateAttractionsOrder(form),
-      () => openWhatsAppLead(whatsappHref),
+      () => {
+        openWhatsAppLead(whatsappHref);
+        notifyLeadByEmail({
+          formId: "attractions_calculator",
+          subject: "ליד חדש — אטרקציות לאירוע",
+          body: waText,
+          name: form.name,
+          phone: form.phone,
+        });
+      },
     );
     setFieldErrors(errs ?? {});
     if (errs) setTouched(true);
-  }, [attemptSubmit, form, whatsappHref]);
+  }, [attemptSubmit, form, whatsappHref, waText]);
 
   const sticky = useMemo(() => {
     if (step === "select") {

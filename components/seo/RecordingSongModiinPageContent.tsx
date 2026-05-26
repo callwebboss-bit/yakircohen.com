@@ -1,23 +1,19 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   RECORDING_SONG_EQUIPMENT,
-  RECORDING_SONG_EXAMPLE_VIDEOS,
-  RECORDING_SONG_FEATURED_VIDEO_ID,
   RECORDING_SONG_PROCESS_STEPS,
 } from "@/lib/data/recording-song-modiin-page";
+import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
-import {
-  youtubeEmbedUrl,
-  YOUTUBE_SERVICE_EMBED_IDS,
-} from "@/lib/data/youtube-embeds";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -26,12 +22,9 @@ import {
 const service = getStudioService("recording-song-modiin");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function RecordingSongModiinPageContent() {
-  const featuredEmbed = youtubeEmbedUrl(
-    YOUTUBE_SERVICE_EMBED_IDS["recording-song-modiin"],
-  );
-
   return (
     <ServicePageLayout
       title={service.title}
@@ -39,18 +32,18 @@ export default function RecordingSongModiinPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/recording-song-modiin" className="max-w-3xl" />
+
+        <ShowcaseVideoSection
+          heading="דוגמאות מהאולפן"
+          subheading="שמעו איך זה נשמע - שיר לחתונה, מתנות, בר מצווה והקלטות קבוצה"
+          videos={RECORDING_SONG_MODIIN_VIDEOS}
+          initialVisible={5}
+        />
+
         <section className="max-w-3xl" aria-labelledby="audience-heading">
           <h2
             id="audience-heading"
@@ -134,21 +127,10 @@ export default function RecordingSongModiinPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
-          playlistEmbedUrl={featuredEmbed}
-          mediaType="video"
-          galleryLabel="הקלטת שיר במודיעין"
-          videoTitle="הקלטת שיר לחתונה"
-          videoSectionId="examples"
-          videoHeadingId="featured-video-heading"
-          videoHeading="דוגמאות מהאולפן"
-          videoDescription="שמעו איך זה נשמע  -  שיר לחתונה, מתנות, ברכות ועוד."
-          footer={
-            <RecordingSongExampleVideos
-              videos={RECORDING_SONG_EXAMPLE_VIDEOS.filter(
-                (v) => v.videoId !== RECORDING_SONG_FEATURED_VIDEO_ID,
-              )}
-            />
-          }
+          playlistEmbedUrl={null}
+          mediaType="gallery"
+          galleryLabel="תמונות מהאולפן"
+          showGallery
         />
 
         <section
@@ -228,6 +210,8 @@ export default function RecordingSongModiinPageContent() {
             <li>שעות האולפנים: א׳–ה׳ 10:00–22:00 | ו׳ 10:00–15:00</li>
           </ul>
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

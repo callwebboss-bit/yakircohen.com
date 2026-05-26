@@ -5,9 +5,10 @@ import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   WEDDING_SMOKE_COMPARE,
   WEDDING_SMOKE_EXAMPLE_VIDEOS,
@@ -21,15 +22,12 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
 } from "@/lib/constants";
-import {
-  youtubeEmbedUrl,
-  YOUTUBE_SERVICE_EMBED_IDS,
-} from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getEventsService("attractions-wedding-smoke");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function WeddingSmokePageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -46,16 +44,8 @@ export default function WeddingSmokePageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       scarcityLabel="מומלץ לעונת החתונות  -  תיאום מוקדם"
-      {...pageHero}
+      {...heroProps}
     >
-      {service.pricing && service.pricing.length > 0 ? (
-        <ServicePricingBlock
-          tiers={service.pricing}
-          serviceTitle={service.title}
-          utmCampaignPrefix={service.utmCampaign}
-        />
-      ) : null}
-
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/wedding-smoking-machine" className="max-w-3xl" />
         <section
@@ -96,9 +86,7 @@ export default function WeddingSmokePageContent() {
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke"],
-          )}
+          playlistEmbedUrl={service.playlistEmbedUrl}
           mediaType="video"
           galleryLabel="עשן כבד לחתונה"
           videoTitle="עשן כבד בסלואו חתונה"
@@ -313,6 +301,8 @@ export default function WeddingSmokePageContent() {
           </header>
           <AttractionsCalculatorLazy className="mt-8" />
         </section>
+        <ServicePagePricingSection service={service} />
+
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

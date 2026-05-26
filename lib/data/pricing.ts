@@ -50,3 +50,19 @@ export function formatHaMeNis(amount: number): string {
 export function formatMeNis(amount: number): string {
   return `מ-${amount.toLocaleString("he-IL")} ₪`;
 }
+
+/** מחיר כולל מע״מ (מעוגל לשקל) */
+export function withVat(amountExVat: number): number {
+  return Math.round(amountExVat * (1 + VAT_RATE));
+}
+
+/** תצוגה דו-שורתית: לפני מע״מ + כולל מע״מ */
+export function formatExVatWithVat(amountExVat: number): {
+  exVat: string;
+  withVat: string;
+} {
+  return {
+    exVat: formatNis(amountExVat),
+    withVat: formatNis(withVat(amountExVat)),
+  };
+}

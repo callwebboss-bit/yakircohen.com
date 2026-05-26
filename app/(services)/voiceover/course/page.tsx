@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import VoiceoverCoursePageContent from "@/components/seo/VoiceoverCoursePageContent";
 import {
   getVoiceoverService,
   metadataFromService,
@@ -9,5 +9,5 @@ const service = getVoiceoverService("voiceover-course");
 export const metadata = metadataFromService(service);
 
 export default function VoiceoverCoursePage() {
-  return <ServicePageFromRegistry service={service} />;
+  return <VoiceoverCoursePageContent />;
 }

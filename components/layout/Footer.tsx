@@ -13,20 +13,20 @@ import {
   NAV_HUBS,
   SITE_LOGO_SRC,
   SITE_NAME,
-  STUDIO_ADDRESS,
+  STUDIO_ADDRESS_LINE,
   STUDIO_GOOGLE_MAPS_URL,
   STUDIO_WAZE_URL,
 } from "@/lib/constants";
-import { SEO_FOOTER_LINKS } from "@/lib/seo-footer-links";
+import { FOOTER_POPULAR_LINKS } from "@/lib/seo-footer-links";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer data-pagefind-ignore className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-12">
-          <div className="sm:col-span-2 lg:col-span-1">
+      <div className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
+          <div>
             <Link
               href="/"
               className="inline-flex items-center gap-3 transition-opacity duration-300 ease-[var(--ease-luxury)] hover:opacity-85"
@@ -43,27 +43,32 @@ export default function Footer() {
                 {SITE_NAME}
               </span>
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              פודקאסט, סטודיו, קריינות, אירועים ווידאו - ממודיעין
-              לירושלים והסביבה. צוות מקצועי, ציוד מתקדם ושירות אישי ללא פשרות.
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              פודקאסט, סטודיו, אירועים וצילום — מודיעין, ירושלים והמרכז.
             </p>
             <FooterSocialLinks />
           </div>
 
-          <nav
-            role="navigation"
-            className="lg:col-span-1"
-            aria-label="ניווט תחתון"
-          >
-            <h2 className="text-sm font-semibold tracking-wide text-foreground">
-              המרכזים שלנו
-            </h2>
-            <ul className="mt-4 grid gap-2">
-              {[...NAV_HUBS, ...FOOTER_EXTRA_LINKS].map((item) => (
+          <nav role="navigation" aria-label="ניווט תחתון">
+            <h2 className="text-sm font-semibold text-foreground">ניווט</h2>
+            <ul className="mt-3 space-y-2">
+              {NAV_HUBS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ul className="mt-4 space-y-2 border-t border-border pt-4">
+              {FOOTER_EXTRA_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -72,21 +77,15 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <nav
-            role="navigation"
-            className="lg:col-span-1"
-            aria-label="שירותים פופולריים"
-          >
-            <h2 className="text-sm font-semibold tracking-wide text-foreground">
-              שירותים פופולריים
-            </h2>
-            <ul className="mt-4 grid gap-2">
-              {SEO_FOOTER_LINKS.map((item) => (
+          <nav role="navigation" aria-label="שירותים פופולריים">
+            <h2 className="text-sm font-semibold text-foreground">שירותים מובילים</h2>
+            <ul className="mt-3 space-y-2">
+              {FOOTER_POPULAR_LINKS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     title={item.title}
-                    className="text-sm text-muted-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -95,90 +94,79 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h2 className="text-sm font-semibold tracking-wide text-foreground">
-              שעות פעילות
-            </h2>
-            <ul className="mt-4 space-y-2">
-              {BUSINESS_HOURS.map((slot) => (
-                <li
-                  key={slot.days}
-                  className="flex justify-between gap-4 text-sm text-muted-foreground"
-                >
-                  <span>{slot.days}</span>
-                  <span className="font-medium text-foreground">{slot.hours}</span>
-                </li>
-              ))}
-            </ul>
-
-            <h2 className="mt-8 text-sm font-semibold tracking-wide text-foreground">
-              יצירת קשר
-            </h2>
-            <ul className="mt-4 space-y-2 text-sm">
+          <div>
+            <h2 className="text-sm font-semibold text-foreground">יצירת קשר</h2>
+            <ul className="mt-3 space-y-2 text-sm">
               <li>
                 <a
                   href={`tel:${CONTACT_PHONE_E164}`}
-                  className="text-muted-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                  className="font-medium text-foreground transition-colors hover:text-brand-red"
                 >
                   {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
-            </ul>
-
-            <h2 className="mt-8 text-sm font-semibold tracking-wide text-foreground">
-              מיקום האולפן
-            </h2>
-            <address className="mt-4 space-y-2 text-sm not-italic text-muted-foreground">
-              <p>{STUDIO_ADDRESS}</p>
-              <p className="flex flex-wrap gap-x-4 gap-y-1">
+              <li className="text-muted-foreground">{STUDIO_ADDRESS_LINE}</li>
+              <li className="flex flex-wrap gap-x-3 gap-y-1">
                 <a
                   href={STUDIO_GOOGLE_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                  className="text-muted-foreground transition-colors hover:text-brand-red"
                 >
-                  Google Maps
+                  מפות
                 </a>
                 <a
                   href={STUDIO_WAZE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                  className="text-muted-foreground transition-colors hover:text-brand-red"
                 >
                   Waze
                 </a>
+              </li>
+            </ul>
+            <div className="mt-5 space-y-1.5 border-t border-border pt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                שעות פעילות
               </p>
-            </address>
+              {BUSINESS_HOURS.map((slot) => (
+                <div
+                  key={slot.days}
+                  className="flex justify-between gap-3 text-xs text-muted-foreground"
+                >
+                  <span>{slot.days}</span>
+                  <span className="font-medium text-foreground">{slot.hours}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <FooterPaymentMethods />
+        <FooterPaymentMethods compact />
 
         <FooterCta />
 
-        <div className="mt-10 grid gap-6 border-t border-border pt-8 md:grid-cols-3 md:items-center">
-          <p className="order-3 text-center text-xs text-muted-foreground md:order-1 md:text-start">
-            © {currentYear} {SITE_NAME}. כל הזכויות שמורות.
+        <div className="mt-8 grid gap-4 border-t border-border pt-6 md:grid-cols-3 md:items-center">
+          <p className="text-center text-xs text-muted-foreground md:text-start">
+            © {currentYear} {SITE_NAME}
           </p>
           <nav
             aria-label="מסמכים משפטיים"
-            className="order-2 flex flex-wrap justify-center gap-x-4 gap-y-1"
+            className="flex flex-wrap justify-center gap-x-4 gap-y-1"
           >
             {FOOTER_LEGAL_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-xs text-muted-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:text-brand-red"
+                className="text-xs text-muted-foreground transition-colors hover:text-brand-red"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="order-1 flex flex-col items-center gap-2 md:order-3 md:items-end">
+          <div className="flex flex-col items-center gap-2 md:items-end">
             <BackToTopButton />
-            <p className="text-center text-xs text-muted-foreground md:text-end">
-              שירות בפריסה ארצית · מודיעין · ירושלים והסביבה
-            </p>
+            <p className="text-xs text-muted-foreground">מודיעין · ירושלים · המרכז</p>
           </div>
         </div>
       </div>

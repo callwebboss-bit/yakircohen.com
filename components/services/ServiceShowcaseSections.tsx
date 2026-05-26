@@ -26,7 +26,9 @@ export type ServiceShowcaseSectionsProps = {
   secondaryEmbedTitle?: string;
 };
 
-const DEFAULT_GALLERY_VISIBLE = 9;
+import { SERVICE_GALLERY_MAX_IMAGES } from "@/lib/service-page-ui";
+
+const DEFAULT_GALLERY_VISIBLE = SERVICE_GALLERY_MAX_IMAGES;
 
 export default function ServiceShowcaseSections({
   assetsFolder,
@@ -40,7 +42,7 @@ export default function ServiceShowcaseSections({
   videoHeadingId,
   galleryInitialVisible = DEFAULT_GALLERY_VISIBLE,
   showGallery = true,
-  galleryLayout = "grid",
+  galleryLayout = "masonry",
   className,
   footer,
   secondaryEmbedUrl,

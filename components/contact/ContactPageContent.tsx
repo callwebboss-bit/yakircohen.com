@@ -18,6 +18,7 @@ import {
   sanitizeLeadText,
   validateContactQuiz,
 } from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -224,20 +225,28 @@ export default function ContactPageContent() {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : phone.trim();
+        const waText = buildQuizWhatsAppMessage({
+          service,
+          timing,
+          budget,
+          name: sanitizeLeadText(name, 60),
+          phone: displayPhone,
+          email: email.trim(),
+          message: sanitizeLeadText(message, 2000),
+        });
         const href = buildWhatsAppHref({
-          text: buildQuizWhatsAppMessage({
-            service,
-            timing,
-            budget,
-            name: sanitizeLeadText(name, 60),
-            phone: displayPhone,
-            email: email.trim(),
-            message: sanitizeLeadText(message, 2000),
-          }),
+          text: waText,
           utm_source: "website",
           utm_campaign: "contact_quiz_submit",
         });
         openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "contact_quiz",
+          subject: "ליד חדש — יצירת קשר",
+          body: waText,
+          name: sanitizeLeadText(name, 60),
+          phone: displayPhone,
+        });
         setSubmitted(true);
       },
     );
@@ -482,7 +491,7 @@ export default function ContactPageContent() {
 
                 {step === 4 ? (
                   <QuestionBlock
-                    label="שלב 4 מתוך 4 - כמעט שם!"
+                    label="שלב 4 מתוך 4 - כמעט שם"
                     title="השאירו פרטים ונחזור אליכם"
                   >
                     <div className="relative space-y-3">

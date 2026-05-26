@@ -2,12 +2,14 @@ import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
-import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
-import { PODCAST_EXAMPLE_VIDEOS } from "@/lib/data/podcast-hub-page";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   PODCAST_RECORDING_AUDIENCES,
   PODCAST_RECORDING_FAQS,
@@ -35,6 +37,7 @@ const pageHero = resolvePodcastFolderHero(
   PODCAST_RECORDING_TITLE,
   youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"]),
 );
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function PodcastRecordingPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -60,10 +63,20 @@ export default function PodcastRecordingPageContent() {
       utmCampaign="podcast_recording"
       scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק · מוכן תוך 24 שעות`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-recording" className="max-w-3xl" />
+
+        <ShowcaseVideoSection
+          heading="דוגמאות מהאולפן"
+          subheading="הפקות פודקאסט מלאות - הסרטון הראשון נטען מיד"
+          videos={PODCAST_SHOWCASE_VIDEOS}
+          initialVisible={3}
+        />
+
+        <PodcastSpotifySample />
+
         <section
           className="rounded-2xl border-2 border-brand-red/40 bg-brand-red/8 p-6 text-center shadow-[0_0_32px_rgba(212,43,43,0.12)] sm:p-8"
           aria-label="הזמנה מהירה"
@@ -221,17 +234,9 @@ export default function PodcastRecordingPageContent() {
 
         <ServiceShowcaseSections
           assetsFolder="podcast"
-          playlistEmbedUrl={youtubeEmbedUrl(
-            YOUTUBE_SERVICE_EMBED_IDS["podcast-example-1"],
-          )}
-          mediaType="video"
-          galleryLabel="הפקת פודקאסט מהאולפן"
-          videoTitle="הפקת פודקאסט  -  דוגמה"
-          videoHeadingId="examples-heading"
-          videoHeading="דוגמאות מהאולפן"
-          footer={
-            <RecordingSongExampleVideos videos={PODCAST_EXAMPLE_VIDEOS} />
-          }
+          playlistEmbedUrl={null}
+          mediaType="gallery"
+          galleryLabel="תמונות מהאולפן"
         />
 
         <section aria-labelledby="why-heading">

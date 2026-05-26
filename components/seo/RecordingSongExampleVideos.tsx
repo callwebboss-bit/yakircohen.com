@@ -13,12 +13,15 @@ export type RecordingSongExampleVideosProps = {
   /** How many videos show before "הצג עוד" (default from pricing.ts). */
   initialVisible?: number;
   className?: string;
+  /** הסרטון הראשון נטען מיד (נוח יותר מלחיצה על כולם). */
+  autoPlayFeatured?: boolean;
 };
 
 export default function RecordingSongExampleVideos({
   videos,
   initialVisible = VIDEO_EXAMPLES_INITIAL_VISIBLE,
   className,
+  autoPlayFeatured = true,
 }: RecordingSongExampleVideosProps) {
   const [expanded, setExpanded] = useState(false);
   const cap =
@@ -30,23 +33,53 @@ export default function RecordingSongExampleVideos({
 
   if (videos.length === 0) return null;
 
+  const [featured, ...rest] = visible;
+  const moreInGrid = expanded ? visible.slice(1) : rest;
+
   return (
     <div className={className}>
       <p className="mb-4 text-center text-xs text-muted-foreground">
-        {VIDEO_WATCH_LABEL} · לחצו על הסרטון
+        {VIDEO_WATCH_LABEL}
+        {rest.length > 0 ? " · שאר הסרטונים בלחיצה" : null}
       </p>
-      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        {visible.map((video) => (
-          <li key={video.videoId} className="flex flex-col">
-            <div className="aspect-video w-full overflow-hidden rounded-xl bg-neutral-900">
-              <YouTube videoId={video.videoId} title={video.title} fillParent />
-            </div>
-            <p className="mt-3 text-sm font-medium text-foreground">
-              {video.title}
-            </p>
-          </li>
-        ))}
-      </ul>
+
+      {featured ? (
+        <div className="mx-auto max-w-4xl">
+          <div className="aspect-video w-full overflow-hidden rounded-2xl bg-neutral-900 shadow-md">
+            <YouTube
+              videoId={featured.videoId}
+              title={featured.title}
+              fillParent
+              defaultActive={autoPlayFeatured}
+            />
+          </div>
+          <p className="mt-3 text-center text-sm font-semibold text-foreground">
+            {featured.title}
+          </p>
+        </div>
+      ) : null}
+
+      {moreInGrid.length > 0 ? (
+        <ul
+          className={
+            featured
+              ? "mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2"
+              : "grid grid-cols-1 gap-8 sm:grid-cols-2"
+          }
+        >
+          {moreInGrid.map((video) => (
+            <li key={video.videoId} className="flex flex-col">
+              <div className="aspect-video w-full overflow-hidden rounded-xl bg-neutral-900">
+                <YouTube videoId={video.videoId} title={video.title} fillParent />
+              </div>
+              <p className="mt-3 text-sm font-medium text-foreground">
+                {video.title}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
       {remaining > 0 ? (
         <div className="mt-8 flex justify-center">
           <button

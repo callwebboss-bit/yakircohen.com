@@ -7,6 +7,8 @@ export type TestimonialItem = {
   name: string;
   role?: string;
   initials?: string;
+  /** ISO 8601 — ל-Review JSON-LD בלבד */
+  datePublished?: string;
 };
 
 export type TestimonialsProps = {

@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import EventsHostPageContent from "@/components/seo/EventsHostPageContent";
 import {
   getEventsService,
   metadataFromService,
@@ -9,5 +9,5 @@ const service = getEventsService("events-host");
 export const metadata = metadataFromService(service);
 
 export default function EventsHostPage() {
-  return <ServicePageFromRegistry service={service} />;
+  return <EventsHostPageContent />;
 }

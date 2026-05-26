@@ -5,6 +5,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
+import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   MOBILE_PODCAST_AUDIENCES,
   MOBILE_PODCAST_FAQS,
@@ -28,6 +29,7 @@ const pageHero = resolvePodcastFolderHero(
   MOBILE_PODCAST_TITLE,
   youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["podcast-mobile-at-home"]),
 );
+const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function MobilePodcastAtHomePageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -47,7 +49,7 @@ export default function MobilePodcastAtHomePageContent() {
       utmCampaign="podcast_mobile_home"
       scarcityLabel="🚐 האולפן מגיע אליכם"
       ctaLabel="הזמנת הקלטה ניידת בוואטסאפ"
-      {...pageHero}
+      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/mobile-podcast-at-home" className="max-w-3xl" />
