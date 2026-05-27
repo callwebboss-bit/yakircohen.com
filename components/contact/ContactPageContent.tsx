@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
@@ -242,7 +242,7 @@ export default function ContactPageContent() {
         openWhatsAppLead(href);
         notifyLeadByEmail({
           formId: "contact_quiz",
-          subject: "ליד חדש — יצירת קשר",
+          subject: "ליד חדש - יצירת קשר",
           body: waText,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
@@ -686,7 +686,7 @@ export default function ContactPageContent() {
               💬
             </span>
             <span className="text-sm font-semibold text-foreground">וואטסאפ</span>
-            <span className="text-xs text-muted-foreground">זמין א׳–ו׳</span>
+            <span className="text-xs text-muted-foreground">זמין א׳-ו׳</span>
           </a>
         </div>
 

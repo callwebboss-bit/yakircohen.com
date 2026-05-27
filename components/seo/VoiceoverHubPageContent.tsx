@@ -1,4 +1,4 @@
-import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+﻿import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -31,7 +31,7 @@ export default function VoiceoverHubPageContent() {
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
         <ShowcaseVideoSection
           heading="דוגמאות קריינות מהאולפן"
-          subheading="פרסומות, תדמית ומסרים מותגיים — איכות שידורית"
+          subheading="פרסומות, תדמית ומסרים מותגיים - איכות שידורית"
           videos={VOICEOVER_HUB_VIDEOS}
           initialVisible={3}
         />

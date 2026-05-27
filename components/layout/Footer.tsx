@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import BackToTopButton from "@/components/layout/BackToTopButton";
 import FooterCta from "@/components/layout/FooterCta";
@@ -44,7 +44,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              פודקאסט, סטודיו, אירועים וצילום — מודיעין, ירושלים והמרכז.
+              פודקאסט, סטודיו, אירועים וצילום - מודיעין, ירושלים והמרכז.
             </p>
             <FooterSocialLinks />
           </div>
@@ -149,6 +149,9 @@ export default function Footer() {
         <div className="mt-8 grid gap-4 border-t border-border pt-6 md:grid-cols-3 md:items-center">
           <p className="text-center text-xs text-muted-foreground md:text-start">
             © {currentYear} {SITE_NAME}
+          </p>
+          <p className="text-center text-xs text-muted-foreground opacity-70 md:text-start">
+            האתר נבנה בטכנולוגייה חדישה של AI לכן יתכנו טעויות
           </p>
           <nav
             aria-label="מסמכים משפטיים"

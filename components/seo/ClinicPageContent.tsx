@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
@@ -49,7 +49,7 @@ export default function ClinicPageContent() {
         <section className="max-w-3xl">
           <h2 className="text-2xl font-semibold text-foreground">למי מיועדת הקליניקה</h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            לילדים, נוער ומבוגרים שמחפשים מקום מקצועי לעבוד על גמגום - לא “טיפול מהיר”,
+            לילדים, נוער ומבוגרים שמחפשים מקום מקצועי לעבוד על גמגום - לא "טיפול מהיר",
             אלא תהליך עם יעדים ברורים ותמיכה לאורך הדרך.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">

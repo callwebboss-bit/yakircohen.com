@@ -1,4 +1,4 @@
-/** Hebrew labels for URL path segments (fallback when no service registry match). */
+﻿/** Hebrew labels for URL path segments (fallback when no service registry match). */
 export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   studio: "אולפן",
   podcast: "פודקאסט",
@@ -78,7 +78,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
 /** Exact path → label when segment fallbacks are not enough. */
 export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/about/faq": "שאלות נפוצות",
-  "/podcast/faq": "שאלות נפוצות — פודקאסט",
+  "/podcast/faq": "שאלות נפוצות - פודקאסט",
   "/dj-events/cities/jerusalem": "תקליטן בירושלים",
   "/studio/recording-song-modiin/gifts": "מתנות והקלטות",
 };

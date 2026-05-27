@@ -49,7 +49,7 @@ export default function LazyYouTubePlayer({
 
   const embedSrc =
     `https://www.youtube.com/embed/${videoId}` +
-    `?autoplay=1&rel=0&modestbranding=1&color=white`;
+    `?rel=0&modestbranding=1&color=white`;
 
   return (
     /* aspect-video (16/9) is declared on the outermost element so the browser
@@ -95,30 +95,23 @@ export default function LazyYouTubePlayer({
             }
           />
 
-          {/* Multi-stop gradient: strong at the bottom for title legibility,
-              subtle at the top to frame the play button */}
           <div
-            className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/30 transition-opacity duration-normal ease-luxury group-hover:from-black/85 group-hover:via-black/25"
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 transition-opacity duration-normal ease-luxury group-hover:from-black/90 group-hover:via-black/30"
             aria-hidden="true"
           />
 
-          {/* ── Gold play button ── */}
-          <p className="absolute inset-x-0 top-[18%] z-10 text-center text-sm font-semibold tracking-wide text-white/95 sm:text-base">
-            {watchLabel}
-          </p>
-
           <div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3"
             aria-hidden="true"
           >
             <span
               className={cn(
-                "flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full",
-                "bg-black/75 ring-2 ring-brand-red/55",
-                "shadow-[0_0_36px_rgba(212,43,43,0.45)]",
+                "flex h-20 w-20 items-center justify-center rounded-full",
+                "bg-black/80 ring-2 ring-brand-red/70",
+                "shadow-[0_0_44px_rgba(212,43,43,0.55)]",
                 "transition-[transform,box-shadow,ring-color,background-color] duration-normal ease-luxury",
-                "group-hover:scale-[1.12] group-hover:bg-black/85",
-                "group-hover:ring-brand-red group-hover:shadow-[0_0_56px_rgba(212,43,43,0.65)]",
+                "group-hover:scale-[1.12] group-hover:bg-black/90",
+                "group-hover:ring-brand-red group-hover:shadow-[0_0_64px_rgba(212,43,43,0.75)]",
                 "group-focus-visible:scale-[1.12]",
               )}
             >
@@ -138,6 +131,9 @@ export default function LazyYouTubePlayer({
                   strokeLinejoin="round"
                 />
               </svg>
+            </span>
+            <span className="text-sm font-semibold tracking-wide text-white/95 sm:text-base">
+              {watchLabel}
             </span>
           </div>
 

@@ -1,4 +1,4 @@
-/** קישורי זנב SEO פנימיים - Additive only; כל href חייב להיות עמוד קיים באתר */
+﻿/** קישורי זנב SEO פנימיים - Additive only; כל href חייב להיות עמוד קיים באתר */
 export type SeoFooterLink = {
   label: string;
   href: string;
@@ -50,7 +50,7 @@ export const SEO_FOOTER_LINKS: SeoFooterLink[] = [
   {
     label: "הפקת פודקאסט לעסקים",
     href: "/podcast/podcast-recording",
-    title: "צילום והקלטת פודקאסט — הפקה מלאה",
+    title: "צילום והקלטת פודקאסט - הפקה מלאה",
   },
   {
     label: "קריינות מקצועית",
@@ -64,7 +64,7 @@ export const SEO_FOOTER_LINKS: SeoFooterLink[] = [
   },
 ];
 
-/** עד 6 קישורים בפוטר — היררכיה ברורה בלי עומס */
+/** עד 6 קישורים בפוטר - היררכיה ברורה בלי עומס */
 export const FOOTER_POPULAR_LINKS: SeoFooterLink[] = [
   {
     label: "צילום חתונות",
@@ -84,7 +84,7 @@ export const FOOTER_POPULAR_LINKS: SeoFooterLink[] = [
   {
     label: "הפקת פודקאסט",
     href: "/podcast/podcast-recording",
-    title: "צילום והקלטת פודקאסט — הפקה מלאה",
+    title: "צילום והקלטת פודקאסט - הפקה מלאה",
   },
   {
     label: "תקליטן בירושלים",

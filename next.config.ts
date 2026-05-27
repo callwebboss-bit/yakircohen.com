@@ -16,6 +16,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  outputFileTracingExcludes: {
+    "/**": ["./next.config.ts"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

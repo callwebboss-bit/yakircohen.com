@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Central icon registry - all inline SVGs in one file.
  *
  * Every icon:
@@ -7,7 +7,7 @@
  *     consumers must supply accessible labels on surrounding interactive elements.
  *   • Uses a 24×24 viewBox on a standard 2 px stroke grid for outline icons.
  *   • Brand icons (WhatsApp, Facebook, TikTok) use fill="currentColor".
- *   • Server-Component–safe - no "use client" needed.
+ *   • Server-Component-safe - no "use client" needed.
  */
 
 export type IconProps = {

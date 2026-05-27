@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -260,7 +260,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
 
             {/* Trust signals */}
             <ul className="space-y-1.5 text-xs text-muted-foreground">
-              {["מענה מהיר · ימים א׳–ו׳ 09:00–20:00", "ניסיון במאות אירועים", "ציוד מקצועי לאירועים"].map(
+              {["מענה מהיר · ימים א׳-ו׳ 09:00-20:00", "ניסיון במאות אירועים", "ציוד מקצועי לאירועים"].map(
                 (t) => (
                   <li key={t} className="flex items-center gap-2">
                     <CheckIcon size={13} className="shrink-0 text-brand-red" />

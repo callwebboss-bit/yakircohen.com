@@ -1,11 +1,11 @@
 ﻿export const PODCAST_GRANDPA_EXAMPLE_VIDEO = {
   videoId: "GFYoIU-UseE",
-  title: "פודקאסט עם סבא או סבתא — דוגמה מהאולפן",
+  title: "פודקאסט עם סבא או סבתא - דוגמה מהאולפן",
 } as const;
 
 export const PODCAST_GRANDPA_HERO_FEATURES: readonly string[] = [
   "פודקאסט משפחתי + הקלטת שיר באולפן",
-  "חוויה של כשעה–שעתיים באולפן במודיעין",
+  "חוויה של כשעה-שעתיים באולפן במודיעין",
   "תיעוד סיפורי חיים והגשמת חלום",
   "פודקאסט ערוך, שיר מוקלט וקליפ וידאו",
   "גלריית תמונות ועמוד פרטי למשפחה",
@@ -61,7 +61,7 @@ export const PODCAST_GRANDPA_DELIVERABLES: readonly {
   },
   {
     title: "סרטון וידאו מרגש",
-    description: "קליפ ערוך של 3–5 דקות מהרגעים היפים באולפן.",
+    description: "קליפ ערוך של 3-5 דקות מהרגעים היפים באולפן.",
     link: { href: "/studio/blessings/video-clip", label: "פרטים על הפקת קליפים" },
   },
   {
@@ -129,7 +129,7 @@ export const PODCAST_GRANDPA_FAQS: readonly {
     id: "participants",
     question: "כמה אנשים יכולים להשתתף?",
     answer:
-      "עד 6–8 משתתפים בו-זמנית. למשפחות גדולות  -  תיאום בתורות או במועדים נפרדים.",
+      "עד 6-8 משתתפים בו-זמנית. למשפחות גדולות  -  תיאום בתורות או במועדים נפרדים.",
   },
   {
     id: "singing",

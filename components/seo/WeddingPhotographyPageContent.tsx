@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -61,7 +61,7 @@ export default function WeddingPhotographyPageContent() {
             צילום שמכבד את הרגע
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            חתונה קטנה לא אומרת להתפשר על הזיכרונות. אתם פשוט תהיו אתם — והמצלמה
+            חתונה קטנה לא אומרת להתפשר על הזיכרונות. אתם פשוט תהיו אתם - והמצלמה
             תתפוס את הסיפור האמיתי, בלי פוזות כבדות.
           </p>
           <Link
@@ -99,7 +99,7 @@ export default function WeddingPhotographyPageContent() {
         {WEDDING_PHOTO_EXAMPLE_VIDEOS.length > 0 ? (
           <ShowcaseVideoSection
             heading="רגעים בתנועה"
-            subheading="קליפ קצר מהשטח — הסרטון הראשון נטען מיד"
+            subheading="קליפ קצר מהשטח - הסרטון הראשון נטען מיד"
             videos={WEDDING_PHOTO_EXAMPLE_VIDEOS}
             initialVisible={2}
             sectionId="wedding-video-samples"

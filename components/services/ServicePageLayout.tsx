@@ -62,7 +62,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const HERO_FRAME_CLASS =
-  "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-neutral-200 shadow-[0_16px_48px_rgba(0,0,0,0.1)] sm:aspect-[5/4] lg:aspect-[4/3]";
+  "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-neutral-200 shadow-[0_20px_64px_rgba(0,0,0,0.18)] sm:aspect-[5/4] lg:aspect-[4/3]";
 
 function ServiceHeroVideoVisual({
   heroVideoEmbedUrl,
@@ -75,7 +75,7 @@ function ServiceHeroVideoVisual({
     <LazyYouTubeEmbed
       embedUrl={heroVideoEmbedUrl}
       title={heroVideoTitle}
-      className="rounded-2xl border border-border shadow-[0_16px_48px_rgba(0,0,0,0.1)]"
+      className="rounded-2xl border border-border shadow-[0_20px_64px_rgba(0,0,0,0.18)]"
     />
   );
 }
@@ -106,7 +106,7 @@ function ServiceHeroVisual({
         blurDataURL={BLUR_DATA_URL}
       />
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/50 via-black/5 to-transparent"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/65 via-black/10 to-transparent"
         aria-hidden
       />
       {heroScrollTarget === "gallery" ? (
@@ -122,7 +122,7 @@ function ServiceHeroVisual({
           className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           aria-label="גלילה לסרטון הדגמה"
         >
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-black/80 ring-2 ring-brand-red/50 shadow-[0_0_28px_rgba(212,43,43,0.4)] sm:h-16 sm:w-16">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 ring-2 ring-brand-red/70 shadow-[0_0_40px_rgba(212,43,43,0.55)] sm:h-[4.5rem] sm:w-[4.5rem]">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden>
               <path
                 d="M12 8L26 16L12 24V8Z"
@@ -242,7 +242,7 @@ export default function ServicePageLayout({
             ) : null}
             <h1
               id="service-page-heading"
-              className="mt-4 max-w-3xl font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.65rem] lg:leading-[1.12]"
+              className="mt-4 max-w-3xl font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.8rem] lg:leading-[1.12]"
             >
               {title}
             </h1>

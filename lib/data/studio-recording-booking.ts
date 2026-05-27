@@ -1,4 +1,4 @@
-export type RecordingTypeId =
+﻿export type RecordingTypeId =
   | "cover"
   | "original"
   | "bride_blessing"
@@ -165,20 +165,20 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   {
     id: "bts",
     name: "סרטון מאחורי הקלעים (BTS) לטיקטוק",
-    description: "תיעוד הסשן — MP4 מוכן לרילס ולטיקטוק",
+    description: "תיעוד הסשן - MP4 מוכן לרילס ולטיקטוק",
     price: 250,
   },
   {
     id: "performance_clip",
     name: "קליפ ביצוע מקצועי מהאולפן",
-    description: "Performance Video ערוך — MP4 מוכן לרשתות",
+    description: "Performance Video ערוך - MP4 מוכן לרשתות",
     price: 750,
     badge: "חדש",
   },
   {
     id: "podcast_interview",
     name: "פודקאסט אישי - ראיון מרגש (3 דקות)",
-    description: "ראיון 3 דקות — MP3 מוקלט ומעורך",
+    description: "ראיון 3 דקות - MP3 מוקלט ומעורך",
     price: 350,
   },
   {

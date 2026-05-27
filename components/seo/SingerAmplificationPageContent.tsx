@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -51,7 +51,7 @@ export default function SingerAmplificationPageContent() {
         <ShowcaseVideoSection
           headingId="singer-amplification-videos"
           heading="הגברה לזמרים בשטח"
-          subheading="דוגמה מהאירוע — ציוד מקצועי והקמה מהירה"
+          subheading="דוגמה מהאירוע - ציוד מקצועי והקמה מהירה"
           videos={SINGER_AMPLIFICATION_VIDEOS}
         />
 

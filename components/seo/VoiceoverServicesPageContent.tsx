@@ -1,4 +1,4 @@
-import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+﻿import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -27,7 +27,7 @@ export default function VoiceoverServicesPageContent() {
         <ShowcaseVideoSection
           headingId="voiceover-services-videos"
           heading="דוגמאות קריינות מסחרית"
-          subheading="פרסומות, מרכזיות ומסרים מותגיים — הקלטה ועריכה באולפן"
+          subheading="פרסומות, מרכזיות ומסרים מותגיים - הקלטה ועריכה באולפן"
           videos={VOICEOVER_SERVICES_VIDEOS}
         />
         {service.faqs.length > 0 ? (

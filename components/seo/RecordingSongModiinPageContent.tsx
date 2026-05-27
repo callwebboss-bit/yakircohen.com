@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -198,7 +198,7 @@ export default function RecordingSongModiinPageContent() {
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
-              מענה טלפוני במשרדים: א׳–ה׳ 10:00–20:00  - {" "}
+              מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00  - {" "}
               <a
                 href={`tel:${CONTACT_PHONE_E164}`}
                 className="font-medium text-brand-red hover:underline"
@@ -207,7 +207,7 @@ export default function RecordingSongModiinPageContent() {
               </a>{" "}
               (גם בוואטסאפ)
             </li>
-            <li>שעות האולפנים: א׳–ה׳ 10:00–22:00 | ו׳ 10:00–15:00</li>
+            <li>שעות האולפנים: א׳-ה׳ 10:00-22:00 | ו׳ 10:00-15:00</li>
           </ul>
         </section>
         <ServicePagePricingSection service={service} />

@@ -223,7 +223,7 @@ export function SiteNavMenuButton({
 export function SiteNavDesktop() {
   return (
     <nav
-      className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex"
+      className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
       {SITE_NAVIGATION.map((cat) => (
@@ -231,7 +231,7 @@ export function SiteNavDesktop() {
       ))}
       <Link
         href="/blog"
-        className="min-h-11 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
+        className="min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
       >
         מגזין
       </Link>

@@ -1,4 +1,4 @@
-export type RecordingStudioOffering = {
+﻿export type RecordingStudioOffering = {
   title: string;
   subtitle: string;
   description: string;
@@ -68,7 +68,7 @@ export const RECORDING_STUDIO_EXAMPLE_VIDEOS: readonly RecordingStudioExampleVid
   [
     {
       videoId: "ne023hwMqH0",
-      title: "איך נראה באולפן — הקלטת קבוצה",
+      title: "איך נראה באולפן - הקלטת קבוצה",
     },
     {
       videoId: "PCmsH0BLcXg",

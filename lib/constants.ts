@@ -1,4 +1,4 @@
-import { SITE_HUB_LINKS } from "@/lib/site-architecture";
+﻿import { SITE_HUB_LINKS } from "@/lib/site-architecture";
 
 export const SITE_NAME = "יקיר כהן הפקות";
 
@@ -35,7 +35,7 @@ export const SOCIAL_LINKS = [
   },
 ] as const;
 
-/** Homepage featured reel — @Yakircohen */
+/** Homepage featured reel - @Yakircohen */
 export const FEATURED_YOUTUBE_VIDEO_ID = "XUr2e5S4JSA";
 export const FEATURED_YOUTUBE_TITLE =
   "אולפן, אירועים ופודקאסט במודיעין";
@@ -45,12 +45,12 @@ export const CONTACT_PHONE_E164 = "+972587555456";
 export const CONTACT_PHONE_WHATSAPP = "972587555456";
 
 /**
- * Internal / legal requests only — never shown on public pages (anti-spam).
+ * Internal / legal requests only - never shown on public pages (anti-spam).
  * Contact UX: WhatsApp + phone only.
  */
 export const CONTACT_EMAIL_INTERNAL = "callwebboss@gmail.com";
 
-/** Physical studio — footer, contact, schema */
+/** Physical studio - footer, contact, schema */
 export const STUDIO_ADDRESS_TITLE = "יקיר כהן הפקות - אולפן הקלטות במודיעין";
 export const STUDIO_ADDRESS_LINE =
   "עמק איילון 34, מודיעין מכבים רעות";
@@ -64,7 +64,7 @@ export const STUDIO_GOOGLE_MAPS_URL = STUDIO_MAPS_URL;
 
 export const STUDIO_WAZE_URL = STUDIO_MAPS_URL;
 
-/** מרכזי תוכן — נגזר מ-site-architecture (לפוטר ומקומות ישנים) */
+/** מרכזי תוכן - נגזר מ-site-architecture (לפוטר ומקומות ישנים) */
 export const NAV_HUBS = [
   ...SITE_HUB_LINKS,
   { href: "/blog", label: "מגזין מקצועי" },
@@ -87,7 +87,7 @@ export const FOOTER_LEGAL_LINKS = [
 export type LegalPageHref = (typeof FOOTER_LEGAL_LINKS)[number]["href"];
 
 export const BUSINESS_HOURS = [
-  { days: "ראשון – חמישי", hours: "09:00 – 20:00" },
-  { days: "שישי", hours: "09:00 – 14:00" },
+  { days: "ראשון - חמישי", hours: "09:00 - 20:00" },
+  { days: "שישי", hours: "09:00 - 14:00" },
   { days: "שבת", hours: "סגור" },
 ] as const;

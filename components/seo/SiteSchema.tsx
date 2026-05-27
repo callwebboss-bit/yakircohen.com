@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site-url";
+﻿import { SITE_URL } from "@/lib/site-url";
 import { CONTACT_PHONE_E164, SOCIAL_LINKS } from "@/lib/constants";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import {
@@ -122,7 +122,7 @@ const schema = {
         {
           "@type": "Offer",
           name: "חצי שעה באולפן",
-          description: "הקלטה קצרה, פודקאסט או ברכה — מחיר לפני מע״מ",
+          description: "הקלטה קצרה, פודקאסט או ברכה - מחיר לפני מע״מ",
           price: String(STUDIO_HALF_HOUR_NIS),
           priceCurrency: "ILS",
           url: `${BASE}/studio/pricing`,
@@ -130,7 +130,7 @@ const schema = {
         {
           "@type": "Offer",
           name: "שעת אולפן מלאה",
-          description: "הקלטה באולפן במודיעין — מחיר לפני מע״מ",
+          description: "הקלטה באולפן במודיעין - מחיר לפני מע״מ",
           price: String(STUDIO_ONE_HOUR_NIS),
           priceCurrency: "ILS",
           url: `${BASE}/studio/pricing`,
@@ -146,7 +146,7 @@ const schema = {
         {
           "@type": "Offer",
           name: "אטרקציה לאירוע",
-          description: "עשן, בועות, זיקוקים ועוד — מחיר התחלתי לפני מע״מ",
+          description: "עשן, בועות, זיקוקים ועוד - מחיר התחלתי לפני מע״מ",
           price: String(EVENT_ATTRACTION_FROM_NIS),
           priceCurrency: "ILS",
           url: `${BASE}/events/attractions`,

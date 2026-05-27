@@ -34,7 +34,7 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   {
     emoji: "📹",
     title: "צילום 4K",
-    description: "2–3 מצלמות, זוויות מגוונות ותאורת סטודיו מקצועית.",
+    description: "2-3 מצלמות, זוויות מגוונות ותאורת סטודיו מקצועית.",
   },
   {
     emoji: "📤",
@@ -124,7 +124,7 @@ export const PODCAST_HUB_INCLUDED: readonly {
   },
   {
     title: "צילום וידאו",
-    description: "2–3 מצלמות 4K, תאורת סטודיו, Framing מושלם.",
+    description: "2-3 מצלמות 4K, תאורת סטודיו, Framing מושלם.",
   },
   {
     title: "קבצים סופיים",
@@ -185,7 +185,7 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "duration",
     question: "שעה מספיקה?",
     answer:
-      "בדרך כלל שעה מייצרת 30–60 דקות תוכן ערוך, תלוי בקצב הדיבור. אפשר להאריך בתיאום.",
+      "בדרך כלל שעה מייצרת 30-60 דקות תוכן ערוך, תלוי בקצב הדיבור. אפשר להאריך בתיאום.",
   },
   {
     id: "guests",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -626,7 +626,7 @@ export default function StudioRecordingBooking({
                   {form.surpriseGift && (
                     <li>
                       ✨ מתנת הפתעה לילד/ה
-                      {form.giftRecipientName && ` — 🎁 עבור ${form.giftRecipientName}`}
+                      {form.giftRecipientName && ` - 🎁 עבור ${form.giftRecipientName}`}
                     </li>
                   )}
                   {form.upgrades.size > 0 && (
@@ -842,7 +842,7 @@ export default function StudioRecordingBooking({
         </BookingStepPanel>
       )}
 
-      {/* Sticky price bar — step 2 only, shows running total while filling form */}
+      {/* Sticky price bar - step 2 only, shows running total while filling form */}
       {step === 2 && selectedPackage && (
         <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-surface/95 backdrop-blur-sm">
           <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-3">

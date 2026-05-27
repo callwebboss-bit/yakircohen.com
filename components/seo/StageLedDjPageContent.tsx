@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
@@ -342,7 +342,7 @@ export default function StageLedDjPageContent() {
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             חברות הפקה, אולמות ותקליטנים  -  מ-25,000 ₪, אחריות שנה, הדרכה ותמיכה.
-            השקעה שמחזירה את עצמה אחרי 10–15 אירועים.
+            השקעה שמחזירה את עצמה אחרי 10-15 אירועים.
           </p>
           <a
             href={saleWhatsapp}

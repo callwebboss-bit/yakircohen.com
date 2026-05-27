@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -188,7 +188,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
         openWhatsAppLead(href);
         notifyLeadByEmail({
           formId: "photography_calculator",
-          subject: "ליד חדש — צילום אירועים",
+          subject: "ליד חדש - צילום אירועים",
           body: fullBody,
           name: sanitizeLeadText(contactForm.name, 60),
           phone: displayPhone,

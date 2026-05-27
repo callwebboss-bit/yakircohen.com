@@ -51,7 +51,7 @@ export const RECORDING_SONG_PROCESS_STEPS: readonly RecordingSongProcessStep[] =
     step: "05",
     title: "אספקה מהירה",
     paragraphs: [
-      "תוך 24–48 שעות תקבלו את השיר המוגמר ישירות לוואטסאפ או למייל  -  בפורמט WAV (איכות מקסימלית) ו-MP3 (להשמעה במכשירים).",
+      "תוך 24-48 שעות תקבלו את השיר המוגמר ישירות לוואטסאפ או למייל  -  בפורמט WAV (איכות מקסימלית) ו-MP3 (להשמעה במכשירים).",
     ],
   },
 ] as const;
@@ -96,7 +96,7 @@ export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[]
     videoId: "VntWmw5Su6c",
     title: "הפקת רוק כבד  -  שיר מקורי ליום הולדת",
   },
-  { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה — חברים" },
+  { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },
   { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
 ] as const;
 

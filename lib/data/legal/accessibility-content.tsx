@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import {
   accessibilityWhatsAppHref,
   LEGAL_PHONE_DISPLAY,
@@ -44,7 +44,7 @@ export const ACCESSIBILITY_PAGE = {
       title: "מה נגיש כיום",
       content: (
         <ul>
-          <li>מבנה כותרות תקין (H1–H3) וניווט באמצעות קישורי עוגן.</li>
+          <li>מבנה כותרות תקין (H1-H3) וניווט באמצעות קישורי עוגן.</li>
           <li>טפסים עם תוויות (label) מקושרות ושגיאות טקסטואליות ברורות.</li>
           <li>כפתורי CTA בעלי יחס ניגודיות גבוה ותגיות ARIA מתאימות.</li>
           <li>תמונות עם טקסט חלופי (alt) תיאורי.</li>

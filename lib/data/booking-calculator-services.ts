@@ -1,4 +1,4 @@
-import { EVENT_ATTRACTION_FROM_NIS, STUDIO_HALF_HOUR_NIS } from "./pricing";
+﻿import { EVENT_ATTRACTION_FROM_NIS, STUDIO_HALF_HOUR_NIS } from "./pricing";
 
 export type ServiceCategory = "recordings" | "podcasts" | "clips" | "events" | "ai";
 
@@ -158,7 +158,7 @@ export const SERVICES: Record<string, Service> = {
     category: "events",
     price: EVENT_ATTRACTION_FROM_NIS,
     icon: "🎙️",
-    desc: "הקלטת סיפור חיים — מתנה שנשארת לדורות",
+    desc: "הקלטת סיפור חיים - מתנה שנשארת לדורות",
     upsells: [],
   },
   sound_rental: {
@@ -229,9 +229,9 @@ export const SERVICES: Record<string, Service> = {
 
 export const UPSELLS: Record<string, Upsell> = {
   warmup: { name: "חימום קולי מודרך", price: 0, desc: "20 דקות לפני ההקלטה, כלול במחיר" },
-  melodyne: { name: "Melodyne — תיקון זיופים", price: 200, desc: "שיפור דיוק קולי מקצועי" },
+  melodyne: { name: "Melodyne - תיקון זיופים", price: 200, desc: "שיפור דיוק קולי מקצועי" },
   production_full: { name: "הפקה מלאה מקצועית", price: 1200, desc: "עד 5 כלים, עיבוד מקצועי" },
-  stems: { name: "Stems — רצועות נפרדות", price: 300, desc: "קבצים נפרדים לכל כלי" },
+  stems: { name: "Stems - רצועות נפרדות", price: 300, desc: "קבצים נפרדים לכל כלי" },
   video_pro: { name: "צילום וידאו מקצועי", price: 850, desc: "צלם מקצועי לקליפ או מזכרת" },
   video_studio: { name: "צילום במצלמות אולפן", price: 400, desc: "צילום באיכות HD" },
   raw_only: { name: "הקלטה גולמית בלבד", price: 0, desc: "ללא עיבוד, קובץ גולמי" },
@@ -239,11 +239,10 @@ export const UPSELLS: Record<string, Upsell> = {
   full_edit: { name: "עריכה מלאה של וידאו", price: 750, desc: "עריכה + מיקס + גרפיקה" },
   custom_graphics: { name: "התאמה אישית מתקדמת", price: 450, desc: "גרפיקה וטקסטים מותאמים" },
   highlights: { name: "רגעי שיא (עד 3 דקות)", price: 300, desc: "Highlights לרילס / טיקטוק" },
-  premium_package: { name: "חבילת ראש שקט — הכל", price: 3540, desc: "הפקה מלאה ומושלמת" },
+  premium_package: { name: "חבילת ראש שקט - הכל", price: 3540, desc: "הפקה מלאה ומושלמת" },
 };
 
 export const CATEGORIES = [
-  { id: "all", label: "הכל", icon: "🎯" },
   { id: "recordings", label: "הקלטות", icon: "🎤" },
   { id: "podcasts", label: "פודקאסטים", icon: "🎙️" },
   { id: "clips", label: "קליפים", icon: "🎬" },
@@ -257,7 +256,7 @@ export const BADGE_LABELS: Record<string, string> = {
   kids: "לילדים",
 };
 
-/** Tiered bundle pricing — must match AttractionsCalculator */
+/** Tiered bundle pricing - must match AttractionsCalculator */
 export const EVENT_BUNDLE_TIERS: Record<number, number> = { 1: 1750, 2: 3200, 3: 4450 };
 export const EVENT_BUNDLE_4PLUS = 5500;
 export const EVENT_GIFT_THRESHOLD = 4;

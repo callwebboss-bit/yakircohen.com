@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
@@ -104,7 +104,7 @@ export default function ColdFireworksPageContent() {
           videoTitle="זיקוקים קרים בכניסה לאירוע"
           videoHeadingId="cold-video-heading"
           videoHeading="איך זה נראה?"
-          videoDescription="4 זיקוקים קרים בכניסה — וידאו נטען בלחיצה"
+          videoDescription="4 זיקוקים קרים בכניסה - וידאו נטען בלחיצה"
           footer={
             <RecordingSongExampleVideos videos={COLD_FIREWORKS_EXAMPLE_VIDEOS} />
           }

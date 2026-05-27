@@ -93,7 +93,7 @@ export const BUBBLE_ORDER_STEPS: readonly BubbleProcessStep[] = [
     step: "03",
     title: "יום האירוע",
     description:
-      "הגעה 2–3 שעות לפני, התקנה, מפעיל צמוד ופירוק בסוף.",
+      "הגעה 2-3 שעות לפני, התקנה, מפעיל צמוד ופירוק בסוף.",
   },
 ] as const;
 

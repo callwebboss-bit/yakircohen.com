@@ -1,10 +1,10 @@
-/**
+﻿/**
  * Legacy URL redirects (301 via next.config).
  *
  * SEO policy:
  * - **Active indexable pages** live only at canonical paths (see sitemap.ts).
  * - Redirects here are for **old inbound URLs** (Google Sites, analytics) or
- *   **true duplicates** — never to replace a page that should rank on its own.
+ *   **true duplicates** - never to replace a page that should rank on its own.
  * - Do not add redirects between two URLs that both have full content.
  */
 
@@ -18,7 +18,7 @@ export type LegacyRedirect = {
 
 /** Map legacy path → canonical path (before prefix rules) */
 const LEGACY_PATH_MAP: Record<string, string> = {
-  /** Google Sites / קישורים ישנים — דף הבית הקנוני הוא `/` בלבד */
+  /** Google Sites / קישורים ישנים - דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
   "/home/": "/",
   "/recording": "/studio",

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PhotographyEventsGallery from "@/components/seo/PhotographyEventsGallery";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -43,7 +43,7 @@ export default function PhotographyEventsPageContent() {
             צילום שמתאים לאופי האירוע
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            כנס, השקה או אירוע חברה דורשים קצב אחר מחתונה — פחות פוזות ארוכות, יותר
+            כנס, השקה או אירוע חברה דורשים קצב אחר מחתונה - פחות פוזות ארוכות, יותר
             תיעוד דינמי של דוברים, מוצר והתרחשות בזמן אמת.
           </p>
         </section>
@@ -84,7 +84,7 @@ export default function PhotographyEventsPageContent() {
 
         <div className="rounded-2xl border border-border bg-background px-6 py-8 text-center">
           <p className="text-sm text-muted-foreground">
-            לחתונות ואירועים פרטיים — גלריית החתונות המלאה
+            לחתונות ואירועים פרטיים - גלריית החתונות המלאה
           </p>
           <Link
             href="/photography/wedding"

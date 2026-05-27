@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import {
@@ -47,7 +47,7 @@ export type MediaGalleryProps = {
   layout?: "masonry" | "grid";
   /**
    * Optional images from `archive/` or `arcive/` under the service folder.
-   * Shown after primary images, via a separate “הצג עוד מהארכיון” control.
+   * Shown after primary images, via a separate "הצג עוד מהארכיון" control.
    */
   archiveImages?: Array<GalleryItem | string>;
   /** הצג שורת ספירה בתחתית (ברירת מחדל: כן) */

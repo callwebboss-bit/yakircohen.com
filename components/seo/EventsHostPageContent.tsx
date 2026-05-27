@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -125,7 +125,7 @@ export default function EventsHostPageContent() {
           playlistEmbedUrl={service.playlistEmbedUrl}
           mediaType={service.mediaType}
           galleryLabel="מנחה אירועים"
-          videoTitle="דוגמה מהשטח — אירוע חי"
+          videoTitle="דוגמה מהשטח - אירוע חי"
           videoHeading="צפו בדוגמה"
           videoDescription="הוידאו נטען בלחיצה"
           galleryLayout="masonry"

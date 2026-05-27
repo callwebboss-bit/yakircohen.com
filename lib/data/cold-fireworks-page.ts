@@ -80,7 +80,7 @@ export const COLD_FIREWORKS_BENEFITS: readonly ColdFireworksBenefit[] = [
   },
   {
     title: "אלחוטיים ומותאמים",
-    description: "גובה עד 4–5 מטרים, משך הפעלה לפי דרישה, 4 מכונות בחבילה.",
+    description: "גובה עד 4-5 מטרים, משך הפעלה לפי דרישה, 4 מכונות בחבילה.",
   },
 ] as const;
 

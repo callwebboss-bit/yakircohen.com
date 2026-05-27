@@ -1,4 +1,4 @@
-import InlineServiceLink from "@/components/marketing/InlineServiceLink";
+﻿import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import { getIntroSegments } from "@/lib/internal-links/intro-segments";
 import { cn } from "@/lib/utils";
 
@@ -8,7 +8,7 @@ export type ContextualIntroParagraphProps = {
 };
 
 /**
- * Up to 2–3 in-body internal links per page (data in lib/internal-links/intro-segments.ts).
+ * Up to 2-3 in-body internal links per page (data in lib/internal-links/intro-segments.ts).
  */
 export default function ContextualIntroParagraph({
   pathname,

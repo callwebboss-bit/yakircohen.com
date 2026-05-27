@@ -4,7 +4,7 @@
   PRICES_EXCLUDE_VAT_NOTE,
 } from "@/lib/data/pricing";
 
-/** עריכה לפרק — תמחור לפי שעת חומר גולמי */
+/** עריכה לפרק - תמחור לפי שעת חומר גולמי */
 export const PODCAST_EDITING_PRICE_LABEL = `${formatNis(
   PODCAST_EDITING_PER_HOUR_NIS,
   { withSymbol: false },

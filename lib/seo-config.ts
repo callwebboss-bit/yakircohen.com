@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site-url";
+﻿import { SITE_URL } from "@/lib/site-url";
 import { SITE_STUDIO_IMAGE_SRC, SITE_NAME } from "@/lib/constants";
 
 /** Default share image when a page has no dedicated OG asset */
@@ -27,7 +27,7 @@ export const DEFAULT_OPEN_GRAPH = {
       url: DEFAULT_OG_IMAGE_URL,
       width: 1200,
       height: 900,
-      alt: `${SITE_NAME} — אולפן הקלטות במודיעין`,
+      alt: `${SITE_NAME} - אולפן הקלטות במודיעין`,
     },
   ],
 };

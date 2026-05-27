@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { HONEYPOT_FIELD_NAME } from "@/lib/form-validation";
 
@@ -7,7 +7,7 @@ type HoneypotFieldProps = {
   onChange: (value: string) => void;
 };
 
-/** Hidden field — bots often fill it; humans never see it. */
+/** Hidden field - bots often fill it; humans never see it. */
 export default function HoneypotField({ value, onChange }: HoneypotFieldProps) {
   return (
     <div

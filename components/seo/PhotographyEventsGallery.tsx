@@ -1,4 +1,4 @@
-import MediaGallery from "@/components/marketing/MediaGallery";
+﻿import MediaGallery from "@/components/marketing/MediaGallery";
 import { listServicePortfolioImageSet } from "@/lib/service-portfolio-images";
 
 const ASSETS_FOLDER = "photography/wedding";
@@ -26,7 +26,7 @@ export default function PhotographyEventsGallery() {
           דוגמאות מהשטח
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          כנסים, אירועי חברה ורגעים מחתונות — עד {MAX_IMAGES} תמונות נבחרות
+          כנסים, אירועי חברה ורגעים מחתונות - עד {MAX_IMAGES} תמונות נבחרות
         </p>
       </header>
       <MediaGallery

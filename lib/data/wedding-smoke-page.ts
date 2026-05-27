@@ -22,11 +22,11 @@ export type WeddingSmokeExampleVideo = {
   title: string;
 };
 
-/** סרטון ראשי — `/events/attractions/wedding-smoking-machine` */
+/** סרטון ראשי - `/events/attractions/wedding-smoking-machine` */
 export const WEDDING_SMOKE_FEATURED_VIDEO_ID =
   YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke"];
 
-/** סרטון עשן כבד גדול — גם בעמוד heavy-smoke-large-events */
+/** סרטון עשן כבד גדול - גם בעמוד heavy-smoke-large-events */
 export const WEDDING_SMOKE_LARGE_VIDEO_ID =
   YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke-large"];
 
@@ -42,7 +42,7 @@ export const WEDDING_SMOKE_EXAMPLE_VIDEOS: readonly WeddingSmokeExampleVideo[] =
   { videoId: "WYg81S29A-k", title: "ההבדל  -  עשן איכותי לאירועים" },
 ] as const;
 
-/** דוגמאות לעמוד עשן גדול — ללא כפילות של הסרטון הראשי שם */
+/** דוגמאות לעמוד עשן גדול - ללא כפילות של הסרטון הראשי שם */
 export const HEAVY_SMOKE_EXAMPLE_VIDEOS: readonly WeddingSmokeExampleVideo[] =
   WEDDING_SMOKE_EXAMPLE_VIDEOS;
 
@@ -84,7 +84,7 @@ export const WEDDING_SMOKE_ORDER_STEPS: readonly WeddingSmokeOrderStep[] = [
     step: "03",
     title: "יום האירוע",
     description:
-      "טכנאי מגיע 2–3 שעות לפני  -  התקנה, הפעלה מדויקת ופירוק נקי בסוף.",
+      "טכנאי מגיע 2-3 שעות לפני  -  התקנה, הפעלה מדויקת ופירוק נקי בסוף.",
   },
 ] as const;
 

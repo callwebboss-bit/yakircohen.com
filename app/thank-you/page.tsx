@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = constructMetadata({
   title: "ההזמנה בדרך | יקיר כהן הפקות",
-  description: "תודה על פנייתכם — נחזור אליכם תוך 15 דקות.",
+  description: "תודה על פנייתכם - נחזור אליכם תוך 15 דקות.",
   slug: "thank-you",
 });
 
@@ -19,9 +19,9 @@ const SERVICE_CONTENT: Record<
     title: "הקלטה באולפן",
     responseTime: "נחזור אליכם תוך 15 דקות בשעות הפעילות",
     bullets: [
-      "הכינו את השיר — ניגון יחד עם הלחן, פזמון ובית",
+      "הכינו את השיר - ניגון יחד עם הלחן, פזמון ובית",
       "הביאו שתייה חמה לחימום הגרון לפני ההקלטה",
-      "הגיעו 10 דקות מוקדם — יש חניה פנויה ליד האולפן",
+      "הגיעו 10 דקות מוקדם - יש חניה פנויה ליד האולפן",
     ],
   },
   events: {
@@ -37,9 +37,9 @@ const SERVICE_CONTENT: Record<
     title: "הקלטת פודקאסט",
     responseTime: "נחזור אליכם תוך 15 דקות",
     bullets: [
-      "הכינו רשימת נושאים / שאלות לפרק — אפילו ראשי פרקים",
+      "הכינו רשימת נושאים / שאלות לפרק - אפילו ראשי פרקים",
       "בדקו חיבור אינטרנט יציב אם ההקלטה מרחוק",
-      "אין ניסיון? לא צריך — מנחים אתכם בכל שלב",
+      "אין ניסיון? לא צריך - מנחים אתכם בכל שלב",
     ],
   },
   photography: {

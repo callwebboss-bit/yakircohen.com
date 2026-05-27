@@ -1,4 +1,4 @@
-import type { TestimonialItem } from "@/components/marketing/Testimonials";
+﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
 import { SITE_URL } from "@/lib/site-url";
 
 const LOCAL_BUSINESS_ID = `${SITE_URL}/#localbusiness`;
@@ -13,7 +13,7 @@ export type ReviewSchemaNode = {
   itemReviewed: { "@id": string };
 };
 
-/** Individual Review nodes linked to LocalBusiness — no fabricated aggregate rating. */
+/** Individual Review nodes linked to LocalBusiness - no fabricated aggregate rating. */
 export function buildReviewSchemaGraph(
   testimonials: readonly TestimonialItem[],
 ): ReviewSchemaNode[] {

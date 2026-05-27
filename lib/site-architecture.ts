@@ -1,5 +1,5 @@
-/**
- * מפת אתר מרכזית — מקור אמת אחד לניווט, קנוניקליזציה וקישורים פנימיים.
+﻿/**
+ * מפת אתר מרכזית - מקור אמת אחד לניווט, קנוניקליזציה וקישורים פנימיים.
  * עדכן כאן כשמוסיפים/מאחדים עמודים; Header, Footer ו-redirects נגזרים מכאן.
  */
 
@@ -14,11 +14,11 @@ export type SiteNavCategory = {
   id: string;
   label: string;
   href: string;
-  /** קישורים פנימיים — רק בתוך הקטגוריה */
+  /** קישורים פנימיים - רק בתוך הקטגוריה */
   children: SiteNavLink[];
 };
 
-/** 301 — עמוד כפול → כתובת קנונית (SEO) */
+/** 301 - עמוד כפול → כתובת קנונית (SEO) */
 export const CANONICAL_REDIRECTS: Record<string, string> = {
   "/podcast/podcast-studio": "/podcast/podcast-studio-modiin",
   "/courses": "/academy",
@@ -27,7 +27,7 @@ export const CANONICAL_REDIRECTS: Record<string, string> = {
 };
 
 /**
- * זוגות שדומים אבל נשארים נפרדים — קישורי hub מצביעים לקנוני בלבד.
+ * זוגות שדומים אבל נשארים נפרדים - קישורי hub מצביעים לקנוני בלבד.
  * duplicate: URL ישן או משני | canonical: העמוד הראשי לנושא
  */
 export const DUPLICATE_PAGE_NOTES: readonly {
@@ -38,26 +38,26 @@ export const DUPLICATE_PAGE_NOTES: readonly {
   {
     duplicate: "/home",
     canonical: "/",
-    reason: "כתובת ישנה מ-Google Sites — 301 לשורש; אין עמוד נפרד בשם home",
+    reason: "כתובת ישנה מ-Google Sites - 301 לשורש; אין עמוד נפרד בשם home",
   },
   {
     duplicate: "/podcast/podcast-studio",
     canonical: "/podcast/podcast-studio-modiin",
-    reason: "אותו אולפן — עמוד SEO מלא אחד (השכרת סטודיו במודיעין)",
+    reason: "אותו אולפן - עמוד SEO מלא אחד (השכרת סטודיו במודיעין)",
   },
   {
     duplicate: "/courses",
     canonical: "/academy",
-    reason: "אותה רשימת קורסים — האקדמיה היא המרכז",
+    reason: "אותה רשימת קורסים - האקדמיה היא המרכז",
   },
   {
     duplicate: "/photography/events",
     canonical: "/photography/wedding",
-    reason: "גלריה משותפת כרגע — עמוד אירועים נשאר ל-SEO, קישורים פנימיים לצילום",
+    reason: "גלריה משותפת כרגע - עמוד אירועים נשאר ל-SEO, קישורים פנימיים לצילום",
   },
 ];
 
-/** תפריט ראשי — קטגוריה + ילדים (ללא קפיצה לקטגוריות אחרות בילדים) */
+/** תפריט ראשי - קטגוריה + ילדים (ללא קפיצה לקטגוריות אחרות בילדים) */
 export const SITE_NAVIGATION: SiteNavCategory[] = [
   {
     id: "podcast",
@@ -207,7 +207,7 @@ export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "צור קשר", href: "/contact" },
 ];
 
-/** נושאים להעשרת תוכן — שלח טקסטים מהאתר הישן לפי נושא */
+/** נושאים להעשרת תוכן - שלח טקסטים מהאתר הישן לפי נושא */
 export const CONTENT_EXPANSION_TOPICS: readonly {
   id: string;
   targetPath: string;
@@ -288,7 +288,7 @@ export const CONTENT_EXPANSION_TOPICS: readonly {
   },
 ];
 
-/** קישורי hub לפוטר / מסך בית — ללא כפילויות */
+/** קישורי hub לפוטר / מסך בית - ללא כפילויות */
 export const SITE_HUB_LINKS: SiteNavLink[] = SITE_NAVIGATION.map((c) => ({
   label: c.label,
   href: c.href,

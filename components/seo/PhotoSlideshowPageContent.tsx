@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
@@ -42,7 +42,7 @@ export default function PhotoSlideshowPageContent() {
   });
 
   const expressHref = buildWhatsAppHref({
-    text: "הצילו! אני צריך מצגת דחוף לאירוע  -  אשמח לשמוע על שירות אקספרס (24–48 שעות).",
+    text: "הצילו! אני צריך מצגת דחוף לאירוע  -  אשמח לשמוע על שירות אקספרס (24-48 שעות).",
     utm_source: "website",
     utm_campaign: "photo_slideshow_express",
   });

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Script from "next/script";
 import Link from "next/link";
@@ -204,7 +204,7 @@ export function InstagramFeed({
    overlays until then with the same opacity-swap technique as InstagramFeed.
    ───────────────────────────────────────────────────────────────────────────── */
 
-/** ביקורות מקומיות — גיבוי מהיר בלי iframe */
+/** ביקורות מקומיות - גיבוי מהיר בלי iframe */
 function LocalReviewsStrip() {
   const items = SITE_TESTIMONIALS.slice(0, 4);
   return (

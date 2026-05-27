@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -332,7 +332,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
         openWhatsAppLead(href);
         notifyLeadByEmail({
           formId: "dj_events_calculator",
-          subject: "ליד חדש — DJ ואירועים",
+          subject: "ליד חדש - DJ ואירועים",
           body: lines.join("\n"),
           name: sanitizeLeadText(form.name, 60),
           phone: displayPhone,

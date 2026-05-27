@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
+﻿import { ImageResponse } from "next/og";
 import { SITE_NAME } from "@/lib/constants";
 
 export const runtime = "edge";
-export const alt = `${SITE_NAME} — אולפן, פודקאסט ואירועים במודיעין`;
+export const alt = `${SITE_NAME} - אולפן, פודקאסט ואירועים במודיעין`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -51,10 +51,11 @@ export default function OpenGraphImage() {
             maxWidth: 820,
           }}
         >
-          אולפן הקלטות · פודקאסט · DJ ואטרקציות — מודיעין והמרכז
+          אולפן הקלטות · פודקאסט · DJ ואטרקציות - מודיעין והמרכז
         </div>
       </div>
     ),
     { ...size },
   );
 }
+

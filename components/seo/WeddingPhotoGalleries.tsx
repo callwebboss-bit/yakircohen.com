@@ -1,4 +1,4 @@
-import MediaGallery from "@/components/marketing/MediaGallery";
+﻿import MediaGallery from "@/components/marketing/MediaGallery";
 import {
   WEDDING_GALLERY_BEST_MAX,
   WEDDING_GALLERY_EVENTS_MAX,
@@ -25,7 +25,7 @@ export default function WeddingPhotoGalleries() {
           גלריה בקרוב
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-          תמונות מתיק העבודות יתווספו בקרוב. בינתיים — שלחו בוואטסאפ ונשמח להראות דוגמאות.
+          תמונות מתיק העבודות יתווספו בקרוב. בינתיים - שלחו בוואטסאפ ונשמח להראות דוגמאות.
         </p>
       </section>
     );
@@ -50,7 +50,7 @@ export default function WeddingPhotoGalleries() {
               Best of Weddings
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              רגעים נבחרים מחתונות — עד {WEDDING_GALLERY_BEST_MAX} תמונות איכות
+              רגעים נבחרים מחתונות - עד {WEDDING_GALLERY_BEST_MAX} תמונות איכות
             </p>
           </header>
           <MediaGallery
@@ -76,10 +76,10 @@ export default function WeddingPhotoGalleries() {
               id="wedding-events-heading"
               className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              אירועים קטנים — רגעים מהשטח
+              אירועים קטנים - רגעים מהשטח
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              אירועים משפחתיים ואינטימיים — תמונות בתיקיית{" "}
+              אירועים משפחתיים ואינטימיים - תמונות בתיקיית{" "}
               <span className="font-mono text-xs">archive</span>
             </p>
           </header>

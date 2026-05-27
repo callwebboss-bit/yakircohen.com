@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import {
@@ -24,7 +24,7 @@ const TIERS = [
   },
   {
     title: "שובר משודרג",
-    range: "₪2,500 – ₪3,200",
+    range: "₪2,500 - ₪3,200",
     desc: "שילוב אולפן + אפקטים, או חבילת אטרקציות - ערך גבוה יותר למקבל.",
   },
   {

@@ -1,4 +1,4 @@
-import YouTube from "@/components/YouTube";
+﻿import YouTube from "@/components/YouTube";
 import {
   STUDIO_HUB_FEATURED,
   STUDIO_HUB_PORTFOLIO_NOTE,
@@ -41,7 +41,7 @@ export default function StudioHubValueSection() {
             ערך, אמון ואפשרויות ליוצרים
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            דוגמאות שמראות איך האולפן מלווה אמנים, פודקאסטים ושיתופי פעולה — לא רק חדר
+            דוגמאות שמראות איך האולפן מלווה אמנים, פודקאסטים ושיתופי פעולה - לא רק חדר
             הקלטה, אלא מערכת שמביאה תוצאה וחשיפה.
           </p>
         </header>

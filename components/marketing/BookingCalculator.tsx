@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -45,7 +45,7 @@ type FormState = {
 export default function BookingCalculator({
   excludeCategories = [],
 }: BookingCalculatorProps) {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedServices, setSelectedServices] = useState<Set<string>>(new Set());
   const [selectedUpsells, setSelectedUpsells] = useState<Set<string>>(new Set());
   const [form, setForm] = useState<FormState>({
@@ -57,21 +57,18 @@ export default function BookingCalculator({
     formId: "booking_calculator",
   });
 
-  const filtered = useMemo(
-    () =>
-      Object.entries(SERVICES).filter(([, s]) => {
-        if (excludeCategories.includes(s.category)) return false;
-        return activeCategory === "all" || s.category === activeCategory;
-      }),
-    [activeCategory, excludeCategories],
-  );
+  const filtered = useMemo(() => {
+    if (!activeCategory) return [];
+    return Object.entries(SERVICES).filter(([, s]) => {
+      if (excludeCategories.includes(s.category)) return false;
+      return s.category === activeCategory;
+    });
+  }, [activeCategory, excludeCategories]);
 
   const visibleCategories = useMemo(
     () =>
       CATEGORIES.filter(
-        (c) =>
-          c.id === "all" ||
-          !excludeCategories.includes(c.id as ServiceCategory),
+        (c) => !excludeCategories.includes(c.id as ServiceCategory),
       ),
     [excludeCategories],
   );
@@ -181,7 +178,7 @@ export default function BookingCalculator({
         openWhatsAppLead(href);
         notifyLeadByEmail({
           formId: "booking_calculator",
-          subject: "ליד חדש — מחשבון הזמנות",
+          subject: "ליד חדש - מחשבון הזמנות",
           body: parts,
           name: sanitizeLeadText(form.name, 60),
           phone: result.normalizedPhone
@@ -242,7 +239,11 @@ export default function BookingCalculator({
             </div>
           )}
 
-          {/* Services grid */}
+          {!activeCategory ? (
+            <p className="rounded-2xl border border-dashed border-border bg-surface px-6 py-10 text-center text-sm text-muted-foreground">
+              בחרו קטגוריה לצפייה בשירותים
+            </p>
+          ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filtered.map(([key, svc]) => {
               const isSelected = selectedServices.has(key);
@@ -293,9 +294,10 @@ export default function BookingCalculator({
               );
             })}
           </div>
+          )}
 
           {/* Upsells */}
-          {activeUpsellKeys.length > 0 && (
+          {activeCategory && activeUpsellKeys.length > 0 && (
             <div className="mt-6 rounded-2xl border border-border bg-surface p-5">
               <h3 className="mb-4 text-sm font-semibold text-foreground">
                 תוספות זמינות לשירות שנבחר

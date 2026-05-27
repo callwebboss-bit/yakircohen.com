@@ -53,6 +53,7 @@ export default function ShowcaseVideoSection({
         <RecordingSongExampleVideos
           videos={videos}
           initialVisible={initialVisible}
+          autoPlayFeatured={false}
         />
       </div>
     </section>

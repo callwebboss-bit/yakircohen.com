@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import YouTube from "@/components/YouTube";
@@ -13,7 +13,7 @@ export type RecordingSongExampleVideosProps = {
   /** How many videos show before "הצג עוד" (default from pricing.ts). */
   initialVisible?: number;
   className?: string;
-  /** הסרטון הראשון נטען מיד (נוח יותר מלחיצה על כולם). */
+  /** טוען את הסרטון הראשון מיד (ברירת מחדל: לא - רק בלחיצה). */
   autoPlayFeatured?: boolean;
 };
 
@@ -21,7 +21,7 @@ export default function RecordingSongExampleVideos({
   videos,
   initialVisible = VIDEO_EXAMPLES_INITIAL_VISIBLE,
   className,
-  autoPlayFeatured = true,
+  autoPlayFeatured = false,
 }: RecordingSongExampleVideosProps) {
   const [expanded, setExpanded] = useState(false);
   const cap =

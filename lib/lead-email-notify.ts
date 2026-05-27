@@ -1,5 +1,5 @@
-/**
- * גיבוי מייל ללידים (אופציונלי — דורש RESEND_API_KEY + LEAD_NOTIFY_EMAIL ב-Vercel).
+﻿/**
+ * גיבוי מייל ללידים (אופציונלי - דורש RESEND_API_KEY + LEAD_NOTIFY_EMAIL ב-Vercel).
  * לא חוסם שליחה לוואטסאפ; שגיאות נבלעות בשקט.
  */
 export type LeadEmailPayload = {

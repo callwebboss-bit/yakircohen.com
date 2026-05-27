@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCallback, useMemo, useState, type ReactNode } from "react";
@@ -314,7 +314,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
         openWhatsAppLead(whatsappHref);
         notifyLeadByEmail({
           formId: "attractions_calculator",
-          subject: "ליד חדש — אטרקציות לאירוע",
+          subject: "ליד חדש - אטרקציות לאירוע",
           body: waText,
           name: form.name,
           phone: form.phone,

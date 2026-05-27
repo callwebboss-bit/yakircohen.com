@@ -1,11 +1,11 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type BookingStepPanelProps = {
   stepKey: string | number;
   children: ReactNode;
   className?: string;
-  /** כותרת לקורא מסך — מודיע על מעבר שלב */
+  /** כותרת לקורא מסך - מודיע על מעבר שלב */
   stepLabel?: string;
 };
 

@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 import AccessibilityToggle from "@/components/ui/AccessibilityToggle";
 import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
 import { cn } from "@/lib/utils";
 
-/** Routes with their own bottom CTA / sticky bar — hide duplicate floating WhatsApp. */
+/** Routes with their own bottom CTA / sticky bar - hide duplicate floating WhatsApp. */
 const HIDE_FLOATING_WHATSAPP_PREFIXES = ["/contact", "/book"] as const;
 
 /** Calculator and contact flows need FABs lifted above sticky UI. */

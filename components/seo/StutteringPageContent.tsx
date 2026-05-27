@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
@@ -61,7 +61,7 @@ export default function StutteringPageContent() {
         <section className="max-w-3xl">
           <h2 className="text-2xl font-semibold text-foreground">מה המטרה בתהליך</h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            גמגום הוא לא רק “טכניקה שחסרה” - לעיתים יש גם מתח, ציפייה מהסביבה ופחד ממצבים חברתיים.
+            גמגום הוא לא רק "טכניקה שחסרה" - לעיתים יש גם מתח, ציפייה מהסביבה ופחד ממצבים חברתיים.
             המטרה היא לתת לכם כלים לדיבור רגוע יותר, לבנות ביטחון ולדעת איך להתכונן לרגעים חשובים.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">

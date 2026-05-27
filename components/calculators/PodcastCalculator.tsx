@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
@@ -113,7 +113,7 @@ export default function PodcastCalculator({ className }: { className?: string })
   const handleWhatsAppClick = useCallback(() => {
     notifyLeadByEmail({
       formId: "podcast_calculator",
-      subject: "ליד חדש — פודקאסט",
+      subject: "ליד חדש - פודקאסט",
       body: waText,
     });
     openWhatsAppLead(whatsappHref);

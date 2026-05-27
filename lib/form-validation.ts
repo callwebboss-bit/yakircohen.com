@@ -1,5 +1,5 @@
-/**
- * Client-side lead validation — blocks bots, junk, and invalid contact details
+﻿/**
+ * Client-side lead validation - blocks bots, junk, and invalid contact details
  * before opening WhatsApp. Not a substitute for server-side checks if forms POST later.
  */
 
@@ -62,7 +62,7 @@ export function validateIsraeliMobile(phone: string): ValidationResult {
   if (!normalized) {
     return {
       ok: false,
-      errors: { phone: "מספר לא תקין — השתמשו בפורמט 05X-XXXXXXX" },
+      errors: { phone: "מספר לא תקין - השתמשו בפורמט 05X-XXXXXXX" },
     };
   }
   const allSame = /^(.)\1+$/.test(normalized.slice(1));
@@ -172,7 +172,7 @@ export function validateEventDate(
   const maxDate = new Date(today);
   maxDate.setFullYear(maxDate.getFullYear() + maxYears);
   if (parsed > maxDate) {
-    return { ok: false, errors: { eventDate: "תאריך רחוק מדי — צרו קשר ישירות" } };
+    return { ok: false, errors: { eventDate: "תאריך רחוק מדי - צרו קשר ישירות" } };
   }
   return { ok: true };
 }

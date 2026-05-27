@@ -1,4 +1,4 @@
-import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+﻿import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
 export type TestimonialItem = {
@@ -7,7 +7,7 @@ export type TestimonialItem = {
   name: string;
   role?: string;
   initials?: string;
-  /** ISO 8601 — ל-Review JSON-LD בלבד */
+  /** ISO 8601 - ל-Review JSON-LD בלבד */
   datePublished?: string;
 };
 

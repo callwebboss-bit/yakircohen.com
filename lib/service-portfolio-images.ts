@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 import { serviceImageBasePath } from "@/lib/data/services";
 import { deriveHebrewAlt } from "@/lib/hebrew-image-alt";
@@ -7,13 +7,13 @@ const IMAGE_EXT = /\.(avif|gif|jpe?g|jfif|png|svg|webp)$/i;
 
 /** Scoped to public/images/services so Turbopack does not trace the whole repo. */
 const SERVICES_IMAGES_ROOT = path.join(
-  /* turbopackIgnore: true */ process.cwd(),
+  /*turbopackIgnore: true*/ process.cwd(),
   "public",
   "images",
   "services",
 );
 
-/** Subfolder names for “load more” images (not shown in hero). */
+/** Subfolder names for "load more" images (not shown in hero). */
 export const PORTFOLIO_ARCHIVE_DIR_NAMES = ["archive", "arcive"] as const;
 
 export type PortfolioImage = {
@@ -23,9 +23,9 @@ export type PortfolioImage = {
 };
 
 export type ServicePortfolioImageSet = {
-  /** Images in the service folder root — shown first in the gallery. */
+  /** Images in the service folder root - shown first in the gallery. */
   primary: PortfolioImage[];
-  /** Images in `archive/` or `arcive/` — optional “load more” pool. */
+  /** Images in `archive/` or `arcive/` - optional "load more" pool. */
   archive: PortfolioImage[];
 };
 
@@ -78,7 +78,7 @@ function resolveArchiveDirName(absoluteServiceDir: string): string | null {
  * **Convention (no code changes needed when you reorganize):**
  * - Put featured images in `public/images/services/{folder}/` (root only).
  * - Move extras to `public/images/services/{folder}/archive/` or `.../arcive/`.
- * - Root images appear first; archive loads on “הצג עוד מהארכיון”.
+ * - Root images appear first; archive loads on "הצג עוד מהארכיון".
  * - Subfolders other than archive/arcive are ignored.
  * - Sort order within each folder is alphabetical (Hebrew locale); use numeric
  *   prefixes in filenames (e.g. `01-`, `02-`) to control order.
@@ -116,7 +116,7 @@ export function listServicePortfolioImages(
   return [...primary, ...archive];
 }
 
-/** Featured images only — use for hero and first gallery screen. */
+/** Featured images only - use for hero and first gallery screen. */
 export function listServicePortfolioPrimaryImages(
   assetsFolder: string,
 ): PortfolioImage[] {

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -68,7 +68,7 @@ export default function ServicePageFromRegistry({
             }
             videoDescription={
               service.mediaType === "video"
-                ? "לצפייה בדוגמא — הוידאו נטען בלחיצה (לא בראש העמוד)"
+                ? "לצפייה בדוגמא - הוידאו נטען בלחיצה (לא בראש העמוד)"
                 : undefined
             }
             galleryInitialVisible={SERVICE_GALLERY_MAX_IMAGES}

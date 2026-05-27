@@ -24,12 +24,13 @@ export function withServicePageHeroDefaults(
   options: ServicePageHeroLayoutOptions = {},
 ): ServicePageHeroBundle & ServicePageHeroLayoutOptions {
   const hasHeroImage = Boolean(pageHero.heroImageSrc?.trim());
+  const scrollsToVideo = pageHero.heroScrollTarget === "video";
   return {
     ...pageHero,
     showBookCtaInHero: options.showBookCtaInHero ?? false,
     showHeroScrollLink:
       options.showHeroScrollLink !== undefined
         ? options.showHeroScrollLink
-        : hasHeroImage,
+        : hasHeroImage || scrollsToVideo,
   };
 }

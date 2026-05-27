@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import StudioRecordingBooking from "@/components/marketing/StudioRecordingBooking";
@@ -64,7 +64,7 @@ function PricingOverview({ onProceed }: { onProceed: () => void }) {
         onClick={onProceed}
         className="w-full text-center text-xs text-muted-foreground transition-colors hover:text-brand-red"
       >
-        מוכן להזמין — עבור לאשף ←
+        מוכן להזמין - עבור לאשף ←
       </button>
     </div>
   );
@@ -105,7 +105,7 @@ export default function FilterGate() {
     try {
       sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(answers));
     } catch {
-      // sessionStorage unavailable — proceed anyway
+      // sessionStorage unavailable - proceed anyway
     }
     if (timeline === "just_browsing") {
       setGateState("browsing");

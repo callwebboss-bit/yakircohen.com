@@ -2,7 +2,7 @@
 export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא · כולל צילום, הקלטה ועריכה";
 
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
-  "צילום 4K ב-2–3 מצלמות",
+  "צילום 4K ב-2-3 מצלמות",
   "סאונד אולפני נקי  -  Shure, Rode",
   "3 חללי הקלטה מעוצבים",
   "עריכה מקצועית מלאה",
@@ -60,7 +60,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
   {
     title: "צילום וידאו ברמה הגבוהה ביותר",
     items: [
-      "2–3 מצלמות 4K  -  זוויות מגוונות, מראה דינמי",
+      "2-3 מצלמות 4K  -  זוויות מגוונות, מראה דינמי",
       "תאורת סטודיו מקצועית",
       "Framing מושלם  -  כל פריים נראה מקצועי",
     ],
@@ -144,7 +144,7 @@ export const PODCAST_RECORDING_FAQS: readonly {
     id: "duration",
     question: "שעה מספיקה?",
     answer:
-      "בדרך כלל שעה מייצרת 30–60 דקות תוכן ערוך, תלוי בקצב הדיבור.",
+      "בדרך כלל שעה מייצרת 30-60 דקות תוכן ערוך, תלוי בקצב הדיבור.",
   },
   {
     id: "guests",

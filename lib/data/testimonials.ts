@@ -1,6 +1,6 @@
-import type { TestimonialItem } from "@/components/marketing/Testimonials";
+﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
 
-/** On-site client quotes — used in UI and Review JSON-LD (no fabricated star ratings). */
+/** On-site client quotes - used in UI and Review JSON-LD (no fabricated star ratings). */
 export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
   {
     id: "1",

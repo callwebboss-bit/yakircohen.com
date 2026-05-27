@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { LEGAL_PHONE_DISPLAY, legalWhatsAppHref } from "@/lib/legal-contact";
 import type { LegalSection } from "@/components/legal/LegalPageLayout";
 
@@ -40,7 +40,7 @@ export const TERMS_PAGE = {
       content: (
         <>
           <p>
-            <strong>זכויותיכם לפי חוק הגנת הצרכן, התשכ״א–1981</strong>
+            <strong>זכויותיכם לפי חוק הגנת הצרכן, התשכ״א-1981</strong>
           </p>
           <p>
             ביטול הזמנה מעוטר בזכויות צרכן חוקיות. אנחנו פועלים בהתאם לחוק.

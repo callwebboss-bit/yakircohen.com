@@ -1,11 +1,11 @@
-import type { ServicePricingTier } from "@/lib/data/services";
+﻿import type { ServicePricingTier } from "@/lib/data/services";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type ServicePricingBlockProps = {
   tiers: readonly ServicePricingTier[];
   serviceTitle: string;
   utmCampaignPrefix?: string;
-  /** בתוך כרטיס עמוד — בלי padding חיצוני וכותרת כפולה */
+  /** בתוך כרטיס עמוד - בלי padding חיצוני וכותרת כפולה */
   embedded?: boolean;
   hideHeader?: boolean;
 };

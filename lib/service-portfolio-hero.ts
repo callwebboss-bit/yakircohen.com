@@ -1,4 +1,4 @@
-import type { ServiceEntity, ServiceMediaType } from "@/lib/data/services";
+﻿import type { ServiceEntity, ServiceMediaType } from "@/lib/data/services";
 import { isValidYouTubeEmbedUrl } from "@/lib/data/youtube-embeds";
 import {
   listServicePortfolioImageSet,
@@ -8,10 +8,13 @@ import {
 /** Shared anchor for hero play button → lazy video section. */
 export const SERVICE_SHOWCASE_VIDEO_ID = "service-showcase-video";
 
-/** Gallery block anchor for hero “scroll to photos”. */
+/** Gallery block anchor for hero "scroll to photos". */
 export const SERVICE_PORTFOLIO_GALLERY_ID = "service-portfolio-gallery";
 
 const HERO_FILENAME_PRIORITY = /(?:^|[-_.])(?:hero|cover|banner|main|ראש|ראשי)(?:[-_.]|$)/i;
+
+/** Shared studio cover when a service folder has no photos yet. */
+const HERO_IMAGE_FALLBACK_FOLDER = "podcast";
 
 export type HeroScrollTarget = "video" | "gallery";
 
@@ -51,6 +54,7 @@ export function inferHeroScrollTarget(
 
   if (mediaType === "video" && hasEmbed) return "video";
   if (mediaType === "audio" && hasEmbed) return "video";
+  if (hasEmbed && !hasImages) return "video";
   if (
     hasImages &&
     (mediaType === "gallery" || mediaType === "video" || mediaType === "audio")
@@ -76,8 +80,25 @@ export function resolveServicePageHero(
   archiveImages: PortfolioImage[];
 } {
   const { primary, archive } = listServicePortfolioImageSet(assetsFolder);
-  const heroImage = pickPortfolioHeroImage(primary, preferredPattern);
+  let heroImage = pickPortfolioHeroImage(primary, preferredPattern);
   const mediaType = options?.mediaType ?? "gallery";
+  const hasEmbed = isValidYouTubeEmbedUrl(options?.playlistEmbedUrl);
+
+  if (!heroImage && hasEmbed) {
+    const embedMatch = options?.playlistEmbedUrl?.match(
+      /\/embed\/([A-Za-z0-9_-]{11})(?:[?&]|$)/,
+    );
+    if (embedMatch?.[1]) {
+      heroImage = {
+        src: `https://i.ytimg.com/vi/${embedMatch[1]}/maxresdefault.jpg`,
+        alt: fallbackAlt,
+        filename: `${embedMatch[1]}.jpg`,
+      };
+    } else {
+      const fallback = listServicePortfolioImageSet(HERO_IMAGE_FALLBACK_FOLDER);
+      heroImage = pickPortfolioHeroImage(fallback.primary, preferredPattern);
+    }
+  }
 
   const heroScrollTarget = options
     ? inferHeroScrollTarget(assetsFolder, mediaType, options.playlistEmbedUrl)

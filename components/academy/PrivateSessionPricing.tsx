@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import {
   PRIVATE_SESSION_PLANS,
   PRIVATE_SESSION_PRICE_NOTE,
@@ -32,10 +32,10 @@ export default function PrivateSessionPricing({
             id="private-session-pricing-heading"
             className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            בחרו משך — התחילו מהמפגש הראשון
+            בחרו משך - התחילו מהמפגש הראשון
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            לימוד אישי 1:1 באולפן. DJ, הפקה, קול, כלי נגינה או תיאוריה — אתם
+            לימוד אישי 1:1 באולפן. DJ, הפקה, קול, כלי נגינה או תיאוריה - אתם
             קובעים את הקצב, אנחנו מביאים את הציוד והניסיון.
           </p>
         </header>
