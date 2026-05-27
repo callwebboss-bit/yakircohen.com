@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import {
+  CLINIC_BOOKING_WHATSAPP_TEXT,
+  CLINIC_CASE_STUDIES,
+} from "@/lib/data/clinic-page";
+import {
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_E164,
+} from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const clinicBookingHref = buildWhatsAppHref({
+  text: CLINIC_BOOKING_WHATSAPP_TEXT,
+  utm_source: "website",
+  utm_campaign: "clinic_booking",
+});
 
 export const metadata: Metadata = constructMetadata({
   title: "קליניקה - חקירה לוגית של גמגום",
@@ -118,17 +132,26 @@ export default function ClinicPage() {
                   <li>מתקיים פנים מול פנים או מרחוק.</li>
                 </ul>
               </div>
-              <div className="flex justify-start sm:justify-end">
-                <Link
-                  href="/book#studio"
+              <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+                <a
+                  href={clinicBookingHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm"
                   style={{
                     backgroundColor: ACCENT_COLOR,
                     color: "#FFFFFF",
                   }}
                 >
-                  מעבר ליומן לתיאום פגישה
-                </Link>
+                  תיאום פגישה בוואטסאפ
+                </a>
+                <a
+                  href={`tel:${CONTACT_PHONE_E164}`}
+                  className="inline-flex items-center justify-center rounded-full border px-6 py-2.5 text-sm font-semibold"
+                  style={{ borderColor: "#E0E0DA", color: TEXT_COLOR }}
+                >
+                  {CONTACT_PHONE_DISPLAY}
+                </a>
               </div>
             </div>
           </section>
@@ -281,34 +304,35 @@ export default function ClinicPage() {
               מקרים אנונימיים. בלי המלצות או תשבחות, רק תוצאות מכניות.
             </p>
           </header>
-          <div className="space-y-3 rounded-2xl border bg-white/60 p-5 sm:p-6">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
-                נקודת פתיחה
-              </p>
-              <p className="text-sm leading-relaxed sm:text-base">
-                דילמה של יזם - הימנעות משיחות משקיעים בגלל פחד מגמגום.
-              </p>
-            </div>
-            <div className="h-px bg-neutral-200" />
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
-                חקירה
-              </p>
-              <p className="text-sm leading-relaxed sm:text-base">
-                ההנחה הנסתרת שהתגלתה - משקיעים מחפשים דיבור רהוט במקום הבנה עסקית.
-              </p>
-            </div>
-            <div className="h-px bg-neutral-200" />
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
-                פעולה
-              </p>
-              <p className="text-sm leading-relaxed sm:text-base">
-                ההחלטה בסוף המפגש - העברת פרזנטציה עם התייחסות טכנית לגמגום ב-10 השניות הראשונות. ביטול פילטר ההסתרה.
-              </p>
-            </div>
-          </div>
+          <ul className="space-y-6">
+            {CLINIC_CASE_STUDIES.map((study) => (
+              <li
+                key={study.id}
+                className="space-y-3 rounded-2xl border bg-white/60 p-5 sm:p-6"
+              >
+                <div className="flex flex-col gap-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                    נקודת פתיחה
+                  </p>
+                  <p className="text-sm leading-relaxed sm:text-base">{study.opening}</p>
+                </div>
+                <div className="h-px bg-neutral-200" />
+                <div className="flex flex-col gap-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                    חקירה
+                  </p>
+                  <p className="text-sm leading-relaxed sm:text-base">{study.investigation}</p>
+                </div>
+                <div className="h-px bg-neutral-200" />
+                <div className="flex flex-col gap-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                    פעולה
+                  </p>
+                  <p className="text-sm leading-relaxed sm:text-base">{study.action}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
     </div>

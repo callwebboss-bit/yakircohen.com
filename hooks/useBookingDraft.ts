@@ -13,6 +13,8 @@ type DraftEnvelope<T> = {
 export type BookingDraftPersisted<T> = {
   /** true אם נטענה טיוטה מ-localStorage */
   restored: boolean;
+  /** ISO timestamp of the last persisted save, null if no draft exists */
+  savedAt: string | null;
   /** מחיקה אחרי שליחה מוצלחת */
   clear: () => void;
 };
@@ -67,6 +69,7 @@ export function useBookingDraft<T>(
   const hydrated = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [restored, setRestored] = useState(false);
+  const [savedAt, setSavedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (!enabled || hydrated.current) return;
@@ -87,6 +90,7 @@ export function useBookingDraft<T>(
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       writeDraft(storageKey, serialize(state));
+      setSavedAt(new Date().toISOString());
     }, 400);
     return () => {
       if (timer.current) clearTimeout(timer.current);
@@ -95,6 +99,7 @@ export function useBookingDraft<T>(
 
   return {
     restored,
+    savedAt,
     clear: () => removeDraft(storageKey),
   };
 }

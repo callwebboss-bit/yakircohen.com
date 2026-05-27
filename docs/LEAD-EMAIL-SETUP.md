@@ -15,7 +15,7 @@
 
 ### 3. משתני סביבה ב-Vercel
 
-בפרויקט **yakircohen-com** → **Settings** → **Environment Variables**:
+בפרויקט **yakircohen-site** (לא yakircohen-com) → **Settings** → **Environment Variables**:
 
 | שם | ערך | סביבות |
 |----|-----|--------|

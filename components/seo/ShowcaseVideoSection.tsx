@@ -14,6 +14,8 @@ type ShowcaseVideoSectionProps = {
   videos: readonly ShowcaseVideo[];
   initialVisible?: number;
   className?: string;
+  /** תווית מיתוג מעל הכותרת (לדוגמה "YouTube") */
+  kicker?: string;
 };
 
 export default function ShowcaseVideoSection({
@@ -24,6 +26,7 @@ export default function ShowcaseVideoSection({
   videos,
   initialVisible = VIDEO_EXAMPLES_INITIAL_VISIBLE,
   className,
+  kicker,
 }: ShowcaseVideoSectionProps) {
   if (videos.length === 0) return null;
 
@@ -37,6 +40,11 @@ export default function ShowcaseVideoSection({
       aria-labelledby={`${resolvedSectionId}-heading`}
     >
       <header className="mx-auto max-w-2xl text-center">
+        {kicker ? (
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+            {kicker}
+          </p>
+        ) : null}
         <h2
           id={`${resolvedSectionId}-heading`}
           className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"

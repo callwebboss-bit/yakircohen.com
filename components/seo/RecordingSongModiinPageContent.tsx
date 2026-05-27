@@ -41,7 +41,7 @@ export default function RecordingSongModiinPageContent() {
           heading="דוגמאות מהאולפן"
           subheading="שמעו איך זה נשמע - שיר לחתונה, מתנות, בר מצווה והקלטות קבוצה"
           videos={RECORDING_SONG_MODIIN_VIDEOS}
-          initialVisible={5}
+          kicker="YouTube"
         />
 
         <section className="max-w-3xl" aria-labelledby="audience-heading">

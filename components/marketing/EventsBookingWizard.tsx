@@ -2,16 +2,17 @@
 
 import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
-import BookingConsultCta from "@/components/booking/BookingConsultCta";
+import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import PhoneInputField from "@/components/forms/PhoneInputField";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
-import { STUDIO_BOOKING_APPROVALS } from "@/lib/data/studio-recording-booking";
 import {
   EVENT_BOOKING_ITEMS,
   EVENT_BUNDLE_BADGE_LABELS,
@@ -21,16 +22,27 @@ import {
 } from "@/lib/data/events-booking";
 import { withVat } from "@/lib/data/pricing";
 import {
+  BOOKING_SUMMARY_INTRO,
+  BOOKING_CONSULT_15_MIN,
+} from "@/lib/data/booking-shared";
+import {
   formatPhoneForDisplay,
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["אטרקציות", "פרטים", "סיכום"] as const;
+
+const consultHref = buildWhatsAppHref({
+  text: BOOKING_CONSULT_15_MIN.whatsappText,
+  utm_source: "website",
+  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
+});
 
 type FormState = {
   selected: EventBookingItemId[];
@@ -101,7 +113,12 @@ export default function EventsBookingWizard() {
     [form.selected],
   );
 
-  const handleSubmit = () => {
+  const canStep1 = useMemo(
+    () => Boolean(form.name.trim() && form.phone.trim()),
+    [form.name, form.phone],
+  );
+
+  const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
@@ -121,27 +138,24 @@ export default function EventsBookingWizard() {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : form.phone.trim();
-        const message = [
-          "הזמנת אטרקציות לאירוע 🎉",
-          "",
-          `שם: ${sanitizeLeadText(form.name, 60)}`,
-          `טלפון: ${displayPhone}`,
-          `תאריך: ${form.date} · שעה: ${form.time}`,
-          `מיקום: ${sanitizeLeadText(form.location, 120)}`,
-          "",
-          `אטרקציות (${count}):`,
-          ...labels.map((n) => `• ${n}`),
-          count >= EVENT_GIFT_THRESHOLD ? "🎁 מתנה: מצגת תמונות חינם בחבילת 4+" : null,
-          "",
-          `סה"כ חבילה: ${bundleTotal.toLocaleString()} ₪ לפני מע״מ`,
-          `כולל מע״מ: ${withVat(bundleTotal).toLocaleString()} ₪`,
-          savings > 0 ? `(חיסכון ${savings.toLocaleString()} ₪ לעומת בודד)` : null,
-          form.notes ? `\nהערות: ${sanitizeLeadText(form.notes, 500)}` : null,
-        ]
-          .filter(Boolean)
-          .join("\n");
+        const body = buildBookingWhatsAppBody({
+          intent,
+          serviceLabel: `אטרקציות לאירוע - ${count} אטרקציות`,
+          summaryLines: [
+            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+            ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+            ...(labels.length > 0 ? [{ label: "אטרקציות", value: labels.join(", ") }] : []),
+            ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
+            ...(savings > 0 ? [{ label: "חיסכון", value: `${savings.toLocaleString()} ₪` }] : []),
+            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+          ],
+          contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+          totalEstimate: withVat(bundleTotal),
+          utmSource: readUtmSource(),
+        });
         const href = buildWhatsAppHref({
-          text: message,
+          text: body,
           utm_source: "website",
           utm_campaign: "events_booking_wizard",
         });
@@ -149,7 +163,7 @@ export default function EventsBookingWizard() {
         notifyLeadByEmail({
           formId: "events_booking_wizard",
           subject: "הזמנת אטרקציות לאירוע",
-          body: message,
+          body,
           name: form.name,
           phone: displayPhone,
         });
@@ -242,16 +256,20 @@ export default function EventsBookingWizard() {
           <div className="relative max-w-lg space-y-4">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} />
-            <input className={inputClass} placeholder="שם *" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} aria-label="שם" />
-            <input className={inputClass} type="tel" placeholder="טלפון *" value={form.phone} onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))} aria-label="טלפון" />
+            <input className={cn(inputClass, errors.name && "border-red-400")} placeholder="שם *" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} aria-label="שם" />
+            <PhoneInputField
+              value={form.phone}
+              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              error={errors.phone}
+            />
             <div className="grid grid-cols-2 gap-3">
-              <input className={inputClass} type="date" min={today} value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} aria-label="תאריך" />
-              <input className={inputClass} type="time" value={form.time} onChange={(e) => setForm((p) => ({ ...p, time: e.target.value }))} aria-label="שעה" />
+              <input className={cn(inputClass, errors.date && "border-red-400")} type="date" min={today} value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} aria-label="תאריך" />
+              <input className={cn(inputClass, errors.time && "border-red-400")} type="time" value={form.time} onChange={(e) => setForm((p) => ({ ...p, time: e.target.value }))} aria-label="שעה" />
             </div>
-            <input className={inputClass} placeholder="שם האולם / מיקום *" value={form.location} onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))} aria-label="מיקום" />
+            <input className={cn(inputClass, errors.location && "border-red-400")} placeholder="שם האולם / מיקום *" value={form.location} onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))} aria-label="מיקום" />
             <textarea className={cn(inputClass, "resize-none")} rows={3} placeholder="הערות" value={form.notes} onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} aria-label="הערות" />
           </div>
-          <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} />
+          <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
         </BookingStepPanel>
       )}
 
@@ -268,22 +286,31 @@ export default function EventsBookingWizard() {
               <PriceWithVat amountExVat={bundleTotal} size="lg" className="mt-4" />
             </div>
             <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
               <BookingApprovals
-                copy={STUDIO_BOOKING_APPROVALS}
+                variant="light"
                 termsAccepted={form.termsAccepted}
                 onTermsChange={(v) => setForm((p) => ({ ...p, termsAccepted: v }))}
-                onAcceptAll={() => setForm((p) => ({ ...p, termsAccepted: true }))}
                 termsError={errors.terms}
               />
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={!form.termsAccepted}
-                className="w-full rounded-xl bg-brand-red py-3.5 text-sm font-semibold text-white disabled:opacity-50"
-              >
-                שליחה בוואטסאפ
+              <BookingSummaryActions
+                continueWhatsApp={{
+                  label: "המשך בוואטסאפ",
+                  onClick: () => handleAction("continue_chat"),
+                }}
+                startNow={{
+                  label: "שליחה והתחלה מיידית",
+                  onClick: () => handleAction("start_now"),
+                }}
+                consult15Min={{
+                  label: BOOKING_CONSULT_15_MIN.title,
+                  href: consultHref,
+                }}
+              />
+              <BookingPaymentTrust />
+              <button type="button" onClick={() => setStep(1)} className="w-full text-xs text-muted-foreground hover:text-brand-red">
+                חזרה לפרטים
               </button>
-              <BookingConsultCta />
             </div>
           </div>
         </BookingStepPanel>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BOOKING_APPROVALS_LIGHT } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
 
 export type BookingApprovalsCopy = {
@@ -8,7 +9,8 @@ export type BookingApprovalsCopy = {
 };
 
 type BookingApprovalsProps = {
-  copy: BookingApprovalsCopy;
+  copy?: BookingApprovalsCopy;
+  variant?: "full" | "light";
   termsAccepted: boolean;
   onTermsChange: (accepted: boolean) => void;
   onAcceptAll?: () => void;
@@ -18,12 +20,38 @@ type BookingApprovalsProps = {
 
 export default function BookingApprovals({
   copy,
+  variant = "full",
   termsAccepted,
   onTermsChange,
   onAcceptAll,
   termsError,
   className,
 }: BookingApprovalsProps) {
+  if (variant === "light") {
+    return (
+      <div className={cn("space-y-3 rounded-xl border border-border bg-surface p-4", className)}>
+        <ul className="space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+          {BOOKING_APPROVALS_LIGHT.map((item) => (
+            <li key={item}>• {item}</li>
+          ))}
+        </ul>
+        <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-background p-3">
+          <input
+            type="checkbox"
+            checked={termsAccepted}
+            onChange={(e) => onTermsChange(e.target.checked)}
+            className="mt-0.5 h-4 w-4 accent-brand-red"
+            aria-required
+          />
+          <span className="text-sm text-foreground">קראתי ומאשר/ת</span>
+        </label>
+        {termsError ? (
+          <p className="text-xs text-red-500">{termsError}</p>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -45,8 +73,8 @@ export default function BookingApprovals({
       </div>
 
       <ul className="space-y-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-        <li>{copy.pricingNote}</li>
-        <li>{copy.cancellationNote}</li>
+        <li>{copy?.pricingNote}</li>
+        <li>{copy?.cancellationNote}</li>
       </ul>
 
       <p className="text-xs text-muted-foreground">
@@ -67,7 +95,7 @@ export default function BookingApprovals({
           className="mt-0.5 h-4 w-4 accent-brand-red"
           aria-required
         />
-        <span className="text-sm text-foreground">{copy.termsLabel}</span>
+        <span className="text-sm text-foreground">{copy?.termsLabel}</span>
       </label>
       {termsError ? (
         <p className="text-xs text-red-500">{termsError}</p>

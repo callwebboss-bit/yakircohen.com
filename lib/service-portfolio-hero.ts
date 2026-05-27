@@ -85,19 +85,8 @@ export function resolveServicePageHero(
   const hasEmbed = isValidYouTubeEmbedUrl(options?.playlistEmbedUrl);
 
   if (!heroImage && hasEmbed) {
-    const embedMatch = options?.playlistEmbedUrl?.match(
-      /\/embed\/([A-Za-z0-9_-]{11})(?:[?&]|$)/,
-    );
-    if (embedMatch?.[1]) {
-      heroImage = {
-        src: `https://i.ytimg.com/vi/${embedMatch[1]}/maxresdefault.jpg`,
-        alt: fallbackAlt,
-        filename: `${embedMatch[1]}.jpg`,
-      };
-    } else {
-      const fallback = listServicePortfolioImageSet(HERO_IMAGE_FALLBACK_FOLDER);
-      heroImage = pickPortfolioHeroImage(fallback.primary, preferredPattern);
-    }
+    const fallback = listServicePortfolioImageSet(HERO_IMAGE_FALLBACK_FOLDER);
+    heroImage = pickPortfolioHeroImage(fallback.primary, preferredPattern);
   }
 
   const heroScrollTarget = options

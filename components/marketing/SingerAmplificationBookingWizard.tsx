@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -8,16 +8,14 @@ import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PhoneInputField from "@/components/forms/PhoneInputField";
-import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
-  PODCAST_PACKAGES,
-  type PodcastPackageId,
-} from "@/lib/data/podcast-calculator";
-import { withVat } from "@/lib/data/pricing";
+  SINGER_PACKAGES,
+  type SingerPackageId,
+} from "@/lib/data/singer-amplification-page";
 import {
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
@@ -35,14 +33,6 @@ import { cn } from "@/lib/utils";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
 
-const TIMEFRAME_OPTIONS = [
-  { value: "", label: "מתי מתאים לכם?" },
-  { value: "asap", label: "בהקדם האפשרי" },
-  { value: "next_week", label: "שבוע הקרוב" },
-  { value: "this_month", label: "בחודש הקרוב" },
-  { value: "exploring", label: "רק בודק/ת אפשרויות" },
-] as const;
-
 const consultHref = buildWhatsAppHref({
   text: BOOKING_CONSULT_15_MIN.whatsappText,
   utm_source: "website",
@@ -50,10 +40,12 @@ const consultHref = buildWhatsAppHref({
 });
 
 type FormState = {
-  packageId: PodcastPackageId | "";
+  packageId: SingerPackageId | "";
   name: string;
   phone: string;
-  timeframe: string;
+  date: string;
+  time: string;
+  location: string;
   notes: string;
   termsAccepted: boolean;
 };
@@ -62,7 +54,9 @@ const INITIAL: FormState = {
   packageId: "",
   name: "",
   phone: "",
-  timeframe: "",
+  date: "",
+  time: "",
+  location: "",
   notes: "",
   termsAccepted: false,
 };
@@ -70,25 +64,42 @@ const INITIAL: FormState = {
 const inputClass =
   "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
-export default function PodcastBookingWizard() {
+export type SingerAmplificationBookingWizardProps = {
+  initialPackageId?: SingerPackageId | null;
+};
+
+export default function SingerAmplificationBookingWizard({
+  initialPackageId = null,
+}: SingerAmplificationBookingWizardProps) {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<FormState>(INITIAL);
+  const [form, setForm] = useState<FormState>(() => ({
+    ...INITIAL,
+    packageId: initialPackageId ?? "",
+  }));
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "podcast_booking_wizard",
+    formId: "singer_amplification_booking",
   });
 
   const draft = useBookingDraft(
-    "podcast",
+    "singer_amplification",
     form,
     setForm,
     (s) => s,
     (raw) => (raw && typeof raw === "object" ? (raw as FormState) : null),
   );
 
-  const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
+  useEffect(() => {
+    if (!initialPackageId) return;
+    setForm((prev) =>
+      prev.packageId ? prev : { ...prev, packageId: initialPackageId },
+    );
+  }, [initialPackageId]);
+
+  const selected = SINGER_PACKAGES.find((p) => p.id === form.packageId);
+  const today = new Date().toISOString().split("T")[0];
 
   const canStep0 = form.packageId !== "";
   const canStep1 = useMemo(
@@ -106,41 +117,38 @@ export default function PodcastBookingWizard() {
         validateBookingLead({
           name: form.name,
           phone: form.phone,
-          date: "",
-          time: "",
-          location: "",
+          date: form.date,
+          time: form.time,
+          location: form.location,
           notes: form.notes,
-          requireLocation: false,
-          requireDate: false,
-          requireTime: false,
+          requireLocation: true,
         }),
       (result) => {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : form.phone.trim();
-        const timeframeLabel =
-          TIMEFRAME_OPTIONS.find((o) => o.value === form.timeframe)?.label ?? "";
-        const summaryLines = [
-          ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
-          ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
-        ];
         const body = buildBookingWhatsAppBody({
           intent,
-          serviceLabel: selected ? `פודקאסט - ${selected.name}` : "פודקאסט",
-          summaryLines,
+          serviceLabel: selected ? `הגברה לזמר/ה - ${selected.name}` : "הגברה לזמר/ה",
+          summaryLines: [
+            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+            ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+            ...(selected ? [{ label: "חבילה", value: `${selected.name} (${selected.price})` }] : []),
+            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+          ],
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
-          totalEstimate: selected ? withVat(selected.price) : undefined,
           utmSource: readUtmSource(),
         });
         const href = buildWhatsAppHref({
           text: body,
           utm_source: "website",
-          utm_campaign: "podcast_booking_wizard",
+          utm_campaign: "singer_amplification_booking",
         });
         openWhatsAppLead(href);
         notifyLeadByEmail({
-          formId: "podcast_booking_wizard",
-          subject: "הזמנת פודקאסט",
+          formId: "singer_amplification_booking",
+          subject: "הזמנת הגברה לזמרים",
           body,
           name: form.name,
           phone: displayPhone,
@@ -154,7 +162,7 @@ export default function PodcastBookingWizard() {
   };
 
   const resetWizard = () => {
-    setForm(INITIAL);
+    setForm({ ...INITIAL, packageId: initialPackageId ?? "" });
     setStep(0);
     setSubmitted(false);
     setErrors({});
@@ -174,13 +182,16 @@ export default function PodcastBookingWizard() {
         </p>
       ) : null}
 
-      <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת פודקאסט" />
+      <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת הגברה לזמרים" />
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <h2 className="text-xl font-semibold text-foreground">בחרו חבילת פודקאסט</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {PODCAST_PACKAGES.map((pkg) => {
+          <h2 className="text-xl font-semibold text-foreground">בחרו חבילת הגברה</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            מחירים גלויים · שינויים אפשריים במעמד העסקה
+          </p>
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {SINGER_PACKAGES.map((pkg) => {
               const active = form.packageId === pkg.id;
               return (
                 <button
@@ -188,7 +199,7 @@ export default function PodcastBookingWizard() {
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, packageId: pkg.id }))}
                   className={cn(
-                    "rounded-2xl border p-5 text-start",
+                    "flex flex-col rounded-2xl border p-5 text-start",
                     active ? "border-brand-red bg-brand-red/5" : "border-border bg-background",
                   )}
                   aria-pressed={active}
@@ -197,10 +208,8 @@ export default function PodcastBookingWizard() {
                     <span className="text-xs font-bold text-brand-red">{pkg.badge}</span>
                   ) : null}
                   <p className="mt-1 font-semibold text-foreground">{pkg.name}</p>
-                  <p className="text-xs text-muted-foreground">{pkg.subtitle}</p>
-                  <div className="mt-3">
-                    <PriceWithVat amountExVat={pkg.price} size="md" />
-                  </div>
+                  <p className="mt-1 text-lg font-bold text-brand-red">{pkg.price}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{pkg.suitedFor}</p>
                 </button>
               );
             })}
@@ -211,35 +220,23 @@ export default function PodcastBookingWizard() {
 
       {step === 1 && (
         <BookingStepPanel stepKey={1}>
-          <h2 className="text-xl font-semibold text-foreground">פרטים לתיאום</h2>
+          <h2 className="text-xl font-semibold text-foreground">פרטי הופעה ותיאום</h2>
           <div className="relative max-w-lg space-y-4">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} />
-            <Field id="pb-name" label="שם *" value={form.name} error={errors.name} onChange={(v) => setForm((p) => ({ ...p, name: v }))} />
+            <Field id="sg-name" label="שם *" value={form.name} error={errors.name} onChange={(v) => setForm((p) => ({ ...p, name: v }))} />
             <PhoneInputField
-              id="pb-phone"
+              id="sg-phone"
               value={form.phone}
               onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
               error={errors.phone}
             />
-            <div>
-              <label htmlFor="pb-timeframe" className="mb-1.5 block text-xs font-semibold">
-                מועד מועדף
-              </label>
-              <select
-                id="pb-timeframe"
-                value={form.timeframe}
-                onChange={(e) => setForm((p) => ({ ...p, timeframe: e.target.value }))}
-                className={cn(inputClass, "appearance-none")}
-              >
-                {TIMEFRAME_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value} disabled={o.value === ""}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
+            <div className="grid grid-cols-2 gap-3">
+              <Field id="sg-date" label="תאריך *" type="date" min={today} value={form.date} error={errors.date} onChange={(v) => setForm((p) => ({ ...p, date: v }))} />
+              <Field id="sg-time" label="שעה *" type="time" value={form.time} error={errors.time} onChange={(v) => setForm((p) => ({ ...p, time: v }))} />
             </div>
-            <Field id="pb-notes" label="הערות" multiline value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} />
+            <Field id="sg-location" label="מיקום ההופעה *" value={form.location} error={errors.location} onChange={(v) => setForm((p) => ({ ...p, location: v }))} />
+            <Field id="sg-notes" label="הערות (סגנון, מספר מיקרופונים וכו')" multiline value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
         </BookingStepPanel>
@@ -251,7 +248,11 @@ export default function PodcastBookingWizard() {
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold text-foreground">סיכום</h2>
               <p className="mt-2 text-sm text-muted-foreground">{selected.name}</p>
-              <PriceWithVat amountExVat={selected.price} size="lg" className="mt-4" />
+              <p className="mt-2 text-xl font-bold text-brand-red">{selected.price}</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {form.date} · {form.time}
+              </p>
+              <p className="text-sm text-muted-foreground">{form.location}</p>
             </div>
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>

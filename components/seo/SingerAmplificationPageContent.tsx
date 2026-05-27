@@ -4,9 +4,12 @@ import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
-import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
+import { buildBookHref } from "@/lib/book-url";
+import type { SingerPackageId } from "@/lib/data/singer-amplification-page";
+import {
+  SERVICE_SHOWCASE_VIDEO_ID,
+  resolveServicePageHeroFromEntity,
+} from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   SINGER_ADDONS,
@@ -26,7 +29,9 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getEventsService("events-singer-amplification");
 
-const pageHero = resolveServicePageHeroFromEntity(service);
+const pageHero = resolveServicePageHeroFromEntity(service, undefined, {
+  videoSectionId: SERVICE_SHOWCASE_VIDEO_ID,
+});
 const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function SingerAmplificationPageContent() {
@@ -49,9 +54,9 @@ export default function SingerAmplificationPageContent() {
         <ContextualIntroParagraph pathname="/events/equipment/singer-amplification" className="max-w-3xl" />
 
         <ShowcaseVideoSection
-          headingId="singer-amplification-videos"
+          sectionId={SERVICE_SHOWCASE_VIDEO_ID}
           heading="הגברה לזמרים בשטח"
-          subheading="דוגמה מהאירוע - ציוד מקצועי והקמה מהירה"
+          subheading="דוגמה מהאירוע - ציוד מקצועי והקמה מהירה. הוידאו נטען בלחיצה."
           videos={SINGER_AMPLIFICATION_VIDEOS}
         />
 
@@ -112,10 +117,20 @@ export default function SingerAmplificationPageContent() {
             </p>
           </header>
           <ul className="mt-10 space-y-8">
-            {SINGER_PACKAGES.map((pkg) => (
+            {SINGER_PACKAGES.map((pkg) => {
+              const packageLabel = `${pkg.name} (${pkg.price})`;
+              const packageWhatsappHref = buildWhatsAppHref({
+                text: buildServiceWhatsAppText(
+                  `${service.whatsappText} - ${packageLabel}`,
+                ),
+                utm_source: "website",
+                utm_campaign: `${service.utmCampaign}_pkg_${pkg.id}`,
+              });
+
+              return (
               <li
                 key={pkg.id}
-                className={`rounded-xl border bg-surface p-6 sm:p-8 ${
+                className={`flex flex-col rounded-xl border bg-surface p-6 sm:p-8 ${
                   pkg.badge
                     ? "border-2 border-brand-red/40"
                     : "border-border"
@@ -134,7 +149,7 @@ export default function SingerAmplificationPageContent() {
                     {pkg.price}
                   </span>
                 </div>
-                <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
+                <ul className="mt-4 flex-1 space-y-1.5 text-sm text-muted-foreground">
                   {pkg.includes.map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-brand-red" aria-hidden>
@@ -147,8 +162,27 @@ export default function SingerAmplificationPageContent() {
                 <p className="mt-4 text-sm font-medium text-foreground">
                   מתאים ל: {pkg.suitedFor}
                 </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <a
+                    href={packageWhatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
+                    aria-label={`הזמנת ${pkg.name} בוואטסאפ`}
+                  >
+                    הזמנה בוואטסאפ
+                  </a>
+                  <Link
+                    href={buildBookHref("singer", pkg.id as SingerPackageId)}
+                    className="inline-flex w-full items-center justify-center rounded-md border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
+                    aria-label={`הזמנה מקוונת - ${pkg.name}`}
+                  >
+                    הזמנה מקוונת
+                  </Link>
+                </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </section>
 
@@ -249,15 +283,6 @@ export default function SingerAmplificationPageContent() {
           <p className="mt-2 text-xs text-muted-foreground">{SINGER_TRAVEL_NOTE}</p>
         </section>
 
-        <ServiceShowcaseSections
-          assetsFolder={service.assetsFolder}
-          playlistEmbedUrl={service.playlistEmbedUrl}
-          mediaType={service.mediaType}
-          galleryLabel="הגברה לזמרים בשטח"
-          videoTitle="הגברה לזמרים בשטח"
-          className="px-0"
-        />
-
         <p className="text-center text-sm">
           <Link
             href="/events/equipment"
@@ -273,9 +298,6 @@ export default function SingerAmplificationPageContent() {
             אולפן הקלטות
           </Link>
         </p>
-        <ServicePagePricingSection service={service} />
-
-
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}

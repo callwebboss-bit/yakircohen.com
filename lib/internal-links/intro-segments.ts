@@ -96,8 +96,15 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
   "/events/equipment": [
     { type: "text", value: "השכרת רמקולים, מיקרופונים ותאורה לאירוע. לזמר חי - " },
     { type: "link", href: "/events/equipment/singer-amplification", label: "הגברה לזמרים" },
-    { type: "text", value: ". לליווי מוזיקלי - " },
-    { type: "link", href: "/events/dj-events", label: "תקליטן מקצועי" },
+    { type: "text", value: ". שאלות - " },
+    { type: "link", href: "/events/equipment/faq", label: "שאלות על הגברה" },
+    { type: "text", value: "." },
+  ],
+  "/events/host": [
+    { type: "text", value: "מנחה שמוביל את הערב ומתאם מול ספקים. שאלות נפוצות - " },
+    { type: "link", href: "/events/host/faq", label: "FAQ מנחה אירועים" },
+    { type: "text", value: ". להזמנת אירוע - " },
+    { type: "link", href: "/book#events", label: "הזמנה מקוונת" },
     { type: "text", value: "." },
   ],
   "/studio/recording-studio": [
@@ -189,10 +196,24 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/events/equipment/singer-amplification": [
-    { type: "text", value: "הגברה נקייה לזמר חי על הבמה. ל-DJ ורחבה - " },
-    { type: "link", href: "/events/dj-events", label: "תקליטן לאירועים" },
-    { type: "text", value: ". לציוד מלא - " },
-    { type: "link", href: "/events/equipment", label: "השכרת הגברה" },
+    { type: "text", value: "הגברה נקייה לזמר חי על הבמה. הזמנה - " },
+    { type: "link", href: "/book?pkg=basic#singer", label: "הגברה לזמרים באתר" },
+    { type: "text", value: ". שאלות - " },
+    { type: "link", href: "/events/equipment/faq", label: "שאלות על הגברה" },
+    { type: "text", value: "." },
+  ],
+  "/events/host/faq": [
+    { type: "text", value: "תשובות על הנחיית אירועים והזמנה. לשירות המלא - " },
+    { type: "link", href: "/events/host", label: "מנחה אירועים" },
+    { type: "text", value: ". להזמנה - " },
+    { type: "link", href: "/book#events", label: "אטרקציות ו-DJ" },
+    { type: "text", value: "." },
+  ],
+  "/events/equipment/faq": [
+    { type: "text", value: "מחירים, צ'ק סאונד והזמנה מקוונת. לזמרים - " },
+    { type: "link", href: "/events/equipment/singer-amplification", label: "הגברה לזמרים" },
+    { type: "text", value: ". להזמנה - " },
+    { type: "link", href: "/book#singer", label: "טופס הגברה לזמרים" },
     { type: "text", value: "." },
   ],
   "/photo-slideshow": [

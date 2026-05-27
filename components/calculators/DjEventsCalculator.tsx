@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
@@ -635,6 +636,8 @@ export default function DjEventsCalculator({ className }: { className?: string }
             ) : null}
           </div>
         )}
+
+        {hasSelection && <BookingPaymentTrust />}
 
         {/* Timeline */}
         <div className="rounded-2xl border border-border bg-surface p-6">

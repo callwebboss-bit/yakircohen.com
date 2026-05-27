@@ -326,9 +326,21 @@ export function validateBookingLead(fields: {
   location: string;
   notes: string;
   requireLocation: boolean;
+  /** Default true. Set false for intent-based flows where exact date is optional. */
+  requireDate?: boolean;
+  /** Default true. Automatically false when date is empty. */
+  requireTime?: boolean;
 }): ValidationResult {
-  const dateResult = validateEventDate(fields.date);
-  const timeResult = validateEventTime(fields.time);
+  const requireDate = fields.requireDate !== false;
+  const requireTime = fields.requireTime !== false;
+  const dateResult = validateEventDate(fields.date, { required: requireDate });
+  // Never require time when no date is entered
+  const effectiveRequireTime = requireTime && fields.date.trim().length > 0;
+  const timeResult: ValidationResult = fields.time.trim()
+    ? validateEventTime(fields.time)
+    : effectiveRequireTime
+      ? { ok: false, errors: { eventTime: "נא לבחור שעה" } }
+      : { ok: true };
   const rest = mergeResults(
     validatePersonName(fields.name),
     validateIsraeliMobile(fields.phone),

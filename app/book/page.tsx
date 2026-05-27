@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import BookPageSections from "@/components/booking/BookPageSections";
 import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
@@ -13,6 +14,7 @@ export const metadata: Metadata = constructMetadata({
     "הזמנת אולפן",
     "הזמנת פודקאסט",
     "הזמנת אטרקציות לאירועים",
+    "הגברה לזמרים",
     "מחירון הקלטות",
     "הזמנה מקוונת",
   ],
@@ -76,7 +78,15 @@ export default function BookPage() {
         </div>
       </section>
 
-      <BookPageSections />
+      <Suspense
+        fallback={
+          <p className="py-16 text-center text-sm text-muted-foreground">
+            טוען טופסי הזמנה...
+          </p>
+        }
+      >
+        <BookPageSections />
+      </Suspense>
     </div>
   );
 }

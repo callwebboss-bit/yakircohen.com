@@ -1,5 +1,6 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
 export type ServicePricingBlockProps = {
   tiers: readonly ServicePricingTier[];
@@ -38,8 +39,18 @@ export default function ServicePricingBlock({
             return (
               <li
                 key={tier.name}
-                className="flex flex-col rounded-xl border border-border bg-surface p-6"
+                className={cn(
+                  "relative flex flex-col rounded-xl border p-6",
+                  tier.featured
+                    ? "border-brand-red/50 bg-brand-red/5"
+                    : "border-border bg-surface",
+                )}
               >
+                {tier.badge ? (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-red px-3 py-1 text-xs font-semibold text-white">
+                    {tier.badge}
+                  </span>
+                ) : null}
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="text-lg font-semibold text-foreground">
                     {tier.name}

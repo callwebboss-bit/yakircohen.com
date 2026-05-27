@@ -86,6 +86,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
   },
   { url: url("events/host"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/host/faq"), priority: 0.6, changeFrequency: "monthly" },
+  { url: url("events/equipment/faq"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Video ──────────────────────────────────────────────────────────────────
   { url: url("video"), priority: 0.9, changeFrequency: "monthly" },

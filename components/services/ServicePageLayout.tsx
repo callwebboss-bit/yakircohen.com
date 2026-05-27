@@ -31,7 +31,7 @@ export type ServicePageLayoutProps = {
   /** Cover image in hero (never a raw video iframe in the header). */
   heroImageSrc?: string;
   heroImageAlt?: string;
-  /** Render a YouTube embed inside the hero (instead of the cover image). */
+  /** @deprecated Do not use - hero must be cover image only; video belongs in showcase below. */
   heroVideoEmbedUrl?: string | null;
   heroVideoTitle?: string;
   /** Play overlay + scroll link only when a video/audio embed section exists. */

@@ -19,10 +19,10 @@ export default function MobileStudioExampleVideos({
   return (
     <div className="mt-8 space-y-8">
       {withIds.length > 0 ? (
-        <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {withIds.map((video) => (
             <li key={video.videoId} className="flex flex-col">
-              <div className="aspect-video w-full overflow-hidden rounded-xl bg-foreground">
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
                 <YouTube
                   videoId={video.videoId!}
                   title={video.title}

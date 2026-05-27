@@ -23,6 +23,10 @@ export type ServicePricingTier = {
   price: string;
   priceNote?: string;
   description: string;
+  /** Highlight this tier visually (upsell / most popular) */
+  featured?: boolean;
+  /** Short badge label shown above the card */
+  badge?: string;
 };
 
 export type ServiceMediaType = "audio" | "video" | "gallery" | "none";
@@ -255,6 +259,12 @@ export const STUDIO_SERVICES = {
     ],
     pricing: [
       {
+        name: "הקלטת ברכה / אמירה",
+        price: "החל מ-590 ₪",
+        description:
+          "הקלטת ברכה, דרשה קצרה או אמירה מרגשת. עד 30 דקות באולפן עם ליווי טכני מלא. כולל מע״מ.",
+      },
+      {
         name: "הקלטת שיר (קאבר)",
         price: "החל מ-1,200 ₪",
         description:
@@ -267,10 +277,12 @@ export const STUDIO_SERVICES = {
           "ליווי מלא + הפקה פשוטה. כולל מע״מ.",
       },
       {
-        name: "הפקה מוזיקלית מלאה",
-        price: "החל מ-3,500 ₪",
+        name: "הפקה מלאה + קליפ וידאו",
+        price: "החל מ-4,500 ₪",
         description:
-          "כתיבה + עיבוד + הקלטה + מיקס + מאסטרינג. כולל מע״מ.",
+          "שיר מוגמר + קליפ עריכת וידאו לשיתוף ברשתות. כולל כתיבה, עיבוד, הקלטה, מיקס ועריכה. כולל מע״מ.",
+        featured: true,
+        badge: "הכי שלם",
       },
     ],
     assetsFolder: "studio/recording-song-modiin",

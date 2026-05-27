@@ -1,6 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useState, useMemo } from "react";
+import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -9,6 +11,11 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
+import {
+  BOOKING_SUMMARY_INTRO,
+  BOOKING_CONSULT_15_MIN,
+} from "@/lib/data/booking-shared";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -30,6 +37,14 @@ import { cn } from "@/lib/utils";
 type BookingCalculatorProps = {
   excludeCategories?: ServiceCategory[];
 };
+
+/* ─── Module-level constants ─────────────────────────────────────────────────── */
+
+const consultHref = buildWhatsAppHref({
+  text: BOOKING_CONSULT_15_MIN.whatsappText,
+  utm_source: "website",
+  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
+});
 
 /* ─── Component ─────────────────────────────────────────────────────────────── */
 
@@ -119,12 +134,12 @@ export default function BookingCalculator({
     });
   };
 
-  const handleSubmit = () => {
+  const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!hasSelection) return;
 
     const fieldErrs = attemptSubmit(
-      () => {
-        const base = validateBookingLead({
+      () =>
+        validateBookingLead({
           name: form.name,
           phone: form.phone,
           date: form.date,
@@ -132,46 +147,37 @@ export default function BookingCalculator({
           location: form.location,
           notes: form.notes,
           requireLocation: hasEvents,
-        });
-        return base;
-      },
+        }),
       (result) => {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : form.phone.trim();
 
-        const serviceLines = allSelected.map((k) => `• ${SERVICES[k]?.name}`).join("\n");
-        const upsellLines = Array.from(selectedUpsells)
-          .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
-          .map((k) => `• ${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString()} ₪)`)
-          .join("\n");
-
-        const parts = [
-          "הזמנה חדשה מהאתר! 🎤",
-          "",
-          `שם: ${sanitizeLeadText(form.name, 60)}`,
-          `טלפון: ${displayPhone}`,
-          `תאריך: ${form.date}`,
-          `שעה: ${form.time}`,
-          hasEvents && form.location
-            ? `מיקום: ${sanitizeLeadText(form.location, 120)}`
-            : null,
-          "",
-          "שירות/ים:",
-          serviceLines,
-          upsellLines ? `\nתוספות:\n${upsellLines}` : null,
-          "",
-          eventDiscount > 0
-            ? `הנחת חבילת אטרקציות: -${eventDiscount.toLocaleString()} ₪`
-            : null,
-          `סה"כ: ${total.toLocaleString()} ₪`,
-          form.notes ? `\nהערות: ${sanitizeLeadText(form.notes, 1500)}` : null,
-        ]
+        const serviceLabel = allSelected
+          .map((k) => SERVICES[k]?.name)
           .filter(Boolean)
-          .join("\n");
+          .join(" + ");
+
+        const body = buildBookingWhatsAppBody({
+          intent,
+          serviceLabel: serviceLabel || "הזמנה",
+          summaryLines: [
+            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+            ...(hasEvents && form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+            ...Array.from(selectedUpsells)
+              .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
+              .map((k) => ({ label: "תוספת", value: `${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString()} ₪)` })),
+            ...(eventDiscount > 0 ? [{ label: "הנחת חבילה", value: `-${eventDiscount.toLocaleString()} ₪` }] : []),
+            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 1500) }] : []),
+          ],
+          contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+          totalEstimate: total,
+          utmSource: readUtmSource(),
+        });
 
         const href = buildWhatsAppHref({
-          text: parts,
+          text: body,
           utm_source: "website",
           utm_campaign: "booking_calculator",
         });
@@ -179,11 +185,9 @@ export default function BookingCalculator({
         notifyLeadByEmail({
           formId: "booking_calculator",
           subject: "ליד חדש - מחשבון הזמנות",
-          body: parts,
+          body,
           name: sanitizeLeadText(form.name, 60),
-          phone: result.normalizedPhone
-            ? formatPhoneForDisplay(result.normalizedPhone)
-            : form.phone.trim(),
+          phone: displayPhone,
         });
         setDone(true);
       },
@@ -526,31 +530,32 @@ export default function BookingCalculator({
               </div>
             </div>
 
-            {/* Submit */}
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!hasSelection}
-              className={cn(
-                "mt-5 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold",
-                "transition-[background-color,box-shadow,opacity] duration-normal ease-luxury",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-                hasSelection
-                  ? "bg-brand-red text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
-                  : "cursor-not-allowed bg-border text-muted-foreground opacity-60",
-              )}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 shrink-0" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-              {hasSelection
-                ? done
-                  ? "ההזמנה נשלחה! לחץ שוב לשליחה נוספת"
-                  : `אישור ושליחה בוואטסאפ${hasSelection ? ` | ${total.toLocaleString()} ₪` : ""}`
-                : "בחר שירות להמשך"}
-            </button>
-
-            {!hasSelection && (
+            {/* Actions */}
+            {hasSelection ? (
+              <div className="mt-5 space-y-3">
+                {done && (
+                  <p className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-xs text-green-800">
+                    ההזמנה נשלחה בוואטסאפ. ניתן לשלוח שוב אם לא נפתח.
+                  </p>
+                )}
+                <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+                <BookingSummaryActions
+                  continueWhatsApp={{
+                    label: "שליחה ותיאום בוואטסאפ",
+                    onClick: () => handleAction("continue_chat"),
+                  }}
+                  startNow={{
+                    label: "שליחה והתחלה מיידית",
+                    onClick: () => handleAction("start_now"),
+                  }}
+                  consult15Min={{
+                    label: BOOKING_CONSULT_15_MIN.title,
+                    href: consultHref,
+                  }}
+                />
+                <BookingPaymentTrust />
+              </div>
+            ) : (
               <p className="mt-3 text-center text-xs text-muted-foreground">
                 בחרו שירות מהרשימה משמאל כדי להמשיך
               </p>

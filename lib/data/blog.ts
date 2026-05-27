@@ -514,7 +514,7 @@ export const BLOG_POSTS = [
 <li><strong>שדרוגים</strong> - וידאו, צילום, אקספרס ועוד.</li>
 <li><strong>פרטים ואישור</strong> - תאריך, שעה ותנאים.</li>
 </ul>
-<p>מוכנים? <a href="/book">התחילו הזמנה מקוונת</a>. רוצים לראות מחירים לפני? <a href="/pricing">מחירון מרכזי</a>.</p>
+<p>מוכנים? <a href="/book#studio">התחילו הזמנה מקוונת - אולפן</a>. רוצים לראות מחירים לפני? <a href="/pricing">מחירון מרכזי</a>.</p>
 `.trim(),
     date: "23 במאי 2026",
     thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
@@ -545,6 +545,59 @@ export const BLOG_POSTS = [
     category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: ["פודקאסט", "הזמנה", "אולפן"],
+  },
+  {
+    slug: "events-booking-guide",
+    seo: {
+      title: "איך מזמינים אטרקציות ו-DJ לאירוע - מדריך קצר",
+      description:
+        "בחירת קטגוריה בעמוד ההזמנה: אטרקציות, DJ, הגברה לזמרים - ושליחה בוואטסאפ.",
+      datePublished: "2026-05-27",
+    },
+    title: "הזמנת אירועים מהאתר - איזו קטגוריה לבחור?",
+    excerpt:
+      "אטרקציות, DJ והגברה לזמרים - כל אחד בקטגוריה נפרדת בעמוד ההזמנה. כך לא מתבלבלים.",
+    content: `
+<h2>אטרקציות לאירוע</h2>
+<p>עשן, קונפטי, בועות ותאורה - בוחרים ב<a href="/book#events">קטגוריית אטרקציות</a>. המחשבון מחשב חיסכון בחבילות.</p>
+<h2>DJ ורחבה</h2>
+<p>חבילות DJ, רגע של כוכב ואפקטים - ב<a href="/book#dj">קטגוריית DJ</a>.</p>
+<h2>הגברה לזמרים</h2>
+<p>הופעה חיה עם צ'ק סאונד - <a href="/book?pkg=basic#singer">הגברה לזמרים</a> עם בחירת חבילה מראש.</p>
+<p>לשאלות: <a href="/events/equipment/faq">שאלות על הגברה וציוד</a> · <a href="/events/host/faq">שאלות על מנחה אירועים</a>.</p>
+`.trim(),
+    date: "27 במאי 2026",
+    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    category: "אירועים",
+    relatedServiceSlug: "events/attractions",
+    tags: ["אירועים", "הזמנה", "DJ"],
+  },
+  {
+    slug: "singer-amplification-booking",
+    seo: {
+      title: "הזמנת הגברה לזמרים - איך בוחרים חבילה?",
+      description:
+        "חבילות 2,800-7,800 ₪, צ'ק סאונד והזמנה מקוונת עם בחירת חבילה מראש.",
+      datePublished: "2026-05-27",
+    },
+    title: "הגברה לזמרים - הזמנה מהאתר",
+    excerpt:
+      "שלוש חבילות, מחיר גלוי, וטופס הזמנה שפותח ישר את הקטגוריה הנכונה.",
+    content: `
+<h2>איזו חבילה מתאימה?</h2>
+<ul>
+<li><strong>בסיס</strong> - סולו/דואט, עד 150 אורחים.</li>
+<li><strong>פרימיום</strong> - להקה 3-4, עד 350 אורחים.</li>
+<li><strong>VIP</strong> - Line Array, IEM, שני טכנאים.</li>
+</ul>
+<p>ב<a href="/book?pkg=basic#singer">עמוד ההזמנה - הגברה לזמרים</a> בוחרים חבילה, ממלאים תאריך ומיקום ושולחים בוואטסאפ.</p>
+<p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> · <a href="/events/equipment/faq">שאלות נפוצות</a>.</p>
+`.trim(),
+    date: "27 במאי 2026",
+    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    category: "אירועים",
+    relatedServiceSlug: "events/equipment/singer-amplification",
+    tags: ["הגברה", "זמרים", "הזמנה"],
   },
 ] as const satisfies readonly BlogPost[];
 

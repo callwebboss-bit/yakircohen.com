@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import BookCategoryAccordion from "@/components/booking/BookCategoryAccordion";
 import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
@@ -9,15 +10,13 @@ import BookingCalculator from "@/components/marketing/BookingCalculator";
 import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
 import FilterGate from "@/components/marketing/FilterGate";
 import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
+import SingerAmplificationBookingWizard from "@/components/marketing/SingerAmplificationBookingWizard";
+import {
+  type BookCategoryId,
+  parseBookCategoryFromHash,
+  parseBookPackageFromSearch,
+} from "@/lib/book-url";
 import { cn } from "@/lib/utils";
-
-export type BookCategoryId =
-  | "studio"
-  | "podcast"
-  | "events"
-  | "dj"
-  | "photography"
-  | "clips";
 
 type BookCategoryConfig = {
   id: BookCategoryId;
@@ -26,10 +25,9 @@ type BookCategoryConfig = {
   title: string;
   subtitle: string;
   icon: string;
-  content: ReactNode;
 };
 
-const BOOK_CATEGORIES: BookCategoryConfig[] = [
+const BOOK_CATEGORY_META: readonly BookCategoryConfig[] = [
   {
     id: "studio",
     label: "הקלטות באולפן",
@@ -37,7 +35,6 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "הקלטות באולפן",
     subtitle: "שירים, ברכות וקריינות - בחירת מסלול מלאה",
     icon: "🎤",
-    content: <FilterGate />,
   },
   {
     id: "podcast",
@@ -46,7 +43,14 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "פודקאסט",
     subtitle: "בחירת חבילה, תאריך ושליחה בוואטסאפ",
     icon: "🎙️",
-    content: <PodcastBookingWizard />,
+  },
+  {
+    id: "singer",
+    label: "הגברה לזמרים",
+    shortLabel: "זמרים",
+    title: "הגברה לזמרים",
+    subtitle: "חבילות 2,800-7,800 ₪ · צ'ק סאונד וטכנאי בשטח",
+    icon: "🎤",
   },
   {
     id: "events",
@@ -55,7 +59,6 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "אטרקציות לאירועים",
     subtitle: "חבילות משולבות וחיסכון אוטומטי",
     icon: "🎉",
-    content: <EventsBookingWizard />,
   },
   {
     id: "dj",
@@ -64,7 +67,6 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "DJ לאירועים",
     subtitle: "חבילת פסטיבל, DJ, רגע של כוכב ואפקטים",
     icon: "🎧",
-    content: <DjEventsCalculator />,
   },
   {
     id: "photography",
@@ -73,7 +75,6 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "צילום אירועים",
     subtitle: "שעות, תוספות ושירותי AI - מחיר שקוף",
     icon: "📷",
-    content: <PhotographyCalculator />,
   },
   {
     id: "clips",
@@ -82,25 +83,52 @@ const BOOK_CATEGORIES: BookCategoryConfig[] = [
     title: "קליפים ושירותים דיגיטליים",
     subtitle: "עריכה, AI ושירותים נוספים",
     icon: "🎬",
-    content: (
-      <BookingCalculator excludeCategories={["recordings", "podcasts", "events"]} />
-    ),
   },
 ];
 
-const VALID_IDS = new Set(BOOK_CATEGORIES.map((c) => c.id));
-
-function parseHashCategory(): BookCategoryId | null {
-  if (typeof window === "undefined") return null;
-  const hash = window.location.hash.replace(/^#/, "");
-  return VALID_IDS.has(hash as BookCategoryId) ? (hash as BookCategoryId) : null;
+function renderCategoryContent(
+  id: BookCategoryId,
+  initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>,
+): ReactNode {
+  switch (id) {
+    case "studio":
+      return <FilterGate />;
+    case "podcast":
+      return <PodcastBookingWizard />;
+    case "singer":
+      return (
+        <SingerAmplificationBookingWizard
+          initialPackageId={initialSingerPackageId}
+        />
+      );
+    case "events":
+      return <EventsBookingWizard />;
+    case "dj":
+      return <DjEventsCalculator />;
+    case "photography":
+      return <PhotographyCalculator />;
+    case "clips":
+      return (
+        <BookingCalculator
+          excludeCategories={["recordings", "podcasts", "events"]}
+        />
+      );
+    default:
+      return null;
+  }
 }
 
 export default function BookPageSections() {
+  const searchParams = useSearchParams();
+  const pkgParam = searchParams.get("pkg");
+  const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
+
   const [openId, setOpenId] = useState<BookCategoryId | null>(null);
 
   useEffect(() => {
-    const fromHash = parseHashCategory();
+    const fromHash = parseBookCategoryFromHash(
+      typeof window !== "undefined" ? window.location.hash : "",
+    );
     if (fromHash) setOpenId(fromHash);
   }, []);
 
@@ -111,7 +139,8 @@ export default function BookPageSections() {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", `#${id}`);
+      const qs = window.location.search;
+      window.history.replaceState(null, "", `${window.location.pathname}${qs}#${id}`);
     }
   }, []);
 
@@ -119,10 +148,13 @@ export default function BookPageSections() {
     setOpenId((prev) => {
       const next = prev === id ? null : id;
       if (typeof window !== "undefined") {
+        const qs = window.location.search;
         window.history.replaceState(
           null,
           "",
-          next ? `#${next}` : window.location.pathname,
+          next
+            ? `${window.location.pathname}${qs}#${next}`
+            : `${window.location.pathname}${qs}`,
         );
       }
       return next;
@@ -143,7 +175,7 @@ export default function BookPageSections() {
             className="flex flex-wrap justify-center gap-2"
             aria-label="קטגוריות הזמנה"
           >
-            {BOOK_CATEGORIES.map((cat) => (
+            {BOOK_CATEGORY_META.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
@@ -168,7 +200,7 @@ export default function BookPageSections() {
       </section>
 
       <div className="mx-auto max-w-[72rem] space-y-4 px-4 py-10 sm:space-y-5 sm:px-6 sm:py-14 lg:px-8">
-        {BOOK_CATEGORIES.map((cat) => (
+        {BOOK_CATEGORY_META.map((cat) => (
           <BookCategoryAccordion
             key={cat.id}
             id={cat.id}
@@ -178,7 +210,10 @@ export default function BookPageSections() {
             isOpen={openId === cat.id}
             onToggle={() => toggleCategory(cat.id)}
           >
-            {cat.content}
+            {renderCategoryContent(
+              cat.id,
+              cat.id === "singer" ? initialSingerPackageId : null,
+            )}
           </BookCategoryAccordion>
         ))}
       </div>

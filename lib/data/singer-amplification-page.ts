@@ -43,8 +43,10 @@
   },
 ] as const;
 
+export type SingerPackageId = "basic" | "premium" | "vip";
+
 export const SINGER_PACKAGES: readonly {
-  id: string;
+  id: SingerPackageId;
   name: string;
   price: string;
   badge?: string;

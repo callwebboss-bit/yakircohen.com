@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
    LazyYouTubePlayer
    ─────────────────────────────────────────────────────────────────────────────
    Renders a static thumbnail placeholder on first paint - zero iframe weight.
-   A single click swaps the placeholder for the real embed with autoplay.
+   A single click swaps the placeholder for the real embed (no iframe until then - no auto sound).
 
    YouTube thumbnail resolution ladder (highest → lowest):
      maxresdefault (1280×720) → hqdefault (480×360) always-present fallback.
@@ -57,8 +57,8 @@ export default function LazyYouTubePlayer({
     <div
       className={cn(
         fillParent
-          ? "absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-neutral-200"
-          : "relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200",
+          ? "absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-neutral-900"
+          : "relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-900",
         className,
       )}
     >
@@ -76,7 +76,7 @@ export default function LazyYouTubePlayer({
         /* ── Placeholder state: thumbnail + gold play button ── */
         <button
           type="button"
-          className="group relative absolute inset-0 w-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-red"
+          className="group absolute inset-0 h-full w-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-red"
           onClick={() => setIsActive(true)}
           aria-label={`הפעל סרטון: ${title}`}
         >

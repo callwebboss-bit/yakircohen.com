@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -388,6 +389,8 @@ export default function PhotographyCalculator({ className }: { className?: strin
           </div>
         </section>
       </div>
+
+      <BookingPaymentTrust className="mx-auto max-w-3xl" />
 
       <CalculatorStickyBar
         total={total}
