@@ -100,7 +100,7 @@ function ServiceHeroVisual({
         alt={heroImageAlt}
         fill
         className="object-cover object-center"
-        sizes="(max-width: 1024px) 100vw, 38rem"
+        sizes="(max-width: 1024px) 100vw, 46rem"
         priority
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
@@ -226,12 +226,12 @@ export default function ServicePageLayout({
 
         <div
           className={cn(
-            "relative mx-auto max-w-[72rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20",
+            "relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20",
             hasHeroGrid &&
-              "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:items-center lg:gap-14",
+              "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 xl:gap-20",
           )}
         >
-          <div className={cn(hasHeroGrid && "lg:max-w-xl")}>
+          <div className={cn(hasHeroGrid && "lg:max-w-2xl")}>
             <p className="text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
               {SITE_KICKER}
             </p>
@@ -313,7 +313,7 @@ export default function ServicePageLayout({
           className="border-b border-border bg-surface py-12 sm:py-16"
           aria-labelledby="service-features-heading"
         >
-          <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
             <h2 id="service-features-heading" className="sr-only">
               יתרונות ושירותים
             </h2>
