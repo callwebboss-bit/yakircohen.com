@@ -10,10 +10,14 @@ export type StudioPricingGridProps = {
 export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
   return (
     <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {tiers.map((tier) => {
+          const priceLabel =
+            tier.priceExVat != null
+              ? `${tier.priceExVat.toLocaleString("he-IL")} ₪`
+              : tier.price;
           const whatsappHref = buildWhatsAppHref({
-            text: buildServiceWhatsAppText(tier.name),
+            text: buildServiceWhatsAppText(tier.name, priceLabel),
             utm_source: "website",
             utm_campaign: tier.utmCampaign,
           });
@@ -22,25 +26,35 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
             <article
               key={tier.id}
               className={cn(
-                "relative flex flex-col rounded-xl border bg-background p-6 shadow-sm transition-[border-color,box-shadow,transform] duration-normal ease-luxury",
+                "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5",
                 tier.featured
-                  ? "border-brand-red shadow-md ring-1 ring-brand-red/30"
+                  ? "border-brand-red/40 shadow-md ring-1 ring-brand-red/20 hover:border-brand-red/60 hover:shadow-lg"
                   : "border-border hover:border-brand-red/30 hover:shadow-md",
               )}
             >
+              <span
+                className={cn(
+                  "pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-right scale-x-0 bg-brand-red transition-transform duration-normal ease-luxury group-hover:scale-x-100",
+                  tier.featured && "scale-x-100",
+                )}
+                aria-hidden
+              />
+
               {tier.featured ? (
-                <span className="absolute -top-3 start-6 rounded-full border border-brand-red/40 bg-brand-red px-3 py-0.5 text-[0.65rem] font-bold text-white">
+                <span className="mb-3 inline-flex w-fit rounded-full bg-brand-red px-2.5 py-0.5 text-[0.65rem] font-bold text-white">
                   הכי מבוקש
                 </span>
               ) : null}
 
-              <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
+              <h3 className="font-serif text-lg font-semibold text-foreground">
+                {tier.name}
+              </h3>
               {tier.priceExVat != null ? (
                 <div className="mt-2">
                   <PriceWithVat amountExVat={tier.priceExVat} size="lg" />
                 </div>
               ) : (
-                <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-brand-red">
                   {tier.price}
                 </p>
               )}
@@ -53,14 +67,8 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
 
               <ul className="mt-6 flex-1 space-y-2">
                 {tier.highlights.map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-2 text-sm text-foreground"
-                  >
-                    <span
-                      className="mt-0.5 text-brand-red"
-                      aria-hidden="true"
-                    >
+                  <li key={item} className="flex gap-2 text-sm text-foreground">
+                    <span className="mt-0.5 text-brand-red" aria-hidden="true">
                       ✓
                     </span>
                     <span>{item}</span>
@@ -73,13 +81,13 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "mt-8 inline-flex w-full items-center justify-center rounded-md px-4 py-2.5 text-sm font-semibold transition-colors duration-normal ease-luxury",
+                  "mt-8 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors duration-normal ease-luxury",
                   tier.featured
-                    ? "bg-brand-red text-white hover:bg-brand-red-light"
-                    : "border border-brand-red text-foreground hover:bg-brand-red/10",
+                    ? "bg-brand-red text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light"
+                    : "border border-brand-red/40 text-foreground hover:bg-brand-red/10",
                 )}
               >
-                הזמנה בוואטסאפ
+                סגרו את המחיר הזה בוואטסאפ
               </a>
             </article>
           );

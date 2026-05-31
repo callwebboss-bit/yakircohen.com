@@ -1,13 +1,22 @@
 ﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
+import {
+  BOOKING_CTA,
+  BOOKING_CONSULT_15_MIN,
+  BOOKING_SUMMARY_INTRO,
+} from "@/lib/data/booking-shared";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import { STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
@@ -178,7 +187,6 @@ function isDjReserveFormValid(form: FormState): boolean {
 }
 
 export default function DjEventsCalculator({ className }: { className?: string }) {
-  const router = useRouter();
   const [festivalSelected, setFestivalSelected] = useState(false);
   const [djId, setDjId] = useState<DjId | null>(null);
   const [starId, setStarId] = useState<StarId | null>(null);
@@ -232,129 +240,107 @@ export default function DjEventsCalculator({ className }: { className?: string }
 
   const today = new Date().toISOString().split("T")[0];
 
-  const whatsappHref = useMemo(() => {
-    const lines: string[] = [];
-    lines.push("שריון תאריך לאירוע  -  יקיר כהן הפקות 🎉");
-    lines.push("");
-    if (form.name) lines.push(`שם: ${form.name}`);
-    if (form.phone) lines.push(`טלפון: ${form.phone}`);
-    if (form.date) lines.push(`תאריך האירוע: ${form.date}`);
-    if (form.location) lines.push(`מיקום / אולם: ${form.location}`);
-    lines.push("");
-
+  const buildSummaryLines = () => {
+    const lines: { label: string; value: string }[] = [];
+    if (form.date) lines.push({ label: "תאריך", value: form.date });
+    if (form.location.trim()) {
+      lines.push({ label: "מיקום", value: sanitizeLeadText(form.location, 120) });
+    }
     if (festivalSelected) {
-      lines.push(`• ${FESTIVAL_PACKAGE.name}  -  ${formatCurrency(FESTIVAL_PACKAGE.price)}`);
+      lines.push({
+        label: "חבילה",
+        value: `${FESTIVAL_PACKAGE.name} (${formatCurrency(FESTIVAL_PACKAGE.price)})`,
+      });
     } else {
       if (djId) {
         const dj = DJ_OPTIONS.find((d) => d.id === djId)!;
-        lines.push(`• ${dj.name}  -  ${formatCurrency(dj.price)}`);
+        lines.push({ label: "DJ", value: `${dj.name} (${formatCurrency(dj.price)})` });
       }
       if (starId) {
         const star = STAR_OPTIONS.find((s) => s.id === starId)!;
-        lines.push(`• ${star.name}  -  ${formatCurrency(star.price)}`);
+        lines.push({ label: "רגע של כוכב", value: `${star.name} (${formatCurrency(star.price)})` });
       }
       addons.forEach((id) => {
         const a = ADDONS.find((x) => x.id === id)!;
-        lines.push(`• ${a.name}  -  ${formatCurrency(a.price)}`);
+        lines.push({ label: "תוספת", value: `${a.name} (${formatCurrency(a.price)})` });
       });
-      effects.forEach((id) => {
-        const e = EFFECTS.find((x) => x.id === id)!;
-        lines.push(`• ${e.name}`);
-      });
-      if (effectDiscount > 0) lines.push(`  (חיסכון חבילת אפקטים: -${formatCurrency(effectDiscount)})`);
+      if (effects.size > 0) {
+        lines.push({
+          label: "אפקטים",
+          value: [...effects]
+            .map((id) => EFFECTS.find((x) => x.id === id)?.name)
+            .filter(Boolean)
+            .join(", "),
+        });
+      }
+      if (effectDiscount > 0) {
+        lines.push({ label: "חיסכון אפקטים", value: `-${formatCurrency(effectDiscount)}` });
+      }
     }
+    return lines;
+  };
 
-    lines.push("");
-    lines.push(`סה"כ: ${formatCurrency(grandTotal)} (לפני מע"מ)`);
-    lines.push("");
-    lines.push("מחכים לאישור זמינות!");
-
-    return buildWhatsAppHref({
-      text: lines.join("\n"),
-      utm_source: "dj-events",
-      utm_campaign: "dj_calculator",
+  const consultHref = useMemo(() => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(form.name, 60),
+      phone: displayPhone,
     });
-  }, [festivalSelected, djId, starId, addons, effects, grandTotal, effectDiscount, form]);
+  }, [form, festivalSelected, djId, starId, addons, effects, effectDiscount]);
 
   const hasSelection = grandTotal > 0;
   const formValid = isDjReserveFormValid(form);
   const canReserve = hasSelection && formValid;
 
-  const sendReserveWhatsApp = useCallback(() => {
-    if (!hasSelection) return;
-    const errs = attemptSubmit(
-      () => validateDjReserve(form),
-      (result) => {
-        const displayPhone = result.normalizedPhone
-          ? formatPhoneForDisplay(result.normalizedPhone)
-          : form.phone.trim();
-        const lines: string[] = [];
-        lines.push("שריון תאריך לאירוע  -  יקיר כהן הפקות 🎉");
-        lines.push("");
-        lines.push(`שם: ${sanitizeLeadText(form.name, 60)}`);
-        lines.push(`טלפון: ${displayPhone}`);
-        if (form.date) lines.push(`תאריך האירוע: ${form.date}`);
-        if (form.location.trim()) {
-          lines.push(`מיקום / אולם: ${sanitizeLeadText(form.location, 120)}`);
-        }
-        lines.push("");
-        if (festivalSelected) {
-          lines.push(`• ${FESTIVAL_PACKAGE.name}  -  ${formatCurrency(FESTIVAL_PACKAGE.price)}`);
-        } else {
-          if (djId) {
-            const dj = DJ_OPTIONS.find((d) => d.id === djId)!;
-            lines.push(`• ${dj.name}  -  ${formatCurrency(dj.price)}`);
-          }
-          if (starId) {
-            const star = STAR_OPTIONS.find((s) => s.id === starId)!;
-            lines.push(`• ${star.name}  -  ${formatCurrency(star.price)}`);
-          }
-          addons.forEach((id) => {
-            const a = ADDONS.find((x) => x.id === id)!;
-            lines.push(`• ${a.name}  -  ${formatCurrency(a.price)}`);
+  const handleAction = useCallback(
+    (intent: "continue_chat" | "start_now") => {
+      if (!hasSelection) return;
+      const errs = attemptSubmit(
+        () => validateDjReserve(form),
+        (result) => {
+          const displayPhone = result.normalizedPhone
+            ? formatPhoneForDisplay(result.normalizedPhone)
+            : form.phone.trim();
+          const body = buildBookingWhatsAppBody({
+            intent,
+            serviceLabel: "DJ ואירועים",
+            summaryLines: buildSummaryLines(),
+            contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+            totalEstimate: grandTotal,
+            utmSource: readUtmSource() ?? "dj-events",
           });
-          effects.forEach((id) => {
-            const e = EFFECTS.find((x) => x.id === id)!;
-            lines.push(`• ${e.name}`);
+          const href = buildWhatsAppHref({
+            text: body,
+            utm_source: "dj-events",
+            utm_campaign: "dj_calculator",
           });
-          if (effectDiscount > 0) {
-            lines.push(`  (חיסכון חבילת אפקטים: -${formatCurrency(effectDiscount)})`);
-          }
-        }
-        lines.push("");
-        lines.push(`סה"כ: ${formatCurrency(grandTotal)} (לפני מע"מ)`);
-        lines.push("");
-        lines.push("מחכים לאישור זמינות!");
-        const href = buildWhatsAppHref({
-          text: lines.join("\n"),
-          utm_source: "dj-events",
-          utm_campaign: "dj_calculator",
-        });
-        openWhatsAppLead(href);
-        notifyLeadByEmail({
-          formId: "dj_events_calculator",
-          subject: "ליד חדש - DJ ואירועים",
-          body: lines.join("\n"),
-          name: sanitizeLeadText(form.name, 60),
-          phone: displayPhone,
-        });
-        router.push("/thank-you?service=dj");
-      },
-    );
-    setFieldErrors(errs ?? {});
-  }, [
-    router,
-    attemptSubmit,
-    form,
-    hasSelection,
-    festivalSelected,
-    djId,
-    starId,
-    addons,
-    effects,
-    effectDiscount,
-    grandTotal,
-  ]);
+          openWhatsAppLead(href);
+          notifyLeadByEmail({
+            formId: "dj_events_calculator",
+            subject: "ליד חדש - DJ ואירועים",
+            body,
+            name: sanitizeLeadText(form.name, 60),
+            phone: displayPhone,
+          });
+        },
+      );
+      setFieldErrors(errs ?? {});
+    },
+    [
+      attemptSubmit,
+      form,
+      hasSelection,
+      festivalSelected,
+      djId,
+      starId,
+      addons,
+      effects,
+      effectDiscount,
+      grandTotal,
+    ],
+  );
 
   return (
     <div className={cn("pb-32", className)}>
@@ -634,6 +620,17 @@ export default function DjEventsCalculator({ className }: { className?: string }
                 מלאו שם, טלפון ותאריך כדי לשלוח בקשת שריון בוואטסאפ
               </p>
             ) : null}
+            <p className="mt-4 text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+            <p className="mt-3 text-center">
+              <a
+                href={consultHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
+              >
+                {BOOKING_CONSULT_15_MIN.title}
+              </a>
+            </p>
           </div>
         )}
 
@@ -688,11 +685,14 @@ export default function DjEventsCalculator({ className }: { className?: string }
         total={grandTotal}
         totalLabel="השקעה משוערת · לפני מע״מ"
         subLabel={effectDiscount > 0 ? `כולל חיסכון ${formatCurrency(effectDiscount)}` : undefined}
-        whatsappHref={whatsappHref}
+        whatsappHref=""
         showCta={hasSelection}
-        primaryDisabled={!formValid}
-        onWhatsAppClick={sendReserveWhatsApp}
-        ctaLabel="שלחו בקשת שריון בוואטסאפ"
+        continueDisabled={!canReserve}
+        startNowDisabled={!canReserve}
+        onContinueClick={() => handleAction("continue_chat")}
+        onStartNowClick={() => handleAction("start_now")}
+        continueLabel={BOOKING_CTA.continue_chat}
+        startNowLabel={BOOKING_CTA.start_now}
         emptyLabel="בחרו שירות לחישוב"
       />
     </div>

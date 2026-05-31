@@ -1,11 +1,12 @@
 ﻿"use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import BookingApprovals from "@/components/booking/BookingApprovals";
-import BookingConsultCta from "@/components/booking/BookingConsultCta";
+import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
+import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import StudioGuideDownload from "@/components/booking/StudioGuideDownload";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -13,7 +14,16 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
-import { BOOKING_POST_SUBMIT_MESSAGE } from "@/lib/data/booking-shared";
+import {
+  BOOKING_CTA,
+  BOOKING_CONSULT_15_MIN,
+  BOOKING_SUMMARY_INTRO,
+} from "@/lib/data/booking-shared";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import { withVat } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
@@ -23,15 +33,16 @@ import {
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import {
+  CONSULTATION_PACKAGES,
   RECORDING_ATMOSPHERES,
   RECORDING_STUDIO_FAQS,
   RECORDING_TYPES,
   STUDIO_RECORDING_PACKAGES,
-  STUDIO_BOOKING_APPROVALS,
   STUDIO_RECORDING_GUIDE,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
   type AtmosphereId,
+  type ConsultationPackageId,
   type RecordingTypeId,
   type StudioPackageId,
   type StudioUpgradeId,
@@ -46,7 +57,7 @@ type FormState = {
   songName: string;
   referrer: string;
   atmosphere: AtmosphereId | "";
-  packageId: StudioPackageId | "";
+  packageId: StudioPackageId | ConsultationPackageId | "";
   upgrades: Set<StudioUpgradeId>;
   surpriseGift: boolean;
   giftRecipientName: string;
@@ -66,7 +77,7 @@ type DraftPayload = {
   songName: string;
   referrer: string;
   atmosphere: AtmosphereId | "";
-  packageId: StudioPackageId | "";
+  packageId: StudioPackageId | ConsultationPackageId | "";
   upgrades: StudioUpgradeId[];
   surpriseGift: boolean;
   giftRecipientName: string;
@@ -84,9 +95,7 @@ export default function StudioRecordingBooking({
 }: {
   initialGiftMode?: boolean;
 }) {
-  const router = useRouter();
   const [step, setStep] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState<FormState>({
     recordingType: "",
     songName: "",
@@ -104,6 +113,9 @@ export default function StudioRecordingBooking({
     termsAccepted: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [lastWaHref, setLastWaHref] = useState("");
+  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "studio_recording_booking",
   });
@@ -134,7 +146,14 @@ export default function StudioRecordingBooking({
     (raw) => (raw && typeof raw === "object" ? (raw as DraftPayload) : null),
   );
 
-  const selectedPackage = STUDIO_RECORDING_PACKAGES.find((p) => p.id === form.packageId);
+  const isConsultation = form.recordingType === "song_promotion_consultation";
+  const consultationPackage = isConsultation
+    ? CONSULTATION_PACKAGES.find((p) => p.id === form.packageId)
+    : undefined;
+  const selectedPackage = isConsultation
+    ? undefined
+    : STUDIO_RECORDING_PACKAGES.find((p) => p.id === form.packageId);
+  const activePackage = consultationPackage ?? selectedPackage;
   const upgradesTotal = useMemo(
     () =>
       Array.from(form.upgrades).reduce(
@@ -143,14 +162,86 @@ export default function StudioRecordingBooking({
       ),
     [form.upgrades],
   );
-  const total = (selectedPackage?.price ?? 0) + upgradesTotal;
+  const total = (activePackage?.price ?? 0) + upgradesTotal;
 
   const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
-  const canAdvanceStep0 = form.recordingType !== "" && form.atmosphere !== "";
+  const canAdvanceStep0 =
+    form.recordingType !== "" && (isConsultation || form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
+
+  const buildSummaryLines = () => [
+    { label: "סוג", value: recordingLabel },
+    ...(form.songName && !isConsultation
+      ? [{ label: "שיר", value: sanitizeLeadText(form.songName, 80) }]
+      : []),
+    ...(form.referrer
+      ? [{ label: "הופנה על ידי", value: sanitizeLeadText(form.referrer, 60) }]
+      : []),
+    ...(!isConsultation && atmosphereLabel
+      ? [{ label: "אווירה", value: atmosphereLabel }]
+      : []),
+    ...(activePackage
+      ? [
+          {
+            label: "מסלול",
+            value: `${activePackage.name} (${activePackage.price.toLocaleString("he-IL")} ₪)`,
+          },
+        ]
+      : []),
+    ...(form.surpriseGift ? [{ label: "מתנת הפתעה", value: "כן" }] : []),
+    ...(form.surpriseGift && form.giftRecipientName
+      ? [{ label: "מתנה עבור", value: sanitizeLeadText(form.giftRecipientName, 60) }]
+      : []),
+    ...(form.upgrades.size > 0
+      ? [
+          {
+            label: "שדרוגים",
+            value: Array.from(form.upgrades)
+              .map((id) => STUDIO_RECORDING_UPGRADES.find((x) => x.id === id)?.name)
+              .filter(Boolean)
+              .join(", "),
+          },
+        ]
+      : []),
+    ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+    ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+    ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+  ];
+
+  const consultHref = useMemo(() => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(form.name, 60),
+      phone: displayPhone,
+    });
+  }, [form, recordingLabel, atmosphereLabel, activePackage, isConsultation, total]);
+
+  const resetWizard = () => {
+    setForm({
+      recordingType: "",
+      songName: "",
+      referrer: "",
+      atmosphere: "",
+      packageId: "",
+      upgrades: new Set(),
+      surpriseGift: initialGiftMode ?? false,
+      giftRecipientName: "",
+      name: "",
+      phone: "",
+      date: "",
+      time: "",
+      notes: "",
+      termsAccepted: false,
+    });
+    setStep(0);
+    setSubmitted(false);
+    setErrors({});
+  };
 
   const goToStep = (n: number) => {
     setStep(n);
@@ -166,13 +257,11 @@ export default function StudioRecordingBooking({
     });
   };
 
-  const handleSubmit = () => {
+  const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors((prev) => ({ ...prev, terms: "יש לאשר את התנאים לפני שליחה" }));
       return;
     }
-    setSubmitting(true);
-    let successFired = false;
 
     const fieldErrs = attemptSubmit(
       () =>
@@ -186,53 +275,25 @@ export default function StudioRecordingBooking({
           requireLocation: false,
         }),
       (result) => {
-        successFired = true;
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : form.phone.trim();
 
-        const upgradeLines = Array.from(form.upgrades)
-          .map((id) => {
-            const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
-            return u ? `• ${u.name} (+${u.price.toLocaleString()} ₪)` : null;
-          })
-          .filter(Boolean)
-          .join("\n");
+        const serviceLabel = isConsultation
+          ? "ייעוץ לקידום שיר"
+          : `הקלטה באולפן - ${activePackage?.name ?? recordingLabel}`;
 
-        const message = [
-          "הזמנת הקלטה באולפן 🎤",
-          "",
-          `שם: ${sanitizeLeadText(form.name, 60)}`,
-          `טלפון: ${displayPhone}`,
-          `תאריך מועדף: ${form.date}`,
-          `שעה: ${form.time}`,
-          "",
-          `סוג הקלטה: ${recordingLabel}`,
-          form.songName ? `שם השיר: ${sanitizeLeadText(form.songName, 80)}` : null,
-          form.referrer ? `הופנה על ידי: ${sanitizeLeadText(form.referrer, 60)}` : null,
-          `אווירה: ${atmosphereLabel}`,
-          selectedPackage
-            ? `מסלול: ${selectedPackage.name} (${selectedPackage.price.toLocaleString()} ₪)`
-            : null,
-          form.surpriseGift ? "✨ מתנה הפתעה לילד/ה - כן" : null,
-          form.surpriseGift && form.giftRecipientName
-            ? `🎁 מתנה עבור: ${sanitizeLeadText(form.giftRecipientName, 60)}`
-            : null,
-          upgradeLines ? `\nשדרוגים:\n${upgradeLines}` : null,
-          "",
-          `סה"כ משוער: ${total.toLocaleString()} ₪ (לפני מע״מ)`,
-          `כולל מע״מ: ${withVat(total).toLocaleString()} ₪`,
-          "",
-          STUDIO_BOOKING_APPROVALS.pricingNote,
-          STUDIO_BOOKING_APPROVALS.cancellationNote,
-          "✓ אישרתי את התנאים והפרטים",
-          form.notes ? `\nהערות: ${sanitizeLeadText(form.notes, 500)}` : null,
-        ]
-          .filter(Boolean)
-          .join("\n");
+        const body = buildBookingWhatsAppBody({
+          intent,
+          serviceLabel,
+          summaryLines: buildSummaryLines(),
+          contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+          totalEstimate: withVat(total),
+          utmSource: readUtmSource(),
+        });
 
         const href = buildWhatsAppHref({
-          text: message,
+          text: body,
           utm_source: "website",
           utm_campaign: "studio_recording_booking",
         });
@@ -240,30 +301,38 @@ export default function StudioRecordingBooking({
         notifyLeadByEmail({
           formId: "studio_recording_booking",
           subject: "הזמנת הקלטה באולפן",
-          body: message,
+          body,
           name: form.name,
           phone: displayPhone,
         });
-        setSubmitting(false);
+        setLastIntent(intent);
+        setLastWaHref(href);
+        setSubmitted(true);
         draft.clear();
-        router.push("/thank-you?service=studio");
       },
     );
 
-    if (!successFired) {
-      setSubmitting(false);
-      setErrors(fieldErrs ?? {});
-      if (fieldErrs && Object.keys(fieldErrs).length > 0) {
-        setTimeout(() => {
-          document
-            .querySelector("[data-field-error]")
-            ?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 50);
-      }
+    setErrors(fieldErrs ?? {});
+    if (fieldErrs && Object.keys(fieldErrs).length > 0) {
+      setTimeout(() => {
+        document
+          .querySelector("[data-field-error]")
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
     }
   };
 
   const today = new Date().toISOString().split("T")[0];
+
+  if (submitted && lastWaHref) {
+    return (
+      <BookingSuccessPanel
+        intent={lastIntent}
+        whatsappHref={lastWaHref}
+        onNewBooking={resetWizard}
+      />
+    );
+  }
 
   return (
     <div className={cn("space-y-10", step === 2 && selectedPackage && "pb-24")}>
@@ -474,15 +543,17 @@ export default function StudioRecordingBooking({
                 id="package-heading"
                 className="text-xl font-semibold text-foreground sm:text-2xl"
               >
-                בחרו את המסלול שלכם
+                {isConsultation ? "בחרו סוג ייעוץ" : "בחרו את המסלול שלכם"}
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                המחיר הוא על התוצאה הסופית - לא על זמן באולפן
+                {isConsultation
+                  ? "ייעוץ מקצועי לקידום השיר ברשתות החברתיות"
+                  : "המחיר הוא על התוצאה הסופית - לא על זמן באולפן"}
               </p>
             </header>
 
             <div className="grid gap-4 lg:grid-cols-2">
-              {STUDIO_RECORDING_PACKAGES.map((pkg) => {
+              {(isConsultation ? CONSULTATION_PACKAGES : STUDIO_RECORDING_PACKAGES).map((pkg) => {
                 const active = form.packageId === pkg.id;
                 return (
                   <button
@@ -491,7 +562,7 @@ export default function StudioRecordingBooking({
                     onClick={() => setForm((prev) => ({ ...prev, packageId: pkg.id }))}
                     className={cn(
                       "relative flex flex-col items-start gap-2 rounded-2xl border p-5 text-start",
-                      pkg.featured && "ring-1 ring-brand-red/30",
+                      "featured" in pkg && pkg.featured && "ring-1 ring-brand-red/30",
                       active
                         ? "border-brand-red bg-brand-red/5"
                         : "border-border bg-background hover:border-brand-red/30",
@@ -503,7 +574,7 @@ export default function StudioRecordingBooking({
                         {pkg.badge}
                       </span>
                     )}
-                    {pkg.featured && (
+                    {"featured" in pkg && pkg.featured && (
                       <span className="mb-1 w-full text-center text-xs font-bold text-brand-red">
                         ✦ הכי מומלץ - שגר ושכח ✦
                       </span>
@@ -515,7 +586,7 @@ export default function StudioRecordingBooking({
                     <span className="text-xs leading-relaxed text-muted-foreground">
                       {pkg.description}
                     </span>
-                    {pkg.savings && (
+                    {"savings" in pkg && pkg.savings && (
                       <span className="text-xs font-medium text-green-700">{pkg.savings}</span>
                     )}
                     <div className="mt-auto">
@@ -613,14 +684,16 @@ export default function StudioRecordingBooking({
                       {form.referrer}
                     </li>
                   )}
-                  <li>
-                    <strong className="text-foreground">אווירה:</strong> {atmosphereLabel}
-                  </li>
-                  {selectedPackage && (
+                  {!isConsultation && atmosphereLabel && (
+                    <li>
+                      <strong className="text-foreground">אווירה:</strong> {atmosphereLabel}
+                    </li>
+                  )}
+                  {activePackage && (
                     <li>
                       <strong className="text-foreground">מסלול:</strong>{" "}
-                      {selectedPackage.name} (
-                      {selectedPackage.price.toLocaleString("he-IL")} ₪)
+                      {activePackage.name} (
+                      {activePackage.price.toLocaleString("he-IL")} ₪)
                     </li>
                   )}
                   {form.surpriseGift && (
@@ -783,8 +856,10 @@ export default function StudioRecordingBooking({
                   </div>
                 </div>
 
+                <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+
                 <BookingApprovals
-                  copy={STUDIO_BOOKING_APPROVALS}
+                  variant="light"
                   termsAccepted={form.termsAccepted}
                   onTermsChange={(accepted) => {
                     setForm((prev) => ({ ...prev, termsAccepted: accepted }));
@@ -796,46 +871,34 @@ export default function StudioRecordingBooking({
                       });
                     }
                   }}
-                  onAcceptAll={() => {
-                    setForm((prev) => ({ ...prev, termsAccepted: true }));
-                    setErrors((prev) => {
-                      const next = { ...prev };
-                      delete next.terms;
-                      return next;
-                    });
-                  }}
                   termsError={errors.terms}
                 />
 
-                <BookingConsultCta className="mt-4" />
+                <BookingSummaryActions
+                  disabled={!form.termsAccepted}
+                  continueWhatsApp={{
+                    label: BOOKING_CTA.continue_chat,
+                    onClick: () => handleAction("continue_chat"),
+                  }}
+                  startNow={{
+                    label: BOOKING_CTA.start_now,
+                    onClick: () => handleAction("start_now"),
+                  }}
+                  consult15Min={{
+                    label: BOOKING_CONSULT_15_MIN.title,
+                    href: consultHref,
+                  }}
+                />
 
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={!form.termsAccepted || submitting}
-                  className={cn(
-                    "mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold",
-                    "transition-colors shadow-[0_0_20px_rgba(212,43,43,0.25)]",
-                    form.termsAccepted && !submitting
-                      ? "bg-brand-red text-white hover:bg-brand-red-light"
-                      : "cursor-not-allowed bg-border text-muted-foreground",
-                  )}
-                >
-                  {submitting
-                    ? "שולח..."
-                    : `שליחה בוואטסאפ · ${total.toLocaleString("he-IL")} ₪`}
-                </button>
+                <BookingPaymentTrust />
 
                 <button
                   type="button"
                   onClick={() => goToStep(1)}
-                  className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-brand-red"
+                  className="w-full text-center text-xs text-muted-foreground hover:text-brand-red"
                 >
                   חזרה לבחירת מסלול
                 </button>
-                <p className="mt-4 text-center text-xs text-muted-foreground">
-                  {BOOKING_POST_SUBMIT_MESSAGE.body}
-                </p>
               </div>
             </div>
           </section>

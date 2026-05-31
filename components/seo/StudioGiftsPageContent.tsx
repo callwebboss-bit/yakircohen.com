@@ -1,3 +1,4 @@
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -10,6 +11,12 @@ import {
   STUDIO_GIFT_FAQ,
   STUDIO_GIFT_IDEAS,
 } from "@/lib/data/studio-gifts-page";
+import {
+  RINGTONE_HERO,
+  RINGTONE_PAGE_PATH,
+  RINGTONE_PRICE_NIS,
+} from "@/lib/data/funny-ringtone-page";
+import { formatNis } from "@/lib/data/pricing";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
@@ -97,10 +104,15 @@ export default function StudioGiftsPageContent() {
         </div>
       </section>
 
+      <TrustStatsBar variant="compact" className="border-b" />
+
       <section className="border-b border-border bg-surface py-12 sm:py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <header className="mx-auto max-w-2xl text-center">
-            <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              איך זה עובד
+            </p>
+            <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
               איך רוכשים מתנה שלא תישכח
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
@@ -112,7 +124,7 @@ export default function StudioGiftsPageContent() {
             {GIFT_VOUCHER_STEPS.map((step) => (
               <li
                 key={step.step}
-                className="rounded-2xl border border-border bg-background p-5 text-center"
+                className="rounded-2xl border border-border bg-background p-5 text-center transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/30 hover:shadow-md"
               >
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-red text-sm font-bold text-white">
                   {step.step}
@@ -131,7 +143,10 @@ export default function StudioGiftsPageContent() {
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
-          <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+            רעיונות למתנה
+          </p>
+          <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
             רעיונות למתנה - עם וידאו לצפייה
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
@@ -148,18 +163,86 @@ export default function StudioGiftsPageContent() {
             />
           ))}
         </div>
+
+        <article className="mt-10 overflow-hidden rounded-2xl border-2 border-brand-red/30 bg-gradient-to-br from-brand-red/5 to-background">
+          <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
+            <div className="flex flex-col justify-center p-6 sm:p-8">
+              <span className="inline-flex w-fit rounded-full bg-brand-red px-3 py-0.5 text-xs font-bold text-white">
+                {formatNis(RINGTONE_PRICE_NIS)} מבצע
+              </span>
+              <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">
+                רינגטון מצחיק — מתנה לכיף
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                מתנה מקורית ליום הולדת או הפתעה לחבר/ה: מקליטים, מעבדים ומגישים
+                רינגטון אישי שמישהו באמת ישמיע בטלפון. שמעו לפני ואחרי בעמוד
+                הייעודי.
+              </p>
+              <ul className="mt-4 space-y-2">
+                <li className="flex gap-2 text-sm text-muted-foreground">
+                  <span className="shrink-0 font-bold text-brand-red">-</span>
+                  קובץ מוכן ל-iPhone ו-Android
+                </li>
+                <li className="flex gap-2 text-sm text-muted-foreground">
+                  <span className="shrink-0 font-bold text-brand-red">-</span>
+                  נגן לפני/אחרי — שמעו את ההבדל
+                </li>
+                <li className="flex gap-2 text-sm text-muted-foreground">
+                  <span className="shrink-0 font-bold text-brand-red">-</span>
+                  הזמנה בוואטסאפ או בטופס מקוון
+                </li>
+              </ul>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Link
+                  href={RINGTONE_PAGE_PATH}
+                  className="inline-flex items-center justify-center rounded-xl bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+                >
+                  לעמוד הרינגטון
+                </Link>
+                <a
+                  href={buildWhatsAppHref({
+                    text: RINGTONE_HERO.whatsappText,
+                    utm_source: "studio",
+                    utm_campaign: RINGTONE_HERO.utmCampaign,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+                >
+                  הזמנה בוואטסאפ
+                </a>
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-brand-red/5 p-8 text-center lg:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+                {RINGTONE_HERO.eyebrow}
+              </p>
+              <p className="mt-4 font-serif text-2xl font-semibold text-foreground">
+                {RINGTONE_HERO.priceBadge}
+              </p>
+              <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+                רינגטון אישי שיגרום לצחוק בכל פעם שהטלפון מצלצל
+              </p>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-2 text-center text-xl font-semibold text-foreground sm:text-2xl">
-            קליפים לבת מצווה - עדיין הלהיט
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-center text-sm text-muted-foreground">
-            אם המתנה היא לבר/בת מצווה, אלה הסגנונות הפופולריים ביותר. אפשר לרכוש
-            גם כשובר מתנה עם סימון מתנה.
-          </p>
-          <div className="space-y-8">
+          <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              בת/בר מצווה
+            </p>
+            <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
+              קליפים לבת מצווה - עדיין הלהיט
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              אם המתנה היא לבר/בת מצווה, אלה הסגנונות הפופולריים ביותר. אפשר לרכוש
+              גם כשובר מתנה עם סימון מתנה.
+            </p>
+          </header>
+          <div className="mt-8 space-y-8">
             {BAT_MITZVAH_CLIP_TYPES.map((type) => (
               <article
                 key={type.id}
@@ -204,14 +287,17 @@ export default function StudioGiftsPageContent() {
 
       <section className="border-t border-border bg-surface py-12">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-6 text-xl font-semibold text-foreground">
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+            סגנונות הפקה
+          </p>
+          <h2 className="font-serif text-xl font-semibold text-foreground">
             סגנונות הפקה לקליפים
           </h2>
           <ul className="grid gap-4 sm:grid-cols-3">
             {BAT_MITZVAH_PRODUCTION_STYLES.map((item) => (
               <li
                 key={item.title}
-                className="rounded-xl border border-border bg-background p-5"
+                className="rounded-xl border border-border bg-background p-5 transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-sm"
               >
                 <h3 className="text-sm font-semibold text-foreground">
                   {item.title}
@@ -241,7 +327,10 @@ export default function StudioGiftsPageContent() {
       </section>
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-        <h2 className="mb-6 text-xl font-semibold text-foreground">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+          שאלות נפוצות
+        </p>
+        <h2 className="mb-6 mt-3 font-serif text-xl font-semibold text-foreground">
           שאלות על מתנות ושוברים
         </h2>
         <FAQWithCtaLinks items={faqItems} />

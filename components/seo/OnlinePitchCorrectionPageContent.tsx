@@ -1,5 +1,7 @@
 import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import AudioShowcase from "@/components/seo/AudioShowcase";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import {
   PITCH_AUDIENCE,
   PITCH_MANUAL_METHOD,
@@ -191,6 +193,28 @@ export default function OnlinePitchCorrectionPageContent() {
         </div>
       </section>
 
+      {/* Before/After Audio Demo */}
+      <section className="border-t border-border bg-surface py-12">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2 className="text-xl font-semibold text-foreground">
+              שמעו את ההבדל בעצמכם
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              אותו קטע שירה — לפני ואחרי עריכה ידנית של תיקון זיופים.
+            </p>
+          </header>
+          <div className="mx-auto mt-8 max-w-2xl">
+            <AudioShowcase
+              variant="vocal"
+              context="page"
+              beforeSrc="/audio/pitch-raw.mp3"
+              afterSrc="/audio/pitch-tuned.mp3"
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="border-t border-border bg-surface py-12">
         <div className="mx-auto max-w-md px-4 text-center sm:px-6">
           <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
@@ -254,9 +278,38 @@ export default function OnlinePitchCorrectionPageContent() {
         </p>
       </section>
 
+      {/* Video Tutorial */}
+      <ShowcaseVideoSection
+        kicker="הדרכת וידאו"
+        heading="תיקון זיופים מא׳ עד ת׳"
+        subheading="צפו בתהליך השלם — מקובץ גולמי ועד גרסה מלוטשת"
+        videos={[{ videoId: "aTGqFnijz0Q", title: "הדרכת תיקון זיופים — Pitch Correction" }]}
+      />
+
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <h2 className="mb-6 text-xl font-semibold text-foreground">שאלות נפוצות</h2>
         <FAQWithCtaLinks items={FAQ_ITEMS} />
+      </section>
+
+      {/* Recorded Testimonial */}
+      <section className="mx-auto max-w-2xl border-t border-border px-4 py-12 sm:px-6">
+        <h2 className="text-lg font-semibold text-foreground">
+          שמעו מלקוח שעבר את התהליך
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          המלצה מוקלטת על שירות תיקון הזיופים.
+        </p>
+        <div className="mt-5 rounded-2xl border border-border bg-surface p-5">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <audio
+            controls
+            preload="none"
+            className="w-full"
+            aria-label="המלצה מוקלטת על שירות תיקון זיופים"
+          >
+            <source src="/audio/AI-patch-recommendation.mp3" type="audio/mpeg" />
+          </audio>
+        </div>
       </section>
 
       <section className="border-t border-border bg-surface py-14 text-center">

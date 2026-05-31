@@ -62,16 +62,23 @@ export default function BookCategoryAccordion({
         </span>
       </button>
 
-      {isOpen ? (
-        <div
-          id={`${id}-panel`}
-          role="region"
-          aria-labelledby={`${id}-trigger`}
-          className="border-t border-border px-4 pb-8 pt-6 sm:px-6 sm:pb-10"
-        >
-          {children}
+      {/* Grid-rows animation keeps content in DOM for smooth open/close */}
+      <div
+        id={`${id}-panel`}
+        role="region"
+        aria-labelledby={`${id}-trigger`}
+        className={cn(
+          "grid transition-[grid-template-rows] duration-300 ease-out",
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+        inert={!isOpen}
+      >
+        <div className="overflow-hidden">
+          <div className="border-t border-border px-4 pb-8 pt-6 sm:px-6 sm:pb-10">
+            {children}
+          </div>
         </div>
-      ) : null}
+      </div>
     </section>
   );
 }

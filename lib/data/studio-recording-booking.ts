@@ -5,6 +5,7 @@
   | "bar_mitzvah_speech"
   | "general_blessing"
   | "voiceover"
+  | "song_promotion_consultation"
   | "other";
 
 export type AtmosphereId = "intimate" | "party" | "focused";
@@ -36,7 +37,35 @@ export const RECORDING_TYPES: readonly {
   { id: "bar_mitzvah_speech", label: "דרשה לבר/בת מצווה" },
   { id: "general_blessing", label: "ברכות כלליות" },
   { id: "voiceover", label: "קריינות" },
+  { id: "song_promotion_consultation", label: "ייעוץ לקידום שיר ברשת" },
   { id: "other", label: "אחר" },
+] as const;
+
+export type ConsultationPackageId = "consultation_phone" | "consultation_inperson";
+
+export const CONSULTATION_PACKAGES: readonly {
+  id: ConsultationPackageId;
+  emoji: string;
+  name: string;
+  description: string;
+  price: number;
+  badge?: string;
+}[] = [
+  {
+    id: "consultation_phone",
+    emoji: "📱",
+    name: "ייעוץ טלפוני",
+    description: "שיחת ייעוץ של 45 דקות — אסטרטגיה לקידום השיר ברשתות החברתיות",
+    price: 400,
+  },
+  {
+    id: "consultation_inperson",
+    emoji: "🤝",
+    name: "ייעוץ פרונטלי",
+    description: "פגישה של שעה באולפן — תכנית פרסום מלאה, מדדי הצלחה ועצות מעשיות · בתיאום מראש",
+    price: 980,
+    badge: "מומלץ",
+  },
 ] as const;
 
 export const RECORDING_STUDIO_FAQS: readonly {

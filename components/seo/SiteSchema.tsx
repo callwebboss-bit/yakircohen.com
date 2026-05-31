@@ -8,6 +8,7 @@ import {
 } from "@/lib/data/pricing";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
+import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 import { buildReviewSchemaGraph } from "@/lib/review-schema";
 
 const BASE = SITE_URL;
@@ -118,6 +119,7 @@ const schema = {
       ],
       sameAs: socialUrls,
       parentOrganization: { "@id": `${BASE}/#organization` },
+      aggregateRating: buildGoogleAggregateRatingSchema(),
       makesOffer: [
         {
           "@type": "Offer",

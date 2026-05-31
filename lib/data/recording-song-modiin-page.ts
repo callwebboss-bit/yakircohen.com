@@ -101,3 +101,67 @@ export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[]
 ] as const;
 
 export const RECORDING_SONG_FEATURED_VIDEO_ID = "8i4K2f5gQfM";
+
+export type RecordingSongTestimonial = {
+  quote: string;
+  author: string;
+  role: string;
+};
+
+export type RecordingSongEventPillar = {
+  id: string;
+  emoji: string;
+  title: string;
+  description: string;
+  tag: string;
+};
+
+export const RECORDING_SONG_TESTIMONIALS: readonly RecordingSongTestimonial[] =
+  [
+    {
+      quote:
+        "באנו עם הבן לבר מצווה שלו בלי שום ניסיון. יקיר הוציא ממנו קול שלא ידענו שיש לו. השיר הגיע למסיבת הבר מצווה ובכינו מאושר.",
+      author: "רונית א.",
+      role: "אמא לבר מצווה, מודיעין עילית",
+    },
+    {
+      quote:
+        "הזמנתי שיר לחתונה של אחי כהפתעה. עבדו איתי בסבלנות אינסופית, והשיר הביא את כל האורחים לבכות מרגש.",
+      author: "דנה ל.",
+      role: "מכבים",
+    },
+    {
+      quote:
+        "עשינו כניסה לחופה עם שיר שהקלטנו יחד. יקיר לא נתן לנו לוותר עד שזה נשמע מדהים. חוויה שנזכור כל החיים.",
+      author: "ערן ונעמה ש.",
+      role: "חתן וכלה, רעות",
+    },
+  ] as const;
+
+export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
+  [
+    {
+      id: "bar-mitzvah",
+      emoji: "🎤",
+      title: "בר ובת מצווה",
+      description:
+        "שיר מותאם אישית לאירוע, עם מילות שיר ממשפחה ומחברים. רגע שישאר בזיכרון לכל החיים.",
+      tag: "הכי פופולרי",
+    },
+    {
+      id: "wedding",
+      emoji: "💍",
+      title: "חתונה",
+      description:
+        "שיר הפתעה לכלה מהחתן, שיר קבוצתי מחברים, או שיר שיישמע בנאום. גם בלי ניסיון שירה.",
+      tag: "",
+    },
+    {
+      id: "chupa",
+      emoji: "🕊️",
+      title: "כניסה לחופה",
+      description:
+        "קטע עצמאי לכניסה לחופה — בקולכם, עם עיבוד שיתאים לאווירה. רגע שהאורחים לא ישכחו.",
+      tag: "",
+    },
+  ] as const;

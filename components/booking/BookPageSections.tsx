@@ -16,7 +16,14 @@ import {
   parseBookCategoryFromHash,
   parseBookPackageFromSearch,
 } from "@/lib/book-url";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+
+const SOCIAL_MGMT_HREF = buildWhatsAppHref({
+  text: "שלום, אשמח לשמוע על שירות ניהול סושיאל לזמרים",
+  utm_source: "website",
+  utm_campaign: "social_management_inquiry",
+});
 
 type BookCategoryConfig = {
   id: BookCategoryId;
@@ -41,7 +48,7 @@ const BOOK_CATEGORY_META: readonly BookCategoryConfig[] = [
     label: "פודקאסט",
     shortLabel: "פודקאסט",
     title: "פודקאסט",
-    subtitle: "בחירת חבילה, תאריך ושליחה בוואטסאפ",
+    subtitle: "בחירת חבילה, פרטים ותיאום בוואטסאפ",
     icon: "🎙️",
   },
   {
@@ -199,6 +206,28 @@ export default function BookPageSections() {
         </div>
       </section>
 
+      {/* Soldiers discount banner */}
+      <div className="border-b border-border bg-brand-red/5 px-4 py-3">
+        <div className="mx-auto max-w-[72rem] flex flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
+          <p className="text-sm font-medium text-brand-red">
+            <span aria-hidden="true">🎖 </span>
+            מבצע לחיילים ולחיילות — 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
+          </p>
+          <a
+            href={buildWhatsAppHref({
+              text: "שלום, אני חייל/ת ואשמח לשמוע על ההנחה לחיילים",
+              utm_source: "website",
+              utm_campaign: "soldiers_discount",
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 text-xs font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-dark"
+          >
+            לפרטים בוואטסאפ
+          </a>
+        </div>
+      </div>
+
       <div className="mx-auto max-w-[72rem] space-y-4 px-4 py-10 sm:space-y-5 sm:px-6 sm:py-14 lg:px-8">
         {BOOK_CATEGORY_META.map((cat) => (
           <BookCategoryAccordion
@@ -217,6 +246,38 @@ export default function BookPageSections() {
           </BookCategoryAccordion>
         ))}
       </div>
+
+      {/* Social management and additional services */}
+      <section className="border-t border-border bg-surface py-8">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <h2 className="mb-4 text-base font-semibold text-foreground">שירותים נוספים</h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <p className="text-lg" aria-hidden="true">📱</p>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">ניהול סושיאל לזמרים</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                ניהול ואסטרטגיה לרשתות החברתיות — אינסטגרם, טיקטוק, יוטיוב. מתאים לזמרים שמחפשים נוכחות דיגיטלית מקצועית.
+              </p>
+              <a
+                href={SOCIAL_MGMT_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-xs font-semibold text-brand-red hover:underline"
+              >
+                לפרטים בוואטסאפ ←
+              </a>
+            </div>
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <p className="text-lg" aria-hidden="true">🎥</p>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">וולוג יום בחיי — צלם צמוד</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד. כולל עריכה מלאה של פרק (עד 4 גרסאות עריכה).
+              </p>
+              <p className="mt-2 text-xs font-semibold text-brand-red">2,200 ₪</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="border-t border-border bg-surface py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">

@@ -20,18 +20,17 @@ export default function ServicePricingBlock({
 }: ServicePricingBlockProps) {
   if (tiers.length === 0) return null;
 
+  const colClass =
+    tiers.length >= 3
+      ? "grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      : "grid-cols-1 gap-5 md:grid-cols-2";
+
   const grid = (
-    <ul
-      className={
-        embedded
-          ? "grid grid-cols-1 gap-5 md:grid-cols-2"
-          : "mt-10 grid grid-cols-1 gap-5 md:grid-cols-2"
-      }
-    >
+    <ul className={embedded ? `grid ${colClass}` : `mt-10 grid ${colClass}`}>
           {tiers.map((tier, index) => {
             const packageLabel = `${tier.name} - ${serviceTitle}`;
             const whatsappHref = buildWhatsAppHref({
-              text: buildServiceWhatsAppText(packageLabel),
+              text: buildServiceWhatsAppText(packageLabel, tier.price),
               utm_source: "website",
               utm_campaign: `${utmCampaignPrefix}_${index}`,
             });
@@ -71,7 +70,7 @@ export default function ServicePricingBlock({
                   rel="noopener noreferrer"
                   className="mt-6 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
                 >
-                  הזמנה בוואטסאפ
+                  סגרו את המחיר הזה בוואטסאפ
                 </a>
               </li>
             );

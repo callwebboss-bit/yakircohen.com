@@ -67,6 +67,15 @@ export const SERVICES: Record<string, Service> = {
     desc: "הפקה מלאה עם צוות מקצועי ואיכות פרסומית",
     upsells: [],
   },
+  vlog_day: {
+    name: "וולוג יום בחיי — צלם צמוד",
+    category: "clips",
+    price: 2200,
+    icon: "🎥",
+    badge: "new",
+    desc: "תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה של פרק (עד 4 גרסאות עריכה)",
+    upsells: [],
+  },
   event_smoke: {
     name: "עשן כבד",
     category: "events",

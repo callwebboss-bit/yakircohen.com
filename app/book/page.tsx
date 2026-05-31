@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import BookPageSections from "@/components/booking/BookPageSections";
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
 
@@ -19,12 +20,6 @@ export const metadata: Metadata = constructMetadata({
     "הזמנה מקוונת",
   ],
 });
-
-const STATS = [
-  { num: "20+", label: "שנות ניסיון" },
-  { num: "5,000+", label: "לקוחות מרוצים" },
-  { num: "⭐⭐⭐⭐⭐", label: "דירוג ממוצע" },
-] as const;
 
 export default function BookPage() {
   return (
@@ -66,17 +61,7 @@ export default function BookPage() {
         </div>
       </section>
 
-      {/* ── Stats strip ── */}
-      <section className="border-b border-border bg-surface py-6" aria-label="נתוני חברה">
-        <div className="mx-auto flex max-w-[72rem] flex-wrap items-center justify-center gap-8 px-4 sm:px-6 lg:px-8">
-          {STATS.map((s) => (
-            <div key={s.label} className="text-center">
-              <span className="block text-xl font-bold text-foreground">{s.num}</span>
-              <span className="text-xs text-muted-foreground">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TrustStatsBar />
 
       <Suspense
         fallback={

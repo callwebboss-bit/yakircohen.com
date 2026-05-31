@@ -17,7 +17,7 @@ function WhatsAppIcon() {
 }
 
 export default function WhatsAppWidget({
-  text = "שלום, אשמח לקבל פרטים נוספים על השירותים שלכם.",
+  text = "שלום, אשמח לשמוע על השירותים ולקבל הצעת מחיר מותאמת.",
   utm_source = "website",
   utm_campaign = "floating_widget",
   phone,

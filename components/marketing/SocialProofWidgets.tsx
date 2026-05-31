@@ -3,6 +3,7 @@
 import Script from "next/script";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,8 @@ export type SocialProofWidgetProps = {
   /** Optional subtitle rendered below the heading */
   subheading?: string;
   className?: string;
+  /** Hide section header (when parent already shows Google badge) */
+  compactHeader?: boolean;
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -215,17 +218,30 @@ function LocalReviewsStrip() {
           className="rounded-xl border border-border bg-surface p-4 text-sm leading-relaxed text-muted-foreground"
         >
           <p className="text-foreground">&ldquo;{item.quote}&rdquo;</p>
-          <footer className="mt-2 text-xs font-semibold text-foreground">
-            {item.name}
+          <footer className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+            <span className="font-semibold text-foreground">{item.name}</span>
             {item.role ? (
-              <span className="font-normal text-muted-foreground"> · {item.role}</span>
+              <span className="text-muted-foreground">· {item.role}</span>
+            ) : null}
+            {item.serviceHref && item.serviceLabel ? (
+              <>
+                <span className="text-muted-foreground" aria-hidden>
+                  ·
+                </span>
+                <Link
+                  href={item.serviceHref}
+                  className="font-semibold text-brand-red hover:underline"
+                >
+                  {item.serviceLabel}
+                </Link>
+              </>
             ) : null}
           </footer>
         </blockquote>
       ))}
       <p className="text-center text-xs text-muted-foreground">
         <Link
-          href="https://www.google.com/maps/search/?api=1&query=יקיר+כהן+הפקות+מודיעין"
+          href={STUDIO_GOOGLE_MAPS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-brand-red hover:underline"
@@ -241,53 +257,62 @@ export function GoogleReviews({
   heading,
   subheading,
   className,
+  compactHeader = false,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
-  const [preferLocal, setPreferLocal] = useState(false);
+  const [preferLocal, setPreferLocal] = useState(true);
 
   return (
     <section
       className={cn("", className)}
-      aria-labelledby={heading ? "google-reviews-heading" : undefined}
+      aria-labelledby={heading && !compactHeader ? "google-reviews-heading" : undefined}
     >
-      {(heading ?? subheading) && (
+      {!compactHeader && (heading ?? subheading) ? (
         <header className="mb-8 text-center">
-          {subheading && (
+          {subheading ? (
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
               {subheading}
             </p>
-          )}
-          {heading && (
+          ) : null}
+          {heading ? (
             <h2
               id="google-reviews-heading"
               className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               {heading}
             </h2>
-          )}
+          ) : null}
         </header>
-      )}
+      ) : null}
 
-      <div className="mb-4 flex flex-wrap justify-center gap-2 text-xs">
+      <div
+        className="mb-4 flex flex-wrap justify-center gap-2 text-xs"
+        role="tablist"
+        aria-label="מקור ביקורות"
+      >
         <button
           type="button"
-          onClick={() => setPreferLocal(false)}
-          className={cn(
-            "rounded-full px-3 py-1.5 font-semibold",
-            !preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
-          )}
-        >
-          ביקורות Google (חי)
-        </button>
-        <button
-          type="button"
+          role="tab"
+          aria-selected={preferLocal}
           onClick={() => setPreferLocal(true)}
           className={cn(
-            "rounded-full px-3 py-1.5 font-semibold",
+            "rounded-full px-3 py-1.5 font-semibold transition-colors",
             preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
           )}
         >
           ביקורות מהאתר
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={!preferLocal}
+          onClick={() => setPreferLocal(false)}
+          className={cn(
+            "rounded-full px-3 py-1.5 font-semibold transition-colors",
+            !preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
+          )}
+        >
+          ביקורות Google (חי)
         </button>
       </div>
 

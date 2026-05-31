@@ -1,4 +1,5 @@
 import YouTubeShowcase from "@/components/marketing/YouTubeShowcase";
+import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
   GoogleReviews,
@@ -37,10 +38,10 @@ export default function HomeSocialProofSection() {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
-          <GoogleReviews
-            heading="ביקורות Google"
-            subheading="לקוחות אמיתיים"
-          />
+          <div>
+            <GoogleRatingBadge />
+            <GoogleReviews compactHeader heading="ביקורות Google" />
+          </div>
           <InstagramFeed
             heading="אינסטגרם"
             subheading="רגעים מהשטח"

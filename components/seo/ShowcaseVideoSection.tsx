@@ -47,7 +47,7 @@ export default function ShowcaseVideoSection({
         ) : null}
         <h2
           id={`${resolvedSectionId}-heading`}
-          className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
         >
           {heading}
         </h2>

@@ -13,6 +13,7 @@
     "audit:images": "node scripts/audit-images.mjs",
     "audit:links": "node scripts/audit-links.mjs",
     "audit:headings": "node scripts/audit-headings.mjs",
+    "audit:exclamation": "node scripts/audit-no-exclamation.mjs",
     "audit:pagefind": "node scripts/audit-pagefind.mjs",
     "check:youtube": "node scripts/check-youtube-ids.mjs"
   },

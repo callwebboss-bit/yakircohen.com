@@ -136,7 +136,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
     href: "/events",
     children: [
       { label: "מרכז אירועים", href: "/events" },
-      { label: "תקליטן לחתונה", href: "/events/dj-events" },
+      { label: "תקליטן לאירועים", href: "/events/dj-events" },
       { label: "במה LED + DJ", href: "/events/stage-led-dj" },
       { label: "חבילות אירועים", href: "/events/wedding-attractions-packages" },
       { label: "ציוד הגברה", href: "/events/equipment" },

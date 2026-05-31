@@ -11,8 +11,13 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
+import {
+  BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
@@ -39,12 +44,6 @@ type BookingCalculatorProps = {
 };
 
 /* ─── Module-level constants ─────────────────────────────────────────────────── */
-
-const consultHref = buildWhatsAppHref({
-  text: BOOKING_CONSULT_15_MIN.whatsappText,
-  utm_source: "website",
-  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
-});
 
 /* ─── Component ─────────────────────────────────────────────────────────────── */
 
@@ -104,6 +103,27 @@ export default function BookingCalculator({
   const activeUpsellKeys = regularKey ? SERVICES[regularKey].upsells : [];
   const hasSelection = selectedServices.size > 0;
 
+  const buildSummaryLines = () => [
+    ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+    ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+    ...(hasEvents && form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+    ...Array.from(selectedUpsells)
+      .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
+      .map((k) => ({ label: "תוספת", value: `${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString()} ₪)` })),
+    ...(eventDiscount > 0 ? [{ label: "הנחת חבילה", value: `-${eventDiscount.toLocaleString()} ₪` }] : []),
+    ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 1500) }] : []),
+  ];
+
+  const consultHref = useMemo(() => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(form.name, 60),
+      phone: displayPhone,
+    });
+  }, [form, selectedUpsells, hasEvents, eventDiscount]);
+
   const toggleService = (key: string) => {
     const svc = SERVICES[key];
     if (!svc) return;
@@ -161,16 +181,7 @@ export default function BookingCalculator({
         const body = buildBookingWhatsAppBody({
           intent,
           serviceLabel: serviceLabel || "הזמנה",
-          summaryLines: [
-            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
-            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
-            ...(hasEvents && form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
-            ...Array.from(selectedUpsells)
-              .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
-              .map((k) => ({ label: "תוספת", value: `${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString()} ₪)` })),
-            ...(eventDiscount > 0 ? [{ label: "הנחת חבילה", value: `-${eventDiscount.toLocaleString()} ₪` }] : []),
-            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 1500) }] : []),
-          ],
+          summaryLines: buildSummaryLines(),
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
           totalEstimate: total,
           utmSource: readUtmSource(),
@@ -541,11 +552,11 @@ export default function BookingCalculator({
                 <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
                 <BookingSummaryActions
                   continueWhatsApp={{
-                    label: "שליחה ותיאום בוואטסאפ",
+                    label: BOOKING_CTA.continue_chat,
                     onClick: () => handleAction("continue_chat"),
                   }}
                   startNow={{
-                    label: "שליחה והתחלה מיידית",
+                    label: BOOKING_CTA.start_now,
                     onClick: () => handleAction("start_now"),
                   }}
                   consult15Min={{

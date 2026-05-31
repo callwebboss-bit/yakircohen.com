@@ -28,6 +28,8 @@ type RouteCard = {
   tag: string;
   title: string;
   description: string;
+  startingFrom: string;
+  upsellHint: string;
   whatsappMessage: string;
   utm_campaign: string;
 };
@@ -36,34 +38,40 @@ const CARDS: readonly RouteCard[] = [
   {
     variant: "gold",
     icon: "🎙️",
-    tag: "רגעים מרגשים",
-    title: "שיר במתנה, ברכת כלה או הקלטה לאירוע משפחתי",
+    tag: "הקלטות ואירועים משפחתיים",
+    title: "שיר הפתעה, ברכת כלה או הקלטה לבר/בת מצווה",
     description:
-      "הילד חוגג בר מצווה? רוצה להפתיע בחופה? נביא אתכם לתוצאה של אולפני על במינימום זמן. הסטודיו מותאם להורים וילדים, ואנחנו מטפלים בהכל מרגע הכניסה.",
+      "מגיעים מפוחדים, יוצאים עם תוצאה שמדליקה את הסלון. האולפן מותאם להורים וילדים - ואנחנו מטפלים בהכל, מהקלטה ועד מיקס ומאסטרינג, ללא לחץ זמן.",
+    startingFrom: "מ-590 ₪",
+    upsellHint: "אפשר להוסיף: קליפ BTS לרשתות · דואט משפחתי · פלייבק AI",
     whatsappMessage:
-      "שלום, אנחנו מתכננים אירוע משפחתי ורוצים לשמוע על הקלטת שיר או ברכה באולפן.",
+      "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי. ראינו שיש חבילות מ-590 ₪ - אשמח לשמוע על האפשרויות ועל שדרוגים כמו קליפ או דואט.",
     utm_campaign: "router_family_events",
   },
   {
     variant: "neutral",
     icon: "🎧",
-    tag: "סאונד עסקי ויוצרים",
-    title: "הקלטת פודקאסט מקצועי או הפקת תוכן קולי",
+    tag: "פודקאסט ותוכן קולי",
+    title: "הקלטת פודקאסט מקצועי או קריינות לתוכן עסקי",
     description:
-      "בלי רעשי רקע, בלי סיבוכים טכניים. חדר הציוד והקירות אצלנו בולעים כל רעש כדי שהקול שלכם ייצא צלול כמו מים. שגר ושכח - אתם מדברים, אנחנו עורכים.",
+      "חדר מבודד רעשים, ציוד שידורי, ועריכה מלאה. תגיעו, תדברו, תקבלו MP3 גמור. גם שיתופי פעולה קבועים ועריכת פרקים חודשית.",
+    startingFrom: "מ-750 ₪ לשעה",
+    upsellHint: "אפשר להוסיף: עריכת פרקים · חבילת הפקה חודשית · תמלול",
     whatsappMessage:
-      "שלום, אשמח לפרטים על הקלטת פודקאסט באולפן והפקה קבועה של פרקים.",
+      "שלום, אשמח לפרטים על הקלטת פודקאסט באולפן. ראיתי שעלות שעת אולפן מ-750 ₪ - מה אפשר לשלב (עריכה, חבילה חודשית)?",
     utm_campaign: "router_business_creators",
   },
   {
     variant: "luxury",
     icon: "💎",
-    tag: "חווית הרחבה",
-    title: "מוזיקה לאירועי בוטיק, עמדות LED ואפקטים",
+    tag: "DJ ואפקטים לאירועים",
+    title: "דיג׳יי בוטיק, עשן כבד, זיקוקים קרים ו-LED",
     description:
-      "דיג׳יי שמבין קהל מעורב, בשילוב עשן כבד, זיקוקים קרים ותאורה שמרימה את האווירה לשמיים. אנחנו מתאמים הכל ישירות מול האולם כדי שאתם תהיו בראש שקט.",
+      "חווית VIP לאירועים קטנים וגדולים. מוזיקה שמדברת לקהל מעורב, בשילוב אפקטים שמרימים את האווירה. מתאמים הכל מול האולם.",
+    startingFrom: "מ-1,750 ₪ לאטרקציה",
+    upsellHint: "אפשר לשלב: עשן + זיקוקים + LED במחיר חבילה",
     whatsappMessage:
-      "שלום, ראינו את עמדות ה-LED והאפקטים לאירועים. נשמח לבדוק זמינות ולקבל הצעה.",
+      "שלום, ראינו את האפקטים לאירועים (עשן כבד, זיקוקים קרים, LED). מה המחיר לאירוע ומה ניתן לשלב יחד?",
     utm_campaign: "router_premium_events",
   },
 ] as const;
@@ -251,6 +259,16 @@ export default function WhatsappLeadRouter({
                   >
                     {card.description}
                   </p>
+
+                  {/* Price + upsell */}
+                  <div className="mt-4 space-y-1">
+                    <p className={cn("text-sm font-bold", V_TITLE[card.variant])}>
+                      {card.startingFrom}
+                    </p>
+                    <p className={cn("text-xs leading-snug", V_DESC[card.variant])}>
+                      {card.upsellHint}
+                    </p>
+                  </div>
                 </div>
 
                 {/* ── CTA strip ── */}
@@ -263,7 +281,7 @@ export default function WhatsappLeadRouter({
                   aria-hidden="true"
                 >
                   <WaIcon />
-                  <span>בואו נתקתק את זה בוואטסאפ</span>
+                  <span>קבלו הצעת מחיר בוואטסאפ</span>
                   <span
                     className="text-xs opacity-60 transition-transform duration-fast ease-luxury group-hover:-translate-x-1"
                     aria-hidden="true"

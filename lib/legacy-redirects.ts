@@ -58,6 +58,7 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/gift-voucher": "/voucher",
   "/orders": "/voucher",
   "/gallery": "/",
+  "/dj-events": "/events/dj-events",
   "/wedding-songs": "/blog/wedding-songs-chuppah",
   "/weddings-songs": "/blog/wedding-songs-chuppah",
   "/chupa": "/blog/wedding-songs-chuppah",

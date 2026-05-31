@@ -2,25 +2,41 @@
 export const BOOKING_SUMMARY_INTRO =
   "זה סיכום ראשוני מהאתר - נמשיך בוואטסאפ ונוודא שהכל מתאים.";
 
+/** כפתורי פעולה בטופס סיכום */
+export const BOOKING_CTA = {
+  continue_chat: "נמשיך את השיחה מכאן בוואטסאפ",
+  start_now: "התחל תהליך והזמן עכשיו",
+} as const;
+
 /** אישורים קלים לצ'קבוקס בטופס סיכום */
 export const BOOKING_APPROVALS_LIGHT = [
   "הערכה ראשונית - פרטים סופיים בשיחה",
   "הפרטים נכונים ככל שידוע לי",
 ] as const;
 
-/** הודעה אחרי שליחה מוצלחת (מוצגת באתר) */
-export const BOOKING_POST_SUBMIT_MESSAGE = {
-  title: "ההזמנה נשלחה בוואטסאפ",
-  body: "יקיר יקבל את הפרטים ויחזור אליכם בהקדם, בדרך כלל תוך מספר שעות בשעות הפעילות. אם דחוף, שלחו הודעת מעקב בוואטסאפ.",
-  reopenLabel: "שלחו שוב בוואטסאפ",
-  newBookingLabel: "הזמנה חדשה",
+/** הודעות אחרי שליחה מוצלחת (מוצגות באתר) לפי כוונת המשתמש */
+export const BOOKING_POST_SUBMIT = {
+  continue_chat: {
+    title: "הפרטים נשלחו בוואטסאפ",
+    body: "יקיר יקבל את ההודעה ויחזור אליכם לתיאום. בדרך כלל תוך מספר שעות בשעות הפעילות. אם דחוף, שלחו הודעת מעקב בוואטסאפ.",
+    reopenLabel: "נמשיך בוואטסאפ",
+    newBookingLabel: "הזמנה חדשה",
+  },
+  start_now: {
+    title: "בקשת ההזמנה נשלחה!",
+    body: "יקיר רואה שאתם מוכנים להתחיל - יחזור אליכם בהקדם לסגירת הפרטים והזמנה.",
+    reopenLabel: "פתחו שוב בוואטסאפ",
+    newBookingLabel: "הזמנה חדשה",
+  },
 } as const;
 
-/** ייעוץ 15 דקות - קישור בסוף תהליך ההזמנה */
+/** @deprecated Use BOOKING_POST_SUBMIT.continue_chat */
+export const BOOKING_POST_SUBMIT_MESSAGE = BOOKING_POST_SUBMIT.continue_chat;
+
+/** ייעוץ 15 דקות - קישור בסוף תהליך ההזמנה (טקסט ההודעה נבנה דינמית) */
 export const BOOKING_CONSULT_15_MIN = {
   title: "לא בטוחים? שיחת ייעוץ חינם (15 דקות)",
-  subtitle: "נעזור לבחור מסלול, תאריך ושדרוגים לפני שסוגרים",
-  whatsappText:
-    "שלום, אשמח לשיחת ייעוץ קצרה (15 דקות) לפני שסוגרים הזמנה באתר",
+  subtitle:
+    "שיחת ייעוץ חינם (15 דקות) עם יקיר - נמצא יחד את המסלול, המחיר ושדרוגים שמשתלמים, ללא התחייבות",
   utmCampaign: "booking_consult_15",
 } as const;

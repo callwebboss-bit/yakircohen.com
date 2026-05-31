@@ -1,13 +1,22 @@
 ﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import {
+  BOOKING_CTA,
+  BOOKING_CONSULT_15_MIN,
+  BOOKING_SUMMARY_INTRO,
+} from "@/lib/data/booking-shared";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import {
   ADDON_SECTION_LABELS,
   AI_BUNDLE_DISCOUNT,
@@ -26,7 +35,7 @@ import {
 } from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 function SelectableRow({
@@ -89,7 +98,6 @@ function SelectableRow({
 }
 
 export default function PhotographyCalculator({ className }: { className?: string }) {
-  const router = useRouter();
   const [hours, setHours] = useState(8);
   const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
@@ -136,69 +144,79 @@ export default function PhotographyCalculator({ className }: { className?: strin
 
   const { name: pkgName, sub: pkgSub } = getPackageLabel(hours);
 
-  const waMessageText = useMemo(() => {
-    const lines = [
-      buildServiceWhatsAppText("חבילת צילום לאירוע"),
-      "",
-      `חבילה: ${pkgName} · ${hours} שעות · ${formatCurrency(hours * HOURLY_RATE)}`,
-      ...[...selectedAddons].map((id) => {
-        const a = PHOTOGRAPHY_ADDONS.find((x) => x.id === id);
-        return a ? `• ${a.label} · ${formatCurrency(a.price)}` : "";
-      }),
-      ...[...selectedAI].map((id) => {
-        const a = PHOTOGRAPHY_AI_SERVICES.find((x) => x.id === id);
-        return a ? `• ${a.label} (AI) · ${formatCurrency(a.price)}` : "";
-      }),
-      bundleActive ? `הנחת חבילת AI: -${formatCurrency(AI_BUNDLE_DISCOUNT)}` : "",
-      "",
-      `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
-    ].filter(Boolean);
-    return lines.join("\n");
-  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
+  const buildSummaryLines = () => [
+    { label: "חבילה", value: `${pkgName} · ${hours} שעות · ${formatCurrency(hours * HOURLY_RATE)}` },
+    ...[...selectedAddons].map((id) => {
+      const a = PHOTOGRAPHY_ADDONS.find((x) => x.id === id);
+      return a ? { label: "תוספת", value: `${a.label} · ${formatCurrency(a.price)}` } : null;
+    }).filter(Boolean) as { label: string; value: string }[],
+    ...[...selectedAI].map((id) => {
+      const a = PHOTOGRAPHY_AI_SERVICES.find((x) => x.id === id);
+      return a ? { label: "AI", value: `${a.label} · ${formatCurrency(a.price)}` } : null;
+    }).filter(Boolean) as { label: string; value: string }[],
+    ...(bundleActive
+      ? [{ label: "הנחת חבילת AI", value: `-${formatCurrency(AI_BUNDLE_DISCOUNT)}` }]
+      : []),
+  ];
 
-  const whatsappHref = useMemo(
-    () => buildWhatsAppHref({ text: waMessageText, utm_campaign: "photography_calculator" }),
-    [waMessageText],
+  const consultHref = useMemo(() => {
+    const displayPhone = contactForm.phone.trim()
+      ? formatPhoneForDisplay(contactForm.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(contactForm.name, 60),
+      phone: displayPhone,
+    });
+  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, contactForm]);
+
+  const formValid =
+    contactForm.name.trim().length >= 2 && contactForm.phone.trim().length >= 9;
+
+  const handleAction = useCallback(
+    (intent: "continue_chat" | "start_now") => {
+      const errs = attemptSubmit(
+        () => {
+          const nameR = validatePersonName(contactForm.name);
+          const phoneR = validateIsraeliMobile(contactForm.phone);
+          const errors = {
+            ...(nameR.ok ? {} : (nameR.errors ?? {})),
+            ...(phoneR.ok ? {} : (phoneR.errors ?? {})),
+          };
+          if (Object.keys(errors).length) {
+            return { ok: false as const, errors };
+          }
+          return { ok: true as const, normalizedPhone: phoneR.ok ? phoneR.normalizedPhone : undefined };
+        },
+        (result) => {
+          const displayPhone = result.normalizedPhone
+            ? formatPhoneForDisplay(result.normalizedPhone)
+            : contactForm.phone.trim();
+          const body = buildBookingWhatsAppBody({
+            intent,
+            serviceLabel: "חבילת צילום לאירוע",
+            summaryLines: buildSummaryLines(),
+            contact: {
+              name: sanitizeLeadText(contactForm.name, 60),
+              phone: displayPhone,
+            },
+            totalEstimate: total,
+            utmSource: readUtmSource(),
+          });
+          const href = buildWhatsAppHref({ text: body, utm_campaign: "photography_calculator" });
+          openWhatsAppLead(href);
+          notifyLeadByEmail({
+            formId: "photography_calculator",
+            subject: "ליד חדש - צילום אירועים",
+            body,
+            name: sanitizeLeadText(contactForm.name, 60),
+            phone: displayPhone,
+          });
+        },
+      );
+      setFieldErrors(errs ?? {});
+    },
+    [attemptSubmit, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total],
   );
-
-  const handleWhatsAppClick = useCallback(() => {
-    const errs = attemptSubmit(
-      () => {
-        const nameR = validatePersonName(contactForm.name);
-        const phoneR = validateIsraeliMobile(contactForm.phone);
-        const errors = {
-          ...(nameR.ok ? {} : (nameR.errors ?? {})),
-          ...(phoneR.ok ? {} : (phoneR.errors ?? {})),
-        };
-        if (Object.keys(errors).length) {
-          return { ok: false as const, errors };
-        }
-        return { ok: true as const, normalizedPhone: phoneR.ok ? phoneR.normalizedPhone : undefined };
-      },
-      (result) => {
-        const displayPhone = result.normalizedPhone
-          ? formatPhoneForDisplay(result.normalizedPhone)
-          : contactForm.phone.trim();
-        const fullBody = [
-          `שם: ${sanitizeLeadText(contactForm.name, 60)}`,
-          `טלפון: ${displayPhone}`,
-          "",
-          waMessageText,
-        ].join("\n");
-        const href = buildWhatsAppHref({ text: fullBody, utm_campaign: "photography_calculator" });
-        openWhatsAppLead(href);
-        notifyLeadByEmail({
-          formId: "photography_calculator",
-          subject: "ליד חדש - צילום אירועים",
-          body: fullBody,
-          name: sanitizeLeadText(contactForm.name, 60),
-          phone: displayPhone,
-        });
-        router.push("/thank-you?service=photography");
-      },
-    );
-    setFieldErrors(errs ?? {});
-  }, [attemptSubmit, contactForm, waMessageText, router]);
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
 
@@ -387,6 +405,17 @@ export default function PhotographyCalculator({ className }: { className?: strin
               )}
             </div>
           </div>
+          <p className="mt-4 text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+          <p className="mt-3 text-center">
+            <a
+              href={consultHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
+            >
+              {BOOKING_CONSULT_15_MIN.title}
+            </a>
+          </p>
         </section>
       </div>
 
@@ -395,10 +424,14 @@ export default function PhotographyCalculator({ className }: { className?: strin
       <CalculatorStickyBar
         total={total}
         subLabel={bundleActive ? `חיסכון: ${formatCurrency(AI_BUNDLE_DISCOUNT)}` : undefined}
-        whatsappHref={whatsappHref}
-        onWhatsAppClick={handleWhatsAppClick}
+        whatsappHref=""
         showCta
-        primaryDisabled={contactForm.name.trim().length < 2 || contactForm.phone.trim().length < 9}
+        continueDisabled={!formValid}
+        startNowDisabled={!formValid}
+        onContinueClick={() => handleAction("continue_chat")}
+        onStartNowClick={() => handleAction("start_now")}
+        continueLabel={BOOKING_CTA.continue_chat}
+        startNowLabel={BOOKING_CTA.start_now}
       />
     </div>
   );

@@ -3,18 +3,25 @@ import DjJerusalemPageContent from "@/components/seo/DjJerusalemPageContent";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "תקליטן לחתונה בירושלים",
+  title: "די ג'יי לאירועים בירושלים",
   description:
-    "DJ לחתונות ואירועים בירושלים והסביבה - דתי ומעורב, ציוד מקצועי, תיאום עם חופה ואטרקציות. הצעת מחיר בוואטסאפ.",
+    "די ג'יי לאירועים בירושלים - מוזיקה מותאמת לקהל דתי, מעורב וחילוני. עבודה ישירה עם יקיר כהן או די ג'יי בוגר האקדמיה. ציוד פרימיום וגיבוי מלא.",
   slug: "dj-events/cities/jerusalem",
   keywords: [
     "תקליטן לחתונה ירושלים",
     "DJ ירושלים",
     "תקליטן דתי ירושלים",
     "תקליטן לאירועים ירושלים",
+    "די ג'יי לאירועים בירושלים",
   ],
 });
 
 export default function DjJerusalemPage() {
-  return <DjJerusalemPageContent />;
+  return (
+    <>
+      <link rel="preconnect" href="https://wa.me" />
+      <link rel="preconnect" href="https://api.whatsapp.com" />
+      <DjJerusalemPageContent />
+    </>
+  );
 }

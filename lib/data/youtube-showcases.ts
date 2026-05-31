@@ -45,6 +45,14 @@ export const BRIDE_GROOM_BLESSING_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "kLA-XVH3m4E", title: "ברכת חתן וכלה מוקלטת באולפן" },
 ];
 
+/** /studio/blessings/video-clip */
+export const BLESSINGS_VIDEO_CLIP_VIDEOS: readonly ShowcaseVideo[] = [
+  { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },
+  { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
+  { videoId: "8i4K2f5gQfM", title: "שיר מתנה מהאולפן" },
+  { videoId: "c55HTqTArFo", title: "יום חוויה באולפן - מתנה" },
+] as const;
+
 export const VOICEOVER_HUB_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "O2RHNRZCmZM", title: "דוגמת קריינות מסחרית" },
   { videoId: "PojVz9erPKY", title: "קריינות לסרטון תדמית" },

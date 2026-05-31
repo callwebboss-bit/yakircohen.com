@@ -22,6 +22,7 @@ import {
 } from "@/lib/data/events-booking";
 import { withVat } from "@/lib/data/pricing";
 import {
+  BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
@@ -30,19 +31,17 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["אטרקציות", "פרטים", "סיכום"] as const;
-
-const consultHref = buildWhatsAppHref({
-  text: BOOKING_CONSULT_15_MIN.whatsappText,
-  utm_source: "website",
-  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
-});
 
 type FormState = {
   selected: EventBookingItemId[];
@@ -75,6 +74,7 @@ export default function EventsBookingWizard() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
+  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "events_booking_wizard",
   });
@@ -118,6 +118,26 @@ export default function EventsBookingWizard() {
     [form.name, form.phone],
   );
 
+  const buildSummaryLines = () => [
+    ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+    ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+    ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+    ...(labels.length > 0 ? [{ label: "אטרקציות", value: labels.join(", ") }] : []),
+    ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
+    ...(savings > 0 ? [{ label: "חיסכון", value: `${savings.toLocaleString()} ₪` }] : []),
+    ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+  ];
+
+  const consultHref = useMemo(() => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(form.name, 60),
+      phone: displayPhone,
+    });
+  }, [form, labels, count, savings]);
+
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
@@ -141,15 +161,7 @@ export default function EventsBookingWizard() {
         const body = buildBookingWhatsAppBody({
           intent,
           serviceLabel: `אטרקציות לאירוע - ${count} אטרקציות`,
-          summaryLines: [
-            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
-            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
-            ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
-            ...(labels.length > 0 ? [{ label: "אטרקציות", value: labels.join(", ") }] : []),
-            ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
-            ...(savings > 0 ? [{ label: "חיסכון", value: `${savings.toLocaleString()} ₪` }] : []),
-            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
-          ],
+          summaryLines: buildSummaryLines(),
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
           totalEstimate: withVat(bundleTotal),
           utmSource: readUtmSource(),
@@ -167,6 +179,7 @@ export default function EventsBookingWizard() {
           name: form.name,
           phone: displayPhone,
         });
+        setLastIntent(intent);
         setLastWaHref(href);
         setSubmitted(true);
         draft.clear();
@@ -184,7 +197,11 @@ export default function EventsBookingWizard() {
 
   if (submitted && lastWaHref) {
     return (
-      <BookingSuccessPanel whatsappHref={lastWaHref} onNewBooking={resetWizard} />
+      <BookingSuccessPanel
+        intent={lastIntent}
+        whatsappHref={lastWaHref}
+        onNewBooking={resetWizard}
+      />
     );
   }
 
@@ -294,12 +311,13 @@ export default function EventsBookingWizard() {
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={!form.termsAccepted}
                 continueWhatsApp={{
-                  label: "המשך בוואטסאפ",
+                  label: BOOKING_CTA.continue_chat,
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{
-                  label: "שליחה והתחלה מיידית",
+                  label: BOOKING_CTA.start_now,
                   onClick: () => handleAction("start_now"),
                 }}
                 consult15Min={{

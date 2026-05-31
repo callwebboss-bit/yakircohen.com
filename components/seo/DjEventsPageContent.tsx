@@ -7,6 +7,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
+import DjBookingForm from "@/components/forms/DjBookingForm";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
@@ -37,12 +38,6 @@ const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function DjEventsPageContent() {
-  const whatsappHref = buildWhatsAppHref({
-    text: buildServiceWhatsAppText(service.whatsappText),
-    utm_source: "website",
-    utm_campaign: `${service.utmCampaign}_cta`,
-  });
-
   const planningWhatsapp = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
       "שלום, מעוניין/ת בעזרה חינם בתכנון האירוע  -  אשמח לקבל את הטופס",
@@ -369,7 +364,47 @@ export default function DjEventsPageContent() {
             ))}
           </ul>
         </section>
-        <ServicePagePricingSection service={service} />
+        <ServicePagePricingSection
+          service={service}
+          heading="3 חבילות ברורות — מה כלול בכל אחת"
+          subheading="כל חבילה בנויה כך שתדעו בדיוק מה אתם מקבלים · הצעת מחיר מדויקת בוואטסאפ לאחר שיתוף פרטי האירוע"
+        />
+
+        {/* בלוק שקיפות — מה משפיע על המחיר */}
+        <section
+          className="rounded-xl border border-border bg-surface px-6 py-8 sm:px-8"
+          aria-labelledby="price-factors-heading"
+        >
+          <h2
+            id="price-factors-heading"
+            className="text-lg font-semibold text-foreground sm:text-xl"
+          >
+            מה משפיע על המחיר הסופי?
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            שקיפות מלאה — כדי שלא יהיו הפתעות ביום האירוע:
+          </p>
+          <ul className="mt-4 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
+            {[
+              ["📍 מיקום האירוע", "נסיעה ולוגיסטיקה מחוץ לאזור מודיעין-מרכז"],
+              ["⏱ שעות פעילות", "כל שעה מעבר ל-5 שעות הבסיס מתומחרת בנפרד"],
+              ["🎙 הגברה עצמאית", "אם האולם לא מספק מערכת — מביאים ציוד מלא"],
+              ["💡 תאורה מתקדמת", "Moving Heads, LED Wash ופרויקטורים — לפי הצורך"],
+              ["🎊 אטרקציות", "כל אפקט (עשן, זיקוקים, קונפטי) מתומחר בנפרד"],
+              ["🎤 הנחיה מקצועית", "הנחיית חופה, ריקוד ראשון, ברכה ועוגה — כלולה בפרימיום"],
+              ["🕐 שעות חריגות", "פירוק לאחר חצות או הגעה לפני 14:00 — בתיאום מראש"],
+              ["⭐ יקיר אישית", "בחבילת VIP בלבד — לא מהצוות"],
+            ].map(([icon_label, explanation]) => (
+              <li key={icon_label} className="flex gap-3">
+                <span className="shrink-0 font-medium text-foreground">{icon_label}</span>
+                <span className="text-muted-foreground">{explanation}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-muted-foreground">
+            מלאו את הטופס למטה ותקבלו הצעת מחיר מדויקת תוך שעה — ללא עגלולים.
+          </p>
+        </section>
 
 
         {service.faqs.length > 0 ? (
@@ -381,33 +416,27 @@ export default function DjEventsPageContent() {
           />
         ) : null}
 
-        <section
-          className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center sm:px-10"
-          aria-labelledby="dj-cta-heading"
-        >
-          <h2
-            id="dj-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
-          >
-            מוכנים לאירוע עם רחבה מלאה?
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            DJ טוב = אירוע בלתי נשכח. שריינו תאריך  -  גם בטלפון:{" "}
-            <a
-              href={`tel:${CONTACT_PHONE_E164}`}
-              className="font-medium text-brand-red hover:underline"
+        {/* טופס הזמנה מתקדם */}
+        <section aria-labelledby="dj-booking-form-heading">
+          <header className="mx-auto mb-6 max-w-2xl text-center">
+            <h2
+              id="dj-booking-form-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              {CONTACT_PHONE_DISPLAY}
-            </a>
-          </p>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
-          >
-            שליחה בוואטסאפ
-          </a>
+              שריינו תאריך — קבלו הצעה תוך שעה
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              מלאו את הפרטים ונחזור אליכם עם הצעת מחיר מדויקת.
+              גם בטלפון:{" "}
+              <a
+                href={`tel:${CONTACT_PHONE_E164}`}
+                className="font-medium text-brand-red hover:underline"
+              >
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+            </p>
+          </header>
+          <DjBookingForm />
         </section>
               <PageRelatedFooter pathname="/events/dj-events" />
 

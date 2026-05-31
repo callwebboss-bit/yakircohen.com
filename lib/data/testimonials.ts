@@ -10,6 +10,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "מפיקה עצמאית, מודיעין",
     initials: "דל",
     datePublished: "2025-11-12",
+    serviceHref: "/podcast/podcast-editing",
+    serviceLabel: "שחזור סאונד ב-AI",
   },
   {
     id: "2",
@@ -19,6 +21,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "יזם, יבואן גרין אנד קו ישראל",
     initials: "דג",
     datePublished: "2026-01-08",
+    serviceHref: "/podcast",
+    serviceLabel: "הפקת פודקאסט",
   },
   {
     id: "3",
@@ -27,6 +31,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "מיכל אברהם",
     role: "מנהלת שיווק, הסביבה",
     initials: "מא",
+    serviceHref: "/online",
+    serviceLabel: "שירותים דיגיטליים",
   },
   {
     id: "4",
@@ -35,6 +41,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "יוסי כהן",
     role: "מנכ״ל, חברת הייטק",
     initials: "יכ",
+    serviceHref: "/events",
+    serviceLabel: "הפקת אירועים",
   },
   {
     id: "5",
@@ -43,6 +51,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "נועה שפירא",
     role: "מייסדת סטארטאפ",
     initials: "נש",
+    serviceHref: "/voiceover",
+    serviceLabel: "קריינות",
   },
   {
     id: "6",
@@ -51,5 +61,7 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "רחל גולן",
     role: "לקוחה פרטית",
     initials: "רג",
+    serviceHref: "/studio/blessings",
+    serviceLabel: "ברכות מוקלטות",
   },
 ] as const;

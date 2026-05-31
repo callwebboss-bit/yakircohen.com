@@ -35,9 +35,11 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            בואו נקליט ב
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>, נשיר, נפיק.
-            חדר שקט, ציוד טוב, וליווי עד לקובץ מוכן. בלי כאב ראש.
+            20+ שנות ניסיון · 5,000+ לקוחות · אולפן במודיעין עם ליווי מקצועי
+            עד לקובץ מוכן.{" "}
+            <InlineServiceLink href="/studio">הקלטות</InlineServiceLink>,{" "}
+            <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> - בלי כאב ראש.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
@@ -49,26 +51,22 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
                 "bg-brand-red hover:bg-brand-red-light",
               )}
             >
-              בואו נתקתק בוואטסאפ
+              קבלו הצעת מחיר בוואטסאפ
             </a>
-            <Button as="link" href="/video" variant="outline">
-              לראות עבודות וידאו
+            <Button as="link" href="/book" variant="outline">
+              הזמנה מקוונת
             </Button>
           </div>
         </div>
 
         <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-lg lg:aspect-square">
-          <div
-            className="absolute inset-0 bg-linear-to-br from-background via-surface to-brand-red/5"
-            aria-hidden="true"
-          />
           <Image
             src={SITE_STUDIO_IMAGE_SRC}
-            alt="אולפן הקלטות במודיעין"
+            alt="אולפן פודקאסט במודיעין — החלק האורבני, יקיר כהן הפקות"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-contain p-10 opacity-95"
+            className="object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 border-t border-border bg-background/90 p-6 backdrop-blur-sm">
             <p className="text-xs font-semibold text-brand-red">

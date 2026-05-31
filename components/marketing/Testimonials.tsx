@@ -1,4 +1,6 @@
-﻿import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+﻿import Link from "next/link";
+import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
+import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
 export type TestimonialItem = {
@@ -9,6 +11,8 @@ export type TestimonialItem = {
   initials?: string;
   /** ISO 8601 - ל-Review JSON-LD בלבד */
   datePublished?: string;
+  serviceHref?: string;
+  serviceLabel?: string;
 };
 
 export type TestimonialsProps = {
@@ -58,6 +62,9 @@ export default function Testimonials({
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
             {subtitle}
           </p>
+          <div className="mt-6 flex justify-center">
+            <GoogleRatingBadge variant="compact" />
+          </div>
         </header>
 
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
@@ -80,21 +87,31 @@ export default function Testimonials({
                   </span>
                 </p>
 
-                <footer className="mt-6 flex items-center gap-3 border-t border-border pt-4">
-                  <AvatarPlaceholder
-                    initials={item.initials}
-                    name={item.name}
-                  />
-                  <div>
-                    <cite className="not-italic text-sm font-semibold text-foreground">
-                      {item.name}
-                    </cite>
-                    {item.role ? (
-                      <p className="mt-0.5 text-xs text-muted-foreground">
-                        {item.role}
-                      </p>
-                    ) : null}
+                <footer className="mt-6 flex flex-col gap-3 border-t border-border pt-4">
+                  <div className="flex items-center gap-3">
+                    <AvatarPlaceholder
+                      initials={item.initials}
+                      name={item.name}
+                    />
+                    <div>
+                      <cite className="not-italic text-sm font-semibold text-foreground">
+                        {item.name}
+                      </cite>
+                      {item.role ? (
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {item.role}
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
+                  {item.serviceHref && item.serviceLabel ? (
+                    <Link
+                      href={item.serviceHref}
+                      className="text-xs font-semibold text-brand-red hover:underline"
+                    >
+                      {item.serviceLabel} ←
+                    </Link>
+                  ) : null}
                 </footer>
               </blockquote>
             </li>

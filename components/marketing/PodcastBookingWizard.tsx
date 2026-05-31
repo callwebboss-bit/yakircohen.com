@@ -14,11 +14,13 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
+  PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
 import { withVat } from "@/lib/data/pricing";
 import {
+  BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
@@ -27,7 +29,11 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -43,14 +49,9 @@ const TIMEFRAME_OPTIONS = [
   { value: "exploring", label: "רק בודק/ת אפשרויות" },
 ] as const;
 
-const consultHref = buildWhatsAppHref({
-  text: BOOKING_CONSULT_15_MIN.whatsappText,
-  utm_source: "website",
-  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
-});
-
 type FormState = {
   packageId: PodcastPackageId | "";
+  overtimeBlocks: number;
   name: string;
   phone: string;
   timeframe: string;
@@ -60,6 +61,7 @@ type FormState = {
 
 const INITIAL: FormState = {
   packageId: "",
+  overtimeBlocks: 0,
   name: "",
   phone: "",
   timeframe: "",
@@ -76,6 +78,7 @@ export default function PodcastBookingWizard() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
+  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "podcast_booking_wizard",
   });
@@ -89,8 +92,50 @@ export default function PodcastBookingWizard() {
   );
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
+  const packageTotal = (selected?.price ?? 0) + form.overtimeBlocks * PODCAST_OVERTIME_RATE;
 
   const canStep0 = form.packageId !== "";
+
+  const buildSummaryContext = () => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    const timeframeLabel =
+      TIMEFRAME_OPTIONS.find((o) => o.value === form.timeframe)?.label ?? "";
+    const summaryLines = [
+      ...(selected ? [{ label: "חבילה", value: selected.name }] : []),
+      ...(form.overtimeBlocks > 0
+        ? [
+            {
+              label: "זמן נוסף",
+              value: `+${form.overtimeBlocks * 30} דק׳ (+${(form.overtimeBlocks * PODCAST_OVERTIME_RATE).toLocaleString("he-IL")} ₪)`,
+            },
+          ]
+        : []),
+      ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
+      ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+    ];
+    return {
+      summaryLines,
+      contact: {
+        name: sanitizeLeadText(form.name, 60),
+        phone: displayPhone,
+      },
+    };
+  };
+
+  const consultHref = useMemo(() => {
+    const { summaryLines, contact } = buildSummaryContext();
+    return buildConsultWhatsAppHref(summaryLines, contact);
+  }, [
+    form.packageId,
+    form.overtimeBlocks,
+    form.name,
+    form.phone,
+    form.timeframe,
+    form.notes,
+    selected,
+  ]);
   const canStep1 = useMemo(
     () => Boolean(form.name.trim() && form.phone.trim()),
     [form.name, form.phone],
@@ -118,18 +163,13 @@ export default function PodcastBookingWizard() {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : form.phone.trim();
-        const timeframeLabel =
-          TIMEFRAME_OPTIONS.find((o) => o.value === form.timeframe)?.label ?? "";
-        const summaryLines = [
-          ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
-          ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
-        ];
+        const { summaryLines } = buildSummaryContext();
         const body = buildBookingWhatsAppBody({
           intent,
           serviceLabel: selected ? `פודקאסט - ${selected.name}` : "פודקאסט",
           summaryLines,
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
-          totalEstimate: selected ? withVat(selected.price) : undefined,
+          totalEstimate: selected ? withVat(packageTotal) : undefined,
           utmSource: readUtmSource(),
         });
         const href = buildWhatsAppHref({
@@ -145,6 +185,7 @@ export default function PodcastBookingWizard() {
           name: form.name,
           phone: displayPhone,
         });
+        setLastIntent(intent);
         setLastWaHref(href);
         setSubmitted(true);
         draft.clear();
@@ -162,7 +203,11 @@ export default function PodcastBookingWizard() {
 
   if (submitted && lastWaHref) {
     return (
-      <BookingSuccessPanel whatsappHref={lastWaHref} onNewBooking={resetWizard} />
+      <BookingSuccessPanel
+        intent={lastIntent}
+        whatsappHref={lastWaHref}
+        onNewBooking={resetWizard}
+      />
     );
   }
 
@@ -186,7 +231,9 @@ export default function PodcastBookingWizard() {
                 <button
                   key={pkg.id}
                   type="button"
-                  onClick={() => setForm((p) => ({ ...p, packageId: pkg.id }))}
+                  onClick={() =>
+                    setForm((p) => ({ ...p, packageId: pkg.id, overtimeBlocks: 0 }))
+                  }
                   className={cn(
                     "rounded-2xl border p-5 text-start",
                     active ? "border-brand-red bg-brand-red/5" : "border-border bg-background",
@@ -205,6 +252,33 @@ export default function PodcastBookingWizard() {
               );
             })}
           </div>
+          {selected ? (
+            <div className="mt-6 rounded-2xl border border-border bg-surface p-5">
+              <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                גלישה בזמן · {PODCAST_OVERTIME_RATE.toLocaleString("he-IL")} ₪ לכל 30 דקות
+              </p>
+              <p className="mb-3 text-sm font-semibold text-foreground">כמה זמן הקלטה נוסף?</p>
+              <div className="flex flex-wrap gap-2">
+                {[0, 1, 2, 3].map((b) => (
+                  <button
+                    key={b}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, overtimeBlocks: b }))}
+                    className={cn(
+                      "rounded-xl border px-4 py-2 text-sm font-semibold transition-colors",
+                      form.overtimeBlocks === b
+                        ? "border-brand-red bg-brand-red text-white"
+                        : "border-border bg-background hover:border-brand-red/40",
+                    )}
+                  >
+                    {b === 0
+                      ? "ללא גלישה"
+                      : `+${b * 30} דק׳ (+${(b * PODCAST_OVERTIME_RATE).toLocaleString("he-IL")} ₪)`}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
           <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
         </BookingStepPanel>
       )}
@@ -251,7 +325,12 @@ export default function PodcastBookingWizard() {
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold text-foreground">סיכום</h2>
               <p className="mt-2 text-sm text-muted-foreground">{selected.name}</p>
-              <PriceWithVat amountExVat={selected.price} size="lg" className="mt-4" />
+              {form.overtimeBlocks > 0 ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  +{form.overtimeBlocks * 30} דק׳ הקלטה נוספת
+                </p>
+              ) : null}
+              <PriceWithVat amountExVat={packageTotal} size="lg" className="mt-4" />
             </div>
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
@@ -262,12 +341,13 @@ export default function PodcastBookingWizard() {
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={!form.termsAccepted}
                 continueWhatsApp={{
-                  label: "המשך בוואטסאפ",
+                  label: BOOKING_CTA.continue_chat,
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{
-                  label: "שליחה והתחלה מיידית",
+                  label: BOOKING_CTA.start_now,
                   onClick: () => handleAction("start_now"),
                 }}
                 consult15Min={{

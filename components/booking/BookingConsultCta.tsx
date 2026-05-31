@@ -1,5 +1,5 @@
 import { BOOKING_CONSULT_15_MIN } from "@/lib/data/booking-shared";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildConsultWhatsAppHref } from "@/lib/booking-messages";
 import { cn } from "@/lib/utils";
 
 type BookingConsultCtaProps = {
@@ -7,11 +7,7 @@ type BookingConsultCtaProps = {
 };
 
 export default function BookingConsultCta({ className }: BookingConsultCtaProps) {
-  const href = buildWhatsAppHref({
-    text: buildServiceWhatsAppText(BOOKING_CONSULT_15_MIN.whatsappText),
-    utm_source: "website",
-    utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
-  });
+  const href = buildConsultWhatsAppHref([], { name: "", phone: "" });
 
   return (
     <aside

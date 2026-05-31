@@ -11,9 +11,12 @@ export default function StudioHubValueSection() {
     <div className="space-y-16">
       <section aria-labelledby="studio-portfolio-heading">
         <header className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+            תיק עבודות
+          </p>
           <h2
             id="studio-portfolio-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             תיק עבודות מהאולפן
           </h2>
@@ -34,9 +37,12 @@ export default function StudioHubValueSection() {
 
       <section aria-labelledby="studio-value-heading">
         <header className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+            אמון וערך
+          </p>
           <h2
             id="studio-value-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             ערך, אמון ואפשרויות ליוצרים
           </h2>
@@ -49,7 +55,7 @@ export default function StudioHubValueSection() {
           {STUDIO_HUB_VALUE_VIDEOS.map((item) => (
             <li
               key={item.videoId + item.title}
-              className="flex flex-col rounded-2xl border border-border bg-surface p-4 sm:p-5"
+              className="flex flex-col rounded-2xl border border-border bg-surface p-4 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/30 hover:shadow-md sm:p-5"
             >
               <div className="aspect-video overflow-hidden rounded-xl bg-neutral-900">
                 <YouTube videoId={item.videoId} title={item.title} fillParent />

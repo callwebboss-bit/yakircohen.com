@@ -19,6 +19,8 @@ export type BookingSummaryActionsProps = {
   startNow?: BookingSummaryAction;
   /** Tertiary text link — pulses after 60s idle */
   consult15Min?: BookingSummaryAction;
+  /** Disables both action buttons (e.g. until terms accepted) */
+  disabled?: boolean;
   className?: string;
 };
 
@@ -26,6 +28,7 @@ export default function BookingSummaryActions({
   continueWhatsApp,
   startNow,
   consult15Min,
+  disabled = false,
   className,
 }: BookingSummaryActionsProps) {
   const [pulsing, setPulsing] = useState(false);
@@ -47,11 +50,15 @@ export default function BookingSummaryActions({
     if (timerRef.current) clearTimeout(timerRef.current);
   }
 
-  const primaryBaseClass =
-    "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1fba59] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]";
+  const primaryBaseClass = cn(
+    "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1fba59] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]",
+    disabled && "pointer-events-none opacity-50",
+  );
 
-  const secondaryBaseClass =
-    "inline-flex w-full items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+  const secondaryBaseClass = cn(
+    "inline-flex w-full items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+    disabled && "pointer-events-none opacity-50",
+  );
 
   return (
     <div className={cn("space-y-3", className)}>

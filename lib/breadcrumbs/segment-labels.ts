@@ -46,6 +46,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   faq: "שאלות נפוצות",
   pricing: "מחירון",
   gifts: "מתנות והקלטות",
+  "funny-ringtone": "רינגטון מצחיק",
   host: "הנחיית אירועים",
   jerusalem: "ירושלים",
   cities: "ערים",

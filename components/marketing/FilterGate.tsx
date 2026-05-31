@@ -72,7 +72,6 @@ function PricingOverview({ onProceed }: { onProceed: () => void }) {
 
 export default function FilterGate() {
   const [gateState, setGateState] = useState<GateState>("loading");
-  const [giftMode, setGiftMode] = useState(false);
   const [timeline, setTimeline] = useState<TimelineId | null>(null);
   const [purpose, setPurpose] = useState<PurposeId | null>(null);
 
@@ -85,7 +84,8 @@ export default function FilterGate() {
           if (answers.timeline === "just_browsing") {
             setGateState("browsing");
           } else {
-            if (answers.purpose === "gift") setGiftMode(true);
+            setTimeline(answers.timeline);
+            setPurpose(answers.purpose);
             setGateState("wizard");
           }
         } else {
@@ -110,7 +110,6 @@ export default function FilterGate() {
     if (timeline === "just_browsing") {
       setGateState("browsing");
     } else {
-      if (purpose === "gift") setGiftMode(true);
       setGateState("wizard");
     }
   };
@@ -120,7 +119,8 @@ export default function FilterGate() {
       const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
       if (saved) {
         const answers: FilterAnswers = JSON.parse(saved);
-        if (answers.purpose === "gift") setGiftMode(true);
+        setTimeline(answers.timeline);
+        setPurpose(answers.purpose);
       }
     } catch {}
     setGateState("wizard");
@@ -129,7 +129,9 @@ export default function FilterGate() {
   if (gateState === "loading") return null;
 
   if (gateState === "wizard") {
-    return <StudioRecordingBooking initialGiftMode={giftMode} />;
+    return (
+      <StudioRecordingBooking initialGiftMode={purpose === "gift"} />
+    );
   }
 
   if (gateState === "browsing") {

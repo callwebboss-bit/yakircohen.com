@@ -50,9 +50,12 @@ export default function BlessingsHubPageContent() {
 
         <section aria-labelledby="blessing-types-heading">
           <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              ברכות מוקלטות
+            </p>
             <h2
               id="blessing-types-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               סוגי ברכות שאנחנו מקליטים
             </h2>
@@ -110,7 +113,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="why-studio-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               למה להקליט ברכה באולפן מקצועי?
             </h2>
@@ -144,7 +147,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="how-it-works-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               איך זה עובד?
             </h2>
@@ -188,7 +191,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="post-production-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               מה קורה אחרי ההקלטה?
             </h2>
@@ -215,7 +218,7 @@ export default function BlessingsHubPageContent() {
         >
           <h2
             id="pricing-note-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
             כמה זה עולה?
           </h2>
@@ -235,7 +238,7 @@ export default function BlessingsHubPageContent() {
         <section className="max-w-3xl" aria-labelledby="audience-heading">
           <h2
             id="audience-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             למי זה מתאים?
           </h2>
@@ -262,7 +265,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="blessings-tracks-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               בחרו את סוג הברכה שלכם
             </h2>
@@ -325,7 +328,7 @@ export default function BlessingsHubPageContent() {
         >
           <h2
             id="blessings-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
             מוכנים להקליט את הברכה שלכם?
           </h2>

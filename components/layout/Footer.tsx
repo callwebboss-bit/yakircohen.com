@@ -151,7 +151,6 @@ export default function Footer() {
             © {currentYear} {SITE_NAME}
           </p>
           <p className="text-center text-xs text-muted-foreground opacity-70 md:text-start">
-            האתר נבנה בטכנולוגייה חדישה של AI לכן יתכנו טעויות
           </p>
           <nav
             aria-label="מסמכים משפטיים"

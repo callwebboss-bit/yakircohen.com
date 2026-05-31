@@ -10,7 +10,7 @@ export const SITE_LOGO_SRC = "/images/logo.svg";
 
 /** Studio photo for hero and studio marketing blocks */
 export const SITE_STUDIO_IMAGE_SRC =
-  "/images/services/studio/hub/אמא מקליטה באולפן.webp";
+  "/images/services/podcast/אולפן פודקאסט לעסקים - החלק האורבני - יקיר כהן הפקות במודיעין.webp";
 
 export const SOCIAL_LINKS = [
   {
@@ -90,4 +90,18 @@ export const BUSINESS_HOURS = [
   { days: "ראשון - חמישי", hours: "09:00 - 20:00" },
   { days: "שישי", hours: "09:00 - 14:00" },
   { days: "שבת", hours: "סגור" },
+] as const;
+
+/** Trust metrics - homepage, book page, badges (edit values here) */
+export const GOOGLE_RATING = "4.9";
+export const GOOGLE_RATING_BEST = "5";
+export const GOOGLE_RATING_WORST = "1";
+/** Optional - shown in badge + schema when set (update from Google Business Profile) */
+export const GOOGLE_REVIEW_COUNT = "150";
+export const GOOGLE_RATING_LABEL = "דירוג Google";
+
+export const SITE_TRUST_STATS = [
+  { value: "20+", label: "שנות ניסיון" },
+  { value: "5,000+", label: "לקוחות מרוצים" },
+  { value: `${GOOGLE_RATING} ★`, label: GOOGLE_RATING_LABEL },
 ] as const;

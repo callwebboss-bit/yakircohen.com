@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
+import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import FAQWithCtaLinks, {
@@ -169,6 +170,22 @@ export default function StutteringCoursePage() {
         <blockquote className="mx-auto mt-6 max-w-lg border-s-2 border-brand-red/40 ps-4 text-start text-sm font-medium italic text-foreground">
           &quot;המטרה היא לא לדבר מושלם. המטרה היא לדבר חופשי.&quot;
         </blockquote>
+      </section>
+
+      <section
+        className="mx-auto max-w-2xl px-4 pb-4 pt-2 sm:px-6 lg:px-8"
+        aria-labelledby="stuttering-video-heading"
+      >
+        <h2
+          id="stuttering-video-heading"
+          className="mb-4 text-center text-lg font-semibold text-foreground sm:text-xl"
+        >
+          ראו את השיטה בפעולה
+        </h2>
+        <LazyYouTubeEmbed
+          embedUrl="https://www.youtube.com/embed/yf004RFUdmM"
+          title="קורס הפסקת גמגום — שיטת NeverMind | יקיר כהן הפקות"
+        />
       </section>
 
       <section className="border-t border-border bg-surface py-12 sm:py-14">

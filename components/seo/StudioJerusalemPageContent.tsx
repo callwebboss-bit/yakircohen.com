@@ -44,7 +44,7 @@ export default function StudioJerusalemPageContent() {
         <section className="max-w-3xl" aria-labelledby="jerusalem-intro-heading">
           <h2
             id="jerusalem-intro-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             אולפן הקלטות בירושלים  -  חוויה בלתי נשכחת
           </h2>
@@ -59,7 +59,7 @@ export default function StudioJerusalemPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="jerusalem-why-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               למה ירושלמים בוחרים להקליט אצלנו?
             </h2>
@@ -83,7 +83,7 @@ export default function StudioJerusalemPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="jerusalem-process-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               איך זה עובד?
             </h2>
@@ -106,7 +106,7 @@ export default function StudioJerusalemPageContent() {
         </section>
 
         <section className="max-w-3xl rounded-xl border border-border bg-surface p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-foreground sm:text-xl">
+          <h2 className="font-serif text-lg font-semibold text-foreground sm:text-xl">
             ירושלמי במקור  -  מבין את הנשמה שלכם
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -122,7 +122,7 @@ export default function StudioJerusalemPageContent() {
         >
           <h2
             id="partners-heading"
-            className="text-lg font-semibold text-foreground sm:text-xl"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
           >
             לעסקים, מורים ותקליטנים
           </h2>
@@ -142,9 +142,12 @@ export default function StudioJerusalemPageContent() {
 
         <section aria-labelledby="popular-services-heading">
           <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              פופולרי בקרב ירושלמים
+            </p>
             <h2
               id="popular-services-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               מה מקליטים אצלנו?
             </h2>
@@ -157,7 +160,7 @@ export default function StudioJerusalemPageContent() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
+                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
                 >
                   <p className="text-2xl" aria-hidden>
                     {item.emoji}
@@ -212,7 +215,7 @@ export default function StudioJerusalemPageContent() {
         >
           <h2
             id="jerusalem-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
             מוכנים להקליט את השיר שלכם?
           </h2>

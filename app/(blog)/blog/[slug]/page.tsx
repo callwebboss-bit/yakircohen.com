@@ -3,10 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CTABanner from "@/components/blog/CTABanner";
+import RelatedArticles from "@/components/blog/RelatedArticles";
 import SocialShare from "@/components/blog/SocialShare";
 import {
   getAllBlogSlugs,
   getBlogPostBySlug,
+  getRelatedBlogPosts,
   getRelatedServiceCallout,
 } from "@/lib/data/blog";
 import { ensureImageAlt } from "@/lib/image-alt";
@@ -58,6 +60,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
      Returns null when no match is found; CTABanner uses its defaults in that
      case so the baseline conversion block always renders. */
   const callout = getRelatedServiceCallout(post.relatedServiceSlug);
+  const relatedPosts = getRelatedBlogPosts(post.slug, 3);
   const youtubeEmbed = post.youtubeUrl ? toYouTubeEmbedUrl(post.youtubeUrl) : null;
 
   /* Inline BlogPosting JSON-LD - replaces the missing BlogPostingJsonLd
@@ -171,7 +174,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
            * service-aware heading, body, and WhatsApp pre-fill text from the
            * registry. Falls back to CTABanner built-in defaults when null.
            */}
-          <div className="mt-14 border-t border-border pb-16 pt-12">
+          <div className="mt-14 border-t border-border pb-10 pt-12">
             <CTABanner
               heading={callout?.title}
               body={callout?.subtitle}
@@ -179,6 +182,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               utm_campaign={callout?.utmCampaign ?? "blog_article_cta"}
             />
           </div>
+
+          <RelatedArticles posts={relatedPosts} />
+
+          <div className="pb-16" />
         </div>
       </article>
     </>

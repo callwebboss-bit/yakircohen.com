@@ -17,6 +17,7 @@ import {
   type SingerPackageId,
 } from "@/lib/data/singer-amplification-page";
 import {
+  BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
@@ -25,19 +26,17 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
+import {
+  buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
+  readUtmSource,
+} from "@/lib/booking-messages";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
-
-const consultHref = buildWhatsAppHref({
-  text: BOOKING_CONSULT_15_MIN.whatsappText,
-  utm_source: "website",
-  utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
-});
 
 type FormState = {
   packageId: SingerPackageId | "";
@@ -79,6 +78,7 @@ export default function SingerAmplificationBookingWizard({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
+  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "singer_amplification_booking",
   });
@@ -107,6 +107,24 @@ export default function SingerAmplificationBookingWizard({
     [form.name, form.phone],
   );
 
+  const buildSummaryLines = () => [
+    ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
+    ...(form.time ? [{ label: "שעה", value: form.time }] : []),
+    ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
+    ...(selected ? [{ label: "חבילה", value: `${selected.name} (${selected.price})` }] : []),
+    ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+  ];
+
+  const consultHref = useMemo(() => {
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "";
+    return buildConsultWhatsAppHref(buildSummaryLines(), {
+      name: sanitizeLeadText(form.name, 60),
+      phone: displayPhone,
+    });
+  }, [form, selected]);
+
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
@@ -130,13 +148,7 @@ export default function SingerAmplificationBookingWizard({
         const body = buildBookingWhatsAppBody({
           intent,
           serviceLabel: selected ? `הגברה לזמר/ה - ${selected.name}` : "הגברה לזמר/ה",
-          summaryLines: [
-            ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
-            ...(form.time ? [{ label: "שעה", value: form.time }] : []),
-            ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
-            ...(selected ? [{ label: "חבילה", value: `${selected.name} (${selected.price})` }] : []),
-            ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
-          ],
+          summaryLines: buildSummaryLines(),
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
           utmSource: readUtmSource(),
         });
@@ -153,6 +165,7 @@ export default function SingerAmplificationBookingWizard({
           name: form.name,
           phone: displayPhone,
         });
+        setLastIntent(intent);
         setLastWaHref(href);
         setSubmitted(true);
         draft.clear();
@@ -170,7 +183,11 @@ export default function SingerAmplificationBookingWizard({
 
   if (submitted && lastWaHref) {
     return (
-      <BookingSuccessPanel whatsappHref={lastWaHref} onNewBooking={resetWizard} />
+      <BookingSuccessPanel
+        intent={lastIntent}
+        whatsappHref={lastWaHref}
+        onNewBooking={resetWizard}
+      />
     );
   }
 
@@ -186,9 +203,18 @@ export default function SingerAmplificationBookingWizard({
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <h2 className="text-xl font-semibold text-foreground">בחרו חבילת הגברה</h2>
+          <h2 className="text-xl font-semibold text-foreground">
+            בחרו חבילת הגברה לזמר/ה
+          </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            מחירים גלויים · שינויים אפשריים במעמד העסקה
+            זמרים, הרכבים ומפיקי אירועים - מחירים גלויים · שינויים אפשריים במעמד העסקה.
+            לא בטוחים?{" "}
+            <a
+              href="/events/equipment/singer-amplification#system-builder-heading"
+              className="font-medium text-brand-red hover:underline"
+            >
+              הריצו את מחשבון המערכת בעמוד השירות
+            </a>
           </p>
           <div className="mt-6 grid gap-4 lg:grid-cols-3">
             {SINGER_PACKAGES.map((pkg) => {
@@ -263,12 +289,13 @@ export default function SingerAmplificationBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={!form.termsAccepted}
                 continueWhatsApp={{
-                  label: "המשך בוואטסאפ",
+                  label: BOOKING_CTA.continue_chat,
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{
-                  label: "שליחה והתחלה מיידית",
+                  label: BOOKING_CTA.start_now,
                   onClick: () => handleAction("start_now"),
                 }}
                 consult15Min={{

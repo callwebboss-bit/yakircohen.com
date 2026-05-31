@@ -1,4 +1,4 @@
-import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import BlessingsVideoClipPageContent from "@/components/seo/BlessingsVideoClipPageContent";
 import {
   getStudioService,
   metadataFromService,
@@ -9,10 +9,5 @@ const service = getStudioService("blessings-video-clip");
 export const metadata = metadataFromService(service);
 
 export default function VideoClipBlessingPage() {
-  return (
-    <ServicePageFromRegistry
-      service={service}
-      portfolioLabel="דוגמאות קליפים מהאולפן"
-    />
-  );
+  return <BlessingsVideoClipPageContent />;
 }

@@ -26,6 +26,8 @@ export type ServicePageFromRegistryProps = {
   children?: ReactNode;
   portfolioLabel?: string;
   showFaqs?: boolean;
+  /** Hide built-in gallery/video showcase when custom content provides it */
+  showPortfolio?: boolean;
 };
 
 export default function ServicePageFromRegistry({
@@ -33,9 +35,11 @@ export default function ServicePageFromRegistry({
   children,
   portfolioLabel,
   showFaqs = true,
+  showPortfolio = true,
 }: ServicePageFromRegistryProps) {
-  const showPortfolio =
-    service.mediaType !== "none" || Boolean(service.playlistEmbedUrl?.trim());
+  const showPortfolioSection =
+    showPortfolio &&
+    (service.mediaType !== "none" || Boolean(service.playlistEmbedUrl?.trim()));
 
   const pageHero = resolveServicePageHeroFromEntity(service);
   const heroProps = withServicePageHeroDefaults(pageHero);
@@ -56,7 +60,7 @@ export default function ServicePageFromRegistry({
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname={pagePath} className="max-w-3xl" />
 
-        {showPortfolio ? (
+        {showPortfolioSection ? (
           <ServiceShowcaseSections
             assetsFolder={service.assetsFolder}
             playlistEmbedUrl={service.playlistEmbedUrl}

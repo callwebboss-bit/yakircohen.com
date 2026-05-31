@@ -1,14 +1,25 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import HomeHero from "@/components/marketing/HomeHero";
 import HomeSocialProofSection from "@/components/marketing/HomeSocialProofSection";
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
 import ProcessSteps, { type ProcessStep } from "@/components/marketing/ProcessSteps";
 import ServiceCard from "@/components/marketing/ServiceCard";
+import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import Testimonials from "@/components/marketing/Testimonials";
 import WhatsappLeadRouter from "@/components/marketing/WhatsappLeadRouter";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
+import {
+  MicIcon,
+  MusicIcon,
+  RadioIcon,
+  SparklesIcon,
+  VideoIcon,
+  ZapIcon,
+} from "@/components/ui/Icons";
 import { cn } from "@/lib/utils";
 
 const HOME_FAQ: FAQItem[] = [
@@ -60,6 +71,67 @@ const HOME_FAQ: FAQItem[] = [
       </>
     ),
   },
+  {
+    id: "pricing",
+    question: "כמה עולה הקלטה או אירוע?",
+    answer: (
+      <>
+        המחיר תלוי בשירות, בהיקף ובתוספות. ב
+        <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}
+        אפשר לבחור שירות, לראות טווח מחיר ולשלוח הזמנה בוואטסאפ. לייעוץ חינם -
+        השאירו פרטים למטה או כתבו לנו.
+      </>
+    ),
+  },
+  {
+    id: "delivery-time",
+    question: "תוך כמה זמן מקבלים קובץ מוכן?",
+    answer: (
+      <>
+        הקלטה באולפן - בדרך כלל מספר ימים עד שבועיים, תלוי בעריכה. פודקאסט ואירועים
+        - לפי היקף הפרויקט. נעדכן אתכם בשיחה הראשונה על לוח זמנים ברור.
+      </>
+    ),
+  },
+  {
+    id: "service-area",
+    question: "לאיזה אזורים אתם מגיעים?",
+    answer: (
+      <>
+        האולפן במודיעין. ל
+        <InlineServiceLink href="/events">אירועים</InlineServiceLink> מגיעים
+        לירושלים, למרכז ולכל הארץ.{" "}
+        <InlineServiceLink href="/studio/studio-jerusalem">
+          הקלטות בירושלים
+        </InlineServiceLink>{" "}
+        - בתיאום מראש.
+      </>
+    ),
+  },
+  {
+    id: "payment",
+    question: "איך משלמים?",
+    answer: (
+      <>
+        אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי
+        כרטיס אשראי לא נשמרים באתר - הסליקה דרך ספק מאושר.
+      </>
+    ),
+  },
+  {
+    id: "cancellation",
+    question: "מה קורה אם צריך לבטל או לשנות תאריך?",
+    answer: (
+      <>
+        עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת
+        ב
+        <Link href="/terms" className="font-medium text-brand-red hover:underline">
+          תנאי השירות
+        </Link>
+        .
+      </>
+    ),
+  },
 ];
 
 const VALUE_PROPS = [
@@ -106,12 +178,8 @@ const HOME_PROCESS_STEPS: ProcessStep[] = [
   },
 ];
 
-function HubIcon({ children }: { children: ReactNode }) {
-  return (
-    <span className="text-xl" aria-hidden="true">
-      {children}
-    </span>
-  );
+function ServiceHubIcon({ children }: { children: ReactNode }) {
+  return <span aria-hidden="true">{children}</span>;
 }
 
 export type HomePageSectionsProps = {
@@ -126,6 +194,7 @@ export default function HomePageSections({
   return (
     <>
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
+      <TrustStatsBar />
 
       <section
         className="bg-background py-16 sm:py-20 lg:py-24"
@@ -158,42 +227,42 @@ export default function HomePageSections({
               title="מרכז הפודקאסט"
               description="בואו נבנה פורמט, נקליט באולפן, נערוך ונעלה."
               href="/podcast"
-              icon={<HubIcon>🎙</HubIcon>}
+              icon={<ServiceHubIcon><RadioIcon size={22} /></ServiceHubIcon>}
               utm_campaign="home_podcast"
             />
             <ServiceCard
               title="סטודיו וברכות"
               description="שיר במתנה, ברכה לחתונה, קליפ קצר. הילד שלכם הוא הכוכב."
               href="/studio"
-              icon={<HubIcon>🎵</HubIcon>}
+              icon={<ServiceHubIcon><MusicIcon size={22} /></ServiceHubIcon>}
               utm_campaign="home_studio"
             />
             <ServiceCard
               title="קריינות"
               description="פרסומת, מרכזיה, IVR. קול שמוכר ומסביר בביטחון."
               href="/voiceover"
-              icon={<HubIcon>🎤</HubIcon>}
+              icon={<ServiceHubIcon><MicIcon size={22} /></ServiceHubIcon>}
               utm_campaign="home_voiceover"
             />
             <ServiceCard
               title="אירועים ואטרקציות"
               description="DJ, הגברה, עשן, זיקוקים קרים. רחבה שעפה."
               href="/events"
-              icon={<HubIcon>✨</HubIcon>}
+              icon={<ServiceHubIcon><SparklesIcon size={22} /></ServiceHubIcon>}
               utm_campaign="home_events"
             />
             <ServiceCard
               title="וידאו וצילום"
               description="סרט תדמית, אירוע, חתונה. תמונה וסאונד באותה נשימה."
               href="/video"
-              icon={<HubIcon>🎬</HubIcon>}
+              icon={<ServiceHubIcon><VideoIcon size={22} /></ServiceHubIcon>}
               utm_campaign="home_video"
             />
             <ServiceCard
               title="שחזור סאונד ב-AI"
               description="הקלטה ישנה? ננקה, נחזק, נחזיר לחיים."
               href="/podcast/podcast-editing"
-              icon={<HubIcon>⚡</HubIcon>}
+              icon={<ServiceHubIcon><ZapIcon size={22} /></ServiceHubIcon>}
               isAiService
               badge="טכנולוגיית AI"
               utm_campaign="home_ai_media"
@@ -202,6 +271,8 @@ export default function HomePageSections({
           </div>
         </div>
       </section>
+
+      <StudioClientsStrip />
 
       <WhatsappLeadRouter />
 
@@ -305,6 +376,16 @@ export default function HomePageSections({
               ונחזור אליכם מהר.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-surface py-14 sm:py-16">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+          <CallbackLeadForm
+            heading="מעדיפים שנחזור אליכם?"
+            description="השאירו שם וטלפון - נחזור תוך שעה בשעות הפעילות. ללא התחייבות."
+            utmCampaign="home_callback_form"
+          />
         </div>
       </section>
 

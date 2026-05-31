@@ -4,6 +4,9 @@
  * Lead scoring: totalEstimate >= 3000 → premium flag at top.
  */
 
+import { BOOKING_CONSULT_15_MIN } from "@/lib/data/booking-shared";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+
 export type BookingSummaryLine = {
   label: string;
   value: string;
@@ -50,8 +53,11 @@ export function buildBookingWhatsAppBody({
     lines.push("");
   }
 
-  // Intent + service
-  const intentLabel = intent === "start_now" ? "התחלה מיידית" : "המשך שיחה";
+  // Intent + service — phrased so Yakir can triage at a glance
+  const intentLabel =
+    intent === "start_now"
+      ? "מוכן/ה להתחיל תהליך והזמנה עכשיו"
+      : "רוצה להמשיך את השיחה ולתאם פרטים";
   lines.push(`*כוונה:* ${intentLabel}`);
   lines.push(`*שירות:* ${serviceLabel}`);
   lines.push("");
@@ -82,6 +88,44 @@ export function buildBookingWhatsAppBody({
   }
 
   return lines.join("\n").trim();
+}
+
+/** Builds consult WhatsApp text with optional booking context from the form. */
+export function buildConsultWhatsAppText(
+  summaryLines: BookingSummaryLine[],
+  contact: { name: string; phone: string },
+): string {
+  const lines: string[] = [
+    "שלום, אשמח לייעוץ קצר לפני שבוחרים מסלול ומחיר - 15 דקות יסדרו את זה",
+  ];
+
+  if (contact.name.trim() || contact.phone.trim()) {
+    lines.push("");
+    if (contact.name.trim()) lines.push(`*שם:* ${contact.name.trim()}`);
+    if (contact.phone.trim()) lines.push(`*טלפון:* ${contact.phone.trim()}`);
+  }
+
+  if (summaryLines.length > 0) {
+    lines.push("");
+    lines.push("*מה בחרתי עד כה:*");
+    for (const { label, value } of summaryLines) {
+      lines.push(`${label}: ${value}`);
+    }
+  }
+
+  return lines.join("\n").trim();
+}
+
+/** Builds a WhatsApp href for the 15-minute consult CTA with booking context. */
+export function buildConsultWhatsAppHref(
+  summaryLines: BookingSummaryLine[],
+  contact: { name: string; phone: string },
+): string {
+  return buildWhatsAppHref({
+    text: buildConsultWhatsAppText(summaryLines, contact),
+    utm_source: "website",
+    utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
+  });
 }
 
 /**

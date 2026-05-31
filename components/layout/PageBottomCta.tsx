@@ -46,10 +46,10 @@ const SITE_DEFAULTS = {
 } as const;
 
 const WHATSAPP_DEFAULTS = {
-  heading: "מוכנים להתקדם לשלב הבא?",
+  heading: "מוכנים לסגור תאריך?",
   description:
-    "נשמח לייעץ, לתאם פגישה באולפן או להציע הצעת מחיר מותאמת לפרויקט שלכם.",
-  whatsappLabel: "דברו איתנו בוואטסאפ",
+    "שיחה קצרה בוואטסאפ - נציע מחיר מותאם, נסביר את כל האפשרויות ונבדוק זמינות.",
+  whatsappLabel: "קבלו הצעת מחיר בוואטסאפ",
 } as const;
 
 export default function PageBottomCta({

@@ -1,17 +1,21 @@
-import { BOOKING_POST_SUBMIT_MESSAGE } from "@/lib/data/booking-shared";
+import { BOOKING_POST_SUBMIT } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
 
 type BookingSuccessPanelProps = {
+  intent?: "continue_chat" | "start_now";
   whatsappHref: string;
   onNewBooking: () => void;
   className?: string;
 };
 
 export default function BookingSuccessPanel({
+  intent = "continue_chat",
   whatsappHref,
   onNewBooking,
   className,
 }: BookingSuccessPanelProps) {
+  const copy = BOOKING_POST_SUBMIT[intent];
+
   return (
     <div
       className={cn(
@@ -24,26 +28,26 @@ export default function BookingSuccessPanel({
         ✓
       </p>
       <h2 className="mt-4 text-xl font-semibold text-foreground">
-        {BOOKING_POST_SUBMIT_MESSAGE.title}
+        {copy.title}
       </h2>
       <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-        {BOOKING_POST_SUBMIT_MESSAGE.body}
+        {copy.body}
       </p>
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1fba59]"
         >
-          {BOOKING_POST_SUBMIT_MESSAGE.reopenLabel}
+          {copy.reopenLabel}
         </a>
         <button
           type="button"
           onClick={onNewBooking}
           className="inline-flex rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
         >
-          {BOOKING_POST_SUBMIT_MESSAGE.newBookingLabel}
+          {copy.newBookingLabel}
         </button>
       </div>
     </div>

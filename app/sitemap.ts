@@ -43,6 +43,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.8,
     changeFrequency: "monthly",
   },
+  {
+    url: url("studio/recording-song-modiin/gifts/funny-ringtone"),
+    priority: 0.7,
+    changeFrequency: "monthly",
+  },
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
 

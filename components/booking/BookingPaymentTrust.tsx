@@ -1,6 +1,5 @@
+import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
-
-const PAYMENT_METHODS = ["אשראי", "Bit", "PayBox", "Apple Pay"] as const;
 
 function CreditCardIcon() {
   return (
@@ -21,10 +20,10 @@ export default function BookingPaymentTrust({ className }: { className?: string 
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         {PAYMENT_METHODS.map((method) => (
           <span
-            key={method}
+            key={method.id}
             className="rounded-md border border-border bg-surface px-2 py-0.5 text-[0.65rem] font-medium text-muted-foreground"
           >
-            {method}
+            {method.label}
           </span>
         ))}
       </div>

@@ -38,9 +38,16 @@ export default function RecordingStudioPageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/recording-studio" className="max-w-3xl" />
-        <p className="text-center text-sm font-medium text-muted-foreground sm:text-base">
-          מעל 2,000 תושבי מודיעין והסביבה כבר הקליטו אצלנו
-        </p>
+        <div className="flex justify-center">
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-2 text-sm font-semibold text-foreground">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0 text-brand-red" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            מעל 2,000 תושבי מודיעין והסביבה כבר הקליטו אצלנו
+          </p>
+        </div>
 
         <ShowcaseVideoSection
           heading="בואו לסיור באולפן"
@@ -58,9 +65,12 @@ export default function RecordingStudioPageContent() {
 
         <section aria-labelledby="offerings-heading">
           <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              שירותי הפקה
+            </p>
             <h2
               id="offerings-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               מה אפשר להקליט ולהפיק אצלנו?
             </h2>
@@ -94,7 +104,7 @@ export default function RecordingStudioPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="why-here-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               למה דווקא כאן?
             </h2>
@@ -117,7 +127,7 @@ export default function RecordingStudioPageContent() {
         <section className="max-w-3xl" aria-labelledby="revolution-heading">
           <h2
             id="revolution-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             המהפכה המוזיקלית במודיעין
           </h2>
@@ -184,7 +194,7 @@ export default function RecordingStudioPageContent() {
         >
           <h2
             id="studio-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
             מוכנים לסשן באולפן?
           </h2>

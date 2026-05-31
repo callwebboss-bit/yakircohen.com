@@ -58,7 +58,7 @@ export default function MobileStudioPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="mobile-studio-video-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               דוגמאות מהשטח
             </h2>
@@ -69,7 +69,7 @@ export default function MobileStudioPageContent() {
         <section className="max-w-3xl" aria-labelledby="acoustics-heading">
           <h2
             id="acoustics-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             איך זה עובד? הסוד הוא באקוסטיקה
           </h2>
@@ -88,7 +88,7 @@ export default function MobileStudioPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="checklist-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               צ׳ק-ליסט: מה להכין?
             </h2>
@@ -113,7 +113,7 @@ export default function MobileStudioPageContent() {
         <section className="max-w-3xl" aria-labelledby="mobile-intro-heading">
           <h2
             id="mobile-intro-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             אולפן נייד: הפקה שמגיעה עד לפתח הבית
           </h2>
@@ -129,7 +129,7 @@ export default function MobileStudioPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="audience-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
               למי מתאים שירות האולפן הנייד?
             </h2>
@@ -157,7 +157,7 @@ export default function MobileStudioPageContent() {
         >
           <h2
             id="included-heading"
-            className="text-lg font-semibold text-foreground sm:text-xl"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
           >
             מה מגיע איתנו?
           </h2>
@@ -179,7 +179,7 @@ export default function MobileStudioPageContent() {
         >
           <h2
             id="clip-addon-heading"
-            className="text-lg font-semibold text-foreground sm:text-xl"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
           >
             רוצים גם קליפ? אפשרי
           </h2>
@@ -207,7 +207,7 @@ export default function MobileStudioPageContent() {
         >
           <h2
             id="smartphone-clip-heading"
-            className="text-lg font-semibold text-foreground sm:text-xl"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
           >
             פתרון נוסף: קליפ מסמארטפון
           </h2>
@@ -281,7 +281,7 @@ export default function MobileStudioPageContent() {
         >
           <h2
             id="mobile-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
             בדקו זמינות לאולפן נייד
           </h2>

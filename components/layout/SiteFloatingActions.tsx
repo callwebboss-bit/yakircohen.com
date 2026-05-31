@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import AccessibilityToggle from "@/components/ui/AccessibilityToggle";
+import MobileStickyCta from "@/components/layout/MobileStickyCta";
 import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
 import { cn } from "@/lib/utils";
 
@@ -25,21 +26,26 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
 const elevatedPosition =
   "bottom-[5.5rem] sm:bottom-[6.5rem] max-md:bottom-[5.5rem]";
 
+const mobileStickyLift = "max-md:bottom-[4.5rem]";
+
 export default function SiteFloatingActions() {
   const pathname = usePathname();
   const hideWhatsApp = matchesPrefix(pathname, HIDE_FLOATING_WHATSAPP_PREFIXES);
   const elevated = matchesPrefix(pathname, ELEVATED_FLOATING_PREFIXES);
+  const showMobileSticky = !hideWhatsApp;
+
+  const fabPosition = cn(
+    elevated && elevatedPosition,
+    showMobileSticky && !elevated && mobileStickyLift,
+  );
 
   return (
     <>
+      <MobileStickyCta />
       {!hideWhatsApp ? (
-        <WhatsAppWidget
-          className={cn(elevated && elevatedPosition)}
-        />
+        <WhatsAppWidget className={fabPosition} />
       ) : null}
-      <AccessibilityToggle
-        className={cn(elevated && elevatedPosition)}
-      />
+      <AccessibilityToggle className={fabPosition} />
     </>
   );
 }

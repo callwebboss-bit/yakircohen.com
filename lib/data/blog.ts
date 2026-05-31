@@ -38,6 +38,21 @@ export type RelatedServiceCallout = {
 };
 
 const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
+  "online/vocal-fix/pitch-correction": {
+    href: "/online/vocal-fix/pitch-correction",
+    title: "תיקון זיופים מקצועי — Pitch Correction",
+    subtitle:
+      "עריכה ידנית עם Melodyne ו-AI. שמירה על הקול הטבעי, ללא אפקט רובוטי.",
+    whatsappText: "שלום, מעוניין בתיקון זיופים לשיר שלי",
+    utmCampaign: "pitch_correction",
+  },
+  "online/vocal-fix/mixing": {
+    href: "/online/vocal-fix/mixing",
+    title: "מיקס ומאסטרינג מרחוק",
+    subtitle: "שכבות, EQ, קומפרסיה ומאסטרינג לקובץ מוכן להפצה.",
+    whatsappText: "שלום, מעוניין במיקס ומאסטרינג לשיר שלי",
+    utmCampaign: "online_mixing",
+  },
   podcast: {
     href: "/podcast",
     title: "הפקת פודקאסט מלאה  -  פרק מוכן תוך 24 שעות",
@@ -599,6 +614,57 @@ export const BLOG_POSTS = [
     relatedServiceSlug: "events/equipment/singer-amplification",
     tags: ["הגברה", "זמרים", "הזמנה"],
   },
+  {
+    slug: "pitch-correction-guide",
+    seo: {
+      title: "תיקון זיופים (Pitch Correction) — המדריך המלא",
+      description:
+        "מה זה Pitch Correction, איך עושים את זה מרחוק, כלי DIY מובילים כמו Melodyne ו-Cubase, ומתי עדיף לפנות למקצוען — מדריך מפורט לשירה מדויקת.",
+      datePublished: "2026-05-31",
+    },
+    title: "תיקון זיופים (Pitch Correction) — המדריך המלא",
+    excerpt:
+      "כל מה שצריך לדעת על Pitch Correction: מה זה, איך זה עובד, הכלים המובילים ומתי עדיף לפנות לאולפן מקצועי. מדריך מעשי לשמירה על קול טבעי.",
+    content: `
+<p>כל מי שנכנס אי פעם לאולפן הקלטות, או הקליט את עצמו בסביבה ביתית, מכיר את התחושה: הביצוע היה מלא ברגש, האנרגיה הייתה נכונה — אבל פה ושם היו צלילים שלא ישבו בדיוק על הטון המדויק. בתעשיית המוזיקה המודרנית, חוסר דיוק כזה אינו עוד סיבה להקליט את השיר מחדש עשרות פעמים. כאן נכנסת לתמונה עריכת הקול.</p>
+
+<h2>מה זה אומר לתקן זיוף</h2>
+<p>הדרך הקלה להסביר זאת היא דרך חוק ה-10. תארו לעצמכם סרגל שבו המספר 10 מייצג את הצליל המדויק שהזמר היה צריך לשיר בהתאם לסולם של השיר. אם השירה נחתה על 9.8 או 10.2, האוזן האנושית תפרש את הסטייה הקלה כחוסר דיוק.</p>
+<p>תהליך תיקון הזיופים — המוכר כ-Pitch Correction או Autotune — הוא שלב עריכה דיגיטלי שבו לוקחים את קובץ הקול ומזיזים את הצלילים שסטו מהסולם אל המקום המדויק שבו הם אמורים היו להיות.</p>
+<p>אתם שולחים את קובץ השירה הגולמי בפורמט WAV או MP3, ובתום העבודה מקבלים שני קבצים: גרסת ה"לפני" לצד הגרסה המלוטשת של ה"אחרי". ההפרדה מאפשרת לכם לשמוע את ההבדל הדרמטי בעצמכם.</p>
+
+<h2>איך עושים את זה מרחוק, במודל בוטיק</h2>
+<p>הטכנולוגיה של ימינו מאפשרת לבצע את כל תהליך עריכת השירה ותיקון האינטונציה מרחוק, ללא צורך להגיע פיזית לאולפן. <a href="/online/vocal-fix/pitch-correction">שירות תיקון הזיופים של יקיר כהן הפקות</a> משלב נוחות דיגיטלית עם עריכת בוטיק קפדנית.</p>
+<ol>
+<li><strong>שליחת החומרים</strong> — מעלים את קובץ השירה ישירות דרך האתר או בוואטסאפ.</li>
+<li><strong>עריכה ידנית</strong> — העורך עובר על הקובץ בצורה ידנית, תוך שמירת האופי, הניואנסים והסגנון הייחודי של הזמר.</li>
+<li><strong>קבלת הקובץ</strong> — קובץ נקי ומלוטש, מוכן לשלב <a href="/online/vocal-fix/mixing">מיקס ומאסטרינג</a>.</li>
+</ol>
+
+<h2>עשה זאת בעצמך (DIY)</h2>
+<p>חלק זה מיועד למוזיקאים ויוצרים בעלי רקע טכני שרוצים לנסות לתקן שירה בעצמם. לשם כך תצטרכו תוכנת עריכה (DAW) עם כלי פיץ' מובנים או תוספים חיצוניים.</p>
+<ul>
+<li><strong>Cubase</strong> — כולל את כלי ה-VariAudio, המציג את גלי הקול בצורה ויזואלית ומאפשר להזיז כל צליל לגובה הטון הנכון בקלות יחסית.</li>
+<li><strong>Logic Pro</strong> — תוכנת Apple למק, עם Flex Pitch לזיהוי אוטומטי מהיר ועריכה ישירה מתוך ציר הזמן של הפרויקט.</li>
+<li><strong>FL Studio</strong> — אהובה ביוצרי אלקטרוניקה והיפ-הופ, כוללת את NewTone לניתוח ותיקון שירה.</li>
+<li><strong>Melodyne</strong> — תוסף חיצוני של Celemony, הנחשב לסטנדרט הגבוה ביותר בתעשייה. שליטה מלאה בפורמנטים ובמעברים בין צלילים, ותוצאה טבעית ומדויקת.</li>
+</ul>
+<p>הכלים הם רק חצי מהמשוואה. האוזן המוזיקלית היא הכלי החשוב ביותר — עריכת שירה מצריכה הבנת סולמות, הרמוניה וגבולות הקול האנושי.</p>
+
+<h2>הדרכת וידאו מעשית</h2>
+<p>בסרטון למעלה תוכלו לראות כיצד תהליך תיקון הזיופים נראה בפועל: פתיחת קובץ השירה, זיהוי נקודות השיפור וביצוע התיקון שלב אחר שלב — על המסך, בזמן אמת.</p>
+
+<h2>רוצים לשמוע את הקול שלכם אחרי טיפול מקצועי</h2>
+<p>שלחו הקלטה קצרה מהטלפון הנייד ישירות לוואטסאפ של האולפן. צוות הסאונד יבצע עריכת פיץ' ידנית וישלח לכם דגימה של 10 שניות מטופלות — כדי שתוכלו להשוות בעצמכם ולהבין את ההבדל.</p>
+<p>הפרטים המלאים, כולל מחירון ושאלות נפוצות: <a href="/online/vocal-fix/pitch-correction">שירות תיקון זיופים מרחוק</a>.</p>
+`.trim(),
+    date: "31 במאי 2026",
+    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    category: "עריכה ושחזור סאונד",
+    relatedServiceSlug: "online/vocal-fix/pitch-correction",
+    youtubeUrl: "https://www.youtube.com/watch?v=aTGqFnijz0Q",
+    tags: ["תיקון זיופים", "Pitch Correction", "Melodyne", "עריכת קול", "שירה"],
+  },
 ] as const satisfies readonly BlogPost[];
 
 export type BlogPostSlug = (typeof BLOG_POSTS)[number]["slug"];
@@ -609,4 +675,19 @@ export function getBlogPostBySlug(slug: string): BlogPost | undefined {
 
 export function getAllBlogSlugs(): BlogPostSlug[] {
   return BLOG_POSTS.map((post) => post.slug);
+}
+
+export function getRelatedBlogPosts(currentSlug: string, count = 3): BlogPost[] {
+  const current = getBlogPostBySlug(currentSlug);
+  const all = BLOG_POSTS as readonly BlogPost[];
+  if (!current) {
+    return Array.from(all.filter((p) => p.slug !== currentSlug)).slice(0, count);
+  }
+  const sameCat = all.filter(
+    (p) => p.slug !== currentSlug && p.category === current.category,
+  );
+  const rest = all.filter(
+    (p) => p.slug !== currentSlug && p.category !== current.category,
+  );
+  return Array.from([...sameCat, ...rest]).slice(0, count);
 }

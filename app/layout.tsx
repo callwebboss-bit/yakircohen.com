@@ -102,7 +102,11 @@ export default function RootLayout({
         </a>
         <Header />
         <Breadcrumbs />
-        <main id="main-content" data-pagefind-body className="flex-1">
+        <main
+          id="main-content"
+          data-pagefind-body
+          className="flex-1 max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
+        >
           {children}
         </main>
         <Footer />
