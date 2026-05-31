@@ -275,6 +275,9 @@ export const PARTICIPANTS_OPTIONS = [
   { value: "large_group", label: "קבוצה / כולם" },
 ] as const;
 
+/** עלות כל משתתף נוסף — הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
+export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
+
 export const STUDIO_SURPRISE_GIFT_NOTE =
   "אם יש ילד/ה שיופתעו - נכין להם הפתעה קטנה ומיוחדת";
 

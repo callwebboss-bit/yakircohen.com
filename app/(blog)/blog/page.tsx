@@ -36,8 +36,8 @@ export const metadata: Metadata = {
    component stays decoupled from the data layer.
    ───────────────────────────────────────────────────────────────────────────── */
 
-const feedPosts: FeedPost[] = [...BLOG_POSTS].map(
-  (post: BlogPost): FeedPost => ({
+const feedPosts: FeedPost[] = (BLOG_POSTS as readonly BlogPost[]).map(
+  (post): FeedPost => ({
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt,

@@ -41,6 +41,7 @@ import {
   RECORDING_STUDIO_FAQS,
   RECORDING_TYPES,
   STUDIO_RECORDING_PACKAGES,
+  STUDIO_EXTRA_PARTICIPANT_PRICE,
   STUDIO_RECORDING_GUIDE,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
@@ -70,6 +71,8 @@ type FormState = {
   participants: string;
   hasSongPreference: boolean;
   songPreference: string;
+  // participant count
+  extraParticipants: number;
   name: string;
   phone: string;
   date: string;
@@ -95,6 +98,7 @@ type DraftPayload = {
   participants: string;
   hasSongPreference: boolean;
   songPreference: string;
+  extraParticipants: number;
   name: string;
   phone: string;
   date: string;
@@ -124,6 +128,7 @@ export default function StudioRecordingBooking({
     participants: "",
     hasSongPreference: false,
     songPreference: "",
+    extraParticipants: 0,
     name: "",
     phone: "",
     date: "",
@@ -136,6 +141,7 @@ export default function StudioRecordingBooking({
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const [koalendarOpen, setKoalendarOpen] = useState(false);
+  const [draftDismissed, setDraftDismissed] = useState(false);
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "studio_recording_booking",
   });
@@ -158,6 +164,7 @@ export default function StudioRecordingBooking({
         participants: payload.participants ?? "",
         hasSongPreference: payload.hasSongPreference ?? false,
         songPreference: payload.songPreference ?? "",
+        extraParticipants: payload.extraParticipants ?? 0,
         name: payload.name,
         phone: payload.phone,
         date: payload.date,
@@ -187,7 +194,8 @@ export default function StudioRecordingBooking({
       ),
     [form.upgrades],
   );
-  const total = (activePackage?.price ?? 0) + upgradesTotal;
+  const participantsCost = form.extraParticipants * STUDIO_EXTRA_PARTICIPANT_PRICE;
+  const total = (activePackage?.price ?? 0) + upgradesTotal + participantsCost;
 
   const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
@@ -299,6 +307,14 @@ export default function StudioRecordingBooking({
           },
         ]
       : []),
+    ...(form.extraParticipants > 0
+      ? [
+          {
+            label: "משתתפים נוספים",
+            value: `${form.extraParticipants} (+${(form.extraParticipants * STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪)`,
+          },
+        ]
+      : []),
     ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
@@ -319,6 +335,7 @@ export default function StudioRecordingBooking({
       participants: "",
       hasSongPreference: false,
       songPreference: "",
+      extraParticipants: 0,
       name: "",
       phone: "",
       date: "",
@@ -424,7 +441,7 @@ export default function StudioRecordingBooking({
 
   return (
     <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && selectedPackage && "pb-24")}>
-      {draft.restored && draft.savedAt ? (
+      {draft.restored && draft.savedAt && !draftDismissed ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
           שחזרנו טיוטה שמורה מ-
           {new Date(draft.savedAt).toLocaleDateString("he-IL", {
@@ -436,7 +453,10 @@ export default function StudioRecordingBooking({
           .{" "}
           <button
             type="button"
-            onClick={() => { draft.clear(); }}
+            onClick={() => {
+              draft.clear();
+              setDraftDismissed(true);
+            }}
             className="underline hover:text-brand-red"
           >
             נקה
@@ -638,6 +658,61 @@ export default function StudioRecordingBooking({
                 />
               </div>
             </div>
+
+            {/* People counter */}
+            {!isConsultation && (
+              <div>
+                <h3 className="mb-1 text-base font-semibold text-foreground">
+                  כמה אנשים מקליטים?
+                </h3>
+                <p className="mb-3 text-xs text-muted-foreground">
+                  כל משתתף נוסף דורש מיקרופון, סאונד-צ׳ק ועריכה נפרדת —{" "}
+                  <span className="font-medium text-foreground">
+                    {STUDIO_EXTRA_PARTICIPANT_PRICE.toLocaleString("he-IL")} ₪ לאדם
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { extra: 0, label: "רק אני" },
+                    { extra: 1, label: "2 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE} ₪` },
+                    { extra: 2, label: "3 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE * 2} ₪` },
+                    { extra: 3, label: "4 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE * 3} ₪` },
+                  ].map(({ extra, label, note }) => {
+                    const active = form.extraParticipants === extra;
+                    return (
+                      <button
+                        key={extra}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, extraParticipants: extra }))}
+                        className={cn(
+                          "flex flex-col items-center rounded-xl border px-4 py-2.5 text-center transition-colors",
+                          active
+                            ? "border-brand-red bg-brand-red/10 text-brand-red"
+                            : "border-border bg-background text-foreground hover:border-brand-red/40",
+                        )}
+                        aria-pressed={active}
+                      >
+                        <span className="text-sm font-semibold">{label}</span>
+                        {note && (
+                          <span className={cn("text-[0.65rem]", active ? "text-brand-red/80" : "text-muted-foreground")}>
+                            {note}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                  <a
+                    href="https://wa.me/972587555456"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    <span className="text-sm font-semibold">5+ אנשים</span>
+                    <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
+                  </a>
+                </div>
+              </div>
+            )}
 
             <div>
               <h3 className="mb-2 text-base font-semibold text-foreground">

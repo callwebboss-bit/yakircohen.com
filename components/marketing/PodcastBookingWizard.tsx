@@ -15,6 +15,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
+  PODCAST_EXTRA_PARTICIPANT_PRICE,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
   type PodcastPackageId,
@@ -52,6 +53,7 @@ const TIMEFRAME_OPTIONS = [
 type FormState = {
   packageId: PodcastPackageId | "";
   overtimeBlocks: number;
+  participantCount: number;
   name: string;
   phone: string;
   timeframe: string;
@@ -62,6 +64,7 @@ type FormState = {
 const INITIAL: FormState = {
   packageId: "",
   overtimeBlocks: 0,
+  participantCount: 1,
   name: "",
   phone: "",
   timeframe: "",
@@ -80,6 +83,7 @@ export default function PodcastBookingWizard() {
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
   const [koalendarOpen, setKoalendarOpen] = useState(false);
+  const [draftDismissed, setDraftDismissed] = useState(false);
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "podcast_booking_wizard",
   });
@@ -93,7 +97,14 @@ export default function PodcastBookingWizard() {
   );
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
-  const packageTotal = (selected?.price ?? 0) + form.overtimeBlocks * PODCAST_OVERTIME_RATE;
+  const extraParticipantsCost =
+    form.participantCount > 2
+      ? (form.participantCount - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE
+      : 0;
+  const packageTotal =
+    (selected?.price ?? 0) +
+    form.overtimeBlocks * PODCAST_OVERTIME_RATE +
+    extraParticipantsCost;
 
   const canStep0 = form.packageId !== "";
 
@@ -105,6 +116,17 @@ export default function PodcastBookingWizard() {
       TIMEFRAME_OPTIONS.find((o) => o.value === form.timeframe)?.label ?? "";
     const summaryLines = [
       ...(selected ? [{ label: "חבילה", value: selected.name }] : []),
+      ...(form.participantCount > 1
+        ? [
+            {
+              label: "מספר משתתפים",
+              value:
+                form.participantCount > 2
+                  ? `${form.participantCount} (+${extraParticipantsCost.toLocaleString("he-IL")} ₪)`
+                  : String(form.participantCount),
+            },
+          ]
+        : []),
       ...(form.overtimeBlocks > 0
         ? [
             {
@@ -202,7 +224,7 @@ export default function PodcastBookingWizard() {
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {draft.restored && draft.savedAt ? (
+      {draft.restored && draft.savedAt && !draftDismissed ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
           שחזרנו טיוטה שמורה מ-
           {new Date(draft.savedAt).toLocaleDateString("he-IL", {
@@ -214,7 +236,10 @@ export default function PodcastBookingWizard() {
           .{" "}
           <button
             type="button"
-            onClick={() => { draft.clear(); }}
+            onClick={() => {
+              draft.clear();
+              setDraftDismissed(true);
+            }}
             className="underline hover:text-brand-red"
           >
             נקה
@@ -255,6 +280,54 @@ export default function PodcastBookingWizard() {
               );
             })}
           </div>
+          {/* Participant count */}
+          <div className="mt-6">
+            <p className="mb-1 text-sm font-semibold text-foreground">כמה משתתפים בפרק?</p>
+            <p className="mb-3 text-xs text-muted-foreground">
+              עד 2 משתתפים — כלול במחיר. כל משתתף נוסף:{" "}
+              <span className="font-medium text-foreground">
+                +{PODCAST_EXTRA_PARTICIPANT_PRICE} ₪
+              </span>{" "}
+              (מיקרופון נוסף + עריכה מוגברת)
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {[1, 2, 3, 4].map((count) => {
+                const extra = Math.max(0, count - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE;
+                const active = form.participantCount === count;
+                return (
+                  <button
+                    key={count}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, participantCount: count }))}
+                    className={cn(
+                      "flex flex-col items-center rounded-xl border px-4 py-2.5 text-center transition-colors",
+                      active
+                        ? "border-brand-red bg-brand-red/10 text-brand-red"
+                        : "border-border bg-background text-foreground hover:border-brand-red/40",
+                    )}
+                    aria-pressed={active}
+                  >
+                    <span className="text-sm font-semibold">
+                      {count === 1 ? "מגיש יחיד" : `${count} אנשים`}
+                    </span>
+                    <span className={cn("text-[0.65rem]", active ? "text-brand-red/80" : "text-muted-foreground")}>
+                      {extra > 0 ? `+${extra} ₪` : "כלול"}
+                    </span>
+                  </button>
+                );
+              })}
+              <a
+                href="https://wa.me/972587555456"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+              >
+                <span className="text-sm font-semibold">5+ אנשים</span>
+                <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
+              </a>
+            </div>
+          </div>
+
           {selected ? (
             <div className="mt-6 rounded-2xl border border-border bg-surface p-5">
               <p className="mb-2 text-xs font-semibold text-muted-foreground">
