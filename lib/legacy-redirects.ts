@@ -54,6 +54,8 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/שאלות-נפוצות": "/about/faq",
   "/shop": "/voucher",
   "/online/online-pricing": "/online/online-ai-pricing",
+  "/academy/ai-music": "/academy/dj-course",
+  "/academy/ai-music.html": "/academy/dj-course",
   "/gift-card": "/voucher",
   "/gift-voucher": "/voucher",
   "/orders": "/voucher",

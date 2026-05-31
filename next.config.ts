@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
         destination: "/video",
         permanent: true,
       },
+      // Strip .html extensions (produced by Pagefind crawling .next/server/app)
+      {
+        source: "/:path(.*)\\.html",
+        destination: "/:path",
+        permanent: true,
+      },
     ];
   },
 };

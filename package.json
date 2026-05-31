@@ -7,7 +7,7 @@
     "build": "next build",
     "build:full": "next build && npm run index:search",
     "vercel-build": "npm run build:full",
-    "index:search": "pagefind --site .next/server/app --glob \"**/*.html\" --output-path public/pagefind",
+    "index:search": "node scripts/prepare-pagefind.mjs && pagefind --site .pagefind-src --output-path public/pagefind && node -e \"require('fs').rmSync('.pagefind-src',{recursive:true,force:true})\"",
     "start": "next start",
     "lint": "eslint",
     "audit:images": "node scripts/audit-images.mjs",
@@ -15,6 +15,7 @@
     "audit:headings": "node scripts/audit-headings.mjs",
     "audit:exclamation": "node scripts/audit-no-exclamation.mjs",
     "audit:pagefind": "node scripts/audit-pagefind.mjs",
+    "audit:audio": "node scripts/audit-audio-demos.mjs",
     "check:youtube": "node scripts/check-youtube-ids.mjs"
   },
   "dependencies": {
