@@ -80,10 +80,10 @@ export default function AcademyUlpanPageContent() {
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             לימוד עברית פרונטלי — יקיר כהן
           </p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl sm:leading-snug lg:text-5xl">
             ללמוד עברית פעם בשבוע — להעמיק ולחזק את השפה עם יקיר כהן
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base text-muted-foreground sm:text-lg">
             פגישה פרונטלית אחת בשבוע, בקצב שלך, עם מדריך מקצועי שמבין את
             הצרכים שלך
           </p>
@@ -272,7 +272,7 @@ export default function AcademyUlpanPageContent() {
           >
             איך זה עובד
           </h2>
-          <ol className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <ol className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((item) => (
               <li
                 key={item.step}

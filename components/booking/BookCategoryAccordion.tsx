@@ -73,7 +73,7 @@ export default function BookCategoryAccordion({
         )}
         inert={!isOpen}
       >
-        <div className="min-w-0 overflow-hidden">
+        <div className="min-h-0 min-w-0 overflow-hidden">
           <div className="min-w-0 max-w-full border-t border-border px-4 pb-8 pt-6 sm:px-6 sm:pb-10">
             {children}
           </div>

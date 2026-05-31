@@ -1,5 +1,7 @@
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
+import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
@@ -46,6 +48,12 @@ export default function StudioGiftsPageContent() {
 
   return (
     <div className="bg-background">
+      <VideoObjectSchema
+        faqItems={STUDIO_GIFT_FAQ.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
@@ -230,19 +238,9 @@ export default function StudioGiftsPageContent() {
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-              בת/בר מצווה
-            </p>
-            <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
-              קליפים לבת מצווה - עדיין הלהיט
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              אם המתנה היא לבר/בת מצווה, אלה הסגנונות הפופולריים ביותר. אפשר לרכוש
-              גם כשובר מתנה עם סימון מתנה.
-            </p>
-          </header>
-          <div className="mt-8 space-y-8">
+          <BatMitzvahClipShowcase />
+
+          <div className="mt-12 space-y-8">
             {BAT_MITZVAH_CLIP_TYPES.map((type) => (
               <article
                 key={type.id}
@@ -365,6 +363,12 @@ export default function StudioGiftsPageContent() {
             className="text-sm text-brand-red hover:underline"
           >
             פודקאסט עם סבא
+          </Link>
+          <Link
+            href="/studio/blessings/bat-mitzvah-clip"
+            className="text-sm text-brand-red hover:underline"
+          >
+            קליפ בת מצווה
           </Link>
           <ShareButton title="מתנות מהאולפן | יקיר כהן הפקות" />
         </div>

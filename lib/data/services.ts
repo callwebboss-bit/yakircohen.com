@@ -152,8 +152,8 @@ export const STUDIO_SERVICES = {
       "חנייה נוחה, נגיש מירושלים והמרכז",
     ],
     assetsFolder: "studio/hub",
-    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["studio-hub"]),
-    mediaType: "gallery",
+    playlistEmbedUrl: null,
+    mediaType: "none",
     whatsappText: "שלום, מעוניין לשמוע על שירותי האולפן והברכות",
     utmCampaign: "studio_hub",
     faqs: [],
@@ -1656,7 +1656,7 @@ export const EVENTS_SERVICES = {
         description: "עשן כבד + זיקוקים קרים / קונפטי / בועות.",
       },
     ],
-    assetsFolder: "events/attractions/wedding-smoking-machine",
+    assetsFolder: "heavy-smoke",
     playlistEmbedUrl: youtubeEmbedUrl(
       YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke-large"],
     ),
@@ -2408,7 +2408,7 @@ export const VIDEO_SERVICES = {
       "עריכה, גרפיקה, כתוביות וגרסאות פרסום",
       "מסירה בפורמטים מותאמים לאתר, LinkedIn ומטא",
     ],
-    assetsFolder: "podcast",
+    assetsFolder: "video/corporate-video",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["video-corporate-video"]),
     mediaType: "video",
     whatsappText:

@@ -139,7 +139,7 @@ export const BLOG_POSTS = [
 <p><strong>טיפ פרו:</strong> הקליטו 30 שניות בדיקה, האזינו בפלגים, ורק אז מתחילים את הפרק. זה חוסך זמן עריכה ומשפר את הביטחון מול המיקרופון.</p>
 `.trim(),
     date: "10 במאי 2026",
-    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
     category: "פודקאסט ואולפן",
     relatedServiceSlug: "podcast/podcast-studio-modiin",
   },
@@ -170,7 +170,7 @@ export const BLOG_POSTS = [
 <p>קובץ מוכן להעלאה, עוצמה מאוזנת לפלטפורמות, וגרסאות קצרות לפרומו אם צריך. עבור מותגים ועסקים, זה אומר שאפשר לפרסם תוכן איכותי גם כשהחומר הגולמי לא מושלם.</p>
 `.trim(),
     date: "18 במאי 2026",
-    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "עריכה ושחזור סאונד",
     relatedServiceSlug: "podcast/podcast-editing",
   },
@@ -215,7 +215,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "15 באפריל 2026",
     thumbnail:
-      "/images/services/studio/blessings/video-clip/אמא מקליטה באולפן.webp",
+      "/images/services/events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp",
     category: "הפקה מוזיקלית",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["חתונה", "הפקה", "סאונד", "טופס הזמנה"],
@@ -303,7 +303,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "1 במרץ 2026",
     thumbnail:
-      "/images/services/studio/recording-song-modiin/הקלטת-שיר-בר-מצווה.webp",
+      "/images/services/events/wedding-packages/שירים-לאירועים.webp",
     category: "חתונה ומוזיקה",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["חתונה", "שירים לחופה", "חופה"],
@@ -347,7 +347,7 @@ export const BLOG_POSTS = [
 <p><strong>השורה התחתונה:</strong> החתונה שלכם היא אירוע חד-פעמי. אל תפקידו את הפסקול של החיים שלכם בידי מי שמציע לכם את המחיר הכי נמוך. בחרו באדם שמעריך את האמנות שלו - כי רק הוא יידע להעריך את האירוע שלכם.</p>
 `.trim(),
     date: "21 במאי 2026",
-    thumbnail: "/images/services/events/attractions/led-booth/יקיר כהן באירוע.webp",
+    thumbnail: "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
     category: "אירועים וחתונות",
     relatedServiceSlug: "events/dj-events",
     tags: ["DJ", "חתונה", "תקליטן", "אירועים"],
@@ -402,7 +402,7 @@ export const BLOG_POSTS = [
 <p>רוצים להתחיל? <a href="/studio">האולפן שלנו</a> ב<a href="/studio/recording-song-modiin">הקלטת שיר מקצועית</a> - שיחה ראשונה בחינם.</p>
 `.trim(),
     date: "21 במאי 2026",
-    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    thumbnail: "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
     category: "אולפן והקלטה",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["אולפן", "הקלטה", "הכנה", "קול"],
@@ -450,7 +450,7 @@ export const BLOG_POSTS = [
 </ul>
 `.trim(),
     date: "21 במאי 2026",
-    thumbnail: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
+    thumbnail: "/images/services/events/dj-events/עמדה ותאורה יקירכהן באירוע.webp",
     category: "אירועים וחתונות",
     relatedServiceSlug: "events/dj-events",
     tags: ["חתונה", "טיפים", "תכנון אירוע"],
@@ -502,7 +502,7 @@ export const BLOG_POSTS = [
 <p>מעוניינים להקים <a href="/academy/home-studio">אולפן ביתי מקצועי</a>? דברו איתנו. גם <a href="/studio/mobile-studio">האולפן הנייד שלנו</a> מגיע אליכם - ומגיב בשניות. <a href="/contact">צרו קשר</a> לשיחת ייעוץ ראשונה.</p>
 `.trim(),
     date: "21 במאי 2026",
-    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    thumbnail: "/images/services/academy/music-production/אולפן-הקלטה-במודיעין-יקיר-כהן-הפקות.webp",
     category: "אולפן והקלטה",
     relatedServiceSlug: "studio/mobile-studio",
     tags: ["אולפן", "הקמת אולפן", "אקוסטיקה", "ציוד"],
@@ -532,7 +532,7 @@ export const BLOG_POSTS = [
 <p>מוכנים? <a href="/book#studio">התחילו הזמנה מקוונת - אולפן</a>. רוצים לראות מחירים לפני? <a href="/pricing">מחירון מרכזי</a>.</p>
 `.trim(),
     date: "23 במאי 2026",
-    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    thumbnail: "/images/services/studio/recording-song-modiin/מתחם יקיר כהן הפקות.webp",
     category: "אולפן והקלטה",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["הזמנה", "אולפן", "מודיעין"],
@@ -556,7 +556,7 @@ export const BLOG_POSTS = [
 <p>בעמוד <a href="/book#podcast">ההזמנה</a> בוחרים חבילה, ממלאים תאריך ושולחים בוואטסאפ. לפרטים נוספים: <a href="/podcast">מרכז הפודקאסט</a>.</p>
 `.trim(),
     date: "23 במאי 2026",
-    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    thumbnail: "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
     category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: ["פודקאסט", "הזמנה", "אולפן"],
@@ -582,7 +582,7 @@ export const BLOG_POSTS = [
 <p>לשאלות: <a href="/events/equipment/faq">שאלות על הגברה וציוד</a> · <a href="/events/host/faq">שאלות על מנחה אירועים</a>.</p>
 `.trim(),
     date: "27 במאי 2026",
-    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    thumbnail: "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp",
     category: "אירועים",
     relatedServiceSlug: "events/attractions",
     tags: ["אירועים", "הזמנה", "DJ"],
@@ -609,7 +609,7 @@ export const BLOG_POSTS = [
 <p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> · <a href="/events/equipment/faq">שאלות נפוצות</a>.</p>
 `.trim(),
     date: "27 במאי 2026",
-    thumbnail: "/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp",
+    thumbnail: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
     category: "אירועים",
     relatedServiceSlug: "events/equipment/singer-amplification",
     tags: ["הגברה", "זמרים", "הזמנה"],
@@ -659,7 +659,7 @@ export const BLOG_POSTS = [
 <p>הפרטים המלאים, כולל מחירון ושאלות נפוצות: <a href="/online/vocal-fix/pitch-correction">שירות תיקון זיופים מרחוק</a>.</p>
 `.trim(),
     date: "31 במאי 2026",
-    thumbnail: "/images/services/studio/hub/אמא מקליטה באולפן.webp",
+    thumbnail: "/images/services/academy/music-production/הקלטה באולפן.webp",
     category: "עריכה ושחזור סאונד",
     relatedServiceSlug: "online/vocal-fix/pitch-correction",
     youtubeUrl: "https://www.youtube.com/watch?v=aTGqFnijz0Q",

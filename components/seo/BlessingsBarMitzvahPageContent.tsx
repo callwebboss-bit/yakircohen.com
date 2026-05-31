@@ -3,6 +3,7 @@ import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import BlessingsRelatedNav from "@/components/blessings/BlessingsRelatedNav";
 import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
 import BlessingsWhyGrid from "@/components/blessings/BlessingsWhyGrid";
+import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import {
@@ -11,11 +12,13 @@ import {
 } from "@/lib/data/blessings-subpages";
 import { getStudioService } from "@/lib/data/services";
 import { BAR_MITZVAH_BLESSING_VIDEOS } from "@/lib/data/youtube-showcases";
+import { BAT_MITZVAH_CLIP_FAQ } from "@/lib/data/bat-mitzvah-gifts-page";
 
 const service = getStudioService("blessings-bar-mitzvah");
 
 const RELATED_LINKS = [
   { href: "/studio/blessings", label: "כל סוגי הברכות" },
+  { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת מצווה" },
   { href: "/studio/blessings/video-clip", label: "שיר + קליפ" },
   { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
   { href: "/studio/pricing", label: "מחירון" },
@@ -44,6 +47,13 @@ export default function BlessingsBarMitzvahPageContent() {
         />
         <BlessingsProcessGrid steps={BAR_MITZVAH_PROCESS} />
       </section>
+
+      <BatMitzvahClipShowcase
+        faqItems={BAT_MITZVAH_CLIP_FAQ.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
 
       <ShowcaseVideoSection
         kicker="דוגמאות"

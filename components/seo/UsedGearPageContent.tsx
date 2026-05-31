@@ -64,7 +64,7 @@ export default function UsedGearPageContent() {
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             ציוד מקצועי למכירה
           </p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl sm:leading-snug lg:text-5xl">
             ציוד מקצועי למכירה מבית יקיר כהן הפקות
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">

@@ -85,9 +85,9 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
       "ליווי גם למי שלא זמר/ית",
       "קובץ להקרנה באולם + גרסה לרשתות",
     ],
-    href: "/studio/recording-song-modiin",
+    href: "/studio/blessings/bat-mitzvah-clip",
     videoId: BAT_MITZVAH_FEATURED_VIDEO_ID,
-    videoTitle: "קליפ בת מצווה - דוגמה",
+    videoTitle: "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן",
     whatsappText:
       "היי יקיר! מעוניינים בשובר מתנה - הקלטת שיר/קליפ לבת או בר מצווה.",
     utmCampaign: "gift_bat_mitzvah",

@@ -34,6 +34,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
+  {
+    url: url("studio/blessings/bat-mitzvah-clip"),
+    priority: 0.85,
+    changeFrequency: "monthly",
+  },
   { url: url("studio/blessings/bride-groom-blessing"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/blessings/video-clip"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/pricing"), priority: 0.7, changeFrequency: "monthly" },

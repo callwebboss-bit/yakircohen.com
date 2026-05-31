@@ -74,6 +74,10 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   wedding: "חתונה",
   services: "שירותים",
   course: "קורס",
+  "bar-mitzvah": "בר/בת מצווה",
+  "bat-mitzvah-clip": "קליפ בת מצווה",
+  "video-clip": "שיר + קליפ",
+  "bride-groom-blessing": "ברכת חתן וכלה",
 };
 
 /** Exact path → label when segment fallbacks are not enough. */
@@ -82,4 +86,5 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/podcast/faq": "שאלות נפוצות - פודקאסט",
   "/dj-events/cities/jerusalem": "תקליטן בירושלים",
   "/studio/recording-song-modiin/gifts": "מתנות והקלטות",
+  "/studio/blessings/bat-mitzvah-clip": "קליפ בת מצווה",
 };

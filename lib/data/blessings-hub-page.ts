@@ -48,6 +48,12 @@ export const BLESSING_TYPE_CARDS: readonly BlessingTypeCard[] = [
     href: "#home-recording",
   },
   {
+    emoji: "🎬",
+    title: "קליפ בת מצווה",
+    description: "תמונות ילדות, סרטונים מהבית וקליפ מוקלט באולפן - מתנה מרגשת.",
+    href: "/studio/blessings/bat-mitzvah-clip",
+  },
+  {
     emoji: "🎁",
     title: "שיר / קליפ במתנה",
     description: "מתנה מקורית ומרגשת שתישאר לכל החיים.",

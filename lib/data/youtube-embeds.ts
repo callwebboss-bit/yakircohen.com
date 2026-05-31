@@ -36,6 +36,8 @@ export const YOUTUBE_SHOWCASE_IDS = {
 
 export const YOUTUBE_BAT_MITZVAH_CLIP_IDS = [
 
+  "qtCRD0K60ww",
+
   "Ybph-qy883U",
 
   "M6r7NzBiEpc",

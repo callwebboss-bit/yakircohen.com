@@ -100,8 +100,6 @@ export default function StudioHubPage() {
       <div className="space-y-16">
         <TrustStatsBar className="rounded-2xl border" />
 
-        <StudioHubValueSection />
-
         <StudioClientsStrip className="rounded-2xl border-x" />
 
         <section aria-labelledby="studio-tracks-heading">
@@ -166,6 +164,8 @@ export default function StudioHubPage() {
             })}
           </ul>
         </section>
+
+        <StudioHubValueSection />
 
         <ProductionCalculator className="py-0" />
 

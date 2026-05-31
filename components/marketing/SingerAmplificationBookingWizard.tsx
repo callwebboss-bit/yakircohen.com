@@ -93,9 +93,11 @@ export default function SingerAmplificationBookingWizard({
 
   useEffect(() => {
     if (!initialPackageId) return;
-    setForm((prev) =>
-      prev.packageId ? prev : { ...prev, packageId: initialPackageId },
-    );
+    queueMicrotask(() => {
+      setForm((prev) =>
+        prev.packageId ? prev : { ...prev, packageId: initialPackageId },
+      );
+    });
   }, [initialPackageId]);
 
   const selected = SINGER_PACKAGES.find((p) => p.id === form.packageId);

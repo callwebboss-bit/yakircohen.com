@@ -2,6 +2,7 @@ import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin
 import { YOUTUBE_BAT_MITZVAH_CLIP_IDS } from "@/lib/data/youtube-embeds";
 
 const BAT_MITZVAH_VIDEO_TITLES = [
+  "קליפ בת מצווה - תמונות ילדות, סרטונים וקליפ מהאולפן",
   "קליפ בת מצווה - דוגמה מהאולפן",
   "קליפ משפחה וחברים - בת מצווה",
   "קליפ מוזיקלי לאירוע",
@@ -80,3 +81,44 @@ export const BAT_MITZVAH_PRODUCTION_STYLES: readonly {
 ] as const;
 
 export const BAT_MITZVAH_STARTING_PRICE = "2,590";
+
+export const BAT_MITZVAH_CLIP_FAQ: readonly {
+  id: string;
+  question: string;
+  answer: string;
+  whatsappText: string;
+  utmCampaign: string;
+}[] = [
+  {
+    id: "what-included",
+    question: "מה כולל קליפ בת מצווה?",
+    answer:
+      "שאלון סיפור אישי, כתיבת מילים, הקלטה באולפן, צילום, שילוב תמונות ילדות וסרטונים מהבית, עריכה ומיקס - עד קובץ מוכן להקרנה באולם ולרשתות.",
+    whatsappText: "היי יקיר! מעוניינים בקליפ לבת מצווה - מה כלול בחבילה?",
+    utmCampaign: "bat_mitzvah_faq_included",
+  },
+  {
+    id: "childhood-photos",
+    question: "איך משלבים תמונות ילדות וסרטונים בקליפ?",
+    answer:
+      "אוספים תמונות וסרטונים מהמשפחה (וואטסאפ, אלבומים, טלפונים). בעריכה משלבים אותם עם הקליפ מהאולפן - מעברים, טקסטים ומוזיקה שמספרים את הסיפור של כלת בת המצווה.",
+    whatsappText: "היי יקיר! יש לנו תמונות ילדות - איך משלבים בקליפ?",
+    utmCampaign: "bat_mitzvah_faq_photos",
+  },
+  {
+    id: "cant-sing",
+    question: "הילדה לא זמרת - זה עדיין יצא מקצועי?",
+    answer:
+      "כן. רוב הלקוחות אינם זמרים מקצועיים. יש ליווי קולי באולפן, תיקוני AI לדיוק ועריכה שמביאה את התוצאה לרמה גבוהה - גם בקליפ סולו וגם בהפתעה עם המשפחה.",
+    whatsappText: "היי יקיר! בת מצווה שלא שרה - האם קליפ עדיין אפשרי?",
+    utmCampaign: "bat_mitzvah_faq_sing",
+  },
+  {
+    id: "gift-voucher",
+    question: "אפשר לרכוש קליפ בת מצווה כשובר מתנה?",
+    answer:
+      "בהחלט. מזמינים שובר מתנה, מציינים שמדובר במתנה לבת/בר מצווה, והמקבל/ת מתאמ/ת תאריך להקלטה וצילום באולפן במודיעין.",
+    whatsappText: "היי יקיר! רוצים שובר מתנה - קליפ לבת מצווה.",
+    utmCampaign: "bat_mitzvah_faq_voucher",
+  },
+] as const;

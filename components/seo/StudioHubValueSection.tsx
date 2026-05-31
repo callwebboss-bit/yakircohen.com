@@ -1,4 +1,5 @@
 ﻿import YouTube from "@/components/YouTube";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import {
   STUDIO_HUB_FEATURED,
   STUDIO_HUB_PORTFOLIO_NOTE,
@@ -7,8 +8,22 @@ import {
 
 /** תיק עבודות + 3 סרטוני ערך לעמוד /studio */
 export default function StudioHubValueSection() {
+  const schemaVideos = [
+    {
+      videoId: STUDIO_HUB_FEATURED.videoId,
+      name: STUDIO_HUB_FEATURED.title,
+      description: STUDIO_HUB_PORTFOLIO_NOTE,
+    },
+    ...STUDIO_HUB_VALUE_VIDEOS.map((item) => ({
+      videoId: item.videoId,
+      name: item.title,
+      description: item.description,
+    })),
+  ];
+
   return (
     <div className="space-y-16">
+      <VideoObjectSchema videos={schemaVideos} />
       <section aria-labelledby="studio-portfolio-heading">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">

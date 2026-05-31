@@ -91,7 +91,7 @@ export default function RootLayout({
       dir="rtl"
       className={`${heebo.variable} ${notoSerifHebrew.variable}`}
     >
-      <body className="flex min-h-dvh flex-col bg-background font-sans text-foreground antialiased">
+      <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
         <SiteSchema />
         <a
