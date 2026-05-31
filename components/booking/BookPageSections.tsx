@@ -133,10 +133,12 @@ export default function BookPageSections() {
   const [openId, setOpenId] = useState<BookCategoryId | null>(null);
 
   useEffect(() => {
-    const fromHash = parseBookCategoryFromHash(
-      typeof window !== "undefined" ? window.location.hash : "",
-    );
-    if (fromHash) setOpenId(fromHash);
+    queueMicrotask(() => {
+      const fromHash = parseBookCategoryFromHash(
+        typeof window !== "undefined" ? window.location.hash : "",
+      );
+      if (fromHash) setOpenId(fromHash);
+    });
   }, []);
 
   const openCategory = useCallback((id: BookCategoryId) => {

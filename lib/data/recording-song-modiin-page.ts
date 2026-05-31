@@ -146,7 +146,7 @@ export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
       title: "בר ובת מצווה",
       description:
         "שיר מותאם אישית לאירוע, עם מילות שיר ממשפחה ומחברים. רגע שישאר בזיכרון לכל החיים.",
-      tag: "הכי פופולרי",
+      tag: "",
     },
     {
       id: "wedding",

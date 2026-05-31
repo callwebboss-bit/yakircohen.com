@@ -51,8 +51,8 @@ const EXTRAS = [
 
 const BUDGET_OPTIONS = [
   "עד 4,000 ₪",
-  "4,000 – 6,000 ₪",
-  "6,000 – 10,000 ₪",
+  "4,000 - 6,000 ₪",
+  "6,000 - 10,000 ₪",
   "10,000 ₪ ומעלה",
   "חבילת הכל כלול (15,000+ ₪)",
   "עדיין לא בטוח/ה",
@@ -166,7 +166,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
       },
       () => {
         const lines: string[] = [
-          "*📅 בקשת הצעת מחיר – תקליטן לאירועים*",
+          "*📅 בקשת הצעת מחיר - תקליטן לאירועים*",
           "",
           `*שם:* ${name.trim()}`,
           `*טלפון:* ${phone.trim()}`,
@@ -175,7 +175,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
         lines.push("", "*פרטי האירוע:*");
         lines.push(`סוג אירוע: ${eventType}`);
         lines.push(`תאריך: ${eventDate}`);
-        lines.push(`שעות: ${startTime}${endTime ? ` – ${endTime}` : ""}`);
+        lines.push(`שעות: ${startTime}${endTime ? ` - ${endTime}` : ""}`);
         lines.push(`מיקום / אולם: ${venue.trim()}`);
         if (guestCount.trim()) lines.push(`מספר מוזמנים: ~${guestCount.trim()}`);
         if (eventParts.size > 0)
@@ -197,7 +197,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
 
         notifyLeadByEmail({
           formId: "dj_booking_form",
-          subject: `בקשת DJ – ${eventType} · ${eventDate}`,
+          subject: `בקשת DJ - ${eventType} · ${eventDate}`,
           body: text,
           name: name.trim(),
           phone: phone.trim(),
@@ -222,7 +222,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
       >
         <p className="text-2xl">✅</p>
         <p className="mt-3 text-lg font-semibold text-foreground">
-          הפרטים נשלחו – פתחנו שיח בוואטסאפ
+          הפרטים נשלחו - פתחנו שיח בוואטסאפ
         </p>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
           חוזרים אליכם תוך שעה בשעות הפעילות לאישור הפרטים ושריון התאריך.
@@ -247,11 +247,11 @@ export default function DjBookingForm({ className }: { className?: string }) {
           שריון תאריך · הצעת מחיר מדויקת
         </p>
         <h2 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">
-          מלאו את הפרטים — נחזור עם הצעה תוך שעה
+          מלאו את הפרטים - נחזור עם הצעה תוך שעה
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           הטופס מיועד למי שרוצה לשריין תאריך ולקבל הצעת מחיר אישית ומהירה.
-          כל פרט שתמלאו מאפשר לנו להתאים הצעה מדויקת לאירוע שלכם — ללא בזבוז זמן משני הצדדים.
+          כל פרט שתמלאו מאפשר לנו להתאים הצעה מדויקת לאירוע שלכם - ללא בזבוז זמן משני הצדדים.
         </p>
       </div>
 

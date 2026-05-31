@@ -43,7 +43,7 @@ export default function MobilePodcastAtHomePageContent() {
   return (
     <ServicePageLayout
       title="פודקאסט נייד עד הבית"
-      subtitle="האולפן המקצועי מגיע אליכם  -  בית, משרד או אירוע. ציוד מתקדם, מהנדס סאונד צמוד ותוצאה ברמת ספוטיפיי, בלי לצאת מהבית."
+      subtitle="האולפן המקצועי מגיע אליכם  -  בית, משרד או אירוע. ציוד מתקדם, ליווי של מהנדס סאונד מקצועי - יקיר כהן, ותוצאה ברמת ספוטיפיי, בלי לצאת מהבית."
       features={MOBILE_PODCAST_HERO_FEATURES}
       whatsappText="שלום, מעוניין בפודקאסט נייד עד הבית"
       utmCampaign="podcast_mobile_home"
@@ -97,7 +97,7 @@ export default function MobilePodcastAtHomePageContent() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             עם השירות הייחודי של יקיר כהן הפקות, אנחנו מביאים את האולפן
-            המקצועי ישירות אליכם. ציוד הקלטה מתקדם, מהנדס סאונד צמוד ותוצאה
+              המקצועי ישירות אליכם. ציוד הקלטה מתקדם, ליווי של מהנדס סאונד מקצועי - יקיר כהן, ותוצאה
             ברמה של ספוטיפיי  -  בלי לצאת מהבית.
           </p>
         </section>

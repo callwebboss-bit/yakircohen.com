@@ -14,10 +14,10 @@ import {
 } from "@/lib/data/academy-stuttering-course-page";
 
 const FEATURES = [
-  "גישה רגישה ומותאמת לגיל — ילדים, נוער ומבוגרים",
-  "שיטת NeverMind — ביטחון עצמי ודיבור רגוע, לא לחץ",
+  "גישה רגישה ומותאמת לגיל - ילדים, נוער ומבוגרים",
+  "שיטת NeverMind - ביטחון עצמי ודיבור רגוע, לא לחץ",
   "ליווי אישי לצד אפשרות לקורס מסודר באולפן",
-  "תרגול מציאותי מול מיקרופון — לא רק תרגילים תיאורטיים",
+  "תרגול מציאותי מול מיקרופון - לא רק תרגילים תיאורטיים",
 ] as const;
 
 const FAQ_ITEMS: FAQItem[] = [
@@ -32,7 +32,7 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "מה ההבדל בין ליווי לקורס?",
     answer: (
       <>
-        הליווי הוא מסלול גמיש — פגישות לפי הצורך, עבודה על נקודה ספציפית, ליווי הורים.
+        הליווי הוא מסלול גמיש - פגישות לפי הצורך, עבודה על נקודה ספציפית, ליווי הורים.
         ה
         <Link href="/academy/stuttering-course" className="text-brand-red hover:underline">
           קורס גמגום
@@ -45,23 +45,23 @@ const FAQ_ITEMS: FAQItem[] = [
     id: "duration",
     question: "כמה זמן לוקח לראות שינוי?",
     answer:
-      "תלוי בגיל, תדירות התרגול ומורכבות המקרה. יש מי שחווה שינוי כבר בפגישה הראשונה; יש תהליך עומק שלוקח חודשים. אין הבטחות קסם — יש תהליך אמיתי עם יעדים ברורים.",
+      "תלוי בגיל, תדירות התרגול ומורכבות המקרה. יש מי שחווה שינוי כבר בפגישה הראשונה; יש תהליך עומק שלוקח חודשים. אין הבטחות קסם - יש תהליך אמיתי עם יעדים ברורים.",
   },
   {
     id: "children",
     question: "מה עושים שלא להחמיר את הגמגום בילד?",
     answer:
-      "הדבר הכי חשוב: לא לנסות לתקן. לא להשלים משפטים, לא להגיד 'תאט', לא להביע דאגה גלויה. הילד צריך להרגיש שמאזינים לו — לא לגמגום שלו. אנחנו עובדים יחד עם ההורים בכל שלב.",
+      "הדבר הכי חשוב: לא לנסות לתקן. לא להשלים משפטים, לא להגיד 'תאט', לא להביע דאגה גלויה. הילד צריך להרגיש שמאזינים לו - לא לגמגום שלו. אנחנו עובדים יחד עם ההורים בכל שלב.",
   },
   {
     id: "medical",
     question: "זה תחליף לטיפול רפואי או קלינאי?",
     answer:
-      "לא. אנחנו מתמחים בליווי דיבור, קצב, נשימה וביטחון עצמי. במקרים שדורשים קלינאי תקשורת רפואי — מפנים ועובדים בשיתוף פעולה.",
+      "לא. אנחנו מתמחים בליווי דיבור, קצב, נשימה וביטחון עצמי. במקרים שדורשים קלינאי תקשורת רפואי - מפנים ועובדים בשיתוף פעולה.",
   },
   {
     id: "singers",
-    question: "אני זמר/ת ומגמגם בדיבור אבל לא בשירה — למה?",
+    question: "אני זמר/ת ומגמגם בדיבור אבל לא בשירה - למה?",
     answer:
       "כי שירה משתמשת בנתיב קוגניטיבי שונה. הגמגום לרוב קשור לחרדת ביצוע בדיבור, לא לכשל מוטורי. אנחנו מכירים את הפרדוקס הזה מקרוב ויש לנו כלים ייעודיים לאנשי קול.",
   },
@@ -77,7 +77,7 @@ export default function StutteringPageContent() {
   return (
     <ServicePageLayout
       title="טיפול בגמגום"
-      subtitle="ליווי מקצועי לדיבור חופשי — בקצב שלכם, עם כלים מעשיים ולא הבטחות ריקות."
+      subtitle="ליווי מקצועי לדיבור חופשי - בקצב שלכם, עם כלים מעשיים ולא הבטחות ריקות."
       features={FEATURES}
       whatsappText="שלום, אשמח לשוחח על ליווי בגמגום ולהבין מה מתאים לי"
       utmCampaign="stuttering_landing"
@@ -100,7 +100,7 @@ export default function StutteringPageContent() {
           <div className="mx-auto max-w-2xl">
             <LazyYouTubeEmbed
               embedUrl="https://www.youtube.com/embed/yf004RFUdmM"
-              title="טיפול בגמגום — שיטת NeverMind | יקיר כהן הפקות"
+              title="טיפול בגמגום - שיטת NeverMind | יקיר כהן הפקות"
             />
           </div>
         </section>
@@ -111,15 +111,15 @@ export default function StutteringPageContent() {
             id="stuttering-goal-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            גמגום הוא לא רק "תקיעות" במילים
+            {`גמגום הוא לא רק "תקיעות" במילים`}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             ברוב המקרים יש מאחוריו לחץ, ציפייה מהסביבה ופחד ממצבים חברתיים.
-            המטרה היא לתת כלים לדיבור רגוע יותר — לבנות ביטחון, להפחית את
+            המטרה היא לתת כלים לדיבור רגוע יותר - לבנות ביטחון, להפחית את
             ה&quot;צפייה לגמגם&quot; ולדעת להתכונן לרגעים חשובים.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            עובדים מהאולפן במודיעין — תרגול מציאותי מול מיקרופון, לא רק
+            עובדים מהאולפן במודיעין - תרגול מציאותי מול מיקרופון, לא רק
             תרגילים תיאורטיים. המיקרופון חושף בדיוק מה קורה עם הקול, ומאפשר
             עבודה מדויקת ומהירה יותר.
           </p>
@@ -135,7 +135,7 @@ export default function StutteringPageContent() {
               id="stuttering-why-heading"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              לא &quot;איך להוציא מילה&quot; — אלא &quot;למה היא נתקעת&quot;
+              לא &quot;איך להוציא מילה&quot; - אלא &quot;למה היא נתקעת&quot;
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
               רוב הטיפולים מתמקדים ב&quot;איך להוציא מילה&quot;. שיטת{" "}
@@ -147,7 +147,7 @@ export default function StutteringPageContent() {
               >
                 NeverMind
               </a>{" "}
-              מתמקדת ב&quot;למה המילה נתקעת&quot; — שוברים את מעגל הלחץ לא
+              מתמקדת ב&quot;למה המילה נתקעת&quot; - שוברים את מעגל הלחץ לא
               בכוח, אלא בהבנה.
             </p>
           </header>
@@ -167,14 +167,14 @@ export default function StutteringPageContent() {
           </ul>
         </section>
 
-        {/* ─── שיטת NeverMind — 3 שלבים ─────────────────────────────────────── */}
+        {/* ─── שיטת NeverMind - 3 שלבים ─────────────────────────────────────── */}
         <section aria-labelledby="stuttering-method-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="stuttering-method-heading"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              שיטת NeverMind — איך להפסיק לגמגם
+              שיטת NeverMind - איך להפסיק לגמגם
             </h2>
           </header>
           <div className="mt-8 grid gap-5 sm:grid-cols-3">
@@ -237,7 +237,7 @@ export default function StutteringPageContent() {
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 זמרים ודוברי קהל חווים פער כואב: בשירה הכל זורם, בדיבור יש
-                חסימה. מכירים את החרדה הזו מקרוב — ויש כלים ייעודיים.
+                חסימה. מכירים את החרדה הזו מקרוב - ויש כלים ייעודיים.
               </p>
               <ul className="mt-4 space-y-2">
                 {STUTTERING_ADULTS_TOOLS.map((t) => (
@@ -263,7 +263,7 @@ export default function StutteringPageContent() {
             לא בטוחים מאיפה להתחיל?
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-            שולחים הודעה — ובונים יחד מסלול שמתאים. ללא התחייבות.
+            שולחים הודעה - ובונים יחד מסלול שמתאים. ללא התחייבות.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
@@ -293,7 +293,7 @@ export default function StutteringPageContent() {
               שלבי התהליך
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              כל שלב בנוי על הקודם — אין קיצורי דרך, יש יעדים ברורים
+              כל שלב בנוי על הקודם - אין קיצורי דרך, יש יעדים ברורים
             </p>
           </header>
           <div className="overflow-x-auto rounded-2xl border border-border">
@@ -325,7 +325,7 @@ export default function StutteringPageContent() {
 
         {/* ─── שאלות נפוצות ─────────────────────────────────────────────────── */}
         <FAQAccordion
-          title="שאלות נפוצות — גמגום"
+          title="שאלות נפוצות - גמגום"
           subtitle="כל מה שרצית לשאול לפני שמתחילים"
           items={FAQ_ITEMS}
           className="py-0"
@@ -349,7 +349,7 @@ export default function StutteringPageContent() {
               {
                 icon: "🎤",
                 title: "קורס גמגום מלא",
-                desc: "תוכנית מסודרת עם שלבים ויעדים ברורים — מול מיקרופון באולפן.",
+                desc: "תוכנית מסודרת עם שלבים ויעדים ברורים - מול מיקרופון באולפן.",
                 href: "/academy/stuttering-course",
                 cta: "לפרטי הקורס",
               },

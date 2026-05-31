@@ -122,8 +122,8 @@ export default function RecordingSongModiinPageContent() {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               ובנוסף — השיר שלכם נשמר בשרתי האולפן המאובטחים שלנו.{" "}
               <strong className="text-foreground">
-                בעוד 5 או 10 שנים, כשתרצו להקשיב לו שוב או להשתמש בו בחתונה
-                של הילד — הקובץ תמיד יהיה זמין בלחיצת כפתור.
+                בעוד מספר שנים, כשתרצו להקשיב לו שוב או להשתמש בו בחתונה
+                של הילד — הקובץ צפוי להיות זמין בלחיצת כפתור.
               </strong>
             </p>
           </section>
@@ -146,7 +146,7 @@ export default function RecordingSongModiinPageContent() {
               {/* Bar Mitzvah */}
               <article className="relative rounded-xl border border-border bg-surface p-6 sm:p-8">
                 <span className="absolute -top-3 right-6 rounded-full bg-brand-red px-3 py-1 text-xs font-semibold text-white">
-                  הכי פופולרי
+                   
                 </span>
                 <div className="flex items-start gap-4">
                   <span className="text-3xl" aria-hidden>
@@ -445,7 +445,7 @@ export default function RecordingSongModiinPageContent() {
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     בחרו שיר שנשמע טוב בטווח הטבעי של קולכם — לא כזה שדורש
                     להגיע לנקודות גבוהות מדי. אם אתם לא בטוחים, שלחו לנו
-                    הקלטה קצרה של עצמכם שרים ואנחנו נמליץ על פלייבק שיאחמיא
+                    הקלטה קצרה של עצמכם שרים ואנחנו נמליץ על פלייבק שיחמיא
                     לקולכם.
                   </p>
                 </div>

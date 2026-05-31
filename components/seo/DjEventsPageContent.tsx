@@ -366,11 +366,11 @@ export default function DjEventsPageContent() {
         </section>
         <ServicePagePricingSection
           service={service}
-          heading="3 חבילות ברורות — מה כלול בכל אחת"
+          heading="3 חבילות ברורות - מה כלול בכל אחת"
           subheading="כל חבילה בנויה כך שתדעו בדיוק מה אתם מקבלים · הצעת מחיר מדויקת בוואטסאפ לאחר שיתוף פרטי האירוע"
         />
 
-        {/* בלוק שקיפות — מה משפיע על המחיר */}
+        {/* בלוק שקיפות - מה משפיע על המחיר */}
         <section
           className="rounded-xl border border-border bg-surface px-6 py-8 sm:px-8"
           aria-labelledby="price-factors-heading"
@@ -382,18 +382,18 @@ export default function DjEventsPageContent() {
             מה משפיע על המחיר הסופי?
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            שקיפות מלאה — כדי שלא יהיו הפתעות ביום האירוע:
+            שקיפות מלאה - כדי שלא יהיו הפתעות ביום האירוע:
           </p>
           <ul className="mt-4 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
             {[
               ["📍 מיקום האירוע", "נסיעה ולוגיסטיקה מחוץ לאזור מודיעין-מרכז"],
               ["⏱ שעות פעילות", "כל שעה מעבר ל-5 שעות הבסיס מתומחרת בנפרד"],
-              ["🎙 הגברה עצמאית", "אם האולם לא מספק מערכת — מביאים ציוד מלא"],
-              ["💡 תאורה מתקדמת", "Moving Heads, LED Wash ופרויקטורים — לפי הצורך"],
+              ["🎙 הגברה עצמאית", "אם האולם לא מספק מערכת - מביאים ציוד מלא"],
+              ["💡 תאורה מתקדמת", "Moving Heads, LED Wash ופרויקטורים - לפי הצורך"],
               ["🎊 אטרקציות", "כל אפקט (עשן, זיקוקים, קונפטי) מתומחר בנפרד"],
-              ["🎤 הנחיה מקצועית", "הנחיית חופה, ריקוד ראשון, ברכה ועוגה — כלולה בפרימיום"],
-              ["🕐 שעות חריגות", "פירוק לאחר חצות או הגעה לפני 14:00 — בתיאום מראש"],
-              ["⭐ יקיר אישית", "בחבילת VIP בלבד — לא מהצוות"],
+              ["🎤 הנחיה מקצועית", "הנחיית חופה, ריקוד ראשון, ברכה ועוגה - כלולה בפרימיום"],
+              ["🕐 שעות חריגות", "פירוק לאחר חצות או הגעה לפני 14:00 - בתיאום מראש"],
+              ["⭐ יקיר אישית", "בחבילת VIP בלבד - לא מהצוות"],
             ].map(([icon_label, explanation]) => (
               <li key={icon_label} className="flex gap-3">
                 <span className="shrink-0 font-medium text-foreground">{icon_label}</span>
@@ -402,7 +402,7 @@ export default function DjEventsPageContent() {
             ))}
           </ul>
           <p className="mt-5 text-xs text-muted-foreground">
-            מלאו את הטופס למטה ותקבלו הצעת מחיר מדויקת תוך שעה — ללא עגלולים.
+            מלאו את הטופס למטה ותקבלו הצעת מחיר מדויקת תוך שעה - ללא עגלולים.
           </p>
         </section>
 
@@ -423,7 +423,7 @@ export default function DjEventsPageContent() {
               id="dj-booking-form-heading"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              שריינו תאריך — קבלו הצעה תוך שעה
+              שריינו תאריך - קבלו הצעה תוך שעה
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
               מלאו את הפרטים ונחזור אליכם עם הצעת מחיר מדויקת.

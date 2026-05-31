@@ -10,7 +10,7 @@ export const SITE_LOGO_SRC = "/images/logo.svg";
 
 /** Studio photo for hero and studio marketing blocks */
 export const SITE_STUDIO_IMAGE_SRC =
-  "/images/services/podcast/אולפן פודקאסט לעסקים - החלק האורבני - יקיר כהן הפקות במודיעין.webp";
+  "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp";
 
 export const SOCIAL_LINKS = [
   {
