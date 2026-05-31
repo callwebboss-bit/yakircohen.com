@@ -105,7 +105,7 @@ export default function RootLayout({
         <main
           id="main-content"
           data-pagefind-body
-          className="flex-1 max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
+          className="min-w-0 flex-1 overflow-x-clip max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
         >
           {children}
         </main>

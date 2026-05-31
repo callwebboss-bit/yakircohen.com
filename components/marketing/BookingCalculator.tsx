@@ -215,9 +215,9 @@ export default function BookingCalculator({
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div>
+    <div className="min-w-0 max-w-full">
       {/* ── Category tabs ── */}
-      <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
+      <div className="mb-8 flex flex-wrap gap-2">
         {visibleCategories.map((cat) => (
           <button
             key={cat.id}
@@ -238,7 +238,7 @@ export default function BookingCalculator({
       </div>
 
       {/* ── Main layout ── */}
-      <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr] lg:items-start">
+      <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
         {/* ── Left: services ── */}
         <div>
           {/* Event bundle hint */}

@@ -208,8 +208,8 @@ export default function BookPageSections() {
 
       {/* Soldiers discount banner */}
       <div className="border-b border-border bg-brand-red/5 px-4 py-3">
-        <div className="mx-auto max-w-[72rem] flex flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
-          <p className="text-sm font-medium text-brand-red">
+        <div className="mx-auto flex max-w-[72rem] min-w-0 flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
+          <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red break-words">
             <span aria-hidden="true">🎖 </span>
             מבצע לחיילים ולחיילות — 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
           </p>
@@ -228,7 +228,7 @@ export default function BookPageSections() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[72rem] space-y-4 px-4 py-10 sm:space-y-5 sm:px-6 sm:py-14 lg:px-8">
+      <div className="mx-auto min-w-0 max-w-[72rem] space-y-4 px-4 py-10 sm:space-y-5 sm:px-6 sm:py-14 lg:px-8">
         {BOOK_CATEGORY_META.map((cat) => (
           <BookCategoryAccordion
             key={cat.id}

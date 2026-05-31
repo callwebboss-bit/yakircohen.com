@@ -13,8 +13,8 @@ export default function BookingWizardNav({
   label,
 }: BookingWizardNavProps) {
   return (
-    <nav aria-label={label} className="overflow-x-auto">
-      <ol className="flex min-w-max gap-2 sm:gap-3">
+    <nav aria-label={label} className="w-full max-w-full min-w-0">
+      <ol className="flex flex-wrap gap-2 sm:gap-3">
         {steps.map((stepLabel, i) => {
           const isCurrent = i === currentStep;
           const isComplete = i < currentStep;
@@ -33,7 +33,7 @@ export default function BookingWizardNav({
             >
               <span
                 className={cn(
-                  "flex h-5 w-5 items-center justify-center rounded-full text-[0.65rem]",
+                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[0.65rem]",
                   isCurrent ? "bg-white/20" : "bg-background",
                 )}
                 aria-hidden="true"

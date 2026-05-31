@@ -221,8 +221,8 @@ export default function PhotographyCalculator({ className }: { className?: strin
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
 
   return (
-    <div className={cn("pb-28", className)}>
-      <div className="mx-auto max-w-3xl space-y-5">
+    <div className={cn("min-w-0 max-w-full pb-28", className)}>
+      <div className="mx-auto min-w-0 max-w-3xl space-y-5">
         <section className="rounded-2xl border border-border bg-surface p-6">
           <p className="mb-3 text-[0.65rem] font-bold tracking-widest text-muted-foreground uppercase">
             כמה שעות צילום

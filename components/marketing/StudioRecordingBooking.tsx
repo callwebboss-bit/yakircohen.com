@@ -335,7 +335,7 @@ export default function StudioRecordingBooking({
   }
 
   return (
-    <div className={cn("space-y-10", step === 2 && selectedPackage && "pb-24")}>
+    <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && selectedPackage && "pb-24")}>
       {draft.restored ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
           שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
@@ -666,7 +666,7 @@ export default function StudioRecordingBooking({
               </div>
             </div>
 
-            <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+            <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
               <div className="rounded-2xl border border-border bg-surface p-6">
                 <h2 className="text-lg font-semibold text-foreground">סיכום ההזמנה</h2>
                 <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
@@ -907,8 +907,8 @@ export default function StudioRecordingBooking({
 
       {/* Sticky price bar - step 2 only, shows running total while filling form */}
       {step === 2 && selectedPackage && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-surface/95 backdrop-blur-sm">
-          <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-3">
+        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm">
+          <div className="mx-auto flex min-w-0 max-w-4xl items-center gap-4 px-4 py-3">
             <div>
               <p className="text-xs text-muted-foreground">{selectedPackage.name}</p>
               <p className="text-base font-bold text-foreground">

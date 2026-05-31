@@ -343,8 +343,8 @@ export default function DjEventsCalculator({ className }: { className?: string }
   );
 
   return (
-    <div className={cn("pb-32", className)}>
-      <div className="mx-auto max-w-3xl space-y-8">
+    <div className={cn("min-w-0 max-w-full pb-32", className)}>
+      <div className="mx-auto min-w-0 max-w-3xl space-y-8">
 
         {/* ── Festival package ── */}
         <div>

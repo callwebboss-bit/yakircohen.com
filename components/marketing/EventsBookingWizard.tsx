@@ -206,7 +206,7 @@ export default function EventsBookingWizard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="min-w-0 max-w-full space-y-8">
       {draft.restored ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
           שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
@@ -292,7 +292,7 @@ export default function EventsBookingWizard() {
 
       {step === 2 && count > 0 && (
         <BookingStepPanel stepKey={2}>
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold">סיכום ({count} אטרקציות)</h2>
               <ul className="mt-3 space-y-1 text-sm text-muted-foreground">

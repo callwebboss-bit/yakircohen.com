@@ -51,6 +51,17 @@
   animation: booking-step-in 0.35s var(--ease-luxury) both;
 }
 
+/** Horizontal scroll regions — content-sized track, not full viewport stretch */
+@layer utilities {
+  .scroll-area-x {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+}
+
 @layer base {
   :root {
     direction: rtl;
@@ -62,6 +73,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -80,6 +92,7 @@
 
   body {
     @apply min-h-dvh bg-background font-sans text-foreground;
+    overflow-x: clip;
     font-feature-settings: "kern" 1, "liga" 1;
   }
 

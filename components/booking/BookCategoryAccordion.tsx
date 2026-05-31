@@ -26,7 +26,7 @@ export default function BookCategoryAccordion({
     <section
       id={id}
       className={cn(
-        "scroll-mt-24 rounded-2xl border border-border bg-surface transition-[border-color,box-shadow]",
+        "scroll-mt-24 min-w-0 max-w-full overflow-x-clip rounded-2xl border border-border bg-surface transition-[border-color,box-shadow]",
         isOpen && "border-brand-red/30 shadow-sm",
       )}
     >
@@ -73,8 +73,8 @@ export default function BookCategoryAccordion({
         )}
         inert={!isOpen}
       >
-        <div className="overflow-hidden">
-          <div className="border-t border-border px-4 pb-8 pt-6 sm:px-6 sm:pb-10">
+        <div className="min-w-0 overflow-hidden">
+          <div className="min-w-0 max-w-full border-t border-border px-4 pb-8 pt-6 sm:px-6 sm:pb-10">
             {children}
           </div>
         </div>

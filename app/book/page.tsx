@@ -23,7 +23,7 @@ export const metadata: Metadata = constructMetadata({
 
 export default function BookPage() {
   return (
-    <div className="bg-background">
+    <div className="overflow-x-clip bg-background">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
