@@ -35,6 +35,8 @@ import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import {
   CONSULTATION_PACKAGES,
+  EVENT_TYPE_OPTIONS,
+  PARTICIPANTS_OPTIONS,
   RECORDING_ATMOSPHERES,
   RECORDING_STUDIO_FAQS,
   RECORDING_TYPES,
@@ -62,6 +64,12 @@ type FormState = {
   upgrades: Set<StudioUpgradeId>;
   surpriseGift: boolean;
   giftRecipientName: string;
+  // event_song specific
+  eventType: string;
+  eventVenue: string;
+  participants: string;
+  hasSongPreference: boolean;
+  songPreference: string;
   name: string;
   phone: string;
   date: string;
@@ -82,6 +90,11 @@ type DraftPayload = {
   upgrades: StudioUpgradeId[];
   surpriseGift: boolean;
   giftRecipientName: string;
+  eventType: string;
+  eventVenue: string;
+  participants: string;
+  hasSongPreference: boolean;
+  songPreference: string;
   name: string;
   phone: string;
   date: string;
@@ -106,6 +119,11 @@ export default function StudioRecordingBooking({
     upgrades: new Set(),
     surpriseGift: initialGiftMode ?? false,
     giftRecipientName: "",
+    eventType: "",
+    eventVenue: "",
+    participants: "",
+    hasSongPreference: false,
+    songPreference: "",
     name: "",
     phone: "",
     date: "",
@@ -135,6 +153,11 @@ export default function StudioRecordingBooking({
         upgrades: new Set(payload.upgrades),
         surpriseGift: payload.surpriseGift || (initialGiftMode ?? false),
         giftRecipientName: payload.giftRecipientName ?? "",
+        eventType: payload.eventType ?? "",
+        eventVenue: payload.eventVenue ?? "",
+        participants: payload.participants ?? "",
+        hasSongPreference: payload.hasSongPreference ?? false,
+        songPreference: payload.songPreference ?? "",
         name: payload.name,
         phone: payload.phone,
         date: payload.date,
@@ -173,6 +196,7 @@ export default function StudioRecordingBooking({
     switch (form.recordingType) {
       case "cover":
       case "original":
+      case "event_song":
         return {
           beforeSrc: "/audio/recording-raw-sample.mp3",
           afterSrc: "/audio/recording-clean-sample.mp3",
@@ -206,13 +230,43 @@ export default function StudioRecordingBooking({
     }
   }, [form.recordingType]);
 
+  const isEventSong = form.recordingType === "event_song";
+
   const canAdvanceStep0 =
-    form.recordingType !== "" && (isConsultation || form.atmosphere !== "");
+    form.recordingType !== "" &&
+    (isConsultation || form.atmosphere !== "") &&
+    (!isEventSong || (form.eventType !== "" && form.participants !== ""));
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
+  const eventTypeLabel =
+    EVENT_TYPE_OPTIONS.find((o) => o.value === form.eventType)?.label ?? form.eventType;
+  const participantsLabel =
+    PARTICIPANTS_OPTIONS.find((o) => o.value === form.participants)?.label ?? form.participants;
+
   const buildSummaryLines = () => [
     { label: "סוג", value: recordingLabel },
+    ...(isEventSong && form.eventType
+      ? [{ label: "אירוע", value: eventTypeLabel }]
+      : []),
+    ...(isEventSong && form.eventVenue
+      ? [{ label: "מיקום האירוע", value: sanitizeLeadText(form.eventVenue, 80) }]
+      : []),
+    ...(isEventSong && form.participants
+      ? [{ label: "מי ישתתף", value: participantsLabel }]
+      : []),
+    ...(isEventSong
+      ? [
+          {
+            label: "מנגינה מועדפת",
+            value: form.hasSongPreference
+              ? form.songPreference
+                ? sanitizeLeadText(form.songPreference, 80)
+                : "כן"
+              : "לא — נשמח לעזרה בבחירה",
+          },
+        ]
+      : []),
     ...(form.songName && !isConsultation
       ? [{ label: "שיר", value: sanitizeLeadText(form.songName, 80) }]
       : []),
@@ -260,6 +314,11 @@ export default function StudioRecordingBooking({
       upgrades: new Set(),
       surpriseGift: initialGiftMode ?? false,
       giftRecipientName: "",
+      eventType: "",
+      eventVenue: "",
+      participants: "",
+      hasSongPreference: false,
+      songPreference: "",
       name: "",
       phone: "",
       date: "",
@@ -444,6 +503,111 @@ export default function StudioRecordingBooking({
                 beforeNote={recordingAudioDemo.beforeNote}
                 afterNote={recordingAudioDemo.afterNote}
               />
+            )}
+
+            {/* Event-song specific fields */}
+            {isEventSong && (
+              <div className="space-y-4 rounded-xl border border-brand-red/20 bg-brand-red/5 p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+                  פרטי האירוע
+                </p>
+
+                {/* Event type */}
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-foreground">לאיזה אירוע? *</p>
+                  <div className="flex flex-wrap gap-2">
+                    {EVENT_TYPE_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, eventType: opt.value }))}
+                        className={cn(
+                          "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                          form.eventType === opt.value
+                            ? "border-brand-red bg-brand-red text-white"
+                            : "border-border bg-background text-foreground hover:border-brand-red/40",
+                        )}
+                        aria-pressed={form.eventType === opt.value}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Venue */}
+                <div>
+                  <label htmlFor="event-venue" className="mb-1.5 block text-sm font-semibold text-foreground">
+                    מיקום האירוע (עיר / אולם / בית)
+                  </label>
+                  <input
+                    id="event-venue"
+                    type="text"
+                    value={form.eventVenue}
+                    onChange={(e) => setForm((prev) => ({ ...prev, eventVenue: e.target.value }))}
+                    placeholder='לדוגמה: "עין יעל - גן אירועים בטבע"'
+                    className={inputClass}
+                  />
+                </div>
+
+                {/* Participants */}
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-foreground">מי ישתתף בהקלטה / קליפ? *</p>
+                  <div className="flex flex-wrap gap-2">
+                    {PARTICIPANTS_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, participants: opt.value }))}
+                        className={cn(
+                          "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                          form.participants === opt.value
+                            ? "border-brand-red bg-brand-red text-white"
+                            : "border-border bg-background text-foreground hover:border-brand-red/40",
+                        )}
+                        aria-pressed={form.participants === opt.value}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Song preference */}
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-foreground">יש לכם שיר / מנגינה מועדפת?</p>
+                  <div className="flex gap-3">
+                    {[
+                      { value: true, label: "כן, יש לנו שיר" },
+                      { value: false, label: "לא — תעזרו לנו לבחור" },
+                    ].map(({ value, label }) => (
+                      <button
+                        key={String(value)}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, hasSongPreference: value }))}
+                        className={cn(
+                          "flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition-colors",
+                          form.hasSongPreference === value
+                            ? "border-brand-red bg-brand-red text-white"
+                            : "border-border bg-background text-foreground hover:border-brand-red/40",
+                        )}
+                        aria-pressed={form.hasSongPreference === value}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  {form.hasSongPreference && (
+                    <input
+                      type="text"
+                      value={form.songPreference}
+                      onChange={(e) => setForm((prev) => ({ ...prev, songPreference: e.target.value }))}
+                      placeholder="שם השיר / אמן"
+                      className={cn(inputClass, "mt-2")}
+                    />
+                  )}
+                </div>
+              </div>
             )}
 
             <div className="grid gap-4 sm:grid-cols-2">

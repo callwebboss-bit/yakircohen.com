@@ -1,6 +1,7 @@
 ﻿export type RecordingTypeId =
   | "cover"
   | "original"
+  | "event_song"
   | "bride_blessing"
   | "bar_mitzvah_speech"
   | "general_blessing"
@@ -25,7 +26,9 @@ export type StudioUpgradeId =
   | "express"
   | "ai_playback"
   | "vocal_coaching"
-  | "family_duet";
+  | "family_duet"
+  | "songwriting"
+  | "add_clip";
 
 export const RECORDING_TYPES: readonly {
   id: RecordingTypeId;
@@ -33,6 +36,7 @@ export const RECORDING_TYPES: readonly {
 }[] = [
   { id: "cover", label: "שיר קאבר" },
   { id: "original", label: "שיר מקורי (סינגל)" },
+  { id: "event_song", label: "שיר לאירוע (חתונה / בר מצווה)" },
   { id: "bride_blessing", label: "ברכת כלה" },
   { id: "bar_mitzvah_speech", label: "דרשה לבר/בת מצווה" },
   { id: "general_blessing", label: "ברכות כלליות" },
@@ -241,6 +245,34 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
     price: 190,
     badge: "+20% ערך",
   },
+  {
+    id: "songwriting",
+    name: "✍️ כתיבת שיר אישי",
+    description: "כתיבת מילים מותאמות לאירוע שלכם — לפי הסיפור, התאריך והאנשים",
+    price: 500,
+    badge: "חדש",
+  },
+  {
+    id: "add_clip",
+    name: "🎬 הפקת קליפ לאירוע",
+    description: "קליפ קצר (1-2 דק׳) עם תמונות / צילום פשוט + מוזיקה — מושלם לרשתות",
+    price: 2500,
+  },
+] as const;
+
+export const EVENT_TYPE_OPTIONS = [
+  { value: "wedding", label: "חתונה" },
+  { value: "bar_mitzvah", label: "בר/בת מצווה" },
+  { value: "birthday", label: "יום הולדת" },
+  { value: "anniversary", label: "יום נישואים" },
+  { value: "other_event", label: "אחר" },
+] as const;
+
+export const PARTICIPANTS_OPTIONS = [
+  { value: "solo", label: "אני בלבד" },
+  { value: "couple", label: "זוג" },
+  { value: "close_family", label: "רק המשפחה הקרובה" },
+  { value: "large_group", label: "קבוצה / כולם" },
 ] as const;
 
 export const STUDIO_SURPRISE_GIFT_NOTE =
