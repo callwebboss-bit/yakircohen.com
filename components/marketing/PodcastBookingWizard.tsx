@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
@@ -31,7 +32,6 @@ import {
 } from "@/lib/form-validation";
 import {
   buildBookingWhatsAppBody,
-  buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
@@ -79,6 +79,7 @@ export default function PodcastBookingWizard() {
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
+  const [koalendarOpen, setKoalendarOpen] = useState(false);
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "podcast_booking_wizard",
   });
@@ -124,18 +125,6 @@ export default function PodcastBookingWizard() {
     };
   };
 
-  const consultHref = useMemo(() => {
-    const { summaryLines, contact } = buildSummaryContext();
-    return buildConsultWhatsAppHref(summaryLines, contact);
-  }, [
-    form.packageId,
-    form.overtimeBlocks,
-    form.name,
-    form.phone,
-    form.timeframe,
-    form.notes,
-    selected,
-  ]);
   const canStep1 = useMemo(
     () => Boolean(form.name.trim() && form.phone.trim()),
     [form.name, form.phone],
@@ -213,9 +202,23 @@ export default function PodcastBookingWizard() {
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {draft.restored ? (
+      {draft.restored && draft.savedAt ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
+          שחזרנו טיוטה שמורה מ-
+          {new Date(draft.savedAt).toLocaleDateString("he-IL", {
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+          .{" "}
+          <button
+            type="button"
+            onClick={() => { draft.clear(); }}
+            className="underline hover:text-brand-red"
+          >
+            נקה
+          </button>
         </p>
       ) : null}
 
@@ -279,6 +282,57 @@ export default function PodcastBookingWizard() {
               </div>
             </div>
           ) : null}
+
+          {/* Comparison table */}
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full min-w-[28rem] text-sm">
+              <thead>
+                <tr className="border-b border-border bg-surface">
+                  <th className="px-4 py-2.5 text-start text-xs font-semibold text-muted-foreground">
+                    מה כלול
+                  </th>
+                  {PODCAST_PACKAGES.map((pkg) => (
+                    <th
+                      key={pkg.id}
+                      className="px-3 py-2.5 text-center text-xs font-semibold text-foreground"
+                    >
+                      {pkg.name.split(" - ")[0]}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {(
+                  [
+                    { label: "הקלטה באולפן", ids: ["starter", "audio", "video", "social"] },
+                    { label: "עריכה ומיקס", ids: ["audio", "video", "social"] },
+                    { label: "מאסטרינג", ids: ["audio", "video", "social"] },
+                    { label: "העלאה לספוטיפיי", ids: ["audio", "video", "social"] },
+                    { label: "הקלטת וידאו (3 מצלמות)", ids: ["video", "social"] },
+                    { label: "3 קטעי רילס", ids: ["social"] },
+                    { label: "העלאה לאפל + יוטיוב", ids: ["social"] },
+                  ] as { label: string; ids: string[] }[]
+                ).map((row, ri) => (
+                  <tr
+                    key={row.label}
+                    className={cn("border-b border-border last:border-0", ri % 2 === 1 && "bg-surface/50")}
+                  >
+                    <td className="px-4 py-2 text-xs text-foreground">{row.label}</td>
+                    {PODCAST_PACKAGES.map((pkg) => (
+                      <td key={pkg.id} className="px-3 py-2 text-center text-base">
+                        {row.ids.includes(pkg.id) ? (
+                          <span className="text-green-600" aria-label="כלול">✓</span>
+                        ) : (
+                          <span className="text-muted-foreground/40" aria-label="לא כלול">—</span>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
         </BookingStepPanel>
       )}
@@ -321,6 +375,13 @@ export default function PodcastBookingWizard() {
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
+          <button
+            type="button"
+            onClick={() => setStep(0)}
+            className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+          >
+            → ערוך בחירה
+          </button>
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold text-foreground">סיכום</h2>
@@ -352,7 +413,7 @@ export default function PodcastBookingWizard() {
                 }}
                 consult15Min={{
                   label: BOOKING_CONSULT_15_MIN.title,
-                  href: consultHref,
+                  onClick: () => setKoalendarOpen(true),
                 }}
               />
               <BookingPaymentTrust />
@@ -363,6 +424,8 @@ export default function PodcastBookingWizard() {
           </div>
         </BookingStepPanel>
       )}
+
+      <KoalendarModal open={koalendarOpen} onClose={() => setKoalendarOpen(false)} />
     </div>
   );
 }

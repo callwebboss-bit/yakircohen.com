@@ -292,6 +292,13 @@ export default function EventsBookingWizard() {
 
       {step === 2 && count > 0 && (
         <BookingStepPanel stepKey={2}>
+          <button
+            type="button"
+            onClick={() => setStep(0)}
+            className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+          >
+            → ערוך בחירה
+          </button>
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold">סיכום ({count} אטרקציות)</h2>

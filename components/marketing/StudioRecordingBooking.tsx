@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import BookingAudioDemo from "@/components/booking/BookingAudioDemo";
+import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
@@ -21,7 +23,6 @@ import {
 } from "@/lib/data/booking-shared";
 import {
   buildBookingWhatsAppBody,
-  buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
 import { withVat } from "@/lib/data/pricing";
@@ -116,6 +117,7 @@ export default function StudioRecordingBooking({
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
+  const [koalendarOpen, setKoalendarOpen] = useState(false);
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "studio_recording_booking",
   });
@@ -167,6 +169,43 @@ export default function StudioRecordingBooking({
   const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
+  const recordingAudioDemo = useMemo(() => {
+    switch (form.recordingType) {
+      case "cover":
+      case "original":
+        return {
+          beforeSrc: "/audio/recording-raw-sample.mp3",
+          afterSrc: "/audio/recording-clean-sample.mp3",
+          beforeLabel: "ווקאל גולמי",
+          afterLabel: "אחרי מיקס ופיץ׳",
+          beforeNote: "לפני עריכה ותיקון זיופים",
+          afterNote: "אחרי מיקס, מאסטר ופיץ׳ קורקשן",
+        };
+      case "bride_blessing":
+      case "bar_mitzvah_speech":
+      case "general_blessing":
+        return {
+          beforeSrc: "/audio/bride-blessing-raw.mp3",
+          afterSrc: "/audio/bride-blessing-tuned.mp3",
+          beforeLabel: "ברכה גולמית",
+          afterLabel: "אחרי עריכה ומוזיקה",
+          beforeNote: "הקלטה ישירה ללא עיבוד",
+          afterNote: "עם מוזיקת רקע ומיקס מקצועי",
+        };
+      case "other":
+        return {
+          beforeSrc: "/audio/dry-vocal-raw.mp3",
+          afterSrc: "/audio/full-production.mp3",
+          beforeLabel: "ווקאל יבש",
+          afterLabel: "הפקה מלאה",
+          beforeNote: "שירה בלי מוזיקה ובלי עיבוד",
+          afterNote: "עם תופים, בס, הרמוניות ומיקס",
+        };
+      default:
+        return null;
+    }
+  }, [form.recordingType]);
+
   const canAdvanceStep0 =
     form.recordingType !== "" && (isConsultation || form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
@@ -210,16 +249,6 @@ export default function StudioRecordingBooking({
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
   ];
-
-  const consultHref = useMemo(() => {
-    const displayPhone = form.phone.trim()
-      ? formatPhoneForDisplay(form.phone.trim())
-      : "";
-    return buildConsultWhatsAppHref(buildSummaryLines(), {
-      name: sanitizeLeadText(form.name, 60),
-      phone: displayPhone,
-    });
-  }, [form, recordingLabel, atmosphereLabel, activePackage, isConsultation, total]);
 
   const resetWizard = () => {
     setForm({
@@ -336,9 +365,23 @@ export default function StudioRecordingBooking({
 
   return (
     <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && selectedPackage && "pb-24")}>
-      {draft.restored ? (
+      {draft.restored && draft.savedAt ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
+          שחזרנו טיוטה שמורה מ-
+          {new Date(draft.savedAt).toLocaleDateString("he-IL", {
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+          .{" "}
+          <button
+            type="button"
+            onClick={() => { draft.clear(); }}
+            className="underline hover:text-brand-red"
+          >
+            נקה
+          </button>
         </p>
       ) : null}
 
@@ -391,6 +434,17 @@ export default function StudioRecordingBooking({
                 );
               })}
             </div>
+
+            {recordingAudioDemo && (
+              <BookingAudioDemo
+                beforeSrc={recordingAudioDemo.beforeSrc}
+                afterSrc={recordingAudioDemo.afterSrc}
+                beforeLabel={recordingAudioDemo.beforeLabel}
+                afterLabel={recordingAudioDemo.afterLabel}
+                beforeNote={recordingAudioDemo.beforeNote}
+                afterNote={recordingAudioDemo.afterNote}
+              />
+            )}
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -510,6 +564,16 @@ export default function StudioRecordingBooking({
               )}
             </div>
 
+            {canAdvanceStep0 && (
+              <button
+                type="button"
+                onClick={() => goToStep(1)}
+                className="w-full rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+              >
+                המשך לבחירת חבילה ←
+              </button>
+            )}
+
             <div>
               <h3 className="mb-4 text-sm font-semibold text-foreground">
                 שאלות ששואלים אותי באולפן
@@ -610,6 +674,14 @@ export default function StudioRecordingBooking({
       {step === 2 && (
         <BookingStepPanel stepKey={2}>
           <section className="space-y-8">
+            <button
+              type="button"
+              onClick={() => goToStep(0)}
+              className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+            >
+              → ערוך בחירה
+            </button>
+
             <div>
               <h2 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
                 שדרוגים נוספים
@@ -886,7 +958,7 @@ export default function StudioRecordingBooking({
                   }}
                   consult15Min={{
                     label: BOOKING_CONSULT_15_MIN.title,
-                    href: consultHref,
+                    onClick: () => setKoalendarOpen(true),
                   }}
                 />
 
@@ -921,6 +993,8 @@ export default function StudioRecordingBooking({
           </div>
         </div>
       )}
+
+      <KoalendarModal open={koalendarOpen} onClose={() => setKoalendarOpen(false)} />
     </div>
   );
 }

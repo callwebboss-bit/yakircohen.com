@@ -1,0 +1,253 @@
+"use client";
+
+import { useState } from "react";
+import BookingApprovals from "@/components/booking/BookingApprovals";
+import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import PhoneInputField from "@/components/forms/PhoneInputField";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { SERVICES } from "@/lib/data/booking-calculator-services";
+import { withVat } from "@/lib/data/pricing";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateIsraeliMobile,
+  validatePersonName,
+  type ValidationResult,
+} from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
+import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
+
+const CLIPS_SERVICES = Object.entries(SERVICES)
+  .filter(([, s]) => s.category === "clips" || s.category === "ai")
+  .map(([id, s]) => ({ id, ...s }));
+
+const inputClass =
+  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+
+export default function ClipsBookingForm() {
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [notes, setNotes] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [lastWaHref, setLastWaHref] = useState("");
+
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: "clips_booking",
+  });
+
+  function toggleService(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  const totalExVat = Array.from(selected).reduce(
+    (sum, id) => sum + (SERVICES[id]?.price ?? 0),
+    0,
+  );
+
+  const handleSubmit = () => {
+    if (!termsAccepted) {
+      setErrors((prev) => ({ ...prev, terms: "יש לאשר את התנאים לפני שליחה" }));
+      return;
+    }
+    if (selected.size === 0) {
+      setErrors((prev) => ({ ...prev, services: "בחרו לפחות שירות אחד" }));
+      return;
+    }
+
+    const fieldErrs = attemptSubmit(
+      (): ValidationResult => {
+        const nameResult = validatePersonName(name);
+        if (!nameResult.ok) return nameResult;
+        const phoneResult = validateIsraeliMobile(phone);
+        if (!phoneResult.ok) return phoneResult;
+        return { ok: true };
+      },
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : formatPhoneForDisplay(phone.trim());
+
+        const serviceList = Array.from(selected)
+          .map(
+            (id) =>
+              `${SERVICES[id]?.icon ?? ""} ${SERVICES[id]?.name ?? id} — ${(SERVICES[id]?.price ?? 0).toLocaleString("he-IL")} ₪`,
+          )
+          .join("\n");
+
+        const body =
+          `הזמנת שירות דיגיטלי / קליפ\n\n` +
+          `👤 *${sanitizeLeadText(name, 60)}* | ${displayPhone}\n\n` +
+          `*שירותים שנבחרו:*\n${serviceList}\n\n` +
+          `*סה"כ משוער (כולל מע"מ):* ${withVat(totalExVat).toLocaleString("he-IL")} ₪\n` +
+          (notes.trim() ? `\n*הערות:* ${sanitizeLeadText(notes, 300)}\n` : "");
+
+        const href = buildWhatsAppHref({
+          text: body,
+          utm_source: "website",
+          utm_campaign: "clips_booking",
+        });
+        openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "clips_booking",
+          subject: "הזמנת קליפ / שירות דיגיטלי",
+          body,
+          name: sanitizeLeadText(name, 60),
+          phone: displayPhone,
+        });
+        setLastWaHref(href);
+        setSubmitted(true);
+      },
+    );
+    setErrors(fieldErrs ?? {});
+  };
+
+  if (submitted && lastWaHref) {
+    return (
+      <BookingSuccessPanel
+        intent="continue_chat"
+        whatsappHref={lastWaHref}
+        onNewBooking={() => {
+          setSelected(new Set());
+          setName("");
+          setPhone("");
+          setNotes("");
+          setTermsAccepted(false);
+          setErrors({});
+          setSubmitted(false);
+          setLastWaHref("");
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
+      <LeadFormAlert message={globalError} />
+
+      <div>
+        <h2 className="mb-1 text-xl font-semibold text-foreground">בחרו שירותים</h2>
+        <p className="mb-4 text-sm text-muted-foreground">ניתן לבחור כמה שירותים</p>
+        {errors.services && (
+          <p className="mb-3 text-xs text-red-500" data-field-error>
+            {errors.services}
+          </p>
+        )}
+        <div className="grid gap-3 sm:grid-cols-2">
+          {CLIPS_SERVICES.map(({ id, icon, name: sName, desc, price }) => {
+            const active = selected.has(id);
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => toggleService(id)}
+                aria-pressed={active}
+                className={cn(
+                  "flex items-start gap-3 rounded-xl border p-4 text-start transition-colors",
+                  active
+                    ? "border-brand-red bg-brand-red/5"
+                    : "border-border bg-background hover:border-brand-red/30",
+                )}
+              >
+                <span
+                  className={cn(
+                    "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-xs",
+                    active ? "border-brand-red bg-brand-red text-white" : "border-border",
+                  )}
+                  aria-hidden="true"
+                >
+                  {active && "✓"}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">
+                    {icon} {sName}
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
+                  <p className="mt-1 text-xs font-medium text-brand-red">
+                    {price.toLocaleString("he-IL")} ₪
+                  </p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {totalExVat > 0 && (
+        <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm">
+          <span className="font-semibold text-foreground">
+            סה&quot;כ משוער:{" "}
+          </span>
+          <span className="text-brand-red">
+            {withVat(totalExVat).toLocaleString("he-IL")} ₪ (כולל מע&quot;מ)
+          </span>
+        </div>
+      )}
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="clips-name" className="mb-1.5 block text-xs font-semibold">
+            שם מלא *
+          </label>
+          <input
+            id="clips-name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="ישראל ישראלי"
+            className={cn(inputClass, errors.name && "border-red-400")}
+          />
+          {errors.name && <p className="mt-1 text-xs text-red-500" data-field-error>{errors.name}</p>}
+        </div>
+        <PhoneInputField
+          id="clips-phone"
+          value={phone}
+          onChange={setPhone}
+          error={errors.phone}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="clips-notes" className="mb-1.5 block text-xs font-semibold">
+          פירוט נוסף (אופציונלי)
+        </label>
+        <textarea
+          id="clips-notes"
+          rows={3}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="תוכן, עיצוב, קבצים קיימים..."
+          className={cn(inputClass, "resize-none")}
+        />
+      </div>
+
+      <BookingApprovals
+        variant="light"
+        termsAccepted={termsAccepted}
+        onTermsChange={setTermsAccepted}
+        termsError={errors.terms}
+      />
+
+      <button
+        type="button"
+        onClick={handleSubmit}
+        disabled={selected.size === 0}
+        className="w-full rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light disabled:pointer-events-none disabled:opacity-50"
+      >
+        המשך בוואטסאפ ←
+      </button>
+    </div>
+  );
+}

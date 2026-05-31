@@ -7,6 +7,8 @@ import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import BookingCalculator from "@/components/marketing/BookingCalculator";
+import BookingDiagnosisQuiz from "@/components/booking/BookingDiagnosisQuiz";
+import ClipsBookingForm from "@/components/marketing/ClipsBookingForm";
 import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
 import FilterGate from "@/components/marketing/FilterGate";
 import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
@@ -115,11 +117,7 @@ function renderCategoryContent(
     case "photography":
       return <PhotographyCalculator />;
     case "clips":
-      return (
-        <BookingCalculator
-          excludeCategories={["recordings", "podcasts", "events"]}
-        />
-      );
+      return <ClipsBookingForm />;
     default:
       return null;
   }
@@ -177,6 +175,11 @@ export default function BookPageSections() {
         aria-label="בחירת קטגוריית שירות"
       >
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          {openId === null && (
+            <div className="mb-4">
+              <BookingDiagnosisQuiz onNavigate={openCategory} />
+            </div>
+          )}
           <p className="mb-3 text-center text-sm text-muted-foreground">
             בחרו קטגוריה לפתיחת טופס ההזמנה
           </p>
