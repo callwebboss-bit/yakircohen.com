@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingAudioDemo from "@/components/booking/BookingAudioDemo";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -900,6 +901,33 @@ export default function StudioRecordingBooking({
               })}
             </div>
 
+            {/* Upsell chip — show next tier when a non-top package is selected */}
+            {!isConsultation && selectedPackage && (() => {
+              const idx = STUDIO_RECORDING_PACKAGES.findIndex((p) => p.id === selectedPackage.id);
+              const next = idx >= 0 && idx < STUDIO_RECORDING_PACKAGES.length - 1
+                ? STUDIO_RECORDING_PACKAGES[idx + 1]
+                : null;
+              if (!next) return null;
+              const gap = next.price - selectedPackage.price;
+              return (
+                <button
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, packageId: next.id }))}
+                  className="flex w-full items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-start text-sm transition-colors hover:bg-green-100"
+                >
+                  <span className="text-green-800">
+                    <span className="font-semibold">עוד ₪{gap.toLocaleString("he-IL")} — {next.name}</span>
+                    {next.savings && (
+                      <span className="block text-xs text-green-700">{next.savings}</span>
+                    )}
+                  </span>
+                  <span className="shrink-0 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                    שדרגו ←
+                  </span>
+                </button>
+              );
+            })()}
+
             <StepNav
               onBack={() => goToStep(0)}
               onNext={() => goToStep(2)}
@@ -1129,6 +1157,29 @@ export default function StudioRecordingBooking({
                           {errors.date}
                         </p>
                       )}
+                      {form.date && (() => {
+                        const dow = new Date(form.date).getDay();
+                        if (dow === 6) return (
+                          <p className="mt-1 text-xs font-medium text-red-500">
+                            ✗ שבת — האולפן סגור. בחרו תאריך אחר.
+                          </p>
+                        );
+                        if (dow === 5) return (
+                          <p className="mt-1 text-xs font-medium text-amber-600">
+                            ⚠️ שישי — שעות מצומצמות עד 14:00
+                          </p>
+                        );
+                        return (
+                          <p className="mt-1 text-xs font-medium text-green-700">
+                            ✓ יום עסקים — פתוח 09:00–20:00
+                          </p>
+                        );
+                      })()}
+                      {!form.date && (
+                        <p className="mt-1 text-[0.65rem] text-muted-foreground">
+                          א׳–ה׳ 09:00–20:00 · שישי עד 14:00 · שבת סגור
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="sr-time" className="mb-1.5 block text-xs font-semibold">
@@ -1185,8 +1236,19 @@ export default function StudioRecordingBooking({
                   termsError={errors.terms}
                 />
 
+                <BookingWhatsAppPreview
+                  serviceLabel={
+                    isConsultation
+                      ? "ייעוץ לקידום שיר"
+                      : `הקלטה באולפן - ${activePackage?.name ?? recordingLabel}`
+                  }
+                  summaryLines={buildSummaryLines()}
+                  totalWithVat={withVat(total)}
+                />
+
                 <BookingSummaryActions
                   disabled={!form.termsAccepted}
+                  socialProof="15 הזמנות בחודש האחרון · ממוצע מענה 2 שעות"
                   continueWhatsApp={{
                     label: BOOKING_CTA.continue_chat,
                     onClick: () => handleAction("continue_chat"),
@@ -1202,6 +1264,32 @@ export default function StudioRecordingBooking({
                 />
 
                 <BookingPaymentTrust />
+
+                {/* Save for later — send summary to self via WhatsApp */}
+                {form.phone.trim().length >= 9 && (
+                  <p className="text-center text-xs text-muted-foreground">
+                    לא עכשיו?{" "}
+                    <a
+                      href={buildWhatsAppHref({
+                        text:
+                          `שמרתי את הפרטים שלי ל${
+                            isConsultation ? "ייעוץ" : "הקלטה"
+                          } באולפן יקיר כהן:\n\n` +
+                          buildSummaryLines()
+                            .map((l) => `• ${l.label}: ${l.value}`)
+                            .join("\n") +
+                          `\n\nלהמשיך מכאן: yakircohen.com/book#studio`,
+                        utm_source: "website",
+                        utm_campaign: "studio_save_for_later",
+                      })}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4 hover:text-brand-red"
+                    >
+                      שלחו לעצמכם ווטסאפ לחזרה
+                    </a>
+                  </p>
+                )}
 
                 <button
                   type="button"

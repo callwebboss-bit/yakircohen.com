@@ -476,6 +476,7 @@ export default function PodcastBookingWizard() {
               />
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
+                socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
                 continueWhatsApp={{
                   label: BOOKING_CTA.continue_chat,
                   onClick: () => handleAction("continue_chat"),
@@ -490,6 +491,30 @@ export default function PodcastBookingWizard() {
                 }}
               />
               <BookingPaymentTrust />
+
+              {form.phone.trim().length >= 9 && (
+                <p className="text-center text-xs text-muted-foreground">
+                  לא עכשיו?{" "}
+                  <a
+                    href={buildWhatsAppHref({
+                      text:
+                        `שמרתי את הפרטים שלי לפודקאסט באולפן יקיר כהן:\n\n` +
+                        buildSummaryContext().summaryLines
+                          .map((l) => `• ${l.label}: ${l.value}`)
+                          .join("\n") +
+                        `\n\nלהמשיך מכאן: yakircohen.com/book#podcast`,
+                      utm_source: "website",
+                      utm_campaign: "podcast_save_for_later",
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-4 hover:text-brand-red"
+                  >
+                    שלחו לעצמכם ווטסאפ לחזרה
+                  </a>
+                </p>
+              )}
+
               <button type="button" onClick={() => setStep(1)} className="w-full text-xs text-muted-foreground hover:text-brand-red">
                 חזרה לפרטים
               </button>

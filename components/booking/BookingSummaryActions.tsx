@@ -19,6 +19,8 @@ export type BookingSummaryActionsProps = {
   startNow?: BookingSummaryAction;
   /** Tertiary text link — pulses after 60s idle */
   consult15Min?: BookingSummaryAction;
+  /** Small social-proof line shown above the primary button */
+  socialProof?: string;
   /** Disables both action buttons (e.g. until terms accepted) */
   disabled?: boolean;
   className?: string;
@@ -28,6 +30,7 @@ export default function BookingSummaryActions({
   continueWhatsApp,
   startNow,
   consult15Min,
+  socialProof,
   disabled = false,
   className,
 }: BookingSummaryActionsProps) {
@@ -66,6 +69,13 @@ export default function BookingSummaryActions({
       <p className="text-center text-xs text-muted-foreground">
         הלחיצה לא מחייבת תשלום - נסגור את הפרטים יחד בוואטסאפ
       </p>
+
+      {/* Social proof */}
+      {socialProof && (
+        <p className="text-center text-xs font-medium text-muted-foreground">
+          ✅ {socialProof}
+        </p>
+      )}
 
       {/* PRIMARY — WhatsApp green */}
       {continueWhatsApp.href ? (
