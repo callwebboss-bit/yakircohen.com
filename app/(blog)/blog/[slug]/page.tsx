@@ -164,7 +164,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           ) : null}
 
           <div
-            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
+            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_table]:mt-6 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_td]:border [&_td]:border-border [&_td]:p-3 [&_th]:border [&_th]:border-border [&_th]:bg-surface [&_th]:p-3 [&_th]:text-start [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
