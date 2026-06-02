@@ -23,7 +23,7 @@ export type OnlineCategoryProof = {
   description: string;
   bullets?: readonly string[];
   demoId?: AudioDemoId;
-  demoVariant?: "restoration" | "vocal";
+  demoVariant?: "restoration" | "vocal" | "remote";
   youtubeVideoId?: string;
   youtubeTitle?: string;
 };
@@ -142,7 +142,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
       description:
         "הקלטות זום, חדר ביתי או פרק גולמי - הופכים לפרק נקי ומוכן ל-Spotify.",
       demoId: PODCAST_ZOOM_PROOF.demoId,
-      demoVariant: "vocal",
+      demoVariant: "remote",
       ...(getPodcastZoomYoutubeVideoId()
         ? {
             youtubeVideoId: getPodcastZoomYoutubeVideoId()!,

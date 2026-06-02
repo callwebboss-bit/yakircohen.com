@@ -59,8 +59,8 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
   },
   {
     id: "podcast-zoom-cleanup",
-    beforeSrc: "/audio/podcast-raw-sample.mp3",
-    afterSrc: "/audio/podcast-clean-sample.mp3",
+    beforeSrc: "/audio/podcast-clean-sample.mp3",
+    afterSrc: "/audio/podcast-raw-sample.mp3",
     beforeLabel: "הקלטת זום גולמית",
     afterLabel: "אחרי ניקוי רעשים",
     beforeNote: "רעשי רקע, אקו ותהודה בחדר",

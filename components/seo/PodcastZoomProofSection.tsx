@@ -27,7 +27,7 @@ export default function PodcastZoomProofSection({
     <div className={className}>
       <SoundImprovementShowcase
         demoId={PODCAST_ZOOM_PROOF.demoId}
-        variant="vocal"
+        variant="remote"
         context={context}
       />
 
