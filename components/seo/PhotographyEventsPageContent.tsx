@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PhotographyEventsGallery from "@/components/seo/PhotographyEventsGallery";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -11,6 +12,7 @@ import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { PHOTOGRAPHY_EVENTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { PHOTOGRAPHY_STEPS } from "@/lib/data/video-steps";
 
 const service = getPhotographyService("photography-events");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -93,6 +95,8 @@ export default function PhotographyEventsPageContent() {
             צילום חתונות
           </Link>
         </div>
+
+        <ProcessSteps steps={PHOTOGRAPHY_STEPS} heading="איך הצילום עובד?" />
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

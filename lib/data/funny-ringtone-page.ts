@@ -4,7 +4,7 @@ export const RINGTONE_PRICE_NIS = 299;
 
 export const RINGTONE_AUDIO = {
   beforeSrc: "/audio/before-rengtone.mp3",
-  afterSrc: "/audio/After-Ringtone.mp3",
+  afterSrc: "/audio/after-ringtone.mp3",
   beforeLabel: "הקלטה גולמית",
   afterLabel: "רינגטון מוכן ומצחיק",
 } as const;

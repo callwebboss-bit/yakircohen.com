@@ -1,0 +1,19 @@
+{
+  "source": "d:\\active_portfolio.txt",
+  "parsed": 272,
+  "catalog": 272,
+  "skipped": 0,
+  "duplicates": 0,
+  "tagCounts": {
+    "brand-tv": 30,
+    "podcast": 27,
+    "education": 75,
+    "studio-recording": 138,
+    "entertainment": 54,
+    "dj-events": 56,
+    "voiceover": 11,
+    "bat-bar-mitzvah": 29,
+    "blessings": 10
+  },
+  "skippedSample": []
+}

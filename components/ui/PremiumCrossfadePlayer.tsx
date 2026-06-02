@@ -171,7 +171,7 @@ export default function PremiumCrossfadePlayer({
   if (hasError) {
     return (
       <div className="flex min-h-[160px] items-center justify-center rounded-2xl border border-border bg-surface px-6 text-center text-sm text-muted-foreground">
-        קבצי ההדגמה יועלו בקרוב — בינתיים אפשר לבקש דוגמה בוואטסאפ.
+        קבצי ההדגמה יועלו בקרוב - בינתיים אפשר לבקש דוגמה בוואטסאפ.
       </div>
     );
   }
@@ -185,20 +185,30 @@ export default function PremiumCrossfadePlayer({
       onTouchStart={triggerLoad}
     >
       {/* Channel labels */}
-      <div className="flex items-center justify-between gap-4 text-xs font-semibold">
-        <span className="rounded-full bg-muted px-3 py-1 text-muted-foreground">
-          {beforeLabel}
-        </span>
-        <span className="rounded-full bg-brand-red/10 px-3 py-1 text-brand-red">
-          {afterLabel}
-        </span>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex min-w-0 flex-col items-start gap-1">
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
+            לפני
+          </span>
+          <span className="text-xs font-medium leading-snug text-foreground">
+            {beforeLabel}
+          </span>
+        </div>
+        <div className="flex min-w-0 flex-col items-end gap-1 text-end">
+          <span className="rounded-full bg-brand-red/10 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red">
+            אחרי
+          </span>
+          <span className="text-xs font-medium leading-snug text-foreground">
+            {afterLabel}
+          </span>
+        </div>
       </div>
 
       {/* Crossfade track — touch-none prevents accidental page scroll while dragging */}
       <div
         ref={trackRef}
         role="slider"
-        aria-label="מיקס בין ערוץ לפני לערוץ אחרי — גרור לשמוע כל אחד"
+        aria-label="מיקס בין ערוץ לפני לערוץ אחרי - גרור לשמוע כל אחד"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={50}

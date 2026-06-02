@@ -85,13 +85,7 @@ export default function BlessingsVideoClipPageContent() {
         }))}
       />
 
-      <ShowcaseVideoSection
-        kicker="דוגמאות"
-        heading="קליפים ושירים שהוקלטו כמתנה"
-        subheading="הקלטה, צילום ועריכה באולפן - לצפייה בלחיצה"
-        videos={BLESSINGS_VIDEO_CLIP_VIDEOS}
-        initialVisible={4}
-      />
+      <ShowcaseVideoSection playlistId="blessings-video-clip" />
 
       <BlessingsRelatedNav links={RELATED_LINKS} />
     </ServicePageFromRegistry>

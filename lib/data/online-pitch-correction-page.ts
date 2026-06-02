@@ -1,3 +1,28 @@
+import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+
+export const PITCH_PROCESS_STEPS: ProcessStep[] = [
+  {
+    number: 1,
+    title: "שולחים את השיר",
+    description: "קובץ MP3/WAV של ההקלטה — מהטלפון, מהמחשב או מכל מקור.",
+  },
+  {
+    number: 2,
+    title: "ניתוח הזיופים",
+    description: "מזהים ומסמנים את כל הזיופים והטעויות בשיר.",
+  },
+  {
+    number: 3,
+    title: "תיקון ידני",
+    description: "לא Auto-Tune אוטומטי — מתקנים ידנית כל תו, שומרים על הוויברטו והרגש.",
+  },
+  {
+    number: 4,
+    title: "מקבלים שיר מתוקן",
+    description: "קובץ חדש, ללא זיופים, נשמע טבעי — תוך 3–5 ימי עסקים.",
+  },
+];
+
 export const PITCH_STUDIO_EXPERIENCE: readonly {
   title: string;
   body: string;

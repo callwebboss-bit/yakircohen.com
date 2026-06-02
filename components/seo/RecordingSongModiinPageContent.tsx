@@ -320,12 +320,7 @@ export default function RecordingSongModiinPageContent() {
           </section>
 
           {/* 5. Video Examples */}
-          <ShowcaseVideoSection
-            heading="דוגמאות מהאולפן"
-            subheading="שמעו איך זה נשמע — שיר לחתונה, מתנות, בר מצווה והקלטות קבוצה"
-            videos={RECORDING_SONG_MODIIN_VIDEOS}
-            kicker="YouTube"
-          />
+          <ShowcaseVideoSection playlistId="recording-song-modiin" />
 
           {/* 6. Local Social Proof */}
           <section
@@ -525,6 +520,17 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </ol>
           </section>
+
+          {/* Upsell: Online mixing/mastering */}
+          <div className="rounded-xl border border-brand-red/20 bg-surface p-5">
+            <p className="font-semibold text-foreground">שדרג את ההקלטה לאחר האולפן</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              מיקס מקצועי, תיקון זיופים או ניקוי רעשים — הכל אפשרי מרחוק תוך ימים בודדים.{" "}
+              <Link href="/online/vocal-fix/mixing" className="font-semibold text-brand-red hover:underline">
+                שירות מיקס ומאסטרינג ←
+              </Link>
+            </p>
+          </div>
 
           {/* 10. Testimonials */}
           <section aria-labelledby="testimonials-heading">

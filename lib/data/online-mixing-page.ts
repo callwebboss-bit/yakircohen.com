@@ -1,3 +1,28 @@
+import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+
+export const MIXING_PROCESS_STEPS: ProcessStep[] = [
+  {
+    number: 1,
+    title: "שולחים את הקטעים",
+    description: "כל ערוץ בקובץ נפרד (WAV/MP3) — דרך Google Drive, WeTransfer או כל שירות העברה.",
+  },
+  {
+    number: 2,
+    title: "מיקס ראשוני",
+    description: "מאזינים, מאזנים, מעצבים — יוצרים שלד ראשוני ושולחים לאישורכם.",
+  },
+  {
+    number: 3,
+    title: "תיקונים ולטוש",
+    description: "מתקנים לפי הערות עד שמרוצים (סבב אחד כלול), ואז מבצעים מאסטרינג סופי.",
+  },
+  {
+    number: 4,
+    title: "מסירה",
+    description: "MP3 לשימוש רגיל + WAV באיכות מקסימלית, מוכן לספוטיפיי, יוטיוב וכל פלטפורמה.",
+  },
+];
+
 export const MIXING_PROBLEMS: readonly string[] = [
   'סאונד "שטוח": אין עומק, אין מרחב, הכל דחוס',
   "חוסר איזון: השירה נבלעת או בולטת מדי",

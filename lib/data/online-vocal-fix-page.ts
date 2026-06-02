@@ -1,3 +1,28 @@
+import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+
+export const VOCAL_FIX_PROCESS_STEPS: ProcessStep[] = [
+  {
+    number: 1,
+    title: "שולחים את הקובץ",
+    description: "דרך וואטסאפ, מייל או קישור — בכל פורמט, כולל הקלטות ביתיות.",
+  },
+  {
+    number: 2,
+    title: "סקיצה חינם (אופציונלי)",
+    description: "שולחים קטע 30 שניות ומקבלים לפני/אחרי ללא עלות — כדי לראות את הפוטנציאל.",
+  },
+  {
+    number: 3,
+    title: "אנחנו עושים את הקסם",
+    description: "הצוות המקצועי מעבד את הסאונד — ניקוי, חידוד, איזון והעשרה.",
+  },
+  {
+    number: 4,
+    title: "מקבלים קובץ משופר",
+    description: "קובץ חדש באיכות גבוהה, מוכן לשימוש, תוך 1–3 ימי עסקים.",
+  },
+];
+
 export const VOCAL_FIX_PROCESSING: readonly {
   icon: string;
   title: string;

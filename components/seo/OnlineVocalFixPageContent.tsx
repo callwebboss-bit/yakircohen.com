@@ -1,10 +1,12 @@
 import Link from "next/link";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import {
   VOCAL_FIX_AUDIENCE,
   VOCAL_FIX_PRICE_INCLUDED,
   VOCAL_FIX_PROCESSING,
-  VOCAL_FIX_STEPS,
+  VOCAL_FIX_PROCESS_STEPS,
 } from "@/lib/data/online-vocal-fix-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
@@ -150,6 +152,27 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
+      <section className="border-t border-border bg-background py-12">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2 className="text-xl font-semibold text-foreground">
+              שמעו את ההבדל בעצמכם
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              דוגמה מהקלטה פגומה — פודקאסט ישן, הרצאה או ארכיון. שחזור קשה ותלוי
+              במקור.
+            </p>
+          </header>
+          <div className="mx-auto mt-8 max-w-2xl">
+            <SoundImprovementShowcase
+              demoId="weber-restoration"
+              variant="restoration"
+              showDisclaimer
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-md rounded-2xl border border-brand-red/30 bg-background p-8 text-center shadow-sm">
           <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
@@ -189,19 +212,11 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface py-12">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <h2 className="text-lg font-semibold text-foreground">איך זה עובד?</h2>
-          <ol className="mt-6 space-y-4">
-            {VOCAL_FIX_STEPS.map((s) => (
-              <li key={s.step}>
-                <p className="font-medium text-foreground">{s.step}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <ProcessSteps
+        steps={VOCAL_FIX_PROCESS_STEPS}
+        heading="איך זה עובד?"
+        subheading="תהליך העבודה"
+      />
 
       <section className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">דיסקרטיות מוחלטת</h2>

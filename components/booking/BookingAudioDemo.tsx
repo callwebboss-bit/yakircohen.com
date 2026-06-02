@@ -30,7 +30,7 @@ export default function BookingAudioDemo({
   return (
     <div className="rounded-xl border border-border bg-surface p-4 sm:p-5">
       <p className="mb-3 text-xs font-semibold text-muted-foreground">
-        🎧 שמעו את ההבדל — לפני ואחרי
+        🎧 שמעו את ההבדל - לפני ואחרי
       </p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {/* Before */}

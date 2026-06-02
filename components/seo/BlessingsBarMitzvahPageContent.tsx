@@ -55,13 +55,7 @@ export default function BlessingsBarMitzvahPageContent() {
         }))}
       />
 
-      <ShowcaseVideoSection
-        kicker="דוגמאות"
-        heading="דוגמאות ברכות ושיר לבר/בת מצווה"
-        subheading="הקלטה באולפן, עריכה ותיקון קול - לצפייה בלחיצה"
-        videos={BAR_MITZVAH_BLESSING_VIDEOS}
-        initialVisible={3}
-      />
+      <ShowcaseVideoSection playlistId="blessings-bar-mitzvah" />
 
       <BlessingsRelatedNav links={RELATED_LINKS} />
     </ServicePageFromRegistry>

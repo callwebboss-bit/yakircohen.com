@@ -2,11 +2,12 @@ import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import {
   PITCH_AUDIENCE,
   PITCH_MANUAL_METHOD,
   PITCH_PRICE_INCLUDED,
-  PITCH_STEPS,
+  PITCH_PROCESS_STEPS,
   PITCH_STUDIO_EXPERIENCE,
   PITCH_WHO_FOR,
 } from "@/lib/data/online-pitch-correction-page";
@@ -238,17 +239,11 @@ export default function OnlinePitchCorrectionPageContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-        <h2 className="text-lg font-semibold text-foreground">איך זה עובד?</h2>
-        <ol className="mt-6 space-y-4">
-          {PITCH_STEPS.map((s) => (
-            <li key={s.step}>
-              <p className="font-medium text-foreground">{s.step}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <ProcessSteps
+        steps={PITCH_PROCESS_STEPS}
+        heading="איך זה עובד?"
+        subheading="תהליך העבודה"
+      />
 
       <section className="mx-auto max-w-2xl border-t border-border px-4 py-12 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">

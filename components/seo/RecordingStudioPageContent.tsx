@@ -49,12 +49,7 @@ export default function RecordingStudioPageContent() {
           </p>
         </div>
 
-        <ShowcaseVideoSection
-          heading="בואו לסיור באולפן"
-          subheading="צפו בסרטונים כדי להבין איך נראה סשן הקלטה באולפן שלנו במודיעין"
-          videos={RECORDING_STUDIO_VIDEOS}
-          initialVisible={4}
-        />
+        <ShowcaseVideoSection playlistId="recording-studio" />
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}

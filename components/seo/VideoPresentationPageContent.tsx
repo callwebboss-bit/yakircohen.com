@@ -1,10 +1,12 @@
 ﻿import Link from "next/link";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { VIDEO_PRESENTATION_USE_CASES } from "@/lib/data/video-presentation-page";
 import { getVideoService } from "@/lib/data/services";
+import { VIDEO_HUB_STEPS } from "@/lib/data/video-steps";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 
@@ -66,6 +68,7 @@ export default function VideoPresentationPageContent() {
           </div>
         </div>
 
+        <ProcessSteps steps={VIDEO_HUB_STEPS} heading="איך ההפקה עובדת?" />
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
           playlistEmbedUrl={service.playlistEmbedUrl}

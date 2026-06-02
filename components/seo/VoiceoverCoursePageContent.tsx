@@ -1,3 +1,4 @@
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -8,6 +9,7 @@ import { getVoiceoverService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { VOICEOVER_COURSE_VIDEOS } from "@/lib/data/youtube-showcases";
+import { ACADEMY_COURSE_STEPS } from "@/lib/data/academy-steps";
 
 const service = getVoiceoverService("voiceover-course");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -26,10 +28,8 @@ export default function VoiceoverCoursePageContent() {
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/voiceover/course" className="max-w-3xl" />
         <ShowcaseVideoSection
-          headingId="voiceover-course-videos"
-          heading="איך נראה קורס קריינות באולפן"
-          subheading="תרגול מול מיקרופון, משוב מקצועי והקלטות אמיתיות"
-          videos={VOICEOVER_COURSE_VIDEOS}
+          playlistId="voiceover-course"
+          sectionId="voiceover-course-videos"
         />
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
@@ -38,6 +38,7 @@ export default function VoiceoverCoursePageContent() {
           galleryLabel="קורס קריינות"
           galleryLayout="masonry"
         />
+        <ProcessSteps steps={ACADEMY_COURSE_STEPS} heading="איך הקורס עובד?" />
         {service.faqs.length > 0 ? (
           <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
         ) : null}

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -83,6 +85,58 @@ export default function PodcastEditingPageContent() {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section
+          id="podcast-zoom-demo"
+          aria-labelledby="editing-zoom-heading"
+        >
+          <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+              שמעו את ההבדל
+            </p>
+            <h2
+              id="editing-zoom-heading"
+              className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              ניקוי פודקאסט / זום — לפני ואחרי
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              דוגמה טיפוסית: הקלטת זום או חדר ביתי עם רעשי רקע — אחרי ניקוי,
+              EQ ו-normalize לפרסום.
+            </p>
+          </header>
+          <div className="mx-auto mt-8 max-w-3xl">
+            <PodcastZoomProofSection />
+          </div>
+        </section>
+
+        <section
+          id="restoration-demo"
+          aria-labelledby="editing-restoration-heading"
+        >
+          <header className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+              שחזור ארכיון
+            </p>
+            <h2
+              id="editing-restoration-heading"
+              className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              שחזור הקלטה פגומה — לפני ואחרי
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              דוגמה אמיתית: פודקאסט ישן, הרצאה או ארכיון שנפגם. שחזור כזה
+              אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
+            </p>
+          </header>
+          <div className="mx-auto mt-8 max-w-3xl">
+            <SoundImprovementShowcase
+              demoId="weber-restoration"
+              variant="restoration"
+              showDisclaimer
+            />
+          </div>
         </section>
 
         <section aria-labelledby="editing-audience-heading">

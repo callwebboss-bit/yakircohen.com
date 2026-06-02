@@ -13,6 +13,7 @@ import {
   getStudioService,
   metadataFromService,
 } from "@/lib/data/services";
+import { PORTFOLIO_CATALOG_COUNT } from "@/lib/data/video-catalog.generated";
 
 const service = getStudioService("studio-hub");
 
@@ -96,8 +97,23 @@ export default function StudioHubPage() {
   const tracks = [STUDIO_PRICING_LINK, ...hubLinks];
 
   return (
-    <ServicePageFromRegistry service={service} portfolioLabel="סביבת האולפן">
+    <ServicePageFromRegistry
+      service={service}
+      portfolioLabel="סביבת האולפן"
+      showPortfolio={false}
+    >
       <div className="space-y-16">
+        <StudioHubValueSection />
+
+        <p className="text-center">
+          <Link
+            href="/portfolio"
+            className="text-sm font-semibold text-brand-red hover:underline"
+          >
+            לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות) ←
+          </Link>
+        </p>
+
         <TrustStatsBar className="rounded-2xl border" />
 
         <StudioClientsStrip className="rounded-2xl border-x" />
@@ -164,8 +180,6 @@ export default function StudioHubPage() {
             })}
           </ul>
         </section>
-
-        <StudioHubValueSection />
 
         <ProductionCalculator className="py-0" />
 

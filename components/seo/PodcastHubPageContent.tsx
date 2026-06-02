@@ -514,9 +514,9 @@ export default function PodcastHubPageContent() {
                 הקלטה ביתית? אנחנו מנקים אותה
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                גם אם הקלטתם בזום, בחדר רועש, או בטלפון — כלי שיפור הקלטות
-                בבינה מלאכותית שלנו מסירים רעשי רקע, אקו ותהודה בלי לפגוע
-                בקול. שולחים קובץ ומקבלים גרסה מושלמת תוך 24 שעות.
+                גם אם הקלטתם בזום, בחדר רועש, בטלפון — או שיש לכם פודקאסט ישן,
+                הרצאה או קלטת ארכיון שרוצים לשפר: שיפור ושחזור סאונד ב-AI + עריכה
+                ידנית. שולחים קובץ ומקבלים גרסה משופרת תוך 24–48 שעות.
               </p>
             </header>
             <div className="mt-8">
@@ -535,12 +535,7 @@ export default function PodcastHubPageContent() {
           </section>
 
           {/* ── VIDEO & AUDIO SHOWCASE ─────────────────────────── */}
-          <ShowcaseVideoSection
-            heading="דוגמאות להקלטות פודקאסט מהאולפן"
-            subheading="הסרטון הראשון נטען מיד - שאר הדוגמאות בלחיצה"
-            videos={PODCAST_SHOWCASE_VIDEOS}
-            initialVisible={4}
-          />
+          <ShowcaseVideoSection playlistId="podcast-hub" />
 
           <PodcastSpotifySample />
 
@@ -734,6 +729,16 @@ export default function PodcastHubPageContent() {
               מדריך: הכנת קול
             </Link>
           </section>
+
+          <div className="rounded-xl border border-border bg-surface p-5">
+            <p className="font-semibold text-foreground">יש לכם פרק ישן או הקלטה פגומה?</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              שחזור סאונד בעזרת AI — מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
+              <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
+                שחזור סאונד ב-AI ←
+              </Link>
+            </p>
+          </div>
 
           <PageRelatedFooter pathname="/podcast" />
         </div>

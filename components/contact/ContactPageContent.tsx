@@ -23,7 +23,7 @@ import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-type ServiceKey = "studio" | "dj" | "voice" | "podcast" | "clip" | "other";
+type ServiceKey = "studio" | "dj" | "voice" | "podcast" | "clip" | "online" | "other";
 type TimingKey = "urgent" | "month" | "flexible" | "future";
 type BudgetKey = "minimal" | "standard" | "fullpower";
 
@@ -33,6 +33,7 @@ const SERVICE_LABELS: Record<ServiceKey, string> = {
   voice: "קריינות",
   podcast: "הקלטת פודקאסט",
   clip: "הפקת קליפ / וידאו",
+  online: "שירותים מקוונים / AI",
   other: "שירות אחר",
 };
 
@@ -79,6 +80,12 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
     "הקלטה / צילום",
     "עריכה וצבע",
     "מסירת קליפ מוכן",
+  ],
+  online: [
+    "שליחת קובץ לאבחון ראשוני (חינם)",
+    "בחירת שירות מתאים: שיפור קול, מיקס, תיקון זיופים או שדרוג תמונות",
+    "עיבוד AI + ליטוש ידני מקצועי",
+    "אספקת קובץ מוכן + השוואת לפני/אחרי",
   ],
   other: [
     "שיחת הבנה קצרה",
@@ -414,7 +421,9 @@ export default function ContactPageContent() {
                                     ? "🎵"
                                     : key === "clip"
                                       ? "🎬"
-                                      : "💡"
+                                      : key === "online"
+                                        ? "🤖"
+                                        : "💡"
                           }
                           label={SERVICE_LABELS[key]}
                         />

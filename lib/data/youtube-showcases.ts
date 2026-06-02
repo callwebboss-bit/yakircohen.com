@@ -16,8 +16,13 @@ export const STUDIO_HUB_FEATURED: ShowcaseVideo = {
 export const STUDIO_HUB_PORTFOLIO_NOTE =
   "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)";
 
-/** שלושה סרטוני ערך שמביאים אמון (בחירה מכוונת ל-SEO ו-UX) */
-export const STUDIO_HUB_VALUE_VIDEOS: readonly StudioValueVideo[] = [
+/** סדר התצוגה בעמוד /studio: תיק ראשי ואז סרטוני ערך */
+export const STUDIO_HUB_SHOWCASE_VIDEOS: readonly StudioValueVideo[] = [
+  {
+    videoId: STUDIO_HUB_FEATURED.videoId,
+    title: STUDIO_HUB_FEATURED.title,
+    description: STUDIO_HUB_PORTFOLIO_NOTE,
+  },
   {
     videoId: "q18Lu0MvXHo",
     title: "אירוח זמרים - פיצ'ר ושיתוף פעולה",
@@ -31,6 +36,9 @@ export const STUDIO_HUB_VALUE_VIDEOS: readonly StudioValueVideo[] = [
       "אפשרות לקידום פודקאסט, שיתוף והפצת השיר שלכם - כולל קליפ ושירה עם תיקוני AI ושיר מקורי בשעה. (הקלטה באולפן יובל המבולבל - לצחצוח שיניים)",
   },
 ] as const;
+
+/** סרטוני ערך בלבד (ללא תיק ראשי) */
+export const STUDIO_HUB_VALUE_VIDEOS = STUDIO_HUB_SHOWCASE_VIDEOS.slice(1);
 
 export const BAR_MITZVAH_BLESSING_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "wfTY8Bz2uE4", title: "ברכות והקלטות לבר/בת מצווה באולפן" },

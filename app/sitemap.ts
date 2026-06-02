@@ -31,6 +31,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Studio & Blessings ─────────────────────────────────────────────────────
   { url: url("studio"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("portfolio"), priority: 0.85, changeFrequency: "weekly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
@@ -118,6 +119,10 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Online & courses ─────────────────────────────────────────────────────────
   { url: url("online"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("online/audio-music"), priority: 0.72, changeFrequency: "monthly" },
+  { url: url("online/podcast-voice"), priority: 0.72, changeFrequency: "monthly" },
+  { url: url("online/video-content"), priority: 0.72, changeFrequency: "monthly" },
+  { url: url("online/image-design"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("online/vocal-fix"), priority: 0.75, changeFrequency: "monthly" },
   {
     url: url("online/vocal-fix/pitch-correction"),

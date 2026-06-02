@@ -14,14 +14,19 @@ const PremiumCrossfadePlayer = dynamic(
   },
 );
 
-export type AudioShowcaseVariant = "remote" | "vocal";
-export type AudioShowcaseContext = "page" | "wizard";
+export type AudioShowcaseVariant = "remote" | "vocal" | "restoration";
+export type AudioShowcaseContext = "page" | "wizard" | "compact";
 
 type Props = {
   variant: AudioShowcaseVariant;
   context?: AudioShowcaseContext;
   beforeSrc: string;
   afterSrc: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  storageKey?: string;
+  beforeNote?: string;
+  afterNote?: string;
 };
 
 const CONTENT = {
@@ -29,25 +34,42 @@ const CONTENT = {
     eyebrow: "שיפור סאונד מרחוק",
     beforeLabel: "הקלטה סלולרית",
     afterLabel: "אחרי עריכה",
-    figcaption: "השוואה בין הקלטה גולמית לבין גרסה מעובדת מקצועית.",
-    supportText: "הודעות קוליות רגילות הופכות להקלטה נקייה. 520 ש״ח לעד 5 דקות של שמע.",
+    supportText:
+      "הודעות קוליות, הקלטות מהטלפון או מזום - הופכות להקלטה נקייה ומקצועית.",
     ctaLabel: "שלחו לנו הודעה ונבדוק את ההקלטה שלכם.",
     waText: "שלום, קראתי על שיפור סאונד מרחוק ואשמח לבדוק את ההקלטה שלי.",
     waCampaign: "audio_showcase_remote",
-    jsonLdName: "הדגמת שיפור סאונד מרחוק — לפני ואחרי עריכה מקצועית",
-    jsonLdDesc: "השוואת שמע: הקלטה מסלולרית לפני עריכה, מולה הגרסה הסופית אחרי מיקס, מאסטרינג ודיוק.",
+    jsonLdName: "הדגמת שיפור סאונד מרחוק - לפני ואחרי עריכה מקצועית",
+    jsonLdDesc:
+      "השוואת שמע: הקלטה מסלולרית לפני עריכה, מול הגרסה הסופית אחרי מיקס, מאסטרינג ודיוק.",
   },
   vocal: {
     eyebrow: "הפקת שירה",
     tooltip: "חברו אוזניות כדי לשמוע את ההבדל",
     beforeLabel: "שירה גולמית",
     afterLabel: "אחרי דיוק והפקה",
-    figcaption: "השוואה בין שירה גולמית לבין גרסה מעובדת מקצועית.",
-    supportText: "הכוונה מקצועית באולפן ודיוק ווקאלי שמוציאים את המקסימום מכל קול.",
+    supportText:
+      "הכוונה מקצועית באולפן ודיוק ווקאלי שמוציאים את המקסימום מכל קול.",
     ctaLabel: "לפרטים על הקלטת שירה.",
     ctaHref: "/studio/recording-song-modiin",
-    jsonLdName: "הדגמת הפקת שירה — לפני ואחרי עריכה מקצועית",
-    jsonLdDesc: "השוואת שמע: שירה גולמית לפני עריכה, מולה הגרסה הסופית אחרי מיקס, מאסטרינג ודיוק ווקאלי.",
+    jsonLdName: "הדגמת הפקת שירה - לפני ואחרי עריכה מקצועית",
+    jsonLdDesc:
+      "השוואת שמע: שירה גולמית לפני עריכה, מול הגרסה הסופית אחרי מיקס, מאסטרינג ודיוק ווקאלי.",
+  },
+  restoration: {
+    eyebrow: "שחזור / שיפור הקלטות ישנות",
+    tooltip: "חברו אוזניות - דוגמה מהקלטה פגומה מאוד",
+    beforeLabel: "הקלטה פגומה (מקור)",
+    afterLabel: "אחרי שחזור מקצועי + AI",
+    supportText:
+      "פודקאסטים ישנים, הרצאות, קלטות VHS או cassette, הקלטות זום רועשות - דוגמה קיצונית. ככל שהמקור ברור יותר, התוצאה מדויקת יותר.",
+    ctaLabel: "שלחו קובץ לבדיקה בוואטסאפ - נגיד בכנות מה אפשר להציל.",
+    waText:
+      "שלום, שמעתי את דוגמת השחזור באתר - אשמח לשלוח הקלטה ישנה/פגומה לבדיקה.",
+    waCampaign: "audio_showcase_restoration",
+    jsonLdName: "הדגמת שחזור אודיו - לפני ואחרי עיבוד מקצועי",
+    jsonLdDesc:
+      "השוואת שמע: הקלטה פגומה או ישנה לפני שחזור, מול הגרסה המשופרת אחרי AI ועריכה ידנית. התוצאה תלויה באיכות המקור.",
   },
 } as const;
 
@@ -56,9 +78,17 @@ export default function AudioShowcase({
   context = "page",
   beforeSrc,
   afterSrc,
+  beforeLabel: beforeLabelOverride,
+  afterLabel: afterLabelOverride,
+  storageKey,
+  beforeNote,
+  afterNote,
 }: Props) {
   const c = CONTENT[variant];
-  const isPage = context === "page";
+  const beforeLabel = beforeLabelOverride ?? c.beforeLabel;
+  const afterLabel = afterLabelOverride ?? c.afterLabel;
+  const isFullPage = context === "page";
+  const isCompact = context === "compact";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -71,17 +101,25 @@ export default function AudioShowcase({
   };
 
   const waHref =
-    variant === "remote"
+    variant === "remote" || variant === "restoration"
       ? buildWhatsAppHref({
-          text: CONTENT.remote.waText,
+          text:
+            variant === "restoration"
+              ? CONTENT.restoration.waText
+              : CONTENT.remote.waText,
           utm_source: "website",
-          utm_campaign: CONTENT.remote.waCampaign,
+          utm_campaign:
+            variant === "restoration"
+              ? CONTENT.restoration.waCampaign
+              : CONTENT.remote.waCampaign,
         })
       : null;
 
+  const playerKey = storageKey ?? variant;
+
   return (
     <>
-      {isPage && (
+      {isFullPage && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -89,10 +127,16 @@ export default function AudioShowcase({
       )}
 
       <figure
-        className={isPage ? "space-y-4" : "max-w-sm space-y-3"}
+        className={
+          isFullPage
+            ? "space-y-4"
+            : isCompact
+              ? "max-w-lg space-y-2"
+              : "max-w-sm space-y-3"
+        }
         aria-label={c.jsonLdName}
       >
-        {isPage && (
+        {isFullPage && (
           <header className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
               {c.eyebrow}
@@ -106,28 +150,37 @@ export default function AudioShowcase({
         <PremiumCrossfadePlayer
           beforeSrc={beforeSrc}
           afterSrc={afterSrc}
-          beforeLabel={c.beforeLabel}
-          afterLabel={c.afterLabel}
-          storageKey={variant}
+          beforeLabel={beforeLabel}
+          afterLabel={afterLabel}
+          storageKey={playerKey}
         />
 
-        <figcaption className={isPage ? "space-y-2" : "sr-only"}>
+        {(beforeNote || afterNote) && (
+          <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+            {beforeNote ? <p>לפני: {beforeNote}</p> : null}
+            {afterNote ? <p>אחרי: {afterNote}</p> : null}
+          </div>
+        )}
+
+        <figcaption className={isFullPage ? "space-y-2" : "sr-only"}>
           <p className="text-sm leading-relaxed text-muted-foreground">
             {c.supportText}
           </p>
 
-          {isPage && variant === "remote" && waHref && (
+          {isFullPage && waHref && (
             <a
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-medium text-brand-red hover:underline"
             >
-              {CONTENT.remote.ctaLabel}
+              {variant === "restoration"
+                ? CONTENT.restoration.ctaLabel
+                : CONTENT.remote.ctaLabel}
             </a>
           )}
 
-          {isPage && variant === "vocal" && (
+          {isFullPage && variant === "vocal" && (
             <Link
               href={CONTENT.vocal.ctaHref}
               className="text-sm font-medium text-brand-red hover:underline"

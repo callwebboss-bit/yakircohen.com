@@ -47,6 +47,26 @@ export function buildVideoObjectGraph(videos: readonly VideoSchemaInput[]) {
   };
 }
 
+export function buildItemListSchema(
+  name: string,
+  items: readonly { videoId: string; name: string }[],
+) {
+  if (items.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: youtubeWatchUrl(item.videoId),
+    })),
+  };
+}
+
 export function buildFaqPageSchema(
   items: readonly { question: string; answer: string }[],
 ) {

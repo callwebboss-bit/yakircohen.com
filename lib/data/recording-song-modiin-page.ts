@@ -13,6 +13,8 @@ export type RecordingSongEquipmentItem = {
 export type RecordingSongExampleVideo = {
   videoId: string;
   title: string;
+  /** טקסט תומך מתחת לכותרת (אופציונלי) */
+  description?: string;
 };
 
 export const RECORDING_SONG_PROCESS_STEPS: readonly RecordingSongProcessStep[] = [

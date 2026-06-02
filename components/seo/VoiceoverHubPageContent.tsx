@@ -1,4 +1,5 @@
-﻿import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+﻿import ProcessSteps from "@/components/marketing/ProcessSteps";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -13,6 +14,7 @@ import {
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { VOICEOVER_HUB_VIDEOS } from "@/lib/data/youtube-showcases";
+import { VOICEOVER_HUB_STEPS } from "@/lib/data/voiceover-steps";
 
 const service = getVoiceoverService("voiceover-hub");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -29,18 +31,14 @@ export default function VoiceoverHubPageContent() {
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
-        <ShowcaseVideoSection
-          heading="דוגמאות קריינות מהאולפן"
-          subheading="פרסומות, תדמית ומסרים מותגיים - איכות שידורית"
-          videos={VOICEOVER_HUB_VIDEOS}
-          initialVisible={3}
-        />
+        <ShowcaseVideoSection playlistId="voiceover-hub" />
         <ServiceHubLinks
           heading="שירותי קריינות"
           subheading="בחרו מסלול מותאם או התחילו בייעוץ קצר בוואטסאפ."
           links={getVoiceoverHubLinks()}
           headingId="voiceover-tracks-heading"
         />
+        <ProcessSteps steps={VOICEOVER_HUB_STEPS} heading="איך הקריינות עובדת?" />
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
           playlistEmbedUrl={service.playlistEmbedUrl}

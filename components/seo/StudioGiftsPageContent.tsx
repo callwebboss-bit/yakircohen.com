@@ -275,12 +275,7 @@ export default function StudioGiftsPageContent() {
       </section>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <ShowcaseVideoSection
-          heading="דוגמאות מתנה מהאולפן"
-          subheading="קליפים ושירים שהוקלטו כמתנה - הסרטון הראשון נטען מיד"
-          videos={STUDIO_GIFTS_VIDEOS}
-          initialVisible={4}
-        />
+        <ShowcaseVideoSection playlistId="studio-gifts" />
       </section>
 
       <section className="border-t border-border bg-surface py-12">

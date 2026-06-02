@@ -12,6 +12,8 @@ export type RecordingSongExampleVideosProps = {
   videos: readonly RecordingSongExampleVideo[];
   /** How many videos show before "הצג עוד" (default from pricing.ts). */
   initialVisible?: number;
+  /** How many more videos load per click (default 6). */
+  expandBatch?: number;
   className?: string;
   /** טוען את הסרטון הראשון מיד (ברירת מחדל: לא - רק בלחיצה). */
   autoPlayFeatured?: boolean;
@@ -20,16 +22,14 @@ export type RecordingSongExampleVideosProps = {
 export default function RecordingSongExampleVideos({
   videos,
   initialVisible = VIDEO_EXAMPLES_INITIAL_VISIBLE,
+  expandBatch = 6,
   className,
   autoPlayFeatured: _autoPlayFeatured = false,
 }: RecordingSongExampleVideosProps) {
-  const [expanded, setExpanded] = useState(false);
-  const cap =
-    !expanded && videos.length > initialVisible
-      ? initialVisible
-      : videos.length;
+  const [visibleCount, setVisibleCount] = useState(initialVisible);
+  const cap = Math.min(visibleCount, videos.length);
   const visible = videos.slice(0, cap);
-  const remaining = videos.length - visible.length;
+  const remaining = videos.length - cap;
 
   if (videos.length === 0) return null;
 
@@ -46,9 +46,22 @@ export default function RecordingSongExampleVideos({
             <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
               <YouTube videoId={video.videoId} title={video.title} fillParent />
             </div>
-            <p className="mt-3 text-sm font-medium text-foreground">
+            <p className="mt-3 text-sm font-semibold text-foreground">
               {video.title}
             </p>
+            {video.description ? (
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                {video.description}
+              </p>
+            ) : null}
+            <a
+              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 text-xs font-medium text-brand-red hover:underline"
+            >
+              צפייה ב-YouTube
+            </a>
           </li>
         ))}
       </ul>
@@ -57,10 +70,15 @@ export default function RecordingSongExampleVideos({
         <div className="mt-8 flex justify-center">
           <button
             type="button"
-            onClick={() => setExpanded(true)}
+            onClick={() =>
+              setVisibleCount((c) => Math.min(c + expandBatch, videos.length))
+            }
             className="rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            הצג עוד {remaining} דוגמאות ({videos.length} בסך הכל)
+            הצג עוד {Math.min(expandBatch, remaining)} דוגמאות
+            {remaining > expandBatch
+              ? ` (עוד ${remaining - expandBatch} אחרי זה)`
+              : null}
           </button>
         </div>
       ) : null}

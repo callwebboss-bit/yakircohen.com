@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 
 const AI_SERVICES = [
   {
@@ -66,6 +67,26 @@ export default function OnlineAiPricingPageContent() {
             </tbody>
           </table>
         </div>
+
+        <section className="mt-12" aria-labelledby="ai-pricing-demo-heading">
+          <h2
+            id="ai-pricing-demo-heading"
+            className="text-lg font-semibold text-foreground"
+          >
+            דוגמת שחזור — הקלטה פגומה
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            רלוונטי לשחזור קול, הצלת הקלטות פגומות ועריכת פודקאסט. שחזור כזה
+            אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
+          </p>
+          <div className="mt-6 max-w-2xl">
+            <SoundImprovementShowcase
+              demoId="weber-restoration"
+              variant="restoration"
+              showDisclaimer
+            />
+          </div>
+        </section>
 
         <p className="mt-8 text-sm text-muted-foreground">
           לעריכה מלאה של פודקאסט ראו גם{" "}

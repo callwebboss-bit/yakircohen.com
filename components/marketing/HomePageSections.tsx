@@ -41,7 +41,7 @@ const HOME_FAQ: FAQItem[] = [
       <>
         שלחו לנו את הקובץ. אנחנו מנקים רעשים, מיישרים עוצמה, ומחזירים קול שאפשר
         להפיץ בגאווה דרך{" "}
-        <InlineServiceLink href="/podcast/podcast-editing">
+        <InlineServiceLink href="/podcast/podcast-editing#podcast-zoom-demo">
           שחזור סאונד ב-AI
         </InlineServiceLink>
         .
@@ -261,7 +261,7 @@ export default function HomePageSections({
             <ServiceCard
               title="שחזור סאונד ב-AI"
               description="הקלטה ישנה? ננקה, נחזק, נחזיר לחיים."
-              href="/podcast/podcast-editing"
+              href="/online"
               icon={<ServiceHubIcon><ZapIcon size={22} /></ServiceHubIcon>}
               isAiService
               badge="טכנולוגיית AI"

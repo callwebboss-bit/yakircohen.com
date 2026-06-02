@@ -1,4 +1,5 @@
-﻿import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+﻿import Link from "next/link";
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import BlessingsRelatedNav from "@/components/blessings/BlessingsRelatedNav";
 import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
@@ -57,12 +58,17 @@ export default function BlessingsBrideGroomPageContent() {
         <BlessingsProcessGrid steps={BRIDE_GROOM_PROCESS} />
       </section>
 
-      <ShowcaseVideoSection
-        kicker="דוגמה"
-        heading="דוגמת ברכת חתן וכלה"
-        subheading="הקלטה אינטימית באולפן עם עריכה מקצועית - לצפייה בלחיצה"
-        videos={BRIDE_GROOM_BLESSING_VIDEOS}
-      />
+      <ShowcaseVideoSection playlistId="blessings-bride-groom" />
+
+      <div className="rounded-xl border border-brand-red/20 bg-surface p-5">
+        <p className="font-semibold text-foreground">רוצים לשפר עוד יותר?</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          שיפור קול, ניקוי רעשים או הוספת מוזיקת רקע — שירות AI מקוון מהיר.{" "}
+          <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
+            שיפור קול מהנייד ←
+          </Link>
+        </p>
+      </div>
 
       <BlessingsRelatedNav links={RELATED_LINKS} />
     </ServicePageFromRegistry>

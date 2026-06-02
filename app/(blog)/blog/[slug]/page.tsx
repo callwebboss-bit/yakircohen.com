@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import CTABanner from "@/components/blog/CTABanner";
 import RelatedArticles from "@/components/blog/RelatedArticles";
 import SocialShare from "@/components/blog/SocialShare";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import {
   getAllBlogSlugs,
   getBlogPostBySlug,
@@ -159,6 +160,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 className="h-full w-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+              />
+            </div>
+          ) : null}
+
+          {post.audioDemoId ? (
+            <div className="mt-8">
+              <SoundImprovementShowcase
+                demoId={post.audioDemoId}
+                variant="restoration"
+                showDisclaimer
               />
             </div>
           ) : null}

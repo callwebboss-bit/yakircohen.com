@@ -14,6 +14,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import StudioGuideDownload from "@/components/booking/StudioGuideDownload";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -272,7 +273,7 @@ export default function StudioRecordingBooking({
               ? form.songPreference
                 ? sanitizeLeadText(form.songPreference, 80)
                 : "כן"
-              : "לא — נשמח לעזרה בבחירה",
+              : "לא - נשמח לעזרה בבחירה",
           },
         ]
       : []),
@@ -600,7 +601,7 @@ export default function StudioRecordingBooking({
                   <div className="flex gap-3">
                     {[
                       { value: true, label: "כן, יש לנו שיר" },
-                      { value: false, label: "לא — תעזרו לנו לבחור" },
+                      { value: false, label: "לא - תעזרו לנו לבחור" },
                     ].map(({ value, label }) => (
                       <button
                         key={String(value)}
@@ -667,7 +668,7 @@ export default function StudioRecordingBooking({
                   כמה אנשים מקליטים?
                 </h3>
                 <p className="mb-3 text-xs text-muted-foreground">
-                  כל משתתף נוסף דורש מיקרופון, סאונד-צ׳ק ועריכה נפרדת —{" "}
+                  כל משתתף נוסף דורש מיקרופון, סאונד-צ׳ק ועריכה נפרדת -{" "}
                   <span className="font-medium text-foreground">
                     {STUDIO_EXTRA_PARTICIPANT_PRICE.toLocaleString("he-IL")} ₪ לאדם
                   </span>
@@ -916,7 +917,7 @@ export default function StudioRecordingBooking({
                   className="flex w-full items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-start text-sm transition-colors hover:bg-green-100"
                 >
                   <span className="text-green-800">
-                    <span className="font-semibold">עוד ₪{gap.toLocaleString("he-IL")} — {next.name}</span>
+                    <span className="font-semibold">עוד ₪{gap.toLocaleString("he-IL")} - {next.name}</span>
                     {next.savings && (
                       <span className="block text-xs text-green-700">{next.savings}</span>
                     )}
@@ -927,6 +928,19 @@ export default function StudioRecordingBooking({
                 </button>
               );
             })()}
+
+            {!isConsultation && form.packageId === "remote" ? (
+              <div className="rounded-2xl border border-border bg-surface p-5">
+                <p className="mb-4 text-sm font-semibold text-foreground">
+                  שמעו - ניקוי מהטלפון / הקלטה פגומה
+                </p>
+                <SoundImprovementShowcase
+                  demoId="weber-restoration"
+                  variant="restoration"
+                  showDisclaimer
+                />
+              </div>
+            ) : null}
 
             <StepNav
               onBack={() => goToStep(0)}
@@ -1161,23 +1175,23 @@ export default function StudioRecordingBooking({
                         const dow = new Date(form.date).getDay();
                         if (dow === 6) return (
                           <p className="mt-1 text-xs font-medium text-red-500">
-                            ✗ שבת — האולפן סגור. בחרו תאריך אחר.
+                            ✗ שבת - האולפן סגור. בחרו תאריך אחר.
                           </p>
                         );
                         if (dow === 5) return (
                           <p className="mt-1 text-xs font-medium text-amber-600">
-                            ⚠️ שישי — שעות מצומצמות עד 14:00
+                            ⚠️ שישי - שעות מצומצמות עד 14:00
                           </p>
                         );
                         return (
                           <p className="mt-1 text-xs font-medium text-green-700">
-                            ✓ יום עסקים — פתוח 09:00–20:00
+                            ✓ יום עסקים - פתוח 09:00-20:00
                           </p>
                         );
                       })()}
                       {!form.date && (
                         <p className="mt-1 text-[0.65rem] text-muted-foreground">
-                          א׳–ה׳ 09:00–20:00 · שישי עד 14:00 · שבת סגור
+                          א-ה 09:00-20:00 · שישי עד 14:00 · שבת סגור
                         </p>
                       )}
                     </div>

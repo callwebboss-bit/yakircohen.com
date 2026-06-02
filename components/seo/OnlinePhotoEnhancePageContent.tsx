@@ -1,11 +1,12 @@
 import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import {
   PHOTO_ENHANCE_ADDONS,
   PHOTO_ENHANCE_AI_FEATURES,
   PHOTO_ENHANCE_COMPARE,
   PHOTO_ENHANCE_PACKAGES,
-  PHOTO_ENHANCE_STEPS,
+  PHOTO_ENHANCE_PROCESS_STEPS,
   PHOTO_ENHANCE_WHY_US,
 } from "@/lib/data/online-photo-enhance-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -166,17 +167,11 @@ export default function OnlinePhotoEnhancePageContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-        <h2 className="text-lg font-semibold text-foreground">איך זה עובד?</h2>
-        <ol className="mt-6 space-y-4">
-          {PHOTO_ENHANCE_STEPS.map((s) => (
-            <li key={s.step}>
-              <p className="font-medium text-foreground">{s.step}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <ProcessSteps
+        steps={PHOTO_ENHANCE_PROCESS_STEPS}
+        heading="איך זה עובד?"
+        subheading="תהליך העבודה"
+      />
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">

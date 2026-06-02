@@ -1,17 +1,19 @@
 import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import {
   MIXING_AUDIENCE,
   MIXING_EXTRAS,
   MIXING_INCLUDES,
   MIXING_PRICE_INCLUDED,
   MIXING_PROBLEMS,
-  MIXING_STEPS,
+  MIXING_PROCESS_STEPS,
   MIXING_WHY_US,
 } from "@/lib/data/online-mixing-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -232,6 +234,27 @@ export default function OnlineMixingPageContent() {
         </div>
       </section>
 
+      <section className="border-t border-border bg-background py-12">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2 className="text-xl font-semibold text-foreground">
+              ניקוי רעשים — דוגמה לפני/אחרי
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              לפני המיקס: הקלטות ישנות, רועשות או פגומות — שחזור קשה ותלוי במקור.
+            </p>
+          </header>
+          <div className="mx-auto mt-8 max-w-2xl">
+            <SoundImprovementShowcase
+              demoId="weber-restoration"
+              variant="restoration"
+              context="compact"
+              showDisclaimer
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-md px-4 py-14 sm:px-6">
         <div className="rounded-2xl border border-brand-red/30 bg-background p-8 text-center shadow-sm">
           <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
@@ -270,19 +293,11 @@ export default function OnlineMixingPageContent() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface py-12">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <h2 className="text-lg font-semibold text-foreground">איך זה עובד?</h2>
-          <ol className="mt-6 space-y-4">
-            {MIXING_STEPS.map((s) => (
-              <li key={s.step}>
-                <p className="font-medium text-foreground">{s.step}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <ProcessSteps
+        steps={MIXING_PROCESS_STEPS}
+        heading="איך זה עובד?"
+        subheading="תהליך העבודה"
+      />
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">למה לבחור בנו?</h2>

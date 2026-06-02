@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ProcessSteps from "@/components/marketing/ProcessSteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -22,6 +23,7 @@ import {
   CONTACT_PHONE_E164,
 } from "@/lib/constants";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { PHOTOGRAPHY_STEPS } from "@/lib/data/video-steps";
 
 const service = getPhotographyService("photography-wedding");
 
@@ -175,6 +177,8 @@ export default function WeddingPhotographyPageContent() {
             ))}
           </ul>
         </section>
+
+        <ProcessSteps steps={PHOTOGRAPHY_STEPS} heading="איך הצילום עובד?" />
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
