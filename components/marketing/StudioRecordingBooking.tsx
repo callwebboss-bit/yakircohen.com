@@ -228,8 +228,8 @@ export default function StudioRecordingBooking({
         };
       case "other":
         return {
-          beforeSrc: "/audio/dry-vocal-raw.mp3",
-          afterSrc: "/audio/full-production.mp3",
+          beforeSrc: "/audio/full-production.mp3",
+          afterSrc: "/audio/dry-vocal-raw.mp3",
           beforeLabel: "ווקאל יבש",
           afterLabel: "הפקה מלאה",
           beforeNote: "שירה בלי מוזיקה ובלי עיבוד",

@@ -1,6 +1,6 @@
 export const FULL_PRODUCTION_AUDIO = {
-  beforeSrc: "/audio/dry-vocal-raw.mp3",
-  afterSrc: "/audio/full-production.mp3",
+  beforeSrc: "/audio/full-production.mp3",
+  afterSrc: "/audio/dry-vocal-raw.mp3",
   beforeLabel: "שירה יבשה — בלי מוזיקה",
   afterLabel: "הפקה מלאה — תופים, בס והרמוניות",
 } as const;
