@@ -244,6 +244,20 @@ export default function OnlineVocalFixPageContent() {
           <ShareButton title="שיפור קול מהנייד | יקיר כהן הפקות" />
         </div>
       </section>
+
+      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8">
+        <Link
+          href="/blog/rescue-damaged-recording"
+          className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
+        >
+          <span className="mt-0.5 text-2xl" aria-hidden>📖</span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
+            <p className="mt-1 font-semibold text-foreground">הצלת הקלטה פגומה: מה אפשרי, מה לא ואיך מקבלים החלטה נכונה</p>
+            <p className="mt-1 text-sm text-muted-foreground">מדריך מקצועי לפני שמחליטים — לקריאה ←</p>
+          </div>
+        </Link>
+      </section>
     </div>
   );
 }

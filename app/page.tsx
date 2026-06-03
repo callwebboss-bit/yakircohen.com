@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import HomePageSections from "@/components/marketing/HomePageSections";
-import StudioWeeklyPulse from "@/components/marketing/StudioWeeklyPulse";
+import EphemeralPulse from "@/components/marketing/EphemeralPulse";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
   DEFAULT_OPEN_GRAPH,
@@ -50,7 +50,7 @@ export default function HomePage() {
         heroWhatsAppHref={heroWhatsAppHref}
         bottomWhatsAppHref={bottomWhatsAppHref}
       />
-      <StudioWeeklyPulse />
+      <EphemeralPulse />
     </>
   );
 }

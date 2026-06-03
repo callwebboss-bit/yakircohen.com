@@ -288,6 +288,17 @@ export default function PodcastEditingPageContent() {
             שירותי AI לסאונד
           </Link>
         </section>
+              <Link
+                href="/blog/podcast-needs-professional-editing"
+                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
+              >
+                <span className="mt-0.5 text-2xl" aria-hidden>📖</span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
+                  <p className="mt-1 font-semibold text-foreground">5 סימנים שהפרק שלכם צריך עריכה מקצועית — לא רק חיתוך</p>
+                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד — לקריאה ←</p>
+                </div>
+              </Link>
               <PageRelatedFooter pathname="/podcast/podcast-editing" />
 
             </div>

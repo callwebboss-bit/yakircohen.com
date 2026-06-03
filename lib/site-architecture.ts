@@ -192,6 +192,46 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "אולפן ביתי", href: "/academy/home-studio" },
     ],
   },
+  {
+    id: "online",
+    label: "שירותי AI",
+    href: "/online",
+    children: [
+      {
+        label: "מרכז שירותי AI",
+        href: "/online",
+        description: "כל שירותי הסאונד, וידאו ותמונה מרחוק",
+      },
+      {
+        label: "שיפור קול + שחזור הקלטות",
+        href: "/online/vocal-fix",
+        description: "ניקוי רעשים, הד, עיוותים — 250 ₪ עד 5 דק׳",
+      },
+      {
+        label: "מיקס ומאסטרינג",
+        href: "/online/vocal-fix/mixing",
+        description: "סאונד מסחרי מוכן לספוטיפיי ויוטיוב",
+      },
+      {
+        label: "תיקון זיופים",
+        href: "/online/vocal-fix/pitch-correction",
+        description: "Pitch Correction טבעי — לא אוטומטי",
+      },
+      {
+        label: "שדרוג תמונות AI",
+        href: "/online/vocal-fix/photo-enhance",
+        description: "הגדלה, חידוד ושיפור תמונות ישנות",
+      },
+      {
+        label: "תמחור שירותים",
+        href: "/online/online-ai-pricing",
+      },
+      {
+        label: "שליחת קבצים",
+        href: "/online/vocal-fix/send-file",
+      },
+    ],
+  },
 ];
 
 /** קישורים גלובליים (מחוץ לקטגוריות) */

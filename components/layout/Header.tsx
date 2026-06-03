@@ -9,6 +9,8 @@ import {
   SiteNavMobileDrawer,
   useSiteNavMenu,
 } from "@/components/layout/SiteNav";
+import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
+import TimeGreeting from "@/components/layout/TimeGreeting";
 import SiteSearch from "@/components/ui/SiteSearch";
 import { SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
 
@@ -77,6 +79,7 @@ export default function Header() {
                     className="h-full w-full object-contain"
                     priority
                   />
+                  <StudioLiveIndicator />
                 </span>
                 <span className="hidden min-w-0 flex-col sm:flex">
                   <span className="truncate text-base font-semibold tracking-tight sm:text-lg">
@@ -122,7 +125,14 @@ export default function Header() {
               </div>
             </div>
 
-            {/* ── Row 2: Desktop navigation bar ── */}
+            {/* ── Row 2: Desktop greeting bar ── */}
+            <div className="hidden border-t border-border/30 lg:block">
+              <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+                <TimeGreeting />
+              </div>
+            </div>
+
+            {/* ── Row 3: Desktop navigation bar ── */}
             <div className="hidden border-t border-border/50 lg:block">
               <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
                 <SiteNavDesktop />

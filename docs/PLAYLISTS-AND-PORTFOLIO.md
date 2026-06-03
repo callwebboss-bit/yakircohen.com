@@ -1,70 +1,61 @@
-# מה לשלוח: וידאו (YouTube) + תמונות (תיקיות)
+# תיק עבודות YouTube + חיבור לעמודי שירות
 
-## חשוב: "פלייליסט" באתר = קישור YouTube
+## איפה הדברים יושבים (מקורות)
 
-בקוד, `playlistEmbedUrl` הוא **הטמעת YouTube** (סרטון בודד או פלייליסט), לא Spotify.
+| קובץ | תפקיד |
+|------|--------|
+| `lib/data/video-catalog.generated.ts` | **מאגר מרכזי** — ~270+ סרטונים (נוצר אוטומטית) |
+| `scripts/import-portfolio.mjs` | ייבוא מקובץ `כותרת -> URL` לקטלוג |
+| `scripts/portfolio-tag-rules.mjs` | תיוג אוטומטי + שיוך לפלייליסטים |
+| `lib/data/video-playlists.ts` | הגדרת פלייליסטים לפי עמוד/שירות |
+| `lib/data/video-portfolio.ts` | שליפת סרטונים לפי `playlistId` |
+| `lib/data/youtube-embeds.ts` | ID בודד לכל מפתח שירות (hero / embed יחיד) |
+| `lib/data/services.ts` | `playlistEmbedUrl` לעמודי registry |
+| `lib/data/youtube-showcases.ts` | רשימות וידאו ידניות לעמודים ספציפיים |
+| `app/portfolio/page.tsx` | עמוד תיק עבודות מרכזי `/portfolio` |
 
-### פורמט לינקים לשליחה
+## זרימת עבודה מומלצת
 
-| סוג | דוגמה | מה נעשה בקוד |
-|-----|--------|----------------|
-| סרטון בודד | `https://www.youtube.com/watch?v=XUr2e5S4JSA` | נשים ב-`lib/data/youtube-embeds.ts` או ישירות בשירות |
-| פלייליסט | `https://www.youtube.com/playlist?list=PLxxxxxxxx` | נמיר ל-`https://www.youtube.com/embed/videoseries?list=PLxxxxxxxx` |
+1. **סרטונים חדשים בערוץ** — הוסף לקובץ מקור (ברירת מחדל: `d:\active_portfolio.txt`):
+   ```text
+   כותרת הסרטון -> https://www.youtube.com/watch?v=XXXXXXXXXXX
+   ```
+2. הרץ: `npm run import:portfolio` (או עם נתיב לקובץ).
+3. בדוק תיוגים ב-`lib/data/video-catalog.overrides.ts` אם צריך תיקון ידני.
+4. וידאו ראשי לעמוד שירות בודד — עדכן `youtube-embeds.ts` + `services.ts` אם צריך embed יחיד.
+5. וידאו לעמוד עם כמה דוגמאות — `youtube-showcases.ts` או `ShowcaseVideoSection` עם `playlistId`.
+6. בדיקת תקינות: `node scripts/check-youtube-ids.mjs` (325 IDs, 0 שבורים — נכון ליוני 2026).
 
-שלח לכל עמוד: **כתובת העמוד באתר** + **לינק YouTube** (אחד מספיק; אפשר כמה אם יש "דוגמאות").
+## עמודים עם `playlistEmbedUrl: null` (מכוון)
 
----
+| עמוד | סיבה |
+|------|------|
+| `/photography`, `/photography/wedding`, `/photography/events` | גלריית תמונות + וידאו ב-`youtube-showcases.ts` / `wedding-photography-page.ts` |
 
-## עמודים בלי וידאו YouTube כרגע (`playlistEmbedUrl: null`)
+## עמודים שכבר מחוברים (לא צריך לשלוח שוב)
 
-שלח לינק YouTube לכל שורה (או כתוב "דלג / אין וידאו"):
+רוב עמודי השירות (סטודיו, ברכות, פודקאסט, קריינות, אירועים, אטרקציות, וידאו) — יש `playlistEmbedUrl` או `ShowcaseVideoSection` עם `playlistId`.
 
-| עמוד באתר | מזהה שירות | הערה |
-|-----------|------------|------|
-| [/studio](https://yakircohen.com/studio) | סטודיו מרכז | אופציונלי — יש גלריית תמונות |
-| [/studio/mobile-studio](https://yakircohen.com/studio/mobile-studio) | אולפן נייד | |
-| [/studio/blessings/bar-mitzvah](https://yakircohen.com/studio/blessings/bar-mitzvah) | בר מצווה | |
-| [/studio/blessings/bride-groom-blessing](https://yakircohen.com/studio/blessings/bride-groom-blessing) | חתן וכלה | |
-| [/voiceover](https://yakircohen.com/voiceover) | קריינות מרכז | |
-| [/voiceover/services](https://yakircohen.com/voiceover/services) | שירותי קריינות | |
-| [/voiceover/course](https://yakircohen.com/voiceover/course) | קורס קריינות | |
-| [/events/equipment](https://yakircohen.com/events/equipment) | ציוד הגברה | |
-| [/events/equipment/singer-amplification](https://yakircohen.com/events/equipment/singer-amplification) | הגברת זמר | |
-| [/events/host](https://yakircohen.com/events/host) | מנחה אירועים | |
-| [/photography/events](https://yakircohen.com/photography/events) | צילום כנסים | משתמש בגלריית wedding |
+`/studio` — תיק עבודות דרך `StudioHubValueSection` + מאגר `studio-hub`.
 
-**Spotify:** כרגע אין שדה Spotify ב-registry. אם יש לינקי Spotify לקריינות/דמו — שלח בנפרד (נוסיף הטמעה ב-`LazyClickEmbed`).
+`/portfolio` — כל הפלייליסטים לפי נושא.
 
----
+## פורמט לינקים
 
-## תיקיות תמונות ריקות (העלאה ל-Dropbox / `public/images/services/`)
+| סוג | דוגמה |
+|-----|--------|
+| סרטון | `https://www.youtube.com/watch?v=...` |
+| פלייליסט | `https://www.youtube.com/playlist?list=PL...` → embed: `https://www.youtube.com/embed/videoseries?list=PL...` |
 
-שים קבצי **WebP או JPG**, 4–12 תמונות לתיקייה:
-
-| תיקייה | עמוד |
-|--------|------|
-| `events/dj-events/` | /events/dj-events |
-| `events/equipment/` | /events/equipment |
-| `events/equipment/singer-amplification/` | /events/equipment/singer-amplification |
-| `events/wedding-packages/` | /events/wedding-attractions-packages |
-| `video/photo-slideshow/` | /photo-slideshow |
-| `video/corporate-video/` | /video/corporate-video (אם ריק) |
-| `photography/events/` | אופציונלי — כרגע משתף `photography/wedding/` |
-
-**מומלץ להשלים (מעט תמונות):**
-
-- `studio/blessings/bride-groom-blessing/` (2 קיימות)
-- `dj-course/` (1 קיימת)
-
----
-
-## תבנית הודעה לשליחה אליי
+## תבנית שליחה (סרטונים חדשים)
 
 ```text
-/studio/mobile-studio
+/portfolio או /studio/recording-song-modiin
 YouTube: https://www.youtube.com/watch?v=...
-
-/events/dj-events
-תמונות: [אעלה לתיקייה events/dj-events]
-YouTube: https://www.youtube.com/playlist?list=...
+הערה: [אופציונלי — תיוג: bat-mitzvah / dj / podcast]
 ```
+
+## מה עדיין מחוץ לקוד
+
+- תיאור ערוץ YouTube, קישורי UTM בתיאורי סרטונים בערוץ
+- החלפת וידאו ספציפי באולפן נייד אם יש סרטון ייעודי יותר מ-`UECS5GpAck4`

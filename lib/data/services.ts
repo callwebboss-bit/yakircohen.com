@@ -455,8 +455,10 @@ export const STUDIO_SERVICES = {
       "אפשרות להוסיף צילום קליפ מקצועי",
     ],
     assetsFolder: "studio/hub",
-    playlistEmbedUrl: null,
-    mediaType: "none",
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["studio-mobile-studio"],
+    ),
+    mediaType: "video",
     whatsappText:
       "שלום, אשמח לקבל פרטים על אולפן הקלטות נייד  -  תאריך ומיקום",
     utmCampaign: "studio_mobile",

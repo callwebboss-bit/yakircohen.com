@@ -330,6 +330,20 @@ export default function OnlinePitchCorrectionPageContent() {
           <ShareButton title="תיקון זיופים | יקיר כהן הפקות" />
         </div>
       </section>
+
+      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8">
+        <Link
+          href="/blog/pitch-correction-vs-autotune"
+          className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
+        >
+          <span className="mt-0.5 text-2xl" aria-hidden>📖</span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
+            <p className="mt-1 font-semibold text-foreground">Pitch Correction לעומת Auto-Tune: מה ההבדל ומתי להשתמש בכל אחד</p>
+            <p className="mt-1 text-sm text-muted-foreground">המדריך המלא לתיקון זיופים טבעי — לקריאה ←</p>
+          </div>
+        </Link>
+      </section>
     </div>
   );
 }

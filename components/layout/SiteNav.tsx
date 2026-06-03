@@ -20,6 +20,7 @@ const NAV_ICONS: Record<string, string> = {
   video: "📹",
   photography: "📸",
   academy: "🎓",
+  online: "🤖",
 };
 
 function ChevronIcon({ open }: { open: boolean }) {

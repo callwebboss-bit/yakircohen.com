@@ -76,6 +76,8 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
 
   "studio-recording-studio": "UnBc2a3ve9w",
 
+  "studio-mobile-studio": "UECS5GpAck4",
+
   "studio-recording-group": "ne023hwMqH0",
 
   "studio-jerusalem": "jBa06DNRXw0",

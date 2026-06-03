@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
+import KoalendarModal from "@/components/booking/KoalendarModal";
 import { cn } from "@/lib/utils";
 
 const IDLE_PULSE_DELAY_MS = 60_000;
@@ -35,6 +36,7 @@ export default function BookingSummaryActions({
   className,
 }: BookingSummaryActionsProps) {
   const [pulsing, setPulsing] = useState(false);
+  const [koalendarOpen, setKoalendarOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const interacted = useRef(false);
 
@@ -129,6 +131,15 @@ export default function BookingSummaryActions({
         )
       ) : null}
 
+      {/* CONSULT — self-contained Koalendar modal trigger */}
+      <button
+        type="button"
+        onClick={() => setKoalendarOpen(true)}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+      >
+        קבע/י פגישת ייעוץ חינמי ←
+      </button>
+
       {/* TERTIARY — subtle link, pulses after 60s idle */}
       {consult15Min ? (
         <p className="text-center">
@@ -162,6 +173,8 @@ export default function BookingSummaryActions({
           )}
         </p>
       ) : null}
+
+      <KoalendarModal open={koalendarOpen} onClose={() => setKoalendarOpen(false)} />
     </div>
   );
 }
