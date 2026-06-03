@@ -156,9 +156,20 @@ export default function AudioShowcase({
         />
 
         {(beforeNote || afterNote) && (
-          <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground sm:grid-cols-2">
-            {beforeNote ? <p>לפני: {beforeNote}</p> : null}
-            {afterNote ? <p>אחרי: {afterNote}</p> : null}
+          <div
+            dir="ltr"
+            className="grid grid-cols-1 gap-2 text-xs text-muted-foreground sm:grid-cols-2"
+          >
+            {beforeNote ? (
+              <p dir="rtl">
+                לפני: {beforeNote}
+              </p>
+            ) : null}
+            {afterNote ? (
+              <p dir="rtl" className="sm:text-end">
+                אחרי: {afterNote}
+              </p>
+            ) : null}
           </div>
         )}
 

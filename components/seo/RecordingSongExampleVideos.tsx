@@ -7,6 +7,7 @@ import {
   VIDEO_WATCH_LABEL,
 } from "@/lib/data/pricing";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
+import { cn } from "@/lib/utils";
 
 export type RecordingSongExampleVideosProps = {
   videos: readonly RecordingSongExampleVideo[];
@@ -40,7 +41,14 @@ export default function RecordingSongExampleVideos({
         {visible.length > 1 ? " · לחצו לצפייה" : null}
       </p>
 
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul
+        className={cn(
+          "grid gap-6",
+          visible.length === 1
+            ? "mx-auto max-w-3xl grid-cols-1"
+            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+        )}
+      >
         {visible.map((video) => (
           <li key={video.videoId} className="flex flex-col">
             <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">

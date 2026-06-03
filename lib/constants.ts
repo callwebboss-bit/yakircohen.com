@@ -72,6 +72,7 @@ export const NAV_HUBS = [
 
 /** Footer-only links (not duplicated in header) */
 export const FOOTER_EXTRA_LINKS = [
+  { href: "/start", label: "מה קורה אחרי שפונים" },
   { href: "/about", label: "אודות" },
   { href: "/about/faq", label: "שאלות נפוצות" },
   { href: "/book", label: "הזמנה מקוונת" },

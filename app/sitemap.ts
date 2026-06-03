@@ -156,6 +156,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── About / Contact ────────────────────────────────────────────────────────
   { url: url("about"), priority: 0.6, changeFrequency: "monthly" },
   { url: url("about/faq"), priority: 0.6, changeFrequency: "monthly" },
+  { url: url("start"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("contact"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Business / social media ──────────────────────────────────────────────────

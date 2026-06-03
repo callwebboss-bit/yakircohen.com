@@ -55,23 +55,107 @@ export const PHOTO_ENHANCE_STEPS: readonly { step: string; body: string }[] = [
   },
 ] as const;
 
-export const PHOTO_ENHANCE_PACKAGES: readonly {
+export type PhotoEnhancePackage = {
+  id: string;
   count: string;
   price: string;
   perImage: string;
   premium?: boolean;
-}[] = [
-  { count: "תמונה בודדת", price: "50", perImage: "50 ₪ לתמונה" },
-  { count: "5 תמונות", price: "200", perImage: "40 ₪ לתמונה" },
-  { count: "10 תמונות", price: "350", perImage: "35 ₪ לתמונה", premium: true },
-  { count: "20 תמונות", price: "600", perImage: "30 ₪ לתמונה" },
+  ctaLabel: string;
+  whatsappMessage: string;
+  utmCampaign: string;
+};
+
+export type PhotoEnhanceAddon = {
+  id: string;
+  title: string;
+  price: string;
+  ctaLabel: string;
+  whatsappMessage: string;
+  utmCampaign: string;
+};
+
+export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
+  {
+    id: "single",
+    count: "תמונה בודדת",
+    price: "50",
+    perImage: "50 ₪ לתמונה",
+    ctaLabel: "הזמינו תמונה אחת ←",
+    whatsappMessage:
+      "היי יקיר! רוצה לשדרג תמונה אחת ב-AI (50 ₪). אשמח לשלוח לבדיקה.",
+    utmCampaign: "photo_enhance_pkg_single",
+  },
+  {
+    id: "5",
+    count: "5 תמונות",
+    price: "200",
+    perImage: "40 ₪ לתמונה",
+    ctaLabel: "הזמינו חבילת 5 ←",
+    whatsappMessage:
+      "היי יקיר! מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.",
+    utmCampaign: "photo_enhance_pkg_5",
+  },
+  {
+    id: "10",
+    count: "10 תמונות",
+    price: "350",
+    perImage: "35 ₪ לתמונה",
+    premium: true,
+    ctaLabel: "הזמינו חבילת 10 ←",
+    whatsappMessage:
+      "היי יקיר! מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).",
+    utmCampaign: "photo_enhance_pkg_10",
+  },
+  {
+    id: "20",
+    count: "20 תמונות",
+    price: "600",
+    perImage: "30 ₪ לתמונה",
+    ctaLabel: "הזמינו חבילת 20 ←",
+    whatsappMessage:
+      "היי יקיר! רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.",
+    utmCampaign: "photo_enhance_pkg_20",
+  },
 ] as const;
 
-export const PHOTO_ENHANCE_ADDONS: readonly string[] = [
-  "תיקון צבע ידני (אם ה-AI לא מספיק) - 50 ₪ נוספים",
-  "הסרת שריטות או כתמים - 50 ₪ נוספים",
-  "שיחזור חלקים חסרים - לפי בקשה",
-  "צביעת שחור-לבן (colorization) - שירות נפרד, 100 ₪ לתמונה",
+export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
+  {
+    id: "manual-color",
+    title: "תיקון צבע ידני (אם ה-AI לא מספיק)",
+    price: "50 ₪ נוספים",
+    ctaLabel: "בקשו תיקון צבע",
+    whatsappMessage:
+      "היי יקיר! רוצה תיקון צבע ידני לתמונה (תוספת 50 ₪). יש לי [כמה] תמונות.",
+    utmCampaign: "photo_enhance_addon_color",
+  },
+  {
+    id: "scratch-removal",
+    title: "הסרת שריטות או כתמים",
+    price: "50 ₪ נוספים",
+    ctaLabel: "בקשו הסרת פגמים",
+    whatsappMessage:
+      "היי יקיר! יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת 50 ₪)",
+    utmCampaign: "photo_enhance_addon_scratch",
+  },
+  {
+    id: "missing-parts",
+    title: "שיחזור חלקים חסרים",
+    price: "לפי בקשה",
+    ctaLabel: "בדקו אם אפשר",
+    whatsappMessage:
+      "היי יקיר! יש תמונה עם חלקים חסרים - אפשר לשחזר? אשמח לשלוח לבדיקה.",
+    utmCampaign: "photo_enhance_addon_restore",
+  },
+  {
+    id: "colorization",
+    title: "צביעת שחור-לבן (colorization)",
+    price: "100 ₪ לתמונה",
+    ctaLabel: "בקשו צביעה",
+    whatsappMessage:
+      "היי יקיר! רוצה לצבוע תמונת שחור-לבן (colorization, 100 ₪ לתמונה).",
+    utmCampaign: "photo_enhance_addon_bw",
+  },
 ] as const;
 
 export const PHOTO_ENHANCE_COMPARE: readonly {

@@ -1,6 +1,10 @@
 import Link from "next/link";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
+import AudioShowcase from "@/components/seo/AudioShowcase";
+import {
+  getAudioDemo,
+  SEVERE_RESTORATION_DISCLAIMER,
+} from "@/lib/data/audio-demos";
 
 const AI_SERVICES = [
   {
@@ -26,6 +30,8 @@ const AI_SERVICES = [
 ] as const;
 
 export default function OnlineAiPricingPageContent() {
+  const restorationDemo = getAudioDemo("weber-restoration");
+
   return (
     <ServicePageLayout
       title="מחירון שירותי AI מקוונים"
@@ -80,10 +86,27 @@ export default function OnlineAiPricingPageContent() {
             אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
           </p>
           <div className="mt-6 max-w-2xl">
-            <SoundImprovementShowcase
-              demoId="weber-restoration"
+            <div
+              className="mb-4 rounded-xl border border-amber-200/80 bg-amber-50/80 px-4 py-3 text-sm leading-relaxed text-foreground dark:border-amber-900/50 dark:bg-amber-950/30"
+              role="note"
+            >
+              <p className="font-medium text-amber-900 dark:text-amber-100">
+                חשוב לדעת לפני שמאזינים
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                {SEVERE_RESTORATION_DISCLAIMER}
+              </p>
+            </div>
+            <AudioShowcase
               variant="restoration"
-              showDisclaimer
+              context="page"
+              beforeSrc={restorationDemo.beforeSrc}
+              afterSrc={restorationDemo.afterSrc}
+              beforeLabel={restorationDemo.beforeLabel}
+              afterLabel={restorationDemo.afterLabel}
+              storageKey={restorationDemo.storageKey}
+              beforeNote={restorationDemo.beforeNote}
+              afterNote={restorationDemo.afterNote}
             />
           </div>
         </section>

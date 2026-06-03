@@ -1,4 +1,4 @@
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -9,7 +9,6 @@ import { getVoiceoverService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { VOICEOVER_COURSE_VIDEOS } from "@/lib/data/youtube-showcases";
-import { ACADEMY_COURSE_STEPS } from "@/lib/data/academy-steps";
 
 const service = getVoiceoverService("voiceover-course");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -38,7 +37,9 @@ export default function VoiceoverCoursePageContent() {
           galleryLabel="קורס קריינות"
           galleryLayout="masonry"
         />
-        <ProcessSteps steps={ACADEMY_COURSE_STEPS} heading="איך הקורס עובד?" />
+        <section className="py-4">
+          <JourneyStepsLink variant="studio" />
+        </section>
         {service.faqs.length > 0 ? (
           <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
         ) : null}

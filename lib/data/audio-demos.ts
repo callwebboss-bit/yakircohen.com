@@ -59,8 +59,8 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
   },
   {
     id: "podcast-zoom-cleanup",
-    beforeSrc: "/audio/podcast-clean-sample.mp3",
-    afterSrc: "/audio/podcast-raw-sample.mp3",
+    beforeSrc: "/audio/podcast-raw-sample.mp3",
+    afterSrc: "/audio/podcast-clean-sample.mp3",
     beforeLabel: "הקלטת זום גולמית",
     afterLabel: "אחרי ניקוי רעשים",
     beforeNote: "רעשי רקע, אקו ותהודה בחדר",
@@ -119,8 +119,8 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
   },
   {
     id: "full-production",
-    beforeSrc: "/audio/full-production.mp3",
-    afterSrc: "/audio/dry-vocal-raw.mp3",
+    beforeSrc: "/audio/dry-vocal-raw.mp3",
+    afterSrc: "/audio/full-production.mp3",
     beforeLabel: "ווקאל יבש",
     afterLabel: "הפקה מלאה",
     beforeNote: "שירה בלי מוזיקה ובלי עיבוד",

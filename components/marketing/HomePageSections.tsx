@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
 import HomeSocialProofSection from "@/components/marketing/HomeSocialProofSection";
-import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
-import ProcessSteps, { type ProcessStep } from "@/components/marketing/ProcessSteps";
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import ServiceCard from "@/components/marketing/ServiceCard";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import Testimonials from "@/components/marketing/Testimonials";
@@ -154,29 +154,6 @@ const VALUE_PROPS = [
     href: "/podcast",
   },
 ] as const;
-
-const HOME_PROCESS_STEPS: ProcessStep[] = [
-  {
-    number: 1,
-    title: "שיחה קצרה",
-    description: "מבינים מה אתם צריכים: אולפן, פודקאסט, אירוע או עריכה.",
-  },
-  {
-    number: 2,
-    title: "תיאום והקלטה",
-    description: "קובעים תאריך, מגיעים לאולפן או לאירוע, ומקליטים בנוחות.",
-  },
-  {
-    number: 3,
-    title: "עריכה וליטוש",
-    description: "מנקים רעשים, מאזנים עוצמה ומוסיפים מוזיקה לפי הצורך.",
-  },
-  {
-    number: 4,
-    title: "מסירה",
-    description: "מקבלים קובץ מוכן לשליחה, העלאה או שידור באירוע.",
-  },
-];
 
 function ServiceHubIcon({ children }: { children: ReactNode }) {
   return <span aria-hidden="true">{children}</span>;
@@ -329,12 +306,7 @@ export default function HomePageSections({
 
       <HomeSocialProofSection />
 
-      <ProcessSteps
-        steps={HOME_PROCESS_STEPS}
-        heading="איך מתחילים"
-        subheading="תהליך פשוט"
-        className="bg-surface"
-      />
+      <ClientJourneySteps variant="general" display="compact" className="bg-surface" />
 
       <section className="border-b border-border bg-surface pb-16 pt-2 sm:pb-20">
         <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">

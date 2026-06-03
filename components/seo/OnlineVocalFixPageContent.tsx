@@ -1,12 +1,11 @@
 import Link from "next/link";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   VOCAL_FIX_AUDIENCE,
   VOCAL_FIX_PRICE_INCLUDED,
   VOCAL_FIX_PROCESSING,
-  VOCAL_FIX_PROCESS_STEPS,
 } from "@/lib/data/online-vocal-fix-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
@@ -212,11 +211,9 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
-      <ProcessSteps
-        steps={VOCAL_FIX_PROCESS_STEPS}
-        heading="איך זה עובד?"
-        subheading="תהליך העבודה"
-      />
+      <section className="py-8">
+        <JourneyStepsLink variant="online" />
+      </section>
 
       <section className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">דיסקרטיות מוחלטת</h2>

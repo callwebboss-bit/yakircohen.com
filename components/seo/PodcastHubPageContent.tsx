@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import TableOfContents from "@/components/ui/TableOfContents";
@@ -27,7 +28,6 @@ import {
   PODCAST_HUB_STARTING_PRICE_NOTE,
   PODCAST_HUB_STUDIO_SPACES,
   PODCAST_HUB_TESTIMONIALS,
-  PODCAST_HUB_WORKFLOW,
 } from "@/lib/data/podcast-hub-page";
 import {
   youtubeEmbedUrl,
@@ -172,6 +172,8 @@ export default function PodcastHubPageContent() {
             </div>
           </aside>
 
+          <ClientJourneySteps variant="podcast" display="compact" />
+
           <TableOfContents entries={PODCAST_HUB_TOC} className="max-w-xs" />
 
           {/* ── C: VALUE PROPOSITION ───────────────────────────── */}
@@ -187,9 +189,8 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית — בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                אולפן הפודקאסט שלנו במודיעין משלב ציוד Shure &amp; Rode
-                מקצועי, בידוד אקוסטי מלא, ושיפור הקלטות בבינה מלאכותית —
-                כדי שכל פרק יצא מושלם, בלי שתצטרכו לדאוג לשום דבר טכני.
+                ציוד Shure &amp; Rode, בידוד אקוסטי, וניקוי AI - פרק מוכן תוך 24
+                שעות.
               </p>
             </header>
 
@@ -253,33 +254,6 @@ export default function PodcastHubPageContent() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Workflow */}
-            <div className="mt-12">
-              <h3 className="text-center text-xl font-semibold text-foreground">
-                תהליך הקלטת הפודקאסט — 5 שלבים פשוטים
-              </h3>
-              <ol className="mt-6 space-y-5">
-                {PODCAST_HUB_WORKFLOW.map((step) => (
-                  <li
-                    key={step.step}
-                    className="flex gap-5 rounded-2xl border border-border bg-surface p-6"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-sm font-bold text-brand-red">
-                      {step.step}
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground">
-                        {step.title}
-                      </h4>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {step.body}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
             </div>
           </section>
 

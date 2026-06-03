@@ -3,9 +3,7 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
-import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   BAT_MITZVAH_CLIP_TYPES,
   BAT_MITZVAH_PRODUCTION_STYLES,
@@ -59,8 +57,8 @@ export default function StudioGiftsPageContent() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
-          <nav aria-label="ניווט" className="mb-6">
+        <div className="relative mx-auto max-w-3xl px-4 py-10 text-center sm:px-6 sm:py-12 lg:px-8">
+          <nav aria-label="ניווט" className="mb-4">
             <ol className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
                 <Link href="/" className="hover:text-brand-red">
@@ -85,15 +83,19 @@ export default function StudioGiftsPageContent() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
             {SITE_NAME}
           </p>
-          <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+          <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
             מתנה מהאולפן שיוצאת דופן
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            לא חייבים להתחיל מסכום קבוע. שובר המתנה מאפשר לרכוש כל שירות שמופיע
-            אצלנו - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ, פודקאסט באולפן ועוד -
-            עם סימון ברור שמדובר במתנה למישהו שאתם אוהבים.
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            שובר מתנה לכל שירות באתר - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ
+            ועוד. המחיר לפי השירות שבחרתם, עם סימון ברור שמדובר במתנה.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
+            <li>✓ כל שירות באולפן - לא סכום קבוע</li>
+            <li>✓ וידאו ליד כל רעיון למטה</li>
+            <li>✓ המקבל/ת קובע/ת מתי לממש</li>
+          </ul>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={VOUCHER_CTA}
               target="_blank"
@@ -238,7 +240,11 @@ export default function StudioGiftsPageContent() {
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <BatMitzvahClipShowcase />
+          <BatMitzvahClipShowcase
+            showHeader={false}
+            showFeaturedVideo={false}
+            showMoreVideos={false}
+          />
 
           <div className="mt-12 space-y-8">
             {BAT_MITZVAH_CLIP_TYPES.map((type) => (
@@ -272,10 +278,6 @@ export default function StudioGiftsPageContent() {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <ShowcaseVideoSection playlistId="studio-gifts" />
       </section>
 
       <section className="border-t border-border bg-surface py-12">

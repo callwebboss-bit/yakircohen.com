@@ -23,7 +23,7 @@ export default function RecordingSongBeforeAfter() {
 
   return (
     <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div dir="ltr" className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {/* Before */}
         <div className="rounded-xl border border-border bg-background p-5">
           <div className="flex items-center gap-2">

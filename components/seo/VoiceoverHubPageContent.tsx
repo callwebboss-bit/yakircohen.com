@@ -1,4 +1,4 @@
-﻿import ProcessSteps from "@/components/marketing/ProcessSteps";
+﻿import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -14,7 +14,6 @@ import {
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { VOICEOVER_HUB_VIDEOS } from "@/lib/data/youtube-showcases";
-import { VOICEOVER_HUB_STEPS } from "@/lib/data/voiceover-steps";
 
 const service = getVoiceoverService("voiceover-hub");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -38,7 +37,7 @@ export default function VoiceoverHubPageContent() {
           links={getVoiceoverHubLinks()}
           headingId="voiceover-tracks-heading"
         />
-        <ProcessSteps steps={VOICEOVER_HUB_STEPS} heading="איך הקריינות עובדת?" />
+        <ClientJourneySteps variant="studio" display="compact" />
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
           playlistEmbedUrl={service.playlistEmbedUrl}

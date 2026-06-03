@@ -48,7 +48,7 @@ export default function CalculatorStickyBar({
   const showPrimary = showCta && hasTotal && !primaryDisabled;
 
   const greenClass = cn(
-    "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-white sm:w-auto sm:shrink-0 sm:px-5",
+    "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-white sm:w-auto sm:shrink-0 sm:px-5",
     "transition-colors hover:bg-[#1fba59] disabled:cursor-not-allowed disabled:opacity-50",
   );
 
@@ -81,7 +81,7 @@ export default function CalculatorStickyBar({
         </div>
 
         {dualMode && showPrimary ? (
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-row-reverse">
             {onContinueClick ? (
               <button
                 type="button"

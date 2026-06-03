@@ -1,4 +1,4 @@
-﻿import ProcessSteps from "@/components/marketing/ProcessSteps";
+﻿import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -8,7 +8,6 @@ import { getVoiceoverService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { VOICEOVER_SERVICES_VIDEOS } from "@/lib/data/youtube-showcases";
-import { VOICEOVER_HUB_STEPS } from "@/lib/data/voiceover-steps";
 
 const service = getVoiceoverService("voiceover-services");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -30,7 +29,9 @@ export default function VoiceoverServicesPageContent() {
           playlistId="voiceover-services"
           sectionId="voiceover-services-videos"
         />
-        <ProcessSteps steps={VOICEOVER_HUB_STEPS} heading="איך הקריינות עובדת?" />
+        <section className="py-4">
+          <JourneyStepsLink variant="studio" />
+        </section>
         {service.faqs.length > 0 ? (
           <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
         ) : null}

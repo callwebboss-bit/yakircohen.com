@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { CONTACT_PHONE_E164 } from "@/lib/constants";
+import { getMobileStickyCtaContext } from "@/lib/mobile-sticky-context";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/ui/Icons";
 import { cn } from "@/lib/utils";
@@ -21,10 +22,12 @@ export default function MobileStickyCta() {
     return null;
   }
 
+  const { text, utm_campaign } = getMobileStickyCtaContext(pathname);
+
   const whatsappHref = buildWhatsAppHref({
-    text: "שלום, אשמח לשמוע על השירותים ולקבל הצעת מחיר מותאמת.",
+    text,
     utm_source: "website",
-    utm_campaign: "mobile_sticky_bar",
+    utm_campaign,
   });
 
   return (
@@ -37,7 +40,7 @@ export default function MobileStickyCta() {
         <a
           href={`tel:${CONTACT_PHONE_E164}`}
           className={cn(
-            "inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-surface px-3 text-sm font-semibold text-foreground",
+            "inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-surface px-3 text-sm font-semibold text-foreground",
             "transition-colors hover:border-brand-red/40 hover:text-brand-red",
           )}
         >
@@ -48,7 +51,7 @@ export default function MobileStickyCta() {
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-brand-red px-3 text-sm font-semibold text-white",
+            "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-red px-3 text-sm font-semibold text-white",
             "transition-colors hover:bg-brand-red-light",
           )}
         >

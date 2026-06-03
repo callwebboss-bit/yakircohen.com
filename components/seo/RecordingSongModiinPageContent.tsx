@@ -493,7 +493,7 @@ export default function RecordingSongModiinPageContent() {
                 id="process-heading"
                 className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                מה כולל התהליך?
+                מה כולל העבודה?
               </h2>
             </header>
             <ol className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

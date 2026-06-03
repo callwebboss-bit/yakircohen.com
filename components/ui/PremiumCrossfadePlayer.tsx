@@ -179,18 +179,19 @@ export default function PremiumCrossfadePlayer({
   return (
     <div
       ref={containerRef}
+      dir="ltr"
       className="min-h-[160px] space-y-5 rounded-2xl border border-border bg-surface p-6 sm:p-8"
       style={{ "--sp": "50%" } as React.CSSProperties}
       onPointerEnter={triggerLoad}
       onTouchStart={triggerLoad}
     >
-      {/* Channel labels */}
+      {/* Physical left=before, right=after — matches slider clientX math */}
       <div className="flex items-start justify-between gap-4">
-        <div className="flex min-w-0 flex-col items-start gap-1">
+        <div className="flex min-w-0 flex-col items-start gap-1 text-start">
           <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
             לפני
           </span>
-          <span className="text-xs font-medium leading-snug text-foreground">
+          <span dir="rtl" className="text-xs font-medium leading-snug text-foreground">
             {beforeLabel}
           </span>
         </div>
@@ -198,7 +199,7 @@ export default function PremiumCrossfadePlayer({
           <span className="rounded-full bg-brand-red/10 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red">
             אחרי
           </span>
-          <span className="text-xs font-medium leading-snug text-foreground">
+          <span dir="rtl" className="text-xs font-medium leading-snug text-foreground">
             {afterLabel}
           </span>
         </div>

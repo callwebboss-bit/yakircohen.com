@@ -2,12 +2,11 @@ import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   PITCH_AUDIENCE,
   PITCH_MANUAL_METHOD,
   PITCH_PRICE_INCLUDED,
-  PITCH_PROCESS_STEPS,
   PITCH_STUDIO_EXPERIENCE,
   PITCH_WHO_FOR,
 } from "@/lib/data/online-pitch-correction-page";
@@ -202,7 +201,7 @@ export default function OnlinePitchCorrectionPageContent() {
               שמעו את ההבדל בעצמכם
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              אותו קטע שירה — לפני ואחרי עריכה ידנית של תיקון זיופים.
+              אותו קטע שירה - לפני ואחרי עריכה ידנית של תיקון זיופים.
             </p>
           </header>
           <div className="mx-auto mt-8 max-w-2xl">
@@ -239,11 +238,9 @@ export default function OnlinePitchCorrectionPageContent() {
         </div>
       </section>
 
-      <ProcessSteps
-        steps={PITCH_PROCESS_STEPS}
-        heading="איך זה עובד?"
-        subheading="תהליך העבודה"
-      />
+      <section className="py-8">
+        <JourneyStepsLink variant="online" />
+      </section>
 
       <section className="mx-auto max-w-2xl border-t border-border px-4 py-12 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">
@@ -274,12 +271,14 @@ export default function OnlinePitchCorrectionPageContent() {
       </section>
 
       {/* Video Tutorial */}
-      <ShowcaseVideoSection
-        kicker="הדרכת וידאו"
-        heading="תיקון זיופים מא׳ עד ת׳"
-        subheading="צפו בתהליך השלם — מקובץ גולמי ועד גרסה מלוטשת"
-        videos={[{ videoId: "aTGqFnijz0Q", title: "הדרכת תיקון זיופים — Pitch Correction" }]}
-      />
+      <div className="border-t border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
+        <ShowcaseVideoSection
+          kicker="הדרכת וידאו"
+          heading="תיקון זיופים מא׳ עד ת׳"
+          subheading="צפו בתהליך השלם - מקובץ גולמי ועד גרסה מלוטשת"
+          videos={[{ videoId: "aTGqFnijz0Q", title: "הדרכת תיקון זיופים - Pitch Correction" }]}
+        />
+      </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <h2 className="mb-6 text-xl font-semibold text-foreground">שאלות נפוצות</h2>
@@ -340,7 +339,7 @@ export default function OnlinePitchCorrectionPageContent() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
             <p className="mt-1 font-semibold text-foreground">Pitch Correction לעומת Auto-Tune: מה ההבדל ומתי להשתמש בכל אחד</p>
-            <p className="mt-1 text-sm text-muted-foreground">המדריך המלא לתיקון זיופים טבעי — לקריאה ←</p>
+            <p className="mt-1 text-sm text-muted-foreground">המדריך המלא לתיקון זיופים טבעי - לקריאה ←</p>
           </div>
         </Link>
       </section>

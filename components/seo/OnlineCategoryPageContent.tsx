@@ -2,12 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import {
   getOnlineCategoryBySlug,
-  ONLINE_HOW_IT_WORKS,
   ONLINE_SERVICE_CATEGORIES,
   ONLINE_WHY_US,
 } from "@/lib/data/online-page";
@@ -203,11 +202,9 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
         ) : null}
       </section>
 
-      <ProcessSteps
-        steps={ONLINE_HOW_IT_WORKS}
-        heading="איך זה עובד?"
-        subheading="תהליך העבודה שלנו"
-      />
+      <section className="py-8">
+        <JourneyStepsLink variant="online" />
+      </section>
 
       {relatedCategories.length > 0 ? (
         <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">

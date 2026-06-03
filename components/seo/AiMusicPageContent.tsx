@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
 import {
   AI_MUSIC_GUIDED_SERVICES,
@@ -8,7 +8,6 @@ import {
 } from "@/lib/data/academy-ai-music-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
-import { ACADEMY_COURSE_STEPS } from "@/lib/data/academy-steps";
 import ShareButton from "@/components/ui/ShareButton";
 
 export default function AiMusicPageContent() {
@@ -192,7 +191,9 @@ export default function AiMusicPageContent() {
       </section>
 
       <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">
-        <ProcessSteps steps={ACADEMY_COURSE_STEPS} heading="איך הקורס עובד?" />
+        <section className="py-4">
+          <JourneyStepsLink variant="studio" />
+        </section>
       </section>
 
       <section className="border-t border-border bg-surface py-16 text-center sm:py-20">

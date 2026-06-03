@@ -151,7 +151,7 @@ export default function DjCoursePage() {
                   src={DJ_COURSE_HERO_IMAGE_SRC}
                   alt="קורס DJ"
                   fill
-                  className="object-cover object-center"
+                  className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 48rem"
                   priority
                 />

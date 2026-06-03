@@ -3,6 +3,19 @@ import type { PortfolioVideo } from "./video-catalog";
 
 export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
   {
+    "videoId": "P425XNK7z5M",
+    "title": "כותבים ראפ באולפן - Flow, Bars ובנייה מאפס",
+    "youtubeUrl": "https://www.youtube.com/shorts/P425XNK7z5M",
+    "tags": [
+      "studio-recording"
+    ],
+    "services": [
+      "recording-studio",
+      "recording-song-modiin",
+      "studio-hub"
+    ]
+  },
+  {
     "videoId": "XiiOcx8doz0",
     "title": "פודקאסט מרפסת: יקיר כהן ומאור קמחי בודקים - האם מאור מגדלור הוא הדבר הבא? (אורח הכבוד יקיר איזמירלי)",
     "youtubeUrl": "https://www.youtube.com/watch?v=XiiOcx8doz0",

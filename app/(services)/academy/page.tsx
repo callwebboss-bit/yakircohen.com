@@ -67,29 +67,6 @@ const COURSE_CARDS = [
   },
 ] as const;
 
-const STUDIO_FEATURES = [
-  {
-    icon: "🏠",
-    title: "Floating Room",
-    body: "חלל הקלטה צף ומבודד אקוסטית. סאונד נקי, עמוק ומדויק ללא פשרות.",
-  },
-  {
-    icon: "⚡",
-    title: "מסירה תוך 24-48 שעות",
-    body: "תהליך עבודה יעיל ומקצועי. לא מורחים זמן.",
-  },
-  {
-    icon: "🎙️",
-    title: "AI Tuning",
-    body: "תיקון זיופים ודיוק ווקאלי בטכנולוגיית AI מתקדמת. תוצאה טבעית ומושלמת.",
-  },
-  {
-    icon: "🎤",
-    title: "Sphere L22 by Townsend Labs",
-    body: "המיקרופון שמדמה עשרות דגמי וינטג' נדירים. הכי טוב שיש, בסשן אחד.",
-  },
-] as const;
-
 const ACADEMY_TRACKS = [
   {
     id: "sound-lab",
@@ -202,13 +179,6 @@ const NOT_FOR_LIST = [
   "מי שאין לו סבלנות לתהליך למידה אמיתי",
   "מי שמצפה שמישהו יעשה את העבודה במקומו",
   "מי שלא מוכן להגיע למודיעין למפגשים",
-] as const;
-
-const SESSION_STEPS = [
-  { time: "0-10 דק'", icon: "☕", title: "Check-in", desc: "סטטוס, שאלות, מה השתנה מאז" },
-  { time: "10-40 דק'", icon: "🎛️", title: "עבודה טכנית", desc: "ידיים על הציוד, תרגול ממוקד" },
-  { time: "40-55 דק'", icon: "🎤", title: "ביצוע חי", desc: "הקלטה / מיקס / סט, יישום מיידי" },
-  { time: "55-60 דק'", icon: "📝", title: "סיכום + משימות", desc: "שיעורי בית לפני המפגש הבא" },
 ] as const;
 
 const FINE_PRINT = [
@@ -333,33 +303,6 @@ export default function AcademyPage() {
       </section>
 
       <PrivateSessionPricing />
-
-      {/* ── Studio features ── */}
-      <section className="border-y border-border bg-surface py-12 sm:py-14">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-            האולפן שלנו
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {STUDIO_FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-2xl border border-border bg-background p-5"
-              >
-                <span className="text-2xl" aria-hidden="true">
-                  {f.icon}
-                </span>
-                <h3 className="mt-2 text-sm font-semibold text-foreground">
-                  {f.title}
-                </h3>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  {f.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Academy tracks ── */}
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
@@ -539,34 +482,6 @@ export default function AcademyPage() {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      {/* ── Session structure ── */}
-      <section className="border-t border-border bg-surface py-12 sm:py-14">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-8 text-center text-xl font-semibold text-foreground">
-            מה קורה במפגש טיפוסי?
-          </h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {SESSION_STEPS.map((step) => (
-              <div
-                key={step.title}
-                className="rounded-2xl border border-border bg-background p-5 text-center"
-              >
-                <p className="text-xs font-semibold text-brand-red">
-                  {step.time}
-                </p>
-                <span className="mt-2 block text-2xl" aria-hidden="true">
-                  {step.icon}
-                </span>
-                <p className="mt-1 text-sm font-semibold text-foreground">
-                  {step.title}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">{step.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

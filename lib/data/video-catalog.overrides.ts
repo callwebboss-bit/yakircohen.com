@@ -21,6 +21,7 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "K8c9xAHWN-g",
   ],
   "recording-studio": [
+    "P425XNK7z5M",
     "J2i9mmBZrig",
     "UnBc2a3ve9w",
     "0XXeBgOm4XA",
@@ -71,6 +72,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
 
 /** Short descriptions for hero picks (optional) */
 export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
+  P425XNK7z5M:
+    "כותבים ראפ מאפס באולפן - Flow, Bars ובניית שיר עם דניאל עוז. לשיר המלא — חפשו דניאל עוז.",
   XUr2e5S4JSA:
     "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)",
   "8i4K2f5gQfM": "הקלטת שיר לחתונה - קאבר עם הפקה מותאמת אישית",

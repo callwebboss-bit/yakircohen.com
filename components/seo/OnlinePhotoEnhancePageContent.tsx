@@ -1,12 +1,11 @@
 import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   PHOTO_ENHANCE_ADDONS,
   PHOTO_ENHANCE_AI_FEATURES,
   PHOTO_ENHANCE_COMPARE,
   PHOTO_ENHANCE_PACKAGES,
-  PHOTO_ENHANCE_PROCESS_STEPS,
   PHOTO_ENHANCE_WHY_US,
 } from "@/lib/data/online-photo-enhance-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -167,11 +166,9 @@ export default function OnlinePhotoEnhancePageContent() {
         </div>
       </section>
 
-      <ProcessSteps
-        steps={PHOTO_ENHANCE_PROCESS_STEPS}
-        heading="איך זה עובד?"
-        subheading="תהליך העבודה"
-      />
+      <section className="py-8">
+        <JourneyStepsLink variant="online" />
+      </section>
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
@@ -179,10 +176,17 @@ export default function OnlinePhotoEnhancePageContent() {
             כמה זה עולה?
           </h2>
           <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {PHOTO_ENHANCE_PACKAGES.map((pkg) => (
+            {PHOTO_ENHANCE_PACKAGES.map((pkg) => {
+              const pkgHref = buildWhatsAppHref({
+                text: pkg.whatsappMessage,
+                utm_source: "online",
+                utm_campaign: pkg.utmCampaign,
+              });
+
+              return (
               <div
-                key={pkg.count}
-                className={`rounded-2xl border p-6 text-center ${
+                key={pkg.id}
+                className={`flex flex-col rounded-2xl border p-6 text-center ${
                   pkg.premium
                     ? "border-brand-red/40 bg-background shadow-[0_4px_24px_rgba(212,43,43,0.08)]"
                     : "border-border bg-background"
@@ -200,8 +204,21 @@ export default function OnlinePhotoEnhancePageContent() {
                 <p className="mt-1 text-xs text-muted-foreground">
                   {pkg.perImage}
                 </p>
+                <a
+                  href={pkgHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`mt-5 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
+                    pkg.premium
+                      ? "bg-brand-red text-white hover:bg-brand-red-light"
+                      : "border border-brand-red/40 text-brand-red hover:bg-brand-red/5"
+                  }`}
+                >
+                  {pkg.ctaLabel}
+                </a>
               </div>
-            ))}
+              );
+            })}
           </div>
           <p className="mx-auto mt-6 max-w-xl text-center text-sm text-muted-foreground">
             כולל: שדרוג מלא ב-AI - הגדלת רזולוציה, חדות, צבעים והסרת רעשים.
@@ -213,12 +230,38 @@ export default function OnlinePhotoEnhancePageContent() {
           <h3 className="mx-auto mt-8 max-w-xl text-sm font-semibold text-foreground">
             תוספות
           </h3>
-          <ul className="mx-auto mt-3 max-w-xl space-y-2">
-            {PHOTO_ENHANCE_ADDONS.map((item) => (
-              <li key={item} className="text-sm text-muted-foreground">
-                • {item}
-              </li>
-            ))}
+          <ul className="mx-auto mt-3 max-w-xl space-y-3">
+            {PHOTO_ENHANCE_ADDONS.map((addon) => {
+              const addonHref = buildWhatsAppHref({
+                text: addon.whatsappMessage,
+                utm_source: "online",
+                utm_campaign: addon.utmCampaign,
+              });
+
+              return (
+                <li
+                  key={addon.id}
+                  className="flex flex-col gap-3 rounded-xl border border-border bg-background px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="min-w-0 text-start">
+                    <p className="text-sm font-medium text-foreground">
+                      {addon.title}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {addon.price}
+                    </p>
+                  </div>
+                  <a
+                    href={addonHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex shrink-0 items-center justify-center rounded-lg border border-brand-red/40 px-4 py-2 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red/5 sm:min-w-[9.5rem]"
+                  >
+                    {addon.ctaLabel}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>

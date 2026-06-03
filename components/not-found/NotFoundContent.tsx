@@ -152,10 +152,10 @@ export default function NotFoundContent() {
         <p className="inline-block rounded-full border border-brand-red px-4 py-1 text-xs font-bold tracking-[0.25em] text-brand-red uppercase">
           שגיאה 404
         </p>
-        <h1 className="mt-8 font-serif text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
-          הקצב
+        <h1 className="mt-8 font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          לא מצאנו את העמוד
           <br />
-          השתנה<span className="text-brand-red">.</span>
+          אבל נוכל לעזור<span className="text-brand-red">.</span>
         </h1>
 
         {seasonal ? (
@@ -169,17 +169,31 @@ export default function NotFoundContent() {
         ) : null}
 
         <p className="mx-auto mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-          לפעמים הטעות היא ההתחלה של משהו יפה.
-          <br />
-          בואו נמצא את הדף הנכון או נתחיל שיחה חדשה.
+          חפשו שירות למטה, או התחילו מ
+          <Link href="/start" className="font-semibold text-brand-red hover:underline">
+            {" "}מפת השלבים
+          </Link>
+          .
         </p>
 
-        <Link
-          href="/studio/blessings/bride-groom-blessing"
-          className="mt-8 inline-flex items-center gap-2 rounded-md bg-brand-red px-8 py-3.5 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(212,43,43,0.25)] transition-colors hover:bg-brand-red-light"
-        >
-          מחפשים שיר לחופה? למאגר המלא
-        </Link>
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              document.querySelector<HTMLInputElement>('input[type="search"]')?.focus();
+              document.querySelector<HTMLInputElement>('input[type="search"]')?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="inline-flex items-center gap-2 rounded-md bg-brand-red px-8 py-3.5 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(212,43,43,0.25)] transition-colors hover:bg-brand-red-light"
+          >
+            מצאו שירות
+          </button>
+          <Link
+            href="/start"
+            className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
+          >
+            מה קורה אחרי שפונים
+          </Link>
+        </div>
       </section>
 
       <section className="mx-auto max-w-2xl px-4 pb-12">

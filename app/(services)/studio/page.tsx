@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
@@ -104,6 +105,8 @@ export default function StudioHubPage() {
     >
       <div className="space-y-16">
         <StudioHubValueSection />
+
+        <ClientJourneySteps variant="studio" display="compact" />
 
         <p className="text-center">
           <Link

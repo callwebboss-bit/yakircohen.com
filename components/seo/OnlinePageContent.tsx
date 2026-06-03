@@ -1,10 +1,9 @@
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
 import {
   ONLINE_FEATURED_SERVICES,
-  ONLINE_HOW_IT_WORKS,
   ONLINE_QUICK_LINKS,
   ONLINE_SERVICE_CATEGORIES,
   ONLINE_WHY_US,
@@ -38,12 +37,8 @@ export default function OnlinePageContent() {
             האולפן מגיע אליכם: שירותי סאונד, תוכן והפקה מקצועיים מרחוק
           </h2>
           <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            חוסכים זמן, מדלגים על הפקקים ומקבלים תוצאה ברמת שידור ישירות למייל או
-            לוואטסאפ. אנחנו בוחרים את ה-AI המתאים, מפעילים, בודקים, מתקנים ומגישים
-            לכם תוצר מוכן.
-          </p>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
-            אתם שולחים חומר גלם או רעיון. אנחנו מחזירים תוצאה מדויקת שעובדת בשטח.
+            שולחים קובץ או רעיון. מקבלים תוצאה מוכנה למייל או לוואטסאפ - סאונד,
+            תמונה או תוכן.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
@@ -151,11 +146,7 @@ export default function OnlinePageContent() {
         </div>
       </section>
 
-      <ProcessSteps
-        steps={ONLINE_HOW_IT_WORKS}
-        heading="איך זה עובד? פשוט ויעיל"
-        subheading="תהליך העבודה שלנו"
-      />
+      <ClientJourneySteps variant="online" display="compact" />
 
       <section className="border-y border-border bg-surface py-14 sm:py-16">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
@@ -163,8 +154,11 @@ export default function OnlinePageContent() {
             מאגר שירותי AI אונליין - לפי קטגוריות
           </h2>
           <p className="mb-8 max-w-3xl text-sm text-muted-foreground">
-            עמודי משנה נוספים ימשיכו להתרחב. כרגע אפשר להתחיל מכל שירות כאן, ואם
-            צריך התאמה מיוחדת - בונים מסלול מותאם אישית לפרויקט.
+            בחרו שירות והתחילו. לפרטים מלאים -{" "}
+            <Link href="/start#online" className="font-medium text-brand-red hover:underline">
+              מפת השלבים
+            </Link>
+            .
           </p>
           <div className="space-y-8">
             {ONLINE_SERVICE_CATEGORIES.map((category) => (

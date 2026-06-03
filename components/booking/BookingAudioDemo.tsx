@@ -64,7 +64,7 @@ export default function BookingAudioDemo({
       <p className="mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
         שמעו את ההבדל
       </p>
-      <div className="grid grid-cols-2 gap-3">
+      <div dir="ltr" className="grid grid-cols-2 gap-3">
         {[
           {
             label: beforeLabel,

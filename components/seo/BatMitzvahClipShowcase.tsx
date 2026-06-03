@@ -20,6 +20,8 @@ export type BatMitzvahClipShowcaseProps = {
   showGallery?: boolean;
   /** הצג סרטונים נוספים מלבד הראשי */
   showMoreVideos?: boolean;
+  /** סרטון ראשי גדול — ברירת מחדל: כן */
+  showFeaturedVideo?: boolean;
   /** FAQ items for structured data */
   faqItems?: readonly { question: string; answer: string }[];
 };
@@ -30,6 +32,7 @@ export default function BatMitzvahClipShowcase({
   showHeader = true,
   showGallery = true,
   showMoreVideos = true,
+  showFeaturedVideo = true,
   faqItems,
 }: BatMitzvahClipShowcaseProps) {
   const featured = BAT_MITZVAH_CLIP_VIDEOS[0];
@@ -74,20 +77,22 @@ export default function BatMitzvahClipShowcase({
         </header>
       ) : null}
 
-      <div className="mx-auto max-w-3xl">
-        <div className="aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
-          <YouTube
-            videoId={featured?.videoId ?? BAT_MITZVAH_FEATURED_VIDEO_ID}
-            title={featured?.title ?? heading}
-            fillParent
-          />
+      {showFeaturedVideo ? (
+        <div className="mx-auto max-w-3xl">
+          <div className="aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
+            <YouTube
+              videoId={featured?.videoId ?? BAT_MITZVAH_FEATURED_VIDEO_ID}
+              title={featured?.title ?? heading}
+              fillParent
+            />
+          </div>
+          {featured?.title ? (
+            <p className="mt-4 text-center text-sm font-medium text-foreground">
+              {featured.title}
+            </p>
+          ) : null}
         </div>
-        {featured?.title ? (
-          <p className="mt-4 text-center text-sm font-medium text-foreground">
-            {featured.title}
-          </p>
-        ) : null}
-      </div>
+      ) : null}
 
       {showGallery ? (
         <div>

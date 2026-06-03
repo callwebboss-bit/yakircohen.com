@@ -1,19 +1,19 @@
 import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-import ProcessSteps from "@/components/marketing/ProcessSteps";
+import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
+import AudioShowcase from "@/components/seo/AudioShowcase";
 import {
   MIXING_AUDIENCE,
   MIXING_EXTRAS,
   MIXING_INCLUDES,
   MIXING_PRICE_INCLUDED,
   MIXING_PROBLEMS,
-  MIXING_PROCESS_STEPS,
   MIXING_WHY_US,
 } from "@/lib/data/online-mixing-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
-import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
+import { getAudioDemo, SEVERE_RESTORATION_DISCLAIMER } from "@/lib/data/audio-demos";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -71,6 +71,8 @@ const FAQ_ITEMS: FaqCtaItem[] = [
 ];
 
 export default function OnlineMixingPageContent() {
+  const mixingDemo = getAudioDemo("weber-restoration");
+
   const ctaHref = buildWhatsAppHref({
     text: "היי יקיר! יש לי שיר להקלטה ביתית שצריך מיקס ומאסטרינג. אשמח לבדיקה והצעת מחיר.",
     utm_source: "online",
@@ -238,18 +240,34 @@ export default function OnlineMixingPageContent() {
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <header className="mx-auto max-w-2xl text-center">
             <h2 className="text-xl font-semibold text-foreground">
-              ניקוי רעשים — דוגמה לפני/אחרי
+              ניקוי רעשים - דוגמה לפני/אחרי
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              לפני המיקס: הקלטות ישנות, רועשות או פגומות — שחזור קשה ותלוי במקור.
+              לפני המיקס: הקלטות ישנות, רועשות או פגומות - שחזור קשה ותלוי במקור.
             </p>
           </header>
           <div className="mx-auto mt-8 max-w-2xl">
-            <SoundImprovementShowcase
-              demoId="weber-restoration"
+            <div
+              className="mb-4 rounded-xl border border-amber-200/80 bg-amber-50/80 px-4 py-3 text-sm leading-relaxed text-foreground dark:border-amber-900/50 dark:bg-amber-950/30"
+              role="note"
+            >
+              <p className="font-medium text-amber-900 dark:text-amber-100">
+                חשוב לדעת לפני שמאזינים
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                {SEVERE_RESTORATION_DISCLAIMER}
+              </p>
+            </div>
+            <AudioShowcase
               variant="restoration"
-              context="compact"
-              showDisclaimer
+              context="page"
+              beforeSrc={mixingDemo.beforeSrc}
+              afterSrc={mixingDemo.afterSrc}
+              beforeLabel={mixingDemo.beforeLabel}
+              afterLabel={mixingDemo.afterLabel}
+              storageKey={mixingDemo.storageKey}
+              beforeNote={mixingDemo.beforeNote}
+              afterNote={mixingDemo.afterNote}
             />
           </div>
         </div>
@@ -293,11 +311,9 @@ export default function OnlineMixingPageContent() {
         </div>
       </section>
 
-      <ProcessSteps
-        steps={MIXING_PROCESS_STEPS}
-        heading="איך זה עובד?"
-        subheading="תהליך העבודה"
-      />
+      <section className="py-8">
+        <JourneyStepsLink variant="online" />
+      </section>
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
         <h2 className="text-lg font-semibold text-foreground">למה לבחור בנו?</h2>
