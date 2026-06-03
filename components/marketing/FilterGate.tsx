@@ -129,9 +129,9 @@ export default function FilterGate() {
   if (gateState === "loading") return null;
 
   if (gateState === "wizard") {
-    return (
-      <StudioRecordingBooking initialGiftMode={purpose === "gift"} />
-    );
+    const filterAnswers: FilterAnswers | null =
+      timeline !== null && purpose !== null ? { timeline, purpose } : null;
+    return <StudioRecordingBooking filterAnswers={filterAnswers} />;
   }
 
   if (gateState === "browsing") {

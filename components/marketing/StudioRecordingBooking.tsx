@@ -1,32 +1,24 @@
-﻿"use client";
+"use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
-import BookingAudioDemo from "@/components/booking/BookingAudioDemo";
-import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
-import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
-import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
-import StudioGuideDownload from "@/components/booking/StudioGuideDownload";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
-import FAQAccordion from "@/components/ui/FAQAccordion";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
-import {
-  BOOKING_CTA,
-  BOOKING_CONSULT_15_MIN,
-  BOOKING_SUMMARY_INTRO,
-} from "@/lib/data/booking-shared";
 import {
   buildBookingWhatsAppBody,
   readUtmSource,
 } from "@/lib/booking-messages";
+import {
+  FILTER_QUESTIONS,
+  type FilterAnswers,
+} from "@/lib/data/filter-questions";
 import { withVat } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
@@ -37,21 +29,14 @@ import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import {
   CONSULTATION_PACKAGES,
-  EVENT_TYPE_OPTIONS,
-  PARTICIPANTS_OPTIONS,
   RECORDING_ATMOSPHERES,
-  RECORDING_STUDIO_FAQS,
   RECORDING_TYPES,
   STUDIO_RECORDING_PACKAGES,
-  STUDIO_EXTRA_PARTICIPANT_PRICE,
-  STUDIO_RECORDING_GUIDE,
-  STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
   type AtmosphereId,
   type ConsultationPackageId,
   type RecordingTypeId,
   type StudioPackageId,
-  type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -64,17 +49,8 @@ type FormState = {
   referrer: string;
   atmosphere: AtmosphereId | "";
   packageId: StudioPackageId | ConsultationPackageId | "";
-  upgrades: Set<StudioUpgradeId>;
   surpriseGift: boolean;
   giftRecipientName: string;
-  // event_song specific
-  eventType: string;
-  eventVenue: string;
-  participants: string;
-  hasSongPreference: boolean;
-  songPreference: string;
-  // participant count
-  extraParticipants: number;
   name: string;
   phone: string;
   date: string;
@@ -92,15 +68,8 @@ type DraftPayload = {
   referrer: string;
   atmosphere: AtmosphereId | "";
   packageId: StudioPackageId | ConsultationPackageId | "";
-  upgrades: StudioUpgradeId[];
   surpriseGift: boolean;
   giftRecipientName: string;
-  eventType: string;
-  eventVenue: string;
-  participants: string;
-  hasSongPreference: boolean;
-  songPreference: string;
-  extraParticipants: number;
   name: string;
   phone: string;
   date: string;
@@ -110,11 +79,40 @@ type DraftPayload = {
   step: number;
 };
 
+function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers | null }) {
+  if (!filterAnswers) return null;
+  const timelineOpt = FILTER_QUESTIONS[0].options.find((o) => o.id === filterAnswers.timeline);
+  const purposeOpt = FILTER_QUESTIONS[1].options.find((o) => o.id === filterAnswers.purpose);
+  if (!timelineOpt && !purposeOpt) return null;
+  return (
+    <div className="mb-6 flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 py-2 text-xs text-muted-foreground">
+      {timelineOpt && (
+        <span className="flex items-center gap-1 font-medium text-foreground">
+          <span aria-hidden="true">{timelineOpt.icon}</span>
+          {timelineOpt.label}
+        </span>
+      )}
+      {timelineOpt && purposeOpt && (
+        <span aria-hidden="true" className="select-none">
+          ·
+        </span>
+      )}
+      {purposeOpt && (
+        <span className="flex items-center gap-1 font-medium text-foreground">
+          <span aria-hidden="true">{purposeOpt.icon}</span>
+          {purposeOpt.label}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export default function StudioRecordingBooking({
-  initialGiftMode,
+  filterAnswers,
 }: {
-  initialGiftMode?: boolean;
+  filterAnswers?: FilterAnswers | null;
 }) {
+  const initialGiftMode = filterAnswers?.purpose === "gift";
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>({
     recordingType: "",
@@ -122,15 +120,8 @@ export default function StudioRecordingBooking({
     referrer: "",
     atmosphere: "",
     packageId: "",
-    upgrades: new Set(),
-    surpriseGift: initialGiftMode ?? false,
+    surpriseGift: initialGiftMode,
     giftRecipientName: "",
-    eventType: "",
-    eventVenue: "",
-    participants: "",
-    hasSongPreference: false,
-    songPreference: "",
-    extraParticipants: 0,
     name: "",
     phone: "",
     date: "",
@@ -142,15 +133,13 @@ export default function StudioRecordingBooking({
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
-  const [koalendarOpen, setKoalendarOpen] = useState(false);
-  const [draftDismissed, setDraftDismissed] = useState(false);
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "studio_recording_booking",
   });
 
   const draft = useBookingDraft<DraftPayload>(
     "studio-recording",
-    { ...form, upgrades: Array.from(form.upgrades), step },
+    { ...form, step },
     (payload) => {
       setForm({
         recordingType: payload.recordingType,
@@ -158,15 +147,8 @@ export default function StudioRecordingBooking({
         referrer: payload.referrer,
         atmosphere: payload.atmosphere,
         packageId: payload.packageId,
-        upgrades: new Set(payload.upgrades),
-        surpriseGift: payload.surpriseGift || (initialGiftMode ?? false),
+        surpriseGift: payload.surpriseGift || initialGiftMode,
         giftRecipientName: payload.giftRecipientName ?? "",
-        eventType: payload.eventType ?? "",
-        eventVenue: payload.eventVenue ?? "",
-        participants: payload.participants ?? "",
-        hasSongPreference: payload.hasSongPreference ?? false,
-        songPreference: payload.songPreference ?? "",
-        extraParticipants: payload.extraParticipants ?? 0,
         name: payload.name,
         phone: payload.phone,
         date: payload.date,
@@ -188,95 +170,34 @@ export default function StudioRecordingBooking({
     ? undefined
     : STUDIO_RECORDING_PACKAGES.find((p) => p.id === form.packageId);
   const activePackage = consultationPackage ?? selectedPackage;
-  const upgradesTotal = useMemo(
-    () =>
-      Array.from(form.upgrades).reduce(
-        (sum, id) => sum + (STUDIO_RECORDING_UPGRADES.find((u) => u.id === id)?.price ?? 0),
-        0,
-      ),
-    [form.upgrades],
-  );
-  const participantsCost = form.extraParticipants * STUDIO_EXTRA_PARTICIPANT_PRICE;
-  const total = (activePackage?.price ?? 0) + upgradesTotal + participantsCost;
+  const total = activePackage?.price ?? 0;
 
   const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
-  const recordingAudioDemo = useMemo(() => {
-    switch (form.recordingType) {
-      case "cover":
-      case "original":
-      case "event_song":
-        return {
-          beforeSrc: "/audio/recording-raw-sample.mp3",
-          afterSrc: "/audio/recording-clean-sample.mp3",
-          beforeLabel: "ווקאל גולמי",
-          afterLabel: "אחרי מיקס ופיץ׳",
-          beforeNote: "לפני עריכה ותיקון זיופים",
-          afterNote: "אחרי מיקס, מאסטר ופיץ׳ קורקשן",
-        };
-      case "bride_blessing":
-      case "bar_mitzvah_speech":
-      case "general_blessing":
-        return {
-          beforeSrc: "/audio/bride-blessing-raw.mp3",
-          afterSrc: "/audio/bride-blessing-tuned.mp3",
-          beforeLabel: "ברכה גולמית",
-          afterLabel: "אחרי עריכה ומוזיקה",
-          beforeNote: "הקלטה ישירה ללא עיבוד",
-          afterNote: "עם מוזיקת רקע ומיקס מקצועי",
-        };
-      case "other":
-        return {
-          beforeSrc: "/audio/full-production.mp3",
-          afterSrc: "/audio/dry-vocal-raw.mp3",
-          beforeLabel: "ווקאל יבש",
-          afterLabel: "הפקה מלאה",
-          beforeNote: "שירה בלי מוזיקה ובלי עיבוד",
-          afterNote: "עם תופים, בס, הרמוניות ומיקס",
-        };
-      default:
-        return null;
-    }
-  }, [form.recordingType]);
-
-  const isEventSong = form.recordingType === "event_song";
-
   const canAdvanceStep0 =
-    form.recordingType !== "" &&
-    (isConsultation || form.atmosphere !== "") &&
-    (!isEventSong || (form.eventType !== "" && form.participants !== ""));
+    form.recordingType !== "" && (isConsultation || form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
-  const eventTypeLabel =
-    EVENT_TYPE_OPTIONS.find((o) => o.value === form.eventType)?.label ?? form.eventType;
-  const participantsLabel =
-    PARTICIPANTS_OPTIONS.find((o) => o.value === form.participants)?.label ?? form.participants;
-
   const buildSummaryLines = () => [
-    { label: "סוג", value: recordingLabel },
-    ...(isEventSong && form.eventType
-      ? [{ label: "אירוע", value: eventTypeLabel }]
-      : []),
-    ...(isEventSong && form.eventVenue
-      ? [{ label: "מיקום האירוע", value: sanitizeLeadText(form.eventVenue, 80) }]
-      : []),
-    ...(isEventSong && form.participants
-      ? [{ label: "מי ישתתף", value: participantsLabel }]
-      : []),
-    ...(isEventSong
+    ...(filterAnswers
       ? [
           {
-            label: "מנגינה מועדפת",
-            value: form.hasSongPreference
-              ? form.songPreference
-                ? sanitizeLeadText(form.songPreference, 80)
-                : "כן"
-              : "לא - נשמח לעזרה בבחירה",
+            label: "מטרה",
+            value:
+              FILTER_QUESTIONS[1].options.find((o) => o.id === filterAnswers.purpose)?.label ??
+              filterAnswers.purpose,
+          },
+          {
+            label: "לוח זמנים",
+            value:
+              FILTER_QUESTIONS[0].options.find((o) => o.id === filterAnswers.timeline)?.label ??
+              filterAnswers.timeline,
           },
         ]
       : []),
+    { label: "סוג", value: recordingLabel },
     ...(form.songName && !isConsultation
       ? [{ label: "שיר", value: sanitizeLeadText(form.songName, 80) }]
       : []),
@@ -298,25 +219,6 @@ export default function StudioRecordingBooking({
     ...(form.surpriseGift && form.giftRecipientName
       ? [{ label: "מתנה עבור", value: sanitizeLeadText(form.giftRecipientName, 60) }]
       : []),
-    ...(form.upgrades.size > 0
-      ? [
-          {
-            label: "שדרוגים",
-            value: Array.from(form.upgrades)
-              .map((id) => STUDIO_RECORDING_UPGRADES.find((x) => x.id === id)?.name)
-              .filter(Boolean)
-              .join(", "),
-          },
-        ]
-      : []),
-    ...(form.extraParticipants > 0
-      ? [
-          {
-            label: "משתתפים נוספים",
-            value: `${form.extraParticipants} (+${(form.extraParticipants * STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪)`,
-          },
-        ]
-      : []),
     ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
@@ -329,15 +231,8 @@ export default function StudioRecordingBooking({
       referrer: "",
       atmosphere: "",
       packageId: "",
-      upgrades: new Set(),
-      surpriseGift: initialGiftMode ?? false,
+      surpriseGift: initialGiftMode,
       giftRecipientName: "",
-      eventType: "",
-      eventVenue: "",
-      participants: "",
-      hasSongPreference: false,
-      songPreference: "",
-      extraParticipants: 0,
       name: "",
       phone: "",
       date: "",
@@ -353,15 +248,6 @@ export default function StudioRecordingBooking({
   const goToStep = (n: number) => {
     setStep(n);
     window.scrollTo({ top: 0, behavior: "instant" });
-  };
-
-  const toggleUpgrade = (id: StudioUpgradeId) => {
-    setForm((prev) => {
-      const next = new Set(prev.upgrades);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return { ...prev, upgrades: next };
-    });
   };
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
@@ -442,29 +328,14 @@ export default function StudioRecordingBooking({
   }
 
   return (
-    <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && selectedPackage && "pb-24")}>
-      {draft.restored && draft.savedAt && !draftDismissed ? (
+    <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && activePackage && "pb-24")}>
+      {draft.restored ? (
         <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו טיוטה שמורה מ-
-          {new Date(draft.savedAt).toLocaleDateString("he-IL", {
-            day: "numeric",
-            month: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-          .{" "}
-          <button
-            type="button"
-            onClick={() => {
-              draft.clear();
-              setDraftDismissed(true);
-            }}
-            className="underline hover:text-brand-red"
-          >
-            נקה
-          </button>
+          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
         </p>
       ) : null}
+
+      <FilterContextBanner filterAnswers={filterAnswers} />
 
       <div
         className="h-1 w-full overflow-hidden rounded-full bg-border"
@@ -516,122 +387,6 @@ export default function StudioRecordingBooking({
               })}
             </div>
 
-            {recordingAudioDemo && (
-              <BookingAudioDemo
-                beforeSrc={recordingAudioDemo.beforeSrc}
-                afterSrc={recordingAudioDemo.afterSrc}
-                beforeLabel={recordingAudioDemo.beforeLabel}
-                afterLabel={recordingAudioDemo.afterLabel}
-                beforeNote={recordingAudioDemo.beforeNote}
-                afterNote={recordingAudioDemo.afterNote}
-              />
-            )}
-
-            {/* Event-song specific fields */}
-            {isEventSong && (
-              <div className="space-y-4 rounded-xl border border-brand-red/20 bg-brand-red/5 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
-                  פרטי האירוע
-                </p>
-
-                {/* Event type */}
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-foreground">לאיזה אירוע? *</p>
-                  <div className="flex flex-wrap gap-2">
-                    {EVENT_TYPE_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, eventType: opt.value }))}
-                        className={cn(
-                          "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-                          form.eventType === opt.value
-                            ? "border-brand-red bg-brand-red text-white"
-                            : "border-border bg-background text-foreground hover:border-brand-red/40",
-                        )}
-                        aria-pressed={form.eventType === opt.value}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Venue */}
-                <div>
-                  <label htmlFor="event-venue" className="mb-1.5 block text-sm font-semibold text-foreground">
-                    מיקום האירוע (עיר / אולם / בית)
-                  </label>
-                  <input
-                    id="event-venue"
-                    type="text"
-                    value={form.eventVenue}
-                    onChange={(e) => setForm((prev) => ({ ...prev, eventVenue: e.target.value }))}
-                    placeholder='לדוגמה: "עין יעל - גן אירועים בטבע"'
-                    className={inputClass}
-                  />
-                </div>
-
-                {/* Participants */}
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-foreground">מי ישתתף בהקלטה / קליפ? *</p>
-                  <div className="flex flex-wrap gap-2">
-                    {PARTICIPANTS_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, participants: opt.value }))}
-                        className={cn(
-                          "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-                          form.participants === opt.value
-                            ? "border-brand-red bg-brand-red text-white"
-                            : "border-border bg-background text-foreground hover:border-brand-red/40",
-                        )}
-                        aria-pressed={form.participants === opt.value}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Song preference */}
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-foreground">יש לכם שיר / מנגינה מועדפת?</p>
-                  <div className="flex gap-3">
-                    {[
-                      { value: true, label: "כן, יש לנו שיר" },
-                      { value: false, label: "לא - תעזרו לנו לבחור" },
-                    ].map(({ value, label }) => (
-                      <button
-                        key={String(value)}
-                        type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, hasSongPreference: value }))}
-                        className={cn(
-                          "flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition-colors",
-                          form.hasSongPreference === value
-                            ? "border-brand-red bg-brand-red text-white"
-                            : "border-border bg-background text-foreground hover:border-brand-red/40",
-                        )}
-                        aria-pressed={form.hasSongPreference === value}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                  {form.hasSongPreference && (
-                    <input
-                      type="text"
-                      value={form.songPreference}
-                      onChange={(e) => setForm((prev) => ({ ...prev, songPreference: e.target.value }))}
-                      placeholder="שם השיר / אמן"
-                      className={cn(inputClass, "mt-2")}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="song-name" className="mb-1.5 block text-xs font-semibold">
@@ -655,100 +410,47 @@ export default function StudioRecordingBooking({
                   type="text"
                   value={form.referrer}
                   onChange={(e) => setForm((prev) => ({ ...prev, referrer: e.target.value }))}
-                  placeholder="שם החבר/ה שהמליץ עליכם"
+                  placeholder="שם מי שהמליץ עליכם"
                   className={inputClass}
                 />
               </div>
             </div>
 
-            {/* People counter */}
             {!isConsultation && (
               <div>
-                <h3 className="mb-1 text-base font-semibold text-foreground">
-                  כמה אנשים מקליטים?
+                <h3 className="mb-2 text-base font-semibold text-foreground">
+                  בחרו את האווירה שלכם
                 </h3>
-                <p className="mb-3 text-xs text-muted-foreground">
-                  כל משתתף נוסף דורש מיקרופון, סאונד-צ׳ק ועריכה נפרדת -{" "}
-                  <span className="font-medium text-foreground">
-                    {STUDIO_EXTRA_PARTICIPANT_PRICE.toLocaleString("he-IL")} ₪ לאדם
-                  </span>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  האווירה משפיעה על כל ההפקה — בחרו את הרגש שאתם רוצים
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { extra: 0, label: "רק אני" },
-                    { extra: 1, label: "2 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE} ₪` },
-                    { extra: 2, label: "3 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE * 2} ₪` },
-                    { extra: 3, label: "4 אנשים", note: `+${STUDIO_EXTRA_PARTICIPANT_PRICE * 3} ₪` },
-                  ].map(({ extra, label, note }) => {
-                    const active = form.extraParticipants === extra;
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {RECORDING_ATMOSPHERES.map((item) => {
+                    const active = form.atmosphere === item.id;
                     return (
                       <button
-                        key={extra}
+                        key={item.id}
                         type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, extraParticipants: extra }))}
+                        onClick={() => setForm((prev) => ({ ...prev, atmosphere: item.id }))}
                         className={cn(
-                          "flex flex-col items-center rounded-xl border px-4 py-2.5 text-center transition-colors",
+                          "flex flex-col items-center gap-3 rounded-2xl border p-6 text-center transition-all",
                           active
-                            ? "border-brand-red bg-brand-red/10 text-brand-red"
-                            : "border-border bg-background text-foreground hover:border-brand-red/40",
+                            ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_rgba(212,43,43,0.12)]"
+                            : "border-border bg-background hover:border-brand-red/30",
                         )}
                         aria-pressed={active}
                       >
-                        <span className="text-sm font-semibold">{label}</span>
-                        {note && (
-                          <span className={cn("text-[0.65rem]", active ? "text-brand-red/80" : "text-muted-foreground")}>
-                            {note}
-                          </span>
-                        )}
+                        <span className="text-3xl" aria-hidden="true">
+                          {item.emoji}
+                        </span>
+                        <span className="font-semibold text-foreground">{item.title}</span>
+                        <span className="text-xs text-muted-foreground">{item.subtitle}</span>
                       </button>
                     );
                   })}
-                  <a
-                    href="https://wa.me/972587555456"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-                  >
-                    <span className="text-sm font-semibold">5+ אנשים</span>
-                    <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
-                  </a>
                 </div>
               </div>
             )}
-
-            <div>
-              <h3 className="mb-2 text-base font-semibold text-foreground">
-                בחרו את האווירה שלכם
-              </h3>
-              <p className="mb-4 text-sm text-muted-foreground">
-                האווירה משפיעה על כל ההפקה - בחרו את הרגש שאתם רוצים
-              </p>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {RECORDING_ATMOSPHERES.map((item) => {
-                  const active = form.atmosphere === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => setForm((prev) => ({ ...prev, atmosphere: item.id }))}
-                      className={cn(
-                        "flex flex-col items-center gap-3 rounded-2xl border p-6 text-center transition-all",
-                        active
-                          ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_rgba(212,43,43,0.12)]"
-                          : "border-border bg-background hover:border-brand-red/30",
-                      )}
-                      aria-pressed={active}
-                    >
-                      <span className="text-3xl" aria-hidden="true">
-                        {item.emoji}
-                      </span>
-                      <span className="font-semibold text-foreground">{item.title}</span>
-                      <span className="text-xs text-muted-foreground">{item.subtitle}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
 
             <div
               className={cn(
@@ -771,10 +473,8 @@ export default function StudioRecordingBooking({
                   )}
                 />
                 <span className="text-sm text-foreground">
-                  <span
-                    className={cn("font-semibold", form.surpriseGift && "text-amber-800")}
-                  >
-                    ✨ מתנה קטנה של האולפן
+                  <span className={cn("font-semibold", form.surpriseGift && "text-amber-800")}>
+                    מתנה קטנה של האולפן
                   </span>
                   <br />
                   <span className="text-muted-foreground">{STUDIO_SURPRISE_GIFT_NOTE}</span>
@@ -786,7 +486,7 @@ export default function StudioRecordingBooking({
                     htmlFor="gift-recipient"
                     className="mb-1.5 block text-xs font-semibold text-amber-800"
                   >
-                    שם המתנה (אופציונלי)
+                    שם המקבל (אופציונלי)
                   </label>
                   <input
                     id="gift-recipient"
@@ -804,31 +504,6 @@ export default function StudioRecordingBooking({
                 </div>
               )}
             </div>
-
-            {canAdvanceStep0 && (
-              <button
-                type="button"
-                onClick={() => goToStep(1)}
-                className="w-full rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
-              >
-                המשך לבחירת חבילה ←
-              </button>
-            )}
-
-            <div>
-              <h3 className="mb-4 text-sm font-semibold text-foreground">
-                שאלות ששואלים אותי באולפן
-              </h3>
-              <FAQAccordion items={[...RECORDING_STUDIO_FAQS]} />
-            </div>
-
-            <StudioGuideDownload
-              emoji={STUDIO_RECORDING_GUIDE.emoji}
-              title={STUDIO_RECORDING_GUIDE.title}
-              subtitle={STUDIO_RECORDING_GUIDE.subtitle}
-              viewUrl={STUDIO_RECORDING_GUIDE.url}
-              driveFileId={STUDIO_RECORDING_GUIDE.driveFileId}
-            />
 
             <StepNav
               onNext={() => goToStep(1)}
@@ -853,7 +528,7 @@ export default function StudioRecordingBooking({
               <p className="mt-2 text-sm text-muted-foreground">
                 {isConsultation
                   ? "ייעוץ מקצועי לקידום השיר ברשתות החברתיות"
-                  : "המחיר הוא על התוצאה הסופית - לא על זמן באולפן"}
+                  : "המחיר הוא על התוצאה הסופית — לא על זמן באולפן"}
               </p>
             </header>
 
@@ -881,7 +556,7 @@ export default function StudioRecordingBooking({
                     )}
                     {"featured" in pkg && pkg.featured && (
                       <span className="mb-1 w-full text-center text-xs font-bold text-brand-red">
-                        ✦ הכי מומלץ - שגר ושכח ✦
+                        הכי מומלץ — שגר ושכח
                       </span>
                     )}
                     <span className="text-2xl" aria-hidden="true">
@@ -902,46 +577,6 @@ export default function StudioRecordingBooking({
               })}
             </div>
 
-            {/* Upsell chip — show next tier when a non-top package is selected */}
-            {!isConsultation && selectedPackage && (() => {
-              const idx = STUDIO_RECORDING_PACKAGES.findIndex((p) => p.id === selectedPackage.id);
-              const next = idx >= 0 && idx < STUDIO_RECORDING_PACKAGES.length - 1
-                ? STUDIO_RECORDING_PACKAGES[idx + 1]
-                : null;
-              if (!next) return null;
-              const gap = next.price - selectedPackage.price;
-              return (
-                <button
-                  type="button"
-                  onClick={() => setForm((prev) => ({ ...prev, packageId: next.id }))}
-                  className="flex w-full items-center justify-between gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-start text-sm transition-colors hover:bg-green-100"
-                >
-                  <span className="text-green-800">
-                    <span className="font-semibold">עוד ₪{gap.toLocaleString("he-IL")} - {next.name}</span>
-                    {next.savings && (
-                      <span className="block text-xs text-green-700">{next.savings}</span>
-                    )}
-                  </span>
-                  <span className="shrink-0 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-                    שדרגו ←
-                  </span>
-                </button>
-              );
-            })()}
-
-            {!isConsultation && form.packageId === "remote" ? (
-              <div className="rounded-2xl border border-border bg-surface p-5">
-                <p className="mb-4 text-sm font-semibold text-foreground">
-                  שמעו - ניקוי מהטלפון / הקלטה פגומה
-                </p>
-                <SoundImprovementShowcase
-                  demoId="weber-restoration"
-                  variant="restoration"
-                  showDisclaimer
-                />
-              </div>
-            ) : null}
-
             <StepNav
               onBack={() => goToStep(0)}
               onNext={() => goToStep(2)}
@@ -951,379 +586,234 @@ export default function StudioRecordingBooking({
         </BookingStepPanel>
       )}
 
-      {/* Step 2: upgrades + summary + form */}
+      {/* Step 2: summary + contact form (closing) */}
       {step === 2 && (
         <BookingStepPanel stepKey={2}>
-          <section className="space-y-8">
-            <button
-              type="button"
-              onClick={() => goToStep(0)}
-              className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-            >
-              → ערוך בחירה
-            </button>
-
-            <div>
-              <h2 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
-                שדרוגים נוספים
-              </h2>
-              <p className="mb-6 text-sm text-muted-foreground">
-                כל שדרוג מכפיל את הזכרונות שתיקחו הביתה
-              </p>
-              <div className="space-y-3">
-                {STUDIO_RECORDING_UPGRADES.map((upgrade) => {
-                  const active = form.upgrades.has(upgrade.id);
-                  return (
-                    <button
-                      key={upgrade.id}
-                      type="button"
-                      onClick={() => toggleUpgrade(upgrade.id)}
-                      className={cn(
-                        "flex w-full items-start justify-between gap-4 rounded-xl border px-4 py-4 text-start",
-                        active
-                          ? "border-brand-red/40 bg-brand-red/5"
-                          : "border-border bg-background hover:border-brand-red/30",
-                      )}
-                      aria-pressed={active}
-                    >
-                      <div className="flex items-start gap-3">
-                        <span
-                          className={cn(
-                            "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-xs",
-                            active
-                              ? "border-brand-red bg-brand-red text-white"
-                              : "border-border",
-                          )}
-                          aria-hidden="true"
-                        >
-                          {active && "✓"}
-                        </span>
-                        <div>
-                          <p className="text-sm font-medium text-foreground">
-                            {upgrade.name}
-                            {upgrade.badge && (
-                              <span className="mr-2 text-xs text-brand-red">
-                                {upgrade.badge}
-                              </span>
-                            )}
-                          </p>
-                          <p className="text-xs text-muted-foreground">{upgrade.description}</p>
-                        </div>
-                      </div>
-                      <span className="shrink-0 text-end">
-                        <PriceWithVat amountExVat={upgrade.price} size="sm" compact />
-                      </span>
-                    </button>
-                  );
-                })}
+          <section className="mx-auto max-w-lg space-y-8">
+            {/* Read-only summary */}
+            <div className="rounded-2xl bg-surface p-6">
+              <h2 className="mb-4 text-lg font-medium text-foreground">מה שבחרת</h2>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                {recordingLabel && (
+                  <li>
+                    <span className="font-medium text-foreground">סוג: </span>
+                    {recordingLabel}
+                  </li>
+                )}
+                {form.songName && !isConsultation && (
+                  <li>
+                    <span className="font-medium text-foreground">שיר: </span>
+                    {form.songName}
+                  </li>
+                )}
+                {form.referrer && (
+                  <li>
+                    <span className="font-medium text-foreground">הופנה ע&quot;י: </span>
+                    {form.referrer}
+                  </li>
+                )}
+                {atmosphereLabel && !isConsultation && (
+                  <li>
+                    <span className="font-medium text-foreground">אווירה: </span>
+                    {atmosphereLabel}
+                  </li>
+                )}
+                {activePackage && (
+                  <li>
+                    <span className="font-medium text-foreground">מסלול: </span>
+                    {activePackage.name} · {activePackage.price.toLocaleString("he-IL")} ₪
+                  </li>
+                )}
+                {form.surpriseGift && (
+                  <li>
+                    מתנת הפתעה
+                    {form.giftRecipientName && ` — עבור ${form.giftRecipientName}`}
+                  </li>
+                )}
+              </ul>
+              <div className="mt-5 border-t border-border pt-4">
+                <PriceWithVat amountExVat={total} size="lg" />
               </div>
             </div>
 
-            <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
-              <div className="rounded-2xl border border-border bg-surface p-6">
-                <h2 className="text-lg font-semibold text-foreground">סיכום ההזמנה</h2>
-                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <strong className="text-foreground">סוג:</strong> {recordingLabel}
-                  </li>
-                  {form.songName && (
-                    <li>
-                      <strong className="text-foreground">שיר:</strong> {form.songName}
-                    </li>
+            {/* Contact form */}
+            <div className="space-y-5">
+              <h2 className="text-base font-semibold text-foreground">פרטים לתיאום</h2>
+              <div className="relative space-y-4">
+                <HoneypotField value={honeypot} onChange={setHoneypot} />
+                <LeadFormAlert message={globalError} />
+
+                <div>
+                  <label htmlFor="sr-name" className="mb-1.5 block text-xs font-semibold">
+                    שם מלא *
+                  </label>
+                  <input
+                    id="sr-name"
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
+                    onBlur={() => {
+                      const val = form.name.trim();
+                      if (val.length > 0 && val.length < 2) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          name: "שם חייב להכיל לפחות 2 תווים",
+                        }));
+                      } else if (val.length >= 2 && errors.name) {
+                        setErrors((prev) => {
+                          const n = { ...prev };
+                          delete n.name;
+                          return n;
+                        });
+                      }
+                    }}
+                    className={cn(inputClass, errors.name && "border-red-400")}
+                  />
+                  {errors.name && (
+                    <p className="mt-1 text-xs text-red-500" data-field-error="">
+                      {errors.name}
+                    </p>
                   )}
-                  {form.referrer && (
-                    <li>
-                      <strong className="text-foreground">הופנה ע&quot;י:</strong>{" "}
-                      {form.referrer}
-                    </li>
+                </div>
+
+                <div>
+                  <label htmlFor="sr-phone" className="mb-1.5 block text-xs font-semibold">
+                    טלפון *
+                  </label>
+                  <input
+                    id="sr-phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
+                    onBlur={() => {
+                      const val = form.phone.trim().replace(/[\s\-]/g, "");
+                      if (
+                        val.length > 0 &&
+                        !/^(0[5-9]\d{8}|972[5-9]\d{8})$/.test(val)
+                      ) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          phone: "מספר טלפון לא תקין",
+                        }));
+                      } else if (val.length > 0 && errors.phone) {
+                        setErrors((prev) => {
+                          const n = { ...prev };
+                          delete n.phone;
+                          return n;
+                        });
+                      }
+                    }}
+                    className={cn(inputClass, errors.phone && "border-red-400")}
+                  />
+                  {errors.phone && (
+                    <p className="mt-1 text-xs text-red-500" data-field-error="">
+                      {errors.phone}
+                    </p>
                   )}
-                  {!isConsultation && atmosphereLabel && (
-                    <li>
-                      <strong className="text-foreground">אווירה:</strong> {atmosphereLabel}
-                    </li>
-                  )}
-                  {activePackage && (
-                    <li>
-                      <strong className="text-foreground">מסלול:</strong>{" "}
-                      {activePackage.name} (
-                      {activePackage.price.toLocaleString("he-IL")} ₪)
-                    </li>
-                  )}
-                  {form.surpriseGift && (
-                    <li>
-                      ✨ מתנת הפתעה לילד/ה
-                      {form.giftRecipientName && ` - 🎁 עבור ${form.giftRecipientName}`}
-                    </li>
-                  )}
-                  {form.upgrades.size > 0 && (
-                    <li>
-                      <strong className="text-foreground">שדרוגים:</strong>
-                      <ul className="mt-1 space-y-0.5">
-                        {Array.from(form.upgrades).map((id) => {
-                          const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
-                          return u ? <li key={id}>• {u.name}</li> : null;
-                        })}
-                      </ul>
-                    </li>
-                  )}
-                </ul>
-                <div className="mt-6 border-t border-border pt-4">
-                  <PriceWithVat amountExVat={total} size="lg" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="sr-date" className="mb-1.5 block text-xs font-semibold">
+                      תאריך *
+                    </label>
+                    <input
+                      id="sr-date"
+                      type="date"
+                      min={today}
+                      value={form.date}
+                      onChange={(e) => setForm((prev) => ({ ...prev, date: e.target.value }))}
+                      className={cn(inputClass, errors.date && "border-red-400")}
+                    />
+                    {errors.date && (
+                      <p className="mt-1 text-xs text-red-500" data-field-error="">
+                        {errors.date}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label htmlFor="sr-time" className="mb-1.5 block text-xs font-semibold">
+                      שעה *
+                    </label>
+                    <input
+                      id="sr-time"
+                      type="time"
+                      value={form.time}
+                      onChange={(e) => setForm((prev) => ({ ...prev, time: e.target.value }))}
+                      className={cn(inputClass, errors.time && "border-red-400")}
+                    />
+                    {errors.time && (
+                      <p className="mt-1 text-xs text-red-500" data-field-error="">
+                        {errors.time}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="sr-notes" className="mb-1.5 block text-xs font-semibold">
+                    הערות
+                  </label>
+                  <textarea
+                    id="sr-notes"
+                    rows={3}
+                    value={form.notes}
+                    onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+                    className={cn(inputClass, "resize-none")}
+                  />
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border bg-background p-6 shadow-sm">
-                <h2 className="mb-5 text-base font-semibold text-foreground">פרטים לתיאום</h2>
-                <div className="relative space-y-4">
-                  <HoneypotField value={honeypot} onChange={setHoneypot} />
-                  <LeadFormAlert message={globalError} />
-
-                  <div>
-                    <label htmlFor="sr-name" className="mb-1.5 block text-xs font-semibold">
-                      שם מלא *
-                    </label>
-                    <input
-                      id="sr-name"
-                      type="text"
-                      value={form.name}
-                      onChange={(e) =>
-                        setForm((prev) => ({ ...prev, name: e.target.value }))
-                      }
-                      onBlur={() => {
-                        const val = form.name.trim();
-                        if (val.length > 0 && val.length < 2) {
-                          setErrors((prev) => ({
-                            ...prev,
-                            name: "שם חייב להכיל לפחות 2 תווים",
-                          }));
-                        } else if (val.length >= 2 && errors.name) {
-                          setErrors((prev) => {
-                            const n = { ...prev };
-                            delete n.name;
-                            return n;
-                          });
-                        }
-                      }}
-                      className={cn(inputClass, errors.name && "border-red-400")}
-                    />
-                    {errors.name && (
-                      <p className="mt-1 text-xs text-red-500" data-field-error="">
-                        {errors.name}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label htmlFor="sr-phone" className="mb-1.5 block text-xs font-semibold">
-                      טלפון *
-                    </label>
-                    <input
-                      id="sr-phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) =>
-                        setForm((prev) => ({ ...prev, phone: e.target.value }))
-                      }
-                      onBlur={() => {
-                        const val = form.phone.trim().replace(/[\s\-]/g, "");
-                        if (
-                          val.length > 0 &&
-                          !/^(0[5-9]\d{8}|972[5-9]\d{8})$/.test(val)
-                        ) {
-                          setErrors((prev) => ({
-                            ...prev,
-                            phone: "מספר טלפון לא תקין",
-                          }));
-                        } else if (val.length > 0 && errors.phone) {
-                          setErrors((prev) => {
-                            const n = { ...prev };
-                            delete n.phone;
-                            return n;
-                          });
-                        }
-                      }}
-                      className={cn(inputClass, errors.phone && "border-red-400")}
-                    />
-                    {errors.phone && (
-                      <p className="mt-1 text-xs text-red-500" data-field-error="">
-                        {errors.phone}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="sr-date" className="mb-1.5 block text-xs font-semibold">
-                        תאריך *
-                      </label>
-                      <input
-                        id="sr-date"
-                        type="date"
-                        min={today}
-                        value={form.date}
-                        onChange={(e) =>
-                          setForm((prev) => ({ ...prev, date: e.target.value }))
-                        }
-                        className={cn(inputClass, errors.date && "border-red-400")}
-                      />
-                      {errors.date && (
-                        <p className="mt-1 text-xs text-red-500" data-field-error="">
-                          {errors.date}
-                        </p>
-                      )}
-                      {form.date && (() => {
-                        const dow = new Date(form.date).getDay();
-                        if (dow === 6) return (
-                          <p className="mt-1 text-xs font-medium text-red-500">
-                            ✗ שבת - האולפן סגור. בחרו תאריך אחר.
-                          </p>
-                        );
-                        if (dow === 5) return (
-                          <p className="mt-1 text-xs font-medium text-amber-600">
-                            ⚠️ שישי - שעות מצומצמות עד 14:00
-                          </p>
-                        );
-                        return (
-                          <p className="mt-1 text-xs font-medium text-green-700">
-                            ✓ יום עסקים - פתוח 09:00-20:00
-                          </p>
-                        );
-                      })()}
-                      {!form.date && (
-                        <p className="mt-1 text-[0.65rem] text-muted-foreground">
-                          א-ה 09:00-20:00 · שישי עד 14:00 · שבת סגור
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="sr-time" className="mb-1.5 block text-xs font-semibold">
-                        שעה *
-                      </label>
-                      <input
-                        id="sr-time"
-                        type="time"
-                        value={form.time}
-                        onChange={(e) =>
-                          setForm((prev) => ({ ...prev, time: e.target.value }))
-                        }
-                        className={cn(inputClass, errors.time && "border-red-400")}
-                      />
-                      {errors.time && (
-                        <p className="mt-1 text-xs text-red-500" data-field-error="">
-                          {errors.time}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="sr-notes" className="mb-1.5 block text-xs font-semibold">
-                      הערות
-                    </label>
-                    <textarea
-                      id="sr-notes"
-                      rows={3}
-                      value={form.notes}
-                      onChange={(e) =>
-                        setForm((prev) => ({ ...prev, notes: e.target.value }))
-                      }
-                      className={cn(inputClass, "resize-none")}
-                    />
-                  </div>
-                </div>
-
-                <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
-
-                <BookingApprovals
-                  variant="light"
-                  termsAccepted={form.termsAccepted}
-                  onTermsChange={(accepted) => {
-                    setForm((prev) => ({ ...prev, termsAccepted: accepted }));
-                    if (accepted && errors.terms) {
-                      setErrors((prev) => {
-                        const next = { ...prev };
-                        delete next.terms;
-                        return next;
-                      });
-                    }
-                  }}
-                  termsError={errors.terms}
-                />
-
-                <BookingWhatsAppPreview
-                  serviceLabel={
-                    isConsultation
-                      ? "ייעוץ לקידום שיר"
-                      : `הקלטה באולפן - ${activePackage?.name ?? recordingLabel}`
+              <BookingApprovals
+                variant="light"
+                termsAccepted={form.termsAccepted}
+                onTermsChange={(accepted) => {
+                  setForm((prev) => ({ ...prev, termsAccepted: accepted }));
+                  if (accepted && errors.terms) {
+                    setErrors((prev) => {
+                      const next = { ...prev };
+                      delete next.terms;
+                      return next;
+                    });
                   }
-                  summaryLines={buildSummaryLines()}
-                  totalWithVat={withVat(total)}
-                />
+                }}
+                termsError={errors.terms}
+              />
 
-                <BookingSummaryActions
-                  disabled={!form.termsAccepted}
-                  socialProof="15 הזמנות בחודש האחרון · ממוצע מענה 2 שעות"
-                  continueWhatsApp={{
-                    label: BOOKING_CTA.continue_chat,
-                    onClick: () => handleAction("continue_chat"),
-                  }}
-                  startNow={{
-                    label: BOOKING_CTA.start_now,
-                    onClick: () => handleAction("start_now"),
-                  }}
-                  consult15Min={{
-                    label: BOOKING_CONSULT_15_MIN.title,
-                    onClick: () => setKoalendarOpen(true),
-                  }}
-                />
-
-                <BookingPaymentTrust />
-
-                {/* Save for later — send summary to self via WhatsApp */}
-                {form.phone.trim().length >= 9 && (
-                  <p className="text-center text-xs text-muted-foreground">
-                    לא עכשיו?{" "}
-                    <a
-                      href={buildWhatsAppHref({
-                        text:
-                          `שמרתי את הפרטים שלי ל${
-                            isConsultation ? "ייעוץ" : "הקלטה"
-                          } באולפן יקיר כהן:\n\n` +
-                          buildSummaryLines()
-                            .map((l) => `• ${l.label}: ${l.value}`)
-                            .join("\n") +
-                          `\n\nלהמשיך מכאן: yakircohen.com/book#studio`,
-                        utm_source: "website",
-                        utm_campaign: "studio_save_for_later",
-                      })}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline underline-offset-4 hover:text-brand-red"
-                    >
-                      שלחו לעצמכם ווטסאפ לחזרה
-                    </a>
-                  </p>
+              <button
+                type="button"
+                onClick={() => handleAction("continue_chat")}
+                disabled={!form.termsAccepted}
+                className={cn(
+                  "flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold shadow-sm transition-opacity",
+                  form.termsAccepted
+                    ? "bg-brand-red text-white hover:opacity-90"
+                    : "cursor-not-allowed bg-border text-muted-foreground",
                 )}
+              >
+                {`שליחה בוואטסאפ · ${total.toLocaleString("he-IL")} ₪`}
+              </button>
 
-                <button
-                  type="button"
-                  onClick={() => goToStep(1)}
-                  className="w-full text-center text-xs text-muted-foreground hover:text-brand-red"
-                >
-                  חזרה לבחירת מסלול
-                </button>
-              </div>
+              <BookingPaymentTrust />
+
+              <button
+                type="button"
+                onClick={() => goToStep(1)}
+                className="w-full text-center text-xs text-muted-foreground hover:text-brand-red"
+              >
+                חזרה לבחירת מסלול
+              </button>
             </div>
           </section>
         </BookingStepPanel>
       )}
 
-      {/* Sticky price bar - step 2 only, shows running total while filling form */}
-      {step === 2 && selectedPackage && (
+      {/* Sticky price bar — step 2 only */}
+      {step === 2 && activePackage && (
         <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm">
           <div className="mx-auto flex min-w-0 max-w-4xl items-center gap-4 px-4 py-3">
             <div>
-              <p className="text-xs text-muted-foreground">{selectedPackage.name}</p>
+              <p className="text-xs text-muted-foreground">{activePackage.name}</p>
               <p className="text-base font-bold text-foreground">
                 {total.toLocaleString("he-IL")} ₪{" "}
                 <span className="text-xs font-normal text-muted-foreground">
@@ -1334,8 +824,6 @@ export default function StudioRecordingBooking({
           </div>
         </div>
       )}
-
-      <KoalendarModal open={koalendarOpen} onClose={() => setKoalendarOpen(false)} />
     </div>
   );
 }
@@ -1371,10 +859,10 @@ function StepNav({
         onClick={onNext}
         disabled={nextDisabled}
         className={cn(
-          "rounded-xl px-6 py-2.5 text-sm font-semibold transition-colors",
+          "rounded-xl px-6 py-2.5 text-sm font-semibold transition-opacity",
           nextDisabled
             ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-brand-red text-white hover:bg-brand-red-light",
+            : "bg-brand-red text-white hover:opacity-90",
         )}
       >
         {nextLabel}
