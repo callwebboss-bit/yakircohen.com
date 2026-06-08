@@ -60,6 +60,8 @@ export type ClosingMessageOptions = {
   /** מזהה שירות ב-yakir-closer (recording, podcast, dj...) */
   closerServiceId?: string | null;
   ycStep?: number;
+  ycSchedule?: "weekdays" | "motzash" | null;
+  ycPackage?: string | null;
 };
 
 const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
@@ -93,6 +95,8 @@ export function buildClosingMessage({
   includeTrustFooter = false,
   closerServiceId,
   ycStep = 1,
+  ycSchedule,
+  ycPackage,
 }: ClosingMessageOptions): string {
   const lines: string[] = [];
 
@@ -161,6 +165,8 @@ export function buildClosingMessage({
       price: priceExVat ?? null,
       source: source?.trim() || "website",
       step: ycStep,
+      schedule: ycSchedule ?? null,
+      package: ycPackage ?? null,
     });
   }
 

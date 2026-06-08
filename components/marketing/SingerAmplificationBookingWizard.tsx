@@ -13,7 +13,9 @@ import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
-import PhoneInputField from "@/components/forms/PhoneInputField";
+import BookingDateTimeFields from "@/components/booking/BookingDateTimeFields";
+import BookingFormField from "@/components/booking/BookingFormField";
+import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
@@ -79,9 +81,6 @@ function parseSingerPriceNis(price: string): number {
   const n = parseInt(price.replace(/[^\d]/g, ""), 10);
   return Number.isFinite(n) ? n : 0;
 }
-
-const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 export type SingerAmplificationBookingWizardProps = {
   initialPackageId?: SingerPackageId | null;
@@ -335,19 +334,51 @@ export default function SingerAmplificationBookingWizard({
           <div className="relative max-w-lg space-y-4">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} />
-            <Field id="sg-name" label="שם *" value={form.name} error={errors.name} onChange={(v) => setForm((p) => ({ ...p, name: v }))} />
-            <PhoneInputField
+            <BookingFormField
+              id="sg-name"
+              label="שם *"
+              autoComplete="name"
+              value={form.name}
+              error={errors.name}
+              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
+            />
+            <BookingPhoneInput
               id="sg-phone"
               value={form.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              required
               error={errors.phone}
+              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onBlurValidate={(msg) => {
+                setErrors((prev) => {
+                  const next = { ...prev };
+                  if (msg) next.phone = msg;
+                  else delete next.phone;
+                  return next;
+                });
+              }}
             />
-            <div className="grid grid-cols-2 gap-3">
-              <Field id="sg-date" label="תאריך *" type="date" min={today} value={form.date} error={errors.date} onChange={(v) => setForm((p) => ({ ...p, date: v }))} />
-              <Field id="sg-time" label="שעה *" type="time" value={form.time} error={errors.time} onChange={(v) => setForm((p) => ({ ...p, time: v }))} />
-            </div>
-            <Field id="sg-location" label="מיקום ההופעה *" value={form.location} error={errors.location} onChange={(v) => setForm((p) => ({ ...p, location: v }))} />
-            <Field id="sg-notes" label="הערות (סגנון, מספר מיקרופונים וכו')" multiline value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} />
+            <BookingDateTimeFields
+              date={form.date}
+              time={form.time}
+              minDate={today}
+              onDateChange={(v) => setForm((p) => ({ ...p, date: v }))}
+              onTimeChange={(v) => setForm((p) => ({ ...p, time: v }))}
+              errors={{ date: errors.date, time: errors.time }}
+            />
+            <BookingFormField
+              id="sg-location"
+              label="מיקום ההופעה *"
+              value={form.location}
+              error={errors.location}
+              onChange={(v) => setForm((p) => ({ ...p, location: v }))}
+            />
+            <BookingFormField
+              id="sg-notes"
+              label="הערות (סגנון, מספר מיקרופונים וכו')"
+              multiline
+              value={form.notes}
+              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+            />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
         </BookingStepPanel>
@@ -405,40 +436,6 @@ export default function SingerAmplificationBookingWizard({
   );
 }
 
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  error,
-  type = "text",
-  min,
-  multiline,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  error?: string;
-  type?: string;
-  min?: string;
-  multiline?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="mb-1.5 block text-xs font-semibold">
-        {label}
-      </label>
-      {multiline ? (
-        <textarea id={id} rows={3} value={value} onChange={(e) => onChange(e.target.value)} className={cn(inputClass, "resize-none")} />
-      ) : (
-        <input id={id} type={type} min={min} value={value} onChange={(e) => onChange(e.target.value)} className={cn(inputClass, error && "border-red-400")} />
-      )}
-      {error ? <p className="mt-1 text-xs text-red-500">{error}</p> : null}
-    </div>
-  );
-}
-
 function StepNav({
   onBack,
   onNext,
@@ -453,7 +450,7 @@ function StepNav({
   return (
     <div className="flex justify-between gap-3 border-t border-border pt-6">
       {showBack && onBack ? (
-        <button type="button" onClick={onBack} className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold">
+        <button type="button" onClick={onBack} className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold">
           חזרה
         </button>
       ) : (
@@ -463,7 +460,12 @@ function StepNav({
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+        className={cn(
+          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
+          nextDisabled
+            ? "cursor-not-allowed bg-border text-muted-foreground"
+            : "bg-brand-red text-white hover:opacity-90",
+        )}
       >
         המשך
       </button>

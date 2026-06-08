@@ -12,7 +12,7 @@ import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import AcademyBookingWizard from "@/components/marketing/AcademyBookingWizard";
 import ClipsBookingForm from "@/components/marketing/ClipsBookingForm";
 import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
-import FilterGate from "@/components/marketing/FilterGate";
+import { FilterGateLazy } from "@/components/booking/lazy";
 import OnlineRestoreBookingPanel from "@/components/marketing/OnlineRestoreBookingPanel";
 import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
 import SingerAmplificationBookingWizard from "@/components/marketing/SingerAmplificationBookingWizard";
@@ -122,7 +122,7 @@ function renderCategoryContent(
   switch (id) {
     case "studio":
       return (
-        <FilterGate
+        <FilterGateLazy
           initialFilterPreset={options.filterPreset}
           skipGate={options.skipStudioGate}
           initialEmotionalLabel={options.emotionalLabel}

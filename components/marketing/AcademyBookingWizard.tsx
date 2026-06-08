@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
@@ -11,6 +12,7 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { bookFieldClass } from "@/lib/book-form-ui";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
 import { withVat } from "@/lib/data/pricing";
@@ -32,9 +34,6 @@ const TOPICS = [
   "גיטרה",
   "אחר",
 ] as const;
-
-const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type AcademyBookingWizardProps = {
   initialEmotionalLabel?: string | null;
@@ -170,7 +169,7 @@ export default function AcademyBookingWizard({
               "rounded-xl border p-4 text-start transition-colors",
               planId === p.id
                 ? "border-brand-red bg-brand-red/5"
-                : "border-border hover:border-brand-red/30",
+                : "border-border/60 hover:border-brand-red/30",
             )}
             aria-pressed={planId === p.id}
           >
@@ -193,7 +192,7 @@ export default function AcademyBookingWizard({
               onClick={() => setTopic(t)}
               className={cn(
                 "rounded-full border px-3 py-1 text-xs",
-                topic === t ? "border-brand-red bg-brand-red/10 text-brand-red" : "border-border",
+                topic === t ? "border-brand-red bg-brand-red/10 text-brand-red" : "border-border/60",
               )}
             >
               {t}
@@ -207,8 +206,13 @@ export default function AcademyBookingWizard({
 
       <div className="space-y-3">
         <div>
+          <label htmlFor="academy-name" className="mb-1.5 block text-xs font-semibold">
+            שם מלא *
+          </label>
           <input
-            className={cn(inputClass, errors.name && "border-red-400")}
+            id="academy-name"
+            autoComplete="name"
+            className={cn(bookFieldClass, errors.name && "border-red-400")}
             placeholder="שם מלא"
             value={name}
             onChange={(e) => {
@@ -223,26 +227,26 @@ export default function AcademyBookingWizard({
             </p>
           ) : null}
         </div>
-        <div>
-          <input
-            className={cn(inputClass, errors.phone && "border-red-400")}
-            placeholder="טלפון"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-              if (errors.phone) setErrors((p) => ({ ...p, phone: "" }));
-            }}
-            dir="ltr"
-            aria-invalid={!!errors.phone}
-          />
-          {errors.phone ? (
-            <p className="mt-1 text-xs text-red-500" data-field-error="">
-              {errors.phone}
-            </p>
-          ) : null}
-        </div>
+        <BookingPhoneInput
+          id="academy-phone"
+          value={phone}
+          required
+          error={errors.phone}
+          onChange={(value) => {
+            setPhone(value);
+            if (errors.phone) setErrors((p) => ({ ...p, phone: "" }));
+          }}
+          onBlurValidate={(msg) => {
+            setErrors((p) => {
+              const next = { ...p };
+              if (msg) next.phone = msg;
+              else delete next.phone;
+              return next;
+            });
+          }}
+        />
         <p className="text-xs text-muted-foreground">
-          אל דאגה - נשלח טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים!
+          נשלח טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים
         </p>
       </div>
 

@@ -12,7 +12,9 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
-import PhoneInputField from "@/components/forms/PhoneInputField";
+import BookingDateTimeFields from "@/components/booking/BookingDateTimeFields";
+import BookingFormField from "@/components/booking/BookingFormField";
+import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -80,9 +82,6 @@ const INITIAL: FormState = {
   selectedUpsells: [],
   termsAccepted: false,
 };
-
-const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 export default function EventsBookingWizard() {
   const [step, setStep] = useState(0);
@@ -350,18 +349,51 @@ export default function EventsBookingWizard() {
           <div className="relative max-w-lg space-y-4">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} />
-            <input className={cn(inputClass, errors.name && "border-red-400")} placeholder="שם *" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} aria-label="שם" />
-            <PhoneInputField
-              value={form.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
-              error={errors.phone}
+            <BookingFormField
+              id="ev-name"
+              label="שם *"
+              autoComplete="name"
+              value={form.name}
+              error={errors.name}
+              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
             />
-            <div className="grid grid-cols-2 gap-3">
-              <input className={cn(inputClass, errors.date && "border-red-400")} type="date" min={today} value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} aria-label="תאריך" />
-              <input className={cn(inputClass, errors.time && "border-red-400")} type="time" value={form.time} onChange={(e) => setForm((p) => ({ ...p, time: e.target.value }))} aria-label="שעה" />
-            </div>
-            <input className={cn(inputClass, errors.location && "border-red-400")} placeholder="שם האולם / מיקום *" value={form.location} onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))} aria-label="מיקום" />
-            <textarea className={cn(inputClass, "resize-none")} rows={3} placeholder="הערות" value={form.notes} onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} aria-label="הערות" />
+            <BookingPhoneInput
+              id="ev-phone"
+              value={form.phone}
+              required
+              error={errors.phone}
+              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onBlurValidate={(msg) => {
+                setErrors((prev) => {
+                  const next = { ...prev };
+                  if (msg) next.phone = msg;
+                  else delete next.phone;
+                  return next;
+                });
+              }}
+            />
+            <BookingDateTimeFields
+              date={form.date}
+              time={form.time}
+              minDate={today}
+              onDateChange={(v) => setForm((p) => ({ ...p, date: v }))}
+              onTimeChange={(v) => setForm((p) => ({ ...p, time: v }))}
+              errors={{ date: errors.date, time: errors.time }}
+            />
+            <BookingFormField
+              id="ev-location"
+              label="שם האולם / מיקום *"
+              value={form.location}
+              error={errors.location}
+              onChange={(v) => setForm((p) => ({ ...p, location: v }))}
+            />
+            <BookingFormField
+              id="ev-notes"
+              label="הערות"
+              multiline
+              value={form.notes}
+              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+            />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
         </BookingStepPanel>
@@ -449,7 +481,7 @@ function StepNav({
   return (
     <div className="flex justify-between gap-3 border-t border-border pt-6">
       {showBack && onBack ? (
-        <button type="button" onClick={onBack} className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold">
+        <button type="button" onClick={onBack} className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold">
           חזרה
         </button>
       ) : (
@@ -459,7 +491,12 @@ function StepNav({
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+        className={cn(
+          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
+          nextDisabled
+            ? "cursor-not-allowed bg-border text-muted-foreground"
+            : "bg-brand-red text-white hover:opacity-90",
+        )}
       >
         המשך
       </button>

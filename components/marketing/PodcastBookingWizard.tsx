@@ -13,7 +13,9 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
-import PhoneInputField from "@/components/forms/PhoneInputField";
+import BookingFormField from "@/components/booking/BookingFormField";
+import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
+import { bookFieldClass } from "@/lib/book-form-ui";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -98,9 +100,6 @@ const INITIAL: FormState = {
   selectedUpsells: [],
   termsAccepted: false,
 };
-
-const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 export default function PodcastBookingWizard() {
   const [step, setStep] = useState(0);
@@ -539,12 +538,28 @@ export default function PodcastBookingWizard() {
           <div className="relative max-w-lg space-y-4">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} />
-            <Field id="pb-name" label="שם *" value={form.name} error={errors.name} onChange={(v) => setForm((p) => ({ ...p, name: v }))} />
-            <PhoneInputField
+            <BookingFormField
+              id="pb-name"
+              label="שם *"
+              autoComplete="name"
+              value={form.name}
+              error={errors.name}
+              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
+            />
+            <BookingPhoneInput
               id="pb-phone"
               value={form.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              required
               error={errors.phone}
+              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onBlurValidate={(msg) => {
+                setErrors((prev) => {
+                  const next = { ...prev };
+                  if (msg) next.phone = msg;
+                  else delete next.phone;
+                  return next;
+                });
+              }}
             />
             <div>
               <label htmlFor="pb-timeframe" className="mb-1.5 block text-xs font-semibold">
@@ -554,7 +569,7 @@ export default function PodcastBookingWizard() {
                 id="pb-timeframe"
                 value={form.timeframe}
                 onChange={(e) => setForm((p) => ({ ...p, timeframe: e.target.value }))}
-                className={cn(inputClass, "appearance-none")}
+                className={cn(bookFieldClass, "appearance-none")}
               >
                 {TIMEFRAME_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value} disabled={o.value === ""}>
@@ -563,7 +578,13 @@ export default function PodcastBookingWizard() {
                 ))}
               </select>
             </div>
-            <Field id="pb-notes" label="הערות" multiline value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} />
+            <BookingFormField
+              id="pb-notes"
+              label="הערות"
+              multiline
+              value={form.notes}
+              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+            />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
         </BookingStepPanel>
@@ -665,40 +686,6 @@ export default function PodcastBookingWizard() {
   );
 }
 
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  error,
-  type = "text",
-  min,
-  multiline,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  error?: string;
-  type?: string;
-  min?: string;
-  multiline?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="mb-1.5 block text-xs font-semibold">
-        {label}
-      </label>
-      {multiline ? (
-        <textarea id={id} rows={3} value={value} onChange={(e) => onChange(e.target.value)} className={cn(inputClass, "resize-none")} />
-      ) : (
-        <input id={id} type={type} min={min} value={value} onChange={(e) => onChange(e.target.value)} className={cn(inputClass, error && "border-red-400")} />
-      )}
-      {error ? <p className="mt-1 text-xs text-red-500">{error}</p> : null}
-    </div>
-  );
-}
-
 function StepNav({
   onBack,
   onNext,
@@ -713,7 +700,7 @@ function StepNav({
   return (
     <div className="flex justify-between gap-3 border-t border-border pt-6">
       {showBack && onBack ? (
-        <button type="button" onClick={onBack} className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold">
+        <button type="button" onClick={onBack} className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold">
           חזרה
         </button>
       ) : (
@@ -723,7 +710,12 @@ function StepNav({
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+        className={cn(
+          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
+          nextDisabled
+            ? "cursor-not-allowed bg-border text-muted-foreground"
+            : "bg-brand-red text-white hover:opacity-90",
+        )}
       >
         המשך
       </button>

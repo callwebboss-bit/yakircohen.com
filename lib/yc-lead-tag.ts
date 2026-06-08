@@ -2,26 +2,39 @@
  * תג [YC:...] לסנכרון לידים עם yakir-closer.
  */
 
+export type YcScheduleId = "weekdays" | "motzash";
+
 export type YcLeadTagInput = {
   service: string;
   price?: number | null;
   source: string;
   step?: number;
+  schedule?: YcScheduleId | null;
+  package?: string | null;
 };
 
 const YC_TAG_RE =
-  /\[YC:service=([^|\]]+)(?:\|price=(\d+))?\|source=([^|\]]+)(?:\|step=(\d+))?\]/;
+  /\[YC:service=([^|\]]+)(?:\|price=(\d+))?(?:\|schedule=(weekdays|motzash))?(?:\|package=([^|\]]+))?\|source=([^|\]]+)(?:\|step=(\d+))?\]/;
 
 export function buildYcLeadTag({
   service,
   price,
   source,
   step = 1,
+  schedule,
+  package: pkg,
 }: YcLeadTagInput): string {
-  const parts = [`service=${service}`, `source=${source}`, `step=${step}`];
+  const parts = [`service=${service}`];
   if (price !== undefined && price !== null && price > 0) {
-    parts.splice(1, 0, `price=${price}`);
+    parts.push(`price=${price}`);
   }
+  if (schedule) {
+    parts.push(`schedule=${schedule}`);
+  }
+  if (pkg) {
+    parts.push(`package=${pkg}`);
+  }
+  parts.push(`source=${source}`, `step=${step}`);
   return `[YC:${parts.join("|")}]`;
 }
 
@@ -39,6 +52,8 @@ export type ParsedYcLeadTag = {
   price: number | null;
   source: string;
   step: number;
+  schedule: YcScheduleId | null;
+  package: string | null;
 };
 
 export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
@@ -47,7 +62,9 @@ export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
   return {
     service: match[1],
     price: match[2] ? Number(match[2]) : null,
-    source: match[3],
-    step: match[4] ? Number(match[4]) : 1,
+    schedule: (match[3] as YcScheduleId | undefined) ?? null,
+    package: match[4] ?? null,
+    source: match[5],
+    step: match[6] ? Number(match[6]) : 1,
   };
 }

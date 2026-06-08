@@ -8,6 +8,7 @@ import path from "node:path";
 const ROOT = process.cwd();
 const CATALOG_FILE = path.join(ROOT, "lib", "data", "pricing-catalog.ts");
 const ROUTES_FILE = path.join(ROOT, "lib", "data", "book-audience-routes.ts");
+const STUDIO_FILE = path.join(ROOT, "lib", "data", "studio-recording-booking.ts");
 const OUT_FILE = path.join(ROOT, "..", "local-tools", "closer-config.json");
 
 const VAT_RATE = 0.18;
@@ -46,19 +47,44 @@ function parseBookRoutes(text) {
   return routes;
 }
 
+function parseStudioPackages(text) {
+  const start = text.indexOf("export const STUDIO_RECORDING_PACKAGES");
+  const end = text.indexOf("export const STUDIO_RECORDING_UPGRADES", start);
+  if (start < 0 || end < 0) return [];
+  const slice = text.slice(start, end);
+  const packages = [];
+  const blockRe =
+    /id:\s*"(remote|classic|pro|viral|all_in)"[\s\S]*?name:\s*"([^"]+)"[\s\S]*?price:\s*(\d+)/g;
+  let m;
+  while ((m = blockRe.exec(slice)) !== null) {
+    packages.push({
+      id: m[1],
+      name: m[2],
+      price: Number(m[3]),
+      withVat: withVat(Number(m[3])),
+    });
+  }
+  return packages;
+}
+
 const catalogText = fs.readFileSync(CATALOG_FILE, "utf8");
 const routesText = fs.readFileSync(ROUTES_FILE, "utf8");
+const studioText = fs.readFileSync(STUDIO_FILE, "utf8");
 
 const catalog = parseCatalog(catalogText);
 const routes = parseBookRoutes(routesText);
+const studioPackages = parseStudioPackages(studioText);
 
 const payload = {
   generatedAt: new Date().toISOString(),
   vatRate: VAT_RATE,
   catalog,
   bookRoutePresets: routes,
+  studioPackages,
 };
 
 fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
 fs.writeFileSync(OUT_FILE, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-console.log(`Wrote ${OUT_FILE} (${catalog.length} prices, ${routes.length} routes)`);
+console.log(
+  `Wrote ${OUT_FILE} (${catalog.length} prices, ${routes.length} routes, ${studioPackages.length} studio packages)`,
+);

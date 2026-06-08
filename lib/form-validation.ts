@@ -447,3 +447,43 @@ export function formatPhoneForDisplay(e164Style: string): string {
   if (!n) return e164Style.trim();
   return `${n.slice(0, 3)}-${n.slice(3, 6)}-${n.slice(6)}`;
 }
+
+/** Formats Israeli mobile as 05X-XXX-XXXX while typing. */
+export function maskIsraeliPhoneInput(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+export function isSaturdayDate(dateStr: string): boolean {
+  if (!dateStr.trim()) return false;
+  const parsed = new Date(`${dateStr}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return false;
+  return parsed.getDay() === 6;
+}
+
+export function validateScheduleWindow(fields: {
+  scheduleWindow: "weekdays" | "motzash" | "";
+  date: string;
+  time: string;
+}): ValidationResult {
+  if (!fields.scheduleWindow) {
+    return { ok: false, errors: { scheduleWindow: "נא לבחור מועד מועדף" } };
+  }
+  if (fields.date.trim()) {
+    if (fields.scheduleWindow === "motzash" && !isSaturdayDate(fields.date)) {
+      return { ok: false, errors: { date: "במוצ״ש יש לבחור תאריך של יום שבת" } };
+    }
+    if (fields.scheduleWindow === "weekdays" && isSaturdayDate(fields.date)) {
+      return { ok: false, errors: { date: "בימי חול יש לבחור תאריך שאינו שבת" } };
+    }
+  }
+  if (fields.scheduleWindow === "motzash" && fields.time.trim()) {
+    const [h] = fields.time.split(":").map(Number);
+    if (!Number.isNaN(h) && h < 21) {
+      return { ok: false, errors: { time: "במוצ״ש ההקלטה מתחילה מ-21:00" } };
+    }
+  }
+  return { ok: true };
+}

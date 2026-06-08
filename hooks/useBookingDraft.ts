@@ -93,7 +93,7 @@ export function useBookingDraft<T>(
     timer.current = setTimeout(() => {
       writeDraft(storageKey, serialize(state));
       setSavedAt(new Date().toISOString());
-    }, 400);
+    }, 500);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };

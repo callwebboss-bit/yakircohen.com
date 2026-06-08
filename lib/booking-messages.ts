@@ -37,6 +37,8 @@ export type BookingWhatsAppBodyOptions = {
   includeTrustFooter?: boolean;
   bookCategory?: BookCategoryId;
   closerServiceId?: string;
+  ycSchedule?: "weekdays" | "motzash" | null;
+  ycPackage?: string | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -58,6 +60,8 @@ export function buildBookingWhatsAppBody({
   includeTrustFooter = false,
   bookCategory,
   closerServiceId,
+  ycSchedule,
+  ycPackage,
 }: BookingWhatsAppBodyOptions): string {
   const resolvedCloser =
     closerServiceId ??
@@ -77,6 +81,8 @@ export function buildBookingWhatsAppBody({
     includeTrustFooter,
     closerServiceId: resolvedCloser,
     ycStep: 1,
+    ycSchedule,
+    ycPackage,
   });
 }
 

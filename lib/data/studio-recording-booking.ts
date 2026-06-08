@@ -52,6 +52,7 @@ export const CONSULTATION_PACKAGES: readonly {
   emoji: string;
   name: string;
   description: string;
+  highlights: readonly [string, string, string];
   price: number;
   badge?: string;
 }[] = [
@@ -60,6 +61,11 @@ export const CONSULTATION_PACKAGES: readonly {
     emoji: "📱",
     name: "ייעוץ טלפוני",
     description: "שיחת ייעוץ של 45 דקות - אסטרטגיה לקידום השיר ברשתות החברתיות",
+    highlights: [
+      "שיחת ייעוץ של 45 דקות",
+      "אסטרטגיה לקידום ברשתות החברתיות",
+      "מתאים לפני שמוציאים שיר לאוויר",
+    ],
     price: 400,
   },
   {
@@ -67,6 +73,11 @@ export const CONSULTATION_PACKAGES: readonly {
     emoji: "🤝",
     name: "ייעוץ פרונטלי",
     description: "פגישה של שעה באולפן - תכנית פרסום מלאה, מדדי הצלחה ועצות מעשיות · בתיאום מראש",
+    highlights: [
+      "פגישה של שעה באולפן",
+      "תכנית פרסום מלאה ומדדי הצלחה",
+      "עצות מעשיות - בתיאום מראש",
+    ],
     price: 980,
     badge: "מומלץ",
   },
@@ -134,6 +145,7 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
   emoji: string;
   name: string;
   description: string;
+  highlights: readonly [string, string, string];
   price: number;
   badge?: string;
   savings?: string;
@@ -145,6 +157,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     name: "הקלטה מרחוק (Remote)",
     description:
       "הקלטה מהטלפון בבית · ניקוי רעשים · מיקס ותיקון זיופים מלא באולפן",
+    highlights: [
+      "מקליטים מהטלפון בבית",
+      "ניקוי רעשים ומיקס מלא באולפן",
+      "תיקון זיופים עד לתוצאה מושלמת",
+    ],
     price: 590,
   },
   {
@@ -153,6 +170,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     name: "הקלטת אולפן קלאסית",
     description:
       "הקלטת שיר/ברכה/דרשה ללא לחץ זמן עד לתוצאה מושלמת · מיקס, מאסטרינג ותיקון זיופים",
+    highlights: [
+      "הקלטה באולפן ללא לחץ זמן",
+      "מיקס, מאסטרינג ותיקון זיופים",
+      "מושלם לשיר, ברכה או דרשה",
+    ],
     price: 990,
   },
   {
@@ -161,6 +183,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     name: "הלהיט - Pro Studio",
     description:
       "הקלטה מלאה + Pitch Correction ידני + ייעוץ אמנותי + 3 תמונות סטילס מעובדות",
+    highlights: [
+      "הכל מ-Classic + ייעוץ אמנותי",
+      "Pitch Correction ידני",
+      "3 תמונות סטילס מעובדות",
+    ],
     price: 1480,
     badge: "POPULAR",
     savings: "חיסכון של 490 ₪ לעומת מחיר עצמאי",
@@ -171,6 +198,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     name: "הכוכב הויראלי",
     description:
       "חבילת Pro + קליפ אולפן מקצועי (Performance Video) ערוך לרשתות חברתיות",
+    highlights: [
+      "חבילת Pro מלאה",
+      "קליפ ביצוע מקצועי מהאולפן",
+      "מוכן לפרסום ברשתות",
+    ],
     price: 1950,
     badge: "TRENDING",
     savings: "חיסכון של 780 ₪ לעומת מחיר עצמאי",
@@ -181,6 +213,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     name: "All-In: סיפור חיים",
     description:
       "הפקה מלאה + קליפ תמונות גדילה מרגש מתמונות וסרטוני ילדות · הכל כלול, ללא הפתעות",
+    highlights: [
+      "הפקה מלאה + קליפ תמונות גדילה",
+      "מתמונות וסרטוני ילדות",
+      "הכל כלול - ללא הפתעות",
+    ],
     price: 2380,
     badge: "BEST VALUE",
     savings: "חיסכון של 1,120 ₪ לעומת מחיר עצמאי",
@@ -277,6 +314,29 @@ export const PARTICIPANTS_OPTIONS = [
 
 /** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
 export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
+
+export type ScheduleWindowId = "weekdays" | "motzash";
+
+export const SCHEDULE_WINDOW_OPTIONS: readonly {
+  id: ScheduleWindowId;
+  label: string;
+  detail: string;
+}[] = [
+  {
+    id: "weekdays",
+    label: "ימים מועדפים א' - ה' (בשעות הפעילות)",
+    detail: "בחרו תאריך ושעה בימי חול",
+  },
+  {
+    id: "motzash",
+    label: "מוצ״ש החל מ-21:00 (פתיחה במיוחד - תוספת 50% פתיחת אולפן)",
+    detail: "תאריך של יום שבת, שעה מ-21:00",
+  },
+] as const;
+
+export function scheduleWindowSummaryLabel(id: ScheduleWindowId): string {
+  return id === "weekdays" ? "ימי חול (א'-ה')" : "מוצ״ש (+50% פתיחה)";
+}
 
 export const STUDIO_SURPRISE_GIFT_NOTE =
   "אם יש ילד/ה שיופתעו - נכין להם הפתעה קטנה ומיוחדת";

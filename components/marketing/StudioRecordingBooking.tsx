@@ -2,11 +2,19 @@
 
 import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
+import BookingSchedulePicker from "@/components/booking/BookingSchedulePicker";
+import BookingSubmitButton from "@/components/booking/BookingSubmitButton";
+import StudioValueChips from "@/components/booking/StudioValueChips";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookRecordingVsProduction from "@/components/booking/BookRecordingVsProduction";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
+import BookingSelectableCard, {
+  BookingSelectionConfirm,
+  BookingStepGuide,
+} from "@/components/booking/BookingSelectableCard";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
@@ -29,10 +37,12 @@ import {
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
+import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
   validateBookingLead,
+  validateScheduleWindow,
 } from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
@@ -43,9 +53,11 @@ import {
   STUDIO_RECORDING_PACKAGES,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
+  scheduleWindowSummaryLabel,
   type AtmosphereId,
   type ConsultationPackageId,
   type RecordingTypeId,
+  type ScheduleWindowId,
   type StudioPackageId,
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
@@ -68,15 +80,13 @@ type FormState = {
   giftRecipientName: string;
   name: string;
   phone: string;
+  scheduleWindow: ScheduleWindowId | "";
   date: string;
   time: string;
   notes: string;
   customerNeed: string;
   termsAccepted: boolean;
 };
-
-const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type DraftPayload = {
   recordingType: RecordingTypeId | "";
@@ -90,6 +100,7 @@ type DraftPayload = {
   giftRecipientName: string;
   name: string;
   phone: string;
+  scheduleWindow: ScheduleWindowId | "";
   date: string;
   time: string;
   notes: string;
@@ -104,7 +115,7 @@ function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers 
   const purposeOpt = FILTER_QUESTIONS[1].options.find((o) => o.id === filterAnswers.purpose);
   if (!timelineOpt && !purposeOpt) return null;
   return (
-    <div className="mb-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-border bg-surface px-5 py-2 text-xs text-muted-foreground sm:rounded-full">
+    <div className="mb-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-border/60 bg-surface px-5 py-2 text-xs text-muted-foreground sm:rounded-full">
       {timelineOpt && (
         <span className="flex items-center gap-1 font-medium text-foreground">
           <span aria-hidden="true">{timelineOpt.icon}</span>
@@ -148,6 +159,7 @@ export default function StudioRecordingBooking({
     giftRecipientName: "",
     name: "",
     phone: "",
+    scheduleWindow: "",
     date: "",
     time: "",
     notes: "",
@@ -155,6 +167,7 @@ export default function StudioRecordingBooking({
     termsAccepted: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [lastWaHref, setLastWaHref] = useState("");
   const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
@@ -178,6 +191,7 @@ export default function StudioRecordingBooking({
         giftRecipientName: payload.giftRecipientName ?? "",
         name: payload.name,
         phone: payload.phone,
+        scheduleWindow: payload.scheduleWindow ?? "",
         date: payload.date,
         time: payload.time,
         notes: payload.notes,
@@ -233,6 +247,22 @@ export default function StudioRecordingBooking({
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
+  const handleScheduleWindowChange = (value: ScheduleWindowId) => {
+    setForm((prev) => ({
+      ...prev,
+      scheduleWindow: value,
+      date: "",
+      time: "",
+    }));
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next.date;
+      delete next.time;
+      delete next.scheduleWindow;
+      return next;
+    });
+  };
+
   const buildSummaryLines = () => [
     ...(filterAnswers
       ? [
@@ -272,6 +302,14 @@ export default function StudioRecordingBooking({
     ...(form.surpriseGift && form.giftRecipientName
       ? [{ label: "מתנה עבור", value: sanitizeLeadText(form.giftRecipientName, 60) }]
       : []),
+    ...(form.scheduleWindow
+      ? [
+          {
+            label: "מועד מועדף",
+            value: scheduleWindowSummaryLabel(form.scheduleWindow),
+          },
+        ]
+      : []),
     ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.location === "mobile"
@@ -287,6 +325,12 @@ export default function StudioRecordingBooking({
       value: "חזרות בבית · עד 5 אנשים בצילום · שקט באולפן",
     },
   ];
+
+  const ycBookingMeta = {
+    ycSchedule: form.scheduleWindow || null,
+    ycPackage:
+      !isConsultation && form.packageId ? (form.packageId as string) : null,
+  };
 
   const previewBody =
     step === 2 && activePackage
@@ -307,6 +351,7 @@ export default function StudioRecordingBooking({
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
+          ...ycBookingMeta,
         })
       : undefined;
 
@@ -323,6 +368,7 @@ export default function StudioRecordingBooking({
       giftRecipientName: "",
       name: "",
       phone: "",
+      scheduleWindow: "",
       date: "",
       time: "",
       notes: "",
@@ -332,6 +378,7 @@ export default function StudioRecordingBooking({
     setStep(0);
     setSubmitted(false);
     setErrors({});
+    setIsSubmitting(false);
   };
 
   const goToStep = (n: number) => {
@@ -377,6 +424,7 @@ export default function StudioRecordingBooking({
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
+          ...ycBookingMeta,
         });
 
         const href = buildWhatsAppHref({
@@ -409,7 +457,32 @@ export default function StudioRecordingBooking({
     }
   };
 
+  const onSubmitClick = (intent: "continue_chat" | "start_now") => {
+    const scheduleResult = validateScheduleWindow({
+      scheduleWindow: form.scheduleWindow,
+      date: form.date,
+      time: form.time,
+    });
+    if (!scheduleResult.ok) {
+      setErrors((prev) => ({ ...prev, ...scheduleResult.errors }));
+      setTimeout(() => {
+        document
+          .querySelector("[data-field-error]")
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      handleAction(intent);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const today = new Date().toISOString().split("T")[0];
+  const stepAnnouncement = `שלב ${step + 1} מתוך ${STEPS.length}: ${STEPS[step]}`;
 
   if (submitted && lastWaHref) {
     return (
@@ -446,45 +519,72 @@ export default function StudioRecordingBooking({
         />
       </div>
 
+      <p className="sr-only" aria-live="polite">
+        {stepAnnouncement}
+      </p>
+
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת הקלטה" />
 
       {/* Step 0: recording type + atmosphere */}
       {step === 0 && (
-        <BookingStepPanel stepKey={0}>
-          <section className="space-y-8" aria-labelledby="step0-heading">
-            <header>
+        <BookingStepPanel stepKey={0} stepLabel={stepAnnouncement}>
+          <section className={bookSectionClass} aria-labelledby="step0-heading">
+            <header className="space-y-4">
               <h2
                 id="step0-heading"
                 className="text-xl font-semibold text-foreground sm:text-2xl"
               >
                 בחרו סוג הקלטה
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש - בלי לחץ זמן.
-              </p>
+              <StudioValueChips />
+              <BookingStepGuide
+                lines={[
+                  "בחרו סוג הקלטה - אפשר לשנות בכל שלב",
+                  "שם השיר עוזר לנו להתכונן מראש",
+                  "האווירה קובעת את אופי ההפקה",
+                ]}
+              />
             </header>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {RECORDING_TYPES.map((type) => {
-                const active = form.recordingType === type.id;
-                return (
-                  <button
-                    key={type.id}
-                    type="button"
-                    onClick={() => setForm((prev) => ({ ...prev, recordingType: type.id }))}
-                    className={cn(
-                      "min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
-                      active
-                        ? "border-brand-red bg-brand-red/10 text-brand-red"
-                        : "border-border bg-background text-foreground hover:border-brand-red/40",
-                    )}
-                    aria-pressed={active}
-                  >
-                    {type.label}
-                  </button>
-                );
-              })}
+            <div>
+              <p className="mb-2 text-xs font-semibold text-muted-foreground">סוג הקלטה</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {RECORDING_TYPES.map((type) => {
+                  const active = form.recordingType === type.id;
+                  return (
+                    <button
+                      key={type.id}
+                      type="button"
+                      onClick={() => setForm((prev) => ({ ...prev, recordingType: type.id }))}
+                      className={cn(
+                        "relative min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
+                        active
+                          ? "border-brand-red bg-brand-red/10 pe-8 text-brand-red"
+                          : "border-border/60 bg-background text-foreground hover:border-brand-red/40",
+                      )}
+                      aria-pressed={active}
+                    >
+                      {active ? (
+                        <span
+                          className="absolute end-2 top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-red text-[0.55rem] font-bold text-white"
+                          aria-hidden="true"
+                        >
+                          ✓
+                        </span>
+                      ) : null}
+                      {type.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            {form.recordingType ? (
+              <BookingSelectionConfirm
+                title={`נבחר: ${recordingLabel}`}
+                detail="המשיכו למילוי פרטים או בחרו סוג אחר"
+              />
+            ) : null}
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -497,7 +597,7 @@ export default function StudioRecordingBooking({
                   value={form.songName}
                   onChange={(e) => setForm((prev) => ({ ...prev, songName: e.target.value }))}
                   placeholder='לדוגמה: "אין כאן מקרה"'
-                  className={inputClass}
+                  className={bookFieldClass}
                 />
               </div>
               <div>
@@ -510,7 +610,8 @@ export default function StudioRecordingBooking({
                   value={form.referrer}
                   onChange={(e) => setForm((prev) => ({ ...prev, referrer: e.target.value }))}
                   placeholder="שם מי שהמליץ עליכם"
-                  className={inputClass}
+                  autoComplete="off"
+                  className={bookFieldClass}
                 />
               </div>
             </div>
@@ -520,34 +621,36 @@ export default function StudioRecordingBooking({
                 <h3 className="mb-2 text-base font-semibold text-foreground">
                   בחרו את האווירה שלכם
                 </h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  האווירה משפיעה על כל ההפקה - בחרו את הרגש שאתם רוצים
-                </p>
-                <div className="grid gap-4 sm:grid-cols-3">
+                <BookingStepGuide
+                  lines={[
+                    "האווירה משפיעה על כל ההפקה",
+                    "אפשר לשנות עד שלב האישור",
+                    "בחרו את הרגש שמתאים לכם",
+                  ]}
+                />
+                <div className="mt-4 grid gap-4 sm:grid-cols-3">
                   {RECORDING_ATMOSPHERES.map((item) => {
                     const active = form.atmosphere === item.id;
                     return (
-                      <button
+                      <BookingSelectableCard
                         key={item.id}
-                        type="button"
+                        active={active}
                         onClick={() => setForm((prev) => ({ ...prev, atmosphere: item.id }))}
-                        className={cn(
-                          "flex flex-col items-center gap-3 rounded-2xl border p-6 text-center transition-all",
-                          active
-                            ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_rgba(212,43,43,0.12)]"
-                            : "border-border bg-background hover:border-brand-red/30",
-                        )}
-                        aria-pressed={active}
-                      >
-                        <span className="text-3xl" aria-hidden="true">
-                          {item.emoji}
-                        </span>
-                        <span className="font-semibold text-foreground">{item.title}</span>
-                        <span className="text-xs text-muted-foreground">{item.subtitle}</span>
-                      </button>
+                        title={item.title}
+                        highlights={[item.subtitle]}
+                        emoji={item.emoji}
+                        compact
+                      />
                     );
                   })}
                 </div>
+                {form.atmosphere ? (
+                  <BookingSelectionConfirm
+                    className="mt-4"
+                    title={`אווירה: ${atmosphereLabel}`}
+                    detail="נשמור את הבחירה לסיכום ולוואטסאפ"
+                  />
+                ) : null}
               </div>
             )}
 
@@ -596,7 +699,7 @@ export default function StudioRecordingBooking({
                     }
                     placeholder="לדוגמה: נועה"
                     className={cn(
-                      inputClass,
+                      bookFieldClass,
                       "border-amber-300 focus:border-amber-500 focus:ring-amber-200/50",
                     )}
                   />
@@ -615,8 +718,8 @@ export default function StudioRecordingBooking({
 
       {/* Step 1: package selection */}
       {step === 1 && (
-        <BookingStepPanel stepKey={1}>
-          <section className="space-y-8" aria-labelledby="package-heading">
+        <BookingStepPanel stepKey={1} stepLabel={stepAnnouncement}>
+          <section className={bookSectionClass} aria-labelledby="package-heading">
             <header>
               <h2
                 id="package-heading"
@@ -624,57 +727,54 @@ export default function StudioRecordingBooking({
               >
                 {isConsultation ? "בחרו סוג ייעוץ" : "בחרו את המסלול שלכם"}
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {isConsultation
-                  ? "ייעוץ מקצועי לקידום השיר ברשתות החברתיות"
-                  : "המחיר הוא על התוצאה הסופית - לא על זמן באולפן"}
-              </p>
+              <BookingStepGuide
+                lines={
+                  isConsultation
+                    ? [
+                        "בחרו טלפוני או פרונטלי לפי הנוחות שלכם",
+                        "המחיר כולל ייעוץ מקצועי מלא",
+                        "אפשר לשנות מסלול לפני השליחה",
+                      ]
+                    : [
+                        "כל מסלול כולל מיקס, מאסטרינג ותיקון זיופים",
+                        "המחיר הוא על התוצאה הסופית - לא על זמן באולפן",
+                        "תוספות אופציונליות מופיעות מתחת לבחירה",
+                      ]
+                }
+              />
             </header>
 
             <div className="grid gap-4 lg:grid-cols-2">
               {(isConsultation ? CONSULTATION_PACKAGES : STUDIO_RECORDING_PACKAGES).map((pkg) => {
                 const active = form.packageId === pkg.id;
                 return (
-                  <button
+                  <BookingSelectableCard
                     key={pkg.id}
-                    type="button"
+                    active={active}
                     onClick={() => setForm((prev) => ({ ...prev, packageId: pkg.id }))}
-                    className={cn(
-                      "relative flex flex-col items-start gap-2 rounded-2xl border p-5 text-start",
-                      "featured" in pkg && pkg.featured && "ring-1 ring-brand-red/30",
-                      active
-                        ? "border-brand-red bg-brand-red/5"
-                        : "border-border bg-background hover:border-brand-red/30",
-                    )}
-                    aria-pressed={active}
-                  >
-                    {pkg.badge && (
-                      <span className="absolute left-3 top-3 rounded-full bg-brand-red px-2 py-0.5 text-[0.6rem] font-bold text-white">
-                        {pkg.badge}
-                      </span>
-                    )}
-                    {"featured" in pkg && pkg.featured && (
-                      <span className="mb-1 w-full text-center text-xs font-bold text-brand-red">
-                        הכי מומלץ - שגר ושכח
-                      </span>
-                    )}
-                    <span className="text-2xl" aria-hidden="true">
-                      {pkg.emoji}
-                    </span>
-                    <span className="text-sm font-semibold text-foreground">{pkg.name}</span>
-                    <span className="text-xs leading-relaxed text-muted-foreground">
-                      {pkg.description}
-                    </span>
-                    {"savings" in pkg && pkg.savings && (
-                      <span className="text-xs font-medium text-green-700">{pkg.savings}</span>
-                    )}
-                    <div className="mt-auto">
-                      <PriceWithVat amountExVat={pkg.price} size="md" />
-                    </div>
-                  </button>
+                    title={pkg.name}
+                    highlights={pkg.highlights}
+                    emoji={pkg.emoji}
+                    badge={pkg.badge}
+                    featured={"featured" in pkg ? pkg.featured : undefined}
+                    featuredLabel="הכי מומלץ - שגר ושכח"
+                    savings={"savings" in pkg ? pkg.savings : undefined}
+                    footer={<PriceWithVat amountExVat={pkg.price} size="md" />}
+                  />
                 );
               })}
             </div>
+
+            {activePackage ? (
+              <BookingSelectionConfirm
+                title={`מסלול נבחר: ${activePackage.name}`}
+                detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ · לחצו המשך לפרטים ואישור`}
+              />
+            ) : (
+              <p className="rounded-xl border border-dashed border-border/60 bg-surface px-4 py-3 text-center text-sm text-muted-foreground">
+                בחרו מסלול אחד כדי להמשיך
+              </p>
+            )}
 
             {!isConsultation && (
               <>
@@ -698,8 +798,8 @@ export default function StudioRecordingBooking({
 
       {/* Step 2: summary + contact form (closing) */}
       {step === 2 && (
-        <BookingStepPanel stepKey={2}>
-          <section className="mx-auto max-w-lg space-y-8">
+        <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
+          <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
             {/* Read-only summary */}
             <div className="rounded-2xl bg-surface p-6">
               <h2 className="mb-4 text-lg font-medium text-foreground">מה שבחרת</h2>
@@ -740,6 +840,14 @@ export default function StudioRecordingBooking({
                     {form.giftRecipientName && ` - עבור ${form.giftRecipientName}`}
                   </li>
                 )}
+                {form.scheduleWindow && (
+                  <li>
+                    <span className="font-medium text-foreground">מועד מועדף: </span>
+                    {scheduleWindowSummaryLabel(form.scheduleWindow)}
+                    {form.date && ` · ${form.date}`}
+                    {form.time && ` · ${form.time}`}
+                  </li>
+                )}
               </ul>
               <div className="mt-5 border-t border-border pt-4">
                 <PriceWithVat amountExVat={total} size="lg" />
@@ -760,6 +868,7 @@ export default function StudioRecordingBooking({
                   <input
                     id="sr-name"
                     type="text"
+                    autoComplete="name"
                     value={form.name}
                     onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
                     onBlur={() => {
@@ -777,7 +886,7 @@ export default function StudioRecordingBooking({
                         });
                       }
                     }}
-                    className={cn(inputClass, errors.name && "border-red-400")}
+                    className={cn(bookFieldClass, errors.name && "border-red-400")}
                   />
                   {errors.name && (
                     <p className="mt-1 text-xs text-red-500" data-field-error="">
@@ -786,79 +895,36 @@ export default function StudioRecordingBooking({
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="sr-phone" className="mb-1.5 block text-xs font-semibold">
-                    טלפון *
-                  </label>
-                  <input
-                    id="sr-phone"
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
-                    onBlur={() => {
-                      const val = form.phone.trim().replace(/[\s\-]/g, "");
-                      if (
-                        val.length > 0 &&
-                        !/^(0[5-9]\d{8}|972[5-9]\d{8})$/.test(val)
-                      ) {
-                        setErrors((prev) => ({
-                          ...prev,
-                          phone: "מספר טלפון לא תקין",
-                        }));
-                      } else if (val.length > 0 && errors.phone) {
-                        setErrors((prev) => {
-                          const n = { ...prev };
-                          delete n.phone;
-                          return n;
-                        });
-                      }
-                    }}
-                    className={cn(inputClass, errors.phone && "border-red-400")}
-                  />
-                  {errors.phone && (
-                    <p className="mt-1 text-xs text-red-500" data-field-error="">
-                      {errors.phone}
-                    </p>
-                  )}
-                </div>
+                <BookingPhoneInput
+                  id="sr-phone"
+                  value={form.phone}
+                  required
+                  error={errors.phone}
+                  onChange={(value) => setForm((prev) => ({ ...prev, phone: value }))}
+                  onBlurValidate={(msg) => {
+                    setErrors((prev) => {
+                      const next = { ...prev };
+                      if (msg) next.phone = msg;
+                      else delete next.phone;
+                      return next;
+                    });
+                  }}
+                />
 
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="sr-date" className="mb-1.5 block text-xs font-semibold">
-                      תאריך *
-                    </label>
-                    <input
-                      id="sr-date"
-                      type="date"
-                      min={today}
-                      value={form.date}
-                      onChange={(e) => setForm((prev) => ({ ...prev, date: e.target.value }))}
-                      className={cn(inputClass, errors.date && "border-red-400")}
-                    />
-                    {errors.date && (
-                      <p className="mt-1 text-xs text-red-500" data-field-error="">
-                        {errors.date}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="sr-time" className="mb-1.5 block text-xs font-semibold">
-                      שעה *
-                    </label>
-                    <input
-                      id="sr-time"
-                      type="time"
-                      value={form.time}
-                      onChange={(e) => setForm((prev) => ({ ...prev, time: e.target.value }))}
-                      className={cn(inputClass, errors.time && "border-red-400")}
-                    />
-                    {errors.time && (
-                      <p className="mt-1 text-xs text-red-500" data-field-error="">
-                        {errors.time}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                <BookingSchedulePicker
+                  scheduleWindow={form.scheduleWindow}
+                  onScheduleWindowChange={handleScheduleWindowChange}
+                  date={form.date}
+                  time={form.time}
+                  onDateChange={(value) => setForm((prev) => ({ ...prev, date: value }))}
+                  onTimeChange={(value) => setForm((prev) => ({ ...prev, time: value }))}
+                  minDate={today}
+                  errors={{
+                    scheduleWindow: errors.scheduleWindow,
+                    date: errors.date,
+                    time: errors.time,
+                  }}
+                />
 
                 <div>
                   <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
@@ -874,10 +940,10 @@ export default function StudioRecordingBooking({
                         type="button"
                         onClick={() => setForm((prev) => ({ ...prev, location: loc.id }))}
                         className={cn(
-                          "rounded-xl border px-4 py-3 text-start text-sm",
+                          "rounded-2xl border px-4 py-3 text-start text-sm",
                           form.location === loc.id
                             ? "border-brand-red bg-brand-red/5 text-brand-red"
-                            : "border-border hover:border-brand-red/30",
+                            : "border-border/60 hover:border-brand-red/30",
                         )}
                         aria-pressed={form.location === loc.id}
                       >
@@ -895,14 +961,15 @@ export default function StudioRecordingBooking({
                   <textarea
                     id="sr-notes"
                     rows={3}
+                    autoComplete="off"
                     value={form.notes}
                     onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
-                    className={cn(inputClass, "resize-none")}
+                    className={cn(bookFieldClass, "resize-none")}
                   />
                 </div>
 
                 <p className="text-xs text-muted-foreground">
-                  אל דאגה - נשלח לכם טיפים קלים לחזרות בבית כדי שתגיעו מוכנים, רגועים ומלאי ביטחון!
+                  נשלח לכם טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים
                 </p>
 
                 <BookWhatHappensNext />
@@ -935,19 +1002,13 @@ export default function StudioRecordingBooking({
                 termsError={errors.terms}
               />
 
-              <button
-                type="button"
-                onClick={() => handleAction("continue_chat")}
+              <BookingSubmitButton
+                onClick={() => onSubmitClick("continue_chat")}
                 disabled={!form.termsAccepted}
-                className={cn(
-                  "flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold shadow-sm transition-opacity",
-                  form.termsAccepted
-                    ? "bg-brand-red text-white hover:opacity-90"
-                    : "cursor-not-allowed bg-border text-muted-foreground",
-                )}
+                isSubmitting={isSubmitting}
               >
                 {sendBookingWaCta(withVat(total))}
-              </button>
+              </BookingSubmitButton>
 
               <BookingPaymentTrust />
 
@@ -975,11 +1036,11 @@ export default function StudioRecordingBooking({
             </div>
             <button
               type="button"
-              onClick={() => handleAction("continue_chat")}
-              disabled={!form.termsAccepted}
+              onClick={() => onSubmitClick("continue_chat")}
+              disabled={!form.termsAccepted || isSubmitting}
               className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             >
-              וואטסאפ
+              {isSubmitting ? "שולח..." : "וואטסאפ"}
             </button>
           </div>
         </div>
@@ -1007,7 +1068,7 @@ function StepNav({
         <button
           type="button"
           onClick={onBack}
-          className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40"
+          className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40"
         >
           חזרה
         </button>
