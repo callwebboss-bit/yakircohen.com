@@ -2,19 +2,20 @@ import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import TableOfContents from "@/components/ui/TableOfContents";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
-import AudioPlayer from "@/components/marketing/AudioPlayer";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import PodcastBeforeAfter from "@/components/seo/PodcastBeforeAfter";
+import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import PodcastLeadForm from "@/components/seo/PodcastLeadForm";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
-import { PODCAST_SAMPLE_TRACKS } from "@/lib/data/podcast-samples";
 import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   PODCAST_HUB_AUDIENCES,
@@ -526,14 +527,19 @@ export default function PodcastHubPageContent() {
                 id="samples-heading"
                 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                האזינו לדוגמאות - שיפור הקלטות בפעולה
+                שיפור סאונד פודקאסט - לפני ואחרי
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                פתיחת פודקאסט וקול אחרי עריכה ושיפור סאונד בבינה מלאכותית.
+                הקלטת זום או חדר ביתי לפני הניקוי, מול אותו קטע אחרי שיפור סאונד
+                ב-AI ועריכה ידנית.
               </p>
             </header>
-            <div className="mx-auto mt-8 max-w-xl">
-              <AudioPlayer tracks={PODCAST_SAMPLE_TRACKS} />
+            <div className="mx-auto mt-8 max-w-2xl">
+              <SoundImprovementShowcase
+                demoId="podcast-zoom-cleanup"
+                variant="remote"
+                context="compact"
+              />
             </div>
           </section>
 
@@ -722,6 +728,7 @@ export default function PodcastHubPageContent() {
             </p>
           </div>
 
+          <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast")} />
           <PageRelatedFooter pathname="/podcast" />
         </div>
       </ServicePageLayout>

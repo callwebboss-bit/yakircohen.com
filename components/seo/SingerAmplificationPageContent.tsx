@@ -2,6 +2,8 @@ import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import SingerBeforeAfterAudio from "@/components/singer-amplification/SingerBeforeAfterAudio";
@@ -396,6 +398,7 @@ export default function SingerAmplificationPageContent() {
           </Link>
         </p>
 
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/equipment/singer-amplification")} />
         <PageRelatedFooter pathname="/events/equipment/singer-amplification" />
       </div>
     </ServicePageLayout>

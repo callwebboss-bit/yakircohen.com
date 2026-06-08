@@ -1,6 +1,8 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
@@ -760,6 +762,7 @@ export default function RecordingSongModiinPageContent() {
             </Link>
           </section>
 
+          <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/recording-song-modiin")} />
           <PageRelatedFooter pathname="/studio/recording-song-modiin" />
         </div>
       </ServicePageLayout>

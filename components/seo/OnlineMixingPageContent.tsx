@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import AudioShowcase from "@/components/seo/AudioShowcase";
@@ -355,6 +357,9 @@ export default function OnlineMixingPageContent() {
           <ShareButton title="מיקס ומאסטרינג מרחוק | יקיר כהן הפקות" />
         </div>
       </section>
+      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("online/vocal-fix/mixing")} />
+      </div>
     </div>
   );
 }

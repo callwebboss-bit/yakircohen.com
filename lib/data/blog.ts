@@ -240,7 +240,8 @@ export const BLOG_POSTS = [
     thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "עריכה ושחזור סאונד",
     relatedServiceSlug: "podcast/podcast-editing",
-    audioDemoId: "weber-restoration",
+    youtubeUrl: "https://youtu.be/wa_mOrjJvK8",
+    audioDemoId: "podcast-zoom-cleanup",
   },
   {
     slug: "wedding-song-2026",
@@ -2861,6 +2862,19 @@ export function getBlogPostBySlug(slug: string): BlogPost | undefined {
 
 export function getAllBlogSlugs(): BlogPostSlug[] {
   return BLOG_POSTS.map((post) => post.slug);
+}
+
+export function getBlogPostsByServiceSlug(
+  serviceSlug: string,
+  count = 3,
+): BlogPost[] {
+  const all = BLOG_POSTS as readonly BlogPost[];
+  const matches = all.filter(
+    (p) =>
+      p.relatedServiceSlug === serviceSlug ||
+      p.relatedServiceSlug.startsWith(serviceSlug + "/"),
+  );
+  return Array.from(matches).slice(0, count);
 }
 
 export function getRelatedBlogPosts(currentSlug: string, count = 3): BlogPost[] {

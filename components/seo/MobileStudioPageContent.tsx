@@ -1,4 +1,6 @@
 ﻿import Link from "next/link";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -298,6 +300,7 @@ export default function MobileStudioPageContent() {
             שליחה בוואטסאפ
           </a>
         </section>
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/mobile-studio")} />
       </div>
     </ServicePageLayout>
   );

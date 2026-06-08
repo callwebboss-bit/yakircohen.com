@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
@@ -586,6 +588,11 @@ export default function AcademyPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Related Articles ── */}
+      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("academy")} heading="מדריכים לפני שמתחילים" />
+      </div>
 
       {/* ── Bottom CTA ── */}
       <section className="border-t border-border bg-surface py-16 sm:py-20">

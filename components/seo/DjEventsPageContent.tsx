@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { DjEventsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -439,6 +441,7 @@ export default function DjEventsPageContent() {
           </header>
           <DjBookingForm />
         </section>
+              <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/dj-events")} />
               <PageRelatedFooter pathname="/events/dj-events" />
 
             </div>

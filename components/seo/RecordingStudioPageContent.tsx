@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -206,6 +208,7 @@ export default function RecordingStudioPageContent() {
             שליחה בוואטסאפ
           </a>
         </section>
+              <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/recording-studio")} />
               <PageRelatedFooter pathname="/studio/recording-studio" />
 
             </div>

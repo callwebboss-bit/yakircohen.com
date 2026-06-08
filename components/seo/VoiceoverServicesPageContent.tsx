@@ -1,6 +1,8 @@
 ﻿import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -36,6 +38,7 @@ export default function VoiceoverServicesPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
         ) : null}
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("voiceover/services")} />
         <PageRelatedFooter pathname="/voiceover/services" />
       </div>
     </ServicePageLayout>

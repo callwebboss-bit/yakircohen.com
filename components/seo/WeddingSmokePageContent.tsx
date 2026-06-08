@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -342,6 +344,7 @@ export default function WeddingSmokePageContent() {
             שליחה בוואטסאפ
           </a>
         </section>
+              <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/attractions/wedding-smoking-machine")} />
               <PageRelatedFooter pathname="/events/attractions/wedding-smoking-machine" />
 
             </div>

@@ -1,4 +1,6 @@
 ﻿import Link from "next/link";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import BlessingsRelatedNav from "@/components/blessings/BlessingsRelatedNav";
@@ -70,6 +72,7 @@ export default function BlessingsBrideGroomPageContent() {
         </p>
       </div>
 
+      <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/blessings/bride-groom-blessing")} heading="קראו לפני ההקלטה" />
       <BlessingsRelatedNav links={RELATED_LINKS} />
     </ServicePageFromRegistry>
   );

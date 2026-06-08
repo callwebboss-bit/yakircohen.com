@@ -1,6 +1,8 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
+import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -300,6 +302,7 @@ export default function PodcastEditingPageContent() {
                   <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד - לקריאה ←</p>
                 </div>
               </Link>
+              <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast/podcast-editing")} />
               <PageRelatedFooter pathname="/podcast/podcast-editing" />
 
             </div>
