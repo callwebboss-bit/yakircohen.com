@@ -1,6 +1,7 @@
 export type PodcastPackageId = "starter" | "audio" | "video" | "social";
 
 import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 /** מחיר פתיחה  -  פרק חצי שעה (מוצג גם במרכז הפודקאסט) */
 export const PODCAST_STARTER_PRICE = STUDIO_HALF_HOUR_NIS;
@@ -20,7 +21,7 @@ export const PODCAST_OVERTIME_RATE = STUDIO_HALF_HOUR_NIS;
 export const PODCAST_OVERTIME_BLOCK_MINUTES = 30;
 
 /** עלות כל משתתף נוסף מעבר ל-2 — מיקרופון נוסף + עריכה מוגברת */
-export const PODCAST_EXTRA_PARTICIPANT_PRICE = 150;
+export const PODCAST_EXTRA_PARTICIPANT_PRICE = getExVat("podcast_extra_participant");
 
 export const PODCAST_PACKAGES: PodcastPackage[] = [
   {
@@ -43,7 +44,7 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
     id: "audio",
     name: "פודקאסט אודיו",
     subtitle: "הקלטה ועריכה מקצועית",
-    price: 950,
+    price: getExVat("podcast_audio"),
     ideal: "ראיונות, דרשות, סיפורים",
     features: [
       "הקלטה עד שעה באולפן",
@@ -58,7 +59,7 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
     id: "video",
     name: "פודקאסט וידאו",
     subtitle: "הקלטה רב-מצלמת באולפן",
-    price: 1650,
+    price: getExVat("podcast_video"),
     badge: "הנבחרת",
     ideal: "בניית סמכות, שיווק, ראיונות",
     features: [
@@ -74,7 +75,7 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
     id: "social",
     name: "חבילת תוכן מלאה",
     subtitle: "וידאו + רילס + הפצה",
-    price: 2800,
+    price: getExVat("content_package"),
     badge: "מנוע תוכן",
     ideal: "נוכחות דיגיטלית שוטפת",
     features: [

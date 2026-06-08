@@ -5,6 +5,7 @@ import {
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
 } from "./pricing";
+import { getExVat } from "./pricing-catalog";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
@@ -21,6 +22,8 @@ export type ServiceFaq = {
 export type ServicePricingTier = {
   name: string;
   price: string;
+  /** לפני מע״מ — להצגה כפולה ולהודעות WhatsApp */
+  priceExVat?: number;
   priceNote?: string;
   description: string;
   /** Highlight this tier visually (upsell / most popular) */
@@ -730,8 +733,8 @@ export const STUDIO_PRICING: StudioPricingConfig = {
     {
       id: "song-package",
       name: "חבילת הקלטת שיר",
-      price: "₪1,800",
-      priceExVat: 1800,
+      price: formatNis(getExVat("song_package")),
+      priceExVat: getExVat("song_package"),
       priceNote: "עד 3 שעות אולפן · לפני מע״מ",
       description: "החבילה הפופולרית לשיר במתנה או הקלטה אישית.",
       highlights: [
@@ -745,8 +748,8 @@ export const STUDIO_PRICING: StudioPricingConfig = {
     {
       id: "single-production",
       name: "הפקת סינגל מלא",
-      price: "₪3,500",
-      priceExVat: 3500,
+      price: formatNis(getExVat("single_production")),
+      priceExVat: getExVat("single_production"),
       priceNote: "החל מ- · לפני מע״מ",
       description: "הפקה מקצועית כולל עיבוד, מיקס ומאסטר.",
       highlights: [

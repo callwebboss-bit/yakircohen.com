@@ -1,18 +1,20 @@
 ﻿/**
  * מקור אמת יחיד למחירי אולפן (לפני מע״מ).
- * לעדכון מחירים: ערכו כאן בלבד, והריצו `npm run build` לוודא שהכל תקין.
+ * לעדכון מחירים: ערכו ב-`pricing-catalog.ts`, והריצו `npm run audit:pricing`.
  *
  * נצרך אוטומטית ב: מחירון סטודיו, פודקאסט, מחשבונים, ניווט, שוברים, llms.txt ועוד.
  */
 
+import { getExVat } from "./pricing-catalog";
+
 /** חצי שעה באולפן (30 דק׳) - פודקאסט קצר, הקלטה קצרה */
-export const STUDIO_HALF_HOUR_NIS = 750;
+export const STUDIO_HALF_HOUR_NIS = getExVat("studio_half_hour");
 
 /** שעת אולפן מלאה */
-export const STUDIO_ONE_HOUR_NIS = 1500;
+export const STUDIO_ONE_HOUR_NIS = getExVat("studio_hour");
 
 /** עריכת פודקאסט - לכל שעת חומר גולמי */
-export const PODCAST_EDITING_PER_HOUR_NIS = 590;
+export const PODCAST_EDITING_PER_HOUR_NIS = getExVat("podcast_editing_hour");
 
 /** שיעור מע״מ (להצגה במחשבונים) */
 export const VAT_RATE = 0.18;
@@ -20,7 +22,7 @@ export const VAT_RATE = 0.18;
 export const PRICES_EXCLUDE_VAT_NOTE = "המחירים לפני מע״מ (+18%)";
 
 /** אטרקציה בודדת לאירוע (לא מחיר אולפן) */
-export const EVENT_ATTRACTION_FROM_NIS = 1750;
+export const EVENT_ATTRACTION_FROM_NIS = getExVat("event_attraction_1");
 
 export const STUDIO_RATES = {
   halfHour: STUDIO_HALF_HOUR_NIS,

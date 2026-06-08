@@ -1,5 +1,7 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import PriceWithVat from "@/components/booking/PriceWithVat";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
 
 export type ServicePricingBlockProps = {
@@ -9,6 +11,7 @@ export type ServicePricingBlockProps = {
   /** בתוך כרטיס עמוד - בלי padding חיצוני וכותרת כפולה */
   embedded?: boolean;
   hideHeader?: boolean;
+  source?: string;
 };
 
 export default function ServicePricingBlock({
@@ -17,6 +20,7 @@ export default function ServicePricingBlock({
   utmCampaignPrefix = "service_pricing",
   embedded = false,
   hideHeader = false,
+  source,
 }: ServicePricingBlockProps) {
   if (tiers.length === 0) return null;
 
@@ -29,8 +33,13 @@ export default function ServicePricingBlock({
     <ul className={embedded ? `grid ${colClass}` : `mt-10 grid ${colClass}`}>
           {tiers.map((tier, index) => {
             const packageLabel = `${tier.name} - ${serviceTitle}`;
+            const whatsappText = buildPricingInquiryMessage({
+              packageLabel,
+              priceExVat: tier.priceExVat,
+              source: source ?? serviceTitle,
+            });
             const whatsappHref = buildWhatsAppHref({
-              text: buildServiceWhatsAppText(packageLabel, tier.price),
+              text: whatsappText,
               utm_source: "website",
               utm_campaign: `${utmCampaignPrefix}_${index}`,
             });
@@ -54,9 +63,17 @@ export default function ServicePricingBlock({
                   <h3 className="text-lg font-semibold text-foreground">
                     {tier.name}
                   </h3>
-                  <p className="text-xl font-semibold text-brand-red">{tier.price}</p>
+                  {tier.priceExVat !== undefined ? (
+                    <PriceWithVat amountExVat={tier.priceExVat} size="md" compact />
+                  ) : (
+                    <p className="text-xl font-semibold text-brand-red">{tier.price}</p>
+                  )}
                 </div>
-                {tier.priceNote ? (
+                {tier.priceExVat !== undefined ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    כולל מע״מ · {tier.priceNote ?? "לפני מע״מ +18%"}
+                  </p>
+                ) : tier.priceNote ? (
                   <p className="mt-1 text-xs text-muted-foreground">
                     {tier.priceNote}
                   </p>
@@ -97,7 +114,7 @@ export default function ServicePricingBlock({
               חבילות ומחירון שקוף
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מחירים התחלתיים - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
+              מחירים לפני מע״מ וכולל מע״מ — הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
             </p>
           </header>
         ) : null}

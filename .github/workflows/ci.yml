@@ -36,5 +36,8 @@ jobs:
       - name: Audit headings
         run: npm run audit:headings
 
+      - name: Audit pricing
+        run: npm run audit:pricing
+
       - name: Build (with Pagefind)
         run: npm run build:full

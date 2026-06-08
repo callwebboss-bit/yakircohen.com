@@ -1,130 +1,74 @@
 /**
  * WhatsappLeadRouter - Server Component.
- *
- * Upgrade notes from legacy:
- *   • Replaced `waHref()` (does not exist) with `buildWhatsAppHref()`.
- *   • Removed all `dark:` variants - the site has no dark-mode tokens.
- *   • Fixed invalid `duration-3xl` → `duration-normal` (brand token).
- *   • Removed `dir="rtl"` - the root layout already sets `direction: rtl`.
- *   • Made a Server Component (no state or event handlers required).
- *   • Three visually distinct card variants sharpen audience recognition:
- *       "gold"    - warm family/events  (gold accents on white)
- *       "neutral" - professional/B2B    (clean foreground on white)
- *       "luxury"  - premium DJ/effects  (gold accents on zinc-900)
+ * Uses shared audience route data from book-audience-routes.ts (homepage subset).
  */
 
+import BookPriceDual from "@/components/booking/BookPriceDual";
+import {
+  BOOK_AUDIENCE_ROUTES,
+  HOME_AUDIENCE_ROUTE_IDS,
+  buildFastWhatsAppMessage,
+  type AudienceCardVariant,
+} from "@/lib/data/book-audience-routes";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Data
-   ───────────────────────────────────────────────────────────────────────────── */
+const HOME_ROUTES = BOOK_AUDIENCE_ROUTES.filter((r) =>
+  (HOME_AUDIENCE_ROUTE_IDS as readonly string[]).includes(r.id),
+);
 
-type CardVariant = "gold" | "neutral" | "luxury";
-
-type RouteCard = {
-  variant: CardVariant;
-  icon: string;
-  tag: string;
-  title: string;
-  description: string;
-  startingFrom: string;
-  upsellHint: string;
-  whatsappMessage: string;
-  utm_campaign: string;
-};
-
-const CARDS: readonly RouteCard[] = [
-  {
-    variant: "gold",
-    icon: "🎙️",
-    tag: "הקלטות ואירועים משפחתיים",
-    title: "שיר הפתעה, ברכת כלה או הקלטה לבר/בת מצווה",
-    description:
-      "מגיעים מפוחדים, יוצאים עם תוצאה שמדליקה את הסלון. האולפן מותאם להורים וילדים - ואנחנו מטפלים בהכל, מהקלטה ועד מיקס ומאסטרינג, ללא לחץ זמן.",
-    startingFrom: "מ-590 ₪",
-    upsellHint: "אפשר להוסיף: קליפ BTS לרשתות · דואט משפחתי · פלייבק AI",
-    whatsappMessage:
-      "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי. ראינו שיש חבילות מ-590 ₪ - אשמח לשמוע על האפשרויות ועל שדרוגים כמו קליפ או דואט.",
-    utm_campaign: "router_family_events",
-  },
-  {
-    variant: "neutral",
-    icon: "🎧",
-    tag: "פודקאסט ותוכן קולי",
-    title: "הקלטת פודקאסט מקצועי או קריינות לתוכן עסקי",
-    description:
-      "חדר מבודד רעשים, ציוד שידורי, ועריכה מלאה. תגיעו, תדברו, תקבלו MP3 גמור. גם שיתופי פעולה קבועים ועריכת פרקים חודשית.",
-    startingFrom: "מ-750 ₪ לשעה",
-    upsellHint: "אפשר להוסיף: עריכת פרקים · חבילת הפקה חודשית · תמלול",
-    whatsappMessage:
-      "שלום, אשמח לפרטים על הקלטת פודקאסט באולפן. ראיתי שעלות שעת אולפן מ-750 ₪ - מה אפשר לשלב (עריכה, חבילה חודשית)?",
-    utm_campaign: "router_business_creators",
-  },
-  {
-    variant: "luxury",
-    icon: "💎",
-    tag: "DJ ואפקטים לאירועים",
-    title: "דיג׳יי בוטיק, עשן כבד, זיקוקים קרים ו-LED",
-    description:
-      "חווית VIP לאירועים קטנים וגדולים. מוזיקה שמדברת לקהל מעורב, בשילוב אפקטים שמרימים את האווירה. מתאמים הכל מול האולם.",
-    startingFrom: "מ-1,750 ₪ לאטרקציה",
-    upsellHint: "אפשר לשלב: עשן + זיקוקים + LED במחיר חבילה",
-    whatsappMessage:
-      "שלום, ראינו את האפקטים לאירועים (עשן כבד, זיקוקים קרים, LED). מה המחיר לאירוע ומה ניתן לשלב יחד?",
-    utm_campaign: "router_premium_events",
-  },
-] as const;
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Variant class maps - one lookup per visual slot keeps cn() calls clean
-   and keeps the variant logic explicit and auditable.
-   ───────────────────────────────────────────────────────────────────────────── */
-
-const V_CARD: Record<CardVariant, string> = {
+const V_CARD: Record<AudienceCardVariant, string> = {
   gold: "bg-background border-border hover:border-brand-red/50 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
   neutral: "bg-background border-border hover:border-foreground/20 hover:shadow-md",
   luxury:
     "border-border bg-surface hover:border-brand-red/40 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
+  academy: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
+  online: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
 };
 
-const V_ICON: Record<CardVariant, string> = {
+const V_ICON: Record<AudienceCardVariant, string> = {
   gold: "bg-brand-red/10",
   neutral: "bg-surface",
   luxury: "bg-white/10",
+  academy: "bg-brand-red/10",
+  online: "bg-brand-red/10",
 };
 
-const V_BADGE: Record<CardVariant, string> = {
+const V_BADGE: Record<AudienceCardVariant, string> = {
   gold: "bg-brand-red/10 text-brand-red",
   neutral: "bg-brand-red/10 text-brand-red",
   luxury: "bg-brand-red/20 text-brand-red",
+  academy: "bg-brand-red/10 text-brand-red",
+  online: "bg-brand-red/10 text-brand-red",
 };
 
-const V_TITLE: Record<CardVariant, string> = {
+const V_TITLE: Record<AudienceCardVariant, string> = {
   gold: "text-foreground group-hover:text-brand-red",
   neutral: "text-foreground",
   luxury: "text-foreground group-hover:text-brand-red",
+  academy: "text-foreground",
+  online: "text-foreground",
 };
 
-const V_DESC: Record<CardVariant, string> = {
+const V_DESC: Record<AudienceCardVariant, string> = {
   gold: "text-muted-foreground",
   neutral: "text-muted-foreground",
   luxury: "text-zinc-400",
+  academy: "text-muted-foreground",
+  online: "text-muted-foreground",
 };
 
-const V_CTA: Record<CardVariant, string> = {
+const V_CTA: Record<AudienceCardVariant, string> = {
   gold: "bg-brand-red/10 text-foreground border border-brand-red/30 group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
   neutral:
     "bg-surface text-foreground border border-border group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
   luxury:
     "bg-white/10 text-white border border-white/15 group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
+  academy:
+    "bg-surface text-foreground border border-border group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
+  online:
+    "bg-surface text-foreground border border-border group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
 };
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   WhatsApp inline icon (inlined to keep this a Server Component - no import
-   from Icons.tsx needed since that file is already a Server Component, but
-   this avoids an extra module boundary for a single small SVG).
-   ───────────────────────────────────────────────────────────────────────────── */
 
 function WaIcon() {
   return (
@@ -139,10 +83,6 @@ function WaIcon() {
     </svg>
   );
 }
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Component
-   ───────────────────────────────────────────────────────────────────────────── */
 
 export type WhatsappLeadRouterProps = {
   eyebrow?: string;
@@ -164,7 +104,6 @@ export default function WhatsappLeadRouter({
       aria-labelledby="wa-router-heading"
     >
       <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-        {/* ── Section header ── */}
         <header className="mx-auto max-w-2xl text-center">
           <span className="inline-block rounded-full bg-brand-red/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-red">
             {eyebrow}
@@ -182,18 +121,17 @@ export default function WhatsappLeadRouter({
           </p>
         </header>
 
-        {/* ── Conversion card grid ── */}
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-          {CARDS.map((card) => {
+          {HOME_ROUTES.map((card) => {
             const href = buildWhatsAppHref({
-              text: card.whatsappMessage,
+              text: buildFastWhatsAppMessage(card),
               utm_source: "website",
               utm_campaign: card.utm_campaign,
             });
 
             return (
               <a
-                key={card.variant}
+                key={card.id}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -206,7 +144,6 @@ export default function WhatsappLeadRouter({
                 )}
                 aria-label={`${card.title} - פתיחת שיחת וואטסאפ בחלון חדש`}
               >
-                {/* Luxury top-edge gold line */}
                 {card.variant === "luxury" && (
                   <div
                     className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-red/65 to-transparent"
@@ -214,9 +151,7 @@ export default function WhatsappLeadRouter({
                   />
                 )}
 
-                {/* ── Card body ── */}
                 <div>
-                  {/* Icon + tag row */}
                   <div className="mb-5 flex items-start justify-between gap-3">
                     <span
                       className={cn(
@@ -239,7 +174,6 @@ export default function WhatsappLeadRouter({
                     </span>
                   </div>
 
-                  {/* Title */}
                   <h3
                     className={cn(
                       "font-serif text-lg font-semibold leading-snug",
@@ -250,28 +184,22 @@ export default function WhatsappLeadRouter({
                     {card.title}
                   </h3>
 
-                  {/* Description */}
-                  <p
-                    className={cn(
-                      "mt-3 text-sm leading-relaxed",
-                      V_DESC[card.variant],
-                    )}
-                  >
+                  <p className={cn("mt-3 text-sm leading-relaxed", V_DESC[card.variant])}>
                     {card.description}
                   </p>
 
-                  {/* Price + upsell */}
                   <div className="mt-4 space-y-1">
-                    <p className={cn("text-sm font-bold", V_TITLE[card.variant])}>
-                      {card.startingFrom}
-                    </p>
+                    <BookPriceDual
+                      exVat={card.priceExVat}
+                      dualLabel={card.startingPriceDual}
+                      size="sm"
+                    />
                     <p className={cn("text-xs leading-snug", V_DESC[card.variant])}>
                       {card.upsellHint}
                     </p>
                   </div>
                 </div>
 
-                {/* ── CTA strip ── */}
                 <div
                   className={cn(
                     "mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold",

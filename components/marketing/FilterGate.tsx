@@ -70,13 +70,33 @@ function PricingOverview({ onProceed }: { onProceed: () => void }) {
   );
 }
 
-export default function FilterGate() {
+type FilterGateProps = {
+  initialFilterPreset?: Partial<FilterAnswers>;
+  skipGate?: boolean;
+  initialEmotionalLabel?: string | null;
+};
+
+export default function FilterGate({
+  initialFilterPreset,
+  skipGate = false,
+  initialEmotionalLabel,
+}: FilterGateProps = {}) {
   const [gateState, setGateState] = useState<GateState>("loading");
-  const [timeline, setTimeline] = useState<TimelineId | null>(null);
-  const [purpose, setPurpose] = useState<PurposeId | null>(null);
+  const [timeline, setTimeline] = useState<TimelineId | null>(
+    initialFilterPreset?.timeline ?? null,
+  );
+  const [purpose, setPurpose] = useState<PurposeId | null>(
+    initialFilterPreset?.purpose ?? null,
+  );
 
   useEffect(() => {
     queueMicrotask(() => {
+      if (skipGate && initialFilterPreset?.timeline && initialFilterPreset?.purpose) {
+        setTimeline(initialFilterPreset.timeline);
+        setPurpose(initialFilterPreset.purpose);
+        setGateState("wizard");
+        return;
+      }
       try {
         const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
         if (saved) {
@@ -88,6 +108,10 @@ export default function FilterGate() {
             setPurpose(answers.purpose);
             setGateState("wizard");
           }
+        } else if (initialFilterPreset?.timeline && initialFilterPreset?.purpose) {
+          setTimeline(initialFilterPreset.timeline);
+          setPurpose(initialFilterPreset.purpose);
+          setGateState("wizard");
         } else {
           setGateState("gate");
         }
@@ -95,7 +119,7 @@ export default function FilterGate() {
         setGateState("gate");
       }
     });
-  }, []);
+  }, [skipGate, initialFilterPreset]);
 
   const canAdvance = timeline !== null && purpose !== null;
 
@@ -131,7 +155,12 @@ export default function FilterGate() {
   if (gateState === "wizard") {
     const filterAnswers: FilterAnswers | null =
       timeline !== null && purpose !== null ? { timeline, purpose } : null;
-    return <StudioRecordingBooking filterAnswers={filterAnswers} />;
+    return (
+      <StudioRecordingBooking
+        filterAnswers={filterAnswers}
+        initialEmotionalLabel={initialEmotionalLabel}
+      />
+    );
   }
 
   if (gateState === "browsing") {

@@ -2,15 +2,17 @@
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
-import BookCategoryAccordion from "@/components/booking/BookCategoryAccordion";
+import BookAudienceRouter, {
+  type BookFullPathSelection,
+} from "@/components/booking/BookAudienceRouter";
 import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
-import BookingCalculator from "@/components/marketing/BookingCalculator";
-import BookingDiagnosisQuiz from "@/components/booking/BookingDiagnosisQuiz";
+import AcademyBookingWizard from "@/components/marketing/AcademyBookingWizard";
 import ClipsBookingForm from "@/components/marketing/ClipsBookingForm";
 import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
 import FilterGate from "@/components/marketing/FilterGate";
+import OnlineRestoreBookingPanel from "@/components/marketing/OnlineRestoreBookingPanel";
 import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
 import SingerAmplificationBookingWizard from "@/components/marketing/SingerAmplificationBookingWizard";
 import {
@@ -18,8 +20,11 @@ import {
   parseBookCategoryFromHash,
   parseBookPackageFromSearch,
 } from "@/lib/book-url";
+import {
+  FILTER_STORAGE_KEY,
+  type FilterAnswers,
+} from "@/lib/data/filter-questions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { cn } from "@/lib/utils";
 
 const SOCIAL_MGMT_HREF = buildWhatsAppHref({
   text: "שלום, אשמח לשמוע על שירות ניהול סושיאל לזמרים",
@@ -27,87 +32,107 @@ const SOCIAL_MGMT_HREF = buildWhatsAppHref({
   utm_campaign: "social_management_inquiry",
 });
 
-type BookCategoryConfig = {
+type CategoryMeta = {
   id: BookCategoryId;
-  label: string;
-  shortLabel: string;
   title: string;
   subtitle: string;
   icon: string;
 };
 
-const BOOK_CATEGORY_META: readonly BookCategoryConfig[] = [
-  {
+const CATEGORY_META: Record<BookCategoryId, CategoryMeta> = {
+  studio: {
     id: "studio",
-    label: "הקלטות באולפן",
-    shortLabel: "אולפן",
     title: "הקלטות באולפן",
-    subtitle: "שירים, ברכות וקריינות - בחירת מסלול מלאה",
+    subtitle: "שירים, ברכות וקריינות",
     icon: "🎤",
   },
-  {
+  podcast: {
     id: "podcast",
-    label: "פודקאסט",
-    shortLabel: "פודקאסט",
     title: "פודקאסט",
-    subtitle: "בחירת חבילה, פרטים ותיאום בוואטסאפ",
+    subtitle: "חבילה, פרטים ותיאום",
     icon: "🎙️",
   },
-  {
+  singer: {
     id: "singer",
-    label: "הגברה לזמרים",
-    shortLabel: "זמרים",
     title: "הגברה לזמרים",
-    subtitle: "חבילות 2,800-7,800 ₪ · צ'ק סאונד וטכנאי בשטח",
+    subtitle: "חבילות עם טכנאי בשטח",
     icon: "🎤",
   },
-  {
+  events: {
     id: "events",
-    label: "אטרקציות",
-    shortLabel: "אטרקציות",
     title: "אטרקציות לאירועים",
-    subtitle: "חבילות משולבות וחיסכון אוטומטי",
+    subtitle: "חבילות משולבות",
     icon: "🎉",
   },
-  {
+  dj: {
     id: "dj",
-    label: "DJ",
-    shortLabel: "DJ",
     title: "DJ לאירועים",
-    subtitle: "חבילת פסטיבל, DJ, רגע של כוכב ואפקטים",
+    subtitle: "פסטיבל, אפקטים ועוד",
     icon: "🎧",
   },
-  {
+  photography: {
     id: "photography",
-    label: "צילום",
-    shortLabel: "צילום",
     title: "צילום אירועים",
-    subtitle: "שעות, תוספות ושירותי AI - מחיר שקוף",
+    subtitle: "שעות, תוספות ו-AI",
     icon: "📷",
   },
-  {
+  clips: {
     id: "clips",
-    label: "קליפים ודיגיטל",
-    shortLabel: "קליפים",
-    title: "קליפים ושירותים דיגיטליים",
-    subtitle: "עריכה, AI ושירותים נוספים",
+    title: "קליפים ודיגיטל",
+    subtitle: "עריכה ושירותי AI",
     icon: "🎬",
   },
-];
+  academy: {
+    id: "academy",
+    title: "שיעורים פרטיים",
+    subtitle: "פיתוח קול, DJ, הפקה",
+    icon: "🎓",
+  },
+  online: {
+    id: "online",
+    title: "שחזור סאונד / AI",
+    subtitle: "הצלת הקלטות פגומות",
+    icon: "🔧",
+  },
+};
+
+function saveFilterPreset(preset?: Partial<FilterAnswers>) {
+  if (!preset?.timeline || !preset?.purpose) return;
+  try {
+    const answers: FilterAnswers = {
+      timeline: preset.timeline,
+      purpose: preset.purpose,
+    };
+    sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(answers));
+  } catch {
+    // ignore
+  }
+}
 
 function renderCategoryContent(
   id: BookCategoryId,
-  initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>,
+  options: {
+    initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>;
+    filterPreset?: Partial<FilterAnswers>;
+    emotionalLabel: string | null;
+    skipStudioGate: boolean;
+  },
 ): ReactNode {
   switch (id) {
     case "studio":
-      return <FilterGate />;
+      return (
+        <FilterGate
+          initialFilterPreset={options.filterPreset}
+          skipGate={options.skipStudioGate}
+          initialEmotionalLabel={options.emotionalLabel}
+        />
+      );
     case "podcast":
       return <PodcastBookingWizard />;
     case "singer":
       return (
         <SingerAmplificationBookingWizard
-          initialPackageId={initialSingerPackageId}
+          initialPackageId={options.initialSingerPackageId}
         />
       );
     case "events":
@@ -118,6 +143,10 @@ function renderCategoryContent(
       return <PhotographyCalculator />;
     case "clips":
       return <ClipsBookingForm />;
+    case "academy":
+      return <AcademyBookingWizard initialEmotionalLabel={options.emotionalLabel} />;
+    case "online":
+      return <OnlineRestoreBookingPanel initialEmotionalLabel={options.emotionalLabel} />;
     default:
       return null;
   }
@@ -128,90 +157,113 @@ export default function BookPageSections() {
   const pkgParam = searchParams.get("pkg");
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
 
-  const [openId, setOpenId] = useState<BookCategoryId | null>(null);
+  const [activeCategory, setActiveCategory] = useState<BookCategoryId | null>(null);
+  const [filterPreset, setFilterPreset] = useState<Partial<FilterAnswers> | undefined>();
+  const [emotionalLabel, setEmotionalLabel] = useState<string | null>(null);
+  const [skipStudioGate, setSkipStudioGate] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => {
-      const fromHash = parseBookCategoryFromHash(
-        typeof window !== "undefined" ? window.location.hash : "",
-      );
-      if (fromHash) setOpenId(fromHash);
-    });
+    function syncFromHash() {
+      const fromHash = parseBookCategoryFromHash(window.location.hash);
+      if (fromHash) {
+        setActiveCategory(fromHash);
+        requestAnimationFrame(() => {
+          document.getElementById("book-wizard-panel")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        });
+      }
+    }
+
+    queueMicrotask(syncFromHash);
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
   }, []);
 
-  const openCategory = useCallback((id: BookCategoryId) => {
-    setOpenId(id);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const openFullPath = useCallback((selection: BookFullPathSelection) => {
+    if (selection.filterPreset) {
+      saveFilterPreset(selection.filterPreset);
+      setFilterPreset(selection.filterPreset);
     }
+    setEmotionalLabel(selection.emotionalLabel);
+    setSkipStudioGate(selection.categoryId === "studio" && !!selection.filterPreset);
+    setActiveCategory(selection.categoryId);
+
     if (typeof window !== "undefined") {
       const qs = window.location.search;
-      window.history.replaceState(null, "", `${window.location.pathname}${qs}#${id}`);
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${qs}#${selection.categoryId}`,
+      );
+      requestAnimationFrame(() => {
+        document.getElementById("book-wizard-panel")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
     }
   }, []);
 
-  const toggleCategory = useCallback((id: BookCategoryId) => {
-    setOpenId((prev) => {
-      const next = prev === id ? null : id;
-      if (typeof window !== "undefined") {
-        const qs = window.location.search;
-        window.history.replaceState(
-          null,
-          "",
-          next
-            ? `${window.location.pathname}${qs}#${next}`
-            : `${window.location.pathname}${qs}`,
-        );
-      }
-      return next;
-    });
+  const backToRouter = useCallback(() => {
+    setActiveCategory(null);
+    setFilterPreset(undefined);
+    setEmotionalLabel(null);
+    setSkipStudioGate(false);
+    if (typeof window !== "undefined") {
+      const qs = window.location.search;
+      window.history.replaceState(null, "", `${window.location.pathname}${qs}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, []);
+
+  const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
   return (
     <>
-      <section
-        className="border-b border-border bg-background py-6"
-        aria-label="בחירת קטגוריית שירות"
-      >
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          {openId === null && (
-            <div className="mb-4">
-              <BookingDiagnosisQuiz onNavigate={openCategory} />
-            </div>
-          )}
-          <p className="mb-3 text-center text-sm text-muted-foreground">
-            בחרו קטגוריה לפתיחת טופס ההזמנה
-          </p>
-          <nav
-            className="flex flex-wrap justify-center gap-2"
-            aria-label="קטגוריות הזמנה"
-          >
-            {BOOK_CATEGORY_META.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => openCategory(cat.id)}
-                className={cn(
-                  "rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-fast ease-luxury",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-                  openId === cat.id
-                    ? "bg-brand-red text-white"
-                    : "bg-surface text-muted-foreground hover:bg-brand-red/10 hover:text-brand-red",
-                )}
-                aria-current={openId === cat.id ? "true" : undefined}
-              >
-                <span className="me-1.5" aria-hidden="true">
-                  {cat.icon}
-                </span>
-                {cat.shortLabel}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </section>
+      <BookAudienceRouter onFullPath={openFullPath} />
 
-      {/* Soldiers discount banner */}
+      {activeCategory && meta ? (
+        <section
+          id="book-wizard-panel"
+          className="scroll-mt-24 border-b border-border bg-surface/50 py-10"
+          aria-labelledby="book-wizard-heading"
+        >
+          <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              onClick={backToRouter}
+              className="mb-6 text-sm font-medium text-muted-foreground transition-colors hover:text-brand-red"
+            >
+              ← חזרה לבחירת שירות
+            </button>
+
+            <header className="mb-8 flex items-center gap-3">
+              <span className="text-2xl" aria-hidden="true">
+                {meta.icon}
+              </span>
+              <div>
+                <h2
+                  id="book-wizard-heading"
+                  className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+                >
+                  {meta.title}
+                </h2>
+                <p className="text-sm text-muted-foreground">{meta.subtitle}</p>
+              </div>
+            </header>
+
+            {renderCategoryContent(activeCategory, {
+              initialSingerPackageId,
+              filterPreset,
+              emotionalLabel,
+              skipStudioGate,
+            })}
+          </div>
+        </section>
+      ) : null}
+
       <div className="border-b border-border bg-brand-red/5 px-4 py-3">
         <div className="mx-auto flex max-w-[72rem] min-w-0 flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
           <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red break-words">
@@ -233,26 +285,6 @@ export default function BookPageSections() {
         </div>
       </div>
 
-      <div className="mx-auto min-w-0 max-w-[72rem] space-y-4 px-4 py-10 sm:space-y-5 sm:px-6 sm:py-14 lg:px-8">
-        {BOOK_CATEGORY_META.map((cat) => (
-          <BookCategoryAccordion
-            key={cat.id}
-            id={cat.id}
-            title={cat.title}
-            subtitle={cat.subtitle}
-            icon={cat.icon}
-            isOpen={openId === cat.id}
-            onToggle={() => toggleCategory(cat.id)}
-          >
-            {renderCategoryContent(
-              cat.id,
-              cat.id === "singer" ? initialSingerPackageId : null,
-            )}
-          </BookCategoryAccordion>
-        ))}
-      </div>
-
-      {/* Social management and additional services */}
       <section className="border-t border-border bg-surface py-8">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <h2 className="mb-4 text-base font-semibold text-foreground">שירותים נוספים</h2>
@@ -261,7 +293,7 @@ export default function BookPageSections() {
               <p className="text-lg" aria-hidden="true">📱</p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">ניהול סושיאל לזמרים</h3>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                ניהול ואסטרטגיה לרשתות החברתיות — אינסטגרם, טיקטוק, יוטיוב. מתאים לזמרים שמחפשים נוכחות דיגיטלית מקצועית.
+                ניהול ואסטרטגיה לרשתות החברתיות — אינסטגרם, טיקטוק, יוטיוב.
               </p>
               <a
                 href={SOCIAL_MGMT_HREF}
@@ -276,7 +308,7 @@ export default function BookPageSections() {
               <p className="text-lg" aria-hidden="true">🎥</p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">וולוג יום בחיי — צלם צמוד</h3>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד. כולל עריכה מלאה של פרק (עד 4 גרסאות עריכה).
+                תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה.
               </p>
               <p className="mt-2 text-xs font-semibold text-brand-red">2,200 ₪</p>
             </div>

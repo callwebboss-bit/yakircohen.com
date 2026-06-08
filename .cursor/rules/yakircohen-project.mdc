@@ -62,3 +62,11 @@ alwaysApply: true
 - Preview only: yakircohen-com.vercel.app (do not share with clients)
 - Push to `main` → Vercel auto-deploy
 - GitHub Actions runs lint + build — do not force-push to `main` if CI fails
+
+## Pricing & WhatsApp closing
+
+- **All new prices** → `lib/data/pricing-catalog.ts` only; run `npm run audit:pricing` before commit
+- Use `formatExVatWithVat()` / `PriceWithVat` for display; never show ex-VAT alone without VAT line
+- **All WhatsApp messages** → `lib/whatsapp-closing.ts` (or `lib/booking-messages.ts` wrappers)
+- Every lead message must include: need (if collected), price with VAT split, source path, intent tag
+- **Writing style:** active voice, no empty superlatives ("מושלם"), no long em-dashes, human punctuation only

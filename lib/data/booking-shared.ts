@@ -1,4 +1,12 @@
-﻿/** טקסט מבוא לסיכום - מוצג מעל כפתורי הפעולה */
+﻿export type BookingUpsellItem = {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  badge?: string;
+};
+
+/** טקסט מבוא לסיכום - מוצג מעל כפתורי הפעולה */
 export const BOOKING_SUMMARY_INTRO =
   "זה סיכום ראשוני מהאתר - נמשיך בוואטסאפ ונוודא שהכל מתאים.";
 

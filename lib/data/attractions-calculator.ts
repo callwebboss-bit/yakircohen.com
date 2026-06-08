@@ -1,3 +1,5 @@
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export type GeoKey = "center" | "north_south" | "eilat";
 
 export type AttractionItem = {
@@ -36,17 +38,17 @@ export const GEO_FEES: Record<GeoKey, { label: string; fee: number }> = {
 
 const BUNDLE_PRICES: Record<number, number> = {
   0: 0,
-  1: 1750,
-  2: 3200,
-  3: 4450,
-  4: 5500,
+  1: getExVat("event_attraction_1"),
+  2: getExVat("event_attraction_2"),
+  3: getExVat("event_attraction_3"),
+  4: getExVat("event_attraction_4"),
 };
 
 export const PRICING_TIERS = [
-  { count: 1, price: 1750, saving: "" },
-  { count: 2, price: 3200, saving: "חיסכון 300 ₪" },
-  { count: 3, price: 4450, saving: "חיסכון 800 ₪" },
-  { count: 4, price: 5500, saving: "+ קליפ מתנה", highlight: true },
+  { count: 1, price: getExVat("event_attraction_1"), saving: "" },
+  { count: 2, price: getExVat("event_attraction_2"), saving: "חיסכון 300 ₪" },
+  { count: 3, price: getExVat("event_attraction_3"), saving: "חיסכון 800 ₪" },
+  { count: 4, price: getExVat("event_attraction_4"), saving: "+ קליפ מתנה", highlight: true },
 ] as const;
 
 export const ATTRACTIONS: AttractionItem[] = [

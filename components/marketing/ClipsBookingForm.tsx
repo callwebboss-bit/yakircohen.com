@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
+import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { SERVICES } from "@/lib/data/booking-calculator-services";
 import { withVat } from "@/lib/data/pricing";
 import {
@@ -56,6 +61,37 @@ export default function ClipsBookingForm() {
     0,
   );
 
+  const summaryLines = useMemo(
+    () =>
+      Array.from(selected).map((id) => ({
+        label: "שירות",
+        value: `${SERVICES[id]?.name ?? id} (${(SERVICES[id]?.price ?? 0).toLocaleString("he-IL")} ₪)`,
+      })),
+    [selected],
+  );
+
+  const previewBody = useMemo(() => {
+    if (selected.size === 0) return undefined;
+    return buildBookingWhatsAppBody({
+      intent: "continue_chat",
+      serviceLabel: "קליפים ושירותים דיגיטליים",
+      summaryLines: [
+        ...summaryLines,
+        ...(notes.trim()
+          ? [{ label: "הערות", value: sanitizeLeadText(notes, 300) }]
+          : []),
+      ],
+      contact: {
+        name: sanitizeLeadText(name, 60) || "[שם]",
+        phone: phone ? formatPhoneForDisplay(phone) : "[טלפון]",
+      },
+      priceExVat: totalExVat,
+      totalEstimate: withVat(totalExVat),
+      utmSource: readUtmSource() ?? "/book#clips",
+      includeTrustFooter: true,
+    });
+  }, [selected, summaryLines, name, phone, notes, totalExVat]);
+
   const handleSubmit = () => {
     if (!termsAccepted) {
       setErrors((prev) => ({ ...prev, terms: "יש לאשר את התנאים לפני שליחה" }));
@@ -79,19 +115,21 @@ export default function ClipsBookingForm() {
           ? formatPhoneForDisplay(result.normalizedPhone)
           : formatPhoneForDisplay(phone.trim());
 
-        const serviceList = Array.from(selected)
-          .map(
-            (id) =>
-              `${SERVICES[id]?.icon ?? ""} ${SERVICES[id]?.name ?? id} — ${(SERVICES[id]?.price ?? 0).toLocaleString("he-IL")} ₪`,
-          )
-          .join("\n");
-
-        const body =
-          `הזמנת שירות דיגיטלי / קליפ\n\n` +
-          `👤 *${sanitizeLeadText(name, 60)}* | ${displayPhone}\n\n` +
-          `*שירותים שנבחרו:*\n${serviceList}\n\n` +
-          `*סה"כ משוער (כולל מע"מ):* ${withVat(totalExVat).toLocaleString("he-IL")} ₪\n` +
-          (notes.trim() ? `\n*הערות:* ${sanitizeLeadText(notes, 300)}\n` : "");
+        const body = buildBookingWhatsAppBody({
+          intent: "continue_chat",
+          serviceLabel: "קליפים ושירותים דיגיטליים",
+          summaryLines: [
+            ...summaryLines,
+            ...(notes.trim()
+              ? [{ label: "הערות", value: sanitizeLeadText(notes, 300) }]
+              : []),
+          ],
+          contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
+          priceExVat: totalExVat,
+          totalEstimate: withVat(totalExVat),
+          utmSource: readUtmSource() ?? "/book#clips",
+          includeTrustFooter: true,
+        });
 
         const href = buildWhatsAppHref({
           text: body,
@@ -176,7 +214,7 @@ export default function ClipsBookingForm() {
                   </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
                   <p className="mt-1 text-xs font-medium text-brand-red">
-                    {price.toLocaleString("he-IL")} ₪
+                    {price.toLocaleString("he-IL")} ₪ + מע״מ
                   </p>
                 </div>
               </button>
@@ -186,13 +224,8 @@ export default function ClipsBookingForm() {
       </div>
 
       {totalExVat > 0 && (
-        <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm">
-          <span className="font-semibold text-foreground">
-            סה&quot;כ משוער:{" "}
-          </span>
-          <span className="text-brand-red">
-            {withVat(totalExVat).toLocaleString("he-IL")} ₪ (כולל מע&quot;מ)
-          </span>
+        <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3">
+          <PriceWithVat amountExVat={totalExVat} size="md" />
         </div>
       )}
 
@@ -232,6 +265,13 @@ export default function ClipsBookingForm() {
           className={cn(inputClass, "resize-none")}
         />
       </div>
+
+      <BookWhatHappensNext />
+      <BookTrustBadges badges={[{ icon: "🔄", label: "סבב תיקונים אחד בעריכה" }]} />
+
+      {previewBody && name.trim() && phone.trim() ? (
+        <BookingWhatsAppPreview messageBody={previewBody} />
+      ) : null}
 
       <BookingApprovals
         variant="light"

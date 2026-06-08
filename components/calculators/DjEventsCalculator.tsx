@@ -2,6 +2,9 @@
 
 import { useCallback, useMemo, useState } from "react";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
@@ -17,7 +20,7 @@ import {
   buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
-import { STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
+import { STUDIO_ONE_HOUR_NIS, withVat } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -294,6 +297,26 @@ export default function DjEventsCalculator({ className }: { className?: string }
   const formValid = isDjReserveFormValid(form);
   const canReserve = hasSelection && formValid;
 
+  const previewBody = useMemo(() => {
+    if (!hasSelection || !formValid) return undefined;
+    const displayPhone = form.phone.trim()
+      ? formatPhoneForDisplay(form.phone.trim())
+      : "[טלפון]";
+    return buildBookingWhatsAppBody({
+      intent: "continue_chat",
+      serviceLabel: "DJ ואירועים",
+      summaryLines: buildSummaryLines(),
+      contact: {
+        name: sanitizeLeadText(form.name, 60) || "[שם]",
+        phone: displayPhone,
+      },
+      priceExVat: grandTotal,
+      totalEstimate: withVat(grandTotal),
+      utmSource: readUtmSource() ?? "dj-events",
+      includeTrustFooter: true,
+    });
+  }, [hasSelection, formValid, form, grandTotal, festivalSelected, djId, starId, addons, effects, effectDiscount]);
+
   const handleAction = useCallback(
     (intent: "continue_chat" | "start_now") => {
       if (!hasSelection) return;
@@ -308,8 +331,10 @@ export default function DjEventsCalculator({ className }: { className?: string }
             serviceLabel: "DJ ואירועים",
             summaryLines: buildSummaryLines(),
             contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
-            totalEstimate: grandTotal,
+            priceExVat: grandTotal,
+            totalEstimate: withVat(grandTotal),
             utmSource: readUtmSource() ?? "dj-events",
+            includeTrustFooter: true,
           });
           const href = buildWhatsAppHref({
             text: body,
@@ -620,6 +645,17 @@ export default function DjEventsCalculator({ className }: { className?: string }
                 מלאו שם, טלפון ותאריך כדי לשלוח בקשת שריון בוואטסאפ
               </p>
             ) : null}
+            <div className="mt-4 space-y-4">
+              <BookWhatHappensNext
+                steps={[
+                  { number: 1, title: "שולחים הודעה בוואטסאפ", body: "עם החבילה שבחרתם" },
+                  { number: 2, title: "מתאמים תאריך ומיקום", body: "שם האולם והשעה המדויקת" },
+                  { number: 3, title: "מגיעים לאירוע", body: "DJ, אפקטים וצוות טכני בשטח" },
+                ]}
+              />
+              <BookTrustBadges />
+              {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
+            </div>
             <p className="mt-4 text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
             <p className="mt-3 text-center">
               <a

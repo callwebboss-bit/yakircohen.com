@@ -24,8 +24,3 @@ export const PhotographyCalculatorLazy = dynamic(
   () => import("@/components/calculators/PhotographyCalculator"),
   { loading: () => calcLoading() },
 );
-
-export const BookingCalculatorLazy = dynamic(
-  () => import("@/components/marketing/BookingCalculator"),
-  { loading: () => calcLoading("min-h-[20rem]") },
-);

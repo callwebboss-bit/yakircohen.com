@@ -1,7 +1,9 @@
 "use client";
 
 import { useId, useState, type FormEvent } from "react";
+import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 export type CallbackLeadFormProps = {
   heading?: string;
@@ -12,6 +14,7 @@ export type CallbackLeadFormProps = {
   serviceOptions?: readonly string[];
   formLabel?: string;
   className?: string;
+  source?: string;
 };
 
 const DEFAULT_SERVICE_OPTIONS = [
@@ -32,6 +35,7 @@ export default function CallbackLeadForm({
   serviceOptions = DEFAULT_SERVICE_OPTIONS,
   formLabel = "טופס יצירת קשר",
   className = "",
+  source = "/contact",
 }: CallbackLeadFormProps) {
   const formId = useId();
   const nameId = `${formId}-name`;
@@ -41,20 +45,19 @@ export default function CallbackLeadForm({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [service, setService] = useState("");
+  const [customerNeed, setCustomerNeed] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) return;
 
-    const lines = [
-      "שלום, קיבלתי פנייה דרך האתר:",
-      `שם: ${name.trim()}`,
-      `טלפון: ${phone.trim()}`,
-      service ? `שירות מבוקש: ${service}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const lines = buildSimpleLeadMessage({
+      contact: { name: name.trim(), phone: phone.trim() },
+      serviceLabel: service || "פנייה מהאתר",
+      customerNeed: customerNeed.trim() || null,
+      source,
+    });
 
     const href = buildWhatsAppHref({
       text: lines,
@@ -142,6 +145,14 @@ export default function CallbackLeadForm({
             </select>
           </div>
         ) : null}
+
+        <div className="sm:col-span-2">
+          <NeedsDiscoveryStep
+            value={customerNeed}
+            onChange={setCustomerNeed}
+            id={`${formId}-need`}
+          />
+        </div>
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">

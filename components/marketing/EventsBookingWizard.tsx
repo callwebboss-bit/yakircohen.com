@@ -4,11 +4,16 @@ import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookUpsellSection from "@/components/booking/BookUpsellSection";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
@@ -20,6 +25,10 @@ import {
   getEventBundlePrice,
   type EventBookingItemId,
 } from "@/lib/data/events-booking";
+import {
+  EVENT_BOOKING_UPSELLS,
+  sumEventUpsells,
+} from "@/lib/data/events-booking-upsells";
 import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
@@ -50,7 +59,9 @@ type FormState = {
   date: string;
   time: string;
   location: string;
+  customerNeed: string;
   notes: string;
+  selectedUpsells: string[];
   termsAccepted: boolean;
 };
 
@@ -61,7 +72,9 @@ const INITIAL: FormState = {
   date: "",
   time: "",
   location: "",
+  customerNeed: "",
   notes: "",
+  selectedUpsells: [],
   termsAccepted: false,
 };
 
@@ -88,10 +101,24 @@ export default function EventsBookingWizard() {
   );
 
   const count = form.selected.length;
-  const bundleTotal = getEventBundlePrice(count);
+  const upsellTotal = sumEventUpsells(new Set(form.selectedUpsells));
+  const bundleTotal = getEventBundlePrice(count) + upsellTotal;
   const singleTotal = count * 1750;
   const savings = singleTotal - bundleTotal;
   const today = new Date().toISOString().split("T")[0];
+  const selectedUpsellSet = new Set(form.selectedUpsells);
+
+  const toggleUpsell = (id: string) => {
+    setForm((prev) => {
+      const has = prev.selectedUpsells.includes(id);
+      return {
+        ...prev,
+        selectedUpsells: has
+          ? prev.selectedUpsells.filter((x) => x !== id)
+          : [...prev.selectedUpsells, id],
+      };
+    });
+  };
 
   const toggle = (id: EventBookingItemId) => {
     setForm((prev) => {
@@ -126,6 +153,10 @@ export default function EventsBookingWizard() {
     ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
     ...(savings > 0 ? [{ label: "חיסכון", value: `${savings.toLocaleString()} ₪` }] : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+    ...EVENT_BOOKING_UPSELLS.filter((u) => form.selectedUpsells.includes(u.id)).map((u) => ({
+      label: "תוספת",
+      value: `${u.name} (+${u.price.toLocaleString("he-IL")} ₪)`,
+    })),
   ];
 
   const consultHref = useMemo(() => {
@@ -163,8 +194,11 @@ export default function EventsBookingWizard() {
           serviceLabel: `אטרקציות לאירוע - ${count} אטרקציות`,
           summaryLines: buildSummaryLines(),
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+          priceExVat: bundleTotal,
           totalEstimate: withVat(bundleTotal),
-          utmSource: readUtmSource(),
+          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          utmSource: readUtmSource() ?? "/book#events",
+          includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -187,6 +221,24 @@ export default function EventsBookingWizard() {
     );
     setErrors(fieldErrs ?? {});
   };
+
+  const previewBody =
+    step === 2 && count > 0
+      ? buildBookingWhatsAppBody({
+          intent: "continue_chat",
+          serviceLabel: `אטרקציות לאירוע - ${count} אטרקציות`,
+          summaryLines: buildSummaryLines(),
+          contact: {
+            name: sanitizeLeadText(form.name, 60) || "[שם]",
+            phone: form.phone ? formatPhoneForDisplay(form.phone) : "[טלפון]",
+          },
+          priceExVat: bundleTotal,
+          totalEstimate: withVat(bundleTotal),
+          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          utmSource: readUtmSource() ?? "/book#events",
+          includeTrustFooter: true,
+        })
+      : undefined;
 
   const resetWizard = () => {
     setForm(INITIAL);
@@ -259,6 +311,13 @@ export default function EventsBookingWizard() {
               ) : null}
             </div>
           ) : null}
+          {count > 0 ? (
+            <BookUpsellSection
+              items={EVENT_BOOKING_UPSELLS}
+              selected={selectedUpsellSet}
+              onToggle={toggleUpsell}
+            />
+          ) : null}
           <StepNav
             onNext={() => setStep(1)}
             nextDisabled={count === 0}
@@ -310,6 +369,20 @@ export default function EventsBookingWizard() {
               <PriceWithVat amountExVat={bundleTotal} size="lg" className="mt-4" />
             </div>
             <div className="space-y-4">
+              <BookWhatHappensNext
+                steps={[
+                  { number: 1, title: "שולחים הודעה בוואטסאפ", body: "עם האטרקציות שבחרתם" },
+                  { number: 2, title: "מתאמים תאריך ומיקום", body: "שם האולם והשעה המדויקת" },
+                  { number: 3, title: "מגיעים לאירוע", body: "אנחנו מקימים ומרימים את האווירה" },
+                ]}
+              />
+              <BookTrustBadges />
+              <NeedsDiscoveryStep
+                value={form.customerNeed}
+                onChange={(v) => setForm((p) => ({ ...p, customerNeed: v }))}
+                id="ev-customer-need"
+              />
+              {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
               <BookingApprovals
                 variant="light"

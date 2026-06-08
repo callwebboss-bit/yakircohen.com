@@ -7,7 +7,9 @@ export type BookCategoryId =
   | "dj"
   | "photography"
   | "clips"
-  | "singer";
+  | "singer"
+  | "academy"
+  | "online";
 
 const VALID_CATEGORIES = new Set<string>([
   "studio",
@@ -17,6 +19,8 @@ const VALID_CATEGORIES = new Set<string>([
   "photography",
   "clips",
   "singer",
+  "academy",
+  "online",
 ]);
 
 const VALID_SINGER_PACKAGES = new Set<string>(["basic", "premium", "vip"]);

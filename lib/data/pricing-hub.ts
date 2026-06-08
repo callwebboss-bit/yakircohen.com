@@ -7,6 +7,7 @@ import {
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 
 export type PricingHubSection = {
@@ -65,9 +66,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         label: "אטרקציה בודדת",
         exVat: EVENT_ATTRACTION_FROM_NIS,
       },
-      { label: "2 אטרקציות (חבילה)", exVat: 3200 },
-      { label: "3 אטרקציות (חבילה)", exVat: 4450 },
-      { label: "4+ אטרקציות + מתנה", exVat: 5500, note: "מצגת תמונות חינם" },
+      { label: "2 אטרקציות (חבילה)", exVat: getExVat("event_attraction_2") },
+      { label: "3 אטרקציות (חבילה)", exVat: getExVat("event_attraction_3") },
+      { label: "4+ אטרקציות + מתנה", exVat: getExVat("event_attraction_4"), note: "מצגת תמונות חינם" },
     ],
   },
 ] as const;

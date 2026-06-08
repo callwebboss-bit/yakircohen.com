@@ -21,6 +21,8 @@ import {
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildClosingMessage } from "@/lib/whatsapp-closing";
+import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import { cn } from "@/lib/utils";
 
 type ServiceKey = "studio" | "dj" | "voice" | "podcast" | "clip" | "online" | "other";
@@ -129,16 +131,23 @@ function buildQuizWhatsAppMessage(params: {
   message: string;
 }): string {
   const serviceName = SERVICE_LABELS[params.service];
-  const lines = [
-    buildServiceWhatsAppText(serviceName),
-    `תזמון: ${TIMING_LABELS[params.timing]}`,
-    `רמה: ${BUDGET_LABELS[params.budget]}`,
-    `שם: ${params.name}`,
-    `טלפון: ${params.phone}`,
+  const summaryLines = [
+    { label: "תזמון", value: TIMING_LABELS[params.timing] },
+    { label: "רמה", value: BUDGET_LABELS[params.budget] },
+    ...(params.email.trim()
+      ? [{ label: "מייל", value: params.email.trim() }]
+      : []),
   ];
-  if (params.email.trim()) lines.push(`מייל: ${params.email.trim()}`);
-  if (params.message.trim()) lines.push(`הערות: ${params.message.trim()}`);
-  return lines.join("\n");
+
+  return buildClosingMessage({
+    serviceLabel: serviceName,
+    contact: { name: params.name, phone: params.phone },
+    customerNeed: params.message.trim() || null,
+    summaryLines,
+    timing: params.timing,
+    intent: params.timing === "future" ? "continue_chat" : "start_now",
+    source: "/contact",
+  });
 }
 
 function getAvailabilityLabel(): string {
@@ -581,10 +590,10 @@ export default function ContactPageContent() {
                       {fieldErrors.email ? (
                         <p className="text-xs text-brand-red">{fieldErrors.email}</p>
                       ) : null}
-                      <textarea
+                      <NeedsDiscoveryStep
                         value={message}
-                        onChange={(e) => {
-                          setMessage(e.target.value);
+                        onChange={(v) => {
+                          setMessage(v);
                           if (fieldErrors.message) {
                             setFieldErrors((prev) => {
                               const next = { ...prev };
@@ -593,16 +602,7 @@ export default function ContactPageContent() {
                             });
                           }
                         }}
-                        rows={3}
-                        placeholder="ספרו לנו קצת על הפרויקט (אופציונלי)"
-                        className={cn(
-                          "w-full resize-none rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
-                          fieldErrors.message
-                            ? "border-brand-red ring-2 ring-brand-red/30"
-                            : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
-                        )}
-                        aria-label="הודעה"
-                        aria-invalid={Boolean(fieldErrors.message)}
+                        id="contact-customer-need"
                       />
                       {fieldErrors.message ? (
                         <p className="text-xs text-brand-red">{fieldErrors.message}</p>

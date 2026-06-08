@@ -6,14 +6,17 @@ import { cn } from "@/lib/utils";
 type SummaryLine = { label: string; value: string };
 
 type BookingWhatsAppPreviewProps = {
-  summaryLines: SummaryLine[];
-  serviceLabel: string;
-  totalWithVat: number;
+  /** Full message body — preferred when using buildClosingMessage */
+  messageBody?: string;
+  summaryLines?: SummaryLine[];
+  serviceLabel?: string;
+  totalWithVat?: number;
   className?: string;
 };
 
 export default function BookingWhatsAppPreview({
-  summaryLines,
+  messageBody,
+  summaryLines = [],
   serviceLabel,
   totalWithVat,
   className,
@@ -22,9 +25,12 @@ export default function BookingWhatsAppPreview({
   const [copied, setCopied] = useState(false);
 
   const previewText =
-    `*${serviceLabel}*\n\n` +
-    summaryLines.map((l) => `• ${l.label}: ${l.value}`).join("\n") +
-    `\n\n*סה"כ משוער (כולל מע"מ):* ${totalWithVat.toLocaleString("he-IL")} ₪`;
+    messageBody ??
+    (`*${serviceLabel ?? "הזמנה"}*\n\n` +
+      summaryLines.map((l) => `• ${l.label}: ${l.value}`).join("\n") +
+      (totalWithVat !== undefined
+        ? `\n\n*סה"כ משוער (כולל מע"מ):* ${totalWithVat.toLocaleString("he-IL")} ₪`
+        : ""));
 
   function handleCopy() {
     void navigator.clipboard.writeText(previewText).then(() => {
@@ -41,7 +47,7 @@ export default function BookingWhatsAppPreview({
         className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
         aria-expanded={open}
       >
-        <span>👁 מה יישלח ליקיר?</span>
+        <span>👁 כך תיראה ההודעה שתישלח ליקיר</span>
         <span className={cn("text-xs transition-transform duration-150", open && "rotate-180")}>
           ▾
         </span>

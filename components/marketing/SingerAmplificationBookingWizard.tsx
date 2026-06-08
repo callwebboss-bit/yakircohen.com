@@ -4,9 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookUpsellSection from "@/components/booking/BookUpsellSection";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import PriceWithVat from "@/components/booking/PriceWithVat";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
@@ -16,6 +21,11 @@ import {
   SINGER_PACKAGES,
   type SingerPackageId,
 } from "@/lib/data/singer-amplification-page";
+import {
+  SINGER_BOOKING_ADDONS,
+  sumSingerAddons,
+} from "@/lib/data/singer-booking-addons";
+import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
@@ -46,6 +56,7 @@ type FormState = {
   time: string;
   location: string;
   notes: string;
+  selectedAddons: string[];
   termsAccepted: boolean;
 };
 
@@ -57,8 +68,14 @@ const INITIAL: FormState = {
   time: "",
   location: "",
   notes: "",
+  selectedAddons: [],
   termsAccepted: false,
 };
+
+function parseSingerPriceNis(price: string): number {
+  const n = parseInt(price.replace(/[^\d]/g, ""), 10);
+  return Number.isFinite(n) ? n : 0;
+}
 
 const inputClass =
   "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
@@ -101,7 +118,23 @@ export default function SingerAmplificationBookingWizard({
   }, [initialPackageId]);
 
   const selected = SINGER_PACKAGES.find((p) => p.id === form.packageId);
+  const packageExVat = selected ? parseSingerPriceNis(selected.price) : 0;
+  const addonExVat = sumSingerAddons(new Set(form.selectedAddons));
+  const totalExVat = packageExVat + addonExVat;
+  const selectedAddonSet = new Set(form.selectedAddons);
   const today = new Date().toISOString().split("T")[0];
+
+  const toggleAddon = (id: string) => {
+    setForm((prev) => {
+      const has = prev.selectedAddons.includes(id);
+      return {
+        ...prev,
+        selectedAddons: has
+          ? prev.selectedAddons.filter((x) => x !== id)
+          : [...prev.selectedAddons, id],
+      };
+    });
+  };
 
   const canStep0 = form.packageId !== "";
   const canStep1 = useMemo(
@@ -114,6 +147,10 @@ export default function SingerAmplificationBookingWizard({
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
     ...(selected ? [{ label: "חבילה", value: `${selected.name} (${selected.price})` }] : []),
+    ...SINGER_BOOKING_ADDONS.filter((a) => form.selectedAddons.includes(a.id)).map((a) => ({
+      label: "תוספת",
+      value: `${a.name} (+${a.price.toLocaleString("he-IL")} ₪)`,
+    })),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
   ];
 
@@ -152,7 +189,10 @@ export default function SingerAmplificationBookingWizard({
           serviceLabel: selected ? `הגברה לזמר/ה - ${selected.name}` : "הגברה לזמר/ה",
           summaryLines: buildSummaryLines(),
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
-          utmSource: readUtmSource(),
+          priceExVat: totalExVat,
+          totalEstimate: withVat(totalExVat),
+          utmSource: readUtmSource() ?? "/book#singer",
+          includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -182,6 +222,23 @@ export default function SingerAmplificationBookingWizard({
     setSubmitted(false);
     setErrors({});
   };
+
+  const previewBody =
+    step === 2 && selected
+      ? buildBookingWhatsAppBody({
+          intent: "continue_chat",
+          serviceLabel: `הגברה לזמר/ה - ${selected.name}`,
+          summaryLines: buildSummaryLines(),
+          contact: {
+            name: sanitizeLeadText(form.name, 60) || "[שם]",
+            phone: form.phone ? formatPhoneForDisplay(form.phone) : "[טלפון]",
+          },
+          priceExVat: totalExVat,
+          totalEstimate: withVat(totalExVat),
+          utmSource: readUtmSource() ?? "/book#singer",
+          includeTrustFooter: true,
+        })
+      : undefined;
 
   if (submitted && lastWaHref) {
     return (
@@ -242,6 +299,14 @@ export default function SingerAmplificationBookingWizard({
               );
             })}
           </div>
+          {form.packageId ? (
+            <BookUpsellSection
+              items={SINGER_BOOKING_ADDONS}
+              selected={selectedAddonSet}
+              onToggle={toggleAddon}
+              className="mt-6"
+            />
+          ) : null}
           <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
         </BookingStepPanel>
       )}
@@ -276,13 +341,18 @@ export default function SingerAmplificationBookingWizard({
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold text-foreground">סיכום</h2>
               <p className="mt-2 text-sm text-muted-foreground">{selected.name}</p>
-              <p className="mt-2 text-xl font-bold text-brand-red">{selected.price}</p>
+              <div className="mt-3">
+                <PriceWithVat amountExVat={totalExVat} size="lg" />
+              </div>
               <p className="mt-3 text-sm text-muted-foreground">
                 {form.date} · {form.time}
               </p>
               <p className="text-sm text-muted-foreground">{form.location}</p>
             </div>
             <div className="space-y-4">
+              <BookWhatHappensNext />
+              <BookTrustBadges badges={[{ icon: "🎤", label: "צ'ק סאונד לפני ההופעה" }]} />
+              {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
               <BookingApprovals
                 variant="light"

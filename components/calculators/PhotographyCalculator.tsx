@@ -2,6 +2,9 @@
 
 import { useCallback, useMemo, useState } from "react";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -27,6 +30,7 @@ import {
   getPackageLabel,
   type PhotographyAddonSection,
 } from "@/lib/data/photography-calculator";
+import { withVat } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -172,6 +176,26 @@ export default function PhotographyCalculator({ className }: { className?: strin
   const formValid =
     contactForm.name.trim().length >= 2 && contactForm.phone.trim().length >= 9;
 
+  const previewBody = useMemo(() => {
+    if (!formValid) return undefined;
+    const displayPhone = contactForm.phone.trim()
+      ? formatPhoneForDisplay(contactForm.phone.trim())
+      : "[טלפון]";
+    return buildBookingWhatsAppBody({
+      intent: "continue_chat",
+      serviceLabel: "חבילת צילום לאירוע",
+      summaryLines: buildSummaryLines(),
+      contact: {
+        name: sanitizeLeadText(contactForm.name, 60),
+        phone: displayPhone,
+      },
+      priceExVat: total,
+      totalEstimate: withVat(total),
+      utmSource: readUtmSource() ?? "/book#photography",
+      includeTrustFooter: true,
+    });
+  }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
+
   const handleAction = useCallback(
     (intent: "continue_chat" | "start_now") => {
       const errs = attemptSubmit(
@@ -199,8 +223,10 @@ export default function PhotographyCalculator({ className }: { className?: strin
               name: sanitizeLeadText(contactForm.name, 60),
               phone: displayPhone,
             },
-            totalEstimate: total,
-            utmSource: readUtmSource(),
+            priceExVat: total,
+            totalEstimate: withVat(total),
+            utmSource: readUtmSource() ?? "/book#photography",
+            includeTrustFooter: true,
           });
           const href = buildWhatsAppHref({ text: body, utm_campaign: "photography_calculator" });
           openWhatsAppLead(href);
@@ -404,6 +430,17 @@ export default function PhotographyCalculator({ className }: { className?: strin
                 <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.phone}</p>
               )}
             </div>
+          </div>
+          <div className="mt-4 space-y-4">
+            <BookWhatHappensNext
+              steps={[
+                { number: 1, title: "שולחים הודעה בוואטסאפ", body: "עם שעות הצילום והתוספות" },
+                { number: 2, title: "מתאמים תאריך ומיקום", body: "פרטי האירוע והלוקיישן" },
+                { number: 3, title: "יום הצילום", body: "צלם מקצועי + עריכה ומסירה" },
+              ]}
+            />
+            <BookTrustBadges badges={[{ icon: "🔄", label: "סבב תיקונים אחד בעריכה" }]} />
+            {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
           </div>
           <p className="mt-4 text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
           <p className="mt-3 text-center">

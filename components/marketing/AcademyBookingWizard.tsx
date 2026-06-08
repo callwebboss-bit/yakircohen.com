@@ -1,0 +1,219 @@
+"use client";
+
+import { useState } from "react";
+import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
+import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookPriceDual from "@/components/booking/BookPriceDual";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
+import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
+import { withVat } from "@/lib/data/pricing";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateBookingLead,
+} from "@/lib/form-validation";
+import { notifyLeadByEmail } from "@/lib/lead-email-notify";
+import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
+
+const TOPICS = [
+  "פיתוח קול",
+  "תקליטנות (DJ)",
+  "הפקה מוזיקלית",
+  "פסנתר",
+  "גיטרה",
+  "אחר",
+] as const;
+
+const inputClass =
+  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+
+type AcademyBookingWizardProps = {
+  initialEmotionalLabel?: string | null;
+};
+
+export default function AcademyBookingWizard({
+  initialEmotionalLabel,
+}: AcademyBookingWizardProps) {
+  const [planId, setPlanId] = useState(PRIVATE_SESSION_PLANS[1]?.id ?? PRIVATE_SESSION_PLANS[0].id);
+  const [topic, setTopic] = useState(initialEmotionalLabel ?? "");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [done, setDone] = useState(false);
+  const [lastHref, setLastHref] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: "academy_booking",
+  });
+
+  const plan = PRIVATE_SESSION_PLANS.find((p) => p.id === planId) ?? PRIVATE_SESSION_PLANS[0];
+
+  const messageBody = buildBookingWhatsAppBody({
+    intent: "continue_chat",
+    serviceLabel: `שיעור פרטי — ${plan.name}`,
+    summaryLines: [
+      { label: "משך", value: plan.duration },
+      ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
+    ],
+    contact: {
+      name: sanitizeLeadText(name, 60) || "[שם]",
+      phone: phone ? formatPhoneForDisplay(phone) : "[טלפון]",
+    },
+    priceExVat: plan.price,
+    totalEstimate: withVat(plan.price),
+    utmSource: readUtmSource(),
+    includeTrustFooter: true,
+  });
+
+  function handleAction(intent: "continue_chat" | "start_now") {
+    const fieldErrs = attemptSubmit(
+      () =>
+        validateBookingLead({
+          name,
+          phone,
+          date: "",
+          time: "",
+          location: "",
+          notes: "",
+          requireLocation: false,
+          requireDate: false,
+          requireTime: false,
+        }),
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : phone.trim();
+        const body = buildBookingWhatsAppBody({
+          intent,
+          serviceLabel: `שיעור פרטי — ${plan.name}`,
+          summaryLines: [
+            { label: "משך", value: plan.duration },
+            ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
+          ],
+          contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
+          priceExVat: plan.price,
+          totalEstimate: withVat(plan.price),
+          utmSource: readUtmSource(),
+          includeTrustFooter: true,
+        });
+        const href = buildWhatsAppHref({
+          text: body,
+          utm_source: "website",
+          utm_campaign: plan.utmCampaign,
+        });
+        openWhatsAppLead(href);
+        notifyLeadByEmail({
+          formId: "academy_booking",
+          subject: "ליד חדש — שיעור פרטי באקדמיה",
+          body,
+          name: sanitizeLeadText(name, 60),
+          phone: displayPhone,
+        });
+        setLastHref(href);
+        setDone(true);
+      },
+    );
+    setErrors(fieldErrs ?? {});
+  }
+
+  if (done) {
+    return (
+      <BookingSuccessPanel
+        whatsappHref={lastHref}
+        onNewBooking={() => {
+          setDone(false);
+          setName("");
+          setPhone("");
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="mx-auto max-w-xl space-y-6">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {PRIVATE_SESSION_PLANS.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => setPlanId(p.id)}
+            className={cn(
+              "rounded-xl border p-4 text-start transition-colors",
+              planId === p.id
+                ? "border-brand-red bg-brand-red/5"
+                : "border-border hover:border-brand-red/30",
+            )}
+            aria-pressed={planId === p.id}
+          >
+            <p className="text-sm font-semibold">{p.name}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{p.tagline}</p>
+            <div className="mt-2">
+              <BookPriceDual exVat={p.price} size="sm" />
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <div>
+        <label className="mb-2 block text-sm font-medium">במה תרצו להתמקד?</label>
+        <div className="flex flex-wrap gap-2">
+          {TOPICS.map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTopic(t)}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs",
+                topic === t ? "border-brand-red bg-brand-red/10 text-brand-red" : "border-border",
+              )}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <BookWhatHappensNext />
+      <BookTrustBadges badges={[{ icon: "🅿️", label: "חנייה חופשית" }, { icon: "🌙", label: "שעות ערב גמישות" }]} />
+
+      <div className="space-y-3">
+        <input
+          className={inputClass}
+          placeholder="שם מלא"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-invalid={!!errors.name}
+        />
+        <input
+          className={inputClass}
+          placeholder="טלפון"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          dir="ltr"
+          aria-invalid={!!errors.phone}
+        />
+        <p className="text-xs text-muted-foreground">
+          אל דאגה — נשלח טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים!
+        </p>
+      </div>
+
+      <BookingWhatsAppPreview messageBody={messageBody} />
+
+      <LeadFormAlert message={globalError} />
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
+
+      <BookingSummaryActions
+        continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
+        startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
+        disabled={!name.trim() || !phone.trim()}
+      />
+    </div>
+  );
+}

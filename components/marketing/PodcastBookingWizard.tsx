@@ -5,11 +5,16 @@ import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
+import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import BookUpsellSection from "@/components/booking/BookUpsellSection";
+import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
+import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
@@ -20,6 +25,11 @@ import {
   PODCAST_PACKAGES,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
+import {
+  getPodcastUpsellItems,
+  sumPodcastUpsells,
+} from "@/lib/data/podcast-booking-upsells";
+import { UPSELLS } from "@/lib/data/booking-calculator-services";
 import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
@@ -57,7 +67,9 @@ type FormState = {
   name: string;
   phone: string;
   timeframe: string;
+  customerNeed: string;
   notes: string;
+  selectedUpsells: string[];
   termsAccepted: boolean;
 };
 
@@ -68,7 +80,9 @@ const INITIAL: FormState = {
   name: "",
   phone: "",
   timeframe: "",
+  customerNeed: "",
   notes: "",
+  selectedUpsells: [],
   termsAccepted: false,
 };
 
@@ -101,10 +115,27 @@ export default function PodcastBookingWizard() {
     form.participantCount > 2
       ? (form.participantCount - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE
       : 0;
+  const upsellTotal = sumPodcastUpsells(new Set(form.selectedUpsells));
   const packageTotal =
     (selected?.price ?? 0) +
     form.overtimeBlocks * PODCAST_OVERTIME_RATE +
-    extraParticipantsCost;
+    extraParticipantsCost +
+    upsellTotal;
+
+  const upsellItems = getPodcastUpsellItems(form.packageId);
+  const selectedUpsellSet = new Set(form.selectedUpsells);
+
+  const toggleUpsell = (id: string) => {
+    setForm((prev) => {
+      const has = prev.selectedUpsells.includes(id);
+      return {
+        ...prev,
+        selectedUpsells: has
+          ? prev.selectedUpsells.filter((x) => x !== id)
+          : [...prev.selectedUpsells, id],
+      };
+    });
+  };
 
   const canStep0 = form.packageId !== "";
 
@@ -137,6 +168,12 @@ export default function PodcastBookingWizard() {
         : []),
       ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
       ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+      ...form.selectedUpsells
+        .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
+        .map((k) => ({
+          label: "תוספת",
+          value: `${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString("he-IL")} ₪)`,
+        })),
     ];
     return {
       summaryLines,
@@ -178,10 +215,22 @@ export default function PodcastBookingWizard() {
         const body = buildBookingWhatsAppBody({
           intent,
           serviceLabel: selected ? `פודקאסט - ${selected.name}` : "פודקאסט",
+          packageLabel: selected?.name,
           summaryLines,
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
+          priceExVat: selected ? packageTotal : undefined,
           totalEstimate: selected ? withVat(packageTotal) : undefined,
-          utmSource: readUtmSource(),
+          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          timing:
+            form.timeframe === "asap"
+              ? "urgent"
+              : form.timeframe === "exploring"
+                ? "future"
+                : form.timeframe
+                  ? "month"
+                  : null,
+          utmSource: readUtmSource() ?? "/book#podcast",
+          includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -204,6 +253,30 @@ export default function PodcastBookingWizard() {
     );
     setErrors(fieldErrs ?? {});
   };
+
+  const previewBody =
+    step === 2 && selected
+      ? buildBookingWhatsAppBody({
+          intent: "continue_chat",
+          serviceLabel: `פודקאסט - ${selected.name}`,
+          packageLabel: selected.name,
+          summaryLines: buildSummaryContext().summaryLines,
+          contact: buildSummaryContext().contact,
+          priceExVat: packageTotal,
+          totalEstimate: withVat(packageTotal),
+          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          timing:
+            form.timeframe === "asap"
+              ? "urgent"
+              : form.timeframe === "exploring"
+                ? "future"
+                : form.timeframe
+                  ? "month"
+                  : null,
+          utmSource: readUtmSource() ?? "/book#podcast",
+          includeTrustFooter: true,
+        })
+      : undefined;
 
   const resetWizard = () => {
     setForm(INITIAL);
@@ -260,7 +333,12 @@ export default function PodcastBookingWizard() {
                   key={pkg.id}
                   type="button"
                   onClick={() =>
-                    setForm((p) => ({ ...p, packageId: pkg.id, overtimeBlocks: 0 }))
+                    setForm((p) => ({
+                      ...p,
+                      packageId: pkg.id,
+                      overtimeBlocks: 0,
+                      selectedUpsells: [],
+                    }))
                   }
                   className={cn(
                     "rounded-2xl border p-5 text-start",
@@ -406,6 +484,15 @@ export default function PodcastBookingWizard() {
             </table>
           </div>
 
+          {form.packageId && upsellItems.length > 0 ? (
+            <BookUpsellSection
+              items={upsellItems}
+              selected={selectedUpsellSet}
+              onToggle={toggleUpsell}
+              className="mt-6"
+            />
+          ) : null}
+
           <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
         </BookingStepPanel>
       )}
@@ -467,6 +554,20 @@ export default function PodcastBookingWizard() {
               <PriceWithVat amountExVat={packageTotal} size="lg" className="mt-4" />
             </div>
             <div className="space-y-4">
+              <BookWhatHappensNext />
+              <BookTrustBadges
+                badges={[
+                  { icon: "🔄", label: "סבב תיקונים אחד כלול בעריכה" },
+                  { icon: "☁️", label: "גיבוי ענן עד ההקלטה הבאה" },
+                  { icon: "🅿️", label: "חנייה חופשית במודיעין" },
+                ]}
+              />
+              <NeedsDiscoveryStep
+                value={form.customerNeed}
+                onChange={(v) => setForm((p) => ({ ...p, customerNeed: v }))}
+                id="pb-customer-need"
+              />
+              {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
               <BookingApprovals
                 variant="light"
