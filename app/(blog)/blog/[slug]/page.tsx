@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CTABanner from "@/components/blog/CTABanner";
+import BlogPostMedia from "@/components/blog/BlogPostMedia";
 import RelatedArticles from "@/components/blog/RelatedArticles";
 import SocialShare from "@/components/blog/SocialShare";
-import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import {
   getAllBlogSlugs,
   getBlogPostBySlug,
@@ -16,7 +16,6 @@ import { ensureImageAlt } from "@/lib/image-alt";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
-import { toYouTubeEmbedUrl } from "@/lib/youtube";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -62,7 +61,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
      case so the baseline conversion block always renders. */
   const callout = getRelatedServiceCallout(post.relatedServiceSlug);
   const relatedPosts = getRelatedBlogPosts(post.slug, 3);
-  const youtubeEmbed = post.youtubeUrl ? toYouTubeEmbedUrl(post.youtubeUrl) : null;
 
   /* Inline BlogPosting JSON-LD - replaces the missing BlogPostingJsonLd
      component with equivalent structured data. */
@@ -152,31 +150,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             className="mt-6"
           />
 
-          {youtubeEmbed ? (
-            <div className="mt-8 aspect-video overflow-hidden rounded-xl border border-border">
-              <iframe
-                src={youtubeEmbed}
-                title={`וידאו: ${post.title}`}
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          ) : null}
-
-          {post.audioDemoId ? (
-            <div className="mt-8">
-              <SoundImprovementShowcase
-                demoId={post.audioDemoId}
-                variant="restoration"
-                showDisclaimer
-              />
-            </div>
-          ) : null}
+          <BlogPostMedia
+            title={post.title}
+            youtubeUrl={post.youtubeUrl}
+            audioDemoId={post.audioDemoId}
+          />
 
           <div
-            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_table]:mt-6 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_td]:border [&_td]:border-border [&_td]:p-3 [&_th]:border [&_th]:border-border [&_th]:bg-surface [&_th]:p-3 [&_th]:text-start [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_table]:mt-0 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_td]:border [&_td]:border-border [&_td]:p-3 [&_th]:border [&_th]:border-border [&_th]:bg-surface [&_th]:p-3 [&_th]:text-start [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
+            dangerouslySetInnerHTML={{
+              __html: post.content
+                .replaceAll("<table>", '<div class="mt-6 overflow-x-auto"><table>')
+                .replaceAll("</table>", "</table></div>"),
+            }}
           />
 
           {/*
