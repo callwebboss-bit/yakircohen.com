@@ -55,7 +55,7 @@ export default function BookUpsellSection({
                   {active && "✓"}
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-foreground">
+                  <p className="break-words text-sm font-medium text-foreground">
                     {item.name}
                     {item.badge ? (
                       <span className="ms-2 rounded bg-brand-red/10 px-1.5 py-0.5 text-[0.65rem] font-bold text-brand-red">

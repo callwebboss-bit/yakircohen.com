@@ -101,7 +101,7 @@ function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers 
   const purposeOpt = FILTER_QUESTIONS[1].options.find((o) => o.id === filterAnswers.purpose);
   if (!timelineOpt && !purposeOpt) return null;
   return (
-    <div className="mb-6 flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-5 py-2 text-xs text-muted-foreground">
+    <div className="mb-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-border bg-surface px-5 py-2 text-xs text-muted-foreground sm:rounded-full">
       {timelineOpt && (
         <span className="flex items-center gap-1 font-medium text-foreground">
           <span aria-hidden="true">{timelineOpt.icon}</span>
@@ -456,7 +456,7 @@ export default function StudioRecordingBooking({
               </p>
             </header>
 
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {RECORDING_TYPES.map((type) => {
                 const active = form.recordingType === type.id;
                 return (
@@ -465,7 +465,7 @@ export default function StudioRecordingBooking({
                     type="button"
                     onClick={() => setForm((prev) => ({ ...prev, recordingType: type.id }))}
                     className={cn(
-                      "rounded-xl border px-3 py-3 text-sm font-semibold transition-colors",
+                      "min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
                       active
                         ? "border-brand-red bg-brand-red/10 text-brand-red"
                         : "border-border bg-background text-foreground hover:border-brand-red/40",
@@ -814,7 +814,7 @@ export default function StudioRecordingBooking({
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
                     <label htmlFor="sr-date" className="mb-1.5 block text-xs font-semibold">
                       תאריך *

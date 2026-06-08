@@ -97,7 +97,17 @@ export default function EventsBookingWizard() {
     form,
     setForm,
     (s) => s,
-    (raw) => (raw && typeof raw === "object" ? (raw as FormState) : null),
+    (raw) => {
+      if (!raw || typeof raw !== "object") return null;
+      const r = raw as Partial<FormState>;
+      return {
+        ...INITIAL,
+        ...r,
+        selected: Array.isArray(r.selected) ? r.selected : [],
+        selectedUpsells: Array.isArray(r.selectedUpsells) ? r.selectedUpsells : [],
+        termsAccepted: Boolean(r.termsAccepted),
+      };
+    },
   );
 
   const count = form.selected.length;

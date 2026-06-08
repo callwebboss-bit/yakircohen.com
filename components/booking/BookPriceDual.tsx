@@ -27,9 +27,9 @@ export default function BookPriceDual({
   const main = dualLabel ?? formatFromPriceDual(exVat);
 
   return (
-    <div className={cn("space-y-0.5", className)}>
-      <p className={cn("font-bold text-foreground", SIZE_CLASS[size])}>{main}</p>
-      <p className="text-xs text-muted-foreground">
+    <div className={cn("min-w-0 space-y-0.5", className)}>
+      <p className={cn("break-words font-bold text-foreground", SIZE_CLASS[size])}>{main}</p>
+      <p className="break-words text-xs text-muted-foreground">
         {exVat.toLocaleString("he-IL")} ₪ + מע״מ {vat.toLocaleString("he-IL")} ₪ ={" "}
         <span className="font-semibold text-foreground">
           {total.toLocaleString("he-IL")} ₪ סופי

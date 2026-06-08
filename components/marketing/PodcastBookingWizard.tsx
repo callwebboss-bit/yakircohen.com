@@ -60,6 +60,16 @@ const TIMEFRAME_OPTIONS = [
   { value: "exploring", label: "רק בודק/ת אפשרויות" },
 ] as const;
 
+const PODCAST_COMPARISON_ROWS = [
+  { label: "הקלטה באולפן", ids: ["starter", "audio", "video", "social"] },
+  { label: "עריכה ומיקס", ids: ["audio", "video", "social"] },
+  { label: "מאסטרינג", ids: ["audio", "video", "social"] },
+  { label: "העלאה לספוטיפיי", ids: ["audio", "video", "social"] },
+  { label: "הקלטת וידאו (3 מצלמות)", ids: ["video", "social"] },
+  { label: "3 קטעי רילס", ids: ["social"] },
+  { label: "העלאה לאפל + יוטיוב", ids: ["social"] },
+] as const;
+
 type FormState = {
   packageId: PodcastPackageId | "";
   overtimeBlocks: number;
@@ -107,7 +117,24 @@ export default function PodcastBookingWizard() {
     form,
     setForm,
     (s) => s,
-    (raw) => (raw && typeof raw === "object" ? (raw as FormState) : null),
+    (raw) => {
+      if (!raw || typeof raw !== "object") return null;
+      const r = raw as Partial<FormState>;
+      return {
+        ...INITIAL,
+        ...r,
+        selectedUpsells: Array.isArray(r.selectedUpsells) ? r.selectedUpsells : [],
+        participantCount:
+          typeof r.participantCount === "number" && r.participantCount >= 1
+            ? r.participantCount
+            : INITIAL.participantCount,
+        overtimeBlocks:
+          typeof r.overtimeBlocks === "number" && r.overtimeBlocks >= 0
+            ? r.overtimeBlocks
+            : INITIAL.overtimeBlocks,
+        termsAccepted: Boolean(r.termsAccepted),
+      };
+    },
   );
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
@@ -168,11 +195,11 @@ export default function PodcastBookingWizard() {
         : []),
       ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
       ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
-      ...form.selectedUpsells
+      ...(form.selectedUpsells ?? [])
         .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
         .map((k) => ({
           label: "תוספת",
-          value: `${UPSELLS[k]?.name} (+${UPSELLS[k]?.price.toLocaleString("he-IL")} ₪)`,
+          value: `${UPSELLS[k]?.name ?? k} (+${(UPSELLS[k]?.price ?? 0).toLocaleString("he-IL")} ₪)`,
         })),
     ];
     return {
@@ -434,9 +461,29 @@ export default function PodcastBookingWizard() {
             </div>
           ) : null}
 
-          {/* Comparison table */}
-          <div className="overflow-x-auto rounded-xl border border-border">
-            <table className="w-full min-w-[28rem] text-sm">
+          {/* Comparison — mobile: selected package only; desktop: full table */}
+          {selected ? (
+            <div className="rounded-xl border border-border bg-surface p-4 md:hidden">
+              <p className="mb-3 text-xs font-semibold text-muted-foreground">
+                מה כלול ב{selected.name.split(" - ")[0]}?
+              </p>
+              <ul className="space-y-2">
+                {PODCAST_COMPARISON_ROWS.filter((row) =>
+                  (row.ids as readonly string[]).includes(selected.id),
+                ).map((row) => (
+                  <li key={row.label} className="flex items-start gap-2 text-xs text-foreground">
+                    <span className="text-green-600" aria-hidden="true">
+                      ✓
+                    </span>
+                    {row.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          <div className="hidden overflow-x-auto rounded-xl border border-border md:block">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-surface">
                   <th className="px-4 py-2.5 text-start text-xs font-semibold text-muted-foreground">
@@ -453,17 +500,7 @@ export default function PodcastBookingWizard() {
                 </tr>
               </thead>
               <tbody>
-                {(
-                  [
-                    { label: "הקלטה באולפן", ids: ["starter", "audio", "video", "social"] },
-                    { label: "עריכה ומיקס", ids: ["audio", "video", "social"] },
-                    { label: "מאסטרינג", ids: ["audio", "video", "social"] },
-                    { label: "העלאה לספוטיפיי", ids: ["audio", "video", "social"] },
-                    { label: "הקלטת וידאו (3 מצלמות)", ids: ["video", "social"] },
-                    { label: "3 קטעי רילס", ids: ["social"] },
-                    { label: "העלאה לאפל + יוטיוב", ids: ["social"] },
-                  ] as { label: string; ids: string[] }[]
-                ).map((row, ri) => (
+                {PODCAST_COMPARISON_ROWS.map((row, ri) => (
                   <tr
                     key={row.label}
                     className={cn("border-b border-border last:border-0", ri % 2 === 1 && "bg-surface/50")}
@@ -471,10 +508,14 @@ export default function PodcastBookingWizard() {
                     <td className="px-4 py-2 text-xs text-foreground">{row.label}</td>
                     {PODCAST_PACKAGES.map((pkg) => (
                       <td key={pkg.id} className="px-3 py-2 text-center text-base">
-                        {row.ids.includes(pkg.id) ? (
-                          <span className="text-green-600" aria-label="כלול">✓</span>
+                        {(row.ids as readonly string[]).includes(pkg.id) ? (
+                          <span className="text-green-600" aria-label="כלול">
+                            ✓
+                          </span>
                         ) : (
-                          <span className="text-muted-foreground/40" aria-label="לא כלול">—</span>
+                          <span className="text-muted-foreground/40" aria-label="לא כלול">
+                            —
+                          </span>
                         )}
                       </td>
                     ))}

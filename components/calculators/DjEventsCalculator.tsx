@@ -232,9 +232,12 @@ export default function DjEventsCalculator({ className }: { className?: string }
     });
   };
 
-  const djPrice = djId ? DJ_OPTIONS.find((d) => d.id === djId)!.price : 0;
-  const starPrice = starId ? STAR_OPTIONS.find((s) => s.id === starId)!.price : 0;
-  const addonTotal = [...addons].reduce((acc, id) => acc + ADDONS.find((a) => a.id === id)!.price, 0);
+  const djPrice = djId ? (DJ_OPTIONS.find((d) => d.id === djId)?.price ?? 0) : 0;
+  const starPrice = starId ? (STAR_OPTIONS.find((s) => s.id === starId)?.price ?? 0) : 0;
+  const addonTotal = [...addons].reduce(
+    (acc, id) => acc + (ADDONS.find((a) => a.id === id)?.price ?? 0),
+    0,
+  );
   const { total: effectTotal, discount: effectDiscount } = calcEffectTotal(effects);
 
   const grandTotal = festivalSelected

@@ -55,7 +55,7 @@ export default function BookingWhatsAppPreview({
 
       {open && (
         <div className="border-t border-border px-4 pb-4 pt-3">
-          <pre className="whitespace-pre-wrap rounded-lg bg-background p-3 font-sans text-xs leading-relaxed text-foreground">
+          <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-background p-3 font-sans text-xs leading-relaxed text-foreground">
             {previewText}
           </pre>
           <button

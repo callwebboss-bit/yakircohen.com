@@ -158,6 +158,7 @@ export default function BookPageSections() {
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
 
   const [activeCategory, setActiveCategory] = useState<BookCategoryId | null>(null);
+  const [activeRouteId, setActiveRouteId] = useState<string | null>(null);
   const [filterPreset, setFilterPreset] = useState<Partial<FilterAnswers> | undefined>();
   const [emotionalLabel, setEmotionalLabel] = useState<string | null>(null);
   const [skipStudioGate, setSkipStudioGate] = useState(false);
@@ -167,6 +168,7 @@ export default function BookPageSections() {
       const fromHash = parseBookCategoryFromHash(window.location.hash);
       if (fromHash) {
         setActiveCategory(fromHash);
+        setActiveRouteId(null);
         requestAnimationFrame(() => {
           document.getElementById("book-wizard-panel")?.scrollIntoView({
             behavior: "smooth",
@@ -189,6 +191,7 @@ export default function BookPageSections() {
     setEmotionalLabel(selection.emotionalLabel);
     setSkipStudioGate(selection.categoryId === "studio" && !!selection.filterPreset);
     setActiveCategory(selection.categoryId);
+    setActiveRouteId(selection.routeId);
 
     if (typeof window !== "undefined") {
       const qs = window.location.search;
@@ -208,6 +211,7 @@ export default function BookPageSections() {
 
   const backToRouter = useCallback(() => {
     setActiveCategory(null);
+    setActiveRouteId(null);
     setFilterPreset(undefined);
     setEmotionalLabel(null);
     setSkipStudioGate(false);
@@ -222,15 +226,19 @@ export default function BookPageSections() {
 
   return (
     <>
-      <BookAudienceRouter onFullPath={openFullPath} />
+      <BookAudienceRouter
+        onFullPath={openFullPath}
+        activeRouteId={activeRouteId}
+        activeCategoryId={activeCategory}
+      />
 
       {activeCategory && meta ? (
         <section
           id="book-wizard-panel"
-          className="scroll-mt-24 border-b border-border bg-surface/50 py-10"
+          className="scroll-mt-24 min-w-0 overflow-x-clip border-b border-border bg-surface/50 py-10"
           aria-labelledby="book-wizard-heading"
         >
-          <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto min-w-0 max-w-[72rem] px-4 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={backToRouter}

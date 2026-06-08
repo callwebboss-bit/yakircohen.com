@@ -46,7 +46,9 @@ export default function BookingApprovals({
           <span className="text-sm text-foreground">קראתי ומאשר/ת</span>
         </label>
         {termsError ? (
-          <p className="text-xs text-red-500">{termsError}</p>
+          <p className="text-xs text-red-500" data-field-error="">
+            {termsError}
+          </p>
         ) : null}
       </div>
     );
@@ -98,7 +100,9 @@ export default function BookingApprovals({
         <span className="text-sm text-foreground">{copy?.termsLabel}</span>
       </label>
       {termsError ? (
-        <p className="text-xs text-red-500">{termsError}</p>
+        <p className="text-xs text-red-500" data-field-error="">
+          {termsError}
+        </p>
       ) : null}
     </div>
   );

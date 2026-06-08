@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookPriceDual from "@/components/booking/BookPriceDual";
@@ -39,6 +40,7 @@ export default function OnlineRestoreBookingPanel({
   const [issue, setIssue] = useState(initialEmotionalLabel ?? "");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [done, setDone] = useState(false);
   const [lastHref, setLastHref] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -69,7 +71,22 @@ export default function OnlineRestoreBookingPanel({
     includeTrustFooter: true,
   });
 
+  function scrollToFirstError(errs: Record<string, string>) {
+    if (Object.keys(errs).length === 0) return;
+    setTimeout(() => {
+      document
+        .querySelector("[data-field-error]")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  }
+
   function handleAction(intent: "continue_chat" | "start_now") {
+    if (!termsAccepted) {
+      const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
+      setErrors(termsErr);
+      scrollToFirstError(termsErr);
+      return;
+    }
     const fieldErrs = attemptSubmit(
       () =>
         validateBookingLead({
@@ -117,7 +134,9 @@ export default function OnlineRestoreBookingPanel({
         setDone(true);
       },
     );
-    setErrors(fieldErrs ?? {});
+    const errs = fieldErrs ?? {};
+    setErrors(errs);
+    scrollToFirstError(errs);
   }
 
   if (done) {
@@ -172,22 +191,54 @@ export default function OnlineRestoreBookingPanel({
       </div>
 
       <div className="space-y-3">
-        <input
-          className={inputClass}
-          placeholder="שם מלא"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          className={inputClass}
-          placeholder="טלפון"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          dir="ltr"
-        />
+        <div>
+          <input
+            className={cn(inputClass, errors.name && "border-red-400")}
+            placeholder="שם מלא"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (errors.name) setErrors((p) => ({ ...p, name: "" }));
+            }}
+            aria-invalid={!!errors.name}
+          />
+          {errors.name ? (
+            <p className="mt-1 text-xs text-red-500" data-field-error="">
+              {errors.name}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <input
+            className={cn(inputClass, errors.phone && "border-red-400")}
+            placeholder="טלפון"
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              if (errors.phone) setErrors((p) => ({ ...p, phone: "" }));
+            }}
+            dir="ltr"
+            aria-invalid={!!errors.phone}
+          />
+          {errors.phone ? (
+            <p className="mt-1 text-xs text-red-500" data-field-error="">
+              {errors.phone}
+            </p>
+          ) : null}
+        </div>
       </div>
 
       <BookingWhatsAppPreview messageBody={messageBody} />
+
+      <BookingApprovals
+        variant="light"
+        termsAccepted={termsAccepted}
+        onTermsChange={(v) => {
+          setTermsAccepted(v);
+          if (v && errors.terms) setErrors((p) => ({ ...p, terms: "" }));
+        }}
+        termsError={errors.terms}
+      />
 
       <LeadFormAlert message={globalError} />
       <HoneypotField value={honeypot} onChange={setHoneypot} />
@@ -195,7 +246,7 @@ export default function OnlineRestoreBookingPanel({
       <BookingSummaryActions
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
-        disabled={!name.trim() || !phone.trim()}
+        disabled={!termsAccepted}
       />
     </div>
   );

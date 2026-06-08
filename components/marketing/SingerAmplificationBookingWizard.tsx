@@ -105,7 +105,17 @@ export default function SingerAmplificationBookingWizard({
     form,
     setForm,
     (s) => s,
-    (raw) => (raw && typeof raw === "object" ? (raw as FormState) : null),
+    (raw) => {
+      if (!raw || typeof raw !== "object") return null;
+      const r = raw as Partial<FormState>;
+      return {
+        ...INITIAL,
+        ...r,
+        packageId: typeof r.packageId === "string" ? r.packageId : initialPackageId ?? "",
+        selectedAddons: Array.isArray(r.selectedAddons) ? r.selectedAddons : [],
+        termsAccepted: Boolean(r.termsAccepted),
+      };
+    },
   );
 
   useEffect(() => {

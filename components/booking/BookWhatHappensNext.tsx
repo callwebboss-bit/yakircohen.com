@@ -29,7 +29,7 @@ export default function BookWhatHappensNext({
             >
               {step.number}
             </span>
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground">{step.title}</p>
               <p className="text-xs text-muted-foreground">{step.body}</p>
             </div>

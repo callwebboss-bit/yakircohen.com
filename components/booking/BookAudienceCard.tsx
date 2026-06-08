@@ -40,12 +40,14 @@ function WaIcon() {
 type BookAudienceCardProps = {
   route: BookAudienceRoute;
   boosted?: boolean;
+  compact?: boolean;
   onFullPath: (route: BookAudienceRoute, emotionalLabel: string | null) => void;
 };
 
 export default function BookAudienceCard({
   route,
   boosted = false,
+  compact = false,
   onFullPath,
 }: BookAudienceCardProps) {
   const [emotionalId, setEmotionalId] = useState<string | null>(null);
@@ -80,8 +82,8 @@ export default function BookAudienceCard({
     <>
       <article
         className={cn(
-          "relative flex flex-col rounded-2xl border p-5 shadow-sm transition-[border-color,box-shadow,transform]",
-          "hover:-translate-y-0.5",
+          "relative flex min-w-0 flex-col rounded-2xl border p-5 shadow-sm transition-[border-color,box-shadow,transform]",
+          !compact && "hover:-translate-y-0.5",
           V_CARD[route.variant],
           boosted && "ring-2 ring-brand-red/40 ring-offset-2 ring-offset-background",
         )}
@@ -102,17 +104,26 @@ export default function BookAudienceCard({
         </div>
 
         <h3 className="font-serif text-lg font-semibold leading-snug text-foreground">{route.title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{route.description}</p>
-        <p className="mt-2 text-xs italic text-muted-foreground">{route.essenceMicroCopy}</p>
+        {!compact ? (
+          <>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{route.description}</p>
+            <p className="mt-2 text-xs italic text-muted-foreground">{route.essenceMicroCopy}</p>
+          </>
+        ) : (
+          <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{route.description}</p>
+        )}
 
         <div className="mt-4">
           <BookPriceDual exVat={route.priceExVat} dualLabel={route.startingPriceDual} size="sm" />
           {route.priceNote ? (
             <p className="mt-1 text-xs text-muted-foreground">{route.priceNote}</p>
           ) : null}
-          <p className="mt-2 text-xs leading-snug text-muted-foreground">{route.upsellHint}</p>
+          {!compact ? (
+            <p className="mt-2 text-xs leading-snug text-muted-foreground">{route.upsellHint}</p>
+          ) : null}
         </div>
 
+        {compact ? null : (
         <div className="mt-4">
           <p className="mb-2 text-xs font-medium text-foreground">{route.emotionalQuestion}</p>
           <div className="flex flex-wrap gap-1.5">
@@ -134,7 +145,9 @@ export default function BookAudienceCard({
             ))}
           </div>
         </div>
+        )}
 
+        {compact ? null : (
         <button
           type="button"
           onClick={() => setVideoOpen(true)}
@@ -142,7 +155,9 @@ export default function BookAudienceCard({
         >
           ▶ איך זה נראה?
         </button>
+        )}
 
+        {compact ? null : (
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <button
             type="button"
@@ -160,8 +175,9 @@ export default function BookAudienceCard({
             הזמנה מפורטת
           </button>
         </div>
+        )}
 
-        {route.feasibilityCheckMessage ? (
+        {compact ? null : route.feasibilityCheckMessage ? (
           <button
             type="button"
             onClick={openFeasibilityCheck}

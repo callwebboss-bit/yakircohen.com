@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BookAudienceCard from "@/components/booking/BookAudienceCard";
 import {
   BOOK_ESCAPE_HATCH,
@@ -23,18 +23,49 @@ export type BookFullPathSelection = {
 
 type BookAudienceRouterProps = {
   onFullPath: (selection: BookFullPathSelection) => void;
+  activeRouteId?: string | null;
+  activeCategoryId?: BookCategoryId | null;
   className?: string;
 };
 
+function resolveActiveRoute(
+  routes: readonly BookAudienceRoute[],
+  activeRouteId: string | null | undefined,
+  activeCategoryId: BookCategoryId | null | undefined,
+): BookAudienceRoute | null {
+  if (activeRouteId) {
+    return routes.find((r) => r.id === activeRouteId) ?? null;
+  }
+  if (activeCategoryId) {
+    return routes.find((r) => r.categoryId === activeCategoryId) ?? null;
+  }
+  return null;
+}
+
 export default function BookAudienceRouter({
   onFullPath,
+  activeRouteId = null,
+  activeCategoryId = null,
   className,
 }: BookAudienceRouterProps) {
   const { orderedRoutes, boostedRouteId } = useBookUtmBoost();
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const isCollapsed = Boolean(activeRouteId || activeCategoryId);
+  const activeRoute = isCollapsed
+    ? resolveActiveRoute(orderedRoutes, activeRouteId, activeCategoryId)
+    : null;
+  const otherRoutes = activeRoute
+    ? orderedRoutes.filter((r) => r.id !== activeRoute.id)
+    : orderedRoutes;
 
   useEffect(() => {
     persistUtmBoostFromUrl();
   }, []);
+
+  useEffect(() => {
+    if (!isCollapsed) setMoreOpen(false);
+  }, [isCollapsed]);
 
   function handleFullPath(route: BookAudienceRoute, emotionalLabel: string | null) {
     onFullPath({
@@ -52,41 +83,99 @@ export default function BookAudienceRouter({
   });
 
   return (
-    <section className={cn("border-b border-border bg-background py-8 sm:py-10", className)} aria-labelledby="book-router-heading">
+    <section
+      className={cn("border-b border-border bg-background py-8 sm:py-10", className)}
+      aria-labelledby="book-router-heading"
+    >
       <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
         <header className="mx-auto max-w-2xl text-center">
           <h2
             id="book-router-heading"
             className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
           >
-            בחרו את הכיוון שלכם
+            {isCollapsed ? "הכיוון שבחרתם" : "בחרו את הכיוון שלכם"}
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            בחרו כיוון — מחיר שקוף מיד, וואטסאפ מהיר או הזמנה מפורטת עם תוספות.
-          </p>
-          <p className="mt-2 text-sm font-medium text-foreground">{BOOK_ROUTER_REASSURANCE}</p>
+          {!isCollapsed ? (
+            <>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                בחרו כיוון — מחיר שקוף מיד, וואטסאפ מהיר או הזמנה מפורטת עם תוספות.
+              </p>
+              <p className="mt-2 text-sm font-medium text-foreground">{BOOK_ROUTER_REASSURANCE}</p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-muted-foreground">
+              ממשיכים בהזמנה המפורטת למטה. רוצים כיוון אחר?
+            </p>
+          )}
         </header>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
-          {orderedRoutes.map((route) => (
+        {isCollapsed && activeRoute ? (
+          <div className="mt-6 space-y-4">
             <BookAudienceCard
-              key={route.id}
-              route={route}
-              boosted={route.id === boostedRouteId}
+              route={activeRoute}
+              boosted={activeRoute.id === boostedRouteId}
               onFullPath={handleFullPath}
+              compact
             />
-          ))}
-        </div>
 
-        <div className="mt-8 text-center">
-          <button
-            type="button"
-            onClick={() => openWhatsAppLead(escapeHref)}
-            className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
-          >
-            {BOOK_ESCAPE_HATCH.label}
-          </button>
-        </div>
+            {otherRoutes.length > 0 ? (
+              <div className="rounded-xl border border-border bg-surface">
+                <button
+                  type="button"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-foreground hover:text-brand-red"
+                  aria-expanded={moreOpen}
+                >
+                  <span>כיוונים נוספים ({otherRoutes.length})</span>
+                  <span
+                    className={cn(
+                      "text-xs transition-transform duration-150",
+                      moreOpen && "rotate-180",
+                    )}
+                    aria-hidden="true"
+                  >
+                    ▾
+                  </span>
+                </button>
+                {moreOpen ? (
+                  <div className="grid grid-cols-1 gap-4 border-t border-border p-4 md:grid-cols-2">
+                    {otherRoutes.map((route) => (
+                      <BookAudienceCard
+                        key={route.id}
+                        route={route}
+                        boosted={route.id === boostedRouteId}
+                        onFullPath={handleFullPath}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
+            {orderedRoutes.map((route) => (
+              <BookAudienceCard
+                key={route.id}
+                route={route}
+                boosted={route.id === boostedRouteId}
+                onFullPath={handleFullPath}
+              />
+            ))}
+          </div>
+        )}
+
+        {!isCollapsed ? (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() => openWhatsAppLead(escapeHref)}
+              className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
+            >
+              {BOOK_ESCAPE_HATCH.label}
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );

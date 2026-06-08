@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 const STORAGE_PREFIX = "yakir-booking-draft:";
 
+const DRAFT_VERSION = 2;
+
 type DraftEnvelope<T> = {
-  v: 1;
+  v: typeof DRAFT_VERSION;
   savedAt: string;
   data: T;
 };
@@ -25,7 +27,7 @@ function readDraft<T>(key: string): T | null {
     const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DraftEnvelope<T>;
-    if (parsed?.v !== 1 || !parsed.data) return null;
+    if (parsed?.v !== DRAFT_VERSION || !parsed.data) return null;
     return parsed.data;
   } catch {
     return null;
@@ -35,7 +37,7 @@ function readDraft<T>(key: string): T | null {
 function writeDraft<T>(key: string, data: T): void {
   try {
     const envelope: DraftEnvelope<T> = {
-      v: 1,
+      v: DRAFT_VERSION,
       savedAt: new Date().toISOString(),
       data,
     };
