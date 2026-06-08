@@ -191,6 +191,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               body={callout?.subtitle}
               whatsappMessage={callout?.whatsappText}
               utm_campaign={callout?.utmCampaign ?? "blog_article_cta"}
+              closerService={callout?.closerService}
+              priceExVat={callout?.priceExVat}
+              bookHref={callout?.bookHref}
             />
           </div>
 

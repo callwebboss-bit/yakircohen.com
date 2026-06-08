@@ -22,6 +22,7 @@ export default function StudioPricingPage() {
       features={STUDIO_PRICING.features}
       whatsappText="שלום, מעוניין לקבל הצעת מחיר מותאמת לאולפן"
       utmCampaign="studio_pricing_general"
+      bookSlug="studio/pricing"
       ctaLabel="ייעוץ תמחור בוואטסאפ"
     >
       <div className="mx-auto max-w-[72rem] space-y-12 px-4 sm:px-6 lg:px-8">

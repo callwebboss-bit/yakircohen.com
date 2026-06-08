@@ -1,6 +1,8 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
+import PriceSocialProof from "@/components/booking/PriceSocialProof";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { whatsappAriaLabel, whatsappQuoteCta } from "@/lib/data/conversion-copy";
 import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
 
@@ -70,9 +72,14 @@ export default function ServicePricingBlock({
                   )}
                 </div>
                 {tier.priceExVat !== undefined ? (
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    כולל מע״מ · {tier.priceNote ?? "לפני מע״מ +18%"}
-                  </p>
+                  <>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      כולל מע״מ · {tier.priceNote ?? "לפני מע״מ +18%"}
+                    </p>
+                    {tier.featured ? (
+                      <PriceSocialProof className="mt-2" testimonialIndex={1} />
+                    ) : null}
+                  </>
                 ) : tier.priceNote ? (
                   <p className="mt-1 text-xs text-muted-foreground">
                     {tier.priceNote}
@@ -85,9 +92,16 @@ export default function ServicePricingBlock({
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={
+                    tier.priceExVat !== undefined
+                      ? whatsappAriaLabel(tier.name, tier.priceExVat)
+                      : `סגרו ${tier.name} בוואטסאפ`
+                  }
                   className="mt-6 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
                 >
-                  סגרו את המחיר הזה בוואטסאפ
+                  {tier.priceExVat !== undefined
+                    ? whatsappQuoteCta(tier.name, tier.priceExVat)
+                    : "סגרו את המחיר הזה בוואטסאפ"}
                 </a>
               </li>
             );
@@ -114,7 +128,7 @@ export default function ServicePricingBlock({
               חבילות ומחירון שקוף
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מחירים לפני מע״מ וכולל מע״מ — הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
+              מחירים לפני מע״מ וכולל מע״מ - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
             </p>
           </header>
         ) : null}

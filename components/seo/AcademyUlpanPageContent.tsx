@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import AcademyTrialForm from "@/components/forms/AcademyTrialForm";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -27,7 +27,7 @@ const VALUE_PROPS = [
     icon: "🗣",
     title: "שיפור דיבור וביטחון",
     description:
-      "הדגש על עברית מדוברת ויישומית — שיעורי עברית פרונטליים שמתמקדים בשטח, לא בתיאוריה",
+      "הדגש על עברית מדוברת ויישומית - שיעורי עברית פרונטליים שמתמקדים בשטח, לא בתיאוריה",
   },
   {
     id: "flex",
@@ -39,7 +39,7 @@ const VALUE_PROPS = [
 
 const MONTHLY_FEATURES = [
   "שיעור פרונטלי אחד בשבוע",
-  "גמישות מלאה — אפשר להפסיק מתי שרוצים",
+  "גמישות מלאה - אפשר להפסיק מתי שרוצים",
   "ללא התחייבות שנתית",
   "ליווי והדרכה אישית",
 ] as const;
@@ -78,10 +78,10 @@ export default function AcademyUlpanPageContent() {
       <header className="border-b border-border px-4 py-16 sm:py-24">
         <div className="mx-auto max-w-5xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            לימוד עברית פרונטלי — יקיר כהן
+            לימוד עברית פרונטלי - יקיר כהן
           </p>
           <h1 className="mt-4 text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl sm:leading-snug lg:text-5xl">
-            ללמוד עברית פעם בשבוע — להעמיק ולחזק את השפה עם יקיר כהן
+            ללמוד עברית פעם בשבוע - להעמיק ולחזק את השפה עם יקיר כהן
           </h1>
           <p className="mt-4 text-base text-muted-foreground sm:text-lg">
             פגישה פרונטלית אחת בשבוע, בקצב שלך, עם מדריך מקצועי שמבין את
@@ -205,7 +205,7 @@ export default function AcademyUlpanPageContent() {
               קשר כדי לאשר את המועד ולשלוח פרטי תשלום.
             </p>
             <p className="mt-1.5 text-xs text-muted-foreground">
-              ניתן לרשום לשיעור ניסיון אחד בלבד. מקומות מוגבלים — יש להמתין
+              ניתן לרשום לשיעור ניסיון אחד בלבד. מקומות מוגבלים - יש להמתין
               לאישור.
             </p>
           </header>
@@ -226,7 +226,7 @@ export default function AcademyUlpanPageContent() {
             על המדריך
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            יקיר כהן — מדריך מקצועי ללימוד עברית למבוגרים, עם ניסיון בהוראה
+            יקיר כהן - מדריך מקצועי ללימוד עברית למבוגרים, עם ניסיון בהוראה
             פרונטלית ובפיתוח תוכניות לימוד אישיות. המטרה היא לחזק את השפה
             העברית, לשפר את הביטחון בדיבור, ולתת כלים מעשיים לחיים יומיומיים
             בישראל.

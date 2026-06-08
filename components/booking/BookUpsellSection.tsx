@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { BookingUpsellItem } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,7 @@ export default function BookUpsellSection({
     <div className={cn("rounded-2xl border border-border bg-surface p-5", className)}>
       <h3 className="mb-1 text-sm font-semibold text-foreground">{title}</h3>
       <p className="mb-4 text-xs text-muted-foreground">
-        UPSELL — אפשר להוסיף עכשיו או לדבר על זה בוואטסאפ
+        אפשר להוסיף עכשיו או לסגור את הפרטים בוואטסאפ
       </p>
       <div className="space-y-2.5">
         {items.map((item) => {

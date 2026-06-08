@@ -33,14 +33,14 @@ export default function NeedsDiscoveryStep({
           מה באמת חסר ביצירה שלך?
         </label>
         <p className="mt-1 text-xs text-muted-foreground">
-          אופציונלי — עוזר לנו להתאים חבילה בלי לחץ מכירה.
+          אופציונלי - עוזר לנו להתאים חבילה בלי לחץ מכירה.
         </p>
         <textarea
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={3}
-          placeholder="למשל: ברכה לחתונה, פודקאסט ראשון, DJ לאירוע קטן…"
+          placeholder="למשל: ברכה לחתונה, פודקאסט ראשון, DJ לאירוע קטן..."
           className="mt-2 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
         />
       </div>

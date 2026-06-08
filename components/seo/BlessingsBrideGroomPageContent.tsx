@@ -63,7 +63,7 @@ export default function BlessingsBrideGroomPageContent() {
       <div className="rounded-xl border border-brand-red/20 bg-surface p-5">
         <p className="font-semibold text-foreground">רוצים לשפר עוד יותר?</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          שיפור קול, ניקוי רעשים או הוספת מוזיקת רקע — שירות AI מקוון מהיר.{" "}
+          שיפור קול, ניקוי רעשים או הוספת מוזיקת רקע - שירות AI מקוון מהיר.{" "}
           <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
             שיפור קול מהנייד ←
           </Link>

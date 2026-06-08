@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function isStudioLive(): boolean {
   const now = new Date();
-  const day = now.getDay(); // 0=Sun … 6=Sat
+  const day = now.getDay(); // 0=Sun ... 6=Sat
   const hour = now.getHours();
   if (day === 6) return false; // Saturday closed
   if (day === 5) return hour >= 9 && hour < 14; // Friday 9-14

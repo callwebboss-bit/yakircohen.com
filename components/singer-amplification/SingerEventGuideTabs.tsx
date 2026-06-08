@@ -23,7 +23,7 @@ export default function SingerEventGuideTabs() {
           איזה ציוד הגברה לזמרים באמת צריך להופעה שלכם?
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          השכרת הגברה לזמר – לפי סוג האירוע, לא לפי כמות הוואטים
+          השכרת הגברה לזמר - לפי סוג האירוע, לא לפי כמות הוואטים
         </p>
       </header>
 

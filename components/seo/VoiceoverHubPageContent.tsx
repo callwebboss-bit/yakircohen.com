@@ -13,7 +13,10 @@ import {
 } from "@/lib/data/youtube-embeds";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { VOICEOVER_HUB_VIDEOS } from "@/lib/data/youtube-showcases";
+
+const bookCta = resolveServiceBookCta("voiceover");
 
 const service = getVoiceoverService("voiceover-hub");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -27,6 +30,9 @@ export default function VoiceoverHubPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      showBookCtaInHero={Boolean(bookCta)}
+      bookHref={bookCta?.bookHref}
+      bookLabel={bookCta?.bookLabel}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">

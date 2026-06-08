@@ -172,7 +172,7 @@ const schema = {
         {
           "@type": "Offer",
           name: "שיפור קול מהנייד",
-          description: "הסרת רעשים, חידוד והעשרת קול — הקלטה ביתית לאיכות אולפן",
+          description: "הסרת רעשים, חידוד והעשרת קול - הקלטה ביתית לאיכות אולפן",
           price: "250",
           priceCurrency: "ILS",
           url: `${BASE}/online/vocal-fix`,
@@ -196,7 +196,7 @@ const schema = {
         {
           "@type": "Offer",
           name: "תיקון זיופים",
-          description: "Pitch Correction מדויק וטבעי — לא Auto-Tune אוטומטי",
+          description: "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
           price: "250",
           priceCurrency: "ILS",
           url: `${BASE}/online/vocal-fix/pitch-correction`,
@@ -216,7 +216,7 @@ const schema = {
       "@id": `${BASE}/online/#service`,
       name: "שירותי AI מקוונים",
       description:
-        "שיפור קול, תיקון הקלטות פגומות, מיקס ומאסטרינג, תיקון זיופים ושדרוג תמונות — הכל מרחוק",
+        "שיפור קול, תיקון הקלטות פגומות, מיקס ומאסטרינג, תיקון זיופים ושדרוג תמונות - הכל מרחוק",
       provider: { "@id": `${BASE}/#organization` },
       serviceType: "Audio Production",
       areaServed: { "@type": "Country", name: "Israel" },

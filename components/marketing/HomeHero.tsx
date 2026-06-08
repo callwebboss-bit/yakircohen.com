@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import Button from "@/components/ui/Button";
+import { CTA_LABELS } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -29,17 +30,14 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             id="hero-heading"
             className="font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl"
           >
-            הכל במקום אחד.{" "}
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין.
+            יוצאים עם תוצאה מקצועית - בלי לשרוף זמן וכסף על ניסויים.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            20+ שנות ניסיון · 5,000+ לקוחות · אולפן במודיעין עם ליווי מקצועי
-            עד לקובץ מוכן.{" "}
-            <InlineServiceLink href="/studio">הקלטות</InlineServiceLink>,{" "}
+            נמאס מפרויקטים שלא מתקדמים?{" "}
+            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> - בלי כאב ראש.
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין -
+            ליווי מקצועי עד לקובץ מוכן. 20+ שנים · 5,000+ לקוחות.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
@@ -51,10 +49,10 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
                 "bg-brand-red hover:bg-brand-red-light",
               )}
             >
-              קבלו הצעת מחיר בוואטסאפ
+              {CTA_LABELS.whatsappQuote}
             </a>
             <Button as="link" href="/book" variant="outline">
-              הזמנה מקוונת
+              {CTA_LABELS.bookTransparent}
             </Button>
           </div>
         </div>

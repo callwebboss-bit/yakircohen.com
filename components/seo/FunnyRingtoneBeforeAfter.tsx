@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import dynamic from "next/dynamic";
 import { RINGTONE_AUDIO } from "@/lib/data/funny-ringtone-page";
@@ -15,7 +15,7 @@ const PremiumCrossfadePlayer = dynamic(
 
 export default function FunnyRingtoneBeforeAfter() {
   return (
-    <figure className="space-y-4" aria-label="הדגמת רינגטון מצחיק — לפני ואחרי">
+    <figure className="space-y-4" aria-label="הדגמת רינגטון מצחיק - לפני ואחרי">
       <header className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
           שמעו את ההבדל
@@ -35,7 +35,7 @@ export default function FunnyRingtoneBeforeAfter() {
 
       <figcaption>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          גררו את הסליידר — שמאל: הקלטה גולמית. ימין: רינגטון מעובד, מצחיק
+          גררו את הסליידר - שמאל: הקלטה גולמית. ימין: רינגטון מעובד, מצחיק
           ומוכן להתקנה.
         </p>
       </figcaption>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -19,7 +19,7 @@ export default function PodcastBeforeAfter() {
 
       <div className="mt-7 text-center">
         <p className="text-sm text-muted-foreground">
-          הקלטות זום, חדר ביתי או פרק גולמי — שלחו קובץ ונחזור עם הצעה וזמן מסירה
+          הקלטות זום, חדר ביתי או פרק גולמי - שלחו קובץ ונחזור עם הצעה וזמן מסירה
         </p>
         <a
           href={whatsappHref}

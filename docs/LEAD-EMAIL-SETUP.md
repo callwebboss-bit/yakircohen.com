@@ -15,7 +15,21 @@
 
 ### 3. משתני סביבה ב-Vercel
 
-בפרויקט **yakircohen-site** (לא yakircohen-com) → **Settings** → **Environment Variables**:
+**חשוב:** הפרויקט הפעיל בפרודקשן הוא **yakircohen-site** — לא `yakircohen-com`.  
+אם הוגדרו משתנים בפרויקט הישן עם ערכים ריקים (`""`), המייל לא יישלח.
+
+#### אופציה א — מהטרמינל (מומלץ)
+
+```bash
+cp env.resend.example .env.resend.local
+# ערוך .env.resend.local — הדבק RESEND_API_KEY מ-Resend
+npm run env:resend
+npx vercel --prod
+```
+
+#### אופציה ב — ידנית ב-Dashboard
+
+בפרויקט **yakircohen-site** → **Settings** → **Environment Variables**:
 
 | שם | ערך | סביבות |
 |----|-----|--------|
@@ -39,7 +53,7 @@ RESEND_FROM_EMAIL=יקיר כהן הפקות <leads@yakircohen.com>
 
 ## בדיקה
 
-1. פרוס את האתר עם המשתנים.
+1. `GET https://yakircohen.com/api/lead-notify` — צריך להחזיר `configured: true`.
 2. מלא טופס ב-`/book` ושלח לוואטסאפ.
 3. בדוק תיבת `LEAD_NOTIFY_EMAIL` (וגם Spam).
 

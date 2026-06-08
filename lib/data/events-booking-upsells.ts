@@ -1,4 +1,4 @@
-import { getExVat } from "@/lib/data/pricing-catalog";
+﻿import { getExVat } from "@/lib/data/pricing-catalog";
 import type { BookingUpsellItem } from "@/lib/data/booking-shared";
 
 /** תוספות אופציונליות לאירועים (מעבר לחבילת אטרקציות) */
@@ -6,7 +6,7 @@ export const EVENT_BOOKING_UPSELLS: readonly BookingUpsellItem[] = [
   {
     id: "photo_slideshow",
     name: "מצגת תמונות מקצועית",
-    description: "סרטון סיכום מהיר — מושלם לפתיחת אירוע",
+    description: "סרטון סיכום מהיר - מושלם לפתיחת אירוע",
     price: getExVat("quick_summary_clip"),
   },
   {

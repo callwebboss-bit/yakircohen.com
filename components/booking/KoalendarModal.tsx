@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 
@@ -42,7 +42,7 @@ export default function KoalendarModal({ open, onClose }: KoalendarModalProps) {
           <div>
             <h2 className="text-sm font-semibold text-foreground">קביעת פגישת ייעוץ</h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              בחרו חריץ זמן נוח — ייעוץ חינמי 15 דקות עם יקיר
+              בחרו חריץ זמן נוח - ייעוץ חינמי 15 דקות עם יקיר
             </p>
           </div>
           <button

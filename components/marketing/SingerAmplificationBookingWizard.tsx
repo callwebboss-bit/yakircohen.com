@@ -10,6 +10,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
+import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import PhoneInputField from "@/components/forms/PhoneInputField";
@@ -25,7 +26,9 @@ import {
   SINGER_BOOKING_ADDONS,
   sumSingerAddons,
 } from "@/lib/data/singer-booking-addons";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
+import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import {
   BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
@@ -88,6 +91,7 @@ export default function SingerAmplificationBookingWizard({
   initialPackageId = null,
 }: SingerAmplificationBookingWizardProps) {
   const [step, setStep] = useState(0);
+  useBookWizardStep("singer", step);
   const [form, setForm] = useState<FormState>(() => ({
     ...INITIAL,
     packageId: initialPackageId ?? "",
@@ -202,6 +206,7 @@ export default function SingerAmplificationBookingWizard({
           priceExVat: totalExVat,
           totalEstimate: withVat(totalExVat),
           utmSource: readUtmSource() ?? "/book#singer",
+          bookCategory: "singer",
           includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
@@ -209,7 +214,7 @@ export default function SingerAmplificationBookingWizard({
           utm_source: "website",
           utm_campaign: "singer_amplification_booking",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "singer" });
         notifyLeadByEmail({
           formId: "singer_amplification_booking",
           subject: "הזמנת הגברה לזמרים",
@@ -246,6 +251,7 @@ export default function SingerAmplificationBookingWizard({
           priceExVat: totalExVat,
           totalEstimate: withVat(totalExVat),
           utmSource: readUtmSource() ?? "/book#singer",
+          bookCategory: "singer",
           includeTrustFooter: true,
         })
       : undefined;
@@ -255,6 +261,7 @@ export default function SingerAmplificationBookingWizard({
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        bookCategory="singer"
         onNewBooking={resetWizard}
       />
     );
@@ -262,10 +269,11 @@ export default function SingerAmplificationBookingWizard({
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {draft.restored ? (
-        <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
-        </p>
+      {draft.restored && draft.savedAt ? (
+        <BookDraftRecoveryBanner
+          savedAt={draft.savedAt}
+          onClear={() => draft.clear()}
+        />
       ) : null}
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת הגברה לזמרים" />
@@ -373,7 +381,7 @@ export default function SingerAmplificationBookingWizard({
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
                 continueWhatsApp={{
-                  label: BOOKING_CTA.continue_chat,
+                  label: sendBookingWaCta(withVat(totalExVat)),
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{

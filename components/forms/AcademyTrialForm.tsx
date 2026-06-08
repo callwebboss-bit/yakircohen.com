@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -171,7 +171,7 @@ export default function AcademyTrialForm() {
       openWhatsAppLead(href);
       notifyLeadByEmail({
         formId: "academy_trial_lesson",
-        subject: `בקשה לשיעור ניסיון עברית — ${form.name.trim()}`,
+        subject: `בקשה לשיעור ניסיון עברית - ${form.name.trim()}`,
         body: message,
         name: form.name.trim(),
         phone: form.phone.trim(),
@@ -212,7 +212,7 @@ export default function AcademyTrialForm() {
       <LeadFormAlert message={globalError} />
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
-      {/* Required fields — grid */}
+      {/* Required fields - grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="trial-name" required>
@@ -336,7 +336,7 @@ export default function AcademyTrialForm() {
 
       {/* Optional fields */}
       <div className="space-y-4 border-t border-border pt-6">
-        <p className="text-xs text-muted-foreground">השדות הבאים אופציונליים — ניתן לדלג</p>
+        <p className="text-xs text-muted-foreground">השדות הבאים אופציונליים - ניתן לדלג</p>
 
         <div>
           <Label htmlFor="trial-goal">מה המטרה שלך מלימוד עברית</Label>

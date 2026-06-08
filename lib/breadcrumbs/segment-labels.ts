@@ -57,7 +57,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "photo-enhance": "שיפור תמונה",
   "pitch-correction": "תיקון טון",
   "ai-music": "מוזיקה ב-AI",
-  "home-studio": "אולפן ביתי",
+  "home-studio": "ייעוץ אקוסטיקה ובניית אולפן",
   "private-lessons": "שיעורים פרטיים",
   "dj-course": "קורס DJ",
   "music-production": "הפקת מוזיקה",

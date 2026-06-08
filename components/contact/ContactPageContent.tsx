@@ -23,6 +23,7 @@ import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
 type ServiceKey = "studio" | "dj" | "voice" | "podcast" | "clip" | "online" | "other";
@@ -93,7 +94,7 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
 const CONTACT_FAQ = [
   {
     q: "כמה עולה הקלטה באולפן?",
-    a: "המחיר תלוי בסוג ההקלטה, משך הזמן ורמת ההפקה. נשלח הצעת מחיר מותאמת אחרי שיחה קצרה.",
+    a: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}. שעת אולפן מ-${getExVat("studio_hour").toLocaleString("he-IL")} ₪ + מע״מ. לראות הכל מיד בדף ההזמנה המקוונת.`,
   },
   {
     q: "אפשר לשמוע דוגמאות מהעבודות?",
@@ -315,6 +316,14 @@ export default function ContactPageContent() {
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
             אולפן הקלטות · DJ · קריינות · פודקאסטים · מודיעין
+          </p>
+          <p className="mt-4">
+            <Link
+              href="/book"
+              className="text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
+            >
+              רוצים מחיר מיד? הזמנה מקוונת {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: מ-", "מ-")}
+            </Link>
           </p>
         </header>
 

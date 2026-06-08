@@ -7,7 +7,11 @@ import {
 import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
+import HubDualCta from "@/components/marketing/HubDualCta";
 import ShareButton from "@/components/ui/ShareButton";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+
+const bookCta = resolveServiceBookCta("studio");
 
 export default function ProfessionalVoiceoverPageContent() {
   const ctaHref = buildWhatsAppHref({
@@ -56,14 +60,15 @@ export default function ProfessionalVoiceoverPageContent() {
             הפכו את הסט שלכם ללהיט: קריינות מקצועית שתרים אתכם לגבהים חדשים.
             רוצים שהסט ייחרט בזיכרון? זו הדרך להפוך אותו למותג בלתי נשכח.
           </p>
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
-          >
-            הזמינו חבילת קריינות ←
-          </a>
+          {bookCta ? (
+            <HubDualCta
+              className="mt-8"
+              whatsappHref={ctaHref}
+              whatsappLabel="הזמינו חבילת קריינות ←"
+              bookHref={bookCta.bookHref}
+              bookLabel={bookCta.bookLabel}
+            />
+          ) : null}
         </div>
       </section>
 
@@ -133,14 +138,15 @@ export default function ProfessionalVoiceoverPageContent() {
             כל שירותי הקריינות
           </Link>
         </p>
-        <a
-          href={ctaHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
-        >
-          תיאום בוואטסאפ ←
-        </a>
+        {bookCta ? (
+          <HubDualCta
+            className="mt-6"
+            whatsappHref={ctaHref}
+            whatsappLabel="תיאום בוואטסאפ ←"
+            bookHref={bookCta.bookHref}
+            bookLabel={bookCta.bookLabel}
+          />
+        ) : null}
         <div className="mt-5 flex justify-center">
           <ShareButton title="קריינות לסט DJ | יקיר כהן הפקות" />
         </div>

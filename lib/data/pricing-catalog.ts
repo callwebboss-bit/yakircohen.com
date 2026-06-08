@@ -1,4 +1,4 @@
-/**
+﻿/**
  * מקור אמת יחיד לכל מחירי השירות (לפני מע״מ).
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
  */
@@ -30,7 +30,7 @@ export type PriceItem = {
   context?: string;
 };
 
-/** כל מחירי השירות — לפני מע״מ */
+/** כל מחירי השירות - לפני מע״מ */
 export const PRICING_CATALOG: readonly PriceItem[] = [
   // ─── אולפן ───
   { id: "studio_half_hour", label: "חצי שעה באולפן", exVat: 750, category: "studio", context: "הקלטה קצרה / פודקאסט פיילוט" },
@@ -90,7 +90,7 @@ const catalogById = new Map<string, PriceItem>(
   PRICING_CATALOG.map((item) => [item.id, item]),
 );
 
-/** מחיר לפי מזהה — זורק אם לא נמצא */
+/** מחיר לפי מזהה - זורק אם לא נמצא */
 export function getPriceById(id: PriceItemId): PriceItem {
   const item = catalogById.get(id);
   if (!item) throw new Error(`Unknown price id: ${id}`);

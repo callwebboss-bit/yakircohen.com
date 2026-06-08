@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type SummaryLine = { label: string; value: string };
 
 type BookingWhatsAppPreviewProps = {
-  /** Full message body — preferred when using buildClosingMessage */
+  /** Full message body - preferred when using buildClosingMessage */
   messageBody?: string;
   summaryLines?: SummaryLine[];
   serviceLabel?: string;

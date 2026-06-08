@@ -192,6 +192,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
       priceExVat: total,
       totalEstimate: withVat(total),
       utmSource: readUtmSource() ?? "/book#photography",
+      bookCategory: "photography",
       includeTrustFooter: true,
     });
   }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
@@ -226,10 +227,11 @@ export default function PhotographyCalculator({ className }: { className?: strin
             priceExVat: total,
             totalEstimate: withVat(total),
             utmSource: readUtmSource() ?? "/book#photography",
+            bookCategory: "photography",
             includeTrustFooter: true,
           });
           const href = buildWhatsAppHref({ text: body, utm_campaign: "photography_calculator" });
-          openWhatsAppLead(href);
+          openWhatsAppLead(href, { leadCategory: "photography" });
           notifyLeadByEmail({
             formId: "photography_calculator",
             subject: "ליד חדש - צילום אירועים",

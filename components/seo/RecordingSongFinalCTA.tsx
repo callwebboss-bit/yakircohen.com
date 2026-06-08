@@ -1,6 +1,10 @@
-"use client";
+﻿"use client";
 
+import Link from "next/link";
 import { useState, type FormEvent } from "react";
+import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { buildBookHref } from "@/lib/book-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const EVENT_TYPE_OPTIONS = [
@@ -62,11 +66,11 @@ export default function RecordingSongFinalCTA() {
       </h2>
       <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
         לוח הזמנים באולפן במודיעין מתמלא במהירות לקראת עונת האירועים. צרו קשר
-        עכשיו לייעוץ ראשוני ובדיקת התאמת פלייבק — ללא שום התחייבות.
+        עכשיו לייעוץ ראשוני ובדיקת התאמת פלייבק - ללא שום התחייבות.
       </p>
 
-      {/* Primary: WhatsApp with pulse */}
-      <div className="mt-8">
+      {/* Primary: WhatsApp + book */}
+      <div className="mt-8 space-y-3">
         <a
           href={whatsappDirectHref}
           target="_blank"
@@ -79,7 +83,15 @@ export default function RecordingSongFinalCTA() {
           />
           שיחה מהירה בוואטסאפ עם יקיר ←
         </a>
-        <p className="mt-3 text-xs text-muted-foreground">
+        <div>
+          <Link
+            href={buildBookHref("studio")}
+            className="inline-flex rounded-xl border border-border px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+          >
+            {hubBookCtaLabel(getExVat("blessing_recording"))}
+          </Link>
+        </div>
+        <p className="text-xs text-muted-foreground">
           אנחנו עובדים אך ורק עם פלייבקים חוקיים ומאושרים לשימוש והקרנה
           באולמות אירועים.
         </p>
@@ -99,7 +111,7 @@ export default function RecordingSongFinalCTA() {
             תודה! נחזור אליכם בקרוב.
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            פתחנו שיח בוואטסאפ — ספרו לנו על השיר שאתם חולמים עליו.
+            פתחנו שיח בוואטסאפ - ספרו לנו על השיר שאתם חולמים עליו.
           </p>
         </div>
       ) : (

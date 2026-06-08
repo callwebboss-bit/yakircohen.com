@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
@@ -7,6 +7,7 @@ import BookAudienceRouter, {
 } from "@/components/booking/BookAudienceRouter";
 import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
+import BookStickyMobileBar from "@/components/booking/BookStickyMobileBar";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import AcademyBookingWizard from "@/components/marketing/AcademyBookingWizard";
 import ClipsBookingForm from "@/components/marketing/ClipsBookingForm";
@@ -276,7 +277,7 @@ export default function BookPageSections() {
         <div className="mx-auto flex max-w-[72rem] min-w-0 flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
           <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red break-words">
             <span aria-hidden="true">🎖 </span>
-            מבצע לחיילים ולחיילות — 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
+            מבצע לחיילים ולחיילות - 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
           </p>
           <a
             href={buildWhatsAppHref({
@@ -301,7 +302,7 @@ export default function BookPageSections() {
               <p className="text-lg" aria-hidden="true">📱</p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">ניהול סושיאל לזמרים</h3>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                ניהול ואסטרטגיה לרשתות החברתיות — אינסטגרם, טיקטוק, יוטיוב.
+                ניהול ואסטרטגיה לרשתות החברתיות - אינסטגרם, טיקטוק, יוטיוב.
               </p>
               <a
                 href={SOCIAL_MGMT_HREF}
@@ -314,7 +315,7 @@ export default function BookPageSections() {
             </div>
             <div className="rounded-2xl border border-border bg-background p-5">
               <p className="text-lg" aria-hidden="true">🎥</p>
-              <h3 className="mt-2 text-sm font-semibold text-foreground">וולוג יום בחיי — צלם צמוד</h3>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">וולוג יום בחיי - צלם צמוד</h3>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                 תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה.
               </p>
@@ -329,6 +330,23 @@ export default function BookPageSections() {
           <LegalRelatedLinks />
         </div>
       </section>
+
+      <BookStickyMobileBar
+        activeCategory={activeCategory}
+        activeRouteId={activeRouteId}
+      />
+
+      <p className="mx-auto max-w-[72rem] px-4 pb-20 text-center sm:px-6 sm:pb-8 lg:px-8">
+        <a
+          id="wa-fallback-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden text-sm font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-dark"
+        >
+          הדפדפן חסם את וואטסאפ - לחצו כאן לפתיחה ידנית
+        </a>
+      </p>
     </>
   );
 }

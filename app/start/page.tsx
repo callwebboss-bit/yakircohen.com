@@ -19,6 +19,9 @@ import {
   CLIENT_JOURNEY_VARIANTS,
   type JourneyVariant,
 } from "@/lib/data/client-journey";
+import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
+import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
@@ -71,6 +74,25 @@ const STEP_ICONS: Record<1 | 2 | 3, IconComponent> = {
   2: ZapIcon,
   3: DownloadIcon,
 };
+
+const VARIANT_BOOK_CATEGORY: Partial<Record<JourneyVariant, BookCategoryId>> = {
+  studio: "studio",
+  events: "events",
+  online: "online",
+  podcast: "podcast",
+};
+
+const VARIANT_START_PRICE_EX_VAT: Partial<Record<JourneyVariant, number>> = {
+  studio: getExVat("blessing_recording"),
+  events: getExVat("event_attraction_1"),
+  online: getExVat("damaged_recording_rescue"),
+  podcast: getExVat("podcast_pilot"),
+};
+
+function getVariantBookHref(variant: JourneyVariant): string {
+  const category = VARIANT_BOOK_CATEGORY[variant];
+  return category ? buildBookHref(category) : "/book";
+}
 
 const PROMISES = [
   {
@@ -290,7 +312,7 @@ export default function StartPage() {
                   })}
                 </ol>
 
-                <div className="mt-10 text-center">
+                <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <a
                     href={whatsappHref}
                     target="_blank"
@@ -300,6 +322,17 @@ export default function StartPage() {
                     <WhatsAppIcon size={16} />
                     יש לי שאלה על {variant.label}
                   </a>
+                  <span className="hidden text-muted-foreground sm:inline" aria-hidden="true">
+                    ·
+                  </span>
+                  <Link
+                    href={getVariantBookHref(variant.id)}
+                    className="inline-flex items-center rounded-md border border-border bg-surface px-5 py-2 text-sm font-medium text-foreground transition-colors duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    {VARIANT_START_PRICE_EX_VAT[variant.id]
+                      ? hubBookCtaLabel(VARIANT_START_PRICE_EX_VAT[variant.id]!)
+                      : "להזמנה מקוונת"}
+                  </Link>
                 </div>
               </div>
             </section>

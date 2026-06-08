@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -10,6 +10,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
+import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
@@ -25,7 +26,9 @@ import {
   FILTER_QUESTIONS,
   type FilterAnswers,
 } from "@/lib/data/filter-questions";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
+import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -132,6 +135,7 @@ export default function StudioRecordingBooking({
 }) {
   const initialGiftMode = filterAnswers?.purpose === "gift";
   const [step, setStep] = useState(0);
+  useBookWizardStep("studio", step);
   const [form, setForm] = useState<FormState>({
     recordingType: "",
     songName: "",
@@ -301,6 +305,7 @@ export default function StudioRecordingBooking({
           totalEstimate: withVat(total),
           customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
           utmSource: readUtmSource() ?? "/book#studio",
+          bookCategory: "studio",
           includeTrustFooter: true,
         })
       : undefined;
@@ -370,6 +375,7 @@ export default function StudioRecordingBooking({
           totalEstimate: withVat(total),
           customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
           utmSource: readUtmSource() ?? "/book#studio",
+          bookCategory: "studio",
           includeTrustFooter: true,
         });
 
@@ -378,7 +384,7 @@ export default function StudioRecordingBooking({
           utm_source: "website",
           utm_campaign: "studio_recording_booking",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "studio" });
         notifyLeadByEmail({
           formId: "studio_recording_booking",
           subject: "הזמנת הקלטה באולפן",
@@ -410,6 +416,7 @@ export default function StudioRecordingBooking({
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        bookCategory="studio"
         onNewBooking={resetWizard}
       />
     );
@@ -417,10 +424,11 @@ export default function StudioRecordingBooking({
 
   return (
     <div className={cn("min-w-0 max-w-full space-y-10", step === 2 && activePackage && "pb-24")}>
-      {draft.restored ? (
-        <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
-        </p>
+      {draft.restored && draft.savedAt ? (
+        <BookDraftRecoveryBanner
+          savedAt={draft.savedAt}
+          onClear={() => draft.clear()}
+        />
       ) : null}
 
       <FilterContextBanner filterAnswers={filterAnswers} />
@@ -452,7 +460,7 @@ export default function StudioRecordingBooking({
                 בחרו סוג הקלטה
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש — בלי לחץ זמן.
+                אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש - בלי לחץ זמן.
               </p>
             </header>
 
@@ -513,7 +521,7 @@ export default function StudioRecordingBooking({
                   בחרו את האווירה שלכם
                 </h3>
                 <p className="mb-4 text-sm text-muted-foreground">
-                  האווירה משפיעה על כל ההפקה — בחרו את הרגש שאתם רוצים
+                  האווירה משפיעה על כל ההפקה - בחרו את הרגש שאתם רוצים
                 </p>
                 <div className="grid gap-4 sm:grid-cols-3">
                   {RECORDING_ATMOSPHERES.map((item) => {
@@ -619,7 +627,7 @@ export default function StudioRecordingBooking({
               <p className="mt-2 text-sm text-muted-foreground">
                 {isConsultation
                   ? "ייעוץ מקצועי לקידום השיר ברשתות החברתיות"
-                  : "המחיר הוא על התוצאה הסופית — לא על זמן באולפן"}
+                  : "המחיר הוא על התוצאה הסופית - לא על זמן באולפן"}
               </p>
             </header>
 
@@ -647,7 +655,7 @@ export default function StudioRecordingBooking({
                     )}
                     {"featured" in pkg && pkg.featured && (
                       <span className="mb-1 w-full text-center text-xs font-bold text-brand-red">
-                        הכי מומלץ — שגר ושכח
+                        הכי מומלץ - שגר ושכח
                       </span>
                     )}
                     <span className="text-2xl" aria-hidden="true">
@@ -729,7 +737,7 @@ export default function StudioRecordingBooking({
                 {form.surpriseGift && (
                   <li>
                     מתנת הפתעה
-                    {form.giftRecipientName && ` — עבור ${form.giftRecipientName}`}
+                    {form.giftRecipientName && ` - עבור ${form.giftRecipientName}`}
                   </li>
                 )}
               </ul>
@@ -894,7 +902,7 @@ export default function StudioRecordingBooking({
                 </div>
 
                 <p className="text-xs text-muted-foreground">
-                  אל דאגה — נשלח לכם טיפים קלים לחזרות בבית כדי שתגיעו מוכנים, רגועים ומלאי ביטחון!
+                  אל דאגה - נשלח לכם טיפים קלים לחזרות בבית כדי שתגיעו מוכנים, רגועים ומלאי ביטחון!
                 </p>
 
                 <BookWhatHappensNext />
@@ -938,7 +946,7 @@ export default function StudioRecordingBooking({
                     : "cursor-not-allowed bg-border text-muted-foreground",
                 )}
               >
-                {`שליחה בוואטסאפ · ${total.toLocaleString("he-IL")} ₪`}
+                {sendBookingWaCta(withVat(total))}
               </button>
 
               <BookingPaymentTrust />
@@ -955,19 +963,24 @@ export default function StudioRecordingBooking({
         </BookingStepPanel>
       )}
 
-      {/* Sticky price bar — step 2 only */}
+      {/* Sticky price bar - step 2 only */}
       {step === 2 && activePackage && (
-        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm">
-          <div className="mx-auto flex min-w-0 max-w-4xl items-center gap-4 px-4 py-3">
+        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm sm:hidden">
+          <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-4 px-4 py-3">
             <div>
               <p className="text-xs text-muted-foreground">{activePackage.name}</p>
-              <p className="text-base font-bold text-foreground">
-                {total.toLocaleString("he-IL")} ₪{" "}
-                <span className="text-xs font-normal text-muted-foreground">
-                  לפני מע&quot;מ
-                </span>
+              <p className="text-base font-bold tabular-nums text-brand-red">
+                {withVat(total).toLocaleString("he-IL")} ₪ סופי
               </p>
             </div>
+            <button
+              type="button"
+              onClick={() => handleAction("continue_chat")}
+              disabled={!form.termsAccepted}
+              className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              וואטסאפ
+            </button>
           </div>
         </div>
       )}

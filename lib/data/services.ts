@@ -22,7 +22,7 @@ export type ServiceFaq = {
 export type ServicePricingTier = {
   name: string;
   price: string;
-  /** לפני מע״מ — להצגה כפולה ולהודעות WhatsApp */
+  /** לפני מע״מ - להצגה כפולה ולהודעות WhatsApp */
   priceExVat?: number;
   priceNote?: string;
   description: string;

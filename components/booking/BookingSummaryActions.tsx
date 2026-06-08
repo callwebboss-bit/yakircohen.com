@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
@@ -14,11 +14,11 @@ export type BookingSummaryAction = {
 };
 
 export type BookingSummaryActionsProps = {
-  /** Primary green WhatsApp button — "continue_chat" intent */
+  /** Primary green WhatsApp button - "continue_chat" intent */
   continueWhatsApp: BookingSummaryAction;
-  /** Secondary ghost outline button — "start_now" intent */
+  /** Secondary ghost outline button - "start_now" intent */
   startNow?: BookingSummaryAction;
-  /** Tertiary text link — pulses after 60s idle */
+  /** Tertiary text link - pulses after 60s idle */
   consult15Min?: BookingSummaryAction;
   /** Small social-proof line shown above the primary button */
   socialProof?: string;
@@ -79,7 +79,7 @@ export default function BookingSummaryActions({
         </p>
       )}
 
-      {/* PRIMARY — WhatsApp green */}
+      {/* PRIMARY - WhatsApp green */}
       {continueWhatsApp.href ? (
         <a
           href={continueWhatsApp.href}
@@ -105,7 +105,7 @@ export default function BookingSummaryActions({
         </button>
       )}
 
-      {/* SECONDARY — ghost outline */}
+      {/* SECONDARY - ghost outline */}
       {startNow ? (
         startNow.href ? (
           <a
@@ -131,7 +131,7 @@ export default function BookingSummaryActions({
         )
       ) : null}
 
-      {/* CONSULT — self-contained Koalendar modal trigger */}
+      {/* CONSULT - self-contained Koalendar modal trigger */}
       <button
         type="button"
         onClick={() => setKoalendarOpen(true)}
@@ -140,7 +140,7 @@ export default function BookingSummaryActions({
         קבע/י פגישת ייעוץ חינמי ←
       </button>
 
-      {/* TERTIARY — subtle link, pulses after 60s idle */}
+      {/* TERTIARY - subtle link, pulses after 60s idle */}
       {consult15Min ? (
         <p className="text-center">
           {consult15Min.href ? (

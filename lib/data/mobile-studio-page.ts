@@ -74,14 +74,14 @@ export const MOBILE_STUDIO_CLIP_FEATURES: readonly string[] = [
   "תוצאה שנראית כמו קליפ אמיתי",
 ] as const;
 
-/** דוגמאות וידאו — videoId מ-youtube-embeds / המאגר */
+/** דוגמאות וידאו - videoId מ-youtube-embeds / המאגר */
 export const MOBILE_STUDIO_EXAMPLE_VIDEOS: readonly MobileStudioExampleVideo[] = [
   {
     videoId: "UECS5GpAck4",
-    title: "הקלטה ניידת באיכות אולפן — דוגמה מהשטח",
+    title: "הקלטה ניידת באיכות אולפן - דוגמה מהשטח",
   },
   {
     videoId: "ne023hwMqH0",
-    title: "הקלטת קבוצה — איך נראה סשן באולפן",
+    title: "הקלטת קבוצה - איך נראה סשן באולפן",
   },
 ] as const;

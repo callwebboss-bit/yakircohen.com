@@ -1,4 +1,4 @@
-import AcademyUlpanPageContent from "@/components/seo/AcademyUlpanPageContent";
+﻿import AcademyUlpanPageContent from "@/components/seo/AcademyUlpanPageContent";
 import { constructMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site-url";
 import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
@@ -6,7 +6,7 @@ import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
 export const metadata = constructMetadata({
   title: "לימוד עברית פרונטלי פעם בשבוע עם יקיר כהן",
   description:
-    "שיעורי עברית פרונטליים למבוגרים, פעם בשבוע. עברית מדוברת, ביטחון בשפה, אולפן עברית אישי. תוכנית גמישה ללא התחייבות ארוכה — שיעור ניסיון ב-500 ש\"ח.",
+    "שיעורי עברית פרונטליים למבוגרים, פעם בשבוע. עברית מדוברת, ביטחון בשפה, אולפן עברית אישי. תוכנית גמישה ללא התחייבות ארוכה - שיעור ניסיון ב-500 ש\"ח.",
   slug: "academy/ulpan",
   keywords: [
     "לימוד עברית",
@@ -31,14 +31,14 @@ const jsonLd = {
       url: pageUrl,
       name: "לימוד עברית פרונטלי עם יקיר כהן",
       description:
-        "שיעורי עברית למבוגרים — פעם בשבוע, פרונטלי, בקצב שלך",
+        "שיעורי עברית למבוגרים - פעם בשבוע, פרונטלי, בקצב שלך",
       inLanguage: "he-IL",
       isPartOf: { "@id": `${absoluteUrl()}/#website` },
     },
     {
       "@type": "Course",
       "@id": `${pageUrl}#course`,
-      name: "לימוד עברית פרונטלי — יקיר כהן",
+      name: "לימוד עברית פרונטלי - יקיר כהן",
       description:
         "תוכנית לימוד עברית מדוברת למבוגרים. פגישה פרונטלית אחת בשבוע, התאמה אישית, ללא התחייבות ארוכה.",
       url: pageUrl,
@@ -63,7 +63,7 @@ const jsonLd = {
           name: "שיעור ניסיון",
           price: "500",
           priceCurrency: "ILS",
-          description: "שיעור היכרות ראשוני — אבחון רמה וקביעת מטרות",
+          description: "שיעור היכרות ראשוני - אבחון רמה וקביעת מטרות",
           availability: "https://schema.org/LimitedAvailability",
         },
         {

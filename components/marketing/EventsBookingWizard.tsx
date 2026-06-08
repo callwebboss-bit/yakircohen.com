@@ -10,6 +10,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
+import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import PriceWithVat from "@/components/booking/PriceWithVat";
@@ -29,7 +30,9 @@ import {
   EVENT_BOOKING_UPSELLS,
   sumEventUpsells,
 } from "@/lib/data/events-booking-upsells";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
+import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import {
   BOOKING_CTA,
   BOOKING_SUMMARY_INTRO,
@@ -83,6 +86,7 @@ const inputClass =
 
 export default function EventsBookingWizard() {
   const [step, setStep] = useState(0);
+  useBookWizardStep("events", step);
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -208,6 +212,7 @@ export default function EventsBookingWizard() {
           totalEstimate: withVat(bundleTotal),
           customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
           utmSource: readUtmSource() ?? "/book#events",
+          bookCategory: "events",
           includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
@@ -215,7 +220,7 @@ export default function EventsBookingWizard() {
           utm_source: "website",
           utm_campaign: "events_booking_wizard",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "events" });
         notifyLeadByEmail({
           formId: "events_booking_wizard",
           subject: "הזמנת אטרקציות לאירוע",
@@ -246,6 +251,7 @@ export default function EventsBookingWizard() {
           totalEstimate: withVat(bundleTotal),
           customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
           utmSource: readUtmSource() ?? "/book#events",
+          bookCategory: "events",
           includeTrustFooter: true,
         })
       : undefined;
@@ -262,6 +268,7 @@ export default function EventsBookingWizard() {
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        bookCategory="events"
         onNewBooking={resetWizard}
       />
     );
@@ -269,10 +276,11 @@ export default function EventsBookingWizard() {
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {draft.restored ? (
-        <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו את הטיוטה האחרונה שלכם מהדפדפן.
-        </p>
+      {draft.restored && draft.savedAt ? (
+        <BookDraftRecoveryBanner
+          savedAt={draft.savedAt}
+          onClear={() => draft.clear()}
+        />
       ) : null}
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת אטרקציות" />
@@ -403,7 +411,7 @@ export default function EventsBookingWizard() {
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
                 continueWhatsApp={{
-                  label: BOOKING_CTA.continue_chat,
+                  label: sendBookingWaCta(withVat(bundleTotal)),
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{

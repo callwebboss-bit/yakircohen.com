@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
@@ -158,7 +158,7 @@ export default function OnlineVocalFixPageContent() {
               שמעו את ההבדל בעצמכם
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              דוגמה מהקלטה פגומה — פודקאסט ישן, הרצאה או ארכיון. שחזור קשה ותלוי
+              דוגמה מהקלטה פגומה - פודקאסט ישן, הרצאה או ארכיון. שחזור קשה ותלוי
               במקור.
             </p>
           </header>
@@ -251,7 +251,7 @@ export default function OnlineVocalFixPageContent() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
             <p className="mt-1 font-semibold text-foreground">הצלת הקלטה פגומה: מה אפשרי, מה לא ואיך מקבלים החלטה נכונה</p>
-            <p className="mt-1 text-sm text-muted-foreground">מדריך מקצועי לפני שמחליטים — לקריאה ←</p>
+            <p className="mt-1 text-sm text-muted-foreground">מדריך מקצועי לפני שמחליטים - לקריאה ←</p>
           </div>
         </Link>
       </section>

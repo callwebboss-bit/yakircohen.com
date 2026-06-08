@@ -1,7 +1,7 @@
-import type { AudioDemoId } from "@/lib/data/audio-demos";
+﻿import type { AudioDemoId } from "@/lib/data/audio-demos";
 
 /**
- * דמו לפני/אחרי — עריכת פודקאסט / ניקוי זום.
+ * דמו לפני/אחרי - עריכת פודקאסט / ניקוי זום.
  *
  * אודיו: העתיקו ל-`public/audio/`:
  *   - podcast-raw-sample.mp3 (לפני)
@@ -13,9 +13,9 @@ import type { AudioDemoId } from "@/lib/data/audio-demos";
 export const PODCAST_ZOOM_PROOF = {
   demoId: "podcast-zoom-cleanup" as AudioDemoId,
   youtubeVideoId: "wa_mOrjJvK8",
-  youtubeTitle: "עריכת פודקאסט — לפני ואחרי (וידאו)",
-  audioSectionTitle: "שומעים את ההבדל — אודיו",
-  videoSectionTitle: "רואים את ההבדל — וידאו",
+  youtubeTitle: "עריכת פודקאסט - לפני ואחרי (וידאו)",
+  audioSectionTitle: "שומעים את ההבדל - אודיו",
+  videoSectionTitle: "רואים את ההבדל - וידאו",
 } as const;
 
 export function getPodcastZoomYoutubeVideoId(): string | null {

@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import { buildBookHref } from "@/lib/book-url";
+import { THANK_YOU_TO_BOOK_CATEGORY } from "@/lib/data/book-closer-map";
 import { constructMetadata } from "@/lib/metadata";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -9,7 +11,16 @@ export const metadata: Metadata = constructMetadata({
   slug: "thank-you",
 });
 
-type ServiceId = "studio" | "events" | "podcast" | "photography" | "dj";
+type ServiceId =
+  | "studio"
+  | "events"
+  | "podcast"
+  | "photography"
+  | "dj"
+  | "singer"
+  | "academy"
+  | "online"
+  | "clips";
 
 const SERVICE_CONTENT: Record<
   ServiceId,
@@ -60,6 +71,42 @@ const SERVICE_CONTENT: Record<
       "נסיים תיאום מול מנהל האולם לפני האירוע",
     ],
   },
+  singer: {
+    title: "הגברה לזמרים",
+    responseTime: "נחזור אליכם תוך 15 דקות בשעות הפעילות",
+    bullets: [
+      "שלחו פרטי האירוע: תאריך, אולם וגודל קהל משוער",
+      "ציינו אם יש הרכב מלווה או פלייבק בלבד",
+      "הכינו רשימת שירים לבדיקת סאונד לפני העלייה לבמה",
+    ],
+  },
+  academy: {
+    title: "שיעור פרטי באקדמיה",
+    responseTime: "נחזור אליכם תוך 15 דקות",
+    bullets: [
+      "חשבו על מטרה אחת לשיעור - קול, DJ או הפקה",
+      "אם יש חומר קיים (שיר, פרויקט) - הביאו אותו לשיעור",
+      "הגיעו 5 דקות מוקדם - יש חניה ליד האולפן",
+    ],
+  },
+  online: {
+    title: "שחזור סאונד / AI",
+    responseTime: "נחזור אליכם תוך שעה עם הערכה ראשונית",
+    bullets: [
+      "שמרו את קובץ המקור המקורי - אל תשלחו רק MP3 דחוס",
+      "תארו בקצרה את הבעיה: רעש, עיוות, הקלטה ישנה",
+      "אם יש דדליין - ציינו אותו כבר בהודעה הראשונה",
+    ],
+  },
+  clips: {
+    title: "קליפים ודיגיטל",
+    responseTime: "נחזור אליכם תוך 15 דקות",
+    bullets: [
+      "הכינו חומר גלם: וידאו, תמונות או הקלטה קיימת",
+      "ציינו לאיזו פלטפורמה מיועד הקליפ (יוטיוב, רילס, אירוע)",
+      "אם יש דוגמה לסגנון שאהבתם - שלחו קישור",
+    ],
+  },
 };
 
 function isServiceId(v: string | undefined): v is ServiceId {
@@ -86,6 +133,9 @@ export default async function ThankYouPage({
     utm_source: "website",
     utm_campaign: `thank_you_retry_${serviceId}`,
   });
+
+  const bookCategory = THANK_YOU_TO_BOOK_CATEGORY[serviceId];
+  const bookUpsellHref = bookCategory ? buildBookHref(bookCategory) : "/book";
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,10 +177,10 @@ export default async function ThankYouPage({
           </a>
 
           <Link
-            href="/book"
+            href={bookUpsellHref}
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-brand-red/40"
           >
-            חזרה להזמנה
+            רוצים לבחור תוספות? הזמנה מפורטת
           </Link>
         </div>
 

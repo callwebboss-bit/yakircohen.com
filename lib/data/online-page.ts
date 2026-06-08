@@ -1,4 +1,4 @@
-import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
 
 export type OnlineFeaturedService = {
   icon: string;
@@ -29,17 +29,17 @@ export const ONLINE_HOW_IT_WORKS: ProcessStep[] = [
   {
     number: 1,
     title: "שולחים קובץ",
-    description: "וואטסאפ, מייל, Drive — בכל פורמט ובכל רמת איכות, כולל הקלטות ישנות.",
+    description: "וואטסאפ, מייל, Drive - בכל פורמט ובכל רמת איכות, כולל הקלטות ישנות.",
   },
   {
     number: 2,
     title: "אבחון ואישור",
-    description: "מנתחים את הצורך, מציעים מסלול מתאים ואם צריך — שולחים סקיצה חינם.",
+    description: "מנתחים את הצורך, מציעים מסלול מתאים ואם צריך - שולחים סקיצה חינם.",
   },
   {
     number: 3,
     title: "עיבוד AI + ידני",
-    description: "כלים חכמים ואוזן מקצועית. לא אוטומציה עיוורת — כל קובץ מטופל אישית.",
+    description: "כלים חכמים ואוזן מקצועית. לא אוטומציה עיוורת - כל קובץ מטופל אישית.",
   },
   {
     number: 4,

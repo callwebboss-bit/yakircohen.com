@@ -31,6 +31,7 @@ export default function PhotographyEventsPageContent() {
       features={heroFeatures}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       heroGallerySectionId="photography-events-gallery"
       {...heroProps}
       heroScrollTarget={pageHero.heroImageSrc ? "gallery" : undefined}

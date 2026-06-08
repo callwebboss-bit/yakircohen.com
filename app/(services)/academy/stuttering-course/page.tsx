@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
@@ -184,7 +184,7 @@ export default function StutteringCoursePage() {
         </h2>
         <LazyYouTubeEmbed
           embedUrl="https://www.youtube.com/embed/yf004RFUdmM"
-          title="קורס הפסקת גמגום — שיטת NeverMind | יקיר כהן הפקות"
+          title="קורס הפסקת גמגום - שיטת NeverMind | יקיר כהן הפקות"
         />
       </section>
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -45,7 +45,7 @@ const SERVICE_JSON_LD = {
   "@type": "Service",
   name: "הקלטת שיר באולפן במודיעין",
   description:
-    "שירות הקלטת שירים מקצועית לאירועים — בר מצווה, חתונה, כניסה לחופה ושירים משפחתיים. כולל ליווי ווקאל, AI לתיקון זיופים, מיקס ומאסטר מלא.",
+    "שירות הקלטת שירים מקצועית לאירועים - בר מצווה, חתונה, כניסה לחופה ושירים משפחתיים. כולל ליווי ווקאל, AI לתיקון זיופים, מיקס ומאסטר מלא.",
   provider: {
     "@type": "LocalBusiness",
     name: "יקיר כהן הפקות",
@@ -90,6 +90,7 @@ export default function RecordingSongModiinPageContent() {
         features={service.features}
         whatsappText={service.whatsappText}
         utmCampaign={service.utmCampaign}
+        bookSlug={service.slug}
       >
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
           <ContextualIntroParagraph
@@ -109,21 +110,21 @@ export default function RecordingSongModiinPageContent() {
               למה שיר מקורי באולפן הוא המתנה העוצמתית ביותר לאירוע שלכם?
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              שיר DJ שכולם מכירים נשמע טוב בזמן האירוע — ונשכח תוך שבוע. שיר
+              שיר DJ שכולם מכירים נשמע טוב בזמן האירוע - ונשכח תוך שבוע. שיר
               שהקלטתם בעצמכם, עם המילים שלכם, עם הקול שלכם, הוא נכס משפחתי
               שישמר לנצח. זה ההבדל בין חוויה חד-פעמית לבין משהו שתעבירו
               מדור לדור.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              ההורים שמביאים את ילדם לבר מצווה — ויוצאים עם שיר שהילד הקליט
-              בעצמו — לא שוכחים את הרגע הזה לעולם. ולא רק הם: גם הילד גדל
+              ההורים שמביאים את ילדם לבר מצווה - ויוצאים עם שיר שהילד הקליט
+              בעצמו - לא שוכחים את הרגע הזה לעולם. ולא רק הם: גם הילד גדל
               יחד עם השיר הזה. עוד 10 שנים הוא יקשיב לו ויחייך.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              ובנוסף — השיר שלכם נשמר בשרתי האולפן המאובטחים שלנו.{" "}
+              ובנוסף - השיר שלכם נשמר בשרתי האולפן המאובטחים שלנו.{" "}
               <strong className="text-foreground">
                 בעוד מספר שנים, כשתרצו להקשיב לו שוב או להשתמש בו בחתונה
-                של הילד — הקובץ צפוי להיות זמין בלחיצת כפתור.
+                של הילד - הקובץ צפוי להיות זמין בלחיצת כפתור.
               </strong>
             </p>
           </section>
@@ -135,10 +136,10 @@ export default function RecordingSongModiinPageContent() {
                 id="event-services-heading"
                 className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                הפקת שיר לאירוע במודיעין — כל סוגי השירים ברמה הגבוהה ביותר
+                הפקת שיר לאירוע במודיעין - כל סוגי השירים ברמה הגבוהה ביותר
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                מבר מצווה ועד חופה — לכל אירוע יש שיר שיהפוך אותו לבלתי נשכח
+                מבר מצווה ועד חופה - לכל אירוע יש שיר שיהפוך אותו לבלתי נשכח
               </p>
             </header>
 
@@ -160,13 +161,13 @@ export default function RecordingSongModiinPageContent() {
                       <strong className="text-foreground">
                         האירוע מתקרב, הילד מתרגש
                       </strong>
-                      , ואתם רוצים שהכניסה שלו לאולם תהיה עוצמתית — ולא עוד
+                      , ואתם רוצים שהכניסה שלו לאולם תהיה עוצמתית - ולא עוד
                       שיר בנאלי שכולם כבר שמעו. הפתרון: שיר בר מצווה מקורי
                       שיוצר חיבור מיידי עם הקהל ומנציח את הרגע הגדול שלו
                       לכל החיים.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      גם ילד שמתביישן להוציא צליל — יוצא מהאולפן עם שיר
+                      גם ילד שמתביישן להוציא צליל - יוצא מהאולפן עם שיר
                       שהוא גאה בו. אנחנו לא משחררים הקלטה עד שהילד עצמו
                       מרוצה מהתוצאה.
                     </p>
@@ -186,12 +187,12 @@ export default function RecordingSongModiinPageContent() {
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       רגע הכניסה לחופה הוא הרגע שכולם מצלמים, שכולם בוכים,
-                      שכולם זוכרים. שיר שהקלטתם בעצמכם — בקולכם, עם המילים
-                      שלכם — הופך אותו לסרט. הצמרמורת שהאורחים ירגישו? לא
+                      שכולם זוכרים. שיר שהקלטתם בעצמכם - בקולכם, עם המילים
+                      שלכם - הופך אותו לסרט. הצמרמורת שהאורחים ירגישו? לא
                       תיגמר.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      הטכנולוגיה שלנו לא הופכת אתכם למחשב — היא פשוט מוציאה
+                      הטכנולוגיה שלנו לא הופכת אתכם למחשב - היא פשוט מוציאה
                       את הגרסה הכי טובה, נקייה ומחמיאה של הקול הטבעי שלכם,
                       כדי שתוכלו להקשיב לעצמכם בגאווה.
                     </p>
@@ -210,14 +211,14 @@ export default function RecordingSongModiinPageContent() {
                       שירי תודה, שירי אמא/אבא וביצועים משפחתיים קבוצתיים
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      כשסבא, אבא והבן שרים יחד שיר אחד — זה לא סתם הקלטה.
+                      כשסבא, אבא והבן שרים יחד שיר אחד - זה לא סתם הקלטה.
                       זה רגע שמחבר דורות. שיר תודה לאמא מהילדים, שיר שלושה
-                      אחים לחתונה, כל המשפחה שרה שורה אחת — כולם יבכו,
+                      אחים לחתונה, כל המשפחה שרה שורה אחת - כולם יבכו,
                       כולם יצחקו, וכולם ישמרו את זה לנצח.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       מסלולי הקבוצה שלנו מאפשרים לכמה בני משפחה להקליט יחד
-                      או בנפרד — ואנחנו מחברים הכל לקטע אחד מרגש.
+                      או בנפרד - ואנחנו מחברים הכל לקטע אחד מרגש.
                     </p>
                   </div>
                 </div>
@@ -234,7 +235,7 @@ export default function RecordingSongModiinPageContent() {
                 רוצים להתייעץ על השיר שלכם? דברו איתי בוואטסאפ ←
               </a>
               <p className="mt-2 text-xs text-muted-foreground">
-                בלי שום התחייבות — נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור
+                בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור
                 לכם לבחור את הפלייבק המתאים
               </p>
             </div>
@@ -281,7 +282,7 @@ export default function RecordingSongModiinPageContent() {
               תנשמו עמוק. בשביל זה אנחנו כאן.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מעל 500 משפחות ממודיעין, מכבים ורעות הקליטו שיר באולפן — רובן
+              מעל 500 משפחות ממודיעין, מכבים ורעות הקליטו שיר באולפן - רובן
               בלי שום ניסיון שירה. עם ליווי אישי וטכנולוגיית AI מתקדמת, כל
               שיר יוצא מרגש ומדויק.
             </p>
@@ -330,7 +331,7 @@ export default function RecordingSongModiinPageContent() {
             <p className="text-center text-sm leading-relaxed text-muted-foreground">
               כבר מעל{" "}
               <strong className="text-foreground">500 משפחות</strong> ממודיעין,
-              מכבים, רעות ומהסביבה הקליטו שיר באולפן — מאירועי בית ספר עירוני
+              מכבים, רעות ומהסביבה הקליטו שיר באולפן - מאירועי בית ספר עירוני
               א׳ ובית ספר שבלולים, דרך אירועי עיריית מודיעין ועד לחתונות
               פרטיות.
             </p>
@@ -369,12 +370,12 @@ export default function RecordingSongModiinPageContent() {
                     [
                       "איכות סאונד",
                       "רעשי רקע, הד ותהודה בחדר",
-                      "אקוסטיקה מחושבת — אפס רעשים",
+                      "אקוסטיקה מחושבת - אפס רעשים",
                     ],
                     [
                       "ציוד הקלטה",
                       "מיקרופון אוניברסלי",
-                      "Shure SM7B, SphereL22 — ציוד בינלאומי",
+                      "Shure SM7B, SphereL22 - ציוד בינלאומי",
                     ],
                     [
                       "ליווי מקצועי",
@@ -389,12 +390,12 @@ export default function RecordingSongModiinPageContent() {
                     [
                       "שמירת הקובץ",
                       "אצלכם בלבד",
-                      "גיבוי ענן לכל החיים — זמין תמיד בלחיצת כפתור",
+                      "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור",
                     ],
                     [
                       "נגישות",
-                      "—",
-                      "מרכז מודיעין — 15 דקות ממכבים ורעות",
+                      "-",
+                      "מרכז מודיעין - 15 דקות ממכבים ורעות",
                     ],
                   ].map(([feature, home, studio]) => (
                     <tr key={feature} className="bg-surface hover:bg-muted/20">
@@ -438,7 +439,7 @@ export default function RecordingSongModiinPageContent() {
                     כיצד לבחור את הלחן הנכון
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    בחרו שיר שנשמע טוב בטווח הטבעי של קולכם — לא כזה שדורש
+                    בחרו שיר שנשמע טוב בטווח הטבעי של קולכם - לא כזה שדורש
                     להגיע לנקודות גבוהות מדי. אם אתם לא בטוחים, שלחו לנו
                     הקלטה קצרה של עצמכם שרים ואנחנו נמליץ על פלייבק שיחמיא
                     לקולכם.
@@ -457,7 +458,7 @@ export default function RecordingSongModiinPageContent() {
                     איך לעבוד על הטקסט מראש
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    אם אתם כותבים מילים מקוריות — קראו אותן בקול רם כמה
+                    אם אתם כותבים מילים מקוריות - קראו אותן בקול רם כמה
                     פעמים לפני שמגיעים לאולפן. בדקו שהחריזה זורמת טבעית
                     ושהמילים לא &ldquo;מתנגשות&rdquo; בתוך הלחן. לא בטוחים?
                     אנחנו יכולים לעזור בגיבוש הטקסט.
@@ -476,9 +477,9 @@ export default function RecordingSongModiinPageContent() {
                     למה לא צריך להתאמן עד צרידות
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    הגיעו לאולפן עם קול טרי — לא עם גרון עייף מ-3 ימי חזרות
+                    הגיעו לאולפן עם קול טרי - לא עם גרון עייף מ-3 ימי חזרות
                     אינטנסיביות. ההקלטה הכי טובה נוצרת כשהאנרגיה טבעית
-                    ורעננה. אם רוצים לתרגל — שרו בנינוחות, אל תלחצו על
+                    ורעננה. אם רוצים לתרגל - שרו בנינוחות, אל תלחצו על
                     הקול.
                   </p>
                 </div>
@@ -525,7 +526,7 @@ export default function RecordingSongModiinPageContent() {
           <div className="rounded-xl border border-brand-red/20 bg-surface p-5">
             <p className="font-semibold text-foreground">שדרג את ההקלטה לאחר האולפן</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              מיקס מקצועי, תיקון זיופים או ניקוי רעשים — הכל אפשרי מרחוק תוך ימים בודדים.{" "}
+              מיקס מקצועי, תיקון זיופים או ניקוי רעשים - הכל אפשרי מרחוק תוך ימים בודדים.{" "}
               <Link href="/online/vocal-fix/mixing" className="font-semibold text-brand-red hover:underline">
                 שירות מיקס ומאסטרינג ←
               </Link>
@@ -610,7 +611,7 @@ export default function RecordingSongModiinPageContent() {
             showGallery
           />
 
-          {/* 14. FAQ — native HTML5 details/summary */}
+          {/* 14. FAQ - native HTML5 details/summary */}
           <section id="studio-faq" aria-labelledby="faq-heading">
             <header className="mx-auto max-w-2xl text-center">
               <h2
@@ -678,7 +679,7 @@ export default function RecordingSongModiinPageContent() {
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               הקלטה מהבית + עריכה מקצועית + מוזיקת רקע. ברכת כלה או חתן, ברכת
-              הכהנים לבר/בת מצווה, דרשה מרגשת או ברכות משפחה — אפשר להקליט גם
+              הכהנים לבר/בת מצווה, דרשה מרגשת או ברכות משפחה - אפשר להקליט גם
               בבית, אבל הקלטה באולפן מקצועי היא רמה אחרת: תוצאה חדה, מרגשת
               ומקצועית שתהפוך את הרגע באירוע לבלתי נשכח.
             </p>
@@ -724,7 +725,7 @@ export default function RecordingSongModiinPageContent() {
             </h2>
             <ul className="mt-3 space-y-2">
               <li>
-                מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00 —{" "}
+                מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00 -{" "}
                 <a
                   href={`tel:${CONTACT_PHONE_E164}`}
                   className="font-medium text-brand-red hover:underline"

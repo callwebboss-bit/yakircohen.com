@@ -37,6 +37,8 @@ export type PageBottomCtaProps = {
   whatsappAriaLabel?: string;
   /** Secondary book + contact under WhatsApp CTA (service pages). */
   showBookContact?: boolean;
+  bookHref?: string;
+  bookLabel?: string;
   children?: ReactNode;
 };
 
@@ -64,6 +66,8 @@ export default function PageBottomCta({
   whatsappLabel,
   whatsappAriaLabel,
   showBookContact = true,
+  bookHref = "/book",
+  bookLabel = "הזמנה מקוונת",
   children,
 }: PageBottomCtaProps) {
   const resolvedHeading =
@@ -80,8 +84,8 @@ export default function PageBottomCta({
   const actions =
     variant === "site" ? (
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-end">
-        <Button as="link" href="/book" className="w-full sm:w-auto">
-          הזמנה מקוונת
+        <Button as="link" href={bookHref} className="w-full sm:w-auto">
+          {bookLabel}
         </Button>
         <Button
           as="link"
@@ -108,8 +112,8 @@ export default function PageBottomCta({
         ) : null}
         {showBookContact ? (
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button as="link" href="/book" variant="secondary" className="w-full sm:w-auto">
-              הזמנה מקוונת
+            <Button as="link" href={bookHref} variant="secondary" className="w-full sm:w-auto">
+              {bookLabel}
             </Button>
             <Button as="link" href="/contact" variant="outline" className="w-full sm:w-auto">
               צור קשר

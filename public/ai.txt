@@ -1,4 +1,4 @@
-# AI crawlers — see full site summary
+﻿# AI crawlers - see full site summary
 # https://yakircohen.com/llms.txt
 
 User-agent: *

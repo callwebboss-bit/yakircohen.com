@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 
 type BookRecordingVsProductionProps = {
   className?: string;
@@ -26,7 +26,7 @@ export default function BookRecordingVsProduction({
         <ul className="mt-2 space-y-1.5 text-sm text-foreground">
           <li>תיקון זיופים (Melodyne)</li>
           <li>מיקס מקצועי + מאסטרינג</li>
-          <li>נשמע כמו ברדיו — ביטחון מלא</li>
+          <li>נשמע כמו ברדיו - ביטחון מלא</li>
         </ul>
       </div>
     </div>

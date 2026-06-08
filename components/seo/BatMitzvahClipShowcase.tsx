@@ -1,4 +1,4 @@
-import YouTube from "@/components/YouTube";
+﻿import YouTube from "@/components/YouTube";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import ServicePortfolioMedia from "@/components/services/ServicePortfolioMedia";
 import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
@@ -20,7 +20,7 @@ export type BatMitzvahClipShowcaseProps = {
   showGallery?: boolean;
   /** הצג סרטונים נוספים מלבד הראשי */
   showMoreVideos?: boolean;
-  /** סרטון ראשי גדול — ברירת מחדל: כן */
+  /** סרטון ראשי גדול - ברירת מחדל: כן */
   showFeaturedVideo?: boolean;
   /** FAQ items for structured data */
   faqItems?: readonly { question: string; answer: string }[];

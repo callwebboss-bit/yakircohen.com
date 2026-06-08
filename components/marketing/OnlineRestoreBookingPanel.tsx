@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -59,7 +59,7 @@ export default function OnlineRestoreBookingPanel({
     serviceLabel: "שחזור סאונד / הצלת הקלטה",
     summaryLines: [
       { label: "סוג בעיה", value: issue || "לא צוין" },
-      { label: "חבילה", value: "עד 5 דקות — שחזור בסיסי" },
+      { label: "חבילה", value: "עד 5 דקות - שחזור בסיסי" },
     ],
     contact: {
       name: sanitizeLeadText(name, 60) || "[שם]",
@@ -68,6 +68,7 @@ export default function OnlineRestoreBookingPanel({
     priceExVat: BASIC_EX_VAT,
     totalEstimate: withVat(BASIC_EX_VAT),
     utmSource: readUtmSource(),
+    bookCategory: "online",
     includeTrustFooter: true,
   });
 
@@ -109,12 +110,13 @@ export default function OnlineRestoreBookingPanel({
           serviceLabel: "שחזור סאונד / הצלת הקלטה",
           summaryLines: [
             { label: "סוג בעיה", value: sanitizeLeadText(issue, 120) || "לא צוין" },
-            { label: "חבילה", value: "עד 5 דקות — שחזור בסיסי" },
+            { label: "חבילה", value: "עד 5 דקות - שחזור בסיסי" },
           ],
           contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
           priceExVat: BASIC_EX_VAT,
           totalEstimate: withVat(BASIC_EX_VAT),
           utmSource: readUtmSource(),
+          bookCategory: "online",
           includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
@@ -122,10 +124,10 @@ export default function OnlineRestoreBookingPanel({
           utm_source: "website",
           utm_campaign: "book_online_restore",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "online" });
         notifyLeadByEmail({
           formId: "online_restore_booking",
-          subject: "ליד חדש — שחזור סאונד",
+          subject: "ליד חדש - שחזור סאונד",
           body,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
@@ -143,6 +145,7 @@ export default function OnlineRestoreBookingPanel({
     return (
       <BookingSuccessPanel
         whatsappHref={lastHref}
+        bookCategory="online"
         onNewBooking={() => {
           setDone(false);
           setName("");
@@ -157,7 +160,7 @@ export default function OnlineRestoreBookingPanel({
       <div className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-4">
         <p className="text-sm font-semibold text-foreground">בדיקת היתכנות חינם</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          שלחו קטע של 30 שניות בוואטסאפ — נגיד בכנות מה אפשר להציל, בלי התחייבות.
+          שלחו קטע של 30 שניות בוואטסאפ - נגיד בכנות מה אפשר להציל, בלי התחייבות.
         </p>
         <button
           type="button"
@@ -169,7 +172,7 @@ export default function OnlineRestoreBookingPanel({
       </div>
 
       <BookPriceDual exVat={BASIC_EX_VAT} />
-      <p className="text-xs text-muted-foreground">שחזור מלא לפי מורכבות — נעריך אחרי האזנה לקובץ.</p>
+      <p className="text-xs text-muted-foreground">שחזור מלא לפי מורכבות - נעריך אחרי האזנה לקובץ.</p>
 
       <BookWhatHappensNext
         steps={VOCAL_FIX_PROCESS_STEPS.slice(0, 3).map((step) => ({

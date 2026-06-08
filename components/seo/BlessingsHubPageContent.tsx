@@ -14,6 +14,8 @@ import {
 } from "@/lib/data/blessings-hub-page";
 import { getBlessingsSubLinks, getStudioService } from "@/lib/data/services";
 import { youtubeEmbedUrl, YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getStudioService("blessings-hub");
@@ -21,6 +23,8 @@ const subLinks = getBlessingsSubLinks();
 
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
+
+const bookCta = resolveServiceBookCta("studio/blessings");
 
 export default function BlessingsHubPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -36,6 +40,9 @@ export default function BlessingsHubPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      showBookCtaInHero={Boolean(bookCta)}
+      bookHref={bookCta?.bookHref}
+      bookLabel={bookCta?.bookLabel}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -335,14 +342,24 @@ export default function BlessingsHubPageContent() {
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
             שלחו הודעה בוואטסאפ ונתאם פגישה באולפן או נשלח הנחיות להקלטה מהבית.
           </p>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
-          >
-            שליחה בוואטסאפ
-          </a>
+          {bookCta ? (
+            <HubDualCta
+              className="mt-6"
+              whatsappHref={whatsappHref}
+              whatsappLabel="שליחה בוואטסאפ"
+              bookHref={bookCta.bookHref}
+              bookLabel={bookCta.bookLabel}
+            />
+          ) : (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+            >
+              שליחה בוואטסאפ
+            </a>
+          )}
         </section>
               <PageRelatedFooter pathname="/studio/blessings" />
 

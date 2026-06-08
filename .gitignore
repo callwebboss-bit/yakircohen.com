@@ -45,3 +45,4 @@ next-env.d.ts
 
 # Editor temp files
 *.tmp.*
+.env*.local

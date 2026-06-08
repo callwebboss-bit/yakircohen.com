@@ -13,7 +13,7 @@ export default function BlockSkeleton({ className }: BlockSkeletonProps) {
         className ?? "min-h-[12rem]",
       )}
       role="status"
-      aria-label="טוען…"
+      aria-label="טוען..."
     />
   );
 }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
 
 const RESEND_API = "https://api.resend.com/emails";
 
@@ -10,11 +11,21 @@ type LeadPayload = {
   phone?: string;
 };
 
+function leadNotifyEmail(): string {
+  return process.env.LEAD_NOTIFY_EMAIL?.trim() || CONTACT_EMAIL_INTERNAL;
+}
+
 function isConfigured(): boolean {
-  return Boolean(
-    process.env.RESEND_API_KEY?.trim() &&
-      process.env.LEAD_NOTIFY_EMAIL?.trim(),
-  );
+  return Boolean(process.env.RESEND_API_KEY?.trim() && leadNotifyEmail());
+}
+
+/** בדיקת תצורה בלי שליחת מייל (לדיבוג אחרי deploy). */
+export async function GET() {
+  return NextResponse.json({
+    configured: isConfigured(),
+    hasApiKey: Boolean(process.env.RESEND_API_KEY?.trim()),
+    notifyEmail: leadNotifyEmail(),
+  });
 }
 
 export async function POST(request: Request) {
@@ -38,7 +49,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "body_too_long" }, { status: 400 });
   }
 
-  const to = process.env.LEAD_NOTIFY_EMAIL!.trim();
+  const to = leadNotifyEmail();
   const from =
     process.env.RESEND_FROM_EMAIL?.trim() || "לידים מהאתר <onboarding@resend.dev>";
 

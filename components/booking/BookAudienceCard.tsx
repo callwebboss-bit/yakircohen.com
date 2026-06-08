@@ -3,11 +3,14 @@
 import { useState } from "react";
 import BookDemoVideoModal from "@/components/booking/BookDemoVideoModal";
 import BookPriceDual from "@/components/booking/BookPriceDual";
+import PriceSocialProof from "@/components/booking/PriceSocialProof";
 import {
   buildFastWhatsAppMessage,
   type BookAudienceRoute,
 } from "@/lib/data/book-audience-routes";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
+import { trackConversion } from "@/lib/analytics/conversion-events";
+import { catalogWithVat } from "@/lib/data/pricing-catalog";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -65,6 +68,10 @@ export default function BookAudienceCard({
       utm_source: "website",
       utm_campaign: route.utm_campaign,
     });
+    trackConversion("book_fast_whatsapp", {
+      route_id: route.id,
+      category: route.categoryId,
+    });
     openWhatsAppLead(href);
   }
 
@@ -118,6 +125,10 @@ export default function BookAudienceCard({
           {route.priceNote ? (
             <p className="mt-1 text-xs text-muted-foreground">{route.priceNote}</p>
           ) : null}
+          <p className="mt-2 text-xs font-medium text-foreground">{route.valueFrame}</p>
+          {!compact ? (
+            <PriceSocialProof className="mt-2" testimonialIndex={route.categoryId === "online" ? 0 : 1} />
+          ) : null}
           {!compact ? (
             <p className="mt-2 text-xs leading-snug text-muted-foreground">{route.upsellHint}</p>
           ) : null}
@@ -157,11 +168,11 @@ export default function BookAudienceCard({
         </button>
         )}
 
-        {compact ? null : (
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <div className={cn("mt-4 grid gap-2", compact ? "grid-cols-1" : "sm:grid-cols-2")}>
           <button
             type="button"
             onClick={openFastWhatsApp}
+            aria-label={`קבלו הצעה בוואטסאפ ל${route.title} - ${catalogWithVat(route.priceExVat).toLocaleString("he-IL")} שקל סופי`}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-semibold text-white hover:bg-[#1fba59]"
           >
             <WaIcon />
@@ -175,7 +186,6 @@ export default function BookAudienceCard({
             הזמנה מפורטת
           </button>
         </div>
-        )}
 
         {compact ? null : route.feasibilityCheckMessage ? (
           <button

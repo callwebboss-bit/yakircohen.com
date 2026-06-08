@@ -316,6 +316,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
       priceExVat: grandTotal,
       totalEstimate: withVat(grandTotal),
       utmSource: readUtmSource() ?? "dj-events",
+      bookCategory: "dj",
       includeTrustFooter: true,
     });
   }, [hasSelection, formValid, form, grandTotal, festivalSelected, djId, starId, addons, effects, effectDiscount]);
@@ -337,6 +338,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
             priceExVat: grandTotal,
             totalEstimate: withVat(grandTotal),
             utmSource: readUtmSource() ?? "dj-events",
+            bookCategory: "dj",
             includeTrustFooter: true,
           });
           const href = buildWhatsAppHref({
@@ -344,7 +346,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
             utm_source: "dj-events",
             utm_campaign: "dj_calculator",
           });
-          openWhatsAppLead(href);
+          openWhatsAppLead(href, { leadCategory: "dj" });
           notifyLeadByEmail({
             formId: "dj_events_calculator",
             subject: "ליד חדש - DJ ואירועים",

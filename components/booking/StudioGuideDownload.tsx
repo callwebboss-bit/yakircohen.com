@@ -64,7 +64,7 @@ export default function StudioGuideDownload({
             disabled={downloading}
             className="inline-flex items-center justify-center rounded-xl bg-brand-red px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light disabled:opacity-70"
           >
-            {downloading ? "מוריד…" : "הורידו לקבצים"}
+            {downloading ? "מוריד..." : "הורידו לקבצים"}
           </button>
           <a
             href={viewUrl}

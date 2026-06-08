@@ -138,7 +138,7 @@ export const MOBILE_PODCAST_RELATED_LINKS: readonly {
   { emoji: "🎧", label: "עריכת פודקאסט מלאה", href: "/podcast/podcast-editing" },
   { emoji: "🎬", label: "הפקת קליפים", href: "/studio/blessings/video-clip" },
   { emoji: "📱", label: "עריכת סרטונים קצרים", href: "/business/social-media" },
-  { emoji: "🏠", label: "ייעוץ בניית אולפן ביתי", href: "/academy/home-studio" },
+  { emoji: "🏠", label: "ייעוץ אקוסטיקה ובניית אולפן", href: "/academy/home-studio" },
   {
     emoji: "🎙️",
     label: "השכרת סטודיו במודיעין",

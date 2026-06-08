@@ -110,6 +110,11 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "הקלטת שיר במודיעין", href: "/studio/recording-song-modiin" },
       { label: "מתנות ושוברים מהאולפן", href: "/studio/recording-song-modiin/gifts" },
       { label: "אולפן הקלטות", href: "/studio/recording-studio" },
+      {
+        label: "ייעוץ אקוסטיקה ובניית אולפן",
+        href: "/academy/home-studio",
+        description: "אולפן ביתי, פודקאסט ומשדר",
+      },
       { label: "ברכות מוקלטות", href: "/studio/blessings" },
       { label: "ברכת חתן וכלה", href: "/studio/blessings/bride-groom-blessing" },
       { label: "בר מצווה", href: "/studio/blessings/bar-mitzvah" },
@@ -189,7 +194,11 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         href: "/academy/private-lessons",
         description: "60 או 90 דקות 1:1",
       },
-      { label: "אולפן ביתי", href: "/academy/home-studio" },
+      {
+        label: "ייעוץ אקוסטיקה ובניית אולפן",
+        href: "/academy/home-studio",
+        description: "אולפן ביתי, פודקאסט ומשדר",
+      },
     ],
   },
   {
@@ -205,7 +214,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       {
         label: "שיפור קול + שחזור הקלטות",
         href: "/online/vocal-fix",
-        description: "ניקוי רעשים, הד, עיוותים — 250 ₪ עד 5 דק׳",
+        description: "ניקוי רעשים, הד, עיוותים - 250 ₪ עד 5 דק׳",
       },
       {
         label: "מיקס ומאסטרינג",
@@ -215,7 +224,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       {
         label: "תיקון זיופים",
         href: "/online/vocal-fix/pitch-correction",
-        description: "Pitch Correction טבעי — לא אוטומטי",
+        description: "Pitch Correction טבעי - לא אוטומטי",
       },
       {
         label: "שדרוג תמונות AI",
@@ -237,6 +246,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
 /** קישורים גלובליים (מחוץ לקטגוריות) */
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "הזמנה מקוונת", href: "/book" },
+  { label: "איך זה עובד", href: "/start" },
   { label: "מגזין", href: "/blog" },
   {
     label: "קידום סושיאל - יקיר איזמירלי",

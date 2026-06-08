@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import BookAudienceCard from "@/components/booking/BookAudienceCard";
 import {
@@ -10,6 +11,7 @@ import {
 import type { BookCategoryId } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { persistUtmBoostFromUrl, useBookUtmBoost } from "@/hooks/useBookUtmBoost";
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -68,6 +70,10 @@ export default function BookAudienceRouter({
   }, [isCollapsed]);
 
   function handleFullPath(route: BookAudienceRoute, emotionalLabel: string | null) {
+    trackConversion("book_router_select", {
+      route_id: route.id,
+      category: route.categoryId,
+    });
     onFullPath({
       categoryId: route.categoryId,
       filterPreset: route.filterPreset,
@@ -98,9 +104,17 @@ export default function BookAudienceRouter({
           {!isCollapsed ? (
             <>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                בחרו כיוון — מחיר שקוף מיד, וואטסאפ מהיר או הזמנה מפורטת עם תוספות.
+                בחרו כיוון - מחיר שקוף מיד, וואטסאפ מהיר או הזמנה מפורטת עם תוספות.
               </p>
               <p className="mt-2 text-sm font-medium text-foreground">{BOOK_ROUTER_REASSURANCE}</p>
+              <p className="mt-3">
+                <Link
+                  href="/start"
+                  className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
+                >
+                  לא בטוחים איך זה עובד? כל השלבים ←
+                </Link>
+              </p>
             </>
           ) : (
             <p className="mt-2 text-sm text-muted-foreground">

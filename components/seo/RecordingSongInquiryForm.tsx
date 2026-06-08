@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, type FormEvent } from "react";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
@@ -56,7 +56,7 @@ export default function RecordingSongInquiryForm() {
           תודה! מיד נחזור אליכם.
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          פתחנו שיח בוואטסאפ — ספרו לנו קצת על השיר שאתם חולמים עליו.
+          פתחנו שיח בוואטסאפ - ספרו לנו קצת על השיר שאתם חולמים עליו.
         </p>
       </div>
     );
@@ -70,7 +70,7 @@ export default function RecordingSongInquiryForm() {
       noValidate
     >
       <h2 className="text-xl font-semibold text-foreground">
-        תיאום ראשוני — ללא התחייבות
+        תיאום ראשוני - ללא התחייבות
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
         השאירו פרטים ונחזור אליכם תוך שעה. שאלה אחת, ללא לחץ.

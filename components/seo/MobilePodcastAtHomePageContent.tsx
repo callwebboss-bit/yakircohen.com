@@ -47,6 +47,7 @@ export default function MobilePodcastAtHomePageContent() {
       features={MOBILE_PODCAST_HERO_FEATURES}
       whatsappText="שלום, מעוניין בפודקאסט נייד עד הבית"
       utmCampaign="podcast_mobile_home"
+      bookSlug="podcast/mobile-podcast-at-home"
       scarcityLabel="🚐 האולפן מגיע אליכם"
       ctaLabel="הזמנת הקלטה ניידת בוואטסאפ"
       {...heroProps}

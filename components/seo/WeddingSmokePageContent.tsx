@@ -43,6 +43,7 @@ export default function WeddingSmokePageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       scarcityLabel="מומלץ לעונת החתונות  -  תיאום מוקדם"
       {...heroProps}
     >

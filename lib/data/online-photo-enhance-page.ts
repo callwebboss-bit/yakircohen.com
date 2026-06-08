@@ -1,25 +1,25 @@
-import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
 
 export const PHOTO_ENHANCE_PROCESS_STEPS: ProcessStep[] = [
   {
     number: 1,
     title: "שולחים את התמונות",
-    description: "דרך וואטסאפ, מייל או Google Drive — סרוקות, מהטלפון או קבצים ישנים.",
+    description: "דרך וואטסאפ, מייל או Google Drive - סרוקות, מהטלפון או קבצים ישנים.",
   },
   {
     number: 2,
     title: "עיבוד AI",
-    description: "הגדלת רזולוציה, חדות, שיפור צבעים וניקוי רעשים — הכל אוטומטי ומהיר.",
+    description: "הגדלת רזולוציה, חדות, שיפור צבעים וניקוי רעשים - הכל אוטומטי ומהיר.",
   },
   {
     number: 3,
     title: "בדיקה ותיקון ידני",
-    description: "בודקים כל תמונה — לא רק מעלים ושוכחים. מתקנים ידנית בפוטושופ אם צריך.",
+    description: "בודקים כל תמונה - לא רק מעלים ושוכחים. מתקנים ידנית בפוטושופ אם צריך.",
   },
   {
     number: 4,
     title: "מקבלים תמונות משודרגות",
-    description: "קובץ JPG/PNG באיכות גבוהה, מוכן להדפסה או שימוש דיגיטלי. אם לא מרוצים — נתקן.",
+    description: "קובץ JPG/PNG באיכות גבוהה, מוכן להדפסה או שימוש דיגיטלי. אם לא מרוצים - נתקן.",
   },
 ];
 

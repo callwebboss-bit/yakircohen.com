@@ -1,4 +1,4 @@
-export type PodcastPackageId = "starter" | "audio" | "video" | "social";
+﻿export type PodcastPackageId = "starter" | "audio" | "video" | "social";
 
 import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -20,7 +20,7 @@ export type PodcastPackage = {
 export const PODCAST_OVERTIME_RATE = STUDIO_HALF_HOUR_NIS;
 export const PODCAST_OVERTIME_BLOCK_MINUTES = 30;
 
-/** עלות כל משתתף נוסף מעבר ל-2 — מיקרופון נוסף + עריכה מוגברת */
+/** עלות כל משתתף נוסף מעבר ל-2 - מיקרופון נוסף + עריכה מוגברת */
 export const PODCAST_EXTRA_PARTICIPANT_PRICE = getExVat("podcast_extra_participant");
 
 export const PODCAST_PACKAGES: PodcastPackage[] = [

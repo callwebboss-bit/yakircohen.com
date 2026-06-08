@@ -5,7 +5,7 @@ import { SINGER_AUDIO_BEFORE_AFTER } from "@/lib/data/singer-amplification-page"
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const whatsappHref = buildWhatsAppHref({
-  text: "שלום, שמעתי את ההדגמה לפני/אחרי באתר – אשמח לייעוץ על הגברה לזמר/ה.",
+  text: "שלום, שמעתי את ההדגמה לפני/אחרי באתר - אשמח לייעוץ על הגברה לזמר/ה.",
   utm_source: "website",
   utm_campaign: "singer_amplification_before_after",
 });
@@ -31,7 +31,7 @@ export default function SingerBeforeAfterAudio() {
           {heading}
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          שימו אוזניות – ההבדל הוא כיוון מערכת, לא רק &quot;רמקולים חזקים יותר&quot;
+          שימו אוזניות - ההבדל הוא כיוון מערכת, לא רק &quot;רמקולים חזקים יותר&quot;
         </p>
       </header>
 
@@ -79,7 +79,7 @@ export default function SingerBeforeAfterAudio() {
         </div>
 
         <p className="mt-5 text-center text-xs text-muted-foreground">
-          קבצי ההדגמה יועלו בקרוב. בינתיים –{" "}
+          קבצי ההדגמה יועלו בקרוב. בינתיים -{" "}
           <a
             href={whatsappHref}
             target="_blank"

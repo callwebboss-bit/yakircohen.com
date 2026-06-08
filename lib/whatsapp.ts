@@ -24,7 +24,7 @@ export type WhatsAppWidgetProps = {
 /**
  * Builds a wa.me deep-link with every dynamic query value passed through
  * `encodeURIComponent` to preserve Hebrew text and prevent URL breakage.
- * Pass `source` to append "📍 מקור: …" to the message body (not as a UTM param).
+ * Pass `source` to append "📍 מקור: ..." to the message body (not as a UTM param).
  */
 export function buildWhatsAppHref({
   text,

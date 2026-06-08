@@ -6,6 +6,7 @@ import {
 } from "@/lib/data/pricing";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
 export type AudienceCardVariant = "gold" | "neutral" | "luxury" | "academy" | "online";
 
@@ -36,6 +37,10 @@ export type BookAudienceRoute = {
   whatsappFastMessageBase: string;
   feasibilityCheckMessage?: string;
   feasibilityUtmCampaign?: string;
+  /** משפט ROI קצר מתחת למחיר */
+  valueFrame: string;
+  /** מזהה שירות ב-yakir-closer */
+  closerServiceId: string;
 };
 
 const STUDIO_FROM = 590;
@@ -56,9 +61,9 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "הקלטות ואירועים משפחתיים",
     title: "שיר הפתעה, ברכת כלה או הקלטה לבר/בת מצווה",
     description:
-      "מגיעים מפוחדים, יוצאים עם תוצאה שמדליקה את הסלון. האולפן מותאם להורים וילדים — ואנחנו מטפלים בהכל.",
+      "מגיעים מפוחדים, יוצאים עם תוצאה שמדליקה את הסלון. האולפן מותאם להורים וילדים - ואנחנו מטפלים בהכל.",
     essenceMicroCopy:
-      "אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש — בלי לחץ זמן.",
+      "אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש - בלי לחץ זמן.",
     priceExVat: STUDIO_FROM,
     priceNote: "חבילת ברכה / הקלטה קצרה",
     startingPriceDual: dual(STUDIO_FROM),
@@ -77,6 +82,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "gift", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי",
+    valueFrame: "590₪ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך",
+    closerServiceId: "recording",
   },
   {
     id: "podcast-content",
@@ -105,6 +112,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "professional", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, אשמח לפרטים על הקלטת פודקאסט באולפן.\nמה שחסר לי: פרק ראשון / תוכן עסקי",
+    valueFrame: "פרק ראשון מוכן - בלי חודש ניסוי וטעייה",
+    closerServiceId: "podcast",
   },
   {
     id: "events-attractions",
@@ -113,12 +122,12 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "אטרקציות לאירועים",
     title: "עשן כבד, בועות, זיקוקים קרים ועוד",
     description:
-      "אטרקציות שמרימות את האווירה — עם חבילות משולבות וחיסכון אוטומטי.",
+      "אטרקציות שמרימות את האווירה - עם חבילות משולבות וחיסכון אוטומטי.",
     essenceMicroCopy: "רגעים בלתי נשכחים שהאורחים יזכרו שנים.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "אטרקציה בודדת",
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
-    upsellHint: "אפשר לשלב: 2–4 אטרקציות במחיר חבילה + קליפ מתנה",
+    upsellHint: "אפשר לשלב: 2-4 אטרקציות במחיר חבילה + קליפ מתנה",
     emotionalQuestion: "איזה רגע באירוע חייב להיות בלתי נשכח?",
     emotionalOptions: [
       { id: "entrance", label: "כניסה מרשימה" },
@@ -132,6 +141,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "events",
     whatsappFastMessageBase:
       "שלום, מעוניינים באטרקציות לאירוע (עשן, בועות, זיקוקים וכו').\nמה שחסר לנו: אפקטים לאירוע",
+    valueFrame: "אפקטים שמרימים את האירוע - בלי הפתעות ביום",
+    closerServiceId: "effects_only",
   },
   {
     id: "dj-vip",
@@ -141,7 +152,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     title: "דיג׳יי בוטיק, עשן כבד, זיקוקים קרים ו-LED",
     description:
       "חווית VIP לאירועים. מוזיקה שמדברת לקהל מעורב, בשילוב אפקטים שמרימים את האווירה.",
-    essenceMicroCopy: "אווירה שמרגישים בבטן — מוזיקה ואפקטים בידיים מקצועיות.",
+    essenceMicroCopy: "אווירה שמרגישים בבטן - מוזיקה ואפקטים בידיים מקצועיות.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "מחיר התחלתי לאפקט / DJ",
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
@@ -159,16 +170,18 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "dj",
     whatsappFastMessageBase:
       "שלום, ראינו את שירותי ה-DJ והאפקטים לאירועים.\nמה שחסר לנו: DJ / אפקטים לאירוע",
+    valueFrame: "מוזיקה ואווירה מקצועית - האורחים יזכרו",
+    closerServiceId: "dj",
   },
   {
     id: "singer-amplification",
     variant: "neutral",
     icon: "🎤",
     tag: "הגברה לזמרים",
-    title: "צ'ק סאונד וטכנאי בשטח — הקול שלך בכל אולם",
+    title: "צ'ק סאונד וטכנאי בשטח - הקול שלך בכל אולם",
     description:
       "מערכת הגברה מלאה עם טכנאי מקצועי. מתאים לזמרים שרוצים להישמע מעולה על הבמה.",
-    essenceMicroCopy: "שתרגישו בטוחים על הבמה — אנחנו דואגים לסאונד.",
+    essenceMicroCopy: "שתרגישו בטוחים על הבמה - אנחנו דואגים לסאונד.",
     priceExVat: SINGER_FROM,
     priceNote: "חבילת בסיס",
     startingPriceDual: dual(SINGER_FROM),
@@ -186,6 +199,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "singer",
     whatsappFastMessageBase:
       "שלום, מעוניין/ת בהגברה לזמרים לאירוע.\nמה שחסר לי: מערכת הגברה + טכנאי בשטח",
+    valueFrame: "סאונד מקצועי על הבמה - אתם מתמקדים בשירה",
+    closerServiceId: "live_sound",
   },
   {
     id: "photo-clips",
@@ -194,8 +209,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "צילום וקליפים",
     title: "צילום אירועים, קליפים ושירותי AI",
     description:
-      "שעות צילום גמישות, עריכה מקצועית ושירותי AI — מחיר שקוף לפי בחירה.",
-    essenceMicroCopy: "לשמר את הרגעים שחשובים לכם — בצילום ובוידאו.",
+      "שעות צילום גמישות, עריכה מקצועית ושירותי AI - מחיר שקוף לפי בחירה.",
+    essenceMicroCopy: "לשמר את הרגעים שחשובים לכם - בצילום ובוידאו.",
     priceExVat: PHOTO_FROM,
     priceNote: "שעת צילום באולפן / אירוע",
     startingPriceDual: dual(PHOTO_FROM),
@@ -213,15 +228,17 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "photography",
     whatsappFastMessageBase:
       "שלום, מעוניינים בצילום / קליפים לאירוע.\nמה שחסר לנו: צילום או וידאו",
+    valueFrame: "רגעים חשובים שמורים - בצילום ובוידאו",
+    closerServiceId: "recording",
   },
   {
     id: "academy-learn",
     variant: "academy",
     icon: "🎓",
     tag: "לימוד והתפתחות",
-    title: "שיעורים פרטיים עם יקיר — פיתוח קול, DJ, הפקה ועוד",
+    title: "שיעורים פרטיים עם יקיר - פיתוח קול, DJ, הפקה ועוד",
     description:
-      "מפגש אישי 1:1 באולפן במודיעין. 60 או 90 דקות של תשומת לב מלאה — פסנתר, גיטרה, הפקה, תקליטנות.",
+      "מפגש אישי 1:1 באולפן במודיעין. 60 או 90 דקות של תשומת לב מלאה - פסנתר, גיטרה, הפקה, תקליטנות.",
     essenceMicroCopy: "ללמוד בקצב שלך, עם מישהו שעושה את זה בשטח כל יום.",
     priceExVat: ACADEMY_FROM,
     priceNote: "שיעור 60 דק׳ · Pro Session 90 דק׳ מ-1,280 ₪",
@@ -240,6 +257,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "academy",
     whatsappFastMessageBase:
       "שלום, מעוניין/ת בשיעור פרטי עם יקיר באולפן.\nמה שחסר לי: ללמוד ולהשתפר ב",
+    valueFrame: "פחות מיום עבודה, יותר משנה טעויות יקרות",
+    closerServiceId: "academy",
   },
   {
     id: "online-restore",
@@ -248,18 +267,18 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "הצלת הקלטות / AI",
     title: "שחזור סאונד, ניקוי רעשים והצלת קבצים פגומים",
     description:
-      "הרצאות מזום, קלטות ישנות, רעשי רקע — שולחים קובץ ומקבלים סאונד נקי ומקצועי.",
-    essenceMicroCopy: "נגיד לכם בכנות מה אפשר להציל — בלי התחייבות.",
+      "הרצאות מזום, קלטות ישנות, רעשי רקע - שולחים קובץ ומקבלים סאונד נקי ומקצועי.",
+    essenceMicroCopy: "נגיד לכם בכנות מה אפשר להציל - בלי התחייבות.",
     priceExVat: ONLINE_FROM,
     priceNote: "לכל 5 דקות · שחזור מלא לפי הערכה",
     startingPriceDual: dual(ONLINE_FROM),
-    upsellHint: "בדיקת היתכנות חינם — שלחו קטע של 30 שניות",
+    upsellHint: "בדיקת היתכנות חינם - שלחו קטע של 30 שניות",
     emotionalQuestion: "מה הכי מפריע לכם בסאונד?",
     emotionalOptions: [
       { id: "noise", label: "רעשי רקע" },
       { id: "old", label: "הקלטה ישנה / פגומה" },
       { id: "zoom", label: "הקלטת זום / וידאו" },
-      { id: "unsure", label: "לא יודעים — תבדקו לנו" },
+      { id: "unsure", label: "לא יודעים - תבדקו לנו" },
     ],
     demoVideoKey: "podcast-zoom-before-after",
     utmBoostKeywords: ["online", "restore", "vocal-fix", "ai", "noise"],
@@ -270,6 +289,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     feasibilityCheckMessage:
       "שלום, אשמח לבדיקת היתכנות חינם לשחזור סאונד.\nאצרף קטע של כ-30 שניות מהקובץ.\nמה שחסר לי: לדעת אם אפשר להציל את ההקלטה",
     feasibilityUtmCampaign: "book_online_feasibility",
+    valueFrame: "מחזירים הקלטה שלא הייתם זורקים",
+    closerServiceId: "online_ai",
   },
 ] as const;
 
@@ -291,7 +312,13 @@ export function buildFastWhatsAppMessage(
   const emotionLine = emotionalAnswer?.trim()
     ? `\nמה שחשוב לי: ${emotionalAnswer}`
     : "";
-  return `${route.whatsappFastMessageBase}${emotionLine}\n${priceLine}\nאשמח לשמוע על האפשרויות ושדרוגים.`;
+  const base = `${route.whatsappFastMessageBase}${emotionLine}\n${priceLine}\nאשמח לשמוע על האפשרויות ושדרוגים.`;
+  return appendYcLeadTag(base, {
+    service: route.closerServiceId,
+    price: route.priceExVat,
+    source: route.utm_campaign,
+    step: 1,
+  });
 }
 
 export const BOOK_ESCAPE_HATCH = {
@@ -302,4 +329,4 @@ export const BOOK_ESCAPE_HATCH = {
 } as const;
 
 export const BOOK_ROUTER_REASSURANCE =
-  "בלי לחץ — אנחנו מדריכים אתכם צעד-צעד באווירה משוחררת וכיפית. רוב הלקוחות שלנו לא זמרים, וזה בסדר גמור.";
+  "בלי לחץ - אנחנו מדריכים אתכם צעד-צעד באווירה משוחררת וכיפית. רוב הלקוחות שלנו לא זמרים, וזה בסדר גמור.";

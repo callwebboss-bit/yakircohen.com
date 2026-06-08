@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
   EVENT_ATTRACTION_FROM_NIS,
   formatMeNis,
@@ -34,6 +35,8 @@ const TIERS = [
   },
 ] as const;
 
+const bookCta = resolveServiceBookCta("voucher");
+
 const FAQ_ITEMS: FAQItem[] = [
   {
     id: "validity",
@@ -48,7 +51,7 @@ const FAQ_ITEMS: FAQItem[] = [
       <>
         שולחים לנו הודעה בוואטסאפ עם מספר השובר (או שם המזמין), בוחרים תאריך פנוי
         ומתאמים פרטים. אפשר גם דרך{" "}
-        <Link href="/book" className="text-brand-red hover:underline">
+        <Link href={bookCta?.bookHref ?? "/book#studio"} className="text-brand-red hover:underline">
           עמוד ההזמנה
         </Link>
         .
@@ -76,6 +79,9 @@ export default function VoucherPageContent() {
       features={FEATURES}
       whatsappText="שלום, אשמח לשמוע על שובר מתנה"
       utmCampaign="voucher_page"
+      showBookCtaInHero={Boolean(bookCta)}
+      bookHref={bookCta?.bookHref}
+      bookLabel={bookCta?.bookLabel}
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 py-12 sm:px-6 lg:px-8">
         <section aria-labelledby="voucher-tiers-heading">

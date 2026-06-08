@@ -48,8 +48,8 @@ export const STUDIO_MODIIN_RELATED_SERVICES: readonly {
   },
   {
     emoji: "🏠",
-    title: "ייעוץ להקמת אולפן ביתי",
-    description: "ציוד והקמה  -  להקלטה מהבית בעתיד.",
+    title: "ייעוץ אקוסטיקה ובניית אולפן",
+    description: "אולפן ביתי, פודקאסט או משדר - תכנון אקוסטי וליווי.",
     href: "/academy/home-studio",
   },
 ] as const;

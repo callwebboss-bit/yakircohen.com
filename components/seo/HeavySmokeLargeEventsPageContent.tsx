@@ -44,6 +44,7 @@ export default function HeavySmokeLargeEventsPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
       {...heroProps}
     >

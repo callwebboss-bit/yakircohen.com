@@ -49,6 +49,7 @@ export default function ConfettiCannonPageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
       {...heroProps}
     >
@@ -80,7 +81,7 @@ export default function ConfettiCannonPageContent() {
 
         <section className="max-w-3xl" aria-labelledby="confetti-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            תדמיינו  -  המוזיקה בשיא, כולם מריעים, וברגע המדויק… בום! מטר של קונפטי
+            תדמיינו  -  המוזיקה בשיא, כולם מריעים, וברגע המדויק... בום! מטר של קונפטי
             צבעוני ממלא את האוויר. זה לא עוד גימיק  -  זה רגע שכולם יזכרו, יצטלמו
             וישתפו. השכרת תותח קונפטי מקצועי היא הדרך הפשוטה להרים את האווירה
             לרמה הבאה.

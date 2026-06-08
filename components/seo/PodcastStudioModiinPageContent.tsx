@@ -49,6 +49,7 @@ export default function PodcastStudioModiinPageContent() {
       features={STUDIO_MODIIN_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
+      bookSlug="podcast/podcast-studio-modiin"
       ctaLabel="תיאום הקלטה בוואטסאפ"
       {...heroProps}
     >

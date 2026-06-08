@@ -255,6 +255,12 @@ export function SiteNavDesktop() {
         <DesktopDropdown key={cat.id} category={cat} />
       ))}
       <Link
+        href="/start"
+        className="min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
+      >
+        איך זה עובד
+      </Link>
+      <Link
         href="/blog"
         className="min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
       >

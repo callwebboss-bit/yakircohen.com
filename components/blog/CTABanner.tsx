@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { CTA_LABELS, buildBlogCtaWhatsAppMessage } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +43,13 @@ export type CTABannerProps = {
   whatsappMessage?: string;
   /** UTM campaign tag forwarded to `buildWhatsAppHref`. */
   utm_campaign?: string;
+  /** yakir-closer service id for [YC:] tag */
+  closerService?: string;
+  /** Price before VAT for [YC:] tag */
+  priceExVat?: number | null;
+  /** Secondary CTA to /book#category */
+  bookHref?: string;
+  bookCtaLabel?: string;
   className?: string;
 };
 
@@ -52,10 +61,24 @@ export default function CTABanner({
   ctaLabel = "שוחחו איתנו בוואטסאפ",
   whatsappMessage = "שלום, הגעתי מהאתר ואשמח לשמוע על השירותים.",
   utm_campaign = "blog_cta",
+  closerService,
+  priceExVat,
+  bookHref,
+  bookCtaLabel = CTA_LABELS.bookTransparent,
   className,
 }: CTABannerProps) {
+  const waText =
+    closerService != null
+      ? buildBlogCtaWhatsAppMessage({
+          body: whatsappMessage,
+          closerService,
+          priceExVat,
+          utmCampaign: utm_campaign,
+        })
+      : whatsappMessage;
+
   const whatsappHref = buildWhatsAppHref({
-    text: whatsappMessage,
+    text: waText,
     utm_source: "blog",
     utm_campaign,
   });
@@ -101,13 +124,11 @@ export default function CTABanner({
           </h2>
 
           {/* Supporting body text */}
-          <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
-            {body}
-          </p>
+          <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{body}</p>
         </div>
 
-        {/* CTA button */}
-        <div className="shrink-0">
+        {/* CTA buttons */}
+        <div className="flex shrink-0 flex-col gap-2">
           <a
             href={whatsappHref}
             target="_blank"
@@ -127,8 +148,21 @@ export default function CTABanner({
             {ctaLabel}
           </a>
 
+          {bookHref ? (
+            <Link
+              href={bookHref}
+              className={cn(
+                "inline-flex items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground",
+                "transition-colors hover:border-brand-red/40 hover:text-brand-red",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+              )}
+            >
+              {bookCtaLabel}
+            </Link>
+          ) : null}
+
           {/* Trust micro-copy */}
-          <p className="mt-2 text-center text-[0.65rem] text-zinc-500">
+          <p className="text-center text-[0.65rem] text-zinc-500">
             מענה מהיר · ללא עלות · ללא התחייבות
           </p>
         </div>

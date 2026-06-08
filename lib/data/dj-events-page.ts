@@ -1,4 +1,4 @@
-﻿export const YOUTUBE_DJ_EVENTS_PLAYLIST_ID = "PLhuv1Ve6Oc9kqW6qdj9KpuCwnVVNxDbzv";
+export const YOUTUBE_DJ_EVENTS_PLAYLIST_ID = "PLhuv1Ve6Oc9kqW6qdj9KpuCwnVVNxDbzv";
 
 export const YOUTUBE_DJ_EVENTS_PLAYLIST_URL =
   "https://www.youtube.com/watch?v=oqoLnVTN1b4&list=PLhuv1Ve6Oc9kqW6qdj9KpuCwnVVNxDbzv";
@@ -63,7 +63,7 @@ export const DJ_EVENT_TYPES: readonly {
   {
     emoji: "🎂",
     title: "ימי הולדת",
-    description: "18, 30, 40, 50…  -  מוזיקה שכולם מכירים ואוהבים.",
+    description: "18, 30, 40, 50...  -  מוזיקה שכולם מכירים ואוהבים.",
   },
   {
     emoji: "🏢",

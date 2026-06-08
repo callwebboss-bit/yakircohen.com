@@ -59,14 +59,14 @@ export const CONSULTATION_PACKAGES: readonly {
     id: "consultation_phone",
     emoji: "📱",
     name: "ייעוץ טלפוני",
-    description: "שיחת ייעוץ של 45 דקות — אסטרטגיה לקידום השיר ברשתות החברתיות",
+    description: "שיחת ייעוץ של 45 דקות - אסטרטגיה לקידום השיר ברשתות החברתיות",
     price: 400,
   },
   {
     id: "consultation_inperson",
     emoji: "🤝",
     name: "ייעוץ פרונטלי",
-    description: "פגישה של שעה באולפן — תכנית פרסום מלאה, מדדי הצלחה ועצות מעשיות · בתיאום מראש",
+    description: "פגישה של שעה באולפן - תכנית פרסום מלאה, מדדי הצלחה ועצות מעשיות · בתיאום מראש",
     price: 980,
     badge: "מומלץ",
   },
@@ -248,14 +248,14 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   {
     id: "songwriting",
     name: "✍️ כתיבת שיר אישי",
-    description: "כתיבת מילים מותאמות לאירוע שלכם — לפי הסיפור, התאריך והאנשים",
+    description: "כתיבת מילים מותאמות לאירוע שלכם - לפי הסיפור, התאריך והאנשים",
     price: 500,
     badge: "חדש",
   },
   {
     id: "add_clip",
     name: "🎬 הפקת קליפ לאירוע",
-    description: "קליפ קצר (1-2 דק׳) עם תמונות / צילום פשוט + מוזיקה — מושלם לרשתות",
+    description: "קליפ קצר (1-2 דק׳) עם תמונות / צילום פשוט + מוזיקה - מושלם לרשתות",
     price: 2500,
   },
 ] as const;
@@ -275,7 +275,7 @@ export const PARTICIPANTS_OPTIONS = [
   { value: "large_group", label: "קבוצה / כולם" },
 ] as const;
 
-/** עלות כל משתתף נוסף — הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
+/** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
 export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
 
 export const STUDIO_SURPRISE_GIFT_NOTE =

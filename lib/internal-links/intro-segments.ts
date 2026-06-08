@@ -223,6 +223,15 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/video/event-filming", label: "צילום אירועים" },
     { type: "text", value: "." },
   ],
+  "/academy/home-studio": [
+    { type: "text", value: "בונים אולפן ביתי, פודקאסט או חדר משדר? קראו גם את " },
+    { type: "link", href: "/blog/studio-guide", label: "המדריך להקמת אולפן" },
+    { type: "text", value: ". מעדיפים להקליט אצלנו? " },
+    { type: "link", href: "/podcast/podcast-studio-modiin", label: "אולפן במודיעין" },
+    { type: "text", value: " או " },
+    { type: "link", href: "/studio/recording-studio", label: "אולפן הקלטות" },
+    { type: "text", value: "." },
+  ],
 };
 
 export function getIntroSegments(pathname: string): IntroSegment[] | undefined {

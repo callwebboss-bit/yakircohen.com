@@ -11,6 +11,7 @@ import {
   SERVICE_GALLERY_MAX_IMAGES,
   withServicePageHeroDefaults,
 } from "@/lib/service-page-ui";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 
 function getStartingPrice(pricing?: readonly ServicePricingTier[]): string | undefined {
@@ -45,6 +46,7 @@ export default function ServicePageFromRegistry({
   const heroProps = withServicePageHeroDefaults(pageHero);
   const showcaseLabel = portfolioLabel ?? service.title;
   const pagePath = `/${service.slug.replace(/^\/+/, "")}`;
+  const bookCta = resolveServiceBookCta(service.slug);
 
   return (
     <ServicePageLayout
@@ -55,6 +57,9 @@ export default function ServicePageFromRegistry({
       startingPrice={getStartingPrice(service.pricing)}
       utmCampaign={service.utmCampaign}
       scarcityLabel={service.scarcityLabel}
+      showBookCtaInHero={Boolean(bookCta)}
+      bookHref={bookCta?.bookHref}
+      bookLabel={bookCta?.bookLabel}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, type FormEvent } from "react";
 import { RINGTONE_PRICE_NIS } from "@/lib/data/funny-ringtone-page";
@@ -51,7 +51,7 @@ export default function FunnyRingtoneOrderForm() {
           תודה! מיד נחזור אליכם.
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          פתחנו שיח בוואטסאפ — ספרו לנו על מי שמקבל את הרינגטון ואיזה סגנון מצחיק
+          פתחנו שיח בוואטסאפ - ספרו לנו על מי שמקבל את הרינגטון ואיזה סגנון מצחיק
           מתאים.
         </p>
       </div>
@@ -67,10 +67,10 @@ export default function FunnyRingtoneOrderForm() {
       noValidate
     >
       <h2 className="font-serif text-xl font-semibold text-foreground">
-        הזמנת רינגטון — {formatNis(RINGTONE_PRICE_NIS)} מבצע
+        הזמנת רינגטון - {formatNis(RINGTONE_PRICE_NIS)} מבצע
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        השאירו פרטים ונחזור אליכם תוך שעה. בלי התחייבות — רק כדי להבין את
+        השאירו פרטים ונחזור אליכם תוך שעה. בלי התחייבות - רק כדי להבין את
         הרעיון.
       </p>
 
@@ -163,7 +163,7 @@ export default function FunnyRingtoneOrderForm() {
           שלחו הזמנה ←
         </button>
         <p className="text-xs text-muted-foreground">
-          הטופס פותח שיח בוואטסאפ — נמשיך משם את כל הפרטים
+          הטופס פותח שיח בוואטסאפ - נמשיך משם את כל הפרטים
         </p>
       </div>
     </form>

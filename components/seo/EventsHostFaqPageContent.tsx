@@ -32,6 +32,7 @@ export default function EventsHostFaqPageContent() {
       features={EVENTS_HOST_FAQ_HERO_FEATURES}
       whatsappText={service.whatsappText}
       utmCampaign="events_host_faq"
+      bookSlug="events/host/faq"
       ctaLabel="שאלתכם לא כאן? דברו איתנו"
       {...heroProps}
     >

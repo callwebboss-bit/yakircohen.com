@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import {
@@ -43,6 +43,7 @@ export default function OnlineAiPricingPageContent() {
       ]}
       whatsappText="שלום, אשמח לקבל הצעת מחיר לשירותי AI"
       utmCampaign="online_ai_pricing"
+      bookSlug="online/online-ai-pricing"
     >
       <div className="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 lg:px-8">
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -79,11 +80,11 @@ export default function OnlineAiPricingPageContent() {
             id="ai-pricing-demo-heading"
             className="text-lg font-semibold text-foreground"
           >
-            דוגמת שחזור — הקלטה פגומה
+            דוגמת שחזור - הקלטה פגומה
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             רלוונטי לשחזור קול, הצלת הקלטות פגומות ועריכת פודקאסט. שחזור כזה
-            אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
+            אפשרי - אבל קשה, ותלוי מאוד באיכות המקור.
           </p>
           <div className="mt-6 max-w-2xl">
             <div

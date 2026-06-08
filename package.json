@@ -19,7 +19,10 @@
     "audit:pricing": "node scripts/audit-pricing.mjs",
     "check:youtube": "node scripts/check-youtube-ids.mjs",
     "import:portfolio": "node scripts/import-portfolio.mjs",
-    "audit:youtube": "node scripts/check-youtube-ids.mjs"
+    "audit:youtube": "node scripts/check-youtube-ids.mjs",
+    "env:resend": "node scripts/push-resend-env.mjs",
+    "export:closer": "node scripts/export-closer-config.mjs",
+    "ingest:blog": "node scripts/ingest-blog-queue.mjs"
   },
   "dependencies": {
     "next": "16.2.6",

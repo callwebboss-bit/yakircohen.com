@@ -54,6 +54,7 @@ export default function PhotoSlideshowPageContent() {
       features={SLIDESHOW_HERO_FEATURES}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       scarcityLabel="עריכה קולנועית · מסירה תוך 48 שעות"
       {...heroProps}
     >

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -43,7 +43,7 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 
 const matchFitWhatsappHref = buildWhatsAppHref({
   text: buildServiceWhatsAppText(
-    "שלום, מעוניין/ת בבדיקת התאמה מהירה להגברה לזמר/ה – אשמח לייעוץ קצר (תאריך, מיקום, סוג אירוע)",
+    "שלום, מעוניין/ת בבדיקת התאמה מהירה להגברה לזמר/ה - אשמח לייעוץ קצר (תאריך, מיקום, סוג אירוע)",
   ),
   utm_source: "website",
   utm_campaign: "singer_amplification_match_fit",
@@ -64,6 +64,7 @@ export default function SingerAmplificationPageContent() {
       features={SINGER_PAGE_HERO.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       ctaLabel={SINGER_PAGE_HERO.ctaLabel}
       maxHeroFeatures={3}
       {...heroProps}
@@ -74,7 +75,7 @@ export default function SingerAmplificationPageContent() {
           className="max-w-3xl"
         />
 
-        {/* 5 mistakes – anxiety mapping */}
+        {/* 5 mistakes - anxiety mapping */}
         <section aria-labelledby="mistakes-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2
@@ -84,7 +85,7 @@ export default function SingerAmplificationPageContent() {
               5 טעויות נפוצות שגורמות גם לזמרים מעולים להישמע רע על הבמה
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              מערכת הגברה לזמרים לא מתחילה ברשימת ציוד – היא מתחילה בהבנה מה
+              מערכת הגברה לזמרים לא מתחילה ברשימת ציוד - היא מתחילה בהבנה מה
               הורס הופעה חיה
             </p>
           </header>
@@ -187,12 +188,12 @@ export default function SingerAmplificationPageContent() {
 
         <ShowcaseVideoSection
           sectionId={SERVICE_SHOWCASE_VIDEO_ID}
-          heading="הגברה לזמר בשטח – דוגמה מהאירוע"
+          heading="הגברה לזמר בשטח - דוגמה מהאירוע"
           subheading="ציוד מקצועי, כיוון נכון והקמה מהירה. הוידאו נטען בלחיצה."
           videos={SINGER_AMPLIFICATION_VIDEOS}
         />
 
-        {/* Why us – retained value blocks */}
+        {/* Why us - retained value blocks */}
         <section aria-labelledby="why-singer-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2
@@ -225,7 +226,7 @@ export default function SingerAmplificationPageContent() {
           </ul>
         </section>
 
-        {/* Technical specs – moved down */}
+        {/* Technical specs - moved down */}
         <section aria-labelledby="tech-specs-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2
@@ -238,7 +239,7 @@ export default function SingerAmplificationPageContent() {
               {SINGER_TECH_SPECS.note}
             </blockquote>
             <p className="mt-3 text-sm text-muted-foreground">
-              השכרת הגברה לזמר – חבילות מוכנות עם מחירים גלויים
+              השכרת הגברה לזמר - חבילות מוכנות עם מחירים גלויים
             </p>
           </header>
 
@@ -333,7 +334,7 @@ export default function SingerAmplificationPageContent() {
             למה המחיר שווה כל שקל?
           </h2>
           <p className="mt-4 text-sm text-muted-foreground">
-            לא משלמים רק על רמקולים – משלמים על ביטוח להופעה:
+            לא משלמים רק על רמקולים - משלמים על ביטוח להופעה:
           </p>
           <ul className="mt-4 space-y-2">
             {SINGER_VALUE_POINTS.map((point) => (
@@ -373,7 +374,7 @@ export default function SingerAmplificationPageContent() {
         </section>
 
         {faqItems.length > 0 ? (
-          <FAQAccordion items={faqItems} title="שאלות נפוצות – הגברה מקצועית במודיעין" className="py-0" />
+          <FAQAccordion items={faqItems} title="שאלות נפוצות - הגברה מקצועית במודיעין" className="py-0" />
         ) : null}
 
         <SingerClosingLeadSection whatsappHref={matchFitWhatsappHref} />

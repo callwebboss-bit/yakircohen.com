@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import FunnyRingtoneBeforeAfter from "@/components/seo/FunnyRingtoneBeforeAfter";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
@@ -94,7 +94,7 @@ export default function FunnyRingtonePageContent() {
               rel="noopener noreferrer"
               className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
             >
-              הזמנה בוואטסאפ — {formatNis(RINGTONE_PRICE_NIS)}
+              הזמנה בוואטסאפ - {formatNis(RINGTONE_PRICE_NIS)}
             </a>
             <a
               href="#ringtone-order-form"
@@ -224,7 +224,7 @@ export default function FunnyRingtonePageContent() {
               מוכנים להזמין?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              {formatNis(RINGTONE_PRICE_NIS)} מבצע — וואטסאפ או טופס, מה שנוח
+              {formatNis(RINGTONE_PRICE_NIS)} מבצע - וואטסאפ או טופס, מה שנוח
               לכם.
             </p>
           </header>
@@ -246,10 +246,10 @@ export default function FunnyRingtonePageContent() {
         layout="section"
         variant="whatsapp"
         heading="רוצים להפתיע מישהו בצלצול הבא?"
-        description={`רינגטון מצחיק במתנה — ${formatNis(RINGTONE_PRICE_NIS)} מבצע. נעזור לכם לנסח, להקליט ולסיים עם קובץ מוכן.`}
+        description={`רינגטון מצחיק במתנה - ${formatNis(RINGTONE_PRICE_NIS)} מבצע. נעזור לכם לנסח, להקליט ולסיים עם קובץ מוכן.`}
         headingId="ringtone-bottom-cta-heading"
         whatsappHref={WHATSAPP_CTA}
-        whatsappLabel={`הזמנה בוואטסאפ — ${formatNis(RINGTONE_PRICE_NIS)}`}
+        whatsappLabel={`הזמנה בוואטסאפ - ${formatNis(RINGTONE_PRICE_NIS)}`}
         whatsappAriaLabel="הזמנת רינגטון מצחיק בוואטסאפ"
         showBookContact={false}
       >

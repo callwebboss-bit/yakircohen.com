@@ -8,10 +8,11 @@ import {
 } from "@/lib/constants";
 import { formatNis, withVat } from "@/lib/data/pricing";
 import { formatPriceLine } from "@/lib/data/pricing-catalog";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
 export const PREMIUM_THRESHOLD = 3_000;
 
-/** תסריט איתור צרכים — 5 שורות, עד 5 מילים לשורה */
+/** תסריט איתור צרכים - 5 שורות, עד 5 מילים לשורה */
 export const NEEDS_DISCOVERY_SCRIPT = [
   "מה באמת חסר ביצירה שלך?",
   "בלי לחץ, פשוט נדבר.",
@@ -33,7 +34,7 @@ export function buildTrustFooter(): string {
   return [
     "📍 עמק איילון 34, מודיעין",
     `🕐 ${hours}`,
-    "⚡ מסירה: 24–48 שעות לפי חבילה",
+    "⚡ מסירה: 24-48 שעות לפי חבילה",
     "☁️ גיבוי ענן מאובטח",
   ].join("\n");
 }
@@ -56,6 +57,9 @@ export type ClosingMessageOptions = {
   source?: string | null;
   timing?: ClosingTiming;
   includeTrustFooter?: boolean;
+  /** מזהה שירות ב-yakir-closer (recording, podcast, dj...) */
+  closerServiceId?: string | null;
+  ycStep?: number;
 };
 
 const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
@@ -68,7 +72,7 @@ const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
 function formatIntent(intent: ClosingIntent): string {
   return intent === "start_now"
     ? "מוכן/ה להתחיל תהליך והזמנה עכשיו"
-    : "💬 רק בודק/ת — רוצה להמשיך את השיחה";
+    : "💬 רק בודק/ת - רוצה להמשיך את השיחה";
 }
 
 /**
@@ -87,6 +91,8 @@ export function buildClosingMessage({
   source,
   timing,
   includeTrustFooter = false,
+  closerServiceId,
+  ycStep = 1,
 }: ClosingMessageOptions): string {
   const lines: string[] = [];
 
@@ -147,7 +153,18 @@ export function buildClosingMessage({
     lines.push(buildTrustFooter());
   }
 
-  return lines.join("\n").trim();
+  let body = lines.join("\n").trim();
+
+  if (closerServiceId?.trim()) {
+    body = appendYcLeadTag(body, {
+      service: closerServiceId.trim(),
+      price: priceExVat ?? null,
+      source: source?.trim() || "website",
+      step: ycStep,
+    });
+  }
+
+  return body;
 }
 
 /** הודעה פשוטה לטפסי callback */

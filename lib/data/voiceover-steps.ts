@@ -1,10 +1,10 @@
-import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
 
 export const VOICEOVER_HUB_STEPS: ProcessStep[] = [
   {
     number: 1,
     title: "ייעוץ סגנון",
-    description: "מבינים את הטון הרצוי, קהל היעד וסוג הפרויקט — פרסומת, מרכזיה, IVR או תדמית.",
+    description: "מבינים את הטון הרצוי, קהל היעד וסוג הפרויקט - פרסומת, מרכזיה, IVR או תדמית.",
   },
   {
     number: 2,
@@ -14,7 +14,7 @@ export const VOICEOVER_HUB_STEPS: ProcessStep[] = [
   {
     number: 3,
     title: "עריכה ומיקס",
-    description: "ניקוי, חידוד קול ואיזון — קריינות שנשמעת מקצועית, ברורה ומוכרת.",
+    description: "ניקוי, חידוד קול ואיזון - קריינות שנשמעת מקצועית, ברורה ומוכרת.",
   },
   {
     number: 4,

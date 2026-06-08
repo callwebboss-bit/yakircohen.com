@@ -11,6 +11,7 @@ import {
   type HeroScrollTarget,
 } from "@/lib/service-portfolio-hero";
 import { sliceHeroFeatures } from "@/lib/service-page-ui";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
@@ -40,8 +41,12 @@ export type ServicePageLayoutProps = {
   heroGallerySectionId?: string;
   /** Inline WhatsApp + book CTAs under the subtitle (default on). */
   showHeroCtas?: boolean;
-  /** הצג כפתור הזמנה מקוונת ב-Hero (ברירת מחדל: כן). */
+  /** slug לפתרון אוטומטי של CTA ל-/book (למשל studio/recording-song-modiin). */
+  bookSlug?: string;
+  /** הצג כפתור הזמנה מקוונת ב-Hero (ברירת מחדל: כן כשיש bookSlug או bookHref). */
   showBookCtaInHero?: boolean;
+  bookHref?: string;
+  bookLabel?: string;
   /** הסתר קישור גלילה לוידאו/גלריה מתחת ל-CTA */
   showHeroScrollLink?: boolean;
   /** מגביל נקודות ✓ מתחת ל-Hero (ברירת מחדל: 3) */
@@ -177,10 +182,19 @@ export default function ServicePageLayout({
   heroVideoSectionId = SERVICE_SHOWCASE_VIDEO_ID,
   heroGallerySectionId = SERVICE_PORTFOLIO_GALLERY_ID,
   showHeroCtas = true,
-  showBookCtaInHero = false,
+  bookSlug,
+  showBookCtaInHero,
+  bookHref,
+  bookLabel,
   showHeroScrollLink,
   maxHeroFeatures,
 }: ServicePageLayoutProps) {
+  const autoBookCta = bookSlug ? resolveServiceBookCta(bookSlug) : null;
+  const resolvedBookHref = bookHref ?? autoBookCta?.bookHref;
+  const resolvedBookLabel = bookLabel ?? autoBookCta?.bookLabel ?? "הזמנה מקוונת";
+  const resolvedShowBookInHero =
+    showBookCtaInHero ?? Boolean(resolvedBookHref);
+
   const heroFeatures = sliceHeroFeatures(features, maxHeroFeatures);
   const hasHeroImage = Boolean(heroImageSrc?.trim());
   const hasHeroVideo = Boolean(heroVideoEmbedUrl?.trim());
@@ -267,9 +281,9 @@ export default function ServicePageLayout({
                   <WhatsAppIcon />
                   {ctaLabel}
                 </a>
-                {showBookCtaInHero ? (
-                  <Button as="link" href="/book" variant="outline">
-                    הזמנה מקוונת
+                {resolvedShowBookInHero && resolvedBookHref ? (
+                  <Button as="link" href={resolvedBookHref} variant="outline">
+                    {resolvedBookLabel}
                   </Button>
                 ) : null}
               </div>
@@ -353,7 +367,9 @@ export default function ServicePageLayout({
         whatsappHref={whatsappHref}
         whatsappLabel={ctaLabel}
         whatsappAriaLabel={`${ctaLabel} - ${title}`}
-        showBookContact
+        showBookContact={Boolean(resolvedBookHref)}
+        bookHref={resolvedBookHref}
+        bookLabel={resolvedBookLabel}
       />
     </article>
   );

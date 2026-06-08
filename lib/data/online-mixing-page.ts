@@ -1,15 +1,15 @@
-import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
 
 export const MIXING_PROCESS_STEPS: ProcessStep[] = [
   {
     number: 1,
     title: "שולחים את הקטעים",
-    description: "כל ערוץ בקובץ נפרד (WAV/MP3) — דרך Google Drive, WeTransfer או כל שירות העברה.",
+    description: "כל ערוץ בקובץ נפרד (WAV/MP3) - דרך Google Drive, WeTransfer או כל שירות העברה.",
   },
   {
     number: 2,
     title: "מיקס ראשוני",
-    description: "מאזינים, מאזנים, מעצבים — יוצרים שלד ראשוני ושולחים לאישורכם.",
+    description: "מאזינים, מאזנים, מעצבים - יוצרים שלד ראשוני ושולחים לאישורכם.",
   },
   {
     number: 3,

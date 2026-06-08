@@ -1,4 +1,4 @@
-import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+﻿import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
@@ -181,7 +181,7 @@ export default function StudioGiftsPageContent() {
                 {formatNis(RINGTONE_PRICE_NIS)} מבצע
               </span>
               <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">
-                רינגטון מצחיק — מתנה לכיף
+                רינגטון מצחיק - מתנה לכיף
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 מתנה מקורית ליום הולדת או הפתעה לחבר/ה: מקליטים, מעבדים ומגישים
@@ -195,7 +195,7 @@ export default function StudioGiftsPageContent() {
                 </li>
                 <li className="flex gap-2 text-sm text-muted-foreground">
                   <span className="shrink-0 font-bold text-brand-red">-</span>
-                  נגן לפני/אחרי — שמעו את ההבדל
+                  נגן לפני/אחרי - שמעו את ההבדל
                 </li>
                 <li className="flex gap-2 text-sm text-muted-foreground">
                   <span className="shrink-0 font-bold text-brand-red">-</span>

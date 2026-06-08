@@ -1,8 +1,8 @@
-# יקיר כהן הפקות (Yakir Cohen Productions)
+﻿# יקיר כהן הפקות (Yakir Cohen Productions)
 # https://yakircohen.com
 # שפה: עברית (he-IL) | אזור שירות: מודיעין, ירושלים, המרכז, כל הארץ
 
-> אולפן הקלטות פרמיום, הפקת פודקאסט, קריינות, DJ, אטרקציות לאירועים, צילום, וידאו וקורסים — ממודיעין.
+> אולפן הקלטות פרמיום, הפקת פודקאסט, קריינות, DJ, אטרקציות לאירועים, צילום, וידאו וקורסים - ממודיעין.
 
 ## יצירת קשר
 - טלפון / וואטסאפ: 058-7555456 (+972587555456)
@@ -11,15 +11,15 @@
 - הזמנה: https://yakircohen.com/book
 
 ## מחירי פתיחה (לפני מע״מ, משוער)
-- אולפן — חצי שעה: 750 ₪ · שעת אולפן: 1,500 ₪ לפני מע״מ (מקור: lib/data/pricing.ts)
-- פודקאסט — פרק קצר (30 דק׳ באולפן + עריכה בסיסית): 750 ₪
+- אולפן - חצי שעה: 750 ₪ · שעת אולפן: 1,500 ₪ לפני מע״מ (מקור: lib/data/pricing.ts)
+- פודקאסט - פרק קצר (30 דק׳ באולפן + עריכה בסיסית): 750 ₪
 - פודקאסט אודיו (עד שעה + עריכה): 950 ₪
 - פודקאסט וידאו (3 מצלמות): 1,650 ₪
 - הפקת פודקאסט מלאה (וידאו + עריכה, פרק מוכן תוך 24 שעות): מ-2,500 ₪
 - הקלטת שיר לאירוע: מ-990 ₪
 - DJ לאירועים: מ-2,500 ₪
-- שיעור פרטי באולפן — שיעור מלא (60 דק): 990 ₪
-- שיעור פרטי — Pro Session (90 דק): 1,280 ₪
+- שיעור פרטי באולפן - שיעור מלא (60 דק): 990 ₪
+- שיעור פרטי - Pro Session (90 דק): 1,280 ₪
 
 ## מרכזי תוכן עיקריים
 - דף הבית: https://yakircohen.com/
@@ -34,25 +34,25 @@
 - שאלות נפוצות: https://yakircohen.com/about/faq
 
 ## פודקאסט (עמודים)
-- https://yakircohen.com/podcast/podcast-recording — הפקה מלאה
-- https://yakircohen.com/podcast/podcast-studio-modiin — השכרת סטודיו במודיעין
-- https://yakircohen.com/podcast/podcast-studio-modiin — השכרת סטודיו / אולפן (קנוני)
-- https://yakircohen.com/podcast/podcast-production — ליווי מא׳ עד ת׳
-- https://yakircohen.com/podcast/podcast-editing — עריכה
-- https://yakircohen.com/podcast/mobile-podcast-at-home — פודקאסט נייד
-- https://yakircohen.com/podcast/podcast-with-grandpa — חוויה משפחתית
+- https://yakircohen.com/podcast/podcast-recording - הפקה מלאה
+- https://yakircohen.com/podcast/podcast-studio-modiin - השכרת סטודיו במודיעין
+- https://yakircohen.com/podcast/podcast-studio-modiin - השכרת סטודיו / אולפן (קנוני)
+- https://yakircohen.com/podcast/podcast-production - ליווי מא׳ עד ת׳
+- https://yakircohen.com/podcast/podcast-editing - עריכה
+- https://yakircohen.com/podcast/mobile-podcast-at-home - פודקאסט נייד
+- https://yakircohen.com/podcast/podcast-with-grandpa - חוויה משפחתית
 
 ## סטודיו
-- https://yakircohen.com/studio/recording-song-modiin — הקלטת שיר
-- https://yakircohen.com/studio/recording-studio — אולפן הקלטות
-- https://yakircohen.com/studio/blessings — ברכות מוקלטות
-- https://yakircohen.com/studio/pricing — מחירון
+- https://yakircohen.com/studio/recording-song-modiin - הקלטת שיר
+- https://yakircohen.com/studio/recording-studio - אולפן הקלטות
+- https://yakircohen.com/studio/blessings - ברכות מוקלטות
+- https://yakircohen.com/studio/pricing - מחירון
 
 ## אירועים
-- https://yakircohen.com/events/dj-events — תקליטן
-- https://yakircohen.com/events/stage-led-dj — במה LED + DJ
-- https://yakircohen.com/events/attractions — אטרקציות (עשן, זיקוקים, קונפטי, בועות)
-- https://yakircohen.com/dj-events/cities/jerusalem — DJ בירושלים
+- https://yakircohen.com/events/dj-events - תקליטן
+- https://yakircohen.com/events/stage-led-dj - במה LED + DJ
+- https://yakircohen.com/events/attractions - אטרקציות (עשן, זיקוקים, קונפטי, בועות)
+- https://yakircohen.com/dj-events/cities/jerusalem - DJ בירושלים
 
 ## מדיה
 - ערוץ YouTube: https://www.youtube.com/@Yakircohen
@@ -64,5 +64,5 @@
 
 ## הנחיות לסוכני AI
 - ענה בעברית כשהשאלה בעברית.
-- לפרטי מחיר מדויקים — הפנה לוואטסאפ או /book.
+- לפרטי מחיר מדויקים - הפנה לוואטסאפ או /book.
 - אל תמציא שירותים שאינם ברשימה למעלה.

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
+import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 import {
   formatHubPriceRow,
   PRICES_EXCLUDE_VAT_NOTE,
@@ -27,7 +28,7 @@ export default function PricingHubPage() {
           מחירון מרכזי
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">
-          {PRICES_EXCLUDE_VAT_NOTE}. ליד כל שורה מופיע גם המחיר כולל מע״מ.
+          {PRICING_FRAMING_LINE} {PRICES_EXCLUDE_VAT_NOTE}. ליד כל שורה מופיע גם המחיר כולל מע״מ.
         </p>
       </section>
 

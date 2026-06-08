@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -59,7 +59,7 @@ export default function AcademyBookingWizard({
 
   const messageBody = buildBookingWhatsAppBody({
     intent: "continue_chat",
-    serviceLabel: `שיעור פרטי — ${plan.name}`,
+    serviceLabel: `שיעור פרטי - ${plan.name}`,
     summaryLines: [
       { label: "משך", value: plan.duration },
       ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
@@ -71,6 +71,7 @@ export default function AcademyBookingWizard({
     priceExVat: plan.price,
     totalEstimate: withVat(plan.price),
     utmSource: readUtmSource(),
+    bookCategory: "academy",
     includeTrustFooter: true,
   });
 
@@ -109,7 +110,7 @@ export default function AcademyBookingWizard({
           : phone.trim();
         const body = buildBookingWhatsAppBody({
           intent,
-          serviceLabel: `שיעור פרטי — ${plan.name}`,
+          serviceLabel: `שיעור פרטי - ${plan.name}`,
           summaryLines: [
             { label: "משך", value: plan.duration },
             ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
@@ -118,6 +119,7 @@ export default function AcademyBookingWizard({
           priceExVat: plan.price,
           totalEstimate: withVat(plan.price),
           utmSource: readUtmSource(),
+          bookCategory: "academy",
           includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
@@ -125,10 +127,10 @@ export default function AcademyBookingWizard({
           utm_source: "website",
           utm_campaign: plan.utmCampaign,
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "academy" });
         notifyLeadByEmail({
           formId: "academy_booking",
-          subject: "ליד חדש — שיעור פרטי באקדמיה",
+          subject: "ליד חדש - שיעור פרטי באקדמיה",
           body,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
@@ -146,6 +148,7 @@ export default function AcademyBookingWizard({
     return (
       <BookingSuccessPanel
         whatsappHref={lastHref}
+        bookCategory="academy"
         onNewBooking={() => {
           setDone(false);
           setName("");
@@ -239,7 +242,7 @@ export default function AcademyBookingWizard({
           ) : null}
         </div>
         <p className="text-xs text-muted-foreground">
-          אל דאגה — נשלח טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים!
+          אל דאגה - נשלח טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים!
         </p>
       </div>
 

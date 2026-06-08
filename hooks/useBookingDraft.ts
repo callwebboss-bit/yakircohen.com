@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -57,8 +57,8 @@ function removeDraft(key: string): void {
 
 /**
  * שומר התקדמות אשף הזמנה ב-localStorage.
- * @param serialize — המרה ל-JSON (למשל Set → מערך)
- * @param deserialize — שחזור מהטיוטה
+ * @param serialize - המרה ל-JSON (למשל Set → מערך)
+ * @param deserialize - שחזור מהטיוטה
  */
 export function useBookingDraft<T>(
   storageKey: string,

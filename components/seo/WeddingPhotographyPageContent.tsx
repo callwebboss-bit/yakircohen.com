@@ -42,6 +42,7 @@ export default function WeddingPhotographyPageContent() {
       features={WEDDING_PHOTO_HERO_HIGHLIGHTS}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       ctaLabel={WEDDING_PHOTO_HERO.ctaLabel}
       heroGallerySectionId="wedding-gallery-best"
       {...heroProps}

@@ -11,7 +11,7 @@ type Props = {
   onListenComplete?: () => void;
 };
 
-const SYNC_THRESHOLD = 0.1; // seconds — seek lagging channel if gap exceeds this
+const SYNC_THRESHOLD = 0.1; // seconds - seek lagging channel if gap exceeds this
 const THROTTLE_MS = 100;   // timeupdate handler budget in ms
 
 export default function PremiumCrossfadePlayer({
@@ -26,7 +26,7 @@ export default function PremiumCrossfadePlayer({
   const trackRef = useRef<HTMLDivElement>(null);     // slider ARIA target
   const beforeAudio = useRef<HTMLAudioElement | null>(null);
   const afterAudio = useRef<HTMLAudioElement | null>(null);
-  const sliderPos = useRef(50);    // current mix 0–100 (no state — CSS var drives visuals)
+  const sliderPos = useRef(50);    // current mix 0-100 (no state - CSS var drives visuals)
   const isDragging = useRef(false);
   const lastSync = useRef(0);      // timestamp of last throttle gate
   const cbRef = useRef(onListenComplete);
@@ -36,7 +36,7 @@ export default function PremiumCrossfadePlayer({
 
   useEffect(() => { cbRef.current = onListenComplete; }, [onListenComplete]);
 
-  // Write slider position as CSS variable — no React re-render, 60 FPS
+  // Write slider position as CSS variable - no React re-render, 60 FPS
   const applyPos = useCallback((pos: number) => {
     containerRef.current?.style.setProperty("--sp", `${pos.toFixed(1)}%`);
     if (trackRef.current) {
@@ -131,7 +131,7 @@ export default function PremiumCrossfadePlayer({
     }
   }, [isPlaying, triggerLoad]);
 
-  // Resolve pointer X into a 0–100 percentage of the track width
+  // Resolve pointer X into a 0-100 percentage of the track width
   const getPct = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     return Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100));
@@ -185,7 +185,7 @@ export default function PremiumCrossfadePlayer({
       onPointerEnter={triggerLoad}
       onTouchStart={triggerLoad}
     >
-      {/* Physical left=before, right=after — matches slider clientX math */}
+      {/* Physical left=before, right=after - matches slider clientX math */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-col items-start gap-1 text-start">
           <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
@@ -205,7 +205,7 @@ export default function PremiumCrossfadePlayer({
         </div>
       </div>
 
-      {/* Crossfade track — touch-none prevents accidental page scroll while dragging */}
+      {/* Crossfade track - touch-none prevents accidental page scroll while dragging */}
       <div
         ref={trackRef}
         role="slider"
@@ -221,7 +221,7 @@ export default function PremiumCrossfadePlayer({
         onPointerCancel={handleUp}
         onKeyDown={handleKey}
       >
-        {/* Fill — width driven by --sp, zero JS re-renders */}
+        {/* Fill - width driven by --sp, zero JS re-renders */}
         <div
           className="pointer-events-none absolute inset-y-0 left-0 rounded-full bg-brand-red/25"
           style={{ width: "var(--sp)" }}
@@ -235,7 +235,7 @@ export default function PremiumCrossfadePlayer({
         />
       </div>
 
-      {/* Play / Pause — inline SVG, no icon library dependency */}
+      {/* Play / Pause - inline SVG, no icon library dependency */}
       <div className="flex justify-center pt-1">
         <button
           type="button"

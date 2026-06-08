@@ -44,6 +44,7 @@ export default function PodcastFaqPageContent() {
       features={PODCAST_FAQ_HERO_FEATURES}
       whatsappText="שלום, יש לי שאלה נוספת על הפקת פודקאסט"
       utmCampaign="podcast_faq"
+      bookSlug="podcast/faq"
       ctaLabel="שאלתכם לא כאן? דברו איתנו"
       {...heroProps}
     >

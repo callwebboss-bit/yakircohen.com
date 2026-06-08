@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import BookDynamicHeroSubtitle from "@/components/booking/BookDynamicHeroSubtitle";
 import BookPageSections from "@/components/booking/BookPageSections";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import { constructMetadata } from "@/lib/metadata";
@@ -9,7 +10,7 @@ import { SITE_NAME } from "@/lib/constants";
 export const metadata: Metadata = constructMetadata({
   title: "הזמנה מקוונת | יקיר כהן הפקות",
   description:
-    "הזמנה מקוונת עם מחיר שקוף (כולל מע״מ): אולפן, פודקאסט, אירועים, DJ, צילום, אקדמיה ושחזור סאונד. וואטסאפ מהיר או הזמנה מפורטת עם תוספות — בלי המתנה לתשובה.",
+    "הזמנה מקוונת עם מחיר שקוף (כולל מע״מ): אולפן, פודקאסט, אירועים, DJ, צילום, אקדמיה ושחזור סאונד. וואטסאפ מהיר או הזמנה מפורטת עם תוספות - בלי המתנה לתשובה.",
   slug: "book",
   keywords: [
     "הזמנת אולפן",
@@ -53,13 +54,12 @@ export default function BookPage() {
           </p>
 
           <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
-            מה מתאים לכם?
+            תוך דקה תדעו כמה זה עולה - ומה תקבלו בפועל
           </h1>
 
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            בחרו כיוון — מחיר שקוף מיד (כולל מע״מ), וואטסאפ מהיר או הזמנה מפורטת עם תוספות.
-            בלי טפסים שנעלמים ובלי המתנה לתשובה.
-          </p>
+          <Suspense fallback={null}>
+            <BookDynamicHeroSubtitle />
+          </Suspense>
         </div>
       </section>
 

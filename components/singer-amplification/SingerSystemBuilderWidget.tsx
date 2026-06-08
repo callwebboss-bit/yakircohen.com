@@ -65,10 +65,10 @@ export default function SingerSystemBuilderWidget() {
           id="system-builder-heading"
           className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
         >
-          מחשבון מערכת הגברה – 3 קליקים
+          מחשבון מערכת הגברה - 3 קליקים
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          בלי מחירים – רק המערכת האופטימלית עבורכם. לזמרים, הרכבים ומפיקי אירועים.
+          בלי מחירים - רק המערכת האופטימלית עבורכם. לזמרים, הרכבים ומפיקי אירועים.
         </p>
       </header>
 

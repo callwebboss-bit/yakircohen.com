@@ -1,8 +1,10 @@
-/**
+﻿/**
  * WhatsApp message builders for booking flows.
  * Delegates to whatsapp-closing.ts for unified lead structure.
  */
 
+import type { BookCategoryId } from "@/lib/book-url";
+import { BOOK_CLOSER_SERVICE } from "@/lib/data/book-closer-map";
 import { BOOKING_CONSULT_15_MIN } from "@/lib/data/booking-shared";
 import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
 import { withVat } from "@/lib/data/pricing";
@@ -33,6 +35,8 @@ export type BookingWhatsAppBodyOptions = {
   utmSource?: string | null;
   timing?: ClosingTiming;
   includeTrustFooter?: boolean;
+  bookCategory?: BookCategoryId;
+  closerServiceId?: string;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -52,7 +56,13 @@ export function buildBookingWhatsAppBody({
   utmSource,
   timing,
   includeTrustFooter = false,
+  bookCategory,
+  closerServiceId,
 }: BookingWhatsAppBodyOptions): string {
+  const resolvedCloser =
+    closerServiceId ??
+    (bookCategory ? BOOK_CLOSER_SERVICE[bookCategory] : undefined);
+
   return buildClosingMessage({
     serviceLabel,
     contact,
@@ -65,6 +75,8 @@ export function buildBookingWhatsAppBody({
     source: utmSource,
     timing,
     includeTrustFooter,
+    closerServiceId: resolvedCloser,
+    ycStep: 1,
   });
 }
 
@@ -107,7 +119,7 @@ export function buildConsultWhatsAppHref(
 }
 
 /**
- * Reads booking context for WhatsApp `source` line — filter answers, UTM, or path.
+ * Reads booking context for WhatsApp `source` line - filter answers, UTM, or path.
  */
 export function readUtmSource(): string | null {
   if (typeof window === "undefined") return null;

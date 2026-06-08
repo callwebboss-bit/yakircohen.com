@@ -68,7 +68,7 @@ export const SERVICES: Record<string, Service> = {
     upsells: [],
   },
   vlog_day: {
-    name: "וולוג יום בחיי — צלם צמוד",
+    name: "וולוג יום בחיי - צלם צמוד",
     category: "clips",
     price: 2200,
     icon: "🎥",

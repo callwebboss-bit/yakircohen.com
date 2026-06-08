@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Script from "next/script";
 import Link from "next/link";
@@ -56,7 +56,7 @@ function InstagramGridSkeleton() {
   return (
     <div
       className="grid grid-cols-3 gap-1.5 sm:gap-2"
-      aria-label="טוען פיד אינסטגרם…"
+      aria-label="טוען פיד אינסטגרם..."
       role="status"
     >
       {Array.from({ length: 9 }, (_, i) => (
@@ -71,7 +71,7 @@ function ReviewsSkeleton() {
   return (
     <div
       className="space-y-4"
-      aria-label="טוען ביקורות Google…"
+      aria-label="טוען ביקורות Google..."
       role="status"
     >
       {Array.from({ length: 3 }, (_, i) => (

@@ -160,7 +160,7 @@ export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
       emoji: "🕊️",
       title: "כניסה לחופה",
       description:
-        "קטע עצמאי לכניסה לחופה — בקולכם, עם עיבוד שיתאים לאווירה. רגע שהאורחים לא ישכחו.",
+        "קטע עצמאי לכניסה לחופה - בקולכם, עם עיבוד שיתאים לאווירה. רגע שהאורחים לא ישכחו.",
       tag: "",
     },
   ] as const;

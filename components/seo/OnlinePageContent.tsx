@@ -10,7 +10,11 @@ import {
 } from "@/lib/data/online-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
+import HubDualCta from "@/components/marketing/HubDualCta";
 import ShareButton from "@/components/ui/ShareButton";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+
+const bookCta = resolveServiceBookCta("online");
 
 export default function OnlinePageContent() {
   const ctaHref = buildWhatsAppHref({
@@ -40,22 +44,32 @@ export default function OnlinePageContent() {
             שולחים קובץ או רעיון. מקבלים תוצאה מוכנה למייל או לוואטסאפ - סאונד,
             תמונה או תוכן.
           </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
-              href={ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            >
-              שלחו קובץ לבדיקה ראשונית בוואטסאפ ←
-            </a>
-            <Link
-              href="#quick-quote"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
-            >
-              השאירו פרטים להצעת מחיר מהירה
-            </Link>
-          </div>
+          {bookCta ? (
+            <HubDualCta
+              className="mt-8"
+              whatsappHref={ctaHref}
+              whatsappLabel="שלחו קובץ לבדיקה ראשונית בוואטסאפ ←"
+              bookHref={bookCta.bookHref}
+              bookLabel={bookCta.bookLabel}
+            />
+          ) : (
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <a
+                href={ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
+              >
+                שלחו קובץ לבדיקה ראשונית בוואטסאפ ←
+              </a>
+              <Link
+                href="#quick-quote"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+              >
+                השאירו פרטים להצעת מחיר מהירה
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -271,15 +285,17 @@ export default function OnlinePageContent() {
               שלחו קובץ לבדיקה ראשונית בוואטסאפ או השאירו פרטים ונחזור אליכם
               במהירות עם מסלול שירות מדויק.
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <a
-                href={ctaHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              >
-                שלחו קובץ בוואטסאפ ←
-              </a>
+            {bookCta ? (
+              <HubDualCta
+                className="mt-6"
+                align="start"
+                whatsappHref={ctaHref}
+                whatsappLabel="שלחו קובץ בוואטסאפ ←"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+              />
+            ) : null}
+            <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link
                 href="/online/vocal-fix/send-file"
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"

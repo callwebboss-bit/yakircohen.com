@@ -103,7 +103,7 @@ export default function SingerClosingLeadSection({
       <div className="mx-auto mt-8 grid max-w-3xl gap-6 lg:grid-cols-2">
         <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-background p-6 text-center">
           <p className="text-sm text-muted-foreground">
-            הכי מהיר – שיחת ייעוץ ללא התחייבות
+            הכי מהיר - שיחת ייעוץ ללא התחייבות
           </p>
           <a
             href={whatsappHref}
@@ -121,11 +121,11 @@ export default function SingerClosingLeadSection({
           noValidate
         >
           <p className="mb-4 text-sm font-semibold text-foreground">
-            או השאירו פרטים – נחזור אליכם
+            או השאירו פרטים - נחזור אליכם
           </p>
           {submitted ? (
             <p className="text-sm text-brand-red">
-              תודה! נפתח וואטסאפ – אם לא, ניצור קשר בקרוב.
+              תודה! נפתח וואטסאפ - אם לא, ניצור קשר בקרוב.
             </p>
           ) : (
             <>

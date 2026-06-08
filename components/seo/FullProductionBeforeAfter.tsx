@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import dynamic from "next/dynamic";
 import { FULL_PRODUCTION_AUDIO } from "@/lib/data/full-production-showcase";
@@ -21,7 +21,7 @@ export default function FullProductionBeforeAfter({ playerNote }: Props) {
   return (
     <figure
       className="space-y-4"
-      aria-label="הדגמת הפקה מלאה מווקאל יבש — לפני ואחרי"
+      aria-label="הדגמת הפקה מלאה מווקאל יבש - לפני ואחרי"
     >
       <PremiumCrossfadePlayer
         beforeSrc={FULL_PRODUCTION_AUDIO.beforeSrc}

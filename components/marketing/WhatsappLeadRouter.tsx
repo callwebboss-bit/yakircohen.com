@@ -142,7 +142,7 @@ export default function WhatsappLeadRouter({
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   V_CARD[card.variant],
                 )}
-                aria-label={`${card.title} - פתיחת שיחת וואטסאפ בחלון חדש`}
+                aria-label={`${card.title} - ${card.startingPriceDual.replace("כרגע: ", "")} - פתיחת וואטסאפ`}
               >
                 {card.variant === "luxury" && (
                   <div
@@ -194,6 +194,9 @@ export default function WhatsappLeadRouter({
                       dualLabel={card.startingPriceDual}
                       size="sm"
                     />
+                    <p className={cn("text-xs font-medium text-foreground")}>
+                      {card.valueFrame}
+                    </p>
                     <p className={cn("text-xs leading-snug", V_DESC[card.variant])}>
                       {card.upsellHint}
                     </p>

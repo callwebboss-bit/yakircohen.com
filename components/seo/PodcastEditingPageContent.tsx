@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
@@ -40,6 +40,7 @@ export default function PodcastEditingPageContent() {
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
+      bookSlug="podcast/podcast-editing"
       ctaLabel="שליחת פרק לעריכה בוואטסאפ"
       scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} · ${PODCAST_EDITING_PRICE_NOTE}`}
       {...heroProps}
@@ -99,10 +100,10 @@ export default function PodcastEditingPageContent() {
               id="editing-zoom-heading"
               className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              ניקוי פודקאסט / זום — לפני ואחרי
+              ניקוי פודקאסט / זום - לפני ואחרי
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              דוגמה טיפוסית: הקלטת זום או חדר ביתי עם רעשי רקע — אחרי ניקוי,
+              דוגמה טיפוסית: הקלטת זום או חדר ביתי עם רעשי רקע - אחרי ניקוי,
               EQ ו-normalize לפרסום.
             </p>
           </header>
@@ -123,11 +124,11 @@ export default function PodcastEditingPageContent() {
               id="editing-restoration-heading"
               className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              שחזור הקלטה פגומה — לפני ואחרי
+              שחזור הקלטה פגומה - לפני ואחרי
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               דוגמה אמיתית: פודקאסט ישן, הרצאה או ארכיון שנפגם. שחזור כזה
-              אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
+              אפשרי - אבל קשה, ותלוי מאוד באיכות המקור.
             </p>
           </header>
           <div className="mx-auto mt-8 max-w-3xl">
@@ -295,8 +296,8 @@ export default function PodcastEditingPageContent() {
                 <span className="mt-0.5 text-2xl" aria-hidden>📖</span>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
-                  <p className="mt-1 font-semibold text-foreground">5 סימנים שהפרק שלכם צריך עריכה מקצועית — לא רק חיתוך</p>
-                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד — לקריאה ←</p>
+                  <p className="mt-1 font-semibold text-foreground">5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך</p>
+                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד - לקריאה ←</p>
                 </div>
               </Link>
               <PageRelatedFooter pathname="/podcast/podcast-editing" />

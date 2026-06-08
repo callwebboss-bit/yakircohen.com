@@ -34,6 +34,7 @@ export default function EventsEquipmentFaqPageContent() {
       features={EVENTS_EQUIPMENT_FAQ_HERO_FEATURES}
       whatsappText="שלום, יש לי שאלה על השכרת הגברה לאירוע"
       utmCampaign="events_equipment_faq"
+      bookSlug="events/equipment/faq"
       ctaLabel="שאלתכם לא כאן? דברו איתנו"
       {...heroProps}
     >

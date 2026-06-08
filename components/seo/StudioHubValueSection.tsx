@@ -1,6 +1,6 @@
 ﻿import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 
-/** תיק עבודות לעמוד /studio — מהמאגר המרכזי */
+/** תיק עבודות לעמוד /studio - מהמאגר המרכזי */
 export default function StudioHubValueSection() {
   return (
     <ShowcaseVideoSection

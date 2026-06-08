@@ -88,6 +88,7 @@ export default function ClipsBookingForm() {
       priceExVat: totalExVat,
       totalEstimate: withVat(totalExVat),
       utmSource: readUtmSource() ?? "/book#clips",
+      bookCategory: "clips",
       includeTrustFooter: true,
     });
   }, [selected, summaryLines, name, phone, notes, totalExVat]);
@@ -128,6 +129,7 @@ export default function ClipsBookingForm() {
           priceExVat: totalExVat,
           totalEstimate: withVat(totalExVat),
           utmSource: readUtmSource() ?? "/book#clips",
+          bookCategory: "clips",
           includeTrustFooter: true,
         });
 
@@ -136,7 +138,7 @@ export default function ClipsBookingForm() {
           utm_source: "website",
           utm_campaign: "clips_booking",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "clips" });
         notifyLeadByEmail({
           formId: "clips_booking",
           subject: "הזמנת קליפ / שירות דיגיטלי",
@@ -156,6 +158,7 @@ export default function ClipsBookingForm() {
       <BookingSuccessPanel
         intent="continue_chat"
         whatsappHref={lastWaHref}
+        bookCategory="clips"
         onNewBooking={() => {
           setSelected(new Set());
           setName("");

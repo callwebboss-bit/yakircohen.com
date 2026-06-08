@@ -100,6 +100,19 @@ export const PRIVACY_PAGE = {
             למדיניות הפרטיות שלהם.
           </p>
           <p>מומלץ לקרוא את מדיניות הפרטיות של ספקים חיצוניים לפני שימוש בשירותים שלהם.</p>
+          <p>
+            לחיצה על קישור WhatsApp (כולל כפתורי «דברו איתנו בוואטסאפ» באתר) מעבירה אתכם
+            לאפליקציית WhatsApp של Meta. המידע שתשלחו שם כפוף גם ל
+            <a
+              href="https://www.whatsapp.com/legal/privacy-policy-whatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-red hover:underline"
+            >
+              מדיניות הפרטיות של WhatsApp
+            </a>
+            .
+          </p>
         </>
       ),
     },

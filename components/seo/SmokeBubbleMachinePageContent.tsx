@@ -40,6 +40,7 @@ export default function SmokeBubbleMachinePageContent() {
       features={service.features}
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
+      bookSlug={service.slug}
       scarcityLabel="היט 2026  -  ביקוש גבוה בעונת האירועים"
       {...heroProps}
     >

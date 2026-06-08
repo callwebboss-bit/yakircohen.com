@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 
 const DEFAULT_STEPS = [
-  { number: 1, title: "שולחים הודעה קצרה", body: "בוואטסאפ — בלי התחייבות" },
+  { number: 1, title: "שולחים הודעה קצרה", body: "בוואטסאפ - בלי התחייבות" },
   { number: 2, title: "מתאמים תאריך ושעה", body: "בגובה העיניים, בקצב שלכם" },
-  { number: 3, title: "מגיעים להקליט בכיף", body: "במודיעין — חנייה חופשית" },
+  { number: 3, title: "מגיעים להקליט בכיף", body: "במודיעין - חנייה חופשית" },
 ] as const;
 
 type BookWhatHappensNextProps = {

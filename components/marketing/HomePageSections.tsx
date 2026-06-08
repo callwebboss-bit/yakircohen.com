@@ -20,6 +20,7 @@ import {
   VideoIcon,
   ZapIcon,
 } from "@/components/ui/Icons";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
 const HOME_FAQ: FAQItem[] = [
@@ -76,10 +77,12 @@ const HOME_FAQ: FAQItem[] = [
     question: "כמה עולה הקלטה או אירוע?",
     answer: (
       <>
-        המחיר תלוי בשירות, בהיקף ובתוספות. ב
+        ברכה / הקלטה קצרה{" "}
+        {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}.
+        פודקאסט פיילוט מ-{getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע״מ.
+        ב
         <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}
-        אפשר לבחור שירות, לראות טווח מחיר ולשלוח הזמנה בוואטסאפ. לייעוץ חינם -
-        השאירו פרטים למטה או כתבו לנו.
+        רואים מחיר סופי מיד ושולחים בוואטסאפ - בלי לחכות לתשובה.
       </>
     ),
   },

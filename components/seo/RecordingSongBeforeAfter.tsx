@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -7,7 +7,7 @@ const BEFORE_SRC = "/audio/recording-raw-sample.mp3";
 const AFTER_SRC = "/audio/recording-clean-sample.mp3";
 
 const whatsappHref = buildWhatsAppHref({
-  text: "שלום, שמעתי את ההדגמה באתר — אשמח לשמוע עוד על הקלטת שיר באולפן.",
+  text: "שלום, שמעתי את ההדגמה באתר - אשמח לשמוע עוד על הקלטת שיר באולפן.",
   utm_source: "website",
   utm_campaign: "recording_song_before_after",
 });
@@ -81,7 +81,7 @@ export default function RecordingSongBeforeAfter() {
         <strong className="text-foreground">
           90% מהלקוחות שלנו אינם זמרים מקצועיים.
         </strong>{" "}
-        עיבוד הסאונד הדיגיטלי שלנו הוא תקן בתעשייה — לא הופך אתכם למחשב,
+        עיבוד הסאונד הדיגיטלי שלנו הוא תקן בתעשייה - לא הופך אתכם למחשב,
         אלא מוציא את הגרסה הכי טובה, נקייה ומחמיאה של הקול הטבעי שלכם, כדי
         שתוכלו להקשיב לעצמכם בגאווה.
       </p>
@@ -96,7 +96,7 @@ export default function RecordingSongBeforeAfter() {
           שלחו לנו הודעה ←
         </a>
         <p className="mt-2 text-xs text-muted-foreground">
-          בלי שום התחייבות — נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור לכם
+          בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור לכם
           לבחור את הפלייבק המתאים
         </p>
       </div>

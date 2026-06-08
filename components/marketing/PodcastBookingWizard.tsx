@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -11,12 +11,14 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
+import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
@@ -30,6 +32,7 @@ import {
   sumPodcastUpsells,
 } from "@/lib/data/podcast-booking-upsells";
 import { UPSELLS } from "@/lib/data/booking-calculator-services";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
@@ -101,6 +104,7 @@ const inputClass =
 
 export default function PodcastBookingWizard() {
   const [step, setStep] = useState(0);
+  useBookWizardStep("podcast", step);
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -257,6 +261,7 @@ export default function PodcastBookingWizard() {
                   ? "month"
                   : null,
           utmSource: readUtmSource() ?? "/book#podcast",
+          bookCategory: "podcast",
           includeTrustFooter: true,
         });
         const href = buildWhatsAppHref({
@@ -264,7 +269,7 @@ export default function PodcastBookingWizard() {
           utm_source: "website",
           utm_campaign: "podcast_booking_wizard",
         });
-        openWhatsAppLead(href);
+        openWhatsAppLead(href, { leadCategory: "podcast" });
         notifyLeadByEmail({
           formId: "podcast_booking_wizard",
           subject: "הזמנת פודקאסט",
@@ -301,6 +306,7 @@ export default function PodcastBookingWizard() {
                   ? "month"
                   : null,
           utmSource: readUtmSource() ?? "/book#podcast",
+          bookCategory: "podcast",
           includeTrustFooter: true,
         })
       : undefined;
@@ -317,6 +323,7 @@ export default function PodcastBookingWizard() {
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        bookCategory="podcast"
         onNewBooking={resetWizard}
       />
     );
@@ -325,26 +332,14 @@ export default function PodcastBookingWizard() {
   return (
     <div className="min-w-0 max-w-full space-y-8">
       {draft.restored && draft.savedAt && !draftDismissed ? (
-        <p className="rounded-lg border border-brand-red/20 bg-brand-red/5 px-4 py-2 text-xs text-muted-foreground">
-          שחזרנו טיוטה שמורה מ-
-          {new Date(draft.savedAt).toLocaleDateString("he-IL", {
-            day: "numeric",
-            month: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-          .{" "}
-          <button
-            type="button"
-            onClick={() => {
-              draft.clear();
-              setDraftDismissed(true);
-            }}
-            className="underline hover:text-brand-red"
-          >
-            נקה
-          </button>
-        </p>
+        <BookDraftRecoveryBanner
+          savedAt={draft.savedAt}
+          onClear={() => {
+            draft.clear();
+            setDraftDismissed(true);
+          }}
+          onDismiss={() => setDraftDismissed(true)}
+        />
       ) : null}
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת פודקאסט" />
@@ -389,7 +384,7 @@ export default function PodcastBookingWizard() {
           <div className="mt-6">
             <p className="mb-1 text-sm font-semibold text-foreground">כמה משתתפים בפרק?</p>
             <p className="mb-3 text-xs text-muted-foreground">
-              עד 2 משתתפים — כלול במחיר. כל משתתף נוסף:{" "}
+              עד 2 משתתפים - כלול במחיר. כל משתתף נוסף:{" "}
               <span className="font-medium text-foreground">
                 +{PODCAST_EXTRA_PARTICIPANT_PRICE} ₪
               </span>{" "}
@@ -461,7 +456,7 @@ export default function PodcastBookingWizard() {
             </div>
           ) : null}
 
-          {/* Comparison — mobile: selected package only; desktop: full table */}
+          {/* Comparison - mobile: selected package only; desktop: full table */}
           {selected ? (
             <div className="rounded-xl border border-border bg-surface p-4 md:hidden">
               <p className="mb-3 text-xs font-semibold text-muted-foreground">
@@ -514,7 +509,7 @@ export default function PodcastBookingWizard() {
                           </span>
                         ) : (
                           <span className="text-muted-foreground/40" aria-label="לא כלול">
-                            —
+                            -
                           </span>
                         )}
                       </td>
@@ -620,7 +615,7 @@ export default function PodcastBookingWizard() {
                 disabled={!form.termsAccepted}
                 socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
                 continueWhatsApp={{
-                  label: BOOKING_CTA.continue_chat,
+                  label: sendBookingWaCta(withVat(packageTotal)),
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{

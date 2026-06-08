@@ -33,7 +33,11 @@ import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+
+const bookCta = resolveServiceBookCta("podcast");
 
 const PODCAST_HUB_TOC = [
   { id: "value-prop-heading", label: "למה לבחור בנו", level: 2 as const },
@@ -105,7 +109,7 @@ const VALUE_PILLARS = [
   {
     emoji: "🎙️",
     title: "ציוד מקצועי ברמה גבוהה",
-    body: "מיקרופונים Shure & Rode, בידוד אקוסטי מלא, ו-3 חללי הקלטה לבחירה — הסאונד שלכם יישמע כמו רדיו, לא כמו שיחת זום.",
+    body: "מיקרופונים Shure & Rode, בידוד אקוסטי מלא, ו-3 חללי הקלטה לבחירה - הסאונד שלכם יישמע כמו רדיו, לא כמו שיחת זום.",
   },
   {
     emoji: "🤖",
@@ -115,7 +119,7 @@ const VALUE_PILLARS = [
   {
     emoji: "🎧",
     title: "ניסיון שטח מוכח",
-    body: "עשרות שנות עבודה על אודיו, מוזיקה ווידאו. לא רק \"עורכי פודקאסטים\" — אנשי מקצוע עם אוזן מאומנת שיודעים מתי משהו נשמע טוב.",
+    body: "עשרות שנות עבודה על אודיו, מוזיקה ווידאו. לא רק \"עורכי פודקאסטים\" - אנשי מקצוע עם אוזן מאומנת שיודעים מתי משהו נשמע טוב.",
   },
 ] as const;
 
@@ -137,12 +141,15 @@ export default function PodcastHubPageContent() {
       <ServicePageLayout
         {...heroProps}
         title="אולפן פודקאסט מקצועי במודיעין"
-        subtitle="סאונד מושלם. אפס מאמץ טכני. — אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם פרק הקלטת פודקאסט מוכן לספוטיפיי ויוטיוב."
+        subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם פרק הקלטת פודקאסט מוכן לספוטיפיי ויוטיוב."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
         scarcityLabel="פרק מוכן תוך 24 שעות"
         ctaLabel="קבעו הקלטה בוואטסאפ"
+        showBookCtaInHero={Boolean(bookCta)}
+        bookHref={bookCta?.bookHref}
+        bookLabel={bookCta?.bookLabel}
       >
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
@@ -156,11 +163,11 @@ export default function PodcastHubPageContent() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-semibold text-foreground">
-                  📍 האולפן במודיעין — אבל השירות ארצי
+                  📍 האולפן במודיעין - אבל השירות ארצי
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   לא מגיעים למודיעין? אולפן הפודקאסט הנייד מגיע אליכם לכל
-                  מקום — בית, משרד, אירוע, בכל רחבי הארץ.
+                  מקום - בית, משרד, אירוע, בכל רחבי הארץ.
                 </p>
               </div>
               <Link
@@ -186,7 +193,7 @@ export default function PodcastHubPageContent() {
                 id="value-prop-heading"
                 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                שיפור הקלטות ברמה אולפנית — בלי מאמץ
+                שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 ציוד Shure &amp; Rode, בידוד אקוסטי, וניקוי AI - פרק מוכן תוך 24
@@ -267,7 +274,7 @@ export default function PodcastHubPageContent() {
                 סוגי הקלטת פודקאסט
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                בוחרים את המסלול המתאים — ואנחנו מתאימים את ההפקה
+                בוחרים את המסלול המתאים - ואנחנו מתאימים את ההפקה
               </p>
             </header>
 
@@ -284,7 +291,7 @@ export default function PodcastHubPageContent() {
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 לחברות, מומחים, יועצים ויוצרי תוכן שרוצים לבנות נוכחות
-                דיגיטלית ברמה גבוהה — בלי צוות הפקה פנימי. הקלטת פודקאסט עם
+                דיגיטלית ברמה גבוהה - בלי צוות הפקה פנימי. הקלטת פודקאסט עם
                 צילום 4K, עריכה מקצועית ומסירה תוך 24 שעות.
               </p>
               <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -322,7 +329,7 @@ export default function PodcastHubPageContent() {
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 פודקאסט משפחתי הוא מזכרת שמלווה לדורות. מקליטים שיחה עם סבא,
-                מראיינים קרובי משפחה, או מתעדים זיכרונות — ויוצאים עם תוצר
+                מראיינים קרובי משפחה, או מתעדים זיכרונות - ויוצאים עם תוצר
                 שלא יסולא בפז. מתאים גם לאירועים מיוחדים כמו חתונות ובני
                 מצווה.
               </p>
@@ -331,7 +338,7 @@ export default function PodcastHubPageContent() {
                   href="/podcast/podcast-with-grandpa"
                   className="text-sm font-semibold text-brand-red hover:underline"
                 >
-                  פודקאסט עם סבא וסבתא — פרטים נוספים ←
+                  פודקאסט עם סבא וסבתא - פרטים נוספים ←
                 </Link>
               </div>
             </article>
@@ -382,7 +389,7 @@ export default function PodcastHubPageContent() {
                 id="pricing-heading"
                 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                חבילות הפקת פודקאסט — מחיר שקוף
+                חבילות הפקת פודקאסט - מחיר שקוף
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 אולפן פודקאסט במודיעין. לפני מע״מ (+18%). ללא הפתעות.
@@ -488,9 +495,9 @@ export default function PodcastHubPageContent() {
                 הקלטה ביתית? אנחנו מנקים אותה
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                גם אם הקלטתם בזום, בחדר רועש, בטלפון — או שיש לכם פודקאסט ישן,
+                גם אם הקלטתם בזום, בחדר רועש, בטלפון - או שיש לכם פודקאסט ישן,
                 הרצאה או קלטת ארכיון שרוצים לשפר: שיפור ושחזור סאונד ב-AI + עריכה
-                ידנית. שולחים קובץ ומקבלים גרסה משופרת תוך 24–48 שעות.
+                ידנית. שולחים קובץ ומקבלים גרסה משופרת תוך 24-48 שעות.
               </p>
             </header>
             <div className="mt-8">
@@ -519,7 +526,7 @@ export default function PodcastHubPageContent() {
                 id="samples-heading"
                 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                האזינו לדוגמאות — שיפור הקלטות בפעולה
+                האזינו לדוגמאות - שיפור הקלטות בפעולה
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
                 פתיחת פודקאסט וקול אחרי עריכה ושיפור סאונד בבינה מלאכותית.
@@ -590,7 +597,7 @@ export default function PodcastHubPageContent() {
           <section id="faq-heading" aria-label="שאלות נפוצות">
             <FAQAccordion
               items={[...PODCAST_HUB_FAQS]}
-              title="שאלות נפוצות — הקלטת פודקאסט מודיעין"
+              title="שאלות נפוצות - הקלטת פודקאסט מודיעין"
               className="py-0"
             />
           </section>
@@ -610,7 +617,7 @@ export default function PodcastHubPageContent() {
               מוכנים להתחיל את הפודקאסט שלכם?
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-              אולפן הפודקאסט המקצועי במודיעין זמין לכם. תפסיקו לחשוב על זה —
+              אולפן הפודקאסט המקצועי במודיעין זמין לכם. תפסיקו לחשוב על זה -
               תתחילו לדבר.
             </p>
             <ul className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
@@ -629,14 +636,15 @@ export default function PodcastHubPageContent() {
             <p className="mt-1 text-sm text-muted-foreground">
               {PODCAST_HUB_STARTING_PRICE_NOTE}
             </p>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
-            >
-              קבעו הקלטה בוואטסאפ ←
-            </a>
+            {bookCta ? (
+              <HubDualCta
+                className="mt-7"
+                whatsappHref={whatsappHref}
+                whatsappLabel="קבעו הקלטה בוואטסאפ ←"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+              />
+            ) : null}
           </section>
 
           {/* ── RELATED TRACKS ─────────────────────────────────── */}
@@ -707,7 +715,7 @@ export default function PodcastHubPageContent() {
           <div className="rounded-xl border border-border bg-surface p-5">
             <p className="font-semibold text-foreground">יש לכם פרק ישן או הקלטה פגומה?</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              שחזור סאונד בעזרת AI — מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
+              שחזור סאונד בעזרת AI - מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
               <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
                 שחזור סאונד ב-AI ←
               </Link>
