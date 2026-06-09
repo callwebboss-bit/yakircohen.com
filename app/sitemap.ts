@@ -193,5 +193,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
-  return [...STATIC_ROUTES, ...blogRoutes];
+  const deployDate = new Date();
+  return [...STATIC_ROUTES, ...blogRoutes].map((entry) => ({
+    ...entry,
+    lastModified: entry.lastModified ?? deployDate,
+  }));
 }
