@@ -39,6 +39,20 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // www → canonical (no-www). Must come first so all other rules apply to the clean host.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.yakircohen.com" }],
+        destination: "https://yakircohen.com/:path*",
+        permanent: true,
+      },
+      // Strip WooCommerce ?add-to-cart= parameter that Google still crawls from the old WP site.
+      {
+        source: "/:path*",
+        has: [{ type: "query", key: "add-to-cart" }],
+        destination: "/:path*",
+        permanent: true,
+      },
       ...getLegacyRedirects(),
       // Strip .html extensions (produced by Pagefind crawling .next/server/app)
       {
