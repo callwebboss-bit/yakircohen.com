@@ -14,6 +14,7 @@ import {
 } from "@/lib/data/podcast-calculator";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -96,13 +97,22 @@ export default function PodcastCalculator({ className }: { className?: string })
       blocks > 0
         ? `זמן נוסף: +${blocks * 30} דק׳ (${formatCurrency(blocks * PODCAST_OVERTIME_RATE)})`
         : "";
-    return [
+    const base = [
       buildServiceWhatsAppText(`חבילת ${pkg.name}`),
       overtime,
       `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
     ]
       .filter(Boolean)
       .join("\n");
+    return appendYcLeadTag(base, {
+      service: "podcast",
+      price: total,
+      source: "/podcast",
+      step: 2,
+      intent: "continue_chat",
+      form: "podcast_calculator",
+      package: pkg.id,
+    });
   }, [pkg, blocks, total]);
 
   const whatsappHref = useMemo(
@@ -115,6 +125,7 @@ export default function PodcastCalculator({ className }: { className?: string })
       formId: "podcast_calculator",
       subject: "ליד חדש - פודקאסט",
       body: waText,
+      crossSell: { bookCategory: "podcast" },
     });
     openWhatsAppLead(whatsappHref);
   }, [waText, whatsappHref]);

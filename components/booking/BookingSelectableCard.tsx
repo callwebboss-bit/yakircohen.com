@@ -122,7 +122,7 @@ export default function BookingSelectableCard({
       ) : null}
 
       {emoji ? (
-        <span className={cn("text-2xl", compact && "text-3xl")} aria-hidden="true">
+        <span className={cn("text-2xl", compact && "text-4xl sm:text-5xl")} aria-hidden="true">
           {emoji}
         </span>
       ) : null}

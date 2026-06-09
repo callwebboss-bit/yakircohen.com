@@ -57,6 +57,8 @@ export default function CallbackLeadForm({
       serviceLabel: service || "פנייה מהאתר",
       customerNeed: customerNeed.trim() || null,
       source,
+      closerServiceId: "recording",
+      ycForm: "callback_lead_form",
     });
 
     const href = buildWhatsAppHref({

@@ -44,7 +44,7 @@ export default function MobileStudioExampleVideos({
         >
           <p className="text-sm font-semibold text-foreground">{video.title}</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            סרטון בקרוב  -  בינתיים אפשר לצפות בדוגמאות בערוץ YouTube שלנו.
+            סרטון בקרוב - בינתיים אפשר לצפות בדוגמאות בערוץ YouTube שלנו.
           </p>
           <a
             href={YOUTUBE_CHANNEL_URL}

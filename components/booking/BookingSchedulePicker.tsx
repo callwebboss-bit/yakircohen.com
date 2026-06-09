@@ -16,6 +16,8 @@ type BookingSchedulePickerProps = {
   onDateChange: (value: string) => void;
   onTimeChange: (value: string) => void;
   minDate: string;
+  /** תאריך ושעה אופציונליים - נתאם בשיחה */
+  dateOptional?: boolean;
   errors?: {
     scheduleWindow?: string;
     date?: string;
@@ -31,6 +33,7 @@ export default function BookingSchedulePicker({
   onDateChange,
   onTimeChange,
   minDate,
+  dateOptional = true,
   errors = {},
 }: BookingSchedulePickerProps) {
   const groupId = useId();
@@ -85,7 +88,7 @@ export default function BookingSchedulePicker({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label htmlFor={dateId} className="mb-1.5 block text-xs font-semibold">
-              תאריך *
+              תאריך{dateOptional ? " (אופציונלי)" : " *"}
             </label>
             <input
               id={dateId}
@@ -105,7 +108,7 @@ export default function BookingSchedulePicker({
           </div>
           <div>
             <label htmlFor={timeId} className="mb-1.5 block text-xs font-semibold">
-              שעה *
+              שעה{dateOptional ? " (אופציונלי)" : " *"}
             </label>
             <input
               id={timeId}

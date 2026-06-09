@@ -7,12 +7,16 @@ import type { BookCategoryId } from "@/lib/book-url";
 import { BOOK_THANK_YOU_SERVICE } from "@/lib/data/book-closer-map";
 import { BOOKING_POST_SUBMIT } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
+import BookingCrossSellSection from "@/components/booking/BookingCrossSellSection";
 
 type BookingSuccessPanelProps = {
   intent?: "continue_chat" | "start_now";
   whatsappHref: string;
   onNewBooking: () => void;
   bookCategory?: BookCategoryId;
+  routeId?: string | null;
+  recordingType?: string | null;
+  atmosphere?: string | null;
   className?: string;
 };
 
@@ -21,11 +25,21 @@ export default function BookingSuccessPanel({
   whatsappHref,
   onNewBooking,
   bookCategory,
+  routeId,
+  recordingType,
+  atmosphere,
   className,
 }: BookingSuccessPanelProps) {
   const copy = BOOKING_POST_SUBMIT[intent];
+  const thankYouParams = new URLSearchParams();
+  if (bookCategory) {
+    thankYouParams.set("service", BOOK_THANK_YOU_SERVICE[bookCategory]);
+  }
+  if (routeId) thankYouParams.set("route", routeId);
+  if (recordingType) thankYouParams.set("recordingType", recordingType);
+  if (atmosphere) thankYouParams.set("atmosphere", atmosphere);
   const thankYouHref = bookCategory
-    ? `/thank-you?service=${BOOK_THANK_YOU_SERVICE[bookCategory]}`
+    ? `/thank-you?${thankYouParams.toString()}`
     : null;
 
   useEffect(() => {
@@ -72,6 +86,13 @@ export default function BookingSuccessPanel({
           {copy.newBookingLabel}
         </button>
       </div>
+      <BookingCrossSellSection
+        bookCategory={bookCategory}
+        routeId={routeId}
+        recordingType={recordingType}
+        atmosphere={atmosphere}
+        className="text-center sm:text-right"
+      />
     </div>
   );
 }

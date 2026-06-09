@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
+import ClientMaterialsLiabilityBanner from "@/components/seo/ClientMaterialsLiabilityBanner";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import GrowthSlideshowSection from "@/components/seo/GrowthSlideshowSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -8,6 +10,7 @@ import ServicePagePricingSection from "@/components/services/ServicePagePricingS
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+import { GROWTH_SLIDESHOW_FAQS } from "@/lib/data/growth-slideshow-page";
 import {
   SLIDESHOW_ACCEPTED_FORMATS,
   SLIDESHOW_AUDIENCES,
@@ -182,6 +185,8 @@ export default function PhotoSlideshowPageContent() {
           </ul>
         </section>
 
+        <GrowthSlideshowSection />
+
         <section aria-labelledby="process-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2
@@ -203,6 +208,9 @@ export default function PhotoSlideshowPageContent() {
                 <div>
                   <h3 className="font-semibold text-foreground">{step.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{step.body}</p>
+                  {step.step === "1" ? (
+                    <ClientMaterialsLiabilityBanner className="mt-4" />
+                  ) : null}
                 </div>
               </li>
             ))}
@@ -354,8 +362,8 @@ export default function PhotoSlideshowPageContent() {
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
-            items={[...service.faqs]}
-            title="שאלות נפוצות  -  מצגת תמונות לאירוע"
+            items={[...service.faqs, ...GROWTH_SLIDESHOW_FAQS]}
+            title="שאלות נפוצות  -  מצגת תמונות ומצגת גדילה"
             className="py-0"
           />
         ) : null}

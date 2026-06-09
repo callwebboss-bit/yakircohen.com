@@ -116,6 +116,7 @@ function renderCategoryContent(
     initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>;
     filterPreset?: Partial<FilterAnswers>;
     emotionalLabel: string | null;
+    routeId: string | null;
     skipStudioGate: boolean;
   },
 ): ReactNode {
@@ -126,28 +127,45 @@ function renderCategoryContent(
           initialFilterPreset={options.filterPreset}
           skipGate={options.skipStudioGate}
           initialEmotionalLabel={options.emotionalLabel}
+          routeId={options.routeId}
         />
       );
     case "podcast":
-      return <PodcastBookingWizard />;
+      return (
+        <PodcastBookingWizard
+          routeId={options.routeId}
+          emotionalLabel={options.emotionalLabel}
+        />
+      );
     case "singer":
       return (
         <SingerAmplificationBookingWizard
           initialPackageId={options.initialSingerPackageId}
+          routeId={options.routeId}
         />
       );
     case "events":
-      return <EventsBookingWizard />;
+      return <EventsBookingWizard routeId={options.routeId} />;
     case "dj":
-      return <DjEventsCalculator />;
+      return <DjEventsCalculator routeId={options.routeId} />;
     case "photography":
-      return <PhotographyCalculator />;
+      return <PhotographyCalculator routeId={options.routeId} />;
     case "clips":
-      return <ClipsBookingForm />;
+      return <ClipsBookingForm routeId={options.routeId} />;
     case "academy":
-      return <AcademyBookingWizard initialEmotionalLabel={options.emotionalLabel} />;
+      return (
+        <AcademyBookingWizard
+          initialEmotionalLabel={options.emotionalLabel}
+          routeId={options.routeId}
+        />
+      );
     case "online":
-      return <OnlineRestoreBookingPanel initialEmotionalLabel={options.emotionalLabel} />;
+      return (
+        <OnlineRestoreBookingPanel
+          initialEmotionalLabel={options.emotionalLabel}
+          routeId={options.routeId}
+        />
+      );
     default:
       return null;
   }
@@ -267,6 +285,7 @@ export default function BookPageSections() {
               initialSingerPackageId,
               filterPreset,
               emotionalLabel,
+              routeId: activeRouteId,
               skipStudioGate,
             })}
           </div>

@@ -21,6 +21,7 @@ import {
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
@@ -148,6 +149,9 @@ function buildQuizWhatsAppMessage(params: {
     timing: params.timing,
     intent: params.timing === "future" ? "continue_chat" : "start_now",
     source: "/contact",
+    closerServiceId: closerServiceForContactQuiz(params.service),
+    ycForm: "contact_quiz",
+    ycIntent: params.timing === "future" ? "continue_chat" : "start_now",
   });
 }
 
@@ -250,12 +254,23 @@ export default function ContactPageContent() {
           utm_campaign: "contact_quiz_submit",
         });
         openWhatsAppLead(href);
+        const contactCrossSellCategory =
+          service === "studio" || service === "voice"
+            ? "studio"
+            : service === "clip"
+              ? "clips"
+              : service === "other"
+                ? undefined
+                : service;
         notifyLeadByEmail({
           formId: "contact_quiz",
           subject: "ליד חדש - יצירת קשר",
           body: waText,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
+          crossSell: contactCrossSellCategory
+            ? { bookCategory: contactCrossSellCategory }
+            : undefined,
         });
         setSubmitted(true);
       },

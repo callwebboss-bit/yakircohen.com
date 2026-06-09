@@ -122,21 +122,21 @@ export const RECORDING_ATMOSPHERES: readonly {
 }[] = [
   {
     id: "intimate",
-    emoji: "🕯️",
-    title: "מרגיע ואינטימי",
-    subtitle: "קול רך, עמוק ומרגש",
+    emoji: "🤫",
+    title: "רגוע ואינטימי",
+    subtitle: "דגש על רגש, דמעות, משפחתיות",
   },
   {
     id: "party",
     emoji: "🎉",
     title: "אנרגיית מסיבה",
-    subtitle: "חיים, שמחה ואנרגיה",
+    subtitle: "קצב גבוה, צחוקים, להרים לאירוע",
   },
   {
     id: "focused",
-    emoji: "🎯",
-    title: "ריכוז מקצועי",
-    subtitle: "סשן נטו, תוצאה מקסימלית",
+    emoji: "🎧",
+    title: "ריכוז מקצועי שיא",
+    subtitle: "סשן ממוקד, לעבוד כמו מקצוענים",
   },
 ] as const;
 
@@ -314,6 +314,39 @@ export const PARTICIPANTS_OPTIONS = [
 
 /** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
 export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
+
+/** קיבולת אולפן להקלטה בו-זמנית */
+export const STUDIO_RECORDING_MAX = 10;
+
+/** מקסימום בפריים וידאו */
+export const STUDIO_FILMING_MAX = 5;
+
+/** מעל מספר זה — מציעים חיסכון בצמצום מקליטים */
+export const STUDIO_SAVINGS_TIP_THRESHOLD = 5;
+
+/** חבילות אשף שזכאיות למחירון קבוצתי 190/95 */
+export const GROUP_PRICING_ELIGIBLE_PACKAGES = [
+  "remote",
+  "classic",
+  "pro",
+  "viral",
+  "all_in",
+] as const satisfies readonly StudioPackageId[];
+
+/** סוגי הקלטה ללא מחירון קבוצתי אוטומטי */
+export const GROUP_PRICING_INELIGIBLE_RECORDING_TYPES = [
+  "song_promotion_consultation",
+] as const satisfies readonly RecordingTypeId[];
+
+/** upgrades עם מרכיב וידאו/קליפ */
+export const STUDIO_VIDEO_UPGRADE_IDS = [
+  "bts",
+  "performance_clip",
+  "add_clip",
+] as const satisfies readonly StudioUpgradeId[];
+
+/** חבילות עם קליפ/וידאו מובנה */
+export const STUDIO_VIDEO_PACKAGE_IDS = ["pro", "viral", "all_in"] as const satisfies readonly StudioPackageId[];
 
 export type ScheduleWindowId = "weekdays" | "motzash";
 

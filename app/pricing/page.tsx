@@ -28,7 +28,7 @@ export default function PricingHubPage() {
           מחירון מרכזי
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">
-          {PRICING_FRAMING_LINE} {PRICES_EXCLUDE_VAT_NOTE}. ליד כל שורה מופיע גם המחיר כולל מע״מ.
+          {PRICING_FRAMING_LINE} המחירים <strong>החל מ-</strong> ({PRICES_EXCLUDE_VAT_NOTE}). ליד כל שורה מופיע גם המחיר כולל מע״מ.
         </p>
       </section>
 

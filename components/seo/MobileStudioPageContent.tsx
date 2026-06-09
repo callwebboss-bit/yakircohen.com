@@ -77,9 +77,9 @@ export default function MobileStudioPageContent() {
             איך זה עובד? הסוד הוא באקוסטיקה
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            רבים שואלים: &quot;איך החדר שלי יהפוך לאולפן?&quot; התשובה טמונה
+            רבים שואלים: "איך החדר שלי יהפוך לאולפן?" התשובה טמונה
             בציוד. אנחנו מגיעים עם פנלים אקוסטיים ניידים, מסכי בידוד למיקרופונים
-            (Shields) וציוד קצה  -  כרטיסי קול ומיקרופונים מהשורה הראשונה.
+            (Shields) וציוד קצה - כרטיסי קול ומיקרופונים מהשורה הראשונה.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
             תוך פחות מ-30 דקות, כל חלל שקט הופך לסביבת הקלטה מקצועית עם מינימום
@@ -122,7 +122,7 @@ export default function MobileStudioPageContent() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             אין צורך לבזבז שעות בדרכים לאולפן. שירות האולפן הנייד נולד למי
-            שרוצה להקליט שיר או קליפ בסביבה הטבעית  -  בבית, במשרד, בבית הספר או
+            שרוצה להקליט שיר או קליפ בסביבה הטבעית - בבית, במשרד, בבית הספר או
             במרכז קהילתי. אנחנו מביאים את הטכנולוגיה והניסיון של האולפן
             המקצועי אליכם, בלי להתפשר על איכות הסאונד.
           </p>
@@ -215,7 +215,7 @@ export default function MobileStudioPageContent() {
             פתרון נוסף: קליפ מסמארטפון
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            לא מסתדר שנגיע? אתם מצלמים ומקליטים בעצמכם  -  ואנחנו עורכים הכול
+            לא מסתדר שנגיע? אתם מצלמים ומקליטים בעצמכם - ואנחנו עורכים הכול
             לקליפ מקצועי. מתאים למשפחות, כיתות וקבוצות חברים.
           </p>
           <Link
@@ -235,7 +235,7 @@ export default function MobileStudioPageContent() {
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
-              מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00  - {" "}
+              מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00 -{" "}
               <a
                 href={`tel:${CONTACT_PHONE_E164}`}
                 className="font-medium text-brand-red hover:underline"
@@ -289,7 +289,7 @@ export default function MobileStudioPageContent() {
             בדקו זמינות לאולפן נייד
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            שלחו מיקום ותאריך בוואטסאפ  -  נחזור עם זמינות והצעת מחיר.
+            שלחו מיקום ותאריך בוואטסאפ - נחזור עם זמינות והצעת מחיר.
           </p>
           <a
             href={whatsappHref}

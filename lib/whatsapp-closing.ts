@@ -67,6 +67,18 @@ export type ClosingMessageOptions = {
   ycForm?: string | null;
   /** מטרת הפרויקט מ-filter questions */
   ycPurpose?: "professional" | "personal" | "gift" | null;
+  ycAdults?: number | null;
+  ycChildren?: number | null;
+  ycRecorders?: number | null;
+  ycScenario?: "pairs" | "solo" | "group" | "save5" | null;
+  ycAmbiguous?: boolean | null;
+  ycRoute?: string | null;
+  ycEmotional?: string | null;
+  ycRecordingType?: string | null;
+  ycMobileGeo?: string | null;
+  ycAtmosphere?: string | null;
+  /** שורות נוספות (משתתפים, מחירון) — מוכנסות לפני פרטים */
+  extraBlocks?: readonly string[];
 };
 
 const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
@@ -105,6 +117,17 @@ export function buildClosingMessage({
   ycIntent,
   ycForm,
   ycPurpose,
+  ycAdults,
+  ycChildren,
+  ycRecorders,
+  ycScenario,
+  ycAmbiguous,
+  ycRoute,
+  ycEmotional,
+  ycRecordingType,
+  ycMobileGeo,
+  ycAtmosphere,
+  extraBlocks = [],
 }: ClosingMessageOptions): string {
   const lines: string[] = [];
 
@@ -147,6 +170,13 @@ export function buildClosingMessage({
   lines.push(`*שם:* ${contact.name.trim()}`);
   lines.push(`*טלפון:* ${contact.phone.trim()}`);
 
+  for (const block of extraBlocks) {
+    if (block.trim()) {
+      lines.push("");
+      lines.push(block.trim());
+    }
+  }
+
   if (summaryLines.length > 0) {
     lines.push("");
     lines.push("*פרטים:*");
@@ -181,6 +211,16 @@ export function buildClosingMessage({
       form: ycForm ?? null,
       timing: ycTiming,
       purpose: ycPurpose ?? null,
+      adults: ycAdults ?? null,
+      children: ycChildren ?? null,
+      recorders: ycRecorders ?? null,
+      scenario: ycScenario ?? null,
+      ambiguous: ycAmbiguous ?? null,
+      route: ycRoute ?? null,
+      emotional: ycEmotional ?? null,
+      recordingType: ycRecordingType ?? null,
+      mobileGeo: ycMobileGeo ?? null,
+      atmosphere: ycAtmosphere ?? null,
     });
   }
 

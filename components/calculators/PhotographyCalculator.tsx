@@ -101,7 +101,15 @@ function SelectableRow({
   );
 }
 
-export default function PhotographyCalculator({ className }: { className?: string }) {
+type PhotographyCalculatorProps = {
+  className?: string;
+  routeId?: string | null;
+};
+
+export default function PhotographyCalculator({
+  className,
+  routeId = null,
+}: PhotographyCalculatorProps) {
   const [hours, setHours] = useState(8);
   const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
@@ -170,7 +178,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
     return buildConsultWhatsAppHref(buildSummaryLines(), {
       name: sanitizeLeadText(contactForm.name, 60),
       phone: displayPhone,
-    });
+    }, { bookCategory: "photography", source: "/book#photography" });
   }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, contactForm]);
 
   const formValid =
@@ -194,6 +202,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
       utmSource: readUtmSource() ?? "/book#photography",
       bookCategory: "photography",
       includeTrustFooter: true,
+      ycForm: "photography_calculator",
     });
   }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
 
@@ -229,6 +238,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
             utmSource: readUtmSource() ?? "/book#photography",
             bookCategory: "photography",
             includeTrustFooter: true,
+            ycForm: "photography_calculator",
           });
           const href = buildWhatsAppHref({ text: body, utm_campaign: "photography_calculator" });
           openWhatsAppLead(href, { leadCategory: "photography" });
@@ -238,6 +248,7 @@ export default function PhotographyCalculator({ className }: { className?: strin
             body,
             name: sanitizeLeadText(contactForm.name, 60),
             phone: displayPhone,
+            crossSell: { bookCategory: "photography", routeId },
           });
         },
       );

@@ -1,9 +1,13 @@
 ﻿import Link from "next/link";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
+import ClientMaterialsLiabilityBanner from "@/components/seo/ClientMaterialsLiabilityBanner";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import GrowthSlideshowSection from "@/components/seo/GrowthSlideshowSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
+import { GROWTH_SLIDESHOW_FAQS } from "@/lib/data/growth-slideshow-page";
 import { VIDEO_PRESENTATION_USE_CASES } from "@/lib/data/video-presentation-page";
 import { getVideoService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -12,6 +16,8 @@ import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 const service = getVideoService("video-presentation");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
+
+const combinedFaqs = [...service.faqs, ...GROWTH_SLIDESHOW_FAQS];
 
 export default function VideoPresentationPageContent() {
   return (
@@ -32,7 +38,7 @@ export default function VideoPresentationPageContent() {
             מתי מצגת וידאו עובדת הכי טוב?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מצגת טובה לא רק &quot;מחליקה תמונות&quot; - היא בונה סיפור: פתיחה שתופסת,
+            מצגת טובה לא רק "מחליקה תמונות" - היא בונה סיפור: פתיחה שתופסת,
             קצב שמחזיק את הקהל, וסיום שמשאיר רגש. אנחנו מלווים מתסריט ועד קובץ מוכן
             להקרנה באירוע או לשיתוף דיגיטלי.
           </p>
@@ -49,6 +55,10 @@ export default function VideoPresentationPageContent() {
             </article>
           ))}
         </div>
+
+        <GrowthSlideshowSection />
+
+        <ClientMaterialsLiabilityBanner />
 
         <div className="rounded-2xl border border-brand-red/25 bg-brand-red/5 p-6 text-center">
           <p className="text-sm font-semibold text-foreground">רוצים גם צילום ועריכה מלאה?</p>
@@ -78,6 +88,15 @@ export default function VideoPresentationPageContent() {
           galleryLabel="מצגות וידאו"
           galleryLayout="masonry"
         />
+
+        {combinedFaqs.length > 0 ? (
+          <FAQAccordion
+            items={combinedFaqs}
+            title="שאלות נפוצות - מצגות וידאו ומצגת גדילה"
+            className="py-0"
+          />
+        ) : null}
+
         <PageRelatedFooter pathname="/video/presentation" />
       </div>
     </ServicePageLayout>

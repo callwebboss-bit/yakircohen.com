@@ -6,7 +6,7 @@ import {
 } from "@/lib/data/pricing";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
-import { appendYcLeadTag } from "@/lib/yc-lead-tag";
+import { appendYcLeadTag, emotionalLabelToId } from "@/lib/yc-lead-tag";
 
 export type AudienceCardVariant = "gold" | "neutral" | "luxury" | "academy" | "online";
 
@@ -313,11 +313,14 @@ export function buildFastWhatsAppMessage(
     ? `\nמה שחשוב לי: ${emotionalAnswer}`
     : "";
   const base = `${route.whatsappFastMessageBase}${emotionLine}\n${priceLine}\nאשמח לשמוע על האפשרויות ושדרוגים.`;
+  const emotionalId = emotionalLabelToId(emotionalAnswer);
   return appendYcLeadTag(base, {
     service: route.closerServiceId,
     price: route.priceExVat,
     source: route.utm_campaign,
     step: 1,
+    route: route.id,
+    emotional: emotionalId,
   });
 }
 

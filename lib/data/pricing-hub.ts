@@ -1,13 +1,11 @@
 import {
   EVENT_ATTRACTION_FROM_NIS,
-  formatNis,
   PODCAST_EDITING_PER_HOUR_NIS,
   PRICES_EXCLUDE_VAT_NOTE,
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
-  withVat,
 } from "@/lib/data/pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 
 export type PricingHubSection = {
@@ -71,10 +69,37 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       { label: "4+ אטרקציות + מתנה", exVat: getExVat("event_attraction_4"), note: "מצגת תמונות חינם" },
     ],
   },
+  {
+    id: "slideshows",
+    title: "מצגות תמונות",
+    description: "מצגות קולנועיות ומצגת גדילה ב-AI",
+    href: "/photo-slideshow",
+    bookHref: "/book",
+    rows: [
+      { label: "מצגת תמונות קולנועית", exVat: getExVat("cinematic_slideshow") },
+      { label: "מצגת גדילה AI — 30 תמונות", exVat: getExVat("growth_slideshow_30") },
+      { label: "מצגת גדילה AI — 50 תמונות", exVat: getExVat("growth_slideshow_50") },
+      { label: "מצגת גדילה AI — 70 תמונות", exVat: getExVat("growth_slideshow_70") },
+      { label: "מצגת גדילה AI — 100 תמונות", exVat: getExVat("growth_slideshow_100") },
+    ],
+  },
+  {
+    id: "online",
+    title: "שירותי AI מקוונים",
+    description: "עריכה ושחזור קול מרחוק",
+    href: "/online/online-ai-pricing",
+    bookHref: "/book#online",
+    rows: [
+      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
+      { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
+      { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
+      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
+    ],
+  },
 ] as const;
 
 export function formatHubPriceRow(exVat: number): string {
-  return `${formatNis(exVat)} · כולל מע״מ ${formatNis(withVat(exVat))}`;
+  return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
 }
 
 export { PRICES_EXCLUDE_VAT_NOTE };

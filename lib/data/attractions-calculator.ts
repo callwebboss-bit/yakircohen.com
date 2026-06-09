@@ -1,4 +1,5 @@
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
 export type GeoKey = "center" | "north_south" | "eilat";
 
@@ -324,7 +325,15 @@ export function buildAttractionsOrderWhatsApp(params: {
     "אישור: ההזמנה נשלחה מהאתר. מחיר סופי לאחר אישור זמינות.",
   ];
 
-  return lines.filter((line) => line !== null).join("\n");
+  const body = lines.filter((line) => line !== null).join("\n");
+  return appendYcLeadTag(body, {
+    service: "effects_only",
+    price: params.total,
+    source: "/events/attractions",
+    step: 3,
+    intent: "start_now",
+    form: "attractions_calculator",
+  });
 }
 
 function bundlePriceLabel(price: number, count: number): string {

@@ -7,6 +7,7 @@ import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { sanitizeLeadText, type ValidationResult } from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -137,31 +138,48 @@ export default function AcademyTrialForm() {
       const locationLabel =
         LOCATION_OPTIONS.find((o) => o.value === form.location)?.label ?? form.location;
 
-      const lines: (string | null)[] = [
-        `בקשה לשיעור ניסיון עברית`,
-        `מחיר: 500 ש"ח`,
-        "",
-        `שם: ${sanitizeLeadText(form.name.trim(), 60)}`,
-        `טלפון: ${form.phone.trim()}`,
-        `אימייל: ${form.email.trim()}`,
-        `רמת עברית: ${levelLabel}`,
-        `מועד מועדף: ${form.preferredDate} בשעה ${form.preferredTime}`,
-        `מיקום: ${locationLabel}`,
-        "",
-        form.goal.trim()
-          ? `מטרת הלמוד: ${sanitizeLeadText(form.goal.trim(), 300)}`
-          : null,
-        form.additionalInfo.trim()
-          ? `מידע נוסף: ${sanitizeLeadText(form.additionalInfo.trim(), 300)}`
-          : null,
-        form.notes.trim()
-          ? `הערות: ${sanitizeLeadText(form.notes.trim(), 300)}`
-          : null,
-        "",
-        "מקור: /academy/ulpan",
-      ];
-
-      const message = lines.filter(Boolean).join("\n");
+      const message = buildClosingMessage({
+        serviceLabel: "שיעור ניסיון עברית באולפן",
+        packageLabel: "שיעור ניסיון",
+        contact: {
+          name: sanitizeLeadText(form.name.trim(), 60),
+          phone: form.phone.trim(),
+        },
+        intent: "start_now",
+        priceExVat: 500,
+        summaryLines: [
+          { label: "אימייל", value: form.email.trim() },
+          { label: "רמת עברית", value: levelLabel },
+          {
+            label: "מועד מועדף",
+            value: `${form.preferredDate} בשעה ${form.preferredTime}`,
+          },
+          { label: "מיקום", value: locationLabel },
+          ...(form.goal.trim()
+            ? [
+                {
+                  label: "מטרת הלמוד",
+                  value: sanitizeLeadText(form.goal.trim(), 300),
+                },
+              ]
+            : []),
+          ...(form.additionalInfo.trim()
+            ? [
+                {
+                  label: "מידע נוסף",
+                  value: sanitizeLeadText(form.additionalInfo.trim(), 300),
+                },
+              ]
+            : []),
+          ...(form.notes.trim()
+            ? [{ label: "הערות", value: sanitizeLeadText(form.notes.trim(), 300) }]
+            : []),
+        ],
+        source: "/academy/ulpan",
+        closerServiceId: "academy",
+        ycForm: "academy_trial_lesson",
+        ycIntent: "start_now",
+      });
 
       const href = buildWhatsAppHref({
         text: message,
@@ -175,6 +193,7 @@ export default function AcademyTrialForm() {
         body: message,
         name: form.name.trim(),
         phone: form.phone.trim(),
+        crossSell: { bookCategory: "academy" },
       });
       setSubmitting(false);
       setSubmitted(true);

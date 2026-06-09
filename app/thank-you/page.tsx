@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import ThankYouCrossSell from "@/components/booking/ThankYouCrossSell";
 import { buildBookHref } from "@/lib/book-url";
 import { THANK_YOU_TO_BOOK_CATEGORY } from "@/lib/data/book-closer-map";
 import { constructMetadata } from "@/lib/metadata";
@@ -122,11 +123,14 @@ const DEFAULT_WA_HREF = buildWhatsAppHref({
 export default async function ThankYouPage({
   searchParams,
 }: {
-  searchParams: Promise<{ service?: string }>;
+  searchParams: Promise<{ service?: string; route?: string; recordingType?: string; atmosphere?: string }>;
 }) {
   const params = await searchParams;
   const serviceId = isServiceId(params.service) ? params.service : "studio";
   const content = SERVICE_CONTENT[serviceId];
+  const routeId = params.route?.trim() || null;
+  const recordingType = params.recordingType?.trim() || null;
+  const atmosphere = params.atmosphere?.trim() || null;
 
   const retryWaHref = buildWhatsAppHref({
     text: buildServiceWhatsAppText(content.title),
@@ -165,6 +169,13 @@ export default async function ThankYouPage({
             ))}
           </ol>
         </div>
+
+        <ThankYouCrossSell
+          service={serviceId}
+          route={routeId}
+          recordingType={recordingType}
+          atmosphere={atmosphere}
+        />
 
         <div className="mt-6 space-y-3">
           <a

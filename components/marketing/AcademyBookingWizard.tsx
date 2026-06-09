@@ -37,10 +37,12 @@ const TOPICS = [
 
 type AcademyBookingWizardProps = {
   initialEmotionalLabel?: string | null;
+  routeId?: string | null;
 };
 
 export default function AcademyBookingWizard({
   initialEmotionalLabel,
+  routeId = null,
 }: AcademyBookingWizardProps) {
   const [planId, setPlanId] = useState(PRIVATE_SESSION_PLANS[1]?.id ?? PRIVATE_SESSION_PLANS[0].id);
   const [topic, setTopic] = useState(initialEmotionalLabel ?? "");
@@ -72,6 +74,7 @@ export default function AcademyBookingWizard({
     utmSource: readUtmSource(),
     bookCategory: "academy",
     includeTrustFooter: true,
+    ycForm: "academy_booking",
   });
 
   function scrollToFirstError(errs: Record<string, string>) {
@@ -120,6 +123,7 @@ export default function AcademyBookingWizard({
           utmSource: readUtmSource(),
           bookCategory: "academy",
           includeTrustFooter: true,
+          ycForm: "academy_booking",
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -133,6 +137,7 @@ export default function AcademyBookingWizard({
           body,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
+          crossSell: { bookCategory: "academy", routeId },
         });
         setLastHref(href);
         setDone(true);
@@ -148,6 +153,7 @@ export default function AcademyBookingWizard({
       <BookingSuccessPanel
         whatsappHref={lastHref}
         bookCategory="academy"
+        routeId={routeId}
         onNewBooking={() => {
           setDone(false);
           setName("");

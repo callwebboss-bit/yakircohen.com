@@ -16,6 +16,7 @@ import {
 } from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -165,30 +166,39 @@ export default function DjBookingForm({ className }: { className?: string }) {
         return { ok: true as const, normalizedPhone };
       },
       () => {
-        const lines: string[] = [
-          "*📅 בקשת הצעת מחיר - תקליטן לאירועים*",
-          "",
-          `*שם:* ${name.trim()}`,
-          `*טלפון:* ${phone.trim()}`,
+        const summaryLines = [
+          { label: "סוג אירוע", value: eventType },
+          { label: "תאריך", value: eventDate },
+          { label: "שעות", value: `${startTime}${endTime ? ` - ${endTime}` : ""}` },
+          { label: "מיקום", value: venue.trim() },
+          ...(guestCount.trim()
+            ? [{ label: "מוזמנים", value: `~${guestCount.trim()}` }]
+            : []),
+          ...(eventParts.size > 0
+            ? [{ label: "חלקי אירוע", value: [...eventParts].join(", ") }]
+            : []),
+          ...(musicStyles.size > 0
+            ? [{ label: "סגנון מוזיקלי", value: [...musicStyles].join(", ") }]
+            : []),
+          ...(musicNotes.trim()
+            ? [{ label: "הערות מוזיקה", value: musicNotes.trim() }]
+            : []),
+          ...(extras.size > 0
+            ? [{ label: "תוספות", value: [...extras].join(", ") }]
+            : []),
+          ...(budget ? [{ label: "תקציב", value: budget }] : []),
+          ...(email.trim() ? [{ label: "אימייל", value: email.trim() }] : []),
         ];
-        if (email.trim()) lines.push(`*אימייל:* ${email.trim()}`);
-        lines.push("", "*פרטי האירוע:*");
-        lines.push(`סוג אירוע: ${eventType}`);
-        lines.push(`תאריך: ${eventDate}`);
-        lines.push(`שעות: ${startTime}${endTime ? ` - ${endTime}` : ""}`);
-        lines.push(`מיקום / אולם: ${venue.trim()}`);
-        if (guestCount.trim()) lines.push(`מספר מוזמנים: ~${guestCount.trim()}`);
-        if (eventParts.size > 0)
-          lines.push(`חלקי האירוע: ${[...eventParts].join(", ")}`);
-        if (musicStyles.size > 0)
-          lines.push(`סגנון מוזיקלי: ${[...musicStyles].join(", ")}`);
-        if (musicNotes.trim()) lines.push(`הערות מוזיקה: ${musicNotes.trim()}`);
-        if (extras.size > 0)
-          lines.push(`תוספות רצויות: ${[...extras].join(", ")}`);
-        if (budget) lines.push(`תקציב משוערך: ${budget}`);
-        lines.push("", "מקור: טופס שריון תאריך באתר");
 
-        const text = lines.join("\n").trim();
+        const text = buildClosingMessage({
+          serviceLabel: "DJ לאירוע",
+          contact: { name: name.trim(), phone: phone.trim() },
+          intent: "continue_chat",
+          summaryLines,
+          source: "/events/dj-events",
+          closerServiceId: "dj",
+          ycForm: "dj_booking_form",
+        });
         const href = buildWhatsAppHref({
           text,
           utm_source: "website",
@@ -201,6 +211,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
           body: text,
           name: name.trim(),
           phone: phone.trim(),
+          crossSell: { bookCategory: "dj" },
         });
 
         openWhatsAppLead(href);

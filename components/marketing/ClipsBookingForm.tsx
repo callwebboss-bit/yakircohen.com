@@ -26,6 +26,10 @@ import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
+type ClipsBookingFormProps = {
+  routeId?: string | null;
+};
+
 const CLIPS_SERVICES = Object.entries(SERVICES)
   .filter(([, s]) => s.category === "clips" || s.category === "ai")
   .map(([id, s]) => ({ id, ...s }));
@@ -33,7 +37,7 @@ const CLIPS_SERVICES = Object.entries(SERVICES)
 const inputClass =
   "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
-export default function ClipsBookingForm() {
+export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -90,6 +94,7 @@ export default function ClipsBookingForm() {
       utmSource: readUtmSource() ?? "/book#clips",
       bookCategory: "clips",
       includeTrustFooter: true,
+      ycForm: "clips_booking",
     });
   }, [selected, summaryLines, name, phone, notes, totalExVat]);
 
@@ -131,6 +136,7 @@ export default function ClipsBookingForm() {
           utmSource: readUtmSource() ?? "/book#clips",
           bookCategory: "clips",
           includeTrustFooter: true,
+          ycForm: "clips_booking",
         });
 
         const href = buildWhatsAppHref({
@@ -145,6 +151,7 @@ export default function ClipsBookingForm() {
           body,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
+          crossSell: { bookCategory: "clips", routeId },
         });
         setLastWaHref(href);
         setSubmitted(true);
@@ -159,6 +166,7 @@ export default function ClipsBookingForm() {
         intent="continue_chat"
         whatsappHref={lastWaHref}
         bookCategory="clips"
+        routeId={routeId}
         onNewBooking={() => {
           setSelected(new Set());
           setName("");

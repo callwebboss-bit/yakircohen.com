@@ -189,7 +189,12 @@ function isDjReserveFormValid(form: FormState): boolean {
   return validateDjReserve(form).ok;
 }
 
-export default function DjEventsCalculator({ className }: { className?: string }) {
+type DjEventsCalculatorProps = {
+  className?: string;
+  routeId?: string | null;
+};
+
+export default function DjEventsCalculator({ className, routeId = null }: DjEventsCalculatorProps) {
   const [festivalSelected, setFestivalSelected] = useState(false);
   const [djId, setDjId] = useState<DjId | null>(null);
   const [starId, setStarId] = useState<StarId | null>(null);
@@ -293,7 +298,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
     return buildConsultWhatsAppHref(buildSummaryLines(), {
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
-    });
+    }, { bookCategory: "dj", source: "dj-events" });
   }, [form, festivalSelected, djId, starId, addons, effects, effectDiscount]);
 
   const hasSelection = grandTotal > 0;
@@ -318,6 +323,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
       utmSource: readUtmSource() ?? "dj-events",
       bookCategory: "dj",
       includeTrustFooter: true,
+      ycForm: "dj_events_calculator",
     });
   }, [hasSelection, formValid, form, grandTotal, festivalSelected, djId, starId, addons, effects, effectDiscount]);
 
@@ -340,6 +346,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
             utmSource: readUtmSource() ?? "dj-events",
             bookCategory: "dj",
             includeTrustFooter: true,
+            ycForm: "dj_events_calculator",
           });
           const href = buildWhatsAppHref({
             text: body,
@@ -353,6 +360,7 @@ export default function DjEventsCalculator({ className }: { className?: string }
             body,
             name: sanitizeLeadText(form.name, 60),
             phone: displayPhone,
+            crossSell: { bookCategory: "dj", routeId },
           });
         },
       );

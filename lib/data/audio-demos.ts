@@ -72,6 +72,7 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
       "/podcast/podcast-editing",
       "/online",
       "/online/podcast-voice",
+      "/blog/sound-recovery-ai-podcast",
       "/book",
     ],
     storageKey: "podcast-zoom",

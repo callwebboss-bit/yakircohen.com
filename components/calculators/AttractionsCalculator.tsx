@@ -318,6 +318,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
           body: waText,
           name: form.name,
           phone: form.phone,
+          crossSell: { bookCategory: "events" },
         });
       },
     );

@@ -83,7 +83,11 @@ const INITIAL: FormState = {
   termsAccepted: false,
 };
 
-export default function EventsBookingWizard() {
+type EventsBookingWizardProps = {
+  routeId?: string | null;
+};
+
+export default function EventsBookingWizard({ routeId = null }: EventsBookingWizardProps) {
   const [step, setStep] = useState(0);
   useBookWizardStep("events", step);
   const [form, setForm] = useState<FormState>(INITIAL);
@@ -179,7 +183,7 @@ export default function EventsBookingWizard() {
     return buildConsultWhatsAppHref(buildSummaryLines(), {
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
-    });
+    }, { bookCategory: "events", source: "/book#events" });
   }, [form, labels, count, savings]);
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
@@ -213,6 +217,7 @@ export default function EventsBookingWizard() {
           utmSource: readUtmSource() ?? "/book#events",
           bookCategory: "events",
           includeTrustFooter: true,
+          ycForm: "events_booking_wizard",
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -226,6 +231,7 @@ export default function EventsBookingWizard() {
           body,
           name: form.name,
           phone: displayPhone,
+          crossSell: { bookCategory: "events", routeId },
         });
         setLastIntent(intent);
         setLastWaHref(href);
@@ -252,6 +258,7 @@ export default function EventsBookingWizard() {
           utmSource: readUtmSource() ?? "/book#events",
           bookCategory: "events",
           includeTrustFooter: true,
+          ycForm: "events_booking_wizard",
         })
       : undefined;
 
@@ -268,6 +275,7 @@ export default function EventsBookingWizard() {
         intent={lastIntent}
         whatsappHref={lastWaHref}
         bookCategory="events"
+        routeId={routeId}
         onNewBooking={resetWizard}
       />
     );

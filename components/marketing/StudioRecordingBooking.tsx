@@ -19,6 +19,7 @@ import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
+import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
@@ -35,7 +36,33 @@ import {
   type FilterAnswers,
 } from "@/lib/data/filter-questions";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
-import { withVat } from "@/lib/data/pricing";
+import {
+  calcMobileStudioExVat,
+  MOBILE_GEO_FEES,
+  type MobileGeoId,
+} from "@/lib/data/mobile-studio-booking";
+import { getRecordingTypeFlow } from "@/lib/data/studio-recording-type-flow";
+import { emotionalLabelToId } from "@/lib/yc-lead-tag";
+import { formatNis, VAT_RATE, withVat } from "@/lib/data/pricing";
+import {
+  buildStudioGuidelinesLine,
+  type StudioLeadMessageContext,
+} from "@/lib/studio-booking-message";
+import {
+  buildGroupFamilyPitchBlock,
+  buildPlaybackReadyPitch,
+  getGroupMessageContext,
+  isGroupBookingLead,
+  type GroupMessageInput,
+} from "@/lib/studio-group-messaging";
+import { getClientScenarioDescription, getClientScenarioShortTitle } from "@/lib/data/client-scenario-labels";
+import {
+  calcStudioScenarios,
+  isGroupPricingEligible,
+  parseParticipantsFromText,
+  STUDIO_RECORDING_MAX,
+  STUDIO_SAVINGS_TIP_THRESHOLD,
+} from "@/lib/studio-participant-pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
 import {
@@ -68,6 +95,16 @@ const STEPS = ["בחירה", "חבילה", "פרטים ואישור"] as const;
 
 type LocationId = "modiin" | "mobile";
 
+const FAMILY_QUICK_PICKS: readonly {
+  id: RecordingTypeId;
+  label: string;
+  emoji: string;
+}[] = [
+  { id: "event_song", label: "שיר הפתעה", emoji: "🎁" },
+  { id: "bride_blessing", label: "ברכת כלה", emoji: "💍" },
+  { id: "bar_mitzvah_speech", label: "בר/בת מצווה", emoji: "🎉" },
+];
+
 type FormState = {
   recordingType: RecordingTypeId | "";
   songName: string;
@@ -75,6 +112,7 @@ type FormState = {
   atmosphere: AtmosphereId | "";
   packageId: StudioPackageId | ConsultationPackageId | "";
   location: LocationId;
+  mobileGeo: MobileGeoId | "";
   selectedUpgrades: StudioUpgradeId[];
   surpriseGift: boolean;
   giftRecipientName: string;
@@ -84,6 +122,8 @@ type FormState = {
   date: string;
   time: string;
   notes: string;
+  adultsCount: number;
+  childrenCount: number;
   customerNeed: string;
   termsAccepted: boolean;
 };
@@ -95,6 +135,7 @@ type DraftPayload = {
   atmosphere: AtmosphereId | "";
   packageId: StudioPackageId | ConsultationPackageId | "";
   location: LocationId;
+  mobileGeo: MobileGeoId | "";
   selectedUpgrades: StudioUpgradeId[];
   surpriseGift: boolean;
   giftRecipientName: string;
@@ -104,10 +145,65 @@ type DraftPayload = {
   date: string;
   time: string;
   notes: string;
+  adultsCount: number;
+  childrenCount: number;
   customerNeed: string;
   termsAccepted: boolean;
   step: number;
 };
+
+function applyRecordingTypeToForm(
+  prev: FormState,
+  recordingType: RecordingTypeId,
+): FormState {
+  const flow = getRecordingTypeFlow(recordingType);
+  return {
+    ...prev,
+    recordingType,
+    packageId: flow.defaultPackageId ?? prev.packageId,
+    location: flow.hideLocation ? "modiin" : prev.location,
+    mobileGeo: flow.hideLocation ? "" : prev.mobileGeo,
+  };
+}
+
+function clampCount(n: number): number {
+  return Math.max(0, Math.min(30, n));
+}
+
+function ParticipantCounter({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (n: number) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-background px-3 py-2">
+      <span className="text-sm font-medium text-foreground">{label}</span>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold hover:border-brand-red/40"
+          onClick={() => onChange(clampCount(value - 1))}
+          aria-label={`הפחת ${label}`}
+        >
+          −
+        </button>
+        <span className="min-w-[2ch] text-center text-sm font-semibold tabular-nums">{value}</span>
+        <button
+          type="button"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold hover:border-brand-red/40"
+          onClick={() => onChange(clampCount(value + 1))}
+          aria-label={`הוסף ${label}`}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers | null }) {
   if (!filterAnswers) return null;
@@ -140,9 +236,11 @@ function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers 
 export default function StudioRecordingBooking({
   filterAnswers,
   initialEmotionalLabel,
+  routeId = null,
 }: {
   filterAnswers?: FilterAnswers | null;
   initialEmotionalLabel?: string | null;
+  routeId?: string | null;
 }) {
   const initialGiftMode = filterAnswers?.purpose === "gift";
   const [step, setStep] = useState(0);
@@ -154,6 +252,7 @@ export default function StudioRecordingBooking({
     atmosphere: "",
     packageId: "",
     location: "modiin",
+    mobileGeo: "",
     selectedUpgrades: [],
     surpriseGift: initialGiftMode,
     giftRecipientName: "",
@@ -163,6 +262,8 @@ export default function StudioRecordingBooking({
     date: "",
     time: "",
     notes: "",
+    adultsCount: 0,
+    childrenCount: 0,
     customerNeed: initialEmotionalLabel ?? "",
     termsAccepted: false,
   });
@@ -186,6 +287,7 @@ export default function StudioRecordingBooking({
         atmosphere: payload.atmosphere,
         packageId: payload.packageId,
         location: payload.location ?? "modiin",
+        mobileGeo: payload.mobileGeo ?? "",
         selectedUpgrades: payload.selectedUpgrades ?? [],
         surpriseGift: payload.surpriseGift || initialGiftMode,
         giftRecipientName: payload.giftRecipientName ?? "",
@@ -195,6 +297,8 @@ export default function StudioRecordingBooking({
         date: payload.date,
         time: payload.time,
         notes: payload.notes,
+        adultsCount: payload.adultsCount ?? 0,
+        childrenCount: payload.childrenCount ?? 0,
         customerNeed: payload.customerNeed ?? "",
         termsAccepted: payload.termsAccepted,
       });
@@ -205,6 +309,12 @@ export default function StudioRecordingBooking({
   );
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
+  const typeFlow = getRecordingTypeFlow(form.recordingType);
+  const emotionalId = emotionalLabelToId(initialEmotionalLabel);
+  const mobileExVat =
+    form.location === "mobile" && form.mobileGeo
+      ? calcMobileStudioExVat(form.mobileGeo)
+      : 0;
   const consultationPackage = isConsultation
     ? CONSULTATION_PACKAGES.find((p) => p.id === form.packageId)
     : undefined;
@@ -216,7 +326,118 @@ export default function StudioRecordingBooking({
     const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
     return sum + (u?.price ?? 0);
   }, 0);
-  const total = (activePackage?.price ?? 0) + upgradesTotal;
+  const baseSubtotal = (activePackage?.price ?? 0) + upgradesTotal + mobileExVat;
+  const isMotzash = form.scheduleWindow === "motzash";
+  const parsedNotesParticipants = parseParticipantsFromText(form.notes);
+  const adultsCount = form.adultsCount || parsedNotesParticipants.adultsCount || 0;
+  const childrenCount = form.childrenCount || parsedNotesParticipants.childrenCount || 0;
+  let recorderCount = adultsCount + childrenCount;
+  if (recorderCount === 0 && parsedNotesParticipants.recorderCount) {
+    recorderCount = parsedNotesParticipants.recorderCount;
+  }
+  const isAmbiguousGroup =
+    recorderCount === 0 &&
+    (parsedNotesParticipants.isAmbiguousGroup ||
+      (form.adultsCount === 0 && form.childrenCount === 0 && parsedNotesParticipants.isAmbiguousGroup));
+
+  const groupPricingEligible =
+    !isConsultation &&
+    isGroupPricingEligible({
+      packageId: form.packageId || null,
+      recordingType: form.recordingType,
+      serviceId: "recording",
+    });
+
+  const studioLeadContext: StudioLeadMessageContext | null = isConsultation
+    ? null
+    : {
+        adultsCount,
+        childrenCount,
+        recorderCount,
+        isAmbiguousGroup,
+        baseExVat: activePackage?.price ?? 0,
+        upgradesExVat: upgradesTotal,
+        packageId: (form.packageId as StudioPackageId) || null,
+        recordingType: form.recordingType,
+        selectedUpgrades: form.selectedUpgrades,
+        isMotzash,
+        vatRate: VAT_RATE,
+        recommendedScenario: "pairs",
+      };
+
+  const classicFallbackPrice =
+    STUDIO_RECORDING_PACKAGES.find((p) => p.id === "classic")?.price ?? 990;
+  const estimateSubtotal =
+    (activePackage?.price ?? classicFallbackPrice) + upgradesTotal + mobileExVat;
+
+  const groupScenariosForDisplay =
+    studioLeadContext && recorderCount >= 2 && groupPricingEligible
+      ? calcStudioScenarios({
+          baseExVat: estimateSubtotal,
+          recorderCount,
+          isMotzash,
+          vatRate: VAT_RATE,
+          packageId: form.packageId || null,
+          recordingType: form.recordingType,
+          serviceId: "recording",
+        })
+      : null;
+
+  const groupScenarios =
+    activePackage && studioLeadContext && recorderCount >= 2 && groupPricingEligible
+      ? calcStudioScenarios({
+          baseExVat: baseSubtotal,
+          recorderCount,
+          isMotzash,
+          vatRate: VAT_RATE,
+          packageId: form.packageId || null,
+          recordingType: form.recordingType,
+          serviceId: "recording",
+        })
+      : null;
+
+  const total =
+    groupScenarios?.recommended?.subtotalExVat ??
+    (isMotzash ? Math.round(baseSubtotal * 1.5) : baseSubtotal);
+
+  const groupMessageInput: GroupMessageInput | null =
+    studioLeadContext && recorderCount >= 2
+      ? {
+          leadName: sanitizeLeadText(form.name, 60) || undefined,
+          adultsCount,
+          childrenCount,
+          recorderCount,
+          customerNeed: sanitizeLeadText(form.customerNeed, 500) || undefined,
+          leadNotes: sanitizeLeadText(form.notes, 500) || undefined,
+          recordingType: form.recordingType,
+          scheduleWindow: form.scheduleWindow || null,
+          studioPackageId: (form.packageId as StudioPackageId) || null,
+          packageName: activePackage?.name,
+          baseExVat: activePackage?.price ?? 0,
+          upgradesExVat: upgradesTotal + mobileExVat,
+          isAmbiguousGroup,
+          selectedUpgrades: form.selectedUpgrades,
+          isMotzash,
+          vatRate: VAT_RATE,
+          hasMobile: form.location === "mobile",
+          atmosphere: form.atmosphere || undefined,
+          leadDate: form.date || undefined,
+        }
+      : null;
+
+  const groupMsgCtx =
+    groupMessageInput && isGroupBookingLead(groupMessageInput)
+      ? getGroupMessageContext(groupMessageInput)
+      : null;
+
+  const copyGroupText = async (text: string, toastMsg: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      window.alert(toastMsg);
+    } catch {
+      window.prompt("העתק את הטקסט:", text);
+    }
+  };
 
   const upgradeItems = STUDIO_RECORDING_UPGRADES.map((u) => ({
     id: u.id,
@@ -243,7 +464,8 @@ export default function StudioRecordingBooking({
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
   const canAdvanceStep0 =
-    form.recordingType !== "" && (isConsultation || form.atmosphere !== "");
+    form.recordingType !== "" &&
+    (isConsultation || typeFlow.hideAtmosphere || form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
@@ -312,17 +534,31 @@ export default function StudioRecordingBooking({
       : []),
     ...(form.date ? [{ label: "תאריך", value: form.date }] : []),
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
-    ...(form.location === "mobile"
-      ? [{ label: "מיקום", value: "אולפן נייד עד הבית" }]
-      : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
+    ...(form.location === "mobile" && form.mobileGeo
+      ? [
+          {
+            label: "מיקום",
+            value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)`,
+          },
+        ]
+      : form.location === "mobile"
+        ? [{ label: "מיקום", value: "אולפן נייד עד הבית" }]
+        : typeFlow.hideLocation
+          ? [{ label: "מיקום", value: "הקלטה מרחוק" }]
+          : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
     ...form.selectedUpgrades.map((id) => {
       const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
       return { label: "תוספת", value: u ? `${u.name} (+${u.price} ₪)` : id };
     }),
+    ...(adultsCount > 0 ? [{ label: "מבוגרים", value: String(adultsCount) }] : []),
+    ...(childrenCount > 0 ? [{ label: "ילדים", value: String(childrenCount) }] : []),
+    ...(recorderCount > 0 ? [{ label: "סה״כ מקליטים", value: String(recorderCount) }] : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
     {
       label: "הנחיות",
-      value: "חזרות בבית · עד 5 אנשים בצילום · שקט באולפן",
+      value: studioLeadContext
+        ? buildStudioGuidelinesLine(studioLeadContext)
+        : "חזרות בבית · שקט באולפן",
     },
   ];
 
@@ -330,6 +566,13 @@ export default function StudioRecordingBooking({
     ycSchedule: form.scheduleWindow || null,
     ycPackage:
       !isConsultation && form.packageId ? (form.packageId as string) : null,
+    ycStep: step === 0 ? 1 : step === 1 ? 2 : 3,
+    ycForm: "studio_recording_booking",
+    ycRoute: routeId,
+    ycEmotional: emotionalId,
+    ycRecordingType: form.recordingType || null,
+    ycMobileGeo: form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
+    ycAtmosphere: form.atmosphere || null,
   };
 
   const previewBody =
@@ -351,6 +594,7 @@ export default function StudioRecordingBooking({
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
+          studioLead: studioLeadContext,
           ...ycBookingMeta,
         })
       : undefined;
@@ -363,6 +607,7 @@ export default function StudioRecordingBooking({
       atmosphere: "",
       packageId: "",
       location: "modiin",
+      mobileGeo: "",
       selectedUpgrades: [],
       surpriseGift: initialGiftMode,
       giftRecipientName: "",
@@ -372,6 +617,8 @@ export default function StudioRecordingBooking({
       date: "",
       time: "",
       notes: "",
+      adultsCount: 0,
+      childrenCount: 0,
       customerNeed: "",
       termsAccepted: false,
     });
@@ -402,6 +649,8 @@ export default function StudioRecordingBooking({
           location: "",
           notes: form.notes,
           requireLocation: false,
+          requireDate: false,
+          requireTime: false,
         }),
       (result) => {
         const displayPhone = result.normalizedPhone
@@ -424,7 +673,9 @@ export default function StudioRecordingBooking({
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
+          studioLead: studioLeadContext,
           ...ycBookingMeta,
+          ycIntent: intent,
         });
 
         const href = buildWhatsAppHref({
@@ -439,6 +690,15 @@ export default function StudioRecordingBooking({
           body,
           name: form.name,
           phone: displayPhone,
+          crossSell: {
+            bookCategory: "studio",
+            routeId,
+            recordingType: form.recordingType || null,
+            atmosphere: form.atmosphere || null,
+            mobileGeo:
+              form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
+            largeGroup: form.location !== "mobile" && recorderCount >= 12,
+          },
         });
         setLastIntent(intent);
         setLastWaHref(href);
@@ -490,6 +750,9 @@ export default function StudioRecordingBooking({
         intent={lastIntent}
         whatsappHref={lastWaHref}
         bookCategory="studio"
+        routeId={routeId ?? (initialGiftMode ? "family-gifts" : null)}
+        recordingType={form.recordingType || null}
+        atmosphere={form.atmosphere || null}
         onNewBooking={resetWizard}
       />
     );
@@ -546,6 +809,44 @@ export default function StudioRecordingBooking({
               />
             </header>
 
+            {routeId === "family-gifts" ? (
+              <div>
+                <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                  מה מתכננים? (בחירה מהירה)
+                </p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  {FAMILY_QUICK_PICKS.map((pick) => {
+                    const active = form.recordingType === pick.id;
+                    return (
+                      <button
+                        key={pick.id}
+                        type="button"
+                        onClick={() => setForm((prev) => applyRecordingTypeToForm(prev, pick.id))}
+                        className={cn(
+                          "rounded-xl border px-3 py-3 text-center text-sm font-semibold transition-colors",
+                          active
+                            ? "border-brand-red bg-brand-red/10 text-brand-red"
+                            : "border-border/60 hover:border-brand-red/40",
+                        )}
+                        aria-pressed={active}
+                      >
+                        <span className="block text-lg" aria-hidden="true">
+                          {pick.emoji}
+                        </span>
+                        {pick.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+
+            {typeFlow.remoteHint ? (
+              <p className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm text-foreground">
+                {typeFlow.remoteHint}
+              </p>
+            ) : null}
+
             <div>
               <p className="mb-2 text-xs font-semibold text-muted-foreground">סוג הקלטה</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -555,7 +856,9 @@ export default function StudioRecordingBooking({
                     <button
                       key={type.id}
                       type="button"
-                      onClick={() => setForm((prev) => ({ ...prev, recordingType: type.id }))}
+                      onClick={() =>
+                        setForm((prev) => applyRecordingTypeToForm(prev, type.id))
+                      }
                       className={cn(
                         "relative min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
                         active
@@ -617,6 +920,60 @@ export default function StudioRecordingBooking({
             </div>
 
             {!isConsultation && (
+              <div className="space-y-3">
+                <div>
+                  <h3 className="mb-1 text-base font-semibold text-foreground">
+                    כמה מקליטים צפויים?
+                  </h3>
+                  <p className="mb-3 text-xs text-muted-foreground">
+                    מבוגר וילד — אותו מחיר · עוזר לנו להכין מחירון מדויק
+                  </p>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <ParticipantCounter
+                    label="מבוגרים"
+                    value={form.adultsCount}
+                    onChange={(n) => setForm((prev) => ({ ...prev, adultsCount: n }))}
+                  />
+                  <ParticipantCounter
+                    label="ילדים"
+                    value={form.childrenCount}
+                    onChange={(n) => setForm((prev) => ({ ...prev, childrenCount: n }))}
+                  />
+                </div>
+                {form.adultsCount + form.childrenCount > 1 &&
+                groupPricingEligible &&
+                groupScenariosForDisplay?.recommended ? (
+                  <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm">
+                    <p className="font-semibold text-foreground">
+                      הערכת מחיר מומלצת לקבוצה (סופי יתואם בשיחה)*
+                    </p>
+                    <p className="mt-1 text-foreground">
+                      {getClientScenarioShortTitle("pairs")}:{" "}
+                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} לפני מע״מ ·{" "}
+                      {formatNis(groupScenariosForDisplay.recommended.withVat)} סופי
+                    </p>
+                    {isMotzash ? (
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        כולל +50% פתיחת מוצ״ש
+                      </p>
+                    ) : null}
+                    {form.adultsCount + form.childrenCount > STUDIO_SAVINGS_TIP_THRESHOLD ? (
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {getClientScenarioDescription("save5")}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+                {form.adultsCount + form.childrenCount > STUDIO_RECORDING_MAX ? (
+                  <p className="text-xs font-medium text-amber-800">
+                    מעל {STUDIO_RECORDING_MAX} מקליטים — נתאם חלוקה לזוגות בשקט באולפן
+                  </p>
+                ) : null}
+              </div>
+            )}
+
+            {!isConsultation && !typeFlow.hideAtmosphere && (
               <div>
                 <h3 className="mb-2 text-base font-semibold text-foreground">
                   בחרו את האווירה שלכם
@@ -640,6 +997,7 @@ export default function StudioRecordingBooking({
                         highlights={[item.subtitle]}
                         emoji={item.emoji}
                         compact
+                        className={active ? "ring-2 ring-brand-red/20" : undefined}
                       />
                     );
                   })}
@@ -888,10 +1246,15 @@ export default function StudioRecordingBooking({
                     }}
                     className={cn(bookFieldClass, errors.name && "border-red-400")}
                   />
-                  {errors.name && (
+                  {errors.name ? (
                     <p className="mt-1 text-xs text-red-500" data-field-error="">
                       {errors.name}
                     </p>
+                  ) : (
+                    <BookingFieldFeedback
+                      valid={form.name.trim().length >= 2}
+                      hint="שם מעולה"
+                    />
                   )}
                 </div>
 
@@ -926,33 +1289,72 @@ export default function StudioRecordingBooking({
                   }}
                 />
 
-                <div>
-                  <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
-                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    {(
-                      [
-                        { id: "modiin" as const, label: "אולפן אקוסטי במודיעין", sub: "חנייה חופשית" },
-                        { id: "mobile" as const, label: "אולפן נייד עד הבית", sub: "בתיאום מראש" },
-                      ] as const
-                    ).map((loc) => (
-                      <button
-                        key={loc.id}
-                        type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, location: loc.id }))}
-                        className={cn(
-                          "rounded-2xl border px-4 py-3 text-start text-sm",
-                          form.location === loc.id
-                            ? "border-brand-red bg-brand-red/5 text-brand-red"
-                            : "border-border/60 hover:border-brand-red/30",
-                        )}
-                        aria-pressed={form.location === loc.id}
-                      >
-                        <span className="font-semibold">{loc.label}</span>
-                        <span className="mt-0.5 block text-xs text-muted-foreground">{loc.sub}</span>
-                      </button>
-                    ))}
+                {!typeFlow.hideLocation ? (
+                  <div>
+                    <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      {(
+                        [
+                          { id: "modiin" as const, label: "אולפן אקוסטי במודיעין", sub: "חנייה חופשית" },
+                          { id: "mobile" as const, label: "🚗🏠 אולפן נייד - מגיעים עד אליכם", sub: "מ-999 ₪ לפני מע״מ + אזור" },
+                        ] as const
+                      ).map((loc) => (
+                        <button
+                          key={loc.id}
+                          type="button"
+                          onClick={() =>
+                            setForm((prev) => ({
+                              ...prev,
+                              location: loc.id,
+                              mobileGeo: loc.id === "mobile" ? prev.mobileGeo || "center" : "",
+                            }))
+                          }
+                          className={cn(
+                            "rounded-2xl border px-4 py-3 text-start text-sm",
+                            form.location === loc.id
+                              ? "border-brand-red bg-brand-red/5 text-brand-red"
+                              : "border-border/60 hover:border-brand-red/30",
+                          )}
+                          aria-pressed={form.location === loc.id}
+                        >
+                          <span className="font-semibold">{loc.label}</span>
+                          <span className="mt-0.5 block text-xs text-muted-foreground">{loc.sub}</span>
+                        </button>
+                      ))}
+                    </div>
+                    {form.location === "mobile" ? (
+                      <div className="mt-3 space-y-2">
+                        <p className="text-xs font-semibold text-muted-foreground">בחירת אזור</p>
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                          {(Object.keys(MOBILE_GEO_FEES) as MobileGeoId[]).map((geoId) => {
+                            const geo = MOBILE_GEO_FEES[geoId];
+                            const active = form.mobileGeo === geoId;
+                            const price = calcMobileStudioExVat(geoId);
+                            return (
+                              <button
+                                key={geoId}
+                                type="button"
+                                onClick={() => setForm((prev) => ({ ...prev, mobileGeo: geoId }))}
+                                className={cn(
+                                  "rounded-xl border px-3 py-2 text-start text-xs",
+                                  active
+                                    ? "border-brand-red bg-brand-red/5 text-brand-red"
+                                    : "border-border/60",
+                                )}
+                                aria-pressed={active}
+                              >
+                                <span className="font-semibold">{geo.label}</span>
+                                <span className="mt-0.5 block text-muted-foreground">
+                                  {price.toLocaleString("he-IL")} ₪ לפני מע״מ · {geo.detail}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                </div>
+                ) : null}
 
                 <div>
                   <label htmlFor="sr-notes" className="mb-1.5 block text-xs font-semibold">
@@ -984,6 +1386,46 @@ export default function StudioRecordingBooking({
 
               {previewBody ? (
                 <BookingWhatsAppPreview messageBody={previewBody} />
+              ) : null}
+
+              {groupMsgCtx && groupMessageInput ? (
+                <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 p-4 space-y-3">
+                  <p className="text-sm font-semibold text-foreground">
+                    קבוצה של {recorderCount}
+                    {groupMsgCtx.useDualTier
+                      ? ` — תקרת זוגות ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם | המלצתנו ~${groupMsgCtx.pricePerPersonSave5} ₪ לאדם`
+                      : ` — ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם (כולל מע״מ)`}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    מקדמה לשריון: {groupMsgCtx.depositTotal} ₪ ({groupMsgCtx.depositPerPerson} ₪ לאדם)
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      className="rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium hover:border-brand-red/40"
+                      onClick={() =>
+                        void copyGroupText(
+                          buildGroupFamilyPitchBlock(groupMessageInput, groupMsgCtx),
+                          "הטקסט לקבוצה המשפחתית הועתק — שלחו בוואטסאפ המשפחתי",
+                        )
+                      }
+                    >
+                      💡 העתק לקבוצה המשפחתית
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium hover:border-brand-red/40"
+                      onClick={() =>
+                        void copyGroupText(
+                          buildPlaybackReadyPitch(groupMessageInput),
+                          "טקסט פלייבק מוכן הועתק — לשלוח אחרי שהפלייבק מוכן",
+                        )
+                      }
+                    >
+                      🎵 העתק פלייבק מוכן
+                    </button>
+                  </div>
+                </div>
               ) : null}
 
               <BookingApprovals

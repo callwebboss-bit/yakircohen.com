@@ -50,6 +50,13 @@ import {
   buildBookingWhatsAppBody,
   readUtmSource,
 } from "@/lib/booking-messages";
+import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
+import {
+  calcMobileStudioExVat,
+  MOBILE_GEO_FEES,
+  type MobileGeoId,
+} from "@/lib/data/mobile-studio-booking";
+import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -79,6 +86,8 @@ type FormState = {
   packageId: PodcastPackageId | "";
   overtimeBlocks: number;
   participantCount: number;
+  location: "modiin" | "mobile" | "";
+  mobileGeo: MobileGeoId | "";
   name: string;
   phone: string;
   timeframe: string;
@@ -92,6 +101,8 @@ const INITIAL: FormState = {
   packageId: "",
   overtimeBlocks: 0,
   participantCount: 1,
+  location: "modiin",
+  mobileGeo: "",
   name: "",
   phone: "",
   timeframe: "",
@@ -101,7 +112,15 @@ const INITIAL: FormState = {
   termsAccepted: false,
 };
 
-export default function PodcastBookingWizard() {
+type PodcastBookingWizardProps = {
+  routeId?: string | null;
+  emotionalLabel?: string | null;
+};
+
+export default function PodcastBookingWizard({
+  routeId = null,
+  emotionalLabel = null,
+}: PodcastBookingWizardProps) {
   const [step, setStep] = useState(0);
   useBookWizardStep("podcast", step);
   const [form, setForm] = useState<FormState>(INITIAL);
@@ -135,10 +154,26 @@ export default function PodcastBookingWizard() {
           typeof r.overtimeBlocks === "number" && r.overtimeBlocks >= 0
             ? r.overtimeBlocks
             : INITIAL.overtimeBlocks,
+        location:
+          r.location === "mobile" || r.location === "modiin" ? r.location : INITIAL.location,
+        mobileGeo:
+          r.mobileGeo === "center" ||
+          r.mobileGeo === "north_south" ||
+          r.mobileGeo === "eilat"
+            ? r.mobileGeo
+            : INITIAL.mobileGeo,
         termsAccepted: Boolean(r.termsAccepted),
       };
     },
   );
+
+  const routeMeta = routeId ? getAudienceRouteById(routeId) : undefined;
+  const ycFormId = routeMeta?.utm_campaign ?? "podcast_booking_wizard";
+  const emotionalId = emotionalLabelToId(emotionalLabel);
+  const mobileExVat =
+    form.location === "mobile" && form.mobileGeo
+      ? calcMobileStudioExVat(form.mobileGeo)
+      : 0;
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
   const extraParticipantsCost =
@@ -150,7 +185,8 @@ export default function PodcastBookingWizard() {
     (selected?.price ?? 0) +
     form.overtimeBlocks * PODCAST_OVERTIME_RATE +
     extraParticipantsCost +
-    upsellTotal;
+    upsellTotal +
+    mobileExVat;
 
   const upsellItems = getPodcastUpsellItems(form.packageId);
   const selectedUpsellSet = new Set(form.selectedUpsells);
@@ -197,6 +233,14 @@ export default function PodcastBookingWizard() {
           ]
         : []),
       ...(timeframeLabel ? [{ label: "מועד מועדף", value: timeframeLabel }] : []),
+      ...(form.location === "mobile" && form.mobileGeo
+        ? [
+            {
+              label: "מיקום",
+              value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)`,
+            },
+          ]
+        : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
       ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
       ...(form.selectedUpsells ?? [])
         .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
@@ -262,19 +306,32 @@ export default function PodcastBookingWizard() {
           utmSource: readUtmSource() ?? "/book#podcast",
           bookCategory: "podcast",
           includeTrustFooter: true,
+          ycForm: ycFormId,
+          ycRoute: routeId,
+          ycEmotional: emotionalId,
+          ycMobileGeo: form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
         });
         const href = buildWhatsAppHref({
           text: body,
           utm_source: "website",
-          utm_campaign: "podcast_booking_wizard",
+          utm_campaign: ycFormId,
         });
         openWhatsAppLead(href, { leadCategory: "podcast" });
         notifyLeadByEmail({
-          formId: "podcast_booking_wizard",
+          formId: ycFormId,
           subject: "הזמנת פודקאסט",
           body,
           name: form.name,
           phone: displayPhone,
+          crossSell: {
+            bookCategory: "podcast",
+            routeId,
+            recordingType: form.packageId || null,
+            mobileGeo:
+              form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
+            largeGroup:
+              form.location !== "mobile" && form.participantCount >= 12,
+          },
         });
         setLastIntent(intent);
         setLastWaHref(href);
@@ -307,6 +364,10 @@ export default function PodcastBookingWizard() {
           utmSource: readUtmSource() ?? "/book#podcast",
           bookCategory: "podcast",
           includeTrustFooter: true,
+          ycForm: ycFormId,
+          ycRoute: routeId,
+          ycEmotional: emotionalId,
+          ycMobileGeo: form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
         })
       : undefined;
 
@@ -323,6 +384,8 @@ export default function PodcastBookingWizard() {
         intent={lastIntent}
         whatsappHref={lastWaHref}
         bookCategory="podcast"
+        routeId={routeId}
+        recordingType={form.packageId || null}
         onNewBooking={resetWizard}
       />
     );
@@ -577,6 +640,74 @@ export default function PodcastBookingWizard() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {(
+                  [
+                    { id: "modiin" as const, label: "אולפן אקוסטי במודיעין", sub: "חנייה חופשית" },
+                    {
+                      id: "mobile" as const,
+                      label: "🚗🏠 אולפן נייד - מגיעים עד אליכם",
+                      sub: "מ-999 ₪ לפני מע״מ + אזור",
+                    },
+                  ] as const
+                ).map((loc) => (
+                  <button
+                    key={loc.id}
+                    type="button"
+                    onClick={() =>
+                      setForm((prev) => ({
+                        ...prev,
+                        location: loc.id,
+                        mobileGeo: loc.id === "mobile" ? prev.mobileGeo || "center" : "",
+                      }))
+                    }
+                    className={cn(
+                      "rounded-2xl border px-4 py-3 text-start text-sm",
+                      form.location === loc.id
+                        ? "border-brand-red bg-brand-red/5 text-brand-red"
+                        : "border-border/60 hover:border-brand-red/30",
+                    )}
+                    aria-pressed={form.location === loc.id}
+                  >
+                    <span className="font-semibold">{loc.label}</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">{loc.sub}</span>
+                  </button>
+                ))}
+              </div>
+              {form.location === "mobile" ? (
+                <div className="mt-3 space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground">בחירת אזור</p>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    {(Object.keys(MOBILE_GEO_FEES) as MobileGeoId[]).map((geoId) => {
+                      const geo = MOBILE_GEO_FEES[geoId];
+                      const active = form.mobileGeo === geoId;
+                      const price = calcMobileStudioExVat(geoId);
+                      return (
+                        <button
+                          key={geoId}
+                          type="button"
+                          onClick={() => setForm((prev) => ({ ...prev, mobileGeo: geoId }))}
+                          className={cn(
+                            "rounded-xl border px-3 py-2 text-start text-xs",
+                            active
+                              ? "border-brand-red bg-brand-red/5 text-brand-red"
+                              : "border-border/60",
+                          )}
+                          aria-pressed={active}
+                        >
+                          <span className="font-semibold">{geo.label}</span>
+                          <span className="mt-0.5 block text-muted-foreground">
+                            {price.toLocaleString("he-IL")} ₪ לפני מע״מ · {geo.detail}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
             </div>
             <BookingFormField
               id="pb-notes"

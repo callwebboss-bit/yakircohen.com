@@ -32,10 +32,12 @@ const inputClass =
 
 type OnlineRestoreBookingPanelProps = {
   initialEmotionalLabel?: string | null;
+  routeId?: string | null;
 };
 
 export default function OnlineRestoreBookingPanel({
   initialEmotionalLabel,
+  routeId = null,
 }: OnlineRestoreBookingPanelProps) {
   const [issue, setIssue] = useState(initialEmotionalLabel ?? "");
   const [name, setName] = useState("");
@@ -70,6 +72,7 @@ export default function OnlineRestoreBookingPanel({
     utmSource: readUtmSource(),
     bookCategory: "online",
     includeTrustFooter: true,
+    ycForm: "online_restore_booking",
   });
 
   function scrollToFirstError(errs: Record<string, string>) {
@@ -118,6 +121,7 @@ export default function OnlineRestoreBookingPanel({
           utmSource: readUtmSource(),
           bookCategory: "online",
           includeTrustFooter: true,
+          ycForm: "online_restore_booking",
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -131,6 +135,7 @@ export default function OnlineRestoreBookingPanel({
           body,
           name: sanitizeLeadText(name, 60),
           phone: displayPhone,
+          crossSell: { bookCategory: "online", routeId },
         });
         setLastHref(href);
         setDone(true);
@@ -146,6 +151,7 @@ export default function OnlineRestoreBookingPanel({
       <BookingSuccessPanel
         whatsappHref={lastHref}
         bookCategory="online"
+        routeId={routeId}
         onNewBooking={() => {
           setDone(false);
           setName("");

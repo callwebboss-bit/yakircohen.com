@@ -84,10 +84,12 @@ function parseSingerPriceNis(price: string): number {
 
 export type SingerAmplificationBookingWizardProps = {
   initialPackageId?: SingerPackageId | null;
+  routeId?: string | null;
 };
 
 export default function SingerAmplificationBookingWizard({
   initialPackageId = null,
+  routeId = null,
 }: SingerAmplificationBookingWizardProps) {
   const [step, setStep] = useState(0);
   useBookWizardStep("singer", step);
@@ -174,7 +176,7 @@ export default function SingerAmplificationBookingWizard({
     return buildConsultWhatsAppHref(buildSummaryLines(), {
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
-    });
+    }, { bookCategory: "singer", source: "/book#singer" });
   }, [form, selected]);
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
@@ -207,6 +209,7 @@ export default function SingerAmplificationBookingWizard({
           utmSource: readUtmSource() ?? "/book#singer",
           bookCategory: "singer",
           includeTrustFooter: true,
+          ycForm: "singer_amplification_booking",
         });
         const href = buildWhatsAppHref({
           text: body,
@@ -220,6 +223,7 @@ export default function SingerAmplificationBookingWizard({
           body,
           name: form.name,
           phone: displayPhone,
+          crossSell: { bookCategory: "singer", routeId },
         });
         setLastIntent(intent);
         setLastWaHref(href);
@@ -252,6 +256,7 @@ export default function SingerAmplificationBookingWizard({
           utmSource: readUtmSource() ?? "/book#singer",
           bookCategory: "singer",
           includeTrustFooter: true,
+          ycForm: "singer_amplification_booking",
         })
       : undefined;
 
@@ -261,6 +266,7 @@ export default function SingerAmplificationBookingWizard({
         intent={lastIntent}
         whatsappHref={lastWaHref}
         bookCategory="singer"
+        routeId={routeId}
         onNewBooking={resetWizard}
       />
     );

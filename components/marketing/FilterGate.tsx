@@ -74,12 +74,14 @@ type FilterGateProps = {
   initialFilterPreset?: Partial<FilterAnswers>;
   skipGate?: boolean;
   initialEmotionalLabel?: string | null;
+  routeId?: string | null;
 };
 
 export default function FilterGate({
   initialFilterPreset,
   skipGate = false,
   initialEmotionalLabel,
+  routeId = null,
 }: FilterGateProps = {}) {
   const [gateState, setGateState] = useState<GateState>("loading");
   const [timeline, setTimeline] = useState<TimelineId | null>(
@@ -159,6 +161,7 @@ export default function FilterGate({
       <StudioRecordingBooking
         filterAnswers={filterAnswers}
         initialEmotionalLabel={initialEmotionalLabel}
+        routeId={routeId}
       />
     );
   }

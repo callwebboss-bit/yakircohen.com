@@ -12,6 +12,7 @@ import {
 } from "@/lib/form-validation";
 import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SINGER_CLOSING_CTA } from "@/lib/data/singer-amplification-page";
 import { cn } from "@/lib/utils";
@@ -54,16 +55,17 @@ export default function SingerClosingLeadSection({
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : phone.trim();
-        const body = [
-          "שלום, מעוניין/ת בייעוץ על הגברה לזמר/ה:",
-          `שם: ${sanitizeLeadText(name, 60)}`,
-          `טלפון: ${displayPhone}`,
-          notes.trim()
-            ? `פרטים: ${sanitizeLeadText(notes, 500)}`
+        const body = buildClosingMessage({
+          serviceLabel: "הגברה לזמר/ה",
+          contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
+          intent: "continue_chat",
+          customerNeed: notes.trim()
+            ? sanitizeLeadText(notes, 500)
             : null,
-        ]
-          .filter(Boolean)
-          .join("\n");
+          source: "/events/equipment/singer-amplification",
+          closerServiceId: "live_sound",
+          ycForm: "singer_amplification_callback",
+        });
         const href = buildWhatsAppHref({
           text: body,
           utm_source: "website",
@@ -76,6 +78,7 @@ export default function SingerClosingLeadSection({
           body,
           name,
           phone: displayPhone,
+          crossSell: { bookCategory: "singer", routeId: "singer-amplification" },
         });
         setSubmitted(true);
       },

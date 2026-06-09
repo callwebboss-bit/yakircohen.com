@@ -11,11 +11,24 @@ import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
 import { withVat } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
+  buildStudioGuidelinesLine,
+  buildStudioParticipantsBlock,
+  buildStudioPricingEstimateBlock,
+  resolveStudioLeadPriceExVat,
+  type StudioLeadMessageContext,
+} from "@/lib/studio-booking-message";
+import {
+  buildBookGroupEnrichmentBlock,
+  isGroupBookingLead,
+  type GroupMessageInput,
+} from "@/lib/studio-group-messaging";
+import {
   buildClosingMessage,
   PREMIUM_THRESHOLD,
   type ClosingIntent,
   type ClosingTiming,
 } from "@/lib/whatsapp-closing";
+import { VAT_RATE } from "@/lib/data/pricing";
 
 export type BookingSummaryLine = {
   label: string;
@@ -45,6 +58,13 @@ export type BookingWhatsAppBodyOptions = {
   ycForm?: string | null;
   /** Project purpose from filter questions */
   ycPurpose?: "professional" | "personal" | "gift" | null;
+  /** Studio group pricing context */
+  studioLead?: StudioLeadMessageContext | null;
+  ycRoute?: string | null;
+  ycEmotional?: string | null;
+  ycRecordingType?: string | null;
+  ycMobileGeo?: string | null;
+  ycAtmosphere?: string | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -96,6 +116,12 @@ export function buildBookingWhatsAppBody({
   ycStep,
   ycForm,
   ycPurpose,
+  studioLead,
+  ycRoute,
+  ycEmotional,
+  ycRecordingType,
+  ycMobileGeo,
+  ycAtmosphere,
 }: BookingWhatsAppBodyOptions): string {
   const resolvedCloser =
     closerServiceId ??
@@ -106,14 +132,51 @@ export function buildBookingWhatsAppBody({
   const resolvedTiming = timing ?? filterAnswers?.timing ?? null;
   const resolvedPurpose = ycPurpose ?? filterAnswers?.purpose ?? null;
 
+  const extraBlocks: string[] = [];
+  let resolvedPriceExVat = priceExVat;
+  let resolvedTotal = totalEstimate;
+
+  if (studioLead) {
+    const participants = buildStudioParticipantsBlock(studioLead);
+    const pricing = buildStudioPricingEstimateBlock(studioLead);
+    extraBlocks.push(...participants, ...pricing);
+
+    const groupInput: GroupMessageInput = {
+      leadName: contact.name,
+      adultsCount: studioLead.adultsCount,
+      childrenCount: studioLead.childrenCount,
+      recorderCount: studioLead.recorderCount,
+      customerNeed: customerNeed ?? undefined,
+      recordingType: studioLead.recordingType,
+      scheduleWindow: ycSchedule ?? null,
+      studioPackageId: studioLead.packageId ?? null,
+      baseExVat: studioLead.baseExVat,
+      upgradesExVat: studioLead.upgradesExVat,
+      isAmbiguousGroup: studioLead.isAmbiguousGroup,
+      selectedUpgrades: studioLead.selectedUpgrades,
+      isMotzash: studioLead.isMotzash,
+      vatRate: studioLead.vatRate,
+      atmosphere: ycAtmosphere ?? undefined,
+    };
+
+    if (isGroupBookingLead(groupInput)) {
+      extraBlocks.push(...buildBookGroupEnrichmentBlock(groupInput));
+    }
+
+    if (!studioLead.isAmbiguousGroup && studioLead.recorderCount >= 1) {
+      resolvedPriceExVat = resolveStudioLeadPriceExVat(studioLead);
+      resolvedTotal = Math.round(resolvedPriceExVat * (1 + (studioLead.vatRate ?? VAT_RATE)));
+    }
+  }
+
   return buildClosingMessage({
     serviceLabel,
     contact,
     intent,
     customerNeed,
     packageLabel: packageLabel ?? serviceLabel,
-    priceExVat,
-    totalWithVat: totalEstimate,
+    priceExVat: resolvedPriceExVat,
+    totalWithVat: resolvedTotal,
     summaryLines,
     source: utmSource,
     timing: resolvedTiming,
@@ -125,6 +188,17 @@ export function buildBookingWhatsAppBody({
     ycIntent,
     ycForm,
     ycPurpose: resolvedPurpose,
+    ycAdults: studioLead?.adultsCount ?? null,
+    ycChildren: studioLead?.childrenCount ?? null,
+    ycRecorders: studioLead?.recorderCount ?? null,
+    ycScenario: studioLead?.recommendedScenario ?? "pairs",
+    ycAmbiguous: studioLead?.isAmbiguousGroup ?? false,
+    ycRoute,
+    ycEmotional,
+    ycRecordingType,
+    ycMobileGeo,
+    ycAtmosphere,
+    extraBlocks,
   });
 }
 

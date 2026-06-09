@@ -37,6 +37,8 @@ export default function RecordingSongInquiryForm() {
       priceExVat: getExVat("song_package"),
       summaryLines,
       source: "/studio/recording-song-modiin",
+      closerServiceId: "recording",
+      ycForm: "recording_song_inquiry_form",
     });
 
     const href = buildWhatsAppHref({
