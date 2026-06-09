@@ -40,11 +40,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ...getLegacyRedirects(),
-      {
-        source: "/portfolio",
-        destination: "/video",
-        permanent: true,
-      },
       // Strip .html extensions (produced by Pagefind crawling .next/server/app)
       {
         source: "/:path(.*)\\.html",

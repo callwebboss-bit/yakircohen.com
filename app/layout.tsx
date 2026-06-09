@@ -68,6 +68,13 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
   },
   robots: SITE_ROBOTS,
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
   other: {
     "ai-content-declaration": "human-authored-business-website",
   },

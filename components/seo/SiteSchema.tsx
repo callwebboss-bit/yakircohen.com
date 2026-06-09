@@ -1,5 +1,9 @@
 ﻿import { SITE_URL } from "@/lib/site-url";
-import { CONTACT_PHONE_E164, SOCIAL_LINKS } from "@/lib/constants";
+import {
+  CONTACT_PHONE_E164,
+  SOCIAL_LINKS,
+  STUDIO_MAPS_URL,
+} from "@/lib/constants";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import {
   EVENT_ATTRACTION_FROM_NIS,
@@ -14,6 +18,7 @@ import { buildReviewSchemaGraph } from "@/lib/review-schema";
 const BASE = SITE_URL;
 
 const socialUrls = SOCIAL_LINKS.map((s) => s.href);
+const sameAsUrls = [...socialUrls, STUDIO_MAPS_URL];
 
 const ADDRESS = {
   "@type": "PostalAddress",
@@ -37,14 +42,6 @@ const schema = {
       inLanguage: "he-IL",
       image: DEFAULT_OG_IMAGE_URL,
       publisher: { "@id": `${BASE}/#organization` },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${BASE}/?q={search_term_string}`,
-        },
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "Organization",
@@ -59,7 +56,7 @@ const schema = {
       telephone: CONTACT_PHONE_E164,
       foundingDate: "2010",
       address: ADDRESS,
-      sameAs: socialUrls,
+      sameAs: sameAsUrls,
     },
     {
       "@type": "Person",
@@ -67,7 +64,7 @@ const schema = {
       name: "יקיר כהן",
       jobTitle: "מפיק מוזיקלי ומדריך קול",
       url: `${BASE}/about`,
-      sameAs: socialUrls,
+      sameAs: sameAsUrls,
       worksFor: { "@id": `${BASE}/#organization` },
     },
     {
@@ -90,7 +87,7 @@ const schema = {
         latitude: 31.901,
         longitude: 35.013,
       },
-      hasMap: "https://maps.google.com/?q=מודיעין+עמק+איילון+34",
+      hasMap: STUDIO_MAPS_URL,
       openingHoursSpecification: [
         {
           "@type": "OpeningHoursSpecification",
@@ -117,7 +114,7 @@ const schema = {
         { "@type": "City", name: "תל אביב" },
         { "@type": "AdministrativeArea", name: "מרכז" },
       ],
-      sameAs: socialUrls,
+      sameAs: sameAsUrls,
       parentOrganization: { "@id": `${BASE}/#organization` },
       aggregateRating: buildGoogleAggregateRatingSchema(),
       makesOffer: [

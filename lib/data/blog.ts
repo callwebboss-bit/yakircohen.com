@@ -1,5 +1,10 @@
 import type { AudioDemoId } from "@/lib/data/audio-demos";
 import {
+  BLOG_SLUGS,
+  getAllBlogSlugs,
+  type BlogPostSlug,
+} from "@/lib/data/blog-slugs";
+import {
   EVENTS_SERVICES,
   PHOTOGRAPHY_SERVICES,
   STUDIO_SERVICES,
@@ -7,6 +12,9 @@ import {
   VOICEOVER_SERVICES,
   type ServiceEntity,
 } from "@/lib/data/services";
+
+export type { BlogPostSlug };
+export { getAllBlogSlugs };
 
 export type BlogPostSeo = {
   title: string;
@@ -2854,14 +2862,20 @@ export const BLOG_POSTS = [
   },
 ] as const satisfies readonly BlogPost[];
 
-export type BlogPostSlug = (typeof BLOG_POSTS)[number]["slug"];
-
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   return BLOG_POSTS.find((post) => post.slug === slug);
 }
 
-export function getAllBlogSlugs(): BlogPostSlug[] {
-  return BLOG_POSTS.map((post) => post.slug);
+if (process.env.NODE_ENV !== "production") {
+  const postSlugs = BLOG_POSTS.map((post) => post.slug);
+  const mismatch =
+    postSlugs.length !== BLOG_SLUGS.length ||
+    postSlugs.some((slug, i) => slug !== BLOG_SLUGS[i]);
+  if (mismatch) {
+    throw new Error(
+      "blog.ts slugs out of sync with blog-slugs.ts — run: npm run sync:blog-slugs",
+    );
+  }
 }
 
 export function getBlogPostsByServiceSlug(

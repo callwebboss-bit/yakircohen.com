@@ -34,10 +34,10 @@ const COURSE_CARDS = [
     sub: "מהנגיעה הראשונה בקונטרולר ועד סט שלם מול קהל",
   },
   {
-    href: "/academy/ai-music",
+    href: "/academy/dj-course",
     icon: "🤖",
-    label: "AI + הפקה מוזיקלית",
-    sub: "רמיקסים, ביטים ושירים שלמים בעזרת AI מתקדם",
+    label: "קורס DJ + AI",
+    sub: "רמיקסים, ביטים ושליטה בציוד - מהתחביב לעמדה מקצועית",
   },
   {
     href: "/academy/music-production",
@@ -68,6 +68,12 @@ const COURSE_CARDS = [
     icon: "🏠",
     label: "ייעוץ אקוסטיקה ובניית אולפן",
     sub: "אולפן ביתי, פודקאסט, משדר - תכנון אקוסטי וליווי",
+  },
+  {
+    href: "/academy/ulpan",
+    icon: "📖",
+    label: "לימוד עברית (אולפן)",
+    sub: "עברית מדוברת למבוגרים - שיעור פרונטלי פעם בשבוע",
   },
 ] as const;
 

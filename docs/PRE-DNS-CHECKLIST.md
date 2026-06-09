@@ -86,9 +86,35 @@
 
 ## 10. אחרי שהאתר חי על הדומיין
 
-- [ ] Google Search Console — הוסף נכס + שלח sitemap
-- [ ] בדיקת 10 URLs מ-Search Console (ישנים מ-Google Sites)
-- [ ] Meta Pixel / GA4 — אם יש קמפיינים (עדיין לא בקוד)
+### Google Search Console (חובה)
+
+1. [ ] [search.google.com/search-console](https://search.google.com/search-console) → הוסף נכס `https://yakircohen.com`
+2. [ ] אימות דומיין — העתק את קוד האימות מ-GSC ל-Vercel:
+   - **Settings → Environment Variables** → `GOOGLE_SITE_VERIFICATION` = הקוד (בלי `google-site-verification=` prefix)
+   - פרוס מחדש → בדוק View Source שיש `<meta name="google-site-verification" ...>`
+3. [ ] **Sitemaps** → שלח `https://yakircohen.com/sitemap.xml` (חייב להחזיר 200)
+4. [ ] **URL Inspection** — בדוק 10 כתובות ישנות מ-Google Sites (ראה `lib/legacy-redirects.ts`)
+5. [ ] **Pages / Coverage** — ודא שאין שגיאות אינדוקס המוניות אחרי שבוע
+
+### Google Business Profile (חובה ל-Local SEO)
+
+1. [ ] [business.google.com](https://business.google.com) — עדכן שעות, תמונות, שירותים, קישור לאתר
+2. [ ] ודא שכתובת `עמק איילון 34, מודיעין` תואמת ל-schema באתר
+3. [ ] פרסם פוסט שבועי (מחירון, מאמר חדש, וידאו מיוטיוב)
+4. [ ] עודד 2–3 ביקורות חדשות בחודש מלקוחות מרוצים
+5. [ ] ודא שדירוג באתר (`4.9` / `150+`) תואם ל-GBP — עדכן `lib/constants.ts` אם השתנה
+
+### תוכן שוטף (SEO לאורך זמן)
+
+1. [ ] **2–4 מאמרי בלוג בחודש** — `content/blog-queue.json` → `npm run ingest:blog` → `npm run sync:blog-slugs`
+2. [ ] כל מאמר חדש: 2–3 קישורים פנימיים לעמודי שירות (`/book`, `/studio/...`, `/podcast/...`)
+3. [ ] עמודי גיאו נוספים לפי ביקוש (דוגמה קיימת: `/dj-events/cities/jerusalem`)
+4. [ ] תיאורי YouTube עם קישור לעמוד הרלוונטי באתר (לא רק לדף הבית)
+
+### אנליטיקס
+
+- [ ] GA4 Realtime (`G-PVW4GMPNS4`) — כבר בקוד
+- [ ] Meta Pixel — אם יש קמפיינים (עדיין לא בקוד)
 
 ---
 

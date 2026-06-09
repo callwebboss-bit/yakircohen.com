@@ -126,7 +126,12 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 
 ## 6. משתני סביבה
 
-אין `.env` חובה. הקנוני: `lib/site-url.ts` → `https://yakircohen.com`.
+| משתנה | חובה? | שימוש |
+|--------|--------|--------|
+| `GOOGLE_SITE_VERIFICATION` | לא | קוד אימות מ-Google Search Console → meta tag ב-`app/layout.tsx` |
+| `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` | לא | מייל גיבוי ללידים |
+
+אין `.env` חובה לפריסה. הקנוני: `lib/site-url.ts` → `https://yakircohen.com`.
 
 ---
 

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
-import { getAllBlogSlugs } from "@/lib/data/blog";
+import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
 
@@ -31,7 +31,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Studio & Blessings ─────────────────────────────────────────────────────
   { url: url("studio"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("portfolio"), priority: 0.85, changeFrequency: "weekly" },
+  { url: url("portfolio"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
@@ -175,8 +175,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── Academy ────────────────────────────────────────────────────────────────
   { url: url("academy"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("academy/dj-course"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("academy/ai-music"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/music-production"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("academy/ulpan"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("academy/private-lessons"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/voiceover"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/stuttering-course"), priority: 0.8, changeFrequency: "monthly" },

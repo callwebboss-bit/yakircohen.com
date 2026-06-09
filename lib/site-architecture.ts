@@ -187,8 +187,8 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "מרכז האקדמיה", href: "/academy" },
       { label: "קורס DJ", href: "/academy/dj-course" },
       { label: "הפקה מוזיקלית", href: "/academy/music-production" },
-      { label: "AI + מוזיקה", href: "/academy/ai-music" },
       { label: "קורס גמגום", href: "/academy/stuttering-course" },
+      { label: "לימוד עברית (אולפן)", href: "/academy/ulpan" },
       {
         label: "שיעור פרטי - 990 / 1,280 ₪",
         href: "/academy/private-lessons",
