@@ -1,0 +1,7 @@
+# Regenerated on install/build — excluding reduces Dropbox sync churn and speeds up git.
+node_modules/
+.next/
+out/
+.vercel/
+coverage/
+public/pagefind/

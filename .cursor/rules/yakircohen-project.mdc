@@ -23,6 +23,7 @@ alwaysApply: true
 
 ## Never
 
+- Put CSV, spreadsheets, or internal reports under `public/` — use the workspace root outside the repo
 - Add `"use client"` unless required — Server Components by default
 - Use `pages/` router — everything under `app/`
 - Add `tailwind.config.js` — Tailwind v4 is PostCSS-only
@@ -62,6 +63,10 @@ alwaysApply: true
 - Preview only: yakircohen-com.vercel.app (do not share with clients)
 - Push to `main` → Vercel auto-deploy
 - GitHub Actions runs lint + build — do not force-push to `main` if CI fails
+
+## Cursor skills
+
+- Project skill: `.cursor/skills/whatsapp-closing/` — use for booking forms, WhatsApp CTAs, and pricing in lead messages
 
 ## Pricing & WhatsApp closing
 

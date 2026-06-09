@@ -46,3 +46,8 @@ next-env.d.ts
 # Editor temp files
 *.tmp.*
 .env*.local
+
+# Internal reports / spreadsheets — never serve from public/
+/public/**/*.csv
+/public/**/*.xlsx
+/public/**/*.xls
