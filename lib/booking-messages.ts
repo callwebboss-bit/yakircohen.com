@@ -6,6 +6,7 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { BOOK_CLOSER_SERVICE } from "@/lib/data/book-closer-map";
 import { BOOKING_CONSULT_15_MIN } from "@/lib/data/booking-shared";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
 import { withVat } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -39,6 +40,11 @@ export type BookingWhatsAppBodyOptions = {
   closerServiceId?: string;
   ycSchedule?: "weekdays" | "motzash" | null;
   ycPackage?: string | null;
+  ycIntent?: "start_now" | "continue_chat" | null;
+  ycStep?: number;
+  ycForm?: string | null;
+  /** Project purpose from filter questions */
+  ycPurpose?: "professional" | "personal" | "gift" | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -46,6 +52,30 @@ export { PREMIUM_THRESHOLD };
 /**
  * Builds a scannable WhatsApp message body for booking flows.
  */
+/** Read filter answers from sessionStorage — returns null if not set or SSR */
+function readFilterAnswers(): { timing: ClosingTiming; purpose: "professional" | "personal" | "gift" } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(FILTER_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { timeline?: string; purpose?: string };
+    const timingMap: Record<string, ClosingTiming> = {
+      this_week: "urgent",
+      this_month: "month",
+      just_browsing: "flexible",
+    };
+    const timing = parsed.timeline ? (timingMap[parsed.timeline] ?? null) : null;
+    const purposeRaw = parsed.purpose;
+    const purpose = purposeRaw === "professional" || purposeRaw === "personal" || purposeRaw === "gift"
+      ? purposeRaw
+      : null;
+    if (!timing && !purpose) return null;
+    return { timing: timing as ClosingTiming, purpose: purpose as "professional" | "personal" | "gift" };
+  } catch {
+    return null;
+  }
+}
+
 export function buildBookingWhatsAppBody({
   intent,
   serviceLabel,
@@ -62,10 +92,19 @@ export function buildBookingWhatsAppBody({
   closerServiceId,
   ycSchedule,
   ycPackage,
+  ycIntent,
+  ycStep,
+  ycForm,
+  ycPurpose,
 }: BookingWhatsAppBodyOptions): string {
   const resolvedCloser =
     closerServiceId ??
     (bookCategory ? BOOK_CLOSER_SERVICE[bookCategory] : undefined);
+
+  // Enrich with filter answers if not explicitly provided
+  const filterAnswers = readFilterAnswers();
+  const resolvedTiming = timing ?? filterAnswers?.timing ?? null;
+  const resolvedPurpose = ycPurpose ?? filterAnswers?.purpose ?? null;
 
   return buildClosingMessage({
     serviceLabel,
@@ -77,12 +116,15 @@ export function buildBookingWhatsAppBody({
     totalWithVat: totalEstimate,
     summaryLines,
     source: utmSource,
-    timing,
+    timing: resolvedTiming,
     includeTrustFooter,
     closerServiceId: resolvedCloser,
-    ycStep: 1,
+    ycStep: ycStep ?? 1,
     ycSchedule,
     ycPackage,
+    ycIntent,
+    ycForm,
+    ycPurpose: resolvedPurpose,
   });
 }
 
@@ -90,6 +132,11 @@ export function buildBookingWhatsAppBody({
 export function buildConsultWhatsAppText(
   summaryLines: BookingSummaryLine[],
   contact: { name: string; phone: string },
+  options?: {
+    bookCategory?: BookCategoryId;
+    closerServiceId?: string;
+    source?: string;
+  },
 ): string {
   const lines: string[] = [
     "שלום, אשמח לייעוץ קצר לפני שבוחרים מסלול ומחיר - 15 דקות יסדרו את זה",
@@ -109,16 +156,32 @@ export function buildConsultWhatsAppText(
     }
   }
 
-  return lines.join("\n").trim();
+  const resolvedCloser =
+    options?.closerServiceId ??
+    (options?.bookCategory ? BOOK_CLOSER_SERVICE[options.bookCategory] : "recording");
+
+  const body = lines.join("\n").trim();
+  return appendYcLeadTag(body, {
+    service: resolvedCloser,
+    source: options?.source ?? "/book",
+    step: 1,
+    intent: "continue_chat",
+    form: "consult_15min",
+  });
 }
 
 /** Builds a WhatsApp href for the 15-minute consult CTA with booking context. */
 export function buildConsultWhatsAppHref(
   summaryLines: BookingSummaryLine[],
   contact: { name: string; phone: string },
+  options?: {
+    bookCategory?: BookCategoryId;
+    closerServiceId?: string;
+    source?: string;
+  },
 ): string {
   return buildWhatsAppHref({
-    text: buildConsultWhatsAppText(summaryLines, contact),
+    text: buildConsultWhatsAppText(summaryLines, contact, options),
     utm_source: "website",
     utm_campaign: BOOKING_CONSULT_15_MIN.utmCampaign,
   });

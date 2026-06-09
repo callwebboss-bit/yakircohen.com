@@ -62,6 +62,11 @@ export type ClosingMessageOptions = {
   ycStep?: number;
   ycSchedule?: "weekdays" | "motzash" | null;
   ycPackage?: string | null;
+  ycIntent?: "start_now" | "continue_chat" | null;
+  /** מזהה טופס באתר — ל-parser ב-yakir-closer */
+  ycForm?: string | null;
+  /** מטרת הפרויקט מ-filter questions */
+  ycPurpose?: "professional" | "personal" | "gift" | null;
 };
 
 const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
@@ -97,6 +102,9 @@ export function buildClosingMessage({
   ycStep = 1,
   ycSchedule,
   ycPackage,
+  ycIntent,
+  ycForm,
+  ycPurpose,
 }: ClosingMessageOptions): string {
   const lines: string[] = [];
 
@@ -160,6 +168,8 @@ export function buildClosingMessage({
   let body = lines.join("\n").trim();
 
   if (closerServiceId?.trim()) {
+    // Map ClosingTiming → YcTimingId (same values, both are urgency descriptors)
+    const ycTiming = timing ?? null;
     body = appendYcLeadTag(body, {
       service: closerServiceId.trim(),
       price: priceExVat ?? null,
@@ -167,6 +177,10 @@ export function buildClosingMessage({
       step: ycStep,
       schedule: ycSchedule ?? null,
       package: ycPackage ?? null,
+      intent: ycIntent ?? intent ?? null,
+      form: ycForm ?? null,
+      timing: ycTiming,
+      purpose: ycPurpose ?? null,
     });
   }
 
@@ -183,6 +197,8 @@ export type SimpleLeadOptions = {
   priceExVat?: number | null;
   source?: string | null;
   intent?: ClosingIntent;
+  closerServiceId?: string | null;
+  ycForm?: string | null;
 };
 
 /** הודעת פתיחה ל-CTA בלי פרטי קשר (הלקוח ממלא ב-WhatsApp) */
@@ -190,6 +206,8 @@ export function buildPricingInquiryMessage(options: {
   packageLabel: string;
   priceExVat?: number | null;
   source?: string | null;
+  closerServiceId?: string | null;
+  ycForm?: string | null;
 }): string {
   const lines = [
     `שלום, אשמח לשמוע על ${options.packageLabel}`,
@@ -201,7 +219,18 @@ export function buildPricingInquiryMessage(options: {
     lines.push("");
     lines.push(`📍 מקור: ${options.source.trim()}`);
   }
-  return lines.join("\n");
+  let body = lines.join("\n");
+  if (options.closerServiceId?.trim()) {
+    body = appendYcLeadTag(body, {
+      service: options.closerServiceId.trim(),
+      price: options.priceExVat ?? null,
+      source: options.source?.trim() || "website",
+      step: 1,
+      intent: "continue_chat",
+      form: options.ycForm ?? null,
+    });
+  }
+  return body;
 }
 
 export function buildSimpleLeadMessage(options: SimpleLeadOptions): string {
@@ -213,5 +242,8 @@ export function buildSimpleLeadMessage(options: SimpleLeadOptions): string {
     priceExVat: options.priceExVat,
     source: options.source,
     intent: options.intent ?? "continue_chat",
+    closerServiceId: options.closerServiceId,
+    ycForm: options.ycForm,
+    ycIntent: options.intent ?? "continue_chat",
   });
 }
