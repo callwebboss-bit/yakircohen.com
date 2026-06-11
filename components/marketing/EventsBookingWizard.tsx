@@ -95,6 +95,8 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
     formId: "events_booking_wizard",
     initialForm: INITIAL,
     parseDraft: (raw) => parseEventsFormDraft(raw, INITIAL),
+    persistStepInDraft: true,
+    maxStep: 2,
   });
 
   const { honeypot, setHoneypot, globalError } = guard;

@@ -127,6 +127,8 @@ export default function PodcastBookingWizard({
     formId: "podcast_booking_wizard",
     initialForm: INITIAL,
     parseDraft: (raw) => parsePodcastFormDraft(raw, INITIAL),
+    persistStepInDraft: true,
+    maxStep: 2,
   });
 
   const { honeypot, setHoneypot, globalError } = guard;

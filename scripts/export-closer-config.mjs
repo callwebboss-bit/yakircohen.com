@@ -129,18 +129,80 @@ function parseStudioParticipantRules(studioText) {
   };
 }
 
+function parseRecordingTypes(text) {
+  const start = text.indexOf("export const RECORDING_TYPES");
+  const end = text.indexOf("export const CONSULTATION_PACKAGES", start);
+  if (start < 0) return [];
+  const slice = text.slice(start, end > start ? end : start + 2000);
+  const items = [];
+  const re = /id:\s*"([^"]+)"[\s\S]*?label:\s*"([^"]+)"/g;
+  let m;
+  while ((m = re.exec(slice)) !== null) {
+    items.push({ id: m[1], label: m[2] });
+  }
+  return items;
+}
+
+function parseAtmosphereTypes(text) {
+  const start = text.indexOf("export const RECORDING_ATMOSPHERES");
+  const end = text.indexOf("export const RECORDING_STUDIO_FAQS", start);
+  if (start < 0) return [];
+  const slice = text.slice(start, end > start ? end : start + 2000);
+  const items = [];
+  const re = /id:\s*"([^"]+)"[\s\S]*?title:\s*"([^"]+)"/g;
+  let m;
+  while ((m = re.exec(slice)) !== null) {
+    items.push({ id: m[1], title: m[2] });
+  }
+  return items;
+}
+
+function unescapeTsString(value) {
+  return value.replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+}
+
+function extractTsStringField(block, field) {
+  const re = new RegExp(`${field}:\\s*"((?:\\\\.|[^"\\\\])*)"`);
+  const m = block.match(re);
+  return m ? unescapeTsString(m[1]) : null;
+}
+
 function parseStudioUpgrades(text) {
   const start = text.indexOf("export const STUDIO_RECORDING_UPGRADES");
   const end = text.indexOf("export const EVENT_TYPE_OPTIONS", start);
   if (start < 0) return [];
   const slice = text.slice(start, end > start ? end : start + 8000);
-  const upgrades = [];
-  const blockRe = /id:\s*"([^"]+)"[\s\S]*?name:\s*"([^"]+)"[\s\S]*?price:\s*(\d+)/g;
-  let m;
-  while ((m = blockRe.exec(slice)) !== null) {
-    upgrades.push({ id: m[1], name: m[2], price: Number(m[3]) });
-  }
-  return upgrades;
+  const arrayStart = slice.indexOf("[");
+  const arrayEnd = slice.indexOf("] as const");
+  if (arrayStart < 0 || arrayEnd < 0) return [];
+  const arrayBody = slice.slice(arrayStart + 1, arrayEnd);
+  const blocks = arrayBody
+    .split(/\},\s*\{/)
+    .map((part, index, all) => {
+      let block = part.trim();
+      if (!block.startsWith("{")) block = `{${block}`;
+      if (!block.endsWith("}")) block = `${block}}`;
+      return block;
+    })
+    .filter((block) => /id:\s*"/.test(block));
+
+  return blocks
+    .map((block) => {
+      const id = extractTsStringField(block, "id");
+      const name = extractTsStringField(block, "name");
+      const description = extractTsStringField(block, "description");
+      const priceMatch = block.match(/price:\s*(\d+)/);
+      const badge = extractTsStringField(block, "badge");
+      if (!id || !name || !description || !priceMatch) return null;
+      return {
+        id,
+        name,
+        description,
+        price: Number(priceMatch[1]),
+        ...(badge ? { badge } : {}),
+      };
+    })
+    .filter(Boolean);
 }
 
 function parseBlogPosts(text) {
@@ -361,6 +423,8 @@ const payload = {
   bookRoutePresets: parseBookRoutes(routesText),
   studioPackages: parseStudioPackages(studioText),
   studioUpgrades: parseStudioUpgrades(studioText),
+  recordingTypes: parseRecordingTypes(studioText),
+  atmosphereTypes: parseAtmosphereTypes(studioText),
   studioParticipantRules: parseStudioParticipantRules(studioText),
   blogPosts: parseBlogPosts(blogText),
   filterQuestions: parseFilterQuestions(filterText),

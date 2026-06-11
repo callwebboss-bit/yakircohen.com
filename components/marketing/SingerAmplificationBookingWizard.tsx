@@ -102,6 +102,8 @@ export default function SingerAmplificationBookingWizard({
     formId: "singer_amplification_booking",
     initialForm,
     parseDraft: (raw) => parseSingerFormDraft(raw, initialForm, initialPackageId ?? ""),
+    persistStepInDraft: true,
+    maxStep: 2,
   });
 
   const { honeypot, setHoneypot, globalError } = guard;

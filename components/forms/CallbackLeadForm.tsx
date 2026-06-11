@@ -2,12 +2,21 @@
 
 import { useId, useState, type FormEvent } from "react";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import Button from "@/components/ui/Button";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateBookingLead,
+} from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 const fieldClass =
   "mt-1.5 min-h-11 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
-import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 export type CallbackLeadFormProps = {
   heading?: string;
@@ -17,6 +26,7 @@ export type CallbackLeadFormProps = {
   utmCampaign?: string;
   serviceOptions?: readonly string[];
   formLabel?: string;
+  formId?: string;
   className?: string;
   source?: string;
 };
@@ -38,44 +48,81 @@ export default function CallbackLeadForm({
   utmCampaign = "callback_lead_form",
   serviceOptions = DEFAULT_SERVICE_OPTIONS,
   formLabel = "טופס יצירת קשר",
+  formId = "callback_lead_form",
   className = "",
   source = "/contact",
 }: CallbackLeadFormProps) {
-  const formId = useId();
-  const nameId = `${formId}-name`;
-  const phoneId = `${formId}-phone`;
-  const serviceId = `${formId}-service`;
+  const fieldIds = useId();
+  const nameId = `${fieldIds}-name`;
+  const phoneId = `${fieldIds}-phone`;
+  const serviceId = `${fieldIds}-service`;
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [service, setService] = useState("");
   const [customerNeed, setCustomerNeed] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId,
+  });
+  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
 
-    const lines = buildSimpleLeadMessage({
-      contact: { name: name.trim(), phone: phone.trim() },
-      serviceLabel: service || "פנייה מהאתר",
-      customerNeed: customerNeed.trim() || null,
-      source,
-      closerServiceId: "recording",
-      ycForm: "callback_lead_form",
-    });
+    const errs = attemptSubmit(
+      () =>
+        validateBookingLead({
+          name,
+          phone,
+          date: "",
+          time: "",
+          location: "",
+          notes: customerNeed,
+          requireLocation: false,
+          requireDate: false,
+          requireTime: false,
+        }),
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : phone.trim();
+        const body = buildSimpleLeadMessage({
+          contact: {
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+          },
+          serviceLabel: service || "פנייה מהאתר",
+          customerNeed: customerNeed.trim()
+            ? sanitizeLeadText(customerNeed, 500)
+            : null,
+          source,
+          closerServiceId: "recording",
+          ycForm: formId,
+        });
+        const href = buildWhatsAppHref({
+          text: body,
+          utm_source: "website",
+          utm_campaign: utmCampaign,
+        });
+        void submitLead(
+          {
+            formId,
+            subject: "ליד חדש - בקשת חזרה",
+            body,
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+          },
+          href,
+        );
+      },
+    );
 
-    const href = buildWhatsAppHref({
-      text: lines,
-      utm_source: "website",
-      utm_campaign: utmCampaign,
-    });
-
-    window.open(href, "_blank", "noopener,noreferrer");
-    setSubmitted(true);
+    setFieldErrors(errs ?? {});
   }
 
-  if (submitted) {
+  if (isSuccess) {
     return (
       <div
         className={`rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center ${className}`.trim()}
@@ -96,6 +143,9 @@ export default function CallbackLeadForm({
       <h2 className="text-xl font-semibold text-foreground">{heading}</h2>
       <p className="mt-2 text-sm text-muted-foreground">{description}</p>
 
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
+      <LeadFormAlert message={globalError} />
+
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor={nameId} className="block text-sm font-medium text-foreground">
@@ -104,13 +154,16 @@ export default function CallbackLeadForm({
           <input
             id={nameId}
             type="text"
-            required
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="ישראל ישראלי"
             className={fieldClass}
+            aria-invalid={Boolean(fieldErrors.name)}
           />
+          {fieldErrors.name ? (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
+          ) : null}
         </div>
 
         <div>
@@ -120,7 +173,6 @@ export default function CallbackLeadForm({
           <input
             id={phoneId}
             type="tel"
-            required
             autoComplete="tel"
             inputMode="tel"
             dir="ltr"
@@ -128,7 +180,11 @@ export default function CallbackLeadForm({
             onChange={(e) => setPhone(e.target.value)}
             placeholder="050-0000000"
             className={fieldClass}
+            aria-invalid={Boolean(fieldErrors.phone)}
           />
+          {fieldErrors.phone ? (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
+          ) : null}
         </div>
 
         {serviceOptions.length > 0 ? (
@@ -156,14 +212,14 @@ export default function CallbackLeadForm({
           <NeedsDiscoveryStep
             value={customerNeed}
             onChange={setCustomerNeed}
-            id={`${formId}-need`}
+            id={`${fieldIds}-need`}
           />
         </div>
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Button type="submit" className="rounded-xl px-7">
-          שלחו פרטים
+        <Button type="submit" className="rounded-xl px-7" disabled={isSubmitting}>
+          {isSubmitting ? "שולח..." : "שלחו פרטים"}
         </Button>
         <p className="text-xs text-muted-foreground">
           הפרטים ישמשו אך ורק ליצירת קשר בנוגע לשירות המבוקש.

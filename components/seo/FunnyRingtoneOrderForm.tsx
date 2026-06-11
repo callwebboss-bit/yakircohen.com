@@ -1,9 +1,22 @@
 ﻿"use client";
 
 import { useState, type FormEvent } from "react";
-import { RINGTONE_PRICE_NIS } from "@/lib/data/funny-ringtone-page";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import {
+  RINGTONE_PAGE_PATH,
+  RINGTONE_PRICE_NIS,
+} from "@/lib/data/funny-ringtone-page";
 import { formatNis } from "@/lib/data/pricing";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateBookingLead,
+} from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 const CONTEXT_OPTIONS = [
   "יום הולדת",
@@ -13,38 +26,80 @@ const CONTEXT_OPTIONS = [
   "אחר",
 ] as const;
 
+const FORM_ID = "funny_ringtone_order_form";
+
 export default function FunnyRingtoneOrderForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [recipient, setRecipient] = useState("");
   const [context, setContext] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: FORM_ID,
+  });
+  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
 
-    const lines = [
-      `שלום, קיבלתי פנייה דרך האתר לרינגטון מצחיק (${formatNis(RINGTONE_PRICE_NIS)}):`,
-      `שם: ${name.trim()}`,
-      `טלפון: ${phone.trim()}`,
-      recipient.trim() ? `למי המתנה: ${recipient.trim()}` : null,
-      context ? `סוג מתנה: ${context}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const errs = attemptSubmit(
+      () =>
+        validateBookingLead({
+          name,
+          phone,
+          date: "",
+          time: "",
+          location: "",
+          notes: recipient,
+          requireLocation: false,
+          requireDate: false,
+          requireTime: false,
+        }),
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : phone.trim();
+        const summaryLines = [
+          ...(recipient.trim()
+            ? [{ label: "למי המתנה", value: sanitizeLeadText(recipient, 80) }]
+            : []),
+          ...(context ? [{ label: "סוג מתנה", value: context }] : []),
+          { label: "מחיר מבצע", value: formatNis(RINGTONE_PRICE_NIS) },
+        ];
+        const body = buildSimpleLeadMessage({
+          contact: {
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+          },
+          serviceLabel: "רינגטון מצחיק",
+          summaryLines,
+          source: RINGTONE_PAGE_PATH,
+          closerServiceId: "recording",
+          ycForm: FORM_ID,
+        });
+        const href = buildWhatsAppHref({
+          text: body,
+          utm_source: "website",
+          utm_campaign: FORM_ID,
+        });
+        void submitLead(
+          {
+            formId: FORM_ID,
+            subject: "ליד חדש - רינגטון מצחיק",
+            body,
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+          },
+          href,
+        );
+      },
+    );
 
-    const href = buildWhatsAppHref({
-      text: lines,
-      utm_source: "website",
-      utm_campaign: "funny_ringtone_order_form",
-    });
-
-    window.open(href, "_blank", "noopener,noreferrer");
-    setSubmitted(true);
+    setFieldErrors(errs ?? {});
   }
 
-  if (submitted) {
+  if (isSuccess) {
     return (
       <div className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center">
         <p className="text-lg font-semibold text-foreground">
@@ -74,6 +129,9 @@ export default function FunnyRingtoneOrderForm() {
         הרעיון.
       </p>
 
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
+      <LeadFormAlert message={globalError} />
+
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label
@@ -85,13 +143,16 @@ export default function FunnyRingtoneOrderForm() {
           <input
             id="ringtone-name"
             type="text"
-            required
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="ישראל ישראלי"
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            aria-invalid={Boolean(fieldErrors.name)}
           />
+          {fieldErrors.name ? (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
+          ) : null}
         </div>
 
         <div>
@@ -104,7 +165,6 @@ export default function FunnyRingtoneOrderForm() {
           <input
             id="ringtone-phone"
             type="tel"
-            required
             autoComplete="tel"
             inputMode="tel"
             dir="ltr"
@@ -112,7 +172,11 @@ export default function FunnyRingtoneOrderForm() {
             onChange={(e) => setPhone(e.target.value)}
             placeholder="050-0000000"
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            aria-invalid={Boolean(fieldErrors.phone)}
           />
+          {fieldErrors.phone ? (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
+          ) : null}
         </div>
 
         <div>
@@ -158,9 +222,10 @@ export default function FunnyRingtoneOrderForm() {
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          disabled={isSubmitting}
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red disabled:opacity-50"
         >
-          שלחו הזמנה ←
+          {isSubmitting ? "שולח..." : "שלחו הזמנה ←"}
         </button>
         <p className="text-xs text-muted-foreground">
           הטופס פותח שיח בוואטסאפ - נמשיך משם את כל הפרטים

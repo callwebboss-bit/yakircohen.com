@@ -2,10 +2,20 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
+import HoneypotField from "@/components/forms/HoneypotField";
+import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildBookHref } from "@/lib/book-url";
+import {
+  formatPhoneForDisplay,
+  sanitizeLeadText,
+  validateBookingLead,
+} from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 const EVENT_TYPE_OPTIONS = [
   "בר מצווה / בת מצווה",
@@ -15,6 +25,8 @@ const EVENT_TYPE_OPTIONS = [
   "מתנה / יום הולדת",
   "אחר",
 ] as const;
+
+const FORM_ID = "recording_song_final_cta_form";
 
 const whatsappDirectHref = buildWhatsAppHref({
   text: "שלום יקיר, אני מעוניין לשוחח על הקלטת שיר לאירוע שלנו",
@@ -26,29 +38,70 @@ export default function RecordingSongFinalCTA() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [eventType, setEventType] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: FORM_ID,
+  });
+  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
 
-    const lines = [
-      "שלום, קיבלתי פנייה לייעוץ מוזיקלי דרך האתר:",
-      `שם: ${name.trim()}`,
-      `טלפון: ${phone.trim()}`,
-      eventType ? `סוג האירוע: ${eventType}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const errs = attemptSubmit(
+      () =>
+        validateBookingLead({
+          name,
+          phone,
+          date: "",
+          time: "",
+          location: "",
+          notes: "",
+          requireLocation: false,
+          requireDate: false,
+          requireTime: false,
+        }),
+      (result) => {
+        const displayPhone = result.normalizedPhone
+          ? formatPhoneForDisplay(result.normalizedPhone)
+          : phone.trim();
+        const summaryLines = eventType
+          ? [{ label: "סוג אירוע", value: eventType }]
+          : [];
+        const body = buildSimpleLeadMessage({
+          contact: {
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+          },
+          serviceLabel: "ייעוץ מוזיקלי להקלטת שיר",
+          priceExVat: getExVat("song_package"),
+          summaryLines,
+          source: "/studio/recording-song-modiin",
+          closerServiceId: "recording",
+          ycForm: FORM_ID,
+        });
+        const href = buildWhatsAppHref({
+          text: body,
+          utm_source: "website",
+          utm_campaign: FORM_ID,
+        });
+        void submitLead(
+          {
+            formId: FORM_ID,
+            subject: "ליד חדש - ייעוץ מוזיקלי להקלטת שיר",
+            body,
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+            crossSell: { bookCategory: "studio" },
+          },
+          href,
+          "continue_chat",
+          { leadCategory: "studio" },
+        );
+      },
+    );
 
-    const href = buildWhatsAppHref({
-      text: lines,
-      utm_source: "website",
-      utm_campaign: "recording_song_final_cta_form",
-    });
-
-    window.open(href, "_blank", "noopener,noreferrer");
-    setSubmitted(true);
+    setFieldErrors(errs ?? {});
   }
 
   return (
@@ -69,7 +122,6 @@ export default function RecordingSongFinalCTA() {
         עכשיו לייעוץ ראשוני ובדיקת התאמת פלייבק - ללא שום התחייבות.
       </p>
 
-      {/* Primary: WhatsApp + book */}
       <div className="mt-8 space-y-3">
         <a
           href={whatsappDirectHref}
@@ -97,15 +149,13 @@ export default function RecordingSongFinalCTA() {
         </p>
       </div>
 
-      {/* Divider */}
       <div className="mx-auto mt-10 flex max-w-sm items-center gap-4">
         <div className="flex-1 border-t border-border" />
         <span className="text-xs text-muted-foreground">או</span>
         <div className="flex-1 border-t border-border" />
       </div>
 
-      {/* Secondary: Mini form */}
-      {submitted ? (
+      {isSuccess ? (
         <div className="mx-auto mt-8 max-w-sm rounded-xl border border-brand-red/20 bg-background p-6">
           <p className="font-semibold text-foreground">
             תודה! נחזור אליכם בקרוב.
@@ -121,18 +171,22 @@ export default function RecordingSongFinalCTA() {
           aria-label="טופס בקשה לייעוץ מוזיקלי"
           noValidate
         >
+          <HoneypotField value={honeypot} onChange={setHoneypot} />
+          <LeadFormAlert message={globalError} />
           <input
             type="text"
-            required
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="שם מלא *"
             className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            aria-invalid={Boolean(fieldErrors.name)}
           />
+          {fieldErrors.name ? (
+            <p className="text-xs text-red-500">{fieldErrors.name}</p>
+          ) : null}
           <input
             type="tel"
-            required
             autoComplete="tel"
             inputMode="tel"
             dir="ltr"
@@ -140,7 +194,11 @@ export default function RecordingSongFinalCTA() {
             onChange={(e) => setPhone(e.target.value)}
             placeholder="טלפון *"
             className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            aria-invalid={Boolean(fieldErrors.phone)}
           />
+          {fieldErrors.phone ? (
+            <p className="text-xs text-red-500">{fieldErrors.phone}</p>
+          ) : null}
           <select
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
@@ -155,9 +213,10 @@ export default function RecordingSongFinalCTA() {
           </select>
           <button
             type="submit"
-            className="w-full rounded-xl border border-brand-red px-6 py-3 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+            disabled={isSubmitting}
+            className="w-full rounded-xl border border-brand-red px-6 py-3 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white disabled:opacity-50"
           >
-            שלח בקשה לייעוץ מוזיקלי ←
+            {isSubmitting ? "שולח..." : "שלח בקשה לייעוץ מוזיקלי ←"}
           </button>
         </form>
       )}

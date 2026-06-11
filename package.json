@@ -18,6 +18,7 @@
     "start": "next start",
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint",
     "test": "node --import tsx --test hooks/useBookFlow.test.ts hooks/useBookingWizard.test.ts hooks/useLeadSubmit.test.ts lib/studio-form-draft.test.ts lib/events-form-draft.test.ts lib/singer-form-draft.test.ts",
+    "audit:headings": "node scripts/audit-headings.mjs",
     "audit:images": "node scripts/audit-images.mjs",
     "audit:links": "node scripts/audit-links.mjs",
     "audit:seo-titles": "node scripts/audit-seo-titles.mjs",
