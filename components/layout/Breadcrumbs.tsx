@@ -17,10 +17,19 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
   const pathname = usePathname() ?? "/";
   const trail = buildBreadcrumbTrail(pathname);
 
+  const jsonLd = breadcrumbListJsonLd(trail);
+
   if (trail.length === 0) return null;
 
   return (
-    <nav
+    <>
+      {jsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      ) : null}
+      <nav
         aria-label="מיקום בעמוד"
         className={cn(
           // IMPROVED: theme tokens replace hardcoded hex colors
@@ -58,5 +67,6 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
           })}
         </Container>
       </nav>
+    </>
   );
 }

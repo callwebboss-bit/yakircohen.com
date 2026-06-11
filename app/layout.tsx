@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo, Noto_Serif_Hebrew } from "next/font/google";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
-import BreadcrumbJsonLd from "@/components/layout/BreadcrumbJsonLd";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
@@ -113,7 +112,6 @@ export default function RootLayout({
           דלג לתוכן הראשי
         </a>
         <Header />
-        <BreadcrumbJsonLd />
         <Breadcrumbs />
         <main
           id="main-content"

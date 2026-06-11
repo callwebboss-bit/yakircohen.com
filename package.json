@@ -14,7 +14,7 @@
     "build:full": "node scripts/run-with-lock.mjs -- next build && npm run index:search",
     "sync:blog-slugs": "node scripts/sync-blog-slugs.mjs",
     "vercel-build": "npm run generate:schema && npm run sync:blog-slugs && npm run build:full",
-    "index:search": "node scripts/prepare-pagefind.mjs && pagefind --site .pagefind-src --output-path public/pagefind && node -e \"require('fs').rmSync('.pagefind-src',{recursive:true,force:true})\"",
+    "index:search": "node scripts/prepare-pagefind.mjs && pagefind --site .pagefind-src --output-path public/pagefind && node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){console.warn('[index:search] cleanup skipped:',e.message)}\"",
     "start": "next start",
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint",
     "test": "node --import tsx --test hooks/useBookFlow.test.ts hooks/useBookingWizard.test.ts hooks/useLeadSubmit.test.ts lib/studio-form-draft.test.ts lib/events-form-draft.test.ts lib/singer-form-draft.test.ts",

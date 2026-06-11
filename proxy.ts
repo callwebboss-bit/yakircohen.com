@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 /**
  * Edge proxy (Next.js 16):
- * - Rewrite `/home` → `/` to break redirect loops from legacy edge rules
- * - Inject `x-pathname` for server-rendered BreadcrumbList JSON-LD
+ * Rewrite `/home` → `/` to break redirect loops from legacy edge rules.
  */
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -15,18 +14,9 @@ export function proxy(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  const requestHeaders = new Headers(req.headers);
-  requestHeaders.set("x-pathname", pathname);
-
-  return NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/home",
-    "/home/",
-    "/((?!api|_next/static|_next/image|favicon.ico|images|pagefind|.*\\..*).*)",
-  ],
+  matcher: ["/home", "/home/"],
 };
