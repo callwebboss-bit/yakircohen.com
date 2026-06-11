@@ -21,6 +21,8 @@ import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site-url";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { FAQ_EXTRA_ITEMS } from "@/lib/data/faq-extra-items";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -138,36 +140,39 @@ export default function FAQPage() {
 
       <div className="bg-background">
         {/* ── Hero ── */}
-        <section className="relative overflow-hidden border-b border-border bg-background">
+        <Section
+          padding="sm"
+          className="relative overflow-hidden border-b border-border bg-background"
+        >
           <div
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.14),transparent_55%)]"
             aria-hidden="true"
           />
 
-          <div className="relative mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8">
+          <Container className="relative max-w-3xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
               {SITE_NAME}
             </p>
 
-            <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
               שאלות נפוצות ותשובות ברורות
             </h1>
 
-            {/* No long dash: was "שלכם - ותמיד" → now split into two sentences */}
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="text-lead mx-auto mt-5 max-w-2xl text-muted-foreground">
               בלי מילים מסובכות ובלי אותיות קטנות. כל מה שצריך לדעת על
               הסאונד, הציוד, ההקלטות והרחבה שלכם. ותמיד עם דרך ישירה לשאול עוד.
             </p>
-          </div>
-        </section>
+          </Container>
+        </Section>
 
-        {/* ── Accordion ── */}
-        <section
-          className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8"
-          aria-label="שאלות ותשובות"
-        >
-          <FAQWithCtaLinks items={FAQ_ITEMS} />
-        </section>
+        <Section padding="sm" ariaLabelledby="faq-accordion-heading">
+          <Container className="max-w-3xl">
+            <h2 id="faq-accordion-heading" className="sr-only">
+              שאלות ותשובות
+            </h2>
+            <FAQWithCtaLinks items={FAQ_ITEMS} />
+          </Container>
+        </Section>
 
         <PageBottomCta
           layout="section"

@@ -1,4 +1,5 @@
 ﻿import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import Container from "@/components/ui/Container";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -35,7 +36,7 @@ export default function VoiceoverHubPageContent() {
       bookLabel={bookCta?.bookLabel}
       {...heroProps}
     >
-      <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
+      <Container className="space-y-14 py-12 sm:py-16">
         <ShowcaseVideoSection playlistId="voiceover-hub" />
         <ServiceHubLinks
           heading="שירותי קריינות"
@@ -55,7 +56,7 @@ export default function VoiceoverHubPageContent() {
           )}
           secondaryEmbedTitle="קריינות לסרטון תדמית"
         />
-      </div>
+      </Container>
     </ServicePageLayout>
   );
 }

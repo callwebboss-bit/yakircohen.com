@@ -1,6 +1,7 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
 import BackToTopButton from "@/components/layout/BackToTopButton";
+import Container from "@/components/ui/Container";
 import FooterCta from "@/components/layout/FooterCta";
 import FooterPaymentMethods from "@/components/layout/FooterPaymentMethods";
 import FooterSocialLinks from "@/components/layout/FooterSocialLinks";
@@ -24,7 +25,7 @@ export default function Footer() {
 
   return (
     <footer data-pagefind-ignore className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <Container className="py-10 lg:py-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
           <div>
             <Link
@@ -56,7 +57,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
+                    className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -68,7 +69,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
+                    className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -85,7 +86,7 @@ export default function Footer() {
                   <Link
                     href={item.href}
                     title={item.title}
-                    className="text-sm text-muted-foreground transition-colors hover:text-brand-red"
+                    className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -100,7 +101,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`tel:${CONTACT_PHONE_E164}`}
-                  className="font-medium text-foreground transition-colors hover:text-brand-red"
+                  className="inline-flex min-h-11 items-center font-medium text-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
                   {CONTACT_PHONE_DISPLAY}
                 </a>
@@ -111,7 +112,7 @@ export default function Footer() {
                   href={STUDIO_GOOGLE_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-brand-red"
+                  className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
                   מפות
                 </a>
@@ -119,7 +120,7 @@ export default function Footer() {
                   href={STUDIO_WAZE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground transition-colors hover:text-brand-red"
+                  className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
                   Waze
                 </a>
@@ -146,11 +147,9 @@ export default function Footer() {
 
         <FooterCta />
 
-        <div className="mt-8 grid gap-4 border-t border-border pt-6 md:grid-cols-3 md:items-center">
+        <div className="mt-8 grid gap-4 border-t border-border pt-6 md:grid-cols-2 md:items-center lg:grid-cols-3">
           <p className="text-center text-xs text-muted-foreground md:text-start">
             © {currentYear} {SITE_NAME}
-          </p>
-          <p className="text-center text-xs text-muted-foreground opacity-70 md:text-start">
           </p>
           <nav
             aria-label="מסמכים משפטיים"
@@ -160,7 +159,7 @@ export default function Footer() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-xs text-muted-foreground transition-colors hover:text-brand-red"
+                className="inline-flex min-h-11 items-center text-xs text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 {item.label}
               </Link>
@@ -171,7 +170,7 @@ export default function Footer() {
             <p className="text-xs text-muted-foreground">מודיעין · ירושלים · המרכז</p>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

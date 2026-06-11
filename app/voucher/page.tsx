@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import VoucherPageContent from "@/components/seo/VoucherPageContent";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  VOUCHER_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 
-export const metadata: Metadata = constructMetadata({
-  title: "שובר מתנה | אולפן ואירועים",
-  description:
-    "שובר מתנה לאולפן (מ-750 ₪ חצי שעה), אטרקציות והפקות. מתנה מקורית לחתונה, יום הולדת או כל אירוע. תיאום מהיר בוואטסאפ.",
-  slug: "voucher",
-  keywords: ["שובר מתנה", "שובר אולפן", "מתנה לאירוע", "שובר חתונה"],
-});
+export const metadata: Metadata = metadataForHubSeo(VOUCHER_HUB_SEO);
 
 export default function VoucherPage() {
-  return <VoucherPageContent />;
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(VOUCHER_HUB_SEO)} />
+      <VoucherPageContent />
+    </>
+  );
 }

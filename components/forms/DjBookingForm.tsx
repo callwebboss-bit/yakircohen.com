@@ -14,8 +14,7 @@ import {
   validateGuestCountOptional,
   validateFreeTextOptional,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -117,6 +116,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
+  const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, setGlobalError, attemptSubmit } =
     useLeadFormGuard({ formId: "dj_booking_form" });
 
@@ -205,16 +205,19 @@ export default function DjBookingForm({ className }: { className?: string }) {
           utm_campaign: "dj_booking_form",
         });
 
-        notifyLeadByEmail({
-          formId: "dj_booking_form",
-          subject: `בקשת DJ - ${eventType} · ${eventDate}`,
-          body: text,
-          name: name.trim(),
-          phone: phone.trim(),
-          crossSell: { bookCategory: "dj" },
-        });
-
-        openWhatsAppLead(href);
+        void submitLead(
+          {
+            formId: "dj_booking_form",
+            subject: `בקשת DJ - ${eventType} · ${eventDate}`,
+            body: text,
+            name: name.trim(),
+            phone: phone.trim(),
+            crossSell: { bookCategory: "dj" },
+          },
+          href,
+          "continue_chat",
+          { leadCategory: "dj" },
+        );
         setSubmitted(true);
       },
     );

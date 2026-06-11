@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import type { BlogPost } from "@/lib/data/blog";
 
 type Props = {
@@ -22,15 +23,17 @@ export default function RelatedArticles({ posts }: Props) {
           <li key={post.slug}>
             <Link
               href={`/blog/${post.slug}`}
-              className="group block overflow-hidden rounded-xl border border-border bg-surface transition-colors hover:border-brand-red/40"
+              className="group block overflow-hidden rounded-xl border border-border bg-surface hover-lift focus-within:border-brand-red/40"
             >
-              <div className="relative aspect-[16/9] overflow-hidden">
+              <div className="relative aspect-[16/9] overflow-hidden bg-surface">
                 <Image
                   src={post.thumbnail}
                   alt={post.title}
                   fill
                   sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
+                  className="group-hover-scale-md object-cover motion-reduce:transform-none"
                 />
               </div>
               <div className="p-4">

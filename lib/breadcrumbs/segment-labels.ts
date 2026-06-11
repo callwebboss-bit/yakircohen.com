@@ -16,7 +16,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   blog: "בלוג",
   about: "אודות",
   contact: "צור קשר",
-  book: "הזמנה",
+  book: "הזמנה מקוונת",
   courses: "קורסים",
   clinic: "מרפאה",
   stuttering: "גמגום",
@@ -78,6 +78,10 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "bat-mitzvah-clip": "קליפ בת מצווה",
   "video-clip": "שיר + קליפ",
   "bride-groom-blessing": "ברכת חתן וכלה",
+  shop: "חנות",
+  portfolio: "תיק עבודות",
+  start: "מה קורה אחרי שפונים",
+  "thank-you": "אישור הזמנה",
 };
 
 /** Exact path → label when segment fallbacks are not enough. */

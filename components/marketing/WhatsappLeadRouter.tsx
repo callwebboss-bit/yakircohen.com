@@ -4,6 +4,8 @@
  */
 
 import BookPriceDual from "@/components/booking/BookPriceDual";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import {
   BOOK_AUDIENCE_ROUTES,
   HOME_AUDIENCE_ROUTE_IDS,
@@ -53,7 +55,7 @@ const V_TITLE: Record<AudienceCardVariant, string> = {
 const V_DESC: Record<AudienceCardVariant, string> = {
   gold: "text-muted-foreground",
   neutral: "text-muted-foreground",
-  luxury: "text-zinc-400",
+  luxury: "text-muted-foreground",
   academy: "text-muted-foreground",
   online: "text-muted-foreground",
 };
@@ -99,11 +101,8 @@ export default function WhatsappLeadRouter({
   className,
 }: WhatsappLeadRouterProps) {
   return (
-    <section
-      className={cn("bg-background py-16 sm:py-20 lg:py-24", className)}
-      aria-labelledby="wa-router-heading"
-    >
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+    <Section className={cn("bg-background", className)} ariaLabelledby="wa-router-heading">
+      <Container>
         <header className="mx-auto max-w-2xl text-center">
           <span className="inline-block rounded-full bg-brand-red/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-red">
             {eyebrow}
@@ -111,12 +110,12 @@ export default function WhatsappLeadRouter({
 
           <h2
             id="wa-router-heading"
-            className="mt-4 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl"
+            className="mt-4 font-serif text-section-title font-semibold text-foreground"
           >
             {heading}
           </h2>
 
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-lead mt-4 text-muted-foreground">
             {description}
           </p>
         </header>
@@ -136,9 +135,7 @@ export default function WhatsappLeadRouter({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-sm",
-                  "transition-[border-color,box-shadow,transform] duration-normal ease-luxury",
-                  "hover:-translate-y-1",
+                  "group relative flex min-h-[11rem] flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-sm hover-lift",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   V_CARD[card.variant],
                 )}
@@ -156,7 +153,7 @@ export default function WhatsappLeadRouter({
                     <span
                       className={cn(
                         "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl",
-                        "transition-transform duration-normal ease-luxury group-hover:scale-110",
+                        "motion-reduce:transform-none [@media(hover:hover)]:group-hover:scale-110",
                         V_ICON[card.variant],
                       )}
                       aria-hidden="true"
@@ -205,7 +202,7 @@ export default function WhatsappLeadRouter({
 
                 <div
                   className={cn(
-                    "mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold",
+                    "mt-6 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold",
                     "transition-[background-color,color,border-color] duration-normal ease-luxury",
                     V_CTA[card.variant],
                   )}
@@ -224,7 +221,7 @@ export default function WhatsappLeadRouter({
             );
           })}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

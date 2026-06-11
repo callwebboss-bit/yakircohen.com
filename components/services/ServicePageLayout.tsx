@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { SITE_KICKER } from "@/lib/constants";
 import {
@@ -156,7 +157,7 @@ function ServiceHeroVisual({
       className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       aria-label="גלילה לגלריית תמונות"
     >
-      <div className="relative transition-transform duration-normal ease-luxury group-hover:scale-[1.01]">
+      <div className="group-hover-scale-sm relative motion-reduce:transform-none">
         {frame}
       </div>
     </Link>
@@ -238,9 +239,10 @@ export default function ServicePageLayout({
           />
         ) : null}
 
-        <div
+        <Container
+          variant="wide"
           className={cn(
-            "relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20",
+            "relative py-12 sm:py-16 lg:py-20",
             hasHeroGrid &&
               "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 xl:gap-20",
           )}
@@ -254,33 +256,31 @@ export default function ServicePageLayout({
                 {scarcityLabel}
               </p>
             ) : null}
+            {/* IMPROVED: fluid hero typography */}
             <h1
               id="service-page-heading"
-              className="mt-4 max-w-3xl font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.8rem] lg:leading-[1.12]"
+              className="text-hero mt-4 max-w-3xl font-serif font-semibold text-foreground"
             >
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="text-lead mt-5 max-w-2xl text-muted-foreground">
               {subtitle}
             </p>
 
             {showHeroCtas ? (
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <a
+                <Button
+                  as="a"
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold text-white transition-colors duration-normal ease-luxury",
-                    "bg-brand-red hover:bg-brand-red-light",
-                    "shadow-[0_0_20px_rgba(212,43,43,0.22)] hover:shadow-[0_0_28px_rgba(212,43,43,0.35)]",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-                  )}
+                  variant="primary"
+                  className="gap-2 px-6 shadow-[0_0_20px_rgba(212,43,43,0.22)] hover:shadow-[0_0_28px_rgba(212,43,43,0.35)]"
                   aria-label={`${ctaLabel} - ${title}`}
                 >
                   <WhatsAppIcon />
                   {ctaLabel}
-                </a>
+                </Button>
                 {resolvedShowBookInHero && resolvedBookHref ? (
                   <Button as="link" href={resolvedBookHref} variant="outline">
                     {resolvedBookLabel}
@@ -319,7 +319,7 @@ export default function ServicePageLayout({
               />
             </div>
           ) : null}
-        </div>
+        </Container>
       </header>
 
       {heroFeatures.length > 0 ? (
@@ -327,7 +327,7 @@ export default function ServicePageLayout({
           className="border-b border-border bg-surface py-12 sm:py-16"
           aria-labelledby="service-features-heading"
         >
-          <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+          <Container variant="wide">
             <h2 id="service-features-heading" className="sr-only">
               יתרונות ושירותים
             </h2>
@@ -352,7 +352,7 @@ export default function ServicePageLayout({
                 </li>
               ))}
             </ul>
-          </div>
+          </Container>
         </section>
       ) : null}
 

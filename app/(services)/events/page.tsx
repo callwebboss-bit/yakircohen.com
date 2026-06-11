@@ -1,7 +1,10 @@
 import AudienceTabs from "@/components/events/AudienceTabs";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getEventsHubLinks,
   getEventsService,
@@ -13,8 +16,20 @@ const service = getEventsService("events-hub");
 export const metadata = metadataFromService(service);
 
 export default function EventsHubPage() {
+  const hubLinks = getEventsHubLinks();
+
   return (
-    <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים">
+    <>
+      <HubPageSchema {...hubSchemaPropsFromService(service, "events")} />
+      <HubServiceIndexStatic
+        heading="שירותי אירועים"
+        links={hubLinks.map((link) => ({
+          href: link.href,
+          title: link.title,
+          description: link.description,
+        }))}
+      />
+      <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים">
       <AudienceTabs />
       <ClientJourneySteps variant="events" display="compact" />
       <ServiceHubLinks
@@ -24,5 +39,6 @@ export default function EventsHubPage() {
         headingId="events-tracks-heading"
       />
     </ServicePageFromRegistry>
+    </>
   );
 }

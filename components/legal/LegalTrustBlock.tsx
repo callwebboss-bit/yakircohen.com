@@ -26,7 +26,7 @@ export default function LegalTrustBlock() {
               href="https://www.mit4mit.co.il"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-red hover:underline"
+              className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
               Mit4Mit
             </a>
@@ -40,14 +40,26 @@ export default function LegalTrustBlock() {
       <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
         {[
           ...FOOTER_LEGAL_LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="text-brand-red hover:underline">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
               {item.label}
             </Link>
           )),
-          <Link key="contact" href="/contact" className="text-brand-red hover:underline">
+          <Link
+            key="contact"
+            href="/contact"
+            className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          >
             צור קשר
           </Link>,
-          <Link key="book" href="/book" className="text-brand-red hover:underline">
+          <Link
+            key="book"
+            href="/book"
+            className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          >
             הזמנה מקוונת
           </Link>,
         ].map((node, index) => (

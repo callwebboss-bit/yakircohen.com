@@ -18,18 +18,27 @@ export default function LegalRelatedLinks({ currentHref }: LegalRelatedLinksProp
       <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
         {links.map((item) => (
           <li key={item.href}>
-            <Link href={item.href} className="text-brand-red hover:underline">
+            <Link
+              href={item.href}
+              className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
               {item.label}
             </Link>
           </li>
         ))}
         <li>
-          <Link href="/contact" className="text-brand-red hover:underline">
+          <Link
+            href="/contact"
+            className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          >
             צור קשר
           </Link>
         </li>
         <li>
-          <Link href="/book" className="text-brand-red hover:underline">
+          <Link
+            href="/book"
+            className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          >
             הזמנה מקוונת
           </Link>
         </li>

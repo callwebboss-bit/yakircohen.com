@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
@@ -47,15 +49,16 @@ export default function Testimonials({
   className,
 }: TestimonialsProps) {
   return (
-    <section
-      className={cn("bg-background py-12 sm:py-16 lg:py-20", className)}
-      aria-labelledby="testimonials-heading"
+    <Section
+      padding="sm"
+      className={cn("bg-background", className)}
+      ariaLabelledby="testimonials-heading"
     >
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+      <Container>
         <header className="mx-auto max-w-2xl text-center">
           <h2
             id="testimonials-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             {title}
           </h2>
@@ -70,7 +73,7 @@ export default function Testimonials({
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {items.map((item) => (
             <li key={item.id}>
-              <blockquote className="flex h-full flex-col rounded-xl border border-border bg-surface p-6">
+              <blockquote className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md">
                 <p className="text-sm leading-relaxed text-foreground/90">
                   <span
                     className="me-1 font-serif text-2xl leading-none text-brand-red"
@@ -107,7 +110,7 @@ export default function Testimonials({
                   {item.serviceHref && item.serviceLabel ? (
                     <Link
                       href={item.serviceHref}
-                      className="text-xs font-semibold text-brand-red hover:underline"
+                      className="inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                     >
                       {item.serviceLabel} ←
                     </Link>
@@ -117,7 +120,7 @@ export default function Testimonials({
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

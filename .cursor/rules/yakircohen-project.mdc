@@ -36,7 +36,7 @@ alwaysApply: true
 - New pages: `generateMetadata()` with title, description, and OG
 - Images: Next.js `<Image>` (not raw `<img>`), except where an existing pattern intentionally uses `<img>` (e.g. lazy YouTube thumbnails)
 - External links: `target="_blank" rel="noopener noreferrer"`
-- Before commit: `npm run lint` and `npm run build` (or `build:full` when search/index changes)
+- Before commit: `npm run verify:quick` locally; run `npm run build` only when routing/build output changed (or `build:full` when search/index changes). Never start a second build while one is running — use `npm run build:stop` first.
 - Commit messages: `feat:`, `fix:`, `chore:`, `docs:` prefixes
 
 ## Environment (Vercel production)
@@ -51,8 +51,11 @@ alwaysApply: true
 ## Build scripts
 
 - `npm run dev` — local dev
-- `npm run build` — standard build
-- `npm run build:full` — build + Pagefind (Vercel `vercel-build`)
+- `npm run build` — standard build (mutex-locked; one at a time)
+- `npm run build:stop` — kill stuck/orphan `next build` processes
+- `npm run build:full` — build + Pagefind (mutex-locked; Vercel `vercel-build`)
+- `npm run verify:quick` — unit tests (preferred for agents; fast locally)
+- `npm run verify:ci` — lint + tests (CI / before push)
 - `npm run lint` — required before commit
 - `npm run audit:images` / `audit:links` — asset and link checks
 - `npm run check:youtube` — validate YouTube video IDs

@@ -5,10 +5,13 @@ import ProductionCalculator from "@/components/marketing/ProductionCalculator";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
+import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getStudioHubLinks,
   getStudioService,
@@ -98,7 +101,17 @@ export default function StudioHubPage() {
   const tracks = [STUDIO_PRICING_LINK, ...hubLinks];
 
   return (
-    <ServicePageFromRegistry
+    <>
+      <HubPageSchema {...hubSchemaPropsFromService(service, "studio")} />
+      <HubServiceIndexStatic
+        heading="מסלולי האולפן"
+        links={tracks.map((track) => ({
+          href: track.href,
+          title: track.title,
+          description: track.description,
+        }))}
+      />
+      <ServicePageFromRegistry
       service={service}
       portfolioLabel="סביבת האולפן"
       showPortfolio={false}
@@ -234,5 +247,6 @@ export default function StudioHubPage() {
         </section>
       </div>
     </ServicePageFromRegistry>
+    </>
   );
 }

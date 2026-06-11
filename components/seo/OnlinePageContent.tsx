@@ -1,5 +1,8 @@
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import {
@@ -16,6 +19,12 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 
 const bookCta = resolveServiceBookCta("online");
 
+const chipClass =
+  "inline-flex min-h-11 items-center rounded-full border border-border bg-background px-4 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
+const linkClass =
+  "inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
 export default function OnlinePageContent() {
   const ctaHref = buildWhatsAppHref({
     text: "היי יקיר! יש לי פרויקט אונליין עם AI ואשמח לבדיקה ראשונית והצעת מחיר מהירה.",
@@ -25,22 +34,25 @@ export default function OnlinePageContent() {
 
   return (
     <div className="bg-background">
-      <section className="relative overflow-hidden border-b border-border bg-background">
+      <Section
+        padding="none"
+        className="relative overflow-hidden border-b border-border bg-background"
+      >
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
+        <Container className="relative max-w-4xl py-16 text-center sm:py-20">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
             {SITE_NAME}
           </p>
-          <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
             מאגר שירותי AI אונליין - אנחנו מבצעים הכל עבורכם
           </h1>
-          <h2 className="mx-auto mt-5 max-w-3xl text-lg font-semibold text-foreground sm:text-xl">
+          <h2 className="text-section-title mx-auto mt-5 max-w-3xl font-semibold text-foreground">
             האולפן מגיע אליכם: שירותי סאונד, תוכן והפקה מקצועיים מרחוק
           </h2>
-          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-lead mx-auto mt-4 max-w-3xl text-muted-foreground">
             שולחים קובץ או רעיון. מקבלים תוצאה מוכנה למייל או לוואטסאפ - סאונד,
             תמונה או תוכן.
           </p>
@@ -54,27 +66,25 @@ export default function OnlinePageContent() {
             />
           ) : (
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
+              <Button
+                as="a"
                 href={ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
+                className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
               >
                 שלחו קובץ לבדיקה ראשונית בוואטסאפ ←
-              </a>
-              <Link
-                href="#quick-quote"
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
-              >
+              </Button>
+              <Button as="link" href="#quick-quote" variant="secondary">
                 השאירו פרטים להצעת מחיר מהירה
-              </Link>
+              </Button>
             </div>
           )}
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="border-b border-border bg-surface py-8">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6">
+      <Section padding="none" className="border-b border-border bg-surface py-8">
+        <Container>
           <p className="mb-4 text-center text-sm font-medium text-foreground">
             ניווט מהיר לפי קטגוריות
           </p>
@@ -83,38 +93,33 @@ export default function OnlinePageContent() {
               <a
                 key={category.id}
                 href={`#${category.id}`}
-                className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                className={chipClass}
               >
                 {category.title}
               </a>
             ))}
           </div>
           <div className="mt-3 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/online/vocal-fix/send-file"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-            >
+            <Link href="/online/vocal-fix/send-file" className={chipClass}>
               שליחת קבצים
             </Link>
-            <Link
-              href="/business/social-media"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-            >
+            <Link href="/business/social-media" className={chipClass}>
               שירותים לעסקים
             </Link>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <h2 className="mb-8 text-center text-xl font-semibold text-foreground sm:text-2xl">
+      <Section padding="sm">
+        <Container>
+        <h2 className="mb-8 text-center font-serif text-section-title font-semibold text-foreground">
           השירותים המובילים מרחוק
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {ONLINE_FEATURED_SERVICES.map((svc) => (
             <article
               key={svc.title}
-              className="flex flex-col rounded-2xl border border-border bg-background p-6"
+              className="hover-lift flex flex-col rounded-2xl border border-border bg-background p-6"
             >
               <span className="text-2xl" aria-hidden>
                 {svc.icon}
@@ -131,19 +136,20 @@ export default function OnlinePageContent() {
               </p>
               <Link
                 href={svc.href}
-                className="mt-4 text-sm font-semibold text-brand-red hover:underline"
+                className={`${linkClass} mt-4`}
               >
                 לפרטים ←
               </Link>
             </article>
           ))}
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="border-y border-border bg-background py-12">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+      <Section padding="sm" className="border-y border-border bg-background">
+        <Container>
           <header className="mx-auto max-w-2xl text-center">
-            <h2 className="text-xl font-semibold text-foreground">שומעים את ההבדל</h2>
+            <h2 className="font-serif text-section-title font-semibold text-foreground">שומעים את ההבדל</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               דוגמת שחזור אמיתית לפני/אחרי - משלבים AI ואוזן מקצועית עד תוצאה
               נקיה ומאוזנת.
@@ -157,19 +163,19 @@ export default function OnlinePageContent() {
               showDisclaimer
             />
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       <ClientJourneySteps variant="online" display="compact" />
 
-      <section className="border-y border-border bg-surface py-14 sm:py-16">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-3 text-xl font-semibold text-foreground sm:text-2xl">
+      <Section padding="sm" className="border-y border-border bg-surface">
+        <Container>
+          <h2 className="mb-3 font-serif text-section-title font-semibold text-foreground">
             מאגר שירותי AI אונליין - לפי קטגוריות
           </h2>
           <p className="mb-8 max-w-3xl text-sm text-muted-foreground">
             בחרו שירות והתחילו. לפרטים מלאים -{" "}
-            <Link href="/start#online" className="font-medium text-brand-red hover:underline">
+            <Link href="/start#online" className={`${linkClass} font-medium`}>
               מפת השלבים
             </Link>
             .
@@ -185,7 +191,7 @@ export default function OnlinePageContent() {
                   <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
                   <Link
                     href={`/online/${category.slug}`}
-                    className="text-sm font-semibold text-brand-red hover:underline"
+                    className={linkClass}
                   >
                     לעמוד הקטגוריה ←
                   </Link>
@@ -214,7 +220,7 @@ export default function OnlinePageContent() {
                       {service.href ? (
                         <Link
                           href={service.href}
-                          className="mt-3 inline-flex text-sm font-semibold text-brand-red hover:underline"
+                          className={`${linkClass} mt-3`}
                         >
                           לפרטים ←
                         </Link>
@@ -223,7 +229,7 @@ export default function OnlinePageContent() {
                           href={ctaHref}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-3 inline-flex text-sm font-semibold text-brand-red hover:underline"
+                          className={`${linkClass} mt-3`}
                         >
                           בקשו התאמה אישית ←
                         </a>
@@ -234,11 +240,12 @@ export default function OnlinePageContent() {
               </section>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 lg:px-8">
-        <h2 className="mb-6 text-lg font-semibold text-foreground">
+      <Section padding="sm">
+        <Container>
+        <h2 className="mb-6 font-serif text-section-title font-semibold text-foreground">
           קישורים מהירים להתחלה
         </h2>
         <ul className="grid gap-4 sm:grid-cols-2">
@@ -246,7 +253,7 @@ export default function OnlinePageContent() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="block rounded-xl border border-border bg-background p-5 transition-colors hover:border-brand-red/40"
+                className="hover-lift block rounded-xl border border-border bg-background p-5 hover:border-brand-red/40"
               >
                 <span className="font-semibold text-foreground">{link.label}</span>
                 <p className="mt-1 text-sm text-muted-foreground">{link.desc}</p>
@@ -254,11 +261,12 @@ export default function OnlinePageContent() {
             </li>
           ))}
         </ul>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="border-t border-border bg-surface py-14">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h2 className="text-xl font-semibold text-foreground">
+      <Section padding="sm" className="border-t border-border bg-surface">
+        <Container className="max-w-3xl">
+          <h2 className="font-serif text-section-title font-semibold text-foreground">
             למה לעבוד איתנו אונליין?
           </h2>
           <ul className="mt-6 space-y-3">
@@ -274,13 +282,14 @@ export default function OnlinePageContent() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section id="quick-quote" className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
+      <Section padding="sm" id="quick-quote">
+        <Container>
         <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start">
           <div className="rounded-2xl border border-border bg-surface p-8 text-center lg:text-right">
-            <h2 className="text-2xl font-semibold text-foreground">רוצים להתחיל עכשיו?</h2>
+            <h2 className="font-serif text-section-title font-semibold text-foreground">רוצים להתחיל עכשיו?</h2>
             <p className="mt-3 text-sm text-muted-foreground">
               שלחו קובץ לבדיקה ראשונית בוואטסאפ או השאירו פרטים ונחזור אליכם
               במהירות עם מסלול שירות מדויק.
@@ -296,12 +305,9 @@ export default function OnlinePageContent() {
               />
             ) : null}
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link
-                href="/online/vocal-fix/send-file"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
-              >
+              <Button as="link" href="/online/vocal-fix/send-file" variant="secondary">
                 אישור תנאים ושליחה
-              </Link>
+              </Button>
             </div>
             <div className="mt-5 flex justify-center lg:justify-start">
               <ShareButton title="מאגר שירותי AI אונליין | יקיר כהן הפקות" />
@@ -321,7 +327,8 @@ export default function OnlinePageContent() {
             formLabel="טופס הצעת מחיר מהירה לשירותי אונליין"
           />
         </div>
-      </section>
+        </Container>
+      </Section>
     </div>
   );
 }

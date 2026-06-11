@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SocialMediaPageContent from "@/components/business/social-media/SocialMediaPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
 import {
   ONE_OFF_SERVICES,
   RETAINER_TIERS,
@@ -23,6 +24,7 @@ export const metadata: Metadata = constructMetadata({
     "צילום ועריכה לעסקים",
     "רילס לעסקים",
   ],
+  ogImage: ogImageToMetadataParam(resolveOgForHub("video")),
 });
 
 const pageUrl = absoluteUrl("business/social-media");

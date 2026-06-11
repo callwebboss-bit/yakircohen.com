@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import Button from "@/components/ui/Button";import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import {
   CLINIC_BOOKING_WHATSAPP_TEXT,
   CLINIC_CASE_STUDIES,
@@ -7,8 +10,11 @@ import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
 } from "@/lib/constants";
-import { constructMetadata } from "@/lib/metadata";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import {
+  CLINIC_HUB_SEO,
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+} from "@/lib/seo/hub-pages";import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const clinicBookingHref = buildWhatsAppHref({
   text: CLINIC_BOOKING_WHATSAPP_TEXT,
@@ -16,41 +22,25 @@ const clinicBookingHref = buildWhatsAppHref({
   utm_campaign: "clinic_booking",
 });
 
-export const metadata: Metadata = constructMetadata({
-  title: "קליניקה - חקירה לוגית של גמגום",
-  description:
-    "מרחב חקירה לוגי לגמגום. פירוק הנחות נסתרות, חקירת המנגנון והפרדת הזהות מהפעולה הטכנית של הדיבור.",
-  slug: "clinic",
-  keywords: [
-    "קליניקה לגמגום",
-    "חקירה לוגית של גמגום",
-    "עבודה מכנית על דיבור",
-  ],
-});
-
-const BG_COLOR = "#FAFAF8";
-const TEXT_COLOR = "#1A1A1A";
-const ACCENT_COLOR = "#D42B2B";
+export const metadata: Metadata = metadataForHubSeo(CLINIC_HUB_SEO);
 
 export default function ClinicPage() {
   return (
-    <div
-      style={{ backgroundColor: BG_COLOR, color: TEXT_COLOR }}
-      className="min-h-screen"
-    >
-      <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(CLINIC_HUB_SEO)} />
+      <div className="min-h-screen bg-background text-foreground">
+      <main>
+        <Section padding="sm">
+          <Container className="max-w-4xl">
         {/* Hero / Intro */}
         <section aria-labelledby="clinic-hero-heading" className="mb-16">
           <header className="mb-8">
-            <p
-              className="text-xs font-semibold tracking-[0.22em]"
-              style={{ color: ACCENT_COLOR }}
-            >
+            <p className="text-xs font-semibold tracking-[0.22em] text-brand-red">
               מרחב חקירה
             </p>
             <h1
               id="clinic-hero-heading"
-              className="mt-4 font-serif text-3xl font-semibold leading-tight sm:text-4xl"
+              className="text-hero mt-4 font-serif font-semibold"
             >
               מרחב חקירה
             </h1>
@@ -116,8 +106,7 @@ export default function ClinicPage() {
 
           <section
             aria-labelledby="clinic-technical-heading"
-            className="mt-10 rounded-2xl border px-5 py-6 sm:px-6"
-            style={{ borderColor: "#E0E0DA", backgroundColor: "#FBFBF7" }}
+            className="mt-10 rounded-2xl border border-border bg-surface px-5 py-6 sm:px-6"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -133,25 +122,23 @@ export default function ClinicPage() {
                 </ul>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-                <a
+                <Button
+                  as="a"
                   href={clinicBookingHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold shadow-sm"
-                  style={{
-                    backgroundColor: ACCENT_COLOR,
-                    color: "#FFFFFF",
-                  }}
+                  className="rounded-full"
                 >
                   תיאום פגישה בוואטסאפ
-                </a>
-                <a
+                </Button>
+                <Button
+                  as="a"
                   href={`tel:${CONTACT_PHONE_E164}`}
-                  className="inline-flex items-center justify-center rounded-full border px-6 py-2.5 text-sm font-semibold"
-                  style={{ borderColor: "#E0E0DA", color: TEXT_COLOR }}
+                  variant="secondary"
+                  className="rounded-full"
                 >
                   {CONTACT_PHONE_DISPLAY}
-                </a>
+                </Button>
               </div>
             </div>
           </section>
@@ -165,24 +152,22 @@ export default function ClinicPage() {
           <header>
             <h2
               id="clinic-inversion-heading"
-              className="text-lg font-semibold sm:text-xl"
+              className="font-serif text-section-title font-semibold"
             >
               תצוגת תכלית - שיטת ההיפוך
             </h2>
           </header>
           <div className="grid gap-6 rounded-2xl border px-5 py-6 sm:grid-cols-2 sm:px-6">
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 הנחה נסתרת נפוצה
               </p>
-              <p className="text-sm leading-relaxed sm:text-base"
-                 style={{ color: "#7A7A72" }}
-              >
+              <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                 ככל שאתאמץ יותר ככה אצליח להוציא את המילה.
               </p>
             </div>
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 העובדה ההפוכה
               </p>
               <p className="text-sm font-medium leading-relaxed sm:text-base">
@@ -200,25 +185,25 @@ export default function ClinicPage() {
           <header>
             <h2
               id="clinic-depth-heading"
-              className="text-lg font-semibold sm:text-xl"
+              className="font-serif text-section-title font-semibold"
             >
               רמות העומק של החקירה
             </h2>
           </header>
           <div className="grid gap-4 sm:grid-cols-3">
-            <article className="rounded-2xl border bg-white/60 p-4">
+            <article className="rounded-2xl border border-border bg-surface/60 p-4">
               <h3 className="mb-2 text-sm font-semibold">רמה בסיסית</h3>
               <p className="text-sm leading-relaxed">
                 זיהוי ההנחה שמייצרת את התקיעות הנוכחית.
               </p>
             </article>
-            <article className="rounded-2xl border bg-white/60 p-4">
+            <article className="rounded-2xl border border-border bg-surface/60 p-4">
               <h3 className="mb-2 text-sm font-semibold">רמה מתקדמת</h3>
               <p className="text-sm leading-relaxed">
                 פירוק מנגנון קבלת ההחלטות הרוחבי.
               </p>
             </article>
-            <article className="rounded-2xl border bg-white/60 p-4">
+            <article className="rounded-2xl border border-border bg-surface/60 p-4">
               <h3 className="mb-2 text-sm font-semibold">רמה עמוקה</h3>
               <p className="text-sm leading-relaxed">
                 חקירת אמונות הבסיס שמפעילות את המנגנון.
@@ -235,7 +220,7 @@ export default function ClinicPage() {
           <header>
             <h2
               id="clinic-clarity-heading"
-              className="text-lg font-semibold sm:text-xl"
+              className="font-serif text-section-title font-semibold"
             >
               חוק הבהירות
             </h2>
@@ -253,35 +238,26 @@ export default function ClinicPage() {
           <header>
             <h2
               id="clinic-flow-heading"
-              className="text-lg font-semibold sm:text-xl"
+              className="font-serif text-section-title font-semibold"
             >
               פירוק המנגנון
             </h2>
           </header>
           <div className="overflow-x-auto pb-2">
             <div className="flex items-center gap-4 sm:gap-6">
-              <div className="rounded-xl border bg-white px-4 py-3 text-sm font-medium shadow-xs">
+              <div className="rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium shadow-xs">
                 פעולה אוטומטית
               </div>
-              <div className="h-px w-8 flex-none bg-neutral-300 sm:w-10" />
-              <div className="rounded-xl border bg-white px-4 py-3 text-sm font-medium shadow-xs">
+              <div className="h-px w-8 flex-none bg-border sm:w-10" />
+              <div className="rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium shadow-xs">
                 חשיפת אמונת הבסיס
               </div>
-              <div className="h-px w-8 flex-none bg-neutral-300 sm:w-10" />
-              <div
-                className="rounded-xl px-4 py-3 text-sm font-medium shadow-xs"
-                style={{
-                  backgroundColor: "#FDEBEC",
-                  borderColor: ACCENT_COLOR,
-                  color: ACCENT_COLOR,
-                  borderWidth: 1,
-                  borderStyle: "solid",
-                }}
-              >
+              <div className="h-px w-8 flex-none bg-border sm:w-10" />
+              <div className="rounded-xl border border-brand-red bg-brand-red/10 px-4 py-3 text-sm font-medium text-brand-red shadow-xs">
                 קריסת ההנחה
               </div>
-              <div className="h-px w-8 flex-none bg-neutral-300 sm:w-10" />
-              <div className="rounded-xl border bg-white px-4 py-3 text-sm font-medium shadow-xs">
+              <div className="h-px w-8 flex-none bg-border sm:w-10" />
+              <div className="rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium shadow-xs">
                 פעולה חדשה
               </div>
             </div>
@@ -296,11 +272,11 @@ export default function ClinicPage() {
           <header>
             <h2
               id="clinic-facts-heading"
-              className="text-lg font-semibold sm:text-xl"
+              className="font-serif text-section-title font-semibold"
             >
               עובדות שטח
             </h2>
-            <p className="mt-1 text-sm text-neutral-600">
+            <p className="mt-1 text-sm text-muted-foreground">
               מקרים אנונימיים. בלי המלצות או תשבחות, רק תוצאות מכניות.
             </p>
           </header>
@@ -308,24 +284,24 @@ export default function ClinicPage() {
             {CLINIC_CASE_STUDIES.map((study) => (
               <li
                 key={study.id}
-                className="space-y-3 rounded-2xl border bg-white/60 p-5 sm:p-6"
+                className="space-y-3 rounded-2xl border border-border bg-surface/60 p-5 sm:p-6"
               >
                 <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     נקודת פתיחה
                   </p>
                   <p className="text-sm leading-relaxed sm:text-base">{study.opening}</p>
                 </div>
-                <div className="h-px bg-neutral-200" />
+                <div className="h-px bg-border" />
                 <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     חקירה
                   </p>
                   <p className="text-sm leading-relaxed sm:text-base">{study.investigation}</p>
                 </div>
-                <div className="h-px bg-neutral-200" />
+                <div className="h-px bg-border" />
                 <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     פעולה
                   </p>
                   <p className="text-sm leading-relaxed sm:text-base">{study.action}</p>
@@ -334,7 +310,10 @@ export default function ClinicPage() {
             ))}
           </ul>
         </section>
+          </Container>
+        </Section>
       </main>
     </div>
+    </>
   );
 }

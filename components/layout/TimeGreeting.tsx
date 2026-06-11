@@ -20,13 +20,22 @@ export default function TimeGreeting() {
     setGreeting(getGreeting(new Date().getHours()));
   }, []);
 
-  if (!greeting) return null;
-
+  // OPTIMIZED: fixed-height shell prevents CLS while client time resolves (SSG-safe vs SSR time)
   return (
-    <div className="flex items-center gap-3 py-1.5 text-xs text-muted-foreground">
-      <span className="font-medium text-foreground">{greeting}</span>
-      <span aria-hidden className="text-border">·</span>
-      <span>{tip}</span>
+    <div className="flex min-h-[1.75rem] items-center gap-3 py-1.5 text-xs text-muted-foreground">
+      {greeting ? (
+        <>
+          <span className="font-medium text-foreground">{greeting}</span>
+          <span aria-hidden className="text-border">
+            ·
+          </span>
+          <span>{tip}</span>
+        </>
+      ) : (
+        <span className="invisible select-none" aria-hidden>
+          שלום
+        </span>
+      )}
     </div>
   );
 }

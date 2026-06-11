@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo, Noto_Serif_Hebrew } from "next/font/google";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import BreadcrumbJsonLd from "@/components/layout/BreadcrumbJsonLd";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import SiteSchema from "@/components/seo/SiteSchema";
-import SiteFloatingActions from "@/components/layout/SiteFloatingActions";
+import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import { SITE_URL } from "@/lib/site-url";
 import {
   DEFAULT_OPEN_GRAPH,
@@ -13,12 +14,14 @@ import {
   SITE_ROBOTS,
 } from "@/lib/seo-config";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
+// OPTIMIZED: fewer font weights — saves 2–3 network requests on first paint
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
   display: "swap",
   variable: "--font-heebo",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   preload: true,
   adjustFontFallback: true,
 });
@@ -27,7 +30,9 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
   subsets: ["hebrew", "latin"],
   display: "swap",
   variable: "--font-noto-serif-hebrew",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const DEFAULT_TITLE =
@@ -96,7 +101,7 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
-      className={`${heebo.variable} ${notoSerifHebrew.variable}`}
+      className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
@@ -108,16 +113,17 @@ export default function RootLayout({
           דלג לתוכן הראשי
         </a>
         <Header />
+        <BreadcrumbJsonLd />
         <Breadcrumbs />
         <main
           id="main-content"
           data-pagefind-body
-          className="min-w-0 flex-1 overflow-x-clip max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
+          className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
         >
           {children}
         </main>
         <Footer />
-        <SiteFloatingActions />
+        <DeferredFloatingFabs />
       </body>
     </html>
   );

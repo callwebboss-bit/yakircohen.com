@@ -1,5 +1,7 @@
 import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -82,14 +84,14 @@ export default function StutteringPageContent() {
       whatsappText="שלום, אשמח לשוחח על ליווי בגמגום ולהבין מה מתאים לי"
       utmCampaign="stuttering_landing"
     >
-      <div className="mx-auto max-w-[72rem] space-y-16 px-4 py-12 sm:px-6 lg:px-8">
+      <Container className="space-y-16 py-12 sm:py-16">
 
         {/* ─── סרטון ─────────────────────────────────────────────────────────── */}
         <section aria-labelledby="stuttering-video-heading">
           <header className="mx-auto mb-6 max-w-2xl text-center">
             <h2
               id="stuttering-video-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               ראו את השיטה בפעולה
             </h2>
@@ -133,7 +135,7 @@ export default function StutteringPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="stuttering-why-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               לא &quot;איך להוציא מילה&quot; - אלא &quot;למה היא נתקעת&quot;
             </h2>
@@ -172,7 +174,7 @@ export default function StutteringPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="stuttering-method-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               שיטת NeverMind - איך להפסיק לגמגם
             </h2>
@@ -181,7 +183,7 @@ export default function StutteringPageContent() {
             {STUTTERING_METHOD_STEPS.map((step) => (
               <div
                 key={step.num}
-                className="rounded-2xl border border-border bg-surface p-6"
+                className="hover-lift rounded-2xl border border-border bg-surface p-6"
               >
                 <span className="text-xs font-bold text-brand-red">{step.num}</span>
                 <h3 className="mt-2 text-base font-semibold text-foreground">
@@ -258,7 +260,7 @@ export default function StutteringPageContent() {
         >
           <h2
             id="stuttering-mid-cta-heading"
-            className="text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             לא בטוחים מאיפה להתחיל?
           </h2>
@@ -266,20 +268,18 @@ export default function StutteringPageContent() {
             שולחים הודעה - ובונים יחד מסלול שמתאים. ללא התחייבות.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
+            <Button
+              as="a"
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] hover:bg-brand-red-light"
+              className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
             >
               שיחת היכרות בוואטסאפ ←
-            </a>
-            <a
-              href={`tel:${CONTACT_PHONE_E164}`}
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-            >
+            </Button>
+            <Button as="a" href={`tel:${CONTACT_PHONE_E164}`} variant="secondary">
               {CONTACT_PHONE_DISPLAY}
-            </a>
+            </Button>
           </div>
         </section>
 
@@ -288,7 +288,7 @@ export default function StutteringPageContent() {
           <header className="mb-6 text-center">
             <h2
               id="stuttering-stages-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               שלבי התהליך
             </h2>
@@ -336,7 +336,7 @@ export default function StutteringPageContent() {
           <header className="mb-6 text-center">
             <h2
               id="stuttering-paths-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               איך ממשיכים?
             </h2>
@@ -371,34 +371,32 @@ export default function StutteringPageContent() {
             ].map(({ icon, title, desc, href, cta, external }) => (
               <div
                 key={title}
-                className="flex flex-col rounded-2xl border border-border bg-surface p-6"
+                className="hover-lift flex flex-col rounded-2xl border border-border bg-surface p-6"
               >
                 <p className="text-2xl" aria-hidden>{icon}</p>
                 <h3 className="mt-3 font-semibold text-foreground">{title}</h3>
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">{desc}</p>
                 {external ? (
-                  <a
+                  <Button
+                    as="a"
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-5 inline-flex rounded-lg bg-brand-red px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+                    className="mt-5"
                   >
                     {cta}
-                  </a>
+                  </Button>
                 ) : (
-                  <Link
-                    href={href}
-                    className="mt-5 inline-flex rounded-lg border border-brand-red px-4 py-2 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red/5"
-                  >
+                  <Button as="link" href={href} variant="outline" className="mt-5">
                     {cta}
-                  </Link>
+                  </Button>
                 )}
               </div>
             ))}
           </div>
         </section>
 
-      </div>
+      </Container>
     </ServicePageLayout>
   );
 }

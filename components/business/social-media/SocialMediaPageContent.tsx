@@ -5,6 +5,7 @@ import SocialMediaPromo from "@/components/business/social-media/SocialMediaProm
 import SocialMediaRetainerTiers from "@/components/business/social-media/SocialMediaRetainerTiers";
 import SocialMediaTermsBlock from "@/components/business/social-media/SocialMediaTermsBlock";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import Container from "@/components/ui/Container";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import {
   ABOUT_PARAGRAPHS,
@@ -70,7 +71,7 @@ export default function SocialMediaPageContent() {
     >
       <SocialMediaHeroGrid />
 
-      <div className="mx-auto max-w-[72rem] space-y-14 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <Container className="space-y-14 py-12 sm:py-16">
         {showPromo ? <SocialMediaPromo /> : null}
 
         <section aria-labelledby="social-about-heading">
@@ -94,33 +95,48 @@ export default function SocialMediaPageContent() {
           <h2 className="text-sm font-semibold text-foreground">שירותים קשורים</h2>
           <ul className="mt-3 flex flex-wrap gap-3 text-sm">
             <li>
-              <Link href="/video" className="text-brand-red hover:underline">
+              <Link
+                href="/video"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
                 הפקות וידאו
               </Link>
             </li>
             <li>
-              <Link href="/podcast" className="text-brand-red hover:underline">
+              <Link
+                href="/podcast"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
                 פודקאסט
               </Link>
             </li>
             <li>
-              <Link href="/online" className="text-brand-red hover:underline">
+              <Link
+                href="/online"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
                 שירותים מקוונים
               </Link>
             </li>
             <li>
-              <Link href="/photography" className="text-brand-red hover:underline">
+              <Link
+                href="/photography"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
                 צילום לאירועים
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-brand-red hover:underline">
+              <Link
+                href="/contact"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
                 צור קשר
               </Link>
             </li>
           </ul>
         </nav>
-      </div>
+      </Container>
     </ServicePageLayout>
   );
 }

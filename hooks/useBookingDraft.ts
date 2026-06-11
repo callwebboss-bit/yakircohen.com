@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 
 const STORAGE_PREFIX = "yakir-booking-draft:";
 
-const DRAFT_VERSION = 2;
+export const DRAFT_VERSION = 2;
 
 type DraftEnvelope<T> = {
   v: typeof DRAFT_VERSION;
@@ -12,39 +12,37 @@ type DraftEnvelope<T> = {
   data: T;
 };
 
-export type BookingDraftPersisted<T> = {
-  /** true אם נטענה טיוטה מ-localStorage */
+export type BookingDraftPersisted = {
+  /** true if a draft was restored from localStorage */
   restored: boolean;
-  /** ISO timestamp of the last persisted save, null if no draft exists */
+  /** ISO timestamp when draft was restored, null otherwise */
   savedAt: string | null;
-  /** מחיקה אחרי שליחה מוצלחת */
   clear: () => void;
+  dismissRestored: () => void;
 };
 
-function readDraft<T>(key: string): T | null {
+function readDraft<T>(key: string): { data: T; savedAt: string } | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DraftEnvelope<T>;
     if (parsed?.v !== DRAFT_VERSION || !parsed.data) return null;
-    return parsed.data;
+    return { data: parsed.data, savedAt: parsed.savedAt };
   } catch {
     return null;
   }
 }
 
-function writeDraft<T>(key: string, data: T): void {
-  try {
-    const envelope: DraftEnvelope<T> = {
-      v: DRAFT_VERSION,
-      savedAt: new Date().toISOString(),
-      data,
-    };
-    window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(envelope));
-  } catch {
-    /* quota / private mode */
-  }
+function writeDraft<T>(key: string, data: T): string {
+  const savedAt = new Date().toISOString();
+  const envelope: DraftEnvelope<T> = {
+    v: DRAFT_VERSION,
+    savedAt,
+    data,
+  };
+  window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(envelope));
+  return savedAt;
 }
 
 function removeDraft(key: string): void {
@@ -56,9 +54,8 @@ function removeDraft(key: string): void {
 }
 
 /**
- * שומר התקדמות אשף הזמנה ב-localStorage.
- * @param serialize - המרה ל-JSON (למשל Set → מערך)
- * @param deserialize - שחזור מהטיוטה
+ * Persists booking wizard progress to localStorage (debounced).
+ * serialize/deserialize are read from refs so inline lambdas don't retrigger effects.
  */
 export function useBookingDraft<T>(
   storageKey: string,
@@ -67,41 +64,67 @@ export function useBookingDraft<T>(
   serialize: (state: T) => unknown,
   deserialize: (raw: unknown) => T | null,
   enabled = true,
-): BookingDraftPersisted<T> {
+): BookingDraftPersisted {
   const hydrated = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const serializeRef = useRef(serialize);
+  const deserializeRef = useRef(deserialize);
+  const setStateRef = useRef(setState);
+  const lastSavedAtRef = useRef<string | null>(null);
+
+  serializeRef.current = serialize;
+  deserializeRef.current = deserialize;
+  setStateRef.current = setState;
+
   const [restored, setRestored] = useState(false);
   const [savedAt, setSavedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (!enabled || hydrated.current) return;
     hydrated.current = true;
-    const saved = readDraft<unknown>(storageKey);
-    if (saved == null) return;
-    const next = deserialize(saved);
-    if (next != null) {
-      queueMicrotask(() => {
-        setState(next);
-        setRestored(true);
-      });
+
+    try {
+      const saved = readDraft<unknown>(storageKey);
+      if (saved == null) return;
+      const next = deserializeRef.current(saved.data);
+      if (next != null) {
+        queueMicrotask(() => {
+          setStateRef.current(next);
+          setRestored(true);
+          setSavedAt(saved.savedAt);
+          lastSavedAtRef.current = saved.savedAt;
+        });
+      }
+    } catch (err) {
+      console.error("[useBookingDraft] draft restore failed", err);
+      removeDraft(storageKey);
     }
-  }, [storageKey, setState, deserialize, enabled]);
+  }, [storageKey, enabled]);
 
   useEffect(() => {
     if (!enabled || !hydrated.current) return;
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      writeDraft(storageKey, serialize(state));
-      setSavedAt(new Date().toISOString());
+      try {
+        lastSavedAtRef.current = writeDraft(storageKey, serializeRef.current(state));
+      } catch {
+        /* quota / private mode */
+      }
     }, 500);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [storageKey, state, serialize, enabled]);
+  }, [storageKey, state, enabled]);
 
   return {
     restored,
     savedAt,
-    clear: () => removeDraft(storageKey),
+    clear: () => {
+      removeDraft(storageKey);
+      setRestored(false);
+      setSavedAt(null);
+      lastSavedAtRef.current = null;
+    },
+    dismissRestored: () => setRestored(false),
   };
 }

@@ -3,7 +3,7 @@ import OnlineSendFilePageContent from "@/components/seo/OnlineSendFilePageConten
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "אישור תנאים לפני שליחת קבצים | יקיר כהן הפקות",
+  title: "אישור תנאים לפני שליחת קבצים",
   description:
     "הצהרת אחריות ותנאי שירות לפני שליחת קבצים לעיבוד מרחוק. שירות טכני בלבד - האחריות על תוכן הקבצים על הלקוח.",
   slug: "online/vocal-fix/send-file",
@@ -12,6 +12,7 @@ export const metadata: Metadata = constructMetadata({
     "תנאי שירות אודיו",
     "הצהרת אחריות הקלטה",
   ],
+  robots: { index: false, follow: true },
 });
 
 export default function SendFilePage() {

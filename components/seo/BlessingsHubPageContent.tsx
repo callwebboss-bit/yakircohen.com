@@ -1,4 +1,5 @@
 import Link from "next/link";
+import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -17,6 +18,8 @@ import {
 import { getBlessingsSubLinks, getStudioService } from "@/lib/data/services";
 import { youtubeEmbedUrl, YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import HubDualCta from "@/components/marketing/HubDualCta";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -27,6 +30,11 @@ const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
 const bookCta = resolveServiceBookCta("studio/blessings");
+
+const chipClass =
+  "inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-sm font-medium transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
+const sectionTitleClass = "font-serif text-section-title font-semibold text-foreground";
 
 export default function BlessingsHubPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -47,7 +55,7 @@ export default function BlessingsHubPageContent() {
       bookLabel={bookCta?.bookLabel}
       {...heroProps}
     >
-      <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+      <Container className="space-y-16 py-12 sm:py-16">
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />
         <section className="max-w-3xl" aria-labelledby="blessings-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -64,7 +72,7 @@ export default function BlessingsHubPageContent() {
             </p>
             <h2
               id="blessing-types-heading"
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className={`mt-3 ${sectionTitleClass}`}
             >
               סוגי ברכות שאנחנו מקליטים
             </h2>
@@ -95,7 +103,7 @@ export default function BlessingsHubPageContent() {
                   {card.href ? (
                     <Link
                       href={card.href}
-                      className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
+                      className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
                     >
                       {inner}
                     </Link>
@@ -106,7 +114,7 @@ export default function BlessingsHubPageContent() {
                         href={whatsappHref}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-4 text-xs font-semibold text-brand-red hover:underline"
+                        className="mt-4 inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                       >
                         לייעוץ בוואטסאפ ←
                       </a>
@@ -122,7 +130,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="why-studio-heading"
-              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className={sectionTitleClass}
             >
               למה להקליט ברכה באולפן מקצועי?
             </h2>
@@ -156,7 +164,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="how-it-works-heading"
-              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className={sectionTitleClass}
             >
               איך זה עובד?
             </h2>
@@ -200,7 +208,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="post-production-heading"
-              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className={sectionTitleClass}
             >
               מה קורה אחרי ההקלטה?
             </h2>
@@ -227,7 +235,7 @@ export default function BlessingsHubPageContent() {
         >
           <h2
             id="pricing-note-heading"
-            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            className={sectionTitleClass}
           >
             כמה זה עולה?
           </h2>
@@ -238,7 +246,7 @@ export default function BlessingsHubPageContent() {
           </p>
           <Link
             href="/studio/pricing"
-            className="mt-5 inline-flex rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+            className={chipClass}
           >
             למחירון האולפן
           </Link>
@@ -274,7 +282,7 @@ export default function BlessingsHubPageContent() {
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="blessings-tracks-heading"
-              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className={sectionTitleClass}
             >
               בחרו את סוג הברכה שלכם
             </h2>
@@ -287,7 +295,7 @@ export default function BlessingsHubPageContent() {
               <li key={track.href}>
                 <Link
                   href={track.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
+                  className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
                 >
                   <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-brand-red">
                     {track.title}
@@ -306,7 +314,7 @@ export default function BlessingsHubPageContent() {
             <li>
               <Link
                 href="/studio/recording-song-modiin"
-                className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                className={chipClass}
               >
                 הקלטת שירים
               </Link>
@@ -314,7 +322,7 @@ export default function BlessingsHubPageContent() {
             <li>
               <Link
                 href="/voucher"
-                className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                className={chipClass}
               >
                 שובר מתנה
               </Link>
@@ -337,7 +345,7 @@ export default function BlessingsHubPageContent() {
         >
           <h2
             id="blessings-cta-heading"
-            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            className={sectionTitleClass}
           >
             מוכנים להקליט את הברכה שלכם?
           </h2>
@@ -353,20 +361,22 @@ export default function BlessingsHubPageContent() {
               bookLabel={bookCta.bookLabel}
             />
           ) : (
-            <a
+            <Button
+              as="a"
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+              className="mt-6"
             >
               שליחה בוואטסאפ
-            </a>
+            </Button>
           )}
         </section>
+              <StudioExperienceSection />
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/blessings")} />
               <PageRelatedFooter pathname="/studio/blessings" />
 
-            </div>
+            </Container>
     </ServicePageLayout>
   );
 }

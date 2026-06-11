@@ -26,8 +26,7 @@ import {
   sanitizeLeadText,
   validateDjReserve,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -207,6 +206,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     location: "",
   });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "dj_events_calculator",
   });
@@ -353,15 +353,19 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             utm_source: "dj-events",
             utm_campaign: "dj_calculator",
           });
-          openWhatsAppLead(href, { leadCategory: "dj" });
-          notifyLeadByEmail({
-            formId: "dj_events_calculator",
-            subject: "ליד חדש - DJ ואירועים",
-            body,
-            name: sanitizeLeadText(form.name, 60),
-            phone: displayPhone,
-            crossSell: { bookCategory: "dj", routeId },
-          });
+          void submitLead(
+            {
+              formId: "dj_events_calculator",
+              subject: "ליד חדש - DJ ואירועים",
+              body,
+              name: sanitizeLeadText(form.name, 60),
+              phone: displayPhone,
+              crossSell: { bookCategory: "dj", routeId },
+            },
+            href,
+            intent,
+            { leadCategory: "dj" },
+          );
         },
       );
       setFieldErrors(errs ?? {});
@@ -377,6 +381,8 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
       effects,
       effectDiscount,
       grandTotal,
+      submitLead,
+      routeId,
     ],
   );
 

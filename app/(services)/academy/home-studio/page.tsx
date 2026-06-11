@@ -3,7 +3,7 @@ import AcousticConsultingPageContent from "@/components/seo/AcousticConsultingPa
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "ייעוץ אקוסטיקה ובניית אולפן | פודקאסט ביתי ומשדר | יקיר כהן הפקות",
+  title: "ייעוץ אקוסטיקה ובניית אולפן | פודקאסט ביתי ומשדר",
   description:
     "ייעוץ אקוסטיקה לבניית אולפן הקלטות, אולפן פודקאסט ביתי וחדר משדר. תכנון אקוסטי, הדרכה מעשית וליווי צמוד. זום 60 דק 500 ₪ | ייעוץ מלא עם ביקור 950 ₪. בכל הארץ.",
   slug: "academy/home-studio",

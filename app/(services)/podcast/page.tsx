@@ -1,23 +1,30 @@
-﻿import PodcastHubPageContent from "@/components/seo/PodcastHubPageContent";
-import { constructMetadata } from "@/lib/metadata";
+﻿import type { Metadata } from "next";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
+import PodcastHubPageContent, {
+  PODCAST_HUB_TRACKS,
+} from "@/components/seo/PodcastHubPageContent";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  PODCAST_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 
-export const metadata = constructMetadata({
-  title: "אולפן פודקאסט מקצועי במודיעין | הקלטת פודקאסט ושיפור סאונד - יקיר כהן הפקות",
-  description:
-    "הקלטת פודקאסט באולפן מקצועי במודיעין - שיפור הקלטות, עריכה מקצועית ומסירה תוך 24 שעות. החל מ-750 ₪. מגיעים, מדברים, ויוצאים עם פרק מוכן לספוטיפיי.",
-  slug: "podcast",
-  keywords: [
-    "אולפן פודקאסט",
-    "הקלטת פודקאסט",
-    "אולפן פודקאסט מודיעין",
-    "הקלטת פודקאסט מודיעין",
-    "שיפור הקלטות",
-    "פודקאסט משפחתי",
-    "עריכת פודקאסט",
-    "פודקאסט וידאו",
-  ],
-});
+export const metadata: Metadata = metadataForHubSeo(PODCAST_HUB_SEO);
 
 export default function PodcastHubPage() {
-  return <PodcastHubPageContent />;
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(PODCAST_HUB_SEO)} />
+      <HubServiceIndexStatic
+        heading="שירותי פודקאסט"
+        links={PODCAST_HUB_TRACKS.map((track) => ({
+          href: track.href,
+          title: track.title,
+          description: track.description,
+        }))}
+      />
+      <PodcastHubPageContent />
+    </>
+  );
 }

@@ -94,7 +94,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
               alt={post.imageAlt ?? post.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1152px) 80vw, 72rem"
-              className="object-cover transition-[transform,filter] duration-normal ease-luxury group-hover:scale-[1.02] group-hover:brightness-[0.92]"
+              className="group-hover-scale-sm object-cover motion-reduce:transform-none"
               placeholder="blur"
               blurDataURL={BLUR_DATA_URL}
               priority
@@ -113,7 +113,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
         </div>
 
         {/* Title */}
-        <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground transition-colors duration-normal ease-luxury group-hover:text-brand-red sm:text-3xl">
+        <h2 className="font-serif text-section-title font-semibold leading-tight text-foreground transition-colors duration-normal ease-luxury group-hover:text-brand-red">
           {post.title}
         </h2>
 
@@ -172,7 +172,7 @@ function ArticleRow({ post }: { post: BlogPost }) {
               alt={post.imageAlt ?? post.title}
               fill
               sizes="(max-width: 640px) 96px, (max-width: 1024px) 128px, 144px"
-              className="object-cover transition-[transform] duration-normal ease-luxury group-hover:scale-[1.05]"
+              className="group-hover-scale-md object-cover motion-reduce:transform-none"
               placeholder="blur"
               blurDataURL={BLUR_DATA_URL}
             />
@@ -254,7 +254,7 @@ export default function ArticleFeed({
         <header className="mb-8 border-b border-border pb-6">
           <h1
             id="feed-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             {heading}
           </h1>

@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
@@ -11,6 +11,7 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { VOCAL_FIX_PROCESS_STEPS } from "@/lib/data/online-vocal-fix-page";
@@ -20,7 +21,6 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -43,12 +43,19 @@ export default function OnlineRestoreBookingPanel({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [done, setDone] = useState(false);
-  const [lastHref, setLastHref] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "online_restore_booking",
-  });
+
+  const guard = useLeadFormGuard({ formId: "online_restore_booking" });
+  const { honeypot, setHoneypot, globalError, attemptSubmit, resetGuardClock } = guard;
+
+  const {
+    submitLead,
+    resetSubmit,
+    isSuccess,
+    isSubmitting,
+    successWaHref,
+    successIntent,
+  } = useLeadSubmit();
 
   const feasibilityHref = buildWhatsAppHref({
     text: "שלום, אשמח לבדיקת היתכנות חינם לשחזור סאונד.\nאצרף קטע של כ-30 שניות מהקובץ.\nמה שחסר לי: לדעת אם אפשר להציל את ההקלטה",
@@ -75,88 +82,108 @@ export default function OnlineRestoreBookingPanel({
     ycForm: "online_restore_booking",
   });
 
-  function scrollToFirstError(errs: Record<string, string>) {
+  const scrollToFirstError = useCallback((errs: Record<string, string>) => {
     if (Object.keys(errs).length === 0) return;
     setTimeout(() => {
       document
         .querySelector("[data-field-error]")
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 50);
-  }
+  }, []);
 
-  function handleAction(intent: "continue_chat" | "start_now") {
-    if (!termsAccepted) {
-      const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
-      setErrors(termsErr);
-      scrollToFirstError(termsErr);
-      return;
-    }
-    const fieldErrs = attemptSubmit(
-      () =>
-        validateBookingLead({
-          name,
-          phone,
-          date: "",
-          time: "",
-          location: "",
-          notes: "",
-          requireLocation: false,
-          requireDate: false,
-          requireTime: false,
-        }),
-      (result) => {
-        const displayPhone = result.normalizedPhone
-          ? formatPhoneForDisplay(result.normalizedPhone)
-          : phone.trim();
-        const body = buildBookingWhatsAppBody({
-          intent,
-          serviceLabel: "שחזור סאונד / הצלת הקלטה",
-          summaryLines: [
-            { label: "סוג בעיה", value: sanitizeLeadText(issue, 120) || "לא צוין" },
-            { label: "חבילה", value: "עד 5 דקות - שחזור בסיסי" },
-          ],
-          contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
-          priceExVat: BASIC_EX_VAT,
-          totalEstimate: withVat(BASIC_EX_VAT),
-          utmSource: readUtmSource(),
-          bookCategory: "online",
-          includeTrustFooter: true,
-          ycForm: "online_restore_booking",
-        });
-        const href = buildWhatsAppHref({
-          text: body,
-          utm_source: "website",
-          utm_campaign: "book_online_restore",
-        });
-        openWhatsAppLead(href, { leadCategory: "online" });
-        notifyLeadByEmail({
-          formId: "online_restore_booking",
-          subject: "ליד חדש - שחזור סאונד",
-          body,
-          name: sanitizeLeadText(name, 60),
-          phone: displayPhone,
-          crossSell: { bookCategory: "online", routeId },
-        });
-        setLastHref(href);
-        setDone(true);
-      },
-    );
-    const errs = fieldErrs ?? {};
-    setErrors(errs);
-    scrollToFirstError(errs);
-  }
+  const mergeErrors = useCallback(
+    (patch: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
+      setErrors((prev) => (typeof patch === "function" ? patch(prev) : { ...prev, ...patch }));
+    },
+    [],
+  );
 
-  if (done) {
+  const handleAction = useCallback(
+    (intent: "continue_chat" | "start_now") => {
+      if (!termsAccepted) {
+        const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
+        setErrors(termsErr);
+        scrollToFirstError(termsErr);
+        return;
+      }
+
+      const fieldErrs = attemptSubmit(
+        () =>
+          validateBookingLead({
+            name,
+            phone,
+            date: "",
+            time: "",
+            location: "",
+            notes: "",
+            requireLocation: false,
+            requireDate: false,
+            requireTime: false,
+          }),
+        (result) => {
+          const displayPhone = result.normalizedPhone
+            ? formatPhoneForDisplay(result.normalizedPhone)
+            : phone.trim();
+          const body = buildBookingWhatsAppBody({
+            intent,
+            serviceLabel: "שחזור סאונד / הצלת הקלטה",
+            summaryLines: [
+              { label: "סוג בעיה", value: sanitizeLeadText(issue, 120) || "לא צוין" },
+              { label: "חבילה", value: "עד 5 דקות - שחזור בסיסי" },
+            ],
+            contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
+            priceExVat: BASIC_EX_VAT,
+            totalEstimate: withVat(BASIC_EX_VAT),
+            utmSource: readUtmSource(),
+            bookCategory: "online",
+            includeTrustFooter: true,
+            ycForm: "online_restore_booking",
+          });
+          const href = buildWhatsAppHref({
+            text: body,
+            utm_source: "website",
+            utm_campaign: "book_online_restore",
+          });
+
+          void submitLead(
+            {
+              formId: "online_restore_booking",
+              subject: "ליד חדש - שחזור סאונד",
+              body,
+              name: sanitizeLeadText(name, 60),
+              phone: displayPhone,
+              crossSell: { bookCategory: "online", routeId },
+            },
+            href,
+            intent,
+            { leadCategory: "online" },
+          );
+        },
+      );
+
+      const errs = fieldErrs ?? {};
+      setErrors(errs);
+      scrollToFirstError(errs);
+    },
+    [attemptSubmit, issue, name, phone, routeId, scrollToFirstError, submitLead, termsAccepted],
+  );
+
+  const handleNewBooking = useCallback(() => {
+    resetSubmit();
+    resetGuardClock();
+    setName("");
+    setPhone("");
+    setErrors({});
+  }, [resetGuardClock, resetSubmit]);
+
+  if (isSuccess && successWaHref) {
     return (
       <BookingSuccessPanel
-        whatsappHref={lastHref}
+        intent={successIntent}
+        whatsappHref={successWaHref}
         bookCategory="online"
         routeId={routeId}
-        onNewBooking={() => {
-          setDone(false);
-          setName("");
-          setPhone("");
-        }}
+        onNewBooking={handleNewBooking}
       />
     );
   }
@@ -170,7 +197,7 @@ export default function OnlineRestoreBookingPanel({
         </p>
         <button
           type="button"
-          onClick={() => openWhatsAppLead(feasibilityHref)}
+          onClick={() => openWhatsAppLead(feasibilityHref, { leadCategory: "online" })}
           className="mt-3 text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
         >
           שלחו קובץ לבדיקה חינם ←
@@ -207,7 +234,7 @@ export default function OnlineRestoreBookingPanel({
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              if (errors.name) setErrors((p) => ({ ...p, name: "" }));
+              if (errors.name) mergeErrors({ name: "" });
             }}
             aria-invalid={!!errors.name}
           />
@@ -224,7 +251,7 @@ export default function OnlineRestoreBookingPanel({
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
-              if (errors.phone) setErrors((p) => ({ ...p, phone: "" }));
+              if (errors.phone) mergeErrors({ phone: "" });
             }}
             dir="ltr"
             aria-invalid={!!errors.phone}
@@ -244,7 +271,7 @@ export default function OnlineRestoreBookingPanel({
         termsAccepted={termsAccepted}
         onTermsChange={(v) => {
           setTermsAccepted(v);
-          if (v && errors.terms) setErrors((p) => ({ ...p, terms: "" }));
+          if (v && errors.terms) mergeErrors({ terms: "" });
         }}
         termsError={errors.terms}
       />
@@ -255,7 +282,7 @@ export default function OnlineRestoreBookingPanel({
       <BookingSummaryActions
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
-        disabled={!termsAccepted}
+        disabled={!termsAccepted || isSubmitting}
       />
     </div>
   );

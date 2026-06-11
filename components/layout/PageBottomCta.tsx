@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -14,13 +16,6 @@ function WhatsAppIcon({ className }: { className?: string }) {
     </svg>
   );
 }
-
-const whatsappButtonClass = cn(
-  "inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-semibold transition-colors duration-normal ease-luxury",
-  "bg-brand-red text-white hover:bg-brand-red-light",
-  "shadow-[0_0_20px_rgba(212,43,43,0.25)] hover:shadow-[0_0_32px_rgba(212,43,43,0.4)]",
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-);
 
 export type PageBottomCtaProps = {
   /** Site: book + contact. WhatsApp: primary WA + optional book/contact. */
@@ -99,16 +94,18 @@ export default function PageBottomCta({
     ) : (
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         {whatsappHref ? (
-          <a
+          <Button
+            as="a"
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(whatsappButtonClass, "w-full sm:w-auto")}
+            variant="primary"
+            className="w-full gap-2 px-8 shadow-[0_0_20px_rgba(212,43,43,0.25)] hover:shadow-[0_0_32px_rgba(212,43,43,0.4)] sm:w-auto"
             aria-label={whatsappAriaLabel ?? resolvedWaLabel}
           >
             <WhatsAppIcon />
             {resolvedWaLabel}
-          </a>
+          </Button>
         ) : null}
         {showBookContact ? (
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
@@ -125,14 +122,12 @@ export default function PageBottomCta({
 
   if (layout === "section") {
     return (
-      <section
-        className={cn(
-          "border-t border-border bg-background py-14 sm:py-16",
-          className,
-        )}
-        aria-labelledby={headingId}
+      <Section
+        padding="sm"
+        className={cn("border-t border-border bg-background text-center", className)}
+        ariaLabelledby={headingId}
       >
-        <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
+        <Container>
           {kicker ? (
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
               {kicker}
@@ -141,19 +136,19 @@ export default function PageBottomCta({
           <h2
             id={headingId}
             className={cn(
-              "font-semibold text-foreground",
-              kicker ? "mt-3 text-xl sm:text-2xl" : "text-xl sm:text-2xl",
+              "font-serif text-section-title font-semibold text-foreground",
+              kicker && "mt-3",
             )}
           >
             {resolvedHeading}
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
+          <p className="text-lead mx-auto mt-3 max-w-lg text-muted-foreground">
             {resolvedDescription}
           </p>
           <div className="mt-8">{actions}</div>
           {children ? <div className="mt-6">{children}</div> : null}
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
 

@@ -1,27 +1,10 @@
 import UsedGearPageContent from "@/components/seo/UsedGearPageContent";
-import { constructMetadata } from "@/lib/metadata";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import { metadataForHubSeo, SHOP_HUB_SEO, hubSchemaPropsFromSeo } from "@/lib/seo/hub-pages";
 import { absoluteUrl } from "@/lib/site-url";
 import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
 
-export const metadata = constructMetadata({
-  title: "חנות ציוד מקצועי - אולפן, הגברה ותאורה",
-  description:
-    "ציוד אולפן יד שנייה, ציוד די ג'יי, רמקולים מוגברים RCF, ציוד הגברה ותאורה מקצועי למכירה. מהפקות יקיר כהן הפקות - מתוחזק ברמת פרימיום, עם הדרכה ותמיכה.",
-  slug: "shop",
-  keywords: [
-    "ציוד אולפן יד שנייה",
-    "ציוד די ג'יי",
-    "רמקולים מוגברים",
-    "אולפן ביתי",
-    "עמדת תקלוט",
-    "ציוד הגברה",
-    "ציוד תאורה",
-    "RCF 745",
-    "KRK Rokit 8",
-    "UAD Twin",
-    "Traktor S4 MK3",
-  ],
-});
+export const metadata = metadataForHubSeo(SHOP_HUB_SEO);
 
 const pageUrl = absoluteUrl("shop");
 
@@ -94,6 +77,7 @@ const jsonLd = {
 export default function ShopPage() {
   return (
     <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(SHOP_HUB_SEO)} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

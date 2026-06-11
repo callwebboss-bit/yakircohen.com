@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -12,6 +12,7 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
@@ -21,8 +22,6 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -49,12 +48,19 @@ export default function AcademyBookingWizard({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [done, setDone] = useState(false);
-  const [lastHref, setLastHref] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "academy_booking",
-  });
+
+  const guard = useLeadFormGuard({ formId: "academy_booking" });
+  const { honeypot, setHoneypot, globalError, attemptSubmit, resetGuardClock } = guard;
+
+  const {
+    submitLead,
+    resetSubmit,
+    isSuccess,
+    isSubmitting,
+    successWaHref,
+    successIntent,
+  } = useLeadSubmit();
 
   const plan = PRIVATE_SESSION_PLANS.find((p) => p.id === planId) ?? PRIVATE_SESSION_PLANS[0];
 
@@ -77,88 +83,118 @@ export default function AcademyBookingWizard({
     ycForm: "academy_booking",
   });
 
-  function scrollToFirstError(errs: Record<string, string>) {
+  const scrollToFirstError = useCallback((errs: Record<string, string>) => {
     if (Object.keys(errs).length === 0) return;
     setTimeout(() => {
       document
         .querySelector("[data-field-error]")
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 50);
-  }
+  }, []);
 
-  function handleAction(intent: "continue_chat" | "start_now") {
-    if (!termsAccepted) {
-      const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
-      setErrors(termsErr);
-      scrollToFirstError(termsErr);
-      return;
-    }
-    const fieldErrs = attemptSubmit(
-      () =>
-        validateBookingLead({
-          name,
-          phone,
-          date: "",
-          time: "",
-          location: "",
-          notes: "",
-          requireLocation: false,
-          requireDate: false,
-          requireTime: false,
-        }),
-      (result) => {
-        const displayPhone = result.normalizedPhone
-          ? formatPhoneForDisplay(result.normalizedPhone)
-          : phone.trim();
-        const body = buildBookingWhatsAppBody({
-          intent,
-          serviceLabel: `שיעור פרטי - ${plan.name}`,
-          summaryLines: [
-            { label: "משך", value: plan.duration },
-            ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
-          ],
-          contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
-          priceExVat: plan.price,
-          totalEstimate: withVat(plan.price),
-          utmSource: readUtmSource(),
-          bookCategory: "academy",
-          includeTrustFooter: true,
-          ycForm: "academy_booking",
-        });
-        const href = buildWhatsAppHref({
-          text: body,
-          utm_source: "website",
-          utm_campaign: plan.utmCampaign,
-        });
-        openWhatsAppLead(href, { leadCategory: "academy" });
-        notifyLeadByEmail({
-          formId: "academy_booking",
-          subject: "ליד חדש - שיעור פרטי באקדמיה",
-          body,
-          name: sanitizeLeadText(name, 60),
-          phone: displayPhone,
-          crossSell: { bookCategory: "academy", routeId },
-        });
-        setLastHref(href);
-        setDone(true);
-      },
-    );
-    const errs = fieldErrs ?? {};
-    setErrors(errs);
-    scrollToFirstError(errs);
-  }
+  const mergeErrors = useCallback(
+    (patch: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
+      setErrors((prev) => (typeof patch === "function" ? patch(prev) : { ...prev, ...patch }));
+    },
+    [],
+  );
 
-  if (done) {
+  const handleAction = useCallback(
+    (intent: "continue_chat" | "start_now") => {
+      if (!termsAccepted) {
+        const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
+        setErrors(termsErr);
+        scrollToFirstError(termsErr);
+        return;
+      }
+
+      const fieldErrs = attemptSubmit(
+        () =>
+          validateBookingLead({
+            name,
+            phone,
+            date: "",
+            time: "",
+            location: "",
+            notes: "",
+            requireLocation: false,
+            requireDate: false,
+            requireTime: false,
+          }),
+        (result) => {
+          const displayPhone = result.normalizedPhone
+            ? formatPhoneForDisplay(result.normalizedPhone)
+            : phone.trim();
+          const body = buildBookingWhatsAppBody({
+            intent,
+            serviceLabel: `שיעור פרטי - ${plan.name}`,
+            summaryLines: [
+              { label: "משך", value: plan.duration },
+              ...(topic ? [{ label: "תחום", value: sanitizeLeadText(topic, 80) }] : []),
+            ],
+            contact: { name: sanitizeLeadText(name, 60), phone: displayPhone },
+            priceExVat: plan.price,
+            totalEstimate: withVat(plan.price),
+            utmSource: readUtmSource(),
+            bookCategory: "academy",
+            includeTrustFooter: true,
+            ycForm: "academy_booking",
+          });
+          const href = buildWhatsAppHref({
+            text: body,
+            utm_source: "website",
+            utm_campaign: plan.utmCampaign,
+          });
+
+          void submitLead(
+            {
+              formId: "academy_booking",
+              subject: "ליד חדש - שיעור פרטי באקדמיה",
+              body,
+              name: sanitizeLeadText(name, 60),
+              phone: displayPhone,
+              crossSell: { bookCategory: "academy", routeId },
+            },
+            href,
+            intent,
+            { leadCategory: "academy" },
+          );
+        },
+      );
+
+      const errs = fieldErrs ?? {};
+      setErrors(errs);
+      scrollToFirstError(errs);
+    },
+    [
+      attemptSubmit,
+      name,
+      phone,
+      plan,
+      routeId,
+      scrollToFirstError,
+      submitLead,
+      termsAccepted,
+      topic,
+    ],
+  );
+
+  const handleNewBooking = useCallback(() => {
+    resetSubmit();
+    resetGuardClock();
+    setName("");
+    setPhone("");
+    setErrors({});
+  }, [resetGuardClock, resetSubmit]);
+
+  if (isSuccess && successWaHref) {
     return (
       <BookingSuccessPanel
-        whatsappHref={lastHref}
+        intent={successIntent}
+        whatsappHref={successWaHref}
         bookCategory="academy"
         routeId={routeId}
-        onNewBooking={() => {
-          setDone(false);
-          setName("");
-          setPhone("");
-        }}
+        onNewBooking={handleNewBooking}
       />
     );
   }
@@ -223,7 +259,7 @@ export default function AcademyBookingWizard({
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              if (errors.name) setErrors((p) => ({ ...p, name: "" }));
+              if (errors.name) mergeErrors({ name: "" });
             }}
             aria-invalid={!!errors.name}
           />
@@ -240,10 +276,10 @@ export default function AcademyBookingWizard({
           error={errors.phone}
           onChange={(value) => {
             setPhone(value);
-            if (errors.phone) setErrors((p) => ({ ...p, phone: "" }));
+            if (errors.phone) mergeErrors({ phone: "" });
           }}
           onBlurValidate={(msg) => {
-            setErrors((p) => {
+            mergeErrors((p) => {
               const next = { ...p };
               if (msg) next.phone = msg;
               else delete next.phone;
@@ -263,7 +299,7 @@ export default function AcademyBookingWizard({
         termsAccepted={termsAccepted}
         onTermsChange={(v) => {
           setTermsAccepted(v);
-          if (v && errors.terms) setErrors((p) => ({ ...p, terms: "" }));
+          if (v && errors.terms) mergeErrors({ terms: "" });
         }}
         termsError={errors.terms}
       />
@@ -274,7 +310,7 @@ export default function AcademyBookingWizard({
       <BookingSummaryActions
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
-        disabled={!termsAccepted}
+        disabled={!termsAccepted || isSubmitting}
       />
     </div>
   );

@@ -37,8 +37,7 @@ import {
   validateIsraeliMobile,
   validatePersonName,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -115,6 +114,7 @@ export default function PhotographyCalculator({
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
   const [contactForm, setContactForm] = useState({ name: "", phone: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "photography_calculator",
   });
@@ -241,20 +241,24 @@ export default function PhotographyCalculator({
             ycForm: "photography_calculator",
           });
           const href = buildWhatsAppHref({ text: body, utm_campaign: "photography_calculator" });
-          openWhatsAppLead(href, { leadCategory: "photography" });
-          notifyLeadByEmail({
-            formId: "photography_calculator",
-            subject: "ליד חדש - צילום אירועים",
-            body,
-            name: sanitizeLeadText(contactForm.name, 60),
-            phone: displayPhone,
-            crossSell: { bookCategory: "photography", routeId },
-          });
+          void submitLead(
+            {
+              formId: "photography_calculator",
+              subject: "ליד חדש - צילום אירועים",
+              body,
+              name: sanitizeLeadText(contactForm.name, 60),
+              phone: displayPhone,
+              crossSell: { bookCategory: "photography", routeId },
+            },
+            href,
+            intent,
+            { leadCategory: "photography" },
+          );
         },
       );
       setFieldErrors(errs ?? {});
     },
-    [attemptSubmit, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total],
+    [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, submitLead, total],
   );
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];

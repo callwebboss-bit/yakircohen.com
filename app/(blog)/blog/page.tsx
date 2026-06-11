@@ -3,15 +3,21 @@ import Link from "next/link";
 import ArticleFeed, {
   type BlogPost as FeedPost,
 } from "@/components/blog/ArticleFeed";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { BLOG_POSTS, type BlogPost } from "@/lib/data/blog";
 import { SITE_NAME } from "@/lib/constants";
-import { absoluteUrl } from "@/lib/site-url";
+import {
+  BLOG_HUB_SEO,
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+} from "@/lib/seo/hub-pages";
 import { cn } from "@/lib/utils";
 
 /* ── Config ──────────────────────────────────────────────────────────────── */
 
 const POSTS_PER_PAGE = 8;
-const canonical = absoluteUrl("blog");
 
 /* ── Build sorted feed (newest first) once at module load ────────────────── */
 
@@ -59,25 +65,25 @@ export async function generateMetadata({
 }: BlogFeedPageProps): Promise<Metadata> {
   const { page: pageParam } = await searchParams;
   const page = clampPage(pageParam);
-  const suffix = page > 1 ? ` - עמוד ${page}` : "";
+  const base = metadataForHubSeo(BLOG_HUB_SEO);
+
+  if (page <= 1) {
+    return base;
+  }
+
+  const suffix = ` - עמוד ${page}`;
+  const title = `${BLOG_HUB_SEO.title}${suffix}`;
 
   return {
-    title: `מגזין מקצועי${suffix} | ${SITE_NAME}`,
-    description:
-      "מדריכים ותובנות על הקלטה, פודקאסט, אולפן, DJ, אירועים, קריינות וסאונד - יקיר כהן הפקות.",
-    alternates: {
-      canonical,
-      languages: { "he-IL": canonical },
-    },
-    openGraph: {
-      type: "website",
-      locale: "he_IL",
-      url: canonical,
-      siteName: SITE_NAME,
-      title: `מגזין מקצועי${suffix} | ${SITE_NAME}`,
-      description:
-        "מדריכים ותובנות על הקלטה, פודקאסט, אולפן, DJ, אירועים, קריינות וסאונד - יקיר כהן הפקות.",
-    },
+    ...base,
+    title: { absolute: `${title} | ${SITE_NAME}` },
+    robots: { index: false, follow: true },
+    openGraph: base.openGraph
+      ? {
+          ...base.openGraph,
+          title: `${title} | ${SITE_NAME}`,
+        }
+      : undefined,
   };
 }
 
@@ -121,6 +127,11 @@ function BlogPagination({
   const pageNumbers: number[] = [];
   for (let i = windowStart; i <= windowEnd; i++) pageNumbers.push(i);
 
+  const navBtnClass =
+    "inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border bg-surface px-4 text-sm font-medium text-foreground transition-colors hover:border-brand-red hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+  const pageBtnClass =
+    "inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
   return (
     <nav
       aria-label="ניווט עמודים"
@@ -129,15 +140,12 @@ function BlogPagination({
     >
       {/* ── Prev (right side in RTL = start) ── */}
       {hasPrev ? (
-        <Link
-          href={pageHref(currentPage - 1)}
-          className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
-        >
+        <Link href={pageHref(currentPage - 1)} className={navBtnClass}>
           <span aria-hidden="true">&#x2190;</span>
           עמוד קודם
         </Link>
       ) : (
-        <span className="flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground opacity-30 select-none">
+        <span className={`${navBtnClass} text-muted-foreground opacity-30 select-none`}>
           <span aria-hidden="true">&#x2190;</span>
           עמוד קודם
         </span>
@@ -148,10 +156,7 @@ function BlogPagination({
         {/* Leading ellipsis */}
         {windowStart > 1 && (
           <>
-            <Link
-              href={pageHref(1)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface text-sm font-medium text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
-            >
+            <Link href={pageHref(1)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
               1
             </Link>
             {windowStart > 2 && (
@@ -168,7 +173,7 @@ function BlogPagination({
             href={pageHref(p)}
             aria-current={p === currentPage ? "page" : undefined}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-lg border text-sm font-medium transition-colors",
+              pageBtnClass,
               p === currentPage
                 ? "border-brand-red bg-brand-red text-white"
                 : "border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red",
@@ -186,10 +191,7 @@ function BlogPagination({
                 ...
               </span>
             )}
-            <Link
-              href={pageHref(total)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface text-sm font-medium text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
-            >
+            <Link href={pageHref(total)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
               {total}
             </Link>
           </>
@@ -198,15 +200,12 @@ function BlogPagination({
 
       {/* ── Next (left side in RTL = end) ── */}
       {hasNext ? (
-        <Link
-          href={pageHref(currentPage + 1)}
-          className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
-        >
+        <Link href={pageHref(currentPage + 1)} className={navBtnClass}>
           עמוד הבא
           <span aria-hidden="true">&#x2192;</span>
         </Link>
       ) : (
-        <span className="flex items-center gap-1.5 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground opacity-30 select-none">
+        <span className={`${navBtnClass} text-muted-foreground opacity-30 select-none`}>
           עמוד הבא
           <span aria-hidden="true">&#x2192;</span>
         </span>
@@ -225,62 +224,68 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
   const pagePosts = allFeedPosts.slice(start, start + POSTS_PER_PAGE);
 
   return (
-    <div className="bg-background">
-      {/* ── Dark hero ── */}
-      <section
-        className="relative overflow-hidden border-b border-border bg-surface text-foreground"
-        aria-labelledby="blog-hero-heading"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_80%_-10%,rgba(212,43,43,0.18),transparent_55%)]"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-red/50 to-transparent"
-          aria-hidden="true"
-        />
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(BLOG_HUB_SEO)} />
+      <div className="bg-background">
+        {/* ── Dark hero ── */}
+        <Section
+          padding="none"
+          className="relative overflow-hidden border-b border-border bg-surface text-foreground"
+          ariaLabelledby="blog-hero-heading"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_80%_-10%,rgba(212,43,43,0.18),transparent_55%)]"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-red/50 to-transparent"
+            aria-hidden="true"
+          />
 
-        <div className="relative mx-auto max-w-[72rem] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <BlogEditorialMark />
+          <Container className="relative py-16 sm:py-20">
+            <BlogEditorialMark />
 
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
-            מגזין {SITE_NAME}
-          </p>
+            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+              מגזין {SITE_NAME}
+            </p>
 
-          <h1
-            id="blog-hero-heading"
-            className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl"
-          >
-            ידע מקצועי מהאולפן והשטח
-          </h1>
+            <h1
+              id="blog-hero-heading"
+              className="text-hero mt-4 max-w-3xl font-serif font-semibold"
+            >
+              ידע מקצועי מהאולפן והשטח
+            </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg">
-            מדריכים פרקטיים לפודקאסט, הקלטה, DJ, אירועים, קריינות וסאונד -
-            כתובים בבהירות, בלי רעש מיותר.
-          </p>
+            <p className="text-lead mt-6 max-w-2xl text-muted-foreground">
+              מדריכים פרקטיים לפודקאסט, הקלטה, DJ, אירועים, קריינות וסאונד -
+              כתובים בבהירות, בלי רעש מיותר.
+            </p>
 
-          {/* Stats row */}
-          <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-zinc-400">
-            <span>
-              <strong className="text-foreground">{allFeedPosts.length}</strong>{" "}
-              מאמרים
-            </span>
-            {totalPages > 1 && currentPage > 1 && (
+            {/* Stats row */}
+            <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span>
-                עמוד{" "}
-                <strong className="text-foreground">{currentPage}</strong> מתוך{" "}
-                <strong className="text-foreground">{totalPages}</strong>
+                <strong className="text-foreground">{allFeedPosts.length}</strong>{" "}
+                מאמרים
               </span>
-            )}
-          </div>
-        </div>
-      </section>
+              {totalPages > 1 && currentPage > 1 && (
+                <span>
+                  עמוד{" "}
+                  <strong className="text-foreground">{currentPage}</strong> מתוך{" "}
+                  <strong className="text-foreground">{totalPages}</strong>
+                </span>
+              )}
+            </div>
+          </Container>
+        </Section>
 
-      {/* ── Article feed + pagination ── */}
-      <div className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <ArticleFeed posts={pagePosts} />
-        <BlogPagination currentPage={currentPage} total={totalPages} />
+        {/* ── Article feed + pagination ── */}
+        <Section padding="sm">
+          <Container>
+            <ArticleFeed posts={pagePosts} />
+            <BlogPagination currentPage={currentPage} total={totalPages} />
+          </Container>
+        </Section>
       </div>
-    </div>
+    </>
   );
 }

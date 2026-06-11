@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Container from "@/components/ui/Container";
 import {
   GOOGLE_RATING_LABEL,
   SITE_TRUST_STATS,
@@ -25,9 +26,8 @@ export default function TrustStatsBar({
       )}
       aria-label="נתוני אמון"
     >
-      <div
+      <Container
         className={cn(
-          "mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8",
           variant === "default"
             ? "grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8"
             : "flex flex-wrap items-center justify-center gap-6 sm:gap-10",
@@ -77,7 +77,7 @@ export default function TrustStatsBar({
             </div>
           );
         })}
-      </div>
+      </Container>
     </section>
   );
 }

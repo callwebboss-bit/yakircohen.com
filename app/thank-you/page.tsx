@@ -1,15 +1,18 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
 import ThankYouCrossSell from "@/components/booking/ThankYouCrossSell";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { buildBookHref } from "@/lib/book-url";
 import { THANK_YOU_TO_BOOK_CATEGORY } from "@/lib/data/book-closer-map";
 import { constructMetadata } from "@/lib/metadata";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = constructMetadata({
-  title: "ההזמנה בדרך | יקיר כהן הפקות",
+  title: "ההזמנה בדרך",
   description: "תודה על פנייתכם - נחזור אליכם תוך 15 דקות.",
   slug: "thank-you",
+  robots: { index: false, follow: true },
 });
 
 type ServiceId =
@@ -143,21 +146,22 @@ export default async function ThankYouPage({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-lg px-4 py-16 sm:px-6 sm:py-20">
+      <Section padding="sm">
+        <Container className="max-w-lg">
         <div className="text-center">
           <span className="text-5xl" aria-hidden="true">
             ✓
           </span>
-          <h1 className="mt-5 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
+          <h1 className="text-section-title mt-5 font-serif font-semibold text-foreground">
             ההזמנה בדרך אלינו
           </h1>
           <p className="mt-3 text-sm text-muted-foreground">{content.responseTime}</p>
         </div>
 
         <div className="mt-10 rounded-2xl border border-border bg-surface p-6">
-          <p className="mb-4 text-xs font-bold tracking-widest text-brand-red uppercase">
+          <h2 className="mb-4 text-xs font-bold tracking-widest text-brand-red uppercase">
             מה כדאי להכין ל{content.title}
-          </p>
+          </h2>
           <ol className="space-y-4">
             {content.bullets.map((bullet, i) => (
               <li key={i} className="flex gap-4 text-sm">
@@ -178,21 +182,19 @@ export default async function ThankYouPage({
         />
 
         <div className="mt-6 space-y-3">
-          <a
+          <Button
+            as="a"
             href={retryWaHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+            className="w-full"
           >
             שלחו את הוואטסאפ שוב
-          </a>
+          </Button>
 
-          <Link
-            href={bookUpsellHref}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-brand-red/40"
-          >
+          <Button as="link" href={bookUpsellHref} variant="secondary" className="w-full">
             רוצים לבחור תוספות? הזמנה מפורטת
-          </Link>
+          </Button>
         </div>
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
@@ -201,12 +203,13 @@ export default async function ThankYouPage({
             href={DEFAULT_WA_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-brand-red hover:underline"
+            className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             לכתוב ישירות בוואטסאפ
           </a>
         </p>
-      </div>
+        </Container>
+      </Section>
     </div>
   );
 }

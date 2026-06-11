@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
@@ -21,13 +21,11 @@ import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
-import { useBookingDraft } from "@/hooks/useBookingDraft";
-import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   PODCAST_EXTRA_PARTICIPANT_PRICE,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
-  type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
 import {
   getPodcastUpsellItems,
@@ -57,8 +55,7 @@ import {
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -82,22 +79,7 @@ const PODCAST_COMPARISON_ROWS = [
   { label: "העלאה לאפל + יוטיוב", ids: ["social"] },
 ] as const;
 
-type FormState = {
-  packageId: PodcastPackageId | "";
-  overtimeBlocks: number;
-  participantCount: number;
-  location: "modiin" | "mobile" | "";
-  mobileGeo: MobileGeoId | "";
-  name: string;
-  phone: string;
-  timeframe: string;
-  customerNeed: string;
-  notes: string;
-  selectedUpsells: string[];
-  termsAccepted: boolean;
-};
-
-const INITIAL: FormState = {
+const INITIAL: PodcastFormDraft = {
   packageId: "",
   overtimeBlocks: 0,
   participantCount: 1,
@@ -121,51 +103,35 @@ export default function PodcastBookingWizard({
   routeId = null,
   emotionalLabel = null,
 }: PodcastBookingWizardProps) {
-  const [step, setStep] = useState(0);
-  useBookWizardStep("podcast", step);
-  const [form, setForm] = useState<FormState>(INITIAL);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [lastWaHref, setLastWaHref] = useState("");
-  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
-  const [koalendarOpen, setKoalendarOpen] = useState(false);
-  const [draftDismissed, setDraftDismissed] = useState(false);
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+  const {
+    step,
+    form,
+    errors,
+    koalendarOpen,
+    setStep,
+    patchForm,
+    setErrors,
+    toggleUpsell,
+    selectedUpsellSet,
+    setKoalendarOpen,
+    draft,
+    guard,
+    dismissDraft,
+    runSubmit,
+    resetWizard,
+    isSubmitted,
+    lastWaHref,
+    lastIntent,
+  } = useBookingWizard({
+    storageKey: "podcast",
     formId: "podcast_booking_wizard",
+    initialForm: INITIAL,
+    parseDraft: (raw) => parsePodcastFormDraft(raw, INITIAL),
   });
 
-  const draft = useBookingDraft(
-    "podcast",
-    form,
-    setForm,
-    (s) => s,
-    (raw) => {
-      if (!raw || typeof raw !== "object") return null;
-      const r = raw as Partial<FormState>;
-      return {
-        ...INITIAL,
-        ...r,
-        selectedUpsells: Array.isArray(r.selectedUpsells) ? r.selectedUpsells : [],
-        participantCount:
-          typeof r.participantCount === "number" && r.participantCount >= 1
-            ? r.participantCount
-            : INITIAL.participantCount,
-        overtimeBlocks:
-          typeof r.overtimeBlocks === "number" && r.overtimeBlocks >= 0
-            ? r.overtimeBlocks
-            : INITIAL.overtimeBlocks,
-        location:
-          r.location === "mobile" || r.location === "modiin" ? r.location : INITIAL.location,
-        mobileGeo:
-          r.mobileGeo === "center" ||
-          r.mobileGeo === "north_south" ||
-          r.mobileGeo === "eilat"
-            ? r.mobileGeo
-            : INITIAL.mobileGeo,
-        termsAccepted: Boolean(r.termsAccepted),
-      };
-    },
-  );
+  const { honeypot, setHoneypot, globalError } = guard;
+
+  useBookWizardStep("podcast", step);
 
   const routeMeta = routeId ? getAudienceRouteById(routeId) : undefined;
   const ycFormId = routeMeta?.utm_campaign ?? "podcast_booking_wizard";
@@ -189,19 +155,6 @@ export default function PodcastBookingWizard({
     mobileExVat;
 
   const upsellItems = getPodcastUpsellItems(form.packageId);
-  const selectedUpsellSet = new Set(form.selectedUpsells);
-
-  const toggleUpsell = (id: string) => {
-    setForm((prev) => {
-      const has = prev.selectedUpsells.includes(id);
-      return {
-        ...prev,
-        selectedUpsells: has
-          ? prev.selectedUpsells.filter((x) => x !== id)
-          : [...prev.selectedUpsells, id],
-      };
-    });
-  };
 
   const canStep0 = form.packageId !== "";
 
@@ -268,7 +221,7 @@ export default function PodcastBookingWizard({
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
     }
-    const fieldErrs = attemptSubmit(
+    runSubmit(
       () =>
         validateBookingLead({
           name: form.name,
@@ -316,30 +269,29 @@ export default function PodcastBookingWizard({
           utm_source: "website",
           utm_campaign: ycFormId,
         });
-        openWhatsAppLead(href, { leadCategory: "podcast" });
-        notifyLeadByEmail({
-          formId: ycFormId,
-          subject: "הזמנת פודקאסט",
-          body,
-          name: form.name,
-          phone: displayPhone,
-          crossSell: {
-            bookCategory: "podcast",
-            routeId,
-            recordingType: form.packageId || null,
-            mobileGeo:
-              form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
-            largeGroup:
-              form.location !== "mobile" && form.participantCount >= 12,
+        return {
+          waHref: href,
+          intent,
+          email: {
+            formId: ycFormId,
+            subject: "הזמנת פודקאסט",
+            body,
+            name: form.name,
+            phone: displayPhone,
+            crossSell: {
+              bookCategory: "podcast",
+              routeId,
+              recordingType: form.packageId || null,
+              mobileGeo:
+                form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
+              largeGroup:
+                form.location !== "mobile" && form.participantCount >= 12,
+            },
           },
-        });
-        setLastIntent(intent);
-        setLastWaHref(href);
-        setSubmitted(true);
-        draft.clear();
+        };
       },
+      { leadCategory: "podcast" },
     );
-    setErrors(fieldErrs ?? {});
   };
 
   const previewBody =
@@ -371,14 +323,7 @@ export default function PodcastBookingWizard({
         })
       : undefined;
 
-  const resetWizard = () => {
-    setForm(INITIAL);
-    setStep(0);
-    setSubmitted(false);
-    setErrors({});
-  };
-
-  if (submitted && lastWaHref) {
+  if (isSubmitted && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
@@ -393,14 +338,11 @@ export default function PodcastBookingWizard({
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {draft.restored && draft.savedAt && !draftDismissed ? (
+      {draft.restored && draft.savedAt ? (
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
-          onClear={() => {
-            draft.clear();
-            setDraftDismissed(true);
-          }}
-          onDismiss={() => setDraftDismissed(true)}
+          onClear={() => draft.clear()}
+          onDismiss={() => dismissDraft()}
         />
       ) : null}
 
@@ -417,12 +359,11 @@ export default function PodcastBookingWizard({
                   key={pkg.id}
                   type="button"
                   onClick={() =>
-                    setForm((p) => ({
-                      ...p,
+                    patchForm({
                       packageId: pkg.id,
                       overtimeBlocks: 0,
                       selectedUpsells: [],
-                    }))
+                    })
                   }
                   className={cn(
                     "rounded-2xl border p-5 text-start",
@@ -460,7 +401,7 @@ export default function PodcastBookingWizard({
                   <button
                     key={count}
                     type="button"
-                    onClick={() => setForm((p) => ({ ...p, participantCount: count }))}
+                    onClick={() => patchForm({ participantCount: count })}
                     className={cn(
                       "flex flex-col items-center rounded-xl border px-4 py-2.5 text-center transition-colors",
                       active
@@ -501,7 +442,7 @@ export default function PodcastBookingWizard({
                   <button
                     key={b}
                     type="button"
-                    onClick={() => setForm((p) => ({ ...p, overtimeBlocks: b }))}
+                    onClick={() => patchForm({ overtimeBlocks: b })}
                     className={cn(
                       "rounded-xl border px-4 py-2 text-sm font-semibold transition-colors",
                       form.overtimeBlocks === b
@@ -607,21 +548,19 @@ export default function PodcastBookingWizard({
               autoComplete="name"
               value={form.name}
               error={errors.name}
-              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
+              onChange={(v) => patchForm({ name: v })}
             />
             <BookingPhoneInput
               id="pb-phone"
               value={form.phone}
               required
               error={errors.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onChange={(v) => patchForm({ phone: v })}
               onBlurValidate={(msg) => {
-                setErrors((prev) => {
-                  const next = { ...prev };
-                  if (msg) next.phone = msg;
-                  else delete next.phone;
-                  return next;
-                });
+                const next = { ...errors };
+                if (msg) next.phone = msg;
+                else delete next.phone;
+                setErrors(next);
               }}
             />
             <div>
@@ -631,7 +570,7 @@ export default function PodcastBookingWizard({
               <select
                 id="pb-timeframe"
                 value={form.timeframe}
-                onChange={(e) => setForm((p) => ({ ...p, timeframe: e.target.value }))}
+                onChange={(e) => patchForm({ timeframe: e.target.value })}
                 className={cn(bookFieldClass, "appearance-none")}
               >
                 {TIMEFRAME_OPTIONS.map((o) => (
@@ -658,11 +597,11 @@ export default function PodcastBookingWizard({
                     key={loc.id}
                     type="button"
                     onClick={() =>
-                      setForm((prev) => ({
-                        ...prev,
+                      patchForm({
                         location: loc.id,
-                        mobileGeo: loc.id === "mobile" ? prev.mobileGeo || "center" : "",
-                      }))
+                        mobileGeo:
+                          loc.id === "mobile" ? form.mobileGeo || "center" : "",
+                      })
                     }
                     className={cn(
                       "rounded-2xl border px-4 py-3 text-start text-sm",
@@ -689,7 +628,7 @@ export default function PodcastBookingWizard({
                         <button
                           key={geoId}
                           type="button"
-                          onClick={() => setForm((prev) => ({ ...prev, mobileGeo: geoId }))}
+                          onClick={() => patchForm({ mobileGeo: geoId })}
                           className={cn(
                             "rounded-xl border px-3 py-2 text-start text-xs",
                             active
@@ -714,7 +653,7 @@ export default function PodcastBookingWizard({
               label="הערות"
               multiline
               value={form.notes}
-              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+              onChange={(v) => patchForm({ notes: v })}
             />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
@@ -752,7 +691,7 @@ export default function PodcastBookingWizard({
               />
               <NeedsDiscoveryStep
                 value={form.customerNeed}
-                onChange={(v) => setForm((p) => ({ ...p, customerNeed: v }))}
+                onChange={(v) => patchForm({ customerNeed: v })}
                 id="pb-customer-need"
               />
               {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
@@ -760,7 +699,7 @@ export default function PodcastBookingWizard({
               <BookingApprovals
                 variant="light"
                 termsAccepted={form.termsAccepted}
-                onTermsChange={(v) => setForm((p) => ({ ...p, termsAccepted: v }))}
+                onTermsChange={(v) => patchForm({ termsAccepted: v })}
                 termsError={errors.terms}
               />
               <BookingSummaryActions

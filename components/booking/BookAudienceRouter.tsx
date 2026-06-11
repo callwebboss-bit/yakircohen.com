@@ -95,12 +95,21 @@ export default function BookAudienceRouter({
     >
       <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
         <header className="mx-auto max-w-2xl text-center">
-          <h2
-            id="book-router-heading"
-            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
-          >
-            {isCollapsed ? "הכיוון שבחרתם" : "בחרו את הכיוון שלכם"}
-          </h2>
+          {isCollapsed ? (
+            <h3
+              id="book-router-heading"
+              className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            >
+              הכיוון שבחרתם
+            </h3>
+          ) : (
+            <h2
+              id="book-router-heading"
+              className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            >
+              בחרו את הכיוון שלכם
+            </h2>
+          )}
           {!isCollapsed ? (
             <>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">

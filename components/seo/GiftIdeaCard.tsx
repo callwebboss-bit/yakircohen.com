@@ -1,7 +1,9 @@
+// UI-EXCEPTION: split layout + video column — see docs/ui-exceptions.md
 "use client";
 
 import Link from "next/link";
 import YouTube from "@/components/YouTube";
+import Button from "@/components/ui/Button";
 import type { StudioGiftIdea } from "@/lib/data/studio-gifts-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -22,7 +24,7 @@ export default function GiftIdeaCard({
   return (
     <article
       className={cn(
-        "overflow-hidden rounded-2xl border border-border bg-background",
+        "overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md",
         "grid grid-cols-1 gap-0 lg:grid-cols-2",
       )}
     >
@@ -35,7 +37,7 @@ export default function GiftIdeaCard({
         <span className="inline-flex w-fit rounded-full bg-brand-red/10 px-3 py-0.5 text-xs font-semibold text-brand-red">
           {idea.badge}
         </span>
-        <h3 className="mt-3 text-lg font-semibold text-foreground sm:text-xl">
+        <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">
           {idea.title}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -53,26 +55,30 @@ export default function GiftIdeaCard({
           ))}
         </ul>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a
+          <Button
+            as="a"
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-xl bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+            className="rounded-xl"
           >
             שובר מתנה בוואטסאפ
-          </a>
-          <Link
+          </Button>
+          <Button
+            as="link"
             href={idea.href}
-            className="inline-flex items-center justify-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+            variant="outline"
+            className="rounded-xl"
           >
             לפרטים על השירות
-          </Link>
+          </Button>
         </div>
       </div>
 
+      {/* IMPROVED: fixed aspect-video on all breakpoints — prevents CLS when video loads */}
       <div
         className={cn(
-          "relative aspect-video min-h-[220px] bg-foreground lg:aspect-auto lg:min-h-[280px]",
+          "relative aspect-video min-h-[220px] bg-foreground",
           reverse && "lg:order-1",
         )}
       >

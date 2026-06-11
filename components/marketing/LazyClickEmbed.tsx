@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { VIDEO_WATCH_LABEL } from "@/lib/data/pricing";
+import { isAllowedEmbedUrl } from "@/lib/embed-url";
 import { cn } from "@/lib/utils";
 
 export type LazyClickEmbedProps = {
@@ -23,6 +24,7 @@ export default function LazyClickEmbed({
   hint = VIDEO_WATCH_LABEL,
 }: LazyClickEmbedProps) {
   const [active, setActive] = useState(false);
+  const embedAllowed = isAllowedEmbedUrl(src);
 
   return (
     <div
@@ -31,7 +33,11 @@ export default function LazyClickEmbed({
         className,
       )}
     >
-      {active ? (
+      {!embedAllowed ? (
+        <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-muted-foreground">
+          לא ניתן להציג את התוכן המוטמע.
+        </div>
+      ) : active ? (
         <iframe
           src={src}
           title={title}

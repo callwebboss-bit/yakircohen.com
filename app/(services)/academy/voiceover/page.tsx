@@ -8,7 +8,7 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קורס קריינות ודיבור נכון | יקיר כהן הפקות",
+  title: "קורס קריינות ודיבור נכון",
   description:
     "קורס קריינות מקצועי: נשימה, דיקציה, אינטונציה, עבודה מול מיקרופון וקריינות סיפורית. זמין גם אונליין. הפכו את הקול שלכם לכלי עבודה שמכניס כסף.",
   slug: "academy/voiceover",

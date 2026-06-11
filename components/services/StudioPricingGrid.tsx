@@ -1,4 +1,5 @@
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import Container from "@/components/ui/Container";
 import type { PricingTier } from "@/lib/data/services";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -9,7 +10,7 @@ export type StudioPricingGridProps = {
 
 export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
   return (
-    <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+    <Container>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {tiers.map((tier) => {
           const priceLabel =
@@ -26,7 +27,8 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
             <article
               key={tier.id}
               className={cn(
-                "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5",
+                // IMPROVED: hover-lift replaces raw translate-y on touch devices
+                "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift",
                 tier.featured
                   ? "border-brand-red/40 shadow-md ring-1 ring-brand-red/20 hover:border-brand-red/60 hover:shadow-lg"
                   : "border-border hover:border-brand-red/30 hover:shadow-md",
@@ -81,7 +83,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "mt-8 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors duration-normal ease-luxury",
+                  "mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-[transform,colors] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   tier.featured
                     ? "bg-brand-red text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light"
                     : "border border-brand-red/40 text-foreground hover:bg-brand-red/10",
@@ -93,6 +95,6 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
           );
         })}
       </div>
-    </div>
+    </Container>
   );
 }

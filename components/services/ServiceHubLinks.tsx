@@ -25,7 +25,7 @@ export default function ServiceHubLinks({
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id={headingId}
-          className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className="font-serif text-section-title font-semibold text-foreground"
         >
           {heading}
         </h2>
@@ -38,7 +38,7 @@ export default function ServiceHubLinks({
           <li key={track.href}>
             <Link
               href={track.href}
-              className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
+              className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover-lift focus-within:border-brand-red/40 focus-within:shadow-md"
             >
               {track.badge ? (
                 <span className="mb-3 w-fit rounded-full border border-brand-red/40 bg-brand-red/10 px-3 py-1 text-[0.65rem] font-semibold text-brand-red">

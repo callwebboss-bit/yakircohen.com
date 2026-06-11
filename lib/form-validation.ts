@@ -36,6 +36,10 @@ function hasSpamSignals(text: string): boolean {
   return SPAM_PATTERNS.some((re) => re.test(t));
 }
 
+export function isLeadSpam(text: string): boolean {
+  return hasSpamSignals(text) || hasExcessiveRepeat(text);
+}
+
 function hasExcessiveRepeat(text: string): boolean {
   return /(.)\1{5,}/u.test(text);
 }

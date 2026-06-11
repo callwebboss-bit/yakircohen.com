@@ -1,28 +1,20 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  ACADEMY_HUB_SEO,
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+} from "@/lib/seo/hub-pages";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 
-export const metadata: Metadata = constructMetadata({
-  title: "האקדמיה | לימוד DJ, הפקה מוזיקלית ו-AI",
-  description:
-    "קורסי DJ, הפקה מוזיקלית ו-AI. שיעור פרטי 1:1 באולפן במודיעין - שיעור מלא 990 ₪ (שעה) או Pro Session 1,280 ₪ (שעה וחצי). מסלולי Retainer, NeverMind ומעבדת סאונד.",
-  slug: "academy",
-  keywords: [
-    "קורס DJ",
-    "לימוד תקליטנות",
-    "קורס הפקה מוזיקלית",
-    "AI מוזיקה",
-    "אולפן הקלטות מודיעין",
-    "פרוטוקול NeverMind",
-  ],
-});
+export const metadata: Metadata = metadataForHubSeo(ACADEMY_HUB_SEO);
 
 /* ─── Data ─────────────────────────────────────────────────────────────── */
 
@@ -74,6 +66,12 @@ const COURSE_CARDS = [
     icon: "📖",
     label: "לימוד עברית (אולפן)",
     sub: "עברית מדוברת למבוגרים - שיעור פרונטלי פעם בשבוע",
+  },
+  {
+    href: "/academy/ai-music",
+    icon: "🎼",
+    label: "AI מוזיקה",
+    sub: "יצירה, עריכה והפקה עם כלי AI באולפן",
   },
 ] as const;
 
@@ -217,7 +215,9 @@ export default function AcademyPage() {
   });
 
   return (
-    <div className="bg-background">
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(ACADEMY_HUB_SEO)} />
+      <div className="bg-background">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
@@ -625,5 +625,6 @@ export default function AcademyPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

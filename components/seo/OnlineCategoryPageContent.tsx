@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
@@ -38,14 +41,20 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
     answer: item.answer,
   }));
 
+  const chipClass =
+    "inline-flex min-h-11 items-center rounded-full border border-border bg-background px-4 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
+  const linkClass =
+    "inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+
   return (
     <div className="bg-background">
-      <section className="relative overflow-hidden border-b border-border bg-background">
+      <Section padding="none" className="relative overflow-hidden border-b border-border bg-background">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
+        <Container className="relative max-w-4xl py-16 text-center sm:py-20">
           <nav aria-label="ניווט" className="mb-6">
             <ol className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
@@ -65,39 +74,38 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               </li>
             </ol>
           </nav>
-          <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-hero font-serif font-semibold text-foreground">
             {category.title} - שירותי AI אונליין
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-lead mx-auto mt-4 max-w-2xl text-muted-foreground">
             {category.description} אנחנו מבצעים את כל העבודה מקצה לקצה ומחזירים תוצר
             מוכן לפרסום או שימוש מיידי.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
+            <Button
+              as="a"
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
+              className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
             >
               {enrichment.ctaPrimaryLabel} ←
-            </a>
-            <Link
-              href="#quick-quote"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
-            >
+            </Button>
+            <Button as="link" href="#quick-quote" variant="secondary">
               השאירו פרטים להצעת מחיר
-            </Link>
+            </Button>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <h2 className="mb-6 text-xl font-semibold text-foreground">שירותים בקטגוריה</h2>
+      <Section padding="sm">
+        <Container>
+        <h2 className="mb-6 font-serif text-section-title font-semibold text-foreground">שירותים בקטגוריה</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {category.services.map((service) => (
             <article
               key={`${category.slug}-${service.title}`}
-              className="rounded-xl border border-border bg-background p-5"
+              className="hover-lift rounded-xl border border-border bg-background p-5"
             >
               <div className="flex items-start justify-between gap-2">
                 <span className="text-xl" aria-hidden>
@@ -114,7 +122,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               {service.href ? (
                 <Link
                   href={service.href}
-                  className="mt-3 inline-flex text-sm font-semibold text-brand-red hover:underline"
+                  className={`${linkClass} mt-3`}
                 >
                   מעבר לעמוד השירות ←
                 </Link>
@@ -123,7 +131,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
                   href={ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex text-sm font-semibold text-brand-red hover:underline"
+                  className={`${linkClass} mt-3`}
                 >
                   בקשו התאמה אישית ←
                 </a>
@@ -131,11 +139,12 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             </article>
           ))}
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="border-y border-border bg-surface py-12">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-2 text-xl font-semibold text-foreground">מה כלול וזמני אספקה</h2>
+      <Section padding="sm" className="border-y border-border bg-surface">
+        <Container>
+          <h2 className="mb-2 font-serif text-section-title font-semibold text-foreground">מה כלול וזמני אספקה</h2>
           <p className="mb-8 max-w-2xl text-sm text-muted-foreground">
             מחיר סופי לפי אורך החומר ומורכבות - אלה מסלולי עבודה אופייניים. הצעה מדויקת
             אחרי בדיקת הקובץ, ללא התחייבות.
@@ -162,12 +171,13 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
+      <Section padding="sm">
+        <Container>
         <header className="mx-auto max-w-2xl text-center">
-          <h2 className="text-xl font-semibold text-foreground">{enrichment.proof.headline}</h2>
+          <h2 className="font-serif text-section-title font-semibold text-foreground">{enrichment.proof.headline}</h2>
           <p className="mt-2 text-sm text-muted-foreground">{enrichment.proof.description}</p>
         </header>
         {enrichment.proof.demoId ? (
@@ -200,37 +210,38 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             ))}
           </ul>
         ) : null}
-      </section>
+        </Container>
+      </Section>
 
-      <section className="py-8">
+      <Section padding="none" className="py-8">
         <JourneyStepsLink variant="online" />
-      </section>
+      </Section>
 
       {relatedCategories.length > 0 ? (
-        <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">
-          <h2 className="mb-4 text-lg font-semibold text-foreground">קטגוריות קשורות</h2>
+        <Section padding="sm">
+          <Container>
+          <h2 className="mb-4 font-serif text-section-title font-semibold text-foreground">קטגוריות קשורות</h2>
           <div className="flex flex-wrap gap-3">
             {relatedCategories.map((related) => (
               <Link
                 key={related.slug}
                 href={`/online/${related.slug}`}
-                className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                className={chipClass}
               >
                 {related.title}
               </Link>
             ))}
-            <Link
-              href="/online"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-            >
+            <Link href="/online" className={chipClass}>
               כל שירותי האונליין
             </Link>
           </div>
-        </section>
+          </Container>
+        </Section>
       ) : null}
 
-      <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-        <h2 className="text-xl font-semibold text-foreground">למה לבחור בנו?</h2>
+      <Section padding="sm">
+        <Container className="max-w-3xl">
+        <h2 className="font-serif text-section-title font-semibold text-foreground">למה לבחור בנו?</h2>
         <ul className="mt-6 space-y-3">
           {ONLINE_WHY_US.map((item) => (
             <li
@@ -244,33 +255,38 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             </li>
           ))}
         </ul>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-3xl px-4 pb-12 sm:px-6">
+      <Section padding="sm">
+        <Container className="max-w-3xl">
         <FAQAccordion
           items={faqItems}
           title="שאלות נפוצות"
           subtitle={`תשובות על שירותי ${category.title} מרחוק`}
         />
-      </section>
+        </Container>
+      </Section>
 
-      <section id="quick-quote" className="border-t border-border py-14">
-        <div className="mx-auto grid max-w-[72rem] gap-8 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-start">
+      <Section padding="sm" id="quick-quote" className="border-t border-border">
+        <Container>
+        <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start">
           <div className="rounded-2xl border border-border bg-surface p-8">
-            <h2 className="text-xl font-semibold text-foreground">רוצים שנתחיל?</h2>
+            <h2 className="font-serif text-section-title font-semibold text-foreground">רוצים שנתחיל?</h2>
             <p className="mt-3 text-sm text-muted-foreground">
               {enrichment.leadDescription}
             </p>
-            <a
+            <Button
+              as="a"
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+              className="mt-6"
             >
               {enrichment.ctaPrimaryLabel} ←
-            </a>
+            </Button>
             <div className="mt-5">
-              <Link href="/online" className="text-sm font-semibold text-brand-red hover:underline">
+              <Link href="/online" className={linkClass}>
                 חזרה למרכז שירותי אונליין
               </Link>
             </div>
@@ -283,7 +299,8 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             formLabel={`טופס לידים לקטגוריה ${category.title}`}
           />
         </div>
-      </section>
+        </Container>
+      </Section>
     </div>
   );
 }

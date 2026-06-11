@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import {
   CheckIcon,
   ClockIcon,
@@ -21,19 +24,18 @@ import {
 } from "@/lib/data/client-journey";
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
 import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import { getExVat } from "@/lib/data/pricing-catalog";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  START_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = constructMetadata({
-  title: "מה קורה אחרי שפונים",
-  description:
-    "3 שלבים ברורים: ניתוח, ביצוע ומסירה. אולפן, אירועים, פודקאסט ועריכה מרחוק - בלי הפתעות.",
-  slug: "start",
-  keywords: ["איך מתחילים", "שלבי עבודה", "אולפן מודיעין", "הזמנת שירות"],
-});
+export const metadata: Metadata = metadataForHubSeo(START_HUB_SEO);
 
 const whatsappHref = buildWhatsAppHref({
   text: "שלום, קראתי על השלבים ורוצה להתחיל. מה הצעד הראשון?",
@@ -134,6 +136,7 @@ const breadcrumbJsonLd = {
 export default function StartPage() {
   return (
     <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(START_HUB_SEO)} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -141,12 +144,15 @@ export default function StartPage() {
 
       <div className="bg-background">
         {/* Hero */}
-        <section className="relative overflow-hidden border-b border-border bg-surface">
+        <Section
+          padding="none"
+          className="relative overflow-hidden border-b border-border bg-surface"
+        >
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-brand-red/[0.07] to-transparent"
           />
-          <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
+          <Container className="relative max-w-3xl py-16 text-center sm:py-20">
             <nav aria-label="ניווט ארגוני" className="mb-8">
               <ol className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                 <li>
@@ -165,10 +171,10 @@ export default function StartPage() {
               <SparklesIcon size={14} />3 שלבים. אפס בלגן.
             </p>
 
-            <h1 className="mt-6 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h1 className="text-hero mt-6 font-serif font-semibold text-foreground">
               מה קורה מרגע הפנייה ועד הקובץ המוכן
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="text-lead mx-auto mt-5 max-w-2xl text-muted-foreground">
               כל שירות אצלנו עובד באותם שלושה שלבים פשוטים -{" "}
               <span className="font-medium text-foreground">ניתוח, ביצוע ומסירה</span>
               . בחרו את סוג השירות שלכם וראו בדיוק מה מצפה לכם.
@@ -184,7 +190,7 @@ export default function StartPage() {
                   <a
                     key={v.id}
                     href={`#${v.anchor}`}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     <Icon size={16} className="text-brand-red" />
                     {v.label}
@@ -194,34 +200,30 @@ export default function StartPage() {
             </nav>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
+              <Button
+                as="a"
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  "inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand-red px-8 py-3 text-sm font-semibold text-white sm:w-auto",
-                  "shadow-[0_0_20px_rgba(212,43,43,0.25)] transition-colors duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.4)]",
-                )}
+                className="w-full gap-2 sm:w-auto"
               >
                 <WhatsAppIcon size={18} />
                 התחילו בוואטסאפ
-              </a>
-              <Link
-                href="/book"
-                className="inline-flex w-full items-center justify-center rounded-md border border-border bg-surface px-8 py-3 text-sm font-medium text-foreground transition-colors duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red sm:w-auto"
-              >
+              </Button>
+              <Button as="link" href="/book" variant="secondary" className="w-full sm:w-auto">
                 הזמנה מקוונת
-              </Link>
+              </Button>
             </div>
-          </div>
-        </section>
+          </Container>
+        </Section>
 
         {/* Promise strip */}
-        <section
-          className="border-b border-border bg-background py-12 sm:py-16"
-          aria-labelledby="start-promise-heading"
+        <Section
+          padding="sm"
+          className="border-b border-border bg-background"
+          ariaLabelledby="start-promise-heading"
         >
-          <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <Container>
             <h2 id="start-promise-heading" className="sr-only">
               ההבטחה שלנו
             </h2>
@@ -246,31 +248,32 @@ export default function StartPage() {
                 );
               })}
             </ul>
-          </div>
-        </section>
+          </Container>
+        </Section>
 
         {/* Per-service journeys */}
         {CLIENT_JOURNEY_VARIANTS.map((variant, index) => {
           const VariantIcon = VARIANT_META[variant.id].icon;
           const isAlt = index % 2 === 1;
           return (
-            <section
+            <Section
               key={variant.id}
               id={variant.anchor}
+              padding="sm"
               className={cn(
-                "scroll-mt-24 border-b border-border py-14 sm:py-18",
+                "scroll-mt-24 border-b border-border",
                 isAlt ? "bg-surface" : "bg-background",
               )}
-              aria-labelledby={`journey-${variant.id}-heading`}
+              ariaLabelledby={`journey-${variant.id}-heading`}
             >
-              <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+              <Container>
                 <header className="mx-auto max-w-2xl text-center">
                   <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-red/20 bg-brand-red/5 text-brand-red">
                     <VariantIcon size={26} />
                   </span>
                   <h2
                     id={`journey-${variant.id}-heading`}
-                    className="mt-5 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                    className="mt-5 font-serif text-section-title font-semibold text-foreground"
                   >
                     {variant.label}
                   </h2>
@@ -290,7 +293,7 @@ export default function StartPage() {
                     return (
                       <li
                         key={step.number}
-                        className="relative flex flex-col items-center rounded-2xl border border-border bg-background p-6 text-center transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md md:items-start md:text-start"
+                        className="relative flex flex-col items-center rounded-2xl border border-border bg-background p-6 text-center hover-lift hover:border-brand-red/40 md:items-start md:text-start"
                       >
                         <div className="flex w-full items-center justify-between">
                           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-base font-bold text-brand-red ring-1 ring-brand-red/40">
@@ -313,29 +316,28 @@ export default function StartPage() {
                 </ol>
 
                 <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <a
+                  <Button
+                    as="a"
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-red underline-offset-4 hover:underline"
+                    variant="ghost"
+                    className="gap-2 text-sm font-semibold"
                   >
                     <WhatsAppIcon size={16} />
                     יש לי שאלה על {variant.label}
-                  </a>
+                  </Button>
                   <span className="hidden text-muted-foreground sm:inline" aria-hidden="true">
                     ·
                   </span>
-                  <Link
-                    href={getVariantBookHref(variant.id)}
-                    className="inline-flex items-center rounded-md border border-border bg-surface px-5 py-2 text-sm font-medium text-foreground transition-colors duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red"
-                  >
+                  <Button as="link" href={getVariantBookHref(variant.id)} variant="secondary">
                     {VARIANT_START_PRICE_EX_VAT[variant.id]
                       ? hubBookCtaLabel(VARIANT_START_PRICE_EX_VAT[variant.id]!)
                       : "להזמנה מקוונת"}
-                  </Link>
+                  </Button>
                 </div>
-              </div>
-            </section>
+              </Container>
+            </Section>
           );
         })}
 

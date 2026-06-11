@@ -1,5 +1,9 @@
 import Link from "next/link";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import {
   PORTFOLIO_HUB_PLAYLIST_ORDER,
   VIDEO_PLAYLISTS,
@@ -11,20 +15,13 @@ import {
 } from "@/lib/data/video-portfolio";
 import { buildItemListSchema } from "@/lib/video-schema";
 import { PORTFOLIO_CATALOG_COUNT } from "@/lib/data/video-catalog.generated";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  PORTFOLIO_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 
-export const portfolioMetadata = constructMetadata({
-  title: "תיק עבודות וידאו | יקיר כהן הפקות",
-  description:
-    "מעל 270 דוגמאות וידאו מהאולפן, פודקאסט, ברכות, DJ וקריינות במודיעין - צפו לפי נושא והזמינו שירות.",
-  slug: "portfolio",
-  keywords: [
-    "תיק עבודות אולפן",
-    "דוגמאות הקלטה",
-    "יקיר כהן הפקות",
-    "אולפן מודיעין",
-  ],
-});
+export const portfolioMetadata = metadataForHubSeo(PORTFOLIO_HUB_SEO);
 
 const NAV_ITEMS = PORTFOLIO_HUB_PLAYLIST_ORDER.filter((id) => {
   const count = getPlaylistVideoCount(id);
@@ -45,56 +42,52 @@ export default function PortfolioPageContent() {
   }).filter(Boolean);
 
   return (
-    <div className="bg-background">
-      <section className="relative overflow-hidden border-b border-border">
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(PORTFOLIO_HUB_SEO)} />
+      <div className="bg-background">
+      <Section padding="sm" className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
           aria-hidden
         />
-        <div className="relative mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 sm:py-16">
+        <Container className="relative max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             תיק וידאו
           </p>
-          <h1 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-hero mt-4 font-serif font-semibold text-foreground">
             תיק עבודות וידאו
           </h1>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-lead mt-4 text-muted-foreground">
             {PORTFOLIO_CATALOG_COUNT} סרטונים מהאולפן, האירועים והפודקאסטים - ממוינים לפי
             נושא. לחצו על קטגוריה או גללו לדוגמאות. בכל כרטיס: תצוגה מקדימה, ואז נגן
             בלחיצה (חוסך זמן טעינה).
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/studio"
-              className="inline-flex rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
-            >
+            <Button as="link" href="/studio">
               לאולפן ההקלטות
-            </Link>
-            <Link
-              href="/book"
-              className="inline-flex rounded-xl border border-border px-6 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
-            >
+            </Button>
+            <Button as="link" href="/book" variant="secondary">
               הזמנה מקוונת
-            </Link>
+            </Button>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       <nav
         className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
         aria-label="קטגוריות תיק עבודות"
       >
-        <div className="mx-auto flex max-w-[72rem] gap-1 overflow-x-auto px-4 py-3 sm:px-6">
+        <Container className="flex gap-1 overflow-x-auto py-3">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.id}
               href={`#playlist-${item.id}`}
-              className="shrink-0 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+              className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-border bg-surface px-3 text-xs font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
               {item.label}
             </a>
           ))}
-        </div>
+        </Container>
       </nav>
 
       {itemListGraphs.map((graph, i) =>
@@ -107,12 +100,15 @@ export default function PortfolioPageContent() {
         ) : null,
       )}
 
-      <div className="mx-auto max-w-[72rem] space-y-20 px-4 py-14 sm:px-6 lg:px-8">
-        {PORTFOLIO_HUB_PLAYLIST_ORDER.map((playlistId) => (
-          <PortfolioPlaylistBlock key={playlistId} playlistId={playlistId} />
-        ))}
-      </div>
+      <Section padding="sm">
+        <Container className="space-y-20">
+          {PORTFOLIO_HUB_PLAYLIST_ORDER.map((playlistId) => (
+            <PortfolioPlaylistBlock key={playlistId} playlistId={playlistId} />
+          ))}
+        </Container>
+      </Section>
     </div>
+    </>
   );
 }
 
@@ -135,7 +131,7 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
         <p className="mt-6 text-center">
           <Link
             href={config.serviceLink.href}
-            className="text-sm font-semibold text-brand-red hover:underline"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             {config.serviceLink.label} ←
           </Link>

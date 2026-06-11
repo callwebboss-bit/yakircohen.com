@@ -20,6 +20,9 @@ export type PortfolioImage = {
   src: string;
   alt: string;
   filename: string;
+  /** IMPROVED: intrinsic dimensions for gallery CLS (read from file header at build time) */
+  width?: number;
+  height?: number;
 };
 
 export type ServicePortfolioImageSet = {
@@ -42,6 +45,49 @@ export function altTextFromAssetFilename(filename: string): string {
     .trim();
 }
 
+/** IMPROVED: sync PNG/JPEG dimension probe — no extra dependency */
+function readImageDimensions(
+  absoluteFilePath: string,
+): { width: number; height: number } | null {
+  try {
+    const buffer = fs.readFileSync(absoluteFilePath);
+
+    if (
+      buffer.length >= 24 &&
+      buffer[0] === 0x89 &&
+      buffer[1] === 0x50 &&
+      buffer[2] === 0x4e &&
+      buffer[3] === 0x47
+    ) {
+      return {
+        width: buffer.readUInt32BE(16),
+        height: buffer.readUInt32BE(20),
+      };
+    }
+
+    if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
+      let offset = 2;
+      while (offset + 9 < buffer.length) {
+        if (buffer[offset] !== 0xff) break;
+        const marker = buffer[offset + 1];
+        const length = buffer.readUInt16BE(offset + 2);
+        if (length < 2) break;
+        if (marker >= 0xc0 && marker <= 0xc3) {
+          return {
+            height: buffer.readUInt16BE(offset + 5),
+            width: buffer.readUInt16BE(offset + 7),
+          };
+        }
+        offset += 2 + length;
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function readImagesFromAbsoluteDir(
   absoluteDir: string,
   urlBasePath: string,
@@ -55,11 +101,15 @@ function readImagesFromAbsoluteDir(
     .readdirSync(absoluteDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && IMAGE_EXT.test(entry.name))
     .sort((a, b) => a.name.localeCompare(b.name, "he"))
-    .map((entry, index) => ({
-      filename: entry.name,
-      src: `${urlBasePath}/${entry.name}`,
-      alt: deriveHebrewAlt(entry.name, indexOffset + index),
-    }));
+    .map((entry, index) => {
+      const dimensions = readImageDimensions(path.join(absoluteDir, entry.name));
+      return {
+        filename: entry.name,
+        src: `${urlBasePath}/${entry.name}`,
+        alt: deriveHebrewAlt(entry.name, indexOffset + index),
+        ...(dimensions ?? {}),
+      };
+    });
 }
 
 function resolveArchiveDirName(absoluteServiceDir: string): string | null {

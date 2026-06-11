@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import {
   POPULAR_SEARCH_QUERIES,
   getSiteSearchIndex,
   type SiteSearchItem,
 } from "@/lib/data/site-search";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
-import { cn } from "@/lib/utils";
 
 const CATEGORY_CUBES = [
   {
@@ -148,11 +150,12 @@ export default function NotFoundContent() {
           </Link>
         </div>
       ) : null}
-      <section className="mx-auto max-w-3xl px-4 py-12 text-center sm:py-16">
+      <Section padding="sm">
+        <Container className="max-w-3xl text-center">
         <p className="inline-block rounded-full border border-brand-red px-4 py-1 text-xs font-bold tracking-[0.25em] text-brand-red uppercase">
           שגיאה 404
         </p>
-        <h1 className="mt-8 font-serif text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="text-hero mt-8 font-serif font-semibold text-foreground">
           לא מצאנו את העמוד
           <br />
           אבל נוכל לעזור<span className="text-brand-red">.</span>
@@ -177,26 +180,25 @@ export default function NotFoundContent() {
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <button
+          <Button
             type="button"
             onClick={() => {
               document.querySelector<HTMLInputElement>('input[type="search"]')?.focus();
               document.querySelector<HTMLInputElement>('input[type="search"]')?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="inline-flex items-center gap-2 rounded-md bg-brand-red px-8 py-3.5 text-sm font-semibold text-white shadow-[0_4px_24px_rgba(212,43,43,0.25)] transition-colors hover:bg-brand-red-light"
+            className="shadow-[0_4px_24px_rgba(212,43,43,0.25)]"
           >
             מצאו שירות
-          </button>
-          <Link
-            href="/start"
-            className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
-          >
+          </Button>
+          <Button as="link" href="/start" variant="ghost" className="text-sm">
             מה קורה אחרי שפונים
-          </Link>
+          </Button>
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-2xl px-4 pb-12">
+      <Section padding="sm">
+        <Container className="max-w-2xl pb-12">
         <p className="mb-4 text-center text-sm text-muted-foreground">
           <strong className="text-foreground">אופס, הלכתם לאיבוד?</strong>
           <br />
@@ -209,7 +211,7 @@ export default function NotFoundContent() {
             onChange={(e) => runSearch(e.target.value)}
             onFocus={() => setOpen(true)}
             placeholder="חפשו שירות, שיר, אולפן..."
-            className="w-full rounded-xl border border-border bg-surface px-5 py-4 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
+            className="min-h-11 w-full rounded-xl border border-border bg-surface px-5 py-4 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
             aria-label="חיפוש שירותים"
             aria-expanded={open}
             aria-controls="not-found-search-results"
@@ -280,15 +282,17 @@ export default function NotFoundContent() {
             </div>
           ) : null}
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-16">
+      <Section padding="sm">
+        <Container className="max-w-5xl pb-16">
         <div className="grid gap-4 md:grid-cols-3">
           {CATEGORY_CUBES.map((cube) => (
             <Link
               key={cube.href}
               href={cube.href}
-              className="group flex flex-col gap-3 rounded-xl border border-border bg-foreground p-6 text-background transition-transform hover:-translate-y-0.5"
+              className="group hover-lift flex flex-col gap-3 rounded-xl border border-border bg-foreground p-6 text-background"
             >
               <span className="text-2xl" aria-hidden="true">
                 {cube.icon}
@@ -301,9 +305,11 @@ export default function NotFoundContent() {
             </Link>
           ))}
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-20">
+      <Section padding="sm">
+        <Container className="max-w-5xl pb-20">
         <p className="mb-4 text-xs font-bold tracking-[0.3em] text-muted-foreground uppercase">
           כל השירותים
         </p>
@@ -321,9 +327,11 @@ export default function NotFoundContent() {
             </Link>
           ))}
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-3xl px-4 pb-16">
+      <Section padding="sm">
+        <Container className="max-w-3xl pb-16">
         <div className="grid gap-6 rounded-xl border border-border bg-surface p-6 sm:grid-cols-2 sm:gap-8 sm:p-8">
           <div className="flex flex-col gap-3">
             <span className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
@@ -333,14 +341,16 @@ export default function NotFoundContent() {
               &ldquo;גם בטעות יש לוגיקה - בוא נמצא אותה יחד.
               15 דקות ייעוץ אישי עם יקיר, ללא עלות. זה על הבית.&rdquo;
             </p>
-            <a
+            <Button
+              as="a"
               href={consultHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-auto inline-flex items-center gap-2 self-start rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
+              variant="secondary"
+              className="mt-auto self-start"
             >
               תיאום שיחת ייעוץ (15 דק&apos;)
-            </a>
+            </Button>
           </div>
           <div className="flex flex-col gap-3">
             <span className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
@@ -349,49 +359,47 @@ export default function NotFoundContent() {
             <p className="text-sm italic leading-relaxed text-muted-foreground">
               חבל שהגעתם לעמוד ריק - בוא נמתיק את זה: הצצה למחירון ולכל השירותים.
             </p>
-            <Link
-              href="/book"
-              className="mt-auto inline-flex items-center gap-2 self-start rounded-md border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-brand-red hover:text-brand-red"
-            >
+            <Button as="link" href="/book" variant="secondary" className="mt-auto self-start">
               ראו מחירון שירותים
-            </Link>
+            </Button>
           </div>
         </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="border-t border-border bg-surface py-16 text-center">
+      <Section padding="sm" className="border-t border-border bg-surface text-center">
+        <Container className="max-w-3xl">
         <p className="text-xs font-bold tracking-[0.2em] text-brand-red uppercase">
           מתנה לדרך
         </p>
-        <h2 className="mt-4 font-serif text-3xl font-semibold text-foreground">
+        <h2 className="text-section-title mt-4 font-serif font-semibold text-foreground">
           ייעוץ ראשוני ללא עלות
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
           הגעתם לכאן בטעות? נשמח לעזור למצוא את השירות המתאים.
         </p>
-        <a
+        <Button
+          as="a"
           href={consultHref}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(
-            "mt-8 inline-flex items-center justify-center rounded-md bg-brand-red px-8 py-3.5 text-sm font-semibold text-white",
-            "transition-colors hover:bg-brand-red-light",
-          )}
+          className="mt-8"
         >
           דברו איתנו בוואטסאפ
-        </a>
+        </Button>
         <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm">
-          <Link href="/studio/pricing" className="text-muted-foreground hover:text-brand-red">
+          <Link href="/studio/pricing" className="inline-flex min-h-11 items-center text-muted-foreground hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
             מחירון
           </Link>
-          <Link href="/contact" className="text-muted-foreground hover:text-brand-red">
+          <Link href="/contact" className="inline-flex min-h-11 items-center text-muted-foreground hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
             צור קשר
           </Link>
-          <Link href="/" className="text-muted-foreground hover:text-brand-red">
+          <Link href="/" className="inline-flex min-h-11 items-center text-muted-foreground hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
             דף הבית
           </Link>
         </div>
-      </section>
+        </Container>
+      </Section>
     </div>
   );
 }

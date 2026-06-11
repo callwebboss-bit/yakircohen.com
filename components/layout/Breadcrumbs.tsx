@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Container from "@/components/ui/Container";
 import {
   breadcrumbListJsonLd,
   buildBreadcrumbTrail,
@@ -18,43 +19,36 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
 
   if (trail.length === 0) return null;
 
-  const jsonLd = breadcrumbListJsonLd(trail);
-
   return (
-    <>
-      {jsonLd ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      ) : null}
-      <nav
+    <nav
         aria-label="מיקום בעמוד"
         className={cn(
-          "border-b border-border bg-[#FAFAF8]/80",
+          // IMPROVED: theme tokens replace hardcoded hex colors
+          "min-h-[2.5rem] border-b border-border bg-background/80 backdrop-blur-sm",
           className,
         )}
       >
-        <ol
-          className="mx-auto flex max-w-[72rem] flex-wrap items-center gap-x-2 gap-y-1 px-4 py-2.5 text-sm text-[#1A1A1A]/75 sm:px-6 lg:px-8"
+        <Container
+          as="ol"
+          className="flex flex-wrap items-center gap-x-2 gap-y-1 py-2.5 text-sm text-muted-foreground"
         >
           {trail.map((item, index) => {
             const isLast = index === trail.length - 1;
             return (
               <li key={item.href} className="inline-flex items-center gap-2">
                 {index > 0 ? (
-                  <span className="text-[#1A1A1A]/35 select-none" aria-hidden>
+                  <span className="select-none text-border" aria-hidden>
                     /
                   </span>
                 ) : null}
                 {isLast ? (
-                  <span className="font-medium text-[#1A1A1A]" aria-current="page">
+                  <span className="font-medium text-foreground" aria-current="page">
                     {item.label}
                   </span>
                 ) : (
                   <Link
                     href={item.href}
-                    className="transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                    className="touch-target inline-flex min-h-11 items-center rounded-sm px-1 transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     {item.label}
                   </Link>
@@ -62,8 +56,7 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
               </li>
             );
           })}
-        </ol>
+        </Container>
       </nav>
-    </>
   );
 }

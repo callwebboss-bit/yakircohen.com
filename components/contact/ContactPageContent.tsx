@@ -18,12 +18,13 @@ import {
   sanitizeLeadText,
   validateContactQuiz,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import type { BookCategoryId } from "@/lib/book-url";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import Button from "@/components/ui/Button";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
@@ -180,6 +181,7 @@ export default function ContactPageContent() {
   const [availability] = useState(getAvailabilityLabel);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "contact_quiz",
   });
@@ -253,8 +255,7 @@ export default function ContactPageContent() {
           utm_source: "website",
           utm_campaign: "contact_quiz_submit",
         });
-        openWhatsAppLead(href);
-        const contactCrossSellCategory =
+        const contactCrossSellCategory: BookCategoryId | undefined =
           service === "studio" || service === "voice"
             ? "studio"
             : service === "clip"
@@ -262,16 +263,21 @@ export default function ContactPageContent() {
               : service === "other"
                 ? undefined
                 : service;
-        notifyLeadByEmail({
-          formId: "contact_quiz",
-          subject: "ליד חדש - יצירת קשר",
-          body: waText,
-          name: sanitizeLeadText(name, 60),
-          phone: displayPhone,
-          crossSell: contactCrossSellCategory
-            ? { bookCategory: contactCrossSellCategory }
-            : undefined,
-        });
+        void submitLead(
+          {
+            formId: "contact_quiz",
+            subject: "ליד חדש - יצירת קשר",
+            body: waText,
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+            crossSell: contactCrossSellCategory
+              ? { bookCategory: contactCrossSellCategory }
+              : undefined,
+          },
+          href,
+          "continue_chat",
+          contactCrossSellCategory ? { leadCategory: contactCrossSellCategory } : undefined,
+        );
         setSubmitted(true);
       },
     );
@@ -286,6 +292,7 @@ export default function ContactPageContent() {
     timing,
     budget,
     attemptSubmit,
+    submitLead,
   ]);
 
   const micSteps = [
@@ -326,7 +333,7 @@ export default function ContactPageContent() {
           <p className="inline-block rounded-full border border-brand-red px-4 py-1 text-xs font-bold tracking-wider text-brand-red">
             ✦ {SITE_KICKER} ✦
           </p>
-          <h1 className="mt-6 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-hero mt-6 font-serif font-semibold text-foreground">
             בואו <span className="text-brand-red">נדבר</span> על הפרויקט שלכם
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
@@ -672,14 +679,15 @@ export default function ContactPageContent() {
                     </p>
                   </div>
                 ) : null}
-                <a
+                <Button
+                  as="a"
                   href={successWaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+                  className="mt-8 w-full rounded-xl"
                 >
                   שלחו בוואטסאפ עכשיו
-                </a>
+                </Button>
                 <button
                   type="button"
                   onClick={resetQuiz}
@@ -695,7 +703,7 @@ export default function ContactPageContent() {
         <div className="mt-6 grid grid-cols-2 gap-3">
           <a
             href={`tel:${CONTACT_PHONE_E164}`}
-            className="flex flex-col items-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40"
+            className="touch-target flex min-h-11 flex-col items-center justify-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             aria-label="התקשרו"
           >
             <span className="text-xl" aria-hidden="true">
@@ -710,7 +718,7 @@ export default function ContactPageContent() {
             href={defaultWaHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40"
+            className="touch-target flex min-h-11 flex-col items-center justify-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             aria-label="וואטסאפ"
           >
             <span className="text-xl" aria-hidden="true">

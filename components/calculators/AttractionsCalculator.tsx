@@ -22,8 +22,7 @@ import {
   type GeoKey,
 } from "@/lib/data/attractions-calculator";
 import { validateAttractionsOrder } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -259,6 +258,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
   const [form, setForm] = useState<AttractionsOrderForm>(EMPTY_FORM);
   const [touched, setTouched] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "attractions_calculator",
   });
@@ -311,20 +311,24 @@ export default function AttractionsCalculator({ className }: { className?: strin
     const errs = attemptSubmit(
       () => validateAttractionsOrder(form),
       () => {
-        openWhatsAppLead(whatsappHref);
-        notifyLeadByEmail({
-          formId: "attractions_calculator",
-          subject: "ליד חדש - אטרקציות לאירוע",
-          body: waText,
-          name: form.name,
-          phone: form.phone,
-          crossSell: { bookCategory: "events" },
-        });
+        void submitLead(
+          {
+            formId: "attractions_calculator",
+            subject: "ליד חדש - אטרקציות לאירוע",
+            body: waText,
+            name: form.name,
+            phone: form.phone,
+            crossSell: { bookCategory: "events" },
+          },
+          whatsappHref,
+          "continue_chat",
+          { leadCategory: "events" },
+        );
       },
     );
     setFieldErrors(errs ?? {});
     if (errs) setTouched(true);
-  }, [attemptSubmit, form, whatsappHref, waText]);
+  }, [attemptSubmit, form, submitLead, whatsappHref, waText]);
 
   const sticky = useMemo(() => {
     if (step === "select") {

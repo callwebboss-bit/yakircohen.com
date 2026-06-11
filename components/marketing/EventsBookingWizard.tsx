@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -19,8 +19,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import { useBookingDraft } from "@/hooks/useBookingDraft";
-import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   EVENT_BOOKING_ITEMS,
   EVENT_BUNDLE_BADGE_LABELS,
@@ -50,27 +49,13 @@ import {
   buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["אטרקציות", "פרטים", "סיכום"] as const;
 
-type FormState = {
-  selected: EventBookingItemId[];
-  name: string;
-  phone: string;
-  date: string;
-  time: string;
-  location: string;
-  customerNeed: string;
-  notes: string;
-  selectedUpsells: string[];
-  termsAccepted: boolean;
-};
-
-const INITIAL: FormState = {
+const INITIAL: EventsFormDraft = {
   selected: [],
   name: "",
   phone: "",
@@ -88,34 +73,33 @@ type EventsBookingWizardProps = {
 };
 
 export default function EventsBookingWizard({ routeId = null }: EventsBookingWizardProps) {
-  const [step, setStep] = useState(0);
-  useBookWizardStep("events", step);
-  const [form, setForm] = useState<FormState>(INITIAL);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [lastWaHref, setLastWaHref] = useState("");
-  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+  const {
+    step,
+    form,
+    errors,
+    setStep,
+    patchForm,
+    setErrors,
+    toggleUpsell,
+    selectedUpsellSet,
+    draft,
+    guard,
+    dismissDraft,
+    runSubmit,
+    resetWizard,
+    isSubmitted,
+    lastWaHref,
+    lastIntent,
+  } = useBookingWizard({
+    storageKey: "events",
     formId: "events_booking_wizard",
+    initialForm: INITIAL,
+    parseDraft: (raw) => parseEventsFormDraft(raw, INITIAL),
   });
 
-  const draft = useBookingDraft(
-    "events",
-    form,
-    setForm,
-    (s) => s,
-    (raw) => {
-      if (!raw || typeof raw !== "object") return null;
-      const r = raw as Partial<FormState>;
-      return {
-        ...INITIAL,
-        ...r,
-        selected: Array.isArray(r.selected) ? r.selected : [],
-        selectedUpsells: Array.isArray(r.selectedUpsells) ? r.selectedUpsells : [],
-        termsAccepted: Boolean(r.termsAccepted),
-      };
-    },
-  );
+  const { honeypot, setHoneypot, globalError } = guard;
+
+  useBookWizardStep("events", step);
 
   const count = form.selected.length;
   const upsellTotal = sumEventUpsells(new Set(form.selectedUpsells));
@@ -123,29 +107,12 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
   const singleTotal = count * 1750;
   const savings = singleTotal - bundleTotal;
   const today = new Date().toISOString().split("T")[0];
-  const selectedUpsellSet = new Set(form.selectedUpsells);
-
-  const toggleUpsell = (id: string) => {
-    setForm((prev) => {
-      const has = prev.selectedUpsells.includes(id);
-      return {
-        ...prev,
-        selectedUpsells: has
-          ? prev.selectedUpsells.filter((x) => x !== id)
-          : [...prev.selectedUpsells, id],
-      };
-    });
-  };
-
   const toggle = (id: EventBookingItemId) => {
-    setForm((prev) => {
-      const has = prev.selected.includes(id);
-      return {
-        ...prev,
-        selected: has
-          ? prev.selected.filter((x) => x !== id)
-          : [...prev.selected, id],
-      };
+    const has = form.selected.includes(id);
+    patchForm({
+      selected: has
+        ? form.selected.filter((x) => x !== id)
+        : [...form.selected, id],
     });
   };
 
@@ -191,7 +158,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
     }
-    const fieldErrs = attemptSubmit(
+    runSubmit(
       () =>
         validateBookingLead({
           name: form.name,
@@ -224,22 +191,21 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
           utm_source: "website",
           utm_campaign: "events_booking_wizard",
         });
-        openWhatsAppLead(href, { leadCategory: "events" });
-        notifyLeadByEmail({
-          formId: "events_booking_wizard",
-          subject: "הזמנת אטרקציות לאירוע",
-          body,
-          name: form.name,
-          phone: displayPhone,
-          crossSell: { bookCategory: "events", routeId },
-        });
-        setLastIntent(intent);
-        setLastWaHref(href);
-        setSubmitted(true);
-        draft.clear();
+        return {
+          waHref: href,
+          intent,
+          email: {
+            formId: "events_booking_wizard",
+            subject: "הזמנת אטרקציות לאירוע",
+            body,
+            name: form.name,
+            phone: displayPhone,
+            crossSell: { bookCategory: "events", routeId },
+          },
+        };
       },
+      { leadCategory: "events" },
     );
-    setErrors(fieldErrs ?? {});
   };
 
   const previewBody =
@@ -262,14 +228,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
         })
       : undefined;
 
-  const resetWizard = () => {
-    setForm(INITIAL);
-    setStep(0);
-    setSubmitted(false);
-    setErrors({});
-  };
-
-  if (submitted && lastWaHref) {
+  if (isSubmitted && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
@@ -287,6 +246,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
           onClear={() => draft.clear()}
+          onDismiss={() => dismissDraft()}
         />
       ) : null}
 
@@ -363,29 +323,27 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
               autoComplete="name"
               value={form.name}
               error={errors.name}
-              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
+              onChange={(v) => patchForm({ name: v })}
             />
             <BookingPhoneInput
               id="ev-phone"
               value={form.phone}
               required
               error={errors.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onChange={(v) => patchForm({ phone: v })}
               onBlurValidate={(msg) => {
-                setErrors((prev) => {
-                  const next = { ...prev };
-                  if (msg) next.phone = msg;
-                  else delete next.phone;
-                  return next;
-                });
+                const next = { ...errors };
+                if (msg) next.phone = msg;
+                else delete next.phone;
+                setErrors(next);
               }}
             />
             <BookingDateTimeFields
               date={form.date}
               time={form.time}
               minDate={today}
-              onDateChange={(v) => setForm((p) => ({ ...p, date: v }))}
-              onTimeChange={(v) => setForm((p) => ({ ...p, time: v }))}
+              onDateChange={(v) => patchForm({ date: v })}
+              onTimeChange={(v) => patchForm({ time: v })}
               errors={{ date: errors.date, time: errors.time }}
             />
             <BookingFormField
@@ -393,14 +351,14 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
               label="שם האולם / מיקום *"
               value={form.location}
               error={errors.location}
-              onChange={(v) => setForm((p) => ({ ...p, location: v }))}
+              onChange={(v) => patchForm({ location: v })}
             />
             <BookingFormField
               id="ev-notes"
               label="הערות"
               multiline
               value={form.notes}
-              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+              onChange={(v) => patchForm({ notes: v })}
             />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
@@ -437,7 +395,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
               <BookTrustBadges />
               <NeedsDiscoveryStep
                 value={form.customerNeed}
-                onChange={(v) => setForm((p) => ({ ...p, customerNeed: v }))}
+                onChange={(v) => patchForm({ customerNeed: v })}
                 id="ev-customer-need"
               />
               {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
@@ -445,7 +403,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
               <BookingApprovals
                 variant="light"
                 termsAccepted={form.termsAccepted}
-                onTermsChange={(v) => setForm((p) => ({ ...p, termsAccepted: v }))}
+                onTermsChange={(v) => patchForm({ termsAccepted: v })}
                 termsError={errors.terms}
               />
               <BookingSummaryActions

@@ -12,8 +12,7 @@ import {
   type PodcastPackage,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -120,15 +119,21 @@ export default function PodcastCalculator({ className }: { className?: string })
     [waText],
   );
 
+  const { submitLead } = useLeadSubmit();
+
   const handleWhatsAppClick = useCallback(() => {
-    notifyLeadByEmail({
-      formId: "podcast_calculator",
-      subject: "ליד חדש - פודקאסט",
-      body: waText,
-      crossSell: { bookCategory: "podcast" },
-    });
-    openWhatsAppLead(whatsappHref);
-  }, [waText, whatsappHref]);
+    void submitLead(
+      {
+        formId: "podcast_calculator",
+        subject: "ליד חדש - פודקאסט",
+        body: waText,
+        crossSell: { bookCategory: "podcast" },
+      },
+      whatsappHref,
+      "continue_chat",
+      { leadCategory: "podcast" },
+    );
+  }, [submitLead, waText, whatsappHref]);
 
   return (
     <div className={cn("pb-28", className)}>

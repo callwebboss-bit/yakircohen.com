@@ -1,3 +1,4 @@
+// UI-EXCEPTION: book funnel card with emotional chips + dual CTAs — see docs/ui-exceptions.md
 "use client";
 
 import { useState } from "react";
@@ -144,7 +145,7 @@ export default function BookAudienceCard({
                 type="button"
                 onClick={() => setEmotionalId(emotionalId === opt.id ? null : opt.id)}
                 className={cn(
-                  "rounded-full border px-2.5 py-1 text-xs transition-colors",
+                  "min-h-11 rounded-full border px-3 text-xs transition-colors",
                   emotionalId === opt.id
                     ? "border-brand-red bg-brand-red/10 text-brand-red"
                     : "border-border text-muted-foreground hover:border-brand-red/40",
@@ -173,7 +174,7 @@ export default function BookAudienceCard({
             type="button"
             onClick={openFastWhatsApp}
             aria-label={`קבלו הצעה בוואטסאפ ל${route.title} - ${catalogWithVat(route.priceExVat).toLocaleString("he-IL")} שקל סופי`}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-semibold text-white hover:bg-[#1fba59]"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#1fba59] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             <WaIcon />
             קבלו הצעה בוואטסאפ
@@ -181,7 +182,7 @@ export default function BookAudienceCard({
           <button
             type="button"
             onClick={() => onFullPath(route, emotionalLabel)}
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-background px-4 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             הזמנה מפורטת
           </button>

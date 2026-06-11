@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -41,22 +41,20 @@ export default function HubDualCta({
         className,
       )}
     >
-      <a
+      <Button
+        as="a"
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={whatsappAriaLabel ?? whatsappLabel}
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-colors hover:bg-brand-red-light"
+        className="gap-2 shadow-[0_0_20px_rgba(212,43,43,0.3)]"
       >
         <WhatsAppIcon />
         {whatsappLabel}
-      </a>
-      <Link
-        href={bookHref}
-        className="inline-flex items-center justify-center rounded-xl border border-border px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-      >
+      </Button>
+      <Button as="link" href={bookHref} variant="secondary">
         {bookLabel}
-      </Link>
+      </Button>
     </div>
   );
 }

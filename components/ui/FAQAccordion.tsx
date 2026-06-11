@@ -1,6 +1,8 @@
 "use client";
 
 import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 
 export type FAQItem = {
@@ -37,7 +39,7 @@ function AccordionPanel({
       aria-labelledby={labelledBy}
       aria-hidden={!isOpen}
       className={cn(
-        "grid transition-[grid-template-rows] duration-normal ease-luxury",
+        "grid transition-[grid-template-rows] duration-normal ease-luxury motion-reduce:transition-none",
         isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
       )}
     >
@@ -50,6 +52,7 @@ function AccordionPanel({
   );
 }
 
+// UI-EXCEPTION: disclosure accordion pattern — see docs/ui-exceptions.md
 export default function FAQAccordion({
   items,
   title = "שאלות נפוצות",
@@ -86,24 +89,23 @@ export default function FAQAccordion({
   };
 
   return (
-    <section
-      className={cn("bg-background py-12 sm:py-16", className)}
-      aria-labelledby={`${baseId}-faq-heading`}
+    <Section
+      padding="sm"
+      className={cn("bg-background", className)}
+      ariaLabelledby={`${baseId}-faq-heading`}
     >
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+      <Container>
         <header className="mx-auto max-w-2xl text-center">
           <h2
             id={`${baseId}-faq-heading`}
-            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             {title}
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {subtitle}
-          </p>
+          <p className="text-lead mt-3 text-muted-foreground">{subtitle}</p>
         </header>
 
-        <div className="mx-auto mt-10 max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface">
+        <div className="mx-auto mt-10 max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface shadow-sm">
           {items.map((item) => {
             const isOpen = openIds.has(item.id);
             const triggerId = `${baseId}-trigger-${item.id}`;
@@ -115,7 +117,7 @@ export default function FAQAccordion({
                   <button
                     id={triggerId}
                     type="button"
-                    className="flex w-full items-center justify-between gap-4 py-5 text-start text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:text-base"
+                    className="flex min-h-11 w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:text-base"
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => toggle(item.id)}
@@ -124,7 +126,7 @@ export default function FAQAccordion({
                     <span>{item.question}</span>
                     <span
                       className={cn(
-                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-brand-red transition-transform duration-normal ease-luxury",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-brand-red transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
                         isOpen && "rotate-180 border-brand-red/40",
                       )}
                       aria-hidden="true"
@@ -152,12 +154,11 @@ export default function FAQAccordion({
                 >
                   {item.answer}
                 </AccordionPanel>
-
               </div>
             );
           })}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

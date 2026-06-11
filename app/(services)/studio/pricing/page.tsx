@@ -1,5 +1,7 @@
 import Link from "next/link";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import StudioPricingGrid from "@/components/services/StudioPricingGrid";
 import { STUDIO_PRICING, metadataFromPricing } from "@/lib/data/services";
@@ -25,7 +27,7 @@ export default function StudioPricingPage() {
       bookSlug="studio/pricing"
       ctaLabel="ייעוץ תמחור בוואטסאפ"
     >
-      <div className="mx-auto max-w-[72rem] space-y-12 px-4 sm:px-6 lg:px-8">
+      <Container className="space-y-12">
         <TrustStatsBar className="rounded-2xl border" />
 
         <section aria-labelledby="pricing-intro-heading">
@@ -35,7 +37,7 @@ export default function StudioPricingPage() {
             </p>
             <h2
               id="pricing-intro-heading"
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="mt-3 font-serif text-section-title font-semibold text-foreground"
             >
               בחרו חבילה - בלי הפתעות
             </h2>
@@ -62,32 +64,41 @@ export default function StudioPricingPage() {
             ))}
           </ul>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            <Link href="/studio" className="font-semibold text-brand-red hover:underline">
+          <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-sm text-muted-foreground">
+            <Link
+              href="/studio"
+              className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
               ← חזרה למרכז האולפן
             </Link>
-            {" · "}
-            <Link href="/pricing" className="font-semibold text-brand-red hover:underline">
+            <span aria-hidden>·</span>
+            <Link
+              href="/pricing"
+              className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
               מחירון מרכזי (כל השירותים)
             </Link>
-            {" · "}
-            <Link href="/book" className="font-semibold text-brand-red hover:underline">
+            <span aria-hidden>·</span>
+            <Link
+              href="/book"
+              className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
               הזמנה מקוונת
             </Link>
           </p>
         </section>
-      </div>
+      </Container>
 
       <StudioPricingGrid tiers={STUDIO_PRICING.tiers} />
 
-      <div className="mx-auto max-w-[72rem] px-4 pb-8 sm:px-6 lg:px-8">
+      <Container className="pb-8">
         <section
           className="mt-12 rounded-2xl border border-brand-red/20 bg-gradient-to-b from-brand-red/[0.04] to-surface px-6 py-10 text-center sm:px-10"
           aria-labelledby="pricing-cta-heading"
         >
           <h2
             id="pricing-cta-heading"
-            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             לא בטוחים איזו חבילה מתאימה?
           </h2>
@@ -96,23 +107,26 @@ export default function StudioPricingPage() {
             את החבילה הנכונה בלי לשלם על מה שלא צריך.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
+            <Button
+              as="a"
               href={consultHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light sm:w-auto"
+              className="w-full sm:w-auto"
             >
               ייעוץ תמחור בוואטסאפ
-            </a>
-            <Link
+            </Button>
+            <Button
+              as="link"
               href="/studio/recording-song-modiin/gifts"
-              className="inline-flex w-full items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red sm:w-auto"
+              variant="secondary"
+              className="w-full sm:w-auto"
             >
               מתנות ושוברים
-            </Link>
+            </Button>
           </div>
         </section>
-      </div>
+      </Container>
     </ServicePageLayout>
   );
 }

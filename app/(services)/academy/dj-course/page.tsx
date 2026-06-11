@@ -7,6 +7,7 @@ import { SITE_NAME } from "@/lib/constants";
 import FAQWithCtaLinks, {
   type FaqCtaItem,
 } from "@/components/ui/FAQWithCtaLinks";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ShareButton from "@/components/ui/ShareButton";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
 import {
@@ -18,7 +19,7 @@ import {
 } from "@/lib/data/academy-dj-course-page";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קורס DJ מקצועי | יקיר כהן הפקות",
+  title: "קורס DJ מקצועי",
   description:
     "קורס תקליטנות 1:1 באולפן במודיעין - Rekordbox, Traktor, Pioneer, ביטמצ'ינג, FX ומיתוג. מהחלום לרחבה. צפייה חינם בפלייליסט YouTube.",
   slug: "academy/dj-course",
@@ -78,7 +79,14 @@ export default function DjCoursePage() {
   });
 
   return (
-    <div className="bg-background">
+    <>
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
+      <div className="bg-background">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
@@ -321,5 +329,6 @@ export default function DjCoursePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -33,7 +33,8 @@ export default function FooterSocialLinks() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors duration-300 ease-[var(--ease-luxury)] hover:border-brand-red/40 hover:text-brand-red"
+                // IMPROVED: 44px touch target
+                className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-[colors,box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/40 hover:text-brand-red hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 aria-label={item.label}
               >
                 <Icon size={20} />

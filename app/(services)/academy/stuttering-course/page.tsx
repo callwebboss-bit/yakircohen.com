@@ -7,6 +7,7 @@ import { SITE_NAME } from "@/lib/constants";
 import FAQWithCtaLinks, {
   type FaqCtaItem,
 } from "@/components/ui/FAQWithCtaLinks";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ShareButton from "@/components/ui/ShareButton";
 import {
   NEVERMIND_EXTERNAL_URL,
@@ -18,7 +19,7 @@ import {
 } from "@/lib/data/academy-stuttering-course-page";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קורס הפסקת גמגום | שיטת NeverMind | יקיר כהן הפקות",
+  title: "קורס הפסקת גמגום | שיטת NeverMind",
   description:
     "תוכנית טיפולית מקיפה לגמגום לילדים ומבוגרים. שיטת NeverMind: נשימה, ביטחון עצמי ודיבור חופשי. קורס מול מיקרופון באולפן במודיעין.",
   slug: "academy/stuttering-course",
@@ -82,7 +83,14 @@ export default function StutteringCoursePage() {
   });
 
   return (
-    <div className="bg-background">
+    <>
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
+      <div className="bg-background">
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
@@ -429,5 +437,6 @@ export default function StutteringCoursePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

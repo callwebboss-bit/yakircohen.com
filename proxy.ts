@@ -2,11 +2,9 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 /**
- * Break a redirect loop on www.yakircohen.com:
- * - `/` -> `/home` (301 from edge rules)
- * - `/home` -> `/` (Next legacy redirect)
- *
- * When Cloudflare/Vercel forces `/home`, we rewrite it to `/` so the page renders.
+ * Edge proxy (Next.js 16):
+ * - Rewrite `/home` → `/` to break redirect loops from legacy edge rules
+ * - Inject `x-pathname` for server-rendered BreadcrumbList JSON-LD
  */
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -17,9 +15,18 @@ export function proxy(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  return NextResponse.next();
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
 
 export const config = {
-  matcher: ["/home", "/home/"],
+  matcher: [
+    "/home",
+    "/home/",
+    "/((?!api|_next/static|_next/image|favicon.ico|images|pagefind|.*\\..*).*)",
+  ],
 };

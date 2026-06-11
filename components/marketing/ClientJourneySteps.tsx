@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import {
   getJourneyVariant,
@@ -15,7 +17,7 @@ export type ClientJourneyStepsProps = {
 function StepBadge({ number }: { number: number }) {
   return (
     <div
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-bold text-brand-red ring-1 ring-brand-red/40"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-bold text-brand-red ring-1 ring-brand-red/40"
       aria-hidden="true"
     >
       {number}
@@ -34,14 +36,15 @@ export default function ClientJourneySteps({
 
   if (display === "compact") {
     return (
-      <section
-        className={cn("border-y border-border bg-surface py-10 sm:py-12", className)}
-        aria-labelledby={`journey-compact-${config.id}`}
+      <Section
+        padding="sm"
+        className={cn("border-y border-border bg-surface", className)}
+        ariaLabelledby={`journey-compact-${config.id}`}
       >
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <Container>
           <h2
             id={`journey-compact-${config.id}`}
-            className="text-lg font-semibold text-foreground sm:text-xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             מה קורה אחרי שפונים
           </h2>
@@ -64,26 +67,33 @@ export default function ClientJourneySteps({
             <p className="mt-5">
               <Link
                 href={fullHref}
-                className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center text-sm font-medium text-brand-red underline-offset-4 transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 פרטים מלאים ←
               </Link>
             </p>
           ) : null}
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
 
   return (
-    <section
-      className={cn("bg-background py-12 sm:py-16", className)}
-      aria-labelledby={`journey-full-${config.id}`}
+    <Section
+      padding="sm"
+      className={cn("bg-background", className)}
+      ariaLabelledby={`journey-full-${config.id}`}
     >
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+      <Container>
+        <h2 id={`journey-full-${config.id}`} className="sr-only">
+          שלבי העבודה
+        </h2>
         <ol className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
           {config.steps.map((step) => (
-            <li key={step.number} className="flex flex-col items-center text-center md:items-start md:text-start">
+            <li
+              key={step.number}
+              className="flex flex-col items-center text-center md:items-start md:text-start"
+            >
               <StepBadge number={step.number} />
               <h3 className="mt-4 text-base font-semibold text-foreground">
                 {step.title}
@@ -94,7 +104,7 @@ export default function ClientJourneySteps({
             </li>
           ))}
         </ol>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

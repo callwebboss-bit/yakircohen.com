@@ -11,7 +11,7 @@ import {
 } from "@/lib/data/music-production-page";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קורס יצירה מוזיקלית | יקיר כהן הפקות",
+  title: "קורס יצירה מוזיקלית",
   description:
     "עריכה ב-DAW, הפקה, מיקס ומאסטרינג. קורס אישי 1:1 עם יקיר כהן באולפן מקצועי במודיעין. מהרעיון הראשון עד תוצר מוגמר.",
   slug: "academy/music-production",

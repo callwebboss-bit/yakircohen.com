@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -18,8 +18,7 @@ import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import { useBookingDraft } from "@/hooks/useBookingDraft";
-import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   SINGER_PACKAGES,
   type SingerPackageId,
@@ -46,26 +45,13 @@ import {
   buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { parseSingerFormDraft, type SingerFormDraft } from "@/lib/singer-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
 
-type FormState = {
-  packageId: SingerPackageId | "";
-  name: string;
-  phone: string;
-  date: string;
-  time: string;
-  location: string;
-  notes: string;
-  selectedAddons: string[];
-  termsAccepted: boolean;
-};
-
-const INITIAL: FormState = {
+const INITIAL: SingerFormDraft = {
   packageId: "",
   name: "",
   phone: "",
@@ -91,46 +77,41 @@ export default function SingerAmplificationBookingWizard({
   initialPackageId = null,
   routeId = null,
 }: SingerAmplificationBookingWizardProps) {
-  const [step, setStep] = useState(0);
-  useBookWizardStep("singer", step);
-  const [form, setForm] = useState<FormState>(() => ({
-    ...INITIAL,
-    packageId: initialPackageId ?? "",
-  }));
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [lastWaHref, setLastWaHref] = useState("");
-  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "singer_amplification_booking",
-  });
-
-  const draft = useBookingDraft(
-    "singer_amplification",
-    form,
-    setForm,
-    (s) => s,
-    (raw) => {
-      if (!raw || typeof raw !== "object") return null;
-      const r = raw as Partial<FormState>;
-      return {
-        ...INITIAL,
-        ...r,
-        packageId: typeof r.packageId === "string" ? r.packageId : initialPackageId ?? "",
-        selectedAddons: Array.isArray(r.selectedAddons) ? r.selectedAddons : [],
-        termsAccepted: Boolean(r.termsAccepted),
-      };
-    },
+  const initialForm = useMemo<SingerFormDraft>(
+    () => ({ ...INITIAL, packageId: initialPackageId ?? "" }),
+    [initialPackageId],
   );
 
+  const {
+    step,
+    form,
+    errors,
+    setStep,
+    patchForm,
+    setErrors,
+    draft,
+    guard,
+    dismissDraft,
+    runSubmit,
+    resetWizard,
+    isSubmitted,
+    lastWaHref,
+    lastIntent,
+  } = useBookingWizard({
+    storageKey: "singer_amplification",
+    formId: "singer_amplification_booking",
+    initialForm,
+    parseDraft: (raw) => parseSingerFormDraft(raw, initialForm, initialPackageId ?? ""),
+  });
+
+  const { honeypot, setHoneypot, globalError } = guard;
+
+  useBookWizardStep("singer", step);
+
   useEffect(() => {
-    if (!initialPackageId) return;
-    queueMicrotask(() => {
-      setForm((prev) =>
-        prev.packageId ? prev : { ...prev, packageId: initialPackageId },
-      );
-    });
-  }, [initialPackageId]);
+    if (!initialPackageId || form.packageId) return;
+    queueMicrotask(() => patchForm({ packageId: initialPackageId }));
+  }, [initialPackageId, form.packageId, patchForm]);
 
   const selected = SINGER_PACKAGES.find((p) => p.id === form.packageId);
   const packageExVat = selected ? parseSingerPriceNis(selected.price) : 0;
@@ -140,14 +121,11 @@ export default function SingerAmplificationBookingWizard({
   const today = new Date().toISOString().split("T")[0];
 
   const toggleAddon = (id: string) => {
-    setForm((prev) => {
-      const has = prev.selectedAddons.includes(id);
-      return {
-        ...prev,
-        selectedAddons: has
-          ? prev.selectedAddons.filter((x) => x !== id)
-          : [...prev.selectedAddons, id],
-      };
+    const has = form.selectedAddons.includes(id);
+    patchForm({
+      selectedAddons: has
+        ? form.selectedAddons.filter((x) => x !== id)
+        : [...form.selectedAddons, id],
     });
   };
 
@@ -184,7 +162,7 @@ export default function SingerAmplificationBookingWizard({
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
     }
-    const fieldErrs = attemptSubmit(
+    runSubmit(
       () =>
         validateBookingLead({
           name: form.name,
@@ -216,29 +194,26 @@ export default function SingerAmplificationBookingWizard({
           utm_source: "website",
           utm_campaign: "singer_amplification_booking",
         });
-        openWhatsAppLead(href, { leadCategory: "singer" });
-        notifyLeadByEmail({
-          formId: "singer_amplification_booking",
-          subject: "הזמנת הגברה לזמרים",
-          body,
-          name: form.name,
-          phone: displayPhone,
-          crossSell: { bookCategory: "singer", routeId },
-        });
-        setLastIntent(intent);
-        setLastWaHref(href);
-        setSubmitted(true);
-        draft.clear();
+        return {
+          waHref: href,
+          intent,
+          email: {
+            formId: "singer_amplification_booking",
+            subject: "הזמנת הגברה לזמרים",
+            body,
+            name: form.name,
+            phone: displayPhone,
+            crossSell: { bookCategory: "singer", routeId },
+          },
+        };
       },
+      { leadCategory: "singer" },
     );
-    setErrors(fieldErrs ?? {});
   };
 
-  const resetWizard = () => {
-    setForm({ ...INITIAL, packageId: initialPackageId ?? "" });
-    setStep(0);
-    setSubmitted(false);
-    setErrors({});
+  const handleNewBooking = () => {
+    resetWizard();
+    if (initialPackageId) patchForm({ packageId: initialPackageId });
   };
 
   const previewBody =
@@ -260,14 +235,14 @@ export default function SingerAmplificationBookingWizard({
         })
       : undefined;
 
-  if (submitted && lastWaHref) {
+  if (isSubmitted && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
         bookCategory="singer"
         routeId={routeId}
-        onNewBooking={resetWizard}
+        onNewBooking={handleNewBooking}
       />
     );
   }
@@ -278,6 +253,7 @@ export default function SingerAmplificationBookingWizard({
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
           onClear={() => draft.clear()}
+          onDismiss={() => dismissDraft()}
         />
       ) : null}
 
@@ -305,7 +281,7 @@ export default function SingerAmplificationBookingWizard({
                 <button
                   key={pkg.id}
                   type="button"
-                  onClick={() => setForm((p) => ({ ...p, packageId: pkg.id }))}
+                  onClick={() => patchForm({ packageId: pkg.id })}
                   className={cn(
                     "flex flex-col rounded-2xl border p-5 text-start",
                     active ? "border-brand-red bg-brand-red/5" : "border-border bg-background",
@@ -346,29 +322,27 @@ export default function SingerAmplificationBookingWizard({
               autoComplete="name"
               value={form.name}
               error={errors.name}
-              onChange={(v) => setForm((p) => ({ ...p, name: v }))}
+              onChange={(v) => patchForm({ name: v })}
             />
             <BookingPhoneInput
               id="sg-phone"
               value={form.phone}
               required
               error={errors.phone}
-              onChange={(v) => setForm((p) => ({ ...p, phone: v }))}
+              onChange={(v) => patchForm({ phone: v })}
               onBlurValidate={(msg) => {
-                setErrors((prev) => {
-                  const next = { ...prev };
-                  if (msg) next.phone = msg;
-                  else delete next.phone;
-                  return next;
-                });
+                const next = { ...errors };
+                if (msg) next.phone = msg;
+                else delete next.phone;
+                setErrors(next);
               }}
             />
             <BookingDateTimeFields
               date={form.date}
               time={form.time}
               minDate={today}
-              onDateChange={(v) => setForm((p) => ({ ...p, date: v }))}
-              onTimeChange={(v) => setForm((p) => ({ ...p, time: v }))}
+              onDateChange={(v) => patchForm({ date: v })}
+              onTimeChange={(v) => patchForm({ time: v })}
               errors={{ date: errors.date, time: errors.time }}
             />
             <BookingFormField
@@ -376,14 +350,14 @@ export default function SingerAmplificationBookingWizard({
               label="מיקום ההופעה *"
               value={form.location}
               error={errors.location}
-              onChange={(v) => setForm((p) => ({ ...p, location: v }))}
+              onChange={(v) => patchForm({ location: v })}
             />
             <BookingFormField
               id="sg-notes"
               label="הערות (סגנון, מספר מיקרופונים וכו')"
               multiline
               value={form.notes}
-              onChange={(v) => setForm((p) => ({ ...p, notes: v }))}
+              onChange={(v) => patchForm({ notes: v })}
             />
           </div>
           <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
@@ -412,7 +386,7 @@ export default function SingerAmplificationBookingWizard({
               <BookingApprovals
                 variant="light"
                 termsAccepted={form.termsAccepted}
-                onTermsChange={(v) => setForm((p) => ({ ...p, termsAccepted: v }))}
+                onTermsChange={(v) => patchForm({ termsAccepted: v })}
                 termsError={errors.terms}
               />
               <BookingSummaryActions

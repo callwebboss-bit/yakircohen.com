@@ -1,79 +1,91 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import BookDynamicHeroSubtitle from "@/components/booking/BookDynamicHeroSubtitle";
+import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStatic";
+import BookDynamicHeroSubtitle, {
+  BOOK_HERO_SUBTITLE_DEFAULT,
+} from "@/components/booking/BookDynamicHeroSubtitle";
 import BookPageSections from "@/components/booking/BookPageSections";
+import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
+import BookPageSchema from "@/components/seo/BookPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
+import {
+  BOOK_OG_IMAGE_ALT,
+  BOOK_OG_IMAGE_HEIGHT,
+  BOOK_OG_IMAGE_PATH,
+  BOOK_OG_IMAGE_WIDTH,
+  BOOK_PAGE_DESCRIPTION,
+  BOOK_PAGE_KEYWORDS,
+  BOOK_PAGE_TITLE,
+} from "@/lib/seo/book-page";
 
 export const metadata: Metadata = constructMetadata({
-  title: "הזמנה מקוונת | יקיר כהן הפקות",
-  description:
-    "הזמנה מקוונת עם מחיר שקוף (כולל מע״מ): אולפן, פודקאסט, אירועים, DJ, צילום, אקדמיה ושחזור סאונד. וואטסאפ מהיר או הזמנה מפורטת עם תוספות - בלי המתנה לתשובה.",
+  title: BOOK_PAGE_TITLE,
+  description: BOOK_PAGE_DESCRIPTION,
   slug: "book",
-  keywords: [
-    "הזמנת אולפן",
-    "הזמנת פודקאסט",
-    "הזמנת אטרקציות לאירועים",
-    "הגברה לזמרים",
-    "שיעורים פרטיים מוזיקה",
-    "שחזור סאונד AI",
-    "מחירון הקלטות",
-    "הזמנה מקוונת",
-  ],
+  ogImage: {
+    path: BOOK_OG_IMAGE_PATH,
+    alt: BOOK_OG_IMAGE_ALT,
+    width: BOOK_OG_IMAGE_WIDTH,
+    height: BOOK_OG_IMAGE_HEIGHT,
+  },
+  keywords: [...BOOK_PAGE_KEYWORDS],
 });
 
 export default function BookPage() {
   return (
-    <div className="overflow-x-clip bg-background">
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-border bg-background">
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
-          aria-hidden="true"
-        />
+    <>
+      <BookPageSchema />
+      <div className="overflow-x-clip bg-background">
+        <Section
+          padding="none"
+          className="relative overflow-hidden border-b border-border bg-background"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+            aria-hidden="true"
+          />
 
-        <div className="relative mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 sm:py-16 lg:px-8">
-          <nav aria-label="ניווט ארגוני" className="mb-6">
-            <ol className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <li>
-                <Link href="/" className="transition-colors duration-fast ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
-                  ראשי
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li className="font-medium text-foreground" aria-current="page">
-                הזמנה מקוונת
-              </li>
-            </ol>
-          </nav>
+          <Container className="relative max-w-3xl py-14 text-center sm:py-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+              {SITE_NAME}
+            </p>
 
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-            {SITE_NAME}
-          </p>
+            <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
+              תוך דקה תדעו כמה זה עולה - ומה תקבלו בפועל
+            </h1>
 
-          <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl">
-            תוך דקה תדעו כמה זה עולה - ומה תקבלו בפועל
-          </h1>
+            <Suspense
+              fallback={
+                <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {BOOK_HERO_SUBTITLE_DEFAULT}
+                </p>
+              }
+            >
+              <BookDynamicHeroSubtitle defaultText={BOOK_HERO_SUBTITLE_DEFAULT} />
+            </Suspense>
+          </Container>
+        </Section>
 
-          <Suspense fallback={null}>
-            <BookDynamicHeroSubtitle />
-          </Suspense>
-        </div>
-      </section>
+        <TrustStatsBar />
 
-      <TrustStatsBar />
+        <BookAudienceCardsStatic />
 
-      <Suspense
-        fallback={
-          <p className="py-16 text-center text-sm text-muted-foreground">
-            טוען טופסי הזמנה...
-          </p>
-        }
-      >
-        <BookPageSections />
-      </Suspense>
-    </div>
+        <Suspense
+          fallback={
+            <p className="py-16 text-center text-sm text-muted-foreground">
+              טוען טופסי הזמנה...
+            </p>
+          }
+        >
+          <BookPageSections />
+        </Suspense>
+
+        <BookStudioInfoSection />
+      </div>
+    </>
   );
 }

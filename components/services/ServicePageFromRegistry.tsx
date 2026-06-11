@@ -6,7 +6,9 @@ import ServicePagePricingSection from "@/components/services/ServicePagePricingS
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import StudioUpsellCallout from "@/components/services/StudioUpsellCallout";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import {
   SERVICE_GALLERY_MAX_IMAGES,
   withServicePageHeroDefaults,
@@ -49,7 +51,17 @@ export default function ServicePageFromRegistry({
   const bookCta = resolveServiceBookCta(service.slug);
 
   return (
-    <ServicePageLayout
+    <>
+      <ServicePageSchema service={service} />
+      {showFaqs && service.faqs.length > 0 ? (
+        <FaqPageSchema
+          items={service.faqs.map((faq) => ({
+            question: faq.question,
+            answer: faq.answer,
+          }))}
+        />
+      ) : null}
+      <ServicePageLayout
       title={service.title}
       subtitle={service.subtitle}
       features={service.features}
@@ -103,5 +115,6 @@ export default function ServicePageFromRegistry({
         <PageRelatedFooter pathname={pagePath} />
       </div>
     </ServicePageLayout>
+    </>
   );
 }

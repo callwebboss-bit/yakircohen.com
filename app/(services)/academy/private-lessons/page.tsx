@@ -7,7 +7,7 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 
 export const metadata: Metadata = constructMetadata({
-  title: "שיעור פרטי במוזיקה | יקיר כהן הפקות",
+  title: "שיעור פרטי במוזיקה",
   description:
     "שיעור פרטי 1:1 באולפן במודיעין - Pro Session 90 דקות או שיעור מלא 60 דק. DJ, הפקה, קול, פסנתר, גיטרה. הקלטה בתוספת, תמיכה בוואטסאפ.",
   slug: "academy/private-lessons",

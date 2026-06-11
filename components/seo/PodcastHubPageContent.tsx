@@ -35,6 +35,7 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import HubDualCta from "@/components/marketing/HubDualCta";
+import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -55,7 +56,7 @@ const pageHero = resolvePodcastFolderHero(
 );
 const heroProps = withServicePageHeroDefaults(pageHero);
 
-const PODCAST_TRACKS = [
+export const PODCAST_HUB_TRACKS = [
   {
     href: "/podcast/podcast-with-grandpa",
     title: "פודקאסט עם סבא וסבתא",
@@ -152,7 +153,7 @@ export default function PodcastHubPageContent() {
         bookHref={bookCta?.bookHref}
         bookLabel={bookCta?.bookLabel}
       >
-        <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
 
           {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
@@ -173,7 +174,7 @@ export default function PodcastHubPageContent() {
               </div>
               <Link
                 href="/podcast/mobile-podcast-at-home"
-                className="shrink-0 text-sm font-semibold text-brand-red hover:underline"
+                className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 אולפן פודקאסט נייד ←
               </Link>
@@ -192,7 +193,7 @@ export default function PodcastHubPageContent() {
               </p>
               <h2
                 id="value-prop-heading"
-                className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="mt-2 font-serif text-section-title font-semibold text-foreground"
               >
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
@@ -270,7 +271,7 @@ export default function PodcastHubPageContent() {
             <header className="mx-auto max-w-2xl text-center">
               <h2
                 id="services-heading"
-                className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="font-serif text-section-title font-semibold text-foreground"
               >
                 סוגי הקלטת פודקאסט
               </h2>
@@ -388,7 +389,7 @@ export default function PodcastHubPageContent() {
               </p>
               <h2
                 id="pricing-heading"
-                className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="mt-2 font-serif text-section-title font-semibold text-foreground"
               >
                 חבילות הפקת פודקאסט - מחיר שקוף
               </h2>
@@ -491,7 +492,7 @@ export default function PodcastHubPageContent() {
               </p>
               <h2
                 id="post-production-heading"
-                className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="mt-2 font-serif text-section-title font-semibold text-foreground"
               >
                 הקלטה ביתית? אנחנו מנקים אותה
               </h2>
@@ -525,7 +526,7 @@ export default function PodcastHubPageContent() {
             <header className="mx-auto max-w-2xl text-center">
               <h2
                 id="samples-heading"
-                className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="font-serif text-section-title font-semibold text-foreground"
               >
                 שיפור סאונד פודקאסט - לפני ואחרי
               </h2>
@@ -555,7 +556,7 @@ export default function PodcastHubPageContent() {
             <header className="mx-auto max-w-2xl text-center">
               <h2
                 id="testimonials-heading"
-                className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="font-serif text-section-title font-semibold text-foreground"
               >
                 מה אומרים מי שכבר הקליטו
               </h2>
@@ -658,7 +659,7 @@ export default function PodcastHubPageContent() {
             <header className="mx-auto max-w-2xl text-center">
               <h2
                 id="tracks-heading"
-                className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+                className="font-serif text-section-title font-semibold text-foreground"
               >
                 מסלולים נוספים
               </h2>
@@ -667,11 +668,11 @@ export default function PodcastHubPageContent() {
               </p>
             </header>
             <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {PODCAST_TRACKS.map((track) => (
+              {PODCAST_HUB_TRACKS.map((track) => (
                 <li key={track.href}>
                   <Link
                     href={track.href}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
+                    className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
                   >
                     <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-brand-red">
                       {track.title}
@@ -730,7 +731,7 @@ export default function PodcastHubPageContent() {
 
           <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast")} />
           <PageRelatedFooter pathname="/podcast" />
-        </div>
+        </Container>
       </ServicePageLayout>
     </>
   );

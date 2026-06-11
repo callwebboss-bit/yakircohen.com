@@ -1,9 +1,12 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
+import Button from "@/components/ui/Button";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
-import HomeSocialProofSection from "@/components/marketing/HomeSocialProofSection";
+import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
@@ -21,7 +24,6 @@ import {
   ZapIcon,
 } from "@/components/ui/Icons";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
-import { cn } from "@/lib/utils";
 
 const HOME_FAQ: FAQItem[] = [
   {
@@ -176,18 +178,18 @@ export default function HomePageSections({
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <TrustStatsBar />
 
-      <section
-        className="bg-background py-16 sm:py-20 lg:py-24"
-        aria-labelledby="services-heading"
+      <Section
+        className="bg-background"
+        ariaLabelledby="services-heading"
       >
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <Container>
           <header className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
               המרכזים שלנו
             </p>
             <h2
               id="services-heading"
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="mt-3 font-serif text-section-title font-semibold text-foreground"
             >
               מה אתם צריכים היום?
             </h2>
@@ -249,22 +251,23 @@ export default function HomePageSections({
             />
             <PremiumBundleCallout />
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       <StudioClientsStrip />
 
       <WhatsappLeadRouter />
 
-      <section
-        className="border-y border-border bg-surface py-16 sm:py-20"
-        aria-labelledby="value-heading"
+      <Section
+        padding="sm"
+        className="border-y border-border bg-surface"
+        ariaLabelledby="value-heading"
       >
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <Container>
           <header className="mx-auto max-w-2xl text-center">
             <h2
               id="value-heading"
-              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
               למה לקוחות חוזרים אלינו
             </h2>
@@ -284,7 +287,7 @@ export default function HomePageSections({
               <li key={item.title}>
                 <Link
                   href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-background p-6 text-center transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md md:text-start"
+                  className="group flex h-full flex-col rounded-xl border border-border bg-background p-6 text-center hover-lift focus-within:border-brand-red/40 focus-within:shadow-md md:text-start"
                 >
                   <span className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-brand-red/40 text-sm font-bold text-brand-red md:mx-0">
                     ✦
@@ -302,31 +305,25 @@ export default function HomePageSections({
               </li>
             ))}
           </ul>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       <Testimonials />
 
-      <HomeSocialProofSection />
+      <HomeSocialProofSectionLazy />
 
       <ClientJourneySteps variant="general" display="compact" className="bg-surface" />
 
-      <section className="border-b border-border bg-surface pb-16 pt-2 sm:pb-20">
-        <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
-          <p className="mx-auto mb-6 max-w-lg text-sm text-muted-foreground">
+      <Section padding="sm" className="border-b border-border bg-surface pt-2">
+        <Container className="text-center">
+          <p className="text-lead mx-auto mb-6 max-w-lg text-muted-foreground">
             מוכנים לשיר, ברכה או פרק ראשון? בחרו מסלול, קבלו מחיר ושלחו הזמנה בוואטסאפ.
           </p>
-          <Link
-            href="/book"
-            className={cn(
-              "inline-flex items-center justify-center rounded-md bg-brand-red px-8 py-3 text-sm font-semibold text-white",
-              "transition-colors duration-normal ease-luxury hover:bg-brand-red-light",
-            )}
-          >
+          <Button as="link" href="/book" className="px-8">
             הזמינו הקלטה באולפן
-          </Link>
-        </div>
-      </section>
+          </Button>
+        </Container>
+      </Section>
 
       <section className="bg-background py-16 sm:py-20" aria-labelledby="geo-heading">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
@@ -370,36 +367,35 @@ export default function HomePageSections({
         subtitle="תשובות קצרות. בלי מילים מסובכות."
       />
 
-      <section
-        className="border-t border-border bg-background py-16 sm:py-20"
-        aria-labelledby="bottom-cta-heading"
+      <Section
+        className="border-t border-border bg-background text-center"
+        ariaLabelledby="bottom-cta-heading"
       >
-        <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
+        <Container>
           <h2
             id="bottom-cta-heading"
-            className="font-serif text-2xl font-semibold text-foreground sm:text-3xl"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             מוכנים להתחיל?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
             שלחו הודעה על{" "}
             <InlineServiceLink href="/studio">הקלטה באולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירוע</InlineServiceLink> או{" "}
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>. נבין
             מה אתם צריכים ונציע מסלול ברור.
           </p>
-          <a
+          <Button
+            as="a"
             href={bottomWhatsAppHref}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(
-              "mt-8 inline-flex items-center justify-center rounded-md bg-brand-red px-8 py-3 text-sm font-semibold text-white transition-colors duration-normal ease-luxury hover:bg-brand-red-light",
-            )}
+            className="mt-8 px-8"
           >
             בואו נדבר בוואטסאפ
-          </a>
-        </div>
-      </section>
+          </Button>
+        </Container>
+      </Section>
     </>
   );
 }

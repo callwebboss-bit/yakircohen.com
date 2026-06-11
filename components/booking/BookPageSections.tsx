@@ -1,30 +1,27 @@
-﻿"use client";
+"use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
-import BookAudienceRouter, {
-  type BookFullPathSelection,
-} from "@/components/booking/BookAudienceRouter";
-import DjEventsCalculator from "@/components/calculators/DjEventsCalculator";
-import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
+import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
+import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
+import { useBookFlow } from "@/hooks/useBookFlow";
+import {
+  DjEventsCalculatorLazy,
+  PhotographyCalculatorLazy,
+} from "@/components/calculators/lazy";
 import BookStickyMobileBar from "@/components/booking/BookStickyMobileBar";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
-import AcademyBookingWizard from "@/components/marketing/AcademyBookingWizard";
-import ClipsBookingForm from "@/components/marketing/ClipsBookingForm";
-import EventsBookingWizard from "@/components/marketing/EventsBookingWizard";
-import { FilterGateLazy } from "@/components/booking/lazy";
-import OnlineRestoreBookingPanel from "@/components/marketing/OnlineRestoreBookingPanel";
-import PodcastBookingWizard from "@/components/marketing/PodcastBookingWizard";
-import SingerAmplificationBookingWizard from "@/components/marketing/SingerAmplificationBookingWizard";
 import {
-  type BookCategoryId,
-  parseBookCategoryFromHash,
-  parseBookPackageFromSearch,
-} from "@/lib/book-url";
-import {
-  FILTER_STORAGE_KEY,
-  type FilterAnswers,
-} from "@/lib/data/filter-questions";
+  AcademyBookingWizardLazy,
+  ClipsBookingFormLazy,
+  EventsBookingWizardLazy,
+  FilterGateLazy,
+  OnlineRestoreBookingPanelLazy,
+  PodcastBookingWizardLazy,
+  SingerAmplificationBookingWizardLazy,
+} from "@/components/booking/lazy";
+import { type BookCategoryId, parseBookPackageFromSearch } from "@/lib/book-url";
+import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const SOCIAL_MGMT_HREF = buildWhatsAppHref({
@@ -97,19 +94,6 @@ const CATEGORY_META: Record<BookCategoryId, CategoryMeta> = {
   },
 };
 
-function saveFilterPreset(preset?: Partial<FilterAnswers>) {
-  if (!preset?.timeline || !preset?.purpose) return;
-  try {
-    const answers: FilterAnswers = {
-      timeline: preset.timeline,
-      purpose: preset.purpose,
-    };
-    sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(answers));
-  } catch {
-    // ignore
-  }
-}
-
 function renderCategoryContent(
   id: BookCategoryId,
   options: {
@@ -132,36 +116,36 @@ function renderCategoryContent(
       );
     case "podcast":
       return (
-        <PodcastBookingWizard
+        <PodcastBookingWizardLazy
           routeId={options.routeId}
           emotionalLabel={options.emotionalLabel}
         />
       );
     case "singer":
       return (
-        <SingerAmplificationBookingWizard
+        <SingerAmplificationBookingWizardLazy
           initialPackageId={options.initialSingerPackageId}
           routeId={options.routeId}
         />
       );
     case "events":
-      return <EventsBookingWizard routeId={options.routeId} />;
+      return <EventsBookingWizardLazy routeId={options.routeId} />;
     case "dj":
-      return <DjEventsCalculator routeId={options.routeId} />;
+      return <DjEventsCalculatorLazy routeId={options.routeId} />;
     case "photography":
-      return <PhotographyCalculator routeId={options.routeId} />;
+      return <PhotographyCalculatorLazy routeId={options.routeId} />;
     case "clips":
-      return <ClipsBookingForm routeId={options.routeId} />;
+      return <ClipsBookingFormLazy routeId={options.routeId} />;
     case "academy":
       return (
-        <AcademyBookingWizard
+        <AcademyBookingWizardLazy
           initialEmotionalLabel={options.emotionalLabel}
           routeId={options.routeId}
         />
       );
     case "online":
       return (
-        <OnlineRestoreBookingPanel
+        <OnlineRestoreBookingPanelLazy
           initialEmotionalLabel={options.emotionalLabel}
           routeId={options.routeId}
         />
@@ -176,70 +160,15 @@ export default function BookPageSections() {
   const pkgParam = searchParams.get("pkg");
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
 
-  const [activeCategory, setActiveCategory] = useState<BookCategoryId | null>(null);
-  const [activeRouteId, setActiveRouteId] = useState<string | null>(null);
-  const [filterPreset, setFilterPreset] = useState<Partial<FilterAnswers> | undefined>();
-  const [emotionalLabel, setEmotionalLabel] = useState<string | null>(null);
-  const [skipStudioGate, setSkipStudioGate] = useState(false);
-
-  useEffect(() => {
-    function syncFromHash() {
-      const fromHash = parseBookCategoryFromHash(window.location.hash);
-      if (fromHash) {
-        setActiveCategory(fromHash);
-        setActiveRouteId(null);
-        requestAnimationFrame(() => {
-          document.getElementById("book-wizard-panel")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        });
-      }
-    }
-
-    queueMicrotask(syncFromHash);
-    window.addEventListener("hashchange", syncFromHash);
-    return () => window.removeEventListener("hashchange", syncFromHash);
-  }, []);
-
-  const openFullPath = useCallback((selection: BookFullPathSelection) => {
-    if (selection.filterPreset) {
-      saveFilterPreset(selection.filterPreset);
-      setFilterPreset(selection.filterPreset);
-    }
-    setEmotionalLabel(selection.emotionalLabel);
-    setSkipStudioGate(selection.categoryId === "studio" && !!selection.filterPreset);
-    setActiveCategory(selection.categoryId);
-    setActiveRouteId(selection.routeId);
-
-    if (typeof window !== "undefined") {
-      const qs = window.location.search;
-      window.history.replaceState(
-        null,
-        "",
-        `${window.location.pathname}${qs}#${selection.categoryId}`,
-      );
-      requestAnimationFrame(() => {
-        document.getElementById("book-wizard-panel")?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      });
-    }
-  }, []);
-
-  const backToRouter = useCallback(() => {
-    setActiveCategory(null);
-    setActiveRouteId(null);
-    setFilterPreset(undefined);
-    setEmotionalLabel(null);
-    setSkipStudioGate(false);
-    if (typeof window !== "undefined") {
-      const qs = window.location.search;
-      window.history.replaceState(null, "", `${window.location.pathname}${qs}`);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, []);
+  const {
+    activeCategory,
+    activeRouteId,
+    filterPreset,
+    emotionalLabel,
+    skipStudioGate,
+    openFullPath,
+    backToRouter,
+  } = useBookFlow();
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
@@ -281,13 +210,15 @@ export default function BookPageSections() {
               </div>
             </header>
 
-            {renderCategoryContent(activeCategory, {
-              initialSingerPackageId,
-              filterPreset,
-              emotionalLabel,
-              routeId: activeRouteId,
-              skipStudioGate,
-            })}
+            <WizardErrorBoundary onReset={backToRouter}>
+              {renderCategoryContent(activeCategory, {
+                initialSingerPackageId,
+                filterPreset,
+                emotionalLabel,
+                routeId: activeRouteId,
+                skipStudioGate,
+              })}
+            </WizardErrorBoundary>
           </div>
         </section>
       ) : null}

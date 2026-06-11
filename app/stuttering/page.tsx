@@ -1,23 +1,19 @@
 ﻿import type { Metadata } from "next";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import StutteringPageContent from "@/components/seo/StutteringPageContent";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  STUTTERING_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 
-export const metadata: Metadata = constructMetadata({
-  title: "טיפול בגמגום ילדים ומבוגרים | שיטת NeverMind | יקיר כהן הפקות",
-  description:
-    "ליווי אישי לגמגום - ילדים, נוער ומבוגרים. שיטת NeverMind: נשימה, ביטחון עצמי ודיבור חופשי. תרגול מציאותי מול מיקרופון באולפן במודיעין.",
-  slug: "stuttering",
-  keywords: [
-    "טיפול בגמגום",
-    "גמגום ילדים",
-    "גמגום מבוגרים",
-    "הפסקת גמגום",
-    "NeverMind גמגום",
-    "קורס גמגום מודיעין",
-    "ליווי גמגום",
-  ],
-});
+export const metadata: Metadata = metadataForHubSeo(STUTTERING_HUB_SEO);
 
 export default function StutteringPage() {
-  return <StutteringPageContent />;
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(STUTTERING_HUB_SEO)} />
+      <StutteringPageContent />
+    </>
+  );
 }

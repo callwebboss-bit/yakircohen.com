@@ -18,16 +18,20 @@ export default function StudioLiveIndicator() {
     setLive(isStudioLive());
   }, []);
 
-  if (!live) return null;
-
+  // OPTIMIZED: reserved corner slot — client time (SSG-safe) without layout shift on reveal
   return (
     <span
-      className="group absolute -end-1 -top-1 flex h-3 w-3"
-      aria-label="האולפן פעיל עכשיו"
-      title="האולפן פעיל · מקליטים עכשיו 🎙️"
+      className="pointer-events-none absolute -end-1 -top-1 flex h-3 w-3"
+      aria-hidden={!live}
+      aria-label={live ? "האולפן פעיל עכשיו" : undefined}
+      title={live ? "האולפן פעיל · מקליטים עכשיו 🎙️" : undefined}
     >
-      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-60" />
-      <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-red" />
+      {live ? (
+        <>
+          <span className="absolute inline-flex h-full w-full motion-reduce:animate-none animate-ping rounded-full bg-brand-red opacity-60" />
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-red" />
+        </>
+      ) : null}
     </span>
   );
 }

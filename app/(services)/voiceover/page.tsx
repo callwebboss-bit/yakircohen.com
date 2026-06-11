@@ -1,4 +1,6 @@
 import VoiceoverHubPageContent from "@/components/seo/VoiceoverHubPageContent";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getVoiceoverService,
   metadataFromService,
@@ -9,5 +11,10 @@ const service = getVoiceoverService("voiceover-hub");
 export const metadata = metadataFromService(service);
 
 export default function VoiceoverHubPage() {
-  return <VoiceoverHubPageContent />;
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromService(service, "voiceover")} />
+      <VoiceoverHubPageContent />
+    </>
+  );
 }

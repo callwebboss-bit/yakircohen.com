@@ -1,5 +1,8 @@
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getVideoHubLinks,
   getVideoService,
@@ -17,14 +20,27 @@ const PHOTOGRAPHY_HUB_LINK = {
 } as const;
 
 export default function VideoHubPage() {
+  const hubLinks = [...getVideoHubLinks(), PHOTOGRAPHY_HUB_LINK];
+
   return (
-    <ServicePageFromRegistry service={service} portfolioLabel="הפקות וידאו">
-      <ServiceHubLinks
+    <>
+      <HubPageSchema {...hubSchemaPropsFromService(service, "video")} />
+      <HubServiceIndexStatic
         heading="מסלולי וידאו"
-        subheading="בחרו שירות ממוקד או שלבו מספר מסלולים לחבילה מותאמת."
-        links={[...getVideoHubLinks(), PHOTOGRAPHY_HUB_LINK]}
-        headingId="video-tracks-heading"
+        links={hubLinks.map((link) => ({
+          href: link.href,
+          title: link.title,
+          description: link.description,
+        }))}
       />
-    </ServicePageFromRegistry>
+      <ServicePageFromRegistry service={service} portfolioLabel="הפקות וידאו">
+        <ServiceHubLinks
+          heading="מסלולי וידאו"
+          subheading="בחרו שירות ממוקד או שלבו מספר מסלולים לחבילה מותאמת."
+          links={hubLinks}
+          headingId="video-tracks-heading"
+        />
+      </ServicePageFromRegistry>
+    </>
   );
 }

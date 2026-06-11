@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
+import HubPageSchema from "@/components/seo/HubPageSchema";
 import OnlinePageContent from "@/components/seo/OnlinePageContent";
-import { constructMetadata } from "@/lib/metadata";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  ONLINE_HUB_SEO,
+} from "@/lib/seo/hub-pages";
 
-export const metadata: Metadata = constructMetadata({
-  title: "מאגר שירותי AI אונליין | ביצוע מלא מקצה לקצה",
-  description:
-    "מרכז שירותי AI אונליין: אודיו, פודקאסט, וידאו, תמונה ותוכן עסקי. אתם שולחים חומר, אנחנו מבצעים הכל ומחזירים תוצר מוכן עם ליווי אישי.",
-  slug: "online",
-  keywords: [
-    "שירותי AI אונליין",
-    "הפקה מרחוק",
-    "עריכת אודיו AI",
-    "עריכת פודקאסט אונליין",
-    "מאגר שירותים דיגיטליים",
-  ],
-});
+export const metadata: Metadata = metadataForHubSeo(ONLINE_HUB_SEO);
 
 export default function OnlinePage() {
-  return <OnlinePageContent />;
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(ONLINE_HUB_SEO)} />
+      <OnlinePageContent />
+    </>
+  );
 }

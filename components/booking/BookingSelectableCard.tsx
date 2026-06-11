@@ -1,3 +1,4 @@
+// UI-EXCEPTION: selectable radio card — see docs/ui-exceptions.md
 "use client";
 
 import type { ReactNode } from "react";
@@ -93,11 +94,11 @@ export default function BookingSelectableCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "relative flex w-full flex-col items-start gap-2 rounded-2xl border p-5 text-start transition-[border-color,box-shadow,background-color]",
+        "relative flex min-h-11 w-full flex-col items-start gap-2 rounded-2xl border p-5 text-start transition-[border-color,box-shadow,background-color,transform] duration-normal ease-luxury active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
         featured && !active && "ring-1 ring-brand-red/20",
         active
           ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_rgba(212,43,43,0.1)]"
-          : "border-border bg-background hover:border-brand-red/30",
+          : "border-border bg-background hover:border-brand-red/30 hover:shadow-sm",
         compact && "items-center p-6 text-center",
         className,
       )}

@@ -1,3 +1,4 @@
+// UI-EXCEPTION: stretched-link overlay + nested WhatsApp CTA — see docs/ui-exceptions.md
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
@@ -66,7 +67,8 @@ export default function ServiceCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-xl border border-border bg-background p-6 shadow-sm transition-[transform,box-shadow,border-color] duration-normal ease-luxury hover:-translate-y-1 hover:border-brand-red/40 hover:shadow-md",
+        // IMPROVED: hover-lift utility (pointer-fine only) replaces raw translate-y
+        "group relative flex h-full flex-col rounded-xl border border-border bg-background p-6 shadow-sm hover-lift",
         isAiService && "ring-1 ring-brand-red/20",
         className,
       )}
@@ -102,7 +104,7 @@ export default function ServiceCard({
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-md border border-brand-red/40 bg-brand-red/10 px-3 py-2 text-xs font-semibold text-foreground transition-colors duration-normal ease-luxury hover:bg-brand-red/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="touch-target inline-flex min-h-11 items-center gap-2 rounded-md border border-brand-red/40 bg-brand-red/10 px-3 text-xs font-semibold text-foreground transition-colors duration-normal ease-luxury hover:bg-brand-red/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           aria-label={`שליחת הודעת וואטסאפ בנוגע ל${title}`}
         >
           <WhatsAppMiniIcon />

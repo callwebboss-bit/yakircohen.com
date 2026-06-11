@@ -1,25 +1,8 @@
-import Script from "next/script";
+import { GoogleAnalytics as NextGoogleAnalytics } from "@next/third-parties/google";
 
 export const GA_MEASUREMENT_ID = "G-PVW4GMPNS4";
 
+// OPTIMIZED: official @next/third-parties loader — non-blocking vs next/script afterInteractive
 export default function GoogleAnalytics() {
-  return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            anonymize_ip: true,
-            send_page_view: true
-          });
-        `}
-      </Script>
-    </>
-  );
+  return <NextGoogleAnalytics gaId={GA_MEASUREMENT_ID} />;
 }

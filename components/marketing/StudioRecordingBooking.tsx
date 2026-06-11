@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSchedulePicker from "@/components/booking/BookingSchedulePicker";
@@ -25,8 +25,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import { useBookingDraft } from "@/hooks/useBookingDraft";
-import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   buildBookingWhatsAppBody,
   readUtmSource,
@@ -71,8 +70,7 @@ import {
   validateBookingLead,
   validateScheduleWindow,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { parseStudioFormDraft, type StudioFormDraft } from "@/lib/studio-form-draft";
 import {
   CONSULTATION_PACKAGES,
   RECORDING_ATMOSPHERES,
@@ -93,8 +91,6 @@ import { cn } from "@/lib/utils";
 
 const STEPS = ["בחירה", "חבילה", "פרטים ואישור"] as const;
 
-type LocationId = "modiin" | "mobile";
-
 const FAMILY_QUICK_PICKS: readonly {
   id: RecordingTypeId;
   label: string;
@@ -105,52 +101,7 @@ const FAMILY_QUICK_PICKS: readonly {
   { id: "bar_mitzvah_speech", label: "בר/בת מצווה", emoji: "🎉" },
 ];
 
-type FormState = {
-  recordingType: RecordingTypeId | "";
-  songName: string;
-  referrer: string;
-  atmosphere: AtmosphereId | "";
-  packageId: StudioPackageId | ConsultationPackageId | "";
-  location: LocationId;
-  mobileGeo: MobileGeoId | "";
-  selectedUpgrades: StudioUpgradeId[];
-  surpriseGift: boolean;
-  giftRecipientName: string;
-  name: string;
-  phone: string;
-  scheduleWindow: ScheduleWindowId | "";
-  date: string;
-  time: string;
-  notes: string;
-  adultsCount: number;
-  childrenCount: number;
-  customerNeed: string;
-  termsAccepted: boolean;
-};
-
-type DraftPayload = {
-  recordingType: RecordingTypeId | "";
-  songName: string;
-  referrer: string;
-  atmosphere: AtmosphereId | "";
-  packageId: StudioPackageId | ConsultationPackageId | "";
-  location: LocationId;
-  mobileGeo: MobileGeoId | "";
-  selectedUpgrades: StudioUpgradeId[];
-  surpriseGift: boolean;
-  giftRecipientName: string;
-  name: string;
-  phone: string;
-  scheduleWindow: ScheduleWindowId | "";
-  date: string;
-  time: string;
-  notes: string;
-  adultsCount: number;
-  childrenCount: number;
-  customerNeed: string;
-  termsAccepted: boolean;
-  step: number;
-};
+type FormState = StudioFormDraft;
 
 function applyRecordingTypeToForm(
   prev: FormState,
@@ -243,70 +194,67 @@ export default function StudioRecordingBooking({
   routeId?: string | null;
 }) {
   const initialGiftMode = filterAnswers?.purpose === "gift";
-  const [step, setStep] = useState(0);
-  useBookWizardStep("studio", step);
-  const [form, setForm] = useState<FormState>({
-    recordingType: "",
-    songName: "",
-    referrer: "",
-    atmosphere: "",
-    packageId: "",
-    location: "modiin",
-    mobileGeo: "",
-    selectedUpgrades: [],
-    surpriseGift: initialGiftMode,
-    giftRecipientName: "",
-    name: "",
-    phone: "",
-    scheduleWindow: "",
-    date: "",
-    time: "",
-    notes: "",
-    adultsCount: 0,
-    childrenCount: 0,
-    customerNeed: initialEmotionalLabel ?? "",
-    termsAccepted: false,
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [lastWaHref, setLastWaHref] = useState("");
-  const [lastIntent, setLastIntent] = useState<"continue_chat" | "start_now">("continue_chat");
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+
+  const initialForm = useMemo<FormState>(
+    () => ({
+      recordingType: "",
+      songName: "",
+      referrer: "",
+      atmosphere: "",
+      packageId: "",
+      location: "modiin",
+      mobileGeo: "",
+      selectedUpgrades: [],
+      surpriseGift: initialGiftMode,
+      giftRecipientName: "",
+      name: "",
+      phone: "",
+      scheduleWindow: "",
+      date: "",
+      time: "",
+      notes: "",
+      adultsCount: 0,
+      childrenCount: 0,
+      customerNeed: initialEmotionalLabel ?? "",
+      termsAccepted: false,
+    }),
+    [initialGiftMode, initialEmotionalLabel],
+  );
+
+  const {
+    step,
+    form,
+    errors,
+    setStep,
+    patchForm,
+    replaceForm,
+    mergeErrors,
+    toggleUpgrade,
+    selectedUpgradeSet,
+    draft,
+    guard,
+    dismissDraft,
+    runSubmit,
+    resetWizard,
+    isSubmitted,
+    lastWaHref,
+    lastIntent,
+  } = useBookingWizard({
+    storageKey: "studio-recording",
     formId: "studio_recording_booking",
+    initialForm,
+    parseDraft: (raw) => {
+      const form = parseStudioFormDraft(raw, initialForm);
+      if (!form) return null;
+      return { ...form, surpriseGift: form.surpriseGift || initialGiftMode };
+    },
+    persistStepInDraft: true,
+    maxStep: STEPS.length - 1,
   });
 
-  const draft = useBookingDraft<DraftPayload>(
-    "studio-recording",
-    { ...form, step },
-    (payload) => {
-      setForm({
-        recordingType: payload.recordingType,
-        songName: payload.songName,
-        referrer: payload.referrer,
-        atmosphere: payload.atmosphere,
-        packageId: payload.packageId,
-        location: payload.location ?? "modiin",
-        mobileGeo: payload.mobileGeo ?? "",
-        selectedUpgrades: payload.selectedUpgrades ?? [],
-        surpriseGift: payload.surpriseGift || initialGiftMode,
-        giftRecipientName: payload.giftRecipientName ?? "",
-        name: payload.name,
-        phone: payload.phone,
-        scheduleWindow: payload.scheduleWindow ?? "",
-        date: payload.date,
-        time: payload.time,
-        notes: payload.notes,
-        adultsCount: payload.adultsCount ?? 0,
-        childrenCount: payload.childrenCount ?? 0,
-        customerNeed: payload.customerNeed ?? "",
-        termsAccepted: payload.termsAccepted,
-      });
-      setStep(Math.min(payload.step, STEPS.length - 1));
-    },
-    (s) => s,
-    (raw) => (raw && typeof raw === "object" ? (raw as DraftPayload) : null),
-  );
+  const { honeypot, setHoneypot, globalError } = guard;
+
+  useBookWizardStep("studio", step);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
   const typeFlow = getRecordingTypeFlow(form.recordingType);
@@ -446,20 +394,6 @@ export default function StudioRecordingBooking({
     price: u.price,
     badge: u.badge,
   }));
-  const selectedUpgradeSet = new Set(form.selectedUpgrades);
-
-  const toggleUpgrade = (id: string) => {
-    setForm((prev) => {
-      const has = prev.selectedUpgrades.includes(id as StudioUpgradeId);
-      return {
-        ...prev,
-        selectedUpgrades: has
-          ? prev.selectedUpgrades.filter((x) => x !== id)
-          : [...prev.selectedUpgrades, id as StudioUpgradeId],
-      };
-    });
-  };
-
   const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
   const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
@@ -470,13 +404,8 @@ export default function StudioRecordingBooking({
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
   const handleScheduleWindowChange = (value: ScheduleWindowId) => {
-    setForm((prev) => ({
-      ...prev,
-      scheduleWindow: value,
-      date: "",
-      time: "",
-    }));
-    setErrors((prev) => {
+    patchForm({ scheduleWindow: value, date: "", time: "" });
+    mergeErrors((prev) => {
       const next = { ...prev };
       delete next.date;
       delete next.time;
@@ -599,47 +528,26 @@ export default function StudioRecordingBooking({
         })
       : undefined;
 
-  const resetWizard = () => {
-    setForm({
-      recordingType: "",
-      songName: "",
-      referrer: "",
-      atmosphere: "",
-      packageId: "",
-      location: "modiin",
-      mobileGeo: "",
-      selectedUpgrades: [],
-      surpriseGift: initialGiftMode,
-      giftRecipientName: "",
-      name: "",
-      phone: "",
-      scheduleWindow: "",
-      date: "",
-      time: "",
-      notes: "",
-      adultsCount: 0,
-      childrenCount: 0,
-      customerNeed: "",
-      termsAccepted: false,
-    });
-    setStep(0);
-    setSubmitted(false);
-    setErrors({});
-    setIsSubmitting(false);
-  };
-
   const goToStep = (n: number) => {
     setStep(n);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
+  const scrollToFirstError = () => {
+    setTimeout(() => {
+      document
+        .querySelector("[data-field-error]")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  };
+
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
-      setErrors((prev) => ({ ...prev, terms: "יש לאשר את התנאים לפני שליחה" }));
+      mergeErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
     }
 
-    const fieldErrs = attemptSubmit(
+    const fieldErrs = runSubmit(
       () =>
         validateBookingLead({
           name: form.name,
@@ -683,37 +591,33 @@ export default function StudioRecordingBooking({
           utm_source: "website",
           utm_campaign: "studio_recording_booking",
         });
-        openWhatsAppLead(href, { leadCategory: "studio" });
-        notifyLeadByEmail({
-          formId: "studio_recording_booking",
-          subject: "הזמנת הקלטה באולפן",
-          body,
-          name: form.name,
-          phone: displayPhone,
-          crossSell: {
-            bookCategory: "studio",
-            routeId,
-            recordingType: form.recordingType || null,
-            atmosphere: form.atmosphere || null,
-            mobileGeo:
-              form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
-            largeGroup: form.location !== "mobile" && recorderCount >= 12,
+
+        return {
+          waHref: href,
+          intent,
+          email: {
+            formId: "studio_recording_booking",
+            subject: "הזמנת הקלטה באולפן",
+            body,
+            name: form.name,
+            phone: displayPhone,
+            crossSell: {
+              bookCategory: "studio" as const,
+              routeId,
+              recordingType: form.recordingType || null,
+              atmosphere: form.atmosphere || null,
+              mobileGeo:
+                form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
+              largeGroup: form.location !== "mobile" && recorderCount >= 12,
+            },
           },
-        });
-        setLastIntent(intent);
-        setLastWaHref(href);
-        setSubmitted(true);
-        draft.clear();
+        };
       },
+      { leadCategory: "studio" },
     );
 
-    setErrors(fieldErrs ?? {});
     if (fieldErrs && Object.keys(fieldErrs).length > 0) {
-      setTimeout(() => {
-        document
-          .querySelector("[data-field-error]")
-          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 50);
+      scrollToFirstError();
     }
   };
 
@@ -724,27 +628,18 @@ export default function StudioRecordingBooking({
       time: form.time,
     });
     if (!scheduleResult.ok) {
-      setErrors((prev) => ({ ...prev, ...scheduleResult.errors }));
-      setTimeout(() => {
-        document
-          .querySelector("[data-field-error]")
-          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 50);
+      mergeErrors(scheduleResult.errors);
+      scrollToFirstError();
       return;
     }
 
-    setIsSubmitting(true);
-    try {
-      handleAction(intent);
-    } finally {
-      setIsSubmitting(false);
-    }
+    handleAction(intent);
   };
 
   const today = new Date().toISOString().split("T")[0];
   const stepAnnouncement = `שלב ${step + 1} מתוך ${STEPS.length}: ${STEPS[step]}`;
 
-  if (submitted && lastWaHref) {
+  if (isSubmitted && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
@@ -764,6 +659,7 @@ export default function StudioRecordingBooking({
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
           onClear={() => draft.clear()}
+          onDismiss={dismissDraft}
         />
       ) : null}
 
@@ -821,7 +717,7 @@ export default function StudioRecordingBooking({
                       <button
                         key={pick.id}
                         type="button"
-                        onClick={() => setForm((prev) => applyRecordingTypeToForm(prev, pick.id))}
+                        onClick={() => replaceForm(applyRecordingTypeToForm(form, pick.id))}
                         className={cn(
                           "rounded-xl border px-3 py-3 text-center text-sm font-semibold transition-colors",
                           active
@@ -857,7 +753,7 @@ export default function StudioRecordingBooking({
                       key={type.id}
                       type="button"
                       onClick={() =>
-                        setForm((prev) => applyRecordingTypeToForm(prev, type.id))
+                        replaceForm(applyRecordingTypeToForm(form, type.id))
                       }
                       className={cn(
                         "relative min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
@@ -898,7 +794,7 @@ export default function StudioRecordingBooking({
                   id="song-name"
                   type="text"
                   value={form.songName}
-                  onChange={(e) => setForm((prev) => ({ ...prev, songName: e.target.value }))}
+                  onChange={(e) => patchForm({ songName: e.target.value })}
                   placeholder='לדוגמה: "אין כאן מקרה"'
                   className={bookFieldClass}
                 />
@@ -911,7 +807,7 @@ export default function StudioRecordingBooking({
                   id="referrer"
                   type="text"
                   value={form.referrer}
-                  onChange={(e) => setForm((prev) => ({ ...prev, referrer: e.target.value }))}
+                  onChange={(e) => patchForm({ referrer: e.target.value })}
                   placeholder="שם מי שהמליץ עליכם"
                   autoComplete="off"
                   className={bookFieldClass}
@@ -933,12 +829,12 @@ export default function StudioRecordingBooking({
                   <ParticipantCounter
                     label="מבוגרים"
                     value={form.adultsCount}
-                    onChange={(n) => setForm((prev) => ({ ...prev, adultsCount: n }))}
+                    onChange={(n) => patchForm({ adultsCount: n })}
                   />
                   <ParticipantCounter
                     label="ילדים"
                     value={form.childrenCount}
-                    onChange={(n) => setForm((prev) => ({ ...prev, childrenCount: n }))}
+                    onChange={(n) => patchForm({ childrenCount: n })}
                   />
                 </div>
                 {form.adultsCount + form.childrenCount > 1 &&
@@ -992,7 +888,7 @@ export default function StudioRecordingBooking({
                       <BookingSelectableCard
                         key={item.id}
                         active={active}
-                        onClick={() => setForm((prev) => ({ ...prev, atmosphere: item.id }))}
+                        onClick={() => patchForm({ atmosphere: item.id })}
                         title={item.title}
                         highlights={[item.subtitle]}
                         emoji={item.emoji}
@@ -1025,7 +921,7 @@ export default function StudioRecordingBooking({
                   type="checkbox"
                   checked={form.surpriseGift}
                   onChange={(e) =>
-                    setForm((prev) => ({ ...prev, surpriseGift: e.target.checked }))
+                    patchForm({ surpriseGift: e.target.checked })
                   }
                   className={cn(
                     "mt-1 h-4 w-4",
@@ -1053,7 +949,7 @@ export default function StudioRecordingBooking({
                     type="text"
                     value={form.giftRecipientName}
                     onChange={(e) =>
-                      setForm((prev) => ({ ...prev, giftRecipientName: e.target.value }))
+                      patchForm({ giftRecipientName: e.target.value })
                     }
                     placeholder="לדוגמה: נועה"
                     className={cn(
@@ -1109,7 +1005,7 @@ export default function StudioRecordingBooking({
                   <BookingSelectableCard
                     key={pkg.id}
                     active={active}
-                    onClick={() => setForm((prev) => ({ ...prev, packageId: pkg.id }))}
+                    onClick={() => patchForm({ packageId: pkg.id })}
                     title={pkg.name}
                     highlights={pkg.highlights}
                     emoji={pkg.emoji}
@@ -1228,16 +1124,13 @@ export default function StudioRecordingBooking({
                     type="text"
                     autoComplete="name"
                     value={form.name}
-                    onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => patchForm({ name: e.target.value })}
                     onBlur={() => {
                       const val = form.name.trim();
                       if (val.length > 0 && val.length < 2) {
-                        setErrors((prev) => ({
-                          ...prev,
-                          name: "שם חייב להכיל לפחות 2 תווים",
-                        }));
+                        mergeErrors({ name: "שם חייב להכיל לפחות 2 תווים" });
                       } else if (val.length >= 2 && errors.name) {
-                        setErrors((prev) => {
+                        mergeErrors((prev) => {
                           const n = { ...prev };
                           delete n.name;
                           return n;
@@ -1263,9 +1156,9 @@ export default function StudioRecordingBooking({
                   value={form.phone}
                   required
                   error={errors.phone}
-                  onChange={(value) => setForm((prev) => ({ ...prev, phone: value }))}
+                  onChange={(value) => patchForm({ phone: value })}
                   onBlurValidate={(msg) => {
-                    setErrors((prev) => {
+                    mergeErrors((prev) => {
                       const next = { ...prev };
                       if (msg) next.phone = msg;
                       else delete next.phone;
@@ -1279,8 +1172,8 @@ export default function StudioRecordingBooking({
                   onScheduleWindowChange={handleScheduleWindowChange}
                   date={form.date}
                   time={form.time}
-                  onDateChange={(value) => setForm((prev) => ({ ...prev, date: value }))}
-                  onTimeChange={(value) => setForm((prev) => ({ ...prev, time: value }))}
+                  onDateChange={(value) => patchForm({ date: value })}
+                  onTimeChange={(value) => patchForm({ time: value })}
                   minDate={today}
                   errors={{
                     scheduleWindow: errors.scheduleWindow,
@@ -1303,11 +1196,10 @@ export default function StudioRecordingBooking({
                           key={loc.id}
                           type="button"
                           onClick={() =>
-                            setForm((prev) => ({
-                              ...prev,
+                            patchForm({
                               location: loc.id,
-                              mobileGeo: loc.id === "mobile" ? prev.mobileGeo || "center" : "",
-                            }))
+                              mobileGeo: loc.id === "mobile" ? form.mobileGeo || "center" : "",
+                            })
                           }
                           className={cn(
                             "rounded-2xl border px-4 py-3 text-start text-sm",
@@ -1334,7 +1226,7 @@ export default function StudioRecordingBooking({
                               <button
                                 key={geoId}
                                 type="button"
-                                onClick={() => setForm((prev) => ({ ...prev, mobileGeo: geoId }))}
+                                onClick={() => patchForm({ mobileGeo: geoId })}
                                 className={cn(
                                   "rounded-xl border px-3 py-2 text-start text-xs",
                                   active
@@ -1365,7 +1257,7 @@ export default function StudioRecordingBooking({
                     rows={3}
                     autoComplete="off"
                     value={form.notes}
-                    onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+                    onChange={(e) => patchForm({ notes: e.target.value })}
                     className={cn(bookFieldClass, "resize-none")}
                   />
                 </div>
@@ -1379,7 +1271,7 @@ export default function StudioRecordingBooking({
 
                 <NeedsDiscoveryStep
                   value={form.customerNeed}
-                  onChange={(v) => setForm((prev) => ({ ...prev, customerNeed: v }))}
+                  onChange={(v) => patchForm({ customerNeed: v })}
                   id="sr-customer-need"
                 />
               </div>
@@ -1432,9 +1324,9 @@ export default function StudioRecordingBooking({
                 variant="light"
                 termsAccepted={form.termsAccepted}
                 onTermsChange={(accepted) => {
-                  setForm((prev) => ({ ...prev, termsAccepted: accepted }));
+                  patchForm({ termsAccepted: accepted });
                   if (accepted && errors.terms) {
-                    setErrors((prev) => {
+                    mergeErrors((prev) => {
                       const next = { ...prev };
                       delete next.terms;
                       return next;
@@ -1447,7 +1339,6 @@ export default function StudioRecordingBooking({
               <BookingSubmitButton
                 onClick={() => onSubmitClick("continue_chat")}
                 disabled={!form.termsAccepted}
-                isSubmitting={isSubmitting}
               >
                 {sendBookingWaCta(withVat(total))}
               </BookingSubmitButton>
@@ -1479,10 +1370,10 @@ export default function StudioRecordingBooking({
             <button
               type="button"
               onClick={() => onSubmitClick("continue_chat")}
-              disabled={!form.termsAccepted || isSubmitting}
+              disabled={!form.termsAccepted}
               className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             >
-              {isSubmitting ? "שולח..." : "וואטסאפ"}
+              וואטסאפ
             </button>
           </div>
         </div>

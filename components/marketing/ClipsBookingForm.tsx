@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -11,6 +11,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { SERVICES } from "@/lib/data/booking-calculator-services";
 import { withVat } from "@/lib/data/pricing";
@@ -21,8 +22,6 @@ import {
   validatePersonName,
   type ValidationResult,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -44,18 +43,32 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
   const [notes, setNotes] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [lastWaHref, setLastWaHref] = useState("");
 
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "clips_booking",
-  });
+  const guard = useLeadFormGuard({ formId: "clips_booking" });
+  const { honeypot, setHoneypot, globalError, attemptSubmit, resetGuardClock } = guard;
+
+  const {
+    submitLead,
+    resetSubmit,
+    isSuccess,
+    isSubmitting,
+    successWaHref,
+    successIntent,
+  } = useLeadSubmit();
+
+  const mergeErrors = useCallback(
+    (patch: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
+      setErrors((prev) => (typeof patch === "function" ? patch(prev) : { ...prev, ...patch }));
+    },
+    [],
+  );
 
   function toggleService(id: string) {
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
+      if (errors.services) mergeErrors({ services: "" });
       return next;
     });
   }
@@ -98,13 +111,13 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     });
   }, [selected, summaryLines, name, phone, notes, totalExVat]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!termsAccepted) {
-      setErrors((prev) => ({ ...prev, terms: "יש לאשר את התנאים לפני שליחה" }));
+      mergeErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       return;
     }
     if (selected.size === 0) {
-      setErrors((prev) => ({ ...prev, services: "בחרו לפחות שירות אחד" }));
+      mergeErrors({ services: "בחרו לפחות שירות אחד" });
       return;
     }
 
@@ -144,39 +157,56 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
           utm_source: "website",
           utm_campaign: "clips_booking",
         });
-        openWhatsAppLead(href, { leadCategory: "clips" });
-        notifyLeadByEmail({
-          formId: "clips_booking",
-          subject: "הזמנת קליפ / שירות דיגיטלי",
-          body,
-          name: sanitizeLeadText(name, 60),
-          phone: displayPhone,
-          crossSell: { bookCategory: "clips", routeId },
-        });
-        setLastWaHref(href);
-        setSubmitted(true);
+
+        void submitLead(
+          {
+            formId: "clips_booking",
+            subject: "הזמנת קליפ / שירות דיגיטלי",
+            body,
+            name: sanitizeLeadText(name, 60),
+            phone: displayPhone,
+            crossSell: { bookCategory: "clips", routeId },
+          },
+          href,
+          "continue_chat",
+          { leadCategory: "clips" },
+        );
       },
     );
     setErrors(fieldErrs ?? {});
-  };
+  }, [
+    attemptSubmit,
+    mergeErrors,
+    name,
+    notes,
+    phone,
+    routeId,
+    selected.size,
+    submitLead,
+    summaryLines,
+    termsAccepted,
+    totalExVat,
+  ]);
 
-  if (submitted && lastWaHref) {
+  const handleNewBooking = useCallback(() => {
+    resetSubmit();
+    resetGuardClock();
+    setSelected(new Set());
+    setName("");
+    setPhone("");
+    setNotes("");
+    setTermsAccepted(false);
+    setErrors({});
+  }, [resetGuardClock, resetSubmit]);
+
+  if (isSuccess && successWaHref) {
     return (
       <BookingSuccessPanel
-        intent="continue_chat"
-        whatsappHref={lastWaHref}
+        intent={successIntent}
+        whatsappHref={successWaHref}
         bookCategory="clips"
         routeId={routeId}
-        onNewBooking={() => {
-          setSelected(new Set());
-          setName("");
-          setPhone("");
-          setNotes("");
-          setTermsAccepted(false);
-          setErrors({});
-          setSubmitted(false);
-          setLastWaHref("");
-        }}
+        onNewBooking={handleNewBooking}
       />
     );
   }
@@ -287,17 +317,20 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       <BookingApprovals
         variant="light"
         termsAccepted={termsAccepted}
-        onTermsChange={setTermsAccepted}
+        onTermsChange={(v) => {
+          setTermsAccepted(v);
+          if (v && errors.terms) mergeErrors({ terms: "" });
+        }}
         termsError={errors.terms}
       />
 
       <button
         type="button"
         onClick={handleSubmit}
-        disabled={selected.size === 0}
+        disabled={selected.size === 0 || isSubmitting}
         className="w-full rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light disabled:pointer-events-none disabled:opacity-50"
       >
-        המשך בוואטסאפ ←
+        {isSubmitting ? "שולח..." : "המשך בוואטסאפ ←"}
       </button>
     </div>
   );

@@ -1,6 +1,9 @@
 ﻿import Link from "next/link";
+import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -15,7 +18,6 @@ import {
   RECORDING_SONG_TESTIMONIALS,
 } from "@/lib/data/recording-song-modiin-page";
 import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
-import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 import { getStudioService } from "@/lib/data/services";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -28,39 +30,6 @@ const service = getStudioService("recording-song-modiin");
 
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
-
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: service.faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
-
-const SERVICE_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  name: "הקלטת שיר באולפן במודיעין",
-  description:
-    "שירות הקלטת שירים מקצועית לאירועים - בר מצווה, חתונה, כניסה לחופה ושירים משפחתיים. כולל ליווי ווקאל, AI לתיקון זיופים, מיקס ומאסטר מלא.",
-  provider: {
-    "@type": "LocalBusiness",
-    name: "יקיר כהן הפקות",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "מודיעין-מכבים-רעות",
-      addressCountry: "IL",
-    },
-    areaServed: ["מודיעין", "מכבים", "רעות", "ירושלים"],
-  },
-  serviceType: "הקלטת שירים באולפן",
-  aggregateRating: buildGoogleAggregateRatingSchema(),
-};
 
 const whatsappHref = buildWhatsAppHref({
   text: "שלום, מעוניין להקליט שיר באולפן במודיעין",
@@ -77,14 +46,15 @@ const eventGridWhatsappHref = buildWhatsAppHref({
 export default function RecordingSongModiinPageContent() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}
-      />
+      <ServicePageSchema service={service} />
+      {service.faqs.length > 0 ? (
+        <FaqPageSchema
+          items={service.faqs.map((faq) => ({
+            question: faq.question,
+            answer: faq.answer,
+          }))}
+        />
+      ) : null}
       <ServicePageLayout
         {...heroProps}
         title={service.title}
@@ -562,6 +532,8 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </ul>
           </section>
+
+          <StudioExperienceSection />
 
           {/* 11. Pricing */}
           <ServicePagePricingSection

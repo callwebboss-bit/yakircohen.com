@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   SITE_GLOBAL_LINKS,
   SITE_NAVIGATION,
@@ -43,13 +43,16 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
-function DesktopDropdown({ category }: { category: SiteNavCategory }) {
+const DesktopDropdown = memo(function DesktopDropdown({
+  category,
+  isActive,
+}: {
+  category: SiteNavCategory;
+  isActive: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const pathname = usePathname();
-  const isActive =
-    pathname === category.href || pathname.startsWith(`${category.href}/`);
 
   const handleMouseEnter = useCallback(() => {
     if (closeTimeoutRef.current) {
@@ -143,7 +146,7 @@ function DesktopDropdown({ category }: { category: SiteNavCategory }) {
       ) : null}
     </div>
   );
-}
+});
 
 function MobileAccordion({
   category,
@@ -210,14 +213,16 @@ export type SiteNavProps = {
 export function SiteNavMenuButton({
   menuOpen,
   buttonId,
+  drawerId,
   onToggleMenu,
-}: Pick<SiteNavProps, "menuOpen" | "buttonId" | "onToggleMenu">) {
+}: Pick<SiteNavProps, "menuOpen" | "buttonId" | "drawerId" | "onToggleMenu">) {
   return (
     <button
       id={buttonId}
       type="button"
       className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-colors hover:border-brand-red/50 hover:text-brand-red lg:hidden"
       aria-expanded={menuOpen}
+      aria-controls={drawerId}
       aria-label={menuOpen ? "סגירת תפריט" : "פתיחת תפריט"}
       onClick={onToggleMenu}
     >
@@ -246,13 +251,19 @@ export function SiteNavMenuButton({
 }
 
 export function SiteNavDesktop() {
+  const pathname = usePathname();
+
   return (
     <nav
       className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
       {SITE_NAVIGATION.map((cat) => (
-        <DesktopDropdown key={cat.id} category={cat} />
+        <DesktopDropdown
+          key={cat.id}
+          category={cat}
+          isActive={pathname === cat.href || pathname.startsWith(`${cat.href}/`)}
+        />
       ))}
       <Link
         href="/start"
@@ -345,7 +356,7 @@ export function SiteNavMobileDrawer({
         <button
           type="button"
           onClick={onCloseMenu}
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-surface hover:text-brand-red"
+          className="touch-target flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-surface hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           aria-label="סגירת תפריט"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>

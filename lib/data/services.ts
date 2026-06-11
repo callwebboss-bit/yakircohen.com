@@ -1,6 +1,10 @@
 ﻿import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 import {
+  ogImageToMetadataParam,
+  resolveOgForCategory,
+} from "@/lib/seo/og-images";
+import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
@@ -116,6 +120,7 @@ export function metadataFromService(service: ServiceEntity): Metadata {
     description: service.metaDescription,
     slug: service.slug,
     keywords: [...service.keywords],
+    ogImage: ogImageToMetadataParam(resolveOgForCategory(service.category)),
   });
 }
 
@@ -171,7 +176,7 @@ export const STUDIO_SERVICES = {
     title: "אולפן הקלטות במודיעין",
     subtitle:
       "הסטנדרט שמגדיר את התעשייה  -  20 שנות ניסיון, הפקה ב-Cubase, שילוב Suno AI ומתודולוגיה שמייצרת תוצאות ברמה ארצית, כאן במודיעין.",
-    metaTitle: "אולפן הקלטות במודיעין | יקיר כהן הפקות",
+    metaTitle: "אולפן הקלטות במודיעין",
     metaDescription:
       "אולפן הקלטות מקצועי במודיעין  -  Cubase, AI, ציוד Neumann ו-Apollo. מעל 2,000 לקוחות מהאזור. סיור וידאו, שירים, פודקאסטים ומנטורינג.",
     keywords: [
@@ -242,7 +247,7 @@ export const STUDIO_SERVICES = {
     title: "הקלטת שיר באולפן במודיעין",
     subtitle: "חוויה של פעם בחיים. סאונד מרגש מהרגע הראשון.",
     metaTitle:
-      "הקלטת שיר באולפן במודיעין | שיר לבר מצווה ולחתונה - יקיר כהן הפקות",
+      "הקלטת שיר באולפן במודיעין | שיר לבר מצווה ולחתונה",
     metaDescription:
       "הקלטת שיר באולפן במודיעין - שיר לבר מצווה, חתונה, כניסה לחופה ומתנות. ליווי אישי, AI לתיקון זיופים ומסירה תוך 48 שעות. מעל 500 משפחות מהאזור.",
     keywords: [

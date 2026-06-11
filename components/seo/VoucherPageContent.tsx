@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
+import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
@@ -83,11 +84,11 @@ export default function VoucherPageContent() {
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
     >
-      <div className="mx-auto max-w-[72rem] space-y-14 px-4 py-12 sm:px-6 lg:px-8">
+      <Container className="space-y-14 py-12 sm:py-16">
         <section aria-labelledby="voucher-tiers-heading">
           <h2
             id="voucher-tiers-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             טווחי מחיר מומלצים
           </h2>
@@ -99,7 +100,7 @@ export default function VoucherPageContent() {
             {TIERS.map((tier) => (
               <li
                 key={tier.title}
-                className="rounded-xl border border-border bg-surface p-6"
+                className="hover-lift rounded-xl border border-border bg-surface p-6"
               >
                 <p className="text-xs font-bold tracking-wider text-brand-red uppercase">
                   {tier.title}
@@ -116,7 +117,7 @@ export default function VoucherPageContent() {
         <section aria-labelledby="voucher-process-heading">
           <h2
             id="voucher-process-heading"
-            className="text-2xl font-semibold tracking-tight text-foreground"
+            className="font-serif text-section-title font-semibold text-foreground"
           >
             איך זה עובד
           </h2>
@@ -156,7 +157,7 @@ export default function VoucherPageContent() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                  className="inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-sm font-medium transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
                   {link.label}
                 </Link>
@@ -170,7 +171,7 @@ export default function VoucherPageContent() {
           subtitle="עוד שאלה? כתבו לנו בוואטסאפ - נשיב מהר."
           items={FAQ_ITEMS}
         />
-      </div>
+      </Container>
     </ServicePageLayout>
   );
 }

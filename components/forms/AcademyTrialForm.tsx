@@ -4,9 +4,8 @@ import { useState } from "react";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { sanitizeLeadText, type ValidationResult } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -92,12 +91,11 @@ function Label({
 export default function AcademyTrialForm() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "academy_trial_lesson",
   });
+  const { submitLead, isSubmitting, isSuccess } = useLeadSubmit();
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -127,12 +125,7 @@ export default function AcademyTrialForm() {
   };
 
   const handleSubmit = () => {
-    setSubmitting(true);
-    let successFired = false;
-
     const fieldErrs = attemptSubmit(validate, () => {
-      successFired = true;
-
       const levelLabel =
         HEBREW_LEVEL_OPTIONS.find((o) => o.value === form.hebrewLevel)?.label ?? form.hebrewLevel;
       const locationLabel =
@@ -186,33 +179,32 @@ export default function AcademyTrialForm() {
         utm_source: "website",
         utm_campaign: "academy_trial_lesson",
       });
-      openWhatsAppLead(href);
-      notifyLeadByEmail({
-        formId: "academy_trial_lesson",
-        subject: `בקשה לשיעור ניסיון עברית - ${form.name.trim()}`,
-        body: message,
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        crossSell: { bookCategory: "academy" },
-      });
-      setSubmitting(false);
-      setSubmitted(true);
+      void submitLead(
+        {
+          formId: "academy_trial_lesson",
+          subject: `בקשה לשיעור ניסיון עברית - ${form.name.trim()}`,
+          body: message,
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          crossSell: { bookCategory: "academy" },
+        },
+        href,
+        "start_now",
+        { leadCategory: "academy" },
+      );
     });
 
-    if (!successFired) {
-      setSubmitting(false);
-      setErrors(fieldErrs ?? {});
-      if (fieldErrs && Object.keys(fieldErrs).length > 0) {
-        setTimeout(() => {
-          document
-            .querySelector("[data-field-error]")
-            ?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 50);
-      }
+    setErrors(fieldErrs ?? {});
+    if (fieldErrs && Object.keys(fieldErrs).length > 0) {
+      setTimeout(() => {
+        document
+          .querySelector("[data-field-error]")
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
     }
   };
 
-  if (submitted) {
+  if (isSuccess) {
     return (
       <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
         <p className="text-3xl" aria-hidden="true">
@@ -401,10 +393,10 @@ export default function AcademyTrialForm() {
       <button
         type="button"
         onClick={handleSubmit}
-        disabled={submitting}
+        disabled={isSubmitting}
         className="w-full rounded-xl bg-brand-red py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
-        {submitting ? "שולח..." : `שלח בקשה לשיעור ניסיון`}
+        {isSubmitting ? "שולח..." : `שלח בקשה לשיעור ניסיון`}
       </button>
     </div>
   );

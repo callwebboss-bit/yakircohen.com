@@ -2,7 +2,11 @@
 
 import { useId, useState, type FormEvent } from "react";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import Button from "@/components/ui/Button";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const fieldClass =
+  "mt-1.5 min-h-11 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 export type CallbackLeadFormProps = {
@@ -105,7 +109,7 @@ export default function CallbackLeadForm({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="ישראל ישראלי"
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className={fieldClass}
           />
         </div>
 
@@ -123,7 +127,7 @@ export default function CallbackLeadForm({
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="050-0000000"
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className={fieldClass}
           />
         </div>
 
@@ -136,7 +140,7 @@ export default function CallbackLeadForm({
               id={serviceId}
               value={service}
               onChange={(e) => setService(e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+              className={fieldClass}
             >
               <option value="">בחרו שירות (אופציונלי)</option>
               {serviceOptions.map((opt) => (
@@ -158,12 +162,9 @@ export default function CallbackLeadForm({
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <button
-          type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-        >
+        <Button type="submit" className="rounded-xl px-7">
           שלחו פרטים
-        </button>
+        </Button>
         <p className="text-xs text-muted-foreground">
           הפרטים ישמשו אך ורק ליצירת קשר בנוגע לשירות המבוקש.
         </p>

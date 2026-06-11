@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
+import FilterGateSkeleton from "@/components/marketing/FilterGateSkeleton";
 import StudioRecordingBooking from "@/components/marketing/StudioRecordingBooking";
 import { STUDIO_RECORDING_PACKAGES } from "@/lib/data/studio-recording-booking";
 import {
@@ -19,7 +20,7 @@ const BROWSING_WA_HREF = buildWhatsAppHref({
   utm_campaign: "filter_browsing_cta",
 });
 
-type GateState = "loading" | "gate" | "wizard" | "browsing";
+type FilterView = "gate" | "browsing" | "wizard";
 
 function PricingOverview({ onProceed }: { onProceed: () => void }) {
   return (
@@ -77,52 +78,75 @@ type FilterGateProps = {
   routeId?: string | null;
 };
 
+function readStoredAnswers(): FilterAnswers | null {
+  try {
+    const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
+    if (!saved) return null;
+    return JSON.parse(saved) as FilterAnswers;
+  } catch {
+    return null;
+  }
+}
+
+function deriveView(
+  hydrated: boolean,
+  skipGate: boolean,
+  timeline: TimelineId | null,
+  purpose: PurposeId | null,
+  browsingDismissed: boolean,
+): FilterView | null {
+  if (!hydrated) return null;
+  const hasAnswers = timeline !== null && purpose !== null;
+  if (skipGate && hasAnswers) return "wizard";
+  if (hasAnswers && timeline === "just_browsing" && !browsingDismissed) return "browsing";
+  if (hasAnswers) return "wizard";
+  return "gate";
+}
+
 export default function FilterGate({
   initialFilterPreset,
   skipGate = false,
   initialEmotionalLabel,
   routeId = null,
 }: FilterGateProps = {}) {
-  const [gateState, setGateState] = useState<GateState>("loading");
+  const [hydrated, setHydrated] = useState(false);
   const [timeline, setTimeline] = useState<TimelineId | null>(
     initialFilterPreset?.timeline ?? null,
   );
   const [purpose, setPurpose] = useState<PurposeId | null>(
     initialFilterPreset?.purpose ?? null,
   );
+  const [browsingDismissed, setBrowsingDismissed] = useState(false);
 
   useEffect(() => {
     queueMicrotask(() => {
       if (skipGate && initialFilterPreset?.timeline && initialFilterPreset?.purpose) {
         setTimeline(initialFilterPreset.timeline);
         setPurpose(initialFilterPreset.purpose);
-        setGateState("wizard");
+        setHydrated(true);
         return;
       }
-      try {
-        const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
-        if (saved) {
-          const answers: FilterAnswers = JSON.parse(saved);
-          if (answers.timeline === "just_browsing") {
-            setGateState("browsing");
-          } else {
-            setTimeline(answers.timeline);
-            setPurpose(answers.purpose);
-            setGateState("wizard");
-          }
-        } else if (initialFilterPreset?.timeline && initialFilterPreset?.purpose) {
-          setTimeline(initialFilterPreset.timeline);
-          setPurpose(initialFilterPreset.purpose);
-          setGateState("wizard");
-        } else {
-          setGateState("gate");
+
+      const stored = readStoredAnswers();
+      if (stored) {
+        setTimeline(stored.timeline);
+        setPurpose(stored.purpose);
+        if (stored.timeline !== "just_browsing") {
+          setBrowsingDismissed(true);
         }
-      } catch {
-        setGateState("gate");
+      } else if (initialFilterPreset?.timeline && initialFilterPreset?.purpose) {
+        setTimeline(initialFilterPreset.timeline);
+        setPurpose(initialFilterPreset.purpose);
+        if (initialFilterPreset.timeline !== "just_browsing") {
+          setBrowsingDismissed(true);
+        }
       }
+
+      setHydrated(true);
     });
   }, [skipGate, initialFilterPreset]);
 
+  const view = deriveView(hydrated, skipGate, timeline, purpose, browsingDismissed);
   const canAdvance = timeline !== null && purpose !== null;
 
   const handleAdvance = () => {
@@ -131,30 +155,27 @@ export default function FilterGate({
     try {
       sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(answers));
     } catch {
-      // sessionStorage unavailable - proceed anyway
+      /* sessionStorage unavailable */
     }
     if (timeline === "just_browsing") {
-      setGateState("browsing");
+      setBrowsingDismissed(false);
     } else {
-      setGateState("wizard");
+      setBrowsingDismissed(true);
     }
   };
 
   const handleBrowsingProceed = () => {
-    try {
-      const saved = sessionStorage.getItem(FILTER_STORAGE_KEY);
-      if (saved) {
-        const answers: FilterAnswers = JSON.parse(saved);
-        setTimeline(answers.timeline);
-        setPurpose(answers.purpose);
-      }
-    } catch {}
-    setGateState("wizard");
+    const stored = readStoredAnswers();
+    if (stored) {
+      setTimeline(stored.timeline);
+      setPurpose(stored.purpose);
+    }
+    setBrowsingDismissed(true);
   };
 
-  if (gateState === "loading") return null;
+  if (view === null) return <FilterGateSkeleton />;
 
-  if (gateState === "wizard") {
+  if (view === "wizard") {
     const filterAnswers: FilterAnswers | null =
       timeline !== null && purpose !== null ? { timeline, purpose } : null;
     return (
@@ -166,7 +187,7 @@ export default function FilterGate({
     );
   }
 
-  if (gateState === "browsing") {
+  if (view === "browsing") {
     return <PricingOverview onProceed={handleBrowsingProceed} />;
   }
 

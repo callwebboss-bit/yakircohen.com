@@ -1,4 +1,5 @@
 import MediaGallery from "@/components/marketing/MediaGallery";
+import Container from "@/components/ui/Container";
 import LazyClickEmbed from "@/components/marketing/LazyClickEmbed";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import type { ServiceMediaType } from "@/lib/data/services";
@@ -72,6 +73,10 @@ export default function ServicePortfolioMedia({
       filename: image.filename,
       fallback: `${label} - תמונה ${index + 1}`,
     }),
+    // IMPROVED: pass intrinsic dimensions when probed at build time (CLS)
+    ...(image.width && image.height
+      ? { width: image.width, height: image.height }
+      : {}),
   }));
 
   const archiveGalleryItems = cappedArchive.map((image, index) => ({
@@ -80,6 +85,9 @@ export default function ServicePortfolioMedia({
       filename: image.filename,
       fallback: `${label} - ארכיון ${index + 1}`,
     }),
+    ...(image.width && image.height
+      ? { width: image.width, height: image.height }
+      : {}),
   }));
 
   const jsonLd =
@@ -93,12 +101,10 @@ export default function ServicePortfolioMedia({
   return (
     <section
       id={displayGallery ? sectionId : undefined}
-      className={cn(
-        "mx-auto max-w-[72rem] scroll-mt-24 px-4 sm:px-6 lg:px-8",
-        className,
-      )}
+      className={cn("scroll-mt-24", className)}
       aria-labelledby="portfolio-media-heading"
     >
+      <Container>
       {jsonLd ? (
         <script
           type="application/ld+json"
@@ -109,7 +115,7 @@ export default function ServicePortfolioMedia({
       <header className="mb-6">
         <h2
           id="portfolio-media-heading"
-          className="text-xl font-semibold text-foreground sm:text-2xl"
+          className="font-serif text-section-title font-semibold text-foreground"
         >
           {label}
         </h2>
@@ -162,6 +168,7 @@ export default function ServicePortfolioMedia({
           </div>
         ) : null}
       </div>
+      </Container>
     </section>
   );
 }

@@ -5,13 +5,12 @@ import PhoneInputField from "@/components/forms/PhoneInputField";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { notifyLeadByEmail } from "@/lib/lead-email-notify";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SINGER_CLOSING_CTA } from "@/lib/data/singer-amplification-page";
@@ -31,10 +30,10 @@ export default function SingerClosingLeadSection({
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
-    formId: "singer_amplification_callback",
-  });
+
+  const guard = useLeadFormGuard({ formId: "singer_amplification_callback" });
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = guard;
+  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,16 +70,19 @@ export default function SingerClosingLeadSection({
           utm_source: "website",
           utm_campaign: "singer_amplification_closing_form",
         });
-        openWhatsAppLead(href);
-        notifyLeadByEmail({
-          formId: "singer_amplification_callback",
-          subject: "פנייה מעמוד הגברה לזמרים",
-          body,
-          name,
-          phone: displayPhone,
-          crossSell: { bookCategory: "singer", routeId: "singer-amplification" },
-        });
-        setSubmitted(true);
+        void submitLead(
+          {
+            formId: "singer_amplification_callback",
+            subject: "פנייה מעמוד הגברה לזמרים",
+            body,
+            name,
+            phone: displayPhone,
+            crossSell: { bookCategory: "singer", routeId: "singer-amplification" },
+          },
+          href,
+          "continue_chat",
+          { leadCategory: "singer" },
+        );
       },
     );
     setErrors(fieldErrs ?? {});
@@ -126,7 +128,7 @@ export default function SingerClosingLeadSection({
           <p className="mb-4 text-sm font-semibold text-foreground">
             או השאירו פרטים - נחזור אליכם
           </p>
-          {submitted ? (
+          {isSuccess ? (
             <p className="text-sm text-brand-red">
               תודה! נפתח וואטסאפ - אם לא, ניצור קשר בקרוב.
             </p>
@@ -169,9 +171,10 @@ export default function SingerClosingLeadSection({
                 </div>
                 <button
                   type="submit"
-                  className="w-full rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                  disabled={isSubmitting}
+                  className="w-full rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red disabled:opacity-50"
                 >
-                  שליחה ופתיחת וואטסאפ
+                  {isSubmitting ? "שולח..." : "שליחה ופתיחת וואטסאפ"}
                 </button>
               </div>
             </>

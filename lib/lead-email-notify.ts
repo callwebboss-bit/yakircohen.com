@@ -1,4 +1,4 @@
-﻿/**
+/**
 
  * גיבוי מייל ללידים (אופציונלי - דורש RESEND_API_KEY + LEAD_NOTIFY_EMAIL ב-Vercel).
 
@@ -95,38 +95,33 @@ function buildCrossSellEmailBlock(ctx?: CrossSellContext): string {
 
 
 
-export function notifyLeadByEmail(payload: LeadEmailPayload): void {
+function buildEmailBody(payload: LeadEmailPayload): string {
+  const crossSellBlock = buildCrossSellEmailBlock(payload.crossSell);
+  return payload.body.trim()
+    ? `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".`
+    : payload.body;
+}
 
+export async function notifyLeadByEmailAsync(payload: LeadEmailPayload): Promise<void> {
   if (typeof window === "undefined") return;
 
-
-
-  const crossSellBlock = buildCrossSellEmailBlock(payload.crossSell);
-
-  const bodyWithCloserHint = payload.body.trim()
-
-    ? `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".`
-
-    : payload.body;
-
-
-
-  void fetch("/api/lead-notify", {
-
+  const res = await fetch("/api/lead-notify", {
     method: "POST",
-
     headers: { "Content-Type": "application/json" },
-
-    body: JSON.stringify({ ...payload, body: bodyWithCloserHint }),
-
+    body: JSON.stringify({ ...payload, body: buildEmailBody(payload) }),
     keepalive: true,
-
-  }).catch(() => {
-
-    /* optional channel */
-
   });
 
+  if (!res.ok) {
+    throw new Error(`lead-notify failed: ${res.status}`);
+  }
+}
+
+export function notifyLeadByEmail(payload: LeadEmailPayload): void {
+  if (typeof window === "undefined") return;
+  void notifyLeadByEmailAsync(payload).catch(() => {
+    /* optional channel */
+  });
 }
 
 
