@@ -1,5 +1,7 @@
 ﻿import type { ServiceEntity, ServiceMediaType } from "@/lib/data/services";
 import { isValidYouTubeEmbedUrl } from "@/lib/data/youtube-embeds";
+import { resolveOgForCategory, type OgImageConfig } from "@/lib/seo/og-images";
+import { DEFAULT_OG_WIDTH, DEFAULT_OG_HEIGHT } from "@/lib/seo/page-schema";
 import {
   listServicePortfolioImageSet,
   type PortfolioImage,
@@ -143,5 +145,26 @@ export function resolveServicePageHeroFromEntity(
     heroImageAlt: resolved.heroImageAlt,
     heroScrollTarget: resolved.heroScrollTarget,
     heroVideoSectionId: resolved.heroVideoSectionId,
+  };
+}
+
+/**
+ * OG/Twitter share image for a service page. Reuses the same hero image
+ * shown at the top of the page (so social previews match on-page branding),
+ * falling back to the curated category OG image when the folder has none.
+ */
+export function resolveServiceOgImage(
+  service: Pick<ServiceEntity, "assetsFolder" | "title" | "category">,
+): OgImageConfig {
+  const { primary } = listServicePortfolioImageSet(service.assetsFolder);
+  const heroImage = pickPortfolioHeroImage(primary);
+
+  if (!heroImage) return resolveOgForCategory(service.category);
+
+  return {
+    path: heroImage.src,
+    alt: heroImage.alt || service.title,
+    width: heroImage.width ?? DEFAULT_OG_WIDTH,
+    height: heroImage.height ?? DEFAULT_OG_HEIGHT,
   };
 }

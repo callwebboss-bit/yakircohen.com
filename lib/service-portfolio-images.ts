@@ -133,14 +133,24 @@ function resolveArchiveDirName(absoluteServiceDir: string): string | null {
  * - Sort order within each folder is alphabetical (Hebrew locale); use numeric
  *   prefixes in filenames (e.g. `01-`, `02-`) to control order.
  */
+/** Avoids re-scanning the filesystem when both metadata and render paths
+ * resolve the same service folder (e.g. hero image + OG image). */
+const portfolioImageSetCache = new Map<string, ServicePortfolioImageSet>();
+
 export function listServicePortfolioImageSet(
   assetsFolder: string,
 ): ServicePortfolioImageSet {
   const folder = assetsFolder.replace(/^\/+/, "").replace(/\\/g, "/");
+
+  const cached = portfolioImageSetCache.get(folder);
+  if (cached) return cached;
+
   const absoluteDir = path.join(SERVICES_IMAGES_ROOT, ...folder.split("/"));
 
   if (!fs.existsSync(absoluteDir)) {
-    return { primary: [], archive: [] };
+    const empty: ServicePortfolioImageSet = { primary: [], archive: [] };
+    portfolioImageSetCache.set(folder, empty);
+    return empty;
   }
 
   const basePath = serviceImageBasePath(folder);
@@ -155,7 +165,9 @@ export function listServicePortfolioImageSet(
       )
     : [];
 
-  return { primary, archive };
+  const result: ServicePortfolioImageSet = { primary, archive };
+  portfolioImageSetCache.set(folder, result);
+  return result;
 }
 
 /** Primary + archive combined (e.g. structured data). */

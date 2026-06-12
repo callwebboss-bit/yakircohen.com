@@ -1,9 +1,7 @@
 ﻿import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
-import {
-  ogImageToMetadataParam,
-  resolveOgForCategory,
-} from "@/lib/seo/og-images";
+import { ogImageToMetadataParam } from "@/lib/seo/og-images";
+import { resolveServiceOgImage } from "@/lib/service-portfolio-hero";
 import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
@@ -120,7 +118,7 @@ export function metadataFromService(service: ServiceEntity): Metadata {
     description: service.metaDescription,
     slug: service.slug,
     keywords: [...service.keywords],
-    ogImage: ogImageToMetadataParam(resolveOgForCategory(service.category)),
+    ogImage: ogImageToMetadataParam(resolveServiceOgImage(service)),
   });
 }
 

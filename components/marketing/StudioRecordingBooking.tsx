@@ -169,7 +169,7 @@ function ParticipantCounter({
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold hover:border-brand-red/40"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold transition-[border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.97]"
           onClick={() => onChange(clampCount(value - 1))}
           aria-label={`הפחת ${label}`}
         >
@@ -178,7 +178,7 @@ function ParticipantCounter({
         <span className="min-w-[2ch] text-center text-sm font-semibold tabular-nums">{value}</span>
         <button
           type="button"
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold hover:border-brand-red/40"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 text-lg font-semibold transition-[border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.97]"
           onClick={() => onChange(clampCount(value + 1))}
           aria-label={`הוסף ${label}`}
         >
@@ -772,7 +772,7 @@ export default function StudioRecordingBooking({
         aria-valuemax={100}
       >
         <div
-          className="h-1 rounded-full bg-brand-red transition-all duration-300"
+          className="h-1 rounded-full bg-[var(--service-accent,#d42b2b)] transition-all duration-300"
           style={{ width: `${progressPct}%` }}
         />
       </div>
@@ -809,10 +809,10 @@ export default function StudioRecordingBooking({
                         type="button"
                         onClick={() => patchForm({ wizardDepth: opt.id })}
                         className={cn(
-                          "rounded-xl border px-3 py-3 text-start text-sm transition-colors",
+                          "min-h-11 rounded-xl border px-3 py-3 text-start text-sm transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
                           active
-                            ? "border-brand-red bg-brand-red/10 text-brand-red"
-                            : "border-border/60 hover:border-brand-red/40",
+                            ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                            : "border-border/60 hover:border-[var(--service-accent,#d42b2b)]/40",
                         )}
                         aria-pressed={active}
                       >
@@ -855,10 +855,10 @@ export default function StudioRecordingBooking({
                         type="button"
                         onClick={() => replaceForm(applyRecordingTypeToForm(form, pick.id))}
                         className={cn(
-                          "rounded-xl border px-3 py-3 text-center text-sm font-semibold transition-colors",
+                          "min-h-11 rounded-xl border px-3 py-3 text-center text-sm font-semibold transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
                           active
-                            ? "border-brand-red bg-brand-red/10 text-brand-red"
-                            : "border-border/60 hover:border-brand-red/40",
+                            ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                            : "border-border/60 hover:border-[var(--service-accent,#d42b2b)]/40",
                         )}
                         aria-pressed={active}
                       >
@@ -874,7 +874,7 @@ export default function StudioRecordingBooking({
             ) : null}
 
             {typeFlow.remoteHint ? (
-              <p className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm text-foreground">
+              <p className="rounded-xl border border-[var(--service-accent,#d42b2b)]/20 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-4 py-3 text-sm text-foreground">
                 {typeFlow.remoteHint}
               </p>
             ) : null}
@@ -892,16 +892,16 @@ export default function StudioRecordingBooking({
                         replaceForm(applyRecordingTypeToForm(form, type.id))
                       }
                       className={cn(
-                        "relative min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-colors",
+                        "relative min-h-11 min-w-0 break-words rounded-xl border px-3 py-3 text-center text-sm font-semibold leading-snug transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
                         active
-                          ? "border-brand-red bg-brand-red/10 pe-8 text-brand-red"
-                          : "border-border/60 bg-background text-foreground hover:border-brand-red/40",
+                          ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] pe-8 text-[var(--service-accent,#d42b2b)]"
+                          : "border-border/60 bg-background text-foreground hover:border-[var(--service-accent,#d42b2b)]/40",
                       )}
                       aria-pressed={active}
                     >
                       {active ? (
                         <span
-                          className="absolute end-2 top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-red text-[0.55rem] font-bold text-white"
+                          className="absolute end-2 top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--service-accent,#d42b2b)] text-[0.55rem] font-bold text-white"
                           aria-hidden="true"
                         >
                           ✓
@@ -996,7 +996,7 @@ export default function StudioRecordingBooking({
                 {form.adultsCount + form.childrenCount > 1 &&
                 groupPricingEligible &&
                 groupScenariosForDisplay?.recommended ? (
-                  <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 px-4 py-3 text-sm">
+                  <div className="rounded-xl border border-[var(--service-accent,#d42b2b)]/20 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-4 py-3 text-sm">
                     <p className="font-semibold text-foreground">
                       הערכת מחיר מומלצת לקבוצה (סופי יתואם בשיחה)*
                     </p>
@@ -1049,7 +1049,7 @@ export default function StudioRecordingBooking({
                         highlights={[item.subtitle]}
                         emoji={item.emoji}
                         compact
-                        className={active ? "ring-2 ring-brand-red/20" : undefined}
+                        className={active ? "ring-2 ring-[var(--service-accent,#d42b2b)]/20" : undefined}
                       />
                     );
                   })}
@@ -1069,7 +1069,7 @@ export default function StudioRecordingBooking({
                 "rounded-xl border border-dashed p-4 transition-colors",
                 form.surpriseGift
                   ? "border-amber-400 bg-amber-50"
-                  : "border-brand-red/30 bg-brand-red/5",
+                  : "border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)]",
               )}
             >
               <label className="flex cursor-pointer items-start gap-3">
@@ -1081,7 +1081,7 @@ export default function StudioRecordingBooking({
                   }
                   className={cn(
                     "mt-1 h-4 w-4",
-                    form.surpriseGift ? "accent-amber-600" : "accent-brand-red",
+                    form.surpriseGift ? "accent-amber-600" : "accent-[var(--service-accent,#d42b2b)]",
                   )}
                 />
                 <span className="text-sm text-foreground">
@@ -1375,10 +1375,10 @@ export default function StudioRecordingBooking({
                             })
                           }
                           className={cn(
-                            "rounded-2xl border px-4 py-3 text-start text-sm",
+                            "min-h-11 rounded-2xl border px-4 py-3 text-start text-sm transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
                             form.location === loc.id
-                              ? "border-brand-red bg-brand-red/5 text-brand-red"
-                              : "border-border/60 hover:border-brand-red/30",
+                              ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                              : "border-border/60 hover:border-[var(--service-accent,#d42b2b)]/30",
                           )}
                           aria-pressed={form.location === loc.id}
                         >
@@ -1401,9 +1401,9 @@ export default function StudioRecordingBooking({
                                 type="button"
                                 onClick={() => patchForm({ mobileGeo: geoId })}
                                 className={cn(
-                                  "rounded-xl border px-3 py-2 text-start text-xs",
+                                  "min-h-11 rounded-xl border px-3 py-2 text-start text-xs transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
                                   active
-                                    ? "border-brand-red bg-brand-red/5 text-brand-red"
+                                    ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] text-[var(--service-accent,#d42b2b)]"
                                     : "border-border/60",
                                 )}
                                 aria-pressed={active}
@@ -1463,7 +1463,7 @@ export default function StudioRecordingBooking({
               ) : null}
 
               {groupMsgCtx && groupMessageInput ? (
-                <div className="rounded-xl border border-brand-red/20 bg-brand-red/5 p-4 space-y-3">
+                <div className="rounded-xl border border-[var(--service-accent,#d42b2b)]/20 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] p-4 space-y-3">
                   <p className="text-sm font-semibold text-foreground">
                     קבוצה של {recorderCount}
                     {groupMsgCtx.useDualTier
@@ -1476,7 +1476,7 @@ export default function StudioRecordingBooking({
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
-                      className="rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium hover:border-brand-red/40"
+                      className="min-h-11 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium transition-[border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.98]"
                       onClick={() =>
                         void copyGroupText(
                           buildGroupFamilyPitchBlock(groupMessageInput, groupMsgCtx),
@@ -1518,7 +1518,7 @@ export default function StudioRecordingBooking({
               <button
                 type="button"
                 onClick={() => goToStep(1)}
-                className="w-full text-center text-xs text-muted-foreground hover:text-brand-red"
+                className="w-full text-center text-xs text-muted-foreground transition-colors duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)]"
               >
                 חזרה לבחירת מסלול
               </button>
@@ -1533,7 +1533,7 @@ export default function StudioRecordingBooking({
           <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-4 px-4 py-3">
             <div>
               <p className="text-xs text-muted-foreground">{activePackage.name}</p>
-              <p className="text-base font-bold tabular-nums text-brand-red">
+              <p className="text-base font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
                 {withVat(total).toLocaleString("he-IL")} ₪ סופי
               </p>
             </div>
@@ -1571,7 +1571,7 @@ function StepNav({
         <button
           type="button"
           onClick={onBack}
-          className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40"
+          className="min-h-11 rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold text-foreground transition-[border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.98]"
         >
           חזרה
         </button>
@@ -1583,10 +1583,10 @@ function StepNav({
         onClick={onNext}
         disabled={nextDisabled}
         className={cn(
-          "rounded-xl px-6 py-2.5 text-sm font-semibold transition-opacity",
+          "min-h-11 rounded-xl px-6 py-2.5 text-sm font-semibold transition-[opacity,transform] duration-fast ease-luxury active:scale-[0.98]",
           nextDisabled
             ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-brand-red text-white hover:opacity-90",
+            : "bg-[var(--service-accent,#d42b2b)] text-white hover:opacity-90",
         )}
       >
         {nextLabel}
