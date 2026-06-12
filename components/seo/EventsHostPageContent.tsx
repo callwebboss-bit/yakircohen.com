@@ -11,6 +11,7 @@ import {
 import { getEventsService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
+import { cn } from "@/lib/utils";
 
 const service = getEventsService("events-host");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -26,6 +27,9 @@ export default function EventsHostPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      pagePath="/events/host"
+      metaDescription={service.metaDescription}
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
@@ -49,14 +53,17 @@ export default function EventsHostPageContent() {
           <h2 id="host-blocks-heading" className="sr-only">
             יתרונות
           </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            {EVENT_HOST_WHY.map((block) => (
+          <div className="grid auto-rows-fr gap-4 sm:gap-5 md:grid-cols-3">
+            {EVENT_HOST_WHY.map((block, index) => (
               <article
                 key={block.title}
-                className="rounded-2xl border border-border bg-surface p-6"
+                className={cn(
+                  "hover-lift rounded-3xl border border-border bg-surface p-6 transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/10 hover:bg-[var(--service-accent,#d42b2b)]/[0.02] sm:p-7",
+                  index === 0 && "md:col-span-2",
+                )}
               >
                 <h3 className="font-semibold text-foreground">{block.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{block.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{block.body}</p>
               </article>
             ))}
           </div>
@@ -69,18 +76,18 @@ export default function EventsHostPageContent() {
           >
             איך זה עובד
           </h2>
-          <ol className="mt-6 space-y-4">
+          <ol className="mt-6 space-y-3">
             {EVENT_HOST_PROCESS.map((item) => (
               <li
                 key={item.step}
-                className="flex gap-4 rounded-xl border border-border bg-background p-5"
+                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-transform duration-fast ease-luxury active:scale-[0.99] sm:gap-5 sm:p-6"
               >
-                <span className="font-serif text-lg font-bold text-brand-red">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--service-accent,#d42b2b)]/10 text-base font-bold text-[var(--service-accent,#d42b2b)] sm:h-12 sm:w-12 sm:text-lg">
                   {item.step}
                 </span>
                 <div>
                   <h3 className="font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
                 </div>
               </li>
             ))}
@@ -98,7 +105,7 @@ export default function EventsHostPageContent() {
           </section>
         ) : null}
 
-        <div className="rounded-2xl border border-brand-red/25 bg-brand-red/5 p-6 text-center">
+        <div className="rounded-2xl border border-[var(--service-accent,#d42b2b)]/20 bg-[var(--service-accent,#d42b2b)]/[0.04] p-6 text-center">
           <p className="text-sm font-semibold text-foreground">
             רוצים לשלב גם DJ ואטרקציות?
           </p>
@@ -114,7 +121,7 @@ export default function EventsHostPageContent() {
             </Link>
             <Link
               href="/book#events"
-              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40"
+              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-[var(--service-accent,#d42b2b)]/40"
             >
               הזמנת אטרקציות
             </Link>

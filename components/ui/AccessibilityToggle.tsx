@@ -104,7 +104,7 @@ export default function AccessibilityToggle({
         aria-controls={menuId}
         aria-label={open ? "סגירת תפריט נגישות" : "פתיחת תפריט נגישות"}
         onClick={() => setOpen((prev) => !prev)}
-        className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface p-3.5 text-foreground shadow-lg transition-transform hover:scale-105 hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+        className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface p-3.5 text-foreground shadow-lg transition-transform duration-fast ease-luxury hover:scale-105 hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
       >
         <AccessibilityIcon />
         <span className="sr-only">נגישות</span>

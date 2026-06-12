@@ -33,7 +33,7 @@ export function HeaderMobileSearchToggle({
     <button
       type="button"
       onClick={onExpand}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:border-brand-red/50 hover:text-brand-red lg:hidden"
+      className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95 lg:hidden"
       aria-label="חיפוש באתר"
       aria-expanded={false}
     >
@@ -51,7 +51,7 @@ export function HeaderMobileSearchBar({ onCollapse }: { onCollapse: () => void }
       <button
         type="button"
         onClick={onCollapse}
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:border-brand-red/50 hover:text-brand-red"
+        className="touch-target flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95"
         aria-label="סגירת חיפוש"
       >
         <CloseIcon />

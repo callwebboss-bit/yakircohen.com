@@ -30,13 +30,13 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                 // IMPROVED: hover-lift replaces raw translate-y on touch devices
                 "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift",
                 tier.featured
-                  ? "border-brand-red/40 shadow-md ring-1 ring-brand-red/20 hover:border-brand-red/60 hover:shadow-lg"
-                  : "border-border hover:border-brand-red/30 hover:shadow-md",
+                  ? "border-[var(--service-accent,#d42b2b)]/40 shadow-md ring-1 ring-[var(--service-accent,#d42b2b)]/20 hover:border-[var(--service-accent,#d42b2b)]/60 hover:shadow-lg"
+                  : "border-border hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-md",
               )}
             >
               <span
                 className={cn(
-                  "pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-right scale-x-0 bg-brand-red transition-transform duration-normal ease-luxury group-hover:scale-x-100",
+                  "pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-right scale-x-0 bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
                   tier.featured && "scale-x-100",
                 )}
                 aria-hidden
@@ -56,7 +56,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                   <PriceWithVat amountExVat={tier.priceExVat} size="lg" />
                 </div>
               ) : (
-                <p className="mt-2 text-3xl font-semibold tracking-tight text-brand-red">
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--service-accent,#d42b2b)]">
                   {tier.price}
                 </p>
               )}
@@ -70,7 +70,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               <ul className="mt-6 flex-1 space-y-2">
                 {tier.highlights.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-foreground">
-                    <span className="mt-0.5 text-brand-red" aria-hidden="true">
+                    <span className="mt-0.5 text-[var(--service-accent,#d42b2b)]" aria-hidden="true">
                       ✓
                     </span>
                     <span>{item}</span>
@@ -83,10 +83,10 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-[transform,colors] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+                  "mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-[transform,colors] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
                   tier.featured
-                    ? "bg-brand-red text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light"
-                    : "border border-brand-red/40 text-foreground hover:bg-brand-red/10",
+                    ? "bg-brand-red text-white shadow-[0_0_16px_color-mix(in_srgb,var(--service-accent,#d42b2b)_25%,transparent)] hover:bg-brand-red-light"
+                    : "border border-[var(--service-accent,#d42b2b)]/40 text-foreground hover:bg-[var(--service-accent,#d42b2b)]/10",
                 )}
               >
                 סגרו את המחיר הזה בוואטסאפ

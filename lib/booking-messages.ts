@@ -22,6 +22,7 @@ import {
   isGroupBookingLead,
   type GroupMessageInput,
 } from "@/lib/studio-group-messaging";
+import { shapeProgressiveBooking } from "@/lib/progressive-booking-message";
 import {
   buildClosingMessage,
   PREMIUM_THRESHOLD,
@@ -65,6 +66,13 @@ export type BookingWhatsAppBodyOptions = {
   ycRecordingType?: string | null;
   ycMobileGeo?: string | null;
   ycAtmosphere?: string | null;
+  ycCelebrant?: string | null;
+  ycWizardDepth?: "quick" | "standard" | "full" | null;
+  ycScenarioChosen?: boolean | null;
+  ycScenarioHint?: "unsure" | null;
+  ycDeferred?: string | null;
+  ycRecipientHint?: string | null;
+  ycConfigVersion?: number | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -122,7 +130,42 @@ export function buildBookingWhatsAppBody({
   ycRecordingType,
   ycMobileGeo,
   ycAtmosphere,
+  ycCelebrant,
+  ycWizardDepth,
+  ycScenarioChosen,
+  ycScenarioHint,
+  ycDeferred,
+  ycRecipientHint,
+  ycConfigVersion,
 }: BookingWhatsAppBodyOptions): string {
+  const progressive = shapeProgressiveBooking({
+    intent,
+    serviceLabel,
+    summaryLines,
+    contact,
+    totalEstimate,
+    priceExVat,
+    packageLabel,
+    customerNeed,
+    utmSource,
+    timing,
+    includeTrustFooter,
+    bookCategory,
+    closerServiceId,
+    ycSchedule,
+    ycPackage,
+    ycIntent,
+    ycStep,
+    ycForm,
+    ycPurpose,
+    studioLead,
+    ycWizardDepth,
+    ycScenarioChosen,
+    ycScenarioHint,
+    ycDeferred,
+    ycRecipientHint,
+  });
+
   const resolvedCloser =
     closerServiceId ??
     (bookCategory ? BOOK_CLOSER_SERVICE[bookCategory] : undefined);
@@ -135,6 +178,7 @@ export function buildBookingWhatsAppBody({
   const extraBlocks: string[] = [];
   let resolvedPriceExVat = priceExVat;
   let resolvedTotal = totalEstimate;
+  const narrativeSummary = progressive?.summaryLines ?? summaryLines;
 
   if (studioLead) {
     const participants = buildStudioParticipantsBlock(studioLead);
@@ -159,7 +203,7 @@ export function buildBookingWhatsAppBody({
       atmosphere: ycAtmosphere ?? undefined,
     };
 
-    if (isGroupBookingLead(groupInput)) {
+    if (isGroupBookingLead(groupInput) && !progressive?.skipGroupEnrichment) {
       extraBlocks.push(...buildBookGroupEnrichmentBlock(groupInput));
     }
 
@@ -177,10 +221,11 @@ export function buildBookingWhatsAppBody({
     packageLabel: packageLabel ?? serviceLabel,
     priceExVat: resolvedPriceExVat,
     totalWithVat: resolvedTotal,
-    summaryLines,
+    summaryLines: narrativeSummary,
     source: utmSource,
     timing: resolvedTiming,
-    includeTrustFooter,
+    includeTrustFooter: progressive?.includeTrustFooter ?? includeTrustFooter,
+    progressiveNarrative: progressive?.progressiveNarrative ?? false,
     closerServiceId: resolvedCloser,
     ycStep: ycStep ?? 1,
     ycSchedule,
@@ -198,6 +243,13 @@ export function buildBookingWhatsAppBody({
     ycRecordingType,
     ycMobileGeo,
     ycAtmosphere,
+    ycCelebrant,
+    ycWizardDepth,
+    ycScenarioChosen,
+    ycScenarioHint,
+    ycDeferred,
+    ycRecipientHint,
+    ycConfigVersion,
     extraBlocks,
   });
 }

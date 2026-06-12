@@ -77,13 +77,13 @@ function HeaderMainBar({
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
           <Link
             href="/book"
-            className="hidden min-h-11 items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold transition-colors hover:border-brand-red/40 hover:text-brand-red md:inline-flex"
+            className="hidden min-h-11 items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-95 md:inline-flex"
           >
             הזמנה
           </Link>
           <Link
             href="/contact"
-            className="hidden min-h-11 items-center rounded-lg bg-brand-red px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-red-light md:inline-flex"
+            className="hidden min-h-11 items-center rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-fast ease-luxury hover:shadow-md active:scale-95 md:inline-flex"
           >
             צור קשר
           </Link>
@@ -122,7 +122,7 @@ export default function Header() {
           className="relative sticky top-0 z-50 border-b border-border [contain:layout_style]"
         >
           <div
-            className="pointer-events-none absolute inset-0 -z-10 bg-background/95 supports-[backdrop-filter]:bg-background/90 supports-[backdrop-filter]:backdrop-blur-md"
+            className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
             aria-hidden
           />
 

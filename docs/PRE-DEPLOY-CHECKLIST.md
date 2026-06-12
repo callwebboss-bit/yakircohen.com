@@ -1,6 +1,6 @@
 # רשימת בדיקה לפני פריסה סופית
 
-עודכן: מאי 2026 · פרויקט `yakircohen-site`
+עודכן: יוני 2026 · פרויקט `yakircohen-site`
 
 ## פריסה (GitHub + Cloudflare)
 
@@ -10,8 +10,8 @@
 
 | בדיקה | סטטוס |
 |--------|--------|
-| `npm run build` (אחרי מחיקת `.next`) | ✅ עובר |
-| ~91 עמודים סטטיים | ✅ |
+| `npm run build:full` | ✅ עובר — 145 דפים + Pagefind |
+| `npm run verify:seo` | ✅ audit:seo-titles, schema, orphans |
 | Breadcrumbs גלובליים + JSON-LD | ✅ |
 | `npm run audit:headings` | הרץ לפני פריסה |
 | `sitemap.xml` + `robots.txt` | ✅ |
@@ -38,11 +38,11 @@
 
 ### חובה / מומלץ מאוד
 
-- [ ] **פריסה ל-Cloudflare Pages** — ראה [DEPLOY.md](./DEPLOY.md) · חיבור דומיין `yakircohen.com`
+- [ ] **פריסה ל-Vercel** — ראה [DEPLOY.md](./DEPLOY.md) · חיבור דומיין `yakircohen.com` דרך Cloudflare DNS
 - [ ] **בדיקת redirects** — דגימה מ-Google Search Console / Analytics (נתיבים ישנים)
 - [ ] **טופס צור קשר** — היום מוביל לוואטסאפ; אין API לשליחת מייל — לוודא שזה מכוון
 - [ ] **מספר וואטסאפ** — `lib/constants.ts` (`058-7555456`)
-- [ ] **Google Search Console** — שליחת sitemap אחרי עלייה לאוויר
+- [ ] **Google Search Console** — [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
 - [ ] **בדיקה ידנית בנייד** — דף בית, פודקאסט, DJ, contact, מחשבונים
 
 ### SEO ותוכן
@@ -51,11 +51,12 @@
 - [ ] עמודים דקים יחסית (registry בלבד): `/events/host`, חלק מעמודי וידאו/צילום — אופציונלי להעשיר
 - [ ] **Spotify בקריינות** — פלייליסטים מוטמעים; לוודא שהם שלך ולא דמו
 
-### אנליטיקס ומעקב (חסר בקוד כרגע)
+### אנליטיקס ומעקב
 
-- [ ] Google Analytics 4 / Tag Manager — להוסיף ב-`app/layout.tsx` אם צריך
+- [x] Google Analytics 4 — `G-PVW4GMPNS4` ב-`app/layout.tsx`
 - [ ] Meta Pixel — אם יש קמפיינים בפייסבוק
 - [ ] המרות וואטסאפ — UTM כבר בקישורים (`utm_campaign`)
+- [ ] IndexNow — `CRON_SECRET` + Deploy Hook — [DEPLOY.md §8](./DEPLOY.md#8-indexnow-אחרי-deploy)
 
 ### איכות קוד (לא חוסם build)
 

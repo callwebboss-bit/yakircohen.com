@@ -93,10 +93,10 @@ const DesktopDropdown = memo(function DesktopDropdown({
       <button
         type="button"
         className={cn(
-          "inline-flex min-h-11 items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+          "group relative inline-flex min-h-11 items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95",
           isActive
-            ? "text-brand-red"
-            : "text-foreground/90 hover:bg-surface hover:text-brand-red",
+            ? "text-[var(--service-accent,#d42b2b)]"
+            : "text-foreground/90 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
         )}
         aria-expanded={open}
         aria-haspopup="true"
@@ -107,6 +107,13 @@ const DesktopDropdown = memo(function DesktopDropdown({
       >
         {category.label}
         <ChevronIcon open={open} />
+        <span
+          className={cn(
+            "pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
+            (isActive || open) && "scale-x-100",
+          )}
+          aria-hidden
+        />
       </button>
       {open ? (
         <div
@@ -116,7 +123,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
           <Link
             href={category.href}
             role="menuitem"
-            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-red hover:bg-surface"
+            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-[var(--service-accent,#d42b2b)] transition-all duration-fast ease-luxury hover:bg-surface active:scale-[0.98]"
             onClick={() => setOpen(false)}
           >
             {category.label} - סקירה
@@ -129,7 +136,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
                   <Link
                     href={child.href}
                     role="menuitem"
-                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-colors hover:bg-surface hover:text-brand-red"
+                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
                     onClick={() => setOpen(false)}
                   >
                     <span className="font-medium">{child.label}</span>
@@ -166,14 +173,22 @@ function MobileAccordion({
       <button
         type="button"
         className={cn(
-          "flex min-h-[3.75rem] w-full items-center gap-3 py-3.5 text-start",
-          isActive ? "text-brand-red" : "text-foreground",
+          "flex min-h-[3.75rem] w-full items-center gap-3 py-3.5 text-start transition-all duration-fast ease-luxury active:scale-[0.98]",
+          isActive ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
         )}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
         {icon && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-surface text-lg" aria-hidden>
+          <span
+            className={cn(
+              "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-lg transition-colors duration-fast ease-luxury",
+              isActive
+                ? "bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_15%,transparent)]"
+                : "bg-surface",
+            )}
+            aria-hidden
+          >
             {icon}
           </span>
         )}
@@ -186,7 +201,7 @@ function MobileAccordion({
             <li key={child.href}>
               <Link
                 href={child.href}
-                className="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 hover:bg-surface hover:text-brand-red"
+                className="flex min-h-11 flex-col justify-center rounded-lg px-3 py-2 transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-[0.97]"
                 onClick={onNavigate}
               >
                 <span className="text-sm font-medium text-foreground">{child.label}</span>
@@ -220,7 +235,7 @@ export function SiteNavMenuButton({
     <button
       id={buttonId}
       type="button"
-      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-colors hover:border-brand-red/50 hover:text-brand-red lg:hidden"
+      className="touch-target inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95 lg:hidden"
       aria-expanded={menuOpen}
       aria-controls={drawerId}
       aria-label={menuOpen ? "סגירת תפריט" : "פתיחת תפריט"}
@@ -229,19 +244,19 @@ export function SiteNavMenuButton({
       <span className="relative block h-5 w-6" aria-hidden>
         <span
           className={cn(
-            "absolute start-0 top-0 block h-0.5 w-6 bg-current transition-transform duration-300",
+            "absolute start-0 top-0 block h-0.5 w-6 bg-current transition-transform duration-normal ease-luxury",
             menuOpen && "top-2 rotate-45",
           )}
         />
         <span
           className={cn(
-            "absolute start-0 top-2 block h-0.5 w-6 bg-current transition-opacity duration-300",
+            "absolute start-0 top-2 block h-0.5 w-6 bg-current transition-opacity duration-normal ease-luxury",
             menuOpen && "opacity-0",
           )}
         />
         <span
           className={cn(
-            "absolute start-0 top-4 block h-0.5 w-6 bg-current transition-transform duration-300",
+            "absolute start-0 top-4 block h-0.5 w-6 bg-current transition-transform duration-normal ease-luxury",
             menuOpen && "top-2 -rotate-45",
           )}
         />
@@ -267,15 +282,23 @@ export function SiteNavDesktop() {
       ))}
       <Link
         href="/start"
-        className="min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
+        className="group relative min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)] active:scale-95"
       >
         איך זה עובד
+        <span
+          className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
+          aria-hidden
+        />
       </Link>
       <Link
         href="/blog"
-        className="min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-colors hover:text-brand-red"
+        className="group relative min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)] active:scale-95"
       >
         מגזין
+        <span
+          className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
+          aria-hidden
+        />
       </Link>
     </nav>
   );
@@ -336,11 +359,11 @@ export function SiteNavMobileDrawer({
       aria-modal="true"
       aria-hidden={!menuOpen}
       className={cn(
-        "fixed inset-0 z-[60] flex h-dvh max-h-dvh flex-col bg-background lg:hidden",
-        "transition-[opacity,visibility] duration-250",
+        "fixed inset-0 z-[60] flex h-dvh max-h-dvh flex-col bg-background shadow-lg lg:hidden",
+        "transition-[opacity,transform,visibility] duration-normal ease-luxury",
         menuOpen
-          ? "pointer-events-auto visible opacity-100"
-          : "pointer-events-none invisible opacity-0",
+          ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
+          : "pointer-events-none invisible translate-y-4 scale-[0.98] opacity-0",
       )}
     >
       {/* ── Header ── */}
@@ -356,7 +379,7 @@ export function SiteNavMobileDrawer({
         <button
           type="button"
           onClick={onCloseMenu}
-          className="touch-target flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-surface hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="touch-target flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           aria-label="סגירת תפריט"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
@@ -389,7 +412,7 @@ export function SiteNavMobileDrawer({
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-surface hover:text-brand-red"
+                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-[0.97]"
                 onClick={onCloseMenu}
               >
                 {link.label}
@@ -411,14 +434,14 @@ export function SiteNavMobileDrawer({
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/book"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-colors hover:border-brand-red/40 hover:text-brand-red"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             הזמנה
           </Link>
           <Link
             href="/contact"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-brand-red text-sm font-bold text-white transition-colors hover:bg-brand-red-light"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] text-sm font-bold text-white transition-all duration-fast ease-luxury active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             צור קשר

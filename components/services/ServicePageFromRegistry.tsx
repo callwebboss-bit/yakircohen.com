@@ -63,6 +63,7 @@ export default function ServicePageFromRegistry({
       ) : null}
       <ServicePageLayout
       title={service.title}
+      category={service.category}
       subtitle={service.subtitle}
       features={service.features}
       whatsappText={service.whatsappText}

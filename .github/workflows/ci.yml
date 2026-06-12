@@ -39,6 +39,15 @@ jobs:
       - name: Audit headings
         run: npm run audit:headings
 
+      - name: Audit SEO titles
+        run: npm run audit:seo-titles
+
+      - name: Audit schema
+        run: npm run audit:schema
+
+      - name: Audit orphans
+        run: npm run audit:orphans
+
       - name: Audit pricing
         run: npm run audit:pricing
 

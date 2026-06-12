@@ -41,7 +41,7 @@ export default function MobileStickyCta() {
           href={`tel:${CONTACT_PHONE_E164}`}
           className={cn(
             "inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-surface px-3 text-sm font-semibold text-foreground",
-            "transition-colors hover:border-brand-red/40 hover:text-brand-red",
+            "transition-[color,border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]",
           )}
         >
           חיוג מהיר
@@ -51,8 +51,8 @@ export default function MobileStickyCta() {
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-red px-3 text-sm font-semibold text-white",
-            "transition-colors hover:bg-brand-red-light",
+            "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[var(--service-accent,#d42b2b)] px-3 text-sm font-semibold text-white",
+            "transition-transform duration-fast ease-luxury active:scale-[0.97]",
           )}
         >
           <WhatsAppIcon size={18} />

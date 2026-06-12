@@ -203,6 +203,8 @@ export default function OnlineAiPricingPageContent() {
 
   return (
     <ServicePageLayout
+      category="ai"
+      pagePath="/online/online-ai-pricing"
       title="מחירון שירותי AI מקוונים"
       subtitle="תמחור שקוף לעריכה ושחזור קול מרחוק — המחיר הסופי תלוי באורך ההקלטה ובמצב הקובץ."
       features={[

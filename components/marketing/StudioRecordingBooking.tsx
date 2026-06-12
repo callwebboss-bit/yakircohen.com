@@ -21,6 +21,7 @@ import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -49,7 +50,6 @@ import {
 } from "@/lib/studio-booking-message";
 import {
   buildGroupFamilyPitchBlock,
-  buildPlaybackReadyPitch,
   getGroupMessageContext,
   isGroupBookingLead,
   type GroupMessageInput,
@@ -70,7 +70,13 @@ import {
   validateBookingLead,
   validateScheduleWindow,
 } from "@/lib/form-validation";
-import { parseStudioFormDraft, type StudioFormDraft } from "@/lib/studio-form-draft";
+import {
+  buildStudioDeferredFields,
+  isEventCelebrantRecordingType,
+  parseStudioFormDraft,
+  type StudioFormDraft,
+  type WizardDepthId,
+} from "@/lib/studio-form-draft";
 import {
   CONSULTATION_PACKAGES,
   RECORDING_ATMOSPHERES,
@@ -87,9 +93,20 @@ import {
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["בחירה", "חבילה", "פרטים ואישור"] as const;
+
+const WIZARD_DEPTH_OPTIONS: readonly {
+  id: WizardDepthId;
+  label: string;
+  detail: string;
+}[] = [
+  { id: "quick", label: "מהיר", detail: "רק החיוני — נשלים בוואטסאפ" },
+  { id: "standard", label: "רגיל", detail: "מאוזן — ברירת מחדל" },
+  { id: "full", label: "מלא", detail: "כל הפרטים מראש" },
+];
 
 const FAMILY_QUICK_PICKS: readonly {
   id: RecordingTypeId;
@@ -119,6 +136,22 @@ function applyRecordingTypeToForm(
 
 function clampCount(n: number): number {
   return Math.max(0, Math.min(30, n));
+}
+
+function resolveRecipientHint(childrenCount: number, recorderCount: number): string | null {
+  if (childrenCount > 0) return "mom";
+  if (recorderCount >= 2) return "group";
+  return "booker";
+}
+
+function BookReassuranceLine({ wizardDepth }: { wizardDepth: WizardDepthId }) {
+  return (
+    <p className="text-center text-xs leading-relaxed text-muted-foreground">
+      {wizardDepth === "quick"
+        ? "אפשר לשלוח עכשיו ולסיים את הפרטים בוואטסאפ — בלי התחייבות"
+        : "יקיר עונה בדרך כלל בערב · אפשר גם רק לשלוח ולהמשיך מכאן"}
+    </p>
+  );
 }
 
 function ParticipantCounter({
@@ -197,8 +230,11 @@ export default function StudioRecordingBooking({
 
   const initialForm = useMemo<FormState>(
     () => ({
+      wizardDepth: "standard",
+      scenarioChoice: "",
       recordingType: "",
       songName: "",
+      celebrantName: "",
       referrer: "",
       atmosphere: "",
       packageId: "",
@@ -257,6 +293,7 @@ export default function StudioRecordingBooking({
   useBookWizardStep("studio", step);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
+  const showCelebrantField = isEventCelebrantRecordingType(form.recordingType);
   const typeFlow = getRecordingTypeFlow(form.recordingType);
   const emotionalId = emotionalLabelToId(initialEmotionalLabel);
   const mobileExVat =
@@ -296,6 +333,50 @@ export default function StudioRecordingBooking({
       serviceId: "recording",
     });
 
+  const classicFallbackPrice =
+    STUDIO_RECORDING_PACKAGES.find((p) => p.id === "classic")?.price ?? 990;
+  const estimateSubtotal =
+    (activePackage?.price ?? classicFallbackPrice) + upgradesTotal + mobileExVat;
+
+  const groupScenariosForDisplay =
+    !isConsultation && recorderCount >= 2 && groupPricingEligible
+      ? calcStudioScenarios({
+          baseExVat: estimateSubtotal,
+          recorderCount,
+          isMotzash,
+          vatRate: VAT_RATE,
+          packageId: form.packageId || null,
+          recordingType: form.recordingType,
+          serviceId: "recording",
+        })
+      : null;
+
+  const groupScenarios =
+    !isConsultation && activePackage && recorderCount >= 2 && groupPricingEligible
+      ? calcStudioScenarios({
+          baseExVat: baseSubtotal,
+          recorderCount,
+          isMotzash,
+          vatRate: VAT_RATE,
+          packageId: form.packageId || null,
+          recordingType: form.recordingType,
+          serviceId: "recording",
+        })
+      : null;
+
+  const resolvedGroupScenario =
+    form.scenarioChoice === "pairs"
+      ? "pairs"
+      : (groupScenarios?.recommended?.id ?? "pairs");
+
+  const isQuickWizard = form.wizardDepth === "quick";
+  const isFullWizard = form.wizardDepth === "full";
+  const deferredFields = buildStudioDeferredFields(
+    form,
+    form.wizardDepth,
+    showCelebrantField,
+  );
+
   const studioLeadContext: StudioLeadMessageContext | null = isConsultation
     ? null
     : {
@@ -310,39 +391,8 @@ export default function StudioRecordingBooking({
         selectedUpgrades: form.selectedUpgrades,
         isMotzash,
         vatRate: VAT_RATE,
-        recommendedScenario: "pairs",
+        recommendedScenario: resolvedGroupScenario,
       };
-
-  const classicFallbackPrice =
-    STUDIO_RECORDING_PACKAGES.find((p) => p.id === "classic")?.price ?? 990;
-  const estimateSubtotal =
-    (activePackage?.price ?? classicFallbackPrice) + upgradesTotal + mobileExVat;
-
-  const groupScenariosForDisplay =
-    studioLeadContext && recorderCount >= 2 && groupPricingEligible
-      ? calcStudioScenarios({
-          baseExVat: estimateSubtotal,
-          recorderCount,
-          isMotzash,
-          vatRate: VAT_RATE,
-          packageId: form.packageId || null,
-          recordingType: form.recordingType,
-          serviceId: "recording",
-        })
-      : null;
-
-  const groupScenarios =
-    activePackage && studioLeadContext && recorderCount >= 2 && groupPricingEligible
-      ? calcStudioScenarios({
-          baseExVat: baseSubtotal,
-          recorderCount,
-          isMotzash,
-          vatRate: VAT_RATE,
-          packageId: form.packageId || null,
-          recordingType: form.recordingType,
-          serviceId: "recording",
-        })
-      : null;
 
   const total =
     groupScenarios?.recommended?.subtotalExVat ??
@@ -387,6 +437,31 @@ export default function StudioRecordingBooking({
     }
   };
 
+  const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
+  const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
+
+  const replyStudioContext: ReplyContext | null = isConsultation
+    ? null
+    : {
+        leadName: sanitizeLeadText(form.name, 60) || undefined,
+        recorderName: sanitizeLeadText(form.celebrantName, 60) || undefined,
+        song: sanitizeLeadText(form.songName, 80) || undefined,
+        occasion: recordingLabel || undefined,
+        leadDate: form.date || undefined,
+        leadTime: form.time || undefined,
+        scheduleWindow: form.scheduleWindow || null,
+        recorderCount: Math.max(recorderCount, childrenCount > 0 ? recorderCount || 1 : recorderCount || 1),
+        childrenCount,
+        adultsCount,
+        intent: "continue_chat",
+        recordingType: form.recordingType,
+      };
+
+  const showPreSubmitReplyStudio =
+    !!replyStudioContext &&
+    isFullWizard &&
+    (routeId === "family-gifts" || childrenCount > 0);
+
   const upgradeItems = STUDIO_RECORDING_UPGRADES.map((u) => ({
     id: u.id,
     name: u.name,
@@ -394,12 +469,13 @@ export default function StudioRecordingBooking({
     price: u.price,
     badge: u.badge,
   }));
-  const recordingLabel = RECORDING_TYPES.find((t) => t.id === form.recordingType)?.label ?? "";
-  const atmosphereLabel = RECORDING_ATMOSPHERES.find((a) => a.id === form.atmosphere)?.title ?? "";
 
   const canAdvanceStep0 =
     form.recordingType !== "" &&
-    (isConsultation || typeFlow.hideAtmosphere || form.atmosphere !== "");
+    (isQuickWizard ||
+      isConsultation ||
+      typeFlow.hideAtmosphere ||
+      form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
   const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
 
@@ -434,6 +510,9 @@ export default function StudioRecordingBooking({
     { label: "סוג", value: recordingLabel },
     ...(form.songName && !isConsultation
       ? [{ label: "שיר", value: sanitizeLeadText(form.songName, 80) }]
+      : []),
+    ...(form.celebrantName && showCelebrantField
+      ? [{ label: "שם החוגג/ת", value: sanitizeLeadText(form.celebrantName, 60) }]
       : []),
     ...(form.referrer
       ? [{ label: "הופנה על ידי", value: sanitizeLeadText(form.referrer, 60) }]
@@ -500,8 +579,17 @@ export default function StudioRecordingBooking({
     ycRoute: routeId,
     ycEmotional: emotionalId,
     ycRecordingType: form.recordingType || null,
+    ycCelebrant:
+      showCelebrantField && form.celebrantName.trim()
+        ? sanitizeLeadText(form.celebrantName, 60)
+        : null,
     ycMobileGeo: form.location === "mobile" && form.mobileGeo ? form.mobileGeo : null,
     ycAtmosphere: form.atmosphere || null,
+    ycWizardDepth: form.wizardDepth,
+    ycScenarioChosen: form.scenarioChoice === "pairs" ? true : null,
+    ycScenarioHint: form.scenarioChoice === "unsure" ? ("unsure" as const) : null,
+    ycDeferred: deferredFields,
+    ycRecipientHint: resolveRecipientHint(childrenCount, recorderCount),
   };
 
   const previewBody =
@@ -633,6 +721,16 @@ export default function StudioRecordingBooking({
       return;
     }
 
+    if (
+      showCelebrantField &&
+      !form.celebrantName.trim() &&
+      !isQuickWizard &&
+      typeof window !== "undefined" &&
+      !window.confirm("לא הזנת שם חוגג/ת (מי יקליט). להמשיך בכל זאת?")
+    ) {
+      return;
+    }
+
     handleAction(intent);
   };
 
@@ -648,6 +746,7 @@ export default function StudioRecordingBooking({
         routeId={routeId ?? (initialGiftMode ? "family-gifts" : null)}
         recordingType={form.recordingType || null}
         atmosphere={form.atmosphere || null}
+        replyStudioContext={replyStudioContext ?? undefined}
         onNewBooking={resetWizard}
       />
     );
@@ -683,6 +782,7 @@ export default function StudioRecordingBooking({
       </p>
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת הקלטה" />
+      <BookReassuranceLine wizardDepth={form.wizardDepth} />
 
       {/* Step 0: recording type + atmosphere */}
       {step === 0 && (
@@ -696,12 +796,48 @@ export default function StudioRecordingBooking({
                 בחרו סוג הקלטה
               </h2>
               <StudioValueChips />
+              <div>
+                <p className="mb-2 text-xs font-semibold text-muted-foreground">
+                  כמה זמן יש לכם עכשיו?
+                </p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  {WIZARD_DEPTH_OPTIONS.map((opt) => {
+                    const active = form.wizardDepth === opt.id;
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => patchForm({ wizardDepth: opt.id })}
+                        className={cn(
+                          "rounded-xl border px-3 py-3 text-start text-sm transition-colors",
+                          active
+                            ? "border-brand-red bg-brand-red/10 text-brand-red"
+                            : "border-border/60 hover:border-brand-red/40",
+                        )}
+                        aria-pressed={active}
+                      >
+                        <span className="block font-semibold">{opt.label}</span>
+                        <span className="mt-0.5 block text-xs text-muted-foreground">
+                          {opt.detail}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
               <BookingStepGuide
-                lines={[
-                  "בחרו סוג הקלטה - אפשר לשנות בכל שלב",
-                  "שם השיר עוזר לנו להתכונן מראש",
-                  "האווירה קובעת את אופי ההפקה",
-                ]}
+                lines={
+                  isQuickWizard
+                    ? [
+                        "בחרו סוג הקלטה — נשלים שיר, שעה ואווירה בוואטסאפ",
+                        "מספר מקליטים עוזר להערכת מחיר",
+                      ]
+                    : [
+                        "בחרו סוג הקלטה - אפשר לשנות בכל שלב",
+                        "שם השיר עוזר לנו להתכונן מראש",
+                        "האווירה קובעת את אופי ההפקה",
+                      ]
+                }
               />
             </header>
 
@@ -814,6 +950,26 @@ export default function StudioRecordingBooking({
                 />
               </div>
             </div>
+
+            {showCelebrantField ? (
+              <div>
+                <label htmlFor="celebrant-name" className="mb-1.5 block text-xs font-semibold">
+                  שם החוגג/ת — מי יקליט ויקבל הנחיות
+                </label>
+                <input
+                  id="celebrant-name"
+                  type="text"
+                  value={form.celebrantName}
+                  onChange={(e) => patchForm({ celebrantName: e.target.value })}
+                  placeholder="למשל: יונתן / מיה / דודי"
+                  autoComplete="off"
+                  className={bookFieldClass}
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  השם יופיע בהקדשות פלייבק ובהודעות להורים
+                </p>
+              </div>
+            ) : null}
 
             {!isConsultation && (
               <div className="space-y-3">
@@ -1032,12 +1188,18 @@ export default function StudioRecordingBooking({
 
             {!isConsultation && (
               <>
-                <BookRecordingVsProduction />
-                <BookUpsellSection
-                  items={upgradeItems}
-                  selected={selectedUpgradeSet}
-                  onToggle={toggleUpgrade}
-                />
+                {!isQuickWizard ? <BookRecordingVsProduction /> : null}
+                {!isQuickWizard ? (
+                  <BookUpsellSection
+                    items={upgradeItems}
+                    selected={selectedUpgradeSet}
+                    onToggle={toggleUpgrade}
+                  />
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    תוספות אופציונליות — נציע בוואטסאפ לפי הצורך
+                  </p>
+                )}
               </>
             )}
 
@@ -1068,6 +1230,16 @@ export default function StudioRecordingBooking({
                   <li>
                     <span className="font-medium text-foreground">שיר: </span>
                     {form.songName}
+                  </li>
+                )}
+                {showCelebrantField && (
+                  <li>
+                    <span className="font-medium text-foreground">מקליט/ה (חוגג/ת): </span>
+                    {form.celebrantName.trim() ? (
+                      form.celebrantName
+                    ) : (
+                      <span className="text-amber-700">לא הוזן — מומלץ למלא לפני שליחה</span>
+                    )}
                   </li>
                 )}
                 {form.referrer && (
@@ -1175,6 +1347,7 @@ export default function StudioRecordingBooking({
                   onDateChange={(value) => patchForm({ date: value })}
                   onTimeChange={(value) => patchForm({ time: value })}
                   minDate={today}
+                  windowsOnly={isQuickWizard}
                   errors={{
                     scheduleWindow: errors.scheduleWindow,
                     date: errors.date,
@@ -1269,15 +1442,24 @@ export default function StudioRecordingBooking({
                 <BookWhatHappensNext />
                 <BookTrustBadges />
 
-                <NeedsDiscoveryStep
-                  value={form.customerNeed}
-                  onChange={(v) => patchForm({ customerNeed: v })}
-                  id="sr-customer-need"
-                />
+                {!isQuickWizard ? (
+                  <NeedsDiscoveryStep
+                    value={form.customerNeed}
+                    onChange={(v) => patchForm({ customerNeed: v })}
+                    id="sr-customer-need"
+                  />
+                ) : null}
               </div>
 
               {previewBody ? (
                 <BookingWhatsAppPreview messageBody={previewBody} />
+              ) : null}
+
+              {showPreSubmitReplyStudio ? (
+                <BookReplyStudio
+                  context={replyStudioContext!}
+                  onCopy={() => window.alert("הועתק ללוח — אפשר להדביק בוואטסאפ")}
+                />
               ) : null}
 
               {groupMsgCtx && groupMessageInput ? (
@@ -1302,19 +1484,7 @@ export default function StudioRecordingBooking({
                         )
                       }
                     >
-                      💡 העתק לקבוצה המשפחתית
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-lg border border-border bg-surface px-3 py-2 text-xs font-medium hover:border-brand-red/40"
-                      onClick={() =>
-                        void copyGroupText(
-                          buildPlaybackReadyPitch(groupMessageInput),
-                          "טקסט פלייבק מוכן הועתק — לשלוח אחרי שהפלייבק מוכן",
-                        )
-                      }
-                    >
-                      🎵 העתק פלייבק מוכן
+                      💡 העתק פיץ' לקבוצה (מחירון)
                     </button>
                   </div>
                 </div>

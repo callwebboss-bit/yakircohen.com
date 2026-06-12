@@ -50,7 +50,7 @@ export default function LazyClickEmbed({
         <button
           type="button"
           onClick={() => setActive(true)}
-          className="group absolute inset-0 flex w-full flex-col items-center justify-center gap-5 bg-black/92 px-6 text-center focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-red"
+          className="group absolute inset-0 flex w-full flex-col items-center justify-center gap-5 bg-black/92 px-6 text-center transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
           aria-label={`${hint}: ${title}`}
         >
           <p className="text-[0.65rem] font-bold tracking-[0.25em] text-white/35 uppercase">
@@ -59,8 +59,8 @@ export default function LazyClickEmbed({
           <span
             className={cn(
               "flex h-20 w-20 items-center justify-center rounded-full",
-              "bg-brand-red shadow-[0_0_48px_rgba(212,43,43,0.55)]",
-              "transition-[transform,box-shadow] duration-200 group-hover:scale-110 group-hover:shadow-[0_0_64px_rgba(212,43,43,0.75)]",
+              "bg-[var(--service-accent,#d42b2b)] shadow-[0_0_48px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)]",
+              "transition-[transform,box-shadow] duration-normal ease-luxury group-hover:scale-110 group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,#d42b2b)_75%,transparent)]",
             )}
             aria-hidden
           >

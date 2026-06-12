@@ -52,7 +52,7 @@ export default function ServicePricingBlock({
                 className={cn(
                   "relative flex flex-col rounded-xl border p-6",
                   tier.featured
-                    ? "border-brand-red/50 bg-brand-red/5"
+                    ? "border-[var(--service-accent,#d42b2b)]/50 bg-[var(--service-accent,#d42b2b)]/5"
                     : "border-border bg-surface",
                 )}
               >
@@ -68,7 +68,7 @@ export default function ServicePricingBlock({
                   {tier.priceExVat !== undefined ? (
                     <PriceWithVat amountExVat={tier.priceExVat} size="md" compact />
                   ) : (
-                    <p className="text-xl font-semibold text-brand-red">{tier.price}</p>
+                    <p className="text-xl font-semibold text-[var(--service-accent,#d42b2b)]">{tier.price}</p>
                   )}
                 </div>
                 {tier.priceExVat !== undefined ? (

@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { parseStudioFormDraft, type StudioFormDraft } from "@/lib/studio-form-draft";
+import {
+  buildStudioDeferredFields,
+  parseStudioFormDraft,
+  type StudioFormDraft,
+} from "@/lib/studio-form-draft";
 
 const INITIAL: StudioFormDraft = {
+  wizardDepth: "standard",
+  scenarioChoice: "",
   recordingType: "",
   songName: "",
+  celebrantName: "",
   referrer: "",
   atmosphere: "",
   packageId: "",
@@ -64,6 +71,15 @@ describe("parseStudioFormDraft", () => {
     assert.equal(result!.scheduleWindow, "");
   });
 
+  it("parses celebrantName", () => {
+    const result = parseStudioFormDraft(
+      { recordingType: "bar_mitzvah_speech", celebrantName: "יונתן" },
+      INITIAL,
+    );
+    assert.ok(result);
+    assert.equal(result!.celebrantName, "יונתן");
+  });
+
   it("filters selectedUpgrades to string array only", () => {
     const result = parseStudioFormDraft(
       { selectedUpgrades: ["bts", 1, "express"] },
@@ -71,5 +87,24 @@ describe("parseStudioFormDraft", () => {
     );
     assert.ok(result);
     assert.deepEqual(result!.selectedUpgrades, []);
+  });
+
+  it("parses wizardDepth and scenarioChoice", () => {
+    const result = parseStudioFormDraft(
+      { wizardDepth: "quick", scenarioChoice: "unsure" },
+      INITIAL,
+    );
+    assert.ok(result);
+    assert.equal(result!.wizardDepth, "quick");
+    assert.equal(result!.scenarioChoice, "unsure");
+  });
+
+  it("buildStudioDeferredFields lists missing quick-path fields", () => {
+    const deferred = buildStudioDeferredFields(
+      { songName: "", time: "", atmosphere: "", celebrantName: "" },
+      "quick",
+      true,
+    );
+    assert.equal(deferred, "song,time,atmosphere,celebrant");
   });
 });

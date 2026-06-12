@@ -65,9 +65,7 @@ export default function BookAudienceRouter({
     persistUtmBoostFromUrl();
   }, []);
 
-  useEffect(() => {
-    if (!isCollapsed) setMoreOpen(false);
-  }, [isCollapsed]);
+  const showMoreOpen = !isCollapsed && moreOpen;
 
   function handleFullPath(route: BookAudienceRoute, emotionalLabel: string | null) {
     trackConversion("book_router_select", {
@@ -147,20 +145,20 @@ export default function BookAudienceRouter({
                   type="button"
                   onClick={() => setMoreOpen((v) => !v)}
                   className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-foreground hover:text-brand-red"
-                  aria-expanded={moreOpen}
+                  aria-expanded={showMoreOpen}
                 >
                   <span>כיוונים נוספים ({otherRoutes.length})</span>
                   <span
                     className={cn(
                       "text-xs transition-transform duration-150",
-                      moreOpen && "rotate-180",
+                      showMoreOpen && "rotate-180",
                     )}
                     aria-hidden="true"
                   >
                     ▾
                   </span>
                 </button>
-                {moreOpen ? (
+                {showMoreOpen ? (
                   <div className="grid grid-cols-1 gap-4 border-t border-border p-4 md:grid-cols-2">
                     {otherRoutes.map((route) => (
                       <BookAudienceCard

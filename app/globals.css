@@ -151,7 +151,7 @@
     .hover-lift:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
-      border-color: color-mix(in srgb, var(--color-brand-red) 40%, transparent);
+      border-color: color-mix(in srgb, var(--service-accent, var(--color-brand-red)) 40%, transparent);
     }
   }
 

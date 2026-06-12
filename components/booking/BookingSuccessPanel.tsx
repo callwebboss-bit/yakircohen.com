@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import type { BookCategoryId } from "@/lib/book-url";
+import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import { BOOK_THANK_YOU_SERVICE } from "@/lib/data/book-closer-map";
 import { BOOKING_POST_SUBMIT } from "@/lib/data/booking-shared";
+import { buildCloserDeepLink, decodeWhatsAppTextFromHref } from "@/lib/closer-deep-link";
+import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 import BookingCrossSellSection from "@/components/booking/BookingCrossSellSection";
 
@@ -17,6 +20,7 @@ type BookingSuccessPanelProps = {
   routeId?: string | null;
   recordingType?: string | null;
   atmosphere?: string | null;
+  replyStudioContext?: ReplyContext;
   className?: string;
 };
 
@@ -28,6 +32,7 @@ export default function BookingSuccessPanel({
   routeId,
   recordingType,
   atmosphere,
+  replyStudioContext,
   className,
 }: BookingSuccessPanelProps) {
   const copy = BOOKING_POST_SUBMIT[intent];
@@ -45,6 +50,19 @@ export default function BookingSuccessPanel({
   useEffect(() => {
     trackConversion("book_success_panel", bookCategory ? { category: bookCategory } : undefined);
   }, [bookCategory]);
+
+  const closerLinkAvailable = !!decodeWhatsAppTextFromHref(whatsappHref);
+
+  const copyCloserLink = useCallback(() => {
+    const body = decodeWhatsAppTextFromHref(whatsappHref);
+    if (!body) return;
+    const link = buildCloserDeepLink(body);
+    void navigator.clipboard.writeText(link).then(() => {
+      window.alert(
+        "קישור ל-Closer הועתק.\n\nפתח את yakir-closer.html מתיקיית local-tools והדבק את הקישור בשורת הכתובת — הליד ייטען אוטומטית.",
+      );
+    });
+  }, [whatsappHref]);
 
   return (
     <div
@@ -78,6 +96,15 @@ export default function BookingSuccessPanel({
             מה להכין לפני שנחזור
           </Link>
         ) : null}
+        {closerLinkAvailable ? (
+          <button
+            type="button"
+            onClick={copyCloserLink}
+            className="inline-flex rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
+          >
+            העתק קישור ל-Closer
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onNewBooking}
@@ -86,6 +113,18 @@ export default function BookingSuccessPanel({
           {copy.newBookingLabel}
         </button>
       </div>
+      {replyStudioContext ? (
+        <div className="mt-6 space-y-3 text-right">
+          <p className="text-sm font-semibold text-foreground">
+            יש לכם עם מי לדבר — הנה טקסט מוכן למשפחה / לילד אחרי הפלייבק
+          </p>
+          <BookReplyStudio
+            context={{ ...replyStudioContext, intent: intent || replyStudioContext.intent }}
+            compact
+            onCopy={() => window.alert("הועתק — אפשר לשלוח למשפחה / לילד")}
+          />
+        </div>
+      ) : null}
       <BookingCrossSellSection
         bookCategory={bookCategory}
         routeId={routeId}

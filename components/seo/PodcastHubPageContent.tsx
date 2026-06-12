@@ -38,6 +38,7 @@ import HubDualCta from "@/components/marketing/HubDualCta";
 import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { PODCAST_HUB_SEO } from "@/lib/seo/hub-pages";
 
 const bookCta = resolveServiceBookCta("podcast");
 
@@ -94,19 +95,6 @@ export const PODCAST_HUB_TRACKS = [
   },
 ] as const;
 
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: PODCAST_HUB_FAQS.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
-
 const VALUE_PILLARS = [
   {
     emoji: "🎙️",
@@ -136,12 +124,9 @@ export default function PodcastHubPageContent() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }}
-      />
       <ServicePageLayout
         {...heroProps}
+        category="podcast"
         title="אולפן פודקאסט מקצועי במודיעין"
         subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם פרק הקלטת פודקאסט מוכן לספוטיפיי ויוטיוב."
         features={PODCAST_HUB_HERO_FEATURES}
@@ -152,6 +137,9 @@ export default function PodcastHubPageContent() {
         showBookCtaInHero={Boolean(bookCta)}
         bookHref={bookCta?.bookHref}
         bookLabel={bookCta?.bookLabel}
+        pagePath="/podcast"
+        metaDescription={PODCAST_HUB_SEO.description}
+        faqs={PODCAST_HUB_FAQS}
       >
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />

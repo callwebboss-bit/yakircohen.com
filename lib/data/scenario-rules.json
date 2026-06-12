@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "unsure_group",
+      "match": { "scenarioHint": "unsure", "recordersMin": 2 },
+      "replyPath": "group_full",
+      "injectBundle": "first_reply"
+    },
+    {
+      "id": "hot_close",
+      "match": { "intent": "start_now" },
+      "replyPath": "hot_close",
+      "injectBundle": "first_reply"
+    },
+    {
+      "id": "parent_child",
+      "match": { "childrenMin": 1 },
+      "recipientHint": "mom",
+      "replyPath": "playback_parent_child"
+    },
+    {
+      "id": "group_pairs",
+      "match": { "recordersMin": 2, "scenarioChosen": true },
+      "replyPath": "group_full"
+    },
+    {
+      "id": "bar_mitzvah_parent",
+      "match": { "recordingType": "bar_mitzvah_speech", "hasCelebrant": true },
+      "recipientHint": "mom",
+      "replyPath": "playback_parent_child"
+    },
+    {
+      "id": "event_song_parent",
+      "match": { "recordingType": "event_song", "childrenMin": 1 },
+      "recipientHint": "mom",
+      "replyPath": "playback_parent_child",
+      "injectBundle": "playback_pack"
+    },
+    {
+      "id": "quick_continue",
+      "match": { "wizardDepth": "quick", "intent": "continue_chat" },
+      "replyPath": "soft_continue"
+    }
+  ],
+  "defaultReplyPath": "soft_continue"
+}

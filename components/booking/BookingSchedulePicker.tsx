@@ -18,6 +18,8 @@ type BookingSchedulePickerProps = {
   minDate: string;
   /** תאריך ושעה אופציונליים - נתאם בשיחה */
   dateOptional?: boolean;
+  /** רק חלונות זמן — בלי תאריך/שעה (quick path) */
+  windowsOnly?: boolean;
   errors?: {
     scheduleWindow?: string;
     date?: string;
@@ -34,6 +36,7 @@ export default function BookingSchedulePicker({
   onTimeChange,
   minDate,
   dateOptional = true,
+  windowsOnly = false,
   errors = {},
 }: BookingSchedulePickerProps) {
   const groupId = useId();
@@ -84,7 +87,13 @@ export default function BookingSchedulePicker({
         ) : null}
       </div>
 
-      {scheduleWindow ? (
+      {scheduleWindow && windowsOnly ? (
+        <p className="text-xs text-muted-foreground">
+          💬 תאריך ושעה מדויקים — נתאם יחד בוואטסאפ אחרי השליחה
+        </p>
+      ) : null}
+
+      {scheduleWindow && !windowsOnly ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label htmlFor={dateId} className="mb-1.5 block text-xs font-semibold">

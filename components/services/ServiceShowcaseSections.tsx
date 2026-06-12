@@ -127,6 +127,10 @@ export default function ServiceShowcaseSections({
               >
                 {videoHeading}
               </h2>
+              <span
+                className="mx-auto mt-3 block h-1 w-12 rounded-full bg-[var(--service-accent,#d42b2b)]"
+                aria-hidden="true"
+              />
               {videoDescription ? (
                 <p className="mt-3 text-sm text-muted-foreground">
                   {videoDescription}

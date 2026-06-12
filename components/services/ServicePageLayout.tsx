@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
@@ -16,6 +16,8 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
+import { resolveServiceAccentColor } from "@/lib/theme/service-accent";
+import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 
 export type ServicePageLayoutProps = {
   title: string;
@@ -52,6 +54,19 @@ export type ServicePageLayoutProps = {
   showHeroScrollLink?: boolean;
   /** מגביל נקודות ✓ מתחת ל-Hero (ברירת מחדל: 3) */
   maxHeroFeatures?: number;
+  /** קטגוריית השירות - קובעת את צבע ה-accent הקונטקסטואלי (--service-accent) */
+  category?: string;
+  /**
+   * נתיב העמוד (למשל "/events/host") - כשמסופק, מייצר JSON-LD משולב
+   * (Service + FAQPage) ומוזרק ל-<head>. השאר ריק אם הדף כבר מציג
+   * ServicePageSchema/FaqPageSchema משלו (דרך מרשם השירותים) כדי
+   * למנוע כפילות סכמות.
+   */
+  pagePath?: string;
+  /** תיאור לסכמת ה-Service; ברירת מחדל היא ה-subtitle */
+  metaDescription?: string;
+  /** שאלות נפוצות לסכמת FAQPage המקוננת */
+  faqs?: readonly { question: string; answer: string }[];
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -108,6 +123,8 @@ function ServiceHeroVisual({
         className="object-cover object-center"
         sizes="(max-width: 1024px) 100vw, 46rem"
         priority
+        fetchPriority="high"
+        loading="eager"
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
       />
@@ -125,15 +142,15 @@ function ServiceHeroVisual({
       {showVideoPlay ? (
         <Link
           href={scrollHref}
-          className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
           aria-label="גלילה לסרטון הדגמה"
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 ring-2 ring-brand-red/70 shadow-[0_0_40px_rgba(212,43,43,0.55)] sm:h-[4.5rem] sm:w-[4.5rem]">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[var(--service-accent,#d42b2b)] ring-2 ring-[var(--service-accent,#d42b2b)]/70 shadow-[0_0_40px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)] sm:h-[4.5rem] sm:w-[4.5rem]">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden>
               <path
                 d="M12 8L26 16L12 24V8Z"
-                fill="#D42B2B"
-                stroke="#D42B2B"
+                fill="currentColor"
+                stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinejoin="round"
               />
@@ -154,7 +171,7 @@ function ServiceHeroVisual({
   return (
     <Link
       href={scrollHref}
-      className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+      className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
       aria-label="גלילה לגלריית תמונות"
     >
       <div className="group-hover-scale-sm relative motion-reduce:transform-none">
@@ -189,7 +206,21 @@ export default function ServicePageLayout({
   bookLabel,
   showHeroScrollLink,
   maxHeroFeatures,
+  category,
+  pagePath,
+  metaDescription,
+  faqs,
 }: ServicePageLayoutProps) {
+  const accentColor = resolveServiceAccentColor(category);
+  const accentStyle = { "--service-accent": accentColor } as CSSProperties;
+  const pageEntitySchema = pagePath
+    ? buildServicePageEntitySchema({
+        pagePath,
+        title,
+        description: metaDescription ?? subtitle,
+        faqs,
+      })
+    : null;
   const autoBookCta = bookSlug ? resolveServiceBookCta(bookSlug) : null;
   const resolvedBookHref = bookHref ?? autoBookCta?.bookHref;
   const resolvedBookLabel = bookLabel ?? autoBookCta?.bookLabel ?? "הזמנה מקוונת";
@@ -223,18 +254,31 @@ export default function ServicePageLayout({
   const hasHeroGrid = hasHeroImage || hasHeroVideo;
 
   return (
-    <article className={cn("bg-background", className)}>
+    <article className={cn("bg-background", className)} style={accentStyle}>
+      {/* Lifts --service-accent to :root so Header/FloatingFabs (outside this
+          article) can sync to it too — pure CSS, zero runtime overhead. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `:root{--service-accent:${accentColor}}`,
+        }}
+      />
+      {pageEntitySchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(pageEntitySchema) }}
+        />
+      ) : null}
       <header
         className="relative overflow-hidden border-b border-border"
         aria-labelledby="service-page-heading"
       >
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,rgba(212,43,43,0.14),transparent_62%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,color-mix(in_srgb,var(--service-accent,#d42b2b)_14%,transparent),transparent_62%)]"
           aria-hidden="true"
         />
         {!hasHeroGrid ? (
           <div
-            className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,rgba(212,43,43,0.04)_50%,transparent_100%)]"
+            className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)_50%,transparent_100%)]"
             aria-hidden
           />
         ) : null}
@@ -248,11 +292,11 @@ export default function ServicePageLayout({
           )}
         >
           <div className={cn(hasHeroGrid && "lg:max-w-2xl")}>
-            <p className="text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
+            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--service-accent,#d42b2b)] uppercase">
               {SITE_KICKER}
             </p>
             {scarcityLabel ? (
-              <p className="mt-4 w-fit rounded-full border border-brand-red/40 bg-brand-red/10 px-3 py-1 text-xs font-semibold text-brand-red">
+              <p className="mt-4 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-xs font-semibold text-[var(--service-accent,#d42b2b)]">
                 {scarcityLabel}
               </p>
             ) : null}
@@ -275,7 +319,7 @@ export default function ServicePageLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"
-                  className="gap-2 px-6 shadow-[0_0_20px_rgba(212,43,43,0.22)] hover:shadow-[0_0_28px_rgba(212,43,43,0.35)]"
+                  className="gap-2 px-6 shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_22%,transparent)] hover:shadow-[0_0_28px_color-mix(in_srgb,var(--service-accent,#d42b2b)_35%,transparent)]"
                   aria-label={`${ctaLabel} - ${title}`}
                 >
                   <WhatsAppIcon />
@@ -292,7 +336,7 @@ export default function ServicePageLayout({
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (
               <Link
                 href={scrollHref}
-                className="mt-5 inline-flex text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                className="mt-5 inline-flex text-sm font-semibold text-[var(--service-accent,#d42b2b)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
               >
                 {scrollLinkLabel}
               </Link>
@@ -343,7 +387,7 @@ export default function ServicePageLayout({
                   className="flex gap-3 rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-foreground"
                 >
                   <span
-                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-brand-red/40 text-xs font-bold text-brand-red"
+                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/40 text-xs font-bold text-[var(--service-accent,#d42b2b)]"
                     aria-hidden="true"
                   >
                     ✓

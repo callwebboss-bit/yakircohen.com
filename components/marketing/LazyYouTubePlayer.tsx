@@ -76,7 +76,7 @@ export default function LazyYouTubePlayer({
         /* ── Placeholder state: thumbnail + gold play button ── */
         <button
           type="button"
-          className="group absolute inset-0 h-full w-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-red"
+          className="group absolute inset-0 h-full w-full transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
           onClick={() => setIsActive(true)}
           aria-label={`הפעל סרטון: ${title}`}
         >
@@ -106,12 +106,12 @@ export default function LazyYouTubePlayer({
           >
             <span
               className={cn(
-                "flex h-20 w-20 items-center justify-center rounded-full",
-                "bg-black/80 ring-2 ring-brand-red/70",
-                "shadow-[0_0_44px_rgba(212,43,43,0.55)]",
+                "flex h-20 w-20 items-center justify-center rounded-full text-[var(--service-accent,#d42b2b)]",
+                "bg-black/80 ring-2 ring-[var(--service-accent,#d42b2b)]/70",
+                "shadow-[0_0_44px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)]",
                 "transition-[transform,box-shadow,ring-color,background-color] duration-normal ease-luxury",
                 "group-hover:scale-[1.12] group-hover:bg-black/90",
-                "group-hover:ring-brand-red group-hover:shadow-[0_0_64px_rgba(212,43,43,0.75)]",
+                "group-hover:ring-[var(--service-accent,#d42b2b)] group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,#d42b2b)_75%,transparent)]",
                 "group-focus-visible:scale-[1.12]",
               )}
             >
@@ -125,8 +125,8 @@ export default function LazyYouTubePlayer({
               >
                 <path
                   d="M12 8L26 16L12 24V8Z"
-                  fill="#D42B2B"
-                  stroke="#D42B2B"
+                  fill="currentColor"
+                  stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinejoin="round"
                 />

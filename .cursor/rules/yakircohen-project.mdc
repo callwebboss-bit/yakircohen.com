@@ -21,9 +21,16 @@ alwaysApply: true
 - `public/` — static assets
 - `scripts/` — audit scripts (images, links, headings, pagefind)
 
+## local-tools / CLOSER (workspace root)
+
+- **`../local-tools/` (yakir-closer.html) is LOCAL ONLY — never deploy to Vercel or `public/`**
+- Private sales CRM on the owner's machine (`file://`); site sync is one-way via `npm run export:closer` → `closer-config.js`
+- API routes on the site (e.g. GA4 realtime) may be called from the local closer; the closer HTML itself never ships to production
+
 ## Never
 
 - Put CSV, spreadsheets, or internal reports under `public/` — use the workspace root outside the repo
+- Deploy, host, or copy `local-tools/yakir-closer.html` (or any `local-tools/*` file) to the server
 - Add `"use client"` unless required — Server Components by default
 - Use `pages/` router — everything under `app/`
 - Add `tailwind.config.js` — Tailwind v4 is PostCSS-only

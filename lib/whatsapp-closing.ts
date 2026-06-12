@@ -8,6 +8,7 @@ import {
 } from "@/lib/constants";
 import { formatNis, withVat } from "@/lib/data/pricing";
 import { formatPriceLine } from "@/lib/data/pricing-catalog";
+import { progressiveIntentLine } from "@/lib/progressive-booking-message";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
 export const PREMIUM_THRESHOLD = 3_000;
@@ -77,8 +78,17 @@ export type ClosingMessageOptions = {
   ycRecordingType?: string | null;
   ycMobileGeo?: string | null;
   ycAtmosphere?: string | null;
+  ycCelebrant?: string | null;
+  ycWizardDepth?: "quick" | "standard" | "full" | null;
+  ycScenarioChosen?: boolean | null;
+  ycScenarioHint?: "unsure" | null;
+  ycDeferred?: string | null;
+  ycRecipientHint?: string | null;
+  ycConfigVersion?: number | null;
   /** שורות נוספות (משתתפים, מחירון) — מוכנסות לפני פרטים */
   extraBlocks?: readonly string[];
+  /** נרטיב קצר: מה הבנו + מחיר, בלי רשימת פרטים ארוכה */
+  progressiveNarrative?: boolean;
 };
 
 const TIMING_FLAGS: Record<NonNullable<ClosingTiming>, string> = {
@@ -127,7 +137,15 @@ export function buildClosingMessage({
   ycRecordingType,
   ycMobileGeo,
   ycAtmosphere,
+  ycCelebrant,
+  ycWizardDepth,
+  ycScenarioChosen,
+  ycScenarioHint,
+  ycDeferred,
+  ycRecipientHint,
+  ycConfigVersion,
   extraBlocks = [],
+  progressiveNarrative = false,
 }: ClosingMessageOptions): string {
   const lines: string[] = [];
 
@@ -153,8 +171,23 @@ export function buildClosingMessage({
     lines.push("");
   }
 
-  lines.push(`*כוונה:* ${formatIntent(intent)}`);
-  lines.push(`*שירות:* ${serviceLabel}`);
+  if (progressiveNarrative) {
+    const greet = contact.name.trim() || "שם";
+    lines.push(`שלום ${greet}, תודה שפניתם 🎤`);
+    lines.push("");
+    if (summaryLines.length > 0) {
+      lines.push("*מה הבנו:*");
+      for (const { label, value } of summaryLines) {
+        lines.push(`• ${label}: ${value}`);
+      }
+      lines.push("");
+    }
+    lines.push(`*כוונה:* ${progressiveIntentLine(intent)}`);
+    lines.push(`*שירות:* ${serviceLabel}`);
+  } else {
+    lines.push(`*כוונה:* ${formatIntent(intent)}`);
+    lines.push(`*שירות:* ${serviceLabel}`);
+  }
 
   if (packageLabel?.trim()) {
     lines.push(`*חבילה מוצעת:* ${packageLabel.trim()}`);
@@ -177,11 +210,28 @@ export function buildClosingMessage({
     }
   }
 
-  if (summaryLines.length > 0) {
+  if (!progressiveNarrative && summaryLines.length > 0) {
     lines.push("");
     lines.push("*פרטים:*");
     for (const { label, value } of summaryLines) {
       lines.push(`${label}: ${value}`);
+    }
+  }
+
+  if (ycDeferred?.trim()) {
+    const labels: Record<string, string> = {
+      song: "שם השיר",
+      time: "שעה מדויקת",
+      atmosphere: "אווירה",
+      celebrant: "שם החוגג/ת",
+    };
+    const items = ycDeferred
+      .split(",")
+      .map((k) => labels[k.trim()] || k.trim())
+      .filter(Boolean);
+    if (items.length) {
+      lines.push("");
+      lines.push(`💬 נשמח לדייק בוואטסאפ: ${items.join(", ")}.`);
     }
   }
 
@@ -221,6 +271,13 @@ export function buildClosingMessage({
       recordingType: ycRecordingType ?? null,
       mobileGeo: ycMobileGeo ?? null,
       atmosphere: ycAtmosphere ?? null,
+      celebrant: ycCelebrant ?? null,
+      wizardDepth: ycWizardDepth ?? null,
+      scenarioChosen: ycScenarioChosen ?? null,
+      scenarioHint: ycScenarioHint ?? null,
+      deferred: ycDeferred ?? null,
+      recipientHint: ycRecipientHint ?? null,
+      configVersion: ycConfigVersion ?? null,
     });
   }
 

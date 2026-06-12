@@ -81,7 +81,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "studio",
     filterPreset: { purpose: "gift", timeline: "this_month" },
     whatsappFastMessageBase:
-      "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי",
+      "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי\nשם החוגג/ת (מי יקליט): _____",
     valueFrame: "590₪ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך",
     closerServiceId: "recording",
   },

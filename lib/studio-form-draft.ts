@@ -16,9 +16,29 @@ import {
   pickString,
 } from "@/lib/wizard-draft-parse";
 
+/** סוגי הקלטה שבהם מופיע שדה «שם החוגג/ת» */
+export const EVENT_CELEBRANT_RECORDING_TYPES = [
+  "event_song",
+  "bride_blessing",
+  "bar_mitzvah_speech",
+  "general_blessing",
+] as const satisfies readonly RecordingTypeId[];
+
+export function isEventCelebrantRecordingType(
+  recordingType: RecordingTypeId | "",
+): boolean {
+  return (EVENT_CELEBRANT_RECORDING_TYPES as readonly string[]).includes(recordingType);
+}
+
+export type WizardDepthId = "quick" | "standard" | "full";
+export type ScenarioChoiceId = "" | "pairs" | "unsure";
+
 export type StudioFormDraft = {
+  wizardDepth: WizardDepthId;
+  scenarioChoice: ScenarioChoiceId;
   recordingType: RecordingTypeId | "";
   songName: string;
+  celebrantName: string;
   referrer: string;
   atmosphere: AtmosphereId | "";
   packageId: StudioPackageId | ConsultationPackageId | "";
@@ -67,6 +87,23 @@ const PACKAGE_IDS = [
 const MOBILE_GEOS = ["center", "north_south", "eilat"] as const satisfies readonly MobileGeoId[];
 
 const SCHEDULE_WINDOWS = ["weekdays", "motzash"] as const satisfies readonly ScheduleWindowId[];
+const WIZARD_DEPTHS = ["quick", "standard", "full"] as const satisfies readonly WizardDepthId[];
+const SCENARIO_CHOICES = ["", "pairs", "unsure"] as const satisfies readonly ScenarioChoiceId[];
+
+/** שדות שנדחו לשיחה ב-quick path */
+export function buildStudioDeferredFields(
+  form: Pick<StudioFormDraft, "songName" | "time" | "atmosphere" | "celebrantName">,
+  wizardDepth: WizardDepthId,
+  showCelebrant: boolean,
+): string | null {
+  if (wizardDepth !== "quick") return null;
+  const parts: string[] = [];
+  if (!form.songName.trim()) parts.push("song");
+  if (!form.time.trim()) parts.push("time");
+  if (!form.atmosphere) parts.push("atmosphere");
+  if (showCelebrant && !form.celebrantName.trim()) parts.push("celebrant");
+  return parts.length ? parts.join(",") : null;
+}
 
 export function parseStudioFormDraft(
   raw: unknown,
@@ -79,8 +116,11 @@ export function parseStudioFormDraft(
 
   return {
     ...initial,
+    wizardDepth: pickEnum(raw.wizardDepth, WIZARD_DEPTHS) ?? initial.wizardDepth,
+    scenarioChoice: pickEnum(raw.scenarioChoice, SCENARIO_CHOICES) ?? initial.scenarioChoice,
     recordingType: pickEnum(raw.recordingType, RECORDING_TYPES) ?? initial.recordingType,
     songName: pickString(raw.songName),
+    celebrantName: pickString(raw.celebrantName),
     referrer: pickString(raw.referrer),
     atmosphere: pickEnum(raw.atmosphere, ATMOSPHERE_IDS) ?? initial.atmosphere,
     packageId: pickEnum(raw.packageId, PACKAGE_IDS) ?? initial.packageId,

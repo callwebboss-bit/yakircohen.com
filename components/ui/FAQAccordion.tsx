@@ -44,7 +44,12 @@ function AccordionPanel({
       )}
     >
       <div className="overflow-hidden">
-        <div className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
+        <div
+          className={cn(
+            "pb-5 pt-1 text-sm leading-relaxed text-muted-foreground transition-opacity duration-normal ease-luxury motion-reduce:transition-none",
+            isOpen ? "opacity-100" : "opacity-0",
+          )}
+        >
           {children}
         </div>
       </div>
@@ -112,12 +117,21 @@ export default function FAQAccordion({
             const panelId = `${baseId}-panel-${item.id}`;
 
             return (
-              <div key={item.id} className="px-4 sm:px-6">
+              <div
+                key={item.id}
+                className={cn(
+                  "rounded-lg px-4 transition-colors duration-normal ease-luxury sm:px-6",
+                  isOpen && "bg-[var(--service-accent,#d42b2b)]/[0.02]",
+                )}
+              >
                 <h3>
                   <button
                     id={triggerId}
                     type="button"
-                    className="flex min-h-11 w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:text-base"
+                    className={cn(
+                      "touch-target flex w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-all duration-fast ease-luxury active:scale-[0.995] hover:text-[var(--service-accent,#d42b2b)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:text-base",
+                      isOpen && "text-[var(--service-accent,#d42b2b)]",
+                    )}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => toggle(item.id)}
@@ -126,8 +140,8 @@ export default function FAQAccordion({
                     <span>{item.question}</span>
                     <span
                       className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-brand-red transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
-                        isOpen && "rotate-180 border-brand-red/40",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
+                        isOpen && "rotate-180 border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10",
                       )}
                       aria-hidden="true"
                     >

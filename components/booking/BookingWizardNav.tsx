@@ -23,11 +23,11 @@ export default function BookingWizardNav({
               key={stepLabel}
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold sm:px-4 sm:text-sm",
+                "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-fast ease-luxury sm:px-4 sm:text-sm",
                 isCurrent
-                  ? "bg-brand-red text-white"
+                  ? "bg-[var(--service-accent,#d42b2b)] text-white"
                   : isComplete
-                    ? "bg-brand-red/15 text-brand-red"
+                    ? "bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_15%,transparent)] text-[var(--service-accent,#d42b2b)]"
                     : "bg-surface text-muted-foreground",
               )}
             >

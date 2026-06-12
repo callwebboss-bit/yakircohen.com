@@ -5,6 +5,8 @@
 export type YcScheduleId = "weekdays" | "motzash";
 export type YcIntentId = "start_now" | "continue_chat";
 export type YcScenarioId = "pairs" | "solo" | "group" | "save5";
+export type YcWizardDepthId = "quick" | "standard" | "full";
+export type YcScenarioHintId = "unsure";
 
 export type YcTimingId = "urgent" | "month" | "flexible" | "future";
 export type YcPurposeId = "professional" | "personal" | "gift";
@@ -30,6 +32,17 @@ export type YcLeadTagInput = {
   recordingType?: string | null;
   mobileGeo?: string | null;
   atmosphere?: string | null;
+  celebrant?: string | null;
+  /** YC v2 — עומק טופס /book */
+  wizardDepth?: YcWizardDepthId | null;
+  /** הלקוח אישר את תרחיש pairs (1) */
+  scenarioChosen?: boolean | null;
+  /** הלקוח רוצה לשמוע על תרחישים אחרים */
+  scenarioHint?: YcScenarioHintId | null;
+  /** שדות שנדחו לשיחה — song,time,atmosphere */
+  deferred?: string | null;
+  recipientHint?: string | null;
+  configVersion?: number | null;
 };
 
 /** מיפוי תשובה רגשית מכרטיס /book ל-id בקלוזר */
@@ -58,6 +71,14 @@ function parseTagMap(text: string): Record<string, string> | null {
   return map;
 }
 
+function decodeTagValue(raw: string): string {
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return raw;
+  }
+}
+
 export function buildYcLeadTag({
   service,
   price,
@@ -79,6 +100,13 @@ export function buildYcLeadTag({
   recordingType,
   mobileGeo,
   atmosphere,
+  celebrant,
+  wizardDepth,
+  scenarioChosen,
+  scenarioHint,
+  deferred,
+  recipientHint,
+  configVersion,
 }: YcLeadTagInput): string {
   const parts = [`service=${service}`];
   if (price !== undefined && price !== null && price > 0) {
@@ -106,6 +134,22 @@ export function buildYcLeadTag({
   if (recordingType) parts.push(`recordingType=${recordingType}`);
   if (mobileGeo) parts.push(`mobileGeo=${mobileGeo}`);
   if (atmosphere) parts.push(`atmosphere=${atmosphere}`);
+  if (celebrant?.trim()) {
+    parts.push(`celebrant=${encodeURIComponent(celebrant.trim().replace(/\|/g, " "))}`);
+  }
+  if (wizardDepth) parts.push(`wizardDepth=${wizardDepth}`);
+  if (scenarioChosen) parts.push("scenarioChosen=1");
+  if (scenarioHint) parts.push(`scenarioHint=${scenarioHint}`);
+  if (deferred?.trim()) parts.push(`deferred=${deferred.trim().replace(/\|/g, ",")}`);
+  if (recipientHint?.trim()) parts.push(`recipientHint=${recipientHint.trim()}`);
+  const v2 =
+    wizardDepth ||
+    scenarioChosen ||
+    scenarioHint ||
+    deferred?.trim() ||
+    recipientHint?.trim() ||
+    (configVersion != null && configVersion > 1);
+  if (v2) parts.push(`configVersion=${configVersion ?? 2}`);
   parts.push(`source=${source}`, `step=${step}`);
   return `[YC:${parts.join("|")}]`;
 }
@@ -140,6 +184,13 @@ export type ParsedYcLeadTag = {
   recordingType: string | null;
   mobileGeo: string | null;
   atmosphere: string | null;
+  celebrant: string | null;
+  wizardDepth: YcWizardDepthId | null;
+  scenarioChosen: boolean;
+  scenarioHint: YcScenarioHintId | null;
+  deferred: string | null;
+  recipientHint: string | null;
+  configVersion: number | null;
 };
 
 export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
@@ -167,5 +218,12 @@ export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
     recordingType: map.recordingType ?? null,
     mobileGeo: map.mobileGeo ?? null,
     atmosphere: map.atmosphere ?? null,
+    celebrant: map.celebrant ? decodeTagValue(map.celebrant) : null,
+    wizardDepth: (map.wizardDepth as YcWizardDepthId | undefined) ?? null,
+    scenarioChosen: map.scenarioChosen === "1",
+    scenarioHint: (map.scenarioHint as YcScenarioHintId | undefined) ?? null,
+    deferred: map.deferred ? decodeTagValue(map.deferred) : null,
+    recipientHint: map.recipientHint ?? null,
+    configVersion: map.configVersion ? Number(map.configVersion) : null,
   };
 }

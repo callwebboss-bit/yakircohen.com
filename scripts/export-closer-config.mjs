@@ -1,9 +1,13 @@
 /**
  * Exports pricing-catalog + book route presets + blog funnels for yakir-closer sync.
  * Output: local-tools/closer-config.json + closer-config.js (file:// friendly)
+ *
+ * ⚠️  local-tools/ (yakir-closer.html) NEVER goes to the server — local-only CRM.
+ *     This script only WRITES into local-tools/; it does not deploy anything.
  */
 import fs from "node:fs";
 import path from "node:path";
+import * as esbuild from "esbuild";
 
 const ROOT = process.cwd();
 const CATALOG_FILE = path.join(ROOT, "lib", "data", "pricing-catalog.ts");
@@ -21,6 +25,36 @@ const OUT_JSON = path.join(OUT_DIR, "closer-config.json");
 const OUT_JS = path.join(OUT_DIR, "closer-config.js");
 
 const VAT_RATE = 0.18;
+
+function humanizeClientCopy(text) {
+  if (!text || typeof text !== "string") return text;
+  let out = String(text);
+  out = out
+    .replace(/\s*[—–]\s*/g, (match, offset, str) => {
+      const before = str.slice(Math.max(0, offset - 1), offset);
+      if (before === "\n" || before === "." || before === "!" || before === "?") return " ";
+      return ". ";
+    })
+    .replace(/[—–]/g, ", ")
+    .replace(/\.{3,}/g, ".")
+    .replace(/…/g, ".")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/ \./g, ".")
+    .replace(/ ,/g, ",")
+    .trim();
+  return out;
+}
+
+function humanizeExportStrings(value) {
+  if (typeof value === "string") return humanizeClientCopy(value);
+  if (Array.isArray(value)) return value.map(humanizeExportStrings);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const [k, v] of Object.entries(value)) out[k] = humanizeExportStrings(v);
+    return out;
+  }
+  return value;
+}
 
 const SERVICE_SLUG_TO_CLOSER = {
   studio: "recording",
@@ -414,7 +448,32 @@ const registryText = fs.readFileSync(REGISTRY_FILE, "utf8");
 const podcastCalcText = fs.readFileSync(PODCAST_CALC_FILE, "utf8");
 const attractionsText = fs.readFileSync(ATTRACTIONS_FILE, "utf8");
 const clipsText = fs.readFileSync(CLIPS_SERVICES_FILE, "utf8");
-const brandCopy = JSON.parse(fs.readFileSync(BRAND_COPY_FILE, "utf8"));
+const brandCopyRaw = JSON.parse(fs.readFileSync(BRAND_COPY_FILE, "utf8"));
+const brandCopy = humanizeExportStrings(brandCopyRaw);
+
+const REQUIRED_BRAND_KEYS = [
+  "messageRecipients",
+  "recipientDefaultsByService",
+  "voiceScriptVariants",
+  "quickInjectIds",
+  "playbackCopy",
+  "studioArrival",
+  "studioConfirmationEmail",
+];
+for (const key of REQUIRED_BRAND_KEYS) {
+  if (!brandCopy[key] || (typeof brandCopy[key] === "object" && !Object.keys(brandCopy[key]).length)) {
+    throw new Error(`closer-brand-copy.json missing or empty: ${key}`);
+  }
+}
+const recipientIds = Object.keys(brandCopy.messageRecipients);
+for (const id of ["booker", "celebrant", "mom"]) {
+  if (!recipientIds.includes(id)) {
+    throw new Error(`messageRecipients missing required id: ${id}`);
+  }
+}
+if (!Array.isArray(brandCopy.quickInjectIds) || brandCopy.quickInjectIds.length < 3) {
+  throw new Error("quickInjectIds must be a non-empty array");
+}
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -437,6 +496,8 @@ const payload = {
   attractions: parseAttractions(attractionsText),
   clipServices: parseClipServices(clipsText),
   geoFees: parseGeoFees(attractionsText),
+  replyStudioLabels: brandCopy.replyStudioLabels,
+  continueChatPaths: brandCopy.continueChatPaths,
   clientScenarioLabels: brandCopy.clientScenarioLabels,
   studioExperience: brandCopy.studioExperience,
   studioLounge: brandCopy.studioLounge,
@@ -446,10 +507,29 @@ const payload = {
   crossSellOffers: brandCopy.crossSellOffers,
   groupFamilyPitch: brandCopy.groupFamilyPitch,
   groupPlaybackReadyPitch: brandCopy.groupPlaybackReadyPitch,
+  playbackCopy: brandCopy.playbackCopy,
   groupMessaging: brandCopy.groupMessaging,
   proofOfMagic: brandCopy.proofOfMagic,
   nightPolish: brandCopy.nightPolish,
   mobileStudioUpsell: brandCopy.mobileStudioUpsell,
+  messageRecipients: brandCopy.messageRecipients,
+  recipientDefaultsByService: brandCopy.recipientDefaultsByService,
+  studioArrival: brandCopy.studioArrival,
+  studioConfirmationEmail: brandCopy.studioConfirmationEmail,
+  voiceScriptVariants: brandCopy.voiceScriptVariants,
+  quickInjectIds: brandCopy.quickInjectIds,
+  injectBundles: brandCopy.injectBundles || {},
+  scenarioRules: JSON.parse(
+    fs.readFileSync(path.join(ROOT, "lib", "data", "scenario-rules.json"), "utf8"),
+  ),
+  analytics: {
+    propertyId: "397966715",
+    measurementId: "G-PVW4GMPNS4",
+    apiBaseUrl: "https://www.yakircohen.com/api/analytics/realtime",
+    pollIntervalSec: 60,
+    gaRealtimeUrl:
+      "https://analytics.google.com/analytics/web/#/a2322839p397966715/realtime/overview",
+  },
 };
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -459,6 +539,18 @@ fs.writeFileSync(
   `/** Auto-generated — npm run export:closer */\nwindow.CLOSER_CONFIG = ${JSON.stringify(payload)};\n`,
   "utf8",
 );
+const REPLY_BUILDERS_OUT = path.join(OUT_DIR, "closer-reply-builders.js");
+esbuild.buildSync({
+  entryPoints: [path.join(ROOT, "lib", "closer-reply-bundle.ts")],
+  bundle: true,
+  format: "iife",
+  globalName: "CloserReplyBuilders",
+  platform: "browser",
+  target: ["es2020"],
+  outfile: REPLY_BUILDERS_OUT,
+  logLevel: "warning",
+});
+
 console.log(
-  `Wrote ${OUT_JSON} + closer-config.js (${payload.studioPackages.length} studio pkgs, ${payload.leadSources.length} lead sources, ${payload.attractions.length} attractions, ${payload.clipServices.length} clip services)`,
+  `Wrote ${OUT_JSON} + closer-config.js + closer-reply-builders.js (${payload.studioPackages.length} studio pkgs, ${payload.leadSources.length} lead sources)`,
 );

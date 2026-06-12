@@ -1,5 +1,4 @@
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
-import { SITE_NAME } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
 
@@ -89,6 +88,62 @@ export function buildServiceSchema(service: ServiceEntity) {
           offers: service.pricing.map((tier) => pricingToOffer(tier, serviceUrl)),
         }
       : {}),
+  };
+}
+
+export type ServicePageEntityInput = {
+  /** Path used to derive the canonical URL (e.g. "/events/host"). */
+  pagePath: string;
+  title: string;
+  description: string;
+  faqs?: readonly FaqSchemaInput[];
+};
+
+/**
+ * Combined `@graph` payload for pages built directly on ServicePageLayout
+ * (i.e. not already covered by ServicePageSchema/FaqPageSchema via the
+ * service registry). Always includes a Service entity; adds a nested
+ * FAQPage entity only when faqs are supplied.
+ */
+export function buildServicePageEntitySchema({
+  pagePath,
+  title,
+  description,
+  faqs,
+}: ServicePageEntityInput) {
+  const pageUrl = absoluteUrl(pagePath.replace(/^\/+/, ""));
+
+  const serviceEntity = {
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: title,
+    description,
+    url: pageUrl,
+    serviceType: title,
+    inLanguage: "he-IL",
+    provider: { "@id": `${absoluteUrl()}#organization` },
+  };
+
+  const graph: Record<string, unknown>[] = [serviceEntity];
+
+  if (faqs?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: faqs.map(({ question, answer }) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: answer,
+        },
+      })),
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
   };
 }
 

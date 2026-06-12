@@ -4,6 +4,7 @@
  */
 
 import brandCopy from "@/lib/data/closer-brand-copy.json";
+import { buildPlaybackReply, detectPlaybackScenario } from "@/lib/reply-copy-builders";
 import {
   getClientScenarioDescription,
   getClientScenarioTitle,
@@ -239,16 +240,25 @@ export function buildGroupFamilyPitchBlock(
 }
 
 export function buildPlaybackReadyPitch(input: GroupMessageInput): string {
-  const pitch = brandCopy.groupPlaybackReadyPitch;
-  const name = (input.leadName || "").trim() || "שם";
-  const body = tpl(pitch.bodyTemplate, {
-    scheduleLabel: scheduleLabel(input.scheduleWindow),
-  });
-  return [
-    `👇 ${name}, ${pitch.championIntro}`,
-    "",
-    `"${body}"`,
-  ].join("\n");
+  return buildPlaybackReply(
+    {
+      leadName: input.leadName,
+      scheduleWindow: input.scheduleWindow,
+      recorderCount: input.recorderCount,
+      childrenCount: input.childrenCount,
+      adultsCount: input.adultsCount,
+      leadDate: input.leadDate,
+      forCloser: true,
+    },
+    {
+      length: "standard",
+      scenario: detectPlaybackScenario({
+        recorderCount: input.recorderCount,
+        childrenCount: input.childrenCount,
+      }),
+      includeChampionIntro: true,
+    },
+  );
 }
 
 function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext): string {
