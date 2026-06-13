@@ -1,5 +1,5 @@
-import { generateObject } from "ai";
-import { gateway } from "@ai-sdk/gateway";
+import { generateObject, generateText } from "ai";
+import { createGateway } from "@ai-sdk/gateway";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { ProServiceId } from "@/lib/data/pro-services";
@@ -28,6 +28,51 @@ const ALLOWED_ORIGINS = new Set([
 const rateLimit = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 20;
 const RATE_WINDOW_MS = 60_000;
+const ADVISOR_MODEL = "openai/gpt-4o-mini" as const;
+
+function getAdvisorModel() {
+  const apiKey = process.env.AI_GATEWAY_API_KEY?.trim();
+  const gw = apiKey ? createGateway({ apiKey }) : createGateway();
+  return gw(ADVISOR_MODEL);
+}
+
+function extractJsonObject(text: string): unknown {
+  const trimmed = text.trim();
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const candidate = fenced?.[1]?.trim() ?? trimmed;
+  const start = candidate.indexOf("{");
+  const end = candidate.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) {
+    throw new Error("No JSON object in model response");
+  }
+  return JSON.parse(candidate.slice(start, end + 1)) as unknown;
+}
+
+async function generateAdvisorResponse(
+  proId: ProServiceId,
+  inputs: Record<string, string>,
+) {
+  const model = getAdvisorModel();
+  const system = buildAdvisorSystemPrompt(proId);
+  const prompt = buildAdvisorUserPrompt(proId, inputs);
+
+  try {
+    const { object } = await generateObject({
+      model,
+      schema: advisorResponseSchema,
+      system,
+      prompt,
+    });
+    return object;
+  } catch (objectError) {
+    const { text } = await generateText({ model, system, prompt });
+    const parsed = advisorResponseSchema.safeParse(extractJsonObject(text));
+    if (!parsed.success) {
+      throw objectError;
+    }
+    return parsed.data;
+  }
+}
 
 function isAllowedRequest(request: Request): boolean {
   const origin = request.headers.get("origin");
@@ -90,14 +135,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { object } = await generateObject({
-      model: gateway("openai/gpt-4o-mini"),
-      schema: advisorResponseSchema,
-      system: buildAdvisorSystemPrompt(proId),
-      prompt: buildAdvisorUserPrompt(proId, inputs),
-    });
+    const object = await generateAdvisorResponse(proId, inputs);
     return NextResponse.json({ ...object, source: "ai" });
-  } catch {
+  } catch (error) {
+    console.error(
+      "[service-advisor] AI failed:",
+      error instanceof Error ? error.message : error,
+    );
     const fallback = buildRuleBasedAdvisor(proId, inputs);
     return NextResponse.json({ ...fallback, source: "rules_fallback" });
   }
