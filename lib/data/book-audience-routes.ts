@@ -292,6 +292,36 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     valueFrame: "מחזירים הקלטה שלא הייתם זורקים",
     closerServiceId: "online_ai",
   },
+  {
+    id: "pro-b2b",
+    variant: "luxury",
+    icon: "💼",
+    tag: "שירותי B2B Pro",
+    title: "Voice Tags, מאשאפים, פס ייצור פודקאסט ו-Dry Hire",
+    description:
+      "שירותים מקצועיים לדיג'ייז, יוצרי תוכן וחברות הגברה — עם ויזארד AI ומחירון שקוף.",
+    essenceMicroCopy: "בית היוצר שלכם — מהרעיון לתוצר מוכן.",
+    priceExVat: getExVat("dj_voice_tag_single"),
+    priceNote: "Voice Tag בודד",
+    startingPriceDual: dual(getExVat("dj_voice_tag_single")),
+    upsellHint: "אפשר לשלב: חבילת 5 tags · מאשאפ חירום · פס ייצור חודשי",
+    emotionalQuestion: "איזה שירות B2B הכי דחוף לכם?",
+    emotionalOptions: [
+      { id: "voice_tags", label: "Voice Tags לדיג'יי" },
+      { id: "mashup", label: "מאשאפ / עריכה דחופה" },
+      { id: "podcast_b2b", label: "פודקאסט / אולפן קופסה" },
+      { id: "dry_hire", label: "השכרת ציוד / הגברה" },
+    ],
+    demoVideoKey: "events-dj",
+    utmBoostKeywords: ["pro", "b2b", "voice_tags", "mashup", "dry_hire", "podcast"],
+    utm_campaign: "book_router_pro",
+    categoryId: "pro",
+    filterPreset: { purpose: "professional", timeline: "this_month" },
+    whatsappFastMessageBase:
+      "שלום, מעוניין/ת בשירות B2B Pro מהאתר.\nמה שחסר לי: _____",
+    valueFrame: "שירות מקצועי B2B — בלי לנחש מחירים",
+    closerServiceId: "dj_voice_tags",
+  },
 ] as const;
 
 export const HOME_AUDIENCE_ROUTE_IDS = [

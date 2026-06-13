@@ -161,6 +161,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Business / social media ──────────────────────────────────────────────────
   { url: url("business/social-media"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("business/reel-factory"), priority: 0.8, changeFrequency: "monthly" },
   {
     url: url("business/professional-voiceover"),
     priority: 0.75,

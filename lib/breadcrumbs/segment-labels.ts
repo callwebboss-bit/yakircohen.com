@@ -13,6 +13,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "vocal-fix": "תיקון ווקאלי",
   business: "עסקים",
   "social-media": "ניהול סושיאל",
+  "reel-factory": "מפעל רילס לספקים",
   blog: "בלוג",
   about: "אודות",
   contact: "צור קשר",

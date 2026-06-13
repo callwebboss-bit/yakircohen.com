@@ -73,6 +73,22 @@ export const PRICING_HUB_SEO: HubPageSeo = {
   hub: "pricing",
 };
 
+export const PRO_HUB_SEO: HubPageSeo = {
+  slug: "pro",
+  title: "מרכז B2B Pro — דיג'ייז, פודקאסט והגברה",
+  description:
+    "שירותי B2B מקצועיים — Voice Tags, מאשאפים, פס ייצור, Dry Hire ותכנון EASE. ויזארד AI ומחירון שקוף.",
+  keywords: [
+    "שירותי B2B",
+    "voice tags",
+    "dry hire",
+    "פודקאסט B2B",
+    "מאשאפ DJ",
+    "תכנון הגברה",
+  ],
+  hub: "events",
+};
+
 export const BLOG_HUB_SEO: HubPageSeo = {
   slug: "blog",
   title: "מגזין מקצועי",

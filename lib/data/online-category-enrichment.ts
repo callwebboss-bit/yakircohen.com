@@ -194,9 +194,9 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
     deliveryTiers: [
       {
         name: "מהיר",
-        turnaround: "2-4 ימי עסקים",
-        includes: "חיתוך ל-3-5 קליפים קצרים + כתוביות בסיסיות.",
-        note: "מתוך חומר קיים",
+        turnaround: "24 שעות (Rave לספקים)",
+        includes: "רילס ערוך מ-5-10 קליפים גולמיים — ביט-סינק, אפקטים וצבע.",
+        note: "העלאה עד 04:00 = מסירה 12:00",
       },
       {
         name: "סטנדרט",

@@ -20,7 +20,8 @@ export type PriceCategory =
   | "dj"
   | "photography"
   | "online"
-  | "addons";
+  | "addons"
+  | "pro";
 
 export type PriceItem = {
   id: string;
@@ -89,6 +90,20 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "damaged_recording_rescue", label: "הצלת הקלטות פגומות", exVat: 250, category: "online", context: "שחזור ושיפור איכות לכל 5 דקות" },
   { id: "ai_photo_upgrade", label: "שדרוג תמונות ב-AI", exVat: 250, category: "online", context: "שיפור רזולוציה, צבע וחדות ל-10 תמונות" },
   { id: "volume_balance", label: "התאמת ווליום ואיזון דינמי", exVat: 250, category: "online", context: "איזון עוצמות קול עד שעת הקלטה" },
+  { id: "reel_factory_single", label: "פרומו רילס בודד לספק", exVat: 950, category: "online", context: "חיתוך + כתוביות בסיסיות מחומר גולמי" },
+  { id: "reel_factory_rave_24h", label: "רילס Rave ערוך תוך 24 שעות", exVat: 1400, category: "online", context: "ביט-סינק, אפקטים, צבע וסאונד מנורמל" },
+  { id: "reel_factory_starter_monthly", label: "Content Hub בסיס לספקים", exVat: 2800, category: "online", context: "4 פרומואים + פוסטים שיווקיים בחודש" },
+  { id: "reel_factory_pro_monthly", label: "Content Hub פרו לספקים", exVat: 4500, category: "online", context: "8 פרומואים + פוסטים + כיתובים לכל פלטפורמה" },
+
+  // ─── שירותי B2B Pro ───
+  { id: "dj_voice_tag_single", label: "Voice Tag בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות + אפקטי מועדון — Reverb, Delay, Laser" },
+  { id: "dj_voice_tag_pack_5", label: "חבילת 5 Voice Tags", exVat: 1200, category: "pro", context: "חמישה tags מותאמים עם אפקטים" },
+  { id: "mashup_fixer_express", label: "מאשאפ חירום — עד 24 שעות", exVat: 1800, category: "pro", context: "שילוב 2 שירים, Key Matching וביטמיקס" },
+  { id: "prebuilt_set_corporate", label: "סט DJ מובנה לפי קטגוריה", exVat: 450, category: "pro", context: "מוזיקה ערוכה ומחוברת בביט קבוע" },
+  { id: "studio_in_box_consult", label: "Studio In A Box — ייעוץ + 10 פרקים", exVat: 2500, category: "pro", context: "תכנון אקוסטי, מפרט ציוד ועריכה ל-10 פרקים" },
+  { id: "bulk_podcast_episode", label: "פס ייצור — פרק + 3 Shorts", exVat: 950, category: "pro", context: "עריכה, נורמליזציה, פתיח/סגיר ו-3 Shorts" },
+  { id: "dry_hire_day", label: "Dry Hire — יום השכרת ציוד", exVat: 450, category: "pro", context: "השכרת ציוד בלבד לפי פריט ויום" },
+  { id: "system_tuning_ease", label: "תכנון הגברה EASE / SMAART", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
 ] as const;
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];

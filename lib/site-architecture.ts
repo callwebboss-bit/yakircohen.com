@@ -84,6 +84,16 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         href: "/podcast/podcast-editing",
       },
       {
+        label: "Studio In A Box B2B",
+        href: "/podcast/studio-in-a-box",
+        description: "תכנון אולפן + 10 פרקים",
+      },
+      {
+        label: "פס ייצור B2B",
+        href: "/podcast/bulk-production",
+        description: "פרק + 3 Shorts לכל פרק",
+      },
+      {
         label: "ליווי מא׳ עד ת׳",
         href: "/podcast/podcast-production",
       },
@@ -142,9 +152,13 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
     children: [
       { label: "מרכז אירועים", href: "/events" },
       { label: "תקליטן לאירועים", href: "/events/dj-events" },
+      { label: "Voice Tags לדיג'ייז", href: "/events/dj/voice-tags" },
+      { label: "סטים מובנים ל-DJ", href: "/events/dj/pre-built-sets" },
       { label: "במה LED + DJ", href: "/events/stage-led-dj" },
       { label: "חבילות אירועים", href: "/events/wedding-attractions-packages" },
       { label: "ציוד הגברה", href: "/events/equipment" },
+      { label: "Dry Hire — השכרת ציוד", href: "/events/equipment/dry-hire" },
+      { label: "תכנון EASE / SMAART", href: "/events/equipment/system-tuning" },
       { label: "הגברת זמר חי", href: "/events/equipment/singer-amplification" },
       { label: "אטרקציות", href: "/events/attractions" },
       { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
@@ -239,6 +253,26 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         label: "שליחת קבצים",
         href: "/online/vocal-fix/send-file",
       },
+      {
+        label: "מאשאפ חירום",
+        href: "/online/mashup-fixer",
+        description: "עריכת מאשאפ עד 24 שעות",
+      },
+    ],
+  },
+  {
+    id: "pro",
+    label: "B2B Pro",
+    href: "/pro",
+    children: [
+      { label: "מרכז B2B Pro", href: "/pro" },
+      { label: "Voice Tags", href: "/events/dj/voice-tags" },
+      { label: "מאשאפ חירום", href: "/online/mashup-fixer" },
+      { label: "סטים מובנים", href: "/events/dj/pre-built-sets" },
+      { label: "Studio In A Box", href: "/podcast/studio-in-a-box" },
+      { label: "פס ייצור פודקאסט", href: "/podcast/bulk-production" },
+      { label: "Dry Hire", href: "/events/equipment/dry-hire" },
+      { label: "EASE / SMAART", href: "/events/equipment/system-tuning" },
     ],
   },
 ];
@@ -251,6 +285,10 @@ export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   {
     label: "קידום סושיאל - יקיר איזמירלי",
     href: "/business/social-media",
+  },
+  {
+    label: "מפעל רילס לספקים",
+    href: "/business/reel-factory",
   },
   { label: "אודות", href: "/about" },
   { label: "שאלות נפוצות", href: "/about/faq" },

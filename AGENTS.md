@@ -14,4 +14,4 @@ Full stack, env, build, and deployment conventions: **`.cursor/rules/yakircohen-
 - **Prefer** `npm run verify:quick` (unit tests + security smoke — fast on Dropbox).
 - **Lint + tests:** `npm run verify:ci` (CI / pre-push; slow locally on Dropbox).
 - **One build at a time:** `npm run build` is mutex-locked; if blocked, wait or run `npm run build:stop`.
-- **Full production check:** run `npm run build` once manually or rely on GitHub Actions CI — not per-agent.
+- **Full production check:** run `npm run verify:predeploy` (or `npm run build` alone) once manually — not per-agent.

@@ -119,6 +119,7 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 | פקודה | מתי |
 |--------|-----|
 | `npm ci` | אחרי clone |
+| `npm run verify:predeploy` | **לפני פריסה גדולה** — CI + SEO + headings + links + share (all) + schema sync + build:full |
 | `npm run lint` | לפני push |
 | `npm run audit:images` | אחרי העלאת תמונות |
 | `npm run audit:links` | לפני פריסה |

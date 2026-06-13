@@ -11,6 +11,7 @@ import {
 } from "@/components/calculators/lazy";
 import BookStickyMobileBar from "@/components/booking/BookStickyMobileBar";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
+import ProBookingPanel from "@/components/booking/ProBookingPanel";
 import {
   AcademyBookingWizardLazy,
   ClipsBookingFormLazy,
@@ -92,6 +93,12 @@ const CATEGORY_META: Record<BookCategoryId, CategoryMeta> = {
     subtitle: "הצלת הקלטות פגומות",
     icon: "🔧",
   },
+  pro: {
+    id: "pro",
+    title: "שירותי B2B Pro",
+    subtitle: "דיג'ייז, פודקאסט והגברה",
+    icon: "💼",
+  },
 };
 
 function renderCategoryContent(
@@ -150,6 +157,8 @@ function renderCategoryContent(
           routeId={options.routeId}
         />
       );
+    case "pro":
+      return <ProBookingPanel />;
     default:
       return null;
   }

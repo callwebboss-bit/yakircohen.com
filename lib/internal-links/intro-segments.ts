@@ -257,6 +257,13 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/studio/recording-studio", label: "אולפן הקלטות" },
     { type: "text", value: "." },
   ],
+  "/business/reel-factory": [
+    { type: "text", value: "פס ייצור לפרומואים: מעלים חומר גולמי מהאירוע ומקבלים רילס Rave ערוך תוך 24 שעות. לניהול סושיאל לעסקים - " },
+    { type: "link", href: "/business/social-media", label: "יקיר איזמירלי" },
+    { type: "text", value: ". לשליחת קבצים - " },
+    { type: "link", href: "/online/vocal-fix/send-file", label: "העלאה מסודרת" },
+    { type: "text", value: "." },
+  ],
 };
 
 export function getIntroSegments(pathname: string): IntroSegment[] | undefined {

@@ -38,7 +38,7 @@ export default function VideoPresentationPageContent() {
             מתי מצגת וידאו עובדת הכי טוב?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מצגת טובה לא רק "מחליקה תמונות" - היא בונה סיפור: פתיחה שתופסת,
+            מצגת טובה לא רק &quot;מחליקה תמונות&quot; - היא בונה סיפור: פתיחה שתופסת,
             קצב שמחזיק את הקהל, וסיום שמשאיר רגש. אנחנו מלווים מתסריט ועד קובץ מוכן
             להקרנה באירוע או לשיתוף דיגיטלי.
           </p>

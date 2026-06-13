@@ -105,6 +105,13 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
         href: "/online/vocal-fix/mixing",
       },
       {
+        icon: "🔀",
+        title: "מאשאפ חירום לדיג'ייז",
+        summary: "שילוב 2 שירים תוך 24 שעות — Key Matching וביטמיקס.",
+        href: "/online/mashup-fixer",
+        tag: "חדש",
+      },
+      {
         icon: "🆘",
         title: "הצלת הקלטות פגומות",
         summary: "שחזור הקלטות קשות, רסטורציה והפחתת הד/דיסטורשן.",
@@ -160,6 +167,13 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
         icon: "🎬",
         title: "עריכת וידאו שיווקי",
         summary: "ניקוי אודיו, קצב עריכה ויצירת גרסאות להמרה גבוהה.",
+      },
+      {
+        icon: "📱",
+        title: "מפעל רילס לספקים",
+        summary: "Rave 24 שעות — פרומואים ערוכים ל-DJ, צלמים ומפעילי אטרקציות.",
+        href: "/business/reel-factory",
+        tag: "מהיר",
       },
       {
         icon: "📱",

@@ -11,6 +11,7 @@ export const BOOK_CLOSER_SERVICE: Record<BookCategoryId, string> = {
   singer: "live_sound",
   academy: "academy",
   online: "online_ai",
+  pro: "dj_voice_tags",
 };
 
 /** פרמטר service ב-/thank-you */
@@ -24,6 +25,7 @@ export const BOOK_THANK_YOU_SERVICE: Record<BookCategoryId, string> = {
   singer: "singer",
   academy: "academy",
   online: "online",
+  pro: "pro",
 };
 
 /** מיפוי פרמטר service ב-/thank-you לקטגוריית /book */
@@ -37,4 +39,5 @@ export const THANK_YOU_TO_BOOK_CATEGORY: Record<string, BookCategoryId> = {
   academy: "academy",
   online: "online",
   clips: "clips",
+  pro: "pro",
 };

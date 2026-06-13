@@ -10,6 +10,8 @@
     "security:smoke": "tsx scripts/security-smoke.ts",
     "verify:ci": "npm run lint && npm run test",
     "verify:seo": "npm run audit:seo-titles && npm run audit:schema && npm run audit:share && npm run audit:orphans",
+    "predeploy:clean": "node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){}\"",
+    "verify:predeploy": "npm run predeploy:clean && npm run guard:local-tools && npm run verify:ci && npm run verify:seo && node scripts/audit-share-descriptions.mjs --all && npm run audit:headings && npm run audit:links && npm run generate:schema && npm run sync:blog-slugs && npm run build:full",
     "lint:security": "eslint --cache --cache-location node_modules/.cache/eslint lib/safe-json-ld.ts lib/sanitize-html.ts lib/embed-url.ts lib/form-validation.ts app/api/lead-notify/route.ts components/blog/BlogPostingJsonLd.tsx components/marketing/LazyClickEmbed.tsx \"app/(blog)/blog/[slug]/page.tsx\" scripts/run-with-lock.mjs scripts/stop-builds.mjs --max-warnings 0",
     "generate:schema": "tsx scripts/generate-site-schema.ts",
     "build:full": "node scripts/run-with-lock.mjs -- next build && npm run index:search",
@@ -40,7 +42,9 @@
     "ingest:blog": "node scripts/ingest-blog-queue.mjs"
   },
   "dependencies": {
+    "@ai-sdk/gateway": "^3.0.130",
     "@next/third-parties": "^16.2.6",
+    "ai": "^6.0.204",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "isomorphic-dompurify": "^3.16.0",
@@ -51,7 +55,8 @@
     "react-dom": "19.2.4",
     "shadcn": "^4.11.0",
     "tailwind-merge": "^3.6.0",
-    "tw-animate-css": "^1.4.0"
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

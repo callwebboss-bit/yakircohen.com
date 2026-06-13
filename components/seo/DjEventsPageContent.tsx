@@ -345,6 +345,31 @@ export default function DjEventsPageContent() {
           </ul>
         </section>
 
+        <section
+          className="rounded-xl border border-dashed border-border bg-surface/50 p-6 text-center"
+          aria-labelledby="reel-factory-vendor-heading"
+        >
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+            לספקים ותקליטנים
+          </p>
+          <h2
+            id="reel-factory-vendor-heading"
+            className="mt-2 text-lg font-semibold text-foreground"
+          >
+            מפעל הרילס לספקים
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            סיימתם אירוע ב-2 בלילה? מעלים 5-10 קליפים מהרחבה ומקבלים רילס Rave ערוך
+            ב-12 בצהריים — בלי לשבת על עריכה.
+          </p>
+          <Link
+            href="/business/reel-factory"
+            className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
+          >
+            The Reel Factory — פרטים וחבילות ←
+          </Link>
+        </section>
+
         <section aria-labelledby="related-heading">
           <header className="mx-auto max-w-2xl text-center">
             <h2

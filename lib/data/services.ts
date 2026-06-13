@@ -2638,6 +2638,97 @@ export const VIDEO_SERVICES = {
     showInVideoHub: true,
     showInPhotographyHub: true,
   },
+
+  "video-reel-factory": {
+    id: "video-reel-factory",
+    slug: "business/reel-factory",
+    category: "video",
+    title: "מפעל הרילס לספקי אירועים",
+    subtitle:
+      "סיימתם אירוע ב-2 בלילה — מקבלים רילס Rave ערוך ב-12 בצהריים. AI + עורכי וידאו, מנוי חודשי ל-DJ, צלמים, מפיקים ואטרקציות.",
+    metaTitle: "מפעל רילס לספקים | The Reel Factory",
+    metaDescription:
+      "עריכת רילס לספקי אירועים. Rave 24 שעות + מנוי Content Hub עם פרומואים ופוסטים שיווקיים.",
+    keywords: [
+      "רילס לספקי אירועים",
+      "עריכת וידאו לדיג'יי",
+      "פרומו אירועים",
+      "Content Hub לספקים",
+      "The Reel Factory",
+    ],
+    features: [
+      "פס ייצור 24 שעות — העלאה עד 04:00, מסירה 12:00",
+      "ביט-סינק, אפקטים ויזואליים, צבע וסאונד מנורמל",
+      "מנוי חודשי: 4-8 פרומואים + פוסטים שיווקיים",
+      "מיועד ל-DJ, צלמים, מפיקים ומפעילי אטרקציות",
+      "שליחת חומר גולמי בוואטסאפ, Drive או עמוד העלאה",
+    ],
+    assetsFolder: "video/corporate-video",
+    playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["video-reel-factory"]),
+    mediaType: "video",
+    whatsappText:
+      "שלום, אני ספק אירועים ומעוניין/ת במפעל הרילס — אשמח לשמוע על חבילות Rave 24h ומנוי Content Hub",
+    utmCampaign: "reel_factory_hub",
+    pricing: [
+      {
+        name: "פרומו רילס בודד",
+        price: "950 ₪",
+        priceNote: "לפני מע״מ · 2-3 ימי עסקים",
+        description: "חיתוך מ-5-10 קליפים גולמיים + כתוביות בסיסיות.",
+      },
+      {
+        name: "Rave 24 שעות ★",
+        price: "1,400 ₪",
+        priceNote: "לפני מע״מ · מסירה עד 12:00",
+        description:
+          "ביט-סינק, אפקטים על הביט, צבע וסאונד — רילס שעושה חשק לסגור איתו.",
+        featured: true,
+        badge: "הכי מבוקש",
+      },
+      {
+        name: "Content Hub בסיס",
+        price: "2,800 ₪",
+        priceNote: "לחודש · לפני מע״מ",
+        description: "4 פרומואים ערוכים + פוסטים שיווקיים לכל אירוע.",
+      },
+      {
+        name: "Content Hub פרו",
+        price: "4,500 ₪",
+        priceNote: "לחודש · לפני מע״מ",
+        description: "8 פרומואים + פוסטים + כיתובים מותאמים לכל פלטפורמה.",
+      },
+    ],
+    faqs: [
+      {
+        id: "rf-film",
+        question: "מה צריך לצלם מהרחבה?",
+        answer:
+          "5-10 קליפים של 3-15 שניות — אנרגיה, קהל, ציוד. מספיק מהטלפון.",
+      },
+      {
+        id: "rf-deadline",
+        question: "עד מתי מעלים ל-Rave 24h?",
+        answer: "עד 04:00 בבוקר לאחר האירוע = מסירה עד 12:00 בצהריים.",
+      },
+      {
+        id: "rf-sub",
+        question: "חייבים מנוי?",
+        answer:
+          "לא. אפשר פרומו בודד או Rave לפי אירוע. מנוי משתלם מ-3 אירועים בחודש.",
+      },
+      {
+        id: "rf-upload",
+        question: "איך שולחים חומר?",
+        answer: "וואטסאפ, Drive, Dropbox או עמוד שליחת הקבצים באתר.",
+      },
+    ],
+    hubCard: {
+      title: "מפעל רילס לספקים",
+      description: "Rave 24 שעות + מנוי Content Hub לפרומואים.",
+    },
+    showInVideoHub: true,
+    showInPhotographyHub: false,
+  },
 } as const satisfies Record<string, ServiceEntity>;
 
 export type VideoServiceId = keyof typeof VIDEO_SERVICES;

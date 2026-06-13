@@ -27,11 +27,23 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   events: { bookCategory: "events", priceCatalogId: "event_attraction_1" },
   photography: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
   video: { bookCategory: "clips", priceCatalogId: "quick_summary_clip" },
+  "business/reel-factory": {
+    bookCategory: "clips",
+    priceCatalogId: "reel_factory_rave_24h",
+  },
   podcast: { bookCategory: "podcast", priceCatalogId: "podcast_pilot" },
   voiceover: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   online: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
   academy: { bookCategory: "academy", priceExVat: 990 },
   voucher: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  pro: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" },
+  "events/dj/voice-tags": { bookCategory: "dj", priceCatalogId: "dj_voice_tag_single" },
+  "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_fixer_express" },
+  "events/dj/pre-built-sets": { bookCategory: "dj", priceCatalogId: "prebuilt_set_corporate" },
+  "podcast/studio-in-a-box": { bookCategory: "podcast", priceCatalogId: "studio_in_box_consult" },
+  "podcast/bulk-production": { bookCategory: "podcast", priceCatalogId: "bulk_podcast_episode" },
+  "events/equipment/dry-hire": { bookCategory: "singer", priceCatalogId: "dry_hire_day" },
+  "events/equipment/system-tuning": { bookCategory: "singer", priceCatalogId: "system_tuning_ease" },
 };
 
 const SLUG_PREFIX_FALLBACK: { prefix: string; entry: BookMapEntry }[] = [
@@ -42,6 +54,8 @@ const SLUG_PREFIX_FALLBACK: { prefix: string; entry: BookMapEntry }[] = [
   { prefix: "online/", entry: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" } },
   { prefix: "academy/", entry: { bookCategory: "academy", priceExVat: 990 } },
   { prefix: "voiceover/", entry: { bookCategory: "studio", priceCatalogId: "blessing_recording" } },
+  { prefix: "business/", entry: { bookCategory: "clips", priceCatalogId: "reel_factory_rave_24h" } },
+  { prefix: "pro/", entry: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" } },
 ];
 
 function normalizeSlug(slug: string): string {

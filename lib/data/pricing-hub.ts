@@ -84,6 +84,31 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     ],
   },
   {
+    id: "reel-factory",
+    title: "מפעל רילס לספקים",
+    description: "Rave 24 שעות + מנוי Content Hub ל-DJ, צלמים ומפעילי אטרקציות",
+    href: "/business/reel-factory",
+    bookHref: "/book#clips",
+    rows: [
+      { label: "פרומו רילס בודד", exVat: getExVat("reel_factory_single") },
+      {
+        label: "Rave ערוך תוך 24 שעות",
+        exVat: getExVat("reel_factory_rave_24h"),
+        note: "העלאה עד 04:00 = מסירה 12:00",
+      },
+      {
+        label: "Content Hub בסיס",
+        exVat: getExVat("reel_factory_starter_monthly"),
+        note: "4 פרומואים + פוסטים · לחודש",
+      },
+      {
+        label: "Content Hub פרו",
+        exVat: getExVat("reel_factory_pro_monthly"),
+        note: "8 פרומואים + כיתובים · לחודש",
+      },
+    ],
+  },
+  {
     id: "online",
     title: "שירותי AI מקוונים",
     description: "עריכה ושחזור קול מרחוק",
@@ -94,6 +119,23 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
       { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
       { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
+    ],
+  },
+  {
+    id: "pro",
+    title: "שירותי B2B Pro",
+    description: "דיג'ייז, פודקאסט B2B והגברה מקצועית",
+    href: "/pro",
+    bookHref: "/book#pro",
+    rows: [
+      { label: "Voice Tag בודד לדיג'יי", exVat: getExVat("dj_voice_tag_single") },
+      { label: "חבילת 5 Voice Tags", exVat: getExVat("dj_voice_tag_pack_5") },
+      { label: "מאשאפ חירום — עד 24 שעות", exVat: getExVat("mashup_fixer_express") },
+      { label: "סט DJ מובנה", exVat: getExVat("prebuilt_set_corporate") },
+      { label: "Studio In A Box + 10 פרקים", exVat: getExVat("studio_in_box_consult") },
+      { label: "פס ייצור — פרק + 3 Shorts", exVat: getExVat("bulk_podcast_episode") },
+      { label: "Dry Hire — יום השכרה", exVat: getExVat("dry_hire_day"), note: "לפי פריט" },
+      { label: "תכנון EASE / SMAART", exVat: getExVat("system_tuning_ease") },
     ],
   },
 ] as const;

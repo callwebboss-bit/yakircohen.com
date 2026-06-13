@@ -74,7 +74,7 @@
 | `studio/blessings/bride-groom-blessing/` | 2 | **מומלץ להוסיף** |
 | `dj-course/` | 1 | קורס DJ + קורס קריינות — **מומלץ להוסיף** |
 
-`video/corporate-video/` — תיקייה קיימת; אם ריקה, העלה תמונות לסרטי תדמית.
+`video/corporate-video/` — תיקייה קיימת; משמשת גם ל-[`/business/reel-factory`](https://yakircohen.com/business/reel-factory). אם ריקה, העלה תמונות לסרטי תדמית.
 
 ---
 

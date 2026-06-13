@@ -128,6 +128,14 @@ export default function SocialMediaPageContent() {
             </li>
             <li>
               <Link
+                href="/business/reel-factory"
+                className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
+                מפעל רילס לספקי אירועים
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/contact"
                 className="inline-flex min-h-11 items-center text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >

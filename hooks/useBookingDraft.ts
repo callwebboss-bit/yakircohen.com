@@ -72,9 +72,11 @@ export function useBookingDraft<T>(
   const setStateRef = useRef(setState);
   const lastSavedAtRef = useRef<string | null>(null);
 
-  serializeRef.current = serialize;
-  deserializeRef.current = deserialize;
-  setStateRef.current = setState;
+  useEffect(() => {
+    serializeRef.current = serialize;
+    deserializeRef.current = deserialize;
+    setStateRef.current = setState;
+  });
 
   const [restored, setRestored] = useState(false);
   const [savedAt, setSavedAt] = useState<string | null>(null);

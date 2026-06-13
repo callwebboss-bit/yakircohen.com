@@ -42,6 +42,7 @@ export const BOOKING_SUCCESS_BTS: Partial<
   academy: { videoId: FEATURED_YOUTUBE_VIDEO_ID, title: "מאחורי הקלעים באקדמיה" },
   online: { videoId: FEATURED_YOUTUBE_VIDEO_ID, title: "מאחורי הקלעים — עיבוד AI" },
   clips: { videoId: FEATURED_YOUTUBE_VIDEO_ID, title: "מאחורי הקלעים — הפקת קליפ" },
+  pro: { videoId: "5pBisBkfTEg", title: "מאחורי הקלעים — שירותי B2B" },
 };
 
 export function resolveBookingBtsVideo(category?: BookCategoryId) {

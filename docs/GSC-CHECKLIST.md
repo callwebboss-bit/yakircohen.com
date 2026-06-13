@@ -24,6 +24,15 @@
 | 6 | `/events/wedding-attractions-packages` |
 | 7 | `/pricing` |
 
+### 2b. בקשת אינדוקס — B2B Pro (חדש)
+
+| עדיפות | URL |
+|--------|-----|
+| 1 | `/pro` |
+| 2 | `/events/dj/voice-tags` |
+| 3 | `/events/equipment/dry-hire` |
+| 4 | `/podcast/bulk-production` |
+
 ### 3. Rich Results Test
 
 [Rich Results Test](https://search.google.com/test/rich-results)

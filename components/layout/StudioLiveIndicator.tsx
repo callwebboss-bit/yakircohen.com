@@ -15,7 +15,7 @@ export default function StudioLiveIndicator() {
   const [live, setLive] = useState(false);
 
   useEffect(() => {
-    setLive(isStudioLive());
+    queueMicrotask(() => setLive(isStudioLive()));
   }, []);
 
   // OPTIMIZED: reserved corner slot — client time (SSG-safe) without layout shift on reveal

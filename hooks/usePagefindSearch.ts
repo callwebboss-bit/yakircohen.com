@@ -32,7 +32,10 @@ export function usePagefindSearch(
   const requestIdRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const resultsRef = useRef<PFResult[]>([]);
-  resultsRef.current = results;
+
+  useEffect(() => {
+    resultsRef.current = results;
+  }, [results]);
 
   const ensureIndex = useCallback(async (): Promise<PFApi | null> => {
     if (indexRef.current !== undefined) return indexRef.current;
@@ -85,9 +88,11 @@ export function usePagefindSearch(
     const reqId = ++requestIdRef.current;
 
     if (!query.trim()) {
-      setStatus("idle");
-      setResults([]);
-      setIsStale(false);
+      queueMicrotask(() => {
+        setStatus("idle");
+        setResults([]);
+        setIsStale(false);
+      });
       return;
     }
 

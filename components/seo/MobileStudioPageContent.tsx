@@ -77,7 +77,7 @@ export default function MobileStudioPageContent() {
             איך זה עובד? הסוד הוא באקוסטיקה
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            רבים שואלים: "איך החדר שלי יהפוך לאולפן?" התשובה טמונה
+            רבים שואלים: &quot;איך החדר שלי יהפוך לאולפן?&quot; התשובה טמונה
             בציוד. אנחנו מגיעים עם פנלים אקוסטיים ניידים, מסכי בידוד למיקרופונים
             (Shields) וציוד קצה - כרטיסי קול ומיקרופונים מהשורה הראשונה.
           </p>

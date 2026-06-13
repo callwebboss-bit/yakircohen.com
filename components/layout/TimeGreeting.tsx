@@ -17,7 +17,7 @@ export default function TimeGreeting() {
   const tip = getTipForPath(pathname);
 
   useEffect(() => {
-    setGreeting(getGreeting(new Date().getHours()));
+    queueMicrotask(() => setGreeting(getGreeting(new Date().getHours())));
   }, []);
 
   // OPTIMIZED: fixed-height shell prevents CLS while client time resolves (SSG-safe vs SSR time)

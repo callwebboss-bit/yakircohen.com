@@ -150,6 +150,8 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
 
   "video-hub": "XUr2e5S4JSA",
 
+  "video-reel-factory": "hg5qW6nk0iU",
+
   "video-event-filming": "EhWehkdTdc0",
 
   "video-corporate-video": "3bpNDppVFzA",

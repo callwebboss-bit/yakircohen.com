@@ -68,6 +68,7 @@ const SERVICE_SLUG_TO_CLOSER = {
   academy: "academy",
   online: "online_ai",
   "online/vocal-fix": "online_ai",
+  "online/mashup-fixer": "mashup_fixer",
   "podcast/podcast-editing": "podcast",
   "podcast/podcast-studio-modiin": "podcast",
 };
@@ -310,6 +311,66 @@ function parseLeadRegistry(text) {
   return entries;
 }
 
+const PRO_SERVICES_FILE = path.join(ROOT, "lib", "data", "pro-services.ts");
+const INVENTORY_FILE = path.join(ROOT, "lib", "data", "equipment-inventory.ts");
+const INVENTORY_STATE_FILE = path.join(OUT_DIR, "equipment-inventory-state.json");
+const INVENTORY_BOOKINGS_SITE = path.join(ROOT, "lib", "data", "equipment-inventory-bookings.json");
+
+function parseProServices(text) {
+  const services = [];
+  const blocks = text.split(/\{\s*\n\s*id:\s*"/).slice(1);
+  for (const block of blocks) {
+    const id = block.match(/^([^"]+)"/)?.[1];
+    if (!id) continue;
+    const pick = (key) => block.match(new RegExp(`${key}:\\s*"([^"]+)"`))?.[1];
+    const pickRaw = (key) => block.match(new RegExp(`${key}:\\s*'([^']+)'`))?.[1];
+    services.push({
+      id,
+      slug: pick("slug"),
+      path: pick("path"),
+      title: pick("title"),
+      closerServiceId: pick("closerServiceId"),
+      bookCategoryId: pick("bookCategoryId"),
+      pricingId: pick("pricingId"),
+      utmCampaign: pick("utmCampaign"),
+      department: pick("department"),
+      whatsappIntro: pick("whatsappIntro"),
+      systemPrompt: block.match(/system:\s*"([^"]+)"/)?.[1] ?? "",
+      userTemplate: block.match(/userTemplate:\s*"([^"]+)"/)?.[1] ?? "",
+    });
+  }
+  return services;
+}
+
+function parseEquipmentInventory(text) {
+  const items = [];
+  const blockRe =
+    /\{\s*id:\s*"([^"]+)"[\s\S]*?label:\s*"([^"]+)"[\s\S]*?category:\s*"([^"]+)"[\s\S]*?qtyTotal:\s*(\d+)[\s\S]*?dailyRateExVat:\s*(\d+)/g;
+  let m;
+  while ((m = blockRe.exec(text)) !== null) {
+    items.push({
+      id: m[1],
+      label: m[2],
+      category: m[3],
+      qtyTotal: Number(m[4]),
+      dailyRateExVat: Number(m[5]),
+    });
+  }
+  return items;
+}
+
+function loadInventoryBookings() {
+  try {
+    if (fs.existsSync(INVENTORY_STATE_FILE)) {
+      const raw = JSON.parse(fs.readFileSync(INVENTORY_STATE_FILE, "utf8"));
+      return Array.isArray(raw.bookings) ? raw.bookings : [];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [];
+}
+
 /** audienceRoutes מלאים — discovery מ-brandCopy, שירות ואירוע מ-book-audience-routes */
 function buildAudienceRoutes(routesText, brandCopy) {
   const discoveryById = {};
@@ -325,6 +386,7 @@ function buildAudienceRoutes(routesText, brandCopy) {
     "photo-clips": "צילום / קליפ",
     "academy-learn": "שיעור פרטי",
     "online-restore": "שחזור סאונד",
+    "pro-b2b": "B2B Pro",
   };
   const routes = [];
   const blockRe =
@@ -451,6 +513,8 @@ const registryText = fs.readFileSync(REGISTRY_FILE, "utf8");
 const podcastCalcText = fs.readFileSync(PODCAST_CALC_FILE, "utf8");
 const attractionsText = fs.readFileSync(ATTRACTIONS_FILE, "utf8");
 const clipsText = fs.readFileSync(CLIPS_SERVICES_FILE, "utf8");
+const proServicesText = fs.readFileSync(PRO_SERVICES_FILE, "utf8");
+const inventoryText = fs.readFileSync(INVENTORY_FILE, "utf8");
 const brandCopyRaw = JSON.parse(fs.readFileSync(BRAND_COPY_FILE, "utf8"));
 const brandCopy = humanizeExportStrings(brandCopyRaw);
 
@@ -533,7 +597,17 @@ const payload = {
     gaRealtimeUrl:
       "https://analytics.google.com/analytics/web/#/a2322839p397966715/realtime/overview",
   },
+  proServices: parseProServices(proServicesText),
+  equipmentInventory: parseEquipmentInventory(inventoryText),
+  inventoryBookings: loadInventoryBookings(),
 };
+
+const invBookings = payload.inventoryBookings;
+fs.writeFileSync(
+  INVENTORY_BOOKINGS_SITE,
+  `${JSON.stringify({ bookings: invBookings, updatedAt: new Date().toISOString() }, null, 2)}\n`,
+  "utf8",
+);
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(OUT_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

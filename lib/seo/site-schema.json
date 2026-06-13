@@ -24,7 +24,6 @@
         "url": "https://yakircohen.com/images/logo.svg"
       },
       "telephone": "+972587555456",
-      "taxID": "301773289",
       "foundingDate": "2010",
       "founder": {
         "@id": "https://yakircohen.com/#founder"
@@ -191,17 +190,17 @@
         },
         {
           "@type": "Offer",
-          "name": "פרק קצר  -  חצי שעה",
-          "description": "הדרך הכי נגישה להתחיל פודקאסט  -  בלי להתחייב לחבילה גדולה.",
-          "price": "750",
+          "name": "חבילת תוכן מלאה",
+          "description": "מפרק אחד יוצאים כמה נכסי תוכן - פודקאסט, רילס וכתבה.",
+          "price": "2800",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/podcast"
         },
         {
           "@type": "Offer",
-          "name": "פודקאסט אודיו",
-          "description": "פרק אחד שממשיך לעבוד בשבילכם - תוכן שמביא פניות גם אחרי ההקלטה.",
-          "price": "950",
+          "name": "פודקאסט וידאו",
+          "description": "וידאו בונה אמון - הקהל מגיע מוכן לפני שמתקשרים.",
+          "price": "1650",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/podcast"
         },

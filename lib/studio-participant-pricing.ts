@@ -118,7 +118,7 @@ export function parseParticipantsFromText(text: string): ParsedParticipants {
   }
 
   const adultsMatch = text.match(ADULTS_RE);
-  let adultsCount = firstNum(adultsMatch?.[1], adultsMatch?.[2]);
+  const adultsCount = firstNum(adultsMatch?.[1], adultsMatch?.[2]);
 
   const childrenMatch = text.match(CHILDREN_RE);
   let childrenCount = firstNum(childrenMatch?.[1], childrenMatch?.[2]);

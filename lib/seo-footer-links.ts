@@ -79,6 +79,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         href: "/podcast/podcast-editing",
         title: "עריכת פודקאסט מקצועית מרחוק",
       },
+      {
+        label: "מרכז B2B Pro",
+        href: "/pro",
+        title: "שירותי B2B לדיג'ייז, פודקאסט והגברה",
+      },
     ],
   },
   {
@@ -98,6 +103,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         label: "ניהול סושיאל לעסקים",
         href: "/business/social-media",
         title: "ניהול סושיאל ומדיה לעסקים",
+      },
+      {
+        label: "מפעל רילס לספקים",
+        href: "/business/reel-factory",
+        title: "The Reel Factory — עריכת פרומואים לספקי אירועים",
       },
       {
         label: "הקלטת ברכת כלה",

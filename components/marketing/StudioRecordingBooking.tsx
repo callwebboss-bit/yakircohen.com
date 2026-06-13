@@ -1486,7 +1486,7 @@ export default function StudioRecordingBooking({
                         )
                       }
                     >
-                      💡 העתק פיץ' לקבוצה (מחירון)
+                      💡 העתק פיץ&apos; לקבוצה (מחירון)
                     </button>
                   </div>
                 </div>
