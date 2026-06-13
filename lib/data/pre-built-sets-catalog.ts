@@ -35,14 +35,14 @@ export const PRE_BUILT_SETS_CATALOG: readonly PreBuiltSet[] = [
   },
   {
     id: "corporate_networking",
-    title: "אירוע חברה — נטוורקינג",
+    title: "אירוע חברה — מפגש עסקי",
     category: "corporate",
     durationMinutes: 60,
     trackCount: 22,
-    bpmRange: "95–110",
+    bpmRange: "95 עד 110",
     priceExVat: 450,
     description: "רקע מקצועי לכנסים, השקות וקבלות פנים עסקיות.",
-    tags: ["חברה", "כנס", "נטוורקינג"],
+    tags: ["חברה", "כנס", "מפגש עסקי"],
   },
   {
     id: "wedding_evening",

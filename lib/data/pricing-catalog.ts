@@ -95,15 +95,15 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "reel_factory_starter_monthly", label: "Content Hub בסיס לספקים", exVat: 2800, category: "online", context: "4 פרומואים + פוסטים שיווקיים בחודש" },
   { id: "reel_factory_pro_monthly", label: "Content Hub פרו לספקים", exVat: 4500, category: "online", context: "8 פרומואים + פוסטים + כיתובים לכל פלטפורמה" },
 
-  // ─── שירותי B2B Pro ───
-  { id: "dj_voice_tag_single", label: "Voice Tag בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות + אפקטי מועדון — Reverb, Delay, Laser" },
-  { id: "dj_voice_tag_pack_5", label: "חבילת 5 Voice Tags", exVat: 1200, category: "pro", context: "חמישה tags מותאמים עם אפקטים" },
-  { id: "mashup_fixer_express", label: "מאשאפ חירום — עד 24 שעות", exVat: 1800, category: "pro", context: "שילוב 2 שירים, Key Matching וביטמיקס" },
-  { id: "prebuilt_set_corporate", label: "סט DJ מובנה לפי קטגוריה", exVat: 450, category: "pro", context: "מוזיקה ערוכה ומחוברת בביט קבוע" },
-  { id: "studio_in_box_consult", label: "Studio In A Box — ייעוץ + 10 פרקים", exVat: 2500, category: "pro", context: "תכנון אקוסטי, מפרט ציוד ועריכה ל-10 פרקים" },
-  { id: "bulk_podcast_episode", label: "פס ייצור — פרק + 3 Shorts", exVat: 950, category: "pro", context: "עריכה, נורמליזציה, פתיח/סגיר ו-3 Shorts" },
-  { id: "dry_hire_day", label: "Dry Hire — יום השכרת ציוד", exVat: 450, category: "pro", context: "השכרת ציוד בלבד לפי פריט ויום" },
-  { id: "system_tuning_ease", label: "תכנון הגברה EASE / SMAART", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
+  // ─── שירותים מקצועיים לעסקים ───
+  { id: "dj_voice_tag_single", label: "תג קולי בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות ממותגת עם אפקטי מועדון" },
+  { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1200, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
+  { id: "mashup_fixer_express", label: "מאשאפ חירום — עד 24 שעות", exVat: 1800, category: "pro", context: "שילוב שני שירים והתאמת סולמות וקצב" },
+  { id: "prebuilt_set_corporate", label: "סט מוזיקה מוכן לפי קטגוריה", exVat: 450, category: "pro", context: "מוזיקה ערוכה ומחוברת בקצב קבוע" },
+  { id: "studio_in_box_consult", label: "אולפן בקופסה — ייעוץ + עשרה פרקים", exVat: 2500, category: "pro", context: "תכנון אקוסטי, מפרט ציוד ועריכה לעשרה פרקים" },
+  { id: "bulk_podcast_episode", label: "פס ייצור — פרק ושלושה סרטונים קצרים", exVat: 950, category: "pro", context: "עריכה, עוצמת שמע אחידה, פתיח/סגיר וסרטונים לרשתות" },
+  { id: "dry_hire_day", label: "השכרת ציוד — יום אחד", exVat: 450, category: "pro", context: "השכרת ציוד בלבד לפי פריט ויום" },
+  { id: "system_tuning_ease", label: "תכנון הגברה ומדידות", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
 ] as const;
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];

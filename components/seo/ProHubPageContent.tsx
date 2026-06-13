@@ -11,7 +11,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export default function ProHubPageContent() {
   const waHref = buildWhatsAppHref({
-    text: "שלום, מעוניין/ת בשירותי B2B Pro מהאתר.",
+    text: "שלום, מעוניין/ת בשירותים מקצועיים לעסקים מהאתר.",
     utm_source: "website",
     utm_campaign: "pro_hub_cta",
   });
@@ -20,14 +20,20 @@ export default function ProHubPageContent() {
     <article>
       <Section padding="sm" className="border-b border-border">
         <Container className="max-w-5xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            B2B Pro
+          <p className="text-xs font-semibold text-muted-foreground">
+            שירותים מקצועיים לעסקים
           </p>
           <h1 className="text-hero mt-4 font-semibold text-foreground">
-            מרכז שירותי B2B — דיג&apos;ייז, פודקאסט והגברה
+            מרכז שירותים לדיג&apos;ייז, פודקאסט והגברה
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
-            Voice Tags, מאשאפים, פס ייצור, Dry Hire ותכנון EASE — עם ויזארד AI ומחירון שקוף.
+            תגים קוליים, מאשאפים דחופים, פס ייצור לפודקאסט, השכרת ציוד ותכנון הגברה —
+            עם מחשבון הצעה באתר ומחירון שקוף.
+          </p>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            השירותים כאן מיועדים לאנשי מקצוע: דיג&apos;ייז, חברות הפקה, יוצרי תוכן
+            וחברות הגברה. בכל עמוד יש מחשבון שמעריך מחיר ומפרט — ואחרי זה אפשר להמשיך
+            בוואטסאפ או בהזמנה מקוונת.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
@@ -44,6 +50,12 @@ export default function ProHubPageContent() {
             >
               הזמנה מקוונת
             </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex min-h-11 items-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
+            >
+              מחירון מלא
+            </Link>
           </div>
         </Container>
       </Section>
@@ -56,7 +68,7 @@ export default function ProHubPageContent() {
               <h2 className="font-serif text-section-title font-semibold text-foreground">
                 {dept.label}
               </h2>
-              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                 {dept.description}
               </p>
               <ul className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -74,7 +86,7 @@ export default function ProHubPageContent() {
                         {svc.subtitle}
                       </p>
                       <p className="mt-3 text-xs font-semibold text-brand-red">
-                        מ-{getExVat(svc.pricingId).toLocaleString("he-IL")} ₪ + מע״מ
+                        החל מ-{getExVat(svc.pricingId).toLocaleString("he-IL")} שקלים לפני מע״מ
                       </p>
                     </Link>
                   </li>
@@ -84,6 +96,20 @@ export default function ProHubPageContent() {
           </Section>
         );
       })}
+
+      <Section padding="sm">
+        <Container className="max-w-5xl">
+          <h2 className="font-serif text-section-title font-semibold text-foreground">
+            איך עובד המחשבון?
+          </h2>
+          <ol className="mt-4 max-w-2xl space-y-3 text-sm leading-relaxed text-muted-foreground">
+            <li>1. נכנסים לעמוד השירות שמתאים לכם.</li>
+            <li>2. ממלאים את השדות במחשבון — תאריך, סוג אירוע, ציוד וכו׳.</li>
+            <li>3. מקבלים סיכום, המלצות ומחיר משוער.</li>
+            <li>4. ממשיכים בוואטסאפ או בהזמנה מקוונת — יקיר מאשר לפני סגירה.</li>
+          </ol>
+        </Container>
+      </Section>
     </article>
   );
 }

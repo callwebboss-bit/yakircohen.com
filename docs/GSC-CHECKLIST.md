@@ -24,7 +24,7 @@
 | 6 | `/events/wedding-attractions-packages` |
 | 7 | `/pricing` |
 
-### 2b. בקשת אינדוקס — B2B Pro (חדש)
+### 2b. בקשת אינדוקס — שירותים מקצועיים (חדש)
 
 | עדיפות | URL |
 |--------|-----|
@@ -32,6 +32,10 @@
 | 2 | `/events/dj/voice-tags` |
 | 3 | `/events/equipment/dry-hire` |
 | 4 | `/podcast/bulk-production` |
+| 5 | `/online/mashup-fixer` |
+| 6 | `/podcast/studio-in-a-box` |
+| 7 | `/events/dj/pre-built-sets` |
+| 8 | `/events/equipment/system-tuning` |
 
 ### 3. Rich Results Test
 
@@ -42,6 +46,8 @@
 | `/studio/recording-song-modiin` | Service, FAQPage, BreadcrumbList |
 | `/podcast/podcast-recording` | Service, FAQPage |
 | `/about/faq` | FAQPage |
+| `/events/dj/voice-tags` | Service, FAQPage |
+| `/pro` | Hub + קישורים לשירותים |
 
 > BreadcrumbList מוזרק client-side — אם לא מופיע ב-View Source, בדוק ב-Rich Results אחרי רינדור.
 

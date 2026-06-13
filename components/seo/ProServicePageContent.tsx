@@ -30,9 +30,25 @@ export default function ProServicePageContent({
       pagePath={service.path}
       faqs={service.faqs}
       category={service.department}
-      scarcityLabel="שירות B2B — זמינות לפי יומן"
+      scarcityLabel="שירות מקצועי — זמינות לפי יומן"
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        {service.seoParagraphs.length > 0 ? (
+          <section aria-labelledby={`about-${service.id}`}>
+            <h2
+              id={`about-${service.id}`}
+              className="sr-only"
+            >
+              על השירות
+            </h2>
+            <div className="max-w-2xl space-y-4 text-sm leading-relaxed text-muted-foreground">
+              {service.seoParagraphs.map((p) => (
+                <p key={p.slice(0, 40)}>{p}</p>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {service.canonicalNote ? (
           <p className="max-w-2xl text-sm text-muted-foreground">{service.canonicalNote}</p>
         ) : null}
@@ -56,7 +72,7 @@ export default function ProServicePageContent({
                   <h3 className="font-semibold text-foreground">{set.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{set.description}</p>
                   <p className="mt-3 text-xs text-muted-foreground">
-                    {set.durationMinutes} דק׳ · {set.trackCount} שירים · BPM {set.bpmRange}
+                    {set.durationMinutes} דקות · {set.trackCount} שירים · קצב {set.bpmRange}
                   </p>
                   <p className="mt-2 text-sm font-semibold text-brand-red">
                     {set.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ
@@ -92,7 +108,7 @@ export default function ProServicePageContent({
 
         <p className="text-center text-sm text-muted-foreground">
           <Link href="/pro" className="font-medium text-brand-red hover:underline">
-            ← כל שירותי B2B Pro
+            חזרה למרכז השירותים המקצועיים
           </Link>
         </p>
       </div>

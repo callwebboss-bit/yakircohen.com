@@ -129,8 +129,8 @@ export default function FAQAccordion({
                     id={triggerId}
                     type="button"
                     className={cn(
-                      "touch-target flex w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-all duration-fast ease-luxury active:scale-[0.995] hover:text-[var(--service-accent,#d42b2b)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:text-base",
-                      isOpen && "text-[var(--service-accent,#d42b2b)]",
+                      "touch-target flex w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-all duration-fast ease-luxury active:scale-[0.995] hover:text-[var(--service-accent-ink,#d42b2b)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:text-base",
+                      isOpen && "text-[var(--service-accent-ink,#d42b2b)]",
                     )}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
@@ -140,7 +140,7 @@ export default function FAQAccordion({
                     <span>{item.question}</span>
                     <span
                       className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-[var(--service-accent-ink,#d42b2b)] transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
                         isOpen && "rotate-180 border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10",
                       )}
                       aria-hidden="true"

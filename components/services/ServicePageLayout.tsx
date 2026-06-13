@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import CorporateShareButton from "@/components/ui/CorporateShareButton";
 import Button from "@/components/ui/Button";
@@ -17,7 +17,7 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
-import { resolveServiceAccentColor } from "@/lib/theme/service-accent";
+import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 
 export type ServicePageLayoutProps = {
@@ -216,8 +216,6 @@ export default function ServicePageLayout({
   faqs,
   corporateShareLabel,
 }: ServicePageLayoutProps) {
-  const accentColor = resolveServiceAccentColor(category);
-  const accentStyle = { "--service-accent": accentColor } as CSSProperties;
   const pageEntitySchema = pagePath
     ? buildServicePageEntitySchema({
         pagePath,
@@ -259,14 +257,8 @@ export default function ServicePageLayout({
   const hasHeroGrid = hasHeroImage || hasHeroVideo;
 
   return (
-    <article className={cn("bg-background", className)} style={accentStyle}>
-      {/* Lifts --service-accent to :root so Header/FloatingFabs (outside this
-          article) can sync to it too — pure CSS, zero runtime overhead. */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `:root{--service-accent:${accentColor}}`,
-        }}
-      />
+    <HubAccentScope category={category}>
+    <article className={cn("bg-background", className)}>
       {pageEntitySchema ? (
         <script
           type="application/ld+json"
@@ -306,11 +298,11 @@ export default function ServicePageLayout({
           )}
         >
           <div className={cn(hasHeroGrid && "lg:max-w-2xl")}>
-            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--service-accent,#d42b2b)] uppercase">
+            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--service-accent-ink,#d42b2b)] uppercase">
               {SITE_KICKER}
             </p>
             {scarcityLabel ? (
-              <p className="mt-4 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-xs font-semibold text-[var(--service-accent,#d42b2b)]">
+              <p className="mt-4 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-xs font-semibold text-[var(--service-accent-ink,#d42b2b)]">
                 {scarcityLabel}
               </p>
             ) : null}
@@ -351,7 +343,7 @@ export default function ServicePageLayout({
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (
               <Link
                 href={scrollHref}
-                className="mt-5 inline-flex text-sm font-semibold text-[var(--service-accent,#d42b2b)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                className="mt-5 inline-flex text-sm font-semibold text-[var(--service-accent-ink,#d42b2b)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
               >
                 {scrollLinkLabel}
               </Link>
@@ -402,7 +394,7 @@ export default function ServicePageLayout({
                   className="flex gap-3 rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-foreground"
                 >
                   <span
-                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/40 text-xs font-bold text-[var(--service-accent,#d42b2b)]"
+                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/40 text-xs font-bold text-[var(--service-accent-ink,#d42b2b)]"
                     aria-hidden="true"
                   >
                     ✓
@@ -438,5 +430,6 @@ export default function ServicePageLayout({
         ) : null}
       </PageBottomCta>
     </article>
+    </HubAccentScope>
   );
 }

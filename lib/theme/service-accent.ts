@@ -7,7 +7,9 @@ export type ServiceAccentCategory =
   | "events"
   | "video"
   | "photography"
-  | "ai";
+  | "online"
+  | "academy"
+  | "pro";
 
 export const SERVICE_ACCENT_COLORS: Record<ServiceAccentCategory, string> = {
   events: "#d42b2b",
@@ -16,7 +18,9 @@ export const SERVICE_ACCENT_COLORS: Record<ServiceAccentCategory, string> = {
   video: "#4f46e5",
   photography: "#059669",
   podcast: "#7c3aed",
-  ai: "#06b6d4",
+  online: "#06b6d4",
+  academy: "#1d4ed8",
+  pro: "#92703a",
 };
 
 export const DEFAULT_SERVICE_ACCENT = SERVICE_ACCENT_COLORS.events;

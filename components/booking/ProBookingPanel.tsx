@@ -7,7 +7,7 @@ export default function ProBookingPanel() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        בחרו שירות B2B — כל עמוד כולל ויזארד AI להצעת מחיר. או פנו בוואטסאפ לחבילה מותאמת.
+        בחרו שירות — בכל עמוד יש מחשבון שמעריך מחיר. אפשר גם לפנות בוואטסאפ לחבילה מותאמת.
       </p>
       <ul className="grid gap-3 sm:grid-cols-2">
         {PRO_SERVICES.map((svc) => {
@@ -26,14 +26,14 @@ export default function ProBookingPanel() {
               </span>
               <h3 className="mt-2 text-sm font-semibold text-foreground">{svc.title}</h3>
               <p className="mt-1 text-xs text-muted-foreground">
-                מ-{getExVat(svc.pricingId).toLocaleString("he-IL")} ₪ + מע״מ
+                החל מ-{getExVat(svc.pricingId).toLocaleString("he-IL")} שקלים לפני מע״מ
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link
                   href={svc.path}
                   className="text-xs font-semibold text-brand-red hover:underline"
                 >
-                  ויזארד AI ←
+                  למחשבון והצעה
                 </Link>
                 <a
                   href={wa}
@@ -52,7 +52,7 @@ export default function ProBookingPanel() {
         href="/pro"
         className="inline-block text-sm font-medium text-brand-red hover:underline"
       >
-        מרכז B2B Pro — סקירה מלאה
+        מרכז השירותים המקצועיים — סקירה מלאה
       </Link>
     </div>
   );

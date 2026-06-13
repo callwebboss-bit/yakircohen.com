@@ -156,7 +156,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
     [
       service.whatsappIntro,
       result?.summary ? `\nסיכום: ${result.summary}` : "",
-      `\nמחיר משוער: ${displayPrice.toLocaleString("he-IL")} ₪ + מע״מ (${withVat(displayPrice).toLocaleString("he-IL")} ₪ סופי)`,
+      `\nמחיר משוער: ${displayPrice.toLocaleString("he-IL")} שקלים לפני מע״מ (${withVat(displayPrice).toLocaleString("he-IL")} שקלים כולל מע״מ)`,
       "\nאשמח לפרטים והמשך.",
     ].join(""),
     {
@@ -185,7 +185,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
         {service.wizardTitle}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        ממלאים פרטים — מקבלים הצעת עריכה / מפרט / מחיר משוער. AI + אוזן מקצועית.
+        ממלאים פרטים — מקבלים הצעה מותאמת עם מחיר משוער. יקיר בודק לפני סגירה.
       </p>
 
       {!result ? (
@@ -216,14 +216,14 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
             disabled={loading}
             className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light disabled:opacity-60"
           >
-            {loading ? "מחשב הצעה..." : "קבלו הצעה"}
+            {loading ? "מחשב הצעה..." : "קבלו הצעה משוערת"}
           </button>
         </form>
       ) : (
         <div className="mt-6 space-y-4">
           {source ? (
             <p className="text-xs text-muted-foreground">
-              מקור: {source === "ai" ? "AI + מפרט מקצועי" : "מחשבון אתר"}
+              {source === "ai" ? "הצעה חכמה מהאתר — יקיר מאשר לפני ביצוע" : "הערכה לפי מחשבון האתר"}
             </p>
           ) : null}
           <p className="text-sm font-medium text-foreground">{result.summary}</p>
@@ -240,7 +240,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
             </p>
           ) : null}
           <p className="text-sm font-semibold text-brand-red">
-            משוער: {displayPrice.toLocaleString("he-IL")} ₪ + מע״מ
+            משוער: {displayPrice.toLocaleString("he-IL")} שקלים לפני מע״מ
             {result.priceNote ? ` · ${result.priceNote}` : ""}
           </p>
           {result.nextSteps.length > 0 ? (
@@ -275,7 +275,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
               }}
               className="text-sm text-muted-foreground hover:text-brand-red"
             >
-              ← חזרה לטופס
+              חזרה לטופס
             </button>
           </div>
         </div>

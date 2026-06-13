@@ -27,6 +27,7 @@ export default function StudioPricingPage() {
       utmCampaign="studio_pricing_general"
       bookSlug="studio/pricing"
       ctaLabel="ייעוץ תמחור בוואטסאפ"
+      category="studio"
     >
       <Container className="space-y-12">
         <TrustStatsBar className="rounded-2xl border" />

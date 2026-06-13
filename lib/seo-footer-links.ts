@@ -80,9 +80,9 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "עריכת פודקאסט מקצועית מרחוק",
       },
       {
-        label: "מרכז B2B Pro",
+        label: "שירותים מקצועיים לעסקים",
         href: "/pro",
-        title: "שירותי B2B לדיג'ייז, פודקאסט והגברה",
+        title: "תגים קוליים, פודקאסט והגברה לאנשי מקצוע",
       },
     ],
   },

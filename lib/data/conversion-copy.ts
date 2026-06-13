@@ -40,7 +40,7 @@ export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {
   singer: "סאונד מקצועי על הבמה - אתם מתמקדים בשירה",
   academy: "ללמוד בקצב שלך - עם מי שעושה את זה בשטח",
   online: "מחזירים הקלטה שלא הייתם זורקים",
-  pro: "שירות B2B מקצועי - בלי לנחש מחירים",
+  pro: "שירות מקצועי לעסקים — בלי לנחש מחירים",
 };
 
 export function bookHrefForCategory(category: BookCategoryId): string {

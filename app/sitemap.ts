@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
 import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
+import { PRO_SERVICES } from "@/lib/data/pro-services";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
 
@@ -189,6 +190,14 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Blog hub ───────────────────────────────────────────────────────────────
   { url: url("blog"), priority: 0.8, changeFrequency: "weekly" },
+
+  // ── שירותים מקצועיים לעסקים ────────────────────────────────────────────────
+  { url: url("pro"), priority: 0.85, changeFrequency: "monthly" },
+  ...PRO_SERVICES.map((svc) => ({
+    url: url(svc.slug),
+    priority: 0.8 as const,
+    changeFrequency: "monthly" as const,
+  })),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -16,6 +16,42 @@ export const advisorResponseSchema = z.object({
 
 export type AdvisorResponse = z.infer<typeof advisorResponseSchema>;
 
+const STYLE_LABELS: Record<string, string> = {
+  club: "מועדון אנרגטי",
+  luxury: "יוקרתי",
+  festival: "פסטיבל",
+  minimal: "מינימלי",
+};
+
+const EFFECT_LABELS: Record<string, string> = {
+  reverb: "הדהוד",
+  delay: "הד מושהה",
+  laser: "אפקט לייזר",
+  filter: "מסנן תדרים",
+};
+
+const FORMAT_LABELS: Record<string, string> = {
+  usb: "דיסק און קי מוכן",
+  drive: "הורדה מדרייב",
+};
+
+const USE_CASE_LABELS: Record<string, string> = {
+  podcast_audio: "פודקאסט אודיו",
+  podcast_video: "פודקאסט וידאו",
+  stream: "שידור חי",
+};
+
+const EVENT_TYPE_LABELS: Record<string, string> = {
+  concert: "הופעה",
+  conference: "כנס",
+  wedding: "חתונה",
+  outdoor: "אירוע בחוץ",
+};
+
+function labelFrom(map: Record<string, string>, key: string, fallback = "לפי בחירה"): string {
+  return map[key] ?? fallback;
+}
+
 function fillTemplate(template: string, inputs: Record<string, string>): string {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key: string) => inputs[key] ?? "");
 }
@@ -34,13 +70,15 @@ export function buildAdvisorSystemPrompt(serviceId: ProServiceId): string {
 
 החזר JSON בפורמט:
 {
-  "summary": "סיכום קצר בעברית",
+  "summary": "סיכום קצר בעברית פשוטה",
   "recommendations": ["המלצה 1", "המלצה 2"],
   "estimatedPriceExVat": מספר,
   "priceNote": "הערת מחיר",
   "nextSteps": ["צעד 1", "צעד 2"],
   "technicalNotes": "פרטים טכניים אופציונליים"
-}`;
+}
+
+אל תשתמש באנגלית בתשובה — רק עברית ברורה.`;
 }
 
 function parseMultiselect(value: string): string[] {
@@ -54,6 +92,11 @@ function parseMultiselect(value: string): string[] {
   return [];
 }
 
+function formatEffects(effects: string[]): string {
+  if (!effects.length) return "הדהוד והד מושהה";
+  return effects.map((e) => labelFrom(EFFECT_LABELS, e, e)).join(", ");
+}
+
 /** Fallback when AI gateway is unavailable */
 export function buildRuleBasedAdvisor(
   serviceId: ProServiceId,
@@ -65,74 +108,75 @@ export function buildRuleBasedAdvisor(
   switch (serviceId) {
     case "dj-voice-tags": {
       const effects = parseMultiselect(inputs.effects ?? "");
-      const style = inputs.style ?? "club";
+      const style = labelFrom(STYLE_LABELS, inputs.style ?? "club", "מועדון");
       return {
-        summary: `Voice Tag בסגנון ${style} עם ${effects.length ? effects.join(", ") : "Reverb ו-Delay"}.`,
+        summary: `תג קולי בסגנון ${style} עם ${formatEffects(effects)}.`,
         recommendations: [
-          "קריינות קצרה (3–8 שניות) לסט",
-          effects.includes("reverb") || !effects.length ? "Reverb hall קל לתחושת מועדון" : "",
-          effects.includes("laser") ? "אפקט Laser לפני ואחרי המשפט" : "Delay סינכרוני לקצב",
-          "גרסת WAV + MP3 320",
+          "קריינות קצרה (3 עד 8 שניות) לסט",
+          effects.includes("reverb") || !effects.length ? "הדהוד קל לתחושת מועדון" : "",
+          effects.includes("laser") ? "אפקט לייזר לפני ואחרי המשפט" : "הד מושהה מסונכרן לקצב",
+          "גרסה באיכות מקסימלית וגרסה דחוסה",
         ].filter(Boolean),
         estimatedPriceExVat: basePrice,
-        priceNote: "חבילת 5 tags — 1,200 ₪ לפני מע״מ",
-        nextSteps: ["אישור טקסט סופי", "הקלטה ועריכה", "מסירה תוך 24–48 שעות"],
-        technicalNotes: "מוכן ל-Pioneer CDJ — peak -3dB",
+        priceNote: "חבילת 5 תגים — 1,200 שקלים לפני מע״מ",
+        nextSteps: ["אישור טקסט סופי", "הקלטה ועריכה", "מסירה תוך יומיים"],
+        technicalNotes: "מוכן לנגן מקצועי — עוצמה מאוזנת",
       };
     }
     case "mashup-fixer":
       return {
-        summary: `מאשאפ חירום: ${inputs.songA ?? "שיר א"} + ${inputs.songB ?? "שיר ב"} לאירוע ${inputs.eventDate ?? "קרוב"}.`,
+        summary: `מאשאפ חירום: ${inputs.songA ?? "שיר ראשון"} ו-${inputs.songB ?? "שיר שני"} לאירוע ב-${inputs.eventDate ?? "תאריך קרוב"}.`,
         recommendations: [
-          "Key Matching ידני לפני מיזוג",
-          "נקודת מיזוג מומלצת: intro/outro או drop",
-          "SLA עד 24 שעות לאירועים דחופים",
+          "התאמת סולמות ידנית לפני מיזוג",
+          "נקודת מיזוג מומלצת: פתיחה, שיא או סיום",
+          "מסירה עד 24 שעות לאירועים דחופים",
         ],
         estimatedPriceExVat: basePrice,
         priceNote: "כולל סבב תיקון אחד",
-        nextSteps: ["אישור תנאים", "שליחת קבצים בוואטסאפ", "מסירת WAV/MP3"],
+        nextSteps: ["אישור תנאים", "שליחת קבצים בוואטסאפ", "מסירת קבצים מוכנים"],
       };
     case "pre-built-sets": {
       const cat = inputs.category ?? "reception_2026";
       const set = PRE_BUILT_SETS_CATALOG.find((s) => s.category === cat);
       return {
-        summary: set?.description ?? "סט מובנה לפי קטגוריה.",
+        summary: set?.description ?? "סט מוכן לפי הקטגוריה שבחרתם.",
         recommendations: [
-          set ? `${set.title} — ${set.durationMinutes} דק׳, ${set.trackCount} שירים` : "בחירת קטגוריה",
-          `BPM: ${set?.bpmRange ?? "100–128"}`,
-          inputs.format === "usb" ? "USB מוכן ל-Rekordbox" : "הורדה מ-Drive",
+          set ? `${set.title} — ${set.durationMinutes} דקות, ${set.trackCount} שירים` : "בחירת קטגוריה",
+          `קצב ממוצע: ${set?.bpmRange ?? "100 עד 128"}`,
+          labelFrom(FORMAT_LABELS, inputs.format ?? "usb", "דיסק און קי מוכן"),
         ],
         estimatedPriceExVat: set?.priceExVat ?? basePrice,
-        nextSteps: ["מאזינים לדוגמה", "רכישה", "מסירה"],
+        nextSteps: ["האזנה לדוגמה", "רכישה", "מסירה"],
       };
     }
     case "studio-in-a-box":
       return {
-        summary: `תכנון אולפן ${inputs.useCase ?? "פודקאסט"} לחדר ${inputs.dimensions ?? "—"}.`,
+        summary: `תכנון אולפן ל-${labelFrom(USE_CASE_LABELS, inputs.useCase ?? "", "פודקאסט")} בחדר ${inputs.dimensions ?? "לפי מידות"}.`,
         recommendations: [
-          "פנלים אקוסטיים + bass trap בפינות",
-          inputs.useCase === "podcast_video" ? "3-point lighting + רקע נקי" : "מיקרופון דינמי SM7B או קונדנסר",
-          "מפרט מלא בדוח PDF",
-          "חבילת עריכה ל-10 פרקים ראשונים כלולה",
+          "פנלים אקוסטיים וספיגת בס בפינות",
+          inputs.useCase === "podcast_video" ? "תאורה משולשת ורקע נקי" : "מיקרופון דינמי או קונדנסר לפי החדר",
+          "מפרט מלא בדוח מסודר",
+          "עריכת עשרה פרקים ראשונים כלולה",
         ],
         estimatedPriceExVat: basePrice,
-        priceNote: `תקציב ציוד: ${inputs.budget ?? "לפי צורך"} ₪`,
+        priceNote: `תקציב ציוד משוער: ${inputs.budget ? `${inputs.budget} שקלים` : "לפי צורך"}`,
         nextSteps: ["שיחת וידאו לייעוץ", "דוח מפרט", "הזמנת ציוד (אופציונלי)"],
       };
     case "bulk-production": {
       const eps = Number(inputs.episodesPerMonth) || 4;
       const monthly = eps * basePrice;
+      const shorts = inputs.shortsCount ?? "3";
       return {
-        summary: `פס ייצור: ${eps} פרקים/חודש, ~${inputs.avgDuration ?? "45"} דק׳ ממוצע.`,
+        summary: `פס ייצור: ${eps} פרקים בחודש, כ-${inputs.avgDuration ?? "45"} דקות בממוצע.`,
         recommendations: [
-          "פתיח וסגיר קבועים (ברנדינג)",
-          `${inputs.shortsCount ?? "3"} Shorts לפרק`,
-          "נורמליזציה ל-Spotify/Apple",
-          eps >= 8 ? "הנחת נפח — נדון בשיחה" : "מחיר לפרק לפי מחירון",
+          "פתיח וסגיר קבועים למיתוג אחיד",
+          `${shorts} סרטונים קצרים לכל פרק`,
+          "עוצמת שמע אחידה לכל הפרקים",
+          eps >= 8 ? "הנחת נפח — נדון בשיחה" : "מחיר לפרק לפי המחירון",
         ],
         estimatedPriceExVat: monthly,
-        priceNote: `${basePrice} ₪ לפרק לפני מע״מ`,
-        nextSteps: ["הגדרת תבנית עריכה", "שליחת פרק ראשון לפיילוט", "SLA חודשי"],
+        priceNote: `${basePrice.toLocaleString("he-IL")} שקלים לפרק לפני מע״מ`,
+        nextSteps: ["הגדרת תבנית עריכה", "שליחת פרק ראשון לניסיון", "הסכם קצב חודשי"],
       };
     }
     case "dry-hire": {
@@ -140,29 +184,33 @@ export function buildRuleBasedAdvisor(
       const date = inputs.eventDate ?? new Date().toISOString().slice(0, 10);
       const avail = checkAvailability(date, items.length ? items : ["mixer_ah_qu"]);
       const total = avail.items.reduce((s, i) => s + (i.ok ? i.dailyRateExVat : 0), 0);
+      const dateLabel = new Date(date + "T12:00:00").toLocaleDateString("he-IL");
       return {
         summary: avail.allAvailable
-          ? `כל הפריטים זמינים ל-${date}.`
-          : `חלק מהפריטים לא זמינים ל-${date} — נבדוק חלופות.`,
+          ? `כל הפריטים שביקשתם פנויים ל-${dateLabel}.`
+          : `חלק מהפריטים לא פנויים ל-${dateLabel} — נבדוק חלופות.`,
         recommendations: avail.items.map(
-          (i) => `${i.label}: ${i.ok ? "זמין" : "תפוס"} — ${i.dailyRateExVat} ₪/יום`,
+          (i) => `${i.label}: ${i.ok ? "פנוי" : "תפוס"} — ${i.dailyRateExVat.toLocaleString("he-IL")} שקלים ליום`,
         ),
         estimatedPriceExVat: total || basePrice,
-        priceNote: "Dry Hire — ציוד בלבד, ללא טכנאי",
-        nextSteps: ["אישור רשימה", "תיאום איסוף", "ערבות/פיקדון לפי מדיניות"],
+        priceNote: "השכרת ציוד בלבד — בלי טכנאי בשטח",
+        nextSteps: ["אישור רשימה", "תיאום איסוף", "ערבות לפי מדיניות"],
       };
     }
-    case "system-tuning":
+    case "system-tuning": {
+      const withField = inputs.needsSmaart === "yes";
+      const eventLabel = labelFrom(EVENT_TYPE_LABELS, inputs.eventType ?? "", "אירוע");
       return {
-        summary: `תכנון ${inputs.needsSmaart === "yes" ? "EASE + SMAART" : "EASE"} ל-${inputs.venueSize ?? "250"} אורחים, ${inputs.eventType ?? "אירוע"}.`,
+        summary: `תכנון הגברה ל-${eventLabel}, כ-${inputs.venueSize ?? "250"} אורחים${withField ? " — כולל מדידות בשטח" : ""}.`,
         recommendations: [
-          "מודל 3D של האולם ב-EASE",
-          "פריסת main + delay לפי גיאומטריה",
-          inputs.needsSmaart === "yes" ? "מדידות SMAART לפני האירוע" : "דוח פריסה מרחוק",
+          "מודל ממוחשב של האולם",
+          "פריסת רמקול ראשי ומושהים לפי הגיאומטריה",
+          withField ? "מדידות בשטח לפני האירוע" : "דוח פריסה מרחוק",
         ],
         estimatedPriceExVat: basePrice,
-        nextSteps: ["קבלת תוכנית/מידות", "מודל EASE", "דוח + ייעוץ טלפוני"],
+        nextSteps: ["קבלת תוכנית או מידות", "בניית מודל", "דוח וייעוץ טלפוני"],
       };
+    }
     default:
       return {
         summary: svc.subtitle,

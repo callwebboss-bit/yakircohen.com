@@ -13,7 +13,7 @@ export default function StudioUpsellCallout() {
       className="rounded-2xl border border-[var(--service-accent,#d42b2b)]/30 bg-surface px-6 py-7 sm:px-8"
       aria-labelledby="studio-upsell-heading"
     >
-      <p className="text-xs font-semibold tracking-[0.15em] text-[var(--service-accent,#d42b2b)] uppercase">
+      <p className="text-xs font-semibold tracking-[0.15em] text-[var(--service-accent-ink,#d42b2b)] uppercase">
         שדרוג חכם
       </p>
       <h2
@@ -38,13 +38,13 @@ export default function StudioUpsellCallout() {
         </a>
         <Link
           href="/events/attractions/wedding-smoking-machine"
-          className="text-sm font-medium text-[var(--service-accent,#d42b2b)] transition-colors hover:opacity-80"
+          className="text-sm font-medium text-[var(--service-accent-ink,#d42b2b)] transition-colors hover:opacity-80"
         >
           עשן כבד לאירוע
         </Link>
         <Link
           href="/photography/wedding"
-          className="text-sm font-medium text-muted-foreground transition-colors hover:text-[var(--service-accent,#d42b2b)]"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-[var(--service-accent-ink,#d42b2b)]"
         >
           צילום לחתונה
         </Link>

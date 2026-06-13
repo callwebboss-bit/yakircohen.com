@@ -95,7 +95,7 @@ const CATEGORY_META: Record<BookCategoryId, CategoryMeta> = {
   },
   pro: {
     id: "pro",
-    title: "שירותי B2B Pro",
+    title: "שירותים מקצועיים לעסקים",
     subtitle: "דיג'ייז, פודקאסט והגברה",
     icon: "💼",
   },
