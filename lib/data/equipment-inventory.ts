@@ -62,7 +62,7 @@ export type InventoryBooking = {
 /** הזמנות פעילות — מסונכרן מ-export:closer */
 import bookingsData from "@/lib/data/equipment-inventory-bookings.json";
 
-export let INVENTORY_BOOKINGS: readonly InventoryBooking[] =
+export const INVENTORY_BOOKINGS: readonly InventoryBooking[] =
   (bookingsData as { bookings?: InventoryBooking[] }).bookings ?? [];
 
 const inventoryById = new Map(EQUIPMENT_INVENTORY.map((i) => [i.id, i]));

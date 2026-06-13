@@ -20,6 +20,25 @@ type FullPayload = {
   alerts: { id: string; message: string; segmentLabel: string; suggestedPremiumPct: number }[];
 };
 
+async function fetchEventIndexFull(
+  bearer: string,
+): Promise<
+  | { ok: true; data: FullPayload }
+  | { ok: false; status: number }
+  | { ok: false; status: "network" }
+> {
+  try {
+    const res = await fetch("/api/event-index/full", {
+      headers: { Authorization: `Bearer ${bearer}` },
+    });
+    if (!res.ok) return { ok: false, status: res.status };
+    const data = (await res.json()) as FullPayload;
+    return { ok: true, data };
+  } catch {
+    return { ok: false, status: "network" };
+  }
+}
+
 function formatNis(n: number | null): string {
   if (n == null) return "—";
   return `${n.toLocaleString("he-IL")} שקלים`;
@@ -136,44 +155,54 @@ function IndexBody({ index, isTeaser }: { index: EventIndexWeek; isTeaser: boole
 }
 
 export default function EventIndexPageContent() {
-  const [token, setToken] = useState("");
   const [tokenInput, setTokenInput] = useState("");
   const [fullData, setFullData] = useState<FullPayload | null>(null);
   const [loadError, setLoadError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const hasFullAccess = Boolean(fullData?.hasData);
+  const hasFullAccess = fullData !== null;
 
-  const loadFull = useCallback(async (bearer: string) => {
-    setLoading(true);
-    setLoadError("");
-    try {
-      const res = await fetch("/api/event-index/full", {
-        headers: { Authorization: `Bearer ${bearer}` },
-      });
-      if (!res.ok) {
-        setFullData(null);
-        setLoadError(res.status === 401 ? "קוד גישה לא תקין" : "שגיאה בטעינה");
+  const applyFetchResult = useCallback(
+    (result: Awaited<ReturnType<typeof fetchEventIndexFull>>, bearer: string) => {
+      if (result.ok) {
+        setFullData(result.data);
+        sessionStorage.setItem(TOKEN_STORAGE_KEY, bearer);
+        setTokenInput(bearer);
+        setLoadError("");
         return;
       }
-      const data = (await res.json()) as FullPayload;
-      setFullData(data);
-      sessionStorage.setItem(TOKEN_STORAGE_KEY, bearer);
-    } catch {
-      setLoadError("לא ניתן להתחבר לשרת");
-    } finally {
+      setFullData(null);
+      if (result.status === 401) setLoadError("קוד גישה לא תקין");
+      else if (result.status === "network") setLoadError("לא ניתן להתחבר לשרת");
+      else setLoadError("שגיאה בטעינה");
+    },
+    [],
+  );
+
+  const loadFull = useCallback(
+    async (bearer: string) => {
+      setLoading(true);
+      setLoadError("");
+      const result = await fetchEventIndexFull(bearer);
+      applyFetchResult(result, bearer);
       setLoading(false);
-    }
-  }, []);
+    },
+    [applyFetchResult],
+  );
 
   useEffect(() => {
     const saved = sessionStorage.getItem(TOKEN_STORAGE_KEY);
-    if (saved) {
-      setToken(saved);
-      setTokenInput(saved);
-      void loadFull(saved);
-    }
-  }, [loadFull]);
+    if (!saved) return;
+
+    let cancelled = false;
+    void fetchEventIndexFull(saved).then((result) => {
+      if (!cancelled) applyFetchResult(result, saved);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [applyFetchResult]);
 
   const displayIndex = fullData?.index ?? EVENT_INDEX_WEEK;
   const waHref = buildWhatsAppHref({
@@ -235,19 +264,13 @@ export default function EventIndexPageContent() {
                 <button
                   type="button"
                   disabled={loading || !tokenInput.trim()}
-                  onClick={() => {
-                    setToken(tokenInput.trim());
-                    void loadFull(tokenInput.trim());
-                  }}
+                  onClick={() => void loadFull(tokenInput.trim())}
                   className="min-h-11 rounded-lg bg-foreground px-5 text-sm font-semibold text-background disabled:opacity-50"
                 >
                   {loading ? "טוען…" : "פתיחת המדד המלא"}
                 </button>
               </div>
               {loadError ? <p className="mt-2 text-sm text-brand-red">{loadError}</p> : null}
-              {token && hasFullAccess ? (
-                <p className="mt-2 text-xs text-muted-foreground">מחובר עם קוד גישה</p>
-              ) : null}
             </div>
           )}
 
