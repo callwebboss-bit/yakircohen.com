@@ -23,10 +23,6 @@
   --color-brand-red-light: #e04a4a;
   --color-brand-red-dark: #b32424;
 
-  /* Darkened per-hub accent for small text (badges, kickers, links) where the
-     raw accent fails contrast on light backgrounds. Auto-tracks whichever
-     --service-accent is active. */
-  --service-accent-ink: color-mix(in srgb, var(--service-accent, #d42b2b) 65%, black 35%);
 
   --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-noto-serif-hebrew), Georgia, serif;
@@ -249,6 +245,11 @@
 
 @layer base {
   :root {
+    /* Darkened per-hub accent for small text (badges, kickers, links) where the
+       raw accent fails contrast on light backgrounds. Auto-tracks whichever
+       --service-accent is active. */
+    --service-accent-ink: color-mix(in srgb, var(--service-accent, #d42b2b) 65%, black 35%);
+
     direction: rtl;
     text-align: right;
     -webkit-font-smoothing: antialiased;
