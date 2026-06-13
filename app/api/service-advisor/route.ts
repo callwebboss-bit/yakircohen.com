@@ -28,12 +28,15 @@ const ALLOWED_ORIGINS = new Set([
 const rateLimit = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 20;
 const RATE_WINDOW_MS = 60_000;
-const ADVISOR_MODEL = "openai/gpt-4o-mini" as const;
 
-function getAdvisorModel() {
+const ADVISOR_MODELS = ["openai/gpt-4o-mini", "google/gemini-2.5-flash"] as const;
+
+function gatewayProviders() {
   const apiKey = process.env.AI_GATEWAY_API_KEY?.trim();
-  const gw = apiKey ? createGateway({ apiKey }) : createGateway();
-  return gw(ADVISOR_MODEL);
+  const providers = [];
+  if (apiKey) providers.push(createGateway({ apiKey }));
+  providers.push(createGateway());
+  return providers;
 }
 
 function extractJsonObject(text: string): unknown {
@@ -48,11 +51,11 @@ function extractJsonObject(text: string): unknown {
   return JSON.parse(candidate.slice(start, end + 1)) as unknown;
 }
 
-async function generateAdvisorResponse(
+async function generateWithModel(
+  model: ReturnType<ReturnType<typeof createGateway>>,
   proId: ProServiceId,
   inputs: Record<string, string>,
 ) {
-  const model = getAdvisorModel();
   const system = buildAdvisorSystemPrompt(proId);
   const prompt = buildAdvisorUserPrompt(proId, inputs);
 
@@ -72,6 +75,26 @@ async function generateAdvisorResponse(
     }
     return parsed.data;
   }
+}
+
+async function generateAdvisorResponse(
+  proId: ProServiceId,
+  inputs: Record<string, string>,
+) {
+  const providers = gatewayProviders();
+  let lastError: unknown;
+
+  for (const provider of providers) {
+    for (const modelId of ADVISOR_MODELS) {
+      try {
+        return await generateWithModel(provider(modelId), proId, inputs);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+  }
+
+  throw lastError ?? new Error("AI advisor unavailable");
 }
 
 function isAllowedRequest(request: Request): boolean {
@@ -96,6 +119,11 @@ function checkRateLimit(ip: string): boolean {
   if (entry.count >= RATE_LIMIT) return false;
   entry.count += 1;
   return true;
+}
+
+function hasAiGatewayAccess(): boolean {
+  if (process.env.AI_GATEWAY_API_KEY?.trim()) return true;
+  return process.env.VERCEL === "1" || process.env.NODE_ENV === "development";
 }
 
 export async function POST(request: Request) {
@@ -127,9 +155,8 @@ export async function POST(request: Request) {
   }
 
   const proId = serviceId as ProServiceId;
-  const apiKey = process.env.AI_GATEWAY_API_KEY?.trim();
 
-  if (!apiKey) {
+  if (!hasAiGatewayAccess()) {
     const fallback = buildRuleBasedAdvisor(proId, inputs);
     return NextResponse.json({ ...fallback, source: "rules" });
   }
