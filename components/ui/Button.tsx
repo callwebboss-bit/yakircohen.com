@@ -31,7 +31,7 @@ type ButtonBaseProps = {
   children: ReactNode;
   /**
    * Dual-layer slide-up text reveal on hover + pulse-glow ring (desktop only).
-   * GPU-only (transform/opacity/box-shadow) — no JS, no layout shift.
+   * GPU-only (transform/opacity/box-shadow) - no JS, no layout shift.
    */
   liquid?: boolean;
 };

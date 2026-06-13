@@ -65,8 +65,7 @@ function PricingOverview({ onProceed }: { onProceed: () => void }) {
         onClick={onProceed}
         className="w-full text-center text-xs text-muted-foreground transition-colors hover:text-brand-red"
       >
-        מוכן להזמין - עבור לאשף ←
-      </button>
+        מוכן להזמין - עבור לאשף </button>
     </div>
   );
 }
@@ -260,8 +259,7 @@ export default function FilterGate({
             : "cursor-not-allowed bg-border text-muted-foreground",
         )}
       >
-        כניסה לאשף ההזמנה ←
-      </button>
+        כניסה לאשף ההזמנה </button>
     </div>
   );
 }

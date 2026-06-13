@@ -85,7 +85,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "thank-you": "אישור הזמנה",
 };
 
-/** Exact path → label when segment fallbacks are not enough. */
+/** Exact path label when segment fallbacks are not enough. */
 export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/about/faq": "שאלות נפוצות",
   "/podcast/faq": "שאלות נפוצות - פודקאסט",

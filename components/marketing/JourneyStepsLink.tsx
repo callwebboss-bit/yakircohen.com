@@ -20,8 +20,7 @@ export default function JourneyStepsLink({
         href={`/start#${config.anchor}`}
         className="font-medium text-brand-red underline-offset-4 hover:underline"
       >
-        רוצים לראות את כל השלבים? ←
-      </Link>
+        רוצים לראות את כל השלבים? </Link>
     </p>
   );
 }

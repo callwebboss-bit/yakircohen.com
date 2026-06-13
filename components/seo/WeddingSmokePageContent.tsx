@@ -72,8 +72,7 @@ export default function WeddingSmokePageContent() {
             href="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"
             className="mt-5 inline-flex rounded-md bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            לעמוד עשן כבד לאירועים גדולים ←
-          </Link>
+            לעמוד עשן כבד לאירועים גדולים </Link>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="smoke-intro-heading">
@@ -83,7 +82,7 @@ export default function WeddingSmokePageContent() {
             מתחת לברך.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
-            מעל 1,800 אירועים · שיתוף פעולה עם צלמי חתונות מובילים · כל הארץ
+            מעל 1,800 אירועים - שיתוף פעולה עם צלמי חתונות מובילים - כל הארץ
           </p>
         </section>
 

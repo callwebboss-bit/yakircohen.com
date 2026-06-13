@@ -77,8 +77,7 @@ export default function ConfettiCannonPageContent() {
             href="/events/attractions/bubble-machine/smoke-bubble-machine-events"
             className="mt-5 inline-flex rounded-md bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            לעמוד בועות עשן LED ←
-          </Link>
+            לעמוד בועות עשן LED </Link>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="confetti-intro-heading">
@@ -89,7 +88,7 @@ export default function ConfettiCannonPageContent() {
             לרמה הבאה.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
-            מעל 1,800 אירועים · שירות אישי · זמינות בכל הארץ
+            מעל 1,800 אירועים - שירות אישי - זמינות בכל הארץ
           </p>
         </section>
 

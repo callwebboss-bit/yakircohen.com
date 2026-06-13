@@ -90,8 +90,7 @@ export default function RecordingStudioPageContent() {
                     {item.description}
                   </p>
                   <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}
@@ -152,8 +151,7 @@ export default function RecordingStudioPageContent() {
             href="/studio/studio-jerusalem"
             className="mt-6 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            אולפן לירושלמים  -  30 דק׳ מירושלים ←
-          </Link>
+            אולפן לירושלמים  -  30 דק׳ מירושלים </Link>
         </section>
 
         {service.faqs.length > 0 ? (

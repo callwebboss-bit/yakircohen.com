@@ -53,7 +53,7 @@ const FAQ_ITEMS: FAQItem[] = [
 
 function promoScarcityLabel(): string | undefined {
   if (!isSocialMediaPromoActive()) return undefined;
-  return `${GEO_PROMO.headline} · ${GEO_PROMO.subline}`;
+  return `${GEO_PROMO.headline} - ${GEO_PROMO.subline}`;
 }
 
 export default function SocialMediaPageContent() {

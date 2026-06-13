@@ -80,7 +80,7 @@ export { PREMIUM_THRESHOLD };
 /**
  * Builds a scannable WhatsApp message body for booking flows.
  */
-/** Read filter answers from sessionStorage — returns null if not set or SSR */
+/** Read filter answers from sessionStorage - returns null if not set or SSR */
 function readFilterAnswers(): { timing: ClosingTiming; purpose: "professional" | "personal" | "gift" } | null {
   if (typeof window === "undefined") return null;
   try {
@@ -323,7 +323,7 @@ export function readUtmSource(): string | null {
     if (filterRaw) {
       const parsed = JSON.parse(filterRaw) as { timeline?: string; purpose?: string };
       if (parsed.timeline && parsed.purpose) {
-        return `/book#studio · ${parsed.purpose} · ${parsed.timeline}`;
+        return `/book#studio - ${parsed.purpose} - ${parsed.timeline}`;
       }
     }
     const params = new URLSearchParams(window.location.search);

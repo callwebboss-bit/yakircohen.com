@@ -4,7 +4,7 @@
 };
 
 export const GREETING_TIPS: GreetingTip[] = [
-  { routes: ["/studio"], tip: "שיר קאבר מ-590 ₪ · ניתן להביא מלווה" },
+  { routes: ["/studio"], tip: "שיר קאבר מ-590 ₪ - ניתן להביא מלווה" },
   { routes: ["/studio/recording-song-modiin"], tip: "הקלטה, מיקס ומאסטרינג - בשעה אחת" },
   { routes: ["/podcast"], tip: "עריכת פרק כלולה בחבילות ההפקה" },
   { routes: ["/podcast/podcast-editing"], tip: "גם הקלטות ישנות - שחזור סאונד AI" },
@@ -17,7 +17,7 @@ export const GREETING_TIPS: GreetingTip[] = [
   { routes: ["/online/vocal-fix/mixing"], tip: "מיקס + מאסטרינג - מוכן לספוטיפיי" },
   { routes: ["/academy"], tip: "שיעור ניסיון ראשון - בתיאום אישי" },
   { routes: ["/photography"], tip: "צילום אירוע + עריכה מלאה" },
-  { routes: ["/video"], tip: "סרט תדמית מ-2,200 ₪ · מסירה תוך שבוע" },
+  { routes: ["/video"], tip: "סרט תדמית מ-2,200 ₪ - מסירה תוך שבוע" },
 ];
 
 const GENERAL_TIPS = [

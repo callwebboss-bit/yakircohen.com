@@ -122,12 +122,12 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
           {post.excerpt}
         </p>
 
-        {/* Footer: date · author · read-more cue */}
+        {/* Footer: date - author - read-more cue */}
         <div className="mt-5 flex items-center gap-3 text-xs text-muted-foreground">
           <time dateTime={post.publishedAt}>{date}</time>
           {post.author && (
             <>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">-</span>
               <span>{post.author}</span>
             </>
           )}
@@ -136,8 +136,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
             className="ms-auto flex items-center gap-1 font-medium text-brand-red opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
             aria-hidden="true"
           >
-            קרא עוד ←
-          </span>
+            קרא עוד </span>
         </div>
       </Link>
     </article>
@@ -206,7 +205,7 @@ function ArticleRow({ post }: { post: BlogPost }) {
             <time dateTime={post.publishedAt}>{date}</time>
             {post.author && (
               <>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">-</span>
                 <span>{post.author}</span>
               </>
             )}

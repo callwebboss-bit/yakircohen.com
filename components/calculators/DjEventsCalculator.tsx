@@ -53,7 +53,7 @@ const DJ_OPTIONS = [
   {
     id: "dj_team",
     name: "DJ פרימיום מהצוות",
-    sub: "DJ מנוסה מצוות יקיר כהן הפקות · 4 שעות",
+    sub: "DJ מנוסה מצוות יקיר כהן הפקות - 4 שעות",
     price: 5000,
     badge: null as string | null,
     features: ["מערכת הגברה מקצועית", "תאורה בסיסית", "4 שעות ניהול רחבה", "סרטון מהרחבה"],
@@ -61,7 +61,7 @@ const DJ_OPTIONS = [
   {
     id: "dj_yakir",
     name: "DJ יקיר כהן אישית",
-    sub: "יקיר כהן על הקונסולה  -  חוויה אחרת · 5 שעות",
+    sub: "יקיר כהן על הקונסולה  -  חוויה אחרת - 5 שעות",
     price: 9800,
     badge: "VIP",
     features: ["ציוד הגברה פרימיום", "תאורה מקצועית", "5 שעות ניהול רחבה", "סרטון מהרחבה"],
@@ -534,7 +534,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             )}
             {effects.size === 0 && (
               <p className="mb-4 text-xs text-muted-foreground">
-                אטרקציה בודדת: {formatCurrency(EFFECT_SINGLE)} · חבילת 3: {formatCurrency(EFFECT_BUNDLE_3)} (חיסכון {formatCurrency(3 * EFFECT_SINGLE - EFFECT_BUNDLE_3)})
+                אטרקציה בודדת: {formatCurrency(EFFECT_SINGLE)} - חבילת 3: {formatCurrency(EFFECT_BUNDLE_3)} (חיסכון {formatCurrency(3 * EFFECT_SINGLE - EFFECT_BUNDLE_3)})
               </p>
             )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -745,7 +745,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
       {/* Sticky bar */}
       <CalculatorStickyBar
         total={grandTotal}
-        totalLabel="השקעה משוערת · לפני מע״מ"
+        totalLabel="השקעה משוערת - לפני מע״מ"
         subLabel={effectDiscount > 0 ? `כולל חיסכון ${formatCurrency(effectDiscount)}` : undefined}
         whatsappHref=""
         showCta={hasSelection}

@@ -5,10 +5,10 @@
  *   ✓ Removed all "-" long dashes from visible text.
  *   ✓ No "חשוב לציין", no robotic list preambles.
  *   ✓ WhatsApp anchors now carry specific, actionable Hebrew text per question:
- *       Q1 (singing)   → send a voice clip, get a direct verdict
- *       Q2 (podcast)   → send your available dates, lock the calendar
- *       Q3 (effects)   → send the hall name, we handle the bureaucracy
- *       Q4 (delivery)  → send your exact deadline, we figure out the rest
+ *       Q1 (singing) send a voice clip, get a direct verdict
+ *       Q2 (podcast) send your available dates, lock the calendar
+ *       Q3 (effects) send the hall name, we handle the bureaucracy
+ *       Q4 (delivery) send your exact deadline, we figure out the rest
  *   ✓ WhatsApp pre-fill messages give Yakir useful context immediately.
  */
 
@@ -50,7 +50,7 @@ export const metadata: Metadata = constructMetadata({
    FAQ data
    ─────────────────────────────────────────────────────────────────────────────
    Copy rules:
-   • No long dashes (-). Short pause → comma or period.
+   • No long dashes (-). Short pause comma or period.
    • No "חשוב לציין" or boilerplate preambles.
    • ctaText: short, specific, actionable - one clear instruction, not a question.
    • whatsappMessage: gives Yakir immediate context (what they need + their situation).

@@ -30,7 +30,7 @@ export type LeadEmailPayload = {
 
   phone?: string;
 
-  /** Honeypot — must stay empty for humans; bots that fill it are rejected server-side. */
+  /** Honeypot - must stay empty for humans; bots that fill it are rejected server-side. */
   website_verification?: string;
 
   crossSell?: CrossSellContext;
@@ -44,8 +44,8 @@ function buildCrossSellContextLine(ctx: CrossSellContext): string {
   if (ctx.atmosphere) parts.push(`אווירה: ${ctx.atmosphere}`);
   if (ctx.recordingType) parts.push(`סוג: ${ctx.recordingType}`);
   if (ctx.mobileGeo) parts.push(`אולפן נייד (${ctx.mobileGeo})`);
-  if (ctx.largeGroup) parts.push("קבוצה 12+ — שקול אולפן נייד");
-  return parts.length ? `${parts.join(" · ")}\n` : "";
+  if (ctx.largeGroup) parts.push("קבוצה 12+ - שקול אולפן נייד");
+  return parts.length ? `${parts.join(" - ")}\n` : "";
 }
 
 function buildCrossSellEmailBlock(ctx?: CrossSellContext): string {

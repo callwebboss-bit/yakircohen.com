@@ -9,7 +9,7 @@ function SearchSkeleton({ className }: { className?: string }) {
   );
 }
 
-// OPTIMIZED: code-split Pagefind search — loads only when chunk is requested
+// OPTIMIZED: code-split Pagefind search - loads only when chunk is requested
 export const SiteSearchLazy = dynamic(
   () => import("@/components/ui/SiteSearch"),
   {

@@ -53,7 +53,7 @@ function statusMessage(
 ): string | null {
   if (loading) return null;
   if (status === "unavailable") return "חיפוש אינו זמין כרגע";
-  if (status === "error") return "שגיאה בחיפוש — נסו שוב";
+  if (status === "error") return "שגיאה בחיפוש - נסו שוב";
   if (status === "success" && resultCount === 0) {
     return `לא נמצאו תוצאות עבור "${query}"`;
   }

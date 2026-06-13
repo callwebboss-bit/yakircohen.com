@@ -74,7 +74,7 @@ export default function ColdFireworksPageContent() {
             ולא מפעילים גלאי עשן. מראה קסום ובטוח לחלוטין באולמות סגורים.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
-            מעל 1,800 אירועים · 280+ המלצות · כל הארץ
+            מעל 1,800 אירועים - 280+ המלצות - כל הארץ
           </p>
         </section>
 

@@ -45,7 +45,7 @@ export default function PodcastEditingPageContent() {
       corporateShareLabel="שירות עריכת פודקאסט"
       bookSlug="podcast/podcast-editing"
       ctaLabel="שליחת פרק לעריכה בוואטסאפ"
-      scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} · ${PODCAST_EDITING_PRICE_NOTE}`}
+      scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} - ${PODCAST_EDITING_PRICE_NOTE}`}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -268,8 +268,7 @@ export default function PodcastEditingPageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            שליחת פרק לעריכה בוואטסאפ ←
-          </a>
+            שליחת פרק לעריכה בוואטסאפ </a>
         </section>
 
         <section className="flex flex-wrap justify-center gap-3" aria-label="קישורים קשורים">
@@ -300,7 +299,7 @@ export default function PodcastEditingPageContent() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
                   <p className="mt-1 font-semibold text-foreground">5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך</p>
-                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד - לקריאה ←</p>
+                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד - לקריאה </p>
                 </div>
               </Link>
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast/podcast-editing")} />

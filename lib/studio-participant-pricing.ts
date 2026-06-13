@@ -1,5 +1,5 @@
 /**
- * מנוע מחירון קבוצתי להקלטות אולפן — מקור אמת משותף לאתר ול-yakir-closer.
+ * מנוע מחירון קבוצתי להקלטות אולפן - מקור אמת משותף לאתר ול-yakir-closer.
  */
 
 import {
@@ -201,7 +201,7 @@ export function buildStudioGuidelines(options: {
   const { recorderCount, hasVideoUpgrade } = options;
 
   if (recorderCount > STUDIO_RECORDING_MAX) {
-    parts.push(`חלוקה לזוגות — עד ${STUDIO_RECORDING_MAX} באולפן בו-זמנית`);
+    parts.push(`חלוקה לזוגות - עד ${STUDIO_RECORDING_MAX} באולפן בו-זמנית`);
   }
 
   const filming = formatFilmingGuidance({ recorderCount, hasVideoUpgrade });
@@ -211,7 +211,7 @@ export function buildStudioGuidelines(options: {
     parts.push(`עד ${STUDIO_FILMING_MAX} אנשים בצילום`);
   }
 
-  return parts.join(" · ");
+  return parts.join(" - ");
 }
 
 function applyMotzash(subtotal: number, isMotzash: boolean): number {

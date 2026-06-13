@@ -45,7 +45,7 @@ export function altTextFromAssetFilename(filename: string): string {
     .trim();
 }
 
-/** IMPROVED: sync PNG/JPEG dimension probe — no extra dependency */
+/** IMPROVED: sync PNG/JPEG dimension probe - no extra dependency */
 function readImageDimensions(
   absoluteFilePath: string,
 ): { width: number; height: number } | null {

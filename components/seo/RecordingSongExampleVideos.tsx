@@ -38,7 +38,7 @@ export default function RecordingSongExampleVideos({
     <div className={className}>
       <p className="mb-4 text-center text-xs text-muted-foreground">
         {VIDEO_WATCH_LABEL}
-        {visible.length > 1 ? " · לחצו לצפייה" : null}
+        {visible.length > 1 ? " - לחצו לצפייה" : null}
       </p>
 
       <ul

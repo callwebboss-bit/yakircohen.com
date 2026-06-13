@@ -83,8 +83,7 @@ export default function StudioAcousticBeforeAfter() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          רוצים תוצאה כזו? דברו איתנו ←
-        </a>
+          רוצים תוצאה כזו? דברו איתנו </a>
       </div>
     </div>
   );

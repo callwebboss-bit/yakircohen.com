@@ -25,7 +25,7 @@ function notifyEmail(): string {
   return process.env.LEAD_NOTIFY_EMAIL?.trim() || CONTACT_EMAIL_INTERNAL;
 }
 
-/** POST /api/market-alerts — cron digest of arbitrage signals (Bearer CRON_SECRET) */
+/** POST /api/market-alerts - cron digest of arbitrage signals (Bearer CRON_SECRET) */
 export async function POST(request: Request) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -71,9 +71,9 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       from,
       to,
-      subject: `דופק השוק — ${alerts.length} התרעות מלאי`,
+      subject: `דופק השוק - ${alerts.length} התרעות מלאי`,
       text: [
-        "דופק השוק — התרעות שבועיות",
+        "דופק השוק - התרעות שבועיות",
         "",
         body,
         "",
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true, sent: to.length, alertCount: alerts.length });
 }
 
-/** GET — dev-only status */
+/** GET - dev-only status */
 export async function GET() {
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "not_found" }, { status: 404 });

@@ -63,7 +63,7 @@ export default function PodcastRecordingPageContent() {
       utmCampaign="podcast_recording"
       corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
-      scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק · מוכן תוך 24 שעות`}
+      scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק - מוכן תוך 24 שעות`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
       {...heroProps}
     >
@@ -301,8 +301,7 @@ export default function PodcastRecordingPageContent() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-red/50 bg-background px-7 py-3.5 text-sm font-semibold text-brand-red hover:bg-brand-red/5"
             >
-              פרטים בוואטסאפ ←
-            </a>
+              פרטים בוואטסאפ </a>
           </div>
         </section>
 

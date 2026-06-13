@@ -67,7 +67,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceExVat: STUDIO_FROM,
     priceNote: "חבילת ברכה / הקלטה קצרה",
     startingPriceDual: dual(STUDIO_FROM),
-    upsellHint: "אפשר להוסיף: קליפ BTS לרשתות · דואט משפחתי · פלייבק AI",
+    upsellHint: "אפשר להוסיף: קליפ BTS לרשתות - דואט משפחתי - פלייבק AI",
     emotionalQuestion: "מה הכי חשוב לך שיקרה באירוע?",
     emotionalOptions: [
       { id: "surprise", label: "להפתיע ולרגש" },
@@ -97,7 +97,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceExVat: STUDIO_HALF_HOUR_NIS,
     priceNote: "חצי שעה באולפן",
     startingPriceDual: dual(STUDIO_HALF_HOUR_NIS),
-    upsellHint: "אפשר להוסיף: עריכת פרקים · חבילה חודשית · תמלול",
+    upsellHint: "אפשר להוסיף: עריכת פרקים - חבילה חודשית - תמלול",
     emotionalQuestion: "מה התוכן שאתם רוצים שהעולם ישמע?",
     emotionalOptions: [
       { id: "podcast", label: "פודקאסט / סדרה" },
@@ -185,7 +185,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceExVat: SINGER_FROM,
     priceNote: "חבילת בסיס",
     startingPriceDual: dual(SINGER_FROM),
-    upsellHint: "אפשר להוסיף: צ'ק סאונד מוקדם · הקלטת ההופעה",
+    upsellHint: "אפשר להוסיף: צ'ק סאונד מוקדם - הקלטת ההופעה",
     emotionalQuestion: "מה הכי חשוב לך בביצוע?",
     emotionalOptions: [
       { id: "confidence", label: "להרגיש בטוח/ה" },
@@ -214,7 +214,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceExVat: PHOTO_FROM,
     priceNote: "שעת צילום באולפן / אירוע",
     startingPriceDual: dual(PHOTO_FROM),
-    upsellHint: "אפשר לשלב: חבילת AI · קליפ מקצועי · סרטון סיכום",
+    upsellHint: "אפשר לשלב: חבילת AI - קליפ מקצועי - סרטון סיכום",
     emotionalQuestion: "איזה רגע אתם רוצים לשמר לנצח?",
     emotionalOptions: [
       { id: "wedding", label: "חתונה / אירוע" },
@@ -241,9 +241,9 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "מפגש אישי 1:1 באולפן במודיעין. 60 או 90 דקות של תשומת לב מלאה - פסנתר, גיטרה, הפקה, תקליטנות.",
     essenceMicroCopy: "ללמוד בקצב שלך, עם מישהו שעושה את זה בשטח כל יום.",
     priceExVat: ACADEMY_FROM,
-    priceNote: "שיעור 60 דק׳ · Pro Session 90 דק׳ מ-1,280 ₪",
+    priceNote: "שיעור 60 דק׳ - Pro Session 90 דק׳ מ-1,280 ₪",
     startingPriceDual: dual(ACADEMY_FROM),
-    upsellHint: "תחומים: פיתוח קול · DJ · הפקה · פסנתר · גיטרה",
+    upsellHint: "תחומים: פיתוח קול - DJ - הפקה - פסנתר - גיטרה",
     emotionalQuestion: "מה הכי חשוב לך להשתפר בו?",
     emotionalOptions: [
       { id: "voice", label: "פיתוח קול" },
@@ -270,7 +270,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "הרצאות מזום, קלטות ישנות, רעשי רקע - שולחים קובץ ומקבלים סאונד נקי ומקצועי.",
     essenceMicroCopy: "נגיד לכם בכנות מה אפשר להציל - בלי התחייבות.",
     priceExVat: ONLINE_FROM,
-    priceNote: "לכל 5 דקות · שחזור מלא לפי הערכה",
+    priceNote: "לכל 5 דקות - שחזור מלא לפי הערכה",
     startingPriceDual: dual(ONLINE_FROM),
     upsellHint: "בדיקת היתכנות חינם - שלחו קטע של 30 שניות",
     emotionalQuestion: "מה הכי מפריע לכם בסאונד?",
@@ -299,12 +299,12 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "שירותים מקצועיים לעסקים",
     title: "תגים קוליים, מאשאפים, פס ייצור והשכרת ציוד",
     description:
-      "שירותים לדיג'ייז, יוצרי תוכן וחברות הגברה — עם מחשבון הצעה ומחירון שקוף.",
-    essenceMicroCopy: "בית הייצור שלכם — מהרעיון לתוצר מוכן.",
+      "שירותים לדיג'ייז, יוצרי תוכן וחברות הגברה - עם מחשבון הצעה ומחירון שקוף.",
+    essenceMicroCopy: "בית הייצור שלכם - מהרעיון לתוצר מוכן.",
     priceExVat: getExVat("dj_voice_tag_single"),
     priceNote: "תג קולי בודד",
     startingPriceDual: dual(getExVat("dj_voice_tag_single")),
-    upsellHint: "אפשר לשלב: חבילת 5 תגים · מאשאפ חירום · פס ייצור חודשי",
+    upsellHint: "אפשר לשלב: חבילת 5 תגים - מאשאפ חירום - פס ייצור חודשי",
     emotionalQuestion: "איזה שירות הכי דחוף לכם?",
     emotionalOptions: [
       { id: "voice_tags", label: "תג קולי לדיג'יי" },
@@ -319,7 +319,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "professional", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, מעוניין/ת בשירותים מקצועיים מהאתר.\nמה שחסר לי: _____",
-    valueFrame: "שירות מקצועי — בלי לנחש מחירים",
+    valueFrame: "שירות מקצועי - בלי לנחש מחירים",
     closerServiceId: "dj_voice_tags",
   },
 ] as const;

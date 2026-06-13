@@ -188,7 +188,7 @@ export default function Footer() {
           </nav>
           <div className="flex flex-col items-center gap-2 md:items-end">
             <BackToTopButton />
-            <p className="text-xs text-muted-foreground">מודיעין · ירושלים · המרכז</p>
+            <p className="text-xs text-muted-foreground">מודיעין - ירושלים - המרכז</p>
           </div>
         </div>
       </Container>

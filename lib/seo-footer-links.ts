@@ -1,4 +1,4 @@
-﻿/** קישורי זנב SEO פנימיים — Additive only; כל href חייב להיות עמוד קיים באתר */
+﻿/** קישורי זנב SEO פנימיים - Additive only; כל href חייב להיות עמוד קיים באתר */
 export type SeoFooterLink = {
   label: string;
   href: string;
@@ -17,7 +17,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "הפקת פודקאסטים במרכז",
         href: "/podcast/podcast-recording",
-        title: "צילום והקלטת פודקאסט — הפקה מלאה",
+        title: "צילום והקלטת פודקאסט - הפקה מלאה",
       },
       {
         label: "אולפן הקלטות במודיעין",
@@ -107,7 +107,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "מפעל רילס לספקים",
         href: "/business/reel-factory",
-        title: "The Reel Factory — עריכת פרומואים לספקי אירועים",
+        title: "The Reel Factory - עריכת פרומואים לספקי אירועים",
       },
       {
         label: "הקלטת ברכת כלה",

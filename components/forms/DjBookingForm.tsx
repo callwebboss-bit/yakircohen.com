@@ -209,7 +209,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
         void submitLead(
           {
             formId: "dj_booking_form",
-            subject: `בקשת DJ - ${eventType} · ${eventDate}`,
+            subject: `בקשת DJ - ${eventType} - ${eventDate}`,
             body: text,
             website_verification: honeypot,
             name: name.trim(),
@@ -260,7 +260,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
       {/* Hero copy */}
       <div className="mb-8 border-b border-border pb-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
-          שריון תאריך · הצעת מחיר מדויקת
+          שריון תאריך - הצעת מחיר מדויקת
         </p>
         <h2 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">
           מלאו את הפרטים - נחזור עם הצעה תוך שעה

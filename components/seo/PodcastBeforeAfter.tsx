@@ -27,8 +27,7 @@ export default function PodcastBeforeAfter() {
           rel="noopener noreferrer"
           className="mt-3 inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          שלחו קובץ לבדיקה מהירה בוואטסאפ ←
-        </a>
+          שלחו קובץ לבדיקה מהירה בוואטסאפ </a>
       </div>
     </div>
   );

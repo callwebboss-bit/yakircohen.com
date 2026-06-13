@@ -71,7 +71,7 @@ export default function StudioClientsStrip({ className }: StudioClientsStripProp
             קראו עלינו עוד
           </Link>
           <span className="hidden text-muted-foreground sm:inline" aria-hidden>
-            ·
+            -
           </span>
           <Button
             as="a"

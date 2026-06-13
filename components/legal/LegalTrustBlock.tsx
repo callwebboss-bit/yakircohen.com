@@ -8,7 +8,7 @@ export default function LegalTrustBlock() {
       aria-labelledby="legal-trust-heading"
     >
       <p className="text-xs font-semibold tracking-[0.15em] text-brand-red uppercase">
-        אולפן הקלטות · הפקת אירועים · DJ ואטרקציות
+        אולפן הקלטות - הפקת אירועים - DJ ואטרקציות
       </p>
       <h2 id="legal-trust-heading" className="mt-3 text-lg font-semibold text-foreground">
         מקום אחד לקול, סאונד וחוויית קהל
@@ -64,7 +64,7 @@ export default function LegalTrustBlock() {
           </Link>,
         ].map((node, index) => (
           <span key={index}>
-            {index > 0 ? " · " : null}
+            {index > 0 ? " - " : null}
             {node}
           </span>
         ))}

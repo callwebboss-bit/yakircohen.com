@@ -94,8 +94,7 @@ export default function OnlineSendFilePageContent() {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            מילוי טופס אישור רשמי ←
-          </a>
+            מילוי טופס אישור רשמי </a>
           <a
             href={whatsappHref}
             target="_blank"
@@ -110,7 +109,7 @@ export default function OnlineSendFilePageContent() {
           <Link href="/terms" className="text-brand-red hover:underline">
             תנאי שימוש
           </Link>
-          {" · "}
+          {" - "}
           <Link href="/privacy" className="text-brand-red hover:underline">
             מדיניות פרטיות
           </Link>

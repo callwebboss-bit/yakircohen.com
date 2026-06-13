@@ -135,8 +135,7 @@ export default function RecordingSongFinalCTA() {
             className="absolute inset-0 animate-ping rounded-xl bg-brand-red opacity-20"
             aria-hidden
           />
-          שיחה מהירה בוואטסאפ עם יקיר ←
-        </a>
+          שיחה מהירה בוואטסאפ עם יקיר </a>
         <div>
           <Link
             href={buildBookHref("studio")}
@@ -235,7 +234,7 @@ export default function RecordingSongFinalCTA() {
             disabled={isSubmitting}
             className="w-full rounded-xl border border-brand-red px-6 py-3 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white disabled:opacity-50"
           >
-            {isSubmitting ? "שולח..." : "שלח בקשה לייעוץ מוזיקלי ←"}
+            {isSubmitting ? "שולח..." : "שלח בקשה לייעוץ מוזיקלי "}
           </button>
         </form>
       )}

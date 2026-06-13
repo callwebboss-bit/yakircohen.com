@@ -385,14 +385,13 @@ export default function SingerAmplificationPageContent() {
           <Link
             href="/events/equipment"
             className="font-medium text-brand-red hover:underline"
-          >
-            ← חזרה להשכרת הגברה לאירועים
+          > חזרה להשכרת הגברה לאירועים
           </Link>
-          {" · "}
+          {" - "}
           <Link href="/studio" className="font-medium text-brand-red hover:underline">
             אולפן הקלטות
           </Link>
-          {" · "}
+          {" - "}
           <Link href="/book?service=singer" className="font-medium text-brand-red hover:underline">
             הזמנה מקוונת
           </Link>

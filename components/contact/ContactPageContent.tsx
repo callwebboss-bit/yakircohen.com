@@ -172,8 +172,8 @@ function getAvailabilityLabel(): string {
     return 'שבת שלום - נחזור במוצ"ש';
   }
   return hour >= 9 && hour <= 20
-    ? "זמין עכשיו · ממוצע תגובה 15 דקות"
-    : "חוזרים ב-9:00 · ממוצע תגובה 15 דקות";
+    ? "זמין עכשיו - ממוצע תגובה 15 דקות"
+    : "חוזרים ב-9:00 - ממוצע תגובה 15 דקות";
 }
 
 export default function ContactPageContent() {
@@ -366,12 +366,10 @@ export default function ContactPageContent() {
             DJ נפל ברגע האחרון?
           </span>
           <span className="block text-xs text-muted-foreground">
-            קו חירום זמין עכשיו · תגובה מהירה
+            קו חירום זמין עכשיו - תגובה מהירה
           </span>
         </span>
-        <span className="shrink-0 text-brand-red" aria-hidden="true">
-          ←
-        </span>
+        <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>
       </a>
 
       <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
@@ -383,7 +381,7 @@ export default function ContactPageContent() {
             בואו <span className="text-brand-red">נדבר</span> על הפרויקט שלכם
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            אולפן הקלטות · DJ · קריינות · פודקאסטים · מודיעין
+            אולפן הקלטות - DJ - קריינות - פודקאסטים - מודיעין
           </p>
           <p className="mt-4">
             <Link
@@ -746,8 +744,7 @@ export default function ContactPageContent() {
                     </ol>
                     <p className="mt-4 text-sm">
                       <Link href="/start" className="font-medium text-brand-red hover:underline">
-                        כל השלבים לפי סוג שירות ←
-                      </Link>
+                        כל השלבים לפי סוג שירות </Link>
                     </p>
                   </div>
                 ) : null}
@@ -858,9 +855,9 @@ export default function ContactPageContent() {
         </section>
 
         <footer className="mt-12 border-t border-border pt-8 text-center text-xs text-muted-foreground">
-          <p>מודיעין · זמין 6 ימים בשבוע</p>
+          <p>מודיעין - זמין 6 ימים בשבוע</p>
           <p className="mt-2">
-            {BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" · ")}
+            {BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" - ")}
           </p>
           <nav
             className="mt-4 flex flex-wrap justify-center gap-x-3 gap-y-1"
@@ -1005,8 +1002,7 @@ function QuizNav({
             : "bg-brand-red text-white hover:bg-brand-red-light",
         )}
       >
-        {nextLabel} ←
-      </button>
+        {nextLabel} </button>
     </div>
   );
 }

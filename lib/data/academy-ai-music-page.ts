@@ -16,7 +16,7 @@ export const AI_MUSIC_LEARN_MODULES: readonly {
   {
     icon: "🎤",
     title: "משיר במגירה לשיר אמיתי",
-    body: "מלודיה בראש → ליווי, עיבוד והפקה. גם בשניות - אבל עם בקרת איכות אנושית.",
+    body: "מלודיה בראש ליווי, עיבוד והפקה. גם בשניות - אבל עם בקרת איכות אנושית.",
   },
   {
     icon: "⚙️",
@@ -45,7 +45,7 @@ export const AI_MUSIC_GUIDED_SERVICES: readonly {
   },
   {
     icon: "📼",
-    title: "שיר ישן → שיר חדש",
+    title: "שיר ישן שיר חדש",
     description:
       "הקלטה ישנה, קסט או דמו - שחזור, ניקוי AI ועריכה עד קובץ שמיש לפרסום או לאירוע.",
     href: "/blog/sound-recovery-ai-podcast",
@@ -53,7 +53,7 @@ export const AI_MUSIC_GUIDED_SERVICES: readonly {
   },
   {
     icon: "✨",
-    title: "מלודיה במגירה → שיר מלא",
+    title: "מלודיה במגירה שיר מלא",
     description:
       "רעיון, שרימפ או מילים - ליווי בהפקה, עיבוד ומיקס עד שיר מוגמר באולפן.",
     href: "/studio/recording-song-modiin",

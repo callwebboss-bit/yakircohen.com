@@ -16,8 +16,8 @@ import { cn } from "@/lib/utils";
 
    Strategy:
    1. Detect `navigator.share` after mount (client-only API - never on server).
-   2. If the Web Share API is available → render a single native share trigger.
-   3. If not (desktop Chrome, Firefox, etc.) → render three fallback actions:
+   2. If the Web Share API is available render a single native share trigger.
+   3. If not (desktop Chrome, Firefox, etc.) render three fallback actions:
       WhatsApp deep-link, Facebook sharer, and a copy-to-clipboard button.
 
    The WhatsApp href uses the generic `wa.me/?text=` share endpoint (NOT the

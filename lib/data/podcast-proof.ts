@@ -8,7 +8,7 @@
  *   - podcast-clean-sample.mp3 (אחרי)
  *
  * YouTube: אחרי העלאה, הדביקו כאן רק את ה-videoId (החלק אחרי watch?v=).
- * דוגמה: https://www.youtube.com/watch?v=ABC123xyz → ABC123xyz
+ * דוגמה: https://www.youtube.com/watch?v=ABC123xyz ABC123xyz
  */
 export const PODCAST_ZOOM_PROOF = {
   demoId: "podcast-zoom-cleanup" as AudioDemoId,

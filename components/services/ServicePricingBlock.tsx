@@ -78,7 +78,7 @@ export default function ServicePricingBlock({
                 {tier.priceExVat !== undefined ? (
                   <>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      כולל מע״מ · {tier.priceNote ?? "לפני מע״מ +18%"}
+                      כולל מע״מ - {tier.priceNote ?? "לפני מע״מ +18%"}
                     </p>
                     {tier.featured ? (
                       <PriceSocialProof className="mt-2" testimonialIndex={1} />

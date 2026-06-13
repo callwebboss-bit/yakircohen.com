@@ -52,7 +52,7 @@ function PackageCard({
 
       <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrency(pkg.price)}</p>
       <p className="text-[0.65rem] text-muted-foreground">
-        + מע״מ · {formatCurrencyWithVat(pkg.price)} סה״כ
+        + מע״מ - {formatCurrencyWithVat(pkg.price)} סה״כ
       </p>
 
       <ul className="mt-4 space-y-2">
@@ -146,7 +146,7 @@ export default function PodcastCalculator({ className }: { className?: string })
       },
     );
     if (errs) {
-      /* honeypot / rate limit — blocked silently */
+      /* honeypot / rate limit - blocked silently */
     }
   }, [attemptSubmit, honeypot, pkg, submitLead, waText, whatsappHref]);
 
@@ -176,7 +176,7 @@ export default function PodcastCalculator({ className }: { className?: string })
         {pkg ? (
           <section className="rounded-2xl border border-border bg-foreground p-6 text-background">
             <p className="mb-2 text-[0.65rem] font-extrabold tracking-widest text-background/50 uppercase">
-              גלישה בזמן · {formatCurrency(PODCAST_OVERTIME_RATE)} לכל 30 דקות
+              גלישה בזמן - {formatCurrency(PODCAST_OVERTIME_RATE)} לכל 30 דקות
             </p>
             <p className="mb-4 text-base font-semibold">כמה זמן הקלטה נוסף?</p>
             <div className="flex flex-wrap gap-2">

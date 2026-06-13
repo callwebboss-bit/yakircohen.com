@@ -1,4 +1,4 @@
-// UI-EXCEPTION: book funnel card with emotional chips + dual CTAs — see docs/ui-exceptions.md
+// UI-EXCEPTION: book funnel card with emotional chips + dual CTAs - see docs/ui-exceptions.md
 "use client";
 
 import { useState } from "react";
@@ -194,8 +194,7 @@ export default function BookAudienceCard({
             onClick={openFeasibilityCheck}
             className="mt-2 w-full text-center text-xs font-medium text-brand-red underline-offset-2 hover:underline"
           >
-            שלחו קובץ לבדיקת היתכנות חינם ←
-          </button>
+            שלחו קובץ לבדיקת היתכנות חינם </button>
         ) : null}
       </article>
 

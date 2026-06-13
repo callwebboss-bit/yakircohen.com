@@ -20,7 +20,7 @@ export type CrossSellContext = {
   recordingType?: string | null;
   atmosphere?: string | null;
   mobileGeo?: string | null;
-  /** קבוצה 12+ בלי אולפן נייד — הצעת mobile-upsell */
+  /** קבוצה 12+ בלי אולפן נייד - הצעת mobile-upsell */
   largeGroup?: boolean;
 };
 

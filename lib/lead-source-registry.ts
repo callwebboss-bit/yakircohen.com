@@ -1,5 +1,5 @@
 /**
- * רישום מרכזי של מקורות ליד — מיפוי formId / utm_campaign → yakir-closer.
+ * רישום מרכזי של מקורות ליד - מיפוי formId / utm_campaign yakir-closer.
  * מיוצא ל-closer-config דרך npm run export:closer.
  */
 
@@ -28,7 +28,7 @@ export type LeadSourceEntry = {
   utmCampaigns?: readonly string[];
 };
 
-/** מיפוי שירות ב-quiz יצירת קשר → closer */
+/** מיפוי שירות ב-quiz יצירת קשר closer */
 export const CONTACT_SERVICE_TO_CLOSER: Record<string, string> = {
   studio: "recording",
   dj: "dj",

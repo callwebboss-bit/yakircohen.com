@@ -1,5 +1,5 @@
 /**
- * Browser bundle entry — npm run export:closer → local-tools/closer-reply-builders.js
+ * Browser bundle entry - npm run export:closer local-tools/closer-reply-builders.js
  */
 import { createReplyBuilders, type BrandCopySlice } from "./reply-copy-builders-core";
 

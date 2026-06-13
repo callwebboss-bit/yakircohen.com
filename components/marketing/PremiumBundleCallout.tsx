@@ -1,4 +1,4 @@
-// UI-EXCEPTION: full-width grid span promo — see docs/ui-exceptions.md
+// UI-EXCEPTION: full-width grid span promo - see docs/ui-exceptions.md
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";

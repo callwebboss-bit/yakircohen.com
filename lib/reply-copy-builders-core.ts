@@ -1,5 +1,5 @@
 /**
- * Pure reply builders — brand copy injected at runtime (site JSON or CLOSER_CONFIG).
+ * Pure reply builders - brand copy injected at runtime (site JSON or CLOSER_CONFIG).
  */
 export type ReplyLength = "short" | "standard" | "full";
 export type ReplyTone = "direct" | "warm" | "caring";
@@ -94,7 +94,7 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
   function songRef(song?: string): string {
     const s = (song || "").trim();
     if (!s) return "";
-    return ` ל«${s}»`;
+    return ` ל${s}`;
   }
 
   function formatGuideLink(entry?: { label?: string; url?: string }): string {
@@ -116,12 +116,12 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
       celebrantName: recorderName,
       song,
       songRef: songRef(song),
-      songLine: song ? ` השיר: «${song}».` : "",
+      songLine: song ? ` השיר: ${song}.` : "",
       occasion: (ctx.occasion || "").trim() || "האירוע",
       scheduleLabel: scheduleLabel(ctx.scheduleWindow),
       scheduleDetail: formatScheduleDetail(ctx),
       dateLine: ctx.leadDate
-        ? ` לגבי ${formatScheduleDetail(ctx)} — נשמח לאשר שהתאריך עדיין מתאים.`
+        ? ` לגבי ${formatScheduleDetail(ctx)} - נשמח לאשר שהתאריך עדיין מתאים.`
         : "",
       dateDetail: formatScheduleDetail(ctx),
       studioGuide: formatGuideLink(links.studioGuide),
@@ -176,7 +176,7 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
     if (ctx.leadDate) {
       parts.push(`לגבי ${formatScheduleDetail(ctx)}, נשמח לאשר שעה מדויקת.`);
     }
-    parts.push("מה נוח לכם — מקדמה עכשיו או שיחה קצרה של 3 דקות?");
+    parts.push("מה נוח לכם - מקדמה עכשיו או שיחה קצרה של 3 דקות?");
     return parts.join("\n");
   }
 
@@ -281,7 +281,7 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
     if (scenario === "parent_child") {
       paths.push({
         id: "playback_parent_child",
-        label: "🎵 פלייבק להורים→ילד/ה",
+        label: "🎵 פלייבק להורים ילד/ה",
         scenario: "parent_child",
         recommended: recId === "playback_parent_child",
       });

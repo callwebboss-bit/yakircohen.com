@@ -64,8 +64,8 @@ function StepBadge({ number }: StepBadgeProps) {
 /**
  * ProcessSteps - server-safe static component.
  *
- * Mobile  → vertical stack: badge column (with dashed connector) + content column.
- * Desktop → 4-column horizontal grid with a dashed gold line spanning badge centres.
+ * Mobile vertical stack: badge column (with dashed connector) + content column.
+ * Desktop 4-column horizontal grid with a dashed gold line spanning badge centres.
  */
 export default function ProcessSteps({
   steps,
@@ -130,7 +130,7 @@ export default function ProcessSteps({
                     /*
                      * A thin column rendered inside the badge's flex column.
                      * `inset-inline-start: 1.5rem` centres it under the badge
-                     * (badge = 3 rem wide → centre = 1.5 rem from start edge).
+                     * (badge = 3 rem wide centre = 1.5 rem from start edge).
                      * In RTL "start" resolves to `right`.
                      */
                     <div

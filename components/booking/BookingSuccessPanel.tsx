@@ -64,7 +64,7 @@ export default function BookingSuccessPanel({
     const link = buildCloserDeepLink(body);
     void navigator.clipboard.writeText(link).then(() => {
       window.alert(
-        "קישור ל-Closer הועתק.\n\nפתח את yakir-closer.html מתיקיית local-tools והדבק את הקישור בשורת הכתובת — הליד ייטען אוטומטית.",
+        "קישור ל-Closer הועתק.\n\nפתח את yakir-closer.html מתיקיית local-tools והדבק את הקישור בשורת הכתובת - הליד ייטען אוטומטית.",
       );
     });
   }, [whatsappHref]);
@@ -142,12 +142,12 @@ export default function BookingSuccessPanel({
       {replyStudioContext ? (
         <div className="mt-6 space-y-3 text-right">
           <p className="text-sm font-semibold text-foreground">
-            יש לכם עם מי לדבר — הנה טקסט מוכן למשפחה / לילד אחרי הפלייבק
+            יש לכם עם מי לדבר - הנה טקסט מוכן למשפחה / לילד אחרי הפלייבק
           </p>
           <BookReplyStudio
             context={{ ...replyStudioContext, intent: intent || replyStudioContext.intent }}
             compact
-            onCopy={() => window.alert("הועתק — אפשר לשלוח למשפחה / לילד")}
+            onCopy={() => window.alert("הועתק - אפשר לשלוח למשפחה / לילד")}
           />
         </div>
       ) : null}

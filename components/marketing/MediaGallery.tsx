@@ -146,9 +146,9 @@ function ChevronRightIcon() {
    - role="dialog" + aria-modal on the overlay
    - Focus is moved to the close button on open; restored to the triggering
      thumbnail on close via a stored ref.
-   - Document-level keydown listener handles ← Prev / → Next / Escape.
+   - Document-level keydown listener handles Prev / Next / Escape.
    - Body scroll is locked for the lifetime of the open dialog.
-   - Touch swipe: left → next, right → previous.
+   - Touch swipe: left next, right previous.
    ───────────────────────────────────────────────────────────────────────────── */
 
 type LightboxProps = {
@@ -307,7 +307,7 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
    The first 6 thumbnails load eagerly (likely above the fold); the rest are
    lazy-loaded by the browser.
 
-   Columns: 1 (mobile) → 2 (sm) → 3 (lg). Customise via `className`.
+   Columns: 1 (mobile) 2 (sm) 3 (lg). Customise via `className`.
    ───────────────────────────────────────────────────────────────────────────── */
 
 export default function MediaGallery({

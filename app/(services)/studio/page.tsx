@@ -126,8 +126,7 @@ export default function StudioHubPage() {
             href="/portfolio"
             className="text-sm font-semibold text-brand-red hover:underline"
           >
-            לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות) ←
-          </Link>
+            לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות) </Link>
         </p>
 
         <TrustStatsBar className="rounded-2xl border" />

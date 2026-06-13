@@ -185,7 +185,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
         {service.wizardTitle}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        ממלאים פרטים — מקבלים הצעה מותאמת עם מחיר משוער. יקיר בודק לפני סגירה.
+        ממלאים פרטים - מקבלים הצעה מותאמת עם מחיר משוער. יקיר בודק לפני סגירה.
       </p>
 
       {!result ? (
@@ -223,7 +223,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
         <div className="mt-6 space-y-4">
           {source ? (
             <p className="text-xs text-muted-foreground">
-              {source === "ai" ? "הצעה חכמה מהאתר — יקיר מאשר לפני ביצוע" : "הערכה לפי מחשבון האתר"}
+              {source === "ai" ? "הצעה חכמה מהאתר - יקיר מאשר לפני ביצוע" : "הערכה לפי מחשבון האתר"}
             </p>
           ) : null}
           <p className="text-sm font-medium text-foreground">{result.summary}</p>
@@ -241,7 +241,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
           ) : null}
           <p className="text-sm font-semibold text-brand-red">
             משוער: {displayPrice.toLocaleString("he-IL")} שקלים לפני מע״מ
-            {result.priceNote ? ` · ${result.priceNote}` : ""}
+            {result.priceNote ? ` - ${result.priceNote}` : ""}
           </p>
           {result.nextSteps.length > 0 ? (
             <ol className="space-y-1 text-xs text-muted-foreground">

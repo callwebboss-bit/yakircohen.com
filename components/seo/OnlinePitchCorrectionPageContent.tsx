@@ -139,8 +139,7 @@ export default function OnlinePitchCorrectionPageContent() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
           >
-            שלחו שיר לבדיקה ←
-          </a>
+            שלחו שיר לבדיקה </a>
         </div>
       </section>
 
@@ -222,8 +221,7 @@ export default function OnlinePitchCorrectionPageContent() {
             href="/online/online-ai-pricing"
             className="mt-2 inline-block text-sm font-medium text-brand-red hover:underline"
           >
-            לצפייה במחירון המלא ←
-          </Link>
+            לצפייה במחירון המלא </Link>
           <ul className="mt-6 space-y-2 text-start text-sm text-muted-foreground">
             {PITCH_PRICE_INCLUDED.map((item) => (
               <li key={item} className="flex gap-2">
@@ -317,8 +315,7 @@ export default function OnlinePitchCorrectionPageContent() {
           rel="noopener noreferrer"
           className="mt-6 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          שלחו שיר בוואטסאפ ←
-        </a>
+          שלחו שיר בוואטסאפ </a>
         <div className="mt-5 flex justify-center gap-4">
           <Link
             href="/studio/recording-song-modiin"
@@ -339,7 +336,7 @@ export default function OnlinePitchCorrectionPageContent() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
             <p className="mt-1 font-semibold text-foreground">Pitch Correction לעומת Auto-Tune: מה ההבדל ומתי להשתמש בכל אחד</p>
-            <p className="mt-1 text-sm text-muted-foreground">המדריך המלא לתיקון זיופים טבעי - לקריאה ←</p>
+            <p className="mt-1 text-sm text-muted-foreground">המדריך המלא לתיקון זיופים טבעי - לקריאה </p>
           </div>
         </Link>
       </section>

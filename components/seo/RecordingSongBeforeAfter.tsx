@@ -93,8 +93,7 @@ export default function RecordingSongBeforeAfter() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          שלחו לנו הודעה ←
-        </a>
+          שלחו לנו הודעה </a>
         <p className="mt-2 text-xs text-muted-foreground">
           בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור לכם
           לבחור את הפלייבק המתאים

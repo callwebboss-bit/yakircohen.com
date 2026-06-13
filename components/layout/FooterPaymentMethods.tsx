@@ -100,7 +100,7 @@ export default function FooterPaymentMethods({
           </h2>
           {!compact ? (
             <p className="mt-2 max-w-md text-xs leading-relaxed text-muted-foreground">
-              סליקה מאובטחת · אשראי, אפליקציות תשלום וחשבונית מס מסודרת
+              סליקה מאובטחת - אשראי, אפליקציות תשלום וחשבונית מס מסודרת
             </p>
           ) : null}
         </div>

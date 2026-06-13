@@ -57,7 +57,7 @@ function AccordionPanel({
   );
 }
 
-// UI-EXCEPTION: disclosure accordion pattern — see docs/ui-exceptions.md
+// UI-EXCEPTION: disclosure accordion pattern - see docs/ui-exceptions.md
 export default function FAQAccordion({
   items,
   title = "שאלות ששואלים אותנו הרבה לפני שמזמינים",

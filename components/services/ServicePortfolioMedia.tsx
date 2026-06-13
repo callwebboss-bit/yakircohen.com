@@ -60,7 +60,7 @@ export default function ServicePortfolioMedia({
     showGallery && hasImages && (mediaType === "gallery" || mediaType === "video");
   const subtitle =
     !showEmbed && displayGallery
-      ? "תמונות מהשטח · לחצו על תמונה להגדלה"
+      ? "תמונות מהשטח - לחצו על תמונה להגדלה"
       : (PORTFOLIO_COPY[mediaType] ?? "דוגמאות מהפרויקטים שלנו");
 
   const cappedPrimary = primary.slice(0, SERVICE_GALLERY_MAX_IMAGES);

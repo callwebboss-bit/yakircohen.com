@@ -1,6 +1,6 @@
 /**
- * מחולל הודעות קבוצה — מקור משותף ל-/book ולסנכרון עם yakir-closer.
- * קופי מ-closer-brand-copy.json · מחירים מ-studio-participant-pricing.
+ * מחולל הודעות קבוצה - מקור משותף ל-/book ולסנכרון עם yakir-closer.
+ * קופי מ-closer-brand-copy.json - מחירים מ-studio-participant-pricing.
  */
 
 import brandCopy from "@/lib/data/closer-brand-copy.json";
@@ -270,7 +270,7 @@ function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext)
 
   lines.push(`*מה כלול בחבילת הבסיס:*`);
   lines.push(`חבילת הקלטת אולפן${pkgLabel}: ${formatNis(input.baseExVat)} לפני מע״מ`);
-  lines.push(`הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא — ${atmosphereText}.`);
+  lines.push(`הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - ${atmosphereText}.`);
   lines.push("");
   lines.push(`*ההרכב שלכם:*`);
   const adults = input.adultsCount ?? 0;
@@ -301,17 +301,17 @@ function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext)
   lines.push(`*אפשרויות חלופיות לבחירתכם:*`);
   if (ctx.soloScenario) {
     lines.push(
-      `· *${getClientScenarioTitle("solo")}:* ${formatNis(ctx.soloScenario.subtotalExVat)} לפני מע״מ — ${getClientScenarioDescription("solo").split(".")[0]}.`,
+      `- *${getClientScenarioTitle("solo")}:* ${formatNis(ctx.soloScenario.subtotalExVat)} לפני מע״מ - ${getClientScenarioDescription("solo").split(".")[0]}.`,
     );
   }
   if (ctx.groupScenario) {
     lines.push(
-      `· *${getClientScenarioTitle("group")}:* ${formatNis(ctx.groupScenario.subtotalExVat)} לפני מע״מ — ${getClientScenarioDescription("group").split(".")[0]}.`,
+      `- *${getClientScenarioTitle("group")}:* ${formatNis(ctx.groupScenario.subtotalExVat)} לפני מע״מ - ${getClientScenarioDescription("group").split(".")[0]}.`,
     );
   }
   if (ctx.save5Scenario) {
     lines.push(
-      `· *${getClientScenarioTitle("save5")}:* ${formatNis(ctx.save5Scenario.subtotalExVat)} לפני מע״מ — ${getClientScenarioDescription("save5").split(".")[0]}.`,
+      `- *${getClientScenarioTitle("save5")}:* ${formatNis(ctx.save5Scenario.subtotalExVat)} לפני מע״מ - ${getClientScenarioDescription("save5").split(".")[0]}.`,
     );
   }
   lines.push("");
@@ -352,7 +352,7 @@ function buildClosingCta(): string {
   return [
     `*כדי שנשמור לכם מקום ביומן ולא נפספס את התאריך:*`,
     `1. מה השיר שחשבתם עליו? (אם אתם מתלבטים, אשלח לכם את ה-Top 3 שלנו לקבוצות משפחתיות).`,
-    `2. מה עדיף — שיחה קצרה של 3 דקות מחר כדי לסגור פינות, או להמשיך מכאן בוואטסאפ?`,
+    `2. מה עדיף - שיחה קצרה של 3 דקות מחר כדי לסגור פינות, או להמשיך מכאן בוואטסאפ?`,
   ].join("\n");
 }
 
@@ -406,7 +406,7 @@ function buildDualTierPricingSection(
   return lines.join("\n");
 }
 
-/** הודעת dual-tier לקבוצות גדולות (10+) — תקרת זוגות + save5 כהמלצה */
+/** הודעת dual-tier לקבוצות גדולות (10+) - תקרת זוגות + save5 כהמלצה */
 export function generateDualTierGroupMessage(input: GroupMessageInput): string | null {
   const ctx = getGroupMessageContext(input);
   if (!ctx || !ctx.result.eligible || !ctx.useDualTier) return null;
@@ -418,7 +418,7 @@ export function generateDualTierGroupMessage(input: GroupMessageInput): string |
     "קראתי את הפרטים.",
     "הנה הכל בצורה הכי פשוטה, שקופה וקלילה:",
     "",
-    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא — בקצב שלכם ובלי לחץ.`,
+    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - בקצב שלכם ובלי לחץ.`,
     `*ההרכב:* ${input.recorderCount} משתתפים.`,
     "",
     buildDualTierPricingSection(input, ctx),
@@ -494,7 +494,7 @@ export function generateGroupPackageMessage(input: GroupMessageInput): string | 
   return parts.filter(Boolean).join("\n");
 }
 
-/** גרסה קצרה — מסלול מומלץ בלבד */
+/** גרסה קצרה - מסלול מומלץ בלבד */
 export function generateSnappyGroupMessage(input: GroupMessageInput): string | null {
   const ctx = getGroupMessageContext(input);
   if (!ctx || !ctx.result.eligible) return null;
@@ -509,7 +509,7 @@ export function generateSnappyGroupMessage(input: GroupMessageInput): string | n
     "",
     "קראנו את הפרטים. הנה הכל בצורה הכי פשוטה, שקופה וקלילה:",
     "",
-    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא — בקצב שלכם ובלי לחץ.`,
+    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - בקצב שלכם ובלי לחץ.`,
     `*ההרכב:* ${input.recorderCount} משתתפים. האולפן בנוי לעד ${STUDIO_RECORDING_MAX} בו-זמנית, ולכן נחלק בצורה הכי יעילה:`,
     "",
     `🏆 *המסלול המומלץ (חלוקה מהירה לזוגות):*`,
@@ -529,7 +529,7 @@ export function generateSnappyGroupMessage(input: GroupMessageInput): string | n
   return parts.filter(Boolean).join("\n");
 }
 
-/** בלוק עשיר ל-/book — מידע קבוצתי בתוך הודעת הליד */
+/** בלוק עשיר ל-/book - מידע קבוצתי בתוך הודעת הליד */
 export function buildBookGroupEnrichmentBlock(input: GroupMessageInput): string[] {
   const ctx = getGroupMessageContext(input);
   if (!ctx) return [];

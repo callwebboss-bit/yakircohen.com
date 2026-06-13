@@ -1,4 +1,4 @@
-/** Pagefind client index — singleton loader shared across SiteSearch instances. */
+/** Pagefind client index - singleton loader shared across SiteSearch instances. */
 
 export interface PFResult {
   url: string;

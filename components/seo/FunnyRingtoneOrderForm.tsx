@@ -232,7 +232,7 @@ export default function FunnyRingtoneOrderForm() {
           disabled={isSubmitting}
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red disabled:opacity-50"
         >
-          {isSubmitting ? "שולח..." : "שלחו הזמנה ←"}
+          {isSubmitting ? "שולח..." : "שלחו הזמנה "}
         </button>
         <p className="text-xs text-muted-foreground">
           הטופס פותח שיח בוואטסאפ - נמשיך משם את כל הפרטים

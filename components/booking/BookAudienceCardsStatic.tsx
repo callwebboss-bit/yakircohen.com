@@ -2,7 +2,7 @@ import { BOOK_AUDIENCE_ROUTES } from "@/lib/data/book-audience-routes";
 
 /**
  * Server-rendered audience route copy for crawlers (initial HTML).
- * Visually hidden — interactive cards in BookAudienceRouter are the primary UI.
+ * Visually hidden - interactive cards in BookAudienceRouter are the primary UI.
  */
 export default function BookAudienceCardsStatic() {
   return (
@@ -33,7 +33,7 @@ export default function BookAudienceCardsStatic() {
                 {route.priceNote ? (
                   <span className="font-normal text-muted-foreground">
                     {" "}
-                    · {route.priceNote}
+                    - {route.priceNote}
                   </span>
                 ) : null}
               </p>

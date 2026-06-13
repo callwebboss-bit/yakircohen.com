@@ -83,7 +83,7 @@ export default function BookingApprovals({
         <Link href="/terms" className="font-semibold text-brand-red hover:underline">
           תנאי שימוש
         </Link>
-        {" · "}
+        {" - "}
         <Link href="/privacy" className="font-semibold text-brand-red hover:underline">
           מדיניות פרטיות
         </Link>

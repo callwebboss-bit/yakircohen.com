@@ -1,4 +1,4 @@
-// UI-EXCEPTION: split layout + video column — see docs/ui-exceptions.md
+// UI-EXCEPTION: split layout + video column - see docs/ui-exceptions.md
 "use client";
 
 import Link from "next/link";
@@ -75,7 +75,7 @@ export default function GiftIdeaCard({
         </div>
       </div>
 
-      {/* IMPROVED: fixed aspect-video on all breakpoints — prevents CLS when video loads */}
+      {/* IMPROVED: fixed aspect-video on all breakpoints - prevents CLS when video loads */}
       <div
         className={cn(
           "relative aspect-video min-h-[220px] bg-foreground",

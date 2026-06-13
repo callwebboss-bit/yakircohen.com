@@ -204,8 +204,7 @@ export default function RecordingSongModiinPageContent() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white hover:bg-brand-red-light"
               >
-                רוצים להתייעץ על השיר שלכם? דברו איתי בוואטסאפ ←
-              </a>
+                רוצים להתייעץ על השיר שלכם? דברו איתי בוואטסאפ </a>
               <p className="mt-2 text-xs text-muted-foreground">
                 בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור
                 לכם לבחור את הפלייבק המתאים
@@ -279,8 +278,7 @@ export default function RecordingSongModiinPageContent() {
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-8 py-3.5 text-base font-semibold text-white hover:bg-brand-red-light"
             >
-              בואו נתחיל ←
-            </a>
+              בואו נתחיל </a>
             <p className="mt-3 text-xs text-muted-foreground">
               יש לכם שאלות טכניות?{" "}
               <a
@@ -500,8 +498,7 @@ export default function RecordingSongModiinPageContent() {
             <p className="mt-2 text-sm text-muted-foreground">
               מיקס מקצועי, תיקון זיופים או ניקוי רעשים - הכל אפשרי מרחוק תוך ימים בודדים.{" "}
               <Link href="/online/vocal-fix/mixing" className="font-semibold text-brand-red hover:underline">
-                שירות מיקס ומאסטרינג ←
-              </Link>
+                שירות מיקס ומאסטרינג </Link>
             </p>
           </div>
 

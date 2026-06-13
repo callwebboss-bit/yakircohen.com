@@ -95,7 +95,7 @@ export const CONFETTI_WHY_US: readonly string[] = [
   "גמישות ושירות אישי  -  צבעים ותזמון מותאמים",
   "תמיכה טכנית  -  הגעה מוקדמת, בדיקות וטכנאי אופציונלי",
   "שקיפות  -  מחיר ברור, הכל כלול, בלי הפתעות",
-  "20 שנות ניסיון · 1,800+ אירועים · 280+ המלצות",
+  "20 שנות ניסיון - 1,800+ אירועים - 280+ המלצות",
 ] as const;
 
 export const CONFETTI_DIY_VS_PRO: readonly { label: string; bad: string; good: string }[] = [

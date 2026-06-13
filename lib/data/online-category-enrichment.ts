@@ -195,7 +195,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
       {
         name: "מהיר",
         turnaround: "24 שעות (Rave לספקים)",
-        includes: "רילס ערוך מ-5-10 קליפים גולמיים — ביט-סינק, אפקטים וצבע.",
+        includes: "רילס ערוך מ-5-10 קליפים גולמיים - ביט-סינק, אפקטים וצבע.",
         note: "העלאה עד 04:00 = מסירה 12:00",
       },
       {

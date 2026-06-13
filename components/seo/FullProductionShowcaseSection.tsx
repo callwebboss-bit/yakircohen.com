@@ -91,8 +91,7 @@ export default function FullProductionShowcaseSection({
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            {copy.ctaLabel} ←
-          </a>
+            {copy.ctaLabel} </a>
         </div>
       </div>
     </section>

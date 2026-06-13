@@ -9,7 +9,7 @@ export type InventoryItem = {
   riderAliases: readonly string[];
 };
 
-/** מקור אמת סטטי — עדכון זמינות דרך equipment-inventory-state.json בקלוזר */
+/** מקור אמת סטטי - עדכון זמינות דרך equipment-inventory-state.json בקלוזר */
 export const EQUIPMENT_INVENTORY: readonly InventoryItem[] = [
   {
     id: "mixer_ah_qu",
@@ -59,7 +59,7 @@ export type InventoryBooking = {
   qty: number;
 };
 
-/** הזמנות פעילות — מסונכרן מ-export:closer */
+/** הזמנות פעילות - מסונכרן מ-export:closer */
 import bookingsData from "@/lib/data/equipment-inventory-bookings.json";
 
 export const INVENTORY_BOOKINGS: readonly InventoryBooking[] =

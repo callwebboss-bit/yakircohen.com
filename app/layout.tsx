@@ -16,7 +16,7 @@ import {
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-// OPTIMIZED: fewer font weights — saves 2–3 network requests on first paint
+// OPTIMIZED: fewer font weights - saves 2-3 network requests on first paint
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
   display: "swap",
@@ -40,7 +40,7 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
 const DEFAULT_TITLE =
   "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין";
 const DEFAULT_DESCRIPTION =
-  "אולפן, פודקאסט ואירועים במודיעין. הקלטות, DJ, הנחיית קהל ושירותי AI — מודיעין, ירושלים והמרכז.";
+  "אולפן, פודקאסט ואירועים במודיעין. הקלטות, DJ, הנחיית קהל ושירותי AI - מודיעין, ירושלים והמרכז.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

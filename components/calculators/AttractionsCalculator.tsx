@@ -625,7 +625,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
               <p className="font-semibold text-foreground">אזור נסיעה שנבחר</p>
               <p className="mt-1 text-muted-foreground">
                 {GEO_FEES[geo].label}
-                {geoFee > 0 ? ` · תוספת ${formatCurrency(geoFee)}` : " · ללא תוספת"}
+                {geoFee > 0 ? ` - תוספת ${formatCurrency(geoFee)}` : " - ללא תוספת"}
               </p>
               <button
                 type="button"
@@ -655,8 +655,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
               type="button"
               onClick={() => setStep("select")}
               className="text-sm font-semibold text-muted-foreground hover:text-foreground"
-            >
-              ← חזרה לבחירת אטרקציות
+            > חזרה לבחירת אטרקציות
             </button>
           </div>
         ) : null}
@@ -684,7 +683,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
                   {EVENT_TYPES.find((t) => t.value === form.eventType)?.label}
                 </li>
                 <li>
-                  <span className="text-foreground">תאריך:</span> {form.eventDate} · שעה{" "}
+                  <span className="text-foreground">תאריך:</span> {form.eventDate} - שעה{" "}
                   {form.eventTime}
                 </li>
                 <li>

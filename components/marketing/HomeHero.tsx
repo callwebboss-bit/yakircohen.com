@@ -42,7 +42,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין -
-            ליווי מקצועי עד לקובץ מוכן. 20+ שנים · 5,000+ לקוחות.
+            ליווי מקצועי עד לקובץ מוכן. 20+ שנים - 5,000+ לקוחות.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             {/* IMPROVED: Button primitive for WhatsApp CTA */}
@@ -81,11 +81,11 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
               <Link href="/studio" className="rounded-sm transition-colors hover:text-brand-red-light hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
                 אולפן
               </Link>
-              {" · "}
+              {" - "}
               <Link href="/events" className="rounded-sm transition-colors hover:text-brand-red-light hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
                 אירועים
               </Link>
-              {" · "}
+              {" - "}
               <Link href="/podcast" className="rounded-sm transition-colors hover:text-brand-red-light hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
                 פודקאסט
               </Link>

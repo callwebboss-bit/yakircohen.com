@@ -69,7 +69,7 @@ export default function PodcastStudioModiinPageContent() {
         <section className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-              יקיר כהן הפקות · מודיעין
+              יקיר כהן הפקות - מודיעין
             </p>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
               ההקלטה המקצועית שהתוכן שלכם ראוי לה
@@ -156,8 +156,7 @@ export default function PodcastStudioModiinPageContent() {
                     {service.description}
                   </p>
                   <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}
@@ -217,8 +216,7 @@ export default function PodcastStudioModiinPageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            תיאום הקלטה בוואטסאפ ←
-          </a>
+            תיאום הקלטה בוואטסאפ </a>
         </section>
 
         <GoogleReviews

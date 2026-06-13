@@ -275,8 +275,7 @@ export default function StutteringPageContent() {
               rel="noopener noreferrer"
               className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
             >
-              שיחת היכרות בוואטסאפ ←
-            </Button>
+              שיחת היכרות בוואטסאפ </Button>
             <Button as="a" href={`tel:${CONTACT_PHONE_E164}`} variant="secondary">
               {CONTACT_PHONE_DISPLAY}
             </Button>

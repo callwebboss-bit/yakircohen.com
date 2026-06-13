@@ -211,8 +211,7 @@ export default function PrivateLessonsPage() {
           href="/academy"
           className="mt-6 inline-block text-sm font-medium text-brand-red hover:underline"
         >
-          כל מסלולי האקדמיה ←
-        </Link>
+          כל מסלולי האקדמיה </Link>
       </section>
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
@@ -248,8 +247,7 @@ export default function PrivateLessonsPage() {
               href="/book"
               className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
-              הזמנה באתר ←
-            </Link>
+              הזמנה באתר </Link>
             <a
               href={ctaHref}
               target="_blank"

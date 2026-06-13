@@ -27,7 +27,7 @@ export default function EventFilmingPhotoGalleries() {
           גלריה בקרוב
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-          תמונות מתיק העבודות יתווספו בקרוב. בינתיים — שלחו בוואטסאפ ונשמח להראות דוגמאות.
+          תמונות מתיק העבודות יתווספו בקרוב. בינתיים - שלחו בוואטסאפ ונשמח להראות דוגמאות.
         </p>
       </section>
     );

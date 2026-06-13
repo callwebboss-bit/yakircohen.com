@@ -20,7 +20,7 @@ export const EVENTS_EQUIPMENT_FAQ_LINKS: readonly HubLinkItem[] = [
   {
     href: "/events/equipment/singer-amplification",
     title: "הגברה לזמרים",
-    description: "חבילות 2,800-7,800 ₪ · Shure, RCF, צ'ק סאונד.",
+    description: "חבילות 2,800-7,800 ₪ - Shure, RCF, צ'ק סאונד.",
   },
   {
     href: "/events/dj-events",

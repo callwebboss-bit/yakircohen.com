@@ -92,8 +92,7 @@ export default function BlessingsHubPageContent() {
                   </p>
                   {card.href ? (
                     <span className="mt-4 text-xs font-semibold text-brand-red">
-                      לפרטים ←
-                    </span>
+                      לפרטים </span>
                   ) : null}
                 </>
               );
@@ -116,8 +115,7 @@ export default function BlessingsHubPageContent() {
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                       >
-                        לייעוץ בוואטסאפ ←
-                      </a>
+                        לייעוץ בוואטסאפ </a>
                     </div>
                   )}
                 </li>
@@ -304,8 +302,7 @@ export default function BlessingsHubPageContent() {
                     {track.description}
                   </p>
                   <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}

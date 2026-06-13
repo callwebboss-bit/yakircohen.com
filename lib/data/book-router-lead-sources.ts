@@ -12,7 +12,7 @@ export type BookRouterLeadSource = {
   utmCampaigns: readonly string[];
 };
 
-/** מקורות ליד מכרטיסי /book — מיוצאים ל-yakir-closer */
+/** מקורות ליד מכרטיסי /book - מיוצאים ל-yakir-closer */
 export const BOOK_ROUTER_LEAD_SOURCES: readonly BookRouterLeadSource[] = [
   ...BOOK_AUDIENCE_ROUTES.map((route) => ({
     formId: route.utm_campaign,

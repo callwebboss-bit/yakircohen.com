@@ -18,7 +18,7 @@ export type SiteNavCategory = {
   children: SiteNavLink[];
 };
 
-/** 301 - עמוד כפול → כתובת קנונית (SEO) */
+/** 301 - עמוד כפול כתובת קנונית (SEO) */
 export const CANONICAL_REDIRECTS: Record<string, string> = {
   "/podcast/podcast-studio": "/podcast/podcast-studio-modiin",
   "/courses": "/academy",
@@ -77,7 +77,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       {
         label: "השכרת סטודיו במודיעין",
         href: "/podcast/podcast-studio-modiin",
-        description: "הקלטה באולפן - חצי שעה 750 ₪ · שעה 1,500 ₪ (לפני מע״מ)",
+        description: "הקלטה באולפן - חצי שעה 750 ₪ - שעה 1,500 ₪ (לפני מע״מ)",
       },
       {
         label: "עריכת פודקאסט",

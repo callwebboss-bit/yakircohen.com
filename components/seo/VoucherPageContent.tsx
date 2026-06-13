@@ -14,7 +14,7 @@ import {
 const FEATURES = [
   "שובר דיגיטלי או מודפס - לפי מה שנוח למקבל",
   "מתאים לאולפן, אטרקציות לאירוע או שילוב חבילות",
-  `אולפן: ${formatNis(STUDIO_HALF_HOUR_NIS)} חצי שעה · ${formatNis(STUDIO_ONE_HOUR_NIS)} שעה`,
+  `אולפן: ${formatNis(STUDIO_HALF_HOUR_NIS)} חצי שעה - ${formatNis(STUDIO_ONE_HOUR_NIS)} שעה`,
   "תיאום אישי בוואטסאפ - בלי טפסים מסורבלים",
 ] as const;
 

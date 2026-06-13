@@ -134,8 +134,7 @@ export default function WeddingPackagesPageContent() {
                     href={a.href}
                     className="text-sm font-medium text-brand-red hover:underline"
                   >
-                    {a.label} ←
-                  </Link>
+                    {a.label} </Link>
                 </li>
               ))}
             </ul>

@@ -100,8 +100,7 @@ export default function GrowthSlideshowSection() {
           rel="noopener noreferrer"
           className="inline-flex rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          הצעת מחיר למצגת גדילה ←
-        </a>
+          הצעת מחיר למצגת גדילה </a>
       </div>
     </section>
   );

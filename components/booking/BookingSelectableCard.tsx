@@ -1,4 +1,4 @@
-// UI-EXCEPTION: selectable radio card — see docs/ui-exceptions.md
+// UI-EXCEPTION: selectable radio card - see docs/ui-exceptions.md
 "use client";
 
 import type { ReactNode } from "react";

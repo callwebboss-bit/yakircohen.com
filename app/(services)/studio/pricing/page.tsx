@@ -70,17 +70,16 @@ export default function StudioPricingPage() {
             <Link
               href="/studio"
               className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            >
-              ← חזרה למרכז האולפן
+            > חזרה למרכז האולפן
             </Link>
-            <span aria-hidden>·</span>
+            <span aria-hidden>-</span>
             <Link
               href="/pricing"
               className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
               מחירון מרכזי (כל השירותים)
             </Link>
-            <span aria-hidden>·</span>
+            <span aria-hidden>-</span>
             <Link
               href="/book"
               className="inline-flex min-h-11 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"

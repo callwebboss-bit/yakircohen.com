@@ -159,8 +159,7 @@ export default function MobilePodcastAtHomePageContent() {
                     href={item.link.href}
                     className="mt-3 inline-flex text-sm font-semibold text-brand-red hover:underline"
                   >
-                    {item.link.label} ←
-                  </Link>
+                    {item.link.label} </Link>
                 ) : null}
               </li>
             ))}
@@ -187,8 +186,7 @@ export default function MobilePodcastAtHomePageContent() {
 
         <p className="text-center text-sm text-muted-foreground">
           <Link href="/podcast" className="font-medium text-brand-red hover:underline">
-            לפרטים נוספים על מחירון פודקאסט ←
-          </Link>
+            לפרטים נוספים על מחירון פודקאסט </Link>
         </p>
 
         <section aria-labelledby="related-heading">
@@ -232,8 +230,7 @@ export default function MobilePodcastAtHomePageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            הזמנת הקלטה ניידת בוואטסאפ ←
-          </a>
+            הזמנת הקלטה ניידת בוואטסאפ </a>
         </section>
               <PageRelatedFooter pathname="/podcast/mobile-podcast-at-home" />
 

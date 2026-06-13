@@ -30,7 +30,7 @@ export default function ProServicePageContent({
       pagePath={service.path}
       faqs={service.faqs}
       category={service.department}
-      scarcityLabel="שירות מקצועי — זמינות לפי יומן"
+      scarcityLabel="שירות מקצועי - זמינות לפי יומן"
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         {service.seoParagraphs.length > 0 ? (
@@ -72,7 +72,7 @@ export default function ProServicePageContent({
                   <h3 className="font-semibold text-foreground">{set.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{set.description}</p>
                   <p className="mt-3 text-xs text-muted-foreground">
-                    {set.durationMinutes} דקות · {set.trackCount} שירים · קצב {set.bpmRange}
+                    {set.durationMinutes} דקות - {set.trackCount} שירים - קצב {set.bpmRange}
                   </p>
                   <p className="mt-2 text-sm font-semibold text-brand-red">
                     {set.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ

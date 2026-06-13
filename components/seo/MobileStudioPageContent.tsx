@@ -200,8 +200,7 @@ export default function MobileStudioPageContent() {
             href="/studio/blessings/video-clip"
             className="mt-5 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            שיר + קליפ באולפן ←
-          </Link>
+            שיר + קליפ באולפן </Link>
         </section>
 
         <section
@@ -222,8 +221,7 @@ export default function MobileStudioPageContent() {
             href="/studio/blessings#home-recording"
             className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            ברכות והקלטה מהבית ←
-          </Link>
+            ברכות והקלטה מהבית </Link>
         </section>
 
         <section

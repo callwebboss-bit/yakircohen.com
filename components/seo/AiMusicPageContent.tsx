@@ -66,14 +66,12 @@ export default function AiMusicPageContent() {
               href={courseHref}
               className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
             >
-              קורס AI 1:1 ←
-            </a>
+              קורס AI 1:1 </a>
             <a
               href={serviceHref}
               className="inline-flex min-h-11 items-center rounded-xl border border-border px-6 py-3 text-sm font-semibold hover:border-brand-red/40"
             >
-              שירות בליווי ←
-            </a>
+              שירות בליווי </a>
           </div>
         </div>
       </section>
@@ -134,8 +132,7 @@ export default function AiMusicPageContent() {
                 href={svc.href}
                 className="mt-4 text-sm font-semibold text-brand-red hover:underline"
               >
-                {svc.cta} ←
-              </Link>
+                {svc.cta} </Link>
             </li>
           ))}
         </ul>
@@ -175,7 +172,7 @@ export default function AiMusicPageContent() {
             >
               שירותי AI מרחוק
             </Link>
-            {" · "}
+            {" - "}
             <Link
               href="/academy/private-lessons"
               className="font-medium text-brand-red hover:underline"
@@ -207,8 +204,7 @@ export default function AiMusicPageContent() {
           href={serviceHref}
           className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          בואו נדבר בוואטסאפ ←
-        </a>
+          בואו נדבר בוואטסאפ </a>
         <div className="mt-5 flex justify-center">
           <ShareButton title="קורס AI במוזיקה | יקיר כהן הפקות" />
         </div>

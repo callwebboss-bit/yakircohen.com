@@ -200,8 +200,7 @@ export default function BookPageSections() {
               type="button"
               onClick={backToRouter}
               className="mb-6 text-sm font-medium text-muted-foreground transition-colors hover:text-brand-red"
-            >
-              ← חזרה לבחירת שירות
+            > חזרה לבחירת שירות
             </button>
 
             <header className="mb-8 flex items-center gap-3">
@@ -269,8 +268,7 @@ export default function BookPageSections() {
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs font-semibold text-brand-red hover:underline"
               >
-                לפרטים בוואטסאפ ←
-              </a>
+                לפרטים בוואטסאפ </a>
             </div>
             <div className="rounded-2xl border border-border bg-background p-5">
               <p className="text-lg" aria-hidden="true">🎥</p>

@@ -92,7 +92,7 @@ function CompanyDetailsContent({ showActions = true }: { showActions?: boolean }
       </dl>
 
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-        חשבונית מס מסודרת · פרטי בנק נמסרים בחשבונית הראשונה או לפי בקשה
+        חשבונית מס מסודרת - פרטי בנק נמסרים בחשבונית הראשונה או לפי בקשה
       </p>
 
       {showActions ? (
@@ -216,7 +216,7 @@ function CompanyDetailsCompact({ className }: { className?: string }) {
       )}
     >
       <span>
-        {COMPANY_LEGAL_NAME} · ח.פ {COMPANY_ID}
+        {COMPANY_LEGAL_NAME} - ח.פ {COMPANY_ID}
       </span>
       <button
         type="button"

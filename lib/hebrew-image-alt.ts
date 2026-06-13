@@ -1,4 +1,4 @@
-/** English filename tokens → Hebrew for accessible, SEO-friendly alt text. */
+/** English filename tokens Hebrew for accessible, SEO-friendly alt text. */
 const HEBREW_DICT: Readonly<Record<string, string>> = {
   wedding: "חתונה",
   ceremony: "טקס",

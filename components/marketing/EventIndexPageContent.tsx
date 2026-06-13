@@ -40,7 +40,7 @@ async function fetchEventIndexFull(
 }
 
 function formatNis(n: number | null): string {
-  if (n == null) return "—";
+  if (n == null) return "-";
   return `${n.toLocaleString("he-IL")} שקלים`;
 }
 
@@ -71,7 +71,7 @@ function IndexBody({ index, isTeaser }: { index: EventIndexWeek; isTeaser: boole
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-border bg-background p-5">
           <p className="text-xs font-semibold text-muted-foreground">לידים השבוע</p>
-          <p className="mt-2 font-serif text-3xl font-semibold">{index.sampleSize || "—"}</p>
+          <p className="mt-2 font-serif text-3xl font-semibold">{index.sampleSize || "-"}</p>
         </div>
         <div className="rounded-xl border border-border bg-background p-5">
           <p className="text-xs font-semibold text-muted-foreground">שבוע</p>
@@ -80,7 +80,7 @@ function IndexBody({ index, isTeaser }: { index: EventIndexWeek; isTeaser: boole
         <div className="rounded-xl border border-border bg-background p-5">
           <p className="text-xs font-semibold text-muted-foreground">עודכן</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            {index.publishedAt ? new Date(index.publishedAt).toLocaleDateString("he-IL") : "—"}
+            {index.publishedAt ? new Date(index.publishedAt).toLocaleDateString("he-IL") : "-"}
           </p>
         </div>
       </div>
@@ -120,10 +120,10 @@ function IndexBody({ index, isTeaser }: { index: EventIndexWeek; isTeaser: boole
               <h3 className="font-semibold">{s.label}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 {s.sampleSufficient
-                  ? `ממוצע סגירה: ${formatNis(s.avgClosedPriceNis)} לפני מע״מ · ${s.closedCount} עסקאות`
-                  : `נדרשות לפחות 5 סגירות · ${s.leadCount} לידים השבוע`}
+                  ? `ממוצע סגירה: ${formatNis(s.avgClosedPriceNis)} לפני מע״מ - ${s.closedCount} עסקאות`
+                  : `נדרשות לפחות 5 סגירות - ${s.leadCount} לידים השבוע`}
                 {s.catalogBenchmarkNis
-                  ? ` · מחירון ${formatNis(s.catalogBenchmarkNis)}`
+                  ? ` - מחירון ${formatNis(s.catalogBenchmarkNis)}`
                   : null}
               </p>
               <div className="mt-3">
@@ -143,7 +143,7 @@ function IndexBody({ index, isTeaser }: { index: EventIndexWeek; isTeaser: boole
                 <span>{a.label}</span>
                 <span className="font-medium tabular-nums">
                   {a.demandTrendPct >= 0 ? "+" : ""}
-                  {a.demandTrendPct}% · {a.leadCount} לידים
+                  {a.demandTrendPct}% - {a.leadCount} לידים
                 </span>
               </li>
             ))}
@@ -206,7 +206,7 @@ export default function EventIndexPageContent() {
 
   const displayIndex = fullData?.index ?? EVENT_INDEX_WEEK;
   const waHref = buildWhatsAppHref({
-    text: "שלום, מעוניין/ת במנוי דופק השוק — נתונים על מחירים וביקוש באירועים.",
+    text: "שלום, מעוניין/ת במנוי דופק השוק - נתונים על מחירים וביקוש באירועים.",
     utm_source: "website",
     utm_campaign: "event_index_subscription",
   });
@@ -216,10 +216,10 @@ export default function EventIndexPageContent() {
       <Section padding="sm" className="border-b border-border">
         <Container className="max-w-4xl">
           <p className="text-xs font-semibold text-muted-foreground">
-            שירותים מקצועיים · מודיעין שוק
+            שירותים מקצועיים - מודיעין שוק
           </p>
           <h1 className="text-hero mt-4 font-semibold text-foreground">
-            דופק השוק — מחירים וביקוש באירועים
+            דופק השוק - מחירים וביקוש באירועים
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
             מדד שבועי לספקים ומפיקים: מה נסגר השבוע, אילו אטרקציות עולות, ואיפה יש חוסר
@@ -248,7 +248,7 @@ export default function EventIndexPageContent() {
         <Container className="max-w-4xl">
           {!hasFullAccess && (
             <div className="mb-8 rounded-xl border border-dashed border-brand-red/30 bg-brand-red/5 p-5">
-              <p className="text-sm font-medium">תצוגה מקדימה — גישה מלאה למנויים</p>
+              <p className="text-sm font-medium">תצוגה מקדימה - גישה מלאה למנויים</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 הזינו את קוד הגישה שקיבלתם אחרי ההרשמה, או בקשו מנוי בטופס למטה.
               </p>
@@ -288,7 +288,7 @@ export default function EventIndexPageContent() {
         <Container className="max-w-lg">
           <CallbackLeadForm
             heading="רוצים גישה לדופק השוק?"
-            description="השאירו פרטים — נחזור עם מנוי וקוד גישה למדד המלא."
+            description="השאירו פרטים - נחזור עם מנוי וקוד גישה למדד המלא."
             formId="event_index_subscription"
             utmCampaign="event_index_subscription"
             source="/pro/event-index"

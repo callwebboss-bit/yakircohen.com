@@ -4,7 +4,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata = constructMetadata({
   title: "צילום והקלטת פודקאסט | הפקה מלאה  -  פרק מוכן תוך 24 שעות",
   description:
-    "הפקת פודקאסט מלאה במודיעין. צילום 4K, סאונד אולפני ועריכה — מוכן לספוטיפיי ויוטיוב.",
+    "הפקת פודקאסט מלאה במודיעין. צילום 4K, סאונד אולפני ועריכה - מוכן לספוטיפיי ויוטיוב.",
   slug: "podcast/podcast-recording",
   keywords: [
     "צילום והקלטת פודקאסט",

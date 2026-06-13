@@ -73,8 +73,7 @@ export default function KoalendarModal({ open, onClose }: KoalendarModalProps) {
               rel="noopener noreferrer"
               className="absolute inset-0 flex items-center justify-center bg-surface text-sm font-medium text-brand-red underline"
             >
-              פתחו לוח הזמנות בחלון חדש →
-            </a>
+              פתחו לוח הזמנות בחלון חדש </a>
           </noscript>
         </div>
 
@@ -85,8 +84,7 @@ export default function KoalendarModal({ open, onClose }: KoalendarModalProps) {
             rel="noopener noreferrer"
             className="text-xs text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
           >
-            פתחו בחלון חדש →
-          </a>
+            פתחו בחלון חדש </a>
         </div>
       </div>
     </div>

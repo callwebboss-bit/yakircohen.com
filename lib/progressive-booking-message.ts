@@ -1,5 +1,5 @@
 /**
- * Progressive WhatsApp narrative — קצר יותר ל-quick/standard, מלא ל-full.
+ * Progressive WhatsApp narrative - קצר יותר ל-quick/standard, מלא ל-full.
  */
 
 import type { BookingSummaryLine, BookingWhatsAppBodyOptions } from "@/lib/booking-messages";
@@ -44,8 +44,8 @@ export function pickProgressiveSummaryLines(
 
 export function progressiveIntentLine(intent: ClosingIntent): string {
   return intent === "start_now"
-    ? "מוכן/ה להתחיל — נשמח לסגור מועד"
-    : "רק בודק/ת — נשמח להמשיך בוואטסאפ בלי לחץ";
+    ? "מוכן/ה להתחיל - נשמח לסגור מועד"
+    : "רק בודק/ת - נשמח להמשיך בוואטסאפ בלי לחץ";
 }
 
 export function shouldIncludeGroupEnrichment(

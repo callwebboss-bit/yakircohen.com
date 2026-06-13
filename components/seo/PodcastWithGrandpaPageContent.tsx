@@ -110,8 +110,7 @@ export default function PodcastWithGrandpaPageContent() {
                     href={part.link.href}
                     className="mt-4 inline-flex text-sm font-semibold text-brand-red hover:underline"
                   >
-                    {part.link.label} ←
-                  </Link>
+                    {part.link.label} </Link>
                 ) : null}
               </li>
             ))}
@@ -140,8 +139,7 @@ export default function PodcastWithGrandpaPageContent() {
             href={PODCAST_GRANDPA_PRICING_ARTICLE.href}
             className="mt-4 inline-flex text-sm font-semibold text-brand-red hover:underline"
           >
-            לצפייה במחירון המלא ←
-          </Link>
+            לצפייה במחירון המלא </Link>
         </section>
 
         <section aria-labelledby="deliverables-heading">
@@ -176,8 +174,7 @@ export default function PodcastWithGrandpaPageContent() {
                         href={item.link.href}
                         className="mt-2 inline-flex text-xs font-semibold text-brand-red hover:underline"
                       >
-                        {item.link.label} ←
-                      </Link>
+                        {item.link.label} </Link>
                     ) : null}
                   </div>
                 </div>
@@ -203,8 +200,7 @@ export default function PodcastWithGrandpaPageContent() {
               href="/podcast/podcast-studio-modiin"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              למידע נוסף על האולפן במודיעין ←
-            </Link>
+              למידע נוסף על האולפן במודיעין </Link>
           </p>
         </section>
 
@@ -236,8 +232,7 @@ export default function PodcastWithGrandpaPageContent() {
                       href={item.link.href}
                       className="mt-2 inline-flex text-xs font-semibold text-brand-red hover:underline"
                     >
-                      {item.link.label} ←
-                    </Link>
+                      {item.link.label} </Link>
                   ) : null}
                 </div>
               </li>
@@ -300,8 +295,7 @@ export default function PodcastWithGrandpaPageContent() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              תיאום בוואטסאפ ←
-            </a>
+              תיאום בוואטסאפ </a>
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
               className="text-sm font-medium text-muted-foreground hover:text-brand-red"

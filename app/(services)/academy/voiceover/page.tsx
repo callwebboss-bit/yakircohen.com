@@ -126,8 +126,7 @@ export default function VoiceoverCoursePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
-              גלו את הפוטנציאל בקול שלכם ←
-            </a>
+              גלו את הפוטנציאל בקול שלכם </a>
             <p className="text-xs text-muted-foreground">
               שיחת ייעוץ ראשונית, ללא עלות וללא התחייבות
             </p>
@@ -275,8 +274,7 @@ export default function VoiceoverCoursePage() {
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             aria-label="שיחת ייעוץ לקורס קריינות בוואטסאפ"
           >
-            לשיחת ייעוץ ראשונית בוואטסאפ ←
-          </a>
+            לשיחת ייעוץ ראשונית בוואטסאפ </a>
           <div className="mt-5 flex justify-center">
             <ShareButton title="קורס קריינות ודיבור נכון | יקיר כהן הפקות" />
           </div>

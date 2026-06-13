@@ -16,7 +16,7 @@ export function encodeCloserLeadParam(payload: CloserLeadPayload): string {
   return Buffer.from(json, "utf8").toString("base64");
 }
 
-/** Relative path from repo — user opens via Dropbox / local-tools folder. */
+/** Relative path from repo - user opens via Dropbox / local-tools folder. */
 export const CLOSER_HTML_FILENAME = "yakir-closer.html";
 
 export function buildCloserDeepLink(waBody: string, htmlFile = CLOSER_HTML_FILENAME): string {

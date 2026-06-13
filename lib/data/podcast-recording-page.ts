@@ -1,5 +1,5 @@
 ﻿export const PODCAST_RECORDING_PRICE = "2,500";
-export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא · כולל צילום, הקלטה ועריכה";
+export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא - כולל צילום, הקלטה ועריכה";
 
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
   "צילום 4K ב-2-3 מצלמות",

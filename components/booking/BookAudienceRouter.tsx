@@ -119,8 +119,7 @@ export default function BookAudienceRouter({
                   href="/start"
                   className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
                 >
-                  לא בטוחים איך זה עובד? כל השלבים ←
-                </Link>
+                  לא בטוחים איך זה עובד? כל השלבים </Link>
               </p>
             </>
           ) : (

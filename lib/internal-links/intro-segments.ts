@@ -9,9 +9,9 @@ export type IntroSegment =
 
 export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
   "/events": [
-    { type: "text", value: "הפקה מלאה לאירוע — DJ, הגברה, הנחיית קהל וניהול לו\"ז. לחתונה עם אטרקציות חובה ראו " },
+    { type: "text", value: "הפקה מלאה לאירוע - DJ, הגברה, הנחיית קהל וניהול לו\"ז. לחתונה עם אטרקציות חובה ראו " },
     { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
-    { type: "text", value: ", למנחה מקצועי — " },
+    { type: "text", value: ", למנחה מקצועי - " },
     { type: "link", href: "/events/host", label: "הנחיית אירועים" },
     { type: "text", value: "." },
   ],

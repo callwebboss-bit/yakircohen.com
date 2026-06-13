@@ -81,7 +81,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     count: "תמונה בודדת",
     price: "50",
     perImage: "50 ₪ לתמונה",
-    ctaLabel: "הזמינו תמונה אחת ←",
+    ctaLabel: "הזמינו תמונה אחת ",
     whatsappMessage:
       "היי יקיר! רוצה לשדרג תמונה אחת ב-AI (50 ₪). אשמח לשלוח לבדיקה.",
     utmCampaign: "photo_enhance_pkg_single",
@@ -91,7 +91,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     count: "5 תמונות",
     price: "200",
     perImage: "40 ₪ לתמונה",
-    ctaLabel: "הזמינו חבילת 5 ←",
+    ctaLabel: "הזמינו חבילת 5 ",
     whatsappMessage:
       "היי יקיר! מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.",
     utmCampaign: "photo_enhance_pkg_5",
@@ -102,7 +102,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     price: "350",
     perImage: "35 ₪ לתמונה",
     premium: true,
-    ctaLabel: "הזמינו חבילת 10 ←",
+    ctaLabel: "הזמינו חבילת 10 ",
     whatsappMessage:
       "היי יקיר! מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).",
     utmCampaign: "photo_enhance_pkg_10",
@@ -112,7 +112,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     count: "20 תמונות",
     price: "600",
     perImage: "30 ₪ לתמונה",
-    ctaLabel: "הזמינו חבילת 20 ←",
+    ctaLabel: "הזמינו חבילת 20 ",
     whatsappMessage:
       "היי יקיר! רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.",
     utmCampaign: "photo_enhance_pkg_20",

@@ -31,7 +31,7 @@ export function buildPriceLine(exVat: number, label?: string): string {
 }
 
 export function buildTrustFooter(): string {
-  const hours = BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" · ");
+  const hours = BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" - ");
   return [
     "📍 עמק איילון 34, מודיעין",
     `🕐 ${hours}`,
@@ -64,7 +64,7 @@ export type ClosingMessageOptions = {
   ycSchedule?: "weekdays" | "motzash" | null;
   ycPackage?: string | null;
   ycIntent?: "start_now" | "continue_chat" | null;
-  /** מזהה טופס באתר — ל-parser ב-yakir-closer */
+  /** מזהה טופס באתר - ל-parser ב-yakir-closer */
   ycForm?: string | null;
   /** מטרת הפרויקט מ-filter questions */
   ycPurpose?: "professional" | "personal" | "gift" | null;
@@ -85,7 +85,7 @@ export type ClosingMessageOptions = {
   ycDeferred?: string | null;
   ycRecipientHint?: string | null;
   ycConfigVersion?: number | null;
-  /** שורות נוספות (משתתפים, מחירון) — מוכנסות לפני פרטים */
+  /** שורות נוספות (משתתפים, מחירון) - מוכנסות לפני פרטים */
   extraBlocks?: readonly string[];
   /** נרטיב קצר: מה הבנו + מחיר, בלי רשימת פרטים ארוכה */
   progressiveNarrative?: boolean;
@@ -248,7 +248,7 @@ export function buildClosingMessage({
   let body = lines.join("\n").trim();
 
   if (closerServiceId?.trim()) {
-    // Map ClosingTiming → YcTimingId (same values, both are urgency descriptors)
+    // Map ClosingTiming YcTimingId (same values, both are urgency descriptors)
     const ycTiming = timing ?? null;
     body = appendYcLeadTag(body, {
       service: closerServiceId.trim(),

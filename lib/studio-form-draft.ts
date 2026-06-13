@@ -16,7 +16,7 @@ import {
   pickString,
 } from "@/lib/wizard-draft-parse";
 
-/** סוגי הקלטה שבהם מופיע שדה «שם החוגג/ת» */
+/** סוגי הקלטה שבהם מופיע שדה שם החוגג/ת */
 export const EVENT_CELEBRANT_RECORDING_TYPES = [
   "event_song",
   "bride_blessing",

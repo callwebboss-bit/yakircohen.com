@@ -268,7 +268,7 @@ export default function SingerAmplificationBookingWizard({
             בחרו חבילת הגברה לזמר/ה
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            זמרים, הרכבים ומפיקי אירועים - מחירים גלויים · שינויים אפשריים במעמד העסקה.
+            זמרים, הרכבים ומפיקי אירועים - מחירים גלויים - שינויים אפשריים במעמד העסקה.
             לא בטוחים?{" "}
             <a
               href="/events/equipment/singer-amplification#system-builder-heading"
@@ -378,7 +378,7 @@ export default function SingerAmplificationBookingWizard({
                 <PriceWithVat amountExVat={totalExVat} size="lg" />
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                {form.date} · {form.time}
+                {form.date} - {form.time}
               </p>
               <p className="text-sm text-muted-foreground">{form.location}</p>
             </div>

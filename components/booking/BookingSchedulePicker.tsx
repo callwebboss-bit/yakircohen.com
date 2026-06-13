@@ -18,7 +18,7 @@ type BookingSchedulePickerProps = {
   minDate: string;
   /** תאריך ושעה אופציונליים - נתאם בשיחה */
   dateOptional?: boolean;
-  /** רק חלונות זמן — בלי תאריך/שעה (quick path) */
+  /** רק חלונות זמן - בלי תאריך/שעה (quick path) */
   windowsOnly?: boolean;
   errors?: {
     scheduleWindow?: string;
@@ -89,7 +89,7 @@ export default function BookingSchedulePicker({
 
       {scheduleWindow && windowsOnly ? (
         <p className="text-xs text-muted-foreground">
-          💬 תאריך ושעה מדויקים — נתאם יחד בוואטסאפ אחרי השליחה
+          💬 תאריך ושעה מדויקים - נתאם יחד בוואטסאפ אחרי השליחה
         </p>
       ) : null}
 

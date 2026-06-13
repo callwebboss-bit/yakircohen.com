@@ -146,8 +146,7 @@ export default function NotFoundContent() {
             href={suggestedHref}
             className="mt-2 inline-flex font-semibold text-brand-red hover:underline"
           >
-            מעבר לעמוד המתאים ←
-          </Link>
+            מעבר לעמוד המתאים </Link>
         </div>
       ) : null}
       <Section padding="sm">
@@ -166,8 +165,7 @@ export default function NotFoundContent() {
             עכשיו פופולרי:{" "}
             <strong className="text-foreground">{seasonal.text}</strong> -{" "}
             <Link href={seasonal.href} className="font-semibold text-brand-red hover:underline">
-              בואו נדבר ←
-            </Link>
+              בואו נדבר </Link>
           </p>
         ) : null}
 
@@ -248,7 +246,7 @@ export default function NotFoundContent() {
                       className="flex items-center justify-between gap-3 border-b border-border px-4 py-3 text-end transition-colors hover:bg-surface"
                       onClick={() => setOpen(false)}
                     >
-                      <span className="text-muted-foreground">←</span>
+                      <span className="text-muted-foreground"> </span>
                       <span className="min-w-0 flex-1">
                         <span
                           className="block text-sm font-semibold text-foreground"
@@ -300,8 +298,7 @@ export default function NotFoundContent() {
               <h2 className="font-serif text-xl font-semibold">{cube.title}</h2>
               <p className="text-sm text-white/70">{cube.description}</p>
               <span className="mt-auto text-xs font-bold text-brand-red group-hover:underline">
-                לפרטים ←
-              </span>
+                לפרטים </span>
             </Link>
           ))}
         </div>

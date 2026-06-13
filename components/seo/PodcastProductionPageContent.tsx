@@ -131,8 +131,7 @@ export default function PodcastProductionPageContent() {
                   href={item.href}
                   className="mt-4 text-sm font-semibold text-brand-red hover:underline"
                 >
-                  {item.cta} ←
-                </Link>
+                  {item.cta} </Link>
               </li>
             ))}
           </ul>
@@ -184,8 +183,7 @@ export default function PodcastProductionPageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            שיחת אפיון בוואטסאפ ←
-          </a>
+            שיחת אפיון בוואטסאפ </a>
         </section>
               <PageRelatedFooter pathname="/podcast/podcast-production" />
 

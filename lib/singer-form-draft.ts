@@ -16,7 +16,7 @@ export type SingerFormDraft = {
   location: string;
   notes: string;
   selectedAddons: string[];
-  /** unused — satisfies useBookingWizard constraint */
+  /** unused - satisfies useBookingWizard constraint */
   selectedUpsells?: string[];
   termsAccepted: boolean;
 };

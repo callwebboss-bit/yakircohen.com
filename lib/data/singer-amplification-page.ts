@@ -462,4 +462,4 @@ export const SINGER_VALUE_POINTS: readonly string[] = [
 ] as const;
 
 export const SINGER_TRAVEL_NOTE =
-  "מרכז - ללא תוספת · צפון +300 ₪ · דרום +500 ₪ (מבסיס מודיעין)";
+  "מרכז - ללא תוספת - צפון +300 ₪ - דרום +500 ₪ (מבסיס מודיעין)";

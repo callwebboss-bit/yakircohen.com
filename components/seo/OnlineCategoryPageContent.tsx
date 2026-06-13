@@ -89,8 +89,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               rel="noopener noreferrer"
               className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
             >
-              {enrichment.ctaPrimaryLabel} ←
-            </Button>
+              {enrichment.ctaPrimaryLabel} </Button>
             <Button as="link" href="#quick-quote" variant="secondary">
               השאירו פרטים להצעת מחיר
             </Button>
@@ -124,8 +123,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
                   href={service.href}
                   className={`${linkClass} mt-3`}
                 >
-                  מעבר לעמוד השירות ←
-                </Link>
+                  מעבר לעמוד השירות </Link>
               ) : (
                 <a
                   href={ctaHref}
@@ -133,8 +131,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
                   rel="noopener noreferrer"
                   className={`${linkClass} mt-3`}
                 >
-                  בקשו התאמה אישית ←
-                </a>
+                  בקשו התאמה אישית </a>
               )}
             </article>
           ))}
@@ -284,8 +281,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               rel="noopener noreferrer"
               className="mt-6"
             >
-              {enrichment.ctaPrimaryLabel} ←
-            </Button>
+              {enrichment.ctaPrimaryLabel} </Button>
             <div className="mt-5">
               <Link href="/online" className={linkClass}>
                 חזרה למרכז שירותי אונליין

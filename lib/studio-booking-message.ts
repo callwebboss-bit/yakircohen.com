@@ -1,5 +1,5 @@
 /**
- * בונה בלוקים עשירים להודעת ליד studio — משתתפים, מחירון, הנחיות.
+ * בונה בלוקים עשירים להודעת ליד studio - משתתפים, מחירון, הנחיות.
  */
 
 import { formatNis } from "@/lib/data/pricing";
@@ -38,7 +38,7 @@ export function buildStudioParticipantsBlock(ctx: StudioLeadMessageContext): str
 
   if (ctx.isAmbiguousGroup) {
     lines.push("*משתתפים:*");
-    lines.push("זוהתה קבוצה — כמות מדויקת תתואם בשיחה");
+    lines.push("זוהתה קבוצה - כמות מדויקת תתואם בשיחה");
     return lines;
   }
 
@@ -47,15 +47,15 @@ export function buildStudioParticipantsBlock(ctx: StudioLeadMessageContext): str
   lines.push("*משתתפים:*");
   if (ctx.adultsCount > 0 || ctx.childrenCount > 0) {
     lines.push(
-      `מבוגרים: ${ctx.adultsCount} · ילדים: ${ctx.childrenCount} · סה״כ מקליטים: ${ctx.recorderCount}`,
+      `מבוגרים: ${ctx.adultsCount} - ילדים: ${ctx.childrenCount} - סה״כ מקליטים: ${ctx.recorderCount}`,
     );
   } else {
     lines.push(`סה״כ מקליטים: ${ctx.recorderCount}`);
   }
-  lines.push("מבוגר וילד — אותו מחיר");
+  lines.push("מבוגר וילד - אותו מחיר");
 
   if (ctx.recorderCount > STUDIO_RECORDING_MAX) {
-    lines.push(`⚠️ מעל ${STUDIO_RECORDING_MAX} — נתאם זוגות בשקט באולפן`);
+    lines.push(`⚠️ מעל ${STUDIO_RECORDING_MAX} - נתאם זוגות בשקט באולפן`);
   }
 
   return lines;
@@ -87,7 +87,7 @@ export function buildStudioPricingEstimateBlock(ctx: StudioLeadMessageContext): 
 
   const lines: string[] = [
     "",
-    "*הערכת מחיר (לפני מע״מ)* — סופי יתואם בשיחה:",
+    "*הערכת מחיר (לפני מע״מ)* - סופי יתואם בשיחה:",
     `▸ בסיס: ${formatNis(ctx.baseExVat)}`,
   ];
 

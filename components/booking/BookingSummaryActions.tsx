@@ -137,8 +137,7 @@ export default function BookingSummaryActions({
         onClick={() => setKoalendarOpen(true)}
         className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
-        קבע/י פגישת ייעוץ חינמי ←
-      </button>
+        קבע/י פגישת ייעוץ חינמי </button>
 
       {/* TERTIARY - subtle link, pulses after 60s idle */}
       {consult15Min ? (

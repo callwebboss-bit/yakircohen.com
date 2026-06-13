@@ -103,8 +103,7 @@ export default function OnlineVocalFixPageContent() {
               href="/online/vocal-fix/send-file"
               className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
             >
-              אישור תנאים ושליחה ←
-            </Link>
+              אישור תנאים ושליחה </Link>
             <a
               href={ctaHref}
               target="_blank"
@@ -193,20 +192,17 @@ export default function OnlineVocalFixPageContent() {
               href="/online/vocal-fix/pitch-correction"
               className="font-medium text-brand-red hover:underline"
             >
-              גם צריך תיקון זיופים? ←
-            </Link>
+              גם צריך תיקון זיופים? </Link>
             <Link
               href="/online/vocal-fix/photo-enhance"
               className="font-medium text-brand-red hover:underline"
             >
-              שדרוג תמונות ב-AI (מ-50 ₪) ←
-            </Link>
+              שדרוג תמונות ב-AI (מ-50 ₪) </Link>
             <Link
               href="/online/vocal-fix/mixing"
               className="font-medium text-brand-red hover:underline"
             >
-              מיקס ומאסטרינג (500 ₪) ←
-            </Link>
+              מיקס ומאסטרינג (500 ₪) </Link>
           </div>
         </div>
       </section>
@@ -235,8 +231,7 @@ export default function OnlineVocalFixPageContent() {
           rel="noopener noreferrer"
           className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          שלחו קובץ בוואטסאפ ←
-        </a>
+          שלחו קובץ בוואטסאפ </a>
         <div className="mt-5 flex justify-center">
           <ShareButton title="שיפור קול מהנייד | יקיר כהן הפקות" />
         </div>
@@ -251,7 +246,7 @@ export default function OnlineVocalFixPageContent() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
             <p className="mt-1 font-semibold text-foreground">הצלת הקלטה פגומה: מה אפשרי, מה לא ואיך מקבלים החלטה נכונה</p>
-            <p className="mt-1 text-sm text-muted-foreground">מדריך מקצועי לפני שמחליטים - לקריאה ←</p>
+            <p className="mt-1 text-sm text-muted-foreground">מדריך מקצועי לפני שמחליטים - לקריאה </p>
           </div>
         </Link>
       </section>

@@ -4,7 +4,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata = constructMetadata({
   title: "פודקאסט עם סבא וסבתא | הקלטת שיר באולפן  -  מתנה משפחתית",
   description:
-    "פודקאסט משפחתי באולפן במודיעין. עם סבא וסבתא, שיר וקליפ — מתנה ליום הולדת.",
+    "פודקאסט משפחתי באולפן במודיעין. עם סבא וסבתא, שיר וקליפ - מתנה ליום הולדת.",
   slug: "podcast/podcast-with-grandpa",
   keywords: [
     "פודקאסט עם סבא",

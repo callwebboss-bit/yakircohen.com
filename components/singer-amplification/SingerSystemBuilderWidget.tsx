@@ -144,8 +144,7 @@ export default function SingerSystemBuilderWidget() {
                 type="button"
                 onClick={() => setStep((s) => Math.max(0, s - 1))}
                 className="text-sm text-muted-foreground hover:text-brand-red"
-              >
-                ← חזרה לשלב הקודם
+              > חזרה לשלב הקודם
               </button>
             </div>
           ) : null}

@@ -48,7 +48,7 @@ export default function BookDraftRecoveryBanner({
       ) : null}
       {onDismiss ? (
         <>
-          {onClear ? " · " : null}
+          {onClear ? " - " : null}
           <button
             type="button"
             onClick={onDismiss}

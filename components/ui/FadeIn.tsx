@@ -34,7 +34,7 @@ export default function FadeIn({ children, className }: FadeInProps) {
     <div
       ref={ref}
       className={cn(
-        // IMPROVED: opacity-only fade — no translate-y to prevent CLS
+        // IMPROVED: opacity-only fade - no translate-y to prevent CLS
         "transition-opacity duration-700 ease-luxury motion-reduce:transition-none motion-reduce:opacity-100",
         visible ? "opacity-100" : "opacity-0",
         className,

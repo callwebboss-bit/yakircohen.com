@@ -267,7 +267,7 @@ export default function AcademyPage() {
             <div className="mt-8 space-y-2">
               <HubDualCta
                 whatsappHref={assessmentHref}
-                whatsappLabel="קביעת מפגש אפיון ←"
+                whatsappLabel="קביעת מפגש אפיון "
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
               />
@@ -307,8 +307,7 @@ export default function AcademyPage() {
                 <p className="mt-1 text-sm text-muted-foreground">{card.sub}</p>
               </div>
               <span className="mt-auto text-xs font-medium text-brand-red">
-                לפרטים ←
-              </span>
+                לפרטים </span>
             </Link>
           ))}
         </div>
@@ -391,8 +390,7 @@ export default function AcademyPage() {
                   rel="noopener noreferrer"
                   className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-brand-red/40 bg-brand-red/8 py-2.5 text-sm font-semibold text-foreground transition-[background-color,border-color] duration-fast ease-luxury hover:border-brand-red/60 hover:bg-brand-red/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
-                  קבע מפגש אפיון ←
-                </a>
+                  קבע מפגש אפיון </a>
               </div>
             );
           })}
@@ -489,8 +487,7 @@ export default function AcademyPage() {
                   rel="noopener noreferrer"
                   className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_24px_rgba(212,43,43,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
-                  קבע מפגש אפיון ←
-                </a>
+                  קבע מפגש אפיון </a>
               </div>
             );
           })}
@@ -558,7 +555,7 @@ export default function AcademyPage() {
             <HubDualCta
               className="mt-7"
               whatsappHref={assessmentHref}
-              whatsappLabel="קבע מפגש אפיון ←"
+              whatsappLabel="קבע מפגש אפיון "
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
             />

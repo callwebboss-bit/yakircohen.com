@@ -67,8 +67,7 @@ export default function BlessingsBrideGroomPageContent() {
         <p className="mt-2 text-sm text-muted-foreground">
           שיפור קול, ניקוי רעשים או הוספת מוזיקת רקע - שירות AI מקוון מהיר.{" "}
           <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
-            שיפור קול מהנייד ←
-          </Link>
+            שיפור קול מהנייד </Link>
         </p>
       </div>
 

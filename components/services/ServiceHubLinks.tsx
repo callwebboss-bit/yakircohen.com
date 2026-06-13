@@ -51,7 +51,7 @@ export default function ServiceHubLinks({
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {track.description}
               </p>
-              <span className="mt-4 text-xs font-semibold text-[var(--service-accent-ink,#d42b2b)]">לפרטים ←</span>
+              <span className="mt-4 text-xs font-semibold text-[var(--service-accent-ink,#d42b2b)]">לפרטים </span>
             </Link>
           </li>
         ))}

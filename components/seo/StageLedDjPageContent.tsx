@@ -95,7 +95,7 @@ export default function StageLedDjPageContent() {
             קליפים, שמות וויז&apos;ואלס לפי הקצב. ככה הופכים תקליטן ל-Artist.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
-            מעל 1,800 אירועים · מודיעין והמרכז
+            מעל 1,800 אירועים - מודיעין והמרכז
           </p>
         </section>
 
@@ -354,7 +354,7 @@ export default function StageLedDjPageContent() {
             הצעת מחיר לרכישה
           </a>
           <p className="mt-4 text-sm text-muted-foreground">
-            גם עריכת רילסים לספקים —{" "}
+            גם עריכת רילסים לספקים -{" "}
             <Link href="/business/reel-factory" className="font-semibold text-brand-red hover:underline">
               מפעל הרילס (The Reel Factory)
             </Link>

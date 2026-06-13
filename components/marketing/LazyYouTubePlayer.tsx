@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
    Renders a static thumbnail placeholder on first paint - zero iframe weight.
    A single click swaps the placeholder for the real embed (no iframe until then - no auto sound).
 
-   YouTube thumbnail resolution ladder (highest → lowest):
-     maxresdefault (1280×720) → hqdefault (480×360) always-present fallback.
+   YouTube thumbnail resolution ladder (highest lowest):
+     maxresdefault (1280×720) hqdefault (480×360) always-present fallback.
 
    We intentionally use a plain <img> for the thumbnail (not next/image) to
    avoid requiring `i.ytimg.com` in next.config remotePatterns. The thumbnail

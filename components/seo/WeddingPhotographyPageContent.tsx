@@ -71,8 +71,7 @@ export default function WeddingPhotographyPageContent() {
             href="/photography/events"
             className="mt-4 inline-flex text-sm font-medium text-brand-red hover:underline"
           >
-            גם צילום כנסים ואירועים עסקיים ←
-          </Link>
+            גם צילום כנסים ואירועים עסקיים </Link>
         </section>
 
         <section aria-labelledby="why-photo-heading">
@@ -124,7 +123,7 @@ export default function WeddingPhotographyPageContent() {
                 מחירון שקוף
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                כולל מע״מ ועריכה בסיסית · בלי תוספות נסתרות · הצעה מותאמת בוואטסאפ
+                כולל מע״מ ועריכה בסיסית - בלי תוספות נסתרות - הצעה מותאמת בוואטסאפ
               </p>
             </header>
             <ServicePricingBlock
@@ -171,8 +170,7 @@ export default function WeddingPhotographyPageContent() {
                     {item.description}
                   </p>
                   <span className="mt-3 inline-block text-sm font-medium text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}

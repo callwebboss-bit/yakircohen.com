@@ -28,7 +28,7 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-studio-modiin",
     title: "השכרת סטודיו במודיעין",
-    description: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ · שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ).`,
+    description: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ - שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ).`,
   },
   {
     href: "/podcast/podcast-editing",
@@ -90,7 +90,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
   {
     id: "podcast-faq-pricing",
     title: "מחירים וחבילות",
-    subtitle: `התחלה מ-${PODCAST_STARTER_PRICE} ₪ לפרק קצר · הפקה מלאה מ-${PODCAST_RECORDING_PRICE} ₪`,
+    subtitle: `התחלה מ-${PODCAST_STARTER_PRICE} ₪ לפרק קצר - הפקה מלאה מ-${PODCAST_RECORDING_PRICE} ₪`,
     items: [
       {
         id: "pricing-structure",
@@ -107,7 +107,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
       {
         id: "studio-rental-price",
         question: "כמה עולה להשכיר את האולפן לפודקאסט במודיעין?",
-        answer: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ · שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ). כולל ציוד, חדר מבודד וליווי טכני. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
+        answer: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ - שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ). כולל ציוד, חדר מבודד וליווי טכני. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
       },
       {
         id: "vat",
@@ -224,7 +224,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "distribution",
         question: "האם אתם מפיצים ל-Spotify ו-Apple Podcasts?",
         answer:
-          "כן. מלווים בהגדרת ערוץ, קובץ RSS, העלאת פרקים, מטא-דאטה ותמונות — כולל הפצה לספוטיפיי ואפל פודקאסט. אפשר גם הנחיה לפרסום עצמאי אם תרצו שליטה מלאה בחשבון.",
+          "כן. מלווים בהגדרת ערוץ, קובץ RSS, העלאת פרקים, מטא-דאטה ותמונות - כולל הפצה לספוטיפיי ואפל פודקאסט. אפשר גם הנחיה לפרסום עצמאי אם תרצו שליטה מלאה בחשבון.",
       },
       {
         id: "revisions",

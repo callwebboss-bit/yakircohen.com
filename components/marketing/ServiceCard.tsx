@@ -1,4 +1,4 @@
-// UI-EXCEPTION: stretched-link overlay + nested WhatsApp CTA — see docs/ui-exceptions.md
+// UI-EXCEPTION: stretched-link overlay + nested WhatsApp CTA - see docs/ui-exceptions.md
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
@@ -114,8 +114,7 @@ export default function ServiceCard({
           href={href}
           className="text-xs font-medium text-muted-foreground underline-offset-4 transition-colors duration-normal ease-luxury hover:text-brand-red hover:underline"
         >
-          לפרטים מלאים ←
-        </Link>
+          לפרטים מלאים </Link>
       </div>
     </article>
   );

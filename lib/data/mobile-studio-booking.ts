@@ -33,5 +33,5 @@ export function formatMobileStudioPriceLine(geoId: MobileGeoId): string {
   const exVat = calcMobileStudioExVat(geoId);
   const geo = MOBILE_GEO_FEES[geoId];
   const suffix = geo.fee > 0 ? ` (${geo.label} +${geo.fee.toLocaleString("he-IL")} ₪)` : "";
-  return `אולפן נייד: ${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ${suffix} · ${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
+  return `אולפן נייד: ${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ${suffix} - ${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 }

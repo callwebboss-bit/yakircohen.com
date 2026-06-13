@@ -1,4 +1,4 @@
-/** Browser tab title when visitor switches away — longest prefix match wins. */
+/** Browser tab title when visitor switches away - longest prefix match wins. */
 export const TAB_RESCUE_BY_PREFIX: readonly {
   prefix: string;
   hiddenTitle: string;
@@ -6,7 +6,7 @@ export const TAB_RESCUE_BY_PREFIX: readonly {
   { prefix: "/podcast", hiddenTitle: "מחכים לך באולפן! 🎙️" },
   { prefix: "/events", hiddenTitle: "בוא נרים את האירוע שלך... 🎉" },
   { prefix: "/studio", hiddenTitle: "האולפן פנוי בשבילך! 🎤" },
-  { prefix: "/book", hiddenTitle: "כמעט סיימנו — חוזרים? ✅" },
+  { prefix: "/book", hiddenTitle: "כמעט סיימנו - חוזרים? ✅" },
   { prefix: "/online", hiddenTitle: "הפרויקט שלך מחכה! ✨" },
   { prefix: "/", hiddenTitle: "עדיין כאן בשבילך! 👋" },
 ] as const;

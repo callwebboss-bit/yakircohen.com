@@ -106,8 +106,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <Link
               href="/blog"
               className="text-sm font-medium text-brand-red transition-colors hover:text-brand-red-light"
-            >
-              ← חזרה למגזין
+            > חזרה למגזין
             </Link>
             <p className="mt-8 text-xs font-semibold tracking-[0.2em] text-brand-red/80 uppercase">
               {post.category}
@@ -120,7 +119,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h1>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <time dateTime={post.seo.datePublished}>{post.date}</time>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">-</span>
               <span>{SITE_NAME}</span>
             </div>
           </div>

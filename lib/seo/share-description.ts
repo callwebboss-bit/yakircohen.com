@@ -1,4 +1,4 @@
-/** WhatsApp / Telegram / Facebook preview truncates ~60 chars — hook must land first. */
+/** WhatsApp / Telegram / Facebook preview truncates ~60 chars - hook must land first. */
 export const SHARE_PREVIEW_MAX = 60;
 
 const LOCATION_MARKERS = [

@@ -27,7 +27,7 @@ const elevatedPosition =
 
 const mobileStickyLift = "max-md:bottom-[4.5rem]";
 
-/** WhatsApp FAB + accessibility menu — deferred after MobileStickyCta. */
+/** WhatsApp FAB + accessibility menu - deferred after MobileStickyCta. */
 export default function FloatingFabs() {
   const pathname = usePathname();
   const hideWhatsApp = matchesPrefix(pathname, HIDE_FLOATING_WHATSAPP_PREFIXES);

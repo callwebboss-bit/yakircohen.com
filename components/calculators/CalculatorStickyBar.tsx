@@ -27,7 +27,7 @@ export type CalculatorStickyBarProps = {
 
 export default function CalculatorStickyBar({
   total,
-  totalLabel = "השקעה משוערת · לפני מע״מ",
+  totalLabel = "השקעה משוערת - לפני מע״מ",
   subLabel,
   whatsappHref,
   showCta = true,

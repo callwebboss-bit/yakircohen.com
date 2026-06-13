@@ -9,7 +9,7 @@ export type HubAccentScopeProps = {
 /**
  * Activates the contextual --service-accent color for a route subtree and
  * lifts it to :root so Header/Footer/FloatingFabs (rendered outside this
- * subtree by the root layout) sync to the same hub color — pure CSS.
+ * subtree by the root layout) sync to the same hub color - pure CSS.
  */
 export default function HubAccentScope({ category, children }: HubAccentScopeProps) {
   if (!category) return <>{children}</>;

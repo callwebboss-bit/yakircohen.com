@@ -107,7 +107,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
       {
         icon: "🔀",
         title: "מאשאפ חירום לדיג'ייז",
-        summary: "שילוב 2 שירים תוך 24 שעות — Key Matching וביטמיקס.",
+        summary: "שילוב 2 שירים תוך 24 שעות - Key Matching וביטמיקס.",
         href: "/online/mashup-fixer",
         tag: "חדש",
       },
@@ -171,7 +171,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
       {
         icon: "📱",
         title: "מפעל רילס לספקים",
-        summary: "Rave 24 שעות — פרומואים ערוכים ל-DJ, צלמים ומפעילי אטרקציות.",
+        summary: "Rave 24 שעות - פרומואים ערוכים ל-DJ, צלמים ומפעילי אטרקציות.",
         href: "/business/reel-factory",
         tag: "מהיר",
       },

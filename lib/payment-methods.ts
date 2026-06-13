@@ -8,5 +8,5 @@ export const PAYMENT_METHODS = [
 ] as const;
 
 export const PAYMENT_INVOICING = [
-  { id: "green-invoice-grow", label: "חשבונית ירוקה · GROW" },
+  { id: "green-invoice-grow", label: "חשבונית ירוקה - GROW" },
 ] as const;

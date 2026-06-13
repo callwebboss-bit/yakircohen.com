@@ -7,7 +7,7 @@ import {
   type PortfolioImage,
 } from "@/lib/service-portfolio-images";
 
-/** Shared anchor for hero play button → lazy video section. */
+/** Shared anchor for hero play button lazy video section. */
 export const SERVICE_SHOWCASE_VIDEO_ID = "service-showcase-video";
 
 /** Gallery block anchor for hero "scroll to photos". */

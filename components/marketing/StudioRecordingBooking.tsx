@@ -104,8 +104,8 @@ const WIZARD_DEPTH_OPTIONS: readonly {
   label: string;
   detail: string;
 }[] = [
-  { id: "quick", label: "מהיר", detail: "רק החיוני — נשלים בוואטסאפ" },
-  { id: "standard", label: "רגיל", detail: "מאוזן — ברירת מחדל" },
+  { id: "quick", label: "מהיר", detail: "רק החיוני - נשלים בוואטסאפ" },
+  { id: "standard", label: "רגיל", detail: "מאוזן - ברירת מחדל" },
   { id: "full", label: "מלא", detail: "כל הפרטים מראש" },
 ];
 
@@ -149,8 +149,8 @@ function BookReassuranceLine({ wizardDepth }: { wizardDepth: WizardDepthId }) {
   return (
     <p className="text-center text-xs leading-relaxed text-muted-foreground">
       {wizardDepth === "quick"
-        ? "אפשר לשלוח עכשיו ולסיים את הפרטים בוואטסאפ — בלי התחייבות"
-        : "יקיר עונה בדרך כלל בערב · אפשר גם רק לשלוח ולהמשיך מכאן"}
+        ? "אפשר לשלוח עכשיו ולסיים את הפרטים בוואטסאפ - בלי התחייבות"
+        : "יקיר עונה בדרך כלל בערב - אפשר גם רק לשלוח ולהמשיך מכאן"}
     </p>
   );
 }
@@ -205,7 +205,7 @@ function FilterContextBanner({ filterAnswers }: { filterAnswers?: FilterAnswers 
       )}
       {timelineOpt && purposeOpt && (
         <span aria-hidden="true" className="select-none">
-          ·
+          -
         </span>
       )}
       {purposeOpt && (
@@ -567,7 +567,7 @@ export default function StudioRecordingBooking({
       label: "הנחיות",
       value: studioLeadContext
         ? buildStudioGuidelinesLine(studioLeadContext)
-        : "חזרות בבית · שקט באולפן",
+        : "חזרות בבית - שקט באולפן",
     },
   ];
 
@@ -830,7 +830,7 @@ export default function StudioRecordingBooking({
                 lines={
                   isQuickWizard
                     ? [
-                        "בחרו סוג הקלטה — נשלים שיר, שעה ואווירה בוואטסאפ",
+                        "בחרו סוג הקלטה - נשלים שיר, שעה ואווירה בוואטסאפ",
                         "מספר מקליטים עוזר להערכת מחיר",
                       ]
                     : [
@@ -955,7 +955,7 @@ export default function StudioRecordingBooking({
             {showCelebrantField ? (
               <div>
                 <label htmlFor="celebrant-name" className="mb-1.5 block text-xs font-semibold">
-                  שם החוגג/ת — מי יקליט ויקבל הנחיות
+                  שם החוגג/ת - מי יקליט ויקבל הנחיות
                 </label>
                 <input
                   id="celebrant-name"
@@ -979,7 +979,7 @@ export default function StudioRecordingBooking({
                     כמה מקליטים צפויים?
                   </h3>
                   <p className="mb-3 text-xs text-muted-foreground">
-                    מבוגר וילד — אותו מחיר · עוזר לנו להכין מחירון מדויק
+                    מבוגר וילד - אותו מחיר - עוזר לנו להכין מחירון מדויק
                   </p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -1003,7 +1003,7 @@ export default function StudioRecordingBooking({
                     </p>
                     <p className="mt-1 text-foreground">
                       {getClientScenarioShortTitle("pairs")}:{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} לפני מע״מ ·{" "}
+                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} לפני מע״מ -{" "}
                       {formatNis(groupScenariosForDisplay.recommended.withVat)} סופי
                     </p>
                     {isMotzash ? (
@@ -1020,7 +1020,7 @@ export default function StudioRecordingBooking({
                 ) : null}
                 {form.adultsCount + form.childrenCount > STUDIO_RECORDING_MAX ? (
                   <p className="text-xs font-medium text-amber-800">
-                    מעל {STUDIO_RECORDING_MAX} מקליטים — נתאם חלוקה לזוגות בשקט באולפן
+                    מעל {STUDIO_RECORDING_MAX} מקליטים - נתאם חלוקה לזוגות בשקט באולפן
                   </p>
                 ) : null}
               </div>
@@ -1179,7 +1179,7 @@ export default function StudioRecordingBooking({
             {activePackage ? (
               <BookingSelectionConfirm
                 title={`מסלול נבחר: ${activePackage.name}`}
-                detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ · לחצו המשך לפרטים ואישור`}
+                detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ - לחצו המשך לפרטים ואישור`}
               />
             ) : (
               <p className="rounded-xl border border-dashed border-border/60 bg-surface px-4 py-3 text-center text-sm text-muted-foreground">
@@ -1198,7 +1198,7 @@ export default function StudioRecordingBooking({
                   />
                 ) : (
                   <p className="text-xs text-muted-foreground">
-                    תוספות אופציונליות — נציע בוואטסאפ לפי הצורך
+                    תוספות אופציונליות - נציע בוואטסאפ לפי הצורך
                   </p>
                 )}
               </>
@@ -1239,7 +1239,7 @@ export default function StudioRecordingBooking({
                     {form.celebrantName.trim() ? (
                       form.celebrantName
                     ) : (
-                      <span className="text-amber-700">לא הוזן — מומלץ למלא לפני שליחה</span>
+                      <span className="text-amber-700">לא הוזן - מומלץ למלא לפני שליחה</span>
                     )}
                   </li>
                 )}
@@ -1258,7 +1258,7 @@ export default function StudioRecordingBooking({
                 {activePackage && (
                   <li>
                     <span className="font-medium text-foreground">מסלול: </span>
-                    {activePackage.name} · {activePackage.price.toLocaleString("he-IL")} ₪
+                    {activePackage.name} - {activePackage.price.toLocaleString("he-IL")} ₪
                   </li>
                 )}
                 {form.surpriseGift && (
@@ -1271,8 +1271,8 @@ export default function StudioRecordingBooking({
                   <li>
                     <span className="font-medium text-foreground">מועד מועדף: </span>
                     {scheduleWindowSummaryLabel(form.scheduleWindow)}
-                    {form.date && ` · ${form.date}`}
-                    {form.time && ` · ${form.time}`}
+                    {form.date && ` - ${form.date}`}
+                    {form.time && ` - ${form.time}`}
                   </li>
                 )}
               </ul>
@@ -1412,7 +1412,7 @@ export default function StudioRecordingBooking({
                               >
                                 <span className="font-semibold">{geo.label}</span>
                                 <span className="mt-0.5 block text-muted-foreground">
-                                  {price.toLocaleString("he-IL")} ₪ לפני מע״מ · {geo.detail}
+                                  {price.toLocaleString("he-IL")} ₪ לפני מע״מ - {geo.detail}
                                 </span>
                               </button>
                             );
@@ -1460,7 +1460,7 @@ export default function StudioRecordingBooking({
               {showPreSubmitReplyStudio ? (
                 <BookReplyStudio
                   context={replyStudioContext!}
-                  onCopy={() => window.alert("הועתק ללוח — אפשר להדביק בוואטסאפ")}
+                  onCopy={() => window.alert("הועתק ללוח - אפשר להדביק בוואטסאפ")}
                 />
               ) : null}
 
@@ -1469,8 +1469,8 @@ export default function StudioRecordingBooking({
                   <p className="text-sm font-semibold text-foreground">
                     קבוצה של {recorderCount}
                     {groupMsgCtx.useDualTier
-                      ? ` — תקרת זוגות ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם | המלצתנו ~${groupMsgCtx.pricePerPersonSave5} ₪ לאדם`
-                      : ` — ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם (כולל מע״מ)`}
+                      ? ` - תקרת זוגות ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם | המלצתנו ~${groupMsgCtx.pricePerPersonSave5} ₪ לאדם`
+                      : ` - ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם (כולל מע״מ)`}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     מקדמה לשריון: {groupMsgCtx.depositTotal} ₪ ({groupMsgCtx.depositPerPerson} ₪ לאדם)
@@ -1482,7 +1482,7 @@ export default function StudioRecordingBooking({
                       onClick={() =>
                         void copyGroupText(
                           buildGroupFamilyPitchBlock(groupMessageInput, groupMsgCtx),
-                          "הטקסט לקבוצה המשפחתית הועתק — שלחו בוואטסאפ המשפחתי",
+                          "הטקסט לקבוצה המשפחתית הועתק - שלחו בוואטסאפ המשפחתי",
                         )
                       }
                     >

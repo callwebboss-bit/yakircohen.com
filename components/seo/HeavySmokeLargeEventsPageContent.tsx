@@ -54,8 +54,7 @@ export default function HeavySmokeLargeEventsPageContent() {
           <Link
             href="/events/attractions/wedding-smoking-machine"
             className="text-sm font-medium text-brand-red hover:underline"
-          >
-            ← עשן כבד לחתונה וסלואו (חבילות סטנדרט)
+          > עשן כבד לחתונה וסלואו (חבילות סטנדרט)
           </Link>
         </p>
 
@@ -172,8 +171,7 @@ export default function HeavySmokeLargeEventsPageContent() {
                     href={item.href}
                     className="mt-3 inline-block text-sm font-medium text-brand-red hover:underline"
                   >
-                    לפרטים ←
-                  </Link>
+                    לפרטים </Link>
                 ) : null}
               </li>
             ))}

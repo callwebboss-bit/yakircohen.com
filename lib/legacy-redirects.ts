@@ -16,7 +16,7 @@ export type LegacyRedirect = {
   permanent: true;
 };
 
-/** Map legacy path → canonical path (before prefix rules) */
+/** Map legacy path canonical path (before prefix rules) */
 const LEGACY_PATH_MAP: Record<string, string> = {
   /** Google Sites / קישורים ישנים - דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
@@ -80,7 +80,7 @@ const LEGACY_PATH_MAP: Record<string, string> = {
 
 /**
  * WordPress/WooCommerce migration redirects.
- * The site migrated from WP+WooCommerce to Next.js — these catch all the
+ * The site migrated from WP+WooCommerce to Next.js - these catch all the
  * old URL patterns that Google had indexed under the previous platform.
  */
 const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
@@ -358,7 +358,7 @@ const OLD_ENGLISH_SLUGS: Record<string, string> = {
   "/standup": "/events/host",
 };
 
-/** /attractions/* → /events/attractions/* (with specific overrides) */
+/** /attractions/* /events/attractions/* (with specific overrides) */
 const ATTRACTIONS_OVERRIDES: Record<string, string> = {
   "/attractions": "/events/attractions",
   "/attractions/wedding-photography": "/photography/wedding",
@@ -416,7 +416,7 @@ export function getLegacyRedirects(): LegacyRedirect[] {
     ({ source, destination }) => ({ source, destination, permanent: true as const }),
   );
 
-  /** Catch-all: any other /attractions/:path → /events/attractions/:path */
+  /** Catch-all: any other /attractions/:path /events/attractions/:path */
   const attractionsCatchAll = toRedirect(
     "/attractions/:path*",
     "/events/attractions/:path*",

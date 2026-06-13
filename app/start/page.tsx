@@ -328,7 +328,7 @@ export default function StartPage() {
                     יש לי שאלה על {variant.label}
                   </Button>
                   <span className="hidden text-muted-foreground sm:inline" aria-hidden="true">
-                    ·
+                    -
                   </span>
                   <Button as="link" href={getVariantBookHref(variant.id)} variant="secondary">
                     {VARIANT_START_PRICE_EX_VAT[variant.id]

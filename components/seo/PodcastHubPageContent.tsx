@@ -145,7 +145,7 @@ export default function PodcastHubPageContent() {
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט מקצועי במודיעין"
-        subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם תוכנית שמע מוכנה — MP3 לספוטיפיי ואפל, עם עריכת סאונד מקצועית."
+        subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם תוכנית שמע מוכנה - MP3 לספוטיפיי ואפל, עם עריכת סאונד מקצועית."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
@@ -182,8 +182,7 @@ export default function PodcastHubPageContent() {
                 href="/podcast/mobile-podcast-at-home"
                 className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
-                אולפן פודקאסט נייד ←
-              </Link>
+                אולפן פודקאסט נייד </Link>
             </div>
           </aside>
 
@@ -204,7 +203,7 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                ציוד Shure &amp; Rode, מיקרופונים דינמיים, בידוד אקוסטי, קובץ RSS מוכן — פרק מוכן תוך 24
+                ציוד Shure &amp; Rode, מיקרופונים דינמיים, בידוד אקוסטי, קובץ RSS מוכן - פרק מוכן תוך 24
                 שעות.
               </p>
             </header>
@@ -346,8 +345,7 @@ export default function PodcastHubPageContent() {
                   href="/podcast/podcast-with-grandpa"
                   className="text-sm font-semibold text-brand-red hover:underline"
                 >
-                  פודקאסט עם סבא וסבתא - פרטים נוספים ←
-                </Link>
+                  פודקאסט עם סבא וסבתא - פרטים נוספים </Link>
               </div>
             </article>
 
@@ -381,8 +379,7 @@ export default function PodcastHubPageContent() {
                   href="/podcast/podcast-studio-modiin"
                   className="font-medium text-brand-red hover:underline"
                 >
-                  השכרת אולפן פודקאסט במודיעין ←
-                </Link>
+                  השכרת אולפן פודקאסט במודיעין </Link>
               </p>
             </div>
           </section>
@@ -471,8 +468,7 @@ export default function PodcastHubPageContent() {
                           : "touch-press mt-7 block rounded-xl border border-brand-red/40 px-4 py-3 text-center text-sm font-semibold text-brand-red hover:bg-brand-red/5 active:bg-brand-red/10"
                       }
                     >
-                      {pkg.ctaLabel} ←
-                    </a>
+                      {pkg.ctaLabel} </a>
                     </article>
                   </li>
                 );
@@ -488,7 +484,7 @@ export default function PodcastHubPageContent() {
                 רוצים לחשב מחיר מדויק לפרק שלכם?
               </h3>
               <p className="mt-2 text-center text-sm text-muted-foreground">
-                {PODCAST_HUB_STARTING_PRICE} ₪ ·{" "}
+                {PODCAST_HUB_STARTING_PRICE} ₪ -{" "}
                 {PODCAST_HUB_STARTING_PRICE_NOTE}
               </p>
               <PodcastCalculatorLazy className="mt-6" />
@@ -523,8 +519,7 @@ export default function PodcastHubPageContent() {
                 href="/podcast/podcast-editing"
                 className="font-medium text-brand-red hover:underline"
               >
-                לשירות עריכת פודקאסט מלאה ←
-              </Link>
+                לשירות עריכת פודקאסט מלאה </Link>
             </p>
           </section>
 
@@ -658,7 +653,7 @@ export default function PodcastHubPageContent() {
               <HubDualCta
                 className="mt-7"
                 whatsappHref={whatsappHref}
-                whatsappLabel="קבעו הקלטה בוואטסאפ ←"
+                whatsappLabel="קבעו הקלטה בוואטסאפ "
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
               />
@@ -692,8 +687,7 @@ export default function PodcastHubPageContent() {
                       {track.description}
                     </p>
                     <span className="mt-4 text-xs font-semibold text-brand-red">
-                      לפרטים ←
-                    </span>
+                      לפרטים </span>
                   </Link>
                 </li>
               ))}
@@ -735,8 +729,7 @@ export default function PodcastHubPageContent() {
             <p className="mt-2 text-sm text-muted-foreground">
               שחזור סאונד בעזרת AI - מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
               <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
-                שחזור סאונד ב-AI ←
-              </Link>
+                שחזור סאונד ב-AI </Link>
             </p>
           </div>
 

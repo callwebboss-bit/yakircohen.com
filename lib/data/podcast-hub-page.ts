@@ -12,7 +12,7 @@ export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
   "פרק מוכן להעלאה תוך 24 שעות",
   "צילום 4K + הקלטה אולפנית + עריכת סאונד",
   "3 חללי הקלטה  -  אורבני, ירוק או רשמי",
-  "עריכת סאונד · קובץ RSS · ספוטיפיי ואפל פודקאסט",
+  "עריכת סאונד - קובץ RSS - ספוטיפיי ואפל פודקאסט",
   "טלפרומפטר, אוזניות ומיקרופונים דינמיים Shure & Rode",
 ] as const;
 
@@ -285,7 +285,7 @@ import { PODCAST_PACKAGES, PODCAST_STARTER_PRICE } from "./podcast-calculator";
 
 export const PODCAST_HUB_STARTING_PRICE = String(PODCAST_STARTER_PRICE);
 export const PODCAST_HUB_STARTING_PRICE_NOTE =
-  "לפרק של חצי שעה · אולפן במודיעין · חניה בשפע · לפני מע״מ (+18%)";
+  "לפרק של חצי שעה - אולפן במודיעין - חניה בשפע - לפני מע״מ (+18%)";
 
 const _audioPrice = PODCAST_PACKAGES.find((p) => p.id === "audio")?.price ?? 950;
 const _videoPrice = PODCAST_PACKAGES.find((p) => p.id === "video")?.price ?? 1650;

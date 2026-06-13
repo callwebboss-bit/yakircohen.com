@@ -64,7 +64,7 @@ export default function ProfessionalVoiceoverPageContent() {
             <HubDualCta
               className="mt-8"
               whatsappHref={ctaHref}
-              whatsappLabel="הזמינו חבילת קריינות ←"
+              whatsappLabel="הזמינו חבילת קריינות "
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
             />
@@ -142,7 +142,7 @@ export default function ProfessionalVoiceoverPageContent() {
           <HubDualCta
             className="mt-6"
             whatsappHref={ctaHref}
-            whatsappLabel="תיאום בוואטסאפ ←"
+            whatsappLabel="תיאום בוואטסאפ "
             bookHref={bookCta.bookHref}
             bookLabel={bookCta.bookLabel}
           />

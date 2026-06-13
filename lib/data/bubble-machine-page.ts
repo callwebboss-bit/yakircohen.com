@@ -116,7 +116,7 @@ export const BUBBLE_CONCERNS: readonly BubbleConcern[] = [
   { concern: "ציוד אחר", solution: "לא משאיר סימנים על ריהוט או אלקטרוניקה" },
   { concern: "זמינות", solution: "הזמנה מראש  -  מומלץ 2 חודשים לפני בעונת שיא" },
   { concern: "ניידות", solution: "עיצוב קומפקטי לכל סצנה" },
-  { concern: "שביעות רצון", solution: "1,800+ אירועים · 280+ המלצות" },
+  { concern: "שביעות רצון", solution: "1,800+ אירועים - 280+ המלצות" },
 ] as const;
 
 export const BUBBLE_WHY_US: readonly string[] = [

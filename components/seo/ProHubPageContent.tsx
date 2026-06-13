@@ -27,12 +27,12 @@ export default function ProHubPageContent() {
             מרכז שירותים לדיג&apos;ייז, פודקאסט והגברה
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
-            תגים קוליים, מאשאפים דחופים, פס ייצור לפודקאסט, השכרת ציוד ותכנון הגברה —
+            תגים קוליים, מאשאפים דחופים, פס ייצור לפודקאסט, השכרת ציוד ותכנון הגברה -
             עם מחשבון הצעה באתר ומחירון שקוף.
           </p>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             השירותים כאן מיועדים לאנשי מקצוע: דיג&apos;ייז, חברות הפקה, יוצרי תוכן
-            וחברות הגברה. בכל עמוד יש מחשבון שמעריך מחיר ומפרט — ואחרי זה אפשר להמשיך
+            וחברות הגברה. בכל עמוד יש מחשבון שמעריך מחיר ומפרט - ואחרי זה אפשר להמשיך
             בוואטסאפ או בהזמנה מקוונת.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -70,9 +70,9 @@ export default function ProHubPageContent() {
               <p className="text-xs font-semibold text-brand-red">
                 מודיעין שוק לספקים
               </p>
-              <h2 className="mt-2 font-serif text-xl font-semibold">דופק השוק — מחירים וביקוש</h2>
+              <h2 className="mt-2 font-serif text-xl font-semibold">דופק השוק - מחירים וביקוש</h2>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-                ממוצעי מחיר סגור, מגמות ביקוש לאטרקציות והתרעות על חוסר במלאי — מנוי לעסקים.
+                ממוצעי מחיר סגור, מגמות ביקוש לאטרקציות והתרעות על חוסר במלאי - מנוי לעסקים.
               </p>
             </div>
             <span className="mt-4 text-sm font-semibold text-brand-red sm:mt-0">למדד</span>
@@ -124,9 +124,9 @@ export default function ProHubPageContent() {
           </h2>
           <ol className="mt-4 max-w-2xl space-y-3 text-sm leading-relaxed text-muted-foreground">
             <li>1. נכנסים לעמוד השירות שמתאים לכם.</li>
-            <li>2. ממלאים את השדות במחשבון — תאריך, סוג אירוע, ציוד וכו׳.</li>
+            <li>2. ממלאים את השדות במחשבון - תאריך, סוג אירוע, ציוד וכו׳.</li>
             <li>3. מקבלים סיכום, המלצות ומחיר משוער.</li>
-            <li>4. ממשיכים בוואטסאפ או בהזמנה מקוונת — יקיר מאשר לפני סגירה.</li>
+            <li>4. ממשיכים בוואטסאפ או בהזמנה מקוונת - יקיר מאשר לפני סגירה.</li>
           </ol>
         </Container>
       </Section>

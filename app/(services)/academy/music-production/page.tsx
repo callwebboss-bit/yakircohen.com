@@ -115,8 +115,7 @@ export default function MusicProductionPage() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            קבע מפגש אפיון ←
-          </a>
+            קבע מפגש אפיון </a>
         </div>
       </section>
 
@@ -172,8 +171,7 @@ export default function MusicProductionPage() {
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             aria-label="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
           >
-            בואו נדבר בוואטסאפ ←
-          </a>
+            בואו נדבר בוואטסאפ </a>
           <div className="mt-5 flex justify-center">
             <ShareButton title="קורס יצירה מוזיקלית | יקיר כהן הפקות" />
           </div>

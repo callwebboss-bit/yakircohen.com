@@ -140,8 +140,7 @@ export default function OnlineMixingPageContent() {
               rel="noopener noreferrer"
               className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
             >
-              שלחו קטעים לוואטסאפ ←
-            </a>
+              שלחו קטעים לוואטסאפ </a>
             <a
               href={sampleHref}
               target="_blank"
@@ -301,14 +300,12 @@ export default function OnlineMixingPageContent() {
               href="/online/vocal-fix/pitch-correction"
               className="font-medium text-brand-red hover:underline"
             >
-              תיקון זיופים מלא ←
-            </Link>
+              תיקון זיופים מלא </Link>
             <Link
               href="/online/vocal-fix"
               className="font-medium text-brand-red hover:underline"
             >
-              שיפור קול / ניקוי רעשים ←
-            </Link>
+              שיפור קול / ניקוי רעשים </Link>
           </div>
         </div>
       </section>
@@ -348,8 +345,7 @@ export default function OnlineMixingPageContent() {
           rel="noopener noreferrer"
           className="mt-7 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          התחילו בוואטסאפ ←
-        </a>
+          התחילו בוואטסאפ </a>
         <div className="mt-5 flex flex-wrap justify-center gap-4">
           <Link href="/studio/recording-song-modiin" className="text-sm text-brand-red hover:underline">
             הקלטה באולפן

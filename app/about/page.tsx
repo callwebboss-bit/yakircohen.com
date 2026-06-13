@@ -135,8 +135,7 @@ export default function AboutPage() {
                 className="rounded-xl px-7 shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
                 aria-label="פתיחת שיחת וואטסאפ עם יקיר כהן הפקות"
               >
-                קבלו הצעת מחיר בוואטסאפ ←
-              </Button>
+                קבלו הצעת מחיר בוואטסאפ </Button>
               <Link
                 href="/start"
                 className="inline-flex min-h-11 items-center text-sm font-medium text-muted-foreground underline-offset-4 transition-colors duration-fast ease-luxury hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
@@ -187,8 +186,7 @@ export default function AboutPage() {
                     {card.label}
                   </p>
                   <p className="mt-0.5 text-xs text-white/70 transition-colors duration-fast group-hover:text-brand-red">
-                    {card.cta} ←
-                  </p>
+                    {card.cta} </p>
                 </div>
               </Link>
             ))}

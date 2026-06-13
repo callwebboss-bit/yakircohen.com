@@ -158,14 +158,14 @@ export default function PhotographyCalculator({
   const { name: pkgName, sub: pkgSub } = getPackageLabel(hours);
 
   const buildSummaryLines = () => [
-    { label: "חבילה", value: `${pkgName} · ${hours} שעות · ${formatCurrency(hours * HOURLY_RATE)}` },
+    { label: "חבילה", value: `${pkgName} - ${hours} שעות - ${formatCurrency(hours * HOURLY_RATE)}` },
     ...[...selectedAddons].map((id) => {
       const a = PHOTOGRAPHY_ADDONS.find((x) => x.id === id);
-      return a ? { label: "תוספת", value: `${a.label} · ${formatCurrency(a.price)}` } : null;
+      return a ? { label: "תוספת", value: `${a.label} - ${formatCurrency(a.price)}` } : null;
     }).filter(Boolean) as { label: string; value: string }[],
     ...[...selectedAI].map((id) => {
       const a = PHOTOGRAPHY_AI_SERVICES.find((x) => x.id === id);
-      return a ? { label: "AI", value: `${a.label} · ${formatCurrency(a.price)}` } : null;
+      return a ? { label: "AI", value: `${a.label} - ${formatCurrency(a.price)}` } : null;
     }).filter(Boolean) as { label: string; value: string }[],
     ...(bundleActive
       ? [{ label: "הנחת חבילת AI", value: `-${formatCurrency(AI_BUNDLE_DISCOUNT)}` }]
@@ -321,7 +321,7 @@ export default function PhotographyCalculator({
             <div className="mb-3 flex items-center justify-between">
               <span className="text-sm font-semibold text-foreground">התאמה אישית</span>
               <span className="text-sm font-bold text-brand-red">
-                {hours} שעות · {formatCurrency(hours * HOURLY_RATE)}
+                {hours} שעות - {formatCurrency(hours * HOURLY_RATE)}
               </span>
             </div>
             <input
@@ -338,7 +338,7 @@ export default function PhotographyCalculator({
               <span>16 שעות</span>
             </div>
             <p className="mt-2 text-center text-[0.65rem] text-muted-foreground">
-              {formatCurrency(HOURLY_RATE)} לשעה · כולל עריכה ומסירה דיגיטלית
+              {formatCurrency(HOURLY_RATE)} לשעה - כולל עריכה ומסירה דיגיטלית
             </p>
           </div>
         </section>

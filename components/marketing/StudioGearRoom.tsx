@@ -33,7 +33,7 @@ const GEAR = [
   },
   {
     title: "מיקרופון הקלטה",
-    detail: "Townsend Sphere · תיבת BIG KNOB · פופ פילטר",
+    detail: "Townsend Sphere - תיבת BIG KNOB - פופ פילטר",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
         <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" />

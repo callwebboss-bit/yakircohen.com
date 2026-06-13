@@ -60,7 +60,7 @@ export default function OnlinePageContent() {
             <HubDualCta
               className="mt-8"
               whatsappHref={ctaHref}
-              whatsappLabel="שלחו קובץ לבדיקה ראשונית בוואטסאפ ←"
+              whatsappLabel="שלחו קובץ לבדיקה ראשונית בוואטסאפ "
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
             />
@@ -73,8 +73,7 @@ export default function OnlinePageContent() {
                 rel="noopener noreferrer"
                 className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
               >
-                שלחו קובץ לבדיקה ראשונית בוואטסאפ ←
-              </Button>
+                שלחו קובץ לבדיקה ראשונית בוואטסאפ </Button>
               <Button as="link" href="#quick-quote" variant="secondary">
                 השאירו פרטים להצעת מחיר מהירה
               </Button>
@@ -138,8 +137,7 @@ export default function OnlinePageContent() {
                 href={svc.href}
                 className={`${linkClass} mt-4`}
               >
-                לפרטים ←
-              </Link>
+                לפרטים </Link>
             </article>
           ))}
         </div>
@@ -193,8 +191,7 @@ export default function OnlinePageContent() {
                     href={`/online/${category.slug}`}
                     className={linkClass}
                   >
-                    לעמוד הקטגוריה ←
-                  </Link>
+                    לעמוד הקטגוריה </Link>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {category.description}
@@ -222,8 +219,7 @@ export default function OnlinePageContent() {
                           href={service.href}
                           className={`${linkClass} mt-3`}
                         >
-                          לפרטים ←
-                        </Link>
+                          לפרטים </Link>
                       ) : (
                         <a
                           href={ctaHref}
@@ -231,8 +227,7 @@ export default function OnlinePageContent() {
                           rel="noopener noreferrer"
                           className={`${linkClass} mt-3`}
                         >
-                          בקשו התאמה אישית ←
-                        </a>
+                          בקשו התאמה אישית </a>
                       )}
                     </article>
                   ))}
@@ -299,7 +294,7 @@ export default function OnlinePageContent() {
                 className="mt-6"
                 align="start"
                 whatsappHref={ctaHref}
-                whatsappLabel="שלחו קובץ בוואטסאפ ←"
+                whatsappLabel="שלחו קובץ בוואטסאפ "
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
               />

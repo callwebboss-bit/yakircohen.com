@@ -51,7 +51,7 @@ export default function OpenGraphImage() {
             maxWidth: 820,
           }}
         >
-          אולפן הקלטות · פודקאסט · DJ ואטרקציות - מודיעין והמרכז
+          אולפן הקלטות - פודקאסט - DJ ואטרקציות - מודיעין והמרכז
         </div>
       </div>
     ),

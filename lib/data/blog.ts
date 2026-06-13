@@ -656,7 +656,7 @@ export const BLOG_POSTS = [
 <p>חבילות DJ, רגע של כוכב ואפקטים - ב<a href="/book#dj">קטגוריית DJ</a>.</p>
 <h2>הגברה לזמרים</h2>
 <p>הופעה חיה עם צ'ק סאונד - <a href="/book?pkg=basic#singer">הגברה לזמרים</a> עם בחירת חבילה מראש.</p>
-<p>לשאלות: <a href="/events/equipment/faq">שאלות על הגברה וציוד</a> · <a href="/events/host/faq">שאלות על מנחה אירועים</a>.</p>
+<p>לשאלות: <a href="/events/equipment/faq">שאלות על הגברה וציוד</a> - <a href="/events/host/faq">שאלות על מנחה אירועים</a>.</p>
 `.trim(),
     date: "27 במאי 2026",
     thumbnail: "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp",
@@ -683,7 +683,7 @@ export const BLOG_POSTS = [
 <li><strong>VIP</strong> - Line Array, IEM, שני טכנאים.</li>
 </ul>
 <p>ב<a href="/book?pkg=basic#singer">עמוד ההזמנה - הגברה לזמרים</a> בוחרים חבילה, ממלאים תאריך ומיקום ושולחים בוואטסאפ.</p>
-<p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> · <a href="/events/equipment/faq">שאלות נפוצות</a>.</p>
+<p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> - <a href="/events/equipment/faq">שאלות נפוצות</a>.</p>
 `.trim(),
     date: "27 במאי 2026",
     thumbnail: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
@@ -1070,7 +1070,7 @@ export const BLOG_POSTS = [
 
 <h2>סיכום: DJ טוב = ערב שלא מתרוקן</h2>
 <p><strong>תקליטן לחתונה</strong> מקצועי לא "מנגן שירים" - הוא בונה מסע רגשי שלם. אל תבחרו רק לפי מחיר; בחרו לפי ניסיון, גיבוי, תיאום ואמון. אם אתם במודיעין, ראשון לציון, פתח תקווה או ירושלים - <strong>DJ לחתונה</strong> שמגיע מוכן חוסך לכם עוגמת נפש ביום הגדול.</p>
-<p>רוצים הצעה מותאמת, כולל חבילות עם אטרקציות? <a href="/events/dj-events">פרטים על DJ לאירועים</a> · <a href="/book#events">השאירו פרטים לייעוץ</a> - ונחזור אליכם עם תכנון ראשוני.</p>
+<p>רוצים הצעה מותאמת, כולל חבילות עם אטרקציות? <a href="/events/dj-events">פרטים על DJ לאירועים</a> - <a href="/book#events">השאירו פרטים לייעוץ</a> - ונחזור אליכם עם תכנון ראשוני.</p>
 `.trim(),
     date: "2 ביוני 2026",
     thumbnail: "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
@@ -2873,7 +2873,7 @@ if (process.env.NODE_ENV !== "production") {
     postSlugs.some((slug, i) => slug !== BLOG_SLUGS[i]);
   if (mismatch) {
     throw new Error(
-      "blog.ts slugs out of sync with blog-slugs.ts — run: npm run sync:blog-slugs",
+      "blog.ts slugs out of sync with blog-slugs.ts - run: npm run sync:blog-slugs",
     );
   }
 }

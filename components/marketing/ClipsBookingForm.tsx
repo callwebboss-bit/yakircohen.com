@@ -332,7 +332,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
         disabled={selected.size === 0 || isSubmitting}
         className="w-full rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light disabled:pointer-events-none disabled:opacity-50"
       >
-        {isSubmitting ? "שולח..." : "המשך בוואטסאפ ←"}
+        {isSubmitting ? "שולח..." : "המשך בוואטסאפ "}
       </button>
     </div>
   );

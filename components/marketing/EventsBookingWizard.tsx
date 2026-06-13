@@ -259,7 +259,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
         <BookingStepPanel stepKey={0}>
           <h2 className="text-xl font-semibold text-foreground">בחרו אטרקציות</h2>
           <p className="text-sm text-muted-foreground">
-            2 אטרקציות = חבילה · 4+ = מתנת מצגת תמונות
+            2 אטרקציות = חבילה - 4+ = מתנת מצגת תמונות
           </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {EVENT_BOOKING_ITEMS.map((item) => {
@@ -376,8 +376,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
             type="button"
             onClick={() => setStep(0)}
             className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-          >
-            → ערוך בחירה
+          > ערוך בחירה
           </button>
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">

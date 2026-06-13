@@ -33,13 +33,13 @@ export type YcLeadTagInput = {
   mobileGeo?: string | null;
   atmosphere?: string | null;
   celebrant?: string | null;
-  /** YC v2 — עומק טופס /book */
+  /** YC v2 - עומק טופס /book */
   wizardDepth?: YcWizardDepthId | null;
   /** הלקוח אישר את תרחיש pairs (1) */
   scenarioChosen?: boolean | null;
   /** הלקוח רוצה לשמוע על תרחישים אחרים */
   scenarioHint?: YcScenarioHintId | null;
-  /** שדות שנדחו לשיחה — song,time,atmosphere */
+  /** שדות שנדחו לשיחה - song,time,atmosphere */
   deferred?: string | null;
   recipientHint?: string | null;
   configVersion?: number | null;

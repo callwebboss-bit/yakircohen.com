@@ -142,8 +142,7 @@ export default function DjCoursePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
-              קבע מפגש אפיון ←
-            </a>
+              קבע מפגש אפיון </a>
             <Link
               href="/academy"
               className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline transition-colors duration-fast"

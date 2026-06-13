@@ -437,7 +437,7 @@ export default function PodcastBookingWizard({
           {selected ? (
             <div className="mt-6 rounded-2xl border border-border bg-surface p-5">
               <p className="mb-2 text-xs font-semibold text-muted-foreground">
-                גלישה בזמן · {PODCAST_OVERTIME_RATE.toLocaleString("he-IL")} ₪ לכל 30 דקות
+                גלישה בזמן - {PODCAST_OVERTIME_RATE.toLocaleString("he-IL")} ₪ לכל 30 דקות
               </p>
               <p className="mb-3 text-sm font-semibold text-foreground">כמה זמן הקלטה נוסף?</p>
               <div className="flex flex-wrap gap-2">
@@ -643,7 +643,7 @@ export default function PodcastBookingWizard({
                         >
                           <span className="font-semibold">{geo.label}</span>
                           <span className="mt-0.5 block text-muted-foreground">
-                            {price.toLocaleString("he-IL")} ₪ לפני מע״מ · {geo.detail}
+                            {price.toLocaleString("he-IL")} ₪ לפני מע״מ - {geo.detail}
                           </span>
                         </button>
                       );
@@ -671,8 +671,7 @@ export default function PodcastBookingWizard({
             type="button"
             onClick={() => setStep(0)}
             className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-          >
-            → ערוך בחירה
+          > ערוך בחירה
           </button>
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">

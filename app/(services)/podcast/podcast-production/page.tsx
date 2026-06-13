@@ -4,7 +4,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata = constructMetadata({
   title: "הפקת פודקאסט מא׳ עד ת׳ | ליווי מקצועי",
   description:
-    "הפקת פודקאסט מלווה במודיעין. אפיון, מיתוג והפצה לספוטיפיי ואפל — לכל הארץ.",
+    "הפקת פודקאסט מלווה במודיעין. אפיון, מיתוג והפצה לספוטיפיי ואפל - לכל הארץ.",
   slug: "podcast/podcast-production",
   keywords: [
     "הפקת פודקאסט",

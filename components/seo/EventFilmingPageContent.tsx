@@ -38,14 +38,14 @@ export default function EventFilmingPageContent() {
           galleryLabel="צילום והפקת וידאו לאירועים"
           videoTitle="צילום והפקת וידאו לאירועים"
           videoHeading="צפו בדוגמא מהשטח"
-          videoDescription="לצפייה בדוגמא — הוידאו נטען בלחיצה"
+          videoDescription="לצפייה בדוגמא - הוידאו נטען בלחיצה"
           showGallery={false}
         />
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות — צילום וידאו לאירועים"
+            title="שאלות נפוצות - צילום וידאו לאירועים"
             className="py-0"
           />
         ) : null}

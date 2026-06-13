@@ -45,7 +45,7 @@ export default function SocialMediaRetainerTiers() {
               <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{tier.summary}</p>
               <p className="mt-4 text-3xl font-semibold text-brand-red">{tier.priceLabel}</p>
-              <p className="text-xs text-muted-foreground">לחודש · לפני מע״מ</p>
+              <p className="text-xs text-muted-foreground">לחודש - לפני מע״מ</p>
 
               <ul className="mt-6 flex-1 space-y-2.5">
                 {tier.deliverables.map((line) => (

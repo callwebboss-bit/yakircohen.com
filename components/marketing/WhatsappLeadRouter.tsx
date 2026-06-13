@@ -213,9 +213,7 @@ export default function WhatsappLeadRouter({
                   <span
                     className="text-xs opacity-60 transition-transform duration-fast ease-luxury group-hover:-translate-x-1"
                     aria-hidden="true"
-                  >
-                    ←
-                  </span>
+                  > </span>
                 </div>
               </a>
             );

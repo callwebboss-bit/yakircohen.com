@@ -58,7 +58,7 @@ export default function PhotoSlideshowPageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      scarcityLabel="עריכה קולנועית · מסירה תוך 48 שעות"
+      scarcityLabel="עריכה קולנועית - מסירה תוך 48 שעות"
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -86,8 +86,7 @@ export default function PhotoSlideshowPageContent() {
             rel="noopener noreferrer"
             className="mt-5 inline-flex rounded-md bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            הצילו! אני צריך מצגת דחוף ←
-          </a>
+            הצילו! אני צריך מצגת דחוף </a>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="slideshow-intro-heading">

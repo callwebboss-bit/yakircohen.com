@@ -7,7 +7,7 @@ export default function ProBookingPanel() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        בחרו שירות — בכל עמוד יש מחשבון שמעריך מחיר. אפשר גם לפנות בוואטסאפ לחבילה מותאמת.
+        בחרו שירות - בכל עמוד יש מחשבון שמעריך מחיר. אפשר גם לפנות בוואטסאפ לחבילה מותאמת.
       </p>
       <ul className="grid gap-3 sm:grid-cols-2">
         {PRO_SERVICES.map((svc) => {
@@ -52,7 +52,7 @@ export default function ProBookingPanel() {
         href="/pro"
         className="inline-block text-sm font-medium text-brand-red hover:underline"
       >
-        מרכז השירותים המקצועיים — סקירה מלאה
+        מרכז השירותים המקצועיים - סקירה מלאה
       </Link>
     </div>
   );

@@ -360,14 +360,13 @@ export default function DjEventsPageContent() {
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             סיימתם אירוע ב-2 בלילה? מעלים 5-10 קליפים מהרחבה ומקבלים רילס Rave ערוך
-            ב-12 בצהריים — בלי לשבת על עריכה.
+            ב-12 בצהריים - בלי לשבת על עריכה.
           </p>
           <Link
             href="/business/reel-factory"
             className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            The Reel Factory — פרטים וחבילות ←
-          </Link>
+            The Reel Factory - פרטים וחבילות </Link>
         </section>
 
         <section aria-labelledby="related-heading">
@@ -395,7 +394,7 @@ export default function DjEventsPageContent() {
         <ServicePagePricingSection
           service={service}
           heading="3 חבילות ברורות - מה כלול בכל אחת"
-          subheading="כל חבילה בנויה כך שתדעו בדיוק מה אתם מקבלים · הצעת מחיר מדויקת בוואטסאפ לאחר שיתוף פרטי האירוע"
+          subheading="כל חבילה בנויה כך שתדעו בדיוק מה אתם מקבלים - הצעת מחיר מדויקת בוואטסאפ לאחר שיתוף פרטי האירוע"
         />
 
         {/* בלוק שקיפות - מה משפיע על המחיר */}

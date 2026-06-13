@@ -1,5 +1,5 @@
 /**
- * Reply Studio — shared copy builders for /book and yakir-closer (via export).
+ * Reply Studio - shared copy builders for /book and yakir-closer (via export).
  * SSOT: lib/data/closer-brand-copy.json
  */
 import brandCopy from "@/lib/data/closer-brand-copy.json";

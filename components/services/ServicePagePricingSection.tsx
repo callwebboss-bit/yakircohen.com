@@ -15,7 +15,7 @@ export default function ServicePagePricingSection({
   serviceTitle,
   className,
   heading = "מחירון שקוף",
-  subheading = "מחירים התחלתיים · הצעה מדויקת לאחר פרטי האירוע בוואטסאפ",
+  subheading = "מחירים התחלתיים - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ",
 }: ServicePagePricingSectionProps) {
   if (!service.pricing?.length) return null;
 

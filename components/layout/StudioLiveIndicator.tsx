@@ -18,13 +18,13 @@ export default function StudioLiveIndicator() {
     queueMicrotask(() => setLive(isStudioLive()));
   }, []);
 
-  // OPTIMIZED: reserved corner slot — client time (SSG-safe) without layout shift on reveal
+  // OPTIMIZED: reserved corner slot - client time (SSG-safe) without layout shift on reveal
   return (
     <span
       className="pointer-events-none absolute -end-1 -top-1 flex h-3 w-3"
       aria-hidden={!live}
       aria-label={live ? "האולפן פעיל עכשיו" : undefined}
-      title={live ? "האולפן פעיל · מקליטים עכשיו 🎙️" : undefined}
+      title={live ? "האולפן פעיל - מקליטים עכשיו 🎙️" : undefined}
     >
       {live ? (
         <>

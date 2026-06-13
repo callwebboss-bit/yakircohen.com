@@ -168,7 +168,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
       <div
         role="tablist"
         aria-label="קהל יעד לאירועים"
-        /* 2-col grid on mobile → 4-col on sm+ */
+        /* 2-col grid on mobile 4-col on sm+ */
         className="grid grid-cols-2 gap-1 rounded-xl border border-border bg-surface p-1 sm:grid-cols-4"
       >
         {AUDIENCE_TABS.map((tab, i) => {
@@ -263,7 +263,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
 
             {/* Trust signals */}
             <ul className="space-y-1.5 text-xs text-muted-foreground">
-              {["מענה מהיר · ימים א׳-ו׳ 09:00-20:00", "ניסיון במאות אירועים", "ציוד מקצועי לאירועים"].map(
+              {["מענה מהיר - ימים א׳-ו׳ 09:00-20:00", "ניסיון במאות אירועים", "ציוד מקצועי לאירועים"].map(
                 (t) => (
                   <li key={t} className="flex items-center gap-2">
                     <CheckIcon size={13} className="shrink-0 text-brand-red" />
@@ -315,8 +315,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                 )}
               >
-                פרטים נוספים ←
-              </Link>
+                פרטים נוספים </Link>
             </div>
           </div>
         </div>

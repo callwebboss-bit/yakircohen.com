@@ -35,7 +35,7 @@ export function buildGoogleAggregateRatingSchema(): GoogleAggregateRatingSchema 
 export function formatGoogleRatingLine(): string {
   const count = GOOGLE_REVIEW_COUNT?.trim();
   if (count) {
-    return `${GOOGLE_RATING} ★ · ${count}+ ביקורות ב-Google`;
+    return `${GOOGLE_RATING} ★ - ${count}+ ביקורות ב-Google`;
   }
-  return `${GOOGLE_RATING} ★ · ${GOOGLE_RATING_LABEL}`;
+  return `${GOOGLE_RATING} ★ - ${GOOGLE_RATING_LABEL}`;
 }

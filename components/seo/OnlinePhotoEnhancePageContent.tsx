@@ -126,8 +126,7 @@ export default function OnlinePhotoEnhancePageContent() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
           >
-            שלחו תמונה לדוגמה חינם ←
-          </a>
+            שלחו תמונה לדוגמה חינם </a>
         </div>
       </section>
 
@@ -331,8 +330,7 @@ export default function OnlinePhotoEnhancePageContent() {
           rel="noopener noreferrer"
           className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
         >
-          שלחו תמונות בוואטסאפ ←
-        </a>
+          שלחו תמונות בוואטסאפ </a>
         <div className="mt-5 flex flex-wrap justify-center gap-4">
           <Link href="/online" className="text-sm text-brand-red hover:underline">
             כל שירותי Online

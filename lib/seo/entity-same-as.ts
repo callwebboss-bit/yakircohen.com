@@ -1,4 +1,4 @@
-/** Official profile URLs for schema.org sameAs — single source of truth. */
+/** Official profile URLs for schema.org sameAs - single source of truth. */
 export const BRAND_SAME_AS = [
   "https://www.youtube.com/@Yakircohen",
   "https://www.instagram.com/yakir.cohen.official/",

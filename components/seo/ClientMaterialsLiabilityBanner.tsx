@@ -30,8 +30,7 @@ export default function ClientMaterialsLiabilityBanner({
           rel="noopener noreferrer"
           className="inline-flex items-center rounded-lg bg-brand-red px-4 py-2 text-xs font-semibold text-white hover:bg-brand-red-light"
         >
-          מילוי טופס אישור ←
-        </a>
+          מילוי טופס אישור </a>
         <Link
           href="/online/vocal-fix/send-file"
           className="inline-flex items-center rounded-lg border border-border bg-background px-4 py-2 text-xs font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"

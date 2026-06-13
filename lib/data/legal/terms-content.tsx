@@ -15,7 +15,7 @@ export const TERMS_PAGE = {
         <>
           <p>עדכון אחרון: 29 באפריל 2026</p>
           <p>
-            האתר yakircohen.com (להלן: «האתר») מופעל על ידי יקיר כהן הפקות (להלן: «אנחנו»).
+            האתר yakircohen.com (להלן: האתר) מופעל על ידי יקיר כהן הפקות (להלן: אנחנו).
             השימוש באתר והזמנת השירותים שלנו מהווים הסכמה לתנאים להלן.
           </p>
           <p>
@@ -26,7 +26,7 @@ export const TERMS_PAGE = {
             <Link href="/privacy" className="text-brand-red hover:underline">
               מדיניות פרטיות
             </Link>
-            {" · "}
+            {" - "}
             <Link href="/accessibility" className="text-brand-red hover:underline">
               הצהרת נגישות
             </Link>

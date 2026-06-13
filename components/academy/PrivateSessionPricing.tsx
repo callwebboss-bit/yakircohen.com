@@ -115,8 +115,7 @@ export default function PrivateSessionPricing({
                       : "border border-brand-red/40 bg-brand-red/5 text-foreground hover:border-brand-red/60 hover:bg-brand-red/10",
                   )}
                 >
-                  {plan.cta} ←
-                </a>
+                  {plan.cta} </a>
               </article>
             );
           })}
@@ -132,8 +131,7 @@ export default function PrivateSessionPricing({
               href="/academy/private-lessons"
               className="font-medium text-brand-red hover:underline"
             >
-              כל מה שכלול בשיעור הפרטי ←
-            </Link>
+              כל מה שכלול בשיעור הפרטי </Link>
           </p>
         ) : null}
       </div>

@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
    1. The third-party content div/iframe is always in the DOM (opacity-0),
       so the browser begins fetching/rendering immediately.
    2. An absolutely-positioned pulse skeleton overlays the container while
-      content loads - reserving the same spatial footprint → CLS ≈ 0.
+      content loads - reserving the same spatial footprint CLS ≈ 0.
    3. When content is ready, the skeleton fades out (opacity-0) and the
       widget fades in (opacity-100). Both are CSS `transition-opacity`, so
       no layout recalculation occurs during the transition.
@@ -221,12 +221,12 @@ function LocalReviewsStrip() {
           <footer className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
             <span className="font-semibold text-foreground">{item.name}</span>
             {item.role ? (
-              <span className="text-muted-foreground">· {item.role}</span>
+              <span className="text-muted-foreground">- {item.role}</span>
             ) : null}
             {item.serviceHref && item.serviceLabel ? (
               <>
                 <span className="text-muted-foreground" aria-hidden>
-                  ·
+                  -
                 </span>
                 <Link
                   href={item.serviceHref}
@@ -260,7 +260,7 @@ export function GoogleReviews({
   compactHeader = false,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
-  const [preferLocal, setPreferLocal] = useState(true);
+  const [preferLocal, setPreferLocal] = useState(false);
 
   return (
     <section
@@ -293,18 +293,6 @@ export function GoogleReviews({
         <button
           type="button"
           role="tab"
-          aria-selected={preferLocal}
-          onClick={() => setPreferLocal(true)}
-          className={cn(
-            "rounded-full px-3 py-1.5 font-semibold transition-colors",
-            preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
-          )}
-        >
-          ביקורות מהאתר
-        </button>
-        <button
-          type="button"
-          role="tab"
           aria-selected={!preferLocal}
           onClick={() => setPreferLocal(false)}
           className={cn(
@@ -313,6 +301,18 @@ export function GoogleReviews({
           )}
         >
           ביקורות Google (חי)
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={preferLocal}
+          onClick={() => setPreferLocal(true)}
+          className={cn(
+            "rounded-full px-3 py-1.5 font-semibold transition-colors",
+            preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
+          )}
+        >
+          ביקורות נוספות מהאתר
         </button>
       </div>
 

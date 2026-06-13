@@ -273,7 +273,7 @@ export default function ServicePageLayout({
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,color-mix(in_srgb,var(--service-accent,#d42b2b)_14%,transparent),transparent_62%)]"
           aria-hidden="true"
         />
-        {/* Ambient accent glows — decorative, GPU-only (opacity/blur), zero INP impact. */}
+        {/* Ambient accent glows - decorative, GPU-only (opacity/blur), zero INP impact. */}
         <div
           className="pointer-events-none absolute -end-32 -top-32 h-[26rem] w-[26rem] select-none rounded-full bg-[var(--service-accent,#d42b2b)] opacity-[0.025] blur-[120px] will-change-transform"
           aria-hidden="true"

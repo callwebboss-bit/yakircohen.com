@@ -78,7 +78,7 @@ export function buildAdvisorSystemPrompt(serviceId: ProServiceId): string {
   "technicalNotes": "פרטים טכניים אופציונליים"
 }
 
-אל תשתמש באנגלית בתשובה — רק עברית ברורה.`;
+אל תשתמש באנגלית בתשובה - רק עברית ברורה.`;
 }
 
 function parseMultiselect(value: string): string[] {
@@ -118,9 +118,9 @@ export function buildRuleBasedAdvisor(
           "גרסה באיכות מקסימלית וגרסה דחוסה",
         ].filter(Boolean),
         estimatedPriceExVat: basePrice,
-        priceNote: "חבילת 5 תגים — 1,200 שקלים לפני מע״מ",
+        priceNote: "חבילת 5 תגים - 1,200 שקלים לפני מע״מ",
         nextSteps: ["אישור טקסט סופי", "הקלטה ועריכה", "מסירה תוך יומיים"],
-        technicalNotes: "מוכן לנגן מקצועי — עוצמה מאוזנת",
+        technicalNotes: "מוכן לנגן מקצועי - עוצמה מאוזנת",
       };
     }
     case "mashup-fixer":
@@ -141,7 +141,7 @@ export function buildRuleBasedAdvisor(
       return {
         summary: set?.description ?? "סט מוכן לפי הקטגוריה שבחרתם.",
         recommendations: [
-          set ? `${set.title} — ${set.durationMinutes} דקות, ${set.trackCount} שירים` : "בחירת קטגוריה",
+          set ? `${set.title} - ${set.durationMinutes} דקות, ${set.trackCount} שירים` : "בחירת קטגוריה",
           `קצב ממוצע: ${set?.bpmRange ?? "100 עד 128"}`,
           labelFrom(FORMAT_LABELS, inputs.format ?? "usb", "דיסק און קי מוכן"),
         ],
@@ -172,7 +172,7 @@ export function buildRuleBasedAdvisor(
           "פתיח וסגיר קבועים למיתוג אחיד",
           `${shorts} סרטונים קצרים לכל פרק`,
           "עוצמת שמע אחידה לכל הפרקים",
-          eps >= 8 ? "הנחת נפח — נדון בשיחה" : "מחיר לפרק לפי המחירון",
+          eps >= 8 ? "הנחת נפח - נדון בשיחה" : "מחיר לפרק לפי המחירון",
         ],
         estimatedPriceExVat: monthly,
         priceNote: `${basePrice.toLocaleString("he-IL")} שקלים לפרק לפני מע״מ`,
@@ -188,12 +188,12 @@ export function buildRuleBasedAdvisor(
       return {
         summary: avail.allAvailable
           ? `כל הפריטים שביקשתם פנויים ל-${dateLabel}.`
-          : `חלק מהפריטים לא פנויים ל-${dateLabel} — נבדוק חלופות.`,
+          : `חלק מהפריטים לא פנויים ל-${dateLabel} - נבדוק חלופות.`,
         recommendations: avail.items.map(
-          (i) => `${i.label}: ${i.ok ? "פנוי" : "תפוס"} — ${i.dailyRateExVat.toLocaleString("he-IL")} שקלים ליום`,
+          (i) => `${i.label}: ${i.ok ? "פנוי" : "תפוס"} - ${i.dailyRateExVat.toLocaleString("he-IL")} שקלים ליום`,
         ),
         estimatedPriceExVat: total || basePrice,
-        priceNote: "השכרת ציוד בלבד — בלי טכנאי בשטח",
+        priceNote: "השכרת ציוד בלבד - בלי טכנאי בשטח",
         nextSteps: ["אישור רשימה", "תיאום איסוף", "ערבות לפי מדיניות"],
       };
     }
@@ -201,7 +201,7 @@ export function buildRuleBasedAdvisor(
       const withField = inputs.needsSmaart === "yes";
       const eventLabel = labelFrom(EVENT_TYPE_LABELS, inputs.eventType ?? "", "אירוע");
       return {
-        summary: `תכנון הגברה ל-${eventLabel}, כ-${inputs.venueSize ?? "250"} אורחים${withField ? " — כולל מדידות בשטח" : ""}.`,
+        summary: `תכנון הגברה ל-${eventLabel}, כ-${inputs.venueSize ?? "250"} אורחים${withField ? " - כולל מדידות בשטח" : ""}.`,
         recommendations: [
           "מודל ממוחשב של האולם",
           "פריסת רמקול ראשי ומושהים לפי הגיאומטריה",

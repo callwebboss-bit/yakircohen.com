@@ -77,8 +77,7 @@ export default function BubbleMachinePageContent() {
             href="/events/attractions/bubble-machine/smoke-bubble-machine-events"
             className="mt-5 inline-flex rounded-md bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            לעמוד בועות עשן ←
-          </Link>
+            לעמוד בועות עשן </Link>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="bubble-intro-heading">
@@ -310,8 +309,7 @@ export default function BubbleMachinePageContent() {
             href="/events/stage-led-dj"
             className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            עמדת לד יוקרתית ←
-          </Link>
+            עמדת לד יוקרתית </Link>
         </section>
 
         <section
@@ -395,7 +393,7 @@ export default function BubbleMachinePageContent() {
             בואו נגרום לאירוע להיות קסום
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            {CONTACT_PHONE_DISPLAY} · וואטסאפ · הצעת מחיר מהירה
+            {CONTACT_PHONE_DISPLAY} - וואטסאפ - הצעת מחיר מהירה
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a

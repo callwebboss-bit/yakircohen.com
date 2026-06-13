@@ -15,7 +15,7 @@ type BookMapEntry = {
   priceExVat?: number;
 };
 
-/** slug (no leading slash) → קטגוריית /book + מחיר התחלתי מהקטלוג */
+/** slug (no leading slash) קטגוריית /book + מחיר התחלתי מהקטלוג */
 const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   studio: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   "studio/blessings": { bookCategory: "studio", priceCatalogId: "blessing_recording" },

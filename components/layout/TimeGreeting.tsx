@@ -27,7 +27,7 @@ export default function TimeGreeting() {
         <>
           <span className="font-medium text-foreground">{greeting}</span>
           <span aria-hidden className="text-border">
-            ·
+            -
           </span>
           <span>{tip}</span>
         </>

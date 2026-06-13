@@ -45,7 +45,7 @@ function HeaderLogo() {
           {SITE_NAME}
         </span>
         <span className="truncate text-xs text-muted-foreground transition-colors group-hover:text-brand-red/80">
-          מודיעין · אולפן ואירועים
+          מודיעין - אולפן ואירועים
         </span>
       </span>
     </Link>

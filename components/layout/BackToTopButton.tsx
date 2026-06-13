@@ -1,6 +1,6 @@
 import { ArrowIcon } from "@/components/ui/Icons";
 
-// OPTIMIZED: native anchor — no client JS bundle for scroll
+// OPTIMIZED: native anchor - no client JS bundle for scroll
 export default function BackToTopButton() {
   return (
     <a

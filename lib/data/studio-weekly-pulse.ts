@@ -25,7 +25,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "שני פודקאסטים בעריכה, שלוש ברכות לחתונה.",
     footnote: "נשארו כמה שעות פנויות - כתבו לנו.",
     href: "/studio",
-    linkLabel: "לאולפן ←",
+    linkLabel: "לאולפן ",
   },
   {
     category: "studio",
@@ -33,7 +33,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "מקליטים שיר מתנה לבר מצווה, גומרים עריכת פרק פודקאסט.",
     footnote: "נשמח לתאם שעה שקטה - כתבו בוואטסאפ.",
     href: "/studio/recording-song-modiin",
-    linkLabel: "להקלטת שיר ←",
+    linkLabel: "להקלטת שיר ",
   },
   {
     category: "podcast",
@@ -41,7 +41,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "גומרים פרק 8 של פודקאסט עסקי, מעלים ל-Spotify היום.",
     footnote: "רוצים לפתוח פודקאסט? תתחילו איתנו.",
     href: "/podcast",
-    linkLabel: "למרכז הפודקאסט ←",
+    linkLabel: "למרכז הפודקאסט ",
   },
   {
     category: "podcast",
@@ -49,7 +49,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "שלוש הקלטות ישנות שיצאו מהארכיון - ניקינו ואיפשרנו פרסום מחדש.",
     footnote: "יש לכם פרקים ישנים? שלחו לבדיקה.",
     href: "/online/vocal-fix",
-    linkLabel: "לשחזור סאונד ←",
+    linkLabel: "לשחזור סאונד ",
   },
   {
     category: "events",
@@ -57,7 +57,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "שלוש חתונות השבועיים הקרובים - DJ + עשן + זיקוקים קרים.",
     footnote: "תאריכים נסגרים מהר - בדקו זמינות.",
     href: "/events",
-    linkLabel: "לאירועים ←",
+    linkLabel: "לאירועים ",
   },
   {
     category: "voiceover",
@@ -65,7 +65,7 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "קמפיין רדיו + שתי מרכזיות IVR בהפקה השבוע.",
     footnote: "גמרנו מקום לפרויקט אחד נוסף.",
     href: "/voiceover",
-    linkLabel: "לקריינות ←",
+    linkLabel: "לקריינות ",
   },
   {
     category: "online",
@@ -73,14 +73,14 @@ export const PULSE_POOL: PulseEntry[] = [
     body: "שחזרנו 4 הקלטות פגומות, שיפרנו קול ל-3 יוצרי תוכן.",
     footnote: "שולחים קובץ - מקבלים תוצאה תוך ימים.",
     href: "/online",
-    linkLabel: "לשירותים מקוונים ←",
+    linkLabel: "לשירותים מקוונים ",
   },
   {
     category: "general",
     kicker: "יקיר כהן הפקות",
     body: "אולפן, פודקאסט, אירועים וקריינות - מודיעין, ירושלים והמרכז.",
     href: "/contact",
-    linkLabel: "צרו קשר ←",
+    linkLabel: "צרו קשר ",
   },
 ];
 

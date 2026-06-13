@@ -87,8 +87,7 @@ export default function AcousticConsultingPageContent() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            הזמינו ייעוץ בוואטסאפ ←
-          </a>
+            הזמינו ייעוץ בוואטסאפ </a>
         </div>
       </section>
 
@@ -293,8 +292,7 @@ export default function AcousticConsultingPageContent() {
                     rel="noopener noreferrer"
                     className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_24px_rgba(212,43,43,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
-                    הזמינו בוואטסאפ ←
-                  </a>
+                    הזמינו בוואטסאפ </a>
                 </div>
               );
             })}
@@ -383,8 +381,7 @@ export default function AcousticConsultingPageContent() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
-              הזמינו עכשיו ←
-            </a>
+              הזמינו עכשיו </a>
             <ShareButton title="ייעוץ אקוסטיקה ובניית אולפן | יקיר כהן הפקות" />
           </div>
         </div>

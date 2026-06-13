@@ -202,8 +202,7 @@ export default function OnlineRestoreBookingPanel({
           onClick={() => openWhatsAppLead(feasibilityHref, { leadCategory: "online" })}
           className="mt-3 text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
         >
-          שלחו קובץ לבדיקה חינם ←
-        </button>
+          שלחו קובץ לבדיקה חינם </button>
       </div>
 
       <BookPriceDual exVat={BASIC_EX_VAT} />

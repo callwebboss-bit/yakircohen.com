@@ -137,8 +137,7 @@ export default function StudioJerusalemPageContent() {
             rel="noopener noreferrer"
             className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
           >
-            לתיאום שיתוף בוואטסאפ ←
-          </a>
+            לתיאום שיתוף בוואטסאפ </a>
         </section>
 
         <section aria-labelledby="popular-services-heading">
@@ -173,8 +172,7 @@ export default function StudioJerusalemPageContent() {
                     {item.description}
                   </p>
                   <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}

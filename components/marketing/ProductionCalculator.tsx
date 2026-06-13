@@ -11,12 +11,12 @@ import { cn } from "@/lib/utils";
    the client knows exactly when to arrive at the studio.
 
    Logic (offsets from event date):
-     Day 1 (recording)  → event − 5
-     Day 2 (editing)    → event − 4
-     Day 3 (editing)    → event − 3
-     Day 4 (mix)        → event − 2
-     Day 5 (delivery)   → event − 1
-     Event              → 0
+     Day 1 (recording) event − 5
+     Day 2 (editing) event − 4
+     Day 3 (editing) event − 3
+     Day 4 (mix) event − 2
+     Day 5 (delivery) event − 1
+     Event 0
 
    "Urgent" state: event < 5 days out - too short for the standard path.
    "Past" state:   selected date has already passed.
@@ -478,9 +478,7 @@ export default function ProductionCalculator({
               >
                 <WaIcon />
                 שריינו את יום ההקלטה ב-{fmt(recordingDate)}
-                <span aria-hidden="true" className="text-xs opacity-70">
-                  ←
-                </span>
+                <span aria-hidden="true" className="text-xs opacity-70"> </span>
               </a>
               <p className="mt-3 text-xs text-muted-foreground">
                 מענה אישי, בדרך כלל תוך שעה

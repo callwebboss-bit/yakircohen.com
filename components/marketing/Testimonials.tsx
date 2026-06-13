@@ -2,6 +2,7 @@
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import { STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +45,7 @@ function AvatarPlaceholder({
 
 export default function Testimonials({
   title = "מה הלקוחות אומרים",
-  subtitle = "ביקורות אמיתיות מלקוחות מרוצים במודיעין, ירושלים והסביבה",
+  subtitle = "כמה תגובות שקיבלנו מלקוחות במודיעין, ירושלים והסביבה",
   items = DEFAULT_TESTIMONIALS,
   className,
 }: TestimonialsProps) {
@@ -68,6 +69,15 @@ export default function Testimonials({
           <div className="mt-6 flex justify-center">
             <GoogleRatingBadge variant="compact" />
           </div>
+          <p className="mt-3 text-sm">
+            <Link
+              href={STUDIO_GOOGLE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-brand-red hover:underline"
+            >
+              לכל הביקורות המאומתות ב-Google Maps </Link>
+          </p>
         </header>
 
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
@@ -112,8 +122,7 @@ export default function Testimonials({
                       href={item.serviceHref}
                       className="inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                     >
-                      {item.serviceLabel} ←
-                    </Link>
+                      {item.serviceLabel} </Link>
                   ) : null}
                 </footer>
               </blockquote>

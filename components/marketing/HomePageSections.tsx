@@ -299,8 +299,7 @@ export default function HomePageSections({
                     {item.description}
                   </p>
                   <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים ←
-                  </span>
+                    לפרטים </span>
                 </Link>
               </li>
             ))}

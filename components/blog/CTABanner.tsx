@@ -163,7 +163,7 @@ export default function CTABanner({
 
           {/* Trust micro-copy */}
           <p className="text-center text-[0.65rem] text-zinc-500">
-            מענה מהיר · ללא עלות · ללא התחייבות
+            מענה מהיר - ללא עלות - ללא התחייבות
           </p>
         </div>
       </div>

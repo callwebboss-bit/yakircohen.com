@@ -1,4 +1,4 @@
-/** Auto-generated — npm run export:event-index. Do not edit. */
+/** Auto-generated - npm run export:event-index. Do not edit. */
 export type EventIndexSegment = {
   id: string;
   label: string;

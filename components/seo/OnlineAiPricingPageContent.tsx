@@ -91,7 +91,7 @@ const AI_SERVICES = [
       "שחזור הקלטות פגומות",
       "עד שעת חומר גולמי",
     ],
-    note: "פרק או ראיון עד שעה — ניקוי + איזון",
+    note: "פרק או ראיון עד שעה - ניקוי + איזון",
     whatsappText: "שלום, אשמח לקבל הצעת מחיר לשחזור קול מלא",
     ctaHref: null,
     ctaLabel: "קבלו הצעה בוואטסאפ",
@@ -140,8 +140,7 @@ function ServiceCta({
       {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-red px-4 py-2 text-xs font-semibold text-white touch-press hover:bg-brand-red-light active:bg-brand-red-dark"
     >
-      {service.ctaLabel} ←
-    </a>
+      {service.ctaLabel} </a>
   );
 }
 
@@ -233,7 +232,7 @@ export default function OnlineAiPricingPageContent() {
       category="ai"
       pagePath="/online/online-ai-pricing"
       title="מחירון שירותי AI מקוונים"
-      subtitle="תמחור שקוף לעריכה ושחזור קול מרחוק — המחיר הסופי תלוי באורך ההקלטה ובמצב הקובץ."
+      subtitle="תמחור שקוף לעריכה ושחזור קול מרחוק - המחיר הסופי תלוי באורך ההקלטה ובמצב הקובץ."
       features={[
         "הצעת מחיר לפני תחילת עבודה",
         "ללא התחייבות אחרי ייעוץ ראשון",
@@ -246,7 +245,7 @@ export default function OnlineAiPricingPageContent() {
     >
       <div className="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 lg:px-8">
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          המחירים להמחשה — שולחים דוגמת קובץ בוואטסאפ ומקבלים הצעה מדויקת תוך יום עסקים.
+          המחירים להמחשה - שולחים דוגמת קובץ בוואטסאפ ומקבלים הצעה מדויקת תוך יום עסקים.
         </p>
 
         <div className="mt-8 overflow-hidden rounded-xl border border-border">
@@ -274,11 +273,11 @@ export default function OnlineAiPricingPageContent() {
             id="ai-pricing-demo-heading"
             className="text-lg font-semibold text-foreground"
           >
-            דוגמת שחזור — הקלטה פגומה
+            דוגמת שחזור - הקלטה פגומה
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             רלוונטי לשחזור קול, הצלת הקלטות פגומות ועריכת פודקאסט. שחזור כזה
-            אפשרי — אבל קשה, ותלוי מאוד באיכות המקור.
+            אפשרי - אבל קשה, ותלוי מאוד באיכות המקור.
           </p>
           <div className="mt-6 max-w-2xl">
             <div

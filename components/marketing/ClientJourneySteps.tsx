@@ -69,8 +69,7 @@ export default function ClientJourneySteps({
                 href={fullHref}
                 className="inline-flex min-h-11 items-center text-sm font-medium text-brand-red underline-offset-4 transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
-                פרטים מלאים ←
-              </Link>
+                פרטים מלאים </Link>
             </p>
           ) : null}
         </Container>

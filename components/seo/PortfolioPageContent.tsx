@@ -133,8 +133,7 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
             href={config.serviceLink.href}
             className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            {config.serviceLink.label} ←
-          </Link>
+            {config.serviceLink.label} </Link>
         </p>
       ) : null}
     </div>
