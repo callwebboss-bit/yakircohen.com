@@ -60,7 +60,7 @@ function AccordionPanel({
 // UI-EXCEPTION: disclosure accordion pattern — see docs/ui-exceptions.md
 export default function FAQAccordion({
   items,
-  title = "שאלות נפוצות",
+  title = "שאלות ששואלים אותנו הרבה לפני שמזמינים",
   subtitle = "תשובות קצרות וברורות על השירותים, הטכנולוגיה וההזמנה",
   className,
   allowMultiple = false,

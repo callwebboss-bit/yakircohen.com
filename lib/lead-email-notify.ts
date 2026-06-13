@@ -30,6 +30,9 @@ export type LeadEmailPayload = {
 
   phone?: string;
 
+  /** Honeypot — must stay empty for humans; bots that fill it are rejected server-side. */
+  website_verification?: string;
+
   crossSell?: CrossSellContext;
 
 };

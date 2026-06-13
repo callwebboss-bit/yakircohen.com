@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -328,7 +328,7 @@ export default function EquipmentPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="השכרת הגברה לאירועים"
             className="py-0"
           />

@@ -10,6 +10,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import PhoneInputField from "@/components/forms/PhoneInputField";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
@@ -163,6 +164,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
             formId: "clips_booking",
             subject: "הזמנת קליפ / שירות דיגיטלי",
             body,
+            website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
             crossSell: { bookCategory: "clips", routeId },
@@ -273,14 +275,14 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="clips-name" className="mb-1.5 block text-xs font-semibold">
-            שם מלא *
+            {FORM_MICROCOPY.nameLabel} *
           </label>
           <input
             id="clips-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="ישראל ישראלי"
+            placeholder={FORM_MICROCOPY.namePlaceholder}
             className={cn(inputClass, errors.name && "border-red-400")}
           />
           {errors.name && <p className="mt-1 text-xs text-red-500" data-field-error>{errors.name}</p>}
@@ -295,14 +297,14 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
 
       <div>
         <label htmlFor="clips-notes" className="mb-1.5 block text-xs font-semibold">
-          פירוט נוסף (אופציונלי)
+          {FORM_MICROCOPY.visionLabel} (אופציונלי)
         </label>
         <textarea
           id="clips-notes"
           rows={3}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="תוכן, עיצוב, קבצים קיימים..."
+          placeholder={FORM_MICROCOPY.visionPlaceholder}
           className={cn(inputClass, "resize-none")}
         />
       </div>

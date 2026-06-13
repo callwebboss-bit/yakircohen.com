@@ -1,11 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import RecordingSongModiinPageContent from "@/components/seo/RecordingSongModiinPageContent";
 
 import {
 
   getStudioService,
-
-  metadataFromService,
-
 } from "@/lib/data/services";
 
 

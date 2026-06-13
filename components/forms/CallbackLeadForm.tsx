@@ -12,6 +12,7 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -111,6 +112,7 @@ export default function CallbackLeadForm({
             formId,
             subject: "ליד חדש - בקשת חזרה",
             body,
+            website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
           },
@@ -149,7 +151,7 @@ export default function CallbackLeadForm({
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor={nameId} className="block text-sm font-medium text-foreground">
-            שם מלא <span className="text-brand-red" aria-hidden>*</span>
+            {FORM_MICROCOPY.nameLabel} <span className="text-brand-red" aria-hidden>*</span>
           </label>
           <input
             id={nameId}
@@ -157,7 +159,7 @@ export default function CallbackLeadForm({
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="ישראל ישראלי"
+            placeholder={FORM_MICROCOPY.namePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.name)}
           />
@@ -168,7 +170,7 @@ export default function CallbackLeadForm({
 
         <div>
           <label htmlFor={phoneId} className="block text-sm font-medium text-foreground">
-            טלפון <span className="text-brand-red" aria-hidden>*</span>
+            {FORM_MICROCOPY.phoneLabel} <span className="text-brand-red" aria-hidden>*</span>
           </label>
           <input
             id={phoneId}
@@ -178,10 +180,14 @@ export default function CallbackLeadForm({
             dir="ltr"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="050-0000000"
+            placeholder={FORM_MICROCOPY.phonePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.phone)}
+            aria-describedby={`${phoneId}-hint`}
           />
+          <p id={`${phoneId}-hint`} className="mt-1 text-xs text-muted-foreground">
+            {FORM_MICROCOPY.phoneHint}
+          </p>
           {fieldErrors.phone ? (
             <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
           ) : null}

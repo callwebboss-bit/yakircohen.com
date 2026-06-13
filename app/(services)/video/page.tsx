@@ -1,3 +1,4 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -6,7 +7,6 @@ import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getVideoHubLinks,
   getVideoService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getVideoService("video-hub");

@@ -1,11 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import WeddingSmokePageContent from "@/components/seo/WeddingSmokePageContent";
 
 import {
 
   getEventsService,
-
-  metadataFromService,
-
 } from "@/lib/data/services";
 
 

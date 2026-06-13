@@ -22,6 +22,7 @@ import {
   type GeoKey,
 } from "@/lib/data/attractions-calculator";
 import { validateAttractionsOrder } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -316,6 +317,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
             formId: "attractions_calculator",
             subject: "ליד חדש - אטרקציות לאירוע",
             body: waText,
+            website_verification: honeypot,
             name: form.name,
             phone: form.phone,
             crossSell: { bookCategory: "events" },
@@ -368,6 +370,7 @@ export default function AttractionsCalculator({ className }: { className?: strin
 
   return (
     <div className={cn("pb-32 sm:pb-28", className)}>
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
       <div className="mx-auto max-w-3xl space-y-5 sm:space-y-6">
         <StepIndicator step={step} />
 
@@ -511,20 +514,20 @@ export default function AttractionsCalculator({ className }: { className?: strin
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <FormField label="שם מלא" required>
+              <FormField label={FORM_MICROCOPY.nameLabel} required>
                 <input
                   className={fieldClass(Boolean(touched && fieldErrors.name))}
                   value={form.name}
                   onChange={(e) => setField("name", e.target.value)}
                   autoComplete="name"
-                  placeholder="לדוגמה: דני כהן"
+                  placeholder={FORM_MICROCOPY.namePlaceholder}
                   aria-invalid={Boolean(touched && fieldErrors.name)}
                 />
                 {touched && fieldErrors.name ? (
                   <p className="mt-1 text-xs text-brand-red">{fieldErrors.name}</p>
                 ) : null}
               </FormField>
-              <FormField label="טלפון ליצירת קשר" required>
+              <FormField label={FORM_MICROCOPY.phoneLabel} required>
                 <input
                   className={fieldClass(Boolean(touched && fieldErrors.phone))}
                   type="tel"
@@ -532,12 +535,17 @@ export default function AttractionsCalculator({ className }: { className?: strin
                   value={form.phone}
                   onChange={(e) => setField("phone", e.target.value)}
                   autoComplete="tel"
-                  placeholder="050-0000000"
+                  placeholder={FORM_MICROCOPY.phonePlaceholder}
+                  aria-describedby="attractions-phone-hint"
                   aria-invalid={Boolean(touched && fieldErrors.phone)}
                 />
                 {touched && fieldErrors.phone ? (
                   <p className="mt-1 text-xs text-brand-red">{fieldErrors.phone}</p>
-                ) : null}
+                ) : (
+                  <p id="attractions-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                    {FORM_MICROCOPY.phoneHint}
+                  </p>
+                )}
               </FormField>
               <FormField label="סוג אירוע" required>
                 <select

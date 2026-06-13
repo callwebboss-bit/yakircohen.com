@@ -8,8 +8,15 @@ export type IntroSegment =
   | { type: "link"; href: string; label: string };
 
 export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
+  "/events": [
+    { type: "text", value: "הפקה מלאה לאירוע — DJ, הגברה, הנחיית קהל וניהול לו\"ז. לחתונה עם אטרקציות חובה ראו " },
+    { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
+    { type: "text", value: ", למנחה מקצועי — " },
+    { type: "link", href: "/events/host", label: "הנחיית אירועים" },
+    { type: "text", value: "." },
+  ],
   "/podcast": [
-    { type: "text", value: "מגיעים לאולפן, מדברים, ויוצאים עם פרק מוכן. לפרק בודד בחרו " },
+    { type: "text", value: "מגיעים לאולפן, מקליטים תוכנית שמע, ויוצאים עם פרק מוכן להפצה. לפרק בודד בחרו " },
     { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
     { type: "text", value: ", לשכירת חדר בלבד - " },
     { type: "link", href: "/podcast/podcast-studio-modiin", label: "אולפן במודיעין" },

@@ -1,9 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import VoiceoverHubPageContent from "@/components/seo/VoiceoverHubPageContent";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getVoiceoverService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getVoiceoverService("voiceover-hub");

@@ -6,7 +6,7 @@ import { PODCAST_FAQ_SECTIONS } from "@/lib/data/podcast-faq-page";
 export const metadata = constructMetadata({
   title: "שאלות ותשובות - הפקת פודקאסטים במודיעין",
   description:
-    "מחירי פודקאסט, השכרת אולפן, הכנה להקלטה, עריכה והפצה לספוטיפיי ויוטיוב - תשובות מלאות עם קישורים לכל שירותי הפודקאסט ולמחשבון מחיר.",
+    "שאלות ותשובות על פודקאסט במודיעין. מחירים, אולפן, עריכה והפצה לספוטיפיי.",
   slug: "podcast/faq",
   keywords: [
     "שאלות פודקאסט",

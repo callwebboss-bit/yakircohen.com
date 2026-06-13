@@ -17,6 +17,7 @@ import {
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { cn } from "@/lib/utils";
 
 /* ─── Options ──────────────────────────────────────────────────────────────── */
@@ -210,6 +211,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
             formId: "dj_booking_form",
             subject: `בקשת DJ - ${eventType} · ${eventDate}`,
             body: text,
+            website_verification: honeypot,
             name: name.trim(),
             phone: phone.trim(),
             crossSell: { bookCategory: "dj" },
@@ -282,7 +284,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor={id("name")} className="block text-sm font-medium text-foreground">
-                שם מלא <span className="text-brand-red" aria-hidden>*</span>
+                {FORM_MICROCOPY.nameLabel} <span className="text-brand-red" aria-hidden>*</span>
               </label>
               <input
                 id={id("name")}
@@ -291,7 +293,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
                 autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="ישראל ישראלי"
+                placeholder={FORM_MICROCOPY.namePlaceholder}
                 className={cn(INPUT_CLS, fieldErrors.name && "border-red-400")}
               />
               <FieldError msg={fieldErrors.name} />
@@ -299,7 +301,7 @@ export default function DjBookingForm({ className }: { className?: string }) {
 
             <div>
               <label htmlFor={id("phone")} className="block text-sm font-medium text-foreground">
-                טלפון נייד <span className="text-brand-red" aria-hidden>*</span>
+                {FORM_MICROCOPY.phoneLabel} <span className="text-brand-red" aria-hidden>*</span>
               </label>
               <input
                 id={id("phone")}
@@ -310,10 +312,16 @@ export default function DjBookingForm({ className }: { className?: string }) {
                 dir="ltr"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="050-0000000"
+                placeholder={FORM_MICROCOPY.phonePlaceholder}
+                aria-describedby={`${id("phone")}-hint`}
                 className={cn(INPUT_CLS, fieldErrors.phone && "border-red-400")}
               />
               <FieldError msg={fieldErrors.phone} />
+              {!fieldErrors.phone ? (
+                <p id={`${id("phone")}-hint`} className="mt-1 text-xs text-muted-foreground">
+                  {FORM_MICROCOPY.phoneHint}
+                </p>
+              ) : null}
             </div>
 
             <div className="sm:col-span-2">

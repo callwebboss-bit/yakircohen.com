@@ -1,3 +1,4 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
 import HubPageSchema from "@/components/seo/HubPageSchema";
@@ -8,7 +9,6 @@ import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getPhotographyHubLinks,
   getPhotographyService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getPhotographyService("photography-hub");

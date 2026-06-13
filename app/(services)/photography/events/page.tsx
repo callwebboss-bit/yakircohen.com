@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import PhotographyEventsPageContent from "@/components/seo/PhotographyEventsPageContent";
 import {
   getPhotographyService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getPhotographyService("photography-events");

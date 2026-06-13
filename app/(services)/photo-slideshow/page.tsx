@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import PhotoSlideshowPageContent from "@/components/seo/PhotoSlideshowPageContent";
 import {
   getVideoService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getVideoService("video-photo-slideshow");

@@ -313,7 +313,7 @@ export default function ColdFireworksPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="הכל על זיקוקים קרים ובטיחות"
             className="py-0"
           />

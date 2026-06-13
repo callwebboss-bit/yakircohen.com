@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import PersonAboutSchema from "@/components/seo/PersonAboutSchema";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -80,6 +81,7 @@ export default function AboutPage() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(ABOUT_HUB_SEO)} />
+      <PersonAboutSchema />
       <div className="bg-background">
         {/* ── Hero ── */}
         <Section

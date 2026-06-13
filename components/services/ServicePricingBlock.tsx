@@ -47,15 +47,19 @@ export default function ServicePricingBlock({
             });
 
             return (
-              <li
-                key={tier.name}
-                className={cn(
-                  "relative flex flex-col rounded-xl border p-6",
-                  tier.featured
-                    ? "border-[var(--service-accent,#d42b2b)]/50 bg-[var(--service-accent,#d42b2b)]/5"
-                    : "border-border bg-surface",
-                )}
-              >
+              <li key={tier.name}>
+                <article
+                  data-billing-type="one-time"
+                  data-package-id={tier.name}
+                  itemScope
+                  itemType="https://schema.org/Offer"
+                  className={cn(
+                    "relative flex h-full flex-col rounded-xl border p-6",
+                    tier.featured
+                      ? "border-[var(--service-accent,#d42b2b)]/50 bg-[var(--service-accent,#d42b2b)]/5"
+                      : "border-border bg-surface",
+                  )}
+                >
                 {tier.badge ? (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-red px-3 py-1 text-xs font-semibold text-white">
                     {tier.badge}
@@ -97,12 +101,13 @@ export default function ServicePricingBlock({
                       ? whatsappAriaLabel(tier.name, tier.priceExVat)
                       : `סגרו ${tier.name} בוואטסאפ`
                   }
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+                  className="touch-press mt-6 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light active:bg-brand-red-dark"
                 >
                   {tier.priceExVat !== undefined
                     ? whatsappQuoteCta(tier.name, tier.priceExVat)
                     : "סגרו את המחיר הזה בוואטסאפ"}
                 </a>
+                </article>
               </li>
             );
           })}

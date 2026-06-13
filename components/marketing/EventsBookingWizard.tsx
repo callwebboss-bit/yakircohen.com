@@ -20,6 +20,7 @@ import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   EVENT_BOOKING_ITEMS,
   EVENT_BUNDLE_BADGE_LABELS,
@@ -321,7 +322,8 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
             <LeadFormAlert message={globalError} />
             <BookingFormField
               id="ev-name"
-              label="שם *"
+              label={`${FORM_MICROCOPY.nameLabel} *`}
+              placeholder={FORM_MICROCOPY.namePlaceholder}
               autoComplete="name"
               value={form.name}
               error={errors.name}
@@ -358,6 +360,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
             <BookingFormField
               id="ev-notes"
               label="הערות"
+              placeholder={FORM_MICROCOPY.visionPlaceholder}
               multiline
               value={form.notes}
               onChange={(v) => patchForm({ notes: v })}

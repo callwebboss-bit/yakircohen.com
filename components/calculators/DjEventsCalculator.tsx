@@ -26,6 +26,7 @@ import {
   sanitizeLeadText,
   validateDjReserve,
 } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -358,6 +359,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               formId: "dj_events_calculator",
               subject: "ליד חדש - DJ ואירועים",
               body,
+              website_verification: honeypot,
               name: sanitizeLeadText(form.name, 60),
               phone: displayPhone,
               crossSell: { bookCategory: "dj", routeId },
@@ -578,14 +580,14 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label htmlFor="dj-name" className="mb-1.5 block text-xs font-semibold text-foreground">
-                  שם מלא *
+                  {FORM_MICROCOPY.nameLabel} *
                 </label>
                 <input
                   id="dj-name"
                   type="text"
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  placeholder="הכנס שם מלא"
+                  placeholder={FORM_MICROCOPY.namePlaceholder}
                   aria-invalid={Boolean(fieldErrors.name)}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
@@ -598,7 +600,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               </div>
               <div>
                 <label htmlFor="dj-phone" className="mb-1.5 block text-xs font-semibold text-foreground">
-                  טלפון *
+                  {FORM_MICROCOPY.phoneLabel} *
                 </label>
                 <input
                   id="dj-phone"
@@ -607,7 +609,8 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   autoComplete="tel"
                   value={form.phone}
                   onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                  placeholder="050-0000000"
+                  placeholder={FORM_MICROCOPY.phonePlaceholder}
+                  aria-describedby="dj-phone-hint"
                   aria-invalid={Boolean(fieldErrors.phone)}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
@@ -616,7 +619,11 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                 />
                 {fieldErrors.phone ? (
                   <p className="mt-1 text-xs text-brand-red">{fieldErrors.phone}</p>
-                ) : null}
+                ) : (
+                  <p id="dj-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                    {FORM_MICROCOPY.phoneHint}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="dj-date" className="mb-1.5 block text-xs font-semibold text-foreground">

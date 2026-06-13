@@ -3,7 +3,7 @@
  * before opening WhatsApp. Not a substitute for server-side checks if forms POST later.
  */
 
-export const HONEYPOT_FIELD_NAME = "website_url_confirm";
+export const HONEYPOT_FIELD_NAME = "website_verification";
 export const MIN_FORM_FILL_MS = 2_000;
 export const MAX_LEAD_SUBMITS_PER_HOUR = 4;
 export const MAX_NOTES_LENGTH = 1_500;

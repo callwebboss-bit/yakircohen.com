@@ -15,6 +15,7 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -88,6 +89,7 @@ export default function FunnyRingtoneOrderForm() {
             formId: FORM_ID,
             subject: "ליד חדש - רינגטון מצחיק",
             body,
+            website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
           },
@@ -138,7 +140,7 @@ export default function FunnyRingtoneOrderForm() {
             htmlFor="ringtone-name"
             className="block text-sm font-medium text-foreground"
           >
-            שם מלא <span className="text-brand-red" aria-hidden>*</span>
+            {FORM_MICROCOPY.nameLabel} <span className="text-brand-red" aria-hidden>*</span>
           </label>
           <input
             id="ringtone-name"
@@ -146,7 +148,7 @@ export default function FunnyRingtoneOrderForm() {
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="ישראל ישראלי"
+            placeholder={FORM_MICROCOPY.namePlaceholder}
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.name)}
           />
@@ -160,7 +162,7 @@ export default function FunnyRingtoneOrderForm() {
             htmlFor="ringtone-phone"
             className="block text-sm font-medium text-foreground"
           >
-            טלפון <span className="text-brand-red" aria-hidden>*</span>
+            {FORM_MICROCOPY.phoneLabel} <span className="text-brand-red" aria-hidden>*</span>
           </label>
           <input
             id="ringtone-phone"
@@ -170,13 +172,18 @@ export default function FunnyRingtoneOrderForm() {
             dir="ltr"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="050-0000000"
+            placeholder={FORM_MICROCOPY.phonePlaceholder}
+            aria-describedby="ringtone-phone-hint"
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.phone)}
           />
           {fieldErrors.phone ? (
             <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
-          ) : null}
+          ) : (
+            <p id="ringtone-phone-hint" className="mt-1 text-xs text-muted-foreground">
+              {FORM_MICROCOPY.phoneHint}
+            </p>
+          )}
         </div>
 
         <div>

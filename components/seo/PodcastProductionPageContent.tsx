@@ -37,6 +37,7 @@ export default function PodcastProductionPageContent() {
       features={PODCAST_PRODUCTION_HERO_FEATURES}
       whatsappText="שלום, מעוניין בליווי והפקת פודקאסט משלב הרעיון"
       utmCampaign="podcast_production"
+      corporateShareLabel="הפקת פודקאסט מא׳ עד ת׳"
       bookSlug="podcast/podcast-production"
       ctaLabel="שיחת אפיון בוואטסאפ"
       {...heroProps}

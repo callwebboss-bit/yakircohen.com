@@ -1,9 +1,13 @@
 import { SITE_URL } from "@/lib/site-url";
 import {
   CONTACT_PHONE_E164,
-  SOCIAL_LINKS,
   STUDIO_MAPS_URL,
 } from "@/lib/constants";
+import {
+  BRAND_SAME_AS,
+  FOUNDER_IMAGE_URL,
+  FOUNDER_KNOWS_ABOUT,
+} from "@/lib/seo/entity-same-as";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import {
   EVENT_ATTRACTION_FROM_NIS,
@@ -17,8 +21,7 @@ import { buildReviewSchemaGraph } from "@/lib/review-schema";
 
 const BASE = SITE_URL;
 
-const socialUrls = SOCIAL_LINKS.map((s) => s.href);
-const sameAsUrls = [...socialUrls, STUDIO_MAPS_URL];
+const sameAsUrls = [...BRAND_SAME_AS];
 
 const ADDRESS = {
   "@type": "PostalAddress",
@@ -57,6 +60,7 @@ export function buildSiteSchema() {
         },
         telephone: CONTACT_PHONE_E164,
         foundingDate: "2010",
+        founder: { "@id": `${BASE}/#founder` },
         address: ADDRESS,
         sameAs: sameAsUrls,
       },
@@ -64,8 +68,11 @@ export function buildSiteSchema() {
         "@type": "Person",
         "@id": `${BASE}/#founder`,
         name: "יקיר כהן",
+        alternateName: "Yakir Cohen",
         jobTitle: "מפיק מוזיקלי ומדריך קול",
         url: `${BASE}/about`,
+        image: FOUNDER_IMAGE_URL,
+        knowsAbout: [...FOUNDER_KNOWS_ABOUT],
         sameAs: sameAsUrls,
         worksFor: { "@id": `${BASE}/#organization` },
       },

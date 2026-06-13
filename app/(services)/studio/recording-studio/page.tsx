@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import RecordingStudioPageContent from "@/components/seo/RecordingStudioPageContent";
 import {
   getStudioService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getStudioService("studio-recording-studio");

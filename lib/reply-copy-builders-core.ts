@@ -251,6 +251,7 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
 
   function getRecommendedPathId(ctx: ReplyContext): string {
     if (ctx.intent === "start_now") return "hot_close";
+    if (ctx.intent === "continue_chat" && (ctx.recorderCount ?? 0) >= 8) return "soft_continue";
     const scenario = detectPlaybackScenario(ctx);
     if (scenario === "parent_child" || scenario === "solo") {
       return `playback_${scenario}`;

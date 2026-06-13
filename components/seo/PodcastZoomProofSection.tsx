@@ -41,6 +41,7 @@ export default function PodcastZoomProofSection({
           <LazyYouTubePlayer
             videoId={youtubeId}
             title={PODCAST_ZOOM_PROOF.youtubeTitle}
+            withSchema
           />
         </div>
       ) : null}

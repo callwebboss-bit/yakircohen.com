@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { useCallback, useEffect } from "react";
+import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import type { BookCategoryId } from "@/lib/book-url";
 import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import { BOOK_THANK_YOU_SERVICE } from "@/lib/data/book-closer-map";
-import { BOOKING_POST_SUBMIT } from "@/lib/data/booking-shared";
+import {
+  BOOKING_POST_SUBMIT,
+  resolveBookingBtsVideo,
+} from "@/lib/data/booking-shared";
 import { buildCloserDeepLink, decodeWhatsAppTextFromHref } from "@/lib/closer-deep-link";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
@@ -36,6 +40,7 @@ export default function BookingSuccessPanel({
   className,
 }: BookingSuccessPanelProps) {
   const copy = BOOKING_POST_SUBMIT[intent];
+  const btsVideo = resolveBookingBtsVideo(bookCategory);
   const thankYouParams = new URLSearchParams();
   if (bookCategory) {
     thankYouParams.set("service", BOOK_THANK_YOU_SERVICE[bookCategory]);
@@ -64,6 +69,13 @@ export default function BookingSuccessPanel({
     });
   }, [whatsappHref]);
 
+  const onWhatsAppClick = useCallback(() => {
+    trackConversion(
+      "book_success_wa_click",
+      bookCategory ? { category: bookCategory } : undefined,
+    );
+  }, [bookCategory]);
+
   return (
     <div
       className={cn(
@@ -79,15 +91,28 @@ export default function BookingSuccessPanel({
       <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
         {copy.body}
       </p>
-      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1fba59]"
-        >
-          {copy.reopenLabel}
-        </a>
+
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onWhatsAppClick}
+        className="mt-8 inline-flex w-full max-w-md items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white hover:bg-[#1fba59] sm:w-auto"
+      >
+        {copy.reopenLabel}
+      </a>
+
+      <div className="mx-auto mt-8 max-w-md text-right">
+        <p className="mb-3 text-center text-xs font-semibold text-muted-foreground">
+          {btsVideo.title}
+        </p>
+        <LazyYouTubePlayer
+          videoId={btsVideo.videoId}
+          title={btsVideo.title}
+        />
+      </div>
+
+      <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
         {thankYouHref ? (
           <Link
             href={thankYouHref}
@@ -96,15 +121,6 @@ export default function BookingSuccessPanel({
             מה להכין לפני שנחזור
           </Link>
         ) : null}
-        {closerLinkAvailable ? (
-          <button
-            type="button"
-            onClick={copyCloserLink}
-            className="inline-flex rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
-          >
-            העתק קישור ל-Closer
-          </button>
-        ) : null}
         <button
           type="button"
           onClick={onNewBooking}
@@ -112,7 +128,17 @@ export default function BookingSuccessPanel({
         >
           {copy.newBookingLabel}
         </button>
+        {closerLinkAvailable ? (
+          <button
+            type="button"
+            onClick={copyCloserLink}
+            className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+          >
+            העתק קישור ל-Closer
+          </button>
+        ) : null}
       </div>
+
       {replyStudioContext ? (
         <div className="mt-6 space-y-3 text-right">
           <p className="text-sm font-semibold text-foreground">

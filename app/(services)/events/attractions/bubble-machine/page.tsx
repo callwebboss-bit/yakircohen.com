@@ -1,11 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import BubbleMachinePageContent from "@/components/seo/BubbleMachinePageContent";
 
 import {
 
   getEventsService,
-
-  metadataFromService,
-
 } from "@/lib/data/services";
 
 

@@ -21,6 +21,9 @@ const ATTRACTIONS_FILE = path.join(ROOT, "lib", "data", "attractions-calculator.
 const CLIPS_SERVICES_FILE = path.join(ROOT, "lib", "data", "booking-calculator-services.ts");
 const BRAND_COPY_FILE = path.join(ROOT, "lib", "data", "closer-brand-copy.json");
 const OUT_DIR = path.join(ROOT, "..", "local-tools");
+if (OUT_DIR.replace(/\\/g, "/").includes("/public/")) {
+  throw new Error("export:closer OUT_DIR must not be public/ — local-tools only");
+}
 const OUT_JSON = path.join(OUT_DIR, "closer-config.json");
 const OUT_JS = path.join(OUT_DIR, "closer-config.js");
 

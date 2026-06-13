@@ -25,3 +25,13 @@ export function toYouTubeEmbedUrl(url: string): string | null {
   const id = extractYouTubeVideoId(url);
   return id ? `https://www.youtube.com/embed/${id}` : null;
 }
+
+/** Extracts a watch ID from a URL or returns the string when already an ID. */
+export function parseYouTubeVideoId(input: string): string {
+  const trimmed = input.trim();
+  if (!trimmed.includes("youtube") && !trimmed.includes("youtu.be")) {
+    return trimmed;
+  }
+
+  return extractYouTubeVideoId(trimmed) ?? trimmed;
+}

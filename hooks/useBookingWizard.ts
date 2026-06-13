@@ -238,7 +238,10 @@ export function useBookingWizard<
           waHref,
           options?.leadCategory ? { leadCategory: options.leadCategory } : undefined,
         );
-        void notifyLeadByEmailAsync(email).catch((err) => {
+        void notifyLeadByEmailAsync({
+          ...email,
+          website_verification: guard.honeypot,
+        }).catch((err) => {
           if (process.env.NODE_ENV !== "production") {
             console.warn("[useBookingWizard] email notify failed", err);
           }

@@ -3,6 +3,7 @@
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import { VIDEO_WATCH_LABEL } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
+import { parseYouTubeVideoId } from "@/lib/youtube";
 import {
   FEATURED_YOUTUBE_TITLE,
   FEATURED_YOUTUBE_VIDEO_ID,
@@ -17,29 +18,6 @@ export type YouTubeProps = {
   /** טוען embed מיד בלי לחיצה על thumbnail */
   defaultActive?: boolean;
 };
-
-/** Extracts a watch ID from a URL or returns the string when already an ID. */
-export function parseYouTubeVideoId(input: string): string {
-  const trimmed = input.trim();
-  if (!trimmed.includes("youtube") && !trimmed.includes("youtu.be")) {
-    return trimmed;
-  }
-
-  try {
-    const url = new URL(trimmed);
-    if (url.hostname.includes("youtu.be")) {
-      return url.pathname.replace(/^\//, "").split("/")[0] ?? trimmed;
-    }
-    const fromQuery = url.searchParams.get("v");
-    if (fromQuery) return fromQuery;
-    const embedMatch = url.pathname.match(/\/embed\/([^/?]+)/);
-    if (embedMatch?.[1]) return embedMatch[1];
-  } catch {
-    return trimmed;
-  }
-
-  return trimmed;
-}
 
 export default function YouTube({
   videoId = FEATURED_YOUTUBE_VIDEO_ID,
@@ -88,6 +66,7 @@ export default function YouTube({
       className={className}
       watchLabel={VIDEO_WATCH_LABEL}
       defaultActive={defaultActive}
+      withSchema
     />
   );
 }

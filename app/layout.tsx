@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import { SITE_URL } from "@/lib/site-url";
@@ -23,6 +24,7 @@ const heebo = Heebo({
   weight: ["400", "600", "700"],
   preload: true,
   adjustFontFallback: true,
+  fallback: ["Arial Hebrew", "Arial", "Helvetica Neue", "sans-serif"],
 });
 
 const notoSerifHebrew = Noto_Serif_Hebrew({
@@ -30,14 +32,15 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
   display: "swap",
   variable: "--font-noto-serif-hebrew",
   weight: ["400", "600", "700"],
-  preload: true,
+  preload: false,
   adjustFontFallback: true,
+  fallback: ["David Libre", "Times New Roman", "serif"],
 });
 
 const DEFAULT_TITLE =
   "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין";
 const DEFAULT_DESCRIPTION =
-  "אולפן הקלטות, הפקת פודקאסט, קריינות, DJ ואטרקציות לאירועים - ממודיעין לירושלים והמרכז.";
+  "אולפן, פודקאסט ואירועים במודיעין. הקלטות, DJ, הנחיית קהל ושירותי AI — מודיעין, ירושלים והמרכז.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -81,6 +84,10 @@ export const metadata: Metadata = {
     : {}),
   other: {
     "ai-content-declaration": "human-authored-business-website",
+    "geo.region": "IL-M",
+    "geo.placename": "Modi'in-Maccabim-Re'ut",
+    "geo.position": "31.9077;35.0068",
+    ICBM: "31.9077, 35.0068",
   },
 };
 
@@ -102,8 +109,15 @@ export default function RootLayout({
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
+      <head>
+        <link rel="preconnect" href="https://api.whatsapp.com" />
+        <link rel="dns-prefetch" href="https://api.whatsapp.com" />
+        <link rel="preconnect" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://wa.me" />
+      </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
+        <TabRescueTitle />
         <SiteSchema />
         <a
           href="#main-content"

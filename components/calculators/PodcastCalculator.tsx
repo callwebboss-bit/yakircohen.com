@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
+import HoneypotField from "@/components/forms/HoneypotField";
 import {
   formatCurrency,
   formatCurrencyWithVat,
@@ -12,6 +13,7 @@ import {
   type PodcastPackage,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
+import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
@@ -31,10 +33,10 @@ function PackageCard({
       type="button"
       onClick={onSelect}
       className={cn(
-        "relative flex w-full flex-col rounded-2xl border bg-surface p-5 text-right transition-[border-color,box-shadow]",
+        "touch-press relative flex w-full flex-col rounded-2xl border bg-surface p-5 text-right transition-[border-color,box-shadow,transform]",
         selected
           ? "border-brand-red shadow-[0_0_0_3px_rgba(212,43,43,0.08)]"
-          : "border-border hover:border-brand-red/30 hover:shadow-sm",
+          : "border-border hover:border-brand-red/30 hover:shadow-sm active:scale-[0.97]",
       )}
     >
       {pkg.badge ? (
@@ -86,6 +88,9 @@ function PackageCard({
 export default function PodcastCalculator({ className }: { className?: string }) {
   const [selectedId, setSelectedId] = useState<PodcastPackageId | null>(null);
   const [blocks, setBlocks] = useState(0);
+  const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
+    formId: "podcast_calculator",
+  });
 
   const pkg = PODCAST_PACKAGES.find((p) => p.id === selectedId) ?? null;
   const total = (pkg?.price ?? 0) + blocks * PODCAST_OVERTIME_RATE;
@@ -122,21 +127,37 @@ export default function PodcastCalculator({ className }: { className?: string })
   const { submitLead } = useLeadSubmit();
 
   const handleWhatsAppClick = useCallback(() => {
-    void submitLead(
-      {
-        formId: "podcast_calculator",
-        subject: "ליד חדש - פודקאסט",
-        body: waText,
-        crossSell: { bookCategory: "podcast" },
+    if (!pkg) return;
+    const errs = attemptSubmit(
+      () => ({ ok: true as const }),
+      () => {
+        void submitLead(
+          {
+            formId: "podcast_calculator",
+            subject: "ליד חדש - פודקאסט",
+            body: waText,
+            website_verification: honeypot,
+            crossSell: { bookCategory: "podcast" },
+          },
+          whatsappHref,
+          "continue_chat",
+          { leadCategory: "podcast" },
+        );
       },
-      whatsappHref,
-      "continue_chat",
-      { leadCategory: "podcast" },
     );
-  }, [submitLead, waText, whatsappHref]);
+    if (errs) {
+      /* honeypot / rate limit — blocked silently */
+    }
+  }, [attemptSubmit, honeypot, pkg, submitLead, waText, whatsappHref]);
 
   return (
     <div className={cn("pb-28", className)}>
+      <HoneypotField value={honeypot} onChange={setHoneypot} />
+      {globalError ? (
+        <p className="mx-auto mb-4 max-w-4xl text-center text-sm text-brand-red" role="alert">
+          {globalError}
+        </p>
+      ) : null}
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {PODCAST_PACKAGES.map((p) => (
@@ -165,10 +186,10 @@ export default function PodcastCalculator({ className }: { className?: string })
                   type="button"
                   onClick={() => setBlocks(b)}
                   className={cn(
-                    "rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors",
+                    "touch-press rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors",
                     blocks === b
                       ? "border-brand-red bg-brand-red text-white"
-                      : "border-background/25 text-background/70 hover:border-background/50 hover:text-background",
+                      : "border-background/25 text-background/70 hover:border-background/50 hover:text-background active:scale-[0.97]",
                   )}
                 >
                   {b === 0

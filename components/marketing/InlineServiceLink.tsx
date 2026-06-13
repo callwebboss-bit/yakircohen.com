@@ -18,7 +18,7 @@ export default function InlineServiceLink({
     <Link
       href={href}
       className={cn(
-        "font-medium text-brand-red underline-offset-4 transition-colors hover:text-brand-red-light hover:underline",
+        "link-underline font-medium text-brand-red transition-colors hover:text-brand-red-light",
         className,
       )}
     >

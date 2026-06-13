@@ -32,10 +32,11 @@ export default function MobileStickyCta() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)_+_1rem)] z-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl md:hidden"
       role="region"
       aria-label="יצירת קשר מהירה"
     >
+      <div className="h-px w-full bg-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
       <div className="mx-auto grid max-w-lg grid-cols-2 gap-2 px-3 py-2.5">
         <a
           href={`tel:${CONTACT_PHONE_E164}`}

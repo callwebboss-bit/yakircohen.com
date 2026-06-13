@@ -75,6 +75,7 @@ export default function SingerClosingLeadSection({
             formId: "singer_amplification_callback",
             subject: "פנייה מעמוד הגברה לזמרים",
             body,
+            website_verification: honeypot,
             name,
             phone: displayPhone,
             crossSell: { bookCategory: "singer", routeId: "singer-amplification" },

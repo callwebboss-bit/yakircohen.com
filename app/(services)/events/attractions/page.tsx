@@ -1,10 +1,10 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import {
   getAttractionsHubLinks,
   getEventsService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getEventsService("events-attractions-hub");

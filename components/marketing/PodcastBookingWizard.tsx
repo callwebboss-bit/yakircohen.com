@@ -16,6 +16,7 @@ import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -546,7 +547,8 @@ export default function PodcastBookingWizard({
             <LeadFormAlert message={globalError} />
             <BookingFormField
               id="pb-name"
-              label="שם *"
+              label={`${FORM_MICROCOPY.nameLabel} *`}
+              placeholder={FORM_MICROCOPY.namePlaceholder}
               autoComplete="name"
               value={form.name}
               error={errors.name}
@@ -653,6 +655,7 @@ export default function PodcastBookingWizard({
             <BookingFormField
               id="pb-notes"
               label="הערות"
+              placeholder={FORM_MICROCOPY.visionPlaceholder}
               multiline
               value={form.notes}
               onChange={(v) => patchForm({ notes: v })}

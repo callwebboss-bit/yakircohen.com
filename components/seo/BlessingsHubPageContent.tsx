@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -333,7 +333,7 @@ export default function BlessingsHubPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="לפני שמתחילים"
             className="py-0"
           />

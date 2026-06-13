@@ -37,6 +37,7 @@ import {
   validateIsraeliMobile,
   validatePersonName,
 } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -246,6 +247,7 @@ export default function PhotographyCalculator({
               formId: "photography_calculator",
               subject: "ליד חדש - צילום אירועים",
               body,
+              website_verification: honeypot,
               name: sanitizeLeadText(contactForm.name, 60),
               phone: displayPhone,
               crossSell: { bookCategory: "photography", routeId },
@@ -407,14 +409,14 @@ export default function PhotographyCalculator({
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="photo-name" className="mb-1.5 block text-xs font-semibold text-foreground">
-                שם מלא *
+                {FORM_MICROCOPY.nameLabel} *
               </label>
               <input
                 id="photo-name"
                 type="text"
                 value={contactForm.name}
                 onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
-                placeholder="הכנס שם מלא"
+                placeholder={FORM_MICROCOPY.namePlaceholder}
                 aria-invalid={Boolean(fieldErrors.name)}
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
@@ -427,7 +429,7 @@ export default function PhotographyCalculator({
             </div>
             <div>
               <label htmlFor="photo-phone" className="mb-1.5 block text-xs font-semibold text-foreground">
-                טלפון *
+                {FORM_MICROCOPY.phoneLabel} *
               </label>
               <input
                 id="photo-phone"
@@ -436,7 +438,8 @@ export default function PhotographyCalculator({
                 autoComplete="tel"
                 value={contactForm.phone}
                 onChange={(e) => setContactForm((f) => ({ ...f, phone: e.target.value }))}
-                placeholder="050-0000000"
+                placeholder={FORM_MICROCOPY.phonePlaceholder}
+                aria-describedby="photo-phone-hint"
                 aria-invalid={Boolean(fieldErrors.phone)}
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
@@ -445,6 +448,11 @@ export default function PhotographyCalculator({
               />
               {fieldErrors.phone && (
                 <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.phone}</p>
+              )}
+              {!fieldErrors.phone && (
+                <p id="photo-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                  {FORM_MICROCOPY.phoneHint}
+                </p>
               )}
             </div>
           </div>

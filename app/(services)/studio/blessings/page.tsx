@@ -1,11 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import BlessingsHubPageContent from "@/components/seo/BlessingsHubPageContent";
 
 import {
 
   getStudioService,
-
-  metadataFromService,
-
 } from "@/lib/data/services";
 
 

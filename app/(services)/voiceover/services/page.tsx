@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import VoiceoverServicesPageContent from "@/components/seo/VoiceoverServicesPageContent";
 import {
   getVoiceoverService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getVoiceoverService("voiceover-services");

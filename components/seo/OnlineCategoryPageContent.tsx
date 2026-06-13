@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Button from "@/components/ui/Button";
@@ -192,6 +192,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               <LazyYouTubePlayer
                 videoId={enrichment.proof.youtubeVideoId}
                 title={enrichment.proof.youtubeTitle ?? "דוגמת פודקאסט"}
+                withSchema
               />
             ) : null}
           </div>
@@ -262,7 +263,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
         <Container className="max-w-3xl">
         <FAQAccordion
           items={faqItems}
-          title="שאלות נפוצות"
+          title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
           subtitle={`תשובות על שירותי ${category.title} מרחוק`}
         />
         </Container>

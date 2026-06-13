@@ -61,6 +61,7 @@ export default function PodcastRecordingPageContent() {
       features={PODCAST_RECORDING_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהפקת פודקאסט מלאה  -  צילום, הקלטה ועריכה"
       utmCampaign="podcast_recording"
+      corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
       scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק · מוכן תוך 24 שעות`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"

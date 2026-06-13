@@ -19,6 +19,7 @@ import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   SINGER_PACKAGES,
   type SingerPackageId,
@@ -320,7 +321,8 @@ export default function SingerAmplificationBookingWizard({
             <LeadFormAlert message={globalError} />
             <BookingFormField
               id="sg-name"
-              label="שם *"
+              label={`${FORM_MICROCOPY.nameLabel} *`}
+              placeholder={FORM_MICROCOPY.namePlaceholder}
               autoComplete="name"
               value={form.name}
               error={errors.name}

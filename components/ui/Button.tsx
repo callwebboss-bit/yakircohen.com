@@ -8,11 +8,11 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary:
     "bg-brand-red font-semibold text-white shadow-sm hover:bg-brand-red-light active:bg-brand-red-dark",
   secondary:
-    "border border-border bg-surface font-medium text-foreground hover:border-brand-red/40 hover:text-brand-red",
+    "border border-border bg-surface font-medium text-foreground hover:border-brand-red/40 hover:text-brand-red active:bg-surface-elevated",
   outline:
-    "border border-brand-red font-medium text-brand-red hover:bg-brand-red/10",
+    "border border-brand-red font-medium text-brand-red hover:bg-brand-red/10 active:bg-brand-red/15",
   ghost:
-    "font-medium text-foreground hover:bg-brand-red/5 hover:text-brand-red",
+    "font-medium text-foreground hover:bg-brand-red/5 hover:text-brand-red active:bg-brand-red/10",
 };
 
 // IMPROVED: min-h-11 touch target, active micro-interaction, ghost variant, external link support
@@ -29,6 +29,11 @@ type ButtonBaseProps = {
   variant?: ButtonVariant;
   className?: string;
   children: ReactNode;
+  /**
+   * Dual-layer slide-up text reveal on hover + pulse-glow ring (desktop only).
+   * GPU-only (transform/opacity/box-shadow) — no JS, no layout shift.
+   */
+  liquid?: boolean;
 };
 
 type ButtonAsButton = ButtonBaseProps &
@@ -57,16 +62,38 @@ export default function Button(props: ButtonProps) {
     className,
     children,
     as = "button",
+    liquid = false,
     ...rest
   } = props;
 
-  const classes = cn(baseStyles, variantStyles[variant], className);
+  const classes = cn(
+    baseStyles,
+    variantStyles[variant],
+    liquid && "group relative overflow-hidden liquid-ring",
+    className,
+  );
+
+  const content = liquid ? (
+    <>
+      <span className="inline-flex items-center gap-2 transition-[transform,opacity] duration-normal ease-luxury group-hover:-translate-y-full group-hover:opacity-0 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:opacity-100">
+        {children}
+      </span>
+      <span
+        className="absolute inset-0 inline-flex translate-y-full items-center justify-center gap-2 opacity-0 transition-[transform,opacity] duration-normal ease-luxury group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:hidden"
+        aria-hidden="true"
+      >
+        {children}
+      </span>
+    </>
+  ) : (
+    children
+  );
 
   if (as === "link") {
     const { href, ...linkProps } = rest as Omit<ButtonAsLink, keyof ButtonBaseProps>;
     return (
       <Link href={href} className={classes} {...linkProps}>
-        {children}
+        {content}
       </Link>
     );
   }
@@ -75,7 +102,7 @@ export default function Button(props: ButtonProps) {
     const { href, ...anchorProps } = rest as Omit<ButtonAsAnchor, keyof ButtonBaseProps>;
     return (
       <a href={href} className={classes} {...anchorProps}>
-        {children}
+        {content}
       </a>
     );
   }
@@ -83,7 +110,7 @@ export default function Button(props: ButtonProps) {
   const buttonProps = rest as Omit<ButtonAsButton, keyof ButtonBaseProps>;
   return (
     <button type="button" className={classes} {...buttonProps}>
-      {children}
+      {content}
     </button>
   );
 }

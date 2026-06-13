@@ -1,99 +1,118 @@
-﻿/** קישורי זנב SEO פנימיים - Additive only; כל href חייב להיות עמוד קיים באתר */
+﻿/** קישורי זנב SEO פנימיים — Additive only; כל href חייב להיות עמוד קיים באתר */
 export type SeoFooterLink = {
   label: string;
   href: string;
   title?: string;
 };
 
-/** כל הקישורים (sitemap / SEO פנימי) */
-export const SEO_FOOTER_LINKS: SeoFooterLink[] = [
-  {
-    label: "אולפן הקלטות במרכז",
-    href: "/studio/recording-song-modiin",
-    title: "הקלטת שירים במודיעין ובמרכז",
-  },
-  {
-    label: "תקליטן לחתונה בירושלים",
-    href: "/dj-events/cities/jerusalem",
-    title: "DJ לאירועים בירושלים והסביבה",
-  },
-  {
-    label: "קורס דיג'יי במודיעין",
-    href: "/academy",
-    title: "אקדמיה וקורסי DJ",
-  },
-  {
-    label: "הקלטת ברכת כלה",
-    href: "/studio/blessings/bride-groom-blessing",
-    title: "ברכות חתן כלה מוקלטות",
-  },
-  {
-    label: "אולפן הקלטות בירושלים",
-    href: "/studio/studio-jerusalem",
-    title: "הקלטות לקהל מירושלים והסביבה",
-  },
-  {
-    label: "תקליטן דתי וקהל מעורב",
-    href: "/events/dj-events",
-    title: "DJ לאירועים וחתונות",
-  },
-  {
-    label: "עמדת לד להשכרה",
-    href: "/events/stage-led-dj",
-    title: "עמדת DJ LED לאירועים",
-  },
-  {
-    label: "אטרקציות לאירועים",
-    href: "/events/attractions",
-    title: "זיקוקים, עשן, קונפטי ועוד",
-  },
-  {
-    label: "הפקת פודקאסט לעסקים",
-    href: "/podcast/podcast-recording",
-    title: "צילום והקלטת פודקאסט - הפקה מלאה",
-  },
-  {
-    label: "קריינות מקצועית",
-    href: "/voiceover/services",
-    title: "קריינות טלפון, וידאו ומותג",
-  },
-  {
-    label: "ניהול סושיאל לעסקים",
-    href: "/business/social-media",
-    title: `ניהול סושיאל ומדיה | יקיר איזמירלי`,
-  },
-];
+export type FooterSemanticSection = {
+  heading: string;
+  links: readonly SeoFooterLink[];
+};
 
-/** עד 6 קישורים בפוטר - היררכיה ברורה בלי עומס */
-export const FOOTER_POPULAR_LINKS: SeoFooterLink[] = [
+export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
   {
-    label: "צילום חתונות",
-    href: "/photography/wedding",
-    title: "צלם חתונות ואירועים אינטימיים",
+    heading: "פודקאסט וסטודיו",
+    links: [
+      {
+        label: "הפקת פודקאסטים במרכז",
+        href: "/podcast/podcast-recording",
+        title: "צילום והקלטת פודקאסט — הפקה מלאה",
+      },
+      {
+        label: "אולפן הקלטות במודיעין",
+        href: "/studio/recording-song-modiin",
+        title: "הקלטת שירים במודיעין ובמרכז",
+      },
+      {
+        label: "אולפן פודקאסט במודיעין",
+        href: "/podcast/podcast-studio-modiin",
+        title: "השכרת אולפן פודקאסט במודיעין",
+      },
+      {
+        label: "אולפן הקלטות בירושלים",
+        href: "/studio/studio-jerusalem",
+        title: "הקלטות לקהל מירושלים והסביבה",
+      },
+    ],
   },
   {
-    label: "אולפן הקלטות במרכז",
-    href: "/studio/recording-song-modiin",
-    title: "הקלטת שירים במודיעין ובמרכז",
+    heading: "אירועים ומיקומים",
+    links: [
+      {
+        label: "הנחיית אירועים עסקיים",
+        href: "/events/host",
+        title: "מנחה ומנהל אירועים מקצועי",
+      },
+      {
+        label: "תקליטן לחתונה בירושלים",
+        href: "/dj-events/cities/jerusalem",
+        title: "DJ לאירועים בירושלים והסביבה",
+      },
+      {
+        label: "תקליטן דתי וקהל מעורב",
+        href: "/events/dj-events",
+        title: "DJ לאירועים וחתונות",
+      },
+      {
+        label: "אטרקציות חובה לחתונה",
+        href: "/events/wedding-attractions-packages",
+        title: "חבילות DJ ואטרקציות לחתונה",
+      },
+    ],
   },
   {
-    label: "תקליטן לחתונה",
-    href: "/events/dj-events",
-    title: "DJ לאירועים וחתונות",
+    heading: "AI ודיגיטל",
+    links: [
+      {
+        label: "יצירת סרטוני AI לעסקים",
+        href: "/online/video-content",
+        title: "עריכת וידאו שיווקי ותוכן דיגיטלי",
+      },
+      {
+        label: "שירותי AI לאודיו",
+        href: "/online/online-ai-pricing",
+        title: "תמחור שקוף לשירותי AI לאודיו",
+      },
+      {
+        label: "עריכת פודקאסט אונליין",
+        href: "/podcast/podcast-editing",
+        title: "עריכת פודקאסט מקצועית מרחוק",
+      },
+    ],
   },
   {
-    label: "הפקת פודקאסט",
-    href: "/podcast/podcast-recording",
-    title: "צילום והקלטת פודקאסט - הפקה מלאה",
+    heading: "צילום, קריינות ועסקים",
+    links: [
+      {
+        label: "צילום חתונות",
+        href: "/photography/wedding",
+        title: "צלם חתונות ואירועים אינטימיים",
+      },
+      {
+        label: "קריינות מקצועית",
+        href: "/voiceover/services",
+        title: "קריינות טלפון, וידאו ומותג",
+      },
+      {
+        label: "ניהול סושיאל לעסקים",
+        href: "/business/social-media",
+        title: "ניהול סושיאל ומדיה לעסקים",
+      },
+      {
+        label: "הקלטת ברכת כלה",
+        href: "/studio/blessings/bride-groom-blessing",
+        title: "ברכות חתן כלה מוקלטות",
+      },
+    ],
   },
-  {
-    label: "תקליטן בירושלים",
-    href: "/dj-events/cities/jerusalem",
-    title: "DJ לאירועים בירושלים והסביבה",
-  },
-  {
-    label: "קריינות מקצועית",
-    href: "/voiceover/services",
-    title: "קריינות טלפון, וידאו ומותג",
-  },
-];
+] as const;
+
+/** @deprecated Use FOOTER_SEMANTIC_TREE */
+export const FOOTER_POPULAR_LINKS: SeoFooterLink[] =
+  FOOTER_SEMANTIC_TREE[0]!.links.map((l) => ({ ...l }));
+
+/** @deprecated Use FOOTER_SEMANTIC_TREE */
+export const SEO_FOOTER_LINKS: SeoFooterLink[] = FOOTER_SEMANTIC_TREE.flatMap(
+  (s) => [...s.links],
+);

@@ -24,7 +24,11 @@
         "url": "https://yakircohen.com/images/logo.svg"
       },
       "telephone": "+972587555456",
+      "taxID": "301773289",
       "foundingDate": "2010",
+      "founder": {
+        "@id": "https://yakircohen.com/#founder"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "עמק איילון 34",
@@ -34,10 +38,10 @@
         "addressCountry": "IL"
       },
       "sameAs": [
-        "https://www.instagram.com/yakir.cohen.official/",
-        "https://www.tiktok.com/@yakir.cohen.offical",
-        "https://www.facebook.com/dj.yakir.cohen/",
         "https://www.youtube.com/@Yakircohen",
+        "https://www.instagram.com/yakir.cohen.official/",
+        "https://www.facebook.com/dj.yakir.cohen/",
+        "https://www.tiktok.com/@yakir.cohen.offical",
         "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8"
       ]
     },
@@ -45,13 +49,21 @@
       "@type": "Person",
       "@id": "https://yakircohen.com/#founder",
       "name": "יקיר כהן",
+      "alternateName": "Yakir Cohen",
       "jobTitle": "מפיק מוזיקלי ומדריך קול",
       "url": "https://yakircohen.com/about",
+      "image": "https://yakircohen.com/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
+      "knowsAbout": [
+        "הפקת פודקאסט",
+        "אולפן הקלטות",
+        "DJ לאירועים",
+        "עריכת סאונד"
+      ],
       "sameAs": [
-        "https://www.instagram.com/yakir.cohen.official/",
-        "https://www.tiktok.com/@yakir.cohen.offical",
-        "https://www.facebook.com/dj.yakir.cohen/",
         "https://www.youtube.com/@Yakircohen",
+        "https://www.instagram.com/yakir.cohen.official/",
+        "https://www.facebook.com/dj.yakir.cohen/",
+        "https://www.tiktok.com/@yakir.cohen.offical",
         "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8"
       ],
       "worksFor": {
@@ -128,10 +140,10 @@
         }
       ],
       "sameAs": [
-        "https://www.instagram.com/yakir.cohen.official/",
-        "https://www.tiktok.com/@yakir.cohen.offical",
-        "https://www.facebook.com/dj.yakir.cohen/",
         "https://www.youtube.com/@Yakircohen",
+        "https://www.instagram.com/yakir.cohen.official/",
+        "https://www.facebook.com/dj.yakir.cohen/",
+        "https://www.tiktok.com/@yakir.cohen.offical",
         "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8"
       ],
       "parentOrganization": {

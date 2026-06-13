@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import { VIDEO_WATCH_LABEL } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,8 @@ export type LazyYouTubePlayerProps = {
   watchLabel?: string;
   /** טוען את הנגן מיד (לסרטון ראשי בעמוד). */
   defaultActive?: boolean;
+  /** מזריק VideoObject JSON-LD לפני הפלייסהולדר */
+  withSchema?: boolean;
 };
 
 export default function LazyYouTubePlayer({
@@ -41,6 +44,7 @@ export default function LazyYouTubePlayer({
   className,
   watchLabel = VIDEO_WATCH_LABEL,
   defaultActive = false,
+  withSchema = false,
 }: LazyYouTubePlayerProps) {
   const [isActive, setIsActive] = useState(defaultActive);
   const [thumbnailSrc, setThumbnailSrc] = useState(
@@ -52,9 +56,13 @@ export default function LazyYouTubePlayer({
     `?rel=0&modestbranding=1&color=white`;
 
   return (
-    /* aspect-video (16/9) is declared on the outermost element so the browser
-       reserves the correct space before any content loads - CLS = 0. */
-    <div
+    <>
+      {withSchema ? (
+        <VideoObjectSchema videos={[{ videoId, name: title }]} />
+      ) : null}
+      {/* aspect-video (16/9) is declared on the outermost element so the browser
+       reserves the correct space before any content loads - CLS = 0. */}
+      <div
       className={cn(
         fillParent
           ? "absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-neutral-900"
@@ -147,5 +155,6 @@ export default function LazyYouTubePlayer({
         </button>
       )}
     </div>
+    </>
   );
 }

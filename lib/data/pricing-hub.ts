@@ -90,10 +90,10 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/online/online-ai-pricing",
     bookHref: "/book#online",
     rows: [
-      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
+      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
       { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
       { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
-      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
+      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
     ],
   },
 ] as const;

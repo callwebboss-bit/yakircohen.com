@@ -68,7 +68,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
   {
     title: "הקלטת סאונד אולפנית",
     items: [
-      "מיקרופונים Shure, Rode, Audio-Technica",
+      "מיקרופונים דינמיים Shure, Rode, Audio-Technica",
       "הקלטה ישירה למערכת אולפן  -  סאונד נקי",
       "אוזניות לכל משתתף",
       "טלפרומפטר (אם צריך)",
@@ -82,7 +82,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
       "מעברים דינמיים בין מצלמות",
       "תיקוני צבע בסיסיים",
       "פתיח/סגיר  -  שלכם או מהמאגר",
-      "נורמליזציה ושיפור סאונד",
+      "עריכת סאונד ונורמליזציה",
     ],
   },
   {

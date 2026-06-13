@@ -1,10 +1,11 @@
+import { metadataFromPricing } from "@/lib/data/service-metadata";
 import Link from "next/link";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import StudioPricingGrid from "@/components/services/StudioPricingGrid";
-import { STUDIO_PRICING, metadataFromPricing } from "@/lib/data/services";
+import { STUDIO_PRICING } from "@/lib/data/services";
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 

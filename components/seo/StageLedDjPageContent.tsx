@@ -396,7 +396,7 @@ export default function StageLedDjPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="כל מה שרציתם לדעת על עמדת LED"
             className="py-0"
           />

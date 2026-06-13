@@ -42,12 +42,16 @@
 
 | URL | לבדוק |
 |-----|--------|
+| `/` | hook במודיעין ב-60 תווים ראשונים |
 | `/book` | OG image 1200×630, `images/og/book.webp` |
 | `/studio` | `images/og/studio.webp` |
 | `/podcast` | `images/og/podcast.webp` |
+| `/events` | `images/og/events.webp` (אם קיים) |
 | `/pricing` | `images/og/pricing.webp` |
 
 לחץ **Scrape Again** אחרי כל deploy.
+
+**Share hooks (מקומי):** `npm run audit:share` — Tier 1. `node scripts/audit-share-descriptions.mjs --all` — כל השירותים.
 
 ---
 

@@ -64,6 +64,7 @@ import {
 } from "@/lib/studio-participant-pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -1289,12 +1290,13 @@ export default function StudioRecordingBooking({
 
                 <div>
                   <label htmlFor="sr-name" className="mb-1.5 block text-xs font-semibold">
-                    שם מלא *
+                    {FORM_MICROCOPY.nameLabel} *
                   </label>
                   <input
                     id="sr-name"
                     type="text"
                     autoComplete="name"
+                    placeholder={FORM_MICROCOPY.namePlaceholder}
                     value={form.name}
                     onChange={(e) => patchForm({ name: e.target.value })}
                     onBlur={() => {

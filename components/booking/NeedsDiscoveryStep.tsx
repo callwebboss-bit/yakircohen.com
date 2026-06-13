@@ -1,5 +1,6 @@
 "use client";
 
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { NEEDS_DISCOVERY_SCRIPT } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +31,7 @@ export default function NeedsDiscoveryStep({
       ) : null}
       <div>
         <label htmlFor={id} className="block text-sm font-semibold text-foreground">
-          מה באמת חסר ביצירה שלך?
+          {FORM_MICROCOPY.visionLabel}
         </label>
         <p className="mt-1 text-xs text-muted-foreground">
           אופציונלי - עוזר לנו להתאים חבילה בלי לחץ מכירה.
@@ -40,7 +41,7 @@ export default function NeedsDiscoveryStep({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={3}
-          placeholder="למשל: ברכה לחתונה, פודקאסט ראשון, DJ לאירוע קטן..."
+          placeholder={FORM_MICROCOPY.visionPlaceholder}
           className="mt-2 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
         />
       </div>

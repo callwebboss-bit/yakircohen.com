@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
@@ -238,7 +238,7 @@ export default function HeavySmokeLargeEventsPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="השכרת עשן כבד לאירועים גדולים"
             className="py-0"
           />

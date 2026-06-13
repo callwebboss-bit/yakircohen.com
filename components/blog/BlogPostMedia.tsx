@@ -39,7 +39,11 @@ export default function BlogPostMedia({
     <>
       {youtubeId ? (
         <div className="mt-8">
-          <LazyYouTubePlayer videoId={youtubeId} title={`וידאו: ${title}`} />
+          <LazyYouTubePlayer
+            videoId={youtubeId}
+            title={`וידאו: ${title}`}
+            withSchema
+          />
         </div>
       ) : null}
 

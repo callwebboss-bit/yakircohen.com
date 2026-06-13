@@ -43,7 +43,7 @@ export default function PricingHubPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingItemListSchema) }}
       />
-      <div className="bg-background">
+      <article className="bg-background">
         <Section padding="sm" className="border-b border-border bg-background text-center">
           <Container className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
@@ -126,7 +126,7 @@ export default function PricingHubPage() {
             description: section.description,
           }))}
         />
-      </div>
+      </article>
     </>
   );
 }

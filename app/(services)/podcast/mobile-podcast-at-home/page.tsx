@@ -4,7 +4,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata = constructMetadata({
   title: "פודקאסט נייד עד הבית | האולפן מגיע אליכם",
   description:
-    "פודקאסט נייד עד הבית  -  יקיר כהן הפקות מביאה את האולפן אליכם. הקלטה בבית, במשרד או באירוע עם ציוד מקצועי ומהנדס סאונד. הגעה לכל הארץ.",
+    "פודקאסט נייד — מגיע לכל הארץ. אולפן עד הבית, משרד או אירוע עם ציוד מקצועי.",
   slug: "podcast/mobile-podcast-at-home",
   keywords: [
     "פודקאסט נייד עד הבית",

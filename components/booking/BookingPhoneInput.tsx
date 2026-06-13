@@ -2,6 +2,7 @@
 
 import { useId } from "react";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   maskIsraeliPhoneInput,
   validateIsraeliMobile,
@@ -15,6 +16,8 @@ type BookingPhoneInputProps = {
   onBlurValidate?: (error: string | null) => void;
   error?: string;
   label?: string;
+  placeholder?: string;
+  hint?: string;
   required?: boolean;
 };
 
@@ -24,12 +27,15 @@ export default function BookingPhoneInput({
   onChange,
   onBlurValidate,
   error,
-  label = "טלפון",
+  label = FORM_MICROCOPY.phoneLabel,
+  placeholder = FORM_MICROCOPY.phonePlaceholder,
+  hint = FORM_MICROCOPY.phoneHint,
   required = false,
 }: BookingPhoneInputProps) {
   const autoId = useId();
   const id = idProp ?? autoId;
   const errorId = `${id}-error`;
+  const hintId = `${id}-hint`;
 
   const handleChange = (raw: string) => {
     const masked = maskIsraeliPhoneInput(raw);
@@ -68,10 +74,16 @@ export default function BookingPhoneInput({
         value={value}
         onChange={(e) => handleChange(e.target.value)}
         onBlur={handleBlur}
+        placeholder={placeholder}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={error ? `${hintId} ${errorId}` : hintId}
         className={cn(bookFieldClass, error && "border-red-400")}
       />
+      {hint ? (
+        <p id={hintId} className="mt-1 text-xs text-muted-foreground">
+          {hint}
+        </p>
+      ) : null}
       {error ? (
         <p id={errorId} className="mt-1 text-xs text-red-500" data-field-error="">
           {error}

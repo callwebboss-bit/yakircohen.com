@@ -58,12 +58,12 @@ export default function EventsHostPageContent() {
               <article
                 key={block.title}
                 className={cn(
-                  "hover-lift rounded-3xl border border-border bg-surface p-6 transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/10 hover:bg-[var(--service-accent,#d42b2b)]/[0.02] sm:p-7",
+                  "hover-lift rounded-3xl border border-border bg-surface p-5 transition-[border-color,background-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:bg-[var(--service-accent,#d42b2b)]/[0.02] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] sm:p-6 lg:p-8",
                   index === 0 && "md:col-span-2",
                 )}
               >
-                <h3 className="font-semibold text-foreground">{block.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{block.body}</p>
+                <h3 className="font-semibold tracking-tight text-foreground">{block.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground/90">{block.body}</p>
               </article>
             ))}
           </div>
@@ -80,14 +80,14 @@ export default function EventsHostPageContent() {
             {EVENT_HOST_PROCESS.map((item) => (
               <li
                 key={item.step}
-                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-transform duration-fast ease-luxury active:scale-[0.99] sm:gap-5 sm:p-6"
+                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-transform duration-fast ease-luxury active:scale-[0.99] sm:gap-5 sm:p-6 lg:p-7"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--service-accent,#d42b2b)]/10 text-base font-bold text-[var(--service-accent,#d42b2b)] sm:h-12 sm:w-12 sm:text-lg">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)]/10 text-base font-bold text-[var(--service-accent,#d42b2b)] sm:h-12 sm:w-12 sm:text-lg">
                   {item.step}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+                  <h3 className="font-semibold tracking-tight text-foreground">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">{item.body}</p>
                 </div>
               </li>
             ))}
@@ -97,7 +97,7 @@ export default function EventsHostPageContent() {
         {service.faqs.length > 0 ? (
           <section aria-labelledby="host-faq-heading">
             <h2 id="host-faq-heading" className="text-xl font-semibold text-foreground">
-              שאלות נפוצות
+              שאלות ששואלים אותנו הרבה לפני שמזמינים מנחה
             </h2>
             <div className="mt-4">
               <FAQAccordion items={[...service.faqs]} />

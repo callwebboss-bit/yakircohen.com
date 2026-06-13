@@ -10,10 +10,7 @@ type HoneypotFieldProps = {
 /** Hidden field - bots often fill it; humans never see it. */
 export default function HoneypotField({ value, onChange }: HoneypotFieldProps) {
   return (
-    <div
-      className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0"
-      aria-hidden="true"
-    >
+    <div className="sr-only" aria-hidden="true">
       <label htmlFor="yc-honeypot-input">Website</label>
       <input
         id="yc-honeypot-input"

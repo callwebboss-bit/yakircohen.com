@@ -7,6 +7,8 @@ import {
   SEVERE_RESTORATION_DISCLAIMER,
 } from "@/lib/data/audio-demos";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
+import { absoluteUrl } from "@/lib/site-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 function NoiseIcon() {
@@ -44,41 +46,28 @@ function PackageIcon() {
 
 const AI_SERVICES = [
   {
-    id: "ai_noise_basic",
-    name: "ניקוי רעשים בסיסי",
-    icon: <NoiseIcon />,
-    exVat: getExVat("ai_noise_basic"),
+    id: "episode",
+    name: "חבילת פרק שלם",
+    icon: <PackageIcon />,
+    exVat: null as number | null,
+    billingType: "per-episode" as const,
     deliverables: [
-      "הסרת רעש קבוע (מזגן, רקע)",
-      "נורמליזציה בסיסית",
-      "קובץ WAV או MP3 מוכן",
+      "עריכה מלאה של פרק",
+      "שיפור AI + ניקוי",
+      "כתוביות (אופציונלי)",
+      "מסירה מוכנה להעלאה",
     ],
-    note: "להקלטות קצרות עם רעש קבוע",
-    whatsappText: "שלום, אשמח לקבל הצעת מחיר לניקוי רעשים בסיסי",
-    ctaHref: null as string | null,
-    ctaLabel: "קבלו הצעה בוואטסאפ",
-  },
-  {
-    id: "ai_voice_restore",
-    name: "שחזור קול מלא",
-    icon: <RestoreIcon />,
-    exVat: getExVat("ai_voice_restore"),
-    deliverables: [
-      "ניקוי רעשים מתקדם",
-      "איזון EQ ודחיסה עדינה",
-      "שחזור הקלטות פגומות",
-      "עד שעת חומר גולמי",
-    ],
-    note: "פרק או ראיון עד שעה — ניקוי + איזון",
-    whatsappText: "שלום, אשמח לקבל הצעת מחיר לשחזור קול מלא",
-    ctaHref: null,
-    ctaLabel: "קבלו הצעה בוואטסאפ",
+    note: "עריכה + AI + מסירה מוכנה להעלאה",
+    whatsappText: "שלום, אשמח לקבל הצעת מחיר לחבילת פרק שלם",
+    ctaHref: "/book#podcast",
+    ctaLabel: "הזמנה מקוונת",
   },
   {
     id: "ai_voice_enhance",
     name: "שיפור קול חכם",
     icon: <EnhanceIcon />,
     exVat: getExVat("ai_voice_enhance"),
+    billingType: "one-time" as const,
     deliverables: [
       "הבהרת קול ונוכחות",
       "עקביות בין קטעים",
@@ -91,20 +80,37 @@ const AI_SERVICES = [
     ctaLabel: "קבלו הצעה בוואטסאפ",
   },
   {
-    id: "episode",
-    name: "חבילת פרק שלם",
-    icon: <PackageIcon />,
-    exVat: null as number | null,
+    id: "ai_voice_restore",
+    name: "שחזור קול מלא",
+    icon: <RestoreIcon />,
+    exVat: getExVat("ai_voice_restore"),
+    billingType: "one-time" as const,
     deliverables: [
-      "עריכה מלאה של פרק",
-      "שיפור AI + ניקוי",
-      "כתוביות (אופציונלי)",
-      "מסירה מוכנה להעלאה",
+      "ניקוי רעשים מתקדם",
+      "איזון EQ ודחיסה עדינה",
+      "שחזור הקלטות פגומות",
+      "עד שעת חומר גולמי",
     ],
-    note: "עריכה + AI + מסירה מוכנה להעלאה",
-    whatsappText: "שלום, אשמח לקבל הצעת מחיר לחבילת פרק שלם",
-    ctaHref: "/book#podcast",
-    ctaLabel: "הזמנה מקוונת",
+    note: "פרק או ראיון עד שעה — ניקוי + איזון",
+    whatsappText: "שלום, אשמח לקבל הצעת מחיר לשחזור קול מלא",
+    ctaHref: null,
+    ctaLabel: "קבלו הצעה בוואטסאפ",
+  },
+  {
+    id: "ai_noise_basic",
+    name: "ניקוי רעשים בסיסי",
+    icon: <NoiseIcon />,
+    exVat: getExVat("ai_noise_basic"),
+    billingType: "one-time" as const,
+    deliverables: [
+      "הסרת רעש קבוע (מזגן, רקע)",
+      "נורמליזציה בסיסית",
+      "קובץ WAV או MP3 מוכן",
+    ],
+    note: "להקלטות קצרות עם רעש קבוע",
+    whatsappText: "שלום, אשמח לקבל הצעת מחיר לניקוי רעשים בסיסי",
+    ctaHref: null as string | null,
+    ctaLabel: "קבלו הצעה בוואטסאפ",
   },
 ] as const;
 
@@ -132,7 +138,7 @@ function ServiceCta({
     <a
       href={href}
       {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-red px-4 py-2 text-xs font-semibold text-white hover:bg-brand-red-light"
+      className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-red px-4 py-2 text-xs font-semibold text-white touch-press hover:bg-brand-red-light active:bg-brand-red-dark"
     >
       {service.ctaLabel} ←
     </a>
@@ -171,7 +177,13 @@ function ServiceRow({ service }: { service: (typeof AI_SERVICES)[number] }) {
       {/* Mobile card */}
       <tr className="md:hidden">
         <td colSpan={4} className="p-0">
-          <article className="border-b border-border p-4 last:border-0">
+          <article
+            className="border-b border-border p-4 last:border-0"
+            data-billing-type={service.billingType}
+            data-package-id={service.id}
+            itemScope
+            itemType="https://schema.org/Offer"
+          >
             <div className="flex items-center gap-3">
               {service.icon}
               <h3 className="font-semibold text-foreground">{service.name}</h3>
@@ -200,8 +212,23 @@ function ServiceRow({ service }: { service: (typeof AI_SERVICES)[number] }) {
 
 export default function OnlineAiPricingPageContent() {
   const restorationDemo = getAudioDemo("weber-restoration");
+  const pageUrl = absoluteUrl("online/online-ai-pricing");
+  const pricingOffersSchema = buildPricingOffersSchema(
+    pageUrl,
+    AI_SERVICES.map((service) => ({
+      id: service.id,
+      name: service.name,
+      description: service.note,
+      priceExVat: service.exVat,
+    })),
+  );
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingOffersSchema) }}
+      />
     <ServicePageLayout
       category="ai"
       pagePath="/online/online-ai-pricing"
@@ -214,6 +241,7 @@ export default function OnlineAiPricingPageContent() {
       ]}
       whatsappText="שלום, אשמח לקבל הצעת מחיר לשירותי AI"
       utmCampaign="online_ai_pricing"
+      corporateShareLabel="שירותי AI מקוונים"
       bookSlug="online/online-ai-pricing"
     >
       <div className="mx-auto max-w-[72rem] px-4 py-12 sm:px-6 lg:px-8">
@@ -292,5 +320,6 @@ export default function OnlineAiPricingPageContent() {
         </p>
       </div>
     </ServicePageLayout>
+    </>
   );
 }

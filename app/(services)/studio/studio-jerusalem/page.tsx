@@ -1,11 +1,9 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import StudioJerusalemPageContent from "@/components/seo/StudioJerusalemPageContent";
 
 import {
 
   getStudioService,
-
-  metadataFromService,
-
 } from "@/lib/data/services";
 
 

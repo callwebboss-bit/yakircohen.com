@@ -4,7 +4,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata = constructMetadata({
   title: "השכרת סטודיו לפודקאסט במודיעין",
   description:
-    "השכרת סטודיו לפודקאסט במודיעין  -  ציוד מקצועי, חדר מבודד אקוסטית וליווי טכני. מתאים להקלטות, עריכה ווידאו. נגיש מירושלים והמרכז.",
+    "השכרת אולפן פודקאסט במודיעין. חדר מבודד, ציוד מקצועי וליווי טכני — מירושלים והמרכז.",
   slug: "podcast/podcast-studio-modiin",
   keywords: [
     "השכרת סטודיו לפודקאסט במודיעין",

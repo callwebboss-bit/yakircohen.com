@@ -1,6 +1,7 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
 import BackToTopButton from "@/components/layout/BackToTopButton";
+import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Container from "@/components/ui/Container";
 import FooterCta from "@/components/layout/FooterCta";
 import FooterPaymentMethods from "@/components/layout/FooterPaymentMethods";
@@ -18,15 +19,46 @@ import {
   STUDIO_GOOGLE_MAPS_URL,
   STUDIO_WAZE_URL,
 } from "@/lib/constants";
-import { FOOTER_POPULAR_LINKS } from "@/lib/seo-footer-links";
+import { FOOTER_SEMANTIC_TREE } from "@/lib/seo-footer-links";
+
+function FooterSemanticColumn({
+  sections,
+}: {
+  sections: (typeof FOOTER_SEMANTIC_TREE)[number][];
+}) {
+  return (
+    <div className="space-y-8">
+      {sections.map((section) => (
+        <nav key={section.heading} aria-label={section.heading}>
+          <h2 className="text-sm font-semibold text-foreground">{section.heading}</h2>
+          <ul className="mt-3 space-y-2">
+            {section.links.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  title={item.title}
+                  className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+  );
+}
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const semanticColA = FOOTER_SEMANTIC_TREE.slice(0, 2);
+  const semanticColB = FOOTER_SEMANTIC_TREE.slice(2, 4);
 
   return (
     <footer data-pagefind-ignore className="border-t border-border bg-surface">
       <Container className="py-10 lg:py-14">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:gap-x-8">
           <div>
             <Link
               href="/"
@@ -45,7 +77,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              פודקאסט, סטודיו, אירועים וצילום - מודיעין, ירושלים והמרכז.
+              {SITE_NAME} - אולפן הקלטות, הפקת פודקאסטים, צילום וניהול אירועים
+              במודיעין, ירושלים, תל אביב ואזור המרכז.
             </p>
             <FooterSocialLinks />
           </div>
@@ -78,22 +111,8 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <nav role="navigation" aria-label="שירותים פופולריים">
-            <h2 className="text-sm font-semibold text-foreground">שירותים מובילים</h2>
-            <ul className="mt-3 space-y-2">
-              {FOOTER_POPULAR_LINKS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    title={item.title}
-                    className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <FooterSemanticColumn sections={[...semanticColA]} />
+          <FooterSemanticColumn sections={[...semanticColB]} />
 
           <div>
             <h2 className="text-sm font-semibold text-foreground">יצירת קשר</h2>
@@ -146,6 +165,8 @@ export default function Footer() {
         <FooterPaymentMethods compact />
 
         <FooterCta />
+
+        <CompanyDetailsCard variant="compact" className="mt-8" />
 
         <div className="mt-8 grid gap-4 border-t border-border pt-6 md:grid-cols-2 md:items-center lg:grid-cols-3">
           <p className="text-center text-xs text-muted-foreground md:text-start">

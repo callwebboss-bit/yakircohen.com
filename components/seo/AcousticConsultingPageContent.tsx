@@ -310,7 +310,7 @@ export default function AcousticConsultingPageContent() {
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <FAQAccordion
           items={faqItems}
-          title="שאלות נפוצות"
+          title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
           subtitle="ייעוץ אקוסטיקה ובניית אולפן"
           className="py-0"
         />

@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import MobileStudioPageContent from "@/components/seo/MobileStudioPageContent";
 import {
   getStudioService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getStudioService("studio-mobile-studio");

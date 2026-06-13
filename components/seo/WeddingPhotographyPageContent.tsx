@@ -186,7 +186,7 @@ export default function WeddingPhotographyPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="לפני שסוגרים תאריך"
             className="py-0"
           />

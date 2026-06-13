@@ -68,6 +68,9 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             alt="אולפן הקלטות ויקיר כהן במודיעין"
             fill
             priority
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
             sizes="(max-width: 1024px) 100vw, 50vw"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}

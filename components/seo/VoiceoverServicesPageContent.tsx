@@ -36,7 +36,7 @@ export default function VoiceoverServicesPageContent() {
           <JourneyStepsLink variant="studio" />
         </section>
         {service.faqs.length > 0 ? (
-          <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
+          <FAQAccordion items={[...service.faqs]} title="שאלות ששואלים אותנו הרבה לפני שמזמינים" className="py-0" />
         ) : null}
         <ServiceBlogStrip posts={getBlogPostsByServiceSlug("voiceover/services")} />
         <PageRelatedFooter pathname="/voiceover/services" />

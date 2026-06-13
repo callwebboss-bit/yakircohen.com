@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import SmokeBubbleMachinePageContent from "@/components/seo/SmokeBubbleMachinePageContent";
 import {
   getEventsService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getEventsService("attractions-smoke-bubble-machine");

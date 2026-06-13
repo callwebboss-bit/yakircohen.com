@@ -1,8 +1,11 @@
+"use client";
+
 import {
   buildFaqPageSchema,
   buildVideoObjectGraph,
   type VideoSchemaInput,
 } from "@/lib/video-schema";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 type VideoObjectSchemaProps = {
   videos?: readonly VideoSchemaInput[];
@@ -21,13 +24,13 @@ export default function VideoObjectSchema({
       {videoGraph ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoGraph) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(videoGraph) }}
         />
       ) : null}
       {faqGraph ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqGraph) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqGraph) }}
         />
       ) : null}
     </>

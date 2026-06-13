@@ -6,6 +6,7 @@ import BookDynamicHeroSubtitle, {
 } from "@/components/booking/BookDynamicHeroSubtitle";
 import BookPageSections from "@/components/booking/BookPageSections";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
+import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import BookPageSchema from "@/components/seo/BookPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Container from "@/components/ui/Container";
@@ -85,6 +86,10 @@ export default function BookPage() {
         </Suspense>
 
         <BookStudioInfoSection />
+
+        <Container className="max-w-3xl pb-14">
+          <CompanyDetailsCard variant="collapsible" />
+        </Container>
       </div>
     </>
   );

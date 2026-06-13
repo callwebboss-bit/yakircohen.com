@@ -1,3 +1,4 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import AudienceTabs from "@/components/events/AudienceTabs";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubPageSchema from "@/components/seo/HubPageSchema";
@@ -8,7 +9,6 @@ import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getEventsHubLinks,
   getEventsService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getEventsService("events-hub");

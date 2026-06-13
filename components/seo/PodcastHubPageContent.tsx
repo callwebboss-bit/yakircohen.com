@@ -39,6 +39,8 @@ import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { PODCAST_HUB_SEO } from "@/lib/seo/hub-pages";
+import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
+import { absoluteUrl } from "@/lib/site-url";
 
 const bookCta = resolveServiceBookCta("podcast");
 
@@ -122,16 +124,32 @@ export default function PodcastHubPageContent() {
     utm_campaign: "podcast_hub_cta",
   });
 
+  const pageUrl = absoluteUrl("podcast");
+  const pricingOffersSchema = buildPricingOffersSchema(
+    pageUrl,
+    PODCAST_HUB_PRICING_PACKAGES.map((pkg) => ({
+      id: pkg.id,
+      name: pkg.title,
+      description: pkg.subtitle,
+      priceExVat: pkg.priceFrom,
+    })),
+  );
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingOffersSchema) }}
+      />
       <ServicePageLayout
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט מקצועי במודיעין"
-        subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם פרק הקלטת פודקאסט מוכן לספוטיפיי ויוטיוב."
+        subtitle="סאונד מושלם. אפס מאמץ טכני. - אתם מגיעים לאולפן, בוחרים חלל, מדברים, ויוצאים עם תוכנית שמע מוכנה — MP3 לספוטיפיי ואפל, עם עריכת סאונד מקצועית."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
+        corporateShareLabel="שירות הפקת הפודקאסטים"
         scarcityLabel="פרק מוכן תוך 24 שעות"
         ctaLabel="קבעו הקלטה בוואטסאפ"
         showBookCtaInHero={Boolean(bookCta)}
@@ -186,7 +204,7 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                ציוד Shure &amp; Rode, בידוד אקוסטי, וניקוי AI - פרק מוכן תוך 24
+                ציוד Shure &amp; Rode, מיקרופונים דינמיים, בידוד אקוסטי, קובץ RSS מוכן — פרק מוכן תוך 24
                 שעות.
               </p>
             </header>
@@ -394,14 +412,18 @@ export default function PodcastHubPageContent() {
                   utm_campaign: `podcast_pricing_${pkg.id}`,
                 });
                 return (
-                  <li
-                    key={pkg.id}
-                    className={
-                      pkg.highlighted
-                        ? "relative rounded-2xl border-2 border-brand-red bg-surface p-7 shadow-[0_0_30px_rgba(212,43,43,0.12)]"
-                        : "relative rounded-2xl border border-border bg-surface p-7"
-                    }
-                  >
+                  <li key={pkg.id}>
+                    <article
+                      data-billing-type="one-time"
+                      data-package-id={pkg.id}
+                      itemScope
+                      itemType="https://schema.org/Offer"
+                      className={
+                        pkg.highlighted
+                          ? "relative h-full rounded-2xl border-2 border-brand-red bg-surface p-7 shadow-[0_0_30px_rgba(212,43,43,0.12)]"
+                          : "relative h-full rounded-2xl border border-border bg-surface p-7"
+                      }
+                    >
                     {pkg.badge ? (
                       <span className="absolute -top-3 right-5 inline-flex items-center rounded-full bg-brand-red px-3 py-0.5 text-xs font-bold text-white">
                         {pkg.badge}
@@ -445,12 +467,13 @@ export default function PodcastHubPageContent() {
                       rel="noopener noreferrer"
                       className={
                         pkg.highlighted
-                          ? "mt-7 block rounded-xl bg-brand-red px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-red-light"
-                          : "mt-7 block rounded-xl border border-brand-red/40 px-4 py-3 text-center text-sm font-semibold text-brand-red hover:bg-brand-red/5"
+                          ? "touch-press mt-7 block rounded-xl bg-brand-red px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-red-light active:bg-brand-red-dark"
+                          : "touch-press mt-7 block rounded-xl border border-brand-red/40 px-4 py-3 text-center text-sm font-semibold text-brand-red hover:bg-brand-red/5 active:bg-brand-red/10"
                       }
                     >
                       {pkg.ctaLabel} ←
                     </a>
+                    </article>
                   </li>
                 );
               })}

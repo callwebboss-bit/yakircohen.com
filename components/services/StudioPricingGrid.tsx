@@ -26,6 +26,10 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
           return (
             <article
               key={tier.id}
+              data-billing-type="one-time"
+              data-package-id={tier.id}
+              itemScope
+              itemType="https://schema.org/Offer"
               className={cn(
                 // IMPROVED: hover-lift replaces raw translate-y on touch devices
                 "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift",

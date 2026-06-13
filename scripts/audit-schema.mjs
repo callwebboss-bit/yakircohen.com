@@ -1,5 +1,6 @@
 /**
- * Audit pages with FAQ accordion markup but no FAQPage JSON-LD in source.
+ * Audit pages with FAQ accordion markup but no FAQPage JSON-LD in source,
+ * plus Person/Organization entity checks on site-schema.json.
  * Run: node scripts/audit-schema.mjs
  */
 import fs from "node:fs";
@@ -19,7 +20,7 @@ function walk(dir, files = []) {
   return files;
 }
 
-const issues = [];
+const faqIssues = [];
 
 for (const file of walk(appDir)) {
   const content = fs.readFileSync(file, "utf8");
@@ -33,15 +34,62 @@ for (const file of walk(appDir)) {
     content.includes('"@type":"FAQPage"');
 
   if (hasFaqUi && !hasFaqSchema) {
-    issues.push(path.relative(root, file));
+    faqIssues.push(path.relative(root, file));
   }
 }
 
-if (issues.length === 0) {
-  console.log("audit:schema — no FAQ UI pages missing FAQPage schema");
+const entityIssues = [];
+const schemaPath = path.join(root, "lib", "seo", "site-schema.json");
+
+if (fs.existsSync(schemaPath)) {
+  const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
+  const graph = schema["@graph"] ?? [];
+
+  const org = graph.find((n) => n["@type"] === "Organization");
+  const person = graph.find((n) => n["@type"] === "Person");
+
+  if (!org?.founder) {
+    entityIssues.push("Organization missing founder");
+  }
+  if (!org?.sameAs?.length) {
+    entityIssues.push("Organization missing sameAs");
+  }
+  if (!person) {
+    entityIssues.push("Person node missing from @graph");
+  } else {
+    if (!person.sameAs?.length) {
+      entityIssues.push("Person missing sameAs");
+    }
+    if (!person.image) {
+      entityIssues.push("Person missing image");
+    }
+    if (!person.knowsAbout?.length) {
+      entityIssues.push("Person missing knowsAbout");
+    }
+  }
+} else {
+  entityIssues.push("site-schema.json not found — run npm run generate:schema");
+}
+
+const totalIssues = faqIssues.length + entityIssues.length;
+
+if (totalIssues === 0) {
+  console.log(
+    "audit:schema — no FAQ UI pages missing FAQPage schema; entity graph OK",
+  );
   process.exit(0);
 }
 
-console.log(`audit:schema — ${issues.length} page(s) with FAQ UI but no schema:`);
-for (const file of issues) console.log(`  ${file}`);
+if (faqIssues.length > 0) {
+  console.log(
+    `audit:schema — ${faqIssues.length} page(s) with FAQ UI but no schema:`,
+  );
+  for (const file of faqIssues) console.log(`  ${file}`);
+}
+
+if (entityIssues.length > 0) {
+  console.log(`audit:schema — entity issues:`);
+  for (const issue of entityIssues) console.log(`  ${issue}`);
+}
+
 process.exit(1);

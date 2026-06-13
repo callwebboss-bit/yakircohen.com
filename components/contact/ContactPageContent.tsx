@@ -12,6 +12,8 @@ import {
 } from "@/lib/constants";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
+import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import {
   formatPhoneForDisplay,
@@ -22,8 +24,14 @@ import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import {
+  parseContactQuizDraft,
+  type ContactQuizDraft,
+} from "@/lib/contact-quiz-draft";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Button from "@/components/ui/Button";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
@@ -186,6 +194,40 @@ export default function ContactPageContent() {
     formId: "contact_quiz",
   });
 
+  const quizSnapshot = useMemo(
+    (): ContactQuizDraft => ({
+      step,
+      service,
+      timing,
+      budget,
+      name,
+      phone,
+      email,
+      message,
+    }),
+    [step, service, timing, budget, name, phone, email, message],
+  );
+
+  const applyQuizSnapshot = useCallback((next: ContactQuizDraft) => {
+    setStep(next.step);
+    setService(next.service as ServiceKey | null);
+    setTiming(next.timing as TimingKey | null);
+    setBudget(next.budget as BudgetKey | null);
+    setName(next.name);
+    setPhone(next.phone);
+    setEmail(next.email);
+    setMessage(next.message);
+  }, []);
+
+  const quizDraft = useBookingDraft(
+    "contact-quiz",
+    quizSnapshot,
+    applyQuizSnapshot,
+    (s) => s,
+    parseContactQuizDraft,
+    !submitted,
+  );
+
   const progressPercent = submitted
     ? 100
     : step === 1
@@ -224,7 +266,8 @@ export default function ContactPageContent() {
     setMessage("");
     setSubmitted(false);
     setFieldErrors({});
-  }, []);
+    quizDraft.clear();
+  }, [quizDraft]);
 
   const submitForm = useCallback(() => {
     if (!service || !timing || !budget) return;
@@ -268,6 +311,7 @@ export default function ContactPageContent() {
             formId: "contact_quiz",
             subject: "ליד חדש - יצירת קשר",
             body: waText,
+            website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
             crossSell: contactCrossSellCategory
@@ -279,6 +323,7 @@ export default function ContactPageContent() {
           contactCrossSellCategory ? { leadCategory: contactCrossSellCategory } : undefined,
         );
         setSubmitted(true);
+        quizDraft.clear();
       },
     );
 
@@ -293,6 +338,7 @@ export default function ContactPageContent() {
     budget,
     attemptSubmit,
     submitLead,
+    quizDraft,
   ]);
 
   const micSteps = [
@@ -430,6 +476,17 @@ export default function ContactPageContent() {
           </div>
 
           <div className="p-5 sm:p-6">
+            {quizDraft.restored ? (
+              <BookDraftRecoveryBanner
+                savedAt={quizDraft.savedAt}
+                onDismiss={quizDraft.dismissRestored}
+                onClear={() => {
+                  quizDraft.clear();
+                  resetQuiz();
+                }}
+                className="mb-4"
+              />
+            ) : null}
             {!submitted ? (
               <>
                 {step === 1 ? (
@@ -539,36 +596,46 @@ export default function ContactPageContent() {
                     <div className="relative space-y-3">
                       <HoneypotField value={honeypot} onChange={setHoneypot} />
                       <LeadFormAlert message={globalError} />
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          if (fieldErrors.name) {
-                            setFieldErrors((prev) => {
-                              const next = { ...prev };
-                              delete next.name;
-                              return next;
-                            });
-                          }
-                        }}
-                        placeholder="שם מלא *"
-                        autoComplete="name"
-                        className={cn(
-                          "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
-                          fieldErrors.name
-                            ? "border-brand-red ring-2 ring-brand-red/30"
-                            : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
-                        )}
-                        aria-label="שם מלא"
-                        aria-invalid={Boolean(fieldErrors.name)}
-                      />
-                      {fieldErrors.name ? (
-                        <p className="text-xs text-brand-red">{fieldErrors.name}</p>
-                      ) : null}
-                      <input
-                        type="tel"
-                        value={phone}
+                      <div>
+                        <label htmlFor="contact-quiz-name" className="mb-1.5 block text-sm font-semibold text-foreground">
+                          {FORM_MICROCOPY.nameLabel} *
+                        </label>
+                        <input
+                          id="contact-quiz-name"
+                          type="text"
+                          value={name}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                            if (fieldErrors.name) {
+                              setFieldErrors((prev) => {
+                                const next = { ...prev };
+                                delete next.name;
+                                return next;
+                              });
+                            }
+                          }}
+                          placeholder={FORM_MICROCOPY.namePlaceholder}
+                          autoComplete="name"
+                          className={cn(
+                            "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
+                            fieldErrors.name
+                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+                          )}
+                          aria-invalid={Boolean(fieldErrors.name)}
+                        />
+                        {fieldErrors.name ? (
+                          <p className="mt-1 text-xs text-brand-red">{fieldErrors.name}</p>
+                        ) : null}
+                      </div>
+                      <div>
+                        <label htmlFor="contact-quiz-phone" className="mb-1.5 block text-sm font-semibold text-foreground">
+                          {FORM_MICROCOPY.phoneLabel} *
+                        </label>
+                        <input
+                          id="contact-quiz-phone"
+                          type="tel"
+                          value={phone}
                         onChange={(e) => {
                           setPhone(e.target.value);
                           if (fieldErrors.phone) {
@@ -579,21 +646,26 @@ export default function ContactPageContent() {
                             });
                           }
                         }}
-                        placeholder="050-0000000 *"
-                        autoComplete="tel"
-                        inputMode="tel"
-                        className={cn(
-                          "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
-                          fieldErrors.phone
-                            ? "border-brand-red ring-2 ring-brand-red/30"
-                            : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+                          placeholder={FORM_MICROCOPY.phonePlaceholder}
+                          autoComplete="tel"
+                          inputMode="tel"
+                          className={cn(
+                            "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
+                            fieldErrors.phone
+                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+                          )}
+                          aria-describedby="contact-phone-hint"
+                          aria-invalid={Boolean(fieldErrors.phone)}
+                        />
+                        {fieldErrors.phone ? (
+                          <p className="mt-1 text-xs text-brand-red">{fieldErrors.phone}</p>
+                        ) : (
+                          <p id="contact-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                            {FORM_MICROCOPY.phoneHint}
+                          </p>
                         )}
-                        aria-label="טלפון"
-                        aria-invalid={Boolean(fieldErrors.phone)}
-                      />
-                      {fieldErrors.phone ? (
-                        <p className="text-xs text-brand-red">{fieldErrors.phone}</p>
-                      ) : null}
+                      </div>
                       <input
                         type="email"
                         value={email}
@@ -699,6 +771,8 @@ export default function ContactPageContent() {
             )}
           </div>
         </div>
+
+        <CompanyDetailsCard variant="collapsible" className="mt-6" />
 
         <div className="mt-6 grid grid-cols-2 gap-3">
           <a

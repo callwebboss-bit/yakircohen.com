@@ -411,7 +411,7 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift overflow-hidden rounded-xl border border-border bg-neutral-100"
+                className="hover-lift overflow-hidden rounded-xl border border-border bg-neutral-100 transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
               >
                 <button
                   type="button"
@@ -425,7 +425,7 @@ export default function MediaGallery({
                     src={item.src}
                     alt={item.alt}
                     fill
-                    className="object-cover transition-[transform,filter] duration-normal ease-luxury group-hover:scale-[1.03] group-hover:brightness-95"
+                    className="object-cover transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-95"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     loading={index < 6 ? "eager" : "lazy"}
                     priority={index < 2}
@@ -450,7 +450,7 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border"
+                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
               >
                 <button
                   type="button"
@@ -465,7 +465,7 @@ export default function MediaGallery({
                     alt={item.alt}
                     width={item.width}
                     height={item.height}
-                    className="block h-auto w-full transition-[transform,filter] duration-normal ease-luxury group-hover:scale-[1.03] group-hover:brightness-90"
+                    className="block h-auto w-full transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-90"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     loading={index < 4 ? "eager" : "lazy"}
                     priority={index < 2}

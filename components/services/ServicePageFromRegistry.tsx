@@ -107,7 +107,7 @@ export default function ServicePageFromRegistry({
         {showFaqs && service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="מענים קצרים לפני שמתחילים"
             className="py-0"
           />

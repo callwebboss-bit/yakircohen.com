@@ -2,6 +2,12 @@
   "version": 1,
   "rules": [
     {
+      "id": "continue_chat_large_group",
+      "match": { "intent": "continue_chat", "recordersMin": 8 },
+      "replyPath": "soft_continue",
+      "injectBundle": "first_reply"
+    },
+    {
       "id": "unsure_group",
       "match": { "scenarioHint": "unsure", "recordersMin": 2 },
       "replyPath": "group_full",

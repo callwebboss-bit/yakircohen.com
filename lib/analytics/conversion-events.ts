@@ -15,6 +15,7 @@ export type ConversionEventName =
   | "book_wizard_step"
   | "book_lead_submit"
   | "book_success_panel"
+  | "book_success_wa_click"
   | "whatsapp_popup_blocked";
 
 export function trackConversion(

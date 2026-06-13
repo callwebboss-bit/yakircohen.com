@@ -1,0 +1,8 @@
+# local-tools / Closer — never part of Vercel output (lives in ../local-tools/)
+../local-tools/**
+**/yakir-closer.html
+**/closer-config.js
+**/closer-config.json
+**/closer-site-sync.js
+**/closer-brand-copy.js
+**/closer-reply-builders.js

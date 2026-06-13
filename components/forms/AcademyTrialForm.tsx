@@ -6,6 +6,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { sanitizeLeadText, type ValidationResult } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -184,6 +185,7 @@ export default function AcademyTrialForm() {
           formId: "academy_trial_lesson",
           subject: `בקשה לשיעור ניסיון עברית - ${form.name.trim()}`,
           body: message,
+          website_verification: honeypot,
           name: form.name.trim(),
           phone: form.phone.trim(),
           crossSell: { bookCategory: "academy" },
@@ -227,7 +229,7 @@ export default function AcademyTrialForm() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="trial-name" required>
-            שם מלא
+            {FORM_MICROCOPY.nameLabel}
           </Label>
           <input
             id="trial-name"
@@ -235,7 +237,7 @@ export default function AcademyTrialForm() {
             autoComplete="name"
             value={form.name}
             onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-            placeholder="שם פרטי ושם משפחה"
+            placeholder={FORM_MICROCOPY.namePlaceholder}
             className={cn(inputClass, errors.name && "border-red-400")}
           />
           <FieldError message={errors.name} />
@@ -243,7 +245,7 @@ export default function AcademyTrialForm() {
 
         <div>
           <Label htmlFor="trial-phone" required>
-            טלפון
+            {FORM_MICROCOPY.phoneLabel}
           </Label>
           <input
             id="trial-phone"
@@ -252,10 +254,16 @@ export default function AcademyTrialForm() {
             dir="ltr"
             value={form.phone}
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-            placeholder="05X-XXXXXXX"
+            placeholder={FORM_MICROCOPY.phonePlaceholder}
+            aria-describedby="trial-phone-hint"
             className={cn(inputClass, errors.phone && "border-red-400")}
           />
           <FieldError message={errors.phone} />
+          {!errors.phone ? (
+            <p id="trial-phone-hint" className="mt-1 text-xs text-muted-foreground">
+              {FORM_MICROCOPY.phoneHint}
+            </p>
+          ) : null}
         </div>
 
         <div>

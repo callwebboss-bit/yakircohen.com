@@ -14,6 +14,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
 import { withVat } from "@/lib/data/pricing";
@@ -151,6 +152,7 @@ export default function AcademyBookingWizard({
               formId: "academy_booking",
               subject: "ליד חדש - שיעור פרטי באקדמיה",
               body,
+              website_verification: honeypot,
               name: sanitizeLeadText(name, 60),
               phone: displayPhone,
               crossSell: { bookCategory: "academy", routeId },
@@ -249,13 +251,13 @@ export default function AcademyBookingWizard({
       <div className="space-y-3">
         <div>
           <label htmlFor="academy-name" className="mb-1.5 block text-xs font-semibold">
-            שם מלא *
+            {FORM_MICROCOPY.nameLabel} *
           </label>
           <input
             id="academy-name"
             autoComplete="name"
             className={cn(bookFieldClass, errors.name && "border-red-400")}
-            placeholder="שם מלא"
+            placeholder={FORM_MICROCOPY.namePlaceholder}
             value={name}
             onChange={(e) => {
               setName(e.target.value);

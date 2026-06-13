@@ -1,8 +1,7 @@
-"use client";
-
-import { parseYouTubeVideoId } from "@/components/YouTube";
+import { parseYouTubeVideoId } from "@/lib/youtube";
 import LazyClickEmbed from "@/components/marketing/LazyClickEmbed";
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 
 export type LazyYouTubeEmbedProps = {
   embedUrl: string;
@@ -26,11 +25,14 @@ export default function LazyYouTubeEmbed({
     const videoId = parseYouTubeVideoId(embedUrl);
     if (videoId) {
       return (
-        <LazyYouTubePlayer
-          videoId={videoId}
-          title={title}
-          className={className}
-        />
+        <>
+          <VideoObjectSchema videos={[{ videoId, name: title }]} />
+          <LazyYouTubePlayer
+            videoId={videoId}
+            title={title}
+            className={className}
+          />
+        </>
       );
     }
   }

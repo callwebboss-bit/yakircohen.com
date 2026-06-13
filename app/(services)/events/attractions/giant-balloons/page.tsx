@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import {
   getEventsService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getEventsService("attractions-giant-balloons");

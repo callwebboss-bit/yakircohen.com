@@ -1,3 +1,4 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
@@ -15,7 +16,6 @@ import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import {
   getStudioHubLinks,
   getStudioService,
-  metadataFromService,
 } from "@/lib/data/services";
 import { PORTFOLIO_CATALOG_COUNT } from "@/lib/data/video-catalog.generated";
 

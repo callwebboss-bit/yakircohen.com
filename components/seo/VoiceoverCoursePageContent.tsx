@@ -1,4 +1,4 @@
-import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
+﻿import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -42,7 +42,7 @@ export default function VoiceoverCoursePageContent() {
           <JourneyStepsLink variant="studio" />
         </section>
         {service.faqs.length > 0 ? (
-          <FAQAccordion items={[...service.faqs]} title="שאלות נפוצות" className="py-0" />
+          <FAQAccordion items={[...service.faqs]} title="שאלות ששואלים אותנו הרבה לפני שמזמינים" className="py-0" />
         ) : null}
         <PageRelatedFooter pathname="/voiceover/course" />
       </div>

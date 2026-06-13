@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import StageLedDjPageContent from "@/components/seo/StageLedDjPageContent";
 import {
   getEventsService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getEventsService("attractions-led-booth");

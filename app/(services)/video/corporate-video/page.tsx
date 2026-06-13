@@ -1,5 +1,6 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
-import { getVideoService, metadataFromService } from "@/lib/data/services";
+import { getVideoService } from "@/lib/data/services";
 
 const service = getVideoService("video-corporate");
 

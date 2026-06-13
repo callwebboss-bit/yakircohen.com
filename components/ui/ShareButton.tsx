@@ -6,10 +6,20 @@ import { cn } from "@/lib/utils";
 export type ShareButtonProps = {
   title: string;
   text?: string;
+  /** Visible button label (default: שתף) */
+  label?: string;
+  /** When true, clipboard fallback copies text + URL (not URL alone) */
+  copyFullMessage?: boolean;
   className?: string;
 };
 
-export default function ShareButton({ title, text, className }: ShareButtonProps) {
+export default function ShareButton({
+  title,
+  text,
+  label = "שתף",
+  copyFullMessage = false,
+  className,
+}: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -28,7 +38,8 @@ export default function ShareButton({ title, text, className }: ShareButtonProps
     }
 
     try {
-      await navigator.clipboard.writeText(url);
+      const clipboardText = copyFullMessage && text ? `${shareText}\n${url}` : url;
+      await navigator.clipboard.writeText(clipboardText);
     } catch {
       const el = document.createElement("input");
       el.value = url;
@@ -54,7 +65,7 @@ export default function ShareButton({ title, text, className }: ShareButtonProps
         copied && "border-brand-red/40 bg-brand-red/8 text-brand-red",
         className,
       )}
-      aria-label={copied ? "הקישור הועתק בהצלחה" : "שתף עמוד זה"}
+      aria-label={copied ? "הקישור הועתק בהצלחה" : label}
       aria-live="polite"
     >
       {copied ? (
@@ -75,7 +86,7 @@ export default function ShareButton({ title, text, className }: ShareButtonProps
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
           </svg>
-          <span>שתף</span>
+          <span>{copied ? "הועתק!" : label}</span>
         </>
       )}
     </button>

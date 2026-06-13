@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import CorporateShareButton from "@/components/ui/CorporateShareButton";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import { BLUR_DATA_URL } from "@/lib/blur";
@@ -67,6 +68,8 @@ export type ServicePageLayoutProps = {
   metaDescription?: string;
   /** שאלות נפוצות לסכמת FAQPage המקוננת */
   faqs?: readonly { question: string; answer: string }[];
+  /** כפתור שיתוף מנוסח מראש למנהלים/רכש (למשל "שירות הפקת הפודקאסטים") */
+  corporateShareLabel?: string;
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -125,6 +128,7 @@ function ServiceHeroVisual({
         priority
         fetchPriority="high"
         loading="eager"
+        decoding="async"
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
       />
@@ -210,6 +214,7 @@ export default function ServicePageLayout({
   pagePath,
   metaDescription,
   faqs,
+  corporateShareLabel,
 }: ServicePageLayoutProps) {
   const accentColor = resolveServiceAccentColor(category);
   const accentStyle = { "--service-accent": accentColor } as CSSProperties;
@@ -276,6 +281,15 @@ export default function ServicePageLayout({
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,color-mix(in_srgb,var(--service-accent,#d42b2b)_14%,transparent),transparent_62%)]"
           aria-hidden="true"
         />
+        {/* Ambient accent glows — decorative, GPU-only (opacity/blur), zero INP impact. */}
+        <div
+          className="pointer-events-none absolute -end-32 -top-32 h-[26rem] w-[26rem] select-none rounded-full bg-[var(--service-accent,#d42b2b)] opacity-[0.025] blur-[120px] will-change-transform"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -start-40 top-1/3 h-[22rem] w-[22rem] select-none rounded-full bg-[var(--service-accent,#d42b2b)] opacity-[0.025] blur-[120px] will-change-transform"
+          aria-hidden="true"
+        />
         {!hasHeroGrid ? (
           <div
             className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)_50%,transparent_100%)]"
@@ -319,6 +333,7 @@ export default function ServicePageLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"
+                  liquid
                   className="gap-2 px-6 shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_22%,transparent)] hover:shadow-[0_0_28px_color-mix(in_srgb,var(--service-accent,#d42b2b)_35%,transparent)]"
                   aria-label={`${ctaLabel} - ${title}`}
                 >
@@ -414,7 +429,14 @@ export default function ServicePageLayout({
         showBookContact={Boolean(resolvedBookHref)}
         bookHref={resolvedBookHref}
         bookLabel={resolvedBookLabel}
-      />
+      >
+        {corporateShareLabel ? (
+          <CorporateShareButton
+            serviceLabel={corporateShareLabel}
+            title={`${title} | יקיר כהן הפקות`}
+          />
+        ) : null}
+      </PageBottomCta>
     </article>
   );
 }

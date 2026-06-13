@@ -14,6 +14,7 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -90,6 +91,7 @@ export default function RecordingSongFinalCTA() {
             formId: FORM_ID,
             subject: "ליד חדש - ייעוץ מוזיקלי להקלטת שיר",
             body,
+            website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
             crossSell: { bookCategory: "studio" },
@@ -173,32 +175,49 @@ export default function RecordingSongFinalCTA() {
         >
           <HoneypotField value={honeypot} onChange={setHoneypot} />
           <LeadFormAlert message={globalError} />
-          <input
-            type="text"
-            autoComplete="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="שם מלא *"
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
-            aria-invalid={Boolean(fieldErrors.name)}
-          />
+          <div>
+            <label htmlFor="recording-song-name" className="mb-1.5 block text-sm font-medium text-foreground">
+              {FORM_MICROCOPY.nameLabel} <span className="text-brand-red" aria-hidden>*</span>
+            </label>
+            <input
+              id="recording-song-name"
+              type="text"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={FORM_MICROCOPY.namePlaceholder}
+              className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+              aria-invalid={Boolean(fieldErrors.name)}
+            />
+          </div>
           {fieldErrors.name ? (
             <p className="text-xs text-red-500">{fieldErrors.name}</p>
           ) : null}
-          <input
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            dir="ltr"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="טלפון *"
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
-            aria-invalid={Boolean(fieldErrors.phone)}
-          />
+          <div>
+            <label htmlFor="recording-song-phone" className="mb-1.5 block text-sm font-medium text-foreground">
+              {FORM_MICROCOPY.phoneLabel} <span className="text-brand-red" aria-hidden>*</span>
+            </label>
+            <input
+              id="recording-song-phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              dir="ltr"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder={FORM_MICROCOPY.phonePlaceholder}
+              aria-describedby="recording-song-phone-hint"
+              className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+              aria-invalid={Boolean(fieldErrors.phone)}
+            />
+          </div>
           {fieldErrors.phone ? (
             <p className="text-xs text-red-500">{fieldErrors.phone}</p>
-          ) : null}
+          ) : (
+            <p id="recording-song-phone-hint" className="text-xs text-muted-foreground">
+              {FORM_MICROCOPY.phoneHint}
+            </p>
+          )}
           <select
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}

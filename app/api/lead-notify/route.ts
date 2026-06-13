@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
-import { isLeadSpam, validateIsraeliMobile } from "@/lib/form-validation";
+import {
+  HONEYPOT_FIELD_NAME,
+  isLeadSpam,
+  validateHoneypot,
+  validateIsraeliMobile,
+} from "@/lib/form-validation";
 import { SITE_URL } from "@/lib/site-url";
 
 const RESEND_API = "https://api.resend.com/emails";
@@ -17,6 +22,7 @@ type LeadPayload = {
   body: string;
   name?: string;
   phone?: string;
+  website_verification?: string;
 };
 
 function leadNotifyEmail(): string {
@@ -71,6 +77,16 @@ export async function POST(request: Request) {
   const { formId, subject, body } = payload;
   if (!formId?.trim() || !subject?.trim() || !body?.trim()) {
     return NextResponse.json({ ok: false, error: "missing_fields" }, { status: 400 });
+  }
+
+  const honeypotValue =
+    payload.website_verification ??
+    (payload as Record<string, unknown>)[HONEYPOT_FIELD_NAME];
+  if (
+    typeof honeypotValue === "string" &&
+    !validateHoneypot(honeypotValue)
+  ) {
+    return NextResponse.json({ ok: true });
   }
 
   if (!/^[a-z][a-z0-9_]{2,63}$/.test(formId.trim())) {

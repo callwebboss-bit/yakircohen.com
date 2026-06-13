@@ -42,6 +42,7 @@ export default function PodcastEditingPageContent() {
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
+      corporateShareLabel="שירות עריכת פודקאסט"
       bookSlug="podcast/podcast-editing"
       ctaLabel="שליחת פרק לעריכה בוואטסאפ"
       scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} · ${PODCAST_EDITING_PRICE_NOTE}`}

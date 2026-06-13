@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -349,7 +349,7 @@ export default function ConfettiCannonPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות"
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
             subtitle="כל מה שרוצים לדעת על קונפטי מקצועי"
             className="py-0"
           />

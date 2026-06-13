@@ -182,5 +182,35 @@ export function buildItemListSchema(
   };
 }
 
+export type PricingOfferInput = {
+  id: string;
+  name: string;
+  description?: string;
+  priceExVat?: number | null;
+};
+
+export function buildPricingOffersSchema(
+  pageUrl: string,
+  offers: PricingOfferInput[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: pageUrl,
+    inLanguage: "he-IL",
+    offers: offers.map((offer) => ({
+      "@type": "Offer",
+      "@id": `${pageUrl}#offer-${offer.id}`,
+      name: offer.name,
+      ...(offer.description ? { description: offer.description } : {}),
+      ...(offer.priceExVat != null
+        ? { price: offer.priceExVat, priceCurrency: "ILS" }
+        : {}),
+      url: pageUrl,
+      availability: "https://schema.org/InStock",
+    })),
+  };
+}
+
 export const DEFAULT_OG_WIDTH = 1200;
 export const DEFAULT_OG_HEIGHT = 630;

@@ -1,7 +1,7 @@
+import { metadataFromService } from "@/lib/data/service-metadata";
 import BlessingsBarMitzvahPageContent from "@/components/seo/BlessingsBarMitzvahPageContent";
 import {
   getStudioService,
-  metadataFromService,
 } from "@/lib/data/services";
 
 const service = getStudioService("blessings-bar-mitzvah");

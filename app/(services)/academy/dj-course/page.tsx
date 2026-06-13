@@ -162,6 +162,9 @@ export default function DjCoursePage() {
                   className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 48rem"
                   priority
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
             </figure>

@@ -52,6 +52,7 @@ export default function PodcastWithGrandpaPageContent() {
       features={PODCAST_GRANDPA_HERO_FEATURES}
       whatsappText="שלום, מעוניין בחוויית פודקאסט עם סבא/סבתא באולפן"
       utmCampaign="podcast_grandpa"
+      corporateShareLabel="פודקאסט משפחתי עם סבא וסבתא"
       bookSlug="podcast/podcast-with-grandpa"
       scarcityLabel="🎙️👴👵 חוויה משפחתית במודיעין"
       ctaLabel="תיאום החוויה בוואטסאפ"

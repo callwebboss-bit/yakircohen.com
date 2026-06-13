@@ -92,30 +92,39 @@ export default function PageBottomCta({
         </Button>
       </div>
     ) : (
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          {whatsappHref ? (
+            <Button
+              as="a"
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              liquid
+              className="w-full gap-2 px-8 shadow-[0_0_20px_rgba(212,43,43,0.25)] hover:shadow-[0_0_32px_rgba(212,43,43,0.4)] sm:w-auto"
+              aria-label={whatsappAriaLabel ?? resolvedWaLabel}
+            >
+              <WhatsAppIcon />
+              {resolvedWaLabel}
+            </Button>
+          ) : null}
+          {showBookContact ? (
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Button as="link" href={bookHref} variant="secondary" className="w-full sm:w-auto">
+                {bookLabel}
+              </Button>
+              <Button as="link" href="/contact" variant="outline" className="w-full sm:w-auto">
+                צור קשר
+              </Button>
+            </div>
+          ) : null}
+        </div>
         {whatsappHref ? (
-          <Button
-            as="a"
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="primary"
-            className="w-full gap-2 px-8 shadow-[0_0_20px_rgba(212,43,43,0.25)] hover:shadow-[0_0_32px_rgba(212,43,43,0.4)] sm:w-auto"
-            aria-label={whatsappAriaLabel ?? resolvedWaLabel}
-          >
-            <WhatsAppIcon />
-            {resolvedWaLabel}
-          </Button>
-        ) : null}
-        {showBookContact ? (
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button as="link" href={bookHref} variant="secondary" className="w-full sm:w-auto">
-              {bookLabel}
-            </Button>
-            <Button as="link" href="/contact" variant="outline" className="w-full sm:w-auto">
-              צור קשר
-            </Button>
-          </div>
+          <p className="text-xs text-neutral-500">
+            מענה אנושי מהיר - בדרך כלל תוך פחות מ-30 דקות בוואטסאפ, בלי שום
+            התחייבות.
+          </p>
         ) : null}
       </div>
     );

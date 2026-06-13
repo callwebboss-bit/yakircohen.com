@@ -1,5 +1,6 @@
 "use client";
 
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { normalizeIsraeliMobile } from "@/lib/form-validation";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +10,8 @@ export type PhoneInputFieldProps = {
   error?: string;
   id?: string;
   label?: string;
+  placeholder?: string;
+  hint?: string;
   className?: string;
 };
 
@@ -21,10 +24,13 @@ export default function PhoneInputField({
   onChange,
   error,
   id = "phone",
-  label = "טלפון נייד",
+  label = FORM_MICROCOPY.phoneLabel,
+  placeholder = FORM_MICROCOPY.phonePlaceholder,
+  hint = FORM_MICROCOPY.phoneHint,
   className,
 }: PhoneInputFieldProps) {
   const isValid = Boolean(value.trim() && normalizeIsraeliMobile(value.trim()));
+  const hintId = `${id}-hint`;
 
   return (
     <div className={className}>
@@ -40,7 +46,7 @@ export default function PhoneInputField({
           dir="ltr"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="05X-XXXXXXX"
+          placeholder={placeholder}
           className={cn(
             "w-full rounded-xl border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground",
             "transition-[border-color,box-shadow] duration-fast ease-luxury",
@@ -52,7 +58,7 @@ export default function PhoneInputField({
                 : "border-border focus:border-brand-red",
           )}
           aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={error ? `${hintId} ${id}-error` : hintId}
         />
         {isValid ? (
           <span
@@ -63,6 +69,11 @@ export default function PhoneInputField({
           </span>
         ) : null}
       </div>
+      {hint ? (
+        <p id={hintId} className="mt-1 text-xs text-muted-foreground">
+          {hint}
+        </p>
+      ) : null}
       {error ? (
         <p id={`${id}-error`} className="mt-1 text-xs text-red-500" role="alert">
           {error}
