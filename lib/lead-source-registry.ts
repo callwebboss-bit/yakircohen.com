@@ -174,6 +174,21 @@ export const LEAD_SOURCE_REGISTRY: readonly LeadSourceEntry[] = [
     utmCampaigns: ["contact_page", "contact_emergency_dj"],
   },
   {
+    formId: "market_alert_internal",
+    closerServiceId: "recording",
+    parserId: "generic_inquiry",
+    label: "התרעות מלאי פנימיות מהקלוזר",
+    defaultSource: "local-tools/closer",
+  },
+  {
+    formId: "event_index_subscription",
+    closerServiceId: "recording",
+    parserId: "generic_inquiry",
+    label: "מנוי דופק השוק",
+    defaultSource: "/pro/event-index",
+    utmCampaigns: ["event_index_subscription"],
+  },
+  {
     formId: "consult_15min",
     closerServiceId: "recording",
     parserId: "consult_partial",

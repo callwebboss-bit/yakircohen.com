@@ -39,6 +39,7 @@
     "audit:youtube": "node scripts/check-youtube-ids.mjs",
     "env:resend": "node scripts/push-resend-env.mjs",
     "export:closer": "node scripts/export-closer-config.mjs",
+    "export:event-index": "node scripts/export-event-index.mjs",
     "ingest:blog": "node scripts/ingest-blog-queue.mjs"
   },
   "dependencies": {

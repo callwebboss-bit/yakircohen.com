@@ -193,6 +193,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── שירותים מקצועיים לעסקים ────────────────────────────────────────────────
   { url: url("pro"), priority: 0.85, changeFrequency: "monthly" },
+  { url: url("pro/event-index"), priority: 0.75, changeFrequency: "weekly" },
   ...PRO_SERVICES.map((svc) => ({
     url: url(svc.slug),
     priority: 0.8 as const,

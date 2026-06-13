@@ -36,6 +36,7 @@
 | 6 | `/podcast/studio-in-a-box` |
 | 7 | `/events/dj/pre-built-sets` |
 | 8 | `/events/equipment/system-tuning` |
+| 9 | `/pro/event-index` |
 
 ### 3. Rich Results Test
 

@@ -60,6 +60,26 @@ export default function ProHubPageContent() {
         </Container>
       </Section>
 
+      <Section padding="sm" className="border-b border-border bg-muted/20">
+        <Container className="max-w-5xl">
+          <Link
+            href="/pro/event-index"
+            className="flex flex-col rounded-2xl border border-brand-red/20 bg-background p-6 transition-colors hover:border-brand-red/50 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div>
+              <p className="text-xs font-semibold text-brand-red">
+                מודיעין שוק לספקים
+              </p>
+              <h2 className="mt-2 font-serif text-xl font-semibold">דופק השוק — מחירים וביקוש</h2>
+              <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+                ממוצעי מחיר סגור, מגמות ביקוש לאטרקציות והתרעות על חוסר במלאי — מנוי לעסקים.
+              </p>
+            </div>
+            <span className="mt-4 text-sm font-semibold text-brand-red sm:mt-0">למדד</span>
+          </Link>
+        </Container>
+      </Section>
+
       {PRO_DEPARTMENTS.map((dept) => {
         const services = PRO_SERVICES.filter((s) => s.department === dept.id);
         return (

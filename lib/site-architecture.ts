@@ -273,6 +273,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "פס ייצור פודקאסט", href: "/podcast/bulk-production" },
       { label: "השכרת ציוד הגברה", href: "/events/equipment/dry-hire" },
       { label: "תכנון הגברה", href: "/events/equipment/system-tuning" },
+      { label: "דופק השוק", href: "/pro/event-index" },
     ],
   },
 ];
