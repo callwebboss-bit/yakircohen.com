@@ -209,6 +209,18 @@ export default function BatMitzvahClipPageContent() {
 
         <section className="flex flex-wrap justify-center gap-3">
           <Link
+            href="/studio/recording-song-modiin/gifts"
+            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+          >
+            מתנות מהאולפן
+          </Link>
+          <Link
+            href="/voucher"
+            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+          >
+            שובר מתנה
+          </Link>
+          <Link
             href="/studio/blessings/bar-mitzvah"
             className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >

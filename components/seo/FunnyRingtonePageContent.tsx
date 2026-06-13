@@ -3,6 +3,7 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import FunnyRingtoneBeforeAfter from "@/components/seo/FunnyRingtoneBeforeAfter";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import FunnyRingtoneOrderForm from "@/components/seo/FunnyRingtoneOrderForm";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import ShareButton from "@/components/ui/ShareButton";
@@ -16,6 +17,7 @@ import {
 } from "@/lib/data/funny-ringtone-page";
 import { formatNis } from "@/lib/data/pricing";
 import { SITE_NAME } from "@/lib/constants";
+import { buildFunnyRingtoneServiceSchema } from "@/lib/seo/gifts-page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const WHATSAPP_CTA = buildWhatsAppHref({
@@ -36,6 +38,18 @@ export default function FunnyRingtonePageContent() {
 
   return (
     <div className="bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildFunnyRingtoneServiceSchema()),
+        }}
+      />
+      <VideoObjectSchema
+        faqItems={RINGTONE_FAQ.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
@@ -259,6 +273,12 @@ export default function FunnyRingtonePageContent() {
             className="text-sm text-brand-red hover:underline"
           >
             כל המתנות מהאולפן
+          </Link>
+          <Link
+            href="/voucher"
+            className="text-sm text-brand-red hover:underline"
+          >
+            שובר מתנה
           </Link>
           <Link
             href="/studio/recording-song-modiin"

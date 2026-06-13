@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import BatMitzvahClipPageContent from "@/components/seo/BatMitzvahClipPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import { buildMetaDescription } from "@/lib/seo/share-description";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קליפ בת מצווה - תמונות ילדות, סרטונים וקליפ מהאולפן",
-  description:
-    "הפקת קליפ לבת מצווה במודיעין: שילוב תמונות ילדות, סרטונים מהבית והקלטה באולפן. שיר אישי, צילום, עריכה ומיקס - גם כשובר מתנה.",
+  title: "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן | מודיעין",
+  description: buildMetaDescription(
+    "קליפ לבת מצווה במודיעין.",
+    "שילוב תמונות ילדות, סרטונים מהבית והקלטה באולפן - שיר אישי, צילום ועריכה. גם כשובר מתנה.",
+  ),
   slug: "studio/blessings/bat-mitzvah-clip",
   keywords: [
     "קליפ בת מצווה",

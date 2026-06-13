@@ -3,6 +3,7 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
+import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import {
   BAT_MITZVAH_CLIP_TYPES,
@@ -10,7 +11,10 @@ import {
   GIFT_VOUCHER_STEPS,
   STUDIO_GIFT_FAQ,
   STUDIO_GIFT_IDEAS,
+  STUDIO_GIFT_QUICK_LINKS,
 } from "@/lib/data/studio-gifts-page";
+import { BAT_MITZVAH_STARTING_PRICE } from "@/lib/data/bat-mitzvah-gifts-page";
+import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   RINGTONE_HERO,
   RINGTONE_PAGE_PATH,
@@ -18,6 +22,7 @@ import {
 } from "@/lib/data/funny-ringtone-page";
 import { formatNis } from "@/lib/data/pricing";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import { buildStudioGiftsServiceSchema } from "@/lib/seo/gifts-page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
@@ -35,6 +40,12 @@ const VOUCHER_CTA = buildWhatsAppHref({
 });
 
 export default function StudioGiftsPageContent() {
+  const schemaVideos = STUDIO_GIFT_IDEAS.map((idea) => ({
+    videoId: idea.videoId,
+    name: idea.videoTitle,
+    description: idea.title,
+  }));
+
   const faqItems: FaqCtaItem[] = STUDIO_GIFT_FAQ.map((item) => ({
     id: item.id,
     question: item.question,
@@ -46,7 +57,14 @@ export default function StudioGiftsPageContent() {
 
   return (
     <div className="bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildStudioGiftsServiceSchema()),
+        }}
+      />
       <VideoObjectSchema
+        videos={schemaVideos}
         faqItems={STUDIO_GIFT_FAQ.map((item) => ({
           question: item.question,
           answer: item.answer,
@@ -84,12 +102,27 @@ export default function StudioGiftsPageContent() {
             {SITE_NAME}
           </p>
           <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-            מתנה מהאולפן שיוצאת דופן
+            מתנות מהאולפן ושוברי מתנה במודיעין
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             שובר מתנה לכל שירות באתר - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ
-            ועוד. המחיר לפי השירות שבחרתם, עם סימון ברור שמדובר במתנה.
+            לבת/בר מצווה, רינגטון מצחיק ועוד. המחיר לפי השירות שבחרתם, עם
+            סימון ברור שמדובר במתנה.
           </p>
+          <nav
+            aria-label="עמודים קשורים"
+            className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2"
+          >
+            {STUDIO_GIFT_QUICK_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
             <li>✓ כל שירות באולפן - לא סכום קבוע</li>
             <li>✓ וידאו ליד כל רעיון למטה</li>
@@ -236,17 +269,54 @@ export default function StudioGiftsPageContent() {
             </div>
           </div>
         </article>
+
+        <div className="mt-14">
+          <header className="mx-auto mb-8 max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              עוד דוגמאות
+            </p>
+            <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
+              מתנות מהאולפן - בפעולה
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              שירים, קליפים והקלטות שהפקנו כמתנה - לחצו לצפייה.
+            </p>
+          </header>
+          <RecordingSongExampleVideos
+            videos={STUDIO_GIFTS_VIDEOS}
+            initialVisible={4}
+          />
+        </div>
       </section>
 
       <section className="border-t border-border bg-surface py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <BatMitzvahClipShowcase
-            showHeader={false}
-            showFeaturedVideo={false}
-            showMoreVideos={false}
+            heading="קליפ בת/בר מצווה - מתנה שהאולם לא ישכח"
+            showGallery={false}
           />
 
+          <div className="mx-auto mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/studio/blessings/bat-mitzvah-clip"
+              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+            >
+              לעמוד קליפ בת מצווה
+            </Link>
+            <span className="self-center text-sm text-muted-foreground">
+              החל מ-{BAT_MITZVAH_STARTING_PRICE} ₪ · גם כשובר מתנה
+            </span>
+          </div>
+
           <div className="mt-12 space-y-8">
+            <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+                סגנונות קליפ
+              </p>
+              <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
+                איזה סוג קליפ מתאים כמתנה?
+              </h2>
+            </header>
             {BAT_MITZVAH_CLIP_TYPES.map((type) => (
               <article
                 key={type.id}
@@ -343,6 +413,12 @@ export default function StudioGiftsPageContent() {
         showBookContact={false}
       >
         <div className="flex flex-wrap justify-center gap-4">
+          <Link
+            href={RINGTONE_PAGE_PATH}
+            className="text-sm text-brand-red hover:underline"
+          >
+            רינגטון מצחיק במתנה
+          </Link>
           <Link
             href="/voucher"
             className="text-sm text-brand-red hover:underline"

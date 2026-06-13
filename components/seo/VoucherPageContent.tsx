@@ -149,8 +149,10 @@ export default function VoucherPageContent() {
           </h2>
           <ul className="mt-4 flex flex-wrap gap-3">
             {[
+              { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
               { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
               { href: "/studio/blessings", label: "ברכות מוקלטות" },
+              { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת מצווה" },
               { href: "/events/attractions", label: "אטרקציות לאירוע" },
               { href: "/podcast/podcast-studio-modiin", label: "הקלטת פודקאסט" },
             ].map((link) => (

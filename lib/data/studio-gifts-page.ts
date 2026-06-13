@@ -4,6 +4,7 @@ import {
   BAT_MITZVAH_FEATURED_VIDEO_ID,
   BAT_MITZVAH_PRODUCTION_STYLES,
 } from "@/lib/data/bat-mitzvah-gifts-page";
+import { RINGTONE_PAGE_PATH } from "@/lib/data/funny-ringtone-page";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
 import {
   formatMeNis,
@@ -32,6 +33,18 @@ export type StudioGiftIdea = {
   whatsappText: string;
   utmCampaign: string;
 };
+
+/** קישורים פנימיים בין עמודי מתנות / שוברים */
+export const STUDIO_GIFT_QUICK_LINKS: readonly {
+  href: string;
+  label: string;
+}[] = [
+  { href: RINGTONE_PAGE_PATH, label: "רינגטון מצחיק במתנה" },
+  { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת/בר מצווה" },
+  { href: "/voucher", label: "שובר מתנה" },
+  { href: "/podcast/podcast-with-grandpa", label: "פודקאסט עם סבא" },
+  { href: "/studio/recording-song-modiin", label: "הקלטת שיר במודיעין" },
+] as const;
 
 export const GIFT_VOUCHER_STEPS: readonly {
   step: string;

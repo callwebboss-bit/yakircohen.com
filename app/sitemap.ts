@@ -47,12 +47,12 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/recording-song-modiin"), priority: 0.7, changeFrequency: "monthly" },
   {
     url: url("studio/recording-song-modiin/gifts"),
-    priority: 0.8,
+    priority: 0.85,
     changeFrequency: "monthly",
   },
   {
     url: url("studio/recording-song-modiin/gifts/funny-ringtone"),
-    priority: 0.7,
+    priority: 0.75,
     changeFrequency: "monthly",
   },
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },

@@ -23,6 +23,7 @@ export default function GiftIdeaCard({
 
   return (
     <article
+      id={idea.id}
       className={cn(
         "overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md",
         "grid grid-cols-1 gap-0 lg:grid-cols-2",

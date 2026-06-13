@@ -91,5 +91,6 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/podcast/faq": "שאלות נפוצות - פודקאסט",
   "/dj-events/cities/jerusalem": "תקליטן בירושלים",
   "/studio/recording-song-modiin/gifts": "מתנות והקלטות",
+  "/studio/recording-song-modiin/gifts/funny-ringtone": "רינגטון מצחיק במתנה",
   "/studio/blessings/bat-mitzvah-clip": "קליפ בת מצווה",
 };
