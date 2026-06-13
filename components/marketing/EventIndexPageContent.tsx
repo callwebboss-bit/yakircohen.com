@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import EventIndexAttractionsBundle from "@/components/marketing/EventIndexAttractionsBundle";
+import EventIndexAttractionsCatalog from "@/components/marketing/EventIndexAttractionsCatalog";
+import EventIndexProducerPitch from "@/components/marketing/EventIndexProducerPitch";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import {
@@ -281,6 +284,17 @@ export default function EventIndexPageContent() {
               הנתונים מתעדכנים שבועית. הפרסום הראשון יופיע אחרי צבירת לידים מספקת.
             </p>
           )}
+        </Container>
+      </Section>
+
+      <Section padding="sm" className="border-t border-border bg-muted/20">
+        <Container className="max-w-4xl space-y-10">
+          <EventIndexProducerPitch />
+          <EventIndexAttractionsCatalog
+            index={displayIndex}
+            hasFullAccess={hasFullAccess}
+          />
+          <EventIndexAttractionsBundle />
         </Container>
       </Section>
 
