@@ -19,7 +19,7 @@ const NAV_ICONS: Record<string, string> = {
   online: "🤖",
   attractions: "✨",
   "dj-voice": "🎤",
-  social: "📱",
+  business: "🏢",
   video: "📹",
   photography: "📸",
   academy: "🎓",

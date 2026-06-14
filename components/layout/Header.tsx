@@ -70,7 +70,7 @@ function HeaderMainBar({
       <Container variant="wide" className="relative flex h-16 items-center justify-between gap-3 sm:h-[4.25rem]">
         <HeaderLogo />
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-3">
           <div className="hidden w-52 lg:block xl:w-64">
             <SiteSearchLazy />
           </div>

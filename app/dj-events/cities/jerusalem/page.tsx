@@ -17,11 +17,5 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function DjJerusalemPage() {
-  return (
-    <>
-      <link rel="preconnect" href="https://wa.me" />
-      <link rel="preconnect" href="https://api.whatsapp.com" />
-      <DjJerusalemPageContent />
-    </>
-  );
+  return <DjJerusalemPageContent />;
 }

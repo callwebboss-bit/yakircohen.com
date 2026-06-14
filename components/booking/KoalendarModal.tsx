@@ -57,7 +57,6 @@ export default function KoalendarModal({ open, onClose }: KoalendarModalProps) {
 
         {/* iFrame */}
         <div className="relative h-[560px] overflow-hidden rounded-b-2xl">
-          {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
           <iframe
             src={KOALENDAR_URL}
             title="קביעת פגישת ייעוץ"

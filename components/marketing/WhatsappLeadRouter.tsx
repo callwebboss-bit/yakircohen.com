@@ -37,11 +37,11 @@ const V_ICON: Record<AudienceCardVariant, string> = {
 };
 
 const V_BADGE: Record<AudienceCardVariant, string> = {
-  gold: "bg-brand-red/10 text-brand-red",
-  neutral: "bg-brand-red/10 text-brand-red",
-  luxury: "bg-brand-red/20 text-brand-red",
-  academy: "bg-brand-red/10 text-brand-red",
-  online: "bg-brand-red/10 text-brand-red",
+  gold: "bg-brand-red/10 text-brand-red-dark",
+  neutral: "bg-brand-red/10 text-brand-red-dark",
+  luxury: "bg-brand-red/20 text-brand-red-dark",
+  academy: "bg-brand-red/10 text-brand-red-dark",
+  online: "bg-brand-red/10 text-brand-red-dark",
 };
 
 const V_TITLE: Record<AudienceCardVariant, string> = {
@@ -104,7 +104,7 @@ export default function WhatsappLeadRouter({
     <Section className={cn("bg-background", className)} ariaLabelledby="wa-router-heading">
       <Container>
         <header className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-brand-red/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-red">
+          <span className="inline-block rounded-full bg-brand-red/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-red-dark">
             {eyebrow}
           </span>
 

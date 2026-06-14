@@ -44,7 +44,6 @@ export default function SingerBeforeAfterAudio() {
               </span>
               <p className="text-sm font-semibold text-foreground">{before.title}</p>
             </div>
-            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <audio
               ref={beforeRef}
               controls
@@ -64,7 +63,6 @@ export default function SingerBeforeAfterAudio() {
               </span>
               <p className="text-sm font-semibold text-foreground">{after.title}</p>
             </div>
-            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <audio
               ref={afterRef}
               controls

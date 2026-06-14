@@ -42,6 +42,50 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   "events/dj/pre-built-sets": { bookCategory: "dj", priceCatalogId: "prebuilt_set_corporate" },
   "podcast/studio-in-a-box": { bookCategory: "podcast", priceCatalogId: "studio_in_box_consult" },
   "podcast/bulk-production": { bookCategory: "podcast", priceCatalogId: "bulk_podcast_episode" },
+  "podcast/self-service-studio": {
+    bookCategory: "podcast",
+    priceCatalogId: "studio_self_service_hour",
+  },
+  "business/content-studio": {
+    bookCategory: "clips",
+    priceCatalogId: "content_studio_session",
+  },
+  "business/on-site-studio": {
+    bookCategory: "clips",
+    priceCatalogId: "on_site_half_day",
+  },
+  "business/corporate-songs": {
+    bookCategory: "studio",
+    priceCatalogId: "corp_song_toast",
+  },
+  "business/audiobooks": {
+    bookCategory: "online",
+    priceCatalogId: "audiobook_hour",
+  },
+  "business/audio-branding": {
+    bookCategory: "online",
+    priceCatalogId: "audio_brand_starter",
+  },
+  "online/legacy-digitization": {
+    bookCategory: "online",
+    priceCatalogId: "legacy_dig_basic",
+  },
+  "online/transcription": {
+    bookCategory: "online",
+    priceCatalogId: "transcribe_hour",
+  },
+  "online/voice-cloning": {
+    bookCategory: "online",
+    priceCatalogId: "voice_clone_setup",
+  },
+  "academy/workshops": {
+    bookCategory: "academy",
+    priceCatalogId: "workshop_team_2h",
+  },
+  "business/employer-branding": {
+    bookCategory: "online",
+    priceCatalogId: "employer_welcome",
+  },
   "events/equipment/dry-hire": { bookCategory: "singer", priceCatalogId: "dry_hire_day" },
   "events/equipment/system-tuning": { bookCategory: "singer", priceCatalogId: "system_tuning_ease" },
 };

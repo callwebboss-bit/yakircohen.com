@@ -10,6 +10,7 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
+import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -114,6 +115,15 @@ export default function OnlineVocalFixPageContent() {
             </a>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <BusinessCrossLink
+          title="קלטות VHS או קסטות ישנות?"
+          text="המרה לדיגיטל ושחזור AI. לא רק קובץ דיגיטלי שכבר יש לכם."
+          href="/online/legacy-digitization"
+          linkLabel="החייאת זיכרונות"
+        />
       </section>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">

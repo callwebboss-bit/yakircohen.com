@@ -22,10 +22,10 @@ export type SiteNavCategory = {
 export const NAV_DISPLAY_ORDER = [
   "studio",
   "podcast",
+  "business",
   "online",
   "attractions",
   "dj-voice",
-  "social",
   "video",
   "photography",
   "academy",
@@ -119,6 +119,11 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         href: "/podcast/podcast-studio-modiin",
         description: "הקלטה באולפן - חצי שעה 750 ₪ - שעה 1,500 ₪ (לפני מע״מ)",
       },
+      {
+        label: "אולפן שירות עצמי (650 ₪/שעה)",
+        href: "/podcast/self-service-studio",
+        description: "650 ₪ לשעה, בלי עריכה. קבצים גולמיים",
+      },
       { label: "עריכת פודקאסט", href: "/podcast/podcast-editing" },
       {
         label: "אולפן בקופסה לעסקים",
@@ -147,9 +152,14 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         description: "כל שירותי הסאונד, וידאו ותמונה מרחוק",
       },
       {
-        label: "שיפור קול + שחזור הקלטות",
+        label: "שחזור סאונד AI",
         href: "/online/vocal-fix",
         description: "ניקוי רעשים, הד, עיוותים - 250 ₪ עד 5 דק׳",
+      },
+      {
+        label: "החייאת זיכרונות (VHS)",
+        href: "/online/legacy-digitization",
+        description: "המרת קלטות + שחזור AI",
       },
       {
         label: "מיקס ומאסטרינג",
@@ -208,20 +218,75 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "קורס קריינות", href: "/voiceover/course" },
     ],
   },
-  social: {
-    id: "social",
-    label: "סושיאל",
-    href: "/business/social-media",
+  business: {
+    id: "business",
+    label: "לעסקים",
+    href: "/business",
     children: [
       {
-        label: "קידום סושיאל לעסקים",
-        href: "/business/social-media",
-        description: "ניהול סושיאל ומדיה",
+        label: "מרכז פתרונות לעסקים",
+        href: "/business",
+        description: "תוכן, הפקה וקול. במקום אחד",
       },
       {
-        label: "מפעל רילס לספקים",
+        label: "סושיאל דאמפ, רילז באולפן",
+        href: "/business/content-studio",
+        description: "2 שעות צילום, חודש של תוכן",
+      },
+      {
+        label: "אולפן זמני בחברה",
+        href: "/business/on-site-studio",
+        description: "צילום בחדר ישיבות. מודיעין והמרכז",
+      },
+      {
+        label: "שירים לחברות",
+        href: "/business/corporate-songs",
+        description: "פרישה, הימנון, הרמת כוסית",
+      },
+      {
+        label: "מיתוג קולי",
+        href: "/business/audio-branding",
+        description: "ג'ינגל, IVR, לוגו קולי",
+      },
+      {
+        label: "ספרי שמע",
+        href: "/business/audiobooks",
+        description: "הפקת ספר קולי מקצה לקצה",
+      },
+      {
+        label: "ניהול סושיאל לעסקים",
+        href: "/business/social-media",
+        description: "ריטיינר חודשי, צילום בעסק + עריכה",
+      },
+      {
+        label: "קריינות מקצועית",
+        href: "/business/professional-voiceover",
+        description: "IVR, פרסומות ותוכן דיגיטלי",
+      },
+      {
+        label: "מפעל רילס לספקי אירועים",
         href: "/business/reel-factory",
-        description: "עריכת פרומואים לספקי אירועים",
+        description: "DJ, צלמים ומפעילי אטרקציות בלבד",
+      },
+      {
+        label: "תוכן HR וקליטה",
+        href: "/business/employer-branding",
+        description: "סרטוני onboarding לעובדים",
+      },
+      {
+        label: "סרט תדמית לעסק",
+        href: "/video/corporate-video",
+        description: "הפקה מלאה. מודיעין והמרכז",
+      },
+      {
+        label: "פס ייצור פודקאסט",
+        href: "/podcast/bulk-production",
+        description: "פרק + Shorts לכל פרק",
+      },
+      {
+        label: "אולפן בקופסה לעסקים",
+        href: "/podcast/studio-in-a-box",
+        description: "תכנון אולפן + 10 פרקים",
       },
     ],
   },
@@ -257,6 +322,11 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "הפקה מוזיקלית", href: "/academy/music-production" },
       { label: "קורס גמגום", href: "/academy/stuttering-course" },
       { label: "לימוד עברית (אולפן)", href: "/academy/ulpan" },
+      {
+        label: "סדנאות לצוותים",
+        href: "/academy/workshops",
+        description: "טיקטוק, רילז, מול מצלמה",
+      },
       {
         label: "שיעור פרטי - 990 / 1,280 ₪",
         href: "/academy/private-lessons",
@@ -394,6 +464,66 @@ export const CONTENT_EXPANSION_TOPICS: readonly {
     title: "אודות יקיר כהן",
     sendUs: "ביוגרפיה, ניסיון, תקשורת",
   },
+  {
+    id: "workshops",
+    targetPath: "/academy/workshops",
+    title: "סדנאות לצוותים",
+    sendUs: "נושאים, משך, דוגמאות מהשטח",
+  },
+  {
+    id: "transcription",
+    targetPath: "/online/transcription",
+    title: "תמלול וכתוביות",
+    sendUs: "דוגמאות, זמני מסירה",
+  },
+  {
+    id: "employer-branding",
+    targetPath: "/business/employer-branding",
+    title: "תוכן HR וקליטה",
+    sendUs: "סוגי סרטונים, לקוחות HR",
+  },
+  {
+    id: "content-studio",
+    targetPath: "/business/content-studio",
+    title: "סושיאל דאמפ",
+    sendUs: "דוגמאות רילז, תהליך יום צילום",
+  },
+  {
+    id: "on-site-studio",
+    targetPath: "/business/on-site-studio",
+    title: "אולפן זמני בחברה",
+    sendUs: "לוגיסטיקה, דוגמאות מהשטח",
+  },
+  {
+    id: "corporate-songs",
+    targetPath: "/business/corporate-songs",
+    title: "שירים לחברות",
+    sendUs: "סוגי פרויקטים, דוגמאות",
+  },
+  {
+    id: "audiobooks",
+    targetPath: "/business/audiobooks",
+    title: "הפקת ספרי שמע",
+    sendUs: "תהליך, פלטפורמות, דוגמאות",
+  },
+  {
+    id: "audio-branding",
+    targetPath: "/business/audio-branding",
+    title: "מיתוג קולי לעסק",
+    sendUs: "חבילות, דוגמאות IVR",
+  },
+  {
+    id: "legacy-digitization",
+    targetPath: "/online/legacy-digitization",
+    title: "המרת VHS וקלטות",
+    sendUs: "סוגי מדיה, זמני טיפול",
+  },
+  {
+    id: "voice-cloning",
+    targetPath: "/online/voice-cloning",
+    title: "שיבוט קול",
+    sendUs: "שימושים, דוגמאות",
+  },
 ];
 
 /** קישורי hub לפוטר / מסך בית - ללא כפילויות */
@@ -410,8 +540,7 @@ const PATH_CATEGORY_RULES: readonly { prefix: string; categoryId: NavCategoryId 
   { prefix: "/events/dj-events", categoryId: "dj-voice" },
   { prefix: "/events/dj/", categoryId: "dj-voice" },
   { prefix: "/dj-events/", categoryId: "dj-voice" },
-  { prefix: "/business/social-media", categoryId: "social" },
-  { prefix: "/business/reel-factory", categoryId: "social" },
+  { prefix: "/business", categoryId: "business" },
   { prefix: "/photo-slideshow", categoryId: "video" },
 ];
 

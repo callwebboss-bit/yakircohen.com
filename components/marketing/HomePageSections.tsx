@@ -192,13 +192,13 @@ export default function HomePageSections({
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               לחצו על{" "}
-              <InlineServiceLink href="/studio">אולפן הקלטות</InlineServiceLink>,{" "}
+              <InlineServiceLink href="/studio" ariaLabel="עבור לעמוד אולפן הקלטות">אולפן הקלטות</InlineServiceLink>,{" "}
               <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>,{" "}
               <InlineServiceLink href="/online">שירותי AI</InlineServiceLink>,{" "}
               <InlineServiceLink href="/events/attractions">אטרקציות</InlineServiceLink>,{" "}
               <InlineServiceLink href="/events/dj-events">DJ וקריינות</InlineServiceLink>{" "}
               או{" "}
-              <InlineServiceLink href="/business/social-media">סושיאל</InlineServiceLink>
+              <InlineServiceLink href="/business">לעסקים</InlineServiceLink>
               . נחבר אתכם למסלול הנכון תוך דקות.
             </p>
           </header>

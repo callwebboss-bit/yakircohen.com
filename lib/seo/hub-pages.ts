@@ -89,6 +89,23 @@ export const PRO_HUB_SEO: HubPageSeo = {
   hub: "events",
 };
 
+export const BUSINESS_HUB_SEO: HubPageSeo = {
+  slug: "business",
+  title: "פתרונות הפקה לעסקים וארגונים",
+  description:
+    "רילז ושורטס באולפן, ניהול סושיאל, קריינות, סרט תדמית ופודקאסט לעסקים. מודיעין, ירושלים והמרכז.",
+  keywords: [
+    "הפקת תוכן לעסקים",
+    "רילז לעסקים מודיעין",
+    "ניהול סושיאל לעסקים",
+    "סרט תדמית לחברה",
+    "פודקאסט לעסק",
+    "קריינות לעסקים",
+    "תוכן B2B",
+  ],
+  hub: "video",
+};
+
 export const BLOG_HUB_SEO: HubPageSeo = {
   slug: "blog",
   title: "מגזין מקצועי",

@@ -188,7 +188,7 @@ export default function PremiumCrossfadePlayer({
       {/* Physical left=before, right=after - matches slider clientX math */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-col items-start gap-1 text-start">
-          <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
+          <span className="rounded-full bg-border px-2 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
             לפני
           </span>
           <span dir="rtl" className="text-xs font-medium leading-snug text-foreground">
@@ -196,7 +196,7 @@ export default function PremiumCrossfadePlayer({
           </span>
         </div>
         <div className="flex min-w-0 flex-col items-end gap-1 text-end">
-          <span className="rounded-full bg-brand-red/10 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red">
+          <span className="rounded-full bg-brand-red/10 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red-dark">
             אחרי
           </span>
           <span dir="rtl" className="text-xs font-medium leading-snug text-foreground">

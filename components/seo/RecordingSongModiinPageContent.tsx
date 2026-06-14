@@ -25,6 +25,7 @@ import RecordingSongInquiryForm from "@/components/seo/RecordingSongInquiryForm"
 import RecordingSongBeforeAfter from "@/components/seo/RecordingSongBeforeAfter";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import RecordingSongFinalCTA from "@/components/seo/RecordingSongFinalCTA";
+import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 
 const service = getStudioService("recording-song-modiin");
 
@@ -68,6 +69,13 @@ export default function RecordingSongModiinPageContent() {
           <ContextualIntroParagraph
             pathname="/studio/recording-song-modiin"
             className="max-w-3xl"
+          />
+
+          <BusinessCrossLink
+            title="גם לחברות וארגונים"
+            text="שיר פרישה, הימנון או קליפ לערב חברה. אותה הפקה, עם חשבונית מס."
+            href="/business/corporate-songs"
+            linkLabel="שירים לחברות"
           />
 
           {/* 1. Why Original Song */}

@@ -22,6 +22,7 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 
 const MOBILE_PODCAST_TITLE = "פודקאסט נייד עד הבית";
 
@@ -55,6 +56,12 @@ export default function MobilePodcastAtHomePageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/mobile-podcast-at-home" className="max-w-3xl" />
+        <BusinessCrossLink
+          title="חברה או ארגון?"
+          text="פודקאסט נייד לחדר הישיבות. אולפן זמני עם ציוד מלא, בלי שההנהלה תצטרך לנסוע."
+          href="/business/on-site-studio"
+          linkLabel="אולפן זמני בחברה"
+        />
         <section
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 sm:p-8"
           aria-label="הזמנה מהירה"

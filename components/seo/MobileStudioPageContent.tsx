@@ -2,6 +2,7 @@
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideos";
+import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -43,6 +44,13 @@ export default function MobileStudioPageContent() {
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        <BusinessCrossLink
+          title="צריכים אולפן בחדר ישיבות?"
+          text="לחברות: אולפן נייד עם 2 מצלמות ומיקרופונים. יום צילום במשרד, בלי שהצוות ינסע."
+          href="/business/on-site-studio"
+          linkLabel="אולפן זמני בחברה"
+        />
+
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {MOBILE_STUDIO_HIGHLIGHTS.map((item) => (
             <li

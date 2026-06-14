@@ -90,6 +90,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    aria-label={`עבור לעמוד ${item.label}`}
                     className="inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     {item.label}

@@ -30,9 +30,28 @@
 - וידאו: https://yakircohen.com/video
 - צילום: https://yakircohen.com/photography
 - אקדמיה: https://yakircohen.com/academy
-- לימוד עברית (אולפן): https://yakircohen.com/academy/ulpan
+- שיעורי עברית פרטיים (Hebrew tutoring — לא אולפן/הקלטות): https://yakircohen.com/academy/ulpan
+- סדנאות לצוותים: https://yakircohen.com/academy/workshops · מ-2,800 ₪
+- פודקאסט self-service: https://yakircohen.com/podcast/self-service-studio
 - מגזין: https://yakircohen.com/blog
 - שאלות נפוצות: https://yakircohen.com/about/faq
+
+## תוכן לעסקים
+- מרכז: https://yakircohen.com/business
+- סושיאל דאמפ (יום צילום, רילז): https://yakircohen.com/business/content-studio · מ-1,650 ₪
+- אולפן זמני בחברה: https://yakircohen.com/business/on-site-studio · חצי יום 6,500 ₪
+- שירים לחברות: https://yakircohen.com/business/corporate-songs · מ-5,000 ₪
+- ספרי שמע: https://yakircohen.com/business/audiobooks · פרק דוגמה 990 ₪
+- מיתוג קולי: https://yakircohen.com/business/audio-branding · מ-1,500 ₪
+- תוכן HR וקליטה: https://yakircohen.com/business/employer-branding · מ-4,500 ₪
+- ניהול סושיאל: https://yakircohen.com/business/social-media
+
+## שירותים דיגיטליים (online)
+- מרכז: https://yakircohen.com/online
+- שחזור סאונד AI: https://yakircohen.com/online/vocal-fix
+- המרת VHS וקלטות: https://yakircohen.com/online/legacy-digitization · מ-350 ₪
+- תמלול וכתוביות: https://yakircohen.com/online/transcription · מ-180 ₪
+- שיבוט קול: https://yakircohen.com/online/voice-cloning · מ-2,500 ₪
 
 ## פודקאסט (עמודים)
 - https://yakircohen.com/podcast/podcast-recording - הפקה מלאה

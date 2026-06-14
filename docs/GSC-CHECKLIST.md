@@ -24,7 +24,46 @@
 | 6 | `/events/wedding-attractions-packages` |
 | 7 | `/pricing` |
 
-### 2b. בקשת אינדוקס — שירותים מקצועיים (חדש)
+### 2b. בקשת אינדוקס — B2B חדש (שלב 1)
+
+| עדיפות | URL |
+|--------|-----|
+| 1 | `/business` |
+| 2 | `/business/content-studio` |
+| 3 | `/podcast/self-service-studio` |
+
+### 2d. בקשת אינדוקס — B2B שלב 2+3 (חדש)
+
+| עדיפות | URL |
+|--------|-----|
+| 1 | `/business/on-site-studio` |
+| 2 | `/business/corporate-songs` |
+| 3 | `/business/audio-branding` |
+| 4 | `/business/audiobooks` |
+| 5 | `/online/legacy-digitization` |
+
+### 2e. בקשת אינדוקס — שלב 4 (חדש)
+
+| עדיפות | URL |
+|--------|-----|
+| 1 | `/academy/ulpan` |
+| 2 | `/academy/workshops` |
+| 3 | `/online/transcription` |
+| 4 | `/online/voice-cloning` |
+| 5 | `/business/employer-branding` |
+
+### 2f. בקשת אינדוקס — מאמרי בלוג B2B (שלב 3c)
+
+| עדיפות | URL |
+|--------|-----|
+| 1 | `/blog/corporate-content-studio-guide` |
+| 2 | `/blog/on-site-podcast-studio-business` |
+| 3 | `/blog/corporate-song-production-guide` |
+| 4 | `/blog/audiobook-recording-israel-guide` |
+| 5 | `/blog/audio-branding-for-business` |
+| 6 | `/blog/vhs-tape-digitization-ai-guide` |
+
+### 2c. בקשת אינדוקס — שירותים מקצועיים (חדש)
 
 | עדיפות | URL |
 |--------|-----|

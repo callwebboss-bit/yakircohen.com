@@ -73,6 +73,12 @@ const COURSE_CARDS = [
     label: "AI מוזיקה",
     sub: "יצירה, עריכה והפקה עם כלי AI באולפן",
   },
+  {
+    href: "/academy/workshops",
+    icon: "🎤",
+    label: "סדנאות לצוותים",
+    sub: "טיקטוק, רילז ודיבור מול מצלמה. באולפן או בחברה",
+  },
 ] as const;
 
 const ACADEMY_TRACKS = [

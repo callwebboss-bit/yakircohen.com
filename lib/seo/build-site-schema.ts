@@ -177,6 +177,14 @@ export function buildSiteSchema() {
           },
           {
             "@type": "Offer",
+            name: "שיעור ניסיון עברית פרטי",
+            description: "שיעור היכרות אחד על אחד — פרונטלי או בזום, מודיעין והמרכז",
+            price: "500",
+            priceCurrency: "ILS",
+            url: `${BASE}/academy/ulpan`,
+          },
+          {
+            "@type": "Offer",
             name: "שיפור קול מהנייד",
             description: "הסרת רעשים, חידוד והעשרת קול - הקלטה ביתית לאיכות אולפן",
             price: "250",

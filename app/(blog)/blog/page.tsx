@@ -145,7 +145,7 @@ function BlogPagination({
           עמוד קודם
         </Link>
       ) : (
-        <span className={`${navBtnClass} text-muted-foreground opacity-30 select-none`}>
+        <span className={`${navBtnClass} text-muted-foreground select-none`}>
           <span aria-hidden="true">&#x2190;</span>
           עמוד קודם
         </span>
@@ -205,7 +205,7 @@ function BlogPagination({
           <span aria-hidden="true">&#x2192;</span>
         </Link>
       ) : (
-        <span className={`${navBtnClass} text-muted-foreground opacity-30 select-none`}>
+        <span className={`${navBtnClass} text-muted-foreground select-none`}>
           עמוד הבא
           <span aria-hidden="true">&#x2192;</span>
         </span>

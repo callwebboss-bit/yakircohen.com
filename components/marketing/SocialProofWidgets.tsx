@@ -113,12 +113,37 @@ export function InstagramFeed({
   className,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
+  const [shouldLoadScript, setShouldLoadScript] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+  }, []);
+
+  // Only fetch the Elfsight platform script once this section is near the
+  // viewport - avoids loading ~450KB of third-party JS on pages where the
+  // widget sits below the fold and is never scrolled into view.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setShouldLoadScript(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadScript(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   const handleScriptLoad = useCallback(() => {
@@ -127,6 +152,7 @@ export function InstagramFeed({
 
   return (
     <section
+      ref={sectionRef}
       className={cn("", className)}
       aria-labelledby={heading ? "instagram-feed-heading" : undefined}
     >
@@ -189,12 +215,16 @@ export function InstagramFeed({
        * strategy="lazyOnload" defers the script until browser idle - docs
        * explicitly list "social media widgets" as the intended use case.
        * onLoad/onReady require a Client Component boundary (already set above).
+       * Gated by the IntersectionObserver above so it's only fetched once
+       * this section is close to the viewport.
        */}
-      <Script
-        src="https://static.elfsight.com/platform/platform.js"
-        strategy="lazyOnload"
-        onLoad={handleScriptLoad}
-      />
+      {shouldLoadScript && (
+        <Script
+          src="https://static.elfsight.com/platform/platform.js"
+          strategy="lazyOnload"
+          onLoad={handleScriptLoad}
+        />
+      )}
     </section>
   );
 }
@@ -260,7 +290,7 @@ export function GoogleReviews({
   compactHeader = false,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
-  const [preferLocal, setPreferLocal] = useState(false);
+  const [preferLocal, setPreferLocal] = useState(true);
 
   return (
     <section

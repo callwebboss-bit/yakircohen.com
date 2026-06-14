@@ -15,7 +15,7 @@ export type HomeHubCardIcon =
   | "ai"
   | "attractions"
   | "dj-voice"
-  | "social"
+  | "business"
   | "video";
 
 export type HomeHubCard = {
@@ -37,7 +37,7 @@ const ICON_MAP: Record<
   ai: ZapIcon,
   attractions: SparklesIcon,
   "dj-voice": MicIcon,
-  social: LinkIcon,
+  business: LinkIcon,
   video: VideoIcon,
 };
 
@@ -81,11 +81,11 @@ export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
     utmCampaign: "home_dj_voice",
   },
   {
-    id: "social",
-    title: "סושיאל",
-    description: "ניהול סושיאל לעסקים ועריכת רילס לספקי אירועים.",
-    href: "/business/social-media",
-    utmCampaign: "home_social",
+    id: "business",
+    title: "לעסקים וארגונים",
+    description: "רילז באולפן, סושיאל, קריינות וסרט תדמית. ממודיעין.",
+    href: "/business",
+    utmCampaign: "home_business",
   },
 ];
 

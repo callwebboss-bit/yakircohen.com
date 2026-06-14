@@ -32,7 +32,7 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
   display: "swap",
   variable: "--font-noto-serif-hebrew",
   weight: ["400", "600", "700"],
-  preload: false,
+  preload: true,
   adjustFontFallback: true,
   fallback: ["David Libre", "Times New Roman", "serif"],
 });
@@ -109,12 +109,6 @@ export default function RootLayout({
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
-      <head>
-        <link rel="preconnect" href="https://api.whatsapp.com" />
-        <link rel="dns-prefetch" href="https://api.whatsapp.com" />
-        <link rel="preconnect" href="https://wa.me" />
-        <link rel="dns-prefetch" href="https://wa.me" />
-      </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
         <TabRescueTitle />

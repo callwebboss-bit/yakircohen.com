@@ -121,7 +121,9 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("voiceover/course"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("dj-events/cities/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
 
-  // ── Social & business ────────────────────────────────────────────────────────
+  // ── Business B2B ───────────────────────────────────────────────────────────
+  { url: url("business"), priority: 0.85, changeFrequency: "monthly" },
+  { url: url("business/content-studio"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("business/social-media"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("business/reel-factory"), priority: 0.8, changeFrequency: "monthly" },
   {
@@ -129,6 +131,20 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.75,
     changeFrequency: "monthly",
   },
+  {
+    url: url("podcast/self-service-studio"),
+    priority: 0.8,
+    changeFrequency: "monthly",
+  },
+  { url: url("business/on-site-studio"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("business/corporate-songs"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("business/audiobooks"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("business/audio-branding"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("online/legacy-digitization"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("online/transcription"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("online/voice-cloning"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("academy/workshops"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("business/employer-branding"), priority: 0.75, changeFrequency: "monthly" },
 
   // ── Events (equipment & host) ────────────────────────────────────────────────
   { url: url("events"), priority: 0.9, changeFrequency: "monthly" },
@@ -178,7 +194,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("academy"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("academy/dj-course"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/music-production"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("academy/ulpan"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("academy/ulpan"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("academy/private-lessons"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/voiceover"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/stuttering-course"), priority: 0.8, changeFrequency: "monthly" },

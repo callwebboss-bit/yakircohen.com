@@ -27,7 +27,7 @@ export default function RecordingSongBeforeAfter() {
         {/* Before */}
         <div className="rounded-xl border border-border bg-background p-5">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">
+            <span className="inline-flex items-center rounded-full bg-border px-2.5 py-0.5 text-xs font-semibold text-muted-foreground">
               לפני
             </span>
             <p className="text-sm font-semibold text-foreground">
@@ -37,7 +37,6 @@ export default function RecordingSongBeforeAfter() {
           <p className="mt-1.5 text-xs text-muted-foreground">
             לפני עריכה ותיקון זיופים
           </p>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <audio
             ref={beforeRef}
             controls
@@ -53,7 +52,7 @@ export default function RecordingSongBeforeAfter() {
         {/* After */}
         <div className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-5">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-brand-red/15 px-2.5 py-0.5 text-xs font-semibold text-brand-red">
+            <span className="inline-flex items-center rounded-full bg-brand-red/15 px-2.5 py-0.5 text-xs font-semibold text-brand-red-dark">
               אחרי
             </span>
             <p className="text-sm font-semibold text-foreground">
@@ -63,7 +62,6 @@ export default function RecordingSongBeforeAfter() {
           <p className="mt-1.5 text-xs text-muted-foreground">
             אחרי מיקס, מאסטרינג ופיץ׳ קורקשן
           </p>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <audio
             ref={afterRef}
             controls

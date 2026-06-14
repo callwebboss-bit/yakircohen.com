@@ -42,8 +42,22 @@ export const STUDIO_MODIIN_RELATED_SERVICES: readonly {
   },
   {
     emoji: "📱",
+    title: "סושיאל דאמפ, רילז לעסקים",
+    description:
+      "2 שעות באולפן, 10–15 רילז ערוכים. צילום מרוכז לטיקטוק ורילז.",
+    href: "/business/content-studio",
+  },
+  {
+    emoji: "🔌",
+    title: "אולפן שירות עצמי (650 ₪/שעה)",
+    description:
+      "650 ₪ לשעה. מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.",
+    href: "/podcast/self-service-studio",
+  },
+  {
+    emoji: "📱",
     title: "עריכת סרטונים קצרים",
-    description: "קטעים שיווקיים מהפודקאסט  -  Reels ו-TikTok.",
+    description: "ניהול סושיאל. צילום בעסק + ריטיינר חודשי.",
     href: "/business/social-media",
   },
   {

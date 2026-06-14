@@ -292,7 +292,6 @@ export default function OnlinePitchCorrectionPageContent() {
           המלצה מוקלטת על שירות תיקון הזיופים.
         </p>
         <div className="mt-5 rounded-2xl border border-border bg-surface p-5">
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <audio
             controls
             preload="none"

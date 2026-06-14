@@ -37,7 +37,7 @@ function AccordionPanel({
       id={id}
       role="region"
       aria-labelledby={labelledBy}
-      aria-hidden={!isOpen}
+      inert={!isOpen}
       className={cn(
         "grid transition-[grid-template-rows] duration-normal ease-luxury motion-reduce:transition-none",
         isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",

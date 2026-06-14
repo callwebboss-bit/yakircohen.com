@@ -20,7 +20,7 @@ export type ServiceCardProps = {
 
 function AiBadge({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-red/50 bg-foreground px-2.5 py-1 text-[0.65rem] font-semibold tracking-wide text-brand-red shadow-[0_0_20px_rgba(212,43,43,0.25)]">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-red/50 bg-foreground px-2.5 py-1 text-[0.65rem] font-semibold tracking-wide text-background shadow-[0_0_20px_rgba(212,43,43,0.25)]">
       <span
         className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red shadow-[0_0_6px_rgba(212,43,43,0.9)]"
         aria-hidden="true"
@@ -89,6 +89,7 @@ export default function ServiceCard({
       <h3 className="text-lg font-semibold tracking-tight text-foreground">
         <Link
           href={href}
+          aria-label={`עבור לעמוד ${title}`}
           className="outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           {title}
@@ -112,6 +113,7 @@ export default function ServiceCard({
         </a>
         <Link
           href={href}
+          aria-label={`לפרטים מלאים על ${title}`}
           className="text-xs font-medium text-muted-foreground underline-offset-4 transition-colors duration-normal ease-luxury hover:text-brand-red hover:underline"
         >
           לפרטים מלאים </Link>

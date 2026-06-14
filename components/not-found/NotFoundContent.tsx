@@ -205,12 +205,14 @@ export default function NotFoundContent() {
         <div className="relative">
           <input
             type="search"
+            role="combobox"
             value={query}
             onChange={(e) => runSearch(e.target.value)}
             onFocus={() => setOpen(true)}
             placeholder="חפשו שירות, שיר, אולפן..."
             className="min-h-11 w-full rounded-xl border border-border bg-surface px-5 py-4 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
             aria-label="חיפוש שירותים"
+            aria-autocomplete="list"
             aria-expanded={open}
             aria-controls="not-found-search-results"
           />

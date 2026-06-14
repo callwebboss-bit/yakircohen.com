@@ -62,6 +62,21 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
     ],
   },
   {
+    heading: "לימוד ואקדמיה",
+    links: [
+      {
+        label: "שיעורי עברית במודיעין",
+        href: "/academy/ulpan",
+        title: "שיעור פרטי עברית — פרונטלי או בזום",
+      },
+      {
+        label: "קורס DJ מקצועי",
+        href: "/academy/dj-course",
+        title: "לימוד תקליטנות באולפן במודיעין",
+      },
+    ],
+  },
+  {
     heading: "AI ודיגיטל",
     links: [
       {
@@ -87,8 +102,18 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
     ],
   },
   {
-    heading: "DJ, קריינות וסושיאל",
+    heading: "DJ, קריינות ועסקים",
     links: [
+      {
+        label: "פתרונות לעסקים וארגונים",
+        href: "/business",
+        title: "רילז, סושיאל, קריינות וסרט תדמית לעסקים",
+      },
+      {
+        label: "סושיאל דאמפ, רילז באולפן",
+        href: "/business/content-studio",
+        title: "יום צילום, רילז ושורטס לעסקים",
+      },
       {
         label: "תקליטן לאירועים",
         href: "/events/dj-events",

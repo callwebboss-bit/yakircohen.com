@@ -119,6 +119,20 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
         tag: "חדש",
       },
       {
+        icon: "📼",
+        title: "החייאת זיכרונות, VHS וקלטות",
+        summary: "המרה לדיגיטל + שחזור AI לסאונד ותמונה.",
+        href: "/online/legacy-digitization",
+        tag: "חדש",
+      },
+      {
+        icon: "🤖",
+        title: "שיבוט קול לעסק",
+        summary: "עדכוני IVR בלי להקליט מחדש. רק עם אישור.",
+        href: "/online/voice-cloning",
+        tag: "חדש",
+      },
+      {
         icon: "🤖",
         title: "שירותי AI לאודיו",
         summary: "הפרדת ערוצים, עיבודי קול חכמים ותמחור שקוף לפי צורך.",
@@ -143,7 +157,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
         icon: "📼",
         title: "שדרוג ארכיון ישן",
         summary: "שחזור הרצאות/ראיונות ישנים והנגשה מודרנית.",
-        href: "/online/vocal-fix",
+        href: "/online/legacy-digitization",
       },
       {
         icon: "🔉",
@@ -153,7 +167,9 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
       {
         icon: "📝",
         title: "תמלול ותקצירי תוכן",
-        summary: "תמלול AI + עריכה אנושית ושדרוג לתוכן שיווקי.",
+        summary: "שלחו הקלטה, קבלו טקסט. גם כתוביות SRT.",
+        href: "/online/transcription",
+        tag: "חדש",
       },
     ],
   },

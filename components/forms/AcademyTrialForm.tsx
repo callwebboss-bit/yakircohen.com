@@ -18,9 +18,9 @@ const HEBREW_LEVEL_OPTIONS = [
 ] as const;
 
 const LOCATION_OPTIONS = [
-  { value: "location_a", label: "מיקום א" },
-  { value: "location_b", label: "מיקום ב" },
-  { value: "online", label: "אונליין" },
+  { value: "modiin", label: "מודיעין-מכבים-רעות (פרונטלי)" },
+  { value: "client_home", label: "בבית הלקוח — מרכז" },
+  { value: "zoom", label: "זום / אונליין" },
 ] as const;
 
 type FormState = {
@@ -133,7 +133,7 @@ export default function AcademyTrialForm() {
         LOCATION_OPTIONS.find((o) => o.value === form.location)?.label ?? form.location;
 
       const message = buildClosingMessage({
-        serviceLabel: "שיעור ניסיון עברית באולפן",
+        serviceLabel: "שיעור ניסיון עברית פרטי",
         packageLabel: "שיעור ניסיון",
         contact: {
           name: sanitizeLeadText(form.name.trim(), 60),

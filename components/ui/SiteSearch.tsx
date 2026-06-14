@@ -111,8 +111,8 @@ export default function SiteSearch({
 
         <input
           type="search"
+          role="combobox"
           value={query}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           onChange={(e) => {
             const value = e.target.value;

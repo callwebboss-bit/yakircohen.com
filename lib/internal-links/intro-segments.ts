@@ -245,7 +245,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: ", ל" },
     { type: "link", href: "/academy/music-production", label: "הפקה מוזיקלית" },
     { type: "text", value: " או ל" },
-    { type: "link", href: "/academy/ulpan", label: "לימוד עברית פרונטלי" },
+    { type: "link", href: "/academy/ulpan", label: "שיעור פרטי עברית במודיעין" },
     { type: "text", value: " - בחרו מסלול." },
   ],
   "/academy/home-studio": [
