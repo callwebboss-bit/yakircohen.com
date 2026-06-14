@@ -23,6 +23,12 @@ const LOCATION_OPTIONS = [
   { value: "zoom", label: "זום / אונליין" },
 ] as const;
 
+const TIME_SLOT_OPTIONS = [
+  { value: "morning", label: "בוקר" },
+  { value: "afternoon", label: "צהריים" },
+  { value: "evening", label: "ערב" },
+] as const;
+
 type FormState = {
   name: string;
   phone: string;
@@ -118,7 +124,7 @@ export default function AcademyTrialForm() {
     if (!form.hebrewLevel) errs.hebrewLevel = "יש לבחור רמת עברית";
     if (!form.preferredDate) errs.preferredDate = "יש לבחור תאריך מועדף";
     else if (form.preferredDate < today) errs.preferredDate = "יש לבחור תאריך עתידי";
-    if (!form.preferredTime) errs.preferredTime = "יש לבחור שעה";
+    if (!form.preferredTime) errs.preferredTime = "יש לבחור שעות שנוח";
     if (!form.location) errs.location = "יש לבחור מיקום פגישה";
 
     if (Object.keys(errs).length > 0) return { ok: false, errors: errs };
@@ -131,6 +137,9 @@ export default function AcademyTrialForm() {
         HEBREW_LEVEL_OPTIONS.find((o) => o.value === form.hebrewLevel)?.label ?? form.hebrewLevel;
       const locationLabel =
         LOCATION_OPTIONS.find((o) => o.value === form.location)?.label ?? form.location;
+      const timeSlotLabel =
+        TIME_SLOT_OPTIONS.find((o) => o.value === form.preferredTime)?.label ??
+        form.preferredTime;
 
       const message = buildClosingMessage({
         serviceLabel: "שיעור ניסיון עברית פרטי",
@@ -146,7 +155,7 @@ export default function AcademyTrialForm() {
           { label: "רמת עברית", value: levelLabel },
           {
             label: "מועד מועדף",
-            value: `${form.preferredDate} בשעה ${form.preferredTime}`,
+            value: `${form.preferredDate}, שעות שנוח: ${timeSlotLabel}`,
           },
           { label: "מיקום", value: locationLabel },
           ...(form.goal.trim()
@@ -209,10 +218,7 @@ export default function AcademyTrialForm() {
   if (isSuccess) {
     return (
       <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
-        <p className="text-3xl" aria-hidden="true">
-          🎓
-        </p>
-        <h3 className="mt-4 text-lg font-semibold text-foreground">תודה על הפנייה</h3>
+        <h3 className="text-lg font-semibold text-foreground">תודה על הפנייה</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
           {`נצור איתך קשר בהקדם כדי לאשר את המועד ולשלוח פרטי תשלום לשיעור הניסיון ב-500 ש"ח.`}
         </p>
@@ -320,15 +326,21 @@ export default function AcademyTrialForm() {
 
         <div>
           <Label htmlFor="trial-time" required>
-            שעה מועדפת
+            שעות שנוח
           </Label>
-          <input
+          <select
             id="trial-time"
-            type="time"
             value={form.preferredTime}
             onChange={(e) => setForm((p) => ({ ...p, preferredTime: e.target.value }))}
-            className={cn(inputClass, errors.preferredTime && "border-red-400")}
-          />
+            className={cn(selectClass, errors.preferredTime && "border-red-400")}
+          >
+            <option value="">בוקר · צהריים · ערב</option>
+            {TIME_SLOT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
           <FieldError message={errors.preferredTime} />
         </div>
       </div>

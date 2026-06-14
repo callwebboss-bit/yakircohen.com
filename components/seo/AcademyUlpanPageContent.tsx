@@ -6,6 +6,7 @@ import ShareButton from "@/components/ui/ShareButton";
 import {
   ULPAN_AUDIENCE,
   ULPAN_AUTHORITY,
+  ULPAN_CHOOSE_GUIDE,
   ULPAN_COMPARISON,
   ULPAN_CTA,
   ULPAN_FAQ,
@@ -15,6 +16,7 @@ import {
   ULPAN_PRICING,
   ULPAN_SERVICE_AREAS,
   ULPAN_SHOWCASE_VIDEOS,
+  ULPAN_STREET_HEBREW,
   ULPAN_TESTIMONIAL,
   ULPAN_VALUE_PROPS,
   ULPAN_VIDEOS_SECTION,
@@ -106,10 +108,7 @@ export default function AcademyUlpanPageContent() {
                 key={item.id}
                 className="rounded-2xl border border-border bg-surface p-6"
               >
-                <p className="text-2xl" aria-hidden="true">
-                  {item.icon}
-                </p>
-                <h3 className="mt-3 font-semibold text-foreground">{item.title}</h3>
+                <h3 className="font-semibold text-foreground">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {item.description}
                 </p>
@@ -260,6 +259,96 @@ export default function AcademyUlpanPageContent() {
           </div>
           <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
             {ULPAN_COMPARISON.closing}
+          </p>
+        </section>
+
+        {/* Choose guide */}
+        <section
+          aria-labelledby="choose-heading"
+          className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
+        >
+          <h2
+            id="choose-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            {ULPAN_CHOOSE_GUIDE.heading}
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            {ULPAN_CHOOSE_GUIDE.intro}
+          </p>
+          <ul className="mt-8 space-y-6">
+            {ULPAN_CHOOSE_GUIDE.tips.map((tip) => (
+              <li key={tip.id}>
+                <h3 className="font-semibold text-foreground">{tip.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {tip.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 rounded-xl border border-brand-red/20 bg-brand-red/[0.04] p-4">
+            <h3 className="text-sm font-semibold text-foreground">
+              {ULPAN_CHOOSE_GUIDE.warning.title}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {ULPAN_CHOOSE_GUIDE.warning.body}
+            </p>
+          </div>
+          <p className="mt-6 text-sm leading-relaxed text-foreground">
+            {ULPAN_CHOOSE_GUIDE.closingQuestion}
+          </p>
+        </section>
+
+        {/* Street Hebrew */}
+        <section aria-labelledby="street-heading">
+          <h2
+            id="street-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            {ULPAN_STREET_HEBREW.heading}
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {ULPAN_STREET_HEBREW.intro}
+          </p>
+          <ul className="mt-6 space-y-2">
+            {ULPAN_STREET_HEBREW.situations.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 text-sm text-muted-foreground"
+              >
+                <span className="shrink-0 text-brand-red" aria-hidden="true">
+                  →
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <h3 className="mt-10 text-lg font-semibold text-foreground">
+            {ULPAN_STREET_HEBREW.phrasesHeading}
+          </h3>
+          <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {ULPAN_STREET_HEBREW.phrases.map((item) => (
+              <li
+                key={item.text}
+                className="rounded-xl border border-border bg-surface px-4 py-3"
+              >
+                <p className="font-semibold text-foreground">{item.text}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  {item.meaning}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+            {ULPAN_STREET_HEBREW.closing}
+          </p>
+          <p className="mt-4">
+            <a
+              href="#free-lessons"
+              className="text-sm font-semibold text-brand-red hover:underline"
+            >
+              ראו גם בסרטונים — למשל איך ומתי אומרים &quot;תודה&quot;
+            </a>
           </p>
         </section>
 
