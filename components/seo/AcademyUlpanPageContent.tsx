@@ -132,12 +132,9 @@ export default function AcademyUlpanPageContent() {
           <h3 className="mt-4 text-lg font-semibold text-foreground">
             {ULPAN_METHOD.subheading}
           </h3>
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-6 list-disc space-y-3 ps-5 marker:text-brand-red">
             {ULPAN_METHOD.points.map((point) => (
-              <li key={point} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                <span className="shrink-0 text-brand-red" aria-hidden="true">
-                  ✓
-                </span>
+              <li key={point} className="text-sm leading-relaxed text-muted-foreground">
                 {point}
               </li>
             ))}
@@ -170,7 +167,7 @@ export default function AcademyUlpanPageContent() {
               href="#trial-heading"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              {ULPAN_VIDEOS_SECTION.ctaText} → שיעור ניסיון
+              {ULPAN_VIDEOS_SECTION.ctaText} - שיעור ניסיון
             </a>
           </p>
         </section>
@@ -183,15 +180,12 @@ export default function AcademyUlpanPageContent() {
           >
             {ULPAN_AUDIENCE.heading}
           </h2>
-          <ul className="mt-8 space-y-3">
+          <ul className="mt-8 list-disc space-y-3 ps-5 marker:text-brand-red">
             {ULPAN_AUDIENCE.items.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 rounded-xl border border-border bg-surface px-4 py-3 text-sm text-muted-foreground"
+                className="rounded-xl border border-border bg-surface px-4 py-3 text-sm text-muted-foreground"
               >
-                <span className="shrink-0 text-brand-red" aria-hidden="true">
-                  →
-                </span>
                 {item}
               </li>
             ))}
@@ -311,15 +305,9 @@ export default function AcademyUlpanPageContent() {
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {ULPAN_STREET_HEBREW.intro}
           </p>
-          <ul className="mt-6 space-y-2">
+          <ul className="mt-6 list-disc space-y-2 ps-5 marker:text-brand-red">
             {ULPAN_STREET_HEBREW.situations.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-sm text-muted-foreground"
-              >
-                <span className="shrink-0 text-brand-red" aria-hidden="true">
-                  →
-                </span>
+              <li key={item} className="text-sm text-muted-foreground">
                 {item}
               </li>
             ))}
@@ -348,7 +336,7 @@ export default function AcademyUlpanPageContent() {
               href="#free-lessons"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              ראו גם בסרטונים — למשל איך ומתי אומרים &quot;תודה&quot;
+              ראו גם בסרטונים - למשל איך ומתי אומרים &quot;תודה&quot;
             </a>
           </p>
         </section>
@@ -396,12 +384,9 @@ export default function AcademyUlpanPageContent() {
                   {ULPAN_PRICING.monthly.period}
                 </span>
               </p>
-              <ul className="mt-6 space-y-3">
+              <ul className="mt-6 list-disc space-y-3 ps-5 marker:text-brand-red">
                 {ULPAN_PRICING.monthly.features.map((f) => (
-                  <li key={f} className="flex gap-3 text-sm text-muted-foreground">
-                    <span className="shrink-0 text-brand-red" aria-hidden="true">
-                      ✓
-                    </span>
+                  <li key={f} className="text-sm text-muted-foreground">
                     {f}
                   </li>
                 ))}
@@ -423,12 +408,9 @@ export default function AcademyUlpanPageContent() {
                 </span>
               </p>
               <p className="mt-1 text-xs text-muted-foreground">{ULPAN_PRICING.annual.trialNote}</p>
-              <ul className="mt-6 space-y-3">
+              <ul className="mt-6 list-disc space-y-3 ps-5 marker:text-brand-red">
                 {ULPAN_PRICING.annual.features.map((f) => (
-                  <li key={f} className="flex gap-3 text-sm text-muted-foreground">
-                    <span className="shrink-0 text-brand-red" aria-hidden="true">
-                      ✓
-                    </span>
+                  <li key={f} className="text-sm text-muted-foreground">
                     {f}
                   </li>
                 ))}
@@ -512,7 +494,7 @@ export default function AcademyUlpanPageContent() {
             id="blog-guides-heading"
             className="text-lg font-semibold text-foreground sm:text-xl"
           >
-            מדריכים בבלוג — לפני שקובעים שיעור
+            מדריכים בבלוג - לפני שקובעים שיעור
           </h2>
           <ul className="mt-4 space-y-2">
             {ULPAN_BLOG_LINKS.map((link) => (
@@ -571,7 +553,7 @@ export default function AcademyUlpanPageContent() {
 
         <div className="flex justify-center pt-4">
           <ShareButton
-            title="שיעור פרטי עברית במודיעין — יקיר כהן"
+            title="שיעור פרטי עברית במודיעין - יקיר כהן"
             text="שיעורים פרטיים לעברית מדוברת במודיעין והמרכז"
           />
         </div>

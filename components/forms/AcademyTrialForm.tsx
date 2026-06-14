@@ -19,7 +19,7 @@ const HEBREW_LEVEL_OPTIONS = [
 
 const LOCATION_OPTIONS = [
   { value: "modiin", label: "מודיעין-מכבים-רעות (פרונטלי)" },
-  { value: "client_home", label: "בבית הלקוח — מרכז" },
+  { value: "client_home", label: "בבית הלקוח - מרכז" },
   { value: "zoom", label: "זום / אונליין" },
 ] as const;
 
@@ -334,7 +334,7 @@ export default function AcademyTrialForm() {
             onChange={(e) => setForm((p) => ({ ...p, preferredTime: e.target.value }))}
             className={cn(selectClass, errors.preferredTime && "border-red-400")}
           >
-            <option value="">בוקר · צהריים · ערב</option>
+            <option value="">בוקר, צהריים, ערב</option>
             {TIME_SLOT_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}

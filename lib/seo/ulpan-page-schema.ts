@@ -75,7 +75,7 @@ export function buildUlpanPageSchema() {
       {
         "@type": "Service",
         "@id": `${pageUrl}#hebrew-tutoring-service`,
-        name: "שיעורי עברית פרטיים — יקיר כהן",
+        name: "שיעורי עברית פרטיים  -  יקיר כהן",
         description: ULPAN_META.description,
         url: pageUrl,
         serviceType: "Private Hebrew Tutoring",
@@ -111,7 +111,7 @@ export function buildUlpanPageSchema() {
       {
         "@type": "Course",
         "@id": `${pageUrl}#hebrew-course`,
-        name: "לימוד עברית מדוברת — שיעורים פרטיים",
+        name: "לימוד עברית מדוברת  -  שיעורים פרטיים",
         description:
           "תוכנית שיעורים פרטיים לעברית מדוברת. אחד על אחד, פרונטלי או בזום, במודיעין והמרכז.",
         url: pageUrl,
@@ -129,7 +129,7 @@ export function buildUlpanPageSchema() {
             name: "שיעור ניסיון",
             price: String(ULPAN_PRICING.trial.price),
             priceCurrency: "ILS",
-            description: "שיעור היכרות — אבחון רמה וקביעת מטרות",
+            description: "שיעור היכרות  -  אבחון רמה וקביעת מטרות",
           },
         ],
         review: {
