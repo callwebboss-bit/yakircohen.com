@@ -40,7 +40,7 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
 const DEFAULT_TITLE =
   "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין";
 const DEFAULT_DESCRIPTION =
-  "אולפן, פודקאסט ואירועים במודיעין. הקלטות, DJ, הנחיית קהל ושירותי AI - מודיעין, ירושלים והמרכז.";
+  "אולפן, פודקאסט ואירועים במודיעין. קריינות, DJ ושחזור סאונד ב-AI.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

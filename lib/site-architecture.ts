@@ -18,6 +18,23 @@ export type SiteNavCategory = {
   children: SiteNavLink[];
 };
 
+/** סדר תצוגה בתפריט — מקור אמת יחיד (Google priority) */
+export const NAV_DISPLAY_ORDER = [
+  "studio",
+  "podcast",
+  "online",
+  "attractions",
+  "dj-voice",
+  "social",
+  "video",
+  "photography",
+  "academy",
+  "pro",
+  "events",
+] as const;
+
+export type NavCategoryId = (typeof NAV_DISPLAY_ORDER)[number];
+
 /** 301 - עמוד כפול כתובת קנונית (SEO) */
 export const CANONICAL_REDIRECTS: Record<string, string> = {
   "/podcast/podcast-studio": "/podcast/podcast-studio-modiin",
@@ -57,9 +74,32 @@ export const DUPLICATE_PAGE_NOTES: readonly {
   },
 ];
 
-/** תפריט ראשי - קטגוריה + ילדים (ללא קפיצה לקטגוריות אחרות בילדים) */
-export const SITE_NAVIGATION: SiteNavCategory[] = [
-  {
+const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
+  studio: {
+    id: "studio",
+    label: "אולפן הקלטות",
+    href: "/studio",
+    children: [
+      { label: "מרכז האולפן", href: "/studio" },
+      { label: "הקלטת שיר במודיעין", href: "/studio/recording-song-modiin" },
+      { label: "מתנות ושוברים מהאולפן", href: "/studio/recording-song-modiin/gifts" },
+      { label: "אולפן הקלטות", href: "/studio/recording-studio" },
+      {
+        label: "ייעוץ אקוסטיקה ובניית אולפן",
+        href: "/academy/home-studio",
+        description: "אולפן ביתי, פודקאסט ומשדר",
+      },
+      { label: "ברכות מוקלטות", href: "/studio/blessings" },
+      { label: "ברכת חתן וכלה", href: "/studio/blessings/bride-groom-blessing" },
+      { label: "בר מצווה", href: "/studio/blessings/bar-mitzvah" },
+      { label: "קליפ בר/בת מצווה", href: "/studio/blessings/video-clip" },
+      { label: "אולפן נייד", href: "/studio/mobile-studio" },
+      { label: "אולפן ירושלים", href: "/studio/studio-jerusalem" },
+      { label: "מחירון", href: "/studio/pricing" },
+      { label: "מחירון מרכזי", href: "/pricing" },
+    ],
+  },
+  podcast: {
     id: "podcast",
     label: "פודקאסט",
     href: "/podcast",
@@ -79,10 +119,7 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         href: "/podcast/podcast-studio-modiin",
         description: "הקלטה באולפן - חצי שעה 750 ₪ - שעה 1,500 ₪ (לפני מע״מ)",
       },
-      {
-        label: "עריכת פודקאסט",
-        href: "/podcast/podcast-editing",
-      },
+      { label: "עריכת פודקאסט", href: "/podcast/podcast-editing" },
       {
         label: "אולפן בקופסה לעסקים",
         href: "/podcast/studio-in-a-box",
@@ -93,129 +130,13 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         href: "/podcast/bulk-production",
         description: "פרק + 3 Shorts לכל פרק",
       },
-      {
-        label: "ליווי מא׳ עד ת׳",
-        href: "/podcast/podcast-production",
-      },
-      {
-        label: "פודקאסט נייד עד הבית",
-        href: "/podcast/mobile-podcast-at-home",
-      },
-      {
-        label: "פודקאסט עם סבא וסבתא",
-        href: "/podcast/podcast-with-grandpa",
-      },
-      {
-        label: "שאלות נפוצות",
-        href: "/podcast/faq",
-      },
+      { label: "ליווי מא׳ עד ת׳", href: "/podcast/podcast-production" },
+      { label: "פודקאסט נייד עד הבית", href: "/podcast/mobile-podcast-at-home" },
+      { label: "פודקאסט עם סבא וסבתא", href: "/podcast/podcast-with-grandpa" },
+      { label: "שאלות נפוצות", href: "/podcast/faq" },
     ],
   },
-  {
-    id: "studio",
-    label: "סטודיו וברכות",
-    href: "/studio",
-    children: [
-      { label: "מרכז הסטודיו", href: "/studio" },
-      { label: "הקלטת שיר במודיעין", href: "/studio/recording-song-modiin" },
-      { label: "מתנות ושוברים מהאולפן", href: "/studio/recording-song-modiin/gifts" },
-      { label: "אולפן הקלטות", href: "/studio/recording-studio" },
-      {
-        label: "ייעוץ אקוסטיקה ובניית אולפן",
-        href: "/academy/home-studio",
-        description: "אולפן ביתי, פודקאסט ומשדר",
-      },
-      { label: "ברכות מוקלטות", href: "/studio/blessings" },
-      { label: "ברכת חתן וכלה", href: "/studio/blessings/bride-groom-blessing" },
-      { label: "בר מצווה", href: "/studio/blessings/bar-mitzvah" },
-      { label: "קליפ בר/בת מצווה", href: "/studio/blessings/video-clip" },
-      { label: "אולפן נייד", href: "/studio/mobile-studio" },
-      { label: "אולפן ירושלים", href: "/studio/studio-jerusalem" },
-      { label: "מחירון", href: "/studio/pricing" },
-      { label: "מחירון מרכזי", href: "/pricing" },
-    ],
-  },
-  {
-    id: "voiceover",
-    label: "קריינות",
-    href: "/voiceover",
-    children: [
-      { label: "מרכז קריינות", href: "/voiceover" },
-      { label: "שירותי קריינות", href: "/voiceover/services" },
-      { label: "קורס קריינות", href: "/voiceover/course" },
-    ],
-  },
-  {
-    id: "events",
-    label: "אירועים",
-    href: "/events",
-    children: [
-      { label: "מרכז אירועים", href: "/events" },
-      { label: "תקליטן לאירועים", href: "/events/dj-events" },
-      { label: "תגים קוליים לדיג'ייז", href: "/events/dj/voice-tags" },
-      { label: "סטים מובנים ל-DJ", href: "/events/dj/pre-built-sets" },
-      { label: "במה LED + DJ", href: "/events/stage-led-dj" },
-      { label: "חבילות אירועים", href: "/events/wedding-attractions-packages" },
-      { label: "ציוד הגברה", href: "/events/equipment" },
-      { label: "השכרת ציוד הגברה", href: "/events/equipment/dry-hire" },
-      { label: "תכנון EASE / SMAART", href: "/events/equipment/system-tuning" },
-      { label: "הגברת זמר חי", href: "/events/equipment/singer-amplification" },
-      { label: "אטרקציות", href: "/events/attractions" },
-      { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
-      { label: "עשן כבד לאירועים גדולים", href: "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events" },
-      { label: "מכונת בועות", href: "/events/attractions/bubble-machine" },
-      { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
-      { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
-      { label: "בלונים ענק", href: "/events/attractions/giant-balloons" },
-      { label: "מנחה אירועים", href: "/events/host" },
-      { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
-    ],
-  },
-  {
-    id: "video",
-    label: "וידאו",
-    href: "/video",
-    children: [
-      { label: "מרכז וידאו", href: "/video" },
-      { label: "צילום אירועים", href: "/video/event-filming" },
-      { label: "סרט תדמית", href: "/video/corporate-video" },
-      { label: "מצגות", href: "/video/presentation" },
-      { label: "עריכת מצגת תמונות", href: "/photo-slideshow" },
-    ],
-  },
-  {
-    id: "photography",
-    label: "צילום",
-    href: "/photography",
-    children: [
-      { label: "מרכז צילום", href: "/photography" },
-      { label: "צילום חתונות", href: "/photography/wedding" },
-      { label: "צילום אירועים וכנסים", href: "/photography/events" },
-    ],
-  },
-  {
-    id: "academy",
-    label: "אקדמיה",
-    href: "/academy",
-    children: [
-      { label: "מרכז האקדמיה", href: "/academy" },
-      { label: "קורס DJ", href: "/academy/dj-course" },
-      { label: "הפקה מוזיקלית", href: "/academy/music-production" },
-      { label: "קורס גמגום", href: "/academy/stuttering-course" },
-      { label: "לימוד עברית (אולפן)", href: "/academy/ulpan" },
-      {
-        label: "שיעור פרטי - 990 / 1,280 ₪",
-        href: "/academy/private-lessons",
-        description: "60 או 90 דקות 1:1",
-      },
-      {
-        label: "ייעוץ אקוסטיקה ובניית אולפן",
-        href: "/academy/home-studio",
-        description: "אולפן ביתי, פודקאסט ומשדר",
-      },
-    ],
-  },
-  {
+  online: {
     id: "online",
     label: "שירותי AI",
     href: "/online",
@@ -245,14 +166,8 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
         href: "/online/vocal-fix/photo-enhance",
         description: "הגדלה, חידוד ושיפור תמונות ישנות",
       },
-      {
-        label: "תמחור שירותים",
-        href: "/online/online-ai-pricing",
-      },
-      {
-        label: "שליחת קבצים",
-        href: "/online/vocal-fix/send-file",
-      },
+      { label: "תמחור שירותים", href: "/online/online-ai-pricing" },
+      { label: "שליחת קבצים", href: "/online/vocal-fix/send-file" },
       {
         label: "מאשאפ חירום",
         href: "/online/mashup-fixer",
@@ -260,7 +175,101 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       },
     ],
   },
-  {
+  attractions: {
+    id: "attractions",
+    label: "אטרקציות",
+    href: "/events/attractions",
+    children: [
+      { label: "מרכז אטרקציות", href: "/events/attractions" },
+      { label: "חבילות אירועים", href: "/events/wedding-attractions-packages" },
+      { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
+      {
+        label: "עשן כבד לאירועים גדולים",
+        href: "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+      },
+      { label: "מכונת בועות", href: "/events/attractions/bubble-machine" },
+      { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
+      { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
+      { label: "בלונים ענק", href: "/events/attractions/giant-balloons" },
+      { label: "במה LED + DJ", href: "/events/stage-led-dj" },
+    ],
+  },
+  "dj-voice": {
+    id: "dj-voice",
+    label: "DJ וקריינות",
+    href: "/events/dj-events",
+    children: [
+      { label: "תקליטן לאירועים", href: "/events/dj-events" },
+      { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
+      { label: "תגים קוליים לדיג'ייז", href: "/events/dj/voice-tags" },
+      { label: "סטים מובנים ל-DJ", href: "/events/dj/pre-built-sets" },
+      { label: "מרכז קריינות", href: "/voiceover" },
+      { label: "שירותי קריינות", href: "/voiceover/services" },
+      { label: "קורס קריינות", href: "/voiceover/course" },
+    ],
+  },
+  social: {
+    id: "social",
+    label: "סושיאל",
+    href: "/business/social-media",
+    children: [
+      {
+        label: "קידום סושיאל לעסקים",
+        href: "/business/social-media",
+        description: "ניהול סושיאל ומדיה",
+      },
+      {
+        label: "מפעל רילס לספקים",
+        href: "/business/reel-factory",
+        description: "עריכת פרומואים לספקי אירועים",
+      },
+    ],
+  },
+  video: {
+    id: "video",
+    label: "וידאו",
+    href: "/video",
+    children: [
+      { label: "מרכז וידאו", href: "/video" },
+      { label: "צילום אירועים", href: "/video/event-filming" },
+      { label: "סרט תדמית", href: "/video/corporate-video" },
+      { label: "מצגות", href: "/video/presentation" },
+      { label: "עריכת מצגת תמונות", href: "/photo-slideshow" },
+    ],
+  },
+  photography: {
+    id: "photography",
+    label: "צילום",
+    href: "/photography",
+    children: [
+      { label: "מרכז צילום", href: "/photography" },
+      { label: "צילום חתונות", href: "/photography/wedding" },
+      { label: "צילום אירועים וכנסים", href: "/photography/events" },
+    ],
+  },
+  academy: {
+    id: "academy",
+    label: "אקדמיה",
+    href: "/academy",
+    children: [
+      { label: "מרכז האקדמיה", href: "/academy" },
+      { label: "קורס DJ", href: "/academy/dj-course" },
+      { label: "הפקה מוזיקלית", href: "/academy/music-production" },
+      { label: "קורס גמגום", href: "/academy/stuttering-course" },
+      { label: "לימוד עברית (אולפן)", href: "/academy/ulpan" },
+      {
+        label: "שיעור פרטי - 990 / 1,280 ₪",
+        href: "/academy/private-lessons",
+        description: "60 או 90 דקות 1:1",
+      },
+      {
+        label: "ייעוץ אקוסטיקה ובניית אולפן",
+        href: "/academy/home-studio",
+        description: "אולפן ביתי, פודקאסט ומשדר",
+      },
+    ],
+  },
+  pro: {
     id: "pro",
     label: "שירותים מקצועיים",
     href: "/pro",
@@ -276,21 +285,31 @@ export const SITE_NAVIGATION: SiteNavCategory[] = [
       { label: "דופק השוק", href: "/pro/event-index" },
     ],
   },
-];
+  events: {
+    id: "events",
+    label: "אירועים",
+    href: "/events",
+    children: [
+      { label: "מרכז אירועים", href: "/events" },
+      { label: "ציוד הגברה", href: "/events/equipment" },
+      { label: "השכרת ציוד הגברה", href: "/events/equipment/dry-hire" },
+      { label: "תכנון EASE / SMAART", href: "/events/equipment/system-tuning" },
+      { label: "הגברת זמר חי", href: "/events/equipment/singer-amplification" },
+      { label: "מנחה אירועים", href: "/events/host" },
+    ],
+  },
+};
+
+/** תפריט ראשי - קטגוריה + ילדים (ללא קפיצה לקטגוריות אחרות בילדים) */
+export const SITE_NAVIGATION: SiteNavCategory[] = NAV_DISPLAY_ORDER.map(
+  (id) => NAV_CATEGORIES[id],
+);
 
 /** קישורים גלובליים (מחוץ לקטגוריות) */
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "הזמנה מקוונת", href: "/book" },
   { label: "איך זה עובד", href: "/start" },
   { label: "מגזין", href: "/blog" },
-  {
-    label: "קידום סושיאל - יקיר איזמירלי",
-    href: "/business/social-media",
-  },
-  {
-    label: "מפעל רילס לספקים",
-    href: "/business/reel-factory",
-  },
   { label: "אודות", href: "/about" },
   { label: "שאלות נפוצות", href: "/about/faq" },
   { label: "צור קשר", href: "/contact" },
@@ -383,17 +402,39 @@ export const SITE_HUB_LINKS: SiteNavLink[] = SITE_NAVIGATION.map((c) => ({
   href: c.href,
 }));
 
+const PATH_CATEGORY_RULES: readonly { prefix: string; categoryId: NavCategoryId }[] = [
+  { prefix: "/events/attractions", categoryId: "attractions" },
+  { prefix: "/events/wedding-attractions-packages", categoryId: "attractions" },
+  { prefix: "/events/stage-led-dj", categoryId: "attractions" },
+  { prefix: "/voiceover", categoryId: "dj-voice" },
+  { prefix: "/events/dj-events", categoryId: "dj-voice" },
+  { prefix: "/events/dj/", categoryId: "dj-voice" },
+  { prefix: "/dj-events/", categoryId: "dj-voice" },
+  { prefix: "/business/social-media", categoryId: "social" },
+  { prefix: "/business/reel-factory", categoryId: "social" },
+  { prefix: "/photo-slideshow", categoryId: "video" },
+];
+
 export function getCategoryForPath(pathname: string): SiteNavCategory | undefined {
   const normalized = pathname.replace(/\/$/, "") || "/";
-  return SITE_NAVIGATION.find((cat) => {
-    if (normalized === cat.href || normalized.startsWith(`${cat.href}/`)) {
-      return true;
+
+  for (const rule of PATH_CATEGORY_RULES) {
+    if (
+      normalized === rule.prefix ||
+      normalized.startsWith(`${rule.prefix}/`)
+    ) {
+      return NAV_CATEGORIES[rule.categoryId];
     }
-    if (cat.id === "video" && normalized.startsWith("/photo-slideshow")) {
-      return true;
-    }
-    return false;
-  });
+  }
+
+  const byHrefLength = [...SITE_NAVIGATION].sort(
+    (a, b) => b.href.length - a.href.length,
+  );
+
+  return byHrefLength.find(
+    (cat) =>
+      normalized === cat.href || normalized.startsWith(`${cat.href}/`),
+  );
 }
 
 /** מחזיר קישורים פנימיים מותרים לאותה קטגוריה (לרכיבי Related) */

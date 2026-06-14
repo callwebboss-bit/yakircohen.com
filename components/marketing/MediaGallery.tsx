@@ -391,7 +391,7 @@ export default function MediaGallery({
         {!embedded && (heading ?? subheading) ? (
           <header className="mb-8 text-center">
             {subheading ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--service-accent-ink,#d42b2b)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--service-accent-ink,#8a1c1c)]">
                 {subheading}
               </p>
             ) : null}

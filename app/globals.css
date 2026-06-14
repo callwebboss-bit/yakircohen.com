@@ -245,11 +245,6 @@
 
 @layer base {
   :root {
-    /* Darkened per-hub accent for small text (badges, kickers, links) where the
-       raw accent fails contrast on light backgrounds. Auto-tracks whichever
-       --service-accent is active. */
-    --service-accent-ink: color-mix(in srgb, var(--service-accent, #d42b2b) 65%, black 35%);
-
     direction: rtl;
     text-align: right;
     -webkit-font-smoothing: antialiased;

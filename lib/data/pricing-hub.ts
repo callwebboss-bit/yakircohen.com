@@ -54,6 +54,19 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     ],
   },
   {
+    id: "online",
+    title: "שירותי AI מקוונים",
+    description: "עריכה ושחזור קול מרחוק",
+    href: "/online/online-ai-pricing",
+    bookHref: "/book#online",
+    rows: [
+      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
+      { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
+      { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
+      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
+    ],
+  },
+  {
     id: "events",
     title: "אטרקציות לאירועים",
     description: "עשן, בועות, זיקוקים וחבילות משולבות",
@@ -106,19 +119,6 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         exVat: getExVat("reel_factory_pro_monthly"),
         note: "8 פרומואים + כיתובים - לחודש",
       },
-    ],
-  },
-  {
-    id: "online",
-    title: "שירותי AI מקוונים",
-    description: "עריכה ושחזור קול מרחוק",
-    href: "/online/online-ai-pricing",
-    bookHref: "/book#online",
-    rows: [
-      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
-      { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
-      { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
-      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
     ],
   },
   {

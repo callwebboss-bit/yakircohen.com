@@ -7,8 +7,8 @@ import {
   SITE_ROBOTS,
 } from "@/lib/seo-config";
 import { BRAND_SUFFIX, normalizeTitle } from "@/lib/seo/normalize-title";
+import { SITE_URL } from "@/lib/site-url";
 
-const BASE_URL = "https://yakircohen.com";
 export type ConstructMetadataParams = {
   title: string;
   description: string;
@@ -17,6 +17,8 @@ export type ConstructMetadataParams = {
   robots?: Metadata["robots"];
   /** Override default OG/Twitter image path, alt, and dimensions */
   ogImage?: { path?: string; alt?: string; width?: number; height?: number };
+  /** Blog/article pages — sets OG type article + published/modified times */
+  article?: { publishedTime: string; modifiedTime?: string };
 };
 
 export { BRAND_SUFFIX, normalizeTitle };
@@ -28,12 +30,13 @@ export function constructMetadata({
   keywords = [],
   robots,
   ogImage,
+  article,
 }: ConstructMetadataParams): Metadata {
   const normalizedSlug = slug.replace(/^\/+/, "");
-  const url = `${BASE_URL}/${normalizedSlug}`;
+  const url = `${SITE_URL}/${normalizedSlug}`;
   const absoluteTitle = `${normalizeTitle(title)}${BRAND_SUFFIX}`;
   const ogImagePath = ogImage?.path ?? DEFAULT_OG_IMAGE_PATH;
-  const ogImageUrl = `${BASE_URL}${encodeURI(ogImagePath)}`;
+  const ogImageUrl = `${SITE_URL}${encodeURI(ogImagePath)}`;
   const ogImageAlt =
     ogImage?.alt ?? DEFAULT_OPEN_GRAPH.images[0].alt ?? `${SITE_NAME} - אולפן הקלטות במודיעין`;
   const ogImageWidth = ogImage?.width ?? DEFAULT_OPEN_GRAPH.images[0].width;
@@ -56,9 +59,16 @@ export function constructMetadata({
     },
     openGraph: {
       ...DEFAULT_OPEN_GRAPH,
+      type: article ? "article" : DEFAULT_OPEN_GRAPH.type,
       url,
       title: absoluteTitle,
       description,
+      ...(article
+        ? {
+            publishedTime: article.publishedTime,
+            modifiedTime: article.modifiedTime ?? article.publishedTime,
+          }
+        : {}),
       images: [
         {
           ...DEFAULT_OPEN_GRAPH.images[0],

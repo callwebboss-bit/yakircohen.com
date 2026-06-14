@@ -113,7 +113,7 @@ export default function BookingSelectableCard({
           </span>
         ) : null}
         {active ? (
-          <span className="rounded-full bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] px-2 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent-ink,#d42b2b)]">
+          <span className="rounded-full bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] px-2 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent-ink,#8a1c1c)]">
             נבחר
           </span>
         ) : null}
@@ -121,7 +121,7 @@ export default function BookingSelectableCard({
       </span>
 
       {featured ? (
-        <span className="mb-1 w-full text-center text-xs font-bold text-[var(--service-accent-ink,#d42b2b)]">{featuredLabel}</span>
+        <span className="mb-1 w-full text-center text-xs font-bold text-[var(--service-accent-ink,#8a1c1c)]">{featuredLabel}</span>
       ) : null}
 
       {emoji ? (
@@ -145,7 +145,7 @@ export default function BookingSelectableCard({
               )}
             >
               {!compact ? (
-                <span className="mt-1 text-[var(--service-accent-ink,#d42b2b)]/80" aria-hidden="true">
+                <span className="mt-1 text-[var(--service-accent-ink,#8a1c1c)]/80" aria-hidden="true">
                   ✓
                 </span>
               ) : null}

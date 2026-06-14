@@ -11,7 +11,7 @@ import { SITE_URL } from "@/lib/site-url";
 
 const HOME_TITLE = "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין";
 const HOME_DESCRIPTION =
-  "אולפן הקלטות במודיעין, פודקאסט, קריינות, DJ ואטרקציות לאירועים. שחזור סאונד ומדיה ב-AI.";
+  "אולפן, פודקאסט ואירועים במודיעין. קריינות, DJ ושחזור סאונד ב-AI.";
 
 export const metadata: Metadata = {
   title: HOME_TITLE,

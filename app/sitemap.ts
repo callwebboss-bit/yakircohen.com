@@ -8,28 +8,6 @@ const url = (path: string) => `${SITE_URL}/${path}`;
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: SITE_URL, priority: 1.0, changeFrequency: "weekly" },
 
-  // ── Podcast ────────────────────────────────────────────────────────────────
-  { url: url("podcast"), priority: 0.9, changeFrequency: "monthly" },
-  {
-    url: url("podcast/podcast-studio-modiin"),
-    priority: 0.9,
-    changeFrequency: "monthly",
-  },
-  { url: url("podcast/podcast-editing"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("podcast/podcast-production"), priority: 0.8, changeFrequency: "monthly" },
-  {
-    url: url("podcast/podcast-recording"),
-    priority: 0.9,
-    changeFrequency: "monthly",
-  },
-  {
-    url: url("podcast/podcast-with-grandpa"),
-    priority: 0.85,
-    changeFrequency: "monthly",
-  },
-  { url: url("podcast/mobile-podcast-at-home"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("podcast/faq"), priority: 0.6, changeFrequency: "monthly" },
-
   // ── Studio & Blessings ─────────────────────────────────────────────────────
   { url: url("studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("portfolio"), priority: 0.85, changeFrequency: "monthly" },
@@ -58,68 +36,30 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
 
-  // ── Voiceover ──────────────────────────────────────────────────────────────
-  { url: url("voiceover"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("voiceover/services"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("voiceover/course"), priority: 0.7, changeFrequency: "monthly" },
-
-  // ── Events & Attractions ───────────────────────────────────────────────────
-  { url: url("events"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("events/dj-events"), priority: 0.8, changeFrequency: "monthly" },
+  // ── Podcast ────────────────────────────────────────────────────────────────
+  { url: url("podcast"), priority: 0.9, changeFrequency: "monthly" },
   {
-    url: url("events/wedding-attractions-packages"),
+    url: url("podcast/podcast-studio-modiin"),
+    priority: 0.9,
+    changeFrequency: "monthly",
+  },
+  { url: url("podcast/podcast-editing"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/podcast-production"), priority: 0.8, changeFrequency: "monthly" },
+  {
+    url: url("podcast/podcast-recording"),
+    priority: 0.9,
+    changeFrequency: "monthly",
+  },
+  {
+    url: url("podcast/podcast-with-grandpa"),
     priority: 0.85,
     changeFrequency: "monthly",
   },
-  { url: url("events/attractions"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("events/attractions/bubble-machine"), priority: 0.7, changeFrequency: "monthly" },
-  {
-    url: url("events/attractions/bubble-machine/smoke-bubble-machine-events"),
-    priority: 0.8,
-    changeFrequency: "monthly",
-  },
-  { url: url("events/attractions/cold-fireworks"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("events/attractions/confetti-cannon"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("events/attractions/giant-balloons"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("events/stage-led-dj"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("events/attractions/smoke-cannons-for-events"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("events/attractions/wedding-smoking-machine"), priority: 0.7, changeFrequency: "monthly" },
-  {
-    url: url(
-      "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
-    ),
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
-  { url: url("events/equipment"), priority: 0.7, changeFrequency: "monthly" },
-  {
-    url: url("events/equipment/singer-amplification"),
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
-  { url: url("events/host"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("events/host/faq"), priority: 0.6, changeFrequency: "monthly" },
-  { url: url("events/equipment/faq"), priority: 0.6, changeFrequency: "monthly" },
+  { url: url("podcast/mobile-podcast-at-home"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/faq"), priority: 0.6, changeFrequency: "monthly" },
 
-  // ── Video ──────────────────────────────────────────────────────────────────
-  { url: url("video"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("video/event-filming"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("video/corporate-video"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("video/presentation"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("photo-slideshow"), priority: 0.85, changeFrequency: "monthly" },
-
-  // ── Photography ────────────────────────────────────────────────────────────
-  { url: url("photography"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("photography/wedding"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("photography/events"), priority: 0.7, changeFrequency: "monthly" },
-
-  // ── Booking & vouchers ─────────────────────────────────────────────────────
-  { url: url("book"), priority: 0.9, changeFrequency: "monthly" },
-  { url: url("pricing"), priority: 0.85, changeFrequency: "monthly" },
-  { url: url("voucher"), priority: 0.7, changeFrequency: "monthly" },
-
-  // ── Online & courses ─────────────────────────────────────────────────────────
-  { url: url("online"), priority: 0.8, changeFrequency: "monthly" },
+  // ── Online / AI ────────────────────────────────────────────────────────────
+  { url: url("online"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("online/audio-music"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("online/podcast-voice"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("online/video-content"), priority: 0.72, changeFrequency: "monthly" },
@@ -147,12 +87,77 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   },
   { url: url("online/online-ai-pricing"), priority: 0.7, changeFrequency: "monthly" },
 
-  // ── Stuttering / clinic ──────────────────────────────────────────────────────
-  { url: url("stuttering"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("clinic"), priority: 0.7, changeFrequency: "monthly" },
+  // ── Attractions ────────────────────────────────────────────────────────────
+  { url: url("events/attractions"), priority: 0.9, changeFrequency: "monthly" },
+  {
+    url: url("events/wedding-attractions-packages"),
+    priority: 0.85,
+    changeFrequency: "monthly",
+  },
+  { url: url("events/attractions/bubble-machine"), priority: 0.7, changeFrequency: "monthly" },
+  {
+    url: url("events/attractions/bubble-machine/smoke-bubble-machine-events"),
+    priority: 0.8,
+    changeFrequency: "monthly",
+  },
+  { url: url("events/attractions/cold-fireworks"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/attractions/confetti-cannon"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/attractions/giant-balloons"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/stage-led-dj"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("events/attractions/smoke-cannons-for-events"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/attractions/wedding-smoking-machine"), priority: 0.7, changeFrequency: "monthly" },
+  {
+    url: url(
+      "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+    ),
+    priority: 0.75,
+    changeFrequency: "monthly",
+  },
 
-  // ── Geo landing ────────────────────────────────────────────────────────────
+  // ── DJ & Voiceover ─────────────────────────────────────────────────────────
+  { url: url("events/dj-events"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("voiceover"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("voiceover/services"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("voiceover/course"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("dj-events/cities/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
+
+  // ── Social & business ────────────────────────────────────────────────────────
+  { url: url("business/social-media"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("business/reel-factory"), priority: 0.8, changeFrequency: "monthly" },
+  {
+    url: url("business/professional-voiceover"),
+    priority: 0.75,
+    changeFrequency: "monthly",
+  },
+
+  // ── Events (equipment & host) ────────────────────────────────────────────────
+  { url: url("events"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("events/equipment"), priority: 0.7, changeFrequency: "monthly" },
+  {
+    url: url("events/equipment/singer-amplification"),
+    priority: 0.75,
+    changeFrequency: "monthly",
+  },
+  { url: url("events/host"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/host/faq"), priority: 0.6, changeFrequency: "monthly" },
+  { url: url("events/equipment/faq"), priority: 0.6, changeFrequency: "monthly" },
+
+  // ── Video ──────────────────────────────────────────────────────────────────
+  { url: url("video"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("video/event-filming"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("video/corporate-video"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("video/presentation"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("photo-slideshow"), priority: 0.85, changeFrequency: "monthly" },
+
+  // ── Photography ────────────────────────────────────────────────────────────
+  { url: url("photography"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("photography/wedding"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("photography/events"), priority: 0.7, changeFrequency: "monthly" },
+
+  // ── Booking & vouchers ─────────────────────────────────────────────────────
+  { url: url("book"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("pricing"), priority: 0.85, changeFrequency: "monthly" },
+  { url: url("voucher"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── About / Contact ────────────────────────────────────────────────────────
   { url: url("about"), priority: 0.6, changeFrequency: "monthly" },
@@ -160,14 +165,9 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("start"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("contact"), priority: 0.6, changeFrequency: "monthly" },
 
-  // ── Business / social media ──────────────────────────────────────────────────
-  { url: url("business/social-media"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("business/reel-factory"), priority: 0.8, changeFrequency: "monthly" },
-  {
-    url: url("business/professional-voiceover"),
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
+  // ── Stuttering / clinic ──────────────────────────────────────────────────────
+  { url: url("stuttering"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("clinic"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── Legal ──────────────────────────────────────────────────────────────────
   { url: url("privacy"), priority: 0.3, changeFrequency: "yearly" },

@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { EventIndexWeek } from "@/lib/data/event-index.generated";
 import {
   PRO_ATTRACTIONS,
-  formatProPriceExVat,
+  formatProPriceShort,
 } from "@/lib/data/event-index-attractions-pro";
 import { useSupplierPriceDraft } from "@/hooks/useSupplierPriceDraft";
 import { cn } from "@/lib/utils";
@@ -21,26 +21,36 @@ function parsePriceInput(raw: string): number | null {
   return Number.isFinite(n) && n >= 0 ? Math.round(n) : null;
 }
 
-function DiffCell({ diff }: { diff: number | null }) {
-  if (diff == null) return <span className="text-muted-foreground">—</span>;
+function PriceDiff({ diff }: { diff: number | null }) {
+  if (diff == null) {
+    return (
+      <span className="text-xs text-muted-foreground">הזינו מחיר להשוואה</span>
+    );
+  }
   if (diff === 0) {
-    return <span className="text-muted-foreground tabular-nums">זהה</span>;
+    return (
+      <span className="inline-flex rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+        זהה למחירון
+      </span>
+    );
   }
   const saving = diff < 0;
   return (
     <span
       className={cn(
-        "font-medium tabular-nums",
-        saving ? "text-emerald-700 dark:text-emerald-400" : "text-brand-red",
+        "inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold tabular-nums",
+        saving
+          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300"
+          : "bg-brand-red/10 text-brand-red",
       )}
     >
-      {saving ? "חיסכון " : "+"}
+      {saving ? "חיסכון " : "יקר יותר ב"}
       {Math.abs(diff).toLocaleString("he-IL")} ₪
     </span>
   );
 }
 
-function DemandCell({
+function DemandBadge({
   marketId,
   index,
   hasFullAccess,
@@ -55,131 +65,130 @@ function DemandCell({
 
   if (!hasFullAccess) {
     return (
-      <span className="blur-[3px] select-none text-xs text-muted-foreground" aria-hidden>
-        +12% · 8 לידים
-      </span>
+      <p className="text-xs text-muted-foreground">
+        מגמת ביקוש זמינה למנוי דופק השוק
+      </p>
     );
   }
 
   if (!row) {
-    return <span className="text-muted-foreground">—</span>;
+    return null;
   }
 
+  const trend =
+    row.demandTrendPct >= 0
+      ? `עלייה ${row.demandTrendPct}%`
+      : `ירידה ${Math.abs(row.demandTrendPct)}%`;
+
   return (
-    <span className="text-xs tabular-nums sm:text-sm">
-      {row.demandTrendPct >= 0 ? "+" : ""}
-      {row.demandTrendPct}% · {row.leadCount} לידים
-    </span>
+    <p className="text-xs text-muted-foreground">
+      {trend}, {row.leadCount} לידים השבוע
+    </p>
   );
 }
 
 export default function EventIndexAttractionsCatalog({ index, hasFullAccess }: Props) {
   const { prices, setPrice, clearPrices } = useSupplierPriceDraft();
+  const filledCount = PRO_ATTRACTIONS.filter(
+    (a) => prices[a.id] != null,
+  ).length;
 
   return (
-    <section aria-labelledby="attractions-catalog-heading">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
+    <section id="price-compare" className="scroll-mt-24" aria-labelledby="attractions-catalog-heading">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="max-w-xl">
           <h2
             id="attractions-catalog-heading"
             className="font-serif text-xl font-semibold text-foreground"
           >
-            קטלוג אטרקציות — השוואת מחירי ספק
+            השוואת מחירים
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            הזינו מה אתם משלמים היום לספק לפני מע״מ — נשווה למחירון יקיר ולמגמת ביקוש
-            (למנויים). הנתונים נשמרים במכשיר שלכם בלבד.
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            כמה אתם משלמים היום לספק? הזינו מחיר לפני מע״מ ונראה את ההפרש מול
+            המחירון שלנו. הנתונים נשמרים רק במכשיר הזה.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={clearPrices}
-          className="text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-        >
-          נקה השוואה
-        </button>
+        {filledCount > 0 ? (
+          <button
+            type="button"
+            onClick={clearPrices}
+            className="shrink-0 rounded-lg border border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+          >
+            נקה הכל
+          </button>
+        ) : null}
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-xl border border-border">
-        <table className="w-full min-w-[640px] text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/40 text-start text-xs font-semibold text-muted-foreground">
-              <th className="px-4 py-3 font-semibold">אטרקציה</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap">מחיר יקיר</th>
-              <th className="px-4 py-3 font-semibold whitespace-nowrap">המחיר שלכם</th>
-              <th className="px-4 py-3 font-semibold">הפרש</th>
-              <th className="px-4 py-3 font-semibold">ביקוש</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {PRO_ATTRACTIONS.map((item) => {
-              const yourPrice = prices[item.id] ?? null;
-              const diff =
-                yourPrice != null ? yourPrice - item.supplierExVat : null;
+      <ul className="mt-6 space-y-3">
+        {PRO_ATTRACTIONS.map((item) => {
+          const yourPrice = prices[item.id] ?? null;
+          const diff =
+            yourPrice != null ? yourPrice - item.supplierExVat : null;
 
-              return (
-                <tr key={item.id} className="bg-background">
-                  <td className="px-4 py-4">
-                    <Link
-                      href={item.href}
-                      className="group flex items-start gap-2 hover:text-brand-red"
-                    >
-                      <span className="text-lg" aria-hidden>
-                        {item.icon}
-                      </span>
-                      <span>
-                        <span className="font-medium group-hover:underline">
-                          {item.name}
-                        </span>
-                        <span className="mt-0.5 block text-xs text-muted-foreground">
-                          {item.shortDesc}
-                        </span>
-                      </span>
-                    </Link>
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap tabular-nums text-muted-foreground">
-                    {formatProPriceExVat(item.supplierExVat)}
-                  </td>
-                  <td className="px-4 py-4">
-                    <label className="sr-only" htmlFor={`price-${item.id}`}>
-                      המחיר שלכם ל{item.name}
-                    </label>
-                    <input
-                      id={`price-${item.id}`}
-                      type="number"
-                      min={0}
-                      step={50}
-                      inputMode="numeric"
-                      placeholder="₪ לפני מע״מ"
-                      value={yourPrice ?? ""}
-                      onChange={(e) =>
-                        setPrice(item.id, parsePriceInput(e.target.value))
-                      }
-                      className="w-full min-w-[7rem] max-w-[9rem] rounded-lg border border-border bg-background px-3 py-2 text-sm tabular-nums"
-                    />
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap">
-                    <DiffCell diff={diff} />
-                  </td>
-                  <td className="px-4 py-4">
-                    <DemandCell
+          return (
+            <li
+              key={item.id}
+              className="rounded-2xl border border-border bg-background p-4 sm:p-5"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <Link
+                    href={item.href}
+                    className="font-semibold text-foreground hover:text-brand-red hover:underline"
+                  >
+                    {item.name}
+                  </Link>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.pitch}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    מתאים ל{item.moment}
+                  </p>
+                </div>
+                <p className="shrink-0 text-sm tabular-nums text-muted-foreground">
+                  אצלנו{" "}
+                  <span className="font-semibold text-foreground">
+                    {formatProPriceShort(item.supplierExVat)}
+                  </span>
+                  <span className="text-xs"> לפני מע״מ</span>
+                </p>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex-1">
+                  <label
+                    htmlFor={`price-${item.id}`}
+                    className="mb-1.5 block text-xs font-medium text-muted-foreground"
+                  >
+                    המחיר שלכם לפני מע״מ
+                  </label>
+                  <input
+                    id={`price-${item.id}`}
+                    type="number"
+                    min={0}
+                    step={50}
+                    inputMode="numeric"
+                    placeholder="לדוגמה 2000"
+                    value={yourPrice ?? ""}
+                    onChange={(e) =>
+                      setPrice(item.id, parsePriceInput(e.target.value))
+                    }
+                    className="w-full max-w-[12rem] min-h-11 rounded-xl border border-border bg-surface px-4 text-base tabular-nums sm:text-sm"
+                  />
+                </div>
+                <div className="sm:text-end">
+                  <PriceDiff diff={diff} />
+                  <div className="mt-2">
+                    <DemandBadge
                       marketId={item.marketId}
                       index={index}
                       hasFullAccess={hasFullAccess}
                     />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      {!hasFullAccess && (
-        <p className="mt-3 text-xs text-muted-foreground">
-          עמודת ביקוש — תצוגה מקדימה. מנוי דופק השוק מציג מגמות אמיתיות מהשבוע.
-        </p>
-      )}
+                  </div>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }

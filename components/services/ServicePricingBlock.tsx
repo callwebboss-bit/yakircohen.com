@@ -72,7 +72,7 @@ export default function ServicePricingBlock({
                   {tier.priceExVat !== undefined ? (
                     <PriceWithVat amountExVat={tier.priceExVat} size="md" compact />
                   ) : (
-                    <p className="text-xl font-semibold text-[var(--service-accent-ink,#d42b2b)]">{tier.price}</p>
+                    <p className="text-xl font-semibold text-[var(--service-accent-ink,#8a1c1c)]">{tier.price}</p>
                   )}
                 </div>
                 {tier.priceExVat !== undefined ? (

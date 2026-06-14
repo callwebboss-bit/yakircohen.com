@@ -14,7 +14,7 @@ import { absoluteUrl } from "@/lib/site-url";
 export const metadata: Metadata = constructMetadata({
   title: `${REEL_FACTORY_BRAND} | ${REEL_FACTORY_TAGLINE}`,
   description:
-    "מפעל רילס לספקי אירועים: DJ, צלמים, מפיקים ואטרקציות. רילס Rave ערוך תוך 24 שעות + מנוי חודשי עם פרומואים ופוסטים שיווקיים.",
+    "עריכת רילס לספקי אירועים במודיעין. Rave 24 שעות ומנוי Content Hub.",
   slug: "business/reel-factory",
   keywords: [
     "רילס לספקי אירועים",

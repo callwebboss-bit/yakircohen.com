@@ -16,13 +16,10 @@ import Testimonials from "@/components/marketing/Testimonials";
 import WhatsappLeadRouter from "@/components/marketing/WhatsappLeadRouter";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import {
-  MicIcon,
-  MusicIcon,
-  RadioIcon,
-  SparklesIcon,
-  VideoIcon,
-  ZapIcon,
-} from "@/components/ui/Icons";
+  PRIMARY_HOME_HUB_CARDS,
+  SECONDARY_HOME_HUB_CARDS,
+  getHomeHubIcon,
+} from "@/lib/data/home-hub-cards";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 const HOME_FAQ: FAQItem[] = [
@@ -150,7 +147,7 @@ const VALUE_PROPS = [
     title: "ניסיון מהשטח",
     description:
       "עשרות אירועים, פודקאסטים והקלטות. יודעים מתי לדבר ומתי לתת לרגע לנשום.",
-    href: "/events",
+    href: "/events/attractions",
   },
   {
     title: "שגר ושכח",
@@ -195,60 +192,39 @@ export default function HomePageSections({
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               לחצו על{" "}
+              <InlineServiceLink href="/studio">אולפן הקלטות</InlineServiceLink>,{" "}
               <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/events">אירועים</InlineServiceLink> או{" "}
-              <InlineServiceLink href="/video">וידאו וצילום</InlineServiceLink>
+              <InlineServiceLink href="/online">שירותי AI</InlineServiceLink>,{" "}
+              <InlineServiceLink href="/events/attractions">אטרקציות</InlineServiceLink>,{" "}
+              <InlineServiceLink href="/events/dj-events">DJ וקריינות</InlineServiceLink>{" "}
+              או{" "}
+              <InlineServiceLink href="/business/social-media">סושיאל</InlineServiceLink>
               . נחבר אתכם למסלול הנכון תוך דקות.
             </p>
           </header>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            <ServiceCard
-              title="מרכז הפודקאסט"
-              description="בואו נבנה פורמט, נקליט באולפן, נערוך ונעלה."
-              href="/podcast"
-              icon={<ServiceHubIcon><RadioIcon size={22} /></ServiceHubIcon>}
-              utm_campaign="home_podcast"
-            />
-            <ServiceCard
-              title="סטודיו וברכות"
-              description="שיר במתנה, ברכה לחתונה, קליפ קצר. הילד שלכם הוא הכוכב."
-              href="/studio"
-              icon={<ServiceHubIcon><MusicIcon size={22} /></ServiceHubIcon>}
-              utm_campaign="home_studio"
-            />
-            <ServiceCard
-              title="קריינות"
-              description="פרסומת, מרכזיה, IVR. קול שמוכר ומסביר בביטחון."
-              href="/voiceover"
-              icon={<ServiceHubIcon><MicIcon size={22} /></ServiceHubIcon>}
-              utm_campaign="home_voiceover"
-            />
-            <ServiceCard
-              title="אירועים ואטרקציות"
-              description="DJ, הגברה, עשן, זיקוקים קרים. רחבה שעפה."
-              href="/events"
-              icon={<ServiceHubIcon><SparklesIcon size={22} /></ServiceHubIcon>}
-              utm_campaign="home_events"
-            />
-            <ServiceCard
-              title="וידאו וצילום"
-              description="סרט תדמית, אירוע, חתונה. תמונה וסאונד באותה נשימה."
-              href="/video"
-              icon={<ServiceHubIcon><VideoIcon size={22} /></ServiceHubIcon>}
-              utm_campaign="home_video"
-            />
-            <ServiceCard
-              title="שחזור סאונד ב-AI"
-              description="הקלטה ישנה? ננקה, נחזק, נחזיר לחיים."
-              href="/online"
-              icon={<ServiceHubIcon><ZapIcon size={22} /></ServiceHubIcon>}
-              isAiService
-              badge="טכנולוגיית AI"
-              utm_campaign="home_ai_media"
-            />
+            {[...PRIMARY_HOME_HUB_CARDS, ...SECONDARY_HOME_HUB_CARDS].map(
+              (card) => {
+                const Icon = getHomeHubIcon(card.id);
+                return (
+                  <ServiceCard
+                    key={card.id}
+                    title={card.title}
+                    description={card.description}
+                    href={card.href}
+                    icon={
+                      <ServiceHubIcon>
+                        <Icon size={22} />
+                      </ServiceHubIcon>
+                    }
+                    utm_campaign={card.utmCampaign}
+                    isAiService={card.isAiService}
+                    badge={card.badge}
+                  />
+                );
+              },
+            )}
             <PremiumBundleCallout />
           </div>
         </Container>

@@ -111,3 +111,47 @@ curl -X POST https://yakircohen.com/api/indexnow \
 
 - `npm run audit:orphans` + `npm run audit:links`
 - עדכון קישורים פנימיים בעמודים דקים (`/events/host`, וידאו/צילום)
+
+---
+
+## ניקוי 404 / Sitemaps ישנים / Noindex
+
+דוחות SEO גנריים (כולל ChatGPT/Gemini) נוטים להציע פעולות בסגנון WordPress
+שלא רלוונטיות לאתר Next.js הזה. הנה איך לקרוא נכון את הדוח ולמה שכן צריך לתקן:
+
+### Sitemaps ישנים (sitemap2.xml–sitemap9.xml)
+
+אלו שרידים מה-WordPress/HTTP הישן ואינם מוזכרים בקוד בכלל — ה-sitemap הקנוני
+היחיד הוא `https://yakircohen.com/sitemap.xml` (נוצר דינמית ב-`app/sitemap.ts`).
+**אין שינוי קוד** — יש למחוק את ה-sitemaps הישנים ידנית ב-GSC → Sitemaps.
+
+### דפי noindex
+
+בקוד יש בדיוק 4 דפים עם `noindex` מכוון:
+
+| דף | קובץ |
+|----|------|
+| `/thank-you` | `app/thank-you/page.tsx` |
+| 404 (כל דף לא קיים) | `app/not-found.tsx` |
+| `/online/vocal-fix/send-file` | `app/online/vocal-fix/send-file/page.tsx` |
+| `/blog` עמוד 2+ | `app/(blog)/blog/page.tsx` |
+
+אם GSC מציג רשימת noindex גדולה יותר (למשל 62 דפים) — אלו כנראה דפים ישנים
+מהמיגרציה או preview deployments של Vercel, ולא משהו לתקן בקוד. ההצגה
+תתעדכן לאחר recrawl.
+
+### 404 cleanup workflow
+
+1. GSC → **Page indexing → Not found (404)** → ייצוא הרשימה (CSV)
+2. הרץ: `npm run audit:404 -- path/to/export.csv`
+   - **"Already handled"** = רשומה ישנה ב-GSC, redirect/route כבר קיים, תיעלם אחרי recrawl
+   - **"Needs a new redirect"** = פער אמיתי — הוסף ערך מתאים ל-`LEGACY_PATH_MAP`/`OLD_ENGLISH_SLUGS`/`HEBREW_SERVICE_SLUGS` ב-`lib/legacy-redirects.ts`
+3. הרץ `npm run audit:redirects` — מאתר שרשראות redirect (A→B→C) ומקורות כפולים שנוצרו בטעות
+4. בקש reindex לדפים שתוקנו
+
+### robots.txt
+
+ההצעות הגנריות (`Disallow: /wp-admin/`, `/cart/`, `/checkout/`, `/wp-includes/` וכו')
+**לא רלוונטיות** — אין WordPress באתר הזה. `app/robots.ts` הוא מקור האמת,
+מוגדר נכון (allow הכל, disallow רק `/api/`, sitemap מוצהר), ואין לשנות אותו
+לפי הצעות גנריות כאלה.

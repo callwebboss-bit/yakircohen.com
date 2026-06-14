@@ -12,52 +12,52 @@ export type FooterSemanticSection = {
 
 export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
   {
-    heading: "פודקאסט וסטודיו",
+    heading: "אולפן ופודקאסט",
     links: [
-      {
-        label: "הפקת פודקאסטים במרכז",
-        href: "/podcast/podcast-recording",
-        title: "צילום והקלטת פודקאסט - הפקה מלאה",
-      },
       {
         label: "אולפן הקלטות במודיעין",
         href: "/studio/recording-song-modiin",
         title: "הקלטת שירים במודיעין ובמרכז",
       },
       {
-        label: "אולפן פודקאסט במודיעין",
-        href: "/podcast/podcast-studio-modiin",
-        title: "השכרת אולפן פודקאסט במודיעין",
-      },
-      {
         label: "אולפן הקלטות בירושלים",
         href: "/studio/studio-jerusalem",
         title: "הקלטות לקהל מירושלים והסביבה",
       },
+      {
+        label: "הפקת פודקאסטים במרכז",
+        href: "/podcast/podcast-recording",
+        title: "צילום והקלטת פודקאסט - הפקה מלאה",
+      },
+      {
+        label: "אולפן פודקאסט במודיעין",
+        href: "/podcast/podcast-studio-modiin",
+        title: "השכרת אולפן פודקאסט במודיעין",
+      },
     ],
   },
   {
-    heading: "אירועים ומיקומים",
+    heading: "אטרקציות",
     links: [
       {
-        label: "הנחיית אירועים עסקיים",
-        href: "/events/host",
-        title: "מנחה ומנהל אירועים מקצועי",
+        label: "מרכז אטרקציות לאירועים",
+        href: "/events/attractions",
+        title: "עשן, בועות, זיקוקים וקונפטי",
       },
       {
-        label: "תקליטן לחתונה בירושלים",
-        href: "/dj-events/cities/jerusalem",
-        title: "DJ לאירועים בירושלים והסביבה",
+        label: "מכונת עשן לחתונה",
+        href: "/events/attractions/wedding-smoking-machine",
+        title: "עשן כבד ואפקטים לרחבה",
       },
       {
-        label: "תקליטן דתי וקהל מעורב",
-        href: "/events/dj-events",
-        title: "DJ לאירועים וחתונות",
+        label: "זיקוקים קרים",
+        href: "/events/attractions/cold-fireworks",
+        title: "זיקוקים בטוחים לחופה ורגע שיא",
       },
       {
-        label: "אטרקציות חובה לחתונה",
+        label: "חבילות אטרקציות לחתונה",
         href: "/events/wedding-attractions-packages",
-        title: "חבילות DJ ואטרקציות לחתונה",
+        title: "חבילות משולבות לאירועים",
       },
     ],
   },
@@ -65,14 +65,14 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
     heading: "AI ודיגיטל",
     links: [
       {
-        label: "יצירת סרטוני AI לעסקים",
-        href: "/online/video-content",
-        title: "עריכת וידאו שיווקי ותוכן דיגיטלי",
-      },
-      {
         label: "שירותי AI לאודיו",
         href: "/online/online-ai-pricing",
         title: "תמחור שקוף לשירותי AI לאודיו",
+      },
+      {
+        label: "יצירת סרטוני AI לעסקים",
+        href: "/online/video-content",
+        title: "עריכת וידאו שיווקי ותוכן דיגיטלי",
       },
       {
         label: "עריכת פודקאסט אונליין",
@@ -87,12 +87,17 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
     ],
   },
   {
-    heading: "צילום, קריינות ועסקים",
+    heading: "DJ, קריינות וסושיאל",
     links: [
       {
-        label: "צילום חתונות",
-        href: "/photography/wedding",
-        title: "צלם חתונות ואירועים אינטימיים",
+        label: "תקליטן לאירועים",
+        href: "/events/dj-events",
+        title: "DJ לחתונות ואירועים",
+      },
+      {
+        label: "תקליטן לחתונה בירושלים",
+        href: "/dj-events/cities/jerusalem",
+        title: "DJ לאירועים בירושלים והסביבה",
       },
       {
         label: "קריינות מקצועית",
@@ -109,10 +114,25 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         href: "/business/reel-factory",
         title: "The Reel Factory - עריכת פרומואים לספקי אירועים",
       },
+    ],
+  },
+  {
+    heading: "צילום ועסקים",
+    links: [
+      {
+        label: "צילום חתונות",
+        href: "/photography/wedding",
+        title: "צלם חתונות ואירועים אינטימיים",
+      },
       {
         label: "הקלטת ברכת כלה",
         href: "/studio/blessings/bride-groom-blessing",
         title: "ברכות חתן כלה מוקלטות",
+      },
+      {
+        label: "הנחיית אירועים עסקיים",
+        href: "/events/host",
+        title: "מנחה ומנהל אירועים מקצועי",
       },
     ],
   },

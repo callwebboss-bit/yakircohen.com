@@ -6,6 +6,7 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   SITE_GLOBAL_LINKS,
   SITE_NAVIGATION,
+  getCategoryForPath,
   type SiteNavCategory,
 } from "@/lib/site-architecture";
 import { SITE_NAME } from "@/lib/constants";
@@ -13,14 +14,17 @@ import { cn } from "@/lib/utils";
 import SiteSearch from "@/components/ui/SiteSearch";
 
 const NAV_ICONS: Record<string, string> = {
-  podcast: "🎙️",
   studio: "🎵",
-  voiceover: "🎤",
-  events: "🎉",
+  podcast: "🎙️",
+  online: "🤖",
+  attractions: "✨",
+  "dj-voice": "🎤",
+  social: "📱",
   video: "📹",
   photography: "📸",
   academy: "🎓",
-  online: "🤖",
+  pro: "⚙️",
+  events: "🎉",
 };
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -164,8 +168,8 @@ function MobileAccordion({
 }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const isActive =
-    pathname === category.href || pathname.startsWith(`${category.href}/`);
+  const activeCategory = getCategoryForPath(pathname);
+  const isActive = activeCategory?.id === category.id;
   const icon = NAV_ICONS[category.id];
 
   return (
@@ -267,6 +271,7 @@ export function SiteNavMenuButton({
 
 export function SiteNavDesktop() {
   const pathname = usePathname();
+  const activeCategory = getCategoryForPath(pathname);
 
   return (
     <nav
@@ -277,7 +282,7 @@ export function SiteNavDesktop() {
         <DesktopDropdown
           key={cat.id}
           category={cat}
-          isActive={pathname === cat.href || pathname.startsWith(`${cat.href}/`)}
+          isActive={activeCategory?.id === cat.id}
         />
       ))}
       <Link

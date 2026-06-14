@@ -60,7 +60,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                   <PriceWithVat amountExVat={tier.priceExVat} size="lg" />
                 </div>
               ) : (
-                <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--service-accent-ink,#d42b2b)]">
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--service-accent-ink,#8a1c1c)]">
                   {tier.price}
                 </p>
               )}
@@ -74,7 +74,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               <ul className="mt-6 flex-1 space-y-2">
                 {tier.highlights.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-foreground">
-                    <span className="mt-0.5 text-[var(--service-accent-ink,#d42b2b)]" aria-hidden="true">
+                    <span className="mt-0.5 text-[var(--service-accent-ink,#8a1c1c)]" aria-hidden="true">
                       ✓
                     </span>
                     <span>{item}</span>

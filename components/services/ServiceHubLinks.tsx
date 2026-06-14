@@ -41,7 +41,7 @@ export default function ServiceHubLinks({
               className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover-lift focus-within:border-[var(--service-accent,#d42b2b)]/40 focus-within:shadow-md"
             >
               {track.badge ? (
-                <span className="mb-3 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-[0.65rem] font-semibold text-[var(--service-accent-ink,#d42b2b)]">
+                <span className="mb-3 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-[0.65rem] font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
                   {track.badge}
                 </span>
               ) : null}
@@ -51,7 +51,7 @@ export default function ServiceHubLinks({
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {track.description}
               </p>
-              <span className="mt-4 text-xs font-semibold text-[var(--service-accent-ink,#d42b2b)]">לפרטים </span>
+              <span className="mt-4 text-xs font-semibold text-[var(--service-accent-ink,#8a1c1c)]">לפרטים </span>
             </Link>
           </li>
         ))}

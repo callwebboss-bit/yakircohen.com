@@ -15,6 +15,7 @@ import {
 import { ensureImageAlt } from "@/lib/image-alt";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { sanitizeBlogHtml } from "@/lib/sanitize-html";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
@@ -42,6 +43,15 @@ export async function generateMetadata({
     description: post.seo.description,
     slug: `blog/${post.slug}`,
     keywords: [post.category, "בלוג", "פודקאסט", "אולפן"],
+    ogImage: {
+      path: post.thumbnail,
+      alt: post.title,
+      width: DEFAULT_OG_WIDTH,
+      height: DEFAULT_OG_HEIGHT,
+    },
+    article: {
+      publishedTime: post.seo.datePublished,
+    },
   });
 }
 
