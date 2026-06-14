@@ -64,7 +64,7 @@ const COURSE_CARDS = [
   {
     href: "/academy/ulpan",
     icon: "📖",
-    label: "לימוד עברית (אולפן)",
+    label: "שיעור פרטי עברית",
     sub: "שיעור פרטי במודיעין — פרונטלי או בזום",
   },
   {

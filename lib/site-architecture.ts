@@ -321,7 +321,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "קורס DJ", href: "/academy/dj-course" },
       { label: "הפקה מוזיקלית", href: "/academy/music-production" },
       { label: "קורס גמגום", href: "/academy/stuttering-course" },
-      { label: "לימוד עברית (אולפן)", href: "/academy/ulpan" },
+      { label: "שיעור פרטי עברית", href: "/academy/ulpan" },
       {
         label: "סדנאות לצוותים",
         href: "/academy/workshops",

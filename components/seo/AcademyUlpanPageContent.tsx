@@ -6,6 +6,7 @@ import ShareButton from "@/components/ui/ShareButton";
 import {
   ULPAN_AUDIENCE,
   ULPAN_AUTHORITY,
+  ULPAN_BLOG_LINKS,
   ULPAN_CHOOSE_GUIDE,
   ULPAN_COMPARISON,
   ULPAN_CTA,
@@ -504,6 +505,28 @@ export default function AcademyUlpanPageContent() {
             </figcaption>
           </figure>
         </section>
+
+        {/* Blog guides */}
+        <nav aria-labelledby="blog-guides-heading" className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <h2
+            id="blog-guides-heading"
+            className="text-lg font-semibold text-foreground sm:text-xl"
+          >
+            מדריכים בבלוג — לפני שקובעים שיעור
+          </h2>
+          <ul className="mt-4 space-y-2">
+            {ULPAN_BLOG_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm font-medium text-brand-red hover:underline"
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* FAQ */}
         <section aria-labelledby="faq-heading">

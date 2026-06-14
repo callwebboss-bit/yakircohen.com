@@ -413,13 +413,24 @@ export const ULPAN_FAQ: FaqCtaItem[] = [
     id: "free-content",
     question: "יש תוכן חינמי ללמוד עברית?",
     answer:
-      "כן — בסרטונים בעמוד הזה תוכלו לראות איך נראה לימוד עברית אצלי. לשיעור אישי מותאם — שיעור ניסיון ב-500 ₪.",
+      "כן — בסרטונים בעמוד הזה, ובמדריכים בבלוג (איך לבחור מורה, עברית רחוב vs אולפן). לשיעור אישי מותאם — שיעור ניסיון ב-500 ₪.",
     ctaText: "רוצים שיעור אישי?",
     whatsappMessage:
       "שלום יקיר! צפיתי בסרטונים באתר. אשמח לשיעור ניסיון אישי.",
     utm_campaign: "academy_ulpan_faq_free",
   },
 ];
+
+export const ULPAN_BLOG_LINKS = [
+  {
+    href: "/blog/hebrew-tutor-modiin-guide",
+    title: "איך לבחור מורה פרטי לעברית במודיעין",
+  },
+  {
+    href: "/blog/street-hebrew-vs-government-ulpan",
+    title: "עברית רחוב vs אולפן ממשלתי",
+  },
+] as const;
 
 export const ULPAN_CTA = {
   heroPrimary: "קביעת שיעור ניסיון (500 ₪)",
