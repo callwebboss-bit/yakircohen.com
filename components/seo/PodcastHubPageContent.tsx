@@ -91,6 +91,11 @@ export const PODCAST_HUB_TRACKS = [
     description: "ניקוי, שיפור קול וחיתוך  -  פרק מוכן לפרסום.",
   },
   {
+    href: "/podcast/bulk-production",
+    title: "פס ייצור לעסקים",
+    description: "מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע.",
+  },
+  {
     href: "/podcast/faq",
     title: "שאלות ותשובות",
     description: "מחירים, הכנה להקלטה וזמני סטודיו.",

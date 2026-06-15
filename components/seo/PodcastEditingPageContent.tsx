@@ -285,6 +285,12 @@ export default function PodcastEditingPageContent() {
             אולפן במודיעין
           </Link>
           <Link
+            href="/podcast/bulk-production"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+          >
+            פס ייצור לעסקים
+          </Link>
+          <Link
             href="/online/online-ai-pricing"
             className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >

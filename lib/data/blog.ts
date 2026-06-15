@@ -728,7 +728,7 @@ export const BLOG_POSTS = [
 <li><strong>VIP</strong> - Line Array, IEM, שני טכנאים.</li>
 </ul>
 <p>ב<a href="/book?pkg=basic#singer">עמוד ההזמנה - הגברה לזמרים</a> בוחרים חבילה, ממלאים תאריך ומיקום ושולחים בוואטסאפ.</p>
-<p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> - <a href="/events/equipment/faq">שאלות נפוצות</a>.</p>
+<p>פרטים מלאים: <a href="/events/equipment/singer-amplification">עמוד השירות</a> - <a href="/events/equipment/faq">שאלות נפוצות</a>. לשכירת ציוד בלבד (בלי טכנאי): <a href="/events/equipment/dry-hire">השכרת ציוד הגברה</a>.</p>
 `.trim(),
     date: "27 במאי 2026",
     thumbnail: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
@@ -794,7 +794,7 @@ export const BLOG_POSTS = [
 <li>מוזיקת פתיחה וסיום, ג'ינגלים ומעברים</li>
 <li>ייצוא ב-WAV לשמירה ו-MP3 ב-128-192 kbps להפצה</li>
 </ul>
-<p>DIY עם Audacity או Descript אפשרי - אבל שעת עריכה של מתחיל שווה לעצמו ₪150-₪250. פרק של שעה יכול "לאכול" 4-6 שעות עבודה. כאן עבודה עם <a href="/podcast/podcast-editing">עריכת פודקאסט מקצועית</a> משתלמת במיוחד כשהזמן שלכם יקר יותר מהעלות.</p>
+<p>DIY עם Audacity או Descript אפשרי - אבל שעת עריכה של מתחיל שווה לעצמו ₪150-₪250. פרק של שעה יכול "לאכול" 4-6 שעות עבודה. כאן עבודה עם <a href="/podcast/podcast-editing">עריכת פודקאסט מקצועית</a> משתלמת במיוחד כשהזמן שלכם יקר יותר מהעלות. חברה שמוציאה כמה פרקים בחודש — <a href="/podcast/bulk-production">פס ייצור</a>.</p>
 
 <h2>שלב ד': כיסוי, תיאור ומטא-דאטה</h2>
 <p>לפני העלאה - מכינים "אריזה" שמושכת הקלקה:</p>
@@ -1041,7 +1041,7 @@ export const BLOG_POSTS = [
 <li><strong>תאורת LED / Moving Heads</strong> - משנה את האווירה; בחבילות פרימיום זה כבר כלול.</li>
 <li><strong>גיבוי מלא</strong> - מחליפים תוך דקות, לא "נחכה לטכנאי של האולם".</li>
 </ul>
-<p>ב<a href="/events/dj-events">שירות DJ לאירועים</a> שלנו: Pioneer CDJ 3000, Allen &amp; Heath, RCF - עם גיבוי לכל רכיב. עבור אירועים גדולים אפשר לשלב <a href="/events/stage-led-dj">במה LED עם DJ</a>.</p>
+<p>ב<a href="/events/dj-events">שירות DJ לאירועים</a> שלנו: Pioneer CDJ 3000, Allen &amp; Heath, RCF - עם גיבוי לכל רכיב. עבור אירועים גדולים אפשר לשלב <a href="/events/stage-led-dj">במה LED עם DJ</a>. לחברות הגברה שצריכות רק ציוד ליום — <a href="/events/equipment/dry-hire">השכרת ציוד</a>. דיג'יי שמכין סט בעצמו וצריך שילוב בין שני שירים — <a href="/online/mashup-fixer">מאשאפים ומוזיקה מותאמת</a>.</p>
 
 <h2>שלב 4: תיאום מוזיקלי - הרגעים שאסור לפספס</h2>
 <p>רשימת שירים היא רק ההתחלה. מסמנים מראש:</p>
@@ -1819,7 +1819,7 @@ export const BLOG_POSTS = [
 <li><strong>הקלטה</strong> - באולפן מקצועי במודיעין עם מיקרופוני שידור ובידוד אקוסטי מלא.</li>
 <li><strong>עריכה ומסירה</strong> - קובץ WAV מאסטר ו-MP3 מוכן לשימוש. בדרך כלל תוך 24-48 שעות.</li>
 </ul>
-<p>לפרויקטים שצריכים שפות מרובות - עברית, אנגלית, ערבית, רוסית - אפשר לתאם הקלטה מרובת שפות מאותו ברייף. פרטים: <a href="/voiceover/services">שירותי קריינות מסחרית</a>.</p>
+<p>לפרויקטים שצריכים שפות מרובות - עברית, אנגלית, ערבית, רוסית - אפשר לתאם הקלטה מרובת שפות מאותו ברייף. פרטים: <a href="/voiceover/services">שירותי קריינות מסחרית</a>. לדיג'ייז שבונים מותג סאונד - גם <a href="/events/dj/voice-tags">תג קולי לסט</a>.</p>
 
 <h2>קורס קריינות - מי שרוצה ללמוד</h2>
 <p>חלק מהלקוחות לא רק מחפשים קריין - הם רוצים ללמוד לעשות את זה בעצמם. <a href="/voiceover/course">קורס קריינות מקצועית</a> מלמד טכניקת קריאה, שליטה בנשימה, מיקרופוניות ובניית דמות קולית. מתאים לשחקנים, אנשי מכירות, מנהלים ולכל מי שמתקשר בקולו.</p>
@@ -1883,6 +1883,8 @@ export const BLOG_POSTS = [
 <li>מינגלינג עם אנשי תעשייה - מועדונים, ארגוני אירועים, אנשי שיווק שצריכים DJ</li>
 <li>בניית ספרייה מגוונת שמכסה ז'אנרים שונים - DJ שמכסה קהלים מגוונים מקבל יותר עבודה</li>
 <li>הכנת ביו ותמונות - מי שנראה מקצועי מקבל שאלות ברצינות</li>
+<li>תג קולי קצר שמזהה אתכם בסט - ראו <a href="/events/dj/voice-tags">תג קולי לדיג'יי</a></li>
+<li>שילוב שירים שלא יושבים יחד? <a href="/online/mashup-fixer">מאשאפ מותאם או מוכן מהמאגר</a></li>
 </ul>
 <p>יקיר כהן הפקות עובד עם DJ לאירועים ומבין בדיוק מה הענף מחפש. <a href="/events/dj-events">ראו את שירות ה-DJ לאירועים</a> כדי להבין לאן הדרך יכולה להוביל, ו<a href="/academy/dj-course">פרטים על קורס DJ</a> עם תאריכים ומחירים.</p>
 
@@ -1993,7 +1995,7 @@ export const BLOG_POSTS = [
 <li>החלקת מעברים וחיתוך שקוף</li>
 <li>מאסטרינג לפלטפורמות (Spotify, Apple, YouTube)</li>
 </ul>
-<p>שירות <a href="/podcast/podcast-editing">עריכת פודקאסט מלאה</a> שלנו מכסה את כל אלה - ומחזיר פרק מוכן לפרסום תוך ימים. שלחו לנו דוגמה ונגיד לכם בדיוק מה צריך.</p>
+<p>שירות <a href="/podcast/podcast-editing">עריכת פודקאסט מלאה</a> שלנו מכסה את כל אלה - ומחזיר פרק מוכן לפרסום תוך ימים. מוציאים כמה פרקים בחודש? ראו <a href="/podcast/bulk-production">פס ייצור לעסקים</a>.</p>
 `.trim(),
     date: "2 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
@@ -2296,7 +2298,7 @@ export const BLOG_POSTS = [
 <p>זה נכון בין אם מדובר בהופעה אקוסטית קטנה, אירוע עירוני או הופעה מול קהל גדול.</p>
 <h2>הכנה משלימה למי שמקליט גם באולפן</h2>
 <p>זמרים שרוצים לשפר גם את הביצוע המוקלט שלהם, ולא רק את ההופעה החיה, יכולים לבדוק <a href="/online/vocal-fix">שיפור קול ותיקון הקלטות מרחוק</a>, כדי שהדמו או הקליפ יישמעו ברמה שתואמת את מה שקורה על הבמה.</p>
-<p>לפרטים על מערכות הגברה וצוות סאונדמן צמוד, אפשר להגיע ישר ל<a href="/events/equipment/singer-amplification">דף הגברה לזמרים</a>.</p>
+<p>לפרטים על מערכות הגברה וצוות סאונדמן צמוד, אפשר להגיע ישר ל<a href="/events/equipment/singer-amplification">דף הגברה לזמרים</a>. יש לכם סאונדמן משלכם וחסר רק ציוד? <a href="/events/equipment/dry-hire">השכרת ציוד ליום</a>.</p>
 `.trim(),
     date: "18 ביוני 2026",
     thumbnail: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
@@ -2446,7 +2448,7 @@ export const BLOG_POSTS = [
 <p>לעסקים שעובדים מול קהל מגוון, ניתן גם לתאם הקלטה במספר שפות מאותו ברייף, כך שהמסר נשאר אחיד בכל הערוצים.</p>
 <h2>מאיפה להתחיל</h2>
 <p>הצעד הראשון הוא לשמוע דוגמאות קול ולבחור את מה שמתאים לאופי העסק שלכם. אפשר להתחיל ב<a href="/voiceover">שירותי קריינות מקצועית</a> ולעבור משם ל<a href="/voiceover/services">חבילות קריינות לעסקים</a> המפורטות.</p>
-<p>למי שרוצה לשלב גם תוכן שיווקי נוסף, כדאי להכיר <a href="/business/audio-branding">חבילת מיתוג קולי לעסק</a> (ג'ינגל + IVR + המתנה), או <a href="/studio/recording-song-modiin">הפקת ג'ינגל מוזיקלי באולפן</a>.</p>
+<p>למי שרוצה לשלב גם תוכן שיווקי נוסף, כדאי להכיר <a href="/business/audio-branding">חבילת מיתוג קולי לעסק</a> (ג'ינגל + IVR + המתנה), או <a href="/studio/recording-song-modiin">הפקת ג'ינגל מוזיקלי באולפן</a>. לדיג'ייז שבונים מותג אישי - <a href="/events/dj/voice-tags">תג קולי לסט</a>.</p>
 `.trim(),
     date: "27 ביוני 2026",
     thumbnail: "/images/services/voiceover/קרינות באולפן.webp",
@@ -2813,7 +2815,7 @@ export const BLOG_POSTS = [
 </table>
 <h2>מה מבדיל פודקאסט שמוליד לקוחות</h2>
 <p>נישה ספציפית, תדירות עקבית, ואיכות שמע שלא מבריחה מאזינים אחרי 30 שניות. לרוב, שניים מהשלושה מצוינים ואחד חסר. כשהשמע גרוע - גם תוכן מעולה לא שורד.</p>
-<p>לחקור את הנושא לעומק, ואיך זה עובד בפועל עם אולפן, אפשר ב<a href="/podcast">דף הפקת פודקאסט</a>. ולמי שרוצה לשמוע דוגמאות מפרקים שיצאו - <a href="/podcast/podcast-editing">שירות עריכת פודקאסט</a> מציג את טווח התוצרים האפשרי.</p>
+<p>לחקור את הנושא לעומק, ואיך זה עובד בפועל עם אולפן, אפשר ב<a href="/podcast">דף הפקת פודקאסט</a>. לעריכה שוטפת לחברה שכבר מקליטה — <a href="/podcast/bulk-production">פס ייצור</a>.</p>
 `.trim(),
     date: "24 ביולי 2026",
     thumbnail: "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
@@ -2970,7 +2972,7 @@ export const BLOG_POSTS = [
 </table>
 <h2>לא אותו דבר כמו אולפן עד הבית</h2>
 <p>אולפן נייד לבית מיועד למשפחות ושירים במתנה. <a href="/studio/mobile-studio">פרטים כאן</a>.</p>
-<p>אולפן בחברה = תמחור לעסק, חשבונית מס, יום עבודה מלא. <a href="/business/on-site-studio">דף האולפן הזמני בחברה</a>.</p>
+<p>אולפן בחברה = תמחור לעסק, חשבונית מס, יום עבודה מלא. <a href="/business/on-site-studio">דף האולפן הזמני בחברה</a>. לעריכה שוטפת אחרי ההקלטות — <a href="/podcast/bulk-production">פס ייצור פודקאסט</a>.</p>
 `.trim(),
     date: "12 ביוני 2026",
     thumbnail: "/images/services/studio/mobile-studio/אולפן נייד - יקיר כהן.webp",
@@ -3253,6 +3255,15 @@ export function getBlogPostsByServiceSlug(
       p.relatedServiceSlug.startsWith(serviceSlug + "/"),
   );
   return Array.from(matches).slice(0, count);
+}
+
+export function getBlogPostsBySlugs(
+  slugs: readonly string[],
+): BlogPost[] {
+  const all = BLOG_POSTS as readonly BlogPost[];
+  return slugs
+    .map((slug) => all.find((p) => p.slug === slug))
+    .filter((p): p is BlogPost => Boolean(p));
 }
 
 export function getRelatedBlogPosts(currentSlug: string, count = 3): BlogPost[] {

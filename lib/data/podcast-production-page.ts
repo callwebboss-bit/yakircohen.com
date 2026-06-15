@@ -63,6 +63,12 @@ export const PODCAST_PRODUCTION_COMPARE: readonly {
     cta: "לעמוד הפקה מלאה",
   },
   {
+    title: "פס ייצור לעסקים",
+    description: "כבר יש פורמט? מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע. החל מ-950 ₪ לפרק.",
+    href: "/podcast/bulk-production",
+    cta: "לפס ייצור",
+  },
+  {
     title: "השכרת סטודיו",
     description: "מגיעים להקליט  -  ליווי טכני, בלי התחייבות לליווי ארוך.",
     href: "/podcast/podcast-studio-modiin",

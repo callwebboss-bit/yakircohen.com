@@ -99,7 +99,7 @@ export const BUSINESS_HUB_GROUPS: readonly BusinessHubGroup[] = [
         id: "bulk-production",
         icon: "🏭",
         title: "פס ייצור פודקאסט",
-        description: "פרק + 3 Shorts לכל פרק. עקביות לאורך זמן.",
+        description: "עריכה שוטפת לחברות. פרק מוכן וקליפים כל שבוע.",
         href: "/podcast/bulk-production",
         priceHint: "החל מ-950 ₪/פרק",
       },

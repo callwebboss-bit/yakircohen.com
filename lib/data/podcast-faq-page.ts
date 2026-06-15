@@ -36,6 +36,11 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
     description: "יש לכם קובץ גולמי? עריכה, ניקוי ומסירה לפרסום.",
   },
   {
+    href: "/podcast/bulk-production",
+    title: "פס ייצור לעסקים",
+    description: "עריכה חודשית. פרק מוכן וקליפים לרשתות.",
+  },
+  {
     href: "/podcast/podcast-production",
     title: "הפקה מא׳ עד ת׳",
     description: "ליווי ארוך טווח - תכנון, מיתוג והפצה.",

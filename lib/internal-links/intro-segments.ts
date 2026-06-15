@@ -70,8 +70,10 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
   "/podcast/mobile-podcast-at-home": [
     { type: "text", value: "האולפן מגיע אליכם - בית, משרד או אירוע. לפרק באולפן במודיעין ראו " },
     { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
-    { type: "text", value: ". לעריכה בלבד - " },
+    { type: "text", value: ". לעריכת פרק בודד " },
     { type: "link", href: "/podcast/podcast-editing", label: "עריכת פודקאסט" },
+    { type: "text", value: ". לקצב חודשי לחברות " },
+    { type: "link", href: "/podcast/bulk-production", label: "פס ייצור" },
     { type: "text", value: "." },
   ],
   "/podcast/faq": [
@@ -79,6 +81,8 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/podcast/podcast-recording", label: "צילום והקלטת פודקאסט" },
     { type: "text", value: ". לשכירת חדר בלבד - " },
     { type: "link", href: "/podcast/podcast-studio-modiin", label: "אולפן במודיעין" },
+    { type: "text", value: ". לעריכה שוטפת לחברות - " },
+    { type: "link", href: "/podcast/bulk-production", label: "פס ייצור" },
     { type: "text", value: ". סקירה כללית - " },
     { type: "link", href: "/podcast", label: "מרכז הפודקאסט" },
     { type: "text", value: "." },
