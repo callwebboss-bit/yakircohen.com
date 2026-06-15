@@ -68,6 +68,49 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "1ilgnokOS7Q",
     "Fsy4Eg00dCA",
   ],
+  "dj-voice-tags": [
+    "7DEp-gnDTs4",
+    "Vuz4m8OaDcA",
+    "Mh3RosX3a8g",
+    "hSGhpN_CR7s",
+    "zHkq_5bXptg",
+    "57FuI0EC_I4",
+  ],
+  "dry-hire": [
+    "K1oAL8qg1W0",
+    "9O0d3v1SqMc",
+    "nBtKa0JZfL0",
+    "B5wvK5x1i38",
+  ],
+  "bulk-production": [
+    "q1Omi-3L3QM",
+    "wa_mOrjJvK8",
+    "XiiOcx8doz0",
+    "cengTHzov5I",
+  ],
+  "mashup-fixer": [
+    "U6LJERy6Wdk",
+    "SvhfZK9Ribg",
+    "FtzsXXnts_k",
+    "5-PTfYMMlV4",
+  ],
+};
+
+/** Titles for playlist IDs not always present in generated catalog */
+export const PLAYLIST_VIDEO_FALLBACKS: Record<
+  string,
+  { title: string; description?: string }
+> = {
+  "q1Omi-3L3QM": { title: "פודקאסט מהאולפן, דוגמה מלאה" },
+  wa_mOrjJvK8: { title: "לפני ואחרי עריכת זום" },
+};
+
+/** Curated playlists — only these IDs (order preserved), not auto-tagged remainder */
+export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
+  "dj-voice-tags": PLAYLIST_FEATURED_IDS["dj-voice-tags"]!,
+  "dry-hire": PLAYLIST_FEATURED_IDS["dry-hire"]!,
+  "bulk-production": PLAYLIST_FEATURED_IDS["bulk-production"]!,
+  "mashup-fixer": PLAYLIST_FEATURED_IDS["mashup-fixer"]!,
 };
 
 /** Short descriptions for hero picks (optional) */
@@ -80,4 +123,22 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   q18Lu0MvXHo:
     "אירוח זמרים באולפן - פיצ'ר, שיתוף פעולה והקלטה משותפת",
   D3JV9SDY6GY: "קידום פודקאסט, קליפ AI ושיר מקורי בשעה",
+  "7DEp-gnDTs4": "מיתוג סט DJ בכ-10 שניות",
+  Vuz4m8OaDcA: "פתיחה לסט, שלושה תקליטנים יחד",
+  Mh3RosX3a8g: "מדריך קצר לתקליטנים",
+  hSGhpN_CR7s: "למה בכלל צריך קריינות לסט",
+  zHkq_5bXptg: "הקלטה באולפן, בלי עריכה מסובכת",
+  "57FuI0EC_I4": "מאחורי הקלעים, שני קריינים",
+  K1oAL8qg1W0: "הגברה באירוע חי",
+  "9O0d3v1SqMc": "RCF והקמה בשטח",
+  nBtKa0JZfL0: "עמדת DJ ומערכת מלאה",
+  B5wvK5x1i38: "הבדלים בין מיקסרים לאמנים",
+  "q1Omi-3L3QM": "פרק שלם מהאולפן",
+  wa_mOrjJvK8: "עריכה שהופכת זום לשמע נקי",
+  XiiOcx8doz0: "פודקאסט מוקלט באולפן",
+  cengTHzov5I: "איך מזמינים אורחים לפודקאסט",
+  U6LJERy6Wdk: "איך בונים רמיקס לפתיחת ריקודים",
+  SvhfZK9Ribg: "רמיקס חתונות — מאחורי הקלעים",
+  FtzsXXnts_k: "רמיקס אירועים — דוגמה מהשטח",
+  "5-PTfYMMlV4": "רמיקס רשמי — שילוב להיטים",
 };

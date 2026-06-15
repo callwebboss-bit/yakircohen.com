@@ -270,7 +270,12 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     rows: [
       { label: "תג קולי בודד לדיג'יי", exVat: getExVat("dj_voice_tag_single") },
       { label: "חבילת 5 תגים קוליים", exVat: getExVat("dj_voice_tag_pack_5") },
-      { label: "מאשאפ חירום - עד 24 שעות", exVat: getExVat("mashup_fixer_express") },
+      { label: "מאשאפ מוכן לרכישה", exVat: getExVat("mashup_ready_single") },
+      { label: "מאשאפ מותאם (עד 3 ימי עסקים)", exVat: getExVat("mashup_custom_planned") },
+      { label: "שילוב יצירתי / דרוג+", exVat: getExVat("mashup_creative_plus") },
+      { label: "חבילת 5 מאשאפים מוכנים", exVat: getExVat("mashup_ready_pack_5") },
+      { label: "סט מוזיקה לחדר כושר", exVat: getExVat("gym_music_set") },
+      { label: "פלייליסט לאווירת חלל", exVat: getExVat("ambience_space_set") },
       { label: "סט מוזיקה מוכן לדיג'יי", exVat: getExVat("prebuilt_set_corporate") },
       { label: "אולפן בקופסה + עשרה פרקים", exVat: getExVat("studio_in_box_consult") },
       { label: "פס ייצור - פרק ושלושה סרטונים קצרים", exVat: getExVat("bulk_podcast_episode") },

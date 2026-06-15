@@ -38,7 +38,7 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   voucher: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   pro: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" },
   "events/dj/voice-tags": { bookCategory: "dj", priceCatalogId: "dj_voice_tag_single" },
-  "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_fixer_express" },
+  "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_custom_planned" },
   "events/dj/pre-built-sets": { bookCategory: "dj", priceCatalogId: "prebuilt_set_corporate" },
   "podcast/studio-in-a-box": { bookCategory: "podcast", priceCatalogId: "studio_in_box_consult" },
   "podcast/bulk-production": { bookCategory: "podcast", priceCatalogId: "bulk_podcast_episode" },

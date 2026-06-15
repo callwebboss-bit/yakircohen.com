@@ -15,6 +15,10 @@ export type PlaylistId =
   | "voiceover-hub"
   | "voiceover-services"
   | "voiceover-course"
+  | "dj-voice-tags"
+  | "dry-hire"
+  | "bulk-production"
+  | "mashup-fixer"
   | "studio-gifts"
   | "education-tips";
 
@@ -184,6 +188,58 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
     initialVisible: 3,
     expandBatch: 6,
     pagePaths: ["/voiceover/course"],
+  },
+  "dj-voice-tags": {
+    id: "dj-voice-tags",
+    heading: "דוגמאות מהאולפן",
+    subheading: "כמה הקלטות אמיתיות, כדי שתדעו למה לצפות לפני שמזמינים.",
+    kicker: "שמעו לפני שמזמינים",
+    initialVisible: 3,
+    expandBatch: 3,
+    pagePaths: ["/events/dj/voice-tags"],
+    serviceLink: {
+      href: "/events/dj/voice-tags",
+      label: "להזמנת תג קולי",
+    },
+  },
+  "dry-hire": {
+    id: "dry-hire",
+    heading: "ציוד בשטח",
+    subheading: "כמה סרטונים מהאירועים — איך נראית ההגברה בפועל.",
+    kicker: "מה יש במלאי",
+    initialVisible: 3,
+    expandBatch: 2,
+    pagePaths: ["/events/equipment/dry-hire"],
+    serviceLink: {
+      href: "/events/equipment/dry-hire",
+      label: "לבדיקת זמינות",
+    },
+  },
+  "bulk-production": {
+    id: "bulk-production",
+    heading: "איך זה נשמע ונראה",
+    subheading: "דוגמאות מהאולפן ומעבד העריכה — כדי שתדעו מה מקבלים בפס ייצור.",
+    kicker: "מהיוצא ללקוחות",
+    initialVisible: 3,
+    expandBatch: 2,
+    pagePaths: ["/podcast/bulk-production"],
+    serviceLink: {
+      href: "/podcast/bulk-production",
+      label: "למחשבון פס ייצור",
+    },
+  },
+  "mashup-fixer": {
+    id: "mashup-fixer",
+    heading: "איך נשמע מאשאפ באירוע",
+    subheading: "כמה דוגמאות מהאולפן — שילובים, רמיקסים ומה שיוצא לדיג'ייז בשטח.",
+    kicker: "מהתיק",
+    initialVisible: 3,
+    expandBatch: 2,
+    pagePaths: ["/online/mashup-fixer"],
+    serviceLink: {
+      href: "/online/mashup-fixer",
+      label: "למחשבון מאשאפ",
+    },
   },
   "studio-gifts": {
     id: "studio-gifts",

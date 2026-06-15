@@ -1,8 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import type { ProService, ProServiceId, ProWizardField } from "@/lib/data/pro-services";
+import { getMashupIdeaById } from "@/lib/data/dj-mashup-ideas";
+import { getBundleById, type MashupBundleId } from "@/lib/data/mashup-bundle-pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { buildBookHref } from "@/lib/book-url";
@@ -124,6 +126,56 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
   const [result, setResult] = useState<AdvisorResponse | null>(null);
   const [source, setSource] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (service.id !== "mashup-fixer") return;
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    const queryStart = hash.indexOf("?");
+    const query =
+      queryStart >= 0
+        ? new URLSearchParams(hash.slice(queryStart + 1))
+        : new URLSearchParams(window.location.search);
+
+    const ideaId = query.get("idea");
+    const ideaIds = query.get("ideas");
+    const bundleId = query.get("bundle");
+
+    const patch: Record<string, string> = {};
+
+    if (ideaId) {
+      const idea = getMashupIdeaById(ideaId);
+      if (idea) {
+        patch.songA = idea.songA;
+        patch.songB = idea.songB;
+        patch.orderType =
+          idea.tier === "יצירתי" ? "creative" : idea.proCta === "ready" ? "ready" : "custom";
+        if (idea.music) {
+          patch.bpmHint = `${idea.music.harmony.targetBpm} BPM · ${idea.music.trackA.keyCamelot}→${idea.music.trackB.keyCamelot}`;
+        }
+        patch.notes = `רעיון מהקטלוג: ${ideaId}`;
+      }
+    }
+
+    if (ideaIds) {
+      patch.notes = `שילובים מהקטלוג: ${ideaIds}`;
+      patch.orderType = "bundle";
+      const count = ideaIds.split(",").filter(Boolean).length;
+      patch.quantity = count >= 10 ? "10" : count >= 5 ? "5" : count >= 3 ? "3" : "1";
+    }
+
+    if (bundleId) {
+      const bundle = getBundleById(bundleId as MashupBundleId);
+      if (bundle) {
+        patch.orderType = bundle.id.startsWith("custom") ? "custom" : "bundle";
+        patch.quantity = String(bundle.count);
+        patch.notes = `חבילה: ${bundle.title}`;
+      }
+    }
+
+    if (Object.keys(patch).length > 0) {
+      setValues((prev) => ({ ...prev, ...patch }));
+    }
+  }, [service.id]);
+
   const patch = useCallback((id: string, v: string) => {
     setValues((prev) => ({ ...prev, [id]: v }));
   }, []);
@@ -175,11 +227,12 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
 
   return (
     <section
+      id={`wizard-${service.id}`}
       className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
-      aria-labelledby={`wizard-${service.id}`}
+      aria-labelledby={`wizard-${service.id}-heading`}
     >
       <h2
-        id={`wizard-${service.id}`}
+        id={`wizard-${service.id}-heading`}
         className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
       >
         {service.wizardTitle}

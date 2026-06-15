@@ -1,6 +1,8 @@
 import { PORTFOLIO_VIDEO_CATALOG } from "@/lib/data/video-catalog.generated";
 import {
+  PLAYLIST_EXPLICIT_IDS,
   PLAYLIST_FEATURED_IDS,
+  PLAYLIST_VIDEO_FALLBACKS,
   VIDEO_DESCRIPTION_OVERRIDES,
 } from "@/lib/data/video-catalog.overrides";
 import type { PortfolioTag, PortfolioVideo, ShowcaseVideoItem } from "@/lib/data/video-catalog";
@@ -36,6 +38,24 @@ function sortIndex(videoId: string, featured: readonly string[]): number {
 }
 
 export function getPlaylistVideos(playlistId: PlaylistId): ShowcaseVideoItem[] {
+  const explicit = PLAYLIST_EXPLICIT_IDS[playlistId];
+  if (explicit?.length) {
+    return explicit
+      .map((videoId) => {
+        const fromCatalog = catalogById.get(videoId);
+        if (fromCatalog) return toShowcaseItem(fromCatalog);
+        const fallback = PLAYLIST_VIDEO_FALLBACKS[videoId];
+        if (!fallback) return null;
+        return {
+          videoId,
+          title: fallback.title,
+          description:
+            fallback.description ?? VIDEO_DESCRIPTION_OVERRIDES[videoId],
+        };
+      })
+      .filter((item): item is ShowcaseVideoItem => Boolean(item));
+  }
+
   const featured = PLAYLIST_FEATURED_IDS[playlistId] ?? [];
   const candidates = PORTFOLIO_VIDEO_CATALOG.filter((v) =>
     matchesPlaylist(v, playlistId),

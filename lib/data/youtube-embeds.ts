@@ -106,6 +106,14 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
 
   "voiceover-course-alt": "oVeIMBTmS_8",
 
+  "dj-voice-tags": "7DEp-gnDTs4",
+
+  "dry-hire": "K1oAL8qg1W0",
+
+  "bulk-production": "q1Omi-3L3QM",
+
+  "mashup-fixer": "U6LJERy6Wdk",
+
   "events-dj": "5pBisBkfTEg",
 
   "events-hub": "hg5qW6nk0iU",

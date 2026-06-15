@@ -191,6 +191,29 @@ export const STUDIO_GIFTS_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
 ] as const;
 
+export const BULK_PRODUCTION_VIDEOS: readonly ShowcaseVideo[] = [
+  { videoId: "q1Omi-3L3QM", title: "פודקאסט מהאולפן" },
+  { videoId: "wa_mOrjJvK8", title: "לפני ואחרי עריכת זום" },
+  { videoId: "XiiOcx8doz0", title: "הקלטה באולפן" },
+  { videoId: "cengTHzov5I", title: "איך מזמינים אורחים" },
+] as const;
+
+export const DRY_HIRE_VIDEOS: readonly ShowcaseVideo[] = [
+  { videoId: "K1oAL8qg1W0", title: "הגברה באירוע חי" },
+  { videoId: "9O0d3v1SqMc", title: "RCF והקמה בשטח" },
+  { videoId: "nBtKa0JZfL0", title: "עמדת DJ ומערכת" },
+  { videoId: "B5wvK5x1i38", title: "מיקסרים לאמנים" },
+] as const;
+
+export const DJ_VOICE_TAGS_VIDEOS: readonly ShowcaseVideo[] = [
+  { videoId: "7DEp-gnDTs4", title: "מיתוג סט DJ" },
+  { videoId: "Vuz4m8OaDcA", title: "פתיחה לסט, שלושה תקליטנים" },
+  { videoId: "Mh3RosX3a8g", title: "איך עושים קריינות לסט" },
+  { videoId: "hSGhpN_CR7s", title: "למה קריינות חשובה לסט" },
+  { videoId: "zHkq_5bXptg", title: "הקלטה באולפן" },
+  { videoId: "57FuI0EC_I4", title: "מאחורי הקלעים" },
+] as const;
+
 export const ACADEMY_VOICEOVER_DEMO: ShowcaseVideo = {
   videoId: "zHkq_5bXptg",
   title: "דוגמת קריינות מהאולפן",

@@ -133,7 +133,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       {
         label: "פס ייצור לפודקאסט",
         href: "/podcast/bulk-production",
-        description: "פרק + 3 Shorts לכל פרק",
+        description: "עריכה שוטפת לחברות. פרק מוכן וקליפים כל שבוע.",
       },
       { label: "ליווי מא׳ עד ת׳", href: "/podcast/podcast-production" },
       { label: "פודקאסט נייד עד הבית", href: "/podcast/mobile-podcast-at-home" },
@@ -179,9 +179,9 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "תמחור שירותים", href: "/online/online-ai-pricing" },
       { label: "שליחת קבצים", href: "/online/vocal-fix/send-file" },
       {
-        label: "מאשאפ חירום",
+        label: "מאשאפים ומוזיקה",
         href: "/online/mashup-fixer",
-        description: "עריכת מאשאפ עד 24 שעות",
+        description: "מרכז דיג'יי — רעיונות מאשאפ, כלים חינמיים וייצור",
       },
     ],
   },
@@ -281,7 +281,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       {
         label: "פס ייצור פודקאסט",
         href: "/podcast/bulk-production",
-        description: "פרק + Shorts לכל פרק",
+        description: "עריכה שוטפת לחברות. פרק מוכן וקליפים כל שבוע.",
       },
       {
         label: "אולפן בקופסה לעסקים",
@@ -346,7 +346,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
     children: [
       { label: "מרכז שירותים מקצועיים", href: "/pro" },
       { label: "תג קולי לדיג'יי", href: "/events/dj/voice-tags" },
-      { label: "מאשאפ חירום", href: "/online/mashup-fixer" },
+      { label: "מרכז הדיג'יי", href: "/online/mashup-fixer" },
       { label: "סטים מוכנים", href: "/events/dj/pre-built-sets" },
       { label: "אולפן בקופסה", href: "/podcast/studio-in-a-box" },
       { label: "פס ייצור פודקאסט", href: "/podcast/bulk-production" },

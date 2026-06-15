@@ -123,18 +123,50 @@ export function buildRuleBasedAdvisor(
         technicalNotes: "מוכן לנגן מקצועי - עוצמה מאוזנת",
       };
     }
-    case "mashup-fixer":
+    case "mashup-fixer": {
+      const orderType = inputs.orderType ?? "custom";
+      const qty = Number(inputs.quantity) || 1;
+      const priceIds = {
+        ready: "mashup_ready_single",
+        custom: "mashup_custom_planned",
+        creative: "mashup_creative_plus",
+        bundle: "mashup_ready_pack_3",
+      } as const;
+      let price = getExVat(priceIds[orderType as keyof typeof priceIds] ?? "mashup_custom_planned");
+      let priceNote = "כולל סבב תיקון אחד · עד 3 ימי עסקים";
+
+      if (orderType === "bundle" && qty >= 3) {
+        const packId =
+          qty >= 10 ? "mashup_ready_pack_10" : qty >= 5 ? "mashup_ready_pack_5" : "mashup_ready_pack_3";
+        price = getExVat(packId);
+        priceNote = `חבילת ${qty} — מחיר חבילה לפני מע״מ`;
+      } else if (qty > 1 && orderType === "ready") {
+        price = getExVat("mashup_ready_single") * qty;
+        priceNote = `${qty} מאשאפים מוכנים — אפשר הנחת חבילה מ-3`;
+      } else if (qty > 1 && orderType === "custom") {
+        price = getExVat("mashup_custom_planned") * qty;
+        priceNote = `${qty} מותאמים — לשאול על חבילת 3`;
+      }
+
+      const typeLabel = {
+        ready: "מוכן מהמאגר",
+        custom: "מותאם",
+        creative: "יצירתי / דרוג+",
+        bundle: "חבילה",
+      }[orderType] ?? "מותאם";
+
       return {
-        summary: `מאשאפ חירום: ${inputs.songA ?? "שיר ראשון"} ו-${inputs.songB ?? "שיר שני"} לאירוע ב-${inputs.eventDate ?? "תאריך קרוב"}.`,
+        summary: `${typeLabel}: ${inputs.songA ?? "שיר א"} × ${inputs.songB ?? "שיר ב"}${inputs.eventDate ? ` · אירוע ${inputs.eventDate}` : ""}.`,
         recommendations: [
-          "התאמת סולמות ידנית לפני מיזוג",
-          "נקודת מיזוג מומלצת: פתיחה, שיא או סיום",
-          "מסירה עד 24 שעות לאירועים דחופים",
+          inputs.bpmHint ? `BPM/סולם: ${inputs.bpmHint}` : "נבדוק BPM וסולם לפני עריכה",
+          "עריכה ידנית באולפן — לא sync אוטומטי",
+          "מסירה עד 3 ימי עסקים",
         ],
-        estimatedPriceExVat: basePrice,
-        priceNote: "כולל סבב תיקון אחד",
-        nextSteps: ["אישור תנאים", "שליחת קבצים בוואטסאפ", "מסירת קבצים מוכנים"],
+        estimatedPriceExVat: price,
+        priceNote,
+        nextSteps: ["אישור מחיר", "פרטים בוואטסאפ", "מסירת קובץ מוכן"],
       };
+    }
     case "pre-built-sets": {
       const cat = inputs.category ?? "reception_2026";
       const set = PRE_BUILT_SETS_CATALOG.find((s) => s.category === cat);

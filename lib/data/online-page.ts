@@ -106,8 +106,8 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
       },
       {
         icon: "🔀",
-        title: "מאשאפ חירום לדיג'ייז",
-        summary: "שילוב 2 שירים תוך 24 שעות - Key Matching וביטמיקס.",
+        title: "מרכז דיג'יי — רעיונות, כלים וייצור",
+        summary: "רעיונות מאשאפ בחינם, Fadr/Suno/Gemini, וייצור מקצועי כשאין זמן.",
         href: "/online/mashup-fixer",
         tag: "חדש",
       },

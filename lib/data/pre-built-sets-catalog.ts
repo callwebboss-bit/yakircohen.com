@@ -55,4 +55,15 @@ export const PRE_BUILT_SETS_CATALOG: readonly PreBuiltSet[] = [
     description: "מקבלת פנים, ריקודים וסלואו - מחובר לזרימת ערב טיפוסית.",
     tags: ["חתונה", "ערב", "מלא"],
   },
+  {
+    id: "gym_hiit_strength",
+    title: "חדר כושר — HIIT ואימוני כוח",
+    category: "gym",
+    durationMinutes: 90,
+    trackCount: 30,
+    bpmRange: "120-140",
+    priceExVat: 550,
+    description: "קצב יציב לשיעורי קבוצה — בלוקים מחוברים בלי קפיצות מבלבלות.",
+    tags: ["כושר", "HIIT", "אימון"],
+  },
 ] as const;

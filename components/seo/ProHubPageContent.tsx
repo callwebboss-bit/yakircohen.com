@@ -63,6 +63,26 @@ export default function ProHubPageContent() {
       <Section padding="sm" className="border-b border-border bg-muted/20">
         <Container className="max-w-5xl">
           <Link
+            href="/online/mashup-fixer"
+            className="flex flex-col rounded-2xl border border-brand-red/20 bg-background p-6 transition-colors hover:border-brand-red/50 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div>
+              <p className="text-xs font-semibold text-brand-red">לדיג&apos;ייז ומפיקים</p>
+              <h2 className="mt-2 font-serif text-xl font-semibold">
+                מרכז הדיג&apos;יי — רעיונות מאשאפ בחינם
+              </h2>
+              <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+                רעיונות לרחבה, כלים (Fadr, Suno, Gemini) וייצור מקצועי כשאין זמן לערוך.
+              </p>
+            </div>
+            <span className="mt-4 text-sm font-semibold text-brand-red sm:mt-0">למרכז</span>
+          </Link>
+        </Container>
+      </Section>
+
+      <Section padding="sm" className="border-b border-border bg-muted/20">
+        <Container className="max-w-5xl">
+          <Link
             href="/pro/event-index"
             className="flex flex-col rounded-2xl border border-brand-red/20 bg-background p-6 transition-colors hover:border-brand-red/50 sm:flex-row sm:items-center sm:justify-between"
           >
