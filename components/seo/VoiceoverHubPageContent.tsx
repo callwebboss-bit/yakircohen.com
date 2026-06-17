@@ -34,6 +34,7 @@ export default function VoiceoverHubPageContent() {
       showBookCtaInHero={Boolean(bookCta)}
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
+      valueFrame="קול מקצועי מוכן - בלי ניסויים, בלי לחפש קריין בחוץ"
       {...heroProps}
     >
       <Container className="space-y-14 py-12 sm:py-16">

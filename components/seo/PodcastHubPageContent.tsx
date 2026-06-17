@@ -155,6 +155,7 @@ export default function PodcastHubPageContent() {
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
         corporateShareLabel="שירות הפקת הפודקאסטים"
+        valueFrame="פרק ראשון מוכן - בלי חודש ניסוי וטעייה"
         scarcityLabel="פרק מוכן תוך 24 שעות"
         ctaLabel="קבעו הקלטה בוואטסאפ"
         showBookCtaInHero={Boolean(bookCta)}
@@ -163,7 +164,6 @@ export default function PodcastHubPageContent() {
         pagePath="/podcast"
         metaDescription={PODCAST_HUB_SEO.description}
         faqs={PODCAST_HUB_FAQS}
-        valueFrame="פרק ראשון מוכן - בלי חודש ניסוי וטעייה"
       >
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />

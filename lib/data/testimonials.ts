@@ -64,4 +64,37 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     serviceHref: "/studio/blessings",
     serviceLabel: "ברכות מוקלטות",
   },
+  {
+    id: "7",
+    quote:
+      "הקלטנו שיר לחתונה של הבת שלנו באולפן - הכי טוב שעשינו. הקובץ יצא מוכן, נקי ומרגש. שווה כל שקל.",
+    name: "משה ברק",
+    role: "אב מודיעין",
+    initials: "מב",
+    datePublished: "2026-02-14",
+    serviceHref: "/studio/recording-song-modiin",
+    serviceLabel: "הקלטת שיר לחתונה",
+  },
+  {
+    id: "8",
+    quote:
+      "DJ מקצועי שהבין בדיוק מה אנחנו רוצים. האנרגיה ברחבת הריקודים הייתה בדיוק כמו שחלמנו. תודה רבה.",
+    name: "תמר ויקי",
+    role: "כלה, רחובות",
+    initials: "תו",
+    datePublished: "2025-12-20",
+    serviceHref: "/events/dj-events",
+    serviceLabel: "DJ לחתונה",
+  },
+  {
+    id: "9",
+    quote:
+      "הזמנו אטרקציות לאירוע חברה - עשן כניסה ותותחי קונפטי. כל העובדים דיברו על זה שבועות אחרי. שירות מסודר ומקצועי.",
+    name: "איתי לוינסון",
+    role: "מנכ\"ל, חברת הייטק תל אביב",
+    initials: "אל",
+    datePublished: "2026-01-30",
+    serviceHref: "/events/attractions",
+    serviceLabel: "אטרקציות לאירועים",
+  },
 ] as const;
