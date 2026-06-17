@@ -115,6 +115,7 @@ export default function StudioHubPage() {
       service={service}
       portfolioLabel="סביבת האולפן"
       showPortfolio={false}
+      valueFrame="יוצאים עם קובץ מוכן - בלי ניחושים, בלי הפתעות"
     >
       <div className="space-y-16">
         <StudioHubValueSection />

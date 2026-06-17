@@ -95,28 +95,28 @@ export function inferHarmonyRelation(
     return {
       relation: "same_key",
       targetBpm,
-      note: "אותו סולם ואותו קצב — מיזוג ישיר, מינימום pitch.",
+      note: "אותו סולם ואותו קצב - מיזוג ישיר, מינימום pitch.",
     };
   }
   if (dist === 1 && trackA.keyCamelot.slice(0, -1) === trackB.keyCamelot.slice(0, -1)) {
     return {
       relation: "relative",
       targetBpm,
-      note: "מז'ור/מינור יחסיים — מעבר הרמוני טבעי, אנרגיה עולה או יורדת בלי להרוס.",
+      note: "מז'ור/מינור יחסיים - מעבר הרמוני טבעי, אנרגיה עולה או יורדת בלי להרוס.",
     };
   }
   if (dist <= 1 && sameBpm) {
     return {
       relation: "adjacent",
       targetBpm,
-      note: "סולמות סמוכים על גלגל Camelot — עובד טוב עם מעבר של 4–8 תיבות.",
+      note: "סולמות סמוכים על גלגל Camelot - עובד טוב עם מעבר של 4–8 תיבות.",
     };
   }
   if (halfTime) {
     return {
       relation: "half_time",
       targetBpm,
-      note: "יחס כפול/חצי בקצב — צריך לבחור איזה שיר מוביל את הגריד.",
+      note: "יחס כפול/חצי בקצב - צריך לבחור איזה שיר מוביל את הגריד.",
     };
   }
   if (dist >= 2) {
@@ -124,14 +124,14 @@ export function inferHarmonyRelation(
       relation: "parallel",
       targetBpm,
       pitchSemitones: dist <= 3 ? 2 : undefined,
-      note: "מודולציה מודעת — לא sync ולתקווה. עריכה באולפן.",
+      note: "מודולציה מודעת - לא sync ולתקווה. עריכה באולפן.",
     };
   }
   return {
     relation: "pitch_shift",
     targetBpm,
     pitchSemitones: 1,
-    note: "pitch קטן על אחד השירים — בדרך כלל מספיק.",
+    note: "pitch קטן על אחד השירים - בדרך כלל מספיק.",
   };
 }
 
@@ -179,11 +179,11 @@ export function validateMashupMusic(music: MashupMusic): {
     warnings.push(`סולם B לא תקין: ${music.trackB.keyCamelot}`);
   }
   if (music.trackA.bpm < 60 || music.trackB.bpm < 60) {
-    warnings.push("BPM נמוך מדי — בדוק half-time");
+    warnings.push("BPM נמוך מדי - בדוק half-time");
   }
   const level = getCompatibilityLevel(music);
   if (level === "דרוג+") {
-    warnings.push("תאימות נמוכה — מומלץ דרוג+ או עריכה מלאה");
+    warnings.push("תאימות נמוכה - מומלץ דרוג+ או עריכה מלאה");
   }
   return { ok: warnings.length === 0, warnings };
 }

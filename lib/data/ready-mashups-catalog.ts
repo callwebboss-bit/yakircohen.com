@@ -1,4 +1,4 @@
-/** מאגר מאשאפים מוכנים לרכישה — מקושר לרעיונות בקטלוג */
+/** מאגר מאשאפים מוכנים לרכישה - מקושר לרעיונות בקטלוג */
 export type ReadyMashup = {
   id: string;
   title: string;
@@ -13,7 +13,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
     id: "ready_taapas_levitating",
     title: "טאפס וטריפונס × Levitating",
     ideaId: "omer_taapas_levitating",
-    description: "ווקאל עומר על ביט 128 — נבדק ברחבות 2026.",
+    description: "ווקאל עומר על ביט 128 - נבדק ברחבות 2026.",
     priceExVat: 650,
     tags: ["רחבה", "2026"],
   },
@@ -29,7 +29,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
     id: "ready_doctor_pantera",
     title: "דוקטור → פנתרה",
     ideaId: "eyal_doctor_lior_pantera",
-    description: "build לדרופ שכולם מכירים — גרסה מהאולפן.",
+    description: "build לדרופ שכולם מכירים - גרסה מהאולפן.",
     priceExVat: 650,
     tags: ["רחבה", "Hypeddit-style"],
   },
@@ -51,7 +51,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
   },
   {
     id: "ready_shked_kikar",
-    title: "שקד × כיכר — ריקוד ראשון",
+    title: "שקד × כיכר - ריקוד ראשון",
     ideaId: "shked_kikar_first_dance",
     description: "גשר מריקוד ראשון לרחבה.",
     priceExVat: 650,

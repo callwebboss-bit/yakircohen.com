@@ -56,6 +56,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
   },
   { url: url("podcast/mobile-podcast-at-home"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("podcast/faq"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Online / AI ────────────────────────────────────────────────────────────
@@ -106,6 +107,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("events/stage-led-dj"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("events/attractions/smoke-cannons-for-events"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/wedding-smoking-machine"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/attractions/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
   {
     url: url(
       "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",

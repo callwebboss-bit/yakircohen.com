@@ -178,7 +178,7 @@ export function buildSiteSchema() {
           {
             "@type": "Offer",
             name: "שיעור ניסיון עברית פרטי",
-            description: "שיעור היכרות אחד על אחד — פרונטלי או בזום, מודיעין והמרכז",
+            description: "שיעור היכרות אחד על אחד - פרונטלי או בזום, מודיעין והמרכז",
             price: "500",
             priceCurrency: "ILS",
             url: `${BASE}/academy/ulpan`,

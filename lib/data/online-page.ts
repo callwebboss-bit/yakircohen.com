@@ -106,7 +106,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
       },
       {
         icon: "🔀",
-        title: "מרכז דיג'יי — רעיונות, כלים וייצור",
+        title: "מרכז דיג'יי - רעיונות, כלים וייצור",
         summary: "רעיונות מאשאפ בחינם, Fadr/Suno/Gemini, וייצור מקצועי כשאין זמן.",
         href: "/online/mashup-fixer",
         tag: "חדש",

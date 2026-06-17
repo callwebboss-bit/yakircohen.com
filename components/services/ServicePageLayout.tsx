@@ -70,6 +70,8 @@ export type ServicePageLayoutProps = {
   faqs?: readonly { question: string; answer: string }[];
   /** כפתור שיתוף מנוסח מראש למנהלים/רכש (למשל "שירות הפקת הפודקאסטים") */
   corporateShareLabel?: string;
+  /** שורת תוצאה קצרה מתחת לsubtitle לפני ה-CTA - "מה תקבלו בפועל" */
+  valueFrame?: string;
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -215,6 +217,7 @@ export default function ServicePageLayout({
   metaDescription,
   faqs,
   corporateShareLabel,
+  valueFrame,
 }: ServicePageLayoutProps) {
   const pageEntitySchema = pagePath
     ? buildServicePageEntitySchema({
@@ -317,6 +320,12 @@ export default function ServicePageLayout({
               {subtitle}
             </p>
 
+            {valueFrame ? (
+              <p className="mt-4 text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
+                {valueFrame}
+              </p>
+            ) : null}
+
             {showHeroCtas ? (
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Button
@@ -338,6 +347,18 @@ export default function ServicePageLayout({
                   </Button>
                 ) : null}
               </div>
+            ) : null}
+
+            {showHeroCtas ? (
+              <p className="mt-3 text-xs text-muted-foreground">
+                עונים תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
+                <Link
+                  href="/start"
+                  className="font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline"
+                >
+                  איך התהליך עובד
+                </Link>
+              </p>
             ) : null}
 
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (

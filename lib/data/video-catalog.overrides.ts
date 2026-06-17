@@ -105,7 +105,7 @@ export const PLAYLIST_VIDEO_FALLBACKS: Record<
   wa_mOrjJvK8: { title: "לפני ואחרי עריכת זום" },
 };
 
-/** Curated playlists — only these IDs (order preserved), not auto-tagged remainder */
+/** Curated playlists -only these IDs (order preserved), not auto-tagged remainder */
 export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
   "dj-voice-tags": PLAYLIST_FEATURED_IDS["dj-voice-tags"]!,
   "dry-hire": PLAYLIST_FEATURED_IDS["dry-hire"]!,
@@ -138,7 +138,7 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   XiiOcx8doz0: "פודקאסט מוקלט באולפן",
   cengTHzov5I: "איך מזמינים אורחים לפודקאסט",
   U6LJERy6Wdk: "איך בונים רמיקס לפתיחת ריקודים",
-  SvhfZK9Ribg: "רמיקס חתונות — מאחורי הקלעים",
-  FtzsXXnts_k: "רמיקס אירועים — דוגמה מהשטח",
-  "5-PTfYMMlV4": "רמיקס רשמי — שילוב להיטים",
+  SvhfZK9Ribg: "רמיקס חתונות - מאחורי הקלעים",
+  FtzsXXnts_k: "רמיקס אירועים - דוגמה מהשטח",
+  "5-PTfYMMlV4": "רמיקס רשמי - שילוב להיטים",
 };

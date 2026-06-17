@@ -163,6 +163,7 @@ export default function PodcastHubPageContent() {
         pagePath="/podcast"
         metaDescription={PODCAST_HUB_SEO.description}
         faqs={PODCAST_HUB_FAQS}
+        valueFrame="פרק ראשון מוכן - בלי חודש ניסוי וטעייה"
       >
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />

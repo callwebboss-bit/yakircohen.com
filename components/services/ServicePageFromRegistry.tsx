@@ -9,6 +9,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
+import Testimonials from "@/components/marketing/Testimonials";
 import {
   SERVICE_GALLERY_MAX_IMAGES,
   withServicePageHeroDefaults,
@@ -31,6 +32,8 @@ export type ServicePageFromRegistryProps = {
   showFaqs?: boolean;
   /** Hide built-in gallery/video showcase when custom content provides it */
   showPortfolio?: boolean;
+  /** שורת תוצאה קצרה מתחת לsubtitle - "מה תקבלו בפועל" */
+  valueFrame?: string;
 };
 
 export default function ServicePageFromRegistry({
@@ -39,6 +42,7 @@ export default function ServicePageFromRegistry({
   portfolioLabel,
   showFaqs = true,
   showPortfolio = true,
+  valueFrame,
 }: ServicePageFromRegistryProps) {
   const showPortfolioSection =
     showPortfolio &&
@@ -73,6 +77,7 @@ export default function ServicePageFromRegistry({
       showBookCtaInHero={Boolean(bookCta)}
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
+      valueFrame={valueFrame}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -103,6 +108,11 @@ export default function ServicePageFromRegistry({
         {service.category === "studio" ? <StudioUpsellCallout /> : null}
 
         <ServicePagePricingSection service={service} />
+
+        <Testimonials
+          filterByPathPrefix={`/${pagePath.replace(/^\/+/, "").split("/")[0]}`}
+          className="py-0"
+        />
 
         {showFaqs && service.faqs.length > 0 ? (
           <FAQAccordion

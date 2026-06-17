@@ -29,7 +29,7 @@ export default function EventsHubPage() {
           description: link.description,
         }))}
       />
-      <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים">
+      <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים" valueFrame="אפקטים שמרימים את האירוע - בלי הפתעות ביום">
       <AudienceTabs />
       <ClientJourneySteps variant="events" display="compact" />
       <ServiceHubLinks

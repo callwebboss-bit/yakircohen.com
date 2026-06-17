@@ -16,11 +16,11 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/podcast": [
-    { type: "text", value: "מגיעים לאולפן, מקליטים, ויוצאים עם פרק מוכן. לעריכה שוטפת לחברות — " },
+    { type: "text", value: "מגיעים לאולפן, מקליטים, ויוצאים עם פרק מוכן. לעריכה שוטפת לחברות - " },
     { type: "link", href: "/podcast/bulk-production", label: "פס ייצור" },
     { type: "text", value: ". לפרק בודד: " },
     { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט מלאה" },
-    { type: "text", value: ", לשכירת חדר — " },
+    { type: "text", value: ", לשכירת חדר - " },
     { type: "link", href: "/podcast/podcast-studio-modiin", label: "אולפן במודיעין" },
     { type: "text", value: "." },
   ],
@@ -39,11 +39,11 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/podcast/podcast-editing": [
-    { type: "text", value: "שולחים קובץ גולמי ומקבלים פרק מוכן. לקצב חודשי קבוע — " },
+    { type: "text", value: "שולחים קובץ גולמי ומקבלים פרק מוכן. לקצב חודשי קבוע - " },
     { type: "link", href: "/podcast/bulk-production", label: "פס ייצור לעסקים" },
-    { type: "text", value: ". להקלטה באולפן — " },
+    { type: "text", value: ". להקלטה באולפן - " },
     { type: "link", href: "/podcast/podcast-studio-modiin", label: "סטודיו במודיעין" },
-    { type: "text", value: ". לפרויקט שלם — " },
+    { type: "text", value: ". לפרויקט שלם - " },
     { type: "link", href: "/podcast/podcast-production", label: "ליווי מא׳ עד ת׳" },
     { type: "text", value: "." },
   ],
@@ -59,7 +59,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/podcast/podcast-production": [
-    { type: "text", value: "בונים פורמט, מיתוג ולוח שידורים. לעריכה שוטפת בלי לנהל כל פרק בנפרד — " },
+    { type: "text", value: "בונים פורמט, מיתוג ולוח שידורים. לעריכה שוטפת בלי לנהל כל פרק בנפרד - " },
     { type: "link", href: "/podcast/bulk-production", label: "פס ייצור" },
     { type: "text", value: ". פרק ראשון: " },
     { type: "link", href: "/podcast/podcast-recording", label: "הפקה מלאה לפרק בודד" },
@@ -95,7 +95,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/events/dj-events": [
-    { type: "text", value: "תקליטן שמבין את הרחבה ואת הקהל. לדיג'ייז שבונים מותג — " },
+    { type: "text", value: "תקליטן שמבין את הרחבה ואת הקהל. לדיג'ייז שבונים מותג - " },
     { type: "link", href: "/events/dj/voice-tags", label: "תג קולי לסט" },
     { type: "text", value: ". משלימים עם " },
     { type: "link", href: "/events/stage-led-dj", label: "עמדת LED לתקליטן" },
@@ -131,7 +131,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: " לפי הסגנון שלכם." },
   ],
   "/events/equipment": [
-    { type: "text", value: "הגברה מלאה עם טכנאי, או רק ציוד ליום — " },
+    { type: "text", value: "הגברה מלאה עם טכנאי, או רק ציוד ליום - " },
     { type: "link", href: "/events/equipment/dry-hire", label: "השכרת ציוד" },
     { type: "text", value: ". לזמר חי: " },
     { type: "link", href: "/events/equipment/singer-amplification", label: "הגברה לזמרים" },
@@ -140,7 +140,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/events/equipment/dry-hire": [
-    { type: "text", value: "ציוד בלבד, בלי טכנאי — מיקסרים, רמקולים וסאב ליום. לחבילה מלאה עם הפעלה: " },
+    { type: "text", value: "ציוד בלבד, בלי טכנאי -מיקסרים, רמקולים וסאב ליום. לחבילה מלאה עם הפעלה: " },
     { type: "link", href: "/events/equipment", label: "הגברה לאירוע" },
     { type: "text", value: ". לזמר עם סאונדמן: " },
     { type: "link", href: "/events/equipment/singer-amplification", label: "הגברה לזמרים" },
@@ -149,7 +149,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/online/mashup-fixer": [
-    { type: "text", value: "מרכז לדיג'יי עמוס: רעיונות מאשאפ בחינם, כלים (Fadr, Gemini) וייצור כשאין זמן. לסטים ארוכים — " },
+    { type: "text", value: "מרכז לדיג'יי עמוס: רעיונות מאשאפ בחינם, כלים וייצור כשאין זמן. לסטים ארוכים " },
     { type: "link", href: "/events/dj/pre-built-sets", label: "סטים מוכנים" },
     { type: "text", value: ". לתג קולי: " },
     { type: "link", href: "/events/dj/voice-tags", label: "תג קולי" },

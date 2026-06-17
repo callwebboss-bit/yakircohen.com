@@ -139,13 +139,13 @@ export function buildRuleBasedAdvisor(
         const packId =
           qty >= 10 ? "mashup_ready_pack_10" : qty >= 5 ? "mashup_ready_pack_5" : "mashup_ready_pack_3";
         price = getExVat(packId);
-        priceNote = `חבילת ${qty} — מחיר חבילה לפני מע״מ`;
+        priceNote = `חבילת ${qty} - מחיר חבילה לפני מע״מ`;
       } else if (qty > 1 && orderType === "ready") {
         price = getExVat("mashup_ready_single") * qty;
-        priceNote = `${qty} מאשאפים מוכנים — אפשר הנחת חבילה מ-3`;
+        priceNote = `${qty} מאשאפים מוכנים - אפשר הנחת חבילה מ-3`;
       } else if (qty > 1 && orderType === "custom") {
         price = getExVat("mashup_custom_planned") * qty;
-        priceNote = `${qty} מותאמים — לשאול על חבילת 3`;
+        priceNote = `${qty} מותאמים - לשאול על חבילת 3`;
       }
 
       const typeLabel = {
@@ -159,7 +159,7 @@ export function buildRuleBasedAdvisor(
         summary: `${typeLabel}: ${inputs.songA ?? "שיר א"} × ${inputs.songB ?? "שיר ב"}${inputs.eventDate ? ` · אירוע ${inputs.eventDate}` : ""}.`,
         recommendations: [
           inputs.bpmHint ? `BPM/סולם: ${inputs.bpmHint}` : "נבדוק BPM וסולם לפני עריכה",
-          "עריכה ידנית באולפן — לא sync אוטומטי",
+          "עריכה ידנית באולפן - לא sync אוטומטי",
           "מסירה עד 3 ימי עסקים",
         ],
         estimatedPriceExVat: price,

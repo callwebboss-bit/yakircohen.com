@@ -1,4 +1,41 @@
 import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+import type { AudioDemoId } from "@/lib/data/audio-demos";
+import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
+
+export type PitchBeforeAfterDemo = {
+  demoId: AudioDemoId;
+  title: string;
+  description: string;
+  compact?: boolean;
+};
+
+/** /online/vocal-fix/pitch-correction - דוגמאות וידאו */
+export const PITCH_CORRECTION_VIDEOS: readonly RecordingSongExampleVideo[] = [
+  {
+    videoId: "azLQjB4y2vM",
+    title:
+      "תיקון זיופים מרחוק - מקליטים באולפן אחר ומשתמשים בשירות של יקיר כהן הפקות",
+  },
+  {
+    videoId: "aTGqFnijz0Q",
+    title: "הדרכת תיקון זיופים - Pitch Correction",
+  },
+] as const;
+
+export const PITCH_BEFORE_AFTER_DEMOS: readonly PitchBeforeAfterDemo[] = [
+  {
+    demoId: "pitch-correction",
+    title: "תיקון זיופים על חומר איכותי",
+    description: "אותו קטע שירה לפני ואחרי עריכה ידנית של תיקון זיופים.",
+  },
+  {
+    demoId: "pitch-correction-remote",
+    title: "תיקון מרחוק על הקלטה שלא אצלנו",
+    description:
+      "לקוחה שלחה לנו שיר שהוקלט ונערך במקום אחר. תיקנו את הזיופים מרחוק. השיפור אמיתי, אבל התקרה נמוכה יותר ממה שאפשר כשמקליטים ומלטשים אצלנו באולפן.",
+    compact: true,
+  },
+];
 
 export const PITCH_PROCESS_STEPS: ProcessStep[] = [
   {

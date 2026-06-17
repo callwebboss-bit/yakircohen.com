@@ -56,7 +56,12 @@ export const BLOG_SLUGS = [
   "audio-branding-for-business",
   "vhs-tape-digitization-ai-guide",
   "hebrew-tutor-modiin-guide",
-  "street-hebrew-vs-government-ulpan"
+  "street-hebrew-vs-government-ulpan",
+  "bar-mitzvah-recording-price-guide",
+  "podcast-studio-vs-home-recording",
+  "5-things-before-choosing-wedding-dj",
+  "heavy-smoke-vs-light-smoke-events",
+  "ai-audio-restoration-real-examples"
 ] as const;
 
 export type BlogPostSlug = (typeof BLOG_SLUGS)[number];

@@ -6,6 +6,7 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   SITE_GLOBAL_LINKS,
   SITE_NAVIGATION,
+  NAV_PRIMARY_DESKTOP,
   getCategoryForPath,
   type SiteNavCategory,
 } from "@/lib/site-architecture";
@@ -13,19 +14,6 @@ import { SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import SiteSearch from "@/components/ui/SiteSearch";
 
-const NAV_ICONS: Record<string, string> = {
-  studio: "🎵",
-  podcast: "🎙️",
-  online: "🤖",
-  attractions: "✨",
-  "dj-voice": "🎤",
-  business: "🏢",
-  video: "📹",
-  photography: "📸",
-  academy: "🎓",
-  pro: "⚙️",
-  events: "🎉",
-};
 
 function ChevronIcon({ open }: { open: boolean }) {
   return (
@@ -170,7 +158,6 @@ function MobileAccordion({
   const pathname = usePathname();
   const activeCategory = getCategoryForPath(pathname);
   const isActive = activeCategory?.id === category.id;
-  const icon = NAV_ICONS[category.id];
 
   return (
     <div className="border-b border-border/60 last:border-b-0">
@@ -183,24 +170,11 @@ function MobileAccordion({
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        {icon && (
-          <span
-            className={cn(
-              "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-lg transition-colors duration-fast ease-luxury",
-              isActive
-                ? "bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_15%,transparent)]"
-                : "bg-surface",
-            )}
-            aria-hidden
-          >
-            {icon}
-          </span>
-        )}
         <span className="flex-1 text-base font-semibold">{category.label}</span>
         <ChevronIcon open={open} />
       </button>
       {open ? (
-        <ul className="pb-3 ps-11">
+        <ul className="pb-3 ps-4">
           {category.children.map((child) => (
             <li key={child.href}>
               <Link
@@ -269,6 +243,68 @@ export function SiteNavMenuButton({
   );
 }
 
+function DesktopSearchButton() {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        aria-label="חיפוש באתר"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-fast ease-luxury active:scale-95",
+          open
+            ? "bg-surface text-[var(--service-accent,#d42b2b)]"
+            : "text-foreground/70 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
+        )}
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+      {open ? (
+        <div className="absolute end-0 top-full z-[60] mt-1.5 w-80 rounded-xl border border-border bg-background p-3 shadow-xl">
+          <SiteSearch
+            autoFocus
+            placeholder="חיפוש שירות, מאמר..."
+            inputId="desktop-search-input"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function SiteNavDesktop() {
   const pathname = usePathname();
   const activeCategory = getCategoryForPath(pathname);
@@ -278,7 +314,7 @@ export function SiteNavDesktop() {
       className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
-      {SITE_NAVIGATION.map((cat) => (
+      {NAV_PRIMARY_DESKTOP.map((cat) => (
         <DesktopDropdown
           key={cat.id}
           category={cat}
@@ -305,6 +341,7 @@ export function SiteNavDesktop() {
           aria-hidden
         />
       </Link>
+      <DesktopSearchButton />
     </nav>
   );
 }

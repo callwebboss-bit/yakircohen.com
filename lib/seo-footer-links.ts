@@ -67,7 +67,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "שיעורי עברית במודיעין",
         href: "/academy/ulpan",
-        title: "שיעור פרטי עברית — פרונטלי או בזום",
+        title: "שיעור פרטי עברית - פרונטלי או בזום",
       },
       {
         label: "קורס DJ מקצועי",

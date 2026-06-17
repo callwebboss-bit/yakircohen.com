@@ -69,7 +69,7 @@ export default function ProHubPageContent() {
             <div>
               <p className="text-xs font-semibold text-brand-red">לדיג&apos;ייז ומפיקים</p>
               <h2 className="mt-2 font-serif text-xl font-semibold">
-                מרכז הדיג&apos;יי — רעיונות מאשאפ בחינם
+                מרכז הדיג&apos;יי - רעיונות מאשאפ בחינם
               </h2>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">
                 רעיונות לרחבה, כלים (Fadr, Suno, Gemini) וייצור מקצועי כשאין זמן לערוך.

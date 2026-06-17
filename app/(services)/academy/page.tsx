@@ -65,7 +65,7 @@ const COURSE_CARDS = [
     href: "/academy/ulpan",
     icon: "📖",
     label: "שיעור פרטי עברית",
-    sub: "שיעור פרטי במודיעין — פרונטלי או בזום",
+    sub: "שיעור פרטי במודיעין - פרונטלי או בזום",
   },
   {
     href: "/academy/ai-music",
@@ -269,16 +269,23 @@ export default function AcademyPage() {
             אני לא מקבל כל אחד. אני עובד עם מי שבא לעבוד.
           </p>
 
+          <p className="mt-4 text-sm font-semibold text-brand-red">
+            לומדים בקצב שלכם - עם מי שעושה את זה בשטח
+          </p>
+
           {bookCta ? (
             <div className="mt-8 space-y-2">
               <HubDualCta
                 whatsappHref={assessmentHref}
-                whatsappLabel="קביעת מפגש אפיון "
+                whatsappLabel="קביעת מפגש אפיון"
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
               />
               <p className="text-xs text-muted-foreground">
-                450 ₪ + מע&quot;מ לאפיון, מתקזז מהרכישה הראשונה
+                עונים תוך שעה (א-ה 9:00-20:00) |{" "}
+                <Link href="/start" className="font-semibold text-brand-red hover:underline">
+                  איך התהליך עובד
+                </Link>
               </p>
             </div>
           ) : null}

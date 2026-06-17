@@ -205,7 +205,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "dry-hire": {
     id: "dry-hire",
     heading: "ציוד בשטח",
-    subheading: "כמה סרטונים מהאירועים — איך נראית ההגברה בפועל.",
+    subheading: "כמה סרטונים מהאירועים - איך נראית ההגברה בפועל.",
     kicker: "מה יש במלאי",
     initialVisible: 3,
     expandBatch: 2,
@@ -218,7 +218,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "bulk-production": {
     id: "bulk-production",
     heading: "איך זה נשמע ונראה",
-    subheading: "דוגמאות מהאולפן ומעבד העריכה — כדי שתדעו מה מקבלים בפס ייצור.",
+    subheading: "דוגמאות מהאולפן ומעבד העריכה - כדי שתדעו מה מקבלים בפס ייצור.",
     kicker: "מהיוצא ללקוחות",
     initialVisible: 3,
     expandBatch: 2,
@@ -231,7 +231,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "mashup-fixer": {
     id: "mashup-fixer",
     heading: "איך נשמע מאשאפ באירוע",
-    subheading: "כמה דוגמאות מהאולפן — שילובים, רמיקסים ומה שיוצא לדיג'ייז בשטח.",
+    subheading: "כמה דוגמאות מהאולפן - שילובים, רמיקסים ומה שיוצא לדיג'ייז בשטח.",
     kicker: "מהתיק",
     initialVisible: 3,
     expandBatch: 2,

@@ -18,7 +18,7 @@ export type SiteNavCategory = {
   children: SiteNavLink[];
 };
 
-/** סדר תצוגה בתפריט — מקור אמת יחיד (Google priority) */
+/** סדר תצוגה בתפריט - מקור אמת יחיד (Google priority) */
 export const NAV_DISPLAY_ORDER = [
   "studio",
   "podcast",
@@ -181,7 +181,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       {
         label: "מאשאפים ומוזיקה",
         href: "/online/mashup-fixer",
-        description: "מרכז דיג'יי — רעיונות מאשאפ, כלים חינמיים וייצור",
+        description: "מרכז דיג'יי - רעיונות מאשאפ, כלים חינמיים וייצור",
       },
     ],
   },
@@ -374,6 +374,50 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
 export const SITE_NAVIGATION: SiteNavCategory[] = NAV_DISPLAY_ORDER.map(
   (id) => NAV_CATEGORIES[id],
 );
+
+/**
+ * תפריט Desktop - 5 קטגוריות ראשיות בלבד.
+ * אירועים מאוחדת (DJ + אטרקציות + אירועים), שירותים נוספים מאגדת את השאר.
+ * Mobile Drawer ממשיך להשתמש ב-SITE_NAVIGATION המלא.
+ */
+export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
+  NAV_CATEGORIES["studio"],
+  NAV_CATEGORIES["podcast"],
+  {
+    id: "events",
+    label: "אירועים",
+    href: "/events",
+    children: [
+      { label: "כל שירותי האירועים", href: "/events" },
+      { label: "תקליטן לאירועים", href: "/events/dj-events", description: "DJ לחתונות ואירועים" },
+      { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
+      { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
+      { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
+      { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
+      { label: "בלונים ענק", href: "/events/attractions/giant-balloons" },
+      { label: "מכונת בועות", href: "/events/attractions/bubble-machine" },
+      { label: "חבילות אירועים", href: "/events/wedding-attractions-packages", description: "DJ + אטרקציות בחבילה" },
+      { label: "במה LED + DJ", href: "/events/stage-led-dj" },
+      { label: "מנחה אירועים", href: "/events/host" },
+      { label: "ציוד הגברה", href: "/events/equipment" },
+    ],
+  },
+  NAV_CATEGORIES["academy"],
+  {
+    id: "pro",
+    label: "שירותים נוספים",
+    href: "/pro",
+    children: [
+      { label: "שירותי AI ועריכה", href: "/online", description: "שחזור סאונד, מיקס ותמונות" },
+      { label: "שחזור סאונד AI", href: "/online/vocal-fix", description: "ניקוי רעשים ותיקון זיופים" },
+      { label: "לעסקים", href: "/business", description: "תוכן, רילז, פודקאסט וקריינות לחברות" },
+      { label: "קריינות מקצועית", href: "/voiceover/services" },
+      { label: "וידאו", href: "/video", description: "אירועים, תדמית ומצגות" },
+      { label: "צילום", href: "/photography", description: "חתונות ואירועים" },
+      { label: "שירותים מקצועיים לDJ", href: "/pro", description: "תגים קוליים, סטים וציוד" },
+    ],
+  },
+];
 
 /** קישורים גלובליים (מחוץ לקטגוריות) */
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [

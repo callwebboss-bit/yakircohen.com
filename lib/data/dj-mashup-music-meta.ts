@@ -10,7 +10,7 @@ export type MashupIdeaEnrichment = {
   upgradePlus?: string;
 };
 
-/** BPM, סולם והרמוניה — ממוזג לרעיונות לפי id */
+/** BPM, סולם והרמוניה - ממוזג לרעיונות לפי id */
 export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
   omer_taapas_levitating: {
     music: {
@@ -19,12 +19,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 128,
-        note: "8B→9A מעלה אנרגיה בלי לזרוק את המלודיה — ווקאל עומר על ביט Levitating.",
+        note: "8B→9A מעלה אנרגיה בלי לזרוק את המלודיה - ווקאל עומר על ביט Levitating.",
       },
     },
     youtubeDemo: {
       videoId: "TUVcZfQe-Kw",
-      label: "רפרנס — Levitating × מזרחית",
+      label: "רפרנס - Levitating × מזרחית",
       source: "reference",
     },
   },
@@ -35,12 +35,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 129,
-        note: "הפרש BPM קטן — pitch על אחד השירים, לא sync כפוי.",
+        note: "הפרש BPM קטן - pitch על אחד השירים, לא sync כפוי.",
       },
     },
     youtubeDemo: {
       videoId: "q1Omi-3L3QM",
-      label: "רפרנס Hypeddit — פנתרה",
+      label: "רפרנס Hypeddit - פנתרה",
       source: "reference",
     },
   },
@@ -51,12 +51,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 129,
-        note: "build ארוך לדרופ פנתרה — שני סולמות B, מרחק 1 על הגלגל.",
+        note: "build ארוך לדרופ פנתרה - שני סולמות B, מרחק 1 על הגלגל.",
       },
     },
     youtubeDemo: {
       videoId: "q1Omi-3L3QM",
-      label: "רפרנס — דוקטור → פנתרה",
+      label: "רפרנס - דוקטור → פנתרה",
       source: "reference",
     },
   },
@@ -67,7 +67,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 127,
-        note: "שני מינוריים סמוכים — מעבר חלק ברחבה מזרחית.",
+        note: "שני מינוריים סמוכים - מעבר חלק ברחבה מזרחית.",
       },
     },
   },
@@ -78,12 +78,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "relative",
         targetBpm: 128,
-        note: "8A↔8B — רגש עומר על דרופ בינלאומי, אותו מספר על הגלגל.",
+        note: "8A↔8B - רגש עומר על דרופ בינלאומי, אותו מספר על הגלגל.",
       },
     },
     youtubeDemo: {
       videoId: "0pYqGVnjKts",
-      label: "רפרנס — Can't Hold Us × מזרחית",
+      label: "רפרנס - Can't Hold Us × מזרחית",
       source: "reference",
     },
   },
@@ -94,7 +94,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 127,
-        note: "פתיחה אירוויזיונית שמסתיימת באוס חתונות — BPM כמעט זהה.",
+        note: "פתיחה אירוויזיונית שמסתיימת באוס חתונות - BPM כמעט זהה.",
       },
     },
   },
@@ -105,12 +105,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 118,
-        note: "שני סולמות B — funk לפני שהרחבה נפתחת.",
+        note: "שני סולמות B - funk לפני שהרחבה נפתחת.",
       },
     },
     youtubeDemo: {
       videoId: "E5ONTXHS2mM",
-      label: "רפרנס — Daft Punk × Uptown Funk",
+      label: "רפרנס - Daft Punk × Uptown Funk",
       source: "reference",
     },
   },
@@ -122,7 +122,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
         relation: "pitch_shift",
         targetBpm: 129,
         pitchSemitones: 1,
-        note: "TikTok 2025 — pitch קטן על APT, הדרופ מ-Can't Hold Us.",
+        note: "TikTok 2025 - pitch קטן על APT, הדרופ מ-Can't Hold Us.",
       },
     },
   },
@@ -133,7 +133,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "half_time",
         targetBpm: 128,
-        note: "מסלואו-רגש שעולה ל-128 — בוחרים נקודת עלייה ברורה.",
+        note: "מסלואו-רגש שעולה ל-128 - בוחרים נקודת עלייה ברורה.",
       },
     },
   },
@@ -144,7 +144,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "relative",
         targetBpm: 128,
-        note: "איתי 2026 על קלאסיקת אייל — אותו מספר Camelot.",
+        note: "איתי 2026 על קלאסיקת אייל - אותו מספר Camelot.",
       },
     },
   },
@@ -166,7 +166,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "parallel",
         targetBpm: 128,
-        note: "נוסטלגיה → לטיני — מודולציה מודעת לפני שיא הערב.",
+        note: "נוסטלגיה → לטיני - מודולציה מודעת לפני שיא הערב.",
       },
     },
   },
@@ -177,7 +177,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 128,
-        note: "אותו סולם — דודאים וצעירים בלי הפתעות.",
+        note: "אותו סולם - דודאים וצעירים בלי הפתעות.",
       },
     },
   },
@@ -188,7 +188,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "half_time",
         targetBpm: 128,
-        note: "רגע זוגי איטי שמתפוצץ לרחבה — תזמון לפני כניסת הזוג.",
+        note: "רגע זוגי איטי שמתפוצץ לרחבה - תזמון לפני כניסת הזוג.",
       },
     },
   },
@@ -199,12 +199,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 128,
-        note: "שני סטייפלס 128 באותו סולם — מיזוג נקי.",
+        note: "שני סטייפלס 128 באותו סולם - מיזוג נקי.",
       },
     },
     youtubeDemo: {
       videoId: "TUVcZfQe-Kw",
-      label: "רפרנס — Levitating club edit",
+      label: "רפרנס - Levitating club edit",
       source: "reference",
     },
   },
@@ -226,7 +226,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 98,
-        note: "חופה — BPM נמוך, בלי דרופים חדים באמצע הטקס.",
+        note: "חופה - BPM נמוך, בלי דרופים חדים באמצע הטקס.",
       },
     },
   },
@@ -237,7 +237,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 124,
-        note: "גשר מריקוד ראשון לרחבה — עלייה הדרגתית בקצב.",
+        note: "גשר מריקוד ראשון לרחבה - עלייה הדרגתית בקצב.",
       },
     },
   },
@@ -249,7 +249,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
         relation: "adjacent",
         targetBpm: 124,
         pitchSemitones: 1,
-        note: "נוסטלגיה לסבים, APT לילדים — שני קהלים, מעבר ברור.",
+        note: "נוסטלגיה לסבים, APT לילדים - שני קהלים, מעבר ברור.",
       },
     },
   },
@@ -260,7 +260,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 126,
-        note: "באצ'טה באמצע ערב מזרחית — שינוי גרוב, לא רק שיר.",
+        note: "באצ'טה באמצע ערב מזרחית - שינוי גרוב, לא רק שיר.",
       },
     },
   },
@@ -271,7 +271,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 128,
-        note: "ישראלי-לטיני — אותו BPM, סולמות סמוכים.",
+        note: "ישראלי-לטיני - אותו BPM, סולמות סמוכים.",
       },
     },
   },
@@ -282,7 +282,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "relative",
         targetBpm: 128,
-        note: "שני להיטי 2025 — מז'ור/מינור יחסיים, אנרגיה גבוהה.",
+        note: "שני להיטי 2025 - מז'ור/מינור יחסיים, אנרגיה גבוהה.",
       },
     },
   },
@@ -304,7 +304,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 130,
-        note: "קאנון מזרחי על UKG — סינקופה במקום house רובוטי.",
+        note: "קאנון מזרחי על UKG - סינקופה במקום house רובוטי.",
       },
     },
     technique: "stems",
@@ -317,7 +317,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 127,
-        note: "היט ישראלי על breakbeat — stems חובה.",
+        note: "היט ישראלי על breakbeat - stems חובה.",
       },
     },
     technique: "stems",
@@ -330,7 +330,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 128,
-        note: "קלאסיקה ישראלית + פרקושן חי — נשמע כמו להקה.",
+        note: "קלאסיקה ישראלית + פרקושן חי - נשמע כמו להקה.",
       },
     },
     technique: "percussion",
@@ -343,7 +343,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "parallel",
         targetBpm: 128,
-        note: "שינוי הרמוניה מסלואו לדרופ — בודקים סולם ב-Tunebat לפני עריכה.",
+        note: "שינוי הרמוניה מסלואו לדרופ - בודקים סולם ב-Tunebat לפני עריכה.",
       },
     },
     technique: "harmonic",
@@ -356,7 +356,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 109,
-        note: "chop ולא crossfade — דור Z × פופ ישראלי.",
+        note: "chop ולא crossfade - דור Z × פופ ישראלי.",
       },
     },
     technique: "stems",
@@ -368,7 +368,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 140,
-        note: "drill כבד — שני שירים באותו טווח BPM.",
+        note: "drill כבד - שני שירים באותו טווח BPM.",
       },
     },
     technique: "stems",
@@ -381,7 +381,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 124,
-        note: "אייקון פופ נשי על deep house — מינימלי, לא זול.",
+        note: "אייקון פופ נשי על deep house - מינימלי, לא זול.",
       },
     },
     technique: "harmonic",
@@ -393,7 +393,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 128,
-        note: "מוזיקאי חי + טכנו — בדיוק מה שמחפשים כשצריך אוזן.",
+        note: "מוזיקאי חי + טכנו - בדיוק מה שמחפשים כשצריך אוזן.",
       },
     },
     technique: "percussion",
@@ -406,7 +406,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 124,
-        note: "אינדי-פופ מלנכולי × מזרחית — אותו mood.",
+        note: "אינדי-פופ מלנכולי × מזרחית - אותו mood.",
       },
     },
     technique: "harmonic",
@@ -418,12 +418,12 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "parallel",
         targetBpm: 128,
-        note: "טיקטוק הוכיח את הרעיון — הגרסה המקצועית לרחבה חכמה.",
+        note: "טיקטוק הוכיח את הרעיון - הגרסה המקצועית לרחבה חכמה.",
       },
     },
     youtubeDemo: {
       videoId: "pSykR71LHEQ",
-      label: "רפרנס — Heat Waves mashup culture",
+      label: "רפרנס - Heat Waves mashup culture",
       source: "reference",
     },
   },
@@ -434,7 +434,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 123,
-        note: "מקהלה + אפרו — רגע שמצלמים.",
+        note: "מקהלה + אפרו - רגע שמצלמים.",
       },
     },
     technique: "percussion",
@@ -446,7 +446,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 124,
-        note: "UK house × זהב ישראלי — דיג'ייז מדברים על זה אחרי הסט.",
+        note: "UK house × זהב ישראלי - דיג'ייז מדברים על זה אחרי הסט.",
       },
     },
     technique: "stems",
@@ -458,11 +458,11 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 125,
-        note: "9/8 מול 4/4 — שינוי משקל, לא sync.",
+        note: "9/8 מול 4/4 - שינוי משקל, לא sync.",
       },
     },
     technique: "time_sig",
-    upgradePlus: "עריכת משקל מלאה באולפן — לא טריק DJ.",
+    upgradePlus: "עריכת משקל מלאה באולפן - לא טריק DJ.",
   },
   stromae_itay: {
     music: {
@@ -471,7 +471,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "adjacent",
         targetBpm: 126,
-        note: "אירופה × ישראל — חיבור thematic, לא רק טכני.",
+        note: "אירופה × ישראל - חיבור thematic, לא רק טכני.",
       },
     },
     technique: "acapella",
@@ -483,7 +483,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "same_key",
         targetBpm: 128,
-        note: "שקט לפני הדרופ — מוצר אולפן, לא טריק.",
+        note: "שקט לפני הדרופ - מוצר אולפן, לא טריק.",
       },
     },
     technique: "drop_build",
@@ -497,7 +497,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
         relation: "pitch_shift",
         targetBpm: 140,
         pitchSemitones: 2,
-        note: "עולים ל-140 עם pitch על הפופ — ה-drill מוביל.",
+        note: "עולים ל-140 עם pitch על הפופ - ה-drill מוביל.",
       },
     },
     technique: "stems",
@@ -522,7 +522,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "parallel",
         targetBpm: 128,
-        note: "גשר 30 שניות — לא שיר מלא. מודולציה מכוונת.",
+        note: "גשר 30 שניות - לא שיר מלא. מודולציה מכוונת.",
       },
     },
     technique: "harmonic",
@@ -535,7 +535,7 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
       harmony: {
         relation: "half_time",
         targetBpm: 128,
-        note: "פסנתר חי איטי → ביט מזרחית — רגש חופה.",
+        note: "פסנתר חי איטי → ביט מזרחית - רגש חופה.",
       },
     },
     technique: "percussion",

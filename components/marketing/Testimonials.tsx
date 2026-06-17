@@ -23,6 +23,8 @@ export type TestimonialsProps = {
   subtitle?: string;
   items?: TestimonialItem[];
   className?: string;
+  /** מסנן testimonials לפי serviceHref שמתחיל ב-prefix זה */
+  filterByPathPrefix?: string;
 };
 
 const DEFAULT_TESTIMONIALS: TestimonialItem[] = [...SITE_TESTIMONIALS];
@@ -48,7 +50,17 @@ export default function Testimonials({
   subtitle = "כמה תגובות שקיבלנו מלקוחות במודיעין, ירושלים והסביבה",
   items = DEFAULT_TESTIMONIALS,
   className,
+  filterByPathPrefix,
 }: TestimonialsProps) {
+  const displayItems = filterByPathPrefix
+    ? items.filter(
+        (t) => t.serviceHref && t.serviceHref.startsWith(filterByPathPrefix),
+      ).length >= 2
+      ? items.filter(
+          (t) => t.serviceHref && t.serviceHref.startsWith(filterByPathPrefix),
+        )
+      : items
+    : items;
   return (
     <Section
       padding="sm"
@@ -81,7 +93,7 @@ export default function Testimonials({
         </header>
 
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {items.map((item) => (
+          {displayItems.map((item) => (
             <li key={item.id}>
               <blockquote className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md">
                 <p className="text-sm leading-relaxed text-foreground/90">

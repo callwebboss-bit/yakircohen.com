@@ -21,7 +21,7 @@ export const MASHUP_BUNDLE_OFFERS: readonly MashupBundleOffer[] = [
   {
     id: "ready_3",
     title: "3 מאשאפים מוכנים",
-    description: "שלושה שילובים מהמאגר — לפתיחת עונה או לסט חדש בלי לשבת שבוע על עריכה.",
+    description: "שלושה שילובים מהמאגר - לפתיחת עונה או לסט חדש בלי לשבת שבוע על עריכה.",
     count: 3,
     pricingId: "mashup_ready_pack_3",
     singlePricingId: "mashup_ready_single",
@@ -29,7 +29,7 @@ export const MASHUP_BUNDLE_OFFERS: readonly MashupBundleOffer[] = [
   },
   {
     id: "ready_5",
-    title: "5 מאשאפים — עונת אירועים",
+    title: "5 מאשאפים - עונת אירועים",
     description: "לדיג'יי עם לוח שנה מלא: חמישה קבצים מוכנים, כל אחד נבדק לפני מסירה.",
     count: 5,
     pricingId: "mashup_ready_pack_5",
@@ -38,7 +38,7 @@ export const MASHUP_BUNDLE_OFFERS: readonly MashupBundleOffer[] = [
   },
   {
     id: "ready_10",
-    title: "10 מאשאפים — מאגר אישי",
+    title: "10 מאשאפים - מאגר אישי",
     description: "בונים ספרייה משלך לשנה. הנחה משמעותית על רכישה בודדת.",
     count: 10,
     pricingId: "mashup_ready_pack_10",
@@ -48,7 +48,7 @@ export const MASHUP_BUNDLE_OFFERS: readonly MashupBundleOffer[] = [
   {
     id: "custom_3",
     title: "3 מאשאפים מותאמים",
-    description: "שלושה שילובים לפי בחירה — עד 3 ימי עסקים לכל אחד, עם סבב תיקון.",
+    description: "שלושה שילובים לפי בחירה - עד 3 ימי עסקים לכל אחד, עם סבב תיקון.",
     count: 3,
     pricingId: "mashup_custom_pack_3",
     singlePricingId: "mashup_custom_planned",

@@ -4,11 +4,11 @@ import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
 export const CTA_LABELS = {
-  whatsappQuote: "אני רוצה לדעת כמה זה עולה - בוואטסאפ",
-  bookTransparent: "בחרו שירות וראו מחיר מיד",
-  bookOnline: "הזמנה מקוונת עם מחיר מיידי",
-  sendBookingWa: "שלחו את ההזמנה שלי בוואטסאפ",
-  fastWaQuote: "קבלו הצעה בוואטסאפ",
+  whatsappQuote: "קבלו מחיר ותאריך פנוי",
+  bookTransparent: "בדקו מחיר - תוך דקה",
+  bookOnline: "הזמנה מקוונת",
+  sendBookingWa: "שלחו את ההזמנה בוואטסאפ",
+  fastWaQuote: "קבלו הצעה",
 } as const;
 
 export function whatsappQuoteCta(serviceLabel: string, priceExVat: number): string {
