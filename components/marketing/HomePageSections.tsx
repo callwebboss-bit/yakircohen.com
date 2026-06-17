@@ -6,10 +6,10 @@ import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
+import LiveStatusBar from "@/components/marketing/LiveStatusBar";
 import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
-import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import ServiceCard from "@/components/marketing/ServiceCard";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import Testimonials from "@/components/marketing/Testimonials";
@@ -172,8 +172,8 @@ export default function HomePageSections({
 }: HomePageSectionsProps) {
   return (
     <>
+      <LiveStatusBar />
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
-      <TrustStatsBar />
 
       <Section
         className="bg-background"
@@ -194,9 +194,9 @@ export default function HomePageSections({
               לחצו על{" "}
               <InlineServiceLink href="/studio" ariaLabel="עבור לעמוד אולפן הקלטות">אולפן הקלטות</InlineServiceLink>,{" "}
               <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/online">שירותי AI</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/events/attractions">אטרקציות</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/events/dj-events">DJ וקריינות</InlineServiceLink>{" "}
+              <InlineServiceLink href="/events">אירועים ואטרקציות</InlineServiceLink>,{" "}
+              <InlineServiceLink href="/events/dj-events">DJ לחתונות</InlineServiceLink>,{" "}
+              <InlineServiceLink href="/online">שירותי AI</InlineServiceLink>{" "}
               או{" "}
               <InlineServiceLink href="/business">לעסקים</InlineServiceLink>
               . נחבר אתכם למסלול הנכון תוך דקות.

@@ -41,21 +41,35 @@ const ICON_MAP: Record<
   video: VideoIcon,
 };
 
-/** כרטיסי hub ראשיים — סדר Google priority */
+/** כרטיסי hub ראשיים — עוגן קודם, תמיכה שני, התמחות שלישי */
 export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
   {
     id: "studio",
     title: "אולפן הקלטות",
-    description: "שיר במתנה, ברכה לחתונה, קליפ קצר. הילד שלכם הוא הכוכב.",
+    description: "שיר לחתונה, ברכה לבר מצווה, קליפ קצר. יוצאים עם קובץ מוכן.",
     href: "/studio",
     utmCampaign: "home_studio",
   },
   {
     id: "podcast",
     title: "פודקאסט",
-    description: "בואו נבנה פורמט, נקליט באולפן, נערוך ונעלה.",
+    description: "מקליטים באולפן, עורכים ומעלים לספוטיפיי - פרק מוכן תוך 24 שעות.",
     href: "/podcast",
     utmCampaign: "home_podcast",
+  },
+  {
+    id: "attractions",
+    title: "אירועים ואטרקציות",
+    description: "DJ, עשן כניסה, זיקוקים קרים וקונפטי. רגעים שהאורחים מדברים עליהם.",
+    href: "/events",
+    utmCampaign: "home_attractions",
+  },
+  {
+    id: "dj-voice",
+    title: "DJ לחתונות",
+    description: "תקליטן מקצועי עם ציוד מלא - מודיעין, ירושלים והמרכז.",
+    href: "/events/dj-events",
+    utmCampaign: "home_dj_voice",
   },
   {
     id: "ai",
@@ -65,20 +79,6 @@ export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
     utmCampaign: "home_ai_media",
     isAiService: true,
     badge: "טכנולוגיית AI",
-  },
-  {
-    id: "attractions",
-    title: "אטרקציות",
-    description: "עשן, זיקוקים קרים, בועות וקונפטי. רגעים שמצטלמים.",
-    href: "/events/attractions",
-    utmCampaign: "home_attractions",
-  },
-  {
-    id: "dj-voice",
-    title: "DJ וקריינות",
-    description: "תקליטן לאירוע, תגים קוליים וקריינות לפרסומות ו-IVR.",
-    href: "/events/dj-events",
-    utmCampaign: "home_dj_voice",
   },
   {
     id: "business",
