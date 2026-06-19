@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
@@ -271,6 +272,23 @@ export default function OnlineMixingPageContent() {
               afterNote={mixingDemo.afterNote}
             />
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-background py-12">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+          <header className="mb-6 text-center">
+            <h2 className="text-xl font-semibold text-foreground">
+              MP3 לעומת WAV - ההבדל שחייבים להכיר
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              מה אנחנו מוסרים ולמה WAV הוא הארכיב שלכם
+            </p>
+          </header>
+          <LazyYouTubeEmbed
+            embedUrl="https://www.youtube.com/embed/TTEVMjQt8mU"
+            title="MP3 לעומת WAV - ההבדל שחייבים להכיר | יקיר כהן הפקות"
+          />
         </div>
       </section>
 

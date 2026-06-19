@@ -76,7 +76,7 @@ export const WEDDING_PHOTO_RELATED: readonly {
   {
     href: "/events/dj-events",
     title: "DJ לאירועים קטנים",
-    description: "מוזיקה שמתאימה לאירוע אינטימי - פתרון מושלם יחד עם הצילום.",
+    description: "מוזיקה שמתאימה לאירוע אינטימי - משלים את הצילום.",
   },
   {
     href: "/video/event-filming",

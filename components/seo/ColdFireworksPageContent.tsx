@@ -63,6 +63,8 @@ export default function ColdFireworksPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      pagePath="/events/attractions/cold-fireworks"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

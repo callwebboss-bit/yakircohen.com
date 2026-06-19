@@ -63,7 +63,8 @@ export const BLOG_SLUGS = [
   "heavy-smoke-vs-light-smoke-events",
   "ai-audio-restoration-real-examples",
   "dj-summer-weddings-2026",
-  "bar-mitzvah-september-recording-tips"
+  "bar-mitzvah-september-recording-tips",
+  "mp3-vs-wav-studio-guide"
 ] as const;
 
 export type BlogPostSlug = (typeof BLOG_SLUGS)[number];

@@ -46,6 +46,8 @@ export default function HeavySmokeLargeEventsPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      pagePath="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

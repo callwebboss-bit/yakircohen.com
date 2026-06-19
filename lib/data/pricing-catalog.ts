@@ -87,7 +87,7 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
 
   // ─── DJ ואירועים ───
   { id: "dj_premium", label: "תקליטן פרימיום מהצוות", exVat: 5000, category: "dj", context: "4 שעות תקלוט של דיג׳יי מנוסה" },
-  { id: "dj_yakir_personal", label: "תקליטן יקיר כהן אישית", exVat: 9800, category: "dj", context: "5 שעות VIP עם יקיר על הקונסולה" },
+  { id: "dj_yakir_personal", label: "תקליטן יקיר כהן אישית", exVat: 8305, category: "dj", context: "5 שעות VIP עם יקיר על הקונסולה" },
   { id: "mobile_studio", label: "אולפן הקלטות נייד", exVat: 5000, category: "events", context: "הקמת מיקרופונים ועמדת עריכה בשטח" },
   { id: "festival_all_in", label: "חבילת פסטיבל הכל כלול", exVat: 15000, category: "events", context: "DJ פרימיום, אולפן נייד, 3 אטרקציות ומצגת" },
   { id: "pre_event_production", label: "הפקה מקדימה ותיאום מוזיקלי", exVat: 980, category: "events", context: "תיאום מלא עם הדיג׳יי" },

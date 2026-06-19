@@ -95,14 +95,23 @@ function parseCatalog(text) {
 
 function parseBookRoutes(text) {
   const routes = [];
-  const blockRe = /\{\s*id:\s*"([^"]+)"[\s\S]*?closerServiceId:\s*"([^"]+)"[\s\S]*?priceExVat:\s*(\w+)/g;
-  let m;
-  while ((m = blockRe.exec(text)) !== null) {
-    routes.push({
-      id: m[1],
-      closerServiceId: m[2],
-      priceExVatRef: m[3],
-    });
+  const start = text.indexOf("export const BOOK_AUDIENCE_ROUTES");
+  const end = text.indexOf("export const BOOK_ESCAPE_HATCH", start);
+  if (start < 0) return routes;
+  const slice = end > start ? text.slice(start, end) : text.slice(start);
+  const blocks = slice.split(/\{\s*\n\s*id:\s*"/).slice(1);
+  for (const block of blocks) {
+    const id = block.match(/^([^"]+)"/)?.[1];
+    if (!id) continue;
+    const closerServiceId = block.match(/closerServiceId:\s*"([^"]+)"/)?.[1];
+    const priceExVat = block.match(/priceExVat:\s*(\d+)/)?.[1];
+    if (closerServiceId) {
+      routes.push({
+        id,
+        closerServiceId,
+        priceExVat: priceExVat ? Number(priceExVat) : null,
+      });
+    }
   }
   return routes;
 }
@@ -315,6 +324,18 @@ const PRO_SERVICES_FILE = path.join(ROOT, "lib", "data", "pro-services.ts");
 const INVENTORY_FILE = path.join(ROOT, "lib", "data", "equipment-inventory.ts");
 const INVENTORY_STATE_FILE = path.join(OUT_DIR, "equipment-inventory-state.json");
 const INVENTORY_BOOKINGS_SITE = path.join(ROOT, "lib", "data", "equipment-inventory-bookings.json");
+const LIVE_STATUS_STATE_FILE = path.join(OUT_DIR, "live-status-state.json");
+const LIVE_STATUS_SITE = path.join(ROOT, "lib", "data", "live-status.json");
+
+const DEFAULT_LIVE_STATUS = {
+  availability: { mode: "available", busyUntil: null, customLabel: null },
+  lastProject: {
+    title: "ברכת חתונה מרגשת",
+    date: "10.6.2026",
+    url: "/studio",
+  },
+  updatedAt: new Date().toISOString(),
+};
 
 function parseProServices(text) {
   const services = [];
@@ -369,6 +390,24 @@ function loadInventoryBookings() {
     /* ignore */
   }
   return [];
+}
+
+function loadLiveStatus() {
+  try {
+    if (fs.existsSync(LIVE_STATUS_STATE_FILE)) {
+      return JSON.parse(fs.readFileSync(LIVE_STATUS_STATE_FILE, "utf8"));
+    }
+  } catch {
+    /* ignore */
+  }
+  try {
+    if (fs.existsSync(LIVE_STATUS_SITE)) {
+      return JSON.parse(fs.readFileSync(LIVE_STATUS_SITE, "utf8"));
+    }
+  } catch {
+    /* ignore */
+  }
+  return DEFAULT_LIVE_STATUS;
 }
 
 /** audienceRoutes מלאים — discovery מ-brandCopy, שירות ואירוע מ-book-audience-routes */
@@ -600,14 +639,17 @@ const payload = {
   proServices: parseProServices(proServicesText),
   equipmentInventory: parseEquipmentInventory(inventoryText),
   inventoryBookings: loadInventoryBookings(),
+  liveStatus: loadLiveStatus(),
 };
 
 const invBookings = payload.inventoryBookings;
+const liveStatus = payload.liveStatus;
 fs.writeFileSync(
   INVENTORY_BOOKINGS_SITE,
   `${JSON.stringify({ bookings: invBookings, updatedAt: new Date().toISOString() }, null, 2)}\n`,
   "utf8",
 );
+fs.writeFileSync(LIVE_STATUS_SITE, `${JSON.stringify(liveStatus, null, 2)}\n`, "utf8");
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(OUT_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

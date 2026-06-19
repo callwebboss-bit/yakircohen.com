@@ -44,72 +44,57 @@ export const DJ_PROCESS_STEPS: readonly {
   },
 ] as const;
 
-export const DJ_EVENT_TYPES: readonly {
-  emoji: string;
+export type DJEventType = {
+  id: string;
   title: string;
   description: string;
-}[] = [
+  link: string;
+};
+
+export const DJ_EVENT_TYPES: DJEventType[] = [
   {
-    emoji: "💍",
-    title: "חתונות",
+    id: "weddings",
+    title: "חתונות בוטיק",
     description:
-      "קבלת פנים, חופה, ריקודים, סלואו ושיא  -  מוזיקה מדויקת לכל שלב.",
+      "התאמה מוזיקלית מוקפדת לאירועים הדורשים רמת גימור גבוהה וסגנון ייחודי.",
+    link: "/events/dj-events",
   },
   {
-    emoji: "🕎",
+    id: "mitzvah",
     title: "בר / בת מצווה",
-    description: "מסבא ועד הנכדים  -  אנרגיה גבוהה לכל הגילאים.",
+    description:
+      "שילוב נכון בין קהל מבוגר לצעיר, כולל ניהול שלבי התוכן והדרשות.",
+    link: "/events/dj-events",
   },
-  {
-    emoji: "🎂",
-    title: "ימי הולדת",
-    description: "18, 30, 40, 50...  -  מוזיקה שכולם מכירים ואוהבים.",
-  },
-  {
-    emoji: "🏢",
-    title: "אירועי חברה",
-    description: "איזון בין מקצועיות לאווירה טובה  -  לפי אופי הארגון.",
-  },
-  {
-    emoji: "🎉",
-    title: "מסיבות פרטיות",
-    description: "בית, גינה או אולם  -  כל סוג חגיגה.",
-  },
+];
+
+export const DJ_PRICE_FACTORS: readonly string[] = [
+  "מיקום האירוע ומרחק גיאוגרפי",
+  "מפרט טכני של מערכות הסאונד והתאורה באולם",
+  "היקף שעות הפעילות הנדרש ברחבה",
+  "תוספות הפקה משלימות (אולפן, וידאו, AI)",
 ] as const;
 
-export const DJ_VALUE_BLOCKS: readonly {
-  emoji: string;
+export type DJValueBlock = {
+  id: string;
   title: string;
   description: string;
-}[] = [
+};
+
+export const DJ_VALUE_BLOCKS: DJValueBlock[] = [
   {
-    emoji: "🎵",
-    title: "מוזיקה מותאמת אישית",
+    id: "control",
+    title: "שליטה מוחלטת בטיימליין",
     description:
-      "פגישת תכנון, רשימת שירים, שירים אסורים וסגנון (מזרחי / אנגלי / מעורב).",
+      "אנו מנהלים את רחבת הריקודים כחלק ממנגנון תפעולי שלם, תוך סנכרון מלא מול מנהל האירוע והספקים.",
   },
   {
-    emoji: "🎧",
-    title: "תקליטן מנוסה",
-    description: "מעל 1,500 אירועים  -  קוראים קהל ומתאימים בזמן אמת.",
-  },
-  {
-    emoji: "🛡️",
-    title: "גיבוי מלא",
-    description: "ציוד גיבוי וצוות חירום  -  אף אירוע לא נכשל בגלל תקלה.",
-  },
-  {
-    emoji: "🎨",
-    title: "תאורה והשפעות",
-    description: "LED דינמי, Moving Heads אופציונלי, סנכרון עם המוזיקה.",
-  },
-  {
-    emoji: "🎤",
-    title: "קריאות והנחיה",
+    id: "precision",
+    title: "דיוק מוזיקלי",
     description:
-      "לחופה, ריקוד ראשון, ברכה ועוגה  -  ברור, מקצועי ולא מעצבן.",
+      "בניית רשימות השמעה מבוססת נתונים והתאמה עובדתית לקהל היעד בזמן אמת, ללא אלמנטים של ניחוש.",
   },
-] as const;
+];
 
 export const DJ_CHEAP_VS_PRO: readonly { label: string; bad: string; good: string }[] = [
   { label: "רחבה", bad: "אורחים יושבים ועוזבים מוקדם", good: "רחבה מלאה עד סוף הלילה" },

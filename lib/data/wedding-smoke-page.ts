@@ -38,7 +38,7 @@ export const WEDDING_SMOKE_LARGE_VIDEO: WeddingSmokeExampleVideo = {
 /** דוגמאות נוספות (לא כוללות את הסרטון הראשי בעמוד) */
 export const WEDDING_SMOKE_EXAMPLE_VIDEOS: readonly WeddingSmokeExampleVideo[] = [
   { videoId: "tLxvSRgOwGM", title: "הסבר על עשן כבד מקצועי" },
-  { videoId: "O4MwVBjL2v8", title: "נפתח מושלם גם בחוץ" },
+  { videoId: "O4MwVBjL2v8", title: "נפתח גם בחוץ" },
   { videoId: "WYg81S29A-k", title: "ההבדל  -  עשן איכותי לאירועים" },
 ] as const;
 

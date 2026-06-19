@@ -60,7 +60,7 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
     emoji: "🎚️",
     title: "מיקס ומאסטרינג ברמה בינלאומית",
     description:
-      "התוצאה הסופית נשמעת מושלמת בכל מערכת שמע  -  רכב, סמארטפון או אולם אירועים.",
+      "התוצאה הסופית נשמעת מדויקת בכל מערכת שמע  -  רכב, סמארטפון או אולם אירועים.",
   },
   {
     emoji: "💻",
@@ -70,7 +70,7 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
   },
   {
     emoji: "🔊",
-    title: "אקוסטיקה מושלמת",
+    title: "אקוסטיקה מדויקת",
     description:
       "חדר צף מבודד עם טיפול אקוסטי מלא  -  אפס רעשי רקע.",
   },
@@ -144,7 +144,7 @@ export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
       emoji: "🎤",
       title: "בר ובת מצווה",
       description:
-        "שיר מותאם אישית לאירוע, עם מילות שיר ממשפחה ומחברים. רגע שישאר בזיכרון לכל החיים.",
+        "שיר מותאם אישית לאירוע, עם מילות שיר ממשפחה ומחברים. רגע שנשמר כקובץ לאורך זמן.",
       tag: "",
     },
     {
@@ -160,7 +160,7 @@ export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
       emoji: "🕊️",
       title: "כניסה לחופה",
       description:
-        "קטע עצמאי לכניסה לחופה - בקולכם, עם עיבוד שיתאים לאווירה. רגע שהאורחים לא ישכחו.",
+        "קטע עצמאי לכניסה לחופה - בקולכם, עם עיבוד שיתאים לאווירה. רגע שנשמר בתיעוד האירוע.",
       tag: "",
     },
   ] as const;

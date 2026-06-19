@@ -25,7 +25,7 @@ export const BLESSING_TYPE_CARDS: readonly BlessingTypeCard[] = [
   {
     emoji: "📜",
     title: "הקלטת דרשה",
-    description: "דרשה מרגשת שמוקלטת בשקט, בלי לחץ של קהל.",
+    description: "דרשה מוקלטת בשקט, בלי לחץ של קהל.",
     href: "/studio/blessings/bar-mitzvah",
   },
   {
@@ -37,7 +37,7 @@ export const BLESSING_TYPE_CARDS: readonly BlessingTypeCard[] = [
   {
     emoji: "💍",
     title: "ברכת כלה וחתן",
-    description: "ברכה מרגשת לזוג  -  מההורים, מהחברים או מהמשפחה.",
+    description: "ברכה מוקלטת לזוג  -  מההורים, מהחברים או מהמשפחה.",
     href: "/studio/blessings/bride-groom-blessing",
   },
   {
@@ -50,13 +50,13 @@ export const BLESSING_TYPE_CARDS: readonly BlessingTypeCard[] = [
   {
     emoji: "🎬",
     title: "קליפ בת מצווה",
-    description: "תמונות ילדות, סרטונים מהבית וקליפ מוקלט באולפן - מתנה מרגשת.",
+    description: "תמונות ילדות, סרטונים מהבית וקליפ מוקלט באולפן - מתנה דיגיטלית לאירוע.",
     href: "/studio/blessings/bat-mitzvah-clip",
   },
   {
     emoji: "🎁",
     title: "שיר / קליפ במתנה",
-    description: "מתנה מקורית ומרגשת שתישאר לכל החיים.",
+    description: "מתנה מקורית שנשמרת כקובץ דיגיטלי.",
     href: "/studio/blessings/video-clip",
   },
   {
@@ -77,7 +77,7 @@ export const BLESSING_BENEFITS: readonly BlessingBenefit[] = [
     emoji: "👨‍🏫",
     title: "ליווי וסבלנות",
     description:
-      "מפיק מקצועי מלווה אתכם לאורך ההקלטה  -  עזרה בהגייה, בקצב ובאינטונציה, כדי שתרגישו בטוחים.",
+      "מפיק מקצועי מלווה אתכם לאורך ההקלטה  -  עזרה בהגייה, בקצב ובאינטונציה.",
   },
   {
     emoji: "✏️",
@@ -87,15 +87,15 @@ export const BLESSING_BENEFITS: readonly BlessingBenefit[] = [
   },
   {
     emoji: "🎵",
-    title: "מוזיקת רקע מרגשת",
+    title: "מוזיקת רקע",
     description:
-      "נעימה עדינה שמתאימה לאווירה ומחברת בצורה חלקה לשיר הבא באירוע.",
+      "נעימה שמתאימה לסוג הברכה ומחברת בצורה חלקה לשיר הבא באירוע.",
   },
   {
     emoji: "🎤",
-    title: "איכות סאונד מושלמת",
+    title: "איכות סאונד מקצועית",
     description:
-      "מיקרופונים מקצועיים ומערכות עריכה מתקדמות  -  הקול נשמע מלא, חם וברור, לא כמו הקלטה מהטלפון.",
+      "מיקרופונים מקצועיים ומערכות עריכה מתקדמות  -  הקול נשמע ברור ומאוזן, לא כמו הקלטה מהטלפון.",
   },
 ] as const;
 
@@ -109,7 +109,7 @@ export const BLESSING_WORKFLOW_OPTIONS: readonly BlessingWorkflowOption[] = [
     bullets: [
       "ליווי והדרכה בזמן ההקלטה",
       "תיקון טקסט (אם צריך)",
-      "שילוב מוזיקת רקע מרגשת",
+      "שילוב מוזיקת רקע",
       "עריכה מקצועית",
       "מיקס סופי מוכן להשמעה באירוע",
     ],

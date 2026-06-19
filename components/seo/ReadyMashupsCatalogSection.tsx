@@ -2,26 +2,31 @@ import Link from "next/link";
 import { READY_MASHUPS_CATALOG } from "@/lib/data/ready-mashups-catalog";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
-export default function ReadyMashupsCatalogSection() {
+export default function ReadyMashupsCatalogSection({ embedded = false }: { embedded?: boolean }) {
   const priceLabel = formatFromPriceDual(READY_MASHUPS_CATALOG[0]?.priceExVat ?? 650);
 
   return (
     <section
       id="ready-mashups"
       className="scroll-mt-24"
-      aria-labelledby="ready-mashups-heading"
+      aria-labelledby={embedded ? undefined : "ready-mashups-heading"}
     >
-      <h2 id="ready-mashups-heading" className="text-2xl font-semibold text-foreground">
-        מאגר מוכן — קנה ונגן
-      </h2>
-      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        גרסאות שכבר ערוכו ונבדקו. לא צריך לחכות לעריכה — בוחרים מהרשימה, מקבלים קובץ.
-        {` `}
-        <span className="text-foreground/80">{priceLabel} לשילוב.</span>
-      </p>
+      {embedded ? null : (
+        <>
+          <h2 id="ready-mashups-heading" className="text-2xl font-semibold text-foreground">
+            מאגר מוכן. קנה ונגן
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            גרסאות שכבר ערוכו ונבדקו. לא צריך לחכות לעריכה. בוחרים מהרשימה ומקבלים קובץ.
+            {` `}
+            <span className="text-foreground/80">{priceLabel} לשילוב.</span>
+          </p>
+        </>
+      )}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-3", embedded ? "mt-0" : "mt-6")}>
         {READY_MASHUPS_CATALOG.map((item) => {
           const waHref = buildWhatsAppHref({
             text: `שלום, רוצה לרכוש את המאשאפ המוכן:\n${item.title}`,
@@ -52,7 +57,7 @@ export default function ReadyMashupsCatalogSection() {
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 <Link
-                  href={`#mashup-ideas`}
+                  href="#mashup-ideas"
                   className="text-center text-xs font-medium text-brand-red hover:underline"
                 >
                   ראו את הרעיון בקטלוג

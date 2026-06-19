@@ -1,5 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { MASHUP_MUSIC_OFFER_CATEGORIES } from "@/lib/data/mashup-music-offers";
+import {
+  MASHUP_MUSIC_OFFER_CATEGORIES,
+  type MashupOfferCategory,
+  type MashupOfferItem,
+} from "@/lib/data/mashup-music-offers";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -13,81 +20,109 @@ function formatItemPrice(
 }
 
 function buildOfferWhatsAppText(title: string): string {
-  return `שלום, מעוניין/ת ב${title} ממרכז הדיג'יי באתר. אשמח לפרטים ומחיר.`;
+  return `שלום, מעוניין ב${title} ממרכז הדיג'יי באתר. אשמח לפרטים ומחיר.`;
 }
 
-export default function MashupMusicOffersSection() {
+const OFFERS_INITIAL_VISIBLE = 3;
+const OFFERS_EXPAND_BATCH = 3;
+
+function OfferCategoryBlock({ category }: { category: MashupOfferCategory }) {
+  const [visibleCount, setVisibleCount] = useState(OFFERS_INITIAL_VISIBLE);
+  const visibleItems = category.items.slice(0, visibleCount);
+  const remaining = category.items.length - visibleItems.length;
+
+  return (
+    <section aria-labelledby={`mashup-offer-${category.id}`}>
+      <h3 id={`mashup-offer-${category.id}`} className="text-xl font-semibold text-foreground">
+        {category.title}
+      </h3>
+      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        {category.intro}
+      </p>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        {visibleItems.map((item) => (
+          <OfferCard key={item.id} item={item} />
+        ))}
+      </div>
+      {remaining > 0 ? (
+        <div className="mt-4 flex justify-center sm:justify-start">
+          <button
+            type="button"
+            onClick={() =>
+              setVisibleCount((c) =>
+                Math.min(c + OFFERS_EXPAND_BATCH, category.items.length),
+              )
+            }
+            className="min-h-11 rounded-xl border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+          >
+            טען עוד {Math.min(OFFERS_EXPAND_BATCH, remaining)}
+          </button>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function OfferCard({ item }: { item: MashupOfferItem }) {
+  const waHref = buildWhatsAppHref({
+    text: buildOfferWhatsAppText(item.title),
+    utm_source: "website",
+    utm_campaign: "dj_pro_offer",
+  });
+  return (
+    <article className="flex flex-col rounded-xl border border-border bg-surface p-4 sm:p-5">
+      <h4 className="font-semibold text-foreground">{item.title}</h4>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+        {item.description}
+      </p>
+      {item.tags?.length ? (
+        <p className="mt-3 flex flex-wrap gap-2">
+          {item.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </p>
+      ) : null}
+      <p className="mt-3 text-sm font-semibold text-brand-red">
+        {formatItemPrice(item.pricingId, item.priceNote)}
+      </p>
+      <a
+        href={waHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-red px-4 text-sm font-semibold text-white hover:bg-brand-red-light"
+      >
+        וואטסאפ
+      </a>
+      <Link
+        href="#wizard-mashup-fixer"
+        className="mt-2 inline-flex min-h-10 items-center justify-center rounded-lg border border-border px-4 text-sm font-semibold text-foreground hover:border-brand-red/40"
+      >
+        טופס
+      </Link>
+    </article>
+  );
+}
+
+export default function MashupMusicOffersSection({ embedded = false }: { embedded?: boolean }) {
   return (
     <div id="pro-offers" className="space-y-14">
-      <div className="max-w-3xl">
-        <h2 className="text-2xl font-semibold text-foreground">אין זמן? נבנה ביחד</h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          בוחרים מסלול — מוכן, מותאם, חבילה — ושולחים בטופס או בוואטסאפ.
-          מסירה עד 3 ימי עסקים.
-        </p>
-      </div>
+      {embedded ? null : (
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-semibold text-foreground">אין זמן? נבנה ביחד</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            בוחרים מסלול (מוכן, מותאם או חבילה) ושולחים בטופס או בוואטסאפ.
+            מסירה עד 3 ימי עסקים.
+          </p>
+        </div>
+      )}
 
       {MASHUP_MUSIC_OFFER_CATEGORIES.map((category) => (
-        <section key={category.id} aria-labelledby={`mashup-offer-${category.id}`}>
-          <h3
-            id={`mashup-offer-${category.id}`}
-            className="text-xl font-semibold text-foreground"
-          >
-            {category.title}
-          </h3>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            {category.intro}
-          </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {category.items.map((item) => {
-              const waHref = buildWhatsAppHref({
-                text: buildOfferWhatsAppText(item.title),
-                utm_source: "website",
-                utm_campaign: "dj_pro_offer",
-              });
-              return (
-                <article
-                  key={item.id}
-                  className="flex flex-col rounded-xl border border-border bg-surface p-5"
-                >
-                  <h4 className="font-semibold text-foreground">{item.title}</h4>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
-                  {item.tags?.length ? (
-                    <p className="mt-3 flex flex-wrap gap-2">
-                      {item.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </p>
-                  ) : null}
-                  <p className="mt-3 text-sm font-semibold text-brand-red">
-                    {formatItemPrice(item.pricingId, item.priceNote)}
-                  </p>
-                  <a
-                    href={waHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-red px-4 text-sm font-semibold text-white hover:bg-brand-red-light"
-                  >
-                    וואטסאפ
-                  </a>
-                  <Link
-                    href="#wizard-mashup-fixer"
-                    className="mt-2 inline-flex min-h-10 items-center justify-center rounded-lg border border-border px-4 text-sm font-semibold text-foreground hover:border-brand-red/40"
-                  >
-                    טופס
-                  </Link>
-                </article>
-              );
-            })}
-          </div>
-        </section>
+        <OfferCategoryBlock key={category.id} category={category} />
       ))}
 
       <div className="flex flex-wrap gap-4 border-t border-border pt-8 text-sm">

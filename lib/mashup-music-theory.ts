@@ -109,7 +109,7 @@ export function inferHarmonyRelation(
     return {
       relation: "adjacent",
       targetBpm,
-      note: "סולמות סמוכים על גלגל Camelot - עובד טוב עם מעבר של 4–8 תיבות.",
+      note: "סולמות סמוכים על גלגל Camelot. עובד טוב עם מעבר של 4-8 תיבות.",
     };
   }
   if (halfTime) {
@@ -159,11 +159,11 @@ export function formatMusicLine(music: MashupMusic): string {
   const keys =
     trackA.keyCamelot === trackB.keyCamelot
       ? trackA.keyCamelot
-      : `${trackA.keyCamelot}→${trackB.keyCamelot}`;
+      : `${trackA.keyCamelot} ל-${trackB.keyCamelot}`;
   const bpm =
     trackA.bpm === trackB.bpm
       ? `${harmony.targetBpm}`
-      : `${trackA.bpm}/${trackB.bpm}→${harmony.targetBpm}`;
+      : `${trackA.bpm}/${trackB.bpm} ל-${harmony.targetBpm}`;
   return `${bpm} BPM · ${keys}`;
 }
 

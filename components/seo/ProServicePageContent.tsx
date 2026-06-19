@@ -9,12 +9,8 @@ import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
-import DjFreeToolsSection from "@/components/seo/DjFreeToolsSection";
-import DjMashupBundlePicker from "@/components/seo/DjMashupBundlePicker";
-import DjMashupIdeasSection from "@/components/seo/DjMashupIdeasSection";
+import DjHubCockpitTabs from "@/components/seo/DjHubCockpitTabs";
 import DjProducerHubIntro from "@/components/seo/DjProducerHubIntro";
-import MashupMusicOffersSection from "@/components/seo/MashupMusicOffersSection";
-import ReadyMashupsCatalogSection from "@/components/seo/ReadyMashupsCatalogSection";
 import { getBlogPostsBySlugs } from "@/lib/data/blog";
 import { PRE_BUILT_SETS_CATALOG } from "@/lib/data/pre-built-sets-catalog";
 import {
@@ -58,7 +54,22 @@ export default function ProServicePageContent({
 
         {serviceId === "mashup-fixer" ? <DjProducerHubIntro /> : null}
 
-        {service.seoParagraphs.length > 0 ? (
+        {serviceId === "mashup-fixer" && service.seoParagraphs.length > 0 ? (
+          <section aria-labelledby="about-mashup-fixer">
+            <h2 id="about-mashup-fixer" className="text-2xl font-semibold text-foreground">
+              {service.aboutHeading ?? "על השירות"}
+            </h2>
+            <div className="mt-4 max-w-3xl space-y-4 text-sm leading-relaxed text-muted-foreground">
+              {service.seoParagraphs.map((p) => (
+                <p key={p.slice(0, 40)}>{p}</p>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {serviceId === "mashup-fixer" ? <DjHubCockpitTabs service={service} /> : null}
+
+        {serviceId !== "mashup-fixer" && service.seoParagraphs.length > 0 ? (
           <section aria-labelledby={`about-${service.id}`}>
             <h2
               id={`about-${service.id}`}
@@ -73,14 +84,6 @@ export default function ProServicePageContent({
             </div>
           </section>
         ) : null}
-
-        {serviceId === "mashup-fixer" ? <DjMashupIdeasSection /> : null}
-
-        {serviceId === "mashup-fixer" ? <DjMashupBundlePicker /> : null}
-
-        {serviceId === "mashup-fixer" ? <ReadyMashupsCatalogSection /> : null}
-
-        {serviceId === "mashup-fixer" ? <DjFreeToolsSection /> : null}
 
         {service.showcasePlaylistId ? (
           <ShowcaseVideoSection playlistId={service.showcasePlaylistId} />
@@ -99,8 +102,6 @@ export default function ProServicePageContent({
             ))}
           </div>
         ) : null}
-
-        {serviceId === "mashup-fixer" ? <MashupMusicOffersSection /> : null}
 
         {service.canonicalNote ? (
           <p className="max-w-2xl text-sm text-muted-foreground">{service.canonicalNote}</p>
@@ -151,9 +152,9 @@ export default function ProServicePageContent({
               </div>
             </details>
           </>
-        ) : (
+        ) : serviceId !== "mashup-fixer" ? (
           <ProServiceWizard service={service} />
-        )}
+        ) : null}
 
         <section
           className="rounded-2xl border border-border bg-surface px-6 py-8 text-center"

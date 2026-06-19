@@ -47,6 +47,8 @@ export default function WeddingPhotographyPageContent() {
       bookSlug={service.slug}
       ctaLabel={WEDDING_PHOTO_HERO.ctaLabel}
       heroGallerySectionId="wedding-gallery-best"
+      pagePath="/photography/wedding"
+      faqs={service.faqs}
       {...heroProps}
       heroScrollTarget={pageHero.heroImageSrc ? "gallery" : undefined}
     >

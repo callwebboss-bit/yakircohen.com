@@ -16,6 +16,8 @@ export type SiteNavCategory = {
   href: string;
   /** קישורים פנימיים - רק בתוך הקטגוריה */
   children: SiteNavLink[];
+  /** 3 קיצורי דרך ממוקדי קהל - מוצגים בראש ה-dropdown בdesktop */
+  featured?: readonly { label: string; href: string }[];
 };
 
 /** סדר תצוגה בתפריט - מקור אמת יחיד (Google priority) */
@@ -381,12 +383,31 @@ export const SITE_NAVIGATION: SiteNavCategory[] = NAV_DISPLAY_ORDER.map(
  * Mobile Drawer ממשיך להשתמש ב-SITE_NAVIGATION המלא.
  */
 export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
-  NAV_CATEGORIES["studio"],
-  NAV_CATEGORIES["podcast"],
+  {
+    ...NAV_CATEGORIES["studio"],
+    featured: [
+      { label: "שיר לחתונה", href: "/studio/recording-song-modiin" },
+      { label: "ברכה לבר מצווה", href: "/studio/blessings/bar-mitzvah" },
+      { label: "ברכה לחתן וכלה", href: "/studio/blessings/bride-groom-blessing" },
+    ],
+  },
+  {
+    ...NAV_CATEGORIES["podcast"],
+    featured: [
+      { label: "פרק ראשון באולפן", href: "/podcast/podcast-studio-modiin" },
+      { label: "עריכת פרק מוכן", href: "/podcast/podcast-editing" },
+      { label: "פודקאסט לעסקים", href: "/podcast/bulk-production" },
+    ],
+  },
   {
     id: "events",
     label: "אירועים",
     href: "/events",
+    featured: [
+      { label: "DJ לחתונה", href: "/events/dj-events" },
+      { label: "עשן כניסה", href: "/events/attractions/wedding-smoking-machine" },
+      { label: "DJ + אטרקציות", href: "/events/wedding-attractions-packages" },
+    ],
     children: [
       { label: "כל שירותי האירועים", href: "/events" },
       { label: "תקליטן לאירועים", href: "/events/dj-events", description: "DJ לחתונות ואירועים" },
@@ -402,11 +423,23 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
       { label: "ציוד הגברה", href: "/events/equipment" },
     ],
   },
-  NAV_CATEGORIES["academy"],
+  {
+    ...NAV_CATEGORIES["academy"],
+    featured: [
+      { label: "קורס DJ", href: "/academy/dj-course" },
+      { label: "שיעורים פרטיים", href: "/academy/private-lessons" },
+      { label: "AI ומוזיקה", href: "/academy/ai-music" },
+    ],
+  },
   {
     id: "pro",
     label: "שירותים נוספים",
     href: "/pro",
+    featured: [
+      { label: "שחזור הקלטה", href: "/online/vocal-fix" },
+      { label: "לעסקים", href: "/business" },
+      { label: "קריינות", href: "/voiceover/services" },
+    ],
     children: [
       { label: "שירותי AI ועריכה", href: "/online", description: "שחזור סאונד, מיקס ותמונות" },
       { label: "שחזור סאונד AI", href: "/online/vocal-fix", description: "ניקוי רעשים ותיקון זיופים" },

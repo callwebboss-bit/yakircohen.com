@@ -64,6 +64,8 @@ export default function StageLedDjPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      pagePath="/events/stage-led-dj"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

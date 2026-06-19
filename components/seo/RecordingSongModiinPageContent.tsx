@@ -87,18 +87,16 @@ export default function RecordingSongModiinPageContent() {
               id="why-original-song-heading"
               className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              למה שיר מקורי באולפן הוא המתנה העוצמתית ביותר לאירוע שלכם?
+              למה שיר מקורי באולפן לאירוע שלכם?
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              שיר DJ שכולם מכירים נשמע טוב בזמן האירוע - ונשכח תוך שבוע. שיר
-              שהקלטתם בעצמכם, עם המילים שלכם, עם הקול שלכם, הוא נכס משפחתי
-              שישמר לנצח. זה ההבדל בין חוויה חד-פעמית לבין משהו שתעבירו
-              מדור לדור.
+              שיר DJ שכולם מכירים מסתיים עם האירוע. שיר שהקלטתם בעצמכם,
+              עם המילים שלכם, עם הקול שלכם, נשמר כקובץ דיגיטלי שניתן לשמוע
+              שוב ולשתף.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              ההורים שמביאים את ילדם לבר מצווה - ויוצאים עם שיר שהילד הקליט
-              בעצמו - לא שוכחים את הרגע הזה לעולם. ולא רק הם: גם הילד גדל
-              יחד עם השיר הזה. עוד 10 שנים הוא יקשיב לו ויחייך.
+              המשפחה מגיעה לאולפן, מקליטים שיר ביחד, ויוצאים עם קובץ שיר
+              אישי. הקלטה שניתן לשמוע שוב שנים אחר כך.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               ובנוסף - השיר שלכם נשמר בשרתי האולפן המאובטחים שלנו.{" "}
@@ -119,7 +117,7 @@ export default function RecordingSongModiinPageContent() {
                 הפקת שיר לאירוע במודיעין - כל סוגי השירים ברמה הגבוהה ביותר
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                מבר מצווה ועד חופה - לכל אירוע יש שיר שיהפוך אותו לבלתי נשכח
+                מבר מצווה ועד חופה - שיר מקורי לכל סוג אירוע
               </p>
             </header>
 
@@ -138,18 +136,14 @@ export default function RecordingSongModiinPageContent() {
                       הקלטת שיר לבר מצווה / שיר לבת מצווה
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      <strong className="text-foreground">
-                        האירוע מתקרב, הילד מתרגש
-                      </strong>
-                      , ואתם רוצים שהכניסה שלו לאולם תהיה עוצמתית - ולא עוד
-                      שיר בנאלי שכולם כבר שמעו. הפתרון: שיר בר מצווה מקורי
-                      שיוצר חיבור מיידי עם הקהל ומנציח את הרגע הגדול שלו
-                      לכל החיים.
+                      לקראת בר/בת המצווה, הרבה משפחות מחפשות
+                      שיר כניסה מקורי. הפתרון: שיר בר מצווה שנכתב ומוקלט
+                      במיוחד לאירוע - עם שם הילד, התאריך ומה שמתאים לסגנון
+                      המשפחה.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      גם ילד שמתביישן להוציא צליל - יוצא מהאולפן עם שיר
-                      שהוא גאה בו. אנחנו לא משחררים הקלטה עד שהילד עצמו
-                      מרוצה מהתוצאה.
+                      גם ילד שלא שר לעולם - מקליט בסביבה שקטה עם ליווי
+                      מקצועי. לא מוסרים הקלטה עד שאחרי אישור סופי.
                     </p>
                   </div>
                 </div>
@@ -166,10 +160,9 @@ export default function RecordingSongModiinPageContent() {
                       הקלטת שיר לחתונה / שיר כניסה לחתונה
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      רגע הכניסה לחופה הוא הרגע שכולם מצלמים, שכולם בוכים,
-                      שכולם זוכרים. שיר שהקלטתם בעצמכם - בקולכם, עם המילים
-                      שלכם - הופך אותו לסרט. הצמרמורת שהאורחים ירגישו? לא
-                      תיגמר.
+                      שיר כניסה לחופה שהכלה או החתן הקליטו בעצמם -
+                      בקולם ועם המילים שלהם - הוא שיר מקורי שנעשה
+                      במיוחד לאירוע.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       הטכנולוגיה שלנו לא הופכת אתכם למחשב - היא פשוט מוציאה
@@ -191,14 +184,13 @@ export default function RecordingSongModiinPageContent() {
                       שירי תודה, שירי אמא/אבא וביצועים משפחתיים קבוצתיים
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      כשסבא, אבא והבן שרים יחד שיר אחד - זה לא סתם הקלטה.
-                      זה רגע שמחבר דורות. שיר תודה לאמא מהילדים, שיר שלושה
-                      אחים לחתונה, כל המשפחה שרה שורה אחת - כולם יבכו,
-                      כולם יצחקו, וכולם ישמרו את זה לנצח.
+                      שיר תודה לאמא מהילדים, שיר שלושה אחים לחתונה,
+                      כל המשפחה שרה שורה אחת - כולם מקליטים יחד
+                      ומקבלים קובץ מוגמר לאירוע.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       מסלולי הקבוצה שלנו מאפשרים לכמה בני משפחה להקליט יחד
-                      או בנפרד - ואנחנו מחברים הכל לקטע אחד מרגש.
+                      או בנפרד - ואנחנו מחברים הכל לקטע אחד מוגמר.
                     </p>
                   </div>
                 </div>
@@ -255,15 +247,15 @@ export default function RecordingSongModiinPageContent() {
               id="no-fear-heading"
               className="mt-4 text-2xl font-semibold text-foreground sm:text-3xl"
             >
-              מפחדים לזייף?
+              לא זמרים?
             </h2>
             <p className="mt-3 text-lg font-medium text-foreground">
-              תנשמו עמוק. בשביל זה אנחנו כאן.
+              רוב הלקוחות שלנו אינם זמרים מקצועיים.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               מעל 500 משפחות ממודיעין, מכבים ורעות הקליטו שיר באולפן - רובן
               בלי שום ניסיון שירה. עם ליווי אישי וטכנולוגיית AI מתקדמת, כל
-              שיר יוצא מרגש ומדויק.
+              שיר יוצא נקי ומדויק.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               {[

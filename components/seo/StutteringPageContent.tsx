@@ -322,6 +322,24 @@ export default function StutteringPageContent() {
           </div>
         </section>
 
+        {/* ─── סרטון נוסף ────────────────────────────────────────────────────── */}
+        <section aria-labelledby="stuttering-video2-heading">
+          <header className="mx-auto mb-6 max-w-2xl text-center">
+            <h2
+              id="stuttering-video2-heading"
+              className="font-serif text-section-title font-semibold text-foreground"
+            >
+              עוד על הגישה שלנו
+            </h2>
+          </header>
+          <div className="mx-auto max-w-2xl">
+            <LazyYouTubeEmbed
+              embedUrl="https://www.youtube.com/embed/BhZ6Fcqyqqc"
+              title="גמגום - טיפול ודיבור חופשי | יקיר כהן הפקות"
+            />
+          </div>
+        </section>
+
         {/* ─── שאלות נפוצות ─────────────────────────────────────────────────── */}
         <FAQAccordion
           title="שאלות נפוצות - גמגום"

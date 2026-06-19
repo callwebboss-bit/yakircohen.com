@@ -47,6 +47,8 @@ export default function WeddingSmokePageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel="מומלץ לעונת החתונות  -  תיאום מוקדם"
+      pagePath="/events/attractions/wedding-smoking-machine"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -65,8 +67,8 @@ export default function WeddingSmokePageContent() {
             עשן כבד לאירועים גדולים
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            מכונות עם 2 צינורות  -  כיסוי אולמות ענקיים ורחבות פתוחות. אפקט
-            קולנועי ברמה אחרת.
+            מכונות עם 2 צינורות  -  כיסוי אולמות ענקיים ורחבות פתוחות. כיסוי
+            כפול ועוצמה גבוהה יותר.
           </p>
           <Link
             href="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events"
@@ -227,8 +229,8 @@ export default function WeddingSmokePageContent() {
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             ב&quot;יקיר כהן הפקות&quot; לא משתמשים בעשן נוזלי זול שחונק את
             האולם. ענן לבן, סמיך וכבד שנצמד לרצפה  -  אתם נראים כאילו רוקדים על
-            ענן, האוויר נשאר נקי והצילום חד ומרגש. מכונות גיבוי וסנכרון מדויק
-            עם ה-DJ  -  אין מקום לשגיאות ברגע הכי חשוב.
+            ענן, האוויר נשאר נקי והצילום חד ומדויק. מכונות גיבוי וסנכרון מדויק
+            עם ה-DJ  -  אין מקום לשגיאות ברגע הקריטי.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
@@ -323,7 +325,7 @@ export default function WeddingSmokePageContent() {
             id="smoke-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            ליצירת הרגע המושלם
+            לתיאום האירוע
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             תאריך, סוג אירוע ומיקום  -  נחזור עם הצעה מדויקת. גם בטלפון:{" "}

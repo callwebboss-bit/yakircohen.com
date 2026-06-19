@@ -63,7 +63,7 @@ export const PODCAST_HUB_TRACKS = [
   {
     href: "/podcast/podcast-with-grandpa",
     title: "פודקאסט עם סבא וסבתא",
-    description: "חוויה משפחתית  -  פודקאסט + הקלטת שיר, מזכרת לנצח.",
+    description: "חוויה משפחתית  -  פודקאסט + הקלטת שיר, קובץ דיגיטלי שנשמר.",
   },
   {
     href: "/podcast/podcast-recording",
@@ -106,7 +106,7 @@ const VALUE_PILLARS = [
   {
     emoji: "🎙️",
     title: "ציוד מקצועי ברמה גבוהה",
-    body: "מיקרופונים Shure & Rode, בידוד אקוסטי מלא, ו-3 חללי הקלטה לבחירה - הסאונד שלכם יישמע כמו רדיו, לא כמו שיחת זום.",
+    body: "מיקרופונים Shure & Rode, בידוד אקוסטי מלא, ו-3 חללי הקלטה לבחירה - הסאונד בטווח שידורי מקצועי, לא כמו שיחת זום.",
   },
   {
     emoji: "🤖",

@@ -71,7 +71,7 @@ export default function WeddingPackagesPageContent() {
 
         <section className="max-w-3xl" aria-labelledby="intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מתכננים אירוע ורוצים שהכול יהיה מושלם? ספק אחד ל-DJ, אפקטים,
+            מתכננים אירוע ורוצים שהכול יעבוד? ספק אחד ל-DJ, אפקטים,
             הגברה ותיאום  -  הכול עובד ביחד ברגע הנכון.
           </p>
         </section>

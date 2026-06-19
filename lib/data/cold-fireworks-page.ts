@@ -28,8 +28,8 @@ export const COLD_FIREWORKS_HIGHLIGHTS: readonly { emoji: string; title: string;
   },
   {
     emoji: "⏱️",
-    title: "תזמון מושלם",
-    text: "שליטה אלחוטית שמתמזגת עם מוזיקה ותאורה.",
+    title: "תזמון מדויק",
+    text: "שליטה אלחוטית שמסונכרנת עם מוזיקה ותאורה.",
   },
   {
     emoji: "🛡️",
@@ -43,7 +43,7 @@ export const COLD_FIREWORKS_USE_CASES: readonly ColdFireworksUseCase[] = [
     emoji: "💍",
     title: "חתונות  -  כניסה וחופה",
     description:
-      "כניסה דרמטית עם זיקוקים משני הצדדים, או אפקט חתימה עם ניצוצות זהובות  -  מצטלם מושלם.",
+      "כניסה דרמטית עם זיקוקים משני הצדדים, או אפקט חתימה עם ניצוצות זהובות  -  מצטלם היטב.",
   },
   {
     emoji: "🎂",

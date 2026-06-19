@@ -42,6 +42,8 @@ export default function SmokeBubbleMachinePageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel="היט 2026  -  ביקוש גבוה בעונת האירועים"
+      pagePath="/events/attractions/bubble-machine/smoke-bubble-machine-events"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

@@ -269,15 +269,17 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
             disabled={loading}
             className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light disabled:opacity-60"
           >
-            {loading ? "מחשב הצעה..." : "קבלו הצעה משוערת"}
+            {loading ? "מכינים הצעה..." : "קבלו הצעה משוערת"}
           </button>
         </form>
       ) : (
         <div className="mt-6 space-y-4">
-          {source ? (
+          {source && service.id !== "mashup-fixer" ? (
             <p className="text-xs text-muted-foreground">
-              {source === "ai" ? "הצעה חכמה מהאתר - יקיר מאשר לפני ביצוע" : "הערכה לפי מחשבון האתר"}
+              {source === "ai" ? "הערכה ראשונית. יקיר מאשר לפני ביצוע" : "הערכה לפי מחשבון האתר"}
             </p>
+          ) : source && service.id === "mashup-fixer" ? (
+            <p className="text-xs text-muted-foreground">יקיר מאשר לפני ביצוע</p>
           ) : null}
           <p className="text-sm font-medium text-foreground">{result.summary}</p>
           {result.recommendations.length > 0 ? (

@@ -1,16 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import VoiceSearchMicButton from "@/components/ui/VoiceSearchMicButton";
+import { useVoiceSearch } from "@/hooks/useVoiceSearch";
 import {
   POPULAR_SEARCH_QUERIES,
   getSiteSearchIndex,
   type SiteSearchItem,
 } from "@/lib/data/site-search";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
 const CATEGORY_CUBES = [
   {
@@ -97,9 +101,11 @@ function getSuggestedHrefFromPathname(): string | null {
 }
 
 export default function NotFoundContent() {
+  const router = useRouter();
   const searchIndex = useMemo(() => getSiteSearchIndex(), []);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const voiceAutoNavigateRef = useRef(false);
   const suggestedHref = useSyncExternalStore(
     () => () => {},
     getSuggestedHrefFromPathname,
@@ -129,7 +135,41 @@ export default function NotFoundContent() {
   const runSearch = useCallback((value: string) => {
     setQuery(value);
     setOpen(true);
+    voiceAutoNavigateRef.current = false;
   }, []);
+
+  const onNavigate = useCallback(
+    (href: string, _label: string) => {
+      setOpen(false);
+      setQuery("");
+      router.push(href);
+    },
+    [router],
+  );
+
+  const onSearchQuery = useCallback((value: string, source: "final" | "interim") => {
+    setQuery(value);
+    setOpen(true);
+    if (source === "final") voiceAutoNavigateRef.current = true;
+  }, []);
+
+  const {
+    isSupported: voiceSupported,
+    isListening,
+    errorMessage: voiceError,
+    toggleListening,
+    clearError,
+    liveMessage,
+  } = useVoiceSearch({ onNavigate, onSearchQuery });
+
+  useEffect(() => {
+    if (!voiceAutoNavigateRef.current || !query.trim()) return;
+    if (results.length !== 1) return;
+    voiceAutoNavigateRef.current = false;
+    setOpen(false);
+    setQuery("");
+    router.push(results[0].href);
+  }, [query, results, router]);
 
   const searchWaHref = buildWhatsAppHref({
     text: `${buildServiceWhatsAppText("חיפוש באתר")} - חיפשתי "${query.trim()}" ולא מצאתי.`,
@@ -207,15 +247,39 @@ export default function NotFoundContent() {
             type="search"
             role="combobox"
             value={query}
-            onChange={(e) => runSearch(e.target.value)}
+            onChange={(e) => {
+              runSearch(e.target.value);
+              clearError();
+            }}
             onFocus={() => setOpen(true)}
             placeholder="חפשו שירות, שיר, אולפן..."
-            className="min-h-11 w-full rounded-xl border border-border bg-surface px-5 py-4 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
+            className={cn(
+              "min-h-11 w-full rounded-xl border border-border bg-surface py-4 ps-5 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+              voiceSupported ? "pe-14" : "pe-5",
+              isListening && "border-brand-red ring-2 ring-brand-red/30",
+            )}
             aria-label="חיפוש שירותים"
             aria-autocomplete="list"
             aria-expanded={open}
             aria-controls="not-found-search-results"
           />
+          {voiceSupported ? (
+            <VoiceSearchMicButton
+              isListening={isListening}
+              onClick={toggleListening}
+              size="md"
+              className="absolute end-2 top-1/2 -translate-y-1/2"
+            />
+          ) : null}
+          <div role="status" aria-live="polite" className="sr-only">
+            {liveMessage}
+            {voiceError}
+          </div>
+          {voiceError && !isListening ? (
+            <p className="mt-1 text-xs text-brand-red" role="alert">
+              {voiceError}
+            </p>
+          ) : null}
           {open ? (
             <div
               id="not-found-search-results"

@@ -35,7 +35,7 @@ export default function BlessingsBrideGroomPageContent() {
           id="bride-groom-audio-heading"
           eyebrow="שמעו את ההבדל"
           title="לפני ואחרי: איך נשמעת ברכה מלוטשת?"
-          description="רוב האנשים שמקליטים ברכה לא עשו זאת מעולם. העריכה היא זו שהופכת את הרגע לבלתי נשכח."
+          description="רוב האנשים שמקליטים ברכה לא עשו זאת מעולם. העריכה היא זו שמלטשת את ההקלטה לתוצאה מוכנה להשמעה."
         />
         <div className="mt-8">
           <BlessingsBrideGroomBeforeAfter />

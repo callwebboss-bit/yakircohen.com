@@ -5,11 +5,15 @@ import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   PITCH_AUDIENCE,
+  PITCH_BEFORE_AFTER_DEMOS,
+  PITCH_CORRECTION_VIDEOS,
   PITCH_MANUAL_METHOD,
   PITCH_PRICE_INCLUDED,
   PITCH_STUDIO_EXPERIENCE,
   PITCH_WHO_FOR,
 } from "@/lib/data/online-pitch-correction-page";
+import { YOUTUBE_CHANNEL_URL } from "@/lib/data/youtube-embeds";
+import { getAudioDemo } from "@/lib/data/audio-demos";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
@@ -192,7 +196,7 @@ export default function OnlinePitchCorrectionPageContent() {
         </div>
       </section>
 
-      {/* Before/After Audio Demo */}
+      {/* Before/After Audio Demos */}
       <section className="border-t border-border bg-surface py-12">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <header className="mx-auto max-w-2xl text-center">
@@ -200,16 +204,36 @@ export default function OnlinePitchCorrectionPageContent() {
               שמעו את ההבדל בעצמכם
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              אותו קטע שירה - לפני ואחרי עריכה ידנית של תיקון זיופים.
+              שתי דוגמאות אמיתיות. אותו קטע לפני ואחרי תיקון זיופים ידני.
             </p>
           </header>
-          <div className="mx-auto mt-8 max-w-2xl">
-            <AudioShowcase
-              variant="vocal"
-              context="page"
-              beforeSrc="/audio/pitch-raw.mp3"
-              afterSrc="/audio/pitch-tuned.mp3"
-            />
+          <div className="mx-auto mt-10 max-w-2xl space-y-12">
+            {PITCH_BEFORE_AFTER_DEMOS.map((item) => {
+              const demo = getAudioDemo(item.demoId);
+              return (
+                <div key={item.demoId} className="space-y-4">
+                  <div className="text-center">
+                    <h3 className="text-base font-semibold text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+                  </div>
+                  <AudioShowcase
+                    variant="vocal"
+                    context={item.compact ? "compact" : "page"}
+                    beforeSrc={demo.beforeSrc}
+                    afterSrc={demo.afterSrc}
+                    beforeLabel={demo.beforeLabel}
+                    afterLabel={demo.afterLabel}
+                    storageKey={demo.storageKey}
+                    beforeNote={demo.beforeNote}
+                    afterNote={demo.afterNote}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -271,11 +295,26 @@ export default function OnlinePitchCorrectionPageContent() {
       {/* Video Tutorial */}
       <div className="border-t border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
         <ShowcaseVideoSection
-          kicker="הדרכת וידאו"
+          kicker="דוגמאות וידאו"
           heading="תיקון זיופים מא׳ עד ת׳"
-          subheading="צפו בתהליך השלם - מקובץ גולמי ועד גרסה מלוטשת"
-          videos={[{ videoId: "aTGqFnijz0Q", title: "הדרכת תיקון זיופים - Pitch Correction" }]}
+          subheading="צפו בתהליך — מקליטים במקום אחר, תיקון מרחוק, והדרכה מלאה"
+          videos={PITCH_CORRECTION_VIDEOS}
         />
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+          עוד דוגמאות בתיק העבודות בערוץ YouTube שלנו —{" "}
+          <a
+            href={YOUTUBE_CHANNEL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-brand-red hover:underline"
+          >
+            @Yakircohen
+          </a>
+          {" · "}
+          <Link href="/portfolio" className="font-semibold text-brand-red hover:underline">
+            תיק עבודות באתר
+          </Link>
+        </p>
       </div>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">

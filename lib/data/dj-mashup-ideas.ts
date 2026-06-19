@@ -10,6 +10,7 @@ import type {
   MashupYoutubeDemo,
 } from "@/lib/mashup-music-theory";
 import { enrichMashupIdea } from "@/lib/data/dj-mashup-music-meta";
+import { humanizeMashupCopy } from "@/lib/mashup-copy-humanize";
 
 export type { MashupMusic, MashupYoutubeDemo };
 
@@ -80,6 +81,37 @@ export const MASHUP_TIER_LABELS: Record<MashupTier, string> = {
 };
 
 export const MASHUP_TIER_ORDER: readonly MashupTier[] = ["יצירתי", "רחבה"] as const;
+
+export const MASHUP_IDEAS_INITIAL_VISIBLE = 8;
+export const MASHUP_IDEAS_EXPAND_BATCH = 8;
+
+function withHumanCopy(idea: DjMashupIdea): DjMashupIdea {
+  const music = idea.music
+    ? {
+        ...idea.music,
+        harmony: idea.music.harmony?.note
+          ? {
+              ...idea.music.harmony,
+              note: humanizeMashupCopy(idea.music.harmony.note),
+            }
+          : idea.music.harmony,
+      }
+    : undefined;
+
+  return {
+    ...idea,
+    hook: idea.hook ? humanizeMashupCopy(idea.hook) : undefined,
+    whyItWorks: humanizeMashupCopy(idea.whyItWorks),
+    mergeTip: humanizeMashupCopy(idea.mergeTip),
+    crowdProfile: humanizeMashupCopy(idea.crowdProfile),
+    bpmHint: idea.bpmHint ? humanizeMashupCopy(idea.bpmHint) : undefined,
+    keyHint: idea.keyHint ? humanizeMashupCopy(idea.keyHint) : undefined,
+    technicalNote: idea.technicalNote ? humanizeMashupCopy(idea.technicalNote) : undefined,
+    upgradePlus: idea.upgradePlus ? humanizeMashupCopy(idea.upgradePlus) : undefined,
+    researchSource: humanizeMashupCopy(idea.researchSource),
+    music,
+  };
+}
 
 export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
   {
@@ -774,7 +806,7 @@ export function getMashupIdeas(filters: MashupIdeaFilters = {}): readonly DjMash
   const tier = filters.tier ?? "הכל";
   const hasDemo = filters.hasDemo ?? false;
 
-  let list = DJ_MASHUP_IDEAS.map(enrichMashupIdea).filter((idea) => {
+  let list = DJ_MASHUP_IDEAS.map((raw) => withHumanCopy(enrichMashupIdea(raw))).filter((idea) => {
     if (moment !== "הכל" && idea.moment !== moment) return false;
     if (tier !== "הכל" && ideaTier(idea) !== tier) return false;
     if (hasDemo && !idea.youtubeDemo) return false;
@@ -796,13 +828,13 @@ export function getMashupIdeasByMoment(moment: MashupMoment | "הכל"): readonl
 
 export function getMashupIdeaById(id: string): DjMashupIdea | undefined {
   const raw = DJ_MASHUP_IDEAS.find((i) => i.id === id);
-  return raw ? enrichMashupIdea(raw) : undefined;
+  return raw ? withHumanCopy(enrichMashupIdea(raw)) : undefined;
 }
 
 export function buildMashupIdeaWhatsAppText(idea: DjMashupIdea): string {
   const label = idea.tier === "יצירתי" ? "שילוב יצירתי" : "רעיון מאשאפ";
   const musicLine = idea.music
-    ? `\n${idea.music.harmony.targetBpm} BPM, ${idea.music.trackA.keyCamelot}→${idea.music.trackB.keyCamelot}`
+    ? `\n${idea.music.harmony.targetBpm} BPM, ${idea.music.trackA.keyCamelot} ל-${idea.music.trackB.keyCamelot}`
     : "";
   return `שלום, ראיתי באתר ${label}:\n${idea.songA} × ${idea.songB}${musicLine}\nרוצה גרסה מוכנה / עריכה מלאה.`;
 }

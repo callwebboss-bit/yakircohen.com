@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   buildMashupIdeaWhatsAppText,
   getMashupIdeas,
+  MASHUP_IDEAS_EXPAND_BATCH,
+  MASHUP_IDEAS_INITIAL_VISIBLE,
   MASHUP_MOMENT_LABELS,
   MASHUP_MOMENT_ORDER,
   MASHUP_TIER_LABELS,
@@ -57,12 +59,17 @@ function writeWishlist(ids: string[]) {
   localStorage.setItem(WISHLIST_KEY, JSON.stringify(ids));
 }
 
-export default function DjMashupIdeasSection() {
+type DjMashupIdeasSectionProps = {
+  embedded?: boolean;
+};
+
+export default function DjMashupIdeasSection({ embedded = false }: DjMashupIdeasSectionProps) {
   const [tierFilter, setTierFilter] = useState<TierFilter>("יצירתי");
   const [momentFilter, setMomentFilter] = useState<MomentFilter>("הכל");
   const [demoOnly, setDemoOnly] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [youtubeDemo, setYoutubeDemo] = useState<MashupYoutubeDemo | null>(null);
+  const [visibleCount, setVisibleCount] = useState(MASHUP_IDEAS_INITIAL_VISIBLE);
 
   useEffect(() => {
     setWishlist(readWishlist());
@@ -73,6 +80,13 @@ export default function DjMashupIdeasSection() {
     tier: tierFilter,
     hasDemo: demoOnly,
   });
+
+  useEffect(() => {
+    setVisibleCount(MASHUP_IDEAS_INITIAL_VISIBLE);
+  }, [momentFilter, tierFilter, demoOnly]);
+
+  const visibleIdeas = ideas.slice(0, visibleCount);
+  const remaining = ideas.length - visibleIdeas.length;
 
   const toggleWishlist = useCallback((id: string) => {
     setWishlist((prev) => {
@@ -90,18 +104,29 @@ export default function DjMashupIdeasSection() {
 
   return (
     <>
-      <section id="mashup-ideas" aria-labelledby="mashup-ideas-heading">
-        <h2 id="mashup-ideas-heading" className="text-2xl font-semibold text-foreground">
-          שילובים עם BPM, סולם והרמוניה
-        </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-          לא רק רעיונות — לכל שילוב יש קצב, סולם Camelot והסבר למה זה מחזיק מוזיקלית.
-          אפשר לקחת את זה ולערוך בדרך שלך, או לבקש גרסה מהאולפן.
-        </p>
+      <section
+        id="mashup-ideas"
+        aria-labelledby={embedded ? undefined : "mashup-ideas-heading"}
+      >
+        {embedded ? null : (
+          <>
+            <h2 id="mashup-ideas-heading" className="text-2xl font-semibold text-foreground">
+              שילובים עם BPM, סולם והרמוניה
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+              לכל שילוב יש קצב, סולם Camelot והסבר למה זה מחזיק מוזיקלית.
+              אפשר לקחת ולערוך לבד, או לבקש גרסה מהאולפן.
+            </p>
+          </>
+        )}
 
-        <div className="mt-6 space-y-3">
+        <div className={cn("space-y-3", embedded ? "mt-0" : "mt-6")}>
           <p className="text-xs font-medium text-muted-foreground">סוג שילוב</p>
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="סינון לפי סוג">
+          <div
+            className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible"
+            role="tablist"
+            aria-label="סינון לפי סוג"
+          >
             <FilterChip active={tierFilter === "הכל"} onClick={() => setTierFilter("הכל")}>
               הכל
             </FilterChip>
@@ -117,7 +142,11 @@ export default function DjMashupIdeasSection() {
           </div>
 
           <p className="pt-2 text-xs font-medium text-muted-foreground">רגע באירוע</p>
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="סינון לפי רגע באירוע">
+          <div
+            className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible"
+            role="tablist"
+            aria-label="סינון לפי רגע באירוע"
+          >
             <FilterChip active={momentFilter === "הכל"} onClick={() => setMomentFilter("הכל")}>
               הכל
             </FilterChip>
@@ -136,8 +165,14 @@ export default function DjMashupIdeasSection() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {ideas.map((idea) => (
+        {ideas.length > 0 ? (
+          <p className="mt-4 text-xs text-muted-foreground">
+            מציגים {visibleIdeas.length} מתוך {ideas.length} שילובים
+          </p>
+        ) : null}
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {visibleIdeas.map((idea) => (
             <IdeaCard
               key={idea.id}
               idea={idea}
@@ -148,19 +183,35 @@ export default function DjMashupIdeasSection() {
           ))}
         </div>
 
+        {remaining > 0 ? (
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() =>
+                setVisibleCount((c) =>
+                  Math.min(c + MASHUP_IDEAS_EXPAND_BATCH, ideas.length),
+                )
+              }
+              className="min-h-11 rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
+              טען עוד {Math.min(MASHUP_IDEAS_EXPAND_BATCH, remaining)} שילובים
+            </button>
+          </div>
+        ) : null}
+
         {ideas.length === 0 ? (
           <p className="mt-6 text-sm text-muted-foreground">
-            אין שילובים בסינון הזה — נסו &quot;הכל&quot; או בטלו את פילטר היוטיוב.
+            אין שילובים בסינון הזה. נסו &quot;הכל&quot; או בטלו את פילטר היוטיוב.
           </p>
         ) : null}
 
         <p className="mt-4 text-xs text-muted-foreground">
-          השראה בלבד — לא הורדה מהאתר. דוגמות יוטיוב הן רפרנס או גרסה מהאולפן.
+          השראה בלבד, לא הורדה מהאתר. דוגמות יוטיוב הן רפרנס או גרסה מהאולפן.
         </p>
       </section>
 
       {wishlist.length > 0 ? (
-        <div className="fixed bottom-4 left-4 right-4 z-40 mx-auto flex max-w-lg flex-wrap items-center justify-between gap-3 rounded-xl border border-brand-red/30 bg-surface px-4 py-3 shadow-lg sm:left-auto">
+        <div className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-4 right-4 z-40 mx-auto flex max-w-lg flex-wrap items-center justify-between gap-3 rounded-xl border border-brand-red/30 bg-surface px-4 py-3 shadow-lg sm:bottom-4 sm:left-auto">
           <p className="text-sm text-foreground">
             {wishlist.length} שילובים שמורים
           </p>
@@ -208,7 +259,10 @@ function IdeaCard({
   });
 
   return (
-    <article className={cn("flex flex-col rounded-xl border p-5", TIER_STYLES[tier])}>
+    <article
+      id={`mashup-idea-${idea.id}`}
+      className={cn("scroll-mt-28 flex flex-col rounded-xl border p-4 sm:p-5", TIER_STYLES[tier])}
+    >
       <div className="flex flex-wrap items-center gap-2">
         {tier === "יצירתי" ? (
           <span className="rounded-full bg-brand-red px-2.5 py-0.5 text-xs font-semibold text-white">
@@ -296,7 +350,7 @@ function IdeaCard({
           </button>
         ) : (
           <span className="inline-flex min-h-9 items-center px-1 text-xs text-muted-foreground">
-            אין דוגמה עדיין — אפשר להזמין
+            אין דוגמה עדיין. אפשר להזמין
           </span>
         )}
         <button
@@ -354,7 +408,7 @@ function FilterChip({
       aria-selected={active}
       onClick={onClick}
       className={cn(
-        "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
+        "shrink-0 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
         active
           ? "bg-brand-red text-white"
           : "border border-border bg-surface text-muted-foreground hover:border-brand-red/30",

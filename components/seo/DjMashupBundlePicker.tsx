@@ -8,27 +8,36 @@ import {
 } from "@/lib/data/mashup-bundle-pricing";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
 function buildBundleWaText(bundleId: string, title: string): string {
   return `שלום, מעוניין/ת ב${title} ממרכז הדיג'יי.\nאשמח לפרטים ולרשימת שילובים.`;
 }
 
-export default function DjMashupBundlePicker() {
+export default function DjMashupBundlePicker({ embedded = false }: { embedded?: boolean }) {
   return (
     <section
       id="mashup-bundles"
-      className="scroll-mt-24 rounded-2xl border border-brand-red/15 bg-gradient-to-br from-brand-red/5 to-transparent p-6 sm:p-8"
-      aria-labelledby="mashup-bundles-heading"
+      className={cn(
+        "scroll-mt-24",
+        !embedded &&
+          "rounded-2xl border border-brand-red/15 bg-gradient-to-br from-brand-red/5 to-transparent p-6 sm:p-8",
+      )}
+      aria-labelledby={embedded ? undefined : "mashup-bundles-heading"}
     >
-      <h2 id="mashup-bundles-heading" className="text-xl font-semibold text-foreground sm:text-2xl">
-        כמה מאשאפים? יש הנחה
-      </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        דיג&apos;יי עם עונה עמוסה לא צריך לשלם מחיר בודד על כל שילוב.
-        בוחרים חבילה, שולחים רשימה — מקבלים קבצים מוכנים לנגן.
-      </p>
+      {embedded ? null : (
+        <>
+          <h2 id="mashup-bundles-heading" className="text-xl font-semibold text-foreground sm:text-2xl">
+            כמה מאשאפים? יש הנחה
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            דיג&apos;יי עם עונה עמוסה לא צריך לשלם מחיר בודד על כל שילוב.
+            בוחרים חבילה, שולחים רשימה ומקבלים קבצים מוכנים לנגן.
+          </p>
+        </>
+      )}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className={cn("grid gap-4 sm:grid-cols-2", embedded ? "mt-0" : "mt-6")}>
         {MASHUP_BUNDLE_OFFERS.map((offer) => {
           const retail = getBundleRetailTotal(offer);
           const bundlePrice = getExVat(offer.pricingId);

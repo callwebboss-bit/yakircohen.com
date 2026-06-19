@@ -23,6 +23,8 @@ export default function EventFilmingPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       heroGallerySectionId="event-filming-gallery-best"
+      pagePath="/video/event-filming"
+      faqs={service.faqs}
       {...heroProps}
       heroScrollTarget={pageHero.heroImageSrc ? "gallery" : undefined}
     >

@@ -35,14 +35,13 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             id="hero-heading"
             className="font-serif text-hero font-semibold text-foreground"
           >
-            יוצאים עם תוצאה מקצועית - בלי לשרוף זמן וכסף על ניסויים.
+            אולפן הקלטות, פודקאסט ואירועים במודיעין. תהליך מובנה מההקלטה ועד לקובץ סופי.
           </h1>
           <p className="text-lead mt-6 max-w-xl text-muted-foreground">
-            נמאס מפרויקטים שלא מתקדמים?{" "}
             <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין -
-            ליווי מקצועי עד לקובץ מוכן. 20+ שנים - 5,000+ לקוחות.
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין.
+            ליווי טכני מלא מתחילת הפרויקט ועד המסירה. 20 שנות ניסיון, 5,000 פרויקטים.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             {/* IMPROVED: Button primitive for WhatsApp CTA */}

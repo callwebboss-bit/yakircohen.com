@@ -7,6 +7,7 @@ export type AudioDemoId =
   | "podcast-zoom-cleanup"
   | "recording-vocal-polish"
   | "pitch-correction"
+  | "pitch-correction-remote"
   | "blessing-mix"
   | "full-production"
   | "funny-ringtone"
@@ -104,6 +105,19 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     status: "ready",
     recommendedPages: ["/online/vocal-fix/pitch-correction"],
     storageKey: "pitch-correction",
+  },
+  {
+    id: "pitch-correction-remote",
+    beforeSrc: "/audio/pitch-remote-before.mp3",
+    afterSrc: "/audio/pitch-remote-after.mp3",
+    beforeLabel: "לפני תיקון זיופים",
+    afterLabel: "אחרי תיקון זיופים",
+    beforeNote: "הוקלט ונערך באולפן אחר, או אפילו בטלפון",
+    afterNote: "תיקון זיופים מרחוק בלבד",
+    difficulty: "moderate",
+    status: "ready",
+    recommendedPages: ["/online/vocal-fix/pitch-correction"],
+    storageKey: "pitch-correction-remote",
   },
   {
     id: "blessing-mix",

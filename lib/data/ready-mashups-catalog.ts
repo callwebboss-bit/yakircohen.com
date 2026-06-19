@@ -19,7 +19,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
   },
   {
     id: "ready_pantera_kavod",
-    title: "פנתרה → יעשו לנו כבוד",
+    title: "פנתרה ו-יעשו לנו כבוד",
     ideaId: "eyal_pantera_omer_kavod",
     description: "מעבר בין שני ענקי המזרחית, בלי לעצור את הרחבה.",
     priceExVat: 650,
@@ -27,7 +27,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
   },
   {
     id: "ready_doctor_pantera",
-    title: "דוקטור → פנתרה",
+    title: "דוקטור ו-פנתרה",
     ideaId: "eyal_doctor_lior_pantera",
     description: "build לדרופ שכולם מכירים - גרסה מהאולפן.",
     priceExVat: 650,
@@ -35,7 +35,7 @@ export const READY_MASHUPS_CATALOG: readonly ReadyMashup[] = [
   },
   {
     id: "ready_ahuvati_cant_hold",
-    title: "אהובתי → Can't Hold Us",
+    title: "אהובתי ו-Can't Hold Us",
     ideaId: "omer_ahuvati_cant_hold",
     description: "רגש עומר, דרופ שמאחד גם מי שלא שומע מזרחית.",
     priceExVat: 650,

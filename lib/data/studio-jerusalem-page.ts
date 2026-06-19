@@ -30,7 +30,7 @@ export const JERUSALEM_POPULAR_SERVICES: readonly JerusalemServiceLink[] = [
   {
     emoji: "🎵",
     title: "הקלטת שירים וברכות",
-    description: "מתנה מרגשת להורים, לסבים או לחברים.",
+    description: "מתנה מוקלטת להורים, לסבים או לחברים.",
     href: "/studio/blessings",
   },
   {
@@ -48,7 +48,7 @@ export const JERUSALEM_POPULAR_SERVICES: readonly JerusalemServiceLink[] = [
   {
     emoji: "🎁",
     title: "שיר במתנה",
-    description: "המתנה הכי מקורית  -  שיר או קליפ.",
+    description: "מתנה מקורית  -  שיר או קליפ מוקלט.",
     href: "/studio/blessings/video-clip",
   },
 ] as const;

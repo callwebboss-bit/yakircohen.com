@@ -240,7 +240,7 @@ export default function PrivateLessonsPage() {
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
             הזמינו עכשיו שיעור פרטי ממוקד והתחילו להתקדם במהירות וביעילות
-            בתחום שמרגש אתכם.
+            בתחום שבחרתם.
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link

@@ -33,6 +33,8 @@ export default function PhotographyEventsPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       heroGallerySectionId="photography-events-gallery"
+      pagePath="/photography/events"
+      faqs={service.faqs}
       {...heroProps}
       heroScrollTarget={pageHero.heroImageSrc ? "gallery" : undefined}
     >

@@ -33,11 +33,11 @@ export const SLIDESHOW_INCLUDED: readonly { title: string; description: string }
   },
   {
     title: "מוזיקה וטקסטים",
-    description: "פסקול מרגש (שלכם או מותאם), שמות, תאריכים וציטוטים.",
+    description: "פסקול מותאם (שלכם או שנבחר יחד), שמות, תאריכים וציטוטים.",
   },
   {
     title: "פורמט הקרנה",
-    description: "קובץ וידאו מושלם לכל סוג מסך  -  אולם, מקרן או טלוויזיה.",
+    description: "קובץ וידאו מוכן לכל סוג מסך  -  אולם, מקרן או טלוויזיה.",
   },
 ] as const;
 
@@ -49,7 +49,7 @@ export const SLIDESHOW_AUDIENCES: readonly {
   {
     emoji: "💕",
     title: "חתונות",
-    description: "מצגת על החתן והכלה  -  מילדות ועד היום. מרגש לכולם.",
+    description: "מצגת על החתן והכלה  -  מילדות ועד היום.",
   },
   {
     emoji: "🌈",

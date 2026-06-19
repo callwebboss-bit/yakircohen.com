@@ -21,8 +21,8 @@ export const CONFETTI_HIGHLIGHTS: readonly { emoji: string; title: string; text:
   },
   {
     emoji: "⏱️",
-    title: "תזמון מושלם",
-    text: "שליטה אלחוטית שמתמזגת עם מוזיקה ותאורה.",
+    title: "תזמון מדויק",
+    text: "שליטה אלחוטית שמסונכרנת עם מוזיקה ותאורה.",
   },
   {
     emoji: "🛡️",
@@ -44,7 +44,7 @@ export const CONFETTI_STYLES: readonly ConfettiStyle[] = [
 export const CONFETTI_BENEFITS: readonly { title: string; description: string }[] = [
   {
     title: "אפקט WOW אמיתי",
-    description: "סנכרון מושלם עם המוזיקה  -  עד 30 מטר באוויר.",
+    description: "סנכרון מדויק עם המוזיקה  -  עד 30 מטר באוויר.",
   },
   {
     title: "בטיחותי",

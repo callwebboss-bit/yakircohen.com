@@ -23,7 +23,7 @@ export const BUBBLE_HIGHLIGHTS: readonly { emoji: string; title: string; text: s
   {
     emoji: "🛡️",
     title: "חומר נגד החלקה",
-    text: "פתרון מושלם לסלואו, ריקוד ראשון או רחבה חלקה  -  בטיחות כחובה.",
+    text: "פתרון מקצועי לסלואו, ריקוד ראשון או רחבה חלקה  -  בטיחות כחובה.",
   },
   {
     emoji: "✨",
@@ -32,8 +32,8 @@ export const BUBBLE_HIGHLIGHTS: readonly { emoji: string; title: string; text: s
   },
   {
     emoji: "💕",
-    title: "תזמון מושלם",
-    text: "שליטה אלחוטית שמתמזגת עם מוזיקה ותאורה  -  שירות לכל הארץ.",
+    title: "תזמון מדויק",
+    text: "שליטה אלחוטית שמסונכרנת עם מוזיקה ותאורה  -  שירות לכל הארץ.",
   },
 ] as const;
 
@@ -41,7 +41,7 @@ export const BUBBLE_PRODUCT_TYPES: readonly BubbleProductType[] = [
   {
     emoji: "🌫️",
     title: "בועות סבון עשן",
-    description: "בועות זוהרות מלאות עשן מסתורי  -  מושלם לסלואו וכניסות.",
+    description: "בועות זוהרות מלאות עשן מסתורי  -  מתאים לסלואו וכניסות.",
   },
   {
     emoji: "🌈",

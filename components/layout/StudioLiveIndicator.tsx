@@ -1,21 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-function isStudioLive(): boolean {
-  const now = new Date();
-  const day = now.getDay(); // 0=Sun ... 6=Sat
-  const hour = now.getHours();
-  if (day === 6) return false; // Saturday closed
-  if (day === 5) return hour >= 9 && hour < 14; // Friday 9-14
-  return hour >= 9 && hour < 20; // Sun-Thu 9-20
-}
+import { isStudioOpen } from "@/lib/studio-hours";
 
 export default function StudioLiveIndicator() {
   const [live, setLive] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => setLive(isStudioLive()));
+    queueMicrotask(() => setLive(isStudioOpen()));
   }, []);
 
   // OPTIMIZED: reserved corner slot - client time (SSG-safe) without layout shift on reveal

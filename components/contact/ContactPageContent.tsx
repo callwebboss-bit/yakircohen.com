@@ -164,17 +164,7 @@ function buildQuizWhatsAppMessage(params: {
   });
 }
 
-function getAvailabilityLabel(): string {
-  const now = new Date();
-  const day = now.getDay();
-  const hour = now.getHours();
-  if ((day === 5 && hour >= 14) || day === 6) {
-    return 'שבת שלום - נחזור במוצ"ש';
-  }
-  return hour >= 9 && hour <= 20
-    ? "זמין עכשיו - ממוצע תגובה 15 דקות"
-    : "חוזרים ב-9:00 - ממוצע תגובה 15 דקות";
-}
+import { getContactAvailabilityLabel } from "@/lib/studio-hours";
 
 export default function ContactPageContent() {
   const [step, setStep] = useState(1);
@@ -186,7 +176,7 @@ export default function ContactPageContent() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [availability] = useState(getAvailabilityLabel);
+  const [availability] = useState(getContactAvailabilityLabel);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const { submitLead } = useLeadSubmit();

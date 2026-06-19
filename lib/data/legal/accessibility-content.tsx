@@ -50,6 +50,14 @@ export const ACCESSIBILITY_PAGE = {
           <li>תמונות עם טקסט חלופי (alt) תיאורי.</li>
           <li>תמיכה בניווט מקלדת (Tab, Enter, Esc) בכל רכיבי הטופס והמודל.</li>
           <li>
+            חיפוש קולי בשדה החיפוש הראשי ובעמוד 404 - דיבור בעברית לחיפוש וניווט
+            (Chrome, Edge; Safari חלקי). דורש הרשאת מיקרופון ואינו זמין ב-Firefox.
+          </li>
+          <li>
+            קיצור מקלדת <kbd className="rounded border border-border px-1.5 py-0.5 text-xs">/</kbd>{" "}
+            לפוקוס על שדה החיפוש (כשלא מקלידים בשדה אחר).
+          </li>
+          <li>
             תמיכה בקריאת מסך עבור דפי יצירת קשר ו
             <Link href="/privacy" className="text-brand-red hover:underline">
               מדיניות פרטיות
@@ -77,7 +85,8 @@ export const ACCESSIBILITY_PAGE = {
       content: (
         <ul>
           <li>
-            <strong>ניווט מקלדת:</strong> Tab לעבור בין קישורים ושדות; Esc לסגירת מודלים.
+            <strong>ניווט מקלדת:</strong> Tab לעבור בין קישורים ושדות; Esc לסגירת מודלים;
+            חצים למעלה/למטה בתוצאות חיפוש; Enter לבחירת תוצאה.
           </li>
           <li>
             <strong>הגדלת טקסט:</strong> ניתן להגדיל טקסט בדפדפן (Ctrl/Cmd + +) ללא פגיעה

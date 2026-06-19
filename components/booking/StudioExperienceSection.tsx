@@ -6,7 +6,7 @@ const STUDIO_EXPERIENCE_COPY = brandCopy.studioExperience;
 const STUDIO_LOUNGE_COPY = brandCopy.studioLounge;
 
 const WHO_IT_FITS =
-  "מתאים למשפחות שרוצות שיר הפתעה, ברכות, הקלטות לבר/בת מצווה, זמרים שמקליטים שיר, וקבוצות שמחפשות חוויה מקצועית בלי לחץ.";
+  "מתאים למשפחות עם שיר הפתעה, ברכות, הקלטות לבר/בת מצווה, זמרים שמקליטים שיר וקבוצות בכל גודל.";
 
 type StudioExperienceSectionProps = {
   heading?: string;

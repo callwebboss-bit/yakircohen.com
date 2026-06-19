@@ -58,7 +58,9 @@ export default function PhotoSlideshowPageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      scarcityLabel="עריכה קולנועית - מסירה תוך 48 שעות"
+      scarcityLabel="עריכה מקצועית - מסירה תוך 48 שעות"
+      pagePath="/photo-slideshow"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -78,7 +80,7 @@ export default function PhotoSlideshowPageContent() {
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             מחפשים עריכת מצגת מהיום למחר? מאות תמונות ואפס זמן? אנחנו עורכים
-            סרט מרגש, מקצועי וסוחף  -  מוכן להקרנה ב-48 שעות (או פחות).
+            סרט מקצועי עם מוזיקה ומעברים  -  מוכן להקרנה ב-48 שעות (או פחות).
           </p>
           <a
             href={expressHref}
@@ -97,7 +99,7 @@ export default function PhotoSlideshowPageContent() {
             id="slideshow-intro-heading"
             className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            מהזיכרונות שלכם לסרט מרגש
+            מהתמונות שלכם לסרט מעוצב
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             בחרו את המסלול המתאים ביותר לחגיגה שלכם. כל המצגות כוללות כותרות
@@ -113,18 +115,18 @@ export default function PhotoSlideshowPageContent() {
             מה זה מצגת תמונות לאירוע?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            מצגת תמונות (סלייד-שואו) זה אחד הרגעים הכי מרגשים באירוע. כולם
-            יושבים, צופים בתמונות מהילדות, מהגן, מהצבא, מהחיים  -  ומתרגשים.
+            מצגת תמונות (סלייד-שואו) היא רגע מרכזי באירוע. כולם
+            יושבים, צופים בתמונות מהילדות, מהגן, מהצבא, מהחיים.
             אבל מצגת טובה זה לא סתם &quot;הצגת תמונות בפאוורפוינט&quot;.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            זה סרטון מעוצב, מושקע, עם מוזיקה מרגשת, מעברים חלקים, אפקטים
+            זה סרטון מעוצב, מושקע, עם מוזיקה מתאימה, מעברים חלקים, אפקטים
             ויזואליים וטקסטים מתאימים. אנחנו לוקחים את התמונות שלכם (20, 50,
-            100  -  כמה שיש) ויוצרים מצגת מקצועית שמרגשת את כולם.
+            100  -  כמה שיש) ויוצרים מצגת מקצועית ומלוטשת.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
-            המטרה: להפוך את הזיכרונות לחוויית צפייה שתישאר בלב האורחים הרבה
-            אחרי שהאירוע יסתיים.
+            המטרה: להפוך את התמונות לחוויית צפייה מעוצבת שנשמרת כקובץ וידאו
+            לאחר האירוע.
           </p>
         </section>
 
@@ -226,7 +228,7 @@ export default function PhotoSlideshowPageContent() {
           videoTitle="מצגת תמונות  -  דוגמה ראשית"
           videoHeadingId="portfolio-heading"
           videoHeading="דוגמאות לסרטים שערכנו"
-          videoDescription="שירות מקצועי להפקת מצגות מרגשות  -  מחתונות ובר/בת מצווה ועד ימי הולדת ופרישה"
+          videoDescription="שירות מקצועי להפקת מצגות תמונות  -  מחתונות ובר/בת מצווה ועד ימי הולדת ופרישה"
           footer={
             <RecordingSongExampleVideos videos={SLIDESHOW_EXAMPLE_VIDEOS} />
           }
@@ -375,7 +377,7 @@ export default function PhotoSlideshowPageContent() {
             id="slideshow-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מזכרת קולנועית לכל החיים
+            מצגת מקצועית שנשמרת כקובץ
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             ספרו לנו על האירוע  -  נחזור עם הצעה מותאמת לחבילה ולזמינות.

@@ -1,12 +1,15 @@
 ﻿"use client";
 
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import VoiceSearchMicButton from "@/components/ui/VoiceSearchMicButton";
 import {
   usePagefindSearch,
   warmPagefindIndex,
   type PagefindSearchStatus,
 } from "@/hooks/usePagefindSearch";
+import { useVoiceSearch } from "@/hooks/useVoiceSearch";
 import type { PFResult } from "@/lib/pagefind-loader";
 import { cn } from "@/lib/utils";
 
@@ -15,21 +18,29 @@ type Props = {
   className?: string;
   maxResults?: number;
   autoFocus?: boolean;
+  inputId?: string;
 };
 
 const SearchResultRow = memo(function SearchResultRow({
   result,
+  active,
+  resultId,
   onSelect,
 }: {
   result: PFResult;
+  active: boolean;
+  resultId: string;
   onSelect: () => void;
 }) {
   return (
-    <li role="option" aria-selected={false}>
+    <li role="option" id={resultId} aria-selected={active}>
       <Link
         href={result.url}
         onClick={onSelect}
-        className="group flex min-h-11 flex-col justify-center gap-1 border-b border-border px-4 py-3 last:border-b-0 hover:bg-foreground/[0.03]"
+        className={cn(
+          "group flex min-h-11 flex-col justify-center gap-1 border-b border-border px-4 py-3 last:border-b-0",
+          active ? "bg-brand-red/5" : "hover:bg-foreground/[0.03]",
+        )}
       >
         <span className="text-sm font-semibold text-foreground transition-colors group-hover:text-brand-red">
           {result.meta?.title ?? result.url}
@@ -65,15 +76,75 @@ export default function SiteSearch({
   className,
   maxResults = 7,
   autoFocus = false,
+  inputId = "site-search-input",
 }: Props) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const voiceAutoNavigateRef = useRef(false);
+
+  const onNavigate = useCallback(
+    (href: string, _label: string) => {
+      setOpen(false);
+      setQuery("");
+      setActiveIndex(-1);
+      router.push(href);
+    },
+    [router],
+  );
+
+  const onSearchQuery = useCallback((value: string, source: "final" | "interim") => {
+    setQuery(value);
+    setOpen(true);
+    setActiveIndex(-1);
+    warmPagefindIndex();
+    if (source === "final") voiceAutoNavigateRef.current = true;
+  }, []);
+
+  const {
+    isSupported: voiceSupported,
+    isListening,
+    errorMessage: voiceError,
+    toggleListening,
+    stop: stopListening,
+    clearError,
+    liveMessage,
+  } = useVoiceSearch({ onNavigate, onSearchQuery });
+
   const { status, results, isStale } = usePagefindSearch(query, { maxResults });
 
   const loading = status === "loading";
   const showDropdown = open && query.trim().length > 0;
   const emptyMessage = statusMessage(status, query, results.length, loading);
+  const showSpinner = (loading || isStale) && !isListening;
+  const showMic = voiceSupported && !showSpinner;
+
+  useEffect(() => {
+    if (!voiceAutoNavigateRef.current || loading || status !== "success") return;
+    voiceAutoNavigateRef.current = false;
+    if (results.length === 1) {
+      setOpen(false);
+      setQuery("");
+      setActiveIndex(-1);
+      router.push(results[0].url);
+    }
+  }, [loading, status, results, router]);
+
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [query, results.length]);
+
+  const selectResult = useCallback(
+    (result: PFResult) => {
+      setOpen(false);
+      setQuery("");
+      setActiveIndex(-1);
+      router.push(result.url);
+    },
+    [router],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -82,7 +153,11 @@ export default function SiteSearch({
       if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
     };
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        if (isListening) stopListening();
+        setOpen(false);
+        setActiveIndex(-1);
+      }
     };
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
@@ -90,7 +165,22 @@ export default function SiteSearch({
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [open, isListening, stopListening]);
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showDropdown || results.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => (i < results.length - 1 ? i + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => (i > 0 ? i - 1 : results.length - 1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      selectResult(results[activeIndex]);
+    }
+  };
 
   return (
     <div ref={containerRef} dir="rtl" className={cn("relative w-full", className)}>
@@ -110,6 +200,7 @@ export default function SiteSearch({
         </svg>
 
         <input
+          id={inputId}
           type="search"
           role="combobox"
           value={query}
@@ -118,25 +209,40 @@ export default function SiteSearch({
             const value = e.target.value;
             setQuery(value);
             setOpen(true);
+            clearError();
+            voiceAutoNavigateRef.current = false;
           }}
           onFocus={() => {
             setOpen(true);
             warmPagefindIndex();
           }}
+          onKeyDown={handleInputKeyDown}
           placeholder={placeholder}
           aria-label={placeholder}
           aria-autocomplete="list"
           aria-expanded={showDropdown}
           aria-controls="site-search-results"
+          aria-activedescendant={
+            activeIndex >= 0 ? `site-search-result-${activeIndex}` : undefined
+          }
           className={cn(
             "min-h-11 w-full rounded-xl border border-border bg-background",
-            "py-2.5 pe-4 ps-9 text-sm text-foreground placeholder:text-muted-foreground/70",
+            "py-2.5 pe-12 ps-9 text-sm text-foreground placeholder:text-muted-foreground/70",
             "outline-none transition-[border-color,box-shadow] duration-fast ease-luxury",
             "focus:border-brand-red focus:ring-2 focus:ring-brand-red/15",
+            isListening && "border-brand-red ring-2 ring-brand-red/15",
           )}
         />
 
-        {(loading || isStale) && (
+        {showMic && (
+          <VoiceSearchMicButton
+            isListening={isListening}
+            onClick={toggleListening}
+            className="absolute end-2 top-1/2 -translate-y-1/2"
+          />
+        )}
+
+        {showSpinner && (
           <span
             className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2"
             aria-hidden
@@ -165,6 +271,20 @@ export default function SiteSearch({
         )}
       </div>
 
+      <div role="status" aria-live="polite" className="sr-only">
+        {liveMessage}
+        {voiceError}
+        {activeIndex >= 0 && results[activeIndex]
+          ? `תוצאה ${activeIndex + 1} מתוך ${results.length}: ${results[activeIndex].meta?.title ?? results[activeIndex].url}`
+          : null}
+      </div>
+
+      {voiceError && !isListening && (
+        <p className="mt-1 text-xs text-brand-red" role="alert">
+          {voiceError}
+        </p>
+      )}
+
       {showDropdown && (
         <ul
           id="site-search-results"
@@ -177,13 +297,16 @@ export default function SiteSearch({
           )}
         >
           {results.length > 0
-            ? results.map((result) => (
+            ? results.map((result, index) => (
                 <SearchResultRow
                   key={result.url}
+                  resultId={`site-search-result-${index}`}
                   result={result}
+                  active={index === activeIndex}
                   onSelect={() => {
                     setOpen(false);
                     setQuery("");
+                    setActiveIndex(-1);
                   }}
                 />
               ))

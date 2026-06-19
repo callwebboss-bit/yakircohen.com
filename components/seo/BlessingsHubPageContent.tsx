@@ -53,15 +53,18 @@ export default function BlessingsHubPageContent() {
       showBookCtaInHero={Boolean(bookCta)}
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
+      valueFrame="ברכה מוקלטת - מתאימה גם למי שלא מברך מול קהל"
+      pagePath="/studio/blessings"
+      faqs={service.faqs}
       {...heroProps}
     >
       <Container className="space-y-16 py-12 sm:py-16">
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />
         <section className="max-w-3xl" aria-labelledby="blessings-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            ברכה טובה יכולה להיות הרגע הכי מרגש באירוע  -  אבל לא כולם מרגישים
+            ברכה טובה יכולה להיות רגע מרכזי באירוע  -  אבל לא כולם מרגישים
             בנוח לברך בלייב מול קהל. הקלטה ועריכה מקצועית פותרת את זה: אתם
-            רגועים ומרוכזים, והקהל שומע ברכה שנשמעת מושלמת.
+            רגועים ומרוכזים, והקהל שומע ברכה שנשמעת ברורה ומלוטשת.
           </p>
         </section>
 
@@ -153,7 +156,7 @@ export default function BlessingsHubPageContent() {
           </ul>
           <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
             כשאתם מקליטים אצלנו, אתם לא מקבלים רק ציוד טוב  -  אלא תוצאה שנשמעת
-            מקצועית, ברורה ומרגשת. ההבדל בין הקלטה ביתית לאולפן  -  כמו ההבדל
+            מקצועית וברורה. ההבדל בין הקלטה ביתית לאולפן  -  כמו ההבדל
             בין תמונה מהטלפון לתמונה של צלם מקצועי.
           </p>
         </section>
@@ -212,7 +215,7 @@ export default function BlessingsHubPageContent() {
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               אנחנו לא רק לוחצים REC  -  יש עבודה מקצועית שהופכת הקלטה רגילה לברכה
-              מושלמת:
+              מלוטשת:
             </p>
           </header>
           <ul className="mx-auto mt-8 max-w-2xl space-y-2 text-sm leading-relaxed text-muted-foreground">
@@ -259,7 +262,7 @@ export default function BlessingsHubPageContent() {
           </h2>
           <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
             <li>לא מרגישים בנוח לברך בלייב מול קהל  -  זה בשבילכם.</li>
-            <li>רוצים שהברכה תישמע מקצועית ומושלמת  -  זה בשבילכם.</li>
+            <li>רוצים שהברכה תישמע מקצועית וברורה  -  זה בשבילכם.</li>
             <li>רוצים לתרגל ולחזור על משפטים עד שזה מדויק  -  זה בשבילכם.</li>
           </ul>
         </section>
@@ -285,7 +288,7 @@ export default function BlessingsHubPageContent() {
               בחרו את סוג הברכה שלכם
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מסלולים ממוקדים  -  אנחנו מלווים עד למסירה מושלמת.
+              מסלולים ממוקדים  -  אנחנו מלווים עד למסירה הסופית.
             </p>
           </header>
           <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">

@@ -21,7 +21,7 @@
     "index:search": "node scripts/prepare-pagefind.mjs && pagefind --site .pagefind-src --output-path public/pagefind && node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){console.warn('[index:search] cleanup skipped:',e.message)}\"",
     "start": "next start",
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint",
-    "test": "node --import tsx --test hooks/useBookFlow.test.ts hooks/useBookingWizard.test.ts hooks/useLeadSubmit.test.ts lib/studio-form-draft.test.ts lib/events-form-draft.test.ts lib/singer-form-draft.test.ts lib/reply-copy-builders.test.ts lib/closer-deep-link.test.ts lib/yc-lead-tag.test.ts lib/progressive-booking-message.test.ts",
+    "test": "node --import tsx --test hooks/useBookFlow.test.ts hooks/useBookingWizard.test.ts hooks/useLeadSubmit.test.ts lib/studio-form-draft.test.ts lib/events-form-draft.test.ts lib/singer-form-draft.test.ts lib/reply-copy-builders.test.ts lib/closer-deep-link.test.ts lib/yc-lead-tag.test.ts lib/progressive-booking-message.test.ts lib/voice-search-intents.test.ts lib/mashup-copy-humanize.test.ts",
     "audit:headings": "node scripts/audit-headings.mjs",
     "audit:images": "node scripts/audit-images.mjs",
     "audit:links": "node scripts/audit-links.mjs",
@@ -42,7 +42,10 @@
     "env:resend": "node scripts/push-resend-env.mjs",
     "export:closer": "node scripts/export-closer-config.mjs",
     "export:event-index": "node scripts/export-event-index.mjs",
-    "ingest:blog": "node scripts/ingest-blog-queue.mjs"
+    "ingest:blog": "node scripts/ingest-blog-queue.mjs",
+    "cy:open": "cypress open",
+    "cy:run": "start-server-and-test dev http://localhost:3000 cy:run:only",
+    "cy:run:only": "cypress run --browser chrome --spec cypress/e2e/site-qa.cy.ts"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.130",
@@ -72,11 +75,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^15.17.0",
     "esbuild": "^0.28.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "pagefind": "^1.3.0",
     "sharp": "^0.35.1",
+    "start-server-and-test": "^3.0.11",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"

@@ -14,6 +14,7 @@ import {
   SiteNavMenuIsland,
 } from "@/components/layout/SiteNavMenuIsland";
 import { SiteSearchLazy } from "@/components/layout/header-lazy";
+import SearchKeyboardShortcut from "@/components/layout/SearchKeyboardShortcut";
 import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
 import TimeGreeting from "@/components/layout/TimeGreeting";
 import Container from "@/components/ui/Container";
@@ -45,7 +46,7 @@ function HeaderLogo() {
           {SITE_NAME}
         </span>
         <span className="truncate text-xs text-muted-foreground transition-colors group-hover:text-brand-red/80">
-          מודיעין - אולפן ואירועים
+          אולפן, DJ, פודקאסט ואטרקציות
         </span>
       </span>
     </Link>
@@ -77,15 +78,9 @@ function HeaderMainBar({
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
           <Link
             href="/book"
-            className="hidden min-h-11 items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-95 md:inline-flex"
-          >
-            הזמנה
-          </Link>
-          <Link
-            href="/contact"
             className="hidden min-h-11 items-center rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-fast ease-luxury hover:shadow-md active:scale-95 md:inline-flex"
           >
-            צור קשר
+            הזמינו
           </Link>
           <SiteNavMenuButtonSlot
             menuOpen={menuOpen}
@@ -121,6 +116,7 @@ export default function Header() {
           data-pagefind-ignore
           className="relative sticky top-0 z-50 border-b border-border [contain:layout_style]"
         >
+          <SearchKeyboardShortcut />
           <div
             className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
             aria-hidden

@@ -15,7 +15,7 @@ export const GROWTH_EXAMPLE_VIDEOS: readonly GrowthSlideshowExampleVideo[] = [
   {
     videoId: "qtCRD0K60ww",
     title: "קליפ עם תמונות - דוגמה",
-    description: "שילוב תמונות וסרטון מרגש לאירוע",
+    description: "שילוב תמונות וסרטון לאירוע",
   },
 ] as const;
 
@@ -75,7 +75,7 @@ export const GROWTH_SLIDESHOW_FAQS: readonly {
     id: "growth-ai",
     question: "איך עובד אפקט הגדילה ב-AI?",
     answer:
-      "אנחנו בונים רצף כרונולוגי של תמונות ומשלבים מעברי גדילה חלקים בין שלבי הגיל. התוצאה נראית טבעית ומרגשת - לא סתם החלפת תמונות.",
+      "אנחנו בונים רצף כרונולוגי של תמונות ומשלבים מעברי גדילה חלקים בין שלבי הגיל. התוצאה נראית טבעית וחלקה - לא סתם החלפת תמונות.",
   },
   {
     id: "growth-events",

@@ -16,6 +16,7 @@ import {
   DJ_CHEAP_VS_PRO,
   DJ_EQUIPMENT,
   DJ_EVENT_TYPES,
+  DJ_PRICE_FACTORS,
   DJ_PROCESS_STEPS,
   DJ_RELATED_LINKS,
   DJ_VALUE_BLOCKS,
@@ -39,6 +40,39 @@ const service = getEventsService("events-dj");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
+const ENTERTAINMENT_BUSINESS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "EntertainmentBusiness",
+  "name": "יקיר כהן הפקות - ניהול מוזיקלי ו-DJ",
+  "description": "שירותי תקלוט, הפקה וניהול מוזיקלי מבוסס מנגנון בפריסה ארצית.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "עמק איילון 34",
+    "addressLocality": "מודיעין",
+    "addressCountry": "IL",
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "31.9077",
+    "longitude": "35.0064",
+  },
+  "url": "https://yakircohen.com",
+  "telephone": "+972-58-7555456",
+  "priceRange": "₪₪₪",
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "מודיעין" },
+    { "@type": "AdministrativeArea", "name": "שוהם" },
+    { "@type": "AdministrativeArea", "name": "ירושלים" },
+    { "@type": "AdministrativeArea", "name": "כל הארץ" },
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "ILS",
+    "lowPrice": "5900",
+    "highPrice": "9800",
+  },
+};
+
 export default function DjEventsPageContent() {
   const planningWhatsapp = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
@@ -57,9 +91,16 @@ export default function DjEventsPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      valueFrame="מוזיקה מקצועית - תכנון מוזיקלי מדויק לכל האירוע"
+      pagePath="/events/dj-events"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ENTERTAINMENT_BUSINESS_SCHEMA) }}
+        />
         <ContextualIntroParagraph pathname="/events/dj-events" className="max-w-3xl" />
         <section className="max-w-3xl" aria-labelledby="dj-intro-heading">
           <h2
@@ -74,6 +115,32 @@ export default function DjEventsPageContent() {
             לבינוני? רחבה מלאה כל הערב מול אורחים שעוזבים מוקדם. המוזיקה זורמת
             בדם מגיל 15.
           </p>
+        </section>
+
+        <section aria-labelledby="dj-method-heading">
+          <h2
+            id="dj-method-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            מנגנון הפעולה: ניהול אישי מול פיקוח מערכתי
+          </h2>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            אנו מנטרלים את אלמנט המקריות מהאירוע. העבודה מתבצעת תחת מפרט טכני ומוזיקלי קבוע, המיושם בשני מסלולי בחירה ברורים:
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-surface p-6">
+              <h3 className="font-semibold text-foreground">ניהול והפקה מלאה (ניהול אישי)</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                יקיר כהן נוכח באירוע ומנהל את הרחבה, המעברים והתזמון המוזיקלי באופן פעיל מתחילת הערב ועד סיומו. מסלול זה מיועד למי שדורש שליטה מלאה בשטח.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-surface p-6">
+              <h3 className="font-semibold text-foreground">ביצוע מונחה (פיקוח מערכת)</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                תקליטן מנוסה מהצוות הקבוע של האולפן מוביל את האירוע. התוכן המוזיקלי, חלוקת הזמנים והמפרט הטכני נבנים מראש ומפוקחים ישירות על ידי יקיר כהן מרחוק.
+              </p>
+            </div>
+          </div>
         </section>
 
         <ServiceShowcaseSections
@@ -145,13 +212,10 @@ export default function DjEventsPageContent() {
         <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {DJ_VALUE_BLOCKS.map((block) => (
             <li
-              key={block.title}
+              key={block.id}
               className="rounded-xl border border-border bg-surface p-5"
             >
-              <p className="text-2xl" aria-hidden>
-                {block.emoji}
-              </p>
-              <h3 className="mt-2 font-semibold text-foreground">{block.title}</h3>
+              <h3 className="font-semibold text-foreground">{block.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 {block.description}
               </p>
@@ -228,13 +292,10 @@ export default function DjEventsPageContent() {
           <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {DJ_EVENT_TYPES.map((item) => (
               <li
-                key={item.title}
+                key={item.id}
                 className="rounded-xl border border-border bg-surface p-5"
               >
-                <p className="text-2xl" aria-hidden>
-                  {item.emoji}
-                </p>
-                <h3 className="mt-2 font-semibold text-foreground">
+                <h3 className="font-semibold text-foreground">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -345,6 +406,20 @@ export default function DjEventsPageContent() {
           </ul>
         </section>
 
+        <section aria-labelledby="dj-geo-heading">
+          <h2
+            id="dj-geo-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            נגישות ופריסה גיאוגרפית
+          </h2>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            הסטנדרט המקצועי של המערכת אינו משתנה בהתאם למיקום הגאוגרפי. אנו מספקים שירותי DJ, הגברה והפקה{" "}
+            <strong className="font-semibold text-foreground">במודיעין, שוהם, ירושלים וביתר חלקי הארץ</strong>.
+            המרחק הפיזי של האולם הוא נתון לוגיסטי בלבד; מערכות הסאונד, תוכנית העבודה ורמת הדיוק של התקליטן נותרות אחידות בכל נקודה.
+          </p>
+        </section>
+
         <section
           className="rounded-xl border border-dashed border-border bg-surface/50 p-6 text-center"
           aria-labelledby="reel-factory-vendor-heading"
@@ -411,20 +486,11 @@ export default function DjEventsPageContent() {
           <p className="mt-2 text-sm text-muted-foreground">
             שקיפות מלאה - כדי שלא יהיו הפתעות ביום האירוע:
           </p>
-          <ul className="mt-4 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-            {[
-              ["📍 מיקום האירוע", "נסיעה ולוגיסטיקה מחוץ לאזור מודיעין-מרכז"],
-              ["⏱ שעות פעילות", "כל שעה מעבר ל-5 שעות הבסיס מתומחרת בנפרד"],
-              ["🎙 הגברה עצמאית", "אם האולם לא מספק מערכת - מביאים ציוד מלא"],
-              ["💡 תאורה מתקדמת", "Moving Heads, LED Wash ופרויקטורים - לפי הצורך"],
-              ["🎊 אטרקציות", "כל אפקט (עשן, זיקוקים, קונפטי) מתומחר בנפרד"],
-              ["🎤 הנחיה מקצועית", "הנחיית חופה, ריקוד ראשון, ברכה ועוגה - כלולה בפרימיום"],
-              ["🕐 שעות חריגות", "פירוק לאחר חצות או הגעה לפני 14:00 - בתיאום מראש"],
-              ["⭐ יקיר אישית", "בחבילת VIP בלבד - לא מהצוות"],
-            ].map(([icon_label, explanation]) => (
-              <li key={icon_label} className="flex gap-3">
-                <span className="shrink-0 font-medium text-foreground">{icon_label}</span>
-                <span className="text-muted-foreground">{explanation}</span>
+          <ul className="mt-4 space-y-2 text-sm">
+            {DJ_PRICE_FACTORS.map((factor) => (
+              <li key={factor} className="flex items-center gap-2 text-muted-foreground">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-border" aria-hidden />
+                {factor}
               </li>
             ))}
           </ul>
@@ -442,6 +508,35 @@ export default function DjEventsPageContent() {
             className="py-0"
           />
         ) : null}
+
+        <section aria-labelledby="dj-aeo-heading">
+          <h2
+            id="dj-aeo-heading"
+            className="text-xl font-semibold text-foreground sm:text-2xl"
+          >
+            נתונים יבשים ומענה לשאלות נפוצות
+          </h2>
+          <div className="mt-6 max-w-3xl space-y-6">
+            <div>
+              <h3 className="font-semibold text-foreground">מה כולל מפרט הציוד הבסיסי באירוע?</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                עמדת תקלוט מקצועית מלאה, פלטת DJ, מיקסר, מיקרופון עמדה, מיקרופון ייעודי לברכות ומערכת גיבוי טכנולוגית למניעת הפסקות שמע.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground">כיצד נקבע הסגנון המוזיקלי?</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                המוזיקה נשענת על אפיון מקדים מול הלקוח (כולל סנכרון ישיר מול רשימות השמעה קיימות), תוך התאמה בזמן אמת לגילאי הקהל ולדינמיקה ברחבה.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground">האם ניתן לשלב תוכן משלים מהאולפן?</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                כן. ניתן להרחיב את חבילת הבסיס ולשלב הקלטת ברכות מוקדמת באולפן הבוטיק במודיעין או הפקת מצגות גדילה מבוססות כלי AI.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* טופס הזמנה מתקדם */}
         <section aria-labelledby="dj-booking-form-heading">

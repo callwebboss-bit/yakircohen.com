@@ -22,7 +22,7 @@ export const SMOKE_BUBBLE_HIGHLIGHTS: readonly { emoji: string; title: string; t
   },
   {
     emoji: "⏱️",
-    title: "תזמון מושלם",
+    title: "תזמון מדויק",
     text: "שליטה אלחוטית שמתמזגת עם מוזיקה ותאורה.",
   },
   {
@@ -63,7 +63,7 @@ export const SMOKE_BUBBLE_ADVANTAGES: readonly SmokeBubbleBenefit[] = [
   },
   {
     title: "מצטלם מדהים",
-    description: "עומק (Depth) ובוקה מושלם לתמונות ולוידאו.",
+    description: "עומק (Depth) ובוקה מרשים לתמונות ולוידאו.",
   },
 ] as const;
 

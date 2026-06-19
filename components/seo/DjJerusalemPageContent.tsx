@@ -77,12 +77,34 @@ const jsonLd = {
     {
       "@type": ["EntertainmentBusiness", "LocalBusiness"],
       "@id": `${SITE_URL}/${PAGE_PATH}#dj-service`,
-      name: "די ג'יי לאירועים בירושלים - יקיר כהן הפקות",
+      name: "דיג׳יי לאירועים בירושלים - יקיר כהן הפקות",
+      description: "ניהול מוזיקלי ותקלוט לאירועים בירושלים - חתונות, בר/בת מצווה, אירועים דתיים ומעורבים.",
       url: absoluteUrl(PAGE_PATH),
       parentOrganization: { "@id": `${SITE_URL}/#organization` },
-      areaServed: { "@type": "City", name: "ירושלים" },
-      serviceType: "DJ לאירועים",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "עמק איילון 34",
+        addressLocality: "מודיעין",
+        addressCountry: "IL",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: "31.9077",
+        longitude: "35.0064",
+      },
+      areaServed: [
+        { "@type": "City", name: "ירושלים" },
+        { "@type": "AdministrativeArea", name: "מחוז ירושלים" },
+      ],
+      serviceType: "DJ לאירועים בירושלים",
       telephone: CONTACT_PHONE_E164,
+      priceRange: "₪₪₪",
+      offers: {
+        "@type": "AggregateOffer",
+        priceCurrency: "ILS",
+        lowPrice: "5900",
+        highPrice: "9800",
+      },
     },
     {
       "@type": "FAQPage",
@@ -128,12 +150,12 @@ export default function DjJerusalemPageContent() {
       <SectionDwellTracker sectionId="dj-jerusalem-boutique" eventLabel="boutique" />
       <SectionDwellTracker sectionId="dj-jerusalem-academy" eventLabel="academy" />
 
-      <header className="px-6 py-20 sm:py-28">
+      <header className="px-4 py-10 sm:px-6 sm:py-20">
         <FadeIn className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             די ג&apos;יי לאירועים בירושלים
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-muted sm:text-xl">
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground sm:text-xl">
             בלי סיסמאות, נטו מוזיקה וקריאת קהל שמבינה מי נמצא על הרחבה
           </p>
           <p className="mt-6 text-base leading-relaxed text-foreground sm:text-lg">
@@ -152,7 +174,7 @@ export default function DjJerusalemPageContent() {
       </header>
 
       <section
-        className="border-t border-border px-6 py-20 sm:py-28"
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby="dj-jerusalem-audience-heading"
       >
         <FadeIn className="mx-auto max-w-3xl">
@@ -162,19 +184,19 @@ export default function DjJerusalemPageContent() {
           >
             הקהל שלכם, השפה שלנו
           </h2>
-          <p className="mt-6 text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
             בירושלים יש קהל מגוון. חלק מהאורחים רוצים ריקודים חזקים, חלק צריכים
             שקט בטקס, וחלק מחפשים את שני העולמות באותו ערב. אנחנו לא מנחשים -
             אנחנו מכירים את השפה של כל קהל.
           </p>
-          <ul className="mt-12 grid gap-5 sm:grid-cols-1">
+          <ul className="mt-12 grid gap-5">
             {AUDIENCE_POINTS.map((point) => (
               <li
                 key={point.title}
                 className="rounded-2xl border border-border bg-surface p-6 sm:p-7"
               >
                 <h3 className="font-semibold text-foreground">{point.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
                   {point.text}
                 </p>
               </li>
@@ -188,8 +210,39 @@ export default function DjJerusalemPageContent() {
       </section>
 
       <section
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
+        aria-labelledby="dj-jerusalem-method-heading"
+      >
+        <FadeIn className="mx-auto max-w-3xl">
+          <h2
+            id="dj-jerusalem-method-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            מנגנון הפעולה: ניהול אישי מול פיקוח מערכתי
+          </h2>
+          <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            אנו מנטרלים את אלמנט המקריות מהאירוע. העבודה מתבצעת תחת מפרט טכני ומוזיקלי קבוע, המיושם בשני מסלולי בחירה ברורים:
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-surface p-6">
+              <h3 className="font-semibold text-foreground">ניהול והפקה מלאה (ניהול אישי)</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                יקיר כהן נוכח באירוע ומנהל את הרחבה, המעברים והתזמון המוזיקלי באופן פעיל מתחילת הערב ועד סיומו.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-surface p-6">
+              <h3 className="font-semibold text-foreground">ביצוע מונחה (פיקוח מערכת)</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                תקליטן מנוסה מהצוות הקבוע מוביל את האירוע. המפרט הטכני נבנה מראש ומפוקח ישירות על ידי יקיר כהן מרחוק.
+              </p>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
+      <section
         id="dj-jerusalem-boutique"
-        className="border-t border-border px-6 py-20 sm:py-28"
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby="dj-jerusalem-boutique-heading"
       >
         <FadeIn className="mx-auto max-w-3xl">
@@ -222,7 +275,7 @@ export default function DjJerusalemPageContent() {
 
       <section
         id="dj-jerusalem-academy"
-        className="border-t border-border px-6 py-20 sm:py-28"
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby="dj-jerusalem-academy-heading"
       >
         <FadeIn className="mx-auto max-w-3xl">
@@ -232,7 +285,7 @@ export default function DjJerusalemPageContent() {
           >
             האקדמיה - חלופה חכמה
           </h2>
-          <p className="mt-6 text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
             מי שרוצה את הסטנדרט של יקיר כהן הפקות אבל נמצא בתקציב שונה, יכול
             לבחור בדי ג&apos;יי שעבר את{" "}
             <Link
@@ -244,7 +297,7 @@ export default function DjJerusalemPageContent() {
             . הוא למד את השיטה, את קריאת הקהל, ואת הדרך שבה אנחנו מנהלים
             אירוע.
           </p>
-          <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
             מלאו את השאלון הקצר, ואנחנו נתאים לכם בדיוק את הדי ג&apos;יי הנכון
             עבורכם מהצוות שלנו.
           </p>
@@ -263,7 +316,7 @@ export default function DjJerusalemPageContent() {
       </section>
 
       <section
-        className="border-t border-border px-6 py-20 sm:py-28"
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby="dj-jerusalem-production-heading"
       >
         <FadeIn className="mx-auto max-w-5xl">
@@ -273,7 +326,7 @@ export default function DjJerusalemPageContent() {
           >
             הפקה משלימה תחת קורת גג אחת
           </h2>
-          <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             במקום לחפש ספקים שונים, הכל מנוהל תחת קורת גג אחת דרך אזור אישי
             מסודר.
           </p>
@@ -289,7 +342,7 @@ export default function DjJerusalemPageContent() {
               </li>
             ))}
           </ul>
-          <p className="mt-10 max-w-3xl text-base leading-relaxed text-muted">
+          <p className="mt-10 max-w-3xl text-base leading-relaxed text-muted-foreground">
             רמקולים, אטרקציות, צילום ומפק - הכל באותה רמת גימור, עם תיאום אחד
             שמכיר את האירוע שלכם.
           </p>
@@ -297,7 +350,7 @@ export default function DjJerusalemPageContent() {
       </section>
 
       <section
-        className="border-t border-border px-6 py-20 sm:py-28"
+        className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby="dj-jerusalem-cta-heading"
       >
         <FadeIn className="mx-auto max-w-3xl text-center">
@@ -313,14 +366,14 @@ export default function DjJerusalemPageContent() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="פתיחת שיח בוואטסאפ על די ג'יי לאירועים בירושלים"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
             >
               <WhatsAppIcon />
               דברו איתנו בוואטסאפ
             </a>
             <Link
               href="#dj-jerusalem-form"
-              className="inline-flex items-center justify-center rounded-xl border border-border bg-surface px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/30 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              className="inline-flex w-full items-center justify-center rounded-xl border border-border bg-surface px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/30 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
               aria-label="מעבר לשאלון התאמה בראש העמוד"
             >
               לשאלון התאמה
@@ -329,12 +382,42 @@ export default function DjJerusalemPageContent() {
         </FadeIn>
       </section>
 
-      <div className="border-t border-border px-6 py-16 sm:px-6 lg:px-8">
+      <div className="border-t border-border px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-3xl space-y-12">
           <FAQAccordion
             title="שאלות נפוצות - DJ בירושלים"
             items={FAQ_ITEMS}
           />
+
+          <section aria-labelledby="dj-jerusalem-aeo-heading">
+            <h2
+              id="dj-jerusalem-aeo-heading"
+              className="text-xl font-semibold text-foreground sm:text-2xl"
+            >
+              נתונים יבשים ומענה לשאלות נפוצות
+            </h2>
+            <div className="mt-6 space-y-6">
+              <div>
+                <h3 className="font-semibold text-foreground">מה כולל מפרט הציוד הבסיסי לאירוע בירושלים?</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  עמדת תקלוט מקצועית מלאה, פלטת DJ Pioneer CDJ 3000, מיקסר Allen &amp; Heath, רמקולי RCF, מיקרופון ייעודי לברכות ומערכת גיבוי לכל רכיב.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">כיצד מתאימים את המוזיקה לקהל דתי או מעורב?</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  בפגישת תכנון מקדימה מגדירים גבולות ברורים: שירים לחופה, שירים אסורים, ניהול הפרדה ורגעים שקטים בטקס. המפרט נשמר ומפוקח לאורך כל האירוע.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">האם יש תוספת מחיר על הגעה לירושלים?</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  תוספת נסיעה מצוינת במפורש בהצעת המחיר לפני אישור. אין הפתעות ביום האירוע.
+                </p>
+              </div>
+            </div>
+          </section>
+
           <PageRelatedFooter pathname="/dj-events/cities/jerusalem" />
         </div>
       </div>

@@ -52,7 +52,7 @@ export const RECORDING_STUDIO_OFFERINGS: readonly RecordingStudioOffering[] = [
     title: "אולפן נייד ואטרקציות",
     subtitle: "האולפן מגיע לאירוע",
     description:
-      "אולפן נייד לחתונה ובר מצווה, חבילות אירוע עם אפקטים, DJ ועשן כבד  -  חוויה שלא שוכחים.",
+      "אולפן נייד לחתונה ובר מצווה, חבילות אירוע עם אפקטים, DJ ועשן כבד  -  חוויה בלתי שגרתית.",
     href: "/studio/mobile-studio",
   },
   {
@@ -85,5 +85,9 @@ export const RECORDING_STUDIO_EXAMPLE_VIDEOS: readonly RecordingStudioExampleVid
     {
       videoId: "RLTzgsRk1vk",
       title: "הקלטה באולפן  -  דוגמה נוספת",
+    },
+    {
+      videoId: "TTEVMjQt8mU",
+      title: "MP3 לעומת WAV  -  ההבדל שחייבים להכיר",
     },
   ] as const;

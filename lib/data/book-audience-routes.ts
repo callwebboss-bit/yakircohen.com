@@ -61,9 +61,9 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "הקלטות ואירועים משפחתיים",
     title: "שיר הפתעה, ברכת כלה או הקלטה לבר/בת מצווה",
     description:
-      "מגיעים מפוחדים, יוצאים עם תוצאה שמדליקה את הסלון. האולפן מותאם להורים וילדים - ואנחנו מטפלים בהכל.",
+      "הקלטות שירים וברכות למשפחות וילדים. ליווי טכני מלא לאורך ההקלטה, כולל הנחיה ווקאלית ועריכה.",
     essenceMicroCopy:
-      "אנחנו כאן כדי שהקול שלך יישמע הכי מחמיא ונקי שיש - בלי לחץ זמן.",
+      "ליווי טכני מלא מהגעה לאולפן ועד לקובץ הסופי.",
     priceExVat: STUDIO_FROM,
     priceNote: "חבילת ברכה / הקלטה קצרה",
     startingPriceDual: dual(STUDIO_FROM),
@@ -122,13 +122,13 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "אטרקציות לאירועים",
     title: "עשן כבד, בועות, זיקוקים קרים ועוד",
     description:
-      "אטרקציות שמרימות את האווירה - עם חבילות משולבות וחיסכון אוטומטי.",
-    essenceMicroCopy: "רגעים בלתי נשכחים שהאורחים יזכרו שנים.",
+      "עשן, בועות, זיקוקים וקונפטי לאירועים. חבילות משולבות עם הנחה, הפעלה מקצועית בשטח.",
+    essenceMicroCopy: "ציוד אפקטים מקצועי עם הפעלה בשטח. זמין לאירועי חוץ וחלל.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "אטרקציה בודדת",
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
     upsellHint: "אפשר לשלב: 2-4 אטרקציות במחיר חבילה + קליפ מתנה",
-    emotionalQuestion: "איזה רגע באירוע חייב להיות בלתי נשכח?",
+    emotionalQuestion: "באיזה שלב של האירוע רוצים להוסיף אפקט?",
     emotionalOptions: [
       { id: "entrance", label: "כניסה מרשימה" },
       { id: "dance", label: "רחבת ריקודים" },
@@ -151,16 +151,16 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     tag: "DJ ואפקטים לאירועים",
     title: "דיג׳יי בוטיק, עשן כבד, זיקוקים קרים ו-LED",
     description:
-      "חווית VIP לאירועים. מוזיקה שמדברת לקהל מעורב, בשילוב אפקטים שמרימים את האווירה.",
-    essenceMicroCopy: "אווירה שמרגישים בבטן - מוזיקה ואפקטים בידיים מקצועיות.",
+      "DJ בוטיק עם ציוד מלא לאירועים. מוזיקה, עשן כבד, זיקוקים קרים ו-LED - לקהל מעורב וחד-גוני.",
+    essenceMicroCopy: "DJ ואפקטים לאירועים. ניסיון בקהלים מעורבי-גיל ובסוגי אירועים שונים.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "מחיר התחלתי לאפקט / DJ",
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
     upsellHint: "אפשר לשלב: עשן + זיקוקים + LED במחיר חבילה",
-    emotionalQuestion: "איזו אווירה אתם רוצים שהאורחים יזכרו?",
+    emotionalQuestion: "מהו הסגנון המוזיקלי לאירוע?",
     emotionalOptions: [
-      { id: "elegant", label: "אלגנטי ומרגש" },
-      { id: "party", label: "מסיבה עד הבוקר" },
+      { id: "elegant", label: "אלגנטי ומסורתי" },
+      { id: "party", label: "מסיבה - מוזיקה חזקה" },
       { id: "mixed", label: "קהל מעורב גילאים" },
       { id: "unsure", label: "לא בטוחים עדיין" },
     ],
@@ -170,7 +170,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     categoryId: "dj",
     whatsappFastMessageBase:
       "שלום, ראינו את שירותי ה-DJ והאפקטים לאירועים.\nמה שחסר לנו: DJ / אפקטים לאירוע",
-    valueFrame: "מוזיקה ואווירה מקצועית - האורחים יזכרו",
+    valueFrame: "DJ ואפקטים מקצועיים - מתוכנן ומתואם מראש",
     closerServiceId: "dj",
   },
   {
@@ -181,7 +181,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     title: "צ'ק סאונד וטכנאי בשטח - הקול שלך בכל אולם",
     description:
       "מערכת הגברה מלאה עם טכנאי מקצועי. מתאים לזמרים שרוצים להישמע מעולה על הבמה.",
-    essenceMicroCopy: "שתרגישו בטוחים על הבמה - אנחנו דואגים לסאונד.",
+    essenceMicroCopy: "מערכת הגברה מלאה עם טכנאי סאונד נוכח לאורך האירוע.",
     priceExVat: SINGER_FROM,
     priceNote: "חבילת בסיס",
     startingPriceDual: dual(SINGER_FROM),
@@ -215,7 +215,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceNote: "שעת צילום באולפן / אירוע",
     startingPriceDual: dual(PHOTO_FROM),
     upsellHint: "אפשר לשלב: חבילת AI - קליפ מקצועי - סרטון סיכום",
-    emotionalQuestion: "איזה רגע אתם רוצים לשמר לנצח?",
+    emotionalQuestion: "מה אתם רוצים לתעד?",
     emotionalOptions: [
       { id: "wedding", label: "חתונה / אירוע" },
       { id: "clip", label: "קליפ לשיר" },
@@ -239,7 +239,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     title: "שיעורים פרטיים עם יקיר - פיתוח קול, DJ, הפקה ועוד",
     description:
       "מפגש אישי 1:1 באולפן במודיעין. 60 או 90 דקות של תשומת לב מלאה - פסנתר, גיטרה, הפקה, תקליטנות.",
-    essenceMicroCopy: "ללמוד בקצב שלך, עם מישהו שעושה את זה בשטח כל יום.",
+    essenceMicroCopy: "שיעורים פרטיים אחד-על-אחד באולפן, עם מי שעוסק בתחום על בסיס יומי.",
     priceExVat: ACADEMY_FROM,
     priceNote: "שיעור 60 דק׳ - Pro Session 90 דק׳ מ-1,280 ₪",
     startingPriceDual: dual(ACADEMY_FROM),
@@ -355,11 +355,11 @@ export function buildFastWhatsAppMessage(
 }
 
 export const BOOK_ESCAPE_HATCH = {
-  label: "לא בטוחים מה בדיוק מתאים? בואו נדבר אישית בוואטסאפ ונרכיב לכם חבילה מיוחדת",
+  label: "לא בטוחים מה מתאים? פנו בוואטסאפ לייעוץ ראשוני ללא עלות.",
   message:
     "שלום, לא בטוח/ה מה בדיוק מתאים לי.\nאשמח לשיחה קצרה ולעזרה בבחירת חבילה מותאמת.",
   utm_campaign: "book_escape_hatch",
 } as const;
 
 export const BOOK_ROUTER_REASSURANCE =
-  "בלי לחץ - אנחנו מדריכים אתכם צעד-צעד באווירה משוחררת וכיפית. רוב הלקוחות שלנו לא זמרים, וזה בסדר גמור.";
+  "רוב הלקוחות אינם מוזיקאים מקצועיים. כל פרויקט מלווה מתחילתו ועד סיומו.";

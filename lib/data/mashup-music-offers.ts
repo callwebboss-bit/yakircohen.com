@@ -91,7 +91,7 @@ export const MASHUP_MUSIC_OFFER_CATEGORIES: readonly MashupOfferCategory[] = [
       {
         id: "gym_hiit",
         title: "HIIT ואינטרוולים",
-        description: "120–140 BPM, בלוקים של 45 דקות.",
+        description: "120-140 BPM, בלוקים של 45 דקות.",
         pricingId: "gym_music_set",
         tags: ["HIIT"],
       },
@@ -105,7 +105,7 @@ export const MASHUP_MUSIC_OFFER_CATEGORIES: readonly MashupOfferCategory[] = [
       {
         id: "gym_yoga",
         title: "יוגה ומתיחות",
-        description: "70–95 BPM, זרימה רגועה.",
+        description: "70-95 BPM, זרימה רגועה.",
         pricingId: "gym_music_set",
         tags: ["יוגה"],
       },

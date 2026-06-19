@@ -60,7 +60,7 @@ export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
   {
     id: "attractions",
     title: "אירועים ואטרקציות",
-    description: "DJ, עשן כניסה, זיקוקים קרים וקונפטי. רגעים שהאורחים מדברים עליהם.",
+    description: "DJ, עשן כניסה, זיקוקים קרים וקונפטי לאירועים. ציוד מקצועי, הפעלה בשטח.",
     href: "/events",
     utmCampaign: "home_attractions",
   },

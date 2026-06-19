@@ -15,6 +15,7 @@ import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import Testimonials from "@/components/marketing/Testimonials";
 import WhatsappLeadRouter from "@/components/marketing/WhatsappLeadRouter";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
+import HomeServicesDetailHub from "@/components/marketing/HomeServicesDetailHub";
 import {
   PRIMARY_HOME_HUB_CARDS,
   SECONDARY_HOME_HUB_CARDS,
@@ -28,9 +29,8 @@ const HOME_FAQ: FAQItem[] = [
     question: "איפה האולפן ויש חנייה?",
     answer: (
       <>
-        ב
-        <InlineServiceLink href="/studio">אולפן במודיעין</InlineServiceLink>
-        . מגיעים, חונים בנוחות, נכנסים להקלטה. פשוט.
+        <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
+        איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.
       </>
     ),
   },
@@ -50,14 +50,14 @@ const HOME_FAQ: FAQItem[] = [
   },
   {
     id: "events-attractions",
-    question: "אתם מגיעים לאירוע שלי?",
+    question: "האם השירות כולל הגעה לאירועים?",
     answer: (
       <>
         כן.{" "}
         <InlineServiceLink href="/events/dj-events">DJ והגברה</InlineServiceLink>
         ,{" "}
         <InlineServiceLink href="/events/attractions/wedding-smoking-machine">
-          עשן
+          עשן כבד
         </InlineServiceLink>
         ,{" "}
         <InlineServiceLink href="/events/attractions/giant-balloons">
@@ -67,7 +67,7 @@ const HOME_FAQ: FAQItem[] = [
         <InlineServiceLink href="/events/attractions/cold-fireworks">
           זיקוקים קרים
         </InlineServiceLink>{" "}
-        ועוד. תגידו לנו מה חוגגים ונבנה חבילה שמתאימה.
+        ועוד — זמינים לאירועי שטח. החבילה נבנית לפי סוג האירוע ומיקומו.
       </>
     ),
   },
@@ -190,17 +190,23 @@ export default function HomePageSections({
             >
               מה אתם צריכים היום?
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              לחצו על{" "}
-              <InlineServiceLink href="/studio" ariaLabel="עבור לעמוד אולפן הקלטות">אולפן הקלטות</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/events">אירועים ואטרקציות</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/events/dj-events">DJ לחתונות</InlineServiceLink>,{" "}
-              <InlineServiceLink href="/online">שירותי AI</InlineServiceLink>{" "}
-              או{" "}
-              <InlineServiceLink href="/business">לעסקים</InlineServiceLink>
-              . נחבר אתכם למסלול הנכון תוך דקות.
-            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
+              {([
+                { label: "מקליט שיר לאירוע", href: "/studio/recording-song-modiin" },
+                { label: "מחפש DJ לחתונה", href: "/events/dj-events" },
+                { label: "מפיק פודקאסט", href: "/podcast" },
+                { label: "עסק מחפש תוכן", href: "/business" },
+              ] as const).map(({ label, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-foreground/80 transition-colors duration-fast hover:border-brand-red/40 hover:bg-brand-red/5 hover:text-brand-red"
+                >
+                  {label}
+                  <span aria-hidden="true">›</span>
+                </Link>
+              ))}
+            </div>
           </header>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
@@ -231,6 +237,8 @@ export default function HomePageSections({
       </Section>
 
       <StudioClientsStrip />
+
+      <HomeServicesDetailHub />
 
       <WhatsappLeadRouter />
 

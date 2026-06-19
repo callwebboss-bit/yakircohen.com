@@ -7,8 +7,9 @@ import {
   DJ_FREE_TOOLS_LAST_VERIFIED,
   DJ_GEMINI_PROMPT_TEMPLATES,
 } from "@/lib/data/dj-free-tools";
+import { cn } from "@/lib/utils";
 
-export default function DjFreeToolsSection() {
+export default function DjFreeToolsSection({ embedded = false }: { embedded?: boolean }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   async function copyPrompt(id: string, text: string) {
@@ -22,16 +23,23 @@ export default function DjFreeToolsSection() {
   }
 
   return (
-    <section id="dj-free-tools" aria-labelledby="dj-tools-heading">
-      <h2 id="dj-tools-heading" className="text-2xl font-semibold text-foreground">
-        כלים חינמיים לדיג&apos;יי
-      </h2>
-      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        Fadr, Suno, Gemini ועוד — מסוננים לפי מה שדיג&apos;ייז באמת משתמשים בו.
-        עודכן לאחרונה: {DJ_FREE_TOOLS_LAST_VERIFIED}.
-      </p>
+    <section
+      id="dj-free-tools"
+      aria-labelledby={embedded ? undefined : "dj-tools-heading"}
+    >
+      {embedded ? null : (
+        <>
+          <h2 id="dj-tools-heading" className="text-2xl font-semibold text-foreground">
+            כלים חינמיים לדיג&apos;יי
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            כלים שדיג&apos;ייז באמת פותחים לפני ערב עמוס.
+            עודכן לאחרונה: {DJ_FREE_TOOLS_LAST_VERIFIED}.
+          </p>
+        </>
+      )}
 
-      <div className="mt-8 space-y-10">
+      <div className={cn("space-y-10", embedded ? "mt-0" : "mt-8")}>
         {DJ_FREE_TOOL_CATEGORIES.map((category) => (
           <div key={category.id}>
             <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
@@ -78,12 +86,12 @@ export default function DjFreeToolsSection() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-2xl border border-border bg-muted/30 p-6">
-        <h3 className="text-lg font-semibold text-foreground">
-          תבניות Gemini להעתקה
-        </h3>
+      <details className="mt-10 rounded-2xl border border-border bg-muted/30 p-6">
+        <summary className="cursor-pointer list-none text-lg font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+          תבניות לנסות בבית
+        </summary>
         <p className="mt-2 text-sm text-muted-foreground">
-          פותחים Gemini או ChatGPT, מדביקים את הטקסט וממלאים את הסוגריים המרובעים.
+          מעתיקים את הטקסט, ממלאים את הסוגריים המרובעים ומשתמשים בכלי שאתם כבר עובדים איתו.
         </p>
         <div className="mt-4 space-y-4">
           {DJ_GEMINI_PROMPT_TEMPLATES.map((template) => (
@@ -110,10 +118,11 @@ export default function DjFreeToolsSection() {
             </div>
           ))}
         </div>
-      </div>
+      </details>
 
       <p className="mt-4 text-xs text-muted-foreground">
-        מוזיקת AI (Suno, Udio) — בדקו רישוי לפני שמנגנים באירוע חי. לרמיקס מוכן לרחבה —
+        מוזיקה שנוצרה במחוללים (Suno, Udio וכו&apos;). בדקו רישוי לפני שמנגנים באירוע חי.
+        לרמיקס מוכן לרחבה
         <Link href="#pro-offers" className="mx-1 font-medium text-brand-red hover:underline">
           הזמינו ייצור מקצועי
         </Link>

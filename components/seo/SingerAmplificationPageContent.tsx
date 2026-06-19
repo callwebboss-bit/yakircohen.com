@@ -69,6 +69,8 @@ export default function SingerAmplificationPageContent() {
       bookSlug={service.slug}
       ctaLabel={SINGER_PAGE_HERO.ctaLabel}
       maxHeroFeatures={3}
+      pagePath="/events/equipment/singer-amplification"
+      faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

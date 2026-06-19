@@ -94,10 +94,10 @@ export type WhatsappLeadRouterProps = {
 };
 
 export default function WhatsappLeadRouter({
-  eyebrow = "בואו נדבר תכלס",
-  heading = "מה אנחנו מתכננים לכם?",
+  eyebrow = "הצעת מחיר בוואטסאפ",
+  heading = "בחרו שירות לקבלת הצעת מחיר",
   description =
-    "בחרו את הכיוון שלכם ונעבור ישירות לוואטסאפ לשיחה קצרה בגובה העיניים, בלי אנשי מכירות ובלי כאבי ראש.",
+    "בחרו שירות, ענו על שאלה קצרה ועברו לוואטסאפ עם הצעת מחיר ראשונית.",
   className,
 }: WhatsappLeadRouterProps) {
   return (

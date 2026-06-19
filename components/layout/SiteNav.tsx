@@ -109,9 +109,27 @@ const DesktopDropdown = memo(function DesktopDropdown({
       </button>
       {open ? (
         <div
-          className="absolute start-0 top-full z-[60] mt-1.5 min-w-[18rem] max-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-border bg-background p-2 shadow-xl"
+          className="absolute start-0 top-full z-[60] mt-1.5 min-w-[20rem] max-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-border bg-background p-2 shadow-xl"
           role="menu"
         >
+          {category.featured && category.featured.length > 0 ? (
+            <>
+              <div className="grid grid-cols-3 gap-1.5 px-1 pb-2 pt-1">
+                {category.featured.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="mx-1 mb-1 border-t border-border/40" />
+            </>
+          ) : null}
           <Link
             href={category.href}
             role="menuitem"

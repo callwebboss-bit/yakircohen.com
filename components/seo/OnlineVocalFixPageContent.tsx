@@ -11,6 +11,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
+import { buildFaqSchema } from "@/lib/seo/page-schema";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -58,8 +59,14 @@ export default function OnlineVocalFixPageContent() {
     utm_campaign: "vocal_fix_cta",
   });
 
+  const faqSchema = buildFaqSchema(FAQ_ITEMS.map(({ question, answer }) => ({ question, answer })));
+
   return (
     <div className="bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"

@@ -40,7 +40,7 @@ export default function MashupYoutubeModal({ demo, onClose }: MashupYoutubeModal
           <div>
             <p className="text-sm font-semibold text-foreground">{demo.label}</p>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {demo.source === "yakir" ? "גרסה מהאולפן" : "רפרנס מהקהילה — לא הורדה"}
+              {demo.source === "yakir" ? "גרסה מהאולפן" : "רפרנס מהקהילה, לא הורדה"}
             </p>
           </div>
           <button
