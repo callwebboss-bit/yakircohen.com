@@ -3,6 +3,7 @@ import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
 import {
   HONEYPOT_FIELD_NAME,
   isLeadSpam,
+  sanitizeLeadText,
   validateHoneypot,
   validateIsraeliMobile,
 } from "@/lib/form-validation";
@@ -124,8 +125,8 @@ export async function POST(request: Request) {
       subject: `[יקיר כהן] ${subject}`,
       text: [
         `מקור: ${formId}`,
-        payload.name ? `שם: ${payload.name}` : null,
-        payload.phone ? `טלפון: ${payload.phone}` : null,
+        payload.name ? `שם: ${sanitizeLeadText(payload.name, 200)}` : null,
+        payload.phone ? `טלפון: ${sanitizeLeadText(payload.phone, 20)}` : null,
         "",
         body,
         "",

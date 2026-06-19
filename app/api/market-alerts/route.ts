@@ -27,8 +27,12 @@ function notifyEmail(): string {
 
 /** POST /api/market-alerts - cron digest of arbitrage signals (Bearer CRON_SECRET) */
 export async function POST(request: Request) {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  if (!cronSecret) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
