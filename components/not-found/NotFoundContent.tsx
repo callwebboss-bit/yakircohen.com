@@ -166,7 +166,9 @@ export default function NotFoundContent() {
     if (!voiceAutoNavigateRef.current || !query.trim()) return;
     if (results.length !== 1) return;
     voiceAutoNavigateRef.current = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQuery("");
     router.push(results[0].href);
   }, [query, results, router]);

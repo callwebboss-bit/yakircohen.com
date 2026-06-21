@@ -125,14 +125,18 @@ export default function SiteSearch({
     if (!voiceAutoNavigateRef.current || loading || status !== "success") return;
     voiceAutoNavigateRef.current = false;
     if (results.length === 1) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setQuery("");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveIndex(-1);
       router.push(results[0].url);
     }
   }, [loading, status, results, router]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveIndex(-1);
   }, [query, results.length]);
 

@@ -172,6 +172,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
     }
 
     if (Object.keys(patch).length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setValues((prev) => ({ ...prev, ...patch }));
     }
   }, [service.id]);

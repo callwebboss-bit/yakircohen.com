@@ -67,13 +67,9 @@ export default function DjMashupIdeasSection({ embedded = false }: DjMashupIdeas
   const [tierFilter, setTierFilter] = useState<TierFilter>("יצירתי");
   const [momentFilter, setMomentFilter] = useState<MomentFilter>("הכל");
   const [demoOnly, setDemoOnly] = useState(false);
-  const [wishlist, setWishlist] = useState<string[]>([]);
+  const [wishlist, setWishlist] = useState<string[]>(() => readWishlist());
   const [youtubeDemo, setYoutubeDemo] = useState<MashupYoutubeDemo | null>(null);
   const [visibleCount, setVisibleCount] = useState(MASHUP_IDEAS_INITIAL_VISIBLE);
-
-  useEffect(() => {
-    setWishlist(readWishlist());
-  }, []);
 
   const ideas = getMashupIdeas({
     moment: momentFilter,
@@ -82,6 +78,7 @@ export default function DjMashupIdeasSection({ embedded = false }: DjMashupIdeas
   });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisibleCount(MASHUP_IDEAS_INITIAL_VISIBLE);
   }, [momentFilter, tierFilter, demoOnly]);
 

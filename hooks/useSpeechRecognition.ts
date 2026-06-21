@@ -73,18 +73,14 @@ export function useSpeechRecognition({
   onFinalTranscript,
   onInterimTranscript,
 }: UseSpeechRecognitionOptions = {}) {
-  const [status, setStatus] = useState<SpeechRecognitionStatus>("idle");
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported] = useState(() => isSpeechRecognitionSupported());
+  const [status, setStatus] = useState<SpeechRecognitionStatus>(() =>
+    isSpeechRecognitionSupported() ? "idle" : "unsupported",
+  );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const onFinalRef = useRef(onFinalTranscript);
   const onInterimRef = useRef(onInterimTranscript);
-
-  useEffect(() => {
-    const supported = isSpeechRecognitionSupported();
-    setIsSupported(supported);
-    if (!supported) setStatus("unsupported");
-  }, []);
 
   useEffect(() => {
     onFinalRef.current = onFinalTranscript;
