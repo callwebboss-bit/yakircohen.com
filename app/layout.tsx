@@ -109,6 +109,13 @@ export default function RootLayout({
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
+      <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.instagram.com" />
+        <link rel="dns-prefetch" href="https://static.elfsight.com" />
+      </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
         <TabRescueTitle />

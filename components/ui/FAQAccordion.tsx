@@ -46,9 +46,10 @@ function AccordionPanel({
       <div className="overflow-hidden">
         <div
           className={cn(
-            "pb-5 pt-1 text-sm leading-relaxed text-muted-foreground transition-opacity duration-normal ease-luxury motion-reduce:transition-none",
+            "faq-answer pb-5 pt-1 text-sm leading-relaxed text-muted-foreground transition-opacity duration-normal ease-luxury motion-reduce:transition-none",
             isOpen ? "opacity-100" : "opacity-0",
           )}
+          data-speakable
         >
           {children}
         </div>

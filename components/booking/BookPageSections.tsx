@@ -199,8 +199,9 @@ export default function BookPageSections() {
             <button
               type="button"
               onClick={backToRouter}
-              className="mb-6 text-sm font-medium text-muted-foreground transition-colors hover:text-brand-red"
-            > חזרה לבחירת שירות
+              className="mb-6 inline-flex min-h-9 items-center text-sm font-medium text-muted-foreground transition-colors hover:text-brand-red"
+            >
+              חזרה לבחירת שירות
             </button>
 
             <header className="mb-8 flex items-center gap-3">
@@ -245,7 +246,7 @@ export default function BookPageSections() {
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 text-xs font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-dark"
+            className="inline-flex min-h-9 shrink-0 items-center text-xs font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-dark"
           >
             לפרטים בוואטסאפ
           </a>
@@ -266,7 +267,7 @@ export default function BookPageSections() {
                 href={SOCIAL_MGMT_HREF}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-block text-xs font-semibold text-brand-red hover:underline"
+                className="mt-3 inline-flex min-h-9 items-center text-xs font-semibold text-brand-red hover:underline"
               >
                 לפרטים בוואטסאפ </a>
             </div>

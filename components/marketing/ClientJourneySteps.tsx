@@ -87,7 +87,7 @@ export default function ClientJourneySteps({
         <h2 id={`journey-full-${config.id}`} className="sr-only">
           שלבי העבודה
         </h2>
-        <ol className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
+        <ol className={cn("grid grid-cols-1 gap-8 md:gap-6", config.steps.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3")}>
           {config.steps.map((step) => (
             <li
               key={step.number}

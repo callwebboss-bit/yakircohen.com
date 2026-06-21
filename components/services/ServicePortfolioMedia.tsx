@@ -26,6 +26,8 @@ export type ServicePortfolioMediaProps = {
   showEmbed?: boolean;
   /** Anchor for hero scroll-to-gallery (default shared id). */
   sectionId?: string;
+  /** Pass true when a hero image already occupies the page above this gallery. */
+  noPriority?: boolean;
 };
 
 const PORTFOLIO_COPY: Partial<Record<ServiceMediaType, string>> = {
@@ -47,6 +49,7 @@ export default function ServicePortfolioMedia({
   galleryLayout = "masonry",
   showEmbed = true,
   sectionId = SERVICE_PORTFOLIO_GALLERY_ID,
+  noPriority = false,
 }: ServicePortfolioMediaProps) {
   const { primary, archive } = listServicePortfolioImageSet(assetsFolder);
   const hasImages = primary.length > 0 || archive.length > 0;
@@ -131,6 +134,7 @@ export default function ServicePortfolioMedia({
             layout={galleryLayout}
             initialVisible={Math.min(galleryInitialVisible, SERVICE_GALLERY_MAX_IMAGES)}
             showFooterHint={false}
+            noPriority={noPriority}
           />
         ) : !hasEmbed && mediaType !== "audio" ? (
           <div

@@ -100,6 +100,7 @@ export default function ServicePageFromRegistry({
             }
             galleryInitialVisible={SERVICE_GALLERY_MAX_IMAGES}
             galleryLayout="masonry"
+            noPriority
           />
         ) : null}
 

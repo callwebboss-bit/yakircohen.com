@@ -117,9 +117,10 @@ export default function BookAudienceRouter({
               <p className="mt-3">
                 <Link
                   href="/start"
-                  className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
+                  className="inline-flex min-h-9 items-center text-sm font-medium text-brand-red underline-offset-4 hover:underline"
                 >
-                  לא בטוחים איך זה עובד? כל השלבים </Link>
+                  לא בטוחים איך זה עובד? כל השלבים
+                </Link>
               </p>
             </>
           ) : (
@@ -190,7 +191,7 @@ export default function BookAudienceRouter({
             <button
               type="button"
               onClick={() => openWhatsAppLead(escapeHref)}
-              className="text-sm font-medium text-brand-red underline-offset-4 hover:underline"
+              className="inline-flex min-h-9 items-center text-sm font-medium text-brand-red underline-offset-4 hover:underline"
             >
               {BOOK_ESCAPE_HATCH.label}
             </button>

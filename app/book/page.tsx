@@ -51,12 +51,12 @@ export default function BookPage() {
           />
 
           <Container className="relative max-w-3xl py-14 text-center sm:py-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red" aria-hidden="true">
               {SITE_NAME}
             </p>
 
             <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
-              תוך דקה תדעו כמה זה עולה - ומה תקבלו בפועל
+              בחרו כיוון - מחיר שקוף מיד, ומה מקבלים בפועל
             </h1>
 
             <Suspense

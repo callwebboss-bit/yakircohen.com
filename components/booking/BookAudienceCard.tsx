@@ -163,7 +163,7 @@ export default function BookAudienceCard({
         <button
           type="button"
           onClick={() => setVideoOpen(true)}
-          className="mt-4 text-xs font-semibold text-brand-red underline-offset-2 hover:underline"
+          className="mt-4 inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-brand-red underline-offset-2 hover:underline"
         >
           ▶ איך זה נראה?
         </button>
@@ -192,9 +192,10 @@ export default function BookAudienceCard({
           <button
             type="button"
             onClick={openFeasibilityCheck}
-            className="mt-2 w-full text-center text-xs font-medium text-brand-red underline-offset-2 hover:underline"
+            className="mt-2 inline-flex min-h-9 w-full items-center justify-center text-xs font-medium text-brand-red underline-offset-2 hover:underline"
           >
-            שלחו קובץ לבדיקת היתכנות חינם </button>
+            שלחו קובץ לבדיקת היתכנות חינם
+          </button>
         ) : null}
       </article>
 

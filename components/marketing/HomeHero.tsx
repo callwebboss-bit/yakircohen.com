@@ -64,7 +64,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
         <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
           <Image
             src={SITE_STUDIO_IMAGE_SRC}
-            alt="אולפן הקלטות ויקיר כהן במודיעין"
+            alt="אולפן הקלטות מקצועי במודיעין"
             fill
             priority
             fetchPriority="high"

@@ -45,13 +45,14 @@ export function altTextFromAssetFilename(filename: string): string {
     .trim();
 }
 
-/** IMPROVED: sync PNG/JPEG dimension probe - no extra dependency */
+/** sync PNG/JPEG/WebP dimension probe - no extra dependency */
 function readImageDimensions(
   absoluteFilePath: string,
 ): { width: number; height: number } | null {
   try {
     const buffer = fs.readFileSync(absoluteFilePath);
 
+    // PNG: magic 89 50 4E 47, IHDR at offset 16
     if (
       buffer.length >= 24 &&
       buffer[0] === 0x89 &&
@@ -65,6 +66,7 @@ function readImageDimensions(
       };
     }
 
+    // JPEG: SOF marker scan
     if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
       let offset = 2;
       while (offset + 9 < buffer.length) {
@@ -79,6 +81,36 @@ function readImageDimensions(
           };
         }
         offset += 2 + length;
+      }
+    }
+
+    // WebP: RIFF????WEBP header
+    if (
+      buffer.length >= 30 &&
+      buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x46 && // "RIFF"
+      buffer[8] === 0x57 && buffer[9] === 0x45 && buffer[10] === 0x42 && buffer[11] === 0x50   // "WEBP"
+    ) {
+      const chunkType = buffer.toString("ascii", 12, 16);
+      if (chunkType === "VP8 " && buffer.length >= 30) {
+        // Lossy VP8: start code at 23-25 (9D 01 2A), then width/height as 14-bit LE values
+        if (buffer[23] === 0x9d && buffer[24] === 0x01 && buffer[25] === 0x2a) {
+          const width = (buffer[26] | (buffer[27] << 8)) & 0x3fff;
+          const height = (buffer[28] | (buffer[29] << 8)) & 0x3fff;
+          if (width > 0 && height > 0) return { width, height };
+        }
+      } else if (chunkType === "VP8X" && buffer.length >= 30) {
+        // Extended WebP: canvas width-1 at 24-26 (3 bytes LE), height-1 at 27-29
+        const width = (buffer[24] | (buffer[25] << 8) | (buffer[26] << 16)) + 1;
+        const height = (buffer[27] | (buffer[28] << 8) | (buffer[29] << 16)) + 1;
+        if (width > 0 && height > 0) return { width, height };
+      } else if (chunkType === "VP8L" && buffer.length >= 26) {
+        // Lossless VP8L: signature byte 0x2F at offset 20, then width-1 (14 bits) + height-1 (14 bits)
+        if (buffer[20] === 0x2f) {
+          const bits = buffer[21] | (buffer[22] << 8) | (buffer[23] << 16) | (buffer[24] << 24);
+          const width = (bits & 0x3fff) + 1;
+          const height = ((bits >>> 14) & 0x3fff) + 1;
+          if (width > 0 && height > 0) return { width, height };
+        }
       }
     }
 

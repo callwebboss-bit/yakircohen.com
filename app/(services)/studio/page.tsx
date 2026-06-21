@@ -96,12 +96,49 @@ const ArrowIcon = (
   </svg>
 );
 
+const STUDIO_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      name: "האולפן — יקיר כהן הפקות",
+      image: "https://www.yakircohen.com/images/studio-hero.jpg",
+      url: "https://www.yakircohen.com/studio",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "עמק איילון 34",
+        addressLocality: "מודיעין-מכבים-רעות",
+        addressCountry: "IL",
+      },
+      description:
+        "אולפן הקלטות ופודקאסט מבוסס חומרה מתקדמת — Townsend Sphere L22, UAD Apollo Twin, Allen & Heath — עם רצפה צפה ובידוד אקוסטי מלא.",
+      priceRange: "$$",
+    },
+    {
+      "@type": "Product",
+      name: "Townsend Sphere L22",
+      description:
+        "מיקרופון מודלינג אולפני המשמש כרכיב ליבה בשרשרת ההקלטה של האולפן.",
+    },
+    {
+      "@type": "Product",
+      name: "UAD Apollo Twin",
+      description:
+        "ממשק אודיו מתקדם המיועד להקלטה ועיבוד סאונד בזמן אמת עם DSP מובנה.",
+    },
+  ],
+} as const;
+
 export default function StudioHubPage() {
   const hubLinks = getStudioHubLinks();
   const tracks = [STUDIO_PRICING_LINK, ...hubLinks];
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(STUDIO_STRUCTURED_DATA) }}
+      />
       <HubPageSchema {...hubSchemaPropsFromService(service, "studio")} />
       <HubServiceIndexStatic
         heading="מסלולי האולפן"

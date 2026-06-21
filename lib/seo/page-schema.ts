@@ -2,6 +2,11 @@ import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import { absoluteUrl } from "@/lib/site-url";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
 
+const SPEAKABLE: Record<string, unknown> = {
+  "@type": "SpeakableSpecification",
+  cssSelector: ["h1", ".faq-answer", "[data-speakable]"],
+};
+
 export type FaqSchemaInput = {
   question: string;
   answer: string;
@@ -27,6 +32,8 @@ export function buildWebPageSchema({
     ? absoluteUrl(imagePath.replace(/^\/+/, ""))
     : undefined;
 
+  const today = new Date().toISOString().slice(0, 10);
+
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -35,6 +42,8 @@ export function buildWebPageSchema({
     name: `${title}${BRAND_SUFFIX}`,
     description,
     inLanguage: "he-IL",
+    dateModified: today,
+    speakable: SPEAKABLE,
     isPartOf: { "@id": `${absoluteUrl()}#website` },
     about: { "@id": `${absoluteUrl()}#organization` },
     ...(imageUrl
@@ -63,6 +72,7 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
 
 export function buildServiceSchema(service: ServiceEntity) {
   const serviceUrl = absoluteUrl(service.slug.replace(/^\/+/, ""));
+  const today = new Date().toISOString().slice(0, 10);
 
   return {
     "@context": "https://schema.org",
@@ -73,6 +83,8 @@ export function buildServiceSchema(service: ServiceEntity) {
     url: serviceUrl,
     serviceType: service.title,
     inLanguage: "he-IL",
+    dateModified: today,
+    speakable: SPEAKABLE,
     provider: { "@id": `${absoluteUrl()}#organization` },
     areaServed: {
       "@type": "GeoCircle",
@@ -113,6 +125,7 @@ export function buildServicePageEntitySchema({
 }: ServicePageEntityInput) {
   const pageUrl = absoluteUrl(pagePath.replace(/^\/+/, ""));
 
+  const today = new Date().toISOString().slice(0, 10);
   const serviceEntity = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
@@ -121,6 +134,8 @@ export function buildServicePageEntitySchema({
     url: pageUrl,
     serviceType: title,
     inLanguage: "he-IL",
+    dateModified: today,
+    speakable: SPEAKABLE,
     provider: { "@id": `${absoluteUrl()}#organization` },
   };
 

@@ -1,7 +1,7 @@
 export type JourneyVariant = "general" | "studio" | "events" | "online" | "podcast";
 
 export type JourneyStep = {
-  number: 1 | 2 | 3;
+  number: 1 | 2 | 3 | 4;
   title: string;
   description: string;
 };
@@ -46,21 +46,27 @@ export const CLIENT_JOURNEY_VARIANTS: readonly JourneyVariantConfig[] = [
     steps: [
       {
         number: 1,
-        title: "ניתוח",
+        title: "קליטת דרישות טכניות",
         description:
-          "מגדירים סוג הקלטה, אורך, פורמט מסירה (WAV/MP3) ולוח זמנים.",
+          "סוג הקלטה, אורך, פורמט מסירה (WAV/MP3) ולוח זמנים.",
       },
       {
         number: 2,
-        title: "ביצוע",
+        title: "התאמת ציוד ואקוסטיקה",
         description:
-          "הקלטה באולפן במודיעין, עריכה, מיקס ו-mastering לפי הצורך.",
+          "בחירת מיקרופון, שרשרת שמע וסביבת ההקלטה לפי צורך הפרויקט.",
       },
       {
         number: 3,
-        title: "מסירה",
+        title: "ביצוע ההקלטה",
         description:
-          "קובץ מוכן להורדה או שליחה, כולל גרסאות קצרות אם נדרש.",
+          "הקלטה באולפן, עריכה, מיקס ו-mastering לפי מה שנקבע.",
+      },
+      {
+        number: 4,
+        title: "מסירת התוצר הסופי",
+        description:
+          "קובץ מוכן להורדה בפורמט שנקבע, כולל גרסאות נוספות אם נדרש.",
       },
     ],
   },
@@ -71,19 +77,25 @@ export const CLIENT_JOURNEY_VARIANTS: readonly JourneyVariantConfig[] = [
     steps: [
       {
         number: 1,
-        title: "ניתוח",
+        title: "קליטת דרישות טכניות",
         description:
-          "בודקים תאריך, מיקום, סוג אירוע, ציוד נדרש וטווח מחיר.",
+          "מיקום, גודל קהל צפוי, ציוד נדרש ומסגרת זמן.",
       },
       {
         number: 2,
-        title: "ביצוע",
+        title: "התאמת מפרט החומרה למיקום",
         description:
-          "הגעה לאולם, הקמת הגברה/DJ/אפקטים, בדיקת סאונד לפני האורחים.",
+          "בחירת ציוד וכמויות לפי אופי האולם ומספר האורחים.",
       },
       {
         number: 3,
-        title: "מסירה",
+        title: "הקמת הציוד",
+        description:
+          "הגעה לאולם, הקמת הגברה/DJ/אפקטים ובדיקת סאונד לפני הפתיחה.",
+      },
+      {
+        number: 4,
+        title: "מסירת התוצר הסופי",
         description:
           "הפעלה מלאה בערב האירוע, פירוק ציוד וסגירת חשבון.",
       },

@@ -33,6 +33,12 @@ import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Button from "@/components/ui/Button";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
@@ -177,7 +183,6 @@ export default function ContactPageContent() {
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [availability] = useState(getContactAvailabilityLabel);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
@@ -591,6 +596,10 @@ export default function ContactPageContent() {
                         <input
                           id="contact-quiz-name"
                           type="text"
+                          required
+                          minLength={2}
+                          maxLength={60}
+                          aria-required="true"
                           value={name}
                           onChange={(e) => {
                             setName(e.target.value);
@@ -623,17 +632,23 @@ export default function ContactPageContent() {
                         <input
                           id="contact-quiz-phone"
                           type="tel"
+                          required
+                          minLength={9}
+                          maxLength={15}
+                          pattern="[\d\s\-\+\(\)]+"
+                          dir="ltr"
+                          aria-required="true"
                           value={phone}
-                        onChange={(e) => {
-                          setPhone(e.target.value);
-                          if (fieldErrors.phone) {
-                            setFieldErrors((prev) => {
-                              const next = { ...prev };
-                              delete next.phone;
-                              return next;
-                            });
-                          }
-                        }}
+                          onChange={(e) => {
+                            setPhone(e.target.value);
+                            if (fieldErrors.phone) {
+                              setFieldErrors((prev) => {
+                                const next = { ...prev };
+                                delete next.phone;
+                                return next;
+                              });
+                            }
+                          }}
                           placeholder={FORM_MICROCOPY.phonePlaceholder}
                           autoComplete="tel"
                           inputMode="tel"
@@ -656,6 +671,7 @@ export default function ContactPageContent() {
                       </div>
                       <input
                         type="email"
+                        maxLength={254}
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -814,34 +830,14 @@ export default function ContactPageContent() {
           <h2 className="mb-4 text-center text-lg font-semibold text-foreground">
             שאלות נפוצות
           </h2>
-          <div className="space-y-2">
-            {CONTACT_FAQ.map((item, i) => (
-              <div key={item.q} className="overflow-hidden rounded-xl border border-border bg-surface">
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3 text-start text-sm font-semibold text-foreground"
-                  aria-expanded={openFaq === i}
-                >
-                  {item.q}
-                  <span
-                    className={cn(
-                      "shrink-0 text-muted-foreground transition-transform",
-                      openFaq === i && "rotate-180",
-                    )}
-                    aria-hidden="true"
-                  >
-                    ▼
-                  </span>
-                </button>
-                {openFaq === i ? (
-                  <p className="border-t border-border px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-                    {item.a}
-                  </p>
-                ) : null}
-              </div>
+          <Accordion type="single" collapsible>
+            {CONTACT_FAQ.map((item) => (
+              <AccordionItem key={item.q} value={item.q}>
+                <AccordionTrigger>{item.q}</AccordionTrigger>
+                <AccordionContent>{item.a}</AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </section>
 
         <footer className="mt-12 border-t border-border pt-8 text-center text-xs text-muted-foreground">
@@ -992,7 +988,8 @@ function QuizNav({
             : "bg-brand-red text-white hover:bg-brand-red-light",
         )}
       >
-        {nextLabel} </button>
+        {nextLabel}
+      </button>
     </div>
   );
 }

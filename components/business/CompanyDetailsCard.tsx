@@ -133,7 +133,7 @@ function CompanyDetailsContent({ showActions = true }: { showActions?: boolean }
         className="hidden p-8 font-sans text-black"
         aria-hidden="true"
       >
-        <h1 className="text-xl font-bold">{COMPANY_LEGAL_NAME}</h1>
+        <p className="text-xl font-bold">{COMPANY_LEGAL_NAME}</p>
         <p className="mt-4 text-sm">פרטי ספק לרכש וחשבוניות</p>
         <pre className="mt-6 whitespace-pre-wrap text-sm leading-relaxed">
           {buildInvoiceClipboardText()}

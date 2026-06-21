@@ -206,6 +206,7 @@ export default function PremiumCrossfadePlayer({
       </div>
 
       {/* Crossfade track - touch-none prevents accidental page scroll while dragging */}
+      {/* min-h-[1.5rem] expands the touch target to ≥24px without changing visual track height */}
       <div
         ref={trackRef}
         role="slider"
@@ -214,25 +215,28 @@ export default function PremiumCrossfadePlayer({
         aria-valuemax={100}
         aria-valuenow={50}
         tabIndex={0}
-        className="relative h-2.5 cursor-pointer touch-none select-none rounded-full bg-muted outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
+        className="relative flex min-h-[1.5rem] cursor-pointer touch-none select-none items-center outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
         onPointerDown={handleDown}
         onPointerMove={handleMove}
         onPointerUp={handleUp}
         onPointerCancel={handleUp}
         onKeyDown={handleKey}
       >
-        {/* Fill - width driven by --sp, zero JS re-renders */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 rounded-full bg-brand-red/25"
-          style={{ width: "var(--sp)" }}
-          aria-hidden
-        />
-        {/* Thumb */}
-        <div
-          className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand-red bg-background shadow-md"
-          style={{ left: "var(--sp)" }}
-          aria-hidden
-        />
+        {/* Visual track - visually thin but pointer events come from parent */}
+        <div className="relative h-2.5 w-full rounded-full bg-muted">
+          {/* Fill - width driven by --sp, zero JS re-renders */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 rounded-full bg-brand-red/25"
+            style={{ width: "var(--sp)" }}
+            aria-hidden
+          />
+          {/* Thumb */}
+          <div
+            className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand-red bg-background shadow-md"
+            style={{ left: "var(--sp)" }}
+            aria-hidden
+          />
+        </div>
       </div>
 
       {/* Play / Pause - inline SVG, no icon library dependency */}

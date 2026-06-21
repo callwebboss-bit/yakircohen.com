@@ -1,10 +1,10 @@
-/** Shared warm micro-copy for booking and contact form fields. */
+/** Shared micro-copy for booking and contact form fields. */
 export const FORM_MICROCOPY = {
-  nameLabel: "איך לקרוא לך?",
-  namePlaceholder: "למשל: יקיר כהן",
-  phoneLabel: "הנייד שלך",
+  nameLabel: "שם מלא",
+  namePlaceholder: "שם פרטי ומשפחה",
+  phoneLabel: "טלפון",
   phonePlaceholder: "05X-XXXXXXX",
-  phoneHint: "נשלח רק הודעה, בלי להציק",
-  visionLabel: "ספר לנו קצת על החזון שלך",
-  visionPlaceholder: "למשל: פודקאסט עסקי בן 5 פרקים...",
+  phoneHint: "לשליחת אישור ולתיאום",
+  visionLabel: "פירוט הדרישות",
+  visionPlaceholder: "מיקום, גודל קהל צפוי, מסגרת זמן וציוד נדרש.",
 } as const;

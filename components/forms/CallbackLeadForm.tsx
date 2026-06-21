@@ -157,11 +157,15 @@ export default function CallbackLeadForm({
             id={nameId}
             type="text"
             autoComplete="name"
+            required
+            minLength={2}
+            maxLength={60}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={FORM_MICROCOPY.namePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.name)}
+            aria-required="true"
           />
           {fieldErrors.name ? (
             <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
@@ -178,12 +182,17 @@ export default function CallbackLeadForm({
             autoComplete="tel"
             inputMode="tel"
             dir="ltr"
+            required
+            minLength={9}
+            maxLength={15}
+            pattern="[\d\s\-\+\(\)]+"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder={FORM_MICROCOPY.phonePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-describedby={`${phoneId}-hint`}
+            aria-required="true"
           />
           <p id={`${phoneId}-hint`} className="mt-1 text-xs text-muted-foreground">
             {FORM_MICROCOPY.phoneHint}

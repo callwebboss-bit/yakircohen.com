@@ -52,6 +52,12 @@ export type MediaGalleryProps = {
   archiveImages?: Array<GalleryItem | string>;
   /** הצג שורת ספירה בתחתית (ברירת מחדל: כן) */
   showFooterHint?: boolean;
+  /**
+   * Disable priority/eager loading on gallery images.
+   * Use when there is already a hero image above this gallery — having multiple
+   * priority hints competes for bandwidth and delays LCP.
+   */
+  noPriority?: boolean;
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -320,6 +326,7 @@ export default function MediaGallery({
   layout = "masonry",
   archiveImages = [],
   showFooterHint = true,
+  noPriority = false,
 }: MediaGalleryProps) {
   const primaryItems = useMemo(() => images.map(normalize), [images]);
   const archiveItems = useMemo(
@@ -427,8 +434,8 @@ export default function MediaGallery({
                     fill
                     className="object-cover transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-95"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    loading={index < 6 ? "eager" : "lazy"}
-                    priority={index < 2}
+                    loading={!noPriority && index < 6 ? "eager" : "lazy"}
+                    priority={!noPriority && index < 2}
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />
@@ -467,8 +474,8 @@ export default function MediaGallery({
                     height={item.height}
                     className="block h-auto w-full transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-90"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading={index < 4 ? "eager" : "lazy"}
-                    priority={index < 2}
+                    loading={!noPriority && index < 4 ? "eager" : "lazy"}
+                    priority={!noPriority && index < 2}
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />

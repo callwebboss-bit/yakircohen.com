@@ -5,6 +5,7 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { STUDIO_CLIENT_HIGHLIGHTS } from "@/lib/data/studio-clients";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { cn } from "@/lib/utils";
 
 export type StudioClientsStripProps = {
@@ -53,6 +54,9 @@ export default function StudioClientsStrip({ className }: StudioClientsStripProp
                   alt={item.imageAlt}
                   fill
                   sizes="(max-width: 640px) 50vw, 25vw"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
                   className="group-hover-scale-md object-cover motion-reduce:transform-none"
                 />
               </div>

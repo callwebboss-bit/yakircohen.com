@@ -11,12 +11,38 @@ import {
   hubSchemaPropsFromSeo,
   metadataForHubSeo,
 } from "@/lib/seo/hub-pages";
+import { buildFaqSchema } from "@/lib/seo/page-schema";
 
 export const metadata: Metadata = metadataForHubSeo(CONTACT_HUB_SEO);
+
+const CONTACT_FAQ_SCHEMA = buildFaqSchema([
+  {
+    question: "כמה עולה הקלטה באולפן?",
+    answer: "ברכה והקלטה קצרה החל מ-450 ₪ + מע\"מ. שעת אולפן מ-350 ₪ + מע\"מ. מחיר סופי מוצג מיד בדף ההזמנה המקוונת.",
+  },
+  {
+    question: "אפשר לשמוע דוגמאות מהעבודות?",
+    answer: "כן. יש דוגמאות ביוטיוב ובאינסטגרם, ונשמח לשלוח קישורים רלוונטיים בוואטסאפ.",
+  },
+  {
+    question: "כמה זמן לוקחת הפקה מלאה?",
+    answer: "קריינות ופודקאסט: לרוב ימים בודדים. אולפן: לפי היקף. DJ: לפי תאריך האירוע.",
+  },
+  {
+    question: "איפה האולפן ממוקם?",
+    answer: "במודיעין, עמק איילון 34. נגישות נוחה מהמרכז וירושלים. אפשר לתאם הקלטה מרחוק לפי הצורך.",
+  },
+]);
 
 export default function ContactPage() {
   return (
     <>
+      {CONTACT_FAQ_SCHEMA && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_FAQ_SCHEMA) }}
+        />
+      )}
       <HubPageSchema {...hubSchemaPropsFromSeo(CONTACT_HUB_SEO)} />
       <ContactPageContent />
 

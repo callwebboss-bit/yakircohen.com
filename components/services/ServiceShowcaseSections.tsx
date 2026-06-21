@@ -24,6 +24,8 @@ export type ServiceShowcaseSectionsProps = {
   footer?: ReactNode;
   secondaryEmbedUrl?: string | null;
   secondaryEmbedTitle?: string;
+  /** Forward to MediaGallery — set when a hero image already loads above this gallery */
+  noPriority?: boolean;
 };
 
 import { SERVICE_GALLERY_MAX_IMAGES } from "@/lib/service-page-ui";
@@ -47,6 +49,7 @@ export default function ServiceShowcaseSections({
   footer,
   secondaryEmbedUrl,
   secondaryEmbedTitle,
+  noPriority = false,
 }: ServiceShowcaseSectionsProps) {
   const { primary, archive } = listServicePortfolioImageSet(assetsFolder);
   const hasImages = primary.length > 0 || archive.length > 0;
@@ -72,6 +75,7 @@ export default function ServiceShowcaseSections({
             galleryLayout={galleryLayout}
             galleryInitialVisible={galleryInitialVisible}
             className="px-0"
+            noPriority={noPriority}
           />
         ) : null}
         <ServicePortfolioMedia
@@ -110,6 +114,7 @@ export default function ServiceShowcaseSections({
           galleryLayout={galleryLayout}
           galleryInitialVisible={galleryInitialVisible}
           className="px-0"
+          noPriority={noPriority}
         />
       ) : null}
 

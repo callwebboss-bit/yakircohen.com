@@ -3,9 +3,11 @@
 import Script from "next/script";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
+import { SOCIAL_LINKS, STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { cn } from "@/lib/utils";
+
+const INSTAGRAM_HREF = SOCIAL_LINKS.find((s) => s.label === "Instagram")?.href ?? "https://www.instagram.com/";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SocialProofWidgets
@@ -114,12 +116,15 @@ export function InstagramFeed({
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
   const [shouldLoadScript, setShouldLoadScript] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
     };
   }, []);
 
@@ -140,11 +145,21 @@ export function InstagramFeed({
           observer.disconnect();
         }
       },
-      { rootMargin: "0px" },
+      { rootMargin: "400px 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!shouldLoadScript) return;
+    fallbackTimerRef.current = setTimeout(() => {
+      if (!isReady) setLoadFailed(true);
+    }, 8000);
+    return () => {
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+    };
+  }, [shouldLoadScript, isReady]);
 
   const handleScriptLoad = useCallback(() => {
     timerRef.current = setTimeout(() => setIsReady(true), 400);
@@ -182,15 +197,32 @@ export function InstagramFeed({
       <div className="relative min-h-[380px] sm:min-h-[440px]">
         {/* ── Pulse skeleton - sits in front via z-10 ── */}
         <div
-          aria-hidden={isReady}
+          aria-hidden={isReady || loadFailed}
           className={cn(
             "absolute inset-x-0 top-0 z-10",
             "transition-opacity duration-500 ease-luxury",
-            isReady ? "pointer-events-none opacity-0" : "opacity-100",
+            isReady || loadFailed ? "pointer-events-none opacity-0" : "opacity-100",
           )}
         >
           <InstagramGridSkeleton />
         </div>
+
+        {/* ── Fallback when script fails to load ── */}
+        {loadFailed && !isReady && (
+          <div className="flex min-h-[280px] flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-surface p-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              הפיד לא נטען. צפו בתמונות שלנו ישירות באינסטגרם.
+            </p>
+            <a
+              href={INSTAGRAM_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-red px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              לפרופיל האינסטגרם שלנו
+            </a>
+          </div>
+        )}
 
         {/* ── Elfsight widget container ── */}
         {/*
