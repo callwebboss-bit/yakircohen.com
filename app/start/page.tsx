@@ -71,10 +71,11 @@ const VARIANT_META: Record<
   },
 };
 
-const STEP_ICONS: Record<1 | 2 | 3, IconComponent> = {
+const STEP_ICONS: Record<1 | 2 | 3 | 4, IconComponent> = {
   1: SearchIcon,
   2: ZapIcon,
   3: DownloadIcon,
+  4: CheckIcon,
 };
 
 const VARIANT_BOOK_CATEGORY: Partial<Record<JourneyVariant, BookCategoryId>> = {
