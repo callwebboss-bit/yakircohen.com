@@ -83,18 +83,26 @@ export default function Testimonials({
           </div>
           <p className="mt-3 text-sm">
             <Link
+              href="/testimonials"
+              className="font-semibold text-brand-red hover:underline"
+            >
+              לכל ההמלצות באתר
+            </Link>
+            {" · "}
+            <Link
               href={STUDIO_GOOGLE_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-brand-red hover:underline"
             >
-              לכל הביקורות המאומתות ב-Google Maps </Link>
+              ביקורות מאומתות ב-Google Maps
+            </Link>
           </p>
         </header>
 
         <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {displayItems.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="reveal">
               <blockquote className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md">
                 <p className="text-sm leading-relaxed text-foreground/90">
                   <span

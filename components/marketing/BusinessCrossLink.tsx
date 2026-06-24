@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 type BusinessCrossLinkProps = {
   title: string;
@@ -7,7 +7,7 @@ type BusinessCrossLinkProps = {
   linkLabel?: string;
 };
 
-/** פסקה + CTA ל-B2B — בלי duplicate content בגוף העמוד */
+/** פסקה + CTA ל-B2B -- בלי duplicate content בגוף העמוד */
 export default function BusinessCrossLink({
   title,
   text,

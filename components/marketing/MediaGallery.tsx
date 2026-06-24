@@ -54,7 +54,7 @@ export type MediaGalleryProps = {
   showFooterHint?: boolean;
   /**
    * Disable priority/eager loading on gallery images.
-   * Use when there is already a hero image above this gallery — having multiple
+   * Use when there is already a hero image above this gallery -- having multiple
    * priority hints competes for bandwidth and delays LCP.
    */
   noPriority?: boolean;

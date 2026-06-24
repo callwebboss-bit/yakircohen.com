@@ -1,10 +1,13 @@
 ﻿import type { ReactNode } from "react";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import SectionJumpChips from "@/components/ui/SectionJumpChips";
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import StudioUpsellCallout from "@/components/services/StudioUpsellCallout";
+import RelatedServices from "@/components/services/RelatedServices";
+import type { RelatedService } from "@/components/services/RelatedServices";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -34,6 +37,8 @@ export type ServicePageFromRegistryProps = {
   showPortfolio?: boolean;
   /** שורת תוצאה קצרה מתחת לsubtitle - "מה תקבלו בפועל" */
   valueFrame?: string;
+  /** 3 שירותים קשורים לתצוגה לפני הפוטר (אופציונלי) */
+  relatedServices?: [RelatedService, RelatedService, RelatedService];
 };
 
 export default function ServicePageFromRegistry({
@@ -43,6 +48,7 @@ export default function ServicePageFromRegistry({
   showFaqs = true,
   showPortfolio = true,
   valueFrame,
+  relatedServices,
 }: ServicePageFromRegistryProps) {
   const showPortfolioSection =
     showPortfolio &&
@@ -53,6 +59,13 @@ export default function ServicePageFromRegistry({
   const showcaseLabel = portfolioLabel ?? service.title;
   const pagePath = `/${service.slug.replace(/^\/+/, "")}`;
   const bookCta = resolveServiceBookCta(service.slug);
+
+  const jumpChips = [
+    ...(showPortfolioSection ? [{ label: "דוגמאות", href: "#showcase-section" }] : []),
+    { label: "מחירון", href: "#pricing-section" },
+    { label: "חוות דעת", href: "#testimonials-section" },
+    ...(showFaqs && service.faqs.length > 0 ? [{ label: "שאלות", href: "#faq-section" }] : []),
+  ];
 
   return (
     <>
@@ -83,45 +96,60 @@ export default function ServicePageFromRegistry({
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname={pagePath} className="max-w-3xl" />
 
+        <SectionJumpChips chips={jumpChips} />
+
         {showPortfolioSection ? (
-          <ServiceShowcaseSections
-            assetsFolder={service.assetsFolder}
-            playlistEmbedUrl={service.playlistEmbedUrl}
-            mediaType={service.mediaType}
-            galleryLabel={showcaseLabel}
-            videoTitle={showcaseLabel}
-            videoHeading={
-              service.mediaType === "video" ? "צפו בדוגמא מהשטח" : undefined
-            }
-            videoDescription={
-              service.mediaType === "video"
-                ? "לצפייה בדוגמא - הוידאו נטען בלחיצה (לא בראש העמוד)"
-                : undefined
-            }
-            galleryInitialVisible={SERVICE_GALLERY_MAX_IMAGES}
-            galleryLayout="masonry"
-            noPriority
-          />
+          <div id="showcase-section">
+            <ServiceShowcaseSections
+              assetsFolder={service.assetsFolder}
+              playlistEmbedUrl={service.playlistEmbedUrl}
+              mediaType={service.mediaType}
+              galleryLabel={showcaseLabel}
+              videoTitle={showcaseLabel}
+              videoHeading={
+                service.mediaType === "video" ? "צפו בדוגמא מהשטח" : undefined
+              }
+              videoDescription={
+                service.mediaType === "video"
+                  ? "לצפייה בדוגמא - הוידאו נטען בלחיצה (לא בראש העמוד)"
+                  : undefined
+              }
+              galleryInitialVisible={SERVICE_GALLERY_MAX_IMAGES}
+              galleryLayout="masonry"
+              noPriority
+            />
+          </div>
         ) : null}
 
         {children}
 
         {service.category === "studio" ? <StudioUpsellCallout /> : null}
 
-        <ServicePagePricingSection service={service} />
+        <div id="pricing-section">
+          <ServicePagePricingSection service={service} />
+        </div>
 
-        <Testimonials
-          filterByPathPrefix={`/${pagePath.replace(/^\/+/, "").split("/")[0]}`}
-          className="py-0"
-        />
-
-        {showFaqs && service.faqs.length > 0 ? (
-          <FAQAccordion
-            items={[...service.faqs]}
-            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
-            subtitle="מענים קצרים לפני שמתחילים"
+        <div id="testimonials-section">
+          <Testimonials
+            filterByPathPrefix={`/${pagePath.replace(/^\/+/, "").split("/")[0]}`}
             className="py-0"
           />
+        </div>
+
+        {showFaqs && service.faqs.length > 0 ? (
+          <div id="faq-section">
+            <FAQAccordion
+              items={[...service.faqs]}
+              title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
+              subtitle="מענים קצרים לפני שמתחילים"
+              className="py-0"
+              showExpandAll
+            />
+          </div>
+        ) : null}
+
+        {relatedServices ? (
+          <RelatedServices services={relatedServices} />
         ) : null}
 
         <PageRelatedFooter pathname={pagePath} />

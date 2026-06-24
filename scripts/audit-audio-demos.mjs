@@ -95,7 +95,7 @@ if (caseMismatch.length) {
 }
 
 if (!exitCode) {
-  console.log("OK — no orphan files, broken refs, or case mismatches.");
+  console.log("OK -- no orphan files, broken refs, or case mismatches.");
 } else {
   console.log("Fix the issues above (warnings only in CI unless you wire a hard fail).");
 }

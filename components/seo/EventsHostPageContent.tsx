@@ -35,6 +35,13 @@ export default function EventsHostPageContent() {
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/host" className="max-w-3xl" />
 
+        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          אתה מתכנן אירוע מושקע — אבל בלי מנחה, כל אחד מוביל חלק אחר: DJ
+          מחכה, צלם מחפש רגע, משפחה לוחצת על הזמנים — וכולם מסתכלים עליך.
+          אני מבין את הלחץ הזה - מנחה טוב לא &quot;עוד עלות&quot;, הוא מה
+          שמשחרר אותך לחגוג.
+        </p>
+
         <section className="max-w-3xl" aria-labelledby="host-why-heading">
           <h2
             id="host-why-heading"

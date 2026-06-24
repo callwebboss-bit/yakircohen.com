@@ -57,7 +57,7 @@ function pushVar(name, value, environments) {
 
 if (!existsSync(ENV_FILE)) {
   console.error(
-    "חסר .env.resend.local — העתק מ-env.resend.example ומלא RESEND_API_KEY.",
+    "חסר .env.resend.local -- העתק מ-env.resend.example ומלא RESEND_API_KEY.",
   );
   process.exit(1);
 }

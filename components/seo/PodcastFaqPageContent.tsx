@@ -131,6 +131,7 @@ export default function PodcastFaqPageContent() {
               subtitle={section.subtitle}
               className="py-0 sm:py-0"
               allowMultiple
+              defaultOpenId={section.items[0]?.id}
             />
           </div>
         ))}

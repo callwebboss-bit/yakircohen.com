@@ -1,4 +1,4 @@
-# קבצי אודיו — דוגמאות "לפני / אחרי"
+# קבצי אודיו -- דוגמאות "לפני / אחרי"
 
 התיקייה מכילה קבצי MP3 לנגני לפני/אחרי באתר. מקור האמת למיפוי: `lib/data/audio-demos.ts`.
 
@@ -31,6 +31,6 @@
 1. גררו MP3 ל-`public/audio/`.
 2. ודאו שהשם **זהה** ל-registry (כולל `_`, מקפים, `.mp3`).
 3. לדוגמת תיקון זיופים מרחוק: `Before-Pich.mp3` → `pitch-remote-before.mp3`, `After-Pich.mp3` → `pitch-remote-after.mp3`.
-4. הריצו `npm run audit:audio` — בודק יתומים, הפניות שבורות ו-case mismatch.
+4. הריצו `npm run audit:audio` -- בודק יתומים, הפניות שבורות ו-case mismatch.
 
-> עד ש-`singer-live-*` יועלו, העמוד הרלוונטי מציג "בקרוב". לפודקאסט — חובה את `podcast-raw-sample` / `podcast-clean-sample` (ראו `podcast-proof.ts`).
+> עד ש-`singer-live-*` יועלו, העמוד הרלוונטי מציג "בקרוב". לפודקאסט -- חובה את `podcast-raw-sample` / `podcast-clean-sample` (ראו `podcast-proof.ts`).

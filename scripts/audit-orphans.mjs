@@ -143,10 +143,10 @@ const orphans = [...sitemapPaths]
   .sort();
 
 if (orphans.length === 0) {
-  console.log("audit:orphans — no orphan sitemap URLs detected");
+  console.log("audit:orphans -- no orphan sitemap URLs detected");
   process.exit(0);
 }
 
-console.log(`audit:orphans — ${orphans.length} sitemap URL(s) with no inbound href:`);
+console.log(`audit:orphans -- ${orphans.length} sitemap URL(s) with no inbound href:`);
 for (const p of orphans) console.log(`  ${p}`);
 process.exit(1);

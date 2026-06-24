@@ -31,6 +31,14 @@ export default function VoiceoverServicesPageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/voiceover/services" className="max-w-3xl" />
+
+        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          צריך קריינות לסרטון, למצגת, ל-IVR - ואתה לא יכול להרשות לעצמך שזה
+          יישמע חובבני. אתה מדמיין שתצטרך להסביר שעה מה הטון שאתה רוצה. אני
+          מבין את זה - ולכן אני מחזיר לך קובץ שמדבר בדיוק בשפת הקהל שלך, בלי
+          לאבד זמן.
+        </p>
+
         <BusinessCrossLink
           title="חבילות מיתוג קולי לעסק"
           text="ג'ינגל, IVR, מוזיקת המתנה ואפקטים. מעטפת אודיו שלמה, לא רק קריינות בודדת."

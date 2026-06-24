@@ -39,11 +39,6 @@ const FAQ_ITEMS: FAQItem[] = [
       "צילום בעסק שלכם לפי תכנון מראש, במסגרת החבילה. קריאייטיב ועריכה מקצועית כלולים בריטיינר.",
   },
   {
-    id: "promo",
-    question: "למי מתאים מבצע 10%?",
-    answer: `עסקים במודיעין, כפר סבא ואילת - ${GEO_PROMO.subline}.`,
-  },
-  {
     id: "oneoff",
     question: "אפשר להזמין בלי ריטיינר?",
     answer:
@@ -89,7 +84,7 @@ export default function SocialMediaPageContent() {
         <SocialMediaTermsBlock />
         <SocialMediaOneOffPricing />
 
-        <FAQAccordion title={`שאלות נפוצות - ${SOCIAL_MEDIA_BRAND}`} items={FAQ_ITEMS} />
+        <FAQAccordion title={`שאלות נפוצות - ${SOCIAL_MEDIA_BRAND}`} items={FAQ_ITEMS} defaultOpenId="retainer" />
 
         <nav aria-label="קישורים קשורים" className="border-t border-border pt-8">
           <h2 className="text-sm font-semibold text-foreground">שירותים קשורים</h2>

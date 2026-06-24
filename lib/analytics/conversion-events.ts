@@ -16,7 +16,13 @@ export type ConversionEventName =
   | "book_lead_submit"
   | "book_success_panel"
   | "book_success_wa_click"
-  | "whatsapp_popup_blocked";
+  | "whatsapp_popup_blocked"
+  | "chatbot_open"
+  | "chatbot_question_click"
+  | "chatbot_wa_cta_click"
+  | "chatbot_read_more_click"
+  | "chatbot_share_click"
+  | "chatbot_copy_click";
 
 export function trackConversion(
   name: ConversionEventName,

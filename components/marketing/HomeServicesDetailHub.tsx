@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useId, useState } from "react";
 import Link from "next/link";
@@ -83,7 +83,7 @@ export default function HomeServicesDetailHub() {
             id={`${baseId}-hub-heading`}
             className="font-serif text-section-title font-semibold text-foreground"
           >
-            כל השירותים — מפרט מלא
+            כל השירותים - מפרט מלא
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             פרטים טכניים, מחירים ופרמטרים תפעוליים לכל מסלול

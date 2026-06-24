@@ -17,8 +17,12 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
+import TrustBadges from "@/components/ui/TrustBadges";
+import SocialProofStrip from "@/components/marketing/SocialProofStrip";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
+import AnswerBlock from "@/components/seo/AnswerBlock";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 
 export type ServicePageLayoutProps = {
   title: string;
@@ -320,6 +324,8 @@ export default function ServicePageLayout({
               {subtitle}
             </p>
 
+            <SocialProofStrip className="mt-4" />
+
             {valueFrame ? (
               <p className="mt-4 text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
                 {valueFrame}
@@ -359,6 +365,10 @@ export default function ServicePageLayout({
                   איך התהליך עובד
                 </Link>
               </p>
+            ) : null}
+
+            {showHeroCtas ? (
+              <TrustBadges className="mt-4" />
             ) : null}
 
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (
@@ -426,6 +436,17 @@ export default function ServicePageLayout({
             </ul>
           </Container>
         </section>
+      ) : null}
+
+      {metaDescription && pagePath ? (
+        <>
+          <SpeakableSchema url={`https://yakircohen.com${pagePath}`} />
+          <div className="border-b border-border bg-background px-4 pb-2 pt-8 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl">
+              <AnswerBlock>{metaDescription}</AnswerBlock>
+            </div>
+          </div>
+        </>
       ) : null}
 
       {children ? (

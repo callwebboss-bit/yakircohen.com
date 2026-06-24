@@ -4,6 +4,7 @@ import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-dr
 
 const INITIAL: EventsFormDraft = {
   selected: [],
+  quantities: {},
   name: "",
   phone: "",
   date: "",

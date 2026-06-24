@@ -1,6 +1,6 @@
-# התראות מייל על לידים (Resend)
+﻿# התראות מייל על לידים (Resend)
 
-גיבוי אוטומטי בנוסף לוואטסאפ. בלי מפתחות — האתר ממשיך לעבוד רק עם וואטסאפ.
+גיבוי אוטומטי בנוסף לוואטסאפ. בלי מפתחות -- האתר ממשיך לעבוד רק עם וואטסאפ.
 
 ## מה צריך ממך (5–10 דקות)
 
@@ -15,19 +15,19 @@
 
 ### 3. משתני סביבה ב-Vercel
 
-**חשוב:** הפרויקט הפעיל בפרודקשן הוא **yakircohen-site** — לא `yakircohen-com`.  
+**חשוב:** הפרויקט הפעיל בפרודקשן הוא **yakircohen-site** -- לא `yakircohen-com`.  
 אם הוגדרו משתנים בפרויקט הישן עם ערכים ריקים (`""`), המייל לא יישלח.
 
-#### אופציה א — מהטרמינל (מומלץ)
+#### אופציה א -- מהטרמינל (מומלץ)
 
 ```bash
 cp env.resend.example .env.resend.local
-# ערוך .env.resend.local — הדבק RESEND_API_KEY מ-Resend
+# ערוך .env.resend.local -- הדבק RESEND_API_KEY מ-Resend
 npm run env:resend
 npx vercel --prod
 ```
 
-#### אופציה ב — ידנית ב-Dashboard
+#### אופציה ב -- ידנית ב-Dashboard
 
 בפרויקט **yakircohen-site** → **Settings** → **Environment Variables**:
 
@@ -35,7 +35,7 @@ npx vercel --prod
 |----|-----|--------|
 | `RESEND_API_KEY` | `re_xxxx` | Production (+ Preview אם רוצים לבדוק) |
 | `LEAD_NOTIFY_EMAIL` | המייל שלך לקבלת לידים | Production |
-| `RESEND_FROM_EMAIL` | אופציונלי — ראה למטה | Production |
+| `RESEND_FROM_EMAIL` | אופציונלי -- ראה למטה | Production |
 
 אחרי שמירה: **Redeploy** ל-Production.
 
@@ -53,11 +53,11 @@ RESEND_FROM_EMAIL=יקיר כהן הפקות <leads@yakircohen.com>
 
 ## בדיקה
 
-1. `GET https://yakircohen.com/api/lead-notify` — צריך להחזיר `configured: true`.
+1. `GET https://yakircohen.com/api/lead-notify` -- צריך להחזיר `configured: true`.
 2. מלא טופס ב-`/book` ושלח לוואטסאפ.
 3. בדוק תיבת `LEAD_NOTIFY_EMAIL` (וגם Spam).
 
 ## פרטיות
 
-- לא שומרים לידים בבסיס נתונים — רק שליחה ל-Resend.
+- לא שומרים לידים בבסיס נתונים -- רק שליחה ל-Resend.
 - גוף ההודעה הוא אותו טקסט שנשלח לוואטסאפ.

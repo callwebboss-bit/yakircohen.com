@@ -196,6 +196,29 @@ export const LEAD_SOURCE_REGISTRY: readonly LeadSourceEntry[] = [
     defaultSource: "/book",
     utmCampaigns: ["booking_consult_15"],
   },
+  // Chatbot widget (FAQ center) - utm_source=chatbot_widget
+  {
+    formId: "chatbot_widget",
+    closerServiceId: "recording",
+    parserId: "generic_inquiry",
+    label: "צ'אטבוט מרכז מידע מהיר (FAQ)",
+    defaultSource: "chatbot_widget",
+    utmCampaigns: [
+      "chatbot_studio_price",
+      "chatbot_blessings",
+      "chatbot_podcast",
+      "chatbot_availability",
+      "chatbot_hours",
+      "chatbot_dj",
+      "chatbot_attractions",
+      "chatbot_photography",
+      "chatbot_voiceover",
+      "chatbot_academy",
+      "chatbot_quote",
+      "chatbot_portfolio",
+      "chatbot_fallback",
+    ],
+  },
   ...BOOK_ROUTER_LEAD_SOURCES,
 ] as const;
 

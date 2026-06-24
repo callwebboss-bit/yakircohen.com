@@ -1,4 +1,4 @@
-# אסטרטגיית כתובות ו-SEO
+﻿# אסטרטגיית כתובות ו-SEO
 
 ## עקרון מרכזי
 
@@ -16,9 +16,9 @@
 
 1. **כתובת ישנה מהאתר הקודם** (Google Sites, קישורים ישנים) → מעבירים לכתובת הקנונית החדשה  
    לדוגמה: `/attractions/bubble-machine` → `/events/attractions/bubble-machine`  
-   זה לא «מחליף» עמוד — אין תוכן כפול; רק מעבירים מבקרים ומגוגל ל-URL הנכון.
+   זה לא «מחליף» עמוד -- אין תוכן כפול; רק מעבירים מבקרים ומגוגל ל-URL הנכון.
 
-2. **כפילות אמיתית** — אותו תוכן בשני נתיבים, רוצים רק אחד בגוגל  
+2. **כפילות אמיתית** -- אותו תוכן בשני נתיבים, רוצים רק אחד בגוגל  
    לדוגמה: `/podcast/podcast-studio` → `/podcast/podcast-studio-modiin`
 
 רשימה: `lib/site-architecture.ts` (`CANONICAL_REDIRECTS`) + `lib/legacy-redirects.ts`.
@@ -35,7 +35,7 @@
 |--------------------|------------------------|
 | `/attractions/...` | `/events/attractions/...` |
 
-העמוד **הפעיל** נמצא תחת `/events/attractions/`. הנתיב הישן רק מפנה אליו — מומלץ לגוגל.
+העמוד **הפעיל** נמצא תחת `/events/attractions/`. הנתיב הישן רק מפנה אליו -- מומלץ לגוגל.
 
 ## בדיקה לפני עלייה לאוויר
 
@@ -47,4 +47,4 @@ npm run build
 
 ## קישורים פנימיים
 
-עריכה ב-`lib/internal-links/intro-segments.ts` — 2–3 קישורים טבעיים לעמוד, בלי redirect.
+עריכה ב-`lib/internal-links/intro-segments.ts` -- 2–3 קישורים טבעיים לעמוד, בלי redirect.

@@ -329,7 +329,7 @@ export default function ColdFireworksPageContent() {
             id="cold-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            תיאמו עכשיו  -  רגעי השיא מתחילים כאן
+            מוכנים לרגע השיא? קבלו הצעה תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             המחירים גלויים, השירות מקצועי והחוויה מובטחת. גם בטלפון:{" "}
@@ -340,13 +340,21 @@ export default function ColdFireworksPageContent() {
               {CONTACT_PHONE_DISPLAY}
             </a>
           </p>
+          <ul className="mx-auto mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+            {["4 מכונות, בטוח באולם סגור", "מפעיל מקצועי ותיאום DJ", "ללא עשן ובלי גלאי עשן"].map((item) => (
+              <li key={item} className="flex items-center gap-1.5">
+                <span className="font-semibold text-brand-red" aria-hidden>✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
           <a
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            שליחה בוואטסאפ
+            קבלו הצעה תוך 24 שעות
           </a>
         </section>
               <PageRelatedFooter pathname="/events/attractions/cold-fireworks" />

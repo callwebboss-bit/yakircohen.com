@@ -7,7 +7,7 @@ import {
   detectPlaybackScenario,
   getRecommendedPathId,
   suggestReplyPaths,
-} from "./reply-copy-builders.ts";
+} from "./reply-copy-builders";
 
 const reutCtx = {
   leadName: "רעות גלוטסיק",

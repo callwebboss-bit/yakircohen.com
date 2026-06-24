@@ -1,3 +1,4 @@
+import InfoTip from "@/components/ui/InfoTip";
 import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +16,8 @@ export default function BookingPaymentTrust({ className }: { className?: string 
     <div className={cn("flex flex-col items-center gap-2.5 py-3 text-center", className)}>
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <CreditCardIcon />
-        <span>עד 3 תשלומים ללא ריבית (בתיאום)</span>
+        <span>עד 3 תשלומים ללא ריבית</span>
+        <InfoTip text="מקדמה קטנה לשריון התאריך, יתרה לפני הסשן. מחלקים את הסכום בוואטסאפ לפי מה שנוח." />
       </div>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         {PAYMENT_METHODS.map((method) => (

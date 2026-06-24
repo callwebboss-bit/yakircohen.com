@@ -135,7 +135,7 @@ export const DJ_FREE_TOOL_CATEGORIES: readonly DjToolCategory[] = [
         name: "תג קולי לדיג'יי",
         url: "/events/dj/voice-tags",
         summary: "משפט ממותג עם אפקטים - מוכן לנגן.",
-        freeTier: "—",
+        freeTier: "--",
         whenProBetter: "מיתוג סט בלי לשבת על עריכה.",
       },
     ],

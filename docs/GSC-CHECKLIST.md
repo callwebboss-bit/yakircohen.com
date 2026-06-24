@@ -1,8 +1,8 @@
-# Google Search Console — רשימת פעולה
+﻿# Google Search Console -- רשימת פעולה
 
 עודכן: יוני 2026 · לאחר פריסת SEO ל-`yakircohen.com`
 
-## שבוע 1 — הגדרה ואימות
+## שבוע 1 -- הגדרה ואימות
 
 ### 1. שליחת Sitemap
 
@@ -10,7 +10,7 @@
 2. **Sitemaps** → הוסף: `https://yakircohen.com/sitemap.xml`
 3. וודא סטטוס **Success** (יכול לקחת 24–48 שעות)
 
-### 2. בקשת אינדוקס — Top 7
+### 2. בקשת אינדוקס -- Top 7
 
 בכל URL: **URL Inspection** → **Request indexing**
 
@@ -24,7 +24,7 @@
 | 6 | `/events/wedding-attractions-packages` |
 | 7 | `/pricing` |
 
-### 2b. בקשת אינדוקס — B2B חדש (שלב 1)
+### 2b. בקשת אינדוקס -- B2B חדש (שלב 1)
 
 | עדיפות | URL |
 |--------|-----|
@@ -32,7 +32,7 @@
 | 2 | `/business/content-studio` |
 | 3 | `/podcast/self-service-studio` |
 
-### 2d. בקשת אינדוקס — B2B שלב 2+3 (חדש)
+### 2d. בקשת אינדוקס -- B2B שלב 2+3 (חדש)
 
 | עדיפות | URL |
 |--------|-----|
@@ -42,7 +42,7 @@
 | 4 | `/business/audiobooks` |
 | 5 | `/online/legacy-digitization` |
 
-### 2e. בקשת אינדוקס — שלב 4 (חדש)
+### 2e. בקשת אינדוקס -- שלב 4 (חדש)
 
 | עדיפות | URL |
 |--------|-----|
@@ -52,7 +52,7 @@
 | 4 | `/online/voice-cloning` |
 | 5 | `/business/employer-branding` |
 
-### 2f. בקשת אינדוקס — מאמרי בלוג B2B (שלב 3c)
+### 2f. בקשת אינדוקס -- מאמרי בלוג B2B (שלב 3c)
 
 | עדיפות | URL |
 |--------|-----|
@@ -63,7 +63,7 @@
 | 5 | `/blog/audio-branding-for-business` |
 | 6 | `/blog/vhs-tape-digitization-ai-guide` |
 
-### 2c. בקשת אינדוקס — שירותים מקצועיים (חדש)
+### 2c. בקשת אינדוקס -- שירותים מקצועיים (חדש)
 
 | עדיפות | URL |
 |--------|-----|
@@ -89,7 +89,7 @@
 | `/events/dj/voice-tags` | Service, FAQPage |
 | `/pro` | Hub + קישורים לשירותים |
 
-> BreadcrumbList מוזרק client-side — אם לא מופיע ב-View Source, בדוק ב-Rich Results אחרי רינדור.
+> BreadcrumbList מוזרק client-side -- אם לא מופיע ב-View Source, בדוק ב-Rich Results אחרי רינדור.
 
 ### 4. Facebook Sharing Debugger
 
@@ -106,7 +106,7 @@
 
 לחץ **Scrape Again** אחרי כל deploy.
 
-**Share hooks (מקומי):** `npm run audit:share` — Tier 1. `node scripts/audit-share-descriptions.mjs --all` — כל השירותים.
+**Share hooks (מקומי):** `npm run audit:share` -- Tier 1. `node scripts/audit-share-descriptions.mjs --all` -- כל השירותים.
 
 ---
 
@@ -122,9 +122,9 @@
 ### תבנית בדיקה שבועית (~15 דק)
 
 ```
-[ ] GSC Performance — impressions שבוע אחרון vs קודם
-[ ] /thank-you — לא מופיע ב-Indexed pages
-[ ] Coverage — אין spike בשגיאות 404
+[ ] GSC Performance -- impressions שבוע אחרון vs קודם
+[ ] /thank-you -- לא מופיע ב-Indexed pages
+[ ] Coverage -- אין spike בשגיאות 404
 [ ] דף אחד ב-Rich Results (רוטציה)
 [ ] מאמר בלוג חדש? → sync:blog-slugs → IndexNow
 ```
@@ -160,9 +160,9 @@ curl -X POST https://yakircohen.com/api/indexnow \
 
 ### Sitemaps ישנים (sitemap2.xml–sitemap9.xml)
 
-אלו שרידים מה-WordPress/HTTP הישן ואינם מוזכרים בקוד בכלל — ה-sitemap הקנוני
+אלו שרידים מה-WordPress/HTTP הישן ואינם מוזכרים בקוד בכלל -- ה-sitemap הקנוני
 היחיד הוא `https://yakircohen.com/sitemap.xml` (נוצר דינמית ב-`app/sitemap.ts`).
-**אין שינוי קוד** — יש למחוק את ה-sitemaps הישנים ידנית ב-GSC → Sitemaps.
+**אין שינוי קוד** -- יש למחוק את ה-sitemaps הישנים ידנית ב-GSC → Sitemaps.
 
 ### דפי noindex
 
@@ -175,7 +175,7 @@ curl -X POST https://yakircohen.com/api/indexnow \
 | `/online/vocal-fix/send-file` | `app/online/vocal-fix/send-file/page.tsx` |
 | `/blog` עמוד 2+ | `app/(blog)/blog/page.tsx` |
 
-אם GSC מציג רשימת noindex גדולה יותר (למשל 62 דפים) — אלו כנראה דפים ישנים
+אם GSC מציג רשימת noindex גדולה יותר (למשל 62 דפים) -- אלו כנראה דפים ישנים
 מהמיגרציה או preview deployments של Vercel, ולא משהו לתקן בקוד. ההצגה
 תתעדכן לאחר recrawl.
 
@@ -184,13 +184,13 @@ curl -X POST https://yakircohen.com/api/indexnow \
 1. GSC → **Page indexing → Not found (404)** → ייצוא הרשימה (CSV)
 2. הרץ: `npm run audit:404 -- path/to/export.csv`
    - **"Already handled"** = רשומה ישנה ב-GSC, redirect/route כבר קיים, תיעלם אחרי recrawl
-   - **"Needs a new redirect"** = פער אמיתי — הוסף ערך מתאים ל-`LEGACY_PATH_MAP`/`OLD_ENGLISH_SLUGS`/`HEBREW_SERVICE_SLUGS` ב-`lib/legacy-redirects.ts`
-3. הרץ `npm run audit:redirects` — מאתר שרשראות redirect (A→B→C) ומקורות כפולים שנוצרו בטעות
+   - **"Needs a new redirect"** = פער אמיתי -- הוסף ערך מתאים ל-`LEGACY_PATH_MAP`/`OLD_ENGLISH_SLUGS`/`HEBREW_SERVICE_SLUGS` ב-`lib/legacy-redirects.ts`
+3. הרץ `npm run audit:redirects` -- מאתר שרשראות redirect (A→B→C) ומקורות כפולים שנוצרו בטעות
 4. בקש reindex לדפים שתוקנו
 
 ### robots.txt
 
 ההצעות הגנריות (`Disallow: /wp-admin/`, `/cart/`, `/checkout/`, `/wp-includes/` וכו')
-**לא רלוונטיות** — אין WordPress באתר הזה. `app/robots.ts` הוא מקור האמת,
+**לא רלוונטיות** -- אין WordPress באתר הזה. `app/robots.ts` הוא מקור האמת,
 מוגדר נכון (allow הכל, disallow רק `/api/`, sitemap מוצהר), ואין לשנות אותו
 לפי הצעות גנריות כאלה.

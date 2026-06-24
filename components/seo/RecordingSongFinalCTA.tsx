@@ -117,12 +117,25 @@ export default function RecordingSongFinalCTA() {
         className="text-2xl font-semibold text-foreground sm:text-3xl"
       >
         הרגע הגדול שלכם ראוי לסאונד מושלם.
-        <span className="mt-1 block">בואו נתחיל ליצור את הזיכרון שלכם.</span>
+        <span className="mt-1 block">קול אנושי, לא AI - מסירה תוך 48 שעות.</span>
       </h2>
       <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
         לוח הזמנים באולפן במודיעין מתמלא במהירות לקראת עונת האירועים. צרו קשר
         עכשיו לייעוץ ראשוני ובדיקת התאמת פלייבק - ללא שום התחייבות.
       </p>
+      <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+        {[
+          "קריינות אנושית - ללא AI-רובוטי",
+          "תיקון זיופים מקצועי",
+          "ליווי טכני מלא",
+          "מסירה תוך 48 שעות",
+        ].map((item) => (
+          <li key={item} className="flex items-center gap-1.5">
+            <span className="font-semibold text-brand-red" aria-hidden>✓</span>
+            {item}
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-8 space-y-3">
         <a

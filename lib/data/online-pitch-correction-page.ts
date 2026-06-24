@@ -14,7 +14,7 @@ export const PITCH_CORRECTION_VIDEOS: readonly RecordingSongExampleVideo[] = [
   {
     videoId: "azLQjB4y2vM",
     title:
-      "תיקון זיופים מרחוק - מקליטים באולפן אחר ומשתמשים בשירות של יקיר כהן הפקות",
+      "תיקון זיופים מרחוק - מקליטים באולפן אחר ומשתמשים בשירות חיצוני",
   },
   {
     videoId: "aTGqFnijz0Q",

@@ -1,6 +1,8 @@
 type StickyCtaContext = {
   text: string;
   utm_campaign: string;
+  /** When true, the secondary (left) button shows "הצעת מחיר" linking to /contact instead of a phone call */
+  showQuote?: boolean;
 };
 
 const DEFAULT: StickyCtaContext = {

@@ -1,4 +1,4 @@
-# UI Exceptions — Card / Button Migration
+﻿# UI Exceptions -- Card / Button Migration
 
 Components exempt from full `Card`/`Button` primitive migration. Must still use design tokens + touch/focus states.
 

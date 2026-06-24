@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import StudioPricingGrid from "@/components/services/StudioPricingGrid";
+import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import { STUDIO_PRICING } from "@/lib/data/services";
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -90,7 +91,18 @@ export default function StudioPricingPage() {
         </section>
       </Container>
 
-      <StudioPricingGrid tiers={STUDIO_PRICING.tiers} />
+      {/* Mobile: compact tier toggle (tabs). Desktop: full pricing grid below */}
+      <div className="md:hidden px-4 pb-2">
+        <PricingTierToggle
+          tiers={STUDIO_PRICING.tiers}
+          recommendedIndex={2}
+          className="mx-auto max-w-sm"
+        />
+      </div>
+
+      <div className="hidden md:block">
+        <StudioPricingGrid tiers={STUDIO_PRICING.tiers} />
+      </div>
 
       <Container className="pb-8">
         <section

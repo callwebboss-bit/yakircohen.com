@@ -69,6 +69,9 @@ export default function PortfolioPageContent() {
             <Button as="link" href="/book" variant="secondary">
               הזמנה מקוונת
             </Button>
+            <Button as="link" href="/gallery" variant="secondary">
+              גלריית תמונות
+            </Button>
           </div>
         </Container>
       </Section>

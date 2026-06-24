@@ -1,4 +1,5 @@
-import type { ComponentType } from "react";
+﻿import type { ComponentType } from "react";
+import type { BadgeVariant } from "@/components/marketing/ServiceCard";
 import {
   LinkIcon,
   MicIcon,
@@ -26,6 +27,8 @@ export type HomeHubCard = {
   utmCampaign: string;
   isAiService?: boolean;
   badge?: string;
+  /** צבע התווית – עדכן שבועית לפי מה שרוצים לקדם */
+  badgeVariant?: BadgeVariant;
 };
 
 const ICON_MAP: Record<
@@ -41,7 +44,7 @@ const ICON_MAP: Record<
   video: VideoIcon,
 };
 
-/** כרטיסי hub ראשיים — עוגן קודם, תמיכה שני, התמחות שלישי */
+/** כרטיסי hub ראשיים -- עוגן קודם, תמיכה שני, התמחות שלישי */
 export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
   {
     id: "studio",
@@ -89,7 +92,7 @@ export const PRIMARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
   },
 ];
 
-/** כרטיסים משניים — אחרי 6 הראשונים */
+/** כרטיסים משניים -- אחרי 6 הראשונים */
 export const SECONDARY_HOME_HUB_CARDS: readonly HomeHubCard[] = [
   {
     id: "video",

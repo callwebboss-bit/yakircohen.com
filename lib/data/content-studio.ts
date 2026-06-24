@@ -1,4 +1,4 @@
-/** Content Studio — Social Dump: batch reels from studio session */
+﻿/** Content Studio -- Social Dump: batch reels from studio session */
 
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import { getExVat } from "@/lib/data/pricing-catalog";

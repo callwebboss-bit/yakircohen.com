@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
+import PricingHubQuickNav from "@/components/marketing/PricingHubQuickNav";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { buildItemListSchema } from "@/lib/seo/page-schema";
@@ -62,6 +63,8 @@ export default function PricingHubPage() {
             </p>
           </Container>
         </Section>
+
+        <PricingHubQuickNav />
 
         <Section padding="sm">
           <Container className="max-w-3xl space-y-12">

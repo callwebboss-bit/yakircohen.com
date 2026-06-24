@@ -1,4 +1,5 @@
 import ServicePricingBlock from "@/components/services/ServicePricingBlock";
+import TrustBadges from "@/components/ui/TrustBadges";
 import type { ServiceEntity } from "@/lib/data/services";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,7 @@ export default function ServicePagePricingSection({
           {heading}
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">{subheading}</p>
+        <TrustBadges className="mt-4 justify-center" />
       </header>
       <ServicePricingBlock
         tiers={service.pricing}

@@ -30,7 +30,7 @@ for (const article of articles) {
   if (!article.slug || !article.title) {
     errors.push(`Article missing slug/title: ${JSON.stringify(article).slice(0, 80)}`);
   }
-  if (article.content?.includes("—")) {
+  if (article.content?.includes("--")) {
     errors.push(`${article.slug}: contains em-dash (use -)`);
   }
 }

@@ -1,41 +1,41 @@
----
+﻿---
 description: yakircohen.com stack, architecture, env, build, and deployment rules
 alwaysApply: true
 ---
 
-# yakircohen.com — Project Rules
+# yakircohen.com -- Project Rules
 
 ## Stack
 
 - Next.js 16.2.6 (App Router) + React 19 + TypeScript 5
-- Tailwind CSS v4 (PostCSS plugin only — no classic `tailwind.config.js`)
+- Tailwind CSS v4 (PostCSS plugin only -- no classic `tailwind.config.js`)
 - Pagefind for search (build-time)
 - Vercel (production), GitHub Actions CI
 
 ## Architecture
 
-- `app/` — all pages (App Router)
-- `components/` — shared UI
-- `hooks/` — custom hooks
-- `lib/` — utilities (includes `legacy-redirects`)
-- `public/` — static assets
-- `scripts/` — audit scripts (images, links, headings, pagefind)
+- `app/` -- all pages (App Router)
+- `components/` -- shared UI
+- `hooks/` -- custom hooks
+- `lib/` -- utilities (includes `legacy-redirects`)
+- `public/` -- static assets
+- `scripts/` -- audit scripts (images, links, headings, pagefind)
 
 ## local-tools / CLOSER (workspace root)
 
-- **`../local-tools/` (yakir-closer.html) is LOCAL ONLY — never deploy to Vercel or `public/`**
+- **`../local-tools/` (yakir-closer.html) is LOCAL ONLY -- never deploy to Vercel or `public/`**
 - Private sales CRM on the owner's machine (`file://`); site sync is one-way via `npm run export:closer` → `closer-config.js`
 - API routes on the site (e.g. GA4 realtime) may be called from the local closer; the closer HTML itself never ships to production
 
 ## Never
 
-- Put CSV, spreadsheets, or internal reports under `public/` — use the workspace root outside the repo
+- Put CSV, spreadsheets, or internal reports under `public/` -- use the workspace root outside the repo
 - Deploy, host, or copy `local-tools/yakir-closer.html` (or any `local-tools/*` file) to the server
-- Add `"use client"` unless required — Server Components by default
-- Use `pages/` router — everything under `app/`
-- Add `tailwind.config.js` — Tailwind v4 is PostCSS-only
-- Change `next.config.ts` without explicit approval — security headers and redirects live there
-- Put secrets in code — Vercel env vars only
+- Add `"use client"` unless required -- Server Components by default
+- Use `pages/` router -- everything under `app/`
+- Add `tailwind.config.js` -- Tailwind v4 is PostCSS-only
+- Change `next.config.ts` without explicit approval -- security headers and redirects live there
+- Put secrets in code -- Vercel env vars only
 - Remove or rename `RESEND_API_KEY` / `LEAD_NOTIFY_EMAIL` from env docs or usage
 
 ## Always
@@ -43,40 +43,40 @@ alwaysApply: true
 - New pages: `generateMetadata()` with title, description, and OG
 - Images: Next.js `<Image>` (not raw `<img>`), except where an existing pattern intentionally uses `<img>` (e.g. lazy YouTube thumbnails)
 - External links: `target="_blank" rel="noopener noreferrer"`
-- Before commit: `npm run verify:quick` locally; run `npm run build` only when routing/build output changed (or `build:full` when search/index changes). Never start a second build while one is running — use `npm run build:stop` first.
+- Before commit: `npm run verify:quick` locally; run `npm run build` only when routing/build output changed (or `build:full` when search/index changes). Never start a second build while one is running -- use `npm run build:stop` first.
 - Commit messages: `feat:`, `fix:`, `chore:`, `docs:` prefixes
 
 ## Environment (Vercel production)
 
-- `RESEND_API_KEY` — Resend email API
-- `LEAD_NOTIFY_EMAIL` — lead notifications (e.g. callwebboss@gmail.com)
+- `RESEND_API_KEY` -- Resend email API
+- `LEAD_NOTIFY_EMAIL` -- lead notifications (e.g. callwebboss@gmail.com)
 
 ## API
 
-- `app/api/lead-notify/route.ts` — email on form submit; requires both env vars above
+- `app/api/lead-notify/route.ts` -- email on form submit; requires both env vars above
 
 ## Build scripts
 
-- `npm run dev` — local dev
-- `npm run build` — standard build (mutex-locked; one at a time)
-- `npm run build:stop` — kill stuck/orphan `next build` processes
-- `npm run build:full` — build + Pagefind (mutex-locked; Vercel `vercel-build`)
-- `npm run verify:quick` — unit tests (preferred for agents; fast locally)
-- `npm run verify:ci` — lint + tests (CI / before push)
-- `npm run lint` — required before commit
-- `npm run audit:images` / `audit:links` — asset and link checks
-- `npm run check:youtube` — validate YouTube video IDs
+- `npm run dev` -- local dev
+- `npm run build` -- standard build (mutex-locked; one at a time)
+- `npm run build:stop` -- kill stuck/orphan `next build` processes
+- `npm run build:full` -- build + Pagefind (mutex-locked; Vercel `vercel-build`)
+- `npm run verify:quick` -- unit tests (preferred for agents; fast locally)
+- `npm run verify:ci` -- lint + tests (CI / before push)
+- `npm run lint` -- required before commit
+- `npm run audit:images` / `audit:links` -- asset and link checks
+- `npm run check:youtube` -- validate YouTube video IDs
 
 ## Domain & deploy
 
 - Production: https://yakircohen.com
 - Preview only: yakircohen-com.vercel.app (do not share with clients)
 - Push to `main` → Vercel auto-deploy
-- GitHub Actions runs lint + build — do not force-push to `main` if CI fails
+- GitHub Actions runs lint + build -- do not force-push to `main` if CI fails
 
 ## Cursor skills
 
-- Project skill: `.cursor/skills/whatsapp-closing/` — use for booking forms, WhatsApp CTAs, and pricing in lead messages
+- Project skill: `.cursor/skills/whatsapp-closing/` -- use for booking forms, WhatsApp CTAs, and pricing in lead messages
 
 ## Pricing & WhatsApp closing
 

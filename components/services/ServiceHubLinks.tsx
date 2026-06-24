@@ -35,7 +35,7 @@ export default function ServiceHubLinks({
       </header>
       <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {links.map((track) => (
-          <li key={track.href}>
+          <li key={track.href} className="reveal">
             <Link
               href={track.href}
               className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover-lift focus-within:border-[var(--service-accent,#d42b2b)]/40 focus-within:shadow-md"

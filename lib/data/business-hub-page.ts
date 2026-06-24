@@ -1,4 +1,4 @@
-/** Business hub — B2B service index */
+﻿/** Business hub -- B2B service index */
 
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 

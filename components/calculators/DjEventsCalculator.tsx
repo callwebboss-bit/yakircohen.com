@@ -696,6 +696,13 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
           </div>
         )}
 
+        {hasSelection && (
+          <div className="rounded-xl bg-surface px-4 py-3 text-center">
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              המציאות דינמית. אם תצטרכו לשנות שעת הגעה, סדר ערב או פרטי האולם אחרי השליחה הכל בסדר. גמיש עד יום האירוע. אין קנסות ואין אותיות קטנות.
+            </p>
+          </div>
+        )}
         {hasSelection && <BookingPaymentTrust />}
 
         {/* Timeline */}

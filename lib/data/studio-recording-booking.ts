@@ -315,6 +315,9 @@ export const PARTICIPANTS_OPTIONS = [
 /** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
 export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
 
+/** עלות סבב עריכה/תיקונים נוסף מעבר לסבב הראשון הכלול במחיר */
+export const STUDIO_EXTRA_REVISION_PRICE = 580;
+
 /** קיבולת אולפן להקלטה בו-זמנית */
 export const STUDIO_RECORDING_MAX = 10;
 
@@ -384,8 +387,8 @@ export const STUDIO_RECORDING_GUIDE = {
 
 export const STUDIO_BOOKING_APPROVALS = {
   pricingNote:
-    "הצעה ראשונית: מחיר סופי ייקבע לאחר שיחת ייעוץ קצרה עם יקיר.",
+    "המחיר שמוצג הוא המחיר הסופי. קבוצות גדולות? נחשב יחד בוואטסאפ.",
   cancellationNote:
-    "ביטולים: עד 48 שעות לפני הסשן - החזר מלא. לאחר מכן - 50%.",
+    "ביטול עד 14 יום לפני הסשן -- החזר מלא. שינוי תאריך -- תמיד חינם ובכפוף לזמינות.",
   termsLabel: "קראתי את התנאים ואני מאשר/ת שהפרטים נכונים.",
 } as const;

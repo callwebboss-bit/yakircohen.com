@@ -215,7 +215,7 @@
         {
           "@type": "Offer",
           "name": "שיעור ניסיון עברית פרטי",
-          "description": "שיעור היכרות אחד על אחד — פרונטלי או בזום, מודיעין והמרכז",
+          "description": "שיעור היכרות אחד על אחד - פרונטלי או בזום, מודיעין והמרכז",
           "price": "500",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/academy/ulpan"
@@ -349,7 +349,7 @@
         "@type": "Person",
         "name": "יוסי כהן"
       },
-      "reviewBody": "אירוע חברה עם מוזיקה חיה והפקה מלאה - חוויה מדויקת, מסודרת ומרשימה מהרגע הראשון ועד הסוף.",
+      "reviewBody": "אירוע חברה עם מוזיקה חיה והפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת.",
       "itemReviewed": {
         "@id": "https://yakircohen.com/#localbusiness"
       }
@@ -362,7 +362,7 @@
         "@type": "Person",
         "name": "נועה שפירא"
       },
-      "reviewBody": "קריינות לסרטון תדמית שנשמעה טבעית, חמה ומדויקת למסר. תהליך מהיר ושירותי ברמה גבוהה.",
+      "reviewBody": "קריינות לסרטון תדמית - קובץ WAV מסופק תוך 24 שעות, 3 גרסאות טמפו, מחיר זהה להצעה הראשונית.",
       "itemReviewed": {
         "@id": "https://yakircohen.com/#localbusiness"
       }
@@ -375,7 +375,49 @@
         "@type": "Person",
         "name": "רחל גולן"
       },
-      "reviewBody": "הקלטות ברכה בסטודיו באיכות מעולה, עם הנחיה סבלנית ותוצאה שמחממת את הלב.",
+      "reviewBody": "הקלטת ברכה בת 90 שניות - שלושה טייקים, עריכה כלולה במחיר, קובץ MP3 מוכן לשידור.",
+      "itemReviewed": {
+        "@id": "https://yakircohen.com/#localbusiness"
+      }
+    },
+    {
+      "@type": "Review",
+      "@id": "https://yakircohen.com/#review-7",
+      "inLanguage": "he-IL",
+      "author": {
+        "@type": "Person",
+        "name": "משה ברק"
+      },
+      "reviewBody": "שיר לחתונה - הקלטה, מיקס ו-mastering בישיבה אחת. הקובץ הועבר 3 ימים לפני האירוע, פורמט WAV ו-MP3.",
+      "datePublished": "2026-02-14",
+      "itemReviewed": {
+        "@id": "https://yakircohen.com/#localbusiness"
+      }
+    },
+    {
+      "@type": "Review",
+      "@id": "https://yakircohen.com/#review-8",
+      "inLanguage": "he-IL",
+      "author": {
+        "@type": "Person",
+        "name": "תמר ויקי"
+      },
+      "reviewBody": "DJ לחתונה: הגעה שעתיים לפני. בדיקת סאונד עברה תוך 20 דקות. 5 שעות הפעלה רצופה בלי הפסקה טכנית.",
+      "datePublished": "2025-12-20",
+      "itemReviewed": {
+        "@id": "https://yakircohen.com/#localbusiness"
+      }
+    },
+    {
+      "@type": "Review",
+      "@id": "https://yakircohen.com/#review-9",
+      "inLanguage": "he-IL",
+      "author": {
+        "@type": "Person",
+        "name": "איתי לוינסון"
+      },
+      "reviewBody": "אטרקציות לאירוע חברה: עשן כניסה ותותחי קונפטי. הקמה 45 דקות לפני האורחים. פירוק ופינוי השטח לפני סיום האירוע.",
+      "datePublished": "2026-01-30",
       "itemReviewed": {
         "@id": "https://yakircohen.com/#localbusiness"
       }

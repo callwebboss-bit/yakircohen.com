@@ -60,18 +60,18 @@ export function normalizeIsraeliMobile(phone: string): string | null {
 export function validateIsraeliMobile(phone: string): ValidationResult {
   const trimmed = phone.trim();
   if (!trimmed) {
-    return { ok: false, errors: { phone: "נא להזין מספר טלפון נייד" } };
+    return { ok: false, errors: { phone: "📱 נא להזין מספר טלפון נייד" } };
   }
   const normalized = normalizeIsraeliMobile(trimmed);
   if (!normalized) {
     return {
       ok: false,
-      errors: { phone: "מספר לא תקין - השתמשו בפורמט 05X-XXXXXXX" },
+      errors: { phone: "⚠️ מספר לא תקין — נסו בפורמט 05X-XXXXXXX" },
     };
   }
   const allSame = /^(.)\1+$/.test(normalized.slice(1));
   if (allSame || normalized === "0500000000" || normalized === "0512345678") {
-    return { ok: false, errors: { phone: "מספר הטלפון לא נראה תקין" } };
+    return { ok: false, errors: { phone: "⚠️ מספר הטלפון לא נראה תקין" } };
   }
   return { ok: true, normalizedPhone: normalized };
 }
@@ -79,16 +79,16 @@ export function validateIsraeliMobile(phone: string): ValidationResult {
 export function validatePersonName(name: string): ValidationResult {
   const trimmed = name.trim().replace(/\s+/g, " ");
   if (trimmed.length < 2) {
-    return { ok: false, errors: { name: "נא להזין שם (לפחות 2 תווים)" } };
+    return { ok: false, errors: { name: "👤 נא להזין שם (לפחות 2 תווים)" } };
   }
   if (trimmed.length > 60) {
-    return { ok: false, errors: { name: "השם ארוך מדי" } };
+    return { ok: false, errors: { name: "⚠️ השם ארוך מדי" } };
   }
   if (!/[\u0590-\u05FFa-zA-Z]/.test(trimmed)) {
-    return { ok: false, errors: { name: "נא להזין שם בעברית או באנגלית" } };
+    return { ok: false, errors: { name: "⚠️ נא להזין שם בעברית או באנגלית" } };
   }
   if (hasExcessiveRepeat(trimmed) || hasSpamSignals(trimmed)) {
-    return { ok: false, errors: { name: "השם לא נראה תקין" } };
+    return { ok: false, errors: { name: "⚠️ השם לא נראה תקין" } };
   }
   return { ok: true };
 }
@@ -100,14 +100,14 @@ export function validateEmailOptional(email: string): ValidationResult {
     !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(trimmed) ||
     trimmed.length > 120
   ) {
-    return { ok: false, errors: { email: "כתובת מייל לא תקינה" } };
+    return { ok: false, errors: { email: "✉️ כתובת מייל לא תקינה" } };
   }
   const domain = trimmed.split("@")[1]?.toLowerCase();
   if (domain && DISPOSABLE_EMAIL_DOMAINS.has(domain)) {
-    return { ok: false, errors: { email: "נא להשתמש במייל קבוע (לא זמני)" } };
+    return { ok: false, errors: { email: "✉️ נא להשתמש במייל קבוע (לא זמני)" } };
   }
   if (hasSpamSignals(trimmed)) {
-    return { ok: false, errors: { email: "כתובת המייל לא נראית תקינה" } };
+    return { ok: false, errors: { email: "⚠️ כתובת המייל לא נראית תקינה" } };
   }
   return { ok: true };
 }
@@ -132,7 +132,7 @@ export function validateFreeTextOptional(
   }
   const urlCount = (trimmed.match(/https?:\/\/|www\./gi) ?? []).length;
   if (urlCount > 1) {
-    return { ok: false, errors: { [field]: "נא לא להדביק קישורים מרובים" } };
+    return { ok: false, errors: { [field]: "⚠️ נא לא להדביק קישורים מרובים" } };
   }
   return { ok: true };
 }
@@ -141,14 +141,14 @@ export function validateVenue(venue: string, required = true): ValidationResult 
   const trimmed = venue.trim();
   if (!trimmed) {
     return required
-      ? { ok: false, errors: { venue: "נא להזין מיקום / שם אולם" } }
+      ? { ok: false, errors: { venue: "📍 נא להזין מיקום / שם אולם" } }
       : { ok: true };
   }
   if (trimmed.length < 3 || trimmed.length > 120) {
-    return { ok: false, errors: { venue: "מיקום האירוע קצר או ארוך מדי" } };
+    return { ok: false, errors: { venue: "⚠️ מיקום האירוע קצר או ארוך מדי" } };
   }
   if (hasSpamSignals(trimmed)) {
-    return { ok: false, errors: { venue: "מיקום האירוע לא נראה תקין" } };
+    return { ok: false, errors: { venue: "⚠️ מיקום האירוע לא נראה תקין" } };
   }
   return { ok: true };
 }
@@ -160,33 +160,33 @@ export function validateEventDate(
   const required = options?.required ?? true;
   if (!date.trim()) {
     return required
-      ? { ok: false, errors: { eventDate: "נא לבחור תאריך" } }
+      ? { ok: false, errors: { eventDate: "📅 נא לבחור תאריך" } }
       : { ok: true };
   }
   const parsed = new Date(`${date}T12:00:00`);
   if (Number.isNaN(parsed.getTime())) {
-    return { ok: false, errors: { eventDate: "תאריך לא תקין" } };
+    return { ok: false, errors: { eventDate: "⚠️ תאריך לא תקין" } };
   }
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   if (parsed < today) {
-    return { ok: false, errors: { eventDate: "תאריך האירוע לא יכול להיות בעבר" } };
+    return { ok: false, errors: { eventDate: "⚠️ תאריך האירוע לא יכול להיות בעבר" } };
   }
   const maxYears = options?.maxYearsAhead ?? 3;
   const maxDate = new Date(today);
   maxDate.setFullYear(maxDate.getFullYear() + maxYears);
   if (parsed > maxDate) {
-    return { ok: false, errors: { eventDate: "תאריך רחוק מדי - צרו קשר ישירות" } };
+    return { ok: false, errors: { eventDate: "⚠️ תאריך רחוק מדי — צרו קשר ישירות" } };
   }
   return { ok: true };
 }
 
 export function validateEventTime(time: string): ValidationResult {
   if (!time.trim()) {
-    return { ok: false, errors: { eventTime: "נא לבחור שעה" } };
+    return { ok: false, errors: { eventTime: "🕐 נא לבחור שעה" } };
   }
   if (!/^\d{2}:\d{2}$/.test(time)) {
-    return { ok: false, errors: { eventTime: "שעה לא תקינה" } };
+    return { ok: false, errors: { eventTime: "⚠️ שעה לא תקינה" } };
   }
   return { ok: true };
 }
@@ -196,7 +196,7 @@ export function validateGuestCountOptional(count: string): ValidationResult {
   if (!trimmed) return { ok: true };
   const n = Number.parseInt(trimmed, 10);
   if (!Number.isFinite(n) || n < 1 || n > 50_000) {
-    return { ok: false, errors: { guestCount: "מספר אורחים לא סביר" } };
+    return { ok: false, errors: { guestCount: "👥 מספר אורחים לא סביר" } };
   }
   return { ok: true };
 }
@@ -280,7 +280,7 @@ export function runLeadGuard(options: {
     return {
       ok: false,
       errors: {},
-      global: "נא למלא את הטופס לפחות כמה שניות לפני השליחה.",
+      global: "⏳ נא למלא את הטופס לפחות כמה שניות לפני השליחה.",
       failure: "timing",
     };
   }
@@ -288,7 +288,7 @@ export function runLeadGuard(options: {
     return {
       ok: false,
       errors: {},
-      global: "נשלחו כמה פניות מהדפדפן הזה. נסו שוב בעוד שעה או התקשרו.",
+      global: "⏳ נשלחו כמה פניות מהדפדפן הזה. נסו שוב בעוד שעה או התקשרו.",
       failure: "rate_limit",
     };
   }
@@ -301,7 +301,7 @@ export function runLeadGuard(options: {
 }
 
 export const LEAD_GUARD_GENERIC_ERROR =
-  "לא הצלחנו לשלוח את הפרטים. בדקו את השדות או צרו קשר בטלפון.";
+  "⚠️ לא הצלחנו לשלוח את הפרטים. בדקו את השדות או צרו קשר בטלפון.";
 
 export function validateContactQuiz(fields: {
   name: string;
@@ -343,7 +343,7 @@ export function validateBookingLead(fields: {
   const timeResult: ValidationResult = fields.time.trim()
     ? validateEventTime(fields.time)
     : effectiveRequireTime
-      ? { ok: false, errors: { eventTime: "נא לבחור שעה" } }
+      ? { ok: false, errors: { eventTime: "🕐 נא לבחור שעה" } }
       : { ok: true };
   const rest = mergeResults(
     validatePersonName(fields.name),
@@ -401,7 +401,7 @@ export function validateAttractionsOrder(fields: {
   });
 
   if (!fields.eventType.trim()) {
-    errors.eventType = "נא לבחור סוג אירוע";
+    errors.eventType = "🎉 נא לבחור סוג אירוע";
   }
 
   for (const r of [nameR, phoneR, dateR, timeR, venueR, guestsR, notesR]) {
@@ -473,20 +473,20 @@ export function validateScheduleWindow(fields: {
   time: string;
 }): ValidationResult {
   if (!fields.scheduleWindow) {
-    return { ok: false, errors: { scheduleWindow: "נא לבחור מועד מועדף" } };
+    return { ok: false, errors: { scheduleWindow: "📅 נא לבחור מועד מועדף" } };
   }
   if (fields.date.trim()) {
     if (fields.scheduleWindow === "motzash" && !isSaturdayDate(fields.date)) {
-      return { ok: false, errors: { date: "במוצ״ש יש לבחור תאריך של יום שבת" } };
+      return { ok: false, errors: { date: "⚠️ במוצ״ש יש לבחור תאריך של יום שבת" } };
     }
     if (fields.scheduleWindow === "weekdays" && isSaturdayDate(fields.date)) {
-      return { ok: false, errors: { date: "בימי חול יש לבחור תאריך שאינו שבת" } };
+      return { ok: false, errors: { date: "⚠️ בימי חול יש לבחור תאריך שאינו שבת" } };
     }
   }
   if (fields.scheduleWindow === "motzash" && fields.time.trim()) {
     const [h] = fields.time.split(":").map(Number);
     if (!Number.isNaN(h) && h < 21) {
-      return { ok: false, errors: { time: "במוצ״ש ההקלטה מתחילה מ-21:00" } };
+      return { ok: false, errors: { time: "⚠️ במוצ״ש ההקלטה מתחילה מ-21:00" } };
     }
   }
   return { ok: true };

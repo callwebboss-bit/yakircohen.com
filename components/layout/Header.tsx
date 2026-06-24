@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { cn } from "@/lib/utils";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useHeaderMenu } from "@/components/layout/header-menu-context";
 import {
   HeaderMobileSearchBar,
@@ -17,8 +19,46 @@ import { SiteSearchLazy } from "@/components/layout/header-lazy";
 import SearchKeyboardShortcut from "@/components/layout/SearchKeyboardShortcut";
 import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
 import TimeGreeting from "@/components/layout/TimeGreeting";
+import PromoBanner from "@/components/layout/PromoBanner";
 import Container from "@/components/ui/Container";
-import { SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
+import { CONTACT_PHONE_WHATSAPP, SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
+
+function subscribeAvailability() {
+  return () => {};
+}
+
+function getAvailabilitySnapshot() {
+  const hour = new Date().getHours();
+  return hour >= 9 && hour < 21;
+}
+
+function getAvailabilityServerSnapshot() {
+  return true;
+}
+
+function WhatsAppAvailabilityBadge() {
+  const available = useSyncExternalStore(
+    subscribeAvailability,
+    getAvailabilitySnapshot,
+    getAvailabilityServerSnapshot,
+  );
+
+  return (
+    <a
+      href={`https://wa.me/${CONTACT_PHONE_WHATSAPP}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-green-500/40 hover:text-foreground xl:flex"
+      aria-label={available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק' בוואטסאפ"}
+    >
+      <span
+        className={`h-2 w-2 shrink-0 rounded-full ${available ? "bg-green-500" : "bg-yellow-500"}`}
+        aria-hidden
+      />
+      {available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק'"}
+    </a>
+  );
+}
 
 function HeaderLogo() {
   const { closeMenu } = useHeaderMenu();
@@ -76,6 +116,7 @@ function HeaderMainBar({
             <SiteSearchLazy />
           </div>
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
+          <WhatsAppAvailabilityBadge />
           <Link
             href="/book"
             className="hidden min-h-11 items-center rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-fast ease-luxury hover:shadow-md active:scale-95 md:inline-flex"
@@ -108,19 +149,28 @@ function HeaderMainBar({
 
 export default function Header() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const scrollDir = useScrollDirection(8);
 
   return (
     <SiteNavMenuIsland>
-      {(menu) => (
+      {(menu) => {
+        const hidden =
+          scrollDir === "down" && !menu.menuOpen && !mobileSearchOpen;
+        return (
         <header
           data-pagefind-ignore
-          className="relative sticky top-0 z-50 border-b border-border [contain:layout_style]"
+          className={cn(
+            "relative sticky top-0 z-50 border-b border-border [contain:layout_style]",
+            "transition-transform duration-300 ease-[var(--ease-luxury)]",
+            hidden && "max-md:-translate-y-full",
+          )}
         >
           <SearchKeyboardShortcut />
           <div
             className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
             aria-hidden
           />
+          <PromoBanner />
 
           {mobileSearchOpen ? (
             <HeaderMobileSearchBar onCollapse={() => setMobileSearchOpen(false)} />
@@ -134,7 +184,8 @@ export default function Header() {
             />
           )}
         </header>
-      )}
+        );
+      }}
     </SiteNavMenuIsland>
   );
 }

@@ -2,11 +2,12 @@
  * Exports pricing-catalog + book route presets + blog funnels for yakir-closer sync.
  * Output: local-tools/closer-config.json + closer-config.js (file:// friendly)
  *
- * ⚠️  local-tools/ (yakir-closer.html) NEVER goes to the server — local-only CRM.
+ * ⚠️  local-tools/ (yakir-closer.html) NEVER goes to the server -- local-only CRM.
  *     This script only WRITES into local-tools/; it does not deploy anything.
  */
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import * as esbuild from "esbuild";
 
 const ROOT = process.cwd();
@@ -22,7 +23,7 @@ const CLIPS_SERVICES_FILE = path.join(ROOT, "lib", "data", "booking-calculator-s
 const BRAND_COPY_FILE = path.join(ROOT, "lib", "data", "closer-brand-copy.json");
 const OUT_DIR = path.join(ROOT, "..", "local-tools");
 if (OUT_DIR.replace(/\\/g, "/").includes("/public/")) {
-  throw new Error("export:closer OUT_DIR must not be public/ — local-tools only");
+  throw new Error("export:closer OUT_DIR must not be public/ -- local-tools only");
 }
 const OUT_JSON = path.join(OUT_DIR, "closer-config.json");
 const OUT_JS = path.join(OUT_DIR, "closer-config.js");
@@ -33,12 +34,12 @@ function humanizeClientCopy(text) {
   if (!text || typeof text !== "string") return text;
   let out = String(text);
   out = out
-    .replace(/\s*[—–]\s*/g, (match, offset, str) => {
+    .replace(/\s*[--–]\s*/g, (match, offset, str) => {
       const before = str.slice(Math.max(0, offset - 1), offset);
       if (before === "\n" || before === "." || before === "!" || before === "?") return " ";
       return ". ";
     })
-    .replace(/[—–]/g, ", ")
+    .replace(/[--–]/g, ", ")
     .replace(/\.{3,}/g, ".")
     .replace(/…/g, ".")
     .replace(/[ \t]{2,}/g, " ")
@@ -410,7 +411,7 @@ function loadLiveStatus() {
   return DEFAULT_LIVE_STATUS;
 }
 
-/** audienceRoutes מלאים — discovery מ-brandCopy, שירות ואירוע מ-book-audience-routes */
+/** audienceRoutes מלאים -- discovery מ-brandCopy, שירות ואירוע מ-book-audience-routes */
 function buildAudienceRoutes(routesText, brandCopy) {
   const discoveryById = {};
   for (const r of brandCopy.audienceRoutes || []) {
@@ -444,7 +445,7 @@ function buildAudienceRoutes(routesText, brandCopy) {
   return routes;
 }
 
-/** מקורות book_router_* — מוגדרים ב-book-router-lead-sources דרך spread */
+/** מקורות book_router_* -- מוגדרים ב-book-router-lead-sources דרך spread */
 function parseBookRouterLeadSources(routesText) {
   const entries = [];
   const blockRe =
@@ -541,6 +542,67 @@ function parseGeoFees(text) {
     fees.push({ id: m[1], label: m[2], fee: Number(m[3]) });
   }
   return fees;
+}
+
+// ── Chatbot FAQ export ────────────────────────────────────────────────────────
+const CHATBOT_DATA_FILE = path.join(ROOT, "lib", "chatbot-data.ts");
+const CHATBOT_NEXT_ACTION = {
+  chatbot_studio_price:  "שלח מחירון אולפן + תאם שעת ייעוץ קצרה",
+  chatbot_blessings:     "שלח דוגמת ברכה + הצע מועד הקלטה",
+  chatbot_podcast:       "שלח פרק לדוגמה + הצע שיחת ייעוץ ראשונית",
+  chatbot_book:          "שאל על סוג השירות המבוקש + שלח קישור הזמנה",
+  chatbot_hours:         "אשר זמינות לתאריך המבוקש",
+  chatbot_dj:            "בדוק זמינות לתאריך האירוע + שלח הצעת DJ",
+  chatbot_attractions:   "שלח מחירון אטרקציות + בדוק זמינות",
+  chatbot_photography:   "בדוק זמינות צלם + שלח חבילות צילום",
+  chatbot_voiceover:     "בקש קישור לסקריפט + שלח הצעת מחיר",
+  chatbot_academy:       "שאל על מטרות הלמידה + הצע שיעור ניסיון",
+  chatbot_quote:         "בקש תאריך + סוג האירוע + שלח הצעה מפורטת",
+  chatbot_portfolio:     "שתף דוגמאות הקלטה / DJ / צילום הרלוונטיות לשאלה",
+  chatbot_fallback:      "לקוח לא מצא תשובה - שאל מה בדיוק חסר ותן מענה מלא",
+};
+const CHATBOT_TO_CLOSER_SERVICE = {
+  chatbot_studio_price:  "recording",
+  chatbot_blessings:     "recording",
+  chatbot_podcast:       "podcast",
+  chatbot_book:          "recording",
+  chatbot_hours:         "recording",
+  chatbot_dj:            "dj",
+  chatbot_attractions:   "effects_only",
+  chatbot_photography:   "bat_mitzvah",
+  chatbot_voiceover:     "dj_voice_tags",
+  chatbot_academy:       "academy",
+  chatbot_quote:         "recording",
+  chatbot_portfolio:     "recording",
+  chatbot_fallback:      "recording",
+};
+
+function parseChatbotFaq() {
+  const tmpOut = path.join(ROOT, ".next", "tmp-chatbot-export.cjs");
+  try {
+    fs.mkdirSync(path.join(ROOT, ".next"), { recursive: true });
+    esbuild.buildSync({
+      entryPoints: [CHATBOT_DATA_FILE],
+      bundle: false,
+      format: "cjs",
+      platform: "node",
+      outfile: tmpOut,
+      logLevel: "silent",
+    });
+    const mod = createRequire(import.meta.url)(tmpOut);
+    const questions = mod.CHATBOT_DATA?.questions ?? [];
+    return questions.map((q) => ({
+      id: q.id,
+      label: q.label,
+      answer: q.answer.text,
+      readMoreHref: q.answer.readMoreHref ?? null,
+      whatsappMessage: q.answer.whatsappMessage ?? null,
+      closerServiceId: CHATBOT_TO_CLOSER_SERVICE[q.id] ?? "recording",
+      nextAction: CHATBOT_NEXT_ACTION[q.id] ?? "בקש פרטים נוספים",
+    }));
+  } finally {
+    try { fs.unlinkSync(tmpOut); } catch { /* ignore */ }
+  }
 }
 
 const catalogText = fs.readFileSync(CATALOG_FILE, "utf8");
@@ -640,6 +702,7 @@ const payload = {
   equipmentInventory: parseEquipmentInventory(inventoryText),
   inventoryBookings: loadInventoryBookings(),
   liveStatus: loadLiveStatus(),
+  chatbotFaq: parseChatbotFaq(),
 };
 
 const invBookings = payload.inventoryBookings;
@@ -655,7 +718,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(OUT_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 fs.writeFileSync(
   OUT_JS,
-  `/** Auto-generated — npm run export:closer */\nwindow.CLOSER_CONFIG = ${JSON.stringify(payload)};\n`,
+  `/** Auto-generated -- npm run export:closer */\nwindow.CLOSER_CONFIG = ${JSON.stringify(payload)};\n`,
   "utf8",
 );
 const REPLY_BUILDERS_OUT = path.join(OUT_DIR, "closer-reply-builders.js");

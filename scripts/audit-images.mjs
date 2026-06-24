@@ -5,7 +5,7 @@ const root = path.join(process.cwd(), "public", "images", "services");
 const IMG = /\.(webp|jpe?g|png|svg|avif|gif|jfif)$/i;
 const ARCHIVE_NAMES = ["archive", "arcive"];
 
-/** Folders referenced in lib/data/services.ts — keep in sync when adding services */
+/** Folders referenced in lib/data/services.ts -- keep in sync when adding services */
 const EXPECTED_ASSET_FOLDERS = [
   "studio/hub",
   "studio/recording-song-modiin",

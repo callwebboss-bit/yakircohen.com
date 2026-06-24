@@ -37,27 +37,27 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
     ],
   },
   {
-    heading: "אטרקציות",
+    heading: "אטרקציות לאירועים",
     links: [
       {
-        label: "מרכז אטרקציות לאירועים",
+        label: "אטרקציות לחתונה ואירועי חברה",
         href: "/events/attractions",
-        title: "עשן, בועות, זיקוקים וקונפטי",
+        title: "עשן, בועות, זיקוקים וקונפטי לחתונה, בר מצווה ואירועים עסקיים",
       },
       {
         label: "מכונת עשן לחתונה",
         href: "/events/attractions/wedding-smoking-machine",
-        title: "עשן כבד ואפקטים לרחבה",
+        title: "עשן כבד לרחבה «אפקט חופה וסלואו»",
       },
       {
-        label: "זיקוקים קרים",
+        label: "זיקוקים קרים לאירועים",
         href: "/events/attractions/cold-fireworks",
-        title: "זיקוקים בטוחים לחופה ורגע שיא",
+        title: "זיקוקי ניצוצות בטוחים לחופה, בר מצווה ורגע שיא",
       },
       {
-        label: "חבילות אטרקציות לחתונה",
+        label: "חבילות DJ ואטרקציות לחתונה",
         href: "/events/wedding-attractions-packages",
-        title: "חבילות משולבות לאירועים",
+        title: "DJ + עשן + זיקוקים בחבילה אחת לחתונה ואירועי חברה",
       },
     ],
   },

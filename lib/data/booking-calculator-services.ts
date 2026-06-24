@@ -8,7 +8,7 @@ export type Service = {
   price: number;
   icon: string;
   desc: string;
-  badge?: "popular" | "new" | "kids";
+  badge?: "popular" | "new" | "kids" | "renewed" | "recommended" | "no-wait";
   upsells: string[];
 };
 
@@ -263,6 +263,9 @@ export const BADGE_LABELS: Record<string, string> = {
   popular: "פופולרי",
   new: "חדש",
   kids: "לילדים",
+  renewed: "מחודש",
+  recommended: "מומלץ",
+  "no-wait": "עכשיו בלי תור",
 };
 
 /** Tiered bundle pricing - must match AttractionsCalculator */

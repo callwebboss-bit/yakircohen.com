@@ -68,27 +68,27 @@ if (fs.existsSync(schemaPath)) {
     }
   }
 } else {
-  entityIssues.push("site-schema.json not found — run npm run generate:schema");
+  entityIssues.push("site-schema.json not found -- run npm run generate:schema");
 }
 
 const totalIssues = faqIssues.length + entityIssues.length;
 
 if (totalIssues === 0) {
   console.log(
-    "audit:schema — no FAQ UI pages missing FAQPage schema; entity graph OK",
+    "audit:schema -- no FAQ UI pages missing FAQPage schema; entity graph OK",
   );
   process.exit(0);
 }
 
 if (faqIssues.length > 0) {
   console.log(
-    `audit:schema — ${faqIssues.length} page(s) with FAQ UI but no schema:`,
+    `audit:schema -- ${faqIssues.length} page(s) with FAQ UI but no schema:`,
   );
   for (const file of faqIssues) console.log(`  ${file}`);
 }
 
 if (entityIssues.length > 0) {
-  console.log(`audit:schema — entity issues:`);
+  console.log(`audit:schema -- entity issues:`);
   for (const issue of entityIssues) console.log(`  ${issue}`);
 }
 

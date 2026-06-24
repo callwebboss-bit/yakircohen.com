@@ -1,6 +1,6 @@
-# פריסה — GitHub + Vercel + DNS ב-Cloudflare
+﻿# פריסה -- GitHub + Vercel + DNS ב-Cloudflare
 
-מדריך ל-`yakircohen-site` (Next.js 16). **מבנה repo: א׳** — שורש ה-repo = שורש האתר (אין `root directory`).
+מדריך ל-`yakircohen-site` (Next.js 16). **מבנה repo: א׳** -- שורש ה-repo = שורש האתר (אין `root directory`).
 
 **אסטרטגיית URLs:** [SEO-URL-STRATEGY.md](./SEO-URL-STRATEGY.md)  
 **לפני עלייה:** [PRE-DEPLOY-CHECKLIST.md](./PRE-DEPLOY-CHECKLIST.md)
@@ -18,14 +18,14 @@ git branch -M main
 git push -u origin main
 ```
 
-**שוטף:** `git add .` → `git commit` → `git push` — CI יריץ lint + audits + build.
+**שוטף:** `git add .` → `git commit` → `git push` -- CI יריץ lint + audits + build.
 
 ---
 
-## 2. Vercel — פרויקט **אחד** בלבד
+## 2. Vercel -- פרויקט **אחד** בלבד
 
 ### הבעיה שכבר תוקנה בתיעוד
-אם נוצרו 3 פרויקטים על אותו repo (`yakircohen`, `yakircohen-com`, `yakircohen-com-rikr`) — כולם נכשלים / מתנגשים. **השאר רק `yakircohen-com`.**
+אם נוצרו 3 פרויקטים על אותו repo (`yakircohen`, `yakircohen-com`, `yakircohen-com-rikr`) -- כולם נכשלים / מתנגשים. **השאר רק `yakircohen-com`.**
 
 ### הגדרות (חובה)
 
@@ -53,21 +53,21 @@ Settings → **Delete Project** על:
 
 Deployments → **Redeploy** (אחרי push ל-`main`).
 
-**Preview:** כל push יוצר `https://yakircohen-com-*.vercel.app` — לבדוק לפני DNS.
+**Preview:** כל push יוצר `https://yakircohen-com-*.vercel.app` -- לבדוק לפני DNS.
 
 ---
 
-## 3. DNS — Cloudflare (מ-Google Sites → Vercel)
+## 3. DNS -- Cloudflare (מ-Google Sites → Vercel)
 
 הדומיין **כבר** ב-Cloudflare; מעבירים את התעבורה לאתר החדש.
 
-### שלב א — חיבור דומיין ב-Vercel
+### שלב א -- חיבור דומיין ב-Vercel
 
 1. Vercel → `yakircohen-com` → **Settings → Domains**
 2. הוסף: `yakircohen.com` ו-`www.yakircohen.com`
 3. Vercel יציג רשומות DNS נדרשות (לרוב CNAME / A)
 
-### שלב ב — עדכון ב-Cloudflare DNS
+### שלב ב -- עדכון ב-Cloudflare DNS
 
 [Cloudflare Dashboard](https://dash.cloudflare.com) → `yakircohen.com` → **DNS → Records**
 
@@ -78,7 +78,7 @@ Deployments → **Redeploy** (אחרי push ל-`main`).
 
 **מחק / עדכן** רשומות ישנות של Google Sites (A/CNAME לכתובות Google).
 
-### שלב ג — Redirect `www` → ללא www (מומלץ)
+### שלב ג -- Redirect `www` → ללא www (מומלץ)
 
 Cloudflare → **Rules → Redirect Rules** (או Page Rules):
 
@@ -104,13 +104,13 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 
 - [ ] `https://yakircohen.com/sitemap.xml`
 - [ ] `https://yakircohen.com/robots.txt`
-- [ ] View Source על `/studio/recording-song-modiin` — `Service` + `FAQPage` ב-HTML
-- [ ] OG tags על `/book`, `/pricing`, `/contact` — `images/og/*.webp`
+- [ ] View Source על `/studio/recording-song-modiin` -- `Service` + `FAQPage` ב-HTML
+- [ ] OG tags על `/book`, `/pricing`, `/contact` -- `images/og/*.webp`
 - [ ] חיפוש באתר (מילה: "פודקאסט")
 - [ ] וואטסאפ מדף `/contact`
-- [ ] Google Search Console — ראה [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
+- [ ] Google Search Console -- ראה [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
 - [ ] GA4 Realtime (`G-PVW4GMPNS4`)
-- [ ] IndexNow — ראה [§8](#8-indexnow-אחרי-deploy)
+- [ ] IndexNow -- ראה [§8](#8-indexnow-אחרי-deploy)
 
 ---
 
@@ -119,12 +119,12 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 | פקודה | מתי |
 |--------|-----|
 | `npm ci` | אחרי clone |
-| `npm run verify:predeploy` | **לפני פריסה גדולה** — CI + SEO + headings + links + share (all) + schema sync + build:full |
+| `npm run verify:predeploy` | **לפני פריסה גדולה** -- CI + SEO + headings + links + share (all) + schema sync + build:full |
 | `npm run lint` | לפני push |
 | `npm run audit:images` | אחרי העלאת תמונות |
 | `npm run audit:links` | לפני פריסה |
 | `npm run audit:headings` | לפני פריסה |
-| `npm run verify:seo` | לפני פריסה — titles + schema + orphans |
+| `npm run verify:seo` | לפני פריסה -- titles + schema + orphans |
 | `npm run build:full` | לפני פריסה גדולה / אימות Pagefind |
 | `npm run generate:og-images` | אחרי עדכון תמונות מקור ל-OG |
 
@@ -135,7 +135,7 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 | משתנה | חובה? | שימוש |
 |--------|--------|--------|
 | `GOOGLE_SITE_VERIFICATION` | לא | קוד אימות מ-Google Search Console → meta tag ב-`app/layout.tsx` |
-| `CRON_SECRET` | מומלץ | אימות `POST /api/indexnow` — ראה §8 |
+| `CRON_SECRET` | מומלץ | אימות `POST /api/indexnow` -- ראה §8 |
 | `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` | לא | מייל גיבוי ללידים |
 
 אין `.env` חובה לפריסה. הקנוני: `lib/site-url.ts` → `https://yakircohen.com`.
@@ -146,24 +146,24 @@ Cloudflare → **SSL/TLS** → **Full (strict)**.
 
 הנתיב [`app/api/indexnow/route.ts`](../app/api/indexnow/route.ts) שולח את כל ה-URLs מ-`sitemap.xml` ל-IndexNow (Bing + Google דרך Bing).
 
-### שלב א — משתנה סביבה
+### שלב א -- משתנה סביבה
 
 1. Vercel → `yakircohen-com` → **Settings → Environment Variables**
 2. הוסף `CRON_SECRET` = מחרוזת אקראית ארוכה (Production + Preview)
 3. Redeploy
 
-### שלב ב — Deploy Hook (אוטומטי)
+### שלב ב -- Deploy Hook (אוטומטי)
 
 1. Vercel → **Settings → Deploy Hooks** → Create Hook → שם: `indexnow-after-deploy`
 2. העתק את ה-URL של ה-Hook
-3. אפשרות א — **GitHub Action** או סקריפט שאחרי deploy מריץ:
+3. אפשרות א -- **GitHub Action** או סקריפט שאחרי deploy מריץ:
 
 ```bash
 curl -X POST "https://yakircohen.com/api/indexnow" \
   -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
-4. אפשרות ב — Vercel **Cron Jobs** (Pro): `0 */6 * * *` → קריאה ל-`/api/indexnow`
+4. אפשרות ב -- Vercel **Cron Jobs** (Pro): `0 */6 * * *` → קריאה ל-`/api/indexnow`
 
 ### בדיקה ידנית
 
@@ -178,7 +178,7 @@ curl -X POST https://yakircohen.com/api/indexnow \
 
 ## 7. תמונות
 
-העלאה ל-`public/images/services/{תיקייה}/` — ללא שינוי קוד.  
+העלאה ל-`public/images/services/{תיקייה}/` -- ללא שינוי קוד.  
 מדריך: [public/images/services/README.md](../public/images/services/README.md)
 
 ---

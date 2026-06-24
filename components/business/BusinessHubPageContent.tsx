@@ -24,11 +24,11 @@ export default function BusinessHubPageContent() {
             לעסקים וארגונים
           </p>
           <h1 className="text-hero mt-4 font-semibold text-foreground">
-            פתרונות הפקה לעסקים
+            הפקת תוכן לעסקים - עם חשבונית מס
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
-            רילז באולפן, ניהול סושיאל, סרט תדמית, פודקאסט וקריינות. מאולפן
-            במודיעין, לכל המרכז.
+            רילז, קריינות מקצועית, פודקאסט לעסק וסרט תדמית. הפקה מלאה עם
+            חשבונית מס - תגובה תוך 24 שעות. מודיעין, פתח תקווה וכל אזור המרכז.
           </p>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             מחפשים שיר במתנה או DJ לחתונה?{" "}
@@ -47,7 +47,7 @@ export default function BusinessHubPageContent() {
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              ייעוץ בוואטסאפ
+              ייעוץ עסקי - תגובה תוך 24 שעות
             </a>
             <Link
               href="/pricing"
@@ -114,6 +114,7 @@ export default function BusinessHubPageContent() {
           <FAQAccordion
             title="שאלות נפוצות, שירותים לעסקים"
             items={BUSINESS_HUB_FAQS}
+            defaultOpenId="b2c-vs-b2b"
           />
         </Container>
       </Section>

@@ -6,7 +6,10 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   SITE_GLOBAL_LINKS,
   SITE_NAVIGATION,
-  NAV_PRIMARY_DESKTOP,
+  HEADER_PRIMARY_NAV,
+  HEADER_MORE_SERVICES_NAV,
+  getHeaderNavActiveCategory,
+  isHeaderNavLinkActive,
   getCategoryForPath,
   type SiteNavCategory,
 } from "@/lib/site-architecture";
@@ -14,6 +17,67 @@ import { SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import SiteSearch from "@/components/ui/SiteSearch";
 
+
+const SERVICE_PICKER_ITEMS = [
+  { href: "/studio/recording-song-modiin", label: "🎤 הקלטת שיר" },
+  { href: "/podcast", label: "🎙️ פודקאסט" },
+  { href: "/events/dj-events", label: "🎧 DJ לחתונה" },
+  { href: "/events/attractions", label: "✨ אטרקציות" },
+  { href: "/online", label: "🤖 שירותי AI" },
+  { href: "/business", label: "🏢 לעסקים" },
+] as const;
+
+function ServicePickerDropdown() {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
+
+  return (
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="true"
+        className={cn(
+          "group relative inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-fast ease-luxury active:scale-95",
+          open
+            ? "bg-surface text-brand-red"
+            : "bg-brand-red/8 text-brand-red hover:bg-brand-red/15",
+        )}
+      >
+        בחרו שירות
+        <ChevronIcon open={open} />
+      </button>
+      {open && (
+        <div
+          className="absolute start-0 top-full z-[60] mt-1.5 min-w-[13rem] rounded-xl border border-border bg-background p-1.5 shadow-xl"
+          role="menu"
+        >
+          {SERVICE_PICKER_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground/90 transition-all duration-fast hover:bg-surface hover:text-brand-red active:scale-[0.98]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ChevronIcon({ open }: { open: boolean }) {
   return (
@@ -46,7 +110,13 @@ const DesktopDropdown = memo(function DesktopDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Coarse-pointer devices (tablets, phones) use click only — no hover logic
+  const isHoverDevice = () =>
+    typeof window !== "undefined" &&
+    !window.matchMedia("(pointer: coarse)").matches;
+
   const handleMouseEnter = useCallback(() => {
+    if (!isHoverDevice()) return;
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
@@ -55,9 +125,10 @@ const DesktopDropdown = memo(function DesktopDropdown({
   }, []);
 
   const handleMouseLeave = useCallback(() => {
+    if (!isHoverDevice()) return;
     closeTimeoutRef.current = setTimeout(() => {
       setOpen(false);
-    }, 180); // 180ms delay before closing
+    }, 180);
   }, []);
 
   useEffect(() => {
@@ -325,20 +396,55 @@ function DesktopSearchButton() {
 
 export function SiteNavDesktop() {
   const pathname = usePathname();
-  const activeCategory = getCategoryForPath(pathname);
+  const activeCategory = getHeaderNavActiveCategory(pathname);
+
+  const headerLinkClass = (href: string) =>
+    cn(
+      "group relative min-h-10 rounded-lg px-2.5 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95 xl:px-3",
+      isHeaderNavLinkActive(href, pathname)
+        ? "text-[var(--service-accent,#d42b2b)]"
+        : "text-foreground/90 hover:text-[var(--service-accent,#d42b2b)]",
+    );
 
   return (
     <nav
       className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
-      {NAV_PRIMARY_DESKTOP.map((cat) => (
-        <DesktopDropdown
-          key={cat.id}
-          category={cat}
-          isActive={activeCategory?.id === cat.id}
-        />
-      ))}
+      <ServicePickerDropdown />
+      <span aria-hidden className="mx-1 h-4 w-px bg-border" />
+      {HEADER_PRIMARY_NAV.map((entry) =>
+        entry.kind === "dropdown" ? (
+          <DesktopDropdown
+            key={entry.category.id}
+            category={entry.category}
+            isActive={activeCategory?.id === entry.category.id}
+          />
+        ) : (
+          <Link
+            key={entry.href}
+            href={entry.href}
+            className={headerLinkClass(entry.href)}
+          >
+            {entry.label}
+            <span
+              className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
+              aria-hidden
+            />
+          </Link>
+        ),
+      )}
+      <DesktopDropdown
+        category={HEADER_MORE_SERVICES_NAV}
+        isActive={
+          activeCategory?.id === HEADER_MORE_SERVICES_NAV.id ||
+          activeCategory?.id === "academy" ||
+          activeCategory?.id === "business" ||
+          activeCategory?.id === "online" ||
+          activeCategory?.id === "video" ||
+          activeCategory?.id === "photography"
+        }
+      />
       <Link
         href="/start"
         className="group relative min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)] active:scale-95"

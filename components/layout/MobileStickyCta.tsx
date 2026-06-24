@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { getMobileStickyCtaContext } from "@/lib/mobile-sticky-context";
@@ -22,13 +23,18 @@ export default function MobileStickyCta() {
     return null;
   }
 
-  const { text, utm_campaign } = getMobileStickyCtaContext(pathname);
+  const { text, utm_campaign, showQuote } = getMobileStickyCtaContext(pathname);
 
   const whatsappHref = buildWhatsAppHref({
     text,
     utm_source: "website",
     utm_campaign,
   });
+
+  const secondaryButtonClass = cn(
+    "inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-surface px-3 text-sm font-semibold text-foreground",
+    "transition-[color,border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]",
+  );
 
   return (
     <div
@@ -38,15 +44,21 @@ export default function MobileStickyCta() {
     >
       <div className="h-px w-full bg-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
       <div className="mx-auto grid max-w-lg grid-cols-2 gap-2 px-3 py-2.5">
-        <a
-          href={`tel:${CONTACT_PHONE_E164}`}
-          className={cn(
-            "inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-surface px-3 text-sm font-semibold text-foreground",
-            "transition-[color,border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]",
-          )}
-        >
-          חיוג מהיר
-        </a>
+        {showQuote ? (
+          <Link
+            href="/contact?ref=quote"
+            className={secondaryButtonClass}
+          >
+            הצעת מחיר
+          </Link>
+        ) : (
+          <a
+            href={`tel:${CONTACT_PHONE_E164}`}
+            className={secondaryButtonClass}
+          >
+            חיוג מהיר
+          </a>
+        )}
         <a
           href={whatsappHref}
           target="_blank"

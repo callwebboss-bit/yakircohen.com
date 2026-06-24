@@ -481,6 +481,11 @@ export default function PhotographyCalculator({
         </section>
       </div>
 
+      <div className="mx-auto max-w-3xl rounded-xl bg-surface px-4 py-3 text-center">
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          המציאות דינמית. אם תצטרכו לשנות תאריך או שעת האירוע אחרי השליחה הכל בסדר. גמיש עד יום הצילומים. אין קנסות ואין אותיות קטנות.
+        </p>
+      </div>
       <BookingPaymentTrust className="mx-auto max-w-3xl" />
 
       <CalculatorStickyBar

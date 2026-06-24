@@ -4,6 +4,7 @@ import { CalendarIcon, ClockIcon, StarIcon } from "@/components/ui/Icons";
 import LiveVisitorCount from "@/components/marketing/LiveVisitorCount";
 import {
   AVAILABILITY_TONE_CLASS,
+  formatLastProjectDate,
   getLiveStatusConfig,
   resolveAvailabilityLabel,
 } from "@/lib/data/live-status";
@@ -42,18 +43,27 @@ export default function LiveStatusBar() {
               >
                 {availability.label}
               </span>
+              <Link
+                href="/book"
+                className="inline-flex min-h-8 items-center rounded-full border border-brand-red/30 bg-brand-red/5 px-2.5 text-xs font-semibold text-brand-red transition-colors hover:bg-brand-red/10"
+              >
+                בדקו תאריך פנוי
+              </Link>
             </div>
 
             <div className="hidden items-center gap-2 md:flex">
-              <CalendarIcon size={16} className="shrink-0 text-muted-foreground" />
+              <CalendarIcon size={16} className="shrink-0 text-emerald-600" />
               <Link
                 href={lastProject.url}
+                title={`${lastProject.title} - הזמינו גם אתם`}
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                אחרון:{" "}
+                <span className="font-semibold text-emerald-700">✅ הושלם לאחרונה:</span>{" "}
                 <span className="font-medium text-foreground">{lastProject.title}</span>
                 {" • "}
-                {lastProject.date}
+                <span className="text-muted-foreground">
+                  {formatLastProjectDate(lastProject.date)}
+                </span>
               </Link>
             </div>
           </div>

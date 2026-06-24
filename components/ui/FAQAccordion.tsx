@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
 import Container from "@/components/ui/Container";
@@ -17,6 +17,8 @@ export type FAQAccordionProps = {
   subtitle?: string;
   className?: string;
   allowMultiple?: boolean;
+  showExpandAll?: boolean;
+  defaultOpenId?: string;
 };
 
 type PanelProps = {
@@ -65,9 +67,23 @@ export default function FAQAccordion({
   subtitle = "תשובות קצרות וברורות על השירותים, הטכנולוגיה וההזמנה",
   className,
   allowMultiple = false,
+  showExpandAll = false,
+  defaultOpenId,
 }: FAQAccordionProps) {
   const baseId = useId();
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  if (process.env.NODE_ENV === "development" && items.length > 5) {
+    console.warn(
+      `FAQAccordion: ${items.length} items passed -- max recommended is 5 ("${title}")`,
+    );
+  }
+  const [openIds, setOpenIds] = useState<Set<string>>(
+    defaultOpenId ? new Set([defaultOpenId]) : new Set(),
+  );
+  const effectiveAllowMultiple = allowMultiple || showExpandAll;
+
+  const expandAll = () => setOpenIds(new Set(items.map((i) => i.id)));
+  const collapseAll = () => setOpenIds(new Set());
+  const allOpen = items.length > 0 && openIds.size === items.length;
 
   const toggle = (id: string) => {
     setOpenIds((prev) => {
@@ -76,7 +92,7 @@ export default function FAQAccordion({
         next.delete(id);
         return next;
       }
-      if (!allowMultiple) {
+      if (!effectiveAllowMultiple) {
         return new Set([id]);
       }
       next.add(id);
@@ -111,7 +127,19 @@ export default function FAQAccordion({
           <p className="text-lead mt-3 text-muted-foreground">{subtitle}</p>
         </header>
 
-        <div className="mx-auto mt-10 max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface shadow-sm">
+        {showExpandAll ? (
+          <div className="mx-auto mt-6 flex max-w-3xl justify-end gap-4">
+            <button
+              type="button"
+              onClick={allOpen ? collapseAll : expandAll}
+              className="text-xs font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+            >
+              {allOpen ? "סגור הכל" : "פתח הכל"}
+            </button>
+          </div>
+        ) : null}
+
+        <div className={cn("mx-auto max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface shadow-sm", showExpandAll ? "mt-4" : "mt-10")}>
           {items.map((item) => {
             const isOpen = openIds.has(item.id);
             const triggerId = `${baseId}-trigger-${item.id}`;

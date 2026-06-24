@@ -1,4 +1,4 @@
-# רשימת בדיקה לפני פריסה סופית
+﻿# רשימת בדיקה לפני פריסה סופית
 
 עודכן: יוני 2026 · פרויקט `yakircohen-site`
 
@@ -10,7 +10,7 @@
 
 | בדיקה | סטטוס |
 |--------|--------|
-| `npm run build:full` | ✅ עובר — 145 דפים + Pagefind |
+| `npm run build:full` | ✅ עובר -- 145 דפים + Pagefind |
 | `npm run verify:seo` | ✅ audit:seo-titles, schema, orphans |
 | Breadcrumbs גלובליים + JSON-LD | ✅ |
 | `npm run audit:headings` | הרץ לפני פריסה |
@@ -22,7 +22,7 @@
 
 ## מה אתה עושה (תמונות)
 
-ראה **[public/images/services/README.md](../public/images/services/README.md)** — תיקיות ריקות מוכנות עם `.gitkeep`.
+ראה **[public/images/services/README.md](../public/images/services/README.md)** -- תיקיות ריקות מוכנות עם `.gitkeep`.
 
 **עדיפות העלאה:**
 
@@ -38,30 +38,30 @@
 
 ### חובה / מומלץ מאוד
 
-- [ ] **פריסה ל-Vercel** — ראה [DEPLOY.md](./DEPLOY.md) · חיבור דומיין `yakircohen.com` דרך Cloudflare DNS
-- [ ] **בדיקת redirects** — דגימה מ-Google Search Console / Analytics (נתיבים ישנים)
-- [ ] **טופס צור קשר** — היום מוביל לוואטסאפ; אין API לשליחת מייל — לוודא שזה מכוון
-- [ ] **מספר וואטסאפ** — `lib/constants.ts` (`058-7555456`)
-- [ ] **Google Search Console** — [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
-- [ ] **בדיקה ידנית בנייד** — דף בית, פודקאסט, DJ, contact, מחשבונים
+- [ ] **פריסה ל-Vercel** -- ראה [DEPLOY.md](./DEPLOY.md) · חיבור דומיין `yakircohen.com` דרך Cloudflare DNS
+- [ ] **בדיקת redirects** -- דגימה מ-Google Search Console / Analytics (נתיבים ישנים)
+- [ ] **טופס צור קשר** -- היום מוביל לוואטסאפ; אין API לשליחת מייל -- לוודא שזה מכוון
+- [ ] **מספר וואטסאפ** -- `lib/constants.ts` (`058-7555456`)
+- [ ] **Google Search Console** -- [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
+- [ ] **בדיקה ידנית בנייד** -- דף בית, פודקאסט, DJ, contact, מחשבונים
 
 ### SEO ותוכן
 
-- [ ] **מאמרי בלוג** — `lib/data/blog.ts` (מוגדרים בקוד, לא MDX)
-- [ ] עמודים דקים יחסית (registry בלבד): `/events/host`, חלק מעמודי וידאו/צילום — אופציונלי להעשיר
-- [ ] **Spotify בקריינות** — פלייליסטים מוטמעים; לוודא שהם שלך ולא דמו
+- [ ] **מאמרי בלוג** -- `lib/data/blog.ts` (מוגדרים בקוד, לא MDX)
+- [ ] עמודים דקים יחסית (registry בלבד): `/events/host`, חלק מעמודי וידאו/צילום -- אופציונלי להעשיר
+- [ ] **Spotify בקריינות** -- פלייליסטים מוטמעים; לוודא שהם שלך ולא דמו
 
 ### אנליטיקס ומעקב
 
-- [x] Google Analytics 4 — `G-PVW4GMPNS4` ב-`app/layout.tsx`
-- [ ] Meta Pixel — אם יש קמפיינים בפייסבוק
-- [ ] המרות וואטסאפ — UTM כבר בקישורים (`utm_campaign`)
-- [ ] IndexNow — `CRON_SECRET` + Deploy Hook — [DEPLOY.md §8](./DEPLOY.md#8-indexnow-אחרי-deploy)
+- [x] Google Analytics 4 -- `G-PVW4GMPNS4` ב-`app/layout.tsx`
+- [ ] Meta Pixel -- אם יש קמפיינים בפייסבוק
+- [ ] המרות וואטסאפ -- UTM כבר בקישורים (`utm_campaign`)
+- [ ] IndexNow -- `CRON_SECRET` + Deploy Hook -- [DEPLOY.md §8](./DEPLOY.md#8-indexnow-אחרי-deploy)
 
 ### איכות קוד (לא חוסם build)
 
-- [ ] `npm run lint` — 7 שגיאות (בעיקר `react/no-unescaped-entities` ב-`StageLedDjPageContent.tsx`)
-- [ ] 14 אזהרות ESLint — אופציונלי לתקן
+- [ ] `npm run lint` -- 7 שגיאות (בעיקר `react/no-unescaped-entities` ב-`StageLedDjPageContent.tsx`)
+- [ ] 14 אזהרות ESLint -- אופציונלי לתקן
 
 ### אחרי העלאת תמונות
 
@@ -76,14 +76,14 @@ npm run build
 
 ## וידאו (YouTube)
 
-כל ה-IDs ב-`lib/data/youtube-embeds.ts` — אין PLACEHOLDERים. עדכון סרטונים = עריכת הקובץ בלבד.
+כל ה-IDs ב-`lib/data/youtube-embeds.ts` -- אין PLACEHOLDERים. עדכון סרטונים = עריכת הקובץ בלבד.
 
 ---
 
-## פודקאסט — מחירון
+## פודקאסט -- מחירון
 
 - חבילת פתיחה: **750 ₪ / חצי שעה** (`PODCAST_STARTER_PRICE`)
-- הפקה מלאה: **2,500 ₪** — עמוד `podcast-recording` בלבד
+- הפקה מלאה: **2,500 ₪** -- עמוד `podcast-recording` בלבד
 
 ---
 
@@ -91,7 +91,7 @@ npm run build
 
 ```bash
 npm run build
-# חיבור Git → Cloudflare Pages — ראה DEPLOY.md
+# חיבור Git → Cloudflare Pages -- ראה DEPLOY.md
 ```
 
 אין `.env` נדרש לבנייה בסיסית.

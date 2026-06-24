@@ -52,6 +52,7 @@ export default function EventsEquipmentFaqPageContent() {
           items={[...EVENTS_EQUIPMENT_FAQ_ITEMS]}
           title="שאלות על הגברה וציוד"
           className="py-0"
+          defaultOpenId="eq-singer"
         />
 
         <section className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center">

@@ -165,6 +165,7 @@ export default function ContentStudioPageContent() {
         <FAQAccordion
           title={`שאלות נפוצות, ${CONTENT_STUDIO_BRAND}`}
           items={FAQ_ITEMS}
+          defaultOpenId="vs-social-media"
         />
 
         <nav aria-label="קישורים קשורים" className="border-t border-border pt-8">

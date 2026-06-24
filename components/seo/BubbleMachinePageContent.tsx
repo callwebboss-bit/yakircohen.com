@@ -368,19 +368,19 @@ export default function BubbleMachinePageContent() {
             href="/events/attractions/wedding-smoking-machine"
             className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >
-            עשן כבד
+            עשן כבד לחתונה
           </Link>
           <Link
             href="/events/attractions/confetti-cannon"
             className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >
-            קונפטי
+            תותח קונפטי
           </Link>
           <Link
             href="/events/attractions"
             className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >
-            כל האטרקציות
+            כל האטרקציות לאירוע
           </Link>
         </section>
 
@@ -392,11 +392,22 @@ export default function BubbleMachinePageContent() {
             id="bubble-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            בואו נגרום לאירוע להיות קסום
+            מוכנים להוסיף קסם לאירוע? קבלו הצעה תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            {CONTACT_PHONE_DISPLAY} - וואטסאפ - הצעת מחיר מהירה
+            תאריך, סוג אירוע ומיקום - נחזור עם הצעה. גם בטלפון:{" "}
+            <a href={`tel:${CONTACT_PHONE_E164}`} className="font-medium text-brand-red hover:underline">
+              {CONTACT_PHONE_DISPLAY}
+            </a>
           </p>
+          <ul className="mx-auto mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+            {["מפעיל מקצועי צמוד", "בועות LED, עשן ורגילות", "נוזל היפואלרגני - בטוח לשמלות"].map((item) => (
+              <li key={item} className="flex items-center gap-1.5">
+                <span className="font-semibold text-brand-red" aria-hidden>✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
               href={whatsappHref}
@@ -404,7 +415,7 @@ export default function BubbleMachinePageContent() {
               rel="noopener noreferrer"
               className="inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              שליחה בוואטסאפ
+              קבלו הצעה תוך 24 שעות
             </a>
             <a
               href={`tel:${CONTACT_PHONE_E164}`}

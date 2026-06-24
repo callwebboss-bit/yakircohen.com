@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/guard-no-local-tools-deploy.mjs && node scripts/run-with-lock.mjs next build",
+    "analyze": "cross-env ANALYZE=true npm run build",
     "build:stop": "node scripts/stop-builds.mjs",
     "verify:quick": "npm run test && npm run security:smoke",
     "security:smoke": "tsx scripts/security-smoke.ts",
@@ -30,6 +31,7 @@
     "audit:share": "node scripts/audit-share-descriptions.mjs",
     "audit:orphans": "node scripts/audit-orphans.mjs",
     "audit:redirects": "tsx scripts/audit-redirect-chains.ts",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
     "audit:404": "tsx scripts/audit-404-list.ts",
     "generate:og-images": "node scripts/generate-og-images.mjs",
     "audit:exclamation": "node scripts/audit-no-exclamation.mjs",
@@ -71,10 +73,14 @@
     "safari >= 15"
   ],
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@next/bundle-analyzer": "^16.2.9",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "axe-core": "^4.12.1",
+    "cross-env": "^10.1.0",
     "cypress": "^15.17.0",
     "esbuild": "^0.28.1",
     "eslint": "^9",

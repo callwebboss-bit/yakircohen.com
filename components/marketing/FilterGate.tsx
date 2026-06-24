@@ -44,9 +44,12 @@ function PricingOverview({ onProceed }: { onProceed: () => void }) {
                 <p className="truncate text-xs text-muted-foreground">{pkg.description}</p>
               </div>
             </div>
-            <p className="shrink-0 text-sm font-bold text-brand-red">
-              {pkg.price.toLocaleString("he-IL")} ₪
-            </p>
+            <div className="shrink-0 text-end">
+              <p className="text-sm font-bold text-brand-red">
+                {pkg.price.toLocaleString("he-IL")} ₪
+              </p>
+              <p className="text-[0.65rem] text-muted-foreground">לפני מע״מ</p>
+            </div>
           </div>
         ))}
       </div>

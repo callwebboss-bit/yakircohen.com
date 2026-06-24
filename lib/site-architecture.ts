@@ -189,11 +189,11 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
   },
   attractions: {
     id: "attractions",
-    label: "אטרקציות",
+    label: "אטרקציות לאירועים",
     href: "/events/attractions",
     children: [
-      { label: "מרכז אטרקציות", href: "/events/attractions" },
-      { label: "חבילות אירועים", href: "/events/wedding-attractions-packages" },
+      { label: "כל האטרקציות לחתונה ואירועים", href: "/events/attractions" },
+      { label: "חבילות DJ ואטרקציות", href: "/events/wedding-attractions-packages" },
       { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
       {
         label: "עשן כבד לאירועים גדולים",
@@ -452,6 +452,71 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
   },
 ];
 
+/**
+ * תפריט ראשי — 8 פריטים (AEO) + mega-menu לשירותים.
+ * Mobile / פוטר נשארים על SITE_NAVIGATION המלא.
+ */
+export const VOICEOVER_HEADER_CATEGORY: SiteNavCategory = {
+  id: "voiceover-header",
+  label: "קריינות",
+  href: "/voiceover",
+  featured: [
+    { label: "שירותי קריינות", href: "/voiceover/services" },
+    { label: "קריינות לעסק", href: "/business/professional-voiceover" },
+    { label: "קורס קריינות", href: "/academy/voiceover" },
+  ],
+  children: [
+    { label: "מרכז קריינות", href: "/voiceover" },
+    { label: "שירותי קריינות", href: "/voiceover/services" },
+    { label: "קריינות לעסקים", href: "/business/professional-voiceover" },
+    { label: "קורס קריינות", href: "/voiceover/course" },
+    { label: "תג קולי ל-DJ", href: "/events/dj/voice-tags" },
+  ],
+};
+
+const HEADER_STUDIO_NAV: SiteNavCategory = {
+  ...NAV_CATEGORIES.studio,
+  label: "אולפן",
+  featured: [
+    { label: "הקלטת שיר לחתונה", href: "/studio/recording-song-modiin" },
+    { label: "ברכות מוקלטות", href: "/studio/blessings" },
+    { label: "מחירון אולפן", href: "/studio/pricing" },
+  ],
+};
+
+const HEADER_PODCAST_NAV: SiteNavCategory = {
+  ...NAV_CATEGORIES.podcast,
+  featured: [
+    { label: "פרק ראשון באולפן", href: "/podcast/podcast-studio-modiin" },
+    { label: "עריכת פרק", href: "/podcast/podcast-editing" },
+    { label: "פודקאסט לעסקים", href: "/podcast/bulk-production" },
+  ],
+};
+
+const HEADER_EVENTS_NAV =
+  NAV_PRIMARY_DESKTOP.find((c) => c.id === "events") ?? NAV_CATEGORIES.events;
+
+export type HeaderNavEntry =
+  | { kind: "dropdown"; category: SiteNavCategory }
+  | { kind: "link"; label: string; href: string };
+
+export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
+  { kind: "dropdown", category: HEADER_STUDIO_NAV },
+  { kind: "dropdown", category: HEADER_EVENTS_NAV },
+  { kind: "dropdown", category: HEADER_PODCAST_NAV },
+  { kind: "dropdown", category: VOICEOVER_HEADER_CATEGORY },
+  { kind: "link", label: "אודות", href: "/about" },
+  { kind: "link", label: "מחירון", href: "/pricing" },
+  { kind: "link", label: "שאלות נפוצות", href: "/about/faq" },
+  { kind: "link", label: "קשר", href: "/contact" },
+];
+
+/** אקדמיה, AI, וידאו — dropdown משני (לא מחליף SITE_NAVIGATION בפוטר) */
+export const HEADER_MORE_SERVICES_NAV: SiteNavCategory = {
+  ...(NAV_PRIMARY_DESKTOP.find((c) => c.id === "pro") ?? NAV_CATEGORIES.pro),
+  label: "עוד שירותים",
+};
+
 /** קישורים גלובליים (מחוץ לקטגוריות) */
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "הזמנה מקוונת", href: "/book" },
@@ -641,6 +706,39 @@ export function getCategoryForPath(pathname: string): SiteNavCategory | undefine
     (cat) =>
       normalized === cat.href || normalized.startsWith(`${cat.href}/`),
   );
+}
+
+/** מזהה dropdown פעיל בתפריט 8-פריטים (desktop) */
+export function getHeaderNavActiveCategory(
+  pathname: string,
+): SiteNavCategory | undefined {
+  const normalized = pathname.replace(/\/$/, "") || "/";
+
+  if (
+    normalized === "/voiceover" ||
+    normalized.startsWith("/voiceover/")
+  ) {
+    return VOICEOVER_HEADER_CATEGORY;
+  }
+
+  for (const entry of HEADER_PRIMARY_NAV) {
+    if (entry.kind !== "dropdown") continue;
+    const { href } = entry.category;
+    if (normalized === href || normalized.startsWith(`${href}/`)) {
+      return entry.category;
+    }
+  }
+
+  return getCategoryForPath(pathname);
+}
+
+export function isHeaderNavLinkActive(href: string, pathname: string): boolean {
+  const normalized = pathname.replace(/\/$/, "") || "/";
+  const target = href.replace(/\/$/, "") || "/";
+  if (target === "/about") {
+    return normalized === "/about";
+  }
+  return normalized === target || normalized.startsWith(`${target}/`);
 }
 
 /** מחזיר קישורים פנימיים מותרים לאותה קטגוריה (לרכיבי Related) */

@@ -1,4 +1,4 @@
-/** Studio open hours — single source for live indicator, contact, and status bar. */
+﻿/** Studio open hours -- single source for live indicator, contact, and status bar. */
 
 export function isStudioOpen(now = new Date()): boolean {
   const day = now.getDay(); // 0=Sun ... 6=Sat

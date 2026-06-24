@@ -1,4 +1,4 @@
-import { metadataFromService } from "@/lib/data/service-metadata";
+﻿import { metadataFromService } from "@/lib/data/service-metadata";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
@@ -101,7 +101,7 @@ const STUDIO_STRUCTURED_DATA = {
   "@graph": [
     {
       "@type": "LocalBusiness",
-      name: "האולפן — יקיר כהן הפקות",
+      name: "האולפן -- יקיר כהן הפקות",
       image: "https://www.yakircohen.com/images/studio-hero.jpg",
       url: "https://www.yakircohen.com/studio",
       address: {
@@ -111,7 +111,7 @@ const STUDIO_STRUCTURED_DATA = {
         addressCountry: "IL",
       },
       description:
-        "אולפן הקלטות ופודקאסט מבוסס חומרה מתקדמת — Townsend Sphere L22, UAD Apollo Twin, Allen & Heath — עם רצפה צפה ובידוד אקוסטי מלא.",
+        "אולפן הקלטות ופודקאסט מבוסס חומרה מתקדמת -- Townsend Sphere L22, UAD Apollo Twin, Allen & Heath -- עם רצפה צפה ובידוד אקוסטי מלא.",
       priceRange: "$$",
     },
     {

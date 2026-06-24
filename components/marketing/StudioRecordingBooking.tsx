@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import { Headphones, Lightbulb, TrendingUp } from "lucide-react";
+import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSchedulePicker from "@/components/booking/BookingSchedulePicker";
@@ -82,6 +84,7 @@ import {
   CONSULTATION_PACKAGES,
   RECORDING_ATMOSPHERES,
   RECORDING_TYPES,
+  STUDIO_EXTRA_REVISION_PRICE,
   STUDIO_RECORDING_PACKAGES,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
@@ -97,7 +100,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 
-const STEPS = ["בחירה", "חבילה", "פרטים ואישור"] as const;
+const STEPS = ["איסוף נתונים", "התאמת פתרון", "יציאה לביצוע"] as const;
 
 const WIZARD_DEPTH_OPTIONS: readonly {
   id: WizardDepthId;
@@ -470,6 +473,14 @@ export default function StudioRecordingBooking({
     price: u.price,
     badge: u.badge,
   }));
+
+  const allInPrice = STUDIO_RECORDING_PACKAGES.find((p) => p.id === "all_in")?.price ?? 2380;
+  const autoUpgradeThreshold = allInPrice * 0.85;
+  const showAutoUpgrade =
+    step === 1 &&
+    form.packageId !== "all_in" &&
+    !isConsultation &&
+    baseSubtotal >= autoUpgradeThreshold;
 
   const canAdvanceStep0 =
     form.recordingType !== "" &&
@@ -922,6 +933,20 @@ export default function StudioRecordingBooking({
               />
             ) : null}
 
+            {form.recordingType && !isConsultation ? (
+              <div className="rounded-xl border border-amber-200/60 bg-amber-50/50 px-4 py-4">
+                <div className="flex items-start gap-3">
+                  <Lightbulb className="mt-0.5 size-4 shrink-0 text-amber-600" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">עובדה מול סיפור</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      הסיפור בראש אומר שחייבים לדעת לשיר. המציאות היא שהתוכנות שלנו מסדרות כל זיוף. התפקיד שלכם הוא להביא מצב רוח טוב. השאר זה פיזיקה ומחשבים.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="song-name" className="mb-1.5 block text-xs font-semibold">
@@ -975,11 +1000,14 @@ export default function StudioRecordingBooking({
             {!isConsultation && (
               <div className="space-y-3">
                 <div>
-                  <h3 className="mb-1 text-base font-semibold text-foreground">
-                    כמה מקליטים צפויים?
-                  </h3>
+                  <div className="mb-1 flex items-center gap-2">
+                    <h3 className="text-base font-semibold text-foreground">
+                      כמה מקליטים צפויים?
+                    </h3>
+                    <InfoTip text="מעל 2 מקליטים עוברים למחירון קבוצתי -- כל זוג מקליט בנפרד, מחיר לאדם יורד. נחשב ביחד בוואטסאפ." />
+                  </div>
                   <p className="mb-3 text-xs text-muted-foreground">
-                    מבוגר וילד - אותו מחיר - עוזר לנו להכין מחירון מדויק
+                    מבוגר וילד -- אותו מחיר. עוזר לנו להכין הצעה מדויקת
                   </p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -1170,7 +1198,16 @@ export default function StudioRecordingBooking({
                     featured={"featured" in pkg ? pkg.featured : undefined}
                     featuredLabel="הכי מומלץ - שגר ושכח"
                     savings={"savings" in pkg ? pkg.savings : undefined}
-                    footer={<PriceWithVat amountExVat={pkg.price} size="md" />}
+                    footer={
+                      <div className="flex items-center justify-between">
+                        <PriceWithVat amountExVat={pkg.price} size="md" />
+                        {!isConsultation && (
+                          <span title="ככה ישמע הקובץ שתקבלו לטלפון" className="cursor-help">
+                            <Headphones className="size-4 text-muted-foreground" aria-hidden="true" />
+                          </span>
+                        )}
+                      </div>
+                    }
                   />
                 );
               })}
@@ -1203,6 +1240,29 @@ export default function StudioRecordingBooking({
                 )}
               </>
             )}
+
+            {showAutoUpgrade ? (
+              <div className="rounded-xl border border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] px-4 py-4 space-y-2">
+                <div className="flex items-start gap-2">
+                  <TrendingUp className="mt-0.5 size-4 shrink-0 text-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">
+                      המתמטיקה מראה שחבילת הפרימיום כבר יותר משתלמת עבורך.
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      לוגית שווה לך לשדרג ולקבל הכל כלול.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => patchForm({ packageId: "all_in" })}
+                  className="min-h-11 rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2 text-sm font-semibold text-white transition-opacity duration-fast ease-luxury hover:opacity-90"
+                >
+                  שדרג לחבילה המלאה ({allInPrice.toLocaleString("he-IL")} ₪ לפני מע״מ)
+                </button>
+              </div>
+            ) : null}
 
             <StepNav
               onBack={() => goToStep(0)}
@@ -1258,7 +1318,7 @@ export default function StudioRecordingBooking({
                 {activePackage && (
                   <li>
                     <span className="font-medium text-foreground">מסלול: </span>
-                    {activePackage.name} - {activePackage.price.toLocaleString("he-IL")} ₪
+                    {activePackage.name} - {activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ
                   </li>
                 )}
                 {form.surpriseGift && (
@@ -1444,6 +1504,35 @@ export default function StudioRecordingBooking({
                 <BookWhatHappensNext />
                 <BookTrustBadges />
 
+                {!isConsultation && (
+                  <div className="rounded-xl bg-surface px-4 py-4 space-y-3">
+                    <h3 className="text-sm font-semibold text-foreground">מה קורה אחרי הסשן</h3>
+                    <ol className="space-y-2 text-sm text-muted-foreground list-none">
+                      <li>
+                        <span className="font-medium text-foreground">באותה שניה שיוצאים:</span>{" "}
+                        חומרי הגלם אצלכם ביד
+                      </li>
+                      <li className="flex items-start gap-1.5">
+                        <span>
+                          <span className="font-medium text-foreground">עד 48 שעות:</span>{" "}
+                          שלחו הערות מסודרות לפי שניות לשיפורים
+                        </span>
+                        <InfoTip
+                          text='לדוגמה: "בשנייה 1:24 -- הנמיכו את המילה הזו קצת". ככה יקיר יודע בדיוק מה לעדכן בלי לנחש.'
+                          className="mt-0.5 shrink-0"
+                        />
+                      </li>
+                      <li>
+                        <span className="font-medium text-foreground">סבב תיקון ראשון:</span>{" "}
+                        כלול במחיר
+                      </li>
+                    </ol>
+                    <p className="text-xs text-muted-foreground">
+                      סבב עריכה נוסף מעבר לזה עולה {STUDIO_EXTRA_REVISION_PRICE.toLocaleString("he-IL")} ₪
+                    </p>
+                  </div>
+                )}
+
                 {!isQuickWizard ? (
                   <NeedsDiscoveryStep
                     value={form.customerNeed}
@@ -1491,6 +1580,12 @@ export default function StudioRecordingBooking({
                   </div>
                 </div>
               ) : null}
+
+              <div className="rounded-xl bg-surface px-4 py-3 text-center">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  המציאות דינמית. אם אחרי השליחה תצטרכו לשנות שעה או להוריד תוספת הכל בסדר. הכל גמיש ואפשר לשנות הכל בשיחת הוואטסאפ שלנו. אין קנסות ואין אותיות קטנות.
+                </p>
+              </div>
 
               <BookingApprovals
                 variant="light"

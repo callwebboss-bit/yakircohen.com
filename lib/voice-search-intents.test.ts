@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { normalizeVoiceQuery, resolveVoiceIntent } from "./voice-search-intents.ts";
+import { normalizeVoiceQuery, resolveVoiceIntent } from "./voice-search-intents";
 
 describe("voice-search-intents", () => {
   it("normalizes Hebrew text", () => {

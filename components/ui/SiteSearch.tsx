@@ -13,6 +13,14 @@ import { useVoiceSearch } from "@/hooks/useVoiceSearch";
 import type { PFResult } from "@/lib/pagefind-loader";
 import { cn } from "@/lib/utils";
 
+const SEARCH_HINTS = [
+  "זיקוקים קרים",
+  "פודקאסט",
+  "ברכת כלה",
+  "קורס DJ",
+  "תיקון זיופים",
+] as const;
+
 type Props = {
   placeholder?: string;
   className?: string;
@@ -117,6 +125,7 @@ export default function SiteSearch({
 
   const loading = status === "loading";
   const showDropdown = open && query.trim().length > 0;
+  const showHints = open && query.trim().length === 0;
   const emptyMessage = statusMessage(status, query, results.length, loading);
   const showSpinner = (loading || isStale) && !isListening;
   const showMic = voiceSupported && !showSpinner;
@@ -287,6 +296,30 @@ export default function SiteSearch({
         <p className="mt-1 text-xs text-brand-red" role="alert">
           {voiceError}
         </p>
+      )}
+
+      {showHints && (
+        <div className="absolute start-0 top-full z-50 mt-1.5 w-full rounded-xl border border-border bg-background p-3 shadow-lg">
+          <p className="mb-2 text-xs font-semibold text-muted-foreground">
+            🔍 לדוגמה:
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {SEARCH_HINTS.map((hint) => (
+              <button
+                key={hint}
+                type="button"
+                onClick={() => {
+                  setQuery(hint);
+                  setOpen(true);
+                  warmPagefindIndex();
+                }}
+                className="rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground/80 transition-colors hover:border-brand-red/40 hover:text-brand-red"
+              >
+                {hint}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
 
       {showDropdown && (

@@ -1,9 +1,9 @@
-# Event Index — Market Intelligence
+﻿# Event Index -- Market Intelligence
 
 ## Overview
 
-- **Closer (local):** tab "דופק שוק" — aggregates leads, arbitrage alerts, publish JSON
-- **Site:** `/pro/event-index` — public teaser + token-gated full index
+- **Closer (local):** tab "דופק שוק" -- aggregates leads, arbitrage alerts, publish JSON
+- **Site:** `/pro/event-index` -- public teaser + token-gated full index
 - **Pipeline:** Closer → `event-index-input.json` → `npm run export:event-index` → deploy
 
 ## Closer workflow
@@ -11,8 +11,8 @@
 1. Open `local-tools/yakir-closer.html`
 2. Save leads with enriched `market` / `fulfillment` fields
 3. Mark unfulfilled leads (status "ללא מענה") with reason for arbitrage signals
-4. Tab **דופק שוק** — review KPIs and alerts
-5. **פרסם דופק שוק** — downloads `event-index-input.json`
+4. Tab **דופק שוק** -- review KPIs and alerts
+5. **פרסם דופק שוק** -- downloads `event-index-input.json`
 6. Save to `local-tools/exports/event-index-input.json`
 7. From `yakircohen-site`: `npm run export:event-index`
 8. Commit `lib/data/event-index.generated.ts` + deploy
@@ -21,7 +21,7 @@
 
 1. In Closer, book equipment on event dates (Dry Hire panel)
 2. **ייצא מלאי ל-JSON** → save as `local-tools/equipment-inventory-state.json`
-3. `npm run export:closer` — syncs bookings to `equipment-inventory-bookings.json`
+3. `npm run export:closer` -- syncs bookings to `equipment-inventory-bookings.json`
 
 ## Environment variables (Vercel)
 
@@ -41,7 +41,7 @@
 3. GA4 Admin → Property access → add service account as Viewer
 4. Paste full JSON into `GA4_SERVICE_ACCOUNT_JSON` (single line in Vercel)
 
-## Cron — market alerts
+## Cron -- market alerts
 
 ```bash
 curl -X POST https://www.yakircohen.com/api/market-alerts \

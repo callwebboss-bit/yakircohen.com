@@ -592,14 +592,19 @@ export default function DjBookingForm({ className }: { className?: string }) {
 
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
-      <div className="mt-8 border-t border-border pt-6">
+      <div className="mt-8 border-t border-border pt-6 space-y-4">
+        <div className="rounded-xl bg-surface px-4 py-3 text-center">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            המציאות דינמית. אם תצטרכו לשנות שעת הגעה, סדר ערב או פרטי האולם אחרי השליחה הכל בסדר. גמיש עד יום האירוע. אין קנסות ואין אותיות קטנות.
+          </p>
+        </div>
         <button
           type="submit"
           className="w-full rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto sm:min-w-[18rem]"
         >
           שלחו פרטים לוואטסאפ ושריינו תאריך ✓
         </button>
-        <p className="mt-3 text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           הפרטים נשלחים ישירות אלינו בוואטסאפ. לא מאחסנים מידע אישי.
           חוזרים אליכם תוך שעה בשעות הפעילות.
         </p>

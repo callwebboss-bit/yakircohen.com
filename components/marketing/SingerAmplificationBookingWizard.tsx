@@ -50,7 +50,7 @@ import { parseSingerFormDraft, type SingerFormDraft } from "@/lib/singer-form-dr
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
+const STEPS = ["בחירת מערכת", "פרטי ההופעה", "אישור ושליחה"] as const;
 
 const INITIAL: SingerFormDraft = {
   packageId: "",
@@ -295,7 +295,7 @@ export default function SingerAmplificationBookingWizard({
                     <span className="text-xs font-bold text-brand-red">{pkg.badge}</span>
                   ) : null}
                   <p className="mt-1 font-semibold text-foreground">{pkg.name}</p>
-                  <p className="mt-1 text-lg font-bold text-brand-red">{pkg.price}</p>
+                  <PriceWithVat amountExVat={parseSingerPriceNis(pkg.price)} size="sm" className="mt-1" />
                   <p className="mt-2 text-xs text-muted-foreground">{pkg.suitedFor}</p>
                 </button>
               );
@@ -387,6 +387,11 @@ export default function SingerAmplificationBookingWizard({
               <BookTrustBadges badges={[{ icon: "🎤", label: "צ'ק סאונד לפני ההופעה" }]} />
               {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+              <div className="rounded-xl bg-surface px-4 py-3 text-center">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  המציאות דינמית. אם תצטרכו לשנות שעה או מיקום ההופעה אחרי השליחה הכל בסדר. הכל גמיש עד ההופעה עצמה. אין קנסות ואין אותיות קטנות.
+                </p>
+              </div>
               <BookingApprovals
                 variant="light"
                 termsAccepted={form.termsAccepted}

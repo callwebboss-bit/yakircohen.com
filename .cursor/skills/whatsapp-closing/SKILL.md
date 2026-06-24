@@ -1,9 +1,9 @@
----
+﻿---
 name: whatsapp-closing
 description: Build WhatsApp lead messages, needs-discovery scripts, and pricing checks for yakircohen.com. Use when editing booking forms, WhatsApp CTAs, lead messages, or pricing in customer-facing copy.
 ---
 
-# WhatsApp Closing — יקיר כהן הפקות
+# WhatsApp Closing -- יקיר כהן הפקות
 
 ## When to use
 

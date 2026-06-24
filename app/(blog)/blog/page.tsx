@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BlogFeaturedStrip from "@/components/blog/BlogFeaturedStrip";
 import ArticleFeed, {
   type BlogPost as FeedPost,
 } from "@/components/blog/ArticleFeed";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { BLOG_POSTS, type BlogPost } from "@/lib/data/blog";
+import { BLOG_POSTS, getBlogPostsBySlugs, type BlogPost } from "@/lib/data/blog";
+import { FEATURED_BLOG_SLUGS } from "@/lib/data/blog-featured";
 import { SITE_NAME } from "@/lib/constants";
 import {
   BLOG_HUB_SEO,
@@ -40,6 +42,8 @@ const allFeedPosts: FeedPost[] = [...(BLOG_POSTS as readonly BlogPost[])]
   );
 
 const totalPages = Math.max(1, Math.ceil(allFeedPosts.length / POSTS_PER_PAGE));
+
+const featuredPosts = getBlogPostsBySlugs(FEATURED_BLOG_SLUGS);
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 
@@ -277,6 +281,8 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
             </div>
           </Container>
         </Section>
+
+        {currentPage === 1 ? <BlogFeaturedStrip posts={featuredPosts} /> : null}
 
         {/* ── Article feed + pagination ── */}
         <Section padding="sm">

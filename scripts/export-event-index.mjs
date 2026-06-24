@@ -77,7 +77,7 @@ if (inputPath) {
   payload = JSON.parse(fs.readFileSync(inputPath, "utf8"));
   console.log("[export:event-index] input:", inputPath);
 } else {
-  console.warn("[export:event-index] no input — writing placeholder (run Closer publish first)");
+  console.warn("[export:event-index] no input -- writing placeholder (run Closer publish first)");
   payload = { eventIndex: emptyWeek(), arbitrageAlerts: [] };
 }
 
@@ -93,7 +93,7 @@ const alerts = (payload.arbitrageAlerts || []).map((a) => ({
   message: String(a.message || ""),
 }));
 
-const tsContent = `/** Auto-generated — npm run export:event-index. Do not edit. */
+const tsContent = `/** Auto-generated -- npm run export:event-index. Do not edit. */
 export type EventIndexSegment = {
   id: string;
   label: string;

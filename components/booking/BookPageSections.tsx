@@ -3,6 +3,7 @@
 import { type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
+import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
 import { useBookFlow } from "@/hooks/useBookFlow";
 import {
@@ -282,6 +283,8 @@ export default function BookPageSections() {
           </div>
         </div>
       </section>
+
+      {activeCategory === "studio" ? <BookStudioInfoSection /> : null}
 
       <section className="border-t border-border bg-surface py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">

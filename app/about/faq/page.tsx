@@ -1,4 +1,4 @@
-/**
+﻿/**
  * /about/faq
  *
  * De-Robotized copy audit (this revision):
@@ -13,17 +13,14 @@
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
-import FAQWithCtaLinks, {
-  type FaqCtaItem,
-} from "@/components/ui/FAQWithCtaLinks";
+import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site-url";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { FAQ_EXTRA_ITEMS } from "@/lib/data/faq-extra-items";
+import { CENTRAL_FAQ_ITEMS } from "@/lib/data/faq-central";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -56,53 +53,7 @@ export const metadata: Metadata = constructMetadata({
    • whatsappMessage: gives Yakir immediate context (what they need + their situation).
    ───────────────────────────────────────────────────────────────────────────── */
 
-const FAQ_ITEMS: FaqCtaItem[] = [
-  {
-    id: "fake-singing",
-    question: "אני לא זמר או זמרת, מה קורה אם אזייף בהקלטת השיר?",
-    answer:
-      "לא צריך ניסיון שירה. רוב האנשים שמגיעים לאולפן לא עמדו מול מיקרופון בחיים שלהם. אנחנו משתמשים בטכנולוגיית תיקון סאונד מתקדמת שמיישרת את הקול ומלטשת אותו, יחד עם הדרכה צמודה בזמן ההקלטה. לא מוסרים הקלטה עד שהתוצאה מדויקת.",
-    /* Specific anchor: ask them to send a voice sample for an honest verdict */
-    ctaText: "שלחו לנו 10 שניות של הקול שלכם ותחליטו אחרי",
-    whatsappMessage:
-      "שלום, אני רוצה להקליט שיר לאירוע אבל חושש מהזיופים. מצרף קטע קצר של הקול שלי לפני שסוגרים.",
-    utm_campaign: "faq_fake_singing",
-  },
-  {
-    id: "podcast-timing",
-    question: "כמה זמן מראש צריך לתאם איתכם הקלטת פודקאסט או פרק עסקי?",
-    answer:
-      "האולפן עובד בצורה דינמית אבל היומנים מתמלאים מהר, במיוחד בימי ההקלטות המרוכזים. הכי בטוח לסגור שבוע עד שבועיים מראש כדי להבטיח את השעות הנוחות לכם, במיוחד אם אתם צריכים סשן עריכה מהיר מיד לאחר מכן.",
-    /* Specific anchor: send available dates to lock the calendar */
-    ctaText: "שלחו את הימים שנוחים לכם ונחסום מקום ביומן",
-    whatsappMessage:
-      "שלום, אנחנו רוצים להקליט פרק לפודקאסט. הימים הנוחים לנו: [הוסיפו ימים]. יש זמינות?",
-    utm_campaign: "faq_podcast_timing",
-  },
-  {
-    id: "effects-coordination",
-    question: "איך מתבצע התיאום של האפקטים (עשן כבד, זיקוקים) מול אולם האירועים?",
-    answer:
-      "בשיטת שגר ושכח. מהרגע שסוגרים איתנו את חבילת האפקטים או עמדת ה-LED, אתם מתרכזים באירוע שלכם. אנחנו יוצרים קשר ישירות מול מנהל האולם, בודקים את זרם החשמל הנדרש, מוודאים אישורי בטיחות לזיקוקים הקרים ומגיעים להתקין הכל שעות לפני שהאורחים נכנסים.",
-    /* Specific anchor: send hall name so they handle the paperwork */
-    ctaText: "שלחו שם האולם ואנחנו מסדרים את כל הבירוקרטיה ישירות מולם",
-    whatsappMessage:
-      "שלום, האולם שלנו הוא [שם האולם]. נשמח שתתאמו את האפקטים ישירות מולם.",
-    utm_campaign: "faq_effects_coordination",
-  },
-  {
-    id: "delivery-time",
-    question: "תוך כמה זמן קובץ הסאונד או הסרטון הערוך מוכן?",
-    answer:
-      "שירים וברכות לאירועים מוכנים בדרך כלל תוך 2-3 ימי עסקים. פודקאסטים ותכנים עסקיים מקבלים עדיפות עריכה כדי שלא תפספסו את ציר הזמן השיווקי שלכם. יש לכם אירוע דחוף — ציינו את התאריך מראש ונאמת מה אפשרי.",
-    /* Specific anchor: send the hard deadline so we can assess feasibility */
-    ctaText: "יש לכם תאריך אחרון בראש? שלחו ונחשב יחד מה אפשרי",
-    whatsappMessage:
-      "שלום, יש לנו פרויקט סאונד שצריך לסיים עד [תאריך]. מה הכי מהיר שאפשר לתזמן הקלטה ועריכה?",
-    utm_campaign: "faq_delivery_time",
-  },
-  ...FAQ_EXTRA_ITEMS,
-];
+const FAQ_ITEMS = [...CENTRAL_FAQ_ITEMS];
 
 /* ─────────────────────────────────────────────────────────────────────────────
    JSON-LD structured data

@@ -296,6 +296,12 @@ export default function AcademyBookingWizard({
 
       <BookingWhatsAppPreview messageBody={messageBody} />
 
+      <div className="rounded-xl bg-surface px-4 py-3 text-center">
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          המציאות דינמית. אם תצטרכו לשנות יום או שעה אחרי השליחה הכל בסדר. גמיש עד רגע השיעור. אין קנסות ואין אותיות קטנות.
+        </p>
+      </div>
+
       <BookingApprovals
         variant="light"
         termsAccepted={termsAccepted}

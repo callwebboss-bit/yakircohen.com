@@ -77,7 +77,7 @@ export default function ProcessSteps({
 
   return (
     <section
-      className={cn("bg-background py-16 sm:py-20 lg:py-24", className)}
+      className={cn("reveal bg-background py-16 sm:py-20 lg:py-24", className)}
       aria-labelledby="process-heading"
     >
       <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">

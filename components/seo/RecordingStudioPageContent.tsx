@@ -43,6 +43,13 @@ export default function RecordingStudioPageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/studio/recording-studio" className="max-w-3xl" />
+
+        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          יש לך שיר בראש כבר כמה זמן — אתה שומע אותו, מרגיש אותו — אבל כל
+          פעם שניסית להקליט בבית יצא לא כמו שדמיינת. אני מבין את זה - ולכן
+          יש אצלנו ציוד, אווירה, ומישהו שיושב לידך ומוביל אותך שלב אחר שלב.
+        </p>
+
         <div className="flex justify-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-2 text-sm font-semibold text-foreground">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0 text-brand-red" aria-hidden="true">

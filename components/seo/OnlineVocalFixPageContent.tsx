@@ -124,6 +124,15 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+        <p className="border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          הקלטת בבית — ויצאת עם קובץ שמלא ברעשים, הד, או סאונד שלא מייצג
+          אותך. עכשיו אתה מסתכל על הקובץ ולא יודע אם בכלל שווה לשלוח לאנשים.
+          אני מבין את זה - לא צריך ציוד יקר ולא צריך להקליט מחדש. שולחים לי
+          קובץ, ומקבלים בחזרה סאונד.
+        </p>
+      </section>
+
       <section className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
         <BusinessCrossLink
           title="קלטות VHS או קסטות ישנות?"
@@ -254,7 +263,19 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8 space-y-5">
+        <div className="rounded-2xl border border-brand-red/25 bg-brand-red/5 p-6 text-center">
+          <p className="font-semibold text-foreground">יש לך הקלטה פגומה?</p>
+          <p className="mt-1 text-sm text-muted-foreground">אל תדאג - אני מציל הקלטות תוך שעות.</p>
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
+          >
+            שלח לי קובץ עכשיו
+          </a>
+        </div>
         <Link
           href="/blog/rescue-damaged-recording"
           className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"

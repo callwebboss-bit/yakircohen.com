@@ -277,6 +277,12 @@ export default function OnlineRestoreBookingPanel({
 
       <BookingWhatsAppPreview messageBody={messageBody} />
 
+      <div className="rounded-xl bg-surface px-4 py-3 text-center">
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          שלחתם ורוצים לשנות פרטים? אין בעיה. הכל מסתדר בוואטסאפ. אין התחייבות ואין אותיות קטנות.
+        </p>
+      </div>
+
       <BookingApprovals
         variant="light"
         termsAccepted={termsAccepted}

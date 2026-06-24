@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Container from "@/components/ui/Container";
@@ -6,6 +6,7 @@ import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
+import HomeQuickPaths from "@/components/marketing/HomeQuickPaths";
 import LiveStatusBar from "@/components/marketing/LiveStatusBar";
 import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
@@ -67,7 +68,7 @@ const HOME_FAQ: FAQItem[] = [
         <InlineServiceLink href="/events/attractions/cold-fireworks">
           זיקוקים קרים
         </InlineServiceLink>{" "}
-        ועוד — זמינים לאירועי שטח. החבילה נבנית לפי סוג האירוע ומיקומו.
+        ועוד - זמינים לאירועי שטח. החבילה נבנית לפי סוג האירוע ומיקומו.
       </>
     ),
   },
@@ -90,8 +91,8 @@ const HOME_FAQ: FAQItem[] = [
     question: "תוך כמה זמן מקבלים קובץ מוכן?",
     answer: (
       <>
-        הקלטה באולפן - בדרך כלל מספר ימים עד שבועיים, תלוי בעריכה. פודקאסט ואירועים
-        - לפי היקף הפרויקט. נעדכן אתכם בשיחה הראשונה על לוח זמנים ברור.
+        הקלטת ברכה פשוטה - מוכן תוך 24-48 שעות. שיר מלא עם עריכה - עד 48 שעות.
+        פודקאסט ואירועים - לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.
       </>
     ),
   },
@@ -102,11 +103,11 @@ const HOME_FAQ: FAQItem[] = [
       <>
         האולפן במודיעין. ל
         <InlineServiceLink href="/events">אירועים</InlineServiceLink> מגיעים
-        לירושלים, למרכז ולכל הארץ.{" "}
+        לפתח תקווה, שוהם, ירושלים ולכל הארץ.{" "}
         <InlineServiceLink href="/studio/studio-jerusalem">
           הקלטות בירושלים
         </InlineServiceLink>{" "}
-        - בתיאום מראש.
+        - בתיאום מראש. תוספת נסיעות מחוץ לאזור המרכז.
       </>
     ),
   },
@@ -174,6 +175,22 @@ export default function HomePageSections({
     <>
       <LiveStatusBar />
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
+      <HomeQuickPaths />
+
+      <section className="border-b border-brand-red/20 bg-brand-red/5 py-5">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-3 px-4 text-center sm:flex-row sm:justify-between sm:text-start">
+          <p className="text-sm font-medium text-foreground">
+            <span className="font-semibold">רוצה לשפר סאונד?</span>{" "}
+            תיקון זיופים, ניקוי רעשים ומיקס - אני עושה את זה מרחוק, תוך שעות.
+          </p>
+          <Link
+            href="/online"
+            className="shrink-0 inline-flex rounded-xl bg-brand-red px-5 py-2 text-sm font-semibold text-white hover:bg-brand-red-light"
+          >
+            שלח קובץ עכשיו
+          </Link>
+        </div>
+      </section>
 
       <Section
         className="bg-background"
@@ -227,6 +244,7 @@ export default function HomePageSections({
                     utm_campaign={card.utmCampaign}
                     isAiService={card.isAiService}
                     badge={card.badge}
+                    badgeVariant={card.badgeVariant}
                   />
                 );
               },
@@ -315,13 +333,13 @@ export default function HomePageSections({
               id="geo-heading"
               className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
             >
-              ממודיעין לכל הארץ
+              ממודיעין - לפתח תקווה, שוהם, ירושלים וכל הארץ
             </h2>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <InlineServiceLink href="/studio">האולפן והצוות שלנו במודיעין</InlineServiceLink>
               . מגיעים ל
-              <InlineServiceLink href="/events">אירועים</InlineServiceLink> בירושלים,
-              במרכז ובכל מקום שצריך{" "}
+              <InlineServiceLink href="/events">אירועים</InlineServiceLink> בפתח תקווה,
+              שוהם, ירושלים ובכל מקום שצריך{" "}
               <InlineServiceLink href="/video">הפקת וידאו</InlineServiceLink> או{" "}
               <InlineServiceLink href="/photography">צילום</InlineServiceLink> ברמה
               גבוהה.{" "}
@@ -349,6 +367,14 @@ export default function HomePageSections({
         title="שאלות שכדאי לשאול לפני שמתחילים"
         subtitle="תשובות קצרות. בלי מילים מסובכות."
       />
+      <div className="bg-background pb-10 text-center">
+        <Link
+          href="/about/faq"
+          className="inline-flex min-h-12 items-center text-sm font-semibold text-brand-red hover:underline"
+        >
+          עוד שאלות ותשובות (20) →
+        </Link>
+      </div>
 
       <Section
         className="border-t border-border bg-background text-center"
@@ -359,14 +385,14 @@ export default function HomePageSections({
             id="bottom-cta-heading"
             className="font-serif text-section-title font-semibold text-foreground"
           >
-            מוכנים להתחיל?
+            מוכנים להתחיל? הצעה תוך 24 שעות
           </h2>
           <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
             שלחו הודעה על{" "}
             <InlineServiceLink href="/studio">הקלטה באולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירוע</InlineServiceLink> או{" "}
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>. נבין
-            מה אתם צריכים ונציע מסלול ברור.
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>. נחזור
+            עם הצעה ברורה תוך 24 שעות.
           </p>
           <Button
             as="a"
@@ -375,7 +401,7 @@ export default function HomePageSections({
             rel="noopener noreferrer"
             className="mt-8 px-8"
           >
-            בואו נדבר בוואטסאפ
+            קבלו הצעה תוך 24 שעות
           </Button>
         </Container>
       </Section>

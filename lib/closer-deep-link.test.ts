@@ -4,7 +4,7 @@ import {
   buildCloserDeepLink,
   decodeWhatsAppTextFromHref,
   encodeCloserLeadParam,
-} from "./closer-deep-link.ts";
+} from "./closer-deep-link";
 
 describe("closer-deep-link", () => {
   it("round-trips lead payload in query param", () => {

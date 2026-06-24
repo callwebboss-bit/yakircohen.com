@@ -220,6 +220,23 @@ export default function AboutPage() {
           </Container>
         </Section>
 
+        <Section padding="sm" className="border-t border-border">
+          <Container className="max-w-3xl">
+            <blockquote className="rounded-2xl border border-brand-red/20 bg-brand-red/5 px-8 py-8 text-center">
+              <p className="font-serif text-xl font-medium leading-relaxed text-foreground sm:text-2xl">
+                &quot;אני מאמין שכל רעיון,
+                <br />
+                גם הקטן ביותר,
+                <br />
+                יכול להפוך ליצירה גדולה.&quot;
+              </p>
+              <footer className="mt-5 text-sm font-semibold uppercase tracking-widest text-brand-red">
+                - יקיר כהן
+              </footer>
+            </blockquote>
+          </Container>
+        </Section>
+
         <Section padding="sm">
           <Container className="max-w-3xl">
           <details className="group rounded-2xl border border-border bg-surface">

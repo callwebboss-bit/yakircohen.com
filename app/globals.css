@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -14,7 +14,7 @@
   --color-foreground: #1a1a1a;
   --color-muted: #525252;
   --color-muted-foreground: #737373;
-  /* IMPROVED: sub-pixel alphas — border melts into the surface beneath it */
+  /* IMPROVED: sub-pixel alphas -- border melts into the surface beneath it */
   --color-border: color-mix(in srgb, black 8%, transparent);
   --color-border-subtle: color-mix(in srgb, black 4%, transparent);
   --color-surface: #ffffff;
@@ -55,6 +55,15 @@
   --width-wide: 88rem;
 }
 
+@keyframes ticker-in {
+  from { opacity: 0; transform: translateY(0.4rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ticker-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-0.4rem); }
+}
+
 @keyframes pulse-slide-in {
   from { opacity: 0; transform: translateX(1rem); }
   to   { opacity: 1; transform: translateX(0); }
@@ -91,6 +100,41 @@
   }
 }
 
+/* ── CSS-only scroll reveal ────────────────────────────────────────────────
+   Uses animation-timeline: view() -- zero JS, GPU-composited only.
+   Wrapped in @supports so unsupported browsers see content normally.
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+
+  @media (max-width: 640px) {
+    .reveal {
+      animation-range: entry 0% entry 25%;
+    }
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(0.75rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /** Horizontal scroll regions - content-sized track, not full viewport stretch */
 @layer utilities {
   .scroll-area-x {
@@ -99,6 +143,15 @@
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    /* Snap cards into place on mobile */
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: 1rem;
+  }
+
+  /* Children of a snap container snap to start */
+  .scroll-area-x > * {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
   }
 
   /* IMPROVED: fluid typography utilities */
@@ -158,11 +211,17 @@
     }
   }
 
-  /* IMPROVED: card lift only on hover-capable pointers — avoids sticky hover on touch */
+  /* IMPROVED: card lift only on hover-capable pointers -- avoids sticky hover on touch */
   .hover-lift {
-    transition-property: transform, box-shadow, border-color;
+    transition-property: transform, box-shadow, border-color, opacity;
     transition-duration: var(--duration-normal);
     transition-timing-function: var(--ease-luxury);
+  }
+
+  .hover-lift:active {
+    transform: translateY(1px) scale(0.985);
+    opacity: 0.88;
+    transition-duration: var(--duration-fast);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -173,12 +232,19 @@
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .hover-lift:active {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
   /* IMPROVED: container query root for card grids */
   .cq-container {
     container-type: inline-size;
   }
 
-  /* IMPROVED: image scale on hover — pointer-fine only */
+  /* IMPROVED: image scale on hover -- pointer-fine only */
   .group-hover-scale-sm,
   .group-hover-scale-md {
     transition: transform var(--duration-normal) var(--ease-luxury);
@@ -194,7 +260,7 @@
     }
   }
 
-  /* IMPROVED: liquid CTA pulse-glow ring — independent of box-shadow utilities */
+  /* IMPROVED: liquid CTA pulse-glow ring -- independent of box-shadow utilities */
   .liquid-ring::after {
     content: "";
     position: absolute;
@@ -213,7 +279,7 @@
     }
   }
 
-  /* IMPROVED: premium underline — expands from center on hover/focus */
+  /* IMPROVED: premium underline -- expands from center on hover/focus */
   .link-underline {
     position: relative;
     text-decoration: none;
@@ -282,7 +348,7 @@
     @apply bg-brand-red/20 text-foreground;
   }
 
-  /* IMPROVED: premium double-ring focus — accent outline + soft neutral ring */
+  /* IMPROVED: premium double-ring focus -- accent outline + soft neutral ring */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-red ring-2 ring-offset-2 ring-neutral-400/70;
   }

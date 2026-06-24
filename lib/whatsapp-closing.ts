@@ -3,6 +3,7 @@
  * כל טופס / wizard באתר צריך לבנות הודעות דרך הפונקציות כאן.
  */
 
+import type { BookCategoryId } from "@/lib/book-url";
 import {
   BUSINESS_HOURS,
 } from "@/lib/constants";
@@ -30,14 +31,20 @@ export function buildPriceLine(exVat: number, label?: string): string {
   return formatPriceLine(exVat, label);
 }
 
-export function buildTrustFooter(): string {
+export function buildTrustFooter(bookCategory?: BookCategoryId): string {
   const hours = BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" - ");
+  const isMobileService = bookCategory === "events" || bookCategory === "singer" || bookCategory === "dj" || bookCategory === "photography";
+  const isDigitalService = bookCategory === "clips" || bookCategory === "online";
   return [
-    "📍 עמק איילון 34, מודיעין",
+    isMobileService
+      ? "🚗 מגיעים אליכם לאירוע"
+      : isDigitalService
+        ? null
+        : "📍 עמק איילון 34, מודיעין",
     `🕐 ${hours}`,
-    "⚡ מסירה: 24-48 שעות לפי חבילה",
+    !isMobileService ? "⚡ מסירה: 24-48 שעות לפי חבילה" : null,
     "☁️ גיבוי ענן מאובטח",
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 export type ClosingIntent = "continue_chat" | "start_now";
@@ -58,6 +65,8 @@ export type ClosingMessageOptions = {
   source?: string | null;
   timing?: ClosingTiming;
   includeTrustFooter?: boolean;
+  /** קטגוריית השירות - משפיע על תוכן ה-trust footer */
+  bookCategory?: BookCategoryId;
   /** מזהה שירות ב-yakir-closer (recording, podcast, dj...) */
   closerServiceId?: string | null;
   ycStep?: number;
@@ -120,6 +129,7 @@ export function buildClosingMessage({
   source,
   timing,
   includeTrustFooter = false,
+  bookCategory,
   closerServiceId,
   ycStep = 1,
   ycSchedule,
@@ -242,7 +252,7 @@ export function buildClosingMessage({
 
   if (includeTrustFooter) {
     lines.push("");
-    lines.push(buildTrustFooter());
+    lines.push(buildTrustFooter(bookCategory));
   }
 
   let body = lines.join("\n").trim();

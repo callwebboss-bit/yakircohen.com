@@ -310,11 +310,38 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       </div>
 
       <BookWhatHappensNext />
-      <BookTrustBadges badges={[{ icon: "🔄", label: "סבב תיקונים אחד בעריכה" }]} />
+      <BookTrustBadges badges={[{ icon: "🔄", label: "סבב תיקונים אחד בעריכה" }, { icon: "☁️", label: "עבודה מרחוק לחלוטין" }]} />
+
+      <div className="rounded-xl bg-surface px-4 py-4 space-y-3">
+        <h3 className="text-sm font-semibold text-foreground">ציר זמן ריאלי</h3>
+        <ol className="space-y-2 text-sm text-muted-foreground list-none">
+          <li>
+            <span className="font-medium text-foreground">אחרי השליחה:</span>{" "}
+            מקבלים הנחיות להעלאת הקבצים לענן
+          </li>
+          <li>
+            <span className="font-medium text-foreground">24 עד 48 שעות:</span>{" "}
+            העריכה מסתיימת ותוצאה סופית אצלכם
+          </li>
+          <li>
+            <span className="font-medium text-foreground">לאחר האישור:</span>{" "}
+            קבצים מוגמרים + גיבוי ענן לכל החיים
+          </li>
+        </ol>
+        <p className="text-xs text-muted-foreground">
+          סבב תיקונים ראשון כלול. כל שינוי נוסף מעבר לכך מחויב בנפרד
+        </p>
+      </div>
 
       {previewBody && name.trim() && phone.trim() ? (
         <BookingWhatsAppPreview messageBody={previewBody} />
       ) : null}
+
+      <div className="rounded-xl bg-surface px-4 py-3 text-center">
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          שלחתם ורוצים לשנות שירות או להוסיף פריט? אין בעיה. מדברים בוואטסאפ ומעדכנים. אין קנסות ואין אותיות קטנות.
+        </p>
+      </div>
 
       <BookingApprovals
         variant="light"

@@ -83,7 +83,7 @@ if (fs.existsSync(DOCS_PRICING)) {
     const hourExVat = catalogById.studio_hour;
     if (hourExVat && docs.includes("980")) {
       errors.push(
-        `docs/PRICING.md mentions stale 980 ₪ — studio hour is ${hourExVat} ₪ ex-VAT`,
+        `docs/PRICING.md mentions stale 980 ₪ -- studio hour is ${hourExVat} ₪ ex-VAT`,
       );
     }
   }
@@ -111,7 +111,7 @@ for (const file of walk(DATA_DIR)) {
 for (const [price, files] of duplicateHits) {
   if (files.length > 0) {
     warnings.push(
-      `Hardcoded price ${price} in ${files.slice(0, 3).join(", ")}${files.length > 3 ? "…" : ""} — prefer getExVat() from pricing-catalog.ts`,
+      `Hardcoded price ${price} in ${files.slice(0, 3).join(", ")}${files.length > 3 ? "…" : ""} -- prefer getExVat() from pricing-catalog.ts`,
     );
   }
 }

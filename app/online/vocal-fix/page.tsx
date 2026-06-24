@@ -3,7 +3,7 @@ import OnlineVocalFixPageContent from "@/components/seo/OnlineVocalFixPageConten
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "שיפור קול מהנייד | עריכת אודיו מרחוק",
+  title: "תיקון זיופים ושיפור קול מרחוק | יקיר כהן",
   description:
     "הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.",
   slug: "online/vocal-fix",

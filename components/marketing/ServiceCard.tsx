@@ -2,29 +2,57 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import ReadMoreText from "@/components/ui/ReadMoreText";
 import { cn } from "@/lib/utils";
 
 const AI_BADGE_DEFAULT = "שירות AI";
 
+export type BadgeVariant = "red" | "orange" | "green" | "default";
+
 export type ServiceCardProps = {
   title: string;
   description: string;
+  /** When provided, description becomes the teaser and descriptionFull is the expandable part. */
+  descriptionFull?: string;
   href: string;
   icon: ReactNode;
   isAiService?: boolean;
   badge?: string;
+  badgeVariant?: BadgeVariant;
   whatsappText?: string;
   utm_campaign?: string;
+  /** תווית קהל — "מתאים ל:" */
+  suitedFor?: string;
+  /** מחיר התחלה, למשל "החל מ-590 ₪ + מע״מ" */
+  fromPrice?: string;
   className?: string;
 };
 
-function AiBadge({ label }: { label: string }) {
+const BADGE_VARIANT_CLASSES: Record<BadgeVariant, string> = {
+  orange:
+    "border border-orange-200 bg-orange-100 text-orange-700",
+  green:
+    "border border-emerald-200 bg-emerald-100 text-emerald-800",
+  red:
+    "border border-brand-red/20 bg-brand-red/10 text-brand-red",
+  default:
+    "border border-brand-red/50 bg-foreground text-background shadow-[0_0_20px_rgba(212,43,43,0.25)]",
+};
+
+function ServiceBadge({ label, variant = "default" }: { label: string; variant?: BadgeVariant }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-red/50 bg-foreground px-2.5 py-1 text-[0.65rem] font-semibold tracking-wide text-background shadow-[0_0_20px_rgba(212,43,43,0.25)]">
-      <span
-        className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red shadow-[0_0_6px_rgba(212,43,43,0.9)]"
-        aria-hidden="true"
-      />
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.65rem] font-semibold tracking-wide",
+        BADGE_VARIANT_CLASSES[variant],
+      )}
+    >
+      {variant === "default" && (
+        <span
+          className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red shadow-[0_0_6px_rgba(212,43,43,0.9)]"
+          aria-hidden="true"
+        />
+      )}
       {label}
     </span>
   );
@@ -47,15 +75,20 @@ function WhatsAppMiniIcon() {
 export default function ServiceCard({
   title,
   description,
+  descriptionFull,
   href,
   icon,
   isAiService = false,
   badge,
+  badgeVariant,
   whatsappText,
   utm_campaign = "service_card",
+  suitedFor,
+  fromPrice,
   className,
 }: ServiceCardProps) {
   const badgeLabel = badge ?? (isAiService ? AI_BADGE_DEFAULT : undefined);
+  const resolvedVariant: BadgeVariant = badgeVariant ?? "default";
 
   const whatsappHref = buildWhatsAppHref({
     text:
@@ -74,7 +107,7 @@ export default function ServiceCard({
       )}
     >
       <div className="mb-4 flex items-start justify-between gap-3">
-          <div
+        <div
           className={cn(
             "flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-brand-red transition-colors duration-normal ease-luxury group-hover:border-brand-red/40",
             isAiService && "border-brand-red/30 bg-foreground text-brand-red",
@@ -83,7 +116,7 @@ export default function ServiceCard({
         >
           {icon}
         </div>
-        {badgeLabel ? <AiBadge label={badgeLabel} /> : null}
+        {badgeLabel ? <ServiceBadge label={badgeLabel} variant={resolvedVariant} /> : null}
       </div>
 
       <h3 className="text-lg font-semibold tracking-tight text-foreground">
@@ -96,9 +129,28 @@ export default function ServiceCard({
         </Link>
       </h3>
 
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-        {description}
-      </p>
+      {descriptionFull ? (
+        <ReadMoreText
+          summary={description}
+          full={descriptionFull}
+          className="mt-2 flex-1"
+        />
+      ) : (
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      )}
+
+      {suitedFor ? (
+        <p className="mt-3 text-xs text-muted-foreground">
+          <span className="font-semibold text-foreground">מתאים ל: </span>
+          {suitedFor}
+        </p>
+      ) : null}
+
+      {fromPrice ? (
+        <p className="mt-2 text-sm font-semibold text-brand-red">{fromPrice}</p>
+      ) : null}
 
       <div className="relative z-10 mt-6 flex flex-wrap items-center gap-3 border-t border-border pt-4">
         <a

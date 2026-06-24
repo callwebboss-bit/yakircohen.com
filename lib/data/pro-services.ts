@@ -558,7 +558,7 @@ export const PRO_SERVICES: readonly ProService[] = [
       "סרטונים קצרים מפודקאסט",
       "עריכה שוטפת לפודקאסט",
       "הפקת פודקאסט לחברה",
-      "פודקאסט B2B",
+      "פודקאסט לעסקים",
     ],
     aboutHeading: "למי שמאס לרדוף אחרי עריכה כל שבוע",
     showcasePlaylistId: "bulk-production",

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * מנקה סימנים "רובוטיים" מטקסט מאשאפ (em-dash, חצים, סופרלטיבים מיותרים).
  */
 export function humanizeMashupCopy(text: string): string {
@@ -6,8 +6,8 @@ export function humanizeMashupCopy(text: string): string {
 
   let out = String(text);
 
-  out = out.replace(/(\d)\s*[–—]\s*(\d)/g, "$1-$2");
-  out = out.replace(/[—–]/g, ", ");
+  out = out.replace(/(\d)\s*[-–—]\s*(\d)/g, "$1-$2");
+  out = out.replace(/--|[–—]/g, ", ");
   out = out.replace(/\s*→\s*/g, ", ואז ");
   out = out.replace(/…/g, ".");
   out = out.replace(/\.{3,}/g, ".");

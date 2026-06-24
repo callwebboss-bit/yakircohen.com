@@ -2,6 +2,7 @@ import { metadataFromService } from "@/lib/data/service-metadata";
 import AudienceTabs from "@/components/events/AudienceTabs";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import EventsAttractionsSchema from "@/components/seo/EventsAttractionsSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
@@ -21,6 +22,7 @@ export default function EventsHubPage() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromService(service, "events")} />
+      <EventsAttractionsSchema />
       <HubServiceIndexStatic
         heading="שירותי אירועים"
         links={hubLinks.map((link) => ({

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import type { ServiceEntity } from "@/lib/data/services";
 import { constructMetadata } from "@/lib/metadata";
 import {
@@ -20,7 +20,7 @@ export const PODCAST_HUB_SEO: HubPageSeo = {
   slug: "podcast",
   title: "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה",
   description:
-    "אולפן פודקאסט עם 4 מתחמי הקלטה נפרדים, מיקרופוני Shure & Rode, בידוד אקוסטי מלא וצילום Sony 4K. פרק מוכן לספוטיפיי ואפל תוך 24 שעות — החל מ-750 ₪.",
+    "אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, מיקרופוני Shure & Rode, פרק מוכן לספוטיפיי תוך 24 שעות מ-750 ₪.",
   keywords: [
     "אולפן פודקאסט",
     "תוכנית שמע",
@@ -93,17 +93,19 @@ export const PRO_HUB_SEO: HubPageSeo = {
 
 export const BUSINESS_HUB_SEO: HubPageSeo = {
   slug: "business",
-  title: "פתרונות הפקה לעסקים וארגונים",
+  title: "הפקת תוכן לעסקים | קריינות, פודקאסט וסרט תדמית - חשבונית מס",
   description:
-    "רילז ושורטס באולפן, ניהול סושיאל, קריינות, סרט תדמית ופודקאסט לעסקים. מודיעין, ירושלים והמרכז.",
+    "הפקת תוכן לעסקים במודיעין: רילז, קריינות ופודקאסט. חשבונית מס - תגובה תוך 24 שעות.",
   keywords: [
     "הפקת תוכן לעסקים",
+    "הפקת תוכן לעסקים פתח תקווה",
+    "קריינות לחברה",
+    "פודקאסט לחברה",
+    "תוכן שיווקי לעסקים",
     "רילז לעסקים מודיעין",
-    "ניהול סושיאל לעסקים",
     "סרט תדמית לחברה",
-    "פודקאסט לעסק",
     "קריינות לעסקים",
-    "תוכן B2B",
+    "תוכן שיווקי לעסקים",
   ],
   hub: "video",
 };
@@ -207,6 +209,77 @@ export const ABOUT_HUB_SEO: HubPageSeo = {
   description:
     "אודות יקיר כהן - אולפן במודיעין. 20+ שנות סאונד, פודקאסטים, DJ ואטרקציות.",
   keywords: ["אודות", "יקיר כהן", "אולפן מודיעין", "הפקות"],
+  hub: "studio",
+};
+
+export const FOR_COUPLES_HUB_SEO: HubPageSeo = {
+  slug: "for-couples",
+  title: "שיר לחתונה, DJ וצילום | מסלול לזוגות",
+  description:
+    "מסלול לזוגות במודיעין: שיר במתנה, DJ ואטרקציות. תגובה תוך 24 שעות.",
+  keywords: [
+    "שיר לחתונה",
+    "DJ לחתונה",
+    "חבילות לחתונה",
+    "הקלטת שיר במתנה",
+    "צילום חתונה מודיעין",
+  ],
+  hub: "events",
+};
+
+export const FOR_CREATORS_HUB_SEO: HubPageSeo = {
+  slug: "for-creators",
+  title: "אולפן, מיקס וקורסים | מסלול ליוצרים",
+  description:
+    "מסלול ליוצרים במודיעין: הקלטה, פודקאסט, מיקס וקורסי DJ. מסירה תוך 24 שעות.",
+  keywords: [
+    "אולפן ליוצרים",
+    "הקלטת שיר",
+    "מיקס אונליין",
+    "קורס DJ מודיעין",
+    "הפקה מוזיקלית",
+  ],
+  hub: "studio",
+};
+
+export const PACKAGES_HUB_SEO: HubPageSeo = {
+  slug: "packages",
+  title: "חבילות אולפן, פודקאסט וחתונות",
+  description:
+    "חבילות מוכנות במודיעין: שיר באולפן, פודקאסט ופסטיבל לחתונה. מחירים שקופים לפני מע״מ.",
+  keywords: [
+    "חבילות אולפן",
+    "חבילת פודקאסט",
+    "חבילות לחתונה",
+    "מחירון חבילות",
+  ],
+  hub: "pricing",
+};
+
+export const GALLERY_HUB_SEO: HubPageSeo = {
+  slug: "gallery",
+  title: "גלריית תמונות | אולפן ואירועים",
+  description:
+    "תמונות מהאולפן, DJ, אפקטים ופודקאסטים במודיעין. דוגמאות מהשטח לפני שמזמינים.",
+  keywords: [
+    "גלריה אולפן",
+    "תמונות חתונה",
+    "אולפן מודיעין",
+    "דוגמאות DJ",
+  ],
+  hub: "studio",
+};
+
+export const TESTIMONIALS_HUB_SEO: HubPageSeo = {
+  slug: "testimonials",
+  title: "המלצות לקוחות | אולפן ואירועים במודיעין",
+  description:
+    "ביקורות לקוחות על אולפן ואירועים במודיעין. DJ, פודקאסט וקריינות - תגובות אמיתיות.",
+  keywords: [
+    "המלצות לקוחות",
+    "ביקורות אולפן מודיעין",
+    "DJ חתונה המלצות",
+  ],
   hub: "studio",
 };
 

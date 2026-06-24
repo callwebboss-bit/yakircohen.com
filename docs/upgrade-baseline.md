@@ -1,4 +1,4 @@
-# UI/UX Upgrade — Baseline Metrics
+﻿# UI/UX Upgrade -- Baseline Metrics
 
 **Date:** 2026-06-10  
 **Branch:** pre-upgrade snapshot  
@@ -8,7 +8,7 @@
 
 - Lighthouse (Chrome DevTools, mobile + desktop)
 - Web Vitals: CLS, LCP, INP
-- `next build` — first-load JS per route
+- `next build` -- first-load JS per route
 - Manual QA at 375px / 768px / 1440px
 
 ## Routes (required)

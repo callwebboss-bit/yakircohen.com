@@ -1,6 +1,6 @@
 /**
  * Fail CI/Vercel build if local-tools / yakir-closer artifacts appear in the deploy tree.
- * local-tools/ lives beside yakircohen-site — it must never land in public/ or app/.
+ * local-tools/ lives beside yakircohen-site -- it must never land in public/ or app/.
  */
 import fs from "fs";
 import path from "path";
@@ -48,7 +48,7 @@ const publicLocalTools = path.join(root, "public", "local-tools");
 if (fs.existsSync(publicLocalTools)) hits.push(publicLocalTools);
 
 if (hits.length) {
-  console.error("\n⛔ DEPLOY BLOCKED — local-tools must never ship with the site:\n");
+  console.error("\n⛔ DEPLOY BLOCKED -- local-tools must never ship with the site:\n");
   for (const h of hits) {
     console.error("  •", path.relative(root, h));
   }
@@ -58,4 +58,4 @@ if (hits.length) {
   process.exit(1);
 }
 
-console.log("guard:local-tools ok — no closer artifacts in site deploy tree");
+console.log("guard:local-tools ok -- no closer artifacts in site deploy tree");

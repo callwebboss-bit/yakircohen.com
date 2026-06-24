@@ -50,6 +50,7 @@ export default function EventsHostFaqPageContent() {
           items={[...EVENTS_HOST_FAQ_ITEMS]}
           title="שאלות נפוצות על הנחיית אירועים"
           className="py-0"
+          defaultOpenId="host-vs-dj"
         />
 
         <section className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center">

@@ -1,6 +1,6 @@
-# DEPLOY — yakircohen.com
+﻿# DEPLOY -- yakircohen.com
 
-## מבנה ה-Repo (אפשרות א׳ — מומלץ)
+## מבנה ה-Repo (אפשרות א׳ -- מומלץ)
 
 ```
 callwebboss-bit/yakircohen.com   ← root = האתר עצמו
@@ -15,13 +15,13 @@ callwebboss-bit/yakircohen.com   ← root = האתר עצמו
 ```
 
 **למה אפשרות א׳?**
-- Root directory = `/` — Vercel/Cloudflare מזהים אוטומטית
+- Root directory = `/` -- Vercel/Cloudflare מזהים אוטומטית
 - אין צורך להגדיר root directory ידנית
 - CI פשוט יותר
 
 ---
 
-## שלבי Git — פעם ראשונה (clone + push)
+## שלבי Git -- פעם ראשונה (clone + push)
 
 ```bash
 # 1. שכפל את ה-repo
@@ -46,7 +46,7 @@ git push origin main
 
 ---
 
-## שלבי Git — עבודה שוטפת
+## שלבי Git -- עבודה שוטפת
 
 ```bash
 # צור branch לפיצ׳ר / תיקון
@@ -62,7 +62,7 @@ git push origin feat/שם-הפיצ׳ר
 
 ---
 
-## Vercel — תצורה נכונה
+## Vercel -- תצורה נכונה
 
 > ה-repo מחובר ל-3 פרויקטי Vercel (כולם נכשלו). יש לתקן אחד ולמחוק את השאר.
 
@@ -70,7 +70,7 @@ git push origin feat/שם-הפיצ׳ר
 1. כנס ל-vercel.com → בחר את פרויקט **yakircohen-com** (או צור חדש)
 2. Settings → General:
    - **Framework Preset**: Next.js
-      - **Root Directory**: `.` (ריק — root)
+      - **Root Directory**: `.` (ריק -- root)
          - **Build Command**: `npm run build`
             - **Output Directory**: `.next`
                - **Install Command**: `npm install`
@@ -95,10 +95,10 @@ git push origin feat/שם-הפיצ׳ר
                אם האתר צריך משתני סביבה (API keys וכד׳):
 
                ```bash
-               # מקומי — צור קובץ .env.local (לא מועלה ל-git!)
+               # מקומי -- צור קובץ .env.local (לא מועלה ל-git!)
                NEXT_PUBLIC_EXAMPLE=value
 
-               # Vercel — הוסף ב: Settings → Environment Variables
+               # Vercel -- הוסף ב: Settings → Environment Variables
                ```
 
                ---

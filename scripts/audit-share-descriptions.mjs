@@ -109,7 +109,7 @@ function extractAllHubDescriptions() {
   return entries;
 }
 
-/** Tier 1 — GSC top pages + high-share routes */
+/** Tier 1 -- GSC top pages + high-share routes */
 const TIER1 = [
   { label: "דף הבית", getDescription: extractDefaultDescription },
   {
@@ -183,11 +183,11 @@ const failures = auditEntries(entries);
 const scope = auditAll ? "all" : "Tier-1";
 
 if (failures.length === 0) {
-  console.log(`audit:share — all ${entries.length} ${scope} descriptions pass`);
+  console.log(`audit:share -- all ${entries.length} ${scope} descriptions pass`);
   process.exit(0);
 }
 
-console.log(`audit:share — ${failures.length} ${scope} failure(s):`);
+console.log(`audit:share -- ${failures.length} ${scope} failure(s):`);
 for (const f of failures) {
   console.log(`  ${f.label}: ${f.reason}`);
 }

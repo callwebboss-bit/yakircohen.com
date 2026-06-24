@@ -1,4 +1,4 @@
-# UI/UX Upgrade — Phase Log
+﻿# UI/UX Upgrade -- Phase Log
 
 ## Template (per phase)
 
@@ -14,19 +14,19 @@ Notes:
 
 ---
 
-## Phase 0 — Foundation
+## Phase 0 -- Foundation
 
 **Date:** 2026-06-10  
 **Status:** complete
 
 **Files:**
-- `app/globals.css` — fluid type, elevation, hover-lift, touch-target, group-hover-scale
-- `lib/utils.ts` — tailwind-merge
+- `app/globals.css` -- fluid type, elevation, hover-lift, touch-target, group-hover-scale
+- `lib/utils.ts` -- tailwind-merge
 - `components/ui/Container.tsx`, `Section.tsx`, `Card.tsx`
-- `components/ui/Button.tsx` — ghost, as="a", min-h-11, active scale
+- `components/ui/Button.tsx` -- ghost, as="a", min-h-11, active scale
 - `docs/ui-primitives.md`, `docs/ui-exceptions.md`
 
-## Phase 1–3 — Layout, Heroes, Performance
+## Phase 1–3 -- Layout, Heroes, Performance
 
 **Date:** 2026-06-10  
 **Status:** complete (core paths)
@@ -41,7 +41,7 @@ Notes:
 - `lib/service-portfolio-images.ts` → PNG/JPEG dimension probe
 - `components/marketing/lazy.tsx` → HomeSocialProofSection dynamic import
 
-## Phase 6 continuation — 2026-06-10
+## Phase 6 continuation -- 2026-06-10
 
 **Status:** in progress (high-impact paths)
 
@@ -50,7 +50,7 @@ Notes:
 - `BookPageSections` → all wizards/calculators via `lazy.tsx` (smaller /book bundle)
 - `BookAudienceCard` → 44px touch targets on chips + CTAs
 
-## Phase 6b — blog, book, forms, FAQ
+## Phase 6b -- blog, book, forms, FAQ
 
 - `FAQAccordion` → Section/Container, min-h-11 triggers, reduced-motion
 - `app/book/page.tsx` → fluid hero (`text-hero`)
@@ -59,14 +59,14 @@ Notes:
 - `BookingSelectableCard` → focus/active states
 - `BookStudioInfoSection`, `TrustStatsBar` → Container/Section
 
-## Phase 6c — SEO cards, about, contact
+## Phase 6c -- SEO cards, about, contact
 
 - `GiftIdeaCard` → Button CTAs, CLS fix (aspect-video), tokens
 - `PremiumBundleCallout` → Button + fluid typography
 - `app/about/page.tsx` → full Section/Container/Button migration
 - `ContactPageContent` + `app/contact/page.tsx` → hero, touch targets, map section
 
-## Phase 6d — marketing journey, legal, start
+## Phase 6d -- marketing journey, legal, start
 
 **Date:** 2026-06-10  
 **Status:** complete
@@ -79,7 +79,7 @@ Notes:
 - `app/start/page.tsx` → full primitive migration, hover-lift on step cards
 - `app/pricing/page.tsx` → Section/Container, fluid type, 44px link targets
 
-## Phase 6e — hub & utility pages
+## Phase 6e -- hub & utility pages
 
 **Date:** 2026-06-10  
 **Status:** complete
@@ -95,7 +95,7 @@ Notes:
 - `components/seo/OnlinePageContent.tsx` → full hub migration
 - `components/business/social-media/SocialMediaPageContent.tsx` → Container + touch targets
 
-## Phase 6f — service hubs & category pages
+## Phase 6f -- service hubs & category pages
 
 **Date:** 2026-06-10  
 **Status:** complete
@@ -108,7 +108,7 @@ Notes:
 - `OnlineCategoryPageContent` → full Section/Container migration
 - `NotFoundContent` → Section/Container/Button, text-hero, hover-lift cubes
 
-## Phase 7 — shadcn/ui hybrid (preset b27GcrRo)
+## Phase 7 -- shadcn/ui hybrid (preset b27GcrRo)
 
 **Date:** 2026-06-10  
 **Status:** foundation complete

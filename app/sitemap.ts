@@ -11,6 +11,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── Studio & Blessings ─────────────────────────────────────────────────────
   { url: url("studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("portfolio"), priority: 0.85, changeFrequency: "monthly" },
+  { url: url("gallery"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("testimonials"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("packages"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("for-couples"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("for-creators"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
@@ -80,11 +85,6 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     url: url("online/vocal-fix/mixing"),
     priority: 0.75,
     changeFrequency: "monthly",
-  },
-  {
-    url: url("online/vocal-fix/send-file"),
-    priority: 0.5,
-    changeFrequency: "yearly",
   },
   { url: url("online/online-ai-pricing"), priority: 0.7, changeFrequency: "monthly" },
 
@@ -180,7 +180,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── About / Contact ────────────────────────────────────────────────────────
   { url: url("about"), priority: 0.6, changeFrequency: "monthly" },
   { url: url("about/faq"), priority: 0.6, changeFrequency: "monthly" },
-  { url: url("start"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("start"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("contact"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Stuttering / clinic ──────────────────────────────────────────────────────
@@ -226,9 +226,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
-  const deployDate = new Date();
-  return [...STATIC_ROUTES, ...blogRoutes].map((entry) => ({
-    ...entry,
-    lastModified: entry.lastModified ?? deployDate,
-  }));
+  return [...STATIC_ROUTES, ...blogRoutes];
 }

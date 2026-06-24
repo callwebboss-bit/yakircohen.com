@@ -225,6 +225,7 @@ export function buildBookingWhatsAppBody({
     source: utmSource,
     timing: resolvedTiming,
     includeTrustFooter: progressive?.includeTrustFooter ?? includeTrustFooter,
+    bookCategory,
     progressiveNarrative: progressive?.progressiveNarrative ?? false,
     closerServiceId: resolvedCloser,
     ycStep: ycStep ?? 1,

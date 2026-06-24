@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
@@ -690,9 +691,37 @@ export default function PodcastBookingWizard({
                 badges={[
                   { icon: "🔄", label: "סבב תיקונים אחד כלול בעריכה" },
                   { icon: "☁️", label: "גיבוי ענן עד ההקלטה הבאה" },
-                  { icon: "🅿️", label: "חנייה חופשית במודיעין" },
+                  ...(form.location !== "mobile"
+                    ? [{ icon: "🅿️", label: "חנייה חופשית במודיעין" }]
+                    : [{ icon: "🚗", label: "מגיעים אליכם עם כל הציוד" }]),
                 ]}
               />
+              <div className="rounded-xl bg-surface px-4 py-4 space-y-3">
+                <h3 className="text-sm font-semibold text-foreground">ציר זמן ריאלי</h3>
+                <ol className="space-y-2 text-sm text-muted-foreground list-none">
+                  <li>
+                    <span className="font-medium text-foreground">היום:</span>{" "}
+                    הקלטה באולפן. חומרי הגלם אצלכם ביד בסוף הסשן
+                  </li>
+                  <li>
+                    <span className="font-medium text-foreground">1 עד 3 ימי עבודה:</span>{" "}
+                    עריכה, מיקס ומאסטרינג מלאים
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span>
+                      <span className="font-medium text-foreground">לאחר האישור שלכם:</span>{" "}
+                      העלאה לספוטיפיי, אפל פודקאסטים ויוטיוב לפי חבילה
+                    </span>
+                    <InfoTip
+                      text="העלאה לפלטפורמות כלולה בחבילות Audio ומעלה. חבילת Starter מספקת קובץ מוכן להעלאה עצמית."
+                      className="mt-0.5 shrink-0"
+                    />
+                  </li>
+                </ol>
+                <p className="text-xs text-muted-foreground">
+                  סבב תיקונים ראשון כלול. כל סבב נוסף מעבר לכך הוא עבודת מחשב נוספת ועולה בהתאם
+                </p>
+              </div>
               <NeedsDiscoveryStep
                 value={form.customerNeed}
                 onChange={(v) => patchForm({ customerNeed: v })}
@@ -700,6 +729,11 @@ export default function PodcastBookingWizard({
               />
               {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
+              <div className="rounded-xl bg-surface px-4 py-3 text-center">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  המציאות דינמית. אם תצטרכו לשנות שעה או להוסיף משתתף אחרי השליחה הכל בסדר. גמיש עד רגע ההקלטה. אין קנסות ואין אותיות קטנות.
+                </p>
+              </div>
               <BookingApprovals
                 variant="light"
                 termsAccepted={form.termsAccepted}

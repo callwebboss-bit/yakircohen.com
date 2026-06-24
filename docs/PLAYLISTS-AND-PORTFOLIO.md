@@ -1,10 +1,10 @@
-# תיק עבודות YouTube + חיבור לעמודי שירות
+﻿# תיק עבודות YouTube + חיבור לעמודי שירות
 
 ## איפה הדברים יושבים (מקורות)
 
 | קובץ | תפקיד |
 |------|--------|
-| `lib/data/video-catalog.generated.ts` | **מאגר מרכזי** — ~270+ סרטונים (נוצר אוטומטית) |
+| `lib/data/video-catalog.generated.ts` | **מאגר מרכזי** -- ~270+ סרטונים (נוצר אוטומטית) |
 | `scripts/import-portfolio.mjs` | ייבוא מקובץ `כותרת -> URL` לקטלוג |
 | `scripts/portfolio-tag-rules.mjs` | תיוג אוטומטי + שיוך לפלייליסטים |
 | `lib/data/video-playlists.ts` | הגדרת פלייליסטים לפי עמוד/שירות |
@@ -16,15 +16,15 @@
 
 ## זרימת עבודה מומלצת
 
-1. **סרטונים חדשים בערוץ** — הוסף לקובץ מקור (ברירת מחדל: `d:\active_portfolio.txt`):
+1. **סרטונים חדשים בערוץ** -- הוסף לקובץ מקור (ברירת מחדל: `d:\active_portfolio.txt`):
    ```text
    כותרת הסרטון -> https://www.youtube.com/watch?v=XXXXXXXXXXX
    ```
 2. הרץ: `npm run import:portfolio` (או עם נתיב לקובץ).
 3. בדוק תיוגים ב-`lib/data/video-catalog.overrides.ts` אם צריך תיקון ידני.
-4. וידאו ראשי לעמוד שירות בודד — עדכן `youtube-embeds.ts` + `services.ts` אם צריך embed יחיד.
-5. וידאו לעמוד עם כמה דוגמאות — `youtube-showcases.ts` או `ShowcaseVideoSection` עם `playlistId`.
-6. בדיקת תקינות: `node scripts/check-youtube-ids.mjs` (325 IDs, 0 שבורים — נכון ליוני 2026).
+4. וידאו ראשי לעמוד שירות בודד -- עדכן `youtube-embeds.ts` + `services.ts` אם צריך embed יחיד.
+5. וידאו לעמוד עם כמה דוגמאות -- `youtube-showcases.ts` או `ShowcaseVideoSection` עם `playlistId`.
+6. בדיקת תקינות: `node scripts/check-youtube-ids.mjs` (325 IDs, 0 שבורים -- נכון ליוני 2026).
 
 ## עמודים עם `playlistEmbedUrl: null` (מכוון)
 
@@ -34,11 +34,11 @@
 
 ## עמודים שכבר מחוברים (לא צריך לשלוח שוב)
 
-רוב עמודי השירות (סטודיו, ברכות, פודקאסט, קריינות, אירועים, אטרקציות, וידאו) — יש `playlistEmbedUrl` או `ShowcaseVideoSection` עם `playlistId`.
+רוב עמודי השירות (סטודיו, ברכות, פודקאסט, קריינות, אירועים, אטרקציות, וידאו) -- יש `playlistEmbedUrl` או `ShowcaseVideoSection` עם `playlistId`.
 
-`/studio` — תיק עבודות דרך `StudioHubValueSection` + מאגר `studio-hub`.
+`/studio` -- תיק עבודות דרך `StudioHubValueSection` + מאגר `studio-hub`.
 
-`/portfolio` — כל הפלייליסטים לפי נושא.
+`/portfolio` -- כל הפלייליסטים לפי נושא.
 
 ## פורמט לינקים
 
@@ -52,7 +52,7 @@
 ```text
 /portfolio או /studio/recording-song-modiin
 YouTube: https://www.youtube.com/watch?v=...
-הערה: [אופציונלי — תיוג: bat-mitzvah / dj / podcast]
+הערה: [אופציונלי -- תיוג: bat-mitzvah / dj / podcast]
 ```
 
 ## מה עדיין מחוץ לקוד

@@ -6,7 +6,11 @@ import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import { CHATBOT_DATA } from "@/lib/chatbot-data";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
+import PwaInstallPrompt from "@/components/marketing/PwaInstallPrompt";
+import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
 import {
   DEFAULT_OPEN_GRAPH,
@@ -16,12 +20,11 @@ import {
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-// OPTIMIZED: fewer font weights - saves 2-3 network requests on first paint
+// Variable font — single file covers all weights (100-900), one HTTP request
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
   display: "swap",
   variable: "--font-heebo",
-  weight: ["400", "600", "700"],
   preload: true,
   adjustFontFallback: true,
   fallback: ["Arial Hebrew", "Arial", "Helvetica Neue", "sans-serif"],
@@ -31,7 +34,6 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
   subsets: ["hebrew", "latin"],
   display: "swap",
   variable: "--font-noto-serif-hebrew",
-  weight: ["400", "600", "700"],
   preload: true,
   adjustFontFallback: true,
   fallback: ["David Libre", "Times New Roman", "serif"],
@@ -62,6 +64,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
     languages: { "he-IL": SITE_URL },
+    types: { "application/rss+xml": `${SITE_URL}/feed.xml` },
   },
   openGraph: {
     ...DEFAULT_OPEN_GRAPH,
@@ -120,12 +123,19 @@ export default function RootLayout({
         <GoogleAnalytics />
         <TabRescueTitle />
         <SiteSchema />
+        <FaqPageSchema
+          items={CHATBOT_DATA.questions.map((q) => ({
+            question: q.label,
+            answer: q.answer.text,
+          }))}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand-red focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none"
         >
           דלג לתוכן הראשי
         </a>
+        <ScrollProgressBar />
         <Header />
         <Breadcrumbs />
         <main
@@ -137,6 +147,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <DeferredFloatingFabs />
+        <PwaInstallPrompt />
       </body>
     </html>
   );

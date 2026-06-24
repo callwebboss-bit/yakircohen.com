@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -145,6 +145,14 @@ export default function OnlinePitchCorrectionPageContent() {
           >
             שלחו שיר לבדיקה </a>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+        <p className="border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          אתה יודע ששרת טוב, אבל ההקלטה לא מעבירה את זה? אתה שומע תווים שלא
+          התכוונת אליהם, והאנרגיה של הרגע הולכת לאיבוד. אני מבין את זה -
+          ולכן אני מציע לך פיתרון שלא דורש ממך להקליט מחדש.
+        </p>
       </section>
 
       <section className="border-b border-border bg-surface py-12">
@@ -297,11 +305,11 @@ export default function OnlinePitchCorrectionPageContent() {
         <ShowcaseVideoSection
           kicker="דוגמאות וידאו"
           heading="תיקון זיופים מא׳ עד ת׳"
-          subheading="צפו בתהליך — מקליטים במקום אחר, תיקון מרחוק, והדרכה מלאה"
+          subheading="צפו בתהליך -- מקליטים במקום אחר, תיקון מרחוק, והדרכה מלאה"
           videos={PITCH_CORRECTION_VIDEOS}
         />
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
-          עוד דוגמאות בתיק העבודות בערוץ YouTube שלנו —{" "}
+          עוד דוגמאות בתיק העבודות בערוץ YouTube שלנו --{" "}
           <a
             href={YOUTUBE_CHANNEL_URL}
             target="_blank"
@@ -365,7 +373,19 @@ export default function OnlinePitchCorrectionPageContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 lg:px-8 space-y-5">
+        <div className="rounded-2xl border border-brand-red/25 bg-brand-red/5 p-6 text-center">
+          <p className="font-semibold text-foreground">יש לך הקלטה פגומה?</p>
+          <p className="mt-1 text-sm text-muted-foreground">אל תדאג - אני מציל הקלטות תוך שעות.</p>
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
+          >
+            שלח לי קובץ עכשיו
+          </a>
+        </div>
         <Link
           href="/blog/pitch-correction-vs-autotune"
           className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"

@@ -149,7 +149,7 @@ export default function PodcastHubPageContent() {
       <ServicePageLayout
         {...heroProps}
         category="podcast"
-        title="אולפן פודקאסט מקצועי במודיעין"
+        title="אולפן פודקאסט מקצועי במודיעין - מחיר שקוף"
         subtitle="4 מתחמי הקלטה, מיקרופוני Shure & Rode, בידוד אקוסטי מלא וצילום Sony 4K. מגיעים, מדברים, ויוצאים עם תוכנית שמע מוכנה - MP3 לספוטיפיי ואפל, MP4 ליוטיוב."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."

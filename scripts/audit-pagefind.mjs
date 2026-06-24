@@ -34,12 +34,12 @@ for (const { file, term, path: urlPath } of PAGES) {
   }
   const html = fs.readFileSync(full, "utf8");
   if (!html.includes("data-pagefind-body") && !html.includes('id="main-content"')) {
-    console.log(`⚠ ${file} — אין data-pagefind-body (יורש מ-layout?)`);
+    console.log(`⚠ ${file} -- אין data-pagefind-body (יורש מ-layout?)`);
   }
   if (html.includes(term) || html.includes(urlPath)) {
-    console.log(`✓ ${file} — "${term}"`);
+    console.log(`✓ ${file} -- "${term}"`);
   } else {
-    console.log(`✗ ${file} — לא נמצא "${term}"`);
+    console.log(`✗ ${file} -- לא נמצא "${term}"`);
     failed++;
   }
 }
@@ -49,7 +49,7 @@ if (fs.existsSync(PAGEFIND_ENTRY)) {
   const count = entry.languages?.he?.page_count ?? 0;
   console.log(`\nPagefind: ${count} עמודים באינדקס (he)`);
   if (count < 85) {
-    console.log("⚠ מעט מדי עמודים — בדוק build:full");
+    console.log("⚠ מעט מדי עמודים -- בדוק build:full");
     failed++;
   }
 } else {

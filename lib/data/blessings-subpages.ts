@@ -46,7 +46,7 @@ export const BAR_MITZVAH_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "02",
     title: "הקלטה באולפן",
-    description: "חדר שקת, מיקרופון מקצועי וליווי - עד שמרגישים בנוח.",
+    description: "חדר שקט, מיקרופון מקצועי וליווי עד שמרגישים בנוח.",
   },
   {
     step: "03",

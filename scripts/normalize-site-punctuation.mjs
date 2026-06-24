@@ -1,6 +1,6 @@
 /**
  * מחליף סימני פיסוק "רובוטיים" בתוכן האתר:
- * — – → - | מרכאות מעוקלות → ישרות | · ← → מוסרים/מוחלפים
+ * -- – → - | מרכאות מעוקלות → ישרות | · ← → מוסרים/מוחלפים
  *
  * Usage: node scripts/normalize-site-punctuation.mjs
  *        node scripts/normalize-site-punctuation.mjs --check
@@ -106,7 +106,7 @@ if (CHECK_ONLY) {
   console.log(`[normalize-site-punctuation] updated ${changedFiles} files`);
   console.log(
     "[normalize-site-punctuation] replaced:",
-    `—×${counts.emDash}`,
+    `--×${counts.emDash}`,
     `–×${counts.enDash}`,
     `""×${counts.curlyDouble}`,
     `''×${counts.curlySingle}`,

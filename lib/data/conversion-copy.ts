@@ -60,3 +60,7 @@ export function buildBlogCtaWhatsAppMessage(options: {
     step: 1,
   })}`;
 }
+
+/** לסיום סקשנים חדשים בלבד — טון יבש, מעודד בדיקה */
+export const SKEPTICISM_CTA =
+  "זה המנגנון. אל תאמין לי — תבדוק בעצמך.";

@@ -68,9 +68,16 @@ export default function BookUpsellSection({
                   ) : null}
                 </div>
               </div>
-              <span className="shrink-0 text-sm font-bold text-foreground">
-                {item.price > 0 ? `+${item.price.toLocaleString("he-IL")} ₪` : "כלול"}
-              </span>
+              <div className="shrink-0 text-end">
+                {item.originalPrice ? (
+                  <span className="block text-xs text-muted-foreground line-through">
+                    +{item.originalPrice.toLocaleString("he-IL")} ₪
+                  </span>
+                ) : null}
+                <span className="text-sm font-bold text-foreground">
+                  {item.price > 0 ? `+${item.price.toLocaleString("he-IL")} ₪` : "כלול"}
+                </span>
+              </div>
             </button>
           );
         })}

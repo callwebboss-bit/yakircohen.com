@@ -58,11 +58,11 @@ for (const dir of SCAN_DIRS) {
 }
 
 if (issues.length === 0) {
-  console.log("audit:seo-titles — no duplicate brand suffix found");
+  console.log("audit:seo-titles -- no duplicate brand suffix found");
   process.exit(0);
 }
 
-console.log(`audit:seo-titles — ${issues.length} issue(s):`);
+console.log(`audit:seo-titles -- ${issues.length} issue(s):`);
 for (const { file, title } of issues) {
   console.log(`  ${file}: "${title}"`);
 }

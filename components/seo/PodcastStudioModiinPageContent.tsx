@@ -45,13 +45,13 @@ export default function PodcastStudioModiinPageContent() {
   return (
     <ServicePageLayout
       title="השכרת סטודיו לפודקאסט במודיעין"
-      subtitle="מחפשים מקום שקט, מאובזר ומקצועי להקליט את הפודקאסט? אולפן עם ציוד מתקדם, חדר מבודד וליווי טכני  -  מתאים להקלטות, עריכה ווידאו."
+      subtitle="פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום תוך 24 שעות."
       features={STUDIO_MODIIN_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
       corporateShareLabel="השכרת אולפן פודקאסט במודיעין"
       bookSlug="podcast/podcast-studio-modiin"
-      ctaLabel="תיאום הקלטה בוואטסאפ"
+      ctaLabel="קביעת מקום תוך 24 שעות"
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -204,19 +204,31 @@ export default function PodcastStudioModiinPageContent() {
             id="studio-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים להקליט את הפרק הראשון?
+            מוכנים להקליט? קביעת מקום תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. בואו להקליט
-            בסטודיו מקצועי במודיעין  -  עם יחס אישי וידע מקצועי.
+            אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. הפודקאסט שלכם
+            ראוי לקול אנושי - לא AI-רובוטי.
           </p>
+          <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            {[
+              "קביעת מקום תוך 24 שעות",
+              "קריינות אנושית - ללא AI-רובוטי",
+              "ליווי טכני מלא",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-1.5">
+                <span className="font-semibold text-brand-red" aria-hidden>✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
           <a
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            תיאום הקלטה בוואטסאפ </a>
+            קבע מקום עכשיו - מוכן תוך 24 שעות</a>
         </section>
 
         <GoogleReviews

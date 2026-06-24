@@ -733,6 +733,12 @@ export default function AttractionsCalculator({ className }: { className?: strin
               })}
             </pre>
 
+            <div className="rounded-xl bg-surface px-4 py-3 text-center">
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                המציאות דינמית. אם תצטרכו לשנות שעה, אטרקציה או מיקום אחרי השליחה הכל בסדר. גמיש עד יום האירוע. אין קנסות ואין אותיות קטנות.
+              </p>
+            </div>
+
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
               <button
                 type="button"

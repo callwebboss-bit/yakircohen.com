@@ -1,4 +1,4 @@
-# מחירון - עדכון מרכזי
+﻿# מחירון - עדכון מרכזי
 
 ## קובץ מקור
 
@@ -42,4 +42,4 @@ npm run audit:pricing
 
 ## חבילות שלא בקטalog
 
-מחירי booking wizard (חבילות הקלטה מורכבות, שדרוגים) עדיין ב-`lib/data/studio-recording-booking.ts` ו-`lib/data/booking-calculator-services.ts`. להוספת מחיר חדש לקטalog — עדכנו `pricing-catalog.ts` והריצו `npm run audit:pricing`.
+מחירי booking wizard (חבילות הקלטה מורכבות, שדרוגים) עדיין ב-`lib/data/studio-recording-booking.ts` ו-`lib/data/booking-calculator-services.ts`. להוספת מחיר חדש לקטalog -- עדכנו `pricing-catalog.ts` והריצו `npm run audit:pricing`.

@@ -105,6 +105,35 @@ export default function RecordingSongModiinPageContent() {
                 של הילד - הקובץ צפוי להיות זמין בלחיצת כפתור.
               </strong>
             </p>
+            <ul className="mt-5 grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
+              {[
+                "קריינות אנושית - לא AI-רובוטי",
+                "תיקון זיופים מקצועי ועדין",
+                "ליווי טכני מלא מהייעוץ עד המסירה",
+                "מסירה תוך 48 שעות ב-WAV ו-MP3",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2 text-muted-foreground">
+                  <span className="shrink-0 font-semibold text-brand-red" aria-hidden>✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+              >
+                קבלו הצעה - מסירה תוך 48 שעות
+              </a>
+              <Link
+                href="/studio/pricing"
+                className="inline-flex items-center rounded-xl border border-border px-6 py-3 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+              >
+                לראות מחירים
+              </Link>
+            </div>
           </section>
 
           {/* 2. Event Services Grid */}
@@ -204,13 +233,20 @@ export default function RecordingSongModiinPageContent() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white hover:bg-brand-red-light"
               >
-                רוצים להתייעץ על השיר שלכם? דברו איתי בוואטסאפ </a>
+                דברו איתי עכשיו - מסירה תוך 48 שעות</a>
               <p className="mt-2 text-xs text-muted-foreground">
                 בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור
                 לכם לבחור את הפלייבק המתאים
               </p>
             </div>
           </section>
+
+          <BusinessCrossLink
+            title="מחפשים גם אפקטים לאירוע?"
+            text="קונפטי, עשן כבד ובועות סבון - הפעלה מקצועית עם מפעיל צמוד ותיאום עם ה-DJ. אישור תוך 24 שעות."
+            href="/events/attractions"
+            linkLabel="לכל האטרקציות לאירוע"
+          />
 
           {/* 3. Before/After Audio */}
           <section aria-labelledby="before-after-heading">
@@ -259,8 +295,8 @@ export default function RecordingSongModiinPageContent() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               {[
-                { emoji: "🎯", text: "AI מתקן זיופים בעדינות" },
-                { emoji: "🤝", text: "ליווי אישי לאורך כל ההקלטה" },
+                { emoji: "🎯", text: "תיקון זיופים מקצועי - קול אנושי" },
+                { emoji: "🤝", text: "ליווי טכני מלא - לא AI-רובוטי" },
                 { emoji: "⚡", text: "מסירה תוך 48 שעות" },
               ].map((pill) => (
                 <div
@@ -278,7 +314,7 @@ export default function RecordingSongModiinPageContent() {
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-8 py-3.5 text-base font-semibold text-white hover:bg-brand-red-light"
             >
-              בואו נתחיל </a>
+              קבלו ייעוץ חינם - מסירה תוך 48 שעות</a>
             <p className="mt-3 text-xs text-muted-foreground">
               יש לכם שאלות טכניות?{" "}
               <a
@@ -320,8 +356,41 @@ export default function RecordingSongModiinPageContent() {
                 למה 500+ משפחות בחרו לנסוע לאולפן ולא להקליט בסמארטפון?
               </p>
             </header>
-            <div className="mt-10 overflow-x-auto rounded-xl border border-border">
-              <table className="w-full min-w-[480px] text-sm">
+            {/* Mobile: card per feature */}
+            <ul className="mt-8 space-y-3 sm:hidden">
+              {[
+                ["איכות סאונד", "רעשי רקע, הד ותהודה בחדר", "אקוסטיקה מחושבת - אפס רעשים"],
+                ["ציוד הקלטה", "מיקרופון אוניברסלי", "Shure SM7B, SphereL22 - ציוד בינלאומי"],
+                ["ליווי מקצועי", "לבד מול המסך", "מאמן ווקאל בזמן אמת לאורך כל ההקלטה"],
+                ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר מלא + AI pitch correction"],
+                ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
+                ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
+              ].map(([feature, home, studio]) => (
+                <li key={feature} className="rounded-xl border border-border bg-surface p-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                    {feature}
+                  </p>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div>
+                      <p className="mb-1 text-xs font-semibold text-muted-foreground">
+                        ביתית / סמארטפון
+                      </p>
+                      <p className="text-sm text-muted-foreground">{home}</p>
+                    </div>
+                    <div>
+                      <p className="mb-1 text-xs font-semibold text-brand-red">
+                        אולפן מקצועי
+                      </p>
+                      <p className="text-sm font-medium text-foreground">{studio}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop: comparison table */}
+            <div className="mt-10 hidden overflow-x-auto rounded-xl border border-border sm:block">
+              <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
                     <th className="px-6 py-4 text-right font-semibold text-muted-foreground">
@@ -337,47 +406,17 @@ export default function RecordingSongModiinPageContent() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {[
-                    [
-                      "איכות סאונד",
-                      "רעשי רקע, הד ותהודה בחדר",
-                      "אקוסטיקה מחושבת - אפס רעשים",
-                    ],
-                    [
-                      "ציוד הקלטה",
-                      "מיקרופון אוניברסלי",
-                      "Shure SM7B, SphereL22 - ציוד בינלאומי",
-                    ],
-                    [
-                      "ליווי מקצועי",
-                      "לבד מול המסך",
-                      "מאמן ווקאל בזמן אמת לאורך כל ההקלטה",
-                    ],
-                    [
-                      "עריכה",
-                      "אוטומטית ובסיסית",
-                      "מיקס ומאסטר מלא + AI pitch correction",
-                    ],
-                    [
-                      "שמירת הקובץ",
-                      "אצלכם בלבד",
-                      "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור",
-                    ],
-                    [
-                      "נגישות",
-                      "-",
-                      "מרכז מודיעין - 15 דקות ממכבים ורעות",
-                    ],
+                    ["איכות סאונד", "רעשי רקע, הד ותהודה בחדר", "אקוסטיקה מחושבת - אפס רעשים"],
+                    ["ציוד הקלטה", "מיקרופון אוניברסלי", "Shure SM7B, SphereL22 - ציוד בינלאומי"],
+                    ["ליווי מקצועי", "לבד מול המסך", "מאמן ווקאל בזמן אמת לאורך כל ההקלטה"],
+                    ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר מלא + AI pitch correction"],
+                    ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
+                    ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
                   ].map(([feature, home, studio]) => (
                     <tr key={feature} className="bg-surface hover:bg-muted/20">
-                      <td className="px-6 py-4 font-medium text-foreground">
-                        {feature}
-                      </td>
-                      <td className="px-6 py-4 text-center text-muted-foreground">
-                        {home}
-                      </td>
-                      <td className="px-6 py-4 text-center font-medium text-foreground">
-                        {studio}
-                      </td>
+                      <td className="px-6 py-4 font-medium text-foreground">{feature}</td>
+                      <td className="px-6 py-4 text-center text-muted-foreground">{home}</td>
+                      <td className="px-6 py-4 text-center font-medium text-foreground">{studio}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -455,6 +494,16 @@ export default function RecordingSongModiinPageContent() {
                 </div>
               </li>
             </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={eventGridWhatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+              >
+                שלחו לי הקלטה קצרה ונבחר פלייבק יחד
+              </a>
+            </div>
           </section>
 
           {/* 9. Process */}
@@ -716,6 +765,24 @@ export default function RecordingSongModiinPageContent() {
               className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
             >
               שיר + קליפ באולפן
+            </Link>
+            <Link
+              href="/events/attractions/confetti-cannon"
+              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+            >
+              תותח קונפטי לאירוע
+            </Link>
+            <Link
+              href="/events/attractions/wedding-smoking-machine"
+              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+            >
+              עשן כבד לסלואו
+            </Link>
+            <Link
+              href="/events/attractions/bubble-machine"
+              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+            >
+              מכונת בועות סבון
             </Link>
             <Link
               href="/voucher"

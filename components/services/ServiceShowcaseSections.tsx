@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import ServicePortfolioMedia from "@/components/services/ServicePortfolioMedia";
 import type { ServiceMediaType } from "@/lib/data/services";
@@ -24,7 +24,7 @@ export type ServiceShowcaseSectionsProps = {
   footer?: ReactNode;
   secondaryEmbedUrl?: string | null;
   secondaryEmbedTitle?: string;
-  /** Forward to MediaGallery — set when a hero image already loads above this gallery */
+  /** Forward to MediaGallery -- set when a hero image already loads above this gallery */
   noPriority?: boolean;
 };
 

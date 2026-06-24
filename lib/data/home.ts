@@ -1,4 +1,4 @@
-import { getExVat, catalogWithVat } from "@/lib/data/pricing-catalog";
+﻿import { getExVat, catalogWithVat } from "@/lib/data/pricing-catalog";
 
 export interface ServiceDetailBlock {
   id: string;
@@ -36,7 +36,7 @@ export const HOME_SERVICE_DETAILS: readonly ServiceDetailBlock[] = [
     bullets: [
       "הקלטת ברכות לאירועים: עריכה, ניקוי רעשים ושילוב מוזיקלי מקצועי.",
       "הפקת שירים במתנה: ליווי ווקאלי מלא מתחילת ההקלטה ועד לשלב המיקס.",
-      "תיקון זיופים דיגיטלי: שימוש בטכנולוגיות פיץ׳ מתקדמות — תוצאה מושלמת גם ללא ניסיון קודם בשירה.",
+      "תיקון זיופים דיגיטלי: שימוש בטכנולוגיות פיץ׳ מתקדמות - תוצאה מושלמת גם ללא ניסיון קודם בשירה.",
       "ציוד קצה: מיקרופונים וממירי סאונד בסטנדרט תעשייתי ליצירת קובץ מאסטר נקי.",
     ],
     ctaHref: "/studio",

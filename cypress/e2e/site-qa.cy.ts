@@ -1,4 +1,4 @@
-const VIEWPORTS = [
+﻿const VIEWPORTS = [
   { name: "iPhone SE", width: 375, height: 667 },
   { name: "Android", width: 360, height: 800 },
   { name: "iPad", width: 768, height: 1024 },
@@ -7,7 +7,7 @@ const VIEWPORTS = [
 
 const SOCIAL_PLATFORMS = ["instagram", "tiktok", "facebook", "youtube"] as const;
 
-describe("Site QA — RTL, responsiveness, links, forms", () => {
+describe("Site QA -- RTL, responsiveness, links, forms", () => {
   describe("RTL (Hebrew)", () => {
     beforeEach(() => {
       cy.visit("/");
@@ -39,7 +39,7 @@ describe("Site QA — RTL, responsiveness, links, forms", () => {
     });
   });
 
-  describe("Responsiveness — no horizontal overflow", () => {
+  describe("Responsiveness -- no horizontal overflow", () => {
     VIEWPORTS.forEach((vp) => {
       it(`${vp.name} (${vp.width}x${vp.height})`, () => {
         cy.viewport(vp.width, vp.height);

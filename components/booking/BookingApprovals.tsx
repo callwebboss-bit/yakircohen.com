@@ -1,4 +1,5 @@
 import Link from "next/link";
+import InfoTip from "@/components/ui/InfoTip";
 import { BOOKING_APPROVALS_LIGHT } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
 
@@ -31,8 +32,17 @@ export default function BookingApprovals({
     return (
       <div className={cn("space-y-3 rounded-xl border border-border bg-surface p-4", className)}>
         <ul className="space-y-1.5 text-xs leading-relaxed text-muted-foreground">
-          {BOOKING_APPROVALS_LIGHT.map((item) => (
-            <li key={item}>• {item}</li>
+          {BOOKING_APPROVALS_LIGHT.map((item, i) => (
+            <li key={item} className="flex items-start gap-1.5">
+              <span aria-hidden="true">•</span>
+              <span>{item}</span>
+              {i === 1 && (
+                <InfoTip
+                  text="פרטי מדיניות הביטולים המלאה בעמוד תנאי השימוש. שינוי תאריך לא נחשב ביטול."
+                  className="mt-0.5 shrink-0"
+                />
+              )}
+            </li>
           ))}
         </ul>
         <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-background p-3">

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -35,13 +36,15 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             id="hero-heading"
             className="font-serif text-hero font-semibold text-foreground"
           >
-            אולפן הקלטות, פודקאסט ואירועים במודיעין. תהליך מובנה מההקלטה ועד לקובץ סופי.
+            אולפן הקלטות, פודקאסט, אירועים וקריינות במודיעין - מחיר שקוף וליווי מלא.
           </h1>
+          <HomeHeroBadges />
           <p className="text-lead mt-6 max-w-xl text-muted-foreground">
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>,{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink> ו
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> במודיעין.
-            ליווי טכני מלא מתחילת הפרויקט ועד המסירה. 20 שנות ניסיון, 5,000 פרויקטים.
+            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות, החל מ-590 ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ והגברה, החל מ-1,750 ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> ו
+            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>, החל מ-750 ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             {/* IMPROVED: Button primitive for WhatsApp CTA */}
