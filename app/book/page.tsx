@@ -1,5 +1,4 @@
 ﻿import type { Metadata } from "next";
-import { Suspense } from "react";
 import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStatic";
 import BookDynamicHeroSubtitle, {
   BOOK_HERO_SUBTITLE_DEFAULT,
@@ -35,7 +34,18 @@ export const metadata: Metadata = constructMetadata({
   keywords: [...BOOK_PAGE_KEYWORDS],
 });
 
-export default function BookPage() {
+export default async function BookPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const pkgParam = typeof sp.pkg === "string" ? sp.pkg : null;
+  const itemParam = typeof sp.item === "string" ? sp.item : null;
+  const utmCampaign =
+    typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
+  const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
+
   return (
     <>
       <BookPageSchema />
@@ -58,15 +68,11 @@ export default function BookPage() {
               בחרו כיוון - מחיר שקוף מיד, ומה מקבלים בפועל
             </h1>
 
-            <Suspense
-              fallback={
-                <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  {BOOK_HERO_SUBTITLE_DEFAULT}
-                </p>
-              }
-            >
-              <BookDynamicHeroSubtitle defaultText={BOOK_HERO_SUBTITLE_DEFAULT} />
-            </Suspense>
+            <BookDynamicHeroSubtitle
+              defaultText={BOOK_HERO_SUBTITLE_DEFAULT}
+              utmCampaign={utmCampaign}
+              utmContent={utmContent}
+            />
           </Container>
         </Section>
 
@@ -74,15 +80,12 @@ export default function BookPage() {
 
         <BookAudienceCardsStatic />
 
-        <Suspense
-          fallback={
-            <p className="py-16 text-center text-sm text-muted-foreground">
-              טוען טופסי הזמנה...
-            </p>
-          }
-        >
-          <BookPageSections />
-        </Suspense>
+        <BookPageSections
+          pkgParam={pkgParam}
+          itemParam={itemParam}
+          utmCampaign={utmCampaign}
+          utmContent={utmContent}
+        />
 
         <Container className="max-w-3xl pb-14">
           <CompanyDetailsCard variant="collapsible" />

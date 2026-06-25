@@ -10,7 +10,7 @@ import {
 } from "@/lib/data/book-audience-routes";
 import type { BookCategoryId } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
-import { persistUtmBoostFromUrl, useBookUtmBoost } from "@/hooks/useBookUtmBoost";
+import { persistUtmBoostFromUrl, useBookUtmBoost, type BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -28,7 +28,7 @@ type BookAudienceRouterProps = {
   activeRouteId?: string | null;
   activeCategoryId?: BookCategoryId | null;
   className?: string;
-};
+} & BookUtmBoostOptions;
 
 function resolveActiveRoute(
   routes: readonly BookAudienceRoute[],
@@ -49,8 +49,10 @@ export default function BookAudienceRouter({
   activeRouteId = null,
   activeCategoryId = null,
   className,
+  utmCampaign,
+  utmContent,
 }: BookAudienceRouterProps) {
-  const { orderedRoutes, boostedRouteId } = useBookUtmBoost();
+  const { orderedRoutes, boostedRouteId } = useBookUtmBoost({ utmCampaign, utmContent });
   const [moreOpen, setMoreOpen] = useState(false);
 
   const isCollapsed = Boolean(activeRouteId || activeCategoryId);

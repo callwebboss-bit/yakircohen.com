@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { useSearchParams } from "next/navigation";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
@@ -24,6 +23,7 @@ import {
   SingerAmplificationBookingWizardLazy,
 } from "@/components/booking/lazy";
 import { type BookCategoryId, parseBookEventItemFromSearch, parseBookPackageFromSearch } from "@/lib/book-url";
+import type { BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -172,10 +172,15 @@ function renderCategoryContent(
   }
 }
 
-export default function BookPageSections() {
-  const searchParams = useSearchParams();
-  const pkgParam = searchParams.get("pkg");
-  const itemParam = searchParams.get("item");
+export default function BookPageSections({
+  pkgParam = null,
+  itemParam = null,
+  utmCampaign = null,
+  utmContent = null,
+}: {
+  pkgParam?: string | null;
+  itemParam?: string | null;
+} & BookUtmBoostOptions) {
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
   const initialEventItemId = parseBookEventItemFromSearch(itemParam);
 
@@ -187,7 +192,7 @@ export default function BookPageSections() {
     skipStudioGate,
     openFullPath,
     backToRouter,
-  } = useBookFlow();
+  } = useBookFlow({ itemParam, pkgParam });
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
@@ -198,6 +203,8 @@ export default function BookPageSections() {
         onFullPath={openFullPath}
         activeRouteId={activeRouteId}
         activeCategoryId={activeCategory}
+        utmCampaign={utmCampaign}
+        utmContent={utmContent}
       />
 
       {activeCategory && meta ? (

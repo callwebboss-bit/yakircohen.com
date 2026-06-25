@@ -7,7 +7,7 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
     title: "שני תותחי קונפטי על במה - סיום שנה בבית ספר",
     youtubeUrl: "https://www.youtube.com/shorts/yjxF9pKzbr0",
     tags: ["dj-events"],
-    services: ["events-dj", "events-hub"],
+    services: ["events-dj", "events-hub", "events-attractions"],
     description: "הפעלת שני תותחי קונפטי על במה באירוע סיום שנת הלימודים.",
   },
 ] as const;

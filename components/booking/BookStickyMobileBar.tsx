@@ -34,12 +34,12 @@ export default function BookStickyMobileBar({
   activeRouteId = null,
   className,
 }: BookStickyMobileBarProps) {
+  const livePrice = useBookWizardLivePriceOptional()?.livePrice;
+
   if (!activeCategory) return null;
 
   const route = resolveRoute(activeCategory, activeRouteId);
   if (!route) return null;
-
-  const livePrice = useBookWizardLivePriceOptional()?.livePrice;
   const totalWithVat =
     livePrice != null
       ? withVat(livePrice.totalExVat)

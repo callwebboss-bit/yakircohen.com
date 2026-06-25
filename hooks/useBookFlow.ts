@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useReducer } from "react";
 import type { BookFullPathSelection } from "@/components/booking/BookAudienceRouter";
-import { parseBookCategoryFromHash, type BookCategoryId } from "@/lib/book-url";
+import {
+  parseBookCategoryFromHash,
+  parseBookEventItemFromSearch,
+  parseBookPackageFromSearch,
+  type BookCategoryId,
+} from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
 
@@ -72,21 +77,51 @@ function scrollToWizardPanel() {
   });
 }
 
-export function useBookFlow() {
+export type UseBookFlowOptions = {
+  /** מ-/book?item= — פותח אשף אירועים כשאין hash */
+  itemParam?: string | null;
+  /** מ-/book?pkg= — פותח אשף הגברה לזמרים כשאין hash */
+  pkgParam?: string | null;
+};
+
+function categoryFromDeepLink(
+  itemParam?: string | null,
+  pkgParam?: string | null,
+): BookCategoryId | null {
+  if (parseBookEventItemFromSearch(itemParam ?? null)) return "events";
+  if (parseBookPackageFromSearch(pkgParam ?? null)) return "singer";
+  return null;
+}
+
+export function useBookFlow(options?: UseBookFlowOptions) {
   const [state, dispatch] = useReducer(bookFlowReducer, initialBookFlowState);
 
   useEffect(() => {
-    function syncFromHash() {
+    function syncFromLocation() {
       const fromHash = parseBookCategoryFromHash(window.location.hash);
-      if (!fromHash) return;
-      dispatch({ type: "SYNC_HASH", category: fromHash });
+      if (fromHash) {
+        dispatch({ type: "SYNC_HASH", category: fromHash });
+        scrollToWizardPanel();
+        return;
+      }
+
+      const fromQuery = categoryFromDeepLink(options?.itemParam, options?.pkgParam);
+      if (!fromQuery) return;
+
+      const qs = window.location.search;
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${qs}#${fromQuery}`,
+      );
+      dispatch({ type: "SYNC_HASH", category: fromQuery });
       scrollToWizardPanel();
     }
 
-    queueMicrotask(syncFromHash);
-    window.addEventListener("hashchange", syncFromHash);
-    return () => window.removeEventListener("hashchange", syncFromHash);
-  }, []);
+    queueMicrotask(syncFromLocation);
+    window.addEventListener("hashchange", syncFromLocation);
+    return () => window.removeEventListener("hashchange", syncFromLocation);
+  }, [options?.itemParam, options?.pkgParam]);
 
   const openFullPath = useCallback((selection: BookFullPathSelection) => {
     if (selection.filterPreset) saveFilterPreset(selection.filterPreset);

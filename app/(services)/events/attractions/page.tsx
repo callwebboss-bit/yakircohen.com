@@ -1,6 +1,7 @@
 import { metadataFromService } from "@/lib/data/service-metadata";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import {
   getAttractionsHubLinks,
   getEventsService,
@@ -16,6 +17,7 @@ export default function EventsAttractionsHubPage() {
       service={service}
       portfolioLabel="אטרקציות לאירועים"
     >
+      <ShowcaseVideoSection playlistId="events-attractions" className="mt-12" />
       <ServiceHubLinks
         heading="אטרקציות יוקרתיות"
         subheading="עשן כבד, בועות וקונפטי - אפקט מדויק לרגעי השיא."

@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
@@ -24,6 +25,7 @@ import {
   validateBookingLead,
 } from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 const TOPICS = [
@@ -64,6 +66,16 @@ export default function AcademyBookingWizard({
   } = useLeadSubmit();
 
   const plan = PRIVATE_SESSION_PLANS.find((p) => p.id === planId) ?? PRIVATE_SESSION_PLANS[0];
+
+  const livePriceReport = useMemo(
+    () => ({
+      totalExVat: plan.price,
+      title: plan.name,
+      ctaLabel: sendBookingWaCta(withVat(plan.price)),
+    }),
+    [plan],
+  );
+  useReportBookWizardLivePrice(livePriceReport);
 
   const messageBody = buildBookingWhatsAppBody({
     intent: "continue_chat",
@@ -316,6 +328,7 @@ export default function AcademyBookingWizard({
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       <BookingSummaryActions
+        showPaymentTrust
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
         disabled={!termsAccepted || isSubmitting}

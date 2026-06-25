@@ -1,6 +1,6 @@
 "use client";
 
-import { useBookUtmBoost } from "@/hooks/useBookUtmBoost";
+import { useBookUtmBoost, type BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
 
 export const BOOK_HERO_SUBTITLE_DEFAULT =
@@ -8,12 +8,14 @@ export const BOOK_HERO_SUBTITLE_DEFAULT =
 
 type BookDynamicHeroSubtitleProps = {
   defaultText: string;
-};
+} & BookUtmBoostOptions;
 
 export default function BookDynamicHeroSubtitle({
   defaultText,
+  utmCampaign,
+  utmContent,
 }: BookDynamicHeroSubtitleProps) {
-  const { boostedRouteId } = useBookUtmBoost();
+  const { boostedRouteId } = useBookUtmBoost({ utmCampaign, utmContent });
   const route = boostedRouteId ? getAudienceRouteById(boostedRouteId) : null;
 
   if (!route) {

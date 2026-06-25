@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
@@ -29,6 +30,7 @@ import {
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
@@ -249,6 +251,16 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
   const grandTotal = festivalSelected
     ? FESTIVAL_PACKAGE.price
     : djPrice + starPrice + addonTotal + effectTotal;
+
+  const livePriceReport = useMemo(() => {
+    if (grandTotal <= 0) return null;
+    return {
+      totalExVat: grandTotal,
+      title: "DJ לאירועים",
+      ctaLabel: sendBookingWaCta(withVat(grandTotal)),
+    };
+  }, [grandTotal]);
+  useReportBookWizardLivePrice(livePriceReport);
 
   const today = new Date().toISOString().split("T")[0];
 

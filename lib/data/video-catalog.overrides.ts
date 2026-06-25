@@ -60,6 +60,12 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "NA3Z54Bl-xM",
     "5pBisBkfTEg",
   ],
+  "events-attractions": [
+    "yjxF9pKzbr0",
+    "hg5qW6nk0iU",
+    "5pBisBkfTEg",
+    "lmYykgKAdUg",
+  ],
   "voiceover-hub": ["O2RHNRZCmZM", "7DEp-gnDTs4", "Tcv7Tb1uCfI"],
   "voiceover-services": ["7DEp-gnDTs4", "zHkq_5bXptg", "qYiuRdBJMuE"],
   "voiceover-course": ["wN4N0QsfDJo", "oVeIMBTmS_8"],

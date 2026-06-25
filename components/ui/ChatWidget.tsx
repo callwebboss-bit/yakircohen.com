@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   CHATBOT_DATA,
@@ -136,7 +136,27 @@ export default function ChatWidget({
   const guidedFirstButtonRef = useRef<HTMLButtonElement>(null);
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+
+  // ─── Deep link: ?faq=question_id ─────────────────────────────────────────
+  useEffect(() => {
+    function openFaqFromUrl() {
+      try {
+        const faqId = new URLSearchParams(window.location.search).get("faq");
+        if (!faqId) return;
+        const found = CHATBOT_DATA.questions.find((q) => q.id === faqId);
+        if (found) {
+          setActiveQuestion(found);
+          setView("answer");
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
+    openFaqFromUrl();
+    window.addEventListener("popstate", openFaqFromUrl);
+    return () => window.removeEventListener("popstate", openFaqFromUrl);
+  }, [pathname]);
 
   // ─── Priority questions for current page ─────────────────────────────────
   const priorityIds: string[] = [];
@@ -164,20 +184,6 @@ export default function ChatWidget({
     priorityIds.length > 0
       ? `נמצאו ${priorityIds.length} תשובות מהירות לנושא זה`
       : CHATBOT_DATA.subGreeting;
-
-  // ─── Deep link: ?faq=question_id ─────────────────────────────────────────
-  useEffect(() => {
-    const faqId = searchParams.get("faq");
-    if (!faqId) return;
-    const found = CHATBOT_DATA.questions.find((q) => q.id === faqId);
-    if (found) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActiveQuestion(found);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setView("answer");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // ─── localStorage: restore last viewed ───────────────────────────────────
   useEffect(() => {

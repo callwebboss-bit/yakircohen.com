@@ -46,6 +46,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     title: "עריכת פודקאסט",
     description: "לפי שעת חומר גולמי",
     href: "/podcast/podcast-editing",
+    bookHref: "/book#online",
     rows: [
       {
         label: "עריכה לשעת חומר",
@@ -288,5 +289,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
 export function formatHubPriceRow(exVat: number): string {
   return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
 }
+
+export const PRICES_LAST_UPDATED = "יוני 2026";
 
 export { PRICES_EXCLUDE_VAT_NOTE };

@@ -268,7 +268,7 @@ export const BADGE_LABELS: Record<string, string> = {
   "no-wait": "עכשיו בלי תור",
 };
 
-/** Tiered bundle pricing - must match AttractionsCalculator */
+/** Tiered bundle pricing - must match events-booking.ts /book#events */
 export const EVENT_BUNDLE_TIERS: Record<number, number> = { 1: 1750, 2: 3200, 3: 4450 };
 export const EVENT_BUNDLE_4PLUS = 5500;
 export const EVENT_GIFT_THRESHOLD = 4;

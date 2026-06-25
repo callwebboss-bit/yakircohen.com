@@ -5,6 +5,7 @@ import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
@@ -157,6 +158,16 @@ export default function PodcastBookingWizard({
     extraParticipantsCost +
     upsellTotal +
     mobileExVat;
+
+  const livePriceReport = useMemo(() => {
+    if (!selected || packageTotal <= 0) return null;
+    return {
+      totalExVat: packageTotal,
+      title: selected.name,
+      ctaLabel: sendBookingWaCta(withVat(packageTotal)),
+    };
+  }, [selected, packageTotal]);
+  useReportBookWizardLivePrice(livePriceReport);
 
   const upsellItems = getPodcastUpsellItems(form.packageId);
 

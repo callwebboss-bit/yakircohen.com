@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookPriceDual from "@/components/booking/BookPriceDual";
@@ -24,9 +25,16 @@ import {
 } from "@/lib/form-validation";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 const BASIC_EX_VAT = getExVat("damaged_recording_rescue");
+
+const onlineLivePriceReport = {
+  totalExVat: BASIC_EX_VAT,
+  title: "שחזור סאונד",
+  ctaLabel: sendBookingWaCta(withVat(BASIC_EX_VAT)),
+} as const;
 
 const inputClass =
   "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
@@ -40,6 +48,7 @@ export default function OnlineRestoreBookingPanel({
   initialEmotionalLabel,
   routeId = null,
 }: OnlineRestoreBookingPanelProps) {
+  useReportBookWizardLivePrice(onlineLivePriceReport);
   const [issue, setIssue] = useState(initialEmotionalLabel ?? "");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -297,6 +306,7 @@ export default function OnlineRestoreBookingPanel({
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       <BookingSummaryActions
+        showPaymentTrust
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
         disabled={!termsAccepted || isSubmitting}

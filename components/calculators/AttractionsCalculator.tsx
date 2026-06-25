@@ -1,5 +1,6 @@
 ﻿"use client";
 
+/** @deprecated Not mounted on any page — use EventsBookingWizard + /book#events. Kept for reference. */
 import Link from "next/link";
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";

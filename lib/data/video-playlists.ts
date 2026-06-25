@@ -12,6 +12,7 @@ export type PlaylistId =
   | "blessings-video-clip"
   | "events-dj"
   | "events-hub"
+  | "events-attractions"
   | "voiceover-hub"
   | "voiceover-services"
   | "voiceover-course"
@@ -166,6 +167,20 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
     expandBatch: 6,
     excludeTags: ["entertainment"],
     pagePaths: ["/events"],
+  },
+  "events-attractions": {
+    id: "events-attractions",
+    heading: "אטרקציות מהשטח - וידאו",
+    subheading: "קונפטי, עשן, זיקוקים ואפקטים באירועים אמיתיים.",
+    kicker: "אטרקציות",
+    initialVisible: 3,
+    expandBatch: 4,
+    excludeTags: ["entertainment", "brand-tv"],
+    pagePaths: ["/events/attractions"],
+    serviceLink: {
+      href: "/events/attractions",
+      label: "לכל האטרקציות",
+    },
   },
   "voiceover-hub": {
     id: "voiceover-hub",

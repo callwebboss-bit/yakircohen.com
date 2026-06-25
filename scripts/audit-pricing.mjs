@@ -116,6 +116,36 @@ for (const [price, files] of duplicateHits) {
   }
 }
 
+// 5. Event attraction bundle tiers: events-booking + attraction-book-pricing vs catalog
+const eventsBookingPath = path.join(DATA_DIR, "events-booking.ts");
+const attractionPricingPath = path.join(DATA_DIR, "attraction-book-pricing.ts");
+for (const filePath of [eventsBookingPath, attractionPricingPath]) {
+  if (!fs.existsSync(filePath)) continue;
+  const text = fs.readFileSync(filePath, "utf8");
+  for (let tier = 1; tier <= 4; tier++) {
+    const id = `event_attraction_${tier}`;
+    const catalogPrice = catalogById[id];
+    if (catalogPrice === undefined) {
+      errors.push(`Missing catalog id "${id}" for event bundle audit`);
+      continue;
+    }
+    const re = new RegExp(`getExVat\\("${id}"\\)`);
+    if (!re.test(text)) {
+      warnings.push(
+        `${path.relative(ROOT, filePath)} does not reference getExVat("${id}") — verify bundle sync`,
+      );
+    }
+  }
+}
+
+const eventSingle = catalogById.event_attraction_1;
+const eventBundle4 = catalogById.event_attraction_4;
+if (eventSingle !== undefined && eventBundle4 !== undefined && eventBundle4 < eventSingle * 2) {
+  warnings.push(
+    `event_attraction_4 (${eventBundle4}) is less than 2× event_attraction_1 (${eventSingle}) — check bundle math`,
+  );
+}
+
 console.log("=== audit:pricing ===\n");
 
 if (warnings.length) {
@@ -132,6 +162,7 @@ if (errors.length) {
 
 console.log(`✓ Catalog VAT math OK (${parseCatalogExVatValues(catalogText).length} prices)`);
 console.log(`✓ pricing.ts constants aligned with catalog`);
+console.log("✓ Event attraction bundle files reference pricing-catalog tiers");
 if (warnings.length === 0) {
   console.log("✓ No duplicate hardcoded catalog prices detected in lib/data");
 }

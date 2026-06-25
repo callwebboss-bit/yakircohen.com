@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
@@ -24,6 +25,7 @@ import {
   type ValidationResult,
 } from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 type ClipsBookingFormProps = {
@@ -78,6 +80,16 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     (sum, id) => sum + (SERVICES[id]?.price ?? 0),
     0,
   );
+
+  const livePriceReport = useMemo(() => {
+    if (totalExVat <= 0) return null;
+    return {
+      totalExVat,
+      title: "קליפים ודיגיטל",
+      ctaLabel: sendBookingWaCta(withVat(totalExVat)),
+    };
+  }, [totalExVat]);
+  useReportBookWizardLivePrice(livePriceReport);
 
   const summaryLines = useMemo(
     () =>

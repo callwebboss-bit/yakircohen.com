@@ -1,11 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import {
   BOOK_AUDIENCE_ROUTES,
   type BookAudienceRoute,
 } from "@/lib/data/book-audience-routes";
+
+export type BookUtmBoostOptions = {
+  utmCampaign?: string | null;
+  utmContent?: string | null;
+};
 
 const UTM_BOOST_STORAGE_KEY = "yc_book_utm_boost";
 
@@ -53,16 +57,34 @@ export function persistUtmBoostFromUrl(): void {
   }
 }
 
-export function useBookUtmBoost(): {
+export function useBookUtmBoost(options?: BookUtmBoostOptions): {
   orderedRoutes: readonly BookAudienceRoute[];
   boostedRouteId: string | null;
 } {
-  const searchParams = useSearchParams();
-  const campaign = searchParams.get("utm_campaign") ?? "";
-  const content = searchParams.get("utm_content") ?? "";
+  const campaign = options?.utmCampaign?.trim() ?? "";
+  const content = options?.utmContent?.trim() ?? "";
+  const [clientSignals, setClientSignals] = useState("");
+
+  useEffect(() => {
+    persistUtmBoostFromUrl();
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromUrl = [
+        params.get("utm_campaign"),
+        params.get("utm_content"),
+        params.get("utm_source"),
+        readUtmSignals(),
+      ]
+        .filter(Boolean)
+        .join(" ");
+      setClientSignals(fromUrl);
+    } catch {
+      setClientSignals(readUtmSignals());
+    }
+  }, []);
 
   return useMemo(() => {
-    const signals = `${campaign} ${content} ${readUtmSignals()}`.toLowerCase();
+    const signals = `${campaign} ${content} ${clientSignals}`.toLowerCase();
 
     const scored = BOOK_AUDIENCE_ROUTES.map((route) => ({
       route,
@@ -83,5 +105,5 @@ export function useBookUtmBoost(): {
         : BOOK_AUDIENCE_ROUTES;
 
     return { orderedRoutes, boostedRouteId };
-  }, [campaign, content]);
+  }, [campaign, content, clientSignals]);
 }

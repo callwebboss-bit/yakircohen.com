@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
@@ -120,6 +121,15 @@ export default function SingerAmplificationBookingWizard({
   const packageExVat = selected ? parseSingerPriceNis(selected.price) : 0;
   const addonExVat = sumSingerAddons(new Set(form.selectedAddons));
   const totalExVat = packageExVat + addonExVat;
+  const livePriceReport = useMemo(() => {
+    if (totalExVat <= 0 || !selected) return null;
+    return {
+      totalExVat,
+      title: selected.name,
+      ctaLabel: sendBookingWaCta(withVat(totalExVat)),
+    };
+  }, [totalExVat, selected]);
+  useReportBookWizardLivePrice(livePriceReport);
   const selectedAddonSet = new Set(form.selectedAddons);
   const today = new Date().toISOString().split("T")[0];
 
