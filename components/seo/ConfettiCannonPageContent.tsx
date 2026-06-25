@@ -339,7 +339,7 @@ export default function ConfettiCannonPageContent() {
           itemId="event_confetti"
           serviceTitle={service.title}
           utmCampaign={service.utmCampaign}
-          heading="מחירון קונפטי — כמו בעמוד ההזמנה"
+          heading="מחירון קונפטי - כמו בעמוד ההזמנה"
           subheading="בוחרים הפעלות, משלבים עם אטרקציות נוספות ושולחים בוואטסאפ."
         />
 

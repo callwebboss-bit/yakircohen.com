@@ -9,6 +9,10 @@ export type ConfettiExampleVideo = {
 };
 
 export const CONFETTI_EXAMPLE_VIDEOS: readonly ConfettiExampleVideo[] = [
+  {
+    videoId: "yjxF9pKzbr0",
+    title: "שני תותחי קונפטי על במה - סיום שנה בבית ספר",
+  },
   { videoId: "SkBHvqC-S2Q", title: "הסבר על קונפטי לאירועים" },
   { videoId: "btBx-cw16Js", title: "קונפטי בקליפ  -  חנן בן ארי" },
 ] as const;

@@ -21,7 +21,7 @@ export type ServiceCardProps = {
   badgeVariant?: BadgeVariant;
   whatsappText?: string;
   utm_campaign?: string;
-  /** תווית קהל — "מתאים ל:" */
+  /** תווית קהל - "מתאים ל:" */
   suitedFor?: string;
   /** מחיר התחלה, למשל "החל מ-590 ₪ + מע״מ" */
   fromPrice?: string;

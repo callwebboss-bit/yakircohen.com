@@ -56,7 +56,7 @@ export default function PriceActionRow({
   );
   const chatHref = `?faq=${CHAT_FAQ_ATTRACTIONS}`;
   const whatsappHref = buildWhatsAppHref({
-    text: `שלום, מעוניין/ת ב${serviceLabel} — ראיתי מחיר של ${priceExVat.toLocaleString("he-IL")} ₪ לפני מע״מ באתר.`,
+    text: `שלום, מעוניין/ת ב${serviceLabel} - ראיתי מחיר של ${priceExVat.toLocaleString("he-IL")} ₪ לפני מע״מ באתר.`,
     utm_source: "website",
     utm_campaign: utmCampaign,
   });

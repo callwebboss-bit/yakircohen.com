@@ -24,7 +24,7 @@ export const GALLERY_CATEGORY_LABELS: Record<GalleryCategory, string> = {
   academy: "אקדמיה",
 };
 
-/** תמונות שמופיעות גם בבלוג ובדפי שירות — נתיבים קיימים בפרודקשן */
+/** תמונות שמופיעות גם בבלוג ובדפי שירות - נתיבים קיימים בפרודקשן */
 export const GALLERY_ITEMS: readonly GalleryItem[] = [
   {
     id: "studio-hub",

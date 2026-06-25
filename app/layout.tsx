@@ -20,7 +20,7 @@ import {
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-// Variable font — single file covers all weights (100-900), one HTTP request
+// Variable font - single file covers all weights (100-900), one HTTP request
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
   display: "swap",

@@ -354,7 +354,7 @@ export default function ChatWidget({
       try {
         await navigator.share({ title: q.label, text: q.answer.text, url });
       } catch {
-        // user cancelled share — not an error
+        // user cancelled share - not an error
       }
     } else {
       try {
@@ -447,7 +447,7 @@ export default function ChatWidget({
       <div
         ref={panelRef}
         role="dialog"
-        aria-label="מרכז מידע מהיר — שאלות נפוצות"
+        aria-label="מרכז מידע מהיר - שאלות נפוצות"
         aria-modal="true"
         aria-hidden={view === "closed"}
         data-state={view !== "closed" ? "open" : "closed"}
@@ -476,7 +476,7 @@ export default function ChatWidget({
               </p>
             </div>
           </div>
-          {/* Quick close — prominent, easy to dismiss */}
+          {/* Quick close - prominent, easy to dismiss */}
           <button
             onClick={handleClose}
             aria-label="סגירת חלונית המידע וחזרה לעמוד הראשי"
@@ -686,7 +686,7 @@ export default function ChatWidget({
               text: "שלום יקיר, עברתי על השאלות הנפוצות בצ'אט באתר ולא מצאתי מענה מדויק. אשמח לעזרתך",
               utm_source: "chatbot_widget",
               utm_campaign: "chatbot_fallback",
-              source: "FAQ Chatbot — No Match",
+              source: "FAQ Chatbot - No Match",
             })}
             target="_blank"
             rel="noopener noreferrer"

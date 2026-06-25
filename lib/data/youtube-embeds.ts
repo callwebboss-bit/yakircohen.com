@@ -24,7 +24,7 @@ export const YOUTUBE_SHOWCASE_IDS = {
 
   podcastBusiness: "1O0isV7Zljg",
 
-  fieldEffects: "hg5qW6nk0iU",
+  fieldEffects: "yjxF9pKzbr0",
 
   batMitzvahClips: "Ybph-qy883U",
 
@@ -136,7 +136,7 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
 
   "attractions-wedding-smoke-large": "ZDsMSF8sbNs",
 
-  "attractions-confetti-cannon": "kk1YU0-A8Fg",
+  "attractions-confetti-cannon": "yjxF9pKzbr0",
 
   "photography-wedding": "ZDrWMYzUQHk",
 

@@ -13,7 +13,7 @@ export type ChatQuestion = {
   id: string;
   label: string;
   answer: ChatAnswer;
-  /** When true, question is accessible via guided path only — hidden from main FAQ list */
+  /** When true, question is accessible via guided path only - hidden from main FAQ list */
   hidden?: boolean;
 };
 
@@ -72,7 +72,7 @@ export const PATHNAME_PRIORITY: Record<string, string[]> = {
   "/pricing":       ["chatbot_studio_price", "chatbot_podcast", "chatbot_quote"],
 };
 
-// Guided discovery paths — implements "customer speaks first"
+// Guided discovery paths - implements "customer speaks first"
 export const GUIDED_PATHS: Record<string, GuidedStep> = {
   root: {
     question: "מה אתם מחפשים?",

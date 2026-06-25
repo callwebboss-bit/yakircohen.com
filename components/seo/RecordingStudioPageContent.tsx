@@ -45,7 +45,7 @@ export default function RecordingStudioPageContent() {
         <ContextualIntroParagraph pathname="/studio/recording-studio" className="max-w-3xl" />
 
         <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          יש לך שיר בראש כבר כמה זמן — אתה שומע אותו, מרגיש אותו — אבל כל
+          יש לך שיר בראש כבר כמה זמן - אתה שומע אותו, מרגיש אותו - אבל כל
           פעם שניסית להקליט בבית יצא לא כמו שדמיינת. אני מבין את זה - ולכן
           יש אצלנו ציוד, אווירה, ומישהו שיושב לידך ומוביל אותך שלב אחר שלב.
         </p>

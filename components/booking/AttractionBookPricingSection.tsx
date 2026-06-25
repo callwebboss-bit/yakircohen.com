@@ -51,7 +51,7 @@ function PricingTierCard({
       </p>
       <div className="mt-4 border-t border-border pt-4">
         <PriceActionRow
-          serviceLabel={`${tier.name} — ${serviceLabel}`}
+          serviceLabel={`${tier.name} - ${serviceLabel}`}
           priceExVat={tier.priceExVat}
           eventItemId={eventItemId}
           utmCampaign={utmCampaign}
@@ -66,7 +66,7 @@ export default function AttractionBookPricingSection({
   itemId = null,
   serviceTitle,
   utmCampaign = "attraction_book_pricing",
-  heading = "מחירון — כמו בעמוד ההזמנה",
+  heading = "מחירון - כמו בעמוד ההזמנה",
   subheading = "המחירים כאן זהים ל-/book#events. בוחרים אטרקציות, מוסיפים הפעלות ושולחים בוואטסאפ.",
   showBundleTable = true,
   className,
@@ -124,7 +124,7 @@ export default function AttractionBookPricingSection({
             חבילות משולבות
           </h3>
           <p className="mt-2 text-center text-xs text-muted-foreground">
-            ככל שמוסיפים אטרקציות — המחיר ליחידה יורד
+            ככל שמוסיפים אטרקציות - המחיר ליחידה יורד
           </p>
           <ul className="mx-auto mt-6 grid max-w-3xl gap-3 sm:grid-cols-2">
             {bundleRows.map((row) => (
@@ -167,7 +167,7 @@ export default function AttractionBookPricingSection({
       ) : null}
 
       <p className="mx-auto mt-6 max-w-lg text-center text-[0.7rem] leading-relaxed text-muted-foreground">
-        תוספת נסיעה לפי אזור (צפון, דרום, אילת) — נסגור בוואטסאפ אחרי בחירת מיקום.
+        תוספת נסיעה לפי אזור (צפון, דרום, אילת) - נסגור בוואטסאפ אחרי בחירת מיקום.
       </p>
     </section>
   );

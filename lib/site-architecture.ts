@@ -453,7 +453,7 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
 ];
 
 /**
- * תפריט ראשי — 8 פריטים (AEO) + mega-menu לשירותים.
+ * תפריט ראשי - 8 פריטים (AEO) + mega-menu לשירותים.
  * Mobile / פוטר נשארים על SITE_NAVIGATION המלא.
  */
 export const VOICEOVER_HEADER_CATEGORY: SiteNavCategory = {
@@ -511,7 +511,7 @@ export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
   { kind: "link", label: "קשר", href: "/contact" },
 ];
 
-/** אקדמיה, AI, וידאו — dropdown משני (לא מחליף SITE_NAVIGATION בפוטר) */
+/** אקדמיה, AI, וידאו - dropdown משני (לא מחליף SITE_NAVIGATION בפוטר) */
 export const HEADER_MORE_SERVICES_NAV: SiteNavCategory = {
   ...(NAV_PRIMARY_DESKTOP.find((c) => c.id === "pro") ?? NAV_CATEGORIES.pro),
   label: "עוד שירותים",

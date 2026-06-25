@@ -110,7 +110,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Coarse-pointer devices (tablets, phones) use click only — no hover logic
+  // Coarse-pointer devices (tablets, phones) use click only - no hover logic
   const isHoverDevice = () =>
     typeof window !== "undefined" &&
     !window.matchMedia("(pointer: coarse)").matches;

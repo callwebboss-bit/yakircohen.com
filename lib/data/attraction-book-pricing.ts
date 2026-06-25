@@ -1,5 +1,5 @@
 /**
- * תמחור אטרקציות לעמודי שיווק — מסונכרן עם events-booking.ts ו-/book#events.
+ * תמחור אטרקציות לעמודי שיווק - מסונכרן עם events-booking.ts ו-/book#events.
  */
 
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -155,7 +155,7 @@ export function getAttractionItemName(itemId: EventBookingItemId): string {
   return EVENT_BOOKING_ITEMS.find((i) => i.id === itemId)?.name ?? "אטרקציה";
 }
 
-/** טקסט מחירון לצ'אטבוט — מסונכרן עם האשף */
+/** טקסט מחירון לצ'אטבוט - מסונכרן עם האשף */
 export function formatAttractionPricingForChatbot(): string {
   const rows = getBundlePricingTable();
   const bundleLines = rows
@@ -165,7 +165,7 @@ export function formatAttractionPricingForChatbot(): string {
           ? `${r.count}+ אטרקציות`
           : `${r.count} אטרקציה${r.count > 1 ? "ות" : ""}`;
       const extra = r.saving ? ` (${r.saving})` : "";
-      return `• ${label} — ₪${r.priceExVat.toLocaleString("he-IL")}${extra}`;
+      return `• ${label} - ₪${r.priceExVat.toLocaleString("he-IL")}${extra}`;
     })
     .join("\n");
 
@@ -174,12 +174,12 @@ export function formatAttractionPricingForChatbot(): string {
   const grad = LIQUID_FREQUENCY_OPTIONS.find((o) => o.key === "freq_graduated");
 
   return [
-    `אטרקציה אחת — ₪${base.toLocaleString("he-IL")} לפני מע״מ. חבילות:`,
+    `אטרקציה אחת - ₪${base.toLocaleString("he-IL")} לפני מע״מ. חבילות:`,
     bundleLines,
     "",
     "לכל אטרקציה בוחרים כמות הפעלות:",
-    `• זיקוקים קרים / קונפטי — לפי רגעי שיא (הפעלה שנייה/שלישית = +₪${act2.toLocaleString("he-IL")} כל אחת)`,
-    `• עשן כבד / בועות — לפי תדירות: הפעלה אחת · 2 מדורגות (+${grad?.addOnPercent ?? "35%"}) · 2 מלאות (+50%) · אקסטרים (+100%)`,
+    `• זיקוקים קרים / קונפטי - לפי רגעי שיא (הפעלה שנייה/שלישית = +₪${act2.toLocaleString("he-IL")} כל אחת)`,
+    `• עשן כבד / בועות - לפי תדירות: הפעלה אחת · 2 מדורגות (+${grad?.addOnPercent ?? "35%"}) · 2 מלאות (+50%) · אקסטרים (+100%)`,
     "",
     `סופי לדוגמה (אטרקציה + מע״מ): ₪${withVat(base).toLocaleString("he-IL")}`,
     "מה האירוע שלכם ואיזה רגעים הכי חשוב לכם לצלם?",
@@ -224,7 +224,7 @@ export function servicePricingForAttractionService(
   return servicePricingForEventItem(itemId);
 }
 
-/** חבילות משולבות — לשירותים ללא פריט ייעודי ב-/book (למשל LED) */
+/** חבילות משולבות - לשירותים ללא פריט ייעודי ב-/book (למשל LED) */
 export function servicePricingForEventBundles(): readonly ServicePricingTier[] {
   return getBundlePricingTable().map((row) => ({
     name:
@@ -236,8 +236,8 @@ export function servicePricingForEventBundles(): readonly ServicePricingTier[] {
     priceNote: row.saving ? `${row.saving} · לפני מע״מ` : "לפני מע״מ",
     description:
       row.count >= EVENT_GIFT_THRESHOLD
-        ? "שלבו אפקטים בעמוד ההזמנה — כולל קליפ מתנה."
-        : "מחיר חבילה משולבת — זהה ל-/book#events.",
+        ? "שלבו אפקטים בעמוד ההזמנה - כולל קליפ מתנה."
+        : "מחיר חבילה משולבת - זהה ל-/book#events.",
     featured: row.highlight,
     badge: row.highlight ? "מתנה" : undefined,
   }));
@@ -257,12 +257,12 @@ export function formatEventBundlePriceSummary(): string {
 export function ledBoothPriceFaqAnswer(): string {
   return [
     "עמדת LED מצוטטת בוואטסאפ לפי גודל מסך, משך האירוע ומיקום.",
-    `אפקטים משולבים (עשן, קונפטי, בועות) — אותו מחירון כמו /book#events: ${formatEventBundlePriceSummary()} (לפני מע״מ).`,
+    `אפקטים משולבים (עשן, קונפטי, בועות) - אותו מחירון כמו /book#events: ${formatEventBundlePriceSummary()} (לפני מע״מ).`,
   ].join(" ");
 }
 
 export function ledBoothPurchaseCopy(): string {
-  return "למפיקים, אולמות ותקליטנים — מחיר לפי מפרט (ארון מוכן או עמדה מלאה). הצעה בוואטסאפ, אחריות שנה, הדרכה ותמיכה.";
+  return "למפיקים, אולמות ותקליטנים - מחיר לפי מפרט (ארון מוכן או עמדה מלאה). הצעה בוואטסאפ, אחריות שנה, הדרכה ותמיכה.";
 }
 
-export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות — מאותו מחירון כמו /book, מאטרקציה אחת ${EVENT_SINGLE_PRICE_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ.`;
+export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות - מאותו מחירון כמו /book, מאטרקציה אחת ${EVENT_SINGLE_PRICE_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ.`;

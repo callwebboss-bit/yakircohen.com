@@ -54,7 +54,7 @@ export default function PodcastEditingPageContent() {
         <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
           יש לך פרק מוקלט, אבל עריכה היא עולם שלם: לחתוך את הגמגומים, לאזן
           בין דוברים, להוסיף ג&apos;ינגל, לייצא לכל הפלטפורמות. אתה יודע
-          שההקלטה לקחה שעות — ועכשיו עריכה תיקח עוד כמה. אני מבין את זה -
+          שההקלטה לקחה שעות - ועכשיו עריכה תיקח עוד כמה. אני מבין את זה -
           ולכן אתה שולח לי את הקובץ ומקבל בחזרה פרק מוכן לפרסום.
         </p>
 

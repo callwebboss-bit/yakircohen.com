@@ -9,7 +9,7 @@ import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { cn } from "@/lib/utils";
 
-/** Routes with their own bottom CTA / sticky bar — hide duplicate floating WhatsApp. */
+/** Routes with their own bottom CTA / sticky bar - hide duplicate floating WhatsApp. */
 const HIDE_FLOATING_WHATSAPP_PREFIXES = ["/contact", "/book"] as const;
 
 const HIDE_SEND_FILE_PREFIXES = ["/contact", "/book", "/online"] as const;
@@ -34,7 +34,7 @@ const mobileStickyLift = "max-md:bottom-[4.5rem]";
 
 const scrollHide = "opacity-0 pointer-events-none translate-y-2";
 
-/** All floating FABs — deferred after MobileStickyCta. */
+/** All floating FABs - deferred after MobileStickyCta. */
 export default function FloatingFabs() {
   const pathname = usePathname();
   const scrollDir = useScrollDirection();

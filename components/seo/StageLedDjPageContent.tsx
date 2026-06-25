@@ -389,7 +389,7 @@ export default function StageLedDjPageContent() {
         <AttractionBookPricingSection
           serviceTitle={service.title}
           utmCampaign={service.utmCampaign}
-          heading="חבילות אטרקציות — כמו בעמוד ההזמנה"
+          heading="חבילות אטרקציות - כמו בעמוד ההזמנה"
         />
 
 

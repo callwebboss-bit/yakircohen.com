@@ -1,4 +1,5 @@
 import { PORTFOLIO_VIDEO_CATALOG } from "@/lib/data/video-catalog.generated";
+import { PORTFOLIO_VIDEO_SUPPLEMENT } from "@/lib/data/video-catalog.supplement";
 import {
   PLAYLIST_EXPLICIT_IDS,
   PLAYLIST_FEATURED_IDS,
@@ -11,8 +12,15 @@ import {
   type PlaylistId,
 } from "@/lib/data/video-playlists";
 
+const FULL_PORTFOLIO_CATALOG: readonly PortfolioVideo[] = [
+  ...PORTFOLIO_VIDEO_CATALOG,
+  ...PORTFOLIO_VIDEO_SUPPLEMENT.filter(
+    (v) => !PORTFOLIO_VIDEO_CATALOG.some((c) => c.videoId === v.videoId),
+  ),
+];
+
 const catalogById = new Map(
-  PORTFOLIO_VIDEO_CATALOG.map((v) => [v.videoId, v] as const),
+  FULL_PORTFOLIO_CATALOG.map((v) => [v.videoId, v] as const),
 );
 
 function matchesPlaylist(video: PortfolioVideo, playlistId: PlaylistId): boolean {
@@ -57,7 +65,7 @@ export function getPlaylistVideos(playlistId: PlaylistId): ShowcaseVideoItem[] {
   }
 
   const featured = PLAYLIST_FEATURED_IDS[playlistId] ?? [];
-  const candidates = PORTFOLIO_VIDEO_CATALOG.filter((v) =>
+  const candidates = FULL_PORTFOLIO_CATALOG.filter((v) =>
     matchesPlaylist(v, playlistId),
   );
 

@@ -71,7 +71,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
       "DJ פרימיום (5 שעות)",
       "אולפן הקלטות נייד באירוע",
       "3 אטרקציות לבחירה",
-      "תיאום מסונכרן — ספק אחד",
+      "תיאום מסונכרן - ספק אחד",
     ],
     href: "/events/wedding-attractions-packages",
   },

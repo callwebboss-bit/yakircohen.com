@@ -5,7 +5,7 @@ type SendFileFabProps = {
   className?: string;
 };
 
-/** צף — שליחת קובץ לבדיקה מהירה (/online). תוספת, לא מחליף WhatsApp. */
+/** צף - שליחת קובץ לבדיקה מהירה (/online). תוספת, לא מחליף WhatsApp. */
 export default function SendFileFab({ className }: SendFileFabProps) {
   return (
     <Link

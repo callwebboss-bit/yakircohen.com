@@ -6,14 +6,14 @@ export type HomeQuickPath = {
   title: string;
   description: string;
   suitedFor: string;
-  /** מזהה בקטלוג — או fromPriceExVat כשאין פריט מתאים */
+  /** מזהה בקטלוג - או fromPriceExVat כשאין פריט מתאים */
   priceId?: PriceItemId;
   fromPriceExVat?: number;
   href: string;
   utmCampaign: string;
 };
 
-/** 4 מסלולי כניסה מהירים — מחירים מ-pricing-catalog */
+/** 4 מסלולי כניסה מהירים - מחירים מ-pricing-catalog */
 export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   {
     id: "studio",

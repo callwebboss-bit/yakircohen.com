@@ -79,14 +79,14 @@ export default function BookUpsellSection({
                   ) : null}
                 </div>
 
-                {/* whatYouGet — bold summary line */}
+                {/* whatYouGet - bold summary line */}
                 {item.whatYouGet ? (
                   <p className="mt-0.5 text-xs font-medium text-foreground/80">
                     {item.whatYouGet}
                   </p>
                 ) : null}
 
-                {/* description — muted detail */}
+                {/* description - muted detail */}
                 {item.description ? (
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     {item.description}

@@ -381,7 +381,7 @@ export function getStudioBookingPath(recordingType: RecordingTypeId | ""): Studi
   return null;
 }
 
-/** upgrades מומלצים לפי מסלול — קצר יותר, ממוקד יותר */
+/** upgrades מומלצים לפי מסלול - קצר יותר, ממוקד יותר */
 export const STUDIO_UPGRADES_BY_PATH: Record<
   NonNullable<StudioBookingPath>,
   readonly StudioUpgradeId[]

@@ -17,7 +17,7 @@ export default function HomeQuickPaths() {
             id="quick-paths-heading"
             className="font-serif text-section-title font-semibold text-foreground"
           >
-            4 מסלולים — בחרו וקבלו מחיר
+            4 מסלולים - בחרו וקבלו מחיר
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             כל מסלול: מה מקבלים, למי זה מתאים, ומחיר התחלה.

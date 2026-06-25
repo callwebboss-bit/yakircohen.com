@@ -71,7 +71,7 @@ export default function PodcastRecordingPageContent() {
         <ContextualIntroParagraph pathname="/podcast/podcast-recording" className="max-w-3xl" />
 
         <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          אתה רוצה להוציא פודקאסט, אבל כל פעם שאתה מנסה להקליט בבית — יוצא
+          אתה רוצה להוציא פודקאסט, אבל כל פעם שאתה מנסה להקליט בבית - יוצא
           רעשים, הד, ואיכות שמביישת אותך לשתף. הפרק נשאר ב&quot;בקרוב&quot;.
           אני מבין את זה - פעם אחת שתבוא לאולפן, תבין למה אנשים חוזרים.
         </p>

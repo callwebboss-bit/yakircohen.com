@@ -45,7 +45,7 @@ export const YOUTUBE_SHOWCASE_VIDEOS: Record<
   },
   "field-effects": {
     videoId: YOUTUBE_SHOWCASE_IDS.fieldEffects,
-    title: "דיג'יי לאירועים קטנים",
+    title: "שני תותחי קונפטי על במה - סיום שנה בבית ספר",
   },
 };
 

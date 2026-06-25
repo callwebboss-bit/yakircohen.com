@@ -156,7 +156,7 @@ export default function OnlineMixingPageContent() {
 
       <section className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <p className="border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          השקעת שעות בהקלטות, כתבת מילים, לחנת — ואז לחצת Play ומשהו פשוט לא
+          השקעת שעות בהקלטות, כתבת מילים, לחנת - ואז לחצת Play ומשהו פשוט לא
           מסתדר. השירה נאבקת עם הכלים, הכל נשמע &quot;ליד&quot;. אני מבין את
           זה - לא חסר לך כישרון, חסר לך מישהו שיוציא מה שכבר קיים שם החוצה.
         </p>

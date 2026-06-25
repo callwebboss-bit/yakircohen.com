@@ -20,7 +20,9 @@ function parseYouTubeId(url) {
     const v = u.searchParams.get("v");
     if (v) return v;
     const embed = u.pathname.match(/\/embed\/([^/?]+)/);
-    return embed?.[1] ?? null;
+    if (embed?.[1]) return embed[1];
+    const shorts = u.pathname.match(/\/shorts\/([^/?]+)/);
+    return shorts?.[1] ?? null;
   } catch {
     return null;
   }

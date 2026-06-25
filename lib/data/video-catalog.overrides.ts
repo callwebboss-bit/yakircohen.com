@@ -53,6 +53,7 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "Fsy4Eg00dCA",
   ],
   "events-dj": [
+    "yjxF9pKzbr0",
     "lmYykgKAdUg",
     "zC0B9jwiIHY",
     "XSrLicVCaGM",
@@ -141,4 +142,6 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   SvhfZK9Ribg: "רמיקס חתונות - מאחורי הקלעים",
   FtzsXXnts_k: "רמיקס אירועים - דוגמה מהשטח",
   "5-PTfYMMlV4": "רמיקס רשמי - שילוב להיטים",
+  yjxF9pKzbr0:
+    "שני תותחי קונפטי על במה - הפעלה באירוע סיום שנת הלימודים בבית ספר",
 };

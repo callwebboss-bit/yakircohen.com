@@ -302,7 +302,7 @@ export default function StudioRecordingBooking({
   const isConsultation = form.recordingType === "song_promotion_consultation";
   const bookingPath: StudioBookingPath = getStudioBookingPath(form.recordingType);
   const showCelebrantField = isEventCelebrantRecordingType(form.recordingType);
-  /** ברכת כלה = מקליטת אחת בלבד — counter מסיח ומבלבל */
+  /** ברכת כלה = מקליטת אחת בלבד - counter מסיח ומבלבל */
   const showParticipantCounter = !isConsultation && form.recordingType !== "bride_blessing";
   const typeFlow = getRecordingTypeFlow(form.recordingType);
   const emotionalId = emotionalLabelToId(initialEmotionalLabel);
@@ -1256,7 +1256,7 @@ export default function StudioRecordingBooking({
                   🎊 סוגרים אירוע? תוסיפו אטרקציה לרחבה
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  עשן כבד לחופה וסלואו · זיקוקים קרים · בועות סבון עשן לילדים — מ-₪1,750
+                  עשן כבד לחופה וסלואו · זיקוקים קרים · בועות סבון עשן לילדים - מ-₪1,750
                 </p>
                 <a
                   href="/events/attractions"

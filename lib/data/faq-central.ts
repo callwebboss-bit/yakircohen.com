@@ -1,7 +1,7 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 
 /**
- * מקור משותף ל-FAQ מרכזי (20 שאלות) — /about/faq + schema.
+ * מקור משותף ל-FAQ מרכזי (20 שאלות) - /about/faq + schema.
  * עמוד הבית שומר על HOME_FAQ עשיר (8 שאלות) + קישור לכאן.
  */
 export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
@@ -193,7 +193,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
   },
 ] as const;
 
-/** תאימות לאחור — faq-extra-items.ts */
+/** תאימות לאחור - faq-extra-items.ts */
 export const FAQ_EXTRA_ITEMS: FaqCtaItem[] = CENTRAL_FAQ_ITEMS.filter((item) =>
   [
     "book-online",

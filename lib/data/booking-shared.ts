@@ -2,11 +2,11 @@
   id: string;
   name: string;
   description?: string;
-  /** שורת "מה אתם מקבלים" קצרה — מוצגת בולד מתחת לשם */
+  /** שורת "מה אתם מקבלים" קצרה - מוצגת בולד מתחת לשם */
   whatYouGet?: string;
   price: number;
   badge?: string;
-  /** מחיר רגיל לפני הנחה — מוצג עם קו חוצה */
+  /** מחיר רגיל לפני הנחה - מוצג עם קו חוצה */
   originalPrice?: number;
   /**
    * מזהי אטרקציות שמפעילים את ה-upsell הזה (contextual).
@@ -14,8 +14,8 @@
    */
   triggerAttractionIds?: string[];
   /**
-   * true = שדרוג הפעלה — נסתר כשהמשתמש כבר בחר act_2/act_3 ידנית.
-   * false/undefined = תוספת עצמאית — תמיד מוצגת כשהטריגר פעיל.
+   * true = שדרוג הפעלה - נסתר כשהמשתמש כבר בחר act_2/act_3 ידנית.
+   * false/undefined = תוספת עצמאית - תמיד מוצגת כשהטריגר פעיל.
    */
   isActivationUpgrade?: boolean;
 };

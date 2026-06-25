@@ -66,7 +66,7 @@ export function validateIsraeliMobile(phone: string): ValidationResult {
   if (!normalized) {
     return {
       ok: false,
-      errors: { phone: "⚠️ מספר לא תקין — נסו בפורמט 05X-XXXXXXX" },
+      errors: { phone: "⚠️ מספר לא תקין - נסו בפורמט 05X-XXXXXXX" },
     };
   }
   const allSame = /^(.)\1+$/.test(normalized.slice(1));
@@ -176,7 +176,7 @@ export function validateEventDate(
   const maxDate = new Date(today);
   maxDate.setFullYear(maxDate.getFullYear() + maxYears);
   if (parsed > maxDate) {
-    return { ok: false, errors: { eventDate: "⚠️ תאריך רחוק מדי — צרו קשר ישירות" } };
+    return { ok: false, errors: { eventDate: "⚠️ תאריך רחוק מדי - צרו קשר ישירות" } };
   }
   return { ok: true };
 }
