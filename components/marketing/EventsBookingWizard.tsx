@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
@@ -26,9 +26,9 @@ import {
   EVENT_GIFT_THRESHOLD,
   RIGID_ACTIVATION_OPTIONS,
   LIQUID_FREQUENCY_OPTIONS,
+  defaultQuantity,
   getEventBundlePrice,
   getAttractionAddOnPrice,
-  defaultQuantity,
   type EventBookingItemId,
   type EventBookingItemQuantity,
 } from "@/lib/data/events-booking";
@@ -120,9 +120,29 @@ const EVENTS_NEXT_STEPS = [
 
 type EventsBookingWizardProps = {
   routeId?: string | null;
+  initialEventItemId?: EventBookingItemId | null;
 };
 
-export default function EventsBookingWizard({ routeId = null }: EventsBookingWizardProps) {
+function buildInitialEventsForm(itemId: EventBookingItemId | null): EventsFormDraft {
+  if (!itemId) return INITIAL;
+  const item = EVENT_BOOKING_ITEMS.find((i) => i.id === itemId);
+  if (!item) return INITIAL;
+  return {
+    ...INITIAL,
+    selected: [itemId],
+    quantities: { [itemId]: defaultQuantity(item) },
+  };
+}
+
+export default function EventsBookingWizard({
+  routeId = null,
+  initialEventItemId = null,
+}: EventsBookingWizardProps) {
+  const initialForm = useMemo(
+    () => buildInitialEventsForm(initialEventItemId),
+    [initialEventItemId],
+  );
+
   const {
     step,
     form,
@@ -143,13 +163,25 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
   } = useBookingWizard({
     storageKey: "events",
     formId: "events_booking_wizard",
-    initialForm: INITIAL,
-    parseDraft: (raw) => parseEventsFormDraft(raw, INITIAL),
+    initialForm,
+    parseDraft: (raw) => parseEventsFormDraft(raw, initialForm),
     persistStepInDraft: true,
     maxStep: 2,
   });
 
   const { honeypot, setHoneypot, globalError } = guard;
+
+  useEffect(() => {
+    if (!initialEventItemId || form.selected.length > 0) return;
+    const item = EVENT_BOOKING_ITEMS.find((i) => i.id === initialEventItemId);
+    if (!item) return;
+    queueMicrotask(() =>
+      patchForm({
+        selected: [initialEventItemId],
+        quantities: { [initialEventItemId]: defaultQuantity(item) },
+      }),
+    );
+  }, [initialEventItemId, form.selected.length, patchForm]);
 
   useBookWizardStep("events", step);
 
@@ -177,19 +209,23 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
 
   /**
    * upsells הקשריים שיש להציג:
-   * — הטריגר נבחר
-   * — הactivation של הטריגר עדיין act_1 (לא שדרגו ידנית)
-   * — ה-upsell עצמו לא בא להחליף activation שכבר נבחר
+   * - הטריגר נבחר
+   * - הactivation של הטריגר עדיין act_1 (לא שדרגו ידנית)
+   * - ה-upsell עצמו לא בא להחליף activation שכבר נבחר
    */
+  /** IDs של upsells שמוצגים inline בתוך כרטיס האטרקציה (לא בסקשן הנפרד) */
+  const INLINE_UPSELL_IDS = new Set(["confetti_second_cannon"]);
+
   const visibleContextualUpsells = useMemo(
     () =>
       EVENT_CONTEXTUAL_UPSELLS.filter((u) => {
+        if (INLINE_UPSELL_IDS.has(u.id)) return false; // מוצג inline
         if (!u.triggerAttractionIds) return false;
         return u.triggerAttractionIds.some((triggerId) => {
           const id = triggerId as EventBookingItemId;
           if (!form.selected.includes(id)) return false;
+          // שדרוג הפעלה - נסתר כשכבר שדרגו ידנית ל-act_2/act_3
           const qty = form.quantities[id];
-          // הסתר אם כבר שדרגו ידנית ל-act_2 / act_3
           return !qty || qty === "act_1";
         });
       }),
@@ -202,7 +238,45 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
   const bundleTotal = bundleBase + addOnTotal + soundRentalLine + upsellTotal;
   /** חיסכון מהבאנדל – לא כולל הגברה ולא כולל תוספות */
   const savings = count > 1 ? count * 1750 - bundleBase : 0;
+  /** חיסכון מ-upsells עם מחיר מקורי */
+  const upsellSavings = useMemo(
+    () =>
+      form.selectedUpsells.reduce((sum, uid) => {
+        const u = EVENT_BOOKING_UPSELLS.find((x) => x.id === uid);
+        if (!u?.originalPrice || u.originalPrice <= u.price) return sum;
+        return sum + (u.originalPrice - u.price);
+      }, 0),
+    [form.selectedUpsells],
+  );
+  /** סה״כ חיסכון: חבילה + upsells */
+  const totalSavings = savings + upsellSavings;
+  /** חיסכון פוטנציאלי אם יוסיפו את כל ה-upsells הנראים */
+  const potentialUpsellSavings = useMemo(
+    () =>
+      visibleContextualUpsells
+        .filter((u) => !form.selectedUpsells.includes(u.id) && u.originalPrice && u.originalPrice > u.price)
+        .reduce((sum, u) => sum + (u.originalPrice! - u.price), 0),
+    [visibleContextualUpsells, form.selectedUpsells],
+  );
   const today = new Date().toISOString().split("T")[0];
+
+  const livePriceReport = useMemo(() => {
+    if (count === 0 && !hasSoundRental) return null;
+    const attractionLabel =
+      count > 0
+        ? `${count} אטרקציה${count !== 1 ? "ות" : ""}`
+        : "";
+    const title = [attractionLabel, hasSoundRental ? "הגברה" : ""].filter(Boolean).join(" + ");
+    return {
+      totalExVat: bundleTotal,
+      title: title || "אטרקציות לאירוע",
+      ctaLabel: sendBookingWaCta(withVat(bundleTotal)),
+    };
+  }, [bundleTotal, count, hasSoundRental]);
+
+  useReportBookWizardLivePrice(livePriceReport);
+
+  const whatsappCtaLabel = livePriceReport?.ctaLabel ?? sendBookingWaCta(withVat(bundleTotal));
 
   const toggle = (id: EventBookingItemId) => {
     const has = form.selected.includes(id);
@@ -218,11 +292,11 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
     const patch: Parameters<typeof patchForm>[0] = {
       quantities: { ...form.quantities, [id]: qty },
     };
-    // אם שדרגו מ-act_1 — הסר upsells קונטקסטואליים שהאטרקציה הזו מפעילה
+    // אם שדרגו מ-act_1 - הסר רק upsells מסוג isActivationUpgrade (לא תוספות ציוד עצמאיות)
     if (qty !== "act_1") {
       const toRemove = new Set(
         EVENT_CONTEXTUAL_UPSELLS
-          .filter((u) => u.triggerAttractionIds?.includes(id))
+          .filter((u) => u.isActivationUpgrade && u.triggerAttractionIds?.includes(id))
           .map((u) => u.id),
       );
       if (toRemove.size > 0) {
@@ -451,6 +525,8 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
                   {/* סלקטור הפעלות לאטרקציות rigid (זיקוקים/קונפטי) */}
                   {active && item.pricingType === "rigid" ? (
                     <>
+                      {/* כמות הפעלות */}
+                      <p className="px-0.5 text-[0.65rem] font-semibold text-muted-foreground">כמות רגעי שיא</p>
                       <div className="flex flex-col gap-1 px-0.5">
                         {RIGID_ACTIVATION_OPTIONS.map((opt) => {
                           const isSelected = (qty ?? "act_1") === opt.key;
@@ -474,9 +550,58 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
                           );
                         })}
                       </div>
+
+                      {/* בוחר כמות תותחים - רק לקונפטי */}
+                      {item.id === "event_confetti" ? (
+                        <div className="px-0.5">
+                          <p className="mb-1 text-[0.65rem] font-semibold text-muted-foreground">כמות תותחים</p>
+                          <div className="flex gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (selectedUpsellSet.has("confetti_second_cannon")) {
+                                  toggleUpsell("confetti_second_cannon");
+                                }
+                              }}
+                              className={cn(
+                                "flex-1 rounded-lg border px-2.5 py-2 text-xs font-medium transition-colors text-right",
+                                !selectedUpsellSet.has("confetti_second_cannon")
+                                  ? "border-brand-red bg-brand-red/5 text-brand-red"
+                                  : "border-border text-muted-foreground hover:border-brand-red/40",
+                              )}
+                            >
+                              <span className="block font-semibold">תותח אחד</span>
+                              <span className="block text-[0.6rem] opacity-70">כלול במחיר</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (!selectedUpsellSet.has("confetti_second_cannon")) {
+                                  toggleUpsell("confetti_second_cannon");
+                                }
+                              }}
+                              className={cn(
+                                "flex-1 rounded-lg border px-2.5 py-2 text-xs font-medium transition-colors text-right",
+                                selectedUpsellSet.has("confetti_second_cannon")
+                                  ? "border-brand-red bg-brand-red/5 text-brand-red"
+                                  : "border-border text-muted-foreground hover:border-brand-red/40",
+                              )}
+                            >
+                              <span className="block font-semibold">2 תותחים</span>
+                              <span className="block text-[0.6rem] text-green-700">+875 ₪ (25% הנחה)</span>
+                            </button>
+                          </div>
+                          {selectedUpsellSet.has("confetti_second_cannon") ? (
+                            <p className="mt-1 text-[0.65rem] text-muted-foreground">
+                              שני תותחים יורים בו-זמנית - גשם קונפטי מכל כיוון ברחבה
+                            </p>
+                          ) : null}
+                        </div>
+                      ) : null}
+
                       <p className="px-0.5 text-[0.65rem] leading-relaxed text-muted-foreground">
                         כל הפעלה כוללת מלאי גלם חדש ומלא.{" "}
-                        <span className="font-medium">אישור האולם לזיקוקים/קונפטי — באחריות המזמין.</span>
+                        <span className="font-medium">אישור האולם לזיקוקים/קונפטי - באחריות המזמין.</span>
                       </p>
                     </>
                   ) : null}
@@ -568,17 +693,35 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
           {count > 0 ? (
             <div className="rounded-xl border border-border bg-surface p-4">
               <PriceWithVat amountExVat={bundleTotal} size="lg" />
-              {savings > 0 ? (
-                <p className="mt-1 text-xs text-green-700">
-                  💰 חיסכון {savings.toLocaleString()} ₪ לעומת רכישה נפרדת
-                </p>
+              {totalSavings > 0 ? (
+                <div className="mt-2 flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 dark:bg-emerald-950/30">
+                  <span className="text-base" aria-hidden>💰</span>
+                  <div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                      חסכתם {totalSavings.toLocaleString("he-IL")} ₪
+                    </p>
+                    <p className="text-[0.65rem] text-emerald-600 dark:text-emerald-500">
+                      {savings > 0 && upsellSavings > 0
+                        ? `${savings.toLocaleString("he-IL")} ₪ מהחבילה + ${upsellSavings.toLocaleString("he-IL")} ₪ מהצעות מיוחדות`
+                        : savings > 0
+                        ? "הנחת חבילה לעומת רכישה נפרדת"
+                        : "מהצעות מיוחדות"}
+                    </p>
+                  </div>
+                </div>
               ) : null}
             </div>
           ) : null}
 
           {visibleContextualUpsells.length > 0 ? (
             <BookUpsellSection
-              title="🎁 הצעה מיוחדת בשבילכם"
+              title={
+                potentialUpsellSavings > 0
+                  ? `🎁 הצעה מיוחדת - חסכו עד ${potentialUpsellSavings.toLocaleString("he-IL")} ₪`
+                  : upsellSavings > 0
+                  ? `🎁 חסכתם ${upsellSavings.toLocaleString("he-IL")} ₪ בהצעות מיוחדות`
+                  : "🎁 הצעה מיוחדת בשבילכם"
+              }
               items={visibleContextualUpsells}
               selected={selectedUpsellSet}
               onToggle={toggleUpsell}
@@ -742,7 +885,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
                       }
                       return (
                         <div key={id} className="flex items-start justify-between gap-2 text-xs text-muted-foreground">
-                          <span className="flex-1">{item.name} — {addOnDesc}</span>
+                          <span className="flex-1">{item.name} - {addOnDesc}</span>
                           <span className="shrink-0">+{addOn.toLocaleString("he-IL")} ₪</span>
                         </div>
                       );
@@ -818,8 +961,9 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
 
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
+                showPaymentTrust
                 continueWhatsApp={{
-                  label: sendBookingWaCta(withVat(bundleTotal)),
+                  label: whatsappCtaLabel,
                   onClick: () => handleAction("continue_chat"),
                 }}
                 startNow={{
@@ -831,8 +975,6 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
                   href: consultHref,
                 }}
               />
-
-              <BookingPaymentTrust />
 
               {/* תנאי תשלום מורחבים לאירועים */}
               <div className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-[0.7rem] leading-relaxed text-muted-foreground">
@@ -850,7 +992,7 @@ export default function EventsBookingWizard({ routeId = null }: EventsBookingWiz
                 <p className="font-medium text-foreground/70">תנאים תפעוליים ומגבלות אחריות</p>
                 <p className="mt-1">
                   <strong className="font-medium text-foreground/60">זיקוקים קרים / קונפטי:</strong>{" "}
-                  כל הפעלה כוללת הקצאת חומרי גלם מלאה וחדשה. אישור האולם לשימוש באטרקציות אלו — באחריות המזמין בלבד. מניעת הפעלה על-ידי האולם ביום האירוע לא תהווה עילה להחזר כספי.
+                  כל הפעלה כוללת הקצאת חומרי גלם מלאה וחדשה. אישור האולם לשימוש באטרקציות אלו - באחריות המזמין בלבד. מניעת הפעלה על-ידי האולם ביום האירוע לא תהווה עילה להחזר כספי.
                 </p>
                 <p className="mt-1.5">
                   <strong className="font-medium text-foreground/60">עשן / בועות:</strong>{" "}

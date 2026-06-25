@@ -1,5 +1,6 @@
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
 import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import { resolveEventItemIdFromPath } from "@/lib/data/attraction-book-pricing";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 
 export type ServiceBookCta = {
@@ -119,9 +120,15 @@ export function resolveServiceBookCta(slug: string): ServiceBookCta | null {
   const priceExVat =
     entry.priceExVat ?? (entry.priceCatalogId ? getExVat(entry.priceCatalogId) : 0);
   if (!priceExVat) return null;
+  const pagePath = `/${normalizeSlug(slug)}`;
+  const eventItemId =
+    entry.bookCategory === "events" ? resolveEventItemIdFromPath(pagePath) : null;
   return {
     bookCategory: entry.bookCategory,
-    bookHref: buildBookHref(entry.bookCategory),
+    bookHref: buildBookHref(
+      entry.bookCategory,
+      eventItemId ? { item: eventItemId } : undefined,
+    ),
     bookLabel: hubBookCtaLabel(priceExVat),
   };
 }

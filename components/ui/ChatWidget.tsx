@@ -147,13 +147,18 @@ export default function ChatWidget({
     }
   }
 
+  // Hidden questions are only shown when surfaced as page-priority items
+  const visibleQuestions = CHATBOT_DATA.questions.filter(
+    (q) => !q.hidden || priorityIds.includes(q.id),
+  );
+
   const sortedQuestions =
     priorityIds.length > 0
       ? [
-          ...CHATBOT_DATA.questions.filter((q) => priorityIds.includes(q.id)),
-          ...CHATBOT_DATA.questions.filter((q) => !priorityIds.includes(q.id)),
+          ...visibleQuestions.filter((q) => priorityIds.includes(q.id)),
+          ...visibleQuestions.filter((q) => !priorityIds.includes(q.id)),
         ]
-      : CHATBOT_DATA.questions;
+      : visibleQuestions;
 
   const dynamicSub =
     priorityIds.length > 0
@@ -389,7 +394,7 @@ export default function ChatWidget({
 
   return (
     <div
-      className={cn("fixed left-6 z-40 font-sans", className)}
+      className={cn("fixed left-6 z-[52] font-sans", className)}
       dir="rtl"
     >
       {/* ── Offline Toast ──────────────────────────────────────────────── */}
@@ -447,37 +452,44 @@ export default function ChatWidget({
         aria-hidden={view === "closed"}
         data-state={view !== "closed" ? "open" : "closed"}
         onKeyDown={handlePanelKeyDown}
-        className="absolute bottom-[calc(100%+0.75rem)] left-0 flex max-h-[75vh] w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl transition-all duration-200 ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 sm:w-96"
+        className="absolute bottom-[calc(100%+0.75rem)] left-0 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl transition-all duration-200 ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 max-h-[calc(100dvh-14rem)] sm:max-h-[75vh] sm:w-96"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <div className="flex items-center gap-2">
-            <span
-              className={cn(
-                "h-2 w-2 shrink-0 rounded-full",
-                open ? "animate-pulse bg-green-500" : "bg-muted-foreground/40",
-              )}
-            />
+        <div className="flex items-center justify-between border-b border-border bg-gradient-to-l from-[var(--service-accent,#d42b2b)]/5 to-background px-4 py-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)]/10 text-lg" aria-hidden>
+              🎙️
+            </span>
             <div>
               <h3 className="text-sm font-semibold text-foreground leading-none">
-                מרכז מידע מהיר ⚡
+                יקיר כהן הפקות ⚡
               </h3>
-              <p className="mt-0.5 text-[10px] text-muted-foreground leading-none">
-                {open ? "האולפן פתוח כעת" : "האולפן סגור כעת"}
+              <p className="mt-0.5 flex items-center gap-1 text-[10px] text-muted-foreground leading-none">
+                <span
+                  className={cn(
+                    "h-1.5 w-1.5 shrink-0 rounded-full",
+                    open ? "animate-pulse bg-green-500" : "bg-muted-foreground/40",
+                  )}
+                  aria-hidden
+                />
+                {open ? "זמין כעת" : "סגור כעת"}
               </p>
             </div>
           </div>
+          {/* Quick close — prominent, easy to dismiss */}
           <button
             onClick={handleClose}
             aria-label="סגירת חלונית המידע וחזרה לעמוד הראשי"
-            className="rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:border-muted-foreground/40 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
           >
             <CloseIcon />
           </button>
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto overscroll-contain p-4 scrollbar-thin"
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           {/* ── LIST VIEW ──────────────────────────────────────────────── */}
           {view === "list" && (
             <div className="space-y-3">
@@ -537,7 +549,7 @@ export default function ChatWidget({
                       >
                         <span>{q.label}</span>
                         <span className="shrink-0 text-[10px] font-normal text-muted-foreground/50">
-                          תשובה מיידית
+                          ⚡ מיידי
                         </span>
                       </button>
                     );
@@ -646,6 +658,7 @@ export default function ChatWidget({
                     }
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                   >
+                    <span aria-hidden>📲</span>
                     {activeQuestion.answer.whatsappCta ?? "להמשך בוואטסאפ"}
                   </a>
 

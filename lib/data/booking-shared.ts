@@ -2,15 +2,22 @@
   id: string;
   name: string;
   description?: string;
+  /** שורת "מה אתם מקבלים" קצרה — מוצגת בולד מתחת לשם */
+  whatYouGet?: string;
   price: number;
   badge?: string;
   /** מחיר רגיל לפני הנחה — מוצג עם קו חוצה */
   originalPrice?: number;
   /**
    * מזהי אטרקציות שמפעילים את ה-upsell הזה (contextual).
-   * מוצג רק כשאחד מהם נבחר ועדיין בהפעלת בסיס.
+   * מוצג רק כשאחד מהם נבחר.
    */
   triggerAttractionIds?: string[];
+  /**
+   * true = שדרוג הפעלה — נסתר כשהמשתמש כבר בחר act_2/act_3 ידנית.
+   * false/undefined = תוספת עצמאית — תמיד מוצגת כשהטריגר פעיל.
+   */
+  isActivationUpgrade?: boolean;
 };
 
 /** טקסט מבוא לסיכום - מוצג מעל כפתורי הפעולה */
@@ -33,6 +40,10 @@ export const BOOKING_APPROVALS_LIGHT = [
 /** תשלומים - מוצג ליד אמונות בטופס הזמנה */
 export const BOOKING_PAYMENT_NOTE =
   "ניתן לחלק עד 3 תשלומים שווים ללא ריבית - בתיאום מראש";
+
+/** שורה קצרה מתחת לכפתור וואטסאפ בסיכום הזמנה */
+export const BOOKING_INSTALLMENT_LINE =
+  "אפשרות גם לעד 3 תשלומים ללא ריבית";
 
 /** וידאו BTS לפאנל הצלחה - לפי קטגוריית הזמנה */
 import type { BookCategoryId } from "@/lib/book-url";

@@ -5,7 +5,9 @@ import {
   buildFastWhatsAppMessage,
   getAudienceRouteById,
 } from "@/lib/data/book-audience-routes";
+import { useBookWizardLivePriceOptional } from "@/components/booking/BookWizardLivePrice";
 import type { BookCategoryId } from "@/lib/book-url";
+import { withVat } from "@/lib/data/pricing";
 import { catalogWithVat } from "@/lib/data/pricing-catalog";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -37,7 +39,12 @@ export default function BookStickyMobileBar({
   const route = resolveRoute(activeCategory, activeRouteId);
   if (!route) return null;
 
-  const totalWithVat = catalogWithVat(route.priceExVat);
+  const livePrice = useBookWizardLivePriceOptional()?.livePrice;
+  const totalWithVat =
+    livePrice != null
+      ? withVat(livePrice.totalExVat)
+      : catalogWithVat(route.priceExVat);
+  const title = livePrice?.title ?? route.title;
   const waText = buildFastWhatsAppMessage(route);
   const waHref = buildWhatsAppHref({
     text: waText,
@@ -60,7 +67,7 @@ export default function BookStickyMobileBar({
     >
       <div className="mx-auto flex max-w-[72rem] items-center gap-3">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-semibold text-foreground">{route.title}</p>
+          <p className="truncate text-xs font-semibold text-foreground">{title}</p>
           <p className="text-sm font-bold tabular-nums text-brand-red">
             {totalWithVat.toLocaleString("he-IL")} ₪ סופי
           </p>
@@ -68,7 +75,7 @@ export default function BookStickyMobileBar({
         <button
           type="button"
           onClick={openWa}
-          aria-label={`קבלו הצעה בוואטסאפ ל${route.title} - ${totalWithVat.toLocaleString("he-IL")} שקל סופי`}
+          aria-label={`קבלו הצעה בוואטסאפ ל${title} - ${totalWithVat.toLocaleString("he-IL")} שקל סופי`}
           className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-semibold text-white hover:bg-[#1fba59]"
         >
           וואטסאפ

@@ -88,11 +88,14 @@ import {
   STUDIO_RECORDING_PACKAGES,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
+  STUDIO_UPGRADES_BY_PATH,
+  getStudioBookingPath,
   scheduleWindowSummaryLabel,
   type AtmosphereId,
   type ConsultationPackageId,
   type RecordingTypeId,
   type ScheduleWindowId,
+  type StudioBookingPath,
   type StudioPackageId,
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
@@ -297,7 +300,10 @@ export default function StudioRecordingBooking({
   useBookWizardStep("studio", step);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
+  const bookingPath: StudioBookingPath = getStudioBookingPath(form.recordingType);
   const showCelebrantField = isEventCelebrantRecordingType(form.recordingType);
+  /** ברכת כלה = מקליטת אחת בלבד — counter מסיח ומבלבל */
+  const showParticipantCounter = !isConsultation && form.recordingType !== "bride_blessing";
   const typeFlow = getRecordingTypeFlow(form.recordingType);
   const emotionalId = emotionalLabelToId(initialEmotionalLabel);
   const mobileExVat =
@@ -466,13 +472,16 @@ export default function StudioRecordingBooking({
     isFullWizard &&
     (routeId === "family-gifts" || childrenCount > 0);
 
-  const upgradeItems = STUDIO_RECORDING_UPGRADES.map((u) => ({
-    id: u.id,
-    name: u.name,
-    description: u.description,
-    price: u.price,
-    badge: u.badge,
-  }));
+  const pathUpgradeIds = bookingPath ? new Set<string>(STUDIO_UPGRADES_BY_PATH[bookingPath]) : null;
+  const upgradeItems = STUDIO_RECORDING_UPGRADES
+    .filter((u) => !pathUpgradeIds || pathUpgradeIds.has(u.id))
+    .map((u) => ({
+      id: u.id,
+      name: u.name,
+      description: u.description,
+      price: u.price,
+      badge: u.badge,
+    }));
 
   const allInPrice = STUDIO_RECORDING_PACKAGES.find((p) => p.id === "all_in")?.price ?? 2380;
   const autoUpgradeThreshold = allInPrice * 0.85;
@@ -997,7 +1006,7 @@ export default function StudioRecordingBooking({
               </div>
             ) : null}
 
-            {!isConsultation && (
+            {showParticipantCounter && (
               <div className="space-y-3">
                 <div>
                   <div className="mb-1 flex items-center gap-2">
@@ -1240,6 +1249,23 @@ export default function StudioRecordingBooking({
                 )}
               </>
             )}
+
+            {bookingPath === "events" && !isConsultation ? (
+              <div className="rounded-xl border border-border/60 bg-surface px-4 py-4">
+                <p className="text-sm font-semibold text-foreground">
+                  🎊 סוגרים אירוע? תוסיפו אטרקציה לרחבה
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  עשן כבד לחופה וסלואו · זיקוקים קרים · בועות סבון עשן לילדים — מ-₪1,750
+                </p>
+                <a
+                  href="/events/attractions"
+                  className="mt-2 inline-block text-xs font-semibold text-[var(--service-accent,#d42b2b)] hover:underline"
+                >
+                  לקטלוג האטרקציות ←
+                </a>
+              </div>
+            ) : null}
 
             {showAutoUpgrade ? (
               <div className="rounded-xl border border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] px-4 py-4 space-y-2">

@@ -3,9 +3,48 @@
 import { useEffect, useRef, useState } from "react";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
 import KoalendarModal from "@/components/booking/KoalendarModal";
+import InfoTip from "@/components/ui/InfoTip";
+import { BOOKING_INSTALLMENT_LINE } from "@/lib/data/booking-shared";
+import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
 const IDLE_PULSE_DELAY_MS = 60_000;
+
+function LockIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      aria-hidden="true"
+      className="shrink-0 text-green-700"
+    >
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      aria-hidden="true"
+      className="shrink-0 text-green-700"
+    >
+      <path d="M12 3 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7l-8-4z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
 
 export type BookingSummaryAction = {
   href?: string;
@@ -24,6 +63,8 @@ export type BookingSummaryActionsProps = {
   socialProof?: string;
   /** Disables both action buttons (e.g. until terms accepted) */
   disabled?: boolean;
+  /** תשלומים ואמינות מתחת לכפתור הראשי */
+  showPaymentTrust?: boolean;
   className?: string;
 };
 
@@ -33,6 +74,7 @@ export default function BookingSummaryActions({
   consult15Min,
   socialProof,
   disabled = false,
+  showPaymentTrust = false,
   className,
 }: BookingSummaryActionsProps) {
   const [pulsing, setPulsing] = useState(false);
@@ -104,6 +146,30 @@ export default function BookingSummaryActions({
           {continueWhatsApp.label}
         </button>
       )}
+
+      {showPaymentTrust ? (
+        <div className="space-y-2 rounded-xl border border-border/70 bg-surface/60 px-3 py-2.5 text-center">
+          <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+            <LockIcon />
+            <span>({BOOKING_INSTALLMENT_LINE})</span>
+            <InfoTip text="מקדמה קטנה לשריון התאריך, יתרה לפני האירוע. מחלקים את הסכום בוואטסאפ לפי מה שנוח." />
+          </div>
+          <div className="flex items-center justify-center gap-1.5 text-[0.65rem] text-muted-foreground">
+            <ShieldIcon />
+            <span>תשלום מאובטח · חשבונית מס רשמית</span>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            {PAYMENT_METHODS.map((method) => (
+              <span
+                key={method.id}
+                className="rounded-md border border-border bg-background px-2 py-0.5 text-[0.65rem] font-medium text-muted-foreground"
+              >
+                {method.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {/* SECONDARY - ghost outline */}
       {startNow ? (

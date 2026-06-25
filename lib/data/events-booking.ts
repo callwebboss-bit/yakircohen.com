@@ -1,4 +1,5 @@
 import { EVENT_ATTRACTION_FROM_NIS } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export type EventBookingItemId =
   | "event_smoke"
@@ -178,8 +179,12 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
 /** מחיר בודד לפני מע״מ */
 export const EVENT_SINGLE_PRICE_NIS = EVENT_ATTRACTION_FROM_NIS;
 
-const EVENT_BUNDLE_TIERS: Record<number, number> = { 1: 1750, 2: 3200, 3: 4450 };
-const EVENT_BUNDLE_4PLUS = 5500;
+const EVENT_BUNDLE_TIERS: Record<number, number> = {
+  1: getExVat("event_attraction_1"),
+  2: getExVat("event_attraction_2"),
+  3: getExVat("event_attraction_3"),
+};
+const EVENT_BUNDLE_4PLUS = getExVat("event_attraction_4");
 export const EVENT_GIFT_THRESHOLD = 4;
 
 export function getEventBundlePrice(count: number): number {

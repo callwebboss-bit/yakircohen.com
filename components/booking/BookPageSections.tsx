@@ -11,6 +11,7 @@ import {
   PhotographyCalculatorLazy,
 } from "@/components/calculators/lazy";
 import BookStickyMobileBar from "@/components/booking/BookStickyMobileBar";
+import { BookWizardLivePriceProvider } from "@/components/booking/BookWizardLivePrice";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import ProBookingPanel from "@/components/booking/ProBookingPanel";
 import {
@@ -22,7 +23,7 @@ import {
   PodcastBookingWizardLazy,
   SingerAmplificationBookingWizardLazy,
 } from "@/components/booking/lazy";
-import { type BookCategoryId, parseBookPackageFromSearch } from "@/lib/book-url";
+import { type BookCategoryId, parseBookEventItemFromSearch, parseBookPackageFromSearch } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -106,6 +107,7 @@ function renderCategoryContent(
   id: BookCategoryId,
   options: {
     initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>;
+    initialEventItemId: ReturnType<typeof parseBookEventItemFromSearch>;
     filterPreset?: Partial<FilterAnswers>;
     emotionalLabel: string | null;
     routeId: string | null;
@@ -137,7 +139,12 @@ function renderCategoryContent(
         />
       );
     case "events":
-      return <EventsBookingWizardLazy routeId={options.routeId} />;
+      return (
+        <EventsBookingWizardLazy
+          routeId={options.routeId}
+          initialEventItemId={options.initialEventItemId}
+        />
+      );
     case "dj":
       return <DjEventsCalculatorLazy routeId={options.routeId} />;
     case "photography":
@@ -168,7 +175,9 @@ function renderCategoryContent(
 export default function BookPageSections() {
   const searchParams = useSearchParams();
   const pkgParam = searchParams.get("pkg");
+  const itemParam = searchParams.get("item");
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
+  const initialEventItemId = parseBookEventItemFromSearch(itemParam);
 
   const {
     activeCategory,
@@ -183,6 +192,7 @@ export default function BookPageSections() {
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
   return (
+    <BookWizardLivePriceProvider>
     <>
       <BookAudienceRouter
         onFullPath={openFullPath}
@@ -223,6 +233,7 @@ export default function BookPageSections() {
             <WizardErrorBoundary onReset={backToRouter}>
               {renderCategoryContent(activeCategory, {
                 initialSingerPackageId,
+                initialEventItemId,
                 filterPreset,
                 emotionalLabel,
                 routeId: activeRouteId,
@@ -309,5 +320,6 @@ export default function BookPageSections() {
         </a>
       </p>
     </>
+    </BookWizardLivePriceProvider>
   );
 }

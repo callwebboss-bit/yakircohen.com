@@ -353,6 +353,43 @@ export const STUDIO_VIDEO_PACKAGE_IDS = ["pro", "viral", "all_in"] as const sati
 
 export type ScheduleWindowId = "weekdays" | "motzash";
 
+// ── מסלולי הזמנה ─────────────────────────────────────────────────────────────
+
+/** מסלול א׳: אירועים משפחתיים ופרטיים */
+export const PATH_EVENTS_RECORDING_IDS = [
+  "event_song",
+  "bride_blessing",
+  "bar_mitzvah_speech",
+  "general_blessing",
+] as const satisfies readonly RecordingTypeId[];
+
+/** מסלול ב׳: אמנים, יוצרים ומקצוענים */
+export const PATH_PRO_RECORDING_IDS = [
+  "cover",
+  "original",
+  "voiceover",
+  "song_promotion_consultation",
+  "other",
+] as const satisfies readonly RecordingTypeId[];
+
+export type StudioBookingPath = "events" | "pro" | null;
+
+export function getStudioBookingPath(recordingType: RecordingTypeId | ""): StudioBookingPath {
+  if (!recordingType) return null;
+  if ((PATH_EVENTS_RECORDING_IDS as readonly string[]).includes(recordingType)) return "events";
+  if ((PATH_PRO_RECORDING_IDS as readonly string[]).includes(recordingType)) return "pro";
+  return null;
+}
+
+/** upgrades מומלצים לפי מסלול — קצר יותר, ממוקד יותר */
+export const STUDIO_UPGRADES_BY_PATH: Record<
+  NonNullable<StudioBookingPath>,
+  readonly StudioUpgradeId[]
+> = {
+  events: ["songwriting", "vocal_coaching", "performance_clip", "family_duet", "podcast_interview"],
+  pro:    ["bts", "performance_clip", "ai_playback", "podcast_interview", "express"],
+};
+
 export const SCHEDULE_WINDOW_OPTIONS: readonly {
   id: ScheduleWindowId;
   label: string;

@@ -4,6 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
 } from "./pricing";
 import { getExVat } from "./pricing-catalog";
+import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
@@ -1584,14 +1585,7 @@ export const EVENTS_SERVICES = {
       "תיאום מלא עם DJ, צלם ומנהל אירוע",
       "הובלה, התקנה, פירוק ואחריות מלאה",
     ],
-    pricing: [
-      {
-        name: "חבילת הפעלה מלאה",
-        price: "הצעה בוואטסאפ",
-        description:
-          "מכונה + תותח + מפעיל + נוזלים + הובלה. מחיר משתנה לפי משך ואזור.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-bubble-machine"),
     assetsFolder: "events/attractions/bubble-machine",
     playlistEmbedUrl: youtubeEmbedUrl(
       YOUTUBE_SERVICE_EMBED_IDS["attractions-bubble-machine"],
@@ -1670,14 +1664,7 @@ export const EVENTS_SERVICES = {
       "אפקט 3 ב-1: מגיעים, מתקינים, מפעילים ומפרקים",
       "שילוב עם עשן כבד וזיקוקים קרים",
     ],
-    pricing: [
-      {
-        name: "הפעלת בועות עשן",
-        price: "הצעה בוואטסאפ",
-        description:
-          "מכונה + מפעיל + נוזלים + הובלה. מחיר לפי משך ואזור.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-smoke-bubble-machine"),
     assetsFolder: "events/attractions/bubble-machine",
     playlistEmbedUrl: youtubeEmbedUrl(
       YOUTUBE_SERVICE_EMBED_IDS["attractions-bubble-machine"],
@@ -1753,19 +1740,7 @@ export const EVENTS_SERVICES = {
       "בטוח, יבש, ללא כתמים או ריח",
       "שילוב זיקוקים, קונפטי וחבילות אירועים",
     ],
-    pricing: [
-      {
-        name: "עשן כבד לאירוע גדול",
-        price: "הצעה בוואטסאפ",
-        priceNote: "מכונה כפולה + מפעיל",
-        description: "כיסוי אולם גדול / רחבה פתוחה  -  מותאם לשטח.",
-      },
-      {
-        name: "חבילת פרימיום + אפקטים",
-        price: "הצעה בוואטסאפ",
-        description: "עשן כבד + זיקוקים קרים / קונפטי / בועות.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-heavy-smoke-large"),
     assetsFolder: "heavy-smoke",
     playlistEmbedUrl: youtubeEmbedUrl(
       YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke-large"],
@@ -1836,26 +1811,7 @@ export const EVENTS_SERVICES = {
       "בטוח לאולמות סגורים ולחוץ  -  ביטוח וטכנאי",
       "שילוב קונפטי, זיקוקים קרים ובועות TITAN",
     ],
-    pricing: [
-      {
-        name: "חבילת סלואו / חופה",
-        price: "הצעה בוואטסאפ",
-        description:
-          "הפעלה לכניסה לחופה או ריקוד סלואו  -  מכונות בעוצמה מותאמת.",
-      },
-      {
-        name: "חבילה משודרגת",
-        price: "הצעה בוואטסאפ",
-        description:
-          "עשן + תותחי קונפטי אוטומטיים לסיום הסלואו, אופציה לצילום 4K לרשתות.",
-      },
-      {
-        name: "חבילת VIP",
-        price: "הצעה בוואטסאפ",
-        description:
-          "5 רגעי שיא, בועות TITAN, זיקוקים קרים, תותחי עשן וליווי טכנאי לאורך האירוע.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-wedding-smoke"),
     assetsFolder: "events/attractions/wedding-smoking-machine",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-wedding-smoke"]),
     mediaType: "video",
@@ -1954,24 +1910,7 @@ export const EVENTS_SERVICES = {
       "גיבוי: 2 בלוני CO₂ + תותח חלופי",
       "לבן, זהב, צבעוני, לבבות, כסף ולוגו מותאם",
     ],
-    pricing: [
-      {
-        name: "תותח יחיד",
-        price: "הצעה בוואטסאפ",
-        description: "הפעלה אחת לרגע שיא  -  מפעיל וגיבוי CO₂.",
-      },
-      {
-        name: "חבילת WOW ★",
-        price: "הצעה בוואטסאפ",
-        priceNote: "הכי נמכרת",
-        description: "2 תותחים  -  כניסה + שיא ריקודים. צבעים לפי בחירה.",
-      },
-      {
-        name: "חבילת פרימיום",
-        price: "הצעה בוואטסאפ",
-        description: "3+ הפעלות, שילוב עם עשן / זיקוקים / בועות.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-confetti-cannon"),
     assetsFolder: "events/attractions/confetti-cannon",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-confetti-cannon"]),
     mediaType: "video",
@@ -2056,27 +1995,7 @@ export const EVENTS_SERVICES = {
       "מפעיל צמוד ותיאום עם DJ וצלם",
       "מתאים להצעות נישואין, חופה וכניסה",
     ],
-    pricing: [
-      {
-        name: "חבילת בסיס",
-        price: "מ-1,200 ₪",
-        priceNote: "עד 2 הפעלות",
-        description: "זיקוקים קרים לכניסה או רגע שיא בטקס.",
-      },
-      {
-        name: "חבילת פרימיום ★",
-        price: "הצעה בוואטסאפ",
-        priceNote: "הכי נמכרת",
-        description:
-          "4 מכונות, גובה 4-5 מ׳, 2 הפעלות (כניסה + שיא), מפעיל צמוד. בונוס: תאורת LED.",
-      },
-      {
-        name: "חבילת מקצועי",
-        price: "מ-2,200 ₪",
-        priceNote: "עד 4 הפעלות + תיאום מלא",
-        description: "תכנון רגעים, תיאום טכני וליווי בשטח.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-cold-fireworks"),
     assetsFolder: "events/attractions/cold-fireworks",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-cold-fireworks"]),
     mediaType: "video",
@@ -2171,19 +2090,7 @@ export const EVENTS_SERVICES = {
       "שילוב עם תאורה, עשן ומוזיקה לרגעי שיא",
       "חבילות לפי כמות וגודל האזור",
     ],
-    pricing: [
-      {
-        name: "עמדת בלונים סטנדרט",
-        price: "מ-900 ₪",
-        description: "עיצוב בסיסי לרחבה או פינת צילום.",
-      },
-      {
-        name: "עיצוב ענק מקצועי",
-        price: "מ-1,800 ₪",
-        priceNote: "כולל התקנה מלאה",
-        description: "כיסוי אזור רחב, צבעים מותאמים וליווי עד סוף האירוע.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-giant-balloons"),
     assetsFolder: "events/attractions/giant-balloons",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-giant-balloons"]),
     mediaType: "video",
@@ -2211,7 +2118,7 @@ export const EVENTS_SERVICES = {
     category: "events",
     title: "השכרת עמדת LED לתקליטן ולאירועים",
     subtitle:
-      "עמדת DJ LED עם מסך רציף  -  לוגו, ויז'ואלס, שידור חי ושמות החוגגים. הטרנד של 2026: להיפרד מהמפה השחורה. מ-1,500 ₪.",
+      `עמדת DJ LED עם מסך רציף  -  לוגו, ויז'ואלס, שידור חי ושמות החוגגים. הטרנד של 2026: להיפרד מהמפה השחורה. ${LED_BOOTH_SUBTITLE_TRAIL}`,
     metaTitle: "השכרת עמדת LED לאירועים | עמדת DJ לד - פתח תקווה ואזור המרכז",
     metaDescription:
       "עמדת LED לחתונה במודיעין ובמרכז. P3.91, Resolume ומיתוג מותאם - הצעה תוך 24 שעות.",
@@ -2233,26 +2140,7 @@ export const EVENTS_SERVICES = {
       "התקנה, פירוק, טכנאי  -  הכל כלול",
       "שילוב עשן, זיקוקים קרים ובועות עשן",
     ],
-    pricing: [
-      {
-        name: "חבילת בסיס",
-        price: "מ-1,500 ₪",
-        priceNote: "מסך ~2×2 מ׳",
-        description: "עמדת LED, התקנה ותוכן בסיסי.",
-      },
-      {
-        name: "חבילת פרימיום ★",
-        price: "הצעה בוואטסאפ",
-        priceNote: "תוכן מותאם + VJ",
-        description:
-          "מומלץ לחתונות ואירועי חברה  -  עיצוב אישי וויז'ואלס לפי מוזיקה.",
-      },
-      {
-        name: "מכירה לספקים",
-        price: "מ-25,000 ₪",
-        description: "למפיקים, אולמות ו-DJs  -  אחריות שנה והדרכה.",
-      },
-    ],
+    pricing: servicePricingForEventBundles(),
     assetsFolder: "events/attractions/led-booth",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-led-booth"]),
     mediaType: "video",
@@ -2264,8 +2152,7 @@ export const EVENTS_SERVICES = {
       {
         id: "price",
         question: "כמה עולה להשכיר עמדת LED?",
-        answer:
-          "מ-1,500 ₪ לבסיס (מסך ~2×2 מ׳). תלוי בגודל, משך ומיקום. הצעה מדויקת תוך שעות.",
+        answer: ledBoothPriceFaqAnswer(),
       },
       {
         id: "daylight",
@@ -2308,7 +2195,7 @@ export const EVENTS_SERVICES = {
       {
         id: "buy",
         question: "אפשר לקנות?",
-        answer: "כן  -  מ-25,000 ₪, אחריות שנה, הדרכה ותמיכה.",
+        answer: `${ledBoothPurchaseCopy()} השקעה שמחזירה את עצמה אחרי מספר אירועים לספק קבוע.`,
       },
       {
         id: "booking",
@@ -2350,19 +2237,7 @@ export const EVENTS_SERVICES = {
       "שילוב עם תאורה, DJ וצילום",
       "חבילות לפי מספר הפעלות",
     ],
-    pricing: [
-      {
-        name: "חבילת 3 יריות",
-        price: "מ-750 ₪",
-        description: "מתאים לרגע שיא בודד או כניסה.",
-      },
-      {
-        name: "חבילת ערב",
-        price: "מ-1,400 ₪",
-        priceNote: "עד 8 הפעלות",
-        description: "ליווי מלא לאורך האירוע עם תיאום טכני.",
-      },
-    ],
+    pricing: servicePricingForAttractionService("attractions-smoke-cannons"),
     assetsFolder: "events/attractions/smoke-cannons-for-events",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["attractions-smoke-cannons"]),
     mediaType: "video",

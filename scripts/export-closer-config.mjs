@@ -583,10 +583,11 @@ function parseChatbotFaq() {
     fs.mkdirSync(path.join(ROOT, ".next"), { recursive: true });
     esbuild.buildSync({
       entryPoints: [CHATBOT_DATA_FILE],
-      bundle: false,
+      bundle: true,
       format: "cjs",
       platform: "node",
       outfile: tmpOut,
+      tsconfig: path.join(ROOT, "tsconfig.json"),
       logLevel: "silent",
     });
     const mod = createRequire(import.meta.url)(tmpOut);

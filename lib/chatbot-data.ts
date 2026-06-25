@@ -1,3 +1,5 @@
+import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
+
 export type ChatAnswer = {
   text: string;
   readMoreHref?: string;
@@ -11,6 +13,8 @@ export type ChatQuestion = {
   id: string;
   label: string;
   answer: ChatAnswer;
+  /** When true, question is accessible via guided path only — hidden from main FAQ list */
+  hidden?: boolean;
 };
 
 export type ChatbotData = {
@@ -52,7 +56,7 @@ export function isStudioOpen(): boolean {
 
 // Pathname → question IDs to surface at the top of the list
 export const PATHNAME_PRIORITY: Record<string, string[]> = {
-  "/studio":        ["chatbot_studio_price", "chatbot_blessings"],
+  "/studio":        ["chatbot_studio_physical", "chatbot_blessings", "chatbot_studio_price"],
   "/podcast":       ["chatbot_podcast"],
   "/events":                                ["chatbot_dj", "chatbot_attractions"],
   "/events/attractions":                    ["chatbot_attractions"],
@@ -73,28 +77,35 @@ export const GUIDED_PATHS: Record<string, GuidedStep> = {
   root: {
     question: "מה אתם מחפשים?",
     options: [
-      { label: "הקלטה באולפן",              nextStep: "studio_type" },
-      { label: "פודקאסט או פרויקט דיבור",    questionId: "chatbot_podcast" },
-      { label: "DJ לאירוע",                  nextStep: "event_type" },
-      { label: "אטרקציות ופירוטכניקה",        questionId: "chatbot_attractions" },
-      { label: "צילום אירועים / וידאו",       questionId: "chatbot_photography" },
-      { label: "חבילה משולבת / אחר",          questionId: "chatbot_quote" },
+      { label: "🎙️ הקלטה באולפן",              nextStep: "studio_type" },
+      { label: "🎧 פודקאסט או פרויקט דיבור",    questionId: "chatbot_podcast" },
+      { label: "🎵 DJ לאירוע",                  nextStep: "event_type" },
+      { label: "✨ אטרקציות ופירוטכניקה",        questionId: "chatbot_attractions" },
+      { label: "📸 צילום אירועים / וידאו",       questionId: "chatbot_photography" },
+      { label: "💼 חבילה משולבת / אחר",          questionId: "chatbot_quote" },
     ],
   },
   studio_type: {
-    question: "מה תרצו להקליט באולפן?",
+    question: "מה תרצו להקליט?",
     options: [
-      { label: "שיר לאירוע או ברכה מוקלטת",      questionId: "chatbot_blessings" },
-      { label: "פודקאסט, הרצאה או שיחה",          questionId: "chatbot_podcast" },
-      { label: "שיר מקורי, סינגל או קריינות",     questionId: "chatbot_studio_price" },
+      { label: "🎤 שיר לאירוע או ברכה מוקלטת",      questionId: "chatbot_blessings" },
+      { label: "🎙️ פודקאסט, הרצאה או שיחה",          questionId: "chatbot_podcast" },
+      { label: "🎵 שיר מקורי, סינגל או קריינות",     nextStep: "studio_recording_mode" },
+    ],
+  },
+  studio_recording_mode: {
+    question: "מאיפה תקליטו?",
+    options: [
+      { label: "🎚️ ביקור פיזי באולפן",              questionId: "chatbot_studio_physical" },
+      { label: "📱 מרחוק (שולחים קובץ מהטלפון)",    questionId: "chatbot_remote" },
     ],
   },
   event_type: {
-    question: "מהו סוג האירוע המתוכנן?",
+    question: "מהו סוג האירוע?",
     options: [
-      { label: "חתונה או בר / בת מצווה",            questionId: "chatbot_dj" },
-      { label: "אירוע חברה או כנס עסקי",             questionId: "chatbot_dj" },
-      { label: "מסיבה פרטית או חגיגת יום הולדת",    questionId: "chatbot_dj" },
+      { label: "💍 חתונה או בר / בת מצווה",            questionId: "chatbot_dj" },
+      { label: "🏢 אירוע חברה או כנס עסקי",             questionId: "chatbot_dj" },
+      { label: "🎉 מסיבה פרטית או יום הולדת",           questionId: "chatbot_dj" },
     ],
   },
 };
@@ -106,19 +117,45 @@ export const CHATBOT_DATA: ChatbotData = {
   questions: [
     {
       id: "chatbot_studio_price",
-      label: "מחיר אולפן הקלטות",
+      label: "🎙️ מחיר אולפן הקלטות",
       answer: {
-        text: "הקלטת שיר באולפן מתחילה מ-₪590. המחיר הסופי נקבע לפי סוג ההקלטה, מספר המשתתפים ורמת העריכה הדרושה. בואו נבין יחד מה מדויק עבורכם.",
+        text: "יש שני מסלולים: הקלטה מרחוק (שולחים קובץ מהטלפון) מתחילה מ-₪590. הקלטה פיזית באולפן מתחילה מ-₪750 לחצי שעה, או ₪990 לחבילת הקלטת שיר מלאה. תספרו לי מה מתאים לכם.",
         readMoreHref: "/studio/pricing",
         readMoreLabel: "מחירון אולפן מלא",
-        whatsappMessage: "שלום יקיר, אשמח לקבל פרטים על הקלטת שיר באולפן.",
-        whatsappCta: "ספרו לי על ההקלטה שלכם",
+        whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת שיר - [מרחוק / באולפן]",
+        whatsappCta: "ספרו לי מה מתאים לכם",
         utm_campaign: "chatbot_studio_price",
       },
     },
     {
+      id: "chatbot_remote",
+      label: "📱 הקלטה מרחוק (מהטלפון)",
+      hidden: true,
+      answer: {
+        text: "שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים, mix ותיקון זיופים. מתחיל מ-₪590 לפני מע\"מ. ללא צורך בביקור באולפן.",
+        readMoreHref: "/online/vocal-fix",
+        readMoreLabel: "פרטים על שירות שיפור קול",
+        whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
+        whatsappCta: "שלחו קובץ לבדיקה",
+        utm_campaign: "chatbot_remote",
+      },
+    },
+    {
+      id: "chatbot_studio_physical",
+      label: "🎚️ הקלטה פיזית באולפן",
+      hidden: true,
+      answer: {
+        text: "הקלטה פיזית באולפן מתחילה מ-₪750 לחצי שעה (ביקור + ציוד + הנחיה). חבילת הקלטת שיר מלאה (עד 3 שעות, mix ותיקון זיופים) - ₪990. המחיר הסופי תלוי במה שרוצים להשיג.",
+        readMoreHref: "/studio/pricing",
+        readMoreLabel: "מחירון אולפן מלא",
+        whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטה פיזית באולפן. מה הזמינות?",
+        whatsappCta: "ספרו לי מה תרצו להקליט",
+        utm_campaign: "chatbot_studio_physical",
+      },
+    },
+    {
       id: "chatbot_blessings",
-      label: "הקלטת ברכה לאירוע",
+      label: "🎤 הקלטת ברכה לאירוע",
       answer: {
         text: "הקלטת ברכה לאירוע מתחילה מ-₪590, כולל ליווי קולי מלא ועריכת סאונד (אספקה תוך 24-48 שעות). המחיר משתנה בהתאם למספר המברכים ומורכבות ההפקה. ספרו לי על האירוע שלכם ונבחר את הפורמט.",
         readMoreHref: "/studio/blessings",
@@ -130,7 +167,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_podcast",
-      label: "מחיר פודקאסט",
+      label: "🎧 מחיר פודקאסט",
       answer: {
         text: "הקלטת פרק פודקאסט מתחילה מ-₪950. התמחור משתנה לפי הפורמט הנבחר: אודיו בלבד, צילום וידאו רב-מצלמתי או כמות המשתתפים. נבין יחד מה הפורמט הנכון עבורכם.",
         readMoreHref: "/podcast",
@@ -142,7 +179,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_availability",
-      label: "יש זמינות לתאריך שלי?",
+      label: "📅 יש זמינות לתאריך שלי?",
       answer: {
         text: "הזמינות ביומן משתנה מדי יום בהתאם לסוג השירות והתאריך המבוקש. שלחו הודעה מהירה עם התאריך והשירות שלכם כדי לקבל תשובה סופית.",
         readMoreHref: "/contact",
@@ -154,7 +191,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_hours",
-      label: "שעות פעילות ומיקום",
+      label: "🕐 שעות פעילות ומיקום",
       answer: {
         text: "האולפן ממוקם במודיעין ופעיל בימים ראשון-חמישי בין השעות 09:00-20:00, ובימי שישי עד 14:00 (שבת סגור). רוצים לבדוק אם השעה או התאריך שלכם פנויים?",
         readMoreHref: "/contact",
@@ -166,7 +203,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_dj",
-      label: "DJ לחתונה ואירועים",
+      label: "🎵 DJ לחתונה ואירועים",
       answer: {
         text: "שירותי DJ לאירוע מתחילים מ-₪5,000, ודיג'יי אישי של יקיר מ-₪8,305. כיוון שהמחיר וההתאמה תלויים לחלוטין בסוג האירוע והתאריך, השלב הראשון הוא בדיקת יומן.",
         readMoreHref: "/events",
@@ -178,11 +215,11 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_attractions",
-      label: "אטרקציות לאירוע",
+      label: "✨ אטרקציות לאירוע",
       answer: {
-        text: "אטרקציה אחת — ₪1,750. חבילות: 2 אטרקציות ₪3,200 · 3 אטרקציות ₪4,450 · 4+ ₪5,500 + קליפ היילייטס מתנה.\n\nלכל אטרקציה בוחרים כמות הפעלות:\n• זיקוקים קרים / קונפטי — לפי רגעי שיא (הפעלה שנייה/שלישית = +₪1,750 כל אחת, כי כל הפעלה = מלאי גלם חדש)\n• עשן כבד / בועות — לפי תדירות: הפעלה אחת · 2 מדורגות (+35%) · 2 מלאות (+50%) · אקסטרים כל הערב (+100%)\n\nמה האירוע שלכם ואיזה רגעים הכי חשוב לכם לצלם?",
-        readMoreHref: "/events/attractions",
-        readMoreLabel: "מחשבון אטרקציות",
+        text: formatAttractionPricingForChatbot(),
+        readMoreHref: "/book#events",
+        readMoreLabel: "הזמנה מפורטת",
         whatsappMessage: "שלום יקיר, מעוניין/ת באטרקציות לאירוע ב-[תאריך]. מה פנוי?",
         whatsappCta: "ספרו לי על האירוע שלכם",
         utm_campaign: "chatbot_attractions",
@@ -190,7 +227,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_photography",
-      label: "צילום חתונה ואירוע",
+      label: "📸 צילום חתונה ואירוע",
       answer: {
         text: "צילום אירוע מתחיל מ-₪1,500 לפי שעה, וחבילת צילום מלאה (עד 8 שעות) מתחילה מ-₪12,000. הפרט החשוב ביותר כרגע הוא בדיקת זמינות הצלמים לתאריך שלכם.",
         readMoreHref: "/photography",
@@ -202,7 +239,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_voiceover",
-      label: "קריינות מקצועית",
+      label: "🎙️ קריינות מקצועית",
       answer: {
         text: "קריינות מקצועית מתומחרת באופן ישיר לפי אורך הסקריפט (מספר מילים) ואופי המדיה. שלחו את הטקסט או אפיון קצר ותקבלו הצעה מדויקת.",
         readMoreHref: "/voiceover",
@@ -214,7 +251,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_academy",
-      label: "קורסים ואקדמיה",
+      label: "🎓 קורסים ואקדמיה",
       answer: {
         text: "האקדמיה מציעה קורסי DJ, הפקה מוזיקלית, קריינות והקמת סטודיו ביתי (במודיעין או אונליין). הלימודים מותאמים אישית לקצב ולידע שלכם. איזה תחום מעניין אתכם לפתח?",
         readMoreHref: "/academy",
@@ -226,7 +263,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_quote",
-      label: "הצעת מחיר מותאמת",
+      label: "💬 הצעת מחיר מותאמת",
       answer: {
         text: "חבילות משולבות של DJ, צילום והפקה כוללת מותאמות אישית לפי סוג האירוע, המיקום והתאריך. שלחו 3 פרטים בסיסיים ותקבלו אפיון ראשוני תוך זמן קצר.",
         readMoreHref: "/contact",
@@ -238,7 +275,7 @@ export const CHATBOT_DATA: ChatbotData = {
     },
     {
       id: "chatbot_portfolio",
-      label: "תיק עבודות ודוגמאות",
+      label: "🎵 תיק עבודות ודוגמאות",
       answer: {
         text: "קטעי סאונד, פרקי פודקאסט, גלריות מאירועים וסרטוני וידאו זמינים עבורכם ישירות בגלריה ובעמודי השירות באתר.",
         readMoreHref: "/portfolio",

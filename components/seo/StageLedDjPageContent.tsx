@@ -1,11 +1,10 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
-import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
+import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -21,6 +20,7 @@ import {
   LED_BOOTH_WHY_US,
 } from "@/lib/data/stage-led-dj-page";
 import { getEventsService } from "@/lib/data/services";
+import { ledBoothPurchaseCopy } from "@/lib/data/attraction-book-pricing";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -344,8 +344,7 @@ export default function StageLedDjPageContent() {
             מכירה לספקים ומפיקים
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            חברות הפקה, אולמות ותקליטנים  -  מ-25,000 ₪, אחריות שנה, הדרכה ותמיכה.
-            השקעה שמחזירה את עצמה אחרי 10-15 אירועים.
+            {ledBoothPurchaseCopy()} השקעה שמחזירה את עצמה אחרי מספר אירועים לספק קבוע.
           </p>
           <a
             href={saleWhatsapp}
@@ -387,18 +386,11 @@ export default function StageLedDjPageContent() {
           </ul>
         </section>
 
-        <section aria-labelledby="calculator-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="calculator-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              שלבו עם אטרקציות נוספות
-            </h2>
-          </header>
-          <AttractionsCalculatorLazy className="mt-8" />
-        </section>
-        <ServicePagePricingSection service={service} />
+        <AttractionBookPricingSection
+          serviceTitle={service.title}
+          utmCampaign={service.utmCampaign}
+          heading="חבילות אטרקציות — כמו בעמוד ההזמנה"
+        />
 
 
         {service.faqs.length > 0 ? (

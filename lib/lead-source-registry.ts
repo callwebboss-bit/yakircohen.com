@@ -205,6 +205,8 @@ export const LEAD_SOURCE_REGISTRY: readonly LeadSourceEntry[] = [
     defaultSource: "chatbot_widget",
     utmCampaigns: [
       "chatbot_studio_price",
+      "chatbot_remote",
+      "chatbot_studio_physical",
       "chatbot_blessings",
       "chatbot_podcast",
       "chatbot_availability",

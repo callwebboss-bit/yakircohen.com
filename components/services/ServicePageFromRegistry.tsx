@@ -4,6 +4,8 @@ import SectionJumpChips from "@/components/ui/SectionJumpChips";
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
+import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
+import { resolveEventItemIdFromPath } from "@/lib/data/attraction-book-pricing";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import StudioUpsellCallout from "@/components/services/StudioUpsellCallout";
 import RelatedServices from "@/components/services/RelatedServices";
@@ -59,6 +61,8 @@ export default function ServicePageFromRegistry({
   const showcaseLabel = portfolioLabel ?? service.title;
   const pagePath = `/${service.slug.replace(/^\/+/, "")}`;
   const bookCta = resolveServiceBookCta(service.slug);
+  const eventItemId =
+    service.category === "events" ? resolveEventItemIdFromPath(pagePath) : null;
 
   const jumpChips = [
     ...(showPortfolioSection ? [{ label: "דוגמאות", href: "#showcase-section" }] : []),
@@ -126,7 +130,15 @@ export default function ServicePageFromRegistry({
         {service.category === "studio" ? <StudioUpsellCallout /> : null}
 
         <div id="pricing-section">
-          <ServicePagePricingSection service={service} />
+          {service.category === "events" ? (
+            <AttractionBookPricingSection
+              itemId={eventItemId}
+              serviceTitle={service.title}
+              utmCampaign={service.utmCampaign}
+            />
+          ) : (
+            <ServicePagePricingSection service={service} />
+          )}
         </div>
 
         <div id="testimonials-section">

@@ -1,11 +1,10 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
-import { AttractionsCalculatorLazy } from "@/components/calculators/lazy";
+import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -221,18 +220,11 @@ export default function HeavySmokeLargeEventsPageContent() {
           </ul>
         </section>
 
-        <section aria-labelledby="calculator-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="calculator-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              שלבו עם אטרקציות נוספות
-            </h2>
-          </header>
-          <AttractionsCalculatorLazy className="mt-8" />
-        </section>
-        <ServicePagePricingSection service={service} />
+        <AttractionBookPricingSection
+          itemId="event_smoke"
+          serviceTitle={service.title}
+          utmCampaign={service.utmCampaign}
+        />
 
 
         {service.faqs.length > 0 ? (
