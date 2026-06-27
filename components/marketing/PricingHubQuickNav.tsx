@@ -21,7 +21,7 @@ const PRICING_QUICK_NAV = [
   {
     title: "מחירון אולפן",
     description: "שעות, ברכות ושירים",
-    href: "/studio/pricing",
+    href: "/pricing#studio",
   },
   {
     title: "DJ ואירועים",
@@ -31,12 +31,12 @@ const PRICING_QUICK_NAV = [
   {
     title: "שירותי AI מקוונים",
     description: "שחזור, מיקס ותיקון זיופים",
-    href: "/online/online-ai-pricing",
+    href: "/pricing#online",
   },
   {
     title: "אטרקציות לאירועים",
     description: "עשן, בועות, זיקוקים",
-    href: "/events/attractions",
+    href: "/pricing#events",
   },
 ] as const;
 

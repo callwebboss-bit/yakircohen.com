@@ -25,6 +25,7 @@ import {
   validateBookingLead,
 } from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
@@ -96,15 +97,6 @@ export default function AcademyBookingWizard({
     ycForm: "academy_booking",
   });
 
-  const scrollToFirstError = useCallback((errs: Record<string, string>) => {
-    if (Object.keys(errs).length === 0) return;
-    setTimeout(() => {
-      document
-        .querySelector("[data-field-error]")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  }, []);
-
   const mergeErrors = useCallback(
     (patch: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
       setErrors((prev) => (typeof patch === "function" ? patch(prev) : { ...prev, ...patch }));
@@ -117,7 +109,7 @@ export default function AcademyBookingWizard({
       if (!termsAccepted) {
         const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
         setErrors(termsErr);
-        scrollToFirstError(termsErr);
+        scrollAndHighlightFirstError();
         return;
       }
 
@@ -178,7 +170,7 @@ export default function AcademyBookingWizard({
 
       const errs = fieldErrs ?? {};
       setErrors(errs);
-      scrollToFirstError(errs);
+      scrollAndHighlightFirstError();
     },
     [
       attemptSubmit,
@@ -186,7 +178,6 @@ export default function AcademyBookingWizard({
       phone,
       plan,
       routeId,
-      scrollToFirstError,
       submitLead,
       termsAccepted,
       topic,
@@ -331,7 +322,7 @@ export default function AcademyBookingWizard({
         showPaymentTrust
         continueWhatsApp={{ onClick: () => handleAction("continue_chat"), label: "נמשיך בוואטסאפ" }}
         startNow={{ onClick: () => handleAction("start_now"), label: "התחל תהליך והזמן עכשיו" }}
-        disabled={!termsAccepted || isSubmitting}
+        disabled={isSubmitting}
       />
     </div>
   );

@@ -22,12 +22,14 @@ import {
 import { breadcrumbListJsonLd } from "@/lib/breadcrumbs/build-trail";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
+import PricingInquiryForm from "@/components/pricing/PricingInquiryForm";
 import {
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
   PODCAST_EDITING_PER_HOUR_NIS,
 } from "@/lib/data/pricing";
 import { absoluteUrl } from "@/lib/site-url";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = metadataForHubSeo(PRICING_HUB_SEO);
 
@@ -136,11 +138,19 @@ export default function PricingHubPage() {
             <p className="mt-2 text-xs text-muted-foreground">
               עודכן: {PRICES_LAST_UPDATED}
             </p>
-            <p className="mt-4">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
               <Link href="/book" className={`${linkClass} text-sm font-semibold text-brand-red hover:underline`}>
                 הזמנה מקוונת עם מחיר שקוף
               </Link>
-            </p>
+              <a
+                href={buildWhatsAppHref({ text: "היי, אשמח לפרטים על המחירים", source: "pricing-hero" })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${linkClass} text-sm text-muted-foreground hover:text-brand-red`}
+              >
+                שאלה? וואטסאפ
+              </a>
+            </div>
             <div id="pricing-hero-sentinel" aria-hidden />
           </Container>
         </Section>
@@ -227,6 +237,21 @@ export default function PricingHubPage() {
                 </div>
               ))}
             </dl>
+          </Container>
+        </Section>
+
+        {/* Pricing inquiry form */}
+        <Section padding="sm" className="border-t border-border bg-surface">
+          <Container className="max-w-3xl">
+            <h2 className="font-serif text-section-title font-semibold text-foreground">
+              יש לכם שאלה על המחירים?
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              השאירו פרטים ונחזור אליכם תוך 24 שעות.
+            </p>
+            <div className="mt-6">
+              <PricingInquiryForm />
+            </div>
           </Container>
         </Section>
 

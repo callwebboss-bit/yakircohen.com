@@ -58,6 +58,7 @@ import {
 } from "@/lib/booking-messages";
 import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
 
 function AttractionIcon({
@@ -363,6 +364,7 @@ export default function EventsBookingWizard({
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
+      scrollAndHighlightFirstError();
       return;
     }
     runSubmit(
@@ -960,7 +962,6 @@ export default function EventsBookingWizard({
               />
 
               <BookingSummaryActions
-                disabled={!form.termsAccepted}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: whatsappCtaLabel,

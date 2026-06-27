@@ -25,6 +25,7 @@ import {
 } from "@/lib/form-validation";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
@@ -92,15 +93,6 @@ export default function OnlineRestoreBookingPanel({
     ycForm: "online_restore_booking",
   });
 
-  const scrollToFirstError = useCallback((errs: Record<string, string>) => {
-    if (Object.keys(errs).length === 0) return;
-    setTimeout(() => {
-      document
-        .querySelector("[data-field-error]")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  }, []);
-
   const mergeErrors = useCallback(
     (patch: Record<string, string> | ((prev: Record<string, string>) => Record<string, string>)) => {
       setErrors((prev) => (typeof patch === "function" ? patch(prev) : { ...prev, ...patch }));
@@ -113,7 +105,7 @@ export default function OnlineRestoreBookingPanel({
       if (!termsAccepted) {
         const termsErr = { terms: "יש לאשר את התנאים לפני שליחה" };
         setErrors(termsErr);
-        scrollToFirstError(termsErr);
+        scrollAndHighlightFirstError();
         return;
       }
 
@@ -174,9 +166,9 @@ export default function OnlineRestoreBookingPanel({
 
       const errs = fieldErrs ?? {};
       setErrors(errs);
-      scrollToFirstError(errs);
+      scrollAndHighlightFirstError();
     },
-    [attemptSubmit, issue, name, phone, routeId, scrollToFirstError, submitLead, termsAccepted],
+    [attemptSubmit, issue, name, phone, routeId, submitLead, termsAccepted],
   );
 
   const handleNewBooking = useCallback(() => {

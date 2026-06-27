@@ -100,6 +100,7 @@ import {
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 
@@ -642,17 +643,10 @@ export default function StudioRecordingBooking({
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  const scrollToFirstError = () => {
-    setTimeout(() => {
-      document
-        .querySelector("[data-field-error]")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  };
-
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       mergeErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
+      scrollAndHighlightFirstError();
       return;
     }
 
@@ -726,7 +720,7 @@ export default function StudioRecordingBooking({
     );
 
     if (fieldErrs && Object.keys(fieldErrs).length > 0) {
-      scrollToFirstError();
+      scrollAndHighlightFirstError();
     }
   };
 
@@ -738,7 +732,7 @@ export default function StudioRecordingBooking({
     });
     if (!scheduleResult.ok) {
       mergeErrors(scheduleResult.errors);
-      scrollToFirstError();
+      scrollAndHighlightFirstError();
       return;
     }
 
@@ -1631,7 +1625,6 @@ export default function StudioRecordingBooking({
 
               <BookingSubmitButton
                 onClick={() => onSubmitClick("continue_chat")}
-                disabled={!form.termsAccepted}
               >
                 {sendBookingWaCta(withVat(total))}
               </BookingSubmitButton>
@@ -1663,8 +1656,7 @@ export default function StudioRecordingBooking({
             <button
               type="button"
               onClick={() => onSubmitClick("continue_chat")}
-              disabled={!form.termsAccepted}
-              className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+              className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white"
             >
               וואטסאפ
             </button>

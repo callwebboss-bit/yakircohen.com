@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   BOOK_AUDIENCE_ROUTES,
   type BookAudienceRoute,
@@ -63,13 +63,12 @@ export function useBookUtmBoost(options?: BookUtmBoostOptions): {
 } {
   const campaign = options?.utmCampaign?.trim() ?? "";
   const content = options?.utmContent?.trim() ?? "";
-  const [clientSignals, setClientSignals] = useState("");
-
-  useEffect(() => {
+  const [clientSignals] = useState(() => {
+    if (typeof window === "undefined") return "";
     persistUtmBoostFromUrl();
     try {
       const params = new URLSearchParams(window.location.search);
-      const fromUrl = [
+      return [
         params.get("utm_campaign"),
         params.get("utm_content"),
         params.get("utm_source"),
@@ -77,11 +76,10 @@ export function useBookUtmBoost(options?: BookUtmBoostOptions): {
       ]
         .filter(Boolean)
         .join(" ");
-      setClientSignals(fromUrl);
     } catch {
-      setClientSignals(readUtmSignals());
+      return readUtmSignals();
     }
-  }, []);
+  });
 
   return useMemo(() => {
     const signals = `${campaign} ${content} ${clientSignals}`.toLowerCase();

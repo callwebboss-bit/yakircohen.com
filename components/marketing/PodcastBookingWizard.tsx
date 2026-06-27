@@ -60,6 +60,7 @@ import {
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
@@ -234,6 +235,7 @@ export default function PodcastBookingWizard({
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
+      scrollAndHighlightFirstError();
       return;
     }
     runSubmit(
@@ -752,7 +754,6 @@ export default function PodcastBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
-                disabled={!form.termsAccepted}
                 socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(packageTotal)),

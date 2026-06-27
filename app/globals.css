@@ -100,6 +100,25 @@
   }
 }
 
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-5px); }
+  30%       { transform: translateX(5px); }
+  45%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+  75%       { transform: translateX(-2px); }
+}
+
+.animate-error-shake {
+  animation: error-shake 0.45s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-error-shake {
+    animation: none !important;
+  }
+}
+
 /* ── CSS-only scroll reveal ────────────────────────────────────────────────
    Uses animation-timeline: view() -- zero JS, GPU-composited only.
    Wrapped in @supports so unsupported browsers see content normally.

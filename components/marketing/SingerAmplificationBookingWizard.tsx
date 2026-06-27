@@ -49,6 +49,7 @@ import {
 } from "@/lib/booking-messages";
 import { parseSingerFormDraft, type SingerFormDraft } from "@/lib/singer-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["בחירת מערכת", "פרטי ההופעה", "אישור ושליחה"] as const;
@@ -173,6 +174,7 @@ export default function SingerAmplificationBookingWizard({
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
+      scrollAndHighlightFirstError();
       return;
     }
     runSubmit(
@@ -222,6 +224,7 @@ export default function SingerAmplificationBookingWizard({
       },
       { leadCategory: "singer" },
     );
+    scrollAndHighlightFirstError();
   };
 
   const handleNewBooking = () => {
@@ -409,7 +412,6 @@ export default function SingerAmplificationBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
-                disabled={!form.termsAccepted}
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(totalExVat)),
                   onClick: () => handleAction("continue_chat"),

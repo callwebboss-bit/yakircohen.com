@@ -25,6 +25,7 @@ import {
   type ValidationResult,
 } from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
@@ -127,10 +128,12 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
   const handleSubmit = useCallback(() => {
     if (!termsAccepted) {
       mergeErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
+      scrollAndHighlightFirstError();
       return;
     }
     if (selected.size === 0) {
       mergeErrors({ services: "בחרו לפחות שירות אחד" });
+      scrollAndHighlightFirstError();
       return;
     }
 
@@ -188,6 +191,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       },
     );
     setErrors(fieldErrs ?? {});
+    if (fieldErrs && Object.keys(fieldErrs).length > 0) scrollAndHighlightFirstError();
   }, [
     attemptSubmit,
     mergeErrors,
