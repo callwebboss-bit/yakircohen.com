@@ -220,10 +220,20 @@ export default function OnlineVocalFixPageContent() {
             >
               גם צריך תיקון זיופים? </Link>
             <Link
-              href="/online/vocal-fix/photo-enhance"
+              href="/online/vocal-fix/volume-balance"
               className="font-medium text-brand-red hover:underline"
             >
-              שדרוג תמונות ב-AI (מ-50 ₪) </Link>
+              איזון ווליומים (500 ₪) </Link>
+            <Link
+              href="/online/vocal-fix/noise-removal"
+              className="font-medium text-brand-red hover:underline"
+            >
+              ניקוי רעשים (500 ₪) </Link>
+            <Link
+              href="/online/vocal-fix/eq-fix"
+              className="font-medium text-brand-red hover:underline"
+            >
+              תיקון תדרים ו-EQ (500 ₪) </Link>
             <Link
               href="/online/vocal-fix/mixing"
               className="font-medium text-brand-red hover:underline"

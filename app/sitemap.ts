@@ -86,6 +86,21 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.75,
     changeFrequency: "monthly",
   },
+  {
+    url: url("online/vocal-fix/volume-balance"),
+    priority: 0.72,
+    changeFrequency: "monthly",
+  },
+  {
+    url: url("online/vocal-fix/noise-removal"),
+    priority: 0.72,
+    changeFrequency: "monthly",
+  },
+  {
+    url: url("online/vocal-fix/eq-fix"),
+    priority: 0.72,
+    changeFrequency: "monthly",
+  },
   { url: url("online/online-ai-pricing"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── Attractions ────────────────────────────────────────────────────────────

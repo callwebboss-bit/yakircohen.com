@@ -128,6 +128,9 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "reel_factory_rave_24h", label: "רילס Rave ערוך תוך 24 שעות", exVat: 1400, category: "online", context: "ביט-סינק, אפקטים, צבע וסאונד מנורמל" },
   { id: "reel_factory_starter_monthly", label: "Content Hub בסיס לספקים", exVat: 2800, category: "online", context: "4 פרומואים + פוסטים שיווקיים בחודש" },
   { id: "reel_factory_pro_monthly", label: "Content Hub פרו לספקים", exVat: 4500, category: "online", context: "8 פרומואים + פוסטים + כיתובים לכל פלטפורמה" },
+  { id: "volume_balance_full", label: "איזון ווליומין", exVat: 500, category: "online", context: "איזון עוצמות קול לקטע עד 5 דקות" },
+  { id: "noise_removal_segment", label: "ניקוי רעשים", exVat: 500, category: "online", context: "הסרת רעשי רקע לקטע עד 5 דקות" },
+  { id: "eq_freq_fix", label: "תיקון תדרים ו-EQ", exVat: 500, category: "online", context: "שיפור איכות סאונד ותדרים לקטע עד 5 דקות" },
 
   // ─── שירותים מקצועיים לעסקים ───
   { id: "dj_voice_tag_single", label: "תג קולי בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות ממותגת עם אפקטי מועדון" },

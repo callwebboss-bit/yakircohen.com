@@ -138,6 +138,27 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
         summary: "הפרדת ערוצים, עיבודי קול חכמים ותמחור שקוף לפי צורך.",
         href: "/online/online-ai-pricing",
       },
+      {
+        icon: "🔊",
+        title: "איזון ווליומין",
+        summary: "הקלטתם קטע ורוצים שהווליום יהיה אחיד? אנחנו מאזנים עוצמות קול עד 5 דקות.",
+        href: "/online/vocal-fix/volume-balance",
+        tag: "חדש",
+      },
+      {
+        icon: "🔇",
+        title: "ניקוי רעשים",
+        summary: "הסרת רעשי רקע, אוויר ורחש מהקלטות, ראיונות ותכנים מצולמים.",
+        href: "/online/vocal-fix/noise-removal",
+        tag: "חדש",
+      },
+      {
+        icon: "🎛️",
+        title: "תיקון תדרים ו-EQ",
+        summary: "הסאונד נשמע צורמני, עמום או 'ביתי'? אנחנו מעדנים ומעצבים את הצליל כך שיישמע מקצועי.",
+        href: "/online/vocal-fix/eq-fix",
+        tag: "חדש",
+      },
     ],
   },
   {
