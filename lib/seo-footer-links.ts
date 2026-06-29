@@ -44,6 +44,21 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         href: "/podcast/podcast-studio-modiin",
         title: "השכרת אולפן פודקאסט במודיעין",
       },
+      {
+        label: "פודקאסט נייד עד הבית",
+        href: "/podcast/mobile-podcast-at-home",
+        title: "הקלטה ועריכה בבית הלקוח",
+      },
+      {
+        label: "שוברי מתנה מהאולפן",
+        href: "/studio/recording-song-modiin/gifts",
+        title: "מתנות והקלטות כשובר",
+      },
+      {
+        label: "אולפן הקלטות — סקירה",
+        href: "/studio/recording-studio",
+        title: "השכרת אולפן הקלטות במודיעין",
+      },
     ],
   },
   {
@@ -69,6 +84,21 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         href: "/events/wedding-attractions-packages",
         title: "DJ + עשן + זיקוקים בחבילה אחת לחתונה ואירועי חברה",
       },
+      {
+        label: "במה LED + DJ",
+        href: "/events/stage-led-dj",
+        title: "במה עם תאורת LED ותופים אלקטרוניים",
+      },
+      {
+        label: "מכונת בועות לאירועים",
+        href: "/events/attractions/bubble-machine",
+        title: "אפקט בועות לרחבה וחתונה",
+      },
+      {
+        label: "תותח קונפטי",
+        href: "/events/attractions/confetti-cannon",
+        title: "קונפטי לרגע שיא באירוע",
+      },
     ],
   },
   {
@@ -84,6 +114,16 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         href: "/academy/dj-course",
         title: "לימוד תקליטנות באולפן במודיעין",
       },
+      {
+        label: "ייעוץ אקוסטיקה ובניית אולפן",
+        href: "/academy/home-studio",
+        title: "תכנון אולפן ביתי ופודקאסט",
+      },
+      {
+        label: "הפקה מוזיקלית",
+        href: "/academy/music-production",
+        title: "קורס הפקה מוזיקלית",
+      },
     ],
   },
   {
@@ -93,6 +133,26 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         label: "שירותי AI לאודיו",
         href: "/online/online-ai-pricing",
         title: "תמחור שקוף לשירותי AI לאודיו",
+      },
+      {
+        label: "שחזור הקלטות ב-AI",
+        href: "/online/vocal-fix",
+        title: "ניקוי רעשים, הד ותיקון זיופים",
+      },
+      {
+        label: "שדרוג תמונות ב-AI",
+        href: "/online/vocal-fix/photo-enhance",
+        title: "הגדלה וחידוד תמונות ישנות",
+      },
+      {
+        label: "החייאת קלטות VHS",
+        href: "/online/legacy-digitization",
+        title: "המרת קלטות ושחזור AI",
+      },
+      {
+        label: "תיקון זיופים",
+        href: "/online/vocal-fix/pitch-correction",
+        title: "Pitch Correction טבעי",
       },
       {
         label: "יצירת סרטוני AI לעסקים",
@@ -160,14 +220,29 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "צלם חתונות ואירועים אינטימיים",
       },
       {
-        label: "הקלטת ברכת כלה",
+        label: "הנחיית אירועים עסקיים",
+        href: "/events/host",
+        title: "מנחה ומנהל אירועים מקצועי",
+      },
+      {
+        label: "ברכת חתן וכלה",
         href: "/studio/blessings/bride-groom-blessing",
         title: "ברכות חתן כלה מוקלטות",
       },
       {
-        label: "הנחיית אירועים עסקיים",
-        href: "/events/host",
-        title: "מנחה ומנהל אירועים מקצועי",
+        label: "בר מצווה — הקלטת ברכה",
+        href: "/studio/blessings/bar-mitzvah",
+        title: "ברכות מוקלטות לבר מצווה",
+      },
+      {
+        label: "סרט תדמית לעסק",
+        href: "/video/corporate-video",
+        title: "הפקת סרט תדמית מקצועי",
+      },
+      {
+        label: "צילום אירועים",
+        href: "/video/event-filming",
+        title: "צילום וידאו לאירועים",
       },
     ],
   },

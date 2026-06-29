@@ -58,6 +58,7 @@ export default function HomeQuickPaths() {
                   <div className="mt-4 flex-1" />
                   <Link
                     href={path.href}
+                    prefetch
                     className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-brand-red/40 bg-brand-red/5 px-4 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     לפרטים

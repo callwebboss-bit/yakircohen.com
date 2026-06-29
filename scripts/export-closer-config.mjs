@@ -34,12 +34,12 @@ function humanizeClientCopy(text) {
   if (!text || typeof text !== "string") return text;
   let out = String(text);
   out = out
-    .replace(/\s*[--–]\s*/g, (match, offset, str) => {
+    .replace(/\s*[-–—]\s*/g, (match, offset, str) => {
       const before = str.slice(Math.max(0, offset - 1), offset);
       if (before === "\n" || before === "." || before === "!" || before === "?") return " ";
       return ". ";
     })
-    .replace(/[--–]/g, ", ")
+    .replace(/[-–—]/g, ", ")
     .replace(/\.{3,}/g, ".")
     .replace(/…/g, ".")
     .replace(/[ \t]{2,}/g, " ")

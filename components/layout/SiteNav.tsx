@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   SITE_GLOBAL_LINKS,
-  SITE_NAVIGATION,
   HEADER_PRIMARY_NAV,
   HEADER_MORE_SERVICES_NAV,
+  HEADER_FEATURED_QUICK_LINKS,
+  getMobileNavSections,
   getHeaderNavActiveCategory,
   isHeaderNavLinkActive,
   getCategoryForPath,
@@ -411,8 +412,10 @@ export function SiteNavDesktop() {
       className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
-      <ServicePickerDropdown />
-      <span aria-hidden className="mx-1 h-4 w-px bg-border" />
+      <div className="lg:hidden">
+        <ServicePickerDropdown />
+        <span aria-hidden className="mx-1 h-4 w-px bg-border" />
+      </div>
       {HEADER_PRIMARY_NAV.map((entry) =>
         entry.kind === "dropdown" ? (
           <DesktopDropdown
@@ -436,37 +439,49 @@ export function SiteNavDesktop() {
       )}
       <DesktopDropdown
         category={HEADER_MORE_SERVICES_NAV}
-        isActive={
-          activeCategory?.id === HEADER_MORE_SERVICES_NAV.id ||
-          activeCategory?.id === "academy" ||
-          activeCategory?.id === "business" ||
-          activeCategory?.id === "online" ||
-          activeCategory?.id === "video" ||
-          activeCategory?.id === "photography"
-        }
+        isActive={activeCategory?.id === HEADER_MORE_SERVICES_NAV.id}
       />
-      <Link
-        href="/start"
-        className="group relative min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)] active:scale-95"
-      >
-        איך זה עובד
-        <span
-          className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
-          aria-hidden
-        />
-      </Link>
-      <Link
-        href="/blog"
-        className="group relative min-h-10 rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:text-[var(--service-accent,#d42b2b)] active:scale-95"
-      >
-        מגזין
-        <span
-          className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
-          aria-hidden
-        />
-      </Link>
       <DesktopSearchButton />
     </nav>
+  );
+}
+
+function MobileFeaturedGrid({ onNavigate }: { onNavigate: () => void }) {
+  const seen = new Set<string>();
+  const links = HEADER_FEATURED_QUICK_LINKS.filter((item) => {
+    if (seen.has(item.href)) return false;
+    seen.add(item.href);
+    return true;
+  });
+
+  return (
+    <div className="mb-6">
+      <p className="mb-3 text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">
+        שירותים נבחרים
+      </p>
+      <div className="grid grid-cols-2 gap-2">
+        {SERVICE_PICKER_ITEMS.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex min-h-12 items-center rounded-lg border border-border/60 bg-surface/50 px-3 py-2 text-sm font-medium text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/30 hover:text-brand-red active:scale-[0.97]"
+            onClick={onNavigate}
+          >
+            {item.label}
+          </Link>
+        ))}
+        {links.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex min-h-12 items-center rounded-lg border border-border/60 px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-[0.97]"
+            onClick={onNavigate}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -476,6 +491,7 @@ export function SiteNavMobileDrawer({
   drawerId,
 }: Pick<SiteNavProps, "menuOpen" | "onCloseMenu" | "drawerId">) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const { primary, secondary } = getMobileNavSections();
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -559,10 +575,21 @@ export function SiteNavMobileDrawer({
         <div className="mb-4">
           <SiteSearch />
         </div>
+        <MobileFeaturedGrid onNavigate={onCloseMenu} />
         <p className="mb-3 text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">
-          שירותים
+          שירותים עיקריים
         </p>
-        {SITE_NAVIGATION.map((cat) => (
+        {primary.map((cat) => (
+          <MobileAccordion
+            key={cat.id}
+            category={cat}
+            onNavigate={onCloseMenu}
+          />
+        ))}
+        <p className="mb-3 mt-4 text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">
+          כל השירותים
+        </p>
+        {secondary.map((cat) => (
           <MobileAccordion
             key={cat.id}
             category={cat}

@@ -1,12 +1,22 @@
+import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
 import {
-  EVENT_ATTRACTION_FROM_NIS,
-  PODCAST_EDITING_PER_HOUR_NIS,
-  PRICES_EXCLUDE_VAT_NOTE,
-  STUDIO_HALF_HOUR_NIS,
-  STUDIO_ONE_HOUR_NIS,
-} from "@/lib/data/pricing";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
-import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
+  formatFromPriceDual,
+  getExVat,
+  getPriceById,
+  type PriceItemId,
+} from "@/lib/data/pricing-catalog";
+import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
+
+export type PricingHubRow = {
+  label: string;
+  exVat: number;
+  note?: string;
+  catalogId?: PriceItemId;
+  /** עמוד תוכן ייעודי; ברירת מחדל = section.href */
+  href?: string;
+  /** דורס את catalog.context כשצריך */
+  description?: string;
+};
 
 export type PricingHubSection = {
   id: string;
@@ -14,8 +24,60 @@ export type PricingHubSection = {
   description: string;
   href: string;
   bookHref?: string;
-  rows: readonly { label: string; exVat: number; note?: string }[];
+  rows: readonly PricingHubRow[];
 };
+
+function hubRow(
+  catalogId: PriceItemId,
+  overrides?: Partial<Omit<PricingHubRow, "catalogId" | "exVat">> & { label?: string },
+): PricingHubRow {
+  const item = getPriceById(catalogId);
+  return {
+    label: overrides?.label ?? item.label,
+    exVat: item.exVat,
+    catalogId,
+    note: overrides?.note,
+    href: overrides?.href,
+    description: overrides?.description,
+  };
+}
+
+const PODCAST_PACKAGE_LINKS: Record<
+  PodcastPackageId,
+  { catalogId: PriceItemId; href: string }
+> = {
+  social: { catalogId: "content_package", href: "/podcast/podcast-production" },
+  video: { catalogId: "podcast_video", href: "/podcast/podcast-studio-modiin" },
+  audio: { catalogId: "podcast_audio", href: "/podcast" },
+  starter: { catalogId: "studio_half_hour", href: "/podcast" },
+};
+
+function podcastPackageRows(): PricingHubRow[] {
+  return PODCAST_PACKAGES.map((p) => {
+    const link = PODCAST_PACKAGE_LINKS[p.id];
+    return {
+      label: p.name,
+      exVat: p.price,
+      note: p.subtitle,
+      catalogId: link.catalogId,
+      href: link.href,
+      description: p.summary,
+    };
+  });
+}
+
+export function resolveRowDescription(row: PricingHubRow): string | undefined {
+  if (row.description) return row.description;
+  if (row.catalogId) {
+    const context = getPriceById(row.catalogId).context;
+    if (context) return context;
+  }
+  return row.note;
+}
+
+export function resolveRowHref(row: PricingHubRow, sectionHref: string): string {
+  return row.href ?? sectionHref;
+}
 
 export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
   {
@@ -25,8 +87,14 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/studio/pricing",
     bookHref: "/book",
     rows: [
-      { label: "חצי שעה באולפן", exVat: STUDIO_HALF_HOUR_NIS },
-      { label: "שעת אולפן מלאה", exVat: STUDIO_ONE_HOUR_NIS },
+      hubRow("studio_half_hour", {
+        label: "חצי שעה באולפן",
+        href: "/studio/recording-studio",
+      }),
+      hubRow("studio_hour", {
+        label: "שעת אולפן מלאה",
+        href: "/studio/recording-studio",
+      }),
     ],
   },
   {
@@ -35,11 +103,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     description: "חבילות הקלטה ועריכה באולפן במודיעין",
     href: "/podcast",
     bookHref: "/book#podcast",
-    rows: PODCAST_PACKAGES.map((p) => ({
-      label: p.name,
-      exVat: p.price,
-      note: p.subtitle,
-    })),
+    rows: podcastPackageRows(),
   },
   {
     id: "podcast-editing",
@@ -48,10 +112,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/podcast/podcast-editing",
     bookHref: "/book#online",
     rows: [
-      {
+      hubRow("podcast_editing_hour", {
         label: "עריכה לשעת חומר",
-        exVat: PODCAST_EDITING_PER_HOUR_NIS,
-      },
+      }),
     ],
   },
   {
@@ -61,10 +124,26 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/online/online-ai-pricing",
     bookHref: "/book#online",
     rows: [
-      { label: "הצלת הקלטות פגומות", exVat: getExVat("damaged_recording_rescue"), note: "שחזור לכל 5 דקות" },
-      { label: "שיפור קול חכם", exVat: getExVat("ai_voice_enhance"), note: "הבהרה ועקביות לפודקאסט" },
-      { label: "שחזור קול מלא", exVat: getExVat("ai_voice_restore"), note: "פרק או ראיון עד שעה" },
-      { label: "ניקוי רעשים בסיסי", exVat: getExVat("ai_noise_basic"), note: "להקלטות קצרות עם רעש קבוע" },
+      hubRow("damaged_recording_rescue", {
+        label: "הצלת הקלטות פגומות",
+        note: "שחזור לכל 5 דקות",
+        href: "/online/vocal-fix",
+      }),
+      hubRow("ai_voice_enhance", {
+        label: "שיפור קול חכם",
+        note: "הבהרה ועקביות לפודקאסט",
+        href: "/online/vocal-fix",
+      }),
+      hubRow("ai_voice_restore", {
+        label: "שחזור קול מלא",
+        note: "פרק או ראיון עד שעה",
+        href: "/online/vocal-fix",
+      }),
+      hubRow("ai_noise_basic", {
+        label: "ניקוי רעשים בסיסי",
+        note: "להקלטות קצרות עם רעש קבוע",
+        href: "/online/vocal-fix/noise-removal",
+      }),
     ],
   },
   {
@@ -74,13 +153,13 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/events/attractions",
     bookHref: "/book#events",
     rows: [
-      {
-        label: "אטרקציה בודדת",
-        exVat: EVENT_ATTRACTION_FROM_NIS,
-      },
-      { label: "2 אטרקציות (חבילה)", exVat: getExVat("event_attraction_2") },
-      { label: "3 אטרקציות (חבילה)", exVat: getExVat("event_attraction_3") },
-      { label: "4+ אטרקציות + מתנה", exVat: getExVat("event_attraction_4"), note: "מצגת תמונות חינם" },
+      hubRow("event_attraction_1", { label: "אטרקציה בודדת" }),
+      hubRow("event_attraction_2", { label: "2 אטרקציות (חבילה)" }),
+      hubRow("event_attraction_3", { label: "3 אטרקציות (חבילה)" }),
+      hubRow("event_attraction_4", {
+        label: "4+ אטרקציות + מתנה",
+        note: "מצגת תמונות חינם",
+      }),
     ],
   },
   {
@@ -90,11 +169,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/photo-slideshow",
     bookHref: "/book",
     rows: [
-      { label: "מצגת תמונות קולנועית", exVat: getExVat("cinematic_slideshow") },
-      { label: "מצגת גדילה AI - 30 תמונות", exVat: getExVat("growth_slideshow_30") },
-      { label: "מצגת גדילה AI - 50 תמונות", exVat: getExVat("growth_slideshow_50") },
-      { label: "מצגת גדילה AI - 70 תמונות", exVat: getExVat("growth_slideshow_70") },
-      { label: "מצגת גדילה AI - 100 תמונות", exVat: getExVat("growth_slideshow_100") },
+      hubRow("cinematic_slideshow", { label: "מצגת תמונות קולנועית" }),
+      hubRow("growth_slideshow_30", { label: "מצגת גדילה AI - 30 תמונות" }),
+      hubRow("growth_slideshow_50", { label: "מצגת גדילה AI - 50 תמונות" }),
+      hubRow("growth_slideshow_70", { label: "מצגת גדילה AI - 70 תמונות" }),
+      hubRow("growth_slideshow_100", { label: "מצגת גדילה AI - 100 תמונות" }),
     ],
   },
   {
@@ -104,13 +183,12 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/content-studio",
     bookHref: "/book#clips",
     rows: [
-      { label: "פיילוט, שעה + 5 רילז", exVat: getExVat("content_studio_pilot") },
-      { label: "סשן מלא, 2 שעות + 12 רילז", exVat: getExVat("content_studio_session") },
-      {
+      hubRow("content_studio_pilot", { label: "פיילוט, שעה + 5 רילז" }),
+      hubRow("content_studio_session", { label: "סשן מלא, 2 שעות + 12 רילז" }),
+      hubRow("content_studio_retainer", {
         label: "ריטיינר חודשי",
-        exVat: getExVat("content_studio_retainer"),
         note: "סשן + 8–12 רילז",
-      },
+      }),
     ],
   },
   {
@@ -120,11 +198,10 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/podcast/self-service-studio",
     bookHref: "/book#podcast",
     rows: [
-      {
+      hubRow("studio_self_service_hour", {
         label: "שעת אולפן שירות עצמי",
-        exVat: getExVat("studio_self_service_hour"),
         note: "בלי עריכה, קבצים גולמיים",
-      },
+      }),
     ],
   },
   {
@@ -134,13 +211,12 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/on-site-studio",
     bookHref: "/book#clips",
     rows: [
-      { label: "חצי יום (4 שעות)", exVat: getExVat("on_site_half_day") },
-      { label: "יום מלא (8 שעות)", exVat: getExVat("on_site_full_day") },
-      {
+      hubRow("on_site_half_day", { label: "חצי יום (4 שעות)" }),
+      hubRow("on_site_full_day", { label: "יום מלא (8 שעות)" }),
+      hubRow("on_site_retainer", {
         label: "ריטיינר חודשי",
-        exVat: getExVat("on_site_retainer"),
         note: "2 ימי צילום + עריכה",
-      },
+      }),
     ],
   },
   {
@@ -150,9 +226,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/corporate-songs",
     bookHref: "/book#studio",
     rows: [
-      { label: "שיר הרמת כוסית", exVat: getExVat("corp_song_toast") },
-      { label: "שיר פרישה + קליפ", exVat: getExVat("corp_song_retirement") },
-      { label: "הימנון חברה", exVat: getExVat("corp_song_anthem") },
+      hubRow("corp_song_toast", { label: "שיר הרמת כוסית" }),
+      hubRow("corp_song_retirement", { label: "שיר פרישה + קליפ" }),
+      hubRow("corp_song_anthem", { label: "הימנון חברה" }),
     ],
   },
   {
@@ -162,8 +238,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/audiobooks",
     bookHref: "/book#online",
     rows: [
-      { label: "פרק דוגמה (15 דקות)", exVat: getExVat("audiobook_sample") },
-      { label: "שעת הקלטה + עריכה", exVat: getExVat("audiobook_hour") },
+      hubRow("audiobook_sample", { label: "פרק דוגמה (15 דקות)" }),
+      hubRow("audiobook_hour", { label: "שעת הקלטה + עריכה" }),
     ],
   },
   {
@@ -173,9 +249,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/audio-branding",
     bookHref: "/book#online",
     rows: [
-      { label: "חבילת בסיס", exVat: getExVat("audio_brand_starter") },
-      { label: "חבילה מלאה", exVat: getExVat("audio_brand_full") },
-      { label: "פרימיום + שיבוט קול", exVat: getExVat("audio_brand_premium") },
+      hubRow("audio_brand_starter", { label: "חבילת בסיס" }),
+      hubRow("audio_brand_full", { label: "חבילה מלאה" }),
+      hubRow("audio_brand_premium", { label: "פרימיום + שיבוט קול" }),
     ],
   },
   {
@@ -185,8 +261,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/online/legacy-digitization",
     bookHref: "/book#online",
     rows: [
-      { label: "המרה בסיסית (קלטת אחת)", exVat: getExVat("legacy_dig_basic") },
-      { label: "המרה + שחזור AI", exVat: getExVat("legacy_dig_ai") },
+      hubRow("legacy_dig_basic", { label: "המרה בסיסית (קלטת אחת)" }),
+      hubRow("legacy_dig_ai", { label: "המרה + שחזור AI" }),
     ],
   },
   {
@@ -196,9 +272,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/academy/workshops",
     bookHref: "/book#academy",
     rows: [
-      { label: "סדנה 2 שעות", exVat: getExVat("workshop_team_2h") },
-      { label: "יום שלם", exVat: getExVat("workshop_full_day") },
-      { label: "3 מפגשים", exVat: getExVat("workshop_series_3") },
+      hubRow("workshop_team_2h", { label: "סדנה 2 שעות" }),
+      hubRow("workshop_full_day", { label: "יום שלם" }),
+      hubRow("workshop_series_3", { label: "3 מפגשים" }),
     ],
   },
   {
@@ -208,9 +284,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/online/transcription",
     bookHref: "/book#online",
     rows: [
-      { label: "חצי שעה, AI", exVat: getExVat("transcribe_30min") },
-      { label: "שעת תמלול + עריכה", exVat: getExVat("transcribe_hour") },
-      { label: "שעה + SRT", exVat: getExVat("transcribe_hour_srt") },
+      hubRow("transcribe_30min", { label: "חצי שעה, AI" }),
+      hubRow("transcribe_hour", { label: "שעת תמלול + עריכה" }),
+      hubRow("transcribe_hour_srt", { label: "שעה + SRT" }),
     ],
   },
   {
@@ -220,9 +296,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/online/voice-cloning",
     bookHref: "/book#online",
     rows: [
-      { label: "הקמת מודל קול", exVat: getExVat("voice_clone_setup") },
-      { label: "5 עדכוני IVR", exVat: getExVat("voice_clone_ivr_pack") },
-      { label: "הקלטה קצרה", exVat: getExVat("voice_clone_clip") },
+      hubRow("voice_clone_setup", { label: "הקמת מודל קול" }),
+      hubRow("voice_clone_ivr_pack", { label: "5 עדכוני IVR" }),
+      hubRow("voice_clone_clip", { label: "הקלטה קצרה" }),
     ],
   },
   {
@@ -232,9 +308,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/employer-branding",
     bookHref: "/book#online",
     rows: [
-      { label: "סרטון ברוכים הבאים", exVat: getExVat("employer_welcome") },
-      { label: "יום צילום onboarding", exVat: getExVat("employer_onboard_day") },
-      { label: "ריטיינר HR חודשי", exVat: getExVat("employer_monthly") },
+      hubRow("employer_welcome", { label: "סרטון ברוכים הבאים" }),
+      hubRow("employer_onboard_day", { label: "יום צילום onboarding" }),
+      hubRow("employer_monthly", { label: "ריטיינר HR חודשי" }),
     ],
   },
   {
@@ -244,22 +320,19 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/business/reel-factory",
     bookHref: "/book#clips",
     rows: [
-      { label: "פרומו רילס בודד", exVat: getExVat("reel_factory_single") },
-      {
+      hubRow("reel_factory_single", { label: "פרומו רילס בודד" }),
+      hubRow("reel_factory_rave_24h", {
         label: "Rave ערוך תוך 24 שעות",
-        exVat: getExVat("reel_factory_rave_24h"),
         note: "העלאה עד 04:00 = מסירה 12:00",
-      },
-      {
+      }),
+      hubRow("reel_factory_starter_monthly", {
         label: "Content Hub בסיס",
-        exVat: getExVat("reel_factory_starter_monthly"),
         note: "4 פרומואים + פוסטים - לחודש",
-      },
-      {
+      }),
+      hubRow("reel_factory_pro_monthly", {
         label: "Content Hub פרו",
-        exVat: getExVat("reel_factory_pro_monthly"),
         note: "8 פרומואים + כיתובים - לחודש",
-      },
+      }),
     ],
   },
   {
@@ -269,19 +342,59 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     href: "/pro",
     bookHref: "/book#pro",
     rows: [
-      { label: "תג קולי בודד לדיג'יי", exVat: getExVat("dj_voice_tag_single") },
-      { label: "חבילת 5 תגים קוליים", exVat: getExVat("dj_voice_tag_pack_5") },
-      { label: "מאשאפ מוכן לרכישה", exVat: getExVat("mashup_ready_single") },
-      { label: "מאשאפ מותאם (עד 3 ימי עסקים)", exVat: getExVat("mashup_custom_planned") },
-      { label: "שילוב יצירתי / דרוג+", exVat: getExVat("mashup_creative_plus") },
-      { label: "חבילת 5 מאשאפים מוכנים", exVat: getExVat("mashup_ready_pack_5") },
-      { label: "סט מוזיקה לחדר כושר", exVat: getExVat("gym_music_set") },
-      { label: "פלייליסט לאווירת חלל", exVat: getExVat("ambience_space_set") },
-      { label: "סט מוזיקה מוכן לדיג'יי", exVat: getExVat("prebuilt_set_corporate") },
-      { label: "אולפן בקופסה + עשרה פרקים", exVat: getExVat("studio_in_box_consult") },
-      { label: "פס ייצור - פרק ושלושה סרטונים קצרים", exVat: getExVat("bulk_podcast_episode") },
-      { label: "השכרת ציוד - יום אחד", exVat: getExVat("dry_hire_day"), note: "לפי פריט" },
-      { label: "תכנון הגברה ומדידות", exVat: getExVat("system_tuning_ease") },
+      hubRow("dj_voice_tag_single", {
+        label: "תג קולי בודד לדיג'יי",
+        href: "/events/dj/voice-tags",
+      }),
+      hubRow("dj_voice_tag_pack_5", {
+        label: "חבילת 5 תגים קוליים",
+        href: "/events/dj/voice-tags",
+      }),
+      hubRow("mashup_ready_single", {
+        label: "מאשאפ מוכן לרכישה",
+        href: "/online/mashup-fixer",
+      }),
+      hubRow("mashup_custom_planned", {
+        label: "מאשאפ מותאם (עד 3 ימי עסקים)",
+        href: "/online/mashup-fixer",
+      }),
+      hubRow("mashup_creative_plus", {
+        label: "שילוב יצירתי / דרוג+",
+        href: "/online/mashup-fixer",
+      }),
+      hubRow("mashup_ready_pack_5", {
+        label: "חבילת 5 מאשאפים מוכנים",
+        href: "/online/mashup-fixer",
+      }),
+      hubRow("gym_music_set", {
+        label: "סט מוזיקה לחדר כושר",
+        href: "/events/dj/pre-built-sets",
+      }),
+      hubRow("ambience_space_set", {
+        label: "פלייליסט לאווירת חלל",
+        href: "/events/dj/pre-built-sets",
+      }),
+      hubRow("prebuilt_set_corporate", {
+        label: "סט מוזיקה מוכן לדיג'יי",
+        href: "/events/dj/pre-built-sets",
+      }),
+      hubRow("studio_in_box_consult", {
+        label: "אולפן בקופסה + עשרה פרקים",
+        href: "/podcast/studio-in-a-box",
+      }),
+      hubRow("bulk_podcast_episode", {
+        label: "פס ייצור - פרק ושלושה סרטונים קצרים",
+        href: "/podcast/bulk-production",
+      }),
+      hubRow("dry_hire_day", {
+        label: "השכרת ציוד - יום אחד",
+        note: "לפי פריט",
+        href: "/events/equipment/dry-hire",
+      }),
+      hubRow("system_tuning_ease", {
+        label: "תכנון הגברה ומדידות",
+        href: "/events/equipment/system-tuning",
+      }),
     ],
   },
 ] as const;

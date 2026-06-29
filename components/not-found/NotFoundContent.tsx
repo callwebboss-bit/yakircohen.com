@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -100,7 +101,7 @@ function getSuggestedHrefFromPathname(): string | null {
   return null;
 }
 
-export default function NotFoundContent() {
+export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode }) {
   const router = useRouter();
   const searchIndex = useMemo(() => getSiteSearchIndex(), []);
   const [query, setQuery] = useState("");
@@ -394,6 +395,8 @@ export default function NotFoundContent() {
         </div>
         </Container>
       </Section>
+
+      {quickPaths}
 
       <Section padding="sm">
         <Container className="max-w-3xl pb-16">

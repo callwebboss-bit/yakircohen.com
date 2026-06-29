@@ -64,7 +64,7 @@ const pageSchema = {
     {
       "@type": "Service",
       "@id": `${PAGE_URL}#service`,
-      name: "Private Hebrew Lessons — Yakir Cohen",
+      name: "Private Hebrew Lessons - Yakir Cohen",
       description: HEB_LESSONS_EN_META.description,
       url: PAGE_URL,
       serviceType: "Private Hebrew Tutoring",
@@ -425,7 +425,7 @@ export default function HebrewLessonsPage() {
             href="/book"
             className="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            Book My Trial Lesson — ₪500
+            Book My Trial Lesson - ₪500
           </Link>
         </div>
       </section>
@@ -469,7 +469,7 @@ export default function HebrewLessonsPage() {
           </p>
           <footer className="mt-4">
             <p className="text-sm font-semibold text-foreground">
-              — {HEB_LESSONS_EN_TESTIMONIAL.author}
+              - {HEB_LESSONS_EN_TESTIMONIAL.author}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               {HEB_LESSONS_EN_TESTIMONIAL.languages} · Goal: {HEB_LESSONS_EN_TESTIMONIAL.goal}

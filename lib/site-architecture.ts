@@ -481,26 +481,97 @@ export const VOICEOVER_HEADER_CATEGORY: SiteNavCategory = {
 };
 
 const HEADER_STUDIO_NAV: SiteNavCategory = {
-  ...NAV_CATEGORIES.studio,
+  id: "studio",
   label: "אולפן",
+  href: "/studio",
   featured: [
-    { label: "הקלטת שיר לחתונה", href: "/studio/recording-song-modiin" },
+    { label: "תיקון זיופים ומיקס מרחוק", href: "/online/vocal-fix" },
+    { label: "הקלטת שירים וברכות", href: "/studio/recording-song-modiin" },
+    { label: "אולפן בירושלים / שוהם", href: "/studio/studio-jerusalem" },
+  ],
+  children: [
     { label: "ברכות מוקלטות", href: "/studio/blessings" },
+    { label: "אולפן שוהם", href: "/studio/studio-shoham" },
+    { label: "אולפן רחובות", href: "/studio/studio-rehovot" },
+    {
+      label: "ייעוץ אקוסטיקה ובניית אולפן",
+      href: "/academy/home-studio",
+      description: "אולפן ביתי, פודקאסט ומשדר",
+    },
+    {
+      label: "תיקון זיופים",
+      href: "/online/vocal-fix/pitch-correction",
+      description: "Pitch Correction טבעי",
+    },
+    {
+      label: "מיקס ומאסטרינג מרחוק",
+      href: "/online/vocal-fix/mixing",
+      description: "סאונד מוכן לספוטיפיי ויוטיוב",
+    },
+    { label: "אולפן נייד", href: "/studio/mobile-studio" },
     { label: "מחירון אולפן", href: "/studio/pricing" },
   ],
 };
 
 const HEADER_PODCAST_NAV: SiteNavCategory = {
-  ...NAV_CATEGORIES.podcast,
+  id: "podcast",
+  label: "פודקאסט",
+  href: "/podcast",
   featured: [
-    { label: "פרק ראשון באולפן", href: "/podcast/podcast-studio-modiin" },
-    { label: "עריכת פרק", href: "/podcast/podcast-editing" },
-    { label: "פודקאסט לעסקים", href: "/podcast/bulk-production" },
+    { label: "עריכת פודקאסט — 24 שעות", href: "/podcast/podcast-editing" },
+    { label: "פודקאסט נייד עד אליכם", href: "/podcast/mobile-podcast-at-home" },
+    { label: "הקלטה באולפן (וידאו ואודיו)", href: "/podcast/podcast-recording" },
+  ],
+  children: [
+    {
+      label: "השכרת סטודיו במודיעין",
+      href: "/podcast/podcast-studio-modiin",
+      description: "הקלטה באולפן — חצי שעה 750 ₪",
+    },
+    {
+      label: "אולפן שירות עצמי",
+      href: "/podcast/self-service-studio",
+      description: "650 ₪ לשעה, קבצים גולמיים",
+    },
+    {
+      label: "פס ייצור לפודקאסט",
+      href: "/podcast/bulk-production",
+      description: "עריכה שוטפת לחברות",
+    },
+    { label: "ליווי מא׳ עד ת׳", href: "/podcast/podcast-production" },
+    {
+      label: "אולפן בקופסה לעסקים",
+      href: "/podcast/studio-in-a-box",
+      description: "תכנון אולפן + 10 פרקים",
+    },
+    { label: "פודקאסט עם סבא וסבתא", href: "/podcast/podcast-with-grandpa" },
+    { label: "שאלות נפוצות", href: "/podcast/faq" },
   ],
 };
 
-const HEADER_EVENTS_NAV =
-  NAV_PRIMARY_DESKTOP.find((c) => c.id === "events") ?? NAV_CATEGORIES.events;
+const HEADER_EVENTS_NAV: SiteNavCategory = {
+  id: "events",
+  label: "אירועים",
+  href: "/events",
+  featured: [
+    { label: "DJ לחתונה ואירועי חברה", href: "/events/dj-events" },
+    {
+      label: "חבילות אטרקציות",
+      href: "/events/wedding-attractions-packages",
+    },
+    { label: "תופים אלקטרוניים ו-LED", href: "/events/stage-led-dj" },
+  ],
+  children: [
+    { label: "כל שירותי האירועים", href: "/events" },
+    { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
+    { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
+    { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
+    { label: "DJ בשוהם", href: "/dj-events/cities/shoham" },
+    { label: "DJ ברחובות", href: "/dj-events/cities/rehovot" },
+    { label: "מנחה אירועים", href: "/events/host" },
+    { label: "ציוד הגברה", href: "/events/equipment" },
+  ],
+};
 
 export type HeaderNavEntry =
   | { kind: "dropdown"; category: SiteNavCategory }
@@ -510,18 +581,54 @@ export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
   { kind: "dropdown", category: HEADER_STUDIO_NAV },
   { kind: "dropdown", category: HEADER_EVENTS_NAV },
   { kind: "dropdown", category: HEADER_PODCAST_NAV },
-  { kind: "dropdown", category: VOICEOVER_HEADER_CATEGORY },
-  { kind: "link", label: "אודות", href: "/about" },
   { kind: "link", label: "מחירון", href: "/pricing" },
-  { kind: "link", label: "שאלות נפוצות", href: "/about/faq" },
-  { kind: "link", label: "קשר", href: "/contact" },
 ];
 
-/** אקדמיה, AI, וידאו - dropdown משני (לא מחליף SITE_NAVIGATION בפוטר) */
+/** AI, קריינות, עסקים ושירותים משניים — dropdown מוגבל (לא מחליף SITE_NAVIGATION) */
 export const HEADER_MORE_SERVICES_NAV: SiteNavCategory = {
-  ...(NAV_PRIMARY_DESKTOP.find((c) => c.id === "pro") ?? NAV_CATEGORIES.pro),
-  label: "עוד שירותים",
+  id: "pro",
+  label: "עוד",
+  href: "/pro",
+  featured: [
+    { label: "שחזור הקלטות ב-AI", href: "/online/vocal-fix" },
+    { label: "קריינות וסרט תדמית", href: "/voiceover/services" },
+    { label: "שירותי אודיו לעסקים", href: "/business" },
+  ],
+  children: [
+    { label: "שירותי AI ועריכה", href: "/online", description: "שחזור, מיקס ותמונות" },
+    { label: "שליחת קבצים", href: "/online/vocal-fix/send-file" },
+    { label: "קורס DJ", href: "/academy/dj-course" },
+    { label: "שיעור פרטי עברית", href: "/academy/ulpan" },
+    { label: "וידאו", href: "/video", description: "אירועים, תדמית ומצגות" },
+    { label: "צילום", href: "/photography", description: "חתונות ואירועים" },
+    { label: "איך זה עובד", href: "/start" },
+    { label: "מגזין", href: "/blog" },
+    { label: "שאלות נפוצות", href: "/about/faq" },
+    { label: "אודות", href: "/about" },
+    { label: "צור קשר", href: "/contact" },
+  ],
 };
+
+/** קיצורי דרך לשירותים נבחרים — מובייל drawer */
+export const HEADER_FEATURED_QUICK_LINKS: readonly SiteNavLink[] = [
+  ...HEADER_STUDIO_NAV.featured!,
+  ...HEADER_PODCAST_NAV.featured!,
+  ...HEADER_EVENTS_NAV.featured!,
+  ...HEADER_MORE_SERVICES_NAV.featured!,
+];
+
+/** סדר תצוגה במובייל: עיקריים ואז שאר הקטגוריות */
+export const MOBILE_NAV_PRIMARY_IDS = ["studio", "podcast", "events"] as const;
+
+export function getMobileNavSections(): {
+  primary: SiteNavCategory[];
+  secondary: SiteNavCategory[];
+} {
+  const primarySet = new Set<string>(MOBILE_NAV_PRIMARY_IDS);
+  const primary = MOBILE_NAV_PRIMARY_IDS.map((id) => NAV_CATEGORIES[id]);
+  const secondary = SITE_NAVIGATION.filter((c) => !primarySet.has(c.id));
+  return { primary, secondary };
+}
 
 /** קישורים גלובליים (מחוץ לקטגוריות) */
 export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
@@ -714,18 +821,25 @@ export function getCategoryForPath(pathname: string): SiteNavCategory | undefine
   );
 }
 
-/** מזהה dropdown פעיל בתפריט 8-פריטים (desktop) */
+const MORE_NAV_PATH_PREFIXES = [
+  "/online",
+  "/business",
+  "/voiceover",
+  "/video",
+  "/photography",
+  "/academy",
+  "/pro",
+  "/start",
+  "/blog",
+  "/about",
+  "/contact",
+] as const;
+
+/** מזהה dropdown פעיל בתפריט desktop */
 export function getHeaderNavActiveCategory(
   pathname: string,
 ): SiteNavCategory | undefined {
   const normalized = pathname.replace(/\/$/, "") || "/";
-
-  if (
-    normalized === "/voiceover" ||
-    normalized.startsWith("/voiceover/")
-  ) {
-    return VOICEOVER_HEADER_CATEGORY;
-  }
 
   for (const entry of HEADER_PRIMARY_NAV) {
     if (entry.kind !== "dropdown") continue;
@@ -733,6 +847,31 @@ export function getHeaderNavActiveCategory(
     if (normalized === href || normalized.startsWith(`${href}/`)) {
       return entry.category;
     }
+  }
+
+  if (
+    normalized === HEADER_MORE_SERVICES_NAV.href ||
+    normalized.startsWith(`${HEADER_MORE_SERVICES_NAV.href}/`) ||
+    MORE_NAV_PATH_PREFIXES.some(
+      (prefix) =>
+        normalized === prefix || normalized.startsWith(`${prefix}/`),
+    )
+  ) {
+    return HEADER_MORE_SERVICES_NAV;
+  }
+
+  if (
+    normalized === "/online/vocal-fix" ||
+    normalized.startsWith("/online/vocal-fix/")
+  ) {
+    const studioMatch =
+      HEADER_STUDIO_NAV.children.some(
+        (c) =>
+          normalized === c.href || normalized.startsWith(`${c.href}/`),
+      ) ||
+      HEADER_STUDIO_NAV.featured?.some((f) => f.href === normalized);
+    if (studioMatch) return HEADER_STUDIO_NAV;
+    return HEADER_MORE_SERVICES_NAV;
   }
 
   return getCategoryForPath(pathname);

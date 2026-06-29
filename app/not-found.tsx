@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NotFoundContent from "@/components/not-found/NotFoundContent";
+import HomeQuickPaths from "@/components/marketing/HomeQuickPaths";
 
 export const metadata: Metadata = {
   title: "הקצב השתנה | עמוד לא נמצא",
@@ -32,7 +33,7 @@ export default function NotFound() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <NotFoundContent />
+      <NotFoundContent quickPaths={<HomeQuickPaths />} />
     </>
   );
 }

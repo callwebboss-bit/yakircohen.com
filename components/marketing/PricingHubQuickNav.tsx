@@ -48,7 +48,7 @@ export default function PricingHubQuickNav() {
           מחשבונים ומחירים לפי שירות
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          קפיצה מהירה למחשבון או לעמוד המחיר הרלוונטי. הטבלאות למטה נשארות לעיון מלא.
+          קפיצה מהירה למחשבון או לקטגוריה במחירון. פתחו קטגוריה ואז שורה לראות מחיר.
         </p>
         <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {PRICING_QUICK_NAV.map((item) => (
