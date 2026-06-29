@@ -3,6 +3,7 @@
   PODCAST_EDITING_PER_HOUR_NIS,
   PRICES_EXCLUDE_VAT_NOTE,
 } from "@/lib/data/pricing";
+import { PODCAST_EDITING_PRICE_FAQ } from "./faq-aeo";
 
 /** עריכה לפרק - תמחור לפי שעת חומר גולמי */
 export const PODCAST_EDITING_PRICE_LABEL = `${formatNis(
@@ -123,6 +124,7 @@ export const PODCAST_EDITING_FAQS: readonly {
   question: string;
   answer: string;
 }[] = [
+  PODCAST_EDITING_PRICE_FAQ,
   {
     id: "format",
     question: "איזה פורמט קובץ לשלוח?",

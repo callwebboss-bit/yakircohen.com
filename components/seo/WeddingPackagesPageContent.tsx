@@ -46,6 +46,8 @@ export default function WeddingPackagesPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       scarcityLabel={service.scarcityLabel}
+      pagePath="/events/wedding-attractions-packages"
+      faqs={WEDDING_PACKAGES_FAQ}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

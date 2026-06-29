@@ -4,6 +4,7 @@ import FunnyRingtoneBeforeAfter from "@/components/seo/FunnyRingtoneBeforeAfter"
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import FunnyRingtoneOrderForm from "@/components/seo/FunnyRingtoneOrderForm";
 import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import ShareButton from "@/components/ui/ShareButton";
@@ -38,6 +39,12 @@ export default function FunnyRingtonePageContent() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={RINGTONE_FAQ.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

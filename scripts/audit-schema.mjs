@@ -1,6 +1,7 @@
 /**
  * Audit pages with FAQ accordion markup but no FAQPage JSON-LD in source,
  * plus Person/Organization entity checks on site-schema.json.
+ * Resolves @/components/seo/*PageContent imports from page.tsx.
  * Run: node scripts/audit-schema.mjs
  */
 import fs from "node:fs";
@@ -10,6 +11,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 const appDir = path.join(root, "app");
+const componentsDir = path.join(root, "components");
 
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -20,20 +22,62 @@ function walk(dir, files = []) {
   return files;
 }
 
+function hasFaqUi(content) {
+  return (
+    content.includes("FAQAccordion") ||
+    content.includes("FAQWithCtaLinks") ||
+    content.includes('aria-labelledby="faq')
+  );
+}
+
+function hasFaqSchema(content) {
+  return (
+    content.includes("FaqPageSchema") ||
+    content.includes("buildFaqSchema") ||
+    content.includes("buildUlpanPageSchema") ||
+    content.includes('"@type": "FAQPage"') ||
+    content.includes('"@type":"FAQPage"') ||
+    content.includes("ServicePageFromRegistry") ||
+    (content.includes("ServicePageLayout") &&
+      /pagePath\s*=/.test(content) &&
+      /faqs\s*=/.test(content))
+  );
+}
+
+/** Resolve imported PageContent / registry components referenced from page.tsx */
+function resolveImportedContent(pageContent) {
+  const chunks = [];
+  const importRe =
+    /from\s+["']@\/components\/(seo\/[A-Za-z0-9]+PageContent|services\/ServicePageFromRegistry)["']/g;
+  let match;
+  while ((match = importRe.exec(pageContent)) !== null) {
+    const rel = match[1].replace(/\//g, path.sep);
+    const candidates = [
+      path.join(componentsDir, `${rel}.tsx`),
+      path.join(componentsDir, `${rel}.ts`),
+    ];
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) {
+        chunks.push(fs.readFileSync(candidate, "utf8"));
+        break;
+      }
+    }
+  }
+  return chunks.join("\n");
+}
+
 const faqIssues = [];
 
 for (const file of walk(appDir)) {
-  const content = fs.readFileSync(file, "utf8");
-  const hasFaqUi =
-    content.includes("FAQAccordion") ||
-    content.includes("FAQWithCtaLinks") ||
-    content.includes('aria-labelledby="faq');
-  const hasFaqSchema =
-    content.includes("FaqPageSchema") ||
-    content.includes('"@type": "FAQPage"') ||
-    content.includes('"@type":"FAQPage"');
+  const pageContent = fs.readFileSync(file, "utf8");
+  const importedContent = resolveImportedContent(pageContent);
+  const combined = `${pageContent}\n${importedContent}`;
 
-  if (hasFaqUi && !hasFaqSchema) {
+  const hasUi = hasFaqUi(combined);
+  const hasSchema =
+    hasFaqSchema(pageContent) || hasFaqSchema(importedContent);
+
+  if (hasUi && !hasSchema) {
     faqIssues.push(path.relative(root, file));
   }
 }

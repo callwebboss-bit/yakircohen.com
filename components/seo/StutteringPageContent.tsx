@@ -3,6 +3,7 @@ import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
@@ -69,6 +70,39 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ];
 
+const FAQ_SCHEMA_ITEMS = [
+  {
+    question: "למי זה מתאים?",
+    answer:
+      "לכל מי שמגמגם ורוצה כלים מעשיים לדיבור יומיומי, שיחות עבודה, הרצאות ומצגות, שיחות זוגיות וחברתיות. מתאים גם להורים שמחפשים כיוון לילד שמגמגם.",
+  },
+  {
+    question: "מה ההבדל בין ליווי לקורס?",
+    answer:
+      "הליווי הוא מסלול גמיש - פגישות לפי הצורך, עבודה על נקודה ספציפית, ליווי הורים. קורס גמגום הוא תוכנית מבנית עם שלבים ברורים ויעדים מדידים. לעיתים מתחילים בליווי ועוברים לקורס.",
+  },
+  {
+    question: "כמה זמן לוקח לראות שינוי?",
+    answer:
+      "תלוי בגיל, תדירות התרגול ומורכבות המקרה. יש מי שחווה שינוי כבר בפגישה הראשונה; יש תהליך עומק שלוקח חודשים. אין הבטחות קסם - יש תהליך אמיתי עם יעדים ברורים.",
+  },
+  {
+    question: "מה עושים שלא להחמיר את הגמגום בילד?",
+    answer:
+      "הדבר הכי חשוב: לא לנסות לתקן. לא להשלים משפטים, לא להגיד 'תאט', לא להביע דאגה גלויה. הילד צריך להרגיש שמאזינים לו - לא לגמגום שלו. אנחנו עובדים יחד עם ההורים בכל שלב.",
+  },
+  {
+    question: "זה תחליף לטיפול רפואי או קלינאי?",
+    answer:
+      "לא. אנחנו מתמחים בליווי דיבור, קצב, נשימה וביטחון עצמי. במקרים שדורשים קלינאי תקשורת רפואי - מפנים ועובדים בשיתוף פעולה.",
+  },
+  {
+    question: "אני זמר/ת ומגמגם בדיבור אבל לא בשירה - למה?",
+    answer:
+      "כי שירה משתמשת בנתיב קוגניטיבי שונה. הגמגום לרוב קשור לחרדת ביצוע בדיבור, לא לכשל מוטורי. אנחנו מכירים את הפרדוקס הזה מקרוב ויש לנו כלים ייעודיים לאנשי קול.",
+  },
+] as const;
+
 export default function StutteringPageContent() {
   const ctaHref = buildWhatsAppHref({
     text: "שלום, אשמח לשוחח על ליווי בגמגום ולהבין מה מתאים לי",
@@ -77,7 +111,9 @@ export default function StutteringPageContent() {
   });
 
   return (
-    <ServicePageLayout
+    <>
+      <FaqPageSchema items={[...FAQ_SCHEMA_ITEMS]} />
+      <ServicePageLayout
       title="טיפול בגמגום"
       subtitle="ליווי מקצועי לדיבור חופשי - בקצב שלכם, עם כלים מעשיים ולא הבטחות ריקות."
       features={FEATURES}
@@ -415,5 +451,6 @@ export default function StutteringPageContent() {
 
       </Container>
     </ServicePageLayout>
+    </>
   );
 }

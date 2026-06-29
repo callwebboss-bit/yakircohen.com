@@ -39,6 +39,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
   },
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("studio/studio-shoham"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("studio/studio-rehovot"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
 
   // ── Podcast ────────────────────────────────────────────────────────────────
@@ -137,6 +139,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("voiceover/services"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("voiceover/course"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("dj-events/cities/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("dj-events/cities/shoham"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("dj-events/cities/rehovot"), priority: 0.8, changeFrequency: "monthly" },
 
   // ── Business B2B ───────────────────────────────────────────────────────────
   { url: url("business"), priority: 0.85, changeFrequency: "monthly" },
@@ -162,6 +166,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("online/voice-cloning"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("academy/workshops"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("business/employer-branding"), priority: 0.75, changeFrequency: "monthly" },
+  { url: url("podcast/corporate-podcast"), priority: 0.85, changeFrequency: "monthly" },
 
   // ── Events (equipment & host) ────────────────────────────────────────────────
   { url: url("events"), priority: 0.9, changeFrequency: "monthly" },
@@ -212,6 +217,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("academy/dj-course"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/music-production"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/ulpan"), priority: 0.85, changeFrequency: "monthly" },
+  { url: url("academy/hebrew-lessons"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("academy/private-lessons"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/voiceover"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/stuttering-course"), priority: 0.8, changeFrequency: "monthly" },

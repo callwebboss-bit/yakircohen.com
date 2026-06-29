@@ -96,6 +96,15 @@ export const BUSINESS_HUB_GROUPS: readonly BusinessHubGroup[] = [
         priceHint: "החל מ-4,500 ₪",
       },
       {
+        id: "corporate-podcast",
+        icon: "🎙️",
+        title: "פודקאסט ארגוני",
+        description:
+          "מיתוג מעסיק ושיווק תוכן. הקלטה, עריכה, ספוטיפיי וחשבונית מס.",
+        href: "/podcast/corporate-podcast",
+        priceHint: "החל מ-4,800 ₪/חודש",
+      },
+      {
         id: "bulk-production",
         icon: "🏭",
         title: "פס ייצור פודקאסט",

@@ -1,4 +1,5 @@
 ﻿import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
@@ -57,6 +58,12 @@ export default function StudioGiftsPageContent() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={STUDIO_GIFT_FAQ.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

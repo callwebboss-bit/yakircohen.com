@@ -52,6 +52,8 @@ export default function PodcastStudioModiinPageContent() {
       corporateShareLabel="השכרת אולפן פודקאסט במודיעין"
       bookSlug="podcast/podcast-studio-modiin"
       ctaLabel="קביעת מקום תוך 24 שעות"
+      pagePath="/podcast/podcast-studio-modiin"
+      faqs={STUDIO_MODIIN_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

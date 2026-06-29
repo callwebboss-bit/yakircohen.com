@@ -1,5 +1,8 @@
 ﻿import Link from "next/link";
+import dynamic from "next/dynamic";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+
+const SoundCleaningDemo = dynamic(() => import("@/components/seo/SoundCleaningDemo"), { ssr: false });
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
@@ -243,6 +246,12 @@ export default function OnlinePitchCorrectionPageContent() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-14">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6">
+          <SoundCleaningDemo />
         </div>
       </section>
 

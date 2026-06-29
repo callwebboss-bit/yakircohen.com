@@ -2,6 +2,7 @@
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";

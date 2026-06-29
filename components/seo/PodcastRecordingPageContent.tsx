@@ -1,4 +1,6 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import HowToSchema from "@/components/seo/HowToSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
@@ -55,7 +57,23 @@ export default function PodcastRecordingPageContent() {
   });
 
   return (
-    <ServicePageLayout
+    <>
+      <FaqPageSchema
+        items={PODCAST_RECORDING_FAQS.map((faq) => ({
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+      />
+      <HowToSchema
+        name="איך להקליט פודקאסט באולפן"
+        description="תהליך הקלטת פודקאסט מלא באולפן במודיעין - מתיאום ועד פרק מוכן."
+        totalTime="P1D"
+        steps={PODCAST_RECORDING_WORKFLOW.map((step) => ({
+          name: step.title,
+          text: step.body,
+        }))}
+      />
+      <ServicePageLayout
       title="צילום והקלטת פודקאסט"
       subtitle="הפתרון המלא  -  נכנסתם, דיברתם, יצאתם עם פרק מוכן. צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה."
       features={PODCAST_RECORDING_HERO_FEATURES}
@@ -314,5 +332,6 @@ export default function PodcastRecordingPageContent() {
         <PageRelatedFooter pathname="/podcast/podcast-recording" />
       </div>
     </ServicePageLayout>
+    </>
   );
 }

@@ -418,6 +418,22 @@ export default function DjEventsPageContent() {
             <strong className="font-semibold text-foreground">במודיעין, שוהם, ירושלים וביתר חלקי הארץ</strong>.
             המרחק הפיזי של האולם הוא נתון לוגיסטי בלבד; מערכות הסאונד, תוכנית העבודה ורמת הדיוק של התקליטן נותרות אחידות בכל נקודה.
           </p>
+          <ul className="mt-6 flex flex-wrap gap-3">
+            {[
+              { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
+              { label: "DJ בשוהם", href: "/dj-events/cities/shoham" },
+              { label: "DJ ברחובות", href: "/dj-events/cities/rehovot" },
+            ].map((city) => (
+              <li key={city.href}>
+                <Link
+                  href={city.href}
+                  className="inline-flex min-h-12 items-center rounded-xl border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/30 hover:text-brand-red"
+                >
+                  {city.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section

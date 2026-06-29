@@ -23,119 +23,93 @@ import {
   getHomeHubIcon,
 } from "@/lib/data/home-hub-cards";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 
-const HOME_FAQ: FAQItem[] = [
-  {
-    id: "location-parking",
-    question: "איפה האולפן ויש חנייה?",
-    answer: (
-      <>
-        <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
-        איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.
-      </>
-    ),
-  },
-  {
-    id: "ai-restoration",
-    question: "יש לכם הקלטה ישנה או רועשת?",
-    answer: (
-      <>
-        שלחו לנו את הקובץ. אנחנו מנקים רעשים, מיישרים עוצמה, ומחזירים קול שאפשר
-        להפיץ בגאווה דרך{" "}
-        <InlineServiceLink href="/podcast/podcast-editing#podcast-zoom-demo">
-          שחזור סאונד ב-AI
-        </InlineServiceLink>
-        .
-      </>
-    ),
-  },
-  {
-    id: "events-attractions",
-    question: "האם השירות כולל הגעה לאירועים?",
-    answer: (
-      <>
-        כן.{" "}
-        <InlineServiceLink href="/events/dj-events">DJ והגברה</InlineServiceLink>
-        ,{" "}
-        <InlineServiceLink href="/events/attractions/wedding-smoking-machine">
-          עשן כבד
-        </InlineServiceLink>
-        ,{" "}
-        <InlineServiceLink href="/events/attractions/giant-balloons">
-          בועות
-        </InlineServiceLink>
-        ,{" "}
-        <InlineServiceLink href="/events/attractions/cold-fireworks">
-          זיקוקים קרים
-        </InlineServiceLink>{" "}
-        ועוד - זמינים לאירועי שטח. החבילה נבנית לפי סוג האירוע ומיקומו.
-      </>
-    ),
-  },
-  {
-    id: "pricing",
-    question: "כמה עולה הקלטה או אירוע?",
-    answer: (
-      <>
-        ברכה / הקלטה קצרה{" "}
-        {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}.
-        פודקאסט פיילוט מ-{getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע״מ.
-        ב
-        <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}
-        רואים מחיר סופי מיד ושולחים בוואטסאפ - בלי לחכות לתשובה.
-      </>
-    ),
-  },
-  {
-    id: "delivery-time",
-    question: "תוך כמה זמן מקבלים קובץ מוכן?",
-    answer: (
-      <>
-        הקלטת ברכה פשוטה - מוכן תוך 24-48 שעות. שיר מלא עם עריכה - עד 48 שעות.
-        פודקאסט ואירועים - לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.
-      </>
-    ),
-  },
-  {
-    id: "service-area",
-    question: "לאיזה אזורים אתם מגיעים?",
-    answer: (
-      <>
-        האולפן במודיעין. ל
-        <InlineServiceLink href="/events">אירועים</InlineServiceLink> מגיעים
-        לפתח תקווה, שוהם, ירושלים ולכל הארץ.{" "}
-        <InlineServiceLink href="/studio/studio-jerusalem">
-          הקלטות בירושלים
-        </InlineServiceLink>{" "}
-        - בתיאום מראש. תוספת נסיעות מחוץ לאזור המרכז.
-      </>
-    ),
-  },
-  {
-    id: "payment",
-    question: "איך משלמים?",
-    answer: (
-      <>
-        אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי
-        כרטיס אשראי לא נשמרים באתר - הסליקה דרך ספק מאושר.
-      </>
-    ),
-  },
-  {
-    id: "cancellation",
-    question: "מה קורה אם צריך לבטל או לשנות תאריך?",
-    answer: (
-      <>
-        עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת
-        ב
-        <Link href="/terms" className="font-medium text-brand-red hover:underline">
-          תנאי השירות
-        </Link>
-        .
-      </>
-    ),
-  },
-];
+const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
+  "location-parking": (
+    <>
+      <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
+      איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.
+    </>
+  ),
+  "ai-restoration": (
+    <>
+      שלחו לנו את הקובץ. אנחנו מנקים רעשים, מיישרים עוצמה, ומחזירים קול שאפשר
+      להפיץ בגאווה דרך{" "}
+      <InlineServiceLink href="/podcast/podcast-editing#podcast-zoom-demo">
+        שחזור סאונד ב-AI
+      </InlineServiceLink>
+      .
+    </>
+  ),
+  "events-attractions": (
+    <>
+      כן.{" "}
+      <InlineServiceLink href="/events/dj-events">DJ והגברה</InlineServiceLink>
+      ,{" "}
+      <InlineServiceLink href="/events/attractions/wedding-smoking-machine">
+        עשן כבד
+      </InlineServiceLink>
+      ,{" "}
+      <InlineServiceLink href="/events/attractions/giant-balloons">
+        בועות
+      </InlineServiceLink>
+      ,{" "}
+      <InlineServiceLink href="/events/attractions/cold-fireworks">
+        זיקוקים קרים
+      </InlineServiceLink>{" "}
+      ועוד - זמינים לאירועי שטח. החבילה נבנית לפי סוג האירוע ומיקומו.
+    </>
+  ),
+  pricing: (
+    <>
+      ברכה / הקלטה קצרה{" "}
+      {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}.
+      פודקאסט פיילוט מ-{getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע״מ.
+      ב
+      <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}
+      רואים מחיר סופי מיד ושולחים בוואטסאפ - בלי לחכות לתשובה.
+    </>
+  ),
+  "service-area": (
+    <>
+      האולפן במודיעין. ל
+      <InlineServiceLink href="/events">אירועים</InlineServiceLink> מגיעים
+      לפתח תקווה,{" "}
+      <InlineServiceLink href="/studio/studio-shoham">שוהם</InlineServiceLink>,{" "}
+      <InlineServiceLink href="/studio/studio-rehovot">רחובות</InlineServiceLink>, ירושלים ולכל הארץ.{" "}
+      <InlineServiceLink href="/studio/studio-jerusalem">
+        הקלטות בירושלים
+      </InlineServiceLink>{" "}
+      - בתיאום מראש. תוספת נסיעות מחוץ לאזור המרכז.
+    </>
+  ),
+  cancellation: (
+    <>
+      עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת
+      ב
+      <Link href="/terms" className="font-medium text-brand-red hover:underline">
+        תנאי השירות
+      </Link>
+      .
+    </>
+  ),
+  "remote-fix": (
+    <>
+      כן. שולחים קובץ בוואטסאפ, במייל או ב-Drive - ומחזירים קובץ מטופל תוך שעות.{" "}
+      <InlineServiceLink href="/online">
+        תיקון זיופים, ניקוי רעשים, מיקס ומאסטרינג
+      </InlineServiceLink>{" "}
+      - הכל מרחוק.
+    </>
+  ),
+};
+
+const HOME_FAQ: FAQItem[] = HOME_FAQ_ITEMS.map((item) => ({
+  id: item.id,
+  question: item.question,
+  answer: HOME_FAQ_UI_OVERRIDES[item.id] ?? item.answerPlain,
+}));
 
 const VALUE_PROPS = [
   {
@@ -339,7 +313,9 @@ export default function HomePageSections({
               <InlineServiceLink href="/studio">האולפן והצוות שלנו במודיעין</InlineServiceLink>
               . מגיעים ל
               <InlineServiceLink href="/events">אירועים</InlineServiceLink> בפתח תקווה,
-              שוהם, ירושלים ובכל מקום שצריך{" "}
+              <InlineServiceLink href="/dj-events/cities/shoham"> שוהם</InlineServiceLink>,
+              <InlineServiceLink href="/dj-events/cities/rehovot"> רחובות</InlineServiceLink>,
+              ירושלים ובכל מקום שצריך{" "}
               <InlineServiceLink href="/video">הפקת וידאו</InlineServiceLink> או{" "}
               <InlineServiceLink href="/photography">צילום</InlineServiceLink> ברמה
               גבוהה.{" "}

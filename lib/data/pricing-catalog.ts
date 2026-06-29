@@ -148,6 +148,8 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "prebuilt_set_corporate", label: "סט מוזיקה מוכן לפי קטגוריה", exVat: 450, category: "pro", context: "מוזיקה ערוכה ומחוברת בקצב קבוע" },
   { id: "studio_in_box_consult", label: "אולפן בקופסה - ייעוץ + עשרה פרקים", exVat: 2500, category: "pro", context: "תכנון אקוסטי, מפרט ציוד ועריכה לעשרה פרקים" },
   { id: "bulk_podcast_episode", label: "פס ייצור - פרק ושלושה סרטונים קצרים", exVat: 950, category: "pro", context: "עריכה, עוצמת שמע אחידה, פתיח/סגיר וסרטונים לרשתות" },
+  { id: "corp_podcast_pilot", label: "פיילוט פודקאסט ארגוני", exVat: 6500, category: "pro", context: "2 פרקים + אסטרטגיה + setup ספוטיפיי + מיתוג שמע" },
+  { id: "corp_podcast_retainer", label: "ריטיינר פודקאסט ארגוני", exVat: 4800, category: "pro", context: "2 פרקים/חודש + רילס + הפצה + חשבונית מס" },
   { id: "dry_hire_day", label: "השכרת ציוד - יום אחד", exVat: 450, category: "pro", context: "השכרת ציוד בלבד לפי פריט ויום" },
   { id: "system_tuning_ease", label: "תכנון הגברה ומדידות", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
 ] as const;

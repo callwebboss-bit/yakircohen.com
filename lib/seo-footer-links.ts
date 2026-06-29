@@ -25,6 +25,16 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "הקלטות לקהל מירושלים והסביבה",
       },
       {
+        label: "אולפן הקלטות בשוהם",
+        href: "/studio/studio-shoham",
+        title: "אולפן במודיעין - 10–15 דק׳ משוהם",
+      },
+      {
+        label: "אולפן הקלטות ברחובות",
+        href: "/studio/studio-rehovot",
+        title: "אולפן במודיעין - 25–30 דק׳ מרחובות",
+      },
+      {
         label: "הפקת פודקאסטים במרכז",
         href: "/podcast/podcast-recording",
         title: "צילום והקלטת פודקאסט - הפקה מלאה",

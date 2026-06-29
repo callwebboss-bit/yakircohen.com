@@ -52,6 +52,8 @@ export default function MobilePodcastAtHomePageContent() {
       bookSlug="podcast/mobile-podcast-at-home"
       scarcityLabel="🚐 האולפן מגיע אליכם"
       ctaLabel="הזמנת הקלטה ניידת בוואטסאפ"
+      pagePath="/podcast/mobile-podcast-at-home"
+      faqs={MOBILE_PODCAST_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

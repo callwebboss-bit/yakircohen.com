@@ -2,6 +2,7 @@
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import StudioAcousticBeforeAfter from "@/components/seo/StudioAcousticBeforeAfter";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ShareButton from "@/components/ui/ShareButton";
 import { SITE_NAME } from "@/lib/constants";
 import {
@@ -31,6 +32,12 @@ const faqItems = HOME_STUDIO_FAQS.map((faq) => ({
 export default function AcousticConsultingPageContent() {
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={HOME_STUDIO_FAQS.map((faq) => ({
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+      />
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"

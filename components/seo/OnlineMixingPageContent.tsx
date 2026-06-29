@@ -3,6 +3,7 @@ import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import {
@@ -90,6 +91,12 @@ export default function OnlineMixingPageContent() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"

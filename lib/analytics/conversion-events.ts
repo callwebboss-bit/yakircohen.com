@@ -22,7 +22,10 @@ export type ConversionEventName =
   | "chatbot_wa_cta_click"
   | "chatbot_read_more_click"
   | "chatbot_share_click"
-  | "chatbot_copy_click";
+  | "chatbot_copy_click"
+  | "coupon_popup_show"
+  | "coupon_popup_close"
+  | "coupon_popup_cta_click";
 
 export function trackConversion(
   name: ConversionEventName,

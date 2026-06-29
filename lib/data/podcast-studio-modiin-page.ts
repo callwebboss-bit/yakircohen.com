@@ -1,4 +1,6 @@
-﻿export const STUDIO_MODIIN_HERO_IMAGE = {
+﻿import { PODCAST_STUDIO_MODIIN_PRICE_FAQ } from "./faq-aeo";
+
+export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
   alt: "ישראל אהרוני בסטודיו לפודקאסט במודיעין",
 } as const;
@@ -73,17 +75,12 @@ export const STUDIO_MODIIN_FAQS: readonly {
   question: string;
   answer: string;
 }[] = [
+  PODCAST_STUDIO_MODIIN_PRICE_FAQ,
   {
     id: "multi-guest",
     question: "האם ניתן להקליט פודקאסט עם מספר משתתפים?",
     answer:
       "בהחלט. הסטודיו מאובזר להקלטת מספר משתתפים בו-זמנית, בנפרד או יחד, בהתאם לצורך.",
-  },
-  {
-    id: "pricing",
-    question: "כמה עולה השכרת סטודיו לפודקאסט במודיעין?",
-    answer:
-      "המחיר משתנה לפי משך ההקלטה ושירותים נלווים (עריכה, צילום וידאו). מחירונים גמישים  -  ראו את מחירון הפודקאסט בעמוד הראשי.",
   },
   {
     id: "equipment",

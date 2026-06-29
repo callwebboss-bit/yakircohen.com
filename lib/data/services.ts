@@ -4,6 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
 } from "./pricing";
 import { getExVat } from "./pricing-catalog";
+import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
@@ -265,8 +266,9 @@ export const STUDIO_SERVICES = {
       "תיקון זיופים מקצועי",
       "הקלטת שיר מודיעין",
       "הקלטת שיר לבר מצווה",
-      "הקלטת שיר לחתונה",
-      "כניסה לחופה",
+    "הקלטת שיר לחתונה",
+    "כניסה לחופה",
+    "כמה עולה להקליט שיר באולפן",
       "אולפן הקלטות מודיעין",
       "הקלטת פודקאסט מודיעין",
       "שיר מתנה",
@@ -318,6 +320,11 @@ export const STUDIO_SERVICES = {
     whatsappText: "שלום, מעוניין להקליט שיר באולפן במודיעין",
     utmCampaign: "studio_recording_modiin",
     faqs: [
+      {
+        id: RECORDING_SONG_STUDIO_PRICE_FAQ.id,
+        question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
+        answer: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+      },
       {
         id: "booking-advance",
         question:
@@ -418,9 +425,8 @@ export const STUDIO_SERVICES = {
       },
       {
         id: "pricing",
-        question: "כמה עולה להקליט שיר?",
-        answer:
-          "יש מסלולים שונים באתר  -  מומלץ לא להתפשר על הקלטה של פעם בחיים, אבל נתאים חבילה לתקציב. ראו מחירון ודפי השירותים.",
+        question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
+        answer: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
       },
       {
         id: "playback",
@@ -449,6 +455,154 @@ export const STUDIO_SERVICES = {
     hubCard: {
       title: "אולפן לירושלים והסביבה",
       description: "30 דק׳ מירושלים  -  שירים, ברכות וקליפים.",
+    },
+    showInStudioHub: true,
+  },
+
+  "studio-shoham": {
+    id: "studio-shoham",
+    slug: "studio/studio-shoham",
+    category: "studio",
+    title: "אולפן הקלטות לתושבי שוהם  -  במודיעין",
+    subtitle:
+      "אולפן מקצועי כ-10–15 דקות משוהם  -  שירים לחופה, ברכות ודרשות לבר/בת מצווה. ליווי אישי גם בלי ניסיון שירה.",
+    metaTitle: "אולפן הקלטות בשוהם | 10–15 דק׳ ממודיעין",
+    metaDescription:
+      "אולפן הקלטות בשוהם - 10–15 דק׳ ממודיעין. שירים לחופה, ברכות ודרשות עם ליווי אישי.",
+    keywords: [
+      "אולפן הקלטות שוהם",
+      "הקלטת שיר שוהם",
+      "אולפן הקלטות בשוהם",
+      "שיר לחופה שוהם",
+      "הקלטת ברכה שוהם",
+    ],
+    features: [
+      "כ-10–15 דקות נסיעה משוהם (כביש 443)",
+      "ליווי אישי גם ללא ניסיון שירה",
+      "מתאים לקהל דתי  -  יחס מכבד ותוכן כשר",
+      "שירים, ברכות, דרשות וקליפים",
+      "חניה פנויה ליד האולפן במודיעין",
+    ],
+    assetsFolder: "studio/jerusalem",
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["studio-jerusalem"],
+    ),
+    mediaType: "video",
+    whatsappText: "שלום, מגיע משוהם ומעוניין לתאם הקלטה באולפן",
+    utmCampaign: "studio_shoham",
+    faqs: [
+      {
+        id: "location",
+        question: "האם האולפן נמצא בשוהם?",
+        answer:
+          "האולפן במודיעין, כ-10–15 דקות משוהם. אפשר גם להזמין אולפן נייד בתיאום מראש.",
+      },
+      {
+        id: "experience",
+        question: "האם צריך ניסיון בשירה?",
+        answer:
+          "ממש לא. רוב הלקוחות חובבים  -  מלווים צעד-צעד עד תוצאה מקצועית.",
+      },
+      {
+        id: "pricing",
+        question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
+        answer: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+      },
+      {
+        id: "playback",
+        question: "כמה עולה פלייבק? האם צריך להשיג?",
+        answer:
+          "פלייבק קיים ברשת  -  ללא עלות. עיבוד מחדש לפי כמות הכלים (פסנתר, תופים, גיטרה וכו׳).",
+      },
+      {
+        id: "delivery",
+        question: "איך מקבלים את הקובץ?",
+        answer: "וואטסאפ, מייל או USB מעוצב (בתוספת תשלום סמלי).",
+      },
+      {
+        id: "religious",
+        question: "האם יש התאמה לקהל דתי?",
+        answer:
+          "בהחלט  -  יחס מכבד, תוכן כשר והתאמה לאירועים משפחתיים וקהילתיים.",
+      },
+    ],
+    hubCard: {
+      title: "אולפן לשוהם והסביבה",
+      description: "10–15 דק׳ משוהם  -  שירים, ברכות וקליפים.",
+    },
+    showInStudioHub: true,
+  },
+
+  "studio-rehovot": {
+    id: "studio-rehovot",
+    slug: "studio/studio-rehovot",
+    category: "studio",
+    title: "אולפן הקלטות לתושבי רחובות  -  במודיעין",
+    subtitle:
+      "אולפן מקצועי כ-25–30 דקות מרחובות  -  שירים לחופה, ברכות ודרשות לבר/בת מצווה. ליווי אישי גם בלי ניסיון שירה.",
+    metaTitle: "אולפן הקלטות ברחובות | 25–30 דק׳ ממודיעין",
+    metaDescription:
+      "אולפן הקלטות ברחובות - 25–30 דק׳ ממודיעין. שירים לחופה, ברכות ודרשות עם ליווי אישי.",
+    keywords: [
+      "אולפן הקלטות רחובות",
+      "הקלטת שיר רחובות",
+      "אולפן הקלטות ברחובות",
+      "שיר לחופה רחובות",
+      "הקלטת ברכה רחובות",
+    ],
+    features: [
+      "כ-25–30 דקות נסיעה מרחובות (כביש 431)",
+      "ליווי אישי גם ללא ניסיון שירה",
+      "מתאים לקהל דתי  -  יחס מכבד ותוכן כשר",
+      "שירים, ברכות, דרשות וקליפים",
+      "חניה פנויה ליד האולפן במודיעין",
+    ],
+    assetsFolder: "studio/jerusalem",
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["studio-jerusalem"],
+    ),
+    mediaType: "video",
+    whatsappText: "שלום, מגיע מרחובות ומעוניין לתאם הקלטה באולפן",
+    utmCampaign: "studio_rehovot",
+    faqs: [
+      {
+        id: "location",
+        question: "האם האולפן נמצא ברחובות?",
+        answer:
+          "האולפן במודיעין, כ-25–30 דקות מרחובות. אפשר גם להזמין אולפן נייד בתיאום מראש.",
+      },
+      {
+        id: "experience",
+        question: "האם צריך ניסיון בשירה?",
+        answer:
+          "ממש לא. רוב הלקוחות חובבים  -  מלווים צעד-צעד עד תוצאה מקצועית.",
+      },
+      {
+        id: "pricing",
+        question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
+        answer: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+      },
+      {
+        id: "playback",
+        question: "כמה עולה פלייבק? האם צריך להשיג?",
+        answer:
+          "פלייבק קיים ברשת  -  ללא עלות. עיבוד מחדש לפי כמות הכלים (פסנתר, תופים, גיטרה וכו׳).",
+      },
+      {
+        id: "delivery",
+        question: "איך מקבלים את הקובץ?",
+        answer: "וואטסאפ, מייל או USB מעוצב (בתוספת תשלום סמלי).",
+      },
+      {
+        id: "religious",
+        question: "האם יש התאמה לקהל דתי?",
+        answer:
+          "בהחלט  -  יחס מכבד, תוכן כשר והתאמה לאירועים משפחתיים וקהילתיים.",
+      },
+    ],
+    hubCard: {
+      title: "אולפן לרחובות והשפלה",
+      description: "25–30 דק׳ מרחובות  -  שירים, ברכות וקליפים.",
     },
     showInStudioHub: true,
   },
@@ -1165,6 +1319,11 @@ export const EVENTS_SERVICES = {
     utmCampaign: "events_dj",
     scarcityLabel: "עונת השיא (מאי-אוקטובר) מתמלאת מהר",
     faqs: [
+      {
+        id: DJ_WEDDING_PRICE_FAQ.id,
+        question: DJ_WEDDING_PRICE_FAQ.question,
+        answer: DJ_WEDDING_PRICE_FAQ.answer,
+      },
       {
         id: "songs",
         question: "אפשר לבקש שירים ספציפיים?",

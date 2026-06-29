@@ -1,4 +1,10 @@
-﻿export const PODCAST_RECORDING_PRICE = "2,500";
+﻿import {
+  PODCAST_HOW_TO_RECORD_FAQ,
+  PODCAST_RECORDING_PRICE_FAQ,
+  PODCAST_STUDIO_MODIIN_PRICE_FAQ,
+} from "./faq-aeo";
+
+export const PODCAST_RECORDING_PRICE = "2,500";
 export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא - כולל צילום, הקלטה ועריכה";
 
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
@@ -140,6 +146,8 @@ export const PODCAST_RECORDING_FAQS: readonly {
   question: string;
   answer: string;
 }[] = [
+  PODCAST_HOW_TO_RECORD_FAQ,
+  PODCAST_RECORDING_PRICE_FAQ,
   {
     id: "duration",
     question: "שעה מספיקה?",

@@ -3,6 +3,7 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ShareButton from "@/components/ui/ShareButton";
 import {
   BAT_MITZVAH_CLIP_FAQ,
@@ -57,6 +58,7 @@ export default function BatMitzvahClipPageContent() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema items={faqSchemaItems} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}

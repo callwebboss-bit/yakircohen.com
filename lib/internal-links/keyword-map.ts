@@ -32,6 +32,42 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "קורס DJ": { href: "/academy/dj-course", anchor: "קורס DJ" },
   מחירון: { href: "/pricing", anchor: "מחירון" },
   "הזמנה מקוונת": { href: "/book", anchor: "הזמנה מקוונת" },
+  "DJ שוהם": { href: "/dj-events/cities/shoham", anchor: "DJ בשוהם" },
+  "דיגגיי בשוהם": { href: "/dj-events/cities/shoham", anchor: "דיגגיי בשוהם" },
+  "DJ רחובות": { href: "/dj-events/cities/rehovot", anchor: "DJ ברחובות" },
+  "דיגגיי ברחובות": { href: "/dj-events/cities/rehovot", anchor: "דיגגיי ברחובות" },
+  "אולפן הקלטות שוהם": {
+    href: "/studio/studio-shoham",
+    anchor: "אולפן הקלטות בשוהם",
+  },
+  "אולפן הקלטות רחובות": {
+    href: "/studio/studio-rehovot",
+    anchor: "אולפן הקלטות ברחובות",
+  },
+  "כמה עולה להקליט שיר באולפן": {
+    href: "/studio/recording-song-modiin",
+    anchor: "הקלטת שיר באולפן",
+  },
+  "איך להקליט פודקאסט": {
+    href: "/podcast/podcast-recording",
+    anchor: "הקלטת פודקאסט באולפן",
+  },
+  "כמה עולה להקליט פודקאסט": {
+    href: "/podcast/podcast-recording",
+    anchor: "הקלטת פודקאסט",
+  },
+  "כמה עולה השכרת סטודיו לפודקאסט במודיעין": {
+    href: "/podcast/podcast-studio-modiin",
+    anchor: "השכרת סטודיו לפודקאסט במודיעין",
+  },
+  "כמה עולה עריכת פודקאסט": {
+    href: "/podcast/podcast-editing",
+    anchor: "עריכת פודקאסט מקצועית",
+  },
+  "כמה עולה DJ לחתונה": {
+    href: "/events/dj-events",
+    anchor: "DJ לחתונה",
+  },
 };
 
 export function getKeywordLink(keyword: string): KeywordLink | undefined {

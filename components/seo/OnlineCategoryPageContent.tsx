@@ -8,6 +8,7 @@ import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import {
   getOnlineCategoryBySlug,
   ONLINE_SERVICE_CATEGORIES,
@@ -49,6 +50,12 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
 
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={faqItems.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
+      />
       <Section padding="none" className="relative overflow-hidden border-b border-border bg-background">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"

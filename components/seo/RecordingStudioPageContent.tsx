@@ -156,11 +156,26 @@ export default function RecordingStudioPageContent() {
             Cubase לגמישות בעריכה, ו-Suno AI לסקיצות ורעיונות שבעבר דרשו תקציבי
             עתק  -  בלי לוותר על האמן במרכז.
           </p>
-          <Link
-            href="/studio/studio-jerusalem"
-            className="mt-6 inline-block text-sm font-semibold text-brand-red hover:underline"
-          >
-            אולפן לירושלמים  -  30 דק׳ מירושלים </Link>
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+            <Link
+              href="/studio/studio-jerusalem"
+              className="text-sm font-semibold text-brand-red hover:underline"
+            >
+              אולפן לירושלמים  -  30 דק׳ מירושלים
+            </Link>
+            <Link
+              href="/studio/studio-shoham"
+              className="text-sm font-semibold text-brand-red hover:underline"
+            >
+              אולפן לשוהם  -  10–15 דק׳
+            </Link>
+            <Link
+              href="/studio/studio-rehovot"
+              className="text-sm font-semibold text-brand-red hover:underline"
+            >
+              אולפן לרחובות  -  25–30 דק׳
+            </Link>
+          </div>
         </section>
 
         {service.faqs.length > 0 ? (

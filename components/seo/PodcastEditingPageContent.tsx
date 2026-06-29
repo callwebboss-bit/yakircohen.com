@@ -46,6 +46,8 @@ export default function PodcastEditingPageContent() {
       bookSlug="podcast/podcast-editing"
       ctaLabel="שליחת פרק לעריכה בוואטסאפ"
       scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} - ${PODCAST_EDITING_PRICE_NOTE}`}
+      pagePath="/podcast/podcast-editing"
+      faqs={PODCAST_EDITING_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

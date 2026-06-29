@@ -41,6 +41,8 @@ export default function PodcastSelfServicePageContent() {
       bookSlug="podcast/self-service-studio"
       scarcityLabel="🔌 שירות עצמי"
       ctaLabel="בדיקת זמינות בוואטסאפ"
+      pagePath="/podcast/self-service-studio"
+      faqs={SELF_SERVICE_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
   STUDIO_ADDRESS_LINE,
   STUDIO_GOOGLE_MAPS_URL,
@@ -8,13 +9,18 @@ import {
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-const SERVICE_CITIES = [
-  "מודיעין",
-  "ירושלים",
-  "רמלה",
-  "לוד",
-  "שוהם",
-  "רחובות",
+type ServiceCity = {
+  label: string;
+  href?: string;
+};
+
+const SERVICE_CITIES: ServiceCity[] = [
+  { label: "מודיעין", href: "/studio" },
+  { label: "ירושלים", href: "/studio/studio-jerusalem" },
+  { label: "רמלה" },
+  { label: "לוד" },
+  { label: "שוהם", href: "/studio/studio-shoham" },
+  { label: "רחובות", href: "/studio/studio-rehovot" },
 ];
 
 export type LocationTrustBlockProps = {
@@ -53,7 +59,17 @@ export default function LocationTrustBlock({ className }: LocationTrustBlockProp
             </Link>
             <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
               מגיעים אליכם ב:&nbsp;
-              {SERVICE_CITIES.join(" · ")} ועוד
+              {SERVICE_CITIES.map((city, index) => (
+                <span key={city.label}>
+                  {index > 0 ? " · " : null}
+                  {city.href ? (
+                    <InlineServiceLink href={city.href}>{city.label}</InlineServiceLink>
+                  ) : (
+                    city.label
+                  )}
+                </span>
+              ))}
+              &nbsp;ועוד
             </p>
           </div>
         </div>

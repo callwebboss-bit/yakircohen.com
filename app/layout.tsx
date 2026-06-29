@@ -6,10 +6,9 @@ import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
-import FaqPageSchema from "@/components/seo/FaqPageSchema";
-import { CHATBOT_DATA } from "@/lib/chatbot-data";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import PwaInstallPrompt from "@/components/marketing/PwaInstallPrompt";
+import CouponPopup from "@/components/marketing/CouponPopup";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
 import {
@@ -123,12 +122,6 @@ export default function RootLayout({
         <GoogleAnalytics />
         <TabRescueTitle />
         <SiteSchema />
-        <FaqPageSchema
-          items={CHATBOT_DATA.questions.map((q) => ({
-            question: q.label,
-            answer: q.answer.text,
-          }))}
-        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand-red focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none"
@@ -148,6 +141,7 @@ export default function RootLayout({
         <Footer />
         <DeferredFloatingFabs />
         <PwaInstallPrompt />
+        <CouponPopup />
       </body>
     </html>
   );

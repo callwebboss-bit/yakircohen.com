@@ -2,6 +2,7 @@
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
   EVENT_ATTRACTION_FROM_NIS,
@@ -72,9 +73,33 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ];
 
+const FAQ_SCHEMA_ITEMS = [
+  {
+    question: "כמה זמן השובר בתוקף?",
+    answer:
+      "בדרך כלל שנה ממועד הרכישה. אם צריך תאריך אחר - כותבים לנו בוואטסאפ ומתאימים.",
+  },
+  {
+    question: "איך מממשים את השובר?",
+    answer:
+      "שולחים לנו הודעה בוואטסאפ עם מספר השובר (או שם המזמין), בוחרים תאריך פנוי ומתאמים פרטים. אפשר גם דרך עמוד ההזמנה.",
+  },
+  {
+    question: "אפשר להעביר את השובר למישהו אחר?",
+    answer: "כן. השובר ניתן למימוש על ידי המקבל או מי שהעבירו אליו - בכפוף לתיאום מראש.",
+  },
+  {
+    question: "אפשר לשלב שובר עם חבילה קיימת?",
+    answer:
+      "בהחלט. לעיתים מוסיפים שובר כשדרוג לאירוע שכבר סגור - נבדוק יחד מה מתאים.",
+  },
+] as const;
+
 export default function VoucherPageContent() {
   return (
-    <ServicePageLayout
+    <>
+      <FaqPageSchema items={[...FAQ_SCHEMA_ITEMS]} />
+      <ServicePageLayout
       title="שובר מתנה"
       subtitle="מתנה לאולפן, אטרקציות או הפקה - בוחרים טווח מחיר, מקבלים שובר מעוצב ומתאמים מועד בקלות."
       features={FEATURES}
@@ -175,5 +200,6 @@ export default function VoucherPageContent() {
         />
       </Container>
     </ServicePageLayout>
+    </>
   );
 }

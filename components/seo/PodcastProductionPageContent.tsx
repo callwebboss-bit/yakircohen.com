@@ -40,6 +40,8 @@ export default function PodcastProductionPageContent() {
       corporateShareLabel="הפקת פודקאסט מא׳ עד ת׳"
       bookSlug="podcast/podcast-production"
       ctaLabel="שיחת אפיון בוואטסאפ"
+      pagePath="/podcast/podcast-production"
+      faqs={PODCAST_PRODUCTION_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

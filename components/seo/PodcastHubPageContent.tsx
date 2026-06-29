@@ -76,6 +76,11 @@ export const PODCAST_HUB_TRACKS = [
     description: "ליווי ארוך טווח  -  תכנון, מיתוג והפצה.",
   },
   {
+    href: "/podcast/corporate-podcast",
+    title: "פודקאסט ארגוני לחברות",
+    description: "מיתוג מעסיק ושיווק תוכן  -  הפקה מלאה, ספוטיפיי, חשבונית מס.",
+  },
+  {
     href: "/podcast/podcast-studio-modiin",
     title: "השכרת סטודיו / אולפן במודיעין",
     description: "הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.",

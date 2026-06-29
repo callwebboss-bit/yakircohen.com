@@ -56,6 +56,8 @@ export default function PodcastWithGrandpaPageContent() {
       bookSlug="podcast/podcast-with-grandpa"
       scarcityLabel="🎙️👴👵 חוויה משפחתית במודיעין"
       ctaLabel="תיאום החוויה בוואטסאפ"
+      pagePath="/podcast/podcast-with-grandpa"
+      faqs={PODCAST_GRANDPA_FAQS}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

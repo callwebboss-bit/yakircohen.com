@@ -68,6 +68,12 @@ const COURSE_CARDS = [
     sub: "שיעור פרטי במודיעין - פרונטלי או בזום",
   },
   {
+    href: "/academy/hebrew-lessons",
+    icon: "🇬🇧",
+    label: "Hebrew Lessons (English)",
+    sub: "Private Hebrew lessons for Olim, expats & Hi-Tech — in-person or Zoom",
+  },
+  {
     href: "/academy/ai-music",
     icon: "🎼",
     label: "AI מוזיקה",
