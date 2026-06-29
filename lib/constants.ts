@@ -70,14 +70,8 @@ export const NAV_HUBS = [
   { href: "/blog", label: "מגזין מקצועי" },
 ] as const;
 
-/** Footer-only links (not duplicated in header) */
-export const FOOTER_EXTRA_LINKS = [
-  { href: "/start", label: "מה קורה אחרי שפונים" },
-  { href: "/about", label: "אודות" },
-  { href: "/about/faq", label: "שאלות נפוצות" },
-  { href: "/book", label: "הזמנה מקוונת" },
-  { href: "/contact", label: "צור קשר" },
-] as const;
+/** Footer-only links (trust links live in FOOTER_SEMANTIC_TREE column 5) */
+export const FOOTER_EXTRA_LINKS: readonly { href: string; label: string }[] = [];
 
 export const FOOTER_LEGAL_LINKS = [
   { href: "/privacy", label: "מדיניות פרטיות" },
