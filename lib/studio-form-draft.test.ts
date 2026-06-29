@@ -34,6 +34,9 @@ const INITIAL: StudioFormDraft = {
   adultsCount: 0,
   childrenCount: 0,
   customerNeed: "",
+  sessionPriority: "",
+  welcomePerk: "",
+  travelMode: "",
   termsAccepted: false,
 };
 

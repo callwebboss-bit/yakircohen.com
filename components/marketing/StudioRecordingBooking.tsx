@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Headphones, Lightbulb, TrendingUp } from "lucide-react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -10,9 +10,7 @@ import BookingSubmitButton from "@/components/booking/BookingSubmitButton";
 import StudioValueChips from "@/components/booking/StudioValueChips";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookRecordingVsProduction from "@/components/booking/BookRecordingVsProduction";
-import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
-import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingSelectableCard, {
   BookingSelectionConfirm,
   BookingStepGuide,
@@ -25,7 +23,6 @@ import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import PriceWithVat from "@/components/booking/PriceWithVat";
-import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
@@ -84,7 +81,6 @@ import {
   CONSULTATION_PACKAGES,
   RECORDING_ATMOSPHERES,
   RECORDING_TYPES,
-  STUDIO_EXTRA_REVISION_PRICE,
   STUDIO_RECORDING_PACKAGES,
   STUDIO_RECORDING_UPGRADES,
   STUDIO_SURPRISE_GIFT_NOTE,
@@ -109,12 +105,22 @@ import {
   StudioBusinessFields,
   StudioCostSplitBlock,
   StudioFitMeter,
+  StudioParkingBanner,
   StudioProjectModeToggle,
+  StudioSessionPriorityPills,
+  StudioTravelModeToggle,
   StudioUpgradeQuickPills,
+  StudioWelcomePerkPills,
   WizardInlinePriceBar,
+  WizardStepTransitionOverlay,
 } from "@/components/booking/StudioWizardCroBlocks";
 import { useStudioGhostLead } from "@/hooks/useStudioGhostLead";
-import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
+import {
+  BOOK_WIZARD_COPY,
+  SESSION_PRIORITY_LABELS,
+  TRAVEL_MODE_LABELS,
+  WELCOME_PERK_LABELS,
+} from "@/lib/data/book-wizard-copy";
 import { buildStudioEscapeWhatsAppHref } from "@/lib/studio-partial-booking-message";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
@@ -289,12 +295,16 @@ export default function StudioRecordingBooking({
       adultsCount: 0,
       childrenCount: 0,
       customerNeed: initialEmotionalLabel ?? "",
+      sessionPriority: "",
+      welcomePerk: "",
+      travelMode: "",
       termsAccepted: false,
     }),
     [initialEmotionalLabel, initialRecordingTypeId, initialStudioPackageId],
   );
 
   const giftPresetApplied = useRef(false);
+  const [step3Transition, setStep3Transition] = useState(false);
 
   const {
     step,
@@ -651,7 +661,31 @@ export default function StudioRecordingBooking({
     ...(adultsCount > 0 ? [{ label: "מבוגרים", value: String(adultsCount) }] : []),
     ...(childrenCount > 0 ? [{ label: "ילדים", value: String(childrenCount) }] : []),
     ...(recorderCount > 0 ? [{ label: "סה״כ מקליטים", value: String(recorderCount) }] : []),
-    ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+    ...(form.notes || form.customerNeed
+      ? [
+          {
+            label: "הערות",
+            value: sanitizeLeadText(
+              [form.customerNeed, form.notes].filter(Boolean).join(" — "),
+              500,
+            ),
+          },
+        ]
+      : []),
+    ...(form.sessionPriority && form.sessionPriority in SESSION_PRIORITY_LABELS
+      ? [
+          {
+            label: "עדיפות בסשן",
+            value: SESSION_PRIORITY_LABELS[form.sessionPriority],
+          },
+        ]
+      : []),
+    ...(form.welcomePerk && form.welcomePerk in WELCOME_PERK_LABELS
+      ? [{ label: "צ'ופר הגעה", value: WELCOME_PERK_LABELS[form.welcomePerk] }]
+      : []),
+    ...(form.travelMode && form.travelMode in TRAVEL_MODE_LABELS
+      ? [{ label: "הגעה", value: TRAVEL_MODE_LABELS[form.travelMode] }]
+      : []),
     {
       label: "הנחיות",
       value: studioLeadContext
@@ -743,7 +777,10 @@ export default function StudioRecordingBooking({
           },
           priceExVat: total,
           totalEstimate: withVat(total),
-          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          customerNeed:
+            (form.sessionPriority && form.sessionPriority in SESSION_PRIORITY_LABELS
+              ? SESSION_PRIORITY_LABELS[form.sessionPriority]
+              : sanitizeLeadText(form.customerNeed, 500)) || null,
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
@@ -761,6 +798,20 @@ export default function StudioRecordingBooking({
     setStep(n);
     scrollToBookWizardPanelAndFocusStep(n);
   };
+
+  const completeStep3Transition = useCallback(() => {
+    setStep3Transition(false);
+    setStep(2);
+    scrollToBookWizardPanelAndFocusStep(2);
+  }, [setStep]);
+
+  const beginStep3Transition = () => {
+    if (!canAdvanceStep1) return;
+    setStep3Transition(true);
+  };
+
+  const showStudioParking =
+    !typeFlow.hideLocation && form.location === "modiin";
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
@@ -799,7 +850,10 @@ export default function StudioRecordingBooking({
           contact: { name: sanitizeLeadText(form.name, 60), phone: displayPhone },
           priceExVat: total,
           totalEstimate: withVat(total),
-          customerNeed: sanitizeLeadText(form.customerNeed, 500) || null,
+          customerNeed:
+            (form.sessionPriority && form.sessionPriority in SESSION_PRIORITY_LABELS
+              ? SESSION_PRIORITY_LABELS[form.sessionPriority]
+              : sanitizeLeadText(form.customerNeed, 500)) || null,
           utmSource: readUtmSource() ?? "/book#studio",
           bookCategory: "studio",
           includeTrustFooter: true,
@@ -1456,7 +1510,7 @@ export default function StudioRecordingBooking({
 
             <StepNav
               onBack={() => goToStep(0)}
-              onNext={() => goToStep(2)}
+              onNext={beginStep3Transition}
               nextDisabled={!canAdvanceStep1}
               nextLabel={BOOK_WIZARD_COPY.nextStep}
             />
@@ -1468,83 +1522,47 @@ export default function StudioRecordingBooking({
       {/* Step 2: summary + contact form (closing) */}
       {step === 2 && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
-          <p className="mb-4 text-center text-sm font-medium text-foreground">
-            {BOOK_WIZARD_COPY.step3Closer}
-          </p>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
-            {/* Read-only summary */}
-            <div className="rounded-2xl bg-surface p-6">
+            <div className="rounded-2xl bg-surface p-5">
               <h2
                 id="book-step-heading-2"
                 tabIndex={-1}
-                className="mb-4 text-lg font-medium text-foreground"
+                className="mb-4 text-center text-base font-semibold text-foreground"
               >
-                מה שבחרת
+                {BOOK_WIZARD_COPY.step3Closer}
               </h2>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <p className="mb-3 text-xs font-semibold text-muted-foreground">
+                {BOOK_WIZARD_COPY.step3SummaryHeading}
+              </p>
+              <ul className="space-y-1.5 text-sm text-muted-foreground">
                 {recordingLabel && (
                   <li>
                     <span className="font-medium text-foreground">סוג: </span>
                     {recordingLabel}
                   </li>
                 )}
-                {form.songName && !isConsultation && (
-                  <li>
-                    <span className="font-medium text-foreground">שיר: </span>
-                    {form.songName}
-                  </li>
-                )}
-                {showCelebrantField && (
-                  <li>
-                    <span className="font-medium text-foreground">מקליט/ה (חוגג/ת): </span>
-                    {form.celebrantName.trim() ? (
-                      form.celebrantName
-                    ) : (
-                      <span className="text-amber-700">לא הוזן - מומלץ למלא לפני שליחה</span>
-                    )}
-                  </li>
-                )}
-                {form.referrer && (
-                  <li>
-                    <span className="font-medium text-foreground">הופנה ע&quot;י: </span>
-                    {form.referrer}
-                  </li>
-                )}
-                {atmosphereLabel && !isConsultation && (
-                  <li>
-                    <span className="font-medium text-foreground">אווירה: </span>
-                    {atmosphereLabel}
-                  </li>
-                )}
                 {activePackage && (
                   <li>
                     <span className="font-medium text-foreground">מסלול: </span>
-                    {activePackage.name} - {activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ
-                  </li>
-                )}
-                {form.surpriseGift && (
-                  <li>
-                    מתנת הפתעה
-                    {form.giftRecipientName && ` - עבור ${form.giftRecipientName}`}
+                    {activePackage.name}
                   </li>
                 )}
                 {form.scheduleWindow && (
                   <li>
-                    <span className="font-medium text-foreground">מועד מועדף: </span>
+                    <span className="font-medium text-foreground">מועד: </span>
                     {scheduleWindowSummaryLabel(form.scheduleWindow)}
-                    {form.date && ` - ${form.date}`}
-                    {form.time && ` - ${form.time}`}
                   </li>
                 )}
               </ul>
-              <div className="mt-5 border-t border-border pt-4">
+              <div className="mt-4 border-t border-border pt-3">
                 <PriceWithVat amountExVat={total} size="lg" />
               </div>
             </div>
 
-            {/* Contact form */}
-            <div className="space-y-5">
-              <h2 className="text-base font-semibold text-foreground">פרטים לתיאום</h2>
+            <div className="mt-6 space-y-5">
+              <h3 className="text-base font-semibold text-foreground">
+                {BOOK_WIZARD_COPY.step3ContactHeading}
+              </h3>
               <div className="relative space-y-4">
                 <HoneypotField value={honeypot} onChange={setHoneypot} />
                 <LeadFormAlert message={globalError} />
@@ -1618,41 +1636,63 @@ export default function StudioRecordingBooking({
                   }}
                 />
 
+                <StudioSessionPriorityPills
+                  value={form.sessionPriority}
+                  onChange={(id) => patchForm({ sessionPriority: id })}
+                />
+
+                <StudioWelcomePerkPills
+                  value={form.welcomePerk}
+                  onChange={(id) => patchForm({ welcomePerk: id })}
+                />
+
+                {showStudioParking ? (
+                  <>
+                    <StudioTravelModeToggle
+                      value={form.travelMode}
+                      onChange={(id) => patchForm({ travelMode: id })}
+                    />
+                    {form.travelMode === "car" ? <StudioParkingBanner /> : null}
+                  </>
+                ) : null}
+
                 {!typeFlow.hideLocation ? (
-                  <div>
-                    <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      {(
-                        [
-                          { id: "modiin" as const, label: "אולפן אקוסטי במודיעין", sub: "חנייה חופשית" },
-                          { id: "mobile" as const, label: "🚗🏠 אולפן נייד - מגיעים עד אליכם", sub: "מ-999 ₪ לפני מע״מ + אזור" },
-                        ] as const
-                      ).map((loc) => (
-                        <button
-                          key={loc.id}
-                          type="button"
-                          onClick={() =>
-                            patchForm({
-                              location: loc.id,
-                              mobileGeo: loc.id === "mobile" ? form.mobileGeo || "center" : "",
-                            })
-                          }
-                          className={cn(
-                            "min-h-11 rounded-2xl border px-4 py-3 text-start text-sm transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
-                            form.location === loc.id
-                              ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] text-[var(--service-accent,#d42b2b)]"
-                              : "border-border/60 hover:border-[var(--service-accent,#d42b2b)]/30",
-                          )}
-                          aria-pressed={form.location === loc.id}
-                        >
-                          <span className="font-semibold">{loc.label}</span>
-                          <span className="mt-0.5 block text-xs text-muted-foreground">{loc.sub}</span>
-                        </button>
-                      ))}
-                    </div>
-                    {form.location === "mobile" ? (
-                      <div className="mt-3 space-y-2">
-                        <p className="text-xs font-semibold text-muted-foreground">בחירת אזור</p>
+                  <details className="rounded-xl border border-border/60 bg-surface px-4 py-3">
+                    <summary className="cursor-pointer text-xs font-semibold text-foreground">
+                      איפה נקליט? (ברירת מחדל: אולפן במודיעין)
+                    </summary>
+                    <div className="mt-3 space-y-3">
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        {(
+                          [
+                            { id: "modiin" as const, label: "אולפן אקוסטי במודיעין", sub: "חנייה חופשית" },
+                            { id: "mobile" as const, label: "אולפן נייד", sub: "מגיעים עד אליכם" },
+                          ] as const
+                        ).map((loc) => (
+                          <button
+                            key={loc.id}
+                            type="button"
+                            onClick={() =>
+                              patchForm({
+                                location: loc.id,
+                                mobileGeo: loc.id === "mobile" ? form.mobileGeo || "center" : "",
+                                travelMode: loc.id === "mobile" ? "" : form.travelMode,
+                              })
+                            }
+                            className={cn(
+                              "min-h-11 rounded-2xl border px-4 py-3 text-start text-sm transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
+                              form.location === loc.id
+                                ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                                : "border-border/60 hover:border-[var(--service-accent,#d42b2b)]/30",
+                            )}
+                            aria-pressed={form.location === loc.id}
+                          >
+                            <span className="font-semibold">{loc.label}</span>
+                            <span className="mt-0.5 block text-xs text-muted-foreground">{loc.sub}</span>
+                          </button>
+                        ))}
+                      </div>
+                      {form.location === "mobile" ? (
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                           {(Object.keys(MOBILE_GEO_FEES) as MobileGeoId[]).map((geoId) => {
                             const geo = MOBILE_GEO_FEES[geoId];
@@ -1664,7 +1704,7 @@ export default function StudioRecordingBooking({
                                 type="button"
                                 onClick={() => patchForm({ mobileGeo: geoId })}
                                 className={cn(
-                                  "min-h-11 rounded-xl border px-3 py-2 text-start text-xs transition-[border-color,background-color,color,transform] duration-fast ease-luxury active:scale-[0.98]",
+                                  "min-h-11 rounded-xl border px-3 py-2 text-start text-xs",
                                   active
                                     ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] text-[var(--service-accent,#d42b2b)]"
                                     : "border-border/60",
@@ -1673,74 +1713,30 @@ export default function StudioRecordingBooking({
                               >
                                 <span className="font-semibold">{geo.label}</span>
                                 <span className="mt-0.5 block text-muted-foreground">
-                                  {price.toLocaleString("he-IL")} ₪ לפני מע״מ - {geo.detail}
+                                  {price.toLocaleString("he-IL")} ₪ — {geo.detail}
                                 </span>
                               </button>
                             );
                           })}
                         </div>
-                      </div>
-                    ) : null}
-                  </div>
+                      ) : null}
+                    </div>
+                  </details>
                 ) : null}
 
                 <div>
                   <label htmlFor="sr-notes" className="mb-1.5 block text-xs font-semibold">
-                    הערות
+                    {BOOK_WIZARD_COPY.notesOptional}
                   </label>
                   <textarea
                     id="sr-notes"
-                    rows={3}
+                    rows={2}
                     autoComplete="off"
                     value={form.notes}
                     onChange={(e) => patchForm({ notes: e.target.value })}
                     className={cn(bookFieldClass, "resize-none")}
                   />
                 </div>
-
-                <p className="text-xs text-muted-foreground">
-                  נשלח לכם טיפים קלים לחזרות בבית כדי שתגיעו מוכנים ורגועים
-                </p>
-
-                <BookWhatHappensNext />
-                <BookTrustBadges />
-
-                {!isConsultation && (
-                  <div className="rounded-xl bg-surface px-4 py-4 space-y-3">
-                    <h3 className="text-sm font-semibold text-foreground">מה קורה אחרי הסשן</h3>
-                    <ol className="space-y-2 text-sm text-muted-foreground list-none">
-                      <li>
-                        <span className="font-medium text-foreground">באותה שניה שיוצאים:</span>{" "}
-                        חומרי הגלם אצלכם ביד
-                      </li>
-                      <li className="flex items-start gap-1.5">
-                        <span>
-                          <span className="font-medium text-foreground">עד 48 שעות:</span>{" "}
-                          שלחו הערות מסודרות לפי שניות לשיפורים
-                        </span>
-                        <InfoTip
-                          text='לדוגמה: "בשנייה 1:24 -- הנמיכו את המילה הזו קצת". ככה יקיר יודע בדיוק מה לעדכן בלי לנחש.'
-                          className="mt-0.5 shrink-0"
-                        />
-                      </li>
-                      <li>
-                        <span className="font-medium text-foreground">סבב תיקון ראשון:</span>{" "}
-                        כלול במחיר
-                      </li>
-                    </ol>
-                    <p className="text-xs text-muted-foreground">
-                      סבב עריכה נוסף מעבר לזה עולה {STUDIO_EXTRA_REVISION_PRICE.toLocaleString("he-IL")} ₪
-                    </p>
-                  </div>
-                )}
-
-                {!isQuickWizard ? (
-                  <NeedsDiscoveryStep
-                    value={form.customerNeed}
-                    onChange={(v) => patchForm({ customerNeed: v })}
-                    id="sr-customer-need"
-                  />
-                ) : null}
               </div>
 
               {previewBody ? (
@@ -1844,6 +1840,10 @@ export default function StudioRecordingBooking({
           </div>
         </div>
       )}
+      <WizardStepTransitionOverlay
+        active={step3Transition}
+        onComplete={completeStep3Transition}
+      />
     </div>
   );
 }

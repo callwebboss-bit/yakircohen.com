@@ -35,6 +35,10 @@ export type ScenarioChoiceId = "" | "pairs" | "unsure";
 
 export type ProjectModeId = "" | "personal" | "business";
 
+export type SessionPriorityId = "" | "vocal_fix" | "fast_delivery" | "no_surprises";
+export type WelcomePerkId = "" | "coffee" | "photos" | "vocal_warmup";
+export type TravelModeId = "" | "car" | "transit";
+
 export type StudioFormDraft = {
   wizardDepth: WizardDepthId;
   scenarioChoice: ScenarioChoiceId;
@@ -63,6 +67,9 @@ export type StudioFormDraft = {
   adultsCount: number;
   childrenCount: number;
   customerNeed: string;
+  sessionPriority: SessionPriorityId;
+  welcomePerk: WelcomePerkId;
+  travelMode: TravelModeId;
   termsAccepted: boolean;
   selectedUpsells?: string[];
 };
@@ -97,6 +104,9 @@ const SCHEDULE_WINDOWS = ["weekdays", "motzash"] as const satisfies readonly Sch
 const WIZARD_DEPTHS = ["quick", "standard", "full"] as const satisfies readonly WizardDepthId[];
 const SCENARIO_CHOICES = ["", "pairs", "unsure"] as const satisfies readonly ScenarioChoiceId[];
 const PROJECT_MODES = ["", "personal", "business"] as const satisfies readonly ProjectModeId[];
+const SESSION_PRIORITIES = ["", "vocal_fix", "fast_delivery", "no_surprises"] as const satisfies readonly SessionPriorityId[];
+const WELCOME_PERKS = ["", "coffee", "photos", "vocal_warmup"] as const satisfies readonly WelcomePerkId[];
+const TRAVEL_MODES = ["", "car", "transit"] as const satisfies readonly TravelModeId[];
 
 /** שדות שנדחו לשיחה ב-quick path */
 export function buildStudioDeferredFields(
@@ -153,6 +163,9 @@ export function parseStudioFormDraft(
     adultsCount: pickNonNegativeInt(raw.adultsCount, initial.adultsCount),
     childrenCount: pickNonNegativeInt(raw.childrenCount, initial.childrenCount),
     customerNeed: pickString(raw.customerNeed, initial.customerNeed),
+    sessionPriority: pickEnum(raw.sessionPriority, SESSION_PRIORITIES) ?? initial.sessionPriority,
+    welcomePerk: pickEnum(raw.welcomePerk, WELCOME_PERKS) ?? initial.welcomePerk,
+    travelMode: pickEnum(raw.travelMode, TRAVEL_MODES) ?? initial.travelMode,
     termsAccepted: pickBoolean(raw.termsAccepted),
   };
 }

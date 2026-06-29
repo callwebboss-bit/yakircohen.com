@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { BOOK_WIZARD_COPY, STUDIO_QUICK_UPGRADE_IDS } from "@/lib/data/book-wizard-copy";
 import { STUDIO_RECORDING_UPGRADES, type StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import { calcStudioPackageFitPct } from "@/lib/studio-package-fit";
 import { formatNis } from "@/lib/data/pricing";
-import type { StudioFormDraft } from "@/lib/studio-form-draft";
+import type { StudioFormDraft, SessionPriorityId, WelcomePerkId, TravelModeId } from "@/lib/studio-form-draft";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { cn } from "@/lib/utils";
 
@@ -228,6 +229,213 @@ export function WizardInlinePriceBar({
       <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
         {formatNis(totalExVat)} לפני מע״מ
       </p>
+    </div>
+  );
+}
+
+const SESSION_PRIORITY_OPTIONS: {
+  id: Exclude<SessionPriorityId, "">;
+  label: string;
+}[] = [
+  { id: "vocal_fix", label: BOOK_WIZARD_COPY.sessionPriorityVocal },
+  { id: "fast_delivery", label: BOOK_WIZARD_COPY.sessionPriorityFast },
+  { id: "no_surprises", label: BOOK_WIZARD_COPY.sessionPriorityPrice },
+];
+
+export function StudioSessionPriorityPills({
+  value,
+  onChange,
+}: {
+  value: SessionPriorityId;
+  onChange: (id: Exclude<SessionPriorityId, "">) => void;
+}) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-semibold text-foreground">
+        {BOOK_WIZARD_COPY.sessionPriorityQuestion}
+      </p>
+      <div className="grid grid-cols-1 gap-2" role="radiogroup" aria-label={BOOK_WIZARD_COPY.sessionPriorityQuestion}>
+        {SESSION_PRIORITY_OPTIONS.map((opt) => {
+          const active = value === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(opt.id)}
+              className={cn(
+                "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
+                active
+                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] font-semibold text-[var(--service-accent,#d42b2b)]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+              )}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const WELCOME_PERK_OPTIONS: { id: Exclude<WelcomePerkId, "">; label: string }[] = [
+  { id: "coffee", label: BOOK_WIZARD_COPY.welcomePerkCoffee },
+  { id: "photos", label: BOOK_WIZARD_COPY.welcomePerkPhotos },
+  { id: "vocal_warmup", label: BOOK_WIZARD_COPY.welcomePerkWarmup },
+];
+
+export function StudioWelcomePerkPills({
+  value,
+  onChange,
+}: {
+  value: WelcomePerkId;
+  onChange: (id: Exclude<WelcomePerkId, "">) => void;
+}) {
+  return (
+    <div className="rounded-xl border border-dashed border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)] px-4 py-4">
+      <p className="mb-2 text-xs font-semibold text-foreground">
+        {BOOK_WIZARD_COPY.welcomePerkQuestion}
+      </p>
+      <div className="grid grid-cols-1 gap-2" role="radiogroup" aria-label={BOOK_WIZARD_COPY.welcomePerkQuestion}>
+        {WELCOME_PERK_OPTIONS.map((opt) => {
+          const active = value === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(opt.id)}
+              className={cn(
+                "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
+                active
+                  ? "border-[var(--service-accent,#d42b2b)] bg-surface font-semibold text-[var(--service-accent,#d42b2b)]"
+                  : "border-border/60 bg-surface/80 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+              )}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function StudioTravelModeToggle({
+  value,
+  onChange,
+}: {
+  value: TravelModeId;
+  onChange: (id: Exclude<TravelModeId, "">) => void;
+}) {
+  const options: { id: Exclude<TravelModeId, "">; label: string }[] = [
+    { id: "car", label: BOOK_WIZARD_COPY.travelModeCar },
+    { id: "transit", label: BOOK_WIZARD_COPY.travelModeTransit },
+  ];
+
+  return (
+    <div>
+      <p className="mb-2 text-xs font-semibold text-foreground">{BOOK_WIZARD_COPY.travelModeQuestion}</p>
+      <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label={BOOK_WIZARD_COPY.travelModeQuestion}>
+        {options.map((opt) => {
+          const active = value === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(opt.id)}
+              className={cn(
+                "min-h-12 rounded-2xl border px-3 py-3 text-sm font-semibold transition-colors",
+                active
+                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+              )}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export function StudioParkingBanner() {
+  return (
+    <div
+      className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-900"
+      role="status"
+    >
+      {BOOK_WIZARD_COPY.parkingBanner}
+    </div>
+  );
+}
+
+const TRANSITION_MS = 1200;
+const MESSAGE_INTERVAL_MS = 400;
+
+export function WizardStepTransitionOverlay({
+  active,
+  onComplete,
+}: {
+  active: boolean;
+  onComplete: () => void;
+}) {
+  const [messageIndex, setMessageIndex] = useState(0);
+  const messages = BOOK_WIZARD_COPY.transitionMessages;
+
+  useEffect(() => {
+    if (!active) {
+      setMessageIndex(0);
+      return undefined;
+    }
+
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      onComplete();
+      return undefined;
+    }
+
+    const messageTimer = window.setInterval(() => {
+      setMessageIndex((i) => (i + 1) % messages.length);
+    }, MESSAGE_INTERVAL_MS);
+
+    const doneTimer = window.setTimeout(() => {
+      onComplete();
+    }, TRANSITION_MS);
+
+    return () => {
+      window.clearInterval(messageTimer);
+      window.clearTimeout(doneTimer);
+    };
+  }, [active, onComplete, messages.length]);
+
+  if (!active) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-surface px-6 py-8 text-center shadow-lg">
+        <div
+          className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-[var(--service-accent,#d42b2b)] border-t-transparent"
+          aria-hidden="true"
+        />
+        <p className="text-sm font-medium text-foreground transition-opacity duration-200">
+          {messages[messageIndex]}
+        </p>
+      </div>
     </div>
   );
 }

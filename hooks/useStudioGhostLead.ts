@@ -39,6 +39,7 @@ export function useStudioGhostLead(opts: {
     }
 
     const timer = window.setTimeout(() => {
+      if (sentRef.current) return;
       void notifyLeadByEmailAsync({
         formId: "studio_recording_booking",
         subject: opts.subject,
