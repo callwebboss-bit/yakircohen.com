@@ -103,12 +103,26 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
+import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
+import {
+  StudioBusinessFields,
+  StudioCostSplitBlock,
+  StudioFitMeter,
+  StudioProjectModeToggle,
+  StudioUpgradeQuickPills,
+  WizardInlinePriceBar,
+} from "@/components/booking/StudioWizardCroBlocks";
+import { useStudioGhostLead } from "@/hooks/useStudioGhostLead";
+import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
+import { buildStudioEscapeWhatsAppHref } from "@/lib/studio-partial-booking-message";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["איסוף נתונים", "התאמת פתרון", "יציאה לביצוע"] as const;
+const ZEIGARNIK_PROGRESS = [35, 70, 100] as const;
 
 const WIZARD_DEPTH_OPTIONS: readonly {
   id: WizardDepthId;
@@ -250,6 +264,11 @@ export default function StudioRecordingBooking({
     () => ({
       wizardDepth: "standard",
       scenarioChoice: "",
+      projectMode: "personal",
+      companyName: "",
+      needsInvoice: false,
+      splitCostEnabled: false,
+      splitCostCount: 4,
       recordingType: initialRecordingTypeId ?? "",
       songName: "",
       celebrantName: "",
@@ -534,7 +553,7 @@ export default function StudioRecordingBooking({
       typeFlow.hideAtmosphere ||
       form.atmosphere !== "");
   const canAdvanceStep1 = form.packageId !== "";
-  const progressPct = step === 0 ? 0 : step === 1 ? 50 : 100;
+  const progressPct = ZEIGARNIK_PROGRESS[step] ?? ZEIGARNIK_PROGRESS[0];
 
   const handleScheduleWindowChange = (value: ScheduleWindowId) => {
     patchForm({ scheduleWindow: value, date: "", time: "" });
@@ -615,6 +634,20 @@ export default function StudioRecordingBooking({
       const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
       return { label: "תוספת", value: u ? `${u.name} (+${u.price} ₪)` : id };
     }),
+    ...(form.projectMode === "business"
+      ? [
+          { label: "פרויקט", value: "עסקי" },
+          ...(form.companyName
+            ? [{ label: "חברה", value: sanitizeLeadText(form.companyName, 80) }]
+            : []),
+          ...(form.needsInvoice ? [{ label: "חשבונית", value: "כן" }] : []),
+        ]
+      : form.projectMode === "personal"
+        ? [{ label: "פרויקט", value: "פרטי" }]
+        : []),
+    ...(form.splitCostEnabled
+      ? [{ label: "חלוקת עלות", value: `${form.splitCostCount} משתתפים` }]
+      : []),
     ...(adultsCount > 0 ? [{ label: "מבוגרים", value: String(adultsCount) }] : []),
     ...(childrenCount > 0 ? [{ label: "ילדים", value: String(childrenCount) }] : []),
     ...(recorderCount > 0 ? [{ label: "סה״כ מקליטים", value: String(recorderCount) }] : []),
@@ -626,6 +659,52 @@ export default function StudioRecordingBooking({
         : "חזרות בבית - שקט באולפן",
     },
   ];
+
+  const livePriceReport = useMemo(() => {
+    if (total <= 0 || step > 2) return null;
+    return {
+      totalExVat: total,
+      title: activePackage?.name ?? (recordingLabel || "הקלטה באולפן"),
+      ctaLabel: sendBookingWaCta(withVat(total)),
+    };
+  }, [total, step, activePackage?.name, recordingLabel]);
+  useReportBookWizardLivePrice(livePriceReport);
+
+  const summaryLines = useMemo(() => buildSummaryLines(), [
+    filterAnswers,
+    recordingLabel,
+    form,
+    isConsultation,
+    showCelebrantField,
+    atmosphereLabel,
+    activePackage,
+    adultsCount,
+    childrenCount,
+    recorderCount,
+    studioLeadContext,
+    typeFlow.hideLocation,
+  ]);
+
+  const escapeWaHref = useMemo(
+    () =>
+      buildStudioEscapeWhatsAppHref({
+        summaryLines,
+        priceExVat: total,
+        packageLabel: activePackage?.name,
+        contactName: form.name,
+        contactPhone: form.phone,
+        ycStep: step + 1,
+      }),
+    [summaryLines, total, activePackage?.name, form.name, form.phone, step],
+  );
+
+  useStudioGhostLead({
+    step,
+    name: form.name,
+    phone: form.phone,
+    subject: "טיוטת הזמנת אולפן — שלב סגירה",
+    body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+  });
 
   const ycBookingMeta = {
     ycSchedule: form.scheduleWindow || null,
@@ -819,6 +898,11 @@ export default function StudioRecordingBooking({
 
       <FilterContextBanner filterAnswers={filterAnswers} />
       {pricingCatalogId ? <PricingCatalogBanner catalogId={pricingCatalogId} /> : null}
+
+      <StudioProjectModeToggle
+        value={form.projectMode}
+        onChange={(mode) => patchForm({ projectMode: mode })}
+      />
 
       <div
         className="h-1 w-full overflow-hidden rounded-full bg-border"
@@ -1138,6 +1222,16 @@ export default function StudioRecordingBooking({
               </div>
             )}
 
+            {form.projectMode === "business" ? (
+              <StudioBusinessFields
+                companyName={form.companyName}
+                needsInvoice={form.needsInvoice}
+                onCompanyNameChange={(v) => patchForm({ companyName: v })}
+                onNeedsInvoiceChange={(v) => patchForm({ needsInvoice: v })}
+              />
+            ) : null}
+
+            {form.projectMode !== "business" ? (
             <div
               className={cn(
                 "rounded-xl border border-dashed p-4 transition-colors",
@@ -1190,12 +1284,20 @@ export default function StudioRecordingBooking({
                 </div>
               )}
             </div>
+            ) : null}
+
+            <WizardInlinePriceBar
+              title={activePackage?.name ?? (recordingLabel || "הערכת מחיר")}
+              totalExVat={total}
+            />
 
             <StepNav
               onNext={() => goToStep(1)}
               nextDisabled={!canAdvanceStep0}
+              nextLabel={BOOK_WIZARD_COPY.nextStep}
               showBack={false}
             />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
           </section>
         </BookingStepPanel>
       )}
@@ -1270,6 +1372,16 @@ export default function StudioRecordingBooking({
               </p>
             )}
 
+            <StudioFitMeter form={form} />
+
+            {!isConsultation && (
+              <StudioUpgradeQuickPills
+                allowedIds={pathUpgradeIds}
+                selected={selectedUpgradeSet}
+                onToggle={toggleUpgrade}
+              />
+            )}
+
             {!isConsultation && (
               <>
                 {!isQuickWizard ? <BookRecordingVsProduction /> : null}
@@ -1304,6 +1416,16 @@ export default function StudioRecordingBooking({
               </div>
             ) : null}
 
+            {!isConsultation && baseSubtotal > 0 ? (
+              <StudioCostSplitBlock
+                enabled={form.splitCostEnabled}
+                count={form.splitCostCount}
+                totalExVat={baseSubtotal}
+                onEnabledChange={(v) => patchForm({ splitCostEnabled: v })}
+                onCountChange={(n) => patchForm({ splitCostCount: n })}
+              />
+            ) : null}
+
             {showAutoUpgrade ? (
               <div className="rounded-xl border border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] px-4 py-4 space-y-2">
                 <div className="flex items-start gap-2">
@@ -1327,11 +1449,18 @@ export default function StudioRecordingBooking({
               </div>
             ) : null}
 
+            <WizardInlinePriceBar
+              title={activePackage?.name ?? "הערכת מחיר"}
+              totalExVat={total}
+            />
+
             <StepNav
               onBack={() => goToStep(0)}
               onNext={() => goToStep(2)}
               nextDisabled={!canAdvanceStep1}
+              nextLabel={BOOK_WIZARD_COPY.nextStep}
             />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
           </section>
         </BookingStepPanel>
       )}
@@ -1339,6 +1468,9 @@ export default function StudioRecordingBooking({
       {/* Step 2: summary + contact form (closing) */}
       {step === 2 && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
+          <p className="mb-4 text-center text-sm font-medium text-foreground">
+            {BOOK_WIZARD_COPY.step3Closer}
+          </p>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
             {/* Read-only summary */}
             <div className="rounded-2xl bg-surface p-6">

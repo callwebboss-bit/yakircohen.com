@@ -9,6 +9,11 @@ import {
 const INITIAL: StudioFormDraft = {
   wizardDepth: "standard",
   scenarioChoice: "",
+  projectMode: "",
+  companyName: "",
+  needsInvoice: false,
+  splitCostEnabled: false,
+  splitCostCount: 4,
   recordingType: "",
   songName: "",
   celebrantName: "",

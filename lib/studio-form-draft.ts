@@ -33,9 +33,16 @@ export function isEventCelebrantRecordingType(
 export type WizardDepthId = "quick" | "standard" | "full";
 export type ScenarioChoiceId = "" | "pairs" | "unsure";
 
+export type ProjectModeId = "" | "personal" | "business";
+
 export type StudioFormDraft = {
   wizardDepth: WizardDepthId;
   scenarioChoice: ScenarioChoiceId;
+  projectMode: ProjectModeId;
+  companyName: string;
+  needsInvoice: boolean;
+  splitCostEnabled: boolean;
+  splitCostCount: number;
   recordingType: RecordingTypeId | "";
   songName: string;
   celebrantName: string;
@@ -89,6 +96,7 @@ const MOBILE_GEOS = ["center", "north_south", "eilat"] as const satisfies readon
 const SCHEDULE_WINDOWS = ["weekdays", "motzash"] as const satisfies readonly ScheduleWindowId[];
 const WIZARD_DEPTHS = ["quick", "standard", "full"] as const satisfies readonly WizardDepthId[];
 const SCENARIO_CHOICES = ["", "pairs", "unsure"] as const satisfies readonly ScenarioChoiceId[];
+const PROJECT_MODES = ["", "personal", "business"] as const satisfies readonly ProjectModeId[];
 
 /** שדות שנדחו לשיחה ב-quick path */
 export function buildStudioDeferredFields(
@@ -118,6 +126,11 @@ export function parseStudioFormDraft(
     ...initial,
     wizardDepth: pickEnum(raw.wizardDepth, WIZARD_DEPTHS) ?? initial.wizardDepth,
     scenarioChoice: pickEnum(raw.scenarioChoice, SCENARIO_CHOICES) ?? initial.scenarioChoice,
+    projectMode: pickEnum(raw.projectMode, PROJECT_MODES) ?? initial.projectMode,
+    companyName: pickString(raw.companyName),
+    needsInvoice: pickBoolean(raw.needsInvoice, initial.needsInvoice),
+    splitCostEnabled: pickBoolean(raw.splitCostEnabled, initial.splitCostEnabled),
+    splitCostCount: Math.min(10, Math.max(2, pickNonNegativeInt(raw.splitCostCount, initial.splitCostCount) || 2)),
     recordingType: pickEnum(raw.recordingType, RECORDING_TYPES) ?? initial.recordingType,
     songName: pickString(raw.songName),
     celebrantName: pickString(raw.celebrantName),
