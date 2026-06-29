@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -36,6 +37,9 @@ export default function ContentStudioPageContent() {
       utmCampaign="content_studio_hub"
       ctaLabel="דברו איתנו על סושיאל דאמפ"
     >
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer as string }))}
+      />
       <Container className="space-y-14 py-12 sm:py-16">
         <section aria-labelledby="process-heading">
           <h2

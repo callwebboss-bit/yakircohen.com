@@ -1,8 +1,6 @@
 ﻿import Link from "next/link";
-import dynamic from "next/dynamic";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-
-const SoundCleaningDemo = dynamic(() => import("@/components/seo/SoundCleaningDemo"), { ssr: false });
+import SoundCleaningDemo from "@/components/seo/SoundCleaningDemo";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";

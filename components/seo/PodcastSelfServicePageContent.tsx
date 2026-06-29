@@ -42,7 +42,10 @@ export default function PodcastSelfServicePageContent() {
       scarcityLabel="🔌 שירות עצמי"
       ctaLabel="בדיקת זמינות בוואטסאפ"
       pagePath="/podcast/self-service-studio"
-      faqs={SELF_SERVICE_FAQS}
+      faqs={SELF_SERVICE_FAQS.map((faq) => ({
+        question: faq.question,
+        answer: typeof faq.answer === "string" ? faq.answer : "",
+      }))}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

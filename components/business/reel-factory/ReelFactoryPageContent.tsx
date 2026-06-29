@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ReelFactoryAudienceGrid from "@/components/business/reel-factory/ReelFactoryAudienceGrid";
 import ReelFactoryOneOffPricing from "@/components/business/reel-factory/ReelFactoryOneOffPricing";
 import ReelFactoryPipeline from "@/components/business/reel-factory/ReelFactoryPipeline";
@@ -27,6 +28,9 @@ export default function ReelFactoryPageContent() {
       utmCampaign="reel_factory_hub"
       ctaLabel="התחילו עם מפעל הרילס"
     >
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer as string }))}
+      />
       <ReelFactoryPipeline />
 
       <Container className="space-y-14 py-12 sm:py-16">

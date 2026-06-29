@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -26,14 +27,19 @@ export default function BusinessTierPageContent({ config }: Props) {
 
   return (
     <ServicePageLayout
-      title={title}
-      subtitle={config.subtitle}
-      features={config.pageFeatures}
-      scarcityLabel={config.scarcityLabel}
-      whatsappText={config.hubWhatsappText}
-      utmCampaign={config.utmCampaign}
-      ctaLabel={config.ctaLabel ?? "דברו איתנו בוואטסאפ"}
-    >
+        title={title}
+        subtitle={config.subtitle}
+        features={config.pageFeatures}
+        scarcityLabel={config.scarcityLabel}
+        whatsappText={config.hubWhatsappText}
+        utmCampaign={config.utmCampaign}
+        ctaLabel={config.ctaLabel ?? "דברו איתנו בוואטסאפ"}
+      >
+      {config.faqs.length > 0 ? (
+        <FaqPageSchema
+          items={config.faqs.map((f) => ({ question: f.question, answer: f.answer as string }))}
+        />
+      ) : null}
       <Container className="space-y-14 py-12 sm:py-16">
         {config.processSteps && config.processSteps.length > 0 ? (
           <section aria-labelledby="process-heading">

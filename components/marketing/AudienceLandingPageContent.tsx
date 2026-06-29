@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import type { AudienceLandingConfig } from "@/lib/data/audience-landings";
@@ -20,6 +21,12 @@ export default function AudienceLandingPageContent({
 
   return (
     <article>
+      <FaqPageSchema
+        items={config.faqs.map((faq) => ({
+          question: faq.question,
+          answer: typeof faq.answer === "string" ? faq.answer : "",
+        }))}
+      />
       <Section padding="sm" className="border-b border-border">
         <Container className="max-w-5xl">
           <p className="text-xs font-semibold text-muted-foreground">

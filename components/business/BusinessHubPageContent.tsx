@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -18,6 +19,9 @@ export default function BusinessHubPageContent() {
 
   return (
     <article>
+      <FaqPageSchema
+        items={BUSINESS_HUB_FAQS.map((f) => ({ question: f.question, answer: f.answer as string }))}
+      />
       <Section padding="sm" className="border-b border-border">
         <Container className="max-w-5xl">
           <p className="text-xs font-semibold text-muted-foreground">

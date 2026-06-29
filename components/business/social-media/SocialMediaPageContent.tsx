@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import SocialMediaHeroGrid from "@/components/business/social-media/SocialMediaHeroGrid";
 import SocialMediaOneOffPricing from "@/components/business/social-media/SocialMediaOneOffPricing";
 import SocialMediaPromo from "@/components/business/social-media/SocialMediaPromo";
@@ -64,6 +65,9 @@ export default function SocialMediaPageContent() {
       utmCampaign="social_media_hub"
       ctaLabel="דברו איתנו על הסושיאל"
     >
+      <FaqPageSchema
+        items={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer as string }))}
+      />
       <SocialMediaHeroGrid />
 
       <Container className="space-y-14 py-12 sm:py-16">
