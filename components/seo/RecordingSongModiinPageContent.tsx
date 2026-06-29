@@ -57,6 +57,15 @@ export default function RecordingSongModiinPageContent() {
           }))}
         />
       ) : null}
+      <HowToSchema
+        name="כיצד להקליט שיר באולפן מקצועי"
+        description="תהליך הקלטת שיר מקורי באולפן יקיר כהן במודיעין - משיחת אפיון ועד קבלת קובץ מוכן"
+        totalTime="P3D"
+        steps={RECORDING_SONG_PROCESS_STEPS.map((s) => ({
+          name: s.title,
+          text: s.paragraphs[0] ?? s.title,
+        }))}
+      />
       <ServicePageLayout
         {...heroProps}
         title={service.title}
