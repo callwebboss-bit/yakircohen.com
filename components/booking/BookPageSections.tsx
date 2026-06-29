@@ -13,6 +13,7 @@ import BookStickyMobileBar from "@/components/booking/BookStickyMobileBar";
 import { BookWizardLivePriceProvider } from "@/components/booking/BookWizardLivePrice";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import ProBookingPanel from "@/components/booking/ProBookingPanel";
+import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import {
   AcademyBookingWizardLazy,
   ClipsBookingFormLazy,
@@ -23,6 +24,7 @@ import {
   SingerAmplificationBookingWizardLazy,
 } from "@/components/booking/lazy";
 import { type BookCategoryId, parseBookEventItemFromSearch, parseBookPackageFromSearch } from "@/lib/book-url";
+import type { PricingBookTarget } from "@/lib/book-url";
 import type { BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -108,20 +110,28 @@ function renderCategoryContent(
   options: {
     initialSingerPackageId: ReturnType<typeof parseBookPackageFromSearch>;
     initialEventItemId: ReturnType<typeof parseBookEventItemFromSearch>;
+    initialCatalogTarget: PricingBookTarget | null;
     filterPreset?: Partial<FilterAnswers>;
     emotionalLabel: string | null;
     routeId: string | null;
     skipStudioGate: boolean;
   },
 ): ReactNode {
+  const catalog = options.initialCatalogTarget;
+  const studioFilterPreset =
+    options.filterPreset ?? catalog?.filterPreset;
+
   switch (id) {
     case "studio":
       return (
         <FilterGateLazy
-          initialFilterPreset={options.filterPreset}
+          initialFilterPreset={studioFilterPreset}
           skipGate={options.skipStudioGate}
           initialEmotionalLabel={options.emotionalLabel}
           routeId={options.routeId}
+          initialStudioPackageId={catalog?.studioPackageId ?? null}
+          initialRecordingTypeId={catalog?.recordingTypeId ?? null}
+          pricingCatalogId={catalog?.catalogId ?? null}
         />
       );
     case "podcast":
@@ -129,6 +139,10 @@ function renderCategoryContent(
         <PodcastBookingWizardLazy
           routeId={options.routeId}
           emotionalLabel={options.emotionalLabel}
+          initialPackageId={catalog?.podcastPackageId ?? null}
+          initialParticipantCount={catalog?.participantCount}
+          initialLocation={catalog?.podcastLocation}
+          pricingCatalogId={catalog?.catalogId ?? null}
         />
       );
     case "singer":
@@ -160,13 +174,25 @@ function renderCategoryContent(
       );
     case "online":
       return (
-        <OnlineRestoreBookingPanelLazy
-          initialEmotionalLabel={options.emotionalLabel}
-          routeId={options.routeId}
-        />
+        <>
+          {catalog?.catalogId ? (
+            <PricingCatalogBanner catalogId={catalog.catalogId} />
+          ) : null}
+          <OnlineRestoreBookingPanelLazy
+            initialEmotionalLabel={options.emotionalLabel}
+            routeId={options.routeId}
+          />
+        </>
       );
     case "pro":
-      return <ProBookingPanel />;
+      return (
+        <>
+          {catalog?.catalogId ? (
+            <PricingCatalogBanner catalogId={catalog.catalogId} />
+          ) : null}
+          <ProBookingPanel />
+        </>
+      );
     default:
       return null;
   }
@@ -175,11 +201,13 @@ function renderCategoryContent(
 export default function BookPageSections({
   pkgParam = null,
   itemParam = null,
+  catalogParam = null,
   utmCampaign = null,
   utmContent = null,
 }: {
   pkgParam?: string | null;
   itemParam?: string | null;
+  catalogParam?: string | null;
 } & BookUtmBoostOptions) {
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
   const initialEventItemId = parseBookEventItemFromSearch(itemParam);
@@ -190,9 +218,10 @@ export default function BookPageSections({
     filterPreset,
     emotionalLabel,
     skipStudioGate,
+    initialCatalogTarget,
     openFullPath,
     backToRouter,
-  } = useBookFlow({ itemParam, pkgParam });
+  } = useBookFlow({ itemParam, pkgParam, catalogParam });
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
@@ -241,6 +270,7 @@ export default function BookPageSections({
               {renderCategoryContent(activeCategory, {
                 initialSingerPackageId,
                 initialEventItemId,
+                initialCatalogTarget,
                 filterPreset,
                 emotionalLabel,
                 routeId: activeRouteId,

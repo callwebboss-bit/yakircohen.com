@@ -42,6 +42,7 @@ export default async function BookPage({
   const sp = await searchParams;
   const pkgParam = typeof sp.pkg === "string" ? sp.pkg : null;
   const itemParam = typeof sp.item === "string" ? sp.item : null;
+  const catalogParam = typeof sp.catalog === "string" ? sp.catalog : null;
   const utmCampaign =
     typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
   const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
@@ -83,6 +84,7 @@ export default async function BookPage({
         <BookPageSections
           pkgParam={pkgParam}
           itemParam={itemParam}
+          catalogParam={catalogParam}
           utmCampaign={utmCampaign}
           utmContent={utmContent}
         />

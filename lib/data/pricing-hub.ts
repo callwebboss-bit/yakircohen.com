@@ -6,6 +6,7 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
+import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
 
 export type PricingHubRow = {
   label: string;
@@ -79,13 +80,24 @@ export function resolveRowHref(row: PricingHubRow, sectionHref: string): string 
   return row.href ?? sectionHref;
 }
 
+export function resolveRowBookHref(
+  row: PricingHubRow,
+  sectionBookHref?: string,
+): string {
+  if (row.catalogId) {
+    const href = resolvePricingBookHref(row.catalogId);
+    if (href) return href;
+  }
+  return sectionBookHref ?? "/book";
+}
+
 export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
   {
     id: "studio",
     title: "אולפן והקלטות",
-    description: "שעות אולפן, ברכות ושירים לאירועים",
+    description: "שעות אולפן, ברכות, קאבר וחבילות שיר",
     href: "/studio/pricing",
-    bookHref: "/book",
+    bookHref: "/book#studio",
     rows: [
       hubRow("studio_half_hour", {
         label: "חצי שעה באולפן",
@@ -95,15 +107,59 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         label: "שעת אולפן מלאה",
         href: "/studio/recording-studio",
       }),
+      hubRow("blessing_recording", {
+        label: "הקלטת ברכה / אמירה",
+        href: "/studio/blessings",
+      }),
+      hubRow("cover_song", {
+        label: "הקלטת שיר קאבר",
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("song_package", {
+        label: "חבילת הקלטת שיר",
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("single_production", {
+        label: "הפקת סינגל מלא",
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("full_production_clip", {
+        label: "הפקה מלאה + קליפ וידאו",
+        href: "/studio/blessings/video-clip",
+      }),
     ],
   },
   {
     id: "podcast",
     title: "פודקאסט",
-    description: "חבילות הקלטה ועריכה באולפן במודיעין",
+    description: "חבילות הקלטה, עריכה, בית וארגוני באולפן במודיעין",
     href: "/podcast",
     bookHref: "/book#podcast",
-    rows: podcastPackageRows(),
+    rows: [
+      ...podcastPackageRows(),
+      hubRow("full_podcast_production", {
+        label: "הפקת פודקאסט מלאה",
+        href: "/podcast/podcast-production",
+      }),
+      hubRow("podcast_extra_participant", {
+        label: "משתתף נוסף (מעל 2)",
+        note: "תוספת לכל פרק",
+        href: "/podcast",
+      }),
+      hubRow("full_podcast_production", {
+        label: "פודקאסט בבית / אולפן נייד",
+        href: "/podcast/mobile-podcast-at-home",
+        description: "הגעה + הקלטה + עריכה — מחיר התחלתי לפי היקף",
+      }),
+      hubRow("corp_podcast_pilot", {
+        label: "פיילוט ארגוני",
+        href: "/podcast/corporate-podcast",
+      }),
+      hubRow("corp_podcast_retainer", {
+        label: "ריטיינר ארגוני",
+        href: "/podcast/corporate-podcast",
+      }),
+    ],
   },
   {
     id: "podcast-editing",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Headphones, Lightbulb, TrendingUp } from "lucide-react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
@@ -102,6 +102,10 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
+import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
+import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["איסוף נתונים", "התאמת פתרון", "יציאה לביצוע"] as const;
@@ -136,7 +140,7 @@ function applyRecordingTypeToForm(
   return {
     ...prev,
     recordingType,
-    packageId: flow.defaultPackageId ?? prev.packageId,
+    packageId: flow.defaultPackageId ?? (prev.packageId || "classic"),
     location: flow.hideLocation ? "modiin" : prev.location,
     mobileGeo: flow.hideLocation ? "" : prev.mobileGeo,
   };
@@ -229,10 +233,16 @@ export default function StudioRecordingBooking({
   filterAnswers,
   initialEmotionalLabel,
   routeId = null,
+  initialStudioPackageId = null,
+  initialRecordingTypeId = null,
+  pricingCatalogId = null,
 }: {
   filterAnswers?: FilterAnswers | null;
   initialEmotionalLabel?: string | null;
   routeId?: string | null;
+  initialStudioPackageId?: StudioPackageId | null;
+  initialRecordingTypeId?: RecordingTypeId | null;
+  pricingCatalogId?: PriceItemId | null;
 }) {
   const initialGiftMode = filterAnswers?.purpose === "gift";
 
@@ -240,16 +250,16 @@ export default function StudioRecordingBooking({
     () => ({
       wizardDepth: "standard",
       scenarioChoice: "",
-      recordingType: "",
+      recordingType: initialRecordingTypeId ?? "",
       songName: "",
       celebrantName: "",
       referrer: "",
       atmosphere: "",
-      packageId: "",
+      packageId: initialStudioPackageId ?? "",
       location: "modiin",
       mobileGeo: "",
       selectedUpgrades: [],
-      surpriseGift: initialGiftMode,
+      surpriseGift: false,
       giftRecipientName: "",
       name: "",
       phone: "",
@@ -262,8 +272,10 @@ export default function StudioRecordingBooking({
       customerNeed: initialEmotionalLabel ?? "",
       termsAccepted: false,
     }),
-    [initialGiftMode, initialEmotionalLabel],
+    [initialEmotionalLabel, initialRecordingTypeId, initialStudioPackageId],
   );
+
+  const giftPresetApplied = useRef(false);
 
   const {
     step,
@@ -287,11 +299,7 @@ export default function StudioRecordingBooking({
     storageKey: "studio-recording",
     formId: "studio_recording_booking",
     initialForm,
-    parseDraft: (raw) => {
-      const form = parseStudioFormDraft(raw, initialForm);
-      if (!form) return null;
-      return { ...form, surpriseGift: form.surpriseGift || initialGiftMode };
-    },
+    parseDraft: (raw) => parseStudioFormDraft(raw, initialForm),
     persistStepInDraft: true,
     maxStep: STEPS.length - 1,
   });
@@ -299,6 +307,33 @@ export default function StudioRecordingBooking({
   const { honeypot, setHoneypot, globalError } = guard;
 
   useBookWizardStep("studio", step);
+
+  useEffect(() => {
+    if (giftPresetApplied.current) return;
+    if (draft.restored) {
+      giftPresetApplied.current = true;
+      return;
+    }
+    if (initialGiftMode) {
+      patchForm({ surpriseGift: true });
+    }
+    giftPresetApplied.current = true;
+  }, [draft.restored, initialGiftMode, patchForm]);
+
+  useEffect(() => {
+    if (initialStudioPackageId && !form.packageId) {
+      patchForm({ packageId: initialStudioPackageId });
+    }
+    if (initialRecordingTypeId && !form.recordingType) {
+      patchForm({ recordingType: initialRecordingTypeId });
+    }
+  }, [
+    initialStudioPackageId,
+    initialRecordingTypeId,
+    form.packageId,
+    form.recordingType,
+    patchForm,
+  ]);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
   const bookingPath: StudioBookingPath = getStudioBookingPath(form.recordingType);
@@ -638,9 +673,14 @@ export default function StudioRecordingBooking({
         })
       : undefined;
 
+  const handleClearDraft = () => {
+    clearAllBookingDrafts();
+    resetWizard();
+  };
+
   const goToStep = (n: number) => {
     setStep(n);
-    window.scrollTo({ top: 0, behavior: "instant" });
+    scrollToBookWizardPanelAndFocusStep(n);
   };
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
@@ -772,12 +812,13 @@ export default function StudioRecordingBooking({
       {draft.restored && draft.savedAt ? (
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
-          onClear={() => draft.clear()}
+          onClear={handleClearDraft}
           onDismiss={dismissDraft}
         />
       ) : null}
 
       <FilterContextBanner filterAnswers={filterAnswers} />
+      {pricingCatalogId ? <PricingCatalogBanner catalogId={pricingCatalogId} /> : null}
 
       <div
         className="h-1 w-full overflow-hidden rounded-full bg-border"
@@ -802,10 +843,11 @@ export default function StudioRecordingBooking({
       {/* Step 0: recording type + atmosphere */}
       {step === 0 && (
         <BookingStepPanel stepKey={0} stepLabel={stepAnnouncement}>
-          <section className={bookSectionClass} aria-labelledby="step0-heading">
+          <section className={bookSectionClass} aria-labelledby="book-step-heading-0">
             <header className="space-y-4">
               <h2
-                id="step0-heading"
+                id="book-step-heading-0"
+                tabIndex={-1}
                 className="text-xl font-semibold text-foreground sm:text-2xl"
               >
                 בחרו סוג הקלטה
@@ -1161,10 +1203,11 @@ export default function StudioRecordingBooking({
       {/* Step 1: package selection */}
       {step === 1 && (
         <BookingStepPanel stepKey={1} stepLabel={stepAnnouncement}>
-          <section className={bookSectionClass} aria-labelledby="package-heading">
+          <section className={bookSectionClass} aria-labelledby="book-step-heading-1">
             <header>
               <h2
-                id="package-heading"
+                id="book-step-heading-1"
+                tabIndex={-1}
                 className="text-xl font-semibold text-foreground sm:text-2xl"
               >
                 {isConsultation ? "בחרו סוג ייעוץ" : "בחרו את המסלול שלכם"}
@@ -1299,7 +1342,13 @@ export default function StudioRecordingBooking({
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
             {/* Read-only summary */}
             <div className="rounded-2xl bg-surface p-6">
-              <h2 className="mb-4 text-lg font-medium text-foreground">מה שבחרת</h2>
+              <h2
+                id="book-step-heading-2"
+                tabIndex={-1}
+                className="mb-4 text-lg font-medium text-foreground"
+              >
+                מה שבחרת
+              </h2>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {recordingLabel && (
                   <li>

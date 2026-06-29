@@ -6,7 +6,9 @@ import {
   parseBookCategoryFromHash,
   parseBookEventItemFromSearch,
   parseBookPackageFromSearch,
+  parseBookCatalogFromSearch,
   type BookCategoryId,
+  type PricingBookTarget,
 } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
@@ -82,12 +84,17 @@ export type UseBookFlowOptions = {
   itemParam?: string | null;
   /** מ-/book?pkg= — פותח אשף הגברה לזמרים כשאין hash */
   pkgParam?: string | null;
+  /** מ-/book?catalog= — פותח אשף לפי מחירון */
+  catalogParam?: string | null;
 };
 
 function categoryFromDeepLink(
   itemParam?: string | null,
   pkgParam?: string | null,
+  catalogParam?: string | null,
 ): BookCategoryId | null {
+  const fromCatalog = parseBookCatalogFromSearch(catalogParam ?? null);
+  if (fromCatalog) return fromCatalog.category;
   if (parseBookEventItemFromSearch(itemParam ?? null)) return "events";
   if (parseBookPackageFromSearch(pkgParam ?? null)) return "singer";
   return null;
@@ -105,7 +112,11 @@ export function useBookFlow(options?: UseBookFlowOptions) {
         return;
       }
 
-      const fromQuery = categoryFromDeepLink(options?.itemParam, options?.pkgParam);
+      const fromQuery = categoryFromDeepLink(
+        options?.itemParam,
+        options?.pkgParam,
+        options?.catalogParam,
+      );
       if (!fromQuery) return;
 
       const qs = window.location.search;
@@ -121,7 +132,7 @@ export function useBookFlow(options?: UseBookFlowOptions) {
     queueMicrotask(syncFromLocation);
     window.addEventListener("hashchange", syncFromLocation);
     return () => window.removeEventListener("hashchange", syncFromLocation);
-  }, [options?.itemParam, options?.pkgParam]);
+  }, [options?.itemParam, options?.pkgParam, options?.catalogParam]);
 
   const openFullPath = useCallback((selection: BookFullPathSelection) => {
     if (selection.filterPreset) saveFilterPreset(selection.filterPreset);
@@ -147,11 +158,17 @@ export function useBookFlow(options?: UseBookFlowOptions) {
     }
   }, []);
 
+  const initialCatalogTarget: PricingBookTarget | null = parseBookCatalogFromSearch(
+    options?.catalogParam ?? null,
+  );
+
   const skipStudioGate =
-    state.activeCategory === "studio" && !!state.filterPreset;
+    state.activeCategory === "studio" &&
+    !!(state.filterPreset ?? initialCatalogTarget?.filterPreset);
 
   return {
     ...state,
+    initialCatalogTarget,
     skipStudioGate,
     openFullPath,
     backToRouter,

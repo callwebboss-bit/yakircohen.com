@@ -1,6 +1,14 @@
 import type { SingerPackageId } from "@/lib/data/singer-amplification-page";
 import type { EventBookingItemId } from "@/lib/data/events-booking";
 import { parseBookEventItemFromSearch as parseEventItemId } from "@/lib/data/attraction-book-pricing";
+import {
+  parseBookCatalogFromSearch,
+  type PricingBookTarget,
+} from "@/lib/data/pricing-book-map";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
+
+export type { PricingBookTarget };
+export { parseBookCatalogFromSearch };
 
 export type { EventBookingItemId };
 
@@ -34,6 +42,8 @@ const VALID_SINGER_PACKAGES = new Set<string>(["basic", "premium", "vip"]);
 export type BookHrefOptions = {
   pkg?: SingerPackageId | string;
   item?: EventBookingItemId | string;
+  /** מזהה מחיר מהמחירון — /book?catalog=blessing_recording#studio */
+  catalog?: PriceItemId | string;
 };
 
 /** `/book?pkg=premium#singer` או `/book?item=event_confetti#events` */
@@ -47,6 +57,9 @@ export function buildBookHref(
   } else if (options && typeof options === "object") {
     if (options.pkg?.toString().trim()) params.set("pkg", options.pkg.toString().trim());
     if (options.item?.toString().trim()) params.set("item", options.item.toString().trim());
+    if (options.catalog?.toString().trim()) {
+      params.set("catalog", options.catalog.toString().trim());
+    }
   }
   const qs = params.toString();
   return `/book${qs ? `?${qs}` : ""}#${category}`;

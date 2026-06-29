@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import FilterGateSkeleton from "@/components/marketing/FilterGateSkeleton";
 import StudioRecordingBooking from "@/components/marketing/StudioRecordingBooking";
 import { STUDIO_RECORDING_PACKAGES } from "@/lib/data/studio-recording-booking";
+import type { RecordingTypeId, StudioPackageId } from "@/lib/data/studio-recording-booking";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import {
   FILTER_QUESTIONS,
   FILTER_STORAGE_KEY,
@@ -78,6 +80,9 @@ type FilterGateProps = {
   skipGate?: boolean;
   initialEmotionalLabel?: string | null;
   routeId?: string | null;
+  initialStudioPackageId?: StudioPackageId | null;
+  initialRecordingTypeId?: RecordingTypeId | null;
+  pricingCatalogId?: PriceItemId | null;
 };
 
 function readStoredAnswers(): FilterAnswers | null {
@@ -110,6 +115,9 @@ export default function FilterGate({
   skipGate = false,
   initialEmotionalLabel,
   routeId = null,
+  initialStudioPackageId = null,
+  initialRecordingTypeId = null,
+  pricingCatalogId = null,
 }: FilterGateProps = {}) {
   const [hydrated, setHydrated] = useState(false);
   const [timeline, setTimeline] = useState<TimelineId | null>(
@@ -185,6 +193,9 @@ export default function FilterGate({
         filterAnswers={filterAnswers}
         initialEmotionalLabel={initialEmotionalLabel}
         routeId={routeId}
+        initialStudioPackageId={initialStudioPackageId}
+        initialRecordingTypeId={initialRecordingTypeId}
+        pricingCatalogId={pricingCatalogId}
       />
     );
   }

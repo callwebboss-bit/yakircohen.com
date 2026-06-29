@@ -12,6 +12,8 @@ export default function TabRescueTitle() {
   const originalTitleRef = useRef("");
 
   useEffect(() => {
+    if (pathname?.startsWith("/book")) return;
+
     originalTitleRef.current = document.title;
     const rescueTitle = resolveTabRescueTitle(pathname);
 

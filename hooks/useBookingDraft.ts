@@ -53,6 +53,20 @@ function removeDraft(key: string): void {
   }
 }
 
+/** מוחק את כל טיוטות /book (yakir-booking-draft:*) */
+export function clearAllBookingDrafts(): void {
+  if (typeof window === "undefined") return;
+  try {
+    for (const key of Object.keys(localStorage)) {
+      if (key.startsWith(STORAGE_PREFIX)) {
+        localStorage.removeItem(key);
+      }
+    }
+  } catch {
+    /* quota / private mode */
+  }
+}
+
 /**
  * Persists booking wizard progress to localStorage (debounced).
  * serialize/deserialize are read from refs so inline lambdas don't retrigger effects.

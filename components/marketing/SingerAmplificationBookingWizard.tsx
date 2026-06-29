@@ -268,7 +268,7 @@ export default function SingerAmplificationBookingWizard({
       {draft.restored && draft.savedAt ? (
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
-          onClear={() => draft.clear()}
+          onClear={resetWizard}
           onDismiss={() => dismissDraft()}
         />
       ) : null}

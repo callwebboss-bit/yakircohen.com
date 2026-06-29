@@ -269,12 +269,16 @@ export function useBookingWizard<
   }, []);
 
   const resetWizard = useCallback(() => {
+    draft.clear();
+    guard.setHoneypot("");
+    guard.resetGuardClock();
+    guard.setGlobalError(null);
     dispatch({ type: "SET_FORM", form: config.initialForm });
     dispatch({ type: "SET_STEP", step: 0 });
     dispatch({ type: "SET_ERRORS", errors: {} });
     dispatch({ type: "SET_SUBMIT", submit: { status: "idle" } });
     dispatch({ type: "DISMISS_DRAFT" });
-  }, [config.initialForm]);
+  }, [config.initialForm, draft, guard]);
 
   const selectedUpgradeSet = useMemo(
     () => new Set(state.form.selectedUpgrades ?? []),

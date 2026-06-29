@@ -30,6 +30,10 @@ export function hubBookCtaLabel(priceExVat: number): string {
   return `הזמנה מקוונת מ-${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
 }
 
+export function pricingRowBookCta(priceExVat: number): string {
+  return `קבל הצעת מחיר עכשיו — ${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
+}
+
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {
   studio: "במקום לנחש באולפן - יוצאים עם קובץ מוכן",
   podcast: "פרק ראשון מוכן - בלי חודש ניסוי וטעייה",

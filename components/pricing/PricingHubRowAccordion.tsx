@@ -5,10 +5,12 @@ import { useId, useState, type KeyboardEvent } from "react";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
   formatHubPriceRow,
+  resolveRowBookHref,
   resolveRowDescription,
   resolveRowHref,
   type PricingHubRow,
 } from "@/lib/data/pricing-hub";
+import { pricingRowBookCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 const linkClass =
@@ -98,11 +100,12 @@ export default function PricingHubRowAccordion({
       )}
     >
       {rows.map((row, index) => {
-        const rowKey = row.catalogId ?? `${sectionId}-${index}`;
+        const rowKey = `${sectionId}-${row.catalogId ?? "row"}-${index}`;
         const isOpen = openIds.has(rowKey);
         const triggerId = `${baseId}-trigger-${rowKey}`;
         const panelId = `${baseId}-panel-${rowKey}`;
         const rowHref = resolveRowHref(row, sectionHref);
+        const rowBookHref = resolveRowBookHref(row, sectionBookHref);
         const description = resolveRowDescription(row);
 
         return (
@@ -157,16 +160,14 @@ export default function PricingHubRowAccordion({
                 <p className="mt-2 text-sm font-semibold tabular-nums text-foreground">
                   {formatHubPriceRow(row.exVat)}
                 </p>
+                <Link
+                  href={rowBookHref}
+                  className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light`}
+                >
+                  {pricingRowBookCta(row.exVat)}
+                </Link>
                 <div className="mt-3 flex flex-wrap gap-3 text-sm">
                   <InlineServiceLink href={rowHref}>פרטים נוספים</InlineServiceLink>
-                  {sectionBookHref ? (
-                    <Link
-                      href={sectionBookHref}
-                      className={`${linkClass} text-muted-foreground hover:text-brand-red`}
-                    >
-                      הזמנה מקוונת
-                    </Link>
-                  ) : null}
                 </div>
               </RowPanel>
             </div>

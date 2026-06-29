@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-06-29",
+  "route": "/book#studio",
+  "note": "Baseline before wave-A bundle work. Target: jsCount <= 25, transferKb < 600.",
+  "jsCount": 48,
+  "transferKb": 940,
+  "requestCount": 248,
+  "ttfbMs": 59,
+  "loadMs": 580
+}

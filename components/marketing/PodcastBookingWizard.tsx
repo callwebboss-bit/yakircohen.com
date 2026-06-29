@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
@@ -29,6 +29,7 @@ import {
   PODCAST_EXTRA_PARTICIPANT_PRICE,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
+  type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
 import {
   getPodcastUpsellItems,
@@ -61,6 +62,8 @@ import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
@@ -101,12 +104,30 @@ const INITIAL: PodcastFormDraft = {
 type PodcastBookingWizardProps = {
   routeId?: string | null;
   emotionalLabel?: string | null;
+  initialPackageId?: PodcastPackageId | null;
+  initialParticipantCount?: number;
+  initialLocation?: "modiin" | "mobile";
+  pricingCatalogId?: PriceItemId | null;
 };
 
 export default function PodcastBookingWizard({
   routeId = null,
   emotionalLabel = null,
+  initialPackageId = null,
+  initialParticipantCount,
+  initialLocation,
+  pricingCatalogId = null,
 }: PodcastBookingWizardProps) {
+  const initialForm = useMemo<PodcastFormDraft>(
+    () => ({
+      ...INITIAL,
+      packageId: initialPackageId ?? "",
+      participantCount: initialParticipantCount ?? INITIAL.participantCount,
+      location: initialLocation ?? INITIAL.location,
+    }),
+    [initialPackageId, initialParticipantCount, initialLocation],
+  );
+
   const {
     step,
     form,
@@ -129,8 +150,8 @@ export default function PodcastBookingWizard({
   } = useBookingWizard({
     storageKey: "podcast",
     formId: "podcast_booking_wizard",
-    initialForm: INITIAL,
-    parseDraft: (raw) => parsePodcastFormDraft(raw, INITIAL),
+    initialForm,
+    parseDraft: (raw) => parsePodcastFormDraft(raw, initialForm),
     persistStepInDraft: true,
     maxStep: 2,
   });
@@ -138,6 +159,26 @@ export default function PodcastBookingWizard({
   const { honeypot, setHoneypot, globalError } = guard;
 
   useBookWizardStep("podcast", step);
+
+  useEffect(() => {
+    if (initialPackageId && !form.packageId) {
+      patchForm({ packageId: initialPackageId });
+    }
+    if (initialParticipantCount && form.participantCount < initialParticipantCount) {
+      patchForm({ participantCount: initialParticipantCount });
+    }
+    if (initialLocation && form.location !== initialLocation) {
+      patchForm({ location: initialLocation });
+    }
+  }, [
+    initialPackageId,
+    initialParticipantCount,
+    initialLocation,
+    form.packageId,
+    form.participantCount,
+    form.location,
+    patchForm,
+  ]);
 
   const routeMeta = routeId ? getAudienceRouteById(routeId) : undefined;
   const ycFormId = routeMeta?.utm_campaign ?? "podcast_booking_wizard";
@@ -358,10 +399,12 @@ export default function PodcastBookingWizard({
       {draft.restored && draft.savedAt ? (
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}
-          onClear={() => draft.clear()}
+          onClear={resetWizard}
           onDismiss={() => dismissDraft()}
         />
       ) : null}
+
+      {pricingCatalogId ? <PricingCatalogBanner catalogId={pricingCatalogId} /> : null}
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת פודקאסט" />
 

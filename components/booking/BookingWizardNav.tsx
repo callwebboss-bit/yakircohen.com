@@ -14,13 +14,14 @@ export default function BookingWizardNav({
 }: BookingWizardNavProps) {
   return (
     <nav aria-label={label} className="w-full max-w-full min-w-0">
-      <ol className="flex flex-wrap gap-2 sm:gap-3">
+      <ol role="tablist" className="flex flex-wrap gap-2 sm:gap-3">
         {steps.map((stepLabel, i) => {
           const isCurrent = i === currentStep;
           const isComplete = i < currentStep;
           return (
             <li
               key={stepLabel}
+              role="presentation"
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
                 "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-fast ease-luxury sm:px-4 sm:text-sm",
