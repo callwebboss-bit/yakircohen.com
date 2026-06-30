@@ -8,6 +8,7 @@ import FooterLegalLinks from "@/components/layout/FooterLegalLinks";
 import FooterMicroFaq from "@/components/layout/FooterMicroFaq";
 import FooterPaymentMethods from "@/components/layout/FooterPaymentMethods";
 import FooterTrustPledge from "@/components/layout/FooterTrustPledge";
+import FooterTrustStrip from "@/components/layout/FooterTrustStrip";
 import FooterFaqSchema from "@/components/seo/FooterFaqSchema";
 import { SITE_NAME } from "@/lib/constants";
 
@@ -36,6 +37,8 @@ export default function Footer() {
         <FooterPaymentMethods compact />
 
         <CompanyDetailsCard variant="compact" className="mt-8" />
+
+        <FooterTrustStrip className="mt-8" />
 
         <div className="mt-8 grid gap-4 border-t border-[var(--footer-border)] pt-6 md:grid-cols-2 md:items-center lg:grid-cols-3">
           <p className="text-center text-xs text-[var(--footer-muted)] md:text-start">

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import BusinessOpenBadge from "@/components/layout/BusinessOpenBadge";
 import FooterSocialLinks from "@/components/layout/FooterSocialLinks";
 import {
   BUSINESS_HOURS,
@@ -14,7 +15,7 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const FOOTER_TAGLINE =
-  "יקיר כהן הפקות – אולפן הקלטות, פודקאסט, DJ ואטרקציות במודיעין והמרכז.";
+  "יקיר כהן הפקות, אולפן הקלטות, פודקאסט, DJ ואטרקציות במודיעין והמרכז.";
 
 const footerWhatsAppHref = buildWhatsAppHref({
   text: "שלום, אשמח לשמוע על השירותים שלכם.",
@@ -89,6 +90,7 @@ export default function FooterBrandContact() {
         <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-[var(--footer-muted)]">
           שעות פעילות
         </p>
+        <BusinessOpenBadge />
         {BUSINESS_HOURS.map((slot) => (
           <div
             key={slot.days}
@@ -111,7 +113,7 @@ export default function FooterBrandContact() {
         וואטסאפ
       </a>
 
-      <FooterSocialLinks />
+      <FooterSocialLinks variant="dark" />
     </div>
   );
 }

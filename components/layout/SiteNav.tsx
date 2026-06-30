@@ -20,6 +20,7 @@ import SiteSearch from "@/components/ui/SiteSearch";
 
 
 const SERVICE_PICKER_ITEMS = [
+  { href: "/book", label: "📅 בדקו תאריך פנוי" },
   { href: "/studio/recording-song-modiin", label: "🎤 הקלטת שיר" },
   { href: "/podcast", label: "🎙️ פודקאסט" },
   { href: "/events/dj-events", label: "🎧 DJ לחתונה" },

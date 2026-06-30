@@ -2,6 +2,8 @@ import Link from "next/link";
 import { FOOTER_LEGAL_LINKS } from "@/lib/constants";
 
 const LEGAL_LINKS = [
+  { href: "/contact", label: "יצירת קשר" },
+  { href: "/about/faq", label: "שאלות נפוצות" },
   ...FOOTER_LEGAL_LINKS,
   { href: "/pricing", label: "מחירון" },
 ] as const;

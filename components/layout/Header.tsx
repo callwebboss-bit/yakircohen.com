@@ -21,19 +21,52 @@ import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
 import TimeGreeting from "@/components/layout/TimeGreeting";
 import PromoBanner from "@/components/layout/PromoBanner";
 import Container from "@/components/ui/Container";
-import { CONTACT_PHONE_WHATSAPP, SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
+import {
+  CONTACT_PHONE_E164,
+  SITE_LOGO_SRC,
+  SITE_NAME,
+} from "@/lib/constants";
+import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const headerWhatsAppHref = buildWhatsAppHref({
+  text: "שלום, אשמח לשמוע על השירותים שלכם.",
+  utm_source: "website",
+  utm_campaign: "header_wa_badge",
+});
 
 function subscribeAvailability() {
   return () => {};
 }
 
 function getAvailabilitySnapshot() {
-  const hour = new Date().getHours();
-  return hour >= 9 && hour < 21;
+  return isLikelyAvailableForWhatsApp();
 }
 
 function getAvailabilityServerSnapshot() {
   return true;
+}
+
+function PhoneIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M6.5 4h3l1.5 5-2 1.2a11 11 0 005.8 5.8L18 14l5 1.5v3a2 2 0 01-2.1 2 17.5 17.5 0 01-14.4-14.4A2 2 0 016.5 4z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CalendarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
 }
 
 function WhatsAppAvailabilityBadge() {
@@ -45,10 +78,10 @@ function WhatsAppAvailabilityBadge() {
 
   return (
     <a
-      href={`https://wa.me/${CONTACT_PHONE_WHATSAPP}`}
+      href={headerWhatsAppHref}
       target="_blank"
       rel="noopener noreferrer"
-      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-green-500/40 hover:text-foreground xl:flex"
+      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-green-500/40 hover:text-foreground lg:flex"
       aria-label={available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק' בוואטסאפ"}
     >
       <span
@@ -106,16 +139,33 @@ function HeaderMainBar({
   drawerId: string;
   onToggleMenu: () => void;
 }) {
+  const mobileIconButtonClass =
+    "inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background text-foreground/80 transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red md:hidden";
+
   return (
     <>
       <Container variant="wide" className="relative flex h-16 items-center justify-between gap-3 sm:h-[4.25rem]">
         <HeaderLogo />
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div className="hidden w-52 lg:block xl:w-64">
             <SiteSearchLazy />
           </div>
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
+          <a
+            href={`tel:${CONTACT_PHONE_E164}`}
+            className={mobileIconButtonClass}
+            aria-label="חיוג מהיר"
+          >
+            <PhoneIcon className="h-5 w-5" />
+          </a>
+          <Link
+            href="/book"
+            className={cn(mobileIconButtonClass, "bg-brand-red/10 text-brand-red hover:bg-brand-red/15")}
+            aria-label="הזמנה מקוונת"
+          >
+            <CalendarIcon className="h-5 w-5" />
+          </Link>
           <WhatsAppAvailabilityBadge />
           <Link
             href="/book"
