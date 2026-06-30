@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import {
@@ -58,6 +59,10 @@ function recordInvalidAttempt(): void {
   }
 }
 
+function subscribeNoop() {
+  return () => {};
+}
+
 export function BookCouponProvider({
   couponParam,
   children,
@@ -67,10 +72,14 @@ export function BookCouponProvider({
 }) {
   const [invalidVersion, setInvalidVersion] = useState(0);
 
-  const blocked = useMemo(() => {
-    void invalidVersion;
-    return readInvalidBlock();
-  }, [invalidVersion]);
+  const blocked = useSyncExternalStore(
+    subscribeNoop,
+    () => {
+      void invalidVersion;
+      return readInvalidBlock();
+    },
+    () => false,
+  );
 
   const offer = useMemo(() => {
     if (blocked) return null;

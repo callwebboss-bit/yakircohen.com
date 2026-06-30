@@ -54,9 +54,9 @@ import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import {
   ensureHoldDeadline,
-  readInitialPriceHoldBadge,
   saveCategoryPriceHold,
 } from "@/lib/book-wizard-urgency";
+import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
@@ -171,8 +171,9 @@ export default function PodcastBookingWizard({
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
-    readInitialPriceHoldBadge("podcast", PODCAST_CRO_CONFIG.urgency.priceHoldBadge),
+  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
+    "podcast",
+    PODCAST_CRO_CONFIG.urgency.priceHoldBadge,
   );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [celebrateKey, setCelebrateKey] = useState(0);

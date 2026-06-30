@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
-import SessionRescuerBar from "@/components/booking/SessionRescuerBar";
+import SessionRescuerBarLazy from "@/components/booking/SessionRescuerBarLazy";
 import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
@@ -140,7 +140,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <DeferredFloatingFabs />
-        <SessionRescuerBar />
+        <SessionRescuerBarLazy />
         <PwaInstallPrompt />
         <CouponPopup />
       </body>

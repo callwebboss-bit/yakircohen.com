@@ -147,9 +147,9 @@ import {
 } from "@/lib/data/book-wizard-copy";
 import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
 import {
-  readInitialPriceHoldBadge,
   saveStudioPriceHold,
 } from "@/lib/book-wizard-urgency";
+import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { ensureHoldDeadline } from "@/lib/book-wizard-cro/urgency";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
@@ -359,8 +359,9 @@ export default function StudioRecordingBooking({
   );
   const prevStepRef = useRef(0);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
-    readInitialPriceHoldBadge("studio", BOOK_WIZARD_COPY.priceHoldBadge),
+  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
+    "studio",
+    BOOK_WIZARD_COPY.priceHoldBadge,
   );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
 

@@ -93,9 +93,9 @@ import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import {
   ensureHoldDeadline,
-  readInitialPriceHoldBadge,
   saveCategoryPriceHold,
 } from "@/lib/book-wizard-urgency";
+import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
@@ -191,8 +191,9 @@ export default function EventsBookingWizard({
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const prevStepRef = useRef(0);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
-    readInitialPriceHoldBadge("events", EVENTS_CRO_CONFIG.urgency.priceHoldBadge),
+  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
+    "events",
+    EVENTS_CRO_CONFIG.urgency.priceHoldBadge,
   );
   const initialForm = useMemo(
     () => buildInitialEventsForm(initialEventItemId),

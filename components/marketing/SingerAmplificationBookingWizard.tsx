@@ -54,9 +54,9 @@ import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import {
   ensureHoldDeadline,
-  readInitialPriceHoldBadge,
   saveCategoryPriceHold,
 } from "@/lib/book-wizard-urgency";
+import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
@@ -115,8 +115,9 @@ export default function SingerAmplificationBookingWizard({
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
-    readInitialPriceHoldBadge("singer", SINGER_CRO_CONFIG.urgency.priceHoldBadge),
+  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
+    "singer",
+    SINGER_CRO_CONFIG.urgency.priceHoldBadge,
   );
 
   const initialForm = useMemo<SingerFormDraft>(
