@@ -65,24 +65,36 @@ export function BookCouponProvider({
   couponParam?: string | null;
   children: ReactNode;
 }) {
-  const [blocked, setBlocked] = useState(false);
-  const [offer, setOffer] = useState<ResolvedCouponOffer | null>(null);
+  const [invalidVersion, setInvalidVersion] = useState(0);
+
+  const blocked = useMemo(() => {
+    void invalidVersion;
+    return readInvalidBlock();
+  }, [invalidVersion]);
+
+  const offer = useMemo(() => {
+    if (blocked) return null;
+    const code = sanitizeCouponParam(couponParam);
+    if (!code) return null;
+    const resolved = resolveCouponByCode(code);
+    if (!resolved || isCouponOfferExpired(resolved)) return null;
+    return resolved;
+  }, [couponParam, blocked]);
 
   useEffect(() => {
-    setBlocked(readInvalidBlock());
     const code = sanitizeCouponParam(couponParam);
     if (!code) {
-      if (couponParam?.trim()) recordInvalidAttempt();
-      setOffer(null);
+      if (couponParam?.trim()) {
+        recordInvalidAttempt();
+        queueMicrotask(() => setInvalidVersion((v) => v + 1));
+      }
       return;
     }
     const resolved = resolveCouponByCode(code);
     if (!resolved || isCouponOfferExpired(resolved)) {
       recordInvalidAttempt();
-      setOffer(null);
-      return;
+      queueMicrotask(() => setInvalidVersion((v) => v + 1));
     }
-    setOffer(resolved);
   }, [couponParam]);
 
   const value = useMemo(

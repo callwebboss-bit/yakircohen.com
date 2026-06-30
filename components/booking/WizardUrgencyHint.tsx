@@ -1,19 +1,29 @@
 "use client";
 
 import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
-import { getWeeklyStudioSlotsRemaining } from "@/lib/book-wizard-urgency";
+import { getCroConfig } from "@/lib/data/cro";
+import type { TierACategoryId } from "@/lib/book-wizard-cro/types";
+import { getWeeklySlotsRemaining } from "@/lib/book-wizard-urgency";
 import { cn } from "@/lib/utils";
 
 type WizardUrgencyHintProps = {
   className?: string;
   priceHoldLabel?: string | null;
+  /** default studio */
+  category?: TierACategoryId;
 };
 
 export default function WizardUrgencyHint({
   className,
   priceHoldLabel,
+  category = "studio",
 }: WizardUrgencyHintProps) {
-  const slots = getWeeklyStudioSlotsRemaining();
+  const config = getCroConfig(category);
+  const slots = getWeeklySlotsRemaining(category);
+  const slotsLabel =
+    category === "studio"
+      ? BOOK_WIZARD_COPY.urgencyWeeklySlots(slots)
+      : config.urgency.slotsLabel(slots);
 
   return (
     <div
@@ -24,7 +34,7 @@ export default function WizardUrgencyHint({
       role="status"
     >
       <span className="rounded-full border border-amber-300/80 bg-amber-50 px-3 py-1 font-medium text-amber-900">
-        {BOOK_WIZARD_COPY.urgencyWeeklySlots(slots)}
+        {slotsLabel}
       </span>
       {priceHoldLabel ? (
         <span className="rounded-full border border-emerald-300/80 bg-emerald-50 px-3 py-1 font-medium text-emerald-900">

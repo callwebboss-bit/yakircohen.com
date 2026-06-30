@@ -10,6 +10,24 @@ import {
   pickString,
 } from "@/lib/wizard-draft-parse";
 
+export const PODCAST_SESSION_PRIORITY_IDS = [
+  "mic_fear",
+  "edit_time",
+  "surprise_costs",
+] as const;
+
+export type PodcastSessionPriorityId =
+  | ""
+  | (typeof PODCAST_SESSION_PRIORITY_IDS)[number];
+
+export const PODCAST_WELCOME_PERK_IDS = [
+  "prep_call",
+  "noise_cleanup",
+  "spotify_upload",
+] as const;
+
+export type PodcastWelcomePerkId = "" | (typeof PODCAST_WELCOME_PERK_IDS)[number];
+
 export type PodcastFormDraft = {
   packageId: PodcastPackageId | "";
   overtimeBlocks: number;
@@ -22,6 +40,9 @@ export type PodcastFormDraft = {
   customerNeed: string;
   notes: string;
   selectedUpsells: string[];
+  sessionPriority: PodcastSessionPriorityId;
+  welcomePerk: PodcastWelcomePerkId;
+  lastMinuteUpsell: boolean;
   termsAccepted: boolean;
 };
 
@@ -33,6 +54,9 @@ export function parsePodcastFormDraft(
   initial: PodcastFormDraft,
 ): PodcastFormDraft | null {
   if (!isRecord(raw)) return null;
+
+  const sessionPriority = pickString(raw.sessionPriority);
+  const welcomePerk = pickString(raw.welcomePerk);
 
   return {
     ...initial,
@@ -50,6 +74,15 @@ export function parsePodcastFormDraft(
     customerNeed: pickString(raw.customerNeed),
     notes: pickString(raw.notes),
     selectedUpsells: isStringArray(raw.selectedUpsells) ? raw.selectedUpsells : [],
+    sessionPriority: (PODCAST_SESSION_PRIORITY_IDS as readonly string[]).includes(
+      sessionPriority,
+    )
+      ? (sessionPriority as PodcastSessionPriorityId)
+      : "",
+    welcomePerk: (PODCAST_WELCOME_PERK_IDS as readonly string[]).includes(welcomePerk)
+      ? (welcomePerk as PodcastWelcomePerkId)
+      : "",
+    lastMinuteUpsell: pickBoolean(raw.lastMinuteUpsell),
     termsAccepted: pickBoolean(raw.termsAccepted),
   };
 }

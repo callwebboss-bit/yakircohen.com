@@ -156,6 +156,26 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
+/** תוספות מוצעות לשירות בסיסי במחירון */
+export const PRICING_ADDON_LINKS: Partial<
+  Record<PriceItemId, readonly PriceItemId[]>
+> = {
+  podcast_pilot: ["podcast_extra_participant", "podcast_editing_hour", "quick_summary_clip"],
+  podcast_audio: ["podcast_extra_participant", "podcast_editing_hour", "content_studio_pilot"],
+  podcast_video: ["podcast_extra_participant", "quick_summary_clip", "transcribe_hour_srt"],
+  content_package: ["transcribe_hour_srt", "express_delivery"],
+  studio_half_hour: ["podcast_editing_hour"],
+  blessing_recording: ["ai_voice_enhance"],
+  cover_song: ["external_mix_master"],
+  song_package: ["express_delivery", "photo_retouch"],
+  event_attraction_1: ["single_effect", "cinematic_slideshow"],
+  event_attraction_2: ["cinematic_slideshow", "pre_event_production"],
+  event_attraction_3: ["cinematic_slideshow", "led_lighting"],
+  event_attraction_4: ["cinematic_slideshow", "pre_event_production", "led_lighting"],
+  full_production_clip: ["express_delivery", "photo_retouch"],
+  single_production: ["express_delivery", "external_mix_master"],
+};
+
 const catalogById = new Map<string, PriceItem>(
   PRICING_CATALOG.map((item) => [item.id, item]),
 );
@@ -170,6 +190,13 @@ export function getPriceById(id: PriceItemId): PriceItem {
 /** מחיר לפני מע״מ לפי מזהה */
 export function getExVat(id: PriceItemId): number {
   return getPriceById(id).exVat;
+}
+
+/** תוספות לפי מזהה שירות בסיסי במחירון */
+export function getAddonsForBaseId(baseId: PriceItemId): readonly PriceItem[] {
+  const ids = PRICING_ADDON_LINKS[baseId];
+  if (!ids?.length) return [];
+  return ids.map((id) => getPriceById(id));
 }
 
 /** סכום מע״מ בלבד */

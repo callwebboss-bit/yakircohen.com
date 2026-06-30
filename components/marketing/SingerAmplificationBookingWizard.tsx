@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
@@ -12,6 +12,18 @@ import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
+import {
+  SingerLastMinuteRecordingOffer,
+  SingerPriceReframe,
+  SingerReassuranceBadge,
+  SingerSessionPriorityPills,
+  SingerWelcomePerkPills,
+  SingerWizardStep3HoldTimer,
+  SingerWizardStepTransitionOverlay,
+  SingerWizardUrgencyHint,
+} from "@/components/booking/SingerWizardCroBlocks";
+import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
+import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import BookingDateTimeFields from "@/components/booking/BookingDateTimeFields";
@@ -19,6 +31,10 @@ import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
+import { useBookExitIntent } from "@/hooks/useBookExitIntent";
+import { useWizardHistory } from "@/hooks/useWizardHistory";
+import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
@@ -29,6 +45,18 @@ import {
   SINGER_BOOKING_ADDONS,
   sumSingerAddons,
 } from "@/lib/data/singer-booking-addons";
+import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
+import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
+import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
+import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
+import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
+import {
+  ensureHoldDeadline,
+  readInitialPriceHoldBadge,
+  saveCategoryPriceHold,
+} from "@/lib/book-wizard-urgency";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
@@ -63,6 +91,9 @@ const INITIAL: SingerFormDraft = {
   location: "",
   notes: "",
   selectedAddons: [],
+  sessionPriority: "",
+  welcomePerk: "",
+  lastMinuteUpsell: false,
   termsAccepted: false,
 };
 
@@ -80,6 +111,14 @@ export default function SingerAmplificationBookingWizard({
   initialPackageId = null,
   routeId = null,
 }: SingerAmplificationBookingWizardProps) {
+  const coreContactMerged = useRef(false);
+  const [step2Transition, setStep2Transition] = useState(false);
+  const [exitIntentOpen, setExitIntentOpen] = useState(false);
+  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
+  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
+    readInitialPriceHoldBadge("singer", SINGER_CRO_CONFIG.urgency.priceHoldBadge),
+  );
+
   const initialForm = useMemo<SingerFormDraft>(
     () => ({ ...INITIAL, packageId: initialPackageId ?? "" }),
     [initialPackageId],
@@ -92,6 +131,7 @@ export default function SingerAmplificationBookingWizard({
     setStep,
     patchForm,
     setErrors,
+    mergeErrors,
     draft,
     guard,
     dismissDraft,
@@ -111,6 +151,29 @@ export default function SingerAmplificationBookingWizard({
 
   const { honeypot, setHoneypot, globalError } = guard;
 
+  const trackFunnel = useWizardFunnel("singer");
+
+  useBookCoreContactBridge(form.name, form.phone);
+
+  useWizardHistory({
+    category: "singer",
+    step,
+    setStep,
+    enabled: !isSubmitted,
+  });
+
+  useEffect(() => {
+    if (coreContactMerged.current) return;
+    coreContactMerged.current = true;
+    const core = readBookCoreContact();
+    if (!core) return;
+    patchForm({
+      name: form.name.trim() ? form.name : core.name,
+      phone: form.phone.trim() ? form.phone : core.phone,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
+
   useBookWizardStep("singer", step);
 
   useEffect(() => {
@@ -120,7 +183,14 @@ export default function SingerAmplificationBookingWizard({
 
   const selected = SINGER_PACKAGES.find((p) => p.id === form.packageId);
   const packageExVat = selected ? parseSingerPriceNis(selected.price) : 0;
-  const addonExVat = sumSingerAddons(new Set(form.selectedAddons));
+  const lastMinuteUpsellCfg = SINGER_CRO_CONFIG.lastMinuteUpsell;
+  const lastMinuteRecordingDiscount =
+    form.lastMinuteUpsell &&
+    lastMinuteUpsellCfg &&
+    form.selectedAddons.includes(lastMinuteUpsellCfg.upgradeId)
+      ? lastMinuteUpsellCfg.listPrice - lastMinuteUpsellCfg.promoPrice
+      : 0;
+  const addonExVat = sumSingerAddons(new Set(form.selectedAddons)) - lastMinuteRecordingDiscount;
   const totalExVat = packageExVat + addonExVat;
   const livePriceReport = useMemo(() => {
     if (totalExVat <= 0 || !selected) return null;
@@ -154,12 +224,163 @@ export default function SingerAmplificationBookingWizard({
     ...(form.time ? [{ label: "שעה", value: form.time }] : []),
     ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
     ...(selected ? [{ label: "חבילה", value: `${selected.name} (${selected.price})` }] : []),
-    ...SINGER_BOOKING_ADDONS.filter((a) => form.selectedAddons.includes(a.id)).map((a) => ({
-      label: "תוספת",
-      value: `${a.name} (+${a.price.toLocaleString("he-IL")} ₪)`,
-    })),
+    ...SINGER_BOOKING_ADDONS.filter((a) => form.selectedAddons.includes(a.id)).map((a) => {
+      let price = a.price;
+      if (
+        lastMinuteUpsellCfg &&
+        form.lastMinuteUpsell &&
+        a.id === lastMinuteUpsellCfg.upgradeId
+      ) {
+        price = lastMinuteUpsellCfg.promoPrice;
+      }
+      return {
+        label: "תוספת",
+        value: `${a.name} (+${price.toLocaleString("he-IL")} ₪)`,
+      };
+    }),
+    ...(form.sessionPriority
+      ? [
+          {
+            label: "עדיפות",
+            value:
+              SINGER_CRO_CONFIG.anxieties.find((a) => a.id === form.sessionPriority)?.label ??
+              form.sessionPriority,
+          },
+        ]
+      : []),
+    ...(form.welcomePerk
+      ? [
+          {
+            label: "הטבת הגעה",
+            value:
+              SINGER_CRO_CONFIG.perks.find((p) => p.id === form.welcomePerk)?.label ??
+              form.welcomePerk,
+          },
+        ]
+      : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
   ];
+
+  const summaryLinesForEscape = useMemo(
+    () => buildSummaryLines(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mirrors form selections
+    [form, selected, lastMinuteUpsellCfg],
+  );
+
+  const escapeWaHref = useMemo(
+    () =>
+      buildWizardEscapeHref({
+        category: "singer",
+        serviceLabel: SINGER_CRO_CONFIG.serviceLabel,
+        formId: SINGER_CRO_CONFIG.formId,
+        summaryLines: summaryLinesForEscape,
+        priceExVat: totalExVat,
+        packageLabel: selected?.name,
+        contactName: form.name,
+        contactPhone: form.phone,
+        ycStep: step + 1,
+      }),
+    [summaryLinesForEscape, totalExVat, selected?.name, form.name, form.phone, step],
+  );
+
+  const handleGhostLeadFired = useCallback(() => {
+    trackFunnel("GhostLead_Fired", {
+      package_id: form.packageId || "",
+      step: 3,
+    });
+  }, [form.packageId, trackFunnel]);
+
+  useWizardGhostLead({
+    category: "singer",
+    formId: SINGER_CRO_CONFIG.formId,
+    step,
+    closingStepIndex: 2,
+    name: form.name,
+    phone: form.phone,
+    subject: "טיוטת הזמנת הגברה לזמרים - שלב סגירה",
+    body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    onFired: handleGhostLeadFired,
+  });
+
+  const showCroOverlays = !isSubmitted && step < 2;
+  const packageSummaryLabel = selected?.name ?? "";
+
+  const showLastMinuteRecordingOffer =
+    lastMinuteUpsellCfg &&
+    (form.lastMinuteUpsell ||
+      !form.selectedAddons.includes(lastMinuteUpsellCfg.upgradeId));
+
+  const handleLastMinuteRecordingChange = (checked: boolean) => {
+    if (!lastMinuteUpsellCfg) return;
+    const id = lastMinuteUpsellCfg.upgradeId;
+    if (checked) {
+      const next = form.selectedAddons.includes(id)
+        ? form.selectedAddons
+        : [...form.selectedAddons, id];
+      patchForm({ lastMinuteUpsell: true, selectedAddons: next });
+      return;
+    }
+    patchForm({
+      lastMinuteUpsell: false,
+      selectedAddons: form.selectedAddons.filter((uid) => uid !== id),
+    });
+  };
+
+  const handleExitIntent = useCallback(() => {
+    if (totalExVat > 0 && packageSummaryLabel) {
+      saveCategoryPriceHold("singer", {
+        packageLabel: packageSummaryLabel,
+        totalExVat,
+      });
+      setPriceHoldLabel(SINGER_CRO_CONFIG.urgency.priceHoldBadge);
+    }
+    setExitIntentOpen(true);
+  }, [totalExVat, packageSummaryLabel]);
+
+  useBookExitIntent({
+    enabled: showCroOverlays && totalExVat > 0 && !!selected,
+    onTrigger: handleExitIntent,
+  });
+
+  const { idle: wizardIdle, dismiss: dismissWizardIdle } = useWizardUserIdle({
+    enabled: !isSubmitted && step <= 2,
+  });
+
+  const completeStep2Transition = useCallback(() => {
+    setStep2Transition(false);
+    setStep3HoldDeadline(ensureHoldDeadline("singer"));
+    setStep(2);
+    scrollToBookWizardPanelAndFocusStep(2);
+  }, [setStep]);
+
+  const beginStep2Transition = () => {
+    if (!canStep1) return;
+    trackFunnel("Step2_PackageSelected", {
+      package_id: form.packageId || "",
+      step: 2,
+    });
+
+    if (form.phone.trim()) {
+      const phoneCheck = validateBookingLead({
+        name: form.name,
+        phone: form.phone,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+        notes: form.notes,
+        requireLocation: false,
+        requireDate: false,
+        requireTime: false,
+      });
+      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
+        mergeErrors({ phone: phoneCheck.errors.phone });
+        scrollAndHighlightFirstError();
+        return;
+      }
+    }
+
+    setStep2Transition(true);
+  };
 
   const consultHref = useMemo(() => {
     const displayPhone = form.phone.trim()
@@ -169,7 +390,7 @@ export default function SingerAmplificationBookingWizard({
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
     }, { bookCategory: "singer", source: "/book#singer" });
-  }, [form, selected]);
+  }, [form, selected, lastMinuteUpsellCfg]);
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
@@ -177,6 +398,13 @@ export default function SingerAmplificationBookingWizard({
       scrollAndHighlightFirstError();
       return;
     }
+    trackFunnel("WhatsApp_Click", {
+      package_id: form.packageId || "",
+      step: 3,
+      intent,
+      last_minute_recording: form.lastMinuteUpsell,
+    });
+    void fireBookingConfetti();
     runSubmit(
       () =>
         validateBookingLead({
@@ -227,11 +455,6 @@ export default function SingerAmplificationBookingWizard({
     scrollAndHighlightFirstError();
   };
 
-  const handleNewBooking = () => {
-    resetWizard();
-    if (initialPackageId) patchForm({ packageId: initialPackageId });
-  };
-
   const previewBody =
     step === 2 && selected
       ? buildBookingWhatsAppBody({
@@ -250,6 +473,11 @@ export default function SingerAmplificationBookingWizard({
           ycForm: "singer_amplification_booking",
         })
       : undefined;
+
+  const handleNewBooking = () => {
+    resetWizard();
+    if (initialPackageId) patchForm({ packageId: initialPackageId });
+  };
 
   if (isSubmitted && lastWaHref) {
     return (
@@ -277,6 +505,7 @@ export default function SingerAmplificationBookingWizard({
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
+          <SingerWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">
             בחרו חבילת הגברה לזמר/ה
           </h2>
@@ -321,6 +550,9 @@ export default function SingerAmplificationBookingWizard({
               onToggle={toggleAddon}
               className="mt-6"
             />
+          ) : null}
+          {SINGER_CRO_CONFIG.escapePlacements.includes("after_packages") && form.packageId ? (
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
           <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
         </BookingStepPanel>
@@ -376,13 +608,34 @@ export default function SingerAmplificationBookingWizard({
               value={form.notes}
               onChange={(v) => patchForm({ notes: v })}
             />
+            <SingerSessionPriorityPills
+              value={form.sessionPriority}
+              onChange={(id) => patchForm({ sessionPriority: id })}
+            />
+            {form.sessionPriority ? (
+              <SingerReassuranceBadge anxietyId={form.sessionPriority} />
+            ) : null}
+            <SingerWelcomePerkPills
+              value={form.welcomePerk}
+              onChange={(id) => patchForm({ welcomePerk: id })}
+            />
           </div>
-          <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
+          {SINGER_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+          ) : null}
+          <StepNav onBack={() => setStep(0)} onNext={beginStep2Transition} nextDisabled={!canStep1} />
         </BookingStepPanel>
       )}
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
+          {step3HoldDeadline ? (
+            <SingerWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
+          ) : null}
+          <p className="mb-4 text-center text-base font-semibold text-foreground">
+            {SINGER_CRO_CONFIG.step3Closer}
+          </p>
+          <SingerPriceReframe />
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h2 className="font-semibold text-foreground">סיכום</h2>
@@ -395,9 +648,15 @@ export default function SingerAmplificationBookingWizard({
               </p>
               <p className="text-sm text-muted-foreground">{form.location}</p>
             </div>
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4 pb-28">
               <BookWhatHappensNext />
               <BookTrustBadges badges={[{ icon: "🎤", label: "צ'ק סאונד לפני ההופעה" }]} />
+              {showLastMinuteRecordingOffer ? (
+                <SingerLastMinuteRecordingOffer
+                  checked={form.lastMinuteUpsell}
+                  onChange={handleLastMinuteRecordingChange}
+                />
+              ) : null}
               {previewBody ? <BookingWhatsAppPreview messageBody={previewBody} /> : null}
               <p className="text-sm text-muted-foreground">{BOOKING_SUMMARY_INTRO}</p>
               <div className="rounded-xl bg-surface px-4 py-3 text-center">
@@ -433,6 +692,27 @@ export default function SingerAmplificationBookingWizard({
           </div>
         </BookingStepPanel>
       )}
+
+      <SingerWizardStepTransitionOverlay
+        active={step2Transition}
+        layout="summary"
+        onComplete={completeStep2Transition}
+        onAbort={() => setStep2Transition(false)}
+      />
+      <WizardCroShell
+        config={SINGER_CRO_CONFIG}
+        exitIntentOpen={exitIntentOpen}
+        packageLabel={packageSummaryLabel || "הגברה לזמרים"}
+        totalExVat={totalExVat}
+        onContinueExit={() => {
+          setExitIntentOpen(false);
+          scrollToBookWizardPanelAndFocusStep(step);
+        }}
+        onCloseExit={() => setExitIntentOpen(false)}
+        idleVisible={wizardIdle}
+        escapeWaHref={escapeWaHref}
+        onDismissIdle={dismissWizardIdle}
+      />
     </div>
   );
 }

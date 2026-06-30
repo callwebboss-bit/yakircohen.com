@@ -5,7 +5,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import TableOfContents from "@/components/ui/TableOfContents";
-import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
+import { PodcastCalculatorLazy, TimeSaverRoiSliderLazy } from "@/components/calculators/lazy";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import PodcastBeforeAfter from "@/components/seo/PodcastBeforeAfter";
@@ -660,6 +660,9 @@ export default function PodcastHubPageContent() {
             <p className="mt-1 text-sm text-muted-foreground">
               {PODCAST_HUB_STARTING_PRICE_NOTE}
             </p>
+            <div className="mt-8">
+              <TimeSaverRoiSliderLazy variant="podcast" />
+            </div>
             {bookCta ? (
               <HubDualCta
                 className="mt-7"

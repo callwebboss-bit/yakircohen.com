@@ -14,7 +14,10 @@ export function useWizardHistory(opts: {
 }) {
   const pushingRef = useRef(false);
   const stepRef = useRef(opts.step);
-  stepRef.current = opts.step;
+
+  useEffect(() => {
+    stepRef.current = opts.step;
+  }, [opts.step]);
 
   useEffect(() => {
     if (opts.enabled === false) return undefined;

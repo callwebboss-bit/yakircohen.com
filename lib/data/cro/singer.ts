@@ -1,7 +1,7 @@
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
 
-/** stub לגל ז' */
+/** config מלא להגברה לזמרים - גל ז' */
 export const SINGER_CRO_CONFIG = {
   category: "singer",
   formId: "singer_amplification_booking",
@@ -21,6 +21,14 @@ export const SINGER_CRO_CONFIG = {
       title: "מערכת מכווננת מראש",
       body: "טכנאי מכוון את המערכת לפני שאתם עולים. בודקים gain ומוניטורים כדי למנוע צפצופים.",
     },
+    cant_hear_self: {
+      title: "שומעים את עצמכם על הבמה",
+      body: "מוניטורים אישיים מכווננים לפי הצורך שלכם. סאונדצ'ק לפני שהקהל נכנס.",
+    },
+    surprise_costs: {
+      title: "מחיר סגור מראש",
+      body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות רק אם תבקשו במפורש.",
+    },
   },
   transitionMessages: [
     "בודק זמינות טכנאי בשטח...",
@@ -37,6 +45,14 @@ export const SINGER_CRO_CONFIG = {
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת ההזמנה",
   step3SummaryHeading: "סיכום קצר",
   step3ContactHeading: "פרטי ההופעה",
+  priceReframe:
+    "פחות מעלות של ציוד שכור ליום - בשביל הגברה מקצועית עם טכנאי בשטח",
+  lastMinuteUpsell: {
+    label: "הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪",
+    upgradeId: "singer_addon_3",
+    promoPrice: 399,
+    listPrice: 500,
+  },
   exitIntent: {
     title: "רגע לפני שעוזבים",
     body: "שמרנו את המחיר שבחרתם. אפשר לחזור ולסגור בקליק.",

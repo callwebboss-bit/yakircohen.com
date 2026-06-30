@@ -23,7 +23,10 @@ export function useWizardGhostLead(opts: {
 }) {
   const sentRef = useRef(false);
   const onFiredRef = useRef(opts.onFired);
-  onFiredRef.current = opts.onFired;
+
+  useEffect(() => {
+    onFiredRef.current = opts.onFired;
+  }, [opts.onFired]);
 
   useEffect(() => {
     if (opts.enabled === false) return;

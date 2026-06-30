@@ -1,62 +1,61 @@
 "use client";
 
 import { WizardAnxietyPills } from "@/components/booking/cro/WizardAnxietyPills";
-import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
 import { WizardLastMinuteUpsell, WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
 import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardWelcomePerkPills } from "@/components/booking/cro/WizardWelcomePerkPills";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
-import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
+import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
 import type {
-  EventsSessionPriorityId,
-  EventsWelcomePerkId,
-} from "@/lib/events-form-draft";
+  SingerSessionPriorityId,
+  SingerWelcomePerkId,
+} from "@/lib/singer-form-draft";
 
-const SESSION_QUESTION = "מה הכי מדאיג אתכם לגבי האירוע?";
-const WELCOME_QUESTION = "בחרו הטבת הגעה ללא עלות";
+const SESSION_QUESTION = "מה הכי חשוב לכם בהופעה?";
+const WELCOME_QUESTION = "בחרו הטבה ללא עלות";
 
-export function EventsSessionPriorityPills({
+export function SingerSessionPriorityPills({
   value,
   onChange,
 }: {
-  value: EventsSessionPriorityId;
-  onChange: (id: Exclude<EventsSessionPriorityId, "">) => void;
+  value: SingerSessionPriorityId;
+  onChange: (id: Exclude<SingerSessionPriorityId, "">) => void;
 }) {
   return (
     <WizardAnxietyPills
       question={SESSION_QUESTION}
-      options={EVENTS_CRO_CONFIG.anxieties}
+      options={SINGER_CRO_CONFIG.anxieties}
       value={value}
-      onChange={(id) => onChange(id as Exclude<EventsSessionPriorityId, "">)}
+      onChange={(id) => onChange(id as Exclude<SingerSessionPriorityId, "">)}
     />
   );
 }
 
-export function EventsWelcomePerkPills({
+export function SingerWelcomePerkPills({
   value,
   onChange,
 }: {
-  value: EventsWelcomePerkId;
-  onChange: (id: Exclude<EventsWelcomePerkId, "">) => void;
+  value: SingerWelcomePerkId;
+  onChange: (id: Exclude<SingerWelcomePerkId, "">) => void;
 }) {
   return (
     <WizardWelcomePerkPills
       question={WELCOME_QUESTION}
-      options={EVENTS_CRO_CONFIG.perks}
+      options={SINGER_CRO_CONFIG.perks}
       value={value}
-      onChange={(id) => onChange(id as Exclude<EventsWelcomePerkId, "">)}
+      onChange={(id) => onChange(id as Exclude<SingerWelcomePerkId, "">)}
     />
   );
 }
 
-export function EventsReassuranceBadge({
+export function SingerReassuranceBadge({
   anxietyId,
 }: {
-  anxietyId: Exclude<EventsSessionPriorityId, "">;
+  anxietyId: Exclude<SingerSessionPriorityId, "">;
 }) {
-  const reassurance = EVENTS_CRO_CONFIG.reassuranceByAnxiety[anxietyId];
+  const reassurance = SINGER_CRO_CONFIG.reassuranceByAnxiety[anxietyId];
   if (!reassurance) return null;
   return (
     <div className="min-h-[72px]">
@@ -65,18 +64,7 @@ export function EventsReassuranceBadge({
   );
 }
 
-/** @deprecated use EventsReassuranceBadge */
-export function EventsEffectFailureBadge() {
-  return <EventsReassuranceBadge anxietyId="effect_failure" />;
-}
-
-export function EventsDecoyVipCard({ escapeWaHref }: { escapeWaHref: string }) {
-  const decoy = EVENTS_CRO_CONFIG.decoy;
-  if (!decoy) return null;
-  return <WizardDecoyCard decoy={decoy} escapeWaHref={escapeWaHref} className="mt-4" />;
-}
-
-export function EventsWizardStepTransitionOverlay({
+export function SingerWizardStepTransitionOverlay({
   active,
   layout = "summary",
   onComplete,
@@ -91,18 +79,18 @@ export function EventsWizardStepTransitionOverlay({
     <WizardStepTransitionSkeleton
       active={active}
       layout={layout}
-      messages={EVENTS_CRO_CONFIG.transitionMessages}
+      messages={SINGER_CRO_CONFIG.transitionMessages}
       onComplete={onComplete}
       onAbort={onAbort}
     />
   );
 }
 
-export function EventsWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="events" deadlineMs={deadlineMs} />;
+export function SingerWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
+  return <WizardStep3HoldTimerBase category="singer" deadlineMs={deadlineMs} />;
 }
 
-export function EventsWizardUrgencyHint({
+export function SingerWizardUrgencyHint({
   priceHoldLabel,
   className,
 }: {
@@ -111,20 +99,20 @@ export function EventsWizardUrgencyHint({
 }) {
   return (
     <WizardUrgencyHint
-      category="events"
+      category="singer"
       priceHoldLabel={priceHoldLabel}
       className={className}
     />
   );
 }
 
-export function EventsPriceReframe() {
-  const text = EVENTS_CRO_CONFIG.priceReframe;
+export function SingerPriceReframe() {
+  const text = SINGER_CRO_CONFIG.priceReframe;
   if (!text) return null;
   return <WizardPriceReframe text={text} />;
 }
 
-export function EventsLastMinutePhotoOffer({
+export function SingerLastMinuteRecordingOffer({
   checked,
   onChange,
   disabled,
@@ -134,8 +122,8 @@ export function EventsLastMinutePhotoOffer({
   disabled?: boolean;
 }) {
   const label =
-    EVENTS_CRO_CONFIG.lastMinuteUpsell?.label ??
-    "מצגת תמונות מקצועית לפתיחת האירוע";
+    SINGER_CRO_CONFIG.lastMinuteUpsell?.label ??
+    "הקלטת ההופעה מהמיקסר - מבצע לסגירה";
   return (
     <WizardLastMinuteUpsell
       label={label}

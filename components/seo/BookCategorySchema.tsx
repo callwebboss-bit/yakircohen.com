@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { BookCategoryId } from "@/lib/book-url";
 import { isTierACategory } from "@/lib/book-wizard-cro/types";
 import { PRICING_HUB_SECTIONS } from "@/lib/data/pricing-hub";
@@ -15,13 +14,7 @@ function priceRangeForCategory(category: BookCategoryId): { low: number; high: n
 }
 
 export default function BookCategorySchema({ category }: { category: BookCategoryId }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted || !isTierACategory(category)) return null;
+  if (!isTierACategory(category)) return null;
 
   const range = priceRangeForCategory(category);
   if (!range) return null;

@@ -13,10 +13,7 @@ export function useWizardUserIdle(opts: {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!opts.enabled) {
-      setIdle(false);
-      return undefined;
-    }
+    if (!opts.enabled) return undefined;
 
     const delay = opts.delayMs ?? DEFAULT_IDLE_MS;
 
@@ -44,5 +41,5 @@ export function useWizardUserIdle(opts: {
 
   const dismiss = () => setIdle(false);
 
-  return { idle, dismiss };
+  return { idle: opts.enabled ? idle : false, dismiss };
 }

@@ -1,7 +1,7 @@
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
 
-/** stub לגל ה' - אירועים */
+/** config מלא לאירועים - גל ה' */
 export const EVENTS_CRO_CONFIG = {
   category: "events",
   formId: "events_booking",
@@ -20,6 +20,14 @@ export const EVENTS_CRO_CONFIG = {
     effect_failure: {
       title: "אפס תקלות טכניות",
       body: "ראש שקט: צוות גיבוי מלא וטכנאי צמוד מתחייבים לאפס תקלות טכניות. בודקים כל ציוד לפני כניסת האורחים.",
+    },
+    timing_stress: {
+      title: "הגעה מוקדמת מובטחת",
+      body: "מגיעים לפחות 40 דקות לפני האירוע: בדיקה, חיבור ואבטחת כבלים לפני כניסת האורחים.",
+    },
+    surprise_costs: {
+      title: "מחיר סגור מראש",
+      body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות ביום האירוע רק אם תבקשו במפורש.",
     },
   },
   transitionMessages: [
@@ -56,6 +64,12 @@ export const EVENTS_CRO_CONFIG = {
   step3SummaryHeading: "סיכום הזמנה",
   step3ContactHeading: "פרטי האירוע",
   priceReframe: "פחות מעלות של אטרקציה בודדת בחתונה - בשביל ראש שקט לכל הערב",
+  lastMinuteUpsell: {
+    label: "מצגת תמונות מקצועית לפתיחת האירוע - 875 ₪ במקום 1,750 ₪",
+    upgradeId: "photo_slideshow",
+    promoPrice: 875,
+    listPrice: 1750,
+  },
   exitIntent: {
     title: "רגע לפני שעוזבים",
     body: "שמרנו את הבחירה שלכם. אפשר לחזור ולסגור בקליק.",

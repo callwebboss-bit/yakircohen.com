@@ -7,6 +7,24 @@ import {
   pickString,
 } from "@/lib/wizard-draft-parse";
 
+export const SINGER_SESSION_PRIORITY_IDS = [
+  "feedback_fear",
+  "cant_hear_self",
+  "surprise_costs",
+] as const;
+
+export type SingerSessionPriorityId =
+  | ""
+  | (typeof SINGER_SESSION_PRIORITY_IDS)[number];
+
+export const SINGER_WELCOME_PERK_IDS = [
+  "soundcheck",
+  "monitor_mix",
+  "tech_on_site",
+] as const;
+
+export type SingerWelcomePerkId = "" | (typeof SINGER_WELCOME_PERK_IDS)[number];
+
 export type SingerFormDraft = {
   packageId: SingerPackageId | "";
   name: string;
@@ -16,6 +34,9 @@ export type SingerFormDraft = {
   location: string;
   notes: string;
   selectedAddons: string[];
+  sessionPriority: SingerSessionPriorityId;
+  welcomePerk: SingerWelcomePerkId;
+  lastMinuteUpsell: boolean;
   /** unused - satisfies useBookingWizard constraint */
   selectedUpsells?: string[];
   termsAccepted: boolean;
@@ -30,6 +51,9 @@ export function parseSingerFormDraft(
 ): SingerFormDraft | null {
   if (!isRecord(raw)) return null;
 
+  const sessionPriority = pickString(raw.sessionPriority);
+  const welcomePerk = pickString(raw.welcomePerk);
+
   return {
     ...initial,
     packageId: pickEnum(raw.packageId, PACKAGE_IDS) ?? fallbackPackageId,
@@ -40,6 +64,15 @@ export function parseSingerFormDraft(
     location: pickString(raw.location),
     notes: pickString(raw.notes),
     selectedAddons: isStringArray(raw.selectedAddons) ? raw.selectedAddons : [],
+    sessionPriority: (SINGER_SESSION_PRIORITY_IDS as readonly string[]).includes(
+      sessionPriority,
+    )
+      ? (sessionPriority as SingerSessionPriorityId)
+      : "",
+    welcomePerk: (SINGER_WELCOME_PERK_IDS as readonly string[]).includes(welcomePerk)
+      ? (welcomePerk as SingerWelcomePerkId)
+      : "",
+    lastMinuteUpsell: pickBoolean(raw.lastMinuteUpsell),
     termsAccepted: pickBoolean(raw.termsAccepted),
   };
 }

@@ -1,7 +1,7 @@
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
 
-/** stub לגל ו' */
+/** config מלא לפודקאסט - גל ו' */
 export const PODCAST_CRO_CONFIG = {
   category: "podcast",
   formId: "podcast_booking",
@@ -21,6 +21,14 @@ export const PODCAST_CRO_CONFIG = {
       title: "הדרכה לפני ההקלטה",
       body: "מלווים אותך לפני שהמיקרופון נדלק. אין צורך בניסיון קודם.",
     },
+    edit_time: {
+      title: "עריכה בזמן מובטח",
+      body: "רוב הפרקים עוברים עריכה תוך 1-3 ימי עבודה. סבב תיקונים ראשון כלול בחבילה.",
+    },
+    surprise_costs: {
+      title: "מחיר סגור מראש",
+      body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות רק אם תבקשו במפורש.",
+    },
   },
   transitionMessages: [
     "מחשב זמני עריכה וניקוי רעשי רקע...",
@@ -37,6 +45,14 @@ export const PODCAST_CRO_CONFIG = {
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת ההקלטה",
   step3SummaryHeading: "סיכום קצר",
   step3ContactHeading: "פרטים לתיאום",
+  priceReframe:
+    "פחות מעלות של יום צילומים בודד - בשביל פרק מקצועי שעובד בשבילכם שנים",
+  lastMinuteUpsell: {
+    label: "רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪",
+    upgradeId: "highlights",
+    promoPrice: 199,
+    listPrice: 300,
+  },
   exitIntent: {
     title: "רגע לפני שעוזבים",
     body: "שמרנו את המחיר שבחרתם. אפשר לחזור ולסגור בקליק.",

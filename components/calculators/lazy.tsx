@@ -24,3 +24,8 @@ export const PhotographyCalculatorLazy = dynamic(
   () => import("@/components/calculators/PhotographyCalculator"),
   { loading: () => calcLoading() },
 );
+
+export const TimeSaverRoiSliderLazy = dynamic(
+  () => import("@/components/calculators/TimeSaverRoiSlider"),
+  { loading: () => calcLoading("min-h-[20rem]") },
+);

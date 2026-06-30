@@ -169,5 +169,6 @@ export function parseStudioFormDraft(
     travelMode: pickEnum(raw.travelMode, TRAVEL_MODES) ?? initial.travelMode,
     lastMinuteBtsDeal: pickBoolean(raw.lastMinuteBtsDeal, initial.lastMinuteBtsDeal),
     termsAccepted: pickBoolean(raw.termsAccepted),
+    selectedUpsells: isStringArray(raw.selectedUpsells) ? raw.selectedUpsells : [],
   };
 }

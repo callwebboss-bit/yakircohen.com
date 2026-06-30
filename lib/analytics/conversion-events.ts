@@ -25,7 +25,11 @@ export type ConversionEventName =
   | "chatbot_copy_click"
   | "coupon_popup_show"
   | "coupon_popup_close"
-  | "coupon_popup_cta_click";
+  | "coupon_popup_cta_click"
+  | "session_rescuer_shown"
+  | "session_rescuer_resume"
+  | "session_rescuer_dismiss"
+  | "book_wizard_step_celebrate";
 
 export function trackConversion(
   name: ConversionEventName,

@@ -123,6 +123,14 @@ export function saveStudioPriceHold(data: Pick<CategoryPriceHold, "packageLabel"
 export function readStudioPriceHold(now = Date.now()) {
   return readCategoryPriceHold("studio", now);
 }
+
+export function readInitialPriceHoldBadge(
+  category: TierACategoryId,
+  badgeLabel: string,
+): string | null {
+  return readCategoryPriceHold(category) ? badgeLabel : null;
+}
+
 export function ensureStep3HoldDeadline(now = Date.now()) {
   return ensureHoldDeadline("studio", now);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
@@ -8,12 +8,29 @@ import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import SmartAddonDrawer from "@/components/booking/SmartAddonDrawer";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
+import WizardContextFaqSnapshot from "@/components/booking/WizardContextFaqSnapshot";
+import WizardProgressBar from "@/components/booking/WizardProgressBar";
+import WizardStepCelebrate from "@/components/booking/WizardStepCelebrate";
+import MicroAudioAudition from "@/components/ui/MicroAudioAudition";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
+import {
+  PodcastLastMinuteHighlightsOffer,
+  PodcastPriceReframe,
+  PodcastReassuranceBadge,
+  PodcastSessionPriorityPills,
+  PodcastWelcomePerkPills,
+  PodcastWizardStep3HoldTimer,
+  PodcastWizardStepTransitionOverlay,
+  PodcastWizardUrgencyHint,
+} from "@/components/booking/PodcastWizardCroBlocks";
+import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
+import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
@@ -24,6 +41,22 @@ import WizardCouponPriceLine from "@/components/booking/WizardCouponPriceLine";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
+import { useBookExitIntent } from "@/hooks/useBookExitIntent";
+import { useWizardHistory } from "@/hooks/useWizardHistory";
+import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
+import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
+import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
+import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
+import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
+import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
+import {
+  ensureHoldDeadline,
+  readInitialPriceHoldBadge,
+  saveCategoryPriceHold,
+} from "@/lib/book-wizard-urgency";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
@@ -33,10 +66,15 @@ import {
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
 import {
-  getPodcastUpsellItems,
-  sumPodcastUpsells,
-} from "@/lib/data/podcast-booking-upsells";
+  getCatalogAddonsForPodcastPackage,
+  resolveAddonLabel,
+  resolveAddonPrice,
+  sumAddonPrices,
+} from "@/lib/pricing-addon-adapter";
+import { getPodcastUpsellItems } from "@/lib/data/podcast-booking-upsells";
 import { UPSELLS } from "@/lib/data/booking-calculator-services";
+import { getWizardFaqsForPodcastPackage } from "@/lib/data/wizard-step-faqs";
+import type { AudioDemoId } from "@/lib/data/audio-demos";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import {
@@ -66,6 +104,13 @@ import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { cn } from "@/lib/utils";
+
+const PODCAST_PACKAGE_AUDIO_DEMO: Partial<Record<PodcastPackageId, AudioDemoId>> = {
+  starter: "podcast-zoom-cleanup",
+  audio: "podcast-zoom-cleanup",
+  video: "recording-vocal-polish",
+  social: "recording-vocal-polish",
+};
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
 
@@ -99,6 +144,9 @@ const INITIAL: PodcastFormDraft = {
   customerNeed: "",
   notes: "",
   selectedUpsells: [],
+  sessionPriority: "",
+  welcomePerk: "",
+  lastMinuteUpsell: false,
   termsAccepted: false,
 };
 
@@ -119,6 +167,19 @@ export default function PodcastBookingWizard({
   initialLocation,
   pricingCatalogId = null,
 }: PodcastBookingWizardProps) {
+  const coreContactMerged = useRef(false);
+  const [step2Transition, setStep2Transition] = useState(false);
+  const [exitIntentOpen, setExitIntentOpen] = useState(false);
+  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
+  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(() =>
+    readInitialPriceHoldBadge("podcast", PODCAST_CRO_CONFIG.urgency.priceHoldBadge),
+  );
+  const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
+  const [celebrateKey, setCelebrateKey] = useState(0);
+  const [celebrateMeta, setCelebrateMeta] = useState<{ from: number; to: number } | null>(
+    null,
+  );
+  const prevStepRef = useRef(0);
   const initialForm = useMemo<PodcastFormDraft>(
     () => ({
       ...INITIAL,
@@ -137,6 +198,7 @@ export default function PodcastBookingWizard({
     setStep,
     patchForm,
     setErrors,
+    mergeErrors,
     toggleUpsell,
     selectedUpsellSet,
     setKoalendarOpen,
@@ -159,7 +221,67 @@ export default function PodcastBookingWizard({
 
   const { honeypot, setHoneypot, globalError } = guard;
 
+  const trackFunnel = useWizardFunnel("podcast");
+
+  useBookCoreContactBridge(form.name, form.phone);
+
+  useWizardHistory({
+    category: "podcast",
+    step,
+    setStep,
+    enabled: !isSubmitted,
+  });
+
+  useEffect(() => {
+    if (coreContactMerged.current) return;
+    coreContactMerged.current = true;
+    const core = readBookCoreContact();
+    if (!core) return;
+    patchForm({
+      name: form.name.trim() ? form.name : core.name,
+      phone: form.phone.trim() ? form.phone : core.phone,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
+
   useBookWizardStep("podcast", step);
+
+  useEffect(() => {
+    if (step > prevStepRef.current) {
+      setCelebrateMeta({ from: prevStepRef.current, to: step });
+      setCelebrateKey((k) => k + 1);
+    }
+    prevStepRef.current = step;
+  }, [step]);
+
+  const catalogAddonItems = useMemo(
+    () => getCatalogAddonsForPodcastPackage(form.packageId),
+    [form.packageId],
+  );
+  const upsellItems = useMemo(
+    () =>
+      catalogAddonItems.length > 0
+        ? catalogAddonItems
+        : getPodcastUpsellItems(form.packageId),
+    [catalogAddonItems, form.packageId],
+  );
+  const wizardFaqs = useMemo(
+    () => getWizardFaqsForPodcastPackage(form.packageId),
+    [form.packageId],
+  );
+
+  const handlePackageSelect = useCallback(
+    (pkgId: PodcastPackageId) => {
+      patchForm({
+        packageId: pkgId,
+        overtimeBlocks: 0,
+        selectedUpsells: [],
+      });
+      const addons = getCatalogAddonsForPodcastPackage(pkgId);
+      if (addons.length > 0) setAddonDrawerOpen(true);
+    },
+    [patchForm],
+  );
 
   useEffect(() => {
     if (initialPackageId && !form.packageId) {
@@ -194,12 +316,20 @@ export default function PodcastBookingWizard({
     form.participantCount > 2
       ? (form.participantCount - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE
       : 0;
-  const upsellTotal = sumPodcastUpsells(new Set(form.selectedUpsells));
+  const upsellTotal = sumAddonPrices(new Set(form.selectedUpsells));
+  const lastMinuteUpsellCfg = PODCAST_CRO_CONFIG.lastMinuteUpsell;
+  const lastMinuteHighlightsDiscount =
+    form.lastMinuteUpsell &&
+    lastMinuteUpsellCfg &&
+    form.selectedUpsells.includes(lastMinuteUpsellCfg.upgradeId)
+      ? lastMinuteUpsellCfg.listPrice - lastMinuteUpsellCfg.promoPrice
+      : 0;
+  const adjustedUpsellTotal = upsellTotal - lastMinuteHighlightsDiscount;
   const packageTotal =
     (selected?.price ?? 0) +
     form.overtimeBlocks * PODCAST_OVERTIME_RATE +
     extraParticipantsCost +
-    upsellTotal +
+    adjustedUpsellTotal +
     mobileExVat;
 
   const livePriceReport = useMemo(() => {
@@ -211,8 +341,6 @@ export default function PodcastBookingWizard({
     };
   }, [selected, packageTotal]);
   useReportBookWizardLivePrice(livePriceReport);
-
-  const upsellItems = getPodcastUpsellItems(form.packageId);
 
   const canStep0 = form.packageId !== "";
 
@@ -253,11 +381,31 @@ export default function PodcastBookingWizard({
           ]
         : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
       ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
+      ...(form.sessionPriority
+        ? [
+            {
+              label: "עדיפות",
+              value:
+                PODCAST_CRO_CONFIG.anxieties.find((a) => a.id === form.sessionPriority)
+                  ?.label ?? form.sessionPriority,
+            },
+          ]
+        : []),
+      ...(form.welcomePerk
+        ? [
+            {
+              label: "הטבת הגעה",
+              value:
+                PODCAST_CRO_CONFIG.perks.find((p) => p.id === form.welcomePerk)?.label ??
+                form.welcomePerk,
+            },
+          ]
+        : []),
       ...(form.selectedUpsells ?? [])
-        .filter((k) => (UPSELLS[k]?.price ?? 0) > 0)
+        .filter((k) => resolveAddonPrice(k) > 0)
         .map((k) => ({
           label: "תוספת",
-          value: `${UPSELLS[k]?.name ?? k} (+${(UPSELLS[k]?.price ?? 0).toLocaleString("he-IL")} ₪)`,
+          value: `${resolveAddonLabel(k)} (+${resolveAddonPrice(k).toLocaleString("he-IL")} ₪)`,
         })),
     ];
     return {
@@ -274,12 +422,145 @@ export default function PodcastBookingWizard({
     [form.name, form.phone],
   );
 
+  const summaryLinesForEscape = useMemo(
+    () => buildSummaryContext().summaryLines,
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mirrors form selections
+    [
+      form,
+      selected,
+      extraParticipantsCost,
+      packageTotal,
+    ],
+  );
+
+  const escapeWaHref = useMemo(
+    () =>
+      buildWizardEscapeHref({
+        category: "podcast",
+        serviceLabel: PODCAST_CRO_CONFIG.serviceLabel,
+        formId: PODCAST_CRO_CONFIG.formId,
+        summaryLines: summaryLinesForEscape,
+        priceExVat: packageTotal,
+        packageLabel: selected?.name,
+        contactName: form.name,
+        contactPhone: form.phone,
+        ycStep: step + 1,
+      }),
+    [summaryLinesForEscape, packageTotal, selected?.name, form.name, form.phone, step],
+  );
+
+  const handleGhostLeadFired = useCallback(() => {
+    trackFunnel("GhostLead_Fired", {
+      package_id: form.packageId || "",
+      step: 3,
+    });
+  }, [form.packageId, trackFunnel]);
+
+  useWizardGhostLead({
+    category: "podcast",
+    formId: PODCAST_CRO_CONFIG.formId,
+    step,
+    closingStepIndex: 2,
+    name: form.name,
+    phone: form.phone,
+    subject: "טיוטת הזמנת פודקאסט - שלב סגירה",
+    body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    onFired: handleGhostLeadFired,
+  });
+
+  const showCroOverlays = !isSubmitted && step < 2;
+  const packageSummaryLabel = selected?.name ?? "";
+
+  const showLastMinuteHighlightsOffer =
+    lastMinuteUpsellCfg &&
+    (form.lastMinuteUpsell ||
+      !form.selectedUpsells.includes(lastMinuteUpsellCfg.upgradeId));
+
+  const handleLastMinuteHighlightsChange = (checked: boolean) => {
+    if (!lastMinuteUpsellCfg) return;
+    const id = lastMinuteUpsellCfg.upgradeId;
+    if (checked) {
+      const next = form.selectedUpsells.includes(id)
+        ? form.selectedUpsells
+        : [...form.selectedUpsells, id];
+      patchForm({ lastMinuteUpsell: true, selectedUpsells: next });
+      return;
+    }
+    patchForm({
+      lastMinuteUpsell: false,
+      selectedUpsells: form.selectedUpsells.filter((uid) => uid !== id),
+    });
+  };
+
+  const handleExitIntent = useCallback(() => {
+    if (packageTotal > 0 && packageSummaryLabel) {
+      saveCategoryPriceHold("podcast", {
+        packageLabel: packageSummaryLabel,
+        totalExVat: packageTotal,
+      });
+      setPriceHoldLabel(PODCAST_CRO_CONFIG.urgency.priceHoldBadge);
+    }
+    setExitIntentOpen(true);
+  }, [packageTotal, packageSummaryLabel]);
+
+  useBookExitIntent({
+    enabled: showCroOverlays && packageTotal > 0 && !!selected,
+    onTrigger: handleExitIntent,
+  });
+
+  const { idle: wizardIdle, dismiss: dismissWizardIdle } = useWizardUserIdle({
+    enabled: !isSubmitted && step <= 2,
+  });
+
+  const completeStep2Transition = useCallback(() => {
+    setStep2Transition(false);
+    setStep3HoldDeadline(ensureHoldDeadline("podcast"));
+    setStep(2);
+    scrollToBookWizardPanelAndFocusStep(2);
+  }, [setStep]);
+
+  const beginStep2Transition = () => {
+    if (!canStep1) return;
+    trackFunnel("Step2_PackageSelected", {
+      package_id: form.packageId || "",
+      step: 2,
+    });
+
+    if (form.phone.trim()) {
+      const phoneCheck = validateBookingLead({
+        name: form.name,
+        phone: form.phone,
+        date: "",
+        time: "",
+        location: "",
+        notes: form.notes,
+        requireLocation: false,
+        requireDate: false,
+        requireTime: false,
+      });
+      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
+        mergeErrors({ phone: phoneCheck.errors.phone });
+        scrollAndHighlightFirstError();
+        return;
+      }
+    }
+
+    setStep2Transition(true);
+  };
+
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
       setErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
       scrollAndHighlightFirstError();
       return;
     }
+    trackFunnel("WhatsApp_Click", {
+      package_id: form.packageId || "",
+      step: 3,
+      intent,
+      last_minute_highlights: form.lastMinuteUpsell,
+    });
+    void fireBookingConfetti();
     runSubmit(
       () =>
         validateBookingLead({
@@ -408,9 +689,24 @@ export default function PodcastBookingWizard({
       {pricingCatalogId ? <PricingCatalogBanner catalogId={pricingCatalogId} /> : null}
 
       <BookingWizardNav steps={STEPS} currentStep={step} label="שלבי הזמנת פודקאסט" />
+      <WizardProgressBar
+        currentStep={step}
+        totalSteps={STEPS.length}
+        celebrateKey={celebrateKey}
+        className="-mt-4"
+      />
+      {celebrateMeta ? (
+        <WizardStepCelebrate
+          key={celebrateKey}
+          category="podcast"
+          fromStep={celebrateMeta.from}
+          toStep={celebrateMeta.to}
+        />
+      ) : null}
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
+          <PodcastWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו חבילת פודקאסט</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {PODCAST_PACKAGES.map((pkg) => {
@@ -419,19 +715,19 @@ export default function PodcastBookingWizard({
                 <button
                   key={pkg.id}
                   type="button"
-                  onClick={() =>
-                    patchForm({
-                      packageId: pkg.id,
-                      overtimeBlocks: 0,
-                      selectedUpsells: [],
-                    })
-                  }
+                  onClick={() => handlePackageSelect(pkg.id)}
                   className={cn(
-                    "rounded-2xl border p-5 text-start",
+                    "relative rounded-2xl border p-5 text-start",
                     active ? "border-brand-red bg-brand-red/5" : "border-border bg-background",
                   )}
                   aria-pressed={active}
                 >
+                  {PODCAST_PACKAGE_AUDIO_DEMO[pkg.id] ? (
+                    <MicroAudioAudition
+                      demoId={PODCAST_PACKAGE_AUDIO_DEMO[pkg.id]!}
+                      className="absolute start-3 top-3"
+                    />
+                  ) : null}
                   {pkg.badge ? (
                     <span className="text-xs font-bold text-brand-red">{pkg.badge}</span>
                   ) : null}
@@ -444,6 +740,11 @@ export default function PodcastBookingWizard({
               );
             })}
           </div>
+
+          {form.packageId ? (
+            <WizardContextFaqSnapshot items={wizardFaqs} className="mt-6" />
+          ) : null}
+
           {/* Participant count */}
           <div className="mt-6">
             <p className="mb-1 text-sm font-semibold text-foreground">כמה משתתפים בפרק?</p>
@@ -584,7 +885,7 @@ export default function PodcastBookingWizard({
             </table>
           </div>
 
-          {form.packageId && upsellItems.length > 0 ? (
+          {form.packageId && upsellItems.length > 0 && catalogAddonItems.length === 0 ? (
             <BookUpsellSection
               items={upsellItems}
               selected={selectedUpsellSet}
@@ -593,7 +894,21 @@ export default function PodcastBookingWizard({
             />
           ) : null}
 
-          <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
+          {PODCAST_CRO_CONFIG.escapePlacements.includes("after_packages") && selected ? (
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+          ) : null}
+
+          <StepNav
+            onNext={() => {
+              trackFunnel("Step1_Complete", {
+                package_id: form.packageId || "",
+                step: 1,
+              });
+              setStep(1);
+            }}
+            nextDisabled={!canStep0}
+            showBack={false}
+          />
         </BookingStepPanel>
       )}
 
@@ -718,13 +1033,38 @@ export default function PodcastBookingWizard({
               value={form.notes}
               onChange={(v) => patchForm({ notes: v })}
             />
+            <PodcastSessionPriorityPills
+              value={form.sessionPriority}
+              onChange={(id) => patchForm({ sessionPriority: id })}
+            />
+            {form.sessionPriority ? (
+              <PodcastReassuranceBadge anxietyId={form.sessionPriority} />
+            ) : null}
+            <PodcastWelcomePerkPills
+              value={form.welcomePerk}
+              onChange={(id) => patchForm({ welcomePerk: id })}
+            />
           </div>
-          <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
+          {PODCAST_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
+            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+          ) : null}
+          <StepNav
+            onBack={() => setStep(0)}
+            onNext={beginStep2Transition}
+            nextDisabled={!canStep1}
+          />
         </BookingStepPanel>
       )}
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
+          {step3HoldDeadline ? (
+            <PodcastWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
+          ) : null}
+          <p className="mb-4 text-center text-base font-semibold text-foreground">
+            {PODCAST_CRO_CONFIG.step3Closer}
+          </p>
+          <PodcastPriceReframe />
           <button
             type="button"
             onClick={() => setStep(0)}
@@ -742,7 +1082,7 @@ export default function PodcastBookingWizard({
               ) : null}
               <WizardCouponPriceLine totalExVat={packageTotal} size="lg" className="mt-4" />
             </div>
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4 pb-28">
               <BookWhatHappensNext />
               <BookTrustBadges
                 badges={[
@@ -779,6 +1119,12 @@ export default function PodcastBookingWizard({
                   סבב תיקונים ראשון כלול. כל סבב נוסף מעבר לכך הוא עבודת מחשב נוספת ועולה בהתאם
                 </p>
               </div>
+              {showLastMinuteHighlightsOffer ? (
+                <PodcastLastMinuteHighlightsOffer
+                  checked={form.lastMinuteUpsell}
+                  onChange={handleLastMinuteHighlightsChange}
+                />
+              ) : null}
               <NeedsDiscoveryStep
                 value={form.customerNeed}
                 onChange={(v) => patchForm({ customerNeed: v })}
@@ -845,6 +1191,41 @@ export default function PodcastBookingWizard({
         </BookingStepPanel>
       )}
 
+      <PodcastWizardStepTransitionOverlay
+        active={step2Transition}
+        layout="summary"
+        onComplete={completeStep2Transition}
+        onAbort={() => setStep2Transition(false)}
+      />
+      <SmartAddonDrawer
+        open={addonDrawerOpen && Boolean(selected)}
+        packageLabel={selected?.name ?? "חבילה"}
+        basePriceExVat={
+          (selected?.price ?? 0) +
+          form.overtimeBlocks * PODCAST_OVERTIME_RATE +
+          extraParticipantsCost +
+          mobileExVat
+        }
+        items={catalogAddonItems}
+        selected={selectedUpsellSet}
+        onToggle={toggleUpsell}
+        onClose={() => setAddonDrawerOpen(false)}
+        onContinue={() => setAddonDrawerOpen(false)}
+      />
+      <WizardCroShell
+        config={PODCAST_CRO_CONFIG}
+        exitIntentOpen={exitIntentOpen}
+        packageLabel={packageSummaryLabel || "פודקאסט"}
+        totalExVat={packageTotal}
+        onContinueExit={() => {
+          setExitIntentOpen(false);
+          scrollToBookWizardPanelAndFocusStep(step);
+        }}
+        onCloseExit={() => setExitIntentOpen(false)}
+        idleVisible={wizardIdle}
+        escapeWaHref={escapeWaHref}
+        onDismissIdle={dismissWizardIdle}
+      />
       <KoalendarModal open={koalendarOpen} onClose={() => setKoalendarOpen(false)} />
     </div>
   );

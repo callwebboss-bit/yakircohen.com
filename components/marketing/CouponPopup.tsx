@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 import {
   COUPON_SCROLL_THRESHOLD,
@@ -73,10 +73,22 @@ function freezeAnalyticsPayload(
   return Object.freeze({ ...params });
 }
 
+function subscribeNoop() {
+  return () => {};
+}
+
+function getClientSnapshot() {
+  return true;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 export default function CouponPopup() {
   const pathname = usePathname();
 
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(subscribeNoop, getClientSnapshot, getServerSnapshot);
   const [visible, setVisible] = useState(false);
   const [offer, setOffer] = useState<ResolvedCouponOffer | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -127,10 +139,6 @@ export default function CouponPopup() {
       }),
     );
   }, [pathname, pathAllowed]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!mounted || !pathAllowed || shouldBlockBanner()) return undefined;

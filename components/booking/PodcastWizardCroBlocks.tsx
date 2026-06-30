@@ -1,62 +1,61 @@
 "use client";
 
 import { WizardAnxietyPills } from "@/components/booking/cro/WizardAnxietyPills";
-import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
 import { WizardLastMinuteUpsell, WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
 import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardWelcomePerkPills } from "@/components/booking/cro/WizardWelcomePerkPills";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
-import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
+import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
 import type {
-  EventsSessionPriorityId,
-  EventsWelcomePerkId,
-} from "@/lib/events-form-draft";
+  PodcastSessionPriorityId,
+  PodcastWelcomePerkId,
+} from "@/lib/podcast-form-draft";
 
-const SESSION_QUESTION = "מה הכי מדאיג אתכם לגבי האירוע?";
+const SESSION_QUESTION = "מה הכי חשוב לכם בפרק הראשון?";
 const WELCOME_QUESTION = "בחרו הטבת הגעה ללא עלות";
 
-export function EventsSessionPriorityPills({
+export function PodcastSessionPriorityPills({
   value,
   onChange,
 }: {
-  value: EventsSessionPriorityId;
-  onChange: (id: Exclude<EventsSessionPriorityId, "">) => void;
+  value: PodcastSessionPriorityId;
+  onChange: (id: Exclude<PodcastSessionPriorityId, "">) => void;
 }) {
   return (
     <WizardAnxietyPills
       question={SESSION_QUESTION}
-      options={EVENTS_CRO_CONFIG.anxieties}
+      options={PODCAST_CRO_CONFIG.anxieties}
       value={value}
-      onChange={(id) => onChange(id as Exclude<EventsSessionPriorityId, "">)}
+      onChange={(id) => onChange(id as Exclude<PodcastSessionPriorityId, "">)}
     />
   );
 }
 
-export function EventsWelcomePerkPills({
+export function PodcastWelcomePerkPills({
   value,
   onChange,
 }: {
-  value: EventsWelcomePerkId;
-  onChange: (id: Exclude<EventsWelcomePerkId, "">) => void;
+  value: PodcastWelcomePerkId;
+  onChange: (id: Exclude<PodcastWelcomePerkId, "">) => void;
 }) {
   return (
     <WizardWelcomePerkPills
       question={WELCOME_QUESTION}
-      options={EVENTS_CRO_CONFIG.perks}
+      options={PODCAST_CRO_CONFIG.perks}
       value={value}
-      onChange={(id) => onChange(id as Exclude<EventsWelcomePerkId, "">)}
+      onChange={(id) => onChange(id as Exclude<PodcastWelcomePerkId, "">)}
     />
   );
 }
 
-export function EventsReassuranceBadge({
+export function PodcastReassuranceBadge({
   anxietyId,
 }: {
-  anxietyId: Exclude<EventsSessionPriorityId, "">;
+  anxietyId: Exclude<PodcastSessionPriorityId, "">;
 }) {
-  const reassurance = EVENTS_CRO_CONFIG.reassuranceByAnxiety[anxietyId];
+  const reassurance = PODCAST_CRO_CONFIG.reassuranceByAnxiety[anxietyId];
   if (!reassurance) return null;
   return (
     <div className="min-h-[72px]">
@@ -65,18 +64,7 @@ export function EventsReassuranceBadge({
   );
 }
 
-/** @deprecated use EventsReassuranceBadge */
-export function EventsEffectFailureBadge() {
-  return <EventsReassuranceBadge anxietyId="effect_failure" />;
-}
-
-export function EventsDecoyVipCard({ escapeWaHref }: { escapeWaHref: string }) {
-  const decoy = EVENTS_CRO_CONFIG.decoy;
-  if (!decoy) return null;
-  return <WizardDecoyCard decoy={decoy} escapeWaHref={escapeWaHref} className="mt-4" />;
-}
-
-export function EventsWizardStepTransitionOverlay({
+export function PodcastWizardStepTransitionOverlay({
   active,
   layout = "summary",
   onComplete,
@@ -91,18 +79,18 @@ export function EventsWizardStepTransitionOverlay({
     <WizardStepTransitionSkeleton
       active={active}
       layout={layout}
-      messages={EVENTS_CRO_CONFIG.transitionMessages}
+      messages={PODCAST_CRO_CONFIG.transitionMessages}
       onComplete={onComplete}
       onAbort={onAbort}
     />
   );
 }
 
-export function EventsWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="events" deadlineMs={deadlineMs} />;
+export function PodcastWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
+  return <WizardStep3HoldTimerBase category="podcast" deadlineMs={deadlineMs} />;
 }
 
-export function EventsWizardUrgencyHint({
+export function PodcastWizardUrgencyHint({
   priceHoldLabel,
   className,
 }: {
@@ -111,20 +99,20 @@ export function EventsWizardUrgencyHint({
 }) {
   return (
     <WizardUrgencyHint
-      category="events"
+      category="podcast"
       priceHoldLabel={priceHoldLabel}
       className={className}
     />
   );
 }
 
-export function EventsPriceReframe() {
-  const text = EVENTS_CRO_CONFIG.priceReframe;
+export function PodcastPriceReframe() {
+  const text = PODCAST_CRO_CONFIG.priceReframe;
   if (!text) return null;
   return <WizardPriceReframe text={text} />;
 }
 
-export function EventsLastMinutePhotoOffer({
+export function PodcastLastMinuteHighlightsOffer({
   checked,
   onChange,
   disabled,
@@ -134,8 +122,8 @@ export function EventsLastMinutePhotoOffer({
   disabled?: boolean;
 }) {
   const label =
-    EVENTS_CRO_CONFIG.lastMinuteUpsell?.label ??
-    "מצגת תמונות מקצועית לפתיחת האירוע";
+    PODCAST_CRO_CONFIG.lastMinuteUpsell?.label ??
+    "רגעי שיא לרילס - מבצע לסגירה";
   return (
     <WizardLastMinuteUpsell
       label={label}

@@ -4,6 +4,7 @@ import HubPageSchema from "@/components/seo/HubPageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
+import { TimeSaverRoiSliderLazy } from "@/components/calculators/lazy";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
@@ -333,6 +334,10 @@ export default function AcademyPage() {
       </section>
 
       <PrivateSessionPricing />
+
+      <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">
+        <TimeSaverRoiSliderLazy variant="academy" />
+      </section>
 
       {/* ── Academy tracks ── */}
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

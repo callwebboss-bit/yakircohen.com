@@ -378,16 +378,19 @@ export function StudioParkingBanner() {
 
 export function WizardStepTransitionOverlay({
   active,
+  layout = "summary",
   onComplete,
   onAbort,
 }: {
   active: boolean;
+  layout?: "packages" | "contact" | "summary";
   onComplete: () => void;
   onAbort?: () => void;
 }) {
   return (
     <WizardStepTransitionSkeleton
       active={active}
+      layout={layout}
       messages={STUDIO_CRO_CONFIG.transitionMessages}
       onComplete={onComplete}
       onAbort={onAbort}
