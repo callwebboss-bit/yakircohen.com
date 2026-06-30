@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useHeaderMenu } from "@/components/layout/header-menu-context";
@@ -35,18 +35,6 @@ const headerWhatsAppHref = buildWhatsAppHref({
   utm_campaign: "header_wa_badge",
 });
 
-function subscribeAvailability() {
-  return () => {};
-}
-
-function getAvailabilitySnapshot() {
-  return isLikelyAvailableForWhatsApp();
-}
-
-function getAvailabilityServerSnapshot() {
-  return true;
-}
-
 function PhoneIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -70,11 +58,23 @@ function CalendarIcon({ className }: { className?: string }) {
 }
 
 function WhatsAppAvailabilityBadge() {
-  const available = useSyncExternalStore(
-    subscribeAvailability,
-    getAvailabilitySnapshot,
-    getAvailabilityServerSnapshot,
-  );
+  const [available, setAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const update = () => setAvailable(isLikelyAvailableForWhatsApp());
+    update();
+    const id = window.setInterval(update, 60_000);
+    const onVisibility = () => update();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  if (available === null) {
+    return <span className="hidden h-[34px] min-w-[10rem] lg:block" aria-hidden />;
+  }
 
   return (
     <a

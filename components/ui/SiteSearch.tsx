@@ -94,7 +94,7 @@ export default function SiteSearch({
   const voiceAutoNavigateRef = useRef(false);
 
   const onNavigate = useCallback(
-    (href: string, _label: string) => {
+    (href: string) => {
       setOpen(false);
       setQuery("");
       setActiveIndex(-1);
@@ -136,9 +136,7 @@ export default function SiteSearch({
     if (results.length === 1) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(false);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setQuery("");
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveIndex(-1);
       router.push(results[0].url);
     }

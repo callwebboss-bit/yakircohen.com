@@ -11,7 +11,7 @@ export const COUPON_ACTIVE_TIME_MS = 40_000;
 export const COUPON_E2E_ACTIVE_TIME_MS = 800;
 export const COUPON_SCROLL_THRESHOLD = 0.35;
 
-export function getActiveTimeRequiredMs(now = Date.now()): number {
+export function getActiveTimeRequiredMs(): number {
   if (typeof window === "undefined") return COUPON_ACTIVE_TIME_MS;
   try {
     if (sessionStorage.getItem(SS_E2E_FAST) === "1") return COUPON_E2E_ACTIVE_TIME_MS;

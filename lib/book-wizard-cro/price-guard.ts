@@ -1,3 +1,5 @@
+import type { CroLastMinuteUpsell } from "@/lib/book-wizard-cro/types";
+
 /**
  * חישוב מחיר דטרמיניסטי ממזהי חבילה/תוספות - לא מערך price גולמי ב-state.
  * מונע price tampering בצד לקוח.
@@ -17,4 +19,20 @@ export function assertPriceMatches(
     return computed;
   }
   return reported;
+}
+
+/** הנחת last-minute upsell — רק אם הדגל פעיל והתוספת נבחרה */
+export function lastMinuteUpsellDiscount(
+  cfg: CroLastMinuteUpsell | undefined,
+  selectedIds: readonly string[],
+  lastMinuteFlag: boolean,
+): number {
+  if (!cfg || !lastMinuteFlag || !selectedIds.includes(cfg.upgradeId)) return 0;
+  return Math.max(0, cfg.listPrice - cfg.promoPrice);
+}
+
+/** מחיר סופי לפני מע״מ — תמיד מהחישוב, לא מטיוטה */
+export function guardSubmitTotalExVat(computed: number, reported?: number | null): number {
+  if (reported == null || !Number.isFinite(reported)) return computed;
+  return assertPriceMatches(computed, reported);
 }

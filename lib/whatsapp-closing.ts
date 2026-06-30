@@ -94,6 +94,10 @@ export type ClosingMessageOptions = {
   ycDeferred?: string | null;
   ycRecipientHint?: string | null;
   ycConfigVersion?: number | null;
+  /** גל D+ — CRO פסיכולוגי מכל קטגוריית Tier A */
+  ycSessionPriority?: string | null;
+  ycWelcomePerk?: string | null;
+  ycLastMinuteUpsell?: boolean | null;
   /** שורות נוספות (משתתפים, מחירון) - מוכנסות לפני פרטים */
   extraBlocks?: readonly string[];
   /** נרטיב קצר: מה הבנו + מחיר, בלי רשימת פרטים ארוכה */
@@ -154,6 +158,9 @@ export function buildClosingMessage({
   ycDeferred,
   ycRecipientHint,
   ycConfigVersion,
+  ycSessionPriority,
+  ycWelcomePerk,
+  ycLastMinuteUpsell,
   extraBlocks = [],
   progressiveNarrative = false,
 }: ClosingMessageOptions): string {
@@ -288,6 +295,9 @@ export function buildClosingMessage({
       deferred: ycDeferred ?? null,
       recipientHint: ycRecipientHint ?? null,
       configVersion: ycConfigVersion ?? null,
+      sessionPriority: ycSessionPriority ?? null,
+      welcomePerk: ycWelcomePerk ?? null,
+      lastMinuteUpsell: ycLastMinuteUpsell ?? null,
     });
   }
 

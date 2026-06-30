@@ -29,7 +29,6 @@ export function loadPagefind(): Promise<PFApi | null> {
   if (!loadPromise) {
     loadPromise = (async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
         const pf = (await new Function("path", "return import(path)")(
           "/pagefind/pagefind.js",
         )) as PFApi;

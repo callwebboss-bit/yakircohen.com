@@ -1,22 +1,31 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-import { getBusinessOpenStatus } from "@/lib/business-hours";
+import { useEffect, useState } from "react";
+import { getBusinessOpenStatus, type BusinessOpenStatus } from "@/lib/business-hours";
 
-function subscribe() {
-  return () => {};
-}
-
-function getSnapshot() {
-  return getBusinessOpenStatus();
-}
-
-function getServerSnapshot(): ReturnType<typeof getBusinessOpenStatus> {
-  return { isOpen: true, label: "פתוח עכשיו" };
+function subscribeOpenStatus(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const id = window.setInterval(onStoreChange, 60_000);
+  const onVisibility = () => onStoreChange();
+  document.addEventListener("visibilitychange", onVisibility);
+  return () => {
+    window.clearInterval(id);
+    document.removeEventListener("visibilitychange", onVisibility);
+  };
 }
 
 export default function BusinessOpenBadge() {
-  const status = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [status, setStatus] = useState<BusinessOpenStatus | null>(null);
+
+  useEffect(() => {
+    const update = () => setStatus(getBusinessOpenStatus());
+    update();
+    return subscribeOpenStatus(update);
+  }, []);
+
+  if (!status) {
+    return <p className="mb-2 h-5" aria-hidden />;
+  }
 
   return (
     <p className="mb-2 flex items-center gap-2 text-xs">

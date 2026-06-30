@@ -108,12 +108,15 @@ export default function FooterCategorySitemap() {
     getDesktopServerSnapshot,
   );
 
+  const accordionDefault = isDesktop ? ["studio"] : [];
+
   return (
     <nav className="footer-zone" aria-label="שירותים לפי קטגוריה">
       <h2 className="text-sm font-semibold text-[var(--footer-fg)]">שירותים</h2>
       <Accordion
+        key={isDesktop ? "footer-sitemap-desktop" : "footer-sitemap-mobile"}
         type="multiple"
-        defaultValue={isDesktop ? ["studio"] : []}
+        defaultValue={accordionDefault}
         className={cn(
           "mt-4 rounded-xl border-[var(--footer-border)] bg-white/[0.03]",
         )}

@@ -134,29 +134,8 @@
           "name": "תל אביב"
         },
         {
-          "@type": "City",
-          "name": "שוהם"
-        },
-        {
-          "@type": "City",
-          "name": "רחובות"
-        },
-        {
-          "@type": "City",
-          "name": "פתח תקווה"
-        },
-        {
           "@type": "AdministrativeArea",
           "name": "מרכז"
-        },
-        {
-          "@type": "GeoCircle",
-          "geoMidpoint": {
-            "@type": "GeoCoordinates",
-            "latitude": 31.901,
-            "longitude": 35.013
-          },
-          "geoRadius": "30000"
         }
       ],
       "sameAs": [

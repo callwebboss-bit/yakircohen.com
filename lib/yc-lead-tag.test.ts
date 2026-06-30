@@ -69,4 +69,17 @@ describe("yc-lead-tag v2", () => {
     assert.equal(parsed!.travelMode, "car");
     assert.equal(parsed!.splitCount, 4);
   });
+
+  it("encodes last-minute upsell flag", () => {
+    const tag = buildYcLeadTag({
+      service: "events",
+      source: "/book",
+      lastMinuteUpsell: true,
+      sessionPriority: "timing_stress",
+    });
+    assert.match(tag, /lmUpsell=1/);
+    const parsed = parseYcLeadTag(tag);
+    assert.equal(parsed!.lastMinuteUpsell, true);
+    assert.equal(parsed!.sessionPriority, "timing_stress");
+  });
 });

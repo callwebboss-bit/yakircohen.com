@@ -8,7 +8,7 @@ import type { LeadSubmitIntent, LeadSubmitState } from "@/hooks/useLeadSubmit";
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import type { ValidationResult } from "@/lib/form-validation";
 import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
-import type { BookCategoryId } from "@/lib/book-url";
+import { parseBookCategoryFromHash, parseBookWizardStepFromHash, type BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { clearBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 
@@ -100,7 +100,22 @@ export type WizardConfig<TForm> = {
   /** Persist wizard step in localStorage draft envelope */
   persistStepInDraft?: boolean;
   maxStep?: number;
+  /** כשמוגדר — `#category/step/N` (Session Rescuer) גובר על step בטיוטה */
+  resumeCategory?: BookCategoryId;
 };
+
+function resolveResumeStep(
+  category: BookCategoryId | undefined,
+  maxStep: number,
+  draftStep: number,
+): number {
+  if (typeof window === "undefined" || !category) return draftStep;
+  const hashCat = parseBookCategoryFromHash(window.location.hash);
+  if (hashCat !== category) return draftStep;
+  const hashStep = parseBookWizardStepFromHash(window.location.hash);
+  if (hashStep == null) return draftStep;
+  return Math.min(Math.max(0, hashStep), maxStep);
+}
 
 export function useBookingWizard<
   TForm extends { selectedUpsells?: string[]; selectedUpgrades?: string[] },
@@ -156,13 +171,17 @@ export function useBookingWizard<
         dispatch({ type: "SET_FORM", form });
         dispatch({
           type: "SET_STEP",
-          step: Math.min(Math.max(0, step), config.maxStep ?? 99),
+          step: resolveResumeStep(
+            config.resumeCategory,
+            config.maxStep ?? 99,
+            step,
+          ),
         });
       } else {
         dispatch({ type: "SET_FORM", form: value });
       }
     },
-    [config.parseDraft, config.persistStepInDraft, config.maxStep],
+    [config.parseDraft, config.persistStepInDraft, config.maxStep, config.resumeCategory],
   );
 
   const draft = useBookingDraft(

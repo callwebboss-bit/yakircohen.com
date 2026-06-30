@@ -70,6 +70,15 @@ export function parseBookCategoryFromHash(hash: string): BookCategoryId | null {
   return VALID_CATEGORIES.has(id) ? (id as BookCategoryId) : null;
 }
 
+/** מפרק `#studio/step/2` → 2 (לחזרה מ-Session Rescuer) */
+export function parseBookWizardStepFromHash(hash: string): number | null {
+  const parts = hash.replace(/^#/, "").trim().split("/").filter(Boolean);
+  const stepIdx = parts.findIndex((p) => p === "step");
+  if (stepIdx === -1 || stepIdx + 1 >= parts.length) return null;
+  const n = Number.parseInt(parts[stepIdx + 1] ?? "", 10);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
 export function parseBookCategoryFromPathname(pathname: string): BookCategoryId | null {
   const match = pathname.match(/^\/book\/([^/]+)\/?$/);
   if (!match?.[1]) return null;

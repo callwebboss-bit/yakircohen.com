@@ -11,7 +11,6 @@ import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
 import { withVat } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
-  buildStudioGuidelinesLine,
   buildStudioParticipantsBlock,
   buildStudioPricingEstimateBlock,
   buildStudioScheduleDisplayLabel,
@@ -76,13 +75,14 @@ export type BookingWhatsAppBodyOptions = {
   ycDeferred?: string | null;
   ycRecipientHint?: string | null;
   ycConfigVersion?: number | null;
-  /** גל D — מטא CRO לפיצול הודעת WA (אולפן בלבד) */
+  /** גל D - מטא CRO לפיצול הודעת WA (אולפן בלבד) */
   studioCro?: StudioCloserCroInput | null;
   scheduleDisplayLabel?: string | null;
   ycSessionPriority?: string | null;
   ycWelcomePerk?: string | null;
   ycTravelMode?: string | null;
   ycSplitCount?: number | null;
+  ycLastMinuteUpsell?: boolean | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -153,6 +153,7 @@ export function buildBookingWhatsAppBody({
   ycWelcomePerk,
   ycTravelMode,
   ycSplitCount,
+  ycLastMinuteUpsell,
 }: BookingWhatsAppBodyOptions): string {
   const resolvedCloser =
     closerServiceId ??
@@ -320,6 +321,9 @@ export function buildBookingWhatsAppBody({
     ycDeferred,
     ycRecipientHint,
     ycConfigVersion,
+    ycSessionPriority,
+    ycWelcomePerk,
+    ycLastMinuteUpsell,
     extraBlocks,
   });
 }

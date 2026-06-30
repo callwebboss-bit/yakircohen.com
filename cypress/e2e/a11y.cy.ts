@@ -25,7 +25,8 @@ describe("Accessibility - axe-core WCAG 2.1 AA", () => {
 
       cy.readFile(AXE_SCRIPT).then((axeSource: string) => {
         cy.window().then((win) => {
-          win.eval(axeSource);
+          // axe injected at runtime — not part of app bundle
+          (win as unknown as { eval: (source: string) => void }).eval(axeSource);
         });
       });
 

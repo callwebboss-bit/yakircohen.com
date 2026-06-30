@@ -11,6 +11,14 @@ import {
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { cn } from "@/lib/utils";
 
+function isDismissedForDraft(category: RescuableDraft["category"], savedAt: string): boolean {
+  try {
+    return sessionStorage.getItem(sessionRescuerDismissKey(category)) === savedAt;
+  } catch {
+    return false;
+  }
+}
+
 export default function SessionRescuerBar() {
   const pathname = usePathname();
   const [draft, setDraft] = useState<RescuableDraft | null>(null);
@@ -28,18 +36,14 @@ export default function SessionRescuerBar() {
       setVisible(false);
       return;
     }
-    try {
-      if (sessionStorage.getItem(sessionRescuerDismissKey(found.category)) === "1") {
-        setDraft(found);
-        setVisible(false);
-        return;
-      }
-    } catch {
-      /* private mode */
+    if (isDismissedForDraft(found.category, found.savedAt)) {
+      setDraft(found);
+      setVisible(false);
+      return;
     }
     setDraft(found);
     setVisible(true);
-    const trackKey = `${found.category}:${found.step}`;
+    const trackKey = `${found.category}:${found.step}:${found.savedAt}`;
     if (shownRef.current !== trackKey) {
       shownRef.current = trackKey;
       trackConversion("session_rescuer_shown", {
@@ -54,14 +58,23 @@ export default function SessionRescuerBar() {
     const onStorage = (e: StorageEvent) => {
       if (e.key?.startsWith("yakir-booking-draft:")) refresh();
     };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [refresh]);
 
   const dismiss = useCallback(() => {
     if (!draft) return;
     try {
-      sessionStorage.setItem(sessionRescuerDismissKey(draft.category), "1");
+      sessionStorage.setItem(sessionRescuerDismissKey(draft.category), draft.savedAt);
     } catch {
       /* ignore */
     }
@@ -84,7 +97,7 @@ export default function SessionRescuerBar() {
         <p className="text-sm text-foreground">
           התחלתם להרכיב{" "}
           <span className="font-semibold">{draft.packageLabel}</span>. השארנו את
-          המקום פנוי — ממשיכים משלב {draft.stepLabel}?
+          המקום פנוי - ממשיכים משלב {draft.stepLabel}?
         </p>
         <div className="flex shrink-0 gap-2">
           <button

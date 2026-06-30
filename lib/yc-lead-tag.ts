@@ -48,6 +48,8 @@ export type YcLeadTagInput = {
   welcomePerk?: string | null;
   travelMode?: string | null;
   splitCount?: number | null;
+  /** מבצע סגירה (הקלטה / צילום וכו') */
+  lastMinuteUpsell?: boolean | null;
 };
 
 /** מיפוי תשובה רגשית מכרטיס /book ל-id בקלוזר */
@@ -116,6 +118,7 @@ export function buildYcLeadTag({
   welcomePerk,
   travelMode,
   splitCount,
+  lastMinuteUpsell,
 }: YcLeadTagInput): string {
   const parts = [`service=${service}`];
   if (price !== undefined && price !== null && price > 0) {
@@ -157,10 +160,12 @@ export function buildYcLeadTag({
   if (splitCount !== undefined && splitCount !== null && splitCount >= 2) {
     parts.push(`split=${splitCount}`);
   }
+  if (lastMinuteUpsell) parts.push("lmUpsell=1");
   const hasCroFields =
     !!sessionPriority ||
     !!welcomePerk ||
     !!travelMode ||
+    !!lastMinuteUpsell ||
     (splitCount != null && splitCount >= 2);
   const v2 =
     wizardDepth ||
@@ -216,6 +221,7 @@ export type ParsedYcLeadTag = {
   welcomePerk: string | null;
   travelMode: string | null;
   splitCount: number | null;
+  lastMinuteUpsell: boolean;
 };
 
 export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
@@ -254,5 +260,6 @@ export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
     welcomePerk: map.perk ?? null,
     travelMode: map.travel ?? null,
     splitCount: map.split ? Number(map.split) : null,
+    lastMinuteUpsell: map.lmUpsell === "1",
   };
 }

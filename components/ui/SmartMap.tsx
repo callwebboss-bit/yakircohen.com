@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export type SmartMapProps = {
@@ -66,10 +67,13 @@ export default function SmartMap({
     >
       {/* Background */}
       {thumbnailUrl ? (
-        <img
+        <Image
           src={thumbnailUrl}
           alt={`תמונת מפה - ${address}`}
-          className="h-full w-full object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+          priority={false}
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-surface to-border">
