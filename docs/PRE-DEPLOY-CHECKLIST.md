@@ -45,6 +45,11 @@
 - [ ] **Google Search Console** -- [GSC-CHECKLIST.md](./GSC-CHECKLIST.md)
 - [ ] **בדיקה ידנית בנייד** -- דף בית, פודקאסט, DJ, contact, מחשבונים
 
+### אבטחה ו-CSP (גל ד' CRO)
+
+- [ ] **CSP / GTM / Meta Pixel** - `app/layout.tsx` טוען GTM ו-fbq; לוודא בדפדפן שאין חסימות CSP בפרודקשן לפני קמפיין retargeting על משפך `/book`
+- [ ] **lead-notify rate limit** - 8 בקשות לדקה ל-IP (in-memory) פעיל ב-`app/api/lead-notify/route.ts`
+
 ### SEO ותוכן
 
 - [ ] **מאמרי בלוג** -- `lib/data/blog.ts` (מוגדרים בקוד, לא MDX)

@@ -71,7 +71,9 @@ export const NAV_HUBS = [
 ] as const;
 
 /** Footer-only links (trust links live in FOOTER_SEMANTIC_TREE column 5) */
-export const FOOTER_EXTRA_LINKS: readonly { href: string; label: string }[] = [];
+export const FOOTER_EXTRA_LINKS: readonly { href: string; label: string }[] = [
+  { href: "/podcast", label: "מרכז הפודקאסט" },
+];
 
 export const FOOTER_LEGAL_LINKS = [
   { href: "/privacy", label: "מדיניות פרטיות" },

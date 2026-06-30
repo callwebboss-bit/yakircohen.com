@@ -43,4 +43,12 @@ describe("shared-contact", () => {
     assert.equal(merged.phone, "0509999999");
     clearBookCoreContact();
   });
+
+  it("studio contact prefill flows into empty events draft fields", () => {
+    saveBookCoreContact({ name: "יעל מהאולפן", phone: "0501234567" });
+    const eventsDraft = mergeCoreContactIntoDraft({ name: "", phone: "" });
+    assert.equal(eventsDraft.name, "יעל מהאולפן");
+    assert.equal(eventsDraft.phone, "0501234567");
+    clearBookCoreContact();
+  });
 });

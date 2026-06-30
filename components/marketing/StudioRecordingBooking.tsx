@@ -105,8 +105,7 @@ import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
-import WizardIdleHelpBubble from "@/components/booking/WizardIdleHelpBubble";
-import WizardExitIntentModal from "@/components/booking/WizardExitIntentModal";
+import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
 import {
   StudioBusinessFields,
   StudioCostSplitBlock,
@@ -2083,20 +2082,19 @@ export default function StudioRecordingBooking({
         onComplete={completeStep3Transition}
         onAbort={() => setStep3Transition(false)}
       />
-      <WizardIdleHelpBubble
-        visible={wizardIdle && !!escapeWaHref}
-        waHref={escapeWaHref}
-        onDismiss={dismissWizardIdle}
-      />
-      <WizardExitIntentModal
-        open={exitIntentOpen}
+      <WizardCroShell
+        config={STUDIO_CRO_CONFIG}
+        exitIntentOpen={exitIntentOpen}
         packageLabel={activePackage?.name ?? "הקלטה באולפן"}
         totalExVat={total}
-        onContinue={() => {
+        onContinueExit={() => {
           setExitIntentOpen(false);
           scrollToBookWizardPanelAndFocusStep(step);
         }}
-        onClose={() => setExitIntentOpen(false)}
+        onCloseExit={() => setExitIntentOpen(false)}
+        idleVisible={wizardIdle}
+        escapeWaHref={escapeWaHref}
+        onDismissIdle={dismissWizardIdle}
       />
     </div>
   );

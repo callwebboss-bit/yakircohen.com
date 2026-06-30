@@ -12,6 +12,10 @@ type WizardExitIntentModalProps = {
   totalExVat: number;
   onContinue: () => void;
   onClose: () => void;
+  title?: string;
+  body?: string;
+  continueCta?: string;
+  dismissCta?: string;
 };
 
 export default function WizardExitIntentModal({
@@ -20,6 +24,10 @@ export default function WizardExitIntentModal({
   totalExVat,
   onContinue,
   onClose,
+  title = BOOK_WIZARD_COPY.exitIntentTitle,
+  body = BOOK_WIZARD_COPY.exitIntentBody,
+  continueCta = BOOK_WIZARD_COPY.exitIntentCta,
+  dismissCta = BOOK_WIZARD_COPY.exitIntentDismiss,
 }: WizardExitIntentModalProps) {
   useEffect(() => {
     if (!open) return;
@@ -56,10 +64,10 @@ export default function WizardExitIntentModal({
       />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-background p-6 shadow-2xl">
         <h2 id="wizard-exit-title" className="text-lg font-semibold text-foreground">
-          {BOOK_WIZARD_COPY.exitIntentTitle}
+          {title}
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          {BOOK_WIZARD_COPY.exitIntentBody}
+          {body}
         </p>
         {totalExVat > 0 ? (
           <p className="mt-3 rounded-xl bg-surface px-4 py-3 text-sm text-foreground">
@@ -78,14 +86,14 @@ export default function WizardExitIntentModal({
               "min-h-12 flex-1 rounded-xl bg-[var(--service-accent,#d42b2b)] px-4 py-3 text-sm font-semibold text-white hover:opacity-90",
             )}
           >
-            {BOOK_WIZARD_COPY.exitIntentCta}
+            {continueCta}
           </button>
           <button
             type="button"
             onClick={handleDismiss}
             className="min-h-12 flex-1 rounded-xl border border-border px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
           >
-            {BOOK_WIZARD_COPY.exitIntentDismiss}
+            {dismissCta}
           </button>
         </div>
       </div>

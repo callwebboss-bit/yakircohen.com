@@ -67,7 +67,7 @@ import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
 import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
-import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
+import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
 import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -186,6 +186,8 @@ export default function EventsBookingWizard({
     persistStepInDraft: true,
     maxStep: 2,
   });
+
+  const trackFunnel = useWizardFunnel("events");
 
   const { honeypot, setHoneypot, globalError } = guard;
 
@@ -439,12 +441,11 @@ export default function EventsBookingWizard({
   );
 
   const handleGhostLeadFired = useCallback(() => {
-    trackBookWizardFunnel("GhostLead_Fired", {
-      category: "events",
+    trackFunnel("GhostLead_Fired", {
       package_id: form.selected.join(",") || "",
       step: 3,
     });
-  }, [form.selected]);
+  }, [form.selected, trackFunnel]);
 
   useWizardGhostLead({
     category: "events",
@@ -474,8 +475,7 @@ export default function EventsBookingWizard({
       scrollAndHighlightFirstError();
       return;
     }
-    trackBookWizardFunnel("WhatsApp_Click", {
-      category: "events",
+    trackFunnel("WhatsApp_Click", {
       package_id: form.selected.join(",") || "",
       step: 3,
       intent,
@@ -857,8 +857,7 @@ export default function EventsBookingWizard({
 
           <StepNav
             onNext={() => {
-              trackBookWizardFunnel("Step1_Complete", {
-                category: "events",
+              trackFunnel("Step1_Complete", {
                 package_id: form.selected.join(",") || "",
                 step: 1,
               });
@@ -935,8 +934,7 @@ export default function EventsBookingWizard({
           <StepNav
             onBack={() => setStep(0)}
             onNext={() => {
-              trackBookWizardFunnel("Step2_PackageSelected", {
-                category: "events",
+              trackFunnel("Step2_PackageSelected", {
                 package_id: form.selected.join(",") || "",
                 step: 2,
               });
