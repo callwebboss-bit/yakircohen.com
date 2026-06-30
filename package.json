@@ -19,7 +19,7 @@
     "sync:blog-slugs": "node scripts/sync-blog-slugs.mjs",
     "vercel-build": "node scripts/guard-no-local-tools-deploy.mjs && tsx scripts/validate-coupon-offers.ts && npm run generate:schema && npm run sync:blog-slugs && npm run build:full",
     "guard:local-tools": "node scripts/guard-no-local-tools-deploy.mjs",
-    "index:search": "node scripts/prepare-pagefind.mjs && pagefind --site .pagefind-src --output-path public/pagefind --force-language he && node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){console.warn('[index:search] cleanup skipped:',e.message)}\"",
+    "index:search": "node scripts/prepare-pagefind.mjs && node scripts/run-pagefind.mjs && node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){console.warn('[index:search] cleanup skipped:',e.message)}\"",
     "start": "next start",
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint",
     "test": "node --import tsx --test hooks/useBookFlow.test.ts hooks/useBookingWizard.test.ts hooks/useLeadSubmit.test.ts lib/studio-form-draft.test.ts lib/studio-package-fit.test.ts lib/studio-split-booking-message.test.ts lib/book-wizard-urgency.test.ts lib/book-wizard-cro/shared-contact.test.ts lib/book-wizard-cro/urgency.test.ts lib/book-wizard-cro/types.test.ts lib/book-wizard-cro/useWizardGhostLead.test.ts lib/events-form-draft.test.ts lib/singer-form-draft.test.ts lib/reply-copy-builders.test.ts lib/closer-deep-link.test.ts lib/yc-lead-tag.test.ts lib/progressive-booking-message.test.ts lib/voice-search-intents.test.ts lib/mashup-copy-humanize.test.ts lib/data/pricing-book-map.test.ts lib/data/coupon-offers.test.ts lib/coupon-banner-storage.test.ts",
