@@ -20,6 +20,7 @@ import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import WizardCouponPriceLine from "@/components/booking/WizardCouponPriceLine";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
@@ -739,7 +740,7 @@ export default function PodcastBookingWizard({
                   +{form.overtimeBlocks * 30} דק׳ הקלטה נוספת
                 </p>
               ) : null}
-              <PriceWithVat amountExVat={packageTotal} size="lg" className="mt-4" />
+              <WizardCouponPriceLine totalExVat={packageTotal} size="lg" className="mt-4" />
             </div>
             <div className="space-y-4">
               <BookWhatHappensNext />

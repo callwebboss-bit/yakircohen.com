@@ -367,6 +367,10 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
     href: "/events",
     children: [
       { label: "מרכז אירועים", href: "/events" },
+      { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine" },
+      { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
+      { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
+      { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
       { label: "ציוד הגברה", href: "/events/equipment" },
       { label: "השכרת ציוד הגברה", href: "/events/equipment/dry-hire" },
       { label: "תכנון EASE / SMAART", href: "/events/equipment/system-tuning" },
@@ -518,7 +522,7 @@ const HEADER_PODCAST_NAV: SiteNavCategory = {
   label: "פודקאסט",
   href: "/podcast",
   featured: [
-    { label: "עריכת פודקאסט — 24 שעות", href: "/podcast/podcast-editing" },
+    { label: "עריכת פודקאסט - 24 שעות", href: "/podcast/podcast-editing" },
     { label: "פודקאסט נייד עד אליכם", href: "/podcast/mobile-podcast-at-home" },
     { label: "הקלטה באולפן (וידאו ואודיו)", href: "/podcast/podcast-recording" },
   ],
@@ -526,7 +530,7 @@ const HEADER_PODCAST_NAV: SiteNavCategory = {
     {
       label: "השכרת סטודיו במודיעין",
       href: "/podcast/podcast-studio-modiin",
-      description: "הקלטה באולפן — חצי שעה 750 ₪",
+      description: "הקלטה באולפן - חצי שעה 750 ₪",
     },
     {
       label: "אולפן שירות עצמי",
@@ -555,16 +559,16 @@ const HEADER_EVENTS_NAV: SiteNavCategory = {
   href: "/events",
   featured: [
     { label: "DJ לחתונה ואירועי חברה", href: "/events/dj-events" },
-    {
-      label: "חבילות אטרקציות",
-      href: "/events/wedding-attractions-packages",
-    },
-    { label: "תופים אלקטרוניים ו-LED", href: "/events/stage-led-dj" },
+    { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine" },
+    { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
   ],
   children: [
     { label: "כל שירותי האירועים", href: "/events" },
-    { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
+    { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine", description: "כניסה, פתיחת ריקודים" },
+    { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine", description: "אפקט ויזואלי לרחבה" },
+    { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon", description: "רגע השיא של הערב" },
     { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
+    { label: "חבילות DJ ואטרקציות", href: "/events/wedding-attractions-packages" },
     { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
     { label: "DJ בשוהם", href: "/dj-events/cities/shoham" },
     { label: "DJ ברחובות", href: "/dj-events/cities/rehovot" },
@@ -584,7 +588,7 @@ export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
   { kind: "link", label: "מחירון", href: "/pricing" },
 ];
 
-/** AI, קריינות, עסקים ושירותים משניים — dropdown מוגבל (לא מחליף SITE_NAVIGATION) */
+/** AI, קריינות, עסקים ושירותים משניים - dropdown מוגבל (לא מחליף SITE_NAVIGATION) */
 export const HEADER_MORE_SERVICES_NAV: SiteNavCategory = {
   id: "pro",
   label: "עוד",
@@ -609,7 +613,7 @@ export const HEADER_MORE_SERVICES_NAV: SiteNavCategory = {
   ],
 };
 
-/** קיצורי דרך לשירותים נבחרים — מובייל drawer */
+/** קיצורי דרך לשירותים נבחרים - מובייל drawer */
 export const HEADER_FEATURED_QUICK_LINKS: readonly SiteNavLink[] = [
   ...HEADER_STUDIO_NAV.featured!,
   ...HEADER_PODCAST_NAV.featured!,

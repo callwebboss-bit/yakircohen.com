@@ -1,7 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { BOOK_WIZARD_COPY, STUDIO_QUICK_UPGRADE_IDS } from "@/lib/data/book-wizard-copy";
+import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
+import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
+import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
+import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
+import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
+import { WizardLastMinuteUpsell, WizardParkingBanner } from "@/components/booking/cro/WizardCroExtras";
 import { STUDIO_RECORDING_UPGRADES, type StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import { calcStudioPackageFitPct } from "@/lib/studio-package-fit";
 import { formatNis } from "@/lib/data/pricing";
@@ -109,7 +114,7 @@ export function StudioUpgradeQuickPills({
               aria-pressed={active}
               onClick={() => onToggle(pill.id)}
               className={cn(
-                "min-h-10 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                "min-h-12 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
                 active
                   ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)]/10 text-[var(--service-accent,#d42b2b)]"
                   : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/40",
@@ -366,76 +371,72 @@ export function StudioTravelModeToggle({
 }
 
 export function StudioParkingBanner() {
-  return (
-    <div
-      className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-900"
-      role="status"
-    >
-      {BOOK_WIZARD_COPY.parkingBanner}
-    </div>
-  );
+  const copy = STUDIO_CRO_CONFIG.parkingCopy;
+  if (!copy) return null;
+  return <WizardParkingBanner copy={copy} />;
 }
-
-const TRANSITION_MS = 1200;
-const MESSAGE_INTERVAL_MS = 400;
 
 export function WizardStepTransitionOverlay({
   active,
   onComplete,
+  onAbort,
 }: {
   active: boolean;
   onComplete: () => void;
+  onAbort?: () => void;
 }) {
-  const [messageIndex, setMessageIndex] = useState(0);
-  const messages = BOOK_WIZARD_COPY.transitionMessages;
-
-  useEffect(() => {
-    if (!active) {
-      setMessageIndex(0);
-      return undefined;
-    }
-
-    const reducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reducedMotion) {
-      onComplete();
-      return undefined;
-    }
-
-    const messageTimer = window.setInterval(() => {
-      setMessageIndex((i) => (i + 1) % messages.length);
-    }, MESSAGE_INTERVAL_MS);
-
-    const doneTimer = window.setTimeout(() => {
-      onComplete();
-    }, TRANSITION_MS);
-
-    return () => {
-      window.clearInterval(messageTimer);
-      window.clearTimeout(doneTimer);
-    };
-  }, [active, onComplete, messages.length]);
-
-  if (!active) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-    >
-      <div className="mx-4 w-full max-w-sm rounded-2xl border border-border bg-surface px-6 py-8 text-center shadow-lg">
-        <div
-          className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-[var(--service-accent,#d42b2b)] border-t-transparent"
-          aria-hidden="true"
-        />
-        <p className="text-sm font-medium text-foreground transition-opacity duration-200">
-          {messages[messageIndex]}
-        </p>
-      </div>
+    <WizardStepTransitionSkeleton
+      active={active}
+      messages={STUDIO_CRO_CONFIG.transitionMessages}
+      onComplete={onComplete}
+      onAbort={onAbort}
+    />
+  );
+}
+
+export function StudioDecoyVipCard({ waHref }: { waHref: string }) {
+  const decoy = STUDIO_CRO_CONFIG.decoy;
+  if (!decoy) return null;
+  return (
+    <WizardDecoyCard
+      decoy={decoy}
+      escapeWaHref={waHref}
+      className="lg:col-span-2"
+    />
+  );
+}
+
+export function StudioPitchSafetyBadge() {
+  const reassurance = STUDIO_CRO_CONFIG.reassuranceByAnxiety.vocal_fix;
+  if (!reassurance) return null;
+  return (
+    <div className="min-h-[72px]">
+      <WizardReassuranceBadge reassurance={reassurance} />
     </div>
+  );
+}
+
+export function WizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
+  return <WizardStep3HoldTimerBase category="studio" deadlineMs={deadlineMs} />;
+}
+
+export function StudioLastMinuteBtsOffer({
+  checked,
+  onChange,
+  disabled,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  disabled?: boolean;
+}) {
+  const label = STUDIO_CRO_CONFIG.lastMinuteUpsell?.label ?? BOOK_WIZARD_COPY.lastMinuteBtsLabel;
+  return (
+    <WizardLastMinuteUpsell
+      label={label}
+      checked={checked}
+      onChange={onChange}
+      disabled={disabled}
+    />
   );
 }

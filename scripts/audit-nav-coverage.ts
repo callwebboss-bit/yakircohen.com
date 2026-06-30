@@ -12,16 +12,12 @@ import {
   SITE_GLOBAL_LINKS,
   type SiteNavCategory,
 } from "../lib/site-architecture";
-import { FOOTER_SEMANTIC_TREE } from "../lib/seo-footer-links";
+import { collectFooterNavPaths } from "../lib/footer-category-tree";
 import {
   PROTECTED_PATHS,
   MIN_HUB_SUPPORT_LINKS,
 } from "../lib/seo/protected-paths";
-import {
-  FOOTER_EXTRA_LINKS,
-  FOOTER_LEGAL_LINKS,
-  NAV_HUBS,
-} from "../lib/constants";
+import { FOOTER_EXTRA_LINKS } from "../lib/constants";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -102,18 +98,10 @@ function collectHeaderPaths(): Set<string> {
 
 function collectFooterPaths(): Set<string> {
   const footerPaths = new Set<string>();
-  for (const section of FOOTER_SEMANTIC_TREE) {
-    for (const link of section.links) {
-      footerPaths.add(normalizeHref(link.href));
-    }
+  for (const href of collectFooterNavPaths()) {
+    footerPaths.add(normalizeHref(href));
   }
   for (const link of FOOTER_EXTRA_LINKS) {
-    footerPaths.add(normalizeHref(link.href));
-  }
-  for (const link of FOOTER_LEGAL_LINKS) {
-    footerPaths.add(normalizeHref(link.href));
-  }
-  for (const link of NAV_HUBS) {
     footerPaths.add(normalizeHref(link.href));
   }
   return footerPaths;

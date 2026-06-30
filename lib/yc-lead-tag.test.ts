@@ -48,4 +48,25 @@ describe("yc-lead-tag v2", () => {
     const parsed = parseYcLeadTag(tag);
     assert.equal(parsed!.celebrant, "יונתן כהן");
   });
+
+  it("encodes wave D CRO fields", () => {
+    const tag = buildYcLeadTag({
+      service: "recording",
+      source: "/book",
+      sessionPriority: "vocal_fix",
+      welcomePerk: "coffee",
+      travelMode: "car",
+      splitCount: 4,
+      configVersion: 3,
+    });
+    assert.match(tag, /anxiety=vocal_fix/);
+    assert.match(tag, /perk=coffee/);
+    assert.match(tag, /travel=car/);
+    assert.match(tag, /split=4/);
+    const parsed = parseYcLeadTag(tag);
+    assert.equal(parsed!.sessionPriority, "vocal_fix");
+    assert.equal(parsed!.welcomePerk, "coffee");
+    assert.equal(parsed!.travelMode, "car");
+    assert.equal(parsed!.splitCount, 4);
+  });
 });

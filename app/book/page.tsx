@@ -43,6 +43,7 @@ export default async function BookPage({
   const pkgParam = typeof sp.pkg === "string" ? sp.pkg : null;
   const itemParam = typeof sp.item === "string" ? sp.item : null;
   const catalogParam = typeof sp.catalog === "string" ? sp.catalog : null;
+  const couponParam = typeof sp.coupon === "string" ? sp.coupon : null;
   const utmCampaign =
     typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
   const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
@@ -77,6 +78,16 @@ export default async function BookPage({
           </Container>
         </Section>
 
+        <noscript>
+          <Container className="max-w-3xl py-6 text-sm text-muted-foreground">
+            <p>
+              הזמנה מקוונת באתר יקיר כהן: הקלטות באולפן במודיעין (מ-990 ₪), פודקאסט,
+              אטרקציות לאירועים, הגברה לזמרים, DJ, צילום ושיעורים פרטיים. מחירים
+              לפני מע״מ מוצגים בדף; אפשר לשלוח פרטים בוואטסאפ.
+            </p>
+          </Container>
+        </noscript>
+
         <TrustStatsBar />
 
         <BookAudienceCardsStatic />
@@ -85,6 +96,7 @@ export default async function BookPage({
           pkgParam={pkgParam}
           itemParam={itemParam}
           catalogParam={catalogParam}
+          couponParam={couponParam}
           utmCampaign={utmCampaign}
           utmContent={utmContent}
         />

@@ -43,6 +43,11 @@ export type YcLeadTagInput = {
   deferred?: string | null;
   recipientHint?: string | null;
   configVersion?: number | null;
+  /** גל D — פסיכולוגיית ליד מאשף אולפן */
+  sessionPriority?: string | null;
+  welcomePerk?: string | null;
+  travelMode?: string | null;
+  splitCount?: number | null;
 };
 
 /** מיפוי תשובה רגשית מכרטיס /book ל-id בקלוזר */
@@ -107,6 +112,10 @@ export function buildYcLeadTag({
   deferred,
   recipientHint,
   configVersion,
+  sessionPriority,
+  welcomePerk,
+  travelMode,
+  splitCount,
 }: YcLeadTagInput): string {
   const parts = [`service=${service}`];
   if (price !== undefined && price !== null && price > 0) {
@@ -142,14 +151,26 @@ export function buildYcLeadTag({
   if (scenarioHint) parts.push(`scenarioHint=${scenarioHint}`);
   if (deferred?.trim()) parts.push(`deferred=${deferred.trim().replace(/\|/g, ",")}`);
   if (recipientHint?.trim()) parts.push(`recipientHint=${recipientHint.trim()}`);
+  if (sessionPriority) parts.push(`anxiety=${sessionPriority}`);
+  if (welcomePerk) parts.push(`perk=${welcomePerk}`);
+  if (travelMode) parts.push(`travel=${travelMode}`);
+  if (splitCount !== undefined && splitCount !== null && splitCount >= 2) {
+    parts.push(`split=${splitCount}`);
+  }
+  const hasCroFields =
+    !!sessionPriority ||
+    !!welcomePerk ||
+    !!travelMode ||
+    (splitCount != null && splitCount >= 2);
   const v2 =
     wizardDepth ||
     scenarioChosen ||
     scenarioHint ||
     deferred?.trim() ||
     recipientHint?.trim() ||
+    hasCroFields ||
     (configVersion != null && configVersion > 1);
-  if (v2) parts.push(`configVersion=${configVersion ?? 2}`);
+  if (v2) parts.push(`configVersion=${configVersion ?? (hasCroFields ? 3 : 2)}`);
   parts.push(`source=${source}`, `step=${step}`);
   return `[YC:${parts.join("|")}]`;
 }
@@ -191,6 +212,10 @@ export type ParsedYcLeadTag = {
   deferred: string | null;
   recipientHint: string | null;
   configVersion: number | null;
+  sessionPriority: string | null;
+  welcomePerk: string | null;
+  travelMode: string | null;
+  splitCount: number | null;
 };
 
 export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
@@ -225,5 +250,9 @@ export function parseYcLeadTag(text: string): ParsedYcLeadTag | null {
     deferred: map.deferred ? decodeTagValue(map.deferred) : null,
     recipientHint: map.recipientHint ?? null,
     configVersion: map.configVersion ? Number(map.configVersion) : null,
+    sessionPriority: map.anxiety ?? null,
+    welcomePerk: map.perk ?? null,
+    travelMode: map.travel ?? null,
+    splitCount: map.split ? Number(map.split) : null,
   };
 }

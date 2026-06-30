@@ -6,9 +6,10 @@ import {
   getAudienceRouteById,
 } from "@/lib/data/book-audience-routes";
 import { useBookWizardLivePriceOptional } from "@/components/booking/BookWizardLivePrice";
+import { useBookCoupon } from "@/components/booking/BookCouponContext";
 import type { BookCategoryId } from "@/lib/book-url";
 import { withVat } from "@/lib/data/pricing";
-import { catalogWithVat } from "@/lib/data/pricing-catalog";
+import { applyCouponDiscountExVat } from "@/lib/data/coupon-offers";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -35,15 +36,16 @@ export default function BookStickyMobileBar({
   className,
 }: BookStickyMobileBarProps) {
   const livePrice = useBookWizardLivePriceOptional()?.livePrice;
+  const { offer } = useBookCoupon();
 
   if (!activeCategory) return null;
 
   const route = resolveRoute(activeCategory, activeRouteId);
   if (!route) return null;
-  const totalWithVat =
-    livePrice != null
-      ? withVat(livePrice.totalExVat)
-      : catalogWithVat(route.priceExVat);
+  const baseExVat =
+    livePrice != null ? livePrice.totalExVat : route.priceExVat;
+  const discountedExVat = applyCouponDiscountExVat(offer, baseExVat);
+  const totalWithVat = withVat(discountedExVat);
   const title = livePrice?.title ?? route.title;
   const waText = buildFastWhatsAppMessage(route);
   const waHref = buildWhatsAppHref({

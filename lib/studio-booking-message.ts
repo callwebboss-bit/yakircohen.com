@@ -6,6 +6,18 @@ import { formatNis } from "@/lib/data/pricing";
 import { formatPriceLine } from "@/lib/data/pricing-catalog";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
+  CLOSER_ANXIETY_SHORT,
+  CLOSER_PERK_SHORT,
+  CLOSER_TRAVEL_SHORT,
+} from "@/lib/data/book-wizard-copy";
+import type {
+  ProjectModeId,
+  SessionPriorityId,
+  TravelModeId,
+  WelcomePerkId,
+} from "@/lib/studio-form-draft";
+import { appendYcLeadTag, type YcLeadTagInput } from "@/lib/yc-lead-tag";
+import {
   STUDIO_RECORDING_MAX,
   STUDIO_SAVINGS_TIP_THRESHOLD,
 } from "@/lib/data/studio-recording-booking";
@@ -138,4 +150,97 @@ export function resolveStudioLeadPriceExVat(ctx: StudioLeadMessageContext): numb
 
 export function buildStudioPriceLine(exVat: number, label?: string): string {
   return formatPriceLine(exVat, label);
+}
+
+/** מפריד בין חלק א' (אישור הגולש) לחלק ב' (צ'יטים ל-Closer) */
+export const STUDIO_WA_PART_SEPARATOR = "---";
+
+export type StudioCloserCroInput = {
+  sessionPriority: SessionPriorityId;
+  welcomePerk: WelcomePerkId;
+  travelMode: TravelModeId;
+  splitCostEnabled: boolean;
+  splitCostCount: number;
+  location: "modiin" | "mobile";
+  projectMode?: ProjectModeId;
+  recorderCount?: number;
+};
+
+export function buildStudioScheduleDisplayLabel(parts: {
+  scheduleWindow?: string | null;
+  date?: string;
+  time?: string;
+  scheduleSummary?: string;
+}): string {
+  const chunks: string[] = [];
+  if (parts.scheduleSummary?.trim()) chunks.push(parts.scheduleSummary.trim());
+  if (parts.date?.trim()) chunks.push(parts.date.trim());
+  if (parts.time?.trim()) chunks.push(parts.time.trim());
+  return chunks.join(" · ") || "יתואם בוואטסאפ";
+}
+
+/** חלק א' — מה שהגולש רואה ומאשר לפני שליחה */
+export function buildStudioGuestConfirmBlock(opts: {
+  contact: { name: string; phone: string };
+  packageLabel: string;
+  scheduleLabel: string;
+}): string {
+  return [
+    `שלום ${opts.contact.name.trim()}, הנה מה שסיכמנו:`,
+    "",
+    `*שם:* ${opts.contact.name.trim()}`,
+    `*טלפון:* ${opts.contact.phone.trim()}`,
+    `*חבילה:* ${opts.packageLabel.trim()}`,
+    `*מועד:* ${opts.scheduleLabel.trim()}`,
+  ].join("\n");
+}
+
+/** חלק ב' — שורת צ'יטים קצרה ל-Closer */
+export function buildStudioCloserCheatSheet(cro: StudioCloserCroInput): string {
+  const tags: string[] = [];
+
+  if (cro.sessionPriority && cro.sessionPriority in CLOSER_ANXIETY_SHORT) {
+    tags.push(`[חרדה: ${CLOSER_ANXIETY_SHORT[cro.sessionPriority]}]`);
+  }
+  if (cro.welcomePerk && cro.welcomePerk in CLOSER_PERK_SHORT) {
+    tags.push(`[צ'ופר: ${CLOSER_PERK_SHORT[cro.welcomePerk]}]`);
+  }
+  if (cro.travelMode === "car" && cro.location === "modiin") {
+    tags.push(`[הגעה: ${CLOSER_TRAVEL_SHORT.car}]`);
+  } else if (cro.travelMode === "transit") {
+    tags.push(`[הגעה: ${CLOSER_TRAVEL_SHORT.transit}]`);
+  }
+  if (cro.splitCostEnabled && cro.splitCostCount >= 2) {
+    tags.push(`[תקציב: מתחלקים ${cro.splitCostCount} אנשים]`);
+  }
+  if (cro.projectMode === "business") {
+    tags.push("[פרויקט: עסקי]");
+  }
+  if ((cro.recorderCount ?? 0) >= 2) {
+    tags.push(`[קבוצה: ${cro.recorderCount} מקליטים]`);
+  }
+
+  return tags.join(" | ");
+}
+
+export function buildStudioSplitWhatsAppBody(opts: {
+  contact: { name: string; phone: string };
+  packageLabel: string;
+  scheduleLabel: string;
+  cro: StudioCloserCroInput;
+  ycTag: YcLeadTagInput;
+}): string {
+  const partA = buildStudioGuestConfirmBlock({
+    contact: opts.contact,
+    packageLabel: opts.packageLabel,
+    scheduleLabel: opts.scheduleLabel,
+  });
+  const partB = buildStudioCloserCheatSheet(opts.cro);
+
+  const sections = [partA];
+  if (partB.trim()) {
+    sections.push(STUDIO_WA_PART_SEPARATOR, partB);
+  }
+
+  return appendYcLeadTag(sections.join("\n"), opts.ycTag);
 }

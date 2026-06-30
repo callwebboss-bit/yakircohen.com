@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
@@ -14,6 +14,7 @@ import { BookWizardLivePriceProvider } from "@/components/booking/BookWizardLive
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import ProBookingPanel from "@/components/booking/ProBookingPanel";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
+import { BookCouponProvider } from "@/components/booking/BookCouponContext";
 import {
   AcademyBookingWizardLazy,
   ClipsBookingFormLazy,
@@ -202,12 +203,14 @@ export default function BookPageSections({
   pkgParam = null,
   itemParam = null,
   catalogParam = null,
+  couponParam = null,
   utmCampaign = null,
   utmContent = null,
 }: {
   pkgParam?: string | null;
   itemParam?: string | null;
   catalogParam?: string | null;
+  couponParam?: string | null;
 } & BookUtmBoostOptions) {
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
   const initialEventItemId = parseBookEventItemFromSearch(itemParam);
@@ -225,7 +228,19 @@ export default function BookPageSections({
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
+  useEffect(() => {
+    if (!activeCategory || (!catalogParam && !couponParam)) return;
+    const id = window.requestAnimationFrame(() => {
+      document.getElementById("book-wizard-panel")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [activeCategory, catalogParam, couponParam]);
+
   return (
+    <BookCouponProvider couponParam={couponParam}>
     <BookWizardLivePriceProvider>
     <>
       <BookAudienceRouter
@@ -358,5 +373,6 @@ export default function BookPageSections({
       </p>
     </>
     </BookWizardLivePriceProvider>
+    </BookCouponProvider>
   );
 }

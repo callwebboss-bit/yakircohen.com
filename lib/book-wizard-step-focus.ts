@@ -1,4 +1,4 @@
-/** כותרות שלבים בוויזארד אולפן — לפוקוס ונגישות אחרי מעבר שלב */
+/** כותרות שלבים בוויזארד אולפן - לפוקוס ונגישות אחרי מעבר שלב */
 export const STUDIO_WIZARD_STEP_HEADING_IDS = [
   "book-step-heading-0",
   "book-step-heading-1",

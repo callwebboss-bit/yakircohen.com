@@ -10,6 +10,7 @@ import type { ValidationResult } from "@/lib/form-validation";
 import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
 import type { BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { clearBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 
 export type BookingWizardState<TForm> = {
   step: number;
@@ -234,6 +235,7 @@ export function useBookingWizard<
           submit: { status: "success", waHref, intent },
         });
         draft.clear();
+        clearBookCoreContact();
         openWhatsAppLead(
           waHref,
           options?.leadCategory ? { leadCategory: options.leadCategory } : undefined,

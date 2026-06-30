@@ -70,6 +70,7 @@ export type StudioFormDraft = {
   sessionPriority: SessionPriorityId;
   welcomePerk: WelcomePerkId;
   travelMode: TravelModeId;
+  lastMinuteBtsDeal: boolean;
   termsAccepted: boolean;
   selectedUpsells?: string[];
 };
@@ -166,6 +167,7 @@ export function parseStudioFormDraft(
     sessionPriority: pickEnum(raw.sessionPriority, SESSION_PRIORITIES) ?? initial.sessionPriority,
     welcomePerk: pickEnum(raw.welcomePerk, WELCOME_PERKS) ?? initial.welcomePerk,
     travelMode: pickEnum(raw.travelMode, TRAVEL_MODES) ?? initial.travelMode,
+    lastMinuteBtsDeal: pickBoolean(raw.lastMinuteBtsDeal, initial.lastMinuteBtsDeal),
     termsAccepted: pickBoolean(raw.termsAccepted),
   };
 }

@@ -66,7 +66,14 @@ export function buildBookHref(
 }
 
 export function parseBookCategoryFromHash(hash: string): BookCategoryId | null {
-  const id = hash.replace(/^#/, "").trim();
+  const id = hash.replace(/^#/, "").trim().split("/")[0];
+  return VALID_CATEGORIES.has(id) ? (id as BookCategoryId) : null;
+}
+
+export function parseBookCategoryFromPathname(pathname: string): BookCategoryId | null {
+  const match = pathname.match(/^\/book\/([^/]+)\/?$/);
+  if (!match?.[1]) return null;
+  const id = match[1];
   return VALID_CATEGORIES.has(id) ? (id as BookCategoryId) : null;
 }
 

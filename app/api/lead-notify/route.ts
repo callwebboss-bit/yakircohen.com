@@ -11,6 +11,28 @@ import { SITE_URL } from "@/lib/site-url";
 
 const RESEND_API = "https://api.resend.com/emails";
 
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 8;
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function getClientIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0]?.trim() || "unknown";
+  return request.headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || entry.resetAt <= now) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  if (entry.count > RATE_LIMIT_MAX) return true;
+  return false;
+}
+
 const ALLOWED_ORIGINS = new Set([
   SITE_URL,
   "https://www.yakircohen.com",
@@ -62,6 +84,10 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!isAllowedRequest(request)) {
     return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+  }
+
+  if (isRateLimited(getClientIp(request))) {
+    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
   }
 
   if (!isConfigured()) {

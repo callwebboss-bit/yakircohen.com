@@ -23,6 +23,7 @@ import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import WizardCouponPriceLine from "@/components/booking/WizardCouponPriceLine";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
@@ -45,6 +46,8 @@ import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { formatNis, VAT_RATE, withVat } from "@/lib/data/pricing";
 import {
   buildStudioGuidelinesLine,
+  buildStudioScheduleDisplayLabel,
+  type StudioCloserCroInput,
   type StudioLeadMessageContext,
 } from "@/lib/studio-booking-message";
 import {
@@ -101,27 +104,49 @@ import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
+import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
+import WizardIdleHelpBubble from "@/components/booking/WizardIdleHelpBubble";
+import WizardExitIntentModal from "@/components/booking/WizardExitIntentModal";
 import {
   StudioBusinessFields,
   StudioCostSplitBlock,
+  StudioDecoyVipCard,
   StudioFitMeter,
+  StudioLastMinuteBtsOffer,
   StudioParkingBanner,
+  StudioPitchSafetyBadge,
   StudioProjectModeToggle,
   StudioSessionPriorityPills,
   StudioTravelModeToggle,
   StudioUpgradeQuickPills,
   StudioWelcomePerkPills,
   WizardInlinePriceBar,
+  WizardStep3HoldTimer,
   WizardStepTransitionOverlay,
 } from "@/components/booking/StudioWizardCroBlocks";
 import { useStudioGhostLead } from "@/hooks/useStudioGhostLead";
+import { useBookExitIntent } from "@/hooks/useBookExitIntent";
+import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
+import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
+import { useWizardHistory } from "@/hooks/useWizardHistory";
 import {
   BOOK_WIZARD_COPY,
   SESSION_PRIORITY_LABELS,
   TRAVEL_MODE_LABELS,
   WELCOME_PERK_LABELS,
 } from "@/lib/data/book-wizard-copy";
-import { buildStudioEscapeWhatsAppHref } from "@/lib/studio-partial-booking-message";
+import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
+import {
+  readStudioPriceHold,
+  saveStudioPriceHold,
+} from "@/lib/book-wizard-urgency";
+import { ensureHoldDeadline } from "@/lib/book-wizard-cro/urgency";
+import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
+import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
+import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
+import { calcUpgradesTotalExVat } from "@/lib/studio-upgrade-pricing";
+import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
@@ -298,13 +323,18 @@ export default function StudioRecordingBooking({
       sessionPriority: "",
       welcomePerk: "",
       travelMode: "",
+      lastMinuteBtsDeal: false,
       termsAccepted: false,
     }),
     [initialEmotionalLabel, initialRecordingTypeId, initialStudioPackageId],
   );
 
   const giftPresetApplied = useRef(false);
+  const coreContactMerged = useRef(false);
   const [step3Transition, setStep3Transition] = useState(false);
+  const [exitIntentOpen, setExitIntentOpen] = useState(false);
+  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
+  const [priceHoldLabel, setPriceHoldLabel] = useState<string | null>(null);
 
   const {
     step,
@@ -336,6 +366,27 @@ export default function StudioRecordingBooking({
   const { honeypot, setHoneypot, globalError } = guard;
 
   useBookWizardStep("studio", step);
+
+  useBookCoreContactBridge(form.name, form.phone);
+
+  useWizardHistory({
+    category: "studio",
+    step,
+    setStep,
+    enabled: !isSubmitted,
+  });
+
+  useEffect(() => {
+    if (coreContactMerged.current) return;
+    coreContactMerged.current = true;
+    const core = readBookCoreContact();
+    if (!core) return;
+    patchForm({
+      name: form.name.trim() ? form.name : core.name,
+      phone: form.phone.trim() ? form.phone : core.phone,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
 
   useEffect(() => {
     if (giftPresetApplied.current) return;
@@ -382,10 +433,9 @@ export default function StudioRecordingBooking({
     ? undefined
     : STUDIO_RECORDING_PACKAGES.find((p) => p.id === form.packageId);
   const activePackage = consultationPackage ?? selectedPackage;
-  const upgradesTotal = form.selectedUpgrades.reduce((sum, id) => {
-    const u = STUDIO_RECORDING_UPGRADES.find((x) => x.id === id);
-    return sum + (u?.price ?? 0);
-  }, 0);
+  const upgradesTotal = calcUpgradesTotalExVat(form.selectedUpgrades, {
+    lastMinuteBtsDeal: form.lastMinuteBtsDeal,
+  });
   const baseSubtotal = (activePackage?.price ?? 0) + upgradesTotal + mobileExVat;
   const isMotzash = form.scheduleWindow === "motzash";
   const parsedNotesParticipants = parseParticipantsFromText(form.notes);
@@ -666,7 +716,7 @@ export default function StudioRecordingBooking({
           {
             label: "הערות",
             value: sanitizeLeadText(
-              [form.customerNeed, form.notes].filter(Boolean).join(" — "),
+              [form.customerNeed, form.notes].filter(Boolean).join(" - "),
               500,
             ),
           },
@@ -721,7 +771,10 @@ export default function StudioRecordingBooking({
 
   const escapeWaHref = useMemo(
     () =>
-      buildStudioEscapeWhatsAppHref({
+      buildWizardEscapeHref({
+        category: "studio",
+        serviceLabel: STUDIO_CRO_CONFIG.serviceLabel,
+        formId: STUDIO_CRO_CONFIG.formId,
         summaryLines,
         priceExVat: total,
         packageLabel: activePackage?.name,
@@ -732,12 +785,21 @@ export default function StudioRecordingBooking({
     [summaryLines, total, activePackage?.name, form.name, form.phone, step],
   );
 
+  const handleGhostLeadFired = useCallback(() => {
+    trackBookWizardFunnel("GhostLead_Fired", {
+      category: "studio",
+      package_id: form.packageId || "",
+      step: 3,
+    });
+  }, [form.packageId]);
+
   useStudioGhostLead({
     step,
     name: form.name,
     phone: form.phone,
-    subject: "טיוטת הזמנת אולפן — שלב סגירה",
+    subject: "טיוטת הזמנת אולפן - שלב סגירה",
     body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    onFired: handleGhostLeadFired,
   });
 
   const ycBookingMeta = {
@@ -760,7 +822,47 @@ export default function StudioRecordingBooking({
     ycScenarioHint: form.scenarioChoice === "unsure" ? ("unsure" as const) : null,
     ycDeferred: deferredFields,
     ycRecipientHint: resolveRecipientHint(childrenCount, recorderCount),
+    ycSessionPriority: form.sessionPriority || null,
+    ycWelcomePerk: form.welcomePerk || null,
+    ycTravelMode: form.travelMode || null,
+    ycSplitCount: form.splitCostEnabled ? form.splitCostCount : null,
+    ycConfigVersion: 3,
   };
+
+  const studioCroMeta = useMemo<StudioCloserCroInput>(
+    () => ({
+      sessionPriority: form.sessionPriority,
+      welcomePerk: form.welcomePerk,
+      travelMode: form.travelMode,
+      splitCostEnabled: form.splitCostEnabled,
+      splitCostCount: form.splitCostCount,
+      location: form.location,
+      projectMode: form.projectMode,
+      recorderCount: recorderCount > 0 ? recorderCount : undefined,
+    }),
+    [
+      form.sessionPriority,
+      form.welcomePerk,
+      form.travelMode,
+      form.splitCostEnabled,
+      form.splitCostCount,
+      form.location,
+      form.projectMode,
+      recorderCount,
+    ],
+  );
+
+  const scheduleDisplayLabel = useMemo(
+    () =>
+      buildStudioScheduleDisplayLabel({
+        scheduleSummary: form.scheduleWindow
+          ? scheduleWindowSummaryLabel(form.scheduleWindow)
+          : undefined,
+        date: form.date,
+        time: form.time,
+      }),
+    [form.scheduleWindow, form.date, form.time],
+  );
 
   const previewBody =
     step === 2 && activePackage
@@ -785,6 +887,8 @@ export default function StudioRecordingBooking({
           bookCategory: "studio",
           includeTrustFooter: true,
           studioLead: studioLeadContext,
+          studioCro: studioCroMeta,
+          scheduleDisplayLabel,
           ...ycBookingMeta,
         })
       : undefined;
@@ -795,31 +899,109 @@ export default function StudioRecordingBooking({
   };
 
   const goToStep = (n: number) => {
+    if (n === 1 && step === 0) {
+      trackBookWizardFunnel("Step1_Complete", {
+        category: "studio",
+        recording_type: form.recordingType || "",
+      });
+    }
     setStep(n);
     scrollToBookWizardPanelAndFocusStep(n);
   };
 
   const completeStep3Transition = useCallback(() => {
     setStep3Transition(false);
+    setStep3HoldDeadline(ensureHoldDeadline("studio"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
 
   const beginStep3Transition = () => {
     if (!canAdvanceStep1) return;
+    trackBookWizardFunnel("Step2_PackageSelected", {
+      category: "studio",
+      package_id: form.packageId || "",
+      package_price: activePackage?.price ?? 0,
+    });
+
+    if (form.phone.trim()) {
+      const phoneCheck = validateBookingLead({
+        name: form.name,
+        phone: form.phone,
+        date: "",
+        time: "",
+        location: "",
+        notes: "",
+        requireLocation: false,
+        requireDate: false,
+        requireTime: false,
+      });
+      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
+        mergeErrors({ phone: phoneCheck.errors.phone });
+        scrollAndHighlightFirstError();
+        return;
+      }
+    }
+
     setStep3Transition(true);
   };
+
+  const handleLastMinuteBtsChange = (checked: boolean) => {
+    if (checked) {
+      const nextUpgrades: StudioUpgradeId[] = form.selectedUpgrades.includes("bts")
+        ? form.selectedUpgrades
+        : [...form.selectedUpgrades, "bts"];
+      patchForm({ lastMinuteBtsDeal: true, selectedUpgrades: nextUpgrades });
+      return;
+    }
+    patchForm({
+      lastMinuteBtsDeal: false,
+      selectedUpgrades: form.selectedUpgrades.filter((id) => id !== "bts"),
+    });
+  };
+
+  const showLastMinuteBtsOffer =
+    !isConsultation &&
+    (form.lastMinuteBtsDeal || !form.selectedUpgrades.includes("bts"));
 
   const showStudioParking =
     !typeFlow.hideLocation && form.location === "modiin";
 
-  const handleAction = (intent: "continue_chat" | "start_now") => {
-    if (!form.termsAccepted) {
-      mergeErrors({ terms: "יש לאשר את התנאים לפני שליחה" });
-      scrollAndHighlightFirstError();
-      return;
-    }
+  const showCroOverlays = !isSubmitted && step < 2;
 
+  useEffect(() => {
+    if (readStudioPriceHold()) {
+      setPriceHoldLabel(BOOK_WIZARD_COPY.priceHoldBadge);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (step === 2 && step3HoldDeadline === null) {
+      setStep3HoldDeadline(ensureHoldDeadline("studio"));
+    }
+  }, [step, step3HoldDeadline]);
+
+  const handleExitIntent = useCallback(() => {
+    if (activePackage && total > 0) {
+      saveStudioPriceHold({
+        packageLabel: activePackage.name,
+        totalExVat: total,
+      });
+      setPriceHoldLabel(BOOK_WIZARD_COPY.priceHoldBadge);
+    }
+    setExitIntentOpen(true);
+  }, [activePackage, total]);
+
+  useBookExitIntent({
+    enabled: showCroOverlays && !!activePackage && total > 0,
+    onTrigger: handleExitIntent,
+  });
+
+  const { idle: wizardIdle, dismiss: dismissWizardIdle } = useWizardUserIdle({
+    enabled: !isSubmitted && step <= 2,
+  });
+
+  const handleAction = (intent: "continue_chat" | "start_now") => {
     const fieldErrs = runSubmit(
       () =>
         validateBookingLead({
@@ -858,6 +1040,8 @@ export default function StudioRecordingBooking({
           bookCategory: "studio",
           includeTrustFooter: true,
           studioLead: studioLeadContext,
+          studioCro: studioCroMeta,
+          scheduleDisplayLabel,
           ...ycBookingMeta,
           ycIntent: intent,
         });
@@ -894,17 +1078,51 @@ export default function StudioRecordingBooking({
 
     if (fieldErrs && Object.keys(fieldErrs).length > 0) {
       scrollAndHighlightFirstError();
+      return;
     }
+
+    trackBookWizardFunnel("WhatsApp_Click", {
+      category: "studio",
+      package_id: form.packageId || "",
+      total_ex_vat: total,
+      last_minute_bts: form.lastMinuteBtsDeal,
+    });
+    void fireBookingConfetti();
   };
 
   const onSubmitClick = (intent: "continue_chat" | "start_now") => {
+    const nextErrors: Record<string, string> = {};
+
     const scheduleResult = validateScheduleWindow({
       scheduleWindow: form.scheduleWindow,
       date: form.date,
       time: form.time,
     });
     if (!scheduleResult.ok) {
-      mergeErrors(scheduleResult.errors);
+      Object.assign(nextErrors, scheduleResult.errors);
+    }
+
+    const leadResult = validateBookingLead({
+      name: form.name,
+      phone: form.phone,
+      date: form.date,
+      time: form.time,
+      location: "",
+      notes: form.notes,
+      requireLocation: false,
+      requireDate: false,
+      requireTime: false,
+    });
+    if (!leadResult.ok && leadResult.errors) {
+      Object.assign(nextErrors, leadResult.errors);
+    }
+
+    if (!form.termsAccepted) {
+      nextErrors.terms = "יש לאשר את התנאים לפני שליחה";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      mergeErrors(nextErrors);
       scrollAndHighlightFirstError();
       return;
     }
@@ -970,6 +1188,10 @@ export default function StudioRecordingBooking({
           style={{ width: `${progressPct}%` }}
         />
       </div>
+
+      {showCroOverlays ? (
+        <WizardUrgencyHint priceHoldLabel={priceHoldLabel} className="-mt-6" />
+      ) : null}
 
       <p className="sr-only" aria-live="polite">
         {stepAnnouncement}
@@ -1413,6 +1635,7 @@ export default function StudioRecordingBooking({
                   />
                 );
               })}
+              {!isConsultation ? <StudioDecoyVipCard waHref={escapeWaHref} /> : null}
             </div>
 
             {activePackage ? (
@@ -1523,6 +1746,9 @@ export default function StudioRecordingBooking({
       {step === 2 && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
+            {step3HoldDeadline ? (
+              <WizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
+            ) : null}
             <div className="rounded-2xl bg-surface p-5">
               <h2
                 id="book-step-heading-2"
@@ -1554,8 +1780,11 @@ export default function StudioRecordingBooking({
                   </li>
                 )}
               </ul>
-              <div className="mt-4 border-t border-border pt-3">
-                <PriceWithVat amountExVat={total} size="lg" />
+              <div className="mt-4 border-t border-border pt-3 space-y-2">
+                <WizardCouponPriceLine totalExVat={total} size="lg" />
+                {STUDIO_CRO_CONFIG.priceReframe ? (
+                  <WizardPriceReframe text={STUDIO_CRO_CONFIG.priceReframe} />
+                ) : null}
               </div>
             </div>
 
@@ -1641,6 +1870,8 @@ export default function StudioRecordingBooking({
                   onChange={(id) => patchForm({ sessionPriority: id })}
                 />
 
+                {form.sessionPriority === "vocal_fix" ? <StudioPitchSafetyBadge /> : null}
+
                 <StudioWelcomePerkPills
                   value={form.welcomePerk}
                   onChange={(id) => patchForm({ welcomePerk: id })}
@@ -1713,7 +1944,7 @@ export default function StudioRecordingBooking({
                               >
                                 <span className="font-semibold">{geo.label}</span>
                                 <span className="mt-0.5 block text-muted-foreground">
-                                  {price.toLocaleString("he-IL")} ₪ — {geo.detail}
+                                  {price.toLocaleString("he-IL")} ₪ - {geo.detail}
                                 </span>
                               </button>
                             );
@@ -1800,6 +2031,13 @@ export default function StudioRecordingBooking({
                 termsError={errors.terms}
               />
 
+              {showLastMinuteBtsOffer ? (
+                <StudioLastMinuteBtsOffer
+                  checked={form.lastMinuteBtsDeal}
+                  onChange={handleLastMinuteBtsChange}
+                />
+              ) : null}
+
               <BookingSubmitButton
                 onClick={() => onSubmitClick("continue_chat")}
               >
@@ -1843,6 +2081,22 @@ export default function StudioRecordingBooking({
       <WizardStepTransitionOverlay
         active={step3Transition}
         onComplete={completeStep3Transition}
+        onAbort={() => setStep3Transition(false)}
+      />
+      <WizardIdleHelpBubble
+        visible={wizardIdle && !!escapeWaHref}
+        waHref={escapeWaHref}
+        onDismiss={dismissWizardIdle}
+      />
+      <WizardExitIntentModal
+        open={exitIntentOpen}
+        packageLabel={activePackage?.name ?? "הקלטה באולפן"}
+        totalExVat={total}
+        onContinue={() => {
+          setExitIntentOpen(false);
+          scrollToBookWizardPanelAndFocusStep(step);
+        }}
+        onClose={() => setExitIntentOpen(false)}
       />
     </div>
   );

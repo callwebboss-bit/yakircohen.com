@@ -37,6 +37,7 @@ const INITIAL: StudioFormDraft = {
   sessionPriority: "",
   welcomePerk: "",
   travelMode: "",
+  lastMinuteBtsDeal: false,
   termsAccepted: false,
 };
 

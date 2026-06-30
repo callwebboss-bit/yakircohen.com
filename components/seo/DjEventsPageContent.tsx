@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import TableOfContents from "@/components/ui/TableOfContents";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -9,7 +10,6 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import DjBookingForm from "@/components/forms/DjBookingForm";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
@@ -36,6 +36,17 @@ import {
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getEventsService("events-dj");
+
+const DJ_TOC = [
+  { id: "dj-method-heading", label: "מנגנון הפעולה", level: 2 as const },
+  { id: "equipment-heading", label: "ציוד פרימיום", level: 2 as const },
+  { id: "process-heading", label: "התהליך - מהזמנה עד סוף האירוע", level: 2 as const },
+  { id: "event-types-heading", label: "סוגי אירועים", level: 2 as const },
+  { id: "compare-heading", label: "זול vs מקצועי - השוואה", level: 2 as const },
+  { id: "calculator-heading", label: "חבילות DJ + אטרקציות", level: 2 as const },
+  { id: "price-factors-heading", label: "מה משפיע על המחיר", level: 2 as const },
+  { id: "dj-book-cta-heading", label: "שריינו תאריך", level: 2 as const },
+];
 
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
@@ -102,6 +113,7 @@ export default function DjEventsPageContent() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ENTERTAINMENT_BUSINESS_SCHEMA) }}
         />
         <ContextualIntroParagraph pathname="/events/dj-events" className="max-w-3xl" />
+        <TableOfContents entries={DJ_TOC} className="max-w-xs" />
         <section className="max-w-3xl" aria-labelledby="dj-intro-heading">
           <h2
             id="dj-intro-heading"
@@ -511,7 +523,7 @@ export default function DjEventsPageContent() {
             ))}
           </ul>
           <p className="mt-5 text-xs text-muted-foreground">
-            מלאו את הטופס למטה ותקבלו הצעת מחיר מדויקת תוך שעה - ללא עגלולים.
+            לחצו על הכפתור למטה ותקבלו הצעת מחיר מדויקת תוך שעה - ללא עגלולים.
           </p>
         </section>
 
@@ -554,27 +566,32 @@ export default function DjEventsPageContent() {
           </div>
         </section>
 
-        {/* טופס הזמנה מתקדם */}
-        <section aria-labelledby="dj-booking-form-heading">
-          <header className="mx-auto mb-6 max-w-2xl text-center">
-            <h2
-              id="dj-booking-form-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+        <section
+          className="rounded-xl border border-border bg-surface p-6 text-center sm:p-8"
+          aria-labelledby="dj-book-cta-heading"
+        >
+          <h2
+            id="dj-book-cta-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            שריינו תאריך - קבלו הצעה תוך שעה
+          </h2>
+          <p className="mt-3 text-sm text-muted-foreground">
+            בחרו חבילה, ראו מחיר שקוף ושלחו פרטים ישירות.
+            גם בטלפון:{" "}
+            <a
+              href={`tel:${CONTACT_PHONE_E164}`}
+              className="font-medium text-brand-red hover:underline"
             >
-              שריינו תאריך - קבלו הצעה תוך שעה
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              מלאו את הפרטים ונחזור אליכם עם הצעת מחיר מדויקת.
-              גם בטלפון:{" "}
-              <a
-                href={`tel:${CONTACT_PHONE_E164}`}
-                className="font-medium text-brand-red hover:underline"
-              >
-                {CONTACT_PHONE_DISPLAY}
-              </a>
-            </p>
-          </header>
-          <DjBookingForm />
+              {CONTACT_PHONE_DISPLAY}
+            </a>
+          </p>
+          <Link
+            href="/book?catalog=dj-vip"
+            className="mt-6 inline-flex items-center rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red/90"
+          >
+            להזמנת DJ ואפקטים
+          </Link>
         </section>
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/dj-events")} />
               <PageRelatedFooter pathname="/events/dj-events" />

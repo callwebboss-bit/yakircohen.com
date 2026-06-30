@@ -1,6 +1,24 @@
 import type { EventBookingItemId, EventBookingItemQuantity } from "@/lib/data/events-booking";
 import { isRecord, isStringArray, pickBoolean, pickString } from "@/lib/wizard-draft-parse";
 
+export const EVENTS_SESSION_PRIORITY_IDS = [
+  "effect_failure",
+  "timing_stress",
+  "surprise_costs",
+] as const;
+
+export type EventsSessionPriorityId =
+  | ""
+  | (typeof EVENTS_SESSION_PRIORITY_IDS)[number];
+
+export const EVENTS_WELCOME_PERK_IDS = [
+  "tech_brief",
+  "setup_photos",
+  "coordinator_call",
+] as const;
+
+export type EventsWelcomePerkId = "" | (typeof EVENTS_WELCOME_PERK_IDS)[number];
+
 export type EventsFormDraft = {
   selected: EventBookingItemId[];
   quantities: Partial<Record<EventBookingItemId, EventBookingItemQuantity>>;
@@ -12,6 +30,9 @@ export type EventsFormDraft = {
   customerNeed: string;
   notes: string;
   selectedUpsells: string[];
+  sessionPriority: EventsSessionPriorityId;
+  welcomePerk: EventsWelcomePerkId;
+  lastMinuteUpsell: boolean;
   termsAccepted: boolean;
 };
 
@@ -35,6 +56,9 @@ export function parseEventsFormDraft(
     }
   }
 
+  const sessionPriority = pickString(raw.sessionPriority);
+  const welcomePerk = pickString(raw.welcomePerk);
+
   return {
     ...initial,
     selected: isStringArray(raw.selected) ? (raw.selected as EventBookingItemId[]) : [],
@@ -47,6 +71,13 @@ export function parseEventsFormDraft(
     customerNeed: pickString(raw.customerNeed),
     notes: pickString(raw.notes),
     selectedUpsells: isStringArray(raw.selectedUpsells) ? raw.selectedUpsells : [],
+    sessionPriority: (EVENTS_SESSION_PRIORITY_IDS as readonly string[]).includes(sessionPriority)
+      ? (sessionPriority as EventsSessionPriorityId)
+      : "",
+    welcomePerk: (EVENTS_WELCOME_PERK_IDS as readonly string[]).includes(welcomePerk)
+      ? (welcomePerk as EventsWelcomePerkId)
+      : "",
+    lastMinuteUpsell: pickBoolean(raw.lastMinuteUpsell),
     termsAccepted: pickBoolean(raw.termsAccepted),
   };
 }

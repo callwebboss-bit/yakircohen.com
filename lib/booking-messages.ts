@@ -14,7 +14,10 @@ import {
   buildStudioGuidelinesLine,
   buildStudioParticipantsBlock,
   buildStudioPricingEstimateBlock,
+  buildStudioScheduleDisplayLabel,
+  buildStudioSplitWhatsAppBody,
   resolveStudioLeadPriceExVat,
+  type StudioCloserCroInput,
   type StudioLeadMessageContext,
 } from "@/lib/studio-booking-message";
 import {
@@ -73,6 +76,13 @@ export type BookingWhatsAppBodyOptions = {
   ycDeferred?: string | null;
   ycRecipientHint?: string | null;
   ycConfigVersion?: number | null;
+  /** גל D — מטא CRO לפיצול הודעת WA (אולפן בלבד) */
+  studioCro?: StudioCloserCroInput | null;
+  scheduleDisplayLabel?: string | null;
+  ycSessionPriority?: string | null;
+  ycWelcomePerk?: string | null;
+  ycTravelMode?: string | null;
+  ycSplitCount?: number | null;
 };
 
 export { PREMIUM_THRESHOLD };
@@ -137,7 +147,76 @@ export function buildBookingWhatsAppBody({
   ycDeferred,
   ycRecipientHint,
   ycConfigVersion,
+  studioCro,
+  scheduleDisplayLabel,
+  ycSessionPriority,
+  ycWelcomePerk,
+  ycTravelMode,
+  ycSplitCount,
 }: BookingWhatsAppBodyOptions): string {
+  const resolvedCloser =
+    closerServiceId ??
+    (bookCategory ? BOOK_CLOSER_SERVICE[bookCategory] : undefined);
+
+  const filterAnswers = readFilterAnswers();
+  const resolvedTiming = timing ?? filterAnswers?.timing ?? null;
+  const resolvedPurpose = ycPurpose ?? filterAnswers?.purpose ?? null;
+
+  let resolvedPriceExVat = priceExVat;
+  if (studioLead && !studioLead.isAmbiguousGroup && studioLead.recorderCount >= 1) {
+    resolvedPriceExVat = resolveStudioLeadPriceExVat(studioLead);
+  }
+
+  if (studioCro && ycForm === "studio_recording_booking" && resolvedCloser) {
+    const scheduleLabel =
+      scheduleDisplayLabel?.trim() ||
+      buildStudioScheduleDisplayLabel({
+        scheduleSummary: summaryLines.find((l) => l.label === "מועד מועדף")?.value,
+      });
+
+    return buildStudioSplitWhatsAppBody({
+      contact,
+      packageLabel: packageLabel ?? serviceLabel,
+      scheduleLabel,
+      cro: studioCro,
+      ycTag: {
+        service: resolvedCloser.trim(),
+        price: resolvedPriceExVat ?? null,
+        source: utmSource?.trim() || "website",
+        step: ycStep ?? 3,
+        schedule: ycSchedule ?? null,
+        package: ycPackage ?? null,
+        intent: ycIntent ?? intent ?? null,
+        form: ycForm ?? null,
+        timing: resolvedTiming,
+        purpose: resolvedPurpose,
+        adults: studioLead?.adultsCount ?? null,
+        children: studioLead?.childrenCount ?? null,
+        recorders: studioLead?.recorderCount ?? null,
+        scenario: studioLead?.recommendedScenario ?? "pairs",
+        ambiguous: studioLead?.isAmbiguousGroup ?? false,
+        route: ycRoute ?? null,
+        emotional: ycEmotional ?? null,
+        recordingType: ycRecordingType ?? null,
+        mobileGeo: ycMobileGeo ?? null,
+        atmosphere: ycAtmosphere ?? null,
+        celebrant: ycCelebrant ?? null,
+        wizardDepth: ycWizardDepth ?? null,
+        scenarioChosen: ycScenarioChosen ?? null,
+        scenarioHint: ycScenarioHint ?? null,
+        deferred: ycDeferred ?? null,
+        recipientHint: ycRecipientHint ?? null,
+        configVersion: ycConfigVersion ?? 3,
+        sessionPriority: ycSessionPriority ?? (studioCro.sessionPriority || null),
+        welcomePerk: ycWelcomePerk ?? (studioCro.welcomePerk || null),
+        travelMode: ycTravelMode ?? (studioCro.travelMode || null),
+        splitCount:
+          ycSplitCount ??
+          (studioCro.splitCostEnabled ? studioCro.splitCostCount : null),
+      },
+    });
+  }
+
   const progressive = shapeProgressiveBooking({
     intent,
     serviceLabel,
@@ -166,17 +245,7 @@ export function buildBookingWhatsAppBody({
     ycRecipientHint,
   });
 
-  const resolvedCloser =
-    closerServiceId ??
-    (bookCategory ? BOOK_CLOSER_SERVICE[bookCategory] : undefined);
-
-  // Enrich with filter answers if not explicitly provided
-  const filterAnswers = readFilterAnswers();
-  const resolvedTiming = timing ?? filterAnswers?.timing ?? null;
-  const resolvedPurpose = ycPurpose ?? filterAnswers?.purpose ?? null;
-
   const extraBlocks: string[] = [];
-  let resolvedPriceExVat = priceExVat;
   let resolvedTotal = totalEstimate;
   const narrativeSummary = progressive?.summaryLines ?? summaryLines;
 

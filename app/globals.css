@@ -55,6 +55,78 @@
   --width-wide: 88rem;
 }
 
+/* ─── Coupon banner (seasonal, bottom) ─── */
+.coupon-banner-summer {
+  background: linear-gradient(135deg, #b85c00 0%, #8f4500 100%);
+}
+.coupon-banner-wedding {
+  background: linear-gradient(135deg, #6b3f8f 0%, #552f73 100%);
+}
+.coupon-banner-rosh {
+  background: linear-gradient(135deg, #a83228 0%, #8a281f 100%);
+}
+.coupon-banner-default {
+  background: linear-gradient(135deg, #1a8f4a 0%, #157a3f 100%);
+}
+
+.coupon-banner-hidden {
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+.coupon-banner-enter {
+  animation: coupon-banner-slide-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes coupon-banner-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.coupon-cta-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.coupon-cta-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  animation: coupon-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes coupon-shimmer {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coupon-banner-enter {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .coupon-cta-shimmer::after {
+    animation: none;
+    display: none;
+  }
+}
+
 @keyframes ticker-in {
   from { opacity: 0; transform: translateY(0.4rem); }
   to   { opacity: 1; transform: translateY(0); }
@@ -538,4 +610,57 @@ html.a11y-highlight-links a[href] {
     top: 0;
     width: 100%;
   }
+}
+
+/* ─── Footer (always dark — separation from page content) ─── */
+.footer-shell {
+  --footer-bg: #0f1419;
+  --footer-fg: #e8eaed;
+  --footer-muted: #9aa0a6;
+  --footer-border: color-mix(in srgb, white 12%, transparent);
+  background: var(--footer-bg);
+  color: var(--footer-fg);
+}
+
+.footer-shell .footer-zone + .footer-zone {
+  /* spacing handled by grid */
+}
+
+.footer-shell [data-slot="accordion"] {
+  border-color: var(--footer-border);
+  background: transparent;
+}
+
+.footer-shell [data-slot="accordion-item"] {
+  border-color: var(--footer-border);
+}
+
+.footer-shell .border-border {
+  border-color: var(--footer-border);
+}
+
+.footer-shell .text-foreground {
+  color: var(--footer-fg);
+}
+
+.footer-shell .text-muted-foreground {
+  color: var(--footer-muted);
+}
+
+.footer-shell .bg-background {
+  background: color-mix(in srgb, white 6%, transparent);
+}
+
+.footer-shell .border-emerald-200 {
+  border-color: color-mix(in srgb, #34d399 35%, transparent);
+}
+
+.footer-shell .bg-emerald-50,
+.footer-shell .bg-emerald-50\/80 {
+  background: color-mix(in srgb, #34d399 12%, transparent);
+}
+
+.footer-shell .text-emerald-700,
+.footer-shell .text-emerald-900 {
+  color: #6ee7b7;
 }

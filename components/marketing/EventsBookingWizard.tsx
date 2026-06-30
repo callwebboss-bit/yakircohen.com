@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -11,6 +11,12 @@ import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
+import {
+  EventsDecoyVipCard,
+  EventsEffectFailureBadge,
+  EventsSessionPriorityPills,
+  EventsWelcomePerkPills,
+} from "@/components/booking/EventsWizardCroBlocks";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookingDateTimeFields from "@/components/booking/BookingDateTimeFields";
 import BookingFormField from "@/components/booking/BookingFormField";
@@ -57,6 +63,13 @@ import {
   readUtmSource,
 } from "@/lib/booking-messages";
 import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-draft";
+import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
+import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
+import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
+import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
+import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
@@ -101,6 +114,9 @@ const INITIAL: EventsFormDraft = {
   customerNeed: "",
   notes: "",
   selectedUpsells: [],
+  sessionPriority: "",
+  welcomePerk: "",
+  lastMinuteUpsell: false,
   termsAccepted: false,
 };
 
@@ -139,6 +155,7 @@ export default function EventsBookingWizard({
   routeId = null,
   initialEventItemId = null,
 }: EventsBookingWizardProps) {
+  const coreContactMerged = useRef(false);
   const initialForm = useMemo(
     () => buildInitialEventsForm(initialEventItemId),
     [initialEventItemId],
@@ -171,6 +188,27 @@ export default function EventsBookingWizard({
   });
 
   const { honeypot, setHoneypot, globalError } = guard;
+
+  useBookCoreContactBridge(form.name, form.phone);
+
+  useWizardHistory({
+    category: "events",
+    step,
+    setStep,
+    enabled: !isSubmitted,
+  });
+
+  useEffect(() => {
+    if (coreContactMerged.current) return;
+    coreContactMerged.current = true;
+    const core = readBookCoreContact();
+    if (!core) return;
+    patchForm({
+      name: form.name.trim() ? form.name : core.name,
+      phone: form.phone.trim() ? form.phone : core.phone,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
 
   useEffect(() => {
     if (!initialEventItemId || form.selected.length > 0) return;
@@ -344,12 +382,81 @@ export default function EventsBookingWizard({
     ...(hasSoundRental ? [{ label: "הגברה", value: `השכרת ציוד הגברה (+${SOUND_RENTAL_PRICE.toLocaleString("he-IL")} ₪)` }] : []),
     ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
     ...(savings > 0 ? [{ label: "חיסכון חבילה", value: `${savings.toLocaleString()} ₪` }] : []),
+    ...(form.sessionPriority
+      ? [
+          {
+            label: "עדיפות",
+            value:
+              EVENTS_CRO_CONFIG.anxieties.find((a) => a.id === form.sessionPriority)?.label ??
+              form.sessionPriority,
+          },
+        ]
+      : []),
+    ...(form.welcomePerk
+      ? [
+          {
+            label: "הטבת הגעה",
+            value:
+              EVENTS_CRO_CONFIG.perks.find((p) => p.id === form.welcomePerk)?.label ??
+              form.welcomePerk,
+          },
+        ]
+      : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
     ...EVENT_BOOKING_UPSELLS.filter((u) => form.selectedUpsells.includes(u.id)).map((u) => ({
       label: "תוספת",
       value: `${u.name} (+${u.price.toLocaleString("he-IL")} ₪)`,
     })),
   ];
+
+  const summaryLines = useMemo(() => buildSummaryLines(), [
+    form.date,
+    form.time,
+    form.location,
+    form.notes,
+    form.sessionPriority,
+    form.welcomePerk,
+    labels,
+    hasSoundRental,
+    count,
+    savings,
+    form.selectedUpsells,
+  ]);
+
+  const escapeWaHref = useMemo(
+    () =>
+      buildWizardEscapeHref({
+        category: "events",
+        serviceLabel: EVENTS_CRO_CONFIG.serviceLabel,
+        formId: EVENTS_CRO_CONFIG.formId,
+        summaryLines,
+        priceExVat: bundleTotal,
+        contactName: form.name,
+        contactPhone: form.phone,
+        ycStep: step + 1,
+      }),
+    [summaryLines, bundleTotal, form.name, form.phone, step],
+  );
+
+  const handleGhostLeadFired = useCallback(() => {
+    trackBookWizardFunnel("GhostLead_Fired", {
+      category: "events",
+      package_id: form.selected.join(",") || "",
+      step: 3,
+    });
+  }, [form.selected]);
+
+  useWizardGhostLead({
+    category: "events",
+    formId: EVENTS_CRO_CONFIG.formId,
+    step,
+    closingStepIndex: 2,
+    name: form.name,
+    phone: form.phone,
+    subject: "טיוטת הזמנת אטרקציות - שלב סגירה",
+    body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    onFired: handleGhostLeadFired,
+  });
 
   const consultHref = useMemo(() => {
     const displayPhone = form.phone.trim()
@@ -359,7 +466,7 @@ export default function EventsBookingWizard({
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
     }, { bookCategory: "events", source: "/book#events" });
-  }, [form, labels, count, savings]);
+  }, [form, labels, count, savings, form.sessionPriority, form.welcomePerk]);
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
@@ -367,6 +474,12 @@ export default function EventsBookingWizard({
       scrollAndHighlightFirstError();
       return;
     }
+    trackBookWizardFunnel("WhatsApp_Click", {
+      category: "events",
+      package_id: form.selected.join(",") || "",
+      step: 3,
+      intent,
+    });
     runSubmit(
       () =>
         validateBookingLead({
@@ -738,8 +851,19 @@ export default function EventsBookingWizard({
             />
           ) : null}
 
+          {EVENTS_CRO_CONFIG.escapePlacements.includes("after_packages") ? (
+            <EventsDecoyVipCard escapeWaHref={escapeWaHref} />
+          ) : null}
+
           <StepNav
-            onNext={() => setStep(1)}
+            onNext={() => {
+              trackBookWizardFunnel("Step1_Complete", {
+                category: "events",
+                package_id: form.selected.join(",") || "",
+                step: 1,
+              });
+              setStep(1);
+            }}
             nextDisabled={count === 0}
             showBack={false}
           />
@@ -798,8 +922,28 @@ export default function EventsBookingWizard({
               value={form.notes}
               onChange={(v) => patchForm({ notes: v })}
             />
+            <EventsSessionPriorityPills
+              value={form.sessionPriority}
+              onChange={(id) => patchForm({ sessionPriority: id })}
+            />
+            {form.sessionPriority === "effect_failure" ? <EventsEffectFailureBadge /> : null}
+            <EventsWelcomePerkPills
+              value={form.welcomePerk}
+              onChange={(id) => patchForm({ welcomePerk: id })}
+            />
           </div>
-          <StepNav onBack={() => setStep(0)} onNext={() => setStep(2)} nextDisabled={!canStep1} />
+          <StepNav
+            onBack={() => setStep(0)}
+            onNext={() => {
+              trackBookWizardFunnel("Step2_PackageSelected", {
+                category: "events",
+                package_id: form.selected.join(",") || "",
+                step: 2,
+              });
+              setStep(2);
+            }}
+            nextDisabled={!canStep1}
+          />
         </BookingStepPanel>
       )}
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useReducer } from "react";
 import type { BookFullPathSelection } from "@/components/booking/BookAudienceRouter";
 import {
   parseBookCategoryFromHash,
+  parseBookCategoryFromPathname,
   parseBookEventItemFromSearch,
   parseBookPackageFromSearch,
   parseBookCatalogFromSearch,
@@ -105,6 +106,17 @@ export function useBookFlow(options?: UseBookFlowOptions) {
 
   useEffect(() => {
     function syncFromLocation() {
+      const fromPath = parseBookCategoryFromPathname(window.location.pathname);
+      if (fromPath) {
+        const qs = window.location.search;
+        if (!window.location.hash.includes(fromPath)) {
+          window.history.replaceState(null, "", `${window.location.pathname}${qs}#${fromPath}`);
+        }
+        dispatch({ type: "SYNC_HASH", category: fromPath });
+        scrollToWizardPanel();
+        return;
+      }
+
       const fromHash = parseBookCategoryFromHash(window.location.hash);
       if (fromHash) {
         dispatch({ type: "SYNC_HASH", category: fromHash });
