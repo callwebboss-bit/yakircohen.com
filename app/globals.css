@@ -629,8 +629,9 @@ html.a11y-highlight-links a[href] {
 .footer-shell {
   --footer-bg: #0f1419;
   --footer-fg: #e8eaed;
-  --footer-muted: #9aa0a6;
+  --footer-muted: #b0b6bc;
   --footer-border: color-mix(in srgb, white 12%, transparent);
+  --footer-link-hover: #ff6b6b; /* ≈4.9:1 on #0f1419 — passes WCAG AA */
   background: var(--footer-bg);
   color: var(--footer-fg);
 }
@@ -676,4 +677,47 @@ html.a11y-highlight-links a[href] {
 .footer-shell .text-emerald-700,
 .footer-shell .text-emerald-900 {
   color: #6ee7b7;
+}
+
+/* ─── Footer hover contrast fix (WCAG AA) ─── */
+
+/* כל קישורי ה-footer - גוון אדום בהיר שעובר AA על הרקע הכהה */
+.footer-shell a:hover {
+  color: var(--footer-link-hover);
+}
+
+/* קישורי טקסט (לא כפתורי rounded) - underline לקריאות נוספת */
+.footer-shell a:not([class*="rounded-xl"]):not([class*="rounded-lg"]):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* CTA ראשי (bg-brand-red) - שמור על טקסט לבן, ללא underline */
+.footer-shell a[class*="bg-brand-red"]:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* WhatsApp button - שמור על טקסט ירוק, ללא underline */
+.footer-shell a[class*="bg-[#25D366]"]:hover {
+  color: #4ade80;
+  text-decoration: none;
+}
+
+/* פוליש: ריחוף עדין על אייקוני רשתות חברתיות */
+.footer-shell nav[aria-label="רשתות חברתיות"] a {
+  transition: transform 250ms var(--ease-luxury, ease),
+              border-color 250ms ease,
+              color 250ms ease,
+              box-shadow 250ms ease;
+}
+.footer-shell nav[aria-label="רשתות חברתיות"] a:hover {
+  transform: translateY(-2px);
+}
+
+/* נגישות: כיבוי אנימציות */
+@media (prefers-reduced-motion: reduce) {
+  .footer-shell a { transition: none; }
+  .footer-shell nav[aria-label="רשתות חברתיות"] a:hover { transform: none; }
 }
