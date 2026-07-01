@@ -1,6 +1,7 @@
 "use client";
 
 import { useId } from "react";
+import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
@@ -59,6 +60,11 @@ export default function BookingPhoneInput({
     onBlurValidate?.(result.ok ? null : (result.errors.phone ?? "מספר טלפון לא תקין"));
   };
 
+  const isValid =
+    !error &&
+    value.trim().length > 0 &&
+    validateIsraeliMobile(value.trim()).ok;
+
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-semibold">
@@ -77,7 +83,11 @@ export default function BookingPhoneInput({
         placeholder={placeholder}
         aria-invalid={!!error}
         aria-describedby={error ? `${hintId} ${errorId}` : hintId}
-        className={cn(bookFieldClass, error && "border-red-400")}
+        className={cn(
+          bookFieldClass,
+          error && "border-red-400",
+          isValid && "border-emerald-400",
+        )}
       />
       {hint ? (
         <p id={hintId} className="mt-1 text-xs text-muted-foreground">
@@ -88,7 +98,9 @@ export default function BookingPhoneInput({
         <p id={errorId} className="mt-1 text-xs text-red-500" data-field-error="">
           {error}
         </p>
-      ) : null}
+      ) : (
+        <BookingFieldFeedback valid={isValid} hint="מספר תקין" />
+      )}
     </div>
   );
 }

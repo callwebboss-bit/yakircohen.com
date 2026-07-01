@@ -1,4 +1,4 @@
-/** חבילת פיתיון VIP - להשוואה בלבד, לא ניתנת להזמנה אונליין */
+/** חבילת פיתיון VIP - מסלול זמרים מנוסים, לא ניתנת להזמנה אונליין */
 import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
 
 const d = STUDIO_CRO_CONFIG.decoy!;

@@ -68,6 +68,19 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/events/dj-events",
     anchor: "DJ לחתונה",
   },
+  "צילום חתונות": { href: "/photography/wedding", anchor: "צילום חתונות" },
+  "צלם חתונה": { href: "/photography/wedding", anchor: "צלם חתונה" },
+  "מנחה אירועים": { href: "/events/host", anchor: "מנחה אירועים" },
+  "הגברה לזמרים": { href: "/events/equipment/singer-amplification", anchor: "הגברה לזמרים" },
+  "קורס הפקה מוזיקלית": { href: "/academy/music-production", anchor: "קורס הפקה מוזיקלית" },
+  "שיעורים פרטיים בעברית": { href: "/academy/hebrew-lessons", anchor: "שיעורים פרטיים בעברית" },
+  "מצגת תמונות לאירוע": { href: "/photo-slideshow", anchor: "מצגת תמונות לאירוע" },
+  "תותחי עשן": { href: "/events/attractions/smoke-cannons-for-events", anchor: "תותחי עשן לאירועים" },
+  "בלוני ענק": { href: "/events/attractions/giant-balloons", anchor: "בלוני ענק לאירועים" },
+  "מכונת בועות": { href: "/events/attractions/bubble-machine", anchor: "מכונת בועות לאירוע" },
+  "הסרת רעשים": { href: "/online/vocal-fix/noise-removal", anchor: "הסרת רעשים מהקלטה" },
+  "מיקס ומאסטרינג": { href: "/online/vocal-fix/mixing", anchor: "מיקס ומאסטרינג" },
+  "הקלטת ברכה": { href: "/studio/blessings", anchor: "הקלטת ברכה" },
 };
 
 export function getKeywordLink(keyword: string): KeywordLink | undefined {

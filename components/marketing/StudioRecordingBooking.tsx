@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Headphones, Lightbulb, TrendingUp } from "lucide-react";
+import { Lightbulb, TrendingUp } from "lucide-react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
@@ -13,6 +13,8 @@ import BookRecordingVsProduction from "@/components/booking/BookRecordingVsProdu
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
 import SmartAddonDrawer from "@/components/booking/SmartAddonDrawer";
 import WizardContextFaqSnapshot from "@/components/booking/WizardContextFaqSnapshot";
+import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
+import WizardStepProgress from "@/components/booking/WizardStepProgress";
 import BookingSelectableCard, {
   BookingSelectionConfirm,
   BookingStepGuide,
@@ -83,7 +85,10 @@ import {
   type StudioFormDraft,
   type WizardDepthId,
 } from "@/lib/studio-form-draft";
-import type { AudioDemoId } from "@/lib/data/audio-demos";
+import {
+  STUDIO_PACKAGE_AUDIO_DEMO,
+  STUDIO_PACKAGE_YOUTUBE_VIDEO,
+} from "@/lib/data/studio-package-media";
 import {
   getCatalogAddonsForStudioPackage,
   resolveAddonLabel,
@@ -109,8 +114,16 @@ import {
   type StudioPackageId,
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
+import { buildStudioUpgradeItems } from "@/lib/data/studio-upgrade-display";
+import {
+  getStep0Blockers,
+  getStep0Checklist,
+  getStep1Blockers,
+  getStep1Checklist,
+  type WizardStepBlocker,
+} from "@/lib/studio-wizard-step-guards";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
+import { scrollAndHighlightFirstError, scrollToFirstWizardBlocker } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
@@ -163,14 +176,6 @@ import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["איסוף נתונים", "התאמת פתרון", "יציאה לביצוע"] as const;
-
-const STUDIO_PACKAGE_AUDIO_DEMO: Partial<Record<StudioPackageId, AudioDemoId>> = {
-  remote: "podcast-zoom-cleanup",
-  classic: "recording-vocal-polish",
-  pro: "recording-vocal-polish",
-  viral: "full-production",
-  all_in: "full-production",
-};
 
 const ZEIGARNIK_PROGRESS = [35, 70, 100] as const;
 
@@ -364,6 +369,7 @@ export default function StudioRecordingBooking({
     BOOK_WIZARD_COPY.priceHoldBadge,
   );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
+  const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
 
   const {
     step,
@@ -628,16 +634,48 @@ export default function StudioRecordingBooking({
     isFullWizard &&
     (routeId === "family-gifts" || childrenCount > 0);
 
-  const pathUpgradeIds = bookingPath ? new Set<string>(STUDIO_UPGRADES_BY_PATH[bookingPath]) : null;
-  const upgradeItems = STUDIO_RECORDING_UPGRADES
-    .filter((u) => !pathUpgradeIds || pathUpgradeIds.has(u.id))
-    .map((u) => ({
-      id: u.id,
-      name: u.name,
-      description: u.description,
-      price: u.price,
-      badge: u.badge,
-    }));
+  const pathUpgradeIds = bookingPath
+    ? new Set<string>(STUDIO_UPGRADES_BY_PATH[bookingPath])
+    : null;
+
+  const upgradeItems = useMemo(
+    () =>
+      buildStudioUpgradeItems(
+        (form.packageId as StudioPackageId) || "",
+        bookingPath,
+      ),
+    [form.packageId, bookingPath],
+  );
+
+  const step0GuardInput = useMemo(
+    () => ({
+      recordingType: form.recordingType,
+      atmosphere: form.atmosphere,
+      isQuickWizard,
+      isConsultation,
+      hideAtmosphere: typeFlow.hideAtmosphere,
+    }),
+    [
+      form.recordingType,
+      form.atmosphere,
+      isQuickWizard,
+      isConsultation,
+      typeFlow.hideAtmosphere,
+    ],
+  );
+
+  const step0Checklist = useMemo(
+    () => getStep0Checklist(step0GuardInput),
+    [step0GuardInput],
+  );
+  const step1Checklist = useMemo(
+    () =>
+      getStep1Checklist(
+        form.packageId,
+        form.selectedUpgrades.length + (form.selectedUpsells?.length ?? 0),
+      ),
+    [form.packageId, form.selectedUpgrades.length, form.selectedUpsells?.length],
+  );
 
   const catalogAddonItems = useMemo(
     () =>
@@ -671,13 +709,10 @@ export default function StudioRecordingBooking({
     !isConsultation &&
     baseSubtotal >= autoUpgradeThreshold;
 
-  const canAdvanceStep0 =
-    form.recordingType !== "" &&
-    (isQuickWizard ||
-      isConsultation ||
-      typeFlow.hideAtmosphere ||
-      form.atmosphere !== "");
-  const canAdvanceStep1 = form.packageId !== "";
+  useEffect(() => {
+    setStepBlockers([]);
+  }, [step]);
+
   const progressPct = ZEIGARNIK_PROGRESS[step] ?? ZEIGARNIK_PROGRESS[0];
 
   const handleScheduleWindowChange = (value: ScheduleWindowId) => {
@@ -941,8 +976,29 @@ export default function StudioRecordingBooking({
         recording_type: form.recordingType || "",
       });
     }
+    setStepBlockers([]);
     setStep(n);
     scrollToBookWizardPanelAndFocusStep(n);
+  };
+
+  const attemptAdvanceFromStep0 = () => {
+    const blockers = getStep0Blockers(step0GuardInput);
+    if (blockers.length > 0) {
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    goToStep(1);
+  };
+
+  const attemptAdvanceFromStep1 = () => {
+    const blockers = getStep1Blockers(form.packageId);
+    if (blockers.length > 0) {
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    beginStep3Transition();
   };
 
   const completeStep3Transition = useCallback(() => {
@@ -953,32 +1009,13 @@ export default function StudioRecordingBooking({
   }, [setStep]);
 
   const beginStep3Transition = () => {
-    if (!canAdvanceStep1) return;
+    if (!form.packageId) return;
     trackBookWizardFunnel("Step2_PackageSelected", {
       category: "studio",
       package_id: form.packageId || "",
       package_price: activePackage?.price ?? 0,
     });
-
-    if (form.phone.trim()) {
-      const phoneCheck = validateBookingLead({
-        name: form.name,
-        phone: form.phone,
-        date: "",
-        time: "",
-        location: "",
-        notes: "",
-        requireLocation: false,
-        requireDate: false,
-        requireTime: false,
-      });
-      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
-        mergeErrors({ phone: phoneCheck.errors.phone });
-        scrollAndHighlightFirstError();
-        return;
-      }
-    }
-
+    setStepBlockers([]);
     setStep3Transition(true);
   };
 
@@ -1329,7 +1366,7 @@ export default function StudioRecordingBooking({
               </p>
             ) : null}
 
-            <div>
+            <div id="book-recording-type-section">
               <p className="mb-2 text-xs font-semibold text-muted-foreground">סוג הקלטה</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {RECORDING_TYPES.map((type) => {
@@ -1493,7 +1530,7 @@ export default function StudioRecordingBooking({
             )}
 
             {!isConsultation && !typeFlow.hideAtmosphere && (
-              <div>
+              <div id="book-atmosphere-section">
                 <h3 className="mb-2 text-base font-semibold text-foreground">
                   בחרו את האווירה שלכם
                 </h3>
@@ -1600,9 +1637,12 @@ export default function StudioRecordingBooking({
               totalExVat={total}
             />
 
+            <WizardStepProgress items={step0Checklist} className="mt-2" />
+
+            <WizardStepBlockerBanner blockers={stepBlockers} />
+
             <StepNav
-              onNext={() => goToStep(1)}
-              nextDisabled={!canAdvanceStep0}
+              onNext={attemptAdvanceFromStep0}
               nextLabel={BOOK_WIZARD_COPY.nextStep}
               showBack={false}
             />
@@ -1640,7 +1680,7 @@ export default function StudioRecordingBooking({
               />
             </header>
 
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div id="book-package-grid" className="grid gap-4 lg:grid-cols-2">
               {(isConsultation ? CONSULTATION_PACKAGES : STUDIO_RECORDING_PACKAGES).map((pkg) => {
                 const active = form.packageId === pkg.id;
                 return (
@@ -1657,6 +1697,11 @@ export default function StudioRecordingBooking({
                         ? STUDIO_PACKAGE_AUDIO_DEMO[pkg.id as StudioPackageId]
                         : undefined
                     }
+                    youtubeVideoId={
+                      !isConsultation
+                        ? STUDIO_PACKAGE_YOUTUBE_VIDEO[pkg.id as StudioPackageId]
+                        : undefined
+                    }
                     title={pkg.name}
                     highlights={pkg.highlights}
                     emoji={pkg.emoji}
@@ -1667,11 +1712,6 @@ export default function StudioRecordingBooking({
                     footer={
                       <div className="flex items-center justify-between">
                         <PriceWithVat amountExVat={pkg.price} size="md" />
-                        {!isConsultation && (
-                          <span title="ככה ישמע הקובץ שתקבלו לטלפון" className="cursor-help">
-                            <Headphones className="size-4 text-muted-foreground" aria-hidden="true" />
-                          </span>
-                        )}
                       </div>
                     }
                   />
@@ -1755,10 +1795,10 @@ export default function StudioRecordingBooking({
                   <TrendingUp className="mt-0.5 size-4 shrink-0 text-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">
-                      המתמטיקה מראה שחבילת הפרימיום כבר יותר משתלמת עבורך.
+                      עם מה שבחרתם, חבילת All-In כבר משתלמת יותר - הכל כלול בלי תוספות נפרדות.
                     </p>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      לוגית שווה לך לשדרג ולקבל הכל כלול.
+                      שווה לשדרג ולקבל את החבילה המלאה במחיר טוב יותר.
                     </p>
                   </div>
                 </div>
@@ -1772,6 +1812,10 @@ export default function StudioRecordingBooking({
               </div>
             ) : null}
 
+            <WizardStepProgress items={step1Checklist} className="mt-2" />
+
+            <WizardStepBlockerBanner blockers={stepBlockers} />
+
             <WizardInlinePriceBar
               title={activePackage?.name ?? "הערכת מחיר"}
               totalExVat={total}
@@ -1779,8 +1823,7 @@ export default function StudioRecordingBooking({
 
             <StepNav
               onBack={() => goToStep(0)}
-              onNext={beginStep3Transition}
-              nextDisabled={!canAdvanceStep1}
+              onNext={attemptAdvanceFromStep1}
               nextLabel={BOOK_WIZARD_COPY.nextStep}
             />
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
@@ -2161,13 +2204,11 @@ export default function StudioRecordingBooking({
 function StepNav({
   onBack,
   onNext,
-  nextDisabled,
   nextLabel = "המשך",
   showBack = true,
 }: {
   onBack?: () => void;
   onNext: () => void;
-  nextDisabled?: boolean;
   nextLabel?: string;
   showBack?: boolean;
 }) {
@@ -2187,13 +2228,7 @@ function StepNav({
       <button
         type="button"
         onClick={onNext}
-        disabled={nextDisabled}
-        className={cn(
-          "min-h-11 rounded-xl px-6 py-2.5 text-sm font-semibold transition-[opacity,transform] duration-fast ease-luxury active:scale-[0.98]",
-          nextDisabled
-            ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-[var(--service-accent,#d42b2b)] text-white hover:opacity-90",
-        )}
+        className="min-h-12 rounded-xl bg-[var(--service-accent,#d42b2b)] px-6 py-2.5 text-sm font-semibold text-white transition-[opacity,transform] duration-fast ease-luxury hover:opacity-90 active:scale-[0.98]"
       >
         {nextLabel}
       </button>

@@ -20,6 +20,7 @@ export type StudioPackageId =
 
 export type StudioUpgradeId =
   | "bts"
+  | "studio_session_video"
   | "performance_clip"
   | "podcast_interview"
   | "photo_pack"
@@ -189,7 +190,7 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "3 תמונות סטילס מעובדות",
     ],
     price: 1480,
-    badge: "POPULAR",
+    badge: "פופולרי",
     savings: "חיסכון של 490 ₪ לעומת מחיר עצמאי",
   },
   {
@@ -204,7 +205,7 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "מוכן לפרסום ברשתות",
     ],
     price: 1950,
-    badge: "TRENDING",
+    badge: "ויראלי",
     savings: "חיסכון של 780 ₪ לעומת מחיר עצמאי",
   },
   {
@@ -219,7 +220,7 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "הכל כלול - ללא הפתעות",
     ],
     price: 2380,
-    badge: "BEST VALUE",
+    badge: "הכי משתלם",
     savings: "חיסכון של 1,120 ₪ לעומת מחיר עצמאי",
     featured: true,
   },
@@ -234,21 +235,27 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
 }[] = [
   {
     id: "bts",
-    name: "סרטון מאחורי הקלעים (BTS) לטיקטוק",
-    description: "תיעוד הסשן - MP4 מוכן לרילס ולטיקטוק",
+    name: "תמונות וסרטון קצר מהאולפן",
+    description: "קובץ מוכן לשליחה למשפחה בוואטסאפ או בסטורי",
     price: 250,
   },
   {
+    id: "studio_session_video",
+    name: "צילום וידאו מלא באולפן",
+    description: "סרטון מערוך מההקלטה - דוגמה בלחיצה",
+    price: 999,
+  },
+  {
     id: "performance_clip",
-    name: "קליפ ביצוע מקצועי מהאולפן",
-    description: "Performance Video ערוך - MP4 מוכן לרשתות",
+    name: "קליפ מהאולפן - תמונות וזוויות נוספות",
+    description: "לא רק הקלטה - גם תמונות וזוויות שמרגישות כמו קליפ אמיתי",
     price: 750,
     badge: "חדש",
   },
   {
     id: "podcast_interview",
-    name: "פודקאסט אישי - ראיון מרגש (3 דקות)",
-    description: "ראיון 3 דקות - MP3 מוקלט ומעורך",
+    name: "ראיון משפחתי קצר (3 דקות)",
+    description: "שיחה מרגשת מוקלטת ומעובדת - קובץ שמע מוכן",
     price: 350,
   },
   {
@@ -344,9 +351,18 @@ export const GROUP_PRICING_INELIGIBLE_RECORDING_TYPES = [
 /** upgrades עם מרכיב וידאו/קליפ */
 export const STUDIO_VIDEO_UPGRADE_IDS = [
   "bts",
+  "studio_session_video",
   "performance_clip",
   "add_clip",
 ] as const satisfies readonly StudioUpgradeId[];
+
+/** תוספות וידאו שכבר כלולות בחבילה - לא מציעים שוב */
+export const STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE: Partial<
+  Record<StudioPackageId, readonly StudioUpgradeId[]>
+> = {
+  viral: ["performance_clip", "studio_session_video"],
+  all_in: ["performance_clip", "studio_session_video"],
+};
 
 /** חבילות עם קליפ/וידאו מובנה */
 export const STUDIO_VIDEO_PACKAGE_IDS = ["pro", "viral", "all_in"] as const satisfies readonly StudioPackageId[];
@@ -386,8 +402,23 @@ export const STUDIO_UPGRADES_BY_PATH: Record<
   NonNullable<StudioBookingPath>,
   readonly StudioUpgradeId[]
 > = {
-  events: ["songwriting", "vocal_coaching", "performance_clip", "family_duet", "podcast_interview"],
-  pro:    ["bts", "performance_clip", "ai_playback", "podcast_interview", "express"],
+  events: [
+    "songwriting",
+    "vocal_coaching",
+    "bts",
+    "studio_session_video",
+    "performance_clip",
+    "family_duet",
+    "podcast_interview",
+  ],
+  pro: [
+    "bts",
+    "studio_session_video",
+    "performance_clip",
+    "ai_playback",
+    "podcast_interview",
+    "express",
+  ],
 };
 
 export const SCHEDULE_WINDOW_OPTIONS: readonly {

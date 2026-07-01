@@ -13,7 +13,13 @@ import BookUpsellSection from "@/components/booking/BookUpsellSection";
 import WizardContextFaqSnapshot from "@/components/booking/WizardContextFaqSnapshot";
 import WizardProgressBar from "@/components/booking/WizardProgressBar";
 import WizardStepCelebrate from "@/components/booking/WizardStepCelebrate";
-import MicroAudioAudition from "@/components/ui/MicroAudioAudition";
+import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
+import WizardStepProgress from "@/components/booking/WizardStepProgress";
+import BookingSelectableCard, {
+  BookingSelectionConfirm,
+  BookingStepGuide,
+} from "@/components/booking/BookingSelectableCard";
+import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingStepPanel from "@/components/booking/BookingStepPanel";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
@@ -74,7 +80,17 @@ import {
 import { getPodcastUpsellItems } from "@/lib/data/podcast-booking-upsells";
 import { UPSELLS } from "@/lib/data/booking-calculator-services";
 import { getWizardFaqsForPodcastPackage } from "@/lib/data/wizard-step-faqs";
-import type { AudioDemoId } from "@/lib/data/audio-demos";
+import {
+  getPodcastPackageYoutubeVideo,
+  PODCAST_PACKAGE_AUDIO_DEMO,
+} from "@/lib/data/podcast-package-media";
+import {
+  getPodcastStep0Blockers,
+  getPodcastStep0Checklist,
+  getPodcastStep1Blockers,
+  getPodcastStep1Checklist,
+  type WizardStepBlocker,
+} from "@/lib/podcast-wizard-step-guards";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import {
@@ -100,19 +116,22 @@ import {
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
+import {
+  scrollAndHighlightFirstError,
+  scrollToFirstWizardBlocker,
+} from "@/lib/scroll-to-error";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { cn } from "@/lib/utils";
 
-const PODCAST_PACKAGE_AUDIO_DEMO: Partial<Record<PodcastPackageId, AudioDemoId>> = {
-  starter: "podcast-zoom-cleanup",
-  audio: "podcast-zoom-cleanup",
-  video: "recording-vocal-polish",
-  social: "recording-vocal-polish",
-};
-
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
+
+const PODCAST_WIZARD_PACKAGE_ORDER: PodcastPackageId[] = [
+  "starter",
+  "audio",
+  "video",
+  "social",
+];
 
 const TIMEFRAME_OPTIONS = [
   { value: "", label: "מתי מתאים לכם?" },
@@ -176,6 +195,7 @@ export default function PodcastBookingWizard({
     PODCAST_CRO_CONFIG.urgency.priceHoldBadge,
   );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
+  const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const [celebrateKey, setCelebrateKey] = useState(0);
   const [celebrateMeta, setCelebrateMeta] = useState<{ from: number; to: number } | null>(
     null,
@@ -266,9 +286,37 @@ export default function PodcastBookingWizard({
         : getPodcastUpsellItems(form.packageId),
     [catalogAddonItems, form.packageId],
   );
+  const faqLocation = form.location || initialLocation || "";
   const wizardFaqs = useMemo(
-    () => getWizardFaqsForPodcastPackage(form.packageId),
+    () =>
+      getWizardFaqsForPodcastPackage(form.packageId, {
+        location: faqLocation || "",
+      }),
+    [form.packageId, faqLocation],
+  );
+
+  const packagesForWizard = useMemo(
+    () =>
+      PODCAST_WIZARD_PACKAGE_ORDER.map(
+        (id) => PODCAST_PACKAGES.find((p) => p.id === id)!,
+      ),
+    [],
+  );
+
+  const step0Checklist = useMemo(
+    () => getPodcastStep0Checklist(form.packageId),
     [form.packageId],
+  );
+
+  const step1Checklist = useMemo(
+    () =>
+      getPodcastStep1Checklist({
+        name: form.name,
+        phone: form.phone,
+        location: form.location,
+        mobileGeo: form.mobileGeo,
+      }),
+    [form.name, form.phone, form.location, form.mobileGeo],
   );
 
   const handlePackageSelect = useCallback(
@@ -343,8 +391,6 @@ export default function PodcastBookingWizard({
   }, [selected, packageTotal]);
   useReportBookWizardLivePrice(livePriceReport);
 
-  const canStep0 = form.packageId !== "";
-
   const buildSummaryContext = () => {
     const displayPhone = form.phone.trim()
       ? formatPhoneForDisplay(form.phone.trim())
@@ -417,11 +463,6 @@ export default function PodcastBookingWizard({
       },
     };
   };
-
-  const canStep1 = useMemo(
-    () => Boolean(form.name.trim() && form.phone.trim()),
-    [form.name, form.phone],
-  );
 
   const summaryLinesForEscape = useMemo(
     () => buildSummaryContext().summaryLines,
@@ -520,34 +561,64 @@ export default function PodcastBookingWizard({
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
 
+  const goToStep = (n: number) => {
+    setStepBlockers([]);
+    setStep(n);
+    scrollToBookWizardPanelAndFocusStep(n);
+  };
+
+  const attemptAdvanceFromStep0 = () => {
+    const blockers = getPodcastStep0Blockers({ packageId: form.packageId });
+    if (blockers.length > 0) {
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    trackFunnel("Step1_Complete", {
+      package_id: form.packageId || "",
+      step: 1,
+    });
+    goToStep(1);
+  };
+
   const beginStep2Transition = () => {
-    if (!canStep1) return;
     trackFunnel("Step2_PackageSelected", {
       package_id: form.packageId || "",
       step: 2,
     });
-
-    if (form.phone.trim()) {
-      const phoneCheck = validateBookingLead({
-        name: form.name,
-        phone: form.phone,
-        date: "",
-        time: "",
-        location: "",
-        notes: form.notes,
-        requireLocation: false,
-        requireDate: false,
-        requireTime: false,
-      });
-      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
-        mergeErrors({ phone: phoneCheck.errors.phone });
-        scrollAndHighlightFirstError();
-        return;
-      }
-    }
-
+    setStepBlockers([]);
     setStep2Transition(true);
   };
+
+  const attemptAdvanceFromStep1 = () => {
+    const blockers = getPodcastStep1Blockers({
+      name: form.name,
+      phone: form.phone,
+      location: form.location,
+      mobileGeo: form.mobileGeo,
+    });
+    if (blockers.length > 0) {
+      const fieldErrors: Record<string, string> = {};
+      for (const b of blockers) {
+        fieldErrors[b.fieldId] = b.message;
+      }
+      mergeErrors(fieldErrors);
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    mergeErrors({});
+    setErrors({});
+    beginStep2Transition();
+  };
+
+  useEffect(() => {
+    return () => {
+      setStep2Transition(false);
+      setAddonDrawerOpen(false);
+      setExitIntentOpen(false);
+    };
+  }, []);
 
   const handleAction = (intent: "continue_chat" | "start_now") => {
     if (!form.termsAccepted) {
@@ -709,38 +780,43 @@ export default function PodcastBookingWizard({
         <BookingStepPanel stepKey={0}>
           <PodcastWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו חבילת פודקאסט</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {PODCAST_PACKAGES.map((pkg) => {
+          <BookingStepGuide
+            lines={[
+              "פרק קצר או ראשון - חצי שעה",
+              "אודיו מלא לספוטיפיי - חבילת אודיו",
+              "וידאו ליוטיוב - חבילת וידאו",
+              "תוכן שוטף + רילס - חבילת תוכן מלאה",
+            ]}
+          />
+          <div id="book-podcast-package-grid" className="mt-4 grid gap-4 md:grid-cols-2">
+            {packagesForWizard.map((pkg) => {
               const active = form.packageId === pkg.id;
+              const mediaLocation = form.location || initialLocation || "modiin";
               return (
-                <button
+                <BookingSelectableCard
                   key={pkg.id}
-                  type="button"
+                  active={active}
                   onClick={() => handlePackageSelect(pkg.id)}
-                  className={cn(
-                    "relative rounded-2xl border p-5 text-start",
-                    active ? "border-brand-red bg-brand-red/5" : "border-border bg-background",
-                  )}
-                  aria-pressed={active}
-                >
-                  {PODCAST_PACKAGE_AUDIO_DEMO[pkg.id] ? (
-                    <MicroAudioAudition
-                      demoId={PODCAST_PACKAGE_AUDIO_DEMO[pkg.id]!}
-                      className="absolute start-3 top-3"
-                    />
-                  ) : null}
-                  {pkg.badge ? (
-                    <span className="text-xs font-bold text-brand-red">{pkg.badge}</span>
-                  ) : null}
-                  <p className="mt-1 font-semibold text-foreground">{pkg.name}</p>
-                  <p className="text-xs text-muted-foreground">{pkg.subtitle}</p>
-                  <div className="mt-3">
-                    <PriceWithVat amountExVat={pkg.price} size="md" />
-                  </div>
-                </button>
+                  title={pkg.name}
+                  highlights={[pkg.subtitle, pkg.ideal, ...pkg.features.slice(0, 1)]}
+                  badge={pkg.badge}
+                  featured={pkg.id === "video"}
+                  featuredLabel="הנבחרת"
+                  audioDemoId={PODCAST_PACKAGE_AUDIO_DEMO[pkg.id]}
+                  youtubeVideoId={getPodcastPackageYoutubeVideo(pkg.id, mediaLocation)}
+                  footer={<PriceWithVat amountExVat={pkg.price} size="md" />}
+                />
               );
             })}
           </div>
+
+          {selected ? (
+            <BookingSelectionConfirm
+              className="mt-4"
+              title={selected.name}
+              detail={`למי מתאים: ${selected.ideal}`}
+            />
+          ) : null}
 
           {form.packageId ? (
             <WizardContextFaqSnapshot items={wizardFaqs} className="mt-6" />
@@ -899,17 +975,10 @@ export default function PodcastBookingWizard({
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
 
-          <StepNav
-            onNext={() => {
-              trackFunnel("Step1_Complete", {
-                package_id: form.packageId || "",
-                step: 1,
-              });
-              setStep(1);
-            }}
-            nextDisabled={!canStep0}
-            showBack={false}
-          />
+          <WizardStepProgress items={step0Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
+
+          <StepNav onNext={attemptAdvanceFromStep0} showBack={false} />
         </BookingStepPanel>
       )}
 
@@ -928,6 +997,9 @@ export default function PodcastBookingWizard({
               error={errors.name}
               onChange={(v) => patchForm({ name: v })}
             />
+            {!errors.name && form.name.trim().length >= 2 ? (
+              <BookingFieldFeedback valid={true} hint="שם מעולה" />
+            ) : null}
             <BookingPhoneInput
               id="pb-phone"
               value={form.phone}
@@ -958,7 +1030,7 @@ export default function PodcastBookingWizard({
                 ))}
               </select>
             </div>
-            <div>
+            <div id="book-podcast-location-section">
               <p className="mb-2 text-xs font-semibold text-foreground">איפה נקליט?</p>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {(
@@ -1025,6 +1097,11 @@ export default function PodcastBookingWizard({
                   </div>
                 </div>
               ) : null}
+              {form.location === "modiin" || (form.location === "mobile" && form.mobileGeo) ? (
+                <p className="mt-2 text-xs text-emerald-700" role="status">
+                  ✓ מיקום נבחר
+                </p>
+              ) : null}
             </div>
             <BookingFormField
               id="pb-notes"
@@ -1049,10 +1126,11 @@ export default function PodcastBookingWizard({
           {PODCAST_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
+          <WizardStepProgress items={step1Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
           <StepNav
-            onBack={() => setStep(0)}
-            onNext={beginStep2Transition}
-            nextDisabled={!canStep1}
+            onBack={() => goToStep(0)}
+            onNext={attemptAdvanceFromStep1}
           />
         </BookingStepPanel>
       )}
@@ -1099,7 +1177,9 @@ export default function PodcastBookingWizard({
                 <ol className="space-y-2 text-sm text-muted-foreground list-none">
                   <li>
                     <span className="font-medium text-foreground">היום:</span>{" "}
-                    הקלטה באולפן. חומרי הגלם אצלכם ביד בסוף הסשן
+                    {form.location === "mobile"
+                      ? "מגיעים אליכם עם הציוד. חומרי הגלם אצלכם בסוף הסשן"
+                      : "הקלטה באולפן במודיעין. חומרי הגלם אצלכם ביד בסוף הסשן"}
                   </li>
                   <li>
                     <span className="font-medium text-foreground">1 עד 3 ימי עבודה:</span>{" "}
@@ -1108,12 +1188,16 @@ export default function PodcastBookingWizard({
                   <li className="flex items-start gap-1.5">
                     <span>
                       <span className="font-medium text-foreground">לאחר האישור שלכם:</span>{" "}
-                      העלאה לספוטיפיי, אפל פודקאסטים ויוטיוב לפי חבילה
+                      {selected.id === "starter"
+                        ? "קובץ MP3 מוכן להעלאה עצמית"
+                        : "העלאה לספוטיפיי, אפל פודקאסטים ויוטיוב לפי חבילה"}
                     </span>
-                    <InfoTip
-                      text="העלאה לפלטפורמות כלולה בחבילות Audio ומעלה. חבילת Starter מספקת קובץ מוכן להעלאה עצמית."
-                      className="mt-0.5 shrink-0"
-                    />
+                    {selected.id !== "starter" ? (
+                      <InfoTip
+                        text="העלאה לפלטפורמות כלולה בחבילות Audio ומעלה."
+                        className="mt-0.5 shrink-0"
+                      />
+                    ) : null}
                   </li>
                 </ol>
                 <p className="text-xs text-muted-foreground">
@@ -1235,18 +1319,20 @@ export default function PodcastBookingWizard({
 function StepNav({
   onBack,
   onNext,
-  nextDisabled,
   showBack = true,
 }: {
   onBack?: () => void;
   onNext: () => void;
-  nextDisabled?: boolean;
   showBack?: boolean;
 }) {
   return (
     <div className="flex justify-between gap-3 border-t border-border pt-6">
       {showBack && onBack ? (
-        <button type="button" onClick={onBack} className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold">
+        <button
+          type="button"
+          onClick={onBack}
+          className="min-h-11 rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold"
+        >
           חזרה
         </button>
       ) : (
@@ -1255,13 +1341,7 @@ function StepNav({
       <button
         type="button"
         onClick={onNext}
-        disabled={nextDisabled}
-        className={cn(
-          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
-          nextDisabled
-            ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-brand-red text-white hover:opacity-90",
-        )}
+        className="min-h-12 rounded-2xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
       >
         המשך
       </button>

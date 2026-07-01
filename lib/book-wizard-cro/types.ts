@@ -31,6 +31,7 @@ export type CroDecoyPackage = {
   ctaPrimary: string;
   ctaSecondary: string;
   waitlistUtmCampaign: string;
+  youtubeVideoId?: string;
 };
 
 export type CroLastMinuteUpsell = {

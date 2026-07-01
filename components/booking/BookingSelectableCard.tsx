@@ -2,7 +2,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import MicroAudioAudition from "@/components/ui/MicroAudioAudition";
+import BookingPackageMediaStrip from "@/components/booking/BookingPackageMediaStrip";
 import type { AudioDemoId } from "@/lib/data/audio-demos";
 import { cn } from "@/lib/utils";
 
@@ -21,8 +21,10 @@ type BookingSelectableCardProps = {
   className?: string;
   /** כרטיס קומפקטי (אווירה, סוג הקלטה) */
   compact?: boolean;
-  /** דגימת שמע 5 שניות — לא מפעיל בחירת כרטיס */
+  /** לפני/אחרי שמע — לא מפעיל בחירת כרטיס */
   audioDemoId?: AudioDemoId;
+  /** דוגמת וידאו בקליק */
+  youtubeVideoId?: string;
 };
 
 export function BookingSelectionCheck({ active }: { active: boolean }) {
@@ -95,6 +97,7 @@ export default function BookingSelectableCard({
   className,
   compact = false,
   audioDemoId,
+  youtubeVideoId,
 }: BookingSelectableCardProps) {
   return (
     <button
@@ -112,9 +115,6 @@ export default function BookingSelectableCard({
       aria-pressed={active}
     >
       <span className="absolute end-3 top-3 flex items-center gap-1.5">
-        {audioDemoId ? (
-          <MicroAudioAudition demoId={audioDemoId} className="!min-h-10 !min-w-10" />
-        ) : null}
         {badge ? (
           <span className="rounded-full bg-[var(--service-accent,#d42b2b)] px-2 py-0.5 text-[0.6rem] font-bold text-white">
             {badge}
@@ -164,6 +164,14 @@ export default function BookingSelectableCard({
       ) : null}
 
       {savings ? <span className="text-xs font-medium text-green-700">{savings}</span> : null}
+
+      {audioDemoId || youtubeVideoId ? (
+        <BookingPackageMediaStrip
+          audioDemoId={audioDemoId}
+          youtubeVideoId={youtubeVideoId}
+          title={title}
+        />
+      ) : null}
 
       {footer ? <div className="mt-auto w-full pt-1">{footer}</div> : null}
     </button>

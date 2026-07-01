@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
+import VenueApprovalShield from "@/components/confetti/VenueApprovalShield";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -334,6 +335,8 @@ export default function ConfettiCannonPageContent() {
             ))}
           </ul>
         </section>
+
+        <VenueApprovalShield />
 
         <AttractionBookPricingSection
           itemId="event_confetti"

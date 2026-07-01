@@ -103,7 +103,10 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     afterLabel: "אחרי תיקון זיופים",
     difficulty: "polish",
     status: "ready",
-    recommendedPages: ["/online/vocal-fix/pitch-correction"],
+    recommendedPages: [
+      "/online/vocal-fix/pitch-correction",
+      "/book",
+    ],
     storageKey: "pitch-correction",
   },
   {
@@ -129,7 +132,10 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     afterNote: "מוזיקת רקע ומיקס מקצועי",
     difficulty: "polish",
     status: "ready",
-    recommendedPages: ["/studio/blessings/bride-groom-blessing"],
+    recommendedPages: [
+      "/studio/blessings/bride-groom-blessing",
+      "/book",
+    ],
     storageKey: "blessing-mix",
   },
   {

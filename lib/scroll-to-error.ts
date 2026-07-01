@@ -20,3 +20,26 @@ export function scrollAndHighlightFirstError(): void {
     );
   }, 60);
 }
+
+const HIGHLIGHT_CLASS = "wizard-scroll-highlight";
+
+export function scrollToWizardTarget(targetId: string): void {
+  if (typeof document === "undefined") return;
+
+  setTimeout(() => {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.remove(HIGHLIGHT_CLASS);
+    void el.offsetWidth;
+    el.classList.add(HIGHLIGHT_CLASS);
+    window.setTimeout(() => el.classList.remove(HIGHLIGHT_CLASS), 2200);
+  }, 40);
+}
+
+export function scrollToFirstWizardBlocker(
+  scrollTargetId: string,
+): void {
+  scrollToWizardTarget(scrollTargetId);
+}

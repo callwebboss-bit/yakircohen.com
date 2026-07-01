@@ -2,6 +2,7 @@
 
 import { BOOK_WIZARD_COPY, STUDIO_QUICK_UPGRADE_IDS } from "@/lib/data/book-wizard-copy";
 import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
+import { STUDIO_QUICK_UPGRADE_CARDS } from "@/lib/data/studio-quick-upgrades";
 import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
 import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
@@ -94,33 +95,70 @@ export function StudioUpgradeQuickPills({
   selected: Set<string>;
   onToggle: (id: StudioUpgradeId) => void;
 }) {
-  const pills = STUDIO_RECORDING_UPGRADES.filter(
-    (u) =>
-      (STUDIO_QUICK_UPGRADE_IDS as readonly string[]).includes(u.id) &&
-      (!allowedIds || allowedIds.has(u.id)),
+  const priceById = new Map(STUDIO_RECORDING_UPGRADES.map((u) => [u.id, u.price]));
+  const cards = STUDIO_QUICK_UPGRADE_CARDS.filter(
+    (card) =>
+      (STUDIO_QUICK_UPGRADE_IDS as readonly string[]).includes(card.id) &&
+      (!allowedIds || allowedIds.has(card.id)),
   );
-  if (!pills.length) return null;
+  if (!cards.length) return null;
 
   return (
     <div>
-      <p className="mb-2 text-xs font-semibold text-muted-foreground">תוספות מהירות</p>
-      <div className="flex flex-wrap gap-2">
-        {pills.map((pill) => {
-          const active = selected.has(pill.id);
+      <p className="mb-2 text-sm font-semibold text-foreground">תוספות מהירות</p>
+      <p className="mb-3 text-xs text-muted-foreground">
+        לחצו להוספה - אפשר לבטל בלחיצה נוספת
+      </p>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {cards.map((card) => {
+          const active = selected.has(card.id);
+          const price = priceById.get(card.id) ?? 0;
           return (
             <button
-              key={pill.id}
+              key={card.id}
               type="button"
               aria-pressed={active}
-              onClick={() => onToggle(pill.id)}
+              onClick={() => onToggle(card.id)}
               className={cn(
-                "min-h-12 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                "group flex min-h-[5.5rem] w-full flex-col overflow-hidden rounded-2xl border text-start transition-[border-color,box-shadow,transform] active:scale-[0.99]",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)]/10 text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/40",
+                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] shadow-[0_4px_16px_color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)]"
+                  : "border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/35 hover:shadow-sm",
               )}
             >
-              +{pill.price.toLocaleString("he-IL")} ₪ · {pill.name.split(" ")[0]}
+              <div className="relative h-20 w-full overflow-hidden bg-muted/40">
+                {card.thumbSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={card.thumbSrc}
+                    alt=""
+                    className="h-full w-full object-cover transition-transform duration-normal group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-muted/50 to-muted text-3xl">
+                    {card.emoji}
+                  </div>
+                )}
+                <span
+                  className={cn(
+                    "absolute end-2 top-2 rounded-full px-2 py-0.5 text-[0.65rem] font-bold",
+                    active
+                      ? "bg-[var(--service-accent,#d42b2b)] text-white"
+                      : "bg-black/55 text-white",
+                  )}
+                >
+                  {active ? "נוסף ✓" : `+${formatNis(price)}`}
+                </span>
+              </div>
+              <div className="flex flex-1 flex-col gap-0.5 p-3">
+                <span className="text-sm font-semibold leading-snug text-foreground">
+                  {card.title}
+                </span>
+                <span className="text-xs leading-relaxed text-muted-foreground">
+                  {card.subtitle}
+                </span>
+              </div>
             </button>
           );
         })}

@@ -121,6 +121,8 @@ export function buildSiteSchema() {
           { "@type": "City", name: "מודיעין-מכבים-רעות" },
           { "@type": "City", name: "ירושלים" },
           { "@type": "City", name: "תל אביב" },
+          { "@type": "City", name: "שוהם" },
+          { "@type": "City", name: "רחובות" },
           { "@type": "AdministrativeArea", name: "מרכז" },
         ],
         sameAs: sameAsUrls,

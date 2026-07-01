@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import {
+  parseBookCategoryFromHash,
+  parseBookWizardStepFromHash,
+} from "@/lib/book-url";
 import type { TierACategoryId } from "@/lib/book-wizard-cro/types";
 
 /**
- * מנהל history לכפתור Back בדפדפן - שלב אחורה בתוך הוויזארד.
+ * מסנכרן hash לשלב הנוכחי ב-URL.
+ * משתמש ב-replaceState (לא pushState) כדי שלא ייווצר מגזר history שתוקע את כפתור Back.
  */
 export function useWizardHistory(opts: {
   category: TierACategoryId;
@@ -12,7 +17,7 @@ export function useWizardHistory(opts: {
   setStep: (n: number) => void;
   enabled?: boolean;
 }) {
-  const pushingRef = useRef(false);
+  const syncingRef = useRef(false);
   const stepRef = useRef(opts.step);
 
   useEffect(() => {
@@ -23,31 +28,45 @@ export function useWizardHistory(opts: {
     if (opts.enabled === false) return undefined;
 
     function onPopState() {
-      if (pushingRef.current) {
-        pushingRef.current = false;
+      if (syncingRef.current) {
+        syncingRef.current = false;
         return;
       }
-      const current = stepRef.current;
-      if (current > 0) {
-        opts.setStep(current - 1);
+
+      const hashCategory = parseBookCategoryFromHash(window.location.hash);
+      if (hashCategory !== opts.category) return;
+
+      const hashStep = parseBookWizardStepFromHash(window.location.hash);
+      if (hashStep !== null) {
+        opts.setStep(hashStep);
+        return;
       }
+
+      opts.setStep(0);
     }
 
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, [opts.enabled, opts.setStep]);
+  }, [opts.enabled, opts.setStep, opts.category]);
 
   useEffect(() => {
     if (opts.enabled === false) return;
     if (typeof window === "undefined") return;
 
-    const hash = window.location.hash.replace(/^#/, "").split("/")[0];
-    const base = hash.startsWith(opts.category) ? opts.category : opts.category;
-    const nextUrl = `${window.location.pathname}${window.location.search}#${base}/step/${opts.step}`;
+    const targetHash = `#${opts.category}/step/${opts.step}`;
+    const currentHash = window.location.hash;
 
-    if (window.location.hash !== `#${base}/step/${opts.step}`) {
-      pushingRef.current = true;
-      window.history.pushState({ wizardStep: opts.step }, "", nextUrl);
+    if (currentHash === targetHash) return;
+
+    if (
+      opts.step === 0 &&
+      (currentHash === `#${opts.category}` || currentHash === "")
+    ) {
+      return;
     }
+
+    syncingRef.current = true;
+    const nextUrl = `${window.location.pathname}${window.location.search}${targetHash}`;
+    window.history.replaceState({ wizardStep: opts.step }, "", nextUrl);
   }, [opts.category, opts.step, opts.enabled]);
 }

@@ -6,6 +6,7 @@ import {
   type ScheduleWindowId,
 } from "@/lib/data/studio-recording-booking";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
 import { cn } from "@/lib/utils";
 
 type BookingSchedulePickerProps = {
@@ -84,7 +85,12 @@ export default function BookingSchedulePicker({
           <p id={scheduleErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
             {errors.scheduleWindow}
           </p>
-        ) : null}
+        ) : (
+          <BookingFieldFeedback
+            valid={Boolean(scheduleWindow)}
+            hint={scheduleWindow ? "מועד מועדף נבחר" : undefined}
+          />
+        )}
       </div>
 
       {scheduleWindow && windowsOnly ? (

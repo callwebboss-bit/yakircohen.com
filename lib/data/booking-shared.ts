@@ -4,6 +4,8 @@
   description?: string;
   /** שורת "מה אתם מקבלים" קצרה - מוצגת בולד מתחת לשם */
   whatYouGet?: string;
+  imageSrc?: string;
+  youtubeVideoId?: string;
   price: number;
   badge?: string;
   /** מחיר רגיל לפני הנחה - מוצג עם קו חוצה */

@@ -191,6 +191,19 @@
   }
 }
 
+.wizard-scroll-highlight {
+  outline: 2px solid color-mix(in srgb, var(--service-accent, #d42b2b) 55%, transparent);
+  outline-offset: 4px;
+  border-radius: 1rem;
+  transition: outline-color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wizard-scroll-highlight {
+    outline-width: 3px;
+  }
+}
+
 /* ── CSS-only scroll reveal ────────────────────────────────────────────────
    Uses animation-timeline: view() -- zero JS, GPU-composited only.
    Wrapped in @supports so unsupported browsers see content normally.

@@ -39,10 +39,11 @@ export const STUDIO_CRO_CONFIG = {
       "בר קליל ואירוח מלא לאורך היום - לפרויקטים גדולים בלבד",
     ],
     priceExVat: 8900,
-    badge: "להשוואה בלבד",
+    badge: "מסלול זמרים מנוסים",
     footnote:
       "חבילה מותאמת אישית לפרויקטים גדולים - לא נרכשת בטופס. נתאם בוואטסאפ לפי היקף, זמן באולפן ודרישות קידום.",
-    ariaLabel: "חבילת הפקה באולפן הקלטות במודיעין - להשוואה בלבד",
+    ariaLabel: "חבילת הפקה באולפן הקלטות במודיעין - מסלול זמרים מנוסים",
+    youtubeVideoId: "q18Lu0MvXHo",
     ctaPrimary: "דבר עם מפיק ראשי",
     ctaSecondary: CRO_SHARED.decoyWaitlistNote,
     waitlistUtmCampaign: "studio_decoy_waitlist",
@@ -62,7 +63,7 @@ export const STUDIO_CRO_CONFIG = {
   parkingCopy:
     "סידרנו לך ראש תל-אביבי שקט. חניה פרטית, מקורה ובחינם מחכה לך ישירות מתחת לאולפן. השלט לפתיחת המחסום יישלח אליך אוטומטית בוואטסאפ.",
   lastMinuteUpsell: {
-    label: "להוסיף סרטון מאחורי הקלעים (BTS) לסטורי - 99 ₪ במקום 250 ₪",
+    label: "להוסיף תמונות וסרטון קצר מהאולפן לסטורי - 99 ₪ במקום 250 ₪",
     upgradeId: "bts",
     promoPrice: 99,
     listPrice: 250,

@@ -64,6 +64,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   },
   { url: url("podcast/mobile-podcast-at-home"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("podcast/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/bulk-production"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/studio-in-a-box"), priority: 0.65, changeFrequency: "monthly" },
   { url: url("podcast/faq"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Online / AI ────────────────────────────────────────────────────────────
@@ -103,6 +105,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.72,
     changeFrequency: "monthly",
   },
+  { url: url("online/mashup-fixer"), priority: 0.65, changeFrequency: "monthly" },
+  { url: url("online/vocal-fix/send-file"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("online/online-ai-pricing"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── Attractions ────────────────────────────────────────────────────────────
@@ -135,6 +139,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── DJ & Voiceover ─────────────────────────────────────────────────────────
   { url: url("events/dj-events"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("events/dj/pre-built-sets"), priority: 0.65, changeFrequency: "monthly" },
+  { url: url("events/dj/voice-tags"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("voiceover"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("voiceover/services"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("voiceover/course"), priority: 0.7, changeFrequency: "monthly" },
@@ -176,6 +182,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.75,
     changeFrequency: "monthly",
   },
+  { url: url("events/equipment/dry-hire"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/equipment/system-tuning"), priority: 0.65, changeFrequency: "monthly" },
   { url: url("events/host"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/host/faq"), priority: 0.6, changeFrequency: "monthly" },
   { url: url("events/equipment/faq"), priority: 0.6, changeFrequency: "monthly" },
@@ -226,6 +234,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Commerce ───────────────────────────────────────────────────────────────
   { url: url("shop"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("courses"), priority: 0.65, changeFrequency: "monthly" },
+  { url: url("equipment/used-gear"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Blog hub ───────────────────────────────────────────────────────────────
   { url: url("blog"), priority: 0.8, changeFrequency: "weekly" },
