@@ -24,10 +24,10 @@ export const STUDIO_QUICK_UPGRADE_CARDS: readonly StudioQuickUpgradeCard[] = [
     emoji: "⚡",
   },
   {
-    id: "vocal_coaching",
-    title: "הכנה קולית לפני הסשן",
-    subtitle: "תגיעו לאולפן מוכנים ובטוחים",
-    emoji: "🎤",
-    thumbSrc: "https://img.youtube.com/vi/XUr2e5S4JSA/hqdefault.jpg",
+    id: "ai_playback",
+    title: "פלייבק AI מותאם אישית",
+    subtitle: "לחן מקורי לפי הסגנון שלכם",
+    emoji: "🎹",
+    thumbSrc: "https://img.youtube.com/vi/r8Xk2_m9FJ8/hqdefault.jpg",
   },
 ] as const;

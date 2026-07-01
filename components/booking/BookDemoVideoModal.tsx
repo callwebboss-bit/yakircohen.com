@@ -21,9 +21,12 @@ export default function BookDemoVideoModal({
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    if (!dialog) return;
+    if (!dialog) return undefined;
     if (open && !dialog.open) dialog.showModal();
     if (!open && dialog.open) dialog.close();
+    return () => {
+      if (dialog.open) dialog.close();
+    };
   }, [open]);
 
   const embedUrl = youtubeEmbedUrl(videoId);

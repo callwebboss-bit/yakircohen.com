@@ -16,6 +16,7 @@ type UpgradeDisplayMeta = {
   whatYouGet?: string;
   imageSrc?: string;
   youtubeVideoId?: string;
+  thumbIcon?: string;
 };
 
 const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
@@ -24,8 +25,8 @@ const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
     youtubeVideoId: STUDIO_UPGRADE_BTS_YOUTUBE,
   },
   studio_session_video: {
-    whatYouGet: "כולל קטעים נבחרים מאחורי הקלעים",
-    youtubeVideoId: STUDIO_UPGRADE_BTS_YOUTUBE,
+    whatYouGet: "סרטון מערוך מההקלטה - דוגמה בלחיצה",
+    youtubeVideoId: "wINztIFDN08",
   },
   performance_clip: {
     whatYouGet: "סרטון מערוך מוכן להקרנה ולרשתות",
@@ -36,12 +37,14 @@ const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
   },
   express: {
     whatYouGet: "עדיפות בלו\"ז והגשה מהירה במיוחד",
+    thumbIcon: "⚡",
   },
   vocal_coaching: {
     whatYouGet: "תגיעו לאולפן מוכנים ובטוחים",
   },
   ai_playback: {
     whatYouGet: "לחן מקורי לפי הסגנון שלכם",
+    youtubeVideoId: "r8Xk2_m9FJ8",
   },
 };
 
@@ -70,6 +73,7 @@ export function buildStudioUpgradeItems(
       whatYouGet: meta?.whatYouGet,
       imageSrc: meta?.imageSrc,
       youtubeVideoId: meta?.youtubeVideoId,
+      thumbIcon: meta?.thumbIcon,
     };
   });
 }

@@ -7,6 +7,7 @@ import {
   suggestReplyPaths,
   type ReplyContext,
   type ReplyLength,
+  type ReplyStudioLabels,
   type ReplyTone,
 } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ type BookReplyStudioProps = {
   forCloser?: boolean;
   compact?: boolean;
   className?: string;
+  labelsOverride?: Partial<ReplyStudioLabels>;
   onCopy?: (text: string) => void;
 };
 
@@ -32,9 +34,10 @@ export default function BookReplyStudio({
   forCloser = false,
   compact = false,
   className,
+  labelsOverride,
   onCopy,
 }: BookReplyStudioProps) {
-  const labels = getReplyStudioLabels();
+  const labels = { ...getReplyStudioLabels(), ...labelsOverride };
   const paths = useMemo(
     () => suggestReplyPaths({ ...context, forCloser }),
     [context, forCloser],

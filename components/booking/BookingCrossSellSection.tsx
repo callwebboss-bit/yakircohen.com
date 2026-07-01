@@ -35,7 +35,7 @@ export default function BookingCrossSellSection({
     <section className={cn("mt-8 text-right", className)} aria-label="הצעות משלימות">
       <h2 className="text-lg font-semibold text-foreground">אולי יעניין אתכם גם</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        תוספות פופולריות שמשפחות בוחרות אחרי ההזמנה
+        שירותים נוספים שעשויים להתאים
       </p>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {offers.map((offer) => (

@@ -11,6 +11,7 @@ import {
   type ReplyContext,
   type ReplyLength,
   type ReplyPath,
+  type ReplyStudioLabels,
   type ReplyTone,
 } from "@/lib/reply-copy-builders-core";
 
@@ -20,6 +21,7 @@ export type {
   ReplyContext,
   ReplyLength,
   ReplyPath,
+  ReplyStudioLabels,
   ReplyTone,
 };
 

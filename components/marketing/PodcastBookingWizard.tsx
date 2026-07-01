@@ -15,6 +15,7 @@ import WizardProgressBar from "@/components/booking/WizardProgressBar";
 import WizardStepCelebrate from "@/components/booking/WizardStepCelebrate";
 import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
 import WizardStepProgress from "@/components/booking/WizardStepProgress";
+import BookOptionalAddonsButton from "@/components/booking/BookOptionalAddonsButton";
 import BookingSelectableCard, {
   BookingSelectionConfirm,
   BookingStepGuide,
@@ -326,8 +327,6 @@ export default function PodcastBookingWizard({
         overtimeBlocks: 0,
         selectedUpsells: [],
       });
-      const addons = getCatalogAddonsForPodcastPackage(pkgId);
-      if (addons.length > 0) setAddonDrawerOpen(true);
     },
     [patchForm],
   );
@@ -974,6 +973,11 @@ export default function PodcastBookingWizard({
           {PODCAST_CRO_CONFIG.escapePlacements.includes("after_packages") && selected ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
+
+          <BookOptionalAddonsButton
+            count={catalogAddonItems.length}
+            onClick={() => setAddonDrawerOpen(true)}
+          />
 
           <WizardStepProgress items={step0Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />

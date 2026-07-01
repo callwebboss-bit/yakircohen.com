@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import VenueApprovalShield from "@/components/confetti/VenueApprovalShield";
+import ConfettiMomentSelector from "@/components/booking/ConfettiMomentSelector";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -14,6 +16,9 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import BookingWizardNav from "@/components/booking/BookingWizardNav";
 import WizardProgressBar from "@/components/booking/WizardProgressBar";
 import WizardStepCelebrate from "@/components/booking/WizardStepCelebrate";
+import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
+import WizardStepProgress from "@/components/booking/WizardStepProgress";
+import BookOptionalAddonsButton from "@/components/booking/BookOptionalAddonsButton";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import {
   EventsDecoyVipCard,
@@ -97,7 +102,17 @@ import {
 } from "@/lib/book-wizard-urgency";
 import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
+import {
+  scrollAndHighlightFirstError,
+  scrollToFirstWizardBlocker,
+} from "@/lib/scroll-to-error";
+import {
+  getEventsStep0Blockers,
+  getEventsStep0Checklist,
+  getEventsStep1Blockers,
+  getEventsStep1Checklist,
+  type WizardStepBlocker,
+} from "@/lib/events-wizard-step-guards";
 import { cn } from "@/lib/utils";
 
 function AttractionIcon({
@@ -127,6 +142,12 @@ function AttractionIcon({
   );
 }
 
+const CONFETTI_MOMENT_LABELS: Record<string, string> = {
+  glass_break: "שבירת הכוס בחופה",
+  slow_dance: "שיא ריקוד הסלואו",
+  afterparty: "פתיחת הרחבה - אפטר פארטי",
+};
+
 const STEPS = ["אטרקציות", "פרטים", "סיכום"] as const;
 
 const INITIAL: EventsFormDraft = {
@@ -144,6 +165,7 @@ const INITIAL: EventsFormDraft = {
   welcomePerk: "",
   lastMinuteUpsell: false,
   termsAccepted: false,
+  confettiMoment: "",
 };
 
 /** תגי אמינות ספציפיים לאירועים (לא "גיבוי ענן" / "חניה") */
@@ -189,6 +211,7 @@ export default function EventsBookingWizard({
     null,
   );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
+  const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const prevStepRef = useRef(0);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
   const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
@@ -389,11 +412,6 @@ export default function EventsBookingWizard({
     const nextQuantities = { ...form.quantities };
     if (has) delete nextQuantities[id];
     patchForm({ selected: nextSelected, quantities: nextQuantities });
-    if (!has) {
-      const nextCount = nextSelected.filter((x) => x !== SOUND_RENTAL_ID).length;
-      const addons = getCatalogAddonsForEventsBundle(nextCount);
-      if (addons.length > 0) setAddonDrawerOpen(true);
-    }
   };
 
   const setQuantity = (id: EventBookingItemId, qty: EventBookingItemQuantity) => {
@@ -438,9 +456,21 @@ export default function EventsBookingWizard({
     [form.selected, form.quantities],
   );
 
-  const canStep1 = useMemo(
-    () => Boolean(form.name.trim() && form.phone.trim()),
-    [form.name, form.phone],
+  const step0Checklist = useMemo(
+    () => getEventsStep0Checklist(count),
+    [count],
+  );
+
+  const step1Checklist = useMemo(
+    () =>
+      getEventsStep1Checklist({
+        name: form.name,
+        phone: form.phone,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+      }),
+    [form.name, form.phone, form.date, form.time, form.location],
   );
 
   const buildSummaryLines = () => [
@@ -470,6 +500,9 @@ export default function EventsBookingWizard({
               form.welcomePerk,
           },
         ]
+      : []),
+    ...(form.confettiMoment
+      ? [{ label: "רגע שיא קונפטי", value: CONFETTI_MOMENT_LABELS[form.confettiMoment] ?? form.confettiMoment }]
       : []),
     ...(form.notes ? [{ label: "הערות", value: sanitizeLeadText(form.notes, 500) }] : []),
     ...form.selectedUpsells.map((uid) => {
@@ -586,34 +619,64 @@ export default function EventsBookingWizard({
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
 
+  const goToStep = (n: number) => {
+    setStepBlockers([]);
+    setStep(n);
+    scrollToBookWizardPanelAndFocusStep(n);
+  };
+
+  const attemptAdvanceFromStep0 = () => {
+    const blockers = getEventsStep0Blockers({ attractionCount: count });
+    if (blockers.length > 0) {
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    trackFunnel("Step1_Complete", {
+      package_id: form.selected.join(",") || "",
+      step: 1,
+    });
+    goToStep(1);
+  };
+
   const beginStep2Transition = () => {
-    if (!canStep1) return;
     trackFunnel("Step2_PackageSelected", {
       package_id: form.selected.join(",") || "",
       step: 2,
     });
-
-    if (form.phone.trim()) {
-      const phoneCheck = validateBookingLead({
-        name: form.name,
-        phone: form.phone,
-        date: form.date,
-        time: form.time,
-        location: form.location,
-        notes: form.notes,
-        requireLocation: false,
-        requireDate: false,
-        requireTime: false,
-      });
-      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
-        mergeErrors({ phone: phoneCheck.errors.phone });
-        scrollAndHighlightFirstError();
-        return;
-      }
-    }
-
+    setStepBlockers([]);
     setStep2Transition(true);
   };
+
+  const attemptAdvanceFromStep1 = () => {
+    const blockers = getEventsStep1Blockers({
+      name: form.name,
+      phone: form.phone,
+      date: form.date,
+      time: form.time,
+      location: form.location,
+    });
+    if (blockers.length > 0) {
+      const fieldErrors: Record<string, string> = {};
+      for (const b of blockers) {
+        fieldErrors[b.fieldId] = b.message;
+      }
+      mergeErrors(fieldErrors);
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    setErrors({});
+    beginStep2Transition();
+  };
+
+  useEffect(() => {
+    return () => {
+      setStep2Transition(false);
+      setAddonDrawerOpen(false);
+      setExitIntentOpen(false);
+    };
+  }, []);
 
   const consultHref = useMemo(() => {
     const displayPhone = form.phone.trim()
@@ -766,7 +829,7 @@ export default function EventsBookingWizard({
           <p className="text-sm text-muted-foreground">
             2 אטרקציות = חבילה · 4+ = מתנת מצגת תמונות · כמות כפולה = 25% הנחה
           </p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div id="book-events-selection" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {EVENT_BOOKING_ITEMS.map((item) => {
               const active = form.selected.includes(item.id);
               const qty = form.quantities[item.id] ?? "standard";
@@ -885,6 +948,17 @@ export default function EventsBookingWizard({
                             </p>
                           ) : null}
                         </div>
+                      ) : null}
+
+                      {item.id === "event_confetti" ? (
+                        <ConfettiMomentSelector
+                          value={form.confettiMoment}
+                          onChange={(v) => patchForm({ confettiMoment: v })}
+                        />
+                      ) : null}
+
+                      {item.id === "event_confetti" ? (
+                        <VenueApprovalShield compact />
                       ) : null}
 
                       <p className="px-0.5 text-[0.65rem] leading-relaxed text-muted-foreground">
@@ -1035,17 +1109,16 @@ export default function EventsBookingWizard({
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
 
-          <StepNav
-            onNext={() => {
-              trackFunnel("Step1_Complete", {
-                package_id: form.selected.join(",") || "",
-                step: 1,
-              });
-              setStep(1);
-            }}
-            nextDisabled={count === 0}
-            showBack={false}
+          <BookOptionalAddonsButton
+            count={catalogAddonItems.length}
+            onClick={() => setAddonDrawerOpen(true)}
+            className="mt-6"
           />
+
+          <WizardStepProgress items={step0Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
+
+          <StepNav onNext={attemptAdvanceFromStep0} showBack={false} />
         </BookingStepPanel>
       )}
 
@@ -1078,14 +1151,16 @@ export default function EventsBookingWizard({
                 setErrors(next);
               }}
             />
-            <BookingDateTimeFields
-              date={form.date}
-              time={form.time}
-              minDate={today}
-              onDateChange={(v) => patchForm({ date: v })}
-              onTimeChange={(v) => patchForm({ time: v })}
-              errors={{ date: errors.date, time: errors.time }}
-            />
+            <div id="book-events-schedule">
+              <BookingDateTimeFields
+                date={form.date}
+                time={form.time}
+                minDate={today}
+                onDateChange={(v) => patchForm({ date: v })}
+                onTimeChange={(v) => patchForm({ time: v })}
+                errors={{ date: errors.date, time: errors.time }}
+              />
+            </div>
             <BookingFormField
               id="ev-location"
               label="שם האולם / מיקום *"
@@ -1116,10 +1191,12 @@ export default function EventsBookingWizard({
           {EVENTS_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
+          <WizardStepProgress items={step1Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
+
           <StepNav
-            onBack={() => setStep(0)}
-            onNext={beginStep2Transition}
-            nextDisabled={!canStep1}
+            onBack={() => goToStep(0)}
+            onNext={attemptAdvanceFromStep1}
           />
         </BookingStepPanel>
       )}
@@ -1389,12 +1466,10 @@ export default function EventsBookingWizard({
 function StepNav({
   onBack,
   onNext,
-  nextDisabled,
   showBack = true,
 }: {
   onBack?: () => void;
   onNext: () => void;
-  nextDisabled?: boolean;
   showBack?: boolean;
 }) {
   return (
@@ -1403,7 +1478,7 @@ function StepNav({
         <button
           type="button"
           onClick={onBack}
-          className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold"
+          className="min-h-11 rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold"
         >
           חזרה
         </button>
@@ -1413,13 +1488,7 @@ function StepNav({
       <button
         type="button"
         onClick={onNext}
-        disabled={nextDisabled}
-        className={cn(
-          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
-          nextDisabled
-            ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-brand-red text-white hover:opacity-90",
-        )}
+        className="min-h-12 rounded-2xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
       >
         המשך
       </button>

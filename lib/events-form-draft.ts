@@ -19,6 +19,14 @@ export const EVENTS_WELCOME_PERK_IDS = [
 
 export type EventsWelcomePerkId = "" | (typeof EVENTS_WELCOME_PERK_IDS)[number];
 
+export const CONFETTI_MOMENT_IDS = [
+  "glass_break",
+  "slow_dance",
+  "afterparty",
+] as const;
+
+export type ConfettiMomentId = "" | (typeof CONFETTI_MOMENT_IDS)[number];
+
 export type EventsFormDraft = {
   selected: EventBookingItemId[];
   quantities: Partial<Record<EventBookingItemId, EventBookingItemQuantity>>;
@@ -34,6 +42,7 @@ export type EventsFormDraft = {
   welcomePerk: EventsWelcomePerkId;
   lastMinuteUpsell: boolean;
   termsAccepted: boolean;
+  confettiMoment: ConfettiMomentId;
 };
 
 export function parseEventsFormDraft(
@@ -79,5 +88,10 @@ export function parseEventsFormDraft(
       : "",
     lastMinuteUpsell: pickBoolean(raw.lastMinuteUpsell),
     termsAccepted: pickBoolean(raw.termsAccepted),
+    confettiMoment: (CONFETTI_MOMENT_IDS as readonly string[]).includes(
+      pickString(raw.confettiMoment),
+    )
+      ? (pickString(raw.confettiMoment) as ConfettiMomentId)
+      : "",
   };
 }

@@ -25,6 +25,8 @@ import {
 import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
+import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
+import WizardStepProgress from "@/components/booking/WizardStepProgress";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import BookingDateTimeFields from "@/components/booking/BookingDateTimeFields";
 import BookingFormField from "@/components/booking/BookingFormField";
@@ -77,7 +79,14 @@ import {
 } from "@/lib/booking-messages";
 import { parseSingerFormDraft, type SingerFormDraft } from "@/lib/singer-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
+import { scrollAndHighlightFirstError, scrollToFirstWizardBlocker } from "@/lib/scroll-to-error";
+import {
+  getSingerStep0Blockers,
+  getSingerStep0Checklist,
+  getSingerStep1Blockers,
+  getSingerStep1Checklist,
+  type WizardStepBlocker,
+} from "@/lib/singer-wizard-step-guards";
 import { cn } from "@/lib/utils";
 
 const STEPS = ["בחירת מערכת", "פרטי ההופעה", "אישור ושליחה"] as const;
@@ -114,6 +123,7 @@ export default function SingerAmplificationBookingWizard({
   const coreContactMerged = useRef(false);
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
+  const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
   const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
     "singer",
@@ -214,10 +224,21 @@ export default function SingerAmplificationBookingWizard({
     });
   };
 
-  const canStep0 = form.packageId !== "";
-  const canStep1 = useMemo(
-    () => Boolean(form.name.trim() && form.phone.trim()),
-    [form.name, form.phone],
+  const step0Checklist = useMemo(
+    () => getSingerStep0Checklist(form.packageId),
+    [form.packageId],
+  );
+
+  const step1Checklist = useMemo(
+    () =>
+      getSingerStep1Checklist({
+        name: form.name,
+        phone: form.phone,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+      }),
+    [form.name, form.phone, form.date, form.time, form.location],
   );
 
   const buildSummaryLines = () => [
@@ -354,34 +375,63 @@ export default function SingerAmplificationBookingWizard({
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
 
+  const goToStep = (n: number) => {
+    setStepBlockers([]);
+    setStep(n);
+    scrollToBookWizardPanelAndFocusStep(n);
+  };
+
+  const attemptAdvanceFromStep0 = () => {
+    const blockers = getSingerStep0Blockers({ packageId: form.packageId });
+    if (blockers.length > 0) {
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    trackFunnel("Step1_Complete", {
+      package_id: form.packageId || "",
+      step: 1,
+    });
+    goToStep(1);
+  };
+
   const beginStep2Transition = () => {
-    if (!canStep1) return;
     trackFunnel("Step2_PackageSelected", {
       package_id: form.packageId || "",
       step: 2,
     });
-
-    if (form.phone.trim()) {
-      const phoneCheck = validateBookingLead({
-        name: form.name,
-        phone: form.phone,
-        date: form.date,
-        time: form.time,
-        location: form.location,
-        notes: form.notes,
-        requireLocation: false,
-        requireDate: false,
-        requireTime: false,
-      });
-      if (!phoneCheck.ok && phoneCheck.errors?.phone) {
-        mergeErrors({ phone: phoneCheck.errors.phone });
-        scrollAndHighlightFirstError();
-        return;
-      }
-    }
-
+    setStepBlockers([]);
     setStep2Transition(true);
   };
+
+  const attemptAdvanceFromStep1 = () => {
+    const blockers = getSingerStep1Blockers({
+      name: form.name,
+      phone: form.phone,
+      date: form.date,
+      time: form.time,
+      location: form.location,
+    });
+    if (blockers.length > 0) {
+      const fieldErrors: Record<string, string> = {};
+      for (const b of blockers) {
+        fieldErrors[b.fieldId] = b.message;
+      }
+      mergeErrors(fieldErrors);
+      setStepBlockers(blockers);
+      scrollToFirstWizardBlocker(blockers[0]!.scrollTargetId);
+      return;
+    }
+    setErrors({});
+    beginStep2Transition();
+  };
+
+  useEffect(() => {
+    return () => {
+      setStep2Transition(false);
+      setExitIntentOpen(false);
+    };
+  }, []);
 
   const consultHref = useMemo(() => {
     const displayPhone = form.phone.trim()
@@ -520,7 +570,7 @@ export default function SingerAmplificationBookingWizard({
               הריצו את מחשבון המערכת בעמוד השירות
             </a>
           </p>
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <div id="book-singer-package-grid" className="mt-6 grid gap-4 lg:grid-cols-3">
             {SINGER_PACKAGES.map((pkg) => {
               const active = form.packageId === pkg.id;
               return (
@@ -555,7 +605,10 @@ export default function SingerAmplificationBookingWizard({
           {SINGER_CRO_CONFIG.escapePlacements.includes("after_packages") && form.packageId ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
-          <StepNav onNext={() => setStep(1)} nextDisabled={!canStep0} showBack={false} />
+          <WizardStepProgress items={step0Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
+
+          <StepNav onNext={attemptAdvanceFromStep0} showBack={false} />
         </BookingStepPanel>
       )}
 
@@ -587,14 +640,16 @@ export default function SingerAmplificationBookingWizard({
                 setErrors(next);
               }}
             />
-            <BookingDateTimeFields
-              date={form.date}
-              time={form.time}
-              minDate={today}
-              onDateChange={(v) => patchForm({ date: v })}
-              onTimeChange={(v) => patchForm({ time: v })}
-              errors={{ date: errors.date, time: errors.time }}
-            />
+            <div id="book-singer-schedule">
+              <BookingDateTimeFields
+                date={form.date}
+                time={form.time}
+                minDate={today}
+                onDateChange={(v) => patchForm({ date: v })}
+                onTimeChange={(v) => patchForm({ time: v })}
+                errors={{ date: errors.date, time: errors.time }}
+              />
+            </div>
             <BookingFormField
               id="sg-location"
               label="מיקום ההופעה *"
@@ -624,7 +679,10 @@ export default function SingerAmplificationBookingWizard({
           {SINGER_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} />
           ) : null}
-          <StepNav onBack={() => setStep(0)} onNext={beginStep2Transition} nextDisabled={!canStep1} />
+          <WizardStepProgress items={step1Checklist} className="mt-4" />
+          <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
+
+          <StepNav onBack={() => goToStep(0)} onNext={attemptAdvanceFromStep1} />
         </BookingStepPanel>
       )}
 
@@ -721,18 +779,20 @@ export default function SingerAmplificationBookingWizard({
 function StepNav({
   onBack,
   onNext,
-  nextDisabled,
   showBack = true,
 }: {
   onBack?: () => void;
   onNext: () => void;
-  nextDisabled?: boolean;
   showBack?: boolean;
 }) {
   return (
     <div className="flex justify-between gap-3 border-t border-border pt-6">
       {showBack && onBack ? (
-        <button type="button" onClick={onBack} className="rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold">
+        <button
+          type="button"
+          onClick={onBack}
+          className="min-h-11 rounded-2xl border border-border/60 px-5 py-2.5 text-sm font-semibold"
+        >
           חזרה
         </button>
       ) : (
@@ -741,13 +801,7 @@ function StepNav({
       <button
         type="button"
         onClick={onNext}
-        disabled={nextDisabled}
-        className={cn(
-          "rounded-2xl px-6 py-2.5 text-sm font-semibold transition-opacity",
-          nextDisabled
-            ? "cursor-not-allowed bg-border text-muted-foreground"
-            : "bg-brand-red text-white hover:opacity-90",
-        )}
+        className="min-h-12 rounded-2xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
       >
         המשך
       </button>

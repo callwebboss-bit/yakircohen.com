@@ -30,7 +30,7 @@ export default function BookPriceDual({
     <div className={cn("min-w-0 space-y-0.5", className)}>
       <p className={cn("break-words font-bold text-foreground", SIZE_CLASS[size])}>{main}</p>
       <p className="break-words text-xs text-muted-foreground">
-        {exVat.toLocaleString("he-IL")} ₪ + מע״מ {vat.toLocaleString("he-IL")} ₪ ={" "}
+        {exVat.toLocaleString("he-IL")} ₪ + מע״מ (18%) {vat.toLocaleString("he-IL")} ₪ ={" "}
         <span className="font-semibold text-foreground">
           {total.toLocaleString("he-IL")} ₪ סופי
         </span>

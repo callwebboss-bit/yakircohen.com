@@ -17,6 +17,7 @@ const INITIAL: EventsFormDraft = {
   welcomePerk: "",
   lastMinuteUpsell: false,
   termsAccepted: false,
+  confettiMoment: "",
 };
 
 describe("parseEventsFormDraft", () => {

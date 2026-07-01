@@ -5,6 +5,9 @@ import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import VenueApprovalShield from "@/components/confetti/VenueApprovalShield";
+import ConfettiSlowMoVideo from "@/components/confetti/ConfettiSlowMoVideo";
+import VenueSizeCalculator from "@/components/confetti/VenueSizeCalculator";
+import ConfettiFallSimulator from "@/components/confetti/ConfettiFallSimulator";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -111,6 +114,8 @@ export default function ConfettiCannonPageContent() {
           ))}
         </ul>
 
+        <ConfettiSlowMoVideo />
+
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
           playlistEmbedUrl={youtubeEmbedUrl(
@@ -149,6 +154,12 @@ export default function ConfettiCannonPageContent() {
               </li>
             ))}
           </ul>
+          <div className="mt-8">
+            <p className="mb-3 text-center text-sm font-medium text-muted-foreground">
+              ראו את ההבדל בזמן אמת
+            </p>
+            <ConfettiFallSimulator />
+          </div>
         </section>
 
         <section aria-labelledby="compare-heading">
@@ -346,6 +357,23 @@ export default function ConfettiCannonPageContent() {
           subheading="בוחרים הפעלות, משלבים עם אטרקציות נוספות ושולחים בוואטסאפ."
         />
 
+
+        <section aria-labelledby="venue-calc-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="venue-calc-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              כמה תותחים אתם צריכים?
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              הזינו את גודל האירוע וקבלו המלצה מדויקת
+            </p>
+          </header>
+          <div className="mt-8">
+            <VenueSizeCalculator />
+          </div>
+        </section>
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

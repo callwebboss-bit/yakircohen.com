@@ -6,6 +6,8 @@
   whatYouGet?: string;
   imageSrc?: string;
   youtubeVideoId?: string;
+  /** אייקון בתמונה ממוזערת כשאין וידאו/תמונה */
+  thumbIcon?: string;
   price: number;
   badge?: string;
   /** מחיר רגיל לפני הנחה - מוצג עם קו חוצה */
@@ -74,6 +76,40 @@ export function resolveBookingBtsVideo(category?: BookCategoryId) {
     title: "60 שניות מאחורי הקלעים באולפן",
   };
 }
+
+export type BookingPostSubmitCopy = {
+  title: string;
+  body: string;
+  reopenLabel: string;
+  newBookingLabel: string;
+};
+
+export function resolveBookingPostSubmitCopy(
+  intent: keyof typeof BOOKING_POST_SUBMIT,
+  category?: BookCategoryId,
+): BookingPostSubmitCopy {
+  const base = BOOKING_POST_SUBMIT[intent];
+  const btsTitle = resolveBookingBtsVideo(category).title;
+
+  if (intent === "continue_chat") {
+    return {
+      ...base,
+      body: `קיבלנו את הפרטים. פתחו וואטסאפ לתיאום מהיר — או חכו שיקיר יחזור. בינתיים: ${btsTitle}.`,
+    };
+  }
+
+  return {
+    ...base,
+    body: `אתם מוכנים להתחיל — לחצו לוואטסאפ עכשיו לסגירה מהירה. בינתיים: ${btsTitle}.`,
+  };
+}
+
+/** כותרות BookReplyStudio במסך הצלחה / סיכום אולפן — ללקוח קצה */
+export const BOOKING_FAMILY_REPLY_LABELS = {
+  title: "טקסט לשליחה בוואטסאפ",
+  subtitle: "להעתקה לקבוצה או למקליט",
+  pathLabel: "סוג הודעה",
+} as const;
 
 /** הודעות אחרי שליחה מוצלחת (מוצגות באתר) לפי כוונת המשתמש */
 export const BOOKING_POST_SUBMIT = {

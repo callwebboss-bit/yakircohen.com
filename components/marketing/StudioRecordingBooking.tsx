@@ -6,7 +6,7 @@ import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSchedulePicker from "@/components/booking/BookingSchedulePicker";
-import BookingSubmitButton from "@/components/booking/BookingSubmitButton";
+import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import StudioValueChips from "@/components/booking/StudioValueChips";
 import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookRecordingVsProduction from "@/components/booking/BookRecordingVsProduction";
@@ -15,6 +15,7 @@ import SmartAddonDrawer from "@/components/booking/SmartAddonDrawer";
 import WizardContextFaqSnapshot from "@/components/booking/WizardContextFaqSnapshot";
 import WizardStepBlockerBanner from "@/components/booking/WizardStepBlockerBanner";
 import WizardStepProgress from "@/components/booking/WizardStepProgress";
+import BookOptionalAddonsButton from "@/components/booking/BookOptionalAddonsButton";
 import BookingSelectableCard, {
   BookingSelectionConfirm,
   BookingStepGuide,
@@ -34,6 +35,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   buildBookingWhatsAppBody,
+  buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
 import {
@@ -159,6 +161,11 @@ import {
   WELCOME_PERK_LABELS,
 } from "@/lib/data/book-wizard-copy";
 import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
+import {
+  BOOKING_CONSULT_15_MIN,
+  BOOKING_CTA,
+  BOOKING_FAMILY_REPLY_LABELS,
+} from "@/lib/data/booking-shared";
 import {
   saveStudioPriceHold,
 } from "@/lib/book-wizard-urgency";
@@ -695,8 +702,6 @@ export default function StudioRecordingBooking({
   const handleStudioPackageSelect = useCallback(
     (pkgId: StudioPackageId) => {
       patchForm({ packageId: pkgId, selectedUpsells: [] });
-      const addons = getCatalogAddonsForStudioPackage(pkgId);
-      if (addons.length > 0) setAddonDrawerOpen(true);
     },
     [patchForm],
   );
@@ -871,6 +876,17 @@ export default function StudioRecordingBooking({
     contactPhone: form.phone,
     ycStep: step + 1,
   });
+
+  const consultHref = buildConsultWhatsAppHref(
+    summaryLines,
+    {
+      name: sanitizeLeadText(form.name, 60),
+      phone: form.phone.trim()
+        ? formatPhoneForDisplay(form.phone.trim())
+        : "",
+    },
+    { bookCategory: "studio", source: "/book#studio" },
+  );
 
   const handleGhostLeadFired = () => {
     trackBookWizardFunnel("GhostLead_Fired", {
@@ -1747,18 +1763,14 @@ export default function StudioRecordingBooking({
 
             {!isConsultation && (
               <>
-                {!isQuickWizard ? <BookRecordingVsProduction /> : null}
+                <BookRecordingVsProduction compact={isQuickWizard} />
                 {!isQuickWizard ? (
                   <BookUpsellSection
                     items={upgradeItems}
                     selected={selectedUpgradeSet}
                     onToggle={toggleUpgrade}
                   />
-                ) : (
-                  <p className="text-xs text-muted-foreground">
-                    תוספות אופציונליות - נציע בוואטסאפ לפי הצורך
-                  </p>
-                )}
+                ) : null}
               </>
             )}
 
@@ -1811,6 +1823,11 @@ export default function StudioRecordingBooking({
                 </button>
               </div>
             ) : null}
+
+            <BookOptionalAddonsButton
+              count={catalogAddonItems.length}
+              onClick={() => setAddonDrawerOpen(true)}
+            />
 
             <WizardStepProgress items={step1Checklist} className="mt-2" />
 
@@ -2066,6 +2083,7 @@ export default function StudioRecordingBooking({
               {showPreSubmitReplyStudio ? (
                 <BookReplyStudio
                   context={replyStudioContext!}
+                  labelsOverride={BOOKING_FAMILY_REPLY_LABELS}
                   onCopy={() => window.alert("הועתק ללוח - אפשר להדביק בוואטסאפ")}
                 />
               ) : null}
@@ -2127,11 +2145,22 @@ export default function StudioRecordingBooking({
                 />
               ) : null}
 
-              <BookingSubmitButton
-                onClick={() => onSubmitClick("continue_chat")}
-              >
-                {sendBookingWaCta(withVat(total))}
-              </BookingSubmitButton>
+              <BookingSummaryActions
+                disabled={!form.termsAccepted}
+                socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5–7 ימי עבודה"
+                continueWhatsApp={{
+                  label: sendBookingWaCta(withVat(total)),
+                  onClick: () => onSubmitClick("continue_chat"),
+                }}
+                startNow={{
+                  label: BOOKING_CTA.start_now,
+                  onClick: () => onSubmitClick("start_now"),
+                }}
+                consult15Min={{
+                  label: BOOKING_CONSULT_15_MIN.title,
+                  href: consultHref,
+                }}
+              />
 
               <BookingPaymentTrust />
 
@@ -2149,21 +2178,34 @@ export default function StudioRecordingBooking({
 
       {/* Sticky price bar - step 2 only */}
       {step === 2 && activePackage && (
-        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm sm:hidden">
-          <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-4 px-4 py-3">
-            <div>
-              <p className="text-xs text-muted-foreground">{activePackage.name}</p>
-              <p className="text-base font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
+        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)] sm:hidden">
+          <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-2 px-3 py-2.5">
+            <div className="min-w-0">
+              <p className="truncate text-[0.65rem] text-muted-foreground">
+                {activePackage.name}
+              </p>
+              <p className="text-sm font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
                 {withVat(total).toLocaleString("he-IL")} ₪ סופי
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => onSubmitClick("continue_chat")}
-              className="shrink-0 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white"
-            >
-              וואטסאפ
-            </button>
+            <div className="flex shrink-0 flex-col gap-1.5">
+              <button
+                type="button"
+                onClick={() => onSubmitClick("continue_chat")}
+                disabled={!form.termsAccepted}
+                className="rounded-lg bg-[#25D366] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
+              >
+                וואטסאפ
+              </button>
+              <button
+                type="button"
+                onClick={() => onSubmitClick("start_now")}
+                disabled={!form.termsAccepted}
+                className="rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground disabled:opacity-50"
+              >
+                התחל עכשיו
+              </button>
+            </div>
           </div>
         </div>
       )}

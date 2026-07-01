@@ -57,6 +57,21 @@ function UpsellThumb({
       </span>
     );
   }
+  if (item.thumbIcon) {
+    return (
+      <span
+        className={cn(
+          "flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border text-2xl",
+          active
+            ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)]"
+            : "border-border bg-muted/30",
+        )}
+        aria-hidden="true"
+      >
+        {item.thumbIcon}
+      </span>
+    );
+  }
   return (
     <span
       className={cn(
