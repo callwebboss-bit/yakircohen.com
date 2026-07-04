@@ -55,18 +55,38 @@
   --width-wide: 88rem;
 }
 
-/* ─── Coupon banner (seasonal, bottom) ─── */
-.coupon-banner-summer {
-  background: linear-gradient(135deg, #b85c00 0%, #8f4500 100%);
+/* ─── Coupon banner (premium dark base + seasonal accent) ─── */
+.coupon-banner-premium {
+  background: linear-gradient(135deg, #1a0505 0%, #0f0f0f 100%);
+  position: relative;
+  overflow: hidden;
 }
-.coupon-banner-wedding {
-  background: linear-gradient(135deg, #6b3f8f 0%, #552f73 100%);
+.coupon-banner-premium::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--coupon-accent, #d32f2f) 15%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
 }
-.coupon-banner-rosh {
-  background: linear-gradient(135deg, #a83228 0%, #8a281f 100%);
+.coupon-banner-summer { --coupon-accent: #d32f2f; }
+.coupon-banner-wedding { --coupon-accent: #9b59b6; }
+.coupon-banner-rosh { --coupon-accent: #d4a017; }
+.coupon-banner-default { --coupon-accent: #2ecc71; }
+
+.coupon-glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.coupon-banner-default {
-  background: linear-gradient(135deg, #1a8f4a 0%, #157a3f 100%);
+.coupon-dashed {
+  border: 2px dashed color-mix(in srgb, var(--coupon-accent, #d32f2f) 40%, transparent);
 }
 
 .coupon-banner-hidden {
@@ -124,6 +144,20 @@
   .coupon-cta-shimmer::after {
     animation: none;
     display: none;
+  }
+}
+
+/* Coupon sheet open — hide competing bottom UI on mobile */
+@media (max-width: 767px) {
+  html[data-coupon-banner="open"] .mobile-sticky-cta,
+  html[data-coupon-banner="open"] .floating-fabs-cluster > * {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  html[data-coupon-banner="open"] #main-content {
+    padding-bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

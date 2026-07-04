@@ -21,7 +21,7 @@ describe("Coupon seasonal banner", () => {
     cy.wait(1000);
     cy.get('[data-testid="coupon-seasonal-banner"]', { timeout: 10000 })
       .should("be.visible")
-      .and("contain.text", "₪ הנחה")
+      .and("contain.text", "הנחה של ₪")
       .and("contain.text", "YAKIRSUMMER");
   });
 

@@ -34,58 +34,57 @@ type ContextualRule = {
 };
 
 const MICRO_COPY =
-  "הנחה ישירה במחירון למימוש עצמי בלבד, ללא התחייבות או דמי מנוי נסתרים";
+  "הטבה אישית למימוש עצמי בלבד. ללא התחייבות, ללא דמי מנוי נסתרים";
 
 const SEASON_OFFERS: Record<SeasonKey, CouponOfferTemplate> = {
   summer: {
     code: "YAKIRSUMMER",
     catalogId: "podcast_pilot",
     amountOffExVat: 60,
-    ctaLabel: "המשך להזמנה דיגיטלית (-60 ₪)",
+    ctaLabel: "המשך להזמנה דיגיטלית",
     icon: "☀️",
     themeClass: "coupon-banner-summer",
     validUntilIso: "2026-08-31",
     validUntilHe:
-      "תוקף ההטבה קבוע עד ליום שני, 31 באוגוסט 2026, או עד גמר מלאי הסשנים הפנויים לעונה",
+      "בתוקף עד 31 באוגוסט 2026, או עד גמר מלאי השעות הפנויות לעונה",
     microCopy: MICRO_COPY,
-    entityLine: "אולפני יקיר כהן — הנחת קיץ על פודקאסט פיילוט",
-    seasonLabel: "הנחת קיץ",
+    seasonLabel: "מבצע קיץ",
   },
   wedding: {
     code: "YAKIRHATUNA",
     catalogId: "blessing_recording",
     amountOffExVat: 35,
-    ctaLabel: "המשך להזמנה דיגיטלית (-35 ₪)",
+    ctaLabel: "המשך להזמנה דיגיטלית",
     icon: "💍",
     themeClass: "coupon-banner-wedding",
     validUntilIso: "2026-10-31",
-    validUntilHe: "תוקף ההטבה עד יום שישי, 31 באוקטובר 2026",
+    validUntilHe: "בתוקף עד 31 באוקטובר 2026",
     microCopy: MICRO_COPY,
-    seasonLabel: "הנחת חתונות",
+    seasonLabel: "מבצע חתונות",
   },
   rosh: {
     code: "YAKIRSHANA",
     catalogId: "podcast_pilot",
     amountOffExVat: 50,
-    ctaLabel: "המשך להזמנה דיגיטלית (-50 ₪)",
+    ctaLabel: "המשך להזמנה דיגיטלית",
     icon: "🍎",
     themeClass: "coupon-banner-rosh",
     validUntilIso: "2026-10-31",
-    validUntilHe: "תוקף ההטבה עד יום שישי, 31 באוקטובר 2026",
+    validUntilHe: "בתוקף עד 31 באוקטובר 2026",
     microCopy: MICRO_COPY,
-    seasonLabel: "הנחת שנה חדשה",
+    seasonLabel: "הטבת שנה חדשה",
   },
   default: {
     code: "YAKIR10",
     catalogId: "podcast_pilot",
     amountOffExVat: 50,
-    ctaLabel: "המשך להזמנה דיגיטלית (-50 ₪)",
+    ctaLabel: "המשך להזמנה דיגיטלית",
     icon: "🎁",
     themeClass: "coupon-banner-default",
     validUntilIso: "2026-12-31",
-    validUntilHe: "תוקף ההטבה עד יום חמישי, 31 בדצמבר 2026",
+    validUntilHe: "בתוקף עד 31 בדצמבר 2026",
     microCopy: MICRO_COPY,
-    seasonLabel: "הטבה",
+    seasonLabel: "הטבה לזמן מוגבל",
   },
 };
 
@@ -95,14 +94,12 @@ const CONTEXTUAL_RULES: ContextualRule[] = [
     season: "summer",
     catalogId: "podcast_pilot",
     amountOffExVat: 60,
-    ctaLabel: "המשך להזמנה דיגיטלית (-60 ₪)",
   },
   {
     pathPrefix: "/studio",
     season: "summer",
     catalogId: "studio_hour",
     amountOffExVat: 75,
-    ctaLabel: "המשך להזמנה דיגיטלית (-75 ₪)",
   },
   {
     pathPrefix: "/pricing",
@@ -142,7 +139,7 @@ export function getCurrentSeason(now = getIsraelDate()): SeasonKey {
 
 function buildHeadline(catalogId: PriceItemId, amountOffExVat: number): string {
   const item = getPriceById(catalogId);
-  return `${amountOffExVat.toLocaleString("he-IL")} ₪ הנחה על ${item.label}`;
+  return `הנחה של ₪${amountOffExVat.toLocaleString("he-IL")} על ${item.label}`;
 }
 
 function mergeOffer(
@@ -152,9 +149,7 @@ function mergeOffer(
 ): ResolvedCouponOffer {
   const catalogId = overrides?.catalogId ?? base.catalogId;
   const amountOffExVat = overrides?.amountOffExVat ?? base.amountOffExVat;
-  const ctaLabel =
-    overrides?.ctaLabel ??
-    `המשך להזמנה דיגיטלית (-${amountOffExVat.toLocaleString("he-IL")} ₪)`;
+  const ctaLabel = overrides?.ctaLabel ?? base.ctaLabel;
 
   return {
     ...base,
