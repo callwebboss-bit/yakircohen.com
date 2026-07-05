@@ -94,7 +94,7 @@ export type ClosingMessageOptions = {
   ycDeferred?: string | null;
   ycRecipientHint?: string | null;
   ycConfigVersion?: number | null;
-  /** גל D+ — CRO פסיכולוגי מכל קטגוריית Tier A */
+  /** גל D+, CRO פסיכולוגי מכל קטגוריית Tier A */
   ycSessionPriority?: string | null;
   ycWelcomePerk?: string | null;
   ycLastMinuteUpsell?: boolean | null;

@@ -14,7 +14,7 @@ export type GeoStudioProcessStep = {
 
 export const GEO_STUDIO_PROCESS: readonly GeoStudioProcessStep[] = [
   { step: "1", title: "קובעים תאריך" },
-  { step: "2", title: "מגיעים לאולפן  -  תדריך והכנה" },
+  { step: "2", title: "מגיעים לאולפן, תדריך והכנה" },
   { step: "3", title: "הקלטה מודרכת באווירה נוחה" },
   { step: "4", title: "עריכה, מיקס ושליחה ישירות אליכם" },
 ] as const;
@@ -41,7 +41,7 @@ export const GEO_STUDIO_POPULAR_SERVICES: readonly GeoStudioServiceLink[] = [
   {
     emoji: "🎁",
     title: "שיר במתנה",
-    description: "מתנה מקורית  -  שיר או קליפ מוקלט.",
+    description: "מתנה מקורית, שיר או קליפ מוקלט.",
     href: "/studio/blessings/video-clip",
   },
 ] as const;

@@ -1,9 +1,8 @@
 ﻿import type { Metadata } from "next";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
-import PodcastHubPageContent, {
-  PODCAST_HUB_TRACKS,
-} from "@/components/seo/PodcastHubPageContent";
+import PodcastHubPageContent from "@/components/seo/PodcastHubPageContent";
+import { PODCAST_HUB_TRACKS } from "@/lib/data/podcast-hub-tracks";
 import {
   hubSchemaPropsFromSeo,
   metadataForHubSeo,

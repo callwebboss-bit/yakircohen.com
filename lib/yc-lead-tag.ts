@@ -43,7 +43,7 @@ export type YcLeadTagInput = {
   deferred?: string | null;
   recipientHint?: string | null;
   configVersion?: number | null;
-  /** גל D — פסיכולוגיית ליד מאשף אולפן */
+  /** גל D, פסיכולוגיית ליד מאשף אולפן */
   sessionPriority?: string | null;
   welcomePerk?: string | null;
   travelMode?: string | null;

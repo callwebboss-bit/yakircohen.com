@@ -1,4 +1,4 @@
-/** נתוני ROI לחיסכון זמן — מבוסס על עותק ותמחור קיימים באתר */
+/** נתוני ROI לחיסכון זמן, מבוסס על עותק ותמחור קיימים באתר */
 
 export const PODCAST_ROI = {
   diyHoursPerEpisode: 4,
@@ -9,7 +9,7 @@ export const PODCAST_ROI = {
 export const ACADEMY_ROI = {
   mistakeCostPerMonth: 450,
   lessonPriceExVat: 990,
-  note: "טעויות ציוד וזמן עריכה — הערכה לפי שיעור פרטי אחד בחודש",
+  note: "טעויות ציוד וזמן עריכה, הערכה לפי שיעור פרטי אחד בחודש",
 } as const;
 
 export function calcPodcastMonthlySavings(episodesPerMonth: number): {

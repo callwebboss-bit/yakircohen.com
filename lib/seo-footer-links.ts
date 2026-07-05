@@ -10,7 +10,7 @@ export type FooterSemanticSection = {
   links: readonly SeoFooterLink[];
 };
 
-/** 5 עמודות כוונה — רשת ביטחון crawl אחרי Header מקוצר */
+/** 5 עמודות כוונה, רשת ביטחון crawl אחרי Header מקוצר */
 export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
   {
     heading: "אולפן וסאונד מרחוק",
@@ -18,7 +18,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "אולפן הקלטות במודיעין",
         href: "/studio",
-        title: "מרכז האולפן — הקלטות במודיעין והמרכז",
+        title: "מרכז האולפן, הקלטות במודיעין והמרכז",
       },
       {
         label: "הקלטת שיר במתנה וברכות מוקלטות",
@@ -28,7 +28,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "תיקון זיופים ועריכת סאונד מרחוק",
         href: "/online/vocal-fix/pitch-correction",
-        title: "Pitch Correction טבעי — לא אוטומטי",
+        title: "Pitch Correction טבעי, לא אוטומטי",
       },
       {
         label: "שחזור הקלטות פגומות ב-AI",
@@ -48,12 +48,12 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "אולפן הקלטות בשוהם",
         href: "/studio/studio-shoham",
-        title: "אולפן במודיעין — 10–15 דק׳ משוהם",
+        title: "אולפן במודיעין, 10–15 דק׳ משוהם",
       },
       {
         label: "אולפן הקלטות ברחובות",
         href: "/studio/studio-rehovot",
-        title: "אולפן במודיעין — 25–30 דק׳ מרחובות",
+        title: "אולפן במודיעין, 25–30 דק׳ מרחובות",
       },
       {
         label: "ברכות לחתונה ובר מצווה",
@@ -86,7 +86,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "מתנות והקלטות כשובר",
       },
       {
-        label: "אולפן הקלטות — סקירה",
+        label: "אולפן הקלטות, סקירה",
         href: "/studio/recording-studio",
         title: "השכרת אולפן הקלטות במודיעין",
       },
@@ -101,7 +101,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "ברכות חתן כלה מוקלטות",
       },
       {
-        label: "בר מצווה — הקלטת ברכה",
+        label: "בר מצווה, הקלטת ברכה",
         href: "/studio/blessings/bar-mitzvah",
         title: "ברכות מוקלטות לבר מצווה",
       },
@@ -123,15 +123,15 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "הקלטת פודקאסט באולפן (אודיו ווידאו)",
         href: "/podcast/podcast-recording",
-        title: "צילום והקלטת פודקאסט — הפקה מלאה",
+        title: "צילום והקלטת פודקאסט, הפקה מלאה",
       },
       {
-        label: "פודקאסט נייד — אולפן עד הבית",
+        label: "פודקאסט נייד, אולפן עד הבית",
         href: "/podcast/mobile-podcast-at-home",
         title: "הקלטה ועריכה בבית הלקוח",
       },
       {
-        label: "עריכת פודקאסט — פרק מוכן ב-24 שעות",
+        label: "עריכת פודקאסט, פרק מוכן ב-24 שעות",
         href: "/podcast/podcast-editing",
         title: "עריכת פודקאסט מקצועית מרחוק",
       },
@@ -188,7 +188,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "מכונת עשן כבד לחתונה",
         href: "/events/attractions/wedding-smoking-machine",
-        title: "עשן כבד לרחבה — אפקט חופה וסלואו",
+        title: "עשן כבד לרחבה, אפקט חופה וסלואו",
       },
       {
         label: "זיקוקים קרים לאירועים",
@@ -303,7 +303,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "שיעורי עברית במודיעין",
         href: "/academy/ulpan",
-        title: "שיעור פרטי עברית — פרונטלי או בזום",
+        title: "שיעור פרטי עברית, פרונטלי או בזום",
       },
       {
         label: "ייעוץ אקוסטיקה ובניית אולפן",
@@ -408,7 +408,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "מאשאפים ומוזיקה",
         href: "/online/mashup-fixer",
-        title: "מרכז דיג'יי — מאשאפים וכלים",
+        title: "מרכז דיג'יי, מאשאפים וכלים",
       },
       {
         label: "תוכן HR וקליטה",
@@ -416,7 +416,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "סרטוני onboarding לעובדים",
       },
       {
-        label: "דופק השוק — אירועים",
+        label: "דופק השוק, אירועים",
         href: "/pro/event-index",
         title: "מדדים ומגמות בשוק האירועים",
       },

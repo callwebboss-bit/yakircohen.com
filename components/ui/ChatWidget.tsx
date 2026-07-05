@@ -15,6 +15,7 @@ import {
 } from "@/lib/chatbot-data";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { trackConversion } from "@/lib/analytics/conversion-events";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 const FOCUSABLE_SELECTORS =
   'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -698,7 +699,7 @@ export default function ChatWidget({
             rel="noopener noreferrer"
             className="block text-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
           >
-            מחפשים מענה ישיר ומותאם אישית? יקיר יענה לכם בוואטסאפ תוך דקות
+            מחפשים מענה ישיר ומותאם אישית? יקיר יענה לכם בוואטסאפ, {TIME_CLAIMS.waResponseMinutes}
           </a>
           {visitedIds.size > 0 && (
             <button

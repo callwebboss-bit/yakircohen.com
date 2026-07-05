@@ -1,5 +1,7 @@
+import Link from "next/link";
 import InfoTip from "@/components/ui/InfoTip";
 import { PAYMENT_METHODS } from "@/lib/payment-methods";
+import { PAYMENT_SECURITY_LINE } from "@/lib/data/legal-trust-copy";
 import { cn } from "@/lib/utils";
 
 function CreditCardIcon() {
@@ -29,6 +31,12 @@ export default function BookingPaymentTrust({ className }: { className?: string 
           </span>
         ))}
       </div>
+      <p className="max-w-md text-xs leading-relaxed text-muted-foreground">
+        {PAYMENT_SECURITY_LINE}{" "}
+        <Link href="/privacy" className="font-semibold text-brand-red hover:underline">
+          מדיניות פרטיות
+        </Link>
+      </p>
     </div>
   );
 }

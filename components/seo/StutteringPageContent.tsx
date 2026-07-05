@@ -2,6 +2,7 @@ import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
@@ -384,70 +385,36 @@ export default function StutteringPageContent() {
           className="py-0"
         />
 
-        {/* ─── מסלולים להמשך ────────────────────────────────────────────────── */}
-        <section aria-labelledby="stuttering-paths-heading">
-          <header className="mb-6 text-center">
-            <h2
-              id="stuttering-paths-heading"
-              className="font-serif text-section-title font-semibold text-foreground"
-            >
-              איך ממשיכים?
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              בחרו את המסלול שמתאים לכם
-            </p>
-          </header>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              {
-                icon: "🎤",
-                title: "קורס גמגום מלא",
-                desc: "תוכנית מסודרת עם שלבים ויעדים ברורים - מול מיקרופון באולפן.",
-                href: "/academy/stuttering-course",
-                cta: "לפרטי הקורס",
-              },
-              {
-                icon: "🏥",
-                title: "פגישה בקליניקה",
-                desc: "פגישה ממוקדת לאבחון ראשוני וגיבוש מסלול אישי.",
-                href: "/clinic",
-                cta: "לפרטי הקליניקה",
-              },
-              {
-                icon: "💬",
-                title: "שיחת היכרות",
-                desc: "לא בטוחים? 15 דקות בוואטסאפ יעשו סדר.",
-                href: ctaHref,
-                cta: "שלחו הודעה",
-                external: true,
-              },
-            ].map(({ icon, title, desc, href, cta, external }) => (
-              <div
-                key={title}
-                className="hover-lift flex flex-col rounded-2xl border border-border bg-surface p-6"
-              >
-                <p className="text-2xl" aria-hidden>{icon}</p>
-                <h3 className="mt-3 font-semibold text-foreground">{title}</h3>
-                <p className="mt-2 flex-1 text-sm text-muted-foreground">{desc}</p>
-                {external ? (
-                  <Button
-                    as="a"
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-5"
-                  >
-                    {cta}
-                  </Button>
-                ) : (
-                  <Button as="link" href={href} variant="outline" className="mt-5">
-                    {cta}
-                  </Button>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
+        <ServiceHubLinks
+          headingId="stuttering-paths-heading"
+          heading="איך ממשיכים?"
+          subheading="בחרו את המסלול שמתאים לכם"
+          links={[
+            {
+              icon: <span aria-hidden>🎤</span>,
+              title: "קורס גמגום מלא",
+              description:
+                "תוכנית מסודרת עם שלבים ויעדים ברורים - מול מיקרופון באולפן.",
+              href: "/academy/stuttering-course",
+              ctaLabel: "לפרטי הקורס",
+            },
+            {
+              icon: <span aria-hidden>🏥</span>,
+              title: "פגישה בקליניקה",
+              description: "פגישה ממוקדת לאבחון ראשוני וגיבוש מסלול אישי.",
+              href: "/clinic",
+              ctaLabel: "לפרטי הקליניקה",
+            },
+            {
+              icon: <span aria-hidden>💬</span>,
+              title: "שיחת היכרות",
+              description: "לא בטוחים? שיחה קצרה בוואטסאפ, בדרך כלל תוך 15 דקות, תעשה סדר.",
+              href: ctaHref,
+              ctaLabel: "שלחו הודעה",
+              external: true,
+            },
+          ]}
+        />
 
       </Container>
     </ServicePageLayout>

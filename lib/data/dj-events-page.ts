@@ -7,7 +7,7 @@ export const YOUTUBE_DJ_EVENTS_PLAYLIST_EMBED = `https://www.youtube.com/embed/v
 
 export const DJ_EQUIPMENT: readonly string[] = [
   "Pioneer CDJ 3000",
-  "Allen & Heath  -  מיקסר דיגיטלי",
+  "Allen & Heath, מיקסר דיגיטלי",
   "רמקולי RCF איכותיים",
   "תאורת LED דינמית",
   "מיקרופונים אלחוטיים",
@@ -28,7 +28,7 @@ export const DJ_PROCESS_STEPS: readonly {
     step: "02",
     title: "פגישת תכנון מוזיקלי",
     description:
-      "שירים שאוהבים, שירים אסורים, כניסה, ריקוד ראשון, עוגה  -  וסגנון לכל חלק.",
+      "שירים שאוהבים, שירים אסורים, כניסה, ריקוד ראשון, עוגה, וסגנון לכל חלק.",
   },
   {
     step: "03",
@@ -40,7 +40,7 @@ export const DJ_PROCESS_STEPS: readonly {
     step: "04",
     title: "המופע",
     description:
-      "ניהול הערב, קריאת קהל בזמן אמת, אנרגיה גבוהה עד הסוף  -  בלי להיתקע מול המחשב.",
+      "ניהול הערב, קריאת קהל בזמן אמת, אנרגיה גבוהה עד הסוף, בלי להיתקע מול המחשב.",
   },
 ] as const;
 
@@ -104,21 +104,22 @@ export const DJ_CHEAP_VS_PRO: readonly { label: string; bad: string; good: strin
 ] as const;
 
 export const DJ_WHY_US: readonly string[] = [
-  "ניסיון אמיתי  -  אלפי אירועים מאחורינו",
-  "ציוד פרימיום  -  לא מתפשרים על איכות",
-  "גיבוי מלא  -  תמיד יש פלאן B",
-  "גמישות  -  מתאימים לסגנון שלכם",
-  "אמינות  -  בזמן, מוכנים, מקצועיים",
+  "ניסיון אמיתי, אלפי אירועים מאחורינו",
+  "ציוד פרימיום, לא מתפשרים על איכות",
+  "גיבוי מלא, תמיד יש פלאן B",
+  "גמישות, מתאימים לסגנון שלכם",
+  "אמינות, בזמן, מוכנים, מקצועיים",
 ] as const;
 
 export const DJ_RELATED_LINKS: readonly {
   href: string;
   title: string;
+  description: string;
 }[] = [
-  { href: "/events/attractions", title: "חבילות אטרקציות" },
-  { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד" },
-  { href: "/events/attractions/cold-fireworks", title: "זיקוקים קרים" },
-  { href: "/events/attractions/confetti-cannon", title: "תותח קונפטי" },
-  { href: "/photography/wedding", title: "צילום חתונות" },
-  { href: "/dj-events/cities/jerusalem", title: "DJ לחתונה בירושלים" },
+  { href: "/events/wedding-attractions-packages", title: "חבילות לחתונה", description: "DJ + אטרקציות + הגברה במחיר מוזל." },
+  { href: "/events/attractions", title: "כל האטרקציות", description: "עשן, זיקוקים, בועות וקונפטי עם מפעיל." },
+  { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד", description: "ענן לבן על רצפת הריקודים." },
+  { href: "/events/attractions/cold-fireworks", title: "זיקוקים קרים", description: "ניצוצות בטוחים ללא עשן." },
+  { href: "/events/equipment", title: "השכרת הגברה", description: "מערכות RCF מקצועיות לכל גודל אירוע." },
+  { href: "/photography/wedding", title: "צילום חתונות", description: "צלם חתונות באזור המרכז." },
 ] as const;

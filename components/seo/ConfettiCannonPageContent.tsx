@@ -10,6 +10,7 @@ import VenueSizeCalculator from "@/components/confetti/VenueSizeCalculator";
 import ConfettiFallSimulator from "@/components/confetti/ConfettiFallSimulator";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -24,7 +25,9 @@ import {
   CONFETTI_SUPPLIER_CHECKLIST,
   CONFETTI_WHY_US,
 } from "@/lib/data/confetti-cannon-page";
+import { attractionHubLinksExcluding } from "@/lib/data/attraction-hub-links";
 import { getEventsService } from "@/lib/data/services";
+import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -76,7 +79,7 @@ export default function ConfettiCannonPageContent() {
             תותח בועות LED לאירועים
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            בועות סבון עם ענן עשן ותאורת LED  -  אפקט צבעוני שמשנה את הרחבה.
+            בועות סבון עם ענן עשן ותאורת LED, אפקט צבעוני שמשנה את הרחבה.
           </p>
           <Link
             href="/events/attractions/bubble-machine/smoke-bubble-machine-events"
@@ -87,8 +90,8 @@ export default function ConfettiCannonPageContent() {
 
         <section className="max-w-3xl" aria-labelledby="confetti-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            תדמיינו  -  המוזיקה בשיא, כולם מריעים, וברגע המדויק... בום! מטר של קונפטי
-            צבעוני ממלא את האוויר. זה לא עוד גימיק  -  זה רגע שכולם יזכרו, יצטלמו
+            תדמיינו, המוזיקה בשיא, כולם מריעים, וברגע המדויק... בום! מטר של קונפטי
+            צבעוני ממלא את האוויר. זה לא עוד גימיק, זה רגע שכולם יזכרו, יצטלמו
             וישתפו. השכרת תותח קונפטי מקצועי היא הדרך הפשוטה להרים את האווירה
             לרמה הבאה.
           </p>
@@ -126,7 +129,7 @@ export default function ConfettiCannonPageContent() {
           videoTitle="תותח קונפטי באירוע"
           videoHeadingId="confetti-video-heading"
           videoHeading="איך זה נראה?"
-          videoDescription="הסבר על קונפטי מקצועי  -  וידאו נטען בלחיצה"
+          videoDescription="הסבר על קונפטי מקצועי, וידאו נטען בלחיצה"
           footer={
             <RecordingSongExampleVideos videos={CONFETTI_EXAMPLE_VIDEOS} />
           }
@@ -258,42 +261,16 @@ export default function ConfettiCannonPageContent() {
             אז מה הוא קונפטי?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            קונפטי הוא גזרי נייר מיוחדים (משי או כותנה)  -  משקלם הקל מאפשר
+            קונפטי הוא גזרי נייר מיוחדים (משי או כותנה). משקלם הקל מאפשר
             להתעופף באוויר לזמן מה. אנחנו מבדילים בין קונפטי ידני מפיצוץ זעיר
-            לבין תותח שמופעל ע&quot;י מפעיל מקצועי, שידאג לפתוח ברגעי השיא
-            ולהעיף כל סוג נייר עד 30 מטר  -  קל לניקוי, נשאר באוויר זמן ממושך.
+            לבין תותח שמופעל על ידי מפעיל מקצועי, שידאג לפתוח ברגעי השיא
+            ולהעיף כל סוג נייר עד 30 מטר. קל לניקוי, נשאר באוויר זמן ממושך.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             כמה קונפטי צריך? תלוי בשטח, אולם פתוח/סגור, גובה החדר ואם רוצים
-            כיסוי מלא או אפקט נקודתי. אפשר גם שטרות כסף  -  500 ₪ באוויר לרגע
+            כיסוי מלא או אפקט נקודתי. אפשר גם שטרות כסף, 500 ₪ באוויר לרגע
             מתנה שלא שוכחים.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/events/attractions/cold-fireworks"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              זיקוקים קרים
-            </Link>
-            <Link
-              href="/events/attractions/wedding-smoking-machine"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עשן כבד
-            </Link>
-            <Link
-              href="/events/stage-led-dj"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עמדת DJ לד
-            </Link>
-            <Link
-              href="/events/attractions"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              כל האטרקציות לאירוע
-            </Link>
-          </div>
         </section>
 
         <section aria-labelledby="checklist-heading">
@@ -319,7 +296,7 @@ export default function ConfettiCannonPageContent() {
             ))}
           </ul>
           <p className="mx-auto mt-6 max-w-xl text-center text-sm text-muted-foreground">
-            אצלנו: מקצוענות אמיתית, ציוד גיבוי ותפעול מדויק  -  לרגע המושלם.
+            אצלנו: מקצוענות אמיתית, ציוד גיבוי ותפעול מדויק לרגע המושלם.
           </p>
         </section>
 
@@ -384,6 +361,14 @@ export default function ConfettiCannonPageContent() {
           />
         ) : null}
 
+        <ServiceHubLinks
+          headingId="confetti-related-heading"
+          heading="אטרקציות נוספות לאירוע"
+          subheading="שילוב עם קונפטי חוסך בעלויות ומייצר ערב שלם."
+          links={attractionHubLinksExcluding("/events/attractions/confetti-cannon")}
+          columns={2}
+        />
+
         <section
           className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center sm:px-10"
           aria-labelledby="confetti-cta-heading"
@@ -392,7 +377,7 @@ export default function ConfettiCannonPageContent() {
             id="confetti-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            רוצים להוסיף קסם לאירוע? קבלו הצעה תוך 24 שעות
+            רוצים תותח קונפטי לאירוע? קבלו הצעה, בדרך כלל תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             תאריך, סוג אירוע ומיקום - נחזור עם הצעה. גם בטלפון:{" "}
@@ -417,8 +402,11 @@ export default function ConfettiCannonPageContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            קבלו הצעה תוך 24 שעות
+            קבלו הצעה, בדרך כלל תוך 24 שעות
           </a>
+          <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
+            {TIME_PROMISE_DISCLAIMER}
+          </p>
         </section>
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/attractions/confetti-cannon")} />
               <PageRelatedFooter pathname="/events/attractions/confetti-cannon" />

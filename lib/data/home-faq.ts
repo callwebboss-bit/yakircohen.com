@@ -1,5 +1,5 @@
 /**
- * Unified source for homepage FAQ — used by both JSON-LD schema and FAQAccordion UI.
+ * Unified source for homepage FAQ, used by both JSON-LD schema and FAQAccordion UI.
  * Plain-text answers only; JSX enrichment lives in HomePageSections.tsx.
  * Prices are derived from pricing-catalog (single source of truth).
  */
@@ -65,7 +65,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "cancellation",
     question: "מה קורה אם צריך לבטל או לשנות תאריך?",
     answerPlain:
-      "עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת בתנאי השירות.",
+      "ביטול עד 14 יום לפני — החזר מלא. שינוי תאריך — חינם. פרטים מלאים בתנאי השירות.",
   },
   {
     id: "remote-fix",

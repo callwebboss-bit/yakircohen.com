@@ -7,6 +7,7 @@ import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { DjEventsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -87,7 +88,7 @@ const ENTERTAINMENT_BUSINESS_SCHEMA = {
 export default function DjEventsPageContent() {
   const planningWhatsapp = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת בעזרה חינם בתכנון האירוע  -  אשמח לקבל את הטופס",
+      "שלום, מעוניין/ת בעזרה חינם בתכנון האירוע. אשמח לקבל את הטופס",
     ),
     utm_source: "website",
     utm_campaign: `${service.utmCampaign}_planning`,
@@ -122,10 +123,9 @@ export default function DjEventsPageContent() {
             למה DJ טוב הוא קריטי להצלחת האירוע?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            DJ הוא לא מי ששם שירים ברקע  -  הוא קורא את האנרגיה בחדר, יודע מתי
+            DJ הוא לא מי ששם שירים ברקע. הוא קורא את האנרגיה בחדר, יודע מתי
             להעלות ומתי להוריד, מתי קלאסיקות ומתי משהו חדש. ההבדל בין DJ טוב
-            לבינוני? רחבה מלאה כל הערב מול אורחים שעוזבים מוקדם. המוזיקה זורמת
-            בדם מגיל 15.
+            לבינוני? רחבה מלאה כל הערב מול אורחים שעוזבים מוקדם.
           </p>
         </section>
 
@@ -162,10 +162,10 @@ export default function DjEventsPageContent() {
           )}
           mediaType="video"
           galleryLabel="תקליטן לאירועים מהשטח"
-          videoTitle="תקליטן לאירועים  -  רגעי שיא"
+          videoTitle="תקליטן לאירועים, רגעי שיא"
           videoHeadingId="dj-video-heading"
-          videoHeading="ככה נראה סוף הלילה  -  הרחבה לא נרגעת"
-          videoDescription="1:30 ברחבה עם יקיר כהן הפקות  -  וידאו נטען בלחיצה"
+          videoHeading="ככה נראה סוף הלילה. הרחבה לא נרגעת"
+          videoDescription="1:30 ברחבה עם יקיר כהן הפקות. וידאו נטען בלחיצה"
           footer={
             <section aria-labelledby="dj-playlist-heading">
               <h3
@@ -187,7 +187,7 @@ export default function DjEventsPageContent() {
               <div className="mx-auto mt-6 max-w-3xl">
                 <LazyYouTubeEmbed
                   embedUrl={YOUTUBE_DJ_EVENTS_PLAYLIST_EMBED}
-                  title="פלייליסט אירועים  -  יקיר כהן הפקות"
+                  title="פלייליסט אירועים, יקיר כהן הפקות"
                 />
               </div>
             </section>
@@ -245,7 +245,7 @@ export default function DjEventsPageContent() {
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             אם DJ רק &quot;שם שירים&quot;, ספוטיפיי היה מחליף את כולם. תקליטן
             מקצועי סורק את הרחבה: האנרגיה יורדת? הדודות התיישבו? הצעירים בשיא?
-            מעבר בשנייה מפופ לקלאסיקה מזרחית או סט סוחף  -  זה מה ששומר על רחבה
+            מעבר בשנייה מפופ לקלאסיקה מזרחית או סט סוחף. זה מה ששומר על רחבה
             מלאה.
           </p>
         </section>
@@ -256,7 +256,7 @@ export default function DjEventsPageContent() {
               id="process-heading"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              התהליך  -  מההזמנה ועד סוף האירוע
+              התהליך: מההזמנה ועד סוף האירוע
             </h2>
           </header>
           <ol className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -287,8 +287,8 @@ export default function DjEventsPageContent() {
             מומחיות באירועים מעורבים ודתיים
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            ניסיון עשיר בחיבור קהלים ועולמות מוזיקליים  -  מעברים חלקים, אווירה
-            מכבדת ומרקידה. מלהיטים חסידיים ועד פופ, הכול בזרימה אחת.
+            ניסיון עשיר בחיבור קהלים ועולמות מוזיקליים. מעברים חלקים, אווירה
+            מכבדת ומרקידה. מהיטים חסידיים ועד פופ, הכול בזרימה אחת.
           </p>
         </section>
 
@@ -363,11 +363,11 @@ export default function DjEventsPageContent() {
             id="planning-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            עזרה בתכנון האירוע  -  בחינם
+            עזרה בתכנון האירוע, בחינם
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             רוצים סדר לפני שמזמינים? שלחו הודעה ונעביר טופס שיעזור לדעת מה להזמין
-            ומה חסר  -  בלי שום התחייבות. טעימה מהיכולות שלנו לארגן את האירוע.
+            ומה חסר. בלי שום התחייבות.
           </p>
           <a
             href={planningWhatsapp}
@@ -472,28 +472,12 @@ export default function DjEventsPageContent() {
             The Reel Factory - פרטים וחבילות </Link>
         </section>
 
-        <section aria-labelledby="related-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="related-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              שירותים נוספים
-            </h2>
-          </header>
-          <ul className="mt-8 flex flex-wrap justify-center gap-3">
-            {DJ_RELATED_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-                >
-                  {link.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          headingId="dj-related-heading"
+          heading="שירותים נוספים"
+          subheading="שירותים משלימים ל-DJ לאירוע."
+          links={DJ_RELATED_LINKS}
+        />
         <ServicePagePricingSection
           service={service}
           heading="3 חבילות ברורות - מה כלול בכל אחת"

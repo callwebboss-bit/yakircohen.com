@@ -418,7 +418,7 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift overflow-hidden rounded-xl border border-border bg-neutral-100 transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+                className="hover-lift flex flex-col overflow-hidden rounded-xl border border-border bg-neutral-100 transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
               >
                 <button
                   type="button"
@@ -440,12 +440,15 @@ export default function MediaGallery({
                     blurDataURL={BLUR_DATA_URL}
                   />
                   <div
-                    className="absolute inset-0 flex items-end bg-gradient-to-t from-black/50 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
+                    className="absolute inset-0 flex items-end bg-gradient-to-t from-black/40 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
                     aria-hidden
                   >
                     <span className="text-xs font-semibold text-white">הגדל</span>
                   </div>
                 </button>
+                <figcaption className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground">
+                  {item.alt}
+                </figcaption>
               </li>
             ))}
           </ul>
@@ -480,7 +483,7 @@ export default function MediaGallery({
                     blurDataURL={BLUR_DATA_URL}
                   />
                   <div
-                    className="absolute inset-0 flex items-end bg-gradient-to-t from-black/50 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
+                    className="absolute inset-0 flex items-start justify-end p-4 opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
                     aria-hidden="true"
                   >
                     <span className="flex items-center gap-1.5 rounded-full border border-[var(--service-accent,#d42b2b)]/60 bg-black/70 px-2.5 py-1 text-xs font-semibold text-[var(--service-accent,#d42b2b)] backdrop-blur-sm">
@@ -498,6 +501,9 @@ export default function MediaGallery({
                     </span>
                   </div>
                 </button>
+                <figcaption className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground">
+                  {item.alt}
+                </figcaption>
               </li>
             ))}
           </ul>

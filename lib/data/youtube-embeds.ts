@@ -1,6 +1,6 @@
 /**
 
- * YouTube video IDs  -  sourced from https://www.youtube.com/@Yakircohen (channel RSS).
+ * YouTube video IDs, sourced from https://www.youtube.com/@Yakircohen (channel RSS).
 
  * Replace IDs here when you add new showcase reels.
 

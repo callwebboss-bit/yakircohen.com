@@ -6,6 +6,7 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
@@ -15,6 +16,7 @@ import {
   ONLINE_WHY_US,
 } from "@/lib/data/online-page";
 import { getOnlineCategoryEnrichment } from "@/lib/data/online-category-enrichment";
+import { mapOnlineServiceToHub } from "@/lib/data/online-hub-mappers";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 type OnlineCategoryPageContentProps = {
@@ -106,43 +108,15 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
 
       <Section padding="sm">
         <Container>
-        <h2 className="mb-6 font-serif text-section-title font-semibold text-foreground">שירותים בקטגוריה</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {category.services.map((service) => (
-            <article
-              key={`${category.slug}-${service.title}`}
-              className="hover-lift rounded-xl border border-border bg-background p-5"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-xl" aria-hidden>
-                  {service.icon}
-                </span>
-                {service.tag ? (
-                  <span className="rounded-full bg-brand-red/10 px-2 py-1 text-xs font-medium text-brand-red">
-                    {service.tag}
-                  </span>
-                ) : null}
-              </div>
-              <h3 className="mt-3 font-semibold text-foreground">{service.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{service.summary}</p>
-              {service.href ? (
-                <Link
-                  href={service.href}
-                  className={`${linkClass} mt-3`}
-                >
-                  מעבר לעמוד השירות </Link>
-              ) : (
-                <a
-                  href={ctaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkClass} mt-3`}
-                >
-                  בקשו התאמה אישית </a>
-              )}
-            </article>
-          ))}
-        </div>
+        <ServiceHubLinks
+          heading="שירותים בקטגוריה"
+          subheading={category.description}
+          links={category.services.map((service) =>
+            mapOnlineServiceToHub(service, ctaHref),
+          )}
+          headingId={`online-category-${category.slug}-services`}
+          columns={3}
+        />
         </Container>
       </Section>
 
@@ -225,21 +199,19 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
       {relatedCategories.length > 0 ? (
         <Section padding="sm">
           <Container>
-          <h2 className="mb-4 font-serif text-section-title font-semibold text-foreground">קטגוריות קשורות</h2>
-          <div className="flex flex-wrap gap-3">
-            {relatedCategories.map((related) => (
-              <Link
-                key={related.slug}
-                href={`/online/${related.slug}`}
-                className={chipClass}
-              >
-                {related.title}
-              </Link>
-            ))}
-            <Link href="/online" className={chipClass}>
-              כל שירותי האונליין
-            </Link>
-          </div>
+          <ServiceHubLinks
+            headingId={`online-${slug}-related`}
+            heading="קטגוריות קשורות"
+            subheading="שירותי אונליין נוספים."
+            links={[
+              ...relatedCategories.map((related) => ({
+                href: `/online/${related.slug}`,
+                title: related.title,
+                description: related.description,
+              })),
+              { href: "/online", title: "כל שירותי האונליין", description: "מרכז שירותי אונליין מקצועיים." },
+            ]}
+          />
           </Container>
         </Section>
       ) : null}

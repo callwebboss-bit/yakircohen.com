@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -49,7 +50,7 @@ export default function StageLedDjPageContent() {
 
   const saleWhatsapp = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת ברכישת עמדת LED  -  אשמח לפרטים",
+      "שלום, מעוניין/ת ברכישת עמדת LED, אשמח לפרטים",
     ),
     utm_source: "website",
     utm_campaign: `${service.utmCampaign}_sale`,
@@ -85,7 +86,7 @@ export default function StageLedDjPageContent() {
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             הגיע הזמן להיפרד מהשולחן עם המפה השחורה. עמדת מסכים מתקדמת: מיתוג,
-            ויז&apos;ואלס בועטים ומראה של מיליון דולר  -  לתקליטנים, אולמות, גנים
+            ויז&apos;ואלס בועטים ומראה של מיליון דולר, לתקליטנים, אולמות, גנים
             ובתים פרטיים.
           </p>
         </section>
@@ -93,7 +94,7 @@ export default function StageLedDjPageContent() {
         <section className="max-w-3xl" aria-labelledby="led-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             אתם משקיעים באלפי שקלים בסאונד ותאורה, אבל במרכז הרחבה עומד שולחן
-            פלסטיק עם מפה שחורה? עמדת LED היא הבמה שלכם  -  קנבס דיגיטלי ללוגו,
+            פלסטיק עם מפה שחורה? עמדת LED היא הבמה שלכם, קנבס דיגיטלי ללוגו,
             קליפים, שמות וויז&apos;ואלס לפי הקצב. ככה הופכים תקליטן ל-Artist.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
@@ -125,11 +126,11 @@ export default function StageLedDjPageContent() {
           )}
           mediaType="video"
           galleryLabel="עמדת LED מהשטח"
-          videoTitle="עמדת LED  -  יקיר כהן הפקות"
+          videoTitle="עמדת LED, יקיר כהן הפקות"
           videoSectionId={LED_SHOWCASE_VIDEO_ID}
           videoHeadingId="led-video-heading"
-          videoHeading="איך זה נראה?  -  ככה זה נראה כשאין פשרות"
-          videoDescription="לצפייה בדוגמא  -  הוידאו נטען בלחיצה (לא בראש העמוד)"
+          videoHeading="איך זה נראה?, ככה זה נראה כשאין פשרות"
+          videoDescription="לצפייה בדוגמא, הוידאו נטען בלחיצה (לא בראש העמוד)"
           footer={
             <RecordingSongExampleVideos videos={LED_BOOTH_EXAMPLE_VIDEOS} />
           }
@@ -194,7 +195,7 @@ export default function StageLedDjPageContent() {
               שדרוג עם אפקטים
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              עמדות כפולות ושילובים  -  חוויה שלמה
+              עמדות כפולות ושילובים, חוויה שלמה
             </p>
           </header>
           <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -210,33 +211,18 @@ export default function StageLedDjPageContent() {
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/events/attractions/wedding-smoking-machine"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עשן כבד
-            </Link>
-            <Link
-              href="/events/attractions/cold-fireworks"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              זיקוקים קרים
-            </Link>
-            <Link
-              href="/events/attractions/bubble-machine/smoke-bubble-machine-events"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              בועות עשן
-            </Link>
-            <Link
-              href="/events/dj-events"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              DJ לאירועים
-            </Link>
-          </div>
         </section>
+        <ServiceHubLinks
+          headingId="led-related-heading"
+          heading="אפקטים נוספים"
+          subheading="שילוב עמדת LED עם אפקטים."
+          links={[
+            { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד", description: "ענן לבן על רצפת הריקודים." },
+            { href: "/events/attractions/cold-fireworks", title: "זיקוקים קרים", description: "ניצוצות בטוחים ללא עשן." },
+            { href: "/events/attractions/bubble-machine/smoke-bubble-machine-events", title: "בועות עשן", description: "שילוב עשן ובועות סבון." },
+            { href: "/events/dj-events", title: "DJ לאירועים", description: "תקליטן מקצועי לחתונה ואירועים." },
+          ]}
+        />
 
         <section aria-labelledby="use-cases-heading">
           <header className="mx-auto max-w-2xl text-center">

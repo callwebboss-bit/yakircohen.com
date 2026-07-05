@@ -53,6 +53,11 @@ function removeDraft(key: string): void {
   }
 }
 
+/** שמירה ישירה לטיוטה (לפאנלים ללא useBookingWizard) */
+export function persistBookingDraft<T>(storageKey: string, data: T): string {
+  return writeDraft(storageKey, data);
+}
+
 /** מוחק את כל טיוטות /book (yakir-booking-draft:*) */
 export function clearAllBookingDrafts(): void {
   if (typeof window === "undefined") return;

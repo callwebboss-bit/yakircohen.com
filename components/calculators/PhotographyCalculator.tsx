@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
@@ -11,6 +11,7 @@ import { formatCurrency } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import {
   BOOKING_CTA,
   BOOKING_CONSULT_15_MIN,
@@ -108,6 +109,14 @@ type PhotographyCalculatorProps = {
   routeId?: string | null;
 };
 
+type PhotographyPanelDraft = {
+  step: number;
+  hours: number;
+  selectedAddons: string[];
+  selectedAI: string[];
+  contactForm: { name: string; phone: string };
+};
+
 export default function PhotographyCalculator({
   className,
   routeId = null,
@@ -166,6 +175,36 @@ export default function PhotographyCalculator({
     };
   }, [total]);
   useReportBookWizardLivePrice(livePriceReport);
+
+  const panelDraft = useMemo<PhotographyPanelDraft>(
+    () => ({
+      step:
+        selectedAddons.size > 0 ||
+        selectedAI.size > 0 ||
+        hours !== 8 ||
+        contactForm.name.trim() ||
+        contactForm.phone.trim()
+          ? 1
+          : 0,
+      hours,
+      selectedAddons: [...selectedAddons],
+      selectedAI: [...selectedAI],
+      contactForm,
+    }),
+    [hours, selectedAddons, selectedAI, contactForm],
+  );
+
+  useBookPanelDraft<PhotographyPanelDraft>({
+    storageKey: "photography",
+    data: panelDraft,
+    shouldPersist: (d) => d.step >= 1,
+    onRestore: (saved) => {
+      setHours(saved.hours);
+      setSelectedAddons(new Set(saved.selectedAddons));
+      setSelectedAI(new Set(saved.selectedAI));
+      setContactForm(saved.contactForm);
+    },
+  });
 
   const { name: pkgName, sub: pkgSub } = getPackageLabel(hours);
 
@@ -268,6 +307,7 @@ export default function PhotographyCalculator({
             intent,
             { leadCategory: "photography" },
           );
+          clearPanelBookingDraft("photography");
         },
       );
       setFieldErrors(errs ?? {});
@@ -498,7 +538,7 @@ export default function PhotographyCalculator({
           המציאות דינמית. אם תצטרכו לשנות תאריך או שעת האירוע אחרי השליחה הכל בסדר. גמיש עד יום הצילומים. אין קנסות ואין אותיות קטנות.
         </p>
       </div>
-      <BookingPaymentTrust className="mx-auto max-w-3xl" />
+      <CheckoutTrustMicro className="mx-auto max-w-3xl" />
 
       <CalculatorStickyBar
         total={total}

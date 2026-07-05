@@ -203,3 +203,81 @@ export const FAQ_EXTRA_ITEMS: FaqCtaItem[] = CENTRAL_FAQ_ITEMS.filter((item) =>
     "consult-15",
   ].includes(item.id),
 );
+
+export type CentralFaqSection = {
+  id: string;
+  title: string;
+  subtitle: string;
+  itemIds: readonly string[];
+};
+
+export const CENTRAL_FAQ_SECTIONS: readonly CentralFaqSection[] = [
+  {
+    id: "faq-studio",
+    title: "אולפן והקלטות",
+    subtitle: "הקלטת שיר, ברכה, פודקאסט, שחזור סאונד ועבודה מרחוק",
+    itemIds: [
+      "fake-singing",
+      "studio-gift",
+      "studio-prep",
+      "location-parking",
+      "ai-restoration",
+      "remote-only",
+      "voiceover-turnaround",
+      "podcast-timing",
+    ],
+  },
+  {
+    id: "faq-events",
+    title: "אירועים ו-DJ",
+    subtitle: "DJ, אפקטים, חבילות אטרקציות, אזורי שירות וזמני הזמנה",
+    itemIds: [
+      "effects-coordination",
+      "event-bundle",
+      "events-on-site",
+      "dj-lead-time",
+      "service-area",
+    ],
+  },
+  {
+    id: "faq-payment",
+    title: "תשלום והזמנה",
+    subtitle: "מחירים, מע״מ, אמצעי תשלום, הזמנה מקוונת וייעוץ לפני סגירה",
+    itemIds: [
+      "book-online",
+      "vat-pricing",
+      "general-pricing",
+      "payment",
+      "consult-15",
+    ],
+  },
+  {
+    id: "faq-delivery",
+    title: "זמני אספקה וביטולים",
+    subtitle: "מתי מקבלים קובץ מוכן, ומה קורה כשצריך לשנות או לבטל",
+    itemIds: ["delivery-time", "cancellation"],
+  },
+] as const;
+
+export const CENTRAL_FAQ_TOC: readonly {
+  id: string;
+  label: string;
+  level: 2;
+}[] = CENTRAL_FAQ_SECTIONS.map((section) => ({
+  id: section.id,
+  label: section.title,
+  level: 2 as const,
+}));
+
+const centralFaqById = new Map(
+  CENTRAL_FAQ_ITEMS.map((item) => [item.id, item] as const),
+);
+
+export function getCentralFaqSectionItems(
+  section: CentralFaqSection,
+): FaqCtaItem[] {
+  return section.itemIds.flatMap((id) => {
+    const item = centralFaqById.get(id);
+    return item ? [item] : [];
+  });
+}

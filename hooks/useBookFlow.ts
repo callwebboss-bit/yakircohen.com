@@ -81,12 +81,14 @@ function scrollToWizardPanel() {
 }
 
 export type UseBookFlowOptions = {
-  /** מ-/book?item= — פותח אשף אירועים כשאין hash */
+  /** מ-/book?item=, פותח אשף אירועים כשאין hash */
   itemParam?: string | null;
-  /** מ-/book?pkg= — פותח אשף הגברה לזמרים כשאין hash */
+  /** מ-/book?pkg=, פותח אשף הגברה לזמרים כשאין hash */
   pkgParam?: string | null;
-  /** מ-/book?catalog= — פותח אשף לפי מחירון */
+  /** מ-/book?catalog=, פותח אשף לפי מחירון */
   catalogParam?: string | null;
+  /** מ-/book?qual=1 — שחזור טופס הסמכה, בלי לפתוח אשף מפורט */
+  qualParam?: string | null;
 };
 
 function categoryFromDeepLink(
@@ -106,6 +108,10 @@ export function useBookFlow(options?: UseBookFlowOptions) {
 
   useEffect(() => {
     function syncFromLocation() {
+      if (options?.qualParam === "1") {
+        return;
+      }
+
       const fromPath = parseBookCategoryFromPathname(window.location.pathname);
       if (fromPath) {
         const qs = window.location.search;
@@ -144,7 +150,7 @@ export function useBookFlow(options?: UseBookFlowOptions) {
     queueMicrotask(syncFromLocation);
     window.addEventListener("hashchange", syncFromLocation);
     return () => window.removeEventListener("hashchange", syncFromLocation);
-  }, [options?.itemParam, options?.pkgParam, options?.catalogParam]);
+  }, [options?.itemParam, options?.pkgParam, options?.catalogParam, options?.qualParam]);
 
   const openFullPath = useCallback((selection: BookFullPathSelection) => {
     if (selection.filterPreset) saveFilterPreset(selection.filterPreset);

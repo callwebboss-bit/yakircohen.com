@@ -7,10 +7,11 @@ import { buildBookHref } from "@/lib/book-url";
 import { THANK_YOU_TO_BOOK_CATEGORY } from "@/lib/data/book-closer-map";
 import { constructMetadata } from "@/lib/metadata";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 export const metadata: Metadata = constructMetadata({
   title: "ההזמנה בדרך",
-  description: "תודה על פנייתכם - נחזור אליכם תוך 15 דקות.",
+  description: `תודה על פנייתכם, נחזור אליכם ${TIME_CLAIMS.waResponse15m}.`,
   slug: "thank-you",
   robots: { index: false, follow: true },
 });
@@ -32,7 +33,7 @@ const SERVICE_CONTENT: Record<
 > = {
   studio: {
     title: "הקלטה באולפן",
-    responseTime: "נחזור אליכם תוך 15 דקות בשעות הפעילות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse15mBusiness}`,
     bullets: [
       "הכינו את השיר - ניגון יחד עם הלחן, פזמון ובית",
       "הביאו שתייה חמה לחימום הגרון לפני ההקלטה",
@@ -41,7 +42,7 @@ const SERVICE_CONTENT: Record<
   },
   events: {
     title: "אטרקציות לאירוע",
-    responseTime: "נחזור אליכם תוך שעה לאישור הפרטים",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse1h} לאישור הפרטים`,
     bullets: [
       "וודאו שיש מקום פנוי לציוד לפי האטרקציה שבחרתם",
       "שלחו את שם האולם ואיש הקשר שלו לתיאום",
@@ -50,7 +51,7 @@ const SERVICE_CONTENT: Record<
   },
   podcast: {
     title: "הקלטת פודקאסט",
-    responseTime: "נחזור אליכם תוך 15 דקות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse15m}`,
     bullets: [
       "הכינו רשימת נושאים / שאלות לפרק - אפילו ראשי פרקים",
       "בדקו חיבור אינטרנט יציב אם ההקלטה מרחוק",
@@ -59,7 +60,7 @@ const SERVICE_CONTENT: Record<
   },
   photography: {
     title: "צילום אירוע",
-    responseTime: "נחזור אליכם תוך שעה",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse1h}`,
     bullets: [
       "שלחו לנו לוח זמנים של האירוע ורגעים חשובים לצילום",
       "ציינו אם יש רצון לצילומים סטודיו בנוסף",
@@ -68,7 +69,7 @@ const SERVICE_CONTENT: Record<
   },
   dj: {
     title: "DJ לאירוע",
-    responseTime: "נחזור אליכם תוך שעה לאישור זמינות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse1h} לאישור זמינות`,
     bullets: [
       "שלחו תאריך מדויק ושם האולם לבדיקת זמינות",
       "הכינו רשימת שירים חובה / אסור להשמיע",
@@ -77,7 +78,7 @@ const SERVICE_CONTENT: Record<
   },
   singer: {
     title: "הגברה לזמרים",
-    responseTime: "נחזור אליכם תוך 15 דקות בשעות הפעילות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse15mBusiness}`,
     bullets: [
       "שלחו פרטי האירוע: תאריך, אולם וגודל קהל משוער",
       "ציינו אם יש הרכב מלווה או פלייבק בלבד",
@@ -86,7 +87,7 @@ const SERVICE_CONTENT: Record<
   },
   academy: {
     title: "שיעור פרטי באקדמיה",
-    responseTime: "נחזור אליכם תוך 15 דקות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse15m}`,
     bullets: [
       "חשבו על מטרה אחת לשיעור - קול, DJ או הפקה",
       "אם יש חומר קיים (שיר, פרויקט) - הביאו אותו לשיעור",
@@ -95,7 +96,7 @@ const SERVICE_CONTENT: Record<
   },
   online: {
     title: "שחזור סאונד / AI",
-    responseTime: "נחזור אליכם תוך שעה עם הערכה ראשונית",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse1h} עם הערכה ראשונית`,
     bullets: [
       "שמרו את קובץ המקור המקורי - אל תשלחו רק MP3 דחוס",
       "תארו בקצרה את הבעיה: רעש, עיוות, הקלטה ישנה",
@@ -104,7 +105,7 @@ const SERVICE_CONTENT: Record<
   },
   clips: {
     title: "קליפים ודיגיטל",
-    responseTime: "נחזור אליכם תוך 15 דקות",
+    responseTime: `נחזור אליכם ${TIME_CLAIMS.waResponse15m}`,
     bullets: [
       "הכינו חומר גלם: וידאו, תמונות או הקלטה קיימת",
       "ציינו לאיזו פלטפורמה מיועד הקליפ (יוטיוב, רילס, אירוע)",

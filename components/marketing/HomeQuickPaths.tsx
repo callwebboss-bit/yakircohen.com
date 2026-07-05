@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import ServiceCard from "@/components/marketing/ServiceCard";
 import { HOME_QUICK_PATHS } from "@/lib/data/home-quick-paths";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 
 export default function HomeQuickPaths() {
   return (
@@ -12,62 +13,73 @@ export default function HomeQuickPaths() {
       ariaLabelledby="quick-paths-heading"
     >
       <Container>
-        <header className="mx-auto max-w-2xl text-center">
+        <header className="mx-auto mb-10 max-w-2xl text-center">
           <h2
             id="quick-paths-heading"
-            className="font-serif text-section-title font-semibold text-foreground"
+            className="font-serif text-section-title font-semibold tracking-tight text-foreground"
           >
-            4 מסלולים - בחרו וקבלו מחיר
+            מסלולי שירותי סאונד מקצועיים - מחירון שקוף
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            כל מסלול: מה מקבלים, למי זה מתאים, ומחיר התחלה.
+          <div
+            className="mx-auto mt-3 h-1 w-12 rounded-full bg-brand-red"
+            aria-hidden="true"
+          />
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+            בחרו את מסלול האודיו המדויק לצרכים שלכם. כל התוכניות כוללות ציוד
+            קצה, ליווי מקצועי ומחיר פתיחה קבוע.
           </p>
         </header>
 
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOME_QUICK_PATHS.map((path) => {
             const priceExVat =
               path.fromPriceExVat ??
               (path.priceId ? getExVat(path.priceId) : 0);
-            const priceLabel = formatFromPriceDual(priceExVat).replace(
-              "כרגע: ",
-              "",
-            );
+            const priceWithVat = catalogWithVat(priceExVat);
 
             return (
-              <li key={path.id}>
-                <article className="flex h-full flex-col rounded-xl border border-border bg-background p-5 shadow-sm">
-                  <p className="text-2xl" aria-hidden="true">
-                    {path.emoji}
-                  </p>
-                  <h3 className="mt-3 text-lg font-semibold text-foreground">
-                    {path.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {path.description}
-                  </p>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    <span className="font-semibold text-foreground">
-                      מתאים ל:{" "}
+              <li key={path.id} className="h-full">
+                <ServiceCard
+                  title={path.title}
+                  description={path.description}
+                  href={path.href}
+                  icon={
+                    <span className="text-2xl" aria-hidden>
+                      {path.emoji}
                     </span>
-                    {path.suitedFor}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-brand-red">
-                    {priceLabel}
-                  </p>
-                  <div className="mt-4 flex-1" />
-                  <Link
-                    href={path.href}
-                    prefetch
-                    className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-brand-red/40 bg-brand-red/5 px-4 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                  >
-                    לפרטים
-                  </Link>
-                </article>
+                  }
+                  suitedFor={path.suitedFor}
+                  fromPrice={`החל מ-${priceExVat.toLocaleString("he-IL")} ₪`}
+                  fromPriceSubline={`כולל מע״מ: ${priceWithVat.toLocaleString("he-IL")} ₪`}
+                  ctaLabel="לפרטים והרשמה"
+                />
               </li>
             );
           })}
         </ul>
+
+        <div className="mt-12 rounded-2xl border border-border bg-background p-8 shadow-sm md:p-10">
+          <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-8 text-right lg:flex-row">
+            <div className="lg:max-w-2xl">
+              <h3 className="text-xl font-bold text-foreground md:text-2xl">
+                שירות שיפור סאונד ועריכת אודיו מרחוק
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                יש לכם קובץ קיים שצריך שדרוג? אנחנו מבצעים תיקון זיופים, ניקוי
+                רעשי רקע, מיקס ומאסטרינג אונליין. שלחו את הקובץ שלכם ותקבלו
+                תוצאה מוכנה תוך שעות בודדות, בלי להגיע לאולפן.
+              </p>
+            </div>
+            <Link
+              href="/online"
+              prefetch
+              aria-label="שלח קובץ לבדיקה חינם - שירות עריכה מרחוק"
+              className="inline-flex min-h-12 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-md transition-all hover:bg-brand-red-light hover:shadow-lg active:scale-[0.98] lg:w-auto"
+            >
+              שלח קובץ לבדיקה חינם
+            </Link>
+          </div>
+        </div>
       </Container>
     </Section>
   );

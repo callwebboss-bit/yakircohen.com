@@ -23,7 +23,7 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-recording",
     title: "הפקה מלאה (צילום + הקלטה + עריכה)",
-    description: `פרק מוכן תוך 24 שעות - החל מ-${PODCAST_RECORDING_PRICE} ₪.`,
+    description: `פרק בדרך כלל מוכן תוך 24 שעות - החל מ-${PODCAST_RECORDING_PRICE} ₪.`,
   },
   {
     href: "/podcast/podcast-studio-modiin",

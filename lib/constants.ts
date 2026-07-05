@@ -102,3 +102,6 @@ export const SITE_TRUST_STATS = [
   { value: "5,000+", label: "לקוחות מרוצים" },
   { value: `${GOOGLE_RATING} ★`, label: GOOGLE_RATING_LABEL },
 ] as const;
+
+/** הבחנה בין לקוחות כוללים לביקורות Google מאומתות */
+export const TRUST_STATS_CLARIFICATION = `5,000+ לקוחות מאז 20+ שנים · ${GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google`;

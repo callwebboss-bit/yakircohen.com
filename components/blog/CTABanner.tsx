@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CTA_LABELS, buildBlogCtaWhatsAppMessage } from "@/lib/data/conversion-copy";
+import { CTA_LABELS, buildBlogCtaWhatsAppMessage, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -57,7 +57,7 @@ export type CTABannerProps = {
 
 export default function CTABanner({
   heading = "מוכנים להתחיל את הפרויקט שלכם?",
-  body = "ייעוץ ראשוני ללא עלות - מענה אישי תוך 24 שעות, ללא התחייבות.",
+  body = `ייעוץ ראשוני ללא עלות, מענה אישי ${TIME_CLAIMS.quote24h}, ללא התחייבות.`,
   ctaLabel = "שוחחו איתנו בוואטסאפ",
   whatsappMessage = "שלום, הגעתי מהאתר ואשמח לשמוע על השירותים.",
   utm_campaign = "blog_cta",

@@ -2,6 +2,7 @@
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
@@ -66,7 +67,7 @@ export default function EquipmentPageContent() {
         <section className="max-w-3xl" aria-labelledby="equip-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מתכננים אירוע בגינה? באולם ללא הגברה? אנחנו מספקים מערכות הגברה
-            מקצועיות עם צליל נקי ועוצמתי  -  לא צריך להיות טכנאי סאונד, אנחנו
+            מקצועיות עם צליל נקי ועוצמתי, לא צריך להיות טכנאי סאונד, אנחנו
             דואגים להכול.
           </p>
         </section>
@@ -191,7 +192,7 @@ export default function EquipmentPageContent() {
             למה לבחור בציוד RCF?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            RCF הוא מהמותגים המובילים בעולם. צליל נקי, חזק ואמין  -  מקצוענים
+            RCF הוא מהמותגים המובילים בעולם. צליל נקי, חזק ואמין, מקצוענים
             בוחרים בהם. אנחנו לא מתפשרים על איכות, וגם אתם לא צריכים.
           </p>
         </section>
@@ -279,27 +280,19 @@ export default function EquipmentPageContent() {
               <li key={addon}>{addon}</li>
             ))}
           </ul>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/events/equipment/singer-amplification"
-              className="rounded-full border border-brand-red/40 bg-brand-red/5 px-4 py-2 text-sm font-medium text-brand-red hover:bg-brand-red/10"
-            >
-              הגברה לזמרים ולהקות
-            </Link>
-            <Link
-              href="/events/dj-events"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              DJ מקצועי
-            </Link>
-            <Link
-              href="/events/attractions"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              אטרקציות לאירועים
-            </Link>
-          </div>
         </section>
+
+        <ServiceHubLinks
+          headingId="equipment-related-heading"
+          heading="שירותים משלימים"
+          subheading="משלבים הגברה עם DJ ואטרקציות."
+          links={[
+            { href: "/events/equipment/singer-amplification", title: "הגברה לזמרים ולהקות", description: "מערכת מוניטור ומיקרופונים לזמרים ולהקות חיות." },
+            { href: "/events/dj-events", title: "DJ מקצועי", description: "תקליטן לחתונה ואירועים, ניהול מוזיקלי מלא." },
+            { href: "/events/attractions", title: "אטרקציות לאירועים", description: "עשן, זיקוקים, בועות וקונפטי עם מפעיל." },
+            { href: "/events/wedding-attractions-packages", title: "חבילות לחתונה", description: "DJ + אטרקציות + הגברה במחיר מוזל." },
+          ]}
+        />
 
         <section aria-labelledby="why-us-heading">
           <header className="mx-auto max-w-2xl text-center">

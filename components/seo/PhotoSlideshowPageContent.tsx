@@ -5,6 +5,7 @@ import GrowthSlideshowSection from "@/components/seo/GrowthSlideshowSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -21,6 +22,7 @@ import {
   SLIDESHOW_SONG_MISTAKES,
   SLIDESHOW_WHY_US,
 } from "@/lib/data/photo-slideshow-page";
+import { PHOTO_SLIDESHOW_RELATED } from "@/lib/data/attraction-hub-links";
 import { getVideoService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -45,7 +47,7 @@ export default function PhotoSlideshowPageContent() {
   });
 
   const expressHref = buildWhatsAppHref({
-    text: "הצילו! אני צריך מצגת דחוף לאירוע  -  אשמח לשמוע על שירות אקספרס (24-48 שעות).",
+    text: "הצילו! אני צריך מצגת דחוף לאירוע, אשמח לשמוע על שירות אקספרס (24-48 שעות).",
     utm_source: "website",
     utm_campaign: "photo_slideshow_express",
   });
@@ -80,7 +82,7 @@ export default function PhotoSlideshowPageContent() {
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             מחפשים עריכת מצגת מהיום למחר? מאות תמונות ואפס זמן? אנחנו עורכים
-            סרט מקצועי עם מוזיקה ומעברים  -  מוכן להקרנה ב-48 שעות (או פחות).
+            סרט מקצועי עם מוזיקה ומעברים, מוכן להקרנה ב-48 שעות (או פחות).
           </p>
           <a
             href={expressHref}
@@ -122,7 +124,7 @@ export default function PhotoSlideshowPageContent() {
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             זה סרטון מעוצב, מושקע, עם מוזיקה מתאימה, מעברים חלקים, אפקטים
             ויזואליים וטקסטים מתאימים. אנחנו לוקחים את התמונות שלכם (20, 50,
-            100  -  כמה שיש) ויוצרים מצגת מקצועית ומלוטשת.
+            100, כמה שיש) ויוצרים מצגת מקצועית ומלוטשת.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
             המטרה: להפוך את התמונות לחוויית צפייה מעוצבת שנשמרת כקובץ וידאו
@@ -163,7 +165,7 @@ export default function PhotoSlideshowPageContent() {
               למי זה מתאים?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              השמיים הם הגבול  -  הנה כמה רעיונות
+              השמיים הם הגבול, הנה כמה רעיונות
             </p>
           </header>
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -225,10 +227,10 @@ export default function PhotoSlideshowPageContent() {
           )}
           mediaType="video"
           galleryLabel="מצגות תמונות מהשטח"
-          videoTitle="מצגת תמונות  -  דוגמה ראשית"
+          videoTitle="מצגת תמונות, דוגמה ראשית"
           videoHeadingId="portfolio-heading"
           videoHeading="דוגמאות לסרטים שערכנו"
-          videoDescription="שירות מקצועי להפקת מצגות תמונות  -  מחתונות ובר/בת מצווה ועד ימי הולדת ופרישה"
+          videoDescription="שירות מקצועי להפקת מצגות תמונות, מחתונות ובר/בת מצווה ועד ימי הולדת ופרישה"
           footer={
             <RecordingSongExampleVideos videos={SLIDESHOW_EXAMPLE_VIDEOS} />
           }
@@ -288,7 +290,7 @@ export default function PhotoSlideshowPageContent() {
               למה לבחור בנו?
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              כנסו לביקורות וקראו בעצמכם  -  לקוחות חוזרים אלינו שוב ושוב
+              כנסו לביקורות וקראו בעצמכם, לקוחות חוזרים אלינו שוב ושוב
             </p>
           </header>
           <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -332,39 +334,19 @@ export default function PhotoSlideshowPageContent() {
           </p>
         </section>
 
-        <section className="flex flex-wrap gap-3" aria-label="קישורים לשירותים קשורים">
-          <Link
-            href="/photography/wedding"
-            className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            צילום חתונות
-          </Link>
-          <Link
-            href="/events/dj-events"
-            className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            תקליטן לאירועים
-          </Link>
-          <Link
-            href="/video/presentation"
-            className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            מצגות וידאו
-          </Link>
-          <Link
-            href="/book"
-            className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            הזמנה מקוונת
-          </Link>
-        </section>
+        <ServiceHubLinks
+          headingId="slideshow-related-heading"
+          heading="שירותים משלימים"
+          subheading="מצגת תמונות משתלבת עם צילום, מוזיקה ווידאו באותו אירוע."
+          links={PHOTO_SLIDESHOW_RELATED}
+        />
         <ServicePagePricingSection service={service} serviceTitle="מצגת תמונות לאירוע" />
 
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs, ...GROWTH_SLIDESHOW_FAQS]}
-            title="שאלות נפוצות  -  מצגת תמונות ומצגת גדילה"
+            title="שאלות נפוצות, מצגת תמונות ומצגת גדילה"
             className="py-0"
           />
         ) : null}
@@ -380,7 +362,7 @@ export default function PhotoSlideshowPageContent() {
             מצגת מקצועית שנשמרת כקובץ
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            ספרו לנו על האירוע  -  נחזור עם הצעה מותאמת לחבילה ולזמינות.
+            ספרו לנו על האירוע, נחזור עם הצעה מותאמת לחבילה ולזמינות.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a

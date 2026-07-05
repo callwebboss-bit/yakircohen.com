@@ -5,6 +5,7 @@ import BookingApprovals from "@/components/booking/BookingApprovals";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import PriceWithVat from "@/components/booking/PriceWithVat";
@@ -13,6 +14,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { SERVICES } from "@/lib/data/booking-calculator-services";
@@ -39,6 +41,14 @@ const CLIPS_SERVICES = Object.entries(SERVICES)
 
 const inputClass =
   "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+
+type ClipsPanelDraft = {
+  step: number;
+  selected: string[];
+  name: string;
+  phone: string;
+  notes: string;
+};
 
 export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -91,6 +101,30 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     };
   }, [totalExVat]);
   useReportBookWizardLivePrice(livePriceReport);
+
+  const panelDraft = useMemo<ClipsPanelDraft>(
+    () => ({
+      step:
+        selected.size > 0 || name.trim() || phone.trim() || notes.trim() ? 1 : 0,
+      selected: [...selected],
+      name,
+      phone,
+      notes,
+    }),
+    [selected, name, phone, notes],
+  );
+
+  useBookPanelDraft<ClipsPanelDraft>({
+    storageKey: "clips",
+    data: panelDraft,
+    shouldPersist: (d) => d.step >= 1,
+    onRestore: (saved) => {
+      setSelected(new Set(saved.selected));
+      setName(saved.name);
+      setPhone(saved.phone);
+      setNotes(saved.notes);
+    },
+  });
 
   const summaryLines = useMemo(
     () =>
@@ -188,6 +222,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
           "continue_chat",
           { leadCategory: "clips" },
         );
+        clearPanelBookingDraft("clips");
       },
     );
     setErrors(fieldErrs ?? {});
@@ -368,6 +403,8 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
         }}
         termsError={errors.terms}
       />
+
+      <CheckoutTrustMicro variant="inline" className="mt-2" showLegalLinks={false} />
 
       <button
         type="button"

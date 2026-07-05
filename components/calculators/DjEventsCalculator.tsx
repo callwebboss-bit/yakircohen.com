@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useCallback, useMemo, useState } from "react";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
@@ -10,6 +10,7 @@ import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
 import {
   BOOKING_CTA,
@@ -187,6 +188,16 @@ function ExclusiveCard({
 
 type FormState = { name: string; phone: string; date: string; location: string };
 
+type DjPanelDraft = {
+  step: number;
+  festivalSelected: boolean;
+  djId: DjId | null;
+  starId: StarId | null;
+  addons: AddonId[];
+  effects: EffectId[];
+  form: FormState;
+};
+
 function isDjReserveFormValid(form: FormState): boolean {
   return validateDjReserve(form).ok;
 }
@@ -318,6 +329,40 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
   const formValid = isDjReserveFormValid(form);
   const canReserve = hasSelection && formValid;
 
+  const panelDraft = useMemo<DjPanelDraft>(
+    () => ({
+      step:
+        hasSelection ||
+        form.name.trim() ||
+        form.phone.trim() ||
+        form.date ||
+        form.location.trim()
+          ? 1
+          : 0,
+      festivalSelected,
+      djId,
+      starId,
+      addons: [...addons],
+      effects: [...effects],
+      form,
+    }),
+    [hasSelection, festivalSelected, djId, starId, addons, effects, form],
+  );
+
+  useBookPanelDraft<DjPanelDraft>({
+    storageKey: "dj-events",
+    data: panelDraft,
+    shouldPersist: (d) => d.step >= 1,
+    onRestore: (saved) => {
+      setFestivalSelected(saved.festivalSelected);
+      setDjId(saved.djId);
+      setStarId(saved.starId);
+      setAddons(new Set(saved.addons));
+      setEffects(new Set(saved.effects));
+      setForm(saved.form);
+    },
+  });
+
   const previewBody = useMemo(() => {
     if (!hasSelection || !formValid) return undefined;
     const displayPhone = form.phone.trim()
@@ -380,6 +425,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             intent,
             { leadCategory: "dj" },
           );
+          clearPanelBookingDraft("dj-events");
         },
       );
       setFieldErrors(errs ?? {});
@@ -715,7 +761,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             </p>
           </div>
         )}
-        {hasSelection && <BookingPaymentTrust />}
+        {hasSelection && <CheckoutTrustMicro />}
 
         {/* Timeline */}
         <div className="rounded-2xl border border-border bg-surface p-6">

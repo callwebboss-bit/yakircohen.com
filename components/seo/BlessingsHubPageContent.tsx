@@ -2,6 +2,8 @@
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -16,6 +18,7 @@ import {
   BLESSING_WORKFLOW_OPTIONS,
 } from "@/lib/data/blessings-hub-page";
 import { getBlessingsSubLinks, getStudioService } from "@/lib/data/services";
+import { mapBlessingTypeToHub } from "@/lib/data/studio-hub-mappers";
 import { youtubeEmbedUrl, YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import Button from "@/components/ui/Button";
@@ -43,6 +46,15 @@ export default function BlessingsHubPageContent() {
     utm_campaign: `${service.utmCampaign}_cta`,
   });
 
+  const blessingTypeLinks = BLESSING_TYPE_CARDS.map((card) =>
+    mapBlessingTypeToHub(card, whatsappHref),
+  );
+  const trackLinks: HubLinkItem[] = subLinks.map((track) => ({
+    href: track.href,
+    title: track.title,
+    description: track.description,
+  }));
+
   return (
     <ServicePageLayout
       title={service.title}
@@ -62,70 +74,19 @@ export default function BlessingsHubPageContent() {
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />
         <section className="max-w-3xl" aria-labelledby="blessings-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            ברכה טובה יכולה להיות רגע מרכזי באירוע  -  אבל לא כולם מרגישים
+            ברכה טובה יכולה להיות רגע מרכזי באירוע, אבל לא כולם מרגישים
             בנוח לברך בלייב מול קהל. הקלטה ועריכה מקצועית פותרת את זה: אתם
             רגועים ומרוכזים, והקהל שומע ברכה שנשמעת ברורה ומלוטשת.
           </p>
         </section>
 
-        <section aria-labelledby="blessing-types-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-              ברכות מוקלטות
-            </p>
-            <h2
-              id="blessing-types-heading"
-              className={`mt-3 ${sectionTitleClass}`}
-            >
-              סוגי ברכות שאנחנו מקליטים
-            </h2>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {BLESSING_TYPE_CARDS.map((card) => {
-              const inner = (
-                <>
-                  <p className="text-2xl" aria-hidden>
-                    {card.emoji}
-                  </p>
-                  <h3 className="mt-3 text-base font-semibold text-foreground">
-                    {card.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {card.description}
-                  </p>
-                  {card.href ? (
-                    <span className="mt-4 text-xs font-semibold text-brand-red">
-                      לפרטים </span>
-                  ) : null}
-                </>
-              );
-
-              return (
-                <li key={card.title}>
-                  {card.href ? (
-                    <Link
-                      href={card.href}
-                      className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
-                    >
-                      {inner}
-                    </Link>
-                  ) : (
-                    <div className="flex h-full flex-col rounded-xl border border-border bg-surface p-6">
-                      {inner}
-                      <a
-                        href={whatsappHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-4 inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                      >
-                        לייעוץ בוואטסאפ </a>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          heading="סוגי ברכות שאנחנו מקליטים"
+          subheading="ברכות מוקלטות - באולפן במודיעין או מהבית עם עריכה מקצועית."
+          links={blessingTypeLinks}
+          headingId="blessing-types-heading"
+          columns={3}
+        />
 
         <section aria-labelledby="why-studio-heading">
           <header className="mx-auto max-w-2xl text-center">
@@ -155,8 +116,8 @@ export default function BlessingsHubPageContent() {
             ))}
           </ul>
           <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
-            כשאתם מקליטים אצלנו, אתם לא מקבלים רק ציוד טוב  -  אלא תוצאה שנשמעת
-            מקצועית וברורה. ההבדל בין הקלטה ביתית לאולפן  -  כמו ההבדל
+            כשאתם מקליטים אצלנו, אתם לא מקבלים רק ציוד טוב, אלא תוצאה שנשמעת
+            מקצועית וברורה. ההבדל בין הקלטה ביתית לאולפן, כמו ההבדל
             בין תמונה מהטלפון לתמונה של צלם מקצועי.
           </p>
         </section>
@@ -214,7 +175,7 @@ export default function BlessingsHubPageContent() {
               מה קורה אחרי ההקלטה?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              אנחנו לא רק לוחצים REC  -  יש עבודה מקצועית שהופכת הקלטה רגילה לברכה
+              אנחנו לא רק לוחצים REC, יש עבודה מקצועית שהופכת הקלטה רגילה לברכה
               מלוטשת:
             </p>
           </header>
@@ -242,7 +203,7 @@ export default function BlessingsHubPageContent() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
             כל המחירים כולל מע״מ. כל ברכה כוללת הקלטה, עריכה, מוזיקת רקע ומיקס
-            מקצועי. הצעת מחיר מדויקת לפי סוג הברכה ואורכה  -  בוואטסאפ או במחירון
+            מקצועי. הצעת מחיר מדויקת לפי סוג הברכה ואורכה, בוואטסאפ או במחירון
             האולפן.
           </p>
           <Link
@@ -261,9 +222,9 @@ export default function BlessingsHubPageContent() {
             למי זה מתאים?
           </h2>
           <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            <li>לא מרגישים בנוח לברך בלייב מול קהל  -  זה בשבילכם.</li>
-            <li>רוצים שהברכה תישמע מקצועית וברורה  -  זה בשבילכם.</li>
-            <li>רוצים לתרגל ולחזור על משפטים עד שזה מדויק  -  זה בשבילכם.</li>
+            <li>לא מרגישים בנוח לברך בלייב מול קהל, זה בשבילכם.</li>
+            <li>רוצים שהברכה תישמע מקצועית וברורה, זה בשבילכם.</li>
+            <li>רוצים לתרגל ולחזור על משפטים עד שזה מדויק, זה בשבילכם.</li>
           </ul>
         </section>
 
@@ -279,37 +240,13 @@ export default function BlessingsHubPageContent() {
           videoHeading="שמעו דוגמה מהאולפן"
         />
 
-        <section aria-labelledby="blessings-tracks-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="blessings-tracks-heading"
-              className={sectionTitleClass}
-            >
-              בחרו את סוג הברכה שלכם
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מסלולים ממוקדים  -  אנחנו מלווים עד למסירה הסופית.
-            </p>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {subLinks.map((track) => (
-              <li key={track.href}>
-                <Link
-                  href={track.href}
-                  className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
-                >
-                  <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-brand-red">
-                    {track.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {track.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <ServiceHubLinks
+          heading="בחרו את סוג הברכה שלכם"
+          subheading="מסלולים ממוקדים - אנחנו מלווים עד למסירה הסופית."
+          links={trackLinks}
+          headingId="blessings-tracks-heading"
+          columns={3}
+        />
           <ul className="mt-5 flex flex-wrap justify-center gap-3">
             <li>
               <Link
@@ -328,7 +265,6 @@ export default function BlessingsHubPageContent() {
               </Link>
             </li>
           </ul>
-        </section>
 
         {service.faqs.length > 0 ? (
           <FAQAccordion

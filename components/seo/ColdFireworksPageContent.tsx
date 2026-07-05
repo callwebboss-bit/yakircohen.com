@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -15,7 +16,9 @@ import {
   COLD_FIREWORKS_USE_CASES,
   COLD_FIREWORKS_WHY_US,
 } from "@/lib/data/cold-fireworks-page";
+import { attractionHubLinksExcluding } from "@/lib/data/attraction-hub-links";
 import { getEventsService } from "@/lib/data/services";
+import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -35,7 +38,7 @@ const COLD_VS_TRADITIONAL = [
   { label: "להבות", bad: "אש אמיתית בטמפרטורה גבוהה", good: "ניצוצות ללא להבות (~40°)" },
   { label: "עשן", bad: "עשן וריח", good: "ללא עשן, ריח או אפר" },
   { label: "אולם סגור", bad: "אסור ברוב האולמות", good: "מאושר בכל אולם בישראל" },
-  { label: "רישוי", bad: "דורש רישיון מיוחד", good: "ללא רישיון  -  הפעלה מקצועית" },
+  { label: "רישוי", bad: "דורש רישיון מיוחד", good: "ללא רישיון, הפעלה מקצועית" },
 ] as const;
 
 export default function ColdFireworksPageContent() {
@@ -47,7 +50,7 @@ export default function ColdFireworksPageContent() {
 
   const resaleWhatsapp = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת ברכישת מערכת זיקוקים קרים  -  אשמח לפרטים",
+      "שלום, מעוניין/ת ברכישת מערכת זיקוקים קרים, אשמח לפרטים",
     ),
     utm_source: "website",
     utm_campaign: `${service.utmCampaign}_resale`,
@@ -71,7 +74,7 @@ export default function ColdFireworksPageContent() {
         <section className="max-w-3xl" aria-labelledby="cold-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מחפשים זיקוקים קרים לחתונה או לבר מצווה עם אפקט דרמטי בלי סיכונים?
-            Cold Sparklers מייצרים אש קרה  -  ניצוצות זהובות ללא להבות, ללא עשן,
+            Cold Sparklers מייצרים אש קרה, ניצוצות זהובות ללא להבות, ללא עשן,
             ולא מפעילים גלאי עשן. מראה קסום ובטוח לחלוטין באולמות סגורים.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
@@ -173,34 +176,14 @@ export default function ColdFireworksPageContent() {
             מה זה זיקוקים קרים ואיך זה עובד?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            מכונות שמשגרות ניצוצות זהובות  -  ללא להבות. גרגרי מתכת מיוחדים
+            מכונות שמשגרות ניצוצות זהובות, ללא להבות. גרגרי מתכת מיוחדים
             מתלהטים בטמפרטורה נמוכה (~40°) ויוצרים אפקט דרמטי ובטוח. טכנולוגיה
-            אלחוטית, ללא חום או עשן  -  מתאימה לכל אולם, גן או במה.
+            אלחוטית, ללא חום או עשן, מתאימה לכל אולם, גן או במה.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             השירות כולל התקנה מקצועית, תזמון מושלם עם DJ וצלם, ומפעיל צמוד.
             מתאים גם להצעות נישואין.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/events/attractions/wedding-smoking-machine"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עשן כבד לחתונה
-            </Link>
-            <Link
-              href="/events/attractions/confetti-cannon"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              תותח קונפטי
-            </Link>
-            <Link
-              href="/events/attractions"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              כל האטרקציות
-            </Link>
-          </div>
         </section>
 
         <section aria-labelledby="compare-heading">
@@ -275,7 +258,7 @@ export default function ColdFireworksPageContent() {
             זיקוקים קרים למכירה / השכרה במודיעין
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            מפיקים, DJs ובעלי אולמות  -  משווקים מורשים של מערכות זיקוקים קרים
+            מפיקים, DJs ובעלי אולמות, משווקים מורשים של מערכות זיקוקים קרים
             לאירועים ובמה. רכישת ציוד חדש עם אחריות, הדרכה, קייסים מוגנים
             ושירות תיקונים. הזמנה מרוכזת לבמות והופעות.
           </p>
@@ -310,6 +293,14 @@ export default function ColdFireworksPageContent() {
           />
         ) : null}
 
+        <ServiceHubLinks
+          headingId="cold-related-heading"
+          heading="אטרקציות נוספות לאירוע"
+          subheading="שילוב עם זיקוקים קרים חוסך בעלויות ומייצר ערב שלם."
+          links={attractionHubLinksExcluding("/events/attractions/cold-fireworks")}
+          columns={2}
+        />
+
         <section
           className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center sm:px-10"
           aria-labelledby="cold-cta-heading"
@@ -318,7 +309,7 @@ export default function ColdFireworksPageContent() {
             id="cold-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים לרגע השיא? קבלו הצעה תוך 24 שעות
+            רוצים זיקוקים קרים לאירוע? קבלו הצעה, בדרך כלל תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             המחירים גלויים, השירות מקצועי והחוויה מובטחת. גם בטלפון:{" "}
@@ -343,8 +334,11 @@ export default function ColdFireworksPageContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            קבלו הצעה תוך 24 שעות
+            קבלו הצעה, בדרך כלל תוך 24 שעות
           </a>
+          <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
+            {TIME_PROMISE_DISCLAIMER}
+          </p>
         </section>
               <PageRelatedFooter pathname="/events/attractions/cold-fireworks" />
 

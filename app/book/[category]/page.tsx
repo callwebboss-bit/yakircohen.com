@@ -6,6 +6,7 @@ import BookDynamicHeroSubtitle, {
 } from "@/components/booking/BookDynamicHeroSubtitle";
 import BookPageSections from "@/components/booking/BookPageSections";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import BookPageSchema from "@/components/seo/BookPageSchema";
 import BookCategorySchema from "@/components/seo/BookCategorySchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
@@ -72,6 +73,8 @@ export default async function BookCategoryPage({
   const utmCampaign =
     typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
   const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
+  const routeParam = typeof sp.route === "string" ? sp.route : null;
+  const qualParam = typeof sp.qual === "string" ? sp.qual : null;
 
   return (
     <>
@@ -122,11 +125,14 @@ export default async function BookCategoryPage({
           pkgParam={pkgParam}
           itemParam={itemParam}
           catalogParam={catalogParam}
+          routeParam={routeParam}
+          qualParam={qualParam}
           utmCampaign={utmCampaign}
           utmContent={utmContent}
         />
 
         <Container className="max-w-3xl pb-14">
+          <CheckoutTrustMicro className="mb-6" />
           <CompanyDetailsCard variant="collapsible" />
         </Container>
       </div>

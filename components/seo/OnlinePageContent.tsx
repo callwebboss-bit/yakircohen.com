@@ -4,6 +4,9 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import ServiceCard from "@/components/marketing/ServiceCard";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import {
   ONLINE_FEATURED_SERVICES,
@@ -11,6 +14,11 @@ import {
   ONLINE_SERVICE_CATEGORIES,
   ONLINE_WHY_US,
 } from "@/lib/data/online-page";
+import {
+  mapOnlineFeaturedToHub,
+  mapOnlineQuickLinksToHub,
+  mapOnlineServiceToHub,
+} from "@/lib/data/online-hub-mappers";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import HubDualCta from "@/components/marketing/HubDualCta";
@@ -31,6 +39,9 @@ export default function OnlinePageContent() {
     utm_source: "online",
     utm_campaign: "online_hub_cta",
   });
+
+  const featuredLinks = mapOnlineFeaturedToHub(ONLINE_FEATURED_SERVICES);
+  const quickLinks = mapOnlineQuickLinksToHub(ONLINE_QUICK_LINKS);
 
   return (
     <div className="bg-background">
@@ -56,6 +67,7 @@ export default function OnlinePageContent() {
             שולחים קובץ או רעיון. מקבלים תוצאה מוכנה למייל או לוואטסאפ - סאונד,
             תמונה או תוכן.
           </p>
+          <ContextualIntroParagraph pathname="/online" className="mx-auto mt-4 max-w-3xl" />
           {bookCta ? (
             <HubDualCta
               className="mt-8"
@@ -111,36 +123,13 @@ export default function OnlinePageContent() {
 
       <Section padding="sm">
         <Container>
-        <h2 className="mb-8 text-center font-serif text-section-title font-semibold text-foreground">
-          השירותים המובילים מרחוק
-        </h2>
-        <div className="grid gap-6 md:grid-cols-3">
-          {ONLINE_FEATURED_SERVICES.map((svc) => (
-            <article
-              key={svc.title}
-              className="hover-lift flex flex-col rounded-2xl border border-border bg-background p-6"
-            >
-              <span className="text-2xl" aria-hidden>
-                {svc.icon}
-              </span>
-              <h3 className="mt-3 font-semibold text-foreground">{svc.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{svc.intro}</p>
-              <p className="mt-2 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground">כולל: </span>
-                {svc.includes}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground">מתאים ל: </span>
-                {svc.suited}
-              </p>
-              <Link
-                href={svc.href}
-                className={`${linkClass} mt-4`}
-              >
-                לפרטים </Link>
-            </article>
-          ))}
-        </div>
+          <ServiceHubLinks
+            heading="השירותים המובילים מרחוק"
+            subheading="שלחו קובץ, קבלו תוצאה מוכנה - סאונד, תמונה או תוכן."
+            links={featuredLinks}
+            headingId="online-featured-heading"
+            columns={3}
+          />
         </Container>
       </Section>
 
@@ -196,42 +185,26 @@ export default function OnlinePageContent() {
                 <p className="mt-1 text-sm text-muted-foreground">
                   {category.description}
                 </p>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {category.services.map((service) => (
-                    <article
-                      key={`${category.id}-${service.title}`}
-                      className="rounded-xl border border-border bg-surface p-4"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <span className="text-xl" aria-hidden>
-                          {service.icon}
-                        </span>
-                        {service.tag ? (
-                          <span className="rounded-full bg-brand-red/10 px-2.5 py-1 text-xs font-medium text-brand-red">
-                            {service.tag}
-                          </span>
-                        ) : null}
-                      </div>
-                      <h4 className="mt-2 font-semibold text-foreground">{service.title}</h4>
-                      <p className="mt-1 text-sm text-muted-foreground">{service.summary}</p>
-                      {service.href ? (
-                        <Link
-                          href={service.href}
-                          className={`${linkClass} mt-3`}
-                        >
-                          לפרטים </Link>
-                      ) : (
-                        <a
-                          href={ctaHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`${linkClass} mt-3`}
-                        >
-                          בקשו התאמה אישית </a>
-                      )}
-                    </article>
-                  ))}
-                </div>
+                <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {category.services.map((service) => {
+                    const item = mapOnlineServiceToHub(service, ctaHref);
+                    return (
+                      <li key={`${category.id}-${service.title}`} className="h-full">
+                        <ServiceCard
+                          title={item.title}
+                          description={item.description}
+                          href={item.href}
+                          icon={item.icon!}
+                          badge={item.badge}
+                          badgeVariant={item.badgeVariant}
+                          isAiService={item.isAiService}
+                          ctaLabel={item.ctaLabel}
+                          external={item.external}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
               </section>
             ))}
           </div>
@@ -240,22 +213,13 @@ export default function OnlinePageContent() {
 
       <Section padding="sm">
         <Container>
-        <h2 className="mb-6 font-serif text-section-title font-semibold text-foreground">
-          קישורים מהירים להתחלה
-        </h2>
-        <ul className="grid gap-4 sm:grid-cols-2">
-          {ONLINE_QUICK_LINKS.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="hover-lift block rounded-xl border border-border bg-background p-5 hover:border-brand-red/40"
-              >
-                <span className="font-semibold text-foreground">{link.label}</span>
-                <p className="mt-1 text-sm text-muted-foreground">{link.desc}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ServiceHubLinks
+            heading="קישורים מהירים להתחלה"
+            subheading="מסלולים נפוצים לשליחת קובץ או בדיקה ראשונית."
+            links={quickLinks}
+            headingId="online-quick-links-heading"
+            columns={2}
+          />
         </Container>
       </Section>
 

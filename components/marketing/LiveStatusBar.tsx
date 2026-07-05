@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/live-status";
 import {
   GOOGLE_RATING_LABEL,
+  GOOGLE_REVIEW_COUNT,
   SITE_TRUST_STATS,
   STUDIO_GOOGLE_MAPS_URL,
 } from "@/lib/constants";
@@ -91,6 +92,9 @@ export default function LiveStatusBar() {
                 <StarIcon size={14} className="text-amber-500" />
                 <span className="font-semibold text-foreground">{googleStat.value}</span>
                 <span>{googleStat.label}</span>
+                {GOOGLE_REVIEW_COUNT ? (
+                  <span className="text-muted-foreground/80">({GOOGLE_REVIEW_COUNT}+)</span>
+                ) : null}
               </Link>
             ) : null}
           </div>

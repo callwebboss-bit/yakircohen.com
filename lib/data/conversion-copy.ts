@@ -3,12 +3,34 @@ import { buildBookHref } from "@/lib/book-url";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
+/** הסתייגות תפעולית, שורת משנה ליד הבטחות זמן */
+export const TIME_PROMISE_DISCLAIMER =
+  'בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט.';
+
+export const TIME_CLAIMS = {
+  quote24h: "בדרך כלל תוך 24 שעות",
+  quote24hCta: 'קבלו הצעה, בדרך כלל תוך 24 שעות',
+  headerQuote24h: '📩 הצעה, בדרך כלל תוך 24 שעות',
+  bookPriceCheck: "בדקו מחיר במחשבון",
+  podcastDelivery24h: "בדרך כלל מוכן תוך 24 שעות",
+  podcastValueFrame: "תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי",
+  waResponse30m: "בדרך כלל תוך פחות מ-30 דקות בוואטסאפ",
+  waResponse1h: "בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00)",
+  waResponse15m: "בדרך כלל תוך 15 דקות",
+  waResponse15mBusiness: "בדרך כלל תוך 15 דקות בשעות הפעילות",
+  waResponseMinutes: "בדרך כלל תוך דקות בוואטסאפ",
+} as const;
+
 export const CTA_LABELS = {
   whatsappQuote: "קבלו מחיר ותאריך פנוי",
-  bookTransparent: "בדקו מחיר - תוך דקה",
+  bookTransparent: TIME_CLAIMS.bookPriceCheck,
   bookOnline: "הזמנה מקוונת",
   sendBookingWa: "שלחו את ההזמנה בוואטסאפ",
   fastWaQuote: "קבלו הצעה",
+  /** תפריט דביק, מלא בדסקטופ */
+  headerQuote24h: TIME_CLAIMS.headerQuote24h,
+  /** תפריט דביק, קומפקטי במובייל */
+  headerQuote24hShort: "📩 הצעה",
 } as const;
 
 export function whatsappQuoteCta(serviceLabel: string, priceExVat: number): string {
@@ -31,12 +53,12 @@ export function hubBookCtaLabel(priceExVat: number): string {
 }
 
 export function pricingRowBookCta(priceExVat: number): string {
-  return `קבל הצעת מחיר עכשיו — ${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
+  return `קבל הצעת מחיר עכשיו - ${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
 }
 
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {
   studio: "במקום לנחש באולפן - יוצאים עם קובץ מוכן",
-  podcast: "פרק ראשון מוכן - בלי חודש ניסוי וטעייה",
+  podcast: TIME_CLAIMS.podcastValueFrame,
   events: "אפקטים שמרימים את האירוע - בלי הפתעות ביום",
   dj: "מוזיקה ואווירה מקצועית - שמצולמת ונשמעת טוב",
   photography: "רגעים חשובים שמורים - בצילום ובוידאו",

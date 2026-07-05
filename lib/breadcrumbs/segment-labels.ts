@@ -17,7 +17,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   blog: "בלוג",
   about: "אודות",
   contact: "צור קשר",
-  book: "הזמנה מקוונת",
+  book: "מחירון שירותים",
   courses: "קורסים",
   clinic: "מרפאה",
   stuttering: "גמגום",

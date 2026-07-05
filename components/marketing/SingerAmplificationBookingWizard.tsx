@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -730,6 +729,7 @@ export default function SingerAmplificationBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                showPaymentTrust
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(totalExVat)),
                   onClick: () => handleAction("continue_chat"),
@@ -743,7 +743,6 @@ export default function SingerAmplificationBookingWizard({
                   href: consultHref,
                 }}
               />
-              <BookingPaymentTrust />
               <button type="button" onClick={() => setStep(1)} className="w-full text-xs text-muted-foreground hover:text-brand-red">
                 חזרה לפרטים
               </button>

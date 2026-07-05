@@ -179,7 +179,7 @@ export function buildStudioScheduleDisplayLabel(parts: {
   return chunks.join(" · ") || "יתואם בוואטסאפ";
 }
 
-/** חלק א' — מה שהגולש רואה ומאשר לפני שליחה */
+/** חלק א', מה שהגולש רואה ומאשר לפני שליחה */
 export function buildStudioGuestConfirmBlock(opts: {
   contact: { name: string; phone: string };
   packageLabel: string;
@@ -195,7 +195,7 @@ export function buildStudioGuestConfirmBlock(opts: {
   ].join("\n");
 }
 
-/** חלק ב' — שורת צ'יטים קצרה ל-Closer */
+/** חלק ב', שורת צ'יטים קצרה ל-Closer */
 export function buildStudioCloserCheatSheet(cro: StudioCloserCroInput): string {
   const tags: string[] = [];
 

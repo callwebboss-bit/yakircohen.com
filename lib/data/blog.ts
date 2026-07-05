@@ -71,7 +71,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
   },
   podcast: {
     href: "/podcast",
-    title: "הפקת פודקאסט מלאה  -  פרק מוכן תוך 24 שעות",
+    title: "הפקת פודקאסט מלאה, פרק מוכן תוך 24 שעות",
     subtitle:
       "אסטרטגיה, הקלטה באולפן מקצועי, עריכה מתקדמת והפצה לפלטפורמות המובילות.",
     whatsappText: "שלום, מעוניין לשמוע פרטים על שירותי הפקת פודקאסט",
@@ -130,7 +130,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
   },
   "podcast/podcast-editing": {
     href: "/podcast/podcast-editing",
-    title: "עריכת פודקאסט מלאה  -  מההקלטה לפרק מושלם",
+    title: "עריכת פודקאסט מלאה, מההקלטה לפרק מושלם",
     subtitle:
       "פוסט-פרודקשן, ניקוי רעשים, מיקס מאוזן ושיפור קול ב-AI להקלטות ישנות.",
     whatsappText: "שלום, מעוניין בעריכת פודקאסט ושחזור סאונד",

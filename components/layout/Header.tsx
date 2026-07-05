@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
@@ -27,7 +28,16 @@ import {
   SITE_NAME,
 } from "@/lib/constants";
 import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";
+import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
+
+const headerQuoteWhatsAppHref = buildWhatsAppHref({
+  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quote24h}.`,
+  utm_source: "website",
+  utm_campaign: "header_quote_24h",
+});
 
 const headerWhatsAppHref = buildWhatsAppHref({
   text: "שלום, אשמח לשמוע על השירותים שלכם.",
@@ -54,6 +64,38 @@ function CalendarIcon({ className }: { className?: string }) {
       <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
       <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
+  );
+}
+
+function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
+  return prefixes.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+function HeaderQuoteCta() {
+  const pathname = usePathname();
+
+  if (matchesPrefix(pathname, HEADER_QUOTE_HIDE_PREFIXES)) {
+    return null;
+  }
+
+  return (
+    <a
+      href={headerQuoteWhatsAppHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-lg bg-[var(--service-accent,#d42b2b)] font-semibold text-white shadow-sm",
+        "transition-all duration-fast ease-luxury hover:shadow-md active:scale-95",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+        "min-h-11 px-2.5 py-1.5 text-[11px] leading-tight sm:px-3 sm:text-xs md:px-4 md:text-sm",
+      )}
+      aria-label={`${CTA_LABELS.headerQuote24h} בוואטסאפ`}
+    >
+      <span className="lg:hidden">{CTA_LABELS.headerQuote24hShort}</span>
+      <span className="hidden lg:inline">{CTA_LABELS.headerQuote24h}</span>
+    </a>
   );
 }
 
@@ -154,7 +196,7 @@ function HeaderMainBar({
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
           <a
             href={`tel:${CONTACT_PHONE_E164}`}
-            className={mobileIconButtonClass}
+            className={cn(mobileIconButtonClass, "hidden sm:inline-flex")}
             aria-label="חיוג מהיר"
           >
             <PhoneIcon className="h-5 w-5" />
@@ -166,10 +208,11 @@ function HeaderMainBar({
           >
             <CalendarIcon className="h-5 w-5" />
           </Link>
+          <HeaderQuoteCta />
           <WhatsAppAvailabilityBadge />
           <Link
             href="/book"
-            className="hidden min-h-11 items-center rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-fast ease-luxury hover:shadow-md active:scale-95 md:inline-flex"
+            className="hidden min-h-11 items-center rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/40 hover:text-brand-red active:scale-95 lg:inline-flex"
           >
             הזמינו
           </Link>

@@ -76,6 +76,12 @@ export function resolveRowDescription(row: PricingHubRow): string | undefined {
   return row.note;
 }
 
+/** היקף מחיר לשורה במחירון */
+export function resolveRowScope(row: PricingHubRow) {
+  if (row.catalogId) return getPriceById(row.catalogId).scope;
+  return undefined;
+}
+
 export function resolveRowHref(row: PricingHubRow, sectionHref: string): string {
   return row.href ?? sectionHref;
 }
@@ -149,7 +155,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("full_podcast_production", {
         label: "פודקאסט בבית / אולפן נייד",
         href: "/podcast/mobile-podcast-at-home",
-        description: "הגעה + הקלטה + עריכה — מחיר התחלתי לפי היקף",
+        description: "הגעה + הקלטה + עריכה, מחיר התחלתי לפי היקף",
       }),
       hubRow("corp_podcast_pilot", {
         label: "פיילוט ארגוני",

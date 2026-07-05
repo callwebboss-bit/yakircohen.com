@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 
-const FOOTER_FAQ_IDS = ["song-studio-price", "delivery-time"] as const;
+const FOOTER_FAQ_IDS = ["song-studio-price", "delivery-time", "payment", "cancellation"] as const;
 
 export default function FooterMicroFaq() {
   const items = HOME_FAQ_ITEMS.filter((item) =>

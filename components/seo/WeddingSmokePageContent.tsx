@@ -6,6 +6,7 @@ import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -18,7 +19,9 @@ import {
   WEDDING_SMOKE_USE_CASES,
   WEDDING_SMOKE_WHY_US,
 } from "@/lib/data/wedding-smoke-page";
+import { attractionHubLinksExcluding } from "@/lib/data/attraction-hub-links";
 import { getEventsService } from "@/lib/data/services";
+import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -45,7 +48,7 @@ export default function WeddingSmokePageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      scarcityLabel="מומלץ לעונת החתונות  -  תיאום מוקדם"
+      scarcityLabel="מומלץ לעונת החתונות, תיאום מוקדם"
       pagePath="/events/attractions/wedding-smoking-machine"
       faqs={service.faqs}
       {...heroProps}
@@ -66,7 +69,7 @@ export default function WeddingSmokePageContent() {
             עשן כבד לאירועים גדולים
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            מכונות עם 2 צינורות  -  כיסוי אולמות ענקיים ורחבות פתוחות. כיסוי
+            מכונות עם 2 צינורות, כיסוי אולמות ענקיים ורחבות פתוחות. כיסוי
             כפול ועוצמה גבוהה יותר.
           </p>
           <Link
@@ -79,7 +82,7 @@ export default function WeddingSmokePageContent() {
         <section className="max-w-3xl" aria-labelledby="smoke-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             הסוד של צלמים מקצועיים: עשן שצמוד לרצפה, לא עולה לפנים, ומשלים את
-            התמונות במקום להרוס אותן. חוויית סלואו על ענן  -  100% עשן כבד איכותי
+            התמונות במקום להרוס אותן. חוויית סלואו על ענן, 100% עשן כבד איכותי
             מתחת לברך.
           </p>
           <p className="mt-3 text-sm font-medium text-foreground">
@@ -95,7 +98,7 @@ export default function WeddingSmokePageContent() {
           videoTitle="עשן כבד בסלואו חתונה"
           videoHeadingId="smoke-video-heading"
           videoHeading="איך הופכים סלואו לסצנה מהוליווד?"
-          videoDescription="וידאו נטען בלחיצה  -  לא מאט את הדף"
+          videoDescription="וידאו נטען בלחיצה, לא מאט את הדף"
           footer={
             <>
               <section aria-labelledby="large-smoke-video-heading">
@@ -106,7 +109,7 @@ export default function WeddingSmokePageContent() {
                   עשן כבד גדול לאירועים גדולים
                 </h3>
                 <p className="mx-auto mt-2 max-w-xl text-center text-sm text-muted-foreground">
-                  איך נראה עשן כבד בעוצמה כפולה  -  מילוי רחבה פתוחה תוך שניות
+                  איך נראה עשן כבד בעוצמה כפולה, מילוי רחבה פתוחה תוך שניות
                 </p>
                 <div className="mx-auto mt-6 max-w-3xl">
                   <RecordingSongExampleVideos
@@ -154,7 +157,7 @@ export default function WeddingSmokePageContent() {
               תהליך הזמנה ב-3 צעדים
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              עשן שלא מחליק ולא מפעיל גלאים  -  הבטיחות שלכם היא הסטנדרט
+              עשן שלא מחליק ולא מפעיל גלאים, הבטיחות שלכם היא הסטנדרט
             </p>
           </header>
           <ol className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -214,7 +217,7 @@ export default function WeddingSmokePageContent() {
             במגזין.&quot;
           </blockquote>
           <p className="mt-4 text-sm font-semibold text-foreground">
-             -  אלי ברטון, צלם חתונות (15 שנות ניסיון)
+            אלי ברטון, צלם חתונות (15 שנות ניסיון)
           </p>
         </section>
 
@@ -227,30 +230,10 @@ export default function WeddingSmokePageContent() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             ב&quot;יקיר כהן הפקות&quot; לא משתמשים בעשן נוזלי זול שחונק את
-            האולם. ענן לבן, סמיך וכבד שנצמד לרצפה  -  אתם נראים כאילו רוקדים על
-            ענן, האוויר נשאר נקי והצילום חד ומדויק. מכונות גיבוי וסנכרון מדויק
-            עם ה-DJ  -  אין מקום לשגיאות ברגע הקריטי.
+            האולם. ענן לבן, סמיך וכבד שנצמד לרצפה. אתם נראים כאילו רוקדים על
+            ענן, האוויר נשאר נקי והצילום חד. מכונות גיבוי וסנכרון מדויק עם
+            ה-DJ.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/events/attractions/cold-fireworks"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              זיקוקים קרים
-            </Link>
-            <Link
-              href="/events/attractions/confetti-cannon"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              תותח קונפטי
-            </Link>
-            <Link
-              href="/events/attractions"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              כל האטרקציות
-            </Link>
-          </div>
         </section>
 
         <section aria-labelledby="compare-heading">
@@ -259,7 +242,7 @@ export default function WeddingSmokePageContent() {
               id="compare-heading"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              להתפשר על עשן כבד  -  או לא?
+              להתפשר על עשן כבד, או לא?
             </h2>
           </header>
           <div className="mt-8 overflow-x-auto">
@@ -306,6 +289,14 @@ export default function WeddingSmokePageContent() {
           />
         ) : null}
 
+        <ServiceHubLinks
+          headingId="smoke-related-heading"
+          heading="אטרקציות נוספות לאירוע"
+          subheading="שילוב עם עשן כבד חוסך בעלויות ומייצר ערב שלם."
+          links={attractionHubLinksExcluding("/events/attractions/wedding-smoking-machine")}
+          columns={2}
+        />
+
         <section
           className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center sm:px-10"
           aria-labelledby="smoke-cta-heading"
@@ -314,7 +305,7 @@ export default function WeddingSmokePageContent() {
             id="smoke-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים לסלואו על ענן? קבלו הצעה תוך 24 שעות
+            רוצים עשן כבד לסלואו? קבלו הצעה, בדרך כלל תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             תאריך, סוג אירוע ומיקום - נחזור עם הצעה מדויקת. גם בטלפון:{" "}
@@ -339,8 +330,11 @@ export default function WeddingSmokePageContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            קבלו הצעה תוך 24 שעות
+            קבלו הצעה, בדרך כלל תוך 24 שעות
           </a>
+          <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
+            {TIME_PROMISE_DISCLAIMER}
+          </p>
         </section>
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/attractions/wedding-smoking-machine")} />
               <PageRelatedFooter pathname="/events/attractions/wedding-smoking-machine" />

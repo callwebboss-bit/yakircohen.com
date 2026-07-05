@@ -12,7 +12,7 @@ const bundleWhatsAppHref = buildWhatsAppHref({
 export default function PremiumBundleCallout() {
   return (
     <article
-      className="col-span-1 rounded-3xl border-2 border-brand-red/25 bg-surface p-8 text-foreground shadow-md sm:col-span-2 lg:col-span-3"
+      className="col-span-1 rounded-3xl border-2 border-brand-red/25 bg-surface p-8 text-foreground shadow-md sm:col-span-2 lg:col-span-4"
       aria-labelledby="premium-bundle-heading"
     >
       <p className="text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">

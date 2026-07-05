@@ -1,4 +1,4 @@
-﻿/** Social media management  -  Yakir Eizmirlis brand under Yakir Cohen Productions */
+﻿/** Social media management, Yakir Eizmirlis brand under Yakir Cohen Productions */
 
 export const SOCIAL_MEDIA_BRAND = "יקיר איזמירלי";
 
@@ -153,7 +153,7 @@ export const GEO_PROMO = {
   utmCampaign: "social_media_promo_june",
 } as const;
 
-/** End of June 2026  -  promo hidden from July 1 server-side */
+/** End of June 2026, promo hidden from July 1 server-side */
 export function isSocialMediaPromoActive(now = new Date()): boolean {
   return now < new Date(GEO_PROMO.validUntilIso);
 }

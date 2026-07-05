@@ -31,13 +31,13 @@ export default function PromoBanner() {
   const msg = MESSAGES[idx]!;
 
   return (
-    <div className="relative flex h-8 items-center justify-center overflow-hidden bg-brand-red px-10">
+    <div className="relative flex h-10 items-center justify-center overflow-hidden bg-brand-red px-10">
       <Link
         href={msg.href}
         style={{ opacity: fade ? 1 : 0, transition: "opacity 0.3s ease" }}
-        className="flex items-center gap-1.5 text-xs font-semibold text-white hover:underline"
+        className="flex items-center gap-2 text-sm font-bold text-white hover:underline"
       >
-        <span aria-hidden>{msg.icon}</span>
+        <span aria-hidden className="text-base">{msg.icon}</span>
         {msg.text}
       </Link>
       <button

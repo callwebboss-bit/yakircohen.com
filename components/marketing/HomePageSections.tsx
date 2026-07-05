@@ -12,6 +12,7 @@ import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
 import ServiceCard from "@/components/marketing/ServiceCard";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import Testimonials from "@/components/marketing/Testimonials";
 import WhatsappLeadRouter from "@/components/marketing/WhatsappLeadRouter";
@@ -24,6 +25,7 @@ import {
 } from "@/lib/data/home-hub-cards";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
+import { TIME_CLAIMS, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 
 const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   "location-parking": (
@@ -151,36 +153,22 @@ export default function HomePageSections({
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <HomeQuickPaths />
 
-      <section className="border-b border-brand-red/20 bg-brand-red/5 py-5">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-3 px-4 text-center sm:flex-row sm:justify-between sm:text-start">
-          <p className="text-sm font-medium text-foreground">
-            <span className="font-semibold">רוצה לשפר סאונד?</span>{" "}
-            תיקון זיופים, ניקוי רעשים ומיקס - אני עושה את זה מרחוק, תוך שעות.
-          </p>
-          <Link
-            href="/online"
-            className="shrink-0 inline-flex rounded-xl bg-brand-red px-5 py-2 text-sm font-semibold text-white hover:bg-brand-red-light"
-          >
-            שלח קובץ עכשיו
-          </Link>
-        </div>
-      </section>
-
       <Section
         className="bg-background"
         ariaLabelledby="services-heading"
       >
         <Container>
           <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
-              המרכזים שלנו
-            </p>
             <h2
               id="services-heading"
-              className="mt-3 font-serif text-section-title font-semibold text-foreground"
+              className="font-serif text-section-title font-semibold text-foreground"
             >
-              מה אתם צריכים היום?
+              השירותים המקצועיים שלנו
             </h2>
+            <div
+              className="mx-auto mt-3 h-1 w-12 rounded-full bg-brand-red"
+              aria-hidden="true"
+            />
             <div className="mt-5 flex flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
               {([
                 { label: "מקליט שיר לאירוע", href: "/studio/recording-song-modiin" },
@@ -200,7 +188,7 @@ export default function HomePageSections({
             </div>
           </header>
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[...PRIMARY_HOME_HUB_CARDS, ...SECONDARY_HOME_HUB_CARDS].map(
               (card) => {
                 const Icon = getHomeHubIcon(card.id);
@@ -215,7 +203,6 @@ export default function HomePageSections({
                         <Icon size={22} />
                       </ServiceHubIcon>
                     }
-                    utm_campaign={card.utmCampaign}
                     isAiService={card.isAiService}
                     badge={card.badge}
                     badgeVariant={card.badgeVariant}
@@ -240,46 +227,28 @@ export default function HomePageSections({
         ariaLabelledby="value-heading"
       >
         <Container>
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="value-heading"
-              className="font-serif text-section-title font-semibold text-foreground"
-            >
-              למה לקוחות חוזרים אלינו
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
-              ,{" "}
-              <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
-              ו
-              <InlineServiceLink href="/podcast/podcast-editing">
-                עריכת פודקאסט
-              </InlineServiceLink>{" "}
-              תחת קורת גג אחת.
-            </p>
-          </header>
-          <ul className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {VALUE_PROPS.map((item) => (
-              <li key={item.title}>
-                <Link
-                  href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-background p-6 text-center hover-lift focus-within:border-brand-red/40 focus-within:shadow-md md:text-start"
-                >
-                  <span className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-brand-red/40 text-sm font-bold text-brand-red md:mx-0">
-                    ✦
-                  </span>
-                  <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-brand-red">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <ServiceHubLinks
+            heading="למה לקוחות חוזרים אלינו"
+            subheading={
+              <>
+                <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
+                ,{" "}
+                <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
+                ו
+                <InlineServiceLink href="/podcast/podcast-editing">
+                  עריכת פודקאסט
+                </InlineServiceLink>{" "}
+                תחת קורת גג אחת.
+              </>
+            }
+            links={VALUE_PROPS.map((item) => ({
+              href: item.href,
+              title: item.title,
+              description: item.description,
+            }))}
+            headingId="value-heading"
+            columns={3}
+          />
         </Container>
       </Section>
 
@@ -332,7 +301,7 @@ export default function HomePageSections({
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <CallbackLeadForm
             heading="מעדיפים שנחזור אליכם?"
-            description="השאירו שם וטלפון - נחזור תוך שעה בשעות הפעילות. ללא התחייבות."
+            description={`השאירו שם וטלפון, ${TIME_CLAIMS.waResponse1h}. ללא התחייבות.`}
             utmCampaign="home_callback_form"
           />
         </div>
@@ -361,14 +330,14 @@ export default function HomePageSections({
             id="bottom-cta-heading"
             className="font-serif text-section-title font-semibold text-foreground"
           >
-            מוכנים להתחיל? הצעה תוך 24 שעות
+            מוכנים להתחיל? הצעה {TIME_CLAIMS.quote24h}
           </h2>
           <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
             שלחו הודעה על{" "}
             <InlineServiceLink href="/studio">הקלטה באולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירוע</InlineServiceLink> או{" "}
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>. נחזור
-            עם הצעה ברורה תוך 24 שעות.
+            עם הצעה ברורה {TIME_CLAIMS.quote24h}.
           </p>
           <Button
             as="a"
@@ -377,8 +346,11 @@ export default function HomePageSections({
             rel="noopener noreferrer"
             className="mt-8 px-8"
           >
-            קבלו הצעה תוך 24 שעות
+            {TIME_CLAIMS.quote24hCta}
           </Button>
+          <p className="mx-auto mt-3 max-w-xl text-xs text-muted-foreground">
+            {TIME_PROMISE_DISCLAIMER}
+          </p>
         </Container>
       </Section>
     </>

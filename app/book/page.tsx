@@ -5,7 +5,9 @@ import BookDynamicHeroSubtitle, {
 } from "@/components/booking/BookDynamicHeroSubtitle";
 import BookPageSections from "@/components/booking/BookPageSections";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import BookPageSchema from "@/components/seo/BookPageSchema";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -47,6 +49,8 @@ export default async function BookPage({
   const utmCampaign =
     typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
   const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
+  const routeParam = typeof sp.route === "string" ? sp.route : null;
+  const qualParam = typeof sp.qual === "string" ? sp.qual : null;
 
   return (
     <>
@@ -75,6 +79,7 @@ export default async function BookPage({
               utmCampaign={utmCampaign}
               utmContent={utmContent}
             />
+            <ContextualIntroParagraph pathname="/book" className="mx-auto mt-4 max-w-2xl" />
           </Container>
         </Section>
 
@@ -97,11 +102,14 @@ export default async function BookPage({
           itemParam={itemParam}
           catalogParam={catalogParam}
           couponParam={couponParam}
+          routeParam={routeParam}
+          qualParam={qualParam}
           utmCampaign={utmCampaign}
           utmContent={utmContent}
         />
 
         <Container className="max-w-3xl pb-14">
+          <CheckoutTrustMicro className="mb-6" />
           <CompanyDetailsCard variant="collapsible" />
         </Container>
       </div>

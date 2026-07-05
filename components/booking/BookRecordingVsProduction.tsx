@@ -26,7 +26,7 @@ const COMPARISON_ROWS = [
 
 type BookRecordingVsProductionProps = {
   className?: string;
-  /** גרסה מקוצרת למסלול מהיר — דוגמת שמע בלבד */
+  /** גרסה מקוצרת למסלול מהיר, דוגמת שמע בלבד */
   compact?: boolean;
 };
 
@@ -88,7 +88,7 @@ export default function BookRecordingVsProduction({
         )}
       >
         <p className="text-sm font-semibold text-foreground">
-          שמעו את ההבדל — אצלנו לעומת אולפנים אחרים
+          שמעו את ההבדל, אצלנו לעומת אולפנים אחרים
         </p>
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
           כל המסלולים כאן כוללים עיבוד מלא. זו השוואה לסאונד שמקבלים במקומות אחרים.
@@ -109,7 +109,7 @@ export default function BookRecordingVsProduction({
         מה ההבדל בסאונד שיוצא מהאולפן שלנו?
       </p>
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-        השוואה בין מה שמקבלים באולפנים אחרים לבין מה שאנחנו מייצאים — לא בין שני
+        השוואה בין מה שמקבלים באולפנים אחרים לבין מה שאנחנו מייצאים, לא בין שני
         מסלולי רכישה באתר.
       </p>
 
@@ -152,7 +152,7 @@ export default function BookRecordingVsProduction({
       </div>
 
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-        כל המסלולים כאן כוללים עיבוד מלא — לא רק הקלטה גולמית.
+        כל המסלולים כאן כוללים עיבוד מלא, לא רק הקלטה גולמית.
       </p>
 
       {audioBlock}

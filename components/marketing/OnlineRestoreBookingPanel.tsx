@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
@@ -13,6 +13,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -45,6 +46,13 @@ type OnlineRestoreBookingPanelProps = {
   routeId?: string | null;
 };
 
+type OnlinePanelDraft = {
+  step: number;
+  issue: string;
+  name: string;
+  phone: string;
+};
+
 export default function OnlineRestoreBookingPanel({
   initialEmotionalLabel,
   routeId = null,
@@ -67,6 +75,27 @@ export default function OnlineRestoreBookingPanel({
     successWaHref,
     successIntent,
   } = useLeadSubmit();
+
+  const panelDraft = useMemo<OnlinePanelDraft>(
+    () => ({
+      step: issue.trim() || name.trim() || phone.trim() ? 1 : 0,
+      issue,
+      name,
+      phone,
+    }),
+    [issue, name, phone],
+  );
+
+  useBookPanelDraft<OnlinePanelDraft>({
+    storageKey: "online-restore",
+    data: panelDraft,
+    shouldPersist: (d) => d.step >= 1,
+    onRestore: (saved) => {
+      setIssue(saved.issue);
+      setName(saved.name);
+      setPhone(saved.phone);
+    },
+  });
 
   const feasibilityHref = buildWhatsAppHref({
     text: "שלום, אשמח לבדיקת היתכנות חינם לשחזור סאונד.\nאצרף קטע של כ-30 שניות מהקובץ.\nמה שחסר לי: לדעת אם אפשר להציל את ההקלטה",
@@ -161,6 +190,7 @@ export default function OnlineRestoreBookingPanel({
             intent,
             { leadCategory: "online" },
           );
+          clearPanelBookingDraft("online-restore");
         },
       );
 

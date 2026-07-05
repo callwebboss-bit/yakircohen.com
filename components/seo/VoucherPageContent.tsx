@@ -1,6 +1,8 @@
 ﻿import Link from "next/link";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import Container from "@/components/ui/Container";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
@@ -110,6 +112,7 @@ export default function VoucherPageContent() {
       bookLabel={bookCta?.bookLabel}
     >
       <Container className="space-y-14 py-12 sm:py-16">
+        <ContextualIntroParagraph pathname="/voucher" />
         <section aria-labelledby="voucher-tiers-heading">
           <h2
             id="voucher-tiers-heading"
@@ -165,33 +168,19 @@ export default function VoucherPageContent() {
           </ol>
         </section>
 
-        <section aria-labelledby="voucher-links-heading">
-          <h2
-            id="voucher-links-heading"
-            className="text-lg font-semibold text-foreground"
-          >
-            למה אפשר להשתמש בשובר
-          </h2>
-          <ul className="mt-4 flex flex-wrap gap-3">
-            {[
-              { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
-              { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
-              { href: "/studio/blessings", label: "ברכות מוקלטות" },
-              { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת מצווה" },
-              { href: "/events/attractions", label: "אטרקציות לאירוע" },
-              { href: "/podcast/podcast-studio-modiin", label: "הקלטת פודקאסט" },
-            ].map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-sm font-medium transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          headingId="voucher-usage-heading"
+          heading="למה אפשר להשתמש בשובר"
+          subheading="שובר מתנה מתאים לכל שירות."
+          links={[
+            { href: "/studio/recording-song-modiin/gifts", title: "מתנות מהאולפן", description: "שובר להקלטת שיר או ברכה באולפן." },
+            { href: "/studio/recording-song-modiin", title: "הקלטת שיר באולפן", description: "הקלטה מקצועית של שיר אישי במודיעין." },
+            { href: "/studio/blessings", title: "ברכות מוקלטות", description: "הקלטת ברכה לאירוע באולפן מקצועי." },
+            { href: "/studio/blessings/bat-mitzvah-clip", title: "קליפ בת מצווה", description: "קליפ וידאו מעוצב לבת מצווה." },
+            { href: "/events/attractions", title: "אטרקציות לאירוע", description: "עשן, זיקוקים, בועות וקונפטי עם מפעיל." },
+            { href: "/podcast/podcast-studio-modiin", title: "הקלטת פודקאסט", description: "אולפן פודקאסט מקצועי במודיעין." },
+          ]}
+        />
 
         <FAQAccordion
           title="שאלות נפוצות על שובר מתנה"

@@ -23,17 +23,17 @@ export const BUBBLE_HIGHLIGHTS: readonly { emoji: string; title: string; text: s
   {
     emoji: "🛡️",
     title: "חומר נגד החלקה",
-    text: "פתרון מקצועי לסלואו, ריקוד ראשון או רחבה חלקה  -  בטיחות כחובה.",
+    text: "פתרון מקצועי לסלואו, ריקוד ראשון או רחבה חלקה, בטיחות כחובה.",
   },
   {
     emoji: "✨",
     title: "בועות לאירועים",
-    text: "האטרקציה שהופכת כל תמונה לחלום  -  קסם, אווירה וזוהר.",
+    text: "האטרקציה שהופכת כל תמונה לחלום, קסם, אווירה וזוהר.",
   },
   {
     emoji: "💕",
     title: "תזמון מדויק",
-    text: "שליטה אלחוטית שמסונכרנת עם מוזיקה ותאורה  -  שירות לכל הארץ.",
+    text: "שליטה אלחוטית שמסונכרנת עם מוזיקה ותאורה, שירות לכל הארץ.",
   },
 ] as const;
 
@@ -41,12 +41,12 @@ export const BUBBLE_PRODUCT_TYPES: readonly BubbleProductType[] = [
   {
     emoji: "🌫️",
     title: "בועות סבון עשן",
-    description: "בועות זוהרות מלאות עשן מסתורי  -  מתאים לסלואו וכניסות.",
+    description: "בועות זוהרות מלאות עשן מסתורי, מתאים לסלואו וכניסות.",
   },
   {
     emoji: "🌈",
     title: "בועות LED",
-    description: "עמוד/אפקט מבועות סבון מואר  -  Premium LED Event Solutions.",
+    description: "עמוד/אפקט מבועות סבון מואר, Premium LED Event Solutions.",
   },
   {
     emoji: "🎈",
@@ -64,7 +64,7 @@ export const BUBBLE_PROCESS_STEPS: readonly BubbleProcessStep[] = [
   {
     step: "02",
     title: "הגעה והתקנה",
-    description: "הצוות מגיע עם כל הציוד  -  פחות מ-30 דקות להקמה.",
+    description: "הצוות מגיע עם כל הציוד, פחות מ-30 דקות להקמה.",
   },
   {
     step: "03",
@@ -74,7 +74,7 @@ export const BUBBLE_PROCESS_STEPS: readonly BubbleProcessStep[] = [
   {
     step: "04",
     title: "פירוק וניקיון",
-    description: "סיום נקי ומהיר  -  בלי לכלוך או סימנים.",
+    description: "סיום נקי ומהיר, בלי לכלוך או סימנים.",
   },
 ] as const;
 
@@ -82,7 +82,7 @@ export const BUBBLE_ORDER_STEPS: readonly BubbleProcessStep[] = [
   {
     step: "01",
     title: "זמינות והצעת מחיר",
-    description: "בודקים תאריך  -  חוזרים עם הצעה מפורטת.",
+    description: "בודקים תאריך, חוזרים עם הצעה מפורטת.",
   },
   {
     step: "02",
@@ -107,21 +107,21 @@ export const BUBBLE_PACKAGE_INCLUDES: readonly BubblePackageItem[] = [
 ] as const;
 
 export const BUBBLE_CONCERNS: readonly BubbleConcern[] = [
-  { concern: "כאוס ולכלוך", solution: "פליטה מבוקרת  -  בועות נעלמות ללא שאריות" },
+  { concern: "כאוס ולכלוך", solution: "פליטה מבוקרת, בועות נעלמות ללא שאריות" },
   { concern: "בטיחות ילדים", solution: "תמיסה לא רעילה, בטוחה למגע" },
-  { concern: "חשמל", solution: "12V  -  גמישות במיקום ההפעלה" },
+  { concern: "חשמל", solution: "12V, גמישות במיקום ההפעלה" },
   { concern: "התקנה", solution: "פשוטה עם הדרכה וטכנאי בשטח" },
-  { concern: "עלות", solution: "מחירון שקוף  -  הכל כלול, בלי הפתעות" },
+  { concern: "עלות", solution: "מחירון שקוף, הכל כלול, בלי הפתעות" },
   { concern: "רעש", solution: "פעולה שקטה שלא מפריעה לאירוע" },
   { concern: "ציוד אחר", solution: "לא משאיר סימנים על ריהוט או אלקטרוניקה" },
-  { concern: "זמינות", solution: "הזמנה מראש  -  מומלץ 2 חודשים לפני בעונת שיא" },
+  { concern: "זמינות", solution: "הזמנה מראש, מומלץ 2 חודשים לפני בעונת שיא" },
   { concern: "ניידות", solution: "עיצוב קומפקטי לכל סצנה" },
   { concern: "שביעות רצון", solution: "1,800+ אירועים - 280+ המלצות" },
 ] as const;
 
 export const BUBBLE_WHY_US: readonly string[] = [
-  "גמישות ושירות אישי  -  גובה זריקות ותזמון מותאמים",
-  "תמיכה טכנית  -  הגעה מוקדמת, בדיקות וטכנאי אופציונלי",
-  "שקיפות  -  מחיר ברור, הכל כלול, בלי עלויות נסתרות",
-  "20 שנות ניסיון  -  פתרון תקלות בזמן אמת",
+  "גמישות ושירות אישי, גובה זריקות ותזמון מותאמים",
+  "תמיכה טכנית, הגעה מוקדמת, בדיקות וטכנאי אופציונלי",
+  "שקיפות, מחיר ברור, הכל כלול, בלי עלויות נסתרות",
+  "20 שנות ניסיון, פתרון תקלות בזמן אמת",
 ] as const;

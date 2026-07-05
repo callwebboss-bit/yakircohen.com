@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import KoalendarModal from "@/components/booking/KoalendarModal";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -1233,6 +1232,7 @@ export default function PodcastBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                showPaymentTrust
                 socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(packageTotal)),
@@ -1247,7 +1247,6 @@ export default function PodcastBookingWizard({
                   onClick: () => setKoalendarOpen(true),
                 }}
               />
-              <BookingPaymentTrust />
 
               {form.phone.trim().length >= 9 && (
                 <p className="text-center text-xs text-muted-foreground">

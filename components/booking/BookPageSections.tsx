@@ -204,6 +204,8 @@ export default function BookPageSections({
   itemParam = null,
   catalogParam = null,
   couponParam = null,
+  routeParam = null,
+  qualParam = null,
   utmCampaign = null,
   utmContent = null,
 }: {
@@ -211,6 +213,8 @@ export default function BookPageSections({
   itemParam?: string | null;
   catalogParam?: string | null;
   couponParam?: string | null;
+  routeParam?: string | null;
+  qualParam?: string | null;
 } & BookUtmBoostOptions) {
   const initialSingerPackageId = parseBookPackageFromSearch(pkgParam);
   const initialEventItemId = parseBookEventItemFromSearch(itemParam);
@@ -224,7 +228,9 @@ export default function BookPageSections({
     initialCatalogTarget,
     openFullPath,
     backToRouter,
-  } = useBookFlow({ itemParam, pkgParam, catalogParam });
+  } = useBookFlow({ itemParam, pkgParam, catalogParam, qualParam });
+
+  const resumeQualOpen = qualParam === "1" && Boolean(routeParam);
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
 
@@ -247,6 +253,8 @@ export default function BookPageSections({
         onFullPath={openFullPath}
         activeRouteId={activeRouteId}
         activeCategoryId={activeCategory}
+        resumeRouteId={routeParam}
+        resumeQualOpen={resumeQualOpen}
         utmCampaign={utmCampaign}
         utmContent={utmContent}
       />

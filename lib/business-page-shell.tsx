@@ -73,7 +73,7 @@ export function BusinessServicePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <BusinessTierPageContent config={config} />
+      <BusinessTierPageContent config={config} pagePath={`/${slug}`} />
     </>
   );
 }

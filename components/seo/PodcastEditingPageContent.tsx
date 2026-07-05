@@ -38,7 +38,7 @@ export default function PodcastEditingPageContent() {
   return (
     <ServicePageLayout
       title="עריכת פודקאסט מלאה"
-      subtitle="הקלטתם פרק אבל הוא צריך עריכה מקצועית? אנחנו עורכים, מנקים ומשפרים  -  ואתם מקבלים פרק מוכן לפרסום."
+      subtitle="הקלטתם פרק אבל הוא צריך עריכה מקצועית? אנחנו עורכים, מנקים ומשפרים, ואתם מקבלים פרק מוכן לפרסום."
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
@@ -69,7 +69,7 @@ export default function PodcastEditingPageContent() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             עריכת פודקאסט זה לא סתם &quot;חיתוך שתיקות&quot;. זה תהליך מקיף
-            שהופך הקלטה גולמית לפרק מקצועי שכיף להקשיב לו  -  מההקלטה הגולמית
+            שהופך הקלטה גולמית לפרק מקצועי שכיף להקשיב לו, מההקלטה הגולמית
             לפרק מושלם.
           </p>
         </section>
@@ -247,7 +247,7 @@ export default function PodcastEditingPageContent() {
 
         <FAQAccordion
           items={[...PODCAST_EDITING_FAQS]}
-          title="שאלות נפוצות  -  עריכת פודקאסט"
+          title="שאלות נפוצות, עריכת פודקאסט"
           className="py-0"
         />
 
@@ -262,7 +262,7 @@ export default function PodcastEditingPageContent() {
             מוכנים לשלוח פרק לעריכה?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            שלחו את הקובץ הגולמי  -  נחזור עם הצעה וזמן מסירה. רוצים גם להקליט
+            שלחו את הקובץ הגולמי, נחזור עם הצעה וזמן מסירה. רוצים גם להקליט
             אצלנו? אפשר לשלב עם{" "}
             <Link
               href="/podcast/podcast-studio-modiin"

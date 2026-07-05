@@ -3,8 +3,16 @@
 import Script from "next/script";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SOCIAL_LINKS, STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
+import {
+  GOOGLE_REVIEW_COUNT,
+  SOCIAL_LINKS,
+  STUDIO_GOOGLE_MAPS_URL,
+} from "@/lib/constants";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+import {
+  getTestimonialYear,
+  TESTIMONIAL_CATEGORY_LABELS,
+} from "@/lib/data/testimonial-categories";
 import { cn } from "@/lib/utils";
 
 const INSTAGRAM_HREF = SOCIAL_LINKS.find((s) => s.label === "Instagram")?.href ?? "https://www.instagram.com/";
@@ -286,10 +294,23 @@ function LocalReviewsStrip() {
             {item.role ? (
               <span className="text-muted-foreground">- {item.role}</span>
             ) : null}
+            {item.serviceCategory ? (
+              <>
+                <span className="text-muted-foreground" aria-hidden>
+                  ·
+                </span>
+                <span>
+                  {TESTIMONIAL_CATEGORY_LABELS[item.serviceCategory]}
+                  {getTestimonialYear(item.datePublished)
+                    ? ` · ${getTestimonialYear(item.datePublished)}`
+                    : ""}
+                </span>
+              </>
+            ) : null}
             {item.serviceHref && item.serviceLabel ? (
               <>
                 <span className="text-muted-foreground" aria-hidden>
-                  -
+                  ·
                 </span>
                 <Link
                   href={item.serviceHref}
@@ -309,7 +330,7 @@ function LocalReviewsStrip() {
           rel="noopener noreferrer"
           className="font-semibold text-brand-red hover:underline"
         >
-          עוד ביקורות ב-Google Maps
+          עוד {GOOGLE_REVIEW_COUNT}+ ביקורות ב-Google Maps
         </Link>
       </p>
     </div>

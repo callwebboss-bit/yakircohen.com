@@ -407,7 +407,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
             </span>
             <p className="text-sm italic leading-relaxed text-muted-foreground">
               &ldquo;גם בטעות יש לוגיקה - בוא נמצא אותה יחד.
-              15 דקות ייעוץ אישי עם יקיר, ללא עלות. זה על הבית.&rdquo;
+              בדרך כלל 15 דקות ייעוץ אישי עם יקיר, ללא עלות. זה על הבית.&rdquo;
             </p>
             <Button
               as="a"

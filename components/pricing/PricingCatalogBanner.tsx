@@ -21,7 +21,7 @@ export default function PricingCatalogBanner({ catalogId }: PricingCatalogBanner
     >
       הגעתם מהמחירון:{" "}
       <strong className="font-semibold">{item.label}</strong>
-      {" — "}
+      {", "}
       {priceLine}
       {couponApplies && offer ? (
         <p className="mt-2 text-xs font-medium text-brand-red">

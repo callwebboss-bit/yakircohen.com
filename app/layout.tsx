@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import SessionRescuerBarLazy from "@/components/booking/SessionRescuerBarLazy";
+import UtmSessionPersist from "@/components/layout/UtmSessionPersist";
 import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
@@ -121,6 +122,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />
+        <UtmSessionPersist />
         <TabRescueTitle />
         <SiteSchema />
         <a

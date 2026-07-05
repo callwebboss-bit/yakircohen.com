@@ -34,10 +34,12 @@ export const BOOKING_CTA = {
   start_now: "התחל תהליך והזמן עכשיו",
 } as const;
 
+import { CANCELLATION_SHORT_LINE } from "@/lib/data/legal-trust-copy";
+
 /** אישורים קלים לצ'קבוקס בטופס סיכום */
 export const BOOKING_APPROVALS_LIGHT = [
   "המחיר שמוצג הוא המחיר הסופי. אין הפתעות ואין תוספות שלא בחרתי.",
-  "ביטול עד 14 יום לפני -- החזר מלא. שינוי תאריך -- תמיד חינם.",
+  CANCELLATION_SHORT_LINE,
   "מאשר/ת שיקיר יחזור אליי בוואטסאפ לתיאום.",
 ] as const;
 
@@ -94,17 +96,17 @@ export function resolveBookingPostSubmitCopy(
   if (intent === "continue_chat") {
     return {
       ...base,
-      body: `קיבלנו את הפרטים. פתחו וואטסאפ לתיאום מהיר — או חכו שיקיר יחזור. בינתיים: ${btsTitle}.`,
+      body: `קיבלנו את הפרטים. פתחו וואטסאפ לתיאום מהיר, או חכו שיקיר יחזור. בינתיים: ${btsTitle}.`,
     };
   }
 
   return {
     ...base,
-    body: `אתם מוכנים להתחיל — לחצו לוואטסאפ עכשיו לסגירה מהירה. בינתיים: ${btsTitle}.`,
+    body: `אתם מוכנים להתחיל, לחצו לוואטסאפ עכשיו לסגירה מהירה. בינתיים: ${btsTitle}.`,
   };
 }
 
-/** כותרות BookReplyStudio במסך הצלחה / סיכום אולפן — ללקוח קצה */
+/** כותרות BookReplyStudio במסך הצלחה / סיכום אולפן, ללקוח קצה */
 export const BOOKING_FAMILY_REPLY_LABELS = {
   title: "טקסט לשליחה בוואטסאפ",
   subtitle: "להעתקה לקבוצה או למקליט",

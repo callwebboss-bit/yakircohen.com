@@ -42,7 +42,7 @@ const VALID_SINGER_PACKAGES = new Set<string>(["basic", "premium", "vip"]);
 export type BookHrefOptions = {
   pkg?: SingerPackageId | string;
   item?: EventBookingItemId | string;
-  /** מזהה מחיר מהמחירון — /book?catalog=blessing_recording#studio */
+  /** מזהה מחיר מהמחירון, /book?catalog=blessing_recording#studio */
   catalog?: PriceItemId | string;
 };
 

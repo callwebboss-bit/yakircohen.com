@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -12,6 +13,7 @@ import {
   JERUSALEM_WHY_US,
 } from "@/lib/data/studio-jerusalem-page";
 import { getStudioService } from "@/lib/data/services";
+import { mapEmojiLinkToHub } from "@/lib/data/studio-hub-mappers";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
@@ -49,7 +51,7 @@ export default function StudioJerusalemPageContent() {
             id="jerusalem-intro-heading"
             className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            אולפן הקלטות בירושלים  -  חוויה בלתי נשכחת
+            אולפן הקלטות בירושלים, חוויה בלתי נשכחת
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             מחפשים אולפן בירושלים? יקיר כהן הפקות מציע אולפן מקצועי במודיעין  - 
@@ -110,11 +112,11 @@ export default function StudioJerusalemPageContent() {
 
         <section className="max-w-3xl rounded-xl border border-border bg-surface p-6 sm:p-8">
           <h2 className="font-serif text-lg font-semibold text-foreground sm:text-xl">
-            ירושלמי במקור  -  מבין את הנשמה שלכם
+            ירושלמי במקור, מבין את הנשמה שלכם
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             האולפן במודיעין הוא השלוחה המוזיקלית לתושבי ירושלים שמחפשים מקום
-            שקט, מקצועי ונגיש. בר מצווה, חתונה או חלום ישן  -  אנחנו מדברים את
+            שקט, מקצועי ונגיש. בר מצווה, חתונה או חלום ישן, אנחנו מדברים את
             השפה שלכם.
           </p>
         </section>
@@ -130,7 +132,7 @@ export default function StudioJerusalemPageContent() {
             לעסקים, מורים ותקליטנים
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            מורים למוזיקה, בתי ספר, תקליטנים ויוצרי תוכן  -  נשמח לשיתוף פעולה
+            מורים למוזיקה, בתי ספר, תקליטנים ויוצרי תוכן, נשמח לשיתוף פעולה
             והבאת תלמידים או לקוחות לחוויה באולפן במודיעין.
           </p>
           <a
@@ -142,44 +144,13 @@ export default function StudioJerusalemPageContent() {
             לתיאום שיתוף בוואטסאפ </a>
         </section>
 
-        <section aria-labelledby="popular-services-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-              פופולרי בקרב ירושלמים
-            </p>
-            <h2
-              id="popular-services-heading"
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מה מקליטים אצלנו?
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              השירותים הפופולריים ביותר לקהל ירושלמי ודתי
-            </p>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {JERUSALEM_POPULAR_SERVICES.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
-                >
-                  <p className="text-2xl" aria-hidden>
-                    {item.emoji}
-                  </p>
-                  <h3 className="mt-3 font-semibold text-foreground group-hover:text-brand-red">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          heading="מה מקליטים אצלנו?"
+          subheading="השירותים הפופולריים ביותר לקהל ירושלמי ודתי."
+          links={JERUSALEM_POPULAR_SERVICES.map(mapEmojiLinkToHub)}
+          headingId="popular-services-heading"
+          columns={2}
+        />
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
@@ -199,13 +170,13 @@ export default function StudioJerusalemPageContent() {
           >
             אולפן נייד
           </Link>{" "}
-           -  אפשר גם להגיע עד ירושלים בתיאום מראש
+         , אפשר גם להגיע עד ירושלים בתיאום מראש
         </p>
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות  -  אולפן לירושלמים"
+            title="שאלות נפוצות, אולפן לירושלמים"
             className="py-0"
           />
         ) : null}
@@ -221,7 +192,7 @@ export default function StudioJerusalemPageContent() {
             מוכנים להקליט את השיר שלכם?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            אל תחכו לרגע האחרון  -  מקומות מתמלאים בעונת האירועים. פגישת היכרות
+            אל תחכו לרגע האחרון, מקומות מתמלאים בעונת האירועים. פגישת היכרות
             או הקלטה ראשונה בוואטסאפ.
           </p>
           <a

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -33,7 +34,7 @@ export default function PricingInquiryForm() {
   if (status === "success") {
     return (
       <p className="rounded-2xl border border-border bg-surface px-6 py-5 text-center text-sm text-foreground">
-        ✓ קיבלנו! נחזור אליך תוך 24 שעות.
+        ✓ קיבלנו! נחזור אליך {TIME_CLAIMS.quote24h}.
       </p>
     );
   }

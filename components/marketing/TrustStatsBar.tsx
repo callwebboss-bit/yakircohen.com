@@ -4,6 +4,7 @@ import {
   GOOGLE_RATING_LABEL,
   SITE_TRUST_STATS,
   STUDIO_GOOGLE_MAPS_URL,
+  TRUST_STATS_CLARIFICATION,
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -77,6 +78,11 @@ export default function TrustStatsBar({
             </div>
           );
         })}
+      </Container>
+      <Container className="mt-4">
+        <p className="text-center text-xs text-muted-foreground">
+          {TRUST_STATS_CLARIFICATION}
+        </p>
       </Container>
     </section>
   );

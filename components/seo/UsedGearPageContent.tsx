@@ -1,7 +1,8 @@
-﻿import Link from "next/link";
-import Button from "@/components/ui/Button";
+﻿import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const WHATSAPP_TEXT =
@@ -13,47 +14,67 @@ const CATEGORIES = [
     title: "הגברה וסאונד",
     icon: "🔊",
     description:
-      "רמקולים מוגברים RCF 745 כולל סאבוופר פעיל - ציוד הגברה שנבחר לעבוד בהפקות מקצועיות. המערכת תוחזקה ברמת פרימיום לאורך כל חיי השירות שלה. מתאימה לאולמות, מרחבים פתוחים ואירועים בכל גודל.",
+      "רמקולים מוגברים RCF 745 עם סאבוופר פעיל. המערכת עבדה בהפקות שלנו ותוחזקה לפני כל אירוע. מתאימה לאולמות, חצרות ואירועים בינוניים.",
   },
   {
     id: "dj",
     title: "עמדות די ג'יי",
     icon: "🎛",
     description:
-      "שני קונטרולרים Native Instruments Traktor S4 MK3 בתפקוד מלא - ציוד די ג'יי שנשמר בקפידה ובדוק לפני כל שימוש. עמדת תקלוט מוכנה לעבודה, מתאימה לתקלוטנים מקצועיים ולהפקות מוסיקה.",
+      "שני קונטרולרים Native Instruments Traktor S4 MK3 בתפקוד מלא. נבדקים לפני כל שימוש. מתאים לתקליטנים מקצועיים ולהפקות מוזיקה.",
   },
   {
     id: "led",
     title: "עמדות לד",
     icon: "💡",
     description:
-      "סט עמדות LED מקצועיות לתאורה דינמית ואפקטים ויזואליים. ציוד תאורה שעבד בהפקות חיות ושמור בצורה מדוקדקת. מתאים לאירועים, הצגות ותאורת רקע ויזואלית.",
+      "סט עמדות LED לתאורה דינמית באירועים. ציוד שעבד בהפקות חיות ונשמר בקפידה. מתאים לחתונות, הצגות ורקע ויזואלי.",
   },
   {
     id: "studio",
     title: "אולפן ויצירה",
     icon: "🎙",
     description:
-      "מוניטורי KRK Rokit 8, כרטיס קול אולפני UAD Twin ומיקרופון Sphere L22. ציוד אולפן יד שנייה ברמה גבוהה, שהופעל בסביבה מבוקרת ותוחזק כהלכה. מתאים לאולפן ביתי ברמת פרימיום.",
+      "מוניטורי KRK Rokit 8, כרטיס קול UAD Twin ומיקרופון Sphere L22. ציוד אולפן יד שנייה שהופעל בסביבה מבוקרת. מתאים לאולפן ביתי רציני.",
   },
   {
     id: "effects",
     title: "תאורה ואפקטים",
     icon: "🌟",
     description:
-      "מכונת עשן, מכונת בועות עשן, תותחי קיטור לרגעי שיא ותותח קונפטי. בנוסף, ציוד תאורה ייעודי לצילום פודקאסט ווידיאו. כל הציוד יצא להפקות שטח ממשיות.",
+      "מכונת עשן, מכונת בועות עשן, תותחי קיטור ותותח קונפטי. בנוסף ציוד תאורה לצילום פודקאסט ווידאו. הכל יצא להפקות בשטח.",
   },
   {
     id: "accessories",
     title: "אביזרים נלווים",
     icon: "🎚",
     description:
-      "מקליט לפודקאסט, מיקרופונים מקצועיים, סטנדים וכבלים מקצועיים בכמות. ציוד בדוק ותקין, מוכן לעבודה. פתרון מלא למי שמקים אולפן ביתי מאפס.",
+      "מקליט לפודקאסט, מיקרופונים, סטנדים וכבלים מקצועיים. ציוד בדוק ותקין, מוכן לעבודה. פתרון למי שמקים אולפן ביתי מאפס.",
   },
 ] as const;
 
-const chipClass =
-  "inline-flex min-h-11 items-center rounded-full border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+const USED_GEAR_RELATED = [
+  {
+    href: "/studio",
+    title: "אולפן הקלטות",
+    description: "הקלטת שיר, ברכות ופודקאסט במודיעין.",
+  },
+  {
+    href: "/events/dj-events",
+    title: "DJ לאירועים",
+    description: "תקליטן עם ציוד מהמלאי שאנחנו מוכרים כאן.",
+  },
+  {
+    href: "/events/equipment",
+    title: "השכרת הגברה",
+    description: "מערכות הגברה לאירועים קטנים ובינוניים.",
+  },
+  {
+    href: "/events/attractions",
+    title: "אטרקציות לאירוע",
+    description: "עשן כבד, זיקוקים קרים ובועות עם מפעיל.",
+  },
+] as const;
 
 export default function UsedGearPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -73,21 +94,18 @@ export default function UsedGearPageContent() {
             ציוד מקצועי למכירה מבית יקיר כהן הפקות
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
-            ציוד אולפן, הגברה ותאורה מתוחזק ברמת פרימיום
+            ציוד אולפן, הגברה ותאורה שעבד אצלנו בשטח
           </p>
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            כל הציוד המוצע כאן עבד בהפקות שלנו ותוחזק בקפידה. הרכישה כוללת
-            הדרכה מלאה, עזרה ראשונית בתפעול, וטיפים מאנשי מקצוע.
+          <ContextualIntroParagraph pathname="/equipment/used-gear" className="mt-4 max-w-2xl" />
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            כל פריט כאן יצא מהפקות שלנו. הרכישה כוללת הסבר על התפעול ועזרה ראשונית
+            בהתקנה.
           </p>
         </Container>
       </Section>
 
       <Section padding="sm">
         <Container className="max-w-5xl space-y-20">
-          <p className="max-w-xl border-s-2 border-brand-red ps-4 text-sm text-muted-foreground">
-            ציוד שנבחר, נשמר והופעל על ידי אנשי מקצוע
-          </p>
-
           <section aria-labelledby="inventory-heading">
             <header>
               <h2
@@ -97,15 +115,14 @@ export default function UsedGearPageContent() {
                 מה יש למכירה
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                כל הפריטים הגיעו מהפקות פעילות - לא מאחסון. הרשימה מתעדכנת בהתאם
-                למלאי הקיים.
+                הרשימה מתעדכנת לפי המלאי. כל פריט נבדק לפני מסירה.
               </p>
             </header>
             <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {CATEGORIES.map((cat) => (
                 <li
                   key={cat.id}
-                  className="hover-lift rounded-2xl border border-border bg-surface p-6"
+                  className="rounded-2xl border border-border bg-surface p-6"
                 >
                   <p className="text-2xl" aria-hidden>
                     {cat.icon}
@@ -121,10 +138,6 @@ export default function UsedGearPageContent() {
             </ul>
           </section>
 
-          <p className="max-w-xl border-s-2 border-brand-red ps-4 text-sm text-muted-foreground">
-            כל פריט נבדק, כויל ותוחזק בסביבה מקצועית
-          </p>
-
           <section
             aria-labelledby="condition-heading"
             className="rounded-2xl border border-border bg-surface p-8"
@@ -136,16 +149,11 @@ export default function UsedGearPageContent() {
               שקיפות לגבי מצב הציוד
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              אנחנו מוסרים את הציוד עם תיעוד מלא - שנת ייצור, היסטוריית שימוש
-              ומצב נוכחי. הציוד הגיע מעבודה אמיתית בשטח, לא מאחסון, וזה אומר
-              שיש לנו ידע ישיר על ביצועיו. הרכישה כוללת עזרה ראשונית בהתקנה
-              ובהפעלה, ממה שנלמד בניסיון שטח אמיתי.
+              אנחנו מוסרים תיעוד: שנת ייצור, היסטוריית שימוש ומצב נוכחי. הציוד
+              הגיע מעבודה אמיתית, לא ממחסן. יש לנו ידע ישיר על איך הוא מתנהג
+              באירוע. הרכישה כוללת עזרה ראשונית בהתקנה ובהפעלה.
             </p>
           </section>
-
-          <p className="max-w-xl border-s-2 border-brand-red ps-4 text-sm text-muted-foreground">
-            הציוד הגיע מעבודה אמיתית בשטח, לא מאחסון
-          </p>
 
           <section
             aria-labelledby="cta-heading"
@@ -158,7 +166,7 @@ export default function UsedGearPageContent() {
               לפרטים נוספים
             </h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-              לפרטים נוספים, בדיקת מלאי ותיאום פגישה, שלחו לנו הודעה.
+              לבדיקת מלאי ותיאום פגישה, שלחו הודעה בוואטסאפ.
             </p>
             <Button
               as="a"
@@ -172,19 +180,13 @@ export default function UsedGearPageContent() {
             </Button>
           </section>
 
-          <nav aria-label="שירותים קשורים">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              שירותים קשורים
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/studio" className={chipClass}>
-                אולפן הקלטות
-              </Link>
-              <Link href="/events/dj-events" className={chipClass}>
-                אירועי DJ
-              </Link>
-            </div>
-          </nav>
+          <ServiceHubLinks
+            headingId="used-gear-related-heading"
+            heading="שירותים קשורים"
+            subheading="ציוד יד שנייה שמשלים את מה שאנחנו מפעילים באירועים ובאולפן."
+            links={USED_GEAR_RELATED}
+            columns={2}
+          />
         </Container>
       </Section>
     </article>

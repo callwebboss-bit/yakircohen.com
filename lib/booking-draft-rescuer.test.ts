@@ -103,4 +103,45 @@ describe("scanBookingDrafts", () => {
     assert.equal(sessionRescuerDismissKey("studio"), "yc_session_rescuer_dismissed:studio");
     assert.notEqual(sessionRescuerDismissKey("studio"), sessionRescuerDismissKey("events"));
   });
+
+  it("picks qualification draft when newest", () => {
+    writeDraft(
+      storage,
+      "podcast",
+      { packageId: "audio", step: 1 },
+      "2026-01-01T10:00:00.000Z",
+    );
+    writeDraft(
+      storage,
+      "book-qualification",
+      {
+        routeId: "dj-vip",
+        categoryId: "dj",
+        answers: { eventDate: "2026-08-01" },
+      },
+      "2026-01-03T10:00:00.000Z",
+    );
+
+    const found = scanBookingDrafts();
+    assert.ok(found);
+    assert.equal(found!.storageKey, "book-qualification");
+    assert.equal(found!.category, "dj");
+    assert.match(found!.resumeHref, /qual=1/);
+    assert.match(found!.resumeHref, /route=dj-vip/);
+  });
+
+  it("picks dj panel draft with package label", () => {
+    writeDraft(
+      storage,
+      "dj-events",
+      { step: 1, festivalSelected: true, djId: null, starId: null, addons: [], effects: [], form: {} },
+      "2026-01-02T10:00:00.000Z",
+    );
+
+    const found = scanBookingDrafts();
+    assert.ok(found);
+    assert.equal(found!.category, "dj");
+    assert.match(found!.packageLabel, /פסטיבל/);
+    assert.match(found!.resumeHref, /#dj\/step\/1$/);
+  });
 });

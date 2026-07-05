@@ -13,6 +13,7 @@ import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview"
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
+import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
@@ -41,6 +42,14 @@ const TOPICS = [
 type AcademyBookingWizardProps = {
   initialEmotionalLabel?: string | null;
   routeId?: string | null;
+};
+
+type AcademyPanelDraft = {
+  step: number;
+  planId: string;
+  topic: string;
+  name: string;
+  phone: string;
 };
 
 export default function AcademyBookingWizard({
@@ -77,6 +86,29 @@ export default function AcademyBookingWizard({
     [plan],
   );
   useReportBookWizardLivePrice(livePriceReport);
+
+  const panelDraft = useMemo<AcademyPanelDraft>(
+    () => ({
+      step: topic.trim() || name.trim() || phone.trim() ? 1 : 0,
+      planId,
+      topic,
+      name,
+      phone,
+    }),
+    [planId, topic, name, phone],
+  );
+
+  useBookPanelDraft<AcademyPanelDraft>({
+    storageKey: "academy",
+    data: panelDraft,
+    shouldPersist: (d) => d.step >= 1,
+    onRestore: (saved) => {
+      setPlanId(saved.planId);
+      setTopic(saved.topic);
+      setName(saved.name);
+      setPhone(saved.phone);
+    },
+  });
 
   const messageBody = buildBookingWhatsAppBody({
     intent: "continue_chat",
@@ -165,6 +197,7 @@ export default function AcademyBookingWizard({
             intent,
             { leadCategory: "academy" },
           );
+          clearPanelBookingDraft("academy");
         },
       );
 

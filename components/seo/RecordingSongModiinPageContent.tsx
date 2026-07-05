@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
+import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
@@ -8,6 +9,7 @@ import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -253,7 +255,7 @@ export default function RecordingSongModiinPageContent() {
 
           <BusinessCrossLink
             title="מחפשים גם אפקטים לאירוע?"
-            text="קונפטי, עשן כבד ובועות סבון - הפעלה מקצועית עם מפעיל צמוד ותיאום עם ה-DJ. אישור תוך 24 שעות."
+            text="קונפטי, עשן כבד ובועות סבון - הפעלה מקצועית עם מפעיל צמוד ותיאום עם ה-DJ. אישור, בדרך כלל תוך 24 שעות."
             href="/events/attractions"
             linkLabel="לכל האטרקציות לאירוע"
           />
@@ -572,18 +574,9 @@ export default function RecordingSongModiinPageContent() {
               </h2>
             </header>
             <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {RECORDING_SONG_TESTIMONIALS.map((t) => (
-                <li
-                  key={t.author}
-                  className="rounded-xl border border-border bg-surface p-6"
-                >
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <p className="mt-4 text-sm font-semibold text-foreground">
-                    {t.author}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{t.role}</p>
+              {RECORDING_SONG_TESTIMONIALS.map((item) => (
+                <li key={item.id}>
+                  <TestimonialCard item={item} />
                 </li>
               ))}
             </ul>
@@ -768,45 +761,19 @@ export default function RecordingSongModiinPageContent() {
             </ul>
           </section>
 
-          {/* 19. Chip links */}
-          <section className="flex flex-wrap justify-center gap-3 pb-4">
-            <Link
-              href="/studio/blessings/video-clip"
-              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              שיר + קליפ באולפן
-            </Link>
-            <Link
-              href="/events/attractions/confetti-cannon"
-              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              תותח קונפטי לאירוע
-            </Link>
-            <Link
-              href="/events/attractions/wedding-smoking-machine"
-              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עשן כבד לסלואו
-            </Link>
-            <Link
-              href="/events/attractions/bubble-machine"
-              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              מכונת בועות סבון
-            </Link>
-            <Link
-              href="/voucher"
-              className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              שובר מתנה
-            </Link>
-            <Link
-              href="/book"
-              className="rounded-full bg-brand-red px-4 py-2 text-sm font-semibold text-white hover:bg-brand-red-light"
-            >
-              הזמנה מקוונת
-            </Link>
-          </section>
+          <ServiceHubLinks
+            headingId="recording-related-heading"
+            heading="שירותים משלימים לאירוע"
+            subheading="שילוב שיר מקורי עם אטרקציות ו-DJ."
+            links={[
+              { href: "/studio/blessings/video-clip", title: "שיר + קליפ באולפן", description: "קליפ וידאו מעוצב עם השיר שהקלטתם." },
+              { href: "/events/attractions/confetti-cannon", title: "תותח קונפטי", description: "ניירות צבעוניים ברגע השיא של האירוע." },
+              { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד לסלואו", description: "ענן לבן על רצפת הריקודים." },
+              { href: "/events/dj-events", title: "DJ לאירוע", description: "תקליטן מקצועי שמנהל את הרחבה כל הערב." },
+              { href: "/voucher", title: "שובר מתנה", description: "שובר להקלטה באולפן או אטרקציה לאירוע." },
+              { href: "/book", title: "הזמנה מקוונת", description: "בדיקת מחיר ותיאום דרך טופס ההזמנה.", ctaLabel: "להזמנה" },
+            ]}
+          />
 
           <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/recording-song-modiin")} />
           <PageRelatedFooter pathname="/studio/recording-song-modiin" />

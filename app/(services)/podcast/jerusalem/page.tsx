@@ -136,7 +136,7 @@ export default function PodcastJerusalemPage() {
               מקליטים, עורכים ומוסרים פרק מוכן לSpotify ו-Apple Podcasts.
             </p>
             <p className="mt-3 text-sm font-semibold text-brand-red">
-              פרק ראשון מוכן - בלי חודש ניסוי וטעייה
+              תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -155,7 +155,7 @@ export default function PodcastJerusalemPage() {
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              עונים תוך שעה (א-ה 9:00-20:00){" "}
+              בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
               <Link href="/start" className="font-semibold text-brand-red hover:underline">
                 איך התהליך עובד
               </Link>

@@ -5,7 +5,8 @@ Components exempt from full `Card`/`Button` primitive migration. Must still use 
 | Component | Path | Reason | Tokens | Review |
 |-----------|------|--------|--------|--------|
 | BookingSelectableCard | `components/booking/BookingSelectableCard.tsx` | radio-selectable pattern | yes | 2026-06 |
-| ServiceCard | `components/marketing/ServiceCard.tsx` | stretched-link overlay + nested CTA | yes | 2026-06 |
+| ServiceCard | `components/marketing/ServiceCard.tsx` | premium glow + single Link CTA | yes | 2026-07 |
+| ServiceHubLinks | `components/services/ServiceHubLinks.tsx` | wraps ServiceCard for hub grids | yes | 2026-07 |
 | PremiumBundleCallout | `components/marketing/PremiumBundleCallout.tsx` | full-width grid span | yes | 2026-06 |
 | GiftIdeaCard | `components/seo/GiftIdeaCard.tsx` | split layout + video | yes | 2026-06 |
 | FAQAccordion | `components/ui/FAQAccordion.tsx` | disclosure pattern | yes | 2026-06 |

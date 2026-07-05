@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
@@ -140,6 +142,7 @@ export default function AttractionsJerusalemPage() {
               עשן כבד, זיקוקים קרים, בועות וקונפטי - מגיעים לאולמות ירושלים ישירות ממודיעין.
               תיאום מול מנהל האולם, התקנה מוקדמת ופעלת בלי שתרגישו כלום.
             </p>
+            <ContextualIntroParagraph pathname="/events/attractions/jerusalem" className="mt-4" />
             <p className="mt-3 text-sm font-semibold text-brand-red">
               15 דקות מירושלים - בלי דמי הגעה מופרזים
             </p>
@@ -160,7 +163,7 @@ export default function AttractionsJerusalemPage() {
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              עונים תוך שעה (א-ה 9:00-20:00){" "}
+              בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
               <Link href="/start" className="font-semibold text-brand-red hover:underline">
                 איך התהליך עובד
               </Link>
@@ -170,38 +173,18 @@ export default function AttractionsJerusalemPage() {
 
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
 
-          {/* אטרקציות */}
-          <section aria-labelledby="attractions-heading">
-            <header className="mb-8 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-                מה כלול
-              </p>
-              <h2 id="attractions-heading" className="mt-2 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
-                האטרקציות שמגיעות לירושלים
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                משרתים חתונות, בר ובת מצווה, אירועי חברה ומסיבות פרטיות באזור ירושלים.
-              </p>
-            </header>
-            <ul className="grid gap-5 sm:grid-cols-2">
-              {ATTRACTIONS.map((a) => (
-                <li key={a.href}>
-                  <Link
-                    href={a.href}
-                    className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-[border-color,box-shadow] duration-200 hover:border-brand-red/40 hover:shadow-md"
-                  >
-                    <h3 className="font-semibold text-foreground transition-colors group-hover:text-brand-red">
-                      {a.title}
-                    </h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {a.desc}
-                    </p>
-                    <span className="mt-4 text-xs font-semibold text-brand-red">לפרטים ומחיר</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <ServiceHubLinks
+            headingId="attractions-heading"
+            heading="האטרקציות שמגיעות לירושלים"
+            subheading="משרתים חתונות, בר ובת מצווה, אירועי חברה ומסיבות פרטיות באזור ירושלים."
+            links={ATTRACTIONS.map((a) => ({
+              href: a.href,
+              title: a.title,
+              description: a.desc,
+              ctaLabel: "לפרטים ומחיר",
+            }))}
+            columns={2}
+          />
 
           {/* אזור שירות */}
           <section
@@ -260,23 +243,34 @@ export default function AttractionsJerusalemPage() {
             </div>
           </section>
 
-          {/* Internal links */}
-          <nav aria-label="שירותים קשורים">
-            <ul className="flex flex-wrap gap-3 text-sm">
-              {[
-                { label: "DJ לאירועים בירושלים", href: "/dj-events/cities/jerusalem" },
-                { label: "חבילות אירוע", href: "/events/wedding-attractions-packages" },
-                { label: "ציוד הגברה", href: "/events/equipment" },
-                { label: "צילום חתונות", href: "/photography/wedding" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="font-medium text-brand-red hover:underline">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <ServiceHubLinks
+            headingId="jerusalem-related-heading"
+            heading="שירותים קשורים"
+            subheading="שירותים נוספים לאירועים בירושלים ובמרכז."
+            links={[
+              {
+                href: "/dj-events/cities/jerusalem",
+                title: "DJ לאירועים בירושלים",
+                description: "תקליטן מנוסה לאולמות בירושלים - ממודיעין.",
+              },
+              {
+                href: "/events/wedding-attractions-packages",
+                title: "חבילות אירוע",
+                description: "שילוב אטרקציות במחיר מוזל לאירוע אחד.",
+              },
+              {
+                href: "/events/equipment",
+                title: "ציוד הגברה",
+                description: "הגברה ותאורה לאירועים קטנים ובינוניים.",
+              },
+              {
+                href: "/photography/wedding",
+                title: "צילום חתונות",
+                description: "צלם חתונות עם ניסיון באירועים באזור ירושלים.",
+              },
+            ]}
+            columns={4}
+          />
         </div>
       </article>
     </>

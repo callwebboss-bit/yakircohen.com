@@ -1,14 +1,23 @@
-// UI-EXCEPTION: book funnel card with emotional chips + dual CTAs - see docs/ui-exceptions.md
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import BookDemoVideoModal from "@/components/booking/BookDemoVideoModal";
 import BookPriceDual from "@/components/booking/BookPriceDual";
+import BookQualificationMiniForm from "@/components/booking/BookQualificationMiniForm";
 import PriceSocialProof from "@/components/booking/PriceSocialProof";
+import { formatScopeLine } from "@/lib/data/pricing-display";
 import {
   buildFastWhatsAppMessage,
+  getQualificationFields,
   type BookAudienceRoute,
 } from "@/lib/data/book-audience-routes";
+import {
+  clearBookQualificationDraft,
+  readBookQualificationDraft,
+  writeBookQualificationDraft,
+  hasMeaningfulQualificationAnswers,
+} from "@/lib/book-qualification-draft";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { catalogWithVat } from "@/lib/data/pricing-catalog";
@@ -45,6 +54,7 @@ type BookAudienceCardProps = {
   route: BookAudienceRoute;
   boosted?: boolean;
   compact?: boolean;
+  resumeQualOpen?: boolean;
   onFullPath: (route: BookAudienceRoute, emotionalLabel: string | null) => void;
 };
 
@@ -52,18 +62,66 @@ export default function BookAudienceCard({
   route,
   boosted = false,
   compact = false,
+  resumeQualOpen = false,
   onFullPath,
 }: BookAudienceCardProps) {
+  const savedDraft = useMemo(() => {
+    const draft = readBookQualificationDraft();
+    if (draft?.data.routeId === route.id) return draft.data;
+    return null;
+  }, [route.id]);
+
   const [emotionalId, setEmotionalId] = useState<string | null>(null);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [qualFormOpen, setQualFormOpen] = useState(resumeQualOpen || Boolean(savedDraft));
+  const [qualAnswers, setQualAnswers] = useState<Record<string, string>>(
+    savedDraft?.answers ?? {},
+  );
 
   const emotionalLabel =
-    route.emotionalOptions.find((o) => o.id === emotionalId)?.label ?? null;
+    route.emotionalOptions.find((o) => o.id === emotionalId)?.label ??
+    savedDraft?.emotionalLabel ??
+    null;
 
   const videoId = YOUTUBE_SERVICE_EMBED_IDS[route.demoVideoKey];
+  const qualificationFields = getQualificationFields(route);
 
-  function openFastWhatsApp() {
-    const text = buildFastWhatsAppMessage(route, emotionalLabel);
+  const persistQualDraft = useCallback(
+    (answers: Record<string, string>) => {
+      if (!hasMeaningfulQualificationAnswers(answers)) {
+        const current = readBookQualificationDraft();
+        if (current?.data.routeId === route.id) {
+          clearBookQualificationDraft();
+        }
+        return;
+      }
+      writeBookQualificationDraft({
+        routeId: route.id,
+        categoryId: route.categoryId,
+        answers,
+        emotionalLabel,
+      });
+    },
+    [route.id, route.categoryId, emotionalLabel],
+  );
+
+  useEffect(() => {
+    if (!resumeQualOpen) return;
+    setQualFormOpen(true);
+    requestAnimationFrame(() => {
+      document.getElementById(`book-route-${route.id}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+  }, [resumeQualOpen, route.id]);
+
+  useEffect(() => {
+    persistQualDraft(qualAnswers);
+  }, [qualAnswers, persistQualDraft]);
+
+  function sendQualifiedWhatsApp(answers: Record<string, string>) {
+    const text = buildFastWhatsAppMessage(route, emotionalLabel, answers);
     const href = buildWhatsAppHref({
       text,
       utm_source: "website",
@@ -73,7 +131,9 @@ export default function BookAudienceCard({
       route_id: route.id,
       category: route.categoryId,
     });
-    openWhatsAppLead(href);
+    clearBookQualificationDraft();
+    openWhatsAppLead(href, { leadCategory: route.categoryId });
+    setQualFormOpen(false);
   }
 
   function openFeasibilityCheck() {
@@ -83,17 +143,19 @@ export default function BookAudienceCard({
       utm_source: "website",
       utm_campaign: route.feasibilityUtmCampaign ?? route.utm_campaign,
     });
-    openWhatsAppLead(href);
+    openWhatsAppLead(href, { leadCategory: route.categoryId });
   }
 
   return (
     <>
       <article
+        id={`book-route-${route.id}`}
         className={cn(
           "relative flex min-w-0 flex-col rounded-2xl border p-5 shadow-sm transition-[border-color,box-shadow,transform]",
           !compact && "hover:-translate-y-0.5",
           V_CARD[route.variant],
           boosted && "ring-2 ring-brand-red/40 ring-offset-2 ring-offset-background",
+          resumeQualOpen && "ring-2 ring-brand-red/30",
         )}
       >
         {boosted && (
@@ -101,9 +163,14 @@ export default function BookAudienceCard({
             מומלץ עבורך
           </span>
         )}
+        {!boosted && route.popularBadge ? (
+          <span className="absolute -top-2.5 end-4 rounded-full bg-brand-red/90 px-2.5 py-0.5 text-[0.65rem] font-bold text-white">
+            {route.popularBadge}
+          </span>
+        ) : null}
 
         <div className="mb-4 flex items-start justify-between gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-red/10 text-2xl">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-2xl">
             {route.icon}
           </span>
           <span className={cn("rounded-md px-2.5 py-1 text-[0.62rem] font-bold uppercase", V_BADGE[route.variant])}>
@@ -123,16 +190,22 @@ export default function BookAudienceCard({
 
         <div className="mt-4">
           <BookPriceDual exVat={route.priceExVat} dualLabel={route.startingPriceDual} size="sm" />
-          {route.priceNote ? (
+          {route.scope ? (
+            <p className="mt-1 text-xs text-muted-foreground">{formatScopeLine(route.scope)}</p>
+          ) : route.priceNote ? (
             <p className="mt-1 text-xs text-muted-foreground">{route.priceNote}</p>
           ) : null}
           <p className="mt-2 text-xs font-medium text-foreground">{route.valueFrame}</p>
           {!compact ? (
-            <PriceSocialProof className="mt-2" testimonialIndex={route.categoryId === "online" ? 0 : 1} />
+            <PriceSocialProof className="mt-2" categoryId={route.categoryId} />
           ) : null}
           {!compact ? (
             <p className="mt-2 text-xs leading-snug text-muted-foreground">{route.upsellHint}</p>
           ) : null}
+          <p className="mt-3 text-[0.65rem] text-muted-foreground">
+            <span aria-hidden="true">🔒 </span>
+            סליקה מאובטחת · ביטול עד 14 יום
+          </p>
         </div>
 
         {compact ? null : (
@@ -169,22 +242,33 @@ export default function BookAudienceCard({
         </button>
         )}
 
+        <BookQualificationMiniForm
+          route={route}
+          fields={qualificationFields}
+          open={qualFormOpen}
+          initialAnswers={qualAnswers}
+          onAnswersChange={setQualAnswers}
+          onSubmit={sendQualifiedWhatsApp}
+          onFullPath={() => onFullPath(route, emotionalLabel)}
+        />
+
         <div className={cn("mt-4 grid gap-2", compact ? "grid-cols-1" : "sm:grid-cols-2")}>
           <button
             type="button"
-            onClick={openFastWhatsApp}
-            aria-label={`קבלו הצעה בוואטסאפ ל${route.title} - ${catalogWithVat(route.priceExVat).toLocaleString("he-IL")} שקל סופי`}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#1fba59] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            onClick={() => setQualFormOpen((v) => !v)}
+            aria-expanded={qualFormOpen}
+            aria-label={`קבלו הצעה תוך דקה ל${route.title} - ${catalogWithVat(route.priceExVat).toLocaleString("he-IL")} שקל סופי`}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1fba59] hover:shadow-md active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             <WaIcon />
-            קבלו הצעה בוואטסאפ
+            קבלו הצעה תוך דקה
           </button>
           <button
             type="button"
             onClick={() => onFullPath(route, emotionalLabel)}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border bg-background px-4 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-red-light hover:shadow-md active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            הזמנה מפורטת
+            בנו הצעה מפורטת
           </button>
         </div>
 
@@ -196,6 +280,15 @@ export default function BookAudienceCard({
           >
             שלחו קובץ לבדיקת היתכנות חינם
           </button>
+        ) : null}
+
+        {!compact && route.servicePageHref ? (
+          <Link
+            href={route.servicePageHref}
+            className="mt-3 inline-flex min-h-9 w-full items-center justify-center text-xs text-muted-foreground underline-offset-2 hover:text-brand-red hover:underline"
+          >
+            למידע נוסף על השירות
+          </Link>
         ) : null}
       </article>
 

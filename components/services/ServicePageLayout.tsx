@@ -21,6 +21,7 @@ import TrustBadges from "@/components/ui/TrustBadges";
 import SocialProofStrip from "@/components/marketing/SocialProofStrip";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 
@@ -357,7 +358,7 @@ export default function ServicePageLayout({
 
             {showHeroCtas ? (
               <p className="mt-3 text-xs text-muted-foreground">
-                עונים תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
+                {TIME_CLAIMS.waResponse1h}{" "}
                 <Link
                   href="/start"
                   className="font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline"

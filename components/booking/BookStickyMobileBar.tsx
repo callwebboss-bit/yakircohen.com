@@ -55,7 +55,8 @@ export default function BookStickyMobileBar({
   });
 
   function openWa() {
-    openWhatsAppLead(waHref);
+    if (!activeCategory) return;
+    openWhatsAppLead(waHref, { leadCategory: activeCategory });
   }
 
   return (

@@ -1,7 +1,6 @@
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
 import { STUDIO_PRICING } from "@/lib/data/services";
-import { formatNis } from "@/lib/data/pricing";
 
 export type PackageHubCategory = "studio" | "podcast" | "events";
 
@@ -11,8 +10,8 @@ export type PackageHubItem = {
   categoryLabel: string;
   name: string;
   description: string;
-  priceLabel: string;
-  priceNote?: string;
+  priceExVat: number;
+  scope?: PriceScope;
   highlights: readonly string[];
   href: string;
   bookHref?: string;
@@ -31,8 +30,8 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     description:
       songTier?.description ??
       "החבילה הפופולרית לשיר במתנה או הקלטה אישית.",
-    priceLabel: songTier?.price ?? formatFromPriceDual(getExVat("song_package")),
-    priceNote: songTier?.priceNote,
+    priceExVat: getExVat("song_package"),
+    scope: songTier?.scope ?? getScopeById("song_package"),
     highlights: songTier?.highlights ?? [
       "הקלטה מודרכת עם טיונינג ווקאלי",
       "מיקס בסיסי ועיבוד סופי",
@@ -47,10 +46,8 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     categoryLabel: "פודקאסט",
     name: podcastAudio?.name ?? "פודקאסט אודיו",
     description: podcastAudio?.summary ?? "הקלטה ועריכה מקצועית לפרק אחד.",
-    priceLabel: podcastAudio
-      ? formatNis(podcastAudio.price)
-      : formatFromPriceDual(getExVat("podcast_audio")),
-    priceNote: podcastAudio?.subtitle,
+    priceExVat: podcastAudio?.price ?? getExVat("podcast_audio"),
+    scope: getScopeById("podcast_audio"),
     highlights: podcastAudio?.features ?? [
       "הקלטה עד שעה באולפן",
       "עריכה, מיקס ומסירה לספוטיפיי",
@@ -62,11 +59,11 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     id: "events-festival",
     category: "events",
     categoryLabel: "אירועים",
-    name: 'חבילת "פסטיבל"  -  הכל כלול',
+    name: 'חבילת "פסטיבל", הכל כלול',
     description:
       "DJ פרימיום, אולפן נייד באירוע, 3 אפקטים, פסקול כניסה וטכנאי צמוד.",
-    priceLabel: formatNis(festivalExVat),
-    priceNote: "לפני מע״מ",
+    priceExVat: festivalExVat,
+    scope: getScopeById("festival_all_in"),
     highlights: [
       "DJ פרימיום (5 שעות)",
       "אולפן הקלטות נייד באירוע",
@@ -74,6 +71,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
       "תיאום מסונכרן - ספק אחד",
     ],
     href: "/events/wedding-attractions-packages",
+    bookHref: "/book/events",
   },
 ] as const;
 

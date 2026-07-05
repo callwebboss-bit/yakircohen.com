@@ -4,24 +4,24 @@
 };
 
 export const SLIDESHOW_EXAMPLE_VIDEOS: readonly SlideshowExampleVideo[] = [
-  { videoId: "4uvElfJO8CQ", title: "דוגמה  -  מצגת לאירוע" },
-  { videoId: "ZYWML2R8Ujg", title: "דוגמה  -  עריכה קולנועית" },
-  { videoId: "AeocfbXnZRY", title: "דוגמה  -  שילוב תמונות וסרטונים" },
-  { videoId: "wgL2cix7EFA", title: "דוגמה  -  מצגת משפחתית" },
+  { videoId: "4uvElfJO8CQ", title: "דוגמה, מצגת לאירוע" },
+  { videoId: "ZYWML2R8Ujg", title: "דוגמה, עריכה קולנועית" },
+  { videoId: "AeocfbXnZRY", title: "דוגמה, שילוב תמונות וסרטונים" },
+  { videoId: "wgL2cix7EFA", title: "דוגמה, מצגת משפחתית" },
 ] as const;
 
 export const SLIDESHOW_HERO_FEATURES: readonly string[] = [
-  "עריכה קולנועית  -  מוכן להקרנה תוך 48 שעות",
+  "עריכה קולנועית, מוכן להקרנה תוך 48 שעות",
   "כותרות פתיחה וסיום + ליווי אישי",
   "שיפור איכות תמונות ישנות (כולל AI)",
   "מוזיקה, מעברים וטקסטים מותאמים לאירוע",
-  "Full HD 1080p  -  קובץ מוכן למקרן ולטלוויזיה",
+  "Full HD 1080p, קובץ מוכן למקרן ולטלוויזיה",
 ] as const;
 
 export const SLIDESHOW_INCLUDED: readonly { title: string; description: string }[] = [
   {
     title: "מיון והתאמה",
-    description: "סדר כרונולוגי או לפי נושאים  -  הסיפור שלכם בצורה ברורה.",
+    description: "סדר כרונולוגי או לפי נושאים, הסיפור שלכם בצורה ברורה.",
   },
   {
     title: "שיפור איכות",
@@ -29,7 +29,7 @@ export const SLIDESHOW_INCLUDED: readonly { title: string; description: string }
   },
   {
     title: "מעברים ואפקטים",
-    description: "זום, פאן, דיסולב והנפשות מקצועיות  -  לא פאוורפוינט יבש.",
+    description: "זום, פאן, דיסולב והנפשות מקצועיות, לא פאוורפוינט יבש.",
   },
   {
     title: "מוזיקה וטקסטים",
@@ -37,7 +37,7 @@ export const SLIDESHOW_INCLUDED: readonly { title: string; description: string }
   },
   {
     title: "פורמט הקרנה",
-    description: "קובץ וידאו מוכן לכל סוג מסך  -  אולם, מקרן או טלוויזיה.",
+    description: "קובץ וידאו מוכן לכל סוג מסך, אולם, מקרן או טלוויזיה.",
   },
 ] as const;
 
@@ -49,22 +49,22 @@ export const SLIDESHOW_AUDIENCES: readonly {
   {
     emoji: "💕",
     title: "חתונות",
-    description: "מצגת על החתן והכלה  -  מילדות ועד היום.",
+    description: "מצגת על החתן והכלה, מילדות ועד היום.",
   },
   {
     emoji: "🌈",
     title: "בר/בת מצווה",
-    description: "מתינוק ועד היום הגדול  -  הילדים אוהבים את זה.",
+    description: "מתינוק ועד היום הגדול, הילדים אוהבים את זה.",
   },
   {
     emoji: "📹",
     title: "ימי הולדת",
-    description: "40, 50, 60  -  סיפור החיים של בעל השמחה.",
+    description: "40, 50, 60, סיפור החיים של בעל השמחה.",
   },
   {
     emoji: "🎨",
     title: "ימי נישואין",
-    description: "25 שנה, 50 שנה  -  הזוג לאורך השנים.",
+    description: "25 שנה, 50 שנה, הזוג לאורך השנים.",
   },
 ] as const;
 
@@ -86,7 +86,7 @@ export const SLIDESHOW_PROCESS_STEPS: readonly {
   {
     step: "3",
     title: "עריכה קולנועית",
-    body: "מיון, שיפור, הנפשות, מוזיקה וטקסטים  -  עד 48 שעות (או אקספרס).",
+    body: "מיון, שיפור, הנפשות, מוזיקה וטקסטים, עד 48 שעות (או אקספרס).",
   },
   {
     step: "4",
@@ -102,8 +102,8 @@ export const SLIDESHOW_SONG_MISTAKES: readonly {
 }[] = [
   {
     title: "שיר ארוך ואיטי מדי",
-    bad: "שיר של 5 דקות סלואו בלבד  -  מרדים את הקהל.",
-    good: "לשלב שני שירים  -  אחד רגוע ואחד קצבי.",
+    bad: "שיר של 5 דקות סלואו בלבד, מרדים את הקהל.",
+    good: "לשלב שני שירים, אחד רגוע ואחד קצבי.",
   },
   {
     title: "מילים שלא מתאימות",
@@ -112,8 +112,8 @@ export const SLIDESHOW_SONG_MISTAKES: readonly {
   },
   {
     title: "איכות יוטיוב נמוכה",
-    bad: "הורדה מיוטיוב באיכות נמוכה  -  נשמע צורם באולם.",
-    good: "קובץ מקור באיכות גבוהה  -  אנחנו מטפלים בזה.",
+    bad: "הורדה מיוטיוב באיכות נמוכה, נשמע צורם באולם.",
+    good: "קובץ מקור באיכות גבוהה, אנחנו מטפלים בזה.",
   },
   {
     title: "חוסר התאמה לבעל השמחה",
@@ -123,12 +123,12 @@ export const SLIDESHOW_SONG_MISTAKES: readonly {
   {
     title: "ווליום לא אחיד",
     bad: "שיר אחד חזק ואחד חלש כשמחברים לבד.",
-    good: "Normalize מקצועי  -  עוצמה אחידה לאורך המצגת.",
+    good: "Normalize מקצועי, עוצמה אחידה לאורך המצגת.",
   },
 ] as const;
 
 export const SLIDESHOW_WHY_US: readonly string[] = [
-  "עריכה קולנועית  -  לא תבנית אוטומטית עם סימן מים",
+  "עריכה קולנועית, לא תבנית אוטומטית עם סימן מים",
   "מסירה מהירה: 1-3 ימי עסקים, אקספרס עד 24 שעות",
   "ליווי אישי מהרגע הראשון ועד ההקרנה",
   "שילוב תמונות, סרטונים וברכות מהמשפחה",
@@ -140,5 +140,5 @@ export const SLIDESHOW_ACCEPTED_FORMATS: readonly string[] = [
   "סרטונים: MP4, MOV",
   "מצגות: PDF, PowerPoint",
   "לוגו: PNG, JPG, SVG",
-  "כל תוכן דיגיטלי אחר  -  נסדר להקרנה חלקה",
+  "כל תוכן דיגיטלי אחר, נסדר להקרנה חלקה",
 ] as const;

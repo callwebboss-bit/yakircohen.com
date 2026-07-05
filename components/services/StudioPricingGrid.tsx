@@ -1,8 +1,16 @@
-import PriceWithVat from "@/components/booking/PriceWithVat";
+import PriceScopeDisplay from "@/components/booking/PriceScopeDisplay";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import Container from "@/components/ui/Container";
 import type { PricingTier } from "@/lib/data/services";
+import { getScopeById } from "@/lib/data/pricing-catalog";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+
+function resolveTierScope(tier: PricingTier) {
+  if (tier.scope) return tier.scope;
+  if (tier.catalogId) return getScopeById(tier.catalogId);
+  return undefined;
+}
 
 export type StudioPricingGridProps = {
   tiers: readonly PricingTier[];
@@ -57,16 +65,17 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               </h3>
               {tier.priceExVat != null ? (
                 <div className="mt-2">
-                  <PriceWithVat amountExVat={tier.priceExVat} size="lg" />
+                  <PriceScopeDisplay
+                    exVat={tier.priceExVat}
+                    scope={resolveTierScope(tier)}
+                    size="lg"
+                  />
                 </div>
               ) : (
                 <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--service-accent-ink,#8a1c1c)]">
                   {tier.price}
                 </p>
               )}
-              {tier.priceNote ? (
-                <p className="mt-1 text-xs text-muted-foreground">{tier.priceNote}</p>
-              ) : null}
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 {tier.description}
               </p>
@@ -81,6 +90,8 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                   </li>
                 ))}
               </ul>
+
+              <CheckoutTrustMicro variant="card" className="mt-6" showLegalLinks={false} />
 
               <a
                 href={whatsappHref}

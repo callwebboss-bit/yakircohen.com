@@ -129,7 +129,7 @@ export default function UnifiedPricingCalculator() {
               </span>
             </p>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              מחיר החל מ - הצעה מדויקת תוך 24 שעות
+              מחיר החל מ - הצעה מדויקת, בדרך כלל תוך 24 שעות
             </p>
           </div>
           <Link

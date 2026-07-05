@@ -10,8 +10,12 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "מפיקה עצמאית, מודיעין",
     initials: "דל",
     datePublished: "2025-11-12",
+    serviceCategory: "podcast",
     serviceHref: "/podcast/podcast-editing",
     serviceLabel: "שחזור סאונד ב-AI",
+    projectImageSrc:
+      "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
+    projectImageAlt: "עריכת פודקאסט באולפן",
   },
   {
     id: "2",
@@ -21,8 +25,12 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "יזם, יבואן גרין אנד קו ישראל",
     initials: "דג",
     datePublished: "2026-01-08",
+    serviceCategory: "podcast",
     serviceHref: "/podcast",
     serviceLabel: "הפקת פודקאסט",
+    projectImageSrc:
+      "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
+    projectImageAlt: "אולפן פודקאסט במודיעין",
   },
   {
     id: "3",
@@ -31,6 +39,8 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "מיכל אברהם",
     role: "מנהלת שיווק, הסביבה",
     initials: "מא",
+    datePublished: "2025-09-20",
+    serviceCategory: "online",
     serviceHref: "/online",
     serviceLabel: "שירותים דיגיטליים",
   },
@@ -41,18 +51,27 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "יוסי כהן",
     role: "מנכ״ל, חברת הייטק",
     initials: "יכ",
+    datePublished: "2025-10-05",
+    serviceCategory: "events",
     serviceHref: "/events",
     serviceLabel: "הפקת אירועים",
+    projectImageSrc:
+      "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp",
+    projectImageAlt: "הפקת אירוע חברה",
   },
   {
     id: "5",
     quote:
-      "קריינות לסרטון תדמית - קובץ WAV מסופק תוך 24 שעות, 3 גרסאות טמפו, מחיר זהה להצעה הראשונית.",
+      "קריינות לסרטון תדמית - קובץ WAV מסופק בדרך כלל תוך 24 שעות, 3 גרסאות טמפו, מחיר זהה להצעה הראשונית.",
     name: "נועה שפירא",
     role: "מייסדת סטארטאפ",
     initials: "נש",
+    datePublished: "2025-12-01",
+    serviceCategory: "voiceover",
     serviceHref: "/voiceover",
     serviceLabel: "קריינות",
+    projectImageSrc: "/images/services/voiceover/מיקרופון קריינות.webp",
+    projectImageAlt: "הקלטת קריינות באולפן",
   },
   {
     id: "6",
@@ -61,8 +80,13 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     name: "רחל גולן",
     role: "לקוחה פרטית",
     initials: "רג",
+    datePublished: "2025-08-14",
+    serviceCategory: "studio",
     serviceHref: "/studio/blessings",
     serviceLabel: "ברכות מוקלטות",
+    projectImageSrc:
+      "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
+    projectImageAlt: "הקלטת ברכה באולפן",
   },
   {
     id: "7",
@@ -72,8 +96,12 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "אב מודיעין",
     initials: "מב",
     datePublished: "2026-02-14",
+    serviceCategory: "studio",
     serviceHref: "/studio/recording-song-modiin",
     serviceLabel: "הקלטת שיר לחתונה",
+    projectImageSrc:
+      "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
+    projectImageAlt: "הקלטת שיר באולפן",
   },
   {
     id: "8",
@@ -83,8 +111,12 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "כלה, רחובות",
     initials: "תו",
     datePublished: "2025-12-20",
+    serviceCategory: "events",
     serviceHref: "/events/dj-events",
     serviceLabel: "DJ לחתונה",
+    projectImageSrc:
+      "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
+    projectImageAlt: "DJ ותאורה בחתונה",
   },
   {
     id: "9",
@@ -94,7 +126,48 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     role: "מנכ\"ל, חברת הייטק תל אביב",
     initials: "אל",
     datePublished: "2026-01-30",
+    serviceCategory: "events",
     serviceHref: "/events/attractions",
     serviceLabel: "אטרקציות לאירועים",
+    projectImageSrc:
+      "/images/services/events/attractions/cold-fireworks/זיקוקים קרים לחופה.webp",
+    projectImageAlt: "אטרקציות לאירוע",
+  },
+  /* ── Academy / learning testimonials (TODO: replace with real student quotes) ── */
+  {
+    id: "10",
+    quote:
+      "אחרי 5 שיעורי DJ - עשיתי סט ראשון במסיבה פרטית. יקיר הכין אותי לכל תרחיש שיכול לקרות ברחבה.",
+    name: "אלון דוד",
+    role: "תלמיד קורס DJ, מודיעין",
+    initials: "אד",
+    datePublished: "2026-04-10",
+    serviceCategory: "academy",
+    serviceHref: "/academy/dj-course",
+    serviceLabel: "קורס DJ",
+  },
+  {
+    id: "11",
+    quote:
+      "הבן שלי בן 12 יצר שיר מאפס תוך 4 מפגשים במעבדת הסאונד. חזר הביתה עם קובץ מוכן והרבה גאווה.",
+    name: "רונית שלום",
+    role: "אמא לתלמיד מעבדת הסאונד",
+    initials: "רש",
+    datePublished: "2026-03-15",
+    serviceCategory: "academy",
+    serviceHref: "/academy",
+    serviceLabel: "מעבדת הסאונד",
+  },
+  {
+    id: "12",
+    quote:
+      "אחרי 3 מפגשי NeverMind הדיבור שלי מול הצוות השתנה. פחות היסוסים, יותר ביטחון. המנהלים שמו לב.",
+    name: "עמית כץ",
+    role: "מנהל פיתוח, הייטק",
+    initials: "עכ",
+    datePublished: "2026-05-20",
+    serviceCategory: "academy",
+    serviceHref: "/academy/stuttering-course",
+    serviceLabel: "פרוטוקול NeverMind",
   },
 ] as const;

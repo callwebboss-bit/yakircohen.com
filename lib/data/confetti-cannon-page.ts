@@ -14,14 +14,14 @@ export const CONFETTI_EXAMPLE_VIDEOS: readonly ConfettiExampleVideo[] = [
     title: "שני תותחי קונפטי על במה - סיום שנה בבית ספר",
   },
   { videoId: "SkBHvqC-S2Q", title: "הסבר על קונפטי לאירועים" },
-  { videoId: "btBx-cw16Js", title: "קונפטי בקליפ  -  חנן בן ארי" },
+  { videoId: "btBx-cw16Js", title: "קונפטי בקליפ, חנן בן ארי" },
 ] as const;
 
 export const CONFETTI_HIGHLIGHTS: readonly { emoji: string; title: string; text: string }[] = [
   {
     emoji: "📸",
     title: "תיעוד מקצועי",
-    text: "אידיאלי לצילום סטילס ווידאו  -  רגע שכולם יצלמו וישתפו.",
+    text: "אידיאלי לצילום סטילס ווידאו, רגע שכולם יצלמו וישתפו.",
   },
   {
     emoji: "⏱️",
@@ -31,7 +31,7 @@ export const CONFETTI_HIGHLIGHTS: readonly { emoji: string; title: string; text:
   {
     emoji: "🛡️",
     title: "בטיחות ללא פשרות",
-    text: "CO₂ בלבד  -  ללא אש, ללא עשן וללא סכנה.",
+    text: "CO₂ בלבד, ללא אש, ללא עשן וללא סכנה.",
   },
 ] as const;
 
@@ -48,7 +48,7 @@ export const CONFETTI_STYLES: readonly ConfettiStyle[] = [
 export const CONFETTI_BENEFITS: readonly { title: string; description: string }[] = [
   {
     title: "אפקט WOW אמיתי",
-    description: "סנכרון מדויק עם המוזיקה  -  עד 30 מטר באוויר.",
+    description: "סנכרון מדויק עם המוזיקה, עד 30 מטר באוויר.",
   },
   {
     title: "בטיחותי",
@@ -56,7 +56,7 @@ export const CONFETTI_BENEFITS: readonly { title: string; description: string }[
   },
   {
     title: "קל לניקוי",
-    description: "נייר כותנה איכותי  -  לא מכתים, לא מחליק.",
+    description: "נייר כותנה איכותי, לא מכתים, לא מחליק.",
   },
   {
     title: "גיבוי מלא",
@@ -68,22 +68,22 @@ export const CONFETTI_BENEFITS: readonly { title: string; description: string }[
   },
   {
     title: "התאמה אישית",
-    description: "צבעים, צורות ותזמון  -  הכל לפי הטעם שלכם.",
+    description: "צבעים, צורות ותזמון, הכל לפי הטעם שלכם.",
   },
 ] as const;
 
 export const CONFETTI_CANNON_TYPES: readonly { title: string; description: string }[] = [
   {
     title: "תותח ידני",
-    description: "קטן וקל  -  מתאים לאירועים קטנים (לא מה שאנחנו מביאים לאירועים גדולים).",
+    description: "קטן וקל, מתאים לאירועים קטנים (לא מה שאנחנו מביאים לאירועים גדולים).",
   },
   {
     title: "תותח חשמלי / מקצועי",
-    description: "יורה עד 30 מטר  -  מתאים לחתונות ואירועים גדולים.",
+    description: "יורה עד 30 מטר, מתאים לחתונות ואירועים גדולים.",
   },
   {
     title: "קונפטי מיוחד",
-    description: "לבבות, כוכבים, פרפרים או שטרות כסף  -  500 ₪ באוויר?",
+    description: "לבבות, כוכבים, פרפרים או שטרות כסף, 500 ₪ באוויר?",
   },
 ] as const;
 
@@ -92,13 +92,13 @@ export const CONFETTI_SUPPLIER_CHECKLIST: readonly string[] = [
   "תותח חלופי במקרה תקלה?",
   "קונפטי בתזמון מדויק עם DJ?",
   "שירות לקוחות ואחריות מלאה?",
-  "אפקט מרשים  -  לא מוצר מאכזב?",
+  "אפקט מרשים, לא מוצר מאכזב?",
 ] as const;
 
 export const CONFETTI_WHY_US: readonly string[] = [
-  "גמישות ושירות אישי  -  צבעים ותזמון מותאמים",
-  "תמיכה טכנית  -  הגעה מוקדמת, בדיקות וטכנאי אופציונלי",
-  "שקיפות  -  מחיר ברור, הכל כלול, בלי הפתעות",
+  "גמישות ושירות אישי, צבעים ותזמון מותאמים",
+  "תמיכה טכנית, הגעה מוקדמת, בדיקות וטכנאי אופציונלי",
+  "שקיפות, מחיר ברור, הכל כלול, בלי הפתעות",
   "20 שנות ניסיון - 1,800+ אירועים - 280+ המלצות",
 ] as const;
 

@@ -1,6 +1,6 @@
-﻿import Link from "next/link";
-import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+﻿import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -112,28 +112,28 @@ export default function EventsHostPageContent() {
           </section>
         ) : null}
 
-        <div className="rounded-2xl border border-[var(--service-accent,#d42b2b)]/20 bg-[var(--service-accent,#d42b2b)]/[0.04] p-6 text-center">
-          <p className="text-sm font-semibold text-foreground">
-            רוצים לשלב גם DJ ואטרקציות?
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            אפשר לבנות חבילה משולבת ולחסוך בעלויות.
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/events/dj-events"
-              className="rounded-xl bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
-            >
-              DJ וחבילות אירועים
-            </Link>
-            <Link
-              href="/book#events"
-              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-[var(--service-accent,#d42b2b)]/40"
-            >
-              הזמנת אטרקציות
-            </Link>
-          </div>
-        </div>
+        <ServiceHubLinks
+          headingId="host-packages-heading"
+          heading="רוצים לשלב גם DJ ואטרקציות?"
+          subheading="אפשר לבנות חבילה משולבת ולחסוך בעלויות."
+          links={[
+            {
+              href: "/events/dj-events",
+              title: "DJ לאירועים",
+              description: "תקליטן עם מוזיקה שמתאימה לזרימה של המנחה.",
+            },
+            {
+              href: "/events/wedding-attractions-packages",
+              title: "חבילות אירוע",
+              description: "שילוב אטרקציות במחיר מוזל לאירוע אחד.",
+            },
+            {
+              href: "/events/attractions",
+              title: "אטרקציות לאירוע",
+              description: "עשן כבד, זיקוקים קרים ובועות עם מפעיל.",
+            },
+          ]}
+        />
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}

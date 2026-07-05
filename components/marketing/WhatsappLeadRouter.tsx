@@ -3,81 +3,30 @@
  * Uses shared audience route data from book-audience-routes.ts (homepage subset).
  */
 
-import BookPriceDual from "@/components/booking/BookPriceDual";
+import HomeTrustFeatureGrid from "@/components/marketing/HomeTrustFeatureGrid";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import { CheckIcon } from "@/components/ui/Icons";
 import {
   BOOK_AUDIENCE_ROUTES,
-  HOME_AUDIENCE_ROUTE_IDS,
+  HOME_AUDIENCE_DISPLAY_ORDER,
   buildFastWhatsAppMessage,
-  type AudienceCardVariant,
 } from "@/lib/data/book-audience-routes";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-const HOME_ROUTES = BOOK_AUDIENCE_ROUTES.filter((r) =>
-  (HOME_AUDIENCE_ROUTE_IDS as readonly string[]).includes(r.id),
-);
-
-const V_CARD: Record<AudienceCardVariant, string> = {
-  gold: "bg-background border-border hover:border-brand-red/50 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
-  neutral: "bg-background border-border hover:border-foreground/20 hover:shadow-md",
-  luxury:
-    "border-border bg-surface hover:border-brand-red/40 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
-  academy: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
-  online: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
-};
-
-const V_ICON: Record<AudienceCardVariant, string> = {
-  gold: "bg-brand-red/10",
-  neutral: "bg-surface",
-  luxury: "bg-white/10",
-  academy: "bg-brand-red/10",
-  online: "bg-brand-red/10",
-};
-
-const V_BADGE: Record<AudienceCardVariant, string> = {
-  gold: "bg-brand-red/10 text-brand-red-dark",
-  neutral: "bg-brand-red/10 text-brand-red-dark",
-  luxury: "bg-brand-red/20 text-brand-red-dark",
-  academy: "bg-brand-red/10 text-brand-red-dark",
-  online: "bg-brand-red/10 text-brand-red-dark",
-};
-
-const V_TITLE: Record<AudienceCardVariant, string> = {
-  gold: "text-foreground group-hover:text-brand-red",
-  neutral: "text-foreground",
-  luxury: "text-foreground group-hover:text-brand-red",
-  academy: "text-foreground",
-  online: "text-foreground",
-};
-
-const V_DESC: Record<AudienceCardVariant, string> = {
-  gold: "text-muted-foreground",
-  neutral: "text-muted-foreground",
-  luxury: "text-muted-foreground",
-  academy: "text-muted-foreground",
-  online: "text-muted-foreground",
-};
-
-const V_CTA: Record<AudienceCardVariant, string> = {
-  gold: "bg-brand-red/10 text-foreground border border-brand-red/30 group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
-  neutral:
-    "bg-surface text-foreground border border-border group-hover:bg-foreground group-hover:text-background group-hover:border-foreground",
-  luxury:
-    "bg-white/10 text-white border border-white/15 group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
-  academy:
-    "bg-surface text-foreground border border-border group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
-  online:
-    "bg-surface text-foreground border border-border group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red",
-};
+const HOME_ROUTES = HOME_AUDIENCE_DISPLAY_ORDER.map((id) => {
+  const route = BOOK_AUDIENCE_ROUTES.find((r) => r.id === id);
+  if (!route) throw new Error(`Missing home audience route: ${id}`);
+  return route;
+});
 
 function WaIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="h-3.5 w-3.5 shrink-0"
+      className="h-4 w-4 shrink-0"
       aria-hidden="true"
       focusable="false"
     >
@@ -97,14 +46,21 @@ export default function WhatsappLeadRouter({
   eyebrow = "הצעת מחיר בוואטסאפ",
   heading = "בחרו שירות לקבלת הצעת מחיר",
   description =
-    "בחרו שירות, ענו על שאלה קצרה ועברו לוואטסאפ עם הצעת מחיר ראשונית.",
+    "בחרו חבילה, ראו מה כלול, ועברו לוואטסאפ עם הצעת מחיר ראשונית.",
   className,
 }: WhatsappLeadRouterProps) {
   return (
-    <Section className={cn("bg-background", className)} ariaLabelledby="wa-router-heading">
+    <Section
+      className={cn("bg-surface/40", className)}
+      ariaLabelledby="wa-router-heading"
+    >
       <Container>
         <header className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-brand-red/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-brand-red-dark">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-red/20 bg-brand-red/10 px-4 py-1.5 text-xs font-bold text-brand-red">
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-red"
+              aria-hidden="true"
+            />
             {eyebrow}
           </span>
 
@@ -115,110 +71,128 @@ export default function WhatsappLeadRouter({
             {heading}
           </h2>
 
-          <p className="text-lead mt-4 text-muted-foreground">
-            {description}
-          </p>
+          <p className="text-lead mt-4 text-muted-foreground">{description}</p>
         </header>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+        <div className="mt-12 grid grid-cols-1 items-stretch gap-8 md:grid-cols-3">
           {HOME_ROUTES.map((card) => {
-            const href = buildWhatsAppHref({
+            const waHref = buildWhatsAppHref({
               text: buildFastWhatsAppMessage(card),
               utm_source: "website",
               utm_campaign: card.utm_campaign,
             });
+            const featured = card.isFeatured === true;
+            const title = card.homeCardTitle ?? card.title;
+            const descriptionText = card.homeCardDescription ?? card.description;
+            const features = card.homeFeatures ?? [];
 
             return (
               <a
                 key={card.id}
-                href={href}
+                href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "group relative flex min-h-[11rem] flex-col justify-between overflow-hidden rounded-2xl border p-6 shadow-sm hover-lift",
+                  "group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-8 transition-all duration-300",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-                  V_CARD[card.variant],
+                  "motion-reduce:transform-none [@media(hover:hover)]:hover:-translate-y-2.5",
+                  featured
+                    ? "border-2 border-brand-red bg-background shadow-xl shadow-brand-red/5 [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.25)]"
+                    : "border-border bg-background shadow-sm [@media(hover:hover)]:border-brand-red [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.12)]",
                 )}
-                aria-label={`${card.title} - ${card.startingPriceDual.replace("כרגע: ", "")} - פתיחת וואטסאפ`}
+                aria-label={`${title} - החל מ-${card.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ - פתיחת וואטסאפ`}
               >
-                {card.variant === "luxury" && (
-                  <div
-                    className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-red/65 to-transparent"
-                    aria-hidden="true"
-                  />
-                )}
+                {featured ? (
+                  <span className="absolute start-0 top-0 rounded-br-xl bg-brand-red px-5 py-1.5 text-xs font-bold tracking-wide text-white">
+                    פופולרי
+                  </span>
+                ) : null}
 
                 <div>
-                  <div className="mb-5 flex items-start justify-between gap-3">
-                    <span
-                      className={cn(
-                        "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl",
-                        "motion-reduce:transform-none [@media(hover:hover)]:group-hover:scale-110",
-                        V_ICON[card.variant],
-                      )}
-                      aria-hidden="true"
-                    >
-                      {card.icon}
-                    </span>
-
-                    <span
-                      className={cn(
-                        "mt-1 rounded-md px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-wide",
-                        V_BADGE[card.variant],
-                      )}
-                    >
-                      {card.tag}
-                    </span>
+                  <div
+                    className={cn(
+                      "mb-6 flex h-14 w-14 items-center justify-center rounded-xl text-2xl transition-colors duration-300",
+                      featured
+                        ? "bg-brand-red text-white shadow-md shadow-brand-red/20"
+                        : "bg-brand-red/5 group-hover:bg-brand-red/10",
+                    )}
+                    aria-hidden="true"
+                  >
+                    {card.icon}
                   </div>
 
                   <h3
                     className={cn(
-                      "font-serif text-lg font-semibold leading-snug",
-                      "transition-colors duration-fast ease-luxury",
-                      V_TITLE[card.variant],
+                      "text-2xl font-bold text-foreground transition-colors duration-200",
+                      "group-hover:text-brand-red",
                     )}
                   >
-                    {card.title}
+                    {title}
                   </h3>
 
-                  <p className={cn("mt-3 text-sm leading-relaxed", V_DESC[card.variant])}>
-                    {card.description}
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {descriptionText}
                   </p>
 
-                  <div className="mt-4 space-y-1">
-                    <BookPriceDual
-                      exVat={card.priceExVat}
-                      dualLabel={card.startingPriceDual}
-                      size="sm"
-                    />
-                    <p className={cn("text-xs font-medium text-foreground")}>
+                  {features.length > 0 ? (
+                    <ul className="mb-8 mt-6 space-y-3 border-t border-border/50 pt-6 text-right">
+                      {features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-center gap-2.5 text-sm text-muted-foreground"
+                        >
+                          <CheckIcon
+                            size={18}
+                            className="shrink-0 font-bold text-brand-red"
+                            aria-hidden="true"
+                          />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+
+                  {card.valueFrame ? (
+                    <p className="text-xs font-medium text-muted-foreground">
                       {card.valueFrame}
                     </p>
-                    <p className={cn("text-xs leading-snug", V_DESC[card.variant])}>
-                      {card.upsellHint}
-                    </p>
-                  </div>
+                  ) : null}
                 </div>
 
-                <div
-                  className={cn(
-                    "mt-6 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold",
-                    "transition-[background-color,color,border-color] duration-normal ease-luxury",
-                    V_CTA[card.variant],
-                  )}
-                  aria-hidden="true"
-                >
-                  <WaIcon />
-                  <span>קבלו הצעת מחיר בוואטסאפ</span>
+                <div className="w-full pt-4">
+                  <div className="mb-5 flex items-baseline justify-center gap-1">
+                    <span className="text-xs font-normal text-muted-foreground">
+                      החל מ-
+                    </span>
+                    <span className="text-3xl font-black text-brand-red">
+                      {card.priceExVat.toLocaleString("he-IL")} ₪
+                    </span>
+                    <span className="text-xs font-normal text-muted-foreground">
+                      + מע״מ
+                    </span>
+                  </div>
+
                   <span
-                    className="text-xs opacity-60 transition-transform duration-fast ease-luxury group-hover:-translate-x-1"
+                    className={cn(
+                      "flex min-h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold transition-all duration-200",
+                      featured
+                        ? "bg-brand-red text-white shadow-md hover:opacity-95 group-hover:shadow-lg group-hover:shadow-brand-red/20"
+                        : "border border-border bg-surface text-foreground group-hover:bg-brand-red group-hover:text-white",
+                    )}
                     aria-hidden="true"
-                  > </span>
+                  >
+                    <span>
+                      {featured ? "קבלו הצעה בוואטסאפ" : "הצעת מחיר בוואטסאפ"}
+                    </span>
+                    <WaIcon />
+                  </span>
                 </div>
               </a>
             );
           })}
         </div>
+
+        <HomeTrustFeatureGrid />
       </Container>
     </Section>
   );

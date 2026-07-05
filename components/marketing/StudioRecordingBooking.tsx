@@ -8,7 +8,6 @@ import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import BookingSchedulePicker from "@/components/booking/BookingSchedulePicker";
 import BookingSummaryActions from "@/components/booking/BookingSummaryActions";
 import StudioValueChips from "@/components/booking/StudioValueChips";
-import BookingPaymentTrust from "@/components/booking/BookingPaymentTrust";
 import BookRecordingVsProduction from "@/components/booking/BookRecordingVsProduction";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
 import SmartAddonDrawer from "@/components/booking/SmartAddonDrawer";
@@ -2147,6 +2146,7 @@ export default function StudioRecordingBooking({
 
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
+                showPaymentTrust
                 socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5–7 ימי עבודה"
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(total)),
@@ -2161,8 +2161,6 @@ export default function StudioRecordingBooking({
                   href: consultHref,
                 }}
               />
-
-              <BookingPaymentTrust />
 
               <button
                 type="button"

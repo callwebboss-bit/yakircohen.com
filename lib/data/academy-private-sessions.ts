@@ -52,4 +52,4 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
 ] as const;
 
 export const PRIVATE_SESSION_PRICE_NOTE =
-  "כל המחירים לפני מע״מ - מפגש אפיון (450 ₪ + מע״מ) מתקזז מהרכישה הראשונה";
+  "כל המחירים לפני מע״מ (18%). שיחת היכרות ראשונה - חינם.";

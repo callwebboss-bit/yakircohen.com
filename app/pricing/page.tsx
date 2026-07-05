@@ -22,6 +22,7 @@ import {
 import { PRICING_FAQ_ITEMS } from "@/lib/data/pricing-faq";
 import { breadcrumbListJsonLd } from "@/lib/breadcrumbs/build-trail";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
 import PricingInquiryForm from "@/components/pricing/PricingInquiryForm";
 import PricingHubSectionsAccordion from "@/components/pricing/PricingHubSectionsAccordion";
@@ -157,7 +158,7 @@ export default function PricingHubPage() {
               יש לכם שאלה על המחירים?
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              השאירו פרטים ונחזור אליכם תוך 24 שעות.
+              השאירו פרטים ונחזור אליכם בדרך כלל תוך 24 שעות.
             </p>
             <div className="mt-6">
               <PricingInquiryForm />
@@ -188,7 +189,8 @@ export default function PricingHubPage() {
 
         <Section padding="sm" className="border-t border-border bg-background">
           <Container className="max-w-3xl">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <CheckoutTrustMicro />
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                 <Link href="/privacy" className={`${linkClass} hover:text-brand-red`}>
                   מדיניות פרטיות

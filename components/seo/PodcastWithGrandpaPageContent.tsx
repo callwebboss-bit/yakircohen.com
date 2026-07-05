@@ -48,7 +48,7 @@ export default function PodcastWithGrandpaPageContent() {
   return (
     <ServicePageLayout
       title="הגשמת חלום: הקלטת שיר באולפן"
-      subtitle="מתנה מקורית ומרגשת לסבא? חוויה משפחתית בלתי נשכחת  -  פודקאסט, הקלטת שיר באולפן, ומזכרת לכל החיים. זו לא סתם הקלטה. זו מורשת."
+      subtitle="מתנה מקורית ומרגשת לסבא? חוויה משפחתית בלתי נשכחת, פודקאסט, הקלטת שיר באולפן, ומזכרת לכל החיים. זו לא סתם הקלטה. זו מורשת."
       features={PODCAST_GRANDPA_HERO_FEATURES}
       whatsappText="שלום, מעוניין בחוויית פודקאסט עם סבא/סבתא באולפן"
       utmCampaign="podcast_grandpa"
@@ -71,7 +71,7 @@ export default function PodcastWithGrandpaPageContent() {
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             יש מתנות שקונים בחנות, ויש חוויות שנשארות לנצח. ביקיר כהן הפקות
-            יוצרים חוויה משפחתית שתזכרו לנצח  -  שילוב מרגש של תיעוד סיפורי חיים
+            יוצרים חוויה משפחתית שתזכרו לנצח, שילוב מרגש של תיעוד סיפורי חיים
             והגשמת חלום בהקלטת שיר באולפן מקצועי.
           </p>
         </section>
@@ -153,7 +153,7 @@ export default function PodcastWithGrandpaPageContent() {
               מה אתם מקבלים בסוף החוויה?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              חבילה שלמה  -  לא נגמר ב&quot;תודה ולהתראות&quot;
+              חבילה שלמה, לא נגמר ב&quot;תודה ולהתראות&quot;
             </p>
           </header>
           <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -251,7 +251,7 @@ export default function PodcastWithGrandpaPageContent() {
 
         <FAQAccordion
           items={[...PODCAST_GRANDPA_FAQS]}
-          title="שאלות נפוצות  -  פודקאסט עם סבא וסבתא"
+          title="שאלות נפוצות, פודקאסט עם סבא וסבתא"
           className="py-0"
         />
 
@@ -288,7 +288,7 @@ export default function PodcastWithGrandpaPageContent() {
             מוכנים ליצור מורשת משפחתית?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            מתנה לסבא, לסבתא, או לכל המשפחה  -  נשמח לתאם את החוויה.
+            מתנה לסבא, לסבתא, או לכל המשפחה, נשמח לתאם את החוויה.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a

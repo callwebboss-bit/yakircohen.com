@@ -4,7 +4,6 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   VOCAL_FIX_AUDIENCE,
-  VOCAL_FIX_PRICE_INCLUDED,
   VOCAL_FIX_PROCESSING,
 } from "@/lib/data/online-vocal-fix-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -12,6 +11,9 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
+import AudioDamageSolver from "@/components/seo/AudioDamageSolver";
+import SuccessRateEstimator from "@/components/seo/SuccessRateEstimator";
+import VocalFixPricingBlock from "@/components/seo/VocalFixPricingBlock";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -176,6 +178,12 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
+      <section className="border-t border-border bg-surface py-14">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <SuccessRateEstimator />
+        </div>
+      </section>
+
       <section className="border-t border-border bg-background py-12">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <header className="mx-auto max-w-2xl text-center">
@@ -197,62 +205,61 @@ export default function OnlineVocalFixPageContent() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-md rounded-2xl border border-brand-red/30 bg-background p-8 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
-          <p className="mt-4 text-4xl font-bold text-foreground">250 ₪</p>
-          <p className="text-sm text-muted-foreground">+ מע&quot;מ</p>
-          <ul className="mt-6 space-y-2 text-start text-sm text-muted-foreground">
-            {VOCAL_FIX_PRICE_INCLUDED.map((item) => (
-              <li key={item} className="flex gap-2">
-                <span className="text-brand-red">✓</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-xs text-muted-foreground">
-            לקטעים ארוכים: כל 5 דקות נוספות - 200 ₪
-          </p>
-          <div className="mt-4 flex flex-col gap-2 text-sm">
-            <Link
-              href="/online/vocal-fix/pitch-correction"
-              className="font-medium text-brand-red hover:underline"
-            >
-              גם צריך תיקון זיופים? </Link>
-            <Link
-              href="/online/vocal-fix/volume-balance"
-              className="font-medium text-brand-red hover:underline"
-            >
-              איזון ווליומים (500 ₪) </Link>
-            <Link
-              href="/online/vocal-fix/noise-removal"
-              className="font-medium text-brand-red hover:underline"
-            >
-              ניקוי רעשים (500 ₪) </Link>
-            <Link
-              href="/online/vocal-fix/eq-fix"
-              className="font-medium text-brand-red hover:underline"
-            >
-              תיקון תדרים ו-EQ (500 ₪) </Link>
-            <Link
-              href="/online/vocal-fix/mixing"
-              className="font-medium text-brand-red hover:underline"
-            >
-              מיקס ומאסטרינג (500 ₪) </Link>
-          </div>
+      <section className="border-t border-border bg-surface py-14">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <header className="mb-8">
+            <h2 className="text-xl font-semibold text-foreground">
+              מה הבעיה בהקלטה שלכם?
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              בחרו קטגוריה - שמעו דגימת לפני/אחרי ממש כאן
+            </p>
+          </header>
+          <AudioDamageSolver />
         </div>
+      </section>
+
+      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
+        <VocalFixPricingBlock />
       </section>
 
       <section className="py-8">
         <JourneyStepsLink variant="online" />
       </section>
 
-      <section className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-        <h2 className="text-lg font-semibold text-foreground">דיסקרטיות מוחלטת</h2>
-        <p className="mt-3 text-sm text-muted-foreground">
-          החומרים רגישים. מחויבות ל-100% סודיות, קבצים במערכות מאובטחות,
-          נגישים רק לצוות המטפל, ללא שימוש מעבר לשירות.
-        </p>
+      <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-[#1a3a5c]/20 bg-[#0f2540]/5 p-6 dark:border-[#2a5080]/40 dark:bg-[#0a1a2e]/60">
+          <div className="flex items-start gap-4">
+            <span
+              className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0f2540]/10 text-2xl dark:bg-[#1a3a5c]/30"
+              aria-hidden
+            >
+              🔒
+            </span>
+            <div>
+              <h2 className="text-base font-semibold text-[#0f2540] dark:text-[#7ab3e0]">
+                סודיות מוחלטת ומאובטחת
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                כל קובץ המועלה עובר הצפנה מלאה, משמש אך ורק לצורך התיקון
+                המקצועי, ונמחק אוטומטית משרתי האולפן בתוך 7 ימים מסיום
+                העבודה. אין שיתוף, אין גיבוי חיצוני, אין שימוש מעבר לשירות.
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
+                {["הצפנה מלאה בהעברה ובאחסון", "גישה לצוות המטפל בלבד", "מחיקה אוטומטית תוך 7 ימים"].map(
+                  (item) => (
+                    <li key={item} className="flex items-center gap-1.5">
+                      <span className="text-[#0f2540]/60 dark:text-[#7ab3e0]/60" aria-hidden>
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">

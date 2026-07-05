@@ -51,12 +51,12 @@ export default function PodcastProductionPageContent() {
             id="production-intro-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            לא רק פרק אחד  -  מערך שלם
+            לא רק פרק אחד, מערך שלם
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             הפקת פרק בודדת מושלמת לרגע ההקלטה. ליווי מא׳ עד ת׳ בונה את
             הפודקאסט כמוצר: פורמט, מיתוג, לוח שידורים וצמיחה. מתחילים בפרק
-            ראשון  -  אפשר בחבילת חצי שעה ב-{PODCAST_STARTER_PRICE} ₪  -  וממשיכים
+            ראשון, אפשר בחבילת חצי שעה ב-{PODCAST_STARTER_PRICE} ₪, וממשיכים
             לפי קצב שנוח לכם.
           </p>
         </section>
@@ -148,7 +148,7 @@ export default function PodcastProductionPageContent() {
               חבילות והקלטה
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              בחרו נקודת התחלה  -  ליווי ארוך טווח מתואם בנפרד
+              בחרו נקודת התחלה, ליווי ארוך טווח מתואם בנפרד
             </p>
           </header>
           <PodcastCalculatorLazy className="mt-8" />
@@ -162,7 +162,7 @@ export default function PodcastProductionPageContent() {
 
         <FAQAccordion
           items={[...PODCAST_PRODUCTION_FAQS]}
-          title="שאלות נפוצות  -  ליווי מא׳ עד ת׳"
+          title="שאלות נפוצות, ליווי מא׳ עד ת׳"
           className="py-0"
         />
 
@@ -177,7 +177,7 @@ export default function PodcastProductionPageContent() {
             מוכנים לבנות פודקאסט לטווח ארוך?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            שיחת אפיון ראשונה  -  בלי התחייבות. נבין יחד איפה אתם ולאן הולכים.
+            שיחת אפיון ראשונה, בלי התחייבות. נבין יחד איפה אתם ולאן הולכים.
           </p>
           <a
             href={whatsappHref}

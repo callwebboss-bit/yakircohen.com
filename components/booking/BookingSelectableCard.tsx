@@ -21,7 +21,7 @@ type BookingSelectableCardProps = {
   className?: string;
   /** כרטיס קומפקטי (אווירה, סוג הקלטה) */
   compact?: boolean;
-  /** לפני/אחרי שמע — לא מפעיל בחירת כרטיס */
+  /** לפני/אחרי שמע, לא מפעיל בחירת כרטיס */
   audioDemoId?: AudioDemoId;
   /** דוגמת וידאו בקליק */
   youtubeVideoId?: string;

@@ -1,5 +1,5 @@
 /**
- * Nav coverage audit — Zero Lead Loss gate for Header + Footer.
+ * Nav coverage audit, Zero Lead Loss gate for Header + Footer.
  * Run: npm run audit:nav-coverage
  */
 import fs from "node:fs";

@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import PriceScopeDisplay from "@/components/booking/PriceScopeDisplay";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import {
   PACKAGE_HUB_CATEGORY_LABELS,
   PACKAGE_HUB_ITEMS,
@@ -23,6 +26,7 @@ export default function PackagesHubPageContent() {
             שלושה מסלולים פופולריים עם מחירים מהמחירון הקיים. בלי כפילויות, בלי
             הפתעות - פרטים מלאים בדף השירות או בהזמנה המקוונת.
           </p>
+          <ContextualIntroParagraph pathname="/packages" className="mt-4 max-w-3xl" />
           <p className="mt-4 text-sm text-muted-foreground">
             {PRICING_FRAMING_LINE}
           </p>
@@ -70,17 +74,13 @@ export default function PackagesHubPageContent() {
                       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                         {pkg.description}
                       </p>
-                      <p className="mt-4 text-lg font-semibold text-brand-red">
-                        {pkg.priceLabel}
-                        {pkg.priceNote ? (
-                          <span className="ms-2 text-sm font-normal text-muted-foreground">
-                            {pkg.priceNote}
-                          </span>
-                        ) : null}
-                        <span className="block text-xs font-normal text-muted-foreground">
-                          + מע״מ
-                        </span>
-                      </p>
+                      <div className="mt-4">
+                        <PriceScopeDisplay
+                          exVat={pkg.priceExVat}
+                          scope={pkg.scope}
+                          size="md"
+                        />
+                      </div>
                       <ul className="mt-4 grid gap-2 sm:grid-cols-2">
                         {pkg.highlights.map((h) => (
                           <li
@@ -97,6 +97,7 @@ export default function PackagesHubPageContent() {
                           </li>
                         ))}
                       </ul>
+                      <CheckoutTrustMicro variant="card" className="mt-4" showLegalLinks={false} />
                       <div className="mt-6 flex flex-wrap gap-3">
                         <Link
                           href={pkg.href}

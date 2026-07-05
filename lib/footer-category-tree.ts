@@ -1,5 +1,5 @@
 /**
- * 6 קטגוריות פוטר — נגזרות מ-FOOTER_SEMANTIC_TREE (מקור אמת ל-crawl).
+ * 6 קטגוריות פוטר, נגזרות מ-FOOTER_SEMANTIC_TREE (מקור אמת ל-crawl).
  * Additive only: לא מוחקים קישורים, רק מארגנים מחדש.
  */
 import type { SeoFooterLink } from "@/lib/seo-footer-links";
@@ -23,7 +23,7 @@ export type FooterCategoryGroup = {
 
 const LEGAL_HREFS = new Set(["/privacy", "/terms", "/accessibility", "/pricing"]);
 
-/** קישורי עמודה 5 שאינם משפטיים — נשארים ב-audit */
+/** קישורי עמודה 5 שאינם משפטיים, נשארים ב-audit */
 export const FOOTER_UTILITY_LINKS: readonly SeoFooterLink[] =
   FOOTER_SEMANTIC_TREE[4]!.links.filter((l) => !LEGAL_HREFS.has(l.href));
 
@@ -86,7 +86,7 @@ function buildCategoryLinks(): Record<FooterCategoryId, SeoFooterLink[]> {
   buckets.podcast.unshift({
     label: "מרכז פודקאסט",
     href: "/podcast",
-    title: "הפקת פודקאסט — הקלטה, עריכה והפצה",
+    title: "הפקת פודקאסט, הקלטה, עריכה והפצה",
   });
   buckets.podcast = dedupeLinks(buckets.podcast);
 
@@ -118,7 +118,7 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
     id: "studio",
     label: "אולפן הקלטות",
     hubHref: "/studio",
-    hubTitle: "מרכז האולפן — הקלטות במודיעין והמרכז",
+    hubTitle: "מרכז האולפן, הקלטות במודיעין והמרכז",
     links: categoryLinks.studio,
   },
   {
@@ -158,7 +158,7 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
   },
 ] as const;
 
-/** כל הנתיבים שמופיעים בפוטר — ל-audit-nav-coverage */
+/** כל הנתיבים שמופיעים בפוטר, ל-audit-nav-coverage */
 export function collectFooterNavPaths(): string[] {
   const paths = new Set<string>();
 

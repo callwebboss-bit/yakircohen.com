@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BookingApprovals from "@/components/booking/BookingApprovals";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import VenueApprovalShield from "@/components/confetti/VenueApprovalShield";
 import ConfettiMomentSelector from "@/components/booking/ConfettiMomentSelector";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
@@ -74,6 +75,7 @@ import {
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
+import { EVENTS_PAYMENT_TERMS_LINES } from "@/lib/data/legal-trust-copy";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -1389,15 +1391,16 @@ export default function EventsBookingWizard({
                 }}
               />
 
+              <CheckoutTrustMicro className="mt-2" />
+
               {/* תנאי תשלום מורחבים לאירועים */}
               <div className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-[0.7rem] leading-relaxed text-muted-foreground">
-                <p className="font-medium text-foreground/70">תנאי תשלום</p>
-                <p className="mt-1">
-                  עד 3 תשלומים · שוטף +60 יום עם חתימה (אפשרי +90 בתיאום)
-                </p>
-                <p className="mt-1 text-muted-foreground/70">
-                  * איחור בתשלום יחויב בריבית חוזית והצמדה למדד, בהתאם לחוק פסיקת ריבית והצמדה.
-                </p>
+                <p className="font-medium text-foreground/70">תנאי תשלום לאירועים</p>
+                {EVENTS_PAYMENT_TERMS_LINES.map((line) => (
+                  <p key={line} className="mt-1">
+                    {line}
+                  </p>
+                ))}
               </div>
 
               {/* הגבלת אחריות ותנאים תפעוליים */}

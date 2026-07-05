@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Link from "next/link";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
@@ -19,11 +20,13 @@ import {
   STUDIO_MODIIN_RELATED_SERVICES,
   STUDIO_MODIIN_WHY_US,
 } from "@/lib/data/podcast-studio-modiin-page";
+import { mapEmojiLinkToHub } from "@/lib/data/studio-hub-mappers";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 const STUDIO_MODIIN_TITLE = "השכרת סטודיו לפודקאסט במודיעין";
 
@@ -45,13 +48,13 @@ export default function PodcastStudioModiinPageContent() {
   return (
     <ServicePageLayout
       title="השכרת סטודיו לפודקאסט במודיעין"
-      subtitle="פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום תוך 24 שעות."
+      subtitle={`פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום ${TIME_CLAIMS.quote24h}.`}
       features={STUDIO_MODIIN_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
       corporateShareLabel="השכרת אולפן פודקאסט במודיעין"
       bookSlug="podcast/podcast-studio-modiin"
-      ctaLabel="קביעת מקום תוך 24 שעות"
+      ctaLabel={`קביעת מקום, ${TIME_CLAIMS.quote24h}`}
       pagePath="/podcast/podcast-studio-modiin"
       faqs={STUDIO_MODIIN_FAQS}
       {...heroProps}
@@ -82,7 +85,7 @@ export default function PodcastStudioModiinPageContent() {
               חדר מבודד רעשים וליווי טכני מלא.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              בין אם אתם ממודיעין, ירושלים או תל אביב  -  אנחנו כאן כדי להפוך את
+              בין אם אתם ממודיעין, ירושלים או תל אביב, אנחנו כאן כדי להפוך את
               הרעיון שלכם לפודקאסט מצליח.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
@@ -129,41 +132,13 @@ export default function PodcastStudioModiinPageContent() {
           </ul>
         </section>
 
-        <section aria-labelledby="related-services-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="related-services-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מעבר להשכרת סטודיו  -  שירותי הפקה מלאים
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              ההקלטה היא רק ההתחלה. כדי שהפודקאסט יגיע לקהל רחב:
-            </p>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {STUDIO_MODIIN_RELATED_SERVICES.map((service) => (
-              <li key={service.href}>
-                <Link
-                  href={service.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-background p-6 transition-[border-color,box-shadow] hover:border-brand-red/40 hover:shadow-md"
-                >
-                  <span className="text-2xl" aria-hidden>
-                    {service.emoji}
-                  </span>
-                  <h3 className="mt-3 font-semibold text-foreground group-hover:text-brand-red">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">
-                    {service.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          heading="מעבר להשכרת סטודיו - שירותי הפקה מלאים"
+          subheading="ההקלטה היא רק ההתחלה. כדי שהפודקאסט יגיע לקהל רחב:"
+          links={STUDIO_MODIIN_RELATED_SERVICES.map(mapEmojiLinkToHub)}
+          headingId="related-services-heading"
+          columns={2}
+        />
 
         <ServiceShowcaseSections
           assetsFolder="podcast"
@@ -182,7 +157,7 @@ export default function PodcastStudioModiinPageContent() {
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
               המחיר משתנה לפי משך ההקלטה ושירותים נלווים. בחרו חבילה ושלחו
-              סיכום בוואטסאפ  -  או{" "}
+              סיכום בוואטסאפ, או{" "}
               <Link href="/podcast" className="font-medium text-brand-red hover:underline">
                 לעמוד הפודקאסט המלא
               </Link>
@@ -194,7 +169,7 @@ export default function PodcastStudioModiinPageContent() {
 
         <FAQAccordion
           items={[...STUDIO_MODIIN_FAQS]}
-          title="שאלות נפוצות  -  השכרת סטודיו לפודקאסט"
+          title="שאלות נפוצות, השכרת סטודיו לפודקאסט"
           className="py-0"
         />
 
@@ -206,7 +181,7 @@ export default function PodcastStudioModiinPageContent() {
             id="studio-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים להקליט? קביעת מקום תוך 24 שעות
+            מוכנים להקליט? קביעת מקום, {TIME_CLAIMS.quote24h}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
             אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. הפודקאסט שלכם
@@ -214,7 +189,7 @@ export default function PodcastStudioModiinPageContent() {
           </p>
           <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             {[
-              "קביעת מקום תוך 24 שעות",
+              `קביעת מקום, ${TIME_CLAIMS.quote24h}`,
               "קריינות אנושית - ללא AI-רובוטי",
               "ליווי טכני מלא",
             ].map((item) => (
@@ -230,7 +205,7 @@ export default function PodcastStudioModiinPageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            קבע מקום עכשיו - מוכן תוך 24 שעות</a>
+            קבע מקום עכשיו, {TIME_CLAIMS.podcastDelivery24h}</a>
         </section>
 
         <GoogleReviews

@@ -1,10 +1,12 @@
 ﻿"use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
 import KoalendarModal from "@/components/booking/KoalendarModal";
 import InfoTip from "@/components/ui/InfoTip";
 import { BOOKING_INSTALLMENT_LINE } from "@/lib/data/booking-shared";
+import { PAYMENT_SECURITY_LINE } from "@/lib/data/legal-trust-copy";
 import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
@@ -168,6 +170,12 @@ export default function BookingSummaryActions({
               </span>
             ))}
           </div>
+          <p className="text-[0.65rem] leading-relaxed text-muted-foreground">
+            {PAYMENT_SECURITY_LINE}{" "}
+            <Link href="/privacy" className="font-semibold text-brand-red hover:underline">
+              מדיניות פרטיות
+            </Link>
+          </p>
         </div>
       ) : null}
 

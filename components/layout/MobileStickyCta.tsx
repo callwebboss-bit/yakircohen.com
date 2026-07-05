@@ -38,7 +38,7 @@ export default function MobileStickyCta() {
 
   return (
     <div
-      className="fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)_+_1rem)] z-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl md:hidden"
+      className="mobile-sticky-cta fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)_+_1rem)] z-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-opacity duration-300 md:hidden"
       role="region"
       aria-label="יצירת קשר מהירה"
     >

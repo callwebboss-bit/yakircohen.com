@@ -23,6 +23,7 @@ import {
   PODCAST_RECORDING_WHY_US,
   PODCAST_RECORDING_WORKFLOW,
 } from "@/lib/data/podcast-recording-page";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -44,7 +45,7 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 export default function PodcastRecordingPageContent() {
   const whatsappHref = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת בהפקת פודקאסט מלאה  -  צילום, הקלטה ועריכה. אשמח לפרטים ולתיאום.",
+      "שלום, מעוניין/ת בהפקת פודקאסט מלאה, צילום, הקלטה ועריכה. אשמח לפרטים ולתיאום.",
     ),
     utm_source: "website",
     utm_campaign: "podcast_recording_cta",
@@ -75,13 +76,13 @@ export default function PodcastRecordingPageContent() {
       />
       <ServicePageLayout
       title="צילום והקלטת פודקאסט"
-      subtitle="הפתרון המלא  -  נכנסתם, דיברתם, יצאתם עם פרק מוכן. צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה."
+      subtitle="הפתרון המלא, נכנסתם, דיברתם, יצאתם עם פרק מוכן. צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה."
       features={PODCAST_RECORDING_HERO_FEATURES}
-      whatsappText="שלום, מעוניין בהפקת פודקאסט מלאה  -  צילום, הקלטה ועריכה"
+      whatsappText="שלום, מעוניין בהפקת פודקאסט מלאה, צילום, הקלטה ועריכה"
       utmCampaign="podcast_recording"
       corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
-      scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק - מוכן תוך 24 שעות`}
+      scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק, ${TIME_CLAIMS.podcastDelivery24h}`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
       {...heroProps}
     >
@@ -108,7 +109,7 @@ export default function PodcastRecordingPageContent() {
           aria-label="הזמנה מהירה"
         >
           <p className="text-sm font-semibold text-foreground sm:text-base">
-            הפתרון המלא  -  אתם מגיעים, מדברים, ויוצאים עם פרק מוכן
+            הפתרון המלא, אתם מגיעים, מדברים, ויוצאים עם פרק מוכן
           </p>
           <p className="mt-2 text-xs text-muted-foreground sm:text-sm">
             כולל צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה
@@ -139,7 +140,7 @@ export default function PodcastRecordingPageContent() {
             id="full-production-heading"
             className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            צילום + הקלטה + עריכה = פרק מוכן תוך 24 שעות
+            צילום + הקלטה + עריכה = פרק {TIME_CLAIMS.podcastDelivery24h}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             רוצים פודקאסט מקצועי אבל לא רוצים להתעסק עם ציוד, הקלטה ועריכה?
@@ -201,7 +202,7 @@ export default function PodcastRecordingPageContent() {
                     <span className="font-medium text-foreground">
                       {space.title}
                     </span>
-                    {"  -  "}
+                    {", "}
                     {space.description}
                   </li>
                 ))}
@@ -291,7 +292,7 @@ export default function PodcastRecordingPageContent() {
 
         <FAQAccordion
           items={[...PODCAST_RECORDING_FAQS]}
-          title="שאלות נפוצות  -  הפקת פודקאסט מלאה"
+          title="שאלות נפוצות, הפקת פודקאסט מלאה"
           className="py-0"
         />
 

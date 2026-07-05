@@ -79,7 +79,7 @@ export default function SmartAddonDrawer({
             </button>
           </div>
           <p className="mb-4 text-xs text-muted-foreground">
-            אופציונלי — אפשר לסגור פרטים בוואטסאפ אחרי השליחה.
+            אופציונלי, אפשר לסגור פרטים בוואטסאפ אחרי השליחה.
           </p>
           <BookUpsellSection
             title="שדרוגים מהמחירון"

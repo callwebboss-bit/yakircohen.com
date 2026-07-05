@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useId, useState } from "react";
 import {
   buildInvoiceClipboardText,
@@ -7,6 +8,7 @@ import {
   COMPANY_LEGAL_NAME,
   COMPANY_REGISTRY_URL,
 } from "@/lib/company-details";
+import { FOOTER_LEGAL_LINKS } from "@/lib/constants";
 import {
   CONTACT_PHONE_DISPLAY,
   STUDIO_ADDRESS_LINE,
@@ -209,28 +211,42 @@ function CompanyDetailsCompact({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div
-      className={cn(
-        "flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-muted-foreground md:justify-start",
-        className,
-      )}
-    >
-      <span>
-        {COMPANY_LEGAL_NAME} - ח.פ {COMPANY_ID}
-      </span>
-      <button
-        type="button"
-        onClick={() => void handleCopy()}
+    <div className={cn("space-y-2", className)}>
+      <div
         className={cn(
-          "inline-flex min-h-9 items-center rounded-md border px-2.5 py-1 font-semibold transition-colors",
-          copied
-            ? "border-brand-red/40 bg-brand-red/8 text-brand-red"
-            : "border-border text-foreground hover:border-brand-red/40 hover:bg-brand-red/8",
+          "flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-muted-foreground md:justify-start",
         )}
-        aria-live="polite"
       >
-        {copied ? "הועתק!" : "העתק פרטי חשבונית"}
-      </button>
+        <span>
+          {COMPANY_LEGAL_NAME} - ח.פ {COMPANY_ID}
+        </span>
+        <button
+          type="button"
+          onClick={() => void handleCopy()}
+          className={cn(
+            "inline-flex min-h-9 items-center rounded-md border px-2.5 py-1 font-semibold transition-colors",
+            copied
+              ? "border-brand-red/40 bg-brand-red/8 text-brand-red"
+              : "border-border text-foreground hover:border-brand-red/40 hover:bg-brand-red/8",
+          )}
+          aria-live="polite"
+        >
+          {copied ? "הועתק!" : "העתק פרטי חשבונית"}
+        </button>
+      </div>
+      <p className="text-center text-xs md:text-start">
+        {FOOTER_LEGAL_LINKS.map((link, index) => (
+          <span key={link.href}>
+            {index > 0 ? " · " : null}
+            <Link
+              href={link.href}
+              className="inline-flex min-h-9 items-center font-semibold text-brand-red hover:underline"
+            >
+              {link.label}
+            </Link>
+          </span>
+        ))}
+      </p>
     </div>
   );
 }

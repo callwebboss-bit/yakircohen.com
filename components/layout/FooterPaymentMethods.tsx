@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { PAYMENT_SECURITY_LINE } from "@/lib/data/legal-trust-copy";
 import { PAYMENT_INVOICING, PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
@@ -152,12 +153,17 @@ export default function FooterPaymentMethods({
         ))}
       </ul>
 
-      {!compact ? (
-        <p className="mt-4 text-center text-[0.65rem] leading-relaxed text-muted-foreground md:text-start">
-          התשלום מתבצע דרך ספק סליקה מאושר. פרטי כרטיס אשראי אינם נשמרים באתר.
-          ניתן לשלם גם ב־Bit, PayBox, Apple Pay ו־PayPal לפי תיאום.
-        </p>
-      ) : null}
+      <p
+        className={cn(
+          "mt-4 text-[0.65rem] leading-relaxed text-muted-foreground",
+          compact ? "text-center md:text-start" : "text-center md:text-start",
+        )}
+      >
+        {PAYMENT_SECURITY_LINE}
+        {!compact
+          ? " ניתן לשלם גם ב־Bit, PayBox, Apple Pay ו־PayPal לפי תיאום."
+          : null}
+      </p>
     </section>
   );
 }

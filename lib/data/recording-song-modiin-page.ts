@@ -1,4 +1,6 @@
-﻿export type RecordingSongProcessStep = {
+﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
+
+export type RecordingSongProcessStep = {
   step: string;
   title: string;
   paragraphs: readonly string[];
@@ -60,7 +62,7 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
     emoji: "🎚️",
     title: "מיקס ומאסטרינג ברמה בינלאומית",
     description:
-      "התוצאה הסופית נשמעת מדויקת בכל מערכת שמע  -  רכב, סמארטפון או אולם אירועים.",
+      "התוצאה הסופית נשמעת מדויקת בכל מערכת שמע, רכב, סמארטפון או אולם אירועים.",
   },
   {
     emoji: "💻",
@@ -72,13 +74,13 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
     emoji: "🔊",
     title: "אקוסטיקה מדויקת",
     description:
-      "חדר צף מבודד עם טיפול אקוסטי מלא  -  אפס רעשי רקע.",
+      "חדר צף מבודד עם טיפול אקוסטי מלא, אפס רעשי רקע.",
   },
   {
     emoji: "🎤",
     title: "מיקרופונים מקצועיים",
     description:
-      "Shure SM7B / EV RE20 / SphereL22  -  אותם מיקרופונים שמשתמשים בהם בתחנות הרדיו המובילות.",
+      "Shure SM7B / EV RE20 / SphereL22, אותם מיקרופונים שמשתמשים בהם בתחנות הרדיו המובילות.",
   },
 ] as const;
 
@@ -87,25 +89,19 @@ export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[]
   { videoId: "8i4K2f5gQfM", title: "הקלטת שיר לחתונה" },
   { videoId: "qdCbNrDF15k", title: "שיר מתנה לאמא" },
   { videoId: "WMvdVNw3tIU", title: "הקלטת שיר יומולדת באולפן" },
-  { videoId: "c55HTqTArFo", title: "יום חוויה באולפן  -  מתנה ליום הולדת" },
+  { videoId: "c55HTqTArFo", title: "יום חוויה באולפן, מתנה ליום הולדת" },
   { videoId: "2apMsrmEsDs", title: "שיר כניסה לחופה" },
   { videoId: "wfTY8Bz2uE4", title: "הקלטת ברכות באולפן" },
   { videoId: "r8Xk2_m9FJ8", title: "הקלטת שיר לאירוע" },
   {
     videoId: "VntWmw5Su6c",
-    title: "הפקת רוק כבד  -  שיר מקורי ליום הולדת",
+    title: "הפקת רוק כבד, שיר מקורי ליום הולדת",
   },
   { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },
   { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
 ] as const;
 
 export const RECORDING_SONG_FEATURED_VIDEO_ID = "8i4K2f5gQfM";
-
-export type RecordingSongTestimonial = {
-  quote: string;
-  author: string;
-  role: string;
-};
 
 export type RecordingSongEventPillar = {
   id: string;
@@ -115,27 +111,53 @@ export type RecordingSongEventPillar = {
   tag: string;
 };
 
-export const RECORDING_SONG_TESTIMONIALS: readonly RecordingSongTestimonial[] =
-  [
-    {
-      quote:
-        "הקלטת בר מצווה ללא ניסיון קודם - 3 שעות אולפן, עריכה ומיקס כלולים. קובץ מוכן יומיים לפני האירוע.",
-      author: "רונית א.",
-      role: "אמא לבר מצווה, מודיעין עילית",
-    },
-    {
-      quote:
-        "שיר הפתעה לחתונה - כתיבת מילים, הקלטה, מיקס ו-mastering. 4 גרסאות אורך, מסירה 5 ימים לפני המועד.",
-      author: "דנה ל.",
-      role: "מכבים",
-    },
-    {
-      quote:
-        "שיר כניסה לחופה - הקלטה, עריכה וקובץ מוכן לנגינה. כניסה מוצלחת ללא תקלות טכניות.",
-      author: "ערן ונעמה ש.",
-      role: "חתן וכלה, רעות",
-    },
-  ] as const;
+export const RECORDING_SONG_TESTIMONIALS: readonly TestimonialItem[] = [
+  {
+    id: "recording-song-1",
+    quote:
+      "הקלטת בר מצווה ללא ניסיון קודם - 3 שעות אולפן, עריכה ומיקס כלולים. קובץ מוכן יומיים לפני האירוע.",
+    name: "רונית א.",
+    role: "אמא לבר מצווה, מודיעין עילית",
+    initials: "רא",
+    datePublished: "2025-09-10",
+    serviceCategory: "studio",
+    serviceHref: "/studio/blessings/bar-mitzvah",
+    serviceLabel: "הקלטה לבר מצווה",
+    projectImageSrc:
+      "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
+    projectImageAlt: "הקלטת שיר לבר מצווה",
+  },
+  {
+    id: "recording-song-2",
+    quote:
+      "שיר הפתעה לחתונה - כתיבת מילים, הקלטה, מיקס ו-mastering. 4 גרסאות אורך, מסירה 5 ימים לפני המועד.",
+    name: "דנה ל.",
+    role: "מכבים",
+    initials: "דל",
+    datePublished: "2025-12-08",
+    serviceCategory: "studio",
+    serviceHref: "/studio/recording-song-modiin",
+    serviceLabel: "הקלטת שיר לחתונה",
+    projectImageSrc:
+      "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
+    projectImageAlt: "הקלטת שיר לחתונה",
+  },
+  {
+    id: "recording-song-3",
+    quote:
+      "שיר כניסה לחופה - הקלטה, עריכה וקובץ מוכן לנגינה. כניסה מוצלחת ללא תקלות טכניות.",
+    name: "ערן ונעמה ש.",
+    role: "חתן וכלה, רעות",
+    initials: "ענ",
+    datePublished: "2026-02-01",
+    serviceCategory: "studio",
+    serviceHref: "/studio/recording-song-modiin",
+    serviceLabel: "שיר כניסה לחופה",
+    projectImageSrc:
+      "/images/services/events/wedding-packages/שירים-לאירועים.webp",
+    projectImageAlt: "שיר לכניסה לחופה",
+  },
+] as const;
 
 export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
   [

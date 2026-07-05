@@ -3,7 +3,7 @@
 import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 
-/** מחיר פתיחה  -  פרק חצי שעה (מוצג גם במרכז הפודקאסט) */
+/** מחיר פתיחה, פרק חצי שעה (מוצג גם במרכז הפודקאסט) */
 export const PODCAST_STARTER_PRICE = STUDIO_HALF_HOUR_NIS;
 
 export type PodcastPackage = {
@@ -73,7 +73,7 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
   },
   {
     id: "starter",
-    name: "פרק קצר  -  חצי שעה",
+    name: "פרק קצר, חצי שעה",
     subtitle: "התחלה משתלמת באולפן",
     price: PODCAST_STARTER_PRICE,
     badge: "התחלה",
@@ -85,6 +85,6 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
       "קובץ MP3 מוכן להעלאה",
     ],
     summary:
-      "הדרך הכי נגישה להתחיל פודקאסט  -  בלי להתחייב לחבילה גדולה.",
+      "הדרך הכי נגישה להתחיל פודקאסט, בלי להתחייב לחבילה גדולה.",
   },
 ];

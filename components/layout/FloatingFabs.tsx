@@ -85,11 +85,11 @@ export default function FloatingFabs() {
   }, []);
 
   return (
-    <>
+    <div className="floating-fabs-cluster contents">
       {!hideSendFile ? <SendFileFab className={sendFilePosition} /> : null}
       <ChatWidget className={chatFabPosition} onOpenChange={handleChatOpenChange} />
       {!hideWhatsApp ? <WhatsAppWidget className={fabPosition} /> : null}
       <AccessibilityToggle className={fabPosition} />
-    </>
+    </div>
   );
 }

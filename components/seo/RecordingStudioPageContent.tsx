@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
@@ -15,6 +16,7 @@ import {
 } from "@/lib/data/recording-studio-page";
 import { RECORDING_STUDIO_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
+import { mapRecordingOfferingToHub } from "@/lib/data/studio-hub-mappers";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const service = getStudioService("studio-recording-studio");
@@ -70,41 +72,13 @@ export default function RecordingStudioPageContent() {
           galleryLabel="אולפן הקלטות במודיעין"
         />
 
-        <section aria-labelledby="offerings-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-              שירותי הפקה
-            </p>
-            <h2
-              id="offerings-heading"
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מה אפשר להקליט ולהפיק אצלנו?
-            </h2>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-            {RECORDING_STUDIO_OFFERINGS.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
-                >
-                  <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
-                    {item.subtitle}
-                  </p>
-                  <h3 className="mt-2 text-lg font-semibold text-foreground group-hover:text-brand-red">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          heading="מה אפשר להקליט ולהפיק אצלנו?"
+          subheading="שירותי הפקה באולפן במודיעין - מהסינגל ועד פודקאסט ואונליין."
+          links={RECORDING_STUDIO_OFFERINGS.map(mapRecordingOfferingToHub)}
+          headingId="offerings-heading"
+          columns={2}
+        />
 
         <section aria-labelledby="why-here-heading">
           <header className="mx-auto max-w-2xl text-center">
@@ -138,7 +112,7 @@ export default function RecordingStudioPageContent() {
             המהפכה המוזיקלית במודיעין
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מודיעין מכבים רעות הפכה למוקד תרבותי  -  והצורך באולפן מקצועי גדל
+            מודיעין מכבים רעות הפכה למוקד תרבותי, והצורך באולפן מקצועי גדל
             משנה לשנה. כשבוחרים אולפן, חשוב לבדוק לא רק ציוד אלא את הניסיון
             מאחורי הקונסולה.
           </p>
@@ -146,7 +120,7 @@ export default function RecordingStudioPageContent() {
             20 שנים של יצירה
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            סינגל לרדיו, פודקאסט או שיר לאירוע משפחתי  -  אותה מתודולוגיה: דיוק,
+            סינגל לרדיו, פודקאסט או שיר לאירוע משפחתי, אותה מתודולוגיה: דיוק,
             איכות ורגש.
           </p>
           <h3 className="mt-6 text-lg font-semibold text-foreground">
@@ -154,26 +128,26 @@ export default function RecordingStudioPageContent() {
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Cubase לגמישות בעריכה, ו-Suno AI לסקיצות ורעיונות שבעבר דרשו תקציבי
-            עתק  -  בלי לוותר על האמן במרכז.
+            עתק, בלי לוותר על האמן במרכז.
           </p>
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
             <Link
               href="/studio/studio-jerusalem"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לירושלמים  -  30 דק׳ מירושלים
+              אולפן לירושלמים, 30 דק׳ מירושלים
             </Link>
             <Link
               href="/studio/studio-shoham"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לשוהם  -  10–15 דק׳
+              אולפן לשוהם, 10–15 דק׳
             </Link>
             <Link
               href="/studio/studio-rehovot"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לרחובות  -  25–30 דק׳
+              אולפן לרחובות, 25–30 דק׳
             </Link>
           </div>
         </section>

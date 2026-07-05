@@ -1,5 +1,8 @@
 import Link from "next/link";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -18,9 +21,30 @@ function tierWhatsApp(config: BusinessPageConfig, tier: BusinessPageConfig["tier
 
 type Props = {
   config: BusinessPageConfig;
+  pagePath: string;
 };
 
-export default function BusinessTierPageContent({ config }: Props) {
+function buildRelatedHubLinks(config: BusinessPageConfig): HubLinkItem[] {
+  return [
+    {
+      href: "/business",
+      title: "מרכז לעסקים",
+      description: "כל שירותי התוכן וההפקה לעסקים.",
+    },
+    ...(config.relatedLinks ?? []).map((link) => ({
+      href: link.href,
+      title: link.label,
+      description: link.label,
+    })),
+    {
+      href: "/pricing",
+      title: "מחירון",
+      description: "מחירים לפני ואחרי מע״מ לכל השירותים באתר.",
+    },
+  ];
+}
+
+export default function BusinessTierPageContent({ config, pagePath }: Props) {
   const title = config.tagline
     ? `${config.brand} | ${config.tagline}`
     : config.pageTitle;
@@ -41,6 +65,7 @@ export default function BusinessTierPageContent({ config }: Props) {
         />
       ) : null}
       <Container className="space-y-14 py-12 sm:py-16">
+        <ContextualIntroParagraph pathname={pagePath} />
         {config.processSteps && config.processSteps.length > 0 ? (
           <section aria-labelledby="process-heading">
             <h2
@@ -165,28 +190,13 @@ export default function BusinessTierPageContent({ config }: Props) {
 
         <FAQAccordion title={`שאלות נפוצות, ${config.brand}`} items={config.faqs} />
 
-        <nav aria-label="קישורים קשורים" className="border-t border-border pt-8">
-          <h2 className="text-sm font-semibold text-foreground">שירותים קשורים</h2>
-          <ul className="mt-3 flex flex-wrap gap-3 text-sm">
-            <li>
-              <Link href="/business" className="text-brand-red hover:underline">
-                מרכז לעסקים
-              </Link>
-            </li>
-            {(config.relatedLinks ?? []).map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="text-brand-red hover:underline">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link href="/pricing" className="text-brand-red hover:underline">
-                מחירון
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <ServiceHubLinks
+          headingId="business-related-heading"
+          heading="שירותים קשורים"
+          subheading="מסלולים נוספים באתר שמשלימים את השירות."
+          links={buildRelatedHubLinks(config)}
+          columns={3}
+        />
       </Container>
     </ServicePageLayout>
   );

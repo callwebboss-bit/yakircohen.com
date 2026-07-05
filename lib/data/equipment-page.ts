@@ -7,23 +7,23 @@
     emoji: "📦",
     title: "הובלה, הקמה ופירוק",
     description:
-      "אנחנו מביאים, מקימים, מכוונים ומפרקים  -  אתם רק מדליקים ונהנים.",
+      "אנחנו מביאים, מקימים, מכוונים ומפרקים, אתם רק מדליקים ונהנים.",
   },
   {
     emoji: "🎵",
     title: "סאב RCF 15 אינץ׳",
-    description: "באס עמוק ואיכותי  -  מוזיקה שמרגישים, לא בום מעצבן.",
+    description: "באס עמוק ואיכותי, מוזיקה שמרגישים, לא בום מעצבן.",
   },
   {
     emoji: "🔊",
     title: "זוג רמקולים RCF 745",
     description:
-      "צליל טבעי בכל פינה  -  חזק אבל לא מעצבן, אפשר לשוחח ליד הרמקול.",
+      "צליל טבעי בכל פינה, חזק אבל לא מעצבן, אפשר לשוחח ליד הרמקול.",
   },
   {
     emoji: "🎛️",
     title: "מיקסר Allen & Heath",
-    description: "מיקסר דיגיטלי מקצועי  -  שליטה מלאה וצליל יציב כל הערב.",
+    description: "מיקסר דיגיטלי מקצועי, שליטה מלאה וצליל יציב כל הערב.",
   },
 ] as const;
 
@@ -46,7 +46,7 @@ export const EQUIPMENT_PREP_CHECKLIST: readonly string[] = [
 export const EQUIPMENT_WHY_QUALITY: readonly { title: string; description: string }[] = [
   {
     title: "גיבוי טכני",
-    description: "הצוות נמצא לאורך כל האירוע  -  לא מביאים ונעלמים.",
+    description: "הצוות נמצא לאורך כל האירוע, לא מביאים ונעלמים.",
   },
   {
     title: "עוצמה מדויקת",
@@ -54,7 +54,7 @@ export const EQUIPMENT_WHY_QUALITY: readonly { title: string; description: strin
   },
   {
     title: "צליל נקי",
-    description: "שיחה רגילה ליד הרמקולים  -  זה סימן לציוד איכותי.",
+    description: "שיחה רגילה ליד הרמקולים, זה סימן לציוד איכותי.",
   },
 ] as const;
 
@@ -86,7 +86,7 @@ export const EQUIPMENT_RCF_VS_REGULAR: readonly {
   bad: string;
   good: string;
 }[] = [
-  { label: "צליל", bad: "משמיע  -  לא תמיד נקי", good: "נקי, עוצמתי, מדויק" },
+  { label: "צליל", bad: "משמיע, לא תמיד נקי", good: "נקי, עוצמתי, מדויק" },
   { label: "אמינות", bad: "לא יציב לאורך ערב", good: "עובד שנים ללא בעיות" },
   { label: "נוחות", bad: "מעצבן לעמוד ליד", good: "שיחה רגילה ליד הרמקול" },
   { label: "מקצועיות", bad: "\"בסדר\"", good: "רמת אולמות ואירועים" },
@@ -100,9 +100,9 @@ export const EQUIPMENT_ADDONS: readonly string[] = [
 ] as const;
 
 export const EQUIPMENT_WHY_US: readonly string[] = [
-  "ניסיון  -  מאות אירועים במודיעין והסביבה",
-  "ציוד פרימיום  -  RCF ו-Allen & Heath",
-  "שירות מלא  -  הובלה, הקמה, כיוונון ופירוק",
-  "גיבוי טכני  -  צוות לאורך כל האירוע",
-  "מחירים הוגנים  -  ללא עלויות נסתרות",
+  "ניסיון, מאות אירועים במודיעין והסביבה",
+  "ציוד פרימיום, RCF ו-Allen & Heath",
+  "שירות מלא, הובלה, הקמה, כיוונון ופירוק",
+  "גיבוי טכני, צוות לאורך כל האירוע",
+  "מחירים הוגנים, ללא עלויות נסתרות",
 ] as const;

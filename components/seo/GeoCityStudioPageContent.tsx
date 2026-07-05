@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -14,6 +15,7 @@ import {
   GEO_STUDIO_PROCESS,
 } from "@/lib/data/studio-geo-page";
 import { getStudioService } from "@/lib/data/services";
+import { mapGeoStudioServiceToHub } from "@/lib/data/studio-hub-mappers";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
@@ -64,10 +66,10 @@ export default function GeoCityStudioPageContent({
             id={`${citySlug}-intro-heading`}
             className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            {`אולפן הקלטות ${city.nameHePrep}  -  במודיעין`}
+            {`אולפן הקלטות ${city.nameHePrep}, במודיעין`}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {`מחפשים אולפן ${city.nameHePrep}? האולפן הפיזי במודיעין  -  כ-${city.driveMinutes} דקות מ${city.nameHe} (${city.driveNote}). מתאים להקלטת שירים, ברכות ודרשות לבר/בת מצווה.`}
+            {`מחפשים אולפן ${city.nameHePrep}? האולפן הפיזי במודיעין, כ-${city.driveMinutes} דקות מ${city.nameHe} (${city.driveNote}). מתאים להקלטת שירים, ברכות ודרשות לבר/בת מצווה.`}
           </p>
         </section>
 
@@ -123,10 +125,10 @@ export default function GeoCityStudioPageContent({
 
         <section className="max-w-3xl rounded-xl border border-border bg-surface p-6 sm:p-8">
           <h2 className="font-serif text-lg font-semibold text-foreground sm:text-xl">
-            {`אולפן במודיעין  -  נגיש מ${city.nameHe}`}
+            {`אולפן במודיעין, נגיש מ${city.nameHe}`}
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            {`האולפן במודיעין הוא היעד הקרוב ביותר ל${city.residentsLabel} שמחפשים מקום שקט, מקצועי ונגיש. בר מצווה, חתונה או מתנה מוקלטת  -  אותו ליווי אישי.`}
+            {`האולפן במודיעין הוא היעד הקרוב ביותר ל${city.residentsLabel} שמחפשים מקום שקט, מקצועי ונגיש. בר מצווה, חתונה או מתנה מוקלטת, אותו ליווי אישי.`}
           </p>
         </section>
 
@@ -141,7 +143,7 @@ export default function GeoCityStudioPageContent({
             לעסקים, מורים ותקליטנים
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            מורים למוזיקה, בתי ספר, תקליטנים ויוצרי תוכן  -  נשמח לשיתוף פעולה
+            מורים למוזיקה, בתי ספר, תקליטנים ויוצרי תוכן, נשמח לשיתוף פעולה
             והבאת תלמידים או לקוחות לחוויה באולפן במודיעין.
           </p>
           <a
@@ -154,45 +156,13 @@ export default function GeoCityStudioPageContent({
           </a>
         </section>
 
-        <section aria-labelledby={`${citySlug}-popular-heading`}>
-          <header className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
-              {`פופולרי בקרב ${city.residentsLabel}`}
-            </p>
-            <h2
-              id={`${citySlug}-popular-heading`}
-              className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מה מקליטים אצלנו?
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              שירותים נפוצים לשיר ברכה, חופה ובר/בת מצווה
-            </p>
-          </header>
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {GEO_STUDIO_POPULAR_SERVICES.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-6 transition-[border-color,box-shadow,transform] duration-normal ease-luxury hover:-translate-y-0.5 hover:border-brand-red/40 hover:shadow-md"
-                >
-                  <p className="text-2xl" aria-hidden>
-                    {item.emoji}
-                  </p>
-                  <h3 className="mt-3 font-semibold text-foreground group-hover:text-brand-red">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                  <span className="mt-4 text-xs font-semibold text-brand-red">
-                    לפרטים
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          heading="מה מקליטים אצלנו?"
+          subheading={`שירותים נפוצים לשיר, ברכה, חופה ובר/בת מצווה - פופולרי בקרב ${city.residentsLabel}.`}
+          links={GEO_STUDIO_POPULAR_SERVICES.map(mapGeoStudioServiceToHub)}
+          headingId={`${citySlug}-popular-heading`}
+          columns={2}
+        />
 
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
@@ -218,7 +188,7 @@ export default function GeoCityStudioPageContent({
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title={`שאלות נפוצות  -  אולפן ${city.nameHePrep}`}
+            title={`שאלות נפוצות, אולפן ${city.nameHePrep}`}
             className="py-0"
           />
         ) : null}
@@ -234,7 +204,7 @@ export default function GeoCityStudioPageContent({
             מוכנים להקליט את השיר שלכם?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            אל תחכו לרגע האחרון  -  מקומות מתמלאים בעונת האירועים. פגישת היכרות
+            אל תחכו לרגע האחרון, מקומות מתמלאים בעונת האירועים. פגישת היכרות
             או הקלטה ראשונה בוואטסאפ.
           </p>
           <a

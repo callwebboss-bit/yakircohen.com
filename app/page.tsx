@@ -10,10 +10,12 @@ import {
 import { SITE_URL } from "@/lib/site-url";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
+import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 
-const HOME_TITLE = "אולפן הקלטות מודיעין | תיקון זיופים, פודקאסט ואטרקציות - 24 שעות";
+const HOME_TITLE = "אולפן הקלטות מודיעין | תיקון זיופים, פודקאסט ואטרקציות, בדרך כלל 24 שעות";
 const HOME_DESCRIPTION =
-  "אולפן הקלטות מקצועי במודיעין. תיקון זיופים, קריינות אנושית, פודקאסט ואטרקציות לאירועים. פתח תקווה, שוהם וכל אזור המרכז - הצעה תוך 24 שעות.";
+  "אולפן הקלטות מקצועי במודיעין. תיקון זיופים, קריינות אנושית, פודקאסט ואטרקציות לאירועים. פתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך 24 שעות. " +
+  TIME_PROMISE_DISCLAIMER;
 
 export const metadata: Metadata = {
   title: HOME_TITLE,

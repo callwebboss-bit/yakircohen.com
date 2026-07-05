@@ -1,9 +1,10 @@
 /**
- * שאלות FAQ ממוקדות ביטויי חיפוש (AEO) — מקור משותף ל-UI ול-JSON-LD.
+ * שאלות FAQ ממוקדות ביטויי חיפוש (AEO), מקור משותף ל-UI ול-JSON-LD.
  * מחירים נמשכים מ-pricing-catalog (מקור אמת יחיד).
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 export type AeoFaqItem = {
   id: string;
@@ -57,7 +58,7 @@ export const PODCAST_HOW_TO_RECORD_FAQ: AeoFaqItem = {
   id: "how-to-record-podcast",
   question: "איך להקליט פודקאסט?",
   answer:
-    "קובעים תאריך, מגיעים לאולפן במודיעין, מקליטים ומצלמים עד שעה, ומקבלים פרק ערוך תוך 24 שעות. אין צורך בציוד ביתי - מספיק תוכן או נקודות לדיון. לפני ההגעה: טלפון על שקט, תסריט או שאלות מוכנות.",
+    `קובעים תאריך, מגיעים לאולפן במודיעין, מקליטים ומצלמים עד שעה, ומקבלים פרק ערוך ${TIME_CLAIMS.quote24h}. אין צורך בציוד ביתי - מספיק תוכן או נקודות לדיון. לפני ההגעה: טלפון על שקט, תסריט או שאלות מוכנות.`,
 };
 
 export const PODCAST_RECORDING_PRICE_FAQ: AeoFaqItem = {

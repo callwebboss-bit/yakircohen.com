@@ -4,9 +4,50 @@ import {
   EVENT_ATTRACTION_FROM_NIS,
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { appendYcLeadTag, emotionalLabelToId } from "@/lib/yc-lead-tag";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import {
+  QUALIFICATION_FIELDS_BY_ROUTE_ID,
+  type QualificationField,
+} from "@/lib/data/book-qualification-fields";
+
+export type { QualificationField } from "@/lib/data/book-qualification-fields";
+
+export type BookSuperCategory = "events" | "studio" | "learn" | "pro";
+
+export const BOOK_SUPER_CATEGORIES: {
+  id: BookSuperCategory;
+  label: string;
+  icon: string;
+  routeIds: readonly string[];
+}[] = [
+  {
+    id: "events",
+    label: "אירועים והפקות",
+    icon: "🎤",
+    routeIds: ["events-attractions", "dj-vip", "singer-amplification", "photo-clips"],
+  },
+  {
+    id: "studio",
+    label: "הקלטות ואולפן",
+    icon: "🎧",
+    routeIds: ["family-gifts", "podcast-content"],
+  },
+  {
+    id: "learn",
+    label: "לימוד והתפתחות",
+    icon: "📚",
+    routeIds: ["academy-learn"],
+  },
+  {
+    id: "pro",
+    label: "שירותים מקצועיים",
+    icon: "⚙️",
+    routeIds: ["online-restore", "pro-b2b"],
+  },
+] as const;
 
 export type AudienceCardVariant = "gold" | "neutral" | "luxury" | "academy" | "online";
 
@@ -25,6 +66,7 @@ export type BookAudienceRoute = {
   essenceMicroCopy: string;
   priceExVat: number;
   priceNote?: string;
+  scope?: PriceScope;
   startingPriceDual: string;
   upsellHint: string;
   emotionalQuestion: string;
@@ -41,7 +83,30 @@ export type BookAudienceRoute = {
   valueFrame: string;
   /** מזהה שירות ב-yakir-closer */
   closerServiceId: string;
+  /** bullets לכרטיס תמחור בדף הבית */
+  homeFeatures?: readonly string[];
+  /** כרטיס מודגש בגריד התמחור בדף הבית */
+  isFeatured?: boolean;
+  /** כותרת קצרה לכרטיס בדף הבית */
+  homeCardTitle?: string;
+  /** תיאור קצר לכרטיס בדף הבית */
+  homeCardDescription?: string;
+  /** עמוד שירות לקישור פנימי */
+  servicePageHref?: string;
+  /** תג פופולריות בכרטיס */
+  popularBadge?: string;
 };
+
+export function getQualificationFields(route: BookAudienceRoute): readonly QualificationField[] {
+  return QUALIFICATION_FIELDS_BY_ROUTE_ID[route.id] ?? [];
+}
+
+export function getSuperCategoryForRoute(routeId: string): BookSuperCategory | null {
+  for (const cat of BOOK_SUPER_CATEGORIES) {
+    if (cat.routeIds.includes(routeId)) return cat.id;
+  }
+  return null;
+}
 
 const STUDIO_FROM = 590;
 const SINGER_FROM = 2800;
@@ -66,6 +131,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "ליווי טכני מלא מהגעה לאולפן ועד לקובץ הסופי.",
     priceExVat: STUDIO_FROM,
     priceNote: "חבילת ברכה / הקלטה קצרה",
+    scope: getScopeById("blessing_recording"),
     startingPriceDual: dual(STUDIO_FROM),
     upsellHint: "אפשר להוסיף: קליפ BTS לרשתות - דואט משפחתי - פלייבק AI",
     emotionalQuestion: "מה הכי חשוב לך שיקרה באירוע?",
@@ -84,6 +150,15 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי\nשם החוגג/ת (מי יקליט): _____",
     valueFrame: "590₪ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך",
     closerServiceId: "recording",
+    homeCardTitle: "שיר בהפתעה וברכות",
+    homeCardDescription:
+      "הקלטת שיר או ברכה באולפן. ליווי טכני מהכניסה ועד קובץ מוכן.",
+    homeFeatures: [
+      "הקלטת שיר או ברכה באולפן",
+      "טיונינג ווקאלי ועריכה",
+      "מתאים לבר/בת מצווה, חתונה ומתנות",
+    ],
+    servicePageHref: "/studio",
   },
   {
     id: "podcast-content",
@@ -96,6 +171,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "התוכן שלכם יישמע מקצועי, ברור ומוכן לפרסום.",
     priceExVat: STUDIO_HALF_HOUR_NIS,
     priceNote: "חצי שעה באולפן",
+    scope: getScopeById("studio_half_hour"),
     startingPriceDual: dual(STUDIO_HALF_HOUR_NIS),
     upsellHint: "אפשר להוסיף: עריכת פרקים - חבילה חודשית - תמלול",
     emotionalQuestion: "מה התוכן שאתם רוצים שהעולם ישמע?",
@@ -112,8 +188,19 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "professional", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, אשמח לפרטים על הקלטת פודקאסט באולפן.\nמה שחסר לי: פרק ראשון / תוכן עסקי",
-    valueFrame: "פרק ראשון מוכן - בלי חודש ניסוי וטעייה",
+    valueFrame: TIME_CLAIMS.podcastValueFrame,
     closerServiceId: "podcast",
+    isFeatured: true,
+    popularBadge: "⭐ הבחירה הראשונה",
+    homeCardTitle: "הקלטת פודקאסט וקריינות",
+    homeCardDescription:
+      "סאונד צלול לתוכן עסקי ואישי. אולפן מאובזר, טכנאי צמוד ועריכה מלאה.",
+    homeFeatures: [
+      "שעת אולפן עם טכנאי צמוד",
+      "ניקוי רעשים ועריכה דיגיטלית",
+      "ייצוא ל-Spotify ו-Apple Podcasts",
+    ],
+    servicePageHref: "/podcast",
   },
   {
     id: "events-attractions",
@@ -126,6 +213,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "ציוד אפקטים מקצועי עם הפעלה בשטח. זמין לאירועי חוץ וחלל.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "אטרקציה בודדת",
+    scope: { includes: "הפעלה מקצועית בשטח" },
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
     upsellHint: "אפשר לשלב: 2-4 אטרקציות במחיר חבילה + קליפ מתנה",
     emotionalQuestion: "באיזה שלב של האירוע רוצים להוסיף אפקט?",
@@ -143,6 +231,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניינים באטרקציות לאירוע (עשן, בועות, זיקוקים וכו').\nמה שחסר לנו: אפקטים לאירוע",
     valueFrame: "אפקטים שמרימים את האירוע - בלי הפתעות ביום",
     closerServiceId: "effects_only",
+    servicePageHref: "/events/attractions",
   },
   {
     id: "dj-vip",
@@ -155,6 +244,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "DJ ואפקטים לאירועים. ניסיון בקהלים מעורבי-גיל ובסוגי אירועים שונים.",
     priceExVat: EVENT_ATTRACTION_FROM_NIS,
     priceNote: "מחיר התחלתי לאפקט / DJ",
+    scope: { includes: "DJ או אפקט בודד" },
     startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
     upsellHint: "אפשר לשלב: עשן + זיקוקים + LED במחיר חבילה",
     emotionalQuestion: "מהו הסגנון המוזיקלי לאירוע?",
@@ -172,6 +262,16 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, ראינו את שירותי ה-DJ והאפקטים לאירועים.\nמה שחסר לנו: DJ / אפקטים לאירוע",
     valueFrame: "DJ ואפקטים מקצועיים - מתוכנן ומתואם מראש",
     closerServiceId: "dj",
+    popularBadge: "🔥 המוביל",
+    homeCardTitle: "דיג׳יי בוטיק ופירוטכניקה",
+    homeCardDescription:
+      "DJ, הגברה ואפקטים לאירועים פרטיים ועסקיים. ציוד מלא והפעלה בשטח.",
+    homeFeatures: [
+      "DJ בוטיק עם התאמה מוזיקלית מלאה",
+      "מערכת הגברה ותאורה בשטח",
+      "עשן כבד, זיקוקים קרים ואפקטים",
+    ],
+    servicePageHref: "/events/dj-events",
   },
   {
     id: "singer-amplification",
@@ -184,6 +284,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "מערכת הגברה מלאה עם טכנאי סאונד נוכח לאורך האירוע.",
     priceExVat: SINGER_FROM,
     priceNote: "חבילת בסיס",
+    scope: { includes: "מערכת הגברה וטכנאי בשטח" },
     startingPriceDual: dual(SINGER_FROM),
     upsellHint: "אפשר להוסיף: צ'ק סאונד מוקדם - הקלטת ההופעה",
     emotionalQuestion: "מה הכי חשוב לך בביצוע?",
@@ -201,6 +302,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניין/ת בהגברה לזמרים לאירוע.\nמה שחסר לי: מערכת הגברה + טכנאי בשטח",
     valueFrame: "סאונד מקצועי על הבמה - אתם מתמקדים בשירה",
     closerServiceId: "live_sound",
+    servicePageHref: "/events/singer-amplification",
   },
   {
     id: "photo-clips",
@@ -213,6 +315,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "לשמר את הרגעים שחשובים לכם - בצילום ובוידאו.",
     priceExVat: PHOTO_FROM,
     priceNote: "שעת צילום באולפן / אירוע",
+    scope: getScopeById("studio_hour"),
     startingPriceDual: dual(PHOTO_FROM),
     upsellHint: "אפשר לשלב: חבילת AI - קליפ מקצועי - סרטון סיכום",
     emotionalQuestion: "מה אתם רוצים לתעד?",
@@ -230,6 +333,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניינים בצילום / קליפים לאירוע.\nמה שחסר לנו: צילום או וידאו",
     valueFrame: "רגעים חשובים שמורים - בצילום ובוידאו",
     closerServiceId: "recording",
+    servicePageHref: "/photography",
   },
   {
     id: "academy-learn",
@@ -242,6 +346,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "שיעורים פרטיים אחד-על-אחד באולפן, עם מי שעוסק בתחום על בסיס יומי.",
     priceExVat: ACADEMY_FROM,
     priceNote: "שיעור 60 דק׳ - Pro Session 90 דק׳ מ-1,280 ₪",
+    scope: { duration: "60 דקות", includes: "שיעור פרטי 1:1 באולפן" },
     startingPriceDual: dual(ACADEMY_FROM),
     upsellHint: "תחומים: פיתוח קול - DJ - הפקה - פסנתר - גיטרה",
     emotionalQuestion: "מה הכי חשוב לך להשתפר בו?",
@@ -259,6 +364,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניין/ת בשיעור פרטי עם יקיר באולפן.\nמה שחסר לי: ללמוד ולהשתפר ב",
     valueFrame: "פחות מיום עבודה, יותר משנה טעויות יקרות",
     closerServiceId: "academy",
+    servicePageHref: "/academy",
   },
   {
     id: "online-restore",
@@ -271,6 +377,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "נגיד לכם בכנות מה אפשר להציל - בלי התחייבות.",
     priceExVat: ONLINE_FROM,
     priceNote: "לכל 5 דקות - שחזור מלא לפי הערכה",
+    scope: { duration: "לכל 5 דקות", includes: "שחזור סאונד לפי הערכה" },
     startingPriceDual: dual(ONLINE_FROM),
     upsellHint: "בדיקת היתכנות חינם - שלחו קטע של 30 שניות",
     emotionalQuestion: "מה הכי מפריע לכם בסאונד?",
@@ -291,6 +398,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     feasibilityUtmCampaign: "book_online_feasibility",
     valueFrame: "מחזירים הקלטה שלא הייתם זורקים",
     closerServiceId: "online_ai",
+    servicePageHref: "/online",
   },
   {
     id: "pro-b2b",
@@ -303,6 +411,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "בית הייצור שלכם - מהרעיון לתוצר מוכן.",
     priceExVat: getExVat("dj_voice_tag_single"),
     priceNote: "תג קולי בודד",
+    scope: { includes: "תג קולי מוכן לשידור" },
     startingPriceDual: dual(getExVat("dj_voice_tag_single")),
     upsellHint: "אפשר לשלב: חבילת 5 תגים - מאשאפ חירום - פס ייצור חודשי",
     emotionalQuestion: "איזה שירות הכי דחוף לכם?",
@@ -321,6 +430,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניין/ת בשירותים מקצועיים מהאתר.\nמה שחסר לי: _____",
     valueFrame: "שירות מקצועי - בלי לנחש מחירים",
     closerServiceId: "dj_voice_tags",
+    servicePageHref: "/pro",
   },
 ] as const;
 
@@ -330,6 +440,13 @@ export const HOME_AUDIENCE_ROUTE_IDS = [
   "dj-vip",
 ] as const;
 
+/** סדר תצוגה בדף הבית - פודקאסט במרכז כ-Featured */
+export const HOME_AUDIENCE_DISPLAY_ORDER = [
+  "dj-vip",
+  "podcast-content",
+  "family-gifts",
+] as const;
+
 export function getAudienceRouteById(id: string): BookAudienceRoute | undefined {
   return BOOK_AUDIENCE_ROUTES.find((r) => r.id === id);
 }
@@ -337,12 +454,25 @@ export function getAudienceRouteById(id: string): BookAudienceRoute | undefined 
 export function buildFastWhatsAppMessage(
   route: BookAudienceRoute,
   emotionalAnswer?: string | null,
+  qualificationAnswers?: Record<string, string>,
 ): string {
   const priceLine = route.startingPriceDual.replace("כרגע: ", "ראינו ");
   const emotionLine = emotionalAnswer?.trim()
     ? `\nמה שחשוב לי: ${emotionalAnswer}`
     : "";
-  const base = `${route.whatsappFastMessageBase}${emotionLine}\n${priceLine}\nאשמח לשמוע על האפשרויות ושדרוגים.`;
+
+  const fields = getQualificationFields(route);
+  let qualLines = "";
+  if (qualificationAnswers && fields.length) {
+    const filled = fields
+      .filter((f) => qualificationAnswers[f.id]?.trim())
+      .map((f) => `${f.waLabel}: ${qualificationAnswers[f.id].trim()}`);
+    if (filled.length) {
+      qualLines = `\n${filled.join("\n")}`;
+    }
+  }
+
+  const base = `${route.whatsappFastMessageBase}${emotionLine}${qualLines}\n${priceLine}`;
   const emotionalId = emotionalLabelToId(emotionalAnswer);
   return appendYcLeadTag(base, {
     service: route.closerServiceId,

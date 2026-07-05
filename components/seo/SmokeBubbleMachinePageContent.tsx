@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import { attractionHubLinksExcluding } from "@/lib/data/attraction-hub-links";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -40,7 +42,7 @@ export default function SmokeBubbleMachinePageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      scarcityLabel="היט 2026  -  ביקוש גבוה בעונת האירועים"
+      scarcityLabel="היט 2026, ביקוש גבוה בעונת האירועים"
       pagePath="/events/attractions/bubble-machine/smoke-bubble-machine-events"
       faqs={service.faqs}
       {...heroProps}
@@ -55,7 +57,7 @@ export default function SmokeBubbleMachinePageContent() {
 
         <section className="max-w-3xl" aria-labelledby="smoke-bubble-intro">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            הכירו את האטרקציה שתכבוש את האורחים  -  מכונת בועות עשן. בועות סבון
+            הכירו את האטרקציה שתכבוש את האורחים, מכונת בועות עשן. בועות סבון
             מבריקות עם ענן עשן עדין בתוכן, לחתונות, בר/בת מצווה, אירועי חברה
             והופעות. חוויה 3 ב-1: אנחנו מגיעים, מתקינים, מפעילים ומפרקים.
           </p>
@@ -83,10 +85,10 @@ export default function SmokeBubbleMachinePageContent() {
             id="effect-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            תותחי בועות עשן  -  האפקט שגונב את ההצגה
+            תותחי בועות עשן, האפקט שגונב את ההצגה
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            תדמיינו בועות שבמקום להתפוצץ סתם  -  הן משחררות ענן עשן בנגיעה
+            תדמיינו בועות שבמקום להתפוצץ סתם, הן משחררות ענן עשן בנגיעה
             ברצפה. אפקט סופר מיוחד שממלא את הרחבה בגבהים שונים ויוצר תנועה
             ועניין שלא רואים עם עשן כבד קלאסי או בועות שקופות.
           </p>
@@ -139,7 +141,7 @@ export default function SmokeBubbleMachinePageContent() {
             בטיחות: נוזל Dry-Bubble (מונע החלקה)
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            בניגוד למכונות זולות שמשאירות שלוליות  -  המכונות שלנו משתמשות
+            בניגוד למכונות זולות שמשאירות שלוליות, המכונות שלנו משתמשות
             בנוזל בטכנולוגיית Dry-Bubble. הבועה מתפוצצת והשאריות מתנדפות כמעט
             מיד. אפקט מרהיב, רצפה בטוחה גם על עקבים.
           </p>
@@ -208,31 +210,20 @@ export default function SmokeBubbleMachinePageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
-            title="שאלות נפוצות  -  בועות עשן"
+            title="שאלות נפוצות, בועות עשן"
             className="py-0"
           />
         ) : null}
 
-        <section className="flex flex-wrap justify-center gap-3">
-          <Link
-            href="/events/attractions/bubble-machine"
-            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            כל סוגי הבועות
-          </Link>
-          <Link
-            href="/events/attractions/wedding-smoking-machine"
-            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            עשן כבד לסלואו
-          </Link>
-          <Link
-            href="/events/attractions/cold-fireworks"
-            className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-          >
-            זיקוקים קרים
-          </Link>
-        </section>
+        <ServiceHubLinks
+          headingId="smoke-bubble-related-heading"
+          heading="אטרקציות נוספות"
+          subheading="שילוב אפקטים לאירוע מושלם."
+          links={[
+            { href: "/events/attractions/bubble-machine", title: "כל סוגי הבועות", description: "בועות לחתונה, בר מצווה ואירועי ילדים." },
+            ...attractionHubLinksExcluding("/events/attractions/bubble-machine/smoke-bubble-machine-events", 3),
+          ]}
+        />
 
         <section
           className="rounded-xl border border-brand-red/25 bg-surface px-6 py-10 text-center"

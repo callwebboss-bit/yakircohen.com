@@ -8,6 +8,7 @@ import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import WeddingPhotoGalleries from "@/components/seo/WeddingPhotoGalleries";
 import WeddingPhotoTestimonials from "@/components/seo/WeddingPhotoTestimonials";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePricingBlock from "@/components/services/ServicePricingBlock";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -151,33 +152,12 @@ export default function WeddingPhotographyPageContent() {
           </div>
         </section>
 
-        <section aria-labelledby="related-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="related-heading"
-              className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
-            >
-              שירותים משלימים
-            </h2>
-          </header>
-          <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {WEDDING_PHOTO_RELATED.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block h-full rounded-xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
-                >
-                  <h3 className="font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                    {item.description}
-                  </p>
-                  <span className="mt-3 inline-block text-sm font-medium text-brand-red">
-                    לפרטים </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ServiceHubLinks
+          headingId="related-heading"
+          heading="שירותים משלימים"
+          subheading="שירותים שמשלימים את צילום החתונה באותו יום."
+          links={WEDDING_PHOTO_RELATED}
+        />
 
         <section className="py-4">
           <JourneyStepsLink variant="general" />

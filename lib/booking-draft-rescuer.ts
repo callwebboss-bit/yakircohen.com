@@ -1,8 +1,15 @@
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
+import {
+  buildQualificationResumeHref,
+  hasMeaningfulQualificationAnswers,
+  readBookQualificationDraft,
+} from "@/lib/book-qualification-draft";
+import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import { STUDIO_RECORDING_PACKAGES } from "@/lib/data/studio-recording-booking";
 import { EVENT_BOOKING_ITEMS } from "@/lib/data/events-booking";
 import { SINGER_PACKAGES } from "@/lib/data/singer-amplification-page";
+import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
 import { isRecord } from "@/lib/wizard-draft-parse";
 
 const STORAGE_PREFIX = "yakir-booking-draft:";
@@ -44,6 +51,31 @@ const DRAFT_REGISTRY: readonly DraftMeta[] = [
     storageKey: "singer_amplification",
     category: "singer",
     stepLabels: ["בחירת מערכת", "פרטי ההופעה", "אישור"],
+  },
+  {
+    storageKey: "dj-events",
+    category: "dj",
+    stepLabels: ["בחירת חבילה", "פרטי אירוע", "סיכום"],
+  },
+  {
+    storageKey: "photography",
+    category: "photography",
+    stepLabels: ["הגדרות צילום", "פרטי קשר", "סיכום"],
+  },
+  {
+    storageKey: "clips",
+    category: "clips",
+    stepLabels: ["בחירת שירותים", "פרטי קשר", "סיכום"],
+  },
+  {
+    storageKey: "academy",
+    category: "academy",
+    stepLabels: ["בחירת מפגש", "פרטי קשר", "סיכום"],
+  },
+  {
+    storageKey: "online-restore",
+    category: "online",
+    stepLabels: ["תיאור הבעיה", "פרטי קשר", "סיכום"],
   },
 ];
 
@@ -91,6 +123,29 @@ function resolvePackageLabel(
       const id = typeof data.packageId === "string" ? data.packageId : "";
       return SINGER_PACKAGES.find((p) => p.id === id)?.name ?? "הגברת זמר";
     }
+    case "dj": {
+      if (data.festivalSelected) return 'חבילת "פסטיבל"';
+      const djId = typeof data.djId === "string" ? data.djId : "";
+      if (djId === "dj_yakir") return "DJ יקיר כהן";
+      if (djId === "dj_team") return "DJ מהצוות";
+      return "DJ לאירועים";
+    }
+    case "photography": {
+      const hours = typeof data.hours === "number" ? data.hours : null;
+      return hours ? `צילום ${hours} שעות` : "צילום אירועים";
+    }
+    case "clips": {
+      const count = Array.isArray(data.selected) ? data.selected.length : 0;
+      return count > 0 ? `קליפים (${count} שירותים)` : "קליפים ודיגיטל";
+    }
+    case "academy": {
+      const id = typeof data.planId === "string" ? data.planId : "";
+      return PRIVATE_SESSION_PLANS.find((p) => p.id === id)?.name ?? "שיעור פרטי";
+    }
+    case "online": {
+      const issue = typeof data.issue === "string" ? data.issue.trim() : "";
+      return issue ? `שחזור סאונד - ${issue.slice(0, 24)}` : "שחזור סאונד";
+    }
     default:
       return "הזמנה";
   }
@@ -101,11 +156,28 @@ function resolveStep(data: unknown): number {
   return typeof data.step === "number" ? Math.max(0, data.step) : 0;
 }
 
-/** סורק טיוטות וויזארד שלא הושלמו — מחזיר את העדכנית ביותר עם step >= 1 */
+/** סורק טיוטות וויזארד שלא הושלמו, מחזיר את העדכנית ביותר עם step >= 1 */
 export function scanBookingDrafts(): RescuableDraft | null {
   if (typeof window === "undefined") return null;
 
   let best: RescuableDraft | null = null;
+
+  const qualSaved = readBookQualificationDraft();
+  if (
+    qualSaved &&
+    hasMeaningfulQualificationAnswers(qualSaved.data.answers)
+  ) {
+    const route = getAudienceRouteById(qualSaved.data.routeId);
+    best = {
+      category: qualSaved.data.categoryId,
+      storageKey: "book-qualification",
+      step: 1,
+      packageLabel: route?.title ?? "השלמת פרטים להצעה",
+      stepLabel: "השלמת פרטים",
+      resumeHref: buildQualificationResumeHref(qualSaved.data.routeId),
+      savedAt: qualSaved.savedAt,
+    };
+  }
 
   for (const meta of DRAFT_REGISTRY) {
     const envelope = readEnvelope(meta.storageKey);

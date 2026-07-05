@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useId, useState, type KeyboardEvent } from "react";
+import PriceScopeDisplay, { PriceScopeCompact } from "@/components/booking/PriceScopeDisplay";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
-  formatHubPriceRow,
   resolveRowBookHref,
   resolveRowDescription,
   resolveRowHref,
+  resolveRowScope,
   type PricingHubRow,
 } from "@/lib/data/pricing-hub";
 import { pricingRowBookCta } from "@/lib/data/conversion-copy";
@@ -54,7 +55,7 @@ export type PricingHubRowAccordionProps = {
   sectionHref: string;
   sectionBookHref?: string;
   sectionId: string;
-  /** בתוך אקורדיון קטגוריה — בלי מסגרת חיצונית כפולה */
+  /** בתוך אקורדיון קטגוריה, בלי מסגרת חיצונית כפולה */
   nested?: boolean;
 };
 
@@ -107,6 +108,7 @@ export default function PricingHubRowAccordion({
         const rowHref = resolveRowHref(row, sectionHref);
         const rowBookHref = resolveRowBookHref(row, sectionBookHref);
         const description = resolveRowDescription(row);
+        const scope = resolveRowScope(row);
 
         return (
           <li key={rowKey}>
@@ -117,13 +119,18 @@ export default function PricingHubRowAccordion({
               )}
             >
               <div className="flex min-h-12 items-center gap-2">
-                <Link
-                  href={rowHref}
-                  className={`${linkClass} flex-1 py-3 text-sm font-medium text-foreground hover:text-brand-red`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {row.label}
-                </Link>
+                <div className="flex min-w-0 flex-1 flex-col py-3">
+                  <Link
+                    href={rowHref}
+                    className={`${linkClass} text-sm font-medium text-foreground hover:text-brand-red`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {row.label}
+                  </Link>
+                  {!isOpen ? (
+                    <PriceScopeCompact exVat={row.exVat} scope={scope} className="mt-1" />
+                  ) : null}
+                </div>
                 <button
                   id={triggerId}
                   type="button"
@@ -157,9 +164,9 @@ export default function PricingHubRowAccordion({
                 {description ? (
                   <p className="text-sm text-muted-foreground">{description}</p>
                 ) : null}
-                <p className="mt-2 text-sm font-semibold tabular-nums text-foreground">
-                  {formatHubPriceRow(row.exVat)}
-                </p>
+                <div className="mt-2">
+                  <PriceScopeDisplay exVat={row.exVat} scope={scope} size="sm" />
+                </div>
                 <Link
                   href={rowBookHref}
                   className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light`}

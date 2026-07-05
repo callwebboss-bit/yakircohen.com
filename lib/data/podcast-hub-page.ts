@@ -1,18 +1,21 @@
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import type { TestimonialItem } from "@/components/marketing/Testimonials";
+
 export type PodcastExampleVideo = {
   videoId: string;
   title: string;
 };
 
 export const PODCAST_EXAMPLE_VIDEOS: readonly PodcastExampleVideo[] = [
-  { videoId: "q1Omi-3L3QM", title: "דוגמה  -  פודקאסט מהאולפן" },
-  { videoId: "eKGkeVYzUl4", title: "דוגמה  -  הפקת פודקאסט מלאה" },
+  { videoId: "q1Omi-3L3QM", title: "דוגמה, פודקאסט מהאולפן" },
+  { videoId: "eKGkeVYzUl4", title: "דוגמה, הפקת פודקאסט מלאה" },
 ] as const;
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
-  "פרק מוכן להעלאה תוך 24 שעות",
+  `פרק ${TIME_CLAIMS.podcastDelivery24h} להעלאה`,
   "4 מתחמי הקלטה עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
   "מצלמות Sony ZV-E10 + DJI Osmo 4 + צילום 4K רב-זוויתי",
-  "Shure & Rode + ממשקי UAD + iZotope - שרשרת סאונד אולפנית",
+  "שרשרת סאונד אולפנית - ממשקי UAD + iZotope",
   "WAV + MP3 + MP4 + קובץ RSS + הדרכת הפצה לספוטיפיי ואפל",
 ] as const;
 
@@ -24,12 +27,12 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   {
     emoji: "🎬",
     title: "3 חללי הקלטה",
-    description: "אורבני, ירוק או רשמי  -  בוחרים את האווירה שמתאימה לכם.",
+    description: "אורבני, ירוק או רשמי, בוחרים את האווירה שמתאימה לכם.",
   },
   {
     emoji: "🎙️",
     title: "סאונד אולפני",
-    description: "מיקרופונים דינמיים Shure & Rode  -  הקלטה ישירה למערכת אולפן.",
+    description: "מיקרופונים דינמיים מקצועיים, הקלטה ישירה למערכת אולפן.",
   },
   {
     emoji: "📹",
@@ -39,12 +42,12 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   {
     emoji: "📤",
     title: "מוכן להעלאה",
-    description: "MP3 לספוטיפיי ואפל, קובץ RSS מוכן להפצה  -  MP4 ליוטיוב.",
+    description: "MP3 לספוטיפיי ואפל, קובץ RSS מוכן להפצה, MP4 ליוטיוב.",
   },
   {
     emoji: "⚡",
-    title: "מוכן תוך 24 שעות",
-    description: "מגיעים, מדברים  -  ויוצאים עם פרק מוכן. הטכניקה עלינו.",
+    title: TIME_CLAIMS.podcastDelivery24h,
+    description: "אתם מדברים, אנחנו דואגים לטכניקה, לעריכה ולמסירה.",
   },
   {
     emoji: "✂️",
@@ -61,22 +64,22 @@ export const PODCAST_HUB_AUDIENCES: readonly {
   {
     emoji: "🏢",
     title: "חברות",
-    description: "פודקאסט תדמיתי/שיווקי ברמה גבוהה  -  בלי צוות הפקה פנימי.",
+    description: "פודקאסט תדמיתי/שיווקי ברמה גבוהה, בלי צוות הפקה פנימי.",
   },
   {
     emoji: "🎥",
     title: "יוצרי תוכן",
-    description: "להתמקד בתוכן, לא בטכניקה  -  אנחנו דואגים לשאר.",
+    description: "להתמקד בתוכן, לא בטכניקה, אנחנו דואגים לשאר.",
   },
   {
     emoji: "💡",
     title: "מומחים ויועצים",
-    description: "לחלוק ידע בלי להיות טכנאים  -  פשוט מגיעים ומדברים.",
+    description: "לחלוק ידע בלי להיות טכנאים, פשוט מגיעים ומדברים.",
   },
   {
     emoji: "📈",
     title: "בעלי עסקים",
-    description: "פודקאסט מקצועי בלי להתעסק  -  תוצאה מוכנה להעלאה.",
+    description: "פודקאסט מקצועי בלי להתעסק, תוצאה מוכנה להעלאה.",
   },
 ] as const;
 
@@ -88,7 +91,7 @@ export const PODCAST_HUB_STUDIO_SPACES: readonly {
   {
     emoji: "🏛️",
     title: "החלל הרשמי",
-    description: "מקצועי ויוקרתי  -  עיצוב אלגנטי, תחושת פרימיום.",
+    description: "מקצועי ויוקרתי, עיצוב אלגנטי, תחושת פרימיום.",
   },
   {
     emoji: "🌿",
@@ -98,7 +101,7 @@ export const PODCAST_HUB_STUDIO_SPACES: readonly {
   {
     emoji: "🏙️",
     title: "החלל האורבני",
-    description: "מודרני ונעים  -  קירות חשופים, אווירה אורבנית.",
+    description: "מודרני ונעים, קירות חשופים, אווירה אורבנית.",
   },
 ] as const;
 
@@ -112,15 +115,15 @@ export const PODCAST_HUB_INCLUDED: readonly {
   },
   {
     title: "טלפרומפטר",
-    description: "לא צריכים לזכור הכל  -  קוראים בנוחות מול המצלמה.",
+    description: "לא צריכים לזכור הכל, קוראים בנוחות מול המצלמה.",
   },
   {
     title: "אוזניות לכל משתתף",
-    description: "שומעים את עצמכם בזמן אמת  -  שליטה בקצב ובביטחון.",
+    description: "שומעים את עצמכם בזמן אמת, שליטה בקצב ובביטחון.",
   },
   {
     title: "הקלטת סאונד אולפנית",
-    description: "Shure, Rode, Audio-Technica  -  הקלטה ישירה למערכת אולפן.",
+    description: "מיקרופונים ומגברים מקצועיים, הקלטה ישירה למערכת אולפן.",
   },
   {
     title: "צילום וידאו",
@@ -128,7 +131,7 @@ export const PODCAST_HUB_INCLUDED: readonly {
   },
   {
     title: "קבצים סופיים",
-    description: "MP4 (1080p/4K) + MP3 מנורמל  -  מוכן להפצה.",
+    description: "MP4 (1080p/4K) + MP3 מנורמל, מוכן להפצה.",
   },
   {
     title: "תיקוני צבע",
@@ -136,7 +139,7 @@ export const PODCAST_HUB_INCLUDED: readonly {
   },
   {
     title: "שיפור סאונד",
-    description: "נורמליזציה ושיפור קולי  -  נשמע ברור ומאוזן בכל פלטפורמה.",
+    description: "נורמליזציה ושיפור קולי, נשמע ברור ומאוזן בכל פלטפורמה.",
   },
   {
     title: "חיתוך ועריכה",
@@ -152,27 +155,27 @@ export const PODCAST_HUB_WORKFLOW: readonly {
   {
     step: "1",
     title: "תיאום ותכנון",
-    body: "יוצרים קשר, מתאמים תאריך ובוחרים חלל  -  אורבני, ירוק או רשמי.",
+    body: "יוצרים קשר, מתאמים תאריך ובוחרים חלל, אורבני, ירוק או רשמי.",
   },
   {
     step: "2",
     title: "הגעה לאולפן",
-    body: "מגיעים לאולפן במודיעין, מתארגנים בנוחות  -  חניה בשפע.",
+    body: "מגיעים לאולפן במודיעין, מתארגנים בנוחות, חניה בשפע.",
   },
   {
     step: "3",
     title: "הקלטה וצילום",
-    body: "עד שעה של צילום  -  אתם מדברים, אנחנו דואגים לשאר.",
+    body: "עד שעה של צילום, אתם מדברים, אנחנו דואגים לשאר.",
   },
   {
     step: "4",
     title: "עריכה מקצועית",
-    body: "לוקחים את החומר ועורכים אותו  -  חיתוך, תיקוני צבע וסאונד מקצועי.",
+    body: "לוקחים את החומר ועורכים אותו, חיתוך, תיקוני צבע וסאונד מקצועי.",
   },
   {
     step: "5",
     title: "פרק מוכן!",
-    body: "תוך 24 שעות  -  קבצים מוכנים להעלאה לספוטיפיי ויוטיוב.",
+    body: `${TIME_CLAIMS.podcastDelivery24h}, קבצים מוכנים להעלאה לספוטיפיי ויוטיוב.`,
   },
 ] as const;
 
@@ -191,7 +194,7 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "professional-vs-home",
     question: "מה ההבדל בין הקלטת פודקאסט באולפן מקצועי לבין הקלטה ביתית?",
     answer:
-      "חדר הקלטה עם בידוד אקוסטי מלא מחסל רעשי רקע, אקו ותהודה שפוגעים באיכות ההקלטה הביתית. ציוד Shure ו-Rode מקצועי מעביר את הקול בבהירות מלאה, ושיפור הקלטות בבינה מלאכותית מנקה כל שאריות. התוצאה בטווח שידורי מקצועי - לא כמו שיחת זום.",
+      "חדר הקלטה עם בידוד אקוסטי מלא מחסל רעשי רקע, אקו ותהודה שפוגעים באיכות ההקלטה הביתית. ציוד ההקלטה המקצועי מעביר את הקול בבהירות מלאה, ושיפור הקלטות בבינה מלאכותית מנקה כל שאריות. התוצאה בטווח שידורי מקצועי - לא כמו שיחת זום.",
   },
   {
     id: "price",
@@ -266,35 +269,58 @@ export const PODCAST_HUB_FAQS: readonly {
   },
 ] as const;
 
-export const PODCAST_HUB_TESTIMONIALS: readonly {
-  quote: string;
-  name: string;
-  role: string;
-}[] = [
+export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
   {
+    id: "podcast-hub-1",
     quote:
       "תוך שעה הכנסנו, דיברנו, ויצאנו עם פרק מוכן. הסאונד יצא כמו רדיו מקצועי. ממליץ בחום.",
     name: "דניאל כ.",
     role: "בעל עסק, מודיעין",
+    initials: "דכ",
+    datePublished: "2025-07-18",
+    serviceCategory: "podcast",
+    serviceHref: "/podcast",
+    serviceLabel: "אולפן פודקאסט",
+    projectImageSrc:
+      "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
+    projectImageAlt: "הקלטת פודקאסט באולפן",
   },
   {
+    id: "podcast-hub-2",
     quote:
       "לא האמנתי שאפשר להקליט פודקאסט משפחתי ברמה כזאת. יקיר ידע בדיוק איך לגרום לנו להרגיש בנוח.",
     name: "מיכל ש.",
     role: "פודקאסט עם סבא",
+    initials: "מש",
+    datePublished: "2025-11-02",
+    serviceCategory: "podcast",
+    serviceHref: "/podcast/podcast-with-grandpa",
+    serviceLabel: "פודקאסט עם סבא",
+    projectImageSrc:
+      "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
+    projectImageAlt: "פודקאסט משפחתי באולפן",
   },
   {
+    id: "podcast-hub-3",
     quote:
       "הגשנו 3 פרקים לספוטיפיי שבוע אחרי שהתחלנו. הצוות דאג לכל הטכנולוגיה ואנחנו רק דיברנו.",
     name: "רן א.",
     role: "יוצר תוכן, ירושלים",
+    initials: "רא",
+    datePublished: "2026-01-22",
+    serviceCategory: "podcast",
+    serviceHref: "/podcast/podcast-production",
+    serviceLabel: "הפקת פודקאסט",
+    projectImageSrc:
+      "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
+    projectImageAlt: "הקלטת פודקאסט",
   },
 ] as const;
 
 export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "חוסכים זמן ואנרגיה",
   "תוצאה מקצועית",
-  "מוכן תוך 24 שעות",
+  TIME_CLAIMS.podcastDelivery24h,
   "נוח ופשוט",
   "משתלם כלכלית",
 ] as const;
@@ -342,7 +368,7 @@ export const PODCAST_HUB_PRICING_PACKAGES: readonly {
     id: "audio-production",
     badge: "הכי פופולרי",
     title: "הפקת פודקאסט אודיו",
-    subtitle: "הפתרון המלא - מגיעים, מדברים, ויוצאים",
+    subtitle: "הפתרון המלא - שעת סטודיו, עריכה וקובץ מוכן",
     priceFrom: _audioPrice,
     features: [
       "הקלטה מלאה של עד שעה - בלי לחץ",
@@ -365,7 +391,7 @@ export const PODCAST_HUB_PRICING_PACKAGES: readonly {
     priceFrom: PODCAST_STARTER_PRICE,
     features: [
       "זמן הקלטה של עד 30 דקות - בלי לחץ",
-      "ציוד Shure & Rode - סאונד ברמת רדיו",
+      "ציוד הקלטה מקצועי - סאונד ברמת רדיו",
       "3 חללי הקלטה לבחירה",
       "קובץ MP3 גולמי איכותי, מוכן לעריכה",
       "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -29,18 +29,30 @@ import {
   PODCAST_HUB_STARTING_PRICE_NOTE,
   PODCAST_HUB_STUDIO_SPACES,
   PODCAST_HUB_TESTIMONIALS,
+  PODCAST_HUB_WORKFLOW,
 } from "@/lib/data/podcast-hub-page";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
-import HubDualCta from "@/components/marketing/HubDualCta";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+import {
+  PODCAST_HUB_TRACKS_CONTENT,
+  PODCAST_HUB_TRACKS_STUDIO,
+  PODCAST_HUB_TRACKS_SUPPORT,
+} from "@/lib/data/podcast-hub-tracks";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { PODCAST_HUB_SEO } from "@/lib/seo/hub-pages";
+import { SKEPTICISM_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { absoluteUrl } from "@/lib/site-url";
+import {
+  GOOGLE_RATING,
+  GOOGLE_REVIEW_COUNT,
+  STUDIO_GOOGLE_MAPS_URL,
+} from "@/lib/constants";
 
 const bookCta = resolveServiceBookCta("podcast");
 
@@ -59,52 +71,12 @@ const pageHero = resolvePodcastFolderHero(
 );
 const heroProps = withServicePageHeroDefaults(pageHero);
 
-export const PODCAST_HUB_TRACKS = [
-  {
-    href: "/podcast/podcast-with-grandpa",
-    title: "פודקאסט עם סבא וסבתא",
-    description: "חוויה משפחתית  -  פודקאסט + הקלטת שיר, קובץ דיגיטלי שנשמר.",
-  },
-  {
-    href: "/podcast/podcast-recording",
-    title: "צילום והקלטת פודקאסט",
-    description: "הפקה מלאה  -  פרק מוכן תוך 24 שעות, החל מ-2,500 ₪.",
-  },
-  {
-    href: "/podcast/podcast-production",
-    title: "הפקת פודקאסט מא׳ עד ת׳",
-    description: "ליווי ארוך טווח  -  תכנון, מיתוג והפצה.",
-  },
-  {
-    href: "/podcast/corporate-podcast",
-    title: "פודקאסט ארגוני לחברות",
-    description: "מיתוג מעסיק ושיווק תוכן  -  הפקה מלאה, ספוטיפיי, חשבונית מס.",
-  },
-  {
-    href: "/podcast/podcast-studio-modiin",
-    title: "השכרת סטודיו / אולפן במודיעין",
-    description: "הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.",
-  },
-  {
-    href: "/podcast/mobile-podcast-at-home",
-    title: "פודקאסט נייד עד הבית",
-    description: "האולפן מגיע אליכם  -  בית, משרד או אירוע.",
-  },
-  {
-    href: "/podcast/podcast-editing",
-    title: "עריכת פודקאסט מלאה",
-    description: "ניקוי, שיפור קול וחיתוך  -  פרק מוכן לפרסום.",
-  },
-  {
-    href: "/podcast/bulk-production",
-    title: "פס ייצור לעסקים",
-    description: "מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע.",
-  },
-  {
-    href: "/podcast/faq",
-    title: "שאלות ותשובות",
-    description: "מחירים, הכנה להקלטה וזמני סטודיו.",
-  },
+/** נתוני אמינות - קבוצה נפרדת ממחירים/מפרט טכני, כדי שלא יתערבבו */
+const CREDIBILITY_STATS = [
+  { emoji: "🏆", value: "20+", label: "שנות ניסיון" },
+  { emoji: "🎧", value: "5,000+", label: "לקוחות מרוצים" },
+  { emoji: "⭐", value: `${GOOGLE_RATING} / 5`, label: "דירוג ממוצע בגוגל" },
+  { emoji: "💬", value: `${GOOGLE_REVIEW_COUNT}+`, label: "ביקורות מאומתות" },
 ] as const;
 
 const VALUE_PILLARS = [
@@ -128,7 +100,7 @@ const VALUE_PILLARS = [
 export default function PodcastHubPageContent() {
   const whatsappHref = buildWhatsAppHref({
     text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת בהקלטת פודקאסט מקצועית באולפן  -  אשמח לשמוע על חבילות וזמינות.",
+      "שלום, מעוניין/ת בהקלטת פודקאסט מקצועית באולפן, אשמח לשמוע על חבילות וזמינות.",
     ),
     utm_source: "website",
     utm_campaign: "podcast_hub_cta",
@@ -157,11 +129,11 @@ export default function PodcastHubPageContent() {
         title="אולפן פודקאסט מקצועי במודיעין - מחיר שקוף"
         subtitle="4 מתחמי הקלטה, מיקרופוני Shure & Rode, בידוד אקוסטי מלא וצילום Sony 4K. מגיעים, מדברים, ויוצאים עם תוכנית שמע מוכנה - MP3 לספוטיפיי ואפל, MP4 ליוטיוב."
         features={PODCAST_HUB_HERO_FEATURES}
-        whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין  -  אשמח לשמוע על חבילות וזמינות."
+        whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
         corporateShareLabel="שירות הפקת הפודקאסטים"
-        valueFrame="פרק ראשון מוכן - בלי חודש ניסוי וטעייה"
-        scarcityLabel="פרק מוכן תוך 24 שעות"
+        valueFrame={TIME_CLAIMS.podcastValueFrame}
+        scarcityLabel="🔥 פנויים השבוע ל-3 פרויקטים בלבד"
         ctaLabel="קבעו הקלטה בוואטסאפ"
         showBookCtaInHero={Boolean(bookCta)}
         bookHref={bookCta?.bookHref}
@@ -197,9 +169,58 @@ export default function PodcastHubPageContent() {
             </div>
           </aside>
 
-          <ClientJourneySteps variant="podcast" display="compact" />
+          {/* ── TRUST: credibility numbers only - service numbers (price/duration) live in their own sections below ── */}
+          <ul
+            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+            aria-label="נתוני אמינות"
+          >
+            {CREDIBILITY_STATS.map((stat) => (
+              <li
+                key={stat.label}
+                className="rounded-xl border border-border bg-surface px-4 py-5 text-center"
+              >
+                <span className="text-2xl" aria-hidden>
+                  {stat.emoji}
+                </span>
+                <p className="mt-2 text-2xl font-bold text-foreground">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {stat.label}
+                </p>
+              </li>
+            ))}
+          </ul>
 
           <TableOfContents entries={PODCAST_HUB_TOC} className="max-w-xs" />
+
+          {/* ── PROCESS: how a recording session actually runs ─── */}
+          <section aria-labelledby="process-heading" className="border-y border-border bg-surface py-10">
+            <h2
+              id="process-heading"
+              className="text-center font-serif text-section-title font-semibold text-foreground"
+            >
+              מה קורה בפועל, שלב אחר שלב
+            </h2>
+            <ol className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+              {PODCAST_HUB_WORKFLOW.map((step) => (
+                <li key={step.step} className="text-center">
+                  <div
+                    className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-brand-red ring-1 ring-brand-red/40"
+                    aria-hidden="true"
+                  >
+                    {step.step}
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-foreground">
+                    {step.title}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {step.body}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
 
           {/* ── C: VALUE PROPOSITION ───────────────────────────── */}
           <section aria-labelledby="value-prop-heading">
@@ -214,8 +235,11 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                ציוד Shure &amp; Rode, מיקרופונים דינמיים, בידוד אקוסטי, קובץ RSS מוכן - פרק מוכן תוך 24
+                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - פרק מוכן תוך 24
                 שעות.
+              </p>
+              <p className="mt-4 text-sm font-semibold text-brand-red">
+                {SKEPTICISM_CTA}
               </p>
             </header>
 
@@ -310,7 +334,7 @@ export default function PodcastHubPageContent() {
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 לחברות, מומחים, יועצים ויוצרי תוכן שרוצים לבנות נוכחות
                 דיגיטלית ברמה גבוהה - בלי צוות הפקה פנימי. הקלטת פודקאסט עם
-                צילום 4K, עריכה מקצועית ומסירה תוך 24 שעות.
+                צילום 4K, עריכה מקצועית ומסירה {TIME_CLAIMS.quote24h}.
               </p>
               <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {PODCAST_HUB_AUDIENCES.map((item) => (
@@ -411,6 +435,37 @@ export default function PodcastHubPageContent() {
                 אולפן פודקאסט במודיעין. לפני מע״מ (+18%). ללא הפתעות.
               </p>
             </header>
+
+            {/* Comparison table - one glance, no scrolling back and forth */}
+            <div className="mt-8 overflow-x-auto rounded-2xl border border-border">
+              <table className="w-full min-w-[560px] border-collapse text-sm">
+                <thead>
+                  <tr className="bg-surface text-foreground">
+                    <th className="p-4 text-start font-semibold">סוג שירות</th>
+                    <th className="p-4 text-start font-semibold">מה כלול</th>
+                    <th className="p-4 text-start font-semibold">זמן הקלטה</th>
+                    <th className="p-4 text-start font-semibold">מחיר</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {PODCAST_HUB_PRICING_PACKAGES.map((pkg, i) => (
+                    <tr
+                      key={pkg.id}
+                      className={i % 2 === 0 ? "bg-background" : "bg-surface/50"}
+                    >
+                      <td className="p-4 font-semibold text-foreground">{pkg.title}</td>
+                      <td className="p-4 text-muted-foreground">{pkg.subtitle}</td>
+                      <td className="p-4 text-muted-foreground">
+                        {pkg.id === "recording-only" ? "עד 30 דקות" : "עד שעה"}
+                      </td>
+                      <td className="p-4 font-semibold text-foreground">
+                        החל מ-{pkg.priceFrom.toLocaleString("he-IL")} ₪
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
               {PODCAST_HUB_PRICING_PACKAGES.map((pkg) => {
@@ -578,40 +633,21 @@ export default function PodcastHubPageContent() {
                 מה אומרים מי שכבר הקליטו
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                לקוחות שהגיעו לאולפן הפודקאסט במודיעין
+                המלצות מלקוחות פודקאסט, עם קישור להקשר המלא לכל אחת.
               </p>
+              <Link
+                href={STUDIO_GOOGLE_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-red hover:underline"
+              >
+                צפו ב-{GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google Maps ↗
+              </Link>
             </header>
             <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {PODCAST_HUB_TESTIMONIALS.map((t) => (
-                <li
-                  key={t.name}
-                  className="rounded-xl border border-border bg-surface p-6"
-                >
-                  <div
-                    className="flex gap-0.5 text-brand-red"
-                    aria-label="דירוג 5 כוכבים"
-                  >
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <svg
-                        key={i}
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="h-4 w-4"
-                        aria-hidden
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <blockquote className="mt-4 text-sm leading-relaxed text-foreground">
-                    &ldquo;{t.quote}&rdquo;
-                  </blockquote>
-                  <footer className="mt-4">
-                    <p className="text-xs font-semibold text-foreground">
-                      {t.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </footer>
+              {PODCAST_HUB_TESTIMONIALS.map((item) => (
+                <li key={item.id}>
+                  <TestimonialCard item={item} />
                 </li>
               ))}
             </ul>
@@ -629,18 +665,18 @@ export default function PodcastHubPageContent() {
           {/* ── H: MICRO-CONVERSION LEAD FORM ──────────────────── */}
           <PodcastLeadForm />
 
-          {/* ── I: FINAL CTA ───────────────────────────────────── */}
+          {/* ── I: FINAL CTA - deliberately the only dark section on the page, so the button reads as "the" action ── */}
           <section
-            className="rounded-2xl border border-border bg-surface p-8 text-center sm:p-10"
+            className="rounded-2xl bg-foreground p-8 text-center text-background sm:p-10"
             aria-labelledby="podcast-cta-heading"
           >
             <h2
               id="podcast-cta-heading"
-              className="text-xl font-semibold text-foreground sm:text-2xl"
+              className="text-xl font-semibold sm:text-2xl"
             >
               מוכנים להתחיל את הפודקאסט שלכם?
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-background/70">
               אולפן הפודקאסט המקצועי במודיעין זמין לכם. תפסיקו לחשוב על זה -
               תתחילו לדבר.
             </p>
@@ -648,65 +684,66 @@ export default function PodcastHubPageContent() {
               {PODCAST_HUB_CTA_BENEFITS.map((benefit) => (
                 <li
                   key={benefit}
-                  className="rounded-full border border-brand-red/25 bg-brand-red/5 px-3 py-1 text-xs font-medium text-foreground"
+                  className="rounded-full border border-background/25 bg-background/10 px-3 py-1 text-xs font-medium"
                 >
                   {benefit} ✓
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-lg font-semibold text-brand-red">
+            <p className="mt-6 text-lg font-semibold text-brand-red-light">
               החל מ-{PODCAST_HUB_STARTING_PRICE} ₪ לפרק של חצי שעה
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-sm text-background/70">
               {PODCAST_HUB_STARTING_PRICE_NOTE}
             </p>
             <div className="mt-8">
               <TimeSaverRoiSliderLazy variant="podcast" />
             </div>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-[0_0_30px_rgba(212,43,43,0.4)] hover:bg-brand-red-light"
+            >
+              קבעו הקלטה עכשיו, {TIME_CLAIMS.podcastDelivery24h}
+            </a>
             {bookCta ? (
-              <HubDualCta
-                className="mt-7"
-                whatsappHref={whatsappHref}
-                whatsappLabel="קבעו הקלטה בוואטסאפ "
-                bookHref={bookCta.bookHref}
-                bookLabel={bookCta.bookLabel}
-              />
+              <div className="mt-4">
+                <Link
+                  href={bookCta.bookHref}
+                  className="text-sm font-semibold text-background underline underline-offset-4 hover:text-background/80"
+                >
+                  {bookCta.bookLabel}
+                </Link>
+              </div>
             ) : null}
           </section>
 
-          {/* ── RELATED TRACKS ─────────────────────────────────── */}
-          <section aria-labelledby="tracks-heading">
-            <header className="mx-auto max-w-2xl text-center">
-              <h2
-                id="tracks-heading"
-                className="font-serif text-section-title font-semibold text-foreground"
-              >
-                מסלולים נוספים
-              </h2>
-              <p className="mt-3 text-sm text-muted-foreground">
-                לפי השלב שבו אתם  -  או שלבו כמה שירותים לחבילה אחת.
-              </p>
-            </header>
-            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {PODCAST_HUB_TRACKS.map((track) => (
-                <li key={track.href}>
-                  <Link
-                    href={track.href}
-                    className="group hover-lift flex h-full flex-col rounded-xl border border-border bg-surface p-6 hover:border-brand-red/40"
-                  >
-                    <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-brand-red">
-                      {track.title}
-                    </h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {track.description}
-                    </p>
-                    <span className="mt-4 text-xs font-semibold text-brand-red">
-                      לפרטים </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <div className="space-y-10" aria-label="מסלולים נוספים - לפי השלב שבו אתם">
+            <ServiceHubLinks
+              heading="הפקת תוכן מוכן"
+              subheading="פרקים גמורים - מהקלטה ועד קובץ מוכן להעלאה."
+              links={PODCAST_HUB_TRACKS_CONTENT}
+              headingId="tracks-content-heading"
+              columns={3}
+            />
+
+            <ServiceHubLinks
+              heading="אולפן וחלל הקלטה"
+              subheading="בוחרים איפה מקליטים - במודיעין או שהאולפן מגיע אליכם."
+              links={PODCAST_HUB_TRACKS_STUDIO}
+              headingId="tracks-studio-heading"
+              columns={2}
+            />
+
+            <ServiceHubLinks
+              heading="עריכה ותמיכה"
+              subheading="כבר יש לכם הקלטה? כאן משפרים ועונים על שאלות."
+              links={PODCAST_HUB_TRACKS_SUPPORT}
+              headingId="tracks-support-heading"
+              columns={2}
+            />
+          </div>
 
           <section
             className="flex flex-wrap justify-center gap-3"

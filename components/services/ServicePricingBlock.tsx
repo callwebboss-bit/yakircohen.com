@@ -1,6 +1,7 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
+import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
+import PriceScopeDisplay from "@/components/booking/PriceScopeDisplay";
 import PriceSocialProof from "@/components/booking/PriceSocialProof";
-import PriceWithVat from "@/components/booking/PriceWithVat";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { whatsappAriaLabel, whatsappQuoteCta } from "@/lib/data/conversion-copy";
 import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
@@ -70,16 +71,21 @@ export default function ServicePricingBlock({
                     {tier.name}
                   </h3>
                   {tier.priceExVat !== undefined ? (
-                    <PriceWithVat amountExVat={tier.priceExVat} size="md" compact />
+                    <PriceScopeDisplay
+                      exVat={tier.priceExVat}
+                      scope={tier.scope}
+                      size="md"
+                      showFromPrefix={false}
+                    />
                   ) : (
                     <p className="text-xl font-semibold text-[var(--service-accent-ink,#8a1c1c)]">{tier.price}</p>
                   )}
                 </div>
                 {tier.priceExVat !== undefined ? (
                   <>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      כולל מע״מ - {tier.priceNote ?? "לפני מע״מ +18%"}
-                    </p>
+                    {tier.scope ? null : tier.priceNote ? (
+                      <p className="mt-1 text-xs text-muted-foreground">{tier.priceNote}</p>
+                    ) : null}
                     {tier.featured ? (
                       <PriceSocialProof className="mt-2" testimonialIndex={1} />
                     ) : null}
@@ -92,6 +98,7 @@ export default function ServicePricingBlock({
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
                   {tier.description}
                 </p>
+                <CheckoutTrustMicro variant="card" className="mt-4" />
                 <a
                   href={whatsappHref}
                   target="_blank"

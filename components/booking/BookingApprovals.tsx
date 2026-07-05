@@ -45,6 +45,15 @@ export default function BookingApprovals({
             </li>
           ))}
         </ul>
+        <p className="text-xs text-muted-foreground">
+          <Link href="/terms" className="font-semibold text-brand-red hover:underline">
+            תנאי שירות
+          </Link>
+          {" · "}
+          <Link href="/privacy" className="font-semibold text-brand-red hover:underline">
+            מדיניות פרטיות
+          </Link>
+        </p>
         <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-background p-3">
           <input
             type="checkbox"
@@ -53,7 +62,9 @@ export default function BookingApprovals({
             className="mt-0.5 h-4 w-4 accent-brand-red"
             aria-required
           />
-          <span className="text-sm text-foreground">קראתי ומאשר/ת</span>
+          <span className="text-sm text-foreground">
+            קראתי ומאשר/ת את תנאי השירות ומדיניות הפרטיות
+          </span>
         </label>
         {termsError ? (
           <p className="text-xs text-red-500" data-field-error="">

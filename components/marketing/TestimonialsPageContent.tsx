@@ -3,19 +3,16 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
+import TestimonialCard from "@/components/marketing/TestimonialCard";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { STUDIO_GOOGLE_MAPS_URL } from "@/lib/constants";
-import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+import { ALL_TESTIMONIALS } from "@/lib/data/all-testimonials";
+import type { TestimonialCategoryId } from "@/lib/data/testimonial-categories";
+import { formatCategoryBreakdown } from "@/lib/data/testimonial-categories";
 import { cn } from "@/lib/utils";
 
-type FilterId =
-  | "all"
-  | "studio"
-  | "events"
-  | "podcast"
-  | "voiceover"
-  | "online";
+type FilterId = "all" | TestimonialCategoryId;
 
 const FILTERS: { id: FilterId; label: string }[] = [
   { id: "all", label: "הכול" },
@@ -26,38 +23,19 @@ const FILTERS: { id: FilterId; label: string }[] = [
   { id: "online", label: "אונליין" },
 ];
 
-function matchFilter(serviceHref: string | undefined, filter: FilterId): boolean {
-  if (filter === "all" || !serviceHref) return filter === "all";
-  if (filter === "online") return serviceHref.startsWith("/online");
-  return serviceHref.startsWith(`/${filter}`);
-}
-
-function AvatarPlaceholder({
-  initials,
-  name,
-}: {
-  initials?: string;
-  name: string;
-}) {
-  const label = initials ?? name.slice(0, 2);
-  return (
-    <div
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brand-red/30 bg-background text-xs font-bold text-brand-red"
-      aria-hidden="true"
-    >
-      {label}
-    </div>
-  );
+function matchFilter(
+  serviceCategory: TestimonialCategoryId | undefined,
+  filter: FilterId,
+): boolean {
+  if (filter === "all") return true;
+  return serviceCategory === filter;
 }
 
 export default function TestimonialsPageContent() {
   const [active, setActive] = useState<FilterId>("all");
 
   const items = useMemo(
-    () =>
-      SITE_TESTIMONIALS.filter((t) =>
-        matchFilter(t.serviceHref, active),
-      ),
+    () => ALL_TESTIMONIALS.filter((t) => matchFilter(t.serviceCategory, active)),
     [active],
   );
 
@@ -72,7 +50,11 @@ export default function TestimonialsPageContent() {
             מה הלקוחות אומרים על השירות
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
-            תגובות אמיתיות מלקוחות במודיעין, ירושלים והמרכז - לפי סוג השירות.
+            תגובות אמיתיות מלקוחות במודיעין, ירושלים והמרכז, לפי סוג השירות, שנה
+            וקישור לעמוד השירות.
+          </p>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {formatCategoryBreakdown(ALL_TESTIMONIALS)} · {ALL_TESTIMONIALS.length} המלצות
           </p>
           <div className="mt-6 flex justify-center">
             <GoogleRatingBadge variant="compact" />
@@ -119,49 +101,7 @@ export default function TestimonialsPageContent() {
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item) => (
               <li key={item.id}>
-                <blockquote className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm">
-                  <p className="text-sm leading-relaxed text-foreground/90">
-                    <span
-                      className="me-1 font-serif text-2xl leading-none text-brand-red"
-                      aria-hidden="true"
-                    >
-                      ״
-                    </span>
-                    {item.quote}
-                    <span
-                      className="ms-1 font-serif text-2xl leading-none text-brand-red"
-                      aria-hidden="true"
-                    >
-                      ״
-                    </span>
-                  </p>
-                  <footer className="mt-6 flex flex-col gap-3 border-t border-border pt-4">
-                    <div className="flex items-center gap-3">
-                      <AvatarPlaceholder
-                        initials={item.initials}
-                        name={item.name}
-                      />
-                      <div>
-                        <cite className="not-italic text-sm font-semibold text-foreground">
-                          {item.name}
-                        </cite>
-                        {item.role ? (
-                          <p className="mt-0.5 text-xs text-muted-foreground">
-                            {item.role}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-                    {item.serviceHref && item.serviceLabel ? (
-                      <Link
-                        href={item.serviceHref}
-                        className="inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline"
-                      >
-                        {item.serviceLabel}
-                      </Link>
-                    ) : null}
-                  </footer>
-                </blockquote>
+                <TestimonialCard item={item} />
               </li>
             ))}
           </ul>

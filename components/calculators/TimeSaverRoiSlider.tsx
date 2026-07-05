@@ -39,8 +39,8 @@ export default function TimeSaverRoiSlider({
   const whatsappHref = buildWhatsAppHref({
     text:
       variant === "podcast"
-        ? "שלום, השתמשתי במחשבון חיסכון הזמן לפודקאסט — אשמח לבדוק מחיר ותאריך."
-        : "שלום, השתמשתי במחשבון חיסכון הזמן באקדמיה — אשמח לפרטים על שיעור.",
+        ? "שלום, השתמשתי במחשבון חיסכון הזמן לפודקאסט, אשמח לבדוק מחיר ותאריך."
+        : "שלום, השתמשתי במחשבון חיסכון הזמן באקדמיה, אשמח לפרטים על שיעור.",
     utm_source: variant,
     utm_campaign: `time_saver_roi_${variant}`,
   });
@@ -62,8 +62,8 @@ export default function TimeSaverRoiSlider({
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
         {variant === "podcast"
-          ? "השוואה להקלטה + עריכה עצמית — הערכה בלבד."
-          : "השוואה לטעויות ציוד וזמן עריכה — הערכה בלבד."}
+          ? "השוואה להקלטה + עריכה עצמית, הערכה בלבד."
+          : "השוואה לטעויות ציוד וזמן עריכה, הערכה בלבד."}
       </p>
 
       <div className="mt-6">

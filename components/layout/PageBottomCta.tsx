@@ -3,6 +3,7 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -122,8 +123,7 @@ export default function PageBottomCta({
         </div>
         {whatsappHref ? (
           <p className="text-xs text-neutral-500">
-            מענה אנושי מהיר - בדרך כלל תוך פחות מ-30 דקות בוואטסאפ, בלי שום
-            התחייבות.
+            מענה אנושי מהיר, {TIME_CLAIMS.waResponse30m}, בלי שום התחייבות.
           </p>
         ) : null}
       </div>

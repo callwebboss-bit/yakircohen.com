@@ -24,28 +24,77 @@ export type PriceCategory =
   | "addons"
   | "pro";
 
+export type PriceScope = {
+  duration?: string;
+  includes?: string;
+  excludes?: string;
+};
+
 export type PriceItem = {
   id: string;
   label: string;
   exVat: number;
   category: PriceCategory;
   context?: string;
+  scope?: PriceScope;
 };
 
 /** כל מחירי השירות - לפני מע״מ */
 export const PRICING_CATALOG: readonly PriceItem[] = [
   // ─── אולפן ───
-  { id: "studio_half_hour", label: "חצי שעה באולפן", exVat: 750, category: "studio", context: "הקלטה קצרה / פודקאסט פיילוט" },
-  { id: "studio_hour", label: "שעת אולפן גמישה", exVat: 1500, category: "studio", context: "60 דקות הקלטה לדיבור, שירה או ברכה" },
-  { id: "blessing_recording", label: "הקלטת ברכה או אמירה", exVat: 590, category: "studio", context: "דרשה קצרה או אמירה מרגשת עד חצי שעה" },
+  {
+    id: "studio_half_hour",
+    label: "חצי שעה באולפן",
+    exVat: 750,
+    category: "studio",
+    context: "הקלטה קצרה / פודקאסט פיילוט",
+    scope: { duration: "30 דקות", includes: "ליווי טכני במקום" },
+  },
+  {
+    id: "studio_hour",
+    label: "שעת אולפן גמישה",
+    exVat: 1500,
+    category: "studio",
+    context: "60 דקות הקלטה לדיבור, שירה או ברכה",
+    scope: { duration: "60 דקות", includes: "הנדסת הקלטה", excludes: "עריכה" },
+  },
+  {
+    id: "blessing_recording",
+    label: "הקלטת ברכה או אמירה",
+    exVat: 590,
+    category: "studio",
+    context: "דרשה קצרה או אמירה מרגשת עד חצי שעה",
+    scope: { duration: "עד חצי שעה", includes: "עריכה בסיסית והנחיה" },
+  },
   { id: "cover_song", label: "הקלטת שיר קאבר", exVat: 1200, category: "studio", context: "הקלטה על גבי פלייבק קיים עם ליווי מקצועי" },
-  { id: "song_package", label: "חבילת הקלטת שיר", exVat: 1800, category: "studio", context: "עד 3 שעות אולפן, טיונינג ווקאלי ומיקס בסיסי" },
-  { id: "single_production", label: "הפקת סינגל מלא", exVat: 3500, category: "studio", context: "עד 6 שעות אולפן כולל עיבוד ומאסטר מסחרי" },
+  {
+    id: "song_package",
+    label: "חבילת הקלטת שיר",
+    exVat: 1800,
+    category: "studio",
+    context: "עד 3 שעות אולפן, טיונינג ווקאלי ומיקס בסיסי",
+    scope: { duration: "עד 3 שעות אולפן", includes: "טיונינג, מיקס בסיסי וקובץ מוכן" },
+  },
+  {
+    id: "single_production",
+    label: "הפקת סינגל מלא",
+    exVat: 3500,
+    category: "studio",
+    context: "עד 6 שעות אולפן כולל עיבוד ומאסטר מסחרי",
+    scope: { duration: "עד 6 שעות אולפן", includes: "עיבוד, מיקס ומאסטר מסחרי" },
+  },
   { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף" },
 
   // ─── פודקאסט ───
   { id: "podcast_pilot", label: "פודקאסט פיילוט אודיו", exVat: 950, category: "podcast", context: "הקלטה של עד שעה כולל עריכה, מיקס והפצה" },
-  { id: "podcast_audio", label: "פודקאסט אודיו", exVat: 950, category: "podcast", context: "הקלטה עד שעה + עריכה ומסירה לספוטיפיי" },
+  {
+    id: "podcast_audio",
+    label: "פודקאסט אודיו",
+    exVat: 950,
+    category: "podcast",
+    context: "הקלטה עד שעה + עריכה ומסירה לספוטיפיי",
+    scope: { duration: "עד שעה", includes: "הקלטה, עריכה ומסירה לספוטיפיי" },
+  },
   { id: "podcast_video", label: "פודקאסט וידאו", exVat: 1650, category: "podcast", context: "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה" },
   { id: "content_package", label: "חבילת תוכן מלאה", exVat: 2800, category: "podcast", context: "וידאו, 3 רילס עם כתוביות והעלאה לפלטפורמות" },
   { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הגעה, בחירת חלל, הקלטה ועריכה עד פרק מוכן" },
@@ -89,7 +138,14 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "dj_premium", label: "תקליטן פרימיום מהצוות", exVat: 5000, category: "dj", context: "4 שעות תקלוט של דיג׳יי מנוסה" },
   { id: "dj_yakir_personal", label: "תקליטן יקיר כהן אישית", exVat: 8305, category: "dj", context: "5 שעות VIP עם יקיר על הקונסולה" },
   { id: "mobile_studio", label: "אולפן הקלטות נייד", exVat: 5000, category: "events", context: "הקמת מיקרופונים ועמדת עריכה בשטח" },
-  { id: "festival_all_in", label: "חבילת פסטיבל הכל כלול", exVat: 15000, category: "events", context: "DJ פרימיום, אולפן נייד, 3 אטרקציות ומצגת" },
+  {
+    id: "festival_all_in",
+    label: "חבילת פסטיבל הכל כלול",
+    exVat: 15000,
+    category: "events",
+    context: "DJ פרימיום, אולפן נייד, 3 אטרקציות ומצגת",
+    scope: { duration: "5 שעות DJ", includes: "אולפן נייד + 3 אטרקציות" },
+  },
   { id: "pre_event_production", label: "הפקה מקדימה ותיאום מוזיקלי", exVat: 980, category: "events", context: "תיאום מלא עם הדיג׳יי" },
   { id: "cinematic_slideshow", label: "מצגת תמונות קולנועית", exVat: 750, category: "events", context: "סיפור ויזואלי מרגש על מסכים באירוע" },
   { id: "growth_slideshow_30", label: "מצגת גדילה AI - 30 תמונות", exVat: 750, category: "events", context: "פתיחה + סגירה, שיפור AI, מוזיקה, Full HD" },
@@ -179,6 +235,11 @@ export const PRICING_ADDON_LINKS: Partial<
 const catalogById = new Map<string, PriceItem>(
   PRICING_CATALOG.map((item) => [item.id, item]),
 );
+
+/** היקף מחיר לפי מזהה קטלוג (אם הוגדר) */
+export function getScopeById(id: PriceItemId): PriceScope | undefined {
+  return getPriceById(id).scope;
+}
 
 /** מחיר לפי מזהה - זורק אם לא נמצא */
 export function getPriceById(id: PriceItemId): PriceItem {

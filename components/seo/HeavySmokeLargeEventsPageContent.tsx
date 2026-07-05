@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -75,9 +76,9 @@ export default function HeavySmokeLargeEventsPageContent() {
 
         <section className="max-w-3xl" aria-labelledby="heavy-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            תארו לעצמכם כניסה לאולם מוקפת בענן רך וקסום  -  צמר גפן שקוף שמותר
-            לדרוך עליו. רבים חושבים שעשן זה &quot;ערפל&quot;, אבל כדי להגיע ל-9.9
-            מתוך 10 נדרש דיוק הנדסי. ביקיר כהן הפקות לא מתפשרים על פחות.
+            תארו לעצמכם כניסה לאולם מוקפת בענן רך. רבים חושבים שעשן זה
+            "ערפל", אבל כדי להגיע לעומק אמיתי נדרש דיוק הנדסי. אצלנו לא
+            מתפשרים על פחות.
           </p>
         </section>
 
@@ -86,10 +87,10 @@ export default function HeavySmokeLargeEventsPageContent() {
           playlistEmbedUrl={service.playlistEmbedUrl}
           mediaType="video"
           galleryLabel="עשן כבד לאירועים גדולים"
-          videoTitle="עשן כבד גדול  -  אירועים גדולים"
+          videoTitle="עשן כבד גדול, אירועים גדולים"
           videoHeadingId="video-heading"
-          videoHeading="אפקט קולנועי  -  עשן כבד לאירועים גדולים"
-          videoDescription="מילוי רחבה פתוחה תוך שניות  -  וידאו נטען בלחיצה"
+          videoHeading="אפקט קולנועי, עשן כבד לאירועים גדולים"
+          videoDescription="מילוי רחבה פתוחה תוך שניות. הוידאו נטען בלחיצה"
           footer={
             <RecordingSongExampleVideos videos={HEAVY_SMOKE_EXAMPLE_VIDEOS} />
           }
@@ -244,10 +245,10 @@ export default function HeavySmokeLargeEventsPageContent() {
             id="heavy-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים להפוך את האירוע לחלום?
+            מוכנים לתאם עשן כבד לאירוע?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            אל תשאירו את האווירה למזל. ייעוץ והצעת מחיר  -  גם בטלפון:{" "}
+            ייעוץ והצעת מחיר, גם בטלפון:{" "}
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
               className="font-medium text-brand-red hover:underline"
@@ -264,6 +265,35 @@ export default function HeavySmokeLargeEventsPageContent() {
             הצעת מחיר בוואטסאפ
           </a>
         </section>
+        <ServiceHubLinks
+          headingId="heavy-smoke-related-heading"
+          heading="אטרקציות נוספות לאירוע"
+          subheading="שילוב עם עשן כבד חוסך בעלויות ומייצר ערב שלם."
+          links={[
+            {
+              href: "/events/attractions/wedding-smoking-machine",
+              title: "עשן כבד לחתונה",
+              description: "חבילות סטנדרט לסלואו וכניסה חתן וכלה.",
+            },
+            {
+              href: "/events/attractions/cold-fireworks",
+              title: "זיקוקים קרים",
+              description: "זיקוקים בטוחים ללא עשן, מרשימים בצילום.",
+            },
+            {
+              href: "/events/attractions/jerusalem",
+              title: "אטרקציות בירושלים",
+              description: "מגיעים לאולמות בירושלים ממודיעין.",
+            },
+            {
+              href: "/events/wedding-attractions-packages",
+              title: "חבילות אירוע",
+              description: "שילוב אטרקציות במחיר אחד.",
+            },
+          ]}
+          columns={2}
+        />
+
               <PageRelatedFooter pathname="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events" />
 
             </div>

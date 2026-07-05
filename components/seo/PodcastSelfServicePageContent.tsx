@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import BookPriceDual from "@/components/booking/BookPriceDual";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -131,24 +132,16 @@ export default function PodcastSelfServicePageContent() {
           items={SELF_SERVICE_FAQS}
         />
 
-        <nav aria-label="קישורים קשורים" className="border-t border-border pt-8">
-          <h2 className="text-sm font-semibold text-foreground">שירותים קשורים</h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-3">
-            {SELF_SERVICE_RELATED.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="block rounded-xl border border-border p-4 transition-colors hover:border-brand-red/40"
-                >
-                  <span className="font-semibold text-foreground">{link.title}</span>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {link.description}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <ServiceHubLinks
+          headingId="self-service-related-heading"
+          heading="שירותים קשורים"
+          subheading="מסלולים נוספים אם DIY לא מתאים לכם."
+          links={SELF_SERVICE_RELATED.map((link) => ({
+            href: link.href,
+            title: link.title,
+            description: link.description,
+          }))}
+        />
       </div>
     </ServicePageLayout>
   );

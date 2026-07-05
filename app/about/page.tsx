@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import PersonAboutSchema from "@/components/seo/PersonAboutSchema";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -19,6 +21,39 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 export const metadata: Metadata = metadataForHubSeo(ABOUT_HUB_SEO);
 
 
+const ABOUT_HUB_LINKS = [
+  {
+    href: "/podcast",
+    title: "פודקאסטים",
+    description: "הקלטה, עריכה והפקה באולפן במודיעין.",
+  },
+  {
+    href: "/events/attractions",
+    title: "אטרקציות לאירוע",
+    description: "עשן כבד, זיקוקים קרים ובועות עם מפעיל.",
+  },
+  {
+    href: "/studio",
+    title: "הפקת שיר באולפן",
+    description: "שיר מקורי, ברכות והקלטות במתנה.",
+  },
+  {
+    href: "/events/dj-events",
+    title: "תקליטן לחתונה",
+    description: "DJ לאירועים קטנים וגדולים, מודיעין והמרכז.",
+  },
+  {
+    href: "/studio/recording-studio",
+    title: "אולפן הקלטות",
+    description: "חדר הקלטה מקצועי עם ליווי טכני.",
+  },
+  {
+    href: "/online",
+    title: "שירותים אונליין",
+    description: "תיקון הקלטות, מיקס ותמלול מהבית.",
+  },
+] as const;
+
 const SERVICE_CARDS = [
   {
     href: "/podcast",
@@ -30,7 +65,7 @@ const SERVICE_CARDS = [
   {
     href: "/events/attractions",
     imageSrc: "/images/services/events/attractions/cold-fireworks/Cold Sparkler Entrance.webp",
-    imageAlt: "אטרקציות לאירועים  -  זיקוקים קרים",
+    imageAlt: "אטרקציות לאירועים, זיקוקים קרים",
     label: "אטרקציות לאירוע",
     cta: "לפרטים",
   },
@@ -44,7 +79,7 @@ const SERVICE_CARDS = [
   {
     href: "/events/dj-events",
     imageSrc: "/images/services/events/attractions/led-booth/יקיר כהן באירוע.webp",
-    imageAlt: "תקליטן לחתונה  -  יקיר כהן",
+    imageAlt: "תקליטן לחתונה, יקיר כהן",
     label: "תקליטן לחתונה",
     cta: "לפרטים",
   },
@@ -116,6 +151,8 @@ export default function AboutPage() {
               <br />
               הכול במקום אחד במודיעין
             </h1>
+
+            <ContextualIntroParagraph pathname="/about" className="mx-auto mt-5 max-w-xl text-center" />
 
             <ul className="mx-auto mt-6 max-w-xl space-y-2 text-sm text-muted-foreground sm:text-base">
               {HERO_BULLETS.map((item) => (
@@ -315,6 +352,18 @@ export default function AboutPage() {
               </div>
             </div>
           </details>
+          </Container>
+        </Section>
+
+        <Section padding="sm" className="border-t border-border">
+          <Container>
+            <ServiceHubLinks
+              headingId="about-hub-links-heading"
+              heading="לאן ממשיכים מהעמוד הזה"
+              subheading="השירותים העיקריים באתר, עם קישור ישיר לכל מסלול."
+              links={ABOUT_HUB_LINKS}
+              columns={3}
+            />
           </Container>
         </Section>
 

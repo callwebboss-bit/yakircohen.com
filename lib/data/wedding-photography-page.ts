@@ -1,4 +1,6 @@
-﻿export type WeddingPhotoExampleVideo = {
+﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
+
+export type WeddingPhotoExampleVideo = {
   videoId: string;
   title: string;
 };
@@ -32,34 +34,46 @@ export const WEDDING_PHOTO_WHY_US: readonly string[] = [
   "כל רגע בצבעים הנכונים - הסיפור האמיתי שלכם",
 ] as const;
 
-export type WeddingPhotoTestimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  initials: string;
-};
-
-export const WEDDING_PHOTO_TESTIMONIALS: readonly WeddingPhotoTestimonial[] = [
+export const WEDDING_PHOTO_TESTIMONIALS: readonly TestimonialItem[] = [
   {
+    id: "wedding-photo-1",
     quote:
       "הצלם הגיע 30 דקות לפני תחילת האירוע. סיפק 150 תמונות ערוכות תוך 48 שעות. המחיר הסופי זהה להצעה הראשונית.",
     name: "משפחת כהן",
     role: "חתונה אינטימית, מודיעין",
     initials: "מכ",
+    datePublished: "2025-10-12",
+    serviceCategory: "events",
+    serviceHref: "/photography/wedding",
+    serviceLabel: "צילום חתונה",
+    projectImageSrc: "/images/services/photography/wedding/LEOM9080.webp",
+    projectImageAlt: "צילום חתונה אינטימית",
   },
   {
+    id: "wedding-photo-2",
     quote:
       "הגעה בזמן. תמונות ראשונות תוך 48 שעות. מחיר סופי זהה להצעה שקיבלנו - ללא תוספות.",
     name: "יעל ואור",
     role: "אירוע משפחתי",
     initials: "יע",
+    datePublished: "2025-08-20",
+    serviceCategory: "events",
+    serviceHref: "/photography/events",
+    serviceLabel: "צילום אירועים",
+    projectImageSrc: "/images/services/photography/wedding/LEOM9008.webp",
+    projectImageAlt: "צילום אירוע משפחתי",
   },
   {
+    id: "wedding-photo-3",
     quote:
       "אפס כניסות לאזורים מוגבלים. כיסוי מלא של כל שלבי האירוע. ציוד שקט ולא מפריע לתפילה.",
     name: "רחל גולן",
     role: "לקוחה פרטית",
     initials: "רג",
+    datePublished: "2026-01-05",
+    serviceCategory: "events",
+    serviceHref: "/photography/wedding",
+    serviceLabel: "צילום חתונה דתית",
   },
 ] as const;
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { DjEventsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -66,7 +67,7 @@ export default function WeddingPackagesPageContent() {
             DJ + אטרקציות + הגברה בחבילה אחת
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-            במקום להזמין כל שירות בנפרד  -  חבילה שלמה במחיר מוזל. חוסכים כסף,
+            במקום להזמין כל שירות בנפרד, חבילה שלמה במחיר מוזל. חוסכים כסף,
             זמן וכאבי ראש.
           </p>
         </section>
@@ -74,7 +75,7 @@ export default function WeddingPackagesPageContent() {
         <section className="max-w-3xl" aria-labelledby="intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מתכננים אירוע ורוצים שהכול יעבוד? ספק אחד ל-DJ, אפקטים,
-            הגברה ותיאום  -  הכול עובד ביחד ברגע הנכון.
+            הגברה ותיאום. הכול עובד ביחד ברגע הנכון.
           </p>
         </section>
 
@@ -177,43 +178,17 @@ export default function WeddingPackagesPageContent() {
           videoHeading="רחבה מלאה מתחילה בעיניים"
         />
 
-        <section
-          className="rounded-xl border border-border bg-surface p-6 sm:p-8"
-          aria-labelledby="upsell-heading"
-        >
-          <h2
-            id="upsell-heading"
-            className="text-lg font-semibold text-foreground"
-          >
-            שדרוגים פופולריים בחבילות
-          </h2>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href="/events/stage-led-dj"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עמדת LED
-            </Link>
-            <Link
-              href="/events/attractions/bubble-machine/smoke-bubble-machine-events"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              בועות עשן
-            </Link>
-            <Link
-              href="/events/equipment"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              הגברה RCF
-            </Link>
-            <Link
-              href="/events/attractions"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-brand-red/40 hover:text-brand-red"
-            >
-              כל האטרקציות
-            </Link>
-          </div>
-        </section>
+        <ServiceHubLinks
+          headingId="wedding-upsell-heading"
+          heading="שדרוגים פופולריים בחבילות"
+          subheading="אפשר להוסיף לכל חבילה."
+          links={[
+            { href: "/events/stage-led-dj", title: "עמדת LED", description: "במה מוארת למראה מרשים ברחבה." },
+            { href: "/events/attractions/bubble-machine/smoke-bubble-machine-events", title: "בועות עשן", description: "שילוב עשן ובועות סבון לאפקט מרשים." },
+            { href: "/events/equipment", title: "הגברה RCF", description: "מערכות הגברה מקצועיות לכל גודל אירוע." },
+            { href: "/events/attractions", title: "כל האטרקציות", description: "עשן, זיקוקים, בועות וקונפטי עם מפעיל." },
+          ]}
+        />
 
         <section aria-labelledby="calculator-heading">
           <header className="mx-auto max-w-2xl text-center">
@@ -224,7 +199,7 @@ export default function WeddingPackagesPageContent() {
               בנו את החבילה שלכם
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              DJ, אטרקציות, חבילת פסטיבל  -  מחיר מיידי ושליחה לוואטסאפ
+              DJ, אטרקציות, חבילת פסטיבל. מחיר מיידי ושליחה לוואטסאפ
             </p>
           </header>
           <DjEventsCalculatorLazy className="mt-8" />
@@ -247,7 +222,7 @@ export default function WeddingPackagesPageContent() {
             מוכנים לחבילה שחוסכת אלפי שקלים?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            שלחו תאריך וסוג אירוע  -  נחזור תוך 24 שעות. טלפון:{" "}
+            שלחו תאריך וסוג אירוע, נחזור בדרך כלל תוך 24 שעות. טלפון:{" "}
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
               className="font-medium text-brand-red hover:underline"

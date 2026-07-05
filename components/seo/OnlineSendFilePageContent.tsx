@@ -87,22 +87,54 @@ export default function OnlineSendFilePageContent() {
           המשך לשליחת הקבצים בוואטסאפ מהווה חתימה דיגיטלית מחייבת על הצהרה זו.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3">
-          <a
-            href={ONLINE_LIABILITY_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-          >
-            מילוי טופס אישור רשמי </a>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-          >
-            שליחת קבצים בוואטסאפ (לאחר אישור)
-          </a>
+        <div className="mt-8 space-y-3">
+          <div className="flex items-stretch gap-4 rounded-2xl border border-border bg-surface p-4">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red text-sm font-bold text-white">
+              1
+            </div>
+            <div className="flex flex-1 flex-col gap-2">
+              <p className="text-sm font-semibold text-foreground">
+                מלאו טופס אישור רשמי
+              </p>
+              <p className="text-xs text-muted-foreground">
+                חתימה דיגיטלית על הצהרת האחריות - חובה לפני שליחה
+              </p>
+              <a
+                href={ONLINE_LIABILITY_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
+                פתיחת הטופס
+              </a>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <span className="text-xs text-muted-foreground">אחרי שמילאתם</span>
+          </div>
+
+          <div className="flex items-stretch gap-4 rounded-2xl border border-border bg-surface p-4">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-bold text-background">
+              2
+            </div>
+            <div className="flex flex-1 flex-col gap-2">
+              <p className="text-sm font-semibold text-foreground">
+                שלחו את הקובץ בוואטסאפ
+              </p>
+              <p className="text-xs text-muted-foreground">
+                צרפו את הקובץ להודעה - נחזור אליכם תוך שעות ספורות
+              </p>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
+                פתיחת וואטסאפ
+              </a>
+            </div>
+          </div>
         </div>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
