@@ -149,7 +149,7 @@ export default function BookQualificationMiniForm({
 
           <p className="mt-2 flex items-center gap-1 text-[0.65rem] text-muted-foreground">
             <span aria-hidden="true">🔒</span>
-            הפרטים נשלחים ישירות לוואטסאפ, לא נשמרים באתר
+            נשמר בדפדפן עד השליחה לוואטסאפ — לא נשלח לשרת האתר
           </p>
 
           <button

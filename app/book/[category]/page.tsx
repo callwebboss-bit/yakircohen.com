@@ -70,6 +70,7 @@ export default async function BookCategoryPage({
   const pkgParam = typeof sp.pkg === "string" ? sp.pkg : null;
   const itemParam = typeof sp.item === "string" ? sp.item : null;
   const catalogParam = typeof sp.catalog === "string" ? sp.catalog : null;
+  const couponParam = typeof sp.coupon === "string" ? sp.coupon : null;
   const utmCampaign =
     typeof sp.utm_campaign === "string" ? sp.utm_campaign : null;
   const utmContent = typeof sp.utm_content === "string" ? sp.utm_content : null;
@@ -125,6 +126,7 @@ export default async function BookCategoryPage({
           pkgParam={pkgParam}
           itemParam={itemParam}
           catalogParam={catalogParam}
+          couponParam={couponParam}
           routeParam={routeParam}
           qualParam={qualParam}
           utmCampaign={utmCampaign}
