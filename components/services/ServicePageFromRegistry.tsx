@@ -7,7 +7,7 @@ import ServicePagePricingSection from "@/components/services/ServicePagePricingS
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import { resolveEventItemIdFromPath } from "@/lib/data/attraction-book-pricing";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
-import StudioUpsellCallout from "@/components/services/StudioUpsellCallout";
+import ServiceHubUpsellCallout from "@/components/services/ServiceHubUpsellCallout";
 import RelatedServices from "@/components/services/RelatedServices";
 import type { RelatedService } from "@/components/services/RelatedServices";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -127,7 +127,15 @@ export default function ServicePageFromRegistry({
 
         {children}
 
-        {service.category === "studio" ? <StudioUpsellCallout /> : null}
+        {service.category === "studio" ||
+        service.category === "events" ||
+        service.category === "podcast" ? (
+          <ServiceHubUpsellCallout
+            category={
+              service.category as "studio" | "events" | "podcast"
+            }
+          />
+        ) : null}
 
         <div id="pricing-section">
           {service.category === "events" ? (

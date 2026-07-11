@@ -141,13 +141,13 @@ export default function RecordingStudioPageContent() {
               href="/studio/studio-shoham"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לשוהם, 10–15 דק׳
+              אולפן לשוהם, 10-15 דק׳
             </Link>
             <Link
               href="/studio/studio-rehovot"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לרחובות, 25–30 דק׳
+              אולפן לרחובות, 25-30 דק׳
             </Link>
           </div>
         </section>

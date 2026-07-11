@@ -53,6 +53,18 @@
   --width-content: 72rem;
   --width-narrow: 48rem;
   --width-wide: 88rem;
+
+  --animate-hero-scroll-bounce: hero-scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
 }
 
 /* ─── Coupon banner (premium dark base + seasonal accent) ─── */
@@ -754,4 +766,31 @@ html.a11y-highlight-links a[href] {
 @media (prefers-reduced-motion: reduce) {
   .footer-shell a { transition: none; }
   .footer-shell nav[aria-label="רשתות חברתיות"] a:hover { transform: none; }
+}
+
+/* ─── /book bento cards + mobile glass bar ─── */
+
+.book-service-card {
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .book-service-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.book-glass-bar {
+  background: color-mix(in srgb, var(--background) 82%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-service-card {
+    transition: none;
+  }
+  .book-service-card:hover {
+    transform: none;
+  }
 }

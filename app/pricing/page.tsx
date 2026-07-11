@@ -27,6 +27,8 @@ import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
 import PricingInquiryForm from "@/components/pricing/PricingInquiryForm";
 import PricingHubSectionsAccordion from "@/components/pricing/PricingHubSectionsAccordion";
 import PricingFaqSection from "@/components/pricing/PricingFaqSection";
+import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
 import { absoluteUrl } from "@/lib/site-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -102,7 +104,8 @@ export default function PricingHubPage() {
               מחירון מרכזי
             </h1>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
-              {PRICING_FRAMING_LINE} המחירים <strong>החל מ-</strong> ({PRICES_EXCLUDE_VAT_NOTE}). פתחו קטגוריה ואז שורה לראות מחיר כולל מע״מ.
+              {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_EXCLUDE_VAT_NOTE}.
+              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. מע״מ מוצג בלחיצה על כל שורה.
             </p>
             <ContextualIntroParagraph pathname="/pricing" className="mx-auto mt-4 max-w-xl text-center" />
             <p className="mt-2 text-xs text-muted-foreground">
@@ -137,7 +140,31 @@ export default function PricingHubPage() {
 
         <Section padding="sm">
           <Container className="max-w-3xl">
-            <PricingHubSectionsAccordion sections={PRICING_HUB_SECTIONS} />
+            <p className="mb-4 text-xs text-muted-foreground">
+              {PRICES_EXCLUDE_VAT_NOTE}. מע״מ מוצג בלחיצה על כל שורה.
+            </p>
+            <PricingHubSectionsAccordion
+              sections={PRICING_HUB_SECTIONS}
+              midPageSlot={<PricingHesitantCta />}
+            />
+          </Container>
+        </Section>
+
+        <Section padding="sm" className="border-t border-border bg-background">
+          <Container className="max-w-3xl">
+            <PricingHesitantCta />
+          </Container>
+        </Section>
+
+        <Section padding="sm" className="border-t border-border bg-surface">
+          <Container className="max-w-3xl">
+            <div className="rounded-2xl border border-border bg-background px-4 py-10 sm:px-8">
+              <ProposalGiftPitchProofSection
+                headingId="pricing-pitch-proof-heading"
+                heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
+                intro="רוב חבילות האולפן כוללות תיקון זיופים. אם אתם מתלבטים בין מסלולים - שמעו את ההבדל ואז צפו בקליפ המלא."
+              />
+            </div>
           </Container>
         </Section>
 
@@ -174,7 +201,7 @@ export default function PricingHubPage() {
                   מחפשים מתנה? שובר מתנה לאולפן
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  מ-750 ₪ – אולפן, אטרקציות והפקות לאירועים. ניתן לפדיון גמיש.
+                  מ-750 ₪ - אולפן, אטרקציות והפקות לאירועים. ניתן לפדיון גמיש.
                 </p>
               </div>
               <Link

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * רעיונות מאשאפ - קטלוג השראה (לא הורדה).
  *
  * BPM / סולם / הרמוניה: `lib/data/dj-mashup-music-meta.ts`
@@ -37,7 +37,7 @@ export type DjMashupIdea = {
   /** משפט קצר למה זה מעניין מוזיקלית */
   hook?: string;
   tier?: MashupTier;
-  /** למה הקהל מגיב - 2–3 משפטים עם הקשר אירוע */
+  /** למה הקהל מגיב - 2-3 משפטים עם הקשר אירוע */
   whyItWorks: string;
   /** איפה לחבר: פתיחה, פזמון, דרופ, אאוטרו */
   mergeTip: string;
@@ -121,7 +121,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     moment: "רחבה",
     hook: "להיט 2026 על ביט מועדון - המילים קורמות לפני הדרופ.",
     whyItWorks:
-      "טאפס וטריפונס הוא מהשירים הכי מבוקשים ברחבות 2025–26 - המילים יוצאות מהאורחים לפני שהביט נכנס. Levitating יושב על אותו BPM מועדוני, אז המעבר מרגיש כמו המשך טבעי ולא כמו קפיצה לסגנון אחר.",
+      "טאפס וטריפונס הוא מהשירים הכי מבוקשים ברחבות 2025-26 - המילים יוצאות מהאורחים לפני שהביט נכנס. Levitating יושב על אותו BPM מועדוני, אז המעבר מרגיש כמו המשך טבעי ולא כמו קפיצה לסגנון אחר.",
     mergeTip: "פזמון עומר → דרופ Levitating אחרי השורה השנייה. לא להחליף את כל השיר - רק את השיא.",
     crowdProfile: "חתונות עם קהל צעיר + מזרחית. עובד מצוין אחרי כניסה לחופה.",
     bpmHint: "128",
@@ -141,9 +141,9 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "שני ענקי המזרחית באותו ערב - פנתרה מרים מייד, ויעשו לנו כבוד נותן את רגע ה\"כולם יחד\" שדיג'ייז מחפשים. זה בדיוק סוג המחרוזת ש-Walla ורשימות 2026 מגדירות כ\"מיינסטרים ישראלי\".",
     mergeTip: "אאוטרו פנתרה (8 השירים האחרונים) → כניסת פזמון יעשו לנו כבוד. שמור על קיק דחוף בין השירים.",
     crowdProfile: "רחבה מזרחית מלאה. הורים וילדים - שניהם מכירים את שני השירים.",
-    bpmHint: "128–132",
+    bpmHint: "128-132",
     keyHint: "9A / 10A",
-    technicalNote: "מעבר BPM של 2–4 נקודות - עדיף על pitch גדול. Hypeddit: Idan Sade עשה וריאציה דומה על יעשו לנו כבוד.",
+    technicalNote: "מעבר BPM של 2-4 נקודות - עדיף על pitch גדול. Hypeddit: Idan Sade עשה וריאציה דומה על יעשו לנו כבוד.",
     energy: "גבוה",
     researchSource: "Hypeddit DJ Idan Sade + Slide Music #4/#6",
     proCta: "ready",
@@ -158,7 +158,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "מאשאפ שכבר הוכח ב-Hypeddit (DJ Homba) - אותה תיבה אנרגטית, אותו קהל מזרחית. דוקטור נותן build-up, פנתרה סוגרת בדרופ שכולם מכירים.",
     mergeTip: "בridge דוקטור → פתיחת פנתרה. אל תדלג על ה-build - הקהל צריך את העלייה.",
     crowdProfile: "חתונות מזרחית קלאסית. עובד גם בבר מצווה עם קהל מבוגר יותר.",
-    bpmHint: "128–130",
+    bpmHint: "128-130",
     technicalNote: "סולמות קרובים במפת Camelot - עריכה ידנית על הטומים עדיף על sync אוטומטי.",
     energy: "גבוה",
     researchSource: "Hypeddit - Homba Mashup (דוקטור × פנתרה)",
@@ -174,7 +174,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "חמישי שישי וצמוד צמוד שניהם בטופ 10 רשימות החתונה ל-2026. שניהם גרוב מזרחי מודרני - כשמחברים נכון, הרחבה לא נושמת ביניהם.",
     mergeTip: "סיום פזמון חמישי שישי → מילים \"צמוד צמוד\" בכניסה מלאה. שמור על אנרגיה גבוהה, בלי break ארוך.",
     crowdProfile: "קהל שמעדיף מזרחית עדכנית על פני נוסטלגיה. חזק אחרי האוכל.",
-    bpmHint: "126–128",
+    bpmHint: "126-128",
     energy: "גבוה",
     researchSource: "Slide Music טופ 60 - #5 ו-#6",
     proCta: "custom",
@@ -206,7 +206,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "אנרגיית אירוויזיון + האוס חתונות 2025 - פתיחה שמרגישה עכשווית ולא \"עוד שיר מהרדיו\". עובד לפני שהזוג נכנס, כשהאולם מתמלא.",
     mergeTip: "פזמון Hurricane → דרופ האוס בלי לעצור. שמור על 8 תיבות מעבר מקסימום.",
     crowdProfile: "זוגות צעירים, קהל שמכיר פופ בינלאומי. פחות מתאים לחתונה חרדית.",
-    bpmHint: "124–128",
+    bpmHint: "124-128",
     technicalNote: "German Avny חתימה בחתונות ישראליות - BPM מועדון עם מילים בעברית/אנגלית.",
     energy: "גבוה",
     researchSource: "DJ Shlomi - גרסאות האוס 2025",
@@ -222,7 +222,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "זוג שמופיע בכל סט חתונה בינלאומי ב-Serato - Daft Funk מרים חיוך, Uptown Funk סוגר עם להיט שכולם יודעים. מושלם לקבלת פנים כשעדיין יש אוכל על השולחן.",
     mergeTip: "loop 16 תיבות Daft Funk → כניסת Uptown מהבית הראשון. BPM כמעט זהה - מעבר נקי.",
     crowdProfile: "קהל מעורב גילאים. פתיחה בינלאומית לפני מזרחית.",
-    bpmHint: "116–120",
+    bpmHint: "116-120",
     keyHint: "7B / 8B",
     energy: "בינוני",
     researchSource: "Serato Nadav Agami 02/05/2025",
@@ -235,7 +235,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     moment: "רחבה",
     hook: "להיט TikTok 2025 ישר לרחבה צעירה.",
     whyItWorks:
-      "APT הוא מהפיצוצים של 2025–26 - צעירים קופצים מיד. Can't Hold Us ממשיך באותה נשימה בלי להוריד BPM. שילוב שמיועד לרגע \"רק הצעירים\" או לקראת סוף ערב.",
+      "APT הוא מהפיצוצים של 2025-26 - צעירים קופצים מיד. Can't Hold Us ממשיך באותה נשימה בלי להוריד BPM. שילוב שמיועד לרגע \"רק הצעירים\" או לקראת סוף ערב.",
     mergeTip: "אחרי ה-hook של APT → ישר לדרופ Can't Hold Us. שני שירים ב-128 - אל תעצור.",
     crowdProfile: "בר מצווה, חתונה עם הרבה בני נוער. פחות לסלואו הורים.",
     bpmHint: "130",
@@ -254,7 +254,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     mergeTip: "פזמון פלסטרים → כניסת מאחל לך טוב מהפזמון. שמור על ווליום עולה, לא יורד.",
     crowdProfile: "מזרחית עדכנית. חזק בשעה שבין 22:00 ל-23:30.",
     bpmHint: "100→128",
-    technicalNote: "מעבר BPM מודע - 8–16 תיבות עליה. DJ Shlomi ממליץ על גרסאות Avny לרשימת 2025.",
+    technicalNote: "מעבר BPM מודע - 8-16 תיבות עליה. DJ Shlomi ממליץ על גרסאות Avny לרשימת 2025.",
     energy: "בינוני",
     researchSource: "DJ Shlomi מזרחית 2025 + German Avny mashups",
     proCta: "custom",
@@ -284,7 +284,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "קוביות הוא גשר ישראלי-פופ שכבר נערך לרחבה (Braindead). Run the World נותן את הדרופ הנשי הבינלאומי - עובד בחתונות עם חברות כלה גדולות.",
     mergeTip: "אאוטרו קוביות extended → Run the World מהפזמון. מופיע בסט Nadav Agami ליד שירי סטטיק.",
     crowdProfile: "חתונה עם קהל נשי חזק. מעבר לפני שיא ערב.",
-    bpmHint: "126–128",
+    bpmHint: "126-128",
     energy: "בינוני",
     researchSource: "Serato - Braindead × Nadav Agami",
     proCta: "custom",
@@ -377,7 +377,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "קלאסיקה לחופה דתית/מסורתית - עם עיבוד מודרני שלא מפריע לטקס. כבר קיים בתיק העבודות של יקיר (Simche Friedman Remix).",
     mergeTip: "שמור על קטע חופה שלם - עיבוד עדין, לא דרופ מועדון. מעבר רק אחרי הטקס.",
     crowdProfile: "חופה מסורתית. משפחות שמכירות את המקור.",
-    bpmHint: "90–100",
+    bpmHint: "90-100",
     energy: "רך",
     researchSource: "יקיר כהן portfolio - FtzsXXnts_k",
     proCta: "custom",
@@ -405,7 +405,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     hook: "סבים וילדים - נוסטלגיה פוגשת 2025.",
     whyItWorks:
       "זה טוב מדבר להורים ולסבים - APT מדבר לילדים. בבר מצווה זה בדיוק המתח שצריך: כבוד למבוגרים + אנרגיה לרחבה.",
-    mergeTip: "פזמון זה טוב → APT מה-hook. קצר - 2–3 דקות מקסימום לפני סט מלא.",
+    mergeTip: "פזמון זה טוב → APT מה-hook. קצר - 2-3 דקות מקסימום לפני סט מלא.",
     crowdProfile: "בר/בת מצווה עם דודים וילדים. גשר נוסטלגיה-עכשיו.",
     bpmHint: "118→130",
     energy: "בינוני",
@@ -422,7 +422,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "ב-Hypeddit יש בקשות להורדה לבאצ'טה מאשאפ של אוהבת אותי אמיתי - סימן שהקהל רוצה גרוב שונה באמצע ערב מזרחית. מפתיע ומרענן.",
     mergeTip: "בית ראשון עומר → כניסת באצ'טה מהפזמון. לא לכל קהל - בדוק עם הזוג.",
     crowdProfile: "קהל צעיר, חתונות חופשיות. פחות לקהל שמרני.",
-    bpmHint: "120–128",
+    bpmHint: "120-128",
     energy: "בינוני",
     researchSource: "Hypeddit - Dj Zorro Bachata Mashup",
     proCta: "custom",
@@ -449,7 +449,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     moment: "רחבה",
     hook: "שני להיטי 2025 - שיא ערב מזרחית מודרנית.",
     whyItWorks:
-      "שני להיטי 2025–26 שמופיעים יחד ברשימות חתונה - אחת למליון נותן build, מאחל לך טוב סוגר ברגש שעובר לאנרגיה. טבעי באותו סט.",
+      "שני להיטי 2025-26 שמופיעים יחד ברשימות חתונה - אחת למליון נותן build, מאחל לך טוב סוגר ברגש שעובר לאנרגיה. טבעי באותו סט.",
     mergeTip: "פזמון רון → כניסת מאחל לך טוב. BPM דומה בגרסאות מועדון.",
     crowdProfile: "מזרחית מודרנית. שיא ערב.",
     bpmHint: "128",
@@ -486,16 +486,16 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     mergeTip: "8 תיבות acapella נקי → כניסת 2-step עם kick+shaker. אל תשים את הקיק מתחת לכל המילים.",
     crowdProfile: "דיג'ייז שרוצים להבדיל. עובד גם בברים ובאירועים עם קהל מוזיקלי.",
     bpmHint: "130",
-    keyHint: "8A–9A",
+    keyHint: "8A-9A",
     technicalNote: "דורש stems נקיים או Fadr. המעבר הוא המוצר - לא quick sync.",
     energy: "בינוני",
-    researchSource: "Crate-digger weddings + UKG revival 2024–26",
+    researchSource: "Crate-digger weddings + UKG revival 2024-26",
     proCta: "custom",
   },
   {
     id: "peer_ouf_breakbeat",
     songA: "פאר טסי - עוף מוזר (vocal + bass stem)",
-    songB: "Breakbeat / UK club (126–128)",
+    songB: "Breakbeat / UK club (126-128)",
     moment: "מעבר",
     tier: "יצירתי",
     hook: "היט ישראלי הופך לטראק מועדונים כשמפרידים ערוצים נכון.",
@@ -503,7 +503,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "עוף מוזר חי על ביט שבור - הפתעה אחרי שעה של 128 קבוע. מפיקים מזהים עריכה עם זמן השקעה.",
     mergeTip: "בס+קול מעוף מוזר על loop breakbeat - הוסף fill לפני כניסת פזמון מלא.",
     crowdProfile: "קהל צעיר, אירועים חילוניים, מועדונים פרטיים.",
-    bpmHint: "126–128",
+    bpmHint: "126-128",
     technicalNote: "Stems מ-Fadr/UVR. שמור headroom - breakbeat דוחף את המיד.",
     energy: "גבוה",
     researchSource: "Hypeddit trends + producer mashup culture",
@@ -555,7 +555,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "שני קולות נשיים בדור שונה - כשחותכים נכון, זה נשמע כמו טראק אחד שיצא מהאולפן אתמול.",
     mergeTip: "chop מיליון דולר כ-stabs על גרוב Birds. שמור על מילה אחת ברורה כל 8 תיבות.",
     crowdProfile: "בר/בת מצווה, חתונות Gen-Z. אינסטגרם-ready.",
-    bpmHint: "105–110",
+    bpmHint: "105-110",
     technicalNote: "ווקאל chops בקוואנטייז 1/8 - DAW, לא DJ software בלבד.",
     energy: "בינוני",
     researchSource: "TikTok mashup culture + Israeli pop crossover",
@@ -570,7 +570,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     hook: "קאנון ישראלי על ביט כבד - מפתיע את מי שחושב ש\"כבר שמע הכל\".",
     whyItWorks:
       "הניגוד בין נוסטלגיה לביט עכשווי יוצר רגע שאנשים מסתכלים על הדיג'יי. לא לכל אירוע - בדיוק למי שמחפש אומץ מוזיקלי.",
-    mergeTip: "4–8 תיבות ווקאל נקי → כניסת drill מהסנר. אל תערבב - cut חד.",
+    mergeTip: "4-8 תיבות ווקאל נקי → כניסת drill מהסנר. אל תערבב - cut חד.",
     crowdProfile: "קהל צעיר עירוני. לא לחתונות שמרניות.",
     bpmHint: "140",
     technicalNote: "pitch vocal או instrumental לסולם משותף. בדוק עם הזוג מראש.",
@@ -581,7 +581,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
   {
     id: "ninnet_deep_house",
     songA: "נינט טייבה - סערה (acapella)",
-    songB: "Deep house groove (124–126)",
+    songB: "Deep house groove (124-126)",
     moment: "מעבר",
     tier: "יצירתי",
     hook: "אייקון פופ נשי ישראלי על גרוב מינימלי - נשמע יוקרתי, לא זול.",
@@ -589,7 +589,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "סערה על ביט עמוק נותן לרחבה נשימה בלי לרדת באנרגיה. דיג'ייז שמכירים את נינט מעריכים עריכה שלא הורסת את השיר.",
     mergeTip: "acapella מלא 16 תיבות → הוסף kick+hat מינימליים. בנה לפני כניסת להיט עומתי.",
     crowdProfile: "חתונות אלגנטיות, קהל שמכיר פופ ישראלי לעומק.",
-    bpmHint: "124–126",
+    bpmHint: "124-126",
     keyHint: "Am / 8A",
     energy: "בינוני",
     researchSource: "Vocal×deep house producer tradition",
@@ -623,7 +623,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "ווקאל מערבית קלאסית על מצע מזרחי מודרני - מוכר מספיק כדי לרקוד, מפתיע מספיק כדי לשתף.",
     mergeTip: "Dreams acapella 8 תיבות → fade in ככה וככה מהבס. שמור על ווליום ווקאל מעל.",
     crowdProfile: "קהל מעורב גילאים. Sweet spot בין נוסטלגיה לעכשיו.",
-    bpmHint: "120–126",
+    bpmHint: "120-126",
     energy: "בינוני",
     researchSource: "Dreams mashup viral + Israeli wedding floor",
     proCta: "custom",
@@ -648,7 +648,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
   {
     id: "gospel_afro_hora",
     songA: "מקהלת / גשם חוזר (phrase)",
-    songB: "Afro-house groove (122–124)",
+    songB: "Afro-house groove (122-124)",
     moment: "רחבה",
     tier: "יצירתי",
     hook: "מקהלה ישראלית על ביט אפרו - רגע שמצלמים ושמרגישים בטן.",
@@ -656,10 +656,10 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "הקול הקבוצתי על גרוב אפריקאי-אירופי יוצר אנרגיה שונה ממיינסטרים. מתאים לכניסות, הורות, רגעי שיא.",
     mergeTip: "8 תיבות מקהלה a cappella → כניסת kick+perc אפרו. אל תמהר לדרופ.",
     crowdProfile: "חתונות גדולות, קהל שאוהב הפתעה. חזק אחרי חופה.",
-    bpmHint: "122–124",
+    bpmHint: "122-124",
     technicalNote: "Afro-house בנוי נכון - לא generic \"afro beat\" מסטוק.",
     energy: "גבוה",
-    researchSource: "Afro-house wedding trend 2025–26",
+    researchSource: "Afro-house wedding trend 2025-26",
     proCta: "custom",
   },
   {
@@ -672,7 +672,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     whyItWorks:
       "הגרוב של Disclosure מזמין תנועה; חביב אלבי מזמין זיכרון. ביחד - משהו שלא שומעים אצל כל תקליטן.",
     mergeTip: "instrumental Fire מלא → הכנס משפט ווקאל חביב אלבי כל 16 תיבות. לא לדחוף את כל השיר.",
-    crowdProfile: "קהל 30–50 שמכיר גאון + קהל צעיר שמכיר Disclosure.",
+    crowdProfile: "קהל 30-50 שמכיר גאון + קהל צעיר שמכיר Disclosure.",
     bpmHint: "124",
     keyHint: "9B / 10A",
     energy: "בינוני",
@@ -690,7 +690,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "9/8 מול 4/4 יוצר מתח מוזיקלי אמיתי. כשמחברים עם שכבה מזרחית, זה נשמע כמו ערב ים-תיכוני מודרני.",
     mergeTip: "התחל ב-4/4 מזרחית → הכנס אלמנט 9/8 בהדרגה → חזור ל-4/4 בדרופ.",
     crowdProfile: "אירועים עם קהל מוזיקלי. פסטיבלים, חתונות יוקרה.",
-    bpmHint: "120–130",
+    bpmHint: "120-130",
     technicalNote: "דורש עריכת משקל - לא sync אוטומטי. פרויקט אולפן.",
     energy: "גבוה",
     researchSource: "Balkan×Middle East fusion (global DJ trend)",
@@ -707,7 +707,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
       "שני שירים על זהות ושורשים - חיבור thematic, לא רק טכני. מי שמקשיב לטקסט מקבל שכבה נוספת.",
     mergeTip: "Alors acapella 8 תיבות → כניסת נחלת בנימין מהפזמון. שמור על צרפתית ברורה לפני המעבר.",
     crowdProfile: "קהל מעורב, חתונות עם אורחים מחו\"ל. חזק אחרי קבלת פנים.",
-    bpmHint: "120–128",
+    bpmHint: "120-128",
     energy: "בינוני",
     researchSource: "Cross-language mashup culture + Itay Levi 2026 hits",
     proCta: "custom",
@@ -721,7 +721,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     hook: "השקט לפני הדרופ - מוצר אולפן, לא טריק DJ.",
     whyItWorks:
       "כשבונים drop מותאם לשם הזוג או למשפט מהסט - זה signature שלא מתחרים מעתיקים ביוטיוב.",
-    mergeTip: "3–5 שניות acapella + silence (high-pass sweep) → drop עם סאב מעוצב. תאם עם תאורה.",
+    mergeTip: "3-5 שניות acapella + silence (high-pass sweep) → drop עם סאב מעוצב. תאם עם תאורה.",
     crowdProfile: "זוגות שרוצים רגע \"שלי\". מפיקים שמחפשים branding.",
     bpmHint: "128",
     technicalNote: "הפקה מלאה באולפן - תג קולי + עיבוד + drop. חבילה טבעית.",
@@ -739,9 +739,9 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     whyItWorks:
       "צעירים מכירים את שני הצדדים. ה-drill נותן משקל שהמזרחית הרגילה לא מביאה - בלי לאבד את המילים.",
     mergeTip: "8 תיבות פאוף acapella → כניסת 808 והיי-האטים. שמור על BPM 140 קבוע.",
-    crowdProfile: "בר מצווה, חתונה צעירה, אירוע עם גילאי 16–25.",
+    crowdProfile: "בר מצווה, חתונה צעירה, אירוע עם גילאי 16-25.",
     energy: "גבוה",
-    researchSource: "Drill×Israeli pop trend 2025–26",
+    researchSource: "Drill×Israeli pop trend 2025-26",
     proCta: "custom",
   },
   {

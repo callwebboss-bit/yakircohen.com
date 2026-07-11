@@ -4,6 +4,10 @@ import {
   BAT_MITZVAH_FEATURED_VIDEO_ID,
   BAT_MITZVAH_PRODUCTION_STYLES,
 } from "@/lib/data/bat-mitzvah-gifts-page";
+import {
+  PROPOSAL_CLIP_FEATURED_VIDEO_ID,
+  PROPOSAL_CLIP_VIDEOS,
+} from "@/lib/data/proposal-clip-gifts-page";
 import { RINGTONE_PAGE_PATH } from "@/lib/data/funny-ringtone-page";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
 import {
@@ -19,6 +23,8 @@ export {
   BAT_MITZVAH_CLIP_VIDEOS,
   BAT_MITZVAH_FEATURED_VIDEO_ID,
   BAT_MITZVAH_PRODUCTION_STYLES,
+  PROPOSAL_CLIP_FEATURED_VIDEO_ID,
+  PROPOSAL_CLIP_VIDEOS,
 };
 
 export type StudioGiftIdea = {
@@ -86,6 +92,24 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     whatsappText:
       "היי יקיר! מעוניינים בשובר מתנה - פודקאסט עם סבא/סבתא. אשמח לפרטים.",
     utmCampaign: "gift_grandpa_podcast",
+  },
+  {
+    id: "proposal-clip",
+    badge: "הצעת נישואין",
+    title: "קליפ מתננה - שיר בהפתעה לבת/בן הזוג",
+    description:
+      "שיר מקורי עם הקדשה אישית - לאישה, לחברה או לבן/בת הזוג. הקלטה, עריכה ומיקס באולפן, מוכן להקרנה ברגע המתננה.",
+    highlights: [
+      "מילים אישיות וליווי בניסוח",
+      "גם למי שלא זמר/ית",
+      "קובץ מוכן לוואטסאפ ולהקרנה",
+    ],
+    href: "/studio/recording-song-modiin",
+    videoId: PROPOSAL_CLIP_FEATURED_VIDEO_ID,
+    videoTitle: PROPOSAL_CLIP_VIDEOS[0]?.title ?? "קליפ מתננה מהאולפן",
+    whatsappText:
+      "היי יקיר! מעוניין/ת בקליפ מתננה / שיר בהפתעה לבת או בן הזוג.",
+    utmCampaign: "gift_proposal_clip",
   },
   {
     id: "bat-mitzvah",

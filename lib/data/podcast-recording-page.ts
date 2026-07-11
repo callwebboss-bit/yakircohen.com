@@ -4,8 +4,9 @@
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
-export const PODCAST_RECORDING_PRICE = "2,500";
+export const PODCAST_RECORDING_PRICE = getExVat("full_podcast_production");
 export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא - כולל צילום, הקלטה ועריכה";
 
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
@@ -54,10 +55,12 @@ export const PODCAST_RECORDING_STUDIO_SPACES: readonly {
 ] as const;
 
 export const PODCAST_RECORDING_INCLUDED: readonly {
+  emoji: string;
   title: string;
   items: readonly string[];
 }[] = [
   {
+    emoji: "🗓️",
     title: "סשן צילום והקלטה (עד שעה)",
     items: [
       "בחירת חלל מתוך 3 אפשרויות",
@@ -65,6 +68,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     ],
   },
   {
+    emoji: "🎥",
     title: "צילום וידאו ברמה הגבוהה ביותר",
     items: [
       "2-3 מצלמות 4K, זוויות מגוונות, מראה דינמי",
@@ -73,6 +77,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     ],
   },
   {
+    emoji: "🎙️",
     title: "הקלטת סאונד אולפנית",
     items: [
       "מיקרופונים דינמיים Shure, Rode, Audio-Technica",
@@ -82,6 +87,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     ],
   },
   {
+    emoji: "✂️",
     title: "עריכה מקצועית מלאה",
     items: [
       "חיתוך וסידור, הסרת טעויות והפסקות",
@@ -93,6 +99,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     ],
   },
   {
+    emoji: "📤",
     title: "קבצים סופיים מוכנים להפצה",
     items: [
       "וידאו MP4, 1080p או 4K (לפי בקשה) ליוטיוב",

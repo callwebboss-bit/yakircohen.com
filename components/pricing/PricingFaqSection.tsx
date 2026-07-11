@@ -8,47 +8,77 @@ import {
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
 } from "@/lib/data/pricing";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const FAQ_ANSWERS: Record<string, React.ReactNode> = {
-  "studio-hour-price": (
+  "studio-half-vs-hour": (
     <>
-      חצי שעה באולפן עולה {STUDIO_HALF_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ, ושעה מלאה עולה{" "}
-      {STUDIO_ONE_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ. כל המחירים כוללים ליווי טכני מלא.{" "}
+      חצי שעה ({STUDIO_HALF_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ) מתאימה להקלטה בודדת, פיילוט או ברכה קצרה.
+      שעה ({STUDIO_ONE_HOUR_NIS.toLocaleString("he-IL")} ₪) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
+      שניהם כוללים ליווי טכני מלא.{" "}
       <InlineServiceLink href="/studio/pricing">מחירון אולפן</InlineServiceLink>
-      {" · "}
-      <InlineServiceLink href="/studio/recording-studio">הקלטה באולפן</InlineServiceLink>
     </>
   ),
-  "podcast-recording-price": (
+  "podcast-which-package": (
     <>
-      פודקאסט אודיו מ-950 ₪ לפרק (הקלטה + עריכה + מסירה לספוטיפיי). פודקאסט וידאו מ-1,650 ₪. חבילות תוכן מלאות עם רילז מ-2,800 ₪.{" "}
+      פודקאסט אודיו (מ-950 ₪) - פרק בודד עם הקלטה ועריכה. וידאו (מ-1,650 ₪) - אם צריך נוכחות ביוטיוב.
+      חבילת תוכן (מ-2,800 ₪) - אם רוצים גם רילז מהפרק. לא בטוחים?{" "}
+      <a
+        href={buildWhatsAppHref({
+          text: "היי, לא בטוח איזו חבילת פודקאסט מתאימה לי",
+          source: "pricing-faq-podcast",
+        })}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-brand-red hover:underline"
+      >
+        שלחו הודעה
+      </a>{" "}
+      ונמליץ.{" "}
       <InlineServiceLink href="/podcast">חבילות פודקאסט</InlineServiceLink>
     </>
   ),
-  "podcast-editing-price": (
+  "unsure-which-service": (
     <>
-      עריכת פודקאסט עולה {PODCAST_EDITING_PER_HOUR_NIS.toLocaleString("he-IL")} ₪ לשעת חומר גולמי, לפני מע״מ. כולל ניקוי רעשים, סנכרון וכתוביות.{" "}
-      <InlineServiceLink href="/podcast/podcast-editing">עריכת פודקאסט</InlineServiceLink>
+      תתקשרו או{" "}
+      <a
+        href={buildWhatsAppHref({
+          text: "היי, לא בטוח איזה שירות מתאים לי - אשמח לייעוץ",
+          source: "pricing-faq-unsure",
+        })}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-brand-red hover:underline"
+      >
+        שלחו וואטסאפ
+      </a>
+      . תארו מה אתם צריכים - אשאל שלוש שאלות ואמליץ על שירות אחד, בלי לחץ.
+    </>
+  ),
+  "need-more-time": (
+    <>
+      תוספת זמן באולפן - לפי מחיר חצי שעה ({STUDIO_HALF_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ).
+      בפודקאסט - תוספת משתתף או זמן עריכה ({PODCAST_EDITING_PER_HOUR_NIS.toLocaleString("he-IL")} ₪ לשעת חומר) נספרים בנפרד ומוסברים לפני שמתחילים.
     </>
   ),
   "vat-included": (
     <>
-      לא – כל המחירים המוצגים הם לפני מע״מ (+18%). ליד כל שורה מוצג גם המחיר כולל מע״מ, וב{" "}
-      <InlineServiceLink href="/book">טופס ההזמנה המקוונת</InlineServiceLink>{" "}
-      נראה המחיר הסופי עם מע״מ.
+      לא - המחירים במחירון הם לפני מע״מ (+18%). בלחיצה על שורה רואים גם את המחיר כולל מע״מ. ב{" "}
+      <InlineServiceLink href="/book">טופס ההזמנה</InlineServiceLink>{" "}
+      מוצג המחיר הסופי.
     </>
   ),
   "how-to-book": (
     <>
       דרך{" "}
       <InlineServiceLink href="/book">טופס ההזמנה המקוונת</InlineServiceLink>
-      {" – בוחרים שירות, רואים מחיר סופי, מאשרים תאריך. ניתן גם לפנות בוואטסאפ."}
+      {" - בוחרים שירות, רואים מחיר סופי עם מע״מ, מאשרים תאריך. אפשר גם וואטסאפ אם צריך עזרה לבחור."}
     </>
   ),
-  packages: (
+  "try-before-commit": (
     <>
-      כן – חבילות מוכנות לאולפן, פודקאסט וחתונות ב{" "}
-      <InlineServiceLink href="/packages">עמוד החבילות</InlineServiceLink>. כולל מחיר שקוף לפני ואחרי מע״מ.
+      כן. פודקאסט - חבילת פתיחה (חצי שעה) או פרק אודיו בודד. אולפן - חצי שעה. עסקים - פיילוט תוכן. פרטים ב{" "}
+      <InlineServiceLink href="/packages">עמוד החבילות</InlineServiceLink>.
     </>
   ),
 };
@@ -58,7 +88,7 @@ export default function PricingFaqSection() {
     <FAQAccordion
       className="border-t border-border bg-surface"
       title="שאלות נפוצות על מחירים"
-      subtitle="תשובות קצרות על מחירים, מע״מ והזמנה"
+      subtitle="השוואות, בחירת שירות והזמנה"
       allowMultiple
       items={PRICING_FAQ_ITEMS.map((item) => ({
         id: item.id,

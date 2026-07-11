@@ -1,3 +1,6 @@
+"use client";
+
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import { buildWhatsAppHref, type WhatsAppWidgetProps } from "@/lib/whatsapp";
 
 const DEFAULT_LABEL = "שליחת הודעה בוואטסאפ";
@@ -32,6 +35,9 @@ export default function WhatsAppWidget({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel}
+      onClick={() =>
+        trackConversion("whatsapp_fab_click", { campaign: utm_campaign })
+      }
       className={`fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/30 bg-[var(--service-accent,#d42b2b)] pb-[env(safe-area-inset-bottom)] text-white shadow-[0_0_24px_color-mix(in_srgb,var(--service-accent,#d42b2b)_25%,transparent)] transition-[transform,box-shadow,background-color] duration-300 ease-[var(--ease-luxury)] hover:scale-105 hover:shadow-[0_0_32px_color-mix(in_srgb,var(--service-accent,#d42b2b)_40%,transparent)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:bottom-8 sm:right-8 ${className}`.trim()}
     >
       <WhatsAppIcon />

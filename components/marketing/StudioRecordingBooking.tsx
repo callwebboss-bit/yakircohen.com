@@ -2147,7 +2147,7 @@ export default function StudioRecordingBooking({
               <BookingSummaryActions
                 disabled={!form.termsAccepted}
                 showPaymentTrust
-                socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5–7 ימי עבודה"
+                socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5-7 ימי עבודה"
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(total)),
                   onClick: () => onSubmitClick("continue_chat"),

@@ -1,4 +1,4 @@
-﻿import { PODCAST_STUDIO_MODIIN_PRICE_FAQ } from "./faq-aeo";
+import { PODCAST_STUDIO_MODIIN_PRICE_FAQ } from "./faq-aeo";
 
 export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
@@ -46,7 +46,7 @@ export const STUDIO_MODIIN_RELATED_SERVICES: readonly {
     emoji: "📱",
     title: "סושיאל דאמפ, רילז לעסקים",
     description:
-      "2 שעות באולפן, 10–15 רילז ערוכים. צילום מרוכז לטיקטוק ורילז.",
+      "2 שעות באולפן, 10-15 רילז ערוכים. צילום מרוכז לטיקטוק ורילז.",
     href: "/business/content-studio",
   },
   {

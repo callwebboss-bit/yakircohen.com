@@ -173,16 +173,16 @@ const INITIAL: EventsFormDraft = {
 /** תגי אמינות ספציפיים לאירועים (לא "גיבוי ענן" / "חניה") */
 const EVENTS_TRUST_BADGES = [
   { icon: "⏰", label: "מגיעים לפחות 40 דקות לפני האירוע" },
-  { icon: "🔌", label: "מחברים ומצפינים כבלים – עבודה מסודרת" },
+  { icon: "🔌", label: "מחברים ומצפינים כבלים - עבודה מסודרת" },
   { icon: "✅", label: "בודקים כל הציוד לפני כניסת האורחים" },
-  { icon: "🤝", label: "ראש שקט – אנחנו מסודרים עד הסוף" },
+  { icon: "🤝", label: "ראש שקט - אנחנו מסודרים עד הסוף" },
 ] as const;
 
 /** צעדי "מה קורה אחרי שמזמינים?" */
 const EVENTS_NEXT_STEPS = [
   { number: 1, title: "מזמינים ומאשרים", body: "שולחים הודעה ומקבלים אישור זמינות" },
-  { number: 2, title: "אנחנו מגיעים מוקדם", body: "40+ דק׳ לפני – בדיקה, חיבור ואבטחת כבלים" },
-  { number: 3, title: "אתם נהנים – אנחנו על זה", body: "ראש שקט מהרגע שאתם מזמינים" },
+  { number: 2, title: "אנחנו מגיעים מוקדם", body: "40+ דק׳ לפני - בדיקה, חיבור ואבטחת כבלים" },
+  { number: 3, title: "אתם נהנים - אנחנו על זה", body: "ראש שקט מהרגע שאתם מזמינים" },
 ] as const;
 
 type EventsBookingWizardProps = {
@@ -302,7 +302,7 @@ export default function EventsBookingWizard({
   const SOUND_RENTAL_ID: EventBookingItemId = "sound_rental";
   const SOUND_RENTAL_PRICE = 1750;
 
-  /** הגברה היא line item נפרד – לא נכנסת לחישוב הבאנדל */
+  /** הגברה היא line item נפרד - לא נכנסת לחישוב הבאנדל */
   const attractionIds = useMemo(
     () => form.selected.filter((id) => id !== SOUND_RENTAL_ID),
     [form.selected],
@@ -358,7 +358,7 @@ export default function EventsBookingWizard({
   const bundleBase = getEventBundlePrice(count);
   const soundRentalLine = hasSoundRental ? SOUND_RENTAL_PRICE : 0;
   const bundleTotal = bundleBase + addOnTotal + soundRentalLine + adjustedUpsellTotal;
-  /** חיסכון מהבאנדל – לא כולל הגברה ולא כולל תוספות */
+  /** חיסכון מהבאנדל - לא כולל הגברה ולא כולל תוספות */
   const savings = count > 1 ? count * 1750 - bundleBase : 0;
   /** חיסכון מ-upsells עם מחיר מקורי */
   const upsellSavings = useMemo(
@@ -838,7 +838,7 @@ export default function EventsBookingWizard({
 
               return (
                 <div key={item.id} className="flex flex-col gap-1.5">
-                  {/* כרטיס ראשי – לחיץ לבחירה */}
+                  {/* כרטיס ראשי - לחיץ לבחירה */}
                   <button
                     type="button"
                     onClick={() => toggle(item.id)}
@@ -1007,7 +1007,7 @@ export default function EventsBookingWizard({
                     </>
                   ) : null}
 
-                  {/* טוגל legacy לכמות כפולה – לפריטים ללא pricingType */}
+                  {/* טוגל legacy לכמות כפולה - לפריטים ללא pricingType */}
                   {active && !item.pricingType && item.quantityLabel ? (
                     <>
                       <div className="flex gap-1.5 px-0.5">
@@ -1222,7 +1222,7 @@ export default function EventsBookingWizard({
           </button>
 
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-            {/* עמודת שמאל – סיכום מה שנבחר */}
+            {/* עמודת שמאל - סיכום מה שנבחר */}
             <div className="space-y-4">
               <div className="rounded-2xl border border-border bg-surface p-6">
                 <div className="flex items-center gap-2">
@@ -1259,7 +1259,7 @@ export default function EventsBookingWizard({
                 {count >= EVENT_GIFT_THRESHOLD ? (
                   <div className="mt-3 flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
                     <span aria-hidden="true">🎁</span>
-                    <span>מגיע לכם קליפ היילייטס 60 שניות – מתנה</span>
+                    <span>מגיע לכם קליפ היילייטס 60 שניות - מתנה</span>
                   </div>
                 ) : null}
 
@@ -1329,7 +1329,7 @@ export default function EventsBookingWizard({
               <BookWhatHappensNext steps={EVENTS_NEXT_STEPS} />
             </div>
 
-            {/* עמודת ימין – אמינות ושליחה */}
+            {/* עמודת ימין - אמינות ושליחה */}
             <div className="relative z-10 space-y-4 pb-28">
               <BookTrustBadges badges={EVENTS_TRUST_BADGES} />
 
@@ -1346,7 +1346,7 @@ export default function EventsBookingWizard({
                   💬 פרטים חשובים לנו לפני שמגיעים
                 </label>
                 <p className="text-xs text-muted-foreground">
-                  אופציונלי – עוזר לנו להגיע מוכנים ב-100%.
+                  אופציונלי - עוזר לנו להגיע מוכנים ב-100%.
                 </p>
                 <textarea
                   id="ev-customer-need"

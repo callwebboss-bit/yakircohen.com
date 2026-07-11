@@ -26,6 +26,7 @@ import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import RecordingSongInquiryForm from "@/components/seo/RecordingSongInquiryForm";
 import RecordingSongBeforeAfter from "@/components/seo/RecordingSongBeforeAfter";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import RecordingSongFinalCTA from "@/components/seo/RecordingSongFinalCTA";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
@@ -276,6 +277,17 @@ export default function RecordingSongModiinPageContent() {
             <div className="mt-8">
               <RecordingSongBeforeAfter />
             </div>
+          </section>
+
+          <section
+            className="rounded-2xl border border-border bg-surface p-6 sm:p-10"
+            aria-labelledby="proposal-pitch-proof-recording-heading"
+          >
+            <ProposalGiftPitchProofSection
+              headingId="proposal-pitch-proof-recording-heading"
+              heading="מתלבטים עם תיקון זיופים? שמעו ואז צפו בקליפ"
+              intro="שיר מתנה או קליפ מתננה - אותו קטע לפני ואחרי תיקון זיופים, ואז הקליפ המלא מהאולפן."
+            />
           </section>
 
           <FullProductionShowcaseSection

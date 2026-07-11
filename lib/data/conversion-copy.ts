@@ -1,5 +1,6 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildBookHref } from "@/lib/book-url";
+import { formatHubPriceDual } from "@/lib/data/pricing-display";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
@@ -19,7 +20,26 @@ export const TIME_CLAIMS = {
   waResponse15m: "בדרך כלל תוך 15 דקות",
   waResponse15mBusiness: "בדרך כלל תוך 15 דקות בשעות הפעילות",
   waResponseMinutes: "בדרך כלל תוך דקות בוואטסאפ",
+  humanResponseSubline: "*מענה אנושי תוך שעה",
 } as const;
+
+export const OUTCOME_CTA = {
+  quote24h: "קבלו הצעה תוך 24 שעות",
+  startMinute: "תתחילו לעבוד תוך דקה",
+  heroBookNoCommit: "📩 קבעו שיחה - בלי התחייבות",
+  heroSendFile: "📤 שלחו קובץ",
+} as const;
+
+export const FORCE_MAJEURE_REASSURANCE =
+  "🔒 קורונה, מלחמה, כוח עליון? אנחנו איתכם - בטלפון נסגור מה מתאים.";
+
+export const FORM_DATA_SECURITY =
+  "🔒 הנתונים שלך מאובטחים. לא משתפים עם אף אחד.";
+
+export const HESITATION_CTA =
+  "❓ עדיין מתלבטים? דברו איתנו בלי שום התחייבות.";
+
+export const SERVICE_CARD_DETAILS_CTA = "📖 לפרטים";
 
 export const CTA_LABELS = {
   whatsappQuote: "קבלו מחיר ותאריך פנוי",
@@ -52,8 +72,8 @@ export function hubBookCtaLabel(priceExVat: number): string {
   return `הזמנה מקוונת מ-${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
 }
 
-export function pricingRowBookCta(priceExVat: number): string {
-  return `קבל הצעת מחיר עכשיו - ${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
+export function pricingRowBookCta(priceExVat: number, priceFrom = false): string {
+  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom)}`;
 }
 
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {

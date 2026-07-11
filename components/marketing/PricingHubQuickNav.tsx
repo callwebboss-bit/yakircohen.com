@@ -4,39 +4,34 @@ import Section from "@/components/ui/Section";
 
 const PRICING_QUICK_NAV = [
   {
-    title: "חבילות מוכנות",
-    description: "אולפן, פודקאסט וחתונות",
-    href: "/packages",
+    title: "אולפן והקלטות",
+    description: "שעות אולפן, ברכות, שירים וספרי שמע",
+    href: "/pricing#pricing-super-studio",
+  },
+  {
+    title: "פודקאסט",
+    description: "הקלטה, עריכה וחבילות",
+    href: "/pricing#pricing-super-podcast",
+  },
+  {
+    title: "תוכן לעסקים",
+    description: "רילז, תוכן ארגוני וסדנאות",
+    href: "/pricing#pricing-super-business",
+  },
+  {
+    title: "אירועים והפקות",
+    description: "אטרקציות ומצגות תמונות",
+    href: "/pricing#pricing-super-events",
+  },
+  {
+    title: "שירותי AI ועריכה",
+    description: "שחזור קול, תמלול ושיבוט",
+    href: "/pricing#pricing-super-online",
   },
   {
     title: "הזמנה עם מחיר סופי",
     description: "בוחרים שירות, רואים מחיר מיד",
     href: "/book",
-  },
-  {
-    title: "מחשבון פודקאסט",
-    description: "חבילות הקלטה ועריכה",
-    href: "/podcast",
-  },
-  {
-    title: "מחירון אולפן",
-    description: "שעות, ברכות ושירים",
-    href: "/pricing#studio",
-  },
-  {
-    title: "DJ ואירועים",
-    description: "תקליטן, הגברה ואפקטים",
-    href: "/events/dj-events",
-  },
-  {
-    title: "שירותי AI מקוונים",
-    description: "שחזור, מיקס ותיקון זיופים",
-    href: "/pricing#online",
-  },
-  {
-    title: "אטרקציות לאירועים",
-    description: "עשן, בועות, זיקוקים",
-    href: "/pricing#events",
   },
 ] as const;
 
@@ -45,10 +40,10 @@ export default function PricingHubQuickNav() {
     <Section padding="sm" className="border-b border-border bg-surface">
       <Container className="max-w-3xl">
         <h2 className="font-serif text-lg font-semibold text-foreground">
-          מחשבונים ומחירים לפי שירות
+          מחירון לפי קטגוריה
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          קפיצה מהירה למחשבון או לקטגוריה במחירון. פתחו קטגוריה ואז שורה לראות מחיר.
+          קפיצה מהירה לקטגוריה. פתחו מקטע ואז שורה לראות מחיר.
         </p>
         <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {PRICING_QUICK_NAV.map((item) => (

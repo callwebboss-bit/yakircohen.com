@@ -1,3 +1,5 @@
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+
 export type QualificationFieldType = "text" | "date" | "tel" | "select";
 
 export type QualificationField = {
@@ -9,7 +11,13 @@ export type QualificationField = {
   required?: boolean;
   maxLength?: number;
   waLabel: string;
+  /** אם נבחרה האופציה הזו, מוצגת הודעה חלופית (ר' lowBudgetMessage) */
+  lowBudgetOption?: string;
+  /** הודעה כנה על חלופה זולה יותר - לא מוצגת אלא אם lowBudgetOption נבחר */
+  lowBudgetMessage?: string;
 };
+
+const BUDGET_WA_LABEL = "תקציב";
 
 const EVENT_DATE: QualificationField = {
   id: "eventDate",
@@ -31,8 +39,48 @@ const GUEST_COUNT: QualificationField = {
   id: "guestCount",
   label: "מספר אורחים (בערך)",
   type: "select",
-  options: ["עד 100", "100–300", "300+"],
+  options: ["עד 100", "100-300", "300+"],
   waLabel: "מספר אורחים",
+};
+
+const BUDGET_FAMILY_GIFTS: QualificationField = {
+  id: "budgetRange",
+  label: "מה טווח התקציב שלך?",
+  type: "select",
+  required: false,
+  options: ["עד 300 ₪", "300-800 ₪", "800+ ₪", "לא יודע/ת עדיין"],
+  waLabel: BUDGET_WA_LABEL,
+  lowBudgetOption: "עד 300 ₪",
+  lowBudgetMessage:
+    `המחיר ההתחלתי להקלטת ברכה באולפן: ${formatFromPriceDual(getExVat("blessing_recording"))}. ` +
+    `אם התקציב נמוך מזה - יש גם שיפור וניקוי להקלטה שכבר יש לך, ` +
+    `${formatFromPriceDual(getExVat("ai_voice_enhance"))} בשירותי ה-AI שלנו.`,
+};
+
+const BUDGET_PODCAST: QualificationField = {
+  id: "budgetRange",
+  label: "מה טווח התקציב שלך?",
+  type: "select",
+  required: false,
+  options: ["עד 400 ₪", "400-1,000 ₪", "1,000+ ₪", "לא יודע/ת עדיין"],
+  waLabel: BUDGET_WA_LABEL,
+  lowBudgetOption: "עד 400 ₪",
+  lowBudgetMessage:
+    `חצי שעה באולפן: ${formatFromPriceDual(getExVat("studio_half_hour"))}. ` +
+    `אם התקציב נמוך יותר - אפשר שיפור קול חכם להקלטה עצמאית שכבר הקלטת, ` +
+    `${formatFromPriceDual(getExVat("ai_voice_enhance"))}.`,
+};
+
+const BUDGET_ONLINE_RESTORE: QualificationField = {
+  id: "budgetRange",
+  label: "מה טווח התקציב שלך?",
+  type: "select",
+  required: false,
+  options: ["לא בטוח/ה - קודם רוצה בדיקה", "עד 500 ₪", "500+ ₪"],
+  waLabel: BUDGET_WA_LABEL,
+  lowBudgetOption: "לא בטוח/ה - קודם רוצה בדיקה",
+  lowBudgetMessage:
+    "אין בעיה - יש בדיקת היתכנות חינם. שלחו קטע של כ-30 שניות מהקובץ ונגיד לכם בכנות מה אפשר להציל, בלי התחייבות.",
 };
 
 export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
@@ -55,6 +103,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       options: ["בר/בת מצווה", "חתונה", "יום הולדת", "אחר"],
       waLabel: "סוג אירוע",
     },
+    BUDGET_FAMILY_GIFTS,
   ],
   "podcast-content": [
     {
@@ -78,6 +127,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       options: ["פרק בודד", "שבועי", "חודשי"],
       waLabel: "תדירות",
     },
+    BUDGET_PODCAST,
   ],
   "events-attractions": [EVENT_DATE, VENUE, GUEST_COUNT],
   "dj-vip": [EVENT_DATE, VENUE, GUEST_COUNT],
@@ -88,7 +138,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       id: "performerCount",
       label: "כמה מבצעים על הבמה?",
       type: "select",
-      options: ["1", "2–3", "4+"],
+      options: ["1", "2-3", "4+"],
       waLabel: "מבצעים על הבמה",
     },
   ],
@@ -111,7 +161,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       id: "hoursNeeded",
       label: "כמה שעות (בערך)?",
       type: "select",
-      options: ["1–2", "3–4", "5+"],
+      options: ["1-2", "3-4", "5+"],
       waLabel: "שעות צילום",
     },
   ],
@@ -120,7 +170,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       id: "preferredDay",
       label: "יום מועדף",
       type: "select",
-      options: ["ראשון–חמישי", "שישי", "גמיש"],
+      options: ["ראשון-חמישי", "שישי", "גמיש"],
       waLabel: "יום מועדף",
     },
     {
@@ -154,6 +204,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       maxLength: 80,
       waLabel: "תיאור הבעיה",
     },
+    BUDGET_ONLINE_RESTORE,
   ],
   "pro-b2b": [
     {

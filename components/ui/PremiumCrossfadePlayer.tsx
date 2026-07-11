@@ -9,6 +9,7 @@ type Props = {
   afterLabel: string;
   storageKey?: string;
   onListenComplete?: () => void;
+  onPlayStart?: () => void;
 };
 
 const SYNC_THRESHOLD = 0.1; // seconds - seek lagging channel if gap exceeds this
@@ -21,6 +22,7 @@ export default function PremiumCrossfadePlayer({
   afterLabel,
   storageKey,
   onListenComplete,
+  onPlayStart,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null); // owns --sp CSS variable
   const trackRef = useRef<HTMLDivElement>(null);     // slider ARIA target
@@ -30,11 +32,14 @@ export default function PremiumCrossfadePlayer({
   const isDragging = useRef(false);
   const lastSync = useRef(0);      // timestamp of last throttle gate
   const cbRef = useRef(onListenComplete);
+  const playStartRef = useRef(onPlayStart);
+  const playTracked = useRef(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => { cbRef.current = onListenComplete; }, [onListenComplete]);
+  useEffect(() => { playStartRef.current = onPlayStart; }, [onPlayStart]);
 
   // Write slider position as CSS variable - no React re-render, 60 FPS
   const applyPos = useCallback((pos: number) => {
@@ -127,6 +132,10 @@ export default function PremiumCrossfadePlayer({
       try {
         await Promise.all([b.play(), a.play()]);
         setIsPlaying(true);
+        if (!playTracked.current) {
+          playTracked.current = true;
+          playStartRef.current?.();
+        }
       } catch { /* interrupted or blocked */ }
     }
   }, [isPlaying, triggerLoad]);

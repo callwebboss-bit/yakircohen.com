@@ -103,8 +103,8 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/events/attractions/jerusalem",
     anchor: "אטרקציות לאירועים בירושלים",
   },
-  "ציוד מקצועי למכירה": { href: "/equipment/used-gear", anchor: "ציוד מקצועי למכירה" },
-  "ציוד יד שנייה": { href: "/equipment/used-gear", anchor: "ציוד יד שנייה" },
+  "ציוד מקצועי למכירה": { href: "/shop#used-gear", anchor: "ציוד מקצועי למכירה" },
+  "ציוד יד שנייה": { href: "/shop#used-gear", anchor: "ציוד יד שנייה" },
   "פודקאסט נייד": { href: "/podcast/mobile-podcast-at-home", anchor: "פודקאסט נייד עד הבית" },
   "הקלטת פודקאסט בבית": {
     href: "/podcast/mobile-podcast-at-home",
@@ -138,7 +138,7 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   },
   "השכרת הגברה": { href: "/events/equipment", anchor: "השכרת הגברה" },
   "הגברה לאירועים": { href: "/events/equipment", anchor: "הגברה לאירועים" },
-  "שובר מתנה": { href: "/voucher", anchor: "שובר מתנה" },
+  "שובר מתנה": { href: "/shop#vouchers", anchor: "שובר מתנה" },
   "הקלטת שיר באולפן": {
     href: "/studio/recording-song-modiin",
     anchor: "הקלטת שיר באולפן",

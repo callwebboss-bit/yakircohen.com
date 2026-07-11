@@ -4,6 +4,7 @@ import BlessingsRelatedNav from "@/components/blessings/BlessingsRelatedNav";
 import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
 import BlessingsWhyGrid from "@/components/blessings/BlessingsWhyGrid";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import {
@@ -75,6 +76,17 @@ export default function BlessingsVideoClipPageContent() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section
+        className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
+        aria-labelledby="video-clip-pitch-proof-heading"
+      >
+        <ProposalGiftPitchProofSection
+          headingId="video-clip-pitch-proof-heading"
+          heading="קליפ עם תיקון זיופים - שמעו לפני שמזמינים"
+          intro="חבילת שיר + וידאו כוללת בדרך כלל תיקון זיופים. אם אתם מתלבטים - שמעו את ההבדל ואז צפו בקליפ המלא."
+        />
       </section>
 
       <BatMitzvahClipShowcase

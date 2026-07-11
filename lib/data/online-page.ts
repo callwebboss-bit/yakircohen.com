@@ -1,4 +1,5 @@
 ﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+import type { FAQItem } from "@/components/ui/FAQAccordion";
 
 export type OnlineFeaturedService = {
   icon: string;
@@ -21,6 +22,7 @@ export type OnlineServiceCategory = {
   id: string;
   slug: string;
   title: string;
+  icon: string;
   description: string;
   services: readonly OnlineServiceItem[];
 };
@@ -82,6 +84,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
     id: "audio-music",
     slug: "audio-music",
     title: "אודיו ומוזיקה",
+    icon: "🎧",
     description: "תיקון, ליטוש והפקת סאונד מקצועית לקול ולמוזיקה.",
     services: [
       {
@@ -165,6 +168,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
     id: "podcast-voice",
     slug: "podcast-voice",
     title: "פודקאסט, דיבור וקריינות",
+    icon: "🎙️",
     description: "פתרונות מלאים ליוצרי תוכן עסקי, ראיונות ופרקי פודקאסט.",
     services: [
       {
@@ -199,6 +203,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
     id: "video-content",
     slug: "video-content",
     title: "וידאו ותוכן דיגיטלי",
+    icon: "🎬",
     description: "עריכה, שיפור איכות, התאמה לפורמטים קצרים ושיווקיים.",
     services: [
       {
@@ -233,6 +238,7 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
     id: "image-design",
     slug: "image-design",
     title: "תמונה ועיצוב AI",
+    icon: "🖼️",
     description: "שיפור תמונות, שחזור חומרים ויצירת נכסים גרפיים מהירה.",
     services: [
       {
@@ -257,12 +263,36 @@ export const ONLINE_SERVICE_CATEGORIES: readonly OnlineServiceCategory[] = [
   },
 ] as const;
 
-export const ONLINE_WHY_US: readonly string[] = [
-  "Done-for-You אמיתי: אנחנו מבצעים בפועל את כל העבודה, לא רק ממליצים על כלים",
-  "מאגר שירותים רחב: אודיו, פודקאסט, וידאו, תמונה ואוטומציה שיווקית",
-  "מהירות ביצוע: מסלולים מהירים לפרויקטים דחופים",
-  "בקרת איכות אנושית + AI: שילוב של טכנולוגיה עם אוזן מקצועית",
-  "תקשורת ברורה: וואטסאפ זמין, סקיצות ועדכונים לאורך הדרך",
+export const ONLINE_WHY_US: readonly {
+  icon: string;
+  title: string;
+  detail: string;
+}[] = [
+  {
+    icon: "🎧",
+    title: "Done-for-You אמיתי",
+    detail: "אנחנו מבצעים בפועל את כל העבודה, לא רק ממליצים על כלים",
+  },
+  {
+    icon: "🎙️",
+    title: "מאגר שירותים רחב",
+    detail: "אודיו, פודקאסט, וידאו, תמונה ואוטומציה שיווקית",
+  },
+  {
+    icon: "⚡",
+    title: "מהירות ביצוע",
+    detail: "מסלולים מהירים לפרויקטים דחופים",
+  },
+  {
+    icon: "🤝",
+    title: "בקרת איכות אנושית + AI",
+    detail: "שילוב של טכנולוגיה עם אוזן מקצועית",
+  },
+  {
+    icon: "💬",
+    title: "תקשורת ברורה",
+    detail: "וואטסאפ זמין, סקיצות ועדכונים לאורך הדרך",
+  },
 ] as const;
 
 export const ONLINE_QUICK_LINKS: readonly {
@@ -305,3 +335,48 @@ export const ONLINE_QUICK_LINKS: readonly {
 export function getOnlineCategoryBySlug(slug: string): OnlineServiceCategory | undefined {
   return ONLINE_SERVICE_CATEGORIES.find((category) => category.slug === slug);
 }
+
+export const ONLINE_HUB_FAQS: FAQItem[] = [
+  {
+    id: "how-it-works",
+    question: "איך זה עובד?",
+    answer:
+      "התהליך מבוסס על 3 שלבים פשוטים: ניתוח הקובץ והצרכים שלכם, ביצוע העבודה בפועל באמצעות כלי AI מתקדמים בשילוב ידיים אנושיות, ומסירה של הגרסה המוכנה לאישורכם.",
+  },
+  {
+    id: "turnaround",
+    question: "כמה זמן זה לוקח?",
+    answer:
+      "רוב השירותים באולפן האונליין מוכנים ומסופקים בתוך 24-48 שעות בלבד מרגע שליחת הקובץ והסדרת התשלום.",
+  },
+  {
+    id: "pricing",
+    question: "כמה זה עולה?",
+    answer:
+      "המחיר משתנה בהתאם לסוג ואורך הקובץ. לדוגמה, שירות הצלת הקלטה פגומה מתחיל ב-250 ₪ ל-5 דקות ראשונות. לצפייה בכל הקטלוג והתעריפים המלאים, ניתן לעבור לעמוד המחירון שלנו.",
+  },
+  {
+    id: "services-included",
+    question: "אילו שירותים כלולים באולפן האונליין?",
+    answer:
+      "השירותים מחולקים ל-4 קטגוריות מרכזיות: שיפור ואופטימיזציה של סאונד ומוזיקה, עריכת פודקאסטים וקול, הפקה ועריכה של סרטוני וידאו, ושדרוג או עיצוב תמונות.",
+  },
+  {
+    id: "how-to-send",
+    question: "איך שולחים את הקבצים אליכם?",
+    answer:
+      "בכל עמוד שירות תמצאו קישור ישיר למערכת שליחת הקבצים המאובטחת שלנו, בה תוכלו להעלות את הקובץ שלכם ולצרף הנחיות ספציפיות לביצוע.",
+  },
+  {
+    id: "file-formats",
+    question: "אילו פורמטים אתם מקבלים?",
+    answer:
+      "WAV, MP3, M4A לשמע, MP4/MOV לוידאו, JPG/PNG לתמונה. קובץ גדול? שלחו בוואטסאפ ונכוון אתכם לשליחה מאובטחת.",
+  },
+  {
+    id: "revision",
+    question: "מה אם צריך תיקון אחרי המסירה?",
+    answer:
+      "סבב תיקון אחד כלול ברוב המסלולים. כותבים בוואטסאפ מה לשנות - מעדכנים תוך 24-48 שעות לפי עומס.",
+  },
+];

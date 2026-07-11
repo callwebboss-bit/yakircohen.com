@@ -4,6 +4,7 @@ import {
   BOOK_PAGE_DESCRIPTION,
   BOOK_PAGE_TITLE,
 } from "@/lib/seo/book-page";
+import { BOOK_PAGE_FAQ } from "@/lib/data/book-page-faq";
 import { absoluteUrl } from "@/lib/site-url";
 import { SITE_NAME } from "@/lib/constants";
 
@@ -30,6 +31,19 @@ const BOOK_FAQ_ITEMS = [
   },
 ] as const;
 
+function mergeBookFaqSchemaItems() {
+  const seen = new Set<string>();
+  const merged: { question: string; answer: string }[] = [];
+
+  for (const item of [...BOOK_FAQ_ITEMS, ...BOOK_PAGE_FAQ]) {
+    if (seen.has(item.question)) continue;
+    seen.add(item.question);
+    merged.push({ question: item.question, answer: item.answer });
+  }
+
+  return merged;
+}
+
 export default function BookPageSchema() {
   const pageUrl = absoluteUrl("book");
   const imageUrl = absoluteUrl(BOOK_OG_IMAGE_PATH.replace(/^\//, ""));
@@ -55,7 +69,7 @@ export default function BookPageSchema() {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "@id": `${pageUrl}#faq`,
-    mainEntity: BOOK_FAQ_ITEMS.map((item) => ({
+    mainEntity: mergeBookFaqSchemaItems().map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {

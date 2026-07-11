@@ -1,8 +1,10 @@
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
+import { formatHubRowDescription } from "@/lib/data/pricing-display";
 import {
   formatFromPriceDual,
   getExVat,
   getPriceById,
+  getPriceFromById,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
@@ -17,6 +19,10 @@ export type PricingHubRow = {
   href?: string;
   /** דורס את catalog.context כשצריך */
   description?: string;
+  /** למי השירות מתאים */
+  suitedFor?: string;
+  /** מחיר התחלה - לא מחיר סופי קבוע */
+  priceFrom?: boolean;
 };
 
 export type PricingHubSection = {
@@ -27,6 +33,105 @@ export type PricingHubSection = {
   bookHref?: string;
   rows: readonly PricingHubRow[];
 };
+
+export type PricingHubSuperCategoryId =
+  | "studio"
+  | "podcast"
+  | "business"
+  | "events"
+  | "online";
+
+export type PricingHubSuperCategory = {
+  id: PricingHubSuperCategoryId;
+  title: string;
+  description: string;
+  bgClass: string;
+};
+
+/** חמש קטגוריות עליונות במחירון — מפחית עומס קוגניטיבי */
+export const PRICING_HUB_SUPER_CATEGORIES: readonly PricingHubSuperCategory[] = [
+  {
+    id: "studio",
+    title: "אולפן והקלטות",
+    description: "שעות אולפן, ברכות, שירים וספרי שמע",
+    bgClass: "bg-background",
+  },
+  {
+    id: "podcast",
+    title: "פודקאסט",
+    description: "הקלטה, עריכה וחבילות פודקאסט",
+    bgClass: "bg-surface",
+  },
+  {
+    id: "business",
+    title: "תוכן לעסקים",
+    description: "רילז, תוכן ארגוני, מיתוג קולי וסדנאות",
+    bgClass: "bg-background",
+  },
+  {
+    id: "events",
+    title: "אירועים והפקות",
+    description: "אטרקציות, מצגות תמונות והפקות לאירוע",
+    bgClass: "bg-surface",
+  },
+  {
+    id: "online",
+    title: "שירותי AI ועריכה",
+    description: "שחזור קול, תמלול, שיבוט קול ושירותים מקצועיים",
+    bgClass: "bg-background",
+  },
+] as const;
+
+const SECTION_SUPER_CATEGORY: Record<string, PricingHubSuperCategoryId> = {
+  studio: "studio",
+  "self-service": "studio",
+  "corporate-songs": "studio",
+  audiobooks: "studio",
+  podcast: "podcast",
+  "podcast-editing": "podcast",
+  "content-studio": "business",
+  "on-site-studio": "business",
+  "employer-branding": "business",
+  "reel-factory": "business",
+  "audio-branding": "business",
+  workshops: "business",
+  events: "events",
+  slideshows: "events",
+  online: "online",
+  transcription: "online",
+  "voice-cloning": "online",
+  "legacy-digitization": "online",
+  pro: "online",
+};
+
+export function getSectionSuperCategory(sectionId: string): PricingHubSuperCategoryId {
+  return SECTION_SUPER_CATEGORY[sectionId] ?? "online";
+}
+
+export type PricingHubSuperCategoryGroup = PricingHubSuperCategory & {
+  sections: readonly PricingHubSection[];
+};
+
+export function groupPricingHubSections(
+  sections: readonly PricingHubSection[],
+): PricingHubSuperCategoryGroup[] {
+  const minRowPrice = (section: PricingHubSection) =>
+    Math.min(...section.rows.map((row) => row.exVat));
+
+  const sortRows = (rows: readonly PricingHubRow[]) =>
+    [...rows].sort((a, b) => a.exVat - b.exVat);
+
+  return PRICING_HUB_SUPER_CATEGORIES.map((category) => ({
+    ...category,
+    sections: sections
+      .filter((section) => getSectionSuperCategory(section.id) === category.id)
+      .sort((a, b) => minRowPrice(a) - minRowPrice(b))
+      .map((section) => ({
+        ...section,
+        rows: sortRows(section.rows),
+      })),
+  })).filter((group) => group.sections.length > 0);
+}
 
 function hubRow(
   catalogId: PriceItemId,
@@ -40,6 +145,8 @@ function hubRow(
     note: overrides?.note,
     href: overrides?.href,
     description: overrides?.description,
+    suitedFor: overrides?.suitedFor ?? item.suitedFor,
+    priceFrom: overrides?.priceFrom ?? item.priceFrom,
   };
 }
 
@@ -62,24 +169,37 @@ function podcastPackageRows(): PricingHubRow[] {
       note: p.subtitle,
       catalogId: link.catalogId,
       href: link.href,
-      description: p.summary,
+      description: p.subtitle,
     };
   });
 }
 
 export function resolveRowDescription(row: PricingHubRow): string | undefined {
-  if (row.description) return row.description;
-  if (row.catalogId) {
-    const context = getPriceById(row.catalogId).context;
-    if (context) return context;
-  }
-  return row.note;
+  const raw =
+    row.description ??
+    (row.catalogId ? getPriceById(row.catalogId).context : undefined) ??
+    row.note;
+  return formatHubRowDescription(raw);
 }
 
 /** היקף מחיר לשורה במחירון */
 export function resolveRowScope(row: PricingHubRow) {
   if (row.catalogId) return getPriceById(row.catalogId).scope;
   return undefined;
+}
+
+/** למי מתאים - לשורה במחירון */
+export function resolveRowSuitedFor(row: PricingHubRow): string | undefined {
+  if (row.suitedFor) return row.suitedFor;
+  if (row.catalogId) return getPriceById(row.catalogId).suitedFor;
+  return undefined;
+}
+
+/** האם להציג מחיר כ"מ-" במחירון */
+export function resolveRowShowFromPrefix(row: PricingHubRow): boolean {
+  if (row.priceFrom != null) return row.priceFrom;
+  if (row.catalogId) return getPriceFromById(row.catalogId);
+  return false;
 }
 
 export function resolveRowHref(row: PricingHubRow, sectionHref: string): string {
@@ -152,10 +272,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         note: "תוספת לכל פרק",
         href: "/podcast",
       }),
-      hubRow("full_podcast_production", {
-        label: "פודקאסט בבית / אולפן נייד",
+      hubRow("mobile_podcast_at_home", {
         href: "/podcast/mobile-podcast-at-home",
-        description: "הגעה + הקלטה + עריכה, מחיר התחלתי לפי היקף",
       }),
       hubRow("corp_podcast_pilot", {
         label: "פיילוט ארגוני",
@@ -249,7 +367,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("content_studio_session", { label: "סשן מלא, 2 שעות + 12 רילז" }),
       hubRow("content_studio_retainer", {
         label: "ריטיינר חודשי",
-        note: "סשן + 8–12 רילז",
+        note: "סשן + 8-12 רילז",
       }),
     ],
   },

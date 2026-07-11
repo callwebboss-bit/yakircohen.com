@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import BookAudienceCard from "@/components/booking/BookAudienceCard";
+import BookIntakeCustomCard from "@/components/booking/BookIntakeCustomCard";
 import BookSuperCategoryFilter, {
   type SuperCategoryFilter,
 } from "@/components/booking/BookSuperCategoryFilter";
@@ -19,6 +20,7 @@ import { persistUtmBoostFromUrl, useBookUtmBoost, type BookUtmBoostOptions } fro
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { saveIntakeRouteHint } from "@/lib/book-intake/placeholders";
 import { cn } from "@/lib/utils";
 
 export type BookFullPathSelection = {
@@ -67,15 +69,17 @@ function RouteGrid({
   resumeRouteId,
   resumeQualOpen,
   onFullPath,
+  showCustomCard = false,
 }: {
   routes: readonly BookAudienceRoute[];
   boostedRouteId: string | null;
   resumeRouteId?: string | null;
   resumeQualOpen?: boolean;
   onFullPath: (route: BookAudienceRoute, emotionalLabel: string | null) => void;
+  showCustomCard?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {routes.map((route) => (
         <BookAudienceCard
           key={route.id}
@@ -85,6 +89,7 @@ function RouteGrid({
           onFullPath={onFullPath}
         />
       ))}
+      {showCustomCard ? <BookIntakeCustomCard /> : null}
     </div>
   );
 }
@@ -139,6 +144,7 @@ export default function BookAudienceRouter({
   const showGrouped = superFilter === "all" && !expandAll;
 
   function handleFullPath(route: BookAudienceRoute, emotionalLabel: string | null) {
+    saveIntakeRouteHint(route.id);
     trackConversion("book_router_select", {
       route_id: route.id,
       category: route.categoryId,
@@ -290,6 +296,7 @@ export default function BookAudienceRouter({
                     resumeRouteId={resumeRouteId}
                     resumeQualOpen={resumeQualOpen}
                     onFullPath={handleFullPath}
+                    showCustomCard={group.id === "pro"}
                   />
                 </div>
               );
@@ -303,6 +310,7 @@ export default function BookAudienceRouter({
               resumeRouteId={resumeRouteId}
               resumeQualOpen={resumeQualOpen}
               onFullPath={handleFullPath}
+              showCustomCard
             />
           </div>
         )}

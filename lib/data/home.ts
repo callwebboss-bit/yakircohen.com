@@ -2,6 +2,7 @@
 
 export interface ServiceDetailBlock {
   id: string;
+  icon: string;
   title: string;
   summary: string;
   priceLabel?: string;
@@ -16,6 +17,7 @@ const djPersonalIncl = catalogWithVat(getExVat("dj_yakir_personal")).toLocaleStr
 export const HOME_SERVICE_DETAILS: readonly ServiceDetailBlock[] = [
   {
     id: "dj-services",
+    icon: "🎧",
     title: "תקלוט וניהול מוזיקלי לאירועים",
     summary: "הנדסת רחבה וסנכרון לוחות זמנים קשיח למניעת טעויות והפסקות שמע.",
     priceLabel: `החל מ-${djTeamIncl} ₪ כולל מע״מ`,
@@ -31,6 +33,7 @@ export const HOME_SERVICE_DETAILS: readonly ServiceDetailBlock[] = [
   },
   {
     id: "studio-services",
+    icon: "🎙️",
     title: "אולפן הקלטות בוטיק (מודיעין)",
     summary: "מרחב אקוסטי סטרילי להקלטות שירים, ברכות ותוכן אודיו עסקי ופרטי.",
     bullets: [
@@ -44,6 +47,7 @@ export const HOME_SERVICE_DETAILS: readonly ServiceDetailBlock[] = [
   },
   {
     id: "ai-video-services",
+    icon: "🎬",
     title: "הפקות וידאו ותוכן מבוסס AI",
     summary: "יצירת חומרים ויזואליים מתקדמים לשדרוג רמת העניין והתוכן באירוע.",
     bullets: [
@@ -56,6 +60,7 @@ export const HOME_SERVICE_DETAILS: readonly ServiceDetailBlock[] = [
   },
   {
     id: "attractions-services",
+    icon: "🖼️",
     title: "אטרקציות וספקים משלימים",
     summary: "גישה ישירה לאטרקציות מובילות במחירי ספק מנוהלים ללא פערי תיווך.",
     bullets: [

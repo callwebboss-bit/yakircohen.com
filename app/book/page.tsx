@@ -1,14 +1,14 @@
 ﻿import type { Metadata } from "next";
 import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStatic";
+import BookPageClient from "@/components/booking/BookPageClient";
 import BookDynamicHeroSubtitle, {
   BOOK_HERO_SUBTITLE_DEFAULT,
 } from "@/components/booking/BookDynamicHeroSubtitle";
-import BookPageSections from "@/components/booking/BookPageSections";
+import BookHeroTrustChips from "@/components/booking/BookHeroTrustChips";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import BookPageSchema from "@/components/seo/BookPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
-import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { constructMetadata } from "@/lib/metadata";
@@ -80,6 +80,7 @@ export default async function BookPage({
               utmContent={utmContent}
             />
             <ContextualIntroParagraph pathname="/book" className="mx-auto mt-4 max-w-2xl" />
+            <BookHeroTrustChips />
           </Container>
         </Section>
 
@@ -93,11 +94,9 @@ export default async function BookPage({
           </Container>
         </noscript>
 
-        <TrustStatsBar />
-
         <BookAudienceCardsStatic />
 
-        <BookPageSections
+        <BookPageClient
           pkgParam={pkgParam}
           itemParam={itemParam}
           catalogParam={catalogParam}

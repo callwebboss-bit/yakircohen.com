@@ -67,7 +67,7 @@ export const EMPLOYER_BRANDING_CONFIG: BusinessPageConfig = {
       "יום צילום onboarding",
       "employer_onboard_day",
       "מלא",
-      "יום במשרד: ראיונות, סיור, 5–8 סרטונים גולמיים.",
+      "יום במשרד: ראיונות, סיור, 5-8 סרטונים גולמיים.",
       ["יום צילום בחברה", "ראיונות + B-roll", "קבצים גולמיים", "אפשר להוסיף עריכה"],
       "employer_onboard_day",
     ),

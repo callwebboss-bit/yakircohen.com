@@ -1,11 +1,23 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
-import PriceScopeDisplay from "@/components/booking/PriceScopeDisplay";
+import PriceScopeDisplay, { resolveBillingDataAttr } from "@/components/booking/PriceScopeDisplay";
 import PriceSocialProof from "@/components/booking/PriceSocialProof";
+import { getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { whatsappAriaLabel, whatsappQuoteCta } from "@/lib/data/conversion-copy";
 import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
+
+function resolveTierSuitedFor(tier: ServicePricingTier): string | undefined {
+  if (tier.suitedFor) return tier.suitedFor;
+  if (tier.catalogId) return getSuitedForById(tier.catalogId);
+  return undefined;
+}
+
+function resolveTierWithEditing(tier: ServicePricingTier) {
+  if (tier.catalogId) return getWithEditingById(tier.catalogId);
+  return undefined;
+}
 
 export type ServicePricingBlockProps = {
   tiers: readonly ServicePricingTier[];
@@ -50,7 +62,7 @@ export default function ServicePricingBlock({
             return (
               <li key={tier.name}>
                 <article
-                  data-billing-type="one-time"
+                  data-billing-type={resolveBillingDataAttr(tier.scope)}
                   data-package-id={tier.name}
                   itemScope
                   itemType="https://schema.org/Offer"
@@ -76,6 +88,8 @@ export default function ServicePricingBlock({
                       scope={tier.scope}
                       size="md"
                       showFromPrefix={false}
+                      suitedFor={resolveTierSuitedFor(tier)}
+                      withEditing={resolveTierWithEditing(tier)}
                     />
                   ) : (
                     <p className="text-xl font-semibold text-[var(--service-accent-ink,#8a1c1c)]">{tier.price}</p>

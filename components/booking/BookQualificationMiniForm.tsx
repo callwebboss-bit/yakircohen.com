@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import type { BookAudienceRoute, QualificationField } from "@/lib/data/book-audience-routes";
@@ -136,6 +136,13 @@ export default function BookQualificationMiniForm({
                 {touched && field.required !== false && !answers[field.id]?.trim() ? (
                   <p className="mt-1 text-xs text-brand-red">שדה חובה</p>
                 ) : null}
+                {field.lowBudgetOption &&
+                field.lowBudgetMessage &&
+                answers[field.id] === field.lowBudgetOption ? (
+                  <p className="mt-2 rounded-lg border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+                    {field.lowBudgetMessage}
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>
@@ -149,7 +156,7 @@ export default function BookQualificationMiniForm({
 
           <p className="mt-2 flex items-center gap-1 text-[0.65rem] text-muted-foreground">
             <span aria-hidden="true">🔒</span>
-            נשמר בדפדפן עד השליחה לוואטסאפ — לא נשלח לשרת האתר
+            נשמר בדפדפן עד השליחה לוואטסאפ - לא נשלח לשרת האתר
           </p>
 
           <button

@@ -10,7 +10,7 @@ import {
   buildAdvisorUserPrompt,
   buildRuleBasedAdvisor,
 } from "@/lib/pro-service-advisor";
-import { SITE_URL } from "@/lib/site-url";
+import { guardPublicMutation } from "@/lib/api-guard";
 
 const VALID_IDS = new Set(PRO_SERVICES.map((s) => s.id));
 
@@ -18,16 +18,6 @@ const requestSchema = z.object({
   serviceId: z.string(),
   inputs: z.record(z.string(), z.string()),
 });
-
-const ALLOWED_ORIGINS = new Set([
-  SITE_URL,
-  "https://www.yakircohen.com",
-  ...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
-]);
-
-const rateLimit = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 20;
-const RATE_WINDOW_MS = 60_000;
 
 const ADVISOR_MODELS = ["openai/gpt-4o-mini", "google/gemini-2.5-flash"] as const;
 
@@ -97,44 +87,22 @@ async function generateAdvisorResponse(
   throw lastError ?? new Error("AI advisor unavailable");
 }
 
-function isAllowedRequest(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  if (origin) return ALLOWED_ORIGINS.has(origin);
-  const referer = request.headers.get("referer");
-  if (!referer) return true;
-  try {
-    return ALLOWED_ORIGINS.has(new URL(referer).origin);
-  } catch {
-    return false;
-  }
-}
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimit.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rateLimit.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT) return false;
-  entry.count += 1;
-  return true;
-}
-
 function hasAiGatewayAccess(): boolean {
   if (process.env.AI_GATEWAY_API_KEY?.trim()) return true;
   return process.env.VERCEL === "1" || process.env.NODE_ENV === "development";
 }
 
 export async function POST(request: Request) {
-  if (!isAllowedRequest(request)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!checkRateLimit(ip)) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  const gate = await guardPublicMutation(request, {
+    bucket: "service-advisor",
+    max: 20,
+  });
+  if (!gate.ok) {
+    const status = gate.response.status;
+    return NextResponse.json(
+      { error: status === 429 ? "Too many requests" : "Forbidden" },
+      { status },
+    );
   }
 
   let body: unknown;

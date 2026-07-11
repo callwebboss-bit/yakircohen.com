@@ -12,6 +12,12 @@ export type PitchBeforeAfterDemo = {
 /** /online/vocal-fix/pitch-correction - דוגמאות וידאו */
 export const PITCH_CORRECTION_VIDEOS: readonly RecordingSongExampleVideo[] = [
   {
+    videoId: "LKg3pwdon_M",
+    title: "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית",
+    description:
+      "אחרי שמעים את לפני/אחרי - צפו בקליפ המלא מהאולפן.",
+  },
+  {
     videoId: "azLQjB4y2vM",
     title:
       "תיקון זיופים מרחוק - מקליטים באולפן אחר ומשתמשים בשירות חיצוני",
@@ -23,6 +29,12 @@ export const PITCH_CORRECTION_VIDEOS: readonly RecordingSongExampleVideo[] = [
 ] as const;
 
 export const PITCH_BEFORE_AFTER_DEMOS: readonly PitchBeforeAfterDemo[] = [
+  {
+    demoId: "proposal-gift-pitch",
+    title: "מתלבטים עם תיקון זיופים? שמעו קודם, ואז צפו בקליפ",
+    description:
+      "שיר מתנה לחברה/בת זוג - אותו קטע לפני ואחרי תיקון זיופים. מתאים גם להצעת נישואין ולמתנות אישיות.",
+  },
   {
     demoId: "pitch-correction",
     title: "תיקון זיופים על חומר איכותי",

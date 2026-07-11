@@ -8,6 +8,7 @@ import HubPageSchema from "@/components/seo/HubPageSchema";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { BLOG_POSTS, getBlogPostsBySlugs, type BlogPost } from "@/lib/data/blog";
+import { BLOG_FILTER_CATEGORIES, getFilterCategoryId } from "@/lib/data/blog-categories";
 import { FEATURED_BLOG_SLUGS } from "@/lib/data/blog-featured";
 import { SITE_NAME } from "@/lib/constants";
 import {
@@ -23,43 +24,51 @@ const POSTS_PER_PAGE = 8;
 
 /* ── Build sorted feed (newest first) once at module load ────────────────── */
 
-const allFeedPosts: FeedPost[] = [...(BLOG_POSTS as readonly BlogPost[])]
+const allFeedPosts: (FeedPost & { filterCategoryId?: string })[] = [
+  ...(BLOG_POSTS as readonly BlogPost[]),
+]
   .sort(
     (a, b) =>
       new Date(b.seo.datePublished).getTime() -
       new Date(a.seo.datePublished).getTime(),
   )
-  .map(
-    (post): FeedPost => ({
-      slug: post.slug,
-      title: post.title,
-      excerpt: post.excerpt,
-      publishedAt: post.seo.datePublished,
-      category: post.category,
-      imageSrc: post.thumbnail,
-      imageAlt: post.title,
-    }),
-  );
-
-const totalPages = Math.max(1, Math.ceil(allFeedPosts.length / POSTS_PER_PAGE));
+  .map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    publishedAt: post.seo.datePublished,
+    category: post.category,
+    imageSrc: post.thumbnail,
+    imageAlt: post.title,
+    filterCategoryId: getFilterCategoryId(post.category),
+  }));
 
 const featuredPosts = getBlogPostsBySlugs(FEATURED_BLOG_SLUGS);
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 
-function clampPage(raw?: string): number {
+function clampPage(raw: string | undefined, total: number): number {
   const n = parseInt(raw ?? "1", 10);
-  return Number.isFinite(n) ? Math.min(Math.max(n, 1), totalPages) : 1;
+  return Number.isFinite(n) ? Math.min(Math.max(n, 1), total) : 1;
 }
 
-function pageHref(p: number): string {
-  return p === 1 ? "/blog" : `/blog?page=${p}`;
+function pageHref(p: number, categoryId?: string): string {
+  const params = new URLSearchParams();
+  if (categoryId) params.set("category", categoryId);
+  if (p > 1) params.set("page", String(p));
+  const qs = params.toString();
+  return qs ? `/blog?${qs}` : "/blog";
+}
+
+function getFilteredPosts(categoryId?: string) {
+  if (!categoryId) return allFeedPosts;
+  return allFeedPosts.filter((post) => post.filterCategoryId === categoryId);
 }
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
 
 type BlogFeedPageProps = {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; category?: string }>;
 };
 
 /* ── Metadata ────────────────────────────────────────────────────────────── */
@@ -67,8 +76,10 @@ type BlogFeedPageProps = {
 export async function generateMetadata({
   searchParams,
 }: BlogFeedPageProps): Promise<Metadata> {
-  const { page: pageParam } = await searchParams;
-  const page = clampPage(pageParam);
+  const { page: pageParam, category: categoryParam } = await searchParams;
+  const filtered = getFilteredPosts(categoryParam);
+  const total = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+  const page = clampPage(pageParam, total);
   const base = metadataForHubSeo(BLOG_HUB_SEO);
 
   if (page <= 1) {
@@ -115,9 +126,11 @@ function BlogEditorialMark() {
 function BlogPagination({
   currentPage,
   total,
+  categoryId,
 }: {
   currentPage: number;
   total: number;
+  categoryId?: string;
 }) {
   if (total <= 1) return null;
 
@@ -144,7 +157,7 @@ function BlogPagination({
     >
       {/* ── Prev (right side in RTL = start) ── */}
       {hasPrev ? (
-        <Link href={pageHref(currentPage - 1)} className={navBtnClass}>
+        <Link href={pageHref(currentPage - 1, categoryId)} className={navBtnClass}>
           <span aria-hidden="true">&#x2190;</span>
           עמוד קודם
         </Link>
@@ -160,7 +173,7 @@ function BlogPagination({
         {/* Leading ellipsis */}
         {windowStart > 1 && (
           <>
-            <Link href={pageHref(1)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
+            <Link href={pageHref(1, categoryId)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
               1
             </Link>
             {windowStart > 2 && (
@@ -174,7 +187,7 @@ function BlogPagination({
         {pageNumbers.map((p) => (
           <Link
             key={p}
-            href={pageHref(p)}
+            href={pageHref(p, categoryId)}
             aria-current={p === currentPage ? "page" : undefined}
             className={cn(
               pageBtnClass,
@@ -195,7 +208,7 @@ function BlogPagination({
                 ...
               </span>
             )}
-            <Link href={pageHref(total)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
+            <Link href={pageHref(total, categoryId)} className={`${pageBtnClass} border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red`}>
               {total}
             </Link>
           </>
@@ -204,7 +217,7 @@ function BlogPagination({
 
       {/* ── Next (left side in RTL = end) ── */}
       {hasNext ? (
-        <Link href={pageHref(currentPage + 1)} className={navBtnClass}>
+        <Link href={pageHref(currentPage + 1, categoryId)} className={navBtnClass}>
           עמוד הבא
           <span aria-hidden="true">&#x2192;</span>
         </Link>
@@ -220,12 +233,43 @@ function BlogPagination({
 
 /* ── BlogFeedPage ────────────────────────────────────────────────────────── */
 
+function CategoryFilterChips({ activeId }: { activeId?: string }) {
+  const chipClass =
+    "inline-flex min-h-9 items-center rounded-full border px-4 text-sm font-medium transition-colors";
+  const activeClass = "border-brand-red bg-brand-red text-white";
+  const inactiveClass =
+    "border-border bg-surface text-foreground hover:border-brand-red hover:text-brand-red";
+
+  return (
+    <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="סינון לפי נושא">
+      <Link href={pageHref(1)} className={cn(chipClass, !activeId ? activeClass : inactiveClass)}>
+        הכל
+      </Link>
+      {BLOG_FILTER_CATEGORIES.map((c) => (
+        <Link
+          key={c.id}
+          href={pageHref(1, c.id)}
+          aria-current={activeId === c.id ? "true" : undefined}
+          className={cn(chipClass, activeId === c.id ? activeClass : inactiveClass)}
+        >
+          {c.label}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) {
-  const { page: pageParam } = await searchParams;
-  const currentPage = clampPage(pageParam);
+  const { page: pageParam, category: categoryParam } = await searchParams;
+  const activeCategoryId = BLOG_FILTER_CATEGORIES.some((c) => c.id === categoryParam)
+    ? categoryParam
+    : undefined;
+  const filteredPosts = getFilteredPosts(activeCategoryId);
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
+  const currentPage = clampPage(pageParam, totalPages);
 
   const start = (currentPage - 1) * POSTS_PER_PAGE;
-  const pagePosts = allFeedPosts.slice(start, start + POSTS_PER_PAGE);
+  const pagePosts = filteredPosts.slice(start, start + POSTS_PER_PAGE);
 
   return (
     <>
@@ -268,7 +312,7 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
             {/* Stats row */}
             <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span>
-                <strong className="text-foreground">{allFeedPosts.length}</strong>{" "}
+                <strong className="text-foreground">{filteredPosts.length}</strong>{" "}
                 מאמרים
               </span>
               {totalPages > 1 && currentPage > 1 && (
@@ -279,16 +323,20 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
                 </span>
               )}
             </div>
+
+            <CategoryFilterChips activeId={activeCategoryId} />
           </Container>
         </Section>
 
-        {currentPage === 1 ? <BlogFeaturedStrip posts={featuredPosts} /> : null}
+        {currentPage === 1 && !activeCategoryId ? (
+          <BlogFeaturedStrip posts={featuredPosts} />
+        ) : null}
 
         {/* ── Article feed + pagination ── */}
         <Section padding="sm">
           <Container>
             <ArticleFeed posts={pagePosts} />
-            <BlogPagination currentPage={currentPage} total={totalPages} />
+            <BlogPagination currentPage={currentPage} total={totalPages} categoryId={activeCategoryId} />
           </Container>
         </Section>
       </div>

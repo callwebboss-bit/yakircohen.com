@@ -13,6 +13,7 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   ],
   "recording-song-modiin": [
     "8i4K2f5gQfM",
+    "LKg3pwdon_M",
     "2apMsrmEsDs",
     "Fsy4Eg00dCA",
     "1ilgnokOS7Q",
@@ -70,6 +71,7 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   "voiceover-services": ["7DEp-gnDTs4", "zHkq_5bXptg", "qYiuRdBJMuE"],
   "voiceover-course": ["wN4N0QsfDJo", "oVeIMBTmS_8"],
   "studio-gifts": [
+    "LKg3pwdon_M",
     "8i4K2f5gQfM",
     "c55HTqTArFo",
     "1ilgnokOS7Q",
@@ -127,6 +129,8 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   XUr2e5S4JSA:
     "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)",
   "8i4K2f5gQfM": "הקלטת שיר לחתונה - קאבר עם הפקה מותאמת אישית",
+  LKg3pwdon_M:
+    "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית באולפן",
   q18Lu0MvXHo:
     "אירוח זמרים באולפן - פיצ'ר, שיתוף פעולה והקלטה משותפת",
   D3JV9SDY6GY: "קידום פודקאסט, קליפ AI ושיר מקורי בשעה",

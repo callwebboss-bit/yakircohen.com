@@ -7,37 +7,9 @@ import {
   validateHoneypot,
   validateIsraeliMobile,
 } from "@/lib/form-validation";
-import { SITE_URL } from "@/lib/site-url";
+import { guardPublicMutation } from "@/lib/api-guard";
 
 const RESEND_API = "https://api.resend.com/emails";
-
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 8;
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function getClientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0]?.trim() || "unknown";
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
-}
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  if (!entry || entry.resetAt <= now) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
-  }
-  entry.count += 1;
-  if (entry.count > RATE_LIMIT_MAX) return true;
-  return false;
-}
-
-const ALLOWED_ORIGINS = new Set([
-  SITE_URL,
-  "https://www.yakircohen.com",
-  ...(process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
-]);
 
 type LeadPayload = {
   formId: string;
@@ -56,18 +28,6 @@ function isConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY?.trim() && leadNotifyEmail());
 }
 
-function isAllowedRequest(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  if (origin) return ALLOWED_ORIGINS.has(origin);
-  const referer = request.headers.get("referer");
-  if (!referer) return true;
-  try {
-    return ALLOWED_ORIGINS.has(new URL(referer).origin);
-  } catch {
-    return false;
-  }
-}
-
 /** בדיקת תצורה בלי שליחת מייל (לדיבוג אחרי deploy). */
 export async function GET() {
   if (process.env.NODE_ENV === "production") {
@@ -82,13 +42,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!isAllowedRequest(request)) {
-    return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
-  }
-
-  if (isRateLimited(getClientIp(request))) {
-    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
-  }
+  const gate = await guardPublicMutation(request, {
+    bucket: "lead-notify",
+    max: 8,
+  });
+  if (!gate.ok) return gate.response;
 
   if (!isConfigured()) {
     return NextResponse.json({ ok: false, skipped: true }, { status: 200 });

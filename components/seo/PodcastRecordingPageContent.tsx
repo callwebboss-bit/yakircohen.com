@@ -7,6 +7,8 @@ import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import BookPriceDual from "@/components/booking/BookPriceDual";
+import TrackedCtaLink from "@/components/marketing/TrackedCtaLink";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
@@ -23,6 +25,7 @@ import {
   PODCAST_RECORDING_WHY_US,
   PODCAST_RECORDING_WORKFLOW,
 } from "@/lib/data/podcast-recording-page";
+import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -33,6 +36,13 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+
+const PODCAST_RECORDING_META_DESCRIPTION =
+  "רוצים פודקאסט מקצועי בלי להתעסק בציוד? מגיעים, מדברים, ויוצאים עם פרק מוכן תוך 24 שעות. צילום 4K, סאונד אולפני ועריכה מלאה במודיעין.";
+
+const PODCAST_RECORDING_PRICE_LABEL = formatFromPriceDual(
+  PODCAST_RECORDING_PRICE,
+).replace(/^כרגע: מ-/, "החל מ-");
 
 const PODCAST_RECORDING_TITLE = "צילום והקלטת פודקאסט";
 
@@ -82,8 +92,10 @@ export default function PodcastRecordingPageContent() {
       utmCampaign="podcast_recording"
       corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
-      scarcityLabel={`החל מ-${PODCAST_RECORDING_PRICE} ₪ לפרק, ${TIME_CLAIMS.podcastDelivery24h}`}
+      scarcityLabel={`${PODCAST_RECORDING_PRICE_LABEL} לפרק, ${TIME_CLAIMS.podcastDelivery24h}`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
+      pagePath="/podcast/podcast-recording"
+      metaDescription={PODCAST_RECORDING_META_DESCRIPTION}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -115,20 +127,24 @@ export default function PodcastRecordingPageContent() {
             כולל צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה
           </p>
           <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
-            <a
+            <TrackedCtaLink
               href={`tel:${CONTACT_PHONE_E164}`}
+              source="podcast_recording"
+              ctaType="phone_top"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] hover:bg-brand-red-light"
             >
               הזמינו הפקת פודקאסט: {CONTACT_PHONE_DISPLAY}
-            </a>
-            <a
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href={whatsappTopHref}
               target="_blank"
               rel="noopener noreferrer"
+              source="podcast_recording"
+              ctaType="whatsapp_top"
               className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-red/50 bg-background px-6 py-3.5 text-sm font-semibold text-brand-red hover:bg-brand-red/5"
             >
               פרטים והזמנה בוואטסאפ
-            </a>
+            </TrackedCtaLink>
           </div>
         </section>
 
@@ -151,8 +167,13 @@ export default function PodcastRecordingPageContent() {
             מתאים למי שרוצה להתמקד בתוכן ולתת לנו לדאוג לכל השאר.
           </p>
           <p className="mt-6 text-2xl font-bold text-brand-red">
-            החל מ-{PODCAST_RECORDING_PRICE} ₪ {PODCAST_RECORDING_PRICE_NOTE}
+            {PODCAST_RECORDING_PRICE.toLocaleString("he-IL")} ₪
+            <span className="text-base font-normal text-muted-foreground">
+              {" "}
+              + מע״מ, {PODCAST_RECORDING_PRICE_NOTE}
+            </span>
           </p>
+          <BookPriceDual exVat={PODCAST_RECORDING_PRICE} className="mt-2" />
         </section>
 
         <section aria-labelledby="audience-heading">
@@ -213,7 +234,10 @@ export default function PodcastRecordingPageContent() {
                 key={group.title}
                 className="rounded-xl border border-border bg-background p-6"
               >
-                <h3 className="font-semibold text-foreground">{group.title}</h3>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <span aria-hidden>{group.emoji}</span>
+                  {group.title}
+                </h3>
                 <ul className="mt-4 space-y-2">
                   {group.items.map((item) => (
                     <li
@@ -311,22 +335,27 @@ export default function PodcastRecordingPageContent() {
             שאתם חושבים.
           </p>
           <p className="mt-4 text-lg font-bold text-brand-red">
-            החל מ-{PODCAST_RECORDING_PRICE} ₪ לפרק
+            {PODCAST_RECORDING_PRICE_LABEL} לפרק
           </p>
           <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
-            <a
+            <TrackedCtaLink
               href={`tel:${CONTACT_PHONE_E164}`}
+              source="podcast_recording"
+              ctaType="phone_bottom"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
               הזמינו הפקה מלאה: {CONTACT_PHONE_DISPLAY}
-            </a>
-            <a
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
+              source="podcast_recording"
+              ctaType="whatsapp_bottom"
               className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-red/50 bg-background px-7 py-3.5 text-sm font-semibold text-brand-red hover:bg-brand-red/5"
             >
-              פרטים בוואטסאפ </a>
+              פרטים בוואטסאפ
+            </TrackedCtaLink>
           </div>
         </section>
 

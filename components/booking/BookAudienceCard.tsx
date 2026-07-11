@@ -23,10 +23,32 @@ import { trackConversion } from "@/lib/analytics/conversion-events";
 import { catalogWithVat } from "@/lib/data/pricing-catalog";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import MicroAudioAudition from "@/components/ui/MicroAudioAudition";
+import type { AudioDemoId } from "@/lib/data/audio-demos";
 import { cn } from "@/lib/utils";
 
+const ROUTE_AUDIO_DEMO: Partial<Record<string, AudioDemoId>> = {
+  "online-restore": "weber-restoration",
+  "podcast-content": "podcast-zoom-cleanup",
+};
+
+function cardBullets(route: BookAudienceRoute): string[] {
+  const bullets: string[] = [];
+  if (route.scope) {
+    const scopeLine = formatScopeLine(route.scope);
+    if (scopeLine) bullets.push(scopeLine);
+  }
+  if (route.essenceMicroCopy.trim()) {
+    bullets.push(route.essenceMicroCopy.trim());
+  }
+  if (bullets.length < 2 && route.upsellHint.trim()) {
+    bullets.push(route.upsellHint.trim());
+  }
+  return bullets.slice(0, 2);
+}
+
 const V_CARD: Record<BookAudienceRoute["variant"], string> = {
-  gold: "bg-background border-border hover:border-brand-red/50 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
+  gold: "bg-surface border-border hover:border-brand-red/50 hover:shadow-md",
   neutral: "bg-background border-border hover:border-foreground/20 hover:shadow-md",
   luxury:
     "border-border bg-surface hover:border-brand-red/40 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
@@ -85,6 +107,8 @@ export default function BookAudienceCard({
 
   const videoId = YOUTUBE_SERVICE_EMBED_IDS[route.demoVideoKey];
   const qualificationFields = getQualificationFields(route);
+  const bullets = cardBullets(route);
+  const audioDemoId = ROUTE_AUDIO_DEMO[route.id];
 
   const persistQualDraft = useCallback(
     (answers: Record<string, string>) => {
@@ -151,8 +175,7 @@ export default function BookAudienceCard({
       <article
         id={`book-route-${route.id}`}
         className={cn(
-          "relative flex min-w-0 flex-col rounded-2xl border p-5 shadow-sm transition-[border-color,box-shadow,transform]",
-          !compact && "hover:-translate-y-0.5",
+          "book-service-card relative flex h-full min-w-0 flex-col rounded-2xl border bg-surface p-5 shadow-sm transition-all duration-200",
           V_CARD[route.variant],
           boosted && "ring-2 ring-brand-red/40 ring-offset-2 ring-offset-background",
           resumeQualOpen && "ring-2 ring-brand-red/30",
@@ -160,7 +183,7 @@ export default function BookAudienceCard({
       >
         {boosted && (
           <span className="absolute -top-2.5 end-4 rounded-full bg-brand-red px-2.5 py-0.5 text-[0.65rem] font-bold text-white">
-            מומלץ עבורך
+            מבוקש
           </span>
         )}
         {!boosted && route.popularBadge ? (
@@ -170,7 +193,7 @@ export default function BookAudienceCard({
         ) : null}
 
         <div className="mb-4 flex items-start justify-between gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-2xl">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xl">
             {route.icon}
           </span>
           <span className={cn("rounded-md px-2.5 py-1 text-[0.62rem] font-bold uppercase", V_BADGE[route.variant])}>
@@ -178,29 +201,35 @@ export default function BookAudienceCard({
           </span>
         </div>
 
-        <h3 className="font-serif text-lg font-semibold leading-snug text-foreground">{route.title}</h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-serif text-lg font-semibold leading-snug text-foreground">{route.title}</h3>
+          {audioDemoId && !compact ? (
+            <MicroAudioAudition demoId={audioDemoId} className="shrink-0 scale-75" />
+          ) : null}
+        </div>
         {!compact ? (
           <>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{route.description}</p>
-            <p className="mt-2 text-xs italic text-muted-foreground">{route.essenceMicroCopy}</p>
           </>
         ) : (
           <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{route.description}</p>
         )}
 
-        <div className="mt-4">
+        <div className="mt-4 flex-1">
           <BookPriceDual exVat={route.priceExVat} dualLabel={route.startingPriceDual} size="sm" />
-          {route.scope ? (
-            <p className="mt-1 text-xs text-muted-foreground">{formatScopeLine(route.scope)}</p>
-          ) : route.priceNote ? (
-            <p className="mt-1 text-xs text-muted-foreground">{route.priceNote}</p>
+          {!compact && bullets.length > 0 ? (
+            <ul className="mt-3 space-y-1.5">
+              {bullets.map((line) => (
+                <li key={line} className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <span className="mt-0.5 text-brand-red" aria-hidden="true">✓</span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           ) : null}
           <p className="mt-2 text-xs font-medium text-foreground">{route.valueFrame}</p>
           {!compact ? (
             <PriceSocialProof className="mt-2" categoryId={route.categoryId} />
-          ) : null}
-          {!compact ? (
-            <p className="mt-2 text-xs leading-snug text-muted-foreground">{route.upsellHint}</p>
           ) : null}
           <p className="mt-3 text-[0.65rem] text-muted-foreground">
             <span aria-hidden="true">🔒 </span>

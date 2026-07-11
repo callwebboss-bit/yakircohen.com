@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
+import { SERVICE_CARD_DETAILS_CTA } from "@/lib/data/conversion-copy";
 import type {
   OnlineFeaturedService,
   OnlineServiceItem,
@@ -40,7 +41,7 @@ export function mapOnlineServiceToHub(
     badgeVariant: service.tag ? "red" : undefined,
     isAiService: true,
     external: !service.href,
-    ctaLabel: service.href ? "לפרטים ותיאום" : "בקשו התאמה אישית",
+    ctaLabel: service.href ? SERVICE_CARD_DETAILS_CTA : "בקשו התאמה אישית",
   };
 }
 

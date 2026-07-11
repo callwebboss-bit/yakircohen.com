@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -15,7 +15,7 @@ type Preset = {
 
 const PRESETS: Preset[] = [
   { id: "small", label: "קטן", sub: "עד 150 אורחים", guestCount: 100 },
-  { id: "medium", label: "בינוני", sub: "150–300 אורחים", guestCount: 225 },
+  { id: "medium", label: "בינוני", sub: "150-300 אורחים", guestCount: 225 },
   { id: "large", label: "גדול", sub: "300+ אורחים", guestCount: 400 },
 ];
 

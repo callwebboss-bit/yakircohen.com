@@ -1,0 +1,12 @@
+# העלה לכאן WEBP בדיוק בשמות האלה (1200x900, חוץ מ-OG)
+
+voucher-basic.webp
+voucher-premium.webp
+voucher-custom.webp
+gear-rcf745.webp
+gear-traktor-s4.webp
+gear-krk.webp
+gear-effects.webp
+
+# OG (תיקיית אחות):
+# ../og/shop.webp  (1200x630)

@@ -1,6 +1,12 @@
+"use client";
+
+"use client";
+
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
 import { formatCurrency } from "@/components/calculators/formatCurrency";
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 export type CalculatorStickyBarProps = {
   total: number;
@@ -43,6 +49,12 @@ export default function CalculatorStickyBar({
   startNowLabel,
   startNowDisabled = false,
 }: CalculatorStickyBarProps) {
+  const tracked = useRef(false);
+  const markInteract = () => {
+    if (tracked.current) return;
+    tracked.current = true;
+    trackConversion("pricing_calculator_interact", { total });
+  };
   const hasTotal = total > 0;
   const dualMode = Boolean(onContinueClick || onStartNowClick);
   const showPrimary = showCta && hasTotal && !primaryDisabled;
@@ -85,7 +97,10 @@ export default function CalculatorStickyBar({
             {onContinueClick ? (
               <button
                 type="button"
-                onClick={onContinueClick}
+                onClick={() => {
+                  markInteract();
+                  onContinueClick();
+                }}
                 disabled={continueDisabled}
                 className={greenClass}
               >
@@ -96,7 +111,10 @@ export default function CalculatorStickyBar({
             {onStartNowClick ? (
               <button
                 type="button"
-                onClick={onStartNowClick}
+                onClick={() => {
+                  markInteract();
+                  onStartNowClick();
+                }}
                 disabled={startNowDisabled}
                 className={secondaryClass}
               >
@@ -107,12 +125,26 @@ export default function CalculatorStickyBar({
         ) : null}
 
         {!dualMode && showPrimary && onPrimaryClick ? (
-          <button type="button" onClick={onPrimaryClick} className={primaryClass}>
+          <button
+            type="button"
+            onClick={() => {
+              markInteract();
+              onPrimaryClick();
+            }}
+            className={primaryClass}
+          >
             {ctaLabel}
           </button>
         ) : null}
         {!dualMode && showPrimary && !onPrimaryClick && onWhatsAppClick ? (
-          <button type="button" onClick={onWhatsAppClick} className={primaryClass}>
+          <button
+            type="button"
+            onClick={() => {
+              markInteract();
+              onWhatsAppClick();
+            }}
+            className={primaryClass}
+          >
             <WhatsAppIcon />
             <span className="max-w-[9rem] truncate sm:max-w-none">{ctaLabel}</span>
           </button>
@@ -123,6 +155,7 @@ export default function CalculatorStickyBar({
             target="_blank"
             rel="noopener noreferrer"
             className={primaryClass}
+            onClick={markInteract}
           >
             <WhatsAppIcon />
             <span className="max-w-[9rem] truncate sm:max-w-none">{ctaLabel}</span>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import ReadMoreText from "@/components/ui/ReadMoreText";
+import { SERVICE_CARD_DETAILS_CTA } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 const AI_BADGE_DEFAULT = "שירות AI";
@@ -27,8 +28,10 @@ export type ServiceCardProps = {
   fromPrice?: string;
   /** שורת מחיר משנית, למשל כולל מע״מ */
   fromPriceSubline?: string;
-  /** תווית כפתור - ברירת מחדל "לפרטים ותיאום" */
+  /** תווית כפתור - ברירת מחדל "📖 לפרטים" */
   ctaLabel?: string;
+  /** תבליטים קצרים (עד 4) */
+  bullets?: string[];
   /** שורת אמון משפטי/תשלום, ברירת מחדל: כשיש fromPrice */
   showTrustMicro?: boolean;
   /** קישור חיצוני (וואטסאפ) - משתמש ב-<a> במקום Link פנימי */
@@ -79,7 +82,8 @@ export default function ServiceCard({
   suitedFor,
   fromPrice,
   fromPriceSubline,
-  ctaLabel = "לפרטים ותיאום",
+  ctaLabel = SERVICE_CARD_DETAILS_CTA,
+  bullets,
   showTrustMicro,
   external = false,
   className,
@@ -145,6 +149,20 @@ export default function ServiceCard({
             {description}
           </p>
         )}
+
+        {bullets?.length ? (
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground">
+            {bullets.slice(0, 4).map((bullet) => (
+              <li key={bullet} className="flex items-start gap-2">
+                <span
+                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red"
+                  aria-hidden="true"
+                />
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
         {suitedFor ? (
           <p className="mt-3 text-xs text-muted-foreground">

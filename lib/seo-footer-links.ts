@@ -48,12 +48,12 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "אולפן הקלטות בשוהם",
         href: "/studio/studio-shoham",
-        title: "אולפן במודיעין, 10–15 דק׳ משוהם",
+        title: "אולפן במודיעין, 10-15 דק׳ משוהם",
       },
       {
         label: "אולפן הקלטות ברחובות",
         href: "/studio/studio-rehovot",
-        title: "אולפן במודיעין, 25–30 דק׳ מרחובות",
+        title: "אולפן במודיעין, 25-30 דק׳ מרחובות",
       },
       {
         label: "ברכות לחתונה ובר מצווה",

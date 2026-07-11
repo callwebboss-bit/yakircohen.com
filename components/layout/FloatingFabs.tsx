@@ -14,6 +14,16 @@ const HIDE_FLOATING_WHATSAPP_PREFIXES = ["/contact", "/book"] as const;
 
 const HIDE_SEND_FILE_PREFIXES = ["/contact", "/book", "/online"] as const;
 
+/** Chat widget only on conversion surfaces - skip content-heavy paths. */
+const HIDE_CHAT_PREFIXES = [
+  "/blog",
+  "/gallery",
+  "/portfolio",
+  "/privacy",
+  "/terms",
+  "/accessibility",
+] as const;
+
 /** Calculator and contact flows need FABs lifted above sticky UI. */
 const ELEVATED_FLOATING_PREFIXES = [
   "/contact",
@@ -42,6 +52,7 @@ export default function FloatingFabs() {
 
   const hideWhatsApp = matchesPrefix(pathname, HIDE_FLOATING_WHATSAPP_PREFIXES);
   const hideSendFile = matchesPrefix(pathname, HIDE_SEND_FILE_PREFIXES);
+  const hideChat = matchesPrefix(pathname, HIDE_CHAT_PREFIXES);
   const elevated = matchesPrefix(pathname, ELEVATED_FLOATING_PREFIXES);
   const showMobileSticky = !hideWhatsApp;
 
@@ -87,7 +98,9 @@ export default function FloatingFabs() {
   return (
     <div className="floating-fabs-cluster contents">
       {!hideSendFile ? <SendFileFab className={sendFilePosition} /> : null}
-      <ChatWidget className={chatFabPosition} onOpenChange={handleChatOpenChange} />
+      {!hideChat ? (
+        <ChatWidget className={chatFabPosition} onOpenChange={handleChatOpenChange} />
+      ) : null}
       {!hideWhatsApp ? <WhatsAppWidget className={fabPosition} /> : null}
       <AccessibilityToggle className={fabPosition} />
     </div>

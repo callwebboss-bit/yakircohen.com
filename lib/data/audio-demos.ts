@@ -8,6 +8,7 @@ export type AudioDemoId =
   | "recording-vocal-polish"
   | "pitch-correction"
   | "pitch-correction-remote"
+  | "proposal-gift-pitch"
   | "blessing-mix"
   | "full-production"
   | "funny-ringtone"
@@ -108,6 +109,28 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
       "/book",
     ],
     storageKey: "pitch-correction",
+  },
+  {
+    id: "proposal-gift-pitch",
+    beforeSrc: "/audio/Befor-pitch-yakir.mp3",
+    afterSrc: "/audio/After-Pitch-Present.mp3",
+    beforeLabel: "לפני תיקון זיופים",
+    afterLabel: "אחרי תיקון זיופים והפקה",
+    beforeNote: "שיר מתנה לחברה - הקלטה גולמית באולפן",
+    afterNote: "אותו קטע אחרי תיקון זיופים, מיקס והכנה לקליפ",
+    difficulty: "polish",
+    status: "ready",
+    recommendedPages: [
+      "/online",
+      "/pricing",
+      "/online/vocal-fix/pitch-correction",
+      "/studio/recording-song-modiin",
+      "/studio/recording-song-modiin/gifts",
+      "/studio/pricing",
+      "/studio/blessings/video-clip",
+      "/book",
+    ],
+    storageKey: "proposal-gift-pitch",
   },
   {
     id: "pitch-correction-remote",

@@ -13,7 +13,7 @@ import { absoluteUrl } from "@/lib/site-url";
 export const metadata: Metadata = constructMetadata({
   title: `חבילות רילז לעסקים | ${CONTENT_STUDIO_BRAND}`,
   description:
-    "יום צילום באולפן במודיעין. 10–15 רילז ושורטס ערוכים, כתוביות צבעוניות, ריטיינר חודשי.",
+    "יום צילום באולפן במודיעין. 10-15 רילז ושורטס ערוכים, כתוביות צבעוניות, ריטיינר חודשי.",
   slug: "business/content-studio",
   keywords: [
     "רילז לעסקים",

@@ -1,6 +1,6 @@
 import { SITE_NAME } from "@/lib/constants";
 
-export const BOOK_PAGE_TITLE = "כל השירותים – מחירון שקוף";
+export const BOOK_PAGE_TITLE = "הזמנה מקוונת - מחירון שקוף מודיעין";
 
 export const BOOK_PAGE_DESCRIPTION =
   "מחירון שקוף עם מחיר סופי (כולל מע״מ): אולפן במודיעין (חבילות מ-990 ₪), פודקאסט, אירועים, DJ, צילום, אקדמיה ושחזור סאונד. וואטסאפ מהיר עם פרטים מוכנים או מחשבון מפורט.";

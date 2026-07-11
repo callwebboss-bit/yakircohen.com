@@ -1,4 +1,4 @@
-﻿/** Content Studio -- Social Dump: batch reels from studio session */
+/** Content Studio -- Social Dump: batch reels from studio session */
 
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -49,7 +49,7 @@ export const CONTENT_STUDIO_TIERS: readonly ContentStudioTier[] = [
     description: "סשן חודשי באולפן ותוכן שוטף. לעסקים שרוצים נוכחות קבועה.",
     deliverables: [
       "סשן צילום חודשי באולפן (עד 2 שעות)",
-      "8–12 רילז או שורטס ערוכים",
+      "8-12 רילז או שורטס ערוכים",
       "2 סבבי תיקון",
       "תבניות כתוביות קבועות למותג",
     ],
@@ -97,7 +97,7 @@ export const PROCESS_STEPS = [
   {
     step: 2,
     title: "צילום מרוכז",
-    body: "2 שעות באולפן: 10–15 קטעים קצרים ברצף. טיפים, סיפורים, Q&A.",
+    body: "2 שעות באולפן: 10-15 קטעים קצרים ברצף. טיפים, סיפורים, Q&A.",
   },
   {
     step: 3,
@@ -128,7 +128,7 @@ export const FAQ_ITEMS: FAQItem[] = [
     id: "vs-podcast",
     question: "זה כמו פודקאסט?",
     answer:
-      "לא. פודקאסט זה פרק ארוך. כאן 10–15 סרטונים קצרים (15–60 שניות) לרילז וטיקטוק.",
+      "לא. פודקאסט זה פרק ארוך. כאן 10-15 סרטונים קצרים (15-60 שניות) לרילז וטיקטוק.",
   },
   {
     id: "who",
@@ -148,7 +148,7 @@ export const HUB_WHATSAPP_TEXT =
 
 export const ABOUT_PARAGRAPHS = [
   "עסקים לא צריכים עוד פודקאסט של שעה. הם צריכים תוכן קצר שעובד ברילז, טיקטוק ושורטס.",
-  "בסשן אחד באולפן מצלמים 10–15 קטעים קצרים: טיפים, סיפורים, שאלות ותשובות. יוצא חומר לחודש שלם.",
+  "בסשן אחד באולפן מצלמים 10-15 קטעים קצרים: טיפים, סיפורים, שאלות ותשובות. יוצא חומר לחודש שלם.",
   "העריכה כוללת כתוביות צבעוניות בסגנון שמושך תשומת לב ברשתות.",
   "ריטיינר חודשי = תוכן שוטף, בלי לרדוף צלמים כל שבוע.",
 ] as const;

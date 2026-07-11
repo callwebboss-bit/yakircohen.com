@@ -11,7 +11,8 @@
 | `podcast-raw-sample.mp3` / `podcast-clean-sample.mp3` | ניקוי זום/פודקאסט | `/podcast`, עריכת פודקאסט, Online פודקאסט |
 | `weber-before_01.mp3` / `weber-AFTER_01.mp3` | שחזור הקלטה פגומה/ישנה (קשה) | שחזור ארכיון, בלוג |
 | `recording-raw-sample.mp3` / `recording-clean-sample.mp3` | ווקאל אולפן → מיקס+פיץ' | הקלטת שיר, הזמנה |
-| `pitch-raw.mp3` / `pitch-tuned.mp3` | תיקון זיופים | תיקון זיופים Online |
+| `pitch-raw.mp3` / `pitch-tuned.mp3` | תיקון זיופים (דוגמה כללית) | תיקון זיופים Online |
+| `Befor-pitch-yakir.mp3` / `After-Pitch-Present.mp3` | תיקון זיופים - שיר מתנה/מתננה (לפני קליפ) | תיקון זיופים, מתנות, הזמנה, מחירון אולפן |
 | `pitch-remote-before.mp3` / `pitch-remote-after.mp3` | תיקון זיופים מרחוק (הקלטה שלא אצלנו) | תיקון זיופים Online |
 | `bride-blessing-raw.mp3` / `bride-blessing-tuned.mp3` | ברכה + מוזיקת רקע | ברכת חתן/כלה |
 | `dry-vocal-raw.mp3` / `full-production.mp3` | הפקה מלאה | הקלטת שיר |

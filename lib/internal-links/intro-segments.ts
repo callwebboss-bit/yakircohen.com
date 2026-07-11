@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Contextual internal links (max 2-3 per page) - edit here when adding routes.
  * Rendered by ContextualIntroParagraph; anchor text stays natural Hebrew.
  */
@@ -347,14 +347,14 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/studio/studio-shoham": [
-    { type: "text", value: "האולפן במודיעין, כ-10–15 דקות משוהם. לשיר לחופה - " },
+    { type: "text", value: "האולפן במודיעין, כ-10-15 דקות משוהם. לשיר לחופה - " },
     { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר במודיעין" },
     { type: "text", value: ". לברכות - " },
     { type: "link", href: "/studio/blessings", label: "הקלטת ברכות" },
     { type: "text", value: "." },
   ],
   "/studio/studio-rehovot": [
-    { type: "text", value: "האולפן במודיעין, כ-25–30 דקות מרחובות. לשיר לחופה - " },
+    { type: "text", value: "האולפן במודיעין, כ-25-30 דקות מרחובות. לשיר לחופה - " },
     { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר במודיעין" },
     { type: "text", value: ". לברכות - " },
     { type: "link", href: "/studio/blessings", label: "הקלטת ברכות" },

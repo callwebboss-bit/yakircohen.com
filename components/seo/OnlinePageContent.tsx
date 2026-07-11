@@ -7,9 +7,17 @@ import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ServiceCard from "@/components/marketing/ServiceCard";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import FAQAccordion from "@/components/ui/FAQAccordion";
+import TrustStatsBar from "@/components/marketing/TrustStatsBar";
+import HeroScrollCue from "@/components/marketing/HeroScrollCue";
+import HeroTrackedCta from "@/components/marketing/HeroTrackedCta";
+import CtaOutcomeSubline from "@/components/marketing/CtaOutcomeSubline";
 import {
   ONLINE_FEATURED_SERVICES,
+  ONLINE_HUB_FAQS,
   ONLINE_QUICK_LINKS,
   ONLINE_SERVICE_CATEGORIES,
   ONLINE_WHY_US,
@@ -20,9 +28,12 @@ import {
   mapOnlineServiceToHub,
 } from "@/lib/data/online-hub-mappers";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { SITE_NAME } from "@/lib/constants";
-import HubDualCta from "@/components/marketing/HubDualCta";
 import ShareButton from "@/components/ui/ShareButton";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
+import { buildBookHref } from "@/lib/book-url";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 
 const bookCta = resolveServiceBookCta("online");
@@ -35,16 +46,24 @@ const linkClass =
 
 export default function OnlinePageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! יש לי פרויקט אונליין עם AI ואשמח לבדיקה ראשונית והצעת מחיר מהירה.",
+    text: appendYcLeadTag(
+      "היי יקיר! יש לי פרויקט אונליין עם AI ואשמח לבדיקה ראשונית והצעת מחיר מהירה.",
+      { service: "online_ai", source: "hero_cta", step: 1 },
+    ),
     utm_source: "online",
     utm_campaign: "online_hub_cta",
   });
+
+  const onlineBookHref = buildBookHref("online");
 
   const featuredLinks = mapOnlineFeaturedToHub(ONLINE_FEATURED_SERVICES);
   const quickLinks = mapOnlineQuickLinksToHub(ONLINE_QUICK_LINKS);
 
   return (
     <div className="bg-background">
+      <FaqPageSchema
+        items={ONLINE_HUB_FAQS.map((f) => ({ question: f.question, answer: f.answer as string }))}
+      />
       <Section
         padding="none"
         className="relative overflow-hidden border-b border-border bg-background"
@@ -58,43 +77,38 @@ export default function OnlinePageContent() {
             {SITE_NAME}
           </p>
           <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
-            מאגר שירותי AI אונליין - אנחנו מבצעים הכל עבורכם
+            תיקון שירה, מיקס ופודקאסט אונליין - תוך 24-48 שעות.
           </h1>
           <h2 className="text-section-title mx-auto mt-5 max-w-3xl font-semibold text-foreground">
             האולפן מגיע אליכם: שירותי סאונד, תוכן והפקה מקצועיים מרחוק
           </h2>
           <p className="text-lead mx-auto mt-4 max-w-3xl text-muted-foreground">
-            שולחים קובץ או רעיון. מקבלים תוצאה מוכנה למייל או לוואטסאפ - סאונד,
-            תמונה או תוכן.
+            תיקון זיופים, מיקס, פודקאסט ותמונה - הכל מרחוק. מ-250 ₪, עם ליווי
+            אישי בוואטסאפ.
           </p>
           <ContextualIntroParagraph pathname="/online" className="mx-auto mt-4 max-w-3xl" />
-          {bookCta ? (
-            <HubDualCta
-              className="mt-8"
-              whatsappHref={ctaHref}
-              whatsappLabel="שלחו קובץ לבדיקה ראשונית בוואטסאפ "
-              bookHref={bookCta.bookHref}
-              bookLabel={bookCta.bookLabel}
-            />
-          ) : (
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <HeroTrackedCta href={onlineBookHref}>{OUTCOME_CTA.heroSendFile}</HeroTrackedCta>
               <Button
                 as="a"
                 href={ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
+                variant="outline"
+                className="min-h-14 w-full sm:w-auto"
               >
-                שלחו קובץ לבדיקה ראשונית בוואטסאפ </Button>
-              <Button as="link" href="#quick-quote" variant="secondary">
-                השאירו פרטים להצעת מחיר מהירה
+                שלחו קובץ לבדיקה ראשונית בוואטסאפ
               </Button>
             </div>
-          )}
+            <CtaOutcomeSubline />
+            <HeroScrollCue href="#online-categories" />
+          </div>
+          <TrustStatsBar variant="compact" className="mt-8 rounded-2xl border" />
         </Container>
       </Section>
 
-      <Section padding="none" className="border-b border-border bg-surface py-8">
+      <Section id="online-categories" padding="none" className="border-b border-border bg-surface py-8">
         <Container>
           <p className="mb-4 text-center text-sm font-medium text-foreground">
             ניווט מהיר לפי קטגוריות
@@ -106,7 +120,7 @@ export default function OnlinePageContent() {
                 href={`#${category.id}`}
                 className={chipClass}
               >
-                {category.title}
+                {category.icon} {category.title}
               </a>
             ))}
           </div>
@@ -153,6 +167,23 @@ export default function OnlinePageContent() {
         </Container>
       </Section>
 
+      <Section padding="sm" className="border-b border-border bg-surface">
+        <Container>
+          <ProposalGiftPitchProofSection
+            headingId="online-pitch-proof-heading"
+            heading="תיקון זיופים - שמעו לפני שמזמינים"
+            intro="אותו קטע מהאולפן לפני ואחרי תיקון זיופים. מתאים גם להקלטה באולפן וגם לשליחת קובץ מרחוק."
+          />
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted-foreground">
+            לפרטים ומחירון תיקון זיופים מרחוק -{" "}
+            <Link href="/online/vocal-fix/pitch-correction" className={linkClass}>
+              עמוד תיקון זיופים
+            </Link>
+            .
+          </p>
+        </Container>
+      </Section>
+
       <ClientJourneySteps variant="online" display="compact" />
 
       <Section padding="sm" className="border-y border-border bg-surface">
@@ -175,7 +206,9 @@ export default function OnlinePageContent() {
                 className="rounded-2xl border border-border bg-background p-6 sm:p-7"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {category.icon} {category.title}
+                  </h3>
                   <Link
                     href={`/online/${category.slug}`}
                     className={linkClass}
@@ -228,21 +261,29 @@ export default function OnlinePageContent() {
           <h2 className="font-serif text-section-title font-semibold text-foreground">
             למה לעבוד איתנו אונליין?
           </h2>
-          <ul className="mt-6 space-y-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {ONLINE_WHY_US.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-2 text-sm text-muted-foreground"
+              <article
+                key={item.title}
+                className="rounded-2xl border border-border bg-background p-5 shadow-sm"
               >
-                <span className="text-brand-red" aria-hidden>
-                  ✓
-                </span>
-                {item}
-              </li>
+                <h3 className="flex items-center gap-2 text-base font-semibold text-foreground">
+                  <span aria-hidden>{item.icon}</span>
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.detail}
+                </p>
+              </article>
             ))}
-          </ul>
+          </div>
         </Container>
       </Section>
+
+      <FAQAccordion
+        title="שאלות נפוצות, שירותי AI אונליין"
+        items={ONLINE_HUB_FAQS}
+      />
 
       <Section padding="sm" id="quick-quote">
         <Container>

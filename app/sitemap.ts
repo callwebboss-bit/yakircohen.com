@@ -14,8 +14,6 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("gallery"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("testimonials"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("packages"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("for-couples"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("for-creators"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
@@ -106,7 +104,6 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
   },
   { url: url("online/mashup-fixer"), priority: 0.65, changeFrequency: "monthly" },
-  { url: url("online/vocal-fix/send-file"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("online/online-ai-pricing"), priority: 0.7, changeFrequency: "monthly" },
 
   // ── Attractions ────────────────────────────────────────────────────────────
@@ -203,7 +200,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── Booking & vouchers ─────────────────────────────────────────────────────
   { url: url("book"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("pricing"), priority: 0.85, changeFrequency: "monthly" },
-  { url: url("voucher"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("shop"), priority: 0.75, changeFrequency: "monthly" },
 
   // ── About / Contact ────────────────────────────────────────────────────────
   { url: url("about"), priority: 0.6, changeFrequency: "monthly" },
@@ -228,14 +225,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("academy/hebrew-lessons"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("academy/private-lessons"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/voiceover"), priority: 0.8, changeFrequency: "monthly" },
-  { url: url("academy/stuttering-course"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/home-studio"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("academy/ai-music"), priority: 0.75, changeFrequency: "monthly" },
 
-  // ── Commerce ───────────────────────────────────────────────────────────────
-  { url: url("shop"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("courses"), priority: 0.65, changeFrequency: "monthly" },
-  { url: url("equipment/used-gear"), priority: 0.6, changeFrequency: "monthly" },
 
   // ── Blog hub ───────────────────────────────────────────────────────────────
   { url: url("blog"), priority: 0.8, changeFrequency: "weekly" },

@@ -92,6 +92,11 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     category: "podcast",
     catalogId: "full_podcast_production",
     podcastPackageId: "audio",
+  },
+  mobile_podcast_at_home: {
+    category: "podcast",
+    catalogId: "mobile_podcast_at_home",
+    podcastPackageId: "audio",
     podcastLocation: "mobile",
   },
   podcast_extra_participant: {

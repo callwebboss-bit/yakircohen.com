@@ -40,6 +40,18 @@ const MANUAL_HUB_ALIASES: IntentRule[] = [
     isHub: true,
   },
   {
+    href: "/shop",
+    label: "חנות שוברים",
+    phrases: [
+      "חנות",
+      "שובר מתנה",
+      "שובר לאולפן",
+      "מתנה לאולפן",
+      "ציוד למכירה",
+    ],
+    isHub: true,
+  },
+  {
     href: "/pricing",
     label: "מחירון",
     phrases: ["מחירון", "כמה זה עולה", "מחיר", "תמחור"],

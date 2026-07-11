@@ -13,7 +13,7 @@ export type AeoFaqItem = {
 };
 
 function stripDualPrefix(formatted: string): string {
-  return formatted.replace(/^כרגע: /, "החל מ-");
+  return formatted.replace(/^כרגע: מ-/, "החל מ-");
 }
 
 export function buildRecordingSongStudioPriceAnswer(): string {
@@ -93,3 +93,55 @@ export const DJ_WEDDING_PRICE_FAQ: AeoFaqItem = {
   question: "כמה עולה DJ לחתונה?",
   answer: buildDjWeddingPriceAnswer(),
 };
+
+export const DJ_WEDDING_VOICE_FAQ: AeoFaqItem = {
+  id: "dj-wedding-voice",
+  question: "כמה עולה לי תקליטן לחתונה במודיעין?",
+  answer: buildDjWeddingPriceAnswer(),
+};
+
+export function buildVoucherGiftPriceAnswer(): string {
+  const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
+  return `שובר מתנה לאולפן או אירוע החל מ-${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
+}
+
+export const VOUCHER_GIFT_PRICE_FAQ: AeoFaqItem = {
+  id: "voucher-gift-price",
+  question: "כמה עולה שובר מתנה לאולפן?",
+  answer: buildVoucherGiftPriceAnswer(),
+};
+
+export function buildAttractionsEventPriceAnswer(): string {
+  const from = stripDualPrefix(
+    formatFromPriceDual(getExVat("event_attraction_1")),
+  );
+  return `אטרקציה בודדת לאירוע ${from}. חבילות עשן וזיקוקים לפי היקף האירוע. מחיר סופי אחרי פרטי אולם ושעות.`;
+}
+
+export const ATTRACTIONS_EVENT_PRICE_FAQ: AeoFaqItem = {
+  id: "attractions-event-price",
+  question: "כמה עולות אטרקציות לחתונה?",
+  answer: buildAttractionsEventPriceAnswer(),
+};
+
+export function buildVocalFixOnlinePriceAnswer(): string {
+  const from = stripDualPrefix(formatFromPriceDual(getExVat("ai_voice_enhance")));
+  return `תיקון זיופים ושיפור ווקאלי מרחוק ${from} לקובץ קצר. מיקס ומאסטרינג לפי אורך החומר. מסירה בדרך כלל תוך 24 שעות.`;
+}
+
+export const VOCAL_FIX_ONLINE_PRICE_FAQ: AeoFaqItem = {
+  id: "vocal-fix-online-price",
+  question: "כמה עולה תיקון זיופים אונליין?",
+  answer: buildVocalFixOnlinePriceAnswer(),
+};
+
+/** שאלות AEO מרוכזות לדפי hub ולבדיקות audit */
+export const TIER1_AEO_FAQS: readonly AeoFaqItem[] = [
+  RECORDING_SONG_STUDIO_PRICE_FAQ,
+  PODCAST_STUDIO_MODIIN_PRICE_FAQ,
+  PODCAST_RECORDING_PRICE_FAQ,
+  DJ_WEDDING_PRICE_FAQ,
+  VOUCHER_GIFT_PRICE_FAQ,
+  ATTRACTIONS_EVENT_PRICE_FAQ,
+  VOCAL_FIX_ONLINE_PRICE_FAQ,
+];

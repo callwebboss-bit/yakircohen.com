@@ -87,6 +87,10 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
 /** Featured + gallery examples for /studio/recording-song-modiin */
 export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[] = [
   { videoId: "8i4K2f5gQfM", title: "הקלטת שיר לחתונה" },
+  {
+    videoId: "LKg3pwdon_M",
+    title: "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית",
+  },
   { videoId: "qdCbNrDF15k", title: "שיר מתנה לאמא" },
   { videoId: "WMvdVNw3tIU", title: "הקלטת שיר יומולדת באולפן" },
   { videoId: "c55HTqTArFo", title: "יום חוויה באולפן, מתנה ליום הולדת" },

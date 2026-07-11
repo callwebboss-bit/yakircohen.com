@@ -3,7 +3,7 @@
 export const PODCAST_ROI = {
   diyHoursPerEpisode: 4,
   marketEditRatePerHour: 120,
-  deliveryNote: "מסירה מקצועית: רוב הפרקים תוך 1–3 ימי עבודה",
+  deliveryNote: "מסירה מקצועית: רוב הפרקים תוך 1-3 ימי עבודה",
 } as const;
 
 export const ACADEMY_ROI = {

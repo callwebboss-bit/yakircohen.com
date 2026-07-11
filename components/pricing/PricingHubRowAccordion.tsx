@@ -9,6 +9,8 @@ import {
   resolveRowDescription,
   resolveRowHref,
   resolveRowScope,
+  resolveRowShowFromPrefix,
+  resolveRowSuitedFor,
   type PricingHubRow,
 } from "@/lib/data/pricing-hub";
 import { pricingRowBookCta } from "@/lib/data/conversion-copy";
@@ -109,6 +111,8 @@ export default function PricingHubRowAccordion({
         const rowBookHref = resolveRowBookHref(row, sectionBookHref);
         const description = resolveRowDescription(row);
         const scope = resolveRowScope(row);
+        const suitedFor = resolveRowSuitedFor(row);
+        const showFromPrefix = resolveRowShowFromPrefix(row);
 
         return (
           <li key={rowKey}>
@@ -128,7 +132,12 @@ export default function PricingHubRowAccordion({
                     {row.label}
                   </Link>
                   {!isOpen ? (
-                    <PriceScopeCompact exVat={row.exVat} scope={scope} className="mt-1" />
+                    <PriceScopeCompact
+                      exVat={row.exVat}
+                      scope={scope}
+                      showFromPrefix={showFromPrefix}
+                      className="mt-1"
+                    />
                   ) : null}
                 </div>
                 <button
@@ -165,13 +174,19 @@ export default function PricingHubRowAccordion({
                   <p className="text-sm text-muted-foreground">{description}</p>
                 ) : null}
                 <div className="mt-2">
-                  <PriceScopeDisplay exVat={row.exVat} scope={scope} size="sm" />
+                  <PriceScopeDisplay
+                    exVat={row.exVat}
+                    scope={scope}
+                    size="sm"
+                    suitedFor={suitedFor}
+                    showFromPrefix={showFromPrefix}
+                  />
                 </div>
                 <Link
                   href={rowBookHref}
                   className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light`}
                 >
-                  {pricingRowBookCta(row.exVat)}
+                  {pricingRowBookCta(row.exVat, showFromPrefix)}
                 </Link>
                 <div className="mt-3 flex flex-wrap gap-3 text-sm">
                   <InlineServiceLink href={rowHref}>פרטים נוספים</InlineServiceLink>

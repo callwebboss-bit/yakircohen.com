@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HomePageSections from "@/components/marketing/HomePageSections";
 import EphemeralPulse from "@/components/marketing/EphemeralPulse";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import {
   DEFAULT_OPEN_GRAPH,
   DEFAULT_TWITTER,
@@ -12,7 +13,7 @@ import { buildFaqSchema } from "@/lib/seo/page-schema";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 
-const HOME_TITLE = "אולפן הקלטות מודיעין | תיקון זיופים, פודקאסט ואטרקציות, בדרך כלל 24 שעות";
+const HOME_TITLE = "אולפן הקלטות מודיעין - פודקאסט ואירועים";
 const HOME_DESCRIPTION =
   "אולפן הקלטות מקצועי במודיעין. תיקון זיופים, קריינות אנושית, פודקאסט ואטרקציות לאירועים. פתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך 24 שעות. " +
   TIME_PROMISE_DISCLAIMER;
@@ -41,7 +42,11 @@ const HOME_FAQ_SCHEMA = buildFaqSchema(
 
 export default function HomePage() {
   const heroWhatsAppHref = buildWhatsAppHref({
-    text: "שלום, אשמח לייעוץ והצעת מחיר לפרויקט שלי.",
+    text: appendYcLeadTag("שלום, אשמח לייעוץ והצעת מחיר לפרויקט שלי.", {
+      service: "recording",
+      source: "hero_cta",
+      step: 1,
+    }),
     utm_source: "website",
     utm_campaign: "hero_cta",
   });

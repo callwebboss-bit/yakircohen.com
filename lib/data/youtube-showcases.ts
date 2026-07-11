@@ -56,9 +56,21 @@ export const BRIDE_GROOM_BLESSING_VIDEOS: readonly ShowcaseVideo[] = [
 /** /studio/blessings/video-clip */
 export const BLESSINGS_VIDEO_CLIP_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },
+  {
+    videoId: "LKg3pwdon_M",
+    title: "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית",
+  },
   { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים" },
   { videoId: "8i4K2f5gQfM", title: "שיר מתנה מהאולפן" },
   { videoId: "c55HTqTArFo", title: "יום חוויה באולפן - מתנה" },
+] as const;
+
+/** קליפי הצעת נישואין / מתננה */
+export const PROPOSAL_CLIP_SHOWCASE_VIDEOS: readonly ShowcaseVideo[] = [
+  {
+    videoId: "LKg3pwdon_M",
+    title: "הקלטת שיר מתנה לחברה עם הקדשה אישית באולפן",
+  },
 ] as const;
 
 export const VOICEOVER_HUB_VIDEOS: readonly ShowcaseVideo[] = [
@@ -137,6 +149,10 @@ export const RECORDING_SONG_EXTRA_VIDEOS: readonly ShowcaseVideo[] = [
 /** /studio/recording-song-modiin - דוגמאות מסודרות (עדכון ידני) */
 export const RECORDING_SONG_MODIIN_VIDEOS: readonly ShowcaseVideo[] = [
   { videoId: "8i4K2f5gQfM", title: "הקלטת שיר לחתונה" },
+  {
+    videoId: "LKg3pwdon_M",
+    title: "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית",
+  },
   { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },
   { videoId: "Fsy4Eg00dCA", title: "שיר לבר מצווה + תיקון זיופים (AI)" },
   { videoId: "ne023hwMqH0", title: "איך נראה באולפן - הקלטת קבוצה" },
@@ -185,6 +201,10 @@ export const PODCAST_GRANDPA_SHOWCASE_VIDEO: ShowcaseVideo = {
 
 /** /studio/recording-song-modiin/gifts */
 export const STUDIO_GIFTS_VIDEOS: readonly ShowcaseVideo[] = [
+  {
+    videoId: "LKg3pwdon_M",
+    title: "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית",
+  },
   { videoId: "8i4K2f5gQfM", title: "שיר מתנה מהאולפן" },
   { videoId: "c55HTqTArFo", title: "יום חוויה באולפן - מתנה" },
   { videoId: "1ilgnokOS7Q", title: "קליפ לחתונה - חברים" },

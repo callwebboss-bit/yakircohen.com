@@ -5,8 +5,11 @@ import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
+import HeroScrollCue from "@/components/marketing/HeroScrollCue";
+import HeroTrackedCta from "@/components/marketing/HeroTrackedCta";
+import CtaOutcomeSubline from "@/components/marketing/CtaOutcomeSubline";
 import { BLUR_DATA_URL } from "@/lib/blur";
-import { CTA_LABELS } from "@/lib/data/conversion-copy";
+import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
 
 export type HomeHeroProps = {
@@ -36,7 +39,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             id="hero-heading"
             className="font-serif text-hero font-semibold text-foreground"
           >
-            אולפן הקלטות, פודקאסט, אירועים וקריינות במודיעין - מחיר שקוף וליווי מלא.
+            אודיו, פודקאסט ואירועים במודיעין - מהיר, שקוף, מקצועי.
           </h1>
           <HomeHeroBadges />
           <p className="text-lead mt-6 max-w-xl text-muted-foreground">
@@ -46,20 +49,21 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>, החל מ-750 ₪ + מע״מ.{" "}
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* IMPROVED: Button primitive for WhatsApp CTA */}
-            <Button
-              as="a"
-              href={heroWhatsAppHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="primary"
-            >
-              {CTA_LABELS.whatsappQuote}
-            </Button>
-            <Button as="link" href="/book" variant="outline">
-              {CTA_LABELS.bookTransparent}
-            </Button>
+          <div className="mt-8 flex flex-col gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookNoCommit}</HeroTrackedCta>
+              <Button
+                as="a"
+                href={heroWhatsAppHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+              >
+                {CTA_LABELS.whatsappQuote}
+              </Button>
+            </div>
+            <CtaOutcomeSubline className="sm:text-start" />
+            <HeroScrollCue href="#home-quick-paths" className="sm:justify-start" />
           </div>
         </div>
 

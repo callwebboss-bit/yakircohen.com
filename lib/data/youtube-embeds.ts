@@ -50,6 +50,16 @@ export const YOUTUBE_BAT_MITZVAH_CLIP_IDS = [
 
 
 
+/** קליפי הצעת נישואין / מתננה - גלריה למתנות ולמאגר תיק עבודות */
+
+export const YOUTUBE_PROPOSAL_CLIP_IDS = [
+
+  "LKg3pwdon_M",
+
+] as const;
+
+
+
 /** Per-service embeds (registry keys match ServiceEntity.id where applicable) */
 
 export const YOUTUBE_SERVICE_EMBED_IDS = {
@@ -71,6 +81,8 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
   "recording-song-wedding": "8i4K2f5gQfM",
 
   "recording-song-friends-clip": "1ilgnokOS7Q",
+
+  "recording-song-proposal-clip": "LKg3pwdon_M",
 
   "recording-song-bar-mitzvah-pitch": "Fsy4Eg00dCA",
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * מקור אמת יחיד לכל מחירי השירות (לפני מע״מ).
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
  */
@@ -28,6 +28,13 @@ export type PriceScope = {
   duration?: string;
   includes?: string;
   excludes?: string;
+  /** תשלום חד-פעמי / לכל פרק / חודשי */
+  billingLabel?: string;
+};
+
+export type PriceWithEditing = {
+  label: string;
+  exVat: number;
 };
 
 export type PriceItem = {
@@ -37,6 +44,12 @@ export type PriceItem = {
   category: PriceCategory;
   context?: string;
   scope?: PriceScope;
+  /** למי השירות מתאים - שורה קצרה ליד המחיר */
+  suitedFor?: string;
+  /** מחיר חלופי עם עריכה בסיסית */
+  withEditing?: PriceWithEditing;
+  /** מחיר התחלה - לא מחיר סופי קבוע */
+  priceFrom?: boolean;
 };
 
 /** כל מחירי השירות - לפני מע״מ */
@@ -49,6 +62,8 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "studio",
     context: "הקלטה קצרה / פודקאסט פיילוט",
     scope: { duration: "30 דקות", includes: "ליווי טכני במקום" },
+    suitedFor: "פודקאסט פיילוט, ברכה קצרה, דמו",
+    withEditing: { label: "חצי שעה + עריכה בסיסית", exVat: 1100 },
   },
   {
     id: "studio_hour",
@@ -57,6 +72,8 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "studio",
     context: "60 דקות הקלטה לדיבור, שירה או ברכה",
     scope: { duration: "60 דקות", includes: "הנדסת הקלטה", excludes: "עריכה" },
+    suitedFor: "הקלטת שיר, דרשה ארוכה, שני משתתפים",
+    withEditing: { label: "שעת אולפן + עריכה", exVat: 2000 },
   },
   {
     id: "blessing_recording",
@@ -65,8 +82,17 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "studio",
     context: "דרשה קצרה או אמירה מרגשת עד חצי שעה",
     scope: { duration: "עד חצי שעה", includes: "עריכה בסיסית והנחיה" },
+    suitedFor: "ברכה לבר/בת מצווה, יום הולדת, חתונה",
   },
-  { id: "cover_song", label: "הקלטת שיר קאבר", exVat: 1200, category: "studio", context: "הקלטה על גבי פלייבק קיים עם ליווי מקצועי" },
+  {
+    id: "cover_song",
+    label: "הקלטת שיר קאבר",
+    exVat: 1200,
+    category: "studio",
+    context: "הקלטה על גבי פלייבק קיים עם ליווי מקצועי",
+    suitedFor: "שיר קאבר במתנה, אודישן",
+    withEditing: { label: "קאבר + עיבוד ומיקס", exVat: 1700 },
+  },
   {
     id: "song_package",
     label: "חבילת הקלטת שיר",
@@ -74,6 +100,7 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "studio",
     context: "עד 3 שעות אולפן, טיונינג ווקאלי ומיקס בסיסי",
     scope: { duration: "עד 3 שעות אולפן", includes: "טיונינג, מיקס בסיסי וקובץ מוכן" },
+    suitedFor: "שיר מקורי או קאבר להקלטה ראשונה",
   },
   {
     id: "single_production",
@@ -82,6 +109,7 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "studio",
     context: "עד 6 שעות אולפן כולל עיבוד ומאסטר מסחרי",
     scope: { duration: "עד 6 שעות אולפן", includes: "עיבוד, מיקס ומאסטר מסחרי" },
+    suitedFor: "זמרים שרוצים סינגל מוכן לסטרימינג",
   },
   { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף" },
 
@@ -94,21 +122,66 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "podcast",
     context: "הקלטה עד שעה + עריכה ומסירה לספוטיפיי",
     scope: { duration: "עד שעה", includes: "הקלטה, עריכה ומסירה לספוטיפיי" },
+    suitedFor: "יוצרים שמתחילים סדרה, עסקים",
   },
-  { id: "podcast_video", label: "פודקאסט וידאו", exVat: 1650, category: "podcast", context: "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה" },
-  { id: "content_package", label: "חבילת תוכן מלאה", exVat: 2800, category: "podcast", context: "וידאו, 3 רילס עם כתוביות והעלאה לפלטפורמות" },
-  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הגעה, בחירת חלל, הקלטה ועריכה עד פרק מוכן" },
+  {
+    id: "podcast_video",
+    label: "פודקאסט וידאו",
+    exVat: 1650,
+    category: "podcast",
+    context: "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה",
+    suitedFor: "פודקאסטים עם נוכחות ויזואלית ביוטיוב",
+  },
+  {
+    id: "content_package",
+    label: "חבילת תוכן מלאה",
+    exVat: 2800,
+    category: "podcast",
+    context: "וידאו, 3 רילס עם כתוביות והעלאה לפלטפורמות",
+    suitedFor: "מותגים שרוצים נוכחות רשתות חברתיות",
+  },
+  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" },
+  {
+    id: "mobile_podcast_at_home",
+    label: "פודקאסט בבית / אולפן נייד",
+    exVat: 2500,
+    category: "podcast",
+    context: "הגעה לבית או למשרד, הקלטה ועריכה",
+    priceFrom: true,
+  },
   { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
   { id: "podcast_extra_participant", label: "משתתף נוסף בפודקאסט", exVat: 150, category: "podcast", context: "תוספת מיקרופון ועריכה מוגברת מעל 2 אנשים" },
-  { id: "studio_self_service_hour", label: "אולפן שירות עצמי", exVat: 650, category: "podcast", context: "שעת הקלטה בלי עריכה, הלקוח לוקח קבצים גולמיים" },
+  {
+    id: "studio_self_service_hour",
+    label: "אולפן שירות עצמי",
+    exVat: 650,
+    category: "podcast",
+    context: "שעת הקלטה בלי עריכה, הלקוח לוקח קבצים גולמיים",
+    withEditing: { label: "שירות עצמי + עריכה", exVat: 1100 },
+  },
 
   // ─── תוכן לעסקים (B2B) ───
   { id: "content_studio_pilot", label: "סושיאל דאמפ, פיילוט", exVat: 1650, category: "online", context: "שעה באולפן + 5 רילז/שורטס ערוכים" },
   { id: "content_studio_session", label: "סושיאל דאמפ, סשן מלא", exVat: 2800, category: "online", context: "2 שעות באולפן + 12 רילז עם כתוביות" },
-  { id: "content_studio_retainer", label: "סושיאל דאמפ, ריטיינר חודשי", exVat: 4500, category: "online", context: "סשן חודשי + 8–12 רילז, תבניות מותג" },
+  {
+    id: "content_studio_retainer",
+    label: "סושיאל דאמפ, ריטיינר חודשי",
+    exVat: 4500,
+    category: "online",
+    context: "סשן חודשי + 8-12 רילז, תבניות מותג",
+    scope: { billingLabel: "חודשי" },
+    suitedFor: "עסקים עם צורך קבוע בתוכן חודשי",
+  },
   { id: "on_site_half_day", label: "אולפן זמני בחברה, חצי יום", exVat: 6500, category: "online", context: "4 שעות, חדר ישיבות, עד 4 מרואים" },
   { id: "on_site_full_day", label: "אולפן זמני בחברה, יום מלא", exVat: 10000, category: "online", context: "8 שעות, עד 8 פרקים/סרטונים גולמיים" },
-  { id: "on_site_retainer", label: "אולפן זמני בחברה, ריטיינר", exVat: 28000, category: "online", context: "2 ימי צילום + עריכה" },
+  {
+    id: "on_site_retainer",
+    label: "אולפן זמני בחברה, ריטיינר",
+    exVat: 28000,
+    category: "online",
+    context: "2 ימי צילום + עריכה",
+    scope: { billingLabel: "חודשי" },
+  },
   { id: "corp_song_toast", label: "שיר לחברה, הרמת כוסית", exVat: 5000, category: "studio", context: "שיר הומוריסטי / אירוע חברה" },
   { id: "corp_song_retirement", label: "שיר פרישה + קליפ", exVat: 8500, category: "studio", context: "הפקה מלאה לפרישת מנהל" },
   { id: "corp_song_anthem", label: "הימנון חברה", exVat: 12000, category: "studio", context: "שיר וקליפ, מיתוג ארגוני" },
@@ -131,13 +204,41 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "voice_clone_clip", label: "קlip ממודל קול, עד דקה", exVat: 450, category: "online", context: "טקסט חדש בקול שכבר הוקם" },
   { id: "voice_clone_ivr_pack", label: "5 עדכוני IVR ממודל קול", exVat: 1200, category: "online", context: "לאחר הקמת מודל" },
   { id: "employer_welcome", label: "סרטון ברוכים הבאים", exVat: 4500, category: "online", context: "הקלטה + עריכה, עד 3 דקות" },
-  { id: "employer_onboard_day", label: "יום צילום onboarding", exVat: 9500, category: "online", context: "ראיונות, סיור וירטואלי, 5–8 סרטונים גולמיים" },
-  { id: "employer_monthly", label: "ריטיינר תוכן HR", exVat: 18500, category: "online", context: "סשן חודשי + עריכה, סרטוני קליטה שוטפים" },
+  { id: "employer_onboard_day", label: "יום צילום onboarding", exVat: 9500, category: "online", context: "ראיונות, סיור וירטואלי, 5-8 סרטונים גולמיים" },
+  {
+    id: "employer_monthly",
+    label: "ריטיינר תוכן HR",
+    exVat: 18500,
+    category: "online",
+    context: "סשן חודשי + עריכה, סרטוני קליטה שוטפים",
+    scope: { billingLabel: "חודשי" },
+  },
 
   // ─── DJ ואירועים ───
-  { id: "dj_premium", label: "תקליטן פרימיום מהצוות", exVat: 5000, category: "dj", context: "4 שעות תקלוט של דיג׳יי מנוסה" },
-  { id: "dj_yakir_personal", label: "תקליטן יקיר כהן אישית", exVat: 8305, category: "dj", context: "5 שעות VIP עם יקיר על הקונסולה" },
-  { id: "mobile_studio", label: "אולפן הקלטות נייד", exVat: 5000, category: "events", context: "הקמת מיקרופונים ועמדת עריכה בשטח" },
+  {
+    id: "dj_premium",
+    label: "תקליטן פרימיום מהצוות",
+    exVat: 5000,
+    category: "dj",
+    context: "4 שעות תקלוט של דיג׳יי מנוסה",
+    suitedFor: "אירוע עד 300 מוזמנים",
+  },
+  {
+    id: "dj_yakir_personal",
+    label: "תקליטן יקיר כהן אישית",
+    exVat: 8305,
+    category: "dj",
+    context: "5 שעות VIP עם יקיר על הקונסולה",
+    suitedFor: "חתונות VIP, אירועי חברה",
+  },
+  {
+    id: "mobile_studio",
+    label: "אולפן הקלטות נייד",
+    exVat: 5000,
+    category: "events",
+    context: "הקמת מיקרופונים ועמדת עריכה בשטח",
+    suitedFor: "אירועים, כנסים, בתי ספר",
+  },
   {
     id: "festival_all_in",
     label: "חבילת פסטיבל הכל כלול",
@@ -145,6 +246,7 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     category: "events",
     context: "DJ פרימיום, אולפן נייד, 3 אטרקציות ומצגת",
     scope: { duration: "5 שעות DJ", includes: "אולפן נייד + 3 אטרקציות" },
+    suitedFor: "חתונות ובר/בת מצווה עם הכל כלול",
   },
   { id: "pre_event_production", label: "הפקה מקדימה ותיאום מוזיקלי", exVat: 980, category: "events", context: "תיאום מלא עם הדיג׳יי" },
   { id: "cinematic_slideshow", label: "מצגת תמונות קולנועית", exVat: 750, category: "events", context: "סיפור ויזואלי מרגש על מסכים באירוע" },
@@ -177,13 +279,27 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "ai_noise_basic", label: "ניקוי רעשים בסיסי", exVat: 350, category: "online", context: "להקלטות קצרות עם רעש קבוע" },
   { id: "ai_voice_restore", label: "שחזור קול מלא", exVat: 650, category: "online", context: "פרק או ראיון עד שעה - ניקוי + איזון" },
   { id: "ai_voice_enhance", label: "שיפור קול חכם", exVat: 450, category: "online", context: "הבהרה, נוכחות ועקביות לפודקאסט" },
-  { id: "damaged_recording_rescue", label: "הצלת הקלטות פגומות", exVat: 250, category: "online", context: "שחזור ושיפור איכות לכל 5 דקות" },
+  { id: "damaged_recording_rescue", label: "הצלת הקלטות פגומות", exVat: 250, category: "online", context: "שחזור ושיפור איכות לכל 5 דקות", priceFrom: true },
   { id: "ai_photo_upgrade", label: "שדרוג תמונות ב-AI", exVat: 250, category: "online", context: "שיפור רזולוציה, צבע וחדות ל-10 תמונות" },
   { id: "volume_balance", label: "התאמת ווליום ואיזון דינמי", exVat: 250, category: "online", context: "איזון עוצמות קול עד שעת הקלטה" },
   { id: "reel_factory_single", label: "פרומו רילס בודד לספק", exVat: 950, category: "online", context: "חיתוך + כתוביות בסיסיות מחומר גולמי" },
   { id: "reel_factory_rave_24h", label: "רילס Rave ערוך תוך 24 שעות", exVat: 1400, category: "online", context: "ביט-סינק, אפקטים, צבע וסאונד מנורמל" },
-  { id: "reel_factory_starter_monthly", label: "Content Hub בסיס לספקים", exVat: 2800, category: "online", context: "4 פרומואים + פוסטים שיווקיים בחודש" },
-  { id: "reel_factory_pro_monthly", label: "Content Hub פרו לספקים", exVat: 4500, category: "online", context: "8 פרומואים + פוסטים + כיתובים לכל פלטפורמה" },
+  {
+    id: "reel_factory_starter_monthly",
+    label: "Content Hub בסיס לספקים",
+    exVat: 2800,
+    category: "online",
+    context: "4 פרומואים + פוסטים שיווקיים בחודש",
+    scope: { billingLabel: "חודשי" },
+  },
+  {
+    id: "reel_factory_pro_monthly",
+    label: "Content Hub פרו לספקים",
+    exVat: 4500,
+    category: "online",
+    context: "8 פרומואים + פוסטים + כיתובים לכל פלטפורמה",
+    scope: { billingLabel: "חודשי" },
+  },
   { id: "volume_balance_full", label: "איזון ווליומין", exVat: 500, category: "online", context: "איזון עוצמות קול לקטע עד 5 דקות" },
   { id: "noise_removal_segment", label: "ניקוי רעשים", exVat: 500, category: "online", context: "הסרת רעשי רקע לקטע עד 5 דקות" },
   { id: "eq_freq_fix", label: "תיקון תדרים ו-EQ", exVat: 500, category: "online", context: "שיפור איכות סאונד ותדרים לקטע עד 5 דקות" },
@@ -203,10 +319,33 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "ambience_space_set", label: "פלייליסט לאווירת חלל", exVat: 850, category: "pro", context: "מוזיקת רקע לפי סוג עסק ושעות פעילות" },
   { id: "prebuilt_set_corporate", label: "סט מוזיקה מוכן לפי קטגוריה", exVat: 450, category: "pro", context: "מוזיקה ערוכה ומחוברת בקצב קבוע" },
   { id: "studio_in_box_consult", label: "אולפן בקופסה - ייעוץ + עשרה פרקים", exVat: 2500, category: "pro", context: "תכנון אקוסטי, מפרט ציוד ועריכה לעשרה פרקים" },
-  { id: "bulk_podcast_episode", label: "פס ייצור - פרק ושלושה סרטונים קצרים", exVat: 950, category: "pro", context: "עריכה, עוצמת שמע אחידה, פתיח/סגיר וסרטונים לרשתות" },
+  {
+    id: "bulk_podcast_episode",
+    label: "פס ייצור - פרק ושלושה סרטונים קצרים",
+    exVat: 950,
+    category: "pro",
+    context: "עריכה, עוצמת שמע אחידה, פתיח/סגיר וסרטונים לרשתות",
+    scope: { billingLabel: "לכל פרק" },
+  },
   { id: "corp_podcast_pilot", label: "פיילוט פודקאסט ארגוני", exVat: 6500, category: "pro", context: "2 פרקים + אסטרטגיה + setup ספוטיפיי + מיתוג שמע" },
-  { id: "corp_podcast_retainer", label: "ריטיינר פודקאסט ארגוני", exVat: 4800, category: "pro", context: "2 פרקים/חודש + רילס + הפצה + חשבונית מס" },
-  { id: "dry_hire_day", label: "השכרת ציוד - יום אחד", exVat: 450, category: "pro", context: "השכרת ציוד בלבד לפי פריט ויום" },
+  {
+    id: "corp_podcast_retainer",
+    label: "ריטיינר פודקאסט ארגוני",
+    exVat: 4800,
+    category: "pro",
+    context: "2 פרקים/חודש + רילס + הפצה + חשבונית מס",
+    scope: { billingLabel: "חודשי" },
+    suitedFor: "ארגונים עם ערוץ פודקאסט שוטף",
+  },
+  {
+    id: "dry_hire_day",
+    label: "השכרת ציוד - יום אחד",
+    exVat: 450,
+    category: "pro",
+    context: "השכרת ציוד בלבד לפי פריט ויום",
+    scope: { billingLabel: "ליום" },
+    priceFrom: true,
+  },
   { id: "system_tuning_ease", label: "תכנון הגברה ומדידות", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
 ] as const;
 
@@ -241,6 +380,16 @@ export function getScopeById(id: PriceItemId): PriceScope | undefined {
   return getPriceById(id).scope;
 }
 
+/** למי מתאים - לפי מזהה קטלוג */
+export function getSuitedForById(id: PriceItemId): string | undefined {
+  return getPriceById(id).suitedFor;
+}
+
+/** מחיר עם עריכה - לפי מזהה קטלוג */
+export function getWithEditingById(id: PriceItemId): PriceWithEditing | undefined {
+  return getPriceById(id).withEditing;
+}
+
 /** מחיר לפי מזהה - זורק אם לא נמצא */
 export function getPriceById(id: PriceItemId): PriceItem {
   const item = catalogById.get(id);
@@ -251,6 +400,11 @@ export function getPriceById(id: PriceItemId): PriceItem {
 /** מחיר לפני מע״מ לפי מזהה */
 export function getExVat(id: PriceItemId): number {
   return getPriceById(id).exVat;
+}
+
+/** האם המחיר במחירון הוא מחיר התחלה */
+export function getPriceFromById(id: PriceItemId): boolean {
+  return getPriceById(id).priceFrom === true;
 }
 
 /** תוספות לפי מזהה שירות בסיסי במחירון */

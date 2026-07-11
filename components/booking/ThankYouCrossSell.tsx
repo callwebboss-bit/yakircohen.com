@@ -26,6 +26,7 @@ export default function ThankYouCrossSell({
       recordingType={recordingType}
       atmosphere={atmosphere}
       className="mt-8 text-right"
+      trackThankYou
     />
   );
 }

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import type { ServiceEntity } from "@/lib/data/services";
 import { constructMetadata } from "@/lib/metadata";
 import {
@@ -53,9 +53,9 @@ export const ACADEMY_HUB_SEO: HubPageSeo = {
 
 export const ONLINE_HUB_SEO: HubPageSeo = {
   slug: "online",
-  title: "מאגר שירותי AI אונליין",
+  title: "תיקון שירה ומיקס אונליין - AI לאודיו",
   description:
-    "שירותי AI לסאונד וסרטונים - ממודיעין. שלחו חומר, נחזיר תוצר מוכן עם ליווי אישי.",
+    "תיקון שירה ומיקס אונליין ממודיעין - תוצאה תוך 24-48 שעות. תיקון זיופים, פודקאסט ווידאו מרחוק מ-250 ₪, עם ליווי בוואטסאפ.",
   keywords: [
     "שירותי AI אונליין",
     "הפקה מרחוק",
@@ -68,9 +68,9 @@ export const ONLINE_HUB_SEO: HubPageSeo = {
 
 export const PRICING_HUB_SEO: HubPageSeo = {
   slug: "pricing",
-  title: "מחירון שקוף | אולפן, פודקאסט ואירועים – מודיעין",
+  title: "מחירון שקוף - אולפן ופודקאסט מודיעין",
   description:
-    "מחירון שקוף ממודיעין. אולפן מ-750 ₪, פודקאסט מ-950 ₪, אטרקציות לאירועים ושירותי AI – לפני ואחרי מע״מ, עם הזמנה מקוונת.",
+    "מחירון שקוף ממודיעין. אולפן מ-750 ₪, פודקאסט מ-950 ₪, אטרקציות לאירועים ושירותי AI - לפני ואחרי מע״מ, עם הזמנה מקוונת.",
   keywords: [
     "מחירון אולפן",
     "מחיר הקלטה באולפן",
@@ -104,7 +104,7 @@ export const PRO_HUB_SEO: HubPageSeo = {
 
 export const BUSINESS_HUB_SEO: HubPageSeo = {
   slug: "business",
-  title: "הפקת תוכן לעסקים | קריינות, פודקאסט וסרט תדמית - חשבונית מס",
+  title: "הפקת תוכן לעסקים - קריינות ופודקאסט",
   description:
     "הפקת תוכן לעסקים במודיעין: רילז, קריינות ופודקאסט. חשבונית מס - תגובה, בדרך כלל תוך 24 שעות.",
   keywords: [
@@ -154,14 +154,15 @@ export const PORTFOLIO_HUB_SEO: HubPageSeo = {
 
 export const SHOP_HUB_SEO: HubPageSeo = {
   slug: "shop",
-  title: "חנות ציוד מקצועי - אולפן, הגברה ותאורה",
+  title: "חנות שוברים וציוד מקצועי במודיעין",
   description:
-    "ציוד אולפן יד שנייה במודיעין. די ג'יי, RCF, הגברה ותאורה מקצועית.",
+    "שוברי מתנה לאולפן ואירועים, חבילות משולבות וציוד יד שנייה. מודיעין. תיאום בוואטסאפ.",
   keywords: [
+    "שובר מתנה אולפן",
+    "שובר חתונה",
     "ציוד אולפן יד שנייה",
     "ציוד די ג'יי",
     "רמקולים מוגברים",
-    "אולפן ביתי",
   ],
   hub: "shop",
 };
@@ -199,7 +200,7 @@ export const CLINIC_HUB_SEO: HubPageSeo = {
 
 export const STUTTERING_HUB_SEO: HubPageSeo = {
   slug: "stuttering",
-  title: "טיפול בגמגום ילדים ומבוגרים | שיטת NeverMind",
+  title: "טיפול בגמגום במודיעין | שיטת NeverMind",
   description:
     "ליווי לגמגום במודיעין. ילדים, נוער ומבוגרים - שיטת NeverMind מול מיקרופון.",
   keywords: [

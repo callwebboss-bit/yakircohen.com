@@ -35,7 +35,7 @@ const notoSerifHebrew = Noto_Serif_Hebrew({
   subsets: ["hebrew", "latin"],
   display: "swap",
   variable: "--font-noto-serif-hebrew",
-  preload: true,
+  preload: false,
   adjustFontFallback: true,
   fallback: ["David Libre", "Times New Roman", "serif"],
 });

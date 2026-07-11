@@ -1,4 +1,4 @@
-﻿/** Business hub -- B2B service index */
+/** Business hub -- B2B service index */
 
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 
@@ -31,7 +31,7 @@ export const BUSINESS_HUB_GROUPS: readonly BusinessHubGroup[] = [
         icon: "📱",
         title: "סושיאל דאמפ, רילז באולפן",
         description:
-          "יום צילום מרוכז: 2 שעות באולפן, 10–15 סרטונים קצרים ערוכים עם כתוביות.",
+          "יום צילום מרוכז: 2 שעות באולפן, 10-15 סרטונים קצרים ערוכים עם כתוביות.",
         href: "/business/content-studio",
         priceHint: "החל מ-1,650 ₪",
       },

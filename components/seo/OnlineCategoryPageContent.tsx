@@ -219,19 +219,22 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
       <Section padding="sm">
         <Container className="max-w-3xl">
         <h2 className="font-serif text-section-title font-semibold text-foreground">למה לבחור בנו?</h2>
-        <ul className="mt-6 space-y-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {ONLINE_WHY_US.map((item) => (
-            <li
-              key={`${category.slug}-${item}`}
-              className="flex items-start gap-2 text-sm text-muted-foreground"
+            <article
+              key={`${category.slug}-${item.title}`}
+              className="rounded-2xl border border-border bg-background p-5 shadow-sm"
             >
-              <span className="text-brand-red" aria-hidden>
-                ✓
-              </span>
-              {item}
-            </li>
+              <h3 className="flex items-center gap-2 text-base font-semibold text-foreground">
+                <span aria-hidden>{item.icon}</span>
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {item.detail}
+              </p>
+            </article>
           ))}
-        </ul>
+        </div>
         </Container>
       </Section>
 

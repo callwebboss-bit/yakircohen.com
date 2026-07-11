@@ -40,3 +40,8 @@ export const OnlineRestoreBookingPanelLazy = dynamic(
   () => import("@/components/marketing/OnlineRestoreBookingPanel"),
   { loading: () => wizardSkeleton() },
 );
+
+export const BookUniversalIntakeWizardLazy = dynamic(
+  () => import("@/components/booking/BookUniversalIntakeWizard"),
+  { loading: () => wizardSkeleton("min-h-[24rem]") },
+);

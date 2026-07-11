@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect } from "react";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
+import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
 import { useBookFlow } from "@/hooks/useBookFlow";
 import {
@@ -233,9 +234,14 @@ export default function BookPageSections({
   const resumeQualOpen = qualParam === "1" && Boolean(routeParam);
 
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
+  const { setBookFlowState, setIntakeExpanded } = useBookPageLayout();
 
   useEffect(() => {
-    if (!activeCategory || (!catalogParam && !couponParam)) return;
+    setBookFlowState(activeCategory, activeRouteId);
+  }, [activeCategory, activeRouteId, setBookFlowState]);
+
+  useEffect(() => {
+    if (!activeCategory) return;
     const id = window.requestAnimationFrame(() => {
       document.getElementById("book-wizard-panel")?.scrollIntoView({
         behavior: "smooth",
@@ -243,7 +249,7 @@ export default function BookPageSections({
       });
     });
     return () => window.cancelAnimationFrame(id);
-  }, [activeCategory, catalogParam, couponParam]);
+  }, [activeCategory, activeRouteId]);
 
   return (
     <BookCouponProvider couponParam={couponParam}>
@@ -268,7 +274,10 @@ export default function BookPageSections({
           <div className="mx-auto min-w-0 max-w-[72rem] px-4 sm:px-6 lg:px-8">
             <button
               type="button"
-              onClick={backToRouter}
+              onClick={() => {
+                setIntakeExpanded(true);
+                backToRouter();
+              }}
               className="mb-6 inline-flex min-h-9 items-center text-sm font-medium text-muted-foreground transition-colors hover:text-brand-red"
             >
               חזרה לבחירת שירות

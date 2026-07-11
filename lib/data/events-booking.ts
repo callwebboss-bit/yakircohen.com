@@ -30,7 +30,7 @@ export type EventBookingItemQuantity =
   | RigidActivationKey
   | LiquidFrequencyKey;
 
-/** תוספת מחיר לכמות כפולה (1,750 × 2 × 0.25) – legacy */
+/** תוספת מחיר לכמות כפולה (1,750 × 2 × 0.25) - legacy */
 export const DOUBLE_QUANTITY_SURCHARGE = 875;
 
 const ATTRACTION_BASE_PRICE = 1750;
@@ -38,14 +38,14 @@ const ATTRACTION_BASE_PRICE = 1750;
 export type ActivationOption = { key: RigidActivationKey; label: string; shortLabel: string; addOnPrice: number };
 export type FrequencyOption = { key: LiquidFrequencyKey; label: string; shortLabel: string; addOnPrice: number; addOnPercent?: string };
 
-/** אפשרויות הפעלה לאטרקציות rigid – כל הפעלה = מלאי גלם חדש ויקר */
+/** אפשרויות הפעלה לאטרקציות rigid - כל הפעלה = מלאי גלם חדש ויקר */
 export const RIGID_ACTIVATION_OPTIONS: readonly ActivationOption[] = [
   { key: "act_1", label: "הפעלה אחת (בסלואו או בכניסה)", shortLabel: "הפעלה אחת", addOnPrice: 0 },
   { key: "act_2", label: "2 הפעלות (כניסה + סלואו)", shortLabel: "2 הפעלות", addOnPrice: 1750 },
   { key: "act_3", label: "3 הפעלות (כניסה, סלואו ופתיחת רחבה)", shortLabel: "3 הפעלות", addOnPrice: 3500 },
 ];
 
-/** אפשרויות תדירות לאטרקציות liquid – עלות שולית נמוכה, תמחור אחוזני */
+/** אפשרויות תדירות לאטרקציות liquid - עלות שולית נמוכה, תמחור אחוזני */
 export const LIQUID_FREQUENCY_OPTIONS: readonly FrequencyOption[] = [
   { key: "freq_single", label: "הפעלה אחת לרגע השיא המרכזי", shortLabel: "הפעלה אחת", addOnPrice: 0 },
   { key: "freq_graduated", label: "שתי הפעלות מדורגות (חזקה + מתונה לאווירה)", shortLabel: "2 מדורגות", addOnPrice: Math.round(ATTRACTION_BASE_PRICE * 0.35), addOnPercent: "35%" },
@@ -62,7 +62,7 @@ export type EventBookingItem = {
   badge?: "popular" | "new" | "kids";
   /** rigid = זיקוקים/קונפטי (מלאי מתכלה, ליניארי); liquid = עשן/בועות (אחוזני) */
   pricingType?: AttractionPricingType;
-  /** legacy – שמור לאחור-תאימות, לא משומש עבור pricingType items */
+  /** legacy - שמור לאחור-תאימות, לא משומש עבור pricingType items */
   quantityLabel?: { standard: string; double: string };
   /** קישור לדף מידע על האטרקציה */
   href?: string;
@@ -76,7 +76,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgViewBox: "0 0 24 24",
     badge: "popular",
     pricingType: "liquid",
-    desc: "ערפל לבן סמיך ברחבה – אפקט חופה וסלו מוציה",
+    desc: "ערפל לבן סמיך ברחבה - אפקט חופה וסלו מוציה",
     href: "/events/attractions/wedding-smoking-machine",
   },
   {
@@ -86,7 +86,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgViewBox: "0 0 24 24",
     badge: "kids",
     pricingType: "liquid",
-    desc: "בועות אטומות עם ענן בתוכן – היט 2026, בטוח לשמלות",
+    desc: "בועות אטומות עם ענן בתוכן - היט 2026, בטוח לשמלות",
     href: "/events/attractions/bubble-machine",
   },
   {
@@ -94,7 +94,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     name: "בלונים ענקיים",
     svgPath: "M12 2a6 6 0 0 1 6 6c0 3.52-3.1 7-6 10-2.9-3-6-6.48-6-10a6 6 0 0 1 6-6zm0 16v4",
     svgViewBox: "0 0 24 24",
-    desc: "בלוני ענק צבעוניים לרחבה – מרשים לצילום",
+    desc: "בלוני ענק צבעוניים לרחבה - מרשים לצילום",
     href: "/events/attractions/giant-balloons",
   },
   {
@@ -113,7 +113,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgPath: "M17 3l4 4-4 4M3 12h14M7 21l-4-4 4-4M21 12H7",
     svgViewBox: "0 0 24 24",
     pricingType: "rigid",
-    desc: "אלפי פיסות קונפטי באוויר – הרגע הכי מצולם",
+    desc: "אלפי פיסות קונפטי באוויר - הרגע הכי מצולם",
     href: "/events/attractions/confetti-cannon",
   },
   {
@@ -130,7 +130,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgViewBox: "0 0 24 24",
     badge: "new",
     pricingType: "liquid",
-    desc: "תותחי עשן בצבעים מרהיבים – אפקט ויזואלי חזק לצילום",
+    desc: "תותחי עשן בצבעים מרהיבים - אפקט ויזואלי חזק לצילום",
     href: "/events/attractions/smoke-cannons-for-events",
   },
   {
@@ -140,7 +140,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgViewBox: "0 0 24 24",
     badge: "new",
     pricingType: "liquid",
-    desc: "ענני עשן ממוקדים לרגעי שיא – כניסות וסלואו",
+    desc: "ענני עשן ממוקדים לרגעי שיא - כניסות וסלואו",
     href: "/events/attractions/smoke-cannons-for-events",
   },
   {
@@ -156,7 +156,7 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     svgPath: "M12 3a3 3 0 0 1 3 3c0 1.3-.8 2.4-2 2.8V11h2a2 2 0 0 1 2 2v2H7v-2a2 2 0 0 1 2-2h2V8.8C9.8 8.4 9 7.3 9 6a3 3 0 0 1 3-3zm-3 9h6M6 19a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2H6v-2z",
     svgViewBox: "0 0 24 24",
     badge: "kids",
-    desc: "פעילות קצף לילדים – ציוד בטיחותי, מתאים לגיל 10-",
+    desc: "פעילות קצף לילדים - ציוד בטיחותי, מתאים לגיל 10-",
   },
   {
     id: "podcast_grandpa",

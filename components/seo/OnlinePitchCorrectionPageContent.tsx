@@ -2,6 +2,7 @@
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import SoundCleaningDemo from "@/components/seo/SoundCleaningDemo";
 import AudioShowcase from "@/components/seo/AudioShowcase";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
@@ -208,16 +209,20 @@ export default function OnlinePitchCorrectionPageContent() {
       {/* Before/After Audio Demos */}
       <section className="border-t border-border bg-surface py-12">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <ProposalGiftPitchProofSection className="mb-14" />
+
           <header className="mx-auto max-w-2xl text-center">
             <h2 className="text-xl font-semibold text-foreground">
-              שמעו את ההבדל בעצמכם
+              עוד דוגמאות לפני ואחרי
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              שתי דוגמאות אמיתיות. אותו קטע לפני ואחרי תיקון זיופים ידני.
+              שתי דוגמאות נוספות. אותו קטע לפני ואחרי תיקון זיופים ידני.
             </p>
           </header>
           <div className="mx-auto mt-10 max-w-2xl space-y-12">
-            {PITCH_BEFORE_AFTER_DEMOS.map((item) => {
+            {PITCH_BEFORE_AFTER_DEMOS.filter(
+              (item) => item.demoId !== "proposal-gift-pitch",
+            ).map((item) => {
               const demo = getAudioDemo(item.demoId);
               return (
                 <div key={item.demoId} className="space-y-4">

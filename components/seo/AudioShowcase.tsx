@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useCallback } from "react";
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const PremiumCrossfadePlayer = dynamic(
@@ -117,6 +119,10 @@ export default function AudioShowcase({
 
   const playerKey = storageKey ?? variant;
 
+  const handlePlayStart = useCallback(() => {
+    trackConversion("portfolio_demo_play", { variant, context });
+  }, [variant, context]);
+
   return (
     <>
       {isFullPage && (
@@ -153,6 +159,7 @@ export default function AudioShowcase({
           beforeLabel={beforeLabel}
           afterLabel={afterLabel}
           storageKey={playerKey}
+          onPlayStart={handlePlayStart}
         />
 
         {(beforeNote || afterNote) && (

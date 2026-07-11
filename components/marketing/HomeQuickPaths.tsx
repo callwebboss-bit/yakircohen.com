@@ -8,6 +8,7 @@ import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 export default function HomeQuickPaths() {
   return (
     <Section
+      id="home-quick-paths"
       padding="sm"
       className="border-b border-border bg-surface"
       ariaLabelledby="quick-paths-heading"

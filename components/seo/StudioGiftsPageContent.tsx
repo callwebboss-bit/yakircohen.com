@@ -5,6 +5,7 @@ import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import {
   BAT_MITZVAH_CLIP_TYPES,
@@ -212,6 +213,13 @@ export default function StudioGiftsPageContent() {
               reverse={index % 2 === 1}
             />
           ))}
+        </div>
+
+        <div className="mt-14 rounded-2xl border border-border bg-surface p-6 sm:p-10">
+          <ProposalGiftPitchProofSection
+            heading="קליפ מתננה - שמעו לפני תיקון זיופים, אחרי, ואז צפו בקליפ"
+            intro="מתאים למי שמתלבט אם להזמין עם תיקון זיופים. אותו שיר מהאולפן - לפני, אחרי, והקליפ המלא."
+          />
         </div>
 
         <article className="mt-10 overflow-hidden rounded-2xl border-2 border-brand-red/30 bg-gradient-to-br from-brand-red/5 to-background">

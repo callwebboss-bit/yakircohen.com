@@ -1,19 +1,6 @@
-import type { Metadata } from "next";
-import HubPageSchema from "@/components/seo/HubPageSchema";
-import VoucherPageContent from "@/components/seo/VoucherPageContent";
-import {
-  hubSchemaPropsFromSeo,
-  metadataForHubSeo,
-  VOUCHER_HUB_SEO,
-} from "@/lib/seo/hub-pages";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = metadataForHubSeo(VOUCHER_HUB_SEO);
-
-export default function VoucherPage() {
-  return (
-    <>
-      <HubPageSchema {...hubSchemaPropsFromSeo(VOUCHER_HUB_SEO)} />
-      <VoucherPageContent />
-    </>
-  );
+/** כתובת קנונית: חנות / שוברים */
+export default function VoucherRedirectPage() {
+  redirect("/shop#vouchers");
 }

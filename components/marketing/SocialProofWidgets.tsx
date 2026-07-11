@@ -125,6 +125,7 @@ export function InstagramFeed({
   const [isReady, setIsReady] = useState(false);
   const [shouldLoadScript, setShouldLoadScript] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
+  const [preferStaticMobile, setPreferStaticMobile] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -136,10 +137,21 @@ export function InstagramFeed({
     };
   }, []);
 
+  // Mobile: skip ~450KB Elfsight; show Instagram profile CTA instead.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setPreferStaticMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   // Only fetch the Elfsight platform script once this section is near the
   // viewport - avoids loading ~450KB of third-party JS on pages where the
   // widget sits below the fold and is never scrolled into view.
   useEffect(() => {
+    if (preferStaticMobile) return;
     const el = sectionRef.current;
     if (!el) return;
     if (typeof IntersectionObserver === "undefined") {
@@ -158,7 +170,7 @@ export function InstagramFeed({
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [preferStaticMobile]);
 
   useEffect(() => {
     if (!shouldLoadScript) return;
@@ -198,11 +210,21 @@ export function InstagramFeed({
         </header>
       )}
 
-      {/*
-       * Container: `relative` + `min-h` reserves layout space.
-       * Both skeleton and widget use `absolute` x-positioning on the y-axis so
-       * the container height is driven by min-h only, preventing late shifts.
-       */}
+      {preferStaticMobile ? (
+        <div className="flex min-h-[200px] flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-surface p-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            במובייל פותחים את האינסטגרם ישירות, בלי טעינת וידג׳ט כבד.
+          </p>
+          <a
+            href={INSTAGRAM_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-brand-red px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            לפרופיל האינסטגרם
+          </a>
+        </div>
+      ) : (
       <div className="relative min-h-[380px] sm:min-h-[440px]">
         {/* ── Pulse skeleton - sits in front via z-10 ── */}
         <div
@@ -251,6 +273,7 @@ export function InstagramFeed({
           />
         </div>
       </div>
+      )}
 
       {/*
        * strategy="lazyOnload" defers the script until browser idle - docs
@@ -259,7 +282,7 @@ export function InstagramFeed({
        * Gated by the IntersectionObserver above so it's only fetched once
        * this section is close to the viewport.
        */}
-      {shouldLoadScript && (
+      {shouldLoadScript && !preferStaticMobile && (
         <Script
           src="https://static.elfsight.com/platform/platform.js"
           strategy="lazyOnload"

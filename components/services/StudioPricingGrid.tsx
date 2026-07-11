@@ -1,14 +1,25 @@
-import PriceScopeDisplay from "@/components/booking/PriceScopeDisplay";
+import PriceScopeDisplay, { resolveBillingDataAttr } from "@/components/booking/PriceScopeDisplay";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import Container from "@/components/ui/Container";
 import type { PricingTier } from "@/lib/data/services";
-import { getScopeById } from "@/lib/data/pricing-catalog";
+import { getScopeById, getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 function resolveTierScope(tier: PricingTier) {
   if (tier.scope) return tier.scope;
   if (tier.catalogId) return getScopeById(tier.catalogId);
+  return undefined;
+}
+
+function resolveTierSuitedFor(tier: PricingTier): string | undefined {
+  if (tier.suitedFor) return tier.suitedFor;
+  if (tier.catalogId) return getSuitedForById(tier.catalogId);
+  return undefined;
+}
+
+function resolveTierWithEditing(tier: PricingTier) {
+  if (tier.catalogId) return getWithEditingById(tier.catalogId);
   return undefined;
 }
 
@@ -34,7 +45,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
           return (
             <article
               key={tier.id}
-              data-billing-type="one-time"
+              data-billing-type={resolveBillingDataAttr(resolveTierScope(tier))}
               data-package-id={tier.id}
               itemScope
               itemType="https://schema.org/Offer"
@@ -69,6 +80,8 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                     exVat={tier.priceExVat}
                     scope={resolveTierScope(tier)}
                     size="lg"
+                    suitedFor={resolveTierSuitedFor(tier)}
+                    withEditing={resolveTierWithEditing(tier)}
                   />
                 </div>
               ) : (

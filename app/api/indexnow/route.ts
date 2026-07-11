@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyBearerToken } from "@/lib/api-auth";
 import { SITE_URL } from "@/lib/site-url";
 
 const INDEXNOW_KEY = "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6";
@@ -11,12 +12,18 @@ const INDEXNOW_KEY = "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6";
  * Secured by CRON_SECRET env var to prevent unauthorized submissions.
  */
 export async function POST(request: Request) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  if (!cronSecret || !verifyBearerToken(request, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const sitemapRes = await fetch(`${SITE_URL}/sitemap.xml`);
+  if (!sitemapRes.ok) {
+    return NextResponse.json(
+      { error: "sitemap_fetch_failed", status: sitemapRes.status },
+      { status: 502 },
+    );
+  }
   const sitemapXml = await sitemapRes.text();
 
   const urlMatches = sitemapXml.match(/<loc>(.*?)<\/loc>/g) ?? [];

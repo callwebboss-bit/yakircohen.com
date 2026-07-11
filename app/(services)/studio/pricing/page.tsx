@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import StudioPricingGrid from "@/components/services/StudioPricingGrid";
+import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import { STUDIO_PRICING } from "@/lib/data/services";
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
@@ -105,6 +106,17 @@ export default function StudioPricingPage() {
       </div>
 
       <Container className="pb-8">
+        <section
+          className="mt-12 rounded-2xl border border-border bg-surface px-4 py-10 sm:px-8"
+          aria-labelledby="studio-pricing-pitch-proof-heading"
+        >
+          <ProposalGiftPitchProofSection
+            headingId="studio-pricing-pitch-proof-heading"
+            heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
+            intro="רוב החבילות כוללות תיקון זיופים. אם אתם מתלבטים - שמעו את ההבדל ואז צפו בקליפ המלא."
+          />
+        </section>
+
         <section
           className="mt-12 rounded-2xl border border-brand-red/20 bg-gradient-to-b from-brand-red/[0.04] to-surface px-6 py-10 text-center sm:px-10"
           aria-labelledby="pricing-cta-heading"

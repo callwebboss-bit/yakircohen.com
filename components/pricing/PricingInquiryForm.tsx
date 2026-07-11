@@ -19,7 +19,7 @@ export default function PricingInquiryForm() {
     try {
       await notifyLeadByEmailAsync({
         formId: "pricing_inquiry",
-        subject: `פנייה ממחירון – ${name}`,
+        subject: `פנייה ממחירון - ${name}`,
         body: `שם: ${name}\nטלפון: ${phone}${message ? `\nהודעה: ${message}` : ""}`,
         name,
         phone,
