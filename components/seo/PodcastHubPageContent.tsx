@@ -49,6 +49,7 @@ import { PODCAST_HUB_SEO } from "@/lib/seo/hub-pages";
 import { SKEPTICISM_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { absoluteUrl } from "@/lib/site-url";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
@@ -122,7 +123,7 @@ export default function PodcastHubPageContent() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingOffersSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingOffersSchema) }}
       />
       <ServicePageLayout
         {...heroProps}

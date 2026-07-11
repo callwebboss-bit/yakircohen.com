@@ -1,3 +1,5 @@
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
 export default function EventsAttractionsSchema() {
   const schema = {
     "@context": "https://schema.org",
@@ -28,7 +30,7 @@ export default function EventsAttractionsSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

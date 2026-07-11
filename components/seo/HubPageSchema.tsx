@@ -1,6 +1,7 @@
 import { buildWebPageSchema } from "@/lib/seo/page-schema";
 import type { HubOgKey } from "@/lib/seo/og-images";
 import { resolveOgForHub } from "@/lib/seo/og-images";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 type HubPageSchemaProps = {
   slug: string;
@@ -27,7 +28,7 @@ export default function HubPageSchema({
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

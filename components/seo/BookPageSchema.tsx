@@ -7,6 +7,7 @@ import {
 import { BOOK_PAGE_FAQ } from "@/lib/data/book-page-faq";
 import { absoluteUrl } from "@/lib/site-url";
 import { SITE_NAME } from "@/lib/constants";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 const BRAND_SUFFIX = ` | ${SITE_NAME}`;
 
@@ -83,11 +84,11 @@ export default function BookPageSchema() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(webPageSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqSchema) }}
       />
     </>
   );

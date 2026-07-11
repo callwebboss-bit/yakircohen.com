@@ -15,6 +15,7 @@ import ServicePageFromRegistry from "@/components/services/ServicePageFromRegist
 import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { getStudioHubIcon } from "@/lib/data/studio-hub-icons";
 import {
   getStudioHubLinks,
@@ -85,7 +86,7 @@ export default function StudioHubPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(STUDIO_STRUCTURED_DATA) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(STUDIO_STRUCTURED_DATA) }}
       />
       <HubPageSchema {...hubSchemaPropsFromService(service, "studio")} />
       <HubServiceIndexStatic

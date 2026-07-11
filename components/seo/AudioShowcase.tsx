@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 const PremiumCrossfadePlayer = dynamic(
   () => import("@/components/ui/PremiumCrossfadePlayer"),
@@ -128,7 +129,7 @@ export default function AudioShowcase({
       {isFullPage && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
         />
       )}
 

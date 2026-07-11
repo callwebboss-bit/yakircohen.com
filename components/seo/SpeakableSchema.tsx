@@ -1,3 +1,5 @@
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
 interface Props {
   /** CSS selector(s) targeting the speakable content. Default: "#answer" */
   cssSelector?: string | string[];
@@ -25,7 +27,7 @@ export default function SpeakableSchema({ cssSelector = "#answer", url }: Props)
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

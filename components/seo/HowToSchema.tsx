@@ -1,4 +1,6 @@
-﻿interface HowToStep {
+﻿import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
+interface HowToStep {
   name: string;
   text: string;
   /** Optional absolute URL of a representative image for this step */
@@ -41,7 +43,7 @@ export default function HowToSchema({ name, description, steps, totalTime }: Pro
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

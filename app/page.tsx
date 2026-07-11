@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HomePageSections from "@/components/marketing/HomePageSections";
 import EphemeralPulse from "@/components/marketing/EphemeralPulse";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import {
@@ -12,6 +13,7 @@ import { SITE_URL } from "@/lib/site-url";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 const HOME_TITLE = "אולפן הקלטות מודיעין - פודקאסט ואירועים";
 const HOME_DESCRIPTION =
@@ -59,10 +61,11 @@ export default function HomePage() {
 
   return (
     <>
+      <SpeakableSchema url={SITE_URL} cssSelector={["#home-answer"]} />
       {HOME_FAQ_SCHEMA && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_FAQ_SCHEMA) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(HOME_FAQ_SCHEMA) }}
         />
       )}
       <HomePageSections

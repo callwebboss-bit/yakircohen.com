@@ -7,6 +7,7 @@ import {
   breadcrumbListJsonLd,
   buildBreadcrumbTrail,
 } from "@/lib/breadcrumbs/build-trail";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { cn } from "@/lib/utils";
 
 export type BreadcrumbsProps = {
@@ -26,7 +27,7 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
       {jsonLd ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
         />
       ) : null}
       <nav

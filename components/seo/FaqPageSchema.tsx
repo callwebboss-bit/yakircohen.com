@@ -1,3 +1,5 @@
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
 type FaqSchemaItem = {
   question: string;
   answer: string;
@@ -27,7 +29,7 @@ export default function FaqPageSchema({ items }: { items: FaqSchemaItem[] }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

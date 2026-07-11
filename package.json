@@ -36,6 +36,7 @@
     "audit:sitemap-indexable": "node scripts/audit-sitemap-indexable.mjs",
     "audit:aeo-coverage": "node scripts/audit-aeo-coverage.mjs",
     "audit:funnel-events": "node scripts/audit-funnel-events.mjs",
+    "sync:llms": "tsx scripts/sync-llms.ts",
     "audit:a11y": "node scripts/audit-a11y.mjs",
     "audit:404": "tsx scripts/audit-404-list.ts",
     "generate:og-images": "node scripts/generate-og-images.mjs",

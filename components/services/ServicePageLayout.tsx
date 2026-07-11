@@ -24,6 +24,7 @@ import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 export type ServicePageLayoutProps = {
   title: string;
@@ -270,7 +271,7 @@ export default function ServicePageLayout({
       {pageEntitySchema ? (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(pageEntitySchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pageEntitySchema) }}
         />
       ) : null}
       <header

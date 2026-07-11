@@ -42,7 +42,11 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             אודיו, פודקאסט ואירועים במודיעין - מהיר, שקוף, מקצועי.
           </h1>
           <HomeHeroBadges />
-          <p className="text-lead mt-6 max-w-xl text-muted-foreground">
+          <p
+            id="home-answer"
+            data-speakable="true"
+            className="text-lead mt-6 max-w-xl text-muted-foreground"
+          >
             <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות, החל מ-590 ₪ + מע״מ.{" "}
             <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ והגברה, החל מ-1,750 ₪ + מע״מ.{" "}
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> ו

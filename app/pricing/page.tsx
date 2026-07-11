@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import AnswerBlock from "@/components/seo/AnswerBlock";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PricingHubQuickNav from "@/components/marketing/PricingHubQuickNav";
@@ -30,7 +32,9 @@ import PricingFaqSection from "@/components/pricing/PricingFaqSection";
 import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
+import { formatMeNis, STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { absoluteUrl } from "@/lib/site-url";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = metadataForHubSeo(PRICING_HUB_SEO);
@@ -74,25 +78,29 @@ export default function PricingHubPage() {
   return (
     <>
       <HubPageSchema {...hubSchema} />
+      <SpeakableSchema
+        url={absoluteUrl("pricing")}
+        cssSelector={["#pricing-answer"]}
+      />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingItemListSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingItemListSchema) }}
       />
       {pricingFaqSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingFaqSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingFaqSchema) }}
         />
       )}
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbSchema) }}
         />
       )}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingOffersSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingOffersSchema) }}
       />
       <article className="bg-background">
         <Section padding="sm" className="border-b border-border bg-background text-center">
@@ -103,6 +111,9 @@ export default function PricingHubPage() {
             <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
               מחירון מרכזי
             </h1>
+            <AnswerBlock id="pricing-answer">
+              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. חצי שעה באולפן {formatMeNis(STUDIO_HALF_HOUR_NIS)} לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
+            </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_EXCLUDE_VAT_NOTE}.
               שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. מע״מ מוצג בלחיצה על כל שורה.

@@ -95,6 +95,8 @@ export default function ServicePageFromRegistry({
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
       valueFrame={valueFrame}
+      pagePath={pagePath}
+      metaDescription={service.metaDescription}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">

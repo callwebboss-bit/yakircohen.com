@@ -1,5 +1,6 @@
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 const FOOTER_FAQ_IDS = ["song-studio-price", "delivery-time"] as const;
 
@@ -18,7 +19,7 @@ export default function FooterFaqSchema() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(footerFaqSchema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(footerFaqSchema) }}
     />
   );
 }

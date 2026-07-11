@@ -5,6 +5,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
 import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 type BusinessPageOptions = {
   slug: string;
@@ -71,7 +72,7 @@ export function BusinessServicePage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
       />
       <BusinessTierPageContent config={config} pagePath={`/${slug}`} />
     </>
