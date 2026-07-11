@@ -1,10 +1,29 @@
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { SITE_CASE_STUDIES } from "@/lib/data/site-case-studies";
+import {
+  getCaseStudiesForHub,
+  type SiteCaseStudyHub,
+} from "@/lib/data/site-case-studies";
 
-export default function CaseStudySection() {
+type CaseStudySectionProps = {
+  hub?: SiteCaseStudyHub;
+  limit?: number;
+  className?: string;
+};
+
+export default function CaseStudySection({
+  hub = "home",
+  limit = 3,
+  className,
+}: CaseStudySectionProps) {
+  const studies = getCaseStudiesForHub(hub, limit);
+  if (!studies.length) return null;
+
   return (
-    <Section padding="sm" className="border-y border-border bg-surface/50">
+    <Section
+      padding="sm"
+      className={className ?? "border-y border-border bg-surface/50"}
+    >
       <Container className="max-w-5xl">
         <h2 className="font-serif text-section-title font-semibold text-foreground">
           דוגמאות מהשטח
@@ -13,7 +32,7 @@ export default function CaseStudySection() {
           מספרים ותוצאות מפרויקטים אמיתיים, בלי הבטחות כלליות.
         </p>
         <ul className="mt-8 grid gap-5 sm:grid-cols-3">
-          {SITE_CASE_STUDIES.map((study) => (
+          {studies.map((study) => (
             <li
               key={study.id}
               className="rounded-xl border border-border bg-background p-5"

@@ -51,8 +51,20 @@ jobs:
       - name: Audit orphans
         run: npm run audit:orphans
 
+      - name: Audit sitemap indexable
+        run: npm run audit:sitemap-indexable
+
+      - name: Audit AEO coverage
+        run: npm run audit:aeo-coverage
+
+      - name: Audit funnel events
+        run: npm run audit:funnel-events
+
       - name: Audit pricing
         run: npm run audit:pricing
+
+      - name: Audit a11y (skip unless RUN_A11Y=1)
+        run: npm run audit:a11y
 
       - name: Build (with Pagefind)
         run: npm run build:full

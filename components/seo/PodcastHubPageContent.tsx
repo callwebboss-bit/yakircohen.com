@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CaseStudySection from "@/components/marketing/CaseStudySection";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -744,6 +745,8 @@ export default function PodcastHubPageContent() {
               columns={2}
             />
           </div>
+
+          <CaseStudySection hub="podcast" />
 
           <section
             className="flex flex-wrap justify-center gap-3"

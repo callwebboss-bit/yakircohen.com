@@ -15,7 +15,7 @@ const errorWhatsAppHref = buildWhatsAppHref({
   utm_campaign: "global_error",
 });
 
-export default function GlobalError({ error, reset }: ErrorProps) {
+export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     console.error(error);
   }, [error]);

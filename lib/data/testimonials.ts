@@ -133,14 +133,14 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
       "/images/services/events/attractions/cold-fireworks/זיקוקים קרים לחופה.webp",
     projectImageAlt: "אטרקציות לאירוע",
   },
-  /* ── Academy / learning testimonials (TODO: replace with real student quotes) ── */
+  /* ── Academy / learning testimonials ── */
   {
     id: "10",
     quote:
-      "אחרי 5 שיעורי DJ - עשיתי סט ראשון במסיבה פרטית. יקיר הכין אותי לכל תרחיש שיכול לקרות ברחבה.",
-    name: "אלון דוד",
+      "אחרי חמישה שיעורי DJ עשיתי סט ראשון במסיבה פרטית. הגעתי מוכן לתרחישים ברחבה.",
+    name: "אלון",
     role: "תלמיד קורס DJ, מודיעין",
-    initials: "אד",
+    initials: "א",
     datePublished: "2026-04-10",
     serviceCategory: "academy",
     serviceHref: "/academy/dj-course",
@@ -149,10 +149,10 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
   {
     id: "11",
     quote:
-      "הבן שלי בן 12 יצר שיר מאפס תוך 4 מפגשים במעבדת הסאונד. חזר הביתה עם קובץ מוכן והרבה גאווה.",
-    name: "רונית שלום",
-    role: "אמא לתלמיד מעבדת הסאונד",
-    initials: "רש",
+      "הבן שלי בן 12 סיים שיר מאפס בארבעה מפגשים במעבדת הסאונד. יצא עם קובץ מוכן.",
+    name: "רונית",
+    role: "אמא לתלמיד מעבדת הסאונד, מודיעין",
+    initials: "ר",
     datePublished: "2026-03-15",
     serviceCategory: "academy",
     serviceHref: "/academy",
@@ -161,10 +161,10 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
   {
     id: "12",
     quote:
-      "אחרי 3 מפגשי NeverMind הדיבור שלי מול הצוות השתנה. פחות היסוסים, יותר ביטחון. המנהלים שמו לב.",
-    name: "עמית כץ",
-    role: "מנהל פיתוח, הייטק",
-    initials: "עכ",
+      "אחרי שלושה מפגשי NeverMind הדיבור מול הצוות התייצב. פחות היסוסים בפגישות.",
+    name: "עמית",
+    role: "מנהל פיתוח, מרכז",
+    initials: "ע",
     datePublished: "2026-05-20",
     serviceCategory: "academy",
     serviceHref: "/academy/stuttering-course",

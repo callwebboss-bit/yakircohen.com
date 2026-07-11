@@ -15,11 +15,6 @@ export const DjEventsCalculatorLazy = dynamic(
   { loading: () => calcLoading("min-h-[18rem]") },
 );
 
-export const AttractionsCalculatorLazy = dynamic(
-  () => import("@/components/calculators/AttractionsCalculator"),
-  { loading: () => calcLoading("min-h-[16rem]") },
-);
-
 export const PhotographyCalculatorLazy = dynamic(
   () => import("@/components/calculators/PhotographyCalculator"),
   { loading: () => calcLoading() },

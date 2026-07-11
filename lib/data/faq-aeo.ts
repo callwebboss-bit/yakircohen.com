@@ -33,6 +33,13 @@ export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {
   answer: buildRecordingSongStudioPriceAnswer(),
 };
 
+/** וריאנט מדובר לחיפוש קולי / AEO */
+export const RECORDING_SONG_VOICE_FAQ: AeoFaqItem = {
+  id: "song-studio-voice",
+  question: "כמה עולה לי להקליט שיר לחתונה במודיעין?",
+  answer: buildRecordingSongStudioPriceAnswer(),
+};
+
 export function buildPodcastStudioHourPriceAnswer(): string {
   const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
   const hour = stripDualPrefix(formatFromPriceDual(getExVat("studio_hour")));
@@ -111,6 +118,12 @@ export const VOUCHER_GIFT_PRICE_FAQ: AeoFaqItem = {
   answer: buildVoucherGiftPriceAnswer(),
 };
 
+export const VOUCHER_GIFT_VOICE_FAQ: AeoFaqItem = {
+  id: "voucher-gift-voice",
+  question: "אפשר לקנות שובר מתנה להקלטה באולפן?",
+  answer: buildVoucherGiftPriceAnswer(),
+};
+
 export function buildAttractionsEventPriceAnswer(): string {
   const from = stripDualPrefix(
     formatFromPriceDual(getExVat("event_attraction_1")),
@@ -121,6 +134,12 @@ export function buildAttractionsEventPriceAnswer(): string {
 export const ATTRACTIONS_EVENT_PRICE_FAQ: AeoFaqItem = {
   id: "attractions-event-price",
   question: "כמה עולות אטרקציות לחתונה?",
+  answer: buildAttractionsEventPriceAnswer(),
+};
+
+export const ATTRACTIONS_EVENT_VOICE_FAQ: AeoFaqItem = {
+  id: "attractions-event-voice",
+  question: "כמה עולה עשן כבד לחתונה?",
   answer: buildAttractionsEventPriceAnswer(),
 };
 
@@ -138,10 +157,14 @@ export const VOCAL_FIX_ONLINE_PRICE_FAQ: AeoFaqItem = {
 /** שאלות AEO מרוכזות לדפי hub ולבדיקות audit */
 export const TIER1_AEO_FAQS: readonly AeoFaqItem[] = [
   RECORDING_SONG_STUDIO_PRICE_FAQ,
+  RECORDING_SONG_VOICE_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
   PODCAST_RECORDING_PRICE_FAQ,
   DJ_WEDDING_PRICE_FAQ,
+  DJ_WEDDING_VOICE_FAQ,
   VOUCHER_GIFT_PRICE_FAQ,
+  VOUCHER_GIFT_VOICE_FAQ,
   ATTRACTIONS_EVENT_PRICE_FAQ,
+  ATTRACTIONS_EVENT_VOICE_FAQ,
   VOCAL_FIX_ONLINE_PRICE_FAQ,
 ];

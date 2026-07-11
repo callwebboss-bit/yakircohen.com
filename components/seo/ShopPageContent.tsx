@@ -1,6 +1,7 @@
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import AnswerBlock from "@/components/seo/AnswerBlock";
+import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShopBundlesSection from "@/components/seo/ShopBundlesSection";
 import ShopVouchersSection from "@/components/seo/ShopVouchersSection";
@@ -90,6 +91,8 @@ export default function ShopPageContent() {
       </Section>
 
       <ShopBundlesSection />
+
+      <CaseStudySection hub="shop" />
 
       <Section padding="sm">
         <Container className="max-w-5xl">

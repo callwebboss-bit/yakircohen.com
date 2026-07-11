@@ -1,6 +1,7 @@
 ﻿import { metadataFromService } from "@/lib/data/service-metadata";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
+import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
@@ -115,6 +116,8 @@ export default function StudioHubPage() {
         </p>
 
         <TrustStatsBar className="rounded-2xl border" />
+
+        <CaseStudySection hub="studio" className="border-0 bg-transparent px-0" />
 
         <StudioClientsStrip className="rounded-2xl border-x" />
 

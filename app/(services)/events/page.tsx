@@ -1,5 +1,6 @@
 import { metadataFromService } from "@/lib/data/service-metadata";
 import AudienceTabs from "@/components/events/AudienceTabs";
+import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import EventsAttractionsSchema from "@/components/seo/EventsAttractionsSchema";
@@ -33,6 +34,7 @@ export default function EventsHubPage() {
       />
       <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים" valueFrame="אפקטים שמרימים את האירוע - בלי הפתעות ביום">
       <AudienceTabs />
+      <CaseStudySection hub="events" />
       <ClientJourneySteps variant="events" display="compact" />
       <ServiceHubLinks
         heading="שירותי אירועים"

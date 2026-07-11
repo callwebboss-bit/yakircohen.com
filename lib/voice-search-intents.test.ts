@@ -54,7 +54,39 @@ describe("voice-search-intents", () => {
     }
   });
 
-  it("navigates to mashup page", () => {
+  it("navigates spoken wedding song price query to recording page", () => {
+    const result = resolveVoiceIntent("רוצה להקליט שיר לחתונה");
+    assert.equal(result.type, "navigate");
+    if (result.type === "navigate") {
+      assert.equal(result.href, "/studio/recording-song-modiin");
+    }
+  });
+
+  it("navigates bar mitzvah DJ query to dj-events", () => {
+    const result = resolveVoiceIntent("תקליטן לבר מצווה במודיעין");
+    assert.equal(result.type, "navigate");
+    if (result.type === "navigate") {
+      assert.equal(result.href, "/events/dj-events");
+    }
+  });
+
+  it("navigates studio gift voucher to shop vouchers", () => {
+    const result = resolveVoiceIntent("שובר מתנה לאולפן");
+    assert.equal(result.type, "navigate");
+    if (result.type === "navigate") {
+      assert.equal(result.href, "/shop#vouchers");
+    }
+  });
+
+  it("navigates attractions smoke query", () => {
+    const result = resolveVoiceIntent("עשן כבד לחתונה");
+    assert.equal(result.type, "navigate");
+    if (result.type === "navigate") {
+      assert.equal(result.href, "/events/attractions");
+    }
+  });
+
+  it("navigates mashup page", () => {
     const result = resolveVoiceIntent("מאשאפים");
     assert.equal(result.type, "navigate");
     if (result.type === "navigate") assert.equal(result.href, "/online/mashup-fixer");
