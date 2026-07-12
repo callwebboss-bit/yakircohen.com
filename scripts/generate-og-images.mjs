@@ -15,19 +15,19 @@ const servicesDir = path.join(root, "public", "images", "services");
 
 /** @type {Array<{ name: string; source?: string; sourceDir?: string; headline?: string; subline?: string }>} */
 const TARGETS = [
-  { name: "studio.webp", source: "studio/hub/1.webp", headline: "אולפן הקלטות במודיעין" },
+  { name: "studio.webp", source: "studio/hub/אולפן-הקלטות-מקצועי-מודיעין.webp", headline: "אולפן הקלטות במודיעין" },
   { name: "podcast.webp", sourceDir: "podcast", headline: "אולפן פודקאסט במודיעין" },
   { name: "events.webp", sourceDir: "events/dj-events", headline: "DJ ואטרקציות לאירועים" },
   { name: "video.webp", sourceDir: "video", headline: "הפקת וידאו וצילום", subline: "יקיר כהן הפקות" },
   { name: "photography.webp", sourceDir: "photography", headline: "צילום אירועים", subline: "יקיר כהן הפקות" },
   { name: "voiceover.webp", sourceDir: "voiceover", headline: "קריינות מקצועית" },
   { name: "academy.webp", sourceDir: "academy", headline: "אקדמיה למוזיקה", subline: "קורסים והכשרות" },
-  { name: "online.webp", source: "studio/hub/2.webp", headline: "שירותים מקוונים" },
-  { name: "pricing.webp", source: "studio/hub/3.webp", headline: "מחירון שקוף" },
-  { name: "blog.webp", source: "studio/hub/1.webp", headline: "בלוג ומדריכים", subline: "טיפים מהאולפן" },
-  { name: "shop.webp", source: "studio/hub/2.webp", headline: "חנות דיגיטלית" },
-  { name: "voucher.webp", source: "studio/hub/3.webp", headline: "שובר מתנה" },
-  { name: "book.webp", source: "studio/hub/1.webp", headline: "הזמנה מקוונת", subline: "מחיר שקוף" },
+  { name: "online.webp", source: "studio/hub/אולפן פודקאסט - יקיר כהן 1.webp", headline: "שירותים מקוונים" },
+  { name: "pricing.webp", source: "studio/hub/איציק שמלי באולפן יקיר כהן הפקות.webp", headline: "מחירון שקוף" },
+  { name: "blog.webp", source: "studio/hub/הורים שומעים ברכה באולפן הקלטות יקיר כהן הפקות.webp", headline: "בלוג ומדריכים", subline: "טיפים מהאולפן" },
+  { name: "shop.webp", source: "events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp", headline: "חנות דיגיטלית" },
+  { name: "voucher.webp", source: "studio/blessings/bride-groom-blessing/הקלטה באולפן.webp", headline: "שובר מתנה" },
+  { name: "book.webp", source: "studio/recording-song-modiin/אולפן ההקלטה יקיר כהן.webp", headline: "הזמנה מקוונת", subline: "מחיר שקוף" },
 ];
 
 function firstWebp(dir) {

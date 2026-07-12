@@ -1,13 +1,13 @@
 import { SERVICE_IMAGES_BASE } from "@/lib/data/services";
 
-/** תמונות קיימות באתר — public/images/services/ */
+/**
+ * Dedicated shop assets under public/images/shop/ (generate: npm run generate:shop-images).
+ * Replace files in place with product shots when ready — same filenames.
+ */
 export const SHOP_VOUCHER_IMAGES = {
-  basic:
-    "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
-  premium:
-    "/images/services/events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp",
-  custom:
-    "/images/services/studio/recording-song-modiin/מתחם יקיר כהן הפקות.webp",
+  basic: "/images/shop/voucher-basic.webp",
+  premium: "/images/shop/voucher-premium.webp",
+  custom: "/images/shop/voucher-custom.webp",
 } as const;
 
 export type ShopGearItem = {
@@ -21,18 +21,32 @@ export type ShopGearItem = {
 
 export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
   {
-    id: "sound",
-    title: "הגברה וסאונד",
-    subtitle: "רמקולים, מוניטורים וציוד היקפי.",
-    imageSrc: `${SERVICE_IMAGES_BASE}/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp`,
-    imageAlt: "מיקרופון והגברה מקצועית לאירועים",
+    id: "rcf745",
+    title: "הגברה RCF",
+    subtitle: "רמקולים ומערכות סאונד לאירועים.",
+    imageSrc: "/images/shop/gear-rcf745.webp",
+    imageAlt: "ציוד הגברה מקצועי לאירועים",
   },
   {
-    id: "dj",
-    title: "פתרונות DJ",
-    subtitle: "קונטרולרים, פלטות ואביזרים.",
-    imageSrc: `${SERVICE_IMAGES_BASE}/events/dj-events/עמדת די גיי ותאורה.webp`,
-    imageAlt: "עמדת די ג'יי ותאורה באירוע",
+    id: "traktor-s4",
+    title: "קונטרולר DJ",
+    subtitle: "עמדות DJ, פלטות ואביזרים.",
+    imageSrc: "/images/shop/gear-traktor-s4.webp",
+    imageAlt: "עמדת די ג'יי וציוד נלווה",
+  },
+  {
+    id: "krk",
+    title: "ציוד אולפן",
+    subtitle: "מיקרופונים, ממשקים ומוניטורים.",
+    imageSrc: "/images/shop/gear-krk.webp",
+    imageAlt: "ציוד אולפן מקצועי",
+  },
+  {
+    id: "effects",
+    title: "אפקטים",
+    subtitle: "מכונות עשן, בועות ופירוטכניקה.",
+    imageSrc: "/images/shop/gear-effects.webp",
+    imageAlt: "אפקטים לאירועים",
   },
   {
     id: "led",
@@ -40,20 +54,6 @@ export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
     subtitle: "פנסי במה, אפקטים ותאורה חכמה.",
     imageSrc: `${SERVICE_IMAGES_BASE}/events/attractions/led-booth/יקיר כהן באירוע.webp`,
     imageAlt: "תאורת LED ועמדת לד באירוע",
-  },
-  {
-    id: "studio",
-    title: "ציוד אולפן",
-    subtitle: "מיקרופונים, כרטיסי קול וממשקים.",
-    imageSrc: `${SERVICE_IMAGES_BASE}/voiceover/מיקרופון קריינות.webp`,
-    imageAlt: "מיקרופון אולפן מקצועי",
-  },
-  {
-    id: "effects",
-    title: "אפקטים",
-    subtitle: "מכונות עשן, בועות ופירוטכניקה.",
-    imageAlt: "אפקטים לאירועים",
-    placeholder: true,
   },
   {
     id: "accessories",

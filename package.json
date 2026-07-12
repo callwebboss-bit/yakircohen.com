@@ -40,6 +40,7 @@
     "audit:a11y": "node scripts/audit-a11y.mjs",
     "audit:404": "tsx scripts/audit-404-list.ts",
     "generate:og-images": "node scripts/generate-og-images.mjs",
+    "generate:shop-images": "node scripts/generate-shop-images.mjs",
     "audit:exclamation": "node scripts/audit-no-exclamation.mjs",
     "audit:pagefind": "node scripts/audit-pagefind.mjs",
     "audit:audio": "node scripts/audit-audio-demos.mjs",
