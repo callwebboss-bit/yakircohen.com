@@ -24,7 +24,7 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { mirrorWhatsAppLeadToEmail } from "@/lib/mirror-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
@@ -230,7 +230,16 @@ export default function OnlineRestoreBookingPanel({
         </p>
         <button
           type="button"
-          onClick={() => openWhatsAppLead(feasibilityHref, { leadCategory: "online" })}
+          onClick={() =>
+            mirrorWhatsAppLeadToEmail({
+              href: feasibilityHref,
+              formId: "online_restore_feasibility",
+              subject: "בדיקת היתכנות - שחזור סאונד",
+              body:
+                "בדיקת היתכנות חינם - שחזור סאונד. הלקוח נשלח לשלוח קטע 30 שניות בוואטסאפ.",
+              leadCategory: "online",
+            })
+          }
           className="mt-3 text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
         >
           שלחו קובץ לבדיקה חינם </button>

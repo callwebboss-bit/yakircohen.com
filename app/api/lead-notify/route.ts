@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
 import {
   HONEYPOT_FIELD_NAME,
   isLeadSpam,
@@ -8,8 +7,9 @@ import {
   validateIsraeliMobile,
 } from "@/lib/form-validation";
 import { guardPublicMutation } from "@/lib/api-guard";
-
-const RESEND_API = "https://api.resend.com/emails";
+import { captureException } from "@/lib/sentry-capture";
+import { ingestLead } from "@/lib/leads/ingest";
+import type { LeadIngestClientMeta, ServiceType } from "@/lib/leads/types";
 
 type LeadPayload = {
   formId: string;
@@ -17,16 +17,14 @@ type LeadPayload = {
   body: string;
   name?: string;
   phone?: string;
+  email?: string;
   website_verification?: string;
+  serviceType?: ServiceType;
+  eventDate?: string;
+  budgetHint?: number;
+  pricingRef?: LeadIngestClientMeta["pricingRef"];
+  clientMeta?: LeadIngestClientMeta;
 };
-
-function leadNotifyEmail(): string {
-  return process.env.LEAD_NOTIFY_EMAIL?.trim() || CONTACT_EMAIL_INTERNAL;
-}
-
-function isConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY?.trim() && leadNotifyEmail());
-}
 
 /** בדיקת תצורה בלי שליחת מייל (לדיבוג אחרי deploy). */
 export async function GET() {
@@ -35,9 +33,9 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    configured: isConfigured(),
+    configured: Boolean(process.env.RESEND_API_KEY?.trim()),
     hasApiKey: Boolean(process.env.RESEND_API_KEY?.trim()),
-    notifyEmail: leadNotifyEmail(),
+    intelligence: true,
   });
 }
 
@@ -47,10 +45,6 @@ export async function POST(request: Request) {
     max: 8,
   });
   if (!gate.ok) return gate.response;
-
-  if (!isConfigured()) {
-    return NextResponse.json({ ok: false, skipped: true }, { status: 200 });
-  }
 
   let payload: LeadPayload;
   try {
@@ -67,10 +61,7 @@ export async function POST(request: Request) {
   const honeypotValue =
     payload.website_verification ??
     (payload as Record<string, unknown>)[HONEYPOT_FIELD_NAME];
-  if (
-    typeof honeypotValue === "string" &&
-    !validateHoneypot(honeypotValue)
-  ) {
+  if (typeof honeypotValue === "string" && !validateHoneypot(honeypotValue)) {
     return NextResponse.json({ ok: true });
   }
 
@@ -93,40 +84,47 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "body_too_long" }, { status: 400 });
   }
 
-  const to = leadNotifyEmail();
-  const from =
-    process.env.RESEND_FROM_EMAIL?.trim() || "לידים מהאתר <onboarding@resend.dev>";
+  try {
+    const result = await ingestLead({
+      formId: formId.trim(),
+      subject: subject.trim(),
+      body,
+      name: payload.name ? sanitizeLeadText(payload.name, 200) : undefined,
+      phone: payload.phone?.trim(),
+      email: payload.email?.trim() || payload.clientMeta?.email,
+      serviceType: payload.serviceType || payload.clientMeta?.serviceType,
+      eventDate: payload.eventDate || payload.clientMeta?.eventDate,
+      budgetHint: payload.budgetHint ?? payload.clientMeta?.budgetHint,
+      pricingRef: payload.pricingRef || payload.clientMeta?.pricingRef,
+      clientMeta: payload.clientMeta,
+      request,
+      ip: gate.ip,
+    });
 
-  const res = await fetch(RESEND_API, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      subject: `[יקיר כהן] ${subject}`,
-      text: [
-        `מקור: ${formId}`,
-        payload.name ? `שם: ${sanitizeLeadText(payload.name, 200)}` : null,
-        payload.phone ? `טלפון: ${sanitizeLeadText(payload.phone, 20)}` : null,
-        "",
-        body,
-        "",
-        "---",
-        "נשלח אוטומטית מהאתר (גיבוי לידים). הלקוח גם קיבל קישור לוואטסאפ.",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    }),
-  });
+    if (result.sendFailed) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "send_failed",
+          leadId: result.leadId,
+          score: result.score,
+        },
+        { status: 502 },
+      );
+    }
 
-  if (!res.ok) {
-    const errText = await res.text().catch(() => "");
-    console.error("[lead-notify] Resend error", res.status, errText);
-    return NextResponse.json({ ok: false, error: "send_failed" }, { status: 502 });
+    return NextResponse.json({
+      ok: true,
+      leadId: result.leadId,
+      score: result.score,
+      duplicate: result.duplicate,
+      skipped: result.skipped,
+    });
+  } catch (err) {
+    captureException(err, {
+      tags: { route: "lead-notify", channel: "ingest" },
+      extra: { formId },
+    });
+    return NextResponse.json({ ok: false, error: "ingest_failed" }, { status: 500 });
   }
-
-  return NextResponse.json({ ok: true });
 }

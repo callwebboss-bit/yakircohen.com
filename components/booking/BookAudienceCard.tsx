@@ -21,7 +21,7 @@ import {
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { catalogWithVat } from "@/lib/data/pricing-catalog";
-import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { mirrorWhatsAppLeadToEmail } from "@/lib/mirror-whatsapp-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import MicroAudioAudition from "@/components/ui/MicroAudioAudition";
 import type { AudioDemoId } from "@/lib/data/audio-demos";
@@ -156,7 +156,13 @@ export default function BookAudienceCard({
       category: route.categoryId,
     });
     clearBookQualificationDraft();
-    openWhatsAppLead(href, { leadCategory: route.categoryId });
+    mirrorWhatsAppLeadToEmail({
+      href,
+      formId: `book_audience_${route.id.replace(/[^a-z0-9_]/gi, "_").slice(0, 40)}`,
+      subject: `ליד מהיר /book - ${route.title}`,
+      body: text,
+      leadCategory: route.categoryId,
+    });
     setQualFormOpen(false);
   }
 
@@ -167,7 +173,13 @@ export default function BookAudienceCard({
       utm_source: "website",
       utm_campaign: route.feasibilityUtmCampaign ?? route.utm_campaign,
     });
-    openWhatsAppLead(href, { leadCategory: route.categoryId });
+    mirrorWhatsAppLeadToEmail({
+      href,
+      formId: `book_feasibility_${route.id.replace(/[^a-z0-9_]/gi, "_").slice(0, 36)}`,
+      subject: `בדיקת התאמה /book - ${route.title}`,
+      body: route.feasibilityCheckMessage,
+      leadCategory: route.categoryId,
+    });
   }
 
   return (

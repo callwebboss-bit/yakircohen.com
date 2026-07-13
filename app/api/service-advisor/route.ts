@@ -11,6 +11,7 @@ import {
   buildRuleBasedAdvisor,
 } from "@/lib/pro-service-advisor";
 import { guardPublicMutation } from "@/lib/api-guard";
+import { captureException } from "@/lib/sentry-capture";
 
 const VALID_IDS = new Set(PRO_SERVICES.map((s) => s.id));
 
@@ -137,6 +138,10 @@ export async function POST(request: Request) {
       "[service-advisor] AI failed:",
       error instanceof Error ? error.message : error,
     );
+    captureException(error, {
+      level: "warning",
+      tags: { route: "service-advisor", serviceId: proId },
+    });
     const fallback = buildRuleBasedAdvisor(proId, inputs);
     return NextResponse.json({ ...fallback, source: "rules_fallback" });
   }

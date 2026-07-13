@@ -1,17 +1,20 @@
+import Link from "next/link";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const linkClass =
   "inline-flex min-h-12 items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
 
-export default function PricingHesitantCta() {
+type PricingHesitantCtaProps = {
+  askSectionId?: string;
+};
+
+export default function PricingHesitantCta({ askSectionId = "studio" }: PricingHesitantCtaProps) {
   return (
     <div className="rounded-2xl border border-brand-red/20 bg-brand-red/5 px-6 py-5">
-      <p className="text-sm font-semibold text-foreground">
-        לא יודע איזה שירות מתאים?
-      </p>
+      <p className="text-sm font-semibold text-foreground">לא יודע איזה שירות מתאים?</p>
       <p className="mt-1 text-sm text-muted-foreground">
-        דבר איתי - אשאל שלוש שאלות ואמליץ, בלי לחץ.
+        דבר איתי - אשאל שלוש שאלות ואמליץ, בלי לחץ. אפשר גם פנייה עם פרטים מהמחירון.
       </p>
       <div className="mt-4 flex flex-wrap gap-3">
         <a
@@ -25,6 +28,12 @@ export default function PricingHesitantCta() {
         >
           וואטסאפ
         </a>
+        <Link
+          href={`/pricing?ask=${encodeURIComponent(askSectionId)}#pricing-inquiry`}
+          className={`${linkClass} border border-border bg-background text-foreground hover:border-brand-red/40`}
+        >
+          פנייה עם פרטים
+        </Link>
         <a
           href={`tel:${CONTACT_PHONE_E164}`}
           className={`${linkClass} border border-border bg-background text-foreground hover:border-brand-red/40`}

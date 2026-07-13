@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
@@ -26,12 +27,13 @@ import { breadcrumbListJsonLd } from "@/lib/breadcrumbs/build-trail";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
-import PricingInquiryForm from "@/components/pricing/PricingInquiryForm";
 import PricingHubSectionsAccordion from "@/components/pricing/PricingHubSectionsAccordion";
 import PricingFaqSection from "@/components/pricing/PricingFaqSection";
 import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
+import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy";
+import LeadFormSkeleton from "@/components/leads/LeadFormSkeleton";
 import { formatMeNis, STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -134,6 +136,12 @@ export default function PricingHubPage() {
               >
                 שאלה? וואטסאפ
               </a>
+              <Link
+                href="/pricing?ask=studio#pricing-inquiry"
+                className={`${linkClass} text-sm text-muted-foreground hover:text-brand-red`}
+              >
+                פנייה עם פרטים
+              </Link>
             </div>
             <div id="pricing-hero-sentinel" aria-hidden />
           </Container>
@@ -199,7 +207,9 @@ export default function PricingHubPage() {
               השאירו פרטים ונחזור אליכם בדרך כלל תוך 24 שעות.
             </p>
             <div className="mt-6">
-              <PricingInquiryForm />
+              <Suspense fallback={<LeadFormSkeleton />}>
+                <PricingInquiryFormLazy />
+              </Suspense>
             </div>
           </Container>
         </Section>

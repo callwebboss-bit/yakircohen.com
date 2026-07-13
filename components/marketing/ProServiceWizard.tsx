@@ -10,6 +10,7 @@ import { withVat } from "@/lib/data/pricing";
 import { buildBookHref } from "@/lib/book-url";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { mirrorWhatsAppLeadToEmail } from "@/lib/mirror-whatsapp-lead";
 import type { AdvisorResponse } from "@/lib/pro-service-advisor";
 import { cn } from "@/lib/utils";
 
@@ -309,14 +310,20 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
             </ol>
           ) : null}
           <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() =>
+                mirrorWhatsAppLeadToEmail({
+                  href: whatsappHref,
+              formId: `pro_wizard_${service.id.replace(/[^a-z0-9_]/gi, "_").slice(0, 40)}`,
+                  subject: `אומדן ${service.wizardTitle}`,
+                  body: waBody,
+                })
+              }
               className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
               המשך בוואטסאפ
-            </a>
+            </button>
             <Link
               href={buildBookHref(service.bookCategoryId)}
               className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
