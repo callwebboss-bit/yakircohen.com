@@ -2,8 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import TrackedShopCta from "@/components/seo/TrackedShopCta";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { SHOP_BUNDLE_OFFERS } from "@/lib/data/shop-vouchers";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import {
+  buildShopWhatsAppHref,
+  SHOP_BUNDLE_OFFERS,
+} from "@/lib/data/shop-vouchers";
 
 export default function ShopBundlesSection() {
   return (
@@ -28,10 +30,11 @@ export default function ShopBundlesSection() {
 
         <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {SHOP_BUNDLE_OFFERS.map((bundle) => {
-            const waHref = buildWhatsAppHref({
+            const waHref = buildShopWhatsAppHref({
               text: `שלום, מעוניין/ת בחבילה: ${bundle.title}`,
-              utm_source: "website",
-              utm_campaign: bundle.utmCampaign,
+              section: "bundles",
+              tier: bundle.id,
+              campaign: bundle.utmCampaign,
             });
             return (
               <li

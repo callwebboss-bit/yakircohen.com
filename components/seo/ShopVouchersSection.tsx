@@ -4,11 +4,11 @@ import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import { SHOP_VOUCHER_FAQ_UI } from "@/lib/data/shop-page";
 import {
+  buildShopWhatsAppHref,
   SHOP_VOUCHER_FAQ_SCHEMA,
   SHOP_VOUCHER_TIERS,
 } from "@/lib/data/shop-vouchers";
 import { cn } from "@/lib/utils";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const FAQ_ITEMS: FAQItem[] = SHOP_VOUCHER_FAQ_UI.map((item) => ({
   id: item.id,
@@ -40,11 +40,13 @@ export default function ShopVouchersSection() {
         </div>
 
         <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {SHOP_VOUCHER_TIERS.map((tier, index) => {
-            const waHref = buildWhatsAppHref({
+          {SHOP_VOUCHER_TIERS.map((tier) => {
+            const waHref = buildShopWhatsAppHref({
               text: `שלום, אשמח לשמוע על ${tier.title} מהחנות באתר`,
-              utm_source: "website",
-              utm_campaign: tier.utmCampaign,
+              section: "vouchers",
+              tier: tier.id,
+              campaign: tier.utmCampaign,
+              priceExVat: tier.priceExVat,
             });
             return (
               <li
@@ -62,7 +64,7 @@ export default function ShopVouchersSection() {
                 <ShopCardImage
                   src={tier.imageSrc}
                   alt={tier.imageAlt}
-                  priority={index === 0}
+                  priority={Boolean(tier.popular)}
                 />
                 <div className="flex grow flex-col p-6">
                   <div className="mb-4 flex items-start justify-between gap-3">

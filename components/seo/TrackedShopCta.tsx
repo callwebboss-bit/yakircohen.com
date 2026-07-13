@@ -9,6 +9,7 @@ type TrackedShopCtaProps = {
   className?: string;
   campaign: string;
   section: "vouchers" | "bundles" | "used-gear";
+  "aria-label"?: string;
 };
 
 export default function TrackedShopCta({
@@ -17,6 +18,7 @@ export default function TrackedShopCta({
   className,
   campaign,
   section,
+  "aria-label": ariaLabel,
 }: TrackedShopCtaProps) {
   return (
     <a
@@ -24,6 +26,7 @@ export default function TrackedShopCta({
       target="_blank"
       rel="noopener noreferrer"
       className={className}
+      aria-label={ariaLabel}
       onClick={() =>
         trackConversion("shop_cta_click", { campaign, section })
       }

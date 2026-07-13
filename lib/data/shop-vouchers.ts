@@ -4,6 +4,8 @@ import {
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
 import { SHOP_VOUCHER_IMAGES } from "@/lib/data/shop-page";
+import { appendYcLeadTag } from "@/lib/yc-lead-tag";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type ShopVoucherTier = {
   id: string;
@@ -90,5 +92,29 @@ export const SHOP_BUNDLE_OFFERS = [
     utmCampaign: "shop_bundle_single_video",
   },
 ] as const;
+
+export type ShopLeadSection = "vouchers" | "bundles" | "used-gear";
+
+/** WhatsApp href with Closer [YC:...] tag: source=shop_{section}_{tier} */
+export function buildShopWhatsAppHref(opts: {
+  text: string;
+  section: ShopLeadSection;
+  tier: string;
+  campaign: string;
+  priceExVat?: number | null;
+}): string {
+  const tagged = appendYcLeadTag(opts.text, {
+    service: "shop",
+    source: `shop_${opts.section}_${opts.tier}`,
+    step: 1,
+    package: opts.tier,
+    price: opts.priceExVat ?? null,
+  });
+  return buildWhatsAppHref({
+    text: tagged,
+    utm_source: "website",
+    utm_campaign: opts.campaign,
+  });
+}
 
 export const SHOP_ANSWER_SNIPPET = `שוברי מתנה לאולפן ואירועים במודיעין, החל מ-${formatNis(STUDIO_HALF_HOUR_NIS)} חצי שעה באולפן. גם ציוד הגברה ואולפן יד שנייה מההפקות. תיאום בוואטסאפ.`;

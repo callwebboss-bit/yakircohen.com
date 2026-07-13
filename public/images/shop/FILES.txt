@@ -9,6 +9,8 @@ gear-rcf745.webp
 gear-traktor-s4.webp
 gear-krk.webp
 gear-effects.webp
+gear-led.webp
+gear-accessories.webp
 
 # OG (תיקיית אחות):
-# ../og/shop.webp  (1200x630) — כבר קיים / npm run generate:og-images
+# ../og/shop.webp  (1200x630) — npm run generate:og-images

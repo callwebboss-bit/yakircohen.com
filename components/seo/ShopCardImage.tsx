@@ -36,6 +36,7 @@ export default function ShopCardImage({
         sizes="(max-width: 768px) 100vw, 33vw"
         loading={priority ? "eager" : "lazy"}
         priority={priority}
+        fetchPriority={priority ? "high" : "auto"}
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
       />

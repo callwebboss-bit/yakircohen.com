@@ -67,6 +67,22 @@ const TARGETS = [
       "events/wedding-packages/Colorful Confetti.webp",
     ],
   },
+  {
+    name: "gear-led.webp",
+    sources: [
+      "events/attractions/led-booth/יקיר כהן באירוע.webp",
+      "events/attractions/led-booth/עמדת לד באירועים.webp",
+      "events/attractions/led-booth/לד עמדה.webp",
+    ],
+  },
+  {
+    name: "gear-accessories.webp",
+    sources: [
+      "events/equipment/singer-amplification/מיקרופון להגברות מיוחדות.webp",
+      "events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
+      "voiceover/אבזור אולפן.webp",
+    ],
+  },
 ];
 
 function resolveExisting(targetName) {

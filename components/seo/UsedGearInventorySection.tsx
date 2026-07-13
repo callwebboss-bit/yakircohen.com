@@ -1,14 +1,12 @@
 import { Send } from "lucide-react";
 import ShopCardImage from "@/components/seo/ShopCardImage";
+import TrackedShopCta from "@/components/seo/TrackedShopCta";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import {
   SHOP_GEAR_ITEMS,
   SHOP_GEAR_TRANSPARENCY,
 } from "@/lib/data/shop-page";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
-
-const WHATSAPP_TEXT =
-  "שלום, הגעתי מעמוד הציוד בחנות באתר ואשמח לפרטים על...";
+import { buildShopWhatsAppHref } from "@/lib/data/shop-vouchers";
 
 const USED_GEAR_RELATED = [
   {
@@ -34,10 +32,11 @@ const USED_GEAR_RELATED = [
 ] as const;
 
 export default function UsedGearInventorySection() {
-  const whatsappHref = buildWhatsAppHref({
-    text: WHATSAPP_TEXT,
-    utm_source: "website",
-    utm_campaign: "shop_used_gear_cta",
+  const whatsappHref = buildShopWhatsAppHref({
+    text: "שלום, הגעתי מעמוד הציוד בחנות באתר ואשמח לפרטים על מלאי יד שנייה",
+    section: "used-gear",
+    tier: "general",
+    campaign: "shop_used_gear_cta",
   });
 
   return (
@@ -60,45 +59,24 @@ export default function UsedGearInventorySection() {
 
       <ul className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-3">
         {SHOP_GEAR_ITEMS.map((item) => {
-          const waHref = buildWhatsAppHref({
+          const waHref = buildShopWhatsAppHref({
             text: `שלום, הגעתי מעמוד הציוד בחנות. מעוניין/ת ב${item.title}.`,
-            utm_source: "website",
-            utm_campaign: `shop_gear_${item.id}`,
+            section: "used-gear",
+            tier: item.id,
+            campaign: `shop_gear_${item.id}`,
           });
-
-          if (item.placeholder) {
-            return (
-              <li key={item.id}>
-                <a
-                  href={waHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover-lift flex h-full min-h-[280px] flex-col justify-center rounded-xl border border-dashed border-border bg-[#f4f4f2] p-8 transition-colors hover:border-brand-red/40"
-                >
-                  <h3 className="font-serif text-xl font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {item.subtitle}
-                  </p>
-                  <span className="mt-4 font-bold text-brand-red">
-                    צפו במלאי
-                  </span>
-                </a>
-              </li>
-            );
-          }
 
           return (
             <li key={item.id}>
-              <a
+              <TrackedShopCta
                 href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
+                campaign={`shop_gear_${item.id}`}
+                section="used-gear"
+                className="group block text-start"
+                aria-label={`${item.title} - שליחה בוואטסאפ`}
               >
                 <ShopCardImage
-                  src={item.imageSrc!}
+                  src={item.imageSrc}
                   alt={item.imageAlt}
                   className="mb-4 rounded-xl"
                   hoverScale
@@ -109,7 +87,7 @@ export default function UsedGearInventorySection() {
                 <p className="mt-1 text-sm text-muted-foreground">
                   {item.subtitle}
                 </p>
-              </a>
+              </TrackedShopCta>
             </li>
           );
         })}
@@ -130,16 +108,16 @@ export default function UsedGearInventorySection() {
             לבדיקת מלאי עדכני ותיאום פגישה להדגמה אצלנו בסטודיו, שלחו לנו הודעה
             ונענה במהירות.
           </p>
-          <a
+          <TrackedShopCta
             href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
+            campaign="shop_used_gear_cta"
+            section="used-gear"
             className="mx-auto inline-flex min-h-12 items-center justify-center gap-4 rounded-xl bg-brand-red px-12 py-5 text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105"
             aria-label="שלחו הודעה בוואטסאפ לקבלת פרטים על ציוד למכירה"
           >
             <span>שלחו הודעה בוואטסאפ</span>
             <Send className="h-6 w-6" aria-hidden />
-          </a>
+          </TrackedShopCta>
         </div>
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-brand-red/5 via-transparent to-transparent"

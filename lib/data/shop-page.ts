@@ -1,5 +1,3 @@
-import { SERVICE_IMAGES_BASE } from "@/lib/data/services";
-
 /**
  * Dedicated shop assets under public/images/shop/ (generate: npm run generate:shop-images).
  * Replace files in place with product shots when ready — same filenames.
@@ -14,53 +12,60 @@ export type ShopGearItem = {
   id: string;
   title: string;
   subtitle: string;
-  imageSrc?: string;
+  imageSrc: string;
   imageAlt: string;
-  placeholder?: boolean;
+  /** Schema.org product name for OfferCatalog */
+  schemaName: string;
 };
 
 export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
   {
     id: "rcf745",
-    title: "הגברה RCF",
-    subtitle: "רמקולים ומערכות סאונד לאירועים.",
+    title: "הגברה RCF 745",
+    subtitle: "רמקולים מוגברים כולל סאבוופר, יצאו מהפקות.",
     imageSrc: "/images/shop/gear-rcf745.webp",
-    imageAlt: "ציוד הגברה מקצועי לאירועים",
+    imageAlt: "רמקולים מוגברים RCF להפקות אירועים",
+    schemaName: "רמקולים מוגברים RCF 745 כולל סאבוופר",
   },
   {
     id: "traktor-s4",
-    title: "קונטרולר DJ",
-    subtitle: "עמדות DJ, פלטות ואביזרים.",
+    title: "Traktor S4 MK3",
+    subtitle: "עמדות די ג'יי, פלטות ואביזרים.",
     imageSrc: "/images/shop/gear-traktor-s4.webp",
-    imageAlt: "עמדת די ג'יי וציוד נלווה",
+    imageAlt: "קונטרולר Traktor S4 לעמדת די ג'יי",
+    schemaName: "עמדות די ג'יי Traktor S4 MK3",
   },
   {
     id: "krk",
     title: "ציוד אולפן",
     subtitle: "מיקרופונים, ממשקים ומוניטורים.",
     imageSrc: "/images/shop/gear-krk.webp",
-    imageAlt: "ציוד אולפן מקצועי",
+    imageAlt: "ציוד אולפן מקצועי למכירה",
+    schemaName: "ציוד אולפן יד שנייה",
   },
   {
     id: "effects",
     title: "אפקטים",
     subtitle: "מכונות עשן, בועות ופירוטכניקה.",
     imageSrc: "/images/shop/gear-effects.webp",
-    imageAlt: "אפקטים לאירועים",
+    imageAlt: "אפקטים לאירועים יד שנייה",
+    schemaName: "אפקטים לאירועים יד שנייה",
   },
   {
     id: "led",
     title: "תאורת LED",
-    subtitle: "פנסי במה, אפקטים ותאורה חכמה.",
-    imageSrc: `${SERVICE_IMAGES_BASE}/events/attractions/led-booth/יקיר כהן באירוע.webp`,
-    imageAlt: "תאורת LED ועמדת לד באירוע",
+    subtitle: "פנסי במה, אפקטים ותאורת במה.",
+    imageSrc: "/images/shop/gear-led.webp",
+    imageAlt: "עמדת לד ותאורת במה לאירועים",
+    schemaName: "תאורת LED לאירועים",
   },
   {
     id: "accessories",
     title: "אביזרים",
     subtitle: "כבלים, סטנדים ותיקי נשיאה.",
+    imageSrc: "/images/shop/gear-accessories.webp",
     imageAlt: "אביזרי הגברה ואולפן",
-    placeholder: true,
+    schemaName: "אביזרי הגברה ואולפן",
   },
 ] as const;
 
