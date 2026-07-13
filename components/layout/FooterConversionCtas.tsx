@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const quoteWhatsAppHref = buildWhatsAppHref({
@@ -62,11 +62,6 @@ export default function FooterConversionCtas() {
               key={cta.label}
               href={cta.href}
               className={className}
-              aria-label={
-                cta.href === "/book"
-                  ? CTA_LABELS.bookTransparent
-                  : undefined
-              }
             >
               {cta.label}
             </Link>

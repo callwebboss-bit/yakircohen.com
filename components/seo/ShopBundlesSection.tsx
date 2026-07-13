@@ -21,7 +21,7 @@ export default function ShopBundlesSection() {
           >
             חבילות משולבות
           </h2>
-          <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          <p className="mt-2 max-w-2xl text-base leading-relaxed text-foreground/70">
             שירות אחד, ספק אחד, תיאום אחד.
           </p>
         </div>

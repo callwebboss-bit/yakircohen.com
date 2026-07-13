@@ -4,6 +4,7 @@ import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStati
 import BookDynamicHeroSubtitle, {
   BOOK_HERO_SUBTITLE_DEFAULT,
 } from "@/components/booking/BookDynamicHeroSubtitle";
+import { BookPageLayoutProvider } from "@/components/booking/BookPageLayoutContext";
 import BookPageSections from "@/components/booking/BookPageSections";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
@@ -122,16 +123,18 @@ export default async function BookCategoryPage({
 
         <BookAudienceCardsStatic />
 
-        <BookPageSections
-          pkgParam={pkgParam}
-          itemParam={itemParam}
-          catalogParam={catalogParam}
-          couponParam={couponParam}
-          routeParam={routeParam}
-          qualParam={qualParam}
-          utmCampaign={utmCampaign}
-          utmContent={utmContent}
-        />
+        <BookPageLayoutProvider>
+          <BookPageSections
+            pkgParam={pkgParam}
+            itemParam={itemParam}
+            catalogParam={catalogParam}
+            couponParam={couponParam}
+            routeParam={routeParam}
+            qualParam={qualParam}
+            utmCampaign={utmCampaign}
+            utmContent={utmContent}
+          />
+        </BookPageLayoutProvider>
 
         <Container className="max-w-3xl pb-14">
           <CheckoutTrustMicro className="mb-6" />
