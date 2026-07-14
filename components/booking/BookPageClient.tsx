@@ -1,9 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import BookPageFaq from "@/components/booking/BookPageFaq";
 import BookPageSections from "@/components/booking/BookPageSections";
 import BookQuickIntakeSection from "@/components/booking/BookQuickIntakeSection";
 import { BookPageLayoutProvider } from "@/components/booking/BookPageLayoutContext";
+import SmartFormKoalendarBootstrap from "@/components/booking/smart-form/SmartFormKoalendarBootstrap";
 import type { BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 
 type BookPageClientProps = {
@@ -39,6 +41,9 @@ export default function BookPageClient({
       />
       <BookQuickIntakeSection />
       <BookPageFaq />
+      <Suspense fallback={null}>
+        <SmartFormKoalendarBootstrap />
+      </Suspense>
     </BookPageLayoutProvider>
   );
 }

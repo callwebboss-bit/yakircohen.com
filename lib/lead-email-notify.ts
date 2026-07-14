@@ -3,6 +3,7 @@
  * לא חוסם שליחה לוואטסאפ; שגיאות נבלעות בשקט.
  */
 import { buildBookHref } from "@/lib/book-url";
+import { buildCloserDeepLink } from "@/lib/closer-deep-link";
 import {
   getCrossSellOffers,
   type CrossSellContext,
@@ -90,9 +91,10 @@ function collectClientMeta(
 
 function buildEmailBody(payload: LeadEmailPayload): string {
   const crossSellBlock = buildCrossSellEmailBlock(payload.crossSell);
-  return payload.body.trim()
-    ? `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".`
-    : payload.body;
+  if (!payload.body.trim()) return payload.body;
+
+  const closerLink = buildCloserDeepLink(payload.body);
+  return `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: ${closerLink}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`;
 }
 
 export async function notifyLeadByEmailAsync(payload: LeadEmailPayload): Promise<void> {

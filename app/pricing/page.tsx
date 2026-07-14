@@ -30,6 +30,7 @@ import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
 import PricingHubSectionsAccordion from "@/components/pricing/PricingHubSectionsAccordion";
 import PricingFaqSection from "@/components/pricing/PricingFaqSection";
 import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
+import PricingStandardsStrip from "@/components/pricing/PricingStandardsStrip";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
 import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy";
@@ -162,6 +163,7 @@ export default function PricingHubPage() {
             <p className="mb-4 text-xs text-muted-foreground">
               {PRICES_EXCLUDE_VAT_NOTE}. מע״מ מוצג בלחיצה על כל שורה.
             </p>
+            <PricingStandardsStrip />
             <PricingHubSectionsAccordion
               sections={PRICING_HUB_SECTIONS}
               midPageSlot={<PricingHesitantCta />}

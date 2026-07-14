@@ -13,6 +13,7 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { constructMetadata } from "@/lib/metadata";
 import { SITE_NAME } from "@/lib/constants";
+import { SITE_URL } from "@/lib/site-url";
 import {
   BOOK_OG_IMAGE_ALT,
   BOOK_OG_IMAGE_HEIGHT,
@@ -23,7 +24,9 @@ import {
   BOOK_PAGE_TITLE,
 } from "@/lib/seo/book-page";
 
-export const metadata: Metadata = constructMetadata({
+const BOOK_CANONICAL = `${SITE_URL}/book`;
+
+const BOOK_BASE_METADATA = constructMetadata({
   title: BOOK_PAGE_TITLE,
   description: BOOK_PAGE_DESCRIPTION,
   slug: "book",
@@ -35,6 +38,61 @@ export const metadata: Metadata = constructMetadata({
   },
   keywords: [...BOOK_PAGE_KEYWORDS],
 });
+
+function hasLeadQueryParams(
+  sp: Record<string, string | string[] | undefined>,
+): boolean {
+  const keys = [
+    "smart",
+    "catalog",
+    "estimate",
+    "upsells",
+    "contact",
+    "name",
+    "social",
+    "smartCat",
+    "koalendar",
+  ];
+  return keys.some((key) => {
+    const v = sp[key];
+    return typeof v === "string" ? v.length > 0 : Array.isArray(v) && v.length > 0;
+  });
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const leadVariant = hasLeadQueryParams(sp);
+
+  return {
+    ...BOOK_BASE_METADATA,
+    alternates: {
+      ...BOOK_BASE_METADATA.alternates,
+      canonical: BOOK_CANONICAL,
+      languages: {
+        "he-IL": BOOK_CANONICAL,
+      },
+    },
+    openGraph: BOOK_BASE_METADATA.openGraph
+      ? {
+          ...BOOK_BASE_METADATA.openGraph,
+          url: BOOK_CANONICAL,
+        }
+      : undefined,
+    ...(leadVariant
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+            googleBot: { index: false, follow: true },
+          },
+        }
+      : {}),
+  };
+}
 
 export default async function BookPage({
   searchParams,

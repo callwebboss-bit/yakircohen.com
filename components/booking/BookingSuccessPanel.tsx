@@ -15,6 +15,8 @@ import {
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 import BookingCrossSellSection from "@/components/booking/BookingCrossSellSection";
+import CloserDeepLinkHint from "@/components/booking/CloserDeepLinkHint";
+import { decodeWhatsAppTextFromHref } from "@/lib/closer-deep-link";
 
 type BookingSuccessPanelProps = {
   intent?: "continue_chat" | "start_now";
@@ -41,6 +43,7 @@ export default function BookingSuccessPanel({
 }: BookingSuccessPanelProps) {
   const copy = resolveBookingPostSubmitCopy(intent, bookCategory);
   const btsVideo = resolveBookingBtsVideo(bookCategory);
+  const waBody = decodeWhatsAppTextFromHref(whatsappHref) || "";
   const thankYouParams = new URLSearchParams();
   if (bookCategory) {
     thankYouParams.set("service", BOOK_THANK_YOU_SERVICE[bookCategory]);
@@ -137,6 +140,7 @@ export default function BookingSuccessPanel({
         atmosphere={atmosphere}
         className="text-center sm:text-right"
       />
+      <CloserDeepLinkHint waBody={waBody} className="mx-auto mt-4 max-w-md text-right" />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { type ReactNode, useEffect } from "react";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
+import SmartFormClient from "@/components/booking/smart-form/SmartFormClient";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
@@ -255,6 +256,12 @@ export default function BookPageSections({
     <BookCouponProvider couponParam={couponParam}>
     <BookWizardLivePriceProvider>
     <>
+      <div className="border-b border-border bg-background px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[72rem]">
+          <SmartFormClient />
+        </div>
+      </div>
+
       <BookAudienceRouter
         onFullPath={openFullPath}
         activeRouteId={activeRouteId}
