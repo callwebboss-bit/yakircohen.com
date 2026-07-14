@@ -79,17 +79,22 @@ function RouteGrid({
   showCustomCard?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex flex-wrap justify-center gap-4">
       {routes.map((route) => (
-        <BookAudienceCard
-          key={route.id}
-          route={route}
-          boosted={route.id === boostedRouteId}
-          resumeQualOpen={resumeQualOpen && route.id === resumeRouteId}
-          onFullPath={onFullPath}
-        />
+        <div key={route.id} className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+          <BookAudienceCard
+            route={route}
+            boosted={route.id === boostedRouteId}
+            resumeQualOpen={resumeQualOpen && route.id === resumeRouteId}
+            onFullPath={onFullPath}
+          />
+        </div>
       ))}
-      {showCustomCard ? <BookIntakeCustomCard /> : null}
+      {showCustomCard ? (
+        <div className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+          <BookIntakeCustomCard />
+        </div>
+      ) : null}
     </div>
   );
 }

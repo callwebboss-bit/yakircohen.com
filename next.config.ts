@@ -39,7 +39,6 @@ const securityHeaders = [
       "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com",
       "media-src 'self' blob: https:",
       "worker-src 'self' blob:",
-      "upgrade-insecure-requests",
     ].join("; "),
   },
 ];
