@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { SmartFormEstimate } from "@/lib/smart-form-estimate";
 import {
   CATALOG_VAT_RATE,
@@ -21,6 +22,19 @@ export default function VisualReceipt({
   estimate,
   isReturning = false,
 }: VisualReceiptProps) {
+  const [justUpdated, setJustUpdated] = useState(false);
+  const prevTotalRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const changed =
+      prevTotalRef.current !== null && prevTotalRef.current !== estimate.totalExVat;
+    prevTotalRef.current = estimate.totalExVat;
+    if (!changed) return;
+    setJustUpdated(true);
+    const t = setTimeout(() => setJustUpdated(false), 700);
+    return () => clearTimeout(t);
+  }, [estimate.totalExVat]);
+
   if (!estimate.baseCatalogId || estimate.lines.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-border bg-surface/60 px-4 py-6 text-center text-sm text-muted-foreground">
@@ -72,7 +86,12 @@ export default function VisualReceipt({
         </div>
       ) : null}
 
-      <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-border pt-3 font-semibold text-foreground">
+      <div
+        aria-live="polite"
+        className={`mt-3 flex items-baseline justify-between gap-3 rounded-md border-t border-border pt-3 font-semibold text-foreground transition-colors duration-300 ${
+          justUpdated ? "bg-emerald-50" : "bg-transparent"
+        }`}
+      >
         <span>סה״כ משוער</span>
         <span className="tabular-nums">
           {estimate.totalExVat.toLocaleString("he-IL")} ₪

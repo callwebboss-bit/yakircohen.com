@@ -102,6 +102,26 @@ export default function SmartFormClient() {
     goToStep(2);
   };
 
+  const packageChips = useMemo(
+    () => category?.chips.filter((c) => c.catalogId) ?? [],
+    [category],
+  );
+  const addonChips = useMemo(
+    () => category?.chips.filter((c) => !c.catalogId) ?? [],
+    [category],
+  );
+  const packageChipIds = useMemo(
+    () => new Set(packageChips.map((c) => c.id)),
+    [packageChips],
+  );
+
+  const selectPackageChip = (chipId: string) => {
+    setSelectedChipIds((prev) => [
+      ...prev.filter((id) => !packageChipIds.has(id)),
+      chipId,
+    ]);
+  };
+
   const toggleChip = (chipId: string) => {
     setSelectedChipIds((prev) =>
       prev.includes(chipId) ? prev.filter((x) => x !== chipId) : [...prev, chipId],
@@ -398,37 +418,79 @@ export default function SmartFormClient() {
                     </>
                   ) : null}
 
-                  <div>
-                    <p className="mb-2 text-sm font-medium text-foreground">סוג / תוספות</p>
-                    <div className="flex flex-wrap gap-2">
-                      {category?.chips.map((chip) => {
-                        const active = selectedChipIds.includes(chip.id);
-                        return (
-                          <button
-                            key={chip.id}
-                            type="button"
-                            title={chip.tooltip}
-                            aria-pressed={active}
-                            aria-describedby={chip.tooltip ? `tip-${chip.id}` : undefined}
-                            onClick={() => toggleChip(chip.id)}
-                            className={`${TOUCH_BTN} rounded-full border px-4 text-sm transition-colors ${
-                              active
-                                ? "border-brand-red bg-brand-red/10 font-semibold text-brand-red"
-                                : "border-border bg-white text-foreground hover:border-brand-red"
-                            }`}
-                            disabled={loading}
-                          >
-                            {chip.label}
-                            {chip.tooltip ? (
-                              <span id={`tip-${chip.id}`} className="sr-only">
-                                {chip.tooltip}
-                              </span>
-                            ) : null}
-                          </button>
-                        );
-                      })}
+                  {packageChips.length > 1 ? (
+                    <div>
+                      <p className="mb-2 text-sm font-medium text-foreground">
+                        בחרו סוג (בחירה אחת)
+                      </p>
+                      <div role="radiogroup" aria-label="סוג ההזמנה" className="flex flex-wrap gap-2">
+                        {packageChips.map((chip) => {
+                          const active = selectedChipIds.includes(chip.id);
+                          return (
+                            <button
+                              key={chip.id}
+                              type="button"
+                              role="radio"
+                              aria-checked={active}
+                              title={chip.tooltip}
+                              aria-describedby={chip.tooltip ? `tip-${chip.id}` : undefined}
+                              onClick={() => selectPackageChip(chip.id)}
+                              className={`${TOUCH_BTN} rounded-full border px-4 text-sm transition-colors ${
+                                active
+                                  ? "border-brand-red bg-brand-red/10 font-semibold text-brand-red"
+                                  : "border-border bg-white text-foreground hover:border-brand-red"
+                              }`}
+                              disabled={loading}
+                            >
+                              {chip.label}
+                              {chip.tooltip ? (
+                                <span id={`tip-${chip.id}`} className="sr-only">
+                                  {chip.tooltip}
+                                </span>
+                              ) : null}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
+
+                  {addonChips.length > 0 ? (
+                    <div>
+                      <p className="mb-2 text-sm font-medium text-foreground">
+                        תוספות (אפשר לבחור כמה שרוצים - המחיר מתעדכן מיד)
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {addonChips.map((chip) => {
+                          const active = selectedChipIds.includes(chip.id);
+                          return (
+                            <button
+                              key={chip.id}
+                              type="button"
+                              title={chip.tooltip}
+                              aria-pressed={active}
+                              aria-describedby={chip.tooltip ? `tip-${chip.id}` : undefined}
+                              onClick={() => toggleChip(chip.id)}
+                              className={`${TOUCH_BTN} rounded-full border px-4 text-sm transition-colors ${
+                                active
+                                  ? "border-brand-red bg-brand-red/10 font-semibold text-brand-red"
+                                  : "border-border bg-white text-foreground hover:border-brand-red"
+                              }`}
+                              disabled={loading}
+                            >
+                              {active ? "✓ " : "+ "}
+                              {chip.label}
+                              {chip.tooltip ? (
+                                <span id={`tip-${chip.id}`} className="sr-only">
+                                  {chip.tooltip}
+                                </span>
+                              ) : null}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : null}
 
                   <VisualReceipt estimate={estimate} isReturning={isReturning} />
 
@@ -439,12 +501,16 @@ export default function SmartFormClient() {
                   {enrichment?.familyUpsellHref ? (
                     <Link
                       href={enrichment.familyUpsellHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="block rounded-lg border border-dashed border-border bg-surface/40 p-3 text-xs text-muted-foreground hover:border-brand-red hover:text-foreground"
                     >
                       <span className="font-medium text-foreground">
                         {enrichment.familyUpsellLabel}
                       </span>
-                      <span className="mt-1 block">לפרטים במסלול המשפחתי →</span>
+                      <span className="mt-1 block">
+                        שירות נפרד עם מחיר משלו - נפתח בטאב חדש, ההזמנה הנוכחית שלכם נשארת כאן ←
+                      </span>
                     </Link>
                   ) : null}
 
