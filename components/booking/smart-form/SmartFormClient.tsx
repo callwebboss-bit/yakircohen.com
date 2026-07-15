@@ -301,7 +301,7 @@ export default function SmartFormClient() {
         className="w-full max-w-2xl mx-auto overflow-hidden bg-white p-6 rounded-lg shadow-sm border border-border scroll-mt-24 touch-manipulation"
         aria-labelledby="smart-form-heading"
       >
-        <div className="dir-ltr" dir="ltr">
+        <div className="dir-ltr overflow-hidden" dir="ltr">
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${(step - 1) * 100}%)` }}
