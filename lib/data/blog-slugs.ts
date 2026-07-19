@@ -76,7 +76,8 @@ export const BLOG_SLUGS = [
   "dj-selection-guide-events",
   "giant-balloons-for-events",
   "wedding-photography-guide",
-  "event-filming-guide"
+  "event-filming-guide",
+  "record-song-10-minutes-ai"
 ] as const;
 
 export type BlogPostSlug = (typeof BLOG_SLUGS)[number];

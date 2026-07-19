@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import YouTubeShowcase from "@/components/marketing/YouTubeShowcase";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
@@ -35,7 +36,9 @@ export default function HomeSocialProofSection() {
           </p>
         </header>
 
-        <div className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-border bg-background p-4 shadow-sm sm:p-6">
+        <AiSongCaseStudyVideo placement="home" className="mt-12" />
+
+        <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-2xl border border-border bg-background p-4 shadow-sm sm:p-6">
           <YouTubeShowcase />
         </div>
 

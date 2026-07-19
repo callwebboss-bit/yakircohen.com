@@ -16,6 +16,9 @@ export const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@Yakircohen";
 
 export const YOUTUBE_FEATURED_VIDEO_ID = "XUr2e5S4JSA";
 
+/** Case study: שיר ב-10 דק׳ עם AI (home / recording-studio / ai-music) */
+export { AI_SONG_CASE_STUDY_VIDEO_ID } from "@/lib/data/ai-song-case-study";
+
 
 
 export const YOUTUBE_SHOWCASE_IDS = {

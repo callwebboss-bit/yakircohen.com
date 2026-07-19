@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
 import {
@@ -74,6 +75,19 @@ export default function AiMusicPageContent() {
               שירות בליווי </a>
           </div>
         </div>
+      </section>
+
+      <section className="border-b border-border bg-surface px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+        <AiSongCaseStudyVideo placement="ai-music" featured />
+        <p className="mx-auto mt-5 max-w-3xl text-center text-sm text-muted-foreground">
+          הסבר מלא לתהליך:{" "}
+          <Link
+            href="/blog/record-song-10-minutes-ai"
+            className="font-semibold text-brand-red hover:underline"
+          >
+            איך מקליטים שיר ב־10 דקות עם AI
+          </Link>
+        </p>
       </section>
 
       <section className="border-b border-amber-500/25 bg-amber-500/5 py-8">

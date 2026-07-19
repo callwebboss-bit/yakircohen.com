@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -62,6 +63,8 @@ export default function RecordingStudioPageContent() {
             מעל 2,000 תושבי מודיעין והסביבה כבר הקליטו אצלנו
           </p>
         </div>
+
+        <AiSongCaseStudyVideo placement="recording-studio" />
 
         <ShowcaseVideoSection playlistId="recording-studio" />
 
