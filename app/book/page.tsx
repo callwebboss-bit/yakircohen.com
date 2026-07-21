@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStatic";
+import BookIntentPaths from "@/components/booking/BookIntentPaths";
 import BookPageClient from "@/components/booking/BookPageClient";
 import BookDynamicHeroSubtitle, {
   BOOK_HERO_SUBTITLE_DEFAULT,
@@ -151,6 +152,8 @@ export default async function BookPage({
             </p>
           </Container>
         </noscript>
+
+        <BookIntentPaths />
 
         <BookAudienceCardsStatic />
 

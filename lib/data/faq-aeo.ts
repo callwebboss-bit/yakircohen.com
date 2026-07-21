@@ -17,14 +17,14 @@ function stripDualPrefix(formatted: string): string {
 }
 
 export function buildRecordingSongStudioPriceAnswer(): string {
-  const blessing = stripDualPrefix(
-    formatFromPriceDual(getExVat("blessing_recording")),
-  );
   const cover = stripDualPrefix(formatFromPriceDual(getExVat("cover_song")));
   const package_ = stripDualPrefix(
     formatFromPriceDual(getExVat("song_package")),
   );
-  return `ברכה או אמירה קצרה ${blessing}. שיר על פלייבק קיים ${cover}. חבילת שיר מתנה ${package_}. המחיר הסופי תלוי במורכבות ההפקה - מחירון מלא בעמוד זה.`;
+  const blessing = stripDualPrefix(
+    formatFromPriceDual(getExVat("blessing_recording")),
+  );
+  return `הקלטת שיר באולפן על פלייבק קיים ${cover}. חבילת שיר מתנה ${package_}. ברכה או אמירה קצרה ${blessing}. המחיר הסופי תלוי במורכבות - מחירון מלא בעמוד.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

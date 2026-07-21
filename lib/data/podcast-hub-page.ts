@@ -1,5 +1,7 @@
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { PODCAST_PACKAGES, PODCAST_STARTER_PRICE } from "./podcast-calculator";
 
 export type PodcastExampleVideo = {
   videoId: string;
@@ -9,6 +11,45 @@ export type PodcastExampleVideo = {
 export const PODCAST_EXAMPLE_VIDEOS: readonly PodcastExampleVideo[] = [
   { videoId: "q1Omi-3L3QM", title: "דוגמה, פודקאסט מהאולפן" },
   { videoId: "eKGkeVYzUl4", title: "דוגמה, הפקת פודקאסט מלאה" },
+] as const;
+
+/** השוואה קצרה בין שלושת המסלולים הנפוצים בעמוד ה-hub */
+export const PODCAST_HUB_SERVICE_COMPARE: readonly {
+  id: string;
+  title: string;
+  priceFrom: number;
+  outcome: string;
+  bestFor: string;
+  href: string;
+  linkLabel: string;
+}[] = [
+  {
+    id: "recording",
+    title: "הקלטה רגילה",
+    priceFrom: PODCAST_STARTER_PRICE,
+    outcome: "קובץ MP3 גולמי מאולפן - עד חצי שעה",
+    bestFor: "פיילוט, פרק קצר, או מי שעורך בעצמו",
+    href: "/book#podcast",
+    linkLabel: "להזמנת הקלטה",
+  },
+  {
+    id: "video",
+    title: "פודקאסט וידאו",
+    priceFrom: getExVat("podcast_video"),
+    outcome: "MP4 ליוטיוב + MP3 לספוטיפיי אחרי עריכה",
+    bestFor: "ראיונות, מיתוג ונוכחות ויזואלית",
+    href: "/podcast/podcast-production",
+    linkLabel: "לפרטי פודקאסט וידאו",
+  },
+  {
+    id: "editing",
+    title: "עריכת פודקאסט",
+    priceFrom: getExVat("podcast_editing_hour"),
+    outcome: "ניקוי רעשים, חיתוך ומיקס לקובץ מוכן",
+    bestFor: "מי שכבר יש לו הקלטה (זום / בית / ארכיון)",
+    href: "/podcast/podcast-editing",
+    linkLabel: "לעריכת פודקאסט",
+  },
 ] as const;
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
@@ -185,6 +226,22 @@ export const PODCAST_HUB_FAQS: readonly {
   answer: string;
 }[] = [
   {
+    id: "hub-price-start",
+    question: "כמה עולה פודקאסט באולפן?",
+    answer: `הקלטה רגילה מתחילה מ-${PODCAST_STARTER_PRICE.toLocaleString("he-IL")} ₪ לפני מע״מ (עד חצי שעה). פודקאסט וידאו מ-${getExVat("podcast_video").toLocaleString("he-IL")} ₪. עריכת פודקאסט מ-${getExVat("podcast_editing_hour").toLocaleString("he-IL")} ₪ לשעה. מחיר סופי לפי חבילה במחשבון בעמוד.`,
+  },
+  {
+    id: "hub-delivery",
+    question: "תוך כמה זמן מקבלים את הפרק?",
+    answer: `${TIME_CLAIMS.podcastDelivery24h} להעלאה ברוב החבילות. פרויקטים מורכבים נמסרים עד 4 ימים.`,
+  },
+  {
+    id: "hub-who-for",
+    question: "למי מתאים השירות?",
+    answer:
+      "ליוצרי תוכן, עסקים, מומחים ומשפחות שרוצים פרק מוכן בלי לנהל ציוד ועריכה. אם כבר יש הקלטה - מספיק מסלול עריכת פודקאסט.",
+  },
+  {
     id: "location-modiin",
     question: "איפה נמצא האולפן ואיך מגיעים ממרכז הארץ?",
     answer:
@@ -325,11 +382,12 @@ export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "משתלם כלכלית",
 ] as const;
 
-import { PODCAST_PACKAGES, PODCAST_STARTER_PRICE } from "./podcast-calculator";
-
 export const PODCAST_HUB_STARTING_PRICE = String(PODCAST_STARTER_PRICE);
 export const PODCAST_HUB_STARTING_PRICE_NOTE =
   "לפרק של חצי שעה - אולפן במודיעין - חניה בשפע - לפני מע״מ (+18%)";
+
+/** תווית CTA: תוצאה + מחיר התחלתי קיים */
+export const PODCAST_HUB_CTA_LABEL = `פרק מוכן להעלאה מ-${PODCAST_STARTER_PRICE.toLocaleString("he-IL")} ₪`;
 
 const _audioPrice = PODCAST_PACKAGES.find((p) => p.id === "audio")?.price ?? 950;
 const _videoPrice = PODCAST_PACKAGES.find((p) => p.id === "video")?.price ?? 1650;

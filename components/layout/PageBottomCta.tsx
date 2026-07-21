@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import CtaTrustStrip from "@/components/marketing/CtaTrustStrip";
 import { cn } from "@/lib/utils";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
@@ -125,6 +126,9 @@ export default function PageBottomCta({
           <p className="text-xs text-neutral-500">
             מענה אנושי מהיר, {TIME_CLAIMS.waResponse30m}, בלי שום התחייבות.
           </p>
+        ) : null}
+        {variant === "whatsapp" && whatsappHref ? (
+          <CtaTrustStrip className="mt-1" />
         ) : null}
       </div>
     );

@@ -80,7 +80,7 @@ const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
       <InlineServiceLink href="/events">אירועים</InlineServiceLink> מגיעים
       לפתח תקווה,{" "}
       <InlineServiceLink href="/studio/studio-shoham">שוהם</InlineServiceLink>,{" "}
-      <InlineServiceLink href="/studio/studio-rehovot">רחובות</InlineServiceLink>, ירושלים ולכל הארץ.{" "}
+      <InlineServiceLink href="/studio/studio-rehovot">אולפן הקלטות ברחובות</InlineServiceLink>, ירושלים ולכל הארץ.{" "}
       <InlineServiceLink href="/studio/studio-jerusalem">
         הקלטות בירושלים
       </InlineServiceLink>{" "}

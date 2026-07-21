@@ -48,6 +48,12 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
   const title = config.tagline
     ? `${config.brand} | ${config.tagline}`
     : config.pageTitle;
+  const hubWhatsappHref = buildWhatsAppHref({
+    text: config.hubWhatsappText,
+    utm_source: "website",
+    utm_campaign: `${config.utmCampaign}_mid_cta`,
+  });
+  const ctaLabel = config.ctaLabel ?? "דברו איתנו בוואטסאפ";
 
   return (
     <ServicePageLayout
@@ -57,7 +63,9 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
         scarcityLabel={config.scarcityLabel}
         whatsappText={config.hubWhatsappText}
         utmCampaign={config.utmCampaign}
-        ctaLabel={config.ctaLabel ?? "דברו איתנו בוואטסאפ"}
+        ctaLabel={ctaLabel}
+        pagePath={pagePath}
+        metaDescription={config.subtitle}
       >
       {config.faqs.length > 0 ? (
         <FaqPageSchema
@@ -66,6 +74,36 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
       ) : null}
       <Container className="space-y-14 py-12 sm:py-16">
         <ContextualIntroParagraph pathname={pagePath} />
+
+        {config.audienceItems && config.audienceItems.length > 0 ? (
+          <section aria-labelledby="audience-heading">
+            <h2
+              id="audience-heading"
+              className="font-serif text-section-title font-semibold text-foreground"
+            >
+              למי זה מתאים
+            </h2>
+            {config.audienceIntro ? (
+              <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+                {config.audienceIntro}
+              </p>
+            ) : null}
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+              {config.audienceItems.map((item) => (
+                <li
+                  key={item.title}
+                  className="rounded-2xl border border-border bg-surface p-5"
+                >
+                  <h3 className="font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.body}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         {config.processSteps && config.processSteps.length > 0 ? (
           <section aria-labelledby="process-heading">
             <h2
@@ -88,6 +126,60 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
                 </li>
               ))}
             </ol>
+          </section>
+        ) : null}
+
+        {config.outcome ? (
+          <section
+            className="rounded-2xl border border-brand-red/25 bg-surface p-6 sm:p-8"
+            aria-labelledby="outcome-heading"
+          >
+            <h2
+              id="outcome-heading"
+              className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            >
+              {config.outcome.title}
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {config.outcome.body}
+            </p>
+            <ul className="mt-5 space-y-2 text-sm text-foreground sm:text-base">
+              {config.outcome.bullets.map((bullet) => (
+                <li key={bullet} className="flex gap-2">
+                  <span className="text-brand-red" aria-hidden>
+                    ✓
+                  </span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {(config.midCtaHeading || config.midCtaBody) ? (
+          <section
+            className="rounded-2xl border border-brand-red/30 bg-brand-red/5 px-6 py-8 text-center sm:px-10"
+            aria-labelledby="mid-cta-heading"
+          >
+            <h2
+              id="mid-cta-heading"
+              className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+            >
+              {config.midCtaHeading ?? "מוכנים להתחיל?"}
+            </h2>
+            {config.midCtaBody ? (
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                {config.midCtaBody}
+              </p>
+            ) : null}
+            <a
+              href={hubWhatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+            >
+              {ctaLabel}
+            </a>
           </section>
         ) : null}
 
@@ -147,7 +239,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
                   href={tierWhatsApp(config, tier)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+                  className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
                 >
                   הזמנה בוואטסאפ
                 </a>

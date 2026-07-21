@@ -30,7 +30,7 @@ const EVENT_TYPE_OPTIONS = [
 const FORM_ID = "recording_song_final_cta_form";
 
 const whatsappDirectHref = buildWhatsAppHref({
-  text: "שלום יקיר, אני מעוניין לשוחח על הקלטת שיר לאירוע שלנו",
+  text: "שלום יקיר, מעוניין בהקלטת שיר באולפן במודיעין",
   utm_source: "website",
   utm_campaign: "recording_song_final_cta_wa",
 });
@@ -116,16 +116,16 @@ export default function RecordingSongFinalCTA() {
         id="final-cta-heading"
         className="text-2xl font-semibold text-foreground sm:text-3xl"
       >
-        הרגע הגדול שלכם ראוי לסאונד מושלם.
-        <span className="mt-1 block">קול אנושי, לא AI - מסירה תוך 48 שעות.</span>
+        הקלטת שיר באולפן במודיעין
+        <span className="mt-1 block">קול אנושי, תיקון זיופים - מסירה תוך 48 שעות.</span>
       </h2>
       <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-        לוח הזמנים באולפן במודיעין מתמלא במהירות לקראת עונת האירועים. צרו קשר
-        עכשיו לייעוץ ראשוני ובדיקת התאמת פלייבק - ללא שום התחייבות.
+        לוח הזמנים באולפן במודיעין מתמלא לקראת עונת האירועים. שלחו הודעה
+        לבדיקת זמינות והתאמת פלייבק - בלי התחייבות.
       </p>
       <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
         {[
-          "קריינות אנושית - ללא AI-רובוטי",
+          "קול אנושי - לא סאונד רובוטי",
           "תיקון זיופים מקצועי",
           "ליווי טכני מלא",
           "מסירה תוך 48 שעות",
@@ -142,19 +142,20 @@ export default function RecordingSongFinalCTA() {
           href={whatsappDirectHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative inline-flex items-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-semibold text-white hover:bg-brand-red-light"
+          className="relative inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-semibold text-white hover:bg-brand-red-light"
         >
           <span
             className="absolute inset-0 animate-ping rounded-xl bg-brand-red opacity-20"
             aria-hidden
           />
-          שיחה מהירה בוואטסאפ עם יקיר </a>
+          הקלטת שיר באולפן מ-{getExVat("cover_song").toLocaleString("he-IL")} ₪
+        </a>
         <div>
           <Link
             href={buildBookHref("studio")}
-            className="inline-flex rounded-xl border border-border px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
+            className="inline-flex min-h-12 items-center rounded-xl border border-border px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
           >
-            {hubBookCtaLabel(getExVat("blessing_recording"))}
+            {hubBookCtaLabel(getExVat("cover_song"))}
           </Link>
         </div>
         <p className="text-xs text-muted-foreground">

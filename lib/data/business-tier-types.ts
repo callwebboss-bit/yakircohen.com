@@ -18,6 +18,17 @@ export type BusinessProcessStep = {
   body: string;
 };
 
+export type BusinessAudienceItem = {
+  title: string;
+  body: string;
+};
+
+export type BusinessOutcomeBlock = {
+  title: string;
+  body: string;
+  bullets: readonly string[];
+};
+
 export type BusinessPageConfig = {
   brand: string;
   tagline?: string;
@@ -31,6 +42,15 @@ export type BusinessPageConfig = {
   termsVatNote?: string;
   tiers: readonly BusinessTier[];
   processSteps?: readonly BusinessProcessStep[];
+  /** למי זה מתאים - כרטיסים קצרים */
+  audienceItems?: readonly BusinessAudienceItem[];
+  /** משפט קצר מתחת לכותרת "למי זה מתאים" */
+  audienceIntro?: string;
+  /** תוצאה ברורה בסוף היום / בסוף התהליך */
+  outcome?: BusinessOutcomeBlock;
+  /** כותרת CTA אמצע עמוד (אופציונלי) */
+  midCtaHeading?: string;
+  midCtaBody?: string;
   aboutParagraphs: readonly string[];
   faqs: FAQItem[];
   differentiation?: readonly { label: string; href: string; note: string }[];

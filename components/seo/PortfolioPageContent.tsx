@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import PortfolioPlaylistCta from "@/components/marketing/PortfolioPlaylistCta";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -9,6 +10,7 @@ import {
   VIDEO_PLAYLISTS,
   type PlaylistId,
 } from "@/lib/data/video-playlists";
+import { getPortfolioPlaylistCta } from "@/lib/data/portfolio-playlist-cta";
 import {
   getPlaylistVideoCount,
   getPlaylistVideos,
@@ -120,6 +122,8 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
   const count = getPlaylistVideoCount(playlistId);
   if (count === 0) return null;
 
+  const playlistCta = getPortfolioPlaylistCta(playlistId);
+
   return (
     <div>
       <ShowcaseVideoSection
@@ -130,13 +134,16 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
         sectionId={`playlist-${playlistId}`}
         schemaVideoLimit={24}
       />
-      {config.serviceLink ? (
+      {playlistCta ? (
+        <PortfolioPlaylistCta cta={playlistCta} />
+      ) : config.serviceLink ? (
         <p className="mt-6 text-center">
           <Link
             href={config.serviceLink.href}
             className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
-            {config.serviceLink.label} </Link>
+            {config.serviceLink.label}
+          </Link>
         </p>
       ) : null}
     </div>

@@ -2,9 +2,9 @@
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
-  title: "עריכת פודקאסט מלאה | מההקלטה הגולמית לפרק מושלם",
+  title: "עריכת פודקאסט מקצועית | מההקלטה הגולמית לפרק מוכן",
   description:
-    "עריכת פודקאסט מקצועית במודיעין. ניקוי רעשים, חיתוך ומוזיקה - MP3 מוכן לפרסום.",
+    "עריכת פודקאסט כשירות נפרד. ניקוי רעשים, חיתוך ומיקס - MP3 מוכן להעלאה. בלי סשן אולפן חדש.",
   slug: "podcast/podcast-editing",
   keywords: [
     "עריכת פודקאסט",

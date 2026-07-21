@@ -150,7 +150,7 @@ export default function RecordingStudioPageContent() {
               href="/studio/studio-rehovot"
               className="text-sm font-semibold text-brand-red hover:underline"
             >
-              אולפן לרחובות, 25-30 דק׳
+              אולפן הקלטות ברחובות, 25-30 דק׳
             </Link>
           </div>
         </section>

@@ -31,6 +31,7 @@ import PricingHubSectionsAccordion from "@/components/pricing/PricingHubSections
 import PricingFaqSection from "@/components/pricing/PricingFaqSection";
 import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
 import PricingStandardsStrip from "@/components/pricing/PricingStandardsStrip";
+import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
 import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy";
@@ -157,6 +158,25 @@ export default function PricingHubPage() {
         </Section>
 
         <PricingHubQuickNav />
+
+        <Section padding="sm" className="border-b border-border bg-surface">
+          <Container className="max-w-4xl">
+            <h2
+              id="pricing-comparison-heading"
+              className="font-serif text-section-title font-semibold text-foreground"
+            >
+              השוואה מהירה: אולפן, פודקאסט, שיר ועוד
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              המסלולים המרכזיים זה לצד זה - מה כלול, למי מתאים וכמה עולה.
+              המחירים מהמחירון המלא למטה. {PRICES_EXCLUDE_VAT_NOTE}.
+            </p>
+            <PricingComparisonTable
+              headingId="pricing-comparison-heading"
+              className="mt-6"
+            />
+          </Container>
+        </Section>
 
         <Section padding="sm">
           <Container className="max-w-3xl">

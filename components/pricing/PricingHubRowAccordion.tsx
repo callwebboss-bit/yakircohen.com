@@ -124,13 +124,20 @@ export default function PricingHubRowAccordion({
             >
               <div className="flex min-h-12 items-center gap-2">
                 <div className="flex min-w-0 flex-1 flex-col py-3">
-                  <Link
-                    href={rowHref}
-                    className={`${linkClass} text-sm font-medium text-foreground hover:text-brand-red`}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {row.label}
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={rowHref}
+                      className={`${linkClass} text-sm font-medium text-foreground hover:text-brand-red`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {row.label}
+                    </Link>
+                    {row.badge ? (
+                      <span className="rounded-full bg-brand-red px-2 py-0.5 text-[0.65rem] font-bold text-white">
+                        {row.badge}
+                      </span>
+                    ) : null}
+                  </div>
                   {!isOpen ? (
                     <PriceScopeCompact
                       exVat={row.exVat}

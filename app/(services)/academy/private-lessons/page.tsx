@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ShareButton from "@/components/ui/ShareButton";
+import { PRIVATE_LESSONS_FIT } from "@/lib/data/academy-course-fit";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { SITE_NAME } from "@/lib/constants";
-import ShareButton from "@/components/ui/ShareButton";
 
 export const metadata: Metadata = constructMetadata({
   title: "שיעור פרטי במוזיקה",
@@ -57,6 +64,8 @@ const INCLUDED = [
     body: "מגדירים יחד מטרות, צעדים הבאים ותרגילים להמשך - עצמאי או לקראת השיעור הבא.",
   },
 ] as const;
+
+const bookCta = resolveServiceBookCta("academy/private-lessons");
 
 export default function PrivateLessonsPage() {
   const ctaHref = buildWhatsAppHref({
@@ -122,10 +131,51 @@ export default function PrivateLessonsPage() {
           <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
             * מספר המקומות מוגבל כדי להבטיח איכות ותשומת לב מרבית.
           </p>
+
+          <ContextualIntroParagraph
+            pathname="/academy/private-lessons"
+            className="mx-auto mt-4 max-w-xl text-center"
+          />
+
+          {bookCta ? (
+            <div className="mt-8">
+              <HubDualCta
+                whatsappHref={ctaHref}
+                whatsappLabel="תאמו שיעור בוואטסאפ"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+                className="[&_a]:min-h-12"
+              />
+            </div>
+          ) : null}
         </div>
       </section>
 
       <PrivateSessionPricing showPrivateLessonsLink={false} />
+
+      {/* ── Fit: audience / outcome / process ── */}
+      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <AcademyCourseFitSections
+          fit={PRIVATE_LESSONS_FIT}
+          idPrefix="private-lessons"
+        />
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+          למסלול מלא במקום שיעור בודד:{" "}
+          <InlineServiceLink href="/academy/dj-course">קורס DJ</InlineServiceLink>
+          ,{" "}
+          <InlineServiceLink href="/academy/music-production">
+            הפקה מוזיקלית
+          </InlineServiceLink>
+          {" "}
+          או{" "}
+          <InlineServiceLink href="/academy/voiceover">קורס קריינות</InlineServiceLink>
+          . לכל המסלולים -{" "}
+          <InlineServiceLink href="/academy">האקדמיה</InlineServiceLink>.
+        </p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-xs text-muted-foreground">
+          {SKEPTICISM_CTA}
+        </p>
+      </section>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <header className="mb-8 text-center">
@@ -243,20 +293,34 @@ export default function PrivateLessonsPage() {
             בתחום שבחרתם.
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/book"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            >
-              הזמנה באתר </Link>
-            <a
-              href={ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              aria-label="תיאום שיעור פרטי בוואטסאפ"
-            >
-              תיאום בוואטסאפ
-            </a>
+            {bookCta ? (
+              <HubDualCta
+                whatsappHref={ctaHref}
+                whatsappLabel="תיאום בוואטסאפ"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+                className="[&_a]:min-h-12"
+                whatsappAriaLabel="תיאום שיעור פרטי בוואטסאפ"
+              />
+            ) : (
+              <>
+                <Link
+                  href="/book"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                >
+                  הזמנה באתר
+                </Link>
+                <a
+                  href={ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  aria-label="תיאום שיעור פרטי בוואטסאפ"
+                >
+                  תיאום בוואטסאפ
+                </a>
+              </>
+            )}
           </div>
           <div className="mt-5 flex justify-center">
             <ShareButton title="שיעור פרטי במוזיקה | יקיר כהן הפקות" />

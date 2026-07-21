@@ -20,7 +20,7 @@ const SERVICE_CITIES: ServiceCity[] = [
   { label: "רמלה" },
   { label: "לוד" },
   { label: "שוהם", href: "/studio/studio-shoham" },
-  { label: "רחובות", href: "/studio/studio-rehovot" },
+  { label: "אולפן הקלטות ברחובות", href: "/studio/studio-rehovot" },
 ];
 
 export type LocationTrustBlockProps = {

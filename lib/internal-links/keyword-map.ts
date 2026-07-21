@@ -47,6 +47,10 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/studio/studio-shoham",
     anchor: "אולפן הקלטות בשוהם",
   },
+  "אולפן הקלטות ברחובות": {
+    href: "/studio/studio-rehovot",
+    anchor: "אולפן הקלטות ברחובות",
+  },
   "אולפן הקלטות רחובות": {
     href: "/studio/studio-rehovot",
     anchor: "אולפן הקלטות ברחובות",
@@ -80,7 +84,15 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "מנחה אירועים": { href: "/events/host", anchor: "מנחה אירועים" },
   "הגברה לזמרים": { href: "/events/equipment/singer-amplification", anchor: "הגברה לזמרים" },
   "קורס הפקה מוזיקלית": { href: "/academy/music-production", anchor: "קורס הפקה מוזיקלית" },
+  "קורס קריינות": { href: "/academy/voiceover", anchor: "קורס קריינות" },
+  "שיעור פרטי": { href: "/academy/private-lessons", anchor: "שיעור פרטי" },
+  "שיעורים פרטיים": { href: "/academy/private-lessons", anchor: "שיעורים פרטיים" },
+  סדנאות: { href: "/academy/workshops", anchor: "סדנאות" },
+  "סדנאות תוכן": { href: "/academy/workshops", anchor: "סדנאות תוכן" },
+  "אולפן עברית": { href: "/academy/ulpan", anchor: "אולפן עברית" },
+  "אולפן ביתי": { href: "/academy/home-studio", anchor: "אולפן ביתי" },
   "שיעורים פרטיים בעברית": { href: "/academy/hebrew-lessons", anchor: "שיעורים פרטיים בעברית" },
+  "קורס גמגום": { href: "/stuttering", anchor: "קורס גמגום" },
   "מצגת תמונות לאירוע": { href: "/photo-slideshow", anchor: "מצגת תמונות לאירוע" },
   "תותחי עשן": { href: "/events/attractions/smoke-cannons-for-events", anchor: "תותחי עשן לאירועים" },
   "בלוני ענק": { href: "/events/attractions/giant-balloons", anchor: "בלוני ענק לאירועים" },
@@ -97,7 +109,6 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "מרכז דיג'יי": { href: "/online/mashup-fixer", anchor: "מרכז דיג'יי אונליין" },
   "רילז באולפן": { href: "/business/content-studio", anchor: "רילז באולפן לעסק" },
   "גמגום": { href: "/stuttering", anchor: "ליווי לגמגום" },
-  "קורס גמגום": { href: "/academy/stuttering-course", anchor: "קורס גמגום" },
   "קליניקה לגמגום": { href: "/clinic", anchor: "קליניקה לגמגום" },
   "אטרקציות לאירועים בירושלים": {
     href: "/events/attractions/jerusalem",
@@ -146,6 +157,59 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "שיר לבר מצווה": {
     href: "/studio/recording-song-modiin",
     anchor: "שיר לבר מצווה",
+  },
+  "אולפן נייד": { href: "/studio/mobile-studio", anchor: "אולפן נייד" },
+  "אולפן הקלטות נייד": {
+    href: "/studio/mobile-studio",
+    anchor: "אולפן הקלטות נייד",
+  },
+  "אולפן מגיע עד הבית": {
+    href: "/studio/mobile-studio",
+    anchor: "אולפן מגיע עד הבית",
+  },
+  "הקלטת שיר במודיעין": {
+    href: "/studio/recording-song-modiin",
+    anchor: "הקלטת שיר במודיעין",
+  },
+  "שיר לחופה": {
+    href: "/studio/recording-song-modiin",
+    anchor: "שיר לחופה",
+  },
+  "אולפן הקלטות מודיעין": {
+    href: "/studio",
+    anchor: "אולפן הקלטות במודיעין",
+  },
+  "אולפן הקלטות במודיעין": {
+    href: "/studio",
+    anchor: "אולפן הקלטות במודיעין",
+  },
+  "אולפן נייד רחובות": {
+    href: "/studio/studio-rehovot",
+    anchor: "אולפן נייד רחובות",
+  },
+  "פודקאסט במודיעין": {
+    href: "/podcast",
+    anchor: "פודקאסט במודיעין",
+  },
+  "עריכת פודקאסט מקצועית": {
+    href: "/podcast/podcast-editing",
+    anchor: "עריכת פודקאסט מקצועית",
+  },
+  "ניקוי רעשים פודקאסט": {
+    href: "/podcast/podcast-editing",
+    anchor: "ניקוי רעשים לפודקאסט",
+  },
+  "אולפן זמני בחברה": {
+    href: "/studio/mobile-studio",
+    anchor: "אולפן זמני בחברה",
+  },
+  "שיר לחברה": {
+    href: "/studio/recording-song-modiin",
+    anchor: "שיר לחברה",
+  },
+  "מחירון אולפן": {
+    href: "/studio/pricing",
+    anchor: "מחירון אולפן",
   },
 };
 

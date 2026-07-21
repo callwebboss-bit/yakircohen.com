@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import YouTube from "@/components/YouTube";
-import { constructMetadata } from "@/lib/metadata";
-import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { SITE_NAME } from "@/lib/constants";
+import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ShareButton from "@/components/ui/ShareButton";
+import { VOICEOVER_COURSE_FIT } from "@/lib/data/academy-course-fit";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
+import { SITE_NAME } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס קריינות ודיבור נכון",
@@ -63,6 +70,8 @@ const FORMATS = [
   },
 ] as const;
 
+const bookCta = resolveServiceBookCta("academy/voiceover");
+
 export default function VoiceoverCoursePage() {
   const ctaHref = buildWhatsAppHref({
     text: "היי יקיר! אני מתעניין/ת בקורס הקריינות. אשמח לשיחת ייעוץ ראשונית לגלות יחד את הפוטנציאל בקול שלי.",
@@ -119,19 +128,59 @@ export default function VoiceoverCoursePage() {
             ממי שכבר עשה את הדרך.
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
-              href={ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            >
-              גלו את הפוטנציאל בקול שלכם </a>
+          <ContextualIntroParagraph
+            pathname="/academy/voiceover"
+            className="mx-auto mt-4 max-w-xl text-center"
+          />
+
+          <div className="mt-8 flex flex-col items-center gap-3">
+            {bookCta ? (
+              <HubDualCta
+                whatsappHref={ctaHref}
+                whatsappLabel="לשיחת ייעוץ ראשונית"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+                className="[&_a]:min-h-12"
+              />
+            ) : (
+              <a
+                href={ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
+                לשיחת ייעוץ ראשונית
+              </a>
+            )}
             <p className="text-xs text-muted-foreground">
               שיחת ייעוץ ראשונית, ללא עלות וללא התחייבות
             </p>
           </div>
         </div>
+      </section>
+
+      {/* ── Fit: audience / outcome / process ── */}
+      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <AcademyCourseFitSections
+          fit={VOICEOVER_COURSE_FIT}
+          idPrefix="voiceover-course"
+        />
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+          צריכים קריין לפרויקט ולא קורס? ראו{" "}
+          <InlineServiceLink href="/voiceover">שירותי קריינות</InlineServiceLink>
+          . לקריינות עסקית עם חשבונית -{" "}
+          <InlineServiceLink href="/business/professional-voiceover">
+            קריינות לעסק
+          </InlineServiceLink>
+          . לשיעור בודד -{" "}
+          <InlineServiceLink href="/academy/private-lessons">
+            שיעור פרטי
+          </InlineServiceLink>
+          .
+        </p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-xs text-muted-foreground">
+          {SKEPTICISM_CTA}
+        </p>
       </section>
 
       {/* ── What a voiceover artist does ── */}
@@ -267,14 +316,26 @@ export default function VoiceoverCoursePage() {
             שיחת ייעוץ ראשונית ללא עלות. נגלה ביחד את הפוטנציאל ונבנה מסלול
             שמתאים לכם.
           </p>
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            aria-label="שיחת ייעוץ לקורס קריינות בוואטסאפ"
-          >
-            לשיחת ייעוץ ראשונית בוואטסאפ </a>
+          {bookCta ? (
+            <HubDualCta
+              className="mt-7 [&_a]:min-h-12"
+              whatsappHref={ctaHref}
+              whatsappLabel="לשיחת ייעוץ ראשונית בוואטסאפ"
+              bookHref={bookCta.bookHref}
+              bookLabel={bookCta.bookLabel}
+              whatsappAriaLabel="שיחת ייעוץ לקורס קריינות בוואטסאפ"
+            />
+          ) : (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              aria-label="שיחת ייעוץ לקורס קריינות בוואטסאפ"
+            >
+              לשיחת ייעוץ ראשונית בוואטסאפ
+            </a>
+          )}
           <div className="mt-5 flex justify-center">
             <ShareButton title="קורס קריינות ודיבור נכון | יקיר כהן הפקות" />
           </div>

@@ -25,7 +25,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/blessings/bride-groom-blessing"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/blessings/video-clip"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/pricing"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("studio/recording-song-modiin"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("studio/recording-song-modiin"), priority: 0.8, changeFrequency: "monthly" },
   {
     url: url("studio/recording-song-modiin/gifts"),
     priority: 0.85,
@@ -38,7 +38,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   },
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/studio-shoham"), priority: 0.7, changeFrequency: "monthly" },
-  { url: url("studio/studio-rehovot"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("studio/studio-rehovot"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
 
   // ── Podcast ────────────────────────────────────────────────────────────────

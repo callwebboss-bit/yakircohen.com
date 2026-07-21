@@ -22,7 +22,9 @@ import {
 } from "@/lib/data/recording-song-modiin-page";
 import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
+import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import RecordingSongInquiryForm from "@/components/seo/RecordingSongInquiryForm";
 import RecordingSongBeforeAfter from "@/components/seo/RecordingSongBeforeAfter";
@@ -36,14 +38,17 @@ const service = getStudioService("recording-song-modiin");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
+const COVER_SONG_EX_VAT = getExVat("cover_song");
+const SONG_CTA_LABEL = `הקלטת שיר באולפן מ-${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪`;
+
 const whatsappHref = buildWhatsAppHref({
-  text: "שלום, מעוניין להקליט שיר באולפן במודיעין",
+  text: "שלום, מעוניין בהקלטת שיר באולפן במודיעין",
   utm_source: "website",
   utm_campaign: "recording_song_hero_cta",
 });
 
 const eventGridWhatsappHref = buildWhatsAppHref({
-  text: "שלום, רציתי להתייעץ על השיר לאירוע שלנו",
+  text: "שלום, רציתי להתייעץ על הקלטת שיר באולפן לאירוע שלנו",
   utm_source: "website",
   utm_campaign: "recording_song_event_grid_cta",
 });
@@ -61,8 +66,8 @@ export default function RecordingSongModiinPageContent() {
         />
       ) : null}
       <HowToSchema
-        name="כיצד להקליט שיר באולפן מקצועי"
-        description="תהליך הקלטת שיר מקורי באולפן יקיר כהן במודיעין - משיחת אפיון ועד קבלת קובץ מוכן"
+        name="כיצד להקליט שיר באולפן"
+        description="תהליך הקלטת שיר באולפן במודיעין - משיחת אפיון ועד קבלת קובץ מוכן"
         totalTime="P3D"
         steps={RECORDING_SONG_PROCESS_STEPS.map((s) => ({
           name: s.title,
@@ -77,12 +82,49 @@ export default function RecordingSongModiinPageContent() {
         whatsappText={service.whatsappText}
         utmCampaign={service.utmCampaign}
         bookSlug={service.slug}
+        pagePath="/studio/recording-song-modiin"
+        metaDescription={service.metaDescription}
+        ctaLabel={SONG_CTA_LABEL}
+        startingPrice={`${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ`}
+        valueFrame="הקלטת שיר באולפן במודיעין - קובץ מוכן תוך 48 שעות"
+        bookLabel={hubBookCtaLabel(COVER_SONG_EX_VAT)}
       >
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
           <ContextualIntroParagraph
             pathname="/studio/recording-song-modiin"
             className="max-w-3xl"
           />
+
+          <section
+            className="max-w-3xl"
+            aria-labelledby="recording-song-outside-modiin-heading"
+          >
+            <h2
+              id="recording-song-outside-modiin-heading"
+              className="font-serif text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
+            >
+              הקלטת שיר באולפן גם מחוץ למודיעין
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              הקלטת שיר באולפן מתאימה גם למי שלא גר במודיעין. הגעה נוחה מאזור
+              המרכז והשפלה, תיאום ושליחת חומרים מרחוק, והקלטה באולפן במודיעין.
+              לתושבי{" "}
+              <Link
+                href="/studio/studio-rehovot"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                אולפן הקלטות ברחובות
+              </Link>{" "}
+              ו{" "}
+              <Link
+                href="/studio/studio-shoham"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                אולפן הקלטות בשוהם
+              </Link>{" "}
+              - נסיעה קצרה לאותו אולפן.
+            </p>
+          </section>
 
           <BusinessCrossLink
             title="גם לחברות וארגונים"
@@ -120,7 +162,7 @@ export default function RecordingSongModiinPageContent() {
             </p>
             <ul className="mt-5 grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
               {[
-                "קריינות אנושית - לא AI-רובוטי",
+                "קול אנושי - לא סאונד רובוטי",
                 "תיקון זיופים מקצועי ועדין",
                 "ליווי טכני מלא מהייעוץ עד המסירה",
                 "מסירה תוך 48 שעות ב-WAV ו-MP3",
@@ -136,9 +178,9 @@ export default function RecordingSongModiinPageContent() {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
               >
-                קבלו הצעה - מסירה תוך 48 שעות
+                {SONG_CTA_LABEL}
               </a>
               <Link
                 href="/studio/pricing"

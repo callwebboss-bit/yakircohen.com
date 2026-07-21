@@ -147,8 +147,9 @@ const MANUAL_HUB_ALIASES: IntentRule[] = [
 const CHILD_PAGE_ALIASES: IntentRule[] = [
   {
     href: "/studio/recording-song-modiin",
-    label: "הקלטת שיר במודיעין",
+    label: "הקלטת שיר באולפן",
     phrases: [
+      "הקלטת שיר באולפן",
       "הקלטת שיר במודיעין",
       "שיר במתנה",
       "הקלטת שיר",
@@ -156,6 +157,15 @@ const CHILD_PAGE_ALIASES: IntentRule[] = [
       "רוצה להקליט שיר לחתונה",
       "כמה עולה להקליט שיר",
       "הקלטת שיר לחתונה במודיעין",
+    ],
+  },
+  {
+    href: "/studio/studio-rehovot",
+    label: "אולפן הקלטות ברחובות",
+    phrases: [
+      "אולפן הקלטות ברחובות",
+      "אולפן ברחובות",
+      "אולפן הקלטות רחובות",
     ],
   },
   {

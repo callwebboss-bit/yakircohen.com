@@ -1,14 +1,21 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
-import { constructMetadata } from "@/lib/metadata";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { SITE_NAME } from "@/lib/constants";
-import ShareButton from "@/components/ui/ShareButton";
+import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
+import HubDualCta from "@/components/marketing/HubDualCta";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import ShareButton from "@/components/ui/ShareButton";
+import { MUSIC_PRODUCTION_FIT } from "@/lib/data/academy-course-fit";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import {
   YOUTUBE_MUSIC_PRODUCTION_SOLUTIONS_PLAYLIST_EMBED,
   YOUTUBE_MUSIC_PRODUCTION_SOLUTIONS_PLAYLIST_URL,
 } from "@/lib/data/music-production-page";
+import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+import { SITE_NAME } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס יצירה מוזיקלית",
@@ -58,6 +65,8 @@ const MODULES = [
     body: "איך עובדים עם אמן אחר? Stems, Session Files, שיתוף פרויקטים. הכלים שמאפשרים עבודה משותפת.",
   },
 ] as const;
+
+const bookCta = resolveServiceBookCta("academy/music-production");
 
 export default function MusicProductionPage() {
   const ctaHref = buildWhatsAppHref({
@@ -109,14 +118,56 @@ export default function MusicProductionPage() {
             עד תוצר מוגמר שמוכן לשחרור.
           </p>
 
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-          >
-            קבע מפגש אפיון </a>
+          <ContextualIntroParagraph
+            pathname="/academy/music-production"
+            className="mx-auto mt-4 max-w-xl text-center"
+          />
+
+          {bookCta ? (
+            <div className="mt-8 space-y-2">
+              <HubDualCta
+                whatsappHref={ctaHref}
+                whatsappLabel="קבעו מפגש אפיון"
+                bookHref={bookCta.bookHref}
+                bookLabel={bookCta.bookLabel}
+                className="[&_a]:min-h-12"
+              />
+            </div>
+          ) : (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
+              קבעו מפגש אפיון
+            </a>
+          )}
         </div>
+      </section>
+
+      {/* ── Fit: audience / outcome / process ── */}
+      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <AcademyCourseFitSections
+          fit={MUSIC_PRODUCTION_FIT}
+          idPrefix="music-production"
+        />
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+          רוצים שיופק לכם שיר ולא ללמוד לבד? ראו{" "}
+          <InlineServiceLink href="/studio/recording-song-modiin">
+            הקלטת שיר באולפן
+          </InlineServiceLink>
+          . לקורס DJ לצד ההפקה -{" "}
+          <InlineServiceLink href="/academy/dj-course">קורס DJ</InlineServiceLink>
+          . לשיעור בודד -{" "}
+          <InlineServiceLink href="/academy/private-lessons">
+            שיעור פרטי
+          </InlineServiceLink>
+          .
+        </p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-xs text-muted-foreground">
+          {SKEPTICISM_CTA}
+        </p>
       </section>
 
       {/* ── Modules ── */}
@@ -161,17 +212,28 @@ export default function MusicProductionPage() {
             מוכנים להפיק?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            מפגש אפיון של 30 דקות, נבין ביחד מה הכיוון שמתאים לך ובאיזה DAW
-            כדאי להתחיל.
+            מפגש אפיון של 30 דקות - מבינים מה הכיוון ובאיזה DAW כדאי להתחיל.
           </p>
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            aria-label="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
-          >
-            בואו נדבר בוואטסאפ </a>
+          {bookCta ? (
+            <HubDualCta
+              className="mt-7 [&_a]:min-h-12"
+              whatsappHref={ctaHref}
+              whatsappLabel="דברו בוואטסאפ על המסלול"
+              bookHref={bookCta.bookHref}
+              bookLabel={bookCta.bookLabel}
+              whatsappAriaLabel="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
+            />
+          ) : (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              aria-label="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
+            >
+              דברו בוואטסאפ על המסלול
+            </a>
+          )}
           <div className="mt-5 flex justify-center">
             <ShareButton title="קורס יצירה מוזיקלית | יקיר כהן הפקות" />
           </div>

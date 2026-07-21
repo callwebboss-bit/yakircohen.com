@@ -28,6 +28,10 @@ export const OUTCOME_CTA = {
   startMinute: "תתחילו לעבוד תוך דקה",
   heroBookNoCommit: "📩 קבעו שיחה - בלי התחייבות",
   heroSendFile: "📤 שלחו קובץ",
+  /** Hero דף הבית - ראשי, מוביל ל-/book */
+  heroBookPriceNow: "📩 קבעו הקלטה - רואים מחיר סופי מיד",
+  /** Hero דף הבית - משני, מוביל ל-/online */
+  heroSendFileFixed: "📤 שלחו קובץ - חוזר מתוקן",
 } as const;
 
 export const FORCE_MAJEURE_REASSURANCE =
@@ -45,7 +49,8 @@ export const CTA_LABELS = {
   whatsappQuote: "קבלו מחיר ותאריך פנוי",
   bookTransparent: TIME_CLAIMS.bookPriceCheck,
   bookOnline: "הזמנה מקוונת",
-  sendBookingWa: "שלחו את ההזמנה בוואטסאפ",
+  /** ניסוח תוצאתי - סגירת הזמנה, לא "שליחה" */
+  sendBookingWa: "סגרו את ההזמנה בוואטסאפ",
   fastWaQuote: "קבלו הצעה",
   /** תפריט דביק, מלא בדסקטופ */
   headerQuote24h: TIME_CLAIMS.headerQuote24h,
@@ -69,7 +74,10 @@ export function whatsappAriaLabel(serviceLabel: string, priceExVat: number): str
 }
 
 export function hubBookCtaLabel(priceExVat: number): string {
-  return `הזמנה מקוונת מ-${formatFromPriceDual(priceExVat).replace("כרגע: ", "")}`;
+  const dual = formatFromPriceDual(priceExVat)
+    .replace(/^כרגע:\s*/, "")
+    .replace(/^מ-/, "");
+  return `הזמנה מקוונת מ-${dual}`;
 }
 
 export function pricingRowBookCta(priceExVat: number, priceFrom = false): string {

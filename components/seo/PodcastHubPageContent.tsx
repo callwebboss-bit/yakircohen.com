@@ -2,6 +2,7 @@ import Link from "next/link";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
@@ -18,14 +19,17 @@ import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSectio
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
+import { PODCAST_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import {
   PODCAST_HUB_AUDIENCES,
   PODCAST_HUB_CTA_BENEFITS,
+  PODCAST_HUB_CTA_LABEL,
   PODCAST_HUB_FAQS,
   PODCAST_HUB_HERO_FEATURES,
   PODCAST_HUB_INCLUDED,
   PODCAST_HUB_PACKAGE_HIGHLIGHTS,
   PODCAST_HUB_PRICING_PACKAGES,
+  PODCAST_HUB_SERVICE_COMPARE,
   PODCAST_HUB_STARTING_PRICE,
   PODCAST_HUB_STARTING_PRICE_NOTE,
   PODCAST_HUB_STUDIO_SPACES,
@@ -59,6 +63,7 @@ import {
 const bookCta = resolveServiceBookCta("podcast");
 
 const PODCAST_HUB_TOC = [
+  { id: "compare-heading", label: "השוואת מסלולים", level: 2 as const },
   { id: "value-prop-heading", label: "למה לבחור בנו", level: 2 as const },
   { id: "services-heading", label: "סוגי פודקאסט", level: 2 as const },
   { id: "pricing-heading", label: "מחירים וחבילות", level: 2 as const },
@@ -128,15 +133,16 @@ export default function PodcastHubPageContent() {
       <ServicePageLayout
         {...heroProps}
         category="podcast"
-        title="אולפן פודקאסט מקצועי במודיעין - מחיר שקוף"
-        subtitle="4 מתחמי הקלטה, מיקרופוני Shure & Rode, בידוד אקוסטי מלא וצילום Sony 4K. מגיעים, מדברים, ויוצאים עם תוכנית שמע מוכנה - MP3 לספוטיפיי ואפל, MP4 ליוטיוב."
+        title="אולפן פודקאסט במודיעין"
+        subtitle="הקלטת פודקאסט באולפן במודיעין. פרק מוכן להעלאה בדרך כלל תוך 24 שעות - מ-750 ₪ לפני מע״מ."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
         corporateShareLabel="שירות הפקת הפודקאסטים"
         valueFrame={TIME_CLAIMS.podcastValueFrame}
         scarcityLabel="🔥 פנויים השבוע ל-3 פרויקטים בלבד"
-        ctaLabel="קבעו הקלטה בוואטסאפ"
+        ctaLabel={PODCAST_HUB_CTA_LABEL}
+        startingPrice={`${PODCAST_HUB_STARTING_PRICE} ₪ לפני מע״מ`}
         showBookCtaInHero={Boolean(bookCta)}
         bookHref={bookCta?.bookHref}
         bookLabel={bookCta?.bookLabel}
@@ -146,6 +152,8 @@ export default function PodcastHubPageContent() {
       >
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
+
+          <HubDecisionMatrix rows={PODCAST_HUB_DECISIONS} />
 
           {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
           <aside
@@ -195,6 +203,52 @@ export default function PodcastHubPageContent() {
           </ul>
 
           <TableOfContents entries={PODCAST_HUB_TOC} className="max-w-xs" />
+
+          {/* ── COMPARE: recording / video / editing ───────────── */}
+          <section aria-labelledby="compare-heading">
+            <header className="mx-auto max-w-2xl text-center">
+              <h2
+                id="compare-heading"
+                className="font-serif text-section-title font-semibold text-foreground"
+              >
+                הקלטה, וידאו או עריכה - מה מתאים?
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                שלושה מסלולים נפוצים. המחיר לפני מע״מ. בוחרים לפי מה שכבר יש
+                לכם ומה שרוצים לקבל בסוף.
+              </p>
+            </header>
+            <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+              {PODCAST_HUB_SERVICE_COMPARE.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex h-full flex-col rounded-xl border border-border bg-surface p-5"
+                >
+                  <h3 className="text-base font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-2xl font-bold text-foreground">
+                    <span className="text-sm font-normal text-muted-foreground">
+                      מ-
+                    </span>
+                    {item.priceFrom.toLocaleString("he-IL")} ₪
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {item.outcome}
+                  </p>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    מתאים ל: {item.bestFor}
+                  </p>
+                  <Link
+                    href={item.href}
+                    className="mt-auto pt-5 text-sm font-semibold text-brand-red hover:underline"
+                  >
+                    {item.linkLabel}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           {/* ── PROCESS: how a recording session actually runs ─── */}
           <section aria-labelledby="process-heading" className="border-y border-border bg-surface py-10">
@@ -676,11 +730,11 @@ export default function PodcastHubPageContent() {
               id="podcast-cta-heading"
               className="text-xl font-semibold sm:text-2xl"
             >
-              מוכנים להתחיל את הפודקאסט שלכם?
+              מוכנים לפרק מוכן להעלאה?
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-background/70">
-              אולפן הפודקאסט המקצועי במודיעין זמין לכם. תפסיקו לחשוב על זה -
-              תתחילו לדבר.
+              אולפן במודיעין. מקליטים, עורכים, ומקבלים קובץ מוכן לספוטיפיי או
+              יוטיוב. {TIME_CLAIMS.podcastDelivery24h}.
             </p>
             <ul className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
               {PODCAST_HUB_CTA_BENEFITS.map((benefit) => (
@@ -707,7 +761,7 @@ export default function PodcastHubPageContent() {
               rel="noopener noreferrer"
               className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-[0_0_30px_rgba(212,43,43,0.4)] hover:bg-brand-red-light"
             >
-              קבעו הקלטה עכשיו, {TIME_CLAIMS.podcastDelivery24h}
+              {PODCAST_HUB_CTA_LABEL}
             </a>
             {bookCta ? (
               <div className="mt-4">

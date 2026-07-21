@@ -23,6 +23,8 @@ export type PricingHubRow = {
   suitedFor?: string;
   /** מחיר התחלה - לא מחיר סופי קבוע */
   priceFrom?: boolean;
+  /** תגית היררכיה, למשל "הכי מבוקש" - רק כשנתמך בנתונים קיימים */
+  badge?: string;
 };
 
 export type PricingHubSection = {
@@ -147,6 +149,7 @@ function hubRow(
     description: overrides?.description,
     suitedFor: overrides?.suitedFor ?? item.suitedFor,
     priceFrom: overrides?.priceFrom ?? item.priceFrom,
+    badge: overrides?.badge,
   };
 }
 
@@ -228,6 +231,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("studio_half_hour", {
         label: "חצי שעה באולפן",
         href: "/studio/recording-studio",
+        // תואם ל-featured בחבילות האולפן ב-/studio/pricing
+        badge: "הכי מבוקש",
       }),
       hubRow("studio_hour", {
         label: "שעת אולפן מלאה",

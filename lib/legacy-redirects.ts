@@ -246,6 +246,7 @@ const HEBREW_SERVICE_SLUGS: Record<string, string> = {
   "/אולפן-הקלטות-בירושלים-מחירים": "/studio/studio-jerusalem",
   "/להקים-אולפן-הקלטות": "/academy/home-studio",
   "/תכנון-אולפן-ביתי-מדריך-5-צעדים": "/academy/home-studio",
+  "/הקלטת-שיר-באולפן": "/studio/recording-song-modiin",
   "/הקלטת-שיר-חתונה": "/studio/recording-song-modiin",
   "/הקלטת-שיר-בר-מצווה": "/studio/recording-song-modiin",
   "/הקלטת-ברכות-לאירוע": "/studio/blessings",

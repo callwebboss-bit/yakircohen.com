@@ -13,11 +13,13 @@ import { SITE_URL } from "@/lib/site-url";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
-const HOME_TITLE = "אולפן הקלטות מודיעין - פודקאסט ואירועים";
+const HOME_TITLE = "אולפן הקלטות במודיעין - פודקאסט ואירועים";
 const HOME_DESCRIPTION =
-  "אולפן הקלטות מקצועי במודיעין. תיקון זיופים, קריינות אנושית, פודקאסט ואטרקציות לאירועים. פתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך 24 שעות. " +
+  `אולפן הקלטות מקצועי במודיעין - הקלטה מ-${getExVat("blessing_recording")} ₪ + מע״מ. ` +
+  "פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך 24 שעות. " +
   TIME_PROMISE_DISCLAIMER;
 
 export const metadata: Metadata = {

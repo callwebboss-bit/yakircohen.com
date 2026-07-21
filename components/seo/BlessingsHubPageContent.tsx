@@ -57,6 +57,7 @@ export default function BlessingsHubPageContent() {
 
   return (
     <ServicePageLayout
+      {...heroProps}
       title={service.title}
       subtitle={service.subtitle}
       features={service.features}
@@ -65,10 +66,11 @@ export default function BlessingsHubPageContent() {
       showBookCtaInHero={Boolean(bookCta)}
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
-      valueFrame="ברכה מוקלטת - מתאימה גם למי שלא מברך מול קהל"
+      valueFrame="הקלטת ברכה באולפן במודיעין או מהבית - מסירה בדרך כלל תוך 24-48 שעות"
+      ctaLabel="הקלטת ברכה - קבלו מחיר ותאריך"
+      startingPrice="590 ₪ לפני מע״מ"
       pagePath="/studio/blessings"
       faqs={service.faqs}
-      {...heroProps}
     >
       <Container className="space-y-16 py-12 sm:py-16">
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />

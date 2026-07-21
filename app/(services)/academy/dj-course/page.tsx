@@ -8,6 +8,12 @@ import FAQWithCtaLinks, {
   type FaqCtaItem,
 } from "@/components/ui/FAQWithCtaLinks";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
+import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
+import { DJ_COURSE_FIT } from "@/lib/data/academy-course-fit";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import ShareButton from "@/components/ui/ShareButton";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
 import {
@@ -135,6 +141,11 @@ export default function DjCoursePage() {
             למקצוען שיודע לקרוא קהל ולהחזיק רחבה.
           </p>
 
+          <ContextualIntroParagraph
+            pathname="/academy/dj-course"
+            className="mx-auto mt-4 max-w-2xl"
+          />
+
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href={ctaHref}
@@ -198,6 +209,21 @@ export default function DjCoursePage() {
             ))}
           </ul>
         </div>
+      </section>
+
+      {/* ── Fit: audience / outcome / process ── */}
+      <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <AcademyCourseFitSections fit={DJ_COURSE_FIT} idPrefix="dj-course" />
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
+          מחפשים DJ לאירוע ולא קורס? ראו{" "}
+          <InlineServiceLink href="/events/dj-events">DJ לאירועים</InlineServiceLink>
+          . לשיעור בודד במקום מסלול -{" "}
+          <InlineServiceLink href="/academy/private-lessons">שיעור פרטי</InlineServiceLink>
+          .
+        </p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-xs text-muted-foreground">
+          {SKEPTICISM_CTA}
+        </p>
       </section>
 
       {/* ── Curriculum stages ── */}

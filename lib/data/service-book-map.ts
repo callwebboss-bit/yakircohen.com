@@ -22,9 +22,10 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   "studio/blessings": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   "studio/recording-song-modiin": {
     bookCategory: "studio",
-    priceCatalogId: "blessing_recording",
+    priceCatalogId: "cover_song",
   },
   "studio/recording-studio": { bookCategory: "studio", priceCatalogId: "studio_hour" },
+  "studio/mobile-studio": { bookCategory: "studio", priceExVat: 999 },
   events: { bookCategory: "events", priceCatalogId: "event_attraction_1" },
   photography: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
   video: { bookCategory: "clips", priceCatalogId: "quick_summary_clip" },

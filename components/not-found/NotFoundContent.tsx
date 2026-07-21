@@ -19,28 +19,38 @@ import { cn } from "@/lib/utils";
 
 const CATEGORY_CUBES = [
   {
-    href: "/studio",
-    title: "אולפן הקלטות",
-    description: "שיר במתנה, ברכות, עיבוד מוזיקלי",
+    href: "/studio/recording-song-modiin",
+    title: "הקלטת שיר",
+    description: "שיר לחופה, מתנה או בר מצווה - באולפן במודיעין",
+    icon: "🎤",
+  },
+  {
+    href: "/studio/blessings",
+    title: "הקלטת ברכה",
+    description: "ברכת כלה, דרשה או אמירה מוקלטת לאירוע",
     icon: "🎙️",
   },
   {
-    href: "/studio/blessings/bride-groom-blessing",
-    title: "תוכן לאירועים",
-    description: "שירי כניסה לחופה, ברכת כלה, שירים מותאמים",
-    icon: "🎵",
+    href: "/podcast",
+    title: "פודקאסט",
+    description: "הקלטה, עריכה או השכרת אולפן - מודיעין וארצי",
+    icon: "🎧",
   },
   {
     href: "/events/dj-events",
-    title: "הפקה מוזיקלית",
-    description: "DJ לאירועים, הגברה, אפקטים",
-    icon: "🎧",
+    title: "DJ לאירועים",
+    description: "תקליטן, הגברה ואפקטים לחתונה ואירוע",
+    icon: "💿",
   },
 ] as const;
 
 const FEATURED_SERVICES = [
   { href: "/studio", label: "אולפן הקלטות", sub: "Studio" },
   { href: "/studio/recording-song-modiin", label: "הקלטת שיר", sub: "Recording" },
+  { href: "/studio/blessings", label: "הקלטת ברכות", sub: "Blessings" },
+  { href: "/studio/studio-rehovot", label: "אולפן ברחובות", sub: "Rehovot" },
+  { href: "/studio/mobile-studio", label: "אולפן נייד", sub: "Mobile" },
+  { href: "/podcast", label: "פודקאסט", sub: "Podcast" },
   { href: "/events/dj-events", label: "תקליטן לאירועים", sub: "DJ" },
   { href: "/events/attractions", label: "אטרקציות", sub: "Attractions" },
   { href: "/events/attractions/cold-fireworks", label: "זיקוקים קרים", sub: "Fireworks" },
@@ -77,15 +87,19 @@ function highlight(text: string, query: string): string {
 }
 
 const REDIRECT_MAP = [
+  { keywords: ["recording-song", "הקלטת-שיר", "שיר-באולפן"], href: "/studio/recording-song-modiin" },
+  { keywords: ["rehovot", "רחובות"], href: "/studio/studio-rehovot" },
+  { keywords: ["mobile-studio", "אולפן-נייד", "נייד"], href: "/studio/mobile-studio" },
+  { keywords: ["on-site", "בחברה", "במשרד"], href: "/business/on-site-studio" },
+  { keywords: ["blessing", "ברכה", "bride", "groom", "חופה", "כלה", "חתן", "שיר-כניסה"], href: "/studio/blessings" },
   { keywords: ["studio", "אולפן", "הקלטה", "recording"], href: "/studio" },
+  { keywords: ["podcast", "פודקאסט"], href: "/podcast" },
   { keywords: ["dj", "תקליטן", "event", "אירוע"], href: "/events/dj-events" },
-  { keywords: ["bride", "groom", "חופה", "כלה", "חתן", "blessing", "שיר-כניסה"], href: "/studio/blessings/bride-groom-blessing" },
   { keywords: ["fireworks", "זיקוק", "cold"], href: "/events/attractions/cold-fireworks" },
   { keywords: ["attraction", "אטרקצי"], href: "/events/attractions" },
   { keywords: ["bar-mitzvah", "בר-מצווה", "clip", "קליפ"], href: "/studio/blessings/video-clip" },
   { keywords: ["voiceover", "קריינ"], href: "/voiceover" },
   { keywords: ["course", "קורס", "academy"], href: "/academy/dj-course" },
-  { keywords: ["podcast", "פודקאסט"], href: "/podcast" },
   { keywords: ["contact", "צור-קשר", "יצירת-קשר"], href: "/contact" },
   { keywords: ["book", "הזמנ", "מחיר"], href: "/book" },
 ];
@@ -354,7 +368,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
 
       <Section padding="sm">
         <Container className="max-w-5xl pb-16">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORY_CUBES.map((cube) => (
             <Link
               key={cube.href}

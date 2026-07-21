@@ -15,6 +15,13 @@ import {
   MOBILE_STUDIO_HIGHLIGHTS,
   MOBILE_STUDIO_WHATS_INCLUDED,
 } from "@/lib/data/mobile-studio-page";
+import {
+  calcMobileStudioExVat,
+  MOBILE_GEO_FEES,
+  MOBILE_STUDIO_BASE_EX_VAT,
+  type MobileGeoId,
+} from "@/lib/data/mobile-studio-booking";
+import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 import { getStudioService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -25,6 +32,16 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const service = getStudioService("studio-mobile-studio");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
+
+const MOBILE_STUDIO_CTA_LABEL = `אולפן נייד החל מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪`;
+const MOBILE_STUDIO_VALUE_FRAME = `החל מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ + תוספת אזור לפי מיקום`;
+const MOBILE_STUDIO_STARTING_PRICE = `${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ`;
+
+const MOBILE_GEO_ORDER: readonly MobileGeoId[] = [
+  "center",
+  "north_south",
+  "eilat",
+];
 
 export default function MobileStudioPageContent() {
   const whatsappHref = buildWhatsAppHref({
@@ -44,8 +61,46 @@ export default function MobileStudioPageContent() {
       pagePath="/studio/mobile-studio"
       faqs={service.faqs}
       {...heroProps}
+      ctaLabel={MOBILE_STUDIO_CTA_LABEL}
+      valueFrame={MOBILE_STUDIO_VALUE_FRAME}
+      startingPrice={MOBILE_STUDIO_STARTING_PRICE}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        <section
+          className="rounded-xl border border-brand-red/25 bg-surface p-6 sm:p-8"
+          aria-labelledby="mobile-studio-pricing-heading"
+        >
+          <h2
+            id="mobile-studio-pricing-heading"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
+          >
+            מחיר אולפן נייד
+          </h2>
+          <p className="mt-3 text-base font-semibold text-foreground">
+            בסיס: {MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {PRICING_FRAMING_LINE}
+          </p>
+          <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+            {MOBILE_GEO_ORDER.map((geoId) => {
+              const geo = MOBILE_GEO_FEES[geoId];
+              const total = calcMobileStudioExVat(geoId);
+              return (
+                <li key={geoId} className="flex flex-wrap gap-x-2 gap-y-1">
+                  <span className="font-medium text-foreground">{geo.label}</span>
+                  <span>
+                    {geo.fee === 0
+                      ? `ללא תוספת הגעה - ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`
+                      : `+${geo.fee.toLocaleString("he-IL")} ₪ תוספת הגעה - סה״כ ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`}
+                  </span>
+                  <span className="text-muted-foreground/80">({geo.detail})</span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
         <BusinessCrossLink
           title="צריכים אולפן בחדר ישיבות?"
           text="לחברות: אולפן נייד עם 2 מצלמות ומיקרופונים. יום צילום במשרד, בלי שהצוות ינסע."
@@ -297,15 +352,15 @@ export default function MobileStudioPageContent() {
             בדקו זמינות לאולפן נייד
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            שלחו מיקום ותאריך בוואטסאפ - נחזור עם זמינות והצעת מחיר.
+            שלחו מיקום ותאריך בוואטסאפ - נחזור עם זמינות לפי האזור שלכם.
           </p>
           <a
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+            className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            שליחה בוואטסאפ
+            {MOBILE_STUDIO_CTA_LABEL}
           </a>
         </section>
         <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/mobile-studio")} />

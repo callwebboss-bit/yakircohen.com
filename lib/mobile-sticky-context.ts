@@ -10,7 +10,65 @@ const DEFAULT: StickyCtaContext = {
   utm_campaign: "mobile_sticky_bar",
 };
 
+/** כללים ארוכים יותר קודם - prefix matching */
 const PREFIX_RULES: readonly { prefix: string; context: StickyCtaContext }[] = [
+  {
+    prefix: "/studio/mobile-studio",
+    context: {
+      text: "שלום, מעוניין/ת באולפן נייד - תאריך ומיקום. מה הזמינות והמחיר?",
+      utm_campaign: "mobile_sticky_mobile_studio",
+    },
+  },
+  {
+    prefix: "/studio/recording-song-modiin",
+    context: {
+      text: "שלום, מעוניין/ת בהקלטת שיר באולפן במודיעין. מה הזמינות והמחיר?",
+      utm_campaign: "mobile_sticky_recording_song",
+    },
+  },
+  {
+    prefix: "/studio/blessings",
+    context: {
+      text: "שלום, מעוניין/ת בהקלטת ברכה באולפן או מהבית. מה המחיר ומתי אפשר?",
+      utm_campaign: "mobile_sticky_blessings",
+    },
+  },
+  {
+    prefix: "/studio/studio-rehovot",
+    context: {
+      text: "שלום, מגיע/ה מרחובות ומעוניין/ת באולפן במודיעין (כ-25-30 דק׳). מה הזמינות?",
+      utm_campaign: "mobile_sticky_studio_rehovot",
+    },
+  },
+  {
+    prefix: "/podcast/podcast-editing",
+    context: {
+      text: "שלום, יש לי קובץ פודקאסט לעריכה. מה המחיר וזמן המסירה?",
+      utm_campaign: "mobile_sticky_podcast_editing",
+    },
+  },
+  {
+    prefix: "/business",
+    context: {
+      text: "שלום, מעוניין/ת באולפן או תוכן לעסק. מה מתאים ומתי יש זמינות?",
+      utm_campaign: "mobile_sticky_business",
+      showQuote: true,
+    },
+  },
+  {
+    prefix: "/pricing",
+    context: {
+      text: "שלום, ראיתי מחירים באתר ורוצה לדעת מה מתאים לי. אפשר הצעה קצרה?",
+      utm_campaign: "mobile_sticky_pricing",
+    },
+  },
+  {
+    prefix: "/portfolio",
+    context: {
+      text: "שלום, ראיתי דוגמאות בתיק העבודות ורוצה סשן דומה. מה הזמינות?",
+      utm_campaign: "mobile_sticky_portfolio",
+    },
+  },
   {
     prefix: "/studio",
     context: {

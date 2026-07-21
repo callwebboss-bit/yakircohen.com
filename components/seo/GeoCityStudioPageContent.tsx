@@ -36,6 +36,7 @@ export default function GeoCityStudioPageContent({
     citySlug === "shoham" ? "studio-shoham" : "studio-rehovot";
   const service = getStudioService(serviceId);
   const pagePath = `/${city.studioPath}`;
+  const isRehovot = citySlug === "rehovot";
   const whyUs = buildStudioWhyUs(city);
 
   const pageHero = resolveServicePageHeroFromEntity(service);
@@ -55,7 +56,8 @@ export default function GeoCityStudioPageContent({
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      pagePath={city.studioPath}
+      pagePath={pagePath}
+      metaDescription={service.metaDescription}
       faqs={service.faqs}
       {...heroProps}
     >
@@ -66,12 +68,80 @@ export default function GeoCityStudioPageContent({
             id={`${citySlug}-intro-heading`}
             className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            {`אולפן הקלטות ${city.nameHePrep}, במודיעין`}
+            {isRehovot
+              ? "איפה מקליטים בפועל?"
+              : `אולפן הקלטות ${city.nameHePrep}, במודיעין`}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {`מחפשים אולפן ${city.nameHePrep}? האולפן הפיזי במודיעין, כ-${city.driveMinutes} דקות מ${city.nameHe} (${city.driveNote}). מתאים להקלטת שירים, ברכות ודרשות לבר/בת מצווה.`}
+            {isRehovot
+              ? `אין אצלנו סניף פיזי ברחובות. האולפן המלא במודיעין, כ-${city.driveMinutes} דקות (${city.driveNote}). שתי אפשרויות ברורות: להגיע לאולפן, או להזמין אולפן נייד עד אליכם.`
+              : `מחפשים אולפן ${city.nameHePrep}? האולפן הפיזי במודיעין, כ-${city.driveMinutes} דקות מ${city.nameHe} (${city.driveNote}). מתאים להקלטת שירים, ברכות ודרשות לבר/בת מצווה.`}
           </p>
+          {isRehovot ? (
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
+              >
+                לתיאום בוואטסאפ
+              </a>
+              <Link
+                href="/studio/recording-song-modiin"
+                className="inline-flex min-h-12 items-center rounded-md border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40"
+              >
+                הקלטת שיר באולפן
+              </Link>
+              <Link
+                href="/studio/mobile-studio"
+                className="inline-flex min-h-12 items-center rounded-md border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40"
+              >
+                אולפן נייד ברחובות
+              </Link>
+            </div>
+          ) : null}
         </section>
+
+        {isRehovot ? (
+          <section
+            className="max-w-3xl rounded-xl border border-border bg-surface p-6 sm:p-8"
+            aria-labelledby="rehovot-two-options-heading"
+          >
+            <h2
+              id="rehovot-two-options-heading"
+              className="font-serif text-lg font-semibold text-foreground sm:text-xl"
+            >
+              שתי אפשרויות לתושבי רחובות
+            </h2>
+            <ol className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <li>
+                <strong className="text-foreground">1. מגיעים לאולפן במודיעין</strong>
+                {" - "}
+                חדר אקוסטי, חניה, ליווי מלא. כ-25-30 דקות נסיעה. מתאים לשיר,
+                ברכה, דרשה, קריינות או פודקאסט.
+              </li>
+              <li>
+                <strong className="text-foreground">2. אולפן נייד עד אליכם ברחובות</strong>
+                {" - "}
+                לא החדר במודיעין. מגיעים עם סאונד, תאורה וכל הציוד שנדרש
+                לשירה, קריינות או פודקאסט - לפי השירות שהזמנתם. ההגעה כרגע
+                במחיר מבצע.
+              </li>
+            </ol>
+            <p className="mt-4 text-sm text-muted-foreground">
+              פרטים ומחיר לפי שירות ומיקום -{" "}
+              <Link
+                href="/studio/mobile-studio"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                דף האולפן הנייד
+              </Link>
+              {" "}
+              או בוואטסאפ.
+            </p>
+          </section>
+        ) : null}
 
         <section aria-labelledby={`${citySlug}-why-heading`}>
           <header className="mx-auto max-w-2xl text-center">
@@ -176,13 +246,29 @@ export default function GeoCityStudioPageContent({
         />
 
         <p className="text-center text-sm text-muted-foreground">
-          <Link
-            href="/studio/mobile-studio"
-            className="font-semibold text-brand-red hover:underline"
-          >
-            אולפן נייד
-          </Link>{" "}
-          - אפשר גם להגיע עד {city.nameHe} בתיאום מראש
+          {isRehovot ? (
+            <>
+              לא רוצים לנסוע?{" "}
+              <Link
+                href="/studio/mobile-studio"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                אולפן נייד ברחובות
+              </Link>
+              {" - "}
+              סאונד, תאורה וציוד לפי השירות. הגעה כרגע במחיר מבצע.
+            </>
+          ) : (
+            <>
+              <Link
+                href="/studio/mobile-studio"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                אולפן נייד
+              </Link>{" "}
+              - אפשר גם להגיע עד {city.nameHe} בתיאום מראש
+            </>
+          )}
         </p>
 
         {service.faqs.length > 0 ? (

@@ -10,6 +10,8 @@ type FloatingLabelFieldProps = {
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  /** משפט קצר מתחת לשדה - למה צריך אותו */
+  hint?: string;
   autoComplete?: string;
   inputMode?: "text" | "email" | "tel";
   dir?: "rtl" | "ltr";
@@ -24,6 +26,7 @@ export default function FloatingLabelField({
   value,
   onChange,
   error,
+  hint,
   autoComplete,
   inputMode,
   dir = "rtl",
@@ -47,7 +50,9 @@ export default function FloatingLabelField({
         dir={dir}
         placeholder=" "
         aria-invalid={error ? true : undefined}
-        aria-describedby={error ? `${id}-error` : undefined}
+        aria-describedby={
+          error ? `${id}-error` : hint ? `${id}-hint` : undefined
+        }
         className={cn(
           "peer w-full min-h-12 rounded-xl border bg-background px-4 pt-5 pb-2 text-sm text-foreground",
           "border-border focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
@@ -72,6 +77,10 @@ export default function FloatingLabelField({
           data-field-error=""
         >
           {error}
+        </p>
+      ) : hint ? (
+        <p id={`${id}-hint`} className="mt-1.5 text-xs text-muted-foreground">
+          {hint}
         </p>
       ) : null}
     </div>

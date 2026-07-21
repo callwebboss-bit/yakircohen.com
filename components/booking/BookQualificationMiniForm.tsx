@@ -151,7 +151,7 @@ export default function BookQualificationMiniForm({
             type="submit"
             className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1fba59] active:scale-[0.98]"
           >
-            שלחו לוואטסאפ
+            קבלו הצעה מדויקת בוואטסאפ
           </button>
 
           <p className="mt-2 flex items-center gap-1 text-[0.65rem] text-muted-foreground">

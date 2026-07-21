@@ -5,6 +5,7 @@ export const FORM_MICROCOPY = {
   phoneLabel: "טלפון",
   phonePlaceholder: "05X-XXXXXXX",
   phoneHint: "לשליחת אישור ולתיאום",
+  emailHint: "לא חובה - רק אם תרצו את סיכום ההצעה גם במייל",
   visionLabel: "פירוט הדרישות",
   visionPlaceholder: "מיקום, גודל קהל צפוי, מסגרת זמן וציוד נדרש.",
 } as const;

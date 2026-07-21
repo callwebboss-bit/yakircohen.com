@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
+import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -29,7 +30,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
         aria-hidden="true"
       />
 
-      <Container className="relative grid gap-10 py-16 sm:py-20 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-28">
+      <Container className="relative grid gap-10 pt-16 pb-10 sm:pt-20 sm:pb-12 lg:grid-cols-2 lg:items-center lg:gap-16 lg:pt-24 lg:pb-14">
         <div className="relative z-10">
           <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
             {SITE_NAME}
@@ -39,7 +40,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             id="hero-heading"
             className="font-serif text-hero font-semibold text-foreground"
           >
-            אודיו, פודקאסט ואירועים במודיעין - מהיר, שקוף, מקצועי.
+            אולפן הקלטות במודיעין - פודקאסט, שירים ואירועים
           </h1>
           <HomeHeroBadges />
           <p
@@ -54,16 +55,25 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
           <div className="mt-8 flex flex-col gap-3">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookNoCommit}</HeroTrackedCta>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
               <Button
                 as="a"
                 href={heroWhatsAppHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="outline"
+                className="min-h-12"
               >
                 {CTA_LABELS.whatsappQuote}
+              </Button>
+              <Button
+                as="link"
+                href="/online"
+                variant="outline"
+                className="min-h-12"
+              >
+                {OUTCOME_CTA.heroSendFileFixed}
               </Button>
             </div>
             <CtaOutcomeSubline className="sm:text-start" />
@@ -102,6 +112,10 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             </p>
           </div>
         </div>
+      </Container>
+
+      <Container className="relative pb-14 sm:pb-16 lg:pb-20">
+        <HomeIntentPaths />
       </Container>
     </Section>
   );

@@ -12,6 +12,7 @@ import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   PODCAST_EDITING_AUDIENCES,
+  PODCAST_EDITING_BEFORE_AFTER,
   PODCAST_EDITING_FAQS,
   PODCAST_EDITING_HERO_FEATURES,
   PODCAST_EDITING_PRICE_LABEL,
@@ -37,40 +38,77 @@ export default function PodcastEditingPageContent() {
 
   return (
     <ServicePageLayout
+      {...heroProps}
       title="עריכת פודקאסט מלאה"
-      subtitle="הקלטתם פרק אבל הוא צריך עריכה מקצועית? אנחנו עורכים, מנקים ומשפרים, ואתם מקבלים פרק מוכן לפרסום."
+      subtitle="עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. מ-750 ₪ לשעת חומר לפני מע״מ."
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
       corporateShareLabel="שירות עריכת פודקאסט"
       bookSlug="podcast/podcast-editing"
-      ctaLabel="שליחת פרק לעריכה בוואטסאפ"
+      ctaLabel="עריכת פודקאסט מ-750 ₪"
       scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} - ${PODCAST_EDITING_PRICE_NOTE}`}
+      valueFrame="כבר יש הקלטה - בלי סשן אולפן חדש"
       pagePath="/podcast/podcast-editing"
       faqs={PODCAST_EDITING_FAQS}
-      {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-editing" className="max-w-3xl" />
 
-        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          יש לך פרק מוקלט, אבל עריכה היא עולם שלם: לחתוך את הגמגומים, לאזן
-          בין דוברים, להוסיף ג&apos;ינגל, לייצא לכל הפלטפורמות. אתה יודע
-          שההקלטה לקחה שעות - ועכשיו עריכה תיקח עוד כמה. אני מבין את זה -
-          ולכן אתה שולח לי את הקובץ ומקבל בחזרה פרק מוכן לפרסום.
+        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm leading-relaxed text-foreground/80 sm:text-base">
+          יש פרק מוקלט שצריך עריכה: חיתוך גמגומים, איזון בין דוברים, ג&apos;ינגל
+          וייצוא לפלטפורמות. שולחים את הקובץ ומקבלים בחזרה פרק מוכן לפרסום -
+          בלי להגיע לאולפן.
         </p>
+
+        <section aria-labelledby="editing-before-after-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="editing-before-after-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              לפני ואחרי העריכה
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              מה מקבלים בפועל כשמעבירים הקלטה גולמית לעריכת פודקאסט.
+            </p>
+          </header>
+          <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {PODCAST_EDITING_BEFORE_AFTER.map((side) => (
+              <li
+                key={side.id}
+                className={
+                  side.id === "after"
+                    ? "rounded-xl border border-brand-red/30 bg-surface p-5"
+                    : "rounded-xl border border-border bg-background p-5"
+                }
+              >
+                <h3 className="font-semibold text-foreground">{side.title}</h3>
+                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                  {side.points.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="text-brand-red" aria-hidden>
+                        {side.id === "after" ? "✓" : "•"}
+                      </span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section className="max-w-3xl" aria-labelledby="editing-intro-heading">
           <h2
             id="editing-intro-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            מה כלול בעריכת פודקאסט מלאה?
+            מה כלול בעריכת פודקאסט?
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            עריכת פודקאסט זה לא סתם &quot;חיתוך שתיקות&quot;. זה תהליך מקיף
-            שהופך הקלטה גולמית לפרק מקצועי שכיף להקשיב לו, מההקלטה הגולמית
-            לפרק מושלם.
+            עריכת פודקאסט זה לא רק חיתוך שתיקות. זה תהליך שמעביר הקלטה גולמית
+            לפרק מוכן להעלאה - ניקוי, איזון, חיתוך ומיקס לפי שעת חומר.
           </p>
         </section>
 
@@ -162,7 +200,7 @@ export default function PodcastEditingPageContent() {
               למי זה מתאים?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              לכל מי שמקליט תוכן דיבור ורוצה שיישמע ברמה הגבוהה ביותר
+              למי שכבר יש לו הקלטה ורוצה עריכה מקצועית בלי לנהל את הטכניקה
             </p>
           </header>
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -194,7 +232,7 @@ export default function PodcastEditingPageContent() {
               איך זה עובד?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              התהליך פשוט וברור
+              ארבעה שלבים - מהקובץ הגולמי ועד פרק מוכן
             </p>
           </header>
           <ol className="mt-10 space-y-5">
@@ -262,13 +300,20 @@ export default function PodcastEditingPageContent() {
             מוכנים לשלוח פרק לעריכה?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            שלחו את הקובץ הגולמי, נחזור עם הצעה וזמן מסירה. רוצים גם להקליט
-            אצלנו? אפשר לשלב עם{" "}
+            שלחו את הקובץ הגולמי - נחזור עם הצעה וזמן מסירה. רוצים גם להקליט
+            באולפן? אפשר לשלב עם{" "}
             <Link
               href="/podcast/podcast-studio-modiin"
               className="font-medium text-brand-red hover:underline"
             >
               השכרת סטודיו במודיעין
+            </Link>
+            . לרשימת מחירים ראו את ה
+            <Link
+              href="/pricing"
+              className="font-medium text-brand-red hover:underline"
+            >
+              מחירון
             </Link>
             .
           </p>
@@ -276,9 +321,10 @@ export default function PodcastEditingPageContent() {
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+            className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            שליחת פרק לעריכה בוואטסאפ </a>
+            שליחת פרק לעריכה בוואטסאפ
+          </a>
         </section>
 
         <section className="flex flex-wrap justify-center gap-3" aria-label="קישורים קשורים">
@@ -286,7 +332,13 @@ export default function PodcastEditingPageContent() {
             href="/podcast"
             className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >
-            הפקת פודקאסט מלאה
+            מרכז פודקאסט
+          </Link>
+          <Link
+            href="/pricing"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+          >
+            מחירון
           </Link>
           <Link
             href="/podcast/podcast-studio-modiin"
@@ -307,21 +359,28 @@ export default function PodcastEditingPageContent() {
             שירותי AI לסאונד
           </Link>
         </section>
-              <Link
-                href="/blog/podcast-needs-professional-editing"
-                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
-              >
-                <span className="mt-0.5 text-2xl" aria-hidden>📖</span>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">מאמר קשור</p>
-                  <p className="mt-1 font-semibold text-foreground">5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך</p>
-                  <p className="mt-1 text-sm text-muted-foreground">לפני שמחליטים לערוך לבד - לקריאה </p>
-                </div>
-              </Link>
-              <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast/podcast-editing")} />
-              <PageRelatedFooter pathname="/podcast/podcast-editing" />
-
-            </div>
+        <Link
+          href="/blog/podcast-needs-professional-editing"
+          className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-brand-red/40"
+        >
+          <span className="mt-0.5 text-2xl" aria-hidden>
+            📖
+          </span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+              מאמר קשור
+            </p>
+            <p className="mt-1 font-semibold text-foreground">
+              5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              לפני שמחליטים לערוך לבד - לקריאה
+            </p>
+          </div>
+        </Link>
+        <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast/podcast-editing")} />
+        <PageRelatedFooter pathname="/podcast/podcast-editing" />
+      </div>
     </ServicePageLayout>
   );
 }

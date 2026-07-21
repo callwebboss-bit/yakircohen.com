@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BlogNurtureLayer from "@/components/blog/BlogNurtureLayer";
 import CTABanner from "@/components/blog/CTABanner";
 import BlogPostMedia from "@/components/blog/BlogPostMedia";
 import RelatedArticles from "@/components/blog/RelatedArticles";
@@ -12,6 +13,7 @@ import {
   getRelatedBlogPosts,
   getRelatedServiceCallout,
 } from "@/lib/data/blog";
+import { getBlogNurture } from "@/lib/data/blog-nurture";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
@@ -72,7 +74,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
      Returns null when no match is found; CTABanner uses its defaults in that
      case so the baseline conversion block always renders. */
   const callout = getRelatedServiceCallout(post.relatedServiceSlug);
+  const nurture = getBlogNurture(post.slug, post.relatedServiceSlug);
   const relatedPosts = getRelatedBlogPosts(post.slug, 3);
+
+  const primaryServiceHref = callout?.href ?? nurture?.serviceLinks[0]?.href;
+  const primaryServiceLabel =
+    nurture?.serviceLinks.find((l) => l.href === primaryServiceHref)?.label ??
+    callout?.title ??
+    nurture?.serviceLinks[0]?.label;
 
   /* Inline BlogPosting JSON-LD - replaces the missing BlogPostingJsonLd
      component with equivalent structured data. */
@@ -176,21 +185,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             }}
           />
 
+          {nurture ? (
+            <BlogNurtureLayer
+              nurture={nurture}
+              primaryServiceHref={primaryServiceHref}
+              primaryServiceLabel={primaryServiceLabel}
+            />
+          ) : null}
+
           {/*
            * CTABanner - article baseline conversion block. Props are sourced
            * from getRelatedServiceCallout() which maps relatedServiceSlug to
            * service-aware heading, body, and WhatsApp pre-fill text from the
-           * registry. Falls back to CTABanner built-in defaults when null.
+           * registry. Nurture posts can override heading/body for a clearer end CTA.
            */}
           <div className="mt-14 border-t border-border pb-10 pt-12">
             <CTABanner
-              heading={callout?.title}
-              body={callout?.subtitle}
+              heading={nurture?.ctaHeading ?? callout?.title}
+              body={nurture?.ctaBody ?? callout?.subtitle}
+              ctaLabel={nurture?.ctaLabel}
               whatsappMessage={callout?.whatsappText}
               utm_campaign={callout?.utmCampaign ?? "blog_article_cta"}
               closerService={callout?.closerService}
               priceExVat={callout?.priceExVat}
               bookHref={callout?.bookHref}
+              serviceHref={primaryServiceHref}
+              serviceLinkLabel={
+                primaryServiceLabel
+                  ? `לפרטים: ${primaryServiceLabel}`
+                  : undefined
+              }
             />
           </div>
 

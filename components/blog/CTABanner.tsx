@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CtaTrustStrip from "@/components/marketing/CtaTrustStrip";
 import { CTA_LABELS, buildBlogCtaWhatsAppMessage, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -50,6 +51,9 @@ export type CTABannerProps = {
   /** Secondary CTA to /book#category */
   bookHref?: string;
   bookCtaLabel?: string;
+  /** קישור לדף השירות (CTA סיום) */
+  serviceHref?: string;
+  serviceLinkLabel?: string;
   className?: string;
 };
 
@@ -65,6 +69,8 @@ export default function CTABanner({
   priceExVat,
   bookHref,
   bookCtaLabel = CTA_LABELS.bookTransparent,
+  serviceHref,
+  serviceLinkLabel = "לפרטים ותיאום",
   className,
 }: CTABannerProps) {
   const waText =
@@ -134,7 +140,7 @@ export default function CTABanner({
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              "inline-flex items-center justify-center gap-2.5 rounded-xl",
+              "inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl",
               "bg-brand-red px-6 py-3 text-sm font-semibold text-white",
               "shadow-[0_0_24px_rgba(212,43,43,0.35)]",
               "transition-[background-color,box-shadow,transform] duration-normal ease-luxury",
@@ -148,11 +154,24 @@ export default function CTABanner({
             {ctaLabel}
           </a>
 
+          {serviceHref ? (
+            <Link
+              href={serviceHref}
+              className={cn(
+                "inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground",
+                "transition-colors hover:border-brand-red/40 hover:text-brand-red",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+              )}
+            >
+              {serviceLinkLabel}
+            </Link>
+          ) : null}
+
           {bookHref ? (
             <Link
               href={bookHref}
               className={cn(
-                "inline-flex items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground",
+                "inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground",
                 "transition-colors hover:border-brand-red/40 hover:text-brand-red",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
               )}
@@ -162,9 +181,7 @@ export default function CTABanner({
           ) : null}
 
           {/* Trust micro-copy */}
-          <p className="text-center text-[0.65rem] text-zinc-500">
-            מענה מהיר - ללא עלות - ללא התחייבות
-          </p>
+          <CtaTrustStrip className="mt-1" />
         </div>
       </div>
     </aside>

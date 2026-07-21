@@ -2,6 +2,7 @@
 
 import FloatingLabelField from "@/components/booking/intake/FloatingLabelField";
 import { FORM_DATA_SECURITY } from "@/lib/data/conversion-copy";
+import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { cn } from "@/lib/utils";
 import type { Ref } from "react";
 
@@ -59,6 +60,7 @@ export default function IntakeStepContact({
         value={phone}
         onChange={onPhoneChange}
         error={errors.phone}
+        hint={FORM_MICROCOPY.phoneHint}
         autoComplete="tel"
         inputMode="tel"
         dir="ltr"
@@ -69,6 +71,7 @@ export default function IntakeStepContact({
         value={email}
         onChange={onEmailChange}
         error={errors.email}
+        hint={FORM_MICROCOPY.emailHint}
         autoComplete="email"
         inputMode="email"
         dir="ltr"

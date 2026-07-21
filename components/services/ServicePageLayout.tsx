@@ -14,7 +14,8 @@ import {
 } from "@/lib/service-portfolio-hero";
 import { sliceHeroFeatures } from "@/lib/service-page-ui";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { resolveIntentWhatsAppText } from "@/lib/whatsapp-intent";
 import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import TrustBadges from "@/components/ui/TrustBadges";
@@ -244,13 +245,21 @@ export default function ServicePageLayout({
   const hasHeroVideo = Boolean(heroVideoEmbedUrl?.trim());
   const resolvedShowHeroScrollLink =
     showHeroScrollLink !== undefined ? showHeroScrollLink : hasHeroImage;
-  const baseText = whatsappText?.trim() || buildServiceWhatsAppText(title);
-  const inquiryText = startingPrice ? `${baseText} - מחיר: ${startingPrice}` : baseText;
+  const baseText = resolveIntentWhatsAppText({
+    existingText: whatsappText,
+    serviceLabel: title,
+    startingPrice,
+  });
+  const inquiryText =
+    startingPrice && !baseText.includes(startingPrice)
+      ? `${baseText} - מחיר: ${startingPrice}`
+      : baseText;
 
   const whatsappHref = buildWhatsAppHref({
     text: inquiryText,
     utm_source: "website",
     utm_campaign: utmCampaign,
+    source: pagePath ? pagePath.replace(/^\/+/, "") : undefined,
   });
 
   const scrollSectionId =
@@ -442,7 +451,10 @@ export default function ServicePageLayout({
 
       {metaDescription && pagePath ? (
         <>
-          <SpeakableSchema url={`https://yakircohen.com${pagePath}`} />
+          <SpeakableSchema
+            url={`https://yakircohen.com${pagePath}`}
+            cssSelector={["h1", "#answer"]}
+          />
           <div className="border-b border-border bg-background px-4 pb-2 pt-8 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl">
               <AnswerBlock>{metaDescription}</AnswerBlock>
