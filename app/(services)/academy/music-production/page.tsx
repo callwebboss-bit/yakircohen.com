@@ -5,6 +5,7 @@ import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
 import ShareButton from "@/components/ui/ShareButton";
 import { MUSIC_PRODUCTION_FIT } from "@/lib/data/academy-course-fit";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -89,7 +90,7 @@ export default function MusicProductionPage() {
             <ol className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
                 <Link href="/" className="transition-colors duration-fast ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
@@ -208,6 +209,10 @@ export default function MusicProductionPage() {
       {/* ── CTA ── */}
       <section className="border-t border-border bg-surface py-16 sm:py-20">
         <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
+          <NextUpSuggestionBlock
+            pathname="/academy/music-production"
+            className="mx-auto mb-10 max-w-xl"
+          />
           <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             מוכנים להפיק?
           </h2>

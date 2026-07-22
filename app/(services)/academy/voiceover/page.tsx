@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import YouTube from "@/components/YouTube";
 import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
 import ShareButton from "@/components/ui/ShareButton";
 import { VOICEOVER_COURSE_FIT } from "@/lib/data/academy-course-fit";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -93,7 +94,7 @@ export default function VoiceoverCoursePage() {
             <ol className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
                 <Link href="/" className="transition-colors duration-fast ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
@@ -309,6 +310,10 @@ export default function VoiceoverCoursePage() {
       {/* ── CTA ── */}
       <section className="border-t border-border bg-surface py-16 sm:py-20">
         <div className="mx-auto max-w-[72rem] px-4 text-center sm:px-6 lg:px-8">
+          <NextUpSuggestionBlock
+            pathname="/academy/voiceover"
+            className="mx-auto mb-10 max-w-xl"
+          />
           <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             בואו נדבר על הקול שלכם
           </h2>

@@ -7,7 +7,6 @@ import {
   SITE_GLOBAL_LINKS,
   HEADER_PRIMARY_NAV,
   HEADER_MORE_SERVICES_NAV,
-  HEADER_FEATURED_QUICK_LINKS,
   getMobileNavSections,
   getHeaderNavActiveCategory,
   isHeaderNavLinkActive,
@@ -15,19 +14,16 @@ import {
   type SiteNavCategory,
 } from "@/lib/site-architecture";
 import { SITE_NAME } from "@/lib/constants";
+import { INTENT_NAV_ITEMS } from "@/lib/data/intent-nav";
 import { cn } from "@/lib/utils";
 import SiteSearch from "@/components/ui/SiteSearch";
+import IntentNavStrip from "@/components/layout/IntentNavStrip";
 
 
-const SERVICE_PICKER_ITEMS = [
-  { href: "/book", label: "📅 בדקו תאריך פנוי" },
-  { href: "/studio/recording-song-modiin", label: "🎤 הקלטת שיר" },
-  { href: "/podcast", label: "🎙️ פודקאסט" },
-  { href: "/events/dj-events", label: "🎧 DJ לחתונה" },
-  { href: "/events/attractions", label: "✨ אטרקציות" },
-  { href: "/online", label: "🤖 שירותי AI" },
-  { href: "/business", label: "🏢 לעסקים" },
-] as const;
+const SERVICE_PICKER_ITEMS = INTENT_NAV_ITEMS.map((item) => ({
+  href: item.href,
+  label: item.label,
+}));
 
 function ServicePickerDropdown() {
   const [open, setOpen] = useState(false);
@@ -56,7 +52,7 @@ function ServicePickerDropdown() {
             : "bg-brand-red/8 text-brand-red hover:bg-brand-red/15",
         )}
       >
-        בחרו שירות
+        בחרו לפי צורך
         <ChevronIcon open={open} />
       </button>
       {open && (
@@ -448,40 +444,9 @@ export function SiteNavDesktop() {
 }
 
 function MobileFeaturedGrid({ onNavigate }: { onNavigate: () => void }) {
-  const seen = new Set<string>();
-  const links = HEADER_FEATURED_QUICK_LINKS.filter((item) => {
-    if (seen.has(item.href)) return false;
-    seen.add(item.href);
-    return true;
-  });
-
   return (
     <div className="mb-6">
-      <p className="mb-3 text-xs font-bold tracking-[0.22em] text-muted-foreground uppercase">
-        שירותים נבחרים
-      </p>
-      <div className="grid grid-cols-2 gap-2">
-        {SERVICE_PICKER_ITEMS.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex min-h-12 items-center rounded-lg border border-border/60 bg-surface/50 px-3 py-2 text-sm font-medium text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/30 hover:text-brand-red active:scale-[0.97]"
-            onClick={onNavigate}
-          >
-            {item.label}
-          </Link>
-        ))}
-        {links.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex min-h-12 items-center rounded-lg border border-border/60 px-3 py-2 text-sm font-medium text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-[0.97]"
-            onClick={onNavigate}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
+      <IntentNavStrip onNavigate={onNavigate} heading="מה אתם צריכים?" />
     </div>
   );
 }

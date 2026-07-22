@@ -18,7 +18,7 @@ export type BreadcrumbItem = {
   label: string;
 };
 
-const HOME: BreadcrumbItem = { href: "/", label: "ראשי" };
+const HOME: BreadcrumbItem = { href: "/", label: "בית" };
 
 let serviceBySlug: Map<string, string> | null = null;
 

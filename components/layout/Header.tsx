@@ -12,6 +12,7 @@ import {
   HeaderMobileSearchToggle,
 } from "@/components/layout/HeaderMobileSearchIsland";
 import { SiteNavDesktop } from "@/components/layout/SiteNav";
+import IntentNavStrip from "@/components/layout/IntentNavStrip";
 import {
   SiteNavMenuButtonSlot,
   SiteNavMenuIsland,
@@ -234,6 +235,12 @@ function HeaderMainBar({
       <div className="hidden border-t border-border/50 lg:block">
         <Container variant="wide">
           <SiteNavDesktop />
+        </Container>
+      </div>
+
+      <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
+        <Container variant="wide" className="py-2.5">
+          <IntentNavStrip />
         </Container>
       </div>
     </>

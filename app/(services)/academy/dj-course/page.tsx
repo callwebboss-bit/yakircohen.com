@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
@@ -105,7 +105,7 @@ export default function DjCoursePage() {
             <ol className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
                 <Link href="/" className="transition-colors duration-fast ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
@@ -317,6 +317,10 @@ export default function DjCoursePage() {
           שאלות נפוצות על קורס DJ
         </h2>
         <FAQWithCtaLinks items={FAQ_ITEMS} />
+      </section>
+
+      <section className="mx-auto max-w-[72rem] px-4 py-10 sm:px-6 lg:px-8">
+        <PageRelatedFooter pathname="/academy/dj-course" />
       </section>
 
       {/* ── Bottom CTA ── */}

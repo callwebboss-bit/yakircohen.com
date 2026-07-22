@@ -46,7 +46,7 @@ export default function AcademyUlpanPageContent() {
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
                 <Link href="/" className="hover:text-brand-red">
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden="true">/</li>

@@ -5,6 +5,7 @@ import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideo
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
@@ -363,6 +364,7 @@ export default function MobileStudioPageContent() {
             {MOBILE_STUDIO_CTA_LABEL}
           </a>
         </section>
+        <PageRelatedFooter pathname="/studio/mobile-studio" className="mt-10" />
         <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/mobile-studio")} />
       </div>
     </ServicePageLayout>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
@@ -36,7 +36,7 @@ export default function AiMusicPageContent() {
             <ol className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
               <li>
                 <Link href="/" className="hover:text-brand-red">
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden>/</li>

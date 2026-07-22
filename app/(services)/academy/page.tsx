@@ -197,7 +197,7 @@ export default function AcademyPage() {
                   href="/"
                   className="transition-colors duration-fast ease-luxury hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
-                  ראשי
+                  בית
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
