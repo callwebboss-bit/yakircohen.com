@@ -6,6 +6,7 @@ import FooterCategorySitemap from "@/components/layout/FooterCategorySitemap";
 import FooterConversionCtas from "@/components/layout/FooterConversionCtas";
 import FooterLegalLinks from "@/components/layout/FooterLegalLinks";
 import FooterMicroFaq from "@/components/layout/FooterMicroFaq";
+import FooterMobileDecisiveNav from "@/components/layout/FooterMobileDecisiveNav";
 import FooterPaymentMethods from "@/components/layout/FooterPaymentMethods";
 import FooterTrustPledge from "@/components/layout/FooterTrustPledge";
 import FooterTrustStrip from "@/components/layout/FooterTrustStrip";
@@ -22,11 +23,21 @@ export default function Footer() {
     >
       <FooterFaqSchema />
       <Container className="py-12 lg:py-16">
+        <FooterMobileDecisiveNav />
+
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 xl:grid-cols-4 xl:gap-10">
-          <FooterBrandContact />
-          <FooterCategorySitemap />
-          <FooterLegalLinks />
-          <FooterConversionCtas />
+          <div className="order-2 lg:order-none">
+            <FooterBrandContact />
+          </div>
+          <div className="order-4 lg:order-none">
+            <FooterCategorySitemap />
+          </div>
+          <div className="order-3 lg:order-none">
+            <FooterLegalLinks />
+          </div>
+          <div className="order-1 lg:order-none">
+            <FooterConversionCtas />
+          </div>
         </div>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">

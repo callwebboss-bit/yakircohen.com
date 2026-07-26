@@ -22,7 +22,7 @@ import TrustBadges from "@/components/ui/TrustBadges";
 import SocialProofStrip from "@/components/marketing/SocialProofStrip";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
-import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { OUTCOME_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -202,7 +202,7 @@ export default function ServicePageLayout({
   startingPrice,
   utmCampaign,
   children,
-  ctaLabel = "דברו איתנו בוואטסאפ",
+  ctaLabel = OUTCOME_CTA.waQuote24h,
   scarcityLabel,
   className,
   heroImageSrc,

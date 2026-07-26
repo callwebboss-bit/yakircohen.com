@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
+import AnswerBlock from "@/components/seo/AnswerBlock";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
@@ -14,6 +16,9 @@ import { buildFaqSchema } from "@/lib/seo/page-schema";
 import AudioDamageSolver from "@/components/seo/AudioDamageSolver";
 import SuccessRateEstimator from "@/components/seo/SuccessRateEstimator";
 import VocalFixPricingBlock from "@/components/seo/VocalFixPricingBlock";
+
+const VOCAL_FIX_ANSWER =
+  "הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -65,6 +70,10 @@ export default function OnlineVocalFixPageContent() {
 
   return (
     <div className="bg-background">
+      <SpeakableSchema
+        url="https://yakircohen.com/online/vocal-fix"
+        cssSelector={["h1", "#vocal-fix-answer"]}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -103,11 +112,9 @@ export default function OnlineVocalFixPageContent() {
           <p className="mx-auto mt-4 text-base font-medium text-foreground">
             הפכו הקלטה ביתית לאיכות אולפן
           </p>
-          <p className="mx-auto mt-5 max-w-2xl text-sm text-muted-foreground">
-            הקלטתם בטלפון או בבית ואיכות הסאונד נמוכה? התוכן מדהים, המסר חשוב -
-            אבל רעשי רקע, הד, קול שטוח או חלש גורמים לאנשים לעזוב אחרי 10
-            שניות. שולחים אלינו - מקבלים קובץ מקצועי.
-          </p>
+          <div className="mx-auto mt-5 max-w-2xl text-start">
+            <AnswerBlock id="vocal-fix-answer">{VOCAL_FIX_ANSWER}</AnswerBlock>
+          </div>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/online/vocal-fix/send-file"

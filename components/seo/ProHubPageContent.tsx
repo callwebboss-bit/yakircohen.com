@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import {
   PRO_DEPARTMENTS,
   PRO_SERVICES,
 } from "@/lib/data/pro-services";
+import { PRO_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildBookHref } from "@/lib/book-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -57,6 +59,16 @@ export default function ProHubPageContent() {
               מחירון מלא
             </Link>
           </div>
+        </Container>
+      </Section>
+
+      <Section padding="sm" className="border-b border-border bg-surface">
+        <Container className="max-w-5xl">
+          <HubDecisionMatrix
+            rows={PRO_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="pro-hub-decision-heading"
+          />
         </Container>
       </Section>
 

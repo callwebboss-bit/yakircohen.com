@@ -1,5 +1,5 @@
 /**
- * Tier-1 hubs must expose AEO signals (answer block or speakable).
+ * Tier-1 hubs + high-intent money pages must expose AEO signals.
  * Run: node scripts/audit-aeo-coverage.mjs
  */
 import fs from "node:fs";
@@ -30,6 +30,28 @@ const TIER1 = [
     path: "/pricing",
     files: ["app/pricing/page.tsx", "components/pricing/PricingFaqSection.tsx"],
   },
+  {
+    path: "/events/dj-events",
+    files: ["components/seo/DjEventsPageContent.tsx", "components/services/ServicePageLayout.tsx"],
+  },
+  {
+    path: "/studio/recording-song-modiin",
+    files: [
+      "components/seo/RecordingSongModiinPageContent.tsx",
+      "components/services/ServicePageLayout.tsx",
+    ],
+  },
+  {
+    path: "/podcast/podcast-recording",
+    files: [
+      "components/seo/PodcastRecordingPageContent.tsx",
+      "components/services/ServicePageLayout.tsx",
+    ],
+  },
+  {
+    path: "/online/vocal-fix",
+    files: ["components/seo/OnlineVocalFixPageContent.tsx"],
+  },
 ];
 
 const AEO_MARKERS = [
@@ -40,6 +62,7 @@ const AEO_MARKERS = [
   "FaqPageSchema",
   "buildFaqSchema",
   '"@type": "FAQPage"',
+  "metaDescription={",
 ];
 
 const errors = [];
@@ -61,4 +84,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`audit:aeo-coverage OK (${TIER1.length} tier-1 hubs)`);
+console.log(`audit:aeo-coverage OK (${TIER1.length} tier-1 hubs + money pages)`);

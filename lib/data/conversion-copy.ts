@@ -32,6 +32,8 @@ export const OUTCOME_CTA = {
   heroBookPriceNow: "📩 קבעו הקלטה - רואים מחיר סופי מיד",
   /** Hero דף הבית - משני, מוביל ל-/online */
   heroSendFileFixed: "📤 שלחו קובץ - חוזר מתוקן",
+  /** ברירת מחדל ל-hero של דפי שירות דקים (וואטסאפ) */
+  waQuote24h: "📩 קבלו הצעה בוואטסאפ - תוך 24 שעות",
 } as const;
 
 export const FORCE_MAJEURE_REASSURANCE =

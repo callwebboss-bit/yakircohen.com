@@ -8,6 +8,7 @@ import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import BookPriceDual from "@/components/booking/BookPriceDual";
 import type { BusinessPageConfig } from "@/lib/data/business-tier-types";
+import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -53,7 +54,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
     utm_source: "website",
     utm_campaign: `${config.utmCampaign}_mid_cta`,
   });
-  const ctaLabel = config.ctaLabel ?? "דברו איתנו בוואטסאפ";
+  const ctaLabel = config.ctaLabel ?? OUTCOME_CTA.waQuote24h;
 
   return (
     <ServicePageLayout
@@ -73,7 +74,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
         />
       ) : null}
       <Container className="space-y-14 py-12 sm:py-16">
-        <ContextualIntroParagraph pathname={pagePath} />
+        <ContextualIntroParagraph pathname={pagePath} showFitSnapshot={false} />
 
         {config.audienceItems && config.audienceItems.length > 0 ? (
           <section aria-labelledby="audience-heading">

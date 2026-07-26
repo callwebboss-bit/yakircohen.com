@@ -49,8 +49,8 @@ export const STUDIO_HUB_PATH_EXTRAS: Record<
     { href: "/studio/blessings/bar-mitzvah", label: "דרשה לבר מצווה" },
   ],
   "/studio/mobile-studio": [
+    { href: "/podcast/mobile-podcast-at-home", label: "פודקאסט נייד" },
     { href: "/business/on-site-studio", label: "אולפן בחברה" },
-    { href: "/studio/studio-rehovot", label: "מרחובות" },
   ],
   "/podcast": [
     { href: "/podcast/podcast-recording", label: "הקלטת פודקאסט" },

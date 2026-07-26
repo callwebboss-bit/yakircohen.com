@@ -36,6 +36,8 @@ import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchPro
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
 import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy";
 import LeadFormSkeleton from "@/components/leads/LeadFormSkeleton";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import { PRICING_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { formatMeNis, STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -150,6 +152,16 @@ export default function PricingHubPage() {
         </Section>
 
         <TrustStatsBar variant="compact" />
+
+        <Section padding="sm" className="border-b border-border bg-surface">
+          <Container className="max-w-3xl">
+            <HubDecisionMatrix
+              rows={PRICING_HUB_DECISIONS}
+              heading="מה מתאים לי?"
+              headingId="pricing-hub-decision-heading"
+            />
+          </Container>
+        </Section>
 
         <Section padding="sm" className="border-b border-border bg-background">
           <Container className="max-w-3xl">

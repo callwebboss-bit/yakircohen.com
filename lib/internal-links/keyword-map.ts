@@ -43,6 +43,19 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "דיגגיי בשוהם": { href: "/dj-events/cities/shoham", anchor: "דיגגיי בשוהם" },
   "DJ רחובות": { href: "/dj-events/cities/rehovot", anchor: "DJ ברחובות" },
   "דיגגיי ברחובות": { href: "/dj-events/cities/rehovot", anchor: "דיגגיי ברחובות" },
+  "DJ ירושלים": { href: "/dj-events/cities/jerusalem", anchor: "DJ בירושלים" },
+  "דיגגיי בירושלים": {
+    href: "/dj-events/cities/jerusalem",
+    anchor: "דיגגיי בירושלים",
+  },
+  "דיג׳יי ירושלים": {
+    href: "/dj-events/cities/jerusalem",
+    anchor: "דיג׳יי בירושלים",
+  },
+  "תקליטן בירושלים": {
+    href: "/dj-events/cities/jerusalem",
+    anchor: "תקליטן בירושלים",
+  },
   "אולפן הקלטות שוהם": {
     href: "/studio/studio-shoham",
     anchor: "אולפן הקלטות בשוהם",
@@ -55,6 +68,24 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/studio/studio-rehovot",
     anchor: "אולפן הקלטות ברחובות",
   },
+  "אולפן הקלטות ירושלים": {
+    href: "/studio/studio-jerusalem",
+    anchor: "אולפן הקלטות בירושלים",
+  },
+  "אולפן הקלטות בירושלים": {
+    href: "/studio/studio-jerusalem",
+    anchor: "אולפן הקלטות בירושלים",
+  },
+  "קורס AI במוזיקה": {
+    href: "/academy/ai-music",
+    anchor: "קורס AI במוזיקה",
+  },
+  "פיצול stems": { href: "/academy/ai-music", anchor: "פיצול stems" },
+  "הפקה עם AI": { href: "/academy/ai-music", anchor: "הפקה עם AI" },
+  "מוזיקה עם AI": { href: "/academy/ai-music", anchor: "מוזיקה עם AI" },
+  Suno: { href: "/academy/ai-music", anchor: "הפקה עם AI" },
+  Udio: { href: "/academy/ai-music", anchor: "הפקה עם AI" },
+
   "כמה עולה להקליט שיר באולפן": {
     href: "/studio/recording-song-modiin",
     anchor: "הקלטת שיר באולפן",

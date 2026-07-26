@@ -3,6 +3,7 @@ import AudienceTabs from "@/components/events/AudienceTabs";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import EventsAttractionsSchema from "@/components/seo/EventsAttractionsSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
@@ -36,7 +37,12 @@ export default function EventsHubPage() {
       />
       <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים" valueFrame="אפקטים שמרימים את האירוע - בלי הפתעות ביום">
       <div className="space-y-16">
-        <HubDecisionMatrix rows={EVENTS_HUB_DECISIONS} />
+        <HubAudienceFitBlock hubPath="/events" />
+        <HubDecisionMatrix
+          rows={EVENTS_HUB_DECISIONS}
+          heading="מה מתאים לי?"
+          headingId="events-hub-decision-heading"
+        />
         <AudienceTabs />
         <CaseStudySection hub="events" />
         <ClientJourneySteps variant="events" display="compact" />

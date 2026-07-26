@@ -8,7 +8,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
 import ShareButton from "@/components/ui/ShareButton";
 import { MUSIC_PRODUCTION_FIT } from "@/lib/data/academy-course-fit";
-import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
+import { OUTCOME_CTA, SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import {
   YOUTUBE_MUSIC_PRODUCTION_SOLUTIONS_PLAYLIST_EMBED,
   YOUTUBE_MUSIC_PRODUCTION_SOLUTIONS_PLAYLIST_URL,
@@ -122,6 +122,7 @@ export default function MusicProductionPage() {
           <ContextualIntroParagraph
             pathname="/academy/music-production"
             className="mx-auto mt-4 max-w-xl text-center"
+            showFitSnapshot={false}
           />
 
           {bookCta ? (
@@ -223,7 +224,7 @@ export default function MusicProductionPage() {
             <HubDualCta
               className="mt-7 [&_a]:min-h-12"
               whatsappHref={ctaHref}
-              whatsappLabel="דברו בוואטסאפ על המסלול"
+              whatsappLabel={OUTCOME_CTA.heroBookNoCommit}
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
               whatsappAriaLabel="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
@@ -236,7 +237,7 @@ export default function MusicProductionPage() {
               className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               aria-label="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
             >
-              דברו בוואטסאפ על המסלול
+              {OUTCOME_CTA.heroBookNoCommit}
             </a>
           )}
           <div className="mt-5 flex justify-center">

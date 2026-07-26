@@ -121,3 +121,46 @@ export function getMobileStickyCtaContext(pathname: string): StickyCtaContext {
   }
   return DEFAULT;
 }
+
+export type MobileDecisiveNav = {
+  pricingHref: string;
+  bookHref: string;
+  serviceHref: string;
+  serviceLabel: string;
+};
+
+const HUB_NAV: readonly { prefix: string; href: string; label: string }[] = [
+  { prefix: "/studio", href: "/studio", label: "אולפן" },
+  { prefix: "/podcast", href: "/podcast", label: "פודקאסט" },
+  { prefix: "/events", href: "/events", label: "אירועים" },
+  { prefix: "/online", href: "/online", label: "אונליין" },
+  { prefix: "/voiceover", href: "/voiceover", label: "קריינות" },
+  { prefix: "/academy", href: "/academy", label: "אקדמיה" },
+  { prefix: "/business", href: "/business", label: "עסקים" },
+  { prefix: "/video", href: "/video", label: "וידאו" },
+  { prefix: "/photography", href: "/photography", label: "צילום" },
+];
+
+/** ניווט החלטתי למובייל: מחירון / הזמנה / hub שירות */
+export function getMobileDecisiveNav(pathname: string): MobileDecisiveNav {
+  const normalized = pathname.replace(/\/+$/, "") || "/";
+  for (const hub of HUB_NAV) {
+    if (
+      normalized === hub.prefix ||
+      normalized.startsWith(`${hub.prefix}/`)
+    ) {
+      return {
+        pricingHref: "/pricing",
+        bookHref: "/book",
+        serviceHref: hub.href,
+        serviceLabel: hub.label,
+      };
+    }
+  }
+  return {
+    pricingHref: "/pricing",
+    bookHref: "/book",
+    serviceHref: "/studio",
+    serviceLabel: "אולפן",
+  };
+}

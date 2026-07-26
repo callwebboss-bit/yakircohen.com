@@ -105,6 +105,7 @@ export default function DjEventsPageContent() {
       scarcityLabel={service.scarcityLabel}
       valueFrame="מוזיקה מקצועית - תכנון מוזיקלי מדויק לכל האירוע"
       pagePath="/events/dj-events"
+      metaDescription={service.metaDescription}
       faqs={service.faqs}
       {...heroProps}
     >

@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import HowToSchema from "@/components/seo/HowToSchema";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -13,6 +15,8 @@ import {
   EQUIPMENT_ADDONS,
   EQUIPMENT_PACKAGE_ITEMS,
   EQUIPMENT_PREP_CHECKLIST,
+  EQUIPMENT_PROCESS,
+  EQUIPMENT_PROOF,
   EQUIPMENT_RCF_VS_REGULAR,
   EQUIPMENT_SPECS,
   EQUIPMENT_USE_CASES,
@@ -40,6 +44,21 @@ export default function EquipmentPageContent() {
   });
 
   return (
+    <>
+      <FaqPageSchema
+        items={service.faqs.map((faq) => ({
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+      />
+      <HowToSchema
+        name="איך משכירים הגברה לאירוע"
+        description="תהליך השכרת מערכת הגברה - מתיאום עד פירוק בסוף הערב."
+        steps={EQUIPMENT_PROCESS.map((item) => ({
+          name: item.title,
+          text: item.body,
+        }))}
+      />
     <ServicePageLayout
       title={service.title}
       subtitle={service.subtitle}
@@ -48,12 +67,16 @@ export default function EquipmentPageContent() {
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
       pagePath="/events/equipment"
+      metaDescription={service.metaDescription}
       faqs={service.faqs}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/equipment" className="max-w-3xl" />
 
+        <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {EQUIPMENT_PROOF}
+        </p>
         {EQUIPMENT_VIDEO_GROUPS.map((group) => (
           <ShowcaseVideoSection
             key={group.id}
@@ -70,6 +93,35 @@ export default function EquipmentPageContent() {
             מקצועיות עם צליל נקי ועוצמתי, לא צריך להיות טכנאי סאונד, אנחנו
             דואגים להכול.
           </p>
+        </section>
+
+        <section aria-labelledby="equip-process-heading">
+          <h2
+            id="equip-process-heading"
+            className="text-xl font-semibold text-foreground"
+          >
+            איך זה עובד
+          </h2>
+          <ol className="mt-6 space-y-3">
+            {EQUIPMENT_PROCESS.map((item) => (
+              <li
+                key={item.step}
+                className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 sm:gap-5 sm:p-6"
+              >
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)]/10 text-base font-bold text-[var(--service-accent-ink,#8a1c1c)] sm:h-12 sm:w-12 sm:text-lg">
+                  {item.step}
+                </span>
+                <div>
+                  <h3 className="font-semibold tracking-tight text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">
+                    {item.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <section aria-labelledby="package-heading">
@@ -361,5 +413,6 @@ export default function EquipmentPageContent() {
 
             </div>
     </ServicePageLayout>
+    </>
   );
 }

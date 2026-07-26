@@ -144,6 +144,7 @@ export default function DjCoursePage() {
           <ContextualIntroParagraph
             pathname="/academy/dj-course"
             className="mx-auto mt-4 max-w-2xl"
+            showFitSnapshot={false}
           />
 
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

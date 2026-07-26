@@ -8,7 +8,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
 import ShareButton from "@/components/ui/ShareButton";
 import { VOICEOVER_COURSE_FIT } from "@/lib/data/academy-course-fit";
-import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
+import { OUTCOME_CTA, SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
 import { SITE_NAME } from "@/lib/constants";
@@ -132,13 +132,14 @@ export default function VoiceoverCoursePage() {
           <ContextualIntroParagraph
             pathname="/academy/voiceover"
             className="mx-auto mt-4 max-w-xl text-center"
+            showFitSnapshot={false}
           />
 
           <div className="mt-8 flex flex-col items-center gap-3">
             {bookCta ? (
               <HubDualCta
                 whatsappHref={ctaHref}
-                whatsappLabel="לשיחת ייעוץ ראשונית"
+                whatsappLabel={OUTCOME_CTA.heroBookNoCommit}
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
                 className="[&_a]:min-h-12"
@@ -150,7 +151,7 @@ export default function VoiceoverCoursePage() {
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
-                לשיחת ייעוץ ראשונית
+                {OUTCOME_CTA.heroBookNoCommit}
               </a>
             )}
             <p className="text-xs text-muted-foreground">
@@ -325,7 +326,7 @@ export default function VoiceoverCoursePage() {
             <HubDualCta
               className="mt-7 [&_a]:min-h-12"
               whatsappHref={ctaHref}
-              whatsappLabel="לשיחת ייעוץ ראשונית בוואטסאפ"
+              whatsappLabel={OUTCOME_CTA.heroBookNoCommit}
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
               whatsappAriaLabel="שיחת ייעוץ לקורס קריינות בוואטסאפ"
@@ -338,7 +339,7 @@ export default function VoiceoverCoursePage() {
               className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               aria-label="שיחת ייעוץ לקורס קריינות בוואטסאפ"
             >
-              לשיחת ייעוץ ראשונית בוואטסאפ
+              {OUTCOME_CTA.heroBookNoCommit}
             </a>
           )}
           <div className="mt-5 flex justify-center">

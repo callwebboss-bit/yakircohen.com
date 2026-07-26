@@ -1,7 +1,9 @@
 import Link from "next/link";
 import SectionDwellTracker from "@/components/analytics/SectionDwellTracker";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import AnswerBlock from "@/components/seo/AnswerBlock";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FadeIn from "@/components/ui/FadeIn";
 import { CONTACT_PHONE_E164 } from "@/lib/constants";
@@ -155,6 +157,10 @@ export default function GeoCityDjPageContent({
 
   return (
     <article className="bg-background">
+      <SpeakableSchema
+        url={absoluteUrl(pagePath)}
+        cssSelector={["h1", `#dj-${citySlug}-answer`]}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -168,6 +174,11 @@ export default function GeoCityDjPageContent({
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             די ג&apos;יי לאירועים {city.nameHePrep}
           </h1>
+          <div className="mx-auto mt-6 max-w-2xl text-start">
+            <AnswerBlock id={`dj-${citySlug}-answer`}>
+              {city.djMeta.description}
+            </AnswerBlock>
+          </div>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground sm:text-xl">
             מגיעים {city.nameHePrep} מהבסיס במודיעין. מפרט טכני קבוע, תיאום ישיר
             וללא הפתעות ביום האירוע.

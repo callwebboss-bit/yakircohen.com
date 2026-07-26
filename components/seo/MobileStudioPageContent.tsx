@@ -4,6 +4,7 @@ import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideos";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
@@ -67,6 +68,11 @@ export default function MobileStudioPageContent() {
       startingPrice={MOBILE_STUDIO_STARTING_PRICE}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+        <ContextualIntroParagraph
+          pathname="/studio/mobile-studio"
+          className="max-w-3xl"
+        />
+
         <section
           className="rounded-xl border border-brand-red/25 bg-surface p-6 sm:p-8"
           aria-labelledby="mobile-studio-pricing-heading"

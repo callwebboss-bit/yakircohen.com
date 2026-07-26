@@ -16,6 +16,10 @@ export const EVENT_HOST_PROCESS = [
   },
 ] as const;
 
+/** עובדה קצרה מעל ה-FAQ - הוכחה בלי הייפ */
+export const EVENT_HOST_PROOF =
+  "מנחה מנהל את הערב מתסריט מוכן מראש: כניסות, נאומים ומעברים מול DJ וצלמים באותו לו\"ז.";
+
 export const EVENT_HOST_WHY = [
   {
     title: "נוכחות בטוחה בלי דרמה",

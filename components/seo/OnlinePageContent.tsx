@@ -32,7 +32,11 @@ import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 import HubDualCta from "@/components/marketing/HubDualCta";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
+import { ONLINE_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { buildBookHref } from "@/lib/book-url";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 
@@ -105,6 +109,17 @@ export default function OnlinePageContent() {
             <HeroScrollCue href="#online-categories" />
           </div>
           <TrustStatsBar variant="compact" className="mt-8 rounded-2xl border" />
+        </Container>
+      </Section>
+
+      <Section padding="sm" className="border-b border-border bg-background">
+        <Container className="max-w-5xl space-y-8">
+          <HubAudienceFitBlock hubPath="/online" />
+          <HubDecisionMatrix
+            rows={ONLINE_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="online-hub-decision-heading"
+          />
         </Container>
       </Section>
 
@@ -299,7 +314,7 @@ export default function OnlinePageContent() {
                 className="mt-6"
                 align="start"
                 whatsappHref={ctaHref}
-                whatsappLabel="שלחו קובץ בוואטסאפ "
+                whatsappLabel={OUTCOME_CTA.heroSendFileFixed}
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
               />
@@ -327,6 +342,7 @@ export default function OnlinePageContent() {
             formLabel="טופס הצעת מחיר מהירה לשירותי אונליין"
           />
         </div>
+        <PageRelatedFooter pathname="/online" className="mt-10" />
         </Container>
       </Section>
     </div>

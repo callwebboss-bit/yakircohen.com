@@ -1,11 +1,15 @@
 ﻿import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import {
   EVENT_HOST_PROCESS,
+  EVENT_HOST_PROOF,
   EVENT_HOST_WHY,
 } from "@/lib/data/events-host-page";
 import { getEventsService } from "@/lib/data/services";
@@ -19,6 +23,21 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 
 export default function EventsHostPageContent() {
   return (
+    <>
+      <FaqPageSchema
+        items={service.faqs.map((faq) => ({
+          question: faq.question,
+          answer: faq.answer,
+        }))}
+      />
+      <HowToSchema
+        name="איך עובדים עם מנחה אירועים"
+        description="תהליך הנחיה מלא - מתסריט ועד ערב מדויק מול הספקים."
+        steps={EVENT_HOST_PROCESS.map((item) => ({
+          name: item.title,
+          text: item.body,
+        }))}
+      />
     <ServicePageLayout
       title={service.title}
       subtitle={service.subtitle}
@@ -40,6 +59,10 @@ export default function EventsHostPageContent() {
           מחכה, צלם מחפש רגע, משפחה לוחצת על הזמנים - וכולם מסתכלים עליך.
           אני מבין את הלחץ הזה - מנחה טוב לא &quot;עוד עלות&quot;, הוא מה
           שמשחרר אותך לחגוג.
+        </p>
+
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {EVENT_HOST_PROOF}
         </p>
 
         <section className="max-w-3xl" aria-labelledby="host-why-heading">
@@ -112,6 +135,8 @@ export default function EventsHostPageContent() {
           </section>
         ) : null}
 
+        <p className="max-w-2xl text-sm text-muted-foreground">{SKEPTICISM_CTA}</p>
+
         <ServiceHubLinks
           headingId="host-packages-heading"
           heading="רוצים לשלב גם DJ ואטרקציות?"
@@ -148,5 +173,6 @@ export default function EventsHostPageContent() {
         <PageRelatedFooter pathname="/events/host" />
       </div>
     </ServicePageLayout>
+    </>
   );
 }

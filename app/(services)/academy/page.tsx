@@ -2,7 +2,11 @@
 import Link from "next/link";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import AudioShowcase from "@/components/seo/AudioShowcase";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import { ACADEMY_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
@@ -11,15 +15,21 @@ import HubDualCta from "@/components/marketing/HubDualCta";
 import Testimonials from "@/components/marketing/Testimonials";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { academyCoursesByCategory } from "@/lib/data/academy-hub-courses";
+import { getAudioDemo } from "@/lib/data/audio-demos";
 import {
   ACADEMY_HUB_SEO,
   hubSchemaPropsFromSeo,
   metadataForHubSeo,
 } from "@/lib/seo/hub-pages";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME } from "@/lib/constants";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 
 export const metadata: Metadata = metadataForHubSeo(ACADEMY_HUB_SEO);
+
+const ACADEMY_VOCAL_DEMO = getAudioDemo("recording-vocal-polish");
+const ACADEMY_PRODUCTION_DEMO = getAudioDemo("full-production");
 
 /* ─── Data ─────────────────────────────────────────────────────────────── */
 
@@ -296,6 +306,18 @@ export default function AcademyPage() {
         </div>
       </section>
 
+      {/* Decision aid - audience first, then intent matrix */}
+      <section className="border-b border-border bg-background py-10 sm:py-12">
+        <div className="mx-auto max-w-[72rem] space-y-8 px-4 sm:px-6 lg:px-8">
+          <HubAudienceFitBlock hubPath="/academy" />
+          <HubDecisionMatrix
+            rows={ACADEMY_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="academy-hub-decision-heading"
+          />
+        </div>
+      </section>
+
       {/* ── #1 Courses by category ── */}
       {courseGroups.map((group, i) => (
         <section
@@ -407,8 +429,41 @@ export default function AcademyPage() {
           </h2>
         </header>
 
-        {/* #6 Audio/video demo placeholder */}
-        {/* TODO: add real audio/video demos per track - use PremiumCrossfadePlayer or LazyYouTubePlayer */}
+        {/* Audio demos - before/after from existing studio assets */}
+        <div className="mb-12 space-y-6">
+          <header className="text-center">
+            <h3 className="text-lg font-semibold text-foreground">
+              שמעו לפני שבוחרים מסלול
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              דוגמאות מהאולפן: שירה אחרי דיוק, והפקה מלאה מווקאל יבש.
+            </p>
+          </header>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <AudioShowcase
+              variant="vocal"
+              context="compact"
+              beforeSrc={ACADEMY_VOCAL_DEMO.beforeSrc}
+              afterSrc={ACADEMY_VOCAL_DEMO.afterSrc}
+              beforeLabel={ACADEMY_VOCAL_DEMO.beforeLabel}
+              afterLabel={ACADEMY_VOCAL_DEMO.afterLabel}
+              beforeNote={ACADEMY_VOCAL_DEMO.beforeNote}
+              afterNote={ACADEMY_VOCAL_DEMO.afterNote}
+              storageKey={`academy-${ACADEMY_VOCAL_DEMO.storageKey}`}
+            />
+            <AudioShowcase
+              variant="vocal"
+              context="compact"
+              beforeSrc={ACADEMY_PRODUCTION_DEMO.beforeSrc}
+              afterSrc={ACADEMY_PRODUCTION_DEMO.afterSrc}
+              beforeLabel={ACADEMY_PRODUCTION_DEMO.beforeLabel}
+              afterLabel={ACADEMY_PRODUCTION_DEMO.afterLabel}
+              beforeNote={ACADEMY_PRODUCTION_DEMO.beforeNote}
+              afterNote={ACADEMY_PRODUCTION_DEMO.afterNote}
+              storageKey={`academy-${ACADEMY_PRODUCTION_DEMO.storageKey}`}
+            />
+          </div>
+        </div>
 
         <div className="grid gap-6 sm:grid-cols-3">
           {ACADEMY_TRACKS.map((track) => {
@@ -665,11 +720,12 @@ export default function AcademyPage() {
             <HubDualCta
               className="mt-7"
               whatsappHref={assessmentHref}
-              whatsappLabel="שלח הודעה - יקיר עונה בעצמו"
+              whatsappLabel={OUTCOME_CTA.heroBookNoCommit}
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
             />
           ) : null}
+          <PageRelatedFooter pathname="/academy" className="mx-auto mt-10 max-w-xl" />
         </div>
       </section>
     </div>

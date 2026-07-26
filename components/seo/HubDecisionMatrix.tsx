@@ -25,7 +25,7 @@ export default function HubDecisionMatrix({
         {heading}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        שלוש־ארבע שורות. בלי בלבול.
+        בחירה קצרה לפי מה שאתם צריכים - בלי לחפש בכל הרשימה.
       </p>
       <ul className="mt-6 divide-y divide-border">
         {rows.map((row) => (

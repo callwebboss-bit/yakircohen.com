@@ -101,6 +101,11 @@ export const NEXT_UP_BY_PATH: Readonly<Record<string, NextUpSuggestion>> = {
     prompt: "מתחילים מ-DJ?",
     label: "DJ לאירועים",
   },
+  "/academy": {
+    href: "/academy/dj-course",
+    prompt: "מה רוב האנשים מתחילים איתו?",
+    label: "קורס DJ",
+  },
   "/academy/dj-course": {
     href: "/academy/music-production",
     prompt: "רוצים גם ללמוד הפקה?",

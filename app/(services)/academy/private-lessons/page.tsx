@@ -136,6 +136,7 @@ export default function PrivateLessonsPage() {
           <ContextualIntroParagraph
             pathname="/academy/private-lessons"
             className="mx-auto mt-4 max-w-xl text-center"
+            showFitSnapshot={false}
           />
 
           {bookCta ? (

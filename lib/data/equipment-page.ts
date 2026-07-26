@@ -43,6 +43,29 @@ export const EQUIPMENT_PREP_CHECKLIST: readonly string[] = [
   "חיבור תלת-פאזי 32A יציב (ברוב האולמות קיים)",
 ] as const;
 
+/** תהליך השכרה - overlay ל-HowTo + UI */
+export const EQUIPMENT_PROCESS = [
+  {
+    step: "01",
+    title: "תיאום תאריך ומקום",
+    body: "שולחים תאריך, מיקום וגודל קהל. מקבלים הצעה עם חבילת RCF והובלה כלולה.",
+  },
+  {
+    step: "02",
+    title: "הקמה וכיוונון",
+    body: "מביאים, מקימים ומכוונים לפי האולם או הגינה. אתם לא צריכים להיות טכנאי סאונד.",
+  },
+  {
+    step: "03",
+    title: "ערב + פירוק",
+    body: "צוות בשטח עד סוף האירוע, ציוד גיבוי זמין, ואז פירוק מלא.",
+  },
+] as const;
+
+export const EQUIPMENT_PROOF =
+  "חבילת הגברה מלאה: RCF 745 + סאב 15 + מיקסר Allen & Heath - עד 250 אורחים, עד 10 שעות, הובלה והקמה כלולים.";
+
+
 export const EQUIPMENT_WHY_QUALITY: readonly { title: string; description: string }[] = [
   {
     title: "גיבוי טכני",

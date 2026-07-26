@@ -4,28 +4,25 @@ import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 
 /**
  * מסלולי בחירה לפי כוונת משתמש - מוצג מעל הקפל, בתוך ה-Hero.
- * מחירים נמשכים מ-pricing-catalog בלבד.
+ * תוויות ויעדים זהים ל-Intent-nav; מחירים מ-pricing-catalog.
  */
 export default function HomeIntentPaths() {
   return (
     <nav aria-label="בחירת מסלול לפי סוג השירות">
       <p className="mb-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-        בחרו מסלול - מחיר התחלתי לכל שירות
+        בחרו לפי צורך - אותם מסלולים כמו בתפריט
       </p>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {HOME_INTENT_PATHS.map((path, index) => {
-          const exVat =
-            path.fromPriceExVat ?? (path.priceId ? getExVat(path.priceId) : 0);
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {HOME_INTENT_PATHS.map((path) => {
+          const hasNumericPrice =
+            path.fromPriceExVat != null || path.priceId != null;
+          const exVat = hasNumericPrice
+            ? (path.fromPriceExVat ?? (path.priceId ? getExVat(path.priceId) : 0))
+            : 0;
           const withVat = catalogWithVat(exVat);
-          const isLastOddOnMobile =
-            index === HOME_INTENT_PATHS.length - 1 &&
-            HOME_INTENT_PATHS.length % 2 === 1;
 
           return (
-            <li
-              key={path.id}
-              className={isLastOddOnMobile ? "col-span-2 sm:col-span-1" : undefined}
-            >
+            <li key={path.id}>
               <Link
                 href={path.href}
                 prefetch
@@ -39,10 +36,16 @@ export default function HomeIntentPaths() {
                   {path.outcome}
                 </span>
                 <span className="mt-auto pt-1 text-xs font-semibold text-brand-red">
-                  החל מ-{exVat.toLocaleString("he-IL")} ₪ + מע״מ
-                  <span className="block font-normal text-muted-foreground">
-                    כולל מע״מ: {withVat.toLocaleString("he-IL")} ₪
-                  </span>
+                  {hasNumericPrice ? (
+                    <>
+                      החל מ-{exVat.toLocaleString("he-IL")} ₪ + מע״מ
+                      <span className="block font-normal text-muted-foreground">
+                        כולל מע״מ: {withVat.toLocaleString("he-IL")} ₪
+                      </span>
+                    </>
+                  ) : (
+                    path.priceNote ?? "לפרטים"
+                  )}
                 </span>
               </Link>
             </li>

@@ -10,6 +10,7 @@ import HubPageSchema from "@/components/seo/HubPageSchema";
 import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import StudioHubPathSections from "@/components/seo/StudioHubPathSections";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
@@ -24,8 +25,6 @@ import {
   getStudioService,
 } from "@/lib/data/services";
 import { PORTFOLIO_CATALOG_COUNT } from "@/lib/data/video-catalog.generated";
-import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
-import { STUDIO_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 
 const service = getStudioService("studio-hub");
 
@@ -121,11 +120,7 @@ export default function StudioHubPage() {
         <div className="space-y-16">
           <StudioHubPathSections />
 
-          <HubDecisionMatrix
-            rows={STUDIO_HUB_DECISIONS}
-            heading="מה מתאים לי? - לפי מה שאתם רוצים"
-            headingId="hub-decision-heading"
-          />
+          <HubAudienceFitBlock hubPath="/studio" />
 
           <section
             className="overflow-hidden rounded-2xl border border-border bg-surface"

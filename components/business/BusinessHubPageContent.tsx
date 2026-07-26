@@ -1,17 +1,21 @@
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import { OUTCOME_CTA, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Link from "next/link";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import { BUSINESS_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import {
   BUSINESS_HUB_FAQS,
   BUSINESS_HUB_GROUPS,
   BUSINESS_HUB_WHATSAPP,
 } from "@/lib/data/business-hub-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 
 function toHubLinks(
   services: (typeof BUSINESS_HUB_GROUPS)[number]["services"],
@@ -66,7 +70,7 @@ export default function BusinessHubPageContent() {
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              ייעוץ עסקי - תגובה, בדרך כלל תוך 24 שעות
+              {OUTCOME_CTA.quote24h}
             </a>
             <Link
               href="/pricing"
@@ -78,6 +82,17 @@ export default function BusinessHubPageContent() {
           <p className="mt-3 max-w-3xl text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}
           </p>
+        </Container>
+      </Section>
+
+      <Section padding="sm" className="border-b border-border bg-surface">
+        <Container className="max-w-5xl space-y-8">
+          <HubAudienceFitBlock hubPath="/business" />
+          <HubDecisionMatrix
+            rows={BUSINESS_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="business-hub-decision-heading"
+          />
         </Container>
       </Section>
 
@@ -102,6 +117,7 @@ export default function BusinessHubPageContent() {
             items={BUSINESS_HUB_FAQS}
             defaultOpenId="b2c-vs-b2b"
           />
+          <PageRelatedFooter pathname="/business" className="mt-10" />
         </Container>
       </Section>
     </article>

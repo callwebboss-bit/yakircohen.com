@@ -2,6 +2,7 @@ import Link from "next/link";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -153,7 +154,13 @@ export default function PodcastHubPageContent() {
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
 
-          <HubDecisionMatrix rows={PODCAST_HUB_DECISIONS} />
+          <HubAudienceFitBlock hubPath="/podcast" />
+
+          <HubDecisionMatrix
+            rows={PODCAST_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="podcast-hub-decision-heading"
+          />
 
           {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
           <aside

@@ -4,6 +4,9 @@ import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
+import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import { VOICEOVER_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import {
   getVoiceoverHubLinks,
   getVoiceoverService,
@@ -39,6 +42,12 @@ export default function VoiceoverHubPageContent() {
     >
       <Container className="space-y-14 py-12 sm:py-16">
         <ShowcaseVideoSection playlistId="voiceover-hub" />
+        <HubAudienceFitBlock hubPath="/voiceover" />
+        <HubDecisionMatrix
+          rows={VOICEOVER_HUB_DECISIONS}
+          heading="מה מתאים לי?"
+          headingId="voiceover-hub-decision-heading"
+        />
         <ServiceHubLinks
           heading="שירותי קריינות"
           subheading="בחרו מסלול מותאם או התחילו בייעוץ קצר בוואטסאפ."

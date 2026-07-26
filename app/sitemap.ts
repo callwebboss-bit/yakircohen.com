@@ -226,6 +226,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("academy/private-lessons"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/voiceover"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("academy/home-studio"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("academy/ai-music"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("academy/stuttering-course"), priority: 0.7, changeFrequency: "monthly" },
 
 
   // ── Blog hub ───────────────────────────────────────────────────────────────
