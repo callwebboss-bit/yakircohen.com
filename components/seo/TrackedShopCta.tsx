@@ -1,14 +1,14 @@
 "use client";
 
 import { trackConversion } from "@/lib/analytics/conversion-events";
-import { cn } from "@/lib/utils";
+import type { ShopLeadSection } from "@/lib/data/shop-vouchers";
 
 type TrackedShopCtaProps = {
   href: string;
   children: React.ReactNode;
   className?: string;
   campaign: string;
-  section: "vouchers" | "bundles" | "used-gear";
+  section: ShopLeadSection;
   "aria-label"?: string;
 };
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -410,6 +411,7 @@ export default function BubbleMachinePageContent() {
             {TIME_PROMISE_DISCLAIMER}
           </p>
         </section>
+              <NeedsDiscoveryLeadFlowSection defaultServiceId="bubbles" heading="התאמת הצעת בועות סבון" />
               <PageRelatedFooter pathname="/events/attractions/bubble-machine" />
 
             </div>

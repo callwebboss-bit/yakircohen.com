@@ -1,6 +1,8 @@
 import Link from "next/link";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import SeoPortfolioFilterGallery from "@/components/seo/SeoPortfolioFilterGallery";
+import SeoPortfolioGalleryJsonLd from "@/components/seo/SeoPortfolioGalleryJsonLd";
 import PortfolioPlaylistCta from "@/components/marketing/PortfolioPlaylistCta";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
@@ -46,6 +48,7 @@ export default function PortfolioPageContent() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(PORTFOLIO_HUB_SEO)} />
+      <SeoPortfolioGalleryJsonLd />
       <div className="bg-background">
       <Section padding="sm" className="relative overflow-hidden border-b border-border">
         <div
@@ -110,6 +113,28 @@ export default function PortfolioPageContent() {
           {PORTFOLIO_HUB_PLAYLIST_ORDER.map((playlistId) => (
             <PortfolioPlaylistBlock key={playlistId} playlistId={playlistId} />
           ))}
+        </Container>
+      </Section>
+
+      <Section
+        id="seo-portfolio-filter"
+        padding="sm"
+        className="scroll-mt-24 border-t border-border"
+        ariaLabelledby="seo-portfolio-filter-heading"
+      >
+        <Container>
+          <h2
+            id="seo-portfolio-filter-heading"
+            className="font-serif text-section font-semibold text-foreground"
+          >
+            דוגמאות לפי שירות ואזור
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            סינון לפי סוג שירות ואזור. אם אין דוגמה לעיר שנבחרה, מוצגות דוגמאות כלליות של אותו שירות.
+          </p>
+          <div className="mt-8">
+            <SeoPortfolioFilterGallery />
+          </div>
         </Container>
       </Section>
     </div>

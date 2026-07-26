@@ -93,7 +93,7 @@ export const SHOP_BUNDLE_OFFERS = [
   },
 ] as const;
 
-export type ShopLeadSection = "vouchers" | "bundles" | "used-gear";
+export type ShopLeadSection = "vouchers" | "bundles" | "used-gear" | "dj-used-gear";
 
 /** WhatsApp href with Closer [YC:...] tag: source=shop_{section}_{tier} */
 export function buildShopWhatsAppHref(opts: {

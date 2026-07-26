@@ -2,6 +2,7 @@
 import BookAudienceCardsStatic from "@/components/booking/BookAudienceCardsStatic";
 import BookIntentPaths from "@/components/booking/BookIntentPaths";
 import BookPageClient from "@/components/booking/BookPageClient";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import BookDynamicHeroSubtitle, {
   BOOK_HERO_SUBTITLE_DEFAULT,
 } from "@/components/booking/BookDynamicHeroSubtitle";
@@ -53,6 +54,9 @@ function hasLeadQueryParams(
     "social",
     "smartCat",
     "koalendar",
+    "flow",
+    "flowStep",
+    "flowService",
   ];
   return keys.some((key) => {
     const v = sp[key];
@@ -167,6 +171,8 @@ export default async function BookPage({
           utmCampaign={utmCampaign}
           utmContent={utmContent}
         />
+
+        <NeedsDiscoveryLeadFlowSection heading="התאמת הצעה לפי הצורך שלכם" />
 
         <Container className="max-w-3xl pb-14">
           <CheckoutTrustMicro className="mb-6" />

@@ -34,7 +34,9 @@ export type ConversionEventName =
   | "session_rescuer_shown"
   | "session_rescuer_resume"
   | "session_rescuer_dismiss"
-  | "book_wizard_step_celebrate";
+  | "book_wizard_step_celebrate"
+  | "needs_flow_step"
+  | "needs_flow_wa_submit";
 
 export function trackConversion(
   name: ConversionEventName,

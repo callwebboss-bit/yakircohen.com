@@ -5,6 +5,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
@@ -830,6 +831,7 @@ export default function RecordingSongModiinPageContent() {
           />
 
           <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/recording-song-modiin")} />
+          <NeedsDiscoveryLeadFlowSection defaultServiceId="song" heading="התאמת הצעת הקלטת שיר" />
           <PageRelatedFooter pathname="/studio/recording-song-modiin" />
         </div>
       </ServicePageLayout>

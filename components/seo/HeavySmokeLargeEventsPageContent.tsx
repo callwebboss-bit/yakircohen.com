@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -294,6 +295,7 @@ export default function HeavySmokeLargeEventsPageContent() {
           columns={2}
         />
 
+              <NeedsDiscoveryLeadFlowSection defaultServiceId="heavy-smoke" heading="התאמת הצעת עשן כבד" />
               <PageRelatedFooter pathname="/events/attractions/wedding-smoking-machine/heavy-smoke-large-events" />
 
             </div>

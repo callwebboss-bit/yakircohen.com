@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
@@ -409,6 +410,7 @@ export default function ConfettiCannonPageContent() {
           </p>
         </section>
               <ServiceBlogStrip posts={getBlogPostsByServiceSlug("events/attractions/confetti-cannon")} />
+              <NeedsDiscoveryLeadFlowSection defaultServiceId="confetti" heading="התאמת הצעת קונפטי" />
               <PageRelatedFooter pathname="/events/attractions/confetti-cannon" />
 
             </div>

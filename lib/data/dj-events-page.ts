@@ -121,5 +121,6 @@ export const DJ_RELATED_LINKS: readonly {
   { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד", description: "ענן לבן על רצפת הריקודים." },
   { href: "/events/attractions/cold-fireworks", title: "זיקוקים קרים", description: "ניצוצות בטוחים ללא עשן." },
   { href: "/events/equipment", title: "השכרת הגברה", description: "מערכות RCF מקצועיות לכל גודל אירוע." },
+  { href: "/shop#dj-used-gear", title: "ציוד DJ יד שנייה", description: "עמדות ואביזרים מהמחסן - מחיר בשיחה." },
   { href: "/photography/wedding", title: "צילום חתונות", description: "צלם חתונות באזור המרכז." },
 ] as const;

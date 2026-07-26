@@ -7,6 +7,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
@@ -370,6 +371,7 @@ export default function MobileStudioPageContent() {
             {MOBILE_STUDIO_CTA_LABEL}
           </a>
         </section>
+        <NeedsDiscoveryLeadFlowSection defaultServiceId="mobile-studio" heading="התאמת הצעת אולפן נייד" />
         <PageRelatedFooter pathname="/studio/mobile-studio" className="mt-10" />
         <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/mobile-studio")} />
       </div>

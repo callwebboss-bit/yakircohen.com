@@ -5,6 +5,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import TableOfContents from "@/components/ui/TableOfContents";
@@ -850,6 +851,7 @@ export default function PodcastHubPageContent() {
           </div>
 
           <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast")} />
+          <NeedsDiscoveryLeadFlowSection defaultServiceId="podcast" heading="התאמת הצעת פודקאסט" />
           <PageRelatedFooter pathname="/podcast" />
         </Container>
       </ServicePageLayout>
