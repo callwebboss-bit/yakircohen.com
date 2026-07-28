@@ -33,6 +33,16 @@ const EVENT_COMMON: readonly DiscoveryQuestion[] = [
     ],
   },
   {
+    id: "eventArea",
+    prompt: "איפה בארץ האירוע?",
+    options: [
+      { id: "modiin-area", label: "מודיעין והסביבה" },
+      { id: "jerusalem", label: "ירושלים" },
+      { id: "center", label: "מרכז" },
+      { id: "north-south", label: "צפון / דרום / נסיעה ארוכה" },
+    ],
+  },
+  {
     id: "venue",
     prompt: "איפה מתקיים האירוע?",
     options: [
@@ -102,6 +112,16 @@ export const DISCOVERY_QUESTIONS: Record<
       ],
     },
     {
+      id: "songWhere",
+      prompt: "מאיפה מגיעים לאולפן?",
+      options: [
+        { id: "modiin-area", label: "מודיעין והסביבה" },
+        { id: "jerusalem", label: "ירושלים" },
+        { id: "center", label: "מרכז" },
+        { id: "other", label: "אזור אחר" },
+      ],
+    },
+    {
       id: "songExperience",
       prompt: "ניסיון בהקלטה?",
       options: [
@@ -149,6 +169,16 @@ export const DISCOVERY_QUESTIONS: Record<
       ],
     },
     {
+      id: "podcastArea",
+      prompt: "מאיזה אזור אתם?",
+      options: [
+        { id: "modiin-area", label: "מודיעין והסביבה" },
+        { id: "jerusalem", label: "ירושלים" },
+        { id: "center", label: "מרכז" },
+        { id: "north-south", label: "צפון / דרום" },
+      ],
+    },
+    {
       id: "podcastSeries",
       prompt: "פרק בודד או סדרה?",
       options: [
@@ -176,7 +206,7 @@ export const DISCOVERY_QUESTIONS: Record<
         { id: "modiin", label: "מודיעין והסביבה" },
         { id: "jerusalem", label: "ירושלים" },
         { id: "center", label: "מרכז (רחובות / פ\"ת / אשדוד)" },
-        { id: "other", label: "אזור אחר" },
+        { id: "far", label: "צפון / דרום / נסיעה ארוכה" },
       ],
     },
     {
@@ -217,6 +247,16 @@ export const DISCOVERY_QUESTIONS: Record<
         { id: "2-5k", label: "2,000-5,000 ₪" },
         { id: "5kplus", label: "מעל 5,000 ₪" },
         { id: "talk", label: "לפי מה שיש במלאי" },
+      ],
+    },
+    {
+      id: "gearArea",
+      prompt: "מאיזה אזור אתם?",
+      options: [
+        { id: "modiin-area", label: "מודיעין והסביבה" },
+        { id: "jerusalem", label: "ירושלים" },
+        { id: "center", label: "מרכז" },
+        { id: "north-south", label: "צפון / דרום" },
       ],
     },
     {

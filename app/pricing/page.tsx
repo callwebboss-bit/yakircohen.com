@@ -38,6 +38,7 @@ import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy"
 import LeadFormSkeleton from "@/components/leads/LeadFormSkeleton";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import { PRICING_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
+import { HOLD_POLICY_TEXT } from "@/lib/data/lead-flow/payment-hold";
 import { formatMeNis, STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -240,6 +241,9 @@ export default function PricingHubPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               השאירו פרטים ונחזור אליכם בדרך כלל תוך 24 שעות.
             </p>
+            <div className="mt-4 rounded-xl border border-border bg-background px-4 py-3 text-sm leading-relaxed text-foreground">
+              {HOLD_POLICY_TEXT}
+            </div>
             <div className="mt-6">
               <Suspense fallback={<LeadFormSkeleton />}>
                 <PricingInquiryFormLazy />

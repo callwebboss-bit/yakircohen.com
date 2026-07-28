@@ -76,9 +76,9 @@ export const SEO_PORTFOLIO_MEDIA: readonly SeoPortfolioMediaItem[] = [
     id: "bubbles-1",
     service: "bubbles",
     location: null,
-    title: "בועות סבון - אווירת אירוע",
+    title: "בועות סבון - הפעלה באירוע",
     mediaType: "video",
-    youtubeId: "cBga7VLWNN0",
+    youtubeId: "UKPedmrtOT0",
     href: "/events/attractions/bubble-machine",
   },
   {
@@ -87,7 +87,7 @@ export const SEO_PORTFOLIO_MEDIA: readonly SeoPortfolioMediaItem[] = [
     location: "jerusalem",
     title: "עשן כבד - אירוע בירושלים",
     mediaType: "video",
-    youtubeId: "ZDrWMYzUQHk",
+    youtubeId: "ZDsMSF8sbNs",
     href: "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
   },
   {
@@ -96,7 +96,7 @@ export const SEO_PORTFOLIO_MEDIA: readonly SeoPortfolioMediaItem[] = [
     location: null,
     title: "עשן כבד - ריקודים / כניסה",
     mediaType: "video",
-    youtubeId: "kc8Qjo4B-PY",
+    youtubeId: "Hggvb8jmNU8",
     href: "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
   },
   {
@@ -141,7 +141,7 @@ export const SEO_PORTFOLIO_MEDIA: readonly SeoPortfolioMediaItem[] = [
     location: null,
     title: "אולפן נייד - הקלטה בשטח",
     mediaType: "video",
-    youtubeId: "ne023hwMqH0",
+    youtubeId: "UECS5GpAck4",
     href: "/studio/mobile-studio",
   },
   {
@@ -150,7 +150,7 @@ export const SEO_PORTFOLIO_MEDIA: readonly SeoPortfolioMediaItem[] = [
     location: "modiin-area",
     title: "אולפן נייד - מודיעין והסביבה",
     mediaType: "video",
-    youtubeId: "UnBc2a3ve9w",
+    youtubeId: "UECS5GpAck4",
     href: "/studio/mobile-studio",
   },
 ];
