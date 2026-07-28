@@ -1,8 +1,10 @@
 import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export type MobileGeoId = "center" | "north_south" | "eilat";
 
-export const MOBILE_STUDIO_BASE_EX_VAT = 999;
+/** SoT: pricing-catalog `mobile_podcast_at_home` (priceFrom) */
+export const MOBILE_STUDIO_BASE_EX_VAT = getExVat("mobile_podcast_at_home");
 
 export const MOBILE_GEO_FEES: Record<
   MobileGeoId,

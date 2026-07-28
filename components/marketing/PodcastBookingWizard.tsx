@@ -111,6 +111,7 @@ import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
 import {
   calcMobileStudioExVat,
   MOBILE_GEO_FEES,
+  MOBILE_STUDIO_BASE_EX_VAT,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
@@ -1042,7 +1043,7 @@ export default function PodcastBookingWizard({
                     {
                       id: "mobile" as const,
                       label: "🚗🏠 אולפן נייד - מגיעים עד אליכם",
-                      sub: "מ-999 ₪ לפני מע״מ + אזור",
+                      sub: `מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ + אזור`,
                     },
                   ] as const
                 ).map((loc) => (

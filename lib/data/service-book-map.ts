@@ -25,7 +25,7 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
     priceCatalogId: "cover_song",
   },
   "studio/recording-studio": { bookCategory: "studio", priceCatalogId: "studio_hour" },
-  "studio/mobile-studio": { bookCategory: "studio", priceExVat: 999 },
+  "studio/mobile-studio": { bookCategory: "studio", priceCatalogId: "mobile_podcast_at_home" },
   events: { bookCategory: "events", priceCatalogId: "event_attraction_1" },
   photography: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
   video: { bookCategory: "clips", priceCatalogId: "quick_summary_clip" },

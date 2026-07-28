@@ -10,6 +10,7 @@ import {
   getClientScenarioTitle,
 } from "@/lib/data/client-scenario-labels";
 import { formatNis, VAT_RATE } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
   STUDIO_RECORDING_MAX,
@@ -320,7 +321,7 @@ function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext)
     !input.hasMobile &&
     input.recorderCount >= (mobileCfg.capacityThreshold || 12)
   ) {
-    const mobileEx = (mobileCfg.baseExVat || 999) + (mobileCfg.defaultGeoFee || 0);
+    const mobileEx = (mobileCfg.baseExVat || getExVat("mobile_podcast_at_home")) + (mobileCfg.defaultGeoFee || 0);
     const combined = (pairs?.subtotalExVat ?? input.baseExVat) + mobileEx;
     const combinedVat = Math.round(combined * (1 + (input.vatRate ?? VAT_RATE)));
     lines.push(`*${mobileCfg.clientTitle}*`);

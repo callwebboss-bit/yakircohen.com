@@ -34,7 +34,7 @@ const BY_INTENT_ID: Record<
   },
   mobile: {
     outcome: "מגיעים עם הציוד אליכם הביתה או למשרד",
-    fromPriceExVat: 999,
+    priceId: "mobile_podcast_at_home",
   },
   business: {
     outcome: "רילז, קריינות ופודקאסט עם חשבונית מס",
