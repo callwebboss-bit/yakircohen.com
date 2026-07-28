@@ -53,15 +53,6 @@ const EVENT_COMMON: readonly DiscoveryQuestion[] = [
     ],
   },
   {
-    id: "dateReady",
-    prompt: "יש תאריך סגור?",
-    options: [
-      { id: "yes", label: "כן, תאריך ידוע" },
-      { id: "flexible", label: "גמיש" },
-      { id: "soon", label: "בחודש הקרוב" },
-    ],
-  },
-  {
     id: "techNeed",
     prompt: "מה חשוב בתפעול?",
     options: [
@@ -79,8 +70,12 @@ export const DISCOVERY_QUESTIONS: Record<
 > = {
   confetti: EVENT_COMMON,
   bubbles: EVENT_COMMON,
+  /** 5 שאלות: כולל techNeed לתמחור + אישור אולם לעשן */
   "heavy-smoke": [
-    ...EVENT_COMMON.slice(0, 4),
+    EVENT_COMMON[0], // eventType
+    EVENT_COMMON[1], // guestCount
+    EVENT_COMMON[3], // venue
+    EVENT_COMMON[4], // techNeed
     {
       id: "smokeApproval",
       prompt: "יש אישור אולם לעשן / תקרה גבוהה?",

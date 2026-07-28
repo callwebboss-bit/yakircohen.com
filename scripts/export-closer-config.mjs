@@ -21,6 +21,8 @@ const PODCAST_CALC_FILE = path.join(ROOT, "lib", "data", "podcast-calculator.ts"
 const ATTRACTIONS_FILE = path.join(ROOT, "lib", "data", "attractions-calculator.ts");
 const CLIPS_SERVICES_FILE = path.join(ROOT, "lib", "data", "booking-calculator-services.ts");
 const BRAND_COPY_FILE = path.join(ROOT, "lib", "data", "closer-brand-copy.json");
+const LEAD_FLOW_PACKAGES_FILE = path.join(ROOT, "lib", "data", "lead-flow", "packages.ts");
+const LEAD_FLOW_SERVICES_FILE = path.join(ROOT, "lib", "data", "lead-flow", "services.ts");
 const OUT_DIR = path.join(ROOT, "..", "local-tools");
 if (OUT_DIR.replace(/\\/g, "/").includes("/public/")) {
   throw new Error("export:closer OUT_DIR must not be public/ -- local-tools only");
@@ -72,6 +74,8 @@ const SERVICE_SLUG_TO_CLOSER = {
   "online/mashup-fixer": "mashup_fixer",
   "podcast/podcast-editing": "podcast",
   "podcast/podcast-studio-modiin": "podcast",
+  "podcast/mobile-podcast-at-home": "mobile_podcast_home",
+  "studio/mobile-studio": "mobile_podcast_home",
 };
 
 function withVat(exVat) {
@@ -83,15 +87,146 @@ function parseCatalog(text) {
   const re = /\{\s*id:\s*"([^"]+)"\s*,\s*label:\s*"([^"]+)"\s*,\s*exVat:\s*(\d+)\s*,\s*category:\s*"([^"]+)"/g;
   let m;
   while ((m = re.exec(text)) !== null) {
+    const lookAhead = text.slice(m.index, m.index + 500);
     items.push({
       id: m[1],
       label: m[2],
       exVat: Number(m[3]),
       withVat: withVat(Number(m[3])),
       category: m[4],
+      priceFrom: /priceFrom:\s*true/.test(lookAhead),
     });
   }
   return items;
+}
+
+/** Parse one { full/adapted/economy } package map from packages.ts */
+function parseTierMapBlock(block) {
+  const out = {};
+  for (const tier of ["full", "adapted", "economy"]) {
+    const chunkMatch = block.match(
+      new RegExp(`${tier}:\\s*\\{([\\s\\S]*?)\\n\\s*\\}`, "m"),
+    );
+    const chunk = chunkMatch?.[1] || "";
+    const catalogM = chunk.match(/catalogId:\s*(null|"([^"]+)")/);
+    const titleM = chunk.match(/title:\s*"([^"]*)"/);
+    const summaryM = chunk.match(/summary:\s*"([^"]*)"/);
+    out[tier] = {
+      id: tier,
+      title: titleM?.[1] || tier,
+      summary: summaryM?.[1] || "",
+      catalogId: !catalogM || catalogM[1] === "null" ? null : catalogM[2] || null,
+    };
+  }
+  return out;
+}
+
+function parseLeadFlowPackages(text) {
+  const attrM = text.match(/const ATTRACTION_PACKAGES[^=]*=\s*(\{[\s\S]*?\n\});/);
+  const attraction = attrM ? parseTierMapBlock(attrM[1]) : null;
+  const result = {};
+  if (attraction) {
+    result.confetti = attraction;
+    result.bubbles = attraction;
+    result["heavy-smoke"] = attraction;
+  }
+  for (const id of ["song", "podcast", "mobile-studio", "used-gear"]) {
+    const key = id.includes("-") ? `"${id}"` : id;
+    const re = new RegExp(`${key}:\\s*(\\{[\\s\\S]*?\\n  \\})`);
+    const m = text.match(re);
+    if (m) result[id] = parseTierMapBlock(m[1]);
+  }
+  return result;
+}
+
+function parseLeadFlowServiceHrefs(text) {
+  const services = [];
+  const blockRe =
+    /\{\s*id:\s*"([^"]+)"\s*,\s*label:\s*"([^"]+)"\s*,\s*href:\s*"([^"]+)"/g;
+  let m;
+  while ((m = blockRe.exec(text)) !== null) {
+    services.push({ id: m[1], label: m[2], href: m[3] });
+  }
+  return services;
+}
+
+/**
+ * Closer routing for lead-flow: discovery-first + catalog quote tier.
+ * closerServiceId = CONFIG.services key; defaultTier = packages.ts tier for first quote.
+ */
+function buildLeadFlowRoutes(serviceHrefs) {
+  const byId = Object.fromEntries(serviceHrefs.map((s) => [s.id, s]));
+  const strip = (href) => String(href || "").replace(/^\//, "").replace(/#.*$/, "");
+  return [
+    {
+      id: "confetti",
+      closerServiceId: "effects_only",
+      defaultTier: "economy",
+      label: byId.confetti?.label || "קונפטי",
+      href: byId.confetti?.href || "/events/attractions/confetti-cannon",
+      sourcePatterns: ["confetti-cannon", "confetti"],
+      keywordHints: ["קונפטי"],
+    },
+    {
+      id: "bubbles",
+      closerServiceId: "effects_only",
+      defaultTier: "economy",
+      label: byId.bubbles?.label || "בועות סבון",
+      href: byId.bubbles?.href || "/events/attractions/bubble-machine",
+      sourcePatterns: ["bubble-machine", "bubbles"],
+      keywordHints: ["בועות סבון", "בועות"],
+    },
+    {
+      id: "heavy-smoke",
+      closerServiceId: "effects_only",
+      defaultTier: "economy",
+      label: byId["heavy-smoke"]?.label || "עשן כבד",
+      href: byId["heavy-smoke"]?.href || "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+      sourcePatterns: ["heavy-smoke", "wedding-smoking-machine"],
+      keywordHints: ["עשן כבד"],
+    },
+    {
+      id: "song",
+      closerServiceId: "recording",
+      defaultTier: "economy",
+      label: byId.song?.label || "הקלטת שיר",
+      href: byId.song?.href || "/studio/recording-song-modiin",
+      sourcePatterns: ["recording-song-modiin", "recording-song"],
+      keywordHints: ["הקלטת שיר", "שיר קאבר"],
+    },
+    {
+      id: "podcast",
+      closerServiceId: "podcast",
+      defaultTier: "economy",
+      label: byId.podcast?.label || "הקלטת פודקאסט",
+      href: byId.podcast?.href || "/podcast",
+      sourcePatterns: ["podcast/podcast-studio-modiin", "podcast/podcast-editing"],
+      keywordHints: ["פודקאסט"],
+      excludeIf: ["mobile-podcast", "נייד", "עד הבית", "אולפן נייד"],
+    },
+    {
+      id: "mobile-studio",
+      closerServiceId: "mobile_podcast_home",
+      defaultTier: "economy",
+      label: byId["mobile-studio"]?.label || "אולפן הקלטות נייד",
+      href: byId["mobile-studio"]?.href || "/studio/mobile-studio",
+      sourcePatterns: [
+        "mobile-podcast-at-home",
+        "studio/mobile-studio",
+        "mobile-studio",
+      ],
+      keywordHints: ["פודקאסט נייד", "אולפן נייד", "עד הבית"],
+    },
+    {
+      id: "used-gear",
+      closerServiceId: null,
+      defaultTier: "adapted",
+      label: byId["used-gear"]?.label || "ציוד יד-2 לתקליטנים",
+      href: byId["used-gear"]?.href || "/shop#dj-used-gear",
+      sourcePatterns: ["dj-used-gear", "shop"],
+      keywordHints: ["יד-2", "יד 2", "ציוד משומש"],
+    },
+  ].map((r) => ({ ...r, sourcePath: strip(r.href) }));
 }
 
 function parseBookRoutes(text) {
@@ -619,6 +754,33 @@ const proServicesText = fs.readFileSync(PRO_SERVICES_FILE, "utf8");
 const inventoryText = fs.readFileSync(INVENTORY_FILE, "utf8");
 const brandCopyRaw = JSON.parse(fs.readFileSync(BRAND_COPY_FILE, "utf8"));
 const brandCopy = humanizeExportStrings(brandCopyRaw);
+/** Preserve structural IDs + approved call scripts (do not mangle hyphens). */
+brandCopy.leadFlowServices = brandCopyRaw.leadFlowServices || [];
+brandCopy.yakirCallScripts = brandCopyRaw.yakirCallScripts || {};
+brandCopy.leadFlowWaTemplates = brandCopyRaw.leadFlowWaTemplates || {};
+brandCopy.continueChatPaths = brandCopyRaw.continueChatPaths || brandCopy.continueChatPaths;
+for (const id of Object.keys(brandCopyRaw.discoverySets || {})) {
+  if (brandCopyRaw.discoverySets[id] && brandCopy.discoverySets?.[id]) {
+    brandCopy.discoverySets[id].id = brandCopyRaw.discoverySets[id].id;
+    // Keep discovery Qs from raw (short lines / hyphens) — humanize mangled questions
+    brandCopy.discoverySets[id].questions = brandCopyRaw.discoverySets[id].questions;
+    brandCopy.discoverySets[id].closingCta = brandCopyRaw.discoverySets[id].closingCta;
+    brandCopy.discoverySets[id].title = brandCopyRaw.discoverySets[id].title;
+  }
+}
+
+const leadFlowPackagesText = fs.readFileSync(LEAD_FLOW_PACKAGES_FILE, "utf8");
+const leadFlowServicesText = fs.readFileSync(LEAD_FLOW_SERVICES_FILE, "utf8");
+const leadFlowPackages = parseLeadFlowPackages(leadFlowPackagesText);
+const leadFlowServiceHrefs = parseLeadFlowServiceHrefs(leadFlowServicesText);
+const leadFlowRoutes = buildLeadFlowRoutes(leadFlowServiceHrefs);
+
+if (!leadFlowPackages.confetti?.economy?.catalogId) {
+  throw new Error("lead-flow packages parse failed: missing confetti.economy.catalogId");
+}
+if (!leadFlowPackages["mobile-studio"]?.economy?.catalogId) {
+  throw new Error("lead-flow packages parse failed: missing mobile-studio.economy.catalogId");
+}
 
 const REQUIRED_BRAND_KEYS = [
   "messageRecipients",
@@ -659,6 +821,46 @@ const payload = {
   leadSources: [
     ...parseLeadRegistry(registryText),
     ...parseBookRouterLeadSources(routesText),
+    {
+      formId: "mobile_podcast_at_home",
+      closerServiceId: "mobile_podcast_home",
+      parserId: "standard_closing",
+      label: "פודקאסט נייד עד הבית",
+      defaultSource: "podcast/mobile-podcast-at-home",
+      utmCampaigns: [],
+    },
+    {
+      formId: "lead_flow_confetti",
+      closerServiceId: "effects_only",
+      parserId: "standard_closing",
+      label: "קונפטי",
+      defaultSource: "events/attractions/confetti-cannon",
+      utmCampaigns: [],
+    },
+    {
+      formId: "lead_flow_bubbles",
+      closerServiceId: "effects_only",
+      parserId: "standard_closing",
+      label: "בועות סבון",
+      defaultSource: "events/attractions/bubble-machine",
+      utmCampaigns: [],
+    },
+    {
+      formId: "lead_flow_heavy_smoke",
+      closerServiceId: "effects_only",
+      parserId: "standard_closing",
+      label: "עשן כבד",
+      defaultSource: "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+      utmCampaigns: [],
+    },
+    {
+      formId: "lead_flow_song",
+      closerServiceId: "recording",
+      parserId: "standard_closing",
+      label: "הקלטת שיר",
+      defaultSource: "studio/recording-song-modiin",
+      utmCampaigns: [],
+    },
   ],
   contactServiceMap: parseContactServiceMap(registryText),
   podcastPackages: parsePodcastPackages(podcastCalcText),
@@ -673,6 +875,17 @@ const payload = {
   podcastFilmingIdeas: brandCopy.podcastFilmingIdeas,
   discoverySets: brandCopy.discoverySets,
   audienceRoutes: buildAudienceRoutes(routesText, brandCopy),
+  yakirCallScripts: brandCopy.yakirCallScripts || {},
+  leadFlowServices: brandCopy.leadFlowServices || [],
+  leadFlowWaTemplates: brandCopy.leadFlowWaTemplates || {},
+  leadFlowPackages,
+  leadFlowRoutes,
+  leadFlowHold: {
+    durationHours: 5,
+    policyText:
+      brandCopy.yakirCallScripts?.hold5h ||
+      "אפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.",
+  },
   crossSellOffers: brandCopy.crossSellOffers,
   groupFamilyPitch: brandCopy.groupFamilyPitch,
   groupPlaybackReadyPitch: brandCopy.groupPlaybackReadyPitch,

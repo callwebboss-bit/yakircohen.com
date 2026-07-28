@@ -228,8 +228,160 @@
         "קליפ BTS",
         "שיחה במתחם הפודקאסט"
       ]
+    },
+    "confetti": {
+      "id": "confetti",
+      "title": "קונפטי - איתור צרכים",
+      "questions": [
+        "סוג האירוע?",
+        "כמה אורחים בערך?",
+        "איפה בארץ?",
+        "אולם / חוץ / בית?",
+        "מפעיל / תזמון / בסיסי?"
+      ],
+      "closingCta": [
+        "איזה רגע עם קונפטי?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "עשן כבד",
+        "בועות סבון",
+        "מצגת תמונות"
+      ]
+    },
+    "bubbles": {
+      "id": "bubbles",
+      "title": "בועות סבון - איתור צרכים",
+      "questions": [
+        "סוג האירוע?",
+        "כמה אורחים בערך?",
+        "איפה בארץ?",
+        "אולם / חוץ / בית?",
+        "מה חשוב בתפעול?"
+      ],
+      "closingCta": [
+        "באיזה רגע הבועות?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "קונפטי",
+        "עשן כבד",
+        "מצגת תמונות"
+      ]
+    },
+    "heavy-smoke": {
+      "id": "heavy-smoke",
+      "title": "עשן כבד - איתור צרכים",
+      "questions": [
+        "סוג האירוע?",
+        "כמה אורחים בערך?",
+        "אולם / חוץ?",
+        "מפעיל / תזמון / בסיסי?",
+        "אישור אולם לעשן?"
+      ],
+      "closingCta": [
+        "ריקוד ראשון או כניסה?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "קונפטי",
+        "בועות סבון",
+        "מצגת תמונות"
+      ]
+    },
+    "song": {
+      "id": "song",
+      "title": "הקלטת שיר - איתור צרכים",
+      "questions": [
+        "מתנה / קאבר / שחרור?",
+        "יש פלייבק או מילים?",
+        "מאיפה מגיעים?",
+        "ניסיון בהקלטה?",
+        "מתי צריך את הקובץ?"
+      ],
+      "closingCta": [
+        "מה השיר שחשבתם עליו?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "מסירה מהירה",
+        "קליפ",
+        "תיקון זיופים מורחב"
+      ]
+    },
+    "podcast": {
+      "id": "podcast",
+      "title": "פודקאסט - איתור צרכים",
+      "questions": [
+        "אודיו / וידאו / לא בטוח?",
+        "כמה משתתפים?",
+        "אולפן / נייד / גמיש?",
+        "מאיזה אזור?",
+        "פרק בודד או סדרה?"
+      ],
+      "closingCta": [
+        "מה המטרה של הפרק?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "עריכה מורחבת",
+        "אולפן נייד",
+        "חבילת תוכן"
+      ]
+    },
+    "mobile-studio": {
+      "id": "mobile-studio",
+      "title": "אולפן נייד - איתור צרכים",
+      "questions": [
+        "למה צריך אולפן נייד?",
+        "איזה אזור הגעה?",
+        "כמה זמן הקלטה?",
+        "אודיו, וידאו או גם עריכה?"
+      ],
+      "closingCta": [
+        "מה המיקום בערך?",
+        "נוח להמשיך בוואטסאפ?"
+      ],
+      "upsellHints": [
+        "עריכה ומסירה",
+        "מסירה מהירה"
+      ]
+    },
+    "used-gear": {
+      "id": "used-gear",
+      "title": "ציוד יד-2 לתקליטנים - איתור צרכים",
+      "questions": [
+        "איזה ציוד מחפשים?",
+        "תקציב משוער?",
+        "מאיזה אזור?",
+        "מתי צריך?",
+        "איסוף ממודיעין?"
+      ],
+      "closingCta": [
+        "רוצים לבדוק במקום?",
+        "אשלח מלאי - מחיר בשיחה."
+      ],
+      "upsellHints": [
+        "אביזרים נלווים",
+        "הדרכה קצרה במסירה"
+      ]
     }
   },
+  "yakirCallScripts": {
+    "needsIntro": "כדי לא לזרוק מחיר לא נכון, אשאל כמה שאלות קצרות ואז אגיד מה יכול להתאים ומה המחיר נכון לכרגע.",
+    "nationwideTravel": "אני עובד בכל הארץ. בנסיעות ארוכות ממודיעין יכולה להיות תוספת למחיר, לפי המרחק והלוגיסטיקה.",
+    "hold5h": "אפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.",
+    "economyScope": "אפשר לבנות גם מסלול חסכוני יותר, אבל חשוב להבין מראש מה לא כלול בו כדי שלא יהיו הפתעות ביום השירות."
+  },
+  "leadFlowServices": [
+    { "id": "confetti", "label": "קונפטי", "discoverySetId": "confetti" },
+    { "id": "bubbles", "label": "בועות סבון", "discoverySetId": "bubbles" },
+    { "id": "heavy-smoke", "label": "עשן כבד", "discoverySetId": "heavy-smoke" },
+    { "id": "song", "label": "הקלטת שיר", "discoverySetId": "song" },
+    { "id": "podcast", "label": "פודקאסט", "discoverySetId": "podcast" },
+    { "id": "mobile-studio", "label": "אולפן נייד", "discoverySetId": "mobile-studio" },
+    { "id": "used-gear", "label": "יד-2 לתקליטנים", "discoverySetId": "used-gear" }
+  ],
   "audienceRoutes": [
     {
       "id": "family-gifts",
@@ -249,7 +401,7 @@
     {
       "id": "dj-vip",
       "label": "DJ לאירוע",
-      "discoverySetId": "studio_group_default"
+      "discoverySetId": "events_attractions"
     },
     {
       "id": "singer-amplification",
@@ -460,9 +612,15 @@
     }
   },
   "continueChatPaths": {
-    "short": "שלום {name}, תודה על הפנייה.{songLine}{dateLine} נשמח לאשר שהכל עדיין רלוונטי.",
-    "standard": "שלום {name}, תודה על הפנייה. קראנו את הפרטים.{songLine}{dateLine} נשמח להמשיך מכאן.",
-    "withSongQuestion": "שלום {name}, ראינו את הפנייה.{songLine} נשמח לאשר שהתאריך {dateDetail} עדיין מתאים."
+    "short": "שלום {name}, תודה על הפנייה.{songLine}{dateLine} כדי לא לזרוק מחיר לא נכון, אשאל כמה שאלות קצרות ואז אגיד מה יכול להתאים ומה המחיר נכון לכרגע.",
+    "standard": "שלום {name}, תודה על הפנייה. קראנו את הפרטים.{songLine}{dateLine} כדי לא לזרוק מחיר לא נכון, אשאל כמה שאלות קצרות ואז אגיד מה יכול להתאים ומה המחיר נכון לכרגע. נשמח להמשיך מכאן.",
+    "withSongQuestion": "שלום {name}, ראינו את הפנייה.{songLine} כדי לא לזרוק מחיר לא נכון, אשאל כמה שאלות קצרות. נשמח גם לאשר שהתאריך {dateDetail} עדיין מתאים."
+  },
+  "leadFlowWaTemplates": {
+    "firstReply": "שלום {name},\nתודה על הפנייה{serviceBit}.\nכמה שאלות לפני מחיר.\nעובד בכל הארץ.\nנסיעה ארוכה = תוספת.",
+    "quoteHold": "שלום {name},\nנכון לכרגע: {quoteLine}\n{includesLine}אפשר גם מסלול חסכוני יותר, אבל חשוב להבין מראש מה לא כלול בו כדי שלא יהיו הפתעות ביום השירות.\nאפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.",
+    "chase24h": "שלום {name},\nרק בודק אם עדיין רלוונטי{serviceBit}.\nאם כן, אפשר להמשיך מההצעה נכון לכרגע, או לעדכן פרטים ואחזיר מחיר מעודכן.\nHold ל-5 שעות תקף רק אחרי בחירת מסלול ואישור.",
+    "paymentAsk": "שלום {name},\nכדי לשריין את התאריך נדרש תשלום מראש.\nאפשר לשמור Hold ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.\nאחרי התשלום שולחים אישור וקובעים ביומן."
   },
   "groupPlaybackReadyPitch": {
     "championIntro": "הנה הודעה שאת יכולה להעתיק ולשלוח להם בקבוצה. יחד עם הקישור לפלייבק שנתתי לך:",
@@ -601,27 +759,37 @@
     "first_contact": "*[פתיחה]* שלום {salutationName}, [השהיה] מדברים מ{brand}.\n\n*[עיקר]* ראינו את הפנייה{occasion}{dateBit}. {serviceDesc} *[מחיר]* {priceNote}, *[הדגשה]* וזה כולל {includes}.\n\n*[סיום]* [השהיה] אם הכיוון מתאים, נתאם המשך כאן. תודה.",
     "follow_up": "*[פתיחה]* היי {salutationName}, [השהיה] יקיר מ{brand} -- חוזר אליך לגבי {serviceLabel}.\n\n*[עיקר]* רציתי לוודא שקיבלת את הפרטים{dateBit}. יש שאלות לפני שנשריין מועד?\n\n*[סיום]* [השהיה] אני כאן בוואטסאפ. תודה.",
     "playback_ready": "*[פתיחה]* שלום {salutationName}, [השהיה] יקיר מ{brand}.\n\n*[עיקר]* הפלייבק{songRef} מוכן. תנו שמיעה ברמקול, תתאמנו על המילים -- יש גרסה איטית. {aboutCelebrant}ב{scheduleDetail} ניפגש באולפן.\n\n*[סיום]* משהו לא מסתדר? כותבים לי. תודה.",
-    "deposit": "*[פתיחה]* {salutationName}, [השהיה] יקיר מ{brand}.\n\n*[עיקר]* כדי לשריין את {dateBit} נדרשת מקדמה של {deposit}. ניתן בביט/פייבוקס/אפל פיי ל-{phone}.\n\n*[סיום]* ברגע שנכנס -- התאריך נעול. תודה.",
+    "deposit": "*[פתיחה]* {salutationName}, [השהיה] יקיר מ{brand}.\n\n*[עיקר]* כדי לשריין את {dateBit} נדרש תשלום מראש של {deposit}. ניתן בביט/פייבוקס/אפל פיי ל-{phone}. אפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.\n\n*[סיום]* ברגע שנכנס -- התאריך נעול. תודה.",
     "parent_about_child": "*[פתיחה]* שלום {salutationName}, [השהיה] יקיר מ{brand}.\n\n*[עיקר]* לגבי {celebrant} -- {serviceDesc} {priceNote}. נלווה אתכם עד יום ההקלטה, כולל התאמת פלייבק.\n\n*[סיום]* [השהיה] שאלות? אני כאן. תודה.",
     "procurement": "*[פתיחה]* שלום {salutationName}, [השהיה] {brand}, לגבי הצעת המחיר.\n\n*[עיקר]* {serviceLabel}: {priceNote} לפני מע\"מ. כולל {includes}. נשמח לאישור רכש או שאלות.\n\n*[סיום]* [השהיה] פרטים נוספים במייל/וואטסאפ. תודה."
   },
   "quickInjectIds": [
-    "playback_ready_pitch",
-    "playback_to_recorder",
     "discovery_questions",
-    "micro_deposit",
+    "lead_flow_quote_hold",
+    "hold_date",
+    "lead_flow_payment",
+    "quote_chase_24h",
+    "nationwide_travel",
+    "economy_scope",
     "soft_close_cta",
-    "studio_group_experience",
-    "key_adapter",
-    "express_delivery",
-    "koalendar_confirmation",
-    "studio_arrival"
+    "playback_ready_pitch",
+    "koalendar_confirmation"
   ],
   "injectBundles": {
     "first_reply": {
-      "label": "📨 פתיחה",
-      "description": "discovery + מקדמה + CTA",
-      "ids": ["discovery_questions", "micro_deposit", "soft_close_cta"]
+      "label": "📨 פתיחה + שאלות",
+      "description": "תשובה ראשונה + שאלות צרכים",
+      "ids": ["lead_flow_first_reply", "discovery_questions"]
+    },
+    "needs_flow": {
+      "label": "🧭 זרימת צרכים",
+      "description": "שאלות → Hold → סגירה",
+      "ids": ["discovery_questions", "hold_date", "soft_close_cta"]
+    },
+    "quote_hold_pay": {
+      "label": "💰 הצעה + Hold + תשלום",
+      "description": "מחיר נכון לכרגע + Hold 5ש׳ + דרישת תשלום",
+      "ids": ["lead_flow_quote_hold", "hold_date", "lead_flow_payment"]
     },
     "playback_pack": {
       "label": "🎵 פלייבק",
