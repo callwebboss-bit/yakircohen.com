@@ -2,9 +2,9 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { CalendarIcon, ClockIcon, StarIcon } from "@/components/ui/Icons";
 import LiveVisitorCount from "@/components/marketing/LiveVisitorCount";
+import LiveStatusProjectTicker from "@/components/marketing/LiveStatusProjectTicker";
 import {
   AVAILABILITY_TONE_CLASS,
-  formatLastProjectDate,
   getLiveStatusConfig,
   resolveAvailabilityLabel,
 } from "@/lib/data/live-status";
@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 export default function LiveStatusBar() {
   const config = getLiveStatusConfig();
   const availability = resolveAvailabilityLabel(config);
-  const { lastProject } = config;
 
   const yearsStat = SITE_TRUST_STATS.find((s) => s.label === "שנות ניסיון");
   const clientsStat = SITE_TRUST_STATS.find((s) => s.label === "לקוחות מרוצים");
@@ -54,18 +53,7 @@ export default function LiveStatusBar() {
 
             <div className="hidden items-center gap-2 md:flex">
               <CalendarIcon size={16} className="shrink-0 text-emerald-600" />
-              <Link
-                href={lastProject.url}
-                title={`${lastProject.title} - הזמינו גם אתם`}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <span className="font-semibold text-emerald-700">✅ הושלם לאחרונה:</span>{" "}
-                <span className="font-medium text-foreground">{lastProject.title}</span>
-                {" • "}
-                <span className="text-muted-foreground">
-                  {formatLastProjectDate(lastProject.date)}
-                </span>
-              </Link>
+              <LiveStatusProjectTicker />
             </div>
           </div>
 
