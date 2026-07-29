@@ -14,7 +14,14 @@ import {
   SITE_TRUST_STATS,
   STUDIO_GOOGLE_MAPS_URL,
 } from "@/lib/constants";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+
+const quote60sHref = buildWhatsAppHref({
+  text: "שלום, אשמח להצעת מחיר מהירה.",
+  utm_source: "website",
+  utm_campaign: "status_bar_60s_quote",
+});
 
 export default function LiveStatusBar() {
   const config = getLiveStatusConfig();
@@ -49,6 +56,14 @@ export default function LiveStatusBar() {
               >
                 בדקו תאריך פנוי
               </Link>
+              <a
+                href={quote60sHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden min-h-8 items-center rounded-full border border-amber-500/30 bg-amber-500/5 px-2.5 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-500/10 md:inline-flex"
+              >
+                ⏱️ הצעת מחיר ב-60 שניות
+              </a>
             </div>
 
             <div className="hidden items-center gap-2 md:flex">

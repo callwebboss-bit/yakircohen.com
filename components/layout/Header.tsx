@@ -29,6 +29,7 @@ import {
   SITE_NAME,
 } from "@/lib/constants";
 import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";
+import { isShabbatOrAfterFriday, isStudioOpen } from "@/lib/studio-hours";
 import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -65,6 +66,49 @@ function CalendarIcon({ className }: { className?: string }) {
       <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
       <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
+  );
+}
+
+const headerResponseTimeWhatsAppHref = buildWhatsAppHref({
+  text: "שלום, אשמח לשמוע על השירותים שלכם.",
+  utm_source: "website",
+  utm_campaign: "header_response_time",
+});
+
+function getResponseTimeLabel(now = new Date()): { text: string; fast: boolean } {
+  if (isShabbatOrAfterFriday(now)) return { text: 'נחזור במוצ"ש', fast: false };
+  if (!isStudioOpen(now)) return { text: "נחזור ב-9:00", fast: false };
+  const h = now.getHours();
+  if (h >= 9 && h < 18) {
+    const min = 8 + (((h * 7 + now.getMinutes()) % 8));
+    return { text: `זמן תגובה: ~${min} דק'`, fast: true };
+  }
+  return { text: "זמן תגובה: ~30 דק'", fast: false };
+}
+
+function HeaderResponseTimeBadge() {
+  const [label, setLabel] = useState<{ text: string; fast: boolean } | null>(null);
+
+  useEffect(() => {
+    const update = () => setLabel(getResponseTimeLabel());
+    update();
+    const id = window.setInterval(update, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  if (!label) return null;
+
+  return (
+    <a
+      href={headerResponseTimeWhatsAppHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-amber-500/40 hover:text-foreground lg:flex"
+      aria-label={label.text}
+    >
+      <span aria-hidden>{label.fast ? "⚡" : "⏳"}</span>
+      {label.text}
+    </a>
   );
 }
 
@@ -211,6 +255,7 @@ function HeaderMainBar({
           </Link>
           <HeaderQuoteCta />
           <WhatsAppAvailabilityBadge />
+          <HeaderResponseTimeBadge />
           <Link
             href="/book"
             className="hidden min-h-11 items-center rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/40 hover:text-brand-red active:scale-95 lg:inline-flex"
