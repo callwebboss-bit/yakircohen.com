@@ -12,13 +12,16 @@ export default function TechBarrierReliefSection({
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-            חסמים טכנולוגיים
+            מה באמת צריך מכם
           </p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {config.title}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             {config.intro}
+          </p>
+          <p className="mt-4 border-r-[3px] border-brand-red/40 pr-4 text-sm leading-relaxed text-foreground/85 sm:text-base">
+            {config.analogy}
           </p>
         </div>
 
