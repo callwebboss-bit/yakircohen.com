@@ -5,6 +5,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
@@ -162,6 +163,8 @@ export default function PodcastHubPageContent() {
             heading="מה מתאים לי?"
             headingId="podcast-hub-decision-heading"
           />
+
+          <TimeSavedMatrix hub="podcast" headingId="podcast-time-saved-heading" />
 
           {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
           <aside

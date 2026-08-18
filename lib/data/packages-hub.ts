@@ -1,5 +1,10 @@
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
-import { getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
+import {
+  getExVat,
+  getScopeById,
+  type PriceItemId,
+  type PriceScope,
+} from "@/lib/data/pricing-catalog";
 import { STUDIO_PRICING } from "@/lib/data/services";
 
 export type PackageHubCategory = "studio" | "podcast" | "events";
@@ -11,6 +16,7 @@ export type PackageHubItem = {
   name: string;
   description: string;
   priceExVat: number;
+  catalogId?: PriceItemId;
   scope?: PriceScope;
   highlights: readonly string[];
   href: string;
@@ -31,6 +37,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
       songTier?.description ??
       "החבילה הפופולרית לשיר במתנה או הקלטה אישית.",
     priceExVat: getExVat("song_package"),
+    catalogId: "song_package",
     scope: songTier?.scope ?? getScopeById("song_package"),
     highlights: songTier?.highlights ?? [
       "הקלטה מודרכת עם טיונינג ווקאלי",
@@ -47,6 +54,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     name: podcastAudio?.name ?? "פודקאסט אודיו",
     description: podcastAudio?.summary ?? "הקלטה ועריכה מקצועית לפרק אחד.",
     priceExVat: podcastAudio?.price ?? getExVat("podcast_audio"),
+    catalogId: "podcast_audio",
     scope: getScopeById("podcast_audio"),
     highlights: podcastAudio?.features ?? [
       "הקלטה עד שעה באולפן",
@@ -63,6 +71,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     description:
       "DJ פרימיום, אולפן נייד באירוע, 3 אפקטים, פסקול כניסה וטכנאי צמוד.",
     priceExVat: festivalExVat,
+    catalogId: "festival_all_in",
     scope: getScopeById("festival_all_in"),
     highlights: [
       "DJ פרימיום (5 שעות)",

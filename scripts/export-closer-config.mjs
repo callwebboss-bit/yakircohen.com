@@ -29,6 +29,7 @@ if (OUT_DIR.replace(/\\/g, "/").includes("/public/")) {
 }
 const OUT_JSON = path.join(OUT_DIR, "closer-config.json");
 const OUT_JS = path.join(OUT_DIR, "closer-config.js");
+const TMP_PRICING_EXPORT = path.join(ROOT, ".next", "tmp-pricing-export.cjs");
 
 const VAT_RATE = 0.18;
 
@@ -82,22 +83,51 @@ function withVat(exVat) {
   return Math.round(exVat * (1 + VAT_RATE));
 }
 
-function parseCatalog(text) {
-  const items = [];
-  const re = /\{\s*id:\s*"([^"]+)"\s*,\s*label:\s*"([^"]+)"\s*,\s*exVat:\s*(\d+)\s*,\s*category:\s*"([^"]+)"/g;
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    const lookAhead = text.slice(m.index, m.index + 500);
-    items.push({
-      id: m[1],
-      label: m[2],
-      exVat: Number(m[3]),
-      withVat: withVat(Number(m[3])),
-      category: m[4],
-      priceFrom: /priceFrom:\s*true/.test(lookAhead),
-    });
-  }
-  return items;
+function loadPricingModule() {
+  fs.mkdirSync(path.join(ROOT, ".next"), { recursive: true });
+  esbuild.buildSync({
+    entryPoints: [CATALOG_FILE],
+    bundle: true,
+    format: "cjs",
+    platform: "node",
+    outfile: TMP_PRICING_EXPORT,
+    tsconfig: path.join(ROOT, "tsconfig.json"),
+    logLevel: "silent",
+  });
+  return createRequire(import.meta.url)(TMP_PRICING_EXPORT);
+}
+
+function buildCatalogExport(pricingMod) {
+  const catalog = pricingMod.PRICING_CATALOG ?? [];
+  return catalog.map((item) => ({
+    id: item.id,
+    label: item.label,
+    exVat: item.exVat,
+    withVat: withVat(item.exVat),
+    category: item.category,
+    priceFrom: item.priceFrom === true,
+    transparency:
+      typeof pricingMod.getPriceTransparencyById === "function"
+        ? pricingMod.getPriceTransparencyById(item.id)
+        : null,
+    addons:
+      typeof pricingMod.getAddonsForBaseId === "function"
+        ? pricingMod.getAddonsForBaseId(item.id).map((addon) => ({
+            id: addon.id,
+            label: addon.label,
+            exVat: addon.exVat,
+            withVat: withVat(addon.exVat),
+          }))
+        : [],
+  }));
+}
+
+function buildTransparencyMap(catalog) {
+  return Object.fromEntries(
+    catalog
+      .filter((item) => item?.transparency)
+      .map((item) => [item.id, item.transparency]),
+  );
 }
 
 /** Parse one { full/adapted/economy } package map from packages.ts */
@@ -753,6 +783,8 @@ const clipsText = fs.readFileSync(CLIPS_SERVICES_FILE, "utf8");
 const proServicesText = fs.readFileSync(PRO_SERVICES_FILE, "utf8");
 const inventoryText = fs.readFileSync(INVENTORY_FILE, "utf8");
 const brandCopyRaw = JSON.parse(fs.readFileSync(BRAND_COPY_FILE, "utf8"));
+const pricingMod = loadPricingModule();
+const catalogExport = buildCatalogExport(pricingMod);
 const brandCopy = humanizeExportStrings(brandCopyRaw);
 /** Preserve structural IDs + approved call scripts (do not mangle hyphens). */
 brandCopy.leadFlowServices = brandCopyRaw.leadFlowServices || [];
@@ -809,7 +841,8 @@ if (!Array.isArray(brandCopy.quickInjectIds) || brandCopy.quickInjectIds.length 
 const payload = {
   generatedAt: new Date().toISOString(),
   vatRate: VAT_RATE,
-  catalog: parseCatalog(catalogText),
+  catalog: catalogExport,
+  priceTransparencyMap: buildTransparencyMap(catalogExport),
   bookRoutePresets: parseBookRoutes(routesText),
   studioPackages: parseStudioPackages(studioText),
   studioUpgrades: parseStudioUpgrades(studioText),
@@ -950,3 +983,9 @@ esbuild.buildSync({
 console.log(
   `Wrote ${OUT_JSON} + closer-config.js + closer-reply-builders.js (${payload.studioPackages.length} studio pkgs, ${payload.leadSources.length} lead sources)`,
 );
+
+try {
+  fs.unlinkSync(TMP_PRICING_EXPORT);
+} catch {
+  /* ignore temp cleanup */
+}

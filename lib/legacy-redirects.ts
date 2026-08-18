@@ -49,6 +49,7 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/faq": "/about/faq",
   "/questions": "/about/faq",
   "/שאלות-נפוצות": "/about/faq",
+  "/מונחון": "/glossary",
   "/online/online-pricing": "/online/online-ai-pricing",
   "/academy/ai-music.html": "/academy/ai-music",
   "/voucher": "/shop#vouchers",

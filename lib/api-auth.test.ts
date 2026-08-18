@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { verifyBearerToken } from "./api-auth.ts";
+import { verifyBearerToken } from "./api-auth";
 
 function requestWithAuth(token: string): Request {
   return new Request("https://example.com", {

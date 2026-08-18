@@ -62,7 +62,11 @@ export default function PodcastSelfServicePageContent() {
               + מע״מ
             </span>
           </p>
-          <BookPriceDual exVat={SELF_SERVICE_PRICE} className="mt-1" />
+          <BookPriceDual
+            exVat={SELF_SERVICE_PRICE}
+            catalogId="studio_self_service_hour"
+            className="mt-1"
+          />
           <a
             href={waHref}
             target="_blank"

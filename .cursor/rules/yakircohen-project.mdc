@@ -70,9 +70,12 @@ alwaysApply: true
 ## Domain & deploy
 
 - Production: https://yakircohen.com
-- Preview only: yakircohen-com.vercel.app (do not share with clients)
+- Vercel project: `yakircohen-site` only (never NeverMind / nevermind.co.il)
+- Production Branch must stay `main` unless the owner explicitly approves a change
+- Preview only: yakircohen-site*.vercel.app (do not share with clients)
 - Push to `main` → Vercel auto-deploy
 - GitHub Actions runs lint + build -- do not force-push to `main` if CI fails
+- Project separation: see workspace root `.cursor/rules/yakir-nevermind-separation.mdc`
 
 ## Cursor skills
 

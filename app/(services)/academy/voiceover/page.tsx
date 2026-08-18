@@ -5,7 +5,9 @@ import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSecti
 import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
+import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ShareButton from "@/components/ui/ShareButton";
 import { VOICEOVER_COURSE_FIT } from "@/lib/data/academy-course-fit";
 import { OUTCOME_CTA, SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -71,6 +73,29 @@ const FORMATS = [
   },
 ] as const;
 
+const VOICEOVER_FAQ: FAQItem[] = [
+  {
+    id: "voiceover-price",
+    question: "כמה עולה קורס קריינות?",
+    answer: "המחיר משתנה בהתאם למסלול ולמספר השיעורים. צרו קשר לקבלת הצעת מחיר מותאמת.",
+  },
+  {
+    id: "voiceover-experience",
+    question: "האם צריך ניסיון קודם?",
+    answer: "לא. הקורס מתחיל מהיסודות ומתאים גם למתחילים ללא ניסיון קודם בקריינות.",
+  },
+  {
+    id: "voiceover-duration",
+    question: "כמה זמן הקורס?",
+    answer: "הקורס נמשך בין 3 ל-6 חודשים, בהתאם למסלול שנבחר ולקצב ההתקדמות האישי.",
+  },
+  {
+    id: "voiceover-content",
+    question: "מה לומדים בקורס?",
+    answer: "נשימה, דיקציה, אינטונציה, עבודה מול מיקרופון וקריינות סיפורית - כולל תרגול מעשי בסביבת אולפן.",
+  },
+];
+
 const bookCta = resolveServiceBookCta("academy/voiceover");
 
 export default function VoiceoverCoursePage() {
@@ -82,6 +107,8 @@ export default function VoiceoverCoursePage() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema items={VOICEOVER_FAQ as { question: string; answer: string }[]} />
+
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
@@ -306,6 +333,11 @@ export default function VoiceoverCoursePage() {
             האיכות.
           </p>
         </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <FAQAccordion items={VOICEOVER_FAQ} />
       </section>
 
       {/* ── CTA ── */}

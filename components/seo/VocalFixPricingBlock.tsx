@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 
 type Track = {
   id: "standard" | "express";
@@ -126,6 +127,7 @@ export default function VocalFixPricingBlock() {
             </li>
           )}
         </ul>
+        <PricingTransparencyBlock catalogId="damaged_recording_rescue" className="text-start" />
 
         {activeTrack === "standard" && (
           <p className="mt-4 text-xs text-muted-foreground">

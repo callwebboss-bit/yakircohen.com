@@ -3,7 +3,9 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import ShareButton from "@/components/ui/ShareButton";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const PRICE_EX_VAT = getExVat("noise_removal_segment");
 
@@ -68,6 +70,9 @@ export default function OnlineNoiseRemovalPageContent() {
     utm_source: "online",
     utm_campaign: "noise_removal_cta",
   });
+  const techBarrierRelief = resolveTechBarrierRelief(
+    "/online/vocal-fix/noise-removal",
+  );
 
   return (
     <div className="bg-background">
@@ -117,6 +122,10 @@ export default function OnlineNoiseRemovalPageContent() {
           </p>
         </div>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       {/* מה מקבלים */}
       <section className="border-b border-border bg-surface py-12">

@@ -58,6 +58,7 @@ export default function SoundImprovementShowcase({
         storageKey={demo.storageKey}
         beforeNote={demo.beforeNote}
         afterNote={demo.afterNote}
+        proofProfileId={demoId}
       />
     </div>
   );

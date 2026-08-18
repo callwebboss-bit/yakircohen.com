@@ -157,6 +157,37 @@ export default function StudioGiftsPageContent() {
 
       <TrustStatsBar variant="compact" className="border-b" />
 
+      <section className="border-b border-border bg-background py-8">
+        <div className="mx-auto flex max-w-[72rem] flex-col gap-4 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              מתנות לפי אירוע
+            </p>
+            <h2 className="mt-2 font-serif text-xl font-semibold text-foreground">
+              מחפשים מסלול לפי חתונה, יום הולדת או בר/בת מצווה?
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              פתחנו גם עמוד מסודר של מתנות לפי סוג האירוע, עם מארזים פיזיים
+              ואפשרויות מסירה.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/matanot"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+            >
+              לעמוד המתנות
+            </Link>
+            <Link
+              href="/shop#vouchers"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
+            >
+              לשובר פתוח למימוש
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-border bg-surface py-12 sm:py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <header className="mx-auto max-w-2xl text-center">

@@ -13,6 +13,7 @@ import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import { TimeSaverRoiSliderLazy } from "@/components/calculators/lazy";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import Testimonials from "@/components/marketing/Testimonials";
+import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { academyCoursesByCategory } from "@/lib/data/academy-hub-courses";
 import { getAudioDemo } from "@/lib/data/audio-demos";
@@ -315,6 +316,7 @@ export default function AcademyPage() {
             heading="מה מתאים לי?"
             headingId="academy-hub-decision-heading"
           />
+          <TimeSavedMatrix hub="academy" headingId="academy-time-saved-heading" />
         </div>
       </section>
 
@@ -450,6 +452,7 @@ export default function AcademyPage() {
               beforeNote={ACADEMY_VOCAL_DEMO.beforeNote}
               afterNote={ACADEMY_VOCAL_DEMO.afterNote}
               storageKey={`academy-${ACADEMY_VOCAL_DEMO.storageKey}`}
+              proofProfileId="recording-vocal-polish"
             />
             <AudioShowcase
               variant="vocal"
@@ -461,6 +464,7 @@ export default function AcademyPage() {
               beforeNote={ACADEMY_PRODUCTION_DEMO.beforeNote}
               afterNote={ACADEMY_PRODUCTION_DEMO.afterNote}
               storageKey={`academy-${ACADEMY_PRODUCTION_DEMO.storageKey}`}
+              proofProfileId="full-production"
             />
           </div>
         </div>

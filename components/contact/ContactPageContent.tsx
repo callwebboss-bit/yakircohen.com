@@ -40,6 +40,10 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import {
+  STUDIO_NEARBY_FAQ,
+  STUDIO_NEARBY_LANDMARK_FAQ,
+} from "@/lib/data/studio-nearby-places";
 import { cn } from "@/lib/utils";
 
 type ServiceKey = "studio" | "dj" | "voice" | "podcast" | "clip" | "online" | "other";
@@ -123,6 +127,14 @@ const CONTACT_FAQ = [
   {
     q: "איפה האולפן ממוקם?",
     a: "במודיעין, עם נגישות נוחה מהמרכז וירושלים. אפשר גם לתאם הקלטה מרחוק לפי הצורך.",
+  },
+  {
+    q: STUDIO_NEARBY_FAQ.question,
+    a: STUDIO_NEARBY_FAQ.answer,
+  },
+  {
+    q: STUDIO_NEARBY_LANDMARK_FAQ.question,
+    a: STUDIO_NEARBY_LANDMARK_FAQ.answer,
   },
 ] as const;
 
@@ -776,6 +788,16 @@ export default function ContactPageContent() {
         </div>
 
         <CompanyDetailsCard variant="collapsible" className="mt-6" />
+
+        <div className="mt-6 rounded-2xl border border-border bg-surface p-5 text-center">
+          <p className="text-sm font-semibold text-foreground">מחפשים אזור שירות או הגעה?</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            ריכזנו עמוד קצר עם אזורי השירות, הגעה לאולפן וקישור ישיר לבדיקת זמינות.
+          </p>
+          <Link href="/areas" className="mt-4 inline-flex text-sm font-semibold text-brand-red hover:underline">
+            לאזורי שירות והגעה
+          </Link>
+        </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3">
           <a

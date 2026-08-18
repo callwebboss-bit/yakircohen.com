@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
+import GlossaryInlineText from "@/components/glossary/GlossaryInlineText";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
@@ -195,7 +196,11 @@ export default function FAQAccordion({
                   labelledBy={triggerId}
                   isOpen={isOpen}
                 >
-                  {item.answer}
+                  {typeof item.answer === "string" ? (
+                    <GlossaryInlineText text={item.answer} />
+                  ) : (
+                    item.answer
+                  )}
                 </AccordionPanel>
               </div>
             );

@@ -1,4 +1,5 @@
 ﻿import Image from "next/image";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
   HOME_STUDIO_AFTER_IMAGE,
@@ -68,6 +69,8 @@ export default function StudioAcousticBeforeAfter() {
           </div>
         </div>
       </div>
+
+      <SoundProofTable profileId="studio-acoustic" className="mt-5" />
 
       <p className="mt-6 text-center text-sm leading-relaxed text-muted-foreground">
         <strong className="text-foreground">

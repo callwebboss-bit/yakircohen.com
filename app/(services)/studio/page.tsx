@@ -11,6 +11,7 @@ import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import StudioHubPathSections from "@/components/seo/StudioHubPathSections";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
@@ -121,6 +122,7 @@ export default function StudioHubPage() {
           <StudioHubPathSections />
 
           <HubAudienceFitBlock hubPath="/studio" />
+          <TimeSavedMatrix hub="studio" headingId="studio-time-saved-heading" />
 
           <section
             className="overflow-hidden rounded-2xl border border-border bg-surface"
@@ -164,6 +166,33 @@ export default function StudioHubPage() {
               <div className="mt-5 flex justify-center">
                 <ShareButton title="אולפן הקלטות במודיעין | יקיר כהן הפקות" />
               </div>
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-border bg-background p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+              סיור וירטואלי
+            </p>
+            <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
+              רוצים לראות את האולפן לפני שמגיעים?
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              יש עמוד קצר עם וידאו מהאולפן והסבר על החדר, המיקרופון, תהליך
+              ההקלטה והתוצאה הסופית.
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/studio/virtual-tour"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+              >
+                לסיור הווירטואלי
+              </Link>
+              <Link
+                href="/areas"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-5 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
+              >
+                אזורי שירות והגעה
+              </Link>
             </div>
           </section>
 

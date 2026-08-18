@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";
 import ShareButton from "@/components/ui/ShareButton";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -121,6 +123,29 @@ const pageSchema = {
   ],
 };
 
+const HEBREW_LESSONS_FAQ: FAQItem[] = [
+  {
+    id: "heb-price",
+    question: "כמה עולה שיעור עברית?",
+    answer: "שיעור ניסיון עולה ₪500. מנוי חודשי או שנתי מוזיל את המחיר לשיעור. פרטים מלאים בעמוד ההזמנה.",
+  },
+  {
+    id: "heb-english-speakers",
+    question: "האם זה מתאים לדוברי אנגלית?",
+    answer: "כן. השיעורים מתנהלים בעברית עם הסברים באנגלית, רוסית, ערבית או ספרדית לפי הצורך.",
+  },
+  {
+    id: "heb-how-many",
+    question: "כמה שיעורים צריך?",
+    answer: "תלוי ברמת ההתחלה ובמטרות. רוב התלמידים רואים שיפור משמעותי אחרי 8-12 שיעורים.",
+  },
+  {
+    id: "heb-vs-ulpan",
+    question: "מה ההבדל בין אולפן לשיעורים פרטיים?",
+    answer: "אולפן ממשלתי הוא קבוצתי בקצב אחיד. שיעור פרטי מותאם לרמה, לקצב ולמטרות האישיות שלכם.",
+  },
+];
+
 export default function HebrewLessonsPage() {
   const heroWhatsappHref = buildWhatsAppHref({
     text: HEB_LESSONS_EN_CTA.whatsappHero,
@@ -139,6 +164,7 @@ export default function HebrewLessonsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
       />
+      <FaqPageSchema items={HEBREW_LESSONS_FAQ as { question: string; answer: string }[]} />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
@@ -491,6 +517,11 @@ export default function HebrewLessonsPage() {
           </header>
           <FAQWithCtaLinks items={HEB_LESSONS_EN_FAQ} />
         </div>
+      </section>
+
+      {/* ── Hebrew FAQ ── */}
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <FAQAccordion items={HEBREW_LESSONS_FAQ} />
       </section>
 
       {/* ── Bottom CTA ── */}

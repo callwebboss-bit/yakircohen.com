@@ -9,6 +9,7 @@ import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import { BUSINESS_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import {
   BUSINESS_HUB_FAQS,
@@ -93,6 +94,7 @@ export default function BusinessHubPageContent() {
             heading="מה מתאים לי?"
             headingId="business-hub-decision-heading"
           />
+          <TimeSavedMatrix hub="business" headingId="business-time-saved-heading" />
         </Container>
       </Section>
 

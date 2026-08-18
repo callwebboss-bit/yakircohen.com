@@ -1,5 +1,6 @@
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import PriceActionRow from "@/components/booking/PriceActionRow";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 import {
   getAttractionItemName,
   getAttractionPricingTiers,
@@ -49,6 +50,7 @@ function PricingTierCard({
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
         {tier.description}
       </p>
+      <PricingTransparencyBlock catalogId="event_attraction_1" compact />
       <div className="mt-4 border-t border-border pt-4">
         <PriceActionRow
           serviceLabel={`${tier.name} - ${serviceLabel}`}
@@ -148,6 +150,18 @@ export default function AttractionBookPricingSection({
                 {row.saving ? (
                   <p className="mt-1 text-xs text-green-700">{row.saving}</p>
                 ) : null}
+                <PricingTransparencyBlock
+                  catalogId={
+                    row.count >= 4
+                      ? "event_attraction_4"
+                      : (`event_attraction_${row.count}` as
+                          | "event_attraction_1"
+                          | "event_attraction_2"
+                          | "event_attraction_3")
+                  }
+                  compact
+                  className="bg-white/70"
+                />
               </li>
             ))}
           </ul>

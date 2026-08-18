@@ -5,7 +5,9 @@ import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
+import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ShareButton from "@/components/ui/ShareButton";
 import { PRIVATE_LESSONS_FIT } from "@/lib/data/academy-course-fit";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -66,6 +68,29 @@ const INCLUDED = [
   },
 ] as const;
 
+const PRIVATE_LESSONS_FAQ: FAQItem[] = [
+  {
+    id: "private-price",
+    question: "כמה עולה שיעור פרטי?",
+    answer: "שיעור מלא (60 דקות) או Pro Session (90 דקות) - המחירים מפורטים בעמוד ההזמנה. ניתן לרכוש שיעור בודד או חבילה.",
+  },
+  {
+    id: "private-online",
+    question: "אפשר שיעור אונליין?",
+    answer: "כן. חלק מהתחומים זמינים גם בשיעור אונליין בזום, בתיאום מראש.",
+  },
+  {
+    id: "private-duration",
+    question: "כמה זמן כל שיעור?",
+    answer: "שיעור מלא נמשך 60 דקות. Pro Session נמשך 90 דקות ומאפשר העמקה ותרגול מעשי נוסף.",
+  },
+  {
+    id: "private-first-lesson",
+    question: "מה לומדים בשיעור ראשון?",
+    answer: "בשיעור הראשון מאפיינים את הרמה, מגדירים מטרות ומתחילים לעבוד על התחום שנבחר - תרגול מעשי כבר מהדקה הראשונה.",
+  },
+];
+
 const bookCta = resolveServiceBookCta("academy/private-lessons");
 
 export default function PrivateLessonsPage() {
@@ -77,6 +102,8 @@ export default function PrivateLessonsPage() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema items={PRIVATE_LESSONS_FAQ as { question: string; answer: string }[]} />
+
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
@@ -283,6 +310,11 @@ export default function PrivateLessonsPage() {
           </li>
           <li>נתאם איתכם בהקדם ונבנה את המפגש הראשון.</li>
         </ol>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <FAQAccordion items={PRIVATE_LESSONS_FAQ} />
       </section>
 
       <section className="border-t border-border bg-surface py-16 sm:py-20">

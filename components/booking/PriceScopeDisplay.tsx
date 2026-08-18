@@ -4,7 +4,13 @@ import {
   formatPriceScopeDisplay,
   formatScopeLine,
 } from "@/lib/data/pricing-display";
-import type { PriceScope, PriceWithEditing } from "@/lib/data/pricing-catalog";
+import type {
+  PriceItemId,
+  PriceScope,
+  PriceTransparency,
+  PriceWithEditing,
+} from "@/lib/data/pricing-catalog";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 import { withVat } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +28,9 @@ type PriceScopeDisplayProps = {
   suitedFor?: string;
   /** מחיר חלופי עם עריכה - מציג שני מחירים */
   withEditing?: PriceWithEditing;
+  catalogId?: PriceItemId;
+  transparency?: PriceTransparency;
+  showTransparency?: boolean;
 };
 
 const sizeClasses = {
@@ -40,6 +49,9 @@ export default function PriceScopeDisplay({
   hideVatLine = false,
   suitedFor,
   withEditing,
+  catalogId,
+  transparency,
+  showTransparency = true,
 }: PriceScopeDisplayProps) {
   const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix });
   const s = sizeClasses[size];
@@ -76,6 +88,13 @@ export default function PriceScopeDisplay({
             {suitedFor}
           </p>
         ) : null}
+        {showTransparency ? (
+          <PricingTransparencyBlock
+            catalogId={catalogId}
+            transparency={transparency}
+            compact
+          />
+        ) : null}
       </div>
     );
   }
@@ -94,6 +113,13 @@ export default function PriceScopeDisplay({
           <span className="font-semibold text-foreground">מתאים ל: </span>
           {suitedFor}
         </p>
+      ) : null}
+      {showTransparency ? (
+        <PricingTransparencyBlock
+          catalogId={catalogId}
+          transparency={transparency}
+          compact
+        />
       ) : null}
     </div>
   );

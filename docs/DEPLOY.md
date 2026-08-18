@@ -29,11 +29,11 @@ git push -u origin main
 
 ### הגדרות (חובה)
 
-1. [vercel.com](https://vercel.com) → פרויקט **`yakircohen-com`**
+1. [vercel.com](https://vercel.com) → פרויקט **`yakircohen-site`** (`prj_gdmYbiXoCmkAegN3iixjUaw7HSUY`)
 2. **Settings → General**
    - Framework Preset: **Next.js**
-   - Root Directory: **ריק** (לא `yakircohen-site`)
-   - Production Branch: **`main`**
+   - Root Directory: **ריק** (שורש ה-repo = האתר)
+   - Production Branch: **`main`** (חובה — אל תשנה בלי אישור מפורש)
 3. **Settings → Build & Development**
    - Build Command: **ריק** (Vercel יריץ אוטומטית `vercel-build` מ-`package.json`)
    - או במפורש: `npm run build:full`
@@ -42,6 +42,18 @@ git push -u origin main
    - `NODE_VERSION` = `22` (אופציונלי אם Vercel כבר על Node 22)
 
 > **`vercel-build`** ב-`package.json` = `next build` + Pagefind (חיפוש באתר). בלי זה החיפוש לא יעבוד בפרודקשן.
+
+### אימות Production Branch (2026-08-02)
+
+| בדיקה | ממצא |
+|--------|------|
+| פרויקט Vercel | `yakircohen-site` — נפרד מ-NeverMind (org/project אחרים) |
+| דומיינים | `yakircohen.com`, `www.yakircohen.com` |
+| מצב אתר | Live / READY; אין runtime errors בחלון 7 ימים |
+| מקור deployment אחרון לפרודקשן | ענף `cursor/lead-flow-packages-hold` (לא `main`) |
+| PR פתוח | [#1](https://github.com/callwebboss-bit/yakircohen.com/pull/1) → `main` |
+
+**פעולה מומלצת (דורשת אישור מפורש לפני שינוי ב-Vercel):** למזג את PR #1 ל-`main`, לוודא ש-Production Branch = `main`, ואז redeploy מ-`main`. עד אז — לא לשנות את הגדרת ה-branch בלוח הבקרה בלי אישור.
 
 ### מחיקת פרויקטים מיותרים
 

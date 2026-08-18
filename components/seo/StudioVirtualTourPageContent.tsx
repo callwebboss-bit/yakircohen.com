@@ -1,0 +1,96 @@
+"use client";
+
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
+import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  STUDIO_VIRTUAL_TOUR_STOPS,
+  STUDIO_VIRTUAL_TOUR_VIDEO,
+} from "@/lib/data/studio-virtual-tour";
+
+export default function StudioVirtualTourPageContent() {
+  return (
+    <>
+      <Section className="border-b border-border bg-background" ariaLabelledby="virtual-tour-title">
+        <Container className="py-12 text-center sm:py-16">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
+            האולפן
+          </p>
+          <h1 id="virtual-tour-title" className="mt-3 font-serif text-3xl font-semibold text-foreground sm:text-4xl">
+            מיני-סטודיו וירטואלי
+          </h1>
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            הצצה קצרה לאולפן, לציוד ולתהליך ההקלטה. בלי מונחים כבדים ובלי הבטחות
+            מיותרות - רק להבין איך זה נראה לפני שמגיעים.
+          </p>
+        </Container>
+      </Section>
+
+      <Section className="bg-surface" ariaLabelledby="virtual-tour-video-title">
+        <Container className="py-12 sm:py-16">
+          <div className="mx-auto max-w-4xl">
+            <h2 id="virtual-tour-video-title" className="text-center font-serif text-2xl font-semibold text-foreground">
+              וידאו קצר מהאולפן
+            </h2>
+            <LazyYouTubeEmbed
+              embedUrl={STUDIO_VIRTUAL_TOUR_VIDEO.embedUrl}
+              title={STUDIO_VIRTUAL_TOUR_VIDEO.title}
+              className="mt-6 aspect-video overflow-hidden rounded-2xl"
+            />
+            <p className="mt-3 text-center text-sm text-muted-foreground">
+              אם תרצה להחליף את הוידאו, מספיק לעדכן את מזהה YouTube בקובץ הנתונים.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {STUDIO_VIRTUAL_TOUR_STOPS.map((item) => (
+              <Dialog key={item.id}>
+                <article className="rounded-2xl border border-border bg-background p-6 shadow-sm">
+                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-border bg-surface px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                    >
+                      פרטים נוספים
+                    </button>
+                  </DialogTrigger>
+                </article>
+
+                <DialogContent className="sm:max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle>{item.title}</DialogTitle>
+                    <DialogDescription>{item.summary}</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-3">
+                    <div className="rounded-2xl border border-dashed border-border bg-surface p-4 text-sm text-muted-foreground">
+                      {/* TODO: replace this placeholder with a real image or extra video for this stop. */}
+                      {item.mediaNote}
+                    </div>
+                    <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+                      {item.details.map((detail) => (
+                        <li key={detail} className="flex items-start gap-2">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" aria-hidden="true" />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}

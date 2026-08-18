@@ -14,7 +14,7 @@ import {
   GEO_STUDIO_POPULAR_SERVICES,
   GEO_STUDIO_PROCESS,
 } from "@/lib/data/studio-geo-page";
-import { getStudioService } from "@/lib/data/services";
+import { getStudioService, type StudioServiceId } from "@/lib/data/services";
 import { mapGeoStudioServiceToHub } from "@/lib/data/studio-hub-mappers";
 import {
   youtubeEmbedUrl,
@@ -32,8 +32,12 @@ export default function GeoCityStudioPageContent({
   citySlug,
 }: GeoCityStudioPageContentProps) {
   const city = getNewGeoCity(citySlug);
-  const serviceId =
-    citySlug === "shoham" ? "studio-shoham" : "studio-rehovot";
+  const serviceIdMap: Record<NewGeoCitySlug, StudioServiceId> = {
+    shoham: "studio-shoham",
+    rehovot: "studio-rehovot",
+    "beit-shemesh": "studio-beit-shemesh",
+  };
+  const serviceId = serviceIdMap[citySlug];
   const service = getStudioService(serviceId);
   const pagePath = `/${city.studioPath}`;
   const isRehovot = citySlug === "rehovot";

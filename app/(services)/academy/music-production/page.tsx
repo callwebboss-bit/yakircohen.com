@@ -5,7 +5,9 @@ import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
+import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import ShareButton from "@/components/ui/ShareButton";
 import { MUSIC_PRODUCTION_FIT } from "@/lib/data/academy-course-fit";
 import { OUTCOME_CTA, SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -67,6 +69,29 @@ const MODULES = [
   },
 ] as const;
 
+const MUSIC_PRODUCTION_FAQ: FAQItem[] = [
+  {
+    id: "music-prod-price",
+    question: "כמה עולה קורס הפקה מוזיקלית?",
+    answer: "המחיר תלוי במסלול - שיעור בודד, חבילת שיעורים או קורס מלא. צרו קשר לפרטים.",
+  },
+  {
+    id: "music-prod-gear",
+    question: "האם צריך ציוד משלי?",
+    answer: "לא. באולפן יש את כל הציוד הנדרש. מומלץ להביא אוזניות ומחשב נייד אם יש.",
+  },
+  {
+    id: "music-prod-duration",
+    question: "כמה זמן לוקח ללמוד הפקה?",
+    answer: "תלוי ברקע ובמטרות. רוב התלמידים מגיעים לתוצר ראשון מוגמר תוך 2-3 חודשים של שיעורים שבועיים.",
+  },
+  {
+    id: "music-prod-vs-private",
+    question: "מה ההבדל בין שיעור פרטי לקורס?",
+    answer: "שיעור פרטי ממוקד בנושא ספציפי. קורס מלא מכסה את כל השלבים מהרעיון ועד תוצר מוגמר, עם תוכנית סדורה.",
+  },
+];
+
 const bookCta = resolveServiceBookCta("academy/music-production");
 
 export default function MusicProductionPage() {
@@ -78,6 +103,8 @@ export default function MusicProductionPage() {
 
   return (
     <div className="bg-background">
+      <FaqPageSchema items={MUSIC_PRODUCTION_FAQ as { question: string; answer: string }[]} />
+
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
@@ -205,6 +232,11 @@ export default function MusicProductionPage() {
           playlistEmbedUrl={YOUTUBE_MUSIC_PRODUCTION_SOLUTIONS_PLAYLIST_EMBED}
           iframeTitle="פתרונות מוזיקה לעולם ההפקה והסאונד | יקיר כהן הפקות"
         />
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <FAQAccordion items={MUSIC_PRODUCTION_FAQ} />
       </section>
 
       {/* ── CTA ── */}

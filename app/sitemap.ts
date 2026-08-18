@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
 import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
+import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
@@ -14,7 +15,10 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("gallery"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("testimonials"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("packages"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("matanot"), priority: 0.82, changeFrequency: "monthly" },
+  { url: url("areas"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("studio/virtual-tour"), priority: 0.74, changeFrequency: "monthly" },
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
   {
@@ -39,6 +43,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/studio-jerusalem"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/studio-shoham"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/studio-rehovot"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("studio/studio-beit-shemesh"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
 
   // ── Podcast ────────────────────────────────────────────────────────────────
@@ -62,6 +67,9 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   },
   { url: url("podcast/mobile-podcast-at-home"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("podcast/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/beit-shemesh"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/shoham"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("podcast/rehovot"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("podcast/bulk-production"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("podcast/studio-in-a-box"), priority: 0.65, changeFrequency: "monthly" },
   { url: url("podcast/faq"), priority: 0.6, changeFrequency: "monthly" },
@@ -126,6 +134,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("events/attractions/smoke-cannons-for-events"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/wedding-smoking-machine"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/jerusalem"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("events/attractions/beit-shemesh"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("events/attractions/shoham"), priority: 0.8, changeFrequency: "monthly" },
   {
     url: url(
       "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
@@ -216,6 +226,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("privacy"), priority: 0.3, changeFrequency: "yearly" },
   { url: url("accessibility"), priority: 0.3, changeFrequency: "yearly" },
   { url: url("terms"), priority: 0.3, changeFrequency: "yearly" },
+  { url: url("sustainability"), priority: 0.3, changeFrequency: "yearly" },
 
   // ── Academy ────────────────────────────────────────────────────────────────
   { url: url("academy"), priority: 0.9, changeFrequency: "monthly" },
@@ -232,6 +243,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── Blog hub ───────────────────────────────────────────────────────────────
   { url: url("blog"), priority: 0.8, changeFrequency: "weekly" },
+  { url: url("glossary"), priority: 0.7, changeFrequency: "weekly" },
+  { url: url("data/industry-2026"), priority: 0.8, changeFrequency: "yearly" },
 
   // ── שירותים מקצועיים לעסקים ────────────────────────────────────────────────
   { url: url("pro"), priority: 0.85, changeFrequency: "monthly" },
@@ -249,6 +262,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
     changeFrequency: "monthly" as const,
   }));
+  const glossaryRoutes: MetadataRoute.Sitemap = getAllGlossarySlugs().map(
+    (slug) => ({
+      url: url(`glossary/${slug}`),
+      priority: 0.55,
+      changeFrequency: "monthly" as const,
+    }),
+  );
 
-  return [...STATIC_ROUTES, ...blogRoutes];
+  return [...STATIC_ROUTES, ...blogRoutes, ...glossaryRoutes];
 }

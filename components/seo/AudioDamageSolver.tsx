@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { cn } from "@/lib/utils";
 
 const PremiumCrossfadePlayer = dynamic(
@@ -19,6 +20,7 @@ type DamageCard = {
   icon: string;
   label: string;
   description: string;
+  proofProfileId?: "damage-room-echo" | "damage-ac-noise";
 } & (
   | {
       hasDemo: true;
@@ -37,6 +39,7 @@ const DAMAGE_CARDS: DamageCard[] = [
     icon: "🏠",
     label: "הד חזק מהקירות",
     description: "הקלטה בחדר לא מוכן - הקול חוזר ומתפזר",
+    proofProfileId: "damage-room-echo",
     hasDemo: true,
     beforeSrc: "/audio/weber-before_01.mp3",
     afterSrc: "/audio/weber-AFTER_01.mp3",
@@ -49,6 +52,7 @@ const DAMAGE_CARDS: DamageCard[] = [
     icon: "❄️",
     label: "רעש מזגן / המהום",
     description: "רעש רקע קבוע - מזגן, מחשב, רחוב",
+    proofProfileId: "damage-ac-noise",
     hasDemo: true,
     beforeSrc: "/audio/podcast-raw-sample.mp3",
     afterSrc: "/audio/podcast-clean-sample.mp3",
@@ -119,6 +123,13 @@ export default function AudioDamageSolver() {
                 afterLabel={activeCard.afterLabel}
                 storageKey={activeCard.storageKey}
               />
+              {activeCard.proofProfileId ? (
+                <SoundProofTable
+                  profileId={activeCard.proofProfileId}
+                  density="compact"
+                  className="mt-4"
+                />
+              ) : null}
               <p className="mt-3 text-xs text-muted-foreground">
                 הזיזו את הסליידר לשמיעת לפני ואחרי. מומלץ עם אוזניות.
               </p>

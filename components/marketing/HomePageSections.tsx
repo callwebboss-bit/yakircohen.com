@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
+import HomeGiftsTeaser from "@/components/marketing/HomeGiftsTeaser";
 import HomeQuickPaths from "@/components/marketing/HomeQuickPaths";
 import LiveStatusBar from "@/components/marketing/LiveStatusBar";
 import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
@@ -153,6 +154,7 @@ export default function HomePageSections({
       <LiveStatusBar />
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <HomeQuickPaths />
+      <HomeGiftsTeaser />
 
       <Section
         className="bg-background"

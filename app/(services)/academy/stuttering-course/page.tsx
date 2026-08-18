@@ -8,6 +8,7 @@ import FAQWithCtaLinks, {
   type FaqCtaItem,
 } from "@/components/ui/FAQWithCtaLinks";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ShareButton from "@/components/ui/ShareButton";
 import {
   NEVERMIND_EXTERNAL_URL,
@@ -177,6 +178,10 @@ export default function StutteringCoursePage() {
         <blockquote className="mx-auto mt-6 max-w-lg border-s-2 border-brand-red/40 ps-4 text-start text-sm font-medium italic text-foreground">
           &quot;המטרה היא לא לדבר מושלם. המטרה היא לדבר חופשי.&quot;
         </blockquote>
+      </section>
+
+      <section className="mx-auto max-w-2xl px-4 pb-4 sm:px-6 lg:px-8">
+        <ProfessionalStanceSection pathname="/academy/stuttering-course" />
       </section>
 
       <section

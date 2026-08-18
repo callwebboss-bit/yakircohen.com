@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import dynamic from "next/dynamic";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { FULL_PRODUCTION_AUDIO } from "@/lib/data/full-production-showcase";
 
 const PremiumCrossfadePlayer = dynamic(
@@ -30,6 +31,8 @@ export default function FullProductionBeforeAfter({ playerNote }: Props) {
         afterLabel={FULL_PRODUCTION_AUDIO.afterLabel}
         storageKey="full-production"
       />
+
+      <SoundProofTable profileId="full-production" />
 
       <figcaption>
         <p className="text-sm leading-relaxed text-muted-foreground">

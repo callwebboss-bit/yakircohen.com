@@ -86,9 +86,19 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "מתנות והקלטות כשובר",
       },
       {
+        label: "מתנות לפי אירוע",
+        href: "/matanot",
+        title: "חתונה, יום הולדת, בר/בת מצווה ויום נישואין",
+      },
+      {
         label: "אולפן הקלטות, סקירה",
         href: "/studio/recording-studio",
         title: "השכרת אולפן הקלטות במודיעין",
+      },
+      {
+        label: "סיור וירטואלי באולפן",
+        href: "/studio/virtual-tour",
+        title: "וידאו קצר ותהליך ההקלטה באולפן",
       },
       {
         label: "אולפן נייד",
@@ -441,9 +451,19 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "מחירי שירותי האולפן, אירועים ופודקאסט",
       },
       {
+        label: "נתוני תעשייה 2026",
+        href: "/data/industry-2026",
+        title: "מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל לשנת 2026",
+      },
+      {
         label: "מרכז שאלות נפוצות",
         href: "/about/faq",
         title: "תשובות לשאלות נפוצות על השירותים",
+      },
+      {
+        label: "מונחון אודיו ואירועים",
+        href: "/glossary",
+        title: "מילון מונחים קצר ל-EQ, LUFS, צ'ק סאונד, קריינות ואפקטים",
       },
       {
         label: "אודות יקיר כהן",
@@ -454,6 +474,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         label: "יצירת קשר והזמנת אולפן",
         href: "/contact",
         title: "טלפון, וואטסאפ וטופס יצירת קשר",
+      },
+      {
+        label: "אזורי שירות",
+        href: "/areas",
+        title: "מודיעין, ירושלים, שוהם, פתח תקווה והמרכז",
       },
       {
         label: "הזמנה מקוונת",
@@ -479,6 +504,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         label: "הצהרת נגישות",
         href: "/accessibility",
         title: "הצהרת נגישות",
+      },
+      {
+        label: "הצהרת מדיניות קיימות",
+        href: "/sustainability",
+        title: "הצהרת מדיניות קיימות",
       },
     ],
   },

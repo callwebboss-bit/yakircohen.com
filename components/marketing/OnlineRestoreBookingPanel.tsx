@@ -245,7 +245,7 @@ export default function OnlineRestoreBookingPanel({
           שלחו קובץ לבדיקה חינם </button>
       </div>
 
-      <BookPriceDual exVat={BASIC_EX_VAT} />
+      <BookPriceDual exVat={BASIC_EX_VAT} catalogId="damaged_recording_rescue" />
       <p className="text-xs text-muted-foreground">שחזור מלא לפי מורכבות - נעריך אחרי האזנה לקובץ.</p>
 
       <BookWhatHappensNext

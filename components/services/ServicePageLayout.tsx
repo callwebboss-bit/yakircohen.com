@@ -23,8 +23,10 @@ import SocialProofStrip from "@/components/marketing/SocialProofStrip";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { OUTCOME_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 export type ServicePageLayoutProps = {
@@ -273,6 +275,7 @@ export default function ServicePageLayout({
         : null;
 
   const hasHeroGrid = hasHeroImage || hasHeroVideo;
+  const techBarrierRelief = resolveTechBarrierRelief(pagePath);
 
   return (
     <HubAccentScope category={category}>
@@ -461,6 +464,10 @@ export default function ServicePageLayout({
             </div>
           </div>
         </>
+      ) : null}
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
       ) : null}
 
       {children ? (

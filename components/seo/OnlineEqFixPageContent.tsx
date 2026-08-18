@@ -3,7 +3,9 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import ShareButton from "@/components/ui/ShareButton";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const PRICE_EX_VAT = getExVat("eq_freq_fix");
 
@@ -75,6 +77,7 @@ export default function OnlineEqFixPageContent() {
     utm_source: "online",
     utm_campaign: "eq_fix_cta",
   });
+  const techBarrierRelief = resolveTechBarrierRelief("/online/vocal-fix/eq-fix");
 
   return (
     <div className="bg-background">
@@ -125,6 +128,10 @@ export default function OnlineEqFixPageContent() {
           </p>
         </div>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       {/* בעיות שנפתרות */}
       <section className="border-b border-border bg-surface py-12">

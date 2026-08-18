@@ -6,6 +6,7 @@ import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import {
@@ -166,6 +167,8 @@ export default function StutteringPageContent() {
             &quot;המטרה היא לא לדבר מושלם. המטרה היא לדבר חופשי.&quot;
           </blockquote>
         </section>
+
+        <ProfessionalStanceSection pathname="/stuttering" />
 
         {/* ─── למה השיטה עובדת אחרת ──────────────────────────────────────────── */}
         <section aria-labelledby="stuttering-why-heading">

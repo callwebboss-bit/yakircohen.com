@@ -3,7 +3,7 @@
  * Physical studio is always in Modi'in; city pages target nearby search intent.
  */
 
-export type GeoCitySlug = "jerusalem" | "shoham" | "rehovot";
+export type GeoCitySlug = "jerusalem" | "shoham" | "rehovot" | "beit-shemesh";
 
 export type GeoCityConfig = {
   slug: GeoCitySlug;
@@ -163,11 +163,50 @@ export const GEO_CITIES: Record<GeoCitySlug, GeoCityConfig> = {
       "ברחובות ובאזור השפלה יש אולמות אירועים מגוונים - מחתונות דתיות ועד ערבי חברה. אנחנו מתאימים פלייליסט, טקס וריקודים לפי הקהל והאולם.",
     djReligiousAudience: true,
   },
+  "beit-shemesh": {
+    slug: "beit-shemesh",
+    nameHe: "בית שמש",
+    nameHePrep: "בבית שמש",
+    residentsLabel: "תושבי בית שמש",
+    driveMinutes: "20-25",
+    driveNote: "כביש 38 + כביש 1",
+    studioPath: "studio/studio-beit-shemesh",
+    studioServiceId: "studio-beit-shemesh",
+    djPath: "dj-events/cities/beit-shemesh",
+    legacyStudioRedirects: [],
+    keywords: {
+      studio: [
+        "אולפן הקלטות בית שמש",
+        "הקלטת שיר בית שמש",
+        "אולפן הקלטות בבית שמש",
+        "שיר לחופה בית שמש",
+        "הקלטת ברכה בית שמש",
+      ],
+      dj: [
+        "דיגגיי בבית שמש",
+        "תקליטן לחתונה בית שמש",
+        "DJ לאירועים בבית שמש",
+        "דיגגיי לבר מצווה בית שמש",
+        "תקליטן לאירועים בית שמש",
+      ],
+    },
+    whatsappStudio: "שלום, מגיע מבית שמש ומעוניין לתאם הקלטה באולפן במודיעין",
+    whatsappDj: "שלום, אשמח לשמוע על די ג'יי לאירועים בבית שמש",
+    utm: { studio: "studio_beit_shemesh", dj: "dj_beit_shemesh" },
+    djMeta: {
+      title: "דיג׳יי לאירועים בבית שמש | חתונות ובר/בת מצווה",
+      description:
+        "DJ לאירועים בבית שמש והסביבה - חתונות, בר/בת מצווה ואירועי חברה. מגיעים מהבסיס במודיעין, מפרט טכני קבוע ותיאום ישיר.",
+    },
+    djAudienceIntro:
+      "בבית שמש ורמת בית שמש יש קהל מגוון - דתי, חרדי ומעורב. מכירים את האולמות, את הרגישויות ואת השירים שמתאימים לכל סוג אירוע.",
+    djReligiousAudience: true,
+  },
 };
 
 export const GEO_CITY_SLUGS = Object.keys(GEO_CITIES) as GeoCitySlug[];
 
-export const NEW_GEO_CITY_SLUGS = ["shoham", "rehovot"] as const satisfies readonly GeoCitySlug[];
+export const NEW_GEO_CITY_SLUGS = ["shoham", "rehovot", "beit-shemesh"] as const satisfies readonly GeoCitySlug[];
 
 export type NewGeoCitySlug = (typeof NEW_GEO_CITY_SLUGS)[number];
 

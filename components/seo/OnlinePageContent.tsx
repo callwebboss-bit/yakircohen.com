@@ -35,6 +35,7 @@ import HubDualCta from "@/components/marketing/HubDualCta";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { ONLINE_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { buildBookHref } from "@/lib/book-url";
@@ -120,6 +121,7 @@ export default function OnlinePageContent() {
             heading="מה מתאים לי?"
             headingId="online-hub-decision-heading"
           />
+          <TimeSavedMatrix hub="online" headingId="online-time-saved-heading" />
         </Container>
       </Section>
 

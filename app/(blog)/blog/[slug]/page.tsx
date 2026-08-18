@@ -19,7 +19,7 @@ import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
-import { sanitizeBlogHtml } from "@/lib/sanitize-html";
+import { enhanceBlogHtmlWithGlossary } from "@/lib/sanitize-html";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
 
 type BlogPostPageProps = {
@@ -177,9 +177,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           />
 
           <div
-            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_table]:mt-0 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_td]:border [&_td]:border-border [&_td]:p-3 [&_th]:border [&_th]:border-border [&_th]:bg-surface [&_th]:p-3 [&_th]:text-start [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
+            className="blog-prose mt-8 font-serif text-lg leading-relaxed tracking-normal text-foreground [&_a]:font-medium [&_a]:text-brand-red [&_a]:underline-offset-2 hover:[&_a]:underline [&_a.glossary-inline]:border-b [&_a.glossary-inline]:border-dotted [&_a.glossary-inline]:border-foreground/50 [&_a.glossary-inline]:text-inherit hover:[&_a.glossary-inline]:text-brand-red [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:mt-4 [&_strong]:font-semibold [&_strong]:text-brand-red [&_table]:mt-0 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_td]:border [&_td]:border-border [&_td]:p-3 [&_th]:border [&_th]:border-border [&_th]:bg-surface [&_th]:p-3 [&_th]:text-start [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pe-6"
             dangerouslySetInnerHTML={{
-              __html: sanitizeBlogHtml(post.content)
+              __html: enhanceBlogHtmlWithGlossary(post.content)
                 .replaceAll("<table>", '<div class="mt-6 overflow-x-auto"><table>')
                 .replaceAll("</table>", "</table></div>"),
             }}

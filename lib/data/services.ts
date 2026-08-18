@@ -691,6 +691,80 @@ export const STUDIO_SERVICES = {
     showInStudioHub: true,
   },
 
+  "studio-beit-shemesh": {
+    id: "studio-beit-shemesh",
+    slug: "studio/studio-beit-shemesh",
+    category: "studio",
+    title: "אולפן הקלטות לתושבי בית שמש, במודיעין",
+    subtitle:
+      "אולפן מקצועי כ-20-25 דקות מבית שמש, שירים לחופה, ברכות ודרשות לבר/בת מצווה. ליווי אישי גם בלי ניסיון שירה.",
+    metaTitle: "אולפן הקלטות בבית שמש | 20-25 דק׳ ממודיעין",
+    metaDescription:
+      "אולפן הקלטות בבית שמש - 20-25 דק׳ ממודיעין דרך כביש 38. שירים לחופה, ברכות ודרשות עם ליווי אישי.",
+    keywords: [
+      "אולפן הקלטות בית שמש",
+      "הקלטת שיר בית שמש",
+      "אולפן הקלטות בבית שמש",
+      "שיר לחופה בית שמש",
+      "הקלטת ברכה בית שמש",
+    ],
+    features: [
+      "כ-20-25 דקות נסיעה מבית שמש (כביש 38 + כביש 1)",
+      "ליווי אישי גם ללא ניסיון שירה",
+      "מתאים לקהל דתי וחרדי, יחס מכבד ותוכן כשר",
+      "שירים, ברכות, דרשות וקליפים",
+      "חניה פנויה ליד האולפן במודיעין",
+    ],
+    assetsFolder: "studio/jerusalem",
+    playlistEmbedUrl: youtubeEmbedUrl(
+      YOUTUBE_SERVICE_EMBED_IDS["studio-jerusalem"],
+    ),
+    mediaType: "video",
+    whatsappText: "שלום, מגיע מבית שמש ומעוניין לתאם הקלטה באולפן",
+    utmCampaign: "studio_beit_shemesh",
+    faqs: [
+      {
+        id: "location",
+        question: "האם האולפן נמצא בבית שמש?",
+        answer:
+          "האולפן במודיעין, כ-20-25 דקות מבית שמש דרך כביש 38. אפשר גם להזמין אולפן נייד בתיאום מראש.",
+      },
+      {
+        id: "experience",
+        question: "האם צריך ניסיון בשירה?",
+        answer:
+          "ממש לא. רוב הלקוחות חובבים, מלווים צעד-צעד עד תוצאה מקצועית.",
+      },
+      {
+        id: "pricing",
+        question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
+        answer: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+      },
+      {
+        id: "playback",
+        question: "כמה עולה פלייבק? האם צריך להשיג?",
+        answer:
+          "פלייבק קיים ברשת, ללא עלות. עיבוד מחדש לפי כמות הכלים (פסנתר, תופים, גיטרה וכו׳).",
+      },
+      {
+        id: "delivery",
+        question: "איך מקבלים את הקובץ?",
+        answer: "וואטסאפ, מייל או USB מעוצב (בתוספת תשלום סמלי).",
+      },
+      {
+        id: "religious",
+        question: "האם יש התאמה לקהל דתי וחרדי?",
+        answer:
+          "בהחלט, יחס מכבד, תוכן כשר והתאמה לאירועים משפחתיים וקהילתיים. מנוסים בעבודה עם קהילות בית שמש ורמת בית שמש.",
+      },
+    ],
+    hubCard: {
+      title: "אולפן לבית שמש והסביבה",
+      description: "20-25 דק׳ מבית שמש, שירים, ברכות וקליפים.",
+    },
+    showInStudioHub: true,
+  },
+
   "studio-mobile-studio": {
     id: "studio-mobile-studio",
     slug: "studio/mobile-studio",

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -75,6 +77,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
       ) : null}
       <Container className="space-y-14 py-12 sm:py-16">
         <ContextualIntroParagraph pathname={pagePath} showFitSnapshot={false} />
+        <ProfessionalStanceSection pathname={pagePath} />
 
         {config.audienceItems && config.audienceItems.length > 0 ? (
           <section aria-labelledby="audience-heading">
@@ -290,6 +293,8 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
           links={buildRelatedHubLinks(config)}
           columns={3}
         />
+
+        <PageRelatedFooter pathname={pagePath} />
       </Container>
     </ServicePageLayout>
   );

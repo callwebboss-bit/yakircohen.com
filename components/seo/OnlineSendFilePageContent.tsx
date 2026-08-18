@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import {
   ONLINE_LIABILITY_COMMITMENTS,
   ONLINE_LIABILITY_FORM_URL,
@@ -57,6 +58,8 @@ export default function OnlineSendFilePageContent() {
       </section>
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
+        <ProfessionalStanceSection pathname="/online/vocal-fix/send-file" />
+
         <p className="text-sm font-medium text-foreground">
           בלחיצה על אישור למטה, אני (הלקוח) מצהיר ומתחייב כי:
         </p>

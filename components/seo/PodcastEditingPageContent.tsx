@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -97,6 +98,7 @@ export default function PodcastEditingPageContent() {
               </li>
             ))}
           </ul>
+          <SoundProofTable profileId="podcast-editing" className="mt-6" />
         </section>
 
         <section className="max-w-3xl" aria-labelledby="editing-intro-heading">

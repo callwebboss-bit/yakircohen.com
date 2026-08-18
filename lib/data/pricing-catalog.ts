@@ -32,6 +32,16 @@ export type PriceScope = {
   billingLabel?: string;
 };
 
+export type PriceTransparencyMode = "fixed" | "from" | "custom";
+
+export type PriceTransparency = {
+  included: readonly string[];
+  excluded: readonly string[];
+  addons: readonly PriceItemId[];
+  scopeNote?: string;
+  pricingMode: PriceTransparencyMode;
+};
+
 export type PriceWithEditing = {
   label: string;
   exVat: number;
@@ -371,6 +381,144 @@ export const PRICING_ADDON_LINKS: Partial<
   single_production: ["express_delivery", "external_mix_master"],
 };
 
+type PriceTransparencyDraft = {
+  included?: readonly string[];
+  excluded?: readonly string[];
+  addons?: readonly PriceItemId[];
+  scopeNote?: string;
+  pricingMode?: PriceTransparencyMode;
+};
+
+const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
+  Record<PriceCategory, PriceTransparencyDraft>
+> = {
+  studio: {
+    included: ["זמן אולפן לפי המסלול", "הקלטה והנחיה מקצועית"],
+    excluded: ["קליפ וידאו", "כתיבת מילים או לחן", "נגני אולפן או סשן נוסף"],
+  },
+  podcast: {
+    included: ["הקלטה באולפן לפי המסלול", "טיפול בסיסי בסאונד לפי החבילה"],
+    excluded: ["נסיעה ללוקיישן", "סרטונים קצרים נוספים", "כתמלול או כתוביות מעבר למה שמצוין"],
+  },
+  events: {
+    included: ["השירות או האטרקציה שבכרטיס", "הקמה ותפעול בסיסיים לפי הסיכום"],
+    excluded: ["נסיעה חריגה", "שעות נוספות", "ציוד/אפקטים שלא נבחרו"],
+  },
+  dj: {
+    included: ["תקלוט לפי המסלול", "פגישת תיאום בסיסית"],
+    excluded: ["אפקטים", "שעות נוספות", "לוגיסטיקה חריגה או גיבוי מורחב"],
+  },
+  photography: {
+    included: ["צילום לפי היקף המסלול", "עריכה בסיסית ומסירה דיגיטלית"],
+    excluded: ["אלבומים מודפסים", "שעות נוספות", "רחפן או צוות נוסף"],
+  },
+  online: {
+    included: ["עיבוד דיגיטלי לפי המסלול", "קובץ מסירה דיגיטלי"],
+    excluded: ["איסוף פיזי", "עבודת עומק מעבר להיקף המצוין", "מסירה מזורזת אם לא צוינה"],
+  },
+  academy: {
+    included: ["שיעור או סדנה לפי ההיקף", "ליווי מקצועי בזמן המפגש"],
+    excluded: ["חבילות המשך", "ציוד אישי לבית", "שעות נוספות מעבר למסלול"],
+  },
+  pro: {
+    included: ["השירות המקצועי המוגדר במסלול", "מסירה דיגיטלית לפי הסיכום"],
+    excluded: ["תוספות דחופות", "רישוי צד ג׳", "עבודת המשך מעבר למסלול"],
+  },
+};
+
+const PRICE_TRANSPARENCY_OVERRIDES: Partial<
+  Record<PriceItemId, PriceTransparencyDraft>
+> = {
+  studio_half_hour: {
+    included: ["30 דקות אולפן", "ליווי טכני במקום"],
+    excluded: ["עריכה מלאה", "מיקס ומאסטר מורחבים", "קליפ וידאו"],
+  },
+  studio_hour: {
+    included: ["60 דקות אולפן", "הנדסת הקלטה"],
+    excluded: ["עריכה", "מיקס ומאסטר מלאים", "קליפ או צילום"],
+  },
+  blessing_recording: {
+    included: ["עד חצי שעה אולפן", "עריכה בסיסית", "הנחיה בהקלטה"],
+    excluded: ["קליפ וידאו", "שינויי טקסט מהותיים", "מסלול אקספרס אם לא סוכם"],
+  },
+  song_package: {
+    included: ["עד 3 שעות אולפן", "טיונינג", "מיקס בסיסי", "קובץ מוכן"],
+    excluded: ["קליפ", "כתיבת שיר מלאה", "שחקני אולפן או סשן נוסף"],
+  },
+  single_production: {
+    included: ["עד 6 שעות אולפן", "עיבוד", "מיקס", "מאסטר"],
+    excluded: ["קליפ וידאו", "קמפיין הפצה", "נגנים או שינויים חריגים שלא תומחרו"],
+  },
+  podcast_audio: {
+    included: ["הקלטה עד שעה", "עריכה", "מסירה לספוטיפיי"],
+    excluded: ["וידאו", "משתתפים נוספים מעבר לבסיס", "כתוביות SRT"],
+  },
+  podcast_video: {
+    included: ["הקלטה רב-מצלמת", "3 מצלמות", "תאורה באולפן"],
+    excluded: ["רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
+  },
+  content_package: {
+    included: ["וידאו", "3 רילס עם כתוביות", "העלאה לפלטפורמות"],
+    excluded: ["ימי צילום נוספים", "ניהול חודשי שוטף", "מסירה מזורזת אם לא נרכשה"],
+  },
+  mobile_podcast_at_home: {
+    excluded: ["תוספת אזור/נסיעה", "וידאו אם לא נרכש", "שעות חריגות או פודקאסט רב-משתתפים מורחב"],
+    scopeNote: "מחיר התחלה. המחיר הסופי תלוי במרחק, בהיקף ההקמה ובפורמט.",
+    pricingMode: "from",
+  },
+  dj_premium: {
+    included: ["DJ מנוסה", "עד 4 שעות תקלוט"],
+    excluded: ["אפקטים", "שעה נוספת", "הגברה חריגה או ספקי משנה"],
+  },
+  dj_yakir_personal: {
+    included: ["DJ יקיר כהן", "עד 5 שעות", "ליווי VIP"],
+    excluded: ["אפקטים", "שעות נוספות", "לוגיסטיקה מיוחדת או נסיעה חריגה"],
+  },
+  event_attraction_1: {
+    included: ["אטרקציה אחת", "הפעלה אחת", "תפעול בסיסי"],
+    excluded: ["הפעלה שנייה/שלישית", "אטרקציה נוספת", "ציוד הגברה נפרד"],
+  },
+  event_attraction_2: {
+    included: ["2 אטרקציות", "תפעול בסיסי לפי הסיכום"],
+    excluded: ["הפעלות נוספות", "הגברה", "נסיעה חריגה או אפקטים נוספים"],
+  },
+  event_attraction_3: {
+    included: ["3 אטרקציות", "תפעול בסיסי לפי הסיכום"],
+    excluded: ["אטרקציה רביעית", "הפעלות נוספות", "ציוד משלים שלא נבחר"],
+  },
+  event_attraction_4: {
+    included: ["4 אטרקציות ומעלה", "מצגת מתנה לפי המסלול"],
+    excluded: ["הפעלות נוספות מעבר לסיכום", "הגברה", "נסיעה חריגה או ציוד נוסף"],
+  },
+  full_event_photo_8h: {
+    excluded: ["שעות נוספות", "רחפן", "אלבומים מודפסים או מסירה אקספרס"],
+  },
+  event_photo_hourly: {
+    excluded: ["עריכת עומק מעבר למסלול", "שעות נוספות", "אלבומים מודפסים"],
+    scopeNote: "המחיר תלוי במספר השעות הסופי.",
+  },
+  ai_voice_restore: {
+    excluded: ["שחזור קבצים מרובים", "מסירה מזורזת", "עבודת מאסטרינג מלאה"],
+    scopeNote: "המחיר משתנה לפי מצב החומר הגולמי.",
+    pricingMode: "from",
+  },
+  ai_voice_enhance: {
+    excluded: ["תיקון זיופים", "שחזור עמוק", "מסירה מזורזת אם לא סוכמה"],
+    scopeNote: "המחיר משתנה לפי אורך ואיכות הקובץ.",
+    pricingMode: "from",
+  },
+  damaged_recording_rescue: {
+    excluded: ["קבצים ארוכים מעבר ל-5 דקות", "מסירה דחופה", "שחזור וידאו/תמונה"],
+    scopeNote: "מחיר התחלה לכל 5 דקות. חומר קשה במיוחד מתומחר בנפרד.",
+    pricingMode: "from",
+  },
+  dry_hire_day: {
+    excluded: ["הובלה", "טכנאי", "ביטוח או הפקדה", "ציוד נוסף מעבר לפריט שנבחר"],
+    scopeNote: "מחיר התחלה לפריט ליום. הסופי תלוי במפרט ובהובלה.",
+    pricingMode: "from",
+  },
+};
+
 const catalogById = new Map<string, PriceItem>(
   PRICING_CATALOG.map((item) => [item.id, item]),
 );
@@ -412,6 +560,49 @@ export function getAddonsForBaseId(baseId: PriceItemId): readonly PriceItem[] {
   const ids = PRICING_ADDON_LINKS[baseId];
   if (!ids?.length) return [];
   return ids.map((id) => getPriceById(id));
+}
+
+function normalizeLine(text: string | null | undefined): string | null {
+  const line = text?.trim();
+  if (!line) return null;
+  return line.startsWith("לא כולל ") || line.startsWith("כולל ")
+    ? line.replace(/^(לא כולל |כולל )/, "")
+    : line;
+}
+
+function uniqueLines(lines: readonly (string | null | undefined)[]): string[] {
+  const normalized = lines
+    .map((line) => normalizeLine(line))
+    .filter((line): line is string => line != null);
+  return Array.from(new Set(normalized));
+}
+
+export function getPriceTransparencyById(id: PriceItemId): PriceTransparency {
+  const item = getPriceById(id);
+  const categoryDraft = PRICE_TRANSPARENCY_BY_CATEGORY[item.category] || {};
+  const override = PRICE_TRANSPARENCY_OVERRIDES[id] || {};
+  const addons = override.addons ?? PRICING_ADDON_LINKS[id] ?? [];
+  const pricingMode =
+    override.pricingMode ?? (item.priceFrom ? "from" : "fixed");
+
+  return {
+    included: uniqueLines([
+      item.scope?.includes,
+      ...(override.included ?? categoryDraft.included ?? []),
+    ]),
+    excluded: uniqueLines([
+      item.scope?.excludes,
+      ...(override.excluded ?? categoryDraft.excluded ?? []),
+    ]),
+    addons,
+    scopeNote:
+      override.scopeNote ??
+      categoryDraft.scopeNote ??
+      (pricingMode === "from"
+        ? "מחיר התחלה. המחיר הסופי נקבע לפי היקף, לוגיסטיקה או חומרים."
+        : undefined),
+    pricingMode,
+  };
 }
 
 /** סכום מע״מ בלבד */

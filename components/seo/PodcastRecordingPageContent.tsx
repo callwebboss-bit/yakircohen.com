@@ -173,7 +173,11 @@ export default function PodcastRecordingPageContent() {
               + מע״מ, {PODCAST_RECORDING_PRICE_NOTE}
             </span>
           </p>
-          <BookPriceDual exVat={PODCAST_RECORDING_PRICE} className="mt-2" />
+          <BookPriceDual
+            exVat={PODCAST_RECORDING_PRICE}
+            catalogId="full_podcast_production"
+            className="mt-2"
+          />
         </section>
 
         <section aria-labelledby="audience-heading">

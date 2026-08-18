@@ -22,6 +22,7 @@ const HIDE_CHAT_PREFIXES = [
   "/privacy",
   "/terms",
   "/accessibility",
+  "/sustainability",
 ] as const;
 
 /** Calculator and contact flows need FABs lifted above sticky UI. */

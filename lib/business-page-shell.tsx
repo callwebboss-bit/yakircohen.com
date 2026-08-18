@@ -6,6 +6,7 @@ import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
 import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 
 type BusinessPageOptions = {
   slug: string;
@@ -68,8 +69,10 @@ export function BusinessServicePage({
   config: BusinessPageConfig;
 }) {
   const jsonLd = buildBusinessPageJsonLd(slug, config);
+  const pageUrl = absoluteUrl(slug);
   return (
     <>
+      <SpeakableSchema url={pageUrl} cssSelector={["h1", "#answer"]} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}

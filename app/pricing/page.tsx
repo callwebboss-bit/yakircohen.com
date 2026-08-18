@@ -287,6 +287,9 @@ export default function PricingHubPage() {
                 <Link href="/accessibility" className={`${linkClass} hover:text-brand-red`}>
                   הצהרת נגישות
                 </Link>
+                <Link href="/sustainability" className={`${linkClass} hover:text-brand-red`}>
+                  הצהרת מדיניות קיימות
+                </Link>
                 <Link href="/contact" className={`${linkClass} hover:text-brand-red`}>
                   צרו קשר
                 </Link>

@@ -2,6 +2,7 @@
 import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import {
   AI_MUSIC_GUIDED_SERVICES,
   AI_MUSIC_LEARN_MODULES,
@@ -88,6 +89,10 @@ export default function AiMusicPageContent() {
             איך מקליטים שיר ב־10 דקות עם AI
           </Link>
         </p>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+        <ProfessionalStanceSection pathname="/academy/ai-music" />
       </section>
 
       <section className="border-b border-amber-500/25 bg-amber-500/5 py-8">

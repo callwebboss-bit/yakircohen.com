@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import Button from "@/components/ui/Button";import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import {
@@ -142,6 +143,10 @@ export default function ClinicPage() {
               </div>
             </div>
           </section>
+
+          <div className="mt-10">
+            <ProfessionalStanceSection pathname="/clinic" />
+          </div>
         </section>
 
         {/* Section 1: Inversion method */}

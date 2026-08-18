@@ -84,7 +84,9 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
     children: [
       { label: "מרכז האולפן", href: "/studio" },
       { label: "הקלטת שיר במודיעין", href: "/studio/recording-song-modiin" },
+      { label: "מתנות לפי אירוע", href: "/matanot" },
       { label: "מתנות ושוברים מהאולפן", href: "/studio/recording-song-modiin/gifts" },
+      { label: "סיור וירטואלי באולפן", href: "/studio/virtual-tour" },
       { label: "אולפן הקלטות", href: "/studio/recording-studio" },
       {
         label: "ייעוץ אקוסטיקה ובניית אולפן",
@@ -358,6 +360,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "פס ייצור פודקאסט", href: "/podcast/bulk-production" },
       { label: "השכרת ציוד הגברה", href: "/events/equipment/dry-hire" },
       { label: "תכנון הגברה", href: "/events/equipment/system-tuning" },
+      { label: "נתוני תעשייה 2026", href: "/data/industry-2026" },
       { label: "דופק השוק", href: "/pro/event-index" },
     ],
   },
@@ -495,6 +498,8 @@ const HEADER_STUDIO_NAV: SiteNavCategory = {
   ],
   children: [
     { label: "ברכות מוקלטות", href: "/studio/blessings" },
+    { label: "מתנות לפי אירוע", href: "/matanot" },
+    { label: "סיור וירטואלי באולפן", href: "/studio/virtual-tour" },
     { label: "אולפן שוהם", href: "/studio/studio-shoham" },
     { label: "אולפן רחובות", href: "/studio/studio-rehovot" },
     {
@@ -585,6 +590,7 @@ export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
   { kind: "dropdown", category: HEADER_STUDIO_NAV },
   { kind: "dropdown", category: HEADER_EVENTS_NAV },
   { kind: "dropdown", category: HEADER_PODCAST_NAV },
+  { kind: "link", label: "מתנות", href: "/matanot" },
   { kind: "link", label: "מחירון", href: "/pricing" },
 ];
 
@@ -639,6 +645,7 @@ export const SITE_GLOBAL_LINKS: SiteNavLink[] = [
   { label: "הזמנה מקוונת", href: "/book" },
   { label: "איך זה עובד", href: "/start" },
   { label: "מגזין", href: "/blog" },
+  { label: "מונחון", href: "/glossary" },
   { label: "אודות", href: "/about" },
   { label: "שאלות נפוצות", href: "/about/faq" },
   { label: "צור קשר", href: "/contact" },

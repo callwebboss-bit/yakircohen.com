@@ -3,7 +3,7 @@ import { test } from "node:test";
 import {
   isAllowedPublicOrigin,
   PUBLIC_API_ALLOWED_ORIGINS,
-} from "./api-guard.ts";
+} from "./api-guard";
 
 test("allows yakircohen.com Origin", () => {
   const req = new Request("https://yakircohen.com/api/lead-touch", {

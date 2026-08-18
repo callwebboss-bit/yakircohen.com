@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo, Noto_Serif_Hebrew } from "next/font/google";
+import GlossaryTooltipProvider from "@/components/glossary/GlossaryTooltipProvider";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -138,12 +139,14 @@ export default function RootLayout({
         <ScrollProgressBar />
         <Header />
         <Breadcrumbs />
-        <main
-          id="main-content"
-          className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
-        >
-          {children}
-        </main>
+        <GlossaryTooltipProvider>
+          <main
+            id="main-content"
+            className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
+          >
+            {children}
+          </main>
+        </GlossaryTooltipProvider>
         <Footer />
         <DeferredFloatingFabs />
         <SessionRescuerBarLazy />

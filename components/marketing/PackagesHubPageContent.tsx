@@ -79,6 +79,7 @@ export default function PackagesHubPageContent() {
                           exVat={pkg.priceExVat}
                           scope={pkg.scope}
                           size="md"
+                          catalogId={pkg.catalogId}
                         />
                       </div>
                       <ul className="mt-4 grid gap-2 sm:grid-cols-2">

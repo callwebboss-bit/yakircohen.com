@@ -15,6 +15,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "social-media": "ניהול סושיאל",
   "reel-factory": "מפעל רילס לספקים",
   blog: "בלוג",
+  glossary: "מונחון",
   about: "אודות",
   contact: "צור קשר",
   book: "הזמנה",
@@ -25,6 +26,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   privacy: "מדיניות פרטיות",
   terms: "תנאי שימוש",
   accessibility: "נגישות",
+  sustainability: "קיימות",
   blessings: "הקלטת ברכה",
   "dj-events": "תקליטן לאירועים",
   "stage-led-dj": "עמדת LED לתקליטן",
@@ -105,6 +107,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
 /** Exact path label when segment fallbacks are not enough. */
 export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/about/faq": "שאלות נפוצות",
+  "/glossary": "מונחון",
   "/podcast/faq": "שאלות נפוצות - פודקאסט",
   "/dj-events/cities/jerusalem": "תקליטן בירושלים",
   "/dj-events/cities/shoham": "תקליטן בשוהם",
@@ -114,6 +117,9 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/studio/recording-song-modiin": "הקלטת שיר",
   "/studio/recording-song-modiin/gifts": "חבילות",
   "/studio/recording-song-modiin/gifts/funny-ringtone": "רינגטון מצחיק במתנה",
+  "/matanot": "מתנות",
+  "/areas": "אזורי שירות",
+  "/studio/virtual-tour": "סיור וירטואלי",
   "/studio/blessings": "הקלטת ברכה",
   "/studio/blessings/bat-mitzvah-clip": "קליפ בת מצווה",
   "/studio/mobile-studio": "אולפן נייד",

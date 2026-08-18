@@ -373,6 +373,7 @@ export default function OnlineAiPricingPageContent() {
               storageKey={restorationDemo.storageKey}
               beforeNote={restorationDemo.beforeNote}
               afterNote={restorationDemo.afterNote}
+              proofProfileId="weber-restoration"
             />
           </div>
         </section>

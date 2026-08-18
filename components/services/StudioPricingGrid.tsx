@@ -82,6 +82,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                     size="lg"
                     suitedFor={resolveTierSuitedFor(tier)}
                     withEditing={resolveTierWithEditing(tier)}
+                    catalogId={tier.catalogId}
                   />
                 </div>
               ) : (

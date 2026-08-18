@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import Container from "@/components/ui/Container";
@@ -88,6 +90,7 @@ export default function AudienceLandingPageContent({
           <p className="mt-3 max-w-3xl text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}
           </p>
+          <ContextualIntroParagraph pathname={`/${config.slug}`} className="mt-6 max-w-3xl" />
         </Container>
       </Section>
 
@@ -112,6 +115,7 @@ export default function AudienceLandingPageContent({
             items={[...config.faqs]}
             defaultOpenId={config.faqs[0]?.id}
           />
+          <PageRelatedFooter pathname={`/${config.slug}`} />
         </Container>
       </Section>
     </article>

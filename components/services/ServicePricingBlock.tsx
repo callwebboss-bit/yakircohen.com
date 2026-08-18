@@ -90,6 +90,7 @@ export default function ServicePricingBlock({
                       showFromPrefix={false}
                       suitedFor={resolveTierSuitedFor(tier)}
                       withEditing={resolveTierWithEditing(tier)}
+                      catalogId={tier.catalogId}
                     />
                   ) : (
                     <p className="text-xl font-semibold text-[var(--service-accent-ink,#8a1c1c)]">{tier.price}</p>

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import dynamic from "next/dynamic";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { RINGTONE_AUDIO } from "@/lib/data/funny-ringtone-page";
 
 const PremiumCrossfadePlayer = dynamic(
@@ -32,6 +33,8 @@ export default function FunnyRingtoneBeforeAfter() {
         afterLabel={RINGTONE_AUDIO.afterLabel}
         storageKey="funny-ringtone"
       />
+
+      <SoundProofTable profileId="funny-ringtone" />
 
       <figcaption>
         <p className="text-sm leading-relaxed text-muted-foreground">

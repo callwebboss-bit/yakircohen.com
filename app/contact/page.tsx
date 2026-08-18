@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactPageContent from "@/components/contact/ContactPageContent";
+import StudioNearbyPlaces from "@/components/contact/StudioNearbyPlaces";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import SmartMap from "@/components/ui/SmartMap";
 import { STUDIO_ADDRESS } from "@/lib/constants";
+import {
+  STUDIO_NEARBY_FAQ,
+  STUDIO_NEARBY_LANDMARK_FAQ,
+} from "@/lib/data/studio-nearby-places";
 import {
   CONTACT_HUB_SEO,
   hubSchemaPropsFromSeo,
@@ -31,6 +36,14 @@ const CONTACT_FAQ_SCHEMA = buildFaqSchema([
   {
     question: "איפה האולפן ממוקם?",
     answer: "במודיעין, עמק איילון 34. נגישות נוחה מהמרכז וירושלים. אפשר לתאם הקלטה מרחוק לפי הצורך.",
+  },
+  {
+    question: STUDIO_NEARBY_FAQ.question,
+    answer: STUDIO_NEARBY_FAQ.answer,
+  },
+  {
+    question: STUDIO_NEARBY_LANDMARK_FAQ.question,
+    answer: STUDIO_NEARBY_LANDMARK_FAQ.answer,
   },
 ]);
 
@@ -69,6 +82,7 @@ export default function ContactPage() {
             address={STUDIO_ADDRESS}
             googleMapsUrl="https://maps.google.com/maps?q=עמק+איילון+34+מודיעין&output=embed"
           />
+          <StudioNearbyPlaces />
         </Container>
       </Section>
     </>

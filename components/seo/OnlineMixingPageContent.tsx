@@ -6,6 +6,7 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import AudioShowcase from "@/components/seo/AudioShowcase";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import {
   MIXING_AUDIENCE,
   MIXING_EXTRAS,
@@ -18,6 +19,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 import { getAudioDemo, SEVERE_RESTORATION_DISCLAIMER } from "@/lib/data/audio-demos";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -88,6 +90,7 @@ export default function OnlineMixingPageContent() {
     utm_source: "online",
     utm_campaign: "mixing_sample",
   });
+  const techBarrierRelief = resolveTechBarrierRelief("/online/vocal-fix/mixing");
 
   return (
     <div className="bg-background">
@@ -168,6 +171,10 @@ export default function OnlineMixingPageContent() {
           זה - לא חסר לך כישרון, חסר לך מישהו שיוציא מה שכבר קיים שם החוצה.
         </p>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       <section className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
         <h2 className="text-xl font-semibold text-foreground">
@@ -285,6 +292,7 @@ export default function OnlineMixingPageContent() {
               storageKey={mixingDemo.storageKey}
               beforeNote={mixingDemo.beforeNote}
               afterNote={mixingDemo.afterNote}
+              proofProfileId="weber-restoration"
             />
           </div>
         </div>

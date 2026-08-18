@@ -181,6 +181,14 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "השכרת הגברה": { href: "/events/equipment", anchor: "השכרת הגברה" },
   "הגברה לאירועים": { href: "/events/equipment", anchor: "הגברה לאירועים" },
   "שובר מתנה": { href: "/shop#vouchers", anchor: "שובר מתנה" },
+  "מתנה מוקלטת": { href: "/matanot", anchor: "מתנה מוקלטת" },
+  "מתנה לחתונה": { href: "/matanot", anchor: "מתנה לחתונה" },
+  "מתנה ליום הולדת": { href: "/matanot", anchor: "מתנה ליום הולדת" },
+  "מתנה לבר מצווה": { href: "/matanot", anchor: "מתנה לבר מצווה" },
+  "מתנה לבת מצווה": { href: "/matanot", anchor: "מתנה לבת מצווה" },
+  "אזורי שירות": { href: "/areas", anchor: "אזורי שירות" },
+  "הגעה לאולפן": { href: "/areas", anchor: "הגעה לאולפן" },
+  "סיור באולפן": { href: "/studio/virtual-tour", anchor: "סיור באולפן" },
   "הקלטת שיר באולפן": {
     href: "/studio/recording-song-modiin",
     anchor: "הקלטת שיר באולפן",
@@ -218,6 +226,34 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/studio/studio-rehovot",
     anchor: "אולפן נייד רחובות",
   },
+  "אולפן הקלטות בית שמש": {
+    href: "/studio/studio-beit-shemesh",
+    anchor: "אולפן הקלטות בבית שמש",
+  },
+  "אולפן הקלטות בבית שמש": {
+    href: "/studio/studio-beit-shemesh",
+    anchor: "אולפן הקלטות בבית שמש",
+  },
+  "פודקאסט בית שמש": {
+    href: "/podcast/beit-shemesh",
+    anchor: "פודקאסט בבית שמש",
+  },
+  "פודקאסט שוהם": {
+    href: "/podcast/shoham",
+    anchor: "פודקאסט בשוהם",
+  },
+  "פודקאסט רחובות": {
+    href: "/podcast/rehovot",
+    anchor: "פודקאסט ברחובות",
+  },
+  "אטרקציות לאירועים בבית שמש": {
+    href: "/events/attractions/beit-shemesh",
+    anchor: "אטרקציות לאירועים בבית שמש",
+  },
+  "אטרקציות לאירועים בשוהם": {
+    href: "/events/attractions/shoham",
+    anchor: "אטרקציות לאירועים בשוהם",
+  },
   "פודקאסט במודיעין": {
     href: "/podcast",
     anchor: "פודקאסט במודיעין",
@@ -241,6 +277,69 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "מחירון אולפן": {
     href: "/studio/pricing",
     anchor: "מחירון אולפן",
+  },
+  "נתוני תעשייה 2026": {
+    href: "/data/industry-2026",
+    anchor: "נתוני תעשייה 2026",
+  },
+  "כמה עולה להקליט שיר ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "מחירי הקלטת שיר ב-2026",
+  },
+  "כמה עולה קליפ בר מצווה ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "מחיר קליפ בר מצווה ב-2026",
+  },
+  "כמה עולה קליפ בת מצווה ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "מחיר קליפ בת מצווה ב-2026",
+  },
+  "כמה עולות אטרקציות ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "מחירי אטרקציות ב-2026",
+  },
+  "כמה עולה להקים פודקאסט ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "עלות הקמת פודקאסט ב-2026",
+  },
+  "כמה עולה להקליט פודקאסט ב-2026": {
+    href: "/data/industry-2026",
+    anchor: "מחיר הקלטת פודקאסט ב-2026",
+  },
+  "מה זה EQ": { href: "/glossary/eq", anchor: "מה זה EQ" },
+  "מה זה אקולייזר": {
+    href: "/glossary/eq",
+    anchor: "מה זה אקולייזר",
+  },
+  "מה זה LUFS": { href: "/glossary/lufs", anchor: "מה זה LUFS" },
+  "מה זה צ'ק סאונד": {
+    href: "/glossary/soundcheck",
+    anchor: "מה זה צ'ק סאונד",
+  },
+  "מה זה פופ-פילטר": {
+    href: "/glossary/pop-filter",
+    anchor: "מה זה פופ-פילטר",
+  },
+  "מה זה פנטום פאואר": {
+    href: "/glossary/phantom-power",
+    anchor: "מה זה פנטום פאואר",
+  },
+  "מה זה gain staging": {
+    href: "/glossary/gain-staging",
+    anchor: "מה זה gain staging",
+  },
+  "מה זה מונו": { href: "/glossary/mono", anchor: "מה זה מונו" },
+  "מה זה סטריאו": { href: "/glossary/stereo", anchor: "מה זה סטריאו" },
+  "מה זה RSS": { href: "/glossary/rss", anchor: "מה זה RSS" },
+  "מה זה IVR": { href: "/glossary/ivr", anchor: "מה זה IVR" },
+  "מה זה dry-hire": {
+    href: "/glossary/dry-hire",
+    anchor: "מה זה dry-hire",
+  },
+  "מה זה מאשאפ": { href: "/glossary/mashup", anchor: "מה זה מאשאפ" },
+  "מה זה תיקון זיופים": {
+    href: "/glossary/pitch-correction",
+    anchor: "מה זה תיקון זיופים",
   },
 };
 

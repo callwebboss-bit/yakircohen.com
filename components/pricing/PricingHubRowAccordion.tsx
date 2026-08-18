@@ -187,6 +187,7 @@ export default function PricingHubRowAccordion({
                     size="sm"
                     suitedFor={suitedFor}
                     showFromPrefix={showFromPrefix}
+                    catalogId={row.catalogId}
                   />
                 </div>
                 <Link

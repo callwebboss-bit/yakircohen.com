@@ -12,6 +12,7 @@ export default function BlessingsBrideGroomBeforeAfter() {
       context="page"
       beforeSrc={BEFORE_SRC}
       afterSrc={AFTER_SRC}
+      proofProfileId="blessing-mix"
     />
   );
 }

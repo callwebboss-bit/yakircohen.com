@@ -1,4 +1,6 @@
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 import { withVat, VAT_RATE } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
@@ -8,6 +10,7 @@ type BookPriceDualProps = {
   dualLabel?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
+  catalogId?: PriceItemId;
 };
 
 const SIZE_CLASS = {
@@ -21,6 +24,7 @@ export default function BookPriceDual({
   dualLabel,
   size = "md",
   className,
+  catalogId,
 }: BookPriceDualProps) {
   const vat = Math.round(exVat * VAT_RATE);
   const total = withVat(exVat);
@@ -35,6 +39,7 @@ export default function BookPriceDual({
           {total.toLocaleString("he-IL")} ₪ סופי
         </span>
       </p>
+      {catalogId ? <PricingTransparencyBlock catalogId={catalogId} compact /> : null}
     </div>
   );
 }

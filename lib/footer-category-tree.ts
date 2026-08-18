@@ -21,7 +21,13 @@ export type FooterCategoryGroup = {
   links: readonly SeoFooterLink[];
 };
 
-const LEGAL_HREFS = new Set(["/privacy", "/terms", "/accessibility", "/pricing"]);
+const LEGAL_HREFS = new Set([
+  "/privacy",
+  "/terms",
+  "/accessibility",
+  "/sustainability",
+  "/pricing",
+]);
 
 /** קישורי עמודה 5 שאינם משפטיים, נשארים ב-audit */
 export const FOOTER_UTILITY_LINKS: readonly SeoFooterLink[] =
@@ -181,6 +187,7 @@ export function collectFooterNavPaths(): string[] {
   paths.add("/privacy");
   paths.add("/terms");
   paths.add("/accessibility");
+  paths.add("/sustainability");
 
   return [...paths];
 }

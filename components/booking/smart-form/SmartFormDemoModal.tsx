@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { getAudioDemo, type AudioDemoId } from "@/lib/data/audio-demos";
 import PremiumCrossfadePlayer from "@/components/ui/PremiumCrossfadePlayer";
 
@@ -64,6 +65,11 @@ export default function SmartFormDemoModal({
           beforeLabel={demo.beforeLabel}
           afterLabel={demo.afterLabel}
           storageKey={`smart-form-${demo.storageKey}`}
+        />
+        <SoundProofTable
+          profileId={demoId}
+          density="compact"
+          className="mt-4"
         />
       </div>
     </div>

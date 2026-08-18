@@ -14,6 +14,7 @@
  */
 
 import { useId, useState } from "react";
+import GlossaryInlineText from "@/components/glossary/GlossaryInlineText";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -135,7 +136,7 @@ export default function FAQWithCtaLinks({
                 <div className="pb-6 pt-1">
                   {/* Answer body */}
                   <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {item.answer}
+                    <GlossaryInlineText text={item.answer} />
                   </p>
 
                   {/* ── Contextual WhatsApp CTA ── */}

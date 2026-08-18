@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { SINGER_AUDIO_BEFORE_AFTER } from "@/lib/data/singer-amplification-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -75,6 +76,8 @@ export default function SingerBeforeAfterAudio() {
             </audio>
           </div>
         </div>
+
+        <SoundProofTable profileId="singer-live-pending" className="mt-5" />
 
         <p className="mt-5 text-center text-xs text-muted-foreground">
           קבצי ההדגמה יועלו בקרוב. בינתיים -{" "}

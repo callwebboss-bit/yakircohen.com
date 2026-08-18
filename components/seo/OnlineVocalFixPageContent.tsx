@@ -15,7 +15,9 @@ import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 import AudioDamageSolver from "@/components/seo/AudioDamageSolver";
 import SuccessRateEstimator from "@/components/seo/SuccessRateEstimator";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import VocalFixPricingBlock from "@/components/seo/VocalFixPricingBlock";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const VOCAL_FIX_ANSWER =
   "הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.";
@@ -67,6 +69,7 @@ export default function OnlineVocalFixPageContent() {
   });
 
   const faqSchema = buildFaqSchema(FAQ_ITEMS.map(({ question, answer }) => ({ question, answer })));
+  const techBarrierRelief = resolveTechBarrierRelief("/online/vocal-fix");
 
   return (
     <div className="bg-background">
@@ -141,6 +144,10 @@ export default function OnlineVocalFixPageContent() {
           קובץ, ומקבלים בחזרה סאונד.
         </p>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       <section className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
         <BusinessCrossLink

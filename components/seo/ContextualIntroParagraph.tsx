@@ -1,4 +1,5 @@
-﻿import InlineServiceLink from "@/components/marketing/InlineServiceLink";
+﻿import GlossaryInlineText from "@/components/glossary/GlossaryInlineText";
+import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import ServiceFitSnapshot from "@/components/seo/ServiceFitSnapshot";
 import { getIntroSegments } from "@/lib/internal-links/intro-segments";
 import { getServiceFit } from "@/lib/data/service-fit-matrix";
@@ -36,7 +37,9 @@ export default function ContextualIntroParagraph({
         <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
           {segments!.map((segment, index) =>
             segment.type === "text" ? (
-              <span key={`t-${index}`}>{segment.value}</span>
+              <span key={`t-${index}`}>
+                <GlossaryInlineText text={segment.value} />
+              </span>
             ) : (
               <InlineServiceLink key={`l-${segment.href}`} href={segment.href}>
                 {segment.label}

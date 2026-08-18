@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useRef } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const BEFORE_SRC = "/audio/recording-raw-sample.mp3";
@@ -74,6 +75,11 @@ export default function RecordingSongBeforeAfter() {
           </audio>
         </div>
       </div>
+
+      <SoundProofTable
+        profileId="recording-vocal-polish"
+        className="mt-5"
+      />
 
       <p className="mt-6 text-center text-sm leading-relaxed text-muted-foreground">
         <strong className="text-foreground">

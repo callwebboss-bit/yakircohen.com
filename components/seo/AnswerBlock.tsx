@@ -1,3 +1,5 @@
+import GlossaryInlineText from "@/components/glossary/GlossaryInlineText";
+
 interface Props {
   id?: string;
   children: React.ReactNode;
@@ -14,7 +16,11 @@ export default function AnswerBlock({ id = "answer", children }: Props) {
       data-speakable="true"
       className="text-lead text-foreground/80 leading-relaxed"
     >
-      {children}
+      {typeof children === "string" ? (
+        <GlossaryInlineText text={children} />
+      ) : (
+        children
+      )}
     </p>
   );
 }

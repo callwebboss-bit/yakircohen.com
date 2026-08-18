@@ -57,7 +57,14 @@ function loadOnlineSlugs() {
   return [...text.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
 }
 
-function loadSitemapPaths(blogSlugs) {
+function loadGlossarySlugs() {
+  const glossaryFile = path.join(root, "lib", "data", "glossary.ts");
+  if (!fs.existsSync(glossaryFile)) return [];
+  const text = fs.readFileSync(glossaryFile, "utf8");
+  return [...text.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
+}
+
+function loadSitemapPaths(blogSlugs, glossarySlugs) {
   const sitemapFile = path.join(root, "app", "sitemap.ts");
   const text = fs.readFileSync(sitemapFile, "utf8");
   const paths = new Set(["/"]);
@@ -76,6 +83,10 @@ function loadSitemapPaths(blogSlugs) {
     paths.add(`/blog/${slug}`);
   }
 
+  for (const slug of glossarySlugs) {
+    paths.add(`/glossary/${slug}`);
+  }
+
   return paths;
 }
 
@@ -83,6 +94,7 @@ function collectInboundLinks(blogSlugs, onlineSlugs) {
   const inbound = new Map();
   let hasDynamicBlogLinks = false;
   let hasDynamicOnlineLinks = false;
+  let hasDynamicGlossaryLinks = false;
   const allContents = [];
 
   for (const dir of SCAN_DIRS) {
@@ -92,6 +104,7 @@ function collectInboundLinks(blogSlugs, onlineSlugs) {
 
       if (content.includes("/blog/${")) hasDynamicBlogLinks = true;
       if (content.includes("/online/${")) hasDynamicOnlineLinks = true;
+      if (content.includes("/glossary/${")) hasDynamicGlossaryLinks = true;
 
       for (const re of [HREF_ATTR_RE, HREF_OBJ_RE]) {
         re.lastIndex = 0;
@@ -117,7 +130,7 @@ function collectInboundLinks(blogSlugs, onlineSlugs) {
     }
   }
 
-  return { inbound, allContents };
+  return { inbound, allContents, hasDynamicGlossaryLinks };
 }
 
 function markPathReferences(inbound, sitemapPaths, allContents) {
@@ -133,9 +146,19 @@ function markPathReferences(inbound, sitemapPaths, allContents) {
 
 const blogSlugs = loadBlogSlugs();
 const onlineSlugs = loadOnlineSlugs();
-const sitemapPaths = loadSitemapPaths(blogSlugs);
-const { inbound, allContents } = collectInboundLinks(blogSlugs, onlineSlugs);
+const glossarySlugs = loadGlossarySlugs();
+const sitemapPaths = loadSitemapPaths(blogSlugs, glossarySlugs);
+const { inbound, allContents, hasDynamicGlossaryLinks } = collectInboundLinks(
+  blogSlugs,
+  onlineSlugs,
+);
 markPathReferences(inbound, sitemapPaths, allContents);
+
+if (hasDynamicGlossaryLinks) {
+  for (const slug of glossarySlugs) {
+    inbound.set(`/glossary/${slug}`, (inbound.get(`/glossary/${slug}`) ?? 0) + 1);
+  }
+}
 
 const orphans = [...sitemapPaths]
   .filter((p) => !SKIP_ORPHAN.has(p))

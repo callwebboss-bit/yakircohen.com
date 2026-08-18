@@ -3,7 +3,12 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { trackConversion } from "@/lib/analytics/conversion-events";
+import {
+  getSoundProofProfileByVariant,
+  type SoundProofProfileId,
+} from "@/lib/data/sound-proof-metrics";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
@@ -30,6 +35,7 @@ type Props = {
   storageKey?: string;
   beforeNote?: string;
   afterNote?: string;
+  proofProfileId?: SoundProofProfileId;
 };
 
 const CONTENT = {
@@ -86,12 +92,15 @@ export default function AudioShowcase({
   storageKey,
   beforeNote,
   afterNote,
+  proofProfileId,
 }: Props) {
   const c = CONTENT[variant];
   const beforeLabel = beforeLabelOverride ?? c.beforeLabel;
   const afterLabel = afterLabelOverride ?? c.afterLabel;
   const isFullPage = context === "page";
   const isCompact = context === "compact";
+  const resolvedProofProfileId =
+    proofProfileId ?? getSoundProofProfileByVariant(variant).id;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -161,6 +170,11 @@ export default function AudioShowcase({
           afterLabel={afterLabel}
           storageKey={playerKey}
           onPlayStart={handlePlayStart}
+        />
+
+        <SoundProofTable
+          profileId={resolvedProofProfileId}
+          density={isCompact ? "compact" : "full"}
         />
 
         {(beforeNote || afterNote) && (

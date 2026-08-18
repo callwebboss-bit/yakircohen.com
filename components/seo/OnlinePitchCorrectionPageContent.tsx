@@ -3,7 +3,9 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import SoundCleaningDemo from "@/components/seo/SoundCleaningDemo";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
   PITCH_AUDIENCE,
@@ -16,6 +18,7 @@ import {
 } from "@/lib/data/online-pitch-correction-page";
 import { YOUTUBE_CHANNEL_URL } from "@/lib/data/youtube-embeds";
 import { getAudioDemo } from "@/lib/data/audio-demos";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
@@ -91,6 +94,9 @@ export default function OnlinePitchCorrectionPageContent() {
     utm_source: "online",
     utm_campaign: "pitch_correction_cta",
   });
+  const techBarrierRelief = resolveTechBarrierRelief(
+    "/online/vocal-fix/pitch-correction",
+  );
 
   return (
     <div className="bg-background">
@@ -155,6 +161,14 @@ export default function OnlinePitchCorrectionPageContent() {
           התכוונת אליהם, והאנרגיה של הרגע הולכת לאיבוד. אני מבין את זה -
           ולכן אני מציע לך פיתרון שלא דורש ממך להקליט מחדש.
         </p>
+      </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
+
+      <section className="mx-auto max-w-3xl px-4 pb-12 sm:px-6 lg:px-8">
+        <ProfessionalStanceSection pathname="/online/vocal-fix/pitch-correction" />
       </section>
 
       <section className="border-b border-border bg-surface py-12">
@@ -244,6 +258,7 @@ export default function OnlinePitchCorrectionPageContent() {
                     storageKey={demo.storageKey}
                     beforeNote={demo.beforeNote}
                     afterNote={demo.afterNote}
+                    proofProfileId={item.demoId}
                   />
                 </div>
               );

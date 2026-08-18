@@ -4,7 +4,7 @@ import {
   PRICING_COMPARISON_ROWS,
   type PricingComparisonRow,
 } from "@/lib/data/pricing-comparison";
-import { getPriceById } from "@/lib/data/pricing-catalog";
+import { getPriceById, getPriceTransparencyById } from "@/lib/data/pricing-catalog";
 import { formatHubPriceDual, formatScopeLine } from "@/lib/data/pricing-display";
 import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
 import { cn } from "@/lib/utils";
@@ -14,8 +14,10 @@ const linkClass =
 
 function comparisonCells(row: PricingComparisonRow) {
   const item = getPriceById(row.catalogId);
+  const transparency = getPriceTransparencyById(row.catalogId);
   return {
     scope: formatScopeLine(item.scope) ?? item.context ?? "",
+    excluded: transparency.excluded.slice(0, 2).join(" · "),
     suitedFor: item.suitedFor,
     priceLine: formatHubPriceDual(item.exVat, item.priceFrom === true),
     bookHref: resolvePricingBookHref(row.catalogId) ?? row.bookHref ?? "/book",
@@ -72,7 +74,15 @@ export default function PricingComparisonTable({
                       </span>
                     ) : null}
                   </th>
-                  <td className="px-4 py-4 text-muted-foreground">{cells.scope}</td>
+                  <td className="px-4 py-4 text-muted-foreground">
+                    <div>{cells.scope}</div>
+                    {cells.excluded ? (
+                      <div className="mt-1 text-xs">
+                        <span className="font-semibold text-foreground">לא כלול: </span>
+                        {cells.excluded}
+                      </div>
+                    ) : null}
+                  </td>
                   <td className="px-4 py-4 text-muted-foreground">
                     {cells.suitedFor ?? "-"}
                   </td>
@@ -117,6 +127,12 @@ export default function PricingComparisonTable({
               {cells.scope ? (
                 <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                   {cells.scope}
+                </p>
+              ) : null}
+              {cells.excluded ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">לא כלול: </span>
+                  {cells.excluded}
                 </p>
               ) : null}
               {cells.suitedFor ? (

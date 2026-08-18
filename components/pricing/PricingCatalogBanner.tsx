@@ -3,6 +3,7 @@
 import { getPriceById, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { useBookCoupon } from "@/components/booking/BookCouponContext";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 
 type PricingCatalogBannerProps = {
   catalogId: PriceItemId;
@@ -28,6 +29,7 @@ export default function PricingCatalogBanner({ catalogId }: PricingCatalogBanner
           קוד {offer.code} הוחל: -{offer.amountOffExVat.toLocaleString("he-IL")} ₪ לפני מע״מ
         </p>
       ) : null}
+      <PricingTransparencyBlock catalogId={catalogId} className="bg-white/70" />
     </div>
   );
 }

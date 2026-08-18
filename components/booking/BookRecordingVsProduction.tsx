@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useRef } from "react";
+import SoundProofTable from "@/components/seo/SoundProofTable";
 import { cn } from "@/lib/utils";
 
 const BEFORE_SRC = "/audio/recording-raw-sample.mp3";
@@ -93,6 +94,11 @@ export default function BookRecordingVsProduction({
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
           כל המסלולים כאן כוללים עיבוד מלא. זו השוואה לסאונד שמקבלים במקומות אחרים.
         </p>
+        <SoundProofTable
+          profileId="recording-vs-production"
+          density="compact"
+          className="mt-3"
+        />
         {audioBlock}
       </div>
     );
@@ -154,6 +160,8 @@ export default function BookRecordingVsProduction({
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
         כל המסלולים כאן כוללים עיבוד מלא, לא רק הקלטה גולמית.
       </p>
+
+      <SoundProofTable profileId="recording-vs-production" className="mt-4" />
 
       {audioBlock}
 
