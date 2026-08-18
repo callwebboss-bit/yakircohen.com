@@ -16,6 +16,8 @@ import {
   HOME_STUDIO_WHY_YAKIR,
 } from "@/lib/data/academy-home-studio-page";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const generalCtaHref = buildWhatsAppHref({
   text: "היי יקיר! אני מעוניין/ת בייעוץ אקוסטיקה לבניית אולפן. אשמח לשמוע איזה חבילה מתאימה לי.",
@@ -30,6 +32,7 @@ const faqItems = HOME_STUDIO_FAQS.map((faq) => ({
 }));
 
 export default function AcousticConsultingPageContent() {
+  const techBarrierRelief = resolveTechBarrierRelief("/academy/home-studio");
   return (
     <div className="bg-background">
       <FaqPageSchema
@@ -97,6 +100,10 @@ export default function AcousticConsultingPageContent() {
             הזמינו ייעוץ בוואטסאפ </a>
         </div>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       <section
         aria-labelledby="studio-types-heading"

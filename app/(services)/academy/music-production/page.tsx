@@ -19,6 +19,8 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס יצירה מוזיקלית",
@@ -93,6 +95,9 @@ const MUSIC_PRODUCTION_FAQ: FAQItem[] = [
 ];
 
 const bookCta = resolveServiceBookCta("academy/music-production");
+const musicProductionTechBarrierRelief = resolveTechBarrierRelief(
+  "/academy/music-production",
+);
 
 export default function MusicProductionPage() {
   const ctaHref = buildWhatsAppHref({
@@ -174,6 +179,10 @@ export default function MusicProductionPage() {
           )}
         </div>
       </section>
+
+      {musicProductionTechBarrierRelief ? (
+        <TechBarrierReliefSection config={musicProductionTechBarrierRelief} />
+      ) : null}
 
       {/* ── Fit: audience / outcome / process ── */}
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

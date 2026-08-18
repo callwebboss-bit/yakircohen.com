@@ -11,8 +11,11 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export default function AiMusicPageContent() {
+  const techBarrierRelief = resolveTechBarrierRelief("/academy/ai-music");
   const courseHref = buildWhatsAppHref({
     text: "היי יקיר! אני מעוניין/ת בקורס AI + מוזיקה (לימוד 1:1). אשמח לשמוע פרטים.",
     utm_source: "academy",
@@ -77,6 +80,10 @@ export default function AiMusicPageContent() {
           </div>
         </div>
       </section>
+
+      {techBarrierRelief ? (
+        <TechBarrierReliefSection config={techBarrierRelief} />
+      ) : null}
 
       <section className="border-b border-border bg-surface px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
         <AiSongCaseStudyVideo placement="ai-music" featured />

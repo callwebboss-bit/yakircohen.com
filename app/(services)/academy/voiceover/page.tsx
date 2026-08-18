@@ -16,6 +16,8 @@ import { ACADEMY_VOICEOVER_DEMO } from "@/lib/data/youtube-showcases";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס קריינות ודיבור נכון",
@@ -97,6 +99,9 @@ const VOICEOVER_FAQ: FAQItem[] = [
 ];
 
 const bookCta = resolveServiceBookCta("academy/voiceover");
+const voiceoverTechBarrierRelief = resolveTechBarrierRelief(
+  "/academy/voiceover",
+);
 
 export default function VoiceoverCoursePage() {
   const ctaHref = buildWhatsAppHref({
@@ -187,6 +192,10 @@ export default function VoiceoverCoursePage() {
           </div>
         </div>
       </section>
+
+      {voiceoverTechBarrierRelief ? (
+        <TechBarrierReliefSection config={voiceoverTechBarrierRelief} />
+      ) : null}
 
       {/* ── Fit: audience / outcome / process ── */}
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

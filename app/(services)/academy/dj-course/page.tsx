@@ -23,6 +23,8 @@ import {
   YOUTUBE_DJ_COURSE_FREE_PLAYLIST_EMBED,
   YOUTUBE_DJ_COURSE_FREE_PLAYLIST_URL,
 } from "@/lib/data/academy-dj-course-page";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס DJ מקצועי",
@@ -76,6 +78,7 @@ const DJ_COURSE_HERO_IMAGE_FILENAME = "ידידיה קורס דיגיי גיל 5
 const DJ_COURSE_HERO_IMAGE_SRC = `/images/services/dj-course/${encodeURIComponent(
   DJ_COURSE_HERO_IMAGE_FILENAME,
 )}`;
+const djCourseTechBarrierRelief = resolveTechBarrierRelief("/academy/dj-course");
 
 export default function DjCoursePage() {
   const ctaHref = buildWhatsAppHref({
@@ -182,6 +185,10 @@ export default function DjCoursePage() {
           </div>
         </div>
       </section>
+
+      {djCourseTechBarrierRelief ? (
+        <TechBarrierReliefSection config={djCourseTechBarrierRelief} />
+      ) : null}
 
       {/* ── Program outcomes ── */}
       <section className="border-b border-border bg-surface py-12 sm:py-14">

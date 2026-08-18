@@ -26,6 +26,8 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME } from "@/lib/constants";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
+import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export const metadata: Metadata = metadataForHubSeo(ACADEMY_HUB_SEO);
 
@@ -181,6 +183,7 @@ const CATEGORY_BG = [
 
 const bookCta = resolveServiceBookCta("academy");
 const courseGroups = academyCoursesByCategory();
+const academyTechBarrierRelief = resolveTechBarrierRelief("/academy");
 
 export default function AcademyPage() {
   const assessmentHref = buildWhatsAppHref({
@@ -262,6 +265,10 @@ export default function AcademyPage() {
           ) : null}
         </div>
       </section>
+
+      {academyTechBarrierRelief ? (
+        <TechBarrierReliefSection config={academyTechBarrierRelief} />
+      ) : null}
 
       {/* ── #3 For / Not for — moved to top ── */}
       <section className="border-b border-border bg-surface py-10 sm:py-12">
