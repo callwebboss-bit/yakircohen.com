@@ -16,6 +16,14 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
       "קליפ מתננה - שיר בהפתעה לאישה, לחברה או לבן/בת הזוג. הקלטה ועריכה באולפן במודיעין.",
   },
   {
+    videoId: "QRMxKVUOOl0",
+    title: "הקלטה אמיתית באולפן - דוגמת קליפ מהסשן",
+    youtubeUrl: "https://www.youtube.com/watch?v=QRMxKVUOOl0",
+    tags: ["studio-recording"],
+    services: ["recording-song-modiin", "recording-studio", "studio-gifts"],
+    description: "צילום סשן הקלטה באולפן במודיעין. דוגמה לקליפ מההקלטה.",
+  },
+  {
     videoId: "yjxF9pKzbr0",
     title: "שני תותחי קונפטי על במה - סיום שנה בבית ספר",
     youtubeUrl: "https://www.youtube.com/shorts/yjxF9pKzbr0",

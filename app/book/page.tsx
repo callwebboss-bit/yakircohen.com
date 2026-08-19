@@ -157,7 +157,15 @@ export default async function BookPage({
           </Container>
         </noscript>
 
-        <BookIntentPaths />
+        <details className="group border-b border-border bg-surface">
+          <summary className="mx-auto flex min-h-12 max-w-5xl cursor-pointer list-none items-center justify-center gap-2 px-4 py-4 text-sm font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+            יודעים כבר מה צריך?
+            <span className="text-xs font-normal text-muted-foreground group-open:hidden">
+              פתחו לבחירת מסלול
+            </span>
+          </summary>
+          <BookIntentPaths />
+        </details>
 
         <BookAudienceCardsStatic />
 

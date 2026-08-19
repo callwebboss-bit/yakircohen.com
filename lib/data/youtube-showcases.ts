@@ -148,6 +148,7 @@ export const RECORDING_SONG_EXTRA_VIDEOS: readonly ShowcaseVideo[] = [
 
 /** /studio/recording-song-modiin - דוגמאות מסודרות (עדכון ידני) */
 export const RECORDING_SONG_MODIIN_VIDEOS: readonly ShowcaseVideo[] = [
+  { videoId: "QRMxKVUOOl0", title: "הקלטה אמיתית באולפן - דוגמת קליפ מהסשן" },
   { videoId: "8i4K2f5gQfM", title: "הקלטת שיר לחתונה" },
   {
     videoId: "LKg3pwdon_M",

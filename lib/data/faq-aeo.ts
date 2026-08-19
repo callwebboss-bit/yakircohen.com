@@ -24,7 +24,7 @@ export function buildRecordingSongStudioPriceAnswer(): string {
   const blessing = stripDualPrefix(
     formatFromPriceDual(getExVat("blessing_recording")),
   );
-  return `הקלטת שיר באולפן על פלייבק קיים ${cover}. חבילת שיר מתנה ${package_}. ברכה או אמירה קצרה ${blessing}. המחיר הסופי תלוי במורכבות - מחירון מלא בעמוד.`;
+  return `שיר מוכן באולפן ${cover}. שיר Pro ${package_}. ברכה או אמירה קצרה ${blessing}. המחיר הסופי תלוי במורכבות - מחירון מלא בעמוד.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

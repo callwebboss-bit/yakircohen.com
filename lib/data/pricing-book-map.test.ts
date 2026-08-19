@@ -12,6 +12,13 @@ describe("parseBookCatalogFromSearch", () => {
     assert.equal(target!.catalogId, "cover_song");
   });
 
+  it("maps studio_viral and studio_all_in to matching wizard packages", () => {
+    const viral = parseBookCatalogFromSearch("studio_viral");
+    const allIn = parseBookCatalogFromSearch("studio_all_in");
+    assert.equal(viral?.studioPackageId, "viral");
+    assert.equal(allIn?.studioPackageId, "all_in");
+  });
+
   it("returns null for unknown catalog id", () => {
     assert.equal(parseBookCatalogFromSearch("not_in_catalog"), null);
     assert.equal(parseBookCatalogFromSearch(""), null);

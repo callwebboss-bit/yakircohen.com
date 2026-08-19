@@ -60,13 +60,13 @@ export const SMART_FORM_CATEGORIES: readonly SmartFormCategory[] = [
         id: "cover",
         label: "קאבר",
         catalogId: "cover_song",
-        tooltip: "הקלטת שיר קיים עם ליווי טכני ועריכה",
+        tooltip: "שיר מוכן - מיקס, מאסטר ותיקון זיופים",
       },
       {
         id: "song_package",
-        label: "חבילת שיר",
+        label: "שיר Pro",
         catalogId: "song_package",
-        tooltip: "הקלטה מורחבת יותר לשיר לאירוע",
+        tooltip: "פיץ' ידני, ייעוץ אמנותי ו-3 תמונות",
       },
       {
         id: "voice_enhance",

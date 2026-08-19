@@ -1,7 +1,13 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
+  PRICING_COMPARISON_FILTERS,
   PRICING_COMPARISON_ROWS,
+  formatComparisonBreakdown,
+  type PricingComparisonCluster,
   type PricingComparisonRow,
 } from "@/lib/data/pricing-comparison";
 import { getPriceById, getPriceTransparencyById } from "@/lib/data/pricing-catalog";
@@ -12,11 +18,14 @@ import { cn } from "@/lib/utils";
 const linkClass =
   "inline-flex min-h-11 items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
 
+const STUDIO_BUILDER_HREF = "/studio/pricing#price-builder";
+
 function comparisonCells(row: PricingComparisonRow) {
   const item = getPriceById(row.catalogId);
   const transparency = getPriceTransparencyById(row.catalogId);
   return {
     scope: formatScopeLine(item.scope) ?? item.context ?? "",
+    breakdown: formatComparisonBreakdown(row.catalogId),
     excluded: transparency.excluded.slice(0, 2).join(" · "),
     suitedFor: item.suitedFor,
     priceLine: formatHubPriceDual(item.exVat, item.priceFrom === true),
@@ -27,19 +36,71 @@ function comparisonCells(row: PricingComparisonRow) {
 export type PricingComparisonTableProps = {
   headingId: string;
   className?: string;
+  enableCategoryFilter?: boolean;
+  showBuilderLink?: boolean;
 };
 
-/**
- * טבלת השוואה בין מסלולי אולפן, פודקאסט, הקלטת שיר ואפשרויות נוספות.
- * דסקטופ: טבלה. מובייל: כרטיסים מוערמים - אותם נתונים.
- */
 export default function PricingComparisonTable({
   headingId,
   className,
+  enableCategoryFilter = false,
+  showBuilderLink = false,
 }: PricingComparisonTableProps) {
+  const [cluster, setCluster] = useState<"all" | PricingComparisonCluster>("all");
+
+  const rows = useMemo(() => {
+    if (!enableCategoryFilter || cluster === "all") return PRICING_COMPARISON_ROWS;
+    return PRICING_COMPARISON_ROWS.filter((row) => row.cluster === cluster);
+  }, [cluster, enableCategoryFilter]);
+
+  const showStudioBuilder =
+    showBuilderLink && (!enableCategoryFilter || cluster === "all" || cluster === "studio");
+
   return (
     <div className={className}>
-      {/* דסקטופ */}
+      {enableCategoryFilter ? (
+        <div className="mb-4">
+          <p className="text-sm font-medium text-foreground">
+            מה אתם צריכים? בחרו קטגוריה - ונדע להמליץ
+          </p>
+          <div
+            className="mt-2 flex flex-wrap gap-2"
+            role="group"
+            aria-label="סינון לפי קטגוריה"
+          >
+            {PRICING_COMPARISON_FILTERS.map((filter) => (
+              <button
+                key={filter.id}
+                type="button"
+                aria-pressed={cluster === filter.id}
+                onClick={() => setCluster(filter.id)}
+                className={cn(
+                  "inline-flex min-h-12 items-center rounded-xl border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+                  cluster === filter.id
+                    ? "border-brand-red bg-brand-red/10 text-brand-red"
+                    : "border-border bg-background text-foreground hover:border-brand-red/40",
+                )}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {showStudioBuilder ? (
+        <p className="mb-4 text-sm text-muted-foreground">
+          <Link
+            href={STUDIO_BUILDER_HREF}
+            className={`${linkClass} min-h-12 font-semibold text-brand-red hover:underline`}
+          >
+            בנה את החבילה שלך
+          </Link>
+          {" - "}
+          4 שאלות, מחיר מהמחירון.
+        </p>
+      ) : null}
+
       <div className="hidden overflow-x-auto rounded-2xl border border-border bg-surface md:block">
         <table className="w-full text-sm" aria-labelledby={headingId}>
           <thead>
@@ -49,6 +110,9 @@ export default function PricingComparisonTable({
               </th>
               <th scope="col" className="px-4 py-3 font-semibold text-foreground">
                 מה כלול
+              </th>
+              <th scope="col" className="px-4 py-3 font-semibold text-foreground">
+                פירוק המחיר
               </th>
               <th scope="col" className="px-4 py-3 font-semibold text-foreground">
                 מתאים ל
@@ -62,7 +126,7 @@ export default function PricingComparisonTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {PRICING_COMPARISON_ROWS.map((row) => {
+            {rows.map((row) => {
               const cells = comparisonCells(row);
               return (
                 <tr key={row.id} className="align-top transition-colors hover:bg-brand-red/[0.03]">
@@ -83,6 +147,7 @@ export default function PricingComparisonTable({
                       </div>
                     ) : null}
                   </td>
+                  <td className="px-4 py-4 text-muted-foreground">{cells.breakdown || "-"}</td>
                   <td className="px-4 py-4 text-muted-foreground">
                     {cells.suitedFor ?? "-"}
                   </td>
@@ -104,9 +169,8 @@ export default function PricingComparisonTable({
         </table>
       </div>
 
-      {/* מובייל */}
       <ul className="space-y-3 md:hidden">
-        {PRICING_COMPARISON_ROWS.map((row) => {
+        {rows.map((row) => {
           const cells = comparisonCells(row);
           return (
             <li
@@ -127,6 +191,12 @@ export default function PricingComparisonTable({
               {cells.scope ? (
                 <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                   {cells.scope}
+                </p>
+              ) : null}
+              {cells.breakdown ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">פירוק המחיר: </span>
+                  {cells.breakdown}
                 </p>
               ) : null}
               {cells.excluded ? (

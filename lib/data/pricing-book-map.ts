@@ -39,6 +39,13 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     recordingTypeId: "general_blessing",
     filterPreset: { timeline: "this_month", purpose: "gift" },
   },
+  studio_remote: {
+    category: "studio",
+    catalogId: "studio_remote",
+    studioPackageId: "remote",
+    recordingTypeId: "general_blessing",
+    filterPreset: { timeline: "this_month", purpose: "gift" },
+  },
   cover_song: {
     category: "studio",
     catalogId: "cover_song",
@@ -53,10 +60,23 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     recordingTypeId: "event_song",
     filterPreset: { timeline: "this_month", purpose: "personal" },
   },
+  studio_viral: {
+    category: "studio",
+    catalogId: "studio_viral",
+    studioPackageId: "viral",
+    recordingTypeId: "event_song",
+    filterPreset: { timeline: "this_month", purpose: "personal" },
+  },
+  studio_all_in: {
+    category: "studio",
+    catalogId: "studio_all_in",
+    studioPackageId: "all_in",
+    recordingTypeId: "event_song",
+    filterPreset: { timeline: "this_month", purpose: "personal" },
+  },
   single_production: {
     category: "studio",
     catalogId: "single_production",
-    studioPackageId: "all_in",
     recordingTypeId: "original",
     filterPreset: { timeline: "this_month", purpose: "personal" },
   },
@@ -65,6 +85,13 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     catalogId: "full_production_clip",
     studioPackageId: "viral",
     recordingTypeId: "original",
+    filterPreset: { timeline: "this_month", purpose: "personal" },
+  },
+  studio_session_clip: {
+    category: "studio",
+    catalogId: "studio_session_clip",
+    studioPackageId: "classic",
+    recordingTypeId: "event_song",
     filterPreset: { timeline: "this_month", purpose: "personal" },
   },
   // ─── פודקאסט ───
@@ -108,6 +135,10 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
   podcast_editing_hour: {
     category: "online",
     catalogId: "podcast_editing_hour",
+  },
+  noise_removal_segment: {
+    category: "online",
+    catalogId: "noise_removal_segment",
   },
   studio_self_service_hour: {
     category: "podcast",

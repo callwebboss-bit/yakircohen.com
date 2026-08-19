@@ -45,11 +45,11 @@ const geoLines = (Object.keys(MOBILE_GEO_FEES) as Array<keyof typeof MOBILE_GEO_
 export const STUDIO_PRICING_ACCORDION_PANELS: readonly StudioPricingAccordionPanel[] = [
   {
     id: "song",
-    title: "הקלטת שיר באולפן",
+    title: "שיר מוכן באולפן",
     priceExVat: songPrice,
-    priceNote: "לפני מע״מ - לשיר על פלייבק (קאבר)",
+    priceNote: "לפני מע״מ - מיקס, מאסטר ותיקון זיופים",
     intentNote:
-      "מסלול לשיר בלבד (קאבר / שיר לאירוע). לא ברכה ולא קריינות - לברכה ראו פאנל נפרד.",
+      "מסלול לשיר מוכן (קאבר / שיר לאירוע). לא ברכה ולא שעת חדר - לברכה ראו פאנל נפרד.",
     suitedFor: "שיר לחופה, בר מצווה, מתנה או קאבר באולפן במודיעין",
     includes: [
       "סשן באולפן במודיעין עם ליווי ווקאלי",

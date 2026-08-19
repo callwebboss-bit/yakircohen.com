@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import BlogNurtureLayer from "@/components/blog/BlogNurtureLayer";
 import CTABanner from "@/components/blog/CTABanner";
 import BlogPostMedia from "@/components/blog/BlogPostMedia";
+import NeedsDiagnostic from "@/components/blog/NeedsDiagnostic";
 import RelatedArticles from "@/components/blog/RelatedArticles";
 import SocialShare from "@/components/blog/SocialShare";
 import {
@@ -13,6 +14,7 @@ import {
   getRelatedBlogPosts,
   getRelatedServiceCallout,
 } from "@/lib/data/blog";
+import { getDiagnosticForPost } from "@/lib/data/blog-diagnostic";
 import { getBlogNurture } from "@/lib/data/blog-nurture";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { SITE_NAME } from "@/lib/constants";
@@ -76,6 +78,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const callout = getRelatedServiceCallout(post.relatedServiceSlug);
   const nurture = getBlogNurture(post.slug, post.relatedServiceSlug);
   const relatedPosts = getRelatedBlogPosts(post.slug, 3);
+  const diagnostic = getDiagnosticForPost(post.slug);
 
   const primaryServiceHref = callout?.href ?? nurture?.serviceLinks[0]?.href;
   const primaryServiceLabel =
@@ -184,6 +187,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 .replaceAll("</table>", "</table></div>"),
             }}
           />
+
+          {diagnostic ? <NeedsDiagnostic config={diagnostic} /> : null}
 
           {nurture ? (
             <BlogNurtureLayer

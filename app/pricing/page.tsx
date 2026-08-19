@@ -39,7 +39,8 @@ import LeadFormSkeleton from "@/components/leads/LeadFormSkeleton";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import { PRICING_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { HOLD_POLICY_TEXT } from "@/lib/data/lead-flow/payment-hold";
-import { formatMeNis, STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
+import { formatNis } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -119,7 +120,7 @@ export default function PricingHubPage() {
               מחירון מרכזי
             </h1>
             <AnswerBlock id="pricing-answer">
-              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. חצי שעה באולפן {formatMeNis(STUDIO_HALF_HOUR_NIS)} לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
+              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. ברכה {formatNis(getExVat("blessing_recording"))}, שיר מוכן {formatNis(getExVat("cover_song"))}, פודקאסט אודיו {formatNis(getExVat("podcast_audio"))} - לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
             </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_EXCLUDE_VAT_NOTE}.
@@ -187,6 +188,8 @@ export default function PricingHubPage() {
             <PricingComparisonTable
               headingId="pricing-comparison-heading"
               className="mt-6"
+              enableCategoryFilter
+              showBuilderLink
             />
           </Container>
         </Section>
@@ -260,7 +263,7 @@ export default function PricingHubPage() {
                   מחפשים מתנה? שובר מתנה לאולפן
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  מ-750 ₪ - אולפן, אטרקציות והפקות לאירועים. ניתן לפדיון גמיש.
+                  שובר מתנה מ-{getExVat("blessing_recording").toLocaleString("he-IL")} ₪ - ברכה, שיר או אטרקציה. ניתן לפדיון גמיש.
                 </p>
               </div>
               <Link

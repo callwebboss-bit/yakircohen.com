@@ -81,6 +81,8 @@ export const YOUTUBE_SERVICE_EMBED_IDS = {
 
   "recording-song-modiin": "8i4K2f5gQfM",
 
+  "studio-session-clip": "QRMxKVUOOl0",
+
   "recording-song-wedding": "8i4K2f5gQfM",
 
   "recording-song-friends-clip": "1ilgnokOS7Q",

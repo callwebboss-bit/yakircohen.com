@@ -23,7 +23,7 @@ export type PackageHubItem = {
   bookHref?: string;
 };
 
-const songTier = STUDIO_PRICING.tiers.find((t) => t.id === "song-package");
+const songTier = STUDIO_PRICING.tiers.find((t) => t.id === "song-classic");
 const podcastAudio = PODCAST_PACKAGES.find((p) => p.id === "audio");
 const festivalExVat = getExVat("festival_all_in");
 
@@ -32,13 +32,13 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     id: "studio-song",
     category: "studio",
     categoryLabel: "אולפן",
-    name: songTier?.name ?? "חבילת הקלטת שיר",
+    name: songTier?.name ?? "שיר מוכן באולפן",
     description:
       songTier?.description ??
-      "החבילה הפופולרית לשיר במתנה או הקלטה אישית.",
-    priceExVat: getExVat("song_package"),
-    catalogId: "song_package",
-    scope: songTier?.scope ?? getScopeById("song_package"),
+      "הקלטה בלי לחץ זמן, מיקס ומאסטר - קובץ מוכן.",
+    priceExVat: getExVat("cover_song"),
+    catalogId: "cover_song",
+    scope: songTier?.scope ?? getScopeById("cover_song"),
     highlights: songTier?.highlights ?? [
       "הקלטה מודרכת עם טיונינג ווקאלי",
       "מיקס בסיסי ועיבוד סופי",

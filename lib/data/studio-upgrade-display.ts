@@ -6,6 +6,7 @@ import {
   type StudioPackageId,
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
+import { STUDIO_SESSION_CLIP_YOUTUBE_ID } from "@/lib/data/studio-session-clip";
 
 const STUDIO_UPGRADE_BTS_YOUTUBE = "8p22YCZEsmg";
 
@@ -25,11 +26,12 @@ const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
     youtubeVideoId: STUDIO_UPGRADE_BTS_YOUTUBE,
   },
   studio_session_video: {
-    whatYouGet: "סרטון מערוך מההקלטה - דוגמה בלחיצה",
-    youtubeVideoId: "wINztIFDN08",
+    whatYouGet: "צילום הסשן באולפן - קובץ גלם, בלי עריכה",
+    youtubeVideoId: STUDIO_SESSION_CLIP_YOUTUBE_ID,
   },
   performance_clip: {
-    whatYouGet: "סרטון מערוך מוכן להקרנה ולרשתות",
+    whatYouGet: "אותו צילום, עם עריכה לקובץ מוכן לשיתוף",
+    youtubeVideoId: STUDIO_SESSION_CLIP_YOUTUBE_ID,
   },
   podcast_interview: {
     whatYouGet: "במתחם הפודקאסט האורבני המשפחתי",

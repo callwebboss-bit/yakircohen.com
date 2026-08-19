@@ -1,7 +1,8 @@
 "use client";
 
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import BookAudienceRouter from "@/components/booking/BookAudienceRouter";
+import BookNeedMatcher from "@/components/booking/BookNeedMatcher";
 import SmartFormClient from "@/components/booking/smart-form/SmartFormClient";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
@@ -234,12 +235,31 @@ export default function BookPageSections({
 
   const resumeQualOpen = qualParam === "1" && Boolean(routeParam);
 
+  const [allServicesOpen, setAllServicesOpen] = useState(false);
+
+  const skipMatcher = Boolean(
+    catalogParam ||
+      routeParam ||
+      itemParam ||
+      pkgParam ||
+      qualParam ||
+      activeCategory,
+  );
+
   const meta = activeCategory ? CATEGORY_META[activeCategory] : null;
   const { setBookFlowState, setIntakeExpanded } = useBookPageLayout();
 
   useEffect(() => {
     setBookFlowState(activeCategory, activeRouteId);
   }, [activeCategory, activeRouteId, setBookFlowState]);
+
+  useEffect(() => {
+    if (!allServicesOpen || skipMatcher) return;
+    document.getElementById("book-all-services")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [allServicesOpen, skipMatcher]);
 
   useEffect(() => {
     if (!activeCategory) return;
@@ -262,15 +282,38 @@ export default function BookPageSections({
         </div>
       </div>
 
-      <BookAudienceRouter
-        onFullPath={openFullPath}
-        activeRouteId={activeRouteId}
-        activeCategoryId={activeCategory}
-        resumeRouteId={routeParam}
-        resumeQualOpen={resumeQualOpen}
-        utmCampaign={utmCampaign}
-        utmContent={utmContent}
-      />
+      {!skipMatcher ? (
+        <BookNeedMatcher
+          onFullPath={openFullPath}
+          onShowAllServices={() => setAllServicesOpen(true)}
+        />
+      ) : null}
+
+      {skipMatcher || allServicesOpen ? (
+        <div id="book-all-services" className="scroll-mt-24">
+          <BookAudienceRouter
+            onFullPath={openFullPath}
+            activeRouteId={activeRouteId}
+            activeCategoryId={activeCategory}
+            resumeRouteId={routeParam}
+            resumeQualOpen={resumeQualOpen}
+            utmCampaign={utmCampaign}
+            utmContent={utmContent}
+          />
+        </div>
+      ) : (
+        <div id="book-all-services" className="scroll-mt-24 border-b border-border bg-background px-4 py-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[72rem] text-center">
+            <button
+              type="button"
+              onClick={() => setAllServicesOpen(true)}
+              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-4 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40"
+            >
+              כל השירותים
+            </button>
+          </div>
+        </div>
+      )}
 
       {activeCategory && meta ? (
         <section

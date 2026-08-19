@@ -33,6 +33,7 @@ import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchPro
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import RecordingSongFinalCTA from "@/components/seo/RecordingSongFinalCTA";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
+import StudioSessionClipOffer from "@/components/booking/StudioSessionClipOffer";
 
 const service = getStudioService("recording-song-modiin");
 
@@ -394,6 +395,7 @@ export default function RecordingSongModiinPageContent() {
           </section>
 
           {/* 5. Video Examples */}
+          <StudioSessionClipOffer className="mb-8" />
           <ShowcaseVideoSection playlistId="recording-song-modiin" />
 
           {/* 6. Local Social Proof */}

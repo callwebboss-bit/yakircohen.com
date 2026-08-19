@@ -52,13 +52,13 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     adapted: {
       id: "adapted",
       title: "חבילה מותאמת",
-      summary: "חבילת הקלטת שיר לפי תשובות השאלון.",
+      summary: "שיר Pro - פיץ' ידני, ייעוץ ותמונות.",
       catalogId: "song_package",
     },
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "הקלטת קאבר בהיקף בסיסי.",
+      summary: "שיר מוכן באולפן - מיקס, מאסטר ותיקון זיופים.",
       catalogId: "cover_song",
     },
   },

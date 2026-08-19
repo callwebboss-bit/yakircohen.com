@@ -14,6 +14,7 @@ import {
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
 } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
 import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
@@ -147,9 +148,9 @@ export function buildSiteSchema() {
           },
           {
             "@type": "Offer",
-            name: "הקלטת שיר לאירוע (חבילה)",
-            description: "הקלטה, מיקס ועריכה לחתונה ואירועים",
-            price: "1800",
+            name: "שיר מוכן באולפן",
+            description: "הקלטה, מיקס, מאסטרינג ותיקון זיופים - מחיר לפני מע״מ",
+            price: String(getExVat("cover_song")),
             priceCurrency: "ILS",
             url: `${BASE}/book`,
           },

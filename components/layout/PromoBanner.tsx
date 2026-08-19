@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const MESSAGES = [
-  { icon: "🔥", text: "פנויים השבוע ל-3 פרויקטים בלבד", href: "/book" },
+  { icon: "🔥", text: "עובדים על 5 עד 7 פרויקטים בשבוע", href: "/book" },
   { icon: "🎁", text: "מקליטים שיר? קבלו קליפ BTS במתנה", href: "/studio/recording-song-modiin" },
   { icon: "🎙️", text: "פודקאסט ראשון? עריכה ראשונה חינם", href: "/podcast/podcast-editing" },
 ] as const;

@@ -3,8 +3,10 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import PageBottomCta from "@/components/layout/PageBottomCta";
+import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import MatanotEventCard from "@/components/seo/MatanotEventCard";
 import MatanotPackageCard from "@/components/seo/MatanotPackageCard";
+import { getBlogPostsBySlugs } from "@/lib/data/blog";
 import {
   MATANOT_EVENT_CARDS,
   MATANOT_FINAL_CTA,
@@ -15,6 +17,12 @@ import {
 } from "@/lib/data/matanot-page";
 import { buildWebPageSchema } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
+const MATANOT_BLOG_SLUGS = [
+  "headphones-purpose-guide",
+  "unique-gift-recording-ideas-2026",
+  "recorded-blessing-gift",
+] as const;
 
 const PAGE_SCHEMA = buildWebPageSchema({
   slug: "/matanot",
@@ -154,6 +162,12 @@ export default function MatanotPageContent() {
               .
             </p>
           </div>
+        </Container>
+      </Section>
+
+      <Section className="border-t border-border bg-background" ariaLabelledby="service-blog-heading">
+        <Container>
+          <ServiceBlogStrip posts={getBlogPostsBySlugs(MATANOT_BLOG_SLUGS)} />
         </Container>
       </Section>
 

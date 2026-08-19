@@ -4,7 +4,7 @@ import { useBookUtmBoost, type BookUtmBoostOptions } from "@/hooks/useBookUtmBoo
 import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
 
 export const BOOK_HERO_SUBTITLE_DEFAULT =
-  "בחרו כיוון - מחיר שקוף מיד (כולל מע\"מ), וואטסאפ מהיר או הזמנה מפורטת עם תוספות. 4.9 כוכבים - 5,000+ לקוחות - תשובה ביום עסקים.";
+  "עובדים על 5 עד 7 פרויקטים בשבוע. למטה - מה מפריע בהקלטה. אחרי זה מופיעים השירות והמחיר הסופי.";
 
 type BookDynamicHeroSubtitleProps = {
   defaultText: string;

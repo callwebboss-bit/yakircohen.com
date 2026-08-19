@@ -182,6 +182,8 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "הגברה לאירועים": { href: "/events/equipment", anchor: "הגברה לאירועים" },
   "שובר מתנה": { href: "/shop#vouchers", anchor: "שובר מתנה" },
   "מתנה מוקלטת": { href: "/matanot", anchor: "מתנה מוקלטת" },
+  "מארז מתנה מוקלט": { href: "/matanot", anchor: "מארז מתנה מוקלט" },
+  "אוזניות לאולפן": { href: "/studio", anchor: "אוזניות לאולפן" },
   "מתנה לחתונה": { href: "/matanot", anchor: "מתנה לחתונה" },
   "מתנה ליום הולדת": { href: "/matanot", anchor: "מתנה ליום הולדת" },
   "מתנה לבר מצווה": { href: "/matanot", anchor: "מתנה לבר מצווה" },

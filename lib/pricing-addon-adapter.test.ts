@@ -21,7 +21,7 @@ describe("pricing-addon-adapter", () => {
 
   it("maps studio pro package to catalog addons", () => {
     const items = getCatalogAddonsForStudioPackage("pro");
-    assert.ok(items.some((i) => i.id === "express_delivery"));
+    assert.ok(items.some((i) => i.id === "studio_session_clip"));
   });
 
   it("maps events bundle tiers to catalog addons", () => {

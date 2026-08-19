@@ -1,4 +1,7 @@
-﻿export type RecordingTypeId =
+﻿import { getExVat, getWithEditingById } from "@/lib/data/pricing-catalog";
+import { STUDIO_SESSION_CLIP_CATALOG_ID } from "@/lib/data/studio-session-clip";
+
+export type RecordingTypeId =
   | "cover"
   | "original"
   | "event_song"
@@ -148,6 +151,7 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
   description: string;
   highlights: readonly [string, string, string];
   price: number;
+  catalogId: "studio_remote" | "cover_song" | "song_package" | "studio_viral" | "studio_all_in";
   badge?: string;
   savings?: string;
   featured?: boolean;
@@ -163,7 +167,8 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "ניקוי רעשים ומיקס מלא באולפן",
       "תיקון זיופים עד לתוצאה מושלמת",
     ],
-    price: 590,
+    catalogId: "studio_remote",
+    price: getExVat("studio_remote"),
   },
   {
     id: "classic",
@@ -176,7 +181,10 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "מיקס, מאסטרינג ותיקון זיופים",
       "מושלם לשיר, ברכה או דרשה",
     ],
-    price: 990,
+    catalogId: "cover_song",
+    price: getExVat("cover_song"),
+    featured: true,
+    badge: "מומלץ",
   },
   {
     id: "pro",
@@ -189,7 +197,8 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "Pitch Correction ידני",
       "3 תמונות סטילס מעובדות",
     ],
-    price: 1480,
+    catalogId: "song_package",
+    price: getExVat("song_package"),
     badge: "פופולרי",
     savings: "חיסכון של 490 ₪ לעומת מחיר עצמאי",
   },
@@ -204,7 +213,8 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "קליפ ביצוע מקצועי מהאולפן",
       "מוכן לפרסום ברשתות",
     ],
-    price: 1950,
+    catalogId: "studio_viral",
+    price: getExVat("studio_viral"),
     badge: "ויראלי",
     savings: "חיסכון של 780 ₪ לעומת מחיר עצמאי",
   },
@@ -219,10 +229,10 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
       "מתמונות וסרטוני ילדות",
       "הכל כלול - ללא הפתעות",
     ],
-    price: 2380,
+    catalogId: "studio_all_in",
+    price: getExVat("studio_all_in"),
     badge: "הכי משתלם",
     savings: "חיסכון של 1,120 ₪ לעומת מחיר עצמאי",
-    featured: true,
   },
 ] as const;
 
@@ -241,15 +251,15 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   },
   {
     id: "studio_session_video",
-    name: "צילום וידאו מלא באולפן",
-    description: "סרטון מערוך מההקלטה - דוגמה בלחיצה",
-    price: 999,
+    name: "צילום קליפ מהסשן - בלי עריכה",
+    description: "מצלמים את ההקלטה באולפן. מקבלים קובץ גלם, כמו בדוגמה.",
+    price: getExVat(STUDIO_SESSION_CLIP_CATALOG_ID),
   },
   {
     id: "performance_clip",
-    name: "קליפ מהאולפן - תמונות וזוויות נוספות",
-    description: "לא רק הקלטה - גם תמונות וזוויות שמרגישות כמו קליפ אמיתי",
-    price: 750,
+    name: "צילום קליפ מהסשן - עם עריכה",
+    description: "אותו צילום, עם עריכה לקובץ מוכן לשיתוף.",
+    price: getWithEditingById(STUDIO_SESSION_CLIP_CATALOG_ID)?.exVat ?? getExVat(STUDIO_SESSION_CLIP_CATALOG_ID),
     badge: "חדש",
   },
   {

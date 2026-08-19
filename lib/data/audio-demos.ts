@@ -174,6 +174,7 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     recommendedPages: [
       "/studio/recording-song-modiin",
       "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "/book",
     ],
     storageKey: "full-production",
   },

@@ -12,6 +12,7 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "c55HTqTArFo",
   ],
   "recording-song-modiin": [
+    "QRMxKVUOOl0",
     "8i4K2f5gQfM",
     "LKg3pwdon_M",
     "2apMsrmEsDs",
@@ -129,6 +130,7 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   XUr2e5S4JSA:
     "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)",
   "8i4K2f5gQfM": "הקלטת שיר לחתונה - קאבר עם הפקה מותאמת אישית",
+  QRMxKVUOOl0: "הקלטה אמיתית באולפן - דוגמת קליפ מהסשן",
   LKg3pwdon_M:
     "קליפ מתננה - שיר מתנה לחברה עם הקדשה אישית באולפן",
   q18Lu0MvXHo:

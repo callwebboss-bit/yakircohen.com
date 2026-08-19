@@ -11,9 +11,12 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
+import StudioPriceBuilder from "@/components/pricing/StudioPriceBuilder";
 import { STUDIO_PRICING } from "@/lib/data/services";
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
+import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import { getSuitedForById } from "@/lib/data/pricing-catalog";
+import { STUDIO_EXTRA_PARTICIPANT_PRICE } from "@/lib/data/studio-recording-booking";
 import { STUDIO_PRICING_ACCORDION_PANELS } from "@/lib/data/studio-pricing-accordion";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -28,27 +31,32 @@ const consultHref = buildWhatsAppHref({
   utm_campaign: "studio_pricing_consult",
 });
 
+/** חבילות לפי תוצאה - שעת חדר בלי עריכה נשארת באקורדיון */
+const STUDIO_OUTCOME_TIERS = STUDIO_PRICING.tiers.filter(
+  (tier) => tier.id !== "half-hour" && tier.id !== "hourly",
+);
+
 /** מובייל: החבילה המומלצת = החבילה המסומנת featured (אותו סימון כמו בדסקטופ) */
 const recommendedTierIndex = Math.max(
-  STUDIO_PRICING.tiers.findIndex((tier) => tier.featured),
+  STUDIO_OUTCOME_TIERS.findIndex((tier) => tier.featured),
   0,
 );
 
 /** המלצה לפי צורך - "מתאים ל" מקטלוג המחירים, בלי מסרים חדשים */
 const NEED_GUIDE = [
   {
-    need: getSuitedForById("studio_half_hour"),
-    tier: "חצי שעה באולפן",
-    href: "/studio/recording-studio",
+    need: getSuitedForById("blessing_recording"),
+    tier: "הקלטת ברכה",
+    href: "/studio/blessings",
   },
   {
-    need: getSuitedForById("studio_hour"),
-    tier: "שעת אולפן",
-    href: "/studio/recording-studio",
+    need: getSuitedForById("cover_song"),
+    tier: "שיר מוכן באולפן",
+    href: "/studio/recording-song-modiin",
   },
   {
     need: getSuitedForById("song_package"),
-    tier: "חבילת הקלטת שיר",
+    tier: "שיר Pro",
     href: "/studio/recording-song-modiin",
   },
   {
@@ -150,13 +158,43 @@ export default function StudioPricingPage() {
           </p>
         </section>
 
+        <StudioPriceBuilder
+          packages={
+            <>
+              <div className="md:hidden">
+                <PricingTierToggle
+                  tiers={STUDIO_OUTCOME_TIERS}
+                  recommendedIndex={recommendedTierIndex}
+                  className="mx-auto max-w-sm"
+                />
+              </div>
+              <div className="hidden md:block">
+                <StudioPricingGrid tiers={STUDIO_OUTCOME_TIERS} />
+              </div>
+            </>
+          }
+        />
+
         <section aria-labelledby="need-guide-heading">
           <h2
             id="need-guide-heading"
             className="text-center font-serif text-xl font-semibold text-foreground"
           >
-            איזו חבילה מתאימה לפי הצורך
+            לא בטוחים? 4 שאלות למעלה
           </h2>
+          <p className="mx-auto mt-2 max-w-2xl text-center text-sm text-muted-foreground">
+            תענו על 4 שאלות בבונה המחיר - נמליץ על החבילה לפי הקטלוג. לא רוצים
+            להתלבט?{" "}
+            <a
+              href={consultHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-12 items-center font-semibold text-brand-red hover:underline"
+            >
+              נעזור בוואטסאפ
+            </a>
+            .
+          </p>
           <ul className="mx-auto mt-4 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
             {NEED_GUIDE.map((item) => (
               <li
@@ -174,20 +212,31 @@ export default function StudioPricingPage() {
         <StudioPricingAccordion />
       </Container>
 
-      {/* Mobile: compact tier toggle (tabs). Desktop: full pricing grid below */}
-      <div className="md:hidden px-4 pb-2">
-        <PricingTierToggle
-          tiers={STUDIO_PRICING.tiers}
-          recommendedIndex={recommendedTierIndex}
-          className="mx-auto max-w-sm"
-        />
-      </div>
-
-      <div className="hidden md:block">
-        <StudioPricingGrid tiers={STUDIO_PRICING.tiers} />
-      </div>
-
       <Container className="pb-8">
+        <section
+          className="mt-12 rounded-2xl border border-border bg-surface px-4 py-8 sm:px-8"
+          aria-labelledby="studio-expert-tip-heading"
+        >
+          <h2
+            id="studio-expert-tip-heading"
+            className="text-center font-serif text-section-title font-semibold text-foreground"
+          >
+            טיפ מומחה לפני שבוחרים חבילה
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted-foreground">
+            שלוש שאלות קובעות את המחיר: מה משך ההקלטה, כמה אנשים, ואיזה גימור.
+            התשובות שלכם קובעות את המחיר. לא אנחנו. תזיזו את הבחירות למעלה.
+          </p>
+          <ol className="mx-auto mt-5 max-w-xl space-y-2 text-sm text-foreground">
+            <li>1. ברכה או שיר קצר - מסלול ברכה. שיר מוכן - קלאסי. סינגל מסחרי - הפקה מלאה.</li>
+            <li>2. אדם אחד - מחיר בסיס. שניים ומעלה - תוספת {STUDIO_EXTRA_PARTICIPANT_PRICE} ₪ למקליט נוסף.</li>
+            <li>3. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות, לא לשיר במתנה.</li>
+          </ol>
+          <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">
+            {SKEPTICISM_CTA}
+          </p>
+        </section>
+
         <section className="mt-12" aria-labelledby="studio-comparison-heading">
           <h2
             id="studio-comparison-heading"

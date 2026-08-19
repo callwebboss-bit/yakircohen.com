@@ -17,11 +17,11 @@ const PODCAST_PACKAGE_CATALOG: Record<PodcastPackageId, PriceItemId> = {
 };
 
 const STUDIO_PACKAGE_CATALOG: Partial<Record<StudioPackageId, PriceItemId>> = {
-  remote: "blessing_recording",
+  remote: "studio_remote",
   classic: "cover_song",
   pro: "song_package",
-  viral: "full_production_clip",
-  all_in: "single_production",
+  viral: "studio_viral",
+  all_in: "studio_all_in",
 };
 
 const EVENTS_BUNDLE_CATALOG: Record<number, PriceItemId> = {

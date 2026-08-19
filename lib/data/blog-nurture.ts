@@ -44,6 +44,7 @@ export const NURTURE_BLOG_SLUGS = [
   "home-studio-vs-professional-studio-2026",
   "wedding-dj-selection-guide-2026",
   "record-song-10-minutes-ai",
+  "headphones-purpose-guide",
 ] as const;
 
 export type NurtureBlogSlug = (typeof NURTURE_BLOG_SLUGS)[number];
@@ -343,6 +344,20 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
     ],
     ctaHeading: "רוצים לנסות סשן שיר עם AI?",
     ctaBody: "תיאום באולפן במודיעין - שירות בליווי או קורס 1:1.",
+  },
+  "headphones-purpose-guide": {
+    audience: [
+      "מי שבוחר אוזניות ל-DJ, לאולפן או למארז מתנה",
+      "מי שרוצה למסור הקלטה כמארז פיזי, לא רק כקובץ",
+      "מי שקונה או מוכר ציוד ורוצה לבדוק התאמה לפני העסקה",
+    ],
+    serviceLinks: [
+      { href: "/matanot", label: "מארז מתנה מוקלט" },
+      { href: "/studio/recording-song-modiin/gifts", label: "שוברים מהאולפן" },
+      { href: "/shop#used-gear", label: "ציוד יד שנייה" },
+    ],
+    ctaHeading: "רוצים מארז עם אוזניות שמתאימות להקלטה?",
+    ctaBody: "שולחים סוג אירוע ותקציב - מתאימים דיסק און קי, אוזניות וקופסה.",
   },
 };
 

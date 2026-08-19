@@ -85,7 +85,8 @@ export const BLOG_SLUGS = [
   "studio-recording-complaints",
   "podcast-editing-complaints",
   "online-audio-service-complaints",
-  "voiceover-business-complaints"
+  "voiceover-business-complaints",
+  "headphones-purpose-guide"
 ] as const;
 
 export type BlogPostSlug = (typeof BLOG_SLUGS)[number];

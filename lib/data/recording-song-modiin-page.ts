@@ -86,6 +86,7 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
 
 /** Featured + gallery examples for /studio/recording-song-modiin */
 export const RECORDING_SONG_EXAMPLE_VIDEOS: readonly RecordingSongExampleVideo[] = [
+  { videoId: "QRMxKVUOOl0", title: "הקלטה אמיתית באולפן - דוגמת קליפ מהסשן" },
   { videoId: "8i4K2f5gQfM", title: "הקלטת שיר לחתונה" },
   {
     videoId: "LKg3pwdon_M",

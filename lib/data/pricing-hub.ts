@@ -224,30 +224,30 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
   {
     id: "studio",
     title: "אולפן והקלטות",
-    description: "שעות אולפן, ברכות, קאבר וחבילות שיר",
+    description: "ברכה, שיר מוכן, Pro, קליפ וסינגל - לפי התוצאה",
     href: "/studio/pricing",
     bookHref: "/book#studio",
     rows: [
-      hubRow("studio_half_hour", {
-        label: "חצי שעה באולפן",
-        href: "/studio/recording-studio",
-        // תואם ל-featured בחבילות האולפן ב-/studio/pricing
-        badge: "הכי מבוקש",
-      }),
-      hubRow("studio_hour", {
-        label: "שעת אולפן מלאה",
-        href: "/studio/recording-studio",
-      }),
       hubRow("blessing_recording", {
         label: "הקלטת ברכה / אמירה",
         href: "/studio/blessings",
       }),
-      hubRow("cover_song", {
-        label: "הקלטת שיר קאבר",
+      hubRow("studio_remote", {
         href: "/studio/recording-song-modiin",
       }),
+      hubRow("cover_song", {
+        label: "שיר מוכן באולפן",
+        href: "/studio/recording-song-modiin",
+        badge: "הכי מבוקש",
+      }),
       hubRow("song_package", {
-        label: "חבילת הקלטת שיר",
+        label: "שיר Pro",
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("studio_viral", {
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("studio_all_in", {
         href: "/studio/recording-song-modiin",
       }),
       hubRow("single_production", {
@@ -257,6 +257,18 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("full_production_clip", {
         label: "הפקה מלאה + קליפ וידאו",
         href: "/studio/blessings/video-clip",
+      }),
+      hubRow("studio_session_clip", {
+        label: "צילום קליפ מהסשן",
+        href: "/studio/recording-song-modiin",
+      }),
+      hubRow("studio_half_hour", {
+        label: "חצי שעה חדר (בלי עריכה)",
+        href: "/studio/recording-studio",
+      }),
+      hubRow("studio_hour", {
+        label: "שעת חדר (בלי עריכה)",
+        href: "/studio/recording-studio",
       }),
     ],
   },
@@ -588,6 +600,6 @@ export function formatHubPriceRow(exVat: number): string {
   return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
 }
 
-export const PRICES_LAST_UPDATED = "יוני 2026";
+export const PRICES_LAST_UPDATED = "אוגוסט 2026";
 
 export { PRICES_EXCLUDE_VAT_NOTE };

@@ -91,7 +91,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "ready_song",
     nextPath: "/studio/blessings/video-clip",
-    priceAnchorExVat: 1200,
+    priceAnchorExVat: 990,
   },
   {
     pathname: "/studio/recording-song-modiin/gifts",

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { VAT_RATE, withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import {
   STUDIO_RECORDING_PACKAGES,
   STUDIO_RECORDING_UPGRADES,
@@ -18,7 +19,7 @@ describe("studio upgrade pricing", () => {
     );
     assert.equal(
       calcUpgradesTotalExVat(["studio_session_video", "bts"]),
-      999 + 250,
+      getExVat("studio_session_clip") + 250,
     );
   });
 
@@ -34,9 +35,16 @@ describe("studio upgrade pricing", () => {
     assert.ok(express);
 
     const exVat = classic!.price + express!.price;
+    assert.equal(classic!.price, getExVat("cover_song"));
     assert.equal(exVat, 1290);
     assert.equal(VAT_RATE, 0.18);
     assert.equal(withVat(exVat), Math.round(exVat * 1.18));
     assert.equal(withVat(990), 1168);
+  });
+
+  it("wizard package prices match catalog identity", () => {
+    for (const pkg of STUDIO_RECORDING_PACKAGES) {
+      assert.equal(pkg.price, getExVat(pkg.catalogId), pkg.id);
+    }
   });
 });
