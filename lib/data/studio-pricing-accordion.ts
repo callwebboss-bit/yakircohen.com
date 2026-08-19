@@ -74,7 +74,7 @@ export const STUDIO_PRICING_ACCORDION_PANELS: readonly StudioPricingAccordionPan
       "עריכת סאונד בסיסית",
       "קובץ מוכן לאירוע",
     ],
-    extras: ["מוזיקת רקע", "תיקון זיופים לפי צורך"],
+    extras: ["מוזיקת רקע", "תיקון זיופים בתוספת, לא במחיר הבסיס"],
     delivery: "בדרך כלל תוך 24-48 שעות",
     serviceHref: "/studio/blessings",
     bookHref: buildBookHref("studio", { catalog: "blessing_recording" }),

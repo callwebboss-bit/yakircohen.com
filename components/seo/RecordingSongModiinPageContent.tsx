@@ -677,7 +677,7 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-center text-xs text-muted-foreground">
-              כל המחירים כולל מע״מ. ניתן לשלם בצ׳ק, אשראי, העברה בנקאית או
+              המחירים לפני מע״מ (+18%). ניתן לשלם בצ׳ק, אשראי, העברה בנקאית או
               PayPal.
             </p>
           </section>

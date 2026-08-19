@@ -28,6 +28,7 @@ export type StudioUpgradeId =
   | "podcast_interview"
   | "photo_pack"
   | "express"
+  | "pitch_correction"
   | "ai_playback"
   | "vocal_coaching"
   | "family_duet"
@@ -161,11 +162,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     emoji: "📱",
     name: "הקלטה מרחוק (Remote)",
     description:
-      "הקלטה מהטלפון בבית - ניקוי רעשים - מיקס ותיקון זיופים מלא באולפן",
+      "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס באולפן. תיקון זיופים לא כלול.",
     highlights: [
       "מקליטים מהטלפון בבית",
-      "ניקוי רעשים ומיקס מלא באולפן",
-      "תיקון זיופים עד לתוצאה מושלמת",
+      "ניקוי רעשים ומיקס באולפן",
+      "תיקון זיופים בתוספת, לא במחיר הבסיס",
     ],
     catalogId: "studio_remote",
     price: getExVat("studio_remote"),
@@ -175,11 +176,11 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     emoji: "🎙️",
     name: "הקלטת אולפן קלאסית",
     description:
-      "הקלטת שיר/ברכה/דרשה ללא לחץ זמן עד לתוצאה מושלמת - מיקס, מאסטרינג ותיקון זיופים",
+      "הקלטת שיר ללא לחץ זמן עד לתוצאה מוכנה - מיקס, מאסטרינג ותיקון זיופים",
     highlights: [
       "הקלטה באולפן ללא לחץ זמן",
       "מיקס, מאסטרינג ותיקון זיופים",
-      "מושלם לשיר, ברכה או דרשה",
+      "מיועד לשיר מוכן - ברכה במסלול 590 ₪",
     ],
     catalogId: "cover_song",
     price: getExVat("cover_song"),
@@ -281,6 +282,12 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
     price: 300,
   },
   {
+    id: "pitch_correction",
+    name: "תיקון זיופים",
+    description: "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ.",
+    price: getExVat("studio_pitch_correction"),
+  },
+  {
     id: "ai_playback",
     name: "פלייבק AI מותאם אישית",
     description: "לחן מקורי עם AI לפי הסגנון שלכם",
@@ -296,7 +303,7 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
     id: "family_duet",
     name: "דואט משפחתי - הוספת הורה/אח",
     description: "אותו סשן - גם ההורים/האחים מקליטים ברכה קצרה",
-    price: 190,
+    price: getExVat("studio_extra_participant"),
     badge: "+20% ערך",
   },
   {
@@ -330,10 +337,10 @@ export const PARTICIPANTS_OPTIONS = [
 ] as const;
 
 /** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
-export const STUDIO_EXTRA_PARTICIPANT_PRICE = 190;
+export const STUDIO_EXTRA_PARTICIPANT_PRICE = getExVat("studio_extra_participant");
 
 /** עלות סבב עריכה/תיקונים נוסף מעבר לסבב הראשון הכלול במחיר */
-export const STUDIO_EXTRA_REVISION_PRICE = 580;
+export const STUDIO_EXTRA_REVISION_PRICE = getExVat("studio_extra_revision");
 
 /** קיבולת אולפן להקלטה בו-זמנית */
 export const STUDIO_RECORDING_MAX = 10;
@@ -372,6 +379,16 @@ export const STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE: Partial<
 > = {
   viral: ["performance_clip", "studio_session_video"],
   all_in: ["performance_clip", "studio_session_video"],
+};
+
+/** שיר מוכן ומעלה כבר כוללים תיקון זיופים */
+export const STUDIO_PITCH_UPGRADE_HIDDEN_ON_PACKAGE: Partial<
+  Record<StudioPackageId, readonly StudioUpgradeId[]>
+> = {
+  classic: ["pitch_correction"],
+  pro: ["pitch_correction"],
+  viral: ["pitch_correction"],
+  all_in: ["pitch_correction"],
 };
 
 /** חבילות עם קליפ/וידאו מובנה */
@@ -413,6 +430,7 @@ export const STUDIO_UPGRADES_BY_PATH: Record<
   readonly StudioUpgradeId[]
 > = {
   events: [
+    "pitch_correction",
     "songwriting",
     "vocal_coaching",
     "bts",

@@ -25,6 +25,8 @@ export type PricingHubRow = {
   priceFrom?: boolean;
   /** תגית היררכיה, למשל "הכי מבוקש" - רק כשנתמך בנתונים קיימים */
   badge?: string;
+  /** סדר תצוגה במחירון - אם מוגדר, גובר על מיון לפי מחיר */
+  displayOrder?: number;
 };
 
 export type PricingHubSection = {
@@ -121,7 +123,14 @@ export function groupPricingHubSections(
     Math.min(...section.rows.map((row) => row.exVat));
 
   const sortRows = (rows: readonly PricingHubRow[]) =>
-    [...rows].sort((a, b) => a.exVat - b.exVat);
+    [...rows].sort((a, b) => {
+      const ao = a.displayOrder;
+      const bo = b.displayOrder;
+      if (ao != null && bo != null && ao !== bo) return ao - bo;
+      if (ao != null && bo == null) return -1;
+      if (ao == null && bo != null) return 1;
+      return a.exVat - b.exVat;
+    });
 
   return PRICING_HUB_SUPER_CATEGORIES.map((category) => ({
     ...category,
@@ -150,6 +159,7 @@ function hubRow(
     suitedFor: overrides?.suitedFor ?? item.suitedFor,
     priceFrom: overrides?.priceFrom ?? item.priceFrom,
     badge: overrides?.badge,
+    displayOrder: overrides?.displayOrder,
   };
 }
 
@@ -229,46 +239,57 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
     bookHref: "/book#studio",
     rows: [
       hubRow("blessing_recording", {
-        label: "הקלטת ברכה / אמירה",
+        label: "ברכה / אמירה",
         href: "/studio/blessings",
+        displayOrder: 10,
       }),
       hubRow("studio_remote", {
         href: "/studio/recording-song-modiin",
+        displayOrder: 20,
       }),
       hubRow("cover_song", {
-        label: "שיר מוכן באולפן",
+        label: "שיר במתנה (שיר מוכן)",
         href: "/studio/recording-song-modiin",
-        badge: "הכי מבוקש",
+        badge: "מומלץ",
+        displayOrder: 30,
       }),
       hubRow("song_package", {
         label: "שיר Pro",
         href: "/studio/recording-song-modiin",
+        displayOrder: 40,
       }),
       hubRow("studio_viral", {
         href: "/studio/recording-song-modiin",
+        displayOrder: 50,
       }),
       hubRow("studio_all_in", {
         href: "/studio/recording-song-modiin",
+        displayOrder: 60,
       }),
       hubRow("single_production", {
         label: "הפקת סינגל מלא",
         href: "/studio/recording-song-modiin",
+        displayOrder: 70,
       }),
       hubRow("full_production_clip", {
         label: "הפקה מלאה + קליפ וידאו",
         href: "/studio/blessings/video-clip",
+        displayOrder: 80,
       }),
       hubRow("studio_session_clip", {
         label: "צילום קליפ מהסשן",
         href: "/studio/recording-song-modiin",
+        displayOrder: 90,
       }),
       hubRow("studio_half_hour", {
         label: "חצי שעה חדר (בלי עריכה)",
         href: "/studio/recording-studio",
+        displayOrder: 100,
       }),
       hubRow("studio_hour", {
         label: "שעת חדר (בלי עריכה)",
         href: "/studio/recording-studio",
+        displayOrder: 110,
       }),
     ],
   },

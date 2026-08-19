@@ -74,6 +74,24 @@ describe("Booking Flows", () => {
     });
   });
 
+  describe("Homepage conversion", () => {
+    it("links to /book and WhatsApp", () => {
+      cy.visit("/");
+      cy.get("h1").should("have.length", 1);
+      cy.get('a[href*="/book"]').should("exist");
+      cy.get('a[href*="wa.me"]').should("exist");
+    });
+  });
+
+  describe("Pricing overlay copy", () => {
+    it("shows before-VAT line and include disclosure", () => {
+      cy.visit("/pricing");
+      cy.contains("לפני מע״מ 18%").should("exist");
+      cy.contains("מה כלול").should("exist");
+      cy.contains("חצי שעה חדר (בלי עריכה)").should("exist");
+    });
+  });
+
   describe("/contact page", () => {
     it("loads contact page with WhatsApp CTA and map", () => {
       cy.visit("/contact");

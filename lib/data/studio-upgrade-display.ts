@@ -3,6 +3,7 @@ import {
   STUDIO_RECORDING_UPGRADES,
   STUDIO_UPGRADES_BY_PATH,
   STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE,
+  STUDIO_PITCH_UPGRADE_HIDDEN_ON_PACKAGE,
   type StudioPackageId,
   type StudioUpgradeId,
 } from "@/lib/data/studio-recording-booking";
@@ -41,6 +42,10 @@ const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
     whatYouGet: "עדיפות בלו\"ז והגשה מהירה במיוחד",
     thumbIcon: "⚡",
   },
+  pitch_correction: {
+    whatYouGet: "תיקון זיופים לשיר או ברכה - בלי סאונד רובוטי",
+    thumbIcon: "🎤",
+  },
   vocal_coaching: {
     whatYouGet: "תגיעו לאולפן מוכנים ובטוחים",
   },
@@ -55,14 +60,18 @@ export function buildStudioUpgradeItems(
   bookingPath: keyof typeof STUDIO_UPGRADES_BY_PATH | null,
 ): BookingUpsellItem[] {
   const pathIds = bookingPath ? STUDIO_UPGRADES_BY_PATH[bookingPath] : null;
-  const hidden =
-    packageId && STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE[packageId]
-      ? new Set(STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE[packageId])
-      : null;
+  const hidden = new Set<StudioUpgradeId>([
+    ...(packageId && STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE[packageId]
+      ? STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE[packageId]
+      : []),
+    ...(packageId && STUDIO_PITCH_UPGRADE_HIDDEN_ON_PACKAGE[packageId]
+      ? STUDIO_PITCH_UPGRADE_HIDDEN_ON_PACKAGE[packageId]
+      : []),
+  ]);
 
   return STUDIO_RECORDING_UPGRADES.filter((u) => {
     if (pathIds && !pathIds.includes(u.id)) return false;
-    if (hidden?.has(u.id)) return false;
+    if (hidden.has(u.id)) return false;
     return true;
   }).map((u) => {
     const meta = UPGRADE_DISPLAY[u.id];

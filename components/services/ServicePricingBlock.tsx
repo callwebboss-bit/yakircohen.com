@@ -123,7 +123,7 @@ export default function ServicePricingBlock({
                       ? whatsappAriaLabel(tier.name, tier.priceExVat)
                       : `סגרו ${tier.name} בוואטסאפ`
                   }
-                  className="touch-press mt-6 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light active:bg-brand-red-dark"
+                  className="touch-press mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light active:bg-brand-red-dark"
                 >
                   {tier.priceExVat !== undefined
                     ? whatsappQuoteCta(tier.name, tier.priceExVat)

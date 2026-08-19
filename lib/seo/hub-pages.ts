@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import type { ServiceEntity } from "@/lib/data/services";
 import { constructMetadata } from "@/lib/metadata";
 import {
@@ -70,7 +71,7 @@ export const PRICING_HUB_SEO: HubPageSeo = {
   slug: "pricing",
   title: "מחירון שקוף - אולפן ופודקאסט מודיעין",
   description:
-    "מחירון שקוף ממודיעין. ברכה מ-590 ₪, שיר מוכן מ-990 ₪, פודקאסט מ-950 ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.",
+    `מחירון שקוף ממודיעין. ברכה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪, שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪, פודקאסט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.`,
   keywords: [
     "מחירון אולפן",
     "מחיר הקלטה באולפן",

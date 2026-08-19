@@ -1,4 +1,5 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export type ChatAnswer = {
   text: string;
@@ -119,7 +120,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_studio_price",
       label: "🎙️ מחיר אולפן הקלטות",
       answer: {
-        text: "ברכה באולפן מ-₪590. שיר מוכן (מיקס, מאסטר ותיקון זיופים) מ-₪990. הקלטה מהטלפון בלי להגיע - גם מ-₪590. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.",
+        text: `ברכה באולפן מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שיר מוכן (מיקס, מאסטר ותיקון זיופים) מ-₪${getExVat("cover_song").toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${getExVat("studio_remote").toLocaleString("he-IL")}. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.`,
         readMoreHref: "/studio/pricing",
         readMoreLabel: "מחירון אולפן מלא",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת שיר - [מרחוק / באולפן]",
@@ -132,7 +133,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "📱 הקלטה מרחוק (מהטלפון)",
       hidden: true,
       answer: {
-        text: "שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים, mix ותיקון זיופים. מתחיל מ-₪590 לפני מע\"מ. ללא צורך בביקור באולפן.",
+        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול במחיר ${getExVat("studio_remote").toLocaleString("he-IL")} ₪; אפשר להוסיף ב-${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מתחיל מ-₪${getExVat("studio_remote").toLocaleString("he-IL")} לפני מע\"מ. ללא צורך בביקור באולפן.`,
         readMoreHref: "/online/vocal-fix",
         readMoreLabel: "פרטים על שירות שיפור קול",
         whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
@@ -145,7 +146,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "🎚️ הקלטה פיזית באולפן",
       hidden: true,
       answer: {
-        text: "שיר מוכן באולפן מ-₪990 לפני מע״מ - הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים. ברכה מ-₪590. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.",
+        text: `שיר מוכן באולפן מ-₪${getExVat("cover_song").toLocaleString("he-IL")} לפני מע״מ - הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים. ברכה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
         readMoreHref: "/studio/pricing",
         readMoreLabel: "מחירון אולפן מלא",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטה פיזית באולפן. מה הזמינות?",
@@ -157,7 +158,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: "הקלטת ברכה לאירוע מתחילה מ-₪590, כולל ליווי קולי מלא ועריכת סאונד (אספקה תוך 24-48 שעות). המחיר משתנה בהתאם למספר המברכים ומורכבות ההפקה. ספרו לי על האירוע שלכם ונבחר את הפורמט.",
+        text: `הקלטת ברכה לאירוע מתחילה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")} לפני מע״מ, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",
@@ -169,7 +170,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_podcast",
       label: "🎧 מחיר פודקאסט",
       answer: {
-        text: "הקלטת פרק פודקאסט מתחילה מ-₪950. התמחור משתנה לפי הפורמט הנבחר: אודיו בלבד, צילום וידאו רב-מצלמתי או כמות המשתתפים. נבין יחד מה הפורמט הנכון עבורכם.",
+        text: `הקלטת פרק פודקאסט מתחילה מ-₪${getExVat("podcast_pilot").toLocaleString("he-IL")} לפני מע״מ. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
         readMoreHref: "/podcast",
         readMoreLabel: "חבילות ומחירי פודקאסט",
         whatsappMessage: "שלום, מעוניין/ת בפרטים על הקלטת פודקאסט. רוצה להבין מה מתאים לנו.",

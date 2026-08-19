@@ -37,4 +37,11 @@ describe("buildStudioUpgradeItems", () => {
     const items = buildStudioUpgradeItems("classic", "events");
     assert.ok(items.some((i) => i.id === "studio_session_video"));
   });
+
+  it("offers pitch correction on remote events path only", () => {
+    const remote = buildStudioUpgradeItems("remote", "events").map((i) => i.id);
+    const classic = buildStudioUpgradeItems("classic", "events").map((i) => i.id);
+    assert.ok(remote.includes("pitch_correction"));
+    assert.ok(!classic.includes("pitch_correction"));
+  });
 });

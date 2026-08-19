@@ -219,7 +219,7 @@ export default function PricingHubPage() {
               <ProposalGiftPitchProofSection
                 headingId="pricing-pitch-proof-heading"
                 heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
-                intro="רוב חבילות האולפן כוללות תיקון זיופים. אם אתם מתלבטים בין מסלולים - שמעו את ההבדל ואז צפו בקליפ המלא."
+                intro="שיר מוכן כולל תיקון זיופים. ברכה והקלטה מהבית - בלי. שמעו את ההבדל ואז צפו בקליפ המלא."
               />
             </div>
           </Container>

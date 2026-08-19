@@ -82,6 +82,7 @@ export default function PriceScopeDisplay({
             כולל מע״מ (עריכה): {editTotal} ₪
           </p>
         ) : null}
+        <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
         {suitedFor ? (
           <p className={cn(s.suited, "text-muted-foreground")}>
             <span className="font-semibold text-foreground">מתאים ל: </span>
@@ -108,6 +109,7 @@ export default function PriceScopeDisplay({
       {!hideVatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.vatLine}</p>
       ) : null}
+      <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
       {suitedFor ? (
         <p className={cn(s.suited, "mt-1 text-muted-foreground")}>
           <span className="font-semibold text-foreground">מתאים ל: </span>

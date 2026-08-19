@@ -5,6 +5,7 @@ import {
   BOOK_PAGE_TITLE,
 } from "@/lib/seo/book-page";
 import { BOOK_PAGE_FAQ } from "@/lib/data/book-page-faq";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
 import { SITE_NAME } from "@/lib/constants";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -19,7 +20,7 @@ const BOOK_FAQ_ITEMS = [
   },
   {
     question: "מה המחיר ההתחלתי להקלטה באולפן במודיעין?",
-    answer: "חבילות אולפן מתחילות מ-990 ₪ לפני מע״מ, כולל תיקון קולי Melodyne ו-Auto-Tune לפי הצורך.",
+    answer: `הקלטה באולפן מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ (ברכה, בלי תיקון זיופים). שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪ לפני מע״מ, כולל מיקס, מאסטר ותיקון זיופים.`,
   },
   {
     question: "האם אפשר להזמין אטרקציות לאירועים אונליין?",

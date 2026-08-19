@@ -27,7 +27,7 @@ export const BAR_MITZVAH_WHY: readonly BlessingsWhyCard[] = [
     emoji: "🎵",
     title: "עריכה + מוזיקה",
     description:
-      "תיקון זיופים, ניקוי רעשים ומוזיקת רקע - הברכה נשמעת רציפה ומקצועית.",
+      "ניקוי רעשים ועריכה בסיסית כלולים. מוזיקת רקע ותיקון זיופים בתוספת.",
   },
   {
     emoji: "🎬",
@@ -51,7 +51,7 @@ export const BAR_MITZVAH_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "03",
     title: "עריכה ומיקס",
-    description: "תיקון, מוזיקת רקע ואיזון - הברכה מוכנה להשמעה.",
+    description: "עריכה בסיסית ואיזון. מוזיקת רקע בתוספת.",
   },
   {
     step: "04",
@@ -77,7 +77,7 @@ export const BRIDE_GROOM_WHY: readonly BlessingsWhyCard[] = [
     emoji: "🎧",
     title: "הבדל ששומעים",
     description:
-      "עריכה מקצועית, מוזיקת רקע ומיקס - לא הקלטה ביתית, אלא מוצר מלוטש.",
+      "עריכה בסיסית וניקוי - לא הקלטה ביתית גולמית. מוזיקת רקע ומיקס מלא בתוספת.",
   },
   {
     emoji: "⏱️",
@@ -101,7 +101,7 @@ export const BRIDE_GROOM_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "03",
     title: "עריכה ומוזיקה",
-    description: "מיקס, מוזיקת רקע ותיקונים - הברכה נשמעת ברמה מקצועית.",
+    description: "עריכה בסיסית ואיזון. מוזיקת רקע בתוספת.",
   },
   {
     step: "04",

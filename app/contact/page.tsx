@@ -7,6 +7,7 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import SmartMap from "@/components/ui/SmartMap";
 import { STUDIO_ADDRESS } from "@/lib/constants";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import {
   STUDIO_NEARBY_FAQ,
   STUDIO_NEARBY_LANDMARK_FAQ,
@@ -23,7 +24,7 @@ export const metadata: Metadata = metadataForHubSeo(CONTACT_HUB_SEO);
 const CONTACT_FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה הקלטה באולפן?",
-    answer: "ברכה והקלטה קצרה החל מ-450 ₪ + מע\"מ. שעת אולפן מ-350 ₪ + מע\"מ. מחיר סופי מוצג מיד בדף ההזמנה המקוונת.",
+    answer: `ברכה והקלטה קצרה החל מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ + מע״מ. שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪ + מע״מ. שעת חדר בלי עריכה מ-${getExVat("studio_hour").toLocaleString("he-IL")} ₪ + מע״מ. מחיר סופי מוצג בדף ההזמנה.`,
   },
   {
     question: "אפשר לשמוע דוגמאות מהעבודות?",

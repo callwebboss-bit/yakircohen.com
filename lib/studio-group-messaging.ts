@@ -71,6 +71,16 @@ export const DUAL_TIER_THRESHOLD =
 const gm = brandCopy.groupMessaging;
 const mobileCfg = brandCopy.mobileStudioUpsell;
 
+/** שורת «מה כלול» בהודעת קבוצה - לפי מסלול הקטלוג, לא לפי הנחה שכל חבילה כוללת תיקון. */
+export function studioPackageExperienceLine(
+  packageId?: StudioPackageId | null,
+): string {
+  if (packageId === "remote") {
+    return "הקלטה, ניקוי רעשים ומיקס - תיקון זיופים לא כלול";
+  }
+  return "הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא";
+}
+
 function tpl(text: string, vars: Record<string, string | number>): string {
   let out = text;
   for (const [k, v] of Object.entries(vars)) {
@@ -164,6 +174,11 @@ export function generateSnappyTimeline(): string {
 
 export function buildMelodyneReassurance(): string {
   return gm.melodyneReassurance;
+}
+
+function maybeMelodyneBlock(packageId?: StudioPackageId | null): string[] {
+  if (packageId === "remote") return [];
+  return [buildMelodyneReassurance(), ""];
 }
 
 export function buildHybridStudioBlock(): string {
@@ -271,7 +286,7 @@ function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext)
 
   lines.push(`*מה כלול בחבילת הבסיס:*`);
   lines.push(`חבילת הקלטת אולפן${pkgLabel}: ${formatNis(input.baseExVat)} לפני מע״מ`);
-  lines.push(`הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - ${atmosphereText}.`);
+  lines.push(`${studioPackageExperienceLine(input.studioPackageId)} - ${atmosphereText}.`);
   lines.push("");
   lines.push(`*ההרכב שלכם:*`);
   const adults = input.adultsCount ?? 0;
@@ -419,7 +434,7 @@ export function generateDualTierGroupMessage(input: GroupMessageInput): string |
     "קראתי את הפרטים.",
     "הנה הכל בצורה הכי פשוטה, שקופה וקלילה:",
     "",
-    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - בקצב שלכם ובלי לחץ.`,
+    `*החוויה שלכם:* ${studioPackageExperienceLine(input.studioPackageId)} - בקצב שלכם ובלי לחץ.`,
     `*ההרכב:* ${input.recorderCount} משתתפים.`,
     "",
     buildDualTierPricingSection(input, ctx),
@@ -429,7 +444,7 @@ export function generateDualTierGroupMessage(input: GroupMessageInput): string |
   if (input.recorderCount >= 3) parts.push(buildLineSplitterReassurance(), "");
   if (shouldShowKeyAdapter(input)) parts.push(buildKeyAdapterBlock(), "");
   parts.push(generateSnappyTimeline(), "");
-  parts.push(buildMelodyneReassurance(), "");
+  parts.push(...maybeMelodyneBlock(input.studioPackageId));
   parts.push(buildExpressDeliveryGuarantee(), "");
   parts.push(buildGroupMicroDepositBlock(ctx), "");
   parts.push(buildClosingCta(), "");
@@ -473,7 +488,7 @@ export function generateGroupPackageMessage(input: GroupMessageInput): string | 
   }
   parts.push(generateSnappyTimeline(), "");
   parts.push(buildExperienceSection(), "");
-  parts.push(buildMelodyneReassurance(), "");
+  parts.push(...maybeMelodyneBlock(input.studioPackageId));
 
   const upsells = buildSmartGroupUpsells(input, ctx);
   if (upsells) parts.push(upsells, "");
@@ -510,7 +525,7 @@ export function generateSnappyGroupMessage(input: GroupMessageInput): string | n
     "",
     "קראנו את הפרטים. הנה הכל בצורה הכי פשוטה, שקופה וקלילה:",
     "",
-    `*החוויה שלכם:* הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא - בקצב שלכם ובלי לחץ.`,
+    `*החוויה שלכם:* ${studioPackageExperienceLine(input.studioPackageId)} - בקצב שלכם ובלי לחץ.`,
     `*ההרכב:* ${input.recorderCount} משתתפים. האולפן בנוי לעד ${STUDIO_RECORDING_MAX} בו-זמנית, ולכן נחלק בצורה הכי יעילה:`,
     "",
     `🏆 *המסלול המומלץ (חלוקה מהירה לזוגות):*`,

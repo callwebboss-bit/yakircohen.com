@@ -266,7 +266,7 @@ export default function StudioPricingPage() {
           <ProposalGiftPitchProofSection
             headingId="studio-pricing-pitch-proof-heading"
             heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
-            intro="רוב החבילות כוללות תיקון זיופים. אם אתם מתלבטים - שמעו את ההבדל ואז צפו בקליפ המלא."
+            intro="שיר מוכן כולל תיקון זיופים. ברכה והקלטה מהבית - בלי. שמעו את ההבדל ואז צפו בקליפ המלא."
           />
         </section>
 

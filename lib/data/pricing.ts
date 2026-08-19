@@ -21,6 +21,9 @@ export const VAT_RATE = 0.18;
 
 export const PRICES_EXCLUDE_VAT_NOTE = "המחירים לפני מע״מ (+18%)";
 
+/** שורת תצוגה נוספת ליד מחיר - לא מחליפה את `+ מע״מ` / כולל מע״מ */
+export const PRICES_BEFORE_VAT_18 = "לפני מע״מ 18%";
+
 /** אטרקציה בודדת לאירוע (לא מחיר אולפן) */
 export const EVENT_ATTRACTION_FROM_NIS = getExVat("event_attraction_1");
 

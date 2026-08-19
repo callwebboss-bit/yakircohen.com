@@ -1,6 +1,9 @@
 /**
  * מקור אמת יחיד לכל מחירי השירות (לפני מע״מ).
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
+ *
+ * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה ושיר במתנה מאושרות במחיר.
+ * תיקון זיופים ב-590 לא כלול. תוספת: studio_pitch_correction 300 ₪ (לא express).
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -40,6 +43,7 @@ export type PriceTransparency = {
   addons: readonly PriceItemId[];
   scopeNote?: string;
   pricingMode: PriceTransparencyMode;
+  glossaryTermSlugs?: readonly string[];
 };
 
 export type PriceWithEditing = {
@@ -87,11 +91,11 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   },
   {
     id: "blessing_recording",
-    label: "הקלטת ברכה או אמירה",
+    label: "ברכה / אמירה",
     exVat: 590,
     category: "studio",
-    context: "עד חצי שעה באולפן, הנחיה, עריכה בסיסית וקובץ לאירוע",
-    scope: { duration: "עד חצי שעה", includes: "הנחיה, עריכה בסיסית, קובץ מוכן" },
+    context: "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
+    scope: { duration: "עד חצי שעה", includes: "הנחיה ועריכה בסיסית" },
     suitedFor: "ברכת כלה, דרשה, אמירה לחתונה או בר/בת מצווה",
   },
   {
@@ -99,17 +103,17 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     label: "הקלטה מרחוק",
     exVat: 590,
     category: "studio",
-    context: "הקלטה מהטלפון בבית - ניקוי רעשים, מיקס ותיקון זיופים באולפן",
-    scope: { includes: "ניקוי רעשים, מיקס ותיקון זיופים, קובץ מוכן" },
-    suitedFor: "ברכה או שיר קצר בלי להגיע לאולפן",
+    context: "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
+    scope: { includes: "ניקוי רעשים ומיקס" },
+    suitedFor: "ברכה או אמירה בלי להגיע לאולפן",
   },
   {
     id: "cover_song",
-    label: "שיר מוכן באולפן",
+    label: "שיר במתנה (שיר מוכן)",
     exVat: 990,
     category: "studio",
     context: "הקלטה בלי לחץ זמן, מיקס, מאסטרינג ותיקון זיופים - קובץ מוכן",
-    scope: { includes: "הקלטה באולפן, מיקס, מאסטרינג, תיקון זיופים, קובץ מוכן" },
+    scope: { includes: "הקלטה, מיקס, מאסטר ותיקון זיופים" },
     suitedFor: "שיר במתנה, קאבר, חופה, בר/בת מצווה",
   },
   {
@@ -158,6 +162,30 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     scope: { includes: "צילום הסשן באולפן וקובץ גלם" },
     suitedFor: "מי שרוצה לראות איך נראית הקלטה אמיתית באולפן",
     withEditing: { label: "קליפ מהסשן עם עריכה", exVat: 750 },
+  },
+  {
+    id: "studio_extra_participant",
+    label: "משתתף נוסף",
+    exVat: 190,
+    category: "addons",
+    context: "הקלטה נוספת וערבוב בסיסי",
+    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן",
+  },
+  {
+    id: "studio_extra_revision",
+    label: "סבב תיקונים נוסף",
+    exVat: 580,
+    category: "addons",
+    context: "עריכה נוספת מלאה מעבר לסבב הכלול",
+    suitedFor: "אחרי שהסבב הכלול במסלול כבר נוצל",
+  },
+  {
+    id: "studio_pitch_correction",
+    label: "תיקון זיופים",
+    exVat: 300,
+    category: "addons",
+    context: "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
+    suitedFor: "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים",
   },
 
   // ─── פודקאסט ───
@@ -407,9 +435,9 @@ export const PRICING_ADDON_LINKS: Partial<
   podcast_video: ["podcast_extra_participant", "quick_summary_clip", "transcribe_hour_srt"],
   content_package: ["transcribe_hour_srt", "express_delivery"],
   studio_half_hour: ["podcast_editing_hour"],
-  blessing_recording: ["ai_voice_enhance", "studio_session_clip"],
-  studio_remote: ["ai_voice_enhance", "studio_session_clip"],
-  cover_song: ["studio_session_clip", "express_delivery"],
+  blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
+  studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
+  cover_song: ["studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
   song_package: ["studio_session_clip", "express_delivery"],
   studio_viral: ["express_delivery", "photo_retouch"],
   studio_all_in: ["express_delivery"],
@@ -427,6 +455,7 @@ type PriceTransparencyDraft = {
   addons?: readonly PriceItemId[];
   scopeNote?: string;
   pricingMode?: PriceTransparencyMode;
+  glossaryTermSlugs?: readonly string[];
 };
 
 const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
@@ -464,30 +493,81 @@ const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
     included: ["השירות המקצועי המוגדר במסלול", "מסירה דיגיטלית לפי הסיכום"],
     excluded: ["תוספות דחופות", "רישוי צד ג׳", "עבודת המשך מעבר למסלול"],
   },
+  addons: {
+    included: ["התוספת שבכרטיס"],
+    excluded: ["מסלול בסיס שלא נרכש"],
+  },
 };
 
 const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   Record<PriceItemId, PriceTransparencyDraft>
 > = {
   studio_half_hour: {
-    included: ["30 דקות אולפן", "ליווי טכני במקום"],
-    excluded: ["עריכה מלאה", "מיקס ומאסטר מורחבים", "קליפ וידאו"],
+    included: ["30 דקות אולפן", "ליווי טכני במקום", "זמן חדר נקי בלבד"],
+    excluded: ["עריכה", "תיקון זיופים", "מיקס ומאסטר", "קליפ וידאו"],
   },
   studio_hour: {
-    included: ["60 דקות אולפן", "הנדסת הקלטה"],
-    excluded: ["עריכה", "מיקס ומאסטר מלאים", "קליפ או צילום"],
+    included: ["60 דקות אולפן", "הנדסת הקלטה", "זמן חדר נקי בלבד"],
+    excluded: ["עריכה", "תיקון זיופים", "מיקס ומאסטר מלאים", "קליפ או צילום"],
   },
   blessing_recording: {
-    included: ["עד חצי שעה אולפן", "עריכה בסיסית", "הנחיה בהקלטה"],
-    excluded: ["קליפ וידאו", "שינויי טקסט מהותיים", "מסלול אקספרס אם לא סוכם"],
+    included: [
+      "עד חצי שעה באולפן או מרחוק",
+      "הנחיה אישית רגועה (גם למי שמעולם לא דיבר מול מיקרופון)",
+      "הקלטה נקייה עם מיקרופונים מקצועיים",
+      "עריכת סאונד בסיסית (ניקוי רעשים, איזון ווליום)",
+      "תיקון קל של טעויות דיבור",
+      "קובץ MP3 + WAV מוכן",
+      "שליחה בוואטסאפ + מייל",
+      "אפשרות לגיבוי בשרתים שלנו או מחיקה מיידית",
+      "יחס אישי ודיסקרטיות מלאה",
+    ],
+    excluded: [
+      "כתיבת טקסט",
+      "מוזיקה ברקע",
+      "קליפ",
+      "תיקון זיופים",
+      "תיקונים נוספים מעבר לסבב אחד",
+    ],
+    glossaryTermSlugs: ["wav", "mp3"],
   },
   studio_remote: {
-    included: ["הקלטה מהטלפון", "ניקוי רעשים", "מיקס ותיקון זיופים"],
-    excluded: ["הגעה לאולפן", "קליפ וידאו", "שעת חדר"],
+    included: [
+      "הקלטה מהטלפון בבית",
+      "ניקוי רעשים",
+      "מיקס",
+      "קובץ מוכן",
+    ],
+    excluded: [
+      "הגעה לאולפן",
+      "תיקון זיופים",
+      "קליפ וידאו",
+      "שעת חדר",
+    ],
+    glossaryTermSlugs: ["mixing", "pitch-correction"],
   },
   cover_song: {
-    included: ["הקלטה באולפן בלי לחץ זמן", "מיקס", "מאסטרינג", "תיקון זיופים", "קובץ מוכן"],
-    excluded: ["קליפ וידאו", "כתיבת שיר מקורי", "יום צילום"],
+    included: [
+      "הקלטה באולפן או מרחוק (לפי בחירה)",
+      "הנחיה מקצועית לכל אורך הסשן",
+      "תיקון זיופים טבעי ומדויק (לא Auto-Tune רובוטי)",
+      "מיקס מקצועי",
+      "מאסטרינג מוכן לספוטיפיי / וואטסאפ / רדיו",
+      "עריכת סאונד מלאה (ניקוי, איזון, העשרה)",
+      "קובץ סופי MP3 + WAV",
+      "שליחה מהירה בוואטסאפ + מייל",
+      "אפשרות לדוגמה קצרה לפני האישור הסופי",
+      "עד סבב תיקונים אחד כלול",
+      "חוויה נעימה גם למי ששר בפעם הראשונה",
+    ],
+    excluded: [
+      "כתיבת מילים מקוריות",
+      "עיבוד מוזיקלי חדש לגמרי",
+      "קליפ",
+      "משתתפים נוספים",
+      "תיקונים מעבר לסבב אחד",
+    ],
+    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction", "wav", "mp3", "autotune"],
   },
   song_package: {
     included: ["הקלטה מלאה", "Pitch Correction ידני", "ייעוץ אמנותי", "3 תמונות סטילס"],
@@ -504,6 +584,19 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   studio_session_clip: {
     included: ["צילום הסשן באולפן", "קובץ גלם"],
     excluded: ["עריכה", "קליפ מוכן לרשתות", "זוויות נוספות אם לא סוכמו"],
+  },
+  studio_extra_participant: {
+    included: ["הקלטה נוספת", "ערבוב בסיסי"],
+    excluded: ["מסלול בסיס", "קליפ", "סבב תיקונים נוסף"],
+  },
+  studio_extra_revision: {
+    included: ["עריכה נוספת מלאה"],
+    excluded: ["הקלטה חדשה", "שדרוג מסלול"],
+  },
+  studio_pitch_correction: {
+    included: ["תיקון זיופים ידני לשיר או ברכה", "שמירה על קול טבעי (לא Auto-Tune רובוטי)"],
+    excluded: ["קדימות בשיבוץ", "סבב תיקונים נוסף", "מיקס ומאסטר אם לא נרכשו במסלול"],
+    glossaryTermSlugs: ["pitch-correction", "autotune"],
   },
   single_production: {
     included: ["עד 6 שעות אולפן", "עיבוד", "מיקס", "מאסטר"],
@@ -666,6 +759,8 @@ export function getPriceTransparencyById(id: PriceItemId): PriceTransparency {
         ? "מחיר התחלה. המחיר הסופי נקבע לפי היקף, לוגיסטיקה או חומרים."
         : undefined),
     pricingMode,
+    glossaryTermSlugs:
+      override.glossaryTermSlugs ?? categoryDraft.glossaryTermSlugs,
   };
 }
 

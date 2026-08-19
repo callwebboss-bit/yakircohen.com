@@ -177,6 +177,7 @@ import { calcUpgradesTotalExVat } from "@/lib/studio-upgrade-pricing";
 import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
+import CatalogOfferPanel from "@/components/pricing/CatalogOfferPanel";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
 import { cn } from "@/lib/utils";
@@ -1687,7 +1688,7 @@ export default function StudioRecordingBooking({
                         "אפשר לשנות מסלול לפני השליחה",
                       ]
                     : [
-                        "כל מסלול כולל מיקס, מאסטרינג ותיקון זיופים",
+                        "שיר מוכן כולל מיקס, מאסטר ותיקון זיופים. הקלטה מהבית - בלי תיקון זיופים",
                         "המחיר הוא על התוצאה הסופית - לא על זמן באולפן",
                         "תוספות אופציונליות מופיעות מתחת לבחירה",
                       ]
@@ -1740,10 +1741,19 @@ export default function StudioRecordingBooking({
             ) : null}
 
             {activePackage ? (
-              <BookingSelectionConfirm
-                title={`מסלול נבחר: ${activePackage.name}`}
-                detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ - לחצו המשך לפרטים ואישור`}
-              />
+              <>
+                <BookingSelectionConfirm
+                  title={`מסלול נבחר: ${activePackage.name}`}
+                  detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ - לחצו המשך לפרטים ואישור`}
+                />
+                {"catalogId" in activePackage ? (
+                  <CatalogOfferPanel
+                    catalogId={activePackage.catalogId}
+                    compact
+                    className="mt-3"
+                  />
+                ) : null}
+              </>
             ) : (
               <p className="rounded-xl border border-dashed border-border/60 bg-surface px-4 py-3 text-center text-sm text-muted-foreground">
                 בחרו מסלול אחד כדי להמשיך

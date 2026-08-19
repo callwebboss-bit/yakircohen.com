@@ -282,21 +282,25 @@ function parseBookRoutes(text) {
   return routes;
 }
 
-function parseStudioPackages(text) {
+function parseStudioPackages(text, catalog) {
   const start = text.indexOf("export const STUDIO_RECORDING_PACKAGES");
   const end = text.indexOf("export const STUDIO_RECORDING_UPGRADES", start);
   if (start < 0 || end < 0) return [];
   const slice = text.slice(start, end);
+  const byId = Object.fromEntries((catalog ?? []).map((item) => [item.id, item]));
   const packages = [];
   const blockRe =
-    /id:\s*"(remote|classic|pro|viral|all_in)"[\s\S]*?name:\s*"([^"]+)"[\s\S]*?price:\s*(\d+)/g;
+    /id:\s*"(remote|classic|pro|viral|all_in)"[\s\S]*?name:\s*"([^"]+)"[\s\S]*?catalogId:\s*"([^"]+)"/g;
   let m;
   while ((m = blockRe.exec(slice)) !== null) {
+    const item = byId[m[3]];
+    const price = item?.exVat;
+    if (price == null) continue;
     packages.push({
       id: m[1],
       name: m[2],
-      price: Number(m[3]),
-      withVat: withVat(Number(m[3])),
+      price,
+      withVat: withVat(price),
     });
   }
   return packages;
@@ -318,12 +322,14 @@ function parseConstStringArray(text, name) {
   return items;
 }
 
-function parseStudioParticipantRules(studioText) {
+function parseStudioParticipantRules(studioText, catalog) {
+  const extraFromCatalog = (catalog ?? []).find((item) => item.id === "studio_extra_participant");
+  const extraParticipantPrice =
+    extraFromCatalog?.exVat ??
+    parseConstNumber(studioText, "STUDIO_EXTRA_PARTICIPANT_PRICE", 190);
   return {
-    extraParticipantPrice: parseConstNumber(studioText, "STUDIO_EXTRA_PARTICIPANT_PRICE", 190),
-    pairExtraPrice: Math.round(
-      parseConstNumber(studioText, "STUDIO_EXTRA_PARTICIPANT_PRICE", 190) / 2,
-    ),
+    extraParticipantPrice,
+    pairExtraPrice: Math.round(extraParticipantPrice / 2),
     recordingMax: parseConstNumber(studioText, "STUDIO_RECORDING_MAX", 10),
     filmingMax: parseConstNumber(studioText, "STUDIO_FILMING_MAX", 5),
     savingsTipThreshold: parseConstNumber(studioText, "STUDIO_SAVINGS_TIP_THRESHOLD", 5),
@@ -380,7 +386,7 @@ function extractTsStringField(block, field) {
   return m ? unescapeTsString(m[1]) : null;
 }
 
-function parseStudioUpgrades(text) {
+function parseStudioUpgrades(text, catalog) {
   const start = text.indexOf("export const STUDIO_RECORDING_UPGRADES");
   const end = text.indexOf("export const EVENT_TYPE_OPTIONS", start);
   if (start < 0) return [];
@@ -388,6 +394,7 @@ function parseStudioUpgrades(text) {
   const arrayStart = slice.indexOf("[");
   const arrayEnd = slice.indexOf("] as const");
   if (arrayStart < 0 || arrayEnd < 0) return [];
+  const byId = Object.fromEntries((catalog ?? []).map((item) => [item.id, item]));
   const arrayBody = slice.slice(arrayStart + 1, arrayEnd);
   const blocks = arrayBody
     .split(/\},\s*\{/)
@@ -405,13 +412,19 @@ function parseStudioUpgrades(text) {
       const name = extractTsStringField(block, "name");
       const description = extractTsStringField(block, "description");
       const priceMatch = block.match(/price:\s*(\d+)/);
+      const catalogPriceMatch = block.match(/price:\s*getExVat\("([^"]+)"\)/);
       const badge = extractTsStringField(block, "badge");
-      if (!id || !name || !description || !priceMatch) return null;
+      let price = priceMatch ? Number(priceMatch[1]) : null;
+      if (price == null && catalogPriceMatch) {
+        const item = byId[catalogPriceMatch[1]];
+        price = item?.exVat ?? null;
+      }
+      if (!id || !name || !description || price == null) return null;
       return {
         id,
         name,
         description,
-        price: Number(priceMatch[1]),
+        price,
         ...(badge ? { badge } : {}),
       };
     })
@@ -844,11 +857,11 @@ const payload = {
   catalog: catalogExport,
   priceTransparencyMap: buildTransparencyMap(catalogExport),
   bookRoutePresets: parseBookRoutes(routesText),
-  studioPackages: parseStudioPackages(studioText),
-  studioUpgrades: parseStudioUpgrades(studioText),
+  studioPackages: parseStudioPackages(studioText, catalogExport),
+  studioUpgrades: parseStudioUpgrades(studioText, catalogExport),
   recordingTypes: parseRecordingTypes(studioText),
   atmosphereTypes: parseAtmosphereTypes(studioText),
-  studioParticipantRules: parseStudioParticipantRules(studioText),
+  studioParticipantRules: parseStudioParticipantRules(studioText, catalogExport),
   blogPosts: parseBlogPosts(blogText),
   filterQuestions: parseFilterQuestions(filterText),
   leadSources: [

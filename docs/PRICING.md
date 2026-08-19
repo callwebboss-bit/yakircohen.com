@@ -30,6 +30,7 @@
 | `podcast_video` | 1,650 ₪ | 1,947 ₪ |
 | `content_package` | 2,800 ₪ | 3,304 ₪ |
 | `event_attraction_1` | 1,750 ₪ | 2,065 ₪ |
+| `studio_pitch_correction` | 300 ₪ | 354 ₪ |
 
 רשימה מלאה: `PRICING_CATALOG` ב-`lib/data/pricing-catalog.ts`.
 
@@ -53,3 +54,13 @@ npm run audit:pricing
 - `/pricing` - `PRICING_HUB_SECTIONS` ב-`lib/data/pricing-hub.ts`
 - הודעות WhatsApp - `lib/whatsapp-closing.ts` + `lib/booking-messages.ts`
 - `public/llms.txt` (עדכון ידני מומלץ אחרי שינוי)
+
+## Overlay 2026-08-19 (החלטות נעולות לפרוסה הצרה)
+
+- ברכה 590: בלי תיקון זיופים. שיר במתנה 990: עם מיקס, מאסטר ותיקון זיופים.
+- הקלטה מרחוק 590: ניקוי + מיקס, בלי תיקון זיופים. תוספת `studio_pitch_correction` 300 ₪ (ברכה ומרחוק). `express` 300 ₪ נשאר קדימות בשיבוץ.
+- שיר Pro: רשימת הסטילס נשארת. אין החלפה לטקסט המאסטר בלי אישור.
+- כרטיסי שירות נשארים עם CTA וואטסאפ יחיד. אין sticky נוסף. אשף האולפן נשאר 3 שלבים.
+- תצוגה: נוספת שורה `לפני מע״מ 18%` בלי למחוק `+ מע״מ` / כולל מע״מ.
+- `CONTENT_REVIEW` בכותרת `lib/data/pricing-catalog.ts`.
+

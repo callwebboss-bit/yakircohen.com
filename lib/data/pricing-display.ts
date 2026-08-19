@@ -1,10 +1,11 @@
 import type { PriceScope, PriceWithEditing } from "@/lib/data/pricing-catalog";
-import { withVat } from "@/lib/data/pricing";
+import { PRICES_BEFORE_VAT_18, withVat } from "@/lib/data/pricing";
 
 export type PriceScopeDisplayLines = {
   primary: string;
   scopeLine?: string;
   vatLine: string;
+  beforeVatLine: string;
   /** שורה אחת לכרטיסים צרים */
   compactLine: string;
 };
@@ -75,8 +76,9 @@ export function formatPriceScopeDisplay({
   const scopeLine = formatScopeLine(scope);
   const total = withVat(exVat).toLocaleString("he-IL");
   const vatLine = `כולל מע״מ: ${total} ₪`;
+  const beforeVatLine = PRICES_BEFORE_VAT_18;
   const compactLine = scopeLine ? `${primary} · ${scopeLine}` : primary;
-  return { primary, scopeLine, vatLine, compactLine };
+  return { primary, scopeLine, vatLine, beforeVatLine, compactLine };
 }
 
 const HUB_DESCRIPTION_MAX = 72;

@@ -28,14 +28,12 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
   studio_hour: {
     category: "studio",
     catalogId: "studio_hour",
-    studioPackageId: "classic",
     recordingTypeId: "voiceover",
     filterPreset: { timeline: "this_week", purpose: "professional" },
   },
   blessing_recording: {
     category: "studio",
     catalogId: "blessing_recording",
-    studioPackageId: "remote",
     recordingTypeId: "general_blessing",
     filterPreset: { timeline: "this_month", purpose: "gift" },
   },
@@ -43,8 +41,7 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     category: "studio",
     catalogId: "studio_remote",
     studioPackageId: "remote",
-    recordingTypeId: "general_blessing",
-    filterPreset: { timeline: "this_month", purpose: "gift" },
+    filterPreset: { timeline: "this_month" },
   },
   cover_song: {
     category: "studio",
