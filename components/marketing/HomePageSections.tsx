@@ -154,7 +154,6 @@ export default function HomePageSections({
       <LiveStatusBar />
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <HomeQuickPaths />
-      <HomeGiftsTeaser />
 
       <Section
         className="bg-background"
@@ -172,7 +171,7 @@ export default function HomePageSections({
               className="mx-auto mt-3 h-1 w-12 rounded-full bg-brand-red"
               aria-hidden="true"
             />
-            <div className="mt-5 flex flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
+            <div className="mt-5 hidden flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
               {([
                 { label: "מקליט שיר לאירוע", href: "/studio/recording-song-modiin" },
                 { label: "מחפש DJ לחתונה", href: "/events/dj-events" },
@@ -218,6 +217,8 @@ export default function HomePageSections({
         </Container>
       </Section>
 
+      <HomeGiftsTeaser />
+
       <StudioClientsStrip />
 
       <HomeServicesDetailHub />
@@ -230,28 +231,35 @@ export default function HomePageSections({
         ariaLabelledby="value-heading"
       >
         <Container>
-          <ServiceHubLinks
-            heading="למה לקוחות חוזרים אלינו"
-            subheading={
-              <>
-                <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
-                ,{" "}
-                <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
-                ו
-                <InlineServiceLink href="/podcast/podcast-editing">
-                  עריכת פודקאסט
-                </InlineServiceLink>{" "}
-                תחת קורת גג אחת.
-              </>
-            }
-            links={VALUE_PROPS.map((item) => ({
-              href: item.href,
-              title: item.title,
-              description: item.description,
-            }))}
-            headingId="value-heading"
-            columns={3}
-          />
+          <details className="chrome-more max-md:[&_#value-heading]:sr-only">
+            <summary className="chrome-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+              למה לקוחות חוזרים אלינו
+            </summary>
+            <div className="chrome-more-body">
+              <ServiceHubLinks
+                heading="למה לקוחות חוזרים אלינו"
+                subheading={
+                  <>
+                    <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
+                    ,{" "}
+                    <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
+                    ו
+                    <InlineServiceLink href="/podcast/podcast-editing">
+                      עריכת פודקאסט
+                    </InlineServiceLink>{" "}
+                    תחת קורת גג אחת.
+                  </>
+                }
+                links={VALUE_PROPS.map((item) => ({
+                  href: item.href,
+                  title: item.title,
+                  description: item.description,
+                }))}
+                headingId="value-heading"
+                columns={3}
+              />
+            </div>
+          </details>
         </Container>
       </Section>
 
@@ -263,7 +271,7 @@ export default function HomePageSections({
 
       <ClientJourneySteps variant="general" display="compact" className="bg-surface" />
 
-      <Section padding="sm" className="border-b border-border bg-surface pt-2">
+      <Section padding="sm" className="hidden border-b border-border bg-surface pt-2">
         <Container className="text-center">
           <p className="text-lead mx-auto mb-6 max-w-lg text-muted-foreground">
             מוכנים לשיר, ברכה או פרק ראשון? בחרו מסלול, קבלו מחיר ושלחו הזמנה בוואטסאפ.

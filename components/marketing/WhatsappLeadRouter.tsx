@@ -55,8 +55,13 @@ export default function WhatsappLeadRouter({
       ariaLabelledby="wa-router-heading"
     >
       <Container>
-        <header className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-red/20 bg-brand-red/10 px-4 py-1.5 text-xs font-bold text-brand-red">
+        <details className="chrome-more">
+          <summary className="chrome-more-summary flex min-h-12 cursor-pointer list-none items-center justify-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+            {eyebrow}
+          </summary>
+          <div className="chrome-more-body">
+            <header className="mx-auto max-w-2xl text-center">
+          <span className="hidden items-center gap-1.5 rounded-full border border-brand-red/20 bg-brand-red/10 px-4 py-1.5 text-xs font-bold text-brand-red md:inline-flex">
             <span
               className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-red"
               aria-hidden="true"
@@ -193,6 +198,8 @@ export default function WhatsappLeadRouter({
         </div>
 
         <HomeTrustFeatureGrid />
+          </div>
+        </details>
       </Container>
     </Section>
   );

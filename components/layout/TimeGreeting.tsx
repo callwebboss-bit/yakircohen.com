@@ -23,7 +23,13 @@ const ALL_ITEMS = [
 const INTERVAL = 4000;
 const OUT_DURATION = 250;
 
-export default function TimeGreeting({ className }: { className?: string }) {
+export default function TimeGreeting({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   const [greeting, setGreeting] = useState<string | null>(null);
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<"in" | "out">("in");
@@ -33,6 +39,7 @@ export default function TimeGreeting({ className }: { className?: string }) {
   }, []);
 
   useEffect(() => {
+    if (compact) return;
     const timer = setInterval(() => {
       setPhase("out");
       const swap = setTimeout(() => {
@@ -42,7 +49,7 @@ export default function TimeGreeting({ className }: { className?: string }) {
       return () => clearTimeout(swap);
     }, INTERVAL);
     return () => clearInterval(timer);
-  }, []);
+  }, [compact]);
 
   const current = ALL_ITEMS[idx]!;
 
@@ -53,39 +60,48 @@ export default function TimeGreeting({ className }: { className?: string }) {
         className,
       )}
     >
-      {/* LIVE indicator */}
-      <span className="flex shrink-0 items-center gap-1.5">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
-        </span>
-        <span className="font-semibold tracking-wide text-red-500">LIVE</span>
-      </span>
-
-      <span aria-hidden className="text-border">|</span>
-
-      {/* Time greeting */}
-      {greeting && (
-        <>
+      {compact ? (
+        greeting ? (
           <span className="shrink-0 font-medium text-foreground">{greeting}</span>
-          <span aria-hidden className="text-border">·</span>
+        ) : null
+      ) : (
+        <>
+          <span className="flex shrink-0 items-center gap-1.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+            </span>
+            <span className="font-semibold tracking-wide text-red-500">LIVE</span>
+          </span>
+
+          <span aria-hidden className="text-border">
+            |
+          </span>
+
+          {greeting ? (
+            <>
+              <span className="shrink-0 font-medium text-foreground">{greeting}</span>
+              <span aria-hidden className="text-border">
+                ·
+              </span>
+            </>
+          ) : null}
+
+          <Link
+            key={idx}
+            href={current.href}
+            style={{
+              animation:
+                phase === "in"
+                  ? `ticker-in ${OUT_DURATION}ms var(--ease-luxury) forwards`
+                  : `ticker-out ${OUT_DURATION}ms var(--ease-luxury) forwards`,
+            }}
+            className="min-w-0 truncate hover:text-foreground hover:underline"
+          >
+            {current.tip}
+          </Link>
         </>
       )}
-
-      {/* Animated ticker item */}
-      <Link
-        key={idx}
-        href={current.href}
-        style={{
-          animation:
-            phase === "in"
-              ? `ticker-in ${OUT_DURATION}ms var(--ease-luxury) forwards`
-              : `ticker-out ${OUT_DURATION}ms var(--ease-luxury) forwards`,
-        }}
-        className="min-w-0 truncate hover:text-foreground hover:underline"
-      >
-        {current.tip}
-      </Link>
     </div>
   );
 }

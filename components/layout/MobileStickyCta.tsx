@@ -39,13 +39,6 @@ export default function MobileStickyCta() {
       role="navigation"
       aria-label="ניווט מהיר"
     >
-      <div className="flex items-center justify-between gap-2 px-3 pt-1.5">
-        <span className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-catalog-gold">
-          עכשיו
-        </span>
-        <span className="h-1 w-8 rounded-full bg-border" aria-hidden="true" />
-      </div>
-      <div className="h-px w-full bg-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
       <div className="mx-auto grid max-w-lg grid-cols-3 gap-1.5 px-2 py-2">
         <Link href={pricingHref} className={secondaryClass}>
           מחירון

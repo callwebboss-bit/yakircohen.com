@@ -402,7 +402,7 @@ export default function ServicePageLayout({
             ) : null}
 
             {showHeroCtas ? (
-              <TrustBadges className="mt-4" />
+              <TrustBadges className="mt-4 hidden" />
             ) : null}
 
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (

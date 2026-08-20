@@ -294,7 +294,7 @@ function HeaderMainBar({
         <div className="overflow-hidden">
           <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
             <Container variant="wide" className="flex items-center gap-4 py-1.5">
-              <TimeGreeting className="min-w-0 flex-1 py-1" />
+              <TimeGreeting compact className="min-w-0 flex-1 py-1" />
               <IntentNavStrip compact className="max-w-[58%] shrink-0" />
             </Container>
           </div>

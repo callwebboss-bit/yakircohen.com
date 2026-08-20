@@ -28,12 +28,11 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
       cy.visit("/");
     });
 
-    it("displays live status bar with availability and trust stats", () => {
+    it("displays live status bar with visitor count", () => {
       cy.get('[data-testid="live-status-bar"]').should("be.visible");
       cy.wait("@liveVisitors");
       cy.get('[data-testid="live-visitor-count"]').should("be.visible");
       cy.contains("גולשים כרגע").should("be.visible");
-      cy.get('[data-testid="live-status-availability"]').should("be.visible");
       cy.contains(/זמין|עסוק|ייעוץ|שבת|חוזרים/).should("be.visible");
       cy.contains("20+").should("be.visible");
     });

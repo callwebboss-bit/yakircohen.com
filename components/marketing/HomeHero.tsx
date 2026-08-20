@@ -119,7 +119,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(0_0_0_/_0.28)_100%)]"
             aria-hidden
           />
-          <div className="absolute inset-x-0 bottom-0 border-t border-border-subtle bg-background/90 p-6 backdrop-blur-sm">
+          <div className="absolute inset-x-0 bottom-0 hidden border-t border-border-subtle bg-background/90 p-6 backdrop-blur-sm">
             <p className="text-xs font-semibold text-brand-red">
               <Link href="/studio" className="rounded-sm transition-colors hover:text-brand-red-light hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
                 אולפן
