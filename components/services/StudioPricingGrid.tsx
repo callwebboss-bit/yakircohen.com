@@ -30,7 +30,7 @@ export type StudioPricingGridProps = {
 export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
   return (
     <Container>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="isolation-booth-cards grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {tiers.map((tier) => {
           const priceLabel =
             tier.priceExVat != null
@@ -51,7 +51,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               itemType="https://schema.org/Offer"
               className={cn(
                 // IMPROVED: hover-lift replaces raw translate-y on touch devices
-                "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift",
+                "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift card-chrome",
                 tier.featured
                   ? "border-[var(--service-accent,#d42b2b)]/40 shadow-md ring-1 ring-[var(--service-accent,#d42b2b)]/20 hover:border-[var(--service-accent,#d42b2b)]/60 hover:shadow-lg"
                   : "border-border hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-md",

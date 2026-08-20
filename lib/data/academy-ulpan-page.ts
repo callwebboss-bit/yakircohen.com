@@ -1,4 +1,5 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export const ULPAN_PAGE_PATH = "/academy/ulpan";
 
@@ -240,7 +241,7 @@ export const ULPAN_PRICING = {
     ] as const,
   },
   trial: {
-    price: 500,
+    price: getExVat("academy_trial_lesson"),
     heading: `הרשמה לשיעור ניסיון ב-500 ש"ח`,
     intro:
       "מלאו פרטים ונתאם מועד לשיעור ראשון. לאחר השלמה, ניצור איתכם קשר לאישור המועד ופרטי תשלום.",

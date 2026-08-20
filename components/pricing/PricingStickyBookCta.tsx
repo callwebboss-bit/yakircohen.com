@@ -44,11 +44,11 @@ export default function PricingStickyBookCta() {
       }`}
       aria-hidden={!visible}
     >
-      <div className="flex items-center justify-between gap-3 border-t border-border bg-background/95 px-4 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur-sm">
+      <div className="hardware-bezel flex items-center justify-between gap-3 border-t border-catalog-gold/25 bg-background/95 px-4 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur-sm">
         <p className="text-xs text-muted-foreground">מחיר שקוף, ללא הפתעות</p>
         <Link
           href="/book"
-          className="inline-flex min-h-10 items-center rounded-xl bg-brand-red px-5 py-2 text-sm font-semibold text-white"
+          className="inline-flex min-h-12 items-center rounded-xl bg-brand-red px-5 py-2 text-sm font-semibold text-white"
           tabIndex={visible ? 0 : -1}
         >
           הזמנה מקוונת

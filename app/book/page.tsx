@@ -133,7 +133,7 @@ export default async function BookPage({
               {SITE_NAME}
             </p>
 
-            <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
+            <h1 className="soundwave-h1 text-hero mt-3 font-serif font-semibold text-foreground">
               בחרו כיוון - מחיר שקוף מיד, ומה מקבלים בפועל
             </h1>
 

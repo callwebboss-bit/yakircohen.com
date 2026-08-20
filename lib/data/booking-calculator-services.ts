@@ -1,4 +1,5 @@
 ﻿import { EVENT_ATTRACTION_FROM_NIS, STUDIO_HALF_HOUR_NIS } from "./pricing";
+import { getExVat } from "./pricing-catalog";
 
 export type ServiceCategory = "recordings" | "podcasts" | "clips" | "events" | "ai";
 
@@ -22,7 +23,7 @@ export const SERVICES: Record<string, Service> = {
   recording_basic: {
     name: "הקלטת שיר בסיסית",
     category: "recordings",
-    price: 590,
+    price: getExVat("studio_remote"),
     icon: "🎤",
     desc: "הקלטה מקצועית עם מיקס ומאסטרינג",
     upsells: ["warmup", "melodyne", "production_full", "stems", "video_pro", "video_studio", "raw_only"],
@@ -30,6 +31,7 @@ export const SERVICES: Record<string, Service> = {
   recording_premium: {
     name: "הקלטת שיר פרמיום",
     category: "recordings",
+    // Calculator-only tier (catalog Pro = song_package 1480) - keep display price stable
     price: 1190,
     icon: "🌟",
     desc: "חבילה עם עיבוד, תמונות ויועץ אמנותי",
@@ -70,7 +72,7 @@ export const SERVICES: Record<string, Service> = {
   vlog_day: {
     name: "וולוג יום בחיי - צלם צמוד",
     category: "clips",
-    price: 2200,
+    price: getExVat("pre_wedding_photos"),
     icon: "🎥",
     badge: "new",
     desc: "תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה של פרק (עד 4 גרסאות עריכה)",
@@ -181,7 +183,7 @@ export const SERVICES: Record<string, Service> = {
   ai_voice: {
     name: "שיפור קול מהנייד",
     category: "ai",
-    price: 250,
+    price: getExVat("volume_balance"),
     icon: "🎤",
     desc: "הפיכת הקלטת וואטסאפ לאולפנית, כולל MP3",
     upsells: [],
@@ -189,7 +191,7 @@ export const SERVICES: Record<string, Service> = {
   ai_mixing: {
     name: "מיקס ומאסטרינג",
     category: "ai",
-    price: 1750,
+    price: getExVat("external_mix_master"),
     icon: "🎚️",
     desc: "עיבוד מקצועי מלא בכל הפורמטים",
     upsells: [],
@@ -197,7 +199,7 @@ export const SERVICES: Record<string, Service> = {
   ai_podcast_edit: {
     name: "עריכת פודקאסט",
     category: "ai",
-    price: 750,
+    price: getExVat("podcast_editing_hour"),
     icon: "🎬",
     desc: "ניקוי רעשים, שיפור סאונד, הוצאת MP3/MP4",
     upsells: [],
@@ -205,7 +207,7 @@ export const SERVICES: Record<string, Service> = {
   ai_video_edit: {
     name: "עריכת סרטונים קצרים",
     category: "ai",
-    price: 750,
+    price: getExVat("podcast_editing_hour"),
     icon: "📱",
     desc: "רילס / שורטס / טיקטוק עם כתוביות ואפקטים",
     upsells: [],
@@ -213,7 +215,7 @@ export const SERVICES: Record<string, Service> = {
   ai_volume: {
     name: "שינוי והתאמת ווליום",
     category: "ai",
-    price: 250,
+    price: getExVat("volume_balance"),
     icon: "🔊",
     desc: "עד שעת הקלטה, איזון דינמי",
     upsells: [],
@@ -221,7 +223,7 @@ export const SERVICES: Record<string, Service> = {
   ai_rescue: {
     name: "הצלת הקלטות פגומות",
     category: "ai",
-    price: 250,
+    price: getExVat("damaged_recording_rescue"),
     icon: "🆘",
     desc: "לכל 5 דקות: ניקוי רעשים ושחזור איכות",
     upsells: [],
@@ -229,7 +231,7 @@ export const SERVICES: Record<string, Service> = {
   ai_photos: {
     name: "שדרוג תמונות (AI)",
     category: "ai",
-    price: 250,
+    price: getExVat("ai_photo_upgrade"),
     icon: "📸",
     desc: "לכל 10 תמונות: רזולוציה, צבעים, חדות",
     upsells: [],
@@ -238,16 +240,48 @@ export const SERVICES: Record<string, Service> = {
 
 export const UPSELLS: Record<string, Upsell> = {
   warmup: { name: "חימום קולי מודרך", price: 0, desc: "20 דקות לפני ההקלטה, כלול במחיר" },
-  melodyne: { name: "Melodyne - תיקון זיופים", price: 200, desc: "שיפור דיוק קולי מקצועי" },
-  production_full: { name: "הפקה מלאה מקצועית", price: 1200, desc: "עד 5 כלים, עיבוד מקצועי" },
-  stems: { name: "Stems - רצועות נפרדות", price: 300, desc: "קבצים נפרדים לכל כלי" },
-  video_pro: { name: "צילום וידאו מקצועי", price: 850, desc: "צלם מקצועי לקליפ או מזכרת" },
+  melodyne: {
+    name: "Melodyne - תיקון זיופים",
+    price: getExVat("studio_pitch_correction"),
+    desc: "שיפור דיוק קולי מקצועי",
+  },
+  production_full: {
+    name: "הפקה מלאה מקצועית",
+    price: 1200,
+    desc: "עד 5 כלים, עיבוד מקצועי",
+  },
+  stems: {
+    name: "Stems - רצועות נפרדות",
+    price: getExVat("studio_pitch_correction"),
+    desc: "קבצים נפרדים לכל כלי",
+  },
+  video_pro: {
+    name: "צילום וידאו מקצועי",
+    price: 850,
+    desc: "צלם מקצועי לקליפ או מזכרת",
+  },
   video_studio: { name: "צילום במצלמות אולפן", price: 400, desc: "צילום באיכות HD" },
   raw_only: { name: "הקלטה גולמית בלבד", price: 0, desc: "ללא עיבוד, קובץ גולמי" },
-  editing_advanced: { name: "עריכה מתקדמת", price: 590, desc: "לכל שעה שצולמה, פתיח וסגיר" },
-  full_edit: { name: "עריכה מלאה של וידאו", price: 750, desc: "עריכה + מיקס + גרפיקה" },
-  custom_graphics: { name: "התאמה אישית מתקדמת", price: 450, desc: "גרפיקה וטקסטים מותאמים" },
-  highlights: { name: "רגעי שיא (עד 3 דקות)", price: 300, desc: "Highlights לרילס / טיקטוק" },
+  editing_advanced: {
+    name: "עריכה מתקדמת",
+    price: getExVat("studio_remote"),
+    desc: "לכל שעה שצולמה, פתיח וסגיר",
+  },
+  full_edit: {
+    name: "עריכה מלאה של וידאו",
+    price: getExVat("podcast_editing_hour"),
+    desc: "עריכה + מיקס + גרפיקה",
+  },
+  custom_graphics: {
+    name: "התאמה אישית מתקדמת",
+    price: 450,
+    desc: "גרפיקה וטקסטים מותאמים",
+  },
+  highlights: {
+    name: "רגעי שיא (עד 3 דקות)",
+    price: getExVat("studio_pitch_correction"),
+    desc: "Highlights לרילס / טיקטוק",
+  },
   premium_package: { name: "חבילת ראש שקט - הכל", price: 3540, desc: "הפקה מלאה ומושלמת" },
 };
 
@@ -269,12 +303,16 @@ export const BADGE_LABELS: Record<string, string> = {
 };
 
 /** Tiered bundle pricing - must match events-booking.ts /book#events */
-export const EVENT_BUNDLE_TIERS: Record<number, number> = { 1: 1750, 2: 3200, 3: 4450 };
-export const EVENT_BUNDLE_4PLUS = 5500;
+export const EVENT_BUNDLE_TIERS: Record<number, number> = {
+  1: getExVat("event_attraction_1"),
+  2: getExVat("event_attraction_2"),
+  3: getExVat("event_attraction_3"),
+};
+export const EVENT_BUNDLE_4PLUS = getExVat("event_attraction_4");
 export const EVENT_GIFT_THRESHOLD = 4;
 
 export function getEventBundlePrice(count: number): number {
   if (count <= 0) return 0;
   if (count >= EVENT_GIFT_THRESHOLD) return EVENT_BUNDLE_4PLUS;
-  return EVENT_BUNDLE_TIERS[count] ?? count * 1750;
+  return EVENT_BUNDLE_TIERS[count] ?? count * getExVat("event_attraction_1");
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
@@ -11,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import {
   STUDIO_VIRTUAL_TOUR_STOPS,
   STUDIO_VIRTUAL_TOUR_VIDEO,
@@ -45,25 +47,37 @@ export default function StudioVirtualTourPageContent() {
               title={STUDIO_VIRTUAL_TOUR_VIDEO.title}
               className="mt-6 aspect-video overflow-hidden rounded-2xl"
             />
-            <p className="mt-3 text-center text-sm text-muted-foreground">
-              אם תרצה להחליף את הוידאו, מספיק לעדכן את מזהה YouTube בקובץ הנתונים.
-            </p>
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {STUDIO_VIRTUAL_TOUR_STOPS.map((item) => (
               <Dialog key={item.id}>
-                <article className="rounded-2xl border border-border bg-background p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
-                  <DialogTrigger asChild>
-                    <button
-                      type="button"
-                      className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-border bg-surface px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                    >
-                      פרטים נוספים
-                    </button>
-                  </DialogTrigger>
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
+                  <div className="relative aspect-[4/3] w-full bg-[#e8e6e1]">
+                    <Image
+                      src={item.imageSrc}
+                      alt={item.imageAlt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                      {item.summary}
+                    </p>
+                    <DialogTrigger asChild>
+                      <button
+                        type="button"
+                        className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-border bg-surface px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                      >
+                        פרטים נוספים
+                      </button>
+                    </DialogTrigger>
+                  </div>
                 </article>
 
                 <DialogContent className="sm:max-w-lg">
@@ -72,14 +86,24 @@ export default function StudioVirtualTourPageContent() {
                     <DialogDescription>{item.summary}</DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3">
-                    <div className="rounded-2xl border border-dashed border-border bg-surface p-4 text-sm text-muted-foreground">
-                      {/* TODO: replace this placeholder with a real image or extra video for this stop. */}
-                      {item.mediaNote}
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-[#e8e6e1]">
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.imageAlt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, 32rem"
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
+                      />
                     </div>
                     <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
                       {item.details.map((detail) => (
                         <li key={detail} className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" aria-hidden="true" />
+                          <span
+                            className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red"
+                            aria-hidden="true"
+                          />
                           <span>{detail}</span>
                         </li>
                       ))}

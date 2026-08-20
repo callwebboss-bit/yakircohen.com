@@ -68,7 +68,7 @@ export default function ProposalGiftPitchProofSection({
           <p className="text-center text-sm font-medium text-foreground">
             הקליפ המלא - אחרי התיקון
           </p>
-          <div className="aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
             <YouTube
               videoId={featuredClip?.videoId ?? PROPOSAL_CLIP_FEATURED_VIDEO_ID}
               title={featuredClip?.title ?? "קליפ מתננה מהאולפן"}

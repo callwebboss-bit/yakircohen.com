@@ -1,3 +1,5 @@
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export type PrivateSessionPlan = {
   id: string;
   name: string;
@@ -17,7 +19,7 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
     id: "full-hour",
     name: "שיעור מלא",
     tagline: "הסטנדרט ללמידה מעמיקה",
-    price: 990,
+    price: getExVat("academy_private_hour"),
     duration: "60 דקות (שעה)",
     features: [
       "לימוד נושא חדש לעומק",

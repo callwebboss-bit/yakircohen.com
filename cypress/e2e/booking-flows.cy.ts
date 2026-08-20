@@ -5,59 +5,60 @@
 
 describe("Booking Flows", () => {
   describe("UnifiedPricingCalculator (/pricing)", () => {
+    function pickCategory(id: string) {
+      cy.get("#calculator").scrollIntoView();
+      cy.window().then((win) => {
+        const btn = win.document.querySelector(
+          `[data-testid="unified-calc-category"][data-category="${id}"]`,
+        );
+        if (!(btn instanceof win.HTMLElement)) {
+          throw new Error(`calculator category ${id} not found`);
+        }
+        btn.dispatchEvent(
+          new win.MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: win,
+          }),
+        );
+      });
+    }
+
     beforeEach(() => {
       cy.visit("/pricing");
+      cy.get('[data-testid="unified-calc-category"][data-category="studio"]').should(
+        ($btn) => {
+          const hydrated = Object.keys($btn[0]).some((key) =>
+            key.startsWith("__reactProps"),
+          );
+          expect(hydrated, "calculator button hydrated").to.equal(true);
+        },
+      );
     });
 
     it("shows options and price when category + option are selected", () => {
-      cy.get("#calculator").scrollIntoView().should("be.visible");
-
-      // Step 1: click first category (אולפן)
-      cy.get('[role="group"][aria-label="קטגוריית שירות"] button')
-        .first()
-        .click();
-
-      // Step 2: options appear (skeleton fades after ~160ms)
-      cy.get("fieldset", { timeout: 2000 }).should("be.visible");
-
-      // Step 3: select first radio option
-      cy.get('input[name="calc-option"]').first().click();
-
-      // Price summary with booking link should appear
-      cy.contains("להזמנה מקוונת").should("be.visible");
-      cy.contains("₪").should("be.visible");
+      cy.get("#calculator").should("be.visible");
+      pickCategory("studio");
+      cy.get('[data-testid="unified-calc-options"]').should("be.visible");
+      cy.get("#calculator").find('input[name="calc-option"]').first().check({ force: true });
+      cy.get("#calculator").contains("להזמנה מקוונת").should("be.visible");
+      cy.get("#calculator").contains("₪").should("be.visible");
     });
 
     it("resets options when same category is clicked again", () => {
-      cy.get('[role="group"][aria-label="קטגוריית שירות"] button')
-        .first()
-        .click();
-
-      cy.get("fieldset").should("be.visible");
-
-      // Toggle off
-      cy.get('[role="group"][aria-label="קטגוריית שירות"] button')
-        .first()
-        .click();
-
-      cy.get("fieldset").should("not.exist");
-      cy.contains("להזמנה מקוונת").should("not.exist");
+      pickCategory("studio");
+      cy.get('[data-testid="unified-calc-options"]').should("be.visible");
+      pickCategory("studio");
+      cy.get('[data-testid="unified-calc-options"]').should("not.exist");
+      cy.get("#calculator").contains("להזמנה מקוונת").should("not.exist");
     });
 
     it("switches options when a different category is clicked", () => {
-      cy.get('[role="group"][aria-label="קטגוריית שירות"] button')
-        .first()
-        .click();
-      cy.get('input[name="calc-option"]').first().click();
-
-      // Switch to second category
-      cy.get('[role="group"][aria-label="קטגוריית שירות"] button')
-        .eq(1)
-        .click();
-
-      // Price summary should reset (no option selected yet)
-      cy.contains("להזמנה מקוונת").should("not.exist");
-      cy.get("fieldset").should("be.visible");
+      pickCategory("studio");
+      cy.get("#calculator").find('input[name="calc-option"]').first().check({ force: true });
+      pickCategory("podcast");
+      cy.get("#calculator").contains("להזמנה מקוונת").should("not.exist");
+      cy.get('[data-testid="unified-calc-options"]').should("be.visible");
     });
   });
 

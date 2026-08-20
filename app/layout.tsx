@@ -142,7 +142,7 @@ export default function RootLayout({
         <GlossaryTooltipProvider>
           <main
             id="main-content"
-            className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]"
+            className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))]"
           >
             {children}
           </main>

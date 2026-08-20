@@ -79,7 +79,7 @@ export default function BatMitzvahClipShowcase({
 
       {showFeaturedVideo ? (
         <div className="mx-auto max-w-3xl">
-          <div className="aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-neutral-900 shadow-lg">
             <YouTube
               videoId={featured?.videoId ?? BAT_MITZVAH_FEATURED_VIDEO_ID}
               title={featured?.title ?? heading}

@@ -17,7 +17,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 
 // IMPROVED: min-h-11 touch target, active micro-interaction, ghost variant, external link support
 const baseStyles = cn(
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm",
+    "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm",
   "transition-[transform,colors,background-color,border-color] duration-normal ease-luxury",
   "motion-reduce:transition-none motion-reduce:active:scale-100",
   "active:scale-[0.98]",

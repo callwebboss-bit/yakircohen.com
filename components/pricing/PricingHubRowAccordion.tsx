@@ -98,8 +98,8 @@ export default function PricingHubRowAccordion({
       className={cn(
         "divide-y divide-border",
         nested
-          ? "rounded-xl border border-border bg-background"
-          : "mt-4 rounded-2xl border border-border bg-surface",
+          ? "isolation-booth rounded-xl border border-border bg-background"
+          : "isolation-booth mt-4 rounded-2xl border border-border bg-surface",
       )}
     >
       {rows.map((row, index) => {

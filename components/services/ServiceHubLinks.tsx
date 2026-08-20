@@ -101,7 +101,7 @@ export default function ServiceHubLinks({
         </p>
       </header>
       <ul
-        className={`mt-10 grid grid-cols-1 gap-6 ${GRID_COLS[columns]}`}
+        className={`mt-10 grid grid-cols-1 gap-6 ${GRID_COLS[columns]}${columns >= 3 ? " bento-hub-grid" : ""}`}
       >
         {links.map((track) => (
           <li key={track.href} className="h-full">

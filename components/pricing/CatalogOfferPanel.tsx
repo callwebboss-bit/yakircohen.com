@@ -49,7 +49,7 @@ function Disclosure({
   children: ReactNode;
 }) {
   return (
-    <details className="group rounded-lg border border-catalog-gold/35 bg-background/50 open:border-catalog-gold/55 open:bg-background/80">
+    <details className="group rounded-lg border border-catalog-gold/35 bg-background/50 open:border-catalog-gold/55 open:bg-background/80 [interpolate-size:allow-keywords]">
       <summary className="flex min-h-12 cursor-pointer list-none items-center px-2.5 py-2 font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
         {title}
       </summary>

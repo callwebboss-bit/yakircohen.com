@@ -8,7 +8,7 @@ const PAGE_CONTENT_DIR = path.join(ROOT, "components", "seo");
 const HEADING_RE = /<h([1-6])\b[^>]*>/gi;
 /** Page delegates h1 to a layout/content wrapper. */
 const DELEGATES_H1 =
-  /ServicePageLayout|ServicePageFromRegistry|HomeHero|HomePageSections|PageContent|SeoShellPage|LegalPageLayout|BusinessServicePage/;
+  /ServicePageLayout|ServicePageFromRegistry|HomeHero|HomePageSections|PageContent|SeoShellPage|LegalPageLayout|BusinessServicePage|GlossaryHubContent|GlossaryTermPageContent/;
 const REDIRECT_ONLY = /redirect\s*\(/;
 
 function walkPages(dir, out = []) {

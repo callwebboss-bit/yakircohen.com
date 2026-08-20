@@ -67,7 +67,7 @@ export default function ServicePricingBlock({
                   itemScope
                   itemType="https://schema.org/Offer"
                   className={cn(
-                    "relative flex h-full flex-col rounded-xl border p-6",
+                    "relative flex h-full flex-col rounded-xl border p-6 card-chrome",
                     tier.featured
                       ? "border-[var(--service-accent,#d42b2b)]/50 bg-[var(--service-accent,#d42b2b)]/5"
                       : "border-border bg-surface",

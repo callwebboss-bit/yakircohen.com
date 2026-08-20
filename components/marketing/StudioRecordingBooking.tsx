@@ -181,6 +181,7 @@ import CatalogOfferPanel from "@/components/pricing/CatalogOfferPanel";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
 import { clearAllBookingDrafts } from "@/hooks/useBookingDraft";
 import { cn } from "@/lib/utils";
+import { tapHaptic } from "@/lib/haptics";
 
 const STEPS = ["איסוף נתונים", "התאמת פתרון", "יציאה לביצוע"] as const;
 
@@ -701,6 +702,7 @@ export default function StudioRecordingBooking({
 
   const handleStudioPackageSelect = useCallback(
     (pkgId: StudioPackageId) => {
+      tapHaptic();
       patchForm({ packageId: pkgId, selectedUpsells: [] });
     },
     [patchForm],

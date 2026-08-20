@@ -422,7 +422,7 @@ export default function MediaGallery({
               >
                 <button
                   type="button"
-                  className="group relative block aspect-[4/3] w-full overflow-hidden transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
+                  className="group relative block aspect-[4/3] w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
                   aria-label={`פתח תמונה: ${item.alt}`}
                   onClick={(e) =>
                     openAtIndex(index, e.currentTarget as HTMLButtonElement)
@@ -434,8 +434,8 @@ export default function MediaGallery({
                     fill
                     className="object-cover transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-95"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    loading={!noPriority && index < 6 ? "eager" : "lazy"}
-                    priority={!noPriority && index < 2}
+                    loading={noPriority || index >= 2 ? "lazy" : "eager"}
+                    priority={!noPriority && index < 1}
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />
@@ -464,7 +464,7 @@ export default function MediaGallery({
               >
                 <button
                   type="button"
-                  className="group relative block w-full overflow-hidden transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
+                  className="group relative block w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
                   aria-label={`פתח תמונה: ${item.alt}`}
                   onClick={(e) =>
                     openAtIndex(index, e.currentTarget as HTMLButtonElement)
@@ -475,10 +475,10 @@ export default function MediaGallery({
                     alt={item.alt}
                     width={item.width}
                     height={item.height}
-                    className="block h-auto w-full transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-90"
+                    className="relative z-[1] block h-auto w-full bg-[#e8e6e1] transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-90"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading={!noPriority && index < 4 ? "eager" : "lazy"}
-                    priority={!noPriority && index < 2}
+                    loading={noPriority || index >= 2 ? "lazy" : "eager"}
+                    priority={!noPriority && index < 1}
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />

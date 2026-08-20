@@ -1,3 +1,6 @@
+﻿import { STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export type PhotographyAddonSection = "core" | "pre" | "during" | "post";
 
 export type PhotographyAddon = {
@@ -21,8 +24,6 @@ export type HourPreset = {
   sub: string;
   badge?: string;
 };
-
-import { STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
 
 export const HOURLY_RATE = STUDIO_ONE_HOUR_NIS;
 export const AI_BUNDLE_DISCOUNT = 500;
@@ -66,35 +67,35 @@ export const PHOTOGRAPHY_ADDONS: PhotographyAddon[] = [
     id: "prelude",
     label: "צילומי זוגיות",
     sublabel: "לפני האירוע",
-    price: 2200,
+    price: getExVat("pre_wedding_photos"),
     section: "pre",
   },
   {
     id: "avantgarde",
     label: "צילום אומנותי",
     sublabel: "סשן מיוחד לזוג",
-    price: 3800,
+    price: getExVat("artistic_photo"),
     section: "pre",
   },
   {
     id: "reels",
     label: "רילס בזמן אמת",
     sublabel: "עריכה במהלך האירוע",
-    price: 2800,
+    price: getExVat("live_reels"),
     section: "during",
   },
   {
     id: "priority",
     label: "מסירה מהירה",
     sublabel: "תוך 48 שעות",
-    price: 1400,
+    price: getExVat("express_delivery"),
     section: "post",
   },
   {
     id: "archive",
     label: "ארכיון מאסטר",
     sublabel: "גיבוי מאובטח ל-10 שנים",
-    price: 2800,
+    price: getExVat("master_archive"),
     section: "post",
   },
 ];
@@ -104,19 +105,19 @@ export const PHOTOGRAPHY_AI_SERVICES: PhotographyAIService[] = [
     id: "panorama",
     label: "פנורמות AI",
     sublabel: "תמונות רחבות באיכות גבוהה",
-    price: 850,
+    price: getExVat("ai_panoramas"),
   },
   {
     id: "retouch",
     label: "ריטוש AI",
     sublabel: "ניקוי רקע ושיפור תאורה",
-    price: 1200,
+    price: getExVat("photo_retouch"),
   },
   {
     id: "cinema",
     label: "קליפ AI",
     sublabel: "היילייטס מוכן למחרת",
-    price: 950,
+    price: getExVat("quick_summary_clip"),
   },
 ];
 

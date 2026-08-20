@@ -33,7 +33,7 @@ export default function UnifiedPricingCalculator() {
   }
 
   return (
-    <div id="calculator" className="scroll-mt-24 rounded-2xl border border-border bg-surface p-6 sm:p-8">
+    <div id="calculator" className="scroll-mt-[12.5rem] rounded-2xl border border-border bg-surface p-6 sm:p-8">
       <header className="mb-5">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
           מחשבון מחיר מיידי
@@ -52,6 +52,8 @@ export default function UnifiedPricingCalculator() {
           <button
             key={cat.id}
             type="button"
+            data-testid="unified-calc-category"
+            data-category={cat.id}
             aria-pressed={cat.id === categoryId}
             onClick={() => pickCategory(cat.id)}
             className={`flex flex-col items-center gap-1 rounded-xl border px-3 py-3.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red ${
@@ -78,7 +80,7 @@ export default function UnifiedPricingCalculator() {
               ))}
             </div>
           ) : (
-            <fieldset>
+            <fieldset data-testid="unified-calc-options">
               <legend className="sr-only">בחרו שירות ב{category?.title}</legend>
               <div className="space-y-2">
                 {category?.options.map((opt) => (

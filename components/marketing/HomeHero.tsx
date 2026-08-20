@@ -21,12 +21,12 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
   return (
     <Section
       padding="none"
-      className="relative overflow-hidden border-b border-border bg-background text-foreground"
+      className="relative overflow-hidden border-b border-border bg-background/40 text-foreground"
       ariaLabelledby="hero-heading"
     >
       {/* IMPROVED: refined radial gradients for depth */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_70%_0%,rgba(212,43,43,0.1),transparent_50%),radial-gradient(ellipse_60%_50%_at_20%_100%,rgba(212,43,43,0.06),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[image:var(--hub-mesh)]"
         aria-hidden="true"
       />
 
@@ -38,7 +38,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
           {/* IMPROVED: fluid hero typography */}
           <h1
             id="hero-heading"
-            className="font-serif text-hero font-semibold text-foreground"
+            className="soundwave-h1 font-serif text-hero font-semibold text-foreground"
           >
             אולפן הקלטות במודיעין - פודקאסט, שירים ואירועים
           </h1>
@@ -82,7 +82,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
         </div>
 
         {/* IMPROVED: unified aspect-ratio (no lg:aspect-square reflow) + blur placeholder for CLS */}
-        <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-lg">
+        <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-catalog-gold/30 bg-surface shadow-lg ring-1 ring-black/5">
           <Image
             src={SITE_STUDIO_IMAGE_SRC}
             alt="אולפן הקלטות מקצועי במודיעין"
@@ -95,6 +95,10 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             className="object-cover"
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(0_0_0_/_0.28)_100%)]"
+            aria-hidden
           />
           <div className="absolute inset-x-0 bottom-0 border-t border-border-subtle bg-background/90 p-6 backdrop-blur-sm">
             <p className="text-xs font-semibold text-brand-red">

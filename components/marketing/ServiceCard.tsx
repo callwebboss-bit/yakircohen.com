@@ -95,7 +95,7 @@ export default function ServiceCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col justify-between rounded-2xl border p-6 shadow-sm transition-all duration-300 hover:shadow-lg",
+        "group relative flex h-full flex-col justify-between rounded-2xl border p-6 shadow-sm hover-lift card-chrome",
         isAiService
           ? "border-brand-red ring-1 ring-brand-red/20 shadow-md"
           : isFeatured

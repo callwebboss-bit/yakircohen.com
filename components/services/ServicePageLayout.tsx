@@ -330,7 +330,7 @@ export default function ServicePageLayout({
             {/* IMPROVED: fluid hero typography */}
             <h1
               id="service-page-heading"
-              className="text-hero mt-4 max-w-3xl font-serif font-semibold text-foreground"
+              className="soundwave-h1 text-hero mt-4 max-w-3xl font-serif font-semibold text-foreground"
             >
               {title}
             </h1>

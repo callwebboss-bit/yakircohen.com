@@ -116,7 +116,7 @@ export default function PricingHubPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
               {SITE_NAME}
             </p>
-            <h1 className="text-hero mt-3 font-serif font-semibold text-foreground">
+            <h1 className="soundwave-h1 text-hero mt-3 font-serif font-semibold text-foreground">
               מחירון מרכזי
             </h1>
             <AnswerBlock id="pricing-answer">

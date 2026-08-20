@@ -107,8 +107,8 @@ export default function BookingSelectableCard({
         "relative flex min-h-11 w-full flex-col items-start gap-2 rounded-2xl border p-5 text-start transition-[border-color,box-shadow,background-color,transform] duration-normal ease-luxury active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
         featured && !active && "ring-1 ring-[var(--service-accent,#d42b2b)]/20",
         active
-          ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] shadow-[0_4px_16px_color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)]"
-          : "border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-sm",
+          ? "hardware-bezel border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)]"
+          : "card-chrome border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-sm",
         compact && "items-center p-6 text-center",
         className,
       )}

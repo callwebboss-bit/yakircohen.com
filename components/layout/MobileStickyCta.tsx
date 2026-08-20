@@ -35,10 +35,16 @@ export default function MobileStickyCta() {
 
   return (
     <div
-      className="mobile-sticky-cta fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)_+_1rem)] z-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-opacity duration-300 md:hidden"
+      className="mobile-sticky-cta hardware-bezel fixed inset-x-4 bottom-[calc(env(safe-area-inset-bottom)_+_1rem)] z-40 overflow-hidden rounded-2xl border border-catalog-gold/25 bg-black/55 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-opacity duration-300 md:hidden"
       role="navigation"
       aria-label="ניווט מהיר"
     >
+      <div className="flex items-center justify-between gap-2 px-3 pt-1.5">
+        <span className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-catalog-gold/90">
+          עכשיו
+        </span>
+        <span className="h-1 w-8 rounded-full bg-white/25" aria-hidden="true" />
+      </div>
       <div className="h-px w-full bg-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
       <div className="mx-auto grid max-w-lg grid-cols-3 gap-1.5 px-2.5 py-2.5">
         <Link href={pricingHref} className={secondaryClass}>

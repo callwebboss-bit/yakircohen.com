@@ -1,12 +1,7 @@
 /**
  * Low-quality image placeholder (LQIP).
  *
- * A base64-encoded 1×1 neutral-gray PNG used as the `blurDataURL` prop on
- * `next/image` components. Next.js scales the pixel up and applies a CSS
- * blur filter, producing a soft shimmer while the full asset streams in.
- *
- * Static constant - zero runtime cost, safe in RSC, edge runtime, and
- * client components.
+ * Cream surface (#e8e6e1) matching gallery frames - readable while assets load.
  */
 export const BLUR_DATA_URL =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12'%3E%3Crect width='16' height='12' fill='%23e8e6e1'/%3E%3C/svg%3E";

@@ -1,4 +1,5 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export const HEB_LESSONS_EN_PAGE_PATH = "/academy/hebrew-lessons";
 
@@ -122,7 +123,7 @@ export const HEB_LESSONS_EN_PRICING = {
     ] as const,
   },
   trial: {
-    price: 500,
+    price: getExVat("academy_trial_lesson"),
     heading: "Book a Trial Lesson for ₪500",
     intro:
       "Fill in your details and we'll schedule your first lesson. Once complete, we'll contact you to confirm the time and payment details.",
