@@ -18,8 +18,9 @@ const variantStyles: Record<ButtonVariant, string> = {
 // IMPROVED: min-h-11 touch target, active micro-interaction, ghost variant, external link support
 const baseStyles = cn(
     "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm",
-  "transition-[transform,colors,background-color,border-color] duration-normal ease-luxury",
-  "motion-reduce:transition-none motion-reduce:active:scale-100",
+  "touch-manipulation",
+  "transition-[transform,colors,background-color,border-color,letter-spacing] duration-normal ease-luxury",
+  "motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:tracking-normal",
   "active:scale-[0.98]",
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
   "disabled:pointer-events-none disabled:opacity-50",
@@ -70,6 +71,9 @@ export default function Button(props: ButtonProps) {
     baseStyles,
     variantStyles[variant],
     liquid && "group relative overflow-hidden liquid-ring",
+    variant === "primary" &&
+      !liquid &&
+      "overflow-hidden [@media(hover:hover)_and_(pointer:fine)]:hover:tracking-[0.02em]",
     className,
   );
 

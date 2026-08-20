@@ -76,6 +76,10 @@ const GRID_COLS: Record<2 | 3 | 4, string> = {
   4: "sm:grid-cols-2 lg:grid-cols-4",
 };
 
+function hubViewTransitionName(href: string) {
+  return `hub${href.replace(/[^a-z0-9]+/gi, "-")}`;
+}
+
 export default function ServiceHubLinks({
   heading,
   subheading,
@@ -84,7 +88,7 @@ export default function ServiceHubLinks({
   columns = 3,
 }: ServiceHubLinksProps) {
   return (
-    <section aria-labelledby={headingId}>
+    <section aria-labelledby={headingId} className="cq-container">
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id={headingId}
@@ -104,7 +108,11 @@ export default function ServiceHubLinks({
         className={`mt-10 grid grid-cols-1 gap-6 ${GRID_COLS[columns]}${columns >= 3 ? " bento-hub-grid" : ""}`}
       >
         {links.map((track) => (
-          <li key={track.href} className="h-full">
+          <li
+            key={track.href}
+            className="h-full"
+            style={{ viewTransitionName: hubViewTransitionName(track.href) }}
+          >
             <ServiceCard
               title={track.title}
               description={track.description}

@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  PROMO_DISMISSED_EVENT,
+  SS_PROMO_DISMISSED,
+} from "@/lib/coupon-banner-storage";
 
 const MESSAGES = [
   { icon: "🔥", text: "עובדים על 5 עד 7 פרויקטים בשבוע", href: "/book" },
@@ -9,12 +13,41 @@ const MESSAGES = [
   { icon: "🎙️", text: "פודקאסט ראשון? עריכה ראשונה חינם", href: "/podcast/podcast-editing" },
 ] as const;
 
+function persistPromoDismissed() {
+  try {
+    sessionStorage.setItem(SS_PROMO_DISMISSED, "true");
+  } catch {
+    /* blocked */
+  }
+  window.dispatchEvent(new Event(PROMO_DISMISSED_EVENT));
+}
+
 export default function PromoBanner() {
   const [idx, setIdx] = useState(0);
   const [fade, setFade] = useState(true);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState<boolean | null>(null);
 
   useEffect(() => {
+    try {
+      setDismissed(sessionStorage.getItem(SS_PROMO_DISMISSED) === "true");
+    } catch {
+      setDismissed(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dismissed !== false) {
+      delete document.documentElement.dataset.promoBanner;
+      return undefined;
+    }
+    document.documentElement.dataset.promoBanner = "open";
+    return () => {
+      delete document.documentElement.dataset.promoBanner;
+    };
+  }, [dismissed]);
+
+  useEffect(() => {
+    if (dismissed) return undefined;
     const timer = setInterval(() => {
       setFade(false);
       const swap = setTimeout(() => {
@@ -24,9 +57,9 @@ export default function PromoBanner() {
       return () => clearTimeout(swap);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [dismissed]);
 
-  if (dismissed) return null;
+  if (dismissed !== false) return null;
 
   const msg = MESSAGES[idx]!;
 
@@ -43,8 +76,11 @@ export default function PromoBanner() {
       <button
         type="button"
         aria-label="סגור הודעה"
-        onClick={() => setDismissed(true)}
-        className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-white/60 transition-colors hover:text-white"
+        onClick={() => {
+          persistPromoDismissed();
+          setDismissed(true);
+        }}
+        className="absolute end-3 top-1/2 -translate-y-1/2 min-h-11 min-w-11 touch-manipulation p-1 text-white/60 transition-colors hover:text-white"
       >
         <svg
           width="10"

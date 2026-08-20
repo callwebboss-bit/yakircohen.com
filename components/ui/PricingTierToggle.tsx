@@ -12,6 +12,18 @@ type PricingTierToggleProps = {
   className?: string;
 };
 
+function durationToIso(text?: string): string | undefined {
+  if (!text) return undefined;
+  const hours = text.match(/(\d+)\s*שע/);
+  const mins = text.match(/(\d+)\s*דק/);
+  if (hours && mins) return `PT${hours[1]}H${mins[1]}M`;
+  if (hours) return `PT${hours[1]}H`;
+  if (mins) return `PT${mins[1]}M`;
+  if (/חצי שעה/.test(text)) return "PT30M";
+  if (/שעה/.test(text)) return "PT1H";
+  return undefined;
+}
+
 export default function PricingTierToggle({
   tiers,
   recommendedIndex = 0,
@@ -26,10 +38,10 @@ export default function PricingTierToggle({
     utm_source: "pricing_toggle",
     utm_campaign: active.utmCampaign,
   });
+  const durationIso = durationToIso(active.scope?.duration);
 
   return (
     <div className={cn("rounded-2xl border border-border bg-background", className)} dir="rtl">
-      {/* Tab bar */}
       <div
         role="tablist"
         aria-label="בחר חבילה"
@@ -38,13 +50,14 @@ export default function PricingTierToggle({
         {tiers.map((tier, idx) => (
           <button
             key={tier.id}
+            type="button"
             role="tab"
             aria-selected={idx === activeIdx}
             aria-controls={`tier-panel-${tier.id}`}
             id={`tier-tab-${tier.id}`}
             onClick={() => setActiveIdx(idx)}
             className={cn(
-              "flex-1 px-3 py-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",
+              "hardware-toggle flex-1 px-3 py-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",
               idx === activeIdx
                 ? "bg-[var(--service-accent,#d42b2b)] text-white"
                 : "bg-muted/40 text-muted-foreground hover:bg-muted",
@@ -56,25 +69,36 @@ export default function PricingTierToggle({
         ))}
       </div>
 
-      {/* Active panel */}
       <div
         id={`tier-panel-${active.id}`}
         role="tabpanel"
         aria-labelledby={`tier-tab-${active.id}`}
         className="p-5 space-y-4"
       >
-        {/* Price */}
         <div>
-          <p className="text-2xl font-bold text-foreground tabular-nums">{active.price}</p>
+          <p className="text-2xl font-bold text-foreground tabular-nums">
+            {active.priceExVat != null ? (
+              <data value={String(active.priceExVat)}>{active.price}</data>
+            ) : (
+              active.price
+            )}
+          </p>
+          {active.scope?.duration ? (
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {durationIso ? (
+                <time dateTime={durationIso}>{active.scope.duration}</time>
+              ) : (
+                active.scope.duration
+              )}
+            </p>
+          ) : null}
           {active.priceNote && (
             <p className="text-xs text-muted-foreground mt-0.5">{active.priceNote}</p>
           )}
         </div>
 
-        {/* Description */}
         <p className="text-sm text-foreground leading-relaxed">{active.description}</p>
 
-        {/* Highlights */}
         <ul className="space-y-1.5" aria-label="מה כלול">
           {active.highlights.map((h) => (
             <li key={h} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -84,12 +108,11 @@ export default function PricingTierToggle({
           ))}
         </ul>
 
-        {/* CTA */}
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+          className="flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
         >
           להזמנה בוואטסאפ
         </a>

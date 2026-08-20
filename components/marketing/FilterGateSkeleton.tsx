@@ -1,7 +1,7 @@
 export default function FilterGateSkeleton() {
   return (
     <div
-      className="mx-auto max-w-xl animate-pulse space-y-8 rounded-2xl border border-border bg-surface p-6 sm:p-8"
+      className="waveform-skeleton mx-auto min-h-[12rem] max-w-xl animate-pulse space-y-8 rounded-2xl border border-border bg-surface p-6 sm:p-8"
       aria-busy="true"
       aria-label="טוען שאלון"
     >

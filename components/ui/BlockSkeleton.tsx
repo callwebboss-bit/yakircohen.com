@@ -9,7 +9,7 @@ export default function BlockSkeleton({ className }: BlockSkeletonProps) {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-xl border border-border bg-[#FAFAF8]",
+        "waveform-skeleton animate-pulse rounded-xl border border-border bg-[#FAFAF8]",
         className ?? "min-h-[12rem]",
       )}
       role="status"

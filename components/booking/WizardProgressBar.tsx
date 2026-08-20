@@ -52,20 +52,11 @@ export default function WizardProgressBar({
   const pct = totalSteps <= 1 ? 100 : Math.round((currentStep / (totalSteps - 1)) * 100);
 
   return (
-    <div
-      className={cn("h-1 w-full overflow-hidden rounded-full bg-border", className)}
-      role="progressbar"
-      aria-valuenow={pct}
-      aria-valuemin={0}
-      aria-valuemax={100}
-    >
-      <div
-        className={cn(
-          "h-1 rounded-full transition-all duration-500",
-          flash ? "bg-emerald-500" : "bg-[var(--service-accent,#d42b2b)]",
-        )}
-        style={{ width: `${pct}%` }}
-      />
-    </div>
+    <progress
+      className={cn("studio-meter", flash && "studio-meter-flash", className)}
+      max={100}
+      value={pct}
+      aria-label="התקדמות השאלון"
+    />
   );
 }

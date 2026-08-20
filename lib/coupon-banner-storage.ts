@@ -6,6 +6,10 @@ export const LS_CLAIMED = "yc_coupon_claimed";
 export const LS_SNOOZE = "yc_coupon_snooze";
 export const SS_DISMISSED = "yc_coupon_dismissed";
 export const SS_E2E_FAST = "yc_coupon_e2e";
+export const SS_PROMO_DISMISSED = "yc_promo_banner_dismissed";
+export const SS_PROMO_YIELD = "yc_promo_banner_yield";
+export const PROMO_DISMISSED_EVENT = "yc-promo-dismissed";
+export const COUPON_PROMO_YIELD_MS = 45_000;
 
 export const COUPON_ACTIVE_TIME_MS = 40_000;
 export const COUPON_E2E_ACTIVE_TIME_MS = 800;

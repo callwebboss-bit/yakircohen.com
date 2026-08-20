@@ -20,7 +20,7 @@ export default function SectionJumpChips({
     <nav
       aria-label="קפיצה מהירה לסעיפי הדף"
       className={cn(
-        "scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:hidden snap-x snap-mandatory",
+        "scroll-area-x scroll-fade-x scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:hidden",
         className,
       )}
     >

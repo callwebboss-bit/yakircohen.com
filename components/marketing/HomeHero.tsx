@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import LivePulseBadge from "@/components/marketing/LivePulseBadge";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
 import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
@@ -12,6 +13,11 @@ import CtaOutcomeSubline from "@/components/marketing/CtaOutcomeSubline";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
+import { getExVat } from "@/lib/data/pricing-catalog";
+
+const STUDIO_FROM_EX_VAT = getExVat("blessing_recording");
+const EVENTS_FROM_EX_VAT = getExVat("event_attraction_1");
+const PODCAST_FROM_EX_VAT = getExVat("studio_half_hour");
 
 export type HomeHeroProps = {
   heroWhatsAppHref: string;
@@ -48,13 +54,26 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             data-speakable="true"
             className="text-lead mt-6 max-w-xl text-muted-foreground"
           >
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות, החל מ-590 ₪ + מע״מ.{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ והגברה, החל מ-1,750 ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות, החל מ-
+            <data value={String(STUDIO_FROM_EX_VAT)}>
+              {STUDIO_FROM_EX_VAT.toLocaleString("he-IL")}
+            </data>{" "}
+            ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ והגברה, החל מ-
+            <data value={String(EVENTS_FROM_EX_VAT)}>
+              {EVENTS_FROM_EX_VAT.toLocaleString("he-IL")}
+            </data>{" "}
+            ₪ + מע״מ.{" "}
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> ו
-            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>, החל מ-750 ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>, החל מ-
+            <data value={String(PODCAST_FROM_EX_VAT)}>
+              {PODCAST_FROM_EX_VAT.toLocaleString("he-IL")}
+            </data>{" "}
+            ₪ + מע״מ.{" "}
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
           <div className="mt-8 flex flex-col gap-3">
+            <LivePulseBadge />
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
               <Button
@@ -118,7 +137,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
         </div>
       </Container>
 
-      <Container className="relative pb-14 sm:pb-16 lg:pb-20">
+      <Container className="relative pb-14 sm:pb-16 lg:hidden">
         <HomeIntentPaths />
       </Container>
     </Section>

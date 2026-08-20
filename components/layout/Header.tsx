@@ -103,7 +103,7 @@ function HeaderResponseTimeBadge() {
       href={headerResponseTimeWhatsAppHref}
       target="_blank"
       rel="noopener noreferrer"
-      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-amber-500/40 hover:text-foreground lg:flex"
+      className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground lg:flex"
       aria-label={label.text}
     >
       <span aria-hidden>{label.fast ? "⚡" : "⏳"}</span>
@@ -160,7 +160,7 @@ function WhatsAppAvailabilityBadge() {
   }, []);
 
   if (available === null) {
-    return <span className="hidden h-[34px] min-w-[10rem] lg:block" aria-hidden />;
+    return <span className="h-[34px] min-w-[10rem]" aria-hidden />;
   }
 
   return (
@@ -168,7 +168,7 @@ function WhatsAppAvailabilityBadge() {
       href={headerWhatsAppHref}
       target="_blank"
       rel="noopener noreferrer"
-      className="hidden items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:border-green-500/40 hover:text-foreground lg:flex"
+      className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
       aria-label={available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק' בוואטסאפ"}
     >
       <span
@@ -219,12 +219,14 @@ function HeaderMainBar({
   buttonId,
   drawerId,
   onToggleMenu,
+  compactChrome,
 }: {
   onOpenMobileSearch: () => void;
   menuOpen: boolean;
   buttonId: string;
   drawerId: string;
   onToggleMenu: () => void;
+  compactChrome: boolean;
 }) {
   const mobileIconButtonClass =
     "inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background text-foreground/80 transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red md:hidden";
@@ -254,8 +256,14 @@ function HeaderMainBar({
             <CalendarIcon className="h-5 w-5" />
           </Link>
           <HeaderQuoteCta />
-          <WhatsAppAvailabilityBadge />
-          <HeaderResponseTimeBadge />
+          <div
+            role="group"
+            aria-label="זמינות ותגובה"
+            className="hidden overflow-hidden rounded-lg border border-border bg-background lg:flex"
+          >
+            <WhatsAppAvailabilityBadge />
+            <HeaderResponseTimeBadge />
+          </div>
           <Link
             href="/book"
             className="hidden min-h-11 items-center rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/40 hover:text-brand-red active:scale-95 lg:inline-flex"
@@ -271,22 +279,26 @@ function HeaderMainBar({
         </div>
       </Container>
 
-      <div className="hidden border-t border-border/30 lg:block">
-        <Container variant="wide">
-          <TimeGreeting />
-        </Container>
-      </div>
-
       <div className="hidden border-t border-border/50 lg:block">
         <Container variant="wide">
           <SiteNavDesktop />
         </Container>
       </div>
 
-      <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
-        <Container variant="wide" className="py-2.5">
-          <IntentNavStrip />
-        </Container>
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-300 ease-luxury motion-reduce:transition-none",
+          compactChrome ? "lg:grid-rows-[0fr]" : "grid-rows-[1fr]",
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
+            <Container variant="wide" className="flex items-center gap-4 py-1.5">
+              <TimeGreeting className="min-w-0 flex-1 py-1" />
+              <IntentNavStrip compact className="max-w-[58%] shrink-0" />
+            </Container>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -301,6 +313,7 @@ export default function Header() {
       {(menu) => {
         const hidden =
           scrollDir === "down" && !menu.menuOpen && !mobileSearchOpen;
+        const compactChrome = hidden;
         return (
         <header
           data-pagefind-ignore
@@ -315,7 +328,16 @@ export default function Header() {
             className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
             aria-hidden
           />
-          <PromoBanner />
+          <div
+            className={cn(
+              "grid transition-[grid-template-rows] duration-300 ease-luxury motion-reduce:transition-none",
+              compactChrome ? "lg:grid-rows-[0fr]" : "grid-rows-[1fr]",
+            )}
+          >
+            <div className="overflow-hidden">
+              <PromoBanner />
+            </div>
+          </div>
 
           {mobileSearchOpen ? (
             <HeaderMobileSearchBar onCollapse={() => setMobileSearchOpen(false)} />
@@ -326,6 +348,7 @@ export default function Header() {
               buttonId={menu.buttonId}
               drawerId={menu.drawerId}
               onToggleMenu={menu.toggleMenu}
+              compactChrome={compactChrome}
             />
           )}
         </header>

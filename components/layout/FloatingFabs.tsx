@@ -41,7 +41,6 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
 
 const elevatedPosition =
   "bottom-[5.5rem] sm:bottom-[6.5rem] max-md:bottom-[5.5rem]";
-const mobileStickyLift = "max-md:bottom-[4.5rem]";
 
 const scrollHide = "opacity-0 pointer-events-none translate-y-2";
 
@@ -55,40 +54,31 @@ export default function FloatingFabs() {
   const hideSendFile = matchesPrefix(pathname, HIDE_SEND_FILE_PREFIXES);
   const hideChat = matchesPrefix(pathname, HIDE_CHAT_PREFIXES);
   const elevated = matchesPrefix(pathname, ELEVATED_FLOATING_PREFIXES);
-  const showMobileSticky = !hideWhatsApp;
 
   // Hide FABs on scroll-down; never hide while chat panel is open.
   const fabsHidden = scrollDir === "down" && !chatOpen;
 
-  // WhatsApp + AccessibilityToggle share the same vertical position (right / left-6)
+  // WhatsApp (end) + AccessibilityToggle (start) sit in side gutters beside the sticky bar.
   const fabPosition = cn(
     "transition-[opacity,transform] duration-300",
     elevated && elevatedPosition,
-    showMobileSticky && !elevated && mobileStickyLift,
     fabsHidden && scrollHide,
   );
 
-  // ChatWidget sits one FAB-height above the a11y toggle (takes old sendFilePosition slot)
   const chatFabPosition = cn(
     "transition-[opacity,transform] duration-300",
     elevated
       ? "bottom-[10.5rem] sm:bottom-[11.5rem] max-md:bottom-[10.5rem]"
-      : showMobileSticky
-        ? "bottom-[8.5rem] sm:bottom-[9rem] max-md:bottom-[8.5rem]"
-        : "bottom-[5.5rem] sm:bottom-[6.5rem]",
-    // Keep chat FAB visible even while panel is open (don't hide it)
+      : "bottom-[5.5rem] sm:bottom-[6.5rem]",
     fabsHidden && !chatOpen && scrollHide,
   );
 
-  // SendFileFab bumped up by one slot (4 rem) to make room for ChatWidget
   const sendFilePosition = cn(
     "left-6 sm:left-8",
     "transition-[opacity,transform] duration-300",
     elevated
       ? "bottom-[14.5rem] sm:bottom-[15.5rem] max-md:bottom-[14.5rem]"
-      : showMobileSticky
-        ? "bottom-[12.5rem] sm:bottom-[13rem] max-md:bottom-[12.5rem]"
-        : "bottom-[9.5rem] sm:bottom-[10.5rem]",
+      : "bottom-[9.5rem] sm:bottom-[10.5rem]",
     fabsHidden && scrollHide,
   );
 

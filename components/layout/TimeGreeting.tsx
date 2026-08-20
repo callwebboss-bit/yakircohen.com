@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GREETING_TIPS, GENERAL_TIPS } from "@/lib/data/greeting-tips";
+import { cn } from "@/lib/utils";
 
 function getGreeting(hour: number): string {
   if (hour >= 5 && hour < 11) return "בוקר טוב ☀️";
@@ -22,7 +23,7 @@ const ALL_ITEMS = [
 const INTERVAL = 4000;
 const OUT_DURATION = 250;
 
-export default function TimeGreeting() {
+export default function TimeGreeting({ className }: { className?: string }) {
   const [greeting, setGreeting] = useState<string | null>(null);
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<"in" | "out">("in");
@@ -46,7 +47,12 @@ export default function TimeGreeting() {
   const current = ALL_ITEMS[idx]!;
 
   return (
-    <div className="flex min-h-[1.75rem] items-center gap-3 py-1.5 text-xs text-muted-foreground overflow-hidden">
+    <div
+      className={cn(
+        "flex min-h-[1.75rem] items-center gap-3 overflow-hidden py-1.5 text-xs text-muted-foreground",
+        className,
+      )}
+    >
       {/* LIVE indicator */}
       <span className="flex shrink-0 items-center gap-1.5">
         <span className="relative flex h-2 w-2">

@@ -1,7 +1,7 @@
 export default function LeadFormSkeleton() {
   return (
     <div
-      className="animate-pulse space-y-4 rounded-2xl border border-border bg-surface p-6"
+      className="waveform-skeleton animate-pulse space-y-4 rounded-2xl border border-border bg-surface p-6"
       style={{ minHeight: 280 }}
       aria-hidden
     >

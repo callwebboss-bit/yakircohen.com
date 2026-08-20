@@ -105,7 +105,7 @@ export default function ProcessSteps({
            */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-6 hidden lg:block"
+            className="process-signal-line pointer-events-none absolute top-6 hidden lg:block"
             style={{
               insetInlineStart: "12.5%",
               insetInlineEnd: "12.5%",
@@ -135,7 +135,7 @@ export default function ProcessSteps({
                      */
                     <div
                       aria-hidden="true"
-                      className="absolute bottom-0 top-14 lg:hidden"
+                      className="process-signal-line absolute bottom-0 top-14 lg:hidden"
                       style={{
                         insetInlineStart: "1.5rem",
                         width: 0,

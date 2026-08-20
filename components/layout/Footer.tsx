@@ -25,31 +25,33 @@ export default function Footer() {
       <Container className="py-12 lg:py-16">
         <FooterMobileDecisiveNav />
 
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 xl:grid-cols-4 xl:gap-10">
+        <div className="grid gap-10 lg:grid-cols-2">
           <div className="order-2 lg:order-none">
             <FooterBrandContact />
-          </div>
-          <div className="order-4 lg:order-none">
-            <FooterCategorySitemap />
-          </div>
-          <div className="order-3 lg:order-none">
-            <FooterLegalLinks />
           </div>
           <div className="order-1 lg:order-none">
             <FooterConversionCtas />
           </div>
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <FooterTrustPledge />
-          <FooterMicroFaq />
-        </div>
-
-        <FooterPaymentMethods compact />
-
-        <CompanyDetailsCard variant="compact" className="mt-8" />
-
-        <FooterTrustStrip className="mt-8" />
+        <details className="footer-more mt-10">
+          <summary className="footer-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-[var(--footer-fg)] marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+            מידע נוסף
+          </summary>
+          <div className="footer-more-body mt-6 space-y-10">
+            <div className="grid gap-10 lg:grid-cols-2">
+              <FooterCategorySitemap />
+              <FooterLegalLinks />
+            </div>
+            <div className="grid gap-8 lg:grid-cols-2">
+              <FooterTrustPledge />
+              <FooterMicroFaq />
+            </div>
+            <FooterPaymentMethods compact />
+            <CompanyDetailsCard variant="compact" />
+            <FooterTrustStrip />
+          </div>
+        </details>
 
         <div className="mt-8 grid gap-4 border-t border-[var(--footer-border)] pt-6 md:grid-cols-2 md:items-center lg:grid-cols-3">
           <p className="text-center text-xs text-[var(--footer-muted)] md:text-start">

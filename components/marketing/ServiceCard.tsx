@@ -69,6 +69,11 @@ function ServiceBadge({ label, variant = "default" }: { label: string; variant?:
   );
 }
 
+function catalogDigits(label: string): string | undefined {
+  const digits = label.replace(/[^\d]/g, "");
+  return digits || undefined;
+}
+
 export default function ServiceCard({
   title,
   description,
@@ -91,11 +96,13 @@ export default function ServiceCard({
   const badgeLabel = badge ?? (isAiService ? AI_BADGE_DEFAULT : undefined);
   const resolvedVariant: BadgeVariant = badgeVariant ?? "default";
   const trustMicro = showTrustMicro ?? Boolean(fromPrice);
+  const fromPriceDigits = fromPrice ? catalogDigits(fromPrice) : undefined;
 
   return (
     <article
       className={cn(
         "group relative flex h-full flex-col justify-between rounded-2xl border p-6 shadow-sm hover-lift card-chrome",
+        isFeatured && "card-chrome-shimmer",
         isAiService
           ? "border-brand-red ring-1 ring-brand-red/20 shadow-md"
           : isFeatured
@@ -173,6 +180,11 @@ export default function ServiceCard({
 
         {fromPrice ? (
           <div className="mt-2">
+            {fromPriceDigits ? (
+              <data value={fromPriceDigits} className="sr-only" aria-hidden="true">
+                {fromPriceDigits}
+              </data>
+            ) : null}
             <p className="text-sm font-semibold text-brand-red">{fromPrice}</p>
             {fromPriceSubline ? (
               <p className="mt-0.5 text-xs text-muted-foreground">{fromPriceSubline}</p>
@@ -198,7 +210,7 @@ export default function ServiceCard({
             rel="noopener noreferrer"
             aria-label={`${ctaLabel} - ${title}`}
             className={cn(
-              "inline-flex min-h-12 w-full items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
+              "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
               isAiService
                 ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"
@@ -213,7 +225,7 @@ export default function ServiceCard({
             prefetch
             aria-label={`${ctaLabel} - ${title}`}
             className={cn(
-              "inline-flex min-h-12 w-full items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
+              "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
               isAiService
                 ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"

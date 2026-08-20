@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import TrustBadges from "@/components/ui/TrustBadges";
 import SocialProofStrip from "@/components/marketing/SocialProofStrip";
+import LivePulseBadge from "@/components/marketing/LivePulseBadge";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { OUTCOME_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -28,6 +29,20 @@ import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+
+function highlightStudioGear(text: string) {
+  const match = text.match(/Neumann|Apollo|Cubase/);
+  if (!match || match.index == null) return text;
+  const { index } = match;
+  const term = match[0];
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark className="kinetic-highlight">{term}</mark>
+      {text.slice(index + term.length)}
+    </>
+  );
+}
 
 export type ServicePageLayoutProps = {
   title: string;
@@ -347,7 +362,11 @@ export default function ServicePageLayout({
             ) : null}
 
             {showHeroCtas ? (
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <div className="mt-7 flex flex-col gap-3">
+                {category === "studio" || category === "podcast" ? (
+                  <LivePulseBadge />
+                ) : null}
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Button
                   as="a"
                   href={whatsappHref}
@@ -366,6 +385,7 @@ export default function ServicePageLayout({
                     {resolvedBookLabel}
                   </Button>
                 ) : null}
+                </div>
               </div>
             ) : null}
 
@@ -444,7 +464,7 @@ export default function ServicePageLayout({
                   >
                     ✓
                   </span>
-                  <span>{feature}</span>
+                  <span>{highlightStudioGear(feature)}</span>
                 </li>
               ))}
             </ul>

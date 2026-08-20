@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { CalendarIcon, ClockIcon, StarIcon } from "@/components/ui/Icons";
+import { CalendarIcon, ClockIcon } from "@/components/ui/Icons";
 import LiveVisitorCount from "@/components/marketing/LiveVisitorCount";
 import LiveStatusProjectTicker from "@/components/marketing/LiveStatusProjectTicker";
 import {
@@ -8,12 +8,6 @@ import {
   getLiveStatusConfig,
   resolveAvailabilityLabel,
 } from "@/lib/data/live-status";
-import {
-  GOOGLE_RATING_LABEL,
-  GOOGLE_REVIEW_COUNT,
-  SITE_TRUST_STATS,
-  STUDIO_GOOGLE_MAPS_URL,
-} from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -27,79 +21,43 @@ export default function LiveStatusBar() {
   const config = getLiveStatusConfig();
   const availability = resolveAvailabilityLabel(config);
 
-  const yearsStat = SITE_TRUST_STATS.find((s) => s.label === "שנות ניסיון");
-  const clientsStat = SITE_TRUST_STATS.find((s) => s.label === "לקוחות מרוצים");
-  const googleStat = SITE_TRUST_STATS.find((s) => s.label === GOOGLE_RATING_LABEL);
-
   return (
     <section
       className="border-b border-border bg-surface py-3 text-sm"
-      aria-label="סטטוס חי ונתוני אמון"
+      aria-label="סטטוס חי"
       data-testid="live-status-bar"
     >
       <Container variant="wide">
-        <div className="flex min-h-[2.5rem] flex-wrap items-center justify-between gap-x-4 gap-y-2 text-muted-foreground">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <LiveVisitorCount />
+        <div className="flex min-h-[2.5rem] flex-wrap items-center gap-x-4 gap-y-2 text-muted-foreground">
+          <LiveVisitorCount />
 
-            <div className="flex items-center gap-2">
-              <ClockIcon size={16} className="shrink-0 text-muted-foreground" />
-              <span
-                className={cn("font-medium", AVAILABILITY_TONE_CLASS[availability.tone])}
-                data-testid="live-status-availability"
-              >
-                {availability.label}
-              </span>
-              <Link
-                href="/book"
-                className="inline-flex min-h-8 items-center rounded-full border border-brand-red/30 bg-brand-red/5 px-2.5 text-xs font-semibold text-brand-red transition-colors hover:bg-brand-red/10"
-              >
-                בדקו תאריך פנוי
-              </Link>
-              <a
-                href={quote60sHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden min-h-8 items-center rounded-full border border-amber-500/30 bg-amber-500/5 px-2.5 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-500/10 md:inline-flex"
-              >
-                ⏱️ הצעת מחיר ב-60 שניות
-              </a>
-            </div>
-
-            <div className="hidden items-center gap-2 md:flex">
-              <CalendarIcon size={16} className="shrink-0 text-emerald-600" />
-              <LiveStatusProjectTicker />
-            </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <ClockIcon size={16} className="shrink-0 text-muted-foreground" />
+            <span
+              className={cn("font-medium", AVAILABILITY_TONE_CLASS[availability.tone])}
+              data-testid="live-status-availability"
+            >
+              {availability.label}
+            </span>
+            <Link
+              href="/book"
+              className="inline-flex min-h-8 items-center rounded-full border border-brand-red/30 bg-brand-red/5 px-2.5 text-xs font-semibold text-brand-red transition-colors hover:bg-brand-red/10"
+            >
+              בדקו תאריך פנוי
+            </Link>
+            <a
+              href={quote60sHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden min-h-8 items-center rounded-full border border-amber-500/30 bg-amber-500/5 px-2.5 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-500/10 md:inline-flex"
+            >
+              ⏱️ הצעת מחיר ב-60 שניות
+            </a>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-            {yearsStat ? (
-              <span>
-                <span className="font-semibold text-foreground">{yearsStat.value}</span>{" "}
-                {yearsStat.label}
-              </span>
-            ) : null}
-            {clientsStat ? (
-              <span>
-                <span className="font-semibold text-foreground">{clientsStat.value}</span>{" "}
-                {clientsStat.label}
-              </span>
-            ) : null}
-            {googleStat ? (
-              <Link
-                href={STUDIO_GOOGLE_MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 transition-colors hover:text-brand-red"
-              >
-                <StarIcon size={14} className="text-amber-500" />
-                <span className="font-semibold text-foreground">{googleStat.value}</span>
-                <span>{googleStat.label}</span>
-                {GOOGLE_REVIEW_COUNT ? (
-                  <span className="text-muted-foreground/80">({GOOGLE_REVIEW_COUNT}+)</span>
-                ) : null}
-              </Link>
-            ) : null}
+          <div className="hidden items-center gap-2 md:flex">
+            <CalendarIcon size={16} className="shrink-0 text-emerald-600" />
+            <LiveStatusProjectTicker />
           </div>
         </div>
       </Container>

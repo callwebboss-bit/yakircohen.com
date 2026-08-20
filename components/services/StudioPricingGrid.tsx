@@ -50,8 +50,8 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               itemScope
               itemType="https://schema.org/Offer"
               className={cn(
-                // IMPROVED: hover-lift replaces raw translate-y on touch devices
                 "group relative flex flex-col overflow-hidden rounded-2xl border bg-surface p-6 hover-lift card-chrome",
+                tier.featured && "card-chrome-shimmer",
                 tier.featured
                   ? "border-[var(--service-accent,#d42b2b)]/40 shadow-md ring-1 ring-[var(--service-accent,#d42b2b)]/20 hover:border-[var(--service-accent,#d42b2b)]/60 hover:shadow-lg"
                   : "border-border hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-md",
@@ -76,6 +76,9 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
               </h3>
               {tier.priceExVat != null ? (
                 <div className="mt-2">
+                  <data value={String(tier.priceExVat)} className="sr-only" aria-hidden="true">
+                    {tier.priceExVat}
+                  </data>
                   <PriceScopeDisplay
                     exVat={tier.priceExVat}
                     scope={resolveTierScope(tier)}
@@ -112,7 +115,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 text-sm font-semibold transition-[transform,colors] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
+                  "mt-8 inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl px-4 text-sm font-semibold transition-[transform,colors] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
                   tier.featured
                     ? "bg-brand-red text-white shadow-[0_0_16px_color-mix(in_srgb,var(--service-accent,#d42b2b)_25%,transparent)] hover:bg-brand-red-light"
                     : "border border-[var(--service-accent,#d42b2b)]/40 text-foreground hover:bg-[var(--service-accent,#d42b2b)]/10",

@@ -6,14 +6,18 @@ import { usePathname } from 'next/navigation';
 import {
   COUPON_SCROLL_THRESHOLD,
   COUPON_E2E_ACTIVE_TIME_MS,
+  COUPON_PROMO_YIELD_MS,
   getActiveTimeRequiredMs,
   LS_CLAIMED,
   LS_SNOOZE,
+  PROMO_DISMISSED_EVENT,
   reconcileCouponStorageState,
   shouldBlockCouponBanner,
   snoozeExpiresAt,
   SS_DISMISSED,
   SS_E2E_FAST,
+  SS_PROMO_DISMISSED,
+  SS_PROMO_YIELD,
 } from '@/lib/coupon-banner-storage';
 import {
   getCurrentSeason,
@@ -73,6 +77,16 @@ function ssGet(key: string): string | null {
 
 function ssSet(key: string, value: string): void {
   try { sessionStorage.setItem(key, value); } catch { /* blocked */ }
+}
+
+function isPromoBlockingCoupon(): boolean {
+  if (ssGet(SS_E2E_FAST) === '1') return false;
+  if (ssGet(SS_PROMO_DISMISSED) === 'true') return false;
+  if (ssGet(SS_PROMO_YIELD) === 'true') return false;
+  if (typeof document !== 'undefined' && document.documentElement.dataset.promoBanner === 'open') {
+    return true;
+  }
+  return false;
 }
 
 function shouldBlockBanner(): boolean {
@@ -148,6 +162,7 @@ export default function CouponPopup() {
 
   const tryShow = useCallback((trigger: string) => {
     if (triggeredRef.current || !pathAllowed || shouldBlockBanner()) return;
+    if (isPromoBlockingCoupon()) return;
     if (!scrollMetRef.current || activeMsRef.current < getActiveTimeRequiredMs()) return;
 
     const seasonKey = getCurrentSeason();
@@ -224,6 +239,25 @@ export default function CouponPopup() {
     return () => {
       cancelled = true;
       cancelAnimationFrame(rafId);
+    };
+  }, [mounted, pathAllowed, tryShow]);
+
+  useEffect(() => {
+    if (!mounted || !pathAllowed || shouldBlockBanner()) return undefined;
+
+    const onPromoReady = () => {
+      tryShow('engagement');
+    };
+    window.addEventListener(PROMO_DISMISSED_EVENT, onPromoReady);
+
+    const yieldId = window.setTimeout(() => {
+      ssSet(SS_PROMO_YIELD, 'true');
+      onPromoReady();
+    }, COUPON_PROMO_YIELD_MS);
+
+    return () => {
+      window.removeEventListener(PROMO_DISMISSED_EVENT, onPromoReady);
+      window.clearTimeout(yieldId);
     };
   }, [mounted, pathAllowed, tryShow]);
 
