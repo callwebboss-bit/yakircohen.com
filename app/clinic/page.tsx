@@ -30,7 +30,7 @@ export default function ClinicPage() {
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(CLINIC_HUB_SEO)} />
       <div className="min-h-screen bg-background text-foreground">
-      <main>
+      <div>
         <Section padding="sm">
           <Container className="max-w-4xl">
         {/* Hero / Intro */}
@@ -317,7 +317,7 @@ export default function ClinicPage() {
         </section>
           </Container>
         </Section>
-      </main>
+      </div>
     </div>
     </>
   );

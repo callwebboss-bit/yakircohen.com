@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/guard-no-local-tools-deploy.mjs && tsx scripts/validate-coupon-offers.ts && node scripts/run-with-lock.mjs next build",
-    "analyze": "cross-env ANALYZE=true npm run build",
+    "analyze": "cross-env ANALYZE=true node scripts/run-with-lock.mjs next build --webpack",
     "build:stop": "node scripts/stop-builds.mjs",
     "verify:quick": "npm run test && npm run security:smoke",
     "security:smoke": "tsx scripts/security-smoke.ts",

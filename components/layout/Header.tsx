@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useHeaderMenu } from "@/components/layout/header-menu-context";
@@ -20,16 +20,13 @@ import {
 import { SiteSearchLazy } from "@/components/layout/header-lazy";
 import SearchKeyboardShortcut from "@/components/layout/SearchKeyboardShortcut";
 import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
-import TimeGreeting from "@/components/layout/TimeGreeting";
 import PromoBanner from "@/components/layout/PromoBanner";
-import Container from "@/components/ui/Container";
 import {
-  CONTACT_PHONE_E164,
-  SITE_LOGO_SRC,
-  SITE_NAME,
-} from "@/lib/constants";
-import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";
-import { isShabbatOrAfterFriday, isStudioOpen } from "@/lib/studio-hours";
+  HeaderDynamicBadgesGroupLazy,
+  TimeGreetingLazy,
+} from "@/components/layout/header-dynamic-badges-lazy";
+import Container from "@/components/ui/Container";
+import { CONTACT_PHONE_E164, SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
 import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -39,12 +36,6 @@ const headerQuoteWhatsAppHref = buildWhatsAppHref({
   text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quote24h}.`,
   utm_source: "website",
   utm_campaign: "header_quote_24h",
-});
-
-const headerWhatsAppHref = buildWhatsAppHref({
-  text: "שלום, אשמח לשמוע על השירותים שלכם.",
-  utm_source: "website",
-  utm_campaign: "header_wa_badge",
 });
 
 function PhoneIcon({ className }: { className?: string }) {
@@ -66,49 +57,6 @@ function CalendarIcon({ className }: { className?: string }) {
       <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
       <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
-  );
-}
-
-const headerResponseTimeWhatsAppHref = buildWhatsAppHref({
-  text: "שלום, אשמח לשמוע על השירותים שלכם.",
-  utm_source: "website",
-  utm_campaign: "header_response_time",
-});
-
-function getResponseTimeLabel(now = new Date()): { text: string; fast: boolean } {
-  if (isShabbatOrAfterFriday(now)) return { text: 'נחזור במוצ"ש', fast: false };
-  if (!isStudioOpen(now)) return { text: "נחזור ב-9:00", fast: false };
-  const h = now.getHours();
-  if (h >= 9 && h < 18) {
-    const min = 8 + (((h * 7 + now.getMinutes()) % 8));
-    return { text: `זמן תגובה: ~${min} דק'`, fast: true };
-  }
-  return { text: "זמן תגובה: ~30 דק'", fast: false };
-}
-
-function HeaderResponseTimeBadge() {
-  const [label, setLabel] = useState<{ text: string; fast: boolean } | null>(null);
-
-  useEffect(() => {
-    const update = () => setLabel(getResponseTimeLabel());
-    update();
-    const id = window.setInterval(update, 60_000);
-    return () => window.clearInterval(id);
-  }, []);
-
-  if (!label) return null;
-
-  return (
-    <a
-      href={headerResponseTimeWhatsAppHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground lg:flex"
-      aria-label={label.text}
-    >
-      <span aria-hidden>{label.fast ? "⚡" : "⏳"}</span>
-      {label.text}
-    </a>
   );
 }
 
@@ -144,42 +92,6 @@ function HeaderQuoteCta() {
   );
 }
 
-function WhatsAppAvailabilityBadge() {
-  const [available, setAvailable] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const update = () => setAvailable(isLikelyAvailableForWhatsApp());
-    update();
-    const id = window.setInterval(update, 60_000);
-    const onVisibility = () => update();
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      window.clearInterval(id);
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, []);
-
-  if (available === null) {
-    return <span className="h-[34px] min-w-[10rem]" aria-hidden />;
-  }
-
-  return (
-    <a
-      href={headerWhatsAppHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
-      aria-label={available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק' בוואטסאפ"}
-    >
-      <span
-        className={`h-2 w-2 shrink-0 rounded-full ${available ? "bg-green-500" : "bg-yellow-500"}`}
-        aria-hidden
-      />
-      {available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק'"}
-    </a>
-  );
-}
-
 function HeaderLogo() {
   const { closeMenu } = useHeaderMenu();
 
@@ -197,7 +109,8 @@ function HeaderLogo() {
           width={40}
           height={40}
           className="h-full w-full object-contain"
-          priority
+          loading="lazy"
+          decoding="async"
         />
         <StudioLiveIndicator />
       </span>
@@ -205,7 +118,7 @@ function HeaderLogo() {
         <span className="truncate text-base font-semibold tracking-tight sm:text-lg">
           {SITE_NAME}
         </span>
-        <span className="truncate text-xs text-muted-foreground transition-colors group-hover:text-brand-red/80">
+        <span className="truncate text-xs text-muted-foreground transition-colors group-hover:text-brand-red-text">
           אולפן, DJ, פודקאסט ואטרקציות
         </span>
       </span>
@@ -256,14 +169,7 @@ function HeaderMainBar({
             <CalendarIcon className="h-5 w-5" />
           </Link>
           <HeaderQuoteCta />
-          <div
-            role="group"
-            aria-label="זמינות ותגובה"
-            className="hidden overflow-hidden rounded-lg border border-border bg-background lg:flex"
-          >
-            <WhatsAppAvailabilityBadge />
-            <HeaderResponseTimeBadge />
-          </div>
+          <HeaderDynamicBadgesGroupLazy />
           <Link
             href="/book"
             className="hidden min-h-11 items-center rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/40 hover:text-brand-red active:scale-95 lg:inline-flex"
@@ -294,7 +200,7 @@ function HeaderMainBar({
         <div className="overflow-hidden">
           <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
             <Container variant="wide" className="flex items-center gap-4 py-1.5">
-              <TimeGreeting compact className="min-w-0 flex-1 py-1" />
+              <TimeGreetingLazy compact className="min-w-0 flex-1 py-1" />
               <IntentNavStrip compact className="max-w-[58%] shrink-0" />
             </Container>
           </div>

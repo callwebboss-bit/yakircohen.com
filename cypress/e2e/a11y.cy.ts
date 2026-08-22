@@ -16,7 +16,7 @@ const CRITICAL_PAGES = [
 
 // Rules to ignore: color-contrast is a design decision, scrollable-region-focusable
 // is a known pattern with overflowing tables.
-const AXE_DISABLE_RULES = ["color-contrast", "scrollable-region-focusable"];
+const AXE_DISABLE_RULES = ["scrollable-region-focusable"];
 
 describe("Accessibility - axe-core WCAG 2.1 AA", () => {
   CRITICAL_PAGES.forEach(({ path, label }) => {

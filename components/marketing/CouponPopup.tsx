@@ -19,6 +19,7 @@ import {
   SS_PROMO_DISMISSED,
   SS_PROMO_YIELD,
 } from '@/lib/coupon-banner-storage';
+import { scheduleIdle } from '@/lib/schedule-idle';
 import {
   getCurrentSeason,
   isCouponPathAllowed,
@@ -31,6 +32,9 @@ import { cn } from '@/lib/utils';
 
 const SCROLL_THROTTLE_MS = 200;
 const SWIPE_DISMISS_PX = 80;
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
 
 const closeButtonClass =
   'absolute top-3 start-3 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg p-2.5 text-gray-400 transition hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white';
@@ -103,15 +107,6 @@ function shouldBlockBanner(): boolean {
   });
 }
 
-function scheduleIdle(cb: () => void): () => void {
-  if (typeof window.requestIdleCallback === 'function') {
-    const id = window.requestIdleCallback(cb, { timeout: 1200 });
-    return () => window.cancelIdleCallback(id);
-  }
-  const id = window.setTimeout(cb, 0);
-  return () => window.clearTimeout(id);
-}
-
 function freezeAnalyticsPayload(
   params: Record<string, string | number | boolean>,
 ): Record<string, string | number | boolean> {
@@ -146,6 +141,7 @@ export default function CouponPopup() {
   const lastTickRef = useRef(0);
   const scrollMetRef = useRef(false);
   const bannerRef = useRef<HTMLElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const touchStartY = useRef<number | null>(null);
 
   const pathAllowed = isCouponPathAllowed(pathname);
@@ -308,11 +304,53 @@ export default function CouponPopup() {
 
   useEffect(() => {
     if (!visible) return undefined;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') dismiss('close');
+
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    const getFocusable = () => {
+      const panel = bannerRef.current;
+      if (!panel) return [];
+      return Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (el) => !el.hasAttribute('aria-hidden'),
+      );
     };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+
+    const focusId = requestAnimationFrame(() => {
+      getFocusable()[0]?.focus();
+    });
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        dismiss('close');
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      cancelAnimationFrame(focusId);
+      document.removeEventListener('keydown', onKeyDown);
+      previousFocusRef.current?.focus();
+      previousFocusRef.current = null;
+    };
   }, [visible, dismiss]);
 
   useEffect(() => {
@@ -387,6 +425,8 @@ export default function CouponPopup() {
   <>
     <aside
       ref={bannerRef}
+      role="dialog"
+      aria-modal="false"
       data-testid="coupon-seasonal-banner"
       aria-label="הטבה עונתית זמנית"
       dir="rtl"

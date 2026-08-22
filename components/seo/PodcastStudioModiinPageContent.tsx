@@ -100,7 +100,8 @@ export default function PodcastStudioModiinPageContent() {
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
+              loading="lazy"
+              decoding="async"
             />
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 text-xs text-white/90">
               {STUDIO_MODIIN_HERO_IMAGE.alt}

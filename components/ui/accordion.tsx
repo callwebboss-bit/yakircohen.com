@@ -4,7 +4,10 @@ import * as React from "react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from "@/components/layout/footer-category-icons"
 
 function Accordion({
   className,

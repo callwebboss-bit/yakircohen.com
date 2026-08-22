@@ -89,13 +89,6 @@ const jsonLd = {
 export default function ShopPage() {
   return (
     <>
-      <link
-        rel="preload"
-        as="image"
-        href={popularVoucher.imageSrc}
-        type="image/webp"
-        fetchPriority="high"
-      />
       <HubPageSchema {...hubSchemaPropsFromSeo(SHOP_HUB_SEO)} />
       <script
         type="application/ld+json"

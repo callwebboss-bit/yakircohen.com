@@ -14,6 +14,7 @@ import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import PwaInstallPrompt from "@/components/marketing/PwaInstallPrompt";
 import CouponPopup from "@/components/marketing/CouponPopup";
+import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
 import {
@@ -26,7 +27,7 @@ import { cn } from "@/lib/utils";
 
 // Variable font - single file covers all weights (100-900), one HTTP request
 const heebo = Heebo({
-  subsets: ["hebrew", "latin"],
+  subsets: ["hebrew"],
   display: "swap",
   variable: "--font-heebo",
   preload: true,
@@ -35,7 +36,7 @@ const heebo = Heebo({
 });
 
 const notoSerifHebrew = Noto_Serif_Hebrew({
-  subsets: ["hebrew", "latin"],
+  subsets: ["hebrew"],
   display: "swap",
   variable: "--font-noto-serif-hebrew",
   preload: false,
@@ -117,11 +118,7 @@ export default function RootLayout({
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
       <head>
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.youtube.com" />
-        <link rel="preconnect" href="https://i.ytimg.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.instagram.com" />
-        <link rel="dns-prefetch" href="https://static.elfsight.com" />
+        <SpeculationRules />
       </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         <GoogleAnalytics />

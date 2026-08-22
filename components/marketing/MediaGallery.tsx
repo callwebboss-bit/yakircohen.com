@@ -288,7 +288,8 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
           fill
           className="object-contain"
           sizes="90vw"
-          priority
+          loading="lazy"
+          decoding="async"
           quality={90}
         />
       </div>
@@ -434,8 +435,8 @@ export default function MediaGallery({
                     fill
                     className="object-cover transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-95"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    loading={noPriority || index >= 2 ? "lazy" : "eager"}
-                    priority={!noPriority && index < 1}
+                    loading="lazy"
+                    decoding="async"
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />
@@ -477,8 +478,8 @@ export default function MediaGallery({
                     height={item.height}
                     className="relative z-[1] block h-auto w-full bg-[#e8e6e1] transition-[transform,filter] duration-slow ease-luxury group-hover:scale-[1.015] group-hover:brightness-90"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading={noPriority || index >= 2 ? "lazy" : "eager"}
-                    priority={!noPriority && index < 1}
+                    loading="lazy"
+                    decoding="async"
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />

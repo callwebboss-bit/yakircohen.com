@@ -64,7 +64,6 @@ export default function ShopVouchersSection() {
                 <ShopCardImage
                   src={tier.imageSrc}
                   alt={tier.imageAlt}
-                  priority={Boolean(tier.popular)}
                 />
                 <div className="flex grow flex-col p-6">
                   <div className="mb-4 flex items-start justify-between gap-3">

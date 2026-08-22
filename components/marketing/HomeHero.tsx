@@ -27,7 +27,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
   return (
     <Section
       padding="none"
-      className="relative overflow-hidden border-b border-border bg-background/40 text-foreground"
+      className="relative min-h-[28rem] overflow-hidden border-b border-border bg-background/40 text-foreground max-lg:min-h-[32rem] sm:max-lg:min-h-[34rem]"
       ariaLabelledby="hero-heading"
     >
       {/* IMPROVED: refined radial gradients for depth */}

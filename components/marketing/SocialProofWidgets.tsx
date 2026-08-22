@@ -3,6 +3,7 @@
 import Script from "next/script";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { scheduleIdle } from "@/lib/schedule-idle";
 import {
   GOOGLE_REVIEW_COUNT,
   SOCIAL_LINKS,
@@ -124,6 +125,7 @@ export function InstagramFeed({
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
   const [shouldLoadScript, setShouldLoadScript] = useState(false);
+  const [pendingScript, setPendingScript] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
   const [preferStaticMobile, setPreferStaticMobile] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -162,15 +164,20 @@ export function InstagramFeed({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setShouldLoadScript(true);
+          setPendingScript(true);
           observer.disconnect();
         }
       },
-      { rootMargin: "400px 0px" },
+      { rootMargin: "200px 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, [preferStaticMobile]);
+
+  useEffect(() => {
+    if (!pendingScript || preferStaticMobile) return;
+    return scheduleIdle(() => setShouldLoadScript(true), { timeout: 3500 });
+  }, [pendingScript, preferStaticMobile]);
 
   useEffect(() => {
     if (!shouldLoadScript) return;

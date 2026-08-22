@@ -13,7 +13,7 @@
   --color-background: #fafaf8;
   --color-foreground: #1a1a1a;
   --color-muted: #525252;
-  --color-muted-foreground: #737373;
+  --color-muted-foreground: #5c5c5c;
   /* IMPROVED: sub-pixel alphas -- border melts into the surface beneath it */
   --color-border: color-mix(in srgb, black 8%, transparent);
   --color-border-subtle: color-mix(in srgb, black 4%, transparent);
@@ -21,8 +21,9 @@
   --color-surface-elevated: #ffffff;
   --color-brand-red: #d42b2b;
   --color-brand-red-light: #e04a4a;
-  --color-brand-red-dark: #b32424;
-  --color-catalog-gold: #c4a35a;
+  --color-brand-red-dark: #9a2222;
+  --color-brand-red-text: #9a2222;
+  --color-catalog-gold: #8a6f2e;
   --color-catalog-silver: #9aa3ad;
   --grain-opacity: 0.028;
   --glow-inner: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 24px rgb(196 163 90 / 0.06);
@@ -611,6 +612,10 @@
   /* Single accent ring — outline only, no extra ring (avoids double halo) */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-red;
+  }
+
+  :where(a, button, [role="button"], input[type="submit"], input[type="button"]) {
+    touch-action: manipulation;
   }
 
   :where(input, textarea, select):not([type="checkbox"]):not([type="radio"]):not(

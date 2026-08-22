@@ -302,7 +302,7 @@ export default function ServicePageLayout({
         />
       ) : null}
       <header
-        className="relative overflow-hidden border-b border-border"
+        className="relative min-h-[26rem] overflow-hidden border-b border-border max-lg:min-h-[30rem] sm:max-lg:min-h-[32rem]"
         aria-labelledby="service-page-heading"
       >
         <div
