@@ -33,12 +33,7 @@ import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Button from "@/components/ui/Button";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
+import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import {
   STUDIO_NEARBY_FAQ,
@@ -111,32 +106,72 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
   ],
 };
 
-const CONTACT_FAQ = [
-  {
-    q: "כמה עולה הקלטה באולפן?",
-    a: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}. שעת אולפן מ-${getExVat("studio_hour").toLocaleString("he-IL")} ₪ + מע״מ. לראות הכל מיד בדף ההזמנה המקוונת.`,
-  },
-  {
-    q: "אפשר לשמוע דוגמאות מהעבודות?",
-    a: "כן. יש דוגמאות ביוטיוב ובאינסטגרם, ונשמח לשלוח קישורים רלוונטיים בוואטסאפ.",
-  },
-  {
-    q: "כמה זמן לוקחת הפקה מלאה?",
-    a: "קריינות ופודקאסט - לרוב ימים בודדים. אולפן - לפי היקף. DJ - לפי תאריך האירוע.",
-  },
-  {
-    q: "איפה האולפן ממוקם?",
-    a: "במודיעין, עם נגישות נוחה מהמרכז וירושלים. אפשר גם לתאם הקלטה מרחוק לפי הצורך.",
-  },
-  {
-    q: STUDIO_NEARBY_FAQ.question,
-    a: STUDIO_NEARBY_FAQ.answer,
-  },
-  {
-    q: STUDIO_NEARBY_LANDMARK_FAQ.question,
-    a: STUDIO_NEARBY_LANDMARK_FAQ.answer,
-  },
-] as const;
+function buildContactFaqItems(): FAQItem[] {
+  const blessingPrice = formatFromPriceDual(getExVat("blessing_recording")).replace(
+    "כרגע: ",
+    "",
+  );
+  const studioHour = getExVat("studio_hour").toLocaleString("he-IL");
+
+  return [
+    {
+      id: "contact-price",
+      question: "כמה עולה הקלטה באולפן?",
+      answer: (
+        <p>
+          ברכה / הקלטה קצרה {blessingPrice}. שעת אולפן מ-{studioHour} ₪ + מע״מ. מחיר
+          סופי מוצג ב{" "}
+          <Link href="/book" className="font-semibold text-brand-red hover:underline">
+            הזמנה מקוונת
+          </Link>
+          .
+        </p>
+      ),
+    },
+    {
+      id: "contact-samples",
+      question: "אפשר לשמוע דוגמאות מהעבודות?",
+      answer: (
+        <p>
+          כן. יש דוגמאות ביוטיוב ובאינסטגרם, ונשמח לשלוח קישורים רלוונטיים בוואטסאפ.
+        </p>
+      ),
+    },
+    {
+      id: "contact-timeline",
+      question: "כמה זמן לוקחת הפקה מלאה?",
+      answer: (
+        <p>
+          קריינות ופודקאסט — לרוב ימים בודדים. אולפן — לפי היקף. DJ — לפי תאריך
+          האירוע.
+        </p>
+      ),
+    },
+    {
+      id: "contact-location",
+      question: "איפה האולפן ממוקם?",
+      answer: (
+        <p>
+          במודיעין,{" "}
+          <Link href="/studio" className="font-semibold text-brand-red hover:underline">
+            עמק איילון 34
+          </Link>
+          . נגישות נוחה מהמרכז וירושלים. אפשר גם לתאם הקלטה מרחוק לפי הצורך.
+        </p>
+      ),
+    },
+    {
+      id: "contact-nearby-food",
+      question: STUDIO_NEARBY_FAQ.question,
+      answer: <p>{STUDIO_NEARBY_FAQ.answer}</p>,
+    },
+    {
+      id: "contact-nearby-landmarks",
+      question: STUDIO_NEARBY_LANDMARK_FAQ.question,
+      answer: <p>{STUDIO_NEARBY_LANDMARK_FAQ.answer}</p>,
+    },
+  ];
+}
 
 const emergencyHref = buildWhatsAppHref({
   text: buildServiceWhatsAppText("DJ לאירוע בדחיפות"),
@@ -244,6 +279,8 @@ export default function ContactPageContent() {
         : step === 3
           ? 62
           : 87;
+
+  const faqItems = useMemo(() => buildContactFaqItems(), []);
 
   const successWaHref = useMemo(() => {
     if (!service || !timing || !budget) return defaultWaHref;
@@ -422,26 +459,32 @@ export default function ContactPageContent() {
           {availability}
         </p>
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
-          <div
-            className="h-1 bg-border"
-            role="progressbar"
-            aria-valuenow={progressPercent}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          >
-            <div
-              className="h-full bg-brand-red transition-[width] duration-300 ease-out"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+        <form
+          className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
+          onSubmit={(e) => e.preventDefault()}
+          aria-label="טופס יצירת קשר"
+        >
+          <progress
+            className="block h-1 w-full appearance-none border-0 bg-border [&::-moz-progress-bar]:bg-brand-red [&::-webkit-progress-bar]:bg-border [&::-webkit-progress-value]:bg-brand-red"
+            value={progressPercent}
+            max={100}
+            aria-label="התקדמות בטופס"
+          />
 
-          <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-4 sm:px-4">
+          <ol
+            className="flex list-none items-center justify-between gap-2 border-b border-border px-3 py-4 sm:px-4"
+            aria-label="שלבי הטופס"
+          >
             {micSteps.map((s, i) => {
               const stepNum = i + 1;
               const active = submitted ? stepNum <= 4 : step >= stepNum;
+              const current = !submitted && step === stepNum;
               return (
-                <div key={s.label} className="flex min-w-0 flex-1 flex-col items-center gap-1">
+                <li
+                  key={s.label}
+                  aria-current={current ? "step" : undefined}
+                  className="flex min-w-0 flex-1 flex-col items-center gap-1"
+                >
                   <div
                     className={cn(
                       "flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors",
@@ -449,16 +492,17 @@ export default function ContactPageContent() {
                         ? "bg-brand-red/15 text-brand-red ring-1 ring-brand-red/40"
                         : "bg-background text-muted-foreground",
                     )}
+                    aria-hidden="true"
                   >
                     {s.icon}
                   </div>
                   <span className="text-[0.6rem] font-medium text-muted-foreground">
                     {s.label}
                   </span>
-                </div>
+                </li>
               );
             })}
-          </div>
+          </ol>
 
           <div className="min-h-[22rem] p-5 sm:min-h-[24rem] sm:p-6">
             {quizDraft.restored ? (
@@ -765,7 +809,7 @@ export default function ContactPageContent() {
               </div>
             )}
           </div>
-        </div>
+        </form>
 
         <CompanyDetailsCard variant="collapsible" className="mt-6" />
 
@@ -779,7 +823,7 @@ export default function ContactPageContent() {
           </Link>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-3">
+        <address className="mt-6 grid grid-cols-2 gap-3 not-italic">
           <a
             href={`tel:${CONTACT_PHONE_E164}`}
             className="touch-target flex min-h-11 flex-col items-center justify-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
@@ -806,7 +850,7 @@ export default function ContactPageContent() {
             <span className="text-sm font-semibold text-foreground">וואטסאפ</span>
             <span className="text-xs text-muted-foreground">זמין א׳-ו׳</span>
           </a>
-        </div>
+        </address>
 
         <div className="mt-8 text-center">
           <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
@@ -827,20 +871,6 @@ export default function ContactPageContent() {
             ))}
           </div>
         </div>
-
-        <section className="mt-12" aria-label="שאלות נפוצות">
-          <h2 className="mb-4 text-center text-lg font-semibold text-foreground sm:text-xl">
-            שאלות נפוצות
-          </h2>
-          <Accordion type="single" collapsible className="divide-y divide-border">
-            {CONTACT_FAQ.map((item) => (
-              <AccordionItem key={item.q} value={item.q} className="border-0">
-                <AccordionTrigger className="hover:no-underline">{item.q}</AccordionTrigger>
-                <AccordionContent>{item.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </section>
 
         <footer className="mt-12 border-t border-border pt-8 text-center text-xs text-muted-foreground">
           <p>מודיעין - זמין 6 ימים בשבוע</p>
@@ -863,6 +893,13 @@ export default function ContactPageContent() {
           </nav>
         </footer>
       </div>
+
+      <FAQAccordion
+        items={faqItems}
+        title="שאלות נפוצות"
+        subtitle="תשובות קצרות לפני שמתקשרים"
+        className="border-t border-border bg-background"
+      />
 
       <a
         href={defaultWaHref}

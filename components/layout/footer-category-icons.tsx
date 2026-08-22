@@ -105,7 +105,14 @@ function GraduationCapIcon({ className }: IconProps) {
 
 function ChevronDownIcon({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg
+      className={cn("h-4 w-4 shrink-0", className)}
+      viewBox="0 0 24 24"
+      fill="none"
+      width={16}
+      height={16}
+      aria-hidden
+    >
       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );
@@ -113,7 +120,14 @@ function ChevronDownIcon({ className }: IconProps) {
 
 function ChevronUpIcon({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+    <svg
+      className={cn("h-4 w-4 shrink-0", className)}
+      viewBox="0 0 24 24"
+      fill="none"
+      width={16}
+      height={16}
+      aria-hidden
+    >
       <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
   );

@@ -4,9 +4,26 @@ import * as React from "react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
-import {
-  ChevronDownIcon,
-} from "@/components/layout/footer-category-icons"
+
+function AccordionChevron({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      width={16}
+      height={16}
+      aria-hidden
+      className={cn("h-4 w-4 shrink-0", className)}
+    >
+      <path
+        fillRule="evenodd"
+        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+        clipRule="evenodd"
+      />
+    </svg>
+  )
+}
 
 function Accordion({
   className,
@@ -57,7 +74,7 @@ function AccordionTrigger({
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-[transform,background-color,border-color,color] duration-normal ease-luxury motion-reduce:transition-none group-aria-expanded/accordion-trigger:rotate-180 group-aria-expanded/accordion-trigger:border-brand-red/40 group-aria-expanded/accordion-trigger:bg-brand-red/10 group-aria-expanded/accordion-trigger:text-brand-red"
           aria-hidden="true"
         >
-          <ChevronDownIcon className="h-3.5 w-3.5" />
+          <AccordionChevron />
         </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
