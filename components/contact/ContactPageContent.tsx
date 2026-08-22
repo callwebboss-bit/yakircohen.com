@@ -379,7 +379,7 @@ export default function ContactPageContent() {
         <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>
       </a>
 
-      <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
+      <div className="mx-auto max-w-xl px-4 py-10 sm:max-w-2xl sm:px-6 lg:max-w-3xl">
         <header className="text-center">
           <p className="inline-block rounded-full border border-brand-red px-4 py-1 text-xs font-bold tracking-wider text-brand-red">
             ✦ {SITE_KICKER} ✦
@@ -400,27 +400,16 @@ export default function ContactPageContent() {
           </p>
         </header>
 
-        <div
-          className="mt-8 grid grid-cols-4 items-center gap-2 rounded-xl border border-border bg-surface px-3 py-4"
-          role="list"
-        >
+        <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
           {[
             { num: "20+", label: "שנות ניסיון" },
             { num: "500+", label: "פרויקטים" },
             { num: "★ 5.0", label: "דירוג לקוחות" },
             { num: "15 דק׳", label: "זמן תגובה" },
-          ].map((item, i) => (
-            <div key={item.label} className="contents" role="listitem">
-              {i > 0 ? (
-                <div
-                  className="hidden h-8 w-px bg-border sm:block sm:justify-self-center"
-                  aria-hidden="true"
-                />
-              ) : null}
-              <div className="text-center">
-                <p className="text-lg font-bold text-brand-red">{item.num}</p>
-                <p className="text-[0.65rem] text-muted-foreground">{item.label}</p>
-              </div>
+          ].map((item) => (
+            <div key={item.label} className="bg-surface px-2 py-4 text-center">
+              <p className="text-lg font-bold text-brand-red">{item.num}</p>
+              <p className="text-[0.65rem] text-muted-foreground">{item.label}</p>
             </div>
           ))}
         </div>
@@ -447,21 +436,12 @@ export default function ContactPageContent() {
             />
           </div>
 
-          <div className="flex items-center justify-between gap-1 border-b border-border px-4 py-4">
+          <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-4 sm:px-4">
             {micSteps.map((s, i) => {
               const stepNum = i + 1;
               const active = submitted ? stepNum <= 4 : step >= stepNum;
               return (
-                <div key={s.label} className="flex flex-1 flex-col items-center gap-1">
-                  {i > 0 ? (
-                    <div
-                      className={cn(
-                        "absolute hidden h-px w-full sm:block",
-                        active ? "bg-brand-red/40" : "bg-border",
-                      )}
-                      aria-hidden="true"
-                    />
-                  ) : null}
+                <div key={s.label} className="flex min-w-0 flex-1 flex-col items-center gap-1">
                   <div
                     className={cn(
                       "flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors",
@@ -480,7 +460,7 @@ export default function ContactPageContent() {
             })}
           </div>
 
-          <div className="p-5 sm:p-6">
+          <div className="min-h-[22rem] p-5 sm:min-h-[24rem] sm:p-6">
             {quizDraft.restored ? (
               <BookDraftRecoveryBanner
                 savedAt={quizDraft.savedAt}
@@ -849,13 +829,13 @@ export default function ContactPageContent() {
         </div>
 
         <section className="mt-12" aria-label="שאלות נפוצות">
-          <h2 className="mb-4 text-center text-lg font-semibold text-foreground">
+          <h2 className="mb-4 text-center text-lg font-semibold text-foreground sm:text-xl">
             שאלות נפוצות
           </h2>
-          <Accordion type="single" collapsible>
+          <Accordion type="single" collapsible className="divide-y divide-border">
             {CONTACT_FAQ.map((item) => (
-              <AccordionItem key={item.q} value={item.q}>
-                <AccordionTrigger>{item.q}</AccordionTrigger>
+              <AccordionItem key={item.q} value={item.q} className="border-0">
+                <AccordionTrigger className="hover:no-underline">{item.q}</AccordionTrigger>
                 <AccordionContent>{item.a}</AccordionContent>
               </AccordionItem>
             ))}
