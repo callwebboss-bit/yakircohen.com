@@ -219,7 +219,7 @@ export default function HomePageSections({
 
       <HomeGiftsTeaser />
 
-      <StudioClientsStrip />
+      <StudioClientsStrip showFeaturedVideo />
 
       <HomeServicesDetailHub />
 
