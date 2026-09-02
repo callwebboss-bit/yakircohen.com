@@ -1,0 +1,19 @@
+# Normalize line endings: the repo is edited from both macOS and Windows through
+# Dropbox. Without this, every CRLF save shows up as a whole-file diff.
+* text=auto eol=lf
+
+# Binaries - never touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+*.wasm binary
