@@ -1,7 +1,23 @@
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
-import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+import sitemapDates from "@/lib/data/sitemap-dates.generated.json";
+
+/**
+ * dateModified אמיתי, מאותו מקור שמזין את מפת האתר (תאריך git אחרון לקובץ).
+ *
+ * קודם שלושת הבונים כאן חתמו את תאריך הבנייה, כלומר כל 230 העמודים הצהירו
+ * שהתעדכנו היום בכל דיפלוי. זה סותר במפורש את המדיניות הכתובה
+ * ב-scripts/generate-sitemap-dates.mjs: גוגל מתייחס לתאריך מנופח כאות לא
+ * אמין ומפסיק להסתמך עליו. כשאין תאריך אמיתי לנתיב, השדה מושמט. השמטה
+ * עדיפה על זיוף.
+ */
+const SITEMAP_DATES = sitemapDates as Record<string, string>;
+export function realDateModified(path: string): string | undefined {
+  const normalized = `/${path.replace(/^\/+/, "").replace(/\/+$/, "")}`;
+  const iso = SITEMAP_DATES[normalized === "/" ? "/" : normalized];
+  return iso ? iso.slice(0, 10) : undefined;
+}
 
 const SPEAKABLE: Record<string, unknown> = {
   "@type": "SpeakableSpecification",
@@ -33,7 +49,7 @@ export function buildWebPageSchema({
     ? absoluteUrl(imagePath.replace(/^\/+/, ""))
     : undefined;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const dateModified = realDateModified(slug);
 
   return {
     "@context": "https://schema.org",
@@ -43,7 +59,7 @@ export function buildWebPageSchema({
     name: `${title}${BRAND_SUFFIX}`,
     description,
     inLanguage: "he-IL",
-    dateModified: today,
+    ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
     isPartOf: { "@id": `${absoluteUrl()}#website` },
     about: { "@id": `${absoluteUrl()}#organization` },
@@ -74,7 +90,7 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
 
 export function buildServiceSchema(service: ServiceEntity) {
   const serviceUrl = absoluteUrl(service.slug.replace(/^\/+/, ""));
-  const today = new Date().toISOString().slice(0, 10);
+  const dateModified = realDateModified(service.slug);
 
   return {
     "@context": "https://schema.org",
@@ -85,7 +101,7 @@ export function buildServiceSchema(service: ServiceEntity) {
     url: serviceUrl,
     serviceType: service.title,
     inLanguage: "he-IL",
-    dateModified: today,
+    ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
     provider: { "@id": `${absoluteUrl()}#organization` },
     areaServed: {
@@ -97,9 +113,6 @@ export function buildServiceSchema(service: ServiceEntity) {
       },
       geoRadius: "50000",
     },
-    review: SITE_TESTIMONIALS.slice(0, 3).map((t, i) => ({
-      "@id": `${SITE_URL}/#review-${t.id ?? i + 1}`,
-    })),
     ...(service.pricing?.length
       ? {
           offers: service.pricing.map((tier) => pricingToOffer(tier, serviceUrl)),
@@ -130,7 +143,7 @@ export function buildServicePageEntitySchema({
 }: ServicePageEntityInput) {
   const pageUrl = absoluteUrl(pagePath.replace(/^\/+/, ""));
 
-  const today = new Date().toISOString().slice(0, 10);
+  const dateModified = realDateModified(pagePath);
   const serviceEntity = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
@@ -139,12 +152,9 @@ export function buildServicePageEntitySchema({
     url: pageUrl,
     serviceType: title,
     inLanguage: "he-IL",
-    dateModified: today,
+    ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
     provider: { "@id": `${absoluteUrl()}#organization` },
-    review: SITE_TESTIMONIALS.slice(0, 3).map((t, i) => ({
-      "@id": `${SITE_URL}/#review-${t.id ?? i + 1}`,
-    })),
   };
 
   const graph: Record<string, unknown>[] = [serviceEntity];

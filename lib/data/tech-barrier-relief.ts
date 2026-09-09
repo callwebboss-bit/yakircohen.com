@@ -160,7 +160,7 @@ export function resolveTechBarrierRelief(
 
   if (pathname === "/online/vocal-fix/send-file") return null;
   if (pathname === "/podcast/self-service-studio") return null;
-  if (pathname === "/studio/pricing" || pathname === "/studio/upload") return null;
+  if (pathname === "/studio/pricing") return null;
 
   if (pathname.startsWith("/online")) return REMOTE_AUDIO_CONFIG;
   if (pathname.startsWith("/podcast")) return PODCAST_CONFIG;

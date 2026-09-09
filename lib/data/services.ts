@@ -3393,7 +3393,7 @@ export const VIDEO_SERVICES = {
       "ביט-סינק, אפקטים ויזואליים, צבע וסאונד מנורמל",
       "מנוי חודשי: 4-8 פרומואים + פוסטים שיווקיים",
       "מיועד ל-DJ, צלמים, מפיקים ומפעילי אטרקציות",
-      "שליחת חומר גולמי בוואטסאפ, Drive או עמוד העלאה",
+      "שליחת חומר גולמי בוואטסאפ או ב-Drive",
     ],
     assetsFolder: "video/corporate-video",
     playlistEmbedUrl: youtubeEmbedUrl(YOUTUBE_SERVICE_EMBED_IDS["video-reel-factory"]),

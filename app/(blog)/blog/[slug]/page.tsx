@@ -102,11 +102,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     dateModified: post.seo.datePublished,
     url: canonical,
     image: absoluteUrl(post.thumbnail),
-    author: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    /* מחבר אנושי, לא ארגון. ישות ה-#founder (Person) כבר קיימת בגרף האתר
+       עם שם, תפקיד, תמונה ו-sameAs. 87 פוסטים בלי מחבר מזוהה הם בדיוק מה
+       שמדדי E-E-A-T של גוגל ומנועי תשובות מחפשים. המפרסם נשאר הארגון. */
+    author: { "@id": `${SITE_URL}/#founder` },
     publisher: {
       "@type": "Organization",
       name: SITE_NAME,

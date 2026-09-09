@@ -1,4 +1,10 @@
 import liveStatusData from "@/lib/data/live-status.json";
+import { getPlaylistVideos } from "@/lib/data/video-portfolio";
+import {
+  getPlaylistConfig,
+  VIDEO_PLAYLISTS,
+  type PlaylistId,
+} from "@/lib/data/video-playlists";
 import {
   getHoursAvailabilityHint,
   isShabbatOrAfterFriday,
@@ -21,28 +27,36 @@ export type LiveStatusConfig = {
   updatedAt: string;
 };
 
-/** Curated project ideas for the home status ticker - relative dates never go stale. */
-export type LiveStatusProjectIdea = {
-  title: string;
-  url: string;
-  /** Days before "today" for the relative label (0 = היום). */
-  daysAgo: number;
-};
+export type LiveStatusRealWork = { title: string; url: string; count: number };
 
-export const LIVE_STATUS_PROJECT_IDEAS: readonly LiveStatusProjectIdea[] = [
-  { title: "ברכת חתן וכלה", url: "/studio/blessings/bride-groom-blessing", daysAgo: 0 },
-  { title: "הקלטת שיר באולפן", url: "/studio/recording-song-modiin", daysAgo: 1 },
-  { title: "עריכת פרק פודקאסט", url: "/podcast/podcast-editing", daysAgo: 2 },
-  { title: "דיג׳יי לחתונה", url: "/events/dj-events", daysAgo: 0 },
-  { title: "ברכה לבר מצווה", url: "/studio/blessings/bar-mitzvah", daysAgo: 3 },
-  { title: "קריינות לסרטון", url: "/voiceover/services", daysAgo: 1 },
-  { title: "אולפן נייד עד הבית", url: "/studio/mobile-studio", daysAgo: 2 },
-  { title: "שחזור ווקאל אונליין", url: "/online/vocal-fix", daysAgo: 0 },
-  { title: "סרט תדמית לעסק", url: "/video/corporate-video", daysAgo: 4 },
-  { title: "עשן כבד לחופה", url: "/events/attractions/wedding-smoking-machine", daysAgo: 1 },
-  { title: "פודקאסט עם סבא", url: "/podcast/podcast-with-grandpa", daysAgo: 3 },
-  { title: "שיר + קליפ באולפן", url: "/studio/blessings/video-clip", daysAgo: 2 },
-];
+/**
+ * הוכחות אמיתיות מתיק העבודות לטיקר בעמוד הבית: שם הקטגוריה ומספר העבודות
+ * שבאמת נמצאות בה, אותו מספר שעמוד התיק מציג.
+ *
+ * קודם היו כאן "רעיונות לפרויקטים" עם daysAgo קבוע, שהוצגו כ"הושלם לאחרונה:
+ * היום" בכל יום מחדש, כולל שבת. החלטת הבעלים מ-7.9.2026: עבודות אמיתיות
+ * בלבד, בלי תאריכים. ניסיון ביניים להציג כותרות יוטיוב גולמיות נכשל, כי הן
+ * נושאות קידומות וזנבות SEO ("אולפן הקלטות במודיעין | תקליטן | ...") ואינן
+ * קופי. לכן לכל פלייליסט יש tickerLabel מפורש, ופלייליסט בלי תווית לא מופיע. הבחירה דטרמיניסטית כדי שהשרת והלקוח יראו אותה רשימה.
+ */
+const TICKER_MIN_WORKS = 3;
+const TICKER_MAX_ITEMS = 10;
+
+export const LIVE_STATUS_REAL_WORKS: readonly LiveStatusRealWork[] = (
+  Object.keys(VIDEO_PLAYLISTS) as PlaylistId[]
+)
+  .map((id) => {
+    const config = getPlaylistConfig(id);
+    const href = config?.serviceLink?.href;
+    const title = config?.tickerLabel;
+    if (!href || !title) return null;
+    const count = getPlaylistVideos(id).length;
+    if (count < TICKER_MIN_WORKS) return null;
+    return { title, url: href, count };
+  })
+  .filter((w): w is LiveStatusRealWork => w !== null)
+  .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title, "he"))
+  .slice(0, TICKER_MAX_ITEMS);
 
 export type ResolvedAvailability = {
   label: string;
@@ -92,38 +106,6 @@ export function resolveAvailabilityLabel(
   }
 
   return { label: MODE_LABELS.available, tone: "available" };
-}
-
-function parseIsraeliDate(dateStr: string): Date | null {
-  const parts = dateStr.split(".");
-  if (parts.length !== 3) return null;
-  const [day, month, year] = parts.map(Number);
-  if (!day || !month || !year) return null;
-  return new Date(year, month - 1, day);
-}
-
-export function formatDaysAgo(daysAgo: number): string {
-  if (daysAgo <= 0) return "היום";
-  if (daysAgo === 1) return "אתמול";
-  if (daysAgo < 7) return `לפני ${daysAgo} ימים`;
-  if (daysAgo < 14) return "לפני שבוע";
-  if (daysAgo < 21) return "לפני שבועיים";
-  if (daysAgo < 30) return `לפני ${Math.floor(daysAgo / 7)} שבועות`;
-  const months = Math.floor(daysAgo / 30);
-  if (months === 1) return "לפני חודש";
-  if (months < 12) return `לפני ${months} חודשים`;
-  return `לפני ${daysAgo} ימים`;
-}
-
-export function formatLastProjectDate(dateStr: string, now = new Date()): string {
-  const date = parseIsraeliDate(dateStr);
-  if (!date || isNaN(date.getTime())) return dateStr;
-
-  const diffDays = Math.floor(
-    (now.setHours(0, 0, 0, 0) - date.setHours(0, 0, 0, 0)) / 86_400_000,
-  );
-
-  return formatDaysAgo(diffDays);
 }
 
 export const AVAILABILITY_TONE_CLASS: Record<ResolvedAvailability["tone"], string> = {

@@ -21,6 +21,9 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   /** Google Sites / קישורים ישנים - דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
   "/home/": "/",
+  /** טופס העלאה שמעולם לא חובר לאחסון. הופנה לוואטסאפ, שם החומרים באמת מגיעים. */
+  "/studio/upload":
+    "https://wa.me/972587555456?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9C%D7%95%D7%97%20%D7%97%D7%95%D7%9E%D7%A8%D7%99%20%D7%92%D7%9C%D7%9D%20%D7%9C%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98",
   "/recording": "/studio",
   "/studio-main": "/studio",
   "/online-studio": "/online",

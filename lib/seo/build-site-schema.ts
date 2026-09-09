@@ -15,9 +15,7 @@ import {
   STUDIO_ONE_HOUR_NIS,
 } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
-import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
-import { buildReviewSchemaGraph } from "@/lib/review-schema";
 
 const BASE = SITE_URL;
 
@@ -267,7 +265,10 @@ export function buildSiteSchema() {
           },
         ],
       },
-      ...buildReviewSchemaGraph(SITE_TESTIMONIALS),
+      /* 12 צמתי Review של המלצות שהאתר מפרסם על עצמו הוסרו מכאן ב-9.9.2026.
+         ביקורות מטעם העסק על עצמו אינן כשירות ל-rich results לפי הנחיות גוגל
+         ומסומנות לעתים כספאם. ההמלצות נשארות גלויות בעמודים, רק לא בסכמה,
+         באותו היגיון שהוחלט לדירוג. */
     ],
   };
 }

@@ -39,6 +39,12 @@ export type PlaylistConfig = {
   /** Service-page paths that use this playlist */
   pagePaths?: readonly string[];
   serviceLink?: { href: string; label: string };
+  /**
+   * שם קטגוריה קצר לטיקר ההוכחות בעמוד הבית ("X · N עבודות"). מוגדר ידנית,
+   * כי heading הוא כותרת סקשן ("בואו לסיור באולפן") ולא שם קטגוריה, וכל
+   * ניסיון לגזור אותו אוטומטית ייצר טקסט סתמי. בלי השדה הפלייליסט לא מופיע בטיקר.
+   */
+  tickerLabel?: string;
 };
 
 export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
@@ -66,6 +72,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "recording-song-modiin": {
     id: "recording-song-modiin",
     heading: "דוגמאות - הקלטת שיר במודיעין",
+    tickerLabel: "הקלטת שיר במודיעין",
     subheading: "שירי חתונה, בר מצווה, מתנות וקליפים מהאולפן.",
     kicker: "הקלטת שיר",
     initialVisible: 3,
@@ -80,6 +87,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "recording-studio": {
     id: "recording-studio",
     heading: "בואו לסיור באולפן",
+    tickerLabel: "אולפן ההקלטות",
     subheading: "צפו בסרטונים כדי להבין איך נראה סשן הקלטה באולפן שלנו במודיעין.",
     kicker: "סיור באולפן",
     initialVisible: 3,
@@ -94,6 +102,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "podcast-hub": {
     id: "podcast-hub",
     heading: "דוגמאות פודקאסט מהאולפן",
+    tickerLabel: "פודקאסט מהאולפן",
     subheading: "ראיונות, פודקאסטים עסקיים ותוכן מרפסת.",
     kicker: "פודקאסט",
     initialVisible: 3,
@@ -105,6 +114,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "blessings-hub": {
     id: "blessings-hub",
     heading: "דוגמאות ברכות מוקלטות",
+    tickerLabel: "ברכות מוקלטות",
     subheading: "ברכות חתן כלה, דרשות ורגעים מרגשים מהאולפן.",
     kicker: "ברכות",
     initialVisible: 3,
@@ -116,6 +126,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "blessings-bar-mitzvah": {
     id: "blessings-bar-mitzvah",
     heading: "בר מצווה ודרשות - דוגמאות",
+    tickerLabel: "ברכות ודרשות לבר מצווה",
     initialVisible: 3,
     expandBatch: 6,
     excludeTags: ["entertainment", "brand-tv"],
@@ -128,6 +139,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "blessings-bride-groom": {
     id: "blessings-bride-groom",
     heading: "ברכת חתן וכלה - דוגמאות",
+    tickerLabel: "ברכת חתן וכלה",
     initialVisible: 3,
     expandBatch: 6,
     excludeTags: ["entertainment", "brand-tv"],
@@ -140,6 +152,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "blessings-video-clip": {
     id: "blessings-video-clip",
     heading: "שיר וקליפ - דוגמאות",
+    tickerLabel: "שיר וקליפ",
     initialVisible: 3,
     expandBatch: 6,
     excludeTags: ["entertainment", "brand-tv"],
@@ -152,6 +165,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "events-dj": {
     id: "events-dj",
     heading: "DJ לאירועים - דוגמאות מהשטח",
+    tickerLabel: "DJ לאירועים",
     subheading: "חתונות, בר מצווה ואירועים - מאחורי העמדה.",
     kicker: "תקליטן",
     initialVisible: 3,
@@ -185,6 +199,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "voiceover-hub": {
     id: "voiceover-hub",
     heading: "דוגמאות קריינות",
+    tickerLabel: "קריינות",
     kicker: "קריינות",
     initialVisible: 3,
     expandBatch: 6,
@@ -208,6 +223,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "dj-voice-tags": {
     id: "dj-voice-tags",
     heading: "דוגמאות מהאולפן",
+    tickerLabel: "תגים קוליים ל-DJ",
     subheading: "כמה הקלטות אמיתיות, כדי שתדעו למה לצפות לפני שמזמינים.",
     kicker: "שמעו לפני שמזמינים",
     initialVisible: 3,
@@ -234,6 +250,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "bulk-production": {
     id: "bulk-production",
     heading: "איך זה נשמע ונראה",
+    tickerLabel: "הפקת פודקאסט לעסקים",
     subheading: "דוגמאות מהאולפן ומעבד העריכה - כדי שתדעו מה מקבלים בפס ייצור.",
     kicker: "מהיוצא ללקוחות",
     initialVisible: 3,
@@ -247,6 +264,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "mashup-fixer": {
     id: "mashup-fixer",
     heading: "איך נשמע מאשאפ באירוע",
+    tickerLabel: "תיקון מאשאפ לאירוע",
     subheading: "כמה דוגמאות מהאולפן - שילובים, רמיקסים ומה שיוצא לדיג'ייז בשטח.",
     kicker: "מהתיק",
     initialVisible: 3,
