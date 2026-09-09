@@ -68,7 +68,7 @@ function memoryIsLimited(key: string, max: number, windowMs: number): boolean {
  * Durable rate limit via Upstash Redis REST when env is set.
  * Falls back to in-memory (per-instance) otherwise.
  */
-async function isRateLimitedDurable(
+export async function isRateLimitedDurable(
   key: string,
   max: number,
   windowMs: number,
@@ -104,6 +104,30 @@ async function isRateLimitedDurable(
     console.error("[api-guard] upstash error", err);
     return memoryIsLimited(key, max, windowMs);
   }
+}
+
+/** Rate-limit only (no Origin check) - for authenticated GET endpoints such as admin exports. */
+export async function guardRateLimit(
+  request: Request,
+  options: ApiGuardOptions,
+): Promise<ApiGuardResult> {
+  const ip = getClientIp(request);
+  const windowMs = options.windowMs ?? 60_000;
+  const limited = await isRateLimitedDurable(
+    `rl:${options.bucket}:${ip}`,
+    options.max,
+    windowMs,
+  );
+  if (limited) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { ok: false, error: "rate_limited" },
+        { status: 429 },
+      ),
+    };
+  }
+  return { ok: true, ip };
 }
 
 /** Origin + rate-limit gate for public mutation APIs. */

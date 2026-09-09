@@ -31,7 +31,6 @@ export const BOOK_WIZARD_COPY = {
   travelModeTransit: "תחבורה ציבורית / אחר",
   parkingBanner: STUDIO_CRO_CONFIG.parkingCopy!,
   transitionMessages: STUDIO_CRO_CONFIG.transitionMessages,
-  urgencyWeeklySlots: STUDIO_CRO_CONFIG.urgency.slotsLabel,
   priceHoldBadge: STUDIO_CRO_CONFIG.urgency.priceHoldBadge,
   exitIntentTitle: STUDIO_CRO_CONFIG.exitIntent.title,
   exitIntentBody: STUDIO_CRO_CONFIG.exitIntent.body,

@@ -10,11 +10,11 @@ export type StudioValueVideo = ShowcaseVideo & {
 /** /studio - וידאו ראשי + תיק עבודות */
 export const STUDIO_HUB_FEATURED: ShowcaseVideo = {
   videoId: "XUr2e5S4JSA",
-  title: "תיק עבודות - רון נשר וז'קו אייזנברג",
+  title: "תיק עבודות מהאולפן - אמנים שהקליטו אצלנו",
 };
 
 export const STUDIO_HUB_PORTFOLIO_NOTE =
-  "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)";
+  "תיק עבודות מהאולפן - הופק והוקלט ביקיר כהן הפקות";
 
 /** סדר התצוגה בעמוד /studio: תיק ראשי ואז סרטוני ערך */
 export const STUDIO_HUB_SHOWCASE_VIDEOS: readonly StudioValueVideo[] = [

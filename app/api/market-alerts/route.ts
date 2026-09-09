@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
 import alertsData from "@/lib/data/market-alerts.generated.json";
+import { verifyBearerToken } from "@/lib/api-auth";
 
 const RESEND_API = "https://api.resend.com/emails";
 
@@ -25,14 +26,9 @@ function notifyEmail(): string {
   return process.env.LEAD_NOTIFY_EMAIL?.trim() || CONTACT_EMAIL_INTERNAL;
 }
 
-/** POST /api/market-alerts - cron digest of arbitrage signals (Bearer CRON_SECRET) */
+/** GET/POST /api/market-alerts - cron digest of arbitrage signals (Bearer CRON_SECRET) */
 export async function POST(request: Request) {
-  const cronSecret = process.env.CRON_SECRET?.trim();
-  if (!cronSecret) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!verifyBearerToken(request, process.env.CRON_SECRET)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -96,15 +92,5 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true, sent: to.length, alertCount: alerts.length });
 }
 
-/** GET - dev-only status */
-export async function GET() {
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "not_found" }, { status: 404 });
-  }
-  const alerts = (alertsData as { alerts?: MarketAlert[] }).alerts ?? [];
-  return NextResponse.json({
-    alertCount: alerts.length,
-    subscribers: parseSubscribers().length,
-    resendConfigured: isConfigured(),
-  });
-}
+/** Vercel Cron Jobs call GET - delegate to the same handler. */
+export const GET = POST;

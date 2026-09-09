@@ -30,6 +30,8 @@ export type ConversionEventName =
   | "chatbot_copy_click"
   | "coupon_popup_show"
   | "coupon_popup_close"
+  | "gift_finder_show"
+  | "gift_finder_close"
   | "coupon_popup_cta_click"
   | "session_rescuer_shown"
   | "session_rescuer_resume"

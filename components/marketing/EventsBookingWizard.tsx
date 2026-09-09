@@ -40,13 +40,17 @@ import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
+import Link from "next/link";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   EVENT_BOOKING_ITEMS,
   EVENT_BUNDLE_BADGE_LABELS,
   EVENT_GIFT_THRESHOLD,
+  isEventQuoteOnly,
+  countAttractionUnits,
   RIGID_ACTIVATION_OPTIONS,
   LIQUID_FREQUENCY_OPTIONS,
   defaultQuantity,
@@ -91,6 +95,7 @@ import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
 import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { useBookCoreContactBridge } from "@/hooks/useBookCoreContactBridge";
 import { useBookExitIntent } from "@/hooks/useBookExitIntent";
@@ -307,7 +312,7 @@ export default function EventsBookingWizard({
     () => form.selected.filter((id) => id !== SOUND_RENTAL_ID),
     [form.selected],
   );
-  const count = attractionIds.length;
+  const count = countAttractionUnits(attractionIds, form.quantities);
   const hasSoundRental = form.selected.includes(SOUND_RENTAL_ID);
 
   /** סכום תוספות הפעלה/תדירות (מעל מחיר הבסיס) */
@@ -348,18 +353,17 @@ export default function EventsBookingWizard({
 
   const upsellTotal = sumAddonPrices(new Set(form.selectedUpsells));
   const lastMinuteUpsellCfg = EVENTS_CRO_CONFIG.lastMinuteUpsell;
-  const lastMinutePhotoDiscount =
-    form.lastMinuteUpsell &&
-    lastMinuteUpsellCfg &&
-    form.selectedUpsells.includes(lastMinuteUpsellCfg.upgradeId)
-      ? lastMinuteUpsellCfg.listPrice - lastMinuteUpsellCfg.promoPrice
-      : 0;
-  const adjustedUpsellTotal = upsellTotal - lastMinutePhotoDiscount;
+  /* היה כאן ניכוי של 875 ש״ח שנגזר מהפרש בין מחיר ייחוס מומצא (1,750)
+     לבין מחיר מבצע. המוצר בפועל הוא קליפ סיכום מהיר ב-950, ולכן הניכוי
+     הוריד את הסכום מתחת למחיר הקטלוגי. השדרוג נגבה עכשיו במחירו. */
+  const adjustedUpsellTotal = upsellTotal;
   const bundleBase = getEventBundlePrice(count);
   const soundRentalLine = hasSoundRental ? SOUND_RENTAL_PRICE : 0;
   const bundleTotal = bundleBase + addOnTotal + soundRentalLine + adjustedUpsellTotal;
   /** חיסכון מהבאנדל - לא כולל הגברה ולא כולל תוספות */
-  const savings = count > 1 ? count * 1750 - bundleBase : 0;
+  /* 1,750 היה קשיח כאן וחמק מאודיט המחירים. שורת החיסכון מוצגת ללקוח,
+     ולכן מחיר יחידה מיושן כאן מפרסם חיסכון שגוי. */
+  const savings = count > 1 ? count * getExVat("event_attraction_1") - bundleBase : 0;
   /** חיסכון מ-upsells עם מחיר מקורי */
   const upsellSavings = useMemo(
     () =>
@@ -829,7 +833,7 @@ export default function EventsBookingWizard({
           <EventsWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו אטרקציות</h2>
           <p className="text-sm text-muted-foreground">
-            2 אטרקציות = חבילה · 4+ = מתנת מצגת תמונות · כמות כפולה = 25% הנחה
+            2 אטרקציות = הנחה 10% · 3 = 15% · 4 ומעלה = 20% ומתנה · כמות כפולה נספרת כשתי אטרקציות
           </p>
           <div id="book-events-selection" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {EVENT_BOOKING_ITEMS.map((item) => {
@@ -859,7 +863,7 @@ export default function EventsBookingWizard({
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="shrink-0 text-[0.65rem] text-muted-foreground/70 hover:text-brand-red transition-colors underline-offset-2 hover:underline"
+                          className="shrink-0 text-[0.65rem] text-muted-foreground hover:text-brand-red transition-colors underline-offset-2 hover:underline"
                           aria-label={`מידע נוסף על ${item.name}`}
                         >
                           מידע נוסף ↗
@@ -941,7 +945,7 @@ export default function EventsBookingWizard({
                               )}
                             >
                               <span className="block font-semibold">2 תותחים</span>
-                              <span className="block text-[0.6rem] text-green-700">+875 ₪ (25% הנחה)</span>
+                              <span className="block text-[0.6rem] text-green-700">מחיר זוג</span>
                             </button>
                           </div>
                           {selectedUpsellSet.has("confetti_second_cannon") ? (
@@ -1039,12 +1043,11 @@ export default function EventsBookingWizard({
                       <p className="px-0.5 text-[0.7rem]">
                         {qty === "double" ? (
                           <>
-                            <span className="line-through text-muted-foreground/60">+1,750 ₪</span>{" "}
-                            <span className="font-semibold text-green-700">+875 ₪</span>
-                            <span className="text-muted-foreground"> (25% הנחה על הזוג)</span>
+                            <span className="font-semibold text-green-700">נספר כשתי אטרקציות</span>
+                            <span className="text-muted-foreground"> (הנחה 10% על הזוג)</span>
                           </>
                         ) : (
-                          <span className="text-muted-foreground/60">בחר כמות כפולה וחסוך 25%</span>
+                          <span className="text-muted-foreground">כמות כפולה נספרת כשתי אטרקציות ומזכה בהנחה</span>
                         )}
                       </p>
                     </>
@@ -1153,6 +1156,7 @@ export default function EventsBookingWizard({
                 setErrors(next);
               }}
             />
+            <WizardPartialLeadNotice />
             <div id="book-events-schedule">
               <BookingDateTimeFields
                 date={form.date}
@@ -1270,7 +1274,10 @@ export default function EventsBookingWizard({
                       <span className="text-muted-foreground">
                         חבילת {count} אטרקציה{count !== 1 ? "ות" : ""}
                       </span>
-                      <span>{bundleBase.toLocaleString("he-IL")} ₪</span>
+                      <span>
+                        {isEventQuoteOnly(count) ? "מ-" : ""}
+                        {bundleBase.toLocaleString("he-IL")} ₪
+                      </span>
                     </div>
                   ) : null}
                   {attractionIds
@@ -1365,6 +1372,14 @@ export default function EventsBookingWizard({
               <div className="rounded-xl bg-surface px-4 py-3 text-center">
                 <p className="text-xs leading-relaxed text-muted-foreground">
                   המציאות דינמית. אם תצטרכו לשנות שעה או להוסיף אטרקציה אחרי השליחה הכל בסדר. גמיש עד יום האירוע. אין קנסות ואין אותיות קטנות.
+                </p>
+                {/* אותה התחייבות בדיוק שמופיעה בשאלות הנפוצות ובתנאי השירות */}
+                <p className="mt-2 text-xs font-semibold leading-relaxed text-foreground">
+                  ואם האירוע לא יכול להתקיים בגלל מלחמה, מגפה או מצב חירום, אתם מקבלים{" "}
+                  <Link href="/terms" className="underline underline-offset-2">
+                    החזר כספי מלא
+                  </Link>
+                  .
                 </p>
               </div>
 

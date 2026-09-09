@@ -68,7 +68,8 @@ export default function EquipmentPageContent() {
       bookSlug={service.slug}
       pagePath="/events/equipment"
       metaDescription={service.metaDescription}
-      faqs={service.faqs}
+      /* בלי faqs: FaqPageSchema למעלה כבר פולט את הצומת, וכפילות
+         יוצרת שני FAQPage עם אותן שאלות באותו עמוד. */
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -115,7 +116,7 @@ export default function EquipmentPageContent() {
                   <h3 className="font-semibold tracking-tight text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     {item.body}
                   </p>
                 </div>

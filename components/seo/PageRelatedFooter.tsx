@@ -19,7 +19,7 @@ const ROLE_HINT: Record<RelatedRole, string> = {
 };
 
 /**
- * 2–3 קישורים מדורגים בסוף דף — לא קיר לינקים.
+ * 2 - 3 קישורים מדורגים בסוף דף - לא קיר לינקים.
  * ראשי מ-next-up כשקיים; המרה (מחירון/הזמנה) ב-sticky, לא כאן.
  * לא מציג NextUpSuggestionBlock בנפרד כדי לא לכפול.
  */
@@ -70,7 +70,7 @@ export default function PageRelatedFooter({
                 href={item.href}
                 className="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted-foreground underline-offset-2 hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
-                <span className="text-[0.65rem] font-semibold tracking-wide text-muted-foreground/80 uppercase">
+                <span className="text-[0.65rem] font-semibold tracking-wide text-muted-foreground uppercase">
                   {ROLE_HINT[item.role]}
                 </span>
                 <span className="font-medium text-foreground">{item.label}</span>

@@ -41,7 +41,7 @@ export default function WizardIdleHelpBubble({
           href={waHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-xl bg-[#25D366] px-3 py-2 text-xs font-semibold text-white hover:bg-[#1fba59]"
+          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-xl bg-[#178741] px-3 py-2 text-xs font-semibold text-white hover:bg-[#0f6e34]"
         >
           {cta}
         </a>

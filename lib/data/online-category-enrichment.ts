@@ -45,7 +45,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
     slug: "audio-music",
     ctaPrimaryLabel: "שלחו קובץ אודיו לבדיקה ראשונית",
     ctaWhatsAppText:
-      "היי יקיר! יש לי קובץ אודיו/שירה שצריך שיפור או מיקס. אשמח לבדיקה ראשונית והצעת מחיר.",
+      "היי יקיר, יש לי קובץ אודיו/שירה שצריך שיפור או מיקס. אשמח לבדיקה ראשונית והצעת מחיר.",
     leadHeading: "השאירו פרטים - אודיו ומוזיקה",
     leadDescription:
       "צרפו אורך הקלטה ומה המטרה (שיר, ברכה, ארכיון). נחזור עם מסלול ומחיר.",
@@ -113,7 +113,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
     slug: "podcast-voice",
     ctaPrimaryLabel: "שלחו פרק / הקלטה לבדיקה",
     ctaWhatsAppText:
-      "היי יקיר! יש לי פרק פודקאסט או הקלטת דיבור לעריכה. אשמח להצעת מחיר וזמן מסירה.",
+      "היי יקיר, יש לי פרק פודקאסט או הקלטת דיבור לעריכה. אשמח להצעת מחיר וזמן מסירה.",
     leadHeading: "השאירו פרטים - פודקאסט ודיבור",
     leadDescription:
       "ציינו אורך הפרק והאם צריך גם תמלול או גרסאות קצרות. נחזור עם הצעה מדויקת.",
@@ -187,7 +187,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
     slug: "video-content",
     ctaPrimaryLabel: "שלחו קישור לוידאו או בריף קצר",
     ctaWhatsAppText:
-      "היי יקיר! יש לי וידאו / תוכן ארוך שצריך עריכה או חיתוך לרשתות. אשמח להצעת מחיר.",
+      "היי יקיר, יש לי וידאו / תוכן ארוך שצריך עריכה או חיתוך לרשתות. אשמח להצעת מחיר.",
     leadHeading: "השאירו פרטים - וידאו ותוכן",
     leadDescription:
       "שלחו קישור ל-Drive או תיאור הפרויקט. נחזור עם חבילה ולו״ז.",
@@ -252,7 +252,7 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
     slug: "image-design",
     ctaPrimaryLabel: "שלחו תמונות או בריף עיצובי",
     ctaWhatsAppText:
-      "היי יקיר! יש לי תמונות לשדרוג ב-AI או חומרים לעיצוב. אשמח להצעת מחיר מהירה.",
+      "היי יקיר, יש לי תמונות לשדרוג ב-AI או חומרים לעיצוב. אשמח להצעת מחיר מהירה.",
     leadHeading: "השאירו פרטים - תמונה ועיצוב",
     leadDescription:
       "ציינו כמה תמונות ומה המטרה (אלבום, קמפיין, אתר). נחזור עם הצעה.",

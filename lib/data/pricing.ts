@@ -5,7 +5,7 @@
  * נצרך אוטומטית ב: מחירון סטודיו, פודקאסט, מחשבונים, ניווט, שוברים, llms.txt ועוד.
  */
 
-import { getExVat } from "./pricing-catalog";
+import { getExVat, CATALOG_VAT_RATE } from "./pricing-catalog";
 
 /** חצי שעה באולפן (30 דק׳) - פודקאסט קצר, הקלטה קצרה */
 export const STUDIO_HALF_HOUR_NIS = getExVat("studio_half_hour");
@@ -16,8 +16,8 @@ export const STUDIO_ONE_HOUR_NIS = getExVat("studio_hour");
 /** עריכת פודקאסט - לכל שעת חומר גולמי */
 export const PODCAST_EDITING_PER_HOUR_NIS = getExVat("podcast_editing_hour");
 
-/** שיעור מע״מ (להצגה במחשבונים) */
-export const VAT_RATE = 0.18;
+/** שיעור מע״מ (להצגה במחשבונים) - מקור: pricing-catalog.ts */
+export const VAT_RATE = CATALOG_VAT_RATE;
 
 export const PRICES_EXCLUDE_VAT_NOTE = "המחירים לפני מע״מ (+18%)";
 

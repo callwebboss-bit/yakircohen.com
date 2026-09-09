@@ -30,7 +30,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "EQ הוא קיצור של Equalizer - כלי לאיזון תדרים. כל קול מורכב מתדרים שונים: בסים, אמצע וחרשים. כשהיחס ביניהם לא נכון, הסאונד נשמע עמום, צורמני או ביתי. תיקון EQ מאזן אותם כך שהסאונד נשמע ברור, חם ומקצועי.",
     ctaText: "שלחו קובץ",
-    whatsappMessage: "היי יקיר! הסאונד שלי נשמע לא טוב - אשמח לתיקון EQ.",
+    whatsappMessage: "היי יקיר, הסאונד שלי נשמע לא טוב - אשמח לתיקון EQ.",
     utm_campaign: "eq_faq_what",
   },
   {
@@ -39,7 +39,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לפודקאסטים, ראיונות, שירים, קריינות ושיעורים מוקלטים - כל מי שהסאונד שלו נשמע טלפוני, עמום, או שיש בו צרימה שמפריעה למאזינים.",
     ctaText: "שאלו אותנו",
-    whatsappMessage: "היי יקיר! האם תיקון EQ יעזור לסאונד שלי?",
+    whatsappMessage: "היי יקיר, האם תיקון EQ יעזור לסאונד שלי?",
     utm_campaign: "eq_faq_who",
   },
   {
@@ -48,7 +48,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לא - הקול שלכם ישאר שלכם. המטרה היא שיישמע כאילו הוקלט בתנאים מעולים. מתקנים את הסאונד, לא את הזהות הקולית.",
     ctaText: "בקשו סקיצה",
-    whatsappMessage: "היי יקיר! אשמח לשמוע דוגמה לפני/אחרי תיקון EQ.",
+    whatsappMessage: "היי יקיר, אשמח לשמוע דוגמה לפני/אחרי תיקון EQ.",
     utm_campaign: "eq_faq_natural",
   },
   {
@@ -57,7 +57,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "בהחלט - ורוב הלקוחות שלנו עושים את זה. שאלו אותנו בוואטסאפ על חבילה משולבת.",
     ctaText: "שאלו על חבילה",
-    whatsappMessage: "היי יקיר! רוצה ניקוי רעשים + תיקון EQ ביחד - כמה עולה?",
+    whatsappMessage: "היי יקיר, רוצה ניקוי רעשים + תיקון EQ ביחד - כמה עולה?",
     utm_campaign: "eq_faq_combo",
   },
   {
@@ -66,14 +66,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "במידה וההקלטה ארוכה מ-5 דקות, שלחו לנו הודעה בוואטסאפ ונחזור עם הצעת מחיר מותאמת לפי אורך הקטע.",
     ctaText: "הצעת מחיר",
-    whatsappMessage: "היי יקיר! יש לי קטע ארוך - מה מחיר לתיקון EQ?",
+    whatsappMessage: "היי יקיר, יש לי קטע ארוך - מה מחיר לתיקון EQ?",
     utm_campaign: "eq_faq_longer",
   },
 ];
 
 export default function OnlineEqFixPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! הסאונד שלי לא נשמע טוב ורוצה תיקון תדרים ו-EQ. אשמח לשמוע.",
+    text: "היי יקיר, הסאונד שלי לא נשמע טוב ורוצה תיקון תדרים ו-EQ. אשמח לשמוע.",
     utm_source: "online",
     utm_campaign: "eq_fix_cta",
   });

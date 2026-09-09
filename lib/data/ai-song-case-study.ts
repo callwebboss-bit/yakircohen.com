@@ -28,7 +28,7 @@ export const AI_SONG_CASE_STUDY_COPY: Record<
   },
   "recording-studio": {
     headingId: "ai-song-case-studio-heading",
-    heading: "חווית הקלטה משחררת בגובה העיניים – בלי פוזות ובלי טכנאים קרירים",
+    heading: "חווית הקלטה משחררת בגובה העיניים - בלי פוזות ובלי טכנאים קרירים",
     body: "ככה נראית הקלטה אצלנו: שיחה בגובה העיניים, ליווי צמוד, וסאונד מקצועי בסוף.",
   },
   "ai-music": {

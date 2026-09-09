@@ -105,7 +105,7 @@ const voiceoverTechBarrierRelief = resolveTechBarrierRelief(
 
 export default function VoiceoverCoursePage() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מתעניין/ת בקורס הקריינות. אשמח לשיחת ייעוץ ראשונית לגלות יחד את הפוטנציאל בקול שלי.",
+    text: "היי יקיר, אני מתעניין/ת בקורס הקריינות. אשמח לשיחת ייעוץ ראשונית לגלות יחד את הפוטנציאל בקול שלי.",
     utm_source: "academy",
     utm_campaign: "voiceover_course_cta",
   });

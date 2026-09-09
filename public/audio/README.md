@@ -18,6 +18,8 @@
 | `dry-vocal-raw.mp3` / `full-production.mp3` | הפקה מלאה | הקלטת שיר |
 | `before-rengtone.mp3` / `after-ringtone.mp3` | רינגטון | רינגטון מצחיק |
 | `AI-patch-recommendation.mp3` | דמו AI (לא לפני/אחרי) | תיקון זיופים |
+| `voiceover-other-narrator.mp3` / `voiceover-yakir-cohen.mp3` | השוואת זהות: קריין אחר מול יקיר כהן (לא לפני/אחרי עיבוד) | `/portfolio`, `/voiceover`, `/voiceover/services` |
+| `NO+YAKIR.mp3` / `Yes_Vocal_Yakircohen.mp3` | מקור להעתקה בלבד. באתר משתמשים בשמות URL-בטוחים למעלה. `/audio/NO+YAKIR.mp3` `/audio/Yes_Vocal_Yakircohen.mp3` | לא לנגן ישירות |
 
 ## ממתינים להעלאה
 

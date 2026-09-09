@@ -21,7 +21,7 @@ export type HubCrossSellOffer = {
 };
 
 const slideshowPrice = getExVat("cinematic_slideshow");
-const singleEffectPrice = getExVat("single_effect");
+const singleEffectPrice = getExVat("event_attraction_1");
 
 export const HUB_CROSS_SELL: Record<
   "studio" | "events" | "podcast",

@@ -8,7 +8,7 @@ import type { LegalSection } from "@/components/legal/LegalPageLayout";
 export const ACCESSIBILITY_PAGE = {
   title: "הצהרת נגישות",
   intro: "אנחנו מחויבים להנגיש את השירותים והתוכן לכל אדם, בכל מקום.",
-  updatedLabel: "דף זה עודכן ב־29 באפריל 2026. אנו עובדים באופן מתמשך על שיפור הנגישות של האתר והשירותים.",
+  updatedLabel: "דף זה עודכן ב־3 בספטמבר 2026. אנו עובדים באופן מתמשך על שיפור הנגישות של האתר והשירותים.",
   sections: [
     {
       id: "statement",
@@ -32,10 +32,43 @@ export const ACCESSIBILITY_PAGE = {
       content: (
         <>
           <p>
-            אנו מתמקדים בעמידה ב־WCAG 2.1 ברמת AA ככל הניתן, הן באתר והן בשירותים
-            המתקיימים במתקנים שלנו.
+            אנו פועלים לעמידה ב־<strong>תקן ישראלי 5568</strong> (ת&quot;י 5568) ברמת AA,
+            המבוסס על הנחיות WCAG 2.1 AA ומהווה את הדרישה החוקית לנגישות אתרים בישראל.
           </p>
           <p>חלק מהתכנים עדיין עשויים להיות בעבודה. בפרקים הבאים פירוט המצב הנוכחי.</p>
+        </>
+      ),
+    },
+    {
+      id: "coordinator",
+      title: "רכז נגישות",
+      content: (
+        <>
+          <p>
+            רכז הנגישות של יקיר כהן הפקות הוא <strong>יקיר כהן</strong>.
+          </p>
+          <ul>
+            <li>
+              טלפון / WhatsApp:{" "}
+              <a
+                href={accessibilityWhatsAppHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand-red hover:underline"
+              >
+                {LEGAL_PHONE_DISPLAY}
+              </a>
+            </li>
+            <li>
+              דוא&quot;ל:{" "}
+              <a href="mailto:yakir@yakircohen.com" className="text-brand-red hover:underline">
+                yakir@yakircohen.com
+              </a>
+            </li>
+          </ul>
+          <p>
+            לבקשות נגישות, תלונות או הצעות לשיפור - פנו אלינו ונחזור אליכם תוך יום עסקים.
+          </p>
         </>
       ),
     },

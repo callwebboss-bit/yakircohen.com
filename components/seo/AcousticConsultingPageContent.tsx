@@ -20,7 +20,7 @@ import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection"
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const generalCtaHref = buildWhatsAppHref({
-  text: "היי יקיר! אני מעוניין/ת בייעוץ אקוסטיקה לבניית אולפן. אשמח לשמוע איזה חבילה מתאימה לי.",
+  text: "היי יקיר, אני מעוניין/ת בייעוץ אקוסטיקה לבניית אולפן. אשמח לשמוע איזה חבילה מתאימה לי.",
   utm_source: "academy",
   utm_campaign: "home_studio_cta",
 });

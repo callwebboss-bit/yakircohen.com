@@ -126,7 +126,7 @@ export default function RecordingSongInquiryForm() {
         תיאום ראשוני - ללא התחייבות
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        השאירו פרטים ונחזור אליכם תוך שעה. שאלה אחת, ללא לחץ.
+        השאירו פרטים ונחזור אליכם בשעות הפעילות. שאלה אחת, ללא לחץ.
       </p>
 
       <HoneypotField value={honeypot} onChange={setHoneypot} />

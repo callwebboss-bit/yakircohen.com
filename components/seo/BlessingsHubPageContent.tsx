@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
+import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -181,16 +182,7 @@ export default function BlessingsHubPageContent() {
               מלוטשת:
             </p>
           </header>
-          <ul className="mx-auto mt-8 max-w-2xl space-y-2 text-sm leading-relaxed text-muted-foreground">
-            {BLESSING_POST_PRODUCTION_STEPS.map((step) => (
-              <li key={step} className="flex gap-2">
-                <span className="text-brand-red" aria-hidden>
-                  •
-                </span>
-                <span>{step}</span>
-              </li>
-            ))}
-          </ul>
+          <BlessingsProcessGrid steps={BLESSING_POST_PRODUCTION_STEPS} />
         </section>
 
         <section

@@ -21,14 +21,13 @@ export function youtubeEmbedUrlFromId(videoId: string): string {
 }
 
 export function buildVideoObjectSchema(input: VideoSchemaInput) {
-  return {
+  const schema = {
     "@type": "VideoObject" as const,
     name: input.name,
     description: input.description ?? input.name,
     thumbnailUrl: youtubeThumbnailUrl(input.videoId),
     contentUrl: youtubeWatchUrl(input.videoId),
     embedUrl: youtubeEmbedUrlFromId(input.videoId),
-    uploadDate: input.uploadDate ?? "2024-01-01",
     inLanguage: "he-IL",
     publisher: {
       "@type": "Organization" as const,
@@ -36,6 +35,9 @@ export function buildVideoObjectSchema(input: VideoSchemaInput) {
       url: SITE_URL,
     },
   };
+  /* uploadDate מושמט כשאינו ידוע. עדיף להשמיט מאשר לפרסם תאריך מומצא -
+     תאריך שגוי ב-structured data הוא טענה עובדתית לא נכונה מול Google. */
+  return input.uploadDate ? { ...schema, uploadDate: input.uploadDate } : schema;
 }
 
 export function buildVideoObjectGraph(videos: readonly VideoSchemaInput[]) {

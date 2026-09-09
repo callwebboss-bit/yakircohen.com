@@ -106,7 +106,7 @@ export default function FooterBrandContact() {
         href={footerWhatsAppHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-md transition-[filter,transform] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] sm:w-auto"
+        className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#178741] px-4 text-sm font-semibold text-white shadow-md transition-[filter,transform] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178741] sm:w-auto"
         aria-label="שלחו הודעה בוואטסאפ ליקיר כהן הפקות"
       >
         <WhatsAppIcon className="h-5 w-5 shrink-0" />

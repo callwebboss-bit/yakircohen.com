@@ -39,27 +39,30 @@ export default function CalculatorDisclosure({
         </p>
       </header>
 
-      {!open ? (
-        <div className="mx-auto mt-8 max-w-md text-center">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            המחשבון מיועד למי שמתכנן הזמנה בפועל. אחרי הפתיחה תוכלו לבחור חבילה,
-            תוספות ולשלוח בקשה מסודרת.
-          </p>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_28px_rgba(212,43,43,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
-            aria-expanded={open}
-            aria-controls={panelId}
-          >
-            {buttonLabel}
-          </button>
-        </div>
-      ) : (
-        <div id={panelId} className="mt-8">
-          {children}
-        </div>
-      )}
+      <div className="mx-auto mt-8 max-w-md text-center" hidden={open}>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          המחשבון מיועד למי שמתכנן הזמנה בפועל. אחרי הפתיחה תוכלו לבחור חבילה,
+          תוספות ולשלוח בקשה מסודרת.
+        </p>
+      </div>
+
+      {/* הכפתור נשאר ב-DOM תמיד: קודם הוא נמחק ברגע הפתיחה, כך ש-aria-controls
+          הצביע על id שלא קיים ולא הייתה דרך לסגור את המחשבון בחזרה. */}
+      <div className="mx-auto max-w-md text-center" hidden={open}>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_28px_rgba(212,43,43,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
+          aria-expanded={open}
+          aria-controls={panelId}
+        >
+          {buttonLabel}
+        </button>
+      </div>
+
+      <div id={panelId} className="mt-8" hidden={!open}>
+        {children}
+      </div>
     </section>
   );
 }

@@ -24,6 +24,8 @@ export const BLOG_FILTER_CATEGORIES: readonly BlogFilterCategory[] = [
       "הקלטות ואולפן",
       "אולפן ושירים",
       "חתונה ואולפן",
+      "אולפן",
+      "הקלטה ו-AI",
     ],
   },
   {
@@ -61,7 +63,7 @@ export const BLOG_FILTER_CATEGORIES: readonly BlogFilterCategory[] = [
   {
     id: "gifts",
     label: "ברכות ומתנות",
-    matches: ["ברכות והקלטות", "הפקה מוזיקלית"],
+    matches: ["ברכות והקלטות", "הפקה מוזיקלית", "הפקה"],
   },
 ];
 

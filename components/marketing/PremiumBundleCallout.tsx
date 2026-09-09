@@ -22,14 +22,14 @@ export default function PremiumBundleCallout() {
         id="premium-bundle-heading"
         className="mt-3 font-serif text-section-title font-semibold leading-snug text-foreground"
       >
-        סוגרים אולפן? בואו נעלה את האירוע בדרגה
+        כבר הזמנתם אולפן? שדרגו את החבילה
       </h3>
       <p className="text-lead mt-4 max-w-3xl text-muted-foreground">
         <Link
           href="/studio"
           className="font-medium text-brand-red transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
-          סוגרים אולפן
+          הזמנתם אולפן
         </Link>
         ? מוסיפים חבילת אפקטים (
         <Link

@@ -50,6 +50,7 @@ import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
 import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
@@ -639,6 +640,7 @@ export default function SingerAmplificationBookingWizard({
                 setErrors(next);
               }}
             />
+            <WizardPartialLeadNotice />
             <div id="book-singer-schedule">
               <BookingDateTimeFields
                 date={form.date}

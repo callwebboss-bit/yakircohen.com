@@ -171,7 +171,7 @@ export const LEAD_SOURCE_REGISTRY: readonly LeadSourceEntry[] = [
     parserId: "contact_quiz",
     label: "קוויז יצירת קשר",
     defaultSource: "/contact",
-    utmCampaigns: ["contact_page", "contact_emergency_dj"],
+    utmCampaigns: ["contact_page", "contact_same_day", "contact_emergency_dj"],
   },
   {
     formId: "market_alert_internal",

@@ -12,7 +12,11 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { getLegacyRedirects } from "../lib/legacy-redirects";
+import {
+  GONE_EXACT_PATHS,
+  GONE_PATH_PREFIXES,
+  getLegacyRedirects,
+} from "../lib/legacy-redirects";
 import { getAllBlogSlugs } from "../lib/data/blog-slugs";
 
 const root = path.join(import.meta.dirname, "..");
@@ -96,7 +100,20 @@ const patternRegexes = redirects
   .map((r) => patternToRegex(r.source))
   .filter((re): re is RegExp => re !== null);
 
+/* נתיבים שמקבלים 410 ב-proxy.ts. בלי זה הכלי היה ממליץ להוסיף להם הפניה,
+   בדיוק ההפך ממה שנכון: הם אמורים להיעלם מהאינדקס, לא להיות מופנים. */
+function isGonePath(p: string): boolean {
+  const clean = p.replace(/\/+$/, "") || "/";
+  return (
+    (GONE_EXACT_PATHS as readonly string[]).includes(clean) ||
+    (GONE_PATH_PREFIXES as readonly string[]).some(
+      (prefix) => clean === prefix || clean.startsWith(`${prefix}/`),
+    )
+  );
+}
+
 const handled: string[] = [];
+const gone: string[] = [];
 const missing: string[] = [];
 const seen = new Set<string>();
 
@@ -105,7 +122,13 @@ for (const rawLine of lines) {
   if (!p || seen.has(p)) continue;
   seen.add(p);
 
-  if (routes.has(p) || staticSources.has(p) || patternRegexes.some((re) => re.test(p))) {
+  if (isGonePath(p)) {
+    gone.push(p);
+  } else if (
+    routes.has(p) ||
+    staticSources.has(p) ||
+    patternRegexes.some((re) => re.test(p))
+  ) {
     handled.push(p);
   } else {
     missing.push(p);
@@ -117,6 +140,10 @@ console.log(`Checked ${seen.size} unique paths from ${file}`);
 console.log("\n=== Already handled - stale GSC entries (should clear after recrawl) ===\n");
 if (handled.length === 0) console.log("(none)");
 else handled.sort().forEach((p) => console.log(p));
+
+console.log("\n=== Intentionally 410 Gone (no redirect wanted - should drop out of the index) ===\n");
+if (gone.length === 0) console.log("(none)");
+else gone.sort().forEach((p) => console.log(p));
 
 console.log("\n=== Needs a new redirect in lib/legacy-redirects.ts ===\n");
 if (missing.length === 0) console.log("(none)");

@@ -13,7 +13,7 @@ const PLACEHOLDERS: Record<ServiceTypeTag, string> = {
 
 const ROUTE_PLACEHOLDERS: Record<string, string> = {
   "online-restore":
-    "למשל: הקלטת זום עם רעשי רקע — צריך ניקוי ואיזון לפני פרסום...",
+    "למשל: הקלטת זום עם רעשי רקע - צריך ניקוי ואיזון לפני פרסום...",
   "podcast-content":
     "למשל: פודקאסט שני מנחים, 40 דקות, צריך עריכה ופתיח...",
   "family-gifts":

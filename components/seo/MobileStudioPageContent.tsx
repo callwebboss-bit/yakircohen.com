@@ -5,6 +5,8 @@ import MobileStudioExampleVideos from "@/components/seo/MobileStudioExampleVideo
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
+import type { BlessingsProcessStep } from "@/lib/data/blessings-subpages";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
@@ -25,6 +27,7 @@ import {
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { getStudioService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -44,6 +47,35 @@ const MOBILE_GEO_ORDER: readonly MobileGeoId[] = [
   "center",
   "north_south",
   "eilat",
+];
+
+const MOBILE_CLIP_EX_VAT = getExVat("studio_session_clip");
+
+const MOBILE_STUDIO_SETUP_STEPS: readonly BlessingsProcessStep[] = [
+  {
+    step: "01",
+    title: "מגיעים עם הציוד",
+    description:
+      "פנלים אקוסטיים ניידים, מסכי בידוד (Shields), מיקרופונים וכרטיסי קול מקצועיים.",
+  },
+  {
+    step: "02",
+    title: "טיפול אקוסטי",
+    description:
+      "מציבים פנלים ומסכי בידוד לנטרול רעשי רקע והחזרים בחלל.",
+  },
+  {
+    step: "03",
+    title: "כוונון ובדיקה",
+    description:
+      "מכווננים מיקרופונים ורמות ובודקים את הסאונד עד שהוא נקי ומדויק.",
+  },
+  {
+    step: "04",
+    title: "מוכן להקלטה",
+    description:
+      "תוך פחות מ-30 דקות כל חלל שקט הופך לסביבת הקלטה מקצועית.",
+  },
 ];
 
 export default function MobileStudioPageContent() {
@@ -102,11 +134,49 @@ export default function MobileStudioPageContent() {
                       ? `ללא תוספת הגעה - ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`
                       : `+${geo.fee.toLocaleString("he-IL")} ₪ תוספת הגעה - סה״כ ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`}
                   </span>
-                  <span className="text-muted-foreground/80">({geo.detail})</span>
+                  <span className="text-muted-foreground">({geo.detail})</span>
                 </li>
               );
             })}
           </ul>
+        </section>
+
+        <section
+          className="rounded-xl border border-brand-red/20 bg-surface p-6 sm:p-8"
+          aria-labelledby="mobile-addons-heading"
+        >
+          <h2
+            id="mobile-addons-heading"
+            className="font-serif text-lg font-semibold text-foreground sm:text-xl"
+          >
+            מה אפשר להוסיף
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            המחיר הבסיסי מכסה את ההקלטה. אפשר להרחיב את ההפקה לפי הצורך:
+          </p>
+          <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+            <li className="flex flex-wrap gap-x-2 gap-y-1">
+              <span className="font-medium text-foreground">צילום קליפ מהסשן</span>
+              <span>
+                החל מ-{MOBILE_CLIP_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ (עם עריכה - תוספת)
+              </span>
+            </li>
+            <li className="flex flex-wrap gap-x-2 gap-y-1">
+              <span className="font-medium text-foreground">תאורה מקצועית לצילום</span>
+              <span>לפי היקף ההפקה</span>
+            </li>
+            <li className="flex flex-wrap gap-x-2 gap-y-1">
+              <span className="font-medium text-foreground">צילום וידאו והפקת קליפ מלאה</span>
+              <span>לפי פנייה</span>
+            </li>
+            <li className="flex flex-wrap gap-x-2 gap-y-1">
+              <span className="font-medium text-foreground">תוספת נסיעה לפי אזור</span>
+              <span>כמפורט במחירון האולפן הנייד למעלה</span>
+            </li>
+          </ul>
+          <p className="mt-4 text-xs text-muted-foreground">
+            שלחו מיקום, תאריך ומה שחשוב לכם - נרכיב הצעה מותאמת עם כל התוספות.
+          </p>
         </section>
 
         <BusinessCrossLink
@@ -142,22 +212,20 @@ export default function MobileStudioPageContent() {
           <MobileStudioExampleVideos videos={MOBILE_STUDIO_EXAMPLE_VIDEOS} />
         </section>
 
-        <section className="max-w-3xl" aria-labelledby="acoustics-heading">
-          <h2
-            id="acoustics-heading"
-            className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-          >
-            איך זה עובד? הסוד הוא באקוסטיקה
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            רבים שואלים: &quot;איך החדר שלי יהפוך לאולפן?&quot; התשובה טמונה
-            בציוד. אנחנו מגיעים עם פנלים אקוסטיים ניידים, מסכי בידוד למיקרופונים
-            (Shields) וציוד קצה - כרטיסי קול ומיקרופונים מהשורה הראשונה.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            תוך פחות מ-30 דקות, כל חלל שקט הופך לסביבת הקלטה מקצועית עם מינימום
-            רעשי רקע ומקסימום דיוק מוזיקלי.
-          </p>
+        <section aria-labelledby="acoustics-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="acoustics-heading"
+              className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              איך זה עובד? הסוד הוא באקוסטיקה
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              &quot;איך החדר שלי יהפוך לאולפן?&quot; התשובה טמונה בציוד ובאקוסטיקה -
+              ותוך פחות מ-30 דקות אתם מוכנים להקליט.
+            </p>
+          </header>
+          <BlessingsProcessGrid steps={MOBILE_STUDIO_SETUP_STEPS} />
         </section>
 
         <section aria-labelledby="checklist-heading">
@@ -306,7 +374,7 @@ export default function MobileStudioPageContent() {
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
-              מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00 -{" "}
+              מענה טלפוני במשרדים: א׳-ה׳ 09:00-22:00 -{" "}
               <a
                 href={`tel:${CONTACT_PHONE_E164}`}
                 className="font-medium text-brand-red hover:underline"

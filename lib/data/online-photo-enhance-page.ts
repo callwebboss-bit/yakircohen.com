@@ -83,7 +83,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     perImage: "50 ₪ לתמונה",
     ctaLabel: "הזמינו תמונה אחת ",
     whatsappMessage:
-      "היי יקיר! רוצה לשדרג תמונה אחת ב-AI (50 ₪). אשמח לשלוח לבדיקה.",
+      "היי יקיר, רוצה לשדרג תמונה אחת ב-AI (50 ₪). אשמח לשלוח לבדיקה.",
     utmCampaign: "photo_enhance_pkg_single",
   },
   {
@@ -93,7 +93,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     perImage: "40 ₪ לתמונה",
     ctaLabel: "הזמינו חבילת 5 ",
     whatsappMessage:
-      "היי יקיר! מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.",
+      "היי יקיר, מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.",
     utmCampaign: "photo_enhance_pkg_5",
   },
   {
@@ -104,7 +104,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     premium: true,
     ctaLabel: "הזמינו חבילת 10 ",
     whatsappMessage:
-      "היי יקיר! מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).",
+      "היי יקיר, מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).",
     utmCampaign: "photo_enhance_pkg_10",
   },
   {
@@ -114,7 +114,7 @@ export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
     perImage: "30 ₪ לתמונה",
     ctaLabel: "הזמינו חבילת 20 ",
     whatsappMessage:
-      "היי יקיר! רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.",
+      "היי יקיר, רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.",
     utmCampaign: "photo_enhance_pkg_20",
   },
 ] as const;
@@ -126,7 +126,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
     price: "50 ₪ נוספים",
     ctaLabel: "בקשו תיקון צבע",
     whatsappMessage:
-      "היי יקיר! רוצה תיקון צבע ידני לתמונה (תוספת 50 ₪). יש לי [כמה] תמונות.",
+      "היי יקיר, רוצה תיקון צבע ידני לתמונה (תוספת 50 ₪). יש לי [כמה] תמונות.",
     utmCampaign: "photo_enhance_addon_color",
   },
   {
@@ -135,7 +135,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
     price: "50 ₪ נוספים",
     ctaLabel: "בקשו הסרת פגמים",
     whatsappMessage:
-      "היי יקיר! יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת 50 ₪)",
+      "היי יקיר, יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת 50 ₪)",
     utmCampaign: "photo_enhance_addon_scratch",
   },
   {
@@ -144,7 +144,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
     price: "לפי בקשה",
     ctaLabel: "בדקו אם אפשר",
     whatsappMessage:
-      "היי יקיר! יש תמונה עם חלקים חסרים - אפשר לשחזר? אשמח לשלוח לבדיקה.",
+      "היי יקיר, יש תמונה עם חלקים חסרים - אפשר לשחזר? אשמח לשלוח לבדיקה.",
     utmCampaign: "photo_enhance_addon_restore",
   },
   {
@@ -153,7 +153,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
     price: "100 ₪ לתמונה",
     ctaLabel: "בקשו צביעה",
     whatsappMessage:
-      "היי יקיר! רוצה לצבוע תמונת שחור-לבן (colorization, 100 ₪ לתמונה).",
+      "היי יקיר, רוצה לצבוע תמונת שחור-לבן (colorization, 100 ₪ לתמונה).",
     utmCampaign: "photo_enhance_addon_bw",
   },
 ] as const;

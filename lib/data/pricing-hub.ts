@@ -52,7 +52,7 @@ export type PricingHubSuperCategory = {
   bgClass: string;
 };
 
-/** חמש קטגוריות עליונות במחירון — מפחית עומס קוגניטיבי */
+/** חמש קטגוריות עליונות במחירון - מפחית עומס קוגניטיבי */
 export const PRICING_HUB_SUPER_CATEGORIES: readonly PricingHubSuperCategory[] = [
   {
     id: "studio",

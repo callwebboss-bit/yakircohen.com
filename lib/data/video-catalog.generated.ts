@@ -3761,4 +3761,4 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
   }
 ] as const;
 
-export const PORTFOLIO_CATALOG_COUNT = 272 as const;
+export const PORTFOLIO_CATALOG_COUNT = 273 as const;

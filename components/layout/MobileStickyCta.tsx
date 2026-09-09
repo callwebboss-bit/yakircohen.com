@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { getMobileDecisiveNav } from "@/lib/mobile-sticky-context";
 import { cn } from "@/lib/utils";
 
-/** דפים עם sticky ייעודי / טופס — לא לכפול */
+/** דפים עם sticky ייעודי / טופס - לא לכפול */
 const HIDE_PREFIXES = ["/contact", "/book", "/pricing"] as const;
 
 function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
@@ -16,7 +16,7 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
 
 /**
  * ניווט החלטתי במובייל: מחירון · הזמנה · דף שירות (hub).
- * WhatsApp נשאר ב-FAB — לא כאן.
+ * WhatsApp נשאר ב-FAB - לא כאן.
  */
 export default function MobileStickyCta() {
   const pathname = usePathname() ?? "/";

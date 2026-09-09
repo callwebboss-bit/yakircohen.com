@@ -299,7 +299,7 @@ export default function BookAudienceCard({
             onClick={() => setQualFormOpen((v) => !v)}
             aria-expanded={qualFormOpen}
             aria-label={`קבלו הצעה תוך דקה ל${route.title} - ${catalogWithVat(route.priceExVat).toLocaleString("he-IL")} שקל סופי`}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1fba59] hover:shadow-md active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#178741] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0f6e34] hover:shadow-md active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             <WaIcon />
             קבלו הצעה תוך דקה

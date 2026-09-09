@@ -21,13 +21,11 @@ const headerResponseTimeWhatsAppHref = buildWhatsAppHref({
 
 function getResponseTimeLabel(now = new Date()): { text: string; fast: boolean } {
   if (isShabbatOrAfterFriday(now)) return { text: 'נחזור במוצ"ש', fast: false };
-  if (!isStudioOpen(now)) return { text: "נחזור ב-9:00", fast: false };
-  const h = now.getHours();
-  if (h >= 9 && h < 18) {
-    const min = 8 + (((h * 7 + now.getMinutes()) % 8));
-    return { text: `זמן תגובה: ~${min} דק'`, fast: true };
-  }
-  return { text: "זמן תגובה: ~30 דק'", fast: false };
+  if (!isStudioOpen(now)) return { text: "בבוקר חוזרים תוך דקות", fast: false };
+  /* כאן חושב מספר דקות מהשעון (8 + ((שעה*7 + דקות) % 8)) והוצג כמדידה
+     של זמן תגובה, בכל עמוד באתר. זה היה מספר פסאודו-אקראי. */
+  if (isStudioOpen(now)) return { text: "מענה אנושי עכשיו", fast: true };
+  return { text: "מקבלים פניות, עונים בשעות הפעילות", fast: false };
 }
 
 export function HeaderResponseTimeBadge() {
@@ -106,7 +104,7 @@ export function HeaderDynamicBadgesGroup() {
   );
 }
 
-/** Phone link island — isolated from scroll/state in main Header shell. */
+/** Phone link island - isolated from scroll/state in main Header shell. */
 export function HeaderPhoneLink({ className }: { className?: string }) {
   return (
     <a

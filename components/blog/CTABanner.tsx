@@ -48,6 +48,8 @@ export type CTABannerProps = {
   closerService?: string;
   /** Price before VAT for [YC:] tag */
   priceExVat?: number | null;
+  /** Article slug for [YC:route=] - which article produced the lead */
+  closerRoute?: string | null;
   /** Secondary CTA to /book#category */
   bookHref?: string;
   bookCtaLabel?: string;
@@ -67,6 +69,7 @@ export default function CTABanner({
   utm_campaign = "blog_cta",
   closerService,
   priceExVat,
+  closerRoute,
   bookHref,
   bookCtaLabel = CTA_LABELS.bookTransparent,
   serviceHref,
@@ -80,6 +83,7 @@ export default function CTABanner({
           closerService,
           priceExVat,
           utmCampaign: utm_campaign,
+          route: closerRoute,
         })
       : whatsappMessage;
 

@@ -20,15 +20,15 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כן, אבל התוצאה תלויה במקור. איכות סבירה - שיפור גדול. תמונה ממש הרוסה - תשתפר, אבל לא תהפוך לפרפקט.",
     ctaText: "שלחו תמונה לבדיקה",
-    whatsappMessage: "היי יקיר! יש לי תמונה ישנה לשדרוג AI - אפשר לבדוק אם מתאים?",
+    whatsappMessage: "היי יקיר, יש לי תמונה ישנה לשדרוג AI - אפשר לבדוק אם מתאים?",
     utm_campaign: "photo_enhance_faq_all",
   },
   {
     id: "sample",
     question: "אפשר לראות דוגמה לפני שמשלמים?",
-    answer: "כן! שלחו תמונה אחת ונעשה שדרוג בסיסי חינם כדי שתראו את הפוטנציאל.",
+    answer: "כן, שלחו תמונה אחת ונעשה שדרוג בסיסי חינם כדי שתראו את הפוטנציאל.",
     ctaText: "בקשו דוגמה חינם",
-    whatsappMessage: "היי יקיר! אשמח לדוגמת שדרוג תמונה חינם לפני הזמנה.",
+    whatsappMessage: "היי יקיר, אשמח לדוגמת שדרוג תמונה חינם לפני הזמנה.",
     utm_campaign: "photo_enhance_faq_sample",
   },
   {
@@ -37,16 +37,16 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כן. צביעה (colorization) זה שירות נפרד - 100 ₪ לתמונה.",
     ctaText: "שאלו על צביעה",
-    whatsappMessage: "היי יקיר! יש לי תמונת שחור-לבן - גם אפשר לצבוע?",
+    whatsappMessage: "היי יקיר, יש לי תמונת שחור-לבן - גם אפשר לצבוע?",
     utm_campaign: "photo_enhance_faq_bw",
   },
   {
     id: "print",
     question: "אפשר להדפיס את התמונות המשודרגות?",
     answer:
-      "כן! בדיוק המטרה - רזולוציה מספקת להדפסה באיכות טובה.",
+      "כן, בדיוק המטרה - רזולוציה מספקת להדפסה באיכות טובה.",
     ctaText: "הזמינו שדרוג",
-    whatsappMessage: "היי יקיר! רוצה לשדרג תמונות להדפסה. כמה תמונות: [מספר]",
+    whatsappMessage: "היי יקיר, רוצה לשדרג תמונות להדפסה. כמה תמונות: [מספר]",
     utm_campaign: "photo_enhance_faq_print",
   },
   {
@@ -54,7 +54,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "כמה זמן זה לוקח?",
     answer: "יום עבודה אחד. לפעמים כמה שעות אם לא עמוס.",
     ctaText: "בדקו זמינות",
-    whatsappMessage: "היי יקיר! צריך שדרוג תמונות בדחיפות - אפשר?",
+    whatsappMessage: "היי יקיר, צריך שדרוג תמונות בדחיפות - אפשר?",
     utm_campaign: "photo_enhance_faq_time",
   },
   {
@@ -63,14 +63,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "נתקן. אם ה-AI לא עשה עבודה טובה - מתקנים ידנית (ללא עלות נוספת, אלא אם זה עבודה מורכבת מאוד).",
     ctaText: "שלחו תמונה",
-    whatsappMessage: "היי יקיר! מעוניין/ת בשדרוג תמונות ב-AI.",
+    whatsappMessage: "היי יקיר, מעוניין/ת בשדרוג תמונות ב-AI.",
     utm_campaign: "photo_enhance_faq_fix",
   },
 ];
 
 export default function OnlinePhotoEnhancePageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בשדרוג תמונות ב-AI. אשמח לשלוח תמונה לדוגמה או להזמנה.",
+    text: "היי יקיר, אני מעוניין/ת בשדרוג תמונות ב-AI. אשמח לשלוח תמונה לדוגמה או להזמנה.",
     utm_source: "online",
     utm_campaign: "photo_enhance_cta",
   });

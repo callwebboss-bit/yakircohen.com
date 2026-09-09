@@ -30,7 +30,7 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
     cta: "קבע עכשיו",
     utmCampaign: "academy_session_full",
     whatsappText:
-      "היי יקיר! אני מעוניין/ת בשיעור מלא (60 דקות, 990 ₪). התחום: [הוסיפו]. אשמח לתיאום.",
+      "היי יקיר, אני מעוניין/ת בשיעור מלא (60 דקות, 990 ₪). התחום: [הוסיפו]. אשמח לתיאום.",
   },
   {
     id: "pro-session",
@@ -46,10 +46,10 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
       "ניתוח סט / מיקס / ביצוע אישי",
       "אידיאלי ל-DJ, הפקה ופיתוח קול",
     ],
-    cta: "אני רוצה את זה!",
+    cta: "אני רוצה את זה",
     utmCampaign: "academy_session_pro",
     whatsappText:
-      "היי יקיר! אני מעוניין/ת ב-Pro Session (90 דקות, 1,280 ₪). התחום: [הוסיפו]. אשמח לתיאום.",
+      "היי יקיר, אני מעוניין/ת ב-Pro Session (90 דקות, 1,280 ₪). התחום: [הוסיפו]. אשמח לתיאום.",
   },
 ] as const;
 

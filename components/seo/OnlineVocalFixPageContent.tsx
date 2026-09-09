@@ -30,7 +30,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
       'מומלץ לשלוח סקיצה (30 שניות) לפני ההזמנה המלאה. נחזיר "לפני ואחרי" חינם - כדי שתדעו מה לצפות.',
     ctaText: "בקשו סקיצה חינם",
     whatsappMessage:
-      "היי יקיר! אשמח לשלוח קטע 30 שניות לסקיצה לפני ואחרי (שיפור קול).",
+      "היי יקיר, אשמח לשלוח קטע 30 שניות לסקיצה לפני ואחרי (שיפור קול).",
     utm_campaign: "vocal_fix_faq_sample",
   },
   {
@@ -38,7 +38,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "יש הגבלה על סוגי קבצים?",
     answer: "תומכים ב-MP3, WAV, M4A, AAC ועוד. פורמט אחר? צרו קשר.",
     ctaText: "שאלו על פורמט",
-    whatsappMessage: "היי יקיר! יש לי קובץ בפורמט [הוסף] - האם אתם תומכים?",
+    whatsappMessage: "היי יקיר, יש לי קובץ בפורמט [הוסף] - האם אתם תומכים?",
     utm_campaign: "vocal_fix_faq_format",
   },
   {
@@ -47,7 +47,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "בדרך כלל 1-3 ימי עסקים. במקרי דחיפות - אפשר להזדרז (בתשלום נוסף).",
     ctaText: "בדקו זמינות",
-    whatsappMessage: "היי יקיר! צריך שיפור קול בדחיפות. מה אפשר?",
+    whatsappMessage: "היי יקיר, צריך שיפור קול בדחיפות. מה אפשר?",
     utm_campaign: "vocal_fix_faq_time",
   },
   {
@@ -56,14 +56,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "20 שנות ניסיון באולפן, ציוד מקצועי וגישה אישית לכל קובץ - לא עיבוד אוטומטי בלבד.",
     ctaText: "שלחו קובץ",
-    whatsappMessage: "היי יקיר! מעוניין/ת בשירות שיפור קול מהנייד.",
+    whatsappMessage: "היי יקיר, מעוניין/ת בשירות שיפור קול מהנייד.",
     utm_campaign: "vocal_fix_faq_diff",
   },
 ];
 
 export default function OnlineVocalFixPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בשירות שיפור קול מהנייד (250 ₪ עד 5 דק). אשמח לשלוח קובץ.",
+    text: "היי יקיר, אני מעוניין/ת בשירות שיפור קול מהנייד (250 ₪ עד 5 דק). אשמח לשלוח קובץ.",
     utm_source: "online",
     utm_campaign: "vocal_fix_cta",
   });

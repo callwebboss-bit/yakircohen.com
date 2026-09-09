@@ -17,7 +17,6 @@ import {
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
-import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 import { buildReviewSchemaGraph } from "@/lib/review-schema";
 
 const BASE = SITE_URL;
@@ -109,13 +108,20 @@ export function buildSiteSchema() {
               "Thursday",
             ],
             opens: "09:00",
-            closes: "20:00",
+            closes: "22:00",
           },
           {
             "@type": "OpeningHoursSpecification",
             dayOfWeek: "Friday",
             opens: "09:00",
             closes: "14:00",
+          },
+          /* מוצאי שבת. 21:00 בטוח אחרי צאת השבת בכל עונות השנה. */
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "21:00",
+            closes: "22:30",
           },
         ],
         areaServed: [
@@ -128,7 +134,6 @@ export function buildSiteSchema() {
         ],
         sameAs: sameAsUrls,
         parentOrganization: { "@id": `${BASE}/#organization` },
-        aggregateRating: buildGoogleAggregateRatingSchema(),
         makesOffer: [
           {
             "@type": "Offer",

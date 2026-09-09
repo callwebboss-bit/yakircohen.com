@@ -27,6 +27,7 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "אולפן פודקאסט": { href: "/podcast/podcast-studio-modiin", anchor: "אולפן פודקאסט" },
   קריינות: { href: "/voiceover", anchor: "קריינות" },
   "קריינות מקצועית": { href: "/voiceover", anchor: "קריינות מקצועית" },
+  "שירותי קריינות": { href: "/voiceover/services", anchor: "שירותי קריינות" },
   "קריינות לעסק": { href: "/business/professional-voiceover", anchor: "קריינות לעסק" },
   "הפקה מוזיקלית": { href: "/academy/music-production", anchor: "הפקה מוזיקלית" },
   "קורס DJ": { href: "/academy/dj-course", anchor: "קורס DJ" },

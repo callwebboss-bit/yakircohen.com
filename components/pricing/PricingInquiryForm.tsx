@@ -149,7 +149,7 @@ export default function PricingInquiryForm() {
     }
 
     const priceLine = selectedRow
-      ? `${selectedRow.label} — ${selectedRow.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`
+      ? `${selectedRow.label} - ${selectedRow.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`
       : section?.title || "";
 
     const body = [
@@ -277,7 +277,7 @@ export default function PricingInquiryForm() {
                 <option value="">לא בחרתי שורה ספציפית</option>
                 {section?.rows.map((r) => (
                   <option key={r.label} value={r.label}>
-                    {r.label} — {r.exVat.toLocaleString("he-IL")} ₪
+                    {r.label} - {r.exVat.toLocaleString("he-IL")} ₪
                   </option>
                 ))}
               </select>
@@ -366,7 +366,7 @@ export default function PricingInquiryForm() {
             </div>
             <div>
               <label htmlFor="piq-email" className="mb-1 block text-xs font-semibold">
-                אימייל (אופציונלי — למדריך והתראה)
+                אימייל (אופציונלי - למדריך והתראה)
               </label>
               <input
                 id="piq-email"

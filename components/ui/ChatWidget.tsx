@@ -457,6 +457,7 @@ export default function ChatWidget({
         aria-label="מרכז מידע מהיר - שאלות נפוצות"
         aria-modal="true"
         aria-hidden={view === "closed"}
+        inert={view === "closed"}
         data-state={view !== "closed" ? "open" : "closed"}
         onKeyDown={handlePanelKeyDown}
         className="absolute bottom-[calc(100%+0.75rem)] left-0 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl transition-all duration-200 ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 max-h-[calc(100dvh-14rem)] sm:max-h-[75vh] sm:w-96"
@@ -551,11 +552,11 @@ export default function ChatWidget({
                           isPriority
                             ? "border-[var(--service-accent,#d42b2b)]/30 hover:border-[var(--service-accent,#d42b2b)]/50 hover:bg-muted/50"
                             : "border-border hover:border-muted-foreground/30 hover:bg-muted/50",
-                          isVisited ? "text-muted-foreground/60" : "font-medium text-foreground",
+                          isVisited ? "text-muted-foreground" : "font-medium text-foreground",
                         )}
                       >
                         <span>{q.label}</span>
-                        <span className="shrink-0 text-[10px] font-normal text-muted-foreground/50">
+                        <span className="shrink-0 text-[10px] font-normal text-muted-foreground">
                           ⚡ מיידי
                         </span>
                       </button>
@@ -588,7 +589,7 @@ export default function ChatWidget({
                         className="flex w-full items-center justify-between rounded-xl border border-border px-3 py-2.5 text-right text-sm font-medium text-foreground transition-all hover:border-[var(--service-accent,#d42b2b)]/40 hover:bg-muted/50 focus-visible:bg-muted"
                       >
                         <span>{opt.label}</span>
-                        <span className="shrink-0 text-[10px] font-normal text-muted-foreground/50">
+                        <span className="shrink-0 text-[10px] font-normal text-muted-foreground">
                           {opt.nextStep ? "→" : "לתשובה"}
                         </span>
                       </button>
@@ -609,7 +610,7 @@ export default function ChatWidget({
             >
               <button
                 onClick={() => setView("list")}
-                className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 <ArrowIcon />
                 {activeTab === "guided" ? "חזרה לשלב הקודם" : "חזרה לרשימת השאלות"}
@@ -685,7 +686,7 @@ export default function ChatWidget({
 
         {/* Footer */}
         <div className="space-y-2 border-t border-border bg-muted/30 px-4 py-3">
-          <p className="text-center text-[10px] text-muted-foreground/70">
+          <p className="text-center text-[10px] text-muted-foreground">
             *כל המחירים המוצגים אינם כוללים מע״מ (18%)
           </p>
           <a
@@ -704,7 +705,7 @@ export default function ChatWidget({
           {visitedIds.size > 0 && (
             <button
               onClick={handleClearHistory}
-              className="block w-full text-center text-[10px] text-muted-foreground/50 underline underline-offset-2 transition-colors hover:text-muted-foreground focus-visible:outline-none"
+              className="block w-full text-center text-[10px] text-muted-foreground underline underline-offset-2 transition-colors hover:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
               איפוס היסטוריית חיפושים
             </button>

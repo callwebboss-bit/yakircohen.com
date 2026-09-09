@@ -327,7 +327,7 @@ export default function SmartFormClient() {
             style={{ transform: `translateX(-${(step - 1) * 100}%)` }}
           >
             {/* Step 1 */}
-            <div className="w-full flex-shrink-0" dir="rtl" aria-hidden={step !== 1}>
+            <div className="w-full flex-shrink-0" dir="rtl" aria-hidden={step !== 1} inert={step !== 1}>
               <div className="mb-4 overflow-hidden rounded-xl border border-border">
                 <LazyYouTubePlayer
                   videoId={YOUTUBE_SERVICE_EMBED_IDS["studio-hub"]}
@@ -364,7 +364,7 @@ export default function SmartFormClient() {
             </div>
 
             {/* Step 2 */}
-            <div className="w-full flex-shrink-0" dir="rtl" aria-hidden={step !== 2}>
+            <div className="w-full flex-shrink-0" dir="rtl" aria-hidden={step !== 2} inert={step !== 2}>
               <div className="flex items-center mb-6 gap-3">
                 <button
                   type="button"

@@ -108,7 +108,7 @@ const HERO_BULLETS = [
 
 export default function AboutPage() {
   const whatsappHref = buildWhatsAppHref({
-    text: "היי יקיר! קראתי על יקיר כהן הפקות ורוצה לשמוע יותר. מה הצעד הראשון?",
+    text: "היי יקיר, קראתי על יקיר כהן הפקות ורוצה לשמוע יותר. מה הצעד הראשון?",
     utm_source: "about",
     utm_campaign: "about_hero_cta",
   });
@@ -315,7 +315,9 @@ export default function AboutPage() {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-surface">
                   <Image
                     src="/images/services/studio/hub/ישראל אהרוני באולפן.webp"
-                    alt="יקיר כהן באולפן הקלטות במודיעין"
+                    /* אותו קובץ הוצג כאן כיקיר כהן ובעמוד הפודקאסט כישראל
+                       אהרוני. המצולם הוא אהרוני, שהקליט באולפן. */
+                    alt="השף ישראל אהרוני באולפן ההקלטות במודיעין"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"

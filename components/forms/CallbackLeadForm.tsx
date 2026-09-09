@@ -43,8 +43,8 @@ const DEFAULT_SERVICE_OPTIONS = [
 
 export default function CallbackLeadForm({
   heading = "מעדיפים שנחזור אליכם?",
-  description = "השאירו פרטים ונחזור אליכם תוך שעה בשעות הפעילות. ללא התחייבות.",
-  successHeading = "תודה! מיד נחזור אליכם.",
+  description = "השאירו פרטים ונחזור אליכם בשעות הפעילות. מענה אנושי, ללא התחייבות.",
+  successHeading = "תודה, מיד נחזור אליכם.",
   successDescription = "פתחנו שיח בוואטסאפ - אפשר לצרף גם קובץ לדוגמה אם יש.",
   utmCampaign = "callback_lead_form",
   serviceOptions = DEFAULT_SERVICE_OPTIONS,

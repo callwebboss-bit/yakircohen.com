@@ -9,9 +9,9 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = constructMetadata({
-  title: "אולפן פודקאסט קרוב לירושלים - 15 דקות מירושלים",
+  title: "אולפן פודקאסט קרוב לירושלים - 30 דקות מירושלים",
   description:
-    "אולפן פודקאסט מקצועי 15 דקות מירושלים - חדרי הקלטה עם ציוד מקצועי, חניה פנויה ועריכה מלאה. מתאים לפרק ראשון ולסדרות פודקאסט עסקיות.",
+    "אולפן פודקאסט מקצועי 30 דקות מירושלים - חדרי הקלטה עם ציוד מקצועי, חניה פנויה ועריכה מלאה. מתאים לפרק ראשון ולסדרות פודקאסט עסקיות.",
   slug: "podcast/jerusalem",
   keywords: [
     "אולפן פודקאסט ירושלים",
@@ -28,7 +28,7 @@ const FAQ_ITEMS: FAQItem[] = [
     id: "distance",
     question: "כמה זמן נסיעה מירושלים?",
     answer:
-      "כ-15-20 דקות בנסיעה רגילה דרך כביש 1. יש חניה פנויה ממש ליד האולפן - בלי להסתובב.",
+      "כ-כ-30 דקות בנסיעה רגילה דרך כביש 1. יש חניה פנויה ממש ליד האולפן - בלי להסתובב.",
   },
   {
     id: "first-time",
@@ -58,7 +58,7 @@ const FAQ_ITEMS: FAQItem[] = [
 
 const FEATURES = [
   {
-    title: "15 דקות מירושלים",
+    title: "30 דקות מירושלים",
     desc: "דרך כביש 1, ללא פקקים בדרך כלל. חניה פנויה ליד האולפן.",
   },
   {
@@ -80,7 +80,7 @@ const jsonLd = {
   "@type": "Service",
   name: "אולפן פודקאסט קרוב לירושלים",
   description:
-    "הקלטת פודקאסט מקצועי 15 דקות מירושלים. ציוד מלא, עריכה, מסירה לפרסום.",
+    "הקלטת פודקאסט מקצועי 30 דקות מירושלים. ציוד מלא, עריכה, מסירה לפרסום.",
   provider: {
     "@type": "LocalBusiness",
     name: "יקיר כהן הפקות",
@@ -129,10 +129,10 @@ export default function PodcastJerusalemPage() {
               יקיר כהן הפקות
             </p>
             <h1 className="mt-4 font-serif text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
-              אולפן פודקאסט 15 דקות מירושלים
+              אולפן פודקאסט 30 דקות מירושלים
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-              מגיעים ממודיעין - 15 דקות מירושלים דרך כביש 1 עם חניה פנויה.
+              מגיעים ממודיעין - 30 דקות מירושלים דרך כביש 1 עם חניה פנויה.
               מקליטים, עורכים ומוסרים פרק מוכן לSpotify ו-Apple Podcasts.
             </p>
             <p className="mt-3 text-sm font-semibold text-brand-red">
@@ -155,7 +155,7 @@ export default function PodcastJerusalemPage() {
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
+              מענה אנושי בשעות הפעילות{" "}
               <Link href="/start" className="font-semibold text-brand-red hover:underline">
                 איך התהליך עובד
               </Link>
@@ -200,7 +200,7 @@ export default function PodcastJerusalemPage() {
               איך מגיעים מירושלים?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              כביש 1 מירושלים לכיוון תל אביב, יציאה מודיעין. נסיעה של 15-20 דקות ברוב שעות היום
+              כביש 1 מירושלים לכיוון תל אביב, יציאה מודיעין. נסיעה של כ-30 דקות ברוב שעות היום
               (לא בשעות פקקים עמוסות). חניה פנויה ברחוב ליד האולפן - לא צריך לחפש.
             </p>
             <p className="mt-4 text-sm text-muted-foreground">

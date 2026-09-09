@@ -5,7 +5,7 @@ export type WizardCroFormSlice = {
   lastMinuteUpsell?: boolean;
 };
 
-/** מטא CRO ל-[YC:...] — events / podcast / singer (אולפן דרך studioCro) */
+/** מטא CRO ל-[YC:...] - events / podcast / singer (אולפן דרך studioCro) */
 export function wizardCroYcExtras(
   form: WizardCroFormSlice,
 ): Pick<

@@ -235,7 +235,7 @@ export default function SocialShare({
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(SHARE_BTN, "text-[#25d366] hover:border-[#25d366]/40 hover:bg-[#25d366]/8 hover:text-[#25d366]")}
+              className={cn(SHARE_BTN, "text-[#107a45] hover:border-[#107a45]/40 hover:bg-[#107a45]/8 hover:text-[#107a45]")}
               aria-label={`שתף בוואטסאפ: ${title}`}
             >
               <WhatsAppIcon />
@@ -247,7 +247,7 @@ export default function SocialShare({
               href={facebookHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(SHARE_BTN, "text-[#1877f2] hover:border-[#1877f2]/40 hover:bg-[#1877f2]/8 hover:text-[#1877f2]")}
+              className={cn(SHARE_BTN, "text-[#0a66c2] hover:border-[#0a66c2]/40 hover:bg-[#0a66c2]/8 hover:text-[#0a66c2]")}
               aria-label={`שתף בפייסבוק: ${title}`}
             >
               <FacebookIcon />

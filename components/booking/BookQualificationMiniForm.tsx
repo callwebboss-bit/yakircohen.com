@@ -38,7 +38,7 @@ function FieldControl({
         className={INPUT_CLASS}
         required={field.required !== false}
       >
-        <option value="">בחרו…</option>
+        <option value="">בחרו...</option>
         {field.options.map((opt) => (
           <option key={opt} value={opt}>
             {opt}
@@ -108,6 +108,7 @@ export default function BookQualificationMiniForm({
         className,
       )}
       aria-hidden={!open}
+      inert={!open}
     >
       <div className="min-h-0 overflow-hidden">
         <form
@@ -149,7 +150,7 @@ export default function BookQualificationMiniForm({
 
           <button
             type="submit"
-            className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1fba59] active:scale-[0.98]"
+            className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#178741] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0f6e34] active:scale-[0.98]"
           >
             קבלו הצעה מדויקת בוואטסאפ
           </button>

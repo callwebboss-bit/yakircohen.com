@@ -112,7 +112,9 @@ const STUDIO_FROM = 590;
 const SINGER_FROM = 2800;
 const ACADEMY_FROM = 990;
 const ONLINE_FROM = getExVat("damaged_recording_rescue");
-const PHOTO_FROM = getExVat("studio_hour");
+/* היה studio_hour, כלומר שעת אולפן. ההיקף שנגזר ממנו הצהיר "לא כולל עריכה"
+   מתחת לכרטיס צילום, בעוד עמוד הצילום מבטיח שהעריכה כלולה. */
+const PHOTO_FROM = getExVat("event_photo_hourly");
 
 function dual(exVat: number): string {
   return formatFromPriceDual(exVat);
@@ -302,7 +304,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "שלום, מעוניין/ת בהגברה לזמרים לאירוע.\nמה שחסר לי: מערכת הגברה + טכנאי בשטח",
     valueFrame: "סאונד מקצועי על הבמה - אתם מתמקדים בשירה",
     closerServiceId: "live_sound",
-    servicePageHref: "/events/singer-amplification",
+    servicePageHref: "/events/equipment/singer-amplification",
   },
   {
     id: "photo-clips",
@@ -315,7 +317,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     essenceMicroCopy: "לשמר את הרגעים שחשובים לכם - בצילום ובוידאו.",
     priceExVat: PHOTO_FROM,
     priceNote: "שעת צילום באולפן / אירוע",
-    scope: getScopeById("studio_hour"),
+    scope: getScopeById("event_photo_hourly"),
     startingPriceDual: dual(PHOTO_FROM),
     upsellHint: "אפשר לשלב: חבילת AI - קליפ מקצועי - סרטון סיכום",
     emotionalQuestion: "מה אתם רוצים לתעד?",

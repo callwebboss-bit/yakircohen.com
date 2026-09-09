@@ -13,7 +13,7 @@ export type ScoreInput = {
 };
 
 /**
- * Lead quality 0–100.
+ * Lead quality 0 - 100.
  * Completeness + timing + budget signal + message depth + referrer quality.
  */
 export function computeLeadScore(input: ScoreInput): number {

@@ -7,6 +7,7 @@ import {
 } from "@/lib/lead-email-notify";
 import type { BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { captureException } from "@/lib/sentry-capture";
 
 export type LeadSubmitIntent = "continue_chat" | "start_now";
 
@@ -39,6 +40,7 @@ export function useLeadSubmit() {
       try {
         await notifyLeadByEmailAsync(emailPayload);
       } catch (err) {
+        captureException(err, { tags: { hook: "useLeadSubmit" } });
         if (process.env.NODE_ENV !== "production") {
           console.warn("[useLeadSubmit] email notify failed", err);
         }

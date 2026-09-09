@@ -127,7 +127,7 @@ export default function FunnyRingtoneOrderForm() {
         הזמנת רינגטון - {formatNis(RINGTONE_PRICE_NIS)} מבצע
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        השאירו פרטים ונחזור אליכם תוך שעה. בלי התחייבות - רק כדי להבין את
+        השאירו פרטים ונחזור אליכם בשעות הפעילות. בלי התחייבות, רק כדי להבין את
         הרעיון.
       </p>
 

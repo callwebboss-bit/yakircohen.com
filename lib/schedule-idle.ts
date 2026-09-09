@@ -1,4 +1,4 @@
-/** Defer work until the main thread is idle — keeps INP budget for first taps. */
+/** Defer work until the main thread is idle - keeps INP budget for first taps. */
 export function scheduleIdle(
   callback: () => void,
   options?: { timeout?: number },

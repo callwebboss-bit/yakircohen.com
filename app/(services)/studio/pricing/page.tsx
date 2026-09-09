@@ -91,7 +91,7 @@ export default function StudioPricingPage() {
         whatsappText="שלום, מעוניין לקבל הצעת מחיר מותאמת לאולפן"
         utmCampaign="studio_pricing_general"
         bookSlug="studio/pricing"
-        ctaLabel="ייעוץ תמחור בוואטסאפ"
+        ctaLabel="ייעוץ אישי בוואטסאפ"
         category="studio"
       >
       <Container className="space-y-12">
@@ -292,7 +292,7 @@ export default function StudioPricingPage() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto"
             >
-              ייעוץ תמחור בוואטסאפ
+              ייעוץ אישי עם בן אדם אמיתי
             </Button>
             <Button
               as="link"

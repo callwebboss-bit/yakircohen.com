@@ -85,18 +85,29 @@ export const FOOTER_LEGAL_LINKS = [
 export type LegalPageHref = (typeof FOOTER_LEGAL_LINKS)[number]["href"];
 
 export const BUSINESS_HOURS = [
-  { days: "ראשון - חמישי", hours: "09:00 - 20:00" },
+  { days: "ראשון - חמישי", hours: "09:00 - 22:00" },
   { days: "שישי", hours: "09:00 - 14:00" },
-  { days: "שבת", hours: "סגור" },
+  { days: "מוצאי שבת", hours: "21:00 - 22:30" },
 ] as const;
+
+/**
+ * שעות הקבלה שלמעלה הן מתי עונים, ולא מתי אפשר לפנות. אפשר לשלוח הודעה
+ * בכל שעה חוץ משבת וחג. כל מקום באתר שמציג שעות חייב לקרוא מכאן:
+ * קודם היו ארבע גרסאות סותרות, ואחת מהן היא מה שגוגל מציג בכרטיס העסק.
+ */
+export const BUSINESS_HOURS_NOTE =
+  "מקבלים פניות מסביב לשעון חוץ משבת וחג. מענה אנושי, הכי מהר שאפשר. פגישות והקלטות בתיאום מראש.";
 
 /** Trust metrics - homepage, book page, badges (edit values here) */
 export const GOOGLE_RATING = "4.9";
 export const GOOGLE_RATING_BEST = "5";
 export const GOOGLE_RATING_WORST = "1";
 /** Optional - shown in badge + schema when set (update from Google Business Profile) */
-export const GOOGLE_REVIEW_COUNT = "150";
+export const GOOGLE_REVIEW_COUNT = "241";
 export const GOOGLE_RATING_LABEL = "דירוג Google";
+
+/** שנת ההקמה של העסק, כפי שהיא מופיעה ב-lib/seo/site-schema.json */
+export const BUSINESS_FOUNDING_YEAR = 2010;
 
 export const SITE_TRUST_STATS = [
   { value: "20+", label: "שנות ניסיון" },
@@ -104,5 +115,9 @@ export const SITE_TRUST_STATS = [
   { value: `${GOOGLE_RATING} ★`, label: GOOGLE_RATING_LABEL },
 ] as const;
 
-/** הבחנה בין לקוחות כוללים לביקורות Google מאומתות */
-export const TRUST_STATS_CLARIFICATION = `5,000+ לקוחות מאז 20+ שנים · ${GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google`;
+/**
+ * "20+ שנות ניסיון" הוא הוותק האישי של יקיר, לא גיל העסק. העסק הוקם ב-2010,
+ * וכך גם רשום ב-foundingDate בסכמה. בלי ההבחנה הזו שתי הטענות סותרות זו את זו
+ * באותו עמוד, וזה בדיוק סוג הפער שפוגע באמון.
+ */
+export const TRUST_STATS_CLARIFICATION = `ניסיון אישי של 20+ שנים · האולפן פועל מאז ${BUSINESS_FOUNDING_YEAR} · ${GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google`;

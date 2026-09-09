@@ -21,7 +21,7 @@ export type LiveStatusConfig = {
   updatedAt: string;
 };
 
-/** Curated project ideas for the home status ticker — relative dates never go stale. */
+/** Curated project ideas for the home status ticker - relative dates never go stale. */
 export type LiveStatusProjectIdea = {
   title: string;
   url: string;

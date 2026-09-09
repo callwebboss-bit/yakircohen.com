@@ -58,7 +58,8 @@ export default function PhotographyEventsPageContent() {
         heroGallerySectionId="photography-events-gallery"
         pagePath="/photography/events"
         metaDescription={service.metaDescription}
-        faqs={service.faqs}
+        /* בלי faqs: FaqPageSchema למעלה כבר פולט את הצומת, וכפילות
+         יוצרת שני FAQPage עם אותן שאלות באותו עמוד. */
         {...heroProps}
         heroScrollTarget={pageHero.heroImageSrc ? "gallery" : undefined}
       >
@@ -120,7 +121,7 @@ export default function PhotographyEventsPageContent() {
                     <h3 className="font-semibold tracking-tight text-foreground">
                       {item.title}
                     </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {item.body}
                     </p>
                   </div>

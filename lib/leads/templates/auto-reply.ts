@@ -26,6 +26,15 @@ const PORTFOLIO: Record<string, { label: string; href: string }[]> = {
   ],
 };
 
+/** Lead-supplied text lands in an HTML email sent from our verified domain - escape it. */
+function esc(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 export function buildAutoReplyText(input: {
   name?: string;
   serviceType: ServiceType;
@@ -41,7 +50,7 @@ export function buildAutoReplyText(input: {
     "",
     `קיבלנו את הפנייה. נחזור אליך בדרך כלל תוך ${eta} שעות (ימי עסקים).`,
     "",
-    "בינתיים — דוגמאות רלוונטיות:",
+    "בינתיים - דוגמאות רלוונטיות:",
     linkLines,
     "",
     "יקיר כהן הפקות",
@@ -50,15 +59,15 @@ export function buildAutoReplyText(input: {
 
   const html = `
 <div style="font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:right;color:#111;">
-  <p>${name},</p>
+  <p>${esc(name)},</p>
   <p>קיבלנו את הפנייה. נחזור אליך בדרך כלל תוך <strong>${eta} שעות</strong> (ימי עסקים).</p>
-  <p>בינתיים — דוגמאות רלוונטיות:</p>
+  <p>בינתיים - דוגמאות רלוונטיות:</p>
   <ul>${links.map((l) => `<li><a href="${l.href}">${l.label}</a></li>`).join("")}</ul>
   <p>יקיר כהן הפקות<br/><a href="https://yakircohen.com">yakircohen.com</a></p>
 </div>`.trim();
 
   return {
-    subject: `קיבלנו את הפנייה — נחזור תוך ${eta} שעות`,
+    subject: `קיבלנו את הפנייה - נחזור תוך ${eta} שעות`,
     text,
     html,
   };

@@ -3,6 +3,7 @@ import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";
+import MobileStudioComesToYou from "@/components/marketing/MobileStudioComesToYou";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
@@ -124,6 +125,8 @@ export default function StudioHubPage() {
           <HubAudienceFitBlock hubPath="/studio" />
           <TimeSavedMatrix hub="studio" headingId="studio-time-saved-heading" />
 
+          <MobileStudioComesToYou />
+
           <section
             className="overflow-hidden rounded-2xl border border-border bg-surface"
             aria-labelledby="studio-geo-note"
@@ -145,7 +148,7 @@ export default function StudioHubPage() {
               <ul className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
                 {[
                   "חניה חופשית בשפע",
-                  "כ-15 דק׳ מירושלים",
+                  "כ-30 דק׳ מירושלים",
                   "נגיש מהשפלה והמרכז",
                   "תיאום גמיש בערב",
                 ].map((chip) => (
@@ -207,6 +210,18 @@ export default function StudioHubPage() {
             >
               לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות){" "}
             </Link>
+          </p>
+          <p className="text-center text-sm text-muted-foreground">
+            פרויקט נבחר:{" "}
+            <a
+              href="https://www.facebook.com/dj.yakir.cohen/videos/10155064719936418/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={'צפייה ב"הגרסה המזרחית" בפייסבוק - נפתח בכרטיסייה חדשה'}
+              className="font-semibold text-brand-red hover:underline"
+            >
+              &quot;הגרסה המזרחית&quot; - מעל מיליון צפיות בפייסבוק
+            </a>
           </p>
 
           <TrustStatsBar className="rounded-2xl border" />

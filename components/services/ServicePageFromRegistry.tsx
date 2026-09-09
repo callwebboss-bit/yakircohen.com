@@ -41,6 +41,12 @@ export type ServicePageFromRegistryProps = {
   valueFrame?: string;
   /** 3 שירותים קשורים לתצוגה לפני הפוטר (אופציונלי) */
   relatedServices?: [RelatedService, RelatedService, RelatedService];
+  /**
+   * "auto" (ברירת מחדל): עמודי events מקבלים את מחירון האטרקציות מ-/book#events.
+   * "registry": מציג את מערך ה-pricing של הרשומה. לעמודי אירועים שאינם אטרקציה
+   * בודדת (למשל הפקת בר מצווה) שבהם טבלת האטרקציות אינה ההצעה הראשית.
+   */
+  pricingSource?: "auto" | "registry";
 };
 
 export default function ServicePageFromRegistry({
@@ -51,6 +57,7 @@ export default function ServicePageFromRegistry({
   showPortfolio = true,
   valueFrame,
   relatedServices,
+  pricingSource = "auto",
 }: ServicePageFromRegistryProps) {
   const showPortfolioSection =
     showPortfolio &&
@@ -63,6 +70,8 @@ export default function ServicePageFromRegistry({
   const bookCta = resolveServiceBookCta(service.slug);
   const eventItemId =
     service.category === "events" ? resolveEventItemIdFromPath(pagePath) : null;
+  const useAttractionPricing =
+    pricingSource === "auto" && service.category === "events";
 
   const jumpChips = [
     ...(showPortfolioSection ? [{ label: "דוגמאות", href: "#showcase-section" }] : []),
@@ -96,6 +105,9 @@ export default function ServicePageFromRegistry({
       bookLabel={bookCta?.bookLabel}
       valueFrame={valueFrame}
       pagePath={pagePath}
+      /* ServicePageSchema למעלה כבר פולט Service עם אותו @id (ועשיר יותר,
+         כולל offers ו-areaServed). בלי זה היו שני צמתים סותרים על מזהה אחד. */
+      emitPageEntitySchema={false}
       metaDescription={service.metaDescription}
       {...heroProps}
     >
@@ -139,17 +151,19 @@ export default function ServicePageFromRegistry({
           />
         ) : null}
 
-        <div id="pricing-section">
-          {service.category === "events" ? (
-            <AttractionBookPricingSection
-              itemId={eventItemId}
-              serviceTitle={service.title}
-              utmCampaign={service.utmCampaign}
-            />
-          ) : (
+        {/* AttractionBookPricingSection מרנדר בעצמו section#pricing-section,
+            ולכן אסור לעטוף אותו ב-div עם אותו id (מזהה כפול ב-DOM). */}
+        {useAttractionPricing ? (
+          <AttractionBookPricingSection
+            itemId={eventItemId}
+            serviceTitle={service.title}
+            utmCampaign={service.utmCampaign}
+          />
+        ) : (
+          <div id="pricing-section">
             <ServicePagePricingSection service={service} />
-          )}
-        </div>
+          </div>
+        )}
 
         <div id="testimonials-section">
           <Testimonials

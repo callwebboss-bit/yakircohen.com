@@ -6,7 +6,7 @@ import { getMobileDecisiveNav } from "@/lib/mobile-sticky-context";
 import { CTA_LABELS } from "@/lib/data/conversion-copy";
 
 /**
- * רצועת החלטה בראש הפוטר במובייל — מחירון / הזמנה / hub.
+ * רצועת החלטה בראש הפוטר במובייל - מחירון / הזמנה / hub.
  * md:hidden; לא מחליף את מפת האתר ל-SEO.
  */
 export default function FooterMobileDecisiveNav() {

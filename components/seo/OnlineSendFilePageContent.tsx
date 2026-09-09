@@ -10,7 +10,7 @@ import ShareButton from "@/components/ui/ShareButton";
 
 export default function OnlineSendFilePageContent() {
   const whatsappHref = buildWhatsAppHref({
-    text: "היי יקיר! אישרתי את תנאי השירות והצהרת האחריות. מצרף/ת קבצים לעיבוד.",
+    text: "היי יקיר, אישרתי את תנאי השירות והצהרת האחריות. מצרף/ת קבצים לעיבוד.",
     utm_source: "online",
     utm_campaign: "send_file_whatsapp",
   });
@@ -126,7 +126,7 @@ export default function OnlineSendFilePageContent() {
                 שלחו את הקובץ בוואטסאפ
               </p>
               <p className="text-xs text-muted-foreground">
-                צרפו את הקובץ להודעה - נחזור אליכם תוך שעות ספורות
+                צרפו את הקובץ להודעה - נחזור אליכם בשעות הפעילות
               </p>
               <a
                 href={whatsappHref}

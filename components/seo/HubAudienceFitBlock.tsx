@@ -17,7 +17,7 @@ const AUDIENCE_ORDER: readonly FitAudience[] = [
 
 export type HubAudienceFitBlockProps = {
   hubPath: string;
-  /** כותרת — שונה מ-HubDecisionMatrix כדי לא לכפול */
+  /** כותרת - שונה מ-HubDecisionMatrix כדי לא לכפול */
   heading?: string;
   headingId?: string;
   className?: string;
@@ -52,7 +52,7 @@ function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
 }
 
 /**
- * Overlay להאב — בחירה לפי קהל קודם, לא לפי קטגוריה טכנית.
+ * Overlay להאב - בחירה לפי קהל קודם, לא לפי קטגוריה טכנית.
  * לא מחליף HubDecisionMatrix / תוכן קיים.
  */
 export default function HubAudienceFitBlock({
@@ -85,7 +85,7 @@ export default function HubAudienceFitBlock({
         {heading}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        לפי קהל — לא לפי שם טכני של שירות.
+        לפי קהל - לא לפי שם טכני של שירות.
       </p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">

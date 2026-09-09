@@ -78,7 +78,7 @@ export default function StudioSessionClipOffer({
           href={quoteHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#25D366] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1fba59] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#178741] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0f6e34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           {CTA_LABELS.getQuote}
         </a>

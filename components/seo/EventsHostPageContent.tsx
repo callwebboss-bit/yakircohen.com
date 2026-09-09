@@ -48,7 +48,8 @@ export default function EventsHostPageContent() {
       scarcityLabel={service.scarcityLabel}
       pagePath="/events/host"
       metaDescription={service.metaDescription}
-      faqs={service.faqs}
+      /* בלי faqs: FaqPageSchema למעלה כבר פולט את הצומת, וכפילות
+         יוצרת שני FAQPage עם אותן שאלות באותו עמוד. */
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-14 px-4 sm:px-6 lg:px-8">
@@ -93,7 +94,7 @@ export default function EventsHostPageContent() {
                 )}
               >
                 <h3 className="font-semibold tracking-tight text-foreground">{block.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground/90">{block.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{block.body}</p>
               </article>
             ))}
           </div>
@@ -117,7 +118,7 @@ export default function EventsHostPageContent() {
                 </span>
                 <div>
                   <h3 className="font-semibold tracking-tight text-foreground">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">{item.body}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
                 </div>
               </li>
             ))}

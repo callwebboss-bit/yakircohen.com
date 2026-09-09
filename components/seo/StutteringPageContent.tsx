@@ -411,7 +411,7 @@ export default function StutteringPageContent() {
             {
               icon: <span aria-hidden>💬</span>,
               title: "שיחת היכרות",
-              description: "לא בטוחים? שיחה קצרה בוואטסאפ, בדרך כלל תוך 15 דקות, תעשה סדר.",
+              description: "לא בטוחים? שיחה קצרה בוואטסאפ תעשה סדר. מענה אנושי בשעות הפעילות.",
               href: ctaHref,
               ctaLabel: "שלחו הודעה",
               external: true,

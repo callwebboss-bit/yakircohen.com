@@ -9,6 +9,7 @@ import {
   type RescuableDraft,
 } from "@/lib/booking-draft-rescuer";
 import { trackConversion } from "@/lib/analytics/conversion-events";
+import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
 import { cn } from "@/lib/utils";
 
 function isDismissedForDraft(category: RescuableDraft["category"], savedAt: string): boolean {
@@ -42,6 +43,11 @@ export default function SessionRescuerBar() {
       return;
     }
     setDraft(found);
+    // מתאם שכבה תחתונה: לא להציג אם סרגל תחתון אחר כבר פתוח (מונע היערמות/ריצוד)
+    if (!claimBottomSlot("rescuer")) {
+      setVisible(false);
+      return;
+    }
     setVisible(true);
     const trackKey = `${found.category}:${found.step}:${found.savedAt}`;
     if (shownRef.current !== trackKey) {
@@ -70,6 +76,18 @@ export default function SessionRescuerBar() {
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [refresh]);
+
+  useEffect(() => {
+    if (!visible) {
+      releaseBottomSlot("rescuer");
+      return undefined;
+    }
+    // cleanup רשום רק כשגלוי - כדי שמעבר false->true לא ישחרר את ה-claim הטרי
+    return () => releaseBottomSlot("rescuer");
+  }, [visible]);
+
+  // שחרור בטיחות ב-unmount (unmount נדיר בין claim ל-commit)
+  useEffect(() => () => releaseBottomSlot("rescuer"), []);
 
   const dismiss = useCallback(() => {
     if (!draft) return;

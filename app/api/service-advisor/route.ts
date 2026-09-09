@@ -17,7 +17,9 @@ const VALID_IDS = new Set(PRO_SERVICES.map((s) => s.id));
 
 const requestSchema = z.object({
   serviceId: z.string(),
-  inputs: z.record(z.string(), z.string()),
+  inputs: z
+    .record(z.string().max(100), z.string().max(500))
+    .refine((v) => Object.keys(v).length <= 10, { message: "Too many inputs" }),
 });
 
 const ADVISOR_MODELS = ["openai/gpt-4o-mini", "google/gemini-2.5-flash"] as const;

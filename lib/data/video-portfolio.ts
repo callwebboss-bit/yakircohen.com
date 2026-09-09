@@ -45,6 +45,26 @@ function sortIndex(videoId: string, featured: readonly string[]): number {
   return idx === -1 ? 1000 + videoId.charCodeAt(0) : idx;
 }
 
+/**
+ * מזהה שנבחר ידנית ולא נפתר נמחק כאן בשקט על ידי filter(Boolean), ולכן
+ * /events/equipment/dry-hire הציג סרטון אחד מתוך ארבעה בלי ששום דבר התלונן.
+ * האזהרה היא לפיתוח בלבד, ומודפסת פעם אחת לכל צירוף כדי לא להציף את הלוג
+ * כשאותו פלייליסט מרונדר בהרבה עמודים.
+ * השער האמיתי הוא npm run audit:portfolio-curation, שרץ גם כשאיש לא מסתכל.
+ */
+const warnedMissingCurated = new Set<string>();
+function warnMissingCuratedVideo(videoId: string, playlistId: PlaylistId): void {
+  if (process.env.NODE_ENV === "production") return;
+  const key = `${playlistId}:${videoId}`;
+  if (warnedMissingCurated.has(key)) return;
+  warnedMissingCurated.add(key);
+  console.warn(
+    `[video-portfolio] המזהה ${videoId} נבחר ידנית לפלייליסט ${playlistId} ואינו קיים ` +
+      `בקטלוג ולא ב-PLAYLIST_VIDEO_FALLBACKS. הסרטון לא יוצג. ` +
+      `להוסיף אותו ל-video-catalog.supplement.ts או להסיר את הבחירה.`,
+  );
+}
+
 export function getPlaylistVideos(playlistId: PlaylistId): ShowcaseVideoItem[] {
   const explicit = PLAYLIST_EXPLICIT_IDS[playlistId];
   if (explicit?.length) {
@@ -53,7 +73,10 @@ export function getPlaylistVideos(playlistId: PlaylistId): ShowcaseVideoItem[] {
         const fromCatalog = catalogById.get(videoId);
         if (fromCatalog) return toShowcaseItem(fromCatalog);
         const fallback = PLAYLIST_VIDEO_FALLBACKS[videoId];
-        if (!fallback) return null;
+        if (!fallback) {
+          warnMissingCuratedVideo(videoId, playlistId);
+          return null;
+        }
         return {
           videoId,
           title: fallback.title,

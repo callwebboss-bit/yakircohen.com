@@ -29,6 +29,6 @@ export function getContactAvailabilityLabel(now = new Date()): string {
     return 'שבת שלום - נחזור במוצ"ש';
   }
   return isStudioOpen(now)
-    ? "זמין עכשיו - ממוצע תגובה 15 דקות"
-    : "חוזרים ב-9:00 - ממוצע תגובה 15 דקות";
+    ? "זמין עכשיו - מענה אנושי"
+    : "מקבלים פניות מסביב לשעון, עונים מ-9:00";
 }

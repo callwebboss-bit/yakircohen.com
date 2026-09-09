@@ -54,7 +54,7 @@ export default function BookRecordingVsProduction({
           ref={beforeRef}
           controls
           preload="metadata"
-          className="mt-2 h-9 w-full"
+          className="mt-2 w-full"
           onPlay={() => pauseOther("before")}
           aria-label="דוגמת הקלטה גולמית לפני עיבוד מלא"
         >
@@ -70,7 +70,7 @@ export default function BookRecordingVsProduction({
           ref={afterRef}
           controls
           preload="metadata"
-          className="mt-2 h-9 w-full"
+          className="mt-2 w-full"
           onPlay={() => pauseOther("after")}
           aria-label="דוגמת הקלטה אחרי מיקס, מאסטרינג ותיקון זיופים"
         >

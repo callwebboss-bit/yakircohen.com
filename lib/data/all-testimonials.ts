@@ -4,7 +4,7 @@ import { RECORDING_SONG_TESTIMONIALS } from "@/lib/data/recording-song-modiin-pa
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 import { WEDDING_PHOTO_TESTIMONIALS } from "@/lib/data/wedding-photography-page";
 
-/** כל ההמלצות באתר — מרכזי + עמודי SEO ייעודיים */
+/** כל ההמלצות באתר - מרכזי + עמודי SEO ייעודיים */
 export const ALL_TESTIMONIALS: readonly TestimonialItem[] = [
   ...SITE_TESTIMONIALS,
   ...PODCAST_HUB_TESTIMONIALS,

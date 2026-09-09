@@ -41,7 +41,7 @@ export const STUDIO_CLIENT_HIGHLIGHTS: readonly StudioClientHighlight[] = [
       "/images/services/studio/recording-song-modiin/הקלטת-שיר-בר-מצווה.webp",
     imageAlt: "הקלטת שיר לבר מצווה באולפן",
     caption: "שירים וברכות",
-    href: "/blessings",
+    href: "/studio/blessings",
     linkLabel: "ברכות והקלטות",
   },
 ] as const;

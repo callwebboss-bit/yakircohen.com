@@ -1,6 +1,5 @@
 import { RINGTONE_PRICE_NIS } from "@/lib/data/funny-ringtone-page";
 import { SITE_NAME } from "@/lib/constants";
-import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 
 const LOCAL_BUSINESS_PROVIDER = {
   "@type": "LocalBusiness" as const,
@@ -23,7 +22,6 @@ export function buildStudioGiftsServiceSchema() {
     provider: LOCAL_BUSINESS_PROVIDER,
     serviceType: "שובר מתנה מהאולפן",
     areaServed: LOCAL_BUSINESS_PROVIDER.areaServed,
-    aggregateRating: buildGoogleAggregateRatingSchema(),
   };
 }
 
@@ -43,6 +41,5 @@ export function buildFunnyRingtoneServiceSchema() {
       priceCurrency: "ILS",
       availability: "https://schema.org/InStock",
     },
-    aggregateRating: buildGoogleAggregateRatingSchema(),
   };
 }

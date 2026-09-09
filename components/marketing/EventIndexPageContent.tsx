@@ -310,6 +310,7 @@ export default function EventIndexPageContent() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <input
                   type="password"
+                  aria-label="קוד גישה למנויים"
                   value={tokenInput}
                   onChange={(e) => setTokenInput(e.target.value)}
                   placeholder="קוד גישה"
@@ -322,7 +323,7 @@ export default function EventIndexPageContent() {
                   onClick={() => void loadFull(tokenInput.trim())}
                   className="min-h-11 rounded-lg bg-foreground px-5 text-sm font-semibold text-background disabled:opacity-50"
                 >
-                  {loading ? "טוען…" : "פתיחת המדד"}
+                  {loading ? "טוען..." : "פתיחת המדד"}
                 </button>
               </div>
               {loadError ? <p className="mt-2 text-sm text-brand-red">{loadError}</p> : null}

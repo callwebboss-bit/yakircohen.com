@@ -2,14 +2,14 @@ import { NextResponse } from "next/server";
 import { listLeadsNeedingFollowUp, updateLead } from "@/lib/leads/store";
 import { defaultLeadFromAddress, sendResendEmail } from "@/lib/leads/resend-send";
 import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
+import { verifyBearerToken } from "@/lib/api-auth";
 
 export const dynamic = "force-dynamic";
 
 function authorize(request: Request): boolean {
   const secret = process.env.CRON_SECRET?.trim();
   if (!secret) return process.env.NODE_ENV !== "production";
-  const auth = request.headers.get("authorization")?.trim();
-  return auth === `Bearer ${secret}`;
+  return verifyBearerToken(request, secret);
 }
 
 export async function GET(request: Request) {
@@ -25,12 +25,12 @@ export async function GET(request: Request) {
     const result = await sendResendEmail({
       from: defaultLeadFromAddress(),
       to: [to],
-      subject: `[תזכורת 24ש] ליד לא נפתח — ${lead.subject}`,
+      subject: `[תזכורת 24ש] ליד לא נפתח - ${lead.subject}`,
       text: [
         `ליד ${lead.id} נוצר ב-${lead.createdAt}`,
         `ציון: ${lead.score}`,
-        `שם: ${lead.name || "—"}`,
-        `טלפון: ${lead.phone || "—"}`,
+        `שם: ${lead.name || " - "}`,
+        `טלפון: ${lead.phone || " - "}`,
         "",
         lead.body,
       ].join("\n"),

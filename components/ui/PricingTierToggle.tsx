@@ -117,7 +117,7 @@ export default function PricingTierToggle({
           להזמנה בוואטסאפ
         </a>
 
-        <p className="text-center text-[10px] text-muted-foreground/60">
+        <p className="text-center text-[10px] text-muted-foreground">
           *המחירים לפני מע״מ (18%)
         </p>
       </div>

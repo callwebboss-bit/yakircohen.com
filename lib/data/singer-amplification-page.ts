@@ -1,3 +1,5 @@
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export const SINGER_PAGE_HERO = {
   title: "מערכת סאונד לזמרים שמבינים שהופעה היא לא מבחן טכני",
   subtitle:
@@ -129,7 +131,7 @@ export const SINGER_AUDIO_BEFORE_AFTER = {
 } as const;
 
 export const SINGER_FEEDBACK_PREVENTION = {
-  heading: "איך אנחנו מונעים 100% מהפידבקים באירוע שלכם?",
+  heading: "איך אנחנו מונעים פידבקים באירוע שלכם",
   body:
     "לפני שהזמר עולה לבמה, אנחנו מריצים ניתוח RTA (Real-Time Analyzer) - מזהים תדרים בעייתיים בחדר וחותכים אותם במיקסר עוד לפני ההופעה. לא \"נקווה לטוב\" - מודדים, מכוונים, ורק אז מתחילים.",
   bullets: [
@@ -364,7 +366,7 @@ export const SINGER_PACKAGES: readonly {
   {
     id: "basic",
     name: "חבילה 1: בסיס מקצועי",
-    price: "2,800 ₪",
+    price: `${getExVat("singer_amp_basic").toLocaleString("he-IL")} ₪`,
     badge: "פופולרי",
     includes: [
       "2 מיקרופונים Shure SM58",
@@ -376,12 +378,12 @@ export const SINGER_PACKAGES: readonly {
       "צ'ק סאונד 30 דקות",
       "הובלה, הקמה ופירוק",
     ],
-    suitedFor: "סולו/דואט, עד 150 אורחים",
+    suitedFor: "תצורה בסיסית לסולו או דואט, עד 150 אורחים. לאירוע גדול יותר ראו פרימיום ו-VIP",
   },
   {
     id: "premium",
     name: "חבילה 2: פרימיום",
-    price: "5,800 ₪",
+    price: `${getExVat("singer_amp_premium").toLocaleString("he-IL")} ₪`,
     includes: [
       "3 מיקרופונים אלחוטיים Shure Beta 58A",
       "4 רמקולי RCF פרונט",
@@ -397,7 +399,7 @@ export const SINGER_PACKAGES: readonly {
   {
     id: "vip",
     name: "חבילה 3: VIP",
-    price: "7,800 ₪",
+    price: `${getExVat("singer_amp_vip").toLocaleString("he-IL")} ₪`,
     includes: [
       "עד 6 מיקרופונים (Shure + EV RE20)",
       "Line Array RCF HDL6-A",
@@ -414,11 +416,11 @@ export const SINGER_PACKAGES: readonly {
 ] as const;
 
 export const SINGER_ADDONS: readonly { name: string; price: string }[] = [
-  { name: "מיקרופון נוסף", price: "150 ₪" },
-  { name: "מוניטור אישי נוסף", price: "200 ₪" },
-  { name: "שליטה מרחוק על המיקס (אפליקציה)", price: "300 ₪" },
-  { name: "הקלטת ההופעה מהמיקסר", price: "500 ₪" },
-  { name: "שעות נוספות", price: "300 ₪/שעה" },
+  { name: "מיקרופון נוסף", price: `${getExVat("singer_extra_mic")} ₪` },
+  { name: "מוניטור אישי נוסף", price: `${getExVat("singer_extra_monitor")} ₪` },
+  { name: "שליטה מרחוק על המיקס (אפליקציה)", price: `${getExVat("singer_remote_mix")} ₪` },
+  { name: "הקלטת ההופעה מהמיקסר", price: `${getExVat("singer_live_recording")} ₪` },
+  { name: "שעות נוספות", price: `${getExVat("singer_extra_hour")} ₪/שעה` },
 ] as const;
 
 export const SINGER_PROCESS: readonly {

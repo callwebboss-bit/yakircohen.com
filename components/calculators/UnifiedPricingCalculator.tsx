@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { UNIFIED_CALC_CATEGORIES } from "@/lib/data/unified-calculator";
-
-const VAT = 0.18;
+import { VAT_RATE as VAT } from "@/lib/data/pricing";
 
 function fmtNis(n: number) {
   return `${Math.round(n).toLocaleString("he-IL")} ₪`;

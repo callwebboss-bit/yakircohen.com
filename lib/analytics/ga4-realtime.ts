@@ -1,4 +1,5 @@
 import { createSign } from "node:crypto";
+import { verifyBearerToken } from "@/lib/api-auth";
 
 const GA4_SCOPE = "https://www.googleapis.com/auth/analytics.readonly";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
@@ -179,15 +180,9 @@ export async function fetchGa4RealtimeSnapshot(): Promise<RealtimeSnapshot> {
 }
 
 export function verifyCloserAnalyticsToken(request: Request): boolean {
-  const expected = process.env.CLOSER_ANALYTICS_TOKEN?.trim();
-  if (!expected) return false;
-  const auth = request.headers.get("authorization");
-  return auth === `Bearer ${expected}`;
+  return verifyBearerToken(request, process.env.CLOSER_ANALYTICS_TOKEN);
 }
 
 export function verifyEventIndexToken(request: Request): boolean {
-  const expected = process.env.EVENT_INDEX_TOKEN?.trim();
-  if (!expected) return false;
-  const auth = request.headers.get("authorization");
-  return auth === `Bearer ${expected}`;
+  return verifyBearerToken(request, process.env.EVENT_INDEX_TOKEN);
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
 
 const STORAGE_KEY = "pwa-install-dismissed-until";
 const DELAY_MS = 90_000;
@@ -63,18 +64,23 @@ export default function PwaInstallPrompt() {
     // Only schedule the banner if there's something to show
     // (iOS instructions OR the native install prompt)
     const timer = setTimeout(() => {
-      if (isIos || deferredPrompt.current) setVisible(true);
+      // מתאם שכבה תחתונה: להופיע רק אם אין סרגל תחתון אחר (קופון/שחזור טיוטה)
+      if ((isIos || deferredPrompt.current) && claimBottomSlot("pwa")) {
+        setVisible(true);
+      }
     }, DELAY_MS);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      releaseBottomSlot("pwa");
     };
   }, [isIos]);
 
   function handleDismiss() {
     dismiss();
     setVisible(false);
+    releaseBottomSlot("pwa");
   }
 
   async function handleInstall() {

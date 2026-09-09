@@ -74,7 +74,7 @@ export default function ShareButton({
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 shrink-0 text-brand-red" aria-hidden="true">
             <path d="M20 6L9 17l-5-5" />
           </svg>
-          <span>הועתק!</span>
+          <span>הועתק</span>
         </>
       ) : (
         <>
@@ -86,7 +86,7 @@ export default function ShareButton({
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
           </svg>
-          <span>{copied ? "הועתק!" : label}</span>
+          <span>{copied ? "הועתק" : label}</span>
         </>
       )}
     </button>

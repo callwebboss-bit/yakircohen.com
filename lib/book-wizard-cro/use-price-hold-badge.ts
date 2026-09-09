@@ -8,7 +8,7 @@ function subscribeNoop() {
   return () => {};
 }
 
-/** Avoids hydration mismatch — server snapshot is always null. */
+/** Avoids hydration mismatch - server snapshot is always null. */
 export function usePriceHoldBadge(
   category: TierACategoryId,
   badgeLabel: string,

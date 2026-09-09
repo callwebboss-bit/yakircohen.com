@@ -232,6 +232,7 @@ export default function RecordingSongFinalCTA() {
             </p>
           )}
           <select
+            aria-label="סוג האירוע"
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
             className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"

@@ -93,7 +93,7 @@ export const STUDIO_PRICING_ACCORDION_PANELS: readonly StudioPricingAccordionPan
       ...geoLines,
     ],
     extras: ["קליפ DSLR - בתוספת", "לא כולל חבילת אירוע בשטח"],
-    delivery: "תיאום תאריך ומיקום בוואטסאפ - בדרך כלל מענה תוך שעה בשעות פעילות",
+    delivery: "תיאום תאריך ומיקום בוואטסאפ - מענה אנושי בשעות הפעילות",
     serviceHref: "/studio/mobile-studio",
     bookHref: buildBookHref("studio"),
     closerService: "mobile_studio_home",

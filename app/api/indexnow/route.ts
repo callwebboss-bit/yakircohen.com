@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { verifyBearerToken } from "@/lib/api-auth";
 import { SITE_URL } from "@/lib/site-url";
 
-const INDEXNOW_KEY = "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6";
+/* המפתח ציבורי בכוונה (IndexNow מאמת בעלות מול קובץ תואם ב-public), אבל הוא
+   חייב להיות אקראי. הערך הקודם היה a1b2c3d4... כלומר ניתן לניחוש. */
+const INDEXNOW_KEY = "94d0ceaeb43083cf16346c4337afa1e8";
 
 /**
  * POST /api/indexnow

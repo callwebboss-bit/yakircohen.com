@@ -23,6 +23,8 @@ import {
   readUtmSource,
 } from "@/lib/booking-messages";
 import { STUDIO_ONE_HOUR_NIS, withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { getEventBundlePrice, isEventQuoteOnly } from "@/lib/data/events-booking";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -93,18 +95,20 @@ const ADDONS = [
   { id: "entry", name: "פסקול כניסה + קריינות דרמטית", sub: "כניסה שלא שוכחים  -  הפקה מראש + תיאום עם ה-DJ", price: 980, icon: "🎬" },
   { id: "slideshow", name: "מצגת תמונות קולנועית", sub: "סיפור ויזואלי מרגש  -  רץ שקט על המסך כל הערב", price: 750, icon: "🖼️" },
   { id: "led", name: "עמדת LED לאירועים", sub: "תאורה דקורטיבית / הקרנת לוגו  -  שדרוג ויזואלי", price: 1750, icon: "💡" },
-  { id: "drummer", name: "מתופף אלקטרוני מקצועי", sub: "ליווי מוזיקלי חי לרחבה, ללא הגברה", price: 1500, icon: "🥁" },
+  { id: "drummer", name: "מתופף אלקטרוני מקצועי", sub: "ליווי מוזיקלי חי לרחבה, ללא הגברה", price: getExVat("electronic_drummer"), icon: "🥁" },
   { id: "record_song", name: "הקלטת שיר באולפן", sub: "מחיר מיוחד ללקוחות אירועים  -  כולל תיקון קול + קובץ", price: STUDIO_ONE_HOUR_NIS, icon: "🎵" },
 ] as const;
 
+const ATTRACTION_UNIT = getExVat("event_attraction_1");
+
 const EFFECTS = [
-  { id: "smoke", name: "עשן כבד", sub: "מכונות בלעדיות, עד 4 דקות", icon: "💨", price: 1500 },
-  { id: "bubbles_smoke", name: "בועות סבון עשן", sub: 'הלהיט של העונה  -  מצטלם מדהים', icon: "🫧", price: 1500, badge: "היט" },
-  { id: "balloons", name: "בלונים ענקיים", sub: "6 בלוני ענק לרחבה, ברגע שיא", icon: "🎈", price: 1500 },
-  { id: "sparklers", name: "זיקוקים קרים", sub: "רגע קסום של אש קרה  -  ניצוצות לבנים", icon: "❄️", price: 1500 },
-  { id: "confetti", name: "תותח קונפטי", sub: "פיצוץ צבעוני ברגע השיא", icon: "🎊", price: 1500 },
-  { id: "color_smoke", name: "עשן צבעוני", sub: "תותחי צבע ברחבה", icon: "🌈", price: 1500 },
-  { id: "foam", name: "תותח קצף", sub: "מושלם לפעילות ילדים וסוף לילה", icon: "🧴", price: 1500 },
+  { id: "smoke", name: "עשן כבד", sub: "מכונות בלעדיות, עד 4 דקות", icon: "💨", price: ATTRACTION_UNIT },
+  { id: "bubbles_smoke", name: "בועות סבון עשן", sub: 'הלהיט של העונה  -  מצטלם מדהים', icon: "🫧", price: ATTRACTION_UNIT, badge: "היט" },
+  { id: "balloons", name: "בלונים ענקיים", sub: "6 בלוני ענק לרחבה, ברגע שיא", icon: "🎈", price: ATTRACTION_UNIT },
+  { id: "sparklers", name: "זיקוקים קרים", sub: "רגע קסום של אש קרה  -  ניצוצות לבנים", icon: "❄️", price: ATTRACTION_UNIT },
+  { id: "confetti", name: "תותח קונפטי", sub: "פיצוץ צבעוני ברגע השיא", icon: "🎊", price: ATTRACTION_UNIT },
+  { id: "color_smoke", name: "עשן צבעוני", sub: "תותחי צבע ברחבה", icon: "🌈", price: ATTRACTION_UNIT },
+  { id: "foam", name: "תותח קצף", sub: "מושלם לפעילות ילדים וסוף לילה", icon: "🧴", price: ATTRACTION_UNIT },
 ] as const;
 
 type EffectId = typeof EFFECTS[number]["id"];
@@ -112,19 +116,14 @@ type DjId = typeof DJ_OPTIONS[number]["id"];
 type StarId = typeof STAR_OPTIONS[number]["id"];
 type AddonId = typeof ADDONS[number]["id"];
 
-const EFFECT_SINGLE = 1500;
-const EFFECT_BUNDLE_3 = 3540;
-
+/* סולם ההנחות מגיע מ-getEventBundlePrice, בדיוק כמו באשף ההזמנה וב-/book.
+   קודם היה כאן חישוב נפרד של "חבילות של שלוש" עם 1,500 ו-3,540 קשיחים,
+   בזמן שכל שאר האתר גבה 1,750 ו-4,450. אותו מוצר, שני מחירונים. */
 function calcEffectTotal(selected: Set<EffectId>): { total: number; discount: number } {
   const count = selected.size;
   if (count === 0) return { total: 0, discount: 0 };
-  const bundlesOf3 = Math.floor(count / 3);
-  const remainder = count % 3;
-  const bundleDiscount = bundlesOf3 * (3 * EFFECT_SINGLE - EFFECT_BUNDLE_3);
-  return {
-    total: bundlesOf3 * EFFECT_BUNDLE_3 + remainder * EFFECT_SINGLE,
-    discount: bundleDiscount,
-  };
+  const total = getEventBundlePrice(count);
+  return { total, discount: count * ATTRACTION_UNIT - total };
 }
 
 /* ─── Sub-components ─────────────────────────────────────────────────────────── */
@@ -583,16 +582,16 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   ? "border-green-200 bg-green-50 text-green-800"
                   : "border-brand-red/30 bg-brand-red/5 text-foreground",
               )}>
-                {effectDiscount > 0
-                  ? `🎁 חיסכון חבילת אפקטים: -${formatCurrency(effectDiscount)} (3 אטרקציות ב-${formatCurrency(EFFECT_BUNDLE_3)})`
-                  : effects.size === 2
-                    ? `💡 עוד אטרקציה אחת וחוסכים ${formatCurrency(3 * EFFECT_SINGLE - EFFECT_BUNDLE_3)} ₪`
-                    : `💡 בחרו 3 אטרקציות לקבל מחיר חבילה`}
+                {isEventQuoteOnly(effects.size)
+                  ? `🎁 מ-${formatCurrency(getEventBundlePrice(effects.size))} לפני מע״מ. מארבע אטרקציות המחיר נסגר בשיחה`
+                  : effectDiscount > 0
+                    ? `🎁 הנחת כמות: -${formatCurrency(effectDiscount)} (${effects.size} אטרקציות ב-${formatCurrency(getEventBundlePrice(effects.size))})`
+                    : `💡 עוד אטרקציה אחת ומתחילה הנחה של 10%`}
               </div>
             )}
             {effects.size === 0 && (
               <p className="mb-4 text-xs text-muted-foreground">
-                אטרקציה בודדת: {formatCurrency(EFFECT_SINGLE)} - חבילת 3: {formatCurrency(EFFECT_BUNDLE_3)} (חיסכון {formatCurrency(3 * EFFECT_SINGLE - EFFECT_BUNDLE_3)})
+                אטרקציה בודדת: {formatCurrency(ATTRACTION_UNIT)} · שתיים: הנחה 10% · שלוש: הנחה 15% · ארבע ומעלה: הנחה 20%
               </p>
             )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

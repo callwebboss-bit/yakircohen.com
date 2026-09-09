@@ -1,6 +1,6 @@
 /**
  * Dedicated shop assets under public/images/shop/ (generate: npm run generate:shop-images).
- * Replace files in place with product shots when ready — same filenames.
+ * Replace files in place with product shots when ready - same filenames.
  */
 export const SHOP_VOUCHER_IMAGES = {
   basic: "/images/shop/voucher-basic.webp",

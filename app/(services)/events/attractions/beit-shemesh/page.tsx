@@ -162,7 +162,7 @@ export default function AttractionsBeitShemeshPage() {
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
+              מענה אנושי בשעות הפעילות{" "}
               <Link href="/start" className="font-semibold text-brand-red hover:underline">
                 איך התהליך עובד
               </Link>

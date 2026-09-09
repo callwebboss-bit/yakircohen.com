@@ -421,7 +421,7 @@ export default function NeedsDiscoveryLeadFlow({
             <HoldCountdown expiresAt={holdExpiresAt} />
             <div className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
               <p className="font-semibold text-foreground">
-                חבילה: {selectedTier ? PACKAGE_TIERS[serviceId][selectedTier].title : "—"}
+                חבילה: {selectedTier ? PACKAGE_TIERS[serviceId][selectedTier].title : " - "}
               </p>
               <p className="mt-1 text-muted-foreground">
                 סה״כ נכון לכרגע:{" "}

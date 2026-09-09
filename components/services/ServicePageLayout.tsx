@@ -88,6 +88,12 @@ export type ServicePageLayoutProps = {
    * למנוע כפילות סכמות.
    */
   pagePath?: string;
+  /**
+   * ברירת מחדל true. מי שכבר פולט Service schema בעצמו (ServicePageFromRegistry
+   * דרך ServicePageSchema) חייב להעביר false, אחרת נוצרים שני צמתי Service
+   * עם אותו @id - אחד עם offers ואחד בלי.
+   */
+  emitPageEntitySchema?: boolean;
   /** תיאור לסכמת ה-Service; ברירת מחדל היא ה-subtitle */
   metaDescription?: string;
   /** שאלות נפוצות לסכמת FAQPage המקוננת */
@@ -238,12 +244,13 @@ export default function ServicePageLayout({
   maxHeroFeatures,
   category,
   pagePath,
+  emitPageEntitySchema = true,
   metaDescription,
   faqs,
   corporateShareLabel,
   valueFrame,
 }: ServicePageLayoutProps) {
-  const pageEntitySchema = pagePath
+  const pageEntitySchema = pagePath && emitPageEntitySchema
     ? buildServicePageEntitySchema({
         pagePath,
         title,
@@ -269,7 +276,7 @@ export default function ServicePageLayout({
   });
   const inquiryText =
     startingPrice && !baseText.includes(startingPrice)
-      ? `${baseText} - מחיר: ${startingPrice}`
+      ? `${baseText} - מחיר התחלתי: ${startingPrice} לפני מע״מ`
       : baseText;
 
   const whatsappHref = buildWhatsAppHref({

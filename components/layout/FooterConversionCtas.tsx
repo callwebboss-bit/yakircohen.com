@@ -39,7 +39,7 @@ export default function FooterConversionCtas() {
             cta.variant === "primary"
               ? "inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-4 text-sm font-semibold text-white transition-[filter] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               : cta.variant === "whatsapp"
-                ? "inline-flex min-h-12 items-center justify-center rounded-xl border border-[#25D366]/60 bg-[#25D366]/10 px-4 text-sm font-semibold text-[#4ade80] transition-colors hover:bg-[#25D366]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+                ? "inline-flex min-h-12 items-center justify-center rounded-xl border border-[#178741]/60 bg-[#178741]/10 px-4 text-sm font-semibold text-[#4ade80] transition-colors hover:bg-[#178741]/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178741]"
                 : "inline-flex min-h-12 items-center justify-center rounded-xl border border-[var(--footer-border)] bg-white/5 px-4 text-sm font-semibold text-[var(--footer-fg)] transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
 
           if (cta.external) {

@@ -155,6 +155,9 @@ export default function HomePageSections({
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <HomeQuickPaths />
 
+      {/* תיק העבודות והלקוחות גבוה בעמוד - הסרטון בולט, ונשאר facade (אפס עלות LCP) */}
+      <StudioClientsStrip showFeaturedVideo />
+
       <Section
         className="bg-background"
         ariaLabelledby="services-heading"
@@ -218,8 +221,6 @@ export default function HomePageSections({
       </Section>
 
       <HomeGiftsTeaser />
-
-      <StudioClientsStrip showFeaturedVideo />
 
       <HomeServicesDetailHub />
 

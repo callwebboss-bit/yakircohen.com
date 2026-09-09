@@ -8,7 +8,7 @@ import { BOOK_CLOSER_SERVICE } from "@/lib/data/book-closer-map";
 import { BOOKING_CONSULT_15_MIN } from "@/lib/data/booking-shared";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { FILTER_STORAGE_KEY } from "@/lib/data/filter-questions";
-import { withVat } from "@/lib/data/pricing";
+import { withVat, VAT_RATE } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
   buildStudioParticipantsBlock,
@@ -31,7 +31,6 @@ import {
   type ClosingIntent,
   type ClosingTiming,
 } from "@/lib/whatsapp-closing";
-import { VAT_RATE } from "@/lib/data/pricing";
 
 export type BookingSummaryLine = {
   label: string;
@@ -414,7 +413,7 @@ export function readUtmSource(): string | null {
 
 /** Helper: derive ex-VAT from total with VAT for message display */
 export function exVatFromTotalWithVat(totalWithVat: number): number {
-  return Math.round(totalWithVat / (1 + 0.18));
+  return Math.round(totalWithVat / (1 + VAT_RATE));
 }
 
 export { withVat };

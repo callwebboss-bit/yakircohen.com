@@ -420,8 +420,8 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
               הפילוסופיה שלנו
             </span>
             <p className="text-sm italic leading-relaxed text-muted-foreground">
-              &ldquo;גם בטעות יש לוגיקה - בוא נמצא אותה יחד.
-              בדרך כלל 15 דקות ייעוץ אישי עם יקיר, ללא עלות. זה על הבית.&rdquo;
+              &quot;גם בטעות יש לוגיקה - בוא נמצא אותה יחד.
+              בדרך כלל 15 דקות ייעוץ אישי עם יקיר, ללא עלות. זה על הבית.&quot;
             </p>
             <Button
               as="a"

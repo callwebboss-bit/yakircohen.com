@@ -30,10 +30,14 @@ export type EventBookingItemQuantity =
   | RigidActivationKey
   | LiquidFrequencyKey;
 
-/** תוספת מחיר לכמות כפולה (1,750 × 2 × 0.25) - legacy */
-export const DOUBLE_QUANTITY_SURCHARGE = 875;
+/**
+ * כמות כפולה אינה תוספת מחיר אלא יחידה שנייה, ולכן היא נספרת בסולם
+ * ההנחות (ראו countAttractionUnits). קודם הייתה כאן תוספת שטוחה של 875,
+ * מודל שלישי שסתר גם את הסולם וגם את הקופי שהבטיח 25%.
+ */
+export const DOUBLE_QUANTITY_SURCHARGE = 0;
 
-const ATTRACTION_BASE_PRICE = 1750;
+const ATTRACTION_BASE_PRICE = getExVat("event_attraction_1");
 
 export type ActivationOption = { key: RigidActivationKey; label: string; shortLabel: string; addOnPrice: number };
 export type FrequencyOption = { key: LiquidFrequencyKey; label: string; shortLabel: string; addOnPrice: number; addOnPercent?: string };
@@ -41,8 +45,8 @@ export type FrequencyOption = { key: LiquidFrequencyKey; label: string; shortLab
 /** אפשרויות הפעלה לאטרקציות rigid - כל הפעלה = מלאי גלם חדש ויקר */
 export const RIGID_ACTIVATION_OPTIONS: readonly ActivationOption[] = [
   { key: "act_1", label: "הפעלה אחת (בסלואו או בכניסה)", shortLabel: "הפעלה אחת", addOnPrice: 0 },
-  { key: "act_2", label: "2 הפעלות (כניסה + סלואו)", shortLabel: "2 הפעלות", addOnPrice: 1750 },
-  { key: "act_3", label: "3 הפעלות (כניסה, סלואו ופתיחת רחבה)", shortLabel: "3 הפעלות", addOnPrice: 3500 },
+  { key: "act_2", label: "2 הפעלות (כניסה + סלואו)", shortLabel: "2 הפעלות", addOnPrice: 1200 },
+  { key: "act_3", label: "3 הפעלות (כניסה, סלואו ופתיחת רחבה)", shortLabel: "3 הפעלות", addOnPrice: 2400 },
 ];
 
 /** אפשרויות תדירות לאטרקציות liquid - עלות שולית נמוכה, תמחור אחוזני */
@@ -187,6 +191,27 @@ const EVENT_BUNDLE_TIERS: Record<number, number> = {
 const EVENT_BUNDLE_4PLUS = getExVat("event_attraction_4");
 export const EVENT_GIFT_THRESHOLD = 4;
 
+/**
+ * מארבע אטרקציות ומעלה אין מחיר סגור אלא מחיר פתיחה, והסופי נסגר בשיחה.
+ * בלי הדגל הזה מחשבון היה מציג לחמש אטרקציות בדיוק את המחיר של ארבע,
+ * כלומר מתמחר בחסר ומבטיח סכום שלא ייגבה.
+ */
+export function isEventQuoteOnly(count: number): boolean {
+  return count >= EVENT_GIFT_THRESHOLD;
+}
+
+/**
+ * סופר יחידות ולא סוגים: שני תותחי קונפטי הם שתי אטרקציות ומזכים בהנחה,
+ * לפי החלטת הבעלים מ-7.9.2026.
+ */
+export function countAttractionUnits(
+  ids: readonly EventBookingItemId[],
+  quantities: Readonly<Partial<Record<EventBookingItemId, EventBookingItemQuantity>>>,
+): number {
+  return ids.reduce((sum, id) => sum + (quantities[id] === "double" ? 2 : 1), 0);
+}
+
+/** מארבע ומעלה זהו מחיר פתיחה, לא סכום סופי. ראו isEventQuoteOnly. */
 export function getEventBundlePrice(count: number): number {
   if (count <= 0) return 0;
   if (count >= EVENT_GIFT_THRESHOLD) return EVENT_BUNDLE_4PLUS;
@@ -216,7 +241,7 @@ export function getAttractionAddOnPrice(
   if (item.pricingType === "liquid") {
     return LIQUID_FREQUENCY_OPTIONS.find((o) => o.key === qty)?.addOnPrice ?? 0;
   }
-  if (qty === "double") return DOUBLE_QUANTITY_SURCHARGE;
+  /* "double" כבר נספר כיחידה שנייה בסולם, אין להוסיף עליו שוב */
   return 0;
 }
 

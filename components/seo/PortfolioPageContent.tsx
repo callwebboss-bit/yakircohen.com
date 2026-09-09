@@ -24,6 +24,7 @@ import {
   metadataForHubSeo,
   PORTFOLIO_HUB_SEO,
 } from "@/lib/seo/hub-pages";
+import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
 
 export const portfolioMetadata = metadataForHubSeo(PORTFOLIO_HUB_SEO);
 
@@ -65,7 +66,7 @@ export default function PortfolioPageContent() {
           <p className="text-lead mt-4 text-muted-foreground">
             {PORTFOLIO_CATALOG_COUNT} סרטונים מהאולפן, האירועים והפודקאסטים - ממוינים לפי
             נושא. לחצו על קטגוריה או גללו לדוגמאות. בכל כרטיס: תצוגה מקדימה, ואז נגן
-            בלחיצה (חוסך זמן טעינה).
+            בלחיצה (חוסך זמן טעינה). בקריינות יש גם שתי דוגמאות האזנה.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Button as="link" href="/studio">
@@ -150,13 +151,16 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
   const playlistCta = getPortfolioPlaylistCta(playlistId);
 
   return (
-    <div>
+    <div id={`playlist-${playlistId}`} className="scroll-mt-24">
+      {playlistId === "voiceover-hub" ? (
+        <VoiceoverNarratorCompare context="portfolio" className="mb-10" />
+      ) : null}
       <ShowcaseVideoSection
         playlistId={playlistId}
         heading={config.heading}
         subheading={config.subheading}
         kicker={config.kicker}
-        sectionId={`playlist-${playlistId}`}
+        sectionId={`playlist-${playlistId}-videos`}
         schemaVideoLimit={24}
       />
       {playlistCta ? (

@@ -77,7 +77,7 @@ export default function VideoCorporatePage() {
                 <h3 className="font-semibold tracking-tight text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {item.body}
                 </p>
               </li>
@@ -105,7 +105,7 @@ export default function VideoCorporatePage() {
                   <h3 className="font-semibold tracking-tight text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground/90">
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     {item.body}
                   </p>
                 </div>

@@ -302,7 +302,7 @@ export default function StartPage() {
                           </span>
                           <StepIcon
                             size={22}
-                            className="text-muted-foreground/50"
+                            className="text-muted-foreground"
                           />
                         </div>
                         <h3 className="mt-5 text-lg font-semibold text-foreground">

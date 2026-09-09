@@ -1,6 +1,6 @@
 /**
  * בדיקת תאימות BPM ו-Camelot לרעיונות מאשאפ.
- * גלגל Camelot: מספר 1–12, A = minor, B = major.
+ * גלגל Camelot: מספר 1 - 12, A = minor, B = major.
  */
 
 export type MashupHarmonyRelation =

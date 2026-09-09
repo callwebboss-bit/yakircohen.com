@@ -9,11 +9,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import SessionRescuerBarLazy from "@/components/booking/SessionRescuerBarLazy";
 import UtmSessionPersist from "@/components/layout/UtmSessionPersist";
-import TabRescueTitle from "@/components/marketing/TabRescueTitle";
 import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import PwaInstallPrompt from "@/components/marketing/PwaInstallPrompt";
-import CouponPopup from "@/components/marketing/CouponPopup";
+import GiftFinderPopup from "@/components/marketing/GiftFinderPopup";
 import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
@@ -125,7 +124,6 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         <UtmSessionPersist />
-        <TabRescueTitle />
         <SiteSchema />
         <a
           href="#main-content"
@@ -148,7 +146,7 @@ export default function RootLayout({
         <DeferredFloatingFabs />
         <SessionRescuerBarLazy />
         <PwaInstallPrompt />
-        <CouponPopup />
+        <GiftFinderPopup />
       </body>
     </html>
   );

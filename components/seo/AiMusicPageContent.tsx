@@ -17,13 +17,13 @@ import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 export default function AiMusicPageContent() {
   const techBarrierRelief = resolveTechBarrierRelief("/academy/ai-music");
   const courseHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בקורס AI + מוזיקה (לימוד 1:1). אשמח לשמוע פרטים.",
+    text: "היי יקיר, אני מעוניין/ת בקורס AI + מוזיקה (לימוד 1:1). אשמח לשמוע פרטים.",
     utm_source: "academy",
     utm_campaign: "ai_music_course",
   });
 
   const serviceHref = buildWhatsAppHref({
-    text: "היי יקיר! אני צריך/ה שירות AI במוזיקה בליווי (לא לבד). אשמח להצעת מחיר.",
+    text: "היי יקיר, אני צריך/ה שירות AI במוזיקה בליווי (לא לבד). אשמח להצעת מחיר.",
     utm_source: "academy",
     utm_campaign: "ai_music_service",
   });

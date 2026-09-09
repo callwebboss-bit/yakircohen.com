@@ -28,8 +28,12 @@ import {
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 
 const MOBILE_PODCAST_TITLE = "פודקאסט נייד עד הבית";
+
+const MOBILE_PODCAST_BASE_EX_VAT = getExVat("mobile_podcast_at_home");
 
 const pageHero = resolvePodcastFolderHero(
   MOBILE_PODCAST_TITLE,
@@ -102,6 +106,41 @@ export default function MobilePodcastAtHomePageContent() {
               טופס הזמנה
             </Link>
           </div>
+        </section>
+
+        <section
+          className="rounded-xl border border-brand-red/25 bg-surface p-6 sm:p-8"
+          aria-labelledby="mobile-podcast-pricing-heading"
+        >
+          <h2
+            id="mobile-podcast-pricing-heading"
+            className="text-xl font-semibold text-foreground"
+          >
+            מחיר פודקאסט נייד
+          </h2>
+          <p className="mt-3 text-base font-semibold text-foreground">
+            החל מ-{MOBILE_PODCAST_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">{PRICING_FRAMING_LINE}</p>
+          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <li className="flex gap-2">
+              <span className="text-brand-red" aria-hidden>•</span>
+              <span>המחיר הבסיסי מכסה הקלטה ניידת באזור המרכז.</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-brand-red" aria-hidden>•</span>
+              <span>תוספת נסיעה לצפון, דרום, אילת או גולן - לפי מרחק.</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-brand-red" aria-hidden>•</span>
+              <span>תאורה, צילום וידאו והפקת קליפ - תוספת לפי הצורך.</span>
+            </li>
+          </ul>
+          <Link
+            href="/studio/mobile-studio"
+            className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
+          >
+            פירוט מלא של מחירון האולפן הנייד </Link>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="mobile-intro-heading">

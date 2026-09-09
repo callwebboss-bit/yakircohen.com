@@ -46,7 +46,7 @@ export const UNIFIED_CALC_CATEGORIES: readonly CalcCategory[] = [
     title: "אירוע",
     bookHref: "/events",
     options: [
-      { id: "single_effect", label: "אפקט בודד", note: "עשן / זיקוקים / בועות", exVat: getExVat("single_effect") },
+      { id: "attr1", label: "אטרקציה בודדת", note: "עשן / זיקוקים / בועות / קונפטי", exVat: getExVat("event_attraction_1") },
       { id: "attr2", label: "2 אטרקציות", note: "חבילה עם הנחה", exVat: getExVat("event_attraction_2") },
       { id: "attr3", label: "3 אטרקציות", note: "חבילה עם הנחה", exVat: getExVat("event_attraction_3") },
       { id: "attr4", label: "4+ אטרקציות + מתנה", note: "קליפ גלריה חינם", exVat: getExVat("event_attraction_4") },

@@ -107,8 +107,8 @@ const pageSchema = {
       review: {
         "@type": "Review",
         author: { "@type": "Person", name: HEB_LESSONS_EN_TESTIMONIAL.author },
+        /* ללא reviewRating: אין כוכבים גלויים בעמוד. ראו ulpan-page-schema.ts. */
         reviewBody: HEB_LESSONS_EN_TESTIMONIAL.quote,
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
       },
     },
     {

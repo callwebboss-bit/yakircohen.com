@@ -57,14 +57,14 @@ export const DJ_EVENT_TYPES: DJEventType[] = [
     title: "חתונות בוטיק",
     description:
       "התאמה מוזיקלית מוקפדת לאירועים הדורשים רמת גימור גבוהה וסגנון ייחודי.",
-    link: "/events/dj-events",
+    link: "/events/wedding-attractions-packages",
   },
   {
     id: "mitzvah",
     title: "בר / בת מצווה",
     description:
       "שילוב נכון בין קהל מבוגר לצעיר, כולל ניהול שלבי התוכן והדרשות.",
-    link: "/events/dj-events",
+    link: "/events/bar-mitzvah",
   },
 ];
 
@@ -104,7 +104,7 @@ export const DJ_CHEAP_VS_PRO: readonly { label: string; bad: string; good: strin
 ] as const;
 
 export const DJ_WHY_US: readonly string[] = [
-  "ניסיון אמיתי, אלפי אירועים מאחורינו",
+  "ניסיון אמיתי, שני עשורים של אירועים מאחורינו",
   "ציוד פרימיום, לא מתפשרים על איכות",
   "גיבוי מלא, תמיד יש פלאן B",
   "גמישות, מתאימים לסגנון שלכם",

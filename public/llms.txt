@@ -15,9 +15,9 @@
 - פודקאסט אודיו (עד שעה + עריכה): 950 ₪
 - פודקאסט וידאו (3 מצלמות): 1,650 ₪
 - הפקת פודקאסט מלאה: מ-2,500 ₪
-- הקלטת ברכה: מ-590 ₪ · הקלטת שיר (קאבר): מ-1,200 ₪
+- הקלטת ברכה: מ-590 ₪ · הקלטת שיר (קאבר): מ-990 ₪
 - DJ לאירועים (צוות, כ-4 שעות): מ-5,000 ₪
-- אטרקציה בודדת לאירוע: מ-1,750 ₪
+- אטרקציה בודדת לאירוע: מ-1,695 ₪
 - שובר מתנה לאולפן: מ-750 ₪
 - חנות: https://yakircohen.com/shop
 
@@ -34,6 +34,9 @@
 - סדנאות לצוותים: https://yakircohen.com/academy/workshops · מ-2,800 ₪
 - פודקאסט self-service: https://yakircohen.com/podcast/self-service-studio
 - מגזין: https://yakircohen.com/blog
+- מתנות מוקלטות לפי אירוע: https://yakircohen.com/matanot
+- מונחון: https://yakircohen.com/glossary · 91 מונחי אודיו, אולפן ואירועים עם הגדרות קצרות
+- נתוני תעשייה 2026: https://yakircohen.com/data/industry-2026 · מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל, עם מתודולוגיה גלויה
 - שאלות נפוצות: https://yakircohen.com/about/faq
 
 ## תוכן לעסקים
@@ -49,6 +52,7 @@
 ## שירותים דיגיטליים (online)
 - מרכז: https://yakircohen.com/online
 - שחזור סאונד AI: https://yakircohen.com/online/vocal-fix
+- תיקון סאונד פודקאסט מרחוק: https://yakircohen.com/online/vocal-fix/podcast-repair
 - המרת VHS וקלטות: https://yakircohen.com/online/legacy-digitization · מ-350 ₪
 - תמלול וכתוביות: https://yakircohen.com/online/transcription · מ-180 ₪
 - שיבוט קול: https://yakircohen.com/online/voice-cloning · מ-2,500 ₪
@@ -65,11 +69,14 @@
 ## סטודיו
 - https://yakircohen.com/studio/recording-song-modiin - הקלטת שיר
 - https://yakircohen.com/studio/recording-studio - אולפן הקלטות
+- https://yakircohen.com/studio/mobile-studio - אולפן נייד שמגיע עד אליכם, בכל הארץ
 - https://yakircohen.com/studio/blessings - ברכות מוקלטות
 - https://yakircohen.com/studio/pricing - מחירון
 
 ## אירועים
 - https://yakircohen.com/events/dj-events - תקליטן
+- https://yakircohen.com/events/wedding-attractions-packages - חבילות לחתונה: DJ, אטרקציות והגברה מספק אחד
+- https://yakircohen.com/events/bar-mitzvah - הפקת בר מצווה ובת מצווה: DJ, אפקטים והגברה
 - https://yakircohen.com/events/stage-led-dj - במה LED + DJ
 - https://yakircohen.com/events/attractions - אטרקציות (עשן, זיקוקים, קונפטי, בועות)
 - https://yakircohen.com/dj-events/cities/jerusalem - DJ בירושלים

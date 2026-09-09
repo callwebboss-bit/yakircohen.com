@@ -63,7 +63,7 @@ export const EQUIPMENT_PROCESS = [
 ] as const;
 
 export const EQUIPMENT_PROOF =
-  "חבילת הגברה מלאה: RCF 745 + סאב 15 + מיקסר Allen & Heath - עד 250 אורחים, עד 10 שעות, הובלה והקמה כלולים.";
+  "חבילת השכרה מלאה לאירועים: RCF 745 + סאב 15 + מיקסר Allen & Heath - עד 250 אורחים, עד 10 שעות, הובלה והקמה כלולים. תצורה גדולה יותר מחבילת הבסיס לזמר.";
 
 
 export const EQUIPMENT_WHY_QUALITY: readonly { title: string; description: string }[] = [
@@ -123,7 +123,7 @@ export const EQUIPMENT_ADDONS: readonly string[] = [
 ] as const;
 
 export const EQUIPMENT_WHY_US: readonly string[] = [
-  "ניסיון, מאות אירועים במודיעין והסביבה",
+  "ניסיון רב במודיעין, בירושלים ובכל הארץ",
   "ציוד פרימיום, RCF ו-Allen & Heath",
   "שירות מלא, הובלה, הקמה, כיוונון ופירוק",
   "גיבוי טכני, צוות לאורך כל האירוע",

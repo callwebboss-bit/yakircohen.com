@@ -45,6 +45,7 @@ export const NURTURE_BLOG_SLUGS = [
   "wedding-dj-selection-guide-2026",
   "record-song-10-minutes-ai",
   "headphones-purpose-guide",
+  "wedding-songs-chuppah",
 ] as const;
 
 export type NurtureBlogSlug = (typeof NURTURE_BLOG_SLUGS)[number];
@@ -358,6 +359,25 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
     ],
     ctaHeading: "רוצים מארז עם אוזניות שמתאימות להקלטה?",
     ctaBody: "שולחים סוג אירוע ותקציב - מתאימים דיסק און קי, אוזניות וקופסה.",
+  },
+  /* הפוסט הנצפה ביותר באתר. בלי הרשומה הזו הוא נופל ל-cluster של studio
+     וה-CTA הראשי מצביע ל-/studio (hub) במקום לעמוד הקלטת השיר.
+     הקישור הראשון נשאר האולפן - מי שבוחר שיר לחופה הוא לקוח אולפן.
+     חבילות החתונה נוספות כקישור שלישי בלי לוותר על המשפך. */
+  "wedding-songs-chuppah": {
+    audience: [
+      "זוגות שבוחרים שיר כניסה לחופה ולריקוד הראשון",
+      "מי שרוצה גרסה מוקלטת אישית ולא את המקור מהרדיו",
+      "מי שמארגן את החתונה ומחפש גם DJ ואפקטים",
+    ],
+    serviceLinks: [
+      { href: "/studio/recording-song-modiin", label: "הקלטת שיר לחופה" },
+      { href: "/studio/blessings/bride-groom-blessing", label: "ברכה מוקלטת לחתן ולכלה" },
+      { href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
+    ],
+    ctaHeading: "רוצים את השיר בגרסה שלכם?",
+    ctaBody:
+      "שולחים את השיר שבחרתם - בודקים טונליות, אורך ותאריך, ומחזירים הצעה.",
   },
 };
 

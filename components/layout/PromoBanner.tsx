@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   PROMO_DISMISSED_EVENT,
   SS_PROMO_DISMISSED,
@@ -46,17 +46,22 @@ export default function PromoBanner() {
     };
   }, [dismissed]);
 
+  const swapRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (dismissed) return undefined;
     const timer = setInterval(() => {
       setFade(false);
-      const swap = setTimeout(() => {
+      if (swapRef.current !== null) clearTimeout(swapRef.current);
+      swapRef.current = setTimeout(() => {
         setIdx((i) => (i + 1) % MESSAGES.length);
         setFade(true);
+        swapRef.current = null;
       }, 300);
-      return () => clearTimeout(swap);
     }, 5000);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      if (swapRef.current !== null) clearTimeout(swapRef.current);
+    };
   }, [dismissed]);
 
   if (dismissed !== false) return null;

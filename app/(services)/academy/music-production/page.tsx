@@ -101,7 +101,7 @@ const musicProductionTechBarrierRelief = resolveTechBarrierRelief(
 
 export default function MusicProductionPage() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בקורס יצירה מוזיקלית והפקה. אשמח לשמוע פרטים ולקבוע מפגש אפיון.",
+    text: "היי יקיר, אני מעוניין/ת בקורס יצירה מוזיקלית והפקה. אשמח לשמוע פרטים ולקבוע מפגש אפיון.",
     utm_source: "academy",
     utm_campaign: "music_production_cta",
   });

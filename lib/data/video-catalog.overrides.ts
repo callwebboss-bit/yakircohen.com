@@ -4,6 +4,7 @@
 export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   "studio-hub": [
     "XUr2e5S4JSA",
+    "1DUnuS_hv5Y",
     "8i4K2f5gQfM",
     "wfTY8Bz2uE4",
     "q18Lu0MvXHo",
@@ -113,6 +114,11 @@ export const PLAYLIST_VIDEO_FALLBACKS: Record<
 > = {
   "q1Omi-3L3QM": { title: "פודקאסט מהאולפן, דוגמה מלאה" },
   wa_mOrjJvK8: { title: "לפני ואחרי עריכת זום" },
+  "1DUnuS_hv5Y": {
+    title: "הפקה מוזיקלית מקורית מהאולפן",
+    description:
+      "הופק, הוקלט ועובד ביקיר כהן הפקות ורועי מאנה · שירה: עמית רבוח · כוריאוגרפיה: לירון אבדר · מעל מיליון צפיות",
+  },
 };
 
 /** Curated playlists -only these IDs (order preserved), not auto-tagged remainder */
@@ -121,6 +127,9 @@ export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
   "dry-hire": PLAYLIST_FEATURED_IDS["dry-hire"]!,
   "bulk-production": PLAYLIST_FEATURED_IDS["bulk-production"]!,
   "mashup-fixer": PLAYLIST_FEATURED_IDS["mashup-fixer"]!,
+  // גריד /studio מוצג רק מהרשימה המובחרת - מונע מ-remainder אוטומטי (כולל פרקי אורחים
+  // עם שמות) להופיע. שומר על עקביות עם הסרת השמות מכותרת תיק העבודות.
+  "studio-hub": PLAYLIST_FEATURED_IDS["studio-hub"]!,
 };
 
 /** Short descriptions for hero picks (optional) */
@@ -128,7 +137,7 @@ export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   P425XNK7z5M:
     "כותבים ראפ מאפס באולפן - Flow, Bars ובניית שיר עם דניאל עוז. לשיר המלא - חפשו דניאל עוז.",
   XUr2e5S4JSA:
-    "תיק עבודות - רון נשר וז'קו אייזנברג (הוקלט ביקיר כהן הפקות)",
+    "תיק עבודות מהאולפן - הופק והוקלט ביקיר כהן הפקות",
   "8i4K2f5gQfM": "הקלטת שיר לחתונה - קאבר עם הפקה מותאמת אישית",
   QRMxKVUOOl0: "הקלטה אמיתית באולפן - דוגמת קליפ מהסשן",
   LKg3pwdon_M:

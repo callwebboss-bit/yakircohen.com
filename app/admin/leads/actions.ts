@@ -2,6 +2,7 @@
 
 import { updateLead } from "@/lib/leads/store";
 import type { LeadStatus } from "@/lib/leads/types";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { revalidatePath } from "next/cache";
 
 const ALLOWED: LeadStatus[] = [
@@ -14,9 +15,7 @@ const ALLOWED: LeadStatus[] = [
 ];
 
 export async function updateLeadStatusAction(formData: FormData): Promise<void> {
-  const token = String(formData.get("token") || "");
-  const expected = process.env.ADMIN_LEADS_TOKEN?.trim();
-  if (!expected || token !== expected) {
+  if (!(await isAdminAuthenticated())) {
     throw new Error("unauthorized");
   }
 

@@ -181,6 +181,7 @@ export default function MediaUploadZone({
         ref={inputRef}
         type="file"
         multiple
+        aria-label="בחירת תמונות וסרטונים להעלאה"
         accept="image/*,video/*"
         className="hidden"
         onChange={handleInputChange}

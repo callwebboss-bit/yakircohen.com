@@ -329,7 +329,7 @@ export default function BookUniversalIntakeWizard() {
         <p className="text-sm font-medium text-muted-foreground lg:hidden">שלב {step + 1} מתוך {TOTAL_STEPS}</p>
         {draftSavedVisible ? (
           <p
-            className="text-xs text-muted-foreground/60"
+            className="text-xs text-muted-foreground"
             role="status"
             aria-live="polite"
           >

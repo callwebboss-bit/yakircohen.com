@@ -197,7 +197,7 @@ export default function SiteSearch({
     <div ref={containerRef} dir="rtl" className={cn("relative w-full", className)}>
       <div className="relative">
         <svg
-          className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground/70"
+          className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground"
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -238,7 +238,7 @@ export default function SiteSearch({
           }
           className={cn(
             "min-h-11 w-full rounded-xl border border-border bg-background",
-            "py-2.5 pe-12 ps-9 text-sm text-foreground placeholder:text-muted-foreground/70",
+            "py-2.5 pe-12 ps-9 text-sm text-foreground placeholder:text-muted-foreground",
             "outline-none transition-[border-color,box-shadow] duration-fast ease-luxury",
             "focus:border-brand-red focus:ring-2 focus:ring-brand-red/15",
             isListening && "border-brand-red ring-2 ring-brand-red/15",

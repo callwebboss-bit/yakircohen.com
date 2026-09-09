@@ -42,9 +42,12 @@ export const EVENT_CONTEXTUAL_UPSELLS: readonly BookingUpsellItem[] = [
     name: "תותח קונפטי שני",
     whatYouGet: "2 תותחים יורים בו-זמנית - אפקט כפול ומרהיב",
     description: "כל הפעלה: גשם קונפטי מכיווני הרחבה משני צדדים בו-זמנית",
-    price: 875,
-    originalPrice: 1750,
-    badge: "25% הנחה",
+    /* עלות שולית של אטרקציה שנייה בסולם: 1,695 + 1,356 = 3,051,
+       בדיוק מחיר שתי אטרקציות. קודם היה 875 עם הבטחת 25%, מודל שסתר
+       את סולם ההנחות שנקבע. */
+    price: 1356,
+    originalPrice: 1695,
+    badge: "מחיר זוג",
     triggerAttractionIds: ["event_confetti"],
     isActivationUpgrade: false,
   },

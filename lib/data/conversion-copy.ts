@@ -11,16 +11,16 @@ export const TIME_PROMISE_DISCLAIMER =
 export const TIME_CLAIMS = {
   quote24h: "בדרך כלל תוך 24 שעות",
   quote24hCta: 'קבלו הצעה, בדרך כלל תוך 24 שעות',
-  headerQuote24h: '📩 הצעה, בדרך כלל תוך 24 שעות',
+  headerQuote24h: '📩 הצעה, בדרך כלל תוך שעה',
   bookPriceCheck: "בדקו מחיר במחשבון",
   podcastDelivery24h: "בדרך כלל מוכן תוך 24 שעות",
   podcastValueFrame: "תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי",
-  waResponse30m: "בדרך כלל תוך פחות מ-30 דקות בוואטסאפ",
-  waResponse1h: "בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00)",
-  waResponse15m: "בדרך כלל תוך 15 דקות",
-  waResponse15mBusiness: "בדרך כלל תוך 15 דקות בשעות הפעילות",
+  waResponse30m: "מענה אנושי בוואטסאפ, הכי מהר שאפשר",
+  waResponse1h: "מענה אנושי בשעות הפעילות, הכי מהר שאפשר",
+  waResponse15m: "מענה אנושי, הכי מהר שאפשר",
+  waResponse15mBusiness: "מענה אנושי בשעות הפעילות",
   waResponseMinutes: "בדרך כלל תוך דקות בוואטסאפ",
-  humanResponseSubline: "*מענה אנושי תוך שעה",
+  humanResponseSubline: "*מענה אנושי, לא בוט",
 } as const;
 
 export const OUTCOME_CTA = {
@@ -112,11 +112,14 @@ export function buildBlogCtaWhatsAppMessage(options: {
   closerService: string;
   priceExVat?: number | null;
   utmCampaign: string;
+  /** slug המאמר - מאפשר לקלוזר לדעת איזה מאמר ייצר את הליד */
+  route?: string | null;
 }): string {
   return `${options.body.trim()}\n${buildYcLeadTag({
     service: options.closerService,
     price: options.priceExVat,
     source: options.utmCampaign,
+    route: options.route ?? null,
     step: 1,
   })}`;
 }

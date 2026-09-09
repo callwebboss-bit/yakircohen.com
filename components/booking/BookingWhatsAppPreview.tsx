@@ -63,7 +63,7 @@ export default function BookingWhatsAppPreview({
             onClick={handleCopy}
             className="mt-2 text-xs text-muted-foreground underline-offset-4 hover:text-brand-red hover:underline"
           >
-            {copied ? "✓ הועתק!" : "העתיקו טקסט"}
+            {copied ? "✓ הועתק" : "העתיקו טקסט"}
           </button>
         </div>
       )}

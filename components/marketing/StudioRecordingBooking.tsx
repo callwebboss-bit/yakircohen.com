@@ -130,6 +130,7 @@ import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
+import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
 import {
   StudioBusinessFields,
@@ -1965,6 +1966,7 @@ export default function StudioRecordingBooking({
                     });
                   }}
                 />
+                <WizardPartialLeadNotice />
 
                 <BookingSchedulePicker
                   scheduleWindow={form.scheduleWindow}
@@ -2203,7 +2205,7 @@ export default function StudioRecordingBooking({
                 type="button"
                 onClick={() => onSubmitClick("continue_chat")}
                 disabled={!form.termsAccepted}
-                className="rounded-lg bg-[#25D366] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
+                className="rounded-lg bg-[#178741] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50"
               >
                 וואטסאפ
               </button>

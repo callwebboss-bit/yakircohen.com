@@ -12,11 +12,10 @@ import {
   BAT_MITZVAH_STARTING_PRICE,
 } from "@/lib/data/bat-mitzvah-gifts-page";
 import { SITE_NAME } from "@/lib/constants";
-import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const MAIN_CTA = buildWhatsAppHref({
-  text: "היי יקיר! מעוניינים בקליפ לבת מצווה - תמונות ילדות, סרטונים וקליפ מהאולפן. אשמח לפרטים.",
+  text: "היי יקיר, מעוניינים בקליפ לבת מצווה - תמונות ילדות, סרטונים וקליפ מהאולפן. אשמח לפרטים.",
   utm_source: "website",
   utm_campaign: "bat_mitzvah_clip_main_cta",
 });
@@ -38,7 +37,6 @@ const SERVICE_JSON_LD = {
     areaServed: ["מודיעין", "ירושלים", "מרכז"],
   },
   serviceType: "קליפ בת מצווה",
-  aggregateRating: buildGoogleAggregateRatingSchema(),
 };
 
 export default function BatMitzvahClipPageContent() {

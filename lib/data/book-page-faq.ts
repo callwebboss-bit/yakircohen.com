@@ -22,6 +22,6 @@ export const BOOK_PAGE_FAQ: readonly BookPageFaqItem[] = [
     id: "cancellation",
     question: "מהי מדיניות הביטולים?",
     answer: "ניתן לבטל או לשנות מועד בקלות. לפרטים המלאים והמדויקים, עיינו בסעיף הביטולים בעמוד תנאי השימוש.",
-    link: { href: "/terms#cancellation", label: "תנאי שימוש — ביטולים" },
+    link: { href: "/terms#cancellation", label: "תנאי שימוש - ביטולים" },
   },
 ] as const;

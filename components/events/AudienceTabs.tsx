@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckIcon } from "@/components/ui/Icons";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -40,7 +40,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "תותחי קונפטי צבעוני ומכונת עשן כבד",
       "תיאום מלא עם הצוות ועם רצונות החתן והכלה",
     ],
-    learnMoreHref: "/events",
+    learnMoreHref: "/events/wedding-attractions-packages",
     ctaText: "לתיאום הפקת החתונה",
     whatsappMessage:
       "שלום, אשמח לשמוע פרטים על הפקת חתונה - DJ, תאורה ואפקטים.",
@@ -60,7 +60,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "DJ / מוזיקת רקע מותאמת לאירוע עסקי",
       "תמיכה לוגיסטית לאורך כל שעות הכנה",
     ],
-    learnMoreHref: "/events",
+    learnMoreHref: "/events/equipment",
     ctaText: "לקבלת הצעת מחיר",
     whatsappMessage:
       "שלום, מעוניין לקבל הצעת מחיר להפקת אירוע חברה / כנס מקצועי.",
@@ -79,7 +79,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "מיקרופון ואמפ לנאומים וברכות",
       "גמישות בתכנות המוזיקלי עד ליום האירוע",
     ],
-    learnMoreHref: "/events",
+    learnMoreHref: "/events/bar-mitzvah",
     ctaText: "לתיאום הבר/בת מצווה",
     whatsappMessage:
       "שלום, אשמח לשמוע על הפקת בר/בת מצווה - DJ, תאורה ואפקטים.",
@@ -98,7 +98,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "בועות, לייזרים ואפקטים ויזואליים",
       "גמישות בחבילות המותאמות לתקציב",
     ],
-    learnMoreHref: "/events",
+    learnMoreHref: "/events/attractions",
     ctaText: "לתיאום המסיבה",
     whatsappMessage:
       "שלום, מעוניין לשמוע פרטים על הפקת מסיבה / שכירת ציוד אירועים.",
@@ -131,6 +131,58 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   /* isVisible drives the cross-fade: briefly drop to 0 while swapping content */
   const [isVisible, setIsVisible] = useState(true);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  /* מאפשר כניסה ישירה מהתפריט לפי סוג אירוע: /events#weddings וכו'.
+     כך הלקוח "מוצא את עצמו" במקום לחפש בין שירותים. */
+  useEffect(() => {
+    const applyHash = () => {
+      const id = window.location.hash.replace("#", "");
+      if (!id) return;
+      const index = AUDIENCE_TABS.findIndex((tab) => tab.id === id);
+      if (index < 0) return;
+      setActiveIndex(index);
+      setIsVisible(true);
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      rootRef.current?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    };
+    applyHash();
+
+    /**
+     * hashchange לבדו לא מספיק. App Router מבצע ניווט לעוגן באותו נתיב דרך
+     * history.pushState ומטפל בגלילה בעצמו (layout-router.js), ו-pushState
+     * אינו יורה hashchange. לכן לחיצה על "אירוע חברה" בתפריט משנה את הכתובת
+     * ל-/events#corporate בלי להחליף טאב.
+     *
+     * עוטפים את pushState כדי לזהות גם ניווט פנימי. השמירה על המקור והשחזור
+     * ב-cleanup חשובים: בלעדיהם כל mount היה עוטף מחדש ויוצר שרשרת.
+     */
+    const originalPushState = window.history.pushState;
+    let patched = true;
+    window.history.pushState = function patchedPushState(
+      this: History,
+      ...args: Parameters<History["pushState"]>
+    ) {
+      originalPushState.apply(this, args);
+      applyHash();
+    };
+
+    window.addEventListener("hashchange", applyHash);
+    window.addEventListener("popstate", applyHash);
+    return () => {
+      window.removeEventListener("hashchange", applyHash);
+      window.removeEventListener("popstate", applyHash);
+      if (patched) {
+        window.history.pushState = originalPushState;
+        patched = false;
+      }
+    };
+  }, []);
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -163,7 +215,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
   });
 
   return (
-    <div className={cn("", className)}>
+    <div ref={rootRef} className={cn("", className)}>
       {/* ── Tab bar ──────────────────────────────────────────────────────── */}
       <div
         role="tablist"
@@ -263,7 +315,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
 
             {/* Trust signals */}
             <ul className="space-y-1.5 text-xs text-muted-foreground">
-              {["מענה מהיר - ימים א׳-ו׳ 09:00-20:00", "ניסיון במאות אירועים", "ציוד מקצועי לאירועים"].map(
+              {["מענה אנושי בשעות הפעילות", "ניסיון של שני עשורים", "ציוד מקצועי לאירועים"].map(
                 (t) => (
                   <li key={t} className="flex items-center gap-2">
                     <CheckIcon size={13} className="shrink-0 text-brand-red" />

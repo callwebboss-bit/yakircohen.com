@@ -52,7 +52,7 @@ const linkClass =
 export default function OnlinePageContent() {
   const ctaHref = buildWhatsAppHref({
     text: appendYcLeadTag(
-      "היי יקיר! יש לי פרויקט אונליין עם AI ואשמח לבדיקה ראשונית והצעת מחיר מהירה.",
+      "היי יקיר, יש לי פרויקט אונליין עם AI ואשמח לבדיקה ראשונית והצעת מחיר מהירה.",
       { service: "online_ai", source: "hero_cta", step: 1 },
     ),
     utm_source: "online",

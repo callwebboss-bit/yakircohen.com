@@ -22,7 +22,7 @@
 | `/api/leads/recover` | Abandoned draft (phone required, no admin email spam) |
 | `/api/webhooks/resend` | `email.opened` tracking |
 | `/api/cron/lead-followups` | Daily 07:00 UTC reminder (Hobby: once/day; Bearer `CRON_SECRET`) |
-| `/admin/leads?token=…` | RSC table + kanban (`ADMIN_LEADS_TOKEN`) |
+| `/admin/login` → `/admin/leads` | RSC table + kanban. Enter `ADMIN_LEADS_TOKEN` once on the login page; it is kept in an HttpOnly cookie (30 days), never in the URL. Export API also accepts `Authorization: Bearer <ADMIN_LEADS_TOKEN>` for the local Closer. |
 
 ## Env
 

@@ -10,7 +10,7 @@ const NeedsDiscoveryLeadFlow = dynamic(
     ssr: false,
     loading: () => (
       <p className="text-sm text-muted-foreground" role="status">
-        טוען שאלון התאמה…
+        טוען שאלון התאמה...
       </p>
     ),
   },
@@ -23,7 +23,7 @@ type Props = {
 function Fallback() {
   return (
     <p className="text-sm text-muted-foreground" role="status">
-      טוען שאלון התאמה…
+      טוען שאלון התאמה...
     </p>
   );
 }

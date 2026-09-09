@@ -13,19 +13,19 @@ export const LEAD_FLOW_UPSELLS: readonly LeadFlowUpsell[] = [
   {
     id: "heavy-smoke",
     label: "עשן כבד",
-    catalogId: "single_effect",
+    catalogId: "event_attraction_1",
     hideFor: ["heavy-smoke"],
   },
   {
     id: "confetti",
     label: "קונפטי",
-    catalogId: "single_effect",
+    catalogId: "event_attraction_1",
     hideFor: ["confetti"],
   },
   {
     id: "bubbles",
     label: "בועות סבון",
-    catalogId: "single_effect",
+    catalogId: "event_attraction_1",
     hideFor: ["bubbles"],
   },
   {

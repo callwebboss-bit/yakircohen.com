@@ -10,12 +10,13 @@ import { SITE_NAME } from "@/lib/constants";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import ShareButton from "@/components/ui/ShareButton";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
+import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
 
 const bookCta = resolveServiceBookCta("studio");
 
 export default function ProfessionalVoiceoverPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בחבילת קריינות לסט DJ (5 משפטים). אשמח לשמוע מחיר ופרטים.",
+    text: "היי יקיר, אני מעוניין/ת בחבילת קריינות לסט DJ (5 משפטים). אשמח לשמוע מחיר ופרטים.",
     utm_source: "business",
     utm_campaign: "dj_set_voiceover",
   });
@@ -89,6 +90,9 @@ export default function ProfessionalVoiceoverPageContent() {
               title={ACADEMY_VOICEOVER_DEMO.title}
               fillParent
             />
+          </div>
+          <div className="mx-auto mt-8 max-w-2xl text-start">
+            <VoiceoverNarratorCompare context="compact" />
           </div>
         </div>
       </section>

@@ -67,7 +67,11 @@ export type PriceItem = {
 };
 
 /** כל מחירי השירות - לפני מע״מ */
-export const PRICING_CATALOG: readonly PriceItem[] = [
+/* בלי ההערה `: readonly PriceItem[]` כאן במכוון. היא גברה על ה-as const שבסוף
+   המערך, ולכן PriceItemId התרחב ל-string פשוט: מזהה מומצא לחלוטין עבר
+   קומפילציה, ומחיקת פריט מהקטלוג לא ייצרה אף שגיאה אלא זריקה בזמן ריצה
+   בתוך הפרירנדר. satisfies בסוף שומר על אותה בדיקת צורה בלי להרחיב. */
+export const PRICING_CATALOG = [
   // ─── אולפן ───
   {
     id: "studio_half_hour",
@@ -345,11 +349,19 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
   { id: "growth_slideshow_100", label: "מצגת גדילה AI - 100 תמונות", exVat: 1900, category: "events", context: "פתיחה + סגירה, שיפור AI, מוזיקה, Full HD" },
   { id: "led_lighting", label: "עמדת תאורת LED", exVat: 1750, category: "events", context: "תאורה דקורטיבית או הקרנת לוגו" },
   { id: "electronic_drummer", label: "מתופף אלקטרוני מקצועי", exVat: 1500, category: "events", context: "ליווי מוזיקלי חי לרחבת הריקודים" },
-  { id: "single_effect", label: "אפקט בודד לאירוע", exVat: 1500, category: "events", context: "עשן כבד, זיקוקים קרים, בועות סבון או תותח קצף" },
-  { id: "event_attraction_1", label: "אטרקציה בודדת", exVat: 1750, category: "events" },
-  { id: "event_attraction_2", label: "2 אטרקציות (חבילה)", exVat: 3200, category: "events" },
-  { id: "event_attraction_3", label: "3 אטרקציות (חבילה)", exVat: 4450, category: "events" },
-  { id: "event_attraction_4", label: "4+ אטרקציות + מתנה", exVat: 5500, category: "events", context: "מצגת תמונות חינם" },
+  { id: "event_attraction_1", label: "אטרקציה בודדת", exVat: 1695, category: "events", context: "2,000 ₪ כולל מע״מ" },
+  { id: "event_attraction_2", label: "2 אטרקציות", exVat: 3051, category: "events", context: "הנחה 10%, 3,600 ₪ כולל מע״מ" },
+  { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4322, category: "events", context: "הנחה 15%, 5,100 ₪ כולל מע״מ" },
+  { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 5424, category: "events", priceFrom: true, context: "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית" },
+  // ─── הגברה לזמרים ───
+  { id: "singer_amp_basic", label: "הגברת זמר, בסיס מקצועי", exVat: 2800, category: "events", context: "2 מיקרופונים, זוג RCF, סאב 15, מיקסר, טכנאי", suitedFor: "סולו או דואט, עד 150 אורחים" },
+  { id: "singer_amp_premium", label: "הגברת זמר, פרימיום", exVat: 5800, category: "events", context: "מערכת מורחבת עם מוניטורים ותאורה" },
+  { id: "singer_amp_vip", label: "הגברת זמר, VIP", exVat: 7800, category: "events", context: "מערכת מלאה לאירוע גדול" },
+  { id: "singer_extra_mic", label: "מיקרופון נוסף", exVat: 150, category: "addons" },
+  { id: "singer_extra_monitor", label: "מוניטור אישי נוסף", exVat: 200, category: "addons" },
+  { id: "singer_remote_mix", label: "שליטה מרחוק על המיקס", exVat: 300, category: "addons", context: "אפליקציה" },
+  { id: "singer_live_recording", label: "הקלטת ההופעה מהמיקסר", exVat: 500, category: "addons" },
+  { id: "singer_extra_hour", label: "שעת הגברה נוספת", exVat: 300, category: "addons" },
 
   // ─── צילום ───
   { id: "full_event_photo_8h", label: "צילום אירוע מלא 8 שעות", exVat: 12000, category: "photography", context: "מההכנות ועד שיא הלילה" },
@@ -436,7 +448,7 @@ export const PRICING_CATALOG: readonly PriceItem[] = [
     priceFrom: true,
   },
   { id: "system_tuning_ease", label: "תכנון הגברה ומדידות", exVat: 3500, category: "pro", context: "מודל פריסה ומדידות לאירוע מורכב" },
-] as const;
+] as const satisfies readonly PriceItem[];
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
@@ -455,7 +467,7 @@ export const PRICING_ADDON_LINKS: Partial<
   song_package: ["studio_session_clip", "express_delivery"],
   studio_viral: ["express_delivery", "photo_retouch"],
   studio_all_in: ["express_delivery"],
-  event_attraction_1: ["single_effect", "cinematic_slideshow"],
+  event_attraction_1: ["cinematic_slideshow", "led_lighting"],
   event_attraction_2: ["cinematic_slideshow", "pre_event_production"],
   event_attraction_3: ["cinematic_slideshow", "led_lighting"],
   event_attraction_4: ["cinematic_slideshow", "pre_event_production", "led_lighting"],
@@ -654,7 +666,7 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["אטרקציה רביעית", "הפעלות נוספות", "ציוד משלים שלא נבחר"],
   },
   event_attraction_4: {
-    included: ["4 אטרקציות ומעלה", "מצגת מתנה לפי המסלול"],
+    included: ["4 אטרקציות ומעלה", "קליפ היילייטס 60 שניות במתנה", "מחיר פתיחה, הסופי נסגר בשיחה"],
     excluded: ["הפעלות נוספות מעבר לסיכום", "הגברה", "נסיעה חריגה או ציוד נוסף"],
   },
   full_event_photo_8h: {

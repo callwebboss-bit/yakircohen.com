@@ -185,6 +185,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
   "voiceover-hub": {
     id: "voiceover-hub",
     heading: "דוגמאות קריינות",
+    kicker: "קריינות",
     initialVisible: 3,
     expandBatch: 6,
     pagePaths: ["/voiceover"],

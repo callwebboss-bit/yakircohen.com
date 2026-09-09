@@ -55,6 +55,7 @@ import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
 import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
+import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
@@ -949,7 +950,7 @@ export default function PodcastBookingWizard({
                             ✓
                           </span>
                         ) : (
-                          <span className="text-muted-foreground/40" aria-label="לא כלול">
+                          <span className="text-muted-foreground" aria-label="לא כלול">
                             -
                           </span>
                         )}
@@ -1017,6 +1018,7 @@ export default function PodcastBookingWizard({
                 setErrors(next);
               }}
             />
+            <WizardPartialLeadNotice />
             <div>
               <label htmlFor="pb-timeframe" className="mb-1.5 block text-xs font-semibold">
                 מועד מועדף

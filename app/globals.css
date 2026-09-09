@@ -242,6 +242,10 @@
   }
 }
 
+/* אין כלל הסתרה למאתר המתנות בכוונה: הפופ-אפ מרחף מעל מקבץ ה-FAB
+   (bottom-28) ולכן לא מכסה את כפתור הוואטסאפ, את ווידג'ט הנגישות
+   או את הסרגל הדביק. עדיף למקם נכון מאשר להסתיר UI קיים. */
+
 @keyframes ticker-in {
   from { opacity: 0; transform: translateY(0.4rem); }
   to   { opacity: 1; transform: translateY(0); }
@@ -1466,9 +1470,12 @@ progress.studio-meter-flash::-moz-progress-bar {
   text-decoration: none;
 }
 
-/* WhatsApp button - שמור על טקסט ירוק, ללא underline */
-.footer-shell a[class*="bg-[#25D366]"]:hover {
-  color: #4ade80;
+/* כפתור וואטסאפ בפוטר: הרקע ירוק, ולכן הטקסט חייב להישאר לבן גם בריחוף.
+   קודם היה כאן #4ade80 על הרקע הירוק, יחס ניגודיות 1.14:1, כלומר המילה
+   "וואטסאפ" נעלמה כמעט לגמרי ברגע שעברו עליה עם העכבר. בכל עמוד באתר. */
+.footer-shell a[class*="bg-[#25D366]"]:hover,
+.footer-shell a[class*="bg-[#178741]"]:hover {
+  color: #ffffff;
   text-decoration: none;
 }
 

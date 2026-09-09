@@ -142,7 +142,7 @@ function buildContactFaqItems(): FAQItem[] {
       question: "כמה זמן לוקחת הפקה מלאה?",
       answer: (
         <p>
-          קריינות ופודקאסט — לרוב ימים בודדים. אולפן — לפי היקף. DJ — לפי תאריך
+          קריינות ופודקאסט - לרוב ימים בודדים. אולפן - לפי היקף. DJ - לפי תאריך
           האירוע.
         </p>
       ),
@@ -173,10 +173,10 @@ function buildContactFaqItems(): FAQItem[] {
   ];
 }
 
-const emergencyHref = buildWhatsAppHref({
-  text: buildServiceWhatsAppText("DJ לאירוע בדחיפות"),
+const sameDayHref = buildWhatsAppHref({
+  text: buildServiceWhatsAppText("פרויקט מהיום להיום"),
   utm_source: "website",
-  utm_campaign: "contact_emergency_dj",
+  utm_campaign: "contact_same_day",
 });
 
 const defaultWaHref = buildWhatsAppHref({
@@ -395,11 +395,11 @@ export default function ContactPageContent() {
   return (
     <div className="bg-background pb-24 md:pb-0">
       <a
-        href={emergencyHref}
+        href={sameDayHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-4 border-b border-brand-red/30 bg-brand-red/8 px-4 py-3 transition-colors hover:bg-brand-red/12 sm:px-8"
-        aria-label="קו חירום ל-DJ"
+        className="flex min-h-12 items-center gap-4 border-b border-brand-red/30 bg-brand-red/8 px-4 py-3 transition-colors hover:bg-brand-red/12 sm:px-8"
+        aria-label="זמינות מהירה לפרויקט מהיום להיום"
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-60" />
@@ -407,10 +407,10 @@ export default function ContactPageContent() {
         </span>
         <span className="min-w-0 flex-1 text-end">
           <span className="block text-sm font-bold text-foreground">
-            DJ נפל ברגע האחרון?
+            צריכים פרויקט מהיום להיום?
           </span>
           <span className="block text-xs text-muted-foreground">
-            קו חירום זמין עכשיו - תגובה מהירה
+            זמינות מהירה עכשיו - תגובה מהירה
           </span>
         </span>
         <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>
@@ -425,7 +425,7 @@ export default function ContactPageContent() {
             בואו <span className="text-brand-red">נדבר</span> על הפרויקט שלכם
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            אולפן הקלטות - DJ - קריינות - פודקאסטים - מודיעין
+            אולפן הקלטות - פודקאסטים - קריינות - אירועים - מודיעין
           </p>
           <p className="mt-4">
             <Link
@@ -442,7 +442,7 @@ export default function ContactPageContent() {
             { num: "20+", label: "שנות ניסיון" },
             { num: "500+", label: "פרויקטים" },
             { num: "★ 5.0", label: "דירוג לקוחות" },
-            { num: "15 דק׳", label: "זמן תגובה" },
+            { num: "אנושי", label: "מענה, לא בוט" },
           ].map((item) => (
             <div key={item.label} className="bg-surface px-2 py-4 text-center">
               <p className="text-lg font-bold text-brand-red">{item.num}</p>
@@ -767,7 +767,7 @@ export default function ContactPageContent() {
                   פתחנו לכם וואטסאפ עם כל הפרטים
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  שלחו את ההודעה בוואטסאפ ונחזור אליכם תוך כ-15 דקות (בשעות הפעילות).
+                  שלחו את ההודעה בוואטסאפ ונחזור אליכם בשעות הפעילות. מענה אנושי.
                 </p>
                 {service ? (
                   <div className="mt-8 rounded-xl border border-border bg-background p-5 text-start">
@@ -848,7 +848,7 @@ export default function ContactPageContent() {
               💬
             </span>
             <span className="text-sm font-semibold text-foreground">וואטסאפ</span>
-            <span className="text-xs text-muted-foreground">זמין א׳-ו׳</span>
+            <span className="text-xs text-muted-foreground">מענה בשעות הפעילות</span>
           </a>
         </address>
 
@@ -905,7 +905,7 @@ export default function ContactPageContent() {
         href={defaultWaHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-center gap-2 bg-[#25D366] px-4 py-4 text-sm font-bold text-white shadow-[0_-4px_20px_rgba(0,0,0,0.12)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-center gap-2 bg-[#178741] px-4 py-4 text-sm font-bold text-white shadow-[0_-4px_20px_rgba(0,0,0,0.12)] md:hidden"
         aria-label="שלחו וואטסאפ"
       >
         שלחו הודעה בוואטסאפ

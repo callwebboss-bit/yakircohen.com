@@ -27,8 +27,12 @@ describe("pricing-addon-adapter", () => {
   it("maps events bundle tiers to catalog addons", () => {
     const one = getCatalogAddonsForEventsBundle(1);
     const four = getCatalogAddonsForEventsBundle(4);
-    assert.ok(one.some((i) => i.id === "single_effect"));
-    assert.ok(four.length >= one.length);
+    assert.ok(one.length > 0, "bundle of 1 must offer addons");
+    assert.ok(
+      one.every((i) => i.price > 0 && i.name.length > 0),
+      "every addon must resolve to a real catalog item",
+    );
+    assert.ok(four.length > 0, "4+ still offers addons even though it is quote-only");
   });
 
   it("sums catalog and legacy upsell prices", () => {

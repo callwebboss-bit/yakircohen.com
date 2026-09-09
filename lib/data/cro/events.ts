@@ -55,7 +55,6 @@ export const EVENTS_CRO_CONFIG = {
   },
   escapePlacements: ["after_packages", "empty_results", "step_contact"],
   urgency: {
-    slotsLabel: (n: number) => `נשארו ${n} חלונות פנויים השבוע לאירועים`,
     holdPrefix: "המחיר והחבילה שמורים עבורך עוד",
     holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
     priceHoldBadge: "המחיר שמור ל-48 שעות",
@@ -64,11 +63,13 @@ export const EVENTS_CRO_CONFIG = {
   step3SummaryHeading: "סיכום הזמנה",
   step3ContactHeading: "פרטי האירוע",
   priceReframe: "פחות מעלות של אטרקציה בודדת בחתונה - בשביל ראש שקט לכל הערב",
+  /* השדרוג נשאר, מחיר הייחוס הוסר. הקופי הצהיר "875 במקום 1,750" בזמן
+     שהמוצר בפועל הוא קליפ סיכום מהיר ב-950 ש״ח, כלומר מחיר ה"לפני" מעולם
+     לא נגבה. ההנחה האמיתית הייתה 75 ש״ח והקופי הציג אותה כ-875.
+     מחיר ייחוס שלא נגבה בפועל הוא הצגה מטעה לפי חוק הגנת הצרכן. */
   lastMinuteUpsell: {
-    label: "מצגת תמונות מקצועית לפתיחת האירוע - 875 ₪ במקום 1,750 ₪",
+    label: "מצגת תמונות מקצועית לפתיחת האירוע",
     upgradeId: "photo_slideshow",
-    promoPrice: 875,
-    listPrice: 1750,
   },
   exitIntent: {
     title: "רגע לפני שעוזבים",

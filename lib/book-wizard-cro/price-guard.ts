@@ -21,17 +21,19 @@ export function assertPriceMatches(
   return reported;
 }
 
-/** הנחת last-minute upsell — רק אם הדגל פעיל והתוספת נבחרה */
+/** הנחת last-minute upsell - רק אם הדגל פעיל והתוספת נבחרה */
 export function lastMinuteUpsellDiscount(
   cfg: CroLastMinuteUpsell | undefined,
   selectedIds: readonly string[],
   lastMinuteFlag: boolean,
 ): number {
   if (!cfg || !lastMinuteFlag || !selectedIds.includes(cfg.upgradeId)) return 0;
+  /* בלי שני המחירים אין מבצע, רק שדרוג במחיר הקטלוגי */
+  if (cfg.listPrice == null || cfg.promoPrice == null) return 0;
   return Math.max(0, cfg.listPrice - cfg.promoPrice);
 }
 
-/** מחיר סופי לפני מע״מ — תמיד מהחישוב, לא מטיוטה */
+/** מחיר סופי לפני מע״מ - תמיד מהחישוב, לא מטיוטה */
 export function guardSubmitTotalExVat(computed: number, reported?: number | null): number {
   if (reported == null || !Number.isFinite(reported)) return computed;
   return assertPriceMatches(computed, reported);

@@ -23,7 +23,7 @@ export const GREETING_TIPS: GreetingTip[] = [
 
 export const GENERAL_TIPS = [
   { tip: "אולפן, פודקאסט, אירועים - הכל במקום אחד", href: "/" },
-  { tip: "מגיבים בוואטסאפ, בדרך כלל תוך 15 דקות בשעות הפעילות", href: "/book" },
+  { tip: "מגיבים בוואטסאפ בשעות הפעילות, מענה אנושי", href: "/book" },
   { tip: "תמחור שקוף - ראו מחירון מרכזי", href: "/pricing" },
 ];
 

@@ -92,7 +92,7 @@ export function formatHubRowDescription(text?: string): string | undefined {
   const cut = firstSentence.slice(0, HUB_DESCRIPTION_MAX);
   const lastSpace = cut.lastIndexOf(" ");
   const trimmed = lastSpace > 40 ? cut.slice(0, lastSpace) : cut;
-  return `${trimmed.trim()}…`;
+  return `${trimmed.trim()}...`;
 }
 
 /** שורת מחיר לכפתור הזמנה במחירון */

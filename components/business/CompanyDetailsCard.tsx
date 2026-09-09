@@ -110,7 +110,7 @@ function CompanyDetailsContent({ showActions = true }: { showActions?: boolean }
             )}
             aria-live="polite"
           >
-            {copied ? "הועתק!" : "העתק פרטי חשבונית"}
+            {copied ? "הועתק" : "העתק פרטי חשבונית"}
           </button>
           <a
             href={COMPANY_REGISTRY_URL}
@@ -231,7 +231,7 @@ function CompanyDetailsCompact({ className }: { className?: string }) {
           )}
           aria-live="polite"
         >
-          {copied ? "הועתק!" : "העתק פרטי חשבונית"}
+          {copied ? "הועתק" : "העתק פרטי חשבונית"}
         </button>
       </div>
       <p className="text-center text-xs md:text-start">

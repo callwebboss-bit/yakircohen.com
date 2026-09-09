@@ -13,7 +13,8 @@ import {
   validateIsraeliMobile,
 } from "@/lib/form-validation";
 import { guardPublicMutation } from "@/lib/api-guard";
-import { SITE_URL } from "@/lib/site-url";
+import { captureException } from "@/lib/sentry-capture";
+import { ingestLead } from "@/lib/leads/ingest";
 
 const VALID_SERVICE_TAGS = new Set<ServiceTypeTag>([
   "MIX_AND_MASTER",
@@ -26,51 +27,92 @@ type LeadIntakeRequest = BookIntakeCloserPayload & {
   website_verification?: string;
 };
 
+/**
+ * חסמי אורך על כל שדה שנכנס לגוף המייל.
+ *
+ * קודם הבקשה עברה דרך /api/lead-notify, ששם חסם 8,000 תווים על הגוף והריץ
+ * isLeadSpam על הנושא ועל הגוף. המעבר לקריאה ישירה ל-ingestLead ויתר על שני
+ * אלה. buildIntakeEmailBody משרשר את כל השדות לתוך הגוף, ולכן שדה בלי חסם
+ * מאפשר לכתוב מגה-בייטים ל-Redis ל-90 יום ולשלוח מייל ענק, בעוד הלקוח מקבל ok.
+ */
+const FIELD_LIMITS: Record<string, number> = {
+  ticket_code: 64,
+  user_choice_preset: 120,
+  lead_email: 120,
+};
+const MAX_EMAIL_BODY_CHARS = 8000;
+
 function isValidPayload(body: LeadIntakeRequest): boolean {
   if (!body.ticket_code?.trim() || !body.lead_name?.trim() || !body.lead_phone?.trim()) {
     return false;
+  }
+  for (const [field, max] of Object.entries(FIELD_LIMITS)) {
+    const value = (body as Record<string, unknown>)[field];
+    if (typeof value === "string" && value.length > max) return false;
   }
   if (!VALID_SERVICE_TAGS.has(body.service_type_tag)) return false;
   if (body.urgency_flag !== false) return false;
   if (!body.user_choice_preset?.trim()) return false;
   if (typeof body.free_text_description !== "string") return false;
   if (body.free_text_description.length > 1500) return false;
-  if (body.file_meta) {
-    const m = body.file_meta;
-    if (!m.name?.trim() || typeof m.size_bytes !== "number" || !m.mime?.trim()) {
-      return false;
-    }
-    if (m.size_bytes > 524_288_000) return false;
+  if (body.file_meta !== undefined) {
+    /* body הוא JSON גולמי שהומר בכפייה לטיפוס, ולכן כל גישה לשדה חייבת לבוא
+       אחרי בדיקת סוג. קודם חסמי האורך רצו כאן למעלה ו-file_meta:{} הפיל את
+       הראוט ל-500 במקום להחזיר 400. */
+    const m = body.file_meta as unknown;
+    if (typeof m !== "object" || m === null) return false;
+    const meta = m as Record<string, unknown>;
+    if (typeof meta.name !== "string" || !meta.name.trim()) return false;
+    if (typeof meta.mime !== "string" || !meta.mime.trim()) return false;
+    if (typeof meta.size_bytes !== "number") return false;
+    if (meta.name.length > 200 || meta.mime.length > 100) return false;
+    if (meta.size_bytes > 524_288_000) return false;
   }
   return true;
 }
 
-async function proxyLeadNotify(
+/**
+ * קליטת הליד ישירות, בלי קפיצת HTTP חזרה לאתר עצמו.
+ *
+ * הקוד הקודם עשה fetch ל-/api/lead-notify עם Origin מזויף, ותפס שגיאות ב-.catch.
+ * שתי בעיות: קפיצת רשת מיותרת שיכולה ליפול על timeout או על cold start, ובעיקר
+ * ש-fetch לא נכשל על סטטוס HTTP. תשובת 502 מ-lead-notify (כלומר המייל לא נשלח)
+ * לא הפעילה את ה-catch כלל, והליד נחשב כאילו נקלט. כאן sendFailed נבדק במפורש.
+ *
+ * הבדיקות (honeypot, טלפון, ספאם) כבר רצו למעלה, ולכן אין צורך לשכפל אותן.
+ */
+async function notifyLead(
   payload: BookIntakeCloserPayload,
-  honeypot: string | undefined,
-): Promise<void> {
-  const origin =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : SITE_URL;
-
-  await fetch(`${origin}/api/lead-notify`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Origin: origin,
-    },
-    body: JSON.stringify({
+  emailBody: string,
+  request: Request,
+  ip: string,
+): Promise<boolean> {
+  try {
+    const result = await ingestLead({
       formId: "book_intake_wizard",
       subject: `פנייה מהירה - ${payload.ticket_code}`,
-      body: buildIntakeEmailBody(payload),
+      body: emailBody,
       name: payload.lead_name,
       phone: payload.lead_phone,
-      website_verification: honeypot,
-    }),
-  }).catch((err) => {
-    console.error("[lead-intake] lead-notify proxy failed", err);
-  });
+      request,
+      ip,
+    });
+
+    if (result.sendFailed) {
+      captureException(new Error("lead-intake: lead stored but email send failed"), {
+        tags: { route: "lead-intake", channel: "ingest" },
+        extra: { leadId: result.leadId, ticket: payload.ticket_code },
+      });
+      return false;
+    }
+    return true;
+  } catch (err) {
+    captureException(err, {
+      tags: { route: "lead-intake", channel: "ingest" },
+      extra: { ticket: payload.ticket_code },
+    });
+    return false;
+  }
 }
 
 export async function POST(request: Request) {
@@ -115,10 +157,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "rejected" }, { status: 400 });
   }
 
-  await Promise.all([
-    proxyLeadNotify(payload, typeof honeypotValue === "string" ? honeypotValue : undefined),
+  /* אותן שתי בדיקות ש-/api/lead-notify הריץ על הגוף הבנוי, עכשיו כאן */
+  const emailBody = buildIntakeEmailBody(payload);
+  if (emailBody.length > MAX_EMAIL_BODY_CHARS) {
+    return NextResponse.json({ ok: false, error: "body_too_long" }, { status: 400 });
+  }
+  if (isLeadSpam(emailBody)) {
+    return NextResponse.json({ ok: false, error: "rejected" }, { status: 400 });
+  }
+
+  const [notified] = await Promise.all([
+    notifyLead(payload, emailBody, request, gate.ip),
     fireCloserWebhook(payload),
   ]);
 
-  return NextResponse.json({ ok: true, ticket_code: payload.ticket_code });
+  /* ok נשאר true גם כשההתראה נכשלה: הלקוח ממשיך לוואטסאפ בכל מקרה, וזו עדיין
+     הדרך שבה הליד מגיע. notified חושף את הכשל לניטור במקום להעלים אותו. */
+  return NextResponse.json({ ok: true, ticket_code: payload.ticket_code, notified });
 }

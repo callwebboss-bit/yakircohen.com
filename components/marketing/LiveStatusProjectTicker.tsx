@@ -40,7 +40,7 @@ export default function LiveStatusProjectTicker() {
   return (
     <Link
       href={current.url}
-      title={`${current.title} — הזמינו גם אתם`}
+      title={`${current.title} - הזמינו גם אתם`}
       className="inline-flex min-h-8 max-w-[min(100%,22rem)] items-center overflow-hidden text-muted-foreground transition-colors hover:text-foreground"
       data-testid="live-status-project-ticker"
     >

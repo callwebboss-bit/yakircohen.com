@@ -73,7 +73,7 @@ export default function StudioClientsStrip({
             <li key={item.id}>
               <Link
                 href={item.href}
-                title={`${item.caption} — ${item.linkLabel}`}
+                title={`${item.caption} - ${item.linkLabel}`}
                 className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-[box-shadow,border-color] duration-normal ease-luxury hover:border-brand-red/30 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface">

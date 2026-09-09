@@ -18,9 +18,25 @@ import {
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
-import { VOICEOVER_HUB_VIDEOS } from "@/lib/data/youtube-showcases";
+import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
+import FAQAccordion from "@/components/ui/FAQAccordion";
+import type { ShowcaseVideoItem } from "@/lib/data/video-catalog";
 
 const bookCta = resolveServiceBookCta("voiceover");
+
+/** קריינות אנושית לאפליקציות - דוגמאות אמיתיות, לא קול מסונתז */
+const APP_VOICEOVER_DEMOS: readonly ShowcaseVideoItem[] = [
+  {
+    videoId: "AlkFbRo_WWo",
+    title: "קריינות לאפליקציה, דוגמה ראשונה",
+    description: "קריינות אנושית לאפליקציה, הוקלטה באולפן. הקריין: יקיר כהן.",
+  },
+  {
+    videoId: "cwr2_-cWoHo",
+    title: "קריינות לאפליקציה, דוגמה שנייה",
+    description: "דוגמה נוספת לקריינות אנושית לאפליקציה. הקריין: יקיר כהן.",
+  },
+];
 
 const service = getVoiceoverService("voiceover-hub");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -38,10 +54,21 @@ export default function VoiceoverHubPageContent() {
       bookHref={bookCta?.bookHref}
       bookLabel={bookCta?.bookLabel}
       valueFrame="קול מקצועי מוכן - בלי ניסויים, בלי לחפש קריין בחוץ"
+      pagePath="/voiceover"
+      faqs={service.faqs}
       {...heroProps}
     >
       <Container className="space-y-14 py-12 sm:py-16">
+        <VoiceoverNarratorCompare context="page" />
         <ShowcaseVideoSection playlistId="voiceover-hub" />
+        <ShowcaseVideoSection
+          videos={APP_VOICEOVER_DEMOS}
+          heading="קריינות אנושית לאפליקציות"
+          subheading="קריין אנושי אמיתי, לא קול מסונתז. הקריין: יקיר כהן."
+          kicker="אפליקציות"
+          sectionId="app-voiceover-demos"
+          initialVisible={2}
+        />
         <HubAudienceFitBlock hubPath="/voiceover" />
         <HubDecisionMatrix
           rows={VOICEOVER_HUB_DECISIONS}
@@ -55,6 +82,13 @@ export default function VoiceoverHubPageContent() {
           headingId="voiceover-tracks-heading"
         />
         <ClientJourneySteps variant="studio" display="compact" />
+        {service.faqs.length > 0 ? (
+          <FAQAccordion
+            items={[...service.faqs]}
+            title="שאלות ששואלים אותנו הרבה לפני שמזמינים"
+            className="py-0"
+          />
+        ) : null}
         <ServiceShowcaseSections
           assetsFolder={service.assetsFolder}
           playlistEmbedUrl={service.playlistEmbedUrl}

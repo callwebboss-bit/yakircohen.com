@@ -95,7 +95,7 @@ const bookCta = resolveServiceBookCta("academy/private-lessons");
 
 export default function PrivateLessonsPage() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בשיעור פרטי באולפן. אשמח לייעוץ בין שיעור מלא (60 דק) ל-Pro Session (90 דק).",
+    text: "היי יקיר, אני מעוניין/ת בשיעור פרטי באולפן. אשמח לייעוץ בין שיעור מלא (60 דק) ל-Pro Session (90 דק).",
     utm_source: "academy",
     utm_campaign: "private_lessons_cta",
   });

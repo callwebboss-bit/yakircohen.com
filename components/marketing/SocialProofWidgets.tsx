@@ -318,7 +318,7 @@ function LocalReviewsStrip() {
           key={item.id}
           className="rounded-xl border border-border bg-surface p-4 text-sm leading-relaxed text-muted-foreground"
         >
-          <p className="text-foreground">&ldquo;{item.quote}&rdquo;</p>
+          <p className="text-foreground">&quot;{item.quote}&quot;</p>
           <footer className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
             <span className="font-semibold text-foreground">{item.name}</span>
             {item.role ? (

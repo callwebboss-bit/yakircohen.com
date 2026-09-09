@@ -59,7 +59,7 @@ export default function BookQuickIntakeSection() {
               שלחו פנייה מהירה
             </h2>
             <p className="mb-6 text-sm text-muted-foreground">
-              לא מצאתם כיוון מתאים? תארו בקצרה — אחזור תוך 24 שעות.
+              לא מצאתם כיוון מתאים? תארו בקצרה - אחזור תוך 24 שעות.
             </p>
             <BookUniversalIntakeWizardLazy />
           </>

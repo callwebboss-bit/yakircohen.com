@@ -13,7 +13,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = constructMetadata({
   title: "אטרקציות לאירועים בירושלים",
   description:
-    "עשן כבד, זיקוקים קרים, בועות וקונפטי לחתונות ואירועים בירושלים. מפעיל מקצועי, תיאום מנהל האולם - 15 דקות ממודיעין. הצעה תוך שעה.",
+    "עשן כבד, זיקוקים קרים, בועות וקונפטי לחתונות ואירועים בירושלים. מפעיל מקצועי, תיאום מנהל האולם - 30 דקות ממודיעין. הצעה תוך שעה.",
   slug: "events/attractions/jerusalem",
   keywords: [
     "אטרקציות לאירועים בירושלים",
@@ -144,7 +144,7 @@ export default function AttractionsJerusalemPage() {
             </p>
             <ContextualIntroParagraph pathname="/events/attractions/jerusalem" className="mt-4" />
             <p className="mt-3 text-sm font-semibold text-brand-red">
-              15 דקות מירושלים - בלי דמי הגעה מופרזים
+              30 דקות מירושלים - בלי דמי הגעה מופרזים
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -163,7 +163,7 @@ export default function AttractionsJerusalemPage() {
               </Button>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00){" "}
+              מענה אנושי בשעות הפעילות{" "}
               <Link href="/start" className="font-semibold text-brand-red hover:underline">
                 איך התהליך עובד
               </Link>

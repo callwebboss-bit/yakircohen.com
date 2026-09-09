@@ -60,8 +60,8 @@ export default function CalculatorStickyBar({
   const showPrimary = showCta && hasTotal && !primaryDisabled;
 
   const greenClass = cn(
-    "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-white sm:w-auto sm:shrink-0 sm:px-5",
-    "transition-colors hover:bg-[#1fba59] disabled:cursor-not-allowed disabled:opacity-50",
+    "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#178741] px-4 py-3 text-sm font-semibold text-white sm:w-auto sm:shrink-0 sm:px-5",
+    "transition-colors hover:bg-[#0f6e34] disabled:cursor-not-allowed disabled:opacity-50",
   );
 
   const secondaryClass = cn(

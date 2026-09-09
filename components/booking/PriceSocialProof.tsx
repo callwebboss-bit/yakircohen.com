@@ -39,7 +39,7 @@ export default function PriceSocialProof({
   if (!item) return null;
 
   const quote =
-    item.quote.length > 96 ? `${item.quote.slice(0, 96).trim()}…` : item.quote;
+    item.quote.length > 96 ? `${item.quote.slice(0, 96).trim()}...` : item.quote;
 
   const categoryLabel = item.serviceCategory
     ? TESTIMONIAL_CATEGORY_LABELS[item.serviceCategory]
@@ -52,7 +52,7 @@ export default function PriceSocialProof({
       <span className="text-brand-red" aria-hidden="true">
         ★{" "}
       </span>
-      &ldquo;{quote}&rdquo;, {item.name}
+      &quot;{quote}&quot;, {item.name}
       {meta ? ` · ${meta}` : null}
     </p>
   );

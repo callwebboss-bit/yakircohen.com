@@ -1,7 +1,6 @@
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
-import { buildGoogleAggregateRatingSchema } from "@/lib/google-trust";
 import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
 
 const SPEAKABLE: Record<string, unknown> = {
@@ -65,7 +64,8 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
     "@type": "Offer",
     name: tier.name,
     description: tier.description,
-    price: tier.price.replace(/[^\d.,]/g, "") || undefined,
+    /* schema.org דורש מספר נקי. מפריד אלפים בפסיק פוסל את ה-Offer בעיני גוגל. */
+    price: tier.price.replace(/[^\d.]/g, "") || undefined,
     priceCurrency: "ILS",
     url: serviceUrl,
     availability: "https://schema.org/InStock",
@@ -97,7 +97,6 @@ export function buildServiceSchema(service: ServiceEntity) {
       },
       geoRadius: "50000",
     },
-    aggregateRating: buildGoogleAggregateRatingSchema(),
     review: SITE_TESTIMONIALS.slice(0, 3).map((t, i) => ({
       "@id": `${SITE_URL}/#review-${t.id ?? i + 1}`,
     })),
@@ -143,7 +142,6 @@ export function buildServicePageEntitySchema({
     dateModified: today,
     speakable: SPEAKABLE,
     provider: { "@id": `${absoluteUrl()}#organization` },
-    aggregateRating: buildGoogleAggregateRatingSchema(),
     review: SITE_TESTIMONIALS.slice(0, 3).map((t, i) => ({
       "@id": `${SITE_URL}/#review-${t.id ?? i + 1}`,
     })),

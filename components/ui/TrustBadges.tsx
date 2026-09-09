@@ -1,6 +1,11 @@
+import { GOOGLE_REVIEW_COUNT } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_BADGES = ["זמינות מהירה", "עבודה במודיעין", "280+ ביקורות גוגל"];
+const DEFAULT_BADGES = [
+  "זמינות מהירה",
+  "עבודה במודיעין",
+  `${GOOGLE_REVIEW_COUNT}+ ביקורות גוגל`,
+];
 
 type TrustBadgesProps = {
   badges?: string[];

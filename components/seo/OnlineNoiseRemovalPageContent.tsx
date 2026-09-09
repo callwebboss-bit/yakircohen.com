@@ -23,7 +23,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "AI וכלים מקצועיים שמזהים את הרעש הקבוע ברקע - מזגן, מאוורר, רחש חשמלי - ומסירים אותו מבלי לפגוע בקול הדובר. התוצאה: הקלטה נקייה שנשמעת כאילו צולמה בסטודיו.",
     ctaText: "שלחו קובץ",
-    whatsappMessage: "היי יקיר! יש לי הקלטה עם רעשי רקע - אשמח לסקיצה.",
+    whatsappMessage: "היי יקיר, יש לי הקלטה עם רעשי רקע - אשמח לסקיצה.",
     utm_campaign: "noise_faq_what",
   },
   {
@@ -32,7 +32,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לכל מי שהקליט בחדר לא מושתק: ראיון, פודקאסט, שיעור, נאום, שיר - כשיש רחש, מזגן, ציפורים, רוח או רעש רחוב שמפריע לאיכות ההקלטה.",
     ctaText: "שאלו אותנו",
-    whatsappMessage: "היי יקיר! האם ניקוי רעשים יעזור להקלטה שלי?",
+    whatsappMessage: "היי יקיר, האם ניקוי רעשים יעזור להקלטה שלי?",
     utm_campaign: "noise_faq_who",
   },
   {
@@ -41,7 +41,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לא, כשעושים את זה נכון. ניקוי אגרסיבי מדי יוצר אפקט מוזר על הקול. אנחנו עובדים בשכבות ובעדינות - כדי שהתוצאה תישמע מקצועית ולא \"לחוצה\".",
     ctaText: "בקשו סקיצה",
-    whatsappMessage: "היי יקיר! אשמח לשמוע דוגמה לפני/אחרי ניקוי רעשים.",
+    whatsappMessage: "היי יקיר, אשמח לשמוע דוגמה לפני/אחרי ניקוי רעשים.",
     utm_campaign: "noise_faq_quality",
   },
   {
@@ -50,7 +50,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כל פורמט מתקבל: MP3, WAV, M4A, MP4. אפשר לשלוח ישירות בוואטסאפ, קישור ל-Google Drive, Dropbox - מה שנוח לכם.",
     ctaText: "שלחו עכשיו",
-    whatsappMessage: "היי יקיר! שולח/ת קובץ לניקוי רעשים.",
+    whatsappMessage: "היי יקיר, שולח/ת קובץ לניקוי רעשים.",
     utm_campaign: "noise_faq_format",
   },
   {
@@ -59,14 +59,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "במידה וההקלטה ארוכה מ-5 דקות, שלחו לנו הודעה בוואטסאפ ונחזור עם הצעת מחיר מותאמת לפי אורך הקטע.",
     ctaText: "הצעת מחיר",
-    whatsappMessage: "היי יקיר! יש לי קטע ארוך - מה מחיר לניקוי רעשים?",
+    whatsappMessage: "היי יקיר, יש לי קטע ארוך - מה מחיר לניקוי רעשים?",
     utm_campaign: "noise_faq_longer",
   },
 ];
 
 export default function OnlineNoiseRemovalPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! יש לי הקלטה עם רעשי רקע שרוצה לנקות. אשמח לשמוע.",
+    text: "היי יקיר, יש לי הקלטה עם רעשי רקע שרוצה לנקות. אשמח לשמוע.",
     utm_source: "online",
     utm_campaign: "noise_removal_cta",
   });

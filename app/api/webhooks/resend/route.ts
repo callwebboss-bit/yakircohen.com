@@ -20,9 +20,17 @@ function verifySvixOrSecret(
     return process.env.NODE_ENV !== "production";
   }
 
-  // Simple shared-secret header (Resend also supports Svix — accept either)
+  // Simple shared-secret header (Resend also supports Svix - accept either)
   const headerSecret = request.headers.get("x-resend-webhook-secret")?.trim();
-  if (headerSecret && headerSecret === secret) return true;
+  if (headerSecret) {
+    try {
+      const a = Buffer.from(headerSecret);
+      const b = Buffer.from(secret);
+      if (a.length === b.length && timingSafeEqual(a, b)) return true;
+    } catch {
+      // fall through to Svix check
+    }
+  }
 
   const svixId = request.headers.get("svix-id");
   const svixTimestamp = request.headers.get("svix-timestamp");

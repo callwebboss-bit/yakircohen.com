@@ -16,7 +16,7 @@ export const RINGTONE_HERO = {
     "מתנה מקורית ליום הולדת, הפתעה לחבר/ה או אירוע מיוחד - מקליטים, מעבדים ומגישים רינגטון אישי שמישהו באמת ישמיע בטלפון.",
   priceBadge: `מבצע ${formatNis(RINGTONE_PRICE_NIS)}`,
   whatsappText:
-    "היי יקיר! מעוניינ/ת ברינגטון מצחיק במתנה (299 ש\"ח). אשמח לפרטים.",
+    "היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (299 ש\"ח). אשמח לפרטים.",
   utmCampaign: "gift_funny_ringtone",
 } as const;
 
@@ -98,7 +98,7 @@ export const RINGTONE_FAQ: readonly {
     question: "כמה זמן לוקח להכין את הרינגטון?",
     answer:
       "ברוב המקרים 3-5 ימי עבודה. צריכים מהר? דברו איתנו - נבדוק אפשרות אקספרס.",
-    whatsappText: "היי יקיר! רינגטון מצחיק - כמה זמן לוקח?",
+    whatsappText: "היי יקיר, רינגטון מצחיק - כמה זמן לוקח?",
     utmCampaign: "ringtone_faq_timing",
   },
   {
@@ -106,7 +106,7 @@ export const RINGTONE_FAQ: readonly {
     question: "איך מתקינים את הרינגטון בטלפון?",
     answer:
       "שולחים קובץ מוכן עם הוראות קצרות ל-iPhone ו-Android. זה לוקח דקה - גם למי שלא טכני.",
-    whatsappText: "היי יקיר! איך מתקינים את הרינגטון?",
+    whatsappText: "היי יקיר, איך מתקינים את הרינגטון?",
     utmCampaign: "ringtone_faq_install",
   },
   {
@@ -114,14 +114,14 @@ export const RINGTONE_FAQ: readonly {
     question: "מה אפשר לשים ברינגטון?",
     answer:
       "ברכה מצחיקה, ציטוט פנימי, שיר קצר, קול מוכר - כל רעיון שמתאים למקבל/ת המתנה. נעזור לנסח.",
-    whatsappText: "היי יקיר! מה אפשר לשים ברינגטון מצחיק?",
+    whatsappText: "היי יקיר, מה אפשר לשים ברינגטון מצחיק?",
     utmCampaign: "ringtone_faq_content",
   },
   {
     id: "price",
     question: "האם המחיר כולל הכל?",
     answer: `כן - ${formatNis(RINGTONE_PRICE_NIS)} מבצע כולל הקלטה, עריכה וקובץ מוכן. בלי עלויות נסתרות.`,
-    whatsappText: "היי יקיר! מה כולל המחיר של הרינגטון?",
+    whatsappText: "היי יקיר, מה כולל המחיר של הרינגטון?",
     utmCampaign: "ringtone_faq_price",
   },
 ] as const;

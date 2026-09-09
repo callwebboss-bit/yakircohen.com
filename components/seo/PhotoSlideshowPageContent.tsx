@@ -47,7 +47,7 @@ export default function PhotoSlideshowPageContent() {
   });
 
   const expressHref = buildWhatsAppHref({
-    text: "הצילו! אני צריך מצגת דחוף לאירוע, אשמח לשמוע על שירות אקספרס (24-48 שעות).",
+    text: "אני צריך מצגת דחוף לאירוע, אשמח לשמוע על שירות אקספרס (24-48 שעות).",
     utm_source: "website",
     utm_campaign: "photo_slideshow_express",
   });
@@ -90,7 +90,7 @@ export default function PhotoSlideshowPageContent() {
             rel="noopener noreferrer"
             className="mt-5 inline-flex rounded-md bg-brand-red px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            הצילו! אני צריך מצגת דחוף </a>
+            אני צריך מצגת דחוף </a>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="slideshow-intro-heading">

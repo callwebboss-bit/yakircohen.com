@@ -37,8 +37,14 @@ export type CroDecoyPackage = {
 export type CroLastMinuteUpsell = {
   label: string;
   upgradeId: string;
-  promoPrice: number;
-  listPrice: number;
+  /**
+   * שני אלה אופציונליים בכוונה: שדרוג אינו חייב להיות מבצע.
+   * כשהם קיימים, listPrice חייב להיות מחיר שנגבה בפועל. מחיר ייחוס
+   * שלא נגבה הוא הצגה מטעה לפי חוק הגנת הצרכן, וזו בדיוק הסיבה
+   * שהם הוסרו מהאשף של האירועים.
+   */
+  promoPrice?: number;
+  listPrice?: number;
 };
 
 export type WizardCroConfig = {
@@ -52,7 +58,6 @@ export type WizardCroConfig = {
   decoy?: CroDecoyPackage;
   escapePlacements: readonly EscapePlacementId[];
   urgency: {
-    slotsLabel: (n: number) => string;
     holdPrefix: string;
     holdExpiredSoft: string;
     priceHoldBadge: string;

@@ -30,13 +30,13 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 
 const MAIN_CTA = buildWhatsAppHref({
-  text: "היי יקיר! מעוניינים בשובר מתנה מהאולפן. אשמח לשמוע איזה שירותים אפשריים ואיך זה עובד.",
+  text: "היי יקיר, מעוניינים בשובר מתנה מהאולפן. אשמח לשמוע איזה שירותים אפשריים ואיך זה עובד.",
   utm_source: "studio",
   utm_campaign: "studio_gifts_main_cta",
 });
 
 const VOUCHER_CTA = buildWhatsAppHref({
-  text: "היי יקיר! רוצים להזמין שובר מתנה - לציין שזו מתנה ולבחור שירות. אשמח לפרטים.",
+  text: "היי יקיר, רוצים להזמין שובר מתנה - לציין שזו מתנה ולבחור שירות. אשמח לפרטים.",
   utm_source: "studio",
   utm_campaign: "studio_gifts_voucher_cta",
 });

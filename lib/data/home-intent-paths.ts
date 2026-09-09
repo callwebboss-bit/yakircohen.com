@@ -36,6 +36,18 @@ const BY_INTENT_ID: Record<
     outcome: "מגיעים עם הציוד אליכם הביתה או למשרד",
     priceId: "mobile_podcast_at_home",
   },
+  wedding: {
+    outcome: "DJ, אטרקציות והגברה בחבילה אחת מספק אחד",
+    priceNote: "הצעה תוך 24 שעות",
+  },
+  barmitzvah: {
+    outcome: "DJ, אפקטים, הגברה לדרשה ומצגת גדילה",
+    priceId: "dj_premium",
+  },
+  gifts: {
+    outcome: "שיר, ברכה או מארז מוקלט לפי סוג האירוע",
+    priceId: "blessing_recording",
+  },
   business: {
     outcome: "רילז, קריינות ופודקאסט עם חשבונית מס",
     priceNote: "הצעה תוך 24 שעות",

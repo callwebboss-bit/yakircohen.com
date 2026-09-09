@@ -135,12 +135,10 @@ export function buildUlpanPageSchema() {
         review: {
           "@type": "Review",
           author: { "@type": "Person", name: ULPAN_TESTIMONIAL.author },
+          /* ללא reviewRating: מדיניות ה-review snippets של גוגל דורשת שהדירוג
+             יהיה גלוי למשתמש בעמוד, ובעמוד הזה לא מוצג אף כוכב. אותה המלצה
+             גם שימשה לדרג חמישה כוכבים בשני עמודים שונים. ההמלצה עצמה נשארת. */
           reviewBody: ULPAN_TESTIMONIAL.quote,
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: "5",
-            bestRating: "5",
-          },
         },
       },
       ...videoNodes,

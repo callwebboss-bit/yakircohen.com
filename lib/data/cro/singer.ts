@@ -37,7 +37,6 @@ export const SINGER_CRO_CONFIG = {
   ],
   escapePlacements: ["after_packages", "step_contact"],
   urgency: {
-    slotsLabel: (n: number) => `נשארו ${n} חלונות פנויים השבוע להגברה`,
     holdPrefix: "המחיר והחבילה שמורים עבורך עוד",
     holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
     priceHoldBadge: "המחיר שמור ל-48 שעות",

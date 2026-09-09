@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-/** Subtle success burst — CSS/Tailwind only, no emoji. */
+/** Subtle success burst - CSS/Tailwind only, no emoji. */
 export default function SuccessBurst({ active }: { active: boolean }) {
   const [show, setShow] = useState(false);
 

@@ -178,7 +178,6 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
       buildCatalogRow("event_attraction_2"),
       buildCatalogRow("event_attraction_3"),
       buildCatalogRow("event_attraction_4"),
-      buildCatalogRow("single_effect"),
       buildCatalogRow("dj_premium", {
         note: "מחירון תקליטן מהצוות. נוסף כאן כי בחלק מהפניות משווים בין DJ לבד לבין DJ עם אטרקציות.",
       }),

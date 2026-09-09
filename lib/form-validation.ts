@@ -47,6 +47,9 @@ function hasExcessiveRepeat(text: string): boolean {
 /** Normalize Israeli mobile to 05XXXXXXXX (10 digits). */
 export function normalizeIsraeliMobile(phone: string): string | null {
   let digits = phone.replace(/\D/g, "");
+  /* מנורמל זהה ל-lib/leads/format-phone-il.ts. 00972 נפוץ בהעתקה מאנשי קשר,
+     ובלי זה הוולידציה חוסמת את הטופס ולא נוצר ליד. */
+  if (digits.startsWith("00972")) digits = digits.slice(2);
   if (digits.startsWith("972")) {
     digits = `0${digits.slice(3)}`;
   }

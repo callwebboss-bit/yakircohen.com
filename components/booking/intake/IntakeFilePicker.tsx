@@ -81,6 +81,7 @@ export default function IntakeFilePicker({
         <input
           ref={inputRef}
           type="file"
+          aria-label="בחירת קובץ להעלאה"
           className="sr-only"
           accept="audio/*,video/*,image/*,.zip,.pdf"
           onChange={(e) => {
@@ -112,7 +113,7 @@ export default function IntakeFilePicker({
               גררו קובץ לכאן או לחצו לבחירה
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
-              אודיו, וידאו, תמונה, ZIP או PDF — עד 500MB
+              אודיו, וידאו, תמונה, ZIP או PDF - עד 500MB
             </p>
           </>
         )}

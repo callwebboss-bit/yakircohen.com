@@ -84,7 +84,7 @@ export default function PriceActionRow({
         rel="noopener noreferrer"
         className={cn(
           primaryClass,
-          "bg-[#25D366] text-white hover:bg-[#1fba59] focus-visible:outline-[#25D366]",
+          "bg-[#178741] text-white hover:bg-[#0f6e34] focus-visible:outline-[#178741]",
         )}
       >
         <WhatsAppIcon />

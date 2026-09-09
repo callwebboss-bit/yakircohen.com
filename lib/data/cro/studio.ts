@@ -50,7 +50,6 @@ export const STUDIO_CRO_CONFIG = {
   },
   escapePlacements: ["after_packages", "after_high_price", "step_contact"],
   urgency: {
-    slotsLabel: (n: number) => `נשארו ${n} חלונות פנויים השבוע באולפן`,
     holdPrefix: "המחיר, הצ'ופר והחניה שמורים עבורך עוד",
     holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
     priceHoldBadge: "המחיר שמור ל-48 שעות",

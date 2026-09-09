@@ -84,23 +84,44 @@ const LEGACY_PATH_MAP: Record<string, string> = {
  * The site migrated from WP+WooCommerce to Next.js - these catch all the
  * old URL patterns that Google had indexed under the previous platform.
  */
+/**
+ * נתיבי WordPress מתים שמקבלים 410 Gone ב-proxy.ts ולא 301.
+ *
+ * למה: הפניה המונית של מאות כתובות מוצר שאינן קשורות לעמוד יחיד נחשבת אצל גוגל
+ * soft 404, ולכן 1,030 העמודים "נסרקו ולא באינדקס" עלו במקום לרדת. 410 אומר
+ * לגוגל שהתוכן הוסר לצמיתות, וזה מוציא אותו מתור הסריקה תוך שבועות.
+ *
+ * חשוב לסדר: redirects מ-next.config רצים לפני ה-proxy (שלב 2 מול שלב 3 בתיעוד
+ * של Next 16), ולכן הדפוסים האלה חייבים לא להופיע ב-WORDPRESS_PATTERNS. אחרת
+ * ה-301 תופס ראשון וה-410 לעולם לא נבדק.
+ *
+ * הרשימה משוכפלת כליטרל ב-proxy.ts כי Next דורש שה-matcher יהיה סטטי.
+ */
+export const GONE_PATH_PREFIXES = [
+  "/product",
+  "/product-tag",
+  "/product-category",
+  "/category",
+  "/tag",
+  /* /shop-2 עצמו מקבל 308 אל /shop ב-proxy.ts, כי יש לו מקבילה אמיתית.
+     רק העומק מתחתיו מקבל 410. אל תגזרו את ההתנהגות מהרשימה הזו בלבד. */
+  "/shop-2",
+  "/wp-admin",
+  "/wp-content",
+  "/wp-json",
+] as const;
+
+export const GONE_EXACT_PATHS = ["/xmlrpc.php", "/index.aspx", "/main.asp"] as const;
+
 const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
-  { source: "/product/:path*",           destination: "/shop#vouchers" },
-  { source: "/product-tag/:path*",       destination: "/" },
-  { source: "/product-category/:path*",  destination: "/" },
-  { source: "/category/:path*",          destination: "/" },
-  { source: "/tag/:path*",               destination: "/blog" },
-  { source: "/shop-2/:path*",            destination: "/shop#vouchers" },
+  /* /product, /product-tag, /product-category, /category, /tag, /shop-2, /wp-*
+     ו-/xmlrpc.php הועברו ל-410 ב-proxy.ts. ראו GONE_PATH_PREFIXES למעלה. */
   { source: "/2019/:path*",              destination: "/blog" },
   { source: "/2020/:path*",              destination: "/blog" },
   { source: "/2021/:path*",              destination: "/blog" },
   { source: "/2022/:path*",              destination: "/blog" },
   { source: "/privacy-policy/:path*",    destination: "/privacy" },
   { source: "/privacy-policy",           destination: "/privacy" },
-  { source: "/wp-admin/:path*",          destination: "/" },
-  { source: "/wp-content/:path*",        destination: "/" },
-  { source: "/wp-json/:path*",           destination: "/" },
-  { source: "/xmlrpc.php",              destination: "/" },
   { source: "/feed",                     destination: "/blog" },
   { source: "/feed/:path*",              destination: "/blog" },
   { source: "/author/:path*",            destination: "/about" },
@@ -109,8 +130,6 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   { source: "/2017/:path*",              destination: "/blog" },
   { source: "/2023/:path*",              destination: "/blog" },
   { source: "/2024/:path*",              destination: "/blog" },
-  { source: "/index.aspx",               destination: "/" },
-  { source: "/main.asp",                 destination: "/" },
 ];
 
 /** Hebrew-slug service pages from the old WordPress site */

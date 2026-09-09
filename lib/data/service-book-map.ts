@@ -7,6 +7,8 @@ export type ServiceBookCta = {
   bookHref: string;
   bookLabel: string;
   bookCategory: BookCategoryId;
+  /** מחיר התחלתי לפני מע״מ - לתג [YC:] ולקופי */
+  priceExVat: number;
 };
 
 type BookMapEntry = {
@@ -80,6 +82,25 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
     bookCategory: "online",
     priceCatalogId: "voice_clone_setup",
   },
+  "online/vocal-fix/noise-removal": {
+    bookCategory: "online",
+    priceCatalogId: "noise_removal_segment",
+  },
+  "online/vocal-fix/eq-fix": {
+    bookCategory: "online",
+    priceCatalogId: "eq_freq_fix",
+  },
+  "online/vocal-fix/volume-balance": {
+    bookCategory: "online",
+    priceCatalogId: "volume_balance_full",
+  },
+  // עמוד המיקס מציג 500 ₪ קשיח ואין ל-500 מזהה בקטלוג (external_mix_master=1750). escape-hatch כמו academy/singer.
+  "online/vocal-fix/mixing": { bookCategory: "online", priceExVat: 500 },
+  // עמוד נחיתה חדש לתיקון סאונד פודקאסט - בסיס חבילת שידוריאל = ניקוי רעשים (500)
+  "online/vocal-fix/podcast-repair": {
+    bookCategory: "online",
+    priceCatalogId: "noise_removal_segment",
+  },
   "academy/workshops": {
     bookCategory: "academy",
     priceCatalogId: "workshop_team_2h",
@@ -90,6 +111,11 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   },
   "events/equipment/dry-hire": { bookCategory: "singer", priceCatalogId: "dry_hire_day" },
   "events/equipment/system-tuning": { bookCategory: "singer", priceCatalogId: "system_tuning_ease" },
+  "events/dj-events": { bookCategory: "dj", priceCatalogId: "dj_premium" },
+  /* בר מצווה נכנס דרך אשף ה-DJ ולא דרך אשף האטרקציות: ה-CTA הראשי הוא תקליטן,
+     והאטרקציות נבחרות אחריו. בלי השורה הזו ה-fallback של events/ היה מציג 1,750 ₪. */
+  "events/bar-mitzvah": { bookCategory: "dj", priceCatalogId: "dj_premium" },
+  "events/equipment/singer-amplification": { bookCategory: "singer", priceExVat: 2800 },
 };
 
 const SLUG_PREFIX_FALLBACK: { prefix: string; entry: BookMapEntry }[] = [
@@ -131,5 +157,6 @@ export function resolveServiceBookCta(slug: string): ServiceBookCta | null {
       eventItemId ? { item: eventItemId } : undefined,
     ),
     bookLabel: hubBookCtaLabel(priceExVat),
+    priceExVat,
   };
 }

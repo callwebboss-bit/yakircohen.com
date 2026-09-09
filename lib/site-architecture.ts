@@ -21,18 +21,23 @@ export type SiteNavCategory = {
 };
 
 /** סדר תצוגה בתפריט - מקור אמת יחיד (Google priority) */
+/**
+ * שלושת קווי הליבה ראשונים. קודם business ישב שלישי ו-events אחרון מבין 11,
+ * למרות שאירועים הם קו ליבה עם 110 פריטי פורטפוליו ו-business הוא אפס.
+ * משפיע על SITE_NAVIGATION, שלו שני צרכנים: חיפוש קולי ו-audit-nav-coverage.
+ */
 export const NAV_DISPLAY_ORDER = [
   "studio",
+  "events",
   "podcast",
-  "business",
-  "online",
   "attractions",
   "dj-voice",
+  "online",
   "video",
   "photography",
   "academy",
+  "business",
   "pro",
-  "events",
 ] as const;
 
 export type NavCategoryId = (typeof NAV_DISPLAY_ORDER)[number];
@@ -370,6 +375,10 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
     href: "/events",
     children: [
       { label: "מרכז אירועים", href: "/events" },
+      { label: "חתונה", href: "/events/wedding-attractions-packages" },
+      { label: "בר ובת מצווה", href: "/events/bar-mitzvah" },
+      { label: "אירוע חברה", href: "/events#corporate" },
+      { label: "מסיבה או יום הולדת", href: "/events#parties" },
       { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine" },
       { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
       { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine" },
@@ -562,18 +571,23 @@ const HEADER_EVENTS_NAV: SiteNavCategory = {
   id: "events",
   label: "אירועים",
   href: "/events",
+  /* לפי סוג אירוע - כך הלקוח מוצא את עצמו לפני שהוא צריך לדעת איזה שירות לבחור */
   featured: [
-    { label: "DJ לחתונה ואירועי חברה", href: "/events/dj-events" },
-    { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine" },
-    { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
+    { label: "חתונה", href: "/events/wedding-attractions-packages" },
+    { label: "בר ובת מצווה", href: "/events/bar-mitzvah" },
+    { label: "אירוע חברה", href: "/events#corporate" },
   ],
   children: [
     { label: "כל שירותי האירועים", href: "/events" },
+    { label: "חתונה", href: "/events/wedding-attractions-packages", description: "חבילות DJ, אפקטים ותאורה" },
+    { label: "בר ובת מצווה", href: "/events/bar-mitzvah", description: "DJ, אפקטים ומצגת גדילה" },
+    { label: "DJ לאירועים", href: "/events/dj-events", description: "תקליטן, הגברה ותאורה" },
+    { label: "אירוע חברה", href: "/events#corporate", description: "כנסים ומערכות A/V" },
+    { label: "מסיבה או יום הולדת", href: "/events#parties", description: "ציוד, תאורה ואפקטים" },
     { label: "מכונת עשן לחתונה", href: "/events/attractions/wedding-smoking-machine", description: "כניסה, פתיחת ריקודים" },
     { label: "בועות סבון ועשן", href: "/events/attractions/bubble-machine", description: "אפקט ויזואלי לרחבה" },
     { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon", description: "רגע השיא של הערב" },
     { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
-    { label: "חבילות DJ ואטרקציות", href: "/events/wedding-attractions-packages" },
     { label: "DJ בירושלים", href: "/dj-events/cities/jerusalem" },
     { label: "DJ בשוהם", href: "/dj-events/cities/shoham" },
     { label: "DJ ברחובות", href: "/dj-events/cities/rehovot" },

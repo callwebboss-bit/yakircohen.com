@@ -9,7 +9,7 @@ const STEPS = [
   "מנתח תדרים...",
   "מסנן רעשים ורובוטיות...",
   "מאזן דינמיקה...",
-  "מוכן!",
+  "מוכן",
 ];
 
 function writeStr(view: DataView, offset: number, str: string) {
@@ -67,7 +67,7 @@ export default function SoundCleaningDemo() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const waHref = buildWhatsAppHref({
-    text: "היי יקיר! ניסיתי את הדמו לניקוי סאונד - רוצה תוצאה מקצועית. אשמח לשמוע.",
+    text: "היי יקיר, ניסיתי את הדמו לניקוי סאונד - רוצה תוצאה מקצועית. אשמח לשמוע.",
     utm_source: "online",
     utm_campaign: "sound_demo_cta",
   });
@@ -209,13 +209,13 @@ export default function SoundCleaningDemo() {
           <input
             ref={inputRef}
             type="file"
+            aria-label="בחירת קובץ אודיו לניקוי"
             accept="audio/*"
             className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) pick(f);
             }}
-            aria-hidden
           />
         </div>
       )}
@@ -232,7 +232,7 @@ export default function SoundCleaningDemo() {
                     ? "text-[#04768a]"
                     : i === step
                       ? "font-medium text-foreground"
-                      : "text-muted-foreground/40"
+                      : "text-muted-foreground"
                 }`}
               >
                 <span

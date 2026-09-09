@@ -19,7 +19,7 @@ export const CORPORATE_VIDEO_PROCESS = [
 export const CORPORATE_VIDEO_PROOF =
   "סרט תדמית לעסק: אפיון, צילום ועריכה - עם 2 סבבי תיקונים ומסירה בפורמטים לאתר ולרשתות.";
 
-/** What ships — concrete deliverables, not marketing fluff. */
+/** What ships - concrete deliverables, not marketing fluff. */
 export const CORPORATE_VIDEO_DELIVERABLES = [
   "תסריט ו-storyboard משותפים לפני צילום",
   "יום צילום באולפן במודיעין או בשטח (לפי brief)",
@@ -31,7 +31,7 @@ export const CORPORATE_VIDEO_DELIVERABLES = [
 export const CORPORATE_VIDEO_FIT = [
   {
     title: "למי זה מתאים",
-    body: "חברות, יזמים וארגונים שצריכים מסר אחד ברור ללקוחות — לא סרטון onboarding לעובדים.",
+    body: "חברות, יזמים וארגונים שצריכים מסר אחד ברור ללקוחות - לא סרטון onboarding לעובדים.",
   },
   {
     title: "מה בדרך כלל לא כלול",

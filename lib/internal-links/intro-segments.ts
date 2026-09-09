@@ -113,6 +113,15 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
     { type: "text", value: "." },
   ],
+  "/events/bar-mitzvah": [
+    { type: "text", value: "הפקה שמחזיקה גם את הנוער וגם את המשפחה. לתקליטן בלבד ראו " },
+    { type: "link", href: "/events/dj-events", label: "DJ לאירועים" },
+    { type: "text", value: ", לאפקט הכניסה וההרמה - " },
+    { type: "link", href: "/events/attractions", label: "אטרקציות לאירוע" },
+    { type: "text", value: ". להקלטת הדרשה באולפן מראש - " },
+    { type: "link", href: "/studio/blessings/bar-mitzvah", label: "הקלטת דרשה לבר מצווה" },
+    { type: "text", value: "." },
+  ],
   "/events/dj/voice-tags": [
     { type: "text", value: "תג קולי קצר עם אפקטים, מוכן לנגן. לחמישה משפטים לסט שלם ראו " },
     { type: "link", href: "/business/professional-voiceover", label: "קריינות לסט" },

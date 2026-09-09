@@ -16,8 +16,8 @@ export type ContextualIntroParagraphProps = {
 };
 
 /**
- * Intro עם קישורי פנים (עד 2–3) + ServiceFitSnapshot כשיש רשומה במטריצה.
- * אם אין intro segments אבל יש fit — מציגים רק את ה-snapshot.
+ * Intro עם קישורי פנים (עד 2 - 3) + ServiceFitSnapshot כשיש רשומה במטריצה.
+ * אם אין intro segments אבל יש fit - מציגים רק את ה-snapshot.
  */
 export default function ContextualIntroParagraph({
   pathname,

@@ -23,7 +23,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כשמקליטים כמה אנשים בשיחה, ראיון או פודקאסט, קול אחד לרוב רם יותר מהשני. גם בין קטעים שהוקלטו בזמנים שונים, ההבדל מורגש. אנחנו מאזנים את כל עוצמות הקול כך שהמאזין ייהנה מחוויה אחידה - בלי לגעת בריגולה.",
     ctaText: "שלחו קובץ",
-    whatsappMessage: "היי יקיר! יש לי הקלטה עם ווליום לא אחיד - אשמח לשמוע איך עוזרים.",
+    whatsappMessage: "היי יקיר, יש לי הקלטה עם ווליום לא אחיד - אשמח לשמוע איך עוזרים.",
     utm_campaign: "volume_faq_what",
   },
   {
@@ -32,7 +32,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לכל מי שהקליט ראיון, שיחה, שיר, פודקאסט, שיעור או נאום עם יותר מדובר אחד - ורוצה שכולם יישמעו ברמת ווליום דומה. גם למי שמרכיב קטעים שהוקלטו בנפרד ורוצה עקביות.",
     ctaText: "שלחו דוגמה",
-    whatsappMessage: "היי יקיר! יש לי הקלטה עם ווליום לא אחיד - אשמח לסקיצה.",
+    whatsappMessage: "היי יקיר, יש לי הקלטה עם ווליום לא אחיד - אשמח לסקיצה.",
     utm_campaign: "volume_faq_who",
   },
   {
@@ -41,7 +41,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "בדרך כלל 1-3 ימי עסקים. קטעים קצרים מוכנים לרוב הרבה יותר מהר. בדחיפות - שאלו אותנו בוואטסאפ ונבדוק זמינות.",
     ctaText: "שאלו על דחיפות",
-    whatsappMessage: "היי יקיר! צריך איזון ווליומים בדחיפות - מה זמינות?",
+    whatsappMessage: "היי יקיר, צריך איזון ווליומים בדחיפות - מה זמינות?",
     utm_campaign: "volume_faq_speed",
   },
   {
@@ -50,7 +50,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כל פורמט מתקבל: MP3, WAV, M4A ועוד. אפשר לשלוח ישירות בוואטסאפ, קישור ל-Drive, Dropbox - מה שנוח לכם.",
     ctaText: "שלחו קובץ",
-    whatsappMessage: "היי יקיר! שולח/ת קובץ לאיזון ווליומים.",
+    whatsappMessage: "היי יקיר, שולח/ת קובץ לאיזון ווליומים.",
     utm_campaign: "volume_faq_format",
   },
   {
@@ -59,14 +59,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "במידה וההקלטה ארוכה מ-5 דקות, שלחו לנו הודעה בוואטסאפ ונחזור עם הצעת מחיר מותאמת לפי אורך הקטע.",
     ctaText: "הצעת מחיר לקטע ארוך",
-    whatsappMessage: "היי יקיר! יש לי הקלטה ארוכה - מה מחיר לאיזון ווליומים?",
+    whatsappMessage: "היי יקיר, יש לי הקלטה ארוכה - מה מחיר לאיזון ווליומים?",
     utm_campaign: "volume_faq_longer",
   },
 ];
 
 export default function OnlineVolumeBalancePageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! יש לי הקלטה שצריכה איזון ווליומים. אשמח לשמוע.",
+    text: "היי יקיר, יש לי הקלטה שצריכה איזון ווליומים. אשמח לשמוע.",
     utm_source: "online",
     utm_campaign: "volume_balance_cta",
   });

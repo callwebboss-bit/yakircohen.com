@@ -10,6 +10,9 @@ const SCAN_DIRS = [
 ];
 
 const HREF_RE = /href=["'](\/(?!\/)[^"'#?]*?)["']/g;
+/* גם תחביר אובייקט: { href: "/x" } במערכי נתונים ב-lib/data. בלי זה 158 כתובות
+   נשארות מחוץ לכיסוי, וקישור שבור בעמוד הבית עובר בשקט. */
+const HREF_PROP_RE = /\bhref:\s*["'](\/(?!\/)[^"'#?]*?)["']/g;
 const IMG_SRC_RE = /(?:src|thumbnail):\s*["'](\/images\/[^"']+)["']/g;
 const DYNAMIC_SEGMENT_RE = /^\[.+\]$/;
 
@@ -34,11 +37,25 @@ function loadBlogSlugs() {
   return [...text.matchAll(/^\s*slug:\s*"([^"]+)"/gm)].map((m) => m[1]);
 }
 
+function loadSlugsFrom(relPath) {
+  const file = path.join(ROOT, relPath);
+  if (!fs.existsSync(file)) return [];
+  const text = fs.readFileSync(file, "utf8");
+  return [...text.matchAll(/^\s*slug:\s*"([^"]+)"/gm)].map((m) => m[1]);
+}
+
+/* כל ראוט [slug] שיש לו מקור slugs חייב להירשם כאן, אחרת קישורים תקינים
+   אליו נספרים כשבורים ברגע שהאודיט סורק גם תחביר אובייקט. */
+const DYNAMIC_SLUG_SOURCES = {
+  "/blog": () => loadBlogSlugs(),
+  "/glossary": () => loadSlugsFrom("lib/data/glossary.ts"),
+};
+
 function expandDynamicRoutes(baseRoute, dirName) {
-  if (dirName === "[slug]" && baseRoute === "/blog") {
-    return loadBlogSlugs().map((slug) => `${baseRoute}/${slug}`);
-  }
-  return [];
+  if (dirName !== "[slug]") return [];
+  const load = DYNAMIC_SLUG_SOURCES[baseRoute];
+  if (!load) return [];
+  return load().map((slug) => `${baseRoute}/${slug}`);
 }
 
 function collectRoutes(dir, base = "") {
@@ -81,9 +98,12 @@ const imagePaths = new Set();
 for (const file of files) {
   const text = fs.readFileSync(file, "utf8");
   let m;
-  while ((m = HREF_RE.exec(text)) !== null) {
-    const href = m[1].replace(/\/$/, "") || "/";
-    if (!href.includes("${")) hrefs.add(href);
+  for (const re of [HREF_RE, HREF_PROP_RE]) {
+    re.lastIndex = 0;
+    while ((m = re.exec(text)) !== null) {
+      const href = m[1].replace(/\/$/, "") || "/";
+      if (!href.includes("${")) hrefs.add(href);
+    }
   }
   while ((m = IMG_SRC_RE.exec(text)) !== null) {
     imagePaths.add(m[1]);

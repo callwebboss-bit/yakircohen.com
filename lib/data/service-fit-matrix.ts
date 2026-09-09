@@ -1,5 +1,5 @@
 /**
- * מטריצת התאמת שירותים — additive בלבד על pathnames קיימים.
+ * מטריצת התאמת שירותים - additive בלבד על pathnames קיימים.
  * מזינה HubAudienceFitBlock, ServiceFitSnapshot, PageRelatedFooter.
  * לא יוצרת URLs חדשים ולא משנה canonical.
  */
@@ -28,7 +28,7 @@ export type ServiceFitEntry = {
   delivery: FitDelivery;
   guidance: FitGuidance;
   outcome: FitOutcome;
-  /** דף מומלץ הבא — pathname קיים בלבד */
+  /** דף מומלץ הבא - pathname קיים בלבד */
   nextPath: string;
   priceAnchorExVat?: number;
   notes?: string;
@@ -42,7 +42,7 @@ export const FIT_AUDIENCE_LABEL: Record<FitAudience, string> = {
 
 export const FIT_DELIVERY_LABEL: Record<FitDelivery, string> = {
   in_studio: "באולפן",
-  mobile: "נייד — מגיע אליכם",
+  mobile: "נייד - מגיע אליכם",
   on_site: "אצל הלקוח",
   self_service: "עצמאי / מרחוק",
 };
@@ -62,7 +62,7 @@ export const FIT_OUTCOME_LABEL: Record<FitOutcome, string> = {
   business_content_day: "יום תוכן לעסק",
 };
 
-/** מחירון לפי hub — להשוואה ב-PageRelatedFooter */
+/** מחירון לפי hub - להשוואה ב-PageRelatedFooter */
 const HUB_PRICING_PATH: Record<string, string> = {
   "/studio": "/studio/pricing",
   "/podcast": "/pricing",
@@ -113,7 +113,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     outcome: "recorded_blessing",
     nextPath: "/studio/recording-song-modiin",
     priceAnchorExVat: 590,
-    notes: "אפשר גם מהבית — עדיין אותו outcome",
+    notes: "אפשר גם מהבית - עדיין אותו outcome",
   },
   {
     pathname: "/studio/blessings/video-clip",
@@ -181,7 +181,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/recording-song-modiin",
-    notes: "GEO — האולפן הפיזי במודיעין",
+    notes: "GEO - האולפן הפיזי במודיעין",
   },
   {
     pathname: "/studio/studio-shoham",
@@ -192,7 +192,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/recording-song-modiin",
-    notes: "GEO — האולפן הפיזי במודיעין",
+    notes: "GEO - האולפן הפיזי במודיעין",
   },
   {
     pathname: "/studio/studio-rehovot",
@@ -203,7 +203,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/recording-song-modiin",
-    notes: "GEO — האולפן הפיזי במודיעין",
+    notes: "GEO - האולפן הפיזי במודיעין",
   },
 
   // ── Podcast ──
@@ -240,7 +240,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-recording",
     priceAnchorExVat: 750,
-    notes: "מרחוק על קובץ קיים — לא סשן אולפן",
+    notes: "מרחוק על קובץ קיים - לא סשן אולפן",
   },
   {
     pathname: "/podcast/podcast-studio-modiin",
@@ -534,7 +534,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/corporate-podcast",
     priceAnchorExVat: 2500,
-    notes: "ציוד לעסק — לא סשן באולפן",
+    notes: "ציוד לעסק - לא סשן באולפן",
   },
 
   // ── Events (primary only) ──
@@ -549,6 +549,18 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     outcome: "ready_song",
     nextPath: "/events/attractions",
     priceAnchorExVat: 5000,
+  },
+  {
+    pathname: "/events/bar-mitzvah",
+    hubPath: "/events",
+    titleHe: "בר מצווה ובת מצווה",
+    primaryAudience: "families",
+    delivery: "on_site",
+    guidance: "full_production",
+    outcome: "video_clip",
+    nextPath: "/studio/blessings/bar-mitzvah",
+    priceAnchorExVat: 5000,
+    notes: "הפקת הערב בשטח. הקלטת הדרשה באולפן היא עמוד נפרד",
   },
   {
     pathname: "/events/attractions",
@@ -758,7 +770,7 @@ function titleForPath(pathname: string): string {
 
 /**
  * עד 3 קישורים: ראשי (next-up / nextPath) · משלים · השוואתי.
- * לא כולל book/pricing כראשי — ההמרה ב-sticky.
+ * לא כולל book/pricing כראשי - ההמרה ב-sticky.
  */
 export function getPageRelatedTrio(pathname: string): RelatedLink[] {
   const path = normalizePath(pathname);

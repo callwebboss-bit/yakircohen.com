@@ -5,6 +5,7 @@ import {
   type BlogPostSlug,
 } from "@/lib/data/blog-slugs";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import {
   EVENTS_SERVICES,
   PHOTOGRAPHY_SERVICES,
@@ -16,6 +17,9 @@ import {
 
 export type { BlogPostSlug };
 export { getAllBlogSlugs };
+
+/** שלב הגולש במשפך - קובע את נוסח כפתור ה-CTA (lib/data/blog-service-funnel.ts) */
+export type FunnelIntent = "awareness" | "consideration" | "decision";
 
 export type BlogPostSeo = {
   title: string;
@@ -39,6 +43,8 @@ export type BlogPost = {
   tags?: string[];
   /** Optional before/after audio demo on article page */
   audioDemoId?: AudioDemoId;
+  /** Optional - defaults to "consideration" in the blog→service funnel */
+  funnelIntent?: FunnelIntent;
 };
 
 export type RelatedServiceCallout = {
@@ -69,6 +75,22 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     subtitle: "שכבות, EQ, קומפרסיה ומאסטרינג לקובץ מוכן להפצה.",
     whatsappText: "שלום, מעוניין במיקס ומאסטרינג לשיר שלי",
     utmCampaign: "online_mixing",
+  },
+  "online/vocal-fix": {
+    href: "/online/vocal-fix",
+    title: "שיפור ותיקון סאונד מרחוק",
+    subtitle:
+      "שולחים קובץ, מקבלים הערכה. ניקוי רעשים, איזון ווליום ותיקון תדרים - בלי להקליט מחדש.",
+    whatsappText: "שלום, יש לי הקלטה שצריכה שיפור סאונד. אשמח להערכה.",
+    utmCampaign: "vocal_fix_hub",
+  },
+  "online/vocal-fix/podcast-repair": {
+    href: "/online/vocal-fix/podcast-repair",
+    title: "תיקון סאונד לפרק פודקאסט קיים",
+    subtitle:
+      "יש לכם פרק מוקלט עם רעשים או קול לא אחיד. שולחים קובץ, מקבלים אותו ברמה שידורית.",
+    whatsappText: "שלום, יש לי פרק פודקאסט שצריך תיקון סאונד. אשמח להערכה.",
+    utmCampaign: "podcast_sound_repair",
   },
   podcast: {
     href: "/podcast",
@@ -127,7 +149,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     subtitle:
       "הפקת שיר עם AI באולפן, קורס 1:1, או שירות מלווה - בלי לעבוד לבד מול הכלי.",
     whatsappText:
-      "היי יקיר! ראיתי את הסרטון על שיר ב-10 דקות עם AI. אשמח לשמוע על השירות / הקורס.",
+      "היי יקיר, ראיתי את הסרטון על שיר ב-10 דקות עם AI. אשמח לשמוע על השירות / הקורס.",
     utmCampaign: "ai_music_blog",
     bookHref: "/book#academy",
   },
@@ -281,7 +303,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "10 במאי 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast/podcast-studio-modiin",
   },
   {
@@ -313,7 +335,7 @@ export const BLOG_POSTS = [
     date: "18 במאי 2026",
     thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "עריכה ושחזור סאונד",
-    relatedServiceSlug: "podcast/podcast-editing",
+    relatedServiceSlug: "online/vocal-fix/podcast-repair",
     youtubeUrl: "https://youtu.be/wa_mOrjJvK8",
     audioDemoId: "podcast-zoom-cleanup",
   },
@@ -546,7 +568,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "21 במאי 2026",
     thumbnail: "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
-    category: "אולפן והקלטה",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["אולפן", "הקלטה", "הכנה", "קול"],
   },
@@ -646,7 +668,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "21 במאי 2026",
     thumbnail: "/images/services/academy/music-production/אולפן-הקלטה-במודיעין-יקיר-כהן-הפקות.webp",
-    category: "אולפן והקלטה",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio/mobile-studio",
     tags: ["אולפן", "הקמת אולפן", "אקוסטיקה", "ציוד"],
   },
@@ -676,7 +698,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "23 במאי 2026",
     thumbnail: "/images/services/studio/recording-song-modiin/מתחם יקיר כהן הפקות.webp",
-    category: "אולפן והקלטה",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["הזמנה", "אולפן", "מודיעין"],
   },
@@ -890,7 +912,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "1 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: [
       "הפקת פודקאסט",
@@ -997,7 +1019,7 @@ export const BLOG_POSTS = [
     date: "1 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "עריכה ושחזור סאונד",
-    relatedServiceSlug: "podcast/podcast-editing",
+    relatedServiceSlug: "online/vocal-fix",
     audioDemoId: "weber-restoration",
     tags: [
       "שחזור אודיו AI",
@@ -1017,9 +1039,9 @@ export const BLOG_POSTS = [
     },
     title: "איך לבחור תקליטן לחתונה: המדריך השלם לזוגות (2026)",
     excerpt:
-      "ה-DJ מנהל את האנרגיה של כל הערב - לא רק מנגן שירים. חמישה שלבים, שבע שאלות חובה, טבלת מחירים וטיפים מ-1,500+ אירועים.",
+      "ה-DJ מנהל את האנרגיה של כל הערב - לא רק מנגן שירים. חמישה שלבים, שבע שאלות חובה, טבלת מחירים וטיפים מהשטח.",
     content: `
-<p>ה-DJ הוא לא "עוד ספק" ברשימת החתונה - הוא מנהל האנרגיה של כל הערב. מכניסה לחופה, דרך ריקוד ראשון ועד הסלואו האחרון, <strong>תקליטן לחתונה</strong> טוב יודע מתי להרים, מתי לרדת, ואיך לגרום לדודה ממרוקו ולחבר מהצבא לרקוד באותה שיר. אחרי מעל 1,500 אירועים, ריכזנו מדריך מעשי ל<strong>איך לבחור DJ לחתונה 2026</strong> - בלי מונחים מיותרים, עם קריטריונים ברורים וטבלת מחירים שקופה.</p>
+<p>ה-DJ הוא לא "עוד ספק" ברשימת החתונה - הוא מנהל האנרגיה של כל הערב. מכניסה לחופה, דרך ריקוד ראשון ועד הסלואו האחרון, <strong>תקליטן לחתונה</strong> טוב יודע מתי להרים, מתי לרדת, ואיך לגרום לדודה ממרוקו ולחבר מהצבא לרקוד באותה שיר. ריכזנו מדריך מעשי ל<strong>איך לבחור DJ לחתונה 2026</strong> - בלי מונחים מיותרים, עם קריטריונים ברורים וטבלת מחירים שקופה.</p>
 
 <h2>מה תרוויחו מהמדריך</h2>
 <p>בסיום תדעו על מה לשאול בפגישה, איך לזהות DJ מקצועי מול "חבר עם מחשב", מתי כדאי לשלב אטרקציות, ומה טווח המחירים הריאלי בישראל - כולל <strong>DJ לחתונה במודיעין והמרכז</strong>.</p>
@@ -1604,7 +1626,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "2 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/אולפן-הקלטה-במודיעין-יקיר-כהן-הפקות.webp",
-    category: "אולפן והקלטה",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["הקלטה בבית", "אולפן ביתי", "ציוד הקלטה", "אקוסטיקה", "עריכה מרחוק"],
   },
@@ -2022,7 +2044,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "2 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast/podcast-editing",
     tags: ["עריכת פודקאסט", "פודקאסט", "עריכה מקצועית", "סאונד"],
   },
@@ -2073,7 +2095,7 @@ export const BLOG_POSTS = [
     date: "2 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "עריכה ושחזור סאונד",
-    relatedServiceSlug: "podcast/podcast-editing",
+    relatedServiceSlug: "online/vocal-fix",
     audioDemoId: "weber-restoration",
     tags: ["שחזור סאונד", "הקלטה פגומה", "AI", "ניקוי רעשים"],
   },
@@ -2208,7 +2230,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "11 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: ["הפקת פודקאסט", "אולפן פודקאסט", "איך להקליט פודקאסט", "ציוד לפודקאסט"],
   },
@@ -2250,7 +2272,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "13 ביוני 2026",
     thumbnail: "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
-    category: "דיג'יי ואירועים",
+    category: "DJ ואירועים",
     relatedServiceSlug: "events/dj-events",
     tags: ["דיגיי לחתונה", "תקליטן לחתונה מחיר", "איך לבחור דיגיי", "מוזיקה לחתונה"],
   },
@@ -2286,7 +2308,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "16 ביוני 2026",
     thumbnail: "/images/services/events/attractions/wedding-smoking-machine/עשן כבד לחתונה.webp",
-    category: "דיג'יי ואירועים",
+    category: "DJ ואירועים",
     relatedServiceSlug: "events/attractions/wedding-smoking-machine",
     tags: ["עשן כבד לסלואו", "זיקוקים קרים לחתונה", "אטרקציות לחתונה", "אפקטים לאירועים"],
   },
@@ -2603,7 +2625,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "3 ביולי 2026",
     thumbnail: "/images/services/events/attractions/confetti-cannon/קונפטי-לאירועים.webp",
-    category: "דיג'יי ואירועים",
+    category: "DJ ואירועים",
     relatedServiceSlug: "events/attractions/confetti-cannon",
     tags: ["תותח קונפטי לחתונה", "קונפטי לאירועים", "אפקטים לאירוע", "אטרקציות לחתונה"],
   },
@@ -2642,7 +2664,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "7 ביולי 2026",
     thumbnail: "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp",
-    category: "דיג'יי ואירועים",
+    category: "DJ ואירועים",
     relatedServiceSlug: "events/dj-events",
     tags: ["דיגיי לאירוע חברה", "מוזיקה לאירוע עסקי", "DJ אירועי חברה", "גיבוש חברה"],
   },
@@ -2794,9 +2816,11 @@ export const BLOG_POSTS = [
 <p>גם חדר שיש בו קשיים אקוסטיים קשים, כמו הד חזק או תנועה בכביש ליד, עלול להגביל את מה שניתן לעשות עם הציוד הנייד.</p>
 <h2>מחירון אולפן נייד ואירועים, 2026 (לפני מע"מ)</h2>
 <table>
-<tr><td>הקמת אולפן הקלטות נייד, כולל טכנאי</td><td>החל מ-5,000 ₪</td></tr>
-<tr><td>חבילת פסטיבל הכל כלול עם DJ ואולפן נייד</td><td>החל מ-15,000 ₪</td></tr>
+<tr><td>אולפן נייד להקלטה אישית בבית (ברכה, פודקאסט, ראיון)</td><td>החל מ-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>הקמת אולפן הקלטות נייד לאירוע, כולל טכנאי</td><td>החל מ-${getExVat("mobile_studio").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>חבילת פסטיבל הכל כלול עם DJ ואולפן נייד</td><td>החל מ-${getExVat("festival_all_in").toLocaleString("he-IL")} ₪</td></tr>
 </table>
+<p>המחיר הבסיסי מתחיל ב-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪ להקלטה אישית באזור המרכז. תוספת נסיעה לצפון או דרום, תאורה מקצועית וצילום וידאו מתומחרים בנפרד לפי הצורך.</p>
 <h2>איך זה עובד בפועל</h2>
 <p>מגיעים עם מיקרופון, ממשק, מחשב נייד ופופ-פילטר. עורכים סקר מהיר של החלל לפני ההגדרה. מוצאים את הפינה הכי שקטה עם האקוסטיקה הכי טובה, ומתחילים.</p>
 <p>לאירועים גדולים יותר - אפשר לשלב עם ציוד הגברה, תאורה ואטרקציות. פרטים על האולפן הנייד ועל השירותים המשלימים - <a href="/studio/mobile-studio">דף האולפן הנייד</a>. לאלה שרוצים לשמוע מה עוד ניתן לצרף לאותו אירוע - <a href="/events/dj-events">שירות ה-DJ לאירועים</a> עובד בשיתוף מלא עם הצוות הנייד.</p>
@@ -2843,7 +2867,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "24 ביולי 2026",
     thumbnail: "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: ["פודקאסט לעסק", "ROI פודקאסט", "פודקאסט שיווקי", "הפקת פודקאסט עסקי"],
   },
@@ -2927,7 +2951,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "1 באוגוסט 2026",
     thumbnail: "/images/services/photography/wedding/LEOM9080.webp",
-    category: "דיג'יי ואירועים",
+    category: "DJ ואירועים",
     relatedServiceSlug: "photography/wedding",
     tags: ["צלם חתונה ו-DJ", "תיאום צילום ומוזיקה", "צילום חתונה", "מוזיקה לחתונה"],
   },
@@ -3307,7 +3331,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "16 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "הקלטות ואולפן",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio",
     tags: ["בר מצווה", "הקלטת שיר", "מחיר", "אולפן"],
   },
@@ -3362,7 +3386,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "16 ביוני 2026",
     thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    category: "פודקאסט ואולפן",
+    category: "פודקאסט",
     relatedServiceSlug: "podcast/podcast-studio",
     tags: ["פודקאסט", "אולפן", "הקלטה ביתית", "השוואה"],
   },
@@ -3408,7 +3432,7 @@ export const BLOG_POSTS = [
     thumbnail:
       "/images/services/events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp",
     category: "DJ ואירועים",
-    relatedServiceSlug: "events",
+    relatedServiceSlug: "events/dj-events",
     tags: ["DJ", "חתונה", "בחירה", "טיפים"],
   },
   {
@@ -3552,7 +3576,7 @@ export const BLOG_POSTS = [
     date: "17 ביוני 2026",
     thumbnail: "/images/studio.svg",
     category: "DJ ואירועים",
-    relatedServiceSlug: "events",
+    relatedServiceSlug: "events/dj-events",
     tags: ["DJ", "חתונה", "קיץ", "2026", "תכנון"],
   },
   {
@@ -3593,7 +3617,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "17 ביוני 2026",
     thumbnail: "/images/studio.svg",
-    category: "הקלטות ואולפן",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio",
     tags: ["בר מצווה", "ספטמבר", "הקלטה", "תכנון", "קיץ"],
   },
@@ -3639,7 +3663,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "18 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/הקלטה באולפן.webp",
-    category: "אולפן והקלטה",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio",
     youtubeUrl: "https://www.youtube.com/watch?v=TTEVMjQt8mU",
     tags: ["MP3", "WAV", "פורמט אודיו", "אולפן הקלטות", "מאסטרינג"],
@@ -3858,7 +3882,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "22 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/הקלטה באולפן.webp",
-    category: "הקלטה ואולפן",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "online/vocal-fix",
     tags: ["הקלטה ביתית", "טעויות", "טיפים", "מיקרופון", "סאונד"],
   },
@@ -3995,7 +4019,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "22 ביוני 2026",
     thumbnail: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
-    category: "הקלטה ואולפן",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio",
     tags: ["מיקרופון", "ציוד הקלטה", "ביתי", "USB", "פודקאסט"],
   },
@@ -4048,7 +4072,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "22 ביוני 2026",
     thumbnail: "/images/services/academy/music-production/אולפן-הקלטה-במודיעין-יקיר-כהן-הפקות.webp",
-    category: "הקלטה ואולפן",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "studio",
     tags: ["אולפן", "תיקון", "עלות", "כלכלי", "החלטה"],
   },
@@ -4315,18 +4339,21 @@ export const BLOG_POSTS = [
 <h2>מה מוסיפים בחבילת פרימיום</h2>
 <p>חבילת פרימיום (5,500-7,500 ₪) מוסיפה: תאורה דינמית צבעונית, מכונת עשן כבד לריקוד הראשון, מוניטורים על הבמה, ולפעמים גם מנחה לערב. חלק מהחבילות כוללות גם אפקטים כמו זיקוקים קרים או קונפטי.</p>
 
+<h2>ומה אנחנו גובים</h2>
+<p>המספרים שלמעלה הם סקירת שוק, לא המחירון שלנו. אצלנו תקליטן מהצוות מתחיל ב-${getExVat("dj_premium").toLocaleString("he-IL")} ₪ לפני מע״מ לעד 4 שעות, וכולל הגברה, תאורת LED בסיסית ומיקרופון אלחוטי לדרשה ולברכות. אטרקציות, מצגת גדילה וחבילת פסטיבל מתומחרות בנפרד. הפירוט המלא בעמוד <a href="/events/bar-mitzvah">הפקת בר מצווה ובת מצווה</a>.</p>
+
 <h2>מתי להזמין</h2>
 <p>עונת בר המצוות העמוסה (ספטמבר-נובמבר, מרץ-יוני) מתמלאת מהר. מומלץ לסגור DJ לפחות 3-4 חודשים מראש. בעונת השיא, DJ מבוקשים נסגרים חצי שנה קודם.</p>
 
 <h2>טיפ: DJ מאקדמיה כאופציה חסכונית</h2>
 <p>בוגרי קורסי DJ (כולל <a href="/academy/dj-course">קורס DJ</a> אצלנו) מחפשים אירועים ראשונים ומציעים מחירים של 2,500-3,500 ₪. הם מגיעים עם ציוד מקצועי ובליווי מנטור. לאירוע קטן של 100-150 איש, זו אופציה שווה בדיקה.</p>
 
-<p>רוצים הצעת מחיר ל-DJ לבר מצווה? <a href="/book">הזמנה מקוונת</a> או <a href="/events/dj-events">פרטים על שירותי DJ לאירועים</a>.</p>
+<p>רוצים הצעת מחיר ל-DJ לבר מצווה? <a href="/book">הזמנה מקוונת</a> או <a href="/events/bar-mitzvah">פרטים על הפקת בר מצווה ובת מצווה</a>.</p>
 `.trim(),
     date: "29 ביולי 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
     category: "אירועים",
-    relatedServiceSlug: "events/dj-events",
+    relatedServiceSlug: "events/bar-mitzvah",
     tags: ["DJ", "בר מצווה", "מחיר", "אירועים"],
   },
   {
@@ -4371,7 +4398,7 @@ export const BLOG_POSTS = [
 <p>מוכנים להקליט? <a href="/studio/recording-song-modiin">הקלטת שיר במודיעין</a> או <a href="/book">הזמנה מקוונת</a>.</p>
 `.trim(),
     date: "29 ביולי 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
     category: "אולפן",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["הקלטת שיר", "מתנה", "יום הולדת", "אולפן"],
@@ -4417,7 +4444,7 @@ export const BLOG_POSTS = [
 <p>רוצים לבדוק אם פודקאסט מתאים לעסק שלכם? <a href="/podcast">שירותי הפקת פודקאסט</a> או <a href="/book">הזמנה מקוונת</a>.</p>
 `.trim(),
     date: "29 ביולי 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
     category: "פודקאסט",
     relatedServiceSlug: "podcast",
     tags: ["פודקאסט", "עסק קטן", "ROI", "שיווק"],
@@ -4468,7 +4495,7 @@ export const BLOG_POSTS = [
 <p>צריכים מיקס, מאסטרינג או שניהם? <a href="/online/vocal-fix/mixing">שירות מיקס ומאסטרינג מרחוק</a> או <a href="/book">הזמנה מקוונת</a>.</p>
 `.trim(),
     date: "29 ביולי 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/academy/music-production/אולפני-הקלטות.webp",
     category: "הפקה",
     relatedServiceSlug: "online/vocal-fix/mixing",
     tags: ["מיקס", "מאסטרינג", "הפקה מוזיקלית", "אולפן"],
@@ -4510,7 +4537,7 @@ export const BLOG_POSTS = [
 <p>מחפשים תהליך מסודר בלי ניחושים? <a href="/studio/recording-song-modiin">הקלטת שיר באולפן</a> או <a href="/book">הזמנה מקוונת</a>.</p>
 `.trim(),
     date: "18 באוגוסט 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/academy/music-production/הקלטה באולפן.webp",
     category: "אולפן",
     relatedServiceSlug: "studio/recording-song-modiin",
     tags: ["אולפן הקלטות", "הקלטת שיר", "תלונות", "מחיר", "זמן אספקה"],
@@ -4552,7 +4579,7 @@ export const BLOG_POSTS = [
 <p>רוצים תהליך סגור וברור לפרק הבא? <a href="/podcast/podcast-editing">עריכת פודקאסט</a> או <a href="/book">בדיקת התאמה דרך ההזמנה המקוונת</a>.</p>
 `.trim(),
     date: "18 באוגוסט 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
     category: "פודקאסט",
     relatedServiceSlug: "podcast/podcast-editing",
     tags: ["עריכת פודקאסט", "פודקאסט", "תלונות", "זמן אספקה", "שקיפות"],
@@ -4594,7 +4621,7 @@ export const BLOG_POSTS = [
 <p>יש לכם קובץ לבדיקה? <a href="/online/vocal-fix/pitch-correction">תיקון זיופים מרחוק</a>, <a href="/online">מרכז השירותים המקוונים</a>, או <a href="/book">שלחו דרך ההזמנה המקוונת</a>.</p>
 `.trim(),
     date: "18 באוגוסט 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/voiceover/קרינות באולפן.webp",
     category: "עריכה ושחזור סאונד",
     relatedServiceSlug: "online/vocal-fix/pitch-correction",
     tags: ["תיקון זיופים", "עריכה מרחוק", "Auto-Tune", "שחזור סאונד", "תלונות"],
@@ -4636,7 +4663,7 @@ export const BLOG_POSTS = [
 <p>צריכים שהעסק יישמע מסודר כבר מהצלצול הראשון? <a href="/voiceover">שירותי קריינות</a>, <a href="/business/audio-branding">מיתוג קולי לעסק</a>, או <a href="/book">בדיקת התאמה</a>.</p>
 `.trim(),
     date: "18 באוגוסט 2026",
-    thumbnail: "/images/blog/placeholder.webp",
+    thumbnail: "/images/services/voiceover/מיקרופון קריינות.webp",
     category: "קריינות ועסקים",
     relatedServiceSlug: "voiceover",
     tags: ["קריינות", "מיתוג קולי", "הודעת המתנה", "IVR", "תלונות"],

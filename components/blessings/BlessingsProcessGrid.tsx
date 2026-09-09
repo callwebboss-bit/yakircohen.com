@@ -6,7 +6,10 @@ export type BlessingsProcessGridProps = {
 
 export default function BlessingsProcessGrid({ steps }: BlessingsProcessGridProps) {
   return (
-    <ol className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <ol
+      role="list"
+      className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+    >
       {steps.map((step) => (
         <li
           key={step.step}

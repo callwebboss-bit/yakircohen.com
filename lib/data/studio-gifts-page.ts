@@ -90,7 +90,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["podcast-with-grandpa"],
     videoTitle: "פודקאסט עם סבא - דוגמה",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - פודקאסט עם סבא/סבתא. אשמח לפרטים.",
+      "היי יקיר, מעוניינים בשובר מתנה - פודקאסט עם סבא/סבתא. אשמח לפרטים.",
     utmCampaign: "gift_grandpa_podcast",
   },
   {
@@ -108,7 +108,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: PROPOSAL_CLIP_FEATURED_VIDEO_ID,
     videoTitle: PROPOSAL_CLIP_VIDEOS[0]?.title ?? "קליפ מתננה מהאולפן",
     whatsappText:
-      "היי יקיר! מעוניין/ת בקליפ מתננה / שיר בהפתעה לבת או בן הזוג.",
+      "היי יקיר, מעוניין/ת בקליפ מתננה / שיר בהפתעה לבת או בן הזוג.",
     utmCampaign: "gift_proposal_clip",
   },
   {
@@ -126,7 +126,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: BAT_MITZVAH_FEATURED_VIDEO_ID,
     videoTitle: "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - הקלטת שיר/קליפ לבת או בר מצווה.",
+      "היי יקיר, מעוניינים בשובר מתנה - הקלטת שיר/קליפ לבת או בר מצווה.",
     utmCampaign: "gift_bat_mitzvah",
   },
   {
@@ -144,7 +144,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: "c55HTqTArFo",
     videoTitle: "מתנה ליום הולדת באולפן",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - שיר ליום הולדת באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - שיר ליום הולדת באולפן.",
     utmCampaign: "gift_birthday_song",
   },
   {
@@ -162,7 +162,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["blessings-hub"],
     videoTitle: "הקלטת ברכות באולפן",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - ברכת חתן/כלה באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - ברכת חתן/כלה באולפן.",
     utmCampaign: "gift_wedding_blessing",
   },
   {
@@ -180,7 +180,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["blessings-video-clip"],
     videoTitle: "שיר וקליפ - דוגמה",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - שיר וקליפ באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - שיר וקליפ באולפן.",
     utmCampaign: "gift_song_clip",
   },
   {
@@ -198,7 +198,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["podcast-studio"],
     videoTitle: "אולפן פודקאסט - היכרות",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - הקלטת פודקאסט באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - הקלטת פודקאסט באולפן.",
     utmCampaign: "gift_podcast_studio",
   },
   {
@@ -216,7 +216,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["video-photo-slideshow"],
     videoTitle: "מצגת ושיר - דוגמה",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - מצגת תמונות עם שיר באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - מצגת תמונות עם שיר באולפן.",
     utmCampaign: "gift_slideshow",
   },
   {
@@ -234,7 +234,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: "WMvdVNw3tIU",
     videoTitle: "הקלטת שיר יומולדת עם ילדים",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - הקלטה עם ילדים באולפן.",
+      "היי יקיר, מעוניינים בשובר מתנה - הקלטה עם ילדים באולפן.",
     utmCampaign: "gift_kids_studio",
   },
   {
@@ -252,7 +252,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     videoId: YOUTUBE_SERVICE_EMBED_IDS["events-hub"],
     videoTitle: "אטרקציות לאירועים - דוגמאות",
     whatsappText:
-      "היי יקיר! מעוניינים בשובר מתנה - אטרקציה לאירוע (חתונה/יום הולדת).",
+      "היי יקיר, מעוניינים בשובר מתנה - אטרקציה לאירוע (חתונה/יום הולדת).",
     utmCampaign: "gift_event_attraction",
   },
 ] as const;
@@ -270,7 +270,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     answer:
       `שובר המתנה יכול לייצג כל שירות באתר - לפי המחירון (חצי שעה ${formatMeNis(STUDIO_HALF_HOUR_NIS)}, שעת אולפן ${formatNis(STUDIO_ONE_HOUR_NIS)}). מציינים בשובר שמדובר במתנה.`,
     whatsappText:
-      "היי יקיר! רוצים שובר מתנה - לא בטוחים איזה שירות. אשמח להמלצה.",
+      "היי יקיר, רוצים שובר מתנה - לא בטוחים איזה שירות. אשמח להמלצה.",
     utmCampaign: "gift_faq_voucher",
   },
   {
@@ -279,7 +279,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     answer:
       "זה החשש הכי נפוץ. רוב הלקוחות אינם זמרים. עם ליווי באולפן, הנחיה קולית ועריכה מתקדמת - כולם נשמעים במיטבם.",
     whatsappText:
-      "היי יקיר! שובר מתנה להקלטת שיר - חוששים מהשירה. איך זה עובד?",
+      "היי יקיר, שובר מתנה להקלטת שיר - חוששים מהשירה. איך זה עובד?",
     utmCampaign: "gift_faq_sing",
   },
   {
@@ -287,7 +287,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     question: "איך הופכים שיר או קליפ למתנה אישית באמת?",
     answer:
       'אחרי ההזמנה תקבלו שאלון "סיפור אישי". הכותבים יהפכו דיחות, רגעים וזיכרונות לשיר או לקליפ שנבנה סביב מקבל המתנה.',
-    whatsappText: "היי יקיר! שובר מתנה עם שיר אישי - מה השלבים?",
+    whatsappText: "היי יקיר, שובר מתנה עם שיר אישי - מה השלבים?",
     utmCampaign: "gift_faq_personal",
   },
   {
@@ -295,7 +295,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     question: "כמה זמן מראש צריך לתאם?",
     answer:
       "לרוב 2-3 שבועות לפני האירוע או המימוש. אירוע קרוב? דברו איתנו - נבדוק אפשרות אקספרס.",
-    whatsappText: "היי יקיר! שובר מתנה - האירוע בעוד שבועיים. אפשרי?",
+    whatsappText: "היי יקיר, שובר מתנה - האירוע בעוד שבועיים. אפשרי?",
     utmCampaign: "gift_faq_timing",
   },
   {
@@ -303,7 +303,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     question: "איך מקבלים את המתנה והאם מתאים להקרנה?",
     answer:
       "לינק להורדה ב-Full HD להקרנה, וגרסה קלה לוואטסאפ ורשתות - לפי סוג השירות.",
-    whatsappText: "היי יקיר! שאלה על מסירת שובר מתנה / קליפ.",
+    whatsappText: "היי יקיר, שאלה על מסירת שובר מתנה / קליפ.",
     utmCampaign: "gift_faq_delivery",
   },
 ] as const;

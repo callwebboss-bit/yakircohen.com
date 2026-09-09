@@ -127,6 +127,7 @@ export default function FAQWithCtaLinks({
               role="region"
               aria-labelledby={triggerId}
               aria-hidden={!isOpen}
+              inert={!isOpen}
               className={cn(
                 "grid transition-[grid-template-rows] duration-normal ease-luxury",
                 isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",

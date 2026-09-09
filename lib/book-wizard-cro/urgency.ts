@@ -18,12 +18,6 @@ function step3HoldKey(category: TierACategoryId): string {
   return `yc_${category}_step3_hold_until`;
 }
 
-export function getWeeklySlotsRemaining(_category: TierACategoryId, now = new Date()): number {
-  const start = new Date(now.getFullYear(), 0, 1);
-  const week = Math.floor((now.getTime() - start.getTime()) / (7 * 24 * 60 * 60 * 1000));
-  return 2 + (week % 4);
-}
-
 export function saveCategoryPriceHold(
   category: TierACategoryId,
   data: Pick<CategoryPriceHold, "packageLabel" | "totalExVat">,
@@ -113,9 +107,6 @@ export function extendHoldDeadlineSoft(category: TierACategoryId, now = Date.now
 
 /** @deprecated use category-specific helpers */
 export const STUDIO_PRICE_HOLD_MS = PRICE_HOLD_MS;
-export function getWeeklyStudioSlotsRemaining(now = new Date()): number {
-  return getWeeklySlotsRemaining("studio", now);
-}
 export type StudioPriceHold = CategoryPriceHold;
 export function saveStudioPriceHold(data: Pick<CategoryPriceHold, "packageLabel" | "totalExVat">) {
   saveCategoryPriceHold("studio", data);

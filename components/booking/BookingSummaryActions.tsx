@@ -100,7 +100,7 @@ export default function BookingSummaryActions({
   }
 
   const primaryBaseClass = cn(
-    "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1fba59] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]",
+    "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#178741] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#0f6e34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178741]",
     disabled && "pointer-events-none opacity-50",
   );
 

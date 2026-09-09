@@ -7,6 +7,9 @@ export function digitsOnlyPhone(input: string): string {
 /** Normalize to local 05XXXXXXXX or empty */
 export function normalizeIlMobile(input: string): string | null {
   let d = digitsOnlyPhone(input);
+  /* 00972 הוא קידומת חיוג בינלאומית שנפוצה בהעתקה מאנשי קשר. בלי השורה הזו
+     הלקוח מקבל שגיאת ולידציה ולא מצליח לשלוח את הליד בכלל. */
+  if (d.startsWith("00972")) d = d.slice(2);
   if (d.startsWith("972")) d = `0${d.slice(3)}`;
   if (d.startsWith("5") && d.length === 9) d = `0${d}`;
   if (/^05\d{8}$/.test(d)) return d;

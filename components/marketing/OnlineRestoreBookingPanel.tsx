@@ -258,10 +258,13 @@ export default function OnlineRestoreBookingPanel({
       <BookTrustBadges badges={[{ icon: "☁️", label: "גיבוי ענן לכל החיים" }, { icon: "🔄", label: "סבב תיקונים אחד" }]} />
 
       <div>
-        <label className="mb-2 block text-sm font-medium">מה הבעיה בסאונד?</label>
+        <label htmlFor="online-restore-issue" className="mb-2 block text-sm font-medium">
+          מה הבעיה בסאונד?
+        </label>
         <input
+          id="online-restore-issue"
           className={inputClass}
-          placeholder="למשל: רעשי רקע, הקלטת זום, קלטת ישנה..."
+          placeholder="למשל: רעשי רקע, הקלטת זום, קלטת ישנה"
           value={issue}
           onChange={(e) => setIssue(e.target.value)}
         />

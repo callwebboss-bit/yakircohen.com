@@ -32,6 +32,16 @@ export const INTENT_NAV_ITEMS: readonly IntentNavItem[] = [
     href: "/studio/mobile-studio",
   },
   {
+    id: "wedding",
+    label: "חתונה",
+    href: "/events/wedding-attractions-packages",
+  },
+  {
+    id: "barmitzvah",
+    label: "בר מצווה",
+    href: "/events/bar-mitzvah",
+  },
+  {
     id: "gifts",
     label: "מתנות",
     href: "/matanot",

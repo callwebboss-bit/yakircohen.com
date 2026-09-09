@@ -9,8 +9,8 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import { getVoiceoverService } from "@/lib/data/services";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
-import { VOICEOVER_SERVICES_VIDEOS } from "@/lib/data/youtube-showcases";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
+import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
 
 const service = getVoiceoverService("voiceover-services");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -51,6 +51,7 @@ export default function VoiceoverServicesPageContent() {
           href="/business/audiobooks"
           linkLabel="ספרי שמע"
         />
+        <VoiceoverNarratorCompare context="page" />
         <ShowcaseVideoSection
           playlistId="voiceover-services"
           sectionId="voiceover-services-videos"

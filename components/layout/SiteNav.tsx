@@ -506,6 +506,7 @@ export function SiteNavMobileDrawer({
       role="dialog"
       aria-modal="true"
       aria-hidden={!menuOpen}
+      inert={!menuOpen}
       className={cn(
         "fixed inset-0 z-[60] flex h-dvh max-h-dvh flex-col bg-background shadow-lg lg:hidden",
         "transition-[opacity,transform,visibility] duration-normal ease-luxury",

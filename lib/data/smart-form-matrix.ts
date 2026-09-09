@@ -157,8 +157,8 @@ export const SMART_FORM_CATEGORIES: readonly SmartFormCategory[] = [
       },
       {
         id: "effect",
-        label: "אפקט בודד",
-        upsellCatalogId: "single_effect",
+        label: "אטרקציה בודדת",
+        upsellCatalogId: "event_attraction_1",
         tooltip: "עשן, זיקוקים קרים, בועות או קצף",
       },
       {

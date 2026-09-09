@@ -200,7 +200,7 @@ export const QUALIFICATION_FIELDS_BY_ROUTE_ID: Record<
       id: "issueDescription",
       label: "מה הבעיה?",
       type: "text",
-      placeholder: "רעש, הקלטה ישנה, זום…",
+      placeholder: "רעש, הקלטה ישנה, זום...",
       maxLength: 80,
       waLabel: "תיאור הבעיה",
     },

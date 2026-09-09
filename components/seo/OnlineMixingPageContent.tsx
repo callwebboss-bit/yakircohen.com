@@ -29,7 +29,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
       "כל ערוץ בקובץ נפרד: שירה, גיטרה, בס, תופים וכו. Google Drive, WeTransfer או שירות העברה אחר.",
     ctaText: "שלחו קישור לקבצים",
     whatsappMessage:
-      "היי יקיר! רוצה מיקס ומאסטרינג. אשלח קישור ל-Stems ב-[Drive/WeTransfer].",
+      "היי יקיר, רוצה מיקס ומאסטרינג. אשלח קישור ל-Stems ב-[Drive/WeTransfer].",
     utm_campaign: "mixing_faq_stems",
   },
   {
@@ -39,7 +39,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
       "סטריאו מיקס אחד - מוגבל יותר. אפשר מאסטרינג בסיסי, לא מיקס מלא.",
     ctaText: "בדקו מה אפשר",
     whatsappMessage:
-      "היי יקיר! יש לי שיר בקובץ סטריאו אחד - מה אפשר לעשות?",
+      "היי יקיר, יש לי שיר בקובץ סטריאו אחד - מה אפשר לעשות?",
     utm_campaign: "mixing_faq_onefile",
   },
   {
@@ -47,7 +47,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "כמה ערוצים אפשר?",
     answer: "עד 16 ערוצים כלולים. מעל 16 - 100 ₪ נוספים.",
     ctaText: "שאלו על פרויקט",
-    whatsappMessage: "היי יקיר! יש לי [X] ערוצים למיקס. מה המחיר?",
+    whatsappMessage: "היי יקיר, יש לי [X] ערוצים למיקס. מה המחיר?",
     utm_campaign: "mixing_faq_tracks",
   },
   {
@@ -55,7 +55,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "כמה זמן לוקח?",
     answer: "בדרך כלל 2-7 ימי עסקים. דחיפות - בתוספת תשלום.",
     ctaText: "בדקו זמינות",
-    whatsappMessage: "היי יקיר! צריך מיקס בדחיפות - אפשר?",
+    whatsappMessage: "היי יקיר, צריך מיקס בדחיפות - אפשר?",
     utm_campaign: "mixing_faq_time",
   },
   {
@@ -63,7 +63,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "אפשר לשלב עם שירותים אחרים?",
     answer: "כן. נפוץ: מיקס + תיקון זיופים + ניקוי רעשים.",
     ctaText: "הצעה משולבת",
-    whatsappMessage: "היי יקיר! רוצה מיקס + תיקון זיופים. אשמח להצעה.",
+    whatsappMessage: "היי יקיר, רוצה מיקס + תיקון זיופים. אשמח להצעה.",
     utm_campaign: "mixing_faq_combo",
   },
   {
@@ -71,7 +71,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     question: "מה אם לא מרוצים מהתוצאה?",
     answer: "סבב תיקונים אחד כלול. תגידו מה לשנות ונתקן. סבב נוסף - 100 ₪.",
     ctaText: "התחילו פרויקט",
-    whatsappMessage: "היי יקיר! מעוניין/ת במיקס ומאסטרינג (500 ₪). אשמח פרטים.",
+    whatsappMessage: "היי יקיר, מעוניין/ת במיקס ומאסטרינג (500 ₪). אשמח פרטים.",
     utm_campaign: "mixing_faq_revision",
   },
 ];
@@ -80,13 +80,13 @@ export default function OnlineMixingPageContent() {
   const mixingDemo = getAudioDemo("weber-restoration");
 
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! יש לי שיר להקלטה ביתית שצריך מיקס ומאסטרינג. אשמח לבדיקה והצעת מחיר.",
+    text: "היי יקיר, יש לי שיר להקלטה ביתית שצריך מיקס ומאסטרינג. אשמח לבדיקה והצעת מחיר.",
     utm_source: "online",
     utm_campaign: "mixing_cta",
   });
 
   const sampleHref = buildWhatsAppHref({
-    text: "היי יקיר! רוצה לשלוח קובץ/קטעים לבדיקה לפני מיקס ומאסטרינג.",
+    text: "היי יקיר, רוצה לשלוח קובץ/קטעים לבדיקה לפני מיקס ומאסטרינג.",
     utm_source: "online",
     utm_campaign: "mixing_sample",
   });

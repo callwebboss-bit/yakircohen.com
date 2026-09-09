@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 export type ServiceFitSnapshotProps = {
   pathname: string;
   className?: string;
-  /** אם כבר יש בלוק fit עשיר בדף — לא להציג */
+  /** אם כבר יש בלוק fit עשיר בדף - לא להציג */
   forceHide?: boolean;
 };
 
@@ -44,7 +44,7 @@ function SnapshotBody({ fit }: { fit: ServiceFitEntry }) {
 }
 
 /**
- * בלוק קצר — מי / מה / איפה / ליווי + צעד הבא.
+ * בלוק קצר - מי / מה / איפה / ליווי + צעד הבא.
  * Additive; לא מחליף H1 או meta.
  * מוזרק אוטומטית מ-ContextualIntroParagraph כשיש רשומה במטריצה.
  */

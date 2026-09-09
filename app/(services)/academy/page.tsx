@@ -52,7 +52,7 @@ const ACADEMY_TRACKS = [
       "תוצר דיגיטלי בסוף כל מפגש",
     ],
     waText:
-      "היי יקיר! אני מעוניין/ת במעבדת הסאונד (גילאי 8-16). אשמח לשמוע על המסלול.",
+      "היי יקיר, אני מעוניין/ת במעבדת הסאונד (גילאי 8-16). אשמח לשמוע על המסלול.",
     utm: "academy_sound_lab",
   },
   {
@@ -72,7 +72,7 @@ const ACADEMY_TRACKS = [
       "הפקה מוזיקלית מאפס לתוצר גמור",
     ],
     waText:
-      "היי יקיר! אני מעוניין/ת במסלול DJ / הפקה / קריינות. אשמח לשמוע פרטים ולקבוע שיחת היכרות.",
+      "היי יקיר, אני מעוניין/ת במסלול DJ / הפקה / קריינות. אשמח לשמוע פרטים ולקבוע שיחת היכרות.",
     utm: "academy_dj_production",
   },
   {
@@ -90,7 +90,7 @@ const ACADEMY_TRACKS = [
       "לא קלינאות תקשורת. אימון ביצועי קצה.",
     ],
     waText:
-      "היי יקיר! שמעתי על פרוטוקול NeverMind. אשמח להבין יותר לפני שמחליטים.",
+      "היי יקיר, שמעתי על פרוטוקול NeverMind. אשמח להבין יותר לפני שמחליטים.",
     utm: "academy_nevermind",
   },
 ] as const;
@@ -110,7 +110,7 @@ const RETAINER_PLANS = [
       "כל חומרי הגלם עוברים אליך",
     ],
     waText:
-      "היי יקיר! אני מעוניין/ת במסלול Master (ליווי חודשי, 4 מפגשים). אשמח לשמוע פרטים ולקבוע שיחת היכרות.",
+      "היי יקיר, אני מעוניין/ת במסלול Master (ליווי חודשי, 4 מפגשים). אשמח לשמוע פרטים ולקבוע שיחת היכרות.",
     utm: "academy_master",
     premium: false,
   },
@@ -129,7 +129,7 @@ const RETAINER_PLANS = [
       "כל חומרי הגלם עוברים אליך",
     ],
     waText:
-      "היי יקיר! אני מעוניין/ת במסלול Pro-Partnership (6 חודשים). אשמח לקבוע שיחת היכרות.",
+      "היי יקיר, אני מעוניין/ת במסלול Pro-Partnership (6 חודשים). אשמח לקבוע שיחת היכרות.",
     utm: "academy_pro_partnership",
     premium: true,
   },
@@ -187,7 +187,7 @@ const academyTechBarrierRelief = resolveTechBarrierRelief("/academy");
 
 export default function AcademyPage() {
   const assessmentHref = buildWhatsAppHref({
-    text: "היי יקיר! אשמח לקבוע שיחת היכרות קצרה (15 דקות, חינם). אני מתעניין/ת במסלולי הלימוד והאקדמיה.",
+    text: "היי יקיר, אשמח לקבוע שיחת היכרות קצרה (15 דקות, חינם). אני מתעניין/ת במסלולי הלימוד והאקדמיה.",
     utm_source: "academy",
     utm_campaign: "academy_assessment",
   });
@@ -256,7 +256,7 @@ export default function AcademyPage() {
                 bookLabel={bookCta.bookLabel}
               />
               <p className="text-xs text-muted-foreground">
-                בדרך כלל תוך שעה בשעות פעילות (א-ה 9:00-20:00) |{" "}
+                מענה אנושי בשעות הפעילות |{" "}
                 <Link href="/start" className="font-semibold text-brand-red hover:underline">
                   איך התהליך עובד
                 </Link>
@@ -270,7 +270,7 @@ export default function AcademyPage() {
         <TechBarrierReliefSection config={academyTechBarrierRelief} />
       ) : null}
 
-      {/* ── #3 For / Not for — moved to top ── */}
+      {/* ── #3 For / Not for - moved to top ── */}
       <section className="border-b border-border bg-surface py-10 sm:py-12">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <h2 className="mb-6 text-center text-xl font-semibold text-foreground sm:text-2xl">
@@ -590,7 +590,7 @@ export default function AcademyPage() {
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-foreground">
             למה מסלול ולא שיעורים בודדים? שיעור בודד נותן כלי. מסלול חודשי בונה
             קריירה. ליווי שבועי, פתרון בעיות בזמן אמת, שריון יומן קבוע
-            &mdash; בלי לדאוג לזמינות.
+             -  בלי לדאוג לזמינות.
           </p>
         </header>
 
@@ -680,7 +680,7 @@ export default function AcademyPage() {
         </div>
       </section>
 
-      {/* ── Fine print (#5 — deduplicated, assessment item removed) ── */}
+      {/* ── Fine print (#5 - deduplicated, assessment item removed) ── */}
       <section className="border-t border-border bg-background py-12 sm:py-14">
         <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
           <h2 className="mb-6 text-base font-semibold text-foreground">

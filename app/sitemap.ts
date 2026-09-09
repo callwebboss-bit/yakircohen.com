@@ -1,10 +1,26 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
 import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
+import { BLOG_POSTS } from "@/lib/data/blog";
 import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
+import SITEMAP_DATES from "@/lib/data/sitemap-dates.generated.json";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
+
+/**
+ * תאריך שינוי אמיתי מהיסטוריית git (scripts/generate-sitemap-dates.mjs).
+ * לא תאריך build: לסמן 229 עמודים כמתעדכנים בכל דיפלוי הופך את lastmod לאות
+ * חסר ערך בעיני גוגל, כולל בעמודי הבלוג שבהם התאריך כן מדויק.
+ * ראוט בלי היסטוריה פשוט לא מקבל lastModified.
+ */
+const routeDates = SITEMAP_DATES as Record<string, string>;
+
+function withLastModified<T extends { url: string }>(entry: T): T {
+  const pathname = entry.url === SITE_URL ? "/" : entry.url.slice(SITE_URL.length);
+  const iso = routeDates[pathname.replace(/\/$/, "") || "/"];
+  return iso ? { ...entry, lastModified: new Date(iso) } : entry;
+}
 
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: SITE_URL, priority: 1.0, changeFrequency: "weekly" },
@@ -82,6 +98,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("online/image-design"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("online/vocal-fix"), priority: 0.75, changeFrequency: "monthly" },
   {
+    url: url("online/vocal-fix/podcast-repair"),
+    priority: 0.8,
+    changeFrequency: "monthly",
+  },
+  {
     url: url("online/vocal-fix/pitch-correction"),
     priority: 0.75,
     changeFrequency: "monthly",
@@ -146,6 +167,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 
   // ── DJ & Voiceover ─────────────────────────────────────────────────────────
   { url: url("events/dj-events"), priority: 0.9, changeFrequency: "monthly" },
+  { url: url("events/bar-mitzvah"), priority: 0.85, changeFrequency: "monthly" },
   { url: url("events/dj/pre-built-sets"), priority: 0.65, changeFrequency: "monthly" },
   { url: url("events/dj/voice-tags"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("voiceover"), priority: 0.9, changeFrequency: "monthly" },
@@ -257,18 +279,27 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const blogRoutes: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => ({
-    url: url(`blog/${slug}`),
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  }));
+  const blogDateMap = new Map(BLOG_POSTS.map((p) => [p.slug, p.seo.datePublished]));
+  const blogRoutes: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => {
+    const dateStr = blogDateMap.get(slug);
+    return {
+      url: url(`blog/${slug}`),
+      ...(dateStr ? { lastModified: new Date(dateStr) } : {}),
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    };
+  });
+  /* עמודי המילון נגזרים כולם מ-lib/data/glossary.ts, ולכן חולקים את התאריך של
+     קובץ הראוט הדינמי במקום לקבל תאריך מומצא לכל אחד. */
+  const glossaryDate = routeDates["/glossary"];
   const glossaryRoutes: MetadataRoute.Sitemap = getAllGlossarySlugs().map(
     (slug) => ({
       url: url(`glossary/${slug}`),
+      ...(glossaryDate ? { lastModified: new Date(glossaryDate) } : {}),
       priority: 0.55,
       changeFrequency: "monthly" as const,
     }),
   );
 
-  return [...STATIC_ROUTES, ...blogRoutes, ...glossaryRoutes];
+  return [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes];
 }

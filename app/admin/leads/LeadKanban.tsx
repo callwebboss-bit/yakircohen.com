@@ -12,13 +12,7 @@ const COLUMNS: { status: LeadStatus; title: string }[] = [
   { status: "spam", title: "ספאם" },
 ];
 
-export default function LeadKanban({
-  leads,
-  token,
-}: {
-  leads: LeadRecord[];
-  token: string;
-}) {
+export default function LeadKanban({ leads }: { leads: LeadRecord[] }) {
   return (
     <div className="mt-8 grid gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {COLUMNS.map((col) => {
@@ -44,7 +38,6 @@ export default function LeadKanban({
                   <p className="text-muted-foreground">ציון {lead.score}</p>
                   <p className="mt-1 line-clamp-2 text-muted-foreground">{lead.subject}</p>
                   <form action={updateLeadStatusAction} className="mt-2">
-                    <input type="hidden" name="token" value={token} />
                     <input type="hidden" name="id" value={lead.id} />
                     <label className="sr-only" htmlFor={`status-${lead.id}`}>
                       סטטוס

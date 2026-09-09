@@ -1,6 +1,7 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildBookHref } from "@/lib/book-url";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { CATALOG_VAT_RATE } from "@/lib/data/pricing-catalog";
 import { getSmartFormEnrichment } from "@/lib/data/smart-form-enrichment";
 import type { SmartFormCategoryId } from "@/lib/data/smart-form-matrix";
 
@@ -143,7 +144,7 @@ export function buildSmartFormCloserPlainText(state: SmartFormState): string {
       ? `returnPotential=${enrichment.returnPotential}`
       : "",
     enrichment?.prepHref ? `prepHref=${enrichment.prepHref}` : "",
-    `vatRate=0.18`,
+    `vatRate=${CATALOG_VAT_RATE}`,
   ];
   return lines.filter(Boolean).join("\n");
 }
@@ -165,6 +166,6 @@ export function smartFormStateToJson(state: SmartFormState): string {
     selectedChipIds: state.selectedChipIds,
     returnPotential: enrichment?.returnPotential ?? null,
     prepHref: enrichment?.prepHref ?? null,
-    vatRate: 0.18,
+    vatRate: CATALOG_VAT_RATE,
   });
 }

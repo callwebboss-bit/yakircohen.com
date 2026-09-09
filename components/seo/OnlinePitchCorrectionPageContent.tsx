@@ -30,7 +30,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "לא. מתקנים טעויות קטנות, לא הופכים מישהו שלא יודע לשיר לביונסה. זיופים קטנים - תוצאה מעולה. ממש לא יודע לשיר - לא נעשה נס.",
     ctaText: "שלחו דוגמה",
-    whatsappMessage: "היי יקיר! יש לי שיר עם זיופים - האם אפשר לתקן?",
+    whatsappMessage: "היי יקיר, יש לי שיר עם זיופים - האם אפשר לתקן?",
     utm_campaign: "pitch_faq_singer",
   },
   {
@@ -39,7 +39,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       'תתפלאו מה אפשר היום. "מפסלים" את הקול מחדש. כל עוד יש לב ורגש - נדאג שהסולם יהיה מדויק.',
     ctaText: "בדקו איתנו",
-    whatsappMessage: "היי יקיר! יש לי זיופים חזקים בשיר - יש תקווה?",
+    whatsappMessage: "היי יקיר, יש לי זיופים חזקים בשיר - יש תקווה?",
     utm_campaign: "pitch_faq_hard",
   },
   {
@@ -48,7 +48,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       'ממש לא. המטרה היא "שקיפות" - עריכה ידנית, שמירה על נשימות וניואנסים ו-DNA של הקול, בלי הטעויות.',
     ctaText: "בקשו לפני/אחרי",
-    whatsappMessage: "היי יקיר! אשמח לדוגמת לפני ואחרי לתיקון זיופים.",
+    whatsappMessage: "היי יקיר, אשמח לדוגמת לפני ואחרי לתיקון זיופים.",
     utm_campaign: "pitch_faq_natural",
   },
   {
@@ -57,7 +57,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כן. באולפן במודיעין זו הדרכה - טיפים לנשימה והגשה כדי להגיע לחומר גלם מעולה לפני התיקון.",
     ctaText: "תיאום באולפן",
-    whatsappMessage: "היי יקיר! רוצה להקליט שיר באולפן עם הדרכה ותיקון זיופים.",
+    whatsappMessage: "היי יקיר, רוצה להקליט שיר באולפן עם הדרכה ותיקון זיופים.",
     utm_campaign: "pitch_faq_studio",
   },
   {
@@ -66,15 +66,15 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "בדיוק בשביל זה אנחנו כאן. טכנולוגיה + אוזן מוזיקלית. אם יש רגש ורצון - התוצאה תהיה מוזיקלית ומהנה.",
     ctaText: "שיחה קצרה",
-    whatsappMessage: "היי יקיר! לא בטוח/ה ביכולת השירה - אשמח לייעוץ על תיקון זיופים.",
+    whatsappMessage: "היי יקיר, לא בטוח/ה ביכולת השירה - אשמח לייעוץ על תיקון זיופים.",
     utm_campaign: "pitch_faq_beginner",
   },
   {
     id: "sample",
     question: "אפשר לראות דוגמה לפני?",
-    answer: 'כן! שלחו קטע 30 שניות ונחזיר "לפני ואחרי" חינם.',
+    answer: 'כן, שלחו קטע 30 שניות ונחזיר "לפני ואחרי" חינם.',
     ctaText: "שלחו 30 שניות",
-    whatsappMessage: "היי יקיר! שולח/ת 30 שניות לדוגמת לפני ואחרי (תיקון זיופים).",
+    whatsappMessage: "היי יקיר, שולח/ת 30 שניות לדוגמת לפני ואחרי (תיקון זיופים).",
     utm_campaign: "pitch_faq_sample",
   },
   {
@@ -83,14 +83,14 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     answer:
       "כן. רוב הלקוחות משלבים תיקון זיופים + מיקס ומאסטרינג. עובד גם על הקלטות ביתיות (מומלץ גם ניקוי רעשים).",
     ctaText: "הצעת מחיר משולבת",
-    whatsappMessage: "היי יקיר! רוצה תיקון זיופים + מיקס. אשמח להצעה.",
+    whatsappMessage: "היי יקיר, רוצה תיקון זיופים + מיקס. אשמח להצעה.",
     utm_campaign: "pitch_faq_combo",
   },
 ];
 
 export default function OnlinePitchCorrectionPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר! אני מעוניין/ת בתיקון זיופים (Pitch Correction) לשיר. אשמח להצעת מחיר.",
+    text: "היי יקיר, אני מעוניין/ת בתיקון זיופים (Pitch Correction) לשיר. אשמח להצעת מחיר.",
     utm_source: "online",
     utm_campaign: "pitch_correction_cta",
   });

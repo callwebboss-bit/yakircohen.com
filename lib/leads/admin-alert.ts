@@ -42,12 +42,12 @@ export async function pingAdminHighScore(lead: LeadRecord): Promise<void> {
   await sendResendEmail({
     from: defaultLeadFromAddress(),
     to: [to],
-    subject: `[פינג דחוף] ציון ${lead.score} — ${lead.name || lead.phone || lead.formId}`,
+    subject: `[פינג דחוף] ציון ${lead.score} - ${lead.name || lead.phone || lead.formId}`,
     text: [
-      "ליד בציון גבוה — לטפל עכשיו.",
+      "ליד בציון גבוה - לטפל עכשיו.",
       `ציון: ${lead.score}`,
-      `שם: ${lead.name || "—"}`,
-      `טלפון: ${lead.phone || "—"}`,
+      `שם: ${lead.name || " - "}`,
+      `טלפון: ${lead.phone || " - "}`,
       `שירות: ${lead.serviceType}`,
       payload.waHint ? `וואטסאפ ללקוח: ${payload.waHint}` : null,
       "",

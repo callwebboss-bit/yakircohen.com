@@ -16,6 +16,7 @@ import {
 } from "@/lib/data/blog";
 import { getDiagnosticForPost } from "@/lib/data/blog-diagnostic";
 import { getBlogNurture } from "@/lib/data/blog-nurture";
+import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { SITE_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
@@ -76,6 +77,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
      Returns null when no match is found; CTABanner uses its defaults in that
      case so the baseline conversion block always renders. */
   const callout = getRelatedServiceCallout(post.relatedServiceSlug);
+  /* Blog→service funnel: fills whatever the callout lacks (book link, price,
+     [YC:] tag, article-aware WhatsApp opener) so every article converts with
+     attribution. Existing callout / nurture copy always wins. */
+  const funnel = resolveBlogFunnel(post, { whatsappOpener: callout?.whatsappText });
   const nurture = getBlogNurture(post.slug, post.relatedServiceSlug);
   const relatedPosts = getRelatedBlogPosts(post.slug, 3);
   const diagnostic = getDiagnosticForPost(post.slug);
@@ -206,14 +211,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
            */}
           <div className="mt-14 border-t border-border pb-10 pt-12">
             <CTABanner
-              heading={nurture?.ctaHeading ?? callout?.title}
-              body={nurture?.ctaBody ?? callout?.subtitle}
-              ctaLabel={nurture?.ctaLabel}
-              whatsappMessage={callout?.whatsappText}
-              utm_campaign={callout?.utmCampaign ?? "blog_article_cta"}
-              closerService={callout?.closerService}
-              priceExVat={callout?.priceExVat}
-              bookHref={callout?.bookHref}
+              heading={nurture?.ctaHeading ?? callout?.title ?? funnel?.heading}
+              body={nurture?.ctaBody ?? callout?.subtitle ?? funnel?.body}
+              ctaLabel={nurture?.ctaLabel ?? funnel?.ctaLabel}
+              whatsappMessage={funnel?.whatsappMessage ?? callout?.whatsappText}
+              utm_campaign={callout?.utmCampaign ?? funnel?.utmCampaign ?? "blog_article_cta"}
+              closerService={callout?.closerService ?? funnel?.closerService}
+              priceExVat={callout?.priceExVat ?? funnel?.priceExVat}
+              closerRoute={post.slug}
+              bookHref={callout?.bookHref ?? funnel?.bookHref}
+              bookCtaLabel={funnel?.bookCtaLabel}
               serviceHref={primaryServiceHref}
               serviceLinkLabel={
                 primaryServiceLabel

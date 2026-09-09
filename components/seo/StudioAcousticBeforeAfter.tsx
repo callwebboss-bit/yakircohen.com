@@ -7,7 +7,7 @@ import {
 } from "@/lib/data/academy-home-studio-page";
 
 const whatsappHref = buildWhatsAppHref({
-  text: "היי יקיר! ראיתי את התמונות לפני/אחרי באתר - אשמח לשמוע על ייעוץ אקוסטיקה לבניית אולפן.",
+  text: "היי יקיר, ראיתי את התמונות לפני/אחרי באתר - אשמח לשמוע על ייעוץ אקוסטיקה לבניית אולפן.",
   utm_source: "academy",
   utm_campaign: "home_studio_before_after",
 });

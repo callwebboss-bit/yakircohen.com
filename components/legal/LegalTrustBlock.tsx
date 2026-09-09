@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FOOTER_LEGAL_LINKS } from "@/lib/constants";
+import { FOOTER_LEGAL_LINKS, GOOGLE_REVIEW_COUNT } from "@/lib/constants";
 
 export default function LegalTrustBlock() {
   return (
@@ -33,7 +33,7 @@ export default function LegalTrustBlock() {
             {" - חיפוש פרופיל העסק באתר"}
           </li>
           <li>ביקורות באתר - יוצגו כשיאומתו מול המקור</li>
-          <li>גוגל - מעל 280 ביקורות מאומתות</li>
+          <li>גוגל - מעל {GOOGLE_REVIEW_COUNT} ביקורות מאומתות</li>
         </ul>
       </div>
 

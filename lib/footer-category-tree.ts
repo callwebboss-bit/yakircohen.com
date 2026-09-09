@@ -128,10 +128,18 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
     links: categoryLinks.studio,
   },
   {
+    id: "events",
+    label: "DJ ואטרקציות",
+    hubHref: "/events",
+    hubTitle: "DJ, הגברה ואטרקציות לאירועים",
+    links: categoryLinks.events,
+  },
+  {
     id: "podcast",
-    label: "פודקאסט לעסקים",
-    hubHref: "/podcast/bulk-production",
-    hubTitle: "פס ייצור לפודקאסט לעסקים",
+    label: "פודקאסט",
+    /* היה /podcast/bulk-production, עמוד משנה של B2B, בכל עמוד באתר. */
+    hubHref: "/podcast",
+    hubTitle: "הפקת פודקאסט, הקלטה, עריכה והפצה",
     links: categoryLinks.podcast,
   },
   {
@@ -140,13 +148,6 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
     hubHref: "/online",
     hubTitle: "שחזור סאונד, מיקס ותיקון זיופים מרחוק",
     links: categoryLinks.ai,
-  },
-  {
-    id: "events",
-    label: "DJ ואטרקציות",
-    hubHref: "/events",
-    hubTitle: "DJ, הגברה ואטרקציות לאירועים",
-    links: categoryLinks.events,
   },
   {
     id: "video",

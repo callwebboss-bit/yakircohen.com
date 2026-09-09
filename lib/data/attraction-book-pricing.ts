@@ -128,8 +128,10 @@ function tiersForItem(item: EventBookingItem): AttractionPricingTier[] {
       {
         name: item.quantityLabel.double,
         description: item.desc,
-        priceExVat: base + DOUBLE_QUANTITY_SURCHARGE,
-        priceNote: "25% הנחה על הזוג",
+        /* יחידה שנייה נספרת כאטרקציה שנייה בסולם, ולכן המחיר הוא מחיר
+           שתי האטרקציות ולא תוספת שטוחה. */
+        priceExVat: getExVat("event_attraction_2"),
+        priceNote: "מחיר שתי אטרקציות, הנחה 10%",
       },
     ];
   }

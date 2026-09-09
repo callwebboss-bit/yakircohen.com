@@ -62,11 +62,11 @@ describe("voice-search-intents", () => {
     }
   });
 
-  it("navigates bar mitzvah DJ query to dj-events", () => {
+  it("navigates bar mitzvah DJ query to the bar mitzvah page", () => {
     const result = resolveVoiceIntent("תקליטן לבר מצווה במודיעין");
     assert.equal(result.type, "navigate");
     if (result.type === "navigate") {
-      assert.equal(result.href, "/events/dj-events");
+      assert.equal(result.href, "/events/bar-mitzvah");
     }
   });
 

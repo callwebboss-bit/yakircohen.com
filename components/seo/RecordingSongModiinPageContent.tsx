@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
+import MobileStudioComesToYou from "@/components/marketing/MobileStudioComesToYou";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
@@ -127,6 +128,8 @@ export default function RecordingSongModiinPageContent() {
               - נסיעה קצרה לאותו אולפן.
             </p>
           </section>
+
+          <MobileStudioComesToYou heading="מקליטים שיר? האולפן יכול להגיע אליכם" />
 
           <BusinessCrossLink
             title="גם לחברות וארגונים"
@@ -538,7 +541,7 @@ export default function RecordingSongModiinPageContent() {
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     אם אתם כותבים מילים מקוריות - קראו אותן בקול רם כמה
                     פעמים לפני שמגיעים לאולפן. בדקו שהחריזה זורמת טבעית
-                    ושהמילים לא &ldquo;מתנגשות&rdquo; בתוך הלחן. לא בטוחים?
+                    ושהמילים לא &quot;מתנגשות&quot; בתוך הלחן. לא בטוחים?
                     אנחנו יכולים לעזור בגיבוש הטקסט.
                   </p>
                 </div>
@@ -805,7 +808,7 @@ export default function RecordingSongModiinPageContent() {
             </h2>
             <ul className="mt-3 space-y-2">
               <li>
-                מענה טלפוני במשרדים: א׳-ה׳ 10:00-20:00 -{" "}
+                מענה טלפוני במשרדים: א׳-ה׳ 09:00-22:00 -{" "}
                 <a
                   href={`tel:${CONTACT_PHONE_E164}`}
                   className="font-medium text-brand-red hover:underline"

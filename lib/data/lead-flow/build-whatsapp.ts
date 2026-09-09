@@ -26,7 +26,7 @@ export type LeadFlowMessageInput = {
 
 function truncateMessage(text: string, max = LEAD_FLOW_WA_MAX_CHARS): string {
   if (text.length <= max) return text;
-  return `${text.slice(0, max - 1)}…`;
+  return `${text.slice(0, max - 1)}...`;
 }
 
 export function buildLeadFlowWhatsAppText(input: LeadFlowMessageInput): string {

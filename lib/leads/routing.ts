@@ -33,12 +33,12 @@ function buildAlternativeOffers(lead: LeadRecord): string {
 
   const rows = section.rows.slice(0, 3);
   const lines = rows.map(
-    (r) => `• ${r.label} — מ-${r.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ (${section.href})`,
+    (r) => `• ${r.label} - מ-${r.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ (${section.href})`,
   );
   return [
     "",
     "---",
-    "הצעות חלופיות מהמחירון (ציון נמוך — לשקול הצעה רכה):",
+    "הצעות חלופיות מהמחירון (ציון נמוך - לשקול הצעה רכה):",
     ...lines,
     `מחירון מלא: https://yakircohen.com/pricing`,
   ].join("\n");

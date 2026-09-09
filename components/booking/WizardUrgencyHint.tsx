@@ -1,30 +1,24 @@
 "use client";
 
-import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
-import { getCroConfig } from "@/lib/data/cro";
 import type { TierACategoryId } from "@/lib/book-wizard-cro/types";
-import { getWeeklySlotsRemaining } from "@/lib/book-wizard-urgency";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 type WizardUrgencyHintProps = {
   className?: string;
   priceHoldLabel?: string | null;
-  /** default studio */
+  /** נשמר לתאימות API - הטקסט זהה לכל הקטגוריות */
   category?: TierACategoryId;
 };
 
+/**
+ * שורת סטטוס עובדתית בראש האשף: זמן מענה אמיתי + מחזיק מחיר (אם נשמר).
+ * אין כאן מוני זמינות מדומים - כל טענה על זמינות חייבת להגיע מיומן אמיתי.
+ */
 export default function WizardUrgencyHint({
   className,
   priceHoldLabel,
-  category = "studio",
 }: WizardUrgencyHintProps) {
-  const config = getCroConfig(category);
-  const slots = getWeeklySlotsRemaining(category);
-  const slotsLabel =
-    category === "studio"
-      ? BOOK_WIZARD_COPY.urgencyWeeklySlots(slots)
-      : config.urgency.slotsLabel(slots);
-
   return (
     <div
       className={cn(
@@ -33,8 +27,8 @@ export default function WizardUrgencyHint({
       )}
       role="status"
     >
-      <span className="rounded-full border border-amber-300/80 bg-amber-50 px-3 py-1 font-medium text-amber-900">
-        {slotsLabel}
+      <span className="rounded-full border border-border bg-surface px-3 py-1 font-medium text-muted-foreground">
+        מענה אנושי, {TIME_CLAIMS.quote24h}
       </span>
       {priceHoldLabel ? (
         <span className="rounded-full border border-emerald-300/80 bg-emerald-50 px-3 py-1 font-medium text-emerald-900">

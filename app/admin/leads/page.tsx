@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import nextDynamic from "next/dynamic";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import { ADMIN_LOGIN_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
 import { listLeads } from "@/lib/leads/store";
 import type { LeadStatus, ServiceType } from "@/lib/leads/types";
+import { adminLogoutAction } from "@/app/admin/login/actions";
 
 export const metadata: Metadata = {
   title: "לידים | ניהול",
@@ -20,7 +22,6 @@ const LeadKanban = nextDynamic(() => import("./LeadKanban"), {
 });
 
 type SearchParams = Promise<{
-  token?: string;
   status?: string;
   service?: string;
   minScore?: string;
@@ -31,11 +32,10 @@ export default async function AdminLeadsPage({
 }: {
   searchParams: SearchParams;
 }) {
-  const sp = await searchParams;
-  const expected = process.env.ADMIN_LEADS_TOKEN?.trim();
-  if (!expected || sp.token !== expected) {
-    notFound();
+  if (!(await isAdminAuthenticated())) {
+    redirect(ADMIN_LOGIN_PATH);
   }
+  const sp = await searchParams;
 
   let leads = await listLeads(150);
   if (sp.status) {
@@ -49,11 +49,36 @@ export default async function AdminLeadsPage({
     if (!Number.isNaN(min)) leads = leads.filter((l) => l.score >= min);
   }
 
+  // Export link carries only filters - auth travels in the HttpOnly session cookie.
+  const exportParams = new URLSearchParams();
+  if (sp.status) exportParams.set("status", sp.status);
+  if (sp.service) exportParams.set("service", sp.service);
+  if (sp.minScore) exportParams.set("minScore", sp.minScore);
+  const exportQuery = exportParams.toString();
+
   return (
     <article className="bg-background">
       <Section padding="sm">
         <Container className="max-w-6xl">
-          <h1 className="font-serif text-2xl font-semibold text-foreground">לידים</h1>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="font-serif text-2xl font-semibold text-foreground">לידים</h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href={`/api/admin/leads/export${exportQuery ? `?${exportQuery}` : ""}`}
+                className="inline-block rounded-md border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50"
+              >
+                ⬇ ייצוא לידים (JSON)
+              </a>
+              <form action={adminLogoutAction}>
+                <button
+                  type="submit"
+                  className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/50"
+                >
+                  יציאה
+                </button>
+              </form>
+            </div>
+          </div>
           <p className="mt-1 text-sm text-muted-foreground">
             {leads.length} רשומות · סינון דרך query: status, service, minScore
           </p>
@@ -79,9 +104,9 @@ export default async function AdminLeadsPage({
                     </td>
                     <td className="px-3 py-2 font-semibold">{lead.score}</td>
                     <td className="px-3 py-2">{lead.serviceType}</td>
-                    <td className="px-3 py-2">{lead.name || "—"}</td>
+                    <td className="px-3 py-2">{lead.name || " - "}</td>
                     <td className="px-3 py-2" dir="ltr">
-                      {lead.phone || "—"}
+                      {lead.phone || " - "}
                     </td>
                     <td className="px-3 py-2">{lead.status}</td>
                     <td className="max-w-xs truncate px-3 py-2">{lead.subject}</td>
@@ -91,7 +116,7 @@ export default async function AdminLeadsPage({
             </table>
           </div>
 
-          <LeadKanban leads={leads} token={expected} />
+          <LeadKanban leads={leads} />
         </Container>
       </Section>
     </article>

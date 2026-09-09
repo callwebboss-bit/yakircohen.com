@@ -15,7 +15,7 @@ export function buildAdminContextCardHtml(lead: LeadRecord, isDuplicate: boolean
     band === "high" ? "#16a34a" : band === "low" ? "#ca8a04" : "#2563eb";
   const price = lead.pricingRef?.exVat
     ? `${lead.pricingRef.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`
-    : "—";
+    : " - ";
   const geo = [lead.enrichment.geo?.city, lead.enrichment.geo?.country]
     .filter(Boolean)
     .join(", ");
@@ -37,11 +37,11 @@ export function buildAdminContextCardHtml(lead: LeadRecord, isDuplicate: boolean
       <table width="100%" style="font-size:13px;color:#111827;border-collapse:collapse;">
         <tr><td style="padding:4px 0;color:#6b7280;">שירות</td><td style="padding:4px 0;font-weight:600;">${esc(lead.serviceType)}</td></tr>
         <tr><td style="padding:4px 0;color:#6b7280;">מחיר מחירון</td><td style="padding:4px 0;font-weight:600;">${esc(price)}</td></tr>
-        <tr><td style="padding:4px 0;color:#6b7280;">שם</td><td style="padding:4px 0;">${esc(lead.name || "—")}</td></tr>
-        <tr><td style="padding:4px 0;color:#6b7280;">טלפון</td><td style="padding:4px 0;">${esc(lead.phone || "—")}</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">שם</td><td style="padding:4px 0;">${esc(lead.name || " - ")}</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">טלפון</td><td style="padding:4px 0;">${esc(lead.phone || " - ")}</td></tr>
         <tr><td style="padding:4px 0;color:#6b7280;">מכשיר</td><td style="padding:4px 0;">${esc(lead.enrichment.device)}</td></tr>
-        <tr><td style="padding:4px 0;color:#6b7280;">מיקום</td><td style="padding:4px 0;">${esc(geo || "—")}</td></tr>
-        <tr><td style="padding:4px 0;color:#6b7280;">מקור</td><td style="padding:4px 0;">${esc(lead.enrichment.referrer || lead.enrichment.landingPath || "—")}</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">מיקום</td><td style="padding:4px 0;">${esc(geo || " - ")}</td></tr>
+        <tr><td style="padding:4px 0;color:#6b7280;">מקור</td><td style="padding:4px 0;">${esc(lead.enrichment.referrer || lead.enrichment.landingPath || " - ")}</td></tr>
         <tr><td style="padding:4px 0;color:#6b7280;">formId</td><td style="padding:4px 0;">${esc(lead.formId)}</td></tr>
       </table>
     </td>

@@ -6,6 +6,8 @@ const CATALOG_FILE = path.join(ROOT, "lib", "data", "pricing-catalog.ts");
 const PRICING_FILE = path.join(ROOT, "lib", "data", "pricing.ts");
 const DOCS_PRICING = path.join(ROOT, "docs", "PRICING.md");
 const DATA_DIR = path.join(ROOT, "lib", "data");
+/* components/ נוסף אחרי ש-formatCurrency.ts החזיק * 1.18 קשיח מחוץ לטווח הסריקה. */
+const EXTRA_SCAN_DIRS = [path.join(ROOT, "components")];
 
 const VAT_RATE = 0.18;
 const errors = [];
@@ -50,7 +52,7 @@ function walk(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, e.name);
     if (e.isDirectory()) walk(full, out);
-    else if (e.name.endsWith(".ts") && e.name !== "pricing-catalog.ts") out.push(full);
+    else if (/\.tsx?$/.test(e.name) && e.name !== "pricing-catalog.ts") out.push(full);
   }
   return out;
 }
@@ -93,7 +95,7 @@ if (fs.existsSync(DOCS_PRICING)) {
 const catalogPrices = new Set(parseCatalogExVatValues(catalogText));
 const duplicateHits = new Map();
 
-for (const file of walk(DATA_DIR)) {
+for (const file of [DATA_DIR, ...EXTRA_SCAN_DIRS].flatMap((d) => walk(d))) {
   const rel = path.relative(ROOT, file);
   if (rel === path.join("lib", "data", "pricing.ts")) continue;
   const text = fs.readFileSync(file, "utf8");

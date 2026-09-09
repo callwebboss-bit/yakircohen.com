@@ -1,4 +1,6 @@
-﻿export type BlessingTypeCard = {
+﻿import type { BlessingsProcessStep } from "@/lib/data/blessings-subpages";
+
+export type BlessingTypeCard = {
   emoji: string;
   title: string;
   description: string;
@@ -126,11 +128,11 @@ export const BLESSING_WORKFLOW_OPTIONS: readonly BlessingWorkflowOption[] = [
   },
 ] as const;
 
-export const BLESSING_POST_PRODUCTION_STEPS: readonly string[] = [
-  "ליטוש טעויות דיבור קלות (בהסכמתכם)",
-  "הכוונה לשונית, הגייה, דקדוק וקצב טבעי",
-  "ניקוי רעשים, נשימות חזקות ורעשי רקע",
-  "איזון ווליום וקובץ מוכן למערכת הגברה",
-  "מוזיקת רקע בתוספת, לא במחיר הבסיס",
-  "תיקון זיופים בתוספת, לא במחיר הבסיס",
-] as const;
+export const BLESSING_POST_PRODUCTION_STEPS: readonly BlessingsProcessStep[] = [
+  { step: "01", title: "ליטוש דיבור", description: "ליטוש טעויות דיבור קלות, בהסכמתכם." },
+  { step: "02", title: "הכוונה לשונית", description: "הגייה, דקדוק וקצב טבעי לאורך הברכה." },
+  { step: "03", title: "ניקוי רעשים", description: "הסרת רעשי רקע, נשימות חזקות ורחשים מהחדר." },
+  { step: "04", title: "איזון ווליום", description: "קובץ מאוזן ומוכן להשמעה במערכת ההגברה באירוע." },
+  { step: "05", title: "מוזיקת רקע", description: "אפשר להוסיף מוזיקת רקע - בתוספת, לא במחיר הבסיס." },
+  { step: "06", title: "תיקון זיופים", description: "אפשר להוסיף תיקון זיופים - בתוספת, לא במחיר הבסיס." },
+];
