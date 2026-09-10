@@ -25,18 +25,23 @@ function persistPromoDismissed() {
 export default function PromoBanner() {
   const [idx, setIdx] = useState(0);
   const [fade, setFade] = useState(true);
-  const [dismissed, setDismissed] = useState<boolean | null>(null);
+  /* מתחיל ב-false ולא ב-null, בכוונה. עם null הפס לא רונדר בשרת, נכנס אחרי
+     ההידרציה בגובה 40px, ודחף את #main-content למטה בכל עמוד באתר: זה היה
+     המקור היחיד ל-CLS 0.049 בחמשת עמודי הליבה (Lighthouse devtools, 9.9.2026).
+     עכשיו הפס מרונדר בשרת (המצב של רוב הכניסות), והוא נקרס רק למי שסגר אותו
+     באותו סשן. השרת והלקוח מרנדרים אותו דבר בפעם הראשונה, אין hydration mismatch. */
+  const [dismissed, setDismissed] = useState<boolean>(false);
 
   useEffect(() => {
     try {
-      setDismissed(sessionStorage.getItem(SS_PROMO_DISMISSED) === "true");
+      if (sessionStorage.getItem(SS_PROMO_DISMISSED) === "true") setDismissed(true);
     } catch {
-      setDismissed(false);
+      /* אין sessionStorage (פרטי / חסום): הפס נשאר גלוי, כמו בשרת */
     }
   }, []);
 
   useEffect(() => {
-    if (dismissed !== false) {
+    if (dismissed) {
       delete document.documentElement.dataset.promoBanner;
       return undefined;
     }
@@ -64,7 +69,7 @@ export default function PromoBanner() {
     };
   }, [dismissed]);
 
-  if (dismissed !== false) return null;
+  if (dismissed) return null;
 
   const msg = MESSAGES[idx]!;
 

@@ -1,100 +1,40 @@
 {
-  "head": "8912aaa4100e82561473ac318d32fb74e17484ba",
+  "head": "2b184dcb2f11a79a74741f58ebf60c4c03f98c49",
   "branch": "preview/chrome-polish",
   "counts": {
-    "modified": 12,
-    "deleted": 3
+    "deleted": 2,
+    "modified": 3
   },
   "entries": [
     {
-      "file": "app/(blog)/blog/[slug]/page.tsx",
-      "kind": "modified",
-      "hash": "ba160b5b7360586a",
-      "bytes": 10555
-    },
-    {
-      "file": "app/studio/upload/page.tsx",
+      "file": "app/(services)/loading.tsx",
       "kind": "deleted",
       "hash": null,
       "bytes": null
     },
     {
-      "file": "components/marketing/LiveStatusProjectTicker.tsx",
-      "kind": "modified",
-      "hash": "21b3f24d930cf90b",
-      "bytes": 2098
-    },
-    {
-      "file": "components/media/MediaUploadZone.tsx",
+      "file": "app/loading.tsx",
       "kind": "deleted",
       "hash": null,
       "bytes": null
+    },
+    {
+      "file": "components/layout/PromoBanner.tsx",
+      "kind": "modified",
+      "hash": "8dd2f64d953f2d3f",
+      "bytes": 3968
+    },
+    {
+      "file": "docs/DEPLOY-RUNBOOK.md",
+      "kind": "modified",
+      "hash": "dc992af6a1008fce",
+      "bytes": 17540
     },
     {
       "file": "docs/OWNER-DECISIONS-2026-09-07.md",
       "kind": "modified",
-      "hash": "01da63ffeb87dfd8",
-      "bytes": 23549
-    },
-    {
-      "file": "lib/data/live-status.ts",
-      "kind": "modified",
-      "hash": "007cbfff44548499",
-      "bytes": 3996
-    },
-    {
-      "file": "lib/data/services.ts",
-      "kind": "modified",
-      "hash": "9119200229066602",
-      "bytes": 173251
-    },
-    {
-      "file": "lib/data/tech-barrier-relief.ts",
-      "kind": "modified",
-      "hash": "14ee9c6ae18e4b78",
-      "bytes": 9449
-    },
-    {
-      "file": "lib/data/video-playlists.ts",
-      "kind": "modified",
-      "hash": "6a37228aa51639d7",
-      "bytes": 11434
-    },
-    {
-      "file": "lib/legacy-redirects.ts",
-      "kind": "modified",
-      "hash": "b85eed60e6fa46e4",
-      "bytes": 25041
-    },
-    {
-      "file": "lib/review-schema.ts",
-      "kind": "deleted",
-      "hash": null,
-      "bytes": null
-    },
-    {
-      "file": "lib/seo/build-site-schema.ts",
-      "kind": "modified",
-      "hash": "5a3006a7adcc05e1",
-      "bytes": 10113
-    },
-    {
-      "file": "lib/seo/page-schema.ts",
-      "kind": "modified",
-      "hash": "3b7f8cac8d16bbd2",
-      "bytes": 6973
-    },
-    {
-      "file": "lib/seo/site-schema.json",
-      "kind": "modified",
-      "hash": "a9ed0d5aea1bfda2",
-      "bytes": 10844
-    },
-    {
-      "file": "scripts/audit-aeo-coverage.mjs",
-      "kind": "modified",
-      "hash": "20b3d63981f1a424",
-      "bytes": 3930
+      "hash": "c66e613b9277161f",
+      "bytes": 29899
     }
   ]
 }
