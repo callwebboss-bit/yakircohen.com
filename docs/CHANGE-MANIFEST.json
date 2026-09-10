@@ -1,40 +1,88 @@
 {
-  "head": "2b184dcb2f11a79a74741f58ebf60c4c03f98c49",
+  "head": "419fcb49dc8ef8b8c7546a7734939239ed1af963",
   "branch": "preview/chrome-polish",
   "counts": {
-    "deleted": 2,
-    "modified": 3
+    "modified": 8,
+    "added": 5
   },
   "entries": [
     {
-      "file": "app/(services)/loading.tsx",
-      "kind": "deleted",
-      "hash": null,
-      "bytes": null
-    },
-    {
-      "file": "app/loading.tsx",
-      "kind": "deleted",
-      "hash": null,
-      "bytes": null
-    },
-    {
-      "file": "components/layout/PromoBanner.tsx",
+      "file": "components/glossary/GlossaryInlineText.tsx",
       "kind": "modified",
-      "hash": "8dd2f64d953f2d3f",
-      "bytes": 3968
+      "hash": "d64ac67e034cd72b",
+      "bytes": 2849
     },
     {
-      "file": "docs/DEPLOY-RUNBOOK.md",
+      "file": "components/marketing/LiveStatusBar.tsx",
       "kind": "modified",
-      "hash": "dc992af6a1008fce",
-      "bytes": 17540
+      "hash": "907eba543a6fcc66",
+      "bytes": 1018
+    },
+    {
+      "file": "components/marketing/LiveStatusProjectTicker.tsx",
+      "kind": "modified",
+      "hash": "02f3e1ff52edf064",
+      "bytes": 2415
+    },
+    {
+      "file": "components/pricing/CatalogOfferPanel.tsx",
+      "kind": "modified",
+      "hash": "d84346357646a0a0",
+      "bytes": 6618
     },
     {
       "file": "docs/OWNER-DECISIONS-2026-09-07.md",
       "kind": "modified",
-      "hash": "c66e613b9277161f",
-      "bytes": 29899
+      "hash": "bddf65d0d74f5266",
+      "bytes": 32253
+    },
+    {
+      "file": "lib/breadcrumbs/build-trail.ts",
+      "kind": "modified",
+      "hash": "93f7b88b087bffd4",
+      "bytes": 3016
+    },
+    {
+      "file": "lib/data/breadcrumb-titles.generated.ts",
+      "kind": "added",
+      "hash": "24f954badc3e49fe",
+      "bytes": 14479
+    },
+    {
+      "file": "lib/data/glossary-meta.ts",
+      "kind": "added",
+      "hash": "5876388158ff248b",
+      "bytes": 498
+    },
+    {
+      "file": "lib/data/glossary-tooltips.generated.ts",
+      "kind": "added",
+      "hash": "281c5e68c408c7a0",
+      "bytes": 23357
+    },
+    {
+      "file": "lib/data/glossary.ts",
+      "kind": "modified",
+      "hash": "b06edf89e29c0a21",
+      "bytes": 63017
+    },
+    {
+      "file": "package.json",
+      "kind": "modified",
+      "hash": "47a07fd188393a73",
+      "bytes": 7743
+    },
+    {
+      "file": "scripts/audit-client-data-weight.mjs",
+      "kind": "added",
+      "hash": "7753c7094b8fd476",
+      "bytes": 6120
+    },
+    {
+      "file": "scripts/generate-client-data.ts",
+      "kind": "added",
+      "hash": "733665a26f9ef824",
+      "bytes": 6130
     }
   ]
 }

@@ -2,13 +2,15 @@
 
 import type { ReactNode } from "react";
 import GlossaryTermTooltip from "@/components/glossary/GlossaryTermTooltip";
+/* היטלים קלים במקום lib/data/glossary.ts (62KB). זהו רכיב לקוח שמרונדר
+   בכל FAQ ובכל אקורדיון, ולכן כל ייבוא כאן נשלח לדפדפן. */
 import {
-  GLOSSARY_TOOLTIP_PHRASES,
-  getGlossaryTermBySlug,
-} from "@/lib/data/glossary";
+  GLOSSARY_DEFINITIONS,
+  GLOSSARY_TOOLTIP_PHRASE_LIST,
+} from "@/lib/data/glossary-tooltips.generated";
 import { KEYWORD_LINK_MAP } from "@/lib/internal-links/keyword-map";
 
-const ELIGIBLE_GLOSSARY_PHRASES = GLOSSARY_TOOLTIP_PHRASES.filter(
+const ELIGIBLE_GLOSSARY_PHRASES = GLOSSARY_TOOLTIP_PHRASE_LIST.filter(
   ({ phrase }) => {
     const existing = KEYWORD_LINK_MAP[phrase];
     return !existing || existing.href.startsWith("/glossary");
@@ -46,9 +48,9 @@ export default function GlossaryInlineText({
     const termSlug = ELIGIBLE_GLOSSARY_PHRASES.find(
       (item) => item.phrase === phrase,
     )?.slug;
-    const term = termSlug ? getGlossaryTermBySlug(termSlug) : undefined;
+    const definition = termSlug ? GLOSSARY_DEFINITIONS[termSlug] : undefined;
 
-    if (!term) continue;
+    if (!termSlug || !definition) continue;
 
     if (matchIndex > lastIndex) {
       nodes.push(text.slice(lastIndex, matchIndex));
@@ -58,10 +60,10 @@ export default function GlossaryInlineText({
     }
     nodes.push(
       <GlossaryTermTooltip
-        key={`${term.slug}-${phraseStart}`}
-        slug={term.slug}
-        href={`/glossary/${term.slug}`}
-        definition={term.definition}
+        key={`${termSlug}-${phraseStart}`}
+        slug={termSlug}
+        href={`/glossary/${termSlug}`}
+        definition={definition}
         className={className}
       >
         {phrase}
@@ -92,8 +94,8 @@ export function GlossaryTerm({
   slug: string;
   children: string;
 }) {
-  const term = getGlossaryTermBySlug(slug);
-  if (!term) {
+  const definition = GLOSSARY_DEFINITIONS[slug];
+  if (!definition) {
     return children;
   }
 
@@ -101,7 +103,7 @@ export function GlossaryTerm({
     <GlossaryTermTooltip
       slug={slug}
       href={`/glossary/${slug}`}
-      definition={term.definition}
+      definition={definition}
     >
       {children}
     </GlossaryTermTooltip>

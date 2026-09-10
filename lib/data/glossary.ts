@@ -31,8 +31,9 @@ export type GlossaryTerm = {
   longTail?: readonly string[];
 };
 
-export const GLOSSARY_SLUG = "glossary";
-export const GLOSSARY_PATHNAME = `/${GLOSSARY_SLUG}`;
+/* הקבועים חיים ב-glossary-meta.ts כדי שרכיבי לקוח לא יגררו את כל המונחון */
+export { GLOSSARY_SLUG, GLOSSARY_PATHNAME } from "@/lib/data/glossary-meta";
+import { GLOSSARY_SLUG } from "@/lib/data/glossary-meta";
 export const GLOSSARY_TITLE = "מונחון אודיו, אולפן ואירועים";
 export const GLOSSARY_DESCRIPTION =
   "הגדרות קצרות למונחי אודיו, אולפן, פודקאסט, DJ ואירועים. מונחון יבש עם קישורים פנימיים וערכי בסיס להבנת התחום.";

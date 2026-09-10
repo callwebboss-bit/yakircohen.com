@@ -2,12 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LIVE_STATUS_REAL_WORKS } from "@/lib/data/live-status";
+import type { LiveStatusRealWork } from "@/lib/data/live-status";
 
 const INTERVAL_MS = 4500;
 const OUT_DURATION_MS = 250;
 
-export default function LiveStatusProjectTicker() {
+/* הרשימה מגיעה כ-prop ולא מיובאת. ייבוא ישיר גרר את
+   lib/data/video-catalog.generated.ts (273 סרטונים) לדפדפן, כי זהו רכיב
+   לקוח. נתפס על ידי npm run audit:client-data-weight. */
+export default function LiveStatusProjectTicker({
+  works,
+}: {
+  works: readonly LiveStatusRealWork[];
+}) {
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<"in" | "out">("in");
 
@@ -15,13 +22,13 @@ export default function LiveStatusProjectTicker() {
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
+    if (reduceMotion || works.length < 2) return;
 
     let swapTimer: number | undefined;
     const timer = window.setInterval(() => {
       setPhase("out");
       swapTimer = window.setTimeout(() => {
-        setIdx((i) => (i + 1) % LIVE_STATUS_REAL_WORKS.length);
+        setIdx((i) => (i + 1) % works.length);
         setPhase("in");
       }, OUT_DURATION_MS);
     }, INTERVAL_MS);
@@ -30,9 +37,9 @@ export default function LiveStatusProjectTicker() {
       window.clearInterval(timer);
       if (swapTimer !== undefined) window.clearTimeout(swapTimer);
     };
-  }, []);
+  }, [works.length]);
 
-  const current = LIVE_STATUS_REAL_WORKS[idx];
+  const current = works[idx];
   if (!current) return null;
 
   return (

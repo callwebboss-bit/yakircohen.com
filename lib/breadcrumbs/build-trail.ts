@@ -1,12 +1,16 @@
-import { getBlogPostBySlug } from "@/lib/data/blog";
+/**
+ * מפת כותרות מיוצרת במקום מאגרי התוכן עצמם.
+ *
+ * הקובץ הזה נצרך מ-components/layout/Breadcrumbs.tsx שהוא רכיב לקוח, ולכן
+ * כל ייבוא כאן נשלח לדפדפן. קודם הוא ייבא את blog.ts (409KB) ואת
+ * services.ts (173KB) רק כדי לקרוא כותרות, וזו הייתה נקודת הכניסה היחידה
+ * של blog.ts ללקוח בכל הריפו. עכשיו: 14KB של slug לכותרת.
+ * המפה מיוצרת ב-scripts/generate-breadcrumb-titles.ts ונשמרת ב-audit.
+ */
 import {
-  EVENTS_SERVICES,
-  PHOTOGRAPHY_SERVICES,
-  STUDIO_SERVICES,
-  VIDEO_SERVICES,
-  VOICEOVER_SERVICES,
-  type ServiceEntity,
-} from "@/lib/data/services";
+  BREADCRUMB_BLOG_TITLES,
+  BREADCRUMB_SERVICE_TITLES,
+} from "@/lib/data/breadcrumb-titles.generated";
 import { absoluteUrl } from "@/lib/site-url";
 import {
   BREADCRUMB_PATH_OVERRIDES,
@@ -20,26 +24,11 @@ export type BreadcrumbItem = {
 
 const HOME: BreadcrumbItem = { href: "/", label: "בית" };
 
-let serviceBySlug: Map<string, string> | null = null;
-
-function getServiceTitleMap(): Map<string, string> {
-  if (serviceBySlug) return serviceBySlug;
-  const entities: ServiceEntity[] = [
-    ...Object.values(STUDIO_SERVICES),
-    ...Object.values(VOICEOVER_SERVICES),
-    ...Object.values(EVENTS_SERVICES),
-    ...Object.values(VIDEO_SERVICES),
-    ...Object.values(PHOTOGRAPHY_SERVICES),
-  ];
-  serviceBySlug = new Map(entities.map((s) => [s.slug, s.title]));
-  return serviceBySlug;
-}
-
 function labelForPath(path: string): string {
   const override = BREADCRUMB_PATH_OVERRIDES[path];
   if (override) return override;
 
-  const serviceTitle = getServiceTitleMap().get(path.replace(/^\//, ""));
+  const serviceTitle = BREADCRUMB_SERVICE_TITLES[path.replace(/^\//, "")];
   if (serviceTitle) return serviceTitle;
 
   const segments = path.replace(/^\//, "").split("/");
@@ -63,13 +52,13 @@ export function buildBreadcrumbTrail(pathname: string): BreadcrumbItem[] {
   const segments = normalized.split("/").filter(Boolean);
 
   if (segments[0] === "blog" && segments.length === 2) {
-    const post = getBlogPostBySlug(segments[1]);
+    const postTitle = BREADCRUMB_BLOG_TITLES[segments[1]!];
     return [
       HOME,
       { href: "/blog", label: BREADCRUMB_SEGMENT_LABELS.blog },
       {
         href: normalized,
-        label: post?.title ?? labelForPath(normalized),
+        label: postTitle ?? labelForPath(normalized),
       },
     ];
   }

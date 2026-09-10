@@ -6,10 +6,8 @@ import {
   type PriceItemId,
   type PriceTransparency,
 } from "@/lib/data/pricing-catalog";
-import {
-  GLOSSARY_PATHNAME,
-  getGlossaryTermBySlug,
-} from "@/lib/data/glossary";
+import { GLOSSARY_PATHNAME } from "@/lib/data/glossary-meta";
+import { GLOSSARY_TERM_LABELS } from "@/lib/data/glossary-tooltips.generated";
 import { cn } from "@/lib/utils";
 
 type CatalogOfferPanelProps = {
@@ -59,9 +57,11 @@ function CatalogLine({ line }: { line: string }) {
 }
 
 function GlossaryLinks({ slugs }: { slugs: readonly string[] }) {
+  /* היטל slug לשם המונח, במקום המונחון המלא. שליפת מונח מלא מכאן גררה
+     62KB של הגדרות לדפדפן, בשביל שם אחד לקישור. */
   const terms = slugs
-    .map((slug) => getGlossaryTermBySlug(slug))
-    .filter((term): term is NonNullable<typeof term> => term != null);
+    .map((slug) => ({ slug, termHe: GLOSSARY_TERM_LABELS[slug] }))
+    .filter((t): t is { slug: string; termHe: string } => t.termHe != null);
   if (terms.length === 0) return null;
   return (
     <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
