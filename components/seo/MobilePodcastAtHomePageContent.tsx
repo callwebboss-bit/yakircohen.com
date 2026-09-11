@@ -328,7 +328,7 @@ export default function MobilePodcastAtHomePageContent() {
           </div>
 
           <p className="mt-6 text-center text-sm font-medium text-foreground">
-            סה"כ:{" "}
+            סה״כ:{" "}
             <span className="font-bold text-brand-red">שעה וחצי</span>{" "}
             מהגעה עד עזיבה - המשרד שלכם לא מפסיק לעבוד.
           </p>
@@ -409,7 +409,7 @@ export default function MobilePodcastAtHomePageContent() {
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <blockquote className="rounded-xl border border-border bg-background p-5">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                "הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים."
+                &quot;הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים.&quot;
               </p>
               <footer className="mt-4 flex items-center gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red">
@@ -423,7 +423,7 @@ export default function MobilePodcastAtHomePageContent() {
             </blockquote>
             <blockquote className="rounded-xl border border-border bg-background p-5">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                "אירוע חברה עם הפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת."
+                &quot;אירוע חברה עם הפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת.&quot;
               </p>
               <footer className="mt-4 flex items-center gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red">
@@ -431,7 +431,7 @@ export default function MobilePodcastAtHomePageContent() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground">יוסי כהן</p>
-                  <p className="text-xs text-muted-foreground">מנכ"ל, חברת הייטק</p>
+                  <p className="text-xs text-muted-foreground">מנכ״ל, חברת הייטק</p>
                 </div>
               </footer>
             </blockquote>

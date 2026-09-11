@@ -798,7 +798,7 @@ export default function EventsBookingWizard({
           <div key={item.id}>
             <h3>{item.name}</h3>
             <p>{item.desc}</p>
-            <p>מחיר בסיס: 1,750 ₪</p>
+            <p>מחיר בסיס: {getExVat("event_attraction_1").toLocaleString("he-IL")} ₪</p>
           </div>
         ))}
       </section>

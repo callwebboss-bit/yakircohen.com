@@ -33,6 +33,12 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      # שער אחד במקום אחד עשר שלבים בודדים. לפני השינוי CI הריץ 11 שומרים
+      # מתוך 24, ו-12 מהם - ובהם audit:llms-prices, audit:prose-prices
+      # ו-audit:client-data-weight - לא רצו בשום pull request.
+      - name: Audit SEO, schema, prices and client weight
+        run: npm run verify:seo
+
       - name: Audit images
         run: npm run audit:images
 
@@ -42,32 +48,19 @@ jobs:
       - name: Audit headings
         run: npm run audit:headings
 
-      - name: Audit SEO titles
-        run: npm run audit:seo-titles
-
-      - name: Audit schema
-        run: npm run audit:schema
-
-      - name: Audit orphans
-        run: npm run audit:orphans
-
-      - name: Audit sitemap indexable
-        run: npm run audit:sitemap-indexable
-
-      - name: Audit AEO coverage
-        run: npm run audit:aeo-coverage
-
-      - name: Audit funnel events
-        run: npm run audit:funnel-events
-
       - name: Audit pricing
         run: npm run audit:pricing
 
-      - name: Audit a11y (skip unless RUN_A11Y=1)
-        run: npm run audit:a11y
+      - name: Audit copy (no AI tells)
+        run: npm run audit:ai-tells
 
       - name: Build (with Pagefind)
         run: npm run build:full
+
+      # רץ אחרי הבנייה. קודם הוא ישב לפניה ובלי שרת, כך שכל page.goto
+      # נכשל והאודיט דיווח תקין אחרי אפס עמודים שנבדקו.
+      - name: Audit a11y (skip unless RUN_A11Y=1)
+        run: npm run audit:a11y
 
       - name: Cypress E2E
         run: npm run cy:run

@@ -1,6 +1,7 @@
 // UI-EXCEPTION: full-width grid span promo - see docs/ui-exceptions.md
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const bundleWhatsAppHref = buildWhatsAppHref({
@@ -53,8 +54,8 @@ export default function PremiumBundleCallout() {
           צילום מקצועי
         </Link>{" "}
         ומשדרגים את האירוע. טווח מומלץ:{" "}
-        <strong className="text-brand-red">₪1,750</strong> עד{" "}
-        <strong className="text-brand-red">₪3,200+</strong>.
+        <strong className="text-brand-red">₪{getExVat("event_attraction_1").toLocaleString("he-IL")}</strong> עד{" "}
+        <strong className="text-brand-red">₪{getExVat("event_attraction_2").toLocaleString("he-IL")}+</strong>.
       </p>
       <Button
         as="a"

@@ -127,6 +127,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError, scrollToFirstWizardBlocker } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
@@ -1792,7 +1793,7 @@ export default function StudioRecordingBooking({
                   🎊 סוגרים אירוע? תוסיפו אטרקציה לרחבה
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  עשן כבד לחופה וסלואו · זיקוקים קרים · בועות סבון עשן לילדים - מ-₪1,750
+                  עשן כבד לחופה וסלואו · זיקוקים קרים · בועות סבון עשן לילדים - מ-₪{getExVat("event_attraction_1").toLocaleString("he-IL")}
                 </p>
                 <a
                   href="/events/attractions"

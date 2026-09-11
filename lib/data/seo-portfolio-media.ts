@@ -173,7 +173,7 @@ export function filterSeoPortfolioMedia(
   service: SeoPortfolioServiceId | "all",
   location: SeoPortfolioLocationId | "all",
 ): SeoPortfolioMediaItem[] {
-  let items =
+  const items =
     service === "all"
       ? [...SEO_PORTFOLIO_MEDIA]
       : SEO_PORTFOLIO_MEDIA.filter((m) => m.service === service);

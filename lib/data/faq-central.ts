@@ -1,4 +1,14 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { getExVat } from "@/lib/data/pricing-catalog";
+
+/* התשובה על "כמה עולה" נכנסת לסכמת FAQPage, ולכן מחיר מיושן כאן מתפרסם
+   לגוגל כעובדה. היא הצהירה 1,750 ₪ לאטרקציה אחרי שהקטלוג כבר אמר 1,695.
+   pricing-catalog כבר נמצא בגרף הלקוח של ארבעת הרכיבים שמגיעים לקובץ הזה,
+   ולכן הייבוא לא מוסיף בייטים. */
+function nisEx(id: PriceItemId): string {
+  return `${getExVat(id).toLocaleString("he-IL")} ₪`;
+}
 
 /**
  * מקור משותף ל-FAQ מרכזי (20 שאלות) - /about/faq + schema.
@@ -123,7 +133,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "general-pricing",
     question: "כמה עולה הקלטה או אירוע?",
     answer:
-      "ברכה והקלטה קצרה החל מ-590 ₪ + מע״מ. פודקאסט פיילוט מ-950 ₪ + מע״מ. אטרקציה בודדת לאירוע מ-1,750 ₪ + מע״מ. בהזמנה המקוונת רואים מחיר סופי מיד.",
+      `ברכה והקלטה קצרה החל מ-${nisEx("blessing_recording")} + מע״מ. פודקאסט פיילוט מ-${nisEx("podcast_audio")} + מע״מ. אטרקציה בודדת לאירוע מ-${nisEx("event_attraction_1")} + מע״מ. בהזמנה המקוונת רואים מחיר סופי מיד.`,
     ctaText: "פתחו את המחירון המרכזי",
     whatsappMessage: "שלום, רוצה לדעת כמה עולה [סוג שירות] לפני שסוגרים",
     utm_campaign: "faq_general_pricing",

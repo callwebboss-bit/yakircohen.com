@@ -1,88 +1,99 @@
 {
-  "head": "419fcb49dc8ef8b8c7546a7734939239ed1af963",
+  "head": "6c5a29e81b4d41279de2d4c83fda00d19463a9db",
   "branch": "preview/chrome-polish",
   "counts": {
-    "modified": 8,
-    "added": 5
+    "modified": 15
   },
   "entries": [
     {
-      "file": "components/glossary/GlossaryInlineText.tsx",
+      "file": ".github/workflows/ci.yml",
       "kind": "modified",
-      "hash": "d64ac67e034cd72b",
-      "bytes": 2849
+      "hash": "f8808a8b3d61193d",
+      "bytes": 1735
     },
     {
-      "file": "components/marketing/LiveStatusBar.tsx",
+      "file": "components/lead-flow/NeedsDiscoveryLeadFlow.tsx",
       "kind": "modified",
-      "hash": "907eba543a6fcc66",
-      "bytes": 1018
+      "hash": "d81d142ef7973993",
+      "bytes": 17836
     },
     {
-      "file": "components/marketing/LiveStatusProjectTicker.tsx",
+      "file": "components/marketing/EventsBookingWizard.tsx",
       "kind": "modified",
-      "hash": "02f3e1ff52edf064",
-      "bytes": 2415
+      "hash": "fe882d058e2ce1b9",
+      "bytes": 63957
     },
     {
-      "file": "components/pricing/CatalogOfferPanel.tsx",
+      "file": "components/marketing/PremiumBundleCallout.tsx",
       "kind": "modified",
-      "hash": "d84346357646a0a0",
-      "bytes": 6618
+      "hash": "1fc2653329608a89",
+      "bytes": 3066
     },
     {
-      "file": "docs/OWNER-DECISIONS-2026-09-07.md",
+      "file": "components/marketing/StudioRecordingBooking.tsx",
       "kind": "modified",
-      "hash": "bddf65d0d74f5266",
-      "bytes": 32253
+      "hash": "8c981963a74eab93",
+      "bytes": 89573
     },
     {
-      "file": "lib/breadcrumbs/build-trail.ts",
+      "file": "components/seo/HeavySmokeLargeEventsPageContent.tsx",
       "kind": "modified",
-      "hash": "93f7b88b087bffd4",
-      "bytes": 3016
+      "hash": "9b9c34e7dc404c5e",
+      "bytes": 12251
     },
     {
-      "file": "lib/data/breadcrumb-titles.generated.ts",
-      "kind": "added",
-      "hash": "24f954badc3e49fe",
-      "bytes": 14479
-    },
-    {
-      "file": "lib/data/glossary-meta.ts",
-      "kind": "added",
-      "hash": "5876388158ff248b",
-      "bytes": 498
-    },
-    {
-      "file": "lib/data/glossary-tooltips.generated.ts",
-      "kind": "added",
-      "hash": "281c5e68c408c7a0",
-      "bytes": 23357
-    },
-    {
-      "file": "lib/data/glossary.ts",
+      "file": "components/seo/Industry2026PageContent.tsx",
       "kind": "modified",
-      "hash": "b06edf89e29c0a21",
-      "bytes": 63017
+      "hash": "49d2a5726fcc079a",
+      "bytes": 10919
+    },
+    {
+      "file": "components/seo/MobilePodcastAtHomePageContent.tsx",
+      "kind": "modified",
+      "hash": "b9e0e555e6a4d4e8",
+      "bytes": 22908
+    },
+    {
+      "file": "eslint.config.mjs",
+      "kind": "modified",
+      "hash": "0ae1743e77c91532",
+      "bytes": 1566
+    },
+    {
+      "file": "lib/data/blog.ts",
+      "kind": "modified",
+      "hash": "ac3dab60cae0213e",
+      "bytes": 409153
+    },
+    {
+      "file": "lib/data/faq-central.ts",
+      "kind": "modified",
+      "hash": "cfaf708a74629200",
+      "bytes": 15354
+    },
+    {
+      "file": "lib/data/industry-2026.ts",
+      "kind": "modified",
+      "hash": "69cc5d439fb9bd48",
+      "bytes": 14718
+    },
+    {
+      "file": "lib/data/seo-portfolio-media.ts",
+      "kind": "modified",
+      "hash": "9588da6e3b130e99",
+      "bytes": 5421
     },
     {
       "file": "package.json",
       "kind": "modified",
-      "hash": "47a07fd188393a73",
-      "bytes": 7743
+      "hash": "3b62aab9e7e673cd",
+      "bytes": 7838
     },
     {
-      "file": "scripts/audit-client-data-weight.mjs",
-      "kind": "added",
-      "hash": "7753c7094b8fd476",
-      "bytes": 6120
-    },
-    {
-      "file": "scripts/generate-client-data.ts",
-      "kind": "added",
-      "hash": "733665a26f9ef824",
-      "bytes": 6130
+      "file": "scripts/audit-prose-prices.mjs",
+      "kind": "modified",
+      "hash": "a9525506e8c19932",
+      "bytes": 10445
     }
   ]
 }

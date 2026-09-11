@@ -78,7 +78,7 @@ export default function HeavySmokeLargeEventsPageContent() {
         <section className="max-w-3xl" aria-labelledby="heavy-intro-heading">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             תארו לעצמכם כניסה לאולם מוקפת בענן רך. רבים חושבים שעשן זה
-            "ערפל", אבל כדי להגיע לעומק אמיתי נדרש דיוק הנדסי. אצלנו לא
+            &quot;ערפל&quot;, אבל כדי להגיע לעומק אמיתי נדרש דיוק הנדסי. אצלנו לא
             מתפשרים על פחות.
           </p>
         </section>

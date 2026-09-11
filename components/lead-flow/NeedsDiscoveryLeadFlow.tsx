@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MultiStepLeadShell from "@/components/leads/MultiStepLeadShell";
 import PackageTierCards from "@/components/lead-flow/PackageTierCards";
@@ -437,12 +438,12 @@ export default function NeedsDiscoveryLeadFlow({
                 חזרה
               </button>
               <div className="flex flex-col gap-2 sm:flex-row">
-                <a
+                <Link
                   href="/book"
                   className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-5 text-sm font-medium text-foreground"
                 >
                   קביעת תאריך ביומן
-                </a>
+                </Link>
                 <button
                   type="button"
                   onClick={submitWa}

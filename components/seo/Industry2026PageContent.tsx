@@ -13,6 +13,7 @@ import {
   INDUSTRY_2026_OFFERS,
   INDUSTRY_2026_PATHNAME,
   INDUSTRY_2026_QUICK_ANSWERS,
+  INDUSTRY_2026_SPEAKABLE_ANSWER,
   INDUSTRY_2026_SECTIONS,
   INDUSTRY_2026_TITLE,
   INDUSTRY_2026_UPDATED_AT,
@@ -72,8 +73,7 @@ export default function Industry2026PageContent() {
               {INDUSTRY_2026_TITLE}
             </h1>
             <p className="text-lead mx-auto mt-4 max-w-3xl text-muted-foreground" data-speakable>
-              הקלטת שיר מתחילה ב-590 ₪, פודקאסט אודיו ב-950 ₪, קליפ מלא ב-4,500 ₪
-              ואטרקציה בודדת ב-1,750 ₪ - לפני מע&quot;מ.
+              {INDUSTRY_2026_SPEAKABLE_ANSWER}
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               ריכוז אחד לשאלות &quot;כמה עולה&quot; ב-2026, מבוסס על מחירון האתר ועל טווחי

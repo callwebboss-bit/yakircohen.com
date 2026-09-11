@@ -55,6 +55,14 @@ export type Industry2026FaqItem = {
   answer: string;
 };
 
+/* מחיר קטלוג כטקסט לפרוזה. נוסף אחרי שמחירי האטרקציות עודכנו בקטלוג
+   ל-1,695 / 3,051 / 4,322 ותשע מחרוזות פרוזה נשארו על הערכים הישנים,
+   כולל הפסקה המסומנת data-speakable בעמוד הזה. פרוזה שמצטטת מחיר קטלוג
+   חייבת לגזור אותו, לא לחזור עליו. */
+function nisEx(id: PriceItemId): string {
+  return `${getExVat(id).toLocaleString("he-IL")} ₪`;
+}
+
 function buildCatalogRow(id: PriceItemId, overrides?: { note?: string }): Industry2026PriceRow {
   const item = getPriceById(id);
   const display = formatPriceScopeDisplay({
@@ -98,10 +106,18 @@ export const INDUSTRY_2026_METHODOLOGY = [
 export const INDUSTRY_2026_CITATION =
   `מקור לציטוט: יקיר כהן, נתוני תעשייה 2026, ${absoluteUrl(INDUSTRY_2026_SLUG)}`;
 
+/* פסקת התשובה המסומנת data-speakable בראש העמוד. היא הייתה קשיחה ב-JSX
+   והצהירה 1,750 ₪ לאטרקציה בזמן שהטבלה מתחתיה, סכמת ה-FAQ ו-llms.txt
+   כולם אמרו 1,695. זה העמוד שנבנה כדי להיות מצוטט, ולכן דווקא כאן אסור
+   שיהיה מספר שלא נגזר מהקטלוג. */
+export const INDUSTRY_2026_SPEAKABLE_ANSWER =
+  `הקלטת שיר מתחילה ב-${nisEx("blessing_recording")}, פודקאסט אודיו ב-${nisEx("podcast_audio")}, ` +
+  `קליפ מלא ב-${nisEx("full_production_clip")} ואטרקציה בודדת ב-${nisEx("event_attraction_1")} - לפני מע"מ.`;
+
 export const INDUSTRY_2026_QUICK_ANSWERS = [
   "הקלטת שיר באולפן מתחילה ב-590 ₪ לברכה, 990 ₪ לשיר מוכן ו-3,500 ₪ לסינגל מקורי - לפני מע\"מ.",
   "קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.",
-  "אטרקציה בודדת לאירוע מתחילה ב-1,750 ₪, וחבילת שלוש אטרקציות ב-4,450 ₪ - לפני מע\"מ.",
+  `אטרקציה בודדת לאירוע מתחילה ב-${nisEx("event_attraction_1")}, וחבילת שלוש אטרקציות ב-${nisEx("event_attraction_3")} - לפני מע"מ.`,
   "פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\"מ.",
 ] as const;
 
@@ -170,7 +186,7 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
     kicker: "אירועים",
     title: "כמה עולות אטרקציות לאירוע ב-2026?",
     intro:
-      "אטרקציה בודדת לאירוע מתחילה ב-1,750 ₪, חבילת שתי אטרקציות ב-3,200 ₪, וחבילת שלוש אטרקציות ב-4,450 ₪ - לפני מע\"מ.",
+      `אטרקציה בודדת לאירוע מתחילה ב-${nisEx("event_attraction_1")}, חבילת שתי אטרקציות ב-${nisEx("event_attraction_2")}, וחבילת שלוש אטרקציות ב-${nisEx("event_attraction_3")} - לפני מע"מ.`,
     note:
       "העלות תלויה בעיקר במספר האפקטים, אישורי האולם, שעת ההפעלה והאם צריך צוות הפעלה צמוד לאורך האירוע.",
     rows: [
