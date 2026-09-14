@@ -9,8 +9,16 @@
  * מה הוא בודק לכל כתובת ב-HTML הבנוי:
  *   title · meta description · canonical · meta robots · hreflang
  *   h1 (טקסט מלא) · מתאר h2-h4 · og:image
- *   סט הקישורים הפנימיים · ספירת מילים גלויות
+ *   קישורים יוצאים · קישורים נכנסים · ספירת מילים גלויות
+ *   תמונות וכיסוי alt
  *   סוגי ה-@type ב-JSON-LD · ומפתחות המאפיינים בכל סוג
+ * ובנוסף, ברמת האתר: מספר וסט הכתובות במפת האתר, תוכן robots.txt,
+ * ומספר הכתובות ב-llms.txt.
+ *
+ * למה קישורים נכנסים ולא רק יוצאים: קישור פנימי הוא אות כוח לעמוד
+ * שמקבל אותו. מחיקת רכיב ניווט אחד יכולה להוריד חמישים קישורים נכנסים
+ * מעמוד מסוים, ובדיקה שסופרת רק את הקישורים שיוצאים מכל עמוד תדווח על
+ * חמישים ירידות קטנות במקום על נזק אחד גדול ומרוכז.
  *
  * למה גם מפתחות המאפיינים ולא רק הסוגים: סבב התכנון גילה פריט שהיה
  * מסיר את dateModified מ-72 צמתי BlogPosting. סט הסוגים לא היה משתנה,
@@ -181,6 +189,7 @@ function extract(file) {
   const html = readFileSync(file, "utf8");
   const titleM = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const ld = jsonLd(html);
+  const imgs = [...html.matchAll(/<img\b[^>]*>/gi)];
   return {
     title: titleM ? stripTags(titleM[1]) : null,
     description: metaByName(html, "description"),
@@ -194,7 +203,23 @@ function extract(file) {
     words: visibleWordCount(html),
     ldTypes: ld.types,
     ldProps: ld.props,
+    images: imgs.length,
+    imagesWithAlt: imgs.filter((m) => /alt="[^"]+"/.test(m[0])).length,
     suspenseHidden: /<div hidden id="S:/.test(html),
+  };
+}
+
+/* אותות ברמת האתר, לא ברמת העמוד. שלושתם קבצים שסורקים קוראים
+   ישירות, ואף אחד מהם לא מופיע ב-HTML של עמוד כלשהו. */
+function siteSignals() {
+  const read = (f) => (existsSync(f) ? readFileSync(f, "utf8") : null);
+  const sitemap = read(".next/server/app/sitemap.xml.body") || read(".next/server/app/sitemap.xml");
+  const robots = read(".next/server/app/robots.txt.body") || read(".next/server/app/robots.txt");
+  const llms = read("public/llms.txt");
+  return {
+    sitemapUrls: sitemap ? [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort() : null,
+    robotsText: robots ? robots.replace(/\s+/g, " ").trim() : null,
+    llmsUrlCount: llms ? (llms.match(/yakircohen\.com/g) || []).length : null,
   };
 }
 
@@ -212,6 +237,21 @@ const pages = {};
 for (const f of files) pages[toUrl(f)] = extract(f);
 const urlCount = Object.keys(pages).length;
 
+/* גרף הקישורים הפנימי. לכל כתובת, כמה עמודים אחרים מקשרים אליה.
+   מחושב אחרי שכל העמודים נקראו, כי אי אפשר לדעת את זה מעמוד אחד. */
+{
+  const inbound = {};
+  for (const url of Object.keys(pages)) inbound[url] = 0;
+  for (const [from, page] of Object.entries(pages)) {
+    for (const to of page.links) {
+      if (to !== from && inbound[to] !== undefined) inbound[to] += 1;
+    }
+  }
+  for (const [url, page] of Object.entries(pages)) page.inbound = inbound[url];
+}
+
+const site = siteSignals();
+
 if (urlCount === 0) {
   console.error("\naudit:seo-diff");
   console.error("  ✗ אפס כתובות נמצאו ב-" + BUILD_DIR + ". בדיקה שעוברת על אפס עמודים היא בדיקה מזויפת.\n");
@@ -222,7 +262,7 @@ if (WRITE) {
   mkdirSync("scripts/baselines", { recursive: true });
   writeFileSync(
     BASELINE,
-    JSON.stringify({ capturedAt: new Date().toISOString(), urlCount, pages }, null, 2) + "\n",
+    JSON.stringify({ capturedAt: new Date().toISOString(), urlCount, site, pages }, null, 2) + "\n",
   );
   console.log("\naudit:seo-diff");
   console.log("  בסיס נכתב: " + BASELINE);
@@ -276,6 +316,12 @@ for (const [url, was] of Object.entries(base.pages)) {
   const lostLinks = was.links.filter((l) => !now.links.includes(l));
   if (lostLinks.length) note(url, "links", lostLinks.length + " קישורים פנימיים אבדו: " + lostLinks.slice(0, 5).join(", "));
   if (now.words < was.words) note(url, "words", was.words + " -> " + now.words + " מילים");
+  if (typeof was.inbound === "number" && now.inbound < was.inbound)
+    note(url, "inbound", "קישורים נכנסים: " + was.inbound + " -> " + now.inbound);
+  if (typeof was.images === "number" && now.images < was.images)
+    note(url, "images", "תמונות: " + was.images + " -> " + now.images);
+  if (typeof was.imagesWithAlt === "number" && now.imagesWithAlt < was.imagesWithAlt)
+    note(url, "imagesWithAlt", "תמונות עם alt: " + was.imagesWithAlt + " -> " + now.imagesWithAlt);
   const lostTypes = was.ldTypes.filter((t) => !now.ldTypes.includes(t));
   if (lostTypes.length) note(url, "ldTypes", "סוגי סכמה שאבדו: " + lostTypes.join(", "));
   for (const [type, keys] of Object.entries(was.ldProps)) {
@@ -283,6 +329,22 @@ for (const [url, was] of Object.entries(base.pages)) {
     const lostKeys = keys.filter((k) => !nowKeys.includes(k));
     if (lostKeys.length) note(url, "ldProps", type + " איבד מאפיינים: " + lostKeys.join(", "));
   }
+}
+
+/* אותות ברמת האתר. בסיס ישן בלי הסעיף הזה מדלג ואומר זאת. */
+if (base.site) {
+  const b = base.site;
+  if (b.sitemapUrls && site.sitemapUrls) {
+    const lost = b.sitemapUrls.filter((u) => !site.sitemapUrls.includes(u));
+    if (lost.length)
+      note("site", "sitemap", lost.length + " כתובות ירדו ממפת האתר: " + lost.slice(0, 5).join(", "));
+  }
+  if (b.robotsText && site.robotsText && b.robotsText !== site.robotsText)
+    note("site", "robots", "robots.txt השתנה");
+  if (typeof b.llmsUrlCount === "number" && site.llmsUrlCount < b.llmsUrlCount)
+    note("site", "llms", "כתובות ב-llms.txt: " + b.llmsUrlCount + " -> " + site.llmsUrlCount);
+} else {
+  console.log("  הערה: הבסיס נלכד לפני שנוספו אותות ברמת האתר. לכתוב בסיס מחדש כדי לכסות אותם.");
 }
 
 const added = Object.keys(pages).filter((u) => !base.pages[u]);
@@ -323,4 +385,7 @@ if (failed) {
   process.exit(1);
 }
 
-console.log("  תקין. אף כותרת, קנוניקל, h1, קישור פנימי, מילה או מאפיין סכמה לא אבד.\n");
+console.log(
+  "  תקין. אף כותרת, קנוניקל, h1, קישור יוצא או נכנס, מילה, תמונה, alt,\n" +
+    "  מאפיין סכמה, כתובת במפת האתר או שורה ב-robots לא אבדו.\n",
+);

@@ -1,6 +1,334 @@
 {
-  "capturedAt": "2026-09-14T15:34:53.601Z",
+  "capturedAt": "2026-09-14T15:47:04.577Z",
   "urlCount": 316,
+  "site": {
+    "sitemapUrls": [
+      "https://yakircohen.com",
+      "https://yakircohen.com/about",
+      "https://yakircohen.com/about/faq",
+      "https://yakircohen.com/academy",
+      "https://yakircohen.com/academy/ai-music",
+      "https://yakircohen.com/academy/dj-course",
+      "https://yakircohen.com/academy/hebrew-lessons",
+      "https://yakircohen.com/academy/home-studio",
+      "https://yakircohen.com/academy/music-production",
+      "https://yakircohen.com/academy/private-lessons",
+      "https://yakircohen.com/academy/stuttering-course",
+      "https://yakircohen.com/academy/ulpan",
+      "https://yakircohen.com/academy/voiceover",
+      "https://yakircohen.com/academy/workshops",
+      "https://yakircohen.com/accessibility",
+      "https://yakircohen.com/areas",
+      "https://yakircohen.com/blog",
+      "https://yakircohen.com/blog/5-things-before-choosing-wedding-dj",
+      "https://yakircohen.com/blog/ai-audio-restoration-guide",
+      "https://yakircohen.com/blog/ai-audio-restoration-real-examples",
+      "https://yakircohen.com/blog/audio-branding-for-business",
+      "https://yakircohen.com/blog/audiobook-recording-israel-guide",
+      "https://yakircohen.com/blog/bar-mitzvah-recording-price-guide",
+      "https://yakircohen.com/blog/bar-mitzvah-september-recording-tips",
+      "https://yakircohen.com/blog/bar-mitzvah-song-recording-guide",
+      "https://yakircohen.com/blog/bat-mitzvah-clip-guide",
+      "https://yakircohen.com/blog/bride-groom-blessing-recording-tips",
+      "https://yakircohen.com/blog/business-podcast-roi-2026",
+      "https://yakircohen.com/blog/cheap-dj-for-a-wedding",
+      "https://yakircohen.com/blog/chuppah-song-guide-couples",
+      "https://yakircohen.com/blog/cold-fireworks-events",
+      "https://yakircohen.com/blog/commercial-voiceover-guide",
+      "https://yakircohen.com/blog/confetti-cannon-events-guide",
+      "https://yakircohen.com/blog/corporate-content-studio-guide",
+      "https://yakircohen.com/blog/corporate-event-dj-guide",
+      "https://yakircohen.com/blog/corporate-song-production-guide",
+      "https://yakircohen.com/blog/dj-course-guide",
+      "https://yakircohen.com/blog/dj-course-vs-private-lesson",
+      "https://yakircohen.com/blog/dj-for-bar-mitzvah-cost",
+      "https://yakircohen.com/blog/dj-selection-guide-events",
+      "https://yakircohen.com/blog/dj-summer-weddings-2026",
+      "https://yakircohen.com/blog/event-filming-guide",
+      "https://yakircohen.com/blog/events-booking-guide",
+      "https://yakircohen.com/blog/first-podcast-without-wasting-money",
+      "https://yakircohen.com/blog/fix-phone-recording-noise",
+      "https://yakircohen.com/blog/giant-balloons-for-events",
+      "https://yakircohen.com/blog/headphones-purpose-guide",
+      "https://yakircohen.com/blog/heavy-smoke-vs-light-smoke-events",
+      "https://yakircohen.com/blog/hebrew-tutor-modiin-guide",
+      "https://yakircohen.com/blog/home-mic-guide",
+      "https://yakircohen.com/blog/home-recording-7-mistakes",
+      "https://yakircohen.com/blog/home-studio-vs-professional-studio-2026",
+      "https://yakircohen.com/blog/how-online-audio-service-works",
+      "https://yakircohen.com/blog/how-to-book-studio-modiin",
+      "https://yakircohen.com/blog/how-to-choose-wedding-dj-israel",
+      "https://yakircohen.com/blog/how-to-record-at-home",
+      "https://yakircohen.com/blog/live-singer-sound-engineer-guide",
+      "https://yakircohen.com/blog/mixing-mastering-explained",
+      "https://yakircohen.com/blog/mixing-vs-mastering-explained",
+      "https://yakircohen.com/blog/mobile-recording-studio-guide",
+      "https://yakircohen.com/blog/mp3-vs-wav-studio-guide",
+      "https://yakircohen.com/blog/no-speech-therapist-modiin",
+      "https://yakircohen.com/blog/on-site-podcast-studio-business",
+      "https://yakircohen.com/blog/online-audio-service-complaints",
+      "https://yakircohen.com/blog/original-song-what-to-prepare",
+      "https://yakircohen.com/blog/phone-voiceover-business",
+      "https://yakircohen.com/blog/pitch-correction-guide",
+      "https://yakircohen.com/blog/pitch-correction-vs-autotune",
+      "https://yakircohen.com/blog/podcast-booking-guide",
+      "https://yakircohen.com/blog/podcast-editing-complaints",
+      "https://yakircohen.com/blog/podcast-for-small-business-worth-it",
+      "https://yakircohen.com/blog/podcast-needs-professional-editing",
+      "https://yakircohen.com/blog/podcast-production-guide-israel",
+      "https://yakircohen.com/blog/podcast-studio-vs-home-recording",
+      "https://yakircohen.com/blog/prepare-voice-podcast-studio",
+      "https://yakircohen.com/blog/professional-voiceover-for-business",
+      "https://yakircohen.com/blog/ready-for-records",
+      "https://yakircohen.com/blog/record-song-10-minutes-ai",
+      "https://yakircohen.com/blog/recorded-blessing-gift",
+      "https://yakircohen.com/blog/recorded-song-birthday-gift",
+      "https://yakircohen.com/blog/rescue-damaged-recording",
+      "https://yakircohen.com/blog/singer-amplification-booking",
+      "https://yakircohen.com/blog/sound-recovery-ai-podcast",
+      "https://yakircohen.com/blog/street-hebrew-vs-government-ulpan",
+      "https://yakircohen.com/blog/studio-guide",
+      "https://yakircohen.com/blog/studio-recording-complaints",
+      "https://yakircohen.com/blog/studio-recording-cost-israel-2026",
+      "https://yakircohen.com/blog/studio-session-prep-checklist",
+      "https://yakircohen.com/blog/studio-vs-home-fix-cost",
+      "https://yakircohen.com/blog/tips-for-perfect-wedding",
+      "https://yakircohen.com/blog/unique-gift-recording-ideas-2026",
+      "https://yakircohen.com/blog/vhs-tape-digitization-ai-guide",
+      "https://yakircohen.com/blog/vocal-tuning-for-everyone",
+      "https://yakircohen.com/blog/voiceover-business-complaints",
+      "https://yakircohen.com/blog/wedding-dj-selection-guide-2026",
+      "https://yakircohen.com/blog/wedding-effects-what-worth-it",
+      "https://yakircohen.com/blog/wedding-photography-and-sound-guide",
+      "https://yakircohen.com/blog/wedding-photography-guide",
+      "https://yakircohen.com/blog/wedding-smoke-machine-guide",
+      "https://yakircohen.com/blog/wedding-song-2026",
+      "https://yakircohen.com/blog/wedding-songs-chuppah",
+      "https://yakircohen.com/blog/wedding-surprise-song-story",
+      "https://yakircohen.com/blog/when-ai-audio-restoration-enough",
+      "https://yakircohen.com/blog/zoom-call-to-radio-quality",
+      "https://yakircohen.com/book",
+      "https://yakircohen.com/business",
+      "https://yakircohen.com/business/audio-branding",
+      "https://yakircohen.com/business/audiobooks",
+      "https://yakircohen.com/business/content-studio",
+      "https://yakircohen.com/business/corporate-songs",
+      "https://yakircohen.com/business/employer-branding",
+      "https://yakircohen.com/business/on-site-studio",
+      "https://yakircohen.com/business/professional-voiceover",
+      "https://yakircohen.com/business/reel-factory",
+      "https://yakircohen.com/business/social-media",
+      "https://yakircohen.com/clinic",
+      "https://yakircohen.com/contact",
+      "https://yakircohen.com/data/industry-2026",
+      "https://yakircohen.com/dj-events/cities/jerusalem",
+      "https://yakircohen.com/dj-events/cities/rehovot",
+      "https://yakircohen.com/dj-events/cities/shoham",
+      "https://yakircohen.com/events",
+      "https://yakircohen.com/events/attractions",
+      "https://yakircohen.com/events/attractions/beit-shemesh",
+      "https://yakircohen.com/events/attractions/bubble-machine",
+      "https://yakircohen.com/events/attractions/bubble-machine/smoke-bubble-machine-events",
+      "https://yakircohen.com/events/attractions/cold-fireworks",
+      "https://yakircohen.com/events/attractions/confetti-cannon",
+      "https://yakircohen.com/events/attractions/giant-balloons",
+      "https://yakircohen.com/events/attractions/jerusalem",
+      "https://yakircohen.com/events/attractions/shoham",
+      "https://yakircohen.com/events/attractions/smoke-cannons-for-events",
+      "https://yakircohen.com/events/attractions/wedding-smoking-machine",
+      "https://yakircohen.com/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+      "https://yakircohen.com/events/bar-mitzvah",
+      "https://yakircohen.com/events/dj-events",
+      "https://yakircohen.com/events/dj/pre-built-sets",
+      "https://yakircohen.com/events/dj/pre-built-sets",
+      "https://yakircohen.com/events/dj/voice-tags",
+      "https://yakircohen.com/events/dj/voice-tags",
+      "https://yakircohen.com/events/equipment",
+      "https://yakircohen.com/events/equipment/dry-hire",
+      "https://yakircohen.com/events/equipment/dry-hire",
+      "https://yakircohen.com/events/equipment/faq",
+      "https://yakircohen.com/events/equipment/singer-amplification",
+      "https://yakircohen.com/events/equipment/system-tuning",
+      "https://yakircohen.com/events/equipment/system-tuning",
+      "https://yakircohen.com/events/host",
+      "https://yakircohen.com/events/host/faq",
+      "https://yakircohen.com/events/stage-led-dj",
+      "https://yakircohen.com/events/wedding-attractions-packages",
+      "https://yakircohen.com/gallery",
+      "https://yakircohen.com/glossary",
+      "https://yakircohen.com/glossary/44-1-vs-48",
+      "https://yakircohen.com/glossary/acoustic-room",
+      "https://yakircohen.com/glossary/announcements",
+      "https://yakircohen.com/glossary/audio-interface",
+      "https://yakircohen.com/glossary/audio-logo",
+      "https://yakircohen.com/glossary/audiobook",
+      "https://yakircohen.com/glossary/autotune",
+      "https://yakircohen.com/glossary/beatmatch",
+      "https://yakircohen.com/glossary/bit-depth",
+      "https://yakircohen.com/glossary/bounce",
+      "https://yakircohen.com/glossary/bubble-machine",
+      "https://yakircohen.com/glossary/buffer-size",
+      "https://yakircohen.com/glossary/bulk-production",
+      "https://yakircohen.com/glossary/camelot",
+      "https://yakircohen.com/glossary/cdj",
+      "https://yakircohen.com/glossary/clipping",
+      "https://yakircohen.com/glossary/cold-fireworks",
+      "https://yakircohen.com/glossary/comping",
+      "https://yakircohen.com/glossary/compression",
+      "https://yakircohen.com/glossary/condenser-microphone",
+      "https://yakircohen.com/glossary/confetti-cannon",
+      "https://yakircohen.com/glossary/content-repurposing",
+      "https://yakircohen.com/glossary/cue",
+      "https://yakircohen.com/glossary/daw",
+      "https://yakircohen.com/glossary/de-click",
+      "https://yakircohen.com/glossary/de-esser",
+      "https://yakircohen.com/glossary/de-hum",
+      "https://yakircohen.com/glossary/de-reverb",
+      "https://yakircohen.com/glossary/delay",
+      "https://yakircohen.com/glossary/di-box",
+      "https://yakircohen.com/glossary/dj",
+      "https://yakircohen.com/glossary/dry-hire",
+      "https://yakircohen.com/glossary/eq",
+      "https://yakircohen.com/glossary/event-operator",
+      "https://yakircohen.com/glossary/formant",
+      "https://yakircohen.com/glossary/gain-staging",
+      "https://yakircohen.com/glossary/headroom",
+      "https://yakircohen.com/glossary/heavy-smoke",
+      "https://yakircohen.com/glossary/hold-message",
+      "https://yakircohen.com/glossary/isolation",
+      "https://yakircohen.com/glossary/ivr",
+      "https://yakircohen.com/glossary/jingle",
+      "https://yakircohen.com/glossary/latency",
+      "https://yakircohen.com/glossary/limiter",
+      "https://yakircohen.com/glossary/lufs",
+      "https://yakircohen.com/glossary/mashup",
+      "https://yakircohen.com/glossary/mastering",
+      "https://yakircohen.com/glossary/melodyne",
+      "https://yakircohen.com/glossary/midi",
+      "https://yakircohen.com/glossary/mixing",
+      "https://yakircohen.com/glossary/mobile-studio",
+      "https://yakircohen.com/glossary/monitor-mix",
+      "https://yakircohen.com/glossary/monitor-speakers",
+      "https://yakircohen.com/glossary/mono",
+      "https://yakircohen.com/glossary/mp3",
+      "https://yakircohen.com/glossary/noise-removal",
+      "https://yakircohen.com/glossary/normalization",
+      "https://yakircohen.com/glossary/pa-system",
+      "https://yakircohen.com/glossary/phantom-power",
+      "https://yakircohen.com/glossary/phase",
+      "https://yakircohen.com/glossary/pitch-correction",
+      "https://yakircohen.com/glossary/playback",
+      "https://yakircohen.com/glossary/podcast",
+      "https://yakircohen.com/glossary/podcast-editing",
+      "https://yakircohen.com/glossary/pop-filter",
+      "https://yakircohen.com/glossary/preamp",
+      "https://yakircohen.com/glossary/recording-studio",
+      "https://yakircohen.com/glossary/reverb",
+      "https://yakircohen.com/glossary/rider",
+      "https://yakircohen.com/glossary/rss",
+      "https://yakircohen.com/glossary/sample-rate",
+      "https://yakircohen.com/glossary/saturation",
+      "https://yakircohen.com/glossary/smoke-bubbles",
+      "https://yakircohen.com/glossary/smoke-cannons",
+      "https://yakircohen.com/glossary/smoke-machine",
+      "https://yakircohen.com/glossary/soundcheck",
+      "https://yakircohen.com/glossary/source-separation",
+      "https://yakircohen.com/glossary/stage-vocal-amplification",
+      "https://yakircohen.com/glossary/stems",
+      "https://yakircohen.com/glossary/stereo",
+      "https://yakircohen.com/glossary/stereo-imaging",
+      "https://yakircohen.com/glossary/studio-in-a-box",
+      "https://yakircohen.com/glossary/tempo-bpm",
+      "https://yakircohen.com/glossary/transcription",
+      "https://yakircohen.com/glossary/true-peak",
+      "https://yakircohen.com/glossary/vocal-track",
+      "https://yakircohen.com/glossary/voice-cloning",
+      "https://yakircohen.com/glossary/voiceover",
+      "https://yakircohen.com/glossary/vst",
+      "https://yakircohen.com/glossary/wav",
+      "https://yakircohen.com/glossary/xlr",
+      "https://yakircohen.com/matanot",
+      "https://yakircohen.com/online",
+      "https://yakircohen.com/online/audio-music",
+      "https://yakircohen.com/online/image-design",
+      "https://yakircohen.com/online/legacy-digitization",
+      "https://yakircohen.com/online/mashup-fixer",
+      "https://yakircohen.com/online/mashup-fixer",
+      "https://yakircohen.com/online/online-ai-pricing",
+      "https://yakircohen.com/online/podcast-voice",
+      "https://yakircohen.com/online/transcription",
+      "https://yakircohen.com/online/video-content",
+      "https://yakircohen.com/online/vocal-fix",
+      "https://yakircohen.com/online/vocal-fix/eq-fix",
+      "https://yakircohen.com/online/vocal-fix/mixing",
+      "https://yakircohen.com/online/vocal-fix/noise-removal",
+      "https://yakircohen.com/online/vocal-fix/photo-enhance",
+      "https://yakircohen.com/online/vocal-fix/pitch-correction",
+      "https://yakircohen.com/online/vocal-fix/podcast-repair",
+      "https://yakircohen.com/online/vocal-fix/volume-balance",
+      "https://yakircohen.com/online/voice-cloning",
+      "https://yakircohen.com/packages",
+      "https://yakircohen.com/photo-slideshow",
+      "https://yakircohen.com/photography",
+      "https://yakircohen.com/photography/events",
+      "https://yakircohen.com/photography/wedding",
+      "https://yakircohen.com/podcast",
+      "https://yakircohen.com/podcast/beit-shemesh",
+      "https://yakircohen.com/podcast/bulk-production",
+      "https://yakircohen.com/podcast/bulk-production",
+      "https://yakircohen.com/podcast/corporate-podcast",
+      "https://yakircohen.com/podcast/faq",
+      "https://yakircohen.com/podcast/jerusalem",
+      "https://yakircohen.com/podcast/mobile-podcast-at-home",
+      "https://yakircohen.com/podcast/podcast-editing",
+      "https://yakircohen.com/podcast/podcast-production",
+      "https://yakircohen.com/podcast/podcast-recording",
+      "https://yakircohen.com/podcast/podcast-studio-modiin",
+      "https://yakircohen.com/podcast/podcast-with-grandpa",
+      "https://yakircohen.com/podcast/rehovot",
+      "https://yakircohen.com/podcast/self-service-studio",
+      "https://yakircohen.com/podcast/shoham",
+      "https://yakircohen.com/podcast/studio-in-a-box",
+      "https://yakircohen.com/podcast/studio-in-a-box",
+      "https://yakircohen.com/portfolio",
+      "https://yakircohen.com/pricing",
+      "https://yakircohen.com/privacy",
+      "https://yakircohen.com/pro",
+      "https://yakircohen.com/pro/event-index",
+      "https://yakircohen.com/shop",
+      "https://yakircohen.com/start",
+      "https://yakircohen.com/studio",
+      "https://yakircohen.com/studio/blessings",
+      "https://yakircohen.com/studio/blessings/bar-mitzvah",
+      "https://yakircohen.com/studio/blessings/bat-mitzvah-clip",
+      "https://yakircohen.com/studio/blessings/bride-groom-blessing",
+      "https://yakircohen.com/studio/blessings/video-clip",
+      "https://yakircohen.com/studio/mobile-studio",
+      "https://yakircohen.com/studio/pricing",
+      "https://yakircohen.com/studio/recording-song-modiin",
+      "https://yakircohen.com/studio/recording-song-modiin/gifts",
+      "https://yakircohen.com/studio/recording-song-modiin/gifts/funny-ringtone",
+      "https://yakircohen.com/studio/recording-studio",
+      "https://yakircohen.com/studio/studio-beit-shemesh",
+      "https://yakircohen.com/studio/studio-jerusalem",
+      "https://yakircohen.com/studio/studio-rehovot",
+      "https://yakircohen.com/studio/studio-shoham",
+      "https://yakircohen.com/studio/virtual-tour",
+      "https://yakircohen.com/stuttering",
+      "https://yakircohen.com/sustainability",
+      "https://yakircohen.com/terms",
+      "https://yakircohen.com/testimonials",
+      "https://yakircohen.com/video",
+      "https://yakircohen.com/video/corporate-video",
+      "https://yakircohen.com/video/event-filming",
+      "https://yakircohen.com/video/presentation",
+      "https://yakircohen.com/voiceover",
+      "https://yakircohen.com/voiceover/course",
+      "https://yakircohen.com/voiceover/services"
+    ],
+    "robotsText": "User-Agent: * Allow: / Disallow: /api/ Disallow: /admin/ Disallow: /thank-you User-Agent: GPTBot User-Agent: OAI-SearchBot User-Agent: ChatGPT-User User-Agent: PerplexityBot User-Agent: ClaudeBot User-Agent: Claude-Web User-Agent: Applebot-Extended User-Agent: Google-Extended Allow: / Disallow: /api/ Disallow: /admin/ Disallow: /thank-you Sitemap: https://yakircohen.com/sitemap.xml",
+    "llmsUrlCount": 54
+  },
   "pages": {
     "/about/faq": {
       "title": "שאלות נפוצות | יקיר כהן הפקות",
@@ -362,7 +690,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/about": {
       "title": "אודות | יקיר כהן הפקות",
@@ -740,7 +1071,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 6,
+      "suspenseHidden": false,
+      "inbound": 90
     },
     "/academy/ai-music": {
       "title": "קורס AI במוזיקה | לימוד ושירותים בליווי | יקיר כהן הפקות",
@@ -1104,7 +1438,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/academy/dj-course": {
       "title": "קורס DJ מקצועי | יקיר כהן הפקות",
@@ -1466,7 +1803,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 1,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/hebrew-lessons": {
       "title": "Hebrew Teacher in Modiin | Private Hebrew Lessons | Yakir Cohen",
@@ -1850,7 +2190,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/academy/home-studio": {
       "title": "ייעוץ אקוסטיקה ובניית אולפן | פודקאסט ביתי ומשדר | יקיר כהן הפקות",
@@ -2210,7 +2553,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 4,
+      "imagesWithAlt": 2,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/music-production": {
       "title": "קורס יצירה מוזיקלית | יקיר כהן הפקות",
@@ -2563,7 +2909,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/private-lessons": {
       "title": "שיעור פרטי במוזיקה | יקיר כהן הפקות",
@@ -2917,7 +3266,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/stuttering-course": {
       "title": "קורס הפסקת גמגום | שיטת NeverMind | יקיר כהן הפקות",
@@ -3277,7 +3629,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/ulpan": {
       "title": "שיעור פרטי עברית במודיעין | מורה אחד על אחד | יקיר כהן הפקות",
@@ -3707,7 +4062,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 4,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy/voiceover": {
       "title": "קורס קריינות ודיבור נכון | יקיר כהן הפקות",
@@ -4076,7 +4434,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/academy/workshops": {
       "title": "סדנאות תוכן וטיקטוק לצוותים | יקיר כהן הפקות",
@@ -4479,7 +4840,10 @@
           "geoRadius"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/academy": {
       "title": "האקדמיה | לימוד DJ, הפקה מוזיקלית ו-AI | יקיר כהן הפקות",
@@ -4884,7 +5248,10 @@
           "text"
         ]
       },
-      "suspenseHidden": true
+      "images": 5,
+      "imagesWithAlt": 3,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/accessibility": {
       "title": "הצהרת נגישות | יקיר כהן הפקות",
@@ -5226,7 +5593,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/areas": {
       "title": "אזורי שירות והגעה | מודיעין, ירושלים, שוהם, פתח תקווה והמרכז | יקיר כהן הפקות",
@@ -5580,7 +5950,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/5-things-before-choosing-wedding-dj": {
       "title": "5 דברים שצריך לדעת לפני שבוחרים DJ לחתונה | יקיר כהן הפקות",
@@ -5945,7 +6318,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/ai-audio-restoration-guide": {
       "title": "שחזור אודיו AI בישראל 2026 | תיקון הקלטה ישנה וניקוי רעשים | יקיר כהן הפקות",
@@ -6332,7 +6708,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 12
     },
     "/blog/ai-audio-restoration-real-examples": {
       "title": "כיצד AI משפר הקלטה ישנה - דוגמאות אמיתיות | יקיר כהן הפקות",
@@ -6697,7 +7076,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/audio-branding-for-business": {
       "title": "איך העסק שלכם נשמע? | יקיר כהן הפקות",
@@ -7062,7 +7444,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/audiobook-recording-israel-guide": {
       "title": "איך מקליטים ספר שמע בישראל | יקיר כהן הפקות",
@@ -7422,7 +7807,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/bar-mitzvah-recording-price-guide": {
       "title": "כמה עולה הקלטת שיר לבר מצווה - ומה משפיע על המחיר | יקיר כהן הפקות",
@@ -7788,7 +8176,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/bar-mitzvah-september-recording-tips": {
       "title": "הקלטת שיר לבר מצווה בספטמבר - מה להכין ומתי לקבוע | יקיר כהן הפקות",
@@ -8152,7 +8543,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/bar-mitzvah-song-recording-guide": {
       "title": "הקלטת שיר לבר מצווה: המדריך שהורים צריכים לקרוא | 2026 | יקיר כהן הפקות",
@@ -8514,7 +8908,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/bat-mitzvah-clip-guide": {
       "title": "קליפ בת מצווה 2026 | מדריך להורים - מהרעיון ועד ההקרנה | יקיר כהן הפקות",
@@ -8887,7 +9284,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/bride-groom-blessing-recording-tips": {
       "title": "איך מקליטים ברכת כלה מרגשת בלי לחץ | מדריך ומחירים 2026 | יקיר כהן הפקות",
@@ -9248,7 +9648,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/business-podcast-roi-2026": {
       "title": "פודקאסט לעסק ב-2026: האם עדיין שווה להשקיע בו | יקיר כהן הפקות",
@@ -9610,7 +10013,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/cheap-dj-for-a-wedding": {
       "title": "תקליטן זול לחתונה: ללוטו או לאירוע? המדריך שלא יגידו לכם | יקיר כהן הפקות",
@@ -9972,7 +10378,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/blog/chuppah-song-guide-couples": {
       "title": "איך להכין שיר לחופה 2026 | מדריך לזוגות - בחירה, עיבוד והקלטה | יקיר כהן הפקות",
@@ -10347,7 +10756,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/cold-fireworks-events": {
       "title": "זיקוקים קרים לאירוע - מה זה, מה מותר ואיך מזמינים | יקיר כהן | יקיר כהן הפקות",
@@ -10711,7 +11123,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/commercial-voiceover-guide": {
       "title": "קריינות מסחרית - כמה עולה, מה כלול ואיך בוחרים קריין | יקיר כהן | יקיר כהן הפקות",
@@ -11075,7 +11490,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/confetti-cannon-events-guide": {
       "title": "תותח קונפטי לאירועים: מה מגיע, כמה עולה ומה הכי מצלם | 2026 | יקיר כהן הפקות",
@@ -11437,7 +11855,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 11
     },
     "/blog/corporate-content-studio-guide": {
       "title": "יום צילום אחד, חודש של רילז: איך סושיאל דאמפ עובד | יקיר כהן הפקות",
@@ -11798,7 +12219,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/corporate-event-dj-guide": {
       "title": "DJ לאירוע חברה: 5 טעויות שמנהלי HR עושים בהזמנת מוזיקה | יקיר כהן הפקות",
@@ -12160,7 +12584,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/corporate-song-production-guide": {
       "title": "שיר לחברה: פרישה, הימנון או הרמת כוסית | יקיר כהן הפקות",
@@ -12520,7 +12947,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/dj-course-guide": {
       "title": "קורס DJ - מה לומדים, כמה עולה ואיך מתחילים | יקיר כהן | יקיר כהן הפקות",
@@ -12885,7 +13315,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/dj-course-vs-private-lesson": {
       "title": "איך לומדים לתקלט? קורס DJ מול שיעורים פרטיים | מחירון 2026 | יקיר כהן הפקות",
@@ -13248,7 +13681,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/dj-for-bar-mitzvah-cost": {
       "title": "כמה עולה DJ לבר מצווה ב-2026? טווח מחירים מעודכן | יקיר כהן הפקות",
@@ -13616,7 +14052,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/dj-selection-guide-events": {
       "title": "איך בוחרים תקליטן לאירוע - מה לשאול, מה להסתכל עליו ומה לא לפספס | יקיר כהן הפקות",
@@ -13980,7 +14419,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/dj-summer-weddings-2026": {
       "title": "DJ לחתונות קיץ 2026 - מה שונה ומה להכין מראש | יקיר כהן הפקות",
@@ -14343,7 +14785,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/event-filming-guide": {
       "title": "צילום וידאו לאירועים - מה מקבלים ומה לבדוק לפני שמזמינים | יקיר כהן הפקות",
@@ -14704,7 +15149,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/events-booking-guide": {
       "title": "איך מזמינים אטרקציות ו-DJ לאירוע - מדריך קצר | יקיר כהן הפקות",
@@ -15068,7 +15516,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/first-podcast-without-wasting-money": {
       "title": "איך להקליט פודקאסט ראשון בלי לבזבז כסף מיותר | מדריך 2026 | יקיר כהן הפקות",
@@ -15430,7 +15881,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/fix-phone-recording-noise": {
       "title": "הקלטת מהנייד ונשמע נורא? הנה מה אפשר להציל | יקיר כהן הפקות",
@@ -15797,7 +16251,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/giant-balloons-for-events": {
       "title": "בלונים ענקיים לאירועים - מה זה, מי צריך ואיך מזמינים | יקיר כהן הפקות",
@@ -16160,7 +16617,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/headphones-purpose-guide": {
       "title": "איך לבחור אוזניות ל-DJ, אולפן ומארז מתנה | יקיר כהן הפקות",
@@ -16526,7 +16986,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/heavy-smoke-vs-light-smoke-events": {
       "title": "מה ההבדל בין עשן כבד לעשן קל לאירוע | יקיר כהן הפקות",
@@ -16891,7 +17354,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/hebrew-tutor-modiin-guide": {
       "title": "איך לבחור מורה פרטי לעברית במודיעין | מדריך 2026 | יקיר כהן הפקות",
@@ -17256,7 +17722,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/home-mic-guide": {
       "title": "מיקרופון ביתי - מה לקנות עם תקציב קטן ולמה זה פחות חשוב ממה שחשבת | יקיר כהן הפקות",
@@ -17619,7 +18088,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/home-recording-7-mistakes": {
       "title": "7 טעויות נפוצות בהקלטה ביתית - ואיך להימנע מהן | יקיר כהן הפקות",
@@ -17989,7 +18461,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/home-studio-vs-professional-studio-2026": {
       "title": "אולפן ביתי מול אולפן מקצועי ב-2026: מה עדיף ולמי | יקיר כהן הפקות",
@@ -18352,7 +18827,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/how-online-audio-service-works": {
       "title": "שולחים קובץ, מקבלים סאונד - ככה עובד השירות המקוון שלי | יקיר כהן הפקות",
@@ -18722,7 +19200,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/how-to-book-studio-modiin": {
       "title": "איך מזמינים הקלטה באולפן במודיעין - מדריך קצר | יקיר כהן הפקות",
@@ -19080,7 +19561,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 17
     },
     "/blog/how-to-choose-wedding-dj-israel": {
       "title": "איך לבחור תקליטן לחתונה? המדריך המלא והמחירון ל-2026 | יקיר כהן הפקות",
@@ -19442,7 +19926,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 12
     },
     "/blog/how-to-record-at-home": {
       "title": "איך להקליט את עצמך בבית - מדריך מעשי לציוד, אקוסטיקה ותוצאה | יקיר כהן הפקות",
@@ -19808,7 +20295,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/live-singer-sound-engineer-guide": {
       "title": "הגברה לזמרים והופעות חיות | שירותי סאונדמן מקצועי 2026 | יקיר כהן הפקות",
@@ -20171,7 +20661,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/mixing-mastering-explained": {
       "title": "מיקס ומאסטרינג: מה ההבדל ולמה השיר לא גמור בלי שניהם | יקיר כהן הפקות",
@@ -20537,7 +21030,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/mixing-vs-mastering-explained": {
       "title": "מה ההבדל בין מיקס למאסטרינג? הסבר פשוט למוזיקאים | יקיר כהן הפקות",
@@ -20909,7 +21405,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/mobile-recording-studio-guide": {
       "title": "אולפן הקלטות נייד: מתי הסטודיו בא אליכם ולא להפך | 2026 | יקיר כהן הפקות",
@@ -21274,7 +21773,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/mp3-vs-wav-studio-guide": {
       "title": "MP3 לעומת WAV: מה ההבדל ולמה זה חשוב כשמקליטים באולפן | יקיר כהן הפקות",
@@ -21650,7 +22152,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/no-speech-therapist-modiin": {
       "title": "אל תחפשו קלינאי תקשורת במודיעין - הגמגום לא גר שם | יקיר כהן | יקיר כהן הפקות",
@@ -22012,7 +22517,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/on-site-podcast-studio-business": {
       "title": "אולפן בחדר הישיבות: מתי זה שווה לחברה | יקיר כהן הפקות",
@@ -22374,7 +22882,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/online-audio-service-complaints": {
       "title": "שלחתי קובץ לתיקון זיופים - יצא רובוטי או לא חזר. 5 תלונות על עריכה מרחוק | יקיר כהן הפקות",
@@ -22739,7 +23250,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/original-song-what-to-prepare": {
       "title": "כתבתם שיר מקורי? מה לדעת לפני שמגיעים להקליט | 2026 | יקיר כהן הפקות",
@@ -23104,7 +23618,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/phone-voiceover-business": {
       "title": "קריינות לטלפון העסקי - הרושם הראשון שלקוחות שומעים | יקיר כהן | יקיר כהן הפקות",
@@ -23468,7 +23985,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/pitch-correction-guide": {
       "title": "תיקון זיופים (Pitch Correction) - המדריך המלא | יקיר כהן הפקות",
@@ -23848,7 +24368,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 11
     },
     "/blog/pitch-correction-vs-autotune": {
       "title": "Pitch Correction לעומת Auto-Tune: מה ההבדל ומתי להשתמש בכל אחד | יקיר כהן הפקות",
@@ -24224,7 +24747,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/blog/podcast-booking-guide": {
       "title": "הזמנת פודקאסט באולפן - איזו חבילה מתאימה לכם? | יקיר כהן הפקות",
@@ -24582,7 +25108,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 10
     },
     "/blog/podcast-editing-complaints": {
       "title": "עריכת פודקאסט איטית, יקרה ולא שקופה? 5 תלונות קלאסיות | יקיר כהן הפקות",
@@ -24951,7 +25480,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/podcast-for-small-business-worth-it": {
       "title": "פודקאסט לעסק קטן - שווה את ההשקעה? ניתוח ROI | יקיר כהן הפקות",
@@ -25315,7 +25847,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/podcast-needs-professional-editing": {
       "title": "5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך | יקיר כהן הפקות",
@@ -25685,7 +26220,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/blog/podcast-production-guide-israel": {
       "title": "המדריך השלם להפקת פודקאסט בישראל 2026 | מהרעיון ועד ספוטיפיי | יקיר כהן הפקות",
@@ -26061,7 +26599,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 11
     },
     "/blog/podcast-studio-vs-home-recording": {
       "title": "אולפן פודקאסט מול הקלטה ביתית - השוואה כנה | יקיר כהן הפקות",
@@ -26424,7 +26965,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/prepare-voice-podcast-studio": {
       "title": "איך להכין את הקול להקלטת פודקאסט באולפן | יקיר כהן הפקות",
@@ -26784,7 +27328,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 33
     },
     "/blog/professional-voiceover-for-business": {
       "title": "קריינות מקצועית לעסקים וג&#x27;ינגלים | מחירון אולפן 2026 | יקיר כהן הפקות",
@@ -27149,7 +27696,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/ready-for-records": {
       "title": "איך להתכונן ליום הקלטות באולפן - המדריך המלא | יקיר כהן הפקות",
@@ -27511,7 +28061,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 18
     },
     "/blog/record-song-10-minutes-ai": {
       "title": "איך מקליטים שיר ב-10 דקות עם AI באולפן - תהליך מאחורי הקלעים | יקיר כהן הפקות",
@@ -27887,7 +28440,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/recorded-blessing-gift": {
       "title": "ברכה מוקלטת לאירוע - מתנה שנשארת לנצח | יקיר כהן | יקיר כהן הפקות",
@@ -28250,7 +28806,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/recorded-song-birthday-gift": {
       "title": "הקלטת שיר מתנה ליום הולדת - מה לצפות ואיך להתכונן | יקיר כהן הפקות",
@@ -28616,7 +29175,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/rescue-damaged-recording": {
       "title": "הצלת הקלטה פגומה: מה אפשרי, מה לא, ואיך מקבלים החלטה נכונה | יקיר כהן הפקות",
@@ -28994,7 +29556,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/blog/singer-amplification-booking": {
       "title": "הזמנת הגברה לזמרים - איך בוחרים חבילה? | יקיר כהן הפקות",
@@ -29353,7 +29918,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/blog/sound-recovery-ai-podcast": {
       "title": "שחזור סאונד וניקוי קול ב-AI לפודקאסט | יקיר כהן הפקות",
@@ -29738,7 +30306,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 35
     },
     "/blog/street-hebrew-vs-government-ulpan": {
       "title": "עברית רחוב vs אולפן ממשלתי - מה מתאים לעולה חדש? | יקיר כהן הפקות",
@@ -30099,7 +30670,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/blog/studio-guide": {
       "title": "המדריך המלא להקמת אולפן הקלטות מקצועי - אקוסטיקה, ציוד ותכנון | יקיר כהן הפקות",
@@ -30465,7 +31039,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 19
     },
     "/blog/studio-recording-complaints": {
       "title": "למה הקלטת שיר באולפן יוצאת מאכזבת? 5 תלונות שחוזרות | יקיר כהן הפקות",
@@ -30832,7 +31409,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/studio-recording-cost-israel-2026": {
       "title": "כמה עולה להקליט שיר באולפן ב-2026? מחירון אולפן מעודכן | יקיר כהן הפקות",
@@ -31195,7 +31775,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/studio-session-prep-checklist": {
       "title": "צ&#x27;קליסט: מה להכין לפני כניסה לאולפן הקלטות | יקיר כהן הפקות",
@@ -31557,7 +32140,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/studio-vs-home-fix-cost": {
       "title": "אולפן הקלטות מול תיקון ביתי - מה כדאי כלכלית ומתי? | יקיר כהן הפקות",
@@ -31919,7 +32505,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/tips-for-perfect-wedding": {
       "title": "5 טיפים לחתונה יהודית מושלמת - מהחזון עד יום האירוע | יקיר כהן הפקות",
@@ -32283,7 +32872,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/blog/unique-gift-recording-ideas-2026": {
       "title": "רעיונות למתנות מקוריות וחווייתיות | שובר מתנה לאולפן 2026 | יקיר כהן הפקות",
@@ -32645,7 +33237,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/vhs-tape-digitization-ai-guide": {
       "title": "יש לכם קלטות VHS בארון? ככה מצילים אותן | יקיר כהן הפקות",
@@ -33007,7 +33602,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/vocal-tuning-for-everyone": {
       "title": "תיקון זיופים - מה זה בכלל ולמה אתה לא צריך להתבייש לשאול | יקיר כהן הפקות",
@@ -33372,7 +33970,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/blog/voiceover-business-complaints": {
       "title": "קריינות לעסק שנשמעת זולה או רובוטית: 5 תלונות על קריינים | יקיר כהן הפקות",
@@ -33736,7 +34337,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/wedding-dj-selection-guide-2026": {
       "title": "איך לבחור תקליטן לחתונה 2026 | מדריך מלא לזוגות | יקיר כהן הפקות",
@@ -34105,7 +34709,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/blog/wedding-effects-what-worth-it": {
       "title": "אפקטים ואטרקציות לחתונה | עשן כבד וזיקוקים, מחירון 2026 | יקיר כהן הפקות",
@@ -34467,7 +35074,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 12
     },
     "/blog/wedding-photography-and-sound-guide": {
       "title": "צילום חתונה ומוזיקה: למה חייבים לתאם ביניהם מראש | 2026 | יקיר כהן הפקות",
@@ -34830,7 +35440,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/wedding-photography-guide": {
       "title": "איך בוחרים צלם לחתונה - המדריך שלא יגידו לכם | יקיר כהן הפקות",
@@ -35191,7 +35804,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/blog/wedding-smoke-machine-guide": {
       "title": "עשן כבד לחתונה - מדריך לסלואו, כניסה לחופה ורחבה | יקיר כהן | יקיר כהן הפקות",
@@ -35556,7 +36172,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/wedding-song-2026": {
       "title": "הפקה מוזיקלית לחתונה - רגעים של פעם בחיים | יקיר כהן הפקות",
@@ -35920,7 +36539,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 11
     },
     "/blog/wedding-songs-chuppah": {
       "title": "שירים לחתונה ולחופה - מדריך והמלצות 2026 | יקיר כהן הפקות",
@@ -36294,7 +36916,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/blog/wedding-surprise-song-story": {
       "title": "שיר הפתעה לחתונה - הסיפור שעשה אנשים לבכות (בדרך הטובה) | יקיר כהן הפקות",
@@ -36656,7 +37281,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/when-ai-audio-restoration-enough": {
       "title": "ניקוי רעשים ושחזור הקלטות שמע | אולפן מקצועי 2026 | יקיר כהן הפקות",
@@ -37028,7 +37656,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/blog/zoom-call-to-radio-quality": {
       "title": "הקלטת זום לאיכות רדיו - איך הופכים ראיון גרוע לפודקאסט מקצועי | יקיר כהן הפקות",
@@ -37392,7 +38023,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/business/audio-branding": {
       "title": "מיתוג קולי לעסקים | יקיר כהן הפקות",
@@ -37780,7 +38414,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/audiobooks": {
       "title": "הפקת ספרי שמע | יקיר כהן הפקות",
@@ -38168,7 +38805,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/content-studio": {
       "title": "חבילות רילז לעסקים | סושיאל דאמפ | יקיר כהן הפקות",
@@ -38535,7 +39175,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/corporate-songs": {
       "title": "שיר פרישה והימנון לחברה | הפקה עם קליפ - חשבונית מס | יקיר כהן הפקות",
@@ -38920,7 +39563,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/employer-branding": {
       "title": "סרטוני onboarding ותוכן HR | יקיר כהן הפקות",
@@ -39311,7 +39957,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/on-site-studio": {
       "title": "אולפן זמני בחברה | פודקאסט ווידאו במשרד | יקיר כהן הפקות",
@@ -39716,7 +40365,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/professional-voiceover": {
       "title": "קריינות לסט DJ | חבילת 5 משפטים | יקיר כהן הפקות",
@@ -40087,7 +40739,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/reel-factory": {
       "title": "מפעל הרילס לספקים | The Reel Factory | יקיר כהן הפקות",
@@ -40462,7 +41117,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business/social-media": {
       "title": "ניהול סושיאל לעסקים | יקיר איזמירלי | יקיר כהן הפקות",
@@ -40830,7 +41488,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/business": {
       "title": "הפקת תוכן לעסקים - קריינות ופודקאסט | יקיר כהן הפקות",
@@ -41211,7 +41872,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/clinic": {
       "title": "קליניקה - חקירה לוגית של גמגום | יקיר כהן הפקות",
@@ -41574,7 +42238,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/contact": {
       "title": "יצירת קשר | יקיר כהן הפקות",
@@ -41937,7 +42604,10 @@
           "cssSelector"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/courses": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -41959,7 +42629,10 @@
       "words": 0,
       "ldTypes": [],
       "ldProps": {},
-      "suspenseHidden": false
+      "images": 0,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/data/industry-2026": {
       "title": "נתוני תעשייה 2026: מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל | יקיר כהן הפקות",
@@ -42335,7 +43008,10 @@
           "url"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/dj-events/cities/jerusalem": {
       "title": "דיג׳יי לאירועים בירושלים | ניהול מוזיקלי לאירועים דתיים ומעורבים | יקיר כהן הפקות",
@@ -42713,7 +43389,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/dj-events/cities/rehovot": {
       "title": "דיג׳יי לאירועים ברחובות | חתונות ובר/בת מצווה | יקיר כהן הפקות",
@@ -43091,7 +43770,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/dj-events/cities/shoham": {
       "title": "דיג׳יי לאירועים בשוהם | חתונות ובר/בת מצווה | יקיר כהן הפקות",
@@ -43469,7 +44151,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/equipment/used-gear": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -43491,7 +44176,10 @@
       "words": 0,
       "ldTypes": [],
       "ldProps": {},
-      "suspenseHidden": false
+      "images": 0,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/events/attractions/beit-shemesh": {
       "title": "אטרקציות לאירועים בבית שמש | יקיר כהן הפקות",
@@ -43841,7 +44529,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/events/attractions/bubble-machine/smoke-bubble-machine-events": {
       "title": "מכונת בועות עשן לאירועים | האטרקציה של 2026 | יקיר כהן הפקות",
@@ -44251,7 +44942,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 11,
+      "imagesWithAlt": 8,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/events/attractions/bubble-machine": {
       "title": "מכונת בועות סבון לאירועים | בועות LED ועשן עם מפעיל מקצועי | יקיר כהן הפקות",
@@ -44667,7 +45361,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 11,
+      "imagesWithAlt": 8,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/cold-fireworks": {
       "title": "זיקוקים קרים לחתונה | אש קרה בטוחה לאולמות - אזור המרכז | יקיר כהן הפקות",
@@ -45077,7 +45774,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 14,
+      "imagesWithAlt": 10,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/confetti-cannon": {
       "title": "תותח קונפטי לחתונה ובר מצווה | השכרה עם מפעיל - אישור בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -45498,7 +46198,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 17,
+      "imagesWithAlt": 11,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/giant-balloons": {
       "title": "בלוני ענק לאירועים | עיצוב מרשים לחתונה ובר מצווה - אזור המרכז | יקיר כהן הפקות",
@@ -45886,7 +46589,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 12,
+      "imagesWithAlt": 9,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/jerusalem": {
       "title": "אטרקציות לאירועים בירושלים | יקיר כהן הפקות",
@@ -46236,7 +46942,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/events/attractions/shoham": {
       "title": "אטרקציות לאירועים בשוהם | יקיר כהן הפקות",
@@ -46586,7 +47295,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/events/attractions/smoke-cannons-for-events": {
       "title": "תותחי עשן לחתונות ואירועים | אפקט דרמטי - אזור המרכז | יקיר כהן הפקות",
@@ -46977,7 +47689,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 11,
+      "imagesWithAlt": 8,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events": {
       "title": "השכרת עשן כבד לאירועים גדולים | מכונה כפולה | יקיר כהן הפקות",
@@ -47381,7 +48096,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 13,
+      "imagesWithAlt": 7,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions/wedding-smoking-machine": {
       "title": "עשן כבד לחתונה וסלואו | קרח יבש לכניסה לחופה - אישור בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -47793,7 +48511,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 22,
+      "imagesWithAlt": 15,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/attractions": {
       "title": "אטרקציות לאירועים | עשן, בועות וקונפטי - אזור המרכז וכל הארץ | יקיר כהן הפקות",
@@ -48193,7 +48914,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 20,
+      "imagesWithAlt": 16,
+      "suspenseHidden": false,
+      "inbound": 60
     },
     "/events/bar-mitzvah": {
       "title": "הפקת בר מצווה ובת מצווה - DJ ואטרקציות | יקיר כהן הפקות",
@@ -48595,7 +49319,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 13,
+      "imagesWithAlt": 10,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/dj/pre-built-sets": {
       "title": "סט מוזיקה מוכן לדיג&#x27;יי | קבלת פנים ואירועי חברה | יקיר כהן הפקות",
@@ -48962,7 +49689,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/dj/voice-tags": {
       "title": "תג קולי לדיג&#x27;יי | קריינות ממותגת לסט | יקיר כהן הפקות",
@@ -49342,7 +50072,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/dj-events": {
       "title": "דיג׳יי לחתונה במודיעין - ירושלים והמרכז | יקיר כהן הפקות",
@@ -49793,7 +50526,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": true
+      "images": 13,
+      "imagesWithAlt": 10,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/events/equipment/dry-hire": {
       "title": "השכרת ציוד הגברה ליום | מיקסרים, רמקולים וסאב | יקיר כהן הפקות",
@@ -50171,7 +50907,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/equipment/faq": {
       "title": "שאלות ותשובות - השכרת הגברה לאירועים | יקיר כהן הפקות",
@@ -50517,7 +51256,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 1,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/events/equipment/singer-amplification": {
       "title": "הגברה לזמר | מערכת הגברה לזמרים במודיעין | יקיר כהן הפקות",
@@ -50927,7 +51669,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/equipment/system-tuning": {
       "title": "תכנון הגברה לאירוע | פריסת רמקולים ומדידות | יקיר כהן הפקות",
@@ -51287,7 +52032,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/equipment": {
       "title": "השכרת הגברה לאירועים | רמקולים RCF | יקיר כהן הפקות",
@@ -51723,7 +52471,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 14,
+      "imagesWithAlt": 7,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/host/faq": {
       "title": "שאלות ותשובות - מנחה אירועים | יקיר כהן הפקות",
@@ -52070,7 +52821,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 1,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/events/host": {
       "title": "מנחה אירועים מקצועי | MC לאירועים | יקיר כהן הפקות",
@@ -52483,7 +53237,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 16,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/stage-led-dj": {
       "title": "השכרת עמדת LED לאירועים | עמדת DJ לד - פתח תקווה ואזור המרכז | יקיר כהן הפקות",
@@ -52902,7 +53659,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 19,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/events/wedding-attractions-packages": {
       "title": "חבילות חתונה - DJ ואטרקציות מודיעין | יקיר כהן הפקות",
@@ -53304,7 +54064,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": true
+      "images": 9,
+      "imagesWithAlt": 6,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/events": {
       "title": "DJ ואטרקציות לאירועים - מודיעין והמרכז | יקיר כהן הפקות",
@@ -53748,7 +54511,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 19,
+      "imagesWithAlt": 16,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/for-couples": {
       "title": "שיר לחתונה, DJ וצילום | מסלול לזוגות | יקיר כהן הפקות",
@@ -54113,7 +54879,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/for-creators": {
       "title": "אולפן, מיקס וקורסים | מסלול ליוצרים | יקיר כהן הפקות",
@@ -54478,7 +55247,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/gallery": {
       "title": "גלריית תמונות | אולפן ואירועים | יקיר כהן הפקות",
@@ -54830,7 +55602,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 20,
+      "imagesWithAlt": 18,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/glossary/44-1-vs-48": {
       "title": "44.1 מול 48 - הגדרה קצרה | יקיר כהן הפקות",
@@ -55200,7 +55975,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/glossary/acoustic-room": {
       "title": "חדר אקוסטי - הגדרה קצרה | יקיר כהן הפקות",
@@ -55570,7 +56348,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/glossary/announcements": {
       "title": "קריאות - הגדרה קצרה | יקיר כהן הפקות",
@@ -55940,7 +56721,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/glossary/audio-interface": {
       "title": "כרטיס קול - הגדרה קצרה | יקיר כהן הפקות",
@@ -56310,7 +57094,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/glossary/audio-logo": {
       "title": "לוגו קולי - הגדרה קצרה | יקיר כהן הפקות",
@@ -56680,7 +57467,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 10
     },
     "/glossary/audiobook": {
       "title": "ספר שמע - הגדרה קצרה | יקיר כהן הפקות",
@@ -57050,7 +57840,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/autotune": {
       "title": "אוטוטיון - הגדרה קצרה | יקיר כהן הפקות",
@@ -57420,7 +58213,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 10
     },
     "/glossary/beatmatch": {
       "title": "ביטמאץ&#x27; - הגדרה קצרה | יקיר כהן הפקות",
@@ -57790,7 +58586,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/bit-depth": {
       "title": "Bit Depth - הגדרה קצרה | יקיר כהן הפקות",
@@ -58160,7 +58959,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/bounce": {
       "title": "באונס - הגדרה קצרה | יקיר כהן הפקות",
@@ -58530,7 +59332,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary/bubble-machine": {
       "title": "מכונת בועות - הגדרה קצרה | יקיר כהן הפקות",
@@ -58900,7 +59705,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/buffer-size": {
       "title": "Buffer Size - הגדרה קצרה | יקיר כהן הפקות",
@@ -59270,7 +60078,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/bulk-production": {
       "title": "פס ייצור - הגדרה קצרה | יקיר כהן הפקות",
@@ -59640,7 +60451,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/glossary/camelot": {
       "title": "קמלוט - הגדרה קצרה | יקיר כהן הפקות",
@@ -60010,7 +60824,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/cdj": {
       "title": "CDJ - הגדרה קצרה | יקיר כהן הפקות",
@@ -60380,7 +61197,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/clipping": {
       "title": "קליפינג - הגדרה קצרה | יקיר כהן הפקות",
@@ -60750,7 +61570,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     },
     "/glossary/cold-fireworks": {
       "title": "זיקוקים קרים - הגדרה קצרה | יקיר כהן הפקות",
@@ -61120,7 +61943,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/comping": {
       "title": "קומפינג - הגדרה קצרה | יקיר כהן הפקות",
@@ -61490,7 +62316,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/compression": {
       "title": "קומפרסיה - הגדרה קצרה | יקיר כהן הפקות",
@@ -61860,7 +62689,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 14
     },
     "/glossary/condenser-microphone": {
       "title": "מיקרופון קונדנסר - הגדרה קצרה | יקיר כהן הפקות",
@@ -62229,7 +63061,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/confetti-cannon": {
       "title": "תותח קונפטי - הגדרה קצרה | יקיר כהן הפקות",
@@ -62599,7 +63434,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/content-repurposing": {
       "title": "גזירת תוכן - הגדרה קצרה | יקיר כהן הפקות",
@@ -62969,7 +63807,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/cue": {
       "title": "Cue - הגדרה קצרה | יקיר כהן הפקות",
@@ -63339,7 +64180,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/daw": {
       "title": "DAW - הגדרה קצרה | יקיר כהן הפקות",
@@ -63709,7 +64553,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary/de-click": {
       "title": "דה-קליק - הגדרה קצרה | יקיר כהן הפקות",
@@ -64080,7 +64927,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/de-esser": {
       "title": "די-אסר - הגדרה קצרה | יקיר כהן הפקות",
@@ -64450,7 +65300,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/de-hum": {
       "title": "דה-האם - הגדרה קצרה | יקיר כהן הפקות",
@@ -64821,7 +65674,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/de-reverb": {
       "title": "דה-ריוורב - הגדרה קצרה | יקיר כהן הפקות",
@@ -65192,7 +66048,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/delay": {
       "title": "דיליי - הגדרה קצרה | יקיר כהן הפקות",
@@ -65562,7 +66421,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/di-box": {
       "title": "DI - הגדרה קצרה | יקיר כהן הפקות",
@@ -65932,7 +66794,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/dj": {
       "title": "DJ - הגדרה קצרה | יקיר כהן הפקות",
@@ -66302,7 +67167,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 26
     },
     "/glossary/dry-hire": {
       "title": "Dry-Hire - הגדרה קצרה | יקיר כהן הפקות",
@@ -66672,7 +67540,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/eq": {
       "title": "אקולייזר - הגדרה קצרה | יקיר כהן הפקות",
@@ -67043,7 +67914,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 20
     },
     "/glossary/event-operator": {
       "title": "הפעלה בשטח - הגדרה קצרה | יקיר כהן הפקות",
@@ -67414,7 +68288,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary/formant": {
       "title": "פורמנט - הגדרה קצרה | יקיר כהן הפקות",
@@ -67784,7 +68661,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/gain-staging": {
       "title": "גיין סטייג&#x27;ינג - הגדרה קצרה | יקיר כהן הפקות",
@@ -68154,7 +69034,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/headroom": {
       "title": "Headroom - הגדרה קצרה | יקיר כהן הפקות",
@@ -68524,7 +69407,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/heavy-smoke": {
       "title": "עשן כבד - הגדרה קצרה | יקיר כהן הפקות",
@@ -68894,7 +69780,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     },
     "/glossary/hold-message": {
       "title": "הודעת המתנה - הגדרה קצרה | יקיר כהן הפקות",
@@ -69264,7 +70153,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/isolation": {
       "title": "בידוד - הגדרה קצרה | יקיר כהן הפקות",
@@ -69632,7 +70524,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/ivr": {
       "title": "IVR - הגדרה קצרה | יקיר כהן הפקות",
@@ -70002,7 +70897,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/glossary/jingle": {
       "title": "ג&#x27;ינגל - הגדרה קצרה | יקיר כהן הפקות",
@@ -70372,7 +71270,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/latency": {
       "title": "Latency - הגדרה קצרה | יקיר כהן הפקות",
@@ -70742,7 +71643,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/limiter": {
       "title": "לימיטר - הגדרה קצרה | יקיר כהן הפקות",
@@ -71112,7 +72016,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/lufs": {
       "title": "LUFS - הגדרה קצרה | יקיר כהן הפקות",
@@ -71484,7 +72391,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 10
     },
     "/glossary/mashup": {
       "title": "מאשאפ - הגדרה קצרה | יקיר כהן הפקות",
@@ -71854,7 +72764,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/mastering": {
       "title": "מאסטרינג - הגדרה קצרה | יקיר כהן הפקות",
@@ -72225,7 +73138,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 17
     },
     "/glossary/melodyne": {
       "title": "מלודיין - הגדרה קצרה | יקיר כהן הפקות",
@@ -72595,7 +73511,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/glossary/midi": {
       "title": "MIDI - הגדרה קצרה | יקיר כהן הפקות",
@@ -72965,7 +73884,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/mixing": {
       "title": "מיקס - הגדרה קצרה | יקיר כהן הפקות",
@@ -73336,7 +74258,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 24
     },
     "/glossary/mobile-studio": {
       "title": "אולפן נייד - הגדרה קצרה | יקיר כהן הפקות",
@@ -73705,7 +74630,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/monitor-mix": {
       "title": "מוניטור במה - הגדרה קצרה | יקיר כהן הפקות",
@@ -74075,7 +75003,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/monitor-speakers": {
       "title": "מוניטורים - הגדרה קצרה | יקיר כהן הפקות",
@@ -74445,7 +75376,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     },
     "/glossary/mono": {
       "title": "מונו - הגדרה קצרה | יקיר כהן הפקות",
@@ -74815,7 +75749,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/mp3": {
       "title": "MP3 - הגדרה קצרה | יקיר כהן הפקות",
@@ -75186,7 +76123,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 25
     },
     "/glossary/noise-removal": {
       "title": "ניקוי רעשים - הגדרה קצרה | יקיר כהן הפקות",
@@ -75557,7 +76497,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 15
     },
     "/glossary/normalization": {
       "title": "נורמליזציה - הגדרה קצרה | יקיר כהן הפקות",
@@ -75927,7 +76870,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/pa-system": {
       "title": "PA - הגדרה קצרה | יקיר כהן הפקות",
@@ -76297,7 +77243,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 10
     },
     "/glossary/phantom-power": {
       "title": "פנטום פאואר - הגדרה קצרה | יקיר כהן הפקות",
@@ -76667,7 +77616,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/phase": {
       "title": "פאזה - הגדרה קצרה | יקיר כהן הפקות",
@@ -77037,7 +77989,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/pitch-correction": {
       "title": "תיקון זיופים - הגדרה קצרה | יקיר כהן הפקות",
@@ -77408,7 +78363,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 14
     },
     "/glossary/playback": {
       "title": "פלייבק - הגדרה קצרה | יקיר כהן הפקות",
@@ -77778,7 +78736,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     },
     "/glossary/podcast-editing": {
       "title": "עריכת פודקאסט - הגדרה קצרה | יקיר כהן הפקות",
@@ -78148,7 +79109,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/podcast": {
       "title": "פודקאסט - הגדרה קצרה | יקיר כהן הפקות",
@@ -78518,7 +79482,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 20
     },
     "/glossary/pop-filter": {
       "title": "פופ-פילטר - הגדרה קצרה | יקיר כהן הפקות",
@@ -78888,7 +79855,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/preamp": {
       "title": "פרה-אמפ - הגדרה קצרה | יקיר כהן הפקות",
@@ -79258,7 +80228,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/recording-studio": {
       "title": "אולפן הקלטות - הגדרה קצרה | יקיר כהן הפקות",
@@ -79629,7 +80602,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/reverb": {
       "title": "ריוורב - הגדרה קצרה | יקיר כהן הפקות",
@@ -79999,7 +80975,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/rider": {
       "title": "ריידר - הגדרה קצרה | יקיר כהן הפקות",
@@ -80369,7 +81348,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/rss": {
       "title": "RSS - הגדרה קצרה | יקיר כהן הפקות",
@@ -80739,7 +81721,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/sample-rate": {
       "title": "Sample Rate - הגדרה קצרה | יקיר כהן הפקות",
@@ -81109,7 +82094,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/saturation": {
       "title": "סטורציה - הגדרה קצרה | יקיר כהן הפקות",
@@ -81479,7 +82467,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/smoke-bubbles": {
       "title": "בועות עשן - הגדרה קצרה | יקיר כהן הפקות",
@@ -81850,7 +82841,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/smoke-cannons": {
       "title": "תותחי עשן - הגדרה קצרה | יקיר כהן הפקות",
@@ -82220,7 +83214,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/smoke-machine": {
       "title": "מכונת עשן - הגדרה קצרה | יקיר כהן הפקות",
@@ -82590,7 +83587,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary/soundcheck": {
       "title": "צ&#x27;ק סאונד - הגדרה קצרה | יקיר כהן הפקות",
@@ -82962,7 +83962,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/source-separation": {
       "title": "הפרדת ערוצים - הגדרה קצרה | יקיר כהן הפקות",
@@ -83332,7 +84335,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/stage-vocal-amplification": {
       "title": "הגברת זמר - הגדרה קצרה | יקיר כהן הפקות",
@@ -83702,7 +84708,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/glossary/stems": {
       "title": "סטמס - הגדרה קצרה | יקיר כהן הפקות",
@@ -84073,7 +85082,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/glossary/stereo-imaging": {
       "title": "תמונת סטריאו - הגדרה קצרה | יקיר כהן הפקות",
@@ -84443,7 +85455,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/glossary/stereo": {
       "title": "סטריאו - הגדרה קצרה | יקיר כהן הפקות",
@@ -84813,7 +85828,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/studio-in-a-box": {
       "title": "אולפן בקופסה - הגדרה קצרה | יקיר כהן הפקות",
@@ -85183,7 +86201,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 2
     },
     "/glossary/tempo-bpm": {
       "title": "BPM - הגדרה קצרה | יקיר כהן הפקות",
@@ -85553,7 +86574,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 11
     },
     "/glossary/transcription": {
       "title": "תמלול - הגדרה קצרה | יקיר כהן הפקות",
@@ -85924,7 +86948,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary/true-peak": {
       "title": "True Peak - הגדרה קצרה | יקיר כהן הפקות",
@@ -86294,7 +87321,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 6
     },
     "/glossary/vocal-track": {
       "title": "ווקאל - הגדרה קצרה | יקיר כהן הפקות",
@@ -86664,7 +87694,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     },
     "/glossary/voice-cloning": {
       "title": "שיבוט קול - הגדרה קצרה | יקיר כהן הפקות",
@@ -87035,7 +88068,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/voiceover": {
       "title": "קריינות - הגדרה קצרה | יקיר כהן הפקות",
@@ -87405,7 +88441,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/glossary/vst": {
       "title": "VST - הגדרה קצרה | יקיר כהן הפקות",
@@ -87775,7 +88814,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/glossary/wav": {
       "title": "WAV - הגדרה קצרה | יקיר כהן הפקות",
@@ -88147,7 +89189,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 22
     },
     "/glossary/xlr": {
       "title": "XLR - הגדרה קצרה | יקיר כהן הפקות",
@@ -88517,7 +89562,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/glossary": {
       "title": "מונחון אודיו, אולפן ואירועים | יקיר כהן הפקות",
@@ -89100,7 +90148,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 94
     },
     "/": {
       "title": "אולפן הקלטות במודיעין - פודקאסט ואירועים",
@@ -89503,7 +90554,10 @@
           "uploadDate"
         ]
       },
-      "suspenseHidden": true
+      "images": 18,
+      "imagesWithAlt": 13,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/matanot": {
       "title": "מתנה מוקלטת לפי אירוע | חתונה, יום הולדת, בר מצווה ויום נישואין | יקיר כהן הפקות",
@@ -89875,7 +90929,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 5,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/legacy-digitization": {
       "title": "המרת VHS וקלטות לדיגיטל | שחזור AI | יקיר כהן הפקות",
@@ -90265,7 +91322,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/mashup-fixer": {
       "title": "מרכז הדיג&#x27;יי | רעיונות מאשאפ, כלים חינמיים וייצור | יקיר כהן הפקות",
@@ -90678,7 +91738,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/online-ai-pricing": {
       "title": "מחירון שירותי AI מקוונים | יקיר כהן הפקות",
@@ -91059,7 +92122,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/transcription": {
       "title": "תמלול פודקאסט וראיונות | יקיר כהן הפקות",
@@ -91454,7 +92520,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/online/vocal-fix/eq-fix": {
       "title": "תיקון תדרים ו-EQ מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -91796,7 +92865,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/online/vocal-fix/mixing": {
       "title": "מיקס ומאסטרינג מרחוק | יקיר כהן הפקות",
@@ -92179,7 +93251,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 5,
+      "imagesWithAlt": 2,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/vocal-fix/noise-removal": {
       "title": "ניקוי רעשים מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -92520,7 +93595,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 8
     },
     "/online/vocal-fix/photo-enhance": {
       "title": "שדרוג תמונות ב-AI | איכות HD מרחוק | יקיר כהן הפקות",
@@ -92862,7 +93940,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/vocal-fix/pitch-correction": {
       "title": "תיקון זיופים (Pitch Correction) מקצועי מרחוק | יקיר כהן | יקיר כהן הפקות",
@@ -93246,7 +94327,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/vocal-fix/podcast-repair": {
       "title": "תיקון סאונד פודקאסט מרחוק | יקיר כהן הפקות",
@@ -93589,7 +94673,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/online/vocal-fix/send-file": {
       "title": "אישור תנאים לפני שליחת קבצים | יקיר כהן הפקות",
@@ -93922,7 +95009,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/vocal-fix/volume-balance": {
       "title": "איזון ווליום ועוצמות שמע מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -94263,7 +95353,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 5
     },
     "/online/vocal-fix": {
       "title": "תיקון זיופים ושיפור קול מרחוק | יקיר כהן | יקיר כהן הפקות",
@@ -94638,7 +95731,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/online/voice-cloning": {
       "title": "שיבוט קול לעסקים | יקיר כהן הפקות",
@@ -95029,7 +96125,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/online": {
       "title": "תיקון שירה ומיקס אונליין - AI לאודיו | יקיר כהן הפקות",
@@ -95478,7 +96577,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/packages": {
       "title": "חבילות אולפן, פודקאסט וחתונות | יקיר כהן הפקות",
@@ -95843,7 +96945,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/photo-slideshow": {
       "title": "מצגת תמונות ומצגת גדילה AI | עריכה קולנועית תוך 48 שעות | יקיר כהן הפקות",
@@ -96269,7 +97374,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 16,
+      "imagesWithAlt": 8,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/photography/events": {
       "title": "צילום אירועים וכנסים | סטילס מקצועי | יקיר כהן הפקות",
@@ -96662,7 +97770,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 10,
+      "imagesWithAlt": 6,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/photography/wedding": {
       "title": "צלם חתונות דתי | אירועים קטנים מ-3,500 ₪ | יקיר כהן הפקות",
@@ -97044,7 +98155,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 14,
+      "imagesWithAlt": 10,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/photography": {
       "title": "צילום חתונות ואירועים במודיעין | יקיר כהן הפקות",
@@ -97438,7 +98552,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 16,
+      "imagesWithAlt": 14,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/beit-shemesh": {
       "title": "אולפן פודקאסט קרוב לבית שמש - 20 דקות מבית שמש | יקיר כהן הפקות",
@@ -97782,7 +98899,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/podcast/bulk-production": {
       "title": "פס ייצור פודקאסט לעסקים | עריכה שוטפת וקליפים | יקיר כהן הפקות",
@@ -98164,7 +99284,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/corporate-podcast": {
       "title": "פודקאסט ארגוני לחברות | הפקה מלאה + ספוטיפיי + חשבונית מס | יקיר כהן הפקות",
@@ -98561,7 +99684,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/faq": {
       "title": "שאלות ותשובות - הפקת פודקאסטים במודיעין | יקיר כהן הפקות",
@@ -98940,7 +100066,10 @@
           "text"
         ]
       },
-      "suspenseHidden": true
+      "images": 3,
+      "imagesWithAlt": 1,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/podcast/jerusalem": {
       "title": "אולפן פודקאסט קרוב לירושלים - 30 דקות מירושלים | יקיר כהן הפקות",
@@ -99284,7 +100413,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/podcast/mobile-podcast-at-home": {
       "title": "פודקאסט נייד עד הבית | האולפן מגיע אליכם | יקיר כהן הפקות",
@@ -99704,7 +100836,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 16,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/podcast-editing": {
       "title": "עריכת פודקאסט מקצועית | מההקלטה הגולמית לפרק מוכן | יקיר כהן הפקות",
@@ -100126,7 +101261,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 19,
+      "imagesWithAlt": 16,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/podcast-production": {
       "title": "הפקת פודקאסט מא׳ עד ת׳ | ליווי מקצועי | יקיר כהן הפקות",
@@ -100511,7 +101649,10 @@
           "name"
         ]
       },
-      "suspenseHidden": true
+      "images": 15,
+      "imagesWithAlt": 13,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/podcast/podcast-recording": {
       "title": "הפקת פודקאסט מקצועית במודיעין | צילום 4K וסאונד אולפני | יקיר כהן הפקות",
@@ -100937,7 +102078,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 18,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/podcast-studio-modiin": {
       "title": "הקלטת פודקאסט במודיעין | קריינות אנושית - מקום, בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -101333,7 +102477,10 @@
           "name"
         ]
       },
-      "suspenseHidden": true
+      "images": 19,
+      "imagesWithAlt": 14,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/podcast/podcast-studio": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -101355,7 +102502,10 @@
       "words": 0,
       "ldTypes": [],
       "ldProps": {},
-      "suspenseHidden": false
+      "images": 0,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/podcast/podcast-with-grandpa": {
       "title": "פודקאסט עם סבא וסבתא | הקלטת שיר באולפן - מתנה משפחתית | יקיר כהן הפקות",
@@ -101758,7 +102908,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 16,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/rehovot": {
       "title": "אולפן פודקאסט קרוב לרחובות - 25 דקות מרחובות | יקיר כהן הפקות",
@@ -102102,7 +103255,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/podcast/self-service-studio": {
       "title": "השכרת אולפן פודקאסט שירות עצמי | יקיר כהן הפקות",
@@ -102461,7 +103617,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 1,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast/shoham": {
       "title": "אולפן פודקאסט קרוב לשוהם - 10 דקות משוהם | יקיר כהן הפקות",
@@ -102805,7 +103964,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/podcast/studio-in-a-box": {
       "title": "תכנון אולפן פודקאסט | אולפן בקופסה לעסקים | יקיר כהן הפקות",
@@ -103168,7 +104330,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/podcast": {
       "title": "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה | יקיר כהן הפקות",
@@ -103675,7 +104840,10 @@
           "name"
         ]
       },
-      "suspenseHidden": true
+      "images": 25,
+      "imagesWithAlt": 19,
+      "suspenseHidden": true,
+      "inbound": 311
     },
     "/portfolio": {
       "title": "תיק עבודות וידאו | יקיר כהן הפקות",
@@ -104088,7 +105256,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 32,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 4
     },
     "/pricing": {
       "title": "מחירון שקוף - אולפן ופודקאסט מודיעין | יקיר כהן הפקות",
@@ -104542,7 +105713,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/privacy": {
       "title": "מדיניות פרטיות | יקיר כהן הפקות",
@@ -104881,7 +106055,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/pro/event-index": {
       "title": "דופק השוק - מחירים וביקוש באירועים | יקיר כהן הפקות",
@@ -105218,7 +106395,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/pro": {
       "title": "שירותים מקצועיים לדיג&#x27;ייז, פודקאסט והגברה | יקיר כהן הפקות",
@@ -105582,7 +106762,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/shop": {
       "title": "חנות שוברים וציוד מקצועי במודיעין | יקיר כהן הפקות",
@@ -105994,7 +107177,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 13,
+      "imagesWithAlt": 11,
+      "suspenseHidden": false,
+      "inbound": 0
     },
     "/start": {
       "title": "מה קורה אחרי שפונים | יקיר כהן הפקות",
@@ -106371,7 +107557,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 83
     },
     "/studio/blessings/bar-mitzvah": {
       "title": "הקלטת ברכה ודרשה לבר מצווה | יקיר כהן | יקיר כהן הפקות",
@@ -106778,7 +107967,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 13,
+      "imagesWithAlt": 8,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/blessings/bat-mitzvah-clip": {
       "title": "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן | מודיעין | יקיר כהן הפקות",
@@ -107137,7 +108329,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 6,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 7
     },
     "/studio/blessings/bride-groom-blessing": {
       "title": "ברכת חתן וכלה מקצועית באולפן | יקיר כהן הפקות",
@@ -107551,7 +108746,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 11,
+      "imagesWithAlt": 6,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/blessings/video-clip": {
       "title": "הקלטת שיר וצילום קליפ באולפן | יקיר כהן הפקות",
@@ -107953,7 +109151,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 13,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/blessings": {
       "title": "הקלטת ברכות באולפן | מודיעין | יקיר כהן הפקות",
@@ -108373,7 +109574,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 9,
+      "imagesWithAlt": 6,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/mobile-studio": {
       "title": "אולפן נייד | מגיע עד הבית | יקיר כהן הפקות",
@@ -108771,7 +109975,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/pricing": {
       "title": "מחירון חבילות אולפן הקלטות | יקיר כהן הפקות",
@@ -109162,7 +110369,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/recording-song-modiin/gifts/funny-ringtone": {
       "title": "רינגטון מצחיק במתנה | 299 ₪ מבצע | יקיר כהן הפקות",
@@ -109522,7 +110732,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/studio/recording-song-modiin/gifts": {
       "title": "שובר מתנה מהאולפן | לבת מצווה, יום הולדת וחתונה - מסירה 48 שעות | יקיר כהן הפקות",
@@ -109913,7 +111126,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 21,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/recording-song-modiin": {
       "title": "הקלטת שיר באולפן | מודיעין - תוך 48 שעות | יקיר כהן הפקות",
@@ -110397,7 +111613,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 26,
+      "imagesWithAlt": 19,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/recording-studio": {
       "title": "אולפן הקלטות מקצועי במודיעין - חומרה | יקיר כהן הפקות",
@@ -110794,7 +112013,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 19,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/studio-beit-shemesh": {
       "title": "אולפן הקלטות בבית שמש | 20-25 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -111192,7 +112414,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 5,
+      "suspenseHidden": false,
+      "inbound": 1
     },
     "/studio/studio-jerusalem": {
       "title": "אולפן הקלטות בירושלים | 30 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -111584,7 +112809,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 5,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/studio-rehovot": {
       "title": "אולפן הקלטות ברחובות | 25-30 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -111992,7 +113220,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 5,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/studio-shoham": {
       "title": "אולפן הקלטות בשוהם | 10-15 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -112390,7 +113621,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 5,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio/virtual-tour": {
       "title": "סיור וירטואלי באולפן | וידאו קצר ותהליך ההקלטה | יקיר כהן הפקות",
@@ -112754,7 +113988,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 7,
+      "imagesWithAlt": 4,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/studio": {
       "title": "אולפן הקלטות במודיעין | שיר ופודקאסט | יקיר כהן הפקות",
@@ -113204,7 +114441,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 12,
+      "imagesWithAlt": 7,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/stuttering": {
       "title": "טיפול בגמגום במודיעין | שיטת NeverMind | יקיר כהן הפקות",
@@ -113594,7 +114834,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 4,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 3
     },
     "/sustainability": {
       "title": "הצהרת מדיניות קיימות | יקיר כהן הפקות",
@@ -113930,7 +115173,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/terms": {
       "title": "תנאי שירות | יקיר כהן הפקות",
@@ -114281,7 +115527,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/testimonials": {
       "title": "המלצות לקוחות | אולפן ואירועים במודיעין | יקיר כהן הפקות",
@@ -114633,7 +115882,10 @@
           "text"
         ]
       },
-      "suspenseHidden": false
+      "images": 18,
+      "imagesWithAlt": 16,
+      "suspenseHidden": false,
+      "inbound": 14
     },
     "/video/corporate-video": {
       "title": "סרט תדמית לעסק | הפקת וידאו מקצועית | יקיר כהן הפקות",
@@ -115044,7 +116296,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 17,
+      "imagesWithAlt": 14,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/video/event-filming": {
       "title": "צילום וידאו לאירועים | הפקה מקצועית | יקיר כהן הפקות",
@@ -115409,7 +116664,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 9,
+      "imagesWithAlt": 6,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/video/presentation": {
       "title": "מצגת וידאו ומצגת גדילה AI | לאירועים וכנסים | יקיר כהן הפקות",
@@ -115796,7 +117054,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 18,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/video": {
       "title": "הפקות וידאו וצילום במודיעין | יקיר כהן הפקות",
@@ -116209,7 +117470,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 23,
+      "imagesWithAlt": 20,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/voiceover/course": {
       "title": "קורס קריינות פרונטלי | אקדמיית קול | יקיר כהן הפקות",
@@ -116587,7 +117851,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 11,
+      "imagesWithAlt": 5,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/voiceover/services": {
       "title": "קריינות מסחרית ומרכזיות | שירותי קול | יקיר כהן הפקות",
@@ -116971,7 +118238,10 @@
           "thumbnailUrl"
         ]
       },
-      "suspenseHidden": false
+      "images": 8,
+      "imagesWithAlt": 3,
+      "suspenseHidden": false,
+      "inbound": 311
     },
     "/voiceover": {
       "title": "שירותי קריינות מקצועיים במודיעין | יקיר כהן הפקות",
@@ -117389,7 +118659,10 @@
           "name"
         ]
       },
-      "suspenseHidden": false
+      "images": 21,
+      "imagesWithAlt": 13,
+      "suspenseHidden": false,
+      "inbound": 15
     },
     "/voucher": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -117411,7 +118684,10 @@
       "words": 0,
       "ldTypes": [],
       "ldProps": {},
-      "suspenseHidden": false
+      "images": 0,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "inbound": 9
     }
   }
 }
