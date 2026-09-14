@@ -96,6 +96,15 @@ async function capture(targetDir) {
         timezoneId: "Asia/Jerusalem",
       });
 
+      /* הקפאת טיימרים חוזרים לפני שקוד העמוד רץ.
+         PromoBanner מחליף הודעה ב-setInterval, ולכן אותו עמוד מצטלם עם
+         הודעה אחרת בכל הרצה: 2,021 פיקסלים של הבדל בלי ששורת קוד השתנתה.
+         setTimeout נשאר עובד, כי עליו נשענת טעינה עצלה והמתנות אמיתיות.
+         מה שנשמר הוא בדיוק המצב שהשרת שלח, וזה גם מה שגולש רואה ראשון. */
+      await context.addInitScript(() => {
+        window.setInterval = () => 0;
+      });
+
       for (const page of TEMPLATE_PAGES) {
         const tab = await context.newPage();
 
@@ -115,16 +124,73 @@ async function capture(targetDir) {
         await tab.addStyleTag({ content: FREEZE_CSS });
         await tab.evaluate(() => document.fonts.ready);
 
-        // גלילה עד הסוף וחזרה, כדי שתמונות עצלות ייטענו לפני הצילום.
+        /* גלילה עד הסוף וחזרה, כדי שתמונות עצלות ייטענו לפני הצילום.
+           הגובה נקרא מחדש בכל צעד ומ-documentElement ולא מ-body: הנוסח
+           הקודם קרא את body.scrollHeight פעם אחת מראש, עצר לפני תחתית
+           העמוד, ושתי תמונות עצלות ב-/about מעולם לא נכנסו לשדה הראייה.
+           הדפדפן לא ביקש אותן כלל, והבסיס נשמר עם שתי מסגרות ריקות. */
         await tab.evaluate(async () => {
-          const step = window.innerHeight;
-          for (let y = 0; y < document.body.scrollHeight; y += step) {
+          const step = Math.max(200, Math.floor(window.innerHeight * 0.8));
+          let y = 0;
+          for (let guard = 0; guard < 400; guard += 1) {
             window.scrollTo(0, y);
-            await new Promise((r) => setTimeout(r, 60));
+            await new Promise((r) => setTimeout(r, 70));
+            const bottom = document.documentElement.scrollHeight - window.innerHeight;
+            if (y >= bottom) break;
+            y = Math.min(y + step, bottom);
           }
           window.scrollTo(0, 0);
+          await new Promise((r) => setTimeout(r, 120));
+        });
+        /* ביטול טעינה עצלה לפני ההמתנה.
+           בדפדפן ללא ממשק גרפי, loading="lazy" לא נורה תמיד בגלילה
+           מתוכנתת: שתי תמונות ב-/about לא נתבקשו כלל גם אחרי גלילה מלאה
+           עד תחתית העמוד, והבסיס נשמר איתן ריקות. עם eager הן נטענו מיד
+           בסטטוס 200, כלומר האתר תקין והכלי היה זה שטעה.
+           גולש אמיתי טוען אותן בגלילה רגילה; הצילום צריך את כולן תמיד. */
+        await tab.evaluate(() => {
+          for (const img of document.querySelectorAll('img[loading="lazy"]')) {
+            img.loading = "eager";
+            img.setAttribute("loading", "eager");
+          }
+        });
+
+        /* המתנה מפורשת לכל התמונות.
+           בלכידת הבסיס הראשונה מטמון אופטימיזציית התמונות היה קר, וכמה
+           תמונות עצלות לא הספיקו להיטען. התוצאה: בסיס עם מסגרות ריקות,
+           שכל השוואה אליו מדווחת "הבדל" שהוא רק תזמון. השהיה קבועה לא
+           פותרת את זה כי היא לא יודעת על מה היא ממתינה. */
+        await tab.evaluate(async () => {
+          const pending = [...document.querySelectorAll("img")].filter(
+            (img) => !img.complete || img.naturalWidth === 0,
+          );
+          await Promise.all(
+            pending.map(
+              (img) =>
+                new Promise((resolve) => {
+                  const done = () => resolve(undefined);
+                  img.addEventListener("load", done, { once: true });
+                  img.addEventListener("error", done, { once: true });
+                  setTimeout(done, 20_000);
+                }),
+            ),
+          );
         });
         await tab.waitForTimeout(600);
+
+        /* תמונה שנשארה ריקה אחרי ההמתנה נרשמת. צילום עם מסגרת ריקה אינו
+           בסיס תקין, וצריך לדעת עליו במקום לגלות אותו כ"הבדל" מאוחר יותר. */
+        const emptyImages = await tab.evaluate(
+          () =>
+            [...document.querySelectorAll("img")].filter(
+              (img) => img.naturalWidth === 0,
+            ).length,
+        );
+        if (emptyImages > 0) {
+          process.stdout.write(
+            `\n    ! ${page.path} ברוחב ${viewport.name}: ${emptyImages} תמונות לא נטענו\n`,
+          );
+        }
 
         /* צילום של עמוד ריק נראה בדיוק כמו צילום תקין בדיף, ולכן
            הבסיס היה נקבע על כלום. h1 הוא הסימן הזול שהעמוד באמת רונדר. */

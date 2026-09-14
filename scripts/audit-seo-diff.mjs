@@ -47,6 +47,7 @@
  * הכשל ש-audit:a11y סבל ממנו: ירוק אחרי אפס עמודים.
  */
 import { readdirSync, statSync, readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { join, relative, sep } from "node:path";
 
 const BUILD_DIR = ".next/server/app";
@@ -134,6 +135,19 @@ function headings(html, level) {
 function visibleWordCount(html) {
   const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   let text = body ? body[1] : html;
+  /* מחוון שעות הפעילות (LivePulseBadge) הוא רכיב שרת, ולכן שעת הבנייה
+     נצרבת ל-HTML. בנייה ב-18:53 כותבת "אולפן פעיל, זמין להקלטות השבוע"
+     ובנייה ב-00:06 כותבת "חוזרים ב-9:00": הפרש של ארבע מילים בתשעה עמודים,
+     בלי ששורת קוד אחת השתנתה. בלי החרגה כאן, כל בנייה בשעה אחרת הייתה
+     מדווחת רגרסיה מזויפת, והשומר היה מאבד אמינות.
+
+     הקישור לרכיב הוא המחלקה studio-live-dot. אם היא תשונה, ההחרגה תפסיק
+     לעבוד בשקט, ולכן מספר העמודים שמכילים אותה נשמר גם באותות האתר. */
+  text = text.replace(
+    /<aside\b[^>]*>(?:(?!<\/aside>)[\s\S])*<\/aside>/gi,
+    (el) => (el.includes("studio-live-dot") ? " " : el),
+  );
+
   text = text
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
@@ -189,6 +203,31 @@ function jsonLd(html) {
   const propsOut = {};
   for (const [k, v] of Object.entries(props)) propsOut[k] = [...v].sort();
   return { types: [...types].sort(), props: propsOut };
+}
+
+/* מאיזה מקור נבנה הבסיס. בלי זה, בסיס שנלכד על עץ עבודה מלוכלך נראה
+   זהה לבסיס שנלכד על קומיט נקי, ואי אפשר לדעת בדיעבד מה בדיוק נמדד. */
+function gitState() {
+  const run = (args) => {
+    try {
+      return execFileSync("git", args, { encoding: "utf8" }).trim();
+    } catch {
+      return null;
+    }
+  };
+  const dirty = run(["status", "--porcelain"]);
+  return {
+    gitHead: run(["rev-parse", "--short", "HEAD"]),
+    uncommittedFiles: dirty ? dirty.split("\n").length : 0,
+  };
+}
+
+function buildId() {
+  try {
+    return readFileSync(".next/BUILD_ID", "utf8").trim();
+  } catch {
+    return null;
+  }
 }
 
 function extract(file) {
@@ -268,7 +307,18 @@ if (WRITE) {
   mkdirSync("scripts/baselines", { recursive: true });
   writeFileSync(
     BASELINE,
-    JSON.stringify({ capturedAt: new Date().toISOString(), urlCount, site, pages }, null, 2) + "\n",
+    JSON.stringify(
+      {
+        capturedAt: new Date().toISOString(),
+        buildId: buildId(),
+        ...gitState(),
+        urlCount,
+        site,
+        pages,
+      },
+      null,
+      2,
+    ) + "\n",
   );
   console.log("\naudit:seo-diff");
   console.log("  בסיס נכתב: " + BASELINE);
