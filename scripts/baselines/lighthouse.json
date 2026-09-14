@@ -4,87 +4,87 @@
   "throttling": "devtools",
   "formFactor": "mobile",
   "runs": 3,
-  "buildId": "voHhdZD_OJCgcRme_phc4",
-  "capturedAt": "2026-09-14T18:28:56.182Z",
+  "buildId": "4i3ieU5BrJreIMm4yeRnc",
+  "capturedAt": "2026-09-14T21:43:34.314Z",
   "pages": {
     "/": {
-      "performance": 95,
+      "performance": 94,
       "seo": 100,
       "accessibility": 97,
       "best-practices": 96,
-      "lcp": 2186,
-      "fcp": 2186,
-      "tbt": 123,
+      "lcp": 2292,
+      "fcp": 2292,
+      "tbt": 139,
       "cls": 0,
-      "si": 2617,
+      "si": 2725,
       "runs": [
-        95,
-        95,
-        95
+        93,
+        94,
+        94
       ]
     },
     "/studio": {
-      "performance": 94,
+      "performance": 93,
       "seo": 100,
       "accessibility": 97,
       "best-practices": 96,
-      "lcp": 2411,
-      "fcp": 2245,
-      "tbt": 112,
+      "lcp": 2467,
+      "fcp": 2361,
+      "tbt": 124,
       "cls": 0,
-      "si": 2653,
+      "si": 2802,
       "runs": [
-        95,
-        94,
-        94
+        93,
+        93,
+        93
       ]
     },
     "/studio/recording-song-modiin": {
-      "performance": 96,
+      "performance": 94,
       "seo": 100,
       "accessibility": 97,
       "best-practices": 96,
-      "lcp": 2119,
-      "fcp": 2119,
-      "tbt": 119,
+      "lcp": 2300,
+      "fcp": 2300,
+      "tbt": 141,
       "cls": 0,
-      "si": 2458,
+      "si": 2553,
       "runs": [
-        96,
-        96,
-        95
+        94,
+        95,
+        94
       ]
     },
     "/book": {
-      "performance": 85,
+      "performance": 84,
       "seo": 100,
       "accessibility": 95,
       "best-practices": 96,
-      "lcp": 3955,
-      "fcp": 2071,
-      "tbt": 112,
+      "lcp": 4034,
+      "fcp": 2153,
+      "tbt": 123,
       "cls": 0.001,
-      "si": 2499,
+      "si": 2582,
       "runs": [
-        85,
-        85,
-        85
+        84,
+        84,
+        84
       ]
     },
     "/blog/prepare-voice-podcast-studio": {
-      "performance": 94,
+      "performance": 93,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2402,
-      "fcp": 2180,
-      "tbt": 120,
+      "lcp": 2477,
+      "fcp": 2310,
+      "tbt": 137,
       "cls": 0.001,
-      "si": 2662,
+      "si": 2787,
       "runs": [
-        95,
-        94,
-        94
+        93,
+        93,
+        93
       ]
     }
   }
