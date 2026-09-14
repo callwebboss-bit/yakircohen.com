@@ -1,6 +1,10 @@
-﻿import { SITE_HUB_LINKS } from "@/lib/site-architecture";
-
+﻿
 export const SITE_NAME = "יקיר כהן הפקות";
+
+/* שם האדם, להבדיל משם העסק. הסכמה הצהירה על #founder כמחבר של 87 פוסטי
+   הבלוג בזמן שהשורה הגלויה הדפיסה את שם העסק, כלומר הקוד והעמוד טענו שני
+   מחברים שונים. השם היה קשיח בשני קבצי סכמה. */
+export const FOUNDER_NAME = "יקיר כהן";
 
 /** Short label for page kickers (no first name) */
 export const SITE_KICKER = "הפקות מקצועית במודיעין";
@@ -63,12 +67,6 @@ export const STUDIO_MAPS_URL = "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8";
 export const STUDIO_GOOGLE_MAPS_URL = STUDIO_MAPS_URL;
 
 export const STUDIO_WAZE_URL = STUDIO_MAPS_URL;
-
-/** מרכזי תוכן - נגזר מ-site-architecture (לפוטר ומקומות ישנים) */
-export const NAV_HUBS = [
-  ...SITE_HUB_LINKS,
-  { href: "/blog", label: "מגזין מקצועי" },
-] as const;
 
 /** Footer-only links (trust links live in FOOTER_SEMANTIC_TREE column 5) */
 export const FOOTER_EXTRA_LINKS: readonly { href: string; label: string }[] = [

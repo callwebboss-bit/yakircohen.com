@@ -1,0 +1,86 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import {
+  EVENTS_SERVICES,
+  PHOTOGRAPHY_SERVICES,
+  STUDIO_SERVICES,
+  VIDEO_SERVICES,
+  VOICEOVER_SERVICES,
+} from "@/lib/data/services";
+import { buildServicePageEntitySchema, buildServiceSchema } from "./page-schema";
+
+/*
+ * נועל שלושה פגמים שנמצאו בסבב ספטמבר 2026 ותוקנו:
+ *
+ * 1. pricingToOffer פלט Offer עם priceCurrency ובלי price עבור מדרגות
+ *    שהמחיר שלהן הוא טקסט ("הצעה אישית", "הצעה בוואטסאפ", "בתוספת תשלום").
+ *    נמדדו 12 כאלה בחמשת הרג׳יסטרים. Offer בלי מחיר הוא צומת שבור.
+ *
+ * 2. הצומת הדק שנבנה ב-ServicePageLayout פלט Service בלי areaServed בכלל,
+ *    בעוד הצומת העשיר נשא GeoCircle. 37 קבצים משתמשים בדק.
+ *
+ * 3. שני צמתי Service עם אותו @id יכולים להיפלט מאותו עמוד כשקובץ מעביר
+ *    pagePath בלי emitPageEntitySchema={false} וגם פולט ServicePageSchema.
+ */
+
+const ALL_SERVICES = [
+  ...Object.values(STUDIO_SERVICES),
+  ...Object.values(VOICEOVER_SERVICES),
+  ...Object.values(EVENTS_SERVICES),
+  ...Object.values(VIDEO_SERVICES),
+  ...Object.values(PHOTOGRAPHY_SERVICES),
+];
+
+type Offer = { price?: unknown; priceCurrency?: unknown; name?: unknown };
+
+test("כל Offer בסכמת Service נושא מחיר מספרי", () => {
+  assert.ok(ALL_SERVICES.length > 0, "רג׳יסטרי השירותים ריק, הבדיקה חסרת ערך");
+
+  const broken: string[] = [];
+  for (const service of ALL_SERVICES) {
+    const schema = buildServiceSchema(service) as { offers?: Offer[] };
+    for (const offer of schema.offers ?? []) {
+      if (typeof offer.price !== "string" || !/^\d+(\.\d+)?$/.test(offer.price)) {
+        broken.push(`${service.slug} -> ${String(offer.name)} (price=${String(offer.price)})`);
+      }
+    }
+  }
+
+  assert.deepEqual(
+    broken,
+    [],
+    `Offer בלי מחיר מספרי. מדרגה שהמחיר שלה הוא טקסט לא אמורה להיכנס ל-offers:\n${broken.join("\n")}`,
+  );
+});
+
+test("מדרגה שהמחיר שלה טקסט אכן יורדת מה-offers ולא נספרת", () => {
+  /* events/dj-events: שלוש המדרגות שלו כולן "הצעה אישית", ולכן אין לו offers */
+  const djEvents = ALL_SERVICES.find((s) => s.slug === "events/dj-events");
+  assert.ok(djEvents, "events/dj-events לא נמצא ברג׳יסטרי");
+  assert.ok((djEvents.pricing ?? []).length > 0, "לשירות אין מדרגות, הבדיקה לא בודקת כלום");
+
+  const schema = buildServiceSchema(djEvents) as { offers?: Offer[] };
+  assert.equal(schema.offers, undefined, "שירות שכל מדרגותיו טקסט לא אמור לפלוט offers בכלל");
+});
+
+test("הצומת הדק נושא את אותו אזור שירות כמו העשיר", () => {
+  const thin = buildServicePageEntitySchema({
+    pagePath: "/studio/blessings",
+    title: "בדיקה",
+    description: "בדיקה",
+  }) as { "@graph": Record<string, unknown>[] };
+
+  const serviceNode = thin["@graph"][0] as { areaServed?: { "@type"?: string } };
+  assert.equal(
+    serviceNode.areaServed?.["@type"],
+    "GeoCircle",
+    "הצומת הדק חזר לפלוט Service בלי אזור שירות",
+  );
+
+  const rich = buildServiceSchema(ALL_SERVICES[0]) as { areaServed?: { "@type"?: string } };
+  assert.deepEqual(
+    serviceNode.areaServed,
+    rich.areaServed,
+    "שני צמתי ה-Service חייבים להצהיר על אותו אזור שירות בדיוק",
+  );
+});

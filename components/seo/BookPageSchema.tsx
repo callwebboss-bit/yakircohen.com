@@ -7,6 +7,7 @@ import {
 import { BOOK_PAGE_FAQ } from "@/lib/data/book-page-faq";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { SITE_NAME } from "@/lib/constants";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
@@ -58,8 +59,8 @@ export default function BookPageSchema() {
     name: `${BOOK_PAGE_TITLE}${BRAND_SUFFIX}`,
     description: BOOK_PAGE_DESCRIPTION,
     inLanguage: "he-IL",
-    isPartOf: { "@id": `${absoluteUrl()}#website` },
-    about: { "@id": `${absoluteUrl()}#organization` },
+    isPartOf: { "@id": ENTITY_IDS.website },
+    about: { "@id": ENTITY_IDS.organization },
     primaryImageOfPage: {
       "@type": "ImageObject",
       url: imageUrl,

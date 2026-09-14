@@ -4,6 +4,7 @@ import type { BookCategoryId } from "@/lib/book-url";
 import { isTierACategory } from "@/lib/book-wizard-cro/types";
 import { PRICING_HUB_SECTIONS } from "@/lib/data/pricing-hub";
 import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { SITE_NAME } from "@/lib/constants";
 
 function priceRangeForCategory(category: BookCategoryId): { low: number; high: number } | null {
@@ -36,17 +37,14 @@ export default function BookCategorySchema({ category }: { category: BookCategor
     },
   };
 
+  /* היה כאן LocalBusiness שני בלי @id, עם כתובת באנגלית ועם url שמצביע
+     על עמוד הקטגוריה. זה הצהיר על עסק נוסף שיושב בכתובת אחרת, במקום לחזק
+     את הצומת הקיים. עכשיו הפניה לצומת הקנוני עם אזור השירות של העמוד. */
   const localSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: SITE_NAME,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Modiin",
-      addressCountry: "IL",
-    },
+    "@id": ENTITY_IDS.localBusiness,
     areaServed: "Modiin-Maccabim-Reut",
-    url: pageUrl,
   };
 
   return (

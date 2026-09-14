@@ -806,12 +806,6 @@ export const CONTENT_EXPANSION_TOPICS: readonly {
   },
 ];
 
-/** קישורי hub לפוטר / מסך בית - ללא כפילויות */
-export const SITE_HUB_LINKS: SiteNavLink[] = SITE_NAVIGATION.map((c) => ({
-  label: c.label,
-  href: c.href,
-}));
-
 const PATH_CATEGORY_RULES: readonly { prefix: string; categoryId: NavCategoryId }[] = [
   { prefix: "/events/attractions", categoryId: "attractions" },
   { prefix: "/events/wedding-attractions-packages", categoryId: "attractions" },

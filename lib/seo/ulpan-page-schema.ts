@@ -6,8 +6,9 @@ import {
   ULPAN_SHOWCASE_VIDEOS,
   ULPAN_TESTIMONIAL,
 } from "@/lib/data/academy-ulpan-page";
-import { SITE_NAME } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import { FOUNDER_NAME } from "@/lib/constants";
 import {
   youtubeEmbedUrlFromId,
   youtubeThumbnailUrl,
@@ -35,11 +36,7 @@ function buildVideoNodes() {
     uploadDate: "2024-01-01",
     inLanguage: "he-IL",
     educationalUse: "instruction",
-    publisher: {
-      "@type": "Organization" as const,
-      name: SITE_NAME,
-      url: absoluteUrl(),
-    },
+    publisher: { "@id": ENTITY_IDS.organization },
   }));
 }
 
@@ -57,20 +54,16 @@ export function buildUlpanPageSchema() {
         name: ULPAN_META.title,
         description: ULPAN_META.description,
         inLanguage: "he-IL",
-        isPartOf: { "@id": `${absoluteUrl()}/#website` },
+        isPartOf: { "@id": ENTITY_IDS.website },
         about: { "@id": `${pageUrl}#hebrew-tutoring-service` },
       },
       {
         "@type": "Person",
         "@id": `${pageUrl}#hebrew-tutor`,
-        name: "יקיר כהן",
+        name: FOUNDER_NAME,
         jobTitle: "מורה פרטי לעברית",
         knowsAbout: ["עברית מדוברת", "הוראת עברית", "Ulpan", "Ivrit be-Ivrit"],
-        worksFor: {
-          "@type": "Organization",
-          name: SITE_NAME,
-          url: absoluteUrl(),
-        },
+        worksFor: { "@id": ENTITY_IDS.organization },
       },
       {
         "@type": "Service",

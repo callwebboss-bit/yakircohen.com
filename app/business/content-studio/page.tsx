@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import ContentStudioPageContent from "@/components/business/content-studio/ContentStudioPageContent";
 import { constructMetadata } from "@/lib/metadata";
 import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
@@ -7,7 +8,7 @@ import {
   CONTENT_STUDIO_TAGLINE,
   CONTENT_STUDIO_TIERS,
 } from "@/lib/data/content-studio";
-import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
+import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = constructMetadata({
@@ -37,11 +38,7 @@ const jsonLd = {
       "@id": `${pageUrl}#service`,
       name: `${CONTENT_STUDIO_BRAND}, ${CONTENT_STUDIO_TAGLINE}`,
       url: pageUrl,
-      provider: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: absoluteUrl(),
-      },
+      provider: { "@id": ENTITY_IDS.organization },
       areaServed: { "@type": "Country", name: "Israel" },
       description:
         "יום צילום מרוכז באולפן. רילז, שורטס וטיקטוק לעסקים. כתוביות צבעוניות וריטיינר חודשי.",

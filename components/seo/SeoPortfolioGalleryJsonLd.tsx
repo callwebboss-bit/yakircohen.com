@@ -4,7 +4,7 @@ import {
 } from "@/lib/data/seo-portfolio-media";
 import { getExVat, catalogWithVat } from "@/lib/data/pricing-catalog";
 import { SITE_URL } from "@/lib/site-url";
-import { SITE_NAME } from "@/lib/constants";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 
 /** JSON-LD Service/Offer לפי מדיה בגלריה - מחירים מקטלוג בלבד */
 export default function SeoPortfolioGalleryJsonLd() {
@@ -47,11 +47,7 @@ export default function SeoPortfolioGalleryJsonLd() {
       "@type": "Service",
       name: s.name,
       url: s.url,
-      provider: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: SITE_URL,
-      },
+      provider: { "@id": ENTITY_IDS.organization },
       offers: {
         "@type": "Offer",
         priceCurrency: "ILS",

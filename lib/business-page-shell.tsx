@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import BusinessTierPageContent from "@/components/business/BusinessTierPageContent";
 import type { BusinessPageConfig } from "@/lib/data/business-tier-types";
 import { constructMetadata } from "@/lib/metadata";
 import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
-import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
+import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
@@ -37,11 +38,7 @@ export function buildBusinessPageJsonLd(slug: string, config: BusinessPageConfig
         "@id": `${pageUrl}#service`,
         name: config.pageTitle,
         url: pageUrl,
-        provider: {
-          "@type": "Organization",
-          name: SITE_NAME,
-          url: absoluteUrl(),
-        },
+        provider: { "@id": ENTITY_IDS.organization },
         areaServed: { "@type": "Country", name: "Israel" },
         description: config.subtitle,
         telephone: CONTACT_PHONE_E164,

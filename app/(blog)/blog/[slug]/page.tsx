@@ -18,12 +18,13 @@ import { getDiagnosticForPost } from "@/lib/data/blog-diagnostic";
 import { getBlogNurture } from "@/lib/data/blog-nurture";
 import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
-import { SITE_NAME } from "@/lib/constants";
+import { FOUNDER_NAME } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { enhanceBlogHtmlWithGlossary } from "@/lib/sanitize-html";
-import { absoluteUrl, SITE_URL } from "@/lib/site-url";
+import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -105,12 +106,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     /* מחבר אנושי, לא ארגון. ישות ה-#founder (Person) כבר קיימת בגרף האתר
        עם שם, תפקיד, תמונה ו-sameAs. 87 פוסטים בלי מחבר מזוהה הם בדיוק מה
        שמדדי E-E-A-T של גוגל ומנועי תשובות מחפשים. המפרסם נשאר הארגון. */
-    author: { "@id": `${SITE_URL}/#founder` },
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    author: { "@id": ENTITY_IDS.founder },
+    publisher: { "@id": ENTITY_IDS.organization },
     mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
   };
 
@@ -146,7 +143,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <time dateTime={post.seo.datePublished}>{post.date}</time>
               <span aria-hidden="true">-</span>
-              <span>{SITE_NAME}</span>
+              {/* הסכמה מצהירה על #founder כמחבר. השורה הגלויה הדפיסה את שם
+                  העסק, ולכן הקוד והעמוד טענו שני מחברים שונים בכל 87 הפוסטים. */}
+              <span>
+                מאת{" "}
+                <Link
+                  href="/about"
+                  className="font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                >
+                  {FOUNDER_NAME}
+                </Link>
+              </span>
             </div>
           </div>
         </header>

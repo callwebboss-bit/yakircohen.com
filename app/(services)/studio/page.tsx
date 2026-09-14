@@ -1,4 +1,5 @@
 ﻿import { metadataFromService } from "@/lib/data/service-metadata";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import CaseStudySection from "@/components/marketing/CaseStudySection";
@@ -41,21 +42,12 @@ const STUDIO_PRICING_LINK = {
 const STUDIO_STRUCTURED_DATA = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "LocalBusiness",
-      name: "האולפן -- יקיר כהן הפקות",
-      image: "https://www.yakircohen.com/images/studio-hero.jpg",
-      url: "https://www.yakircohen.com/studio",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "עמק איילון 34",
-        addressLocality: "מודיעין-מכבים-רעות",
-        addressCountry: "IL",
-      },
-      description:
-        "אולפן הקלטות במודיעין - שיר, ברכה, פודקאסט והקלטות לאירועים. חדר אקוסטי, ציוד מקצועי וחניה בשפע.",
-      priceRange: "$$",
-    },
+    /* היה כאן LocalBusiness שני, אנונימי, עם אותה כתובת. הוא הצהיר
+       image ו-url תחת www.yakircohen.com, והתמונה מחזירה 404 בשני
+       הדומיינים ואינה קיימת בריפו. כל שאר השדות שכפלו את הצומת הקנוני,
+       ו-priceRange אפילו סתר אותו: "$" מול "₪₪".
+       עכשיו זו הפניה בלבד, כדי שהציוד למטה ייקשר לעסק האמיתי. */
+    { "@type": "LocalBusiness", "@id": ENTITY_IDS.localBusiness },
     {
       "@type": "Product",
       name: "Townsend Sphere L22",

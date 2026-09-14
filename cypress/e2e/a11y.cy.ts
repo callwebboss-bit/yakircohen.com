@@ -14,8 +14,10 @@ const CRITICAL_PAGES = [
   { path: "/pricing", label: "מחירון" },
 ];
 
-// Rules to ignore: color-contrast is a design decision, scrollable-region-focusable
-// is a known pattern with overflowing tables.
+// ההערה כאן סתרה את הקוד: היא אמרה ש-color-contrast מוחרג, אבל הוא לא היה
+// ברשימה ולכן כן נאכף. משאירים אותו נאכף, כי ניגודיות היא כשל WCAG 1.4.3
+// אמיתי ולא החלטת עיצוב, ומיישרים את ההערה למה שהקוד באמת עושה.
+// scrollable-region-focusable מוחרג: דפוס ידוע של טבלאות גולשות.
 const AXE_DISABLE_RULES = ["scrollable-region-focusable"];
 
 describe("Accessibility - axe-core WCAG 2.1 AA", () => {

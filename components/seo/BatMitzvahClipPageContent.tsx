@@ -12,6 +12,7 @@ import {
   BAT_MITZVAH_STARTING_PRICE,
 } from "@/lib/data/bat-mitzvah-gifts-page";
 import { SITE_NAME } from "@/lib/constants";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const MAIN_CTA = buildWhatsAppHref({
@@ -26,16 +27,10 @@ const SERVICE_JSON_LD = {
   name: "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן",
   description:
     "הפקת קליפ לבת מצווה עם שילוב תמונות ילדות, סרטונים מהבית והקלטה באולפן מקצועי במודיעין. שיר אישי, צילום, עריכה ומיקס.",
-  provider: {
-    "@type": "LocalBusiness",
-    name: SITE_NAME,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "מודיעין-מכבים-רעות",
-      addressCountry: "IL",
-    },
-    areaServed: ["מודיעין", "ירושלים", "מרכז"],
-  },
+  /* הפניה לעסק המוכרז, במקום עותק אנונימי. אזור השירות עבר לצומת
+     ה-Service, שם הוא מתאר את הכיסוי של השירות ולא של העסק. */
+  provider: { "@id": ENTITY_IDS.localBusiness },
+  areaServed: ["מודיעין", "ירושלים", "מרכז"],
   serviceType: "קליפ בת מצווה",
 };
 

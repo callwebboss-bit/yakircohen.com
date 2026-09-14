@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import Link from "next/link";
 import { useCallback } from "react";
 import SoundProofTable from "@/components/seo/SoundProofTable";
@@ -109,7 +110,7 @@ export default function AudioShowcase({
     description: c.jsonLdDesc,
     encodingFormat: "audio/mpeg",
     inLanguage: "he",
-    author: { "@type": "Organization", name: "יקיר כהן הפקות" },
+    author: { "@id": ENTITY_IDS.organization },
   };
 
   const waHref =

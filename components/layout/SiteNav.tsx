@@ -14,68 +14,10 @@ import {
   type SiteNavCategory,
 } from "@/lib/site-architecture";
 import { SITE_NAME } from "@/lib/constants";
-import { INTENT_NAV_ITEMS } from "@/lib/data/intent-nav";
 import { cn } from "@/lib/utils";
 import SiteSearch from "@/components/ui/SiteSearch";
 import IntentNavStrip from "@/components/layout/IntentNavStrip";
 
-
-const SERVICE_PICKER_ITEMS = INTENT_NAV_ITEMS.map((item) => ({
-  href: item.href,
-  label: item.label,
-}));
-
-function ServicePickerDropdown() {
-  const [open, setOpen] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onPointerDown = (e: PointerEvent) => {
-      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [open]);
-
-  return (
-    <div ref={wrapRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-haspopup="true"
-        className={cn(
-          "group relative inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-fast ease-luxury active:scale-95",
-          open
-            ? "bg-surface text-brand-red"
-            : "bg-brand-red/8 text-brand-red hover:bg-brand-red/15",
-        )}
-      >
-        בחרו לפי צורך
-        <ChevronIcon open={open} />
-      </button>
-      {open && (
-        <div
-          className="absolute start-0 top-full z-[60] mt-1.5 min-w-[13rem] rounded-xl border border-border bg-background p-1.5 shadow-xl"
-          role="menu"
-        >
-          {SERVICE_PICKER_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              role="menuitem"
-              onClick={() => setOpen(false)}
-              className="flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground/90 transition-all duration-fast hover:bg-surface hover:text-brand-red active:scale-[0.98]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function ChevronIcon({ open }: { open: boolean }) {
   return (
@@ -409,10 +351,6 @@ export function SiteNavDesktop() {
       className="flex items-center gap-0.5"
       aria-label="ניווט ראשי"
     >
-      <div className="lg:hidden">
-        <ServicePickerDropdown />
-        <span aria-hidden className="mx-1 h-4 w-px bg-border" />
-      </div>
       {HEADER_PRIMARY_NAV.map((entry) =>
         entry.kind === "dropdown" ? (
           <DesktopDropdown

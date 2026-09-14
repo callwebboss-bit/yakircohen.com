@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 /** Reinforces #founder Person entity on the About page. */
@@ -10,7 +11,7 @@ export default function PersonAboutSchema() {
     url: `${SITE_URL}/about`,
     name: "אודות יקיר כהן",
     inLanguage: "he-IL",
-    mainEntity: { "@id": `${SITE_URL}/#founder` },
+    mainEntity: { "@id": ENTITY_IDS.founder },
   };
 
   return (

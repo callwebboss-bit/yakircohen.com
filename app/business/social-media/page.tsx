@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import SocialMediaPageContent from "@/components/business/social-media/SocialMediaPageContent";
 import { constructMetadata } from "@/lib/metadata";
 import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
@@ -7,7 +8,7 @@ import {
   RETAINER_TIERS,
   SOCIAL_MEDIA_BRAND,
 } from "@/lib/data/social-media";
-import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
+import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = constructMetadata({
@@ -37,11 +38,7 @@ const jsonLd = {
       "@id": `${pageUrl}#service`,
       name: `ניהול סושיאל ומדיה - ${SOCIAL_MEDIA_BRAND}`,
       url: pageUrl,
-      provider: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: absoluteUrl(),
-      },
+      provider: { "@id": ENTITY_IDS.organization },
       areaServed: { "@type": "Country", name: "Israel" },
       description:
         "ניהול סושיאל, צילום, עריכה ואסטרטגיית תוכן לטיקטוק, אינסטגרם ופייסבוק.",

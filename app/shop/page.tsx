@@ -5,7 +5,8 @@ import { SHOP_VOUCHER_TIERS } from "@/lib/data/shop-vouchers";
 import { metadataForHubSeo, SHOP_HUB_SEO, hubSchemaPropsFromSeo } from "@/lib/seo/hub-pages";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { absoluteUrl } from "@/lib/site-url";
-import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import { SITE_NAME } from "@/lib/constants";
 import { VAT_RATE } from "@/lib/data/pricing";
 
 export const metadata = {
@@ -30,11 +31,7 @@ function productOffers() {
       priceCurrency: "ILS",
       availability: "https://schema.org/InStock",
       url: `${pageUrl}#vouchers`,
-      seller: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        telephone: CONTACT_PHONE_E164,
-      },
+      seller: { "@id": ENTITY_IDS.organization },
     },
     position: i + 1,
   }));
@@ -51,11 +48,7 @@ function gearOffers(startPosition: number) {
     itemCondition: "https://schema.org/UsedCondition",
     availability: "https://schema.org/InStock",
     url: `${pageUrl}#used-gear`,
-    seller: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      telephone: CONTACT_PHONE_E164,
-    },
+    seller: { "@id": ENTITY_IDS.organization },
   }));
 }
 
@@ -71,7 +64,7 @@ const jsonLd = {
       description:
         "שוברי מתנה לאולפן ואירועים, חבילות משולבות וציוד יד שנייה מההפקות.",
       inLanguage: "he-IL",
-      isPartOf: { "@id": `${absoluteUrl()}/#website` },
+      isPartOf: { "@id": ENTITY_IDS.website },
       primaryImageOfPage: {
         "@type": "ImageObject",
         url: absoluteUrl(popularVoucher.imageSrc.replace(/^\//, "")),

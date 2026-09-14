@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import {
   CONTACT_PHONE_E164,
   STUDIO_MAPS_URL,
@@ -16,6 +17,7 @@ import {
 } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
+import { FOUNDER_NAME } from "@/lib/constants";
 
 const BASE = SITE_URL;
 
@@ -37,18 +39,18 @@ export function buildSiteSchema() {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${BASE}/#website`,
+        "@id": ENTITY_IDS.website,
         url: BASE,
         name: "יקיר כהן הפקות",
         description:
           "אולפן הקלטות פרמיום, הפקות מוזיקה לאירועים, פודקאסטים וקריינות במודיעין",
         inLanguage: "he-IL",
         image: DEFAULT_OG_IMAGE_URL,
-        publisher: { "@id": `${BASE}/#organization` },
+        publisher: { "@id": ENTITY_IDS.organization },
       },
       {
         "@type": "Organization",
-        "@id": `${BASE}/#organization`,
+        "@id": ENTITY_IDS.organization,
         name: "יקיר כהן הפקות",
         alternateName: "Yakir Cohen Productions",
         url: BASE,
@@ -58,21 +60,21 @@ export function buildSiteSchema() {
         },
         telephone: CONTACT_PHONE_E164,
         foundingDate: "2010",
-        founder: { "@id": `${BASE}/#founder` },
+        founder: { "@id": ENTITY_IDS.founder },
         address: ADDRESS,
         sameAs: sameAsUrls,
       },
       {
         "@type": "Person",
-        "@id": `${BASE}/#founder`,
-        name: "יקיר כהן",
+        "@id": ENTITY_IDS.founder,
+        name: FOUNDER_NAME,
         alternateName: "Yakir Cohen",
         jobTitle: "מפיק מוזיקלי ומדריך קול",
         url: `${BASE}/about`,
         image: FOUNDER_IMAGE_URL,
         knowsAbout: [...FOUNDER_KNOWS_ABOUT],
         sameAs: sameAsUrls,
-        worksFor: { "@id": `${BASE}/#organization` },
+        worksFor: { "@id": ENTITY_IDS.organization },
       },
       {
         "@type": [
@@ -80,10 +82,14 @@ export function buildSiteSchema() {
           "EntertainmentBusiness",
           "MusicRecordingStudio",
         ],
-        "@id": `${BASE}/#localbusiness`,
+        "@id": ENTITY_IDS.localBusiness,
         name: "יקיר כהן הפקות",
         alternateName: ["Yakir Cohen Productions", "יקיר כהן הפקות מוזיקה"],
         url: BASE,
+        /* גוגל ממליץ על image ל-LocalBusiness והצומת היה בלעדיו. אותה תמונה
+           שכבר משמשת את WebSite, ולכן היא קיימת, נמדדה חיה ומוגשת מהדומיין
+           הקנוני. עמוד /studio הצהיר במקומה קובץ תחת www שמחזיר 404. */
+        image: DEFAULT_OG_IMAGE_URL,
         telephone: CONTACT_PHONE_E164,
         priceRange: "₪₪",
         currenciesAccepted: "ILS",
@@ -131,7 +137,7 @@ export function buildSiteSchema() {
           { "@type": "AdministrativeArea", name: "מרכז" },
         ],
         sameAs: sameAsUrls,
-        parentOrganization: { "@id": `${BASE}/#organization` },
+        parentOrganization: { "@id": ENTITY_IDS.organization },
         makesOffer: [
           {
             "@type": "Offer",
@@ -237,7 +243,7 @@ export function buildSiteSchema() {
         name: "שירותי AI מקוונים",
         description:
           "שיפור קול, תיקון הקלטות פגומות, מיקס ומאסטרינג, תיקון זיופים ושדרוג תמונות - הכל מרחוק",
-        provider: { "@id": `${BASE}/#organization` },
+        provider: { "@id": ENTITY_IDS.organization },
         serviceType: "Audio Production",
         areaServed: { "@type": "Country", name: "Israel" },
         url: `${BASE}/online`,

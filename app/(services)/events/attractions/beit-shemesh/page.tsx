@@ -5,6 +5,8 @@ import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import Container from "@/components/ui/Container";
@@ -86,18 +88,12 @@ const jsonLd = {
   "@type": "Service",
   name: "אטרקציות לאירועים בבית שמש",
   description: "עשן כבד, זיקוקים קרים, בועות וקונפטי לחתונות ואירועים בבית שמש",
-  provider: {
-    "@type": "LocalBusiness",
-    name: "יקיר כהן הפקות",
-    telephone: "+972587555456",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "עמק איילון 34",
-      addressLocality: "מודיעין-מכבים-רעות",
-      addressCountry: "IL",
-    },
-    areaServed: ["בית שמש", "מודיעין-מכבים-רעות", "המרכז"],
-  },
+  /* הפניה לעסק המוכרז בגרף האתר, במקום LocalBusiness אנונימי בלי @id.
+     עותק אנונימי עם אותה כתובת נקרא כעסק נוסף ולא כאותו עסק, ולכן הוא
+     מפצל את הישות במקום לחזק אותה. אזור השירות עבר לצומת ה-Service, שם
+     הוא מתאר את הכיסוי של השירות הזה ולא של העסק. */
+  provider: { "@id": ENTITY_IDS.localBusiness },
+  areaServed: ["בית שמש", "מודיעין-מכבים-רעות", "המרכז"],
   url: `${SITE_URL}/events/attractions/beit-shemesh`,
 };
 
@@ -112,7 +108,7 @@ export default function AttractionsBeitShemeshPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
       />
       <FaqPageSchema items={FAQ_ITEMS.map((f) => ({ question: f.question, answer: String(f.answer) }))} />
 

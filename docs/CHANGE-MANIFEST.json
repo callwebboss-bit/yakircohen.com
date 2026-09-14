@@ -1,99 +1,287 @@
 {
-  "head": "6c5a29e81b4d41279de2d4c83fda00d19463a9db",
+  "head": "e1af60402d312c30f2c9fca488f6933699068783",
   "branch": "preview/chrome-polish",
   "counts": {
-    "modified": 15
+    "modified": 38,
+    "deleted": 2,
+    "added": 6
   },
   "entries": [
     {
       "file": ".github/workflows/ci.yml",
       "kind": "modified",
-      "hash": "f8808a8b3d61193d",
-      "bytes": 1735
+      "hash": "e839dcc36630079b",
+      "bytes": 2313
     },
     {
-      "file": "components/lead-flow/NeedsDiscoveryLeadFlow.tsx",
+      "file": "app/(blog)/blog/[slug]/page.tsx",
       "kind": "modified",
-      "hash": "d81d142ef7973993",
-      "bytes": 17836
+      "hash": "a3b75166c56e124d",
+      "bytes": 11138
     },
     {
-      "file": "components/marketing/EventsBookingWizard.tsx",
-      "kind": "modified",
-      "hash": "fe882d058e2ce1b9",
-      "bytes": 63957
+      "file": "app/(blog)/loading.tsx",
+      "kind": "deleted",
+      "hash": null,
+      "bytes": null
     },
     {
-      "file": "components/marketing/PremiumBundleCallout.tsx",
+      "file": "app/(services)/academy/hebrew-lessons/page.tsx",
       "kind": "modified",
-      "hash": "1fc2653329608a89",
-      "bytes": 3066
+      "hash": "231912a1f2341960",
+      "bytes": 23520
     },
     {
-      "file": "components/marketing/StudioRecordingBooking.tsx",
+      "file": "app/(services)/events/attractions/beit-shemesh/page.tsx",
       "kind": "modified",
-      "hash": "8c981963a74eab93",
-      "bytes": 89573
+      "hash": "3820f99121d705ad",
+      "bytes": 13101
     },
     {
-      "file": "components/seo/HeavySmokeLargeEventsPageContent.tsx",
+      "file": "app/(services)/events/attractions/jerusalem/page.tsx",
       "kind": "modified",
-      "hash": "9b9c34e7dc404c5e",
-      "bytes": 12251
+      "hash": "e08190e518f70f18",
+      "bytes": 12936
     },
     {
-      "file": "components/seo/Industry2026PageContent.tsx",
+      "file": "app/(services)/events/attractions/shoham/page.tsx",
       "kind": "modified",
-      "hash": "49d2a5726fcc079a",
-      "bytes": 10919
+      "hash": "bac648e83d64e9ac",
+      "bytes": 12870
     },
     {
-      "file": "components/seo/MobilePodcastAtHomePageContent.tsx",
+      "file": "app/(services)/podcast/beit-shemesh/page.tsx",
       "kind": "modified",
-      "hash": "b9e0e555e6a4d4e8",
-      "bytes": 22908
+      "hash": "a9b5f17a9c00ad89",
+      "bytes": 12339
     },
     {
-      "file": "eslint.config.mjs",
+      "file": "app/(services)/podcast/jerusalem/page.tsx",
       "kind": "modified",
-      "hash": "0ae1743e77c91532",
-      "bytes": 1566
+      "hash": "c04f3f35637ca63d",
+      "bytes": 12159
     },
     {
-      "file": "lib/data/blog.ts",
+      "file": "app/(services)/podcast/rehovot/page.tsx",
       "kind": "modified",
-      "hash": "ac3dab60cae0213e",
-      "bytes": 409153
+      "hash": "bb4c34310c214cc7",
+      "bytes": 12240
     },
     {
-      "file": "lib/data/faq-central.ts",
+      "file": "app/(services)/podcast/shoham/page.tsx",
       "kind": "modified",
-      "hash": "cfaf708a74629200",
-      "bytes": 15354
+      "hash": "b5e06e646889361d",
+      "bytes": 12161
+    },
+    {
+      "file": "app/(services)/studio/page.tsx",
+      "kind": "modified",
+      "hash": "392d7b4f5a14aa32",
+      "bytes": 10683
+    },
+    {
+      "file": "app/book/loading.tsx",
+      "kind": "deleted",
+      "hash": null,
+      "bytes": null
+    },
+    {
+      "file": "app/business/content-studio/page.tsx",
+      "kind": "modified",
+      "hash": "78acde9eacc05593",
+      "bytes": 2459
+    },
+    {
+      "file": "app/business/reel-factory/page.tsx",
+      "kind": "modified",
+      "hash": "945ea4afae223753",
+      "bytes": 2597
+    },
+    {
+      "file": "app/business/social-media/page.tsx",
+      "kind": "modified",
+      "hash": "8494c82bc949c2cb",
+      "bytes": 2954
+    },
+    {
+      "file": "app/shop/page.tsx",
+      "kind": "modified",
+      "hash": "bb1ec4f75abdf184",
+      "bytes": 3171
+    },
+    {
+      "file": "components/layout/SiteNav.tsx",
+      "kind": "modified",
+      "hash": "751cf10f89afca09",
+      "bytes": 19578
+    },
+    {
+      "file": "components/seo/AudioShowcase.tsx",
+      "kind": "modified",
+      "hash": "f266c553e4b1ca1d",
+      "bytes": 8202
+    },
+    {
+      "file": "components/seo/BatMitzvahClipPageContent.tsx",
+      "kind": "modified",
+      "hash": "4c71b145f0a51b85",
+      "bytes": 10821
+    },
+    {
+      "file": "components/seo/BookCategorySchema.tsx",
+      "kind": "modified",
+      "hash": "554a3ef2550be017",
+      "bytes": 2268
+    },
+    {
+      "file": "components/seo/BookPageSchema.tsx",
+      "kind": "modified",
+      "hash": "f4d1647b7dc48a0f",
+      "bytes": 3519
+    },
+    {
+      "file": "components/seo/GeoCityDjPageContent.tsx",
+      "kind": "modified",
+      "hash": "a12d5a14265bac3e",
+      "bytes": 21878
+    },
+    {
+      "file": "components/seo/PersonAboutSchema.tsx",
+      "kind": "modified",
+      "hash": "fc904234b83732be",
+      "bytes": 672
+    },
+    {
+      "file": "components/seo/RecordingSongModiinPageContent.tsx",
+      "kind": "modified",
+      "hash": "0bfe7e736cce1dce",
+      "bytes": 43067
+    },
+    {
+      "file": "components/seo/SeoPortfolioGalleryJsonLd.tsx",
+      "kind": "modified",
+      "hash": "677506895cddc09e",
+      "bytes": 2794
+    },
+    {
+      "file": "cypress/e2e/a11y.cy.ts",
+      "kind": "modified",
+      "hash": "d73d1b8150400e3b",
+      "bytes": 2416
+    },
+    {
+      "file": "lib/business-page-shell.tsx",
+      "kind": "modified",
+      "hash": "bfbd84fd9f6acc39",
+      "bytes": 2575
+    },
+    {
+      "file": "lib/constants.ts",
+      "kind": "modified",
+      "hash": "eb494ef199411412",
+      "bytes": 5094
     },
     {
       "file": "lib/data/industry-2026.ts",
       "kind": "modified",
-      "hash": "69cc5d439fb9bd48",
-      "bytes": 14718
+      "hash": "ffb950435bf2404b",
+      "bytes": 14659
     },
     {
-      "file": "lib/data/seo-portfolio-media.ts",
+      "file": "lib/data/voiceover-narrator-compare.ts",
       "kind": "modified",
-      "hash": "9588da6e3b130e99",
-      "bytes": 5421
+      "hash": "27a763e5875ba8e6",
+      "bytes": 3205
+    },
+    {
+      "file": "lib/seo/build-site-schema.ts",
+      "kind": "modified",
+      "hash": "e6ebe4ed78cc9045",
+      "bytes": 10591
+    },
+    {
+      "file": "lib/seo/entity-ids.ts",
+      "kind": "added",
+      "hash": "821ea80b81bc6c54",
+      "bytes": 1653
+    },
+    {
+      "file": "lib/seo/entity-refs.test.ts",
+      "kind": "added",
+      "hash": "b1d2c9b08e720a45",
+      "bytes": 4097
+    },
+    {
+      "file": "lib/seo/gifts-page-schema.ts",
+      "kind": "modified",
+      "hash": "9a88367c0b1bd7ad",
+      "bytes": 1692
+    },
+    {
+      "file": "lib/seo/page-schema.test.ts",
+      "kind": "added",
+      "hash": "4850072e694403ff",
+      "bytes": 3696
+    },
+    {
+      "file": "lib/seo/page-schema.ts",
+      "kind": "modified",
+      "hash": "a1ebeb39ac8d93b5",
+      "bytes": 7976
+    },
+    {
+      "file": "lib/seo/ulpan-page-schema.ts",
+      "kind": "modified",
+      "hash": "4f977c19bfcfbb37",
+      "bytes": 5311
+    },
+    {
+      "file": "lib/site-architecture.ts",
+      "kind": "modified",
+      "hash": "f8378e014ecee03b",
+      "bytes": 36408
+    },
+    {
+      "file": "lib/video-schema.ts",
+      "kind": "modified",
+      "hash": "1a1999049d5c3d8e",
+      "bytes": 2471
     },
     {
       "file": "package.json",
       "kind": "modified",
-      "hash": "3b62aab9e7e673cd",
-      "bytes": 7838
+      "hash": "fb7c171c53c9c73a",
+      "bytes": 7893
     },
     {
-      "file": "scripts/audit-prose-prices.mjs",
+      "file": "scripts/audit-aeo-coverage.mjs",
       "kind": "modified",
-      "hash": "a9525506e8c19932",
-      "bytes": 10445
+      "hash": "010cecb46fa83946",
+      "bytes": 11885
+    },
+    {
+      "file": "scripts/audit-client-data-weight.mjs",
+      "kind": "modified",
+      "hash": "828071a3331a7a93",
+      "bytes": 14891
+    },
+    {
+      "file": "scripts/audit-seo-diff.mjs",
+      "kind": "added",
+      "hash": "870a5a67c847a002",
+      "bytes": 13104
+    },
+    {
+      "file": "scripts/baselines/seo-approved-changes.json",
+      "kind": "added",
+      "hash": "a3769ff7bf20d28a",
+      "bytes": 539
+    },
+    {
+      "file": "scripts/template-pages.mjs",
+      "kind": "added",
+      "hash": "2e1d5c23523857f9",
+      "bytes": 2375
     }
   ]
 }

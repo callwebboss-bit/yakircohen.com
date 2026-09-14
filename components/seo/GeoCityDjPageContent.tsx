@@ -12,6 +12,7 @@ import {
   type GeoCitySlug,
 } from "@/lib/data/geo-cities";
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const RELIGIOUS_AUDIENCE_POINTS = [
@@ -112,7 +113,7 @@ export default function GeoCityDjPageContent({
         name: `דיג׳יי לאירועים ${city.nameHePrep} - יקיר כהן הפקות`,
         description: city.djMeta.description,
         url: absoluteUrl(pagePath),
-        parentOrganization: { "@id": `${SITE_URL}/#organization` },
+        parentOrganization: { "@id": ENTITY_IDS.organization },
         address: {
           "@type": "PostalAddress",
           streetAddress: "עמק איילון 34",

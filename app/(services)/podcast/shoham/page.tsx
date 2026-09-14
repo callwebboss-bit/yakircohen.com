@@ -3,6 +3,8 @@ import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import Container from "@/components/ui/Container";
@@ -80,18 +82,12 @@ const jsonLd = {
   name: "אולפן פודקאסט קרוב לשוהם",
   description:
     "הקלטת פודקאסט מקצועי 10 דקות משוהם. ציוד מלא, עריכה, מסירה לפרסום.",
-  provider: {
-    "@type": "LocalBusiness",
-    name: "יקיר כהן הפקות",
-    telephone: "+972587555456",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "עמק איילון 34",
-      addressLocality: "מודיעין-מכבים-רעות",
-      addressCountry: "IL",
-    },
-    areaServed: ["שוהם", "מודיעין-מכבים-רעות", "המרכז"],
-  },
+  /* הפניה לעסק המוכרז בגרף האתר, במקום LocalBusiness אנונימי בלי @id.
+     עותק אנונימי עם אותה כתובת נקרא כעסק נוסף ולא כאותו עסק, ולכן הוא
+     מפצל את הישות במקום לחזק אותה. אזור השירות עבר לצומת ה-Service, שם
+     הוא מתאר את הכיסוי של השירות הזה ולא של העסק. */
+  provider: { "@id": ENTITY_IDS.localBusiness },
+  areaServed: ["שוהם", "מודיעין-מכבים-רעות", "המרכז"],
   url: `${SITE_URL}/podcast/shoham`,
 };
 
@@ -106,7 +102,7 @@ export default function PodcastShohamPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
       />
       <FaqPageSchema items={FAQ_ITEMS.map((f) => ({ question: f.question, answer: String(f.answer) }))} />
 

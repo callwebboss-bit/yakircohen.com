@@ -6,6 +6,7 @@ import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";
 import ShareButton from "@/components/ui/ShareButton";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { SITE_ROBOTS } from "@/lib/seo-config";
 import {
   HEB_LESSONS_EN_META,
@@ -60,7 +61,7 @@ const pageSchema = {
       name: HEB_LESSONS_EN_META.title,
       description: HEB_LESSONS_EN_META.description,
       inLanguage: "en",
-      isPartOf: { "@id": `${SITE_URL}/#website` },
+      isPartOf: { "@id": ENTITY_IDS.website },
       about: { "@id": `${PAGE_URL}#service` },
     },
     {
@@ -72,7 +73,7 @@ const pageSchema = {
       serviceType: "Private Hebrew Tutoring",
       category: "Language Education",
       inLanguage: "he",
-      provider: { "@id": `${SITE_URL}/#organization` },
+      provider: { "@id": ENTITY_IDS.organization },
       areaServed: [
         { "@type": "City", name: "Modi'in-Maccabim-Re'ut" },
         { "@type": "City", name: "Shoham" },

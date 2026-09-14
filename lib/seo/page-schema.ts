@@ -1,5 +1,6 @@
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
-import { absoluteUrl, SITE_URL } from "@/lib/site-url";
+import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
 import sitemapDates from "@/lib/data/sitemap-dates.generated.json";
 
@@ -22,6 +23,22 @@ export function realDateModified(path: string): string | undefined {
 const SPEAKABLE: Record<string, unknown> = {
   "@type": "SpeakableSpecification",
   cssSelector: ["h1", ".faq-answer", "[data-speakable]"],
+};
+
+/**
+ * אזור השירות מוצהר פעם אחת ומשמש את שני צמתי ה-Service.
+ * קודם הוא היה כתוב רק בתוך buildServiceSchema, ולכן 37 העמודים שנבנים
+ * ישירות על ServicePageLayout פרסמו Service בלי אזור שירות בכלל.
+ * מרכז המעגל הוא האולפן במודיעין, ורדיוס 50 קילומטר הוא טווח ההגעה.
+ */
+const SERVICE_AREA_SERVED: Record<string, unknown> = {
+  "@type": "GeoCircle",
+  geoMidpoint: {
+    "@type": "GeoCoordinates",
+    latitude: 31.896,
+    longitude: 35.010,
+  },
+  geoRadius: "50000",
 };
 
 export type FaqSchemaInput = {
@@ -61,8 +78,8 @@ export function buildWebPageSchema({
     inLanguage: "he-IL",
     ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
-    isPartOf: { "@id": `${absoluteUrl()}#website` },
-    about: { "@id": `${absoluteUrl()}#organization` },
+    isPartOf: { "@id": ENTITY_IDS.website },
+    about: { "@id": ENTITY_IDS.organization },
     ...(imageUrl
       ? {
           primaryImageOfPage: {
@@ -76,12 +93,21 @@ export function buildWebPageSchema({
 }
 
 function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
+  /* schema.org דורש מספר נקי. מפריד אלפים בפסיק פוסל את ה-Offer בעיני גוגל. */
+  const price = tier.price.replace(/[^\d.]/g, "");
+
+  /**
+   * מדרגות כמו "הצעה אישית" או "הצעה בוואטסאפ" הן הזמנה לשיחה, לא מחיר.
+   * Offer עם priceCurrency ובלי price הוא צומת שבור, ולהמציא מספר אסור.
+   * לכן המדרגה לא נכנסת ל-offers, וממשיכה להופיע בעמוד עצמו כרגיל.
+   */
+  if (!price) return null;
+
   return {
     "@type": "Offer",
     name: tier.name,
     description: tier.description,
-    /* schema.org דורש מספר נקי. מפריד אלפים בפסיק פוסל את ה-Offer בעיני גוגל. */
-    price: tier.price.replace(/[^\d.]/g, "") || undefined,
+    price,
     priceCurrency: "ILS",
     url: serviceUrl,
     availability: "https://schema.org/InStock",
@@ -91,6 +117,12 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
 export function buildServiceSchema(service: ServiceEntity) {
   const serviceUrl = absoluteUrl(service.slug.replace(/^\/+/, ""));
   const dateModified = realDateModified(service.slug);
+  const offers = (service.pricing ?? [])
+    .map((tier) => pricingToOffer(tier, serviceUrl))
+    .filter(
+      (offer): offer is NonNullable<ReturnType<typeof pricingToOffer>> =>
+        offer !== null,
+    );
 
   return {
     "@context": "https://schema.org",
@@ -103,21 +135,9 @@ export function buildServiceSchema(service: ServiceEntity) {
     inLanguage: "he-IL",
     ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
-    provider: { "@id": `${absoluteUrl()}#organization` },
-    areaServed: {
-      "@type": "GeoCircle",
-      geoMidpoint: {
-        "@type": "GeoCoordinates",
-        latitude: 31.896,
-        longitude: 35.010,
-      },
-      geoRadius: "50000",
-    },
-    ...(service.pricing?.length
-      ? {
-          offers: service.pricing.map((tier) => pricingToOffer(tier, serviceUrl)),
-        }
-      : {}),
+    provider: { "@id": ENTITY_IDS.organization },
+    areaServed: SERVICE_AREA_SERVED,
+    ...(offers.length ? { offers } : {}),
   };
 }
 
@@ -154,7 +174,8 @@ export function buildServicePageEntitySchema({
     inLanguage: "he-IL",
     ...(dateModified ? { dateModified } : {}),
     speakable: SPEAKABLE,
-    provider: { "@id": `${absoluteUrl()}#organization` },
+    provider: { "@id": ENTITY_IDS.organization },
+    areaServed: SERVICE_AREA_SERVED,
   };
 
   const graph: Record<string, unknown>[] = [serviceEntity];

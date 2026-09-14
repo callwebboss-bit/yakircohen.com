@@ -86,6 +86,8 @@ export default function RecordingSongModiinPageContent() {
         utmCampaign={service.utmCampaign}
         bookSlug={service.slug}
         pagePath="/studio/recording-song-modiin"
+        /* ServicePageSchema למעלה כבר פולט Service עם אותו @id, ועשיר יותר. */
+        emitPageEntitySchema={false}
         metaDescription={service.metaDescription}
         ctaLabel={SONG_CTA_LABEL}
         startingPrice={`${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ`}

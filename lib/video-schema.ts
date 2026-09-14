@@ -1,5 +1,4 @@
-import { SITE_NAME } from "@/lib/constants";
-import { SITE_URL } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 
 export type VideoSchemaInput = {
   videoId: string;
@@ -29,11 +28,7 @@ export function buildVideoObjectSchema(input: VideoSchemaInput) {
     contentUrl: youtubeWatchUrl(input.videoId),
     embedUrl: youtubeEmbedUrlFromId(input.videoId),
     inLanguage: "he-IL",
-    publisher: {
-      "@type": "Organization" as const,
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    publisher: { "@id": ENTITY_IDS.organization },
   };
   /* uploadDate מושמט כשאינו ידוע. עדיף להשמיט מאשר לפרסם תאריך מומצא -
      תאריך שגוי ב-structured data הוא טענה עובדתית לא נכונה מול Google. */

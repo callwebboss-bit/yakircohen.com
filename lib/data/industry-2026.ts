@@ -1,4 +1,5 @@
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import {
   CATALOG_VAT_RATE,
   getExVat,
@@ -301,16 +302,8 @@ export const INDUSTRY_2026_DATASET_SCHEMA = {
   datePublished: INDUSTRY_2026_UPDATED_AT,
   dateModified: INDUSTRY_2026_UPDATED_AT,
   license: absoluteUrl("terms"),
-  creator: {
-    "@type": "Organization",
-    name: "Yakir Cohen",
-    url: absoluteUrl(),
-  },
-  publisher: {
-    "@type": "Organization",
-    name: "Yakir Cohen",
-    url: absoluteUrl(),
-  },
+  creator: { "@id": ENTITY_IDS.founder },
+  publisher: { "@id": ENTITY_IDS.organization },
   isAccessibleForFree: true,
   variableMeasured: [
     "מחיר לפני מע\"מ",

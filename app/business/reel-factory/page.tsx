@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import ReelFactoryPageContent from "@/components/business/reel-factory/ReelFactoryPageContent";
 import { constructMetadata } from "@/lib/metadata";
 import { ogImageToMetadataParam, resolveOgForHub } from "@/lib/seo/og-images";
@@ -8,7 +9,7 @@ import {
   REEL_FACTORY_TAGLINE,
   RETAINER_TIERS,
 } from "@/lib/data/reel-factory";
-import { CONTACT_PHONE_E164, SITE_NAME } from "@/lib/constants";
+import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = constructMetadata({
@@ -38,11 +39,7 @@ const jsonLd = {
       "@id": `${pageUrl}#service`,
       name: `${REEL_FACTORY_BRAND} - ${REEL_FACTORY_TAGLINE}`,
       url: pageUrl,
-      provider: {
-        "@type": "Organization",
-        name: SITE_NAME,
-        url: absoluteUrl(),
-      },
+      provider: { "@id": ENTITY_IDS.organization },
       areaServed: { "@type": "Country", name: "Israel" },
       description:
         "פס ייצור לפרומואים: רילס Rave ערוך תוך 24 שעות ומנוי חודשי לספקי אירועים.",

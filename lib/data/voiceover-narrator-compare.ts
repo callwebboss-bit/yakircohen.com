@@ -1,6 +1,7 @@
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { absoluteUrl } from "@/lib/site-url";
+import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 
 export type VoiceoverNarratorCompareContext = "page" | "portfolio" | "compact";
 
@@ -68,5 +69,5 @@ export const VOICEOVER_COMPARE_JSON_LD = {
   encodingFormat: "audio/mpeg",
   contentUrl: absoluteUrl(VOICEOVER_YAKIR_SRC),
   inLanguage: "he",
-  author: { "@type": "Person", name: "יקיר כהן" },
+  author: { "@id": ENTITY_IDS.founder },
 } as const;
