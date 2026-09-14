@@ -37,3 +37,21 @@ export const VIEWPORTS = [
 ];
 
 export const PATHS = TEMPLATE_PAGES.map((p) => p.path);
+
+/**
+ * חמשת העמודים ש-Lighthouse רץ עליהם.
+ *
+ * למה חמישה ולא שנים עשר: הרצה עם devtools throttling לוקחת כדקה לעמוד,
+ * וכל עמוד נמדד שלוש פעמים כדי לקחת חציון. שנים עשר עמודים היו הופכים
+ * כל מדידת לפני ואחרי לשעה, וזה מבטיח שהיא לא תרוץ.
+ *
+ * למה דווקא אלה: חמש משפחות רינדור שונות, לא חמשת העמודים הפופולריים.
+ * עמוד שני מאותה משפחה מוסיף זמן ולא מוסיף מידע.
+ */
+export const LIGHTHOUSE_PAGES = [
+  { path: "/", why: "עמוד הבית, תמונת hero ומסלול ה-LCP הכבד ביותר" },
+  { path: "/studio", why: "hub שירות, נציג 9 ה-hubs" },
+  { path: "/studio/recording-song-modiin", why: "עלה שירות עם גלריה ומחירון" },
+  { path: "/book", why: "אשף ההזמנה, המשקל הגדול ביותר של JS בצד לקוח" },
+  { path: "/blog/prepare-voice-podcast-studio", why: "תבנית מאמר, נציגת 87 הפוסטים" },
+];

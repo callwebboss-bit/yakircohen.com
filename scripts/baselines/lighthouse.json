@@ -1,0 +1,91 @@
+{
+  "_doc": "בסיס Lighthouse נייד. נלכד מקומית מול next start, devtools throttling, חציון שלוש הרצות. מדידת מעבדה, לא נתוני שדה.",
+  "lighthouseVersion": "13.4.1",
+  "throttling": "devtools",
+  "formFactor": "mobile",
+  "runs": 3,
+  "buildId": "voHhdZD_OJCgcRme_phc4",
+  "capturedAt": "2026-09-14T18:28:56.182Z",
+  "pages": {
+    "/": {
+      "performance": 95,
+      "seo": 100,
+      "accessibility": 97,
+      "best-practices": 96,
+      "lcp": 2186,
+      "fcp": 2186,
+      "tbt": 123,
+      "cls": 0,
+      "si": 2617,
+      "runs": [
+        95,
+        95,
+        95
+      ]
+    },
+    "/studio": {
+      "performance": 94,
+      "seo": 100,
+      "accessibility": 97,
+      "best-practices": 96,
+      "lcp": 2411,
+      "fcp": 2245,
+      "tbt": 112,
+      "cls": 0,
+      "si": 2653,
+      "runs": [
+        95,
+        94,
+        94
+      ]
+    },
+    "/studio/recording-song-modiin": {
+      "performance": 96,
+      "seo": 100,
+      "accessibility": 97,
+      "best-practices": 96,
+      "lcp": 2119,
+      "fcp": 2119,
+      "tbt": 119,
+      "cls": 0,
+      "si": 2458,
+      "runs": [
+        96,
+        96,
+        95
+      ]
+    },
+    "/book": {
+      "performance": 85,
+      "seo": 100,
+      "accessibility": 95,
+      "best-practices": 96,
+      "lcp": 3955,
+      "fcp": 2071,
+      "tbt": 112,
+      "cls": 0.001,
+      "si": 2499,
+      "runs": [
+        85,
+        85,
+        85
+      ]
+    },
+    "/blog/prepare-voice-podcast-studio": {
+      "performance": 94,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 2402,
+      "fcp": 2180,
+      "tbt": 120,
+      "cls": 0.001,
+      "si": 2662,
+      "runs": [
+        95,
+        94,
+        94
+      ]
+    }
+  }
+}

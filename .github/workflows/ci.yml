@@ -12,8 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # fetch-depth: 0 כי שומרים שנשענים על היסטוריית git נכשלים בשיבוט
+      # רדוד, ואז הם נכשלים בענן ועוברים מקומית, כלומר הכי גרוע.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -56,6 +60,19 @@ jobs:
 
       - name: Build (with Pagefind)
         run: npm run build:full
+
+      # שער אי-הפגיעה: משווה לכל אחת מ-316 הכתובות את הכותרת, התיאור,
+      # הקנוניקל, ה-robots, ה-h1, מתאר הכותרות, סט הקישורים היוצאים,
+      # מספר הקישורים הנכנסים, ספירת המילים, התמונות וה-alt שלהן,
+      # וסט מפתחות המאפיינים ב-JSON-LD, מול בסיס שמור.
+      #
+      # continue-on-error זמני ומכוון, לפי הכלל ששומר חדש נכנס קודם
+      # במצב דיווח: הבסיס נלכד על בנייה מקומית במק, ועדיין לא הוכח
+      # שבנייה ב-ubuntu מייצרת HTML זהה בתו. להסיר את continue-on-error
+      # אחרי הרצת CI אחת שבה הדיווח ריק.
+      - name: Audit SEO diff (report mode until CI build determinism is proven)
+        run: npm run audit:seo-diff
+        continue-on-error: true
 
       # רץ אחרי הבנייה. קודם הוא ישב לפניה ובלי שרת, כך שכל page.goto
       # נכשל והאודיט דיווח תקין אחרי אפס עמודים שנבדקו.

@@ -148,6 +148,12 @@ function internalLinks(html) {
   const set = new Set();
   for (const m of html.matchAll(/href="(\/[^"#?]*)"/g)) {
     let href = m[1];
+    /* /_next/ הוא פלט הבנייה, ושמו נושא גיבוב שמשתנה בכל בנייה.
+       בלי הסינון הזה כל 316 הכתובות היו מדווחות על שינוי קישורים
+       בכל בנייה מחדש, השומר היה צועק תמיד, ולכן היו מפסיקים להקשיב לו.
+       כל שאר הכתובות נשארות, כולל manifest, feed ו-favicon: אלה יעדים
+       יציבים שהיעלמותם היא רגרסיה אמיתית שצריך לתפוס. */
+    if (href.startsWith("/_next/")) continue;
     if (href.length > 1) href = href.replace(/\/$/, "");
     set.add(href);
   }
