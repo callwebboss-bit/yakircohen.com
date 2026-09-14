@@ -226,10 +226,21 @@ for (const [path, now] of Object.entries(pages)) {
     problems.push(`${path} · עמוד חדש שאינו בבסיס`);
     continue;
   }
+  /* הפיזור של שתי המדידות נכנס להודעה. בלעדיו אי אפשר להבחין בין רגרסיה
+     אמיתית לבין מכונה עמוסה: ירידה של שבע נקודות כשהפיזור הוא נקודה אחת
+     היא אות, ואותה ירידה כשהפיזור הוא שמונה היא רעש. */
+  const spread = (runs) =>
+    Array.isArray(runs) && runs.length ? `${Math.min(...runs)}-${Math.max(...runs)}` : "לא ידוע";
+
   for (const key of ["performance", "seo", "accessibility", "best-practices"]) {
     const drop = was[key] - now[key];
     if (drop > TOLERANCE[key]) {
-      problems.push(`${path} · ${key}: ${was[key]} -> ${now[key]} (ירידה של ${drop})`);
+      problems.push(
+        `${path} · ${key}: ${was[key]} -> ${now[key]} (ירידה של ${drop})` +
+          (key === "performance"
+            ? ` · פיזור בבסיס ${spread(was.runs)}, פיזור עכשיו ${spread(now.runs)}`
+            : ""),
+      );
     }
   }
   const clsRise = now.cls - was.cls;
