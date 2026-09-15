@@ -22,9 +22,9 @@ export default function BookAudienceCardsStatic() {
               <p className="text-xs font-bold uppercase tracking-wide text-brand-red">
                 {route.tag}
               </p>
-              <h3 className="mt-2 font-serif text-base font-semibold leading-snug text-foreground">
+              <h2 className="mt-2 font-serif text-base font-semibold leading-snug text-foreground">
                 {route.title}
-              </h3>
+              </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {route.description}
               </p>

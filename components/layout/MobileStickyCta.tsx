@@ -46,7 +46,9 @@ export default function MobileStickyCta() {
         <Link
           href={bookHref}
           className={cn(
-            "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full bg-[var(--service-accent,#d42b2b)] px-2 text-sm font-semibold text-white",
+            /* bg-brand-red ולא גוון ה-hub. באולפן הגוון הוא כתום #d97706, ולבן
+               עליו נמדד 3.19:1, מתחת ל-AA. צבע הפעולה נשאר אדום בכל hub. */
+            "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full bg-brand-red px-2 text-sm font-semibold text-white",
             "transition-transform duration-fast ease-luxury active:scale-[0.97]",
           )}
         >

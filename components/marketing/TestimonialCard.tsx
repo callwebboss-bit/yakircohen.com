@@ -33,7 +33,7 @@ function CategoryBadge({ category }: { category: TestimonialItem["serviceCategor
   if (!category) return null;
 
   return (
-    <span className="inline-flex rounded-full border border-brand-red/25 bg-brand-red/8 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red">
+    <span className="inline-flex rounded-full border border-brand-red/25 bg-brand-red/8 px-2 py-0.5 text-[0.65rem] font-semibold text-brand-red-text">
       {TESTIMONIAL_CATEGORY_LABELS[category]}
     </span>
   );

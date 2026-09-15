@@ -19,7 +19,7 @@ export default function BusinessCrossLink({
       className="rounded-xl border border-brand-red/20 bg-brand-red/5 p-6 sm:p-8"
       aria-label={title}
     >
-      <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+      <p className="text-xs font-semibold uppercase tracking-wide text-brand-red-text">
         {title}
       </p>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -27,7 +27,7 @@ export default function BusinessCrossLink({
       </p>
       <Link
         href={href}
-        className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+        className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand-red-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
         {linkLabel} ←
       </Link>

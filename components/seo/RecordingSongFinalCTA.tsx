@@ -247,7 +247,7 @@ export default function RecordingSongFinalCTA() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-xl border border-brand-red px-6 py-3 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white disabled:opacity-50"
+            className="w-full rounded-xl border border-brand-red px-6 py-3 text-sm font-semibold text-brand-red-text transition-colors hover:bg-brand-red hover:text-white disabled:opacity-50"
           >
             {isSubmitting ? "שולח..." : "שלח בקשה לייעוץ מוזיקלי "}
           </button>

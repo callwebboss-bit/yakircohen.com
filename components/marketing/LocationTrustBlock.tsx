@@ -45,7 +45,7 @@ export default function LocationTrustBlock({ className }: LocationTrustBlockProp
             📍
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red-text">
               בסיס מרכזי
             </p>
             <p className="mt-1 font-semibold text-foreground">מודיעין מכבים רעות</p>
@@ -80,7 +80,7 @@ export default function LocationTrustBlock({ className }: LocationTrustBlockProp
             🕐
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red-text">
               זמינות מקומית
             </p>
             <p className="mt-1 font-semibold text-foreground">ענו לנו ישירות</p>
@@ -107,7 +107,7 @@ export default function LocationTrustBlock({ className }: LocationTrustBlockProp
             🎯
           </span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-red-text">
               מכירים את השוק
             </p>
             <p className="mt-1 font-semibold text-foreground">20+ שנה בתעשייה</p>

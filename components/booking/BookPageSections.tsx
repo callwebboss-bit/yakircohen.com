@@ -365,7 +365,7 @@ export default function BookPageSections({
 
       <div className="border-b border-border bg-brand-red/5 px-4 py-3">
         <div className="mx-auto flex max-w-[72rem] min-w-0 flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
-          <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red break-words">
+          <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red-text break-words">
             <span aria-hidden="true">🎖 </span>
             מבצע לחיילים ולחיילות - 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
           </p>
@@ -377,7 +377,7 @@ export default function BookPageSections({
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-9 shrink-0 items-center text-xs font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-dark"
+            className="inline-flex min-h-9 shrink-0 items-center text-xs font-semibold text-brand-red-text underline underline-offset-2 hover:text-brand-red-dark"
           >
             לפרטים בוואטסאפ
           </a>

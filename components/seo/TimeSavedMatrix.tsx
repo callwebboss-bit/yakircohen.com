@@ -19,7 +19,7 @@ type TimeSavedMatrixProps = {
 };
 
 const actionClass =
-  "inline-flex min-h-12 items-center justify-center rounded-xl border border-brand-red/30 bg-brand-red/5 px-4 py-2 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+  "inline-flex min-h-12 items-center justify-center rounded-xl border border-brand-red/30 bg-brand-red/5 px-4 py-2 text-sm font-semibold text-brand-red-text transition-colors hover:bg-brand-red hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
 
 export default function TimeSavedMatrix({
   hub,

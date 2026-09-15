@@ -788,7 +788,11 @@ html.a11y-highlight-links a[href] {
   --secondary: #ffffff;
   --secondary-foreground: #1a1a1a;
   --muted: #f5f5f4;
-  --muted-foreground: #737373;
+  /* #5c5c5c ולא #737373. בלוק @theme בשורה 16 כבר הצהיר #5c5c5c, אבל
+     @theme inline מפנה ל---muted-foreground הזה, ולכן הערך כאן הוא שנפלט.
+     #737373 נתן 4.22:1 על משטח מוגוון ו-3.76:1 על גבול, שניהם מתחת ל-AA.
+     #5c5c5c נותן 5.31:1 במקרה הגרוע שנמדד. משפיע על 1,917 מופעים. */
+  --muted-foreground: #5c5c5c;
   --accent: #fdf2f2;
   --accent-foreground: #1a1a1a;
   --destructive: #d42b2b;
