@@ -1,20 +1,5 @@
 {
   "_doc": "רשימת ההבדלים המאושרים לשער audit:seo-diff. כל רשומה דורשת אישור מפורש של הבעלים ונימוק. רשומה שלא תאמה שום הבדל בהרצה נכשלת בכוונה: אישור מת משתיק בדיקה.",
   "_fields": "url (או * לכל הכתובות), field (title|description|canonical|robots|hreflang|ogImage|h1|outline|links|words|ldTypes|ldProps|exists, או * לכל השדות), why (נימוק בעברית), approvedBy, approvedAt",
-  "changes": [
-    {
-      "url": "/events/attractions",
-      "field": "outline",
-      "why": "נוספה כותרת h2 \"אטרקציות לפי אזור\" עם שלוש כותרות h3 של עמודי הערים. תוספת, לא גריעה. הבעלים אישר את הניסוח ב-15.9.2026. זמני: נמחק כשהבסיס יילכד מחדש.",
-      "approvedBy": "יקיר כהן",
-      "approvedAt": "2026-09-15"
-    },
-    {
-      "url": "/podcast",
-      "field": "outline",
-      "why": "ארבע כותרות h3 חדשות של עמודי הערים ברשימת מסלולי האולפן. תוספת, לא גריעה. זמני: נמחק כשהבסיס יילכד מחדש.",
-      "approvedBy": "יקיר כהן",
-      "approvedAt": "2026-09-15"
-    }
-  ]
+  "changes": []
 }
