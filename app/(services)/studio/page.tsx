@@ -189,10 +189,13 @@ export default function StudioHubPage() {
               href="https://www.facebook.com/dj.yakir.cohen/videos/10155064719936418/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={'צפייה ב"הגרסה המזרחית" בפייסבוק - נפתח בכרטיסייה חדשה'}
               className="font-semibold text-brand-red hover:underline"
             >
               &quot;הגרסה המזרחית&quot; - מעל מיליון צפיות בפייסבוק
+              {/* השם הנגיש נגזר מהטקסט הגלוי; aria-label נפרד סתר אותו
+                  והפעלה קולית לפי המילים שעל המסך לא הייתה עובדת. הרמז על
+                  הכרטיסייה החדשה נשאר לקוראי מסך. */}
+              <span className="sr-only"> (נפתח בכרטיסייה חדשה)</span>
             </a>
           </p>
 

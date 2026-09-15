@@ -4,7 +4,7 @@ import PriceScopeDisplay, { resolveBillingDataAttr } from "@/components/booking/
 import PriceSocialProof from "@/components/booking/PriceSocialProof";
 import { getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { whatsappAriaLabel, whatsappQuoteCta } from "@/lib/data/conversion-copy";
+import { whatsappQuoteCta } from "@/lib/data/conversion-copy";
 import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
 
@@ -118,11 +118,9 @@ export default function ServicePricingBlock({
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={
-                    tier.priceExVat !== undefined
-                      ? whatsappAriaLabel(tier.name, tier.priceExVat)
-                      : `סגרו ${tier.name} בוואטסאפ`
-                  }
+                  /* בלי aria-label: הטקסט הגלוי כבר אומר שירות ומחיר, והתווית
+                     הנפרדת נבנתה בנוסח אחר. משתמש קורא מסך שאומר בקול את מה
+                     שהוא רואה חייב להפעיל את הכפתור. */
                   className="touch-press mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light active:bg-brand-red-dark"
                 >
                   {tier.priceExVat !== undefined

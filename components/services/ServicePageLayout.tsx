@@ -179,7 +179,6 @@ function ServiceHeroVisual({
         <Link
           href={scrollHref}
           className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
-          aria-label="גלילה לסרטון הדגמה"
         >
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[var(--service-accent,#d42b2b)] ring-2 ring-[var(--service-accent,#d42b2b)]/70 shadow-[0_0_40px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)] sm:h-[4.5rem] sm:w-[4.5rem]">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden>

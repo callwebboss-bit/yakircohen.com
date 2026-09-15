@@ -222,7 +222,7 @@ export default function SocialShare({
             type="button"
             onClick={() => void handleNativeShare()}
             className={SHARE_BTN}
-            aria-label={`שתף את המאמר: ${title}`}
+            aria-label={`שתפו מאמר זה: ${title}`}
           >
             <NativeShareIcon />
             שתפו מאמר זה

@@ -86,7 +86,9 @@ export default function LazyYouTubePlayer({
           type="button"
           className="group absolute inset-0 h-full w-full transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
           onClick={() => setIsActive(true)}
-          aria-label={`הפעל סרטון: ${title}`}
+          /* בלי נקודתיים: הטקסט הגלוי בכפתור הוא watchLabel ואחריו כותרת הסרטון,
+             והשם הנגיש חייב להכיל אותו כמחרוזת רציפה (axe label-content-name-mismatch). */
+          aria-label={`${watchLabel} ${title}`}
         >
           <Image
             src={thumbnailSrc}

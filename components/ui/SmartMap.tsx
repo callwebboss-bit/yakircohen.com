@@ -62,8 +62,7 @@ export default function SmartMap({
       onClick={() => setIsLoaded(true)}
       onKeyDown={(e) => e.key === "Enter" && setIsLoaded(true)}
       role="button"
-      tabIndex={0}
-      aria-label={`טען מפה עבור ${address}`}
+      tabIndex={0}
     >
       {/* Background */}
       {thumbnailUrl ? (
