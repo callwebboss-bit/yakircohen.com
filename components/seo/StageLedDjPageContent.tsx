@@ -296,7 +296,7 @@ export default function StageLedDjPageContent() {
               <thead>
                 <tr className="border-b border-border text-start">
                   <th className="py-3 pe-4 font-semibold text-foreground" />
-                  <th className="py-3 pe-4 font-semibold text-red-600/90">
+                  <th className="py-3 pe-4 font-semibold text-brand-red-text">
                     מסך טלוויזיה
                   </th>
                   <th className="py-3 font-semibold text-brand-red">
