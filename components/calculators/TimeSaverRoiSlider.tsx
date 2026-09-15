@@ -67,7 +67,7 @@ export default function TimeSaverRoiSlider({
       </p>
 
       <div className="mt-6">
-        <label htmlFor="time-saver-range" className="mb-2 block text-sm font-medium">
+        <label htmlFor="time-saver-range" className="mb-2 block text-sm font-medium text-foreground">
           {label}
         </label>
         <input

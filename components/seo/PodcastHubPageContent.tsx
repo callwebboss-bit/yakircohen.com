@@ -184,7 +184,7 @@ export default function PodcastHubPageContent() {
               </div>
               <Link
                 href="/podcast/mobile-podcast-at-home"
-                className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 אולפן פודקאסט נייד </Link>
             </div>
@@ -757,7 +757,7 @@ export default function PodcastHubPageContent() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-lg font-semibold text-brand-red-light">
+            <p className="mt-6 text-lg font-semibold text-background">
               החל מ-{PODCAST_HUB_STARTING_PRICE} ₪ לפרק של חצי שעה
             </p>
             <p className="mt-1 text-sm text-background/70">

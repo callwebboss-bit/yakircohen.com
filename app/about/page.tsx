@@ -267,7 +267,7 @@ export default function AboutPage() {
                 <br />
                 יכול להפוך ליצירה גדולה.&quot;
               </p>
-              <footer className="mt-5 text-sm font-semibold uppercase tracking-widest text-brand-red">
+              <footer className="mt-5 text-sm font-semibold uppercase tracking-widest text-brand-red-text">
                 - יקיר כהן
               </footer>
             </blockquote>

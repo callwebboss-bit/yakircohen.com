@@ -68,7 +68,7 @@ export default function ContactPage() {
           >
             <Link
               href="/book"
-              className="rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-2 font-semibold text-brand-red hover:border-brand-red/50"
+              className="rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-2 font-semibold text-brand-red-text hover:border-brand-red/50"
             >
               הזמנה מקוונת
             </Link>

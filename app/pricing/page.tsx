@@ -247,7 +247,7 @@ export default function PricingHubPage() {
               </div>
               <Link
                 href="/voucher"
-                className="inline-flex min-h-10 items-center rounded-xl border border-brand-red px-4 py-2 text-sm font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                className="inline-flex min-h-10 items-center rounded-xl border border-brand-red px-4 py-2 text-sm font-semibold text-brand-red-text transition-colors hover:bg-brand-red hover:text-white"
               >
                 לרכישת שובר
               </Link>

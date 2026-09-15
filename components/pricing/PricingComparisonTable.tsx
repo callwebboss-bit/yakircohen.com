@@ -121,7 +121,7 @@ export default function PricingComparisonTable({
                 className={cn(
                   "hardware-toggle inline-flex min-h-12 items-center rounded-xl border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   cluster === filter.id
-                    ? "border-brand-red bg-brand-red/10 text-brand-red"
+                    ? "border-brand-red bg-brand-red/10 text-brand-red-text"
                     : "border-border bg-background text-foreground hover:border-brand-red/40",
                 )}
               >
@@ -153,7 +153,7 @@ export default function PricingComparisonTable({
           className={cn(
             "hardware-toggle inline-flex min-h-12 items-center rounded-xl border px-4 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
             compareOn
-              ? "border-brand-red bg-brand-red/10 text-brand-red"
+              ? "border-brand-red bg-brand-red/10 text-brand-red-text"
               : "border-border bg-background text-foreground hover:border-brand-red/40",
           )}
         >
@@ -223,7 +223,7 @@ export default function PricingComparisonTable({
                         className={cn(
                           "hardware-toggle inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg border text-xs font-semibold",
                           selected
-                            ? "border-brand-red bg-brand-red/10 text-brand-red"
+                            ? "border-brand-red bg-brand-red/10 text-brand-red-text"
                             : "border-border text-muted-foreground",
                         )}
                       >
