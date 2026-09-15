@@ -75,6 +75,78 @@ node scripts/preflight-deploy.mjs
 **גלגול לאחור, אם משהו נשבר:** `git revert` לקומיט הזה. הקבצים היו שני
 רכיבי שלד סטטיים בלי לוגיקה.
 
+## 0ג. פריסת 15.9.2026, מהמחשב בווינדוס
+
+**מה עולה:** 22 קומיטים על `preview/chrome-polish` שכל אחד מהם עבר שלושה
+שערים מדודים (אותות סורקים על 322 כתובות, 36 צילומי מסך, Lighthouse נייד).
+תיקון הפונט, מחיקת הטקסט המוסתר, מחוון זמינות שלא מוקפא בבנייה, נגישות 100
+בחמש התבניות, מפת אתר בלי כפילויות, ותשתית המדידה עצמה.
+
+**מה לא עולה:** עבודת הסוכן המקביל שעדיין לא שמורה ב-git. היא תעלה בפריסה
+הבאה, כשתישמר ותעבור את השערים.
+
+**Cloudflare:** נבדק ב-15.9. ה-DNS מצביע ישירות ל-Vercel (216.198.79.1),
+והכותרות מהאתר החי הן `server: Vercel` בלי `cf-cache-status`. כלומר
+Cloudflare אינו מטמון בדרך, ואין מה לרוקן. סעיף 4.1 למטה מתאר מצב ישן.
+
+**סדר הפעולות בווינדוס, ב-PowerShell בתוך תיקיית הפרויקט:**
+
+```powershell
+# 1. להוציא את תיקיות הבנייה מסנכרון Dropbox. בלי זה שתי המכונות דורסות
+#    זו את זו: ב-14.9 נמצאו 11 עותקים מתנגשים בתוך .next וקובץ מ-24.8
+#    שהפיל את השרת. במק זה כבר נעשה. הדגל הוא לכל מחשב בנפרד.
+Set-Content -Path .next -Stream com.dropbox.ignored -Value 1
+Set-Content -Path node_modules -Stream com.dropbox.ignored -Value 1
+
+# 2. לוודא שהקומיטים הגיעו דרך Dropbox. ה-.git משותף לשתי המכונות, ולכן
+#    אין מה למשוך מ-GitHub: להפך, GitHub עדיין לא מכיר אותם. למק אין
+#    הרשאות push, והדחיפה נעשית מכאן. הפקודה הראשונה חייבת להדפיס e40a1f0.
+git checkout preview/chrome-polish
+git log --oneline -1
+git status --porcelain | Measure-Object -Line
+
+# 3. התקנה נקייה. node_modules כבר לא מסתנכרן, ולכן זו התקנה של ווינדוס
+#    בלבד, בפעם הראשונה מזה חודשים.
+Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
+npm ci
+
+# 4. הבדיקה המקדימה. אמורה להיות ירוקה. אם היא מתלוננת על קובץ חסר,
+#    זה סימן שהסוכן המקביל שמר משהו חלקי, ולא שמשהו בענף שבור.
+node scripts/preflight-deploy.mjs
+```
+
+**5. דחיפה ותצוגה מקדימה לפני main.** מהווינדוס, שיש לו הרשאות GitHub:
+
+```powershell
+git push -u origin preview/chrome-polish
+```
+
+Vercel בונה את הענף אוטומטית. תחת Deployments, הפריסה האחרונה של
+`preview/chrome-polish` נותנת כתובת `*.vercel.app`. על הכתובת הזו רצים אותם שלושה שערים שרצו מקומית, הפעם
+מול הבנייה של Vercel:
+
+```bash
+node scripts/audit-seo-diff.mjs --origin=https://<preview>.vercel.app
+```
+
+**6. מיזוג ל-main, מ-Cursor.** PR מ-`preview/chrome-polish` אל `main`.
+CI רץ על ה-PR (בדיקות, lint, 25 שומרים, בנייה). ירוק, ואז Merge.
+Vercel בונה את `main` ומפרסם. אין פקודה ידנית מעבר לזה.
+
+**7. אימות על האתר החי.** אחרי שהפריסה מסומנת Ready:
+
+```bash
+node scripts/audit-seo-diff.mjs --origin=https://yakircohen.com
+```
+
+ובנוסף Lighthouse על חמשת העמודים מול הכתובת החיה. best-practices אמור
+לעלות מ-96 ל-100, כי שני סקריפטי Vercel שהחזירו 404 מקומית קיימים שם.
+
+**אם משהו נשבר:** Vercel > Deployments > הפריסה הקודמת > Promote to
+Production. שניות, בלי git ובלי בנייה.
+
+---
+
 ## 1. ענף, ומסלול הפריסה שנבחר: תצוגה מקדימה קודם
 
 **הענף הנוכחי הוא `preview/chrome-polish`. ענף הפרודקשן ב-Vercel הוא `main`.**
