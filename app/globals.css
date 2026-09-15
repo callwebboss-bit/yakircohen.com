@@ -725,8 +725,16 @@ html.a11y-highlight-links a[href] {
 }
 
 @theme inline {
+  /* --font-heading נשאר: זו ההגדרה היחידה שלו בריפו, והוא בשימוש
+     ב-dialog.tsx וב-sheet.tsx. הוא מצביע ל---font-sans שמוגדר למעלה
+     בבלוק @theme, ולכן הוא מקבל את Heebo כמו כל שאר הטקסט.
+
+     מה נמחק כאן: השורה --font-sans: var(--font-sans). היא הייתה הפניה
+     מעגלית, ובלוק @theme inline גובר על @theme, ולכן ההגדרה האמיתית
+     בשורה 36 מעולם לא נפלטה. ה-CSS המהודר הכיל --font-sans:var(--font-sans),
+     מה שהופך את המשתנה ללא חוקי לפי תקן CSS, ו-font-family נפל לברירת
+     המחדל של הדפדפן. התוצאה: כל טקסט הגוף באתר החי הוצג ב-Times. */
   --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
