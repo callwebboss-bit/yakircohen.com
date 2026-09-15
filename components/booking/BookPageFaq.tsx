@@ -28,7 +28,13 @@ export default function BookPageFaq() {
               <AccordionTrigger className="text-sm font-semibold hover:no-underline">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+              {/* forceMount: התשובה נכתבת ל-HTML גם כשהפריט סגור. בלעדיו הסכמה
+                  (FAQPage) הצהירה על תשובות שאף סורק לא ראה. כשסגור: display:none,
+                  ולכן לא במיקוד ולא בעץ הנגישות, בדיוק כמו קודם. */}
+              <AccordionContent
+                forceMount
+                className="text-sm leading-relaxed text-muted-foreground data-[state=closed]:hidden"
+              >
                 <p>{item.answer}</p>
                 {item.link ? (
                   <Link
