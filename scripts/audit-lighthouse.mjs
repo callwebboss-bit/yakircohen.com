@@ -36,7 +36,9 @@ const BASELINE = join(ROOT, "scripts", "baselines", "lighthouse.json");
 
 /** נעול בכוונה. שדרוג גרסה משנה ניקוד ופוסל השוואה לבסיס קיים. */
 const LH_VERSION = "13.4.1";
-const RUNS = 3;
+
+/** שלוש הרצות מספיקות למכונה שקטה. LH_RUNS=5 להכרעה כשיש חשד לרעש. */
+const RUNS = Math.max(1, Number(process.env.LH_RUNS ?? 3));
 
 /** סובלנות לרעש. ציון ביצועים זז בין הרצות גם בלי שינוי קוד. */
 const TOLERANCE = {
@@ -72,6 +74,27 @@ function buildId() {
     return readFileSync(join(ROOT, ".next", "BUILD_ID"), "utf8").trim();
   } catch {
     return "unknown";
+  }
+}
+
+/**
+ * אחוז המעבד הפנוי ברגע המדידה.
+ *
+ * למה זה כאן: הרצה אחת דיווחה ירידה של שבע ושמונה נקודות בשני עמודים,
+ * והיא הייתה שגויה. באותו רגע fileproviderd רץ על 141% מעבד בעקבות הסרת
+ * .next מ-Dropbox. על מכונה עם 90% מעבד פנוי הירידה נעלמה לגמרי.
+ *
+ * למה לא עומס ממוצע (load average): במק הוא סופר גם תהליכים שתקועים על
+ * דיסק, ושכבת Dropbox מנפחת אותו. הוא הראה 38 בזמן ש-88% מהמעבד היה פנוי.
+ */
+function cpuIdle() {
+  try {
+    const out = execFileSync("top", ["-l", "2", "-n", "0", "-s", "1"], { encoding: "utf8" });
+    const lines = out.split("\n").filter((l) => l.includes("CPU usage"));
+    const m = lines[lines.length - 1]?.match(/([\d.]+)%\s+idle/);
+    return m ? Number(m[1]) : null;
+  } catch {
+    return null;
   }
 }
 
@@ -181,13 +204,23 @@ function report(pages) {
     formFactor: "mobile",
     runs: RUNS,
     buildId: buildId(),
+    cpuIdlePercent: idleBefore,
     capturedAt: new Date().toISOString(),
     pages,
   };
 }
 
+const idleBefore = cpuIdle();
+
 console.log("Lighthouse נייד, " + LIGHTHOUSE_PAGES.length + " תבניות, " + RUNS + " הרצות לכל אחת");
 console.log("  שרת: " + ORIGIN + " · בנייה: " + buildId());
+console.log("  מעבד פנוי: " + (idleBefore === null ? "לא נמדד" : idleBefore + "%"));
+
+if (idleBefore !== null && idleBefore < 70) {
+  console.error("\n  ✗ רק " + idleBefore + "% מהמעבד פנוי. מתחת ל-70% המדידה אינה ראיה.");
+  console.error("  המתן שהמכונה תירגע, או הרץ עם LH_ALLOW_BUSY=1 אם זה מכוון.");
+  if (!process.env.LH_ALLOW_BUSY) process.exit(1);
+}
 
 if (!serverUp()) {
   console.error("  ✗ אין שרת ב-" + ORIGIN + ". הרץ `npx next start -p " + PORT + "` תחילה.");
