@@ -6,7 +6,6 @@ import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import EventsAttractionsSchema from "@/components/seo/EventsAttractionsSchema";
-import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
@@ -27,14 +26,6 @@ export default function EventsHubPage() {
     <>
       <HubPageSchema {...hubSchemaPropsFromService(service, "events")} />
       <EventsAttractionsSchema />
-      <HubServiceIndexStatic
-        heading="שירותי אירועים"
-        links={hubLinks.map((link) => ({
-          href: link.href,
-          title: link.title,
-          description: link.description,
-        }))}
-      />
       <ServicePageFromRegistry service={service} portfolioLabel="הפקות אירועים" valueFrame="אפקטים שמרימים את האירוע - בלי הפתעות ביום">
       <div className="space-y-16">
         <HubAudienceFitBlock hubPath="/events" />

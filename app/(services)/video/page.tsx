@@ -1,6 +1,5 @@
 import { metadataFromService } from "@/lib/data/service-metadata";
 import HubPageSchema from "@/components/seo/HubPageSchema";
-import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -28,14 +27,6 @@ export default function VideoHubPage() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromService(service, "video")} />
-      <HubServiceIndexStatic
-        heading="מסלולי וידאו"
-        links={hubLinks.map((link) => ({
-          href: link.href,
-          title: link.title,
-          description: link.description,
-        }))}
-      />
       <ServicePageFromRegistry service={service} portfolioLabel="הפקות וידאו">
         <div className="space-y-12">
           <HubAudienceFitBlock hubPath="/video" />

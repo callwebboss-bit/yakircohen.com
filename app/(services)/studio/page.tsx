@@ -9,7 +9,6 @@ import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import HubPageSchema from "@/components/seo/HubPageSchema";
-import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import StudioHubPathSections from "@/components/seo/StudioHubPathSections";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
@@ -22,7 +21,6 @@ import SmartMap from "@/components/ui/SmartMap";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { getStudioHubIcon } from "@/lib/data/studio-hub-icons";
-import { STUDIO_HUB_PRIMARY_PATHS } from "@/lib/data/studio-hub-paths";
 import {
   getStudioHubLinks,
   getStudioService,
@@ -80,23 +78,6 @@ export default function StudioHubPage() {
     };
   });
 
-  const indexLinks = Array.from(
-    new Map(
-      [
-        ...STUDIO_HUB_PRIMARY_PATHS.map((p) => ({
-          href: p.href,
-          title: p.title,
-          description: p.description,
-        })),
-        ...tracks.map((track) => ({
-          href: track.href,
-          title: track.title,
-          description: track.description,
-        })),
-      ].map((item) => [item.href, item]),
-    ).values(),
-  );
-
   return (
     <>
       <script
@@ -104,7 +85,6 @@ export default function StudioHubPage() {
         dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(STUDIO_STRUCTURED_DATA) }}
       />
       <HubPageSchema {...hubSchemaPropsFromService(service, "studio")} />
-      <HubServiceIndexStatic heading="מסלולי האולפן" links={indexLinks} />
       <ServicePageFromRegistry
         service={service}
         portfolioLabel="סביבת האולפן"

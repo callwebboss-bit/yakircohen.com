@@ -2,7 +2,6 @@ import { metadataFromService } from "@/lib/data/service-metadata";
 import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import PhotographyCalculator from "@/components/calculators/PhotographyCalculator";
 import HubPageSchema from "@/components/seo/HubPageSchema";
-import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
@@ -27,14 +26,6 @@ export default function PhotographyHubPage() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromService(service, "photography")} />
-      <HubServiceIndexStatic
-        heading="מסלולי צילום"
-        links={hubLinks.map((link) => ({
-          href: link.href,
-          title: link.title,
-          description: link.description,
-        }))}
-      />
       <ServicePageFromRegistry service={service} portfolioLabel="גלריית צילום">
         <CalculatorDisclosure
           title="הזמנת צלם - מחשבון חבילה"

@@ -791,18 +791,6 @@ export default function EventsBookingWizard({
 
   return (
     <div className="min-w-0 max-w-full space-y-8">
-      {/* SEO: אינדקס סטטי לסורקים ומנועי AI */}
-      <section className="sr-only" aria-label="רשימת אטרקציות לאירועים">
-        <h2>אטרקציות לחתונה, בר מצווה ואירועי חברה «יקיר כהן הפקות»</h2>
-        {EVENT_BOOKING_ITEMS.map((item) => (
-          <div key={item.id}>
-            <h3>{item.name}</h3>
-            <p>{item.desc}</p>
-            <p>מחיר בסיס: {getExVat("event_attraction_1").toLocaleString("he-IL")} ₪</p>
-          </div>
-        ))}
-      </section>
-
       {draft.restored && draft.savedAt ? (
         <BookDraftRecoveryBanner
           savedAt={draft.savedAt}

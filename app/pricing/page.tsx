@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
-import HubServiceIndexStatic from "@/components/seo/HubServiceIndexStatic";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PricingHubQuickNav from "@/components/marketing/PricingHubQuickNav";
 import Container from "@/components/ui/Container";
@@ -225,14 +224,6 @@ export default function PricingHubPage() {
           </Container>
         </Section>
 
-        <HubServiceIndexStatic
-          heading="מקטעי מחירון"
-          links={PRICING_HUB_SECTIONS.map((section) => ({
-            href: section.href,
-            title: section.title,
-            description: section.description,
-          }))}
-        />
 
         <PricingFaqSection />
 
