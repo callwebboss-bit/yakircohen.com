@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-09-15T10:06:32.506Z",
-  "buildId": "VM2bfGwXXZGheS0UlMi4Y",
-  "gitHead": "b504054",
+  "capturedAt": "2026-09-15T14:09:28.528Z",
+  "buildId": "zzxmJc0V6qzMuTxvYNl3e",
+  "gitHead": "e40a1f0",
   "uncommittedFiles": 19,
-  "urlCount": 316,
+  "urlCount": 322,
   "site": {
     "sitemapUrls": [
       "https://yakircohen.com",
@@ -143,15 +143,11 @@
       "https://yakircohen.com/events/bar-mitzvah",
       "https://yakircohen.com/events/dj-events",
       "https://yakircohen.com/events/dj/pre-built-sets",
-      "https://yakircohen.com/events/dj/pre-built-sets",
-      "https://yakircohen.com/events/dj/voice-tags",
       "https://yakircohen.com/events/dj/voice-tags",
       "https://yakircohen.com/events/equipment",
       "https://yakircohen.com/events/equipment/dry-hire",
-      "https://yakircohen.com/events/equipment/dry-hire",
       "https://yakircohen.com/events/equipment/faq",
       "https://yakircohen.com/events/equipment/singer-amplification",
-      "https://yakircohen.com/events/equipment/system-tuning",
       "https://yakircohen.com/events/equipment/system-tuning",
       "https://yakircohen.com/events/host",
       "https://yakircohen.com/events/host/faq",
@@ -256,7 +252,6 @@
       "https://yakircohen.com/online/image-design",
       "https://yakircohen.com/online/legacy-digitization",
       "https://yakircohen.com/online/mashup-fixer",
-      "https://yakircohen.com/online/mashup-fixer",
       "https://yakircohen.com/online/online-ai-pricing",
       "https://yakircohen.com/online/podcast-voice",
       "https://yakircohen.com/online/transcription",
@@ -278,7 +273,6 @@
       "https://yakircohen.com/podcast",
       "https://yakircohen.com/podcast/beit-shemesh",
       "https://yakircohen.com/podcast/bulk-production",
-      "https://yakircohen.com/podcast/bulk-production",
       "https://yakircohen.com/podcast/corporate-podcast",
       "https://yakircohen.com/podcast/faq",
       "https://yakircohen.com/podcast/jerusalem",
@@ -291,7 +285,6 @@
       "https://yakircohen.com/podcast/rehovot",
       "https://yakircohen.com/podcast/self-service-studio",
       "https://yakircohen.com/podcast/shoham",
-      "https://yakircohen.com/podcast/studio-in-a-box",
       "https://yakircohen.com/podcast/studio-in-a-box",
       "https://yakircohen.com/portfolio",
       "https://yakircohen.com/pricing",
@@ -707,7 +700,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/about": {
       "title": "אודות | יקיר כהן הפקות",
@@ -1853,7 +1846,7 @@
       "images": 3,
       "imagesWithAlt": 1,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/hebrew-lessons": {
       "title": "Hebrew Teacher in Modiin | Private Hebrew Lessons | Yakir Cohen",
@@ -2625,7 +2618,7 @@
       "images": 4,
       "imagesWithAlt": 2,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/music-production": {
       "title": "קורס יצירה מוזיקלית | יקיר כהן הפקות",
@@ -2992,7 +2985,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/private-lessons": {
       "title": "שיעור פרטי במוזיקה | יקיר כהן הפקות",
@@ -3360,7 +3353,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/stuttering-course": {
       "title": "קורס הפסקת גמגום | שיטת NeverMind | יקיר כהן הפקות",
@@ -3734,7 +3727,7 @@
       "images": 3,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/ulpan": {
       "title": "שיעור פרטי עברית במודיעין | מורה אחד על אחד | יקיר כהן הפקות",
@@ -4178,7 +4171,7 @@
       "images": 4,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy/voiceover": {
       "title": "קורס קריינות ודיבור נכון | יקיר כהן הפקות",
@@ -4978,7 +4971,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/academy": {
       "title": "האקדמיה | לימוד DJ, הפקה מוזיקלית ו-AI | יקיר כהן הפקות",
@@ -5397,7 +5390,7 @@
       "images": 5,
       "imagesWithAlt": 3,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/accessibility": {
       "title": "הצהרת נגישות | יקיר כהן הפקות",
@@ -5753,7 +5746,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/areas": {
       "title": "אזורי שירות והגעה | מודיעין, ירושלים, שוהם, פתח תקווה והמרכז | יקיר כהן הפקות",
@@ -14443,7 +14436,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 3
+      "inbound": 4
     },
     "/blog/dj-selection-guide-events": {
       "title": "איך בוחרים תקליטן לאירוע - מה לשאול, מה להסתכל עליו ומה לא לפספס | יקיר כהן הפקות",
@@ -17457,7 +17450,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 2
+      "inbound": 3
     },
     "/blog/heavy-smoke-vs-light-smoke-events": {
       "title": "מה ההבדל בין עשן כבד לעשן קל לאירוע | יקיר כהן הפקות",
@@ -20477,7 +20470,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 12
+      "inbound": 13
     },
     "/blog/how-to-record-at-home": {
       "title": "איך להקליט את עצמך בבית - מדריך מעשי לציוד, אקוסטיקה ותוצאה | יקיר כהן הפקות",
@@ -21611,7 +21604,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/mixing-vs-mastering-explained": {
       "title": "מה ההבדל בין מיקס למאסטרינג? הסבר פשוט למוזיקאים | יקיר כהן הפקות",
@@ -23891,7 +23884,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 0
+      "inbound": 1
     },
     "/blog/original-song-what-to-prepare": {
       "title": "כתבתם שיר מקורי? מה לדעת לפני שמגיעים להקליט | 2026 | יקיר כהן הפקות",
@@ -26181,7 +26174,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/podcast-for-small-business-worth-it": {
       "title": "פודקאסט לעסק קטן - שווה את ההשקעה? ניתוח ROI | יקיר כהן הפקות",
@@ -27330,7 +27323,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 11
+      "inbound": 12
     },
     "/blog/podcast-studio-vs-home-recording": {
       "title": "אולפן פודקאסט מול הקלטה ביתית - השוואה כנה | יקיר כהן הפקות",
@@ -29976,7 +29969,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/rescue-damaged-recording": {
       "title": "הצלת הקלטה פגומה: מה אפשרי, מה לא, ואיך מקבלים החלטה נכונה | יקיר כהן הפקות",
@@ -31137,7 +31130,7 @@
       "images": 7,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 35
+      "inbound": 36
     },
     "/blog/street-hebrew-vs-government-ulpan": {
       "title": "עברית רחוב vs אולפן ממשלתי - מה מתאים לעולה חדש? | יקיר כהן הפקות",
@@ -32270,7 +32263,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/studio-recording-cost-israel-2026": {
       "title": "כמה עולה להקליט שיר באולפן ב-2026? מחירון אולפן מעודכן | יקיר כהן הפקות",
@@ -35278,7 +35271,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/wedding-dj-selection-guide-2026": {
       "title": "איך לבחור תקליטן לחתונה 2026 | מדריך מלא לזוגות | יקיר כהן הפקות",
@@ -36411,7 +36404,7 @@
       "images": 6,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 1
+      "inbound": 2
     },
     "/blog/wedding-photography-guide": {
       "title": "איך בוחרים צלם לחתונה - המדריך שלא יגידו לכם | יקיר כהן הפקות",
@@ -39466,7 +39459,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/audiobooks": {
       "title": "הפקת ספרי שמע | יקיר כהן הפקות",
@@ -39868,7 +39861,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/content-studio": {
       "title": "חבילות רילז לעסקים | סושיאל דאמפ | יקיר כהן הפקות",
@@ -40249,7 +40242,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/corporate-songs": {
       "title": "שיר פרישה והימנון לחברה | הפקה עם קליפ - חשבונית מס | יקיר כהן הפקות",
@@ -40648,7 +40641,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/employer-branding": {
       "title": "סרטוני onboarding ותוכן HR | יקיר כהן הפקות",
@@ -41053,7 +41046,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/on-site-studio": {
       "title": "אולפן זמני בחברה | פודקאסט ווידאו במשרד | יקיר כהן הפקות",
@@ -41472,7 +41465,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/professional-voiceover": {
       "title": "קריינות לסט DJ | חבילת 5 משפטים | יקיר כהן הפקות",
@@ -41857,7 +41850,7 @@
       "images": 3,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/reel-factory": {
       "title": "מפעל הרילס לספקים | The Reel Factory | יקיר כהן הפקות",
@@ -42246,7 +42239,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business/social-media": {
       "title": "ניהול סושיאל לעסקים | יקיר איזמירלי | יקיר כהן הפקות",
@@ -42628,7 +42621,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/business": {
       "title": "הפקת תוכן לעסקים - קריינות ופודקאסט | יקיר כהן הפקות",
@@ -43023,7 +43016,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/clinic": {
       "title": "קליניקה - חקירה לוגית של גמגום | יקיר כהן הפקות",
@@ -43777,7 +43770,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/courses": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -44581,7 +44574,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/dj-events/cities/rehovot": {
       "title": "דיג׳יי לאירועים ברחובות | חתונות ובר/בת מצווה | יקיר כהן הפקות",
@@ -44973,7 +44966,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/dj-events/cities/shoham": {
       "title": "דיג׳יי לאירועים בשוהם | חתונות ובר/בת מצווה | יקיר כהן הפקות",
@@ -45365,7 +45358,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/equipment/used-gear": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -46605,7 +46598,7 @@
       "images": 11,
       "imagesWithAlt": 8,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/cold-fireworks": {
       "title": "זיקוקים קרים לחתונה | אש קרה בטוחה לאולמות - אזור המרכז | יקיר כהן הפקות",
@@ -47029,7 +47022,7 @@
       "images": 14,
       "imagesWithAlt": 10,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/confetti-cannon": {
       "title": "תותח קונפטי לחתונה ובר מצווה | השכרה עם מפעיל - אישור בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -47464,7 +47457,7 @@
       "images": 17,
       "imagesWithAlt": 11,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/giant-balloons": {
       "title": "בלוני ענק לאירועים | עיצוב מרשים לחתונה ובר מצווה - אזור המרכז | יקיר כהן הפקות",
@@ -47866,7 +47859,7 @@
       "images": 12,
       "imagesWithAlt": 9,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/jerusalem": {
       "title": "אטרקציות לאירועים בירושלים | יקיר כהן הפקות",
@@ -48999,7 +48992,7 @@
       "images": 11,
       "imagesWithAlt": 8,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events": {
       "title": "השכרת עשן כבד לאירועים גדולים | מכונה כפולה | יקיר כהן הפקות",
@@ -49417,7 +49410,7 @@
       "images": 13,
       "imagesWithAlt": 7,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions/wedding-smoking-machine": {
       "title": "עשן כבד לחתונה וסלואו | קרח יבש לכניסה לחופה - אישור בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -49843,7 +49836,7 @@
       "images": 22,
       "imagesWithAlt": 15,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/attractions": {
       "title": "אטרקציות לאירועים | עשן, בועות וקונפטי - אזור המרכז וכל הארץ | יקיר כהן הפקות",
@@ -50673,7 +50666,7 @@
       "images": 13,
       "imagesWithAlt": 10,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/dj/pre-built-sets": {
       "title": "סט מוזיקה מוכן לדיג&#x27;יי | קבלת פנים ואירועי חברה | יקיר כהן הפקות",
@@ -51054,7 +51047,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/dj/voice-tags": {
       "title": "תג קולי לדיג&#x27;יי | קריינות ממותגת לסט | יקיר כהן הפקות",
@@ -51448,7 +51441,7 @@
       "images": 8,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/dj-events": {
       "title": "דיג׳יי לחתונה במודיעין - ירושלים והמרכז | יקיר כהן הפקות",
@@ -51913,7 +51906,7 @@
       "images": 13,
       "imagesWithAlt": 10,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/equipment/dry-hire": {
       "title": "השכרת ציוד הגברה ליום | מיקסרים, רמקולים וסאב | יקיר כהן הפקות",
@@ -52305,7 +52298,7 @@
       "images": 6,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/equipment/faq": {
       "title": "שאלות ותשובות - השכרת הגברה לאירועים | יקיר כהן הפקות",
@@ -53089,7 +53082,7 @@
       "images": 6,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/equipment/system-tuning": {
       "title": "תכנון הגברה לאירוע | פריסת רמקולים ומדידות | יקיר כהן הפקות",
@@ -53463,7 +53456,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/equipment": {
       "title": "השכרת הגברה לאירועים | רמקולים RCF | יקיר כהן הפקות",
@@ -53913,7 +53906,7 @@
       "images": 14,
       "imagesWithAlt": 7,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/host/faq": {
       "title": "שאלות ותשובות - מנחה אירועים | יקיר כהן הפקות",
@@ -54701,7 +54694,7 @@
       "images": 16,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/stage-led-dj": {
       "title": "השכרת עמדת LED לאירועים | עמדת DJ לד - פתח תקווה ואזור המרכז | יקיר כהן הפקות",
@@ -55134,7 +55127,7 @@
       "images": 19,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/events/wedding-attractions-packages": {
       "title": "חבילות חתונה - DJ ואטרקציות מודיעין | יקיר כהן הפקות",
@@ -55550,7 +55543,7 @@
       "images": 9,
       "imagesWithAlt": 6,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/events": {
       "title": "DJ ואטרקציות לאירועים - מודיעין והמרכז | יקיר כהן הפקות",
@@ -56001,7 +55994,7 @@
       "images": 19,
       "imagesWithAlt": 16,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/for-couples": {
       "title": "שיר לחתונה, DJ וצילום | מסלול לזוגות | יקיר כהן הפקות",
@@ -93100,7 +93093,7 @@
       "images": 18,
       "imagesWithAlt": 13,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/matanot": {
       "title": "מתנה מוקלטת לפי אירוע | חתונה, יום הולדת, בר מצווה ויום נישואין | יקיר כהן הפקות",
@@ -93486,7 +93479,7 @@
       "images": 5,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/legacy-digitization": {
       "title": "המרת VHS וקלטות לדיגיטל | שחזור AI | יקיר כהן הפקות",
@@ -93890,7 +93883,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/mashup-fixer": {
       "title": "מרכז הדיג&#x27;יי | רעיונות מאשאפ, כלים חינמיים וייצור | יקיר כהן הפקות",
@@ -94317,7 +94310,7 @@
       "images": 8,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/online-ai-pricing": {
       "title": "מחירון שירותי AI מקוונים | יקיר כהן הפקות",
@@ -94712,7 +94705,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/transcription": {
       "title": "תמלול פודקאסט וראיונות | יקיר כהן הפקות",
@@ -95121,7 +95114,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 5
+      "inbound": 7
     },
     "/online/vocal-fix/eq-fix": {
       "title": "תיקון תדרים ו-EQ מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -95477,7 +95470,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 4
+      "inbound": 5
     },
     "/online/vocal-fix/mixing": {
       "title": "מיקס ומאסטרינג מרחוק | יקיר כהן הפקות",
@@ -95874,7 +95867,7 @@
       "images": 5,
       "imagesWithAlt": 2,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/vocal-fix/noise-removal": {
       "title": "ניקוי רעשים מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -96229,7 +96222,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 8
+      "inbound": 9
     },
     "/online/vocal-fix/photo-enhance": {
       "title": "שדרוג תמונות ב-AI | איכות HD מרחוק | יקיר כהן הפקות",
@@ -96585,7 +96578,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/vocal-fix/pitch-correction": {
       "title": "תיקון זיופים (Pitch Correction) מקצועי מרחוק | יקיר כהן | יקיר כהן הפקות",
@@ -96983,7 +96976,7 @@
       "images": 6,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/vocal-fix/podcast-repair": {
       "title": "תיקון סאונד פודקאסט מרחוק | יקיר כהן הפקות",
@@ -97687,7 +97680,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/vocal-fix/volume-balance": {
       "title": "איזון ווליום ועוצמות שמע מקצועי אונליין | יקיר כהן | יקיר כהן הפקות",
@@ -98042,7 +98035,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 5
+      "inbound": 7
     },
     "/online/vocal-fix": {
       "title": "תיקון זיופים ושיפור קול מרחוק | יקיר כהן | יקיר כהן הפקות",
@@ -98431,7 +98424,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/online/voice-cloning": {
       "title": "שיבוט קול לעסקים | יקיר כהן הפקות",
@@ -98836,7 +98829,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 4
+      "inbound": 5
     },
     "/online": {
       "title": "תיקון שירה ומיקס אונליין - AI לאודיו | יקיר כהן הפקות",
@@ -99299,7 +99292,7 @@
       "images": 3,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/packages": {
       "title": "חבילות אולפן, פודקאסט וחתונות | יקיר כהן הפקות",
@@ -99678,7 +99671,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 4
+      "inbound": 5
     },
     "/photo-slideshow": {
       "title": "מצגת תמונות ומצגת גדילה AI | עריכה קולנועית תוך 48 שעות | יקיר כהן הפקות",
@@ -100118,7 +100111,7 @@
       "images": 16,
       "imagesWithAlt": 8,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/photography/events": {
       "title": "צילום אירועים וכנסים | סטילס מקצועי | יקיר כהן הפקות",
@@ -100525,7 +100518,7 @@
       "images": 10,
       "imagesWithAlt": 6,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/photography/wedding": {
       "title": "צלם חתונות דתי | אירועים קטנים מ-3,500 ₪ | יקיר כהן הפקות",
@@ -100921,7 +100914,7 @@
       "images": 14,
       "imagesWithAlt": 10,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/photography": {
       "title": "צילום חתונות ואירועים במודיעין | יקיר כהן הפקות",
@@ -101325,7 +101318,7 @@
       "images": 16,
       "imagesWithAlt": 14,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/beit-shemesh": {
       "title": "אולפן פודקאסט קרוב לבית שמש - 20 דקות מבית שמש | יקיר כהן הפקות",
@@ -102079,7 +102072,7 @@
       "images": 8,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/corporate-podcast": {
       "title": "פודקאסט ארגוני לחברות | הפקה מלאה + ספוטיפיי + חשבונית מס | יקיר כהן הפקות",
@@ -102490,7 +102483,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/faq": {
       "title": "שאלות ותשובות - הפקת פודקאסטים במודיעין | יקיר כהן הפקות",
@@ -102883,7 +102876,7 @@
       "images": 3,
       "imagesWithAlt": 1,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/jerusalem": {
       "title": "אולפן פודקאסט קרוב לירושלים - 30 דקות מירושלים | יקיר כהן הפקות",
@@ -103675,7 +103668,7 @@
       "images": 16,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/podcast-editing": {
       "title": "עריכת פודקאסט מקצועית | מההקלטה הגולמית לפרק מוכן | יקיר כהן הפקות",
@@ -104111,7 +104104,7 @@
       "images": 19,
       "imagesWithAlt": 16,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/podcast-production": {
       "title": "הפקת פודקאסט מא׳ עד ת׳ | ליווי מקצועי | יקיר כהן הפקות",
@@ -104510,7 +104503,7 @@
       "images": 15,
       "imagesWithAlt": 13,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/podcast-recording": {
       "title": "הפקת פודקאסט מקצועית במודיעין | צילום 4K וסאונד אולפני | יקיר כהן הפקות",
@@ -104950,7 +104943,7 @@
       "images": 18,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/podcast-studio-modiin": {
       "title": "הקלטת פודקאסט במודיעין | קריינות אנושית - מקום, בדרך כלל תוך 24 שעות | יקיר כהן הפקות",
@@ -105360,7 +105353,7 @@
       "images": 19,
       "imagesWithAlt": 14,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/podcast-studio": {
       "title": "יקיר כהן הפקות | אולפן, פודקאסט ואירועים במודיעין",
@@ -105799,7 +105792,7 @@
       "images": 16,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/rehovot": {
       "title": "אולפן פודקאסט קרוב לרחובות - 25 דקות מרחובות | יקיר כהן הפקות",
@@ -106530,7 +106523,7 @@
       "images": 3,
       "imagesWithAlt": 1,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast/shoham": {
       "title": "אולפן פודקאסט קרוב לשוהם - 10 דקות משוהם | יקיר כהן הפקות",
@@ -107265,7 +107258,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/podcast": {
       "title": "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה | יקיר כהן הפקות",
@@ -107776,7 +107769,7 @@
       "images": 25,
       "imagesWithAlt": 19,
       "suspenseHidden": true,
-      "inbound": 311
+      "inbound": 317
     },
     "/portfolio": {
       "title": "תיק עבודות וידאו | יקיר כהן הפקות",
@@ -108651,7 +108644,7 @@
       "images": 3,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/privacy": {
       "title": "מדיניות פרטיות | יקיר כהן הפקות",
@@ -109004,7 +108997,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/pro/event-index": {
       "title": "דופק השוק - מחירים וביקוש באירועים | יקיר כהן הפקות",
@@ -109355,7 +109348,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/pro": {
       "title": "שירותים מקצועיים לדיג&#x27;ייז, פודקאסט והגברה | יקיר כהן הפקות",
@@ -109733,7 +109726,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/shop": {
       "title": "חנות שוברים וציוד מקצועי במודיעין | יקיר כהן הפקות",
@@ -110550,7 +110543,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 83
+      "inbound": 84
     },
     "/studio/blessings/bar-mitzvah": {
       "title": "הקלטת ברכה ודרשה לבר מצווה | יקיר כהן | יקיר כהן הפקות",
@@ -110971,7 +110964,7 @@
       "images": 13,
       "imagesWithAlt": 8,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/blessings/bat-mitzvah-clip": {
       "title": "קליפ בת מצווה - תמונות ילדות וקליפ מהאולפן | מודיעין | יקיר כהן הפקות",
@@ -111772,7 +111765,7 @@
       "images": 11,
       "imagesWithAlt": 6,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/blessings/video-clip": {
       "title": "הקלטת שיר וצילום קליפ באולפן | יקיר כהן הפקות",
@@ -112188,7 +112181,7 @@
       "images": 13,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/blessings": {
       "title": "הקלטת ברכות באולפן | מודיעין | יקיר כהן הפקות",
@@ -112622,7 +112615,7 @@
       "images": 9,
       "imagesWithAlt": 6,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/mobile-studio": {
       "title": "אולפן נייד | מגיע עד הבית | יקיר כהן הפקות",
@@ -113034,7 +113027,7 @@
       "images": 7,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/pricing": {
       "title": "מחירון חבילות אולפן הקלטות | יקיר כהן הפקות",
@@ -113439,7 +113432,7 @@
       "images": 3,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/recording-song-modiin/gifts/funny-ringtone": {
       "title": "רינגטון מצחיק במתנה | 299 ₪ מבצע | יקיר כהן הפקות",
@@ -114218,7 +114211,7 @@
       "images": 21,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/recording-song-modiin": {
       "title": "הקלטת שיר באולפן | מודיעין - תוך 48 שעות | יקיר כהן הפקות",
@@ -114716,7 +114709,7 @@
       "images": 26,
       "imagesWithAlt": 19,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/recording-studio": {
       "title": "אולפן הקלטות מקצועי במודיעין - חומרה | יקיר כהן הפקות",
@@ -115127,7 +115120,7 @@
       "images": 19,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/studio-beit-shemesh": {
       "title": "אולפן הקלטות בבית שמש | 20-25 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -115945,7 +115938,7 @@
       "images": 8,
       "imagesWithAlt": 5,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/studio-rehovot": {
       "title": "אולפן הקלטות ברחובות | 25-30 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -116367,7 +116360,7 @@
       "images": 8,
       "imagesWithAlt": 5,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/studio-shoham": {
       "title": "אולפן הקלטות בשוהם | 10-15 דק׳ ממודיעין | יקיר כהן הפקות",
@@ -116779,7 +116772,7 @@
       "images": 8,
       "imagesWithAlt": 5,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio/virtual-tour": {
       "title": "סיור וירטואלי באולפן | וידאו קצר ותהליך ההקלטה | יקיר כהן הפקות",
@@ -117157,7 +117150,7 @@
       "images": 7,
       "imagesWithAlt": 4,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/studio": {
       "title": "אולפן הקלטות במודיעין | שיר ופודקאסט | יקיר כהן הפקות",
@@ -117610,7 +117603,7 @@
       "images": 12,
       "imagesWithAlt": 7,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/stuttering": {
       "title": "טיפול בגמגום במודיעין | שיטת NeverMind | יקיר כהן הפקות",
@@ -118364,7 +118357,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/terms": {
       "title": "תנאי שירות | יקיר כהן הפקות",
@@ -118729,7 +118722,7 @@
       "images": 2,
       "imagesWithAlt": 0,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/testimonials": {
       "title": "המלצות לקוחות | אולפן ואירועים במודיעין | יקיר כהן הפקות",
@@ -119520,7 +119513,7 @@
       "images": 17,
       "imagesWithAlt": 14,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/video/event-filming": {
       "title": "צילום וידאו לאירועים | הפקה מקצועית | יקיר כהן הפקות",
@@ -119899,7 +119892,7 @@
       "images": 9,
       "imagesWithAlt": 6,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/video/presentation": {
       "title": "מצגת וידאו ומצגת גדילה AI | לאירועים וכנסים | יקיר כהן הפקות",
@@ -120300,7 +120293,7 @@
       "images": 18,
       "imagesWithAlt": 13,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/video": {
       "title": "הפקות וידאו וצילום במודיעין | יקיר כהן הפקות",
@@ -120720,7 +120713,7 @@
       "images": 23,
       "imagesWithAlt": 20,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/voiceover/course": {
       "title": "קורס קריינות פרונטלי | אקדמיית קול | יקיר כהן הפקות",
@@ -121112,7 +121105,7 @@
       "images": 11,
       "imagesWithAlt": 5,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/voiceover/services": {
       "title": "קריינות מסחרית ומרכזיות | שירותי קול | יקיר כהן הפקות",
@@ -121510,7 +121503,7 @@
       "images": 8,
       "imagesWithAlt": 3,
       "suspenseHidden": false,
-      "inbound": 311
+      "inbound": 317
     },
     "/voiceover": {
       "title": "שירותי קריינות מקצועיים במודיעין | יקיר כהן הפקות",
@@ -121965,6 +121958,2297 @@
       "imagesWithAlt": 0,
       "suspenseHidden": false,
       "inbound": 9
+    },
+    "/blog": {
+      "title": "מגזין מקצועי | יקיר כהן הפקות",
+      "description": "מגזין אולפן ופודקאסט במודיעין. מדריכים על הקלטה, DJ, אירועים וסאונד.",
+      "canonical": "https://yakircohen.com/blog",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/blog"
+      },
+      "ogImage": "https://yakircohen.com/images/og/blog.webp",
+      "h1": [
+        "ידע מקצועי מהאולפן והשטח"
+      ],
+      "outline": [
+        "h2:שלושה מדריכי עומק",
+        "h2:למה הקלטת שיר באולפן יוצאת מאכזבת? 5 תלונות שחוזרות",
+        "h2:עריכת פודקאסט איטית, יקרה ולא שקופה? 5 תלונות קלאסיות",
+        "h2:שלחתי קובץ לתיקון זיופים - יצא רובוטי או לא חזר. 5 תלונות על עריכה מרחוק",
+        "h2:קריינות לעסק שנשמעת זולה או רובוטית: 5 תלונות על קריינים",
+        "h2:איך לבחור אוזניות: קודם מגדירים מטרה",
+        "h2:צילום חתונה ומוזיקה: למה חייבים לתאם ביניהם - ולא להשאיר את זה ליום האירוע",
+        "h2:כמה עולה DJ לבר מצווה ב-2026?",
+        "h2:הקלטת שיר מתנה ליום הולדת - מה לצפות ואיך להתכונן",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:מיקס ומאסטרינג: מה ההבדל ולמה השיר שלכם לא גמור בלי שניהם",
+        "h3:תקליטן לחתונה: איך לא לשבור את האירוע (מדריך בחירה)",
+        "h3:המדריך השלם להפקת פודקאסט בישראל: מהרעיון ועד הפרק הראשון בספוטיפיי",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/blog/dj-for-bar-mitzvah-cost",
+        "/blog/headphones-purpose-guide",
+        "/blog/how-to-choose-wedding-dj-israel",
+        "/blog/mixing-mastering-explained",
+        "/blog/online-audio-service-complaints",
+        "/blog/podcast-editing-complaints",
+        "/blog/podcast-production-guide-israel",
+        "/blog/recorded-song-birthday-gift",
+        "/blog/studio-recording-complaints",
+        "/blog/voiceover-business-complaints",
+        "/blog/wedding-photography-and-sound-guide",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/vocal-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1144,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "SpeakableSpecification",
+        "WebPage",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "caption",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "WebPage": [
+          "@context",
+          "@id",
+          "@type",
+          "about",
+          "dateModified",
+          "description",
+          "inLanguage",
+          "isPartOf",
+          "name",
+          "primaryImageOfPage",
+          "speakable",
+          "url"
+        ],
+        "SpeakableSpecification": [
+          "@type",
+          "cssSelector"
+        ],
+        "FAQPage": [
+          "@context",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ]
+      },
+      "images": 13,
+      "imagesWithAlt": 11,
+      "suspenseHidden": false,
+      "dynamic": true,
+      "inbound": 317
+    },
+    "/book": {
+      "title": "הזמנה מקוונת - מחירון שקוף מודיעין | יקיר כהן הפקות",
+      "description": "מחירון שקוף עם מחיר סופי (כולל מע״מ): אולפן במודיעין (חבילות מ-990 ₪), פודקאסט, אירועים, DJ, צילום, אקדמיה ושחזור סאונד. וואטסאפ מהיר עם פרטים מוכנים או מחשבון מפורט.",
+      "canonical": "https://yakircohen.com/book",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/book"
+      },
+      "ogImage": "https://yakircohen.com/images/og/book.webp",
+      "h1": [
+        "בחרו כיוון - מחיר שקוף מיד, ומה מקבלים בפועל"
+      ],
+      "outline": [
+        "h2:יודעים מה אתם צריכים? בחרו מסלול",
+        "h2:שיר הפתעה, ברכת כלה או הקלטה לבר/בת מצווה",
+        "h2:הקלטת פודקאסט מקצועי או קריינות לתוכן עסקי",
+        "h2:עשן כבד, בועות, זיקוקים קרים ועוד",
+        "h2:דיג׳יי בוטיק, עשן כבד, זיקוקים קרים ו-LED",
+        "h2:צ&#x27;ק סאונד וטכנאי בשטח - הקול שלך בכל אולם",
+        "h2:צילום אירועים, קליפים ושירותי AI",
+        "h2:שיעורים פרטיים עם יקיר - פיתוח קול, DJ, הפקה ועוד",
+        "h2:שחזור סאונד, ניקוי רעשים והצלת קבצים פגומים",
+        "h2:תגים קוליים, מאשאפים, פס ייצור והשכרת ציוד",
+        "h2:מה באת לעשות?",
+        "h2:פרטים נוספים",
+        "h2:מה מפריע בהקלטה",
+        "h2:שירותים נוספים",
+        "h2:מסמכים קשורים",
+        "h2:שלחו פנייה מהירה",
+        "h2:שאלות נפוצות",
+        "h2:התאמת הצעה לפי הצורך שלכם",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:ניהול סושיאל לזמרים",
+        "h3:וולוג יום בחיי - צלם צמוד",
+        "h3:איך עובדת הזמנה?",
+        "h3:האם המחירים כוללים מע״מ?",
+        "h3:מהי מדיניות הביטולים?",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/vocal-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/packages",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/start",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1626,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "WebPage",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "caption",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "WebPage": [
+          "@context",
+          "@id",
+          "@type",
+          "about",
+          "description",
+          "inLanguage",
+          "isPartOf",
+          "name",
+          "primaryImageOfPage",
+          "url"
+        ],
+        "FAQPage": [
+          "@context",
+          "@id",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ]
+      },
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": true,
+      "dynamic": true,
+      "inbound": 317
+    },
+    "/online/audio-music": {
+      "title": "אודיו ומוזיקה | שירותי AI אונליין | יקיר כהן הפקות",
+      "description": "תיקון, ליטוש והפקת סאונד מקצועית לקול ולמוזיקה. שירות Done-for-You מלא כולל ליווי אישי, ביצוע מקצה לקצה ותוצר מוכן.",
+      "canonical": "https://yakircohen.com/online/audio-music",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/online/audio-music"
+      },
+      "ogImage": "https://yakircohen.com/images/services/studio/hub/%D7%90%D7%95%D7%9C%D7%A4%D7%9F%20%D7%A4%D7%95%D7%93%D7%A7%D7%90%D7%A1%D7%98%20-%20%D7%99%D7%A7%D7%99%D7%A8%20%D7%9B%D7%94%D7%9F%201.webp",
+      "h1": [
+        "אודיו ומוזיקה - שירותי AI אונליין"
+      ],
+      "outline": [
+        "h2:שירותים בקטגוריה",
+        "h2:מה כלול וזמני אספקה",
+        "h2:שומעים את ההבדל - אודיו",
+        "h2:קטגוריות קשורות",
+        "h2:למה לבחור בנו?",
+        "h2:שאלות ששואלים אותנו הרבה לפני שמזמינים",
+        "h2:רוצים שנתחיל?",
+        "h2:השאירו פרטים - אודיו ומוזיקה",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:שיפור קול מהנייד",
+        "h3:תיקון זיופים טבעי",
+        "h3:מיקס ומאסטרינג לשיר",
+        "h3:מרכז דיג&#x27;יי - רעיונות, כלים וייצור",
+        "h3:הצלת הקלטות פגומות",
+        "h3:החייאת זיכרונות, VHS וקלטות",
+        "h3:שיבוט קול לעסק",
+        "h3:שירותי AI לאודיו",
+        "h3:איזון ווליומין",
+        "h3:ניקוי רעשים",
+        "h3:תיקון תדרים ו-EQ",
+        "h3:מהיר",
+        "h3:סטנדרט",
+        "h3:פרימיום",
+        "h3:פודקאסט, דיבור וקריינות",
+        "h3:תמונה ועיצוב AI",
+        "h3:כל שירותי האונליין",
+        "h3:🎧 Done-for-You אמיתי",
+        "h3:🎙️ מאגר שירותים רחב",
+        "h3:⚡ מהירות ביצוע",
+        "h3:🤝 בקרת איכות אנושית + AI",
+        "h3:💬 תקשורת ברורה",
+        "h3:אילו פורמטים אפשר לשלוח?",
+        "h3:האם תיקון זיופים יישמע רובוטי?",
+        "h3:אפשר לשמוע סקיצה לפני תשלום מלא?",
+        "h3:כמה סבבי תיקון כלולים?",
+        "h3:אתם רק ממליצים על כלים או מבצעים?",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/blog/sound-recovery-ai-podcast",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/image-design",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/podcast-voice",
+        "/online/vocal-fix",
+        "/online/vocal-fix/eq-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/noise-removal",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/online/vocal-fix/volume-balance",
+        "/online/voice-cloning",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1325,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "FAQPage": [
+          "@context",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ]
+      },
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "dynamic": true,
+      "inbound": 3
+    },
+    "/online/image-design": {
+      "title": "תמונה ועיצוב AI | שירותי AI אונליין | יקיר כהן הפקות",
+      "description": "שיפור תמונות, שחזור חומרים ויצירת נכסים גרפיים מהירה. שירות Done-for-You מלא כולל ליווי אישי, ביצוע מקצה לקצה ותוצר מוכן.",
+      "canonical": "https://yakircohen.com/online/image-design",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/online/image-design"
+      },
+      "ogImage": "https://yakircohen.com/images/services/studio/hub/%D7%90%D7%95%D7%9C%D7%A4%D7%9F%20%D7%A4%D7%95%D7%93%D7%A7%D7%90%D7%A1%D7%98%20-%20%D7%99%D7%A7%D7%99%D7%A8%20%D7%9B%D7%94%D7%9F%201.webp",
+      "h1": [
+        "תמונה ועיצוב AI - שירותי AI אונליין"
+      ],
+      "outline": [
+        "h2:שירותים בקטגוריה",
+        "h2:מה כלול וזמני אספקה",
+        "h2:לפני ואחרי - תמונה",
+        "h2:קטגוריות קשורות",
+        "h2:למה לבחור בנו?",
+        "h2:שאלות ששואלים אותנו הרבה לפני שמזמינים",
+        "h2:רוצים שנתחיל?",
+        "h2:השאירו פרטים - תמונה ועיצוב",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:שדרוג תמונות ישנות",
+        "h3:קריאייטיב לקמפיינים",
+        "h3:עיבוד גרפי לפי בריף",
+        "h3:מהיר",
+        "h3:סטנדרט",
+        "h3:פרימיום",
+        "h3:וידאו ותוכן דיגיטלי",
+        "h3:אודיו ומוזיקה",
+        "h3:כל שירותי האונליין",
+        "h3:🎧 Done-for-You אמיתי",
+        "h3:🎙️ מאגר שירותים רחב",
+        "h3:⚡ מהירות ביצוע",
+        "h3:🤝 בקרת איכות אנושית + AI",
+        "h3:💬 תקשורת ברורה",
+        "h3:תמונה ישנה ומקולפת - אפשר להציל?",
+        "h3:איך מתמחרים - לפי תמונה?",
+        "h3:למי שייכות התמונות אחרי העיבוד?",
+        "h3:אין לי תמונות - רק רעיון?",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/audio-music",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/video-content",
+        "/online/vocal-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1123,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "FAQPage": [
+          "@context",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ]
+      },
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "dynamic": true,
+      "inbound": 3
+    },
+    "/online/podcast-voice": {
+      "title": "פודקאסט, דיבור וקריינות | שירותי AI אונליין | יקיר כהן הפקות",
+      "description": "פתרונות מלאים ליוצרי תוכן עסקי, ראיונות ופרקי פודקאסט. שירות Done-for-You מלא כולל ליווי אישי, ביצוע מקצה לקצה ותוצר מוכן.",
+      "canonical": "https://yakircohen.com/online/podcast-voice",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/online/podcast-voice"
+      },
+      "ogImage": "https://yakircohen.com/images/services/studio/hub/%D7%90%D7%95%D7%9C%D7%A4%D7%9F%20%D7%A4%D7%95%D7%93%D7%A7%D7%90%D7%A1%D7%98%20-%20%D7%99%D7%A7%D7%99%D7%A8%20%D7%9B%D7%94%D7%9F%201.webp",
+      "h1": [
+        "פודקאסט, דיבור וקריינות - שירותי AI אונליין"
+      ],
+      "outline": [
+        "h2:שירותים בקטגוריה",
+        "h2:מה כלול וזמני אספקה",
+        "h2:שומעים את ההבדל - פודקאסט",
+        "h2:קטגוריות קשורות",
+        "h2:למה לבחור בנו?",
+        "h2:שאלות ששואלים אותנו הרבה לפני שמזמינים",
+        "h2:רוצים שנתחיל?",
+        "h2:השאירו פרטים - פודקאסט ודיבור",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:עריכת פודקאסט מלאה",
+        "h3:שדרוג ארכיון ישן",
+        "h3:נורמליזציה לפלטפורמות",
+        "h3:תמלול ותקצירי תוכן",
+        "h3:מהיר",
+        "h3:סטנדרט",
+        "h3:פרימיום",
+        "h3:אודיו ומוזיקה",
+        "h3:וידאו ותוכן דיגיטלי",
+        "h3:כל שירותי האונליין",
+        "h3:🎧 Done-for-You אמיתי",
+        "h3:🎙️ מאגר שירותים רחב",
+        "h3:⚡ מהירות ביצוע",
+        "h3:🤝 בקרת איכות אנושית + AI",
+        "h3:💬 תקשורת ברורה",
+        "h3:כמה עולה עריכת פרק?",
+        "h3:האם הקובץ מוכן להעלאה ל-Spotify?",
+        "h3:אפשר גם תמלול?",
+        "h3:מה לשלוח - WAV או MP3?",
+        "h3:יש אפשרות לדחיפות?",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/audio-music",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/transcription",
+        "/online/video-content",
+        "/online/vocal-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/online/vocal-fix/volume-balance",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1213,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "VideoObject",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "FAQPage": [
+          "@context",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ],
+        "VideoObject": [
+          "@type",
+          "contentUrl",
+          "description",
+          "embedUrl",
+          "inLanguage",
+          "name",
+          "publisher",
+          "thumbnailUrl"
+        ]
+      },
+      "images": 3,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "dynamic": true,
+      "inbound": 3
+    },
+    "/online/video-content": {
+      "title": "וידאו ותוכן דיגיטלי | שירותי AI אונליין | יקיר כהן הפקות",
+      "description": "עריכה, שיפור איכות, התאמה לפורמטים קצרים ושיווקיים. שירות Done-for-You מלא כולל ליווי אישי, ביצוע מקצה לקצה ותוצר מוכן.",
+      "canonical": "https://yakircohen.com/online/video-content",
+      "robots": "index, follow",
+      "hreflang": {
+        "he-IL": "https://yakircohen.com/online/video-content"
+      },
+      "ogImage": "https://yakircohen.com/images/services/studio/hub/%D7%90%D7%95%D7%9C%D7%A4%D7%9F%20%D7%A4%D7%95%D7%93%D7%A7%D7%90%D7%A1%D7%98%20-%20%D7%99%D7%A7%D7%99%D7%A8%20%D7%9B%D7%94%D7%9F%201.webp",
+      "h1": [
+        "וידאו ותוכן דיגיטלי - שירותי AI אונליין"
+      ],
+      "outline": [
+        "h2:שירותים בקטגוריה",
+        "h2:מה כלול וזמני אספקה",
+        "h2:מה מקבלים בפועל",
+        "h2:קטגוריות קשורות",
+        "h2:למה לבחור בנו?",
+        "h2:שאלות ששואלים אותנו הרבה לפני שמזמינים",
+        "h2:רוצים שנתחיל?",
+        "h2:השאירו פרטים - וידאו ותוכן",
+        "h2:עקבו אחרינו",
+        "h2:התחילו עכשיו",
+        "h2:שירותים",
+        "h2:מידע משפטי",
+        "h2:שאלות נפוצות",
+        "h2:אמצעי תשלום",
+        "h3:עריכת וידאו שיווקי",
+        "h3:מפעל רילס לספקים",
+        "h3:חיתוך לרילס ושורטס",
+        "h3:כתוביות ותרגום חכם",
+        "h3:מהיר",
+        "h3:סטנדרט",
+        "h3:פרימיום",
+        "h3:פודקאסט, דיבור וקריינות",
+        "h3:תמונה ועיצוב AI",
+        "h3:כל שירותי האונליין",
+        "h3:🎧 Done-for-You אמיתי",
+        "h3:🎙️ מאגר שירותים רחב",
+        "h3:⚡ מהירות ביצוע",
+        "h3:🤝 בקרת איכות אנושית + AI",
+        "h3:💬 תקשורת ברורה",
+        "h3:צריך לצלם מחדש או מספיק חומר קיים?",
+        "h3:כמה קליפים קצרים אפשר לייצר מפרק אחד?",
+        "h3:הכתוביות מדויקות בעברית?",
+        "h3:אפשר לשמור על סגנון מותג קבוע?",
+        "h3:אולפן הקלטות",
+        "h3:DJ ואטרקציות",
+        "h3:פודקאסט",
+        "h3:שירותי AI",
+        "h3:צילום וידאו",
+        "h3:אקדמיה"
+      ],
+      "links": [
+        "/",
+        "/about/faq",
+        "/academy",
+        "/academy/dj-course",
+        "/academy/home-studio",
+        "/academy/music-production",
+        "/academy/private-lessons",
+        "/academy/stuttering-course",
+        "/academy/ulpan",
+        "/academy/workshops",
+        "/accessibility",
+        "/blog",
+        "/book",
+        "/business",
+        "/business/audio-branding",
+        "/business/audiobooks",
+        "/business/content-studio",
+        "/business/corporate-songs",
+        "/business/employer-branding",
+        "/business/on-site-studio",
+        "/business/professional-voiceover",
+        "/business/reel-factory",
+        "/business/social-media",
+        "/contact",
+        "/dj-events/cities/jerusalem",
+        "/dj-events/cities/rehovot",
+        "/dj-events/cities/shoham",
+        "/events",
+        "/events/attractions/bubble-machine",
+        "/events/attractions/cold-fireworks",
+        "/events/attractions/confetti-cannon",
+        "/events/attractions/giant-balloons",
+        "/events/attractions/smoke-cannons-for-events",
+        "/events/attractions/wedding-smoking-machine",
+        "/events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+        "/events/bar-mitzvah",
+        "/events/dj-events",
+        "/events/dj/pre-built-sets",
+        "/events/dj/voice-tags",
+        "/events/equipment",
+        "/events/equipment/dry-hire",
+        "/events/equipment/singer-amplification",
+        "/events/equipment/system-tuning",
+        "/events/host",
+        "/events/stage-led-dj",
+        "/events/wedding-attractions-packages",
+        "/manifest.webmanifest",
+        "/matanot",
+        "/online",
+        "/online/image-design",
+        "/online/legacy-digitization",
+        "/online/mashup-fixer",
+        "/online/online-ai-pricing",
+        "/online/podcast-voice",
+        "/online/transcription",
+        "/online/vocal-fix",
+        "/online/vocal-fix/mixing",
+        "/online/vocal-fix/photo-enhance",
+        "/online/vocal-fix/pitch-correction",
+        "/online/vocal-fix/send-file",
+        "/photo-slideshow",
+        "/photography",
+        "/photography/events",
+        "/photography/wedding",
+        "/podcast",
+        "/podcast/bulk-production",
+        "/podcast/corporate-podcast",
+        "/podcast/faq",
+        "/podcast/mobile-podcast-at-home",
+        "/podcast/podcast-editing",
+        "/podcast/podcast-production",
+        "/podcast/podcast-recording",
+        "/podcast/podcast-studio-modiin",
+        "/podcast/podcast-with-grandpa",
+        "/podcast/self-service-studio",
+        "/podcast/studio-in-a-box",
+        "/pricing",
+        "/privacy",
+        "/pro",
+        "/pro/event-index",
+        "/studio",
+        "/studio/blessings",
+        "/studio/blessings/bar-mitzvah",
+        "/studio/blessings/bride-groom-blessing",
+        "/studio/blessings/video-clip",
+        "/studio/mobile-studio",
+        "/studio/pricing",
+        "/studio/recording-song-modiin",
+        "/studio/recording-song-modiin/gifts",
+        "/studio/recording-studio",
+        "/studio/studio-jerusalem",
+        "/studio/studio-rehovot",
+        "/studio/studio-shoham",
+        "/studio/virtual-tour",
+        "/sustainability",
+        "/terms",
+        "/video",
+        "/video/corporate-video",
+        "/video/event-filming",
+        "/video/presentation",
+        "/voiceover/course",
+        "/voiceover/services"
+      ],
+      "words": 1163,
+      "ldTypes": [
+        "AdministrativeArea",
+        "Answer",
+        "BreadcrumbList",
+        "City",
+        "Country",
+        "EntertainmentBusiness",
+        "FAQPage",
+        "GeoCoordinates",
+        "ImageObject",
+        "ListItem",
+        "LocalBusiness",
+        "MusicRecordingStudio",
+        "Occupation",
+        "Offer",
+        "OpeningHoursSpecification",
+        "Organization",
+        "Person",
+        "PostalAddress",
+        "Question",
+        "Role",
+        "Service",
+        "WebSite"
+      ],
+      "ldProps": {
+        "WebSite": [
+          "@id",
+          "@type",
+          "description",
+          "image",
+          "inLanguage",
+          "name",
+          "publisher",
+          "url"
+        ],
+        "Organization": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "founder",
+          "foundingDate",
+          "logo",
+          "name",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "ImageObject": [
+          "@type",
+          "url"
+        ],
+        "PostalAddress": [
+          "@type",
+          "addressCountry",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "streetAddress"
+        ],
+        "Person": [
+          "@id",
+          "@type",
+          "alternateName",
+          "hasOccupation",
+          "image",
+          "jobTitle",
+          "knowsAbout",
+          "name",
+          "sameAs",
+          "url",
+          "worksFor"
+        ],
+        "Role": [
+          "@type",
+          "hasOccupation",
+          "startDate"
+        ],
+        "Occupation": [
+          "@type",
+          "name"
+        ],
+        "LocalBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "EntertainmentBusiness": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "MusicRecordingStudio": [
+          "@id",
+          "@type",
+          "address",
+          "alternateName",
+          "areaServed",
+          "currenciesAccepted",
+          "geo",
+          "hasMap",
+          "image",
+          "makesOffer",
+          "name",
+          "openingHoursSpecification",
+          "parentOrganization",
+          "paymentAccepted",
+          "priceRange",
+          "sameAs",
+          "telephone",
+          "url"
+        ],
+        "GeoCoordinates": [
+          "@type",
+          "latitude",
+          "longitude"
+        ],
+        "OpeningHoursSpecification": [
+          "@type",
+          "closes",
+          "dayOfWeek",
+          "opens"
+        ],
+        "City": [
+          "@type",
+          "name"
+        ],
+        "AdministrativeArea": [
+          "@type",
+          "name"
+        ],
+        "Offer": [
+          "@type",
+          "description",
+          "name",
+          "price",
+          "priceCurrency",
+          "url"
+        ],
+        "Service": [
+          "@id",
+          "@type",
+          "areaServed",
+          "description",
+          "name",
+          "offers",
+          "provider",
+          "serviceType",
+          "url"
+        ],
+        "Country": [
+          "@type",
+          "name"
+        ],
+        "BreadcrumbList": [
+          "@context",
+          "@type",
+          "itemListElement"
+        ],
+        "ListItem": [
+          "@type",
+          "item",
+          "name",
+          "position"
+        ],
+        "FAQPage": [
+          "@context",
+          "@type",
+          "mainEntity"
+        ],
+        "Question": [
+          "@type",
+          "acceptedAnswer",
+          "name"
+        ],
+        "Answer": [
+          "@type",
+          "text"
+        ]
+      },
+      "images": 2,
+      "imagesWithAlt": 0,
+      "suspenseHidden": false,
+      "dynamic": true,
+      "inbound": 3
     }
   }
 }

@@ -4,68 +4,68 @@
   "throttling": "devtools",
   "formFactor": "mobile",
   "runs": 3,
-  "buildId": "VM2bfGwXXZGheS0UlMi4Y",
-  "cpuIdlePercent": 81.46,
-  "capturedAt": "2026-09-15T10:17:21.041Z",
+  "buildId": "zzxmJc0V6qzMuTxvYNl3e",
+  "cpuIdlePercent": 86.83,
+  "capturedAt": "2026-09-15T14:22:10.428Z",
   "pages": {
     "/": {
-      "performance": 94,
+      "performance": 93,
       "seo": 100,
-      "accessibility": 97,
+      "accessibility": 100,
       "best-practices": 96,
       "lcp": 2188,
       "fcp": 2188,
-      "tbt": 169,
+      "tbt": 198,
       "cls": 0,
-      "si": 2710,
+      "si": 2735,
       "runs": [
+        91,
         94,
-        94,
-        94
+        93
       ]
     },
     "/studio": {
       "performance": 94,
       "seo": 100,
-      "accessibility": 97,
+      "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2417,
-      "fcp": 2212,
-      "tbt": 97,
+      "lcp": 2395,
+      "fcp": 2234,
+      "tbt": 114,
       "cls": 0,
-      "si": 2705,
+      "si": 2729,
       "runs": [
-        95,
+        94,
         94,
         94
       ]
     },
     "/studio/recording-song-modiin": {
-      "performance": 93,
+      "performance": 92,
       "seo": 100,
-      "accessibility": 97,
+      "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2150,
-      "fcp": 2150,
-      "tbt": 199,
+      "lcp": 2182,
+      "fcp": 2182,
+      "tbt": 247,
       "cls": 0,
-      "si": 2426,
+      "si": 2481,
       "runs": [
-        93,
-        93,
+        92,
+        92,
         93
       ]
     },
     "/book": {
       "performance": 96,
       "seo": 100,
-      "accessibility": 95,
+      "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2107,
-      "fcp": 2107,
-      "tbt": 121,
+      "lcp": 2121,
+      "fcp": 2121,
+      "tbt": 129,
       "cls": 0.001,
-      "si": 2628,
+      "si": 2632,
       "runs": [
         96,
         96,
@@ -77,15 +77,15 @@
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2399,
-      "fcp": 2220,
-      "tbt": 121,
+      "lcp": 2403,
+      "fcp": 2245,
+      "tbt": 131,
       "cls": 0.002,
-      "si": 2724,
+      "si": 2772,
       "runs": [
         94,
         94,
-        94
+        93
       ]
     }
   }
