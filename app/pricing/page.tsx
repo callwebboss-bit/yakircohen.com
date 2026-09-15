@@ -22,7 +22,6 @@ import {
   PRICING_HUB_SECTIONS,
 } from "@/lib/data/pricing-hub";
 import { PRICING_FAQ_ITEMS } from "@/lib/data/pricing-faq";
-import { breadcrumbListJsonLd } from "@/lib/breadcrumbs/build-trail";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import PricingStickyBookCta from "@/components/pricing/PricingStickyBookCta";
@@ -52,11 +51,6 @@ const linkClass =
 const pricingFaqSchema = buildFaqSchema(
   PRICING_FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answerPlain })),
 );
-
-const breadcrumbSchema = breadcrumbListJsonLd([
-  { href: "/", label: "ראשי" },
-  { href: "/pricing", label: "מחירון" },
-]);
 
 const pricingOffersSchema = buildPricingOffersSchema(
   absoluteUrl("pricing"),
@@ -97,12 +91,6 @@ export default function PricingHubPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingFaqSchema) }}
-        />
-      )}
-      {breadcrumbSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbSchema) }}
         />
       )}
       <script

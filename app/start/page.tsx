@@ -32,7 +32,6 @@ import {
   START_HUB_SEO,
 } from "@/lib/seo/hub-pages";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { SITE_URL } from "@/lib/site-url";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = metadataForHubSeo(START_HUB_SEO);
@@ -115,33 +114,10 @@ const PROMISES = [
   },
 ] as const;
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "ראשי",
-      item: SITE_URL,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "מה קורה אחרי שפונים",
-      item: `${SITE_URL}/start`,
-    },
-  ],
-};
-
 export default function StartPage() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(START_HUB_SEO)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
 
       <div className="bg-background">
         {/* Hero */}

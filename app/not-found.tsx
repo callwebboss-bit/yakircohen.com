@@ -8,31 +8,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "דף הבית",
-      item: "https://yakircohen.com/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "העמוד לא נמצא (404)",
-    },
-  ],
-};
-
 export default function NotFound() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
       <NotFoundContent quickPaths={<HomeQuickPaths />} />
     </>
   );
