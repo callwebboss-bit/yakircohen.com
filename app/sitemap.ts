@@ -301,5 +301,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  return [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes];
+  /* ביטול כפילויות לפי כתובת, והראשונה מנצחת. שבעה מסלולים הופיעו פעמיים:
+     פעם כרשומה מפורשת ב-STATIC_ROUTES ופעם דרך PRO_SERVICES, שמזין את אותם
+     slugs. גוגל סובל כפילות במפת האתר, אבל היא רעש שמסתיר שגיאות אמיתיות,
+     והשומר audit:seo-diff נכשל עליה מעכשיו. */
+  const all = [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes];
+  const seen = new Set<string>();
+  return all.filter((entry) => (seen.has(entry.url) ? false : (seen.add(entry.url), true)));
 }

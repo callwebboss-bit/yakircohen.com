@@ -57,6 +57,8 @@ const SKIP_PREFIXES = ["_", "("];
 
 const args = process.argv.slice(2);
 const WRITE = args.includes("--write-baseline");
+/* --origin=http://localhost:3210 מאפשר לכסות גם עמודים דינמיים (ראה למטה). */
+const ORIGIN = (args.find((a) => a.startsWith("--origin=")) || "").slice("--origin=".length) || process.env.SEO_DIFF_ORIGIN || "";
 const JSON_OUT = args.includes("--json");
 
 /* ---------- איסוף קבצים, אותו הילוך כמו prepare-pagefind ---------- */
@@ -231,7 +233,10 @@ function buildId() {
 }
 
 function extract(file) {
-  const html = readFileSync(file, "utf8");
+  return extractHtml(readFileSync(file, "utf8"));
+}
+
+function extractHtml(html) {
   const titleM = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   const ld = jsonLd(html);
   const imgs = [...html.matchAll(/<img\b[^>]*>/gi)];
@@ -280,6 +285,43 @@ if (!existsSync(BUILD_DIR)) {
 const files = walk(BUILD_DIR);
 const pages = {};
 for (const f of files) pages[toUrl(f)] = extract(f);
+
+/* עמודים דינמיים: כתובות במפת האתר שאין להן קובץ HTML בבנייה.
+   /book, /blog וארבעה עמודי online קוראים searchParams ולכן מרונדרים בכל
+   בקשה. עד עכשיו השומר לא ראה אותם כלל, כלומר עמוד ההזמנה, מסלול ההכנסה,
+   לא היה מכוסה באף שלב. עם --origin הם נמשכים מהשרת הרץ ונמדדים כמו
+   כל עמוד אחר, ומסומנים dynamic. בלי --origin (למשל ב-CI, שאין בו שרת)
+   הם מדולגים בהודעה מפורשת, לא בשקט, ולא נחשבים "נעלמו מהבנייה". */
+const toPath = (u) => {
+  try {
+    const p = new URL(u).pathname.replace(/\/$/, "");
+    return p || "/";
+  } catch {
+    return u;
+  }
+};
+const dynamicPaths = [...new Set((siteSignals().sitemapUrls || []).map(toPath))].filter(
+  (p) => !pages[p],
+);
+if (ORIGIN && dynamicPaths.length) {
+  for (const path of dynamicPaths) {
+    try {
+      const res = await fetch(ORIGIN + path, { signal: AbortSignal.timeout(30_000) });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      pages[path] = { ...extractHtml(await res.text()), dynamic: true };
+    } catch (error) {
+      console.error("  ✗ עמוד דינמי " + path + " לא נמשך מ-" + ORIGIN + ": " + error.message);
+      process.exit(1);
+    }
+  }
+  console.log("  " + dynamicPaths.length + " עמודים דינמיים נמשכו מהשרת: " + dynamicPaths.join(", "));
+} else if (dynamicPaths.length) {
+  console.log(
+    "  הערה: " + dynamicPaths.length + " עמודים דינמיים אינם מכוסים בהרצה זו (אין --origin): " +
+      dynamicPaths.join(", "),
+  );
+}
+
 const urlCount = Object.keys(pages).length;
 
 /* גרף הקישורים הפנימי. לכל כתובת, כמה עמודים אחרים מקשרים אליה.
@@ -347,6 +389,7 @@ const isApproved = (url, field) => {
 };
 
 const problems = [];
+const skippedDynamic = [];
 const note = (url, field, msg) => {
   if (!isApproved(url, field)) problems.push({ url, field, msg });
 };
@@ -356,6 +399,10 @@ const sameSet = (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
 for (const [url, was] of Object.entries(base.pages)) {
   const now = pages[url];
   if (!now) {
+    if (was.dynamic && !ORIGIN) {
+      skippedDynamic.push(url);
+      continue;
+    }
     note(url, "exists", "הכתובת נעלמה מהבנייה");
     continue;
   }
@@ -395,6 +442,10 @@ if (base.site) {
     if (lost.length)
       note("site", "sitemap", lost.length + " כתובות ירדו ממפת האתר: " + lost.slice(0, 5).join(", "));
   }
+  {
+    const dup = site.sitemapUrls.filter((u, i) => site.sitemapUrls.indexOf(u) !== i);
+    if (dup.length) note("site", "sitemap", dup.length + " כתובות מופיעות פעמיים במפת האתר: " + dup.slice(0, 5).join(", "));
+  }
   if (b.robotsText && site.robotsText && b.robotsText !== site.robotsText)
     note("site", "robots", "robots.txt השתנה");
   if (typeof b.llmsUrlCount === "number" && site.llmsUrlCount < b.llmsUrlCount)
@@ -415,6 +466,8 @@ if (JSON_OUT) {
 console.log("\naudit:seo-diff");
 console.log("  בסיס: " + base.urlCount + " כתובות (" + base.capturedAt + ")");
 console.log("  בנייה נוכחית: " + urlCount + " כתובות");
+if (skippedDynamic.length)
+  console.log("  דולגו " + skippedDynamic.length + " עמודים דינמיים מהבסיס (אין --origin): " + skippedDynamic.join(", "));
 if (added.length) console.log("  כתובות חדשות: " + added.length + " (" + added.slice(0, 5).join(", ") + ")");
 
 let failed = false;
