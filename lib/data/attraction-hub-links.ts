@@ -72,3 +72,27 @@ export const PHOTO_SLIDESHOW_RELATED: readonly HubLinkItem[] = [
     ctaLabel: "לפרטים והרשמה",
   },
 ] as const;
+
+
+/**
+ * עמודי האזור של האטרקציות. עד 15.9.2026 בית שמש ושוהם היו בלי אף קישור
+ * פנימי, וירושלים עם אחד. ה-hub מרנדר רק שירותים מ-EVENTS_SERVICES, ועמודי
+ * הערים אינם שם, ולכן הם מקבלים בלוק משלהם. הכותרות הן ה-h1 של כל עמוד.
+ */
+export const ATTRACTION_AREA_LINKS: readonly HubLinkItem[] = [
+  {
+    href: "/events/attractions/jerusalem",
+    title: "אטרקציות בירושלים",
+    description: "מגיעים לאולמות בירושלים ממודיעין.",
+  },
+  {
+    href: "/events/attractions/beit-shemesh",
+    title: "אטרקציות לאירועים בבית שמש",
+    description: "עשן כבד, זיקוקים קרים, בועות וקונפטי לחתונות ואירועים בבית שמש.",
+  },
+  {
+    href: "/events/attractions/shoham",
+    title: "אטרקציות לאירועים בשוהם",
+    description: "עשן כבד, זיקוקים קרים, בועות וקונפטי לחתונות ואירועים בשוהם.",
+  },
+];

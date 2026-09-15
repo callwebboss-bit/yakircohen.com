@@ -29,9 +29,29 @@ const LEGAL_HREFS = new Set([
   "/pricing",
 ]);
 
-/** קישורי עמודה 5 שאינם משפטיים, נשארים ב-audit */
+/** קישורי עמודה 5 שאינם משפטיים. לא מרונדרים בפוטר, ראה FOOTER_LEGAL_ROW_LINKS. */
 export const FOOTER_UTILITY_LINKS: readonly SeoFooterLink[] =
   FOOTER_SEMANTIC_TREE[4]!.links.filter((l) => !LEGAL_HREFS.has(l.href));
+
+/**
+ * שורת "מידע משפטי ותפעולי" בפוטר, כפי שהיא מרונדרת ב-FooterLegalLinks.
+ *
+ * למה כאן ולא ברכיב: collectFooterNavPaths מזין את audit:nav-coverage, ועד
+ * 15.9.2026 הוא הזין אותו ב-FOOTER_UTILITY_LINKS, שמעולם לא רונדרו. האודיט
+ * אישר "מכוסה בפוטר" לעמודים שאף פוטר לא קישר אליהם: /data/industry-2026
+ * נמדד עם אפס קישורים נכנסים בכל האתר. שומר שמאשר כיסוי שלא קיים מסוכן
+ * יותר משומר שאין. עכשיו הרכיב והאודיט קוראים את אותה רשימה.
+ *
+ * /shop ו-/data/industry-2026 נוספו ב-15.9.2026: שניהם היו בלי אף קישור
+ * פנימי. התוויות הן ה-h1 של העמודים, בקיצור.
+ */
+export const FOOTER_LEGAL_ROW_LINKS = [
+  { href: "/contact", label: "יצירת קשר" },
+  { href: "/about/faq", label: "שאלות נפוצות" },
+  { href: "/shop", label: "חנות שוברים וציוד" },
+  { href: "/data/industry-2026", label: "נתוני תעשייה 2026" },
+  { href: "/pricing", label: "מחירון" },
+] as const;
 
 export const FOOTER_CTA_PATHS = [
   "/online/vocal-fix/send-file",
@@ -176,7 +196,7 @@ export function collectFooterNavPaths(): string[] {
     }
   }
 
-  for (const link of FOOTER_UTILITY_LINKS) {
+  for (const link of FOOTER_LEGAL_ROW_LINKS) {
     paths.add(link.href);
   }
 

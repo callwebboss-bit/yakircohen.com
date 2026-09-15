@@ -1,6 +1,7 @@
 import { metadataFromService } from "@/lib/data/service-metadata";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
+import { ATTRACTION_AREA_LINKS } from "@/lib/data/attraction-hub-links";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import { ATTRACTIONS_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
@@ -31,6 +32,14 @@ export default function EventsAttractionsHubPage() {
           subheading="עשן כבד, בועות וקונפטי - אפקט מדויק לרגעי השיא."
           links={getAttractionsHubLinks()}
           headingId="attractions-tracks-heading"
+        />
+        {/* הניסוח של הכותרת ותת-הכותרת ממתין לאישור הבעלים (15.9.2026). */}
+        <ServiceHubLinks
+          heading="אטרקציות לפי אזור"
+          subheading="מגיעים עם המפעיל ממודיעין לירושלים, לבית שמש ולשוהם."
+          links={ATTRACTION_AREA_LINKS}
+          headingId="attractions-areas-heading"
+          columns={3}
         />
       </div>
     </ServicePageFromRegistry>

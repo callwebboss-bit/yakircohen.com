@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { FOOTER_LEGAL_LINKS } from "@/lib/constants";
+import { FOOTER_LEGAL_ROW_LINKS } from "@/lib/footer-category-tree";
 
+/* הרשימה יושבת ב-lib/footer-category-tree.ts כדי ש-audit:nav-coverage יקרא
+   בדיוק את מה שמרונדר. הקישורים המשפטיים נכנסים לפני "מחירון", כמו קודם. */
 const LEGAL_LINKS = [
-  { href: "/contact", label: "יצירת קשר" },
-  { href: "/about/faq", label: "שאלות נפוצות" },
+  ...FOOTER_LEGAL_ROW_LINKS.slice(0, -1),
   ...FOOTER_LEGAL_LINKS,
-  { href: "/pricing", label: "מחירון" },
+  FOOTER_LEGAL_ROW_LINKS[FOOTER_LEGAL_ROW_LINKS.length - 1]!,
 ] as const;
 
 export default function FooterLegalLinks() {
