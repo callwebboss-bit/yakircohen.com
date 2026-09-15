@@ -59,6 +59,14 @@ const args = process.argv.slice(2);
 const WRITE = args.includes("--write-baseline");
 /* --origin=http://localhost:3210 מאפשר לכסות גם עמודים דינמיים (ראה למטה). */
 const ORIGIN = (args.find((a) => a.startsWith("--origin=")) || "").slice("--origin=".length) || process.env.SEO_DIFF_ORIGIN || "";
+/* --remote: אל תקרא את .next כלל; משוך את כל כתובות מפת האתר מ---origin.
+   זה מצב האימות אחרי פריסה: הבסיס הוא הבנייה שאושרה, וה"נוכחי" הוא האתר
+   החי. כל הבדל שמדווח כ"אבד" הוא משהו שהאתר החי חסר לעומת המועמד. */
+const REMOTE = args.includes("--remote");
+if (REMOTE && !ORIGIN) {
+  console.error("  ✗ --remote דורש --origin=https://...");
+  process.exit(1);
+}
 const JSON_OUT = args.includes("--json");
 
 /* ---------- איסוף קבצים, אותו הילוך כמו prepare-pagefind ---------- */
@@ -282,9 +290,44 @@ if (!existsSync(BUILD_DIR)) {
   process.exit(1);
 }
 
-const files = walk(BUILD_DIR);
+const files = REMOTE ? [] : walk(BUILD_DIR);
 const pages = {};
 for (const f of files) pages[toUrl(f)] = extract(f);
+
+/* מצב remote: מפת האתר נמשכת מהמקור עצמו, וכל כתובת בה נמשכת ונמדדת. */
+let remoteSite = null;
+if (REMOTE) {
+  const res = await fetch(ORIGIN + "/sitemap.xml", { signal: AbortSignal.timeout(30_000) });
+  if (!res.ok) { console.error("  ✗ sitemap.xml לא נמשך מ-" + ORIGIN + ": HTTP " + res.status); process.exit(1); }
+  const xml = await res.text();
+  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  const robots = await fetch(ORIGIN + "/robots.txt").then((r) => (r.ok ? r.text() : null)).catch(() => null);
+  const llms = await fetch(ORIGIN + "/llms.txt").then((r) => (r.ok ? r.text() : null)).catch(() => null);
+  remoteSite = {
+    sitemapUrls: urls,
+    robotsText: robots,
+    llmsUrlCount: llms ? (llms.match(/https?:\/\/[^\s)]+/g) || []).length : null,
+  };
+  const paths = [...new Set(urls.map((u) => { try { const p = new URL(u).pathname.replace(/\/$/, ""); return p || "/"; } catch { return u; } }))];
+  console.log("  remote: " + paths.length + " כתובות ממפת האתר של " + ORIGIN);
+  let done = 0;
+  const queue = [...paths];
+  const worker = async () => {
+    while (queue.length) {
+      const path = queue.shift();
+      try {
+        const r = await fetch(ORIGIN + path, { signal: AbortSignal.timeout(30_000), headers: { "user-agent": "audit-seo-diff/remote" } });
+        if (!r.ok) { console.error("  ✗ " + path + " HTTP " + r.status); continue; }
+        pages[path] = { ...extractHtml(await r.text()), remote: true };
+      } catch (error) {
+        console.error("  ✗ " + path + ": " + error.message);
+      }
+      done += 1;
+      if (done % 50 === 0) process.stdout.write("  " + done + "/" + paths.length + "\n");
+    }
+  };
+  await Promise.all(Array.from({ length: 6 }, worker));
+}
 
 /* עמודים דינמיים: כתובות במפת האתר שאין להן קובץ HTML בבנייה.
    /book, /blog וארבעה עמודי online קוראים searchParams ולכן מרונדרים בכל
@@ -300,9 +343,9 @@ const toPath = (u) => {
     return u;
   }
 };
-const dynamicPaths = [...new Set((siteSignals().sitemapUrls || []).map(toPath))].filter(
-  (p) => !pages[p],
-);
+const dynamicPaths = REMOTE
+  ? []
+  : [...new Set((siteSignals().sitemapUrls || []).map(toPath))].filter((p) => !pages[p]);
 if (ORIGIN && dynamicPaths.length) {
   for (const path of dynamicPaths) {
     try {
@@ -337,7 +380,7 @@ const urlCount = Object.keys(pages).length;
   for (const [url, page] of Object.entries(pages)) page.inbound = inbound[url];
 }
 
-const site = siteSignals();
+const site = REMOTE ? remoteSite : siteSignals();
 
 if (urlCount === 0) {
   console.error("\naudit:seo-diff");
