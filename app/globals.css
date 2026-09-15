@@ -691,12 +691,18 @@ html.a11y-large-text {
   font-size: 112.5%;
 }
 
+/* הטוקנים העירומים, לא --color-*. בלוק @theme inline מפנה את
+   --color-background ל---background וכן הלאה, ולכן ה-utilities קוראים את
+   הטוקן העירום. דריסה של --color-* כאן לא הגיעה לאף אלמנט: כפתור
+   "ניגודיות גבוהה" בווידג׳ט הנגישות היה מוצג לגולשים ולא עשה כלום.
+   --color-border-subtle נשאר כפי שהוא, כי הוא מוגדר ישירות ב-@theme. */
 html.a11y-high-contrast {
-  --color-background: #ffffff;
-  --color-foreground: #111111;
-  --color-muted: #3f3f3f;
-  --color-muted-foreground: #3f3f3f;
-  --color-border: color-mix(in srgb, black 22%, transparent);
+  --background: #ffffff;
+  --foreground: #111111;
+  --muted: #f0f0f0;
+  --muted-foreground: #3f3f3f;
+  --border: color-mix(in srgb, black 22%, transparent);
+  --input: color-mix(in srgb, black 22%, transparent);
   --color-border-subtle: color-mix(in srgb, black 14%, transparent);
 }
 
@@ -712,8 +718,8 @@ html.a11y-highlight-links a[href] {
 
 @media (prefers-contrast: more) {
   :root {
-    --color-muted-foreground: #3f3f3f;
-    --color-border: color-mix(in srgb, black 20%, transparent);
+    --muted-foreground: #3f3f3f;
+    --border: color-mix(in srgb, black 20%, transparent);
   }
 }
 
@@ -1357,17 +1363,31 @@ progress.studio-meter-flash::-moz-progress-bar {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* הדפסה. שני צרכים שונים:
+   1. Ctrl+P על כל עמוד: התוכן מודפס, הכרום לא. עד עכשיו body * היה מוסתר
+      וכל עמוד יצא ריק, כולל המחירון.
+   2. כפתור "הדפס פרטי ספק" ב-CompanyDetailsCard: רק הכרטיס. הכפתור מסמן
+      html[data-print-scope="company"] לפני window.print ומנקה אחרי, ורק אז
+      הכלל שמרוקן את העמוד חל. */
 @media print {
-  body * {
+  body > *:not(main) {
+    display: none !important;
+  }
+
+  main {
+    padding-bottom: 0 !important;
+  }
+
+  html[data-print-scope="company"] body * {
     visibility: hidden;
   }
 
-  [id^="company-print-"],
-  [id^="company-print-"] * {
+  html[data-print-scope="company"] [id^="company-print-"],
+  html[data-print-scope="company"] [id^="company-print-"] * {
     visibility: visible;
   }
 
-  [id^="company-print-"] {
+  html[data-print-scope="company"] [id^="company-print-"] {
     display: block !important;
     position: absolute;
     inset-inline-start: 0;

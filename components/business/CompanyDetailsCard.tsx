@@ -61,9 +61,12 @@ function CompanyDetailsContent({ showActions = true }: { showActions?: boolean }
     const cleanup = () => {
       document.title = previousTitle;
       printRoot.classList.add("hidden");
+      /* מסיר את הסימון שמגביל את ההדפסה לכרטיס בלבד. ראה @media print ב-globals.css. */
+      delete document.documentElement.dataset.printScope;
       window.removeEventListener("afterprint", cleanup);
     };
     printRoot.classList.remove("hidden");
+    document.documentElement.dataset.printScope = "company";
     window.addEventListener("afterprint", cleanup);
     window.print();
   }, [printId]);
