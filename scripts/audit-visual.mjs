@@ -78,6 +78,11 @@ const FREEZE_CSS = `
     caret-color: transparent !important;
   }
   html { scroll-behavior: auto !important; }
+  /* .footer-shell מוגדר content-visibility: auto עם contain-intrinsic-size
+     של 72rem. בדפדפן ללא ממשק הפוטר נמצא מתחת לקיפול ולכן מקבל גובה קבוע
+     ולא מצויר: שני קישורים שנוספו לשורת הפוטר ב-15.9 לא הופיעו באף אחד
+     מ-36 הצילומים. הצילום חייב לראות הכל, גם מה שהגולש רואה רק בגלילה. */
+  * { content-visibility: visible !important; }
 `;
 
 async function capture(targetDir) {
