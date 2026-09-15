@@ -96,6 +96,27 @@ async function capture(targetDir) {
         timezoneId: "Asia/Jerusalem",
       });
 
+      /* קיבוע השעון לפני שקוד העמוד רץ.
+         TimeGreeting מציג "בוקר טוב" או "שלום" לפי השעה, ולכן אותו עמוד
+         הצטלם אחרת בבוקר ובצהריים. הרכיב עצמו כתוב נכון: הוא רכיב לקוח
+         שמרנדר null בשרת ומעדכן באפקט, ולכן אין לו באג. הבעיה הייתה בכלי.
+         new Date(arg) עם ארגומנט ממשיך לעבוד כרגיל, כדי שתאריכים מפורשים
+         בעמוד לא ישתנו. */
+      await context.addInitScript(() => {
+        const FIXED = new Date("2026-06-15T10:30:00+03:00").getTime();
+        const RealDate = Date;
+        class FrozenDate extends RealDate {
+          constructor(...args) {
+            if (args.length === 0) super(FIXED);
+            else super(...args);
+          }
+          static now() {
+            return FIXED;
+          }
+        }
+        window.Date = FrozenDate;
+      });
+
       /* הקפאת טיימרים חוזרים לפני שקוד העמוד רץ.
          PromoBanner מחליף הודעה ב-setInterval, ולכן אותו עמוד מצטלם עם
          הודעה אחרת בכל הרצה: 2,021 פיקסלים של הבדל בלי ששורת קוד השתנתה.

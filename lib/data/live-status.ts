@@ -5,11 +5,6 @@ import {
   VIDEO_PLAYLISTS,
   type PlaylistId,
 } from "@/lib/data/video-playlists";
-import {
-  getHoursAvailabilityHint,
-  isShabbatOrAfterFriday,
-  isStudioOpen,
-} from "@/lib/studio-hours";
 
 export type AvailabilityMode = "available" | "busy" | "consultation";
 
@@ -73,19 +68,30 @@ export function getLiveStatusConfig(): LiveStatusConfig {
   return liveStatusData as LiveStatusConfig;
 }
 
+/**
+ * תווית הזמינות, נגזרת מהגדרת הבעלים בלבד ולא מהשעון.
+ *
+ * למה בלי שעון: הרכיב שמציג אותה הוא רכיב שרת בעמודים סטטיים, ולכן
+ * השעה נצרבה לתוך ה-HTML בזמן הבנייה ונשארה שם עד הבנייה הבאה. נמדד:
+ * צילום מסך שנלכד ב-09:50, אחרי שהאולפן נפתח, הראה "חוזרים ב-9:00",
+ * כי הבנייה רצה ב-00:20. כלומר המחוון החי הטעה גולשים כל היום.
+ *
+ * הסתירה הגלויה: הנקודה המהבהבת לצד הטקסט היא רכיב לקוח ומתעדכנת
+ * באמת, כך שהיא יכלה להראות פעיל בזמן שהטקסט אמר סגור.
+ *
+ * מה שנשאר תלוי שעון ובצדק: HeaderResponseTimeBadge, שהוא רכיב לקוח,
+ * מרנדר null עד הטעינה ומתעדכן כל דקה.
+ *
+ * הבעלים שולט בתווית דרך lib/data/live-status.json.
+ */
 export function resolveAvailabilityLabel(
   config: LiveStatusConfig,
-  now = new Date(),
 ): ResolvedAvailability {
   if (config.availability.customLabel?.trim()) {
     return {
       label: config.availability.customLabel.trim(),
       tone: config.availability.mode,
     };
-  }
-
-  if (isShabbatOrAfterFriday(now)) {
-    return { label: getHoursAvailabilityHint(now), tone: "closed" };
   }
 
   const { mode, busyUntil } = config.availability;
@@ -99,10 +105,6 @@ export function resolveAvailabilityLabel(
 
   if (mode === "consultation") {
     return { label: MODE_LABELS.consultation, tone: "consultation" };
-  }
-
-  if (!isStudioOpen(now)) {
-    return { label: getHoursAvailabilityHint(now), tone: "closed" };
   }
 
   return { label: MODE_LABELS.available, tone: "available" };

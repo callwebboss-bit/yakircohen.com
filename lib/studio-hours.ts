@@ -14,21 +14,16 @@ export function isShabbatOrAfterFriday(now = new Date()): boolean {
   return (day === 5 && hour >= 14) || day === 6;
 }
 
-export function getHoursAvailabilityHint(now = new Date()): string {
-  if (isShabbatOrAfterFriday(now)) {
-    return 'שבת שלום - נחזור במוצ"ש';
-  }
-  if (isStudioOpen(now)) {
-    return "זמין עכשיו";
-  }
-  return "חוזרים ב-9:00";
-}
-
-export function getContactAvailabilityLabel(now = new Date()): string {
-  if (isShabbatOrAfterFriday(now)) {
-    return 'שבת שלום - נחזור במוצ"ש';
-  }
-  return isStudioOpen(now)
-    ? "זמין עכשיו - מענה אנושי"
-    : "מקבלים פניות מסביב לשעון, עונים מ-9:00";
+/**
+ * תווית הזמינות בעמוד הקשר. אינה תלויה בשעון, בכוונה.
+ *
+ * הנוסח הקודם החזיר "זמין עכשיו - מענה אנושי" או "שבת שלום" לפי השעה,
+ * אבל הוא נקרא בתוך useState בזמן הרינדור בשרת, ולכן השעה נצרבה ל-HTML
+ * הסטטי ונשארה שם עד הבנייה הבאה. גולש בצהריים ראה את התווית של הלילה.
+ *
+ * המחרוזת שנשארה היא זו שכבר הייתה בקוד לשעות הסגירה, והיא נכונה
+ * בכל שעה: פניות באמת מתקבלות תמיד, והמענה באמת מתחיל ב-9:00.
+ */
+export function getContactAvailabilityLabel(): string {
+  return "מקבלים פניות מסביב לשעון, עונים מ-9:00";
 }

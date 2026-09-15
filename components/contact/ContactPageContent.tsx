@@ -229,7 +229,9 @@ export default function ContactPageContent() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [availability] = useState(getContactAvailabilityLabel);
+  /* קבוע, ולא useState. התווית כבר אינה תלוית שעה, ו-useState עם
+     פונקציית אתחול היה מריץ אותה גם בשרת וגם בהידרציה. */
+  const availability = getContactAvailabilityLabel();
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const { submitLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
