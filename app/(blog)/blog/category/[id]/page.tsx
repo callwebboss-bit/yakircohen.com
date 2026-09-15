@@ -1,0 +1,150 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import ArticleFeed, { type BlogPost as FeedPost } from "@/components/blog/ArticleFeed";
+import HubPageSchema from "@/components/seo/HubPageSchema";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
+import { BLOG_POSTS, type BlogPost } from "@/lib/data/blog";
+import {
+  BLOG_FILTER_CATEGORIES,
+  getFilterCategoryId,
+  type BlogFilterCategory,
+} from "@/lib/data/blog-categories";
+import { SITE_NAME } from "@/lib/constants";
+import {
+  hubSchemaPropsFromSeo,
+  metadataForHubSeo,
+  type HubPageSeo,
+} from "@/lib/seo/hub-pages";
+
+/**
+ * עמוד קטגוריה סטטי לכל דלי סינון בבלוג.
+ *
+ * למה זה קיים: עמוד המגזין מציג 8 פוסטים, והשאר היו נגישים רק דרך
+ * ?page=2 שמסומן noindex. נמדד ב-15.9.2026: 18 פוסטים בלי אף קישור
+ * פנימי, כלומר גוגל הגיע אליהם ממפת האתר בלבד. כאן כל פוסט בדלי מקושר
+ * מעמוד סטטי שמותר לאינדוקס, ולכן לכל פוסט יש לפחות קישור נכנס אחד.
+ *
+ * הדליים והשמות מגיעים מ-blog-categories.ts כפי שהם. הכותרת והתיאור
+ * נבנים מתבנית שאישר הבעלים ב-15.9.2026, בלי ניסוח חופשי.
+ */
+
+type Params = { id: string };
+
+function getCategory(id: string): BlogFilterCategory | undefined {
+  return BLOG_FILTER_CATEGORIES.find((c) => c.id === id);
+}
+
+function postsFor(category: BlogFilterCategory): FeedPost[] {
+  return [...(BLOG_POSTS as readonly BlogPost[])]
+    .filter((post) => getFilterCategoryId(post.category) === category.id)
+    .sort(
+      (a, b) =>
+        new Date(b.seo.datePublished).getTime() - new Date(a.seo.datePublished).getTime(),
+    )
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      publishedAt: post.seo.datePublished,
+      category: post.category,
+      imageSrc: post.thumbnail,
+      imageAlt: post.title,
+    }));
+}
+
+function seoFor(category: BlogFilterCategory, count: number): HubPageSeo {
+  return {
+    slug: `blog/category/${category.id}`,
+    title: `מאמרים על ${category.label}`,
+    description: `כל המאמרים של מגזין ${SITE_NAME} על ${category.label}, ${count} מאמרים.`,
+    keywords: [category.label, "מגזין", "מדריכים"],
+    hub: "blog",
+  };
+}
+
+export function generateStaticParams(): Params[] {
+  return BLOG_FILTER_CATEGORIES.map((c) => ({ id: c.id }));
+}
+
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const category = getCategory(id);
+  if (!category) return {};
+  return metadataForHubSeo(seoFor(category, postsFor(category).length));
+}
+
+export default async function BlogCategoryPage({ params }: { params: Promise<Params> }) {
+  const { id } = await params;
+  const category = getCategory(id);
+  if (!category) notFound();
+
+  const posts = postsFor(category);
+  const seo = seoFor(category, posts.length);
+
+  return (
+    <>
+      <HubPageSchema {...hubSchemaPropsFromSeo(seo)} />
+      <div className="bg-background">
+        <Section
+          padding="none"
+          className="border-b border-border bg-surface text-foreground"
+          ariaLabelledby="blog-category-heading"
+        >
+          <Container className="py-14 sm:py-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red-text">
+              מגזין {SITE_NAME}
+            </p>
+            <h1
+              id="blog-category-heading"
+              className="mt-3 font-serif text-3xl font-semibold leading-tight sm:text-4xl"
+            >
+              {seo.title}
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              {seo.description}
+            </p>
+            <nav aria-label="קטגוריות המגזין" className="mt-8 flex flex-wrap gap-2">
+              <Link
+                href="/blog"
+                className="inline-flex min-h-9 items-center rounded-full border border-border bg-background px-3 text-sm font-medium text-foreground hover:border-brand-red/40"
+              >
+                כל המאמרים
+              </Link>
+              {BLOG_FILTER_CATEGORIES.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/blog/category/${c.id}`}
+                  aria-current={c.id === category.id ? "page" : undefined}
+                  className={
+                    c.id === category.id
+                      ? "inline-flex min-h-9 items-center rounded-full border border-brand-red bg-brand-red px-3 text-sm font-semibold text-white"
+                      : "inline-flex min-h-9 items-center rounded-full border border-border bg-background px-3 text-sm font-medium text-foreground hover:border-brand-red/40"
+                  }
+                >
+                  {c.label}
+                </Link>
+              ))}
+            </nav>
+          </Container>
+        </Section>
+
+        <Section ariaLabelledby="blog-category-feed-heading">
+          <Container>
+            <h2 id="blog-category-feed-heading" className="sr-only">
+              {posts.length} מאמרים על {category.label}
+            </h2>
+            <ArticleFeed posts={posts} />
+          </Container>
+        </Section>
+      </div>
+    </>
+  );
+}

@@ -4,6 +4,7 @@ import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
 import { BLOG_POSTS } from "@/lib/data/blog";
 import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
+import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
 import SITEMAP_DATES from "@/lib/data/sitemap-dates.generated.json";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
@@ -305,7 +306,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
      פעם כרשומה מפורשת ב-STATIC_ROUTES ופעם דרך PRO_SERVICES, שמזין את אותם
      slugs. גוגל סובל כפילות במפת האתר, אבל היא רעש שמסתיר שגיאות אמיתיות,
      והשומר audit:seo-diff נכשל עליה מעכשיו. */
-  const all = [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes];
+  /* עמודי הקטגוריה של הבלוג, סטטיים ומותרים לאינדוקס. הם הקישור הנכנס
+     היחיד ל-18 פוסטים שעמוד המגזין לא מציג (הוא מציג 8, והשאר מאחורי
+     ?page=2 שמסומן noindex). */
+  const categoryRoutes: MetadataRoute.Sitemap = BLOG_FILTER_CATEGORIES.map((c) => ({
+    url: url(`blog/category/${c.id}`),
+    priority: 0.7,
+    changeFrequency: "weekly" as const,
+  }));
+
+  const all = [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes, ...categoryRoutes];
   const seen = new Set<string>();
   return all.filter((entry) => (seen.has(entry.url) ? false : (seen.add(entry.url), true)));
 }
