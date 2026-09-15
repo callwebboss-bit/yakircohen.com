@@ -4,24 +4,24 @@
   "throttling": "devtools",
   "formFactor": "mobile",
   "runs": 3,
-  "buildId": "mYGUOwEoUrirf1XiPbTdh",
-  "cpuIdlePercent": 78.89,
-  "capturedAt": "2026-09-15T07:01:23.812Z",
+  "buildId": "VM2bfGwXXZGheS0UlMi4Y",
+  "cpuIdlePercent": 81.46,
+  "capturedAt": "2026-09-15T10:17:21.041Z",
   "pages": {
     "/": {
-      "performance": 93,
+      "performance": 94,
       "seo": 100,
       "accessibility": 97,
       "best-practices": 96,
-      "lcp": 2187,
-      "fcp": 2187,
-      "tbt": 187,
+      "lcp": 2188,
+      "fcp": 2188,
+      "tbt": 169,
       "cls": 0,
-      "si": 2736,
+      "si": 2710,
       "runs": [
-        92,
         94,
-        93
+        94,
+        94
       ]
     },
     "/studio": {
@@ -29,13 +29,13 @@
       "seo": 100,
       "accessibility": 97,
       "best-practices": 96,
-      "lcp": 2393,
-      "fcp": 2215,
-      "tbt": 117,
+      "lcp": 2417,
+      "fcp": 2212,
+      "tbt": 97,
       "cls": 0,
-      "si": 2708,
+      "si": 2705,
       "runs": [
-        94,
+        95,
         94,
         94
       ]
@@ -47,12 +47,12 @@
       "best-practices": 96,
       "lcp": 2150,
       "fcp": 2150,
-      "tbt": 210,
+      "tbt": 199,
       "cls": 0,
-      "si": 2408,
+      "si": 2426,
       "runs": [
         93,
-        92,
+        93,
         93
       ]
     },
@@ -61,11 +61,11 @@
       "seo": 100,
       "accessibility": 95,
       "best-practices": 96,
-      "lcp": 2096,
-      "fcp": 2096,
-      "tbt": 126,
+      "lcp": 2107,
+      "fcp": 2107,
+      "tbt": 121,
       "cls": 0.001,
-      "si": 2605,
+      "si": 2628,
       "runs": [
         96,
         96,
@@ -73,19 +73,19 @@
       ]
     },
     "/blog/prepare-voice-podcast-studio": {
-      "performance": 95,
+      "performance": 94,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2384,
-      "fcp": 2213,
-      "tbt": 100,
+      "lcp": 2399,
+      "fcp": 2220,
+      "tbt": 121,
       "cls": 0.002,
-      "si": 2734,
+      "si": 2724,
       "runs": [
         94,
-        95,
-        95
+        94,
+        94
       ]
     }
   }
