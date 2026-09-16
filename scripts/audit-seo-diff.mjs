@@ -152,7 +152,8 @@ function visibleWordCount(html) {
      מדווחת רגרסיה מזויפת, והשומר היה מאבד אמינות.
 
      הקישור לרכיב הוא המחלקה studio-live-dot. אם היא תשונה, ההחרגה תפסיק
-     לעבוד בשקט, ולכן מספר העמודים שמכילים אותה נשמר גם באותות האתר. */
+     לעבוד בשקט, ולכן מספר העמודים שמכילים אותה נשמר באותות האתר
+     (site.liveDotPages), וירידה לאפס נחשבת רגרסיה. */
   text = text.replace(
     /<aside\b[^>]*>(?:(?!<\/aside>)[\s\S])*<\/aside>/gi,
     (el) => (el.includes("studio-live-dot") ? " " : el),
@@ -189,6 +190,10 @@ function internalLinks(html) {
 function jsonLd(html) {
   const types = new Set();
   const props = {};
+  /* ספירת צמתים לכל @type. סט המפתחות הוא איחוד על כל הצמתים מאותו סוג,
+     ולכן מחיקת price מ-15 מתוך 16 Offer, או מחצית זוגות השאלה-תשובה
+     ב-FAQPage, לא שינתה אותו. הספירה תופסת בדיוק את זה. סבב ביקורת 16.9.2026. */
+  const counts = {};
   const visit = (node) => {
     if (Array.isArray(node)) return node.forEach(visit);
     if (!node || typeof node !== "object") return;
@@ -196,6 +201,7 @@ function jsonLd(html) {
     const names = Array.isArray(t) ? t : t ? [t] : [];
     for (const name of names) {
       types.add(name);
+      counts[name] = (counts[name] || 0) + 1;
       props[name] = props[name] || new Set();
       for (const k of Object.keys(node)) props[name].add(k);
     }
@@ -212,7 +218,7 @@ function jsonLd(html) {
   }
   const propsOut = {};
   for (const [k, v] of Object.entries(props)) propsOut[k] = [...v].sort();
-  return { types: [...types].sort(), props: propsOut };
+  return { types: [...types].sort(), props: propsOut, counts };
 }
 
 /* מאיזה מקור נבנה הבסיס. בלי זה, בסיס שנלכד על עץ עבודה מלוכלך נראה
@@ -261,6 +267,8 @@ function extractHtml(html) {
     words: visibleWordCount(html),
     ldTypes: ld.types,
     ldProps: ld.props,
+    ldCounts: ld.counts,
+    liveDot: html.includes("studio-live-dot"),
     images: imgs.length,
     imagesWithAlt: imgs.filter((m) => /alt="[^"]+"/.test(m[0])).length,
     suspenseHidden: /<div hidden id="S:/.test(html),
@@ -381,6 +389,7 @@ const urlCount = Object.keys(pages).length;
 }
 
 const site = REMOTE ? remoteSite : siteSignals();
+site.liveDotPages = Object.values(pages).filter((p) => p.liveDot).length;
 
 if (urlCount === 0) {
   console.error("\naudit:seo-diff");
@@ -433,17 +442,59 @@ const isApproved = (url, field) => {
 
 const problems = [];
 const skippedDynamic = [];
+
+/* בלי --origin אין HTML לעמוד דינמי, ולכן אי אפשר למדוד אותו. אבל אפשר
+   לוודא שהמסלול עדיין קיים בבנייה: app-paths-manifest מונה כל page.tsx
+   שנבנה. מחיקת app/book/page.tsx בזמן שמפת האתר עוד מונה את /book הייתה
+   עוברת בשקט כ"דולג", וזה עמוד ההכנסה. סבב ביקורת 16.9.2026. */
+const MANIFEST = ".next/server/app-paths-manifest.json";
+const manifestRoutes =
+  !REMOTE && existsSync(MANIFEST)
+    ? Object.keys(JSON.parse(readFileSync(MANIFEST, "utf8"))).map((key) => {
+        /* קבוצות מסלול נמחקות, /page יורד, ומקטע דינמי [x] הופך לתבנית:
+           ארבעת ה-hubs של /online יושבים תחת /online/[category]/page. */
+        const path = key.replace(/\/\([^)]+\)/g, "").replace(/\/page$/, "") || "/";
+        const pattern = path
+          .split("/")
+          .map((seg) => {
+            if (/^\[\.\.\..+\]$/.test(seg)) return ".+";
+            if (/^\[.+\]$/.test(seg)) return "[^/]+";
+            return seg.replace(/[.*+?^${}()|\\]/g, (ch) => "\\" + ch);
+          })
+          .join("/");
+        return new RegExp("^" + pattern + "$");
+      })
+    : null;
+const routeBuilt = (url) => !manifestRoutes || manifestRoutes.some((re) => re.test(url));
+
 const note = (url, field, msg) => {
   if (!isApproved(url, field)) problems.push({ url, field, msg });
 };
 
 const sameSet = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
 
+/* קישורים נכנסים, תפוחים מול תפוחים. הבסיס נלכד עם --origin ולכן כלל את
+   ששת העמודים הדינמיים ואת הקישורים היוצאים מהם. הרצה בלי --origin מודדת
+   316 עמודים, ואז כל עמוד שהפוטר מקשר אליו "ירד" מ-317 ל-311 בלי שדבר
+   השתנה: 117 רגרסיות מזויפות על אותה בנייה בדיוק (נמדד 16.9.2026). לכן
+   ספירת הבסיס מחושבת מחדש מרשימות הקישורים השמורות בו, רק על העמודים
+   שנמדדו בהרצה הזו. */
+const measured = new Set(Object.keys(pages));
+const baseInbound = {};
+for (const [from, p] of Object.entries(base.pages)) {
+  if (!measured.has(from) || !Array.isArray(p.links)) continue;
+  for (const to of p.links) if (to !== from) baseInbound[to] = (baseInbound[to] || 0) + 1;
+}
+
 for (const [url, was] of Object.entries(base.pages)) {
   const now = pages[url];
   if (!now) {
     if (was.dynamic && !ORIGIN) {
-      skippedDynamic.push(url);
+      if (routeBuilt(url)) {
+        skippedDynamic.push(url);
+        continue;
+      }
+      note(url, "exists", "עמוד דינמי שמסלולו אינו ב-app-paths-manifest: המסלול נמחק מהבנייה");
       continue;
     }
     note(url, "exists", "הכתובת נעלמה מהבנייה");
@@ -462,8 +513,9 @@ for (const [url, was] of Object.entries(base.pages)) {
   const lostLinks = was.links.filter((l) => !now.links.includes(l));
   if (lostLinks.length) note(url, "links", lostLinks.length + " קישורים פנימיים אבדו: " + lostLinks.slice(0, 5).join(", "));
   if (now.words < was.words) note(url, "words", was.words + " -> " + now.words + " מילים");
-  if (typeof was.inbound === "number" && now.inbound < was.inbound)
-    note(url, "inbound", "קישורים נכנסים: " + was.inbound + " -> " + now.inbound);
+  const wasInbound = Array.isArray(was.links) ? (baseInbound[url] || 0) : was.inbound;
+  if (typeof wasInbound === "number" && now.inbound < wasInbound)
+    note(url, "inbound", "קישורים נכנסים: " + wasInbound + " -> " + now.inbound);
   if (typeof was.images === "number" && now.images < was.images)
     note(url, "images", "תמונות: " + was.images + " -> " + now.images);
   if (typeof was.imagesWithAlt === "number" && now.imagesWithAlt < was.imagesWithAlt)
@@ -474,6 +526,10 @@ for (const [url, was] of Object.entries(base.pages)) {
     const nowKeys = now.ldProps[type] || [];
     const lostKeys = keys.filter((k) => !nowKeys.includes(k));
     if (lostKeys.length) note(url, "ldProps", type + " איבד מאפיינים: " + lostKeys.join(", "));
+  }
+  for (const [type, n] of Object.entries(was.ldCounts || {})) {
+    const nowN = (now.ldCounts || {})[type] || 0;
+    if (nowN < n) note(url, "ldCounts", type + ": " + n + " -> " + nowN + " צמתים בסכמה");
   }
 }
 
@@ -493,6 +549,8 @@ if (base.site) {
     note("site", "robots", "robots.txt השתנה");
   if (typeof b.llmsUrlCount === "number" && site.llmsUrlCount < b.llmsUrlCount)
     note("site", "llms", "כתובות ב-llms.txt: " + b.llmsUrlCount + " -> " + site.llmsUrlCount);
+  if (typeof b.liveDotPages === "number" && b.liveDotPages > 0 && site.liveDotPages === 0)
+    note("site", "liveDot", "המחלקה studio-live-dot נעלמה מכל העמודים: החרגת מחוון השעות ב-visibleWordCount כבר לא תופסת");
 } else {
   console.log("  הערה: הבסיס נלכד לפני שנוספו אותות ברמת האתר. לכתוב בסיס מחדש כדי לכסות אותם.");
 }

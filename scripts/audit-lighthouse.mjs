@@ -23,7 +23,7 @@
  *   --port=3210                                 יציאת השרת (ברירת מחדל 3210)
  */
 
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -68,6 +68,33 @@ if (!existsSync(chromePath)) {
   console.error("  הגדר CHROME_PATH, או התקן את הדפדפן של playwright.");
   process.exit(1);
 }
+
+/**
+ * הצג חייב להיות ער, גם בדפדפן headless.
+ *
+ * נמדד 16.9.2026 בשעה 01:50: כל הרצה, מקומית ומול האתר החי, בשני בינארי
+ * כרום ובשני מצבי headless, החזירה NO_FCP ("הדף לא צבע תוכן"). יומן pmset
+ * הראה שהצג כבה ב-00:24. caffeinate -u העיר אותו, ואותה פקודה בדיוק
+ * החזירה perf 94. בלי זה, מדידה לילית מדווחת אפסים על אתר תקין.
+ *
+ * -u מעיר את הצג עכשיו; -d -i -s -w מחזיקים אותו ער עד שהתהליך הזה מסתיים.
+ * macOS בלבד. בווינדוס אין מקבילה כאן, והמדידה נעשית ממילא על המק.
+ */
+function keepDisplayAwake() {
+  if (process.platform !== "darwin") return false;
+  try {
+    execFileSync("caffeinate", ["-u", "-t", "2"], { stdio: "ignore" });
+    const child = spawn("caffeinate", ["-d", "-i", "-s", "-w", String(process.pid)], {
+      detached: true,
+      stdio: "ignore",
+    });
+    child.unref();
+    return true;
+  } catch {
+    return false;
+  }
+}
+const displayAwake = keepDisplayAwake();
 
 function buildId() {
   try {
@@ -147,6 +174,19 @@ function runOnce(url, outFile, attempt = 1) {
   }
 
   const r = JSON.parse(readFileSync(outFile, "utf8"));
+  /* runtimeError (NO_FCP, PROTOCOL_TIMEOUT) משאיר score=null בכל קטגוריה.
+     קודם זה הפך ל-0 ודווח כ"ירידה מ-95 ל-0", כאילו האתר נשבר. זה כישלון
+     מדידה, לא תוצאה, ולכן ניסיון שני ואז עצירה עם הסיבה. */
+  if (r.runtimeError) {
+    if (attempt === 1) {
+      process.stdout.write("r");
+      return runOnce(url, outFile, 2);
+    }
+    console.error("\n  ✗ Lighthouse לא הצליח למדוד את " + url + " פעמיים: " + r.runtimeError.code);
+    console.error("    " + r.runtimeError.message);
+    if (r.runtimeError.code === "NO_FCP") console.error("    האם הצג כבוי? המדידה דורשת צג ער (ראה keepDisplayAwake).");
+    process.exit(1);
+  }
   const cat = (k) => Math.round((r.categories[k]?.score ?? 0) * 100);
   const num = (k) => r.audits[k]?.numericValue ?? null;
 

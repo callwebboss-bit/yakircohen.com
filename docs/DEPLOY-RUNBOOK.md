@@ -126,8 +126,12 @@ Vercel בונה את הענף אוטומטית. תחת Deployments, הפריסה
 מול הבנייה של Vercel:
 
 ```bash
-node scripts/audit-seo-diff.mjs --origin=https://<preview>.vercel.app
+node scripts/audit-seo-diff.mjs --remote --origin=https://<preview>.vercel.app
 ```
+
+`--remote` חובה כאן: בלעדיו רק שש הכתובות הדינמיות נמשכות מהמקור, וכל
+שאר 316 העמודים נקראים מה-`.next` שעל המחשב, כלומר לא מהבנייה של Vercel.
+עם הדגל, מפת האתר נמשכת מהמקור וכל כתובת בה נמדדת משם.
 
 **6. מיזוג ל-main, מ-Cursor.** PR מ-`preview/chrome-polish` אל `main`.
 CI רץ על ה-PR (בדיקות, lint, 25 שומרים, בנייה). ירוק, ואז Merge.
@@ -136,7 +140,7 @@ Vercel בונה את `main` ומפרסם. אין פקודה ידנית מעבר 
 **7. אימות על האתר החי.** אחרי שהפריסה מסומנת Ready:
 
 ```bash
-node scripts/audit-seo-diff.mjs --origin=https://yakircohen.com
+node scripts/audit-seo-diff.mjs --remote --origin=https://yakircohen.com
 ```
 
 ובנוסף Lighthouse על חמשת העמודים מול הכתובת החיה. best-practices אמור

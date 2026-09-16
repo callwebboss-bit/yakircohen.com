@@ -53,7 +53,11 @@ const DIFF_DIR = join(OUT, "diff");
  * בדיוק בגבול. השומר הזה מגן מפני שינויי פריסה וצבע, ולא מפני טעות
  * הקלדה. את הטקסט שומר audit:seo-diff, שסופר מילים לכל כתובת.
  */
-const CHANGED_PIXELS = Number(process.env.VISUAL_PIXELS ?? 500);
+/* 500 הוסתר מתחתיו הנקודה הירוקה של מחוון הזמינות (0.5rem = 64 פיקסלים)
+   וכל אייקון קטן. רצפת הרעש שנמדדה בשני צילומים מלאים של אותה בנייה
+   הייתה 0 פיקסלים, ולכן 40 עדיין מעל הרעש ומתחת לאייקון הקטן ביותר.
+   סבב ביקורת 16.9.2026. אם יופיע רעש, להעלות לפי המדידה ולא לפי הרגשה. */
+const CHANGED_PIXELS = Number(process.env.VISUAL_PIXELS ?? 40);
 /** הפרש ערוץ שנחשב "פיקסל שונה". מתחתיו זה רעש קידוד. */
 const CHANNEL_DELTA = 12;
 
@@ -317,19 +321,31 @@ if (isReuse) {
 }
 rmSync(DIFF_DIR, { recursive: true, force: true });
 
+/* עוברים על האיחוד של הבסיס והנוכחי, לא על הבסיס בלבד. קודם הלולאה
+   קראה רק את תיקיית הבסיס, ולכן תבנית או רוחב שנוספו אחרי לכידת הבסיס
+   צולמו ולא הושוו לכלום, והסיכום הכריז "אין הבדל ב-36 צילומים".
+   סבב ביקורת 16.9.2026. */
 const findings = [];
+let compared = 0;
 for (const viewport of VIEWPORTS) {
   const dir = join(BASE_DIR, viewport.name);
-  if (!existsSync(dir)) continue;
+  const curDir = join(CURRENT_DIR, viewport.name);
+  const pngs = (d) => (existsSync(d) ? readdirSync(d).filter((f) => f.endsWith(".png")) : []);
+  const files = [...new Set([...pngs(dir), ...pngs(curDir)])].sort();
 
-  for (const file of readdirSync(dir).filter((f) => f.endsWith(".png"))) {
+  for (const file of files) {
     const basePath = join(dir, file);
-    const currentPath = join(CURRENT_DIR, viewport.name, file);
+    const currentPath = join(curDir, file);
 
+    if (!existsSync(basePath)) {
+      findings.push(`${viewport.name}/${file} · אין צילום בסיס (תבנית או רוחב חדשים): ללכוד בסיס מחדש`);
+      continue;
+    }
     if (!existsSync(currentPath)) {
       findings.push(`${viewport.name}/${file} · לא צולם בהרצה הזו`);
       continue;
     }
+    compared += 1;
 
     const result = await diffPair(basePath, currentPath, join(DIFF_DIR, viewport.name, file));
 
@@ -354,7 +370,9 @@ if (findings.length > 0) {
   process.exit(1);
 }
 
-console.log(
-  `\n  ✓ אין הבדל מעל ${CHANGED_PIXELS} פיקסלים באף אחד מ-` +
-    `${TEMPLATE_PAGES.length * VIEWPORTS.length} הצילומים.`,
-);
+const expected = TEMPLATE_PAGES.length * VIEWPORTS.length;
+if (compared !== expected) {
+  console.error(`\n  ✗ הושוו ${compared} צילומים, צפויים ${expected}. הבסיס אינו מכסה את כל התבניות.`);
+  process.exit(1);
+}
+console.log(`\n  ✓ אין הבדל מעל ${CHANGED_PIXELS} פיקסלים באף אחד מ-${compared} הצילומים.`);
