@@ -71,6 +71,13 @@ const ORIGIN = `http://localhost:${PORT}`;
 
 const slug = (path) => (path === "/" ? "home" : path.slice(1).replace(/\//g, "_"));
 
+/* תחליף אחיד לכל תמונה חיצונית: פיקסל אפור אטום. הדפדפן מותח אותו לפי
+   object-fit של המסגרת, ולכן התוצאה זהה בכל הרצה. */
+const EXTERNAL_IMAGE_STUB = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "base64",
+);
+
 /** מנטרל כל מקור תזוזה שאינו השינוי שאנחנו בודקים. */
 const FREEZE_CSS = `
   *, *::before, *::after {
@@ -103,6 +110,28 @@ async function capture(targetDir) {
         reducedMotion: "reduce",
         locale: "he-IL",
         timezoneId: "Asia/Jerusalem",
+      });
+
+      /* כל תמונה ממקור חיצוני מוחלפת בתמונה קבועה.
+
+         למה: הנגנים מושכים תמונה ממוזערת מ-i.ytimg.com בזמן הצילום, כלומר
+         השער מדד את ה-CDN של יוטיוב ולא את הפריסה שלנו. נמדד 16.9.2026:
+         אותה בנייה בדיוק החזירה 686,714 פיקסלים שונים ב-/events ו-1,285,137
+         ב-/podcast, כולם בתוך מסגרות הנגנים, בזמן שאף שורת קוד לא נגעה בהם.
+         שער שמדווח על שינוי כשלא השתנה דבר מאבד את כל ערכו.
+
+         מה נשמר: המסגרת, היחס, המיקום וכל מה שמסביב, כלומר בדיוק מה שהשער
+         אמור לשמור. מה שאבד: אי אפשר לתפוס תמונה ממוזערת שנשברה בצד יוטיוב,
+         וזה ממילא לא היה בשליטתנו. */
+      await context.route("**/*", async (route, request) => {
+        if (request.resourceType() !== "image" || request.url().startsWith(ORIGIN)) {
+          return route.continue();
+        }
+        return route.fulfill({
+          status: 200,
+          contentType: "image/png",
+          body: EXTERNAL_IMAGE_STUB,
+        });
       });
 
       /* קיבוע השעון לפני שקוד העמוד רץ.
