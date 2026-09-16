@@ -92,22 +92,27 @@ Cloudflare אינו מטמון בדרך, ואין מה לרוקן. סעיף 4.1 
 **סדר הפעולות בווינדוס, ב-PowerShell בתוך תיקיית הפרויקט:**
 
 ```powershell
-# 1. להוציא את תיקיות הבנייה מסנכרון Dropbox. בלי זה שתי המכונות דורסות
-#    זו את זו: ב-14.9 נמצאו 11 עותקים מתנגשים בתוך .next וקובץ מ-24.8
-#    שהפיל את השרת. במק זה כבר נעשה. הדגל הוא לכל מחשב בנפרד.
-Set-Content -Path .next -Stream com.dropbox.ignored -Value 1
-Set-Content -Path node_modules -Stream com.dropbox.ignored -Value 1
-
-# 2. לוודא שהקומיטים הגיעו דרך Dropbox. ה-.git משותף לשתי המכונות, ולכן
+# 1. לוודא שהקומיטים הגיעו דרך Dropbox. ה-.git משותף לשתי המכונות, ולכן
 #    אין מה למשוך מ-GitHub: להפך, GitHub עדיין לא מכיר אותם. למק אין
-#    הרשאות push, והדחיפה נעשית מכאן. הפקודה הראשונה חייבת להדפיס e40a1f0.
+#    הרשאות push, והדחיפה נעשית מכאן. הפקודה השנייה חייבת להדפיס את
+#    ה-hash שכתוב בסעיף "מה עולה" למעלה, והשלישית חייבת להדפיס 0.
 git checkout preview/chrome-polish
 git log --oneline -1
 git status --porcelain | Measure-Object -Line
 
-# 3. התקנה נקייה. node_modules כבר לא מסתנכרן, ולכן זו התקנה של ווינדוס
-#    בלבד, בפעם הראשונה מזה חודשים.
+# 2. למחוק את תיקיות הבנייה הישנות (הן סונכרנו מהמק ומעורבבות), ליצור
+#    אותן ריקות, ורק אז לסמן אותן כמוחרגות מ-Dropbox. הסדר חשוב: הדגל
+#    יושב על התיקייה עצמה, ומחיקת התיקייה מוחקת אותו. גרסה קודמת של
+#    ההוראות סימנה ואז מחקה, כלומר סימנה לחינם (סבב ביקורת 16.9.2026).
+#    בלי הדגל שתי המכונות דורסות זו את זו: ב-14.9 נמצאו 11 עותקים
+#    מתנגשים בתוך .next וקובץ מ-24.8 שהפיל את השרת. במק זה כבר נעשה.
 Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force node_modules, .next | Out-Null
+Set-Content -Path .next -Stream com.dropbox.ignored -Value 1
+Set-Content -Path node_modules -Stream com.dropbox.ignored -Value 1
+
+# 3. התקנה נקייה לתוך התיקייה המסומנת. node_modules כבר לא מסתנכרן,
+#    ולכן זו התקנה של ווינדוס בלבד, בפעם הראשונה מזה חודשים.
 npm ci
 
 # 4. הבדיקה המקדימה. אמורה להיות ירוקה. אם היא מתלוננת על קובץ חסר,

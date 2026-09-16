@@ -74,10 +74,34 @@ jobs:
         run: npm run audit:seo-diff
         continue-on-error: true
 
-      # רץ אחרי הבנייה. קודם הוא ישב לפניה ובלי שרת, כך שכל page.goto
-      # נכשל והאודיט דיווח תקין אחרי אפס עמודים שנבדקו.
-      - name: Audit a11y (skip unless RUN_A11Y=1)
+      # axe על שמונה עמודים מול שרת אמיתי. עד 16.9.2026 השלב רץ בלי שרת
+      # ובלי RUN_A11Y, ולכן הסקריפט הדפיס SKIPPED ויצא 0: אפס עמודים נבדקו
+      # והשלב היה ירוק. עכשיו הדפדפן מותקן, next start עולה מהבנייה שלמעלה,
+      # והאודיט נכשל באמת על critical/serious.
+      # continue-on-error זמני ומכוון: זו ההרצה הראשונה של axe ב-CI, ולא
+      # ידוע מה הוא ימצא בשמונת העמודים מעבר ל-12 התבניות שנמדדו מקומית.
+      # להסיר אחרי הרצה אחת ירוקה.
+      # פורט 3010 ולא 3000: שלב ה-Cypress שאחרי מרים dev על 3000 דרך
+      # start-server-and-test, ושרת שכבר תופס את הפורט היה מפיל אותו.
+      - name: Install Chromium for axe
+        run: npx playwright install --with-deps chromium
+
+      - name: Start the built site for audits
+        run: |
+          npx next start -p 3010 &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3010/ > /dev/null && exit 0
+            sleep 2
+          done
+          echo "השרת לא עלה תוך 120 שניות" >&2
+          exit 1
+
+      - name: Audit a11y (axe, 8 pages, non-blocking until the first green run)
         run: npm run audit:a11y
+        env:
+          RUN_A11Y: "1"
+          BASE_URL: http://localhost:3010
+        continue-on-error: true
 
       # a11y.cy.ts ו-booking-flows.cy.ts נכתבו ומעולם לא רצו, כי cy:run:only
       # מקודד רק שניים מארבעת הספקים. עכשיו כולם רצים.
