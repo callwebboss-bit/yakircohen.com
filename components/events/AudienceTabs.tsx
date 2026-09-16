@@ -161,25 +161,32 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
      *
      * עוטפים את pushState כדי לזהות גם ניווט פנימי. השמירה על המקור והשחזור
      * ב-cleanup חשובים: בלעדיהם כל mount היה עוטף מחדש ויוצר שרשרת.
+     *
+     * השחזור רק אם העטיפה שלנו עדיין העליונה. אפקטים רצים מהילד להורה,
+     * ולכן בטעינה ישירה של /events האפקט הזה רץ לפני ה-AppRouter של Next,
+     * ש-עוטף את pushState אחרינו. שחזור עיוור היה דורס את העטיפה של Next
+     * בפונקציה המקורית ומנתק את ניהול הגלילה של הראוטר. אם מישהו עטף
+     * מעלינו, משאירים את השרשרת ורק משתיקים את applyHash. סבב ביקורת 16.9.2026.
      */
     const originalPushState = window.history.pushState;
-    let patched = true;
-    window.history.pushState = function patchedPushState(
+    let disposed = false;
+    const patchedPushState = function (
       this: History,
       ...args: Parameters<History["pushState"]>
     ) {
       originalPushState.apply(this, args);
-      applyHash();
+      if (!disposed) applyHash();
     };
+    window.history.pushState = patchedPushState;
 
     window.addEventListener("hashchange", applyHash);
     window.addEventListener("popstate", applyHash);
     return () => {
       window.removeEventListener("hashchange", applyHash);
       window.removeEventListener("popstate", applyHash);
-      if (patched) {
+      disposed = true;
+      if (window.history.pushState === patchedPushState) {
         window.history.pushState = originalPushState;
-        patched = false;
       }
     };
   }, []);
