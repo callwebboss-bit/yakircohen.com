@@ -14,6 +14,7 @@ import { buildAutoReplyText } from "@/lib/leads/templates/auto-reply";
 import { buildPreCallGuide } from "@/lib/leads/templates/pre-call-guide";
 import { buildServiceAdminBodyHtml } from "@/lib/leads/templates/by-service";
 import { defaultLeadFromAddress, sendResendEmail } from "@/lib/leads/resend-send";
+import { validateEmailOptional } from "@/lib/form-validation";
 import { pingAdminHighScore } from "@/lib/leads/admin-alert";
 import type {
   LeadIngestClientMeta,
@@ -168,8 +169,12 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
     await pingAdminHighScore(lead);
   }
 
-  // Optional client auto-reply + pre-call guide
-  if (email && email.includes("@")) {
+  /* מענה אוטומטי ללקוח, רק לכתובת שעברה את אותו אימות שהטופס מריץ בדפדפן.
+     קודם התנאי היה includes("@") בלבד, כלומר כל מחרוזת עם שטרודל גררה שני
+     מיילים יוצאים מהדומיין של האתר אל כל כתובת שנשלחה ל-API. הליד עצמו
+     נשמר ומגיע לבעלים בכל מקרה, ולכן פנייה אמיתית לא נפגעת: מי שהגיע דרך
+     הטופס כבר עבר את אותו validateEmailOptional בצד הלקוח. 16.9.2026. */
+  if (email && validateEmailOptional(email).ok) {
     const reply = buildAutoReplyText({
       name: lead.name,
       serviceType,
