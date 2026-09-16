@@ -29,6 +29,615 @@
       "why": "כותרת הכרטיס \"אטרקציות בירושלים\" (h3) הוחלפה ב-\"אטרקציות לאירועים בירושלים\", כדי לתאום את ה-h1 של עמוד היעד כפי שהערת הקוד הבטיחה. סבב ביקורת 16.9.2026, 3/3.",
       "approvedBy": "הבעלים (כלל התאמת כותרות לעמוד היעד, שאלון 15.9.2026)",
       "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/5-things-before-choosing-wedding-dj",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/ai-audio-restoration-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/ai-audio-restoration-real-examples",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/audio-branding-for-business",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/audiobook-recording-israel-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/bar-mitzvah-recording-price-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/bar-mitzvah-september-recording-tips",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/bar-mitzvah-song-recording-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/bat-mitzvah-clip-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/bride-groom-blessing-recording-tips",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/business-podcast-roi-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/cheap-dj-for-a-wedding",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/chuppah-song-guide-couples",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/cold-fireworks-events",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/commercial-voiceover-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/confetti-cannon-events-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/corporate-content-studio-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/corporate-event-dj-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/corporate-song-production-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/dj-course-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/dj-course-vs-private-lesson",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/dj-for-bar-mitzvah-cost",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/dj-selection-guide-events",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/dj-summer-weddings-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/event-filming-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/events-booking-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/first-podcast-without-wasting-money",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/fix-phone-recording-noise",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/giant-balloons-for-events",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/headphones-purpose-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/heavy-smoke-vs-light-smoke-events",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/hebrew-tutor-modiin-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/home-mic-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/home-recording-7-mistakes",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/home-studio-vs-professional-studio-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/how-online-audio-service-works",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/how-to-book-studio-modiin",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/how-to-choose-wedding-dj-israel",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/how-to-record-at-home",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/live-singer-sound-engineer-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/mixing-mastering-explained",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/mixing-vs-mastering-explained",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/mobile-recording-studio-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/mp3-vs-wav-studio-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/no-speech-therapist-modiin",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/on-site-podcast-studio-business",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/online-audio-service-complaints",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/original-song-what-to-prepare",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/phone-voiceover-business",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/pitch-correction-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/pitch-correction-vs-autotune",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-booking-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-editing-complaints",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-for-small-business-worth-it",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-needs-professional-editing",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-production-guide-israel",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/podcast-studio-vs-home-recording",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/prepare-voice-podcast-studio",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/professional-voiceover-for-business",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/ready-for-records",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/record-song-10-minutes-ai",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/recorded-blessing-gift",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/recorded-song-birthday-gift",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/rescue-damaged-recording",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/singer-amplification-booking",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/sound-recovery-ai-podcast",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/street-hebrew-vs-government-ulpan",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/studio-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/studio-recording-complaints",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/studio-recording-cost-israel-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/studio-session-prep-checklist",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/studio-vs-home-fix-cost",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/tips-for-perfect-wedding",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/unique-gift-recording-ideas-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/vhs-tape-digitization-ai-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/vocal-tuning-for-everyone",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/voiceover-business-complaints",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-dj-selection-guide-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-effects-what-worth-it",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-photography-and-sound-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-photography-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-smoke-machine-guide",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-song-2026",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-songs-chuppah",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/wedding-surprise-song-story",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/when-ai-audio-restoration-enough",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
+    },
+    {
+      "url": "/blog/zoom-call-to-radio-quality",
+      "field": "ldProps",
+      "why": "dateModified היה שווה בדיוק ל-datePublished בכל 87 הפוסטים, כלומר הצהרה חסרת משמעות לגוגל: פוסט שלא עודכן מעולם הצהיר שעודכן ביום הפרסום. מעכשיו השדה ידני ואופציונלי (lib/data/blog.ts), ויופיע רק בפוסט שבאמת עודכן בתוכן. datePublished, הכותרת, ה-h1, סט הקישורים וספירת המילים לא השתנו באף פוסט.",
+      "approvedBy": "הבעלים, שאלון 15.9.2026 (אישור הסרת dateModified)",
+      "approvedAt": "2026-09-16"
     }
   ]
 }
