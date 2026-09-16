@@ -118,14 +118,16 @@ export default function ServicePricingBlock({
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  /* בלי aria-label: הטקסט הגלוי כבר אומר שירות ומחיר, והתווית
+                  /* בלי aria-label: הטקסט הגלוי אומר שירות ומחיר, או את שם המסלול כשאין
+                     מחיר, ולכן הוא ייחודי בתוך העמוד. קודם 21 מסלולים בלי מחיר קיבלו
+                     את אותו "סגרו את המחיר הזה" (סבב ביקורת 16.9.2026). התווית
                      הנפרדת נבנתה בנוסח אחר. משתמש קורא מסך שאומר בקול את מה
                      שהוא רואה חייב להפעיל את הכפתור. */
                   className="touch-press mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light active:bg-brand-red-dark"
                 >
                   {tier.priceExVat !== undefined
                     ? whatsappQuoteCta(tier.name, tier.priceExVat)
-                    : "סגרו את המחיר הזה בוואטסאפ"}
+                    : `סגרו את ${tier.name} בוואטסאפ`}
                 </a>
                 </article>
               </li>
