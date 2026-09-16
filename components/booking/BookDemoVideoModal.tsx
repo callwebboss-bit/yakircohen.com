@@ -64,7 +64,7 @@ export default function BookDemoVideoModal({
             className="h-full w-full border-0"
           />
         ) : (
-          <p className="flex h-full items-center justify-center text-sm text-muted-foreground">
+          <p className="flex h-full items-center justify-center text-sm text-white/80">
             סרטון לא זמין
           </p>
         )}

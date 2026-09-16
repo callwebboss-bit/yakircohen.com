@@ -60,7 +60,12 @@ export default function SmartMap({
       className={`relative w-full cursor-pointer overflow-hidden rounded-2xl shadow-md ${className}`}
       style={{ height: "24rem" }}
       onClick={() => setIsLoaded(true)}
-      onKeyDown={(e) => e.key === "Enter" && setIsLoaded(true)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setIsLoaded(true);
+        }
+      }}
       role="button"
       tabIndex={0}
     >

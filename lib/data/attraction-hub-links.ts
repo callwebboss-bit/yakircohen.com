@@ -29,7 +29,7 @@ export const ATTRACTION_HUB_LINKS: readonly HubLinkItem[] = [
   },
   {
     href: "/events/attractions/jerusalem",
-    title: "אטרקציות בירושלים",
+    title: "אטרקציות לאירועים בירושלים",
     description: "מגיעים לאולמות בירושלים ממודיעין.",
   },
   {
@@ -82,7 +82,7 @@ export const PHOTO_SLIDESHOW_RELATED: readonly HubLinkItem[] = [
 export const ATTRACTION_AREA_LINKS: readonly HubLinkItem[] = [
   {
     href: "/events/attractions/jerusalem",
-    title: "אטרקציות בירושלים",
+    title: "אטרקציות לאירועים בירושלים",
     description: "מגיעים לאולמות בירושלים ממודיעין.",
   },
   {

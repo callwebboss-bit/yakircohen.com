@@ -175,6 +175,14 @@ export default function VocalFixPricingBlock() {
           >
             מיקס ומאסטרינג (500 ₪)
           </Link>
+          {/* עד 16.9.2026 לעמוד הזה היה קישור פנימי אחד, מפוסט בלוג. ה-hub
+              של vocal-fix הוא ההורה שלו, ולכן הקישור נכנס כאן ליד שאר האחים. */}
+          <Link
+            href="/online/vocal-fix/podcast-repair"
+            className="font-medium text-brand-red hover:underline"
+          >
+            תיקון סאונד לפרק פודקאסט קיים
+          </Link>
         </div>
       </div>
     </div>

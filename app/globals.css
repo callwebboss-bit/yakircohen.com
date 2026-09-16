@@ -716,13 +716,6 @@ html.a11y-highlight-links a[href] {
   outline-offset: 2px;
 }
 
-@media (prefers-contrast: more) {
-  :root {
-    --muted-foreground: #3f3f3f;
-    --border: color-mix(in srgb, black 20%, transparent);
-  }
-}
-
 @media (forced-colors: active) {
   .card-chrome::before,
   .scroll-progress {
@@ -819,6 +812,17 @@ html.a11y-highlight-links a[href] {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* חייב לבוא אחרי בלוק :root שלמטה. לשניהם אותה ספציפיות (0,1,0), ואין
+   שכבה, ולכן המאוחר מנצח. כשהבלוק ישב לפני :root, ההגדרה הרגילה של
+   --muted-foreground דרסה אותו, והעדפת הניגודיות של מערכת ההפעלה לא
+   שינתה דבר. נמצא בסבב ביקורת 16.9.2026. */
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: #3f3f3f;
+    --border: color-mix(in srgb, black 20%, transparent);
+  }
 }
 
 @supports (view-transition-name: none) {

@@ -398,10 +398,10 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
             <Link
               key={svc.href}
               href={svc.href}
-              className="flex flex-col items-end gap-2 bg-background p-5 text-end transition-colors hover:bg-foreground hover:text-background"
+              className="group flex flex-col items-end gap-2 bg-background p-5 text-end transition-colors hover:bg-foreground hover:text-background"
             >
               <span className="text-sm font-semibold">{svc.label}</span>
-              <span className="text-[0.65rem] tracking-wider text-muted-foreground uppercase">
+              <span className="text-[0.65rem] tracking-wider text-muted-foreground uppercase group-hover:text-background/80">
                 {svc.sub}
               </span>
             </Link>
