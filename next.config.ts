@@ -102,4 +102,25 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
   widenClientFileUpload: true,
   disableLogger: true,
   automaticVercelMonitors: true,
+  /**
+   * הסרת מודול ה-tracing מחבילת הדפדפן.
+   *
+   * למה: app/layout.tsx כבר מרנדר את SpeedInsights של Vercel, שנותן
+   * Core Web Vitals מ-100% מהתנועה. Sentry מדד את אותם מדדים בדגימה של
+   * 20% ועלה כ-55KB של JS מנותח בכל עמוד. זו מדידה כפולה שכבר יש לה
+   * מקור טוב יותר.
+   *
+   * מה לא משתנה: מעקב השגיאות, ה-breadcrumbs, מפות המקור, ה-releases
+   * וניטור ה-Cron של Vercel. וחשוב מכל, סינון ה-PII ב-beforeSend
+   * וב-scrubRequest לא נוגע בזה בכלל.
+   *
+   * דגלי ה-Replay: הפרויקט לא משתמש ב-Session Replay, ולכן שלושת
+   * המודולים שלו הם משקל מת.
+   */
+  bundleSizeOptimizations: {
+    excludeTracing: true,
+    excludeReplayShadowDom: true,
+    excludeReplayIframe: true,
+    excludeReplayWorker: true,
+  },
 });

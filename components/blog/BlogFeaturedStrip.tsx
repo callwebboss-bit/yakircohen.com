@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -8,18 +9,6 @@ import type { BlogPost } from "@/lib/data/blog";
 type BlogFeaturedStripProps = {
   posts: BlogPost[];
 };
-
-function formatHebrewDate(isoDate: string): string {
-  try {
-    return new Intl.DateTimeFormat("he-IL", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(new Date(isoDate));
-  } catch {
-    return isoDate;
-  }
-}
 
 export default function BlogFeaturedStrip({ posts }: BlogFeaturedStripProps) {
   if (posts.length === 0) return null;

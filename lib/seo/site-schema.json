@@ -50,6 +50,14 @@
       "name": "יקיר כהן",
       "alternateName": "Yakir Cohen",
       "jobTitle": "מפיק מוזיקלי ומדריך קול",
+      "hasOccupation": {
+        "@type": "Role",
+        "startDate": "2004",
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "מפיק מוזיקלי ומהנדס סאונד"
+        }
+      },
       "url": "https://yakircohen.com/about",
       "image": "https://yakircohen.com/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
       "knowsAbout": [
@@ -62,8 +70,7 @@
         "https://www.youtube.com/@Yakircohen",
         "https://www.instagram.com/yakir.cohen.official/",
         "https://www.facebook.com/dj.yakir.cohen/",
-        "https://www.tiktok.com/@yakir.cohen.offical",
-        "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8"
+        "https://www.tiktok.com/@yakir.cohen.offical"
       ],
       "worksFor": {
         "@id": "https://yakircohen.com/#organization"
@@ -82,6 +89,7 @@
         "יקיר כהן הפקות מוזיקה"
       ],
       "url": "https://yakircohen.com",
+      "image": "https://yakircohen.com/images/services/studio/hub/%D7%90%D7%95%D7%9C%D7%A4%D7%9F%20%D7%A4%D7%95%D7%93%D7%A7%D7%90%D7%A1%D7%98%20-%20%D7%99%D7%A7%D7%99%D7%A8%20%D7%9B%D7%94%D7%9F%201.webp",
       "telephone": "+972587555456",
       "priceRange": "₪₪",
       "currenciesAccepted": "ILS",

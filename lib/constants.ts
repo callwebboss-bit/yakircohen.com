@@ -107,6 +107,18 @@ export const GOOGLE_RATING_LABEL = "דירוג Google";
 /** שנת ההקמה של העסק, כפי שהיא מופיעה ב-lib/seo/site-schema.json */
 export const BUSINESS_FOUNDING_YEAR = 2010;
 
+/**
+ * השנה שבה יקיר התחיל לעבוד בסאונד, להבדיל משנת הקמת העסק.
+ *
+ * שני המספרים האלה נראו סותרים: העמוד הצהיר "20+ שנות ניסיון" והסכמה
+ * הצהירה foundingDate 2010, כלומר 16 שנה. ההסבר קיים ב-TRUST_STATS_CLARIFICATION
+ * לגולש, ומכאן הוא מגיע גם לסכמה, כך שגם מכונה תוכל ליישב אותם.
+ *
+ * הערך נמסר על ידי הבעלים. lib/constants.test.ts מוודא ש-"20+" המוצג
+ * עדיין מתיישב איתו, כדי שהמספר לא יתיישן בשקט.
+ */
+export const FOUNDER_CAREER_START_YEAR = 2004;
+
 export const SITE_TRUST_STATS = [
   { value: "20+", label: "שנות ניסיון" },
   { value: "5,000+", label: "לקוחות מרוצים" },

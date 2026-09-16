@@ -6,6 +6,7 @@ import {
 } from "@/lib/constants";
 import {
   BRAND_SAME_AS,
+  FOUNDER_SAME_AS,
   FOUNDER_IMAGE_URL,
   FOUNDER_KNOWS_ABOUT,
 } from "@/lib/seo/entity-same-as";
@@ -17,10 +18,11 @@ import {
 } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
-import { FOUNDER_NAME } from "@/lib/constants";
+import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME } from "@/lib/constants";
 
 const BASE = SITE_URL;
 
+/* זהות העסק. האדם מקבל FOUNDER_SAME_AS, שאין בו את רישום המפות. */
 const sameAsUrls = [...BRAND_SAME_AS];
 
 const ADDRESS = {
@@ -70,10 +72,23 @@ export function buildSiteSchema() {
         name: FOUNDER_NAME,
         alternateName: "Yakir Cohen",
         jobTitle: "מפיק מוזיקלי ומדריך קול",
+        /* הוותק האישי, בנפרד מ-foundingDate של העסק. בלי זה "20+ שנות
+           ניסיון" בעמוד ו-foundingDate 2010 בסכמה נראים כסתירה. Role הוא
+           הדפוס של schema.org לעטוף ערך מאפיין בתאריך התחלה. */
+        hasOccupation: {
+          "@type": "Role",
+          startDate: String(FOUNDER_CAREER_START_YEAR),
+          hasOccupation: {
+            "@type": "Occupation",
+            name: "מפיק מוזיקלי ומהנדס סאונד",
+          },
+        },
         url: `${BASE}/about`,
         image: FOUNDER_IMAGE_URL,
         knowsAbout: [...FOUNDER_KNOWS_ABOUT],
-        sameAs: sameAsUrls,
+        /* בלי רישום העסק במפות. צומת האדם שהצהיר עליו כזהות שלו אמר
+           למנוע שהאדם והעסק הם אותה ישות. ראו lib/seo/entity-same-as.ts */
+        sameAs: [...FOUNDER_SAME_AS],
         worksFor: { "@id": ENTITY_IDS.organization },
       },
       {

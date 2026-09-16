@@ -19,6 +19,7 @@ import { getBlogNurture } from "@/lib/data/blog-nurture";
 import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { FOUNDER_NAME } from "@/lib/constants";
+import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import { constructMetadata } from "@/lib/metadata";
 import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -100,7 +101,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     headline: post.title,
     description: post.seo.description,
     datePublished: post.seo.datePublished,
-    dateModified: post.seo.datePublished,
+    /* dateModified רק כשבאמת עודכן. קודם הוא היה שווה לתאריך הפרסום בכל
+       87 הפוסטים, כלומר האתר הצהיר על עדכון שלא קרה. */
+    ...(post.seo.dateModified ? { dateModified: post.seo.dateModified } : {}),
     url: canonical,
     image: absoluteUrl(post.thumbnail),
     /* מחבר אנושי, לא ארגון. ישות ה-#founder (Person) כבר קיימת בגרף האתר
@@ -142,6 +145,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h1>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <time dateTime={post.seo.datePublished}>{post.date}</time>
+              {post.seo.dateModified ? (
+                <>
+                  <span aria-hidden="true">-</span>
+                  {/* מופיע רק כשהפוסט באמת עודכן. אות טריות אמיתי, לא
+                      תאריך בנייה ולא תאריך הקומיט האחרון שנגע בקובץ. */}
+                  <time dateTime={post.seo.dateModified} className="font-medium">
+                    עודכן ב-{formatHebrewDate(post.seo.dateModified)}
+                  </time>
+                </>
+              ) : null}
               <span aria-hidden="true">-</span>
               {/* הסכמה מצהירה על #founder כמחבר. השורה הגלויה הדפיסה את שם
                   העסק, ולכן הקוד והעמוד טענו שני מחברים שונים בכל 87 הפוסטים. */}

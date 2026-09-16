@@ -107,3 +107,29 @@ test("כל הפניה מצמתי Service ו-WebPage מתחברת לצומת קי
     `הפניות שלא מתחברות לשום צומת. הפרש של לוכסן אחד מספיק:\n${[...dangling].join("\n")}\n\nמוכרז:\n${[...declaredIds].join("\n")}`,
   );
 });
+
+test("האדם והעסק לא חולקים את אותה זהות", () => {
+  const graph = (siteSchema as { "@graph": { "@type"?: unknown; "@id"?: string; sameAs?: string[] }[] })["@graph"];
+  const person = graph.find((n) => n["@id"] === ENTITY_IDS.founder);
+  const business = graph.find((n) => n["@id"] === ENTITY_IDS.localBusiness);
+
+  assert.ok(person?.sameAs?.length, "לצומת האדם אין sameAs");
+  assert.ok(business?.sameAs?.length, "לצומת העסק אין sameAs");
+
+  /*
+   * רישום Google Maps הוא כתובת הזהות של העסק. כשהוא הופיע גם על צומת
+   * האדם, הגרף אמר שהאדם והעסק הם אותה ישות, והמנוע לא ידע למי לייחס
+   * ביקורות, מומחיות וכתובת פיזית.
+   */
+  const mapListing = (url: string) => url.includes("maps.app.goo.gl") || url.includes("google.com/maps");
+
+  assert.ok(
+    business.sameAs.some(mapListing),
+    "צומת העסק חייב לשאת את רישום המפות. בלעדיו אין קישור בין האתר לרישום",
+  );
+  assert.equal(
+    person.sameAs.filter(mapListing).length,
+    0,
+    "צומת האדם נושא את רישום המפות של העסק. זה ערבוב ישויות:\n" + person.sameAs.join("\n"),
+  );
+});

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import Link from "next/link";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { cn } from "@/lib/utils";
@@ -30,18 +31,6 @@ export type ArticleFeedProps = {
 /* ─────────────────────────────────────────────────────────────────────────────
    Helpers
    ───────────────────────────────────────────────────────────────────────────── */
-
-function formatHebrewDate(isoDate: string): string {
-  try {
-    return new Intl.DateTimeFormat("he-IL", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(new Date(isoDate));
-  } catch {
-    return isoDate;
-  }
-}
 
 function readingLabel(minutes: number): string {
   return `${minutes} דקות קריאה`;

@@ -26,18 +26,26 @@
 - פודקאסט: https://yakircohen.com/podcast
 - סטודיו וברכות: https://yakircohen.com/studio
 - קריינות: https://yakircohen.com/voiceover
+- קריינות מסחרית, מרכזיות ו-IVR: https://yakircohen.com/voiceover/services
+- קורס קריינות פרונטלי: https://yakircohen.com/voiceover/course
 - אירועים ואטרקציות: https://yakircohen.com/events
 - וידאו: https://yakircohen.com/video
 - צילום: https://yakircohen.com/photography
 - אקדמיה: https://yakircohen.com/academy
-- שיעורי עברית פרטיים (Hebrew tutoring -- לא אולפן/הקלטות): https://yakircohen.com/academy/ulpan
+- שיעורי עברית פרטיים (Hebrew tutoring, לא אולפן והקלטות): https://yakircohen.com/academy/ulpan
 - סדנאות לצוותים: https://yakircohen.com/academy/workshops · מ-2,800 ₪
 - פודקאסט self-service: https://yakircohen.com/podcast/self-service-studio
 - מגזין: https://yakircohen.com/blog
 - מתנות מוקלטות לפי אירוע: https://yakircohen.com/matanot
 - מונחון: https://yakircohen.com/glossary · 91 מונחי אודיו, אולפן ואירועים עם הגדרות קצרות
 - נתוני תעשייה 2026: https://yakircohen.com/data/industry-2026 · מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל, עם מתודולוגיה גלויה
+- אודות: https://yakircohen.com/about - מי עומד מאחורי האולפן
 - שאלות נפוצות: https://yakircohen.com/about/faq
+- שאלות נפוצות פודקאסט: https://yakircohen.com/podcast/faq
+- שאלות נפוצות הגברה וציוד: https://yakircohen.com/events/equipment/faq
+- שאלות נפוצות מנחה ואירועים: https://yakircohen.com/events/host/faq
+- טיפול בגמגום: https://yakircohen.com/stuttering
+- קליניקה: https://yakircohen.com/clinic
 
 ## תוכן לעסקים
 - מרכז: https://yakircohen.com/business
@@ -56,11 +64,12 @@
 - המרת VHS וקלטות: https://yakircohen.com/online/legacy-digitization · מ-350 ₪
 - תמלול וכתוביות: https://yakircohen.com/online/transcription · מ-180 ₪
 - שיבוט קול: https://yakircohen.com/online/voice-cloning · מ-2,500 ₪
+- https://yakircohen.com/pro - שירותים מקצועיים לדיג'ייז, פודקאסט והגברה
+- https://yakircohen.com/business/reel-factory - מפעל הרילס לספקי אירועים
 
 ## פודקאסט (עמודים)
 - https://yakircohen.com/podcast/podcast-recording - הפקה מלאה
-- https://yakircohen.com/podcast/podcast-studio-modiin - השכרת סטודיו במודיעין
-- https://yakircohen.com/podcast/podcast-studio-modiin - השכרת סטודיו / אולפן (קנוני)
+- https://yakircohen.com/podcast/podcast-studio-modiin - השכרת סטודיו ואולפן במודיעין
 - https://yakircohen.com/podcast/podcast-production - ליווי מא׳ עד ת׳
 - https://yakircohen.com/podcast/podcast-editing - עריכה
 - https://yakircohen.com/podcast/mobile-podcast-at-home - פודקאסט נייד
@@ -72,6 +81,13 @@
 - https://yakircohen.com/studio/mobile-studio - אולפן נייד שמגיע עד אליכם, בכל הארץ
 - https://yakircohen.com/studio/blessings - ברכות מוקלטות
 - https://yakircohen.com/studio/pricing - מחירון
+- https://yakircohen.com/studio/blessings/bar-mitzvah - דרשות וברכות לבר/בת מצווה
+- https://yakircohen.com/studio/blessings/bride-groom-blessing - ברכת חתן וכלה מוקלטת באולפן
+- https://yakircohen.com/studio/blessings/video-clip - הקלטת שיר וצילום קליפ באולפן
+- https://yakircohen.com/studio/studio-jerusalem - אולפן הקלטות לירושלמים, במודיעין
+- https://yakircohen.com/studio/studio-beit-shemesh - אולפן הקלטות לתושבי בית שמש, במודיעין
+- https://yakircohen.com/studio/studio-rehovot - אולפן הקלטות ברחובות
+- https://yakircohen.com/studio/studio-shoham - אולפן הקלטות לתושבי שוהם, במודיעין
 
 ## אירועים
 - https://yakircohen.com/events/dj-events - תקליטן
@@ -80,10 +96,37 @@
 - https://yakircohen.com/events/stage-led-dj - במה LED + DJ
 - https://yakircohen.com/events/attractions - אטרקציות (עשן, זיקוקים, קונפטי, בועות)
 - https://yakircohen.com/dj-events/cities/jerusalem - DJ בירושלים
+- https://yakircohen.com/events/attractions/wedding-smoking-machine - עשן כבד לחתונה וסלואו
+- https://yakircohen.com/events/attractions/wedding-smoking-machine/heavy-smoke-large-events - השכרת עשן כבד לאירועים גדולים
+- https://yakircohen.com/events/attractions/cold-fireworks - זיקוקים קרים לאירועים
+- https://yakircohen.com/events/attractions/confetti-cannon - קונפטי לאירועים
+- https://yakircohen.com/events/attractions/bubble-machine - בועות סבון לאירועים
+- https://yakircohen.com/events/attractions/bubble-machine/smoke-bubble-machine-events - מכונת בועות סבון עשן
+- https://yakircohen.com/events/attractions/smoke-cannons-for-events - תותחי עשן לאירועים
+- https://yakircohen.com/events/attractions/giant-balloons - בלוני ענק לרחבת הריקודים
+- https://yakircohen.com/events/equipment - השכרת רמקולים והגברה
+- https://yakircohen.com/events/equipment/singer-amplification - הגברה מקצועית לזמרים
+- https://yakircohen.com/events/host - מנחה ומנהל אירועים מקצועי
+- https://yakircohen.com/photo-slideshow - מצגת תמונות קולנועית לאירועים
+
+## החלטה ופנייה
+- מחירון מרכזי: https://yakircohen.com/pricing - מחירון שקוף - אולפן ופודקאסט מודיעין
+- חבילות: https://yakircohen.com/packages - חבילות אולפן, פודקאסט וחתונות
+- המלצות לקוחות: https://yakircohen.com/testimonials - המלצות לקוחות
+- מה קורה אחרי שפונים: https://yakircohen.com/start - מה קורה אחרי שפונים
+- אזורי שירות: https://yakircohen.com/areas
+- יצירת קשר: https://yakircohen.com/contact - יצירת קשר
 
 ## מדיה
 - ערוץ YouTube: https://www.youtube.com/@Yakircohen
 - Instagram: https://www.instagram.com/yakir.cohen.official/
+- https://yakircohen.com/video/event-filming - צילום והפקת וידאו לאירועים
+- https://yakircohen.com/video/corporate-video - סרטי תדמית לעסקים
+- https://yakircohen.com/video/presentation - מצגות וידאו מקצועיות
+- https://yakircohen.com/photography/wedding - צלם חתונות מומלץ לאירועים קטנים
+- https://yakircohen.com/photography/events - צילום אירועים וכנסים
+- https://yakircohen.com/portfolio - תיק עבודות וידאו
+- https://yakircohen.com/gallery - גלריית תמונות
 
 ## מפת אתר מכונה
 - https://yakircohen.com/sitemap.xml

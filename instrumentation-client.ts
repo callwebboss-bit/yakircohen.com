@@ -30,8 +30,11 @@ function scrubRequest(event: { request?: Record<string, unknown> }): void {
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   environment: process.env.NEXT_PUBLIC_VERCEL_ENV ?? "development",
-  /* גבוה מהשרת (0.05) בכוונה: traces של דפדפן זולים ומזינים Core Web Vitals. */
-  tracesSampleRate: 0.2,
+  /* אפס, ולא 0.2. מודול ה-tracing מוסר מהחבילה ב-next.config.ts דרך
+     bundleSizeOptimizations.excludeTracing, כי SpeedInsights של Vercel כבר
+     נותן Core Web Vitals מ-100% מהתנועה במקום מ-20% דגימה. להשאיר ערך
+     חיובי כאן היה מבקש מדידה ממודול שכבר לא נטען. */
+  tracesSampleRate: 0,
   sendDefaultPii: false,
   debug: false,
   beforeSend(event) {

@@ -26,6 +26,19 @@ export type BlogPostSeo = {
   description: string;
   /** ISO 8601 date for JSON-LD and machine readers */
   datePublished: string;
+  /**
+   * תאריך עדכון אמיתי, ידני, בפורמט YYYY-MM-DD.
+   *
+   * למה ידני ולא נגזר מ-git: כל 87 הפוסטים יושבים בקובץ הזה, ו-git עוקב
+   * אחרי הקובץ ולא אחרי הפוסט. גזירה אוטומטית הייתה נותנת לכל 87 הפוסטים
+   * את אותו תאריך, זה של הקומיט האחרון שנגע בקובץ, גם כשתוקנה בו רק
+   * שורה אחת בפוסט אחד. זו הצהרה שקרית לגוגל, ובדיוק האנטי-תבנית
+   * ש-generate-sitemap-dates.mjs נכתב כדי להימנע ממנה.
+   *
+   * למלא רק כשהפוסט באמת עודכן בתוכן. פוסט בלי השדה הזה לא מציג שורת
+   * עדכון ולא מצהיר dateModified בסכמה.
+   */
+  dateModified?: string;
 };
 
 export type BlogPost = {
