@@ -1,17 +1,19 @@
-﻿/** Studio open hours -- single source for live indicator, contact, and status bar. */
+﻿import { getBusinessOpenStatus, getNextOpening } from "@/lib/business-hours";
 
+/**
+ * מחוון החי, הצ׳אט ותגי הכותרת. השעות עצמן חיות ב-lib/business-hours,
+ * שנגזר מ-BUSINESS_HOURS. עד 16.9.2026 היו כאן שעות קשיחות (20:00, שבת
+ * סגור) שסתרו את הפוטר ואת הסכמה.
+ */
 export function isStudioOpen(now = new Date()): boolean {
-  const day = now.getDay(); // 0=Sun ... 6=Sat
-  const hour = now.getHours();
-  if (day === 6) return false;
-  if (day === 5) return hour >= 9 && hour < 14;
-  return hour >= 9 && hour < 20;
+  return getBusinessOpenStatus(now).isOpen;
 }
 
+/** סגור, והפתיחה הבאה היא במוצאי שבת: שישי אחר הצהריים או שבת לפני 21:00. */
 export function isShabbatOrAfterFriday(now = new Date()): boolean {
-  const day = now.getDay();
-  const hour = now.getHours();
-  return (day === 5 && hour >= 14) || day === 6;
+  if (getBusinessOpenStatus(now).isOpen) return false;
+  const next = getNextOpening(now);
+  return next !== null && next.day === 6;
 }
 
 /**

@@ -1,5 +1,6 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { getBusinessOpenStatus } from "@/lib/business-hours";
 
 export type ChatAnswer = {
   text: string;
@@ -37,22 +38,15 @@ export type GuidedStep = {
 // Dynamic greeting based on studio hours
 export function getGreeting(): string {
   const now = new Date();
-  const day = now.getDay();
-  const hour = now.getHours();
-  const open =
-    day !== 6 && (day === 5 ? hour >= 9 && hour < 14 : hour >= 9 && hour < 20);
+  const open = getBusinessOpenStatus(now).isOpen;
   return open
     ? "שלום, האולפן פתוח כעת ומרכז המידע זמין לתשובות מהירות"
     : "שלום, האולפן סגור כעת. ריכזנו עבורך את כל התשובות והמחירים";
 }
 
+/* השעות נגזרות מ-BUSINESS_HOURS דרך lib/business-hours, לא קשיחות כאן. */
 export function isStudioOpen(): boolean {
-  const now = new Date();
-  const day = now.getDay();
-  const hour = now.getHours();
-  if (day === 6) return false;
-  if (day === 5) return hour >= 9 && hour < 14;
-  return hour >= 9 && hour < 20;
+  return getBusinessOpenStatus().isOpen;
 }
 
 // Pathname → question IDs to surface at the top of the list
