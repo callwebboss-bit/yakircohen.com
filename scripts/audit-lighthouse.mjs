@@ -104,7 +104,9 @@ const displayAwake = keepDisplayAwake();
 async function buildId() {
   try {
     const html = await (await fetch(ORIGIN + "/", { signal: AbortSignal.timeout(15_000) })).text();
-    const m = html.match(/\/_next\/static\/([^/]+)\/_buildManifest\.js/);
+    /* Next 16 כבר לא פולט /_next/static/<buildId>/_buildManifest.js. המזהה
+       יושב בתוך זרם ה-RSC, בשדה "b". נמדד מול השרת, ולא נלקח מהזיכרון. */
+    const m = html.match(/\\"b\\":\\"([A-Za-z0-9_-]{8,})\\"/) || html.match(/"b":"([A-Za-z0-9_-]{8,})"/);
     if (m) return m[1];
   } catch {
     /* השרת לא ענה; נופלים לקובץ המקומי ומסמנים זאת */

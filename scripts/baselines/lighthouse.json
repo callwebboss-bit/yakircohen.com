@@ -4,89 +4,90 @@
   "throttling": "devtools",
   "formFactor": "mobile",
   "runs": 3,
-  "buildId": "zzxmJc0V6qzMuTxvYNl3e",
-  "cpuIdlePercent": 86.83,
-  "capturedAt": "2026-09-15T14:22:10.428Z",
+  "buildId": "0QfnSpQe7W8cGWcwyAGmG",
+  "cpuIdlePercent": 90.47,
+  "capturedAt": "2026-09-16T14:24:19.612Z",
   "pages": {
     "/": {
-      "performance": 93,
-      "seo": 100,
-      "accessibility": 100,
-      "best-practices": 96,
-      "lcp": 2188,
-      "fcp": 2188,
-      "tbt": 198,
-      "cls": 0,
-      "si": 2735,
-      "runs": [
-        91,
-        94,
-        93
-      ]
-    },
-    "/studio": {
-      "performance": 94,
-      "seo": 100,
-      "accessibility": 100,
-      "best-practices": 96,
-      "lcp": 2395,
-      "fcp": 2234,
-      "tbt": 114,
-      "cls": 0,
-      "si": 2729,
-      "runs": [
-        94,
-        94,
-        94
-      ]
-    },
-    "/studio/recording-song-modiin": {
       "performance": 92,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2182,
-      "fcp": 2182,
-      "tbt": 247,
+      "lcp": 2309,
+      "fcp": 2309,
+      "tbt": 217,
       "cls": 0,
-      "si": 2481,
+      "si": 2856,
       "runs": [
         92,
         92,
+        92
+      ]
+    },
+    "/studio": {
+      "performance": 93,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 2485,
+      "fcp": 2314,
+      "tbt": 148,
+      "cls": 0,
+      "si": 2836,
+      "runs": [
+        93,
+        93,
         93
+      ]
+    },
+    "/studio/recording-song-modiin": {
+      "performance": 91,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 2295,
+      "fcp": 2295,
+      "tbt": 240,
+      "cls": 0,
+      "si": 2586,
+      "runs": [
+        91,
+        92,
+        91
       ]
     },
     "/book": {
-      "performance": 96,
+      "performance": 95,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2121,
-      "fcp": 2121,
-      "tbt": 129,
+      "lcp": 2177,
+      "fcp": 2177,
+      "tbt": 141,
       "cls": 0.001,
-      "si": 2632,
+      "si": 2686,
       "runs": [
-        96,
-        96,
-        96
+        95,
+        95,
+        95
       ]
     },
     "/blog/prepare-voice-podcast-studio": {
-      "performance": 94,
+      "performance": 93,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2403,
-      "fcp": 2245,
-      "tbt": 131,
+      "lcp": 2470,
+      "fcp": 2298,
+      "tbt": 138,
       "cls": 0.002,
-      "si": 2772,
+      "si": 2841,
       "runs": [
-        94,
-        94,
+        93,
+        93,
         93
       ]
     }
-  }
+  },
+  "gitHead": "63c2908"
 }
