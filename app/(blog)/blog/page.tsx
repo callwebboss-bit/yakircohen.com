@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { permanentRedirect } from "next/navigation";
 import BlogFeaturedStrip from "@/components/blog/BlogFeaturedStrip";
 import ArticleFeed, {
   type BlogPost as FeedPost,
@@ -248,7 +249,7 @@ function CategoryFilterChips({ activeId }: { activeId?: string }) {
       {BLOG_FILTER_CATEGORIES.map((c) => (
         <Link
           key={c.id}
-          href={pageHref(1, c.id)}
+          href={`/blog/category/${c.id}`}
           aria-current={activeId === c.id ? "true" : undefined}
           className={cn(chipClass, activeId === c.id ? activeClass : inactiveClass)}
         >
@@ -264,6 +265,12 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
   const activeCategoryId = BLOG_FILTER_CATEGORIES.some((c) => c.id === categoryParam)
     ? categoryParam
     : undefined;
+
+  /* ?category= היה סינון בצד שרת שסומן noindex. עכשיו לכל קטגוריה עמוד
+     סטטי משלה, וקישורים ישנים ממשיכים לעבוד דרך הפניה קבועה. */
+  if (activeCategoryId) {
+    permanentRedirect(`/blog/category/${activeCategoryId}`);
+  }
   const filteredPosts = getFilteredPosts(activeCategoryId);
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
   const currentPage = clampPage(pageParam, totalPages);

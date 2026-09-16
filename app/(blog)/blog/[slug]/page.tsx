@@ -20,6 +20,7 @@ import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { FOUNDER_NAME } from "@/lib/constants";
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
+import { getFilterCategoryId } from "@/lib/data/blog-categories";
 import { constructMetadata } from "@/lib/metadata";
 import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -73,6 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   /* Canonical URL - pre-resolved server-side so SocialShare receives a static
      string prop. This eliminates any hydration delta between the server render
      (which has no window.location) and the first client paint. */
+  const categoryId = getFilterCategoryId(post.category);
   const canonical = absoluteUrl(`blog/${slug}`);
 
   /* Resolve service-aware CTA content from the post's relatedServiceSlug.
@@ -134,8 +136,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               className="text-sm font-medium text-brand-red transition-colors hover:text-brand-red-light"
             > חזרה למגזין
             </Link>
-            <p className="mt-8 text-xs font-semibold tracking-[0.2em] text-brand-red/80 uppercase">
-              {post.category}
+            <p className="mt-8 text-xs font-semibold tracking-[0.2em] uppercase">
+              {categoryId ? (
+                <Link
+                  href={`/blog/category/${categoryId}`}
+                  className="text-brand-red-text hover:underline"
+                >
+                  {post.category}
+                </Link>
+              ) : (
+                <span className="text-brand-red-text">{post.category}</span>
+              )}
             </p>
             <h1
               id="article-heading"

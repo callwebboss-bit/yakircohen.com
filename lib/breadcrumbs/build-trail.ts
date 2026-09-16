@@ -16,6 +16,7 @@ import {
   BREADCRUMB_PATH_OVERRIDES,
   BREADCRUMB_SEGMENT_LABELS,
 } from "@/lib/breadcrumbs/segment-labels";
+import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
 
 export type BreadcrumbItem = {
   href: string;
@@ -60,6 +61,18 @@ export function buildBreadcrumbTrail(pathname: string): BreadcrumbItem[] {
         href: normalized,
         label: postTitle ?? labelForPath(normalized),
       },
+    ];
+  }
+
+  /* /blog/category/<id>: המקטע "category" אינו עמוד, ולכן הוא לא מקבל פירור
+     משלו (הפירור היה מציג "category" באנגלית ומקשר ל-404). הפירור האחרון
+     הוא שם הדלי כפי שהוא מוגדר ב-blog-categories.ts. */
+  if (segments[0] === "blog" && segments[1] === "category" && segments.length === 3) {
+    const category = BLOG_FILTER_CATEGORIES.find((c) => c.id === segments[2]);
+    return [
+      HOME,
+      { href: "/blog", label: BREADCRUMB_SEGMENT_LABELS.blog },
+      { href: normalized, label: category?.label ?? labelForPath(normalized) },
     ];
   }
 
