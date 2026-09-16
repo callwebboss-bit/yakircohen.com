@@ -86,9 +86,9 @@ export default function LazyYouTubePlayer({
           type="button"
           className="group absolute inset-0 h-full w-full transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
           onClick={() => setIsActive(true)}
-          /* בלי נקודתיים: הטקסט הגלוי בכפתור הוא watchLabel ואחריו כותרת הסרטון,
-             והשם הנגיש חייב להכיל אותו כמחרוזת רציפה (axe label-content-name-mismatch). */
-          aria-label={`${watchLabel} ${title}`}
+          /* בלי aria-label: השם הנגיש נגזר מהתוכן הגלוי, watchLabel ואחריו כותרת
+             הסרטון (שאינה עוד aria-hidden). כל נוסח נפרד נכשל ב-axe
+             label-content-name-mismatch על 11 מ-12 התבניות (16.9.2026). */
         >
           <Image
             src={thumbnailSrc}
@@ -148,10 +148,7 @@ export default function LazyYouTubePlayer({
           </div>
 
           {/* ── Video title - bottom of frame ── */}
-          <p
-            className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90"
-            aria-hidden="true"
-          >
+          <p className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90">
             {title}
           </p>
         </button>

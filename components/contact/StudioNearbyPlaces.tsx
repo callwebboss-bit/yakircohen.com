@@ -62,7 +62,7 @@ export default function StudioNearbyPlaces() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-4 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-                        aria-label={`ניווט ל${place.name} במפות`}
+                        aria-label={`ניווט במפות ל${place.name}`}
                       >
                         ניווט במפות
                       </a>

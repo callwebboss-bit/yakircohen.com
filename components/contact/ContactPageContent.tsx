@@ -401,7 +401,6 @@ export default function ContactPageContent() {
         target="_blank"
         rel="noopener noreferrer"
         className="flex min-h-12 items-center gap-4 border-b border-brand-red/30 bg-brand-red/8 px-4 py-3 transition-colors hover:bg-brand-red/12 sm:px-8"
-        aria-label="זמינות מהירה לפרויקט מהיום להיום"
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-60" />
@@ -829,7 +828,6 @@ export default function ContactPageContent() {
           <a
             href={`tel:${CONTACT_PHONE_E164}`}
             className="touch-target flex min-h-11 flex-col items-center justify-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            aria-label="התקשרו"
           >
             <span className="text-xl" aria-hidden="true">
               📞
@@ -844,7 +842,6 @@ export default function ContactPageContent() {
             target="_blank"
             rel="noopener noreferrer"
             className="touch-target flex min-h-11 flex-col items-center justify-center gap-1 rounded-xl border border-border bg-surface px-4 py-4 text-center transition-colors hover:border-brand-red/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            aria-label="וואטסאפ"
           >
             <span className="text-xl" aria-hidden="true">
               💬
@@ -908,7 +905,6 @@ export default function ContactPageContent() {
         target="_blank"
         rel="noopener noreferrer"
         className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-center gap-2 bg-[#178741] px-4 py-4 text-sm font-bold text-white shadow-[0_-4px_20px_rgba(0,0,0,0.12)] md:hidden"
-        aria-label="שלחו וואטסאפ"
       >
         שלחו הודעה בוואטסאפ
       </a>

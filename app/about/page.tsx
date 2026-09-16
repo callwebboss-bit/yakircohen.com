@@ -170,7 +170,6 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl px-7 shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
-                aria-label="פתיחת שיחת וואטסאפ עם יקיר כהן הפקות"
               >
                 קבלו הצעת מחיר בוואטסאפ </Button>
               <Link
@@ -200,7 +199,6 @@ export default function AboutPage() {
                 key={card.href}
                 href={card.href}
                 className="group relative overflow-hidden rounded-2xl bg-surface"
-                aria-label={card.label}
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
@@ -389,7 +387,6 @@ export default function AboutPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 gap-2 rounded-xl px-7 shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
-              aria-label="פתיחת שיחת וואטסאפ עם יקיר כהן הפקות"
             >
               <svg
                 viewBox="0 0 24 24"

@@ -51,7 +51,6 @@ export default function LazyClickEmbed({
           type="button"
           onClick={() => setActive(true)}
           className="group absolute inset-0 flex w-full flex-col items-center justify-center gap-5 bg-black/92 px-6 text-center transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
-          aria-label={`${hint}: ${title}`}
         >
           <p className="text-[0.65rem] font-bold tracking-[0.25em] text-white/70 uppercase">
             לחצו לצפייה
