@@ -61,6 +61,7 @@
     "audit:client-data": "tsx scripts/generate-client-data.ts --check",
     "audit:client-data-weight": "node scripts/audit-client-data-weight.mjs",
     "preflight": "node scripts/preflight-deploy.mjs",
+    "deploy:status": "node scripts/deploy-status.mjs",
     "_comment:test:notsx": "גיבוי ל-npm test כשה-node_modules הותקן על מערכת הפעלה אחרת ו-tsx לא רץ. Node 22 מפשיט טיפוסים לבד.",
     "test:notsx": "node --experimental-strip-types --import ./scripts/test-runner/register.mjs --test \"hooks/**/*.test.ts\" \"lib/**/*.test.ts\"",
     "manifest:write": "node scripts/change-manifest.mjs --write",
