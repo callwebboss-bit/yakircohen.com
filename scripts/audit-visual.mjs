@@ -96,6 +96,50 @@ const FREEZE_CSS = `
   * { content-visibility: visible !important; }
 `;
 
+/** כל תמונה עצלה הופכת מיידית, כי headless לא תמיד יורה lazy בגלילה. */
+async function forceEagerImages(tab) {
+  await tab.evaluate(() => {
+    for (const img of document.querySelectorAll('img[loading="lazy"]')) {
+      img.loading = "eager";
+      img.setAttribute("loading", "eager");
+    }
+  });
+}
+
+/**
+ * המתנה מפורשת לכל תמונה, עם תקרה. השהיה קבועה לא יודעת על מה היא ממתינה.
+ *
+ * שני שלבים, ושניהם נדרשים. load בלבד לא הספיק: נמדד 16.9.2026 שצילומים
+ * חזרו עם מלבנים אפורים בדיוק באותם אזורים (82,053 פיקסלים, אותו מספר
+ * בכל הרצה), בזמן ש-naturalWidth כבר היה גדול מאפס. כלומר הבייטים הגיעו
+ * והדפדפן עוד לא פענח את התמונה כשהצילום נלכד. decode ממתין בדיוק לזה.
+ */
+async function waitForImages(tab) {
+  await tab.evaluate(async () => {
+    const pending = [...document.querySelectorAll("img")].filter(
+      (img) => !img.complete || img.naturalWidth === 0,
+    );
+    await Promise.all(
+      pending.map(
+        (img) =>
+          new Promise((resolve) => {
+            const done = () => resolve(undefined);
+            img.addEventListener("load", done, { once: true });
+            img.addEventListener("error", done, { once: true });
+            setTimeout(done, 20_000);
+          }),
+      ),
+    );
+
+    /* שלב שני: פענוח. decode נפתר רק כשהתמונה מוכנה לציור על המסך. */
+    await Promise.all(
+      [...document.querySelectorAll("img")].map((img) =>
+        typeof img.decode === "function" ? img.decode().catch(() => undefined) : undefined,
+      ),
+    );
+  });
+}
+
 async function capture(targetDir) {
   rmSync(targetDir, { recursive: true, force: true });
   const browser = await chromium.launch();
@@ -207,34 +251,15 @@ async function capture(targetDir) {
            עד תחתית העמוד, והבסיס נשמר איתן ריקות. עם eager הן נטענו מיד
            בסטטוס 200, כלומר האתר תקין והכלי היה זה שטעה.
            גולש אמיתי טוען אותן בגלילה רגילה; הצילום צריך את כולן תמיד. */
-        await tab.evaluate(() => {
-          for (const img of document.querySelectorAll('img[loading="lazy"]')) {
-            img.loading = "eager";
-            img.setAttribute("loading", "eager");
-          }
-        });
+        await forceEagerImages(tab);
 
         /* המתנה מפורשת לכל התמונות.
            בלכידת הבסיס הראשונה מטמון אופטימיזציית התמונות היה קר, וכמה
            תמונות עצלות לא הספיקו להיטען. התוצאה: בסיס עם מסגרות ריקות,
            שכל השוואה אליו מדווחת "הבדל" שהוא רק תזמון. השהיה קבועה לא
            פותרת את זה כי היא לא יודעת על מה היא ממתינה. */
-        await tab.evaluate(async () => {
-          const pending = [...document.querySelectorAll("img")].filter(
-            (img) => !img.complete || img.naturalWidth === 0,
-          );
-          await Promise.all(
-            pending.map(
-              (img) =>
-                new Promise((resolve) => {
-                  const done = () => resolve(undefined);
-                  img.addEventListener("load", done, { once: true });
-                  img.addEventListener("error", done, { once: true });
-                  setTimeout(done, 20_000);
-                }),
-            ),
-          );
-        });
+        await waitForImages(tab);
+
         await tab.waitForTimeout(600);
 
         /* תמונה שנשארה ריקה אחרי ההמתנה נרשמת. צילום עם מסגרת ריקה אינו
@@ -245,10 +270,28 @@ async function capture(targetDir) {
               (img) => img.naturalWidth === 0,
             ).length,
         );
+        /* ניסיון שני, ואז כישלון. תמונה שנשארה ריקה מייצרת מלבן אפור
+           בצילום, ואז כל השוואה מדווחת "הבדל" של 82,000 פיקסלים שאינו
+           שינוי באתר. נמדד 16.9.2026 על תמונה אחת בגלריה של
+           /studio/recording-song-modiin, שנכשלה בשתי הרצות שונות ובכל
+           פעם בצד אחר. אזהרה לא הספיקה: היא נבלעה בפלט ואני גיליתי את
+           הבעיה רק מהדיף. עדיף להיכשל בקול, כמו האסרשן על h1 שמתחת. */
         if (emptyImages > 0) {
           process.stdout.write(
-            `\n    ! ${page.path} ברוחב ${viewport.name}: ${emptyImages} תמונות לא נטענו\n`,
+            `\n    ! ${page.path} ברוחב ${viewport.name}: ${emptyImages} תמונות לא נטענו, טוען מחדש\n`,
           );
+          await tab.reload({ waitUntil: "domcontentloaded", timeout: 60_000 });
+          await forceEagerImages(tab);
+          await waitForImages(tab);
+          await tab.waitForTimeout(1_200);
+          const stillEmpty = await tab.evaluate(
+            () => [...document.querySelectorAll("img")].filter((img) => img.naturalWidth === 0).length,
+          );
+          if (stillEmpty > 0) {
+            throw new Error(
+              `${page.path} ברוחב ${viewport.name}: ${stillEmpty} תמונות לא נטענו גם בניסיון השני. הצילום לא נשמר.`,
+            );
+          }
         }
 
         /* צילום של עמוד ריק נראה בדיוק כמו צילום תקין בדיף, ולכן
