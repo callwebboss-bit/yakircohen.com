@@ -50,7 +50,7 @@ function CategoryBadge({
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center rounded-full border border-brand-red/40 bg-brand-red/8 font-semibold uppercase tracking-widest text-brand-red",
+        "inline-flex shrink-0 items-center rounded-full border border-brand-red/40 bg-brand-red/8 font-semibold uppercase tracking-widest text-brand-red-text",
         size === "sm"
           ? "px-2.5 py-0.5 text-[0.65rem]"
           : "px-2 py-0.5 text-[0.6rem]",

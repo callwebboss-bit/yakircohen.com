@@ -27,6 +27,7 @@ export const TEMPLATE_PAGES = [
   { path: "/contact", why: "טופס, מפה, ו-address" },
   { path: "/about", why: "תוכן ארוך, blockquote, ותמונות" },
   { path: "/blog/prepare-voice-podcast-studio", why: "תבנית מאמר, dangerouslySetInnerHTML" },
+  { path: "/blog/category/podcast", why: "עמוד קטגוריה סטטי (16.9.2026): ArticleFeed מלא ושבבי קטגוריות" },
 ];
 
 /** רוחבי הצילום. 375 נייד, 768 טאבלט, 1440 דסקטופ. */

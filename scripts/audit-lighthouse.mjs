@@ -96,13 +96,26 @@ function keepDisplayAwake() {
 }
 const displayAwake = keepDisplayAwake();
 
-function buildId() {
+/**
+ * מזהה הבנייה נלקח מהשרת שנמדד, לא מ-.next של תיקיית הסקריפט. כשמודדים
+ * בנייה של עץ עבודה נקי (~/yakir-clean-wt) בזמן שב-Dropbox יש בנייה אחרת,
+ * הקריאה המקומית רשמה מזהה של בנייה שאף אחד לא מדד (נמצא 16.9.2026).
+ */
+async function buildId() {
   try {
-    return readFileSync(join(ROOT, ".next", "BUILD_ID"), "utf8").trim();
+    const html = await (await fetch(ORIGIN + "/", { signal: AbortSignal.timeout(15_000) })).text();
+    const m = html.match(/\/_next\/static\/([^/]+)\/_buildManifest\.js/);
+    if (m) return m[1];
+  } catch {
+    /* השרת לא ענה; נופלים לקובץ המקומי ומסמנים זאת */
+  }
+  try {
+    return readFileSync(join(ROOT, ".next", "BUILD_ID"), "utf8").trim() + " (מקומי, לא מהשרת)";
   } catch {
     return "unknown";
   }
 }
+const BUILD_ID = await buildId();
 
 /**
  * אחוז המעבד הפנוי ברגע המדידה.
@@ -243,7 +256,7 @@ function report(pages) {
     throttling: "devtools",
     formFactor: "mobile",
     runs: RUNS,
-    buildId: buildId(),
+    buildId: BUILD_ID,
     cpuIdlePercent: idleBefore,
     capturedAt: new Date().toISOString(),
     pages,
@@ -253,7 +266,7 @@ function report(pages) {
 const idleBefore = cpuIdle();
 
 console.log("Lighthouse נייד, " + LIGHTHOUSE_PAGES.length + " תבניות, " + RUNS + " הרצות לכל אחת");
-console.log("  שרת: " + ORIGIN + " · בנייה: " + buildId());
+console.log("  שרת: " + ORIGIN + " · בנייה: " + BUILD_ID);
 console.log("  מעבד פנוי: " + (idleBefore === null ? "לא נמדד" : idleBefore + "%"));
 
 if (idleBefore !== null && idleBefore < 70) {
