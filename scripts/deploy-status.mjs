@@ -173,7 +173,10 @@ if (!existsSync(nmPath)) {
   if (topLevel < 100) {
     lines.push(bad(`node_modules מכיל ${topLevel} ערכים בלבד`));
     problems.push(
-      `node_modules נראה קטוע (${topLevel} ערכים). זה המצב כשסנכרון עוד רץ או שההתקנה נקטעה. תיקון: למחוק ולהריץ npm ci מחדש.`,
+      `node_modules נראה קטוע (${topLevel} ערכים, ה-lock מצהיר על כ-594). הסיבה הנפוצה: ` +
+        `npm ci מוחק את התיקייה ויוצר אותה מחדש, ולכן הדגל אבד לאורך ההתקנה ו-Dropbox ` +
+        `סנכרן אותה באמצע. תיקון: להשהות סנכרון ב-Dropbox, npm ci, ורק אז לחדש. ` +
+        `ה-postinstall מחזיר את הדגל בסוף ההתקנה.`,
     );
   } else {
     lines.push(ok(`${topLevel} חבילות ברמה העליונה`));
