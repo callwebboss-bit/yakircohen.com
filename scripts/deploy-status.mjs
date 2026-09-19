@@ -16,7 +16,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { accessSync, constants as fsConstants, existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -147,6 +147,63 @@ if (!existsSync(nmPath)) {
   }
   if (foreign.length > 0 && mine.length > 0)
     lines.push(info(`יש גם בינארי של ${foreign.join(", ")}, שריד מסנכרון ישן`));
+
+  /* הרשאת הרצה, ולא רק קיום. ב-19.9.2026 ההתקנה של ווינדוס סונכרנה למק,
+     ו-node_modules/.bin/tsx הגיע כ--rw-------. הבדיקה למעלה עברה, כי
+     התיקייה של esbuild הייתה קיימת, וכל סקריפט tsx נפל על Permission
+     denied. בדיקה שעוברת על התקנה שבורה גרועה מבדיקה שלא קיימת. */
+  if (!IS_WINDOWS) {
+    const tsxBin = join(nmPath, ".bin", "tsx");
+    if (existsSync(tsxBin)) {
+      try {
+        accessSync(tsxBin, fsConstants.X_OK);
+        lines.push(ok("node_modules/.bin/tsx ניתן להרצה"));
+      } catch {
+        lines.push(bad("node_modules/.bin/tsx קיים אבל אינו ניתן להרצה"));
+        problems.push(
+          "הרשאות ההרצה ב-node_modules/.bin אבדו, סימן מובהק להתקנה שסונכרנה ממכונה אחרת. תיקון: למחוק את node_modules ולהריץ npm ci.",
+        );
+      }
+    }
+  }
+
+  /* התקנה קטועה או סנכרון באמצע. התקנה תקינה כאן היא מאות ערכים; ב-19.9
+     נמצאו 34 בלבד, והבדיקות למעלה לא ראו בזה בעיה. */
+  const topLevel = readdirSync(nmPath).filter((d) => !d.startsWith(".")).length;
+  if (topLevel < 100) {
+    lines.push(bad(`node_modules מכיל ${topLevel} ערכים בלבד`));
+    problems.push(
+      `node_modules נראה קטוע (${topLevel} ערכים). זה המצב כשסנכרון עוד רץ או שההתקנה נקטעה. תיקון: למחוק ולהריץ npm ci מחדש.`,
+    );
+  } else {
+    lines.push(ok(`${topLevel} חבילות ברמה העליונה`));
+  }
+}
+
+/* ---------- עותקים מתנגשים של Dropbox ---------- */
+{
+  const conflicts = [];
+  const scan = (dir, depth) => {
+    if (depth > 2 || !existsSync(dir)) return;
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.name.includes("conflicted copy")) conflicts.push(entry.name);
+      else if (entry.isDirectory() && depth < 2) scan(join(dir, entry.name), depth + 1);
+    }
+  };
+  try {
+    for (const dir of [".next", "node_modules"]) scan(join(ROOT, dir), 0);
+  } catch {
+    /* תיקייה שנמחקת תוך כדי סריקה אינה שגיאה */
+  }
+  if (conflicts.length > 0) {
+    lines.push("");
+    lines.push("עותקים מתנגשים");
+    lines.push(bad(`${conflicts.length} עותקים מתנגשים של Dropbox בתיקיות הבנייה`));
+    for (const name of conflicts.slice(0, 3)) lines.push("      " + name);
+    problems.push(
+      "יש עותקים מתנגשים בתיקיות הבנייה, כלומר שתי המכונות כתבו לאותו קובץ. תיקון: למחוק את .next ואת node_modules, ליצור מחדש, ולהריץ npm run dropbox:ignore ואז npm ci.",
+    );
+  }
 }
 
 /* ---------- בנייה ---------- */

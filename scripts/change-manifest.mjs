@@ -27,8 +27,22 @@ function git(args) {
   });
 }
 
+/* רשימת סיומות בינאריות, כדי לא לנרמל בתים של תמונה או אודיו. */
+const BINARY = /\.(png|jpe?g|webp|avif|gif|ico|mp3|mp4|wav|woff2?|pdf|wasm)$/i;
+
+/**
+ * חותם התוכן, אחרי נרמול קצה שורה בקבצי טקסט.
+ *
+ * למה: עץ העבודה מסונכרן ב-Dropbox בין מק לווינדוס, ולכן אותו קובץ יכול
+ * להיות CRLF במכונה אחת ו-LF בשנייה בזמן שהאינדקס של git זהה בשתיהן
+ * (נמדד 19.9.2026: 786 קבצים w/crlf מול i/lf). חותם על הבתים הגולמיים
+ * היה מדווח "התוכן שונה מאז החותם" על קובץ שאיש לא נגע בו, והחותם היה
+ * מאבד את מי שמקשיב לו.
+ */
 function sha(file) {
-  return createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 16);
+  const buf = fs.readFileSync(file);
+  const payload = BINARY.test(file) ? buf : Buffer.from(buf.toString("utf8").replace(/\r\n/g, "\n"), "utf8");
+  return createHash("sha256").update(payload).digest("hex").slice(0, 16);
 }
 
 /** כל מה ששונה מול HEAD: שונה, חדש, נמחק */
