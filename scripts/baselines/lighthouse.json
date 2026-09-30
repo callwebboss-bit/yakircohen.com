@@ -4,90 +4,90 @@
   "throttling": "devtools",
   "formFactor": "mobile",
   "runs": 3,
-  "buildId": "0QfnSpQe7W8cGWcwyAGmG",
-  "cpuIdlePercent": 90.47,
-  "capturedAt": "2026-09-16T14:24:19.612Z",
+  "buildId": "RXsD4N5enptVnW8LtyE0w",
+  "cpuIdlePercent": 82.67,
+  "capturedAt": "2026-09-30T23:18:19.697Z",
   "pages": {
     "/": {
-      "performance": 92,
-      "seo": 100,
-      "accessibility": 100,
-      "best-practices": 96,
-      "lcp": 2309,
-      "fcp": 2309,
-      "tbt": 217,
-      "cls": 0,
-      "si": 2856,
-      "runs": [
-        92,
-        92,
-        92
-      ]
-    },
-    "/studio": {
-      "performance": 93,
-      "seo": 100,
-      "accessibility": 100,
-      "best-practices": 96,
-      "lcp": 2485,
-      "fcp": 2314,
-      "tbt": 148,
-      "cls": 0,
-      "si": 2836,
-      "runs": [
-        93,
-        93,
-        93
-      ]
-    },
-    "/studio/recording-song-modiin": {
-      "performance": 91,
-      "seo": 100,
-      "accessibility": 100,
-      "best-practices": 96,
-      "lcp": 2295,
-      "fcp": 2295,
-      "tbt": 240,
-      "cls": 0,
-      "si": 2586,
-      "runs": [
-        91,
-        92,
-        91
-      ]
-    },
-    "/book": {
       "performance": 95,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2177,
-      "fcp": 2177,
-      "tbt": 141,
-      "cls": 0.001,
-      "si": 2686,
+      "lcp": 2153,
+      "fcp": 2153,
+      "tbt": 150,
+      "cls": 0,
+      "si": 2620,
       "runs": [
         95,
         95,
         95
       ]
     },
-    "/blog/prepare-voice-podcast-studio": {
-      "performance": 93,
+    "/studio": {
+      "performance": 95,
       "seo": 100,
       "accessibility": 100,
       "best-practices": 96,
-      "lcp": 2470,
-      "fcp": 2298,
-      "tbt": 138,
-      "cls": 0.002,
-      "si": 2841,
+      "lcp": 2286,
+      "fcp": 2166,
+      "tbt": 99,
+      "cls": 0,
+      "si": 2591,
       "runs": [
-        93,
-        93,
-        93
+        95,
+        95,
+        95
+      ]
+    },
+    "/studio/recording-song-modiin": {
+      "performance": 94,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 2132,
+      "fcp": 2132,
+      "tbt": 172,
+      "cls": 0,
+      "si": 2319,
+      "runs": [
+        94,
+        95,
+        94
+      ]
+    },
+    "/book": {
+      "performance": 97,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 1995,
+      "fcp": 1995,
+      "tbt": 97,
+      "cls": 0.001,
+      "si": 2432,
+      "runs": [
+        97,
+        97,
+        97
+      ]
+    },
+    "/blog/prepare-voice-podcast-studio": {
+      "performance": 95,
+      "seo": 100,
+      "accessibility": 100,
+      "best-practices": 96,
+      "lcp": 2301,
+      "fcp": 2129,
+      "tbt": 110,
+      "cls": 0.002,
+      "si": 2564,
+      "runs": [
+        96,
+        95,
+        95
       ]
     }
   },
-  "gitHead": "63c2908"
+  "gitHead": "c375b2c"
 }
