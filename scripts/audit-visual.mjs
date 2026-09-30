@@ -58,6 +58,13 @@ const DIFF_DIR = join(OUT, "diff");
    הייתה 0 פיקסלים, ולכן 40 עדיין מעל הרעש ומתחת לאייקון הקטן ביותר.
    סבב ביקורת 16.9.2026. אם יופיע רעש, להעלות לפי המדידה ולא לפי הרגשה. */
 const CHANGED_PIXELS = Number(process.env.VISUAL_PIXELS ?? 40);
+
+/* מסננים להרצה ממוקדת בזמן שמתקנים את השער עצמו. ריק = הכול.
+   VISUAL_ONLY=podcast,studio  ·  VISUAL_WIDTHS=1440 */
+const ONLY = (process.env.VISUAL_ONLY ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const WIDTHS = (process.env.VISUAL_WIDTHS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const pickPages = (pages) => (ONLY.length ? pages.filter((p) => ONLY.some((o) => p.path.includes(o))) : pages);
+const pickViewports = (views) => (WIDTHS.length ? views.filter((v) => WIDTHS.includes(v.name)) : views);
 /** הפרש ערוץ שנחשב "פיקסל שונה". מתחתיו זה רעש קידוד. */
 const CHANNEL_DELTA = 12;
 
@@ -107,6 +114,40 @@ async function forceEagerImages(tab) {
 }
 
 /**
+ * תמונה שנכשלה: טעינה חוזרת עם פרמטר שעוקף מטמון. מחזיר כמה נמצאו שבורות.
+ *
+ * נמצא 30.9.2026: התמונה מדווחת complete=true עם naturalWidth=0, כלומר
+ * הדפדפן סיים ונכשל. המקור תקין והשרת מחזיר 200. הבקשה הראשונה נופלת על
+ * מטמון קר של מאופטם התמונות של Next, והדפדפן שומר את הכישלון לאותה
+ * כתובת: גם רענון עמוד מקבל את הכישלון השמור. נבדק בדפדפן: אותה כתובת
+ * בדיוק עם פרמטר שעוקף מטמון נטענת מיד, ב-1920 פיקסלים.
+ *
+ * זה מסביר את כל אי-היציבות של השער. כל צילום פותח הקשר חדש עם מטמון
+ * ריק, ולכן הצילום הראשון אחרי בנייה טרייה איבד תמונה והשני לא. ההפרשים
+ * שנמדדו, 82,053 פיקסלים שוב ושוב, היו תמיד אריח גלריה אחד בדיוק.
+ */
+async function retryFailedImages(tab) {
+  return tab.evaluate(async () => {
+    const broken = [...document.querySelectorAll("img")].filter(
+      (img) => img.complete && img.naturalWidth === 0 && img.src,
+    );
+    await Promise.all(
+      broken.map((img) => {
+        const src = img.src;
+        return new Promise((resolve) => {
+          const done = () => resolve(undefined);
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+          setTimeout(done, 30_000);
+          img.src = src + (src.includes("?") ? "&" : "?") + "__visualRetry=1";
+        });
+      }),
+    );
+    return broken.length;
+  });
+}
+
+/**
  * המתנה מפורשת לכל תמונה, עם תקרה. השהיה קבועה לא יודעת על מה היא ממתינה.
  *
  * שני שלבים, ושניהם נדרשים. load בלבד לא הספיק: נמדד 16.9.2026 שצילומים
@@ -141,12 +182,15 @@ async function waitForImages(tab) {
 }
 
 async function capture(targetDir) {
-  rmSync(targetDir, { recursive: true, force: true });
+  /* מסנן פעיל: לא מוחקים את השאר, אחרת הרצה ממוקדת מוחקת את כל הבסיס. */
+  if (ONLY.length === 0 && WIDTHS.length === 0) {
+    rmSync(targetDir, { recursive: true, force: true });
+  }
   const browser = await chromium.launch();
   let shots = 0;
 
   try {
-    for (const viewport of VIEWPORTS) {
+    for (const viewport of pickViewports(VIEWPORTS)) {
       mkdirSync(join(targetDir, viewport.name), { recursive: true });
       const context = await browser.newContext({
         viewport: { width: viewport.width, height: viewport.height },
@@ -208,7 +252,7 @@ async function capture(targetDir) {
         window.setInterval = () => 0;
       });
 
-      for (const page of TEMPLATE_PAGES) {
+      for (const page of pickPages(TEMPLATE_PAGES)) {
         const tab = await context.newPage();
 
         /* למה load ולא networkidle, ולמה כישלון בהמתנה אינו עוצר:
@@ -270,28 +314,10 @@ async function capture(targetDir) {
               (img) => img.naturalWidth === 0,
             ).length,
         );
-        /* ניסיון שני, ואז כישלון. תמונה שנשארה ריקה מייצרת מלבן אפור
-           בצילום, ואז כל השוואה מדווחת "הבדל" של 82,000 פיקסלים שאינו
-           שינוי באתר. נמדד 16.9.2026 על תמונה אחת בגלריה של
-           /studio/recording-song-modiin, שנכשלה בשתי הרצות שונות ובכל
-           פעם בצד אחר. אזהרה לא הספיקה: היא נבלעה בפלט ואני גיליתי את
-           הבעיה רק מהדיף. עדיף להיכשל בקול, כמו האסרשן על h1 שמתחת. */
         if (emptyImages > 0) {
-          process.stdout.write(
-            `\n    ! ${page.path} ברוחב ${viewport.name}: ${emptyImages} תמונות לא נטענו, טוען מחדש\n`,
-          );
-          await tab.reload({ waitUntil: "domcontentloaded", timeout: 60_000 });
-          await forceEagerImages(tab);
+          const retried = await retryFailedImages(tab);
+          process.stdout.write(`\n    ! ${page.path} ברוחב ${viewport.name}: ${retried} תמונות נטענו מחדש\n`);
           await waitForImages(tab);
-          await tab.waitForTimeout(1_200);
-          const stillEmpty = await tab.evaluate(
-            () => [...document.querySelectorAll("img")].filter((img) => img.naturalWidth === 0).length,
-          );
-          if (stillEmpty > 0) {
-            throw new Error(
-              `${page.path} ברוחב ${viewport.name}: ${stillEmpty} תמונות לא נטענו גם בניסיון השני. הצילום לא נשמר.`,
-            );
-          }
         }
 
         /* צילום של עמוד ריק נראה בדיוק כמו צילום תקין בדיף, ולכן
@@ -299,6 +325,49 @@ async function capture(targetDir) {
         const headings = await tab.locator("h1").count();
         if (headings === 0) {
           throw new Error(`${page.path} ברוחב ${viewport.name} רונדר בלי h1. הצילום לא נשמר.`);
+        }
+
+        /* גלילה שנייה, ממש לפני הצילום.
+           הגלילה הראשונה קורית לפני המתנת התמונות, כלומר שניות לפני
+           הצילום בפועל. בעמוד של 24,000 פיקסלים הדפדפן מרסטר רק את מה
+           שקרוב לשדה הראייה, והאריחים הרחוקים מפונים מהמטמון. נמדד
+           16.9.2026: שני צילומים של אותה בנייה בדיוק נבדלו ב-82,053
+           ואז ב-318,554 פיקסלים, תמיד באזורי תמונה ותמיד עמוק בעמוד.
+           המעבר הזה מאלץ רסטור טרי של כל רצועה לפני התפירה. */
+        await tab.evaluate(async () => {
+          const step = Math.max(200, Math.floor(window.innerHeight * 0.9));
+          const bottom = () => document.documentElement.scrollHeight - window.innerHeight;
+          for (let y = 0; y <= bottom(); y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => requestAnimationFrame(() => r(undefined)));
+          }
+          window.scrollTo(0, 0);
+          await new Promise((r) => setTimeout(r, 250));
+        });
+
+        /* המתנה אחרונה, אחרי הגלילה וממש לפני הצילום.
+           הגלילה עצמה מרכיבה אריחי גלריה נוספים, והם מתחילים להיטען רק
+           עכשיו. בלי ההמתנה הזו הם עדיין בדרך כשהצילום נלכד, וזה בדיוק
+           מה שקרה ב-/events: אריח אחד חסר בלי שאף אזהרה נורתה, כי בזמן
+           הבדיקה הקודמת הוא עוד לא היה ב-DOM בכלל. */
+        await forceEagerImages(tab);
+        await waitForImages(tab);
+        const lateFailures = await retryFailedImages(tab);
+        if (lateFailures > 0) {
+          await waitForImages(tab);
+          await tab.waitForTimeout(400);
+          const stillBroken = await tab.evaluate(
+            () => [...document.querySelectorAll("img")].filter((img) => img.naturalWidth === 0).length,
+          );
+          process.stdout.write(
+            `\n    ! ${page.path} ברוחב ${viewport.name}: ${lateFailures} תמונות נטענו מחדש לפני הצילום` +
+              (stillBroken > 0 ? `, ${stillBroken} עדיין שבורות\n` : "\n"),
+          );
+          if (stillBroken > 0) {
+            throw new Error(
+              `${page.path} ברוחב ${viewport.name}: ${stillBroken} תמונות לא נטענו גם אחרי טעינה חוזרת. הצילום לא נשמר.`,
+            );
+          }
         }
 
         await tab.screenshot({
@@ -399,7 +468,7 @@ rmSync(DIFF_DIR, { recursive: true, force: true });
    סבב ביקורת 16.9.2026. */
 const findings = [];
 let compared = 0;
-for (const viewport of VIEWPORTS) {
+for (const viewport of pickViewports(VIEWPORTS)) {
   const dir = join(BASE_DIR, viewport.name);
   const curDir = join(CURRENT_DIR, viewport.name);
   const pngs = (d) => (existsSync(d) ? readdirSync(d).filter((f) => f.endsWith(".png")) : []);
@@ -442,7 +511,7 @@ if (findings.length > 0) {
   process.exit(1);
 }
 
-const expected = TEMPLATE_PAGES.length * VIEWPORTS.length;
+const expected = pickPages(TEMPLATE_PAGES).length * pickViewports(VIEWPORTS).length;
 if (compared !== expected) {
   console.error(`\n  ✗ הושוו ${compared} צילומים, צפויים ${expected}. הבסיס אינו מכסה את כל התבניות.`);
   process.exit(1);
