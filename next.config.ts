@@ -36,7 +36,11 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "font-src 'self' data: https://fonts.gstatic.com https://*.elfsight.com",
       "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://region1.google-analytics.com https://*.elfsight.com https://core.service.elfsight.com https://wa.me https://api.whatsapp.com",
-      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com",
+      /* koalendar ו-spotify נוספו 30.9.2026: שניהם ב-iframe באתר
+         (KoalendarModal ו-lib/embed-url), והמדיניות לא הכירה אותם. כל עוד
+         היא Report-Only זה רק רעש בדוחות, אבל אכיפה כמו שהיא הייתה שוברת
+         את קביעת הפגישות ואת נגן הספוטיפיי. */
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com https://koalendar.com https://open.spotify.com",
       "media-src 'self' blob: https:",
       "worker-src 'self' blob:",
     ].join("; "),
