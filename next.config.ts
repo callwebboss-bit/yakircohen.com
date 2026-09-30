@@ -7,6 +7,36 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+/**
+ * יעד הדיווח של ה-CSP, נגזר מה-DSN של Sentry.
+ *
+ * למה: הכותרת נשלחה במצב Report-Only מאז שנוצרה, עם הערה שאומרת שהיא
+ * אוספת הפרות לפני אכיפה, אבל לא היה לה שום יעד. הדפדפן רשם ליומן
+ * המקומי בלבד, כלומר איש לא ראה דבר, ולא הייתה דרך להדק אותה לאכיפה על
+ * סמך נתונים. נמצא בסבב ביקורת 16.9.2026.
+ *
+ * Sentry מקבל דוחות CSP בנקודה ייעודית שנגזרת מה-DSN עצמו:
+ * DSN הוא https://<מפתח>@<מארח>/<פרויקט>, והנקודה היא
+ * https://<מארח>/api/<פרויקט>/security/?sentry_key=<מפתח>.
+ *
+ * בלי DSN אין יעד, והכותרת נשלחת בלעדיו בדיוק כמו קודם. לא מפילים בנייה
+ * בגלל משתנה סביבה חסר.
+ */
+function cspReportEndpoint(): string | null {
+  const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN?.trim();
+  if (!dsn) return null;
+  try {
+    const url = new URL(dsn);
+    const projectId = url.pathname.replace(/^\//, "");
+    if (!url.username || !projectId) return null;
+    return `https://${url.host}/api/${projectId}/security/?sentry_key=${url.username}`;
+  } catch {
+    return null;
+  }
+}
+
+const CSP_REPORT_URI = cspReportEndpoint();
+
 const securityHeaders = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -43,8 +73,14 @@ const securityHeaders = [
       "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com https://koalendar.com https://open.spotify.com",
       "media-src 'self' blob: https:",
       "worker-src 'self' blob:",
+      /* שתי הצורות: report-uri היא הישנה ועדיין הנתמכת ביותר,
+         ו-report-to היא המודרנית שדורשת גם כותרת Reporting-Endpoints. */
+      ...(CSP_REPORT_URI ? [`report-uri ${CSP_REPORT_URI}`, "report-to csp-endpoint"] : []),
     ].join("; "),
   },
+  ...(CSP_REPORT_URI
+    ? [{ key: "Reporting-Endpoints", value: `csp-endpoint="${CSP_REPORT_URI}"` }]
+    : []),
 ];
 
 const nextConfig: NextConfig = {
