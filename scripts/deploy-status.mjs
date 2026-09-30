@@ -185,18 +185,22 @@ if (!existsSync(nmPath)) {
 
 /* ---------- עותקים מתנגשים של Dropbox ---------- */
 {
+  /* עומק 1 בלבד, וזו החלטה מדודה: הגרסה הראשונה סרקה לעומק 2 ולקחה יותר
+     מארבע דקות על Dropbox, כי node_modules הוא 628 חבילות ואלפי תיקיות
+     על מערכת קבצים מרוחקת. פקודת מצב שלוקחת דקות פשוט לא מורצת.
+     העותקים שנמצאו בפועל ב-14.9 וב-19.9 ישבו כולם בעומק 1 תחת .next
+     ותחת node_modules, כלומר כשכנים של התיקיות עצמן. */
   const conflicts = [];
-  const scan = (dir, depth) => {
-    if (depth > 2 || !existsSync(dir)) return;
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      if (entry.name.includes("conflicted copy")) conflicts.push(entry.name);
-      else if (entry.isDirectory() && depth < 2) scan(join(dir, entry.name), depth + 1);
+  for (const dir of [".next", "node_modules"]) {
+    const path = join(ROOT, dir);
+    if (!existsSync(path)) continue;
+    try {
+      for (const name of readdirSync(path)) {
+        if (name.includes("conflicted copy")) conflicts.push(`${dir}/${name}`);
+      }
+    } catch {
+      /* תיקייה שנמחקת תוך כדי סריקה אינה שגיאה */
     }
-  };
-  try {
-    for (const dir of [".next", "node_modules"]) scan(join(ROOT, dir), 0);
-  } catch {
-    /* תיקייה שנמחקת תוך כדי סריקה אינה שגיאה */
   }
   if (conflicts.length > 0) {
     lines.push("");
