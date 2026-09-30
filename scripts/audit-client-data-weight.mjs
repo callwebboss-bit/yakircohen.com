@@ -69,6 +69,11 @@ const ALLOWED = {
  * יכול להוציא חלק מזה מהנתיב הקריטי. הכיוון נכון, המספר המוחלט הוא קירוב.
  */
 const LAYOUT_CLIENT_BASELINE = [
+  /* מאזין מואצל אחד על document למדידת לחיצות וואטסאפ וטלפון. 3.7KB,
+     מייבא רק useEffect ואת trackConversion, ואינו נוגע בשום מאגר תוכן.
+     הוא חייב להיות בכל עמוד מעצם תפקידו: הוא תופס גם קישורים בעמודים
+     שטרם נוצרו, במקום onClick בעשרות רכיבים שיתיישן בעמוד הבא. */
+  "components/analytics/OutboundLeadTracker.tsx",
   "components/booking/SessionRescuerBarLazy.tsx",
   "components/business/CompanyDetailsCard.tsx",
   "components/glossary/GlossaryTooltipProvider.tsx",
