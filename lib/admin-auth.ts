@@ -1,6 +1,11 @@
 import "server-only";
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import {
+  ADMIN_COOKIE_MAX_AGE_SEC,
+  issueSessionValue,
+  verifySessionValue,
+} from "@/lib/admin-session-value";
 
 /**
  * Admin session for /admin/*.
@@ -17,7 +22,6 @@ import { cookies } from "next/headers";
 export const ADMIN_COOKIE_NAME = "yc_admin_session";
 export const ADMIN_LOGIN_PATH = "/admin/login";
 export const ADMIN_HOME_PATH = "/admin/leads";
-const ADMIN_COOKIE_MAX_AGE_SEC = 30 * 24 * 60 * 60;
 
 function expectedToken(): string | null {
   const value = process.env.ADMIN_LEADS_TOKEN?.trim();
@@ -40,30 +44,10 @@ export function verifyAdminToken(candidate: string | null | undefined): boolean 
  * ערך הקוקי: HMAC-SHA256 של קבוע גרסה, עם הסוד כמפתח.
  * שינוי הקבוע מבטל את כל הסשנים הקיימים בלי לגעת ב-env.
  */
-const SESSION_VERSION = "admin-session-v1";
-
-function sessionValue(): string | null {
-  const secret = expectedToken();
-  if (!secret) return null;
-  return createHmac("sha256", secret).update(SESSION_VERSION).digest("hex");
-}
-
-function safeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  try {
-    return timingSafeEqual(Buffer.from(a), Buffer.from(b));
-  } catch {
-    return false;
-  }
-}
-
 /** True when the current request carries a valid admin session cookie. */
 export async function isAdminAuthenticated(): Promise<boolean> {
-  const expected = sessionValue();
-  if (!expected) return false;
   const store = await cookies();
-  const cookie = store.get(ADMIN_COOKIE_NAME)?.value?.trim();
-  return Boolean(cookie) && safeEqual(cookie as string, expected);
+  return verifySessionValue(store.get(ADMIN_COOKIE_NAME)?.value?.trim(), expectedToken());
 }
 
 /** Cookie or `Authorization: Bearer` - for route handlers hit by the browser or by the local Closer. */
@@ -78,7 +62,7 @@ export async function isAdminRequestAuthorized(request: Request): Promise<boolea
 export async function setAdminSessionCookie(token: string): Promise<void> {
   /* מקבל את הסוד, שומר נגזרת. אם הסוד שגוי אין מה לשמור. */
   if (!verifyAdminToken(token)) return;
-  const value = sessionValue();
+  const value = issueSessionValue(expectedToken());
   if (!value) return;
   const store = await cookies();
   store.set({
