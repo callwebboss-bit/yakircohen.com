@@ -18,11 +18,15 @@ import { getDiagnosticForPost } from "@/lib/data/blog-diagnostic";
 import { getBlogNurture } from "@/lib/data/blog-nurture";
 import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
+import {
+  BLOG_OG_BY_THUMBNAIL,
+  BLOG_OG_HEIGHT,
+  BLOG_OG_WIDTH,
+} from "@/lib/data/blog-og.generated";
 import { FOUNDER_NAME } from "@/lib/constants";
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import { getFilterCategoryId } from "@/lib/data/blog-categories";
 import { constructMetadata } from "@/lib/metadata";
-import { DEFAULT_OG_HEIGHT, DEFAULT_OG_WIDTH } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { enhanceBlogHtmlWithGlossary } from "@/lib/sanitize-html";
 import { absoluteUrl } from "@/lib/site-url";
@@ -51,11 +55,17 @@ export async function generateMetadata({
     description: post.seo.description,
     slug: `blog/${post.slug}`,
     keywords: [post.category, "בלוג", "פודקאסט", "אולפן"],
+    /* תמונת השיתוף היא הגרסה שנוצרה ב-1200x630, ולא התמונה הממוזערת.
+       עד 30.9.2026 הוצהר כאן 1200x630 על התמונה הממוזערת עצמה, בזמן שרק
+       7 מתוך 24 באמת עמדו בזה: אחת SVG, שש צרות מ-600 פיקסלים ושבע
+       לאורך. כלומר המידות שהוצהרו לוואטסאפ ולפייסבוק לא תיארו את הקובץ,
+       והתצוגה המקדימה יצאה חתוכה או לא נטענה. הגיבוי לתמונה הממוזערת
+       קיים למקרה שפוסט חדש נוסף לפני הרצת generate:blog-og. */
     ogImage: {
-      path: post.thumbnail,
+      path: BLOG_OG_BY_THUMBNAIL[post.thumbnail] ?? post.thumbnail,
       alt: post.title,
-      width: DEFAULT_OG_WIDTH,
-      height: DEFAULT_OG_HEIGHT,
+      width: BLOG_OG_WIDTH,
+      height: BLOG_OG_HEIGHT,
     },
     article: {
       publishedTime: post.seo.datePublished,
