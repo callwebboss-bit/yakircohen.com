@@ -72,7 +72,7 @@ export default function AudienceLandingPageContent({
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              קבלו הצעה, בדרך כלל תוך 24 שעות
+              קבלו הצעה, בדרך כלל תוך שעה
             </a>
             <Link
               href="/book"

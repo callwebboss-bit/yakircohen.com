@@ -63,7 +63,7 @@ export type CTABannerProps = {
 
 export default function CTABanner({
   heading = "מוכנים להתחיל את הפרויקט שלכם?",
-  body = `ייעוץ ראשוני ללא עלות, מענה אישי ${TIME_CLAIMS.quote24h}, ללא התחייבות.`,
+  body = `ייעוץ ראשוני ללא עלות, מענה אישי ${TIME_CLAIMS.quoteHour}, ללא התחייבות.`,
   ctaLabel = "שוחחו איתנו בוואטסאפ",
   whatsappMessage = "שלום, הגעתי מהאתר ואשמח לשמוע על השירותים.",
   utm_campaign = "blog_cta",

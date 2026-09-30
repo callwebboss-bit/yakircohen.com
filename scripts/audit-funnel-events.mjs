@@ -23,6 +23,10 @@ const GA4_MICRO_CONVERSIONS = [
   "whatsapp_fab_click",
   "thank_you_upsell_click",
   "shop_cta_click",
+  /* נוספו 30.9.2026: המדידה של ה-CTA שרוב הגולשים רואים. ראו
+     components/analytics/OutboundLeadTracker.tsx */
+  "whatsapp_cta_click",
+  "phone_call_click",
 ];
 
 function walk(dir, out = []) {

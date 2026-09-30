@@ -110,7 +110,7 @@ export default function IntakeStepSummary({
           disabled={isSubmitting}
           onClick={onSubmit}
         >
-          📩 {OUTCOME_CTA.quote24h}
+          📩 {OUTCOME_CTA.quoteHour}
         </Button>
         <Button
           type="button"

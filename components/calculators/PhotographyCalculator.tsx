@@ -367,6 +367,11 @@ export default function PhotographyCalculator({
           <div className="mb-4 rounded-xl border border-border bg-background p-4">
             <p className="mb-0.5 text-xs font-semibold text-brand-red">{pkgName}</p>
             <p className="text-sm text-muted-foreground">{pkgSub}</p>
+            {/* סרגל הסיכום מציג "לפני מע״מ" רק מ-sm ומעלה, ולכן במובייל אין
+                לגולש שום ציון מע״מ. הסכומים כאן גלויים בכל רוחב. */}
+            <p className="mt-2 text-[0.7rem] text-muted-foreground">
+              כל המחירים בעמוד הזה לפני מע״מ.
+            </p>
           </div>
 
           <div className="rounded-xl border border-border bg-background p-4">
@@ -390,7 +395,7 @@ export default function PhotographyCalculator({
               <span>16 שעות</span>
             </div>
             <p className="mt-2 text-center text-[0.65rem] text-muted-foreground">
-              {formatCurrency(HOURLY_RATE)} לשעה - כולל עריכה ומסירה דיגיטלית
+              {formatCurrency(HOURLY_RATE)} לשעה לפני מע״מ - כולל עריכה ומסירה דיגיטלית
             </p>
           </div>
         </section>

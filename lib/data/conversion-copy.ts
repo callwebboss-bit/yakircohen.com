@@ -8,10 +8,15 @@ import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 export const TIME_PROMISE_DISCLAIMER =
   'בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט.';
 
+/*
+ * הבטחת מענה להצעה מאוחדת ל"תוך שעה" (החלטת הבעלים 8.9.2026, סעיף 9).
+ * הבטחות מסירה נשארות 24 שעות והן דבר אחר לגמרי, ולכן podcastDelivery24h
+ * לא משתנה. שם המפתח נושא את המספר בכוונה, כדי ששינוי ערך יחייב שינוי שם.
+ */
 export const TIME_CLAIMS = {
-  quote24h: "בדרך כלל תוך 24 שעות",
-  quote24hCta: 'קבלו הצעה, בדרך כלל תוך 24 שעות',
-  headerQuote24h: '📩 הצעה, בדרך כלל תוך שעה',
+  quoteHour: "בדרך כלל תוך שעה",
+  quoteHourCta: 'קבלו הצעה, בדרך כלל תוך שעה',
+  headerQuoteHour: '📩 הצעה, בדרך כלל תוך שעה',
   bookPriceCheck: "בדקו מחיר במחשבון",
   podcastDelivery24h: "בדרך כלל מוכן תוך 24 שעות",
   podcastValueFrame: "תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי",
@@ -24,7 +29,7 @@ export const TIME_CLAIMS = {
 } as const;
 
 export const OUTCOME_CTA = {
-  quote24h: "קבלו הצעה תוך 24 שעות",
+  quoteHour: "קבלו הצעה תוך שעה",
   startMinute: "תתחילו לעבוד תוך דקה",
   heroBookNoCommit: "📩 קבעו שיחה - בלי התחייבות",
   heroSendFile: "📤 שלחו קובץ",
@@ -33,7 +38,7 @@ export const OUTCOME_CTA = {
   /** Hero דף הבית - משני, מוביל ל-/online */
   heroSendFileFixed: "📤 שלחו קובץ - חוזר מתוקן",
   /** ברירת מחדל ל-hero של דפי שירות דקים (וואטסאפ) */
-  waQuote24h: "📩 קבלו הצעה בוואטסאפ - תוך 24 שעות",
+  waQuoteHour: "📩 קבלו הצעה בוואטסאפ - תוך שעה",
 } as const;
 
 export const FORCE_MAJEURE_REASSURANCE =
@@ -59,9 +64,9 @@ export const CTA_LABELS = {
   /** כרטיס התאמה ב-/book - מחיר משתנה */
   getQuote: "קבלו הצעת מחיר",
   /** תפריט דביק, מלא בדסקטופ */
-  headerQuote24h: TIME_CLAIMS.headerQuote24h,
+  headerQuoteHour: TIME_CLAIMS.headerQuoteHour,
   /** תפריט דביק, קומפקטי במובייל */
-  headerQuote24hShort: "📩 הצעה",
+  headerQuoteHourShort: "📩 הצעה",
 } as const;
 
 export function whatsappQuoteCta(serviceLabel: string, priceExVat: number): string {

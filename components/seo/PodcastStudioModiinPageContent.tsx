@@ -48,13 +48,13 @@ export default function PodcastStudioModiinPageContent() {
   return (
     <ServicePageLayout
       title="השכרת סטודיו לפודקאסט במודיעין"
-      subtitle={`פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום ${TIME_CLAIMS.quote24h}.`}
+      subtitle={`פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום ${TIME_CLAIMS.quoteHour}.`}
       features={STUDIO_MODIIN_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
       corporateShareLabel="השכרת אולפן פודקאסט במודיעין"
       bookSlug="podcast/podcast-studio-modiin"
-      ctaLabel={`קביעת מקום, ${TIME_CLAIMS.quote24h}`}
+      ctaLabel={`קביעת מקום, ${TIME_CLAIMS.quoteHour}`}
       pagePath="/podcast/podcast-studio-modiin"
       faqs={STUDIO_MODIIN_FAQS}
       {...heroProps}
@@ -182,7 +182,7 @@ export default function PodcastStudioModiinPageContent() {
             id="studio-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים להקליט? קביעת מקום, {TIME_CLAIMS.quote24h}
+            מוכנים להקליט? קביעת מקום, {TIME_CLAIMS.quoteHour}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
             אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. הפודקאסט שלכם
@@ -190,7 +190,7 @@ export default function PodcastStudioModiinPageContent() {
           </p>
           <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             {[
-              `קביעת מקום, ${TIME_CLAIMS.quote24h}`,
+              `קביעת מקום, ${TIME_CLAIMS.quoteHour}`,
               "קריינות אנושית - ללא AI-רובוטי",
               "ליווי טכני מלא",
             ].map((item) => (

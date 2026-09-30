@@ -65,7 +65,7 @@ export default function BookIntentPaths() {
                     </p>
                   ) : (
                     <p className="mt-2 text-xs text-muted-foreground">
-                      הצעה מותאמת, {TIME_CLAIMS.quote24h}
+                      הצעה מותאמת, {TIME_CLAIMS.quoteHour}
                     </p>
                   )}
                   {/* עוגן רגיל ולא next/link - כדי ש-hashchange יפתח את הוויזארד */}

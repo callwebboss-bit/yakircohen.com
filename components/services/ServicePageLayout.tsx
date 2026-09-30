@@ -224,7 +224,7 @@ export default function ServicePageLayout({
   startingPrice,
   utmCampaign,
   children,
-  ctaLabel = OUTCOME_CTA.waQuote24h,
+  ctaLabel = OUTCOME_CTA.waQuoteHour,
   scarcityLabel,
   className,
   heroImageSrc,

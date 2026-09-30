@@ -378,7 +378,7 @@ export default function ConfettiCannonPageContent() {
             id="confetti-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            רוצים תותח קונפטי לאירוע? קבלו הצעה, בדרך כלל תוך 24 שעות
+            רוצים תותח קונפטי לאירוע? קבלו הצעה, בדרך כלל תוך שעה
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             תאריך, סוג אירוע ומיקום - נחזור עם הצעה. גם בטלפון:{" "}
@@ -403,7 +403,7 @@ export default function ConfettiCannonPageContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            קבלו הצעה, בדרך כלל תוך 24 שעות
+            קבלו הצעה, בדרך כלל תוך שעה
           </a>
           <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}

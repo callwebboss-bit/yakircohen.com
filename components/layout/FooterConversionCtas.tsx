@@ -3,7 +3,7 @@ import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const quoteWhatsAppHref = buildWhatsAppHref({
-  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quote24h}.`,
+  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
   utm_source: "website",
   utm_campaign: "footer_quote_cta",
 });
@@ -23,7 +23,7 @@ const PRIMARY_CTAS = [
   },
   {
     href: quoteWhatsAppHref,
-    label: TIME_CLAIMS.quote24hCta,
+    label: TIME_CLAIMS.quoteHourCta,
     external: true,
     variant: "whatsapp" as const,
   },

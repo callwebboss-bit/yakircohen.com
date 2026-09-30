@@ -35,6 +35,7 @@ export default function WhatsAppWidget({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel}
+      data-lead-tracked
       onClick={() =>
         trackConversion("whatsapp_fab_click", { campaign: utm_campaign })
       }

@@ -15,6 +15,8 @@
  * - whatsapp_fab_click
  * - thank_you_upsell_click
  * - shop_cta_click
+ * - whatsapp_cta_click   (כל CTA שאין לו אירוע משלו. params: page, surface, campaign)
+ * - phone_call_click     (כל קישור tel: באתר. params: page, surface)
  */
 export const GA4_LEAD_FUNNEL_STEPS = [
   "book_wizard_start",
@@ -29,4 +31,6 @@ export const GA4_MICRO_CONVERSIONS = [
   "whatsapp_fab_click",
   "thank_you_upsell_click",
   "shop_cta_click",
+  "whatsapp_cta_click",
+  "phone_call_click",
 ] as const;

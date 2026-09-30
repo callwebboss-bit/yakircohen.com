@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleFeed, { type BlogPost as FeedPost } from "@/components/blog/ArticleFeed";
+import AnswerBlock from "@/components/seo/AnswerBlock";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { BLOG_POSTS, type BlogPost } from "@/lib/data/blog";
@@ -12,6 +14,7 @@ import {
   type BlogFilterCategory,
 } from "@/lib/data/blog-categories";
 import { SITE_NAME } from "@/lib/constants";
+import { absoluteUrl } from "@/lib/site-url";
 import {
   hubSchemaPropsFromSeo,
   metadataForHubSeo,
@@ -92,6 +95,10 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(seo)} />
+      <SpeakableSchema
+        url={absoluteUrl(`blog/category/${category.id}`)}
+        cssSelector={["#blog-category-answer"]}
+      />
       <div className="bg-background">
         <Section
           padding="none"
@@ -111,6 +118,15 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
               {seo.description}
             </p>
+            {/* אות AEO לעמוד. נבנה מתבנית ומנתונים אמיתיים בלבד, באותה
+                מוסכמה של הכותרת והתיאור: בלי ניסוח חופשי ובלי טענה שאין
+                לה כיסוי. מיועד להיות מוחלף בתשובה שהבעלים יכתוב, כשהדלי
+                הזה יהפוך למרכז ידע. */}
+            <div className="mt-4 max-w-2xl">
+              <AnswerBlock id="blog-category-answer">
+                {`${category.label}: ${posts.length} מאמרים במגזין של ${SITE_NAME}. כל מאמר עונה על שאלה אחת שחוזרת לפני הזמנת שירות. אם השאלה שלכם לא נמצאת כאן, אפשר לשאול אותה ישירות בוואטסאפ.`}
+              </AnswerBlock>
+            </div>
             <nav aria-label="קטגוריות המגזין" className="mt-8 flex flex-wrap gap-2">
               <Link
                 href="/blog"

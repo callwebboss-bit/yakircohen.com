@@ -221,7 +221,7 @@ export default function PricingHubPage() {
               יש לכם שאלה על המחירים?
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              השאירו פרטים ונחזור אליכם בדרך כלל תוך 24 שעות.
+              השאירו פרטים ונחזור אליכם בדרך כלל תוך שעה.
             </p>
             <div className="mt-4 rounded-xl border border-border bg-background px-4 py-3 text-sm leading-relaxed text-foreground">
               {HOLD_POLICY_TEXT}

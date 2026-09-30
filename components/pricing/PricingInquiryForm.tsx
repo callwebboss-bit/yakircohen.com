@@ -216,7 +216,7 @@ export default function PricingInquiryForm() {
         <SuccessBurst active />
         <p className="text-sm font-semibold text-foreground">קיבלנו את הפנייה</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          נחזור אליך {TIME_CLAIMS.quote24h}. נפתח גם וואטסאפ להמשך.
+          נחזור אליך {TIME_CLAIMS.quoteHour}. נפתח גם וואטסאפ להמשך.
         </p>
       </div>
     );

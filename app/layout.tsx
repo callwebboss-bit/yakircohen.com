@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import OutboundLeadTracker from "@/components/analytics/OutboundLeadTracker";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import SessionRescuerBarLazy from "@/components/booking/SessionRescuerBarLazy";
@@ -124,6 +125,7 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         <UtmSessionPersist />
+        <OutboundLeadTracker />
         <SiteSchema />
         <a
           href="#main-content"

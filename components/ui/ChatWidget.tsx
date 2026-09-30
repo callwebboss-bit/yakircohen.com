@@ -657,6 +657,7 @@ export default function ChatWidget({
                     })}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-lead-tracked
                     onClick={(e) =>
                       handleWhatsAppClick(
                         e,

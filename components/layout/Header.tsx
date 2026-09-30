@@ -33,7 +33,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
 
 const headerQuoteWhatsAppHref = buildWhatsAppHref({
-  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quote24h}.`,
+  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
   utm_source: "website",
   utm_campaign: "header_quote_24h",
 });
@@ -87,10 +87,10 @@ function HeaderQuoteCta() {
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
         "min-h-11 px-2.5 py-1.5 text-[11px] leading-tight sm:px-3 sm:text-xs md:px-4 md:text-sm",
       )}
-      aria-label={`${CTA_LABELS.headerQuote24h} בוואטסאפ`}
+      aria-label={`${CTA_LABELS.headerQuoteHour} בוואטסאפ`}
     >
-      <span className="lg:hidden">{CTA_LABELS.headerQuote24hShort}</span>
-      <span className="hidden lg:inline">{CTA_LABELS.headerQuote24h}</span>
+      <span className="lg:hidden">{CTA_LABELS.headerQuoteHourShort}</span>
+      <span className="hidden lg:inline">{CTA_LABELS.headerQuoteHour}</span>
     </a>
   );
 }

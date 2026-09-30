@@ -80,7 +80,10 @@ export default function PageBottomCta({
 
   const actions =
     variant === "site" ? (
-      <div className="flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-end">
+      <div
+        data-lead-surface="page_bottom_cta"
+        className="flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-end"
+      >
         <Button as="link" href={bookHref} className="w-full sm:w-auto">
           {bookLabel}
         </Button>
@@ -94,7 +97,7 @@ export default function PageBottomCta({
         </Button>
       </div>
     ) : (
-      <div className="flex flex-col items-center gap-3">
+      <div data-lead-surface="page_bottom_cta" className="flex flex-col items-center gap-3">
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           {whatsappHref ? (
             <Button

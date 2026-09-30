@@ -222,7 +222,7 @@ export default function WeddingPackagesPageContent() {
             מוכנים לחבילה שחוסכת אלפי שקלים?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            שלחו תאריך וסוג אירוע, נחזור בדרך כלל תוך 24 שעות. טלפון:{" "}
+            שלחו תאריך וסוג אירוע, נחזור בדרך כלל תוך שעה. טלפון:{" "}
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
               className="font-medium text-brand-red hover:underline"

@@ -5,9 +5,11 @@
  * כל ייבוא כאן נשלח לדפדפן. קודם הוא ייבא את blog.ts (409KB) ואת
  * services.ts (173KB) רק כדי לקרוא כותרות, וזו הייתה נקודת הכניסה היחידה
  * של blog.ts ללקוח בכל הריפו. עכשיו: 14KB של slug לכותרת.
- * המפה מיוצרת ב-scripts/generate-breadcrumb-titles.ts ונשמרת ב-audit.
+ * גם תוויות דלי הקטגוריה מגיעות מההיטל, ולא מ-blog-categories.ts המלא.
+ * המפה מיוצרת ב-scripts/generate-client-data.ts ונשמרת ב-audit.
  */
 import {
+  BREADCRUMB_BLOG_CATEGORY_TITLES,
   BREADCRUMB_BLOG_TITLES,
   BREADCRUMB_SERVICE_TITLES,
 } from "@/lib/data/breadcrumb-titles.generated";
@@ -16,7 +18,6 @@ import {
   BREADCRUMB_PATH_OVERRIDES,
   BREADCRUMB_SEGMENT_LABELS,
 } from "@/lib/breadcrumbs/segment-labels";
-import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
 
 export type BreadcrumbItem = {
   href: string;
@@ -68,11 +69,11 @@ export function buildBreadcrumbTrail(pathname: string): BreadcrumbItem[] {
      משלו (הפירור היה מציג "category" באנגלית ומקשר ל-404). הפירור האחרון
      הוא שם הדלי כפי שהוא מוגדר ב-blog-categories.ts. */
   if (segments[0] === "blog" && segments[1] === "category" && segments.length === 3) {
-    const category = BLOG_FILTER_CATEGORIES.find((c) => c.id === segments[2]);
+    const categoryLabel = BREADCRUMB_BLOG_CATEGORY_TITLES[segments[2]!];
     return [
       HOME,
       { href: "/blog", label: BREADCRUMB_SEGMENT_LABELS.blog },
-      { href: normalized, label: category?.label ?? labelForPath(normalized) },
+      { href: normalized, label: categoryLabel ?? labelForPath(normalized) },
     ];
   }
 

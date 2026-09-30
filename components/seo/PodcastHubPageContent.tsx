@@ -401,7 +401,7 @@ export default function PodcastHubPageContent() {
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 לחברות, מומחים, יועצים ויוצרי תוכן שרוצים לבנות נוכחות
                 דיגיטלית ברמה גבוהה - בלי צוות הפקה פנימי. הקלטת פודקאסט עם
-                צילום 4K, עריכה מקצועית ומסירה {TIME_CLAIMS.quote24h}.
+                צילום 4K, עריכה מקצועית ומסירה {TIME_CLAIMS.quoteHour}.
               </p>
               <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {PODCAST_HUB_AUDIENCES.map((item) => (

@@ -18,6 +18,9 @@ export type ConversionEventName =
   | "book_success_wa_click"
   | "whatsapp_popup_blocked"
   | "whatsapp_fab_click"
+  /* כל לחיצת וואטסאפ ממשטח שאין לו אירוע משלו. ראו OutboundLeadTracker */
+  | "whatsapp_cta_click"
+  | "phone_call_click"
   | "portfolio_demo_play"
   | "pricing_calculator_interact"
   | "thank_you_upsell_click"

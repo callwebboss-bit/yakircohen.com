@@ -36,6 +36,7 @@ export default function MobileStickyCta() {
   return (
     <div
       className="mobile-sticky-cta fixed inset-x-[5.5rem] bottom-[calc(env(safe-area-inset-bottom)_+_0.75rem)] z-40 overflow-hidden rounded-2xl border border-catalog-gold/30 bg-background/95 shadow-[0_8px_24px_rgb(0_0_0_/_0.12)] backdrop-blur-sm transition-opacity duration-300 md:hidden"
+      data-lead-surface="mobile_sticky"
       role="navigation"
       aria-label="ניווט מהיר"
     >

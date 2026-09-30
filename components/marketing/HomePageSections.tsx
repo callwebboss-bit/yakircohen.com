@@ -344,14 +344,14 @@ export default function HomePageSections({
             id="bottom-cta-heading"
             className="font-serif text-section-title font-semibold text-foreground"
           >
-            מוכנים להתחיל? הצעה {TIME_CLAIMS.quote24h}
+            מוכנים להתחיל? הצעה {TIME_CLAIMS.quoteHour}
           </h2>
           <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
             שלחו הודעה על{" "}
             <InlineServiceLink href="/studio">הקלטה באולפן</InlineServiceLink>,{" "}
             <InlineServiceLink href="/events">אירוע</InlineServiceLink> או{" "}
             <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>. נחזור
-            עם הצעה ברורה {TIME_CLAIMS.quote24h}.
+            עם הצעה ברורה {TIME_CLAIMS.quoteHour}.
           </p>
           <Button
             as="a"
@@ -360,7 +360,7 @@ export default function HomePageSections({
             rel="noopener noreferrer"
             className="mt-8 px-8"
           >
-            {TIME_CLAIMS.quote24hCta}
+            {TIME_CLAIMS.quoteHourCta}
           </Button>
           <p className="mx-auto mt-3 max-w-xl text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}

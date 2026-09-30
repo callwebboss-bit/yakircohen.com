@@ -86,6 +86,7 @@ export default function BookingSuccessPanel({
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
+        data-lead-tracked
         onClick={onWhatsAppClick}
         className="mt-8 inline-flex w-full max-w-md items-center justify-center gap-2 rounded-xl bg-[#178741] px-6 py-3.5 text-sm font-semibold text-white hover:bg-[#0f6e34] sm:w-auto"
       >

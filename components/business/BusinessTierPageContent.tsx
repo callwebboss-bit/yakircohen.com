@@ -56,7 +56,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
     utm_source: "website",
     utm_campaign: `${config.utmCampaign}_mid_cta`,
   });
-  const ctaLabel = config.ctaLabel ?? OUTCOME_CTA.waQuote24h;
+  const ctaLabel = config.ctaLabel ?? OUTCOME_CTA.waQuoteHour;
 
   return (
     <ServicePageLayout
