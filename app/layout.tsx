@@ -12,8 +12,8 @@ import SessionRescuerBarLazy from "@/components/booking/SessionRescuerBarLazy";
 import UtmSessionPersist from "@/components/layout/UtmSessionPersist";
 import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
-import PwaInstallPrompt from "@/components/marketing/PwaInstallPrompt";
-import GiftFinderPopup from "@/components/marketing/GiftFinderPopup";
+import PwaInstallPromptLazy from "@/components/marketing/PwaInstallPromptLazy";
+import GiftFinderPopupLazy from "@/components/marketing/GiftFinderPopupLazy";
 import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
@@ -147,8 +147,8 @@ export default function RootLayout({
         <Footer />
         <DeferredFloatingFabs />
         <SessionRescuerBarLazy />
-        <PwaInstallPrompt />
-        <GiftFinderPopup />
+        <PwaInstallPromptLazy />
+        <GiftFinderPopupLazy />
       </body>
     </html>
   );

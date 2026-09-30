@@ -87,6 +87,16 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "/**": ["./next.config.ts"],
   },
+  experimental: {
+    /**
+     * radix-ui@1.5.0 היא חבילת barrel עם 55 תלויות @radix-ui/react-*.
+     * רשימת ברירת המחדל של Next מכסה lucide-react ועוד עשרות חבילות,
+     * אבל לא אותה. ארבעה קבצים מייבאים ממנה, ואחד מהם,
+     * components/layout/FooterCategorySitemap.tsx, נמצא במטען שנשלח
+     * בכל אחד מ-318 העמודים.
+     */
+    optimizePackageImports: ["radix-ui"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
@@ -164,3 +174,26 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
     excludeReplayWorker: true,
   },
 });
+
+/**
+ * ה-SDK של Sentry לא מאותחל בצד הלקוח, בכוונה. הקובץ instrumentation-client.ts
+ * נמחק ב-1.10.2026.
+ *
+ * מה שנמדד על האתר החי לפני ההחלטה: צ׳אנק אחד של 145,958 בתים gzip נטען
+ * בכל עמוד שנבדק (הבית, /studio, /podcast, /events/dj-events, /book).
+ * בתוכו, קריאת האתחול הייתה
+ * `{dsn: process.env.NEXT_PUBLIC_SENTRY_DSN, tracesSampleRate: .2}`,
+ * כלומר ה-DSN נשאר קריאת סביבה ולא הוחלף במחרוזת. משתני NEXT_PUBLIC
+ * מוחלפים בערכם בזמן הבנייה, ולכן זו עדות שלא היה DSN בבנייה, והספרייה
+ * אותחלה בלי יעד ולא שלחה כלום. אותה עובדה מוסברת גם בסעיף ה-CSP למעלה:
+ * יעד הדיווח נגזר מה-DSN, ולכן גם הוא ריק.
+ *
+ * מה נשאר עובד: ניטור בצד השרת ובקצה דרך instrumentation.ts,
+ * sentry.server.config.ts ו-sentry.edge.config.ts, ו-captureException
+ * במסלולי ה-API דרך lib/sentry-capture.ts. כל אלה רצים על השרת ואינם
+ * נשלחים לדפדפן.
+ *
+ * להחזיר: ליצור מחדש את instrumentation-client.ts (הגרסה הקודמת בהיסטוריה,
+ * כולל סינון ה-PII ב-beforeSend) ולהגדיר NEXT_PUBLIC_SENTRY_DSN ב-Vercel.
+ * בלי ה-DSN אין טעם בקובץ.
+ */

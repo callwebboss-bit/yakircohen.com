@@ -96,8 +96,12 @@ const LAYOUT_CLIENT_BASELINE = [
   "components/layout/header-dynamic-badges-lazy.tsx",
   "components/layout/header-lazy.tsx",
   "components/layout/header-menu-context.tsx",
-  "components/marketing/GiftFinderPopup.tsx",
-  "components/marketing/PwaInstallPrompt.tsx",
+  /* שני הפופאפים עברו לטעינה דינמית ב-1.10.2026. הם מופיעים אחרי 8 ו-90
+     שניות, ולכן לא היה טעם שיהיו בגרף הטעינה הראשון של כל עמוד. במקומם
+     נשלחות שתי עטיפות של כ-550 בתים, באותו דפוס של SessionRescuerBarLazy.
+     הרכיבים עצמם יצאו מהמטען, וסך המטען ירד מ-398.4KB ל-381.3KB. */
+  "components/marketing/GiftFinderPopupLazy.tsx",
+  "components/marketing/PwaInstallPromptLazy.tsx",
   "components/ui/Container.tsx",
   "components/ui/Icons.tsx",
   "components/ui/SiteSearch.tsx",
@@ -111,7 +115,6 @@ const LAYOUT_CLIENT_BASELINE = [
   "hooks/useVoiceSearch.ts",
   "lib/analytics/conversion-events.ts",
   "lib/book-url.ts",
-  "lib/bottom-overlay-slot.ts",
   "lib/breadcrumbs/build-trail.ts",
   "lib/breadcrumbs/segment-labels.ts",
   "lib/business-hours.ts",
@@ -126,7 +129,6 @@ const LAYOUT_CLIENT_BASELINE = [
   "lib/data/coupon-offers.ts",
   "lib/data/events-booking.ts",
   "lib/data/intent-nav.ts",
-  "lib/data/matanot-page.ts",
   "lib/data/pricing-book-map.ts",
   "lib/data/pricing-catalog.ts",
   "lib/data/pricing-display.ts",
