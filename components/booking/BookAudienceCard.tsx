@@ -17,6 +17,7 @@ import {
   readBookQualificationDraft,
   writeBookQualificationDraft,
   hasMeaningfulQualificationAnswers,
+  type BookQualificationDraft,
 } from "@/lib/book-qualification-draft";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { trackConversion } from "@/lib/analytics/conversion-events";
@@ -87,18 +88,34 @@ export default function BookAudienceCard({
   resumeQualOpen = false,
   onFullPath,
 }: BookAudienceCardProps) {
-  const savedDraft = useMemo(() => {
-    const draft = readBookQualificationDraft();
-    if (draft?.data.routeId === route.id) return draft.data;
-    return null;
-  }, [route.id]);
+  /**
+   * הטיוטה נקראת אחרי ההרכבה, לא בזמן הרנדור.
+   *
+   * למה: readBookQualificationDraft קורא מ-localStorage ומחזיר null בשרת.
+   * קודם הוא נקרא בתוך useMemo בזמן הרנדור, והתוצאה הזינה שלושה useState.
+   * כלומר השרת בנה כרטיס עם טופס סגור ובלי תשובות, והלקוח הרכיב כרטיס עם
+   * טופס פתוח ותשובות מלאות. זו אי-התאמת הרכבה: React מוצא HTML שונה ממה
+   * שהוא בנה, זורק את מה שבשרת ומרנדר מחדש בצד הלקוח.
+   *
+   * עכשיו המצב ההתחלתי זהה בשרת ובלקוח, והטיוטה מוחלת באפקט אחרי ההרכבה.
+   * הגולש רואה את הטופס נפתח רגע אחרי הטעינה במקום מיד, וזה המחיר הנכון
+   * על תיקון של אי-התאמה.
+   */
+  const [savedDraft, setSavedDraft] = useState<BookQualificationDraft | null>(null);
 
   const [emotionalId, setEmotionalId] = useState<string | null>(null);
   const [videoOpen, setVideoOpen] = useState(false);
-  const [qualFormOpen, setQualFormOpen] = useState(resumeQualOpen || Boolean(savedDraft));
-  const [qualAnswers, setQualAnswers] = useState<Record<string, string>>(
-    savedDraft?.answers ?? {},
-  );
+  const [qualFormOpen, setQualFormOpen] = useState(resumeQualOpen);
+  const [qualAnswers, setQualAnswers] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const draft = readBookQualificationDraft();
+    const mine = draft?.data.routeId === route.id ? draft.data : null;
+    if (!mine) return;
+    setSavedDraft(mine);
+    setQualFormOpen(true);
+    setQualAnswers(mine.answers ?? {});
+  }, [route.id]);
 
   const emotionalLabel =
     route.emotionalOptions.find((o) => o.id === emotionalId)?.label ??

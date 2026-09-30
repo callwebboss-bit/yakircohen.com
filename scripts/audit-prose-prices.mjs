@@ -45,7 +45,6 @@ const EXPLAINED = [
   { value: 3200, file: "lib/data/academy-ulpan-page.ts", match: "3,200", why: "מסלול חודשי לאולפן עברית, מחירון אקדמיה נפרד" },
   { value: 3200, file: "lib/data/academy-hebrew-lessons-en.ts", match: "3,200", why: "אותו מסלול, גרסה אנגלית" },
   { value: 3200, file: "lib/data/shop-vouchers.ts", match: "2,500 - ₪3,200", why: "טווח שובר מתנה, לא פריט קטלוג" },
-  { value: 3200, file: "components/seo/VoucherPageContent.tsx", match: "2,500 - ₪3,200", why: "אותו טווח שובר" },
   { value: 3200, file: "lib/data/faq-aeo.ts", match: "2,500 עד 3,200", why: "אותו טווח שובר" },
 ];
 

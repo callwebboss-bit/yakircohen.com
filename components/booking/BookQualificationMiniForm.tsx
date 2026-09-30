@@ -82,12 +82,14 @@ export default function BookQualificationMiniForm({
 
   if (!fields.length) return null;
 
+  /* הקולבק להורה נקרא מחוץ לפונקציית העדכון של setState.
+     פונקציית עדכון חייבת להיות טהורה, ו-React מריץ אותה פעמיים במצב
+     פיתוח מחמיר כדי לאכוף את זה. כשהקולבק ישב בפנים, ההורה קיבל שתי
+     קריאות עם שני אובייקטים שונים על כל הקלדה. */
   function setField(id: string, value: string) {
-    setAnswers((prev) => {
-      const next = { ...prev, [id]: value };
-      onAnswersChange?.(next);
-      return next;
-    });
+    const next = { ...answers, [id]: value };
+    setAnswers(next);
+    onAnswersChange?.(next);
   }
 
   function handleSubmit(e: React.FormEvent) {

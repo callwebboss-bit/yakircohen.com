@@ -6,6 +6,7 @@ import type { LeadRecord } from "@/lib/leads/types";
 import { buildLeadEnrichment } from "@/lib/leads/enrichment";
 import { computeLeadScore, inferServiceTypeFromFormId } from "@/lib/leads/score";
 import { normalizeIlMobile } from "@/lib/leads/format-phone-il";
+import { checkAndMarkDuplicate } from "@/lib/leads/duplicate";
 
 /**
  * Soft abandoned-form recovery: stores partial lead when phone is present.
@@ -65,7 +66,20 @@ export async function POST(request: Request) {
     enrichment,
   };
 
-  // Avoid duplicating identical abandoned phone within short window via get+skip if recent
+  /* טיוטה חוזרת מאותו טלפון אינה ליד חדש.
+     הנקודה הזו נקראת אוטומטית מהטופס בכל פעם שגולש נוטש, ועד עכשיו כל
+     קריאה יצרה רשומה חדשה בלי שום בדיקה. במגבלה של 12 בדקה לכל כתובת,
+     זה 500 רשומות תוך 42 דקות, ו-/admin/leads מציג רק 150 אחרונות: פניות
+     אמיתיות נדחקות מהתצוגה של הבעלים. ההערה שהייתה כאן תיארה בדיוק את
+     הבדיקה הזו, והשורה הבאה אחריה שמרה בלעדיה. */
+  const dup = await checkAndMarkDuplicate(
+    { phone, email: body.email, ipHash: enrichment.ipHash, formId },
+    leadId,
+  );
+  if (dup.isDuplicate) {
+    return NextResponse.json({ ok: true, leadId: dup.existingLeadId, duplicate: true });
+  }
+
   await saveLead(lead);
   return NextResponse.json({ ok: true, leadId });
 }
