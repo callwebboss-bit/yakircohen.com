@@ -1,5 +1,27 @@
 {
   "_doc": "רשימת ההבדלים המאושרים לשער audit:seo-diff. כל רשומה דורשת אישור מפורש של הבעלים ונימוק. רשומה שלא תאמה שום הבדל בהרצה נכשלת בכוונה: אישור מת משתיק בדיקה.",
   "_fields": "url (או * לכל הכתובות), field (title|description|canonical|robots|hreflang|ogImage|h1|outline|links|words|ldTypes|ldProps|exists, או * לכל השדות), why (נימוק בעברית), approvedBy, approvedAt",
-  "changes": []
+  "changes": [
+    {
+      "url": "/events/bar-mitzvah",
+      "field": "description",
+      "why": "audit:share --all דורש סמן מיקום במשפט הראשון. במודיעין נכנס לפתיח, בלי לשנות את השירותים שמוזכרים.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-01"
+    },
+    {
+      "url": "/events/bar-mitzvah",
+      "field": "words",
+      "why": "אותו תיקון פתיח קיצר 8 מילים ב-meta; אין גריעת תוכן בעמוד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-01"
+    },
+    {
+      "url": "/shop",
+      "field": "description",
+      "why": "audit:share --all דורש סמן מיקום במשפט הראשון. במודיעין עבר מהמשפט השני לראשון.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-01"
+    }
+  ]
 }
