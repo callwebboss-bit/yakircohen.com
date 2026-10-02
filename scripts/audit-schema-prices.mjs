@@ -18,6 +18,40 @@ const catalogText = fs.readFileSync(CATALOG, "utf8");
 const catalogPrices = new Set(
   [...catalogText.matchAll(/exVat:\s*(\d+)/g)].map((m) => m[1]),
 );
+
+/**
+ * מחיר כולל מע״מ (שלב 2 חלק ג, 2.10.2026): הקלטת השיר מוצגת לצרכן כולל מע״מ,
+ * ולכן ההצעה בסכמה היא 590 ולא 500. ההיתר צר במכוון, "withVat של אותו פריט":
+ *
+ * 1. Offer עם priceSpecification של valueAddedTaxIncluded: false. המחיר שם חייב
+ *    להיות exVat מהקטלוג, וה-price של ההצעה חייב להיות בדיוק withVat שלו.
+ * 2. Offer בלי priceSpecification ששמו הוא label של פריט בקטלוג, והמחיר הוא
+ *    withVat של אותו פריט.
+ *
+ * בשני המסלולים, כשהשם תואם label בקטלוג, המחיר לפני מע״מ חייב להיות של אותו
+ * פריט. כך 590 כולל מע״מ שמוצמד לשם של פריט אחר נכשל.
+ *
+ * הצעה לפני מע״מ בלי priceSpecification נשארת בבדיקת הקיום הישנה, בלי התאמת
+ * שם: "תיקון זיופים" ב-250 של vocal-fix הוא שירות אונליין אחר מ-studio_pitch_correction
+ * שנקרא באותו שם, ובדיקת שם שם הייתה נכשלת על דבר שאינו מחיר שיר.
+ */
+const vatRateMatch = catalogText.match(/VAT_RATE_LOCAL\s*=\s*([\d.]+)/);
+if (!vatRateMatch) {
+  console.error("=== audit:schema-prices ===\n");
+  console.error("  ✗ לא נמצא VAT_RATE_LOCAL ב-pricing-catalog.ts. הפורמט השתנה.");
+  process.exit(1);
+}
+const VAT_RATE = Number(vatRateMatch[1]);
+/* אותה נוסחה כמו withVatLocal בקטלוג */
+const withVat = (exVat) => Math.round(exVat * (1 + VAT_RATE));
+
+/** label -> exVat, משני הפורמטים בקטלוג (שורה אחת או אובייקט מרובה שורות) */
+const catalogByLabel = new Map();
+for (const m of catalogText.matchAll(
+  /id:\s*"([^"]+)",\s*label:\s*"([^"]+)",\s*exVat:\s*(\d+)/g,
+)) {
+  catalogByLabel.set(m[2], { id: m[1], exVat: Number(m[3]) });
+}
 /**
  * מחירים שחיים בקובץ נתונים של עמוד ולא בקטלוג המרכזי.
  *
@@ -36,7 +70,15 @@ const offers = [];
   if (Array.isArray(node)) return node.forEach(walk);
   if (!node || typeof node !== "object") return;
   if (node["@type"] === "Offer" && node.price != null) {
-    offers.push({ name: node.name ?? "(ללא שם)", price: String(node.price) });
+    const spec = node.priceSpecification;
+    offers.push({
+      name: node.name ?? "(ללא שם)",
+      price: String(node.price),
+      exVatSpec:
+        spec && spec.valueAddedTaxIncluded === false && spec.price != null
+          ? String(spec.price)
+          : null,
+    });
   }
   Object.values(node).forEach(walk);
 })(schema);
@@ -50,7 +92,32 @@ for (const offer of offers) {
     );
     continue;
   }
+  const named = catalogByLabel.get(offer.name);
+
+  if (offer.exVatSpec != null) {
+    if (!catalogPrices.has(offer.exVatSpec)) {
+      errors.push(
+        `"${offer.name}": priceSpecification לפני מע״מ ${offer.exVatSpec} אינו קיים ב-pricing-catalog.ts.`,
+      );
+      continue;
+    }
+    if (named && offer.exVatSpec !== String(named.exVat)) {
+      errors.push(
+        `"${offer.name}": priceSpecification ${offer.exVatSpec} אינו המחיר של ${named.id} (${named.exVat}).`,
+      );
+      continue;
+    }
+    if (offer.price !== String(withVat(Number(offer.exVatSpec)))) {
+      errors.push(
+        `"${offer.name}": price ${offer.price} אינו withVat(${offer.exVatSpec}) = ` +
+          `${withVat(Number(offer.exVatSpec))}. מחיר כולל מע״מ חייב להיגזר מאותו פריט.`,
+      );
+    }
+    continue;
+  }
+
   if (catalogPrices.has(offer.price)) continue;
+  if (named && offer.price === String(withVat(named.exVat))) continue;
 
   const source = OUTSIDE_CATALOG[offer.price];
   if (!source) {

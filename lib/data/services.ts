@@ -4,7 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { getExVat, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { getAddonsForBaseId, getExVat, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
@@ -16,6 +16,17 @@ import {
 /** מחיר לצרכן כולל מע״מ, "590 ₪". הקלטת שיר ותוספותיה מוצגות כך (2.10.2026). */
 function nisWithVat(id: PriceItemId): string {
   return `${withVat(getExVat(id)).toLocaleString("he-IL")} ₪`;
+}
+
+/** מדרגה בכולל מע״מ לפי מזהה קטלוג, לעמודים שמובילים בכולל מע״מ (טופס השיר) */
+function consumerTier(id: PriceItemId) {
+  const exVat = getExVat(id);
+  return {
+    price: formatNis(withVat(exVat)),
+    priceExVat: exVat,
+    vatIncluded: true,
+    catalogId: id,
+  };
 }
 
 /** ─── Core types (AI-readable service registry) ─── */
@@ -31,6 +42,11 @@ export type ServicePricingTier = {
   price: string;
   /** לפני מע״מ - להצגה כפולה ולהודעות WhatsApp */
   priceExVat?: number;
+  /**
+   * price כבר כולל מע״מ (הקלטת שיר ותוספותיה, 2.10.2026). חובה יחד עם
+   * priceExVat, ואז הסכמה מוסיפה priceSpecification עם המחיר לפני מע״מ.
+   */
+  vatIncluded?: boolean;
   priceNote?: string;
   /** מזהה קטלוג לשאיבת scope / suitedFor / withEditing */
   catalogId?: PriceItemId;
@@ -301,26 +317,29 @@ export const STUDIO_SERVICES = {
       "סשן של שעה, והשיר אצלכם בסוף הסשן",
       "מעל 500 משפחות ממודיעין, מכבים ורעות",
     ],
+    /* הכרטיסים לא מוצגים בעמוד (המחיר בעמוד הוא הטופס בלבד), הם מזינים את
+       הסכמה. העמוד מוביל בכולל מע״מ, ולכן גם כאן: price כולל מע״מ, והסכמה
+       מוסיפה priceSpecification לפני מע״מ. התוספות נקראות מהקטלוג. */
     pricing: [
       {
+        ...consumerTier("song_recording"),
         name: "הקלטת שיר באולפן",
-        price: formatNis(getExVat("song_recording")),
-        priceExVat: getExVat("song_recording"),
-        catalogId: "song_recording",
         description:
-          "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. המחיר לפני מע״מ.",
+          "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. המחיר כולל מע״מ.",
         featured: true,
         badge: "הכי מבוקש",
       },
-      /* כרטיס ההפקה המלאה (4,500) ירד מעמוד השיר: הוא סתר את עצמו (S02),
-         ועכשיו המחיר בעמוד הוא הטופס בלבד. הכרטיסים כאן מזינים את הסכמה. */
+      ...getAddonsForBaseId("song_recording").map((addon) => ({
+        ...consumerTier(addon.id as PriceItemId),
+        name: `תוספת: ${addon.label}`,
+        description: `${addon.context ?? ""} המחיר כולל מע״מ.`.trim(),
+      })),
+      /* כרטיס ההפקה המלאה (4,500) ירד מעמוד השיר: הוא סתר את עצמו (S02) */
       {
+        ...consumerTier("blessing_recording"),
         name: "הקלטת ברכה / אמירה",
-        price: formatNis(getExVat("blessing_recording")),
-        priceExVat: getExVat("blessing_recording"),
-        catalogId: "blessing_recording",
         description:
-          "ברכה, דרשה קצרה או אמירה. עד 30 דקות. עריכת סאונד בסיסית. תיקון זיופים לא כלול. המחיר לפני מע״מ.",
+          "ברכה, דרשה קצרה או אמירה. עד 30 דקות. עריכת סאונד בסיסית. תיקון זיופים לא כלול. המחיר כולל מע״מ.",
       },
     ],
     assetsFolder: "studio/recording-song-modiin",

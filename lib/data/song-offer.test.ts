@@ -9,6 +9,7 @@ import {
   buildSongOfferMessage,
   buildSongOfferWhatsAppHref,
   calcSongOffer,
+  getSongOfferExport,
   getSongOfferView,
   isSongAddonAvailable,
   LEGACY_SONG_ALIASES,
@@ -285,5 +286,34 @@ describe("formatConsumerPrice", () => {
     });
     assert.equal(formatConsumerPrice(1550).totalLabel, "1,829 ₪ כולל מע״מ");
     assert.equal(formatConsumerPrice(300).delta, "+354 ₪");
+  });
+});
+
+describe("getSongOfferExport (owner quoting tool)", () => {
+  it("exports the six valid combinations with the same totals as calcSongOffer", () => {
+    const exp = getSongOfferExport();
+    assert.equal(exp.base.id, "song_recording");
+    assert.deepEqual(exp.addons.map((a) => a.id), [...SONG_ADDON_IDS]);
+    assert.equal(exp.combinations.length, 6);
+    for (const combo of exp.combinations) {
+      const calc = calcSongOffer(combo.addonIds);
+      assert.deepEqual(combo.addonIds, calc.addonIds);
+      assert.equal(combo.totalExVat, calc.totalExVat);
+      assert.equal(combo.totalWithVat, calc.totalWithVat);
+      assert.equal(combo.offerHref, buildSongOfferHref(combo.addonIds));
+    }
+    /* הראיון רק עם הקליפ: אף שילוב לא כולל ראיון בלי קליפ */
+    assert.ok(
+      exp.combinations.every(
+        (c) =>
+          !c.addonIds.includes("song_pre_session_interview") ||
+          c.addonIds.includes("studio_session_clip_edited"),
+      ),
+    );
+  });
+
+  it("is plain JSON (the export writes it with JSON.stringify)", () => {
+    const exp = getSongOfferExport();
+    assert.deepEqual(JSON.parse(JSON.stringify(exp)), exp);
   });
 });

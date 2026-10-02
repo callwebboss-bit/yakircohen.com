@@ -103,12 +103,27 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
    */
   if (!price) return null;
 
+  /* מחיר כולל מע״מ נושא גם את המחיר לפני מע״מ, באותו דפוס של
+     SeoPortfolioGalleryJsonLd, כדי שאף קורא לא יבין 590 כמחיר לפני מע״מ */
+  const priceSpecification =
+    tier.vatIncluded && tier.priceExVat != null
+      ? {
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: tier.priceExVat,
+            priceCurrency: "ILS",
+            valueAddedTaxIncluded: false,
+          },
+        }
+      : {};
+
   return {
     "@type": "Offer",
     name: tier.name,
     description: tier.description,
     price,
     priceCurrency: "ILS",
+    ...priceSpecification,
     url: serviceUrl,
     availability: "https://schema.org/InStock",
   };

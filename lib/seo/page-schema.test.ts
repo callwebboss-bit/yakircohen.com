@@ -7,6 +7,8 @@ import {
   VIDEO_SERVICES,
   VOICEOVER_SERVICES,
 } from "@/lib/data/services";
+import { withVat } from "@/lib/data/pricing";
+import { getAddonsForBaseId, getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { buildServicePageEntitySchema, buildServiceSchema } from "./page-schema";
 
 /*
@@ -83,4 +85,26 @@ test("הצומת הדק נושא את אותו אזור שירות כמו העש
     rich.areaServed,
     "שני צמתי ה-Service חייבים להצהיר על אותו אזור שירות בדיוק",
   );
+});
+
+test("עמוד השיר: Offers כולל מע״מ עם priceSpecification לפני מע״מ, והתוספות מהקטלוג", () => {
+  /* שלב 2 חלק ג: השיר ותוספותיו מוצגים לצרכן כולל מע״מ. Offer כולל מע״מ בלי
+     priceSpecification היה נקרא כמחיר לפני מע״מ, ו-590 הוא גם מחיר הברכה לפני מע״מ. */
+  const song = STUDIO_SERVICES["recording-song-modiin"];
+  const schema = buildServiceSchema(song) as {
+    offers?: (Offer & { priceSpecification?: { price?: unknown; valueAddedTaxIncluded?: unknown } })[];
+  };
+  const offers = schema.offers ?? [];
+  const expectedIds = ["song_recording", ...getAddonsForBaseId("song_recording").map((a) => a.id)];
+  for (const id of expectedIds) {
+    const exVat = getExVat(id as PriceItemId);
+    const offer = offers.find(
+      (o) => o.price === String(withVat(exVat)) && o.priceSpecification?.price === exVat,
+    );
+    assert.ok(offer, `חסר Offer כולל מע״מ ל-${id} (${withVat(exVat)} עם ${exVat} לפני מע״מ)`);
+    assert.equal(offer.priceSpecification?.valueAddedTaxIncluded, false);
+  }
+  for (const offer of offers) {
+    assert.ok(offer.priceSpecification, `Offer בלי priceSpecification בעמוד השיר: ${String(offer.name)}`);
+  }
 });

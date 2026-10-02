@@ -784,6 +784,36 @@ function parseChatbotFaq() {
   }
 }
 
+/**
+ * הצעת הקלטת השיר (שלב 2 חלק ג, 2.10.2026): בסיס ושלוש תוספות. parseStudioPackages
+ * כבר לא מוצא את חבילות השיר שנמחקו (classic/pro/viral/all_in) ומפיל אותן
+ * בשקט, ולכן הכלי מקבל את ההצעה כאובייקט מפורש מ-getSongOfferExport, עם כל
+ * השילובים החוקיים והסכומים שהטופס באתר מציג.
+ */
+const SONG_OFFER_FILE = path.join(ROOT, "lib", "data", "song-offer.ts");
+function loadSongOfferExport() {
+  const tmpOut = path.join(ROOT, ".next", "tmp-song-offer-export.cjs");
+  try {
+    fs.mkdirSync(path.join(ROOT, ".next"), { recursive: true });
+    esbuild.buildSync({
+      entryPoints: [SONG_OFFER_FILE],
+      bundle: true,
+      format: "cjs",
+      platform: "node",
+      outfile: tmpOut,
+      tsconfig: path.join(ROOT, "tsconfig.json"),
+      logLevel: "silent",
+    });
+    const offer = createRequire(import.meta.url)(tmpOut).getSongOfferExport();
+    if (offer?.base?.id !== "song_recording" || !offer.combinations?.length) {
+      throw new Error("export:closer songOffer: getSongOfferExport returned no base or no combinations");
+    }
+    return offer;
+  } finally {
+    try { fs.unlinkSync(tmpOut); } catch { /* ignore */ }
+  }
+}
+
 const catalogText = fs.readFileSync(CATALOG_FILE, "utf8");
 const routesText = fs.readFileSync(ROUTES_FILE, "utf8");
 const studioText = fs.readFileSync(STUDIO_FILE, "utf8");
@@ -857,6 +887,7 @@ const payload = {
   catalog: catalogExport,
   priceTransparencyMap: buildTransparencyMap(catalogExport),
   bookRoutePresets: parseBookRoutes(routesText),
+  songOffer: loadSongOfferExport(),
   studioPackages: parseStudioPackages(studioText, catalogExport),
   studioUpgrades: parseStudioUpgrades(studioText, catalogExport),
   recordingTypes: parseRecordingTypes(studioText),

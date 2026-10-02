@@ -13,7 +13,9 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { getExVat } from "../lib/data/pricing-catalog";
+import { getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { withVat } from "../lib/data/pricing";
+import { SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
 
 const root = resolve(import.meta.dirname, "..");
 const llmsPath = resolve(root, "public/llms.txt");
@@ -31,21 +33,28 @@ const hour = getExVat("studio_hour");
 const podcastAudio = getExVat("podcast_audio");
 const podcastVideo = getExVat("podcast_video");
 const podcastFull = getExVat("full_podcast_production");
-const song = getExVat("song_recording");
-const songPitch = getExVat("song_pitch_coaching");
-const songClip = getExVat("studio_session_clip_edited");
+/* השיר מוצג לצרכן כולל מע״מ (שלב 2 חלק ג). המספרים והתוספות נקראים מהקטלוג
+   דרך song-offer, כך שתוספת חדשה או מחיר חדש נכנסים לכאן מעצמם. */
+const song = getExVat(SONG_OFFER_BASE_ID);
+function songAddonLine(id: PriceItemId): string {
+  const item = getPriceById(id);
+  const note = item.requires ? `, רק עם ${getPriceById(item.requires as PriceItemId).label}` : "";
+  return `${item.label}${note} +${nis(withVat(item.exVat))}`;
+}
+const songAddons = SONG_ADDON_IDS.map(songAddonLine).join(" · ");
 const blessing = getExVat("blessing_recording");
 const dj = getExVat("dj_premium");
 const attraction = getExVat("event_attraction_1");
 const voucherFloor = half;
 
-const pricesBlock = `## מחירי פתיחה (לפני מע״מ, מסונכרן מ-pricing-catalog)
+const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog. לפני מע״מ, חוץ משורות השיר שמסומנות כולל מע״מ)
 - אולפן - חצי שעה: ${nis(half)} · שעת אולפן: ${nis(hour)}
 - פודקאסט אודיו (עד שעה + עריכה): ${nis(podcastAudio)}
 - פודקאסט וידאו (3 מצלמות): ${nis(podcastVideo)}
 - הפקת פודקאסט מלאה: ${meNis(podcastFull)}
-- הקלטת ברכה: ${meNis(blessing)} · הקלטת שיר (הקלטה, מיקס ומאסטר, סשן של שעה): ${nis(song)}
-- תוספות לשיר: תיקון זיופים וטכנאי מנחה ${nis(songPitch)} · קליפ ערוך מהסשן ${nis(songClip)}
+- הקלטת ברכה: ${meNis(blessing)}
+- הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${nis(withVat(song))} כולל מע״מ (${nis(song)} + מע״מ)
+- תוספות לשיר, כולל מע״מ: ${songAddons}
 - DJ לאירועים (צוות, כ-4 שעות): ${meNis(dj)}
 - אטרקציה בודדת לאירוע: ${meNis(attraction)}
 - שובר מתנה לאולפן: ${meNis(voucherFloor)}

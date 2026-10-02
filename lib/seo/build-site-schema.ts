@@ -15,6 +15,7 @@ import {
   EVENT_ATTRACTION_FROM_NIS,
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
+  withVat,
 } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
@@ -170,13 +171,21 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/studio/pricing`,
           },
+          /* השיר מוצג לצרכן כולל מע״מ (2.10.2026), ולכן price כולל מע״מ
+             ו-priceSpecification נושא את המחיר לפני מע״מ, כמו ב-SeoPortfolioGalleryJsonLd */
           {
             "@type": "Offer",
             name: "הקלטת שיר באולפן",
-            description: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר לפני מע״מ",
-            price: String(getExVat("song_recording")),
+            description: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר כולל מע״מ",
+            price: String(withVat(getExVat("song_recording"))),
             priceCurrency: "ILS",
-            url: `${BASE}/book`,
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: getExVat("song_recording"),
+              priceCurrency: "ILS",
+              valueAddedTaxIncluded: false,
+            },
+            url: `${BASE}/studio/recording-song-modiin`,
           },
           {
             "@type": "Offer",
@@ -194,14 +203,7 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/podcast`,
           })),
-          {
-            "@type": "Offer",
-            name: "מחירון מרכזי",
-            description: "כל המחירים במקום אחד",
-            price: String(STUDIO_ONE_HOUR_NIS),
-            priceCurrency: "ILS",
-            url: `${BASE}/pricing`,
-          },
+          /* "מחירון מרכזי" ירד: זה לא מוצר, והמחיר שלו היה שעת אולפן (S28) */
           {
             "@type": "Offer",
             name: "שיעור ניסיון עברית פרטי",

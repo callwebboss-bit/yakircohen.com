@@ -262,14 +262,22 @@ export function getSongOfferQuotes(
   options: SongWhatsAppHrefOptions & { offerPath?: string },
 ): Record<string, SongOfferQuote> {
   const quotes: Record<string, SongOfferQuote> = {};
+  for (const ids of validSongCombinations()) {
+    quotes[songAddonKey(ids)] = buildSongOfferQuote(ids, options);
+  }
+  return quotes;
+}
+
+/** כל צירופי התוספות החוקיים, בסדר הקטלוג. צירוף שהנרמול מקצץ (ראיון בלי קליפ) לא נכלל. */
+function validSongCombinations(): SongAddonId[][] {
+  const combos: SongAddonId[][] = [];
   const total = 1 << SONG_ADDON_IDS.length;
   for (let mask = 0; mask < total; mask += 1) {
     const ids = SONG_ADDON_IDS.filter((_, i) => mask & (1 << i));
     const normalized = normalizeSongAddons(ids);
-    if (normalized.length !== ids.length) continue;
-    quotes[songAddonKey(normalized)] = buildSongOfferQuote(normalized, options);
+    if (normalized.length === ids.length) combos.push(normalized);
   }
-  return quotes;
+  return combos;
 }
 
 export type SongOfferFormItem = {
@@ -304,5 +312,36 @@ export function getSongOfferFormData(
     base: pick(view.base),
     addons: view.addons.map((addon) => ({ ...pick(addon), id: addon.id as SongAddonId })),
     quotes: getSongOfferQuotes(options),
+  };
+}
+
+export type SongOfferExport = SongOfferView & {
+  vatIncluded: true;
+  pageHref: string;
+  addonsParam: string;
+  /** כל השילובים החוקיים, עם הסכומים שהטופס מציג */
+  combinations: { addonIds: SongAddonId[]; totalExVat: number; totalWithVat: number; offerHref: string }[];
+};
+
+/**
+ * ייצוא לכלי הצעות המחיר של הבעלים (scripts/export-closer-config.mjs).
+ * בלי הודעות ובלי תג, רק מחירים ושילובים, כדי שהכלי יחשב בדיוק כמו הטופס.
+ */
+export function getSongOfferExport(): SongOfferExport {
+  const combinations = validSongCombinations().map((ids) => {
+    const calc = calcSongOffer(ids);
+    return {
+      addonIds: calc.addonIds,
+      totalExVat: calc.totalExVat,
+      totalWithVat: calc.totalWithVat,
+      offerHref: buildSongOfferHref(calc.addonIds),
+    };
+  });
+  return {
+    ...getSongOfferView(),
+    vatIncluded: true,
+    pageHref: buildSongOfferHref(),
+    addonsParam: SONG_ADDONS_PARAM,
+    combinations,
   };
 }

@@ -17,16 +17,24 @@
  * mashup_ready_pack_3). ערך לבדו לא אומר כלום. לכן הבדיקה כאן היא
  * "איזה מזהה שינה ערך", ולא "האם המספר מוכר".
  *
- * מה הוא כן מכסה: כל מזהה שערכו השתנה מול ענף הבסיס. כל מופע פרוזה של
- * הערך הישן חייב להיות מוסבר ומקושר למזהה שמחזיק אותו היום.
+ * מה הוא כן מכסה: כל מזהה שערכו השתנה מול ענף הבסיס, וכל מזהה שנמחק
+ * מהקטלוג. כל מופע פרוזה של הערך הישן חייב להיות מוסבר ומקושר למזהה
+ * שמחזיק אותו היום, או מוסבר כמוצר אחר.
+ *
+ * למה גם מזהה שנמחק (שלב 2 חלק ג, 2.10.2026): הקלטת השיר עברה לבסיס
+ * ותוספות, ו-cover_song, song_package, studio_viral ו-studio_all_in נמחקו.
+ * PriceItemId הוא union אמיתי אחרי ה-satisfies, ולכן המחיקה נתפסה
+ * בקומפילציה בכל הפניה בקוד, אבל לא בפרוזה. הגרסה הקודמת בדקה רק מזהים
+ * שקיימים בשני הצדדים, ולכן מחיקה של ארבעה מזהים נראתה לה כ"אין שינוי".
+ *
+ * ולמה גם סכום תלת-ספרתי ליד ₪: המחיר שפרש היה 990, והתבנית הקודמת
+ * דרשה פסיק אלפים, כך שהיא לא ראתה 990, 590 או 885 בכלל.
  *
  * מה הוא לא מכסה, ואומר את זה במפורש:
- *  1. מזהה שנמחק מהקטלוג (להבדיל משינה ערך). PriceItemId הוא union אמיתי
- *     אחרי ה-satisfies, ולכן מחיקה כבר נתפסת בקומפילציה בכל הפניה בקוד,
- *     אבל לא בפרוזה. single_effect טופל ידנית.
- *  2. מחיר פרוזה חדש שמעולם לא היה בקטלוג.
- *  3. הרצה בלי היסטוריית git (למשל checkout רדוד) מדלגת על הבדיקה
- *     ואומרת זאת בקול, במקום לעבור בשקט.
+ *  1. מחיר פרוזה חדש שמעולם לא היה בקטלוג.
+ *  2. סכום בלי ₪ או ש״ח לידו ("990 שקלים").
+ *  3. הרצה בלי היסטוריית git (למשל checkout רדוד) נכשלת בקול, במקום
+ *     לעבור בשקט.
  */
 import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -46,9 +54,24 @@ const EXPLAINED = [
   { value: 3200, file: "lib/data/academy-hebrew-lessons-en.ts", match: "3,200", why: "אותו מסלול, גרסה אנגלית" },
   { value: 3200, file: "lib/data/shop-vouchers.ts", match: "2,500 - ₪3,200", why: "טווח שובר מתנה, לא פריט קטלוג" },
   { value: 3200, file: "lib/data/faq-aeo.ts", match: "2,500 עד 3,200", why: "אותו טווח שובר" },
+  /* 990 פרש עם cover_song (שלב 2 חלק ג), אבל הוא עדיין המחיר של שיעור פרטי
+     באקדמיה ושל פרק דוגמה לספר שמע. אף אחד מאלה לא מחיר שיר. */
+  { value: 990, file: "app/(services)/academy/page.tsx", match: "שיעור מלא", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/academy-course-fit.ts", match: "שיעור מלא (60 דקות", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/academy-hub-courses.tsx", match: "שעה ב-990", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/academy-hub-courses.tsx", match: "fromPrice", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/academy-private-sessions.ts", match: "שיעור מלא (60 דקות", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/audience-landings.ts", match: "priceHint", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/data/blog.ts", match: "שיעור פרטי ממוקד באולפן", catalogId: "academy_private_hour" },
+  { value: 990, file: "lib/seo/hub-pages.ts", match: "שיעור פרטי 990", catalogId: "academy_private_hour" },
+  { value: 990, file: "app/business/audiobooks/page.tsx", match: "לפרק דוגמה", catalogId: "audiobook_sample" },
+  { value: 990, file: "lib/data/blog.ts", match: "פרק דוגמה (15 דקות)", catalogId: "audiobook_sample" },
+  { value: 990, file: "public/llms.txt", match: "פרק דוגמה 990", catalogId: "audiobook_sample" },
 ];
 
-const PRICE_RE = /(?:₪\s*)(\d{1,3}(?:,\d{3})+)|(\d{1,3}(?:,\d{3})+)\s*(?:₪|ש״ח|ש"ח)/g;
+/* סכום עם פסיק אלפים, או סכום תלת-ספרתי שלם (לא זנב של 1500), ליד ₪ או ש״ח */
+const AMOUNT = String.raw`(?<!\d|\d[,.])(\d{1,3}(?:,\d{3})+|\d{3})(?!\d|,\d)`;
+const PRICE_RE = new RegExp(String.raw`(?:₪\s*)${AMOUNT}|${AMOUNT}\s*(?:₪|ש״ח|ש"ח)`, "g");
 const ID_RE = /\{\s*id:\s*"([^"]+)"[^}]*?exVat:\s*(\d+)/g;
 
 function parseIds(text) {
@@ -88,13 +111,18 @@ if (!ref) {
 const current = parseIds(readFileSync(CATALOG, "utf8"));
 const base = parseIds(execSync(`git show ${ref}:${CATALOG}`, { maxBuffer: 1e8 }).toString());
 
+/* to: null = המזהה נמחק מהקטלוג. הערך שלו פרש באותה מידה כמו ערך ששונה. */
 const changed = Object.keys(base)
-  .filter((id) => id in current && base[id] !== current[id])
-  .map((id) => ({ id, from: base[id], to: current[id] }));
+  .filter((id) => !(id in current) || base[id] !== current[id])
+  .map((id) => ({ id, from: base[id], to: id in current ? current[id] : null }));
+
+function describeTo(c) {
+  return c.to === null ? "נמחק מהקטלוג" : `עכשיו ${c.to}`;
+}
 
 if (changed.length === 0) {
   console.log("=== audit:prose-prices ===\n");
-  console.log(`  תקין. אף מחיר בקטלוג לא השתנה מול ${ref}, ולכן אין ערך שפרש לחפש בפרוזה.\n`);
+  console.log(`  תקין. אף מחיר בקטלוג לא השתנה או נמחק מול ${ref}, ולכן אין ערך שפרש לחפש בפרוזה.\n`);
   process.exit(0);
 }
 
@@ -167,8 +195,8 @@ const brokenBindings = EXPLAINED.filter(
 
 console.log("=== audit:prose-prices ===\n");
 console.log(`  ענף בסיס: ${ref}`);
-console.log(`  מחירי קטלוג שהשתנו (${changed.length}):`);
-for (const c of changed) console.log(`    ${c.id}: ${c.from} -> ${c.to}`);
+console.log(`  מחירי קטלוג שהשתנו או נמחקו (${changed.length}):`);
+for (const c of changed) console.log(`    ${c.id}: ${c.from} -> ${c.to ?? "(נמחק)"}`);
 console.log("");
 
 let failed = false;
@@ -181,7 +209,8 @@ if (unexplained.length > 0) {
     const holders = Object.keys(current).filter((id) => current[id] === u.value);
     console.error(`    ${u.file}:${u.line}`);
     console.error(`      ${u.text.slice(0, 120)}`);
-    console.error(`      ${u.value} היה המחיר של ${owners}, והוא עכשיו ${atRisk.get(u.value)[0].to}.`);
+    const fates = atRisk.get(u.value).map((c) => `${c.id}: ${describeTo(c)}`).join("; ");
+    console.error(`      ${u.value} היה המחיר של ${owners} (${fates}).`);
     if (holders.length > 0) {
       console.error(`      שים לב: ${u.value} עדיין מחיר תקף של ${holders.join(", ")}.`);
       console.error(`      אם זו הכוונה, הוסיפו רשומה ל-EXPLAINED עם catalogId.`);

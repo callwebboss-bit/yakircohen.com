@@ -190,10 +190,16 @@
         {
           "@type": "Offer",
           "name": "הקלטת שיר באולפן",
-          "description": "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר לפני מע״מ",
-          "price": "500",
+          "description": "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר כולל מע״מ",
+          "price": "590",
           "priceCurrency": "ILS",
-          "url": "https://yakircohen.com/book"
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 500,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
+          "url": "https://yakircohen.com/studio/recording-song-modiin"
         },
         {
           "@type": "Offer",
@@ -218,14 +224,6 @@
           "price": "1650",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/podcast"
-        },
-        {
-          "@type": "Offer",
-          "name": "מחירון מרכזי",
-          "description": "כל המחירים במקום אחד",
-          "price": "1500",
-          "priceCurrency": "ILS",
-          "url": "https://yakircohen.com/pricing"
         },
         {
           "@type": "Offer",
