@@ -44,6 +44,8 @@ import {
   validatePersonName,
 } from "@/lib/form-validation";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { trackConversion } from "@/lib/analytics/conversion-events";
+import { LEAD_SUBMIT_TIMEOUT_MS } from "@/lib/lead-email-notify";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { cn } from "@/lib/utils";
 
@@ -65,6 +67,8 @@ export default function BookUniversalIntakeWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successWaHref, setSuccessWaHref] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [deliveryFailed, setDeliveryFailed] = useState(false);
+  const lastIntakeBodyRef = useRef<string | null>(null);
   const [returningName, setReturningName] = useState<string | null>(null);
   const [draftSavedVisible, setDraftSavedVisible] = useState(false);
   const [routeHint, setRouteHint] = useState<string | null>(null);
@@ -224,10 +228,63 @@ export default function BookUniversalIntakeWizard() {
     setErrors({});
     setIsSubmitting(false);
     setIsSuccess(false);
+    setDeliveryFailed(false);
+    lastIntakeBodyRef.current = null;
     setSuccessWaHref("");
     setDraftSavedVisible(false);
     guard.resetGuardClock();
   }, [guard]);
+
+  /* הצלחה רק כשהשרת ענה ok ו-notified. קודם התשובה לא נקראה בכלל, והאשף
+     הציג הצלחה גם כשהפרטים לא הגיעו לאף אחד. LF-02 */
+  const postIntake = useCallback(async (requestBody: string): Promise<boolean> => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), LEAD_SUBMIT_TIMEOUT_MS);
+    let delivered = false;
+    let status = 0;
+    try {
+      const res = await fetch("/api/lead-intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: requestBody,
+        keepalive: true,
+        signal: controller.signal,
+      });
+      status = res.status;
+      const json = (await res.json().catch(() => null)) as { notified?: unknown } | null;
+      delivered = res.ok && json?.notified === true;
+    } catch {
+      delivered = false;
+    } finally {
+      clearTimeout(timer);
+    }
+    if (delivered) {
+      trackConversion("generate_lead", { form_id: "book_intake_wizard" });
+    } else {
+      trackConversion("lead_submit_failed", { form_id: "book_intake_wizard", status });
+    }
+    return delivered;
+  }, []);
+
+  const finishIntake = useCallback(
+    (delivered: boolean) => {
+      if (delivered) {
+        saveIntakeKnownContact({ name, phone, email });
+        clearIntakeDraft();
+      }
+      setDeliveryFailed(!delivered);
+      setIsSuccess(true);
+      setIsSubmitting(false);
+    },
+    [name, phone, email],
+  );
+
+  const retryIntake = useCallback(async () => {
+    const requestBody = lastIntakeBodyRef.current;
+    if (!requestBody || isSubmitting) return;
+    setIsSubmitting(true);
+    finishIntake(await postIntake(requestBody));
+  }, [finishIntake, isSubmitting, postIntake]);
 
   const handleSubmit = () => {
     if (!serviceTypeTag) return;
@@ -257,26 +314,17 @@ export default function BookUniversalIntakeWizard() {
           fileMeta: fileMeta ?? undefined,
         });
         const waHref = buildIntakeWhatsAppHref(payload);
-
-        try {
-          await fetch("/api/lead-intake", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ...payload,
-              website_verification: honeypot,
-            }),
-          });
-        } catch {
-          /* WA still opens */
-        }
-
+        /* וואטסאפ נפתח בתוך הלחיצה, לפני ה-await. אחרי await דפדפנים חוסמים
+           את החלון כפופאפ. */
         openWhatsAppLead(waHref);
-        saveIntakeKnownContact({ name, phone, email });
-        clearIntakeDraft();
         setSuccessWaHref(waHref);
-        setIsSuccess(true);
-        setIsSubmitting(false);
+
+        const requestBody = JSON.stringify({
+          ...payload,
+          website_verification: honeypot,
+        });
+        lastIntakeBodyRef.current = requestBody;
+        finishIntake(await postIntake(requestBody));
       },
     );
 
@@ -310,6 +358,8 @@ export default function BookUniversalIntakeWizard() {
         whatsappHref={successWaHref}
         onNewBooking={resetWizard}
         intent="continue_chat"
+        delivery={deliveryFailed ? "failed" : "sent"}
+        onRetry={() => void retryIntake()}
       />
     );
   }

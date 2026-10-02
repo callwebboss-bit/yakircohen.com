@@ -6,6 +6,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import {
   formatPhoneForDisplay,
@@ -37,7 +38,7 @@ export default function RecordingSongInquiryForm() {
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: FORM_ID,
   });
-  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
+  const { submitLead, isSuccess, isSubmitting, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -131,6 +132,13 @@ export default function RecordingSongInquiryForm() {
 
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mt-3"
+        />
+      ) : null}
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

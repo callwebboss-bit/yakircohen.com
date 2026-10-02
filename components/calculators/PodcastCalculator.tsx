@@ -15,6 +15,7 @@ import {
 } from "@/lib/data/podcast-calculator";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -124,7 +125,7 @@ export default function PodcastCalculator({ className }: { className?: string })
     [waText],
   );
 
-  const { submitLead } = useLeadSubmit();
+  const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   const handleWhatsAppClick = useCallback(() => {
     if (!pkg) return;
@@ -157,6 +158,13 @@ export default function PodcastCalculator({ className }: { className?: string })
         <p className="mx-auto mb-4 max-w-4xl text-center text-sm text-brand-red" role="alert">
           {globalError}
         </p>
+      ) : null}
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mx-auto mb-4 max-w-4xl"
+        />
       ) : null}
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

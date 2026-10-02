@@ -401,6 +401,9 @@ export default function StudioRecordingBooking({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "studio-recording",
     formId: "studio_recording_booking",
@@ -906,6 +909,9 @@ export default function StudioRecordingBooking({
     phone: form.phone,
     subject: "טיוטת הזמנת אולפן - שלב סגירה",
     body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -1224,11 +1230,13 @@ export default function StudioRecordingBooking({
   const today = new Date().toISOString().split("T")[0];
   const stepAnnouncement = `שלב ${step + 1} מתוך ${STEPS.length}: ${STEPS[step]}`;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
         bookCategory="studio"
         routeId={routeId ?? (initialGiftMode ? "family-gifts" : null)}
         recordingType={form.recordingType || null}
@@ -2160,7 +2168,7 @@ export default function StudioRecordingBooking({
               ) : null}
 
               <BookingSummaryActions
-                disabled={!form.termsAccepted}
+                disabled={!form.termsAccepted || wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5-7 ימי עבודה"
                 continueWhatsApp={{

@@ -15,6 +15,7 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
@@ -73,6 +74,8 @@ export default function AcademyBookingWizard({
     isSubmitting,
     successWaHref,
     successIntent,
+    submit: leadSubmit,
+    retry: retryLead,
   } = useLeadSubmit();
 
   const plan = PRIVATE_SESSION_PLANS.find((p) => p.id === planId) ?? PRIVATE_SESSION_PLANS[0];
@@ -196,8 +199,10 @@ export default function AcademyBookingWizard({
             href,
             intent,
             { leadCategory: "academy" },
-          );
-          clearPanelBookingDraft("academy");
+          ).then((ok) => {
+            /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+            if (ok) clearPanelBookingDraft("academy");
+          });
         },
       );
 
@@ -349,6 +354,9 @@ export default function AcademyBookingWizard({
       />
 
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback waHref={leadSubmit.waHref} onRetry={() => void retryLead()} />
+      ) : null}
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       <BookingSummaryActions

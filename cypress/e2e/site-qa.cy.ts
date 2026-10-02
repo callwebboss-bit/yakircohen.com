@@ -88,8 +88,10 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
       cy.visit("/");
       cy.window().then((win) => {
         win.sessionStorage.clear();
+        /* openWhatsAppLead קורא ל-window.open בלי features ומאפס opener,
+           ולכן ה-stub מחזיר חלון עם opener שאפשר לכתוב אליו (LF-05) */
         cy.stub(win, "open")
-          .callsFake(() => ({ closed: false, close: () => undefined }))
+          .callsFake(() => ({ closed: false, opener: win, close: () => undefined }))
           .as("waOpen");
       });
     });
@@ -106,9 +108,11 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
         cy.contains("button", "שלחו פרטים").click();
       });
 
-      cy.contains("תודה").should("be.visible");
-      cy.get("@waOpen").should("have.been.called");
+      /* טופס "נחזור אליכם" לא פותח וואטסאפ (LF-11), ומסך ההצלחה מופיע רק
+         אחרי שהשרת ענה 200 (LF-02) */
       cy.wait("@leadNotify");
+      cy.contains("קיבלנו את הפרטים").should("be.visible");
+      cy.get("@waOpen").should("not.have.been.called");
     });
   });
 

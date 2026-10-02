@@ -233,6 +233,9 @@ export default function PodcastBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "podcast",
     formId: "podcast_booking_wizard",
@@ -507,6 +510,9 @@ export default function PodcastBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת פודקאסט - שלב סגירה",
     body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -735,11 +741,13 @@ export default function PodcastBookingWizard({
         })
       : undefined;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
         bookCategory="podcast"
         routeId={routeId}
         recordingType={form.packageId || null}
@@ -1235,6 +1243,7 @@ export default function PodcastBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
                 continueWhatsApp={{

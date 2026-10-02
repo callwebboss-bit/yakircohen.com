@@ -1,7 +1,10 @@
 /**
- * גיבוי מייל ללידים (אופציונלי - דורש RESEND_API_KEY + LEAD_NOTIFY_EMAIL ב-Vercel).
- * לא חוסם שליחה לוואטסאפ; שגיאות נבלעות בשקט.
+ * שליחת הליד לשרת (/api/lead-notify). חוזה אחד לכל הטפסים (LF-02):
+ * submitLeadToServer לא זורק אף פעם ומחזיר LeadSubmitResult, והחלטת ההצלחה
+ * יושבת בפונקציה טהורה אחת, interpretLeadResponse: הצלחה = 200 ו-ok:true.
+ * השרת עונה 200 רק כשהבעלים באמת קיבל את הליד.
  */
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import { buildBookHref } from "@/lib/book-url";
 import { buildCloserDeepLink } from "@/lib/closer-deep-link";
 import {
@@ -19,6 +22,8 @@ export type LeadEmailPayload = {
   email?: string;
   /** Honeypot - must stay empty for humans; bots that fill it are rejected server-side. */
   website_verification?: string;
+  /** מזהה שליחה. ניסיון חוזר עם אותו מזהה לא ייצור מייל כפול אצל הבעלים. */
+  submissionId?: string;
   crossSell?: CrossSellContext;
   serviceType?: ServiceType;
   eventDate?: string;
@@ -89,7 +94,8 @@ function collectClientMeta(
   };
 }
 
-function buildEmailBody(payload: LeadEmailPayload): string {
+/** גוף המייל לבעלים כפי שהדפדפן שולח אותו. מיוצא לבדיקות. */
+export function buildLeadNotifyBody(payload: LeadEmailPayload): string {
   const crossSellBlock = buildCrossSellEmailBlock(payload.crossSell);
   if (!payload.body.trim()) return payload.body;
 
@@ -97,23 +103,123 @@ function buildEmailBody(payload: LeadEmailPayload): string {
   return `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: ${closerLink}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`;
 }
 
-export async function notifyLeadByEmailAsync(payload: LeadEmailPayload): Promise<void> {
+export const LEAD_SUBMIT_TIMEOUT_MS = 12_000;
+
+export type LeadSubmitFailReason =
+  | "network"
+  | "timeout"
+  | "rejected"
+  | "rate_limited"
+  | "server";
+
+export type LeadSubmitResult =
+  | { ok: true; leadId?: string; duplicate?: string; dryRun?: boolean }
+  | { ok: false; reason: LeadSubmitFailReason; status?: number };
+
+function isRecordLike(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+
+/** ההחלטה היחידה אם ליד נקלט. טהורה, ולכן נבדקת בלי דפדפן. */
+export function interpretLeadResponse(status: number, json: unknown): LeadSubmitResult {
+  if (status === 200 && isRecordLike(json) && json.ok === true) {
+    return {
+      ok: true,
+      leadId: typeof json.leadId === "string" ? json.leadId : undefined,
+      duplicate: typeof json.duplicate === "string" ? json.duplicate : undefined,
+      dryRun: json.dryRun === true ? true : undefined,
+    };
+  }
+  if (status === 429) return { ok: false, reason: "rate_limited", status };
+  if (status >= 400 && status < 500) return { ok: false, reason: "rejected", status };
+  return { ok: false, reason: "server", status };
+}
+
+/** fetch שנזרק: ביטול בגלל timeout, או כשל רשת. */
+export function interpretLeadError(err: unknown): LeadSubmitResult {
+  const name = isRecordLike(err) && typeof err.name === "string" ? err.name : "";
+  if (name === "AbortError" || name === "TimeoutError") {
+    return { ok: false, reason: "timeout" };
+  }
+  return { ok: false, reason: "network" };
+}
+
+export function createSubmissionId(): string {
+  try {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+      return crypto.randomUUID();
+    }
+  } catch {
+    /* fallback below */
+  }
+  return `s-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+export type SubmitLeadOptions = {
+  timeoutMs?: number;
+  /** false לליד "רוח" חלקי, כדי שלא ייספר ב-GA4 כליד */
+  track?: boolean;
+};
+
+/**
+ * שולח את הליד ומחזיר תוצאה. לא זורק אף פעם.
+ * generate_lead נשלח ל-GA4 רק אחרי 200 מהשרת, ו-lead_submit_failed בכשל.
+ */
+export async function submitLeadToServer(
+  payload: LeadEmailPayload,
+  options?: SubmitLeadOptions,
+): Promise<LeadSubmitResult> {
+  if (typeof window === "undefined") return { ok: false, reason: "network" };
+  const track = options?.track !== false;
+  const timeoutMs = options?.timeoutMs ?? LEAD_SUBMIT_TIMEOUT_MS;
+  const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+
+  let result: LeadSubmitResult;
+  try {
+    const clientMeta = collectClientMeta(payload.clientMeta);
+    const res = await fetch("/api/lead-notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...payload,
+        body: buildLeadNotifyBody(payload),
+        clientMeta,
+      }),
+      keepalive: true,
+      signal: controller?.signal,
+    });
+    const json: unknown = await res.json().catch(() => null);
+    result = interpretLeadResponse(res.status, json);
+  } catch (err) {
+    result = interpretLeadError(err);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+
+  if (track) {
+    if (result.ok) {
+      trackConversion("generate_lead", { form_id: payload.formId });
+    } else {
+      trackConversion("lead_submit_failed", {
+        form_id: payload.formId,
+        reason: result.reason,
+        ...(result.status ? { status: result.status } : {}),
+      });
+    }
+  }
+  return result;
+}
+
+/** עטיפה ותיקה שזורקת בכשל, בשביל useWizardGhostLead ו-notifyLeadByEmail. */
+export async function notifyLeadByEmailAsync(
+  payload: LeadEmailPayload,
+  options?: SubmitLeadOptions,
+): Promise<void> {
   if (typeof window === "undefined") return;
-
-  const clientMeta = collectClientMeta(payload.clientMeta);
-  const res = await fetch("/api/lead-notify", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...payload,
-      body: buildEmailBody(payload),
-      clientMeta,
-    }),
-    keepalive: true,
-  });
-
-  if (!res.ok) {
-    throw new Error(`lead-notify failed: ${res.status}`);
+  const result = await submitLeadToServer(payload, options);
+  if (!result.ok) {
+    throw new Error(`lead-notify failed: ${result.reason}${result.status ? ` ${result.status}` : ""}`);
   }
 }
 

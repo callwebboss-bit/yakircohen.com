@@ -21,4 +21,18 @@ describe("LeadSubmitState", () => {
     const submitting: LeadSubmitState = { status: "submitting" };
     assert.notEqual(idle.status, submitting.status);
   });
+
+  it("failed state keeps the same WhatsApp link for the fallback", () => {
+    const state: LeadSubmitState = {
+      status: "failed",
+      waHref: "https://wa.me/123",
+      intent: "continue_chat",
+      reason: "server",
+    };
+    assert.equal(state.status, "failed");
+    if (state.status === "failed") {
+      assert.match(state.waHref, /wa\.me/);
+      assert.equal(state.reason, "server");
+    }
+  });
 });

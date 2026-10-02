@@ -16,6 +16,7 @@ import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { SERVICES } from "@/lib/data/booking-calculator-services";
 import { withVat } from "@/lib/data/pricing";
@@ -68,6 +69,8 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     isSubmitting,
     successWaHref,
     successIntent,
+    submit: leadSubmit,
+    retry: retryLead,
   } = useLeadSubmit();
 
   const mergeErrors = useCallback(
@@ -221,8 +224,10 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
           href,
           "continue_chat",
           { leadCategory: "clips" },
-        );
-        clearPanelBookingDraft("clips");
+        ).then((ok) => {
+          /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+          if (ok) clearPanelBookingDraft("clips");
+        });
       },
     );
     setErrors(fieldErrs ?? {});
@@ -268,6 +273,9 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     <div className="space-y-8">
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback waHref={leadSubmit.waHref} onRetry={() => void retryLead()} />
+      ) : null}
 
       <div>
         <h2 className="mb-1 text-xl font-semibold text-foreground">בחרו שירותים</h2>

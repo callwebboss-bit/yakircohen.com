@@ -15,8 +15,7 @@ import {
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 import BookingCrossSellSection from "@/components/booking/BookingCrossSellSection";
-import CloserDeepLinkHint from "@/components/booking/CloserDeepLinkHint";
-import { decodeWhatsAppTextFromHref } from "@/lib/closer-deep-link";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 
 type BookingSuccessPanelProps = {
   intent?: "continue_chat" | "start_now";
@@ -28,6 +27,12 @@ type BookingSuccessPanelProps = {
   atmosphere?: string | null;
   replyStudioContext?: ReplyContext;
   className?: string;
+  /**
+   * "failed": השרת לא אישר שהליד הגיע לבעלים. במקום מסך ההצלחה מוצג מסך
+   * גיבוי עם וואטסאפ, טלפון וניסיון חוזר (LF-02).
+   */
+  delivery?: "sent" | "failed";
+  onRetry?: () => void;
 };
 
 export default function BookingSuccessPanel({
@@ -40,10 +45,12 @@ export default function BookingSuccessPanel({
   atmosphere,
   replyStudioContext,
   className,
+  delivery = "sent",
+  onRetry,
 }: BookingSuccessPanelProps) {
   const copy = resolveBookingPostSubmitCopy(intent, bookCategory);
   const btsVideo = resolveBookingBtsVideo(bookCategory);
-  const waBody = decodeWhatsAppTextFromHref(whatsappHref) || "";
+  const failed = delivery === "failed";
   const thankYouParams = new URLSearchParams();
   if (bookCategory) {
     thankYouParams.set("service", BOOK_THANK_YOU_SERVICE[bookCategory]);
@@ -56,8 +63,9 @@ export default function BookingSuccessPanel({
     : null;
 
   useEffect(() => {
+    if (failed) return;
     trackConversion("book_success_panel", bookCategory ? { category: bookCategory } : undefined);
-  }, [bookCategory]);
+  }, [bookCategory, failed]);
 
   const onWhatsAppClick = useCallback(() => {
     trackConversion(
@@ -65,6 +73,21 @@ export default function BookingSuccessPanel({
       bookCategory ? { category: bookCategory } : undefined,
     );
   }, [bookCategory]);
+
+  if (failed) {
+    return (
+      <div className={cn("rounded-2xl border border-border p-6 text-center", className)}>
+        <LeadSubmitFallback waHref={whatsappHref} onRetry={onRetry} />
+        <button
+          type="button"
+          onClick={onNewBooking}
+          className="mt-4 inline-flex rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40"
+        >
+          {copy.newBookingLabel}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -141,7 +164,6 @@ export default function BookingSuccessPanel({
         atmosphere={atmosphere}
         className="text-center sm:text-right"
       />
-      <CloserDeepLinkHint waBody={waBody} className="mx-auto mt-4 max-w-md text-right" />
     </div>
   );
 }

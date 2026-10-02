@@ -32,6 +32,7 @@ import {
 } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
@@ -219,7 +220,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     location: "",
   });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { submitLead } = useLeadSubmit();
+  const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "dj_events_calculator",
   });
@@ -423,8 +424,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             href,
             intent,
             { leadCategory: "dj" },
-          );
-          clearPanelBookingDraft("dj-events");
+          ).then((ok) => {
+            /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+            if (ok) clearPanelBookingDraft("dj-events");
+          });
         },
       );
       setFieldErrors(errs ?? {});
@@ -631,6 +634,13 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
           <div className="relative rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} className="mb-4" />
+            {leadSubmit.status === "failed" ? (
+              <LeadSubmitFallback
+                waHref={leadSubmit.waHref}
+                onRetry={() => void retryLead()}
+                className="mb-4"
+              />
+            ) : null}
             <h3 className="mb-4 text-base font-bold text-foreground">
               📅 שריון תאריך  -  כמעט סגרנו
             </h3>

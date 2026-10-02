@@ -248,6 +248,9 @@ export default function EventsBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "events",
     formId: "events_booking_wizard",
@@ -566,6 +569,9 @@ export default function EventsBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת אטרקציות - שלב סגירה",
     body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -777,11 +783,13 @@ export default function EventsBookingWizard({
         })
       : undefined;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
         bookCategory="events"
         routeId={routeId}
         onNewBooking={resetWizard}
@@ -1379,6 +1387,7 @@ export default function EventsBookingWizard({
               />
 
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: whatsappCtaLabel,

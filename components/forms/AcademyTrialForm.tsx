@@ -5,6 +5,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { sanitizeLeadText, type ValidationResult } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
@@ -102,7 +103,7 @@ export default function AcademyTrialForm() {
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "academy_trial_lesson",
   });
-  const { submitLead, isSubmitting, isSuccess } = useLeadSubmit();
+  const { submitLead, isSubmitting, isSuccess, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -229,6 +230,13 @@ export default function AcademyTrialForm() {
   return (
     <div className="space-y-6">
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mt-3"
+        />
+      ) : null}
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       {/* Required fields - grid */}

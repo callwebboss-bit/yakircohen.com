@@ -151,6 +151,9 @@ export default function SingerAmplificationBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "singer_amplification",
     formId: "singer_amplification_booking",
@@ -321,6 +324,9 @@ export default function SingerAmplificationBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת הגברה לזמרים - שלב סגירה",
     body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -530,11 +536,13 @@ export default function SingerAmplificationBookingWizard({
     if (initialPackageId) patchForm({ packageId: initialPackageId });
   };
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
         bookCategory="singer"
         routeId={routeId}
         onNewBooking={handleNewBooking}
@@ -731,6 +739,7 @@ export default function SingerAmplificationBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(totalExVat)),

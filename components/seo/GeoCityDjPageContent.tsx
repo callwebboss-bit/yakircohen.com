@@ -331,8 +331,6 @@ export default function GeoCityDjPageContent({
             <CallbackLeadForm
               heading="שאלון התאמה קצר"
               description="השאירו פרטים ונחזור אליכם עם ההתאמה הנכונה - יקיר או די ג'יי מהאקדמיה."
-              successHeading="תודה, נחזור אליכם בקרוב"
-              successDescription="פתחנו שיח בוואטסאפ. אפשר לצרף פרטים נוספים על האירוע."
               utmCampaign={city.utm.dj}
               serviceOptions={DJ_FORM_SERVICE_OPTIONS}
               formLabel={`שאלון התאמה לדי ג'יי ${city.nameHePrep}`}

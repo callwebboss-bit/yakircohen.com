@@ -15,6 +15,7 @@ import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { VOCAL_FIX_PROCESS_STEPS } from "@/lib/data/online-vocal-fix-page";
@@ -74,6 +75,8 @@ export default function OnlineRestoreBookingPanel({
     isSubmitting,
     successWaHref,
     successIntent,
+    submit: leadSubmit,
+    retry: retryLead,
   } = useLeadSubmit();
 
   const panelDraft = useMemo<OnlinePanelDraft>(
@@ -189,8 +192,10 @@ export default function OnlineRestoreBookingPanel({
             href,
             intent,
             { leadCategory: "online" },
-          );
-          clearPanelBookingDraft("online-restore");
+          ).then((ok) => {
+            /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+            if (ok) clearPanelBookingDraft("online-restore");
+          });
         },
       );
 
@@ -337,6 +342,9 @@ export default function OnlineRestoreBookingPanel({
       />
 
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback waHref={leadSubmit.waHref} onRetry={() => void retryLead()} />
+      ) : null}
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       <BookingSummaryActions

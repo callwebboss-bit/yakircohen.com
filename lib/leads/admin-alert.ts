@@ -57,3 +57,35 @@ export async function pingAdminHighScore(lead: LeadRecord): Promise<void> {
       .join("\n"),
   });
 }
+
+/**
+ * גיבוי כשהמייל לבעלים נכשל: אם ADMIN_WHATSAPP_ALERT הוא webhook, שולחים אליו
+ * את הליד בכל ציון, לא רק מעל 80. מחזיר true רק כשה-webhook ענה 2xx, כי
+ * רק אז אפשר להגיד ללקוח שהפרטים הגיעו (LF-07).
+ */
+export async function postAdminWebhookFallback(lead: LeadRecord): Promise<boolean> {
+  const alert = process.env.ADMIN_WHATSAPP_ALERT?.trim();
+  if (!alert || !/^https:\/\//i.test(alert)) return false;
+  try {
+    const res = await fetch(alert, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "lead_email_failed",
+        score: lead.score,
+        name: lead.name,
+        phone: lead.phone,
+        serviceType: lead.serviceType,
+        formId: lead.formId,
+        subject: lead.subject,
+        leadId: lead.id,
+        body: lead.body.slice(0, 1500),
+      }),
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch (err) {
+    console.error("[leads] admin webhook fallback failed", err);
+    return false;
+  }
+}

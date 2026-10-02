@@ -21,6 +21,7 @@ import {
   validateContactQuiz,
 } from "@/lib/form-validation";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
@@ -228,12 +229,20 @@ export default function ContactPageContent() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   /* קבוע, ולא useState. התווית כבר אינה תלוית שעה, ו-useState עם
      פונקציית אתחול היה מריץ אותה גם בשרת וגם בהידרציה. */
   const availability = getContactAvailabilityLabel();
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { submitLead } = useLeadSubmit();
+  /* "נשלח" נגזר מתשובת השרת ולא מלחיצה. קודם מסך ההצלחה הופיע מיד אחרי
+     void submitLead, גם כשהפרטים לא הגיעו. LF-02 */
+  const {
+    submitLead,
+    isSuccess: submitted,
+    isSubmitting,
+    submit: leadSubmit,
+    retry: retryLead,
+    resetSubmit,
+  } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "contact_quiz",
   });
@@ -310,10 +319,10 @@ export default function ContactPageContent() {
     setPhone("");
     setEmail("");
     setMessage("");
-    setSubmitted(false);
+    resetSubmit();
     setFieldErrors({});
     quizDraft.clear();
-  }, [quizDraft]);
+  }, [quizDraft, resetSubmit]);
 
   const submitForm = useCallback(() => {
     if (!service || !timing || !budget) return;
@@ -367,9 +376,9 @@ export default function ContactPageContent() {
           href,
           "continue_chat",
           contactCrossSellCategory ? { leadCategory: contactCrossSellCategory } : undefined,
-        );
-        setSubmitted(true);
-        quizDraft.clear();
+        ).then((ok) => {
+          if (ok) quizDraft.clear();
+        });
       },
     );
 
@@ -626,6 +635,12 @@ export default function ContactPageContent() {
                     <div className="relative space-y-3">
                       <HoneypotField value={honeypot} onChange={setHoneypot} />
                       <LeadFormAlert message={globalError} />
+                      {leadSubmit.status === "failed" ? (
+                        <LeadSubmitFallback
+                          waHref={leadSubmit.waHref}
+                          onRetry={() => void retryLead()}
+                        />
+                      ) : null}
                       <div>
                         <label htmlFor="contact-quiz-name" className="mb-1.5 block text-sm font-semibold text-foreground">
                           {FORM_MICROCOPY.nameLabel} *
@@ -755,7 +770,12 @@ export default function ContactPageContent() {
                         הפרטים שלכם שמורים אצלנו בלבד
                       </p>
                     </div>
-                    <QuizNav onBack={() => setStep(3)} onNext={submitForm} nextLabel="שלחו" />
+                    <QuizNav
+                      onBack={() => setStep(3)}
+                      onNext={submitForm}
+                      nextDisabled={isSubmitting}
+                      nextLabel={isSubmitting ? "שולחים" : "שלחו"}
+                    />
                   </QuestionBlock>
                 ) : null}
               </>

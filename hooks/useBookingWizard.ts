@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useMemo, useReducer } from "react";
+import { useCallback, useMemo, useReducer, useRef } from "react";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { isRecord } from "@/lib/wizard-draft-parse";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import type { LeadSubmitIntent, LeadSubmitState } from "@/hooks/useLeadSubmit";
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import type { ValidationResult } from "@/lib/form-validation";
-import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
+import { createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
 import { parseBookCategoryFromHash, parseBookWizardStepFromHash, type BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { clearBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
@@ -237,6 +237,42 @@ export function useBookingWizard<
     [state.form.selectedUpsells],
   );
 
+  const lastSubmitRef = useRef<{
+    payload: LeadEmailPayload;
+    waHref: string;
+    intent: LeadSubmitIntent;
+  } | null>(null);
+
+  /* הצלחה רק אחרי 200 מהשרת. הטיוטה ופרטי הקשר המשותפים נמחקים רק אז,
+     כדי שגולש שהשליחה שלו נכשלה לא יאבד את מה שמילא. קודם מסך ההצלחה
+     הופיע והטיוטה נמחקה עוד לפני שהבקשה יצאה. LF-02 */
+  const deliver = useCallback(
+    async (last: { payload: LeadEmailPayload; waHref: string; intent: LeadSubmitIntent }) => {
+      dispatch({ type: "SET_SUBMIT", submit: { status: "submitting" } });
+      const result = await submitLeadToServer(last.payload);
+      if (result.ok) {
+        dispatch({
+          type: "SET_SUBMIT",
+          submit: { status: "success", waHref: last.waHref, intent: last.intent },
+        });
+        draft.clear();
+        clearBookCoreContact();
+        return true;
+      }
+      dispatch({
+        type: "SET_SUBMIT",
+        submit: {
+          status: "failed",
+          waHref: last.waHref,
+          intent: last.intent,
+          reason: result.reason,
+        },
+      });
+      return false;
+    },
+    [draft],
+  );
+
   const runSubmit = useCallback(
     (
       validateFields: () => ValidationResult,
@@ -247,26 +283,25 @@ export function useBookingWizard<
       },
       options?: { leadCategory?: BookCategoryId },
     ): Record<string, string> | null => {
+      if (state.submit.status === "submitting") return null;
       const fieldErrs = guard.attemptSubmit(validateFields, (result) => {
         const { waHref, email, intent = "continue_chat" } = buildResult(result);
-        dispatch({
-          type: "SET_SUBMIT",
-          submit: { status: "success", waHref, intent },
-        });
-        draft.clear();
-        clearBookCoreContact();
+        /* וואטסאפ נפתח בתוך הלחיצה, לפני ה-await, כדי שחוסם חלונות לא יעצור */
         openWhatsAppLead(
           waHref,
           options?.leadCategory ? { leadCategory: options.leadCategory } : undefined,
         );
-        void notifyLeadByEmailAsync({
-          ...email,
-          website_verification: guard.honeypot,
-        }).catch((err) => {
-          if (process.env.NODE_ENV !== "production") {
-            console.warn("[useBookingWizard] email notify failed", err);
-          }
-        });
+        const last = {
+          payload: {
+            ...email,
+            website_verification: guard.honeypot,
+            submissionId: email.submissionId ?? createSubmissionId(),
+          },
+          waHref,
+          intent,
+        };
+        lastSubmitRef.current = last;
+        void deliver(last);
       });
 
       if (fieldErrs) {
@@ -275,14 +310,26 @@ export function useBookingWizard<
       }
       return null;
     },
-    [guard, draft],
+    [guard, deliver, state.submit.status],
   );
 
+  /** ניסיון חוזר עם אותו מזהה שליחה, בלי runLeadGuard ובלי לפתוח שוב וואטסאפ. */
+  const retrySubmit = useCallback(async (): Promise<boolean> => {
+    const last = lastSubmitRef.current;
+    if (!last || state.submit.status === "submitting") return false;
+    return deliver(last);
+  }, [deliver, state.submit.status]);
+
   const isSubmitted = state.submit.status === "success";
+  const isSubmitFailed = state.submit.status === "failed";
   const lastWaHref =
-    state.submit.status === "success" ? state.submit.waHref : "";
+    state.submit.status === "success" || state.submit.status === "failed"
+      ? state.submit.waHref
+      : "";
   const lastIntent =
-    state.submit.status === "success" ? state.submit.intent : "continue_chat";
+    state.submit.status === "success" || state.submit.status === "failed"
+      ? state.submit.intent
+      : "continue_chat";
   const isSubmitting = state.submit.status === "submitting";
 
   const setKoalendarOpen = useCallback((open: boolean) => {
@@ -299,6 +346,7 @@ export function useBookingWizard<
     dispatch({ type: "SET_ERRORS", errors: {} });
     dispatch({ type: "SET_SUBMIT", submit: { status: "idle" } });
     dispatch({ type: "DISMISS_DRAFT" });
+    lastSubmitRef.current = null;
   }, [config.initialForm, draft, guard]);
 
   const selectedUpgradeSet = useMemo(
@@ -323,8 +371,10 @@ export function useBookingWizard<
     guard,
     dismissDraft,
     runSubmit,
+    retrySubmit,
     resetWizard,
     isSubmitted,
+    isSubmitFailed,
     lastWaHref,
     lastIntent,
     isSubmitting,

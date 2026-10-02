@@ -41,6 +41,7 @@ import {
 } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
@@ -126,7 +127,7 @@ export default function PhotographyCalculator({
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
   const [contactForm, setContactForm] = useState({ name: "", phone: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { submitLead } = useLeadSubmit();
+  const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "photography_calculator",
   });
@@ -306,8 +307,10 @@ export default function PhotographyCalculator({
             href,
             intent,
             { leadCategory: "photography" },
-          );
-          clearPanelBookingDraft("photography");
+          ).then((ok) => {
+            /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+            if (ok) clearPanelBookingDraft("photography");
+          });
         },
       );
       setFieldErrors(errs ?? {});
@@ -462,6 +465,13 @@ export default function PhotographyCalculator({
         <section className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
           <HoneypotField value={honeypot} onChange={setHoneypot} />
           <LeadFormAlert message={globalError} className="mb-4" />
+          {leadSubmit.status === "failed" ? (
+            <LeadSubmitFallback
+              waHref={leadSubmit.waHref}
+              onRetry={() => void retryLead()}
+              className="mb-4"
+            />
+          ) : null}
           <h3 className="mb-4 text-base font-bold text-foreground">📋 פרטי קשר לשמירת תאריך</h3>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>

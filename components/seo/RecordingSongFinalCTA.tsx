@@ -6,6 +6,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildBookHref } from "@/lib/book-url";
@@ -44,7 +45,7 @@ export default function RecordingSongFinalCTA() {
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: FORM_ID,
   });
-  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
+  const { submitLead, isSuccess, isSubmitting, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -188,6 +189,13 @@ export default function RecordingSongFinalCTA() {
         >
           <HoneypotField value={honeypot} onChange={setHoneypot} />
           <LeadFormAlert message={globalError} />
+          {leadSubmit.status === "failed" ? (
+            <LeadSubmitFallback
+              waHref={leadSubmit.waHref}
+              onRetry={() => void retryLead()}
+              className="mt-3"
+            />
+          ) : null}
           <div>
             <label htmlFor="recording-song-name" className="mb-1.5 block text-sm font-medium text-foreground">
               {FORM_MICROCOPY.nameLabel} <span className="text-brand-red" aria-hidden>*</span>

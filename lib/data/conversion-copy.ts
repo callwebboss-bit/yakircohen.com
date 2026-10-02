@@ -3,6 +3,7 @@ import { buildBookHref } from "@/lib/book-url";
 import { formatHubPriceDual } from "@/lib/data/pricing-display";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
+import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 
 /** הסתייגות תפעולית, שורת משנה ליד הבטחות זמן */
 export const TIME_PROMISE_DISCLAIMER =
@@ -26,6 +27,27 @@ export const TIME_CLAIMS = {
   waResponse15mBusiness: "מענה אנושי בשעות הפעילות",
   waResponseMinutes: "בדרך כלל תוך דקות בוואטסאפ",
   humanResponseSubline: "*מענה אנושי, לא בוט",
+} as const;
+
+/**
+ * מסך הגיבוי כשהשרת לא אישר שהליד הגיע לבעלים (LF-02). קודם הגולש ראה
+ * "נשלח בהצלחה" גם כשהפרטים לא הגיעו לאף אחד. כאן הוא מקבל דרך בטוחה
+ * להעביר אותם: וואטסאפ עם אותו טקסט, טלפון, או ניסיון חוזר.
+ */
+export const LEAD_SUBMIT_FALLBACK = {
+  title: "הפרטים עוד לא הגיעו אלינו",
+  body: `אפשר לשלוח אותם בוואטסאפ בלחיצה אחת, או להתקשר ל-${CONTACT_PHONE_DISPLAY}.`,
+  whatsapp: "שליחה בוואטסאפ",
+  call: "התקשרו",
+  retry: "לנסות שוב",
+  retrying: "שולחים שוב",
+} as const;
+
+/** טופס "נחזור אליכם": הבטחת הזמן היא TIME_CLAIMS.quoteHour, בלי הבטחה חדשה. LF-11 */
+export const CALLBACK_SUCCESS_COPY = {
+  title: "קיבלנו את הפרטים",
+  body: `יקיר יחזור אליך ${TIME_CLAIMS.quoteHour} מ-${CONTACT_PHONE_DISPLAY}.`,
+  whatsappOptional: "מעדיפים וואטסאפ? אפשר לכתוב לנו גם שם",
 } as const;
 
 export const OUTCOME_CTA = {
