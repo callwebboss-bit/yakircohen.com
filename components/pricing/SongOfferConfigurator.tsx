@@ -383,9 +383,14 @@ function SongCallback({
   const [submissionId, setSubmissionId] = useState("");
   const [sentPhone, setSentPhone] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
 
+  /* הפוקוס עובר לשדה הראשון כשהטופס נפתח, ולהודעת התודה כשהיא מחליפה את
+     הטופס, כדי שקורא מסך לא יישאר על כפתור שנעלם */
   useEffect(() => {
     if (state === "open") nameRef.current?.focus();
+    if (state === "success") successRef.current?.focus();
   }, [state]);
 
   function open() {
@@ -402,7 +407,11 @@ function SongCallback({
       phone: phoneCheck.ok ? undefined : phoneCheck.errors.phone,
     };
     setErrors(nextErrors);
-    if (!nameCheck.ok || !phoneCheck.ok) return;
+    if (!nameCheck.ok || !phoneCheck.ok) {
+      /* הפוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby */
+      (nameCheck.ok ? phoneRef : nameRef).current?.focus();
+      return;
+    }
     const displayPhone = formatPhoneForDisplay(phoneCheck.normalizedPhone ?? phone);
     setState("submitting");
     const result = await submitLeadToServer(
@@ -434,7 +443,12 @@ function SongCallback({
 
   if (state === "success") {
     return (
-      <div className="mt-4 rounded-xl border border-brand-red/30 bg-brand-red/5 p-4" role="status">
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        className="mt-4 rounded-xl border border-brand-red/30 bg-brand-red/5 p-4 focus:outline-none"
+        role="status"
+      >
         <p className="text-sm font-semibold text-foreground">
           תודה {name.trim()}. נחזור אליכם ל-<span dir="ltr">{sentPhone}</span>,{" "}
           {/* חלון הזמן הקיים, בלי הבטחה חדשה (LF-11) */}
@@ -458,7 +472,6 @@ function SongCallback({
         type="button"
         onClick={open}
         className="mt-3 flex min-h-12 w-full items-center justify-center rounded-xl border border-border bg-background px-4 text-base font-semibold text-foreground hover:border-brand-red/40"
-        aria-expanded="false"
       >
         תתקשרו אליי
       </button>
@@ -498,6 +511,7 @@ function SongCallback({
           טלפון נייד
         </label>
         <input
+          ref={phoneRef}
           id={phoneId}
           name="tel"
           type="tel"

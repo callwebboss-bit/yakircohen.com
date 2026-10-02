@@ -1,5 +1,5 @@
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
-import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import { consumerBookCtaLabel, hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { resolveEventItemIdFromPath } from "@/lib/data/attraction-book-pricing";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 
@@ -16,15 +16,28 @@ type BookMapEntry = {
   priceCatalogId?: PriceItemId;
   /** כשאין מזהה בקטלוג (למשל אקדמיה 990) */
   priceExVat?: number;
+  /**
+   * עמוד שמציג את טופס הקלטת השיר: הכפתור מציג כולל מע״מ, כמו הטופס, כדי
+   * שהשיר ב-590 כולל מע״מ והברכה ב-590 לפני מע״מ לא ייראו כאותו מחיר
+   * (החלטת הבעלים 2.10.2026).
+   */
+  consumerVat?: true;
 };
 
 /** slug (no leading slash) קטגוריית /book + מחיר התחלתי מהקטלוג */
 const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
-  studio: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  studio: { bookCategory: "studio", priceCatalogId: "blessing_recording", consumerVat: true },
   "studio/blessings": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   "studio/recording-song-modiin": {
     bookCategory: "studio",
     priceCatalogId: "song_recording",
+    consumerVat: true,
+  },
+  "studio/pricing": { bookCategory: "studio", priceCatalogId: "blessing_recording", consumerVat: true },
+  "studio/blessings/video-clip": {
+    bookCategory: "studio",
+    priceCatalogId: "blessing_recording",
+    consumerVat: true,
   },
   "studio/recording-studio": { bookCategory: "studio", priceCatalogId: "studio_hour" },
   "studio/mobile-studio": { bookCategory: "studio", priceCatalogId: "mobile_podcast_at_home" },
@@ -156,7 +169,7 @@ export function resolveServiceBookCta(slug: string): ServiceBookCta | null {
       entry.bookCategory,
       eventItemId ? { item: eventItemId } : undefined,
     ),
-    bookLabel: hubBookCtaLabel(priceExVat),
+    bookLabel: entry.consumerVat ? consumerBookCtaLabel(priceExVat) : hubBookCtaLabel(priceExVat),
     priceExVat,
   };
 }

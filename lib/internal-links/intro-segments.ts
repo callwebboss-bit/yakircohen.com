@@ -643,7 +643,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/studio/pricing": [
-    { type: "text", value: "מחירון אולפן לפני מע\"מ - חצי שעה, שעה וחבילות. לחבילות מוכנות - " },
+    { type: "text", value: "מחירון אולפן כולל מע״מ - הקלטת שיר ותוספות, ברכה ושעת חדר. לחבילות מוכנות - " },
     { type: "link", href: "/packages", label: "חבילות אולפן" },
     { type: "text", value: ". להזמנה - " },
     { type: "link", href: "/book", label: "הזמנה מקוונת" },

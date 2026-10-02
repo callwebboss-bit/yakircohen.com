@@ -12,7 +12,8 @@ import ShareButton from "@/components/ui/ShareButton";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
 
-const bookCta = resolveServiceBookCta("studio");
+/* voiceover ולא studio: אותו יעד ומחיר, אבל עמוד עסקי נשאר לפני מע״מ */
+const bookCta = resolveServiceBookCta("voiceover");
 
 export default function ProfessionalVoiceoverPageContent() {
   const ctaHref = buildWhatsAppHref({

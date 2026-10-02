@@ -56,7 +56,8 @@ export const TIME_SAVED_MATRIX: Record<TimeSavedHub, readonly TimeSavedRow[]> = 
       id: "studio-song",
       criterion: "מסירה אחרי הקלטת שיר",
       others: "זמן אולפן כולל רק הקלטה. העריכה מגיעה אחר כך, בלי תאריך מסירה ברור.",
-      ours: "חבילת שיר כוללת עריכה ותיקון זיופים - בדרך כלל תוך 48 שעות.",
+      /* 2.10.2026: סשן של שעה והתוצאה ביד באותו רגע. תיקון זיופים הוא תוספת */
+      ours: "סשן של שעה: הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים בתוספת.",
       href: "/studio/recording-song-modiin",
       linkLabel: "הקלטת שיר באולפן",
     },

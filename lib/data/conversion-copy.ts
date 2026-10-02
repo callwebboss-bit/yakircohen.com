@@ -1,6 +1,6 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildBookHref } from "@/lib/book-url";
-import { formatHubPriceDual } from "@/lib/data/pricing-display";
+import { formatConsumerPrice, formatHubPriceDual } from "@/lib/data/pricing-display";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
@@ -111,6 +111,11 @@ export function hubBookCtaLabel(priceExVat: number): string {
     .replace(/^כרגע:\s*/, "")
     .replace(/^מ-/, "");
   return `הזמנה מקוונת מ-${dual}`;
+}
+
+/** אותו כפתור לעמודי צרכן שמציגים כולל מע״מ (עמודים עם טופס הקלטת השיר) */
+export function consumerBookCtaLabel(priceExVat: number): string {
+  return `הזמנה מקוונת מ-${formatConsumerPrice(priceExVat).totalLabel}`;
 }
 
 export function pricingRowBookCta(priceExVat: number, priceFrom = false): string {

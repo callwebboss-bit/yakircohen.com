@@ -192,7 +192,7 @@ export function calcStudioPriceBuilder(
     `משך: ${durationLabel}`,
     `משתתפים: ${participantLabel}`,
     `גימור: ${finishLabel}`,
-    `מחיר: ${formatNis(exVat)} לפני מע״מ (${formatNis(withVat(exVat))} כולל)`,
+    `מחיר: ${formatNis(withVat(exVat))} כולל מע״מ (${formatNis(exVat)} לפני מע״מ)`,
   ].join("\n");
 
   const whatsappText = `${whatsappBody}\n${buildYcLeadTag({
