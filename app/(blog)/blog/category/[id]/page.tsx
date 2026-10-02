@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleFeed, { type BlogPost as FeedPost } from "@/components/blog/ArticleFeed";
 import AnswerBlock from "@/components/seo/AnswerBlock";
+import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import Container from "@/components/ui/Container";
@@ -170,6 +171,14 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
             </nav>
           </Container>
         </Section>
+
+        {hub?.showPriceFactors ? (
+          <Section ariaLabelledby="price-factors-heading">
+            <Container>
+              <PriceFactorsSection />
+            </Container>
+          </Section>
+        ) : null}
 
         {groups.length > 0 ? (
           groups.map((group) => (

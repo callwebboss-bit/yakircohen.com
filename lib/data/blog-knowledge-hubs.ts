@@ -33,6 +33,8 @@ export type KnowledgeHub = {
   answer: string;
   /** תיאור ל-SERP. נכתב בנפרד מהתשובה כי שם יש 155 תווים בלבד. */
   metaDescription: string;
+  /** האם להציג את בלוק "מה מזיז את המחיר". נכון לדלי שהשאלה בו היא מחיר. */
+  showPriceFactors?: boolean;
   groups: readonly KnowledgeGroup[];
 };
 
@@ -48,7 +50,8 @@ export function buildStudioHubAnswer(): string {
   return (
     `הקלטה באולפן מתחילה ב-${blessing} לברכה או אמירה קצרה, ` +
     `ו-${song} לשיר מוכן שכולל מיקס, מאסטרינג ותיקון זיופים. ` +
-    `מה שמזיז את המחיר הוא אורך ההקלטה, כמה אנשים מקליטים, ואם צריך גם צילום. ` +
+    `מה שמזיז את המחיר הוא רמת הגימור, אורך ההקלטה, כמה אנשים מקליטים וכמה זה דחוף. ` +
+    `אפשר גם לצלם את ההקלטה לרשתות. ` +
     `לפני שמתחילים נבין מה אתם רוצים ליצור, ורק אז נגיד מחיר.`
   );
 }
@@ -67,6 +70,7 @@ const STUDIO_HUB: KnowledgeHub = {
   heading: "כמה עולה להקליט באולפן?",
   answer: buildStudioHubAnswer(),
   metaDescription: buildStudioHubMetaDescription(),
+  showPriceFactors: true,
   groups: [
     {
       id: "cost",

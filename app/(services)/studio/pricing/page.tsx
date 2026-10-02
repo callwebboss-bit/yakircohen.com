@@ -12,6 +12,7 @@ import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
 import StudioPriceBuilder from "@/components/pricing/StudioPriceBuilder";
+import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import { STUDIO_PRICING } from "@/lib/data/services";
 import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -157,6 +158,8 @@ export default function StudioPricingPage() {
             </Link>
           </p>
         </section>
+
+        <PriceFactorsSection className="mt-4" />
 
         <StudioPriceBuilder
           packages={

@@ -5,7 +5,10 @@
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
-import { RECORDING_SONG_STUDIO_PRICE_FAQ } from "@/lib/data/faq-aeo";
+import {
+  RECORDING_SONG_STUDIO_PRICE_FAQ,
+  STUDIO_PRICE_FACTORS_FAQ,
+} from "@/lib/data/faq-aeo";
 
 export type HomeFaqItem = {
   id: string;
@@ -19,6 +22,11 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "song-studio-price",
     question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
     answerPlain: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+  },
+  {
+    id: STUDIO_PRICE_FACTORS_FAQ.id,
+    question: STUDIO_PRICE_FACTORS_FAQ.question,
+    answerPlain: STUDIO_PRICE_FACTORS_FAQ.answer,
   },
   {
     id: "location-parking",

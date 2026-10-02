@@ -5,6 +5,7 @@
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { buildPriceFactorsAnswer } from "@/lib/data/price-factors";
 
 export type AeoFaqItem = {
   id: string;
@@ -31,6 +32,19 @@ export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {
   id: "song-studio-price",
   question: "כמה עולה להקליט שיר באולפן?",
   answer: buildRecordingSongStudioPriceAnswer(),
+};
+
+/**
+ * "למה זה עולה ככה", לא "כמה זה עולה".
+ *
+ * נמדד ב-2.10.2026: 11 מתוך 13 שאלות ה-AEO באתר שאלו "כמה עולה",
+ * ואף אחת לא הסבירה מה מזיז את המספר. מבקר שגילה בארבעה מקומות
+ * ששיר עולה 990 לא מצא בשום מקום למה שלו יעלה 1,480.
+ */
+export const STUDIO_PRICE_FACTORS_FAQ: AeoFaqItem = {
+  id: "studio-price-factors",
+  question: "מה משפיע על מחיר הקלטה באולפן?",
+  answer: buildPriceFactorsAnswer(),
 };
 
 /** וריאנט מדובר לחיפוש קולי / AEO */
