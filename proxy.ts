@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES } from "@/lib/legacy-redirects";
+import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES, clearCartQuery } from "@/lib/legacy-redirects";
 
 /**
  * `410 Gone` לשרידי WooCommerce ו-WordPress.
@@ -19,14 +19,18 @@ import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES } from "@/lib/legacy-redirects";
  */
 export function proxy(req: NextRequest) {
   const clean = req.nextUrl.pathname.replace(/\/+$/, "") || "/";
+  /* ?add-to-cart= מנוקה כאן ולא ב-next.config: redirect שם מעביר את ה-query
+     ליעד (redirects.md:43 בתיעוד), ולכן הכלל הישן הפנה לעצמו בלולאה (ED-12).
+     הניקוי חל גם על ההפניה של /shop-2, כדי שתהיה קפיצה אחת ולא שתיים. */
+  const target = req.nextUrl.clone();
+  const hadCartQuery = clearCartQuery(target);
 
   /* חריג מכוון: /shop-2 עצמו כן מקבל הפניה, כי יש לו מקבילה אמיתית ב-/shop.
      רק העומק מתחתיו מת. ראו ההערה על "/shop-2" ב-GONE_PATH_PREFIXES. */
   if (clean === "/shop-2") {
-    const url = req.nextUrl.clone();
-    url.pathname = "/shop";
-    url.hash = "vouchers";
-    return NextResponse.redirect(url, 308);
+    target.pathname = "/shop";
+    target.hash = "vouchers";
+    return NextResponse.redirect(target, 308);
   }
 
   const isGone =
@@ -46,6 +50,12 @@ export function proxy(req: NextRequest) {
         "cache-control": "public, max-age=60, s-maxage=86400",
       },
     });
+  }
+
+  /* אחרי בדיקת ה-410 בכוונה: /product/x?add-to-cart=1 מקבל 410 ישר, בלי
+     קפיצה מיותרת דרך הפניה. */
+  if (hadCartQuery) {
+    return NextResponse.redirect(target, 308);
   }
 
   return NextResponse.next();
@@ -72,5 +82,9 @@ export const config = {
     "/xmlrpc.php",
     "/index.aspx",
     "/main.asp",
+    /* כל נתיב, אבל רק כשיש בו ?add-to-cart=. תנאי has ב-matcher מתועד ב-
+       node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md:101.
+       בלי ה-has ה-proxy היה רץ על כל בקשה באתר. */
+    { source: "/:path*", has: [{ type: "query", key: "add-to-cart" }] },
   ],
 };

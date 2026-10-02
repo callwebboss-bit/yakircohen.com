@@ -2,13 +2,23 @@
  * Cross-check a Google Search Console "Page indexing -> Not found (404)"
  * export against this site's known routes and redirects.
  *
- * Usage: npm run audit:404 -- path/to/export.csv
+ * Usage: npm run audit:404 -- path/to/export.csv [--live <base>]
  *
  * For each 404 path in the export:
  * - if it matches a known route or an existing redirect source, it's stale
  *   GSC data that should clear after the next recrawl.
  * - otherwise, it's a real gap - add a redirect for it in
  *   lib/legacy-redirects.ts.
+ *
+ * --live <base>: בנוסף לבדיקה מול המפה, שולח בקשה לכל נתיב עברי בקובץ ודורש
+ * תגובה אמיתית: 301/308 בקפיצה הראשונה ו-200 בסוף השרשרת (נתיב מת דורש 410).
+ * למה: עד עכשיו "handled" פירושו היה "המפתח קיים במפה", וכל 214 המפתחות
+ * העבריים היו במפה ובכל זאת החזירו 404 באתר החי (ED-01). רק תגובה אמיתית
+ * מוכיחה שההפניה עובדת.
+ * להריץ מול שרת מקומי או preview, למשל
+ *   npm run audit:404 -- export.csv --live http://localhost:3200
+ * הנתיב נשלח בלי לוכסן סופי, כי עם לוכסן Next מחזיר 308 משלו (הסרת הלוכסן)
+ * גם לנתיב שאין לו הפניה, וזה היה עובר בטעות.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -65,7 +75,8 @@ function patternToRegex(source: string): RegExp | null {
 
 function normalize(rawLine: string): string | null {
   let line = rawLine.trim().replace(/^"|"$/g, "").replace(/,$/, "");
-  if (!line || /^(url|page|address)$/i.test(line)) return null;
+  /* שורת הכותרת, גם בייצוא העברי של Search Console ("כתובת אתר,נסרק לאחרונה") */
+  if (!line || /^(url|page|address|כתובת אתר)(,|$)/i.test(line)) return null;
 
   const urlMatch = line.match(/https?:\/\/[^\s",]+/);
   if (urlMatch) line = urlMatch[0];
@@ -82,9 +93,19 @@ function normalize(rawLine: string): string | null {
   return line;
 }
 
-const file = process.argv[2];
+const args = process.argv.slice(2);
+const liveIdx = args.indexOf("--live");
+const liveBase = liveIdx === -1 ? null : args[liveIdx + 1];
+if (liveIdx !== -1) {
+  if (!liveBase || !/^https?:\/\//.test(liveBase)) {
+    console.error("--live needs a base URL, e.g. --live http://localhost:3200");
+    process.exit(1);
+  }
+  args.splice(liveIdx, 2);
+}
+const file = args[0];
 if (!file) {
-  console.error("Usage: npm run audit:404 -- path/to/export.csv");
+  console.error("Usage: npm run audit:404 -- path/to/export.csv [--live <base>]");
   process.exit(1);
 }
 
@@ -95,7 +116,18 @@ const routes = collectRoutes(appDir);
 routes.add("/");
 
 const redirects = getLegacyRedirects();
-const staticSources = new Set(redirects.filter((r) => !r.source.includes(":")).map((r) => r.source));
+/* המקורות במפה מקודדים באחוזים (toNextSource), והנתיבים מהקובץ מפוענחים
+   ב-normalize. משווים בצורה המפוענחת. */
+function safeDecode(p: string): string {
+  try {
+    return decodeURI(p);
+  } catch {
+    return p;
+  }
+}
+const staticSources = new Set(
+  redirects.filter((r) => !r.source.includes(":")).map((r) => safeDecode(r.source)),
+);
 const patternRegexes = redirects
   .map((r) => patternToRegex(r.source))
   .filter((re): re is RegExp => re !== null);
@@ -148,3 +180,87 @@ else gone.sort().forEach((p) => console.log(p));
 console.log("\n=== Needs a new redirect in lib/legacy-redirects.ts ===\n");
 if (missing.length === 0) console.log("(none)");
 else missing.sort().forEach((p) => console.log(p));
+
+/* ---------------------------------------------------------------- --live */
+
+const HEBREW_RE = /[\u0590-\u05FF]/;
+const MAX_HOPS = 5;
+
+type LiveResult = { path: string; ok: boolean; chain: string };
+
+/* שרת dev מקומי מאתחל את עצמו כשהזיכרון מתקרב לסף ("restarting..."), ובזמן
+   הזה החיבור נדחה. ניסיון חוזר קצר מבדיל בין זה לבין כשל אמיתי. */
+async function fetchWithRetry(url: string, attempts = 4): Promise<Response> {
+  for (let i = 1; ; i++) {
+    try {
+      return await fetch(url, { redirect: "manual" });
+    } catch (err) {
+      if (i >= attempts) throw err;
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  }
+}
+
+async function checkLive(base: string, p: string): Promise<LiveResult> {
+  const origin = new URL(base).origin;
+  const expectGone = isGonePath(p);
+  let url = new URL(encodeURI(p), base).href;
+  const hops: string[] = [];
+  for (let hop = 0; hop <= MAX_HOPS; hop++) {
+    let res: Response;
+    try {
+      res = await fetchWithRetry(url);
+    } catch (err) {
+      return { path: p, ok: false, chain: `${hops.join(" ")} fetch failed: ${(err as Error).message}` };
+    }
+    const location = res.headers.get("location");
+    hops.push(String(res.status));
+
+    if (hop === 0) {
+      if (expectGone) return { path: p, ok: res.status === 410, chain: `${res.status} (expect 410)` };
+      if (res.status !== 301 && res.status !== 308) {
+        return { path: p, ok: false, chain: `${res.status} (expect 301/308)` };
+      }
+    }
+    if ((res.status === 301 || res.status === 308 || res.status === 307 || res.status === 302) && location) {
+      const next = new URL(location, url);
+      hops.push(`-> ${safeDecode(next.pathname)}${next.search}`);
+      /* יעד חיצוני (וואטסאפ) הוא סוף השרשרת מבחינתנו. לא שולחים אליו בקשה. */
+      if (next.origin !== origin) return { path: p, ok: true, chain: `${hops.join(" ")} (external)` };
+      url = next.href;
+      continue;
+    }
+    return { path: p, ok: res.status === 200, chain: hops.join(" ") };
+  }
+  return { path: p, ok: false, chain: `${hops.join(" ")} (more than ${MAX_HOPS} hops)` };
+}
+
+async function runLive(base: string): Promise<void> {
+  const targets = [...seen].filter((p) => HEBREW_RE.test(p)).sort();
+  console.log(`\n=== --live ${base}: ${targets.length} Hebrew paths (need 301/308 then 200; gone paths need 410) ===\n`);
+
+  const results: LiveResult[] = [];
+  const queue = [...targets];
+  /* מקביליות נמוכה: שרת dev מקמפל כל יעד בפעם הראשונה */
+  await Promise.all(
+    Array.from({ length: 4 }, async () => {
+      for (let p = queue.shift(); p !== undefined; p = queue.shift()) {
+        results.push(await checkLive(base, p));
+      }
+    }),
+  );
+  results.sort((a, b) => a.path.localeCompare(b.path));
+
+  const failed = results.filter((r) => !r.ok);
+  for (const r of results) console.log(`${r.ok ? "OK  " : "FAIL"} ${r.path}  ${r.chain}`);
+  console.log(`\n--live summary: ${results.length - failed.length} ok, ${failed.length} failed`);
+  if (failed.length > 0) process.exitCode = 1;
+}
+
+/* בלי top-level await: הקובץ רץ ב-tsx כ-CommonJS (אין "type": "module") */
+if (liveBase) {
+  runLive(liveBase).catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+  });
+}
