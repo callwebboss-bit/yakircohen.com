@@ -25,8 +25,14 @@
 
 | קובץ | שימוש | סטטוס |
 |------|--------|--------|
-| `singer-live-raw.mp3` / `singer-live-tuned.mp3` | כיוון הגברה חיה | placeholder + "בקרוב" בעמוד |
 | `voiceover-yakir-cohen-warm.mp3` | גרסה חמה ואנרגטית של יקיר להשוואת הקריינות (מקור: `YES YAKIR 2.mp3` - להעתיק לשם הזה) | מוסתר עד ש-`VOICEOVER_YAKIR_WARM_READY=true` ב-`voiceover-narrator-compare.ts` |
+
+> **הערה מ-2.10.2026:** הדגמת כיוון ההגברה החיה (`singer-live-raw` / `singer-live-tuned`)
+> הוסרה מהקוד. שני הקבצים מעולם לא הועלו, ובינתיים העמוד
+> `/events/equipment/singer-amplification` רינדר שני נגנים שבורים.
+> בהחלטת הבעלים: לא מחזיקים בקוד הדגמה בלי קבצים. אם הקבצים יופקו,
+> מוסיפים את ההדגמה מחדש ל-`lib/data/audio-demos.ts` יחד איתם.
+> `audit:audio-demo-coverage` אוכף את זה.
 
 > **YouTube לדמו פודקאסט:** אחרי העלאה ליוטיוב, עדכנו `youtubeVideoId` ב-`lib/data/podcast-proof.ts`.
 
