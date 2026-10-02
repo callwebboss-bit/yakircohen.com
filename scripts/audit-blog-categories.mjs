@@ -33,6 +33,69 @@ if (orphans.length) {
   process.exit(1);
 }
 
+/**
+ * מרכזי הידע: כל סלאג ברשימה חייב להתקיים ולהשתייך לדלי הנכון, וכל פוסט
+ * בדלי חייב להופיע באחת הקבוצות. בלי זה פוסט חדש נופל בין הכיסאות: הוא
+ * קיים בבלוג אבל לא מקושר משום מקום במרכז הידע, וזו בדיוק הבעיה שהמרכז
+ * נבנה כדי לפתור.
+ */
+const hubsPath = "lib/data/blog-knowledge-hubs.ts";
+if (fs.existsSync(hubsPath)) {
+  const hubs = fs.readFileSync(hubsPath, "utf8");
+  const allSlugs = new Set(
+    [...blog.matchAll(/^\s{4}slug:\s*"([a-z0-9-]+)"/gm)].map((m) => m[1]),
+  );
+
+  const bucketOf = new Map();
+  for (const m of norm.matchAll(
+    /id:\s*"([a-z]+)",[\s\S]*?matches:\s*\[([\s\S]*?)\]/g,
+  )) {
+    for (const c of m[2].matchAll(/"([^"]+)"/g)) bucketOf.set(c[1], m[1]);
+  }
+  const postBucket = new Map();
+  for (const chunk of blog.split(/\n {4}slug: "/).slice(1)) {
+    const slug = chunk.slice(0, chunk.indexOf('"'));
+    const cat = chunk.match(/\n {4}category: "([^"]+)"/);
+    if (cat) postBucket.set(slug, bucketOf.get(cat[1]));
+  }
+
+  const problems = [];
+  for (const hub of hubs.matchAll(
+    /categoryId:\s*"([a-z]+)",[\s\S]*?groups:\s*\[([\s\S]*?)\n  \],/g,
+  )) {
+    const [, categoryId, groupsRaw] = hub;
+    const listed = [...groupsRaw.matchAll(/slugs:\s*\[([\s\S]*?)\]/g)].flatMap(
+      (g) => [...g[1].matchAll(/"([a-z0-9-]+)"/g)].map((m) => m[1]),
+    );
+    const seen = new Set();
+    for (const slug of listed) {
+      if (seen.has(slug)) problems.push(`${categoryId}: ${slug} מופיע פעמיים`);
+      seen.add(slug);
+      if (!allSlugs.has(slug)) {
+        problems.push(`${categoryId}: ${slug} לא קיים בבלוג`);
+      } else if (postBucket.get(slug) !== categoryId) {
+        problems.push(
+          `${categoryId}: ${slug} שייך לדלי ${postBucket.get(slug) ?? "לא ידוע"}`,
+        );
+      }
+    }
+    for (const [slug, bucket] of postBucket) {
+      if (bucket === categoryId && !seen.has(slug)) {
+        problems.push(`${categoryId}: ${slug} בדלי אבל לא באף קבוצה`);
+      }
+    }
+  }
+
+  if (problems.length) {
+    console.error(`\naudit:blog-categories -- מרכזי הידע לא מסונכרנים:\n`);
+    for (const x of problems) console.error(`  ✗ ${x}`);
+    console.error(
+      `\nכל פוסט בדלי חייב להופיע בקבוצה ב-${hubsPath}. פוסט חדש מצטרף לקבוצה המתאימה.\n`,
+    );
+    process.exit(1);
+  }
+}
+
 console.log(
   `audit:blog-categories OK -- ${counts.size} קטגוריות, כולן ממופות ל-${new Set(buckets).size} ערכי דלי`,
 );
