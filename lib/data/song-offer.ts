@@ -1,43 +1,65 @@
 /**
- * הצעת הקלטת השיר: בסיס אחד ושלוש תוספות (docs/OWNER-DECISIONS-2026-10-02.md).
+ * הצעת הקלטת השיר: בסיס אחד, שלוש תוספות ומספר משתתפים
+ * (docs/OWNER-DECISIONS-2026-10-02.md).
  *
- * מודול טהור, בלי React. כל החישובים, הודעת הוואטסאפ, הקישורים, מיפוי
- * הקישורים הישנים ובקשת השיחה החוזרת יושבים כאן, והמחירים והתוספות נקראים
- * מהקטלוג בלבד (song_recording ו-PRICING_ADDON_LINKS).
+ * מודול טהור, בלי React. הצד הזה קורא את הקטלוג (song_recording,
+ * PRICING_ADDON_LINKS ו-SONG_PARTICIPANT_RULES) ובונה ממנו SongQuoteData.
+ * החישוב עצמו, ההודעה והקישורים יושבים ב-song-offer-quote.ts, כדי שהטופס
+ * בדפדפן יחשב בדיוק באותה פונקציה בלי לייבא את הקטלוג.
  *
  * כללי מחיר: לצרכן מציגים כולל מע״מ קודם, ובקטן לפני מע״מ. הסכום הכולל הוא
- * סכום שורות כולל המע״מ, ובדיקה מוודאת שהוא שווה ל-withVat של סכום השורות
- * לפני מע״מ בכל שילוב, כך שמחיר עתידי שמתעגל אחרת יפיל את הבדיקות.
+ * withVat של הסכום לפני מע״מ, ובדיקה מוודאת שהוא שווה גם לסכום השורות כולל
+ * מע״מ בכל שילוב ולכל מספר משתתפים.
  */
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import {
   buildSongCallbackPayload,
+  buildSongMessageFromCalc,
+  buildSongOfferHrefFrom,
+  calcSongQuote,
+  clampSongParticipants,
+  composeSongOfferQuote,
   formatSongTotalLine,
+  SONG_ADDONS_PARAM,
   SONG_OFFER_CALLBACK_FORM_ID,
+  SONG_OFFER_PAGE_PATH,
   SONG_OFFER_SECTION_ID,
+  SONG_PARTICIPANTS_PARAM,
   songAddonKey,
-  songSelectionLines,
+  songParticipantsExplanation,
+  songParticipantsExplanationExVat,
+  songParticipantsSurchargeExVat,
   type SongCallbackContact,
+  type SongOfferCalc,
   type SongOfferQuote,
+  type SongParticipantRules,
   type SongPriceLine,
+  type SongQuoteData,
+  type SongQuoteOptions,
 } from "@/lib/data/song-offer-quote";
 import {
+  CATALOG_VAT_RATE,
   getAddonsForBaseId,
+  getExVat,
   getPriceById,
   getPriceTransparencyById,
+  SONG_PARTICIPANT_RULES,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
 export const SONG_OFFER_BASE_ID = "song_recording" satisfies PriceItemId;
-export { SONG_OFFER_CALLBACK_FORM_ID, SONG_OFFER_SECTION_ID, formatSongTotalLine, songAddonKey };
-export type { SongOfferQuote, SongPriceLine };
-export const SONG_OFFER_PAGE_PATH = "/studio/recording-song-modiin";
-/** שם הפרמטר בכתובת שזוכר את הבחירה, ?addons=id,id */
-export const SONG_ADDONS_PARAM = "addons";
+export {
+  SONG_ADDONS_PARAM,
+  SONG_OFFER_CALLBACK_FORM_ID,
+  SONG_OFFER_PAGE_PATH,
+  SONG_OFFER_SECTION_ID,
+  SONG_PARTICIPANTS_PARAM,
+  formatSongTotalLine,
+  songAddonKey,
+};
+export type { SongOfferCalc, SongOfferQuote, SongParticipantRules, SongPriceLine };
 
 /** שם הבסיס בהודעה ובמייל, עם מה שכלול בו */
 const BASE_LINE_LABEL = "הקלטת שיר (הקלטה, מיקס ומאסטר)";
@@ -91,31 +113,51 @@ export function parseSongAddons(value: string | null | undefined): SongAddonId[]
   return normalizeSongAddons(value.split(/[,\s]+/).map((part) => part.trim()));
 }
 
-export type SongOfferCalc = {
-  addonIds: SongAddonId[];
-  lines: SongPriceLine[];
-  totalExVat: number;
-  totalWithVat: number;
-};
-
-function priceLine(id: PriceItemId, label?: string): SongPriceLine {
-  const item = getPriceById(id);
-  return { id, label: label ?? item.label, exVat: item.exVat, withVat: withVat(item.exVat) };
+/** כללי המשתתפים בשיר עם המחירים מהקטלוג */
+export function getSongParticipantRules(): SongParticipantRules {
+  return {
+    included: SONG_PARTICIPANT_RULES.included,
+    max: SONG_PARTICIPANT_RULES.max,
+    secondExVat: getExVat(SONG_PARTICIPANT_RULES.secondId),
+    groupExVat: getExVat(SONG_PARTICIPANT_RULES.groupId),
+  };
 }
 
-/** מחשב את ההצעה לבחירה נתונה. הבסיס תמיד כלול. */
-export function calcSongOffer(addonIds: readonly string[] = []): SongOfferCalc {
-  const ids = normalizeSongAddons(addonIds);
-  const lines = [
-    priceLine(SONG_OFFER_BASE_ID, BASE_LINE_LABEL),
-    ...ids.map((id) => priceLine(id)),
-  ];
+/** קורא ?participants=4. ערך חסר או לא מובן נותן זמר אחד, ערך גבוה נחתך ל-12. */
+export function parseSongParticipants(value: string | null | undefined): number {
+  return clampSongParticipants(value?.trim() ? value : null, getSongParticipantRules());
+}
+
+/** תוספת המשתתפים לפני מע״מ, לפי הקטלוג */
+export function songParticipantsSurcharge(participants: number): number {
+  return songParticipantsSurchargeExVat(participants, getSongParticipantRules());
+}
+
+/** "זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר" */
+export function getSongParticipantsExplanation(): { withVat: string; exVat: string } {
+  const rules = getSongParticipantRules();
   return {
-    addonIds: ids,
-    lines,
-    totalExVat: lines.reduce((sum, line) => sum + line.exVat, 0),
-    totalWithVat: lines.reduce((sum, line) => sum + line.withVat, 0),
+    withVat: songParticipantsExplanation(rules, CATALOG_VAT_RATE),
+    exVat: songParticipantsExplanationExVat(rules),
   };
+}
+
+/** הנתונים הפשוטים שמהם השרת והדפדפן מחשבים כל הצעה */
+export function getSongQuoteData(): SongQuoteData {
+  return {
+    base: { id: SONG_OFFER_BASE_ID, label: BASE_LINE_LABEL, exVat: getExVat(SONG_OFFER_BASE_ID) },
+    addons: SONG_ADDON_IDS.map((id) => {
+      const item = getPriceById(id);
+      return { id, label: item.label, exVat: item.exVat, requires: getSongAddonRequirement(id) };
+    }),
+    participants: getSongParticipantRules(),
+    vatRate: CATALOG_VAT_RATE,
+  };
+}
+
+/** מחשב את ההצעה לבחירה נתונה. הבסיס תמיד כלול, זמר אחד כלול. */
+export function calcSongOffer(addonIds: readonly string[] = [], participants = 1): SongOfferCalc {
+  return calcSongQuote(getSongQuoteData(), addonIds, participants);
 }
 
 export type SongOfferItemView = {
@@ -158,10 +200,9 @@ export function getSongOfferView(): SongOfferView {
   };
 }
 
-export type SongMessageOptions = {
-  /** נתיב העמוד, נכנס רק לתג [YC:] */
-  source: string;
-  giftMode?: boolean;
+export type SongMessageOptions = Pick<SongQuoteOptions, "source" | "giftMode"> & {
+  /** מספר המשתתפים בשיר, ברירת מחדל 1 */
+  participants?: number;
 };
 
 export type SongMessage = {
@@ -173,63 +214,48 @@ export type SongMessage = {
 
 export function buildSongOfferMessage(
   addonIds: readonly string[],
-  { source, giftMode = false }: SongMessageOptions,
+  { source, giftMode = false, participants = 1 }: SongMessageOptions,
 ): SongMessage {
-  const calc = calcSongOffer(addonIds);
-  const opening = giftMode
-    ? "שלום, אשמח להקליט שיר במתנה באולפן."
-    : "שלום, אשמח להקליט שיר באולפן.";
-  const text = [opening, ...songSelectionLines(calc), "מתי נוח לכם להקליט?"].join("\n");
-  const ycTag = buildYcLeadTag({
-    service: "recording",
-    price: calc.totalExVat,
-    source,
-    package: [SONG_OFFER_BASE_ID, ...calc.addonIds].join(","),
-    form: "song_offer",
-    purpose: giftMode ? "gift" : null,
-  });
-  return { text, ycTag };
+  const data = getSongQuoteData();
+  return buildSongMessageFromCalc(data, calcSongQuote(data, addonIds, participants), { source, giftMode });
 }
 
-export type SongWhatsAppHrefOptions = SongMessageOptions & {
-  utmCampaign?: string;
-  /* החלטת הבעלים על התג בהודעת הלקוח עדיין פתוחה (שאלה 6), ולכן כמו בשאר
-     האתר אחרי שלב 1 הוא נשאר כברירת מחדל */
-  includeYcTag?: boolean;
-};
+export type SongWhatsAppHrefOptions = SongQuoteOptions & { participants?: number };
 
 /** קישור wa.me רגיל, כדי שיעבוד גם בדפדפן של אינסטגרם וגם בלי JS */
 export function buildSongOfferWhatsAppHref(
   addonIds: readonly string[],
   options: SongWhatsAppHrefOptions,
 ): string {
-  const { text, ycTag } = buildSongOfferMessage(addonIds, options);
-  return buildWhatsAppHref({
-    text: options.includeYcTag === false ? text : `${text}\n${ycTag}`,
-    utm_source: "website",
-    utm_campaign: options.utmCampaign ?? "song_offer",
-  });
+  return buildSongOfferQuote(addonIds, options).waHref;
 }
 
-/** קישור לטופס בעמוד עם הבחירה, /studio/recording-song-modiin?addons=a,b#song-offer */
+/** קישור לטופס בעמוד עם הבחירה, /studio/recording-song-modiin?addons=a,b&participants=4#song-offer */
 export function buildSongOfferHref(
   addonIds: readonly string[] = [],
   path: string = SONG_OFFER_PAGE_PATH,
+  participants = 1,
 ): string {
-  const ids = normalizeSongAddons(addonIds);
-  const qs = ids.length ? `?${SONG_ADDONS_PARAM}=${ids.join(",")}` : "";
-  return `${path}${qs}#${SONG_OFFER_SECTION_ID}`;
+  const rules = getSongParticipantRules();
+  return buildSongOfferHrefFrom(
+    normalizeSongAddons(addonIds),
+    clampSongParticipants(participants, rules),
+    rules.included,
+    path,
+  );
 }
 
 export type SongCallbackInput = SongCallbackContact & {
   addonIds: readonly string[];
+  participants?: number;
 };
 
-/** משמש את מי שבונה בקשה בלי שילוב מוכן מראש (בדיקות, השרת). ראו buildSongCallbackPayload. */
+/** משמש את מי שבונה בקשה בלי הצעה מוכנה (בדיקות, השרת). ראו buildSongCallbackPayload. */
 export function buildSongCallbackRequest(input: SongCallbackInput): LeadEmailPayload {
   const quote = buildSongOfferQuote(input.addonIds, {
     source: input.source,
     giftMode: input.giftMode,
+    participants: input.participants,
   });
   return buildSongCallbackPayload(quote, input);
 }
@@ -237,21 +263,9 @@ export function buildSongCallbackRequest(input: SongCallbackInput): LeadEmailPay
 /** שילוב אחד עם כל מה שהטופס צריך: סכומים, הודעה, תג וקישורים */
 export function buildSongOfferQuote(
   addonIds: readonly string[],
-  options: SongWhatsAppHrefOptions & { offerPath?: string },
+  options: SongWhatsAppHrefOptions,
 ): SongOfferQuote {
-  const calc = calcSongOffer(addonIds);
-  const { text, ycTag } = buildSongOfferMessage(calc.addonIds, options);
-  return {
-    addonIds: calc.addonIds,
-    lines: calc.lines,
-    totalExVat: calc.totalExVat,
-    totalWithVat: calc.totalWithVat,
-    totalLine: formatSongTotalLine(calc),
-    messageText: text,
-    ycTag,
-    waHref: buildSongOfferWhatsAppHref(calc.addonIds, options),
-    offerHref: buildSongOfferHref(calc.addonIds, options.offerPath),
-  };
+  return composeSongOfferQuote(getSongQuoteData(), addonIds, options.participants ?? 1, options);
 }
 
 /**
@@ -259,7 +273,7 @@ export function buildSongOfferQuote(
  * רק עם הקליפ נותנים שישה שילובים, וזה מה שקומפוננטת השרת שולחת לטופס.
  */
 export function getSongOfferQuotes(
-  options: SongWhatsAppHrefOptions & { offerPath?: string },
+  options: SongWhatsAppHrefOptions,
 ): Record<string, SongOfferQuote> {
   const quotes: Record<string, SongOfferQuote> = {};
   for (const ids of validSongCombinations()) {
@@ -292,13 +306,14 @@ export type SongOfferFormItem = {
 export type SongOfferFormData = {
   base: SongOfferFormItem;
   addons: (SongOfferFormItem & { id: SongAddonId })[];
-  quotes: Record<string, SongOfferQuote>;
+  /** הנתונים שמהם הטופס מחשב כל הצעה בדפדפן (composeSongOfferQuote) */
+  quoteData: SongQuoteData;
+  /** שורת ההסבר מתחת לבורר המשתתפים */
+  participantsExplanation: { withVat: string; exVat: string };
 };
 
-/** כל מה שהטופס צריך כ-props: הבסיס, התוספות וכל השילובים המחושבים */
-export function getSongOfferFormData(
-  options: SongWhatsAppHrefOptions & { offerPath?: string },
-): SongOfferFormData {
+/** כל מה שהטופס צריך כ-props: הבסיס, התוספות, נתוני החישוב וההסבר */
+export function getSongOfferFormData(): SongOfferFormData {
   const view = getSongOfferView();
   const pick = ({ id, label, description, exVat, withVat, requires }: SongOfferItemView) => ({
     id,
@@ -311,7 +326,8 @@ export function getSongOfferFormData(
   return {
     base: pick(view.base),
     addons: view.addons.map((addon) => ({ ...pick(addon), id: addon.id as SongAddonId })),
-    quotes: getSongOfferQuotes(options),
+    quoteData: getSongQuoteData(),
+    participantsExplanation: getSongParticipantsExplanation(),
   };
 }
 
@@ -319,6 +335,9 @@ export type SongOfferExport = SongOfferView & {
   vatIncluded: true;
   pageHref: string;
   addonsParam: string;
+  participantsParam: string;
+  /** משתתפים: אחד כלול, השני secondExVat, מהשלישי groupExVat לכל אחד, עד max */
+  participants: SongParticipantRules & { explanation: string };
   /** כל השילובים החוקיים, עם הסכומים שהטופס מציג */
   combinations: { addonIds: SongAddonId[]; totalExVat: number; totalWithVat: number; offerHref: string }[];
 };
@@ -342,6 +361,8 @@ export function getSongOfferExport(): SongOfferExport {
     vatIncluded: true,
     pageHref: buildSongOfferHref(),
     addonsParam: SONG_ADDONS_PARAM,
+    participantsParam: SONG_PARTICIPANTS_PARAM,
+    participants: { ...getSongParticipantRules(), explanation: getSongParticipantsExplanation().withVat },
     combinations,
   };
 }

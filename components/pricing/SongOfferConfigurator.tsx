@@ -18,11 +18,16 @@ import { CALLBACK_SUCCESS_COPY, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
 import {
   buildSongCallbackPayload,
+  clampSongParticipants,
+  composeSongOfferQuote,
   nis,
   normalizeSongSelection,
+  SONG_ADDONS_PARAM,
   SONG_OFFER_CALLBACK_FORM_ID,
-  songAddonKey,
+  SONG_PARTICIPANTS_PARAM,
+  SONG_PARTICIPANTS_LINE_ID,
   type SongOfferQuote,
+  type SongQuoteData,
 } from "@/lib/data/song-offer-quote";
 import {
   formatPhoneForDisplay,
@@ -48,13 +53,18 @@ export type SongOfferVariant = "full" | "compact" | "book";
 export type SongOfferConfiguratorProps = {
   base: SongOfferConfiguratorItem;
   addons: readonly (SongOfferConfiguratorItem & { id: SongAddonId })[];
-  /** כל השילובים החוקיים, מחושבים בשרת, לפי songAddonKey */
-  quotes: Readonly<Record<string, SongOfferQuote>>;
+  /** המחירים מהקטלוג כנתונים פשוטים. כל הצעה מחושבת מהם ב-composeSongOfferQuote. */
+  quoteData: SongQuoteData;
+  /** שורת ההסבר מתחת לבורר המשתתפים, כולל מע״מ ולפני מע״מ */
+  participantsExplanation: { withVat: string; exVat: string };
   /** נתיב העמוד, נכנס לתג ולמייל */
   source: string;
+  utmCampaign?: string;
   variant?: SongOfferVariant;
   /** בחירה התחלתית (למשל קליפ בעמוד הקליפ). ?addons= בכתובת גובר עליה. */
   initialAddonIds?: readonly SongAddonId[];
+  /** מספר משתתפים התחלתי. ?participants= בכתובת גובר עליו. */
+  initialParticipants?: number;
   giftMode?: boolean;
   /** עוגן בעמוד לדוגמת לפני ואחרי של תיקון הזיופים */
   pitchDemoHref?: string;
@@ -63,7 +73,6 @@ export type SongOfferConfiguratorProps = {
   className?: string;
 };
 
-const ADDONS_PARAM = "addons";
 const PITCH_ID: SongAddonId = "song_pitch_coaching";
 const CLIP_ID: SongAddonId = "studio_session_clip_edited";
 
@@ -75,10 +84,13 @@ const inputClass =
 export default function SongOfferConfigurator({
   base,
   addons,
-  quotes,
+  quoteData,
+  participantsExplanation,
   source,
+  utmCampaign,
   variant = "full",
   initialAddonIds = [],
+  initialParticipants,
   giftMode = false,
   pitchDemoHref,
   clipExampleHref,
@@ -92,34 +104,53 @@ export default function SongOfferConfigurator({
   const [selected, setSelected] = useState<SongAddonId[]>(() =>
     normalizeSongSelection(initialAddonIds, rules),
   );
+  const pRules = quoteData.participants;
+  const [participants, setParticipants] = useState<number>(() =>
+    clampSongParticipants(initialParticipants ?? pRules.included, pRules),
+  );
 
   /* הבחירה נזכרת ב-?addons= בכתובת. קוראים אותה רק אחרי הטעינה, ב-useEffect
      ולא ב-useSearchParams, כדי שהעמוד יישאר מרונדר מראש בלי גבול Suspense
      (node_modules/next/dist/docs/01-app/03-api-reference/04-functions/use-search-params.md:80-86).
      השרת מרנדר את בחירת ברירת המחדל, ולכן גם הקישור בלי JS נכון. */
   useEffect(() => {
-    const raw = new URLSearchParams(window.location.search).get(ADDONS_PARAM);
-    if (raw == null) return;
-    const fromUrl = normalizeSongSelection(raw.split(/[,\s]+/), rules);
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get(SONG_ADDONS_PARAM);
+    const rawCount = params.get(SONG_PARTICIPANTS_PARAM);
     /* פעם אחת אחרי הטעינה, מכתובת שהשרת לא רואה. אין כאן מפל רינדורים */
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSelected(fromUrl);
-  }, [rules]);
+    if (raw != null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelected(normalizeSongSelection(raw.split(/[,\s]+/), rules));
+    }
+    if (rawCount != null) {
+      setParticipants(clampSongParticipants(rawCount, pRules));
+    }
+  }, [rules, pRules]);
 
   /* כתיבה לכתובת רק אחרי שהגולש שינה משהו. replaceState משתלב עם הנתב של
      Next (node_modules/next/dist/docs/01-app/01-getting-started/04-linking-and-navigating.md:343-345). */
-  const writeUrl = useCallback((ids: readonly string[]) => {
-    try {
-      const url = new URL(window.location.href);
-      if (ids.length) url.searchParams.set(ADDONS_PARAM, ids.join(","));
-      else url.searchParams.delete(ADDONS_PARAM);
-      window.history.replaceState(window.history.state, "", url.toString());
-    } catch {
-      /* דפדפן שחוסם את ה-History API: הבחירה פשוט לא נזכרת */
-    }
-  }, []);
+  const writeUrl = useCallback(
+    (ids: readonly string[], count: number) => {
+      try {
+        const url = new URL(window.location.href);
+        if (ids.length) url.searchParams.set(SONG_ADDONS_PARAM, ids.join(","));
+        else url.searchParams.delete(SONG_ADDONS_PARAM);
+        if (count > pRules.included) url.searchParams.set(SONG_PARTICIPANTS_PARAM, String(count));
+        else url.searchParams.delete(SONG_PARTICIPANTS_PARAM);
+        window.history.replaceState(window.history.state, "", url.toString());
+      } catch {
+        /* דפדפן שחוסם את ה-History API: הבחירה פשוט לא נזכרת */
+      }
+    },
+    [pRules.included],
+  );
 
-  const quote = quotes[songAddonKey(selected)] ?? quotes.base;
+  const quoteFor = useCallback(
+    (ids: readonly string[], count: number) =>
+      composeSongOfferQuote(quoteData, ids, count, { source, giftMode, utmCampaign }),
+    [quoteData, source, giftMode, utmCampaign],
+  );
+  const quote = useMemo(() => quoteFor(selected, participants), [quoteFor, selected, participants]);
 
   function toggle(id: SongAddonId, checked: boolean) {
     const next = normalizeSongSelection(
@@ -127,13 +158,26 @@ export default function SongOfferConfigurator({
       rules,
     );
     setSelected(next);
-    writeUrl(next);
-    const nextQuote = quotes[songAddonKey(next)] ?? quotes.base;
+    writeUrl(next, participants);
     trackConversion("pricing_calculator_interact", {
       calculator: "song_offer",
       addon: id,
       checked,
-      total: nextQuote.totalWithVat,
+      total: quoteFor(next, participants).totalWithVat,
+      source,
+    });
+  }
+
+  function changeParticipants(delta: number) {
+    const next = clampSongParticipants(participants + delta, pRules);
+    if (next === participants) return;
+    setParticipants(next);
+    writeUrl(selected, next);
+    trackConversion("pricing_calculator_interact", {
+      calculator: "song_offer",
+      addon: "participants",
+      participants: next,
+      total: quoteFor(selected, next).totalWithVat,
       source,
     });
   }
@@ -219,6 +263,18 @@ export default function SongOfferConfigurator({
         </p>
       </div>
 
+      <ParticipantsStepper
+        uid={uid}
+        count={participants}
+        min={pRules.included}
+        max={pRules.max}
+        surchargeWithVat={
+          quote.lines.find((l) => l.id === SONG_PARTICIPANTS_LINE_ID)?.withVat ?? 0
+        }
+        explanation={participantsExplanation}
+        onChange={changeParticipants}
+      />
+
       {isCompact ? (
         <details className="group mt-4" open={initialAddonIds.length > 0 || undefined}>
           <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between rounded-xl border border-border bg-background px-4 text-sm font-semibold text-foreground">
@@ -269,6 +325,88 @@ export default function SongOfferConfigurator({
         source={source}
         giftMode={giftMode}
       />
+    </div>
+  );
+}
+
+/**
+ * "כמה משתתפים בשיר?": מינוס ופלוס עם תוויות נגישות, הכפתורים ננעלים בגבולות,
+ * והמספר והתוספת מוקראים דרך aria-live. מתחת שורת הסבר אחת מהקטלוג, כולל
+ * מע״מ קודם, כדי שיהיה ברור כמה עולה כל זמר.
+ */
+function ParticipantsStepper({
+  uid,
+  count,
+  min,
+  max,
+  surchargeWithVat,
+  explanation,
+  onChange,
+}: {
+  uid: string;
+  count: number;
+  min: number;
+  max: number;
+  surchargeWithVat: number;
+  explanation: { withVat: string; exVat: string };
+  onChange: (delta: number) => void;
+}) {
+  const labelId = `${uid}-participants-label`;
+  const helpId = `${uid}-participants-help`;
+  const btn =
+    "flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-2xl font-semibold text-foreground hover:border-brand-red/40 disabled:cursor-not-allowed disabled:opacity-40";
+  return (
+    <div
+      className="mt-4 rounded-xl border border-border bg-background p-4"
+      role="group"
+      aria-labelledby={labelId}
+      aria-describedby={helpId}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <p id={labelId} className="text-sm font-semibold text-foreground">
+          כמה משתתפים בשיר?
+        </p>
+        <div className="flex items-center gap-2" dir="ltr">
+          <button
+            type="button"
+            className={btn}
+            onClick={() => onChange(-1)}
+            disabled={count <= min}
+            aria-label="פחות משתתף אחד"
+          >
+            <span aria-hidden="true">−</span>
+          </button>
+          <output
+            className="min-w-10 text-center text-2xl font-bold text-foreground"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span className="sr-only">
+              {count === 1 ? "משתתף אחד" : `${count} משתתפים`}
+              {surchargeWithVat > 0 ? `, תוספת ${nis(surchargeWithVat)} כולל מע״מ` : ", כלול במחיר"}
+            </span>
+            <span aria-hidden="true">{count}</span>
+          </output>
+          <button
+            type="button"
+            className={btn}
+            onClick={() => onChange(1)}
+            disabled={count >= max}
+            aria-label="עוד משתתף אחד"
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+        </div>
+      </div>
+      <p className="mt-2 text-sm font-medium text-foreground" aria-hidden="true">
+        {count === 1
+          ? "זמר אחד כלול במחיר"
+          : `${count} משתתפים: תוספת ${nis(surchargeWithVat)} כולל מע״מ`}
+      </p>
+      <p id={helpId} className="mt-1 text-xs text-muted-foreground">
+        {explanation.withVat}{" "}
+        <span className="whitespace-nowrap">{explanation.exVat}</span>
+      </p>
     </div>
   );
 }

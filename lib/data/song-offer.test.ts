@@ -11,13 +11,17 @@ import {
   calcSongOffer,
   getSongOfferExport,
   getSongOfferView,
+  getSongParticipantRules,
+  getSongParticipantsExplanation,
   isSongAddonAvailable,
   LEGACY_SONG_ALIASES,
   normalizeSongAddons,
   parseSongAddons,
+  parseSongParticipants,
   resolveLegacySongAlias,
   SONG_ADDON_IDS,
   SONG_OFFER_CALLBACK_FORM_ID,
+  songParticipantsSurcharge,
   type SongAddonId,
 } from "@/lib/data/song-offer";
 import { buildLeadNotifyBody } from "@/lib/lead-email-notify";
@@ -315,5 +319,137 @@ describe("getSongOfferExport (owner quoting tool)", () => {
   it("is plain JSON (the export writes it with JSON.stringify)", () => {
     const exp = getSongOfferExport();
     assert.deepEqual(JSON.parse(JSON.stringify(exp)), exp);
+  });
+});
+
+describe("song offer: participants (owner decision 2026-10-03)", () => {
+  it("the catalog holds the tiers: 1 included, 2nd 190, 3rd and up 99, max 12", () => {
+    assert.deepEqual(getSongParticipantRules(), {
+      included: 1,
+      max: 12,
+      secondExVat: 190,
+      groupExVat: 99,
+    });
+    assert.equal(getExVat("studio_extra_participant"), 190);
+    assert.equal(getExVat("song_group_participant"), 99);
+  });
+
+  it("surcharge before VAT for every count, clamped to 1..12", () => {
+    const expected = [0, 190, 289, 388, 487, 586, 685, 784, 883, 982, 1081, 1180];
+    for (let n = 1; n <= 12; n += 1) {
+      assert.equal(songParticipantsSurcharge(n), expected[n - 1], `n=${n}`);
+    }
+    assert.equal(songParticipantsSurcharge(0), 0);
+    assert.equal(songParticipantsSurcharge(-3), 0);
+    assert.equal(songParticipantsSurcharge(13), 1180);
+    assert.equal(songParticipantsSurcharge(99), 1180);
+  });
+
+  it("4 singers: 500 + 190 + 99 + 99 = 888 before VAT, 1,048 including VAT", () => {
+    const calc = calcSongOffer([], 4);
+    assert.equal(calc.participants, 4);
+    assert.equal(calc.totalExVat, 888);
+    assert.equal(calc.totalWithVat, 1048);
+    assert.deepEqual(
+      calc.lines.map((l) => [l.id, l.label, l.exVat, l.withVat]),
+      [
+        ["song_recording", "הקלטת שיר (הקלטה, מיקס ומאסטר)", 500, 590],
+        ["song_participants", "משתתפים: 4", 388, 458],
+      ],
+    );
+  });
+
+  it("limit 1: no participants line, same as before", () => {
+    const calc = calcSongOffer([PITCH], 1);
+    assert.equal(calc.lines.length, 2);
+    assert.equal(calc.totalExVat, 800);
+    assert.deepEqual(calcSongOffer([PITCH], 0), calc);
+  });
+
+  it("limit 12: 1,680 before VAT, 1,982 including VAT, and 13 is cut to 12", () => {
+    const calc = calcSongOffer([], 12);
+    assert.equal(calc.participants, 12);
+    assert.equal(calc.totalExVat, 1680);
+    assert.equal(calc.totalWithVat, 1982);
+    assert.deepEqual(calcSongOffer([], 13), calc);
+  });
+
+  it("totals agree both ways for every combination and every count", () => {
+    for (const combo of ALL_COMBINATIONS) {
+      for (let n = 1; n <= 12; n += 1) {
+        const calc = calcSongOffer(combo.input, n);
+        assert.equal(calc.totalExVat, combo.exVat + songParticipantsSurcharge(n));
+        assert.equal(calc.totalWithVat, withVat(calc.totalExVat));
+        assert.equal(calc.lines.reduce((s, l) => s + l.exVat, 0), calc.totalExVat);
+        assert.equal(calc.lines.reduce((s, l) => s + l.withVat, 0), calc.totalWithVat);
+      }
+    }
+  });
+
+  it("the explanation line is built from the catalog, VAT-inclusive first", () => {
+    const exp = getSongParticipantsExplanation();
+    assert.equal(exp.withVat, "זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר");
+    assert.equal(exp.exVat, "(190 ₪ ו-99 ₪ + מע״מ)");
+    assert.doesNotMatch(exp.withVat + exp.exVat, /[!—–…“”]/);
+  });
+
+  it("the WhatsApp message has a participants line with the surcharge", () => {
+    const { text, ycTag } = buildSongOfferMessage([CLIP], { source: "/x", participants: 4 });
+    assert.equal(
+      text,
+      [
+        "שלום, אשמח להקליט שיר באולפן.",
+        "מה בחרתי:",
+        "• הקלטת שיר (הקלטה, מיקס ומאסטר) - 590 ₪",
+        "• משתתפים: 4 (כולל תוספת 458 ₪)",
+        "• קליפ ערוך מהסשן באולפן - 885 ₪",
+        "סה״כ: 1,933 ₪ כולל מע״מ (1,638 ₪ + מע״מ)",
+        "מתי נוח לכם להקליט?",
+      ].join("\n"),
+    );
+    assert.match(ycTag, /price=1638/);
+    assert.match(ycTag, /recorders=4/);
+    assert.doesNotMatch(buildSongOfferMessage([], { source: "/x" }).ycTag, /recorders=/);
+  });
+
+  it("the page link carries ?participants= and round-trips", () => {
+    assert.equal(
+      buildSongOfferHref([PITCH], undefined, 4),
+      `/studio/recording-song-modiin?addons=${PITCH}&participants=4#song-offer`,
+    );
+    assert.equal(buildSongOfferHref([], undefined, 1), "/studio/recording-song-modiin#song-offer");
+    assert.equal(buildSongOfferHref([], "/studio", 30), "/studio?participants=12#song-offer");
+    assert.equal(parseSongParticipants("4"), 4);
+    assert.equal(parseSongParticipants(null), 1);
+    assert.equal(parseSongParticipants("abc"), 1);
+    assert.equal(parseSongParticipants("0"), 1);
+    assert.equal(parseSongParticipants("40"), 12);
+  });
+
+  it("the callback request carries the participants and the total", () => {
+    const req = buildSongCallbackRequest({
+      name: "נועה",
+      phone: "054-123-4567",
+      addonIds: [],
+      participants: 4,
+      source: "/studio/recording-song-modiin",
+      submissionId: "sub-p",
+    });
+    assert.ok(req.body.includes("• משתתפים: 4 (כולל תוספת 458 ₪)"));
+    assert.ok(req.body.includes("סה״כ: 1,048 ₪ כולל מע״מ (888 ₪ + מע״מ)"));
+    assert.equal(req.pricingRef?.exVat, 888);
+    assert.equal(req.pricingRef?.href, "/studio/recording-song-modiin?participants=4#song-offer");
+    assert.deepEqual(
+      checkLeadNotifyPayload({ ...req, body: buildLeadNotifyBody(req) }),
+      { kind: "accept", flags: [] },
+    );
+  });
+
+  it("the owner export lists the participant rules", () => {
+    const exp = getSongOfferExport();
+    assert.equal(exp.participantsParam, "participants");
+    assert.equal(exp.participants.max, 12);
+    assert.equal(exp.participants.secondExVat, 190);
+    assert.equal(exp.participants.groupExVat, 99);
   });
 });

@@ -301,7 +301,7 @@ export const STUDIO_FILMING_MAX = 5;
 /** מעל מספר זה - מציעים חיסכון בצמצום מקליטים */
 export const STUDIO_SAVINGS_TIP_THRESHOLD = 5;
 
-/** חבילות אשף שזכאיות למחירון קבוצתי 190/95 */
+/** חבילות אשף שזכאיות למחירון קבוצתי. remote: 190/95. song: מחיר שיר לפי משתתפים (190, ואז 99), ראו calcStudioScenarios */
 export const GROUP_PRICING_ELIGIBLE_PACKAGES = [
   "remote",
   "song",

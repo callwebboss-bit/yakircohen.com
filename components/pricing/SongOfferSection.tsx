@@ -3,6 +3,7 @@ import SongOfferConfigurator, {
 } from "@/components/pricing/SongOfferConfigurator";
 import {
   getSongOfferFormData,
+  getSongParticipantRules,
   normalizeSongAddons,
   SONG_OFFER_SECTION_ID,
   type SongAddonId,
@@ -16,6 +17,8 @@ type SongOfferSectionProps = {
   giftMode?: boolean;
   /** בחירה מסומנת מראש, למשל הקליפ בעמוד הקליפ */
   initialAddonIds?: readonly SongAddonId[];
+  /** מספר משתתפים התחלתי, ברירת מחדל 1 */
+  initialParticipants?: number;
   utmCampaign?: string;
   /** שורה מעל הטופס */
   intro?: string;
@@ -27,15 +30,17 @@ type SongOfferSectionProps = {
 };
 
 /**
- * טופס הקלטת השיר, קומפוננטת שרת. המחירים, ההודעות והקישורים של כל
- * השילובים מחושבים כאן ועוברים כ-props, כך שהקטלוג לא נשלח לדפדפן בשביל
- * הטופס, והקישור לוואטסאפ ב-HTML הראשוני כבר נכון לבחירת ברירת המחדל.
+ * טופס הקלטת השיר, קומפוננטת שרת. המחירים נקראים כאן מהקטלוג ועוברים
+ * כנתונים פשוטים (quoteData), כך שהקטלוג לא נשלח לדפדפן בשביל הטופס. הטופס
+ * מחשב כל בחירה באותה פונקציה של השרת, והקישור לוואטסאפ ב-HTML הראשוני כבר
+ * נכון לבחירת ברירת המחדל.
  */
 export default function SongOfferSection({
   source,
   variant = "full",
   giftMode = false,
   initialAddonIds = [],
+  initialParticipants,
   utmCampaign,
   intro,
   pitchDemoHref,
@@ -43,11 +48,8 @@ export default function SongOfferSection({
   id = SONG_OFFER_SECTION_ID,
   className,
 }: SongOfferSectionProps) {
-  const { base, addons, quotes } = getSongOfferFormData({
-    source,
-    giftMode,
-    utmCampaign: utmCampaign ?? (giftMode ? "song_offer_gift" : "song_offer"),
-  });
+  const { base, addons, quoteData, participantsExplanation } = getSongOfferFormData();
+  const rules = getSongParticipantRules();
 
   return (
     <section
@@ -64,11 +66,14 @@ export default function SongOfferSection({
       <SongOfferConfigurator
         base={base}
         addons={addons}
-        quotes={quotes}
+        quoteData={quoteData}
+        participantsExplanation={participantsExplanation}
         source={source}
+        utmCampaign={utmCampaign ?? (giftMode ? "song_offer_gift" : "song_offer")}
         variant={variant}
         giftMode={giftMode}
         initialAddonIds={normalizeSongAddons(initialAddonIds)}
+        initialParticipants={Math.min(rules.max, Math.max(rules.included, initialParticipants ?? rules.included))}
         pitchDemoHref={pitchDemoHref}
         clipExampleHref={clipExampleHref}
       />

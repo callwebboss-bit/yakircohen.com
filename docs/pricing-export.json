@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 120,
-  "contentHash": "f871e4dbfab61931",
+  "itemCount": 121,
+  "contentHash": "b4185a391881100f",
   "items": [
     {
       "id": "studio_half_hour",
@@ -98,7 +98,17 @@
       "inclVat": 224,
       "priceFrom": false,
       "context": "הקלטה נוספת וערבוב בסיסי",
-      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן"
+      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן. בשיר: הזמר השני"
+    },
+    {
+      "id": "song_group_participant",
+      "label": "זמר נוסף בשיר, מהשלישי והלאה",
+      "category": "addons",
+      "exVat": 99,
+      "inclVat": 117,
+      "priceFrom": false,
+      "context": "מחיר קבוצה: מהזמר השלישי בשיר, לכל זמר. עד 12 משתתפים בשיר אחד.",
+      "suitedFor": "שיר משפחתי או קבוצתי"
     },
     {
       "id": "studio_extra_revision",

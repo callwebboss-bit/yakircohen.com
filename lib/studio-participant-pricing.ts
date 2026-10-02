@@ -7,6 +7,12 @@ import {
   getClientScenarioShortTitle,
 } from "@/lib/data/client-scenario-labels";
 import { VAT_RATE, formatNis, withVat as withVatAtSiteRate } from "@/lib/data/pricing";
+import { getSongParticipantRules } from "@/lib/data/song-offer";
+import {
+  clampSongParticipants,
+  songParticipantsExplanation,
+  songParticipantsSurchargeExVat,
+} from "@/lib/data/song-offer-quote";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
   GROUP_PRICING_ELIGIBLE_PACKAGES,
@@ -279,6 +285,32 @@ export function calcStudioScenarios(options: {
       ineligibleReason: eligible ? undefined : "מחיר קבוצתי ייקבע בשיחת ייעוץ",
       scenarios: [single],
       recommended: single,
+      recorderCount,
+      isMotzash,
+      vatRate,
+    };
+  }
+
+  /* הקלטת שיר (3.10.2026): מחיר אחד לפי מספר המשתתפים, מהקטלוג. השני 190,
+     מהשלישי 99 לכל אחד, עד 12 בשיר. בלי תרחישי זוגות או קבוצה. */
+  if (packageId === "song") {
+    const rules = getSongParticipantRules();
+    const count = clampSongParticipants(recorderCount, rules);
+    const scenario = buildScenario(
+      "pairs",
+      `שיר עם ${count} משתתפים`,
+      baseExVat,
+      songParticipantsSurchargeExVat(count, rules),
+      isMotzash,
+      vatRate,
+      recorderCount > rules.max
+        ? `עד ${rules.max} משתתפים בשיר אחד. מעבר לזה מתאמים בשיחה.`
+        : songParticipantsExplanation(rules, vatRate),
+    );
+    return {
+      eligible: true,
+      scenarios: [scenario],
+      recommended: scenario,
       recorderCount,
       isMotzash,
       vatRate,

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   buildSongCallbackRequest,
+  buildSongOfferQuote,
   calcSongOffer,
   getSongOfferFormData,
   getSongOfferQuotes,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/data/song-offer";
 import {
   buildSongCallbackPayload,
+  composeSongOfferQuote,
   normalizeSongSelection,
   songAddonKey,
 } from "@/lib/data/song-offer-quote";
@@ -58,7 +60,7 @@ describe("getSongOfferQuotes (the precomputed combinations the form receives)", 
 });
 
 describe("normalizeSongSelection (client) agrees with normalizeSongAddons (server)", () => {
-  const { addons } = getSongOfferFormData({ source: SOURCE });
+  const { addons } = getSongOfferFormData();
   const rules = addons.map((a) => ({ id: a.id, requires: a.requires }));
 
   it("for every subset, in any order, with duplicates and unknown ids", () => {
@@ -96,5 +98,27 @@ describe("buildSongCallbackPayload (client) equals buildSongCallbackRequest", ()
         { kind: "accept", flags: [] },
       );
     }
+  });
+});
+
+describe("composeSongOfferQuote (the browser) equals buildSongOfferQuote (the server)", () => {
+  const { quoteData } = getSongOfferFormData();
+
+  it("for every valid combination and every participant count", () => {
+    const quotes = getSongOfferQuotes({ source: SOURCE });
+    for (const quote of Object.values(quotes)) {
+      for (let n = 1; n <= quoteData.participants.max; n += 1) {
+        const opts = { source: SOURCE, giftMode: n % 2 === 0, utmCampaign: "song_offer" };
+        assert.deepEqual(
+          composeSongOfferQuote(quoteData, quote.addonIds, n, opts),
+          buildSongOfferQuote(quote.addonIds, { ...opts, participants: n }),
+        );
+      }
+    }
+  });
+
+  it("the form data is plain JSON, so it can cross the server/client boundary as props", () => {
+    const data = getSongOfferFormData();
+    assert.deepEqual(JSON.parse(JSON.stringify(data)), data);
   });
 });

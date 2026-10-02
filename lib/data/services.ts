@@ -7,6 +7,7 @@
 import { getAddonsForBaseId, getExVat, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { getSongParticipantsExplanation } from "./song-offer";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
@@ -14,6 +15,12 @@ import {
 } from "./youtube-embeds";
 
 /** מחיר לצרכן כולל מע״מ, "590 ₪". הקלטת שיר ותוספותיה מוצגות כך (2.10.2026). */
+/** שאלת הקבוצות בעמוד השיר, מהקטלוג: זמר אחד כלול, השני, מהשלישי, עד 12 */
+const SONG_GROUP_FAQ_ANSWER = (() => {
+  const { withVat, exVat } = getSongParticipantsExplanation();
+  return `כן. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}. כולם מקליטים באותו סשן, ואנחנו מחברים הכל לשיר אחד.`;
+})();
+
 function nisWithVat(id: PriceItemId): string {
   return `${withVat(getExVat(id)).toLocaleString("he-IL")} ₪`;
 }
@@ -389,9 +396,8 @@ export const STUDIO_SERVICES = {
       {
         id: "group-session",
         question:
-          "האם אפשר להגיע להקלטה יחד עם ההורים, האחים או חברים?",
-        answer:
-          "כן. מקליטים בקבוצות קטנות ומאחדים לסאונד אחד. לקבוצות גדולות - כמה סשנים קצרים שמחוברים לקטע אחד, שיר שכל אחד שר שורה.",
+          "האם אפשר להגיע להקלטה יחד עם ההורים, האחים או חברים? כמה זה עולה?",
+        answer: SONG_GROUP_FAQ_ANSWER,
       },
       {
         id: "pricing-factors",

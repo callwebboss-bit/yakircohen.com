@@ -14,6 +14,10 @@
  * מזורזת לשירים. קישורים ישנים ממופים ב-LEGACY_SONG_ALIASES (song-offer.ts).
  * single_production ו-full_production_clip נשארים. studio_session_clip (450,
  * גלם) נשאר לברכה ולאולפן הנייד.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-03 - משתתפים בשיר: אחד כלול, השני 190
+ * (studio_extra_participant), מהשלישי 99 לכל אחד (song_group_participant),
+ * עד 12. ראו SONG_PARTICIPANT_RULES.
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -157,7 +161,15 @@ export const PRICING_CATALOG = [
     exVat: 190,
     category: "addons",
     context: "הקלטה נוספת וערבוב בסיסי",
-    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן",
+    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן. בשיר: הזמר השני",
+  },
+  {
+    id: "song_group_participant",
+    label: "זמר נוסף בשיר, מהשלישי והלאה",
+    exVat: 99,
+    category: "addons",
+    context: "מחיר קבוצה: מהזמר השלישי בשיר, לכל זמר. עד 12 משתתפים בשיר אחד.",
+    suitedFor: "שיר משפחתי או קבוצתי",
   },
   {
     id: "studio_extra_revision",
@@ -461,6 +473,24 @@ export const PRICING_CATALOG = [
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
+/**
+ * משתתפים בהקלטת שיר (החלטת הבעלים 3.10.2026): זמר אחד כלול בבסיס, הזמר
+ * השני בתוספת studio_extra_participant (190), ומהשלישי והלאה
+ * song_group_participant (99) לכל אחד. עד 12 משתתפים בשיר אחד.
+ * החישוב ב-songParticipantsSurchargeExVat (lib/data/song-offer-quote.ts).
+ */
+export const SONG_PARTICIPANT_RULES = {
+  included: 1,
+  max: 12,
+  secondId: "studio_extra_participant",
+  groupId: "song_group_participant",
+} as const satisfies {
+  included: number;
+  max: number;
+  secondId: PriceItemId;
+  groupId: PriceItemId;
+};
+
 /** תוספות מוצעות לשירות בסיסי במחירון */
 export const PRICING_ADDON_LINKS: Partial<
   Record<PriceItemId, readonly PriceItemId[]>
@@ -614,6 +644,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   studio_extra_participant: {
     included: ["הקלטה נוספת", "ערבוב בסיסי"],
     excluded: ["מסלול בסיס", "קליפ", "סבב תיקונים נוסף"],
+  },
+  song_group_participant: {
+    included: ["הקלטת זמר נוסף באותו סשן", "שילוב בשיר"],
+    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)", "הזמר השני (תוספת משתתף נוסף)"],
   },
   studio_extra_revision: {
     included: ["עריכה נוספת מלאה"],

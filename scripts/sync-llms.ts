@@ -15,7 +15,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
 import { withVat } from "../lib/data/pricing";
-import { SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
+import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
 
 const root = resolve(import.meta.dirname, "..");
 const llmsPath = resolve(root, "public/llms.txt");
@@ -55,6 +55,7 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - הקלטת ברכה: ${meNis(blessing)}
 - הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${nis(withVat(song))} כולל מע״מ (${nis(song)} + מע״מ)
 - תוספות לשיר, כולל מע״מ: ${songAddons}
+- משתתפים בשיר, כולל מע״מ (זמר אחד כלול): ${getSongParticipantsExplanation().withVat}
 - DJ לאירועים (צוות, כ-4 שעות): ${meNis(dj)}
 - אטרקציה בודדת לאירוע: ${meNis(attraction)}
 - שובר מתנה לאולפן: ${meNis(voucherFloor)}

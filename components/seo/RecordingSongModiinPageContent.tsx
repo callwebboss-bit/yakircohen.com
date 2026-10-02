@@ -25,7 +25,7 @@ import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatConsumerPrice } from "@/lib/data/pricing-display";
-import { SONG_OFFER_SECTION_ID } from "@/lib/data/song-offer";
+import { getSongParticipantsExplanation, SONG_OFFER_SECTION_ID } from "@/lib/data/song-offer";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import SongOfferSection from "@/components/pricing/SongOfferSection";
@@ -45,6 +45,7 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
 const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
+const SONG_PARTICIPANTS_LINE = getSongParticipantsExplanation().withVat;
 const SONG_CTA_LABEL = `הקלטת שיר באולפן: ${SONG_PRICE.totalLabel}`;
 const PITCH_DEMO_ID = "pitch-before-after";
 
@@ -296,8 +297,8 @@ export default function RecordingSongModiinPageContent() {
                       ומקבלים קובץ מוגמר לאירוע.
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      מסלולי הקבוצה שלנו מאפשרים לכמה בני משפחה להקליט יחד
-                      או בנפרד - ואנחנו מחברים הכל לקטע אחד מוגמר.
+                      זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר:
+                      {" "}{SONG_PARTICIPANTS_LINE}. אנחנו מחברים הכל לקטע אחד מוגמר.
                     </p>
                   </div>
                 </div>
