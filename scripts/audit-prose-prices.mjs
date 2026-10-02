@@ -147,7 +147,15 @@ const files = execSync(`git ls-files ${SCAN_DIRS}`, { maxBuffer: 1e8 })
   .toString()
   .trim()
   .split("\n")
-  .filter((f) => /\.(ts|tsx|txt)$/.test(f) && f !== CATALOG);
+  /* קבצי בדיקה לא נסרקים: הם מצטטים את הפלט שהקוד מחשב מהקטלוג, לא פרוזה
+     שגולש רואה, ובדיקה שמצטטת מחיר ישן נכשלת בעצמה. */
+  .filter((f) => /\.(ts|tsx|txt)$/.test(f) && !/\.test\.tsx?$/.test(f) && f !== CATALOG);
+
+/* ערך שפרש כמחיר לפני מע״מ יכול להיות מחיר תקף כולל מע״מ של פריט אחר (590
+   הוא גם withVat(500) של הקלטת שיר). שורה שאומרת "כולל מע״מ" ושהערך בה הוא
+   withVat של מחיר נוכחי כלשהו בקטלוג לא נחשבת ציטוט של המחיר הישן. */
+const VAT_INCLUSIVE_LINE = /כולל מע[״"]מ|כולל מע\\"מ/;
+const currentWithVat = new Set(Object.values(current).map((v) => Math.round(v * 1.18)));
 
 const unexplained = [];
 const usedEntries = new Set();
@@ -173,6 +181,7 @@ for (const file of files) {
     }
     for (const value of values) {
       if (!atRisk.has(value)) continue;
+      if (VAT_INCLUSIVE_LINE.test(line) && currentWithVat.has(value)) continue;
       const entry = EXPLAINED.find(
         (e) => e.value === value && e.file === file && line.includes(e.match),
       );

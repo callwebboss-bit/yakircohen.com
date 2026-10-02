@@ -45,7 +45,7 @@ describe("pricing-addon-adapter", () => {
     );
     assert.equal(
       total,
-      getExVat("podcast_editing_hour") + 590,
+      getExVat("podcast_editing_hour") + getExVat("podcast_editing_advanced"),
     );
   });
 

@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 121,
-  "contentHash": "b4185a391881100f",
+  "itemCount": 122,
+  "contentHash": "d9ee4790718f8565",
   "items": [
     {
       "id": "studio_half_hour",
@@ -35,8 +35,8 @@
       "id": "blessing_recording",
       "label": "ברכה / אמירה",
       "category": "studio",
-      "exVat": 590,
-      "inclVat": 696,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
       "context": "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
       "suitedFor": "ברכת כלה, דרשה, אמירה לחתונה או בר/בת מצווה"
@@ -45,8 +45,8 @@
       "id": "studio_remote",
       "label": "הקלטה מרחוק",
       "category": "studio",
-      "exVat": 590,
-      "inclVat": 696,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
       "context": "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
       "suitedFor": "ברכה או אמירה בלי להגיע לאולפן"
@@ -128,7 +128,7 @@
       "inclVat": 354,
       "priceFrom": false,
       "context": "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
-      "suitedFor": "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים"
+      "suitedFor": "ברכה או הקלטה מרחוק שרוצים גם תיקון זיופים"
     },
     {
       "id": "song_pitch_coaching",
@@ -225,6 +225,15 @@
       "inclVat": 885,
       "priceFrom": false,
       "context": "ניקוי רעשים, סנכרון וכתוביות"
+    },
+    {
+      "id": "podcast_editing_advanced",
+      "label": "עריכה מתקדמת לפודקאסט",
+      "category": "podcast",
+      "exVat": 590,
+      "inclVat": 696,
+      "priceFrom": false,
+      "context": "לכל שעה שצולמה, פתיח וסגיר"
     },
     {
       "id": "podcast_extra_participant",

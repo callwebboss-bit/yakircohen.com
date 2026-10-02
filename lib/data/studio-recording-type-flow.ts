@@ -1,3 +1,4 @@
+import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 import type { RecordingTypeId, StudioPackageId } from "@/lib/data/studio-recording-booking";
 
 export type RecordingTypeFlow = {
@@ -26,7 +27,7 @@ export function getRecordingTypeFlow(
         hideLocation: false,
         hideAtmosphere: false,
         defaultPackageId: "remote",
-        remoteHint: "ברירת מחדל: הקלטה מרחוק (590 ₪). אפשר גם להגיע לאולפן במודיעין.",
+        remoteHint: `ברירת מחדל: הקלטה מרחוק (${catalogWithVat(getExVat("studio_remote")).toLocaleString("he-IL")} ₪ כולל מע״מ). אפשר גם להגיע לאולפן במודיעין.`,
       };
     case "general_blessing":
       return {

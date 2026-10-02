@@ -4,9 +4,12 @@
  * לא יוצרת URLs חדשים ולא משנה canonical.
  */
 
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { getDecisionPaths } from "@/lib/data/service-decision-paths";
 import { getNextUpSuggestion } from "@/lib/data/next-up";
 import { getSameCategoryLinks } from "@/lib/site-architecture";
+
+const BLESSING_EX_VAT = getExVat("blessing_recording");
 
 export type FitAudience = "families" | "creators" | "business";
 export type FitDelivery = "in_studio" | "mobile" | "on_site" | "self_service";
@@ -112,7 +115,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 590,
+    priceAnchorExVat: BLESSING_EX_VAT,
     notes: "אפשר גם מהבית - עדיין אותו outcome",
   },
   {
@@ -135,7 +138,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/blessings/video-clip",
-    priceAnchorExVat: 590,
+    priceAnchorExVat: BLESSING_EX_VAT,
   },
   {
     pathname: "/studio/blessings/bride-groom-blessing",
@@ -146,7 +149,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 590,
+    priceAnchorExVat: BLESSING_EX_VAT,
   },
   {
     pathname: "/studio/mobile-studio",

@@ -4,7 +4,7 @@ import {
   EVENT_ATTRACTION_FROM_NIS,
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
-import { formatFromPriceDual, getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
+import { catalogWithVat, formatFromPriceDual, getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { appendYcLeadTag, emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -108,7 +108,7 @@ export function getSuperCategoryForRoute(routeId: string): BookSuperCategory | n
   return null;
 }
 
-const STUDIO_FROM = 590;
+const STUDIO_FROM = getExVat("blessing_recording");
 const SINGER_FROM = 2800;
 const ACADEMY_FROM = 990;
 const ONLINE_FROM = getExVat("damaged_recording_rescue");
@@ -150,7 +150,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "gift", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי\nשם החוגג/ת (מי יקליט): _____",
-    valueFrame: "590₪ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך",
+    valueFrame: `${catalogWithVat(STUDIO_FROM).toLocaleString("he-IL")} ₪ כולל מע״מ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך`,
     closerServiceId: "recording",
     homeCardTitle: "שיר בהפתעה וברכות",
     homeCardDescription:

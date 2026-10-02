@@ -3,7 +3,7 @@
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
  *
  * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה מאושרות במחיר. תיקון
- * זיופים בברכה ובהקלטה מרחוק (590) לא כלול. תוספת: studio_pitch_correction 300 ₪.
+ * זיופים בברכה ובהקלטה מרחוק לא כלול. מ-3.10.2026 שתיהן 500 (היו 590). תוספת: studio_pitch_correction 300 ₪.
  *
  * CONTENT_REVIEW: overlay 2026-10-02 (docs/OWNER-DECISIONS-2026-10-02.md) -
  * הקלטת שיר היא בסיס ותוספות בלבד: song_recording 500 (הקלטה, מיקס ומאסטר,
@@ -112,7 +112,7 @@ export const PRICING_CATALOG = [
   {
     id: "blessing_recording",
     label: "ברכה / אמירה",
-    exVat: 590,
+    exVat: 500,
     category: "studio",
     context: "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
     scope: { duration: "עד חצי שעה", includes: "הנחיה ועריכה בסיסית" },
@@ -121,7 +121,7 @@ export const PRICING_CATALOG = [
   {
     id: "studio_remote",
     label: "הקלטה מרחוק",
-    exVat: 590,
+    exVat: 500,
     category: "studio",
     context: "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
     scope: { includes: "ניקוי רעשים ומיקס" },
@@ -185,7 +185,7 @@ export const PRICING_CATALOG = [
     exVat: 300,
     category: "addons",
     context: "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
-    suitedFor: "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים",
+    suitedFor: "ברכה או הקלטה מרחוק שרוצים גם תיקון זיופים",
   },
   {
     id: "song_pitch_coaching",
@@ -250,6 +250,9 @@ export const PRICING_CATALOG = [
     priceFrom: true,
   },
   { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
+  /* עד 3.10.2026 התוספת הזו בטופס הפודקאסט נקראה דרך studio_remote, כי שניהם
+     היו 590. הקלטה מרחוק ירדה ל-500, והעריכה המתקדמת לא השתנתה. */
+  { id: "podcast_editing_advanced", label: "עריכה מתקדמת לפודקאסט", exVat: 590, category: "podcast", context: "לכל שעה שצולמה, פתיח וסגיר" },
   { id: "podcast_extra_participant", label: "משתתף נוסף בפודקאסט", exVat: 150, category: "podcast", context: "תוספת מיקרופון ועריכה מוגברת מעל 2 אנשים" },
   {
     id: "studio_self_service_hour",

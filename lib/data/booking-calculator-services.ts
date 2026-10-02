@@ -23,7 +23,7 @@ export const SERVICES: Record<string, Service> = {
   recording_basic: {
     name: "הקלטת שיר בסיסית",
     category: "recordings",
-    price: getExVat("studio_remote"),
+    price: getExVat("song_recording"),
     icon: "🎤",
     desc: "הקלטה מקצועית עם מיקס ומאסטרינג",
     upsells: ["warmup", "melodyne", "production_full", "stems", "video_pro", "video_studio", "raw_only"],
@@ -264,7 +264,7 @@ export const UPSELLS: Record<string, Upsell> = {
   raw_only: { name: "הקלטה גולמית בלבד", price: 0, desc: "ללא עיבוד, קובץ גולמי" },
   editing_advanced: {
     name: "עריכה מתקדמת",
-    price: getExVat("studio_remote"),
+    price: getExVat("podcast_editing_advanced"),
     desc: "לכל שעה שצולמה, פתיח וסגיר",
   },
   full_edit: {

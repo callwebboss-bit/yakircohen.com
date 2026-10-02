@@ -172,7 +172,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     utmCampaign: "studio_hub",
     bookHref: "/book#studio",
     closerService: "recording",
-    priceExVat: 590,
+    priceExVat: getExVat("blessing_recording"),
   },
   events: {
     href: "/events",
