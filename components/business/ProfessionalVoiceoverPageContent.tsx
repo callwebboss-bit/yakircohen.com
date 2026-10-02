@@ -58,8 +58,8 @@ export default function ProfessionalVoiceoverPageContent() {
             קריינות לסט (חבילה 5 משפטים)
           </p>
           <p className="mx-auto mt-5 max-w-2xl text-sm text-muted-foreground">
-            הפכו את הסט שלכם ללהיט: קריינות מקצועית שתרים אתכם לגבהים חדשים.
-            רוצים שהסט ייחרט בזיכרון? זו הדרך להפוך אותו למותג בלתי נשכח.
+            קריינות בסט היא מה שגורם לקהל לדעת מי מנגן. בלעדיה הסט עובר בלי
+            שם, ואיתה הוא מזוהה איתכם גם אחרי שהוא נגמר.
           </p>
           {bookCta ? (
             <HubDualCta

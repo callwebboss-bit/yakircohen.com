@@ -48,7 +48,7 @@ export default function PodcastWithGrandpaPageContent() {
   return (
     <ServicePageLayout
       title="הגשמת חלום: הקלטת שיר באולפן"
-      subtitle="מתנה מקורית ומרגשת לסבא? חוויה משפחתית בלתי נשכחת, פודקאסט, הקלטת שיר באולפן, ומזכרת לכל החיים. זו לא סתם הקלטה. זו מורשת."
+      subtitle="הסיפורים שלא סופרו עד היום, מוקלטים באולפן. פודקאסט משפחתי, הקלטת שיר, ומזכרת שנשארת. זו לא סתם הקלטה, זו מורשת."
       features={PODCAST_GRANDPA_HERO_FEATURES}
       whatsappText="שלום, מעוניין בחוויית פודקאסט עם סבא/סבתא באולפן"
       utmCampaign="podcast_grandpa"

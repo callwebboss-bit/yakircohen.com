@@ -27,8 +27,9 @@ export const SMOKE_BUBBLE_HIGHLIGHTS: readonly { emoji: string; title: string; t
   },
   {
     emoji: "🛡️",
-    title: "בטיחות ללא פשרות",
-    text: "ללא אש, ללא עשן מסוכן, נוזל Dry-Bubble שלא מחליק.",
+    title: "רצפה שלא מחליקה",
+    text:
+      "ללא אש, ללא עשן מסוכן, ונוזל Dry-Bubble שלא מחליק. רק חומרים עם אישור.",
   },
 ] as const;
 

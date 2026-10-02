@@ -67,7 +67,7 @@ export const HEAVY_SMOKE_INCLUDES: readonly string[] = [
 
 export const HEAVY_SMOKE_WHY_US: readonly string[] = [
   "מפעיל מנוסה, יודע מתי להפעיל ולעצור",
-  "איכות ללא פשרות, אפקט 9.9/10",
+  "עשן צפוף שמכסה את הרצפה ולא מתפזר אחרי שתי שניות",
   "מכונות חזקות, כיסוי מרבי",
   "שירות אישי, ייעוץ, לא רק השכרה",
 ] as const;

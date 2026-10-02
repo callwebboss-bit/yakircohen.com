@@ -28,6 +28,28 @@ const BANNED = [
   { re: /&hellip;/g, name: "entity &hellip;", fix: '"..."' },
 ];
 
+/**
+ * ביטויים שנמדדו כחתימת כתיבה שיווקית ולא כקול של הבעלים. הוסרו מהאתר
+ * ב-2.10.2026 אחרי מעבר משפט-משפט איתו, ונאסרים כאן כדי שלא יחזרו.
+ *
+ * הרשימה מכוונת להיות צרה. נכנס אליה רק ביטוי שאין לו שימוש לגיטימי
+ * באתר הזה. "מושלם" לדוגמה לא נמצא כאן בכוונה: ב-glossary.ts הוא מופיע
+ * במשפט כן ומדויק ("לא תמיד מחזיר הקלטה פגומה למצב מושלם"), ושער לא
+ * יודע להבחין בין שימוש כזה להבטחה שיווקית.
+ */
+const BANNED_PHRASES = [
+  { phrase: "אנחנו כאן כדי", fix: "להגיד מה עושים בפועל" },
+  { phrase: "ברוכים הבאים ל", fix: "לפתוח במה שהקורא בא בשבילו" },
+  { phrase: "אנו מציעים", fix: '"יש" או לתאר את השירות ישירות' },
+  { phrase: "אנו מנטרלים", fix: "לנסח בגוף ראשון ובלי רגיסטר של מכרז" },
+  { phrase: "מבוסס נתונים", fix: "להגיד על מה באמת מתבססים" },
+  { phrase: "פריסה גיאוגרפית", fix: '"אזורי שירות" או רשימת הערים' },
+  { phrase: "ערך מוסף", fix: "להגיד מה הלקוח מקבל" },
+  { phrase: "לאורך כל הדרך", fix: "להגיד מאיפה עד איפה" },
+  { phrase: "בלתי נשכח", fix: "להגיד מה קורה בפועל ברגע הזה" },
+  { phrase: "ללא פשרות", fix: "להגיד מה נבדק או מה לא מתפשרים עליו" },
+];
+
 const files = [];
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -51,11 +73,22 @@ for (const file of files) {
         hits.push({ file, line: i + 1, name, fix, text: lines[i].trim().slice(0, 100) });
       }
     }
+    for (const { phrase, fix } of BANNED_PHRASES) {
+      if (lines[i].includes(phrase)) {
+        hits.push({
+          file,
+          line: i + 1,
+          name: `ביטוי שיווקי "${phrase}"`,
+          fix,
+          text: lines[i].trim().slice(0, 100),
+        });
+      }
+    }
   }
 }
 
 if (hits.length > 0) {
-  console.error(`\naudit:ai-tells FAILED - ${hits.length} robotic/AI typographic marks found:\n`);
+  console.error(`\naudit:ai-tells FAILED - ${hits.length} robotic marks found:\n`);
   for (const h of hits) {
     console.error(`  ${h.file}:${h.line}  [${h.name} -> ${h.fix}]`);
     console.error(`     ${h.text}`);
@@ -64,4 +97,7 @@ if (hits.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK: no robotic/AI typographic marks in ${files.length} source files.`);
+console.log(
+  `OK: no robotic marks in ${files.length} source files ` +
+    `(${BANNED.length} typographic, ${BANNED_PHRASES.length} phrases).`,
+);

@@ -139,7 +139,7 @@ export default function DjEventsPageContent() {
             מנגנון הפעולה: ניהול אישי מול פיקוח מערכתי
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            אנו מנטרלים את אלמנט המקריות מהאירוע. העבודה מתבצעת תחת מפרט טכני ומוזיקלי קבוע, המיושם בשני מסלולי בחירה ברורים:
+            באירוע אין הזדמנות שנייה. לכן העבודה נעשית לפי מפרט טכני ומוזיקלי קבוע, בשני מסלולים:
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl border border-border bg-surface p-6">
@@ -425,7 +425,7 @@ export default function DjEventsPageContent() {
             id="dj-geo-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            נגישות ופריסה גיאוגרפית
+            נגישות ואזורי שירות
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
             הסטנדרט המקצועי של המערכת אינו משתנה בהתאם למיקום הגאוגרפי. אנו מספקים שירותי DJ, הגברה והפקה{" "}
