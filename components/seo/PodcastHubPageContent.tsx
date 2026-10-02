@@ -11,6 +11,7 @@ import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscovery
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import TableOfContents from "@/components/ui/TableOfContents";
+import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { PodcastCalculatorLazy, TimeSaverRoiSliderLazy } from "@/components/calculators/lazy";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
@@ -613,17 +614,19 @@ export default function PodcastHubPageContent() {
 
             {/* Calculator for fine-tuning */}
             <div className="mt-12">
-              <h3
-                id="pricing-calculator-heading"
-                className="text-center text-lg font-semibold text-foreground"
+              <CalculatorDisclosure
+                headingLevel="h3"
+                title="רוצים לחשב מחיר מדויק לפרק שלכם?"
+                description={
+                  <>
+                    {PODCAST_HUB_STARTING_PRICE} ₪ -{" "}
+                    {PODCAST_HUB_STARTING_PRICE_NOTE}
+                  </>
+                }
+                buttonLabel="פתחו את מחשבון המחיר"
               >
-                רוצים לחשב מחיר מדויק לפרק שלכם?
-              </h3>
-              <p className="mt-2 text-center text-sm text-muted-foreground">
-                {PODCAST_HUB_STARTING_PRICE} ₪ -{" "}
-                {PODCAST_HUB_STARTING_PRICE_NOTE}
-              </p>
-              <PodcastCalculatorLazy className="mt-6" />
+                <PodcastCalculatorLazy className="mt-6" />
+              </CalculatorDisclosure>
             </div>
           </section>
 
