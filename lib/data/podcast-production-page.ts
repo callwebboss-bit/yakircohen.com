@@ -58,7 +58,7 @@ export const PODCAST_PRODUCTION_COMPARE: readonly {
 }[] = [
   {
     title: "הפקה מלאה, פרק אחד",
-    description: "צילום + הקלטה + עריכה, פרק בדרך כלל מוכן תוך 24 שעות. החל מ-2,500 ₪.",
+    description: "צילום + הקלטה + עריכה, הפרק אצלכם באותה שנייה שמסיימים להקליט. החל מ-2,500 ₪.",
     href: "/podcast/podcast-recording",
     cta: "לעמוד הפקה מלאה",
   },

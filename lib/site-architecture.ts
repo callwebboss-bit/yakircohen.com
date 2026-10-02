@@ -1,4 +1,4 @@
-﻿/**
+/**
  * מפת אתר מרכזית - מקור אמת אחד לניווט, קנוניקליזציה וקישורים פנימיים.
  * עדכן כאן כשמוסיפים/מאחדים עמודים; Header, Footer ו-redirects נגזרים מכאן.
  */
@@ -121,7 +121,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         description: "סקירה, מחירון ומחשבון",
       },
       {
-        label: "הפקה מלאה (24 שעות)",
+        label: "הפקה מלאה",
         href: "/podcast/podcast-recording",
         description: "צילום + עריכה - מ-2,500 ₪",
       },
@@ -688,7 +688,7 @@ export const CONTENT_EXPANSION_TOPICS: readonly {
     id: "podcast-recording",
     targetPath: "/podcast/podcast-recording",
     title: "הפקת פודקאסט מלאה",
-    sendUs: "תהליך 24 שעות, דוגמאות, השוואת חבילות",
+    sendUs: "הפרק ביד בסוף ההקלטה, דוגמאות, השוואת חבילות",
   },
   {
     id: "recording-song",

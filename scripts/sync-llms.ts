@@ -14,6 +14,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { TIME_CLAIMS } from "../lib/data/conversion-copy";
 import { withVat } from "../lib/data/pricing";
 import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
 
@@ -52,6 +53,7 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - פודקאסט אודיו (עד שעה + עריכה): ${nis(podcastAudio)}
 - פודקאסט וידאו (3 מצלמות): ${nis(podcastVideo)}
 - הפקת פודקאסט מלאה: ${meNis(podcastFull)}
+- בכל הקלטת פודקאסט, באולפן וגם בבית או במשרד של הלקוח: ${TIME_CLAIMS.podcastSameSecond} (ההקלטה עוברת ישר מהמצלמות למחשב, עם חיתוך חי לפי מי שמדבר)
 - הקלטת ברכה: ${meNis(blessing)}
 - הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${nis(withVat(song))} כולל מע״מ (${nis(song)} + מע״מ)
 - תוספות לשיר, כולל מע״מ: ${songAddons}

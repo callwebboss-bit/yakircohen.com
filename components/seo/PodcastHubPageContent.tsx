@@ -103,8 +103,8 @@ const VALUE_PILLARS = [
   },
   {
     emoji: "🎧",
-    title: "עריכה ביום ההקלטה - מסירה תוך 4 ימים",
-    body: "הקלטה ועריכה ביום אחד. פרויקטים מורכבים נמסרים תוך 4 ימים לכל היותר. אין פרויקטים פתוחים, אין עיכובים.",
+    title: TIME_CLAIMS.podcastSameSecond,
+    body: `${TIME_CLAIMS.podcastSameSecondLong} באולפן וגם אצלכם בבית או במשרד.`,
   },
 ] as const;
 
@@ -138,7 +138,7 @@ export default function PodcastHubPageContent() {
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט במודיעין"
-        subtitle="הקלטת פודקאסט באולפן במודיעין. פרק מוכן להעלאה בדרך כלל תוך 24 שעות - מ-750 ₪ לפני מע״מ."
+        subtitle="הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - מ-750 ₪ לפני מע״מ."
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
@@ -303,8 +303,8 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - פרק מוכן תוך 24
-                שעות.
+                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - והפרק אצלכם באותה
+                שנייה שמסיימים להקליט.
               </p>
               <p className="mt-4 text-sm font-semibold text-brand-red">
                 {SKEPTICISM_CTA}
@@ -747,8 +747,8 @@ export default function PodcastHubPageContent() {
               מוכנים לפרק מוכן להעלאה?
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-background/70">
-              אולפן במודיעין. מקליטים, עורכים, ומקבלים קובץ מוכן לספוטיפיי או
-              יוטיוב. {TIME_CLAIMS.podcastDelivery24h}.
+              אולפן במודיעין, או אצלכם בבית ובמשרד. {TIME_CLAIMS.podcastSameSecond},
+              מוכן לספוטיפיי וליוטיוב.
             </p>
             <ul className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
               {PODCAST_HUB_CTA_BENEFITS.map((benefit) => (

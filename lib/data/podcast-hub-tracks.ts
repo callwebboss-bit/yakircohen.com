@@ -11,7 +11,7 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-recording",
     title: "צילום והקלטת פודקאסט",
-    description: `הפקה מלאה, פרק ${TIME_CLAIMS.podcastDelivery24h}, החל מ-2,500 ₪.`,
+    description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}, החל מ-2,500 ₪.`,
     fromPrice: "החל מ-2,500 ₪ + מע״מ",
   },
   {

@@ -7,6 +7,7 @@ import type { BookCategoryId } from "@/lib/book-url";
 import {
   BUSINESS_HOURS,
 } from "@/lib/constants";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { formatNis, withVat } from "@/lib/data/pricing";
 import { formatPriceLine } from "@/lib/data/pricing-catalog";
 import { progressiveIntentLine } from "@/lib/progressive-booking-message";
@@ -31,7 +32,37 @@ export function buildPriceLine(exVat: number, label?: string): string {
   return formatPriceLine(exVat, label);
 }
 
-export function buildTrustFooter(bookCategory?: BookCategoryId): string {
+/**
+ * שורת המסירה לפי השירות (החלטות הבעלים 2-3.10.2026). עד עכשיו כל שירות
+ * שאינו בשטח קיבל "מסירה: 24-48 שעות", גם פודקאסט וגם שיר, ששניהם אצל
+ * הלקוח בסוף ההקלטה.
+ * - פודקאסט: הפרק אצל הלקוח באותה שנייה שמסיימים להקליט, באולפן ובבית.
+ * - שיר (חבילת song באשף האולפן): השיר אצל הלקוח בסוף הסשן.
+ * - ברכה, הקלטה מרחוק, קליפים, אונליין ו-pro: עבודת עריכה אחרי ההקלטה או
+ *   אחרי שהלקוח שולח קובץ, ולכן 24-48 שעות נשאר.
+ * - אקדמיה ושירותים בשטח (אירועים, DJ, צילום, זמר): אין שורת מסירה.
+ */
+export function buildDeliveryLine(
+  bookCategory?: BookCategoryId,
+  packageId?: string | null,
+): string | null {
+  if (bookCategory === "podcast") return `⚡ ${TIME_CLAIMS.podcastSameSecond}`;
+  if (bookCategory === "studio" && packageId?.split(",").includes("song")) {
+    return "⚡ השיר אצלכם בסוף הסשן";
+  }
+  if (
+    bookCategory === "events" ||
+    bookCategory === "singer" ||
+    bookCategory === "dj" ||
+    bookCategory === "photography" ||
+    bookCategory === "academy"
+  ) {
+    return null;
+  }
+  return "⚡ מסירה: 24-48 שעות לפי חבילה";
+}
+
+export function buildTrustFooter(bookCategory?: BookCategoryId, packageId?: string | null): string {
   const hours = BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(" - ");
   const isMobileService = bookCategory === "events" || bookCategory === "singer" || bookCategory === "dj" || bookCategory === "photography";
   const isDigitalService = bookCategory === "clips" || bookCategory === "online";
@@ -42,7 +73,7 @@ export function buildTrustFooter(bookCategory?: BookCategoryId): string {
         ? null
         : "📍 עמק איילון 34, מודיעין",
     `🕐 ${hours}`,
-    !isMobileService ? "⚡ מסירה: 24-48 שעות לפי חבילה" : null,
+    buildDeliveryLine(bookCategory, packageId),
     "☁️ גיבוי ענן מאובטח",
   ].filter(Boolean).join("\n");
 }
@@ -259,7 +290,7 @@ export function buildClosingMessage({
 
   if (includeTrustFooter) {
     lines.push("");
-    lines.push(buildTrustFooter(bookCategory));
+    lines.push(buildTrustFooter(bookCategory, ycPackage));
   }
 
   let body = lines.join("\n").trim();

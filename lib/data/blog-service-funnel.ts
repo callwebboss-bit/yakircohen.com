@@ -30,7 +30,7 @@ const FUNNEL_COPY: Record<BookCategoryId, FunnelCopy> = {
   },
   podcast: {
     heading: "מתחילים פודקאסט?",
-    body: `הקלטה, עריכה והפצה מאולפן אחד. פרק ראשון ${TIME_CLAIMS.podcastDelivery24h}.`,
+    body: `הקלטה, עריכה והפצה מאולפן אחד. ${TIME_CLAIMS.podcastSameSecond}.`,
     whatsappOpener: "שלום, אשמח להצעה להפקת פודקאסט.",
   },
   events: {

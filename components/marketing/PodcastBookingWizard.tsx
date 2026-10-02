@@ -92,7 +92,7 @@ import {
   getPodcastStep1Checklist,
   type WizardStepBlocker,
 } from "@/lib/podcast-wizard-step-guards";
-import { sendBookingWaCta } from "@/lib/data/conversion-copy";
+import { sendBookingWaCta, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
@@ -1193,12 +1193,12 @@ export default function PodcastBookingWizard({
                   <li>
                     <span className="font-medium text-foreground">היום:</span>{" "}
                     {form.location === "mobile"
-                      ? "מגיעים אליכם עם הציוד. חומרי הגלם אצלכם בסוף הסשן"
-                      : "הקלטה באולפן במודיעין. חומרי הגלם אצלכם ביד בסוף הסשן"}
+                      ? "מגיעים אליכם עם הציוד ומקליטים"
+                      : "הקלטה באולפן במודיעין"}
                   </li>
                   <li>
-                    <span className="font-medium text-foreground">1 עד 3 ימי עבודה:</span>{" "}
-                    עריכה, מיקס ומאסטרינג מלאים
+                    <span className="font-medium text-foreground">כשמסיימים להקליט:</span>{" "}
+                    {TIME_CLAIMS.podcastSameSecondLong}
                   </li>
                   <li className="flex items-start gap-1.5">
                     <span>
@@ -1246,7 +1246,7 @@ export default function PodcastBookingWizard({
               <BookingSummaryActions
                 disabled={wizardSubmit.status === "submitting"}
                 showPaymentTrust
-                socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
+                socialProof={TIME_CLAIMS.podcastSameSecond}
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(packageTotal)),
                   onClick: () => handleAction("continue_chat"),

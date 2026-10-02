@@ -38,7 +38,7 @@ import {
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const PODCAST_RECORDING_META_DESCRIPTION =
-  "רוצים פודקאסט מקצועי בלי להתעסק בציוד? מגיעים, מדברים, ויוצאים עם פרק מוכן תוך 24 שעות. צילום 4K, סאונד אולפני ועריכה מלאה במודיעין.";
+  "רוצים פודקאסט מקצועי בלי להתעסק בציוד? מגיעים, מדברים, והפרק אצלכם באותה שנייה שמסיימים להקליט. צילום 4K וסאונד אולפני במודיעין.";
 
 const PODCAST_RECORDING_PRICE_LABEL = formatFromPriceDual(
   PODCAST_RECORDING_PRICE,
@@ -92,7 +92,7 @@ export default function PodcastRecordingPageContent() {
       utmCampaign="podcast_recording"
       corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
-      scarcityLabel={`${PODCAST_RECORDING_PRICE_LABEL} לפרק, ${TIME_CLAIMS.podcastDelivery24h}`}
+      scarcityLabel={`${PODCAST_RECORDING_PRICE_LABEL} לפרק, ${TIME_CLAIMS.podcastSameSecond}`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
       pagePath="/podcast/podcast-recording"
       metaDescription={PODCAST_RECORDING_META_DESCRIPTION}
@@ -156,7 +156,7 @@ export default function PodcastRecordingPageContent() {
             id="full-production-heading"
             className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            צילום + הקלטה + עריכה = פרק {TIME_CLAIMS.podcastDelivery24h}
+            צילום + הקלטה + עריכה = {TIME_CLAIMS.podcastSameSecond}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
             רוצים פודקאסט מקצועי אבל לא רוצים להתעסק עם ציוד, הקלטה ועריכה?

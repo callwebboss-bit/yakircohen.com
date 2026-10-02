@@ -1,7 +1,10 @@
-﻿export const MOBILE_PODCAST_HERO_FEATURES: readonly string[] = [
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+
+export const MOBILE_PODCAST_HERO_FEATURES: readonly string[] = [
   "האולפן מגיע אליכם, בית, משרד או אירוע",
   "ציוד הקלטה מקצועי + ליווי של מהנדס סאונד מקצועי - יקיר כהן",
   "תוצאה ברמת ספוטיפיי, בלי לצאת מהבית",
+  TIME_CLAIMS.podcastSameSecond,
   "עריכה אופציונלית במקום או אחרי ההקלטה",
   "הגעה לכל הארץ, מודיעין, מרכז, ירושלים ועוד",
   "אפשרות לשלב צילום וידאו",

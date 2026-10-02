@@ -53,7 +53,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
 ] as const;
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
-  `פרק ${TIME_CLAIMS.podcastDelivery24h} להעלאה`,
+  TIME_CLAIMS.podcastSameSecond,
   "4 מתחמי הקלטה עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
   "מצלמות Sony ZV-E10 + DJI Osmo 4 + צילום 4K רב-זוויתי",
   "שרשרת סאונד אולפנית - ממשקי UAD + iZotope",
@@ -87,8 +87,8 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   },
   {
     emoji: "⚡",
-    title: TIME_CLAIMS.podcastDelivery24h,
-    description: "אתם מדברים, אנחנו דואגים לטכניקה, לעריכה ולמסירה.",
+    title: TIME_CLAIMS.podcastSameSecond,
+    description: TIME_CLAIMS.podcastSameSecondLong,
   },
   {
     emoji: "✂️",
@@ -216,7 +216,7 @@ export const PODCAST_HUB_WORKFLOW: readonly {
   {
     step: "5",
     title: "פרק מוכן",
-    body: `${TIME_CLAIMS.podcastDelivery24h}, קבצים מוכנים להעלאה לספוטיפיי ויוטיוב.`,
+    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה לספוטיפיי וליוטיוב.`,
   },
 ] as const;
 
@@ -233,7 +233,7 @@ export const PODCAST_HUB_FAQS: readonly {
   {
     id: "hub-delivery",
     question: "תוך כמה זמן מקבלים את הפרק?",
-    answer: `${TIME_CLAIMS.podcastDelivery24h} להעלאה ברוב החבילות. פרויקטים מורכבים נמסרים עד 4 ימים.`,
+    answer: `באותה שנייה שמסיימים להקליט, בכל הקלטת פודקאסט, באולפן וגם אצלכם בבית או במשרד. ${TIME_CLAIMS.podcastSameSecondLong}`,
   },
   {
     id: "hub-who-for",
@@ -377,7 +377,7 @@ export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
 export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "חוסכים זמן ואנרגיה",
   "תוצאה מקצועית",
-  TIME_CLAIMS.podcastDelivery24h,
+  TIME_CLAIMS.podcastSameSecond,
   "נוח ופשוט",
   "משתלם כלכלית",
 ] as const;
