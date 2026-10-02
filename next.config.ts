@@ -126,13 +126,10 @@ const nextConfig: NextConfig = {
         destination: "https://yakircohen.com/:path*",
         permanent: true,
       },
-      // Strip WooCommerce ?add-to-cart= parameter that Google still crawls from the old WP site.
-      {
-        source: "/:path*",
-        has: [{ type: "query", key: "add-to-cart" }],
-        destination: "/:path*",
-        permanent: true,
-      },
+      /* ?add-to-cart= של WooCommerce מטופל ב-proxy.ts ולא כאן. הכלל שישב כאן
+         הפנה לעצמו: Next מעביר את ה-query של הבקשה ליעד ההפניה
+         (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/redirects.md:43),
+         ולכן /?add-to-cart=123 קיבל 308 אל /?add-to-cart=123 בלולאה (ED-12). */
       ...getLegacyRedirects(),
       // Strip .html extensions (produced by Pagefind crawling .next/server/app)
       {

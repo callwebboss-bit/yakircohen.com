@@ -38,9 +38,31 @@ function listConst(text, name) {
   return [...block[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
 }
 
+/* ה-matcher יכול להכיל גם אובייקטים עם has (כמו כלל ה-add-to-cart), ולכן
+   listConst, שעוצר ב-] הראשון, היה נחתך בתוך ה-has. כאן סורקים עד הסוגר
+   התואם, מסירים את האובייקטים, ונשארים רק עם המחרוזות של הנתיבים המתים. */
+function matcherPaths(text) {
+  const start = text.search(/matcher\s*:\s*\[/);
+  if (start === -1) return null;
+  const open = text.indexOf("[", start);
+  let depth = 0;
+  let end = -1;
+  for (let i = open; i < text.length; i++) {
+    if (text[i] === "[") depth++;
+    else if (text[i] === "]" && --depth === 0) {
+      end = i;
+      break;
+    }
+  }
+  if (end === -1) return null;
+  let body = text.slice(open + 1, end);
+  while (/\{[^{}]*\}/.test(body)) body = body.replace(/\{[^{}]*\}/g, "");
+  return [...body.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+}
+
 const prefixes = listConst(stripComments(legacy), "GONE_PATH_PREFIXES");
 const exacts = listConst(stripComments(legacy), "GONE_EXACT_PATHS");
-const matcher = listConst(stripComments(proxy), "matcher");
+const matcher = matcherPaths(stripComments(proxy));
 
 const errors = [];
 if (!prefixes) errors.push("GONE_PATH_PREFIXES not found in lib/legacy-redirects.ts");
