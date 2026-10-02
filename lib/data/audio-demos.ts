@@ -50,7 +50,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
       "/podcast",
       "/online/vocal-fix",
       "/online",
-      "/online/audio-music",
       "/online/online-ai-pricing",
       "/online/vocal-fix/mixing",
       "/blog/ai-audio-restoration-guide",
@@ -73,7 +72,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
       "/podcast",
       "/podcast/podcast-editing",
       "/online",
-      "/online/podcast-voice",
       "/blog/sound-recovery-ai-podcast",
       "/book",
     ],
@@ -91,7 +89,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     status: "ready",
     recommendedPages: [
       "/studio/recording-song-modiin",
-      "/online/audio-music",
       "/book",
     ],
     storageKey: "recording-vocal",

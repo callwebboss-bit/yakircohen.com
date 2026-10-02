@@ -81,7 +81,6 @@ export const BLOG_SLUGS = [
   "dj-for-bar-mitzvah-cost",
   "recorded-song-birthday-gift",
   "podcast-for-small-business-worth-it",
-  "mixing-vs-mastering-explained",
   "studio-recording-complaints",
   "podcast-editing-complaints",
   "online-audio-service-complaints",

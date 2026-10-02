@@ -18,6 +18,13 @@ export type LegacyRedirect = {
 
 /** Map legacy path canonical path (before prefix rules) */
 const LEGACY_PATH_MAP: Record<string, string> = {
+  /**
+   * כפילות אמיתית. שני פוסטים כיסו את אותה שאילתה בדיוק, ושניהם קצרים.
+   * מוזג ב-2.10.2026 בהחלטת הבעלים: התוכן הייחודי עבר לפוסט ששרד,
+   * ובלוק המחירים של זה שנמחק לא עבר כי הוא סתר את pricing-catalog
+   * (500-1,400 מול external_mix_master = 1,750).
+   */
+  "/blog/mixing-vs-mastering-explained": "/blog/mixing-mastering-explained",
   /** Google Sites / קישורים ישנים - דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
   "/home/": "/",

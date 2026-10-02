@@ -83,7 +83,6 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "dj-for-bar-mitzvah-cost": "כמה עולה DJ לבר מצווה ב-2026?",
   "recorded-song-birthday-gift": "הקלטת שיר מתנה ליום הולדת - מה לצפות ואיך להתכונן",
   "podcast-for-small-business-worth-it": "פודקאסט לעסק קטן - שווה את ההשקעה?",
-  "mixing-vs-mastering-explained": "מה ההבדל בין מיקס למאסטרינג?",
   "studio-recording-complaints": "למה הקלטת שיר באולפן יוצאת מאכזבת? 5 תלונות שחוזרות",
   "podcast-editing-complaints": "עריכת פודקאסט איטית, יקרה ולא שקופה? 5 תלונות קלאסיות",
   "online-audio-service-complaints": "שלחתי קובץ לתיקון זיופים - יצא רובוטי או לא חזר. 5 תלונות על עריכה מרחוק",
