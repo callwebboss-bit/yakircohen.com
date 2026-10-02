@@ -176,7 +176,7 @@ import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
 import { calcUpgradesTotalExVat } from "@/lib/studio-upgrade-pricing";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import CatalogOfferPanel from "@/components/pricing/CatalogOfferPanel";
@@ -872,7 +872,7 @@ export default function StudioRecordingBooking({
         };
   useReportBookWizardLivePrice(livePriceReport);
 
-  const escapeWaHref = buildWizardEscapeHref({
+  const escapeLead = buildWizardEscapeLead({
     category: "studio",
     serviceLabel: STUDIO_CRO_CONFIG.serviceLabel,
     formId: STUDIO_CRO_CONFIG.formId,
@@ -883,6 +883,7 @@ export default function StudioRecordingBooking({
     contactPhone: form.phone,
     ycStep: step + 1,
   });
+  const escapeWaHref = escapeLead.href;
 
   const consultHref = buildConsultWhatsAppHref(
     summaryLines,
@@ -1674,7 +1675,7 @@ export default function StudioRecordingBooking({
               nextLabel={BOOK_WIZARD_COPY.nextStep}
               showBack={false}
             />
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           </section>
         </BookingStepPanel>
       )}
@@ -1864,7 +1865,7 @@ export default function StudioRecordingBooking({
               onNext={attemptAdvanceFromStep1}
               nextLabel={BOOK_WIZARD_COPY.nextStep}
             />
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           </section>
         </BookingStepPanel>
       )}

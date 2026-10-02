@@ -238,14 +238,22 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
   const configured = dryRun || isConfigured();
   let emailed = false;
   if (configured) {
-    /* תמיד מנסים לשלוח, גם אם Redis נפל למעלה. LF-07 */
-    const adminSend = await sendOrDryRun({
-      from: defaultLeadFromAddress(),
-      to: [leadNotifyEmail()],
-      subject,
-      text: textBody,
-      html,
-    });
+    /* תמיד מנסים לשלוח, גם אם Redis נפל למעלה. LF-07
+       sendResendEmail זורק בשגיאת רשת (fetch failed). בלי ה-catch ingest כולו
+       נזרק, ה-webhook למטה לא נוסה והגולש קיבל 500. */
+    let adminSend: ResendSendResult;
+    try {
+      adminSend = await sendOrDryRun({
+        from: defaultLeadFromAddress(),
+        to: [leadNotifyEmail()],
+        subject,
+        text: textBody,
+        html,
+      });
+    } catch (err) {
+      logStoreError("resend_send", err);
+      adminSend = { ok: false, status: 0, error: "resend_threw" };
+    }
     emailed = adminSend.ok;
     if (adminSend.ok && adminSend.id && stored) {
       lead.resendEmailId = adminSend.id;
@@ -269,7 +277,12 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
   }
 
   if (emailed && !dryRun && routing.pingAdminWhatsApp) {
-    await pingAdminHighScore(lead);
+    /* הפינג הוא תוספת. אם הוא נזרק אחרי שהמייל כבר יצא, הגולש לא אמור לקבל כשל */
+    try {
+      await pingAdminHighScore(lead);
+    } catch (err) {
+      logStoreError("admin_ping", err);
+    }
   }
 
   /* מענה אוטומטי ללקוח, רק לכתובת שעברה את אותו אימות שהטופס מריץ בדפדפן.

@@ -5,7 +5,10 @@ import { mirrorWhatsAppLeadToEmail } from "@/lib/mirror-whatsapp-lead";
 
 type WizardWhatsAppEscapeLinkProps = {
   href: string;
-  /** Optional precomposed WA body for email mirror */
+  /**
+   * גוף ההודעה המלא למייל לבעלים. עדיף להעביר אותו: הטקסט בקישור כבר עבר
+   * toCustomerWhatsAppText, ושורות "ליד פרימיום" ו"כוונה" לא נמצאות בו.
+   */
   messageText?: string;
   formId?: string;
 };

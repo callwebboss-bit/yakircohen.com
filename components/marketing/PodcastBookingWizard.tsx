@@ -52,7 +52,7 @@ import { useBookExitIntent } from "@/hooks/useBookExitIntent";
 import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
 import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -478,9 +478,9 @@ export default function PodcastBookingWizard({
     ],
   );
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "podcast",
         serviceLabel: PODCAST_CRO_CONFIG.serviceLabel,
         formId: PODCAST_CRO_CONFIG.formId,
@@ -493,6 +493,7 @@ export default function PodcastBookingWizard({
       }),
     [summaryLinesForEscape, packageTotal, selected?.name, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -980,7 +981,7 @@ export default function PodcastBookingWizard({
           ) : null}
 
           {PODCAST_CRO_CONFIG.escapePlacements.includes("after_packages") && selected ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
 
           <BookOptionalAddonsButton
@@ -1138,7 +1139,7 @@ export default function PodcastBookingWizard({
             />
           </div>
           {PODCAST_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />

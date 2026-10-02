@@ -4,7 +4,7 @@ import { guardPublicMutation } from "@/lib/api-guard";
 import { captureException } from "@/lib/sentry-capture";
 import { ingestLead } from "@/lib/leads/ingest";
 import { logLeadFailure } from "@/lib/leads/log";
-import { checkLeadNotifyPayload } from "@/lib/leads/payload-check";
+import { checkLeadNotifyPayload, fitLeadBody } from "@/lib/leads/payload-check";
 import type { LeadIngestClientMeta, ServiceType } from "@/lib/leads/types";
 
 type LeadPayload = {
@@ -69,6 +69,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
+  /* דפדפן עם JS ישן שולח את שורת הקישור המקומי גם כשהגוף ארוך מדי */
+  if (payload && typeof payload.body === "string") {
+    payload.body = fitLeadBody(payload.body);
+  }
   const check = checkLeadNotifyPayload(payload ?? {});
   if (check.kind === "honeypot") {
     return NextResponse.json({ ok: true });

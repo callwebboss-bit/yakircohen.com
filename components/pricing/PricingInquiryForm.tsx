@@ -380,7 +380,17 @@ export default function PricingInquiryForm() {
             {leadSubmit.status === "failed" ? (
               <LeadSubmitFallback
                 waHref={leadSubmit.waHref}
-                onRetry={() => void retryLead()}
+                onRetry={() =>
+                  void retryLead().then((ok) => {
+                    /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+                    if (!ok) return;
+                    try {
+                      localStorage.removeItem(DRAFT_KEY);
+                    } catch {
+                      /* ignore */
+                    }
+                  })
+                }
               />
             ) : null}
             <div className="flex gap-3">

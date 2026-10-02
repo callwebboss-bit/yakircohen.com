@@ -11,6 +11,7 @@ import {
   getCrossSellOffers,
   type CrossSellContext,
 } from "@/lib/data/booking-cross-sell";
+import { fitLeadBody } from "@/lib/leads/payload-check";
 import type { LeadIngestClientMeta, ServiceType } from "@/lib/leads/types";
 
 export type LeadEmailPayload = {
@@ -100,7 +101,10 @@ export function buildLeadNotifyBody(payload: LeadEmailPayload): string {
   if (!payload.body.trim()) return payload.body;
 
   const closerLink = buildCloserDeepLink(payload.body);
-  return `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: ${closerLink}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`;
+  /* fitLeadBody מוריד את שורת הקישור כשהגוף חורג מהמגבלה של השרת */
+  return fitLeadBody(
+    `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: ${closerLink}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`,
+  );
 }
 
 export const LEAD_SUBMIT_TIMEOUT_MS = 12_000;

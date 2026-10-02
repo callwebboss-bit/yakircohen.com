@@ -11,10 +11,12 @@ import { isLeadSpam } from "@/lib/form-validation";
 import { buildLeadNotifyBody } from "@/lib/lead-email-notify";
 import {
   checkLeadNotifyPayload,
+  fitLeadBody,
   FORM_ID_PATTERN,
   leadSoftFlags,
   MAX_LEAD_BODY_CHARS,
 } from "@/lib/leads/payload-check";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { buildPricingInquiryBody } from "@/lib/pricing-inquiry-body";
 import { buildSmartFormLeadEmailBody } from "@/lib/smart-form-lead-email";
 import { buildClosingMessage, buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
@@ -333,6 +335,56 @@ describe("checkLeadNotifyPayload: rules", () => {
       kind: "reject",
       error: "body_too_long",
     });
+  });
+});
+
+describe("long real bodies", () => {
+  it("a 2000-character message (the form maximum) is accepted, only the local closer link is dropped", () => {
+    const raw = buildClosingMessage({
+      serviceLabel: "הקלטה באולפן",
+      contact: CONTACT,
+      customerNeed: "א".repeat(2000),
+      summaryLines: SUMMARY,
+      intent: "start_now",
+      ycForm: "contact_quiz",
+    });
+    const body = buildLeadNotifyBody({ formId: "contact_quiz", subject: "ליד", body: raw, crossSell: { bookCategory: "studio" } });
+    assert.ok(body.length <= MAX_LEAD_BODY_CHARS, `length ${body.length}`);
+    assert.ok(body.includes(raw.trim()));
+    assert.ok(body.includes("קליטה מהירה"));
+    assert.ok(!body.includes("yakir-closer.html?lead="));
+    assert.equal(checkLeadNotifyPayload({ formId: "contact_quiz", subject: "ליד", body, name: CONTACT.name, phone: PHONE }).kind, "accept");
+  });
+
+  it("fitLeadBody fixes the same body sent by old browser JS, and leaves short bodies alone", () => {
+    const raw = `שלום\n${"א".repeat(2000)}`;
+    const old = `${raw}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: yakir-closer.html?lead=${"QUJD".repeat(1600)}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`;
+    assert.ok(old.length > MAX_LEAD_BODY_CHARS);
+    const fitted = fitLeadBody(old);
+    assert.ok(fitted.length <= MAX_LEAD_BODY_CHARS);
+    assert.ok(fitted.startsWith(raw));
+    const short = buildLeadNotifyBody({ formId: "contact_quiz", subject: "ליד", body: "שלום" });
+    assert.equal(fitLeadBody(short), short);
+    assert.ok(short.includes("yakir-closer.html?lead="));
+  });
+});
+
+describe("wizard escape lead", () => {
+  it("the owner email body keeps the premium and intent lines that the customer link drops (LF-06)", () => {
+    const { body, href } = buildWizardEscapeLead({
+      category: "studio",
+      serviceLabel: "הקלטה באולפן",
+      formId: "studio_recording_booking",
+      summaryLines: SUMMARY,
+      priceExVat: 9000,
+      ycStep: 2,
+    });
+    const customer = new URL(href).searchParams.get("text") ?? "";
+    assert.ok(body.includes("ליד פרימיום"));
+    assert.ok(body.includes("*כוונה:*"));
+    assert.ok(!customer.includes("ליד פרימיום"));
+    assert.ok(!customer.includes("*כוונה:*"));
+    assert.ok(customer.includes("[YC:"));
   });
 });
 

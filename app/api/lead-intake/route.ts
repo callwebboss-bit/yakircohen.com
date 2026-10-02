@@ -85,7 +85,7 @@ function isValidPayload(body: LeadIntakeRequest): boolean {
  * הקוד הקודם עשה fetch ל-/api/lead-notify עם Origin מזויף, ותפס שגיאות ב-.catch.
  * שתי בעיות: קפיצת רשת מיותרת שיכולה ליפול על timeout או על cold start, ובעיקר
  * ש-fetch לא נכשל על סטטוס HTTP. תשובת 502 מ-lead-notify (כלומר המייל לא נשלח)
- * לא הפעילה את ה-catch כלל, והליד נחשב כאילו נקלט. כאן sendFailed נבדק במפורש.
+ * לא הפעילה את ה-catch כלל, והליד נחשב כאילו נקלט. כאן notified נבדק במפורש.
  *
  * הבדיקות (honeypot, טלפון, קישור בשם) כבר רצו למעלה, ולכן אין צורך לשכפל אותן.
  */

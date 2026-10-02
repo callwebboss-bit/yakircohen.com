@@ -355,7 +355,15 @@ export default function AcademyBookingWizard({
 
       <LeadFormAlert message={globalError} />
       {leadSubmit.status === "failed" ? (
-        <LeadSubmitFallback waHref={leadSubmit.waHref} onRetry={() => void retryLead()} />
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() =>
+            void retryLead().then((ok) => {
+              /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+              if (ok) clearPanelBookingDraft("academy");
+            })
+          }
+        />
       ) : null}
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 

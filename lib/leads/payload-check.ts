@@ -21,6 +21,21 @@ export const MAX_LEAD_BODY_CHARS = 8000;
 export const REVIEW_SUBJECT_PREFIX = "[לבדיקה] ";
 export const FORM_ID_PATTERN = /^[a-z][a-z0-9_]{2,63}$/;
 
+/* שורת הקישור המקומי ל-yakir-closer שהדפדפן מוסיף (buildLeadNotifyBody). היא
+   מקודדת את כל הגוף ב-base64, ולכן גוף עברי מתנפח בערך פי 3.8. הודעה של 2000
+   תווים (המקסימום שהטופס מאפשר) הגיעה ל-8295 תווים ונדחתה כ-body_too_long. */
+const CLOSER_LINK_LINE = /\nאו פתחו מקומית: yakir-closer\.html\?lead=\S*/;
+
+/**
+ * כשהגוף ארוך מהמגבלה, מסיר את שורת הקישור המקומי בלבד. הגוף עצמו וההוראה
+ * להדביק אותו ב"קליטה מהירה" נשארים, כך שהבעלים לא מאבד כלום. מכסה גם
+ * דפדפנים עם JS ישן ששולחים את השורה המלאה.
+ */
+export function fitLeadBody(body: string): string {
+  if (body.length <= MAX_LEAD_BODY_CHARS) return body;
+  return body.replace(CLOSER_LINK_LINE, "");
+}
+
 export type LeadRejectReason =
   | "missing_fields"
   | "invalid_form"

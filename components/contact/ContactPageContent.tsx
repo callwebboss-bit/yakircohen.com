@@ -638,7 +638,12 @@ export default function ContactPageContent() {
                       {leadSubmit.status === "failed" ? (
                         <LeadSubmitFallback
                           waHref={leadSubmit.waHref}
-                          onRetry={() => void retryLead()}
+                          onRetry={() =>
+                            void retryLead().then((ok) => {
+                              /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+                              if (ok) quizDraft.clear();
+                            })
+                          }
                         />
                       ) : null}
                       <div>

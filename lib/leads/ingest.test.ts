@@ -133,6 +133,23 @@ describe("ingestLead", () => {
     }
   });
 
+  it("a Resend network error (fetch throws) still tries the webhook and does not throw", async () => {
+    process.env.ADMIN_WHATSAPP_ALERT = "https://hook.example.test/lead";
+    try {
+      mock.method(globalThis, "fetch", async (url: RequestInfo | URL) => {
+        calls.push({ url: String(url), body: {} });
+        if (String(url).startsWith("https://api.resend.com")) throw new TypeError("fetch failed");
+        return new Response("{}", { status: 200 });
+      });
+      mock.method(console, "error", () => undefined);
+      const r = await ingest.ingestLead(input());
+      assert.equal(r.notified, true);
+      assert.ok(calls.some((c) => c.url === "https://hook.example.test/lead"));
+    } finally {
+      delete process.env.ADMIN_WHATSAPP_ALERT;
+    }
+  });
+
   it("no RESEND_API_KEY is notConfigured, not a silent success", async () => {
     delete process.env.RESEND_API_KEY;
     mockFetch(() => ({ status: 200 }));

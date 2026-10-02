@@ -92,7 +92,7 @@ import {
 } from "@/lib/booking-messages";
 import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-draft";
 import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -538,9 +538,9 @@ export default function EventsBookingWizard({
     form.selectedUpsells,
   ]);
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "events",
         serviceLabel: EVENTS_CRO_CONFIG.serviceLabel,
         formId: EVENTS_CRO_CONFIG.formId,
@@ -552,6 +552,7 @@ export default function EventsBookingWizard({
       }),
     [summaryLines, bundleTotal, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -1107,7 +1108,7 @@ export default function EventsBookingWizard({
 
           {count === 0 &&
           EVENTS_CRO_CONFIG.escapePlacements.includes("empty_results") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
 
           <BookOptionalAddonsButton
@@ -1191,7 +1192,7 @@ export default function EventsBookingWizard({
             />
           </div>
           {EVENTS_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />

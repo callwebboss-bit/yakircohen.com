@@ -47,7 +47,7 @@ import {
   sumSingerAddons,
 } from "@/lib/data/singer-booking-addons";
 import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -292,9 +292,9 @@ export default function SingerAmplificationBookingWizard({
     [form, selected, lastMinuteUpsellCfg],
   );
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "singer",
         serviceLabel: SINGER_CRO_CONFIG.serviceLabel,
         formId: SINGER_CRO_CONFIG.formId,
@@ -307,6 +307,7 @@ export default function SingerAmplificationBookingWizard({
       }),
     [summaryLinesForEscape, totalExVat, selected?.name, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -611,7 +612,7 @@ export default function SingerAmplificationBookingWizard({
             />
           ) : null}
           {SINGER_CRO_CONFIG.escapePlacements.includes("after_packages") && form.packageId ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step0Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
@@ -686,7 +687,7 @@ export default function SingerAmplificationBookingWizard({
             />
           </div>
           {SINGER_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
