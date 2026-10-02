@@ -24,7 +24,7 @@ export const metadata: Metadata = metadataForHubSeo(CONTACT_HUB_SEO);
 const CONTACT_FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה הקלטה באולפן?",
-    answer: `ברכה והקלטה קצרה החל מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ + מע״מ. שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪ + מע״מ. שעת חדר בלי עריכה מ-${getExVat("studio_hour").toLocaleString("he-IL")} ₪ + מע״מ. מחיר סופי מוצג בדף ההזמנה.`,
+    answer: `ברכה והקלטה קצרה החל מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ + מע״מ. הקלטת שיר עם מיקס ומאסטר ${getExVat("song_recording").toLocaleString("he-IL")} ₪ + מע״מ. שעת חדר בלי עריכה מ-${getExVat("studio_hour").toLocaleString("he-IL")} ₪ + מע״מ. מחיר סופי מוצג בדף ההזמנה.`,
   },
   {
     question: "אפשר לשמוע דוגמאות מהעבודות?",

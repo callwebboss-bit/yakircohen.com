@@ -1,22 +1,50 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { parseBookCatalogFromSearch } from "@/lib/data/pricing-book-map";
+import {
+  parseBookCatalogFromSearch,
+  resolvePricingBookHref,
+} from "@/lib/data/pricing-book-map";
 
 describe("parseBookCatalogFromSearch", () => {
-  it("maps cover_song to studio classic + cover preset", () => {
-    const target = parseBookCatalogFromSearch("cover_song");
+  it("maps song_recording to the studio song package with an empty song preset", () => {
+    const target = parseBookCatalogFromSearch("song_recording");
     assert.ok(target);
     assert.equal(target!.category, "studio");
-    assert.equal(target!.studioPackageId, "classic");
-    assert.equal(target!.recordingTypeId, "cover");
-    assert.equal(target!.catalogId, "cover_song");
+    assert.equal(target!.catalogId, "song_recording");
+    assert.equal(target!.studioPackageId, "song");
+    assert.deepEqual(target!.songOffer?.addonIds, []);
   });
 
-  it("maps studio_viral and studio_all_in to matching wizard packages", () => {
-    const viral = parseBookCatalogFromSearch("studio_viral");
-    const allIn = parseBookCatalogFromSearch("studio_all_in");
-    assert.equal(viral?.studioPackageId, "viral");
-    assert.equal(allIn?.studioPackageId, "all_in");
+  it("maps each song add-on link to the base with that add-on selected", () => {
+    assert.deepEqual(parseBookCatalogFromSearch("song_pitch_coaching")?.songOffer?.addonIds, [
+      "song_pitch_coaching",
+    ]);
+    assert.deepEqual(
+      parseBookCatalogFromSearch("studio_session_clip_edited")?.songOffer?.addonIds,
+      ["studio_session_clip_edited"],
+    );
+    /* הראיון משולב בקליפ, ולכן הקישור שלו מסמן את שניהם */
+    assert.deepEqual(
+      parseBookCatalogFromSearch("song_pre_session_interview")?.songOffer?.addonIds,
+      ["studio_session_clip_edited", "song_pre_session_interview"],
+    );
+  });
+
+  it("keeps old ?catalog= links for the removed song packages working", () => {
+    const cases: Array<[string, string[], string]> = [
+      ["cover_song", ["song_pitch_coaching"], "cover"],
+      ["song_package", ["song_pitch_coaching"], "event_song"],
+      ["studio_viral", ["song_pitch_coaching", "studio_session_clip_edited"], "event_song"],
+      ["studio_all_in", ["song_pitch_coaching"], "event_song"],
+    ];
+    for (const [oldId, addons, recordingType] of cases) {
+      const target = parseBookCatalogFromSearch(oldId);
+      assert.ok(target, oldId);
+      assert.equal(target!.catalogId, "song_recording", oldId);
+      assert.equal(target!.studioPackageId, "song", oldId);
+      assert.equal(target!.recordingTypeId, recordingType, oldId);
+      assert.deepEqual(target!.songOffer?.addonIds, addons, oldId);
+    }
   });
 
   it("does not map blessing_recording onto the remote song package", () => {
@@ -27,7 +55,7 @@ describe("parseBookCatalogFromSearch", () => {
     assert.equal(target!.studioPackageId, undefined);
   });
 
-  it("does not map studio_hour onto classic song package", () => {
+  it("does not map studio_hour onto the song package", () => {
     const target = parseBookCatalogFromSearch("studio_hour");
     assert.ok(target);
     assert.equal(target!.catalogId, "studio_hour");
@@ -39,6 +67,16 @@ describe("parseBookCatalogFromSearch", () => {
     const target = parseBookCatalogFromSearch("studio_remote");
     assert.equal(target?.studioPackageId, "remote");
     assert.equal(target?.recordingTypeId, undefined);
+  });
+
+  it("the 4,500 production no longer points at a removed wizard package", () => {
+    const target = parseBookCatalogFromSearch("full_production_clip");
+    assert.ok(target);
+    assert.equal(target!.studioPackageId, undefined);
+  });
+
+  it("builds a /book link for the song base", () => {
+    assert.equal(resolvePricingBookHref("song_recording"), "/book?catalog=song_recording#studio");
   });
 
   it("returns null for unknown catalog id", () => {

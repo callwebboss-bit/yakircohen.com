@@ -17,14 +17,12 @@ function stripDualPrefix(formatted: string): string {
 }
 
 export function buildRecordingSongStudioPriceAnswer(): string {
-  const cover = stripDualPrefix(formatFromPriceDual(getExVat("cover_song")));
-  const package_ = stripDualPrefix(
-    formatFromPriceDual(getExVat("song_package")),
-  );
+  const song = stripDualPrefix(formatFromPriceDual(getExVat("song_recording")));
+  const pitch = getExVat("song_pitch_coaching").toLocaleString("he-IL");
   const blessing = stripDualPrefix(
     formatFromPriceDual(getExVat("blessing_recording")),
   );
-  return `שיר מוכן באולפן ${cover}. שיר Pro ${package_}. ברכה או אמירה קצרה ${blessing}. המחיר הסופי תלוי במורכבות - מחירון מלא בעמוד.`;
+  return `הקלטת שיר באולפן (הקלטה, מיקס ומאסטר בסשן של שעה) ${song}. תיקון זיופים וטכנאי מנחה בתוספת ${pitch} ₪ + מע״מ. ברכה או אמירה קצרה ${blessing}. מחירון מלא בעמוד.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

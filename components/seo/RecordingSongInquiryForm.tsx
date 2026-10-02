@@ -72,7 +72,7 @@ export default function RecordingSongInquiryForm() {
           customerNeed: customerNeed.trim()
             ? sanitizeLeadText(customerNeed, 500)
             : null,
-          priceExVat: getExVat("song_package"),
+          priceExVat: getExVat("song_recording"),
           summaryLines,
           source: "/studio/recording-song-modiin",
           closerServiceId: "recording",

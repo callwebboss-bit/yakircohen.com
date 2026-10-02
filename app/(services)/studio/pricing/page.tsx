@@ -50,13 +50,8 @@ const NEED_GUIDE = [
     href: "/studio/blessings",
   },
   {
-    need: getSuitedForById("cover_song"),
-    tier: "שיר מוכן באולפן",
-    href: "/studio/recording-song-modiin",
-  },
-  {
-    need: getSuitedForById("song_package"),
-    tier: "שיר Pro",
+    need: getSuitedForById("song_recording"),
+    tier: "הקלטת שיר באולפן",
     href: "/studio/recording-song-modiin",
   },
   {

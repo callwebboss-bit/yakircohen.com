@@ -31,7 +31,9 @@ const hour = getExVat("studio_hour");
 const podcastAudio = getExVat("podcast_audio");
 const podcastVideo = getExVat("podcast_video");
 const podcastFull = getExVat("full_podcast_production");
-const cover = getExVat("cover_song");
+const song = getExVat("song_recording");
+const songPitch = getExVat("song_pitch_coaching");
+const songClip = getExVat("studio_session_clip_edited");
 const blessing = getExVat("blessing_recording");
 const dj = getExVat("dj_premium");
 const attraction = getExVat("event_attraction_1");
@@ -42,7 +44,8 @@ const pricesBlock = `## מחירי פתיחה (לפני מע״מ, מסונכרן
 - פודקאסט אודיו (עד שעה + עריכה): ${nis(podcastAudio)}
 - פודקאסט וידאו (3 מצלמות): ${nis(podcastVideo)}
 - הפקת פודקאסט מלאה: ${meNis(podcastFull)}
-- הקלטת ברכה: ${meNis(blessing)} · הקלטת שיר (קאבר): ${meNis(cover)}
+- הקלטת ברכה: ${meNis(blessing)} · הקלטת שיר (הקלטה, מיקס ומאסטר, סשן של שעה): ${nis(song)}
+- תוספות לשיר: תיקון זיופים וטכנאי מנחה ${nis(songPitch)} · קליפ ערוך מהסשן ${nis(songClip)}
 - DJ לאירועים (צוות, כ-4 שעות): ${meNis(dj)}
 - אטרקציה בודדת לאירוע: ${meNis(attraction)}
 - שובר מתנה לאולפן: ${meNis(voucherFloor)}

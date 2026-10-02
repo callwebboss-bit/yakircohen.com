@@ -6,6 +6,9 @@ import {
   calcStudioPriceBuilder,
   extraParticipantCount,
   PRICE_BUILDER_DEFAULTS,
+  PRICE_BUILDER_DURATION_OPTIONS,
+  PRICE_BUILDER_FINISH_OPTIONS,
+  PRICE_BUILDER_SONG_LINK,
   resolveDurationFinish,
   type PriceBuilderAnswers,
 } from "@/lib/data/studio-price-builder";
@@ -17,8 +20,8 @@ function calc(partial: Partial<PriceBuilderAnswers>) {
   return calcStudioPriceBuilder({ ...defaults, ...partial });
 }
 
-describe("studio price builder", () => {
-  it("maps 30 minutes + raw + 1 + 5 days to studio_half_hour 750", () => {
+describe("studio price builder (room time only)", () => {
+  it("maps 30 minutes + raw + 1 to studio_half_hour 750", () => {
     const result = calc({});
     assert.equal(result.catalogId, "studio_half_hour");
     assert.equal(result.useWithEditing, false);
@@ -27,7 +30,6 @@ describe("studio price builder", () => {
     assert.equal(result.withVat, withVat(750));
     assert.equal(VAT_RATE, 0.18);
     assert.equal(result.withVat, Math.round(750 * 1.18));
-    assert.equal(result.preferWhatsApp, false);
     assert.match(result.bookHref, /catalog=studio_half_hour/);
   });
 
@@ -40,12 +42,12 @@ describe("studio price builder", () => {
     assert.equal(result.useWithEditing, true);
   });
 
-  it("upgrades 30 minutes + mix to cover_song (שיר מוכן)", () => {
-    const result = calc({ finish: "mix" });
-    assert.equal(result.catalogId, "cover_song");
-    assert.equal(result.exVat, getExVat("cover_song"));
-    assert.equal(result.exVat, 990);
-    assert.ok(result.notes.some((n) => n.includes("שיר מוכן")));
+  it("maps one hour to studio_hour, raw and edited", () => {
+    assert.equal(calc({ duration: "1hour" }).exVat, getExVat("studio_hour"));
+    assert.equal(
+      calc({ duration: "1hour", finish: "edit" }).exVat,
+      getWithEditingById("studio_hour")!.exVat,
+    );
   });
 
   it("adds one extra participant at catalog 190", () => {
@@ -62,39 +64,29 @@ describe("studio price builder", () => {
     assert.equal(result.exVat, 750 + 570);
   });
 
-  it("adds express_delivery 1400 for 48 hours", () => {
-    const result = calc({ urgency: "express" });
-    assert.equal(result.expressExVat, getExVat("express_delivery"));
-    assert.equal(result.expressExVat, 1400);
-    assert.equal(result.exVat, 750 + 1400);
+  it("never returns a song id, and offers no mix, long sessions or urgency (2.10.2026)", () => {
+    for (const duration of PRICE_BUILDER_DURATION_OPTIONS) {
+      for (const finish of PRICE_BUILDER_FINISH_OPTIONS) {
+        const resolved = resolveDurationFinish(duration.id, finish.id);
+        assert.ok(
+          resolved.catalogId === "studio_half_hour" || resolved.catalogId === "studio_hour",
+          `${duration.id}/${finish.id} -> ${resolved.catalogId}`,
+        );
+        const result = calc({ duration: duration.id, finish: finish.id });
+        assert.doesNotMatch(result.whatsappText, /מתי:|48|express/);
+      }
+    }
+    assert.deepEqual(
+      PRICE_BUILDER_DURATION_OPTIONS.map((o) => o.id),
+      ["30min", "1hour"],
+    );
+    assert.deepEqual(
+      PRICE_BUILDER_FINISH_OPTIONS.map((o) => o.id),
+      ["raw", "edit"],
+    );
   });
 
-  it("does not add a catalog surcharge for tomorrow", () => {
-    const result = calc({ urgency: "tomorrow" });
-    assert.equal(result.expressExVat, 0);
-    assert.equal(result.exVat, 750);
-    assert.equal(result.preferWhatsApp, true);
-    assert.ok(result.whatsappText.includes("דרוש למחר"));
-  });
-
-  it("keeps 6 hours + mix above 30 minutes + raw", () => {
-    const raw = calc({});
-    const full = calc({ duration: "6hour", finish: "mix" });
-    assert.equal(full.catalogId, "single_production");
-    assert.equal(full.exVat, getExVat("single_production"));
-    assert.ok(full.exVat > raw.exVat);
-  });
-
-  it("does not drop 3-hour raw below song_package", () => {
-    const resolved = resolveDurationFinish("3hour", "raw");
-    assert.equal(resolved.catalogId, "song_package");
-    const result = calc({ duration: "3hour", finish: "raw" });
-    assert.equal(result.exVat, getExVat("song_package"));
-  });
-
-  it("maps hour + mix to cover_song from catalog", () => {
-    const result = calc({ duration: "1hour", finish: "mix" });
-    assert.equal(result.catalogId, "cover_song");
-    assert.equal(result.exVat, 990);
+  it("links songs to the song offer instead", () => {
+    assert.equal(PRICE_BUILDER_SONG_LINK.href, "/studio/recording-song-modiin#song-offer");
   });
 });

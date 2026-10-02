@@ -130,6 +130,10 @@ const LAYOUT_CLIENT_BASELINE = [
   "lib/data/events-booking.ts",
   "lib/data/intent-nav.ts",
   "lib/data/pricing-book-map.ts",
+  /* 2.10.2026: מיפוי הקישורים הישנים של חבילות השיר שירדו (?catalog=cover_song
+     וכו'). כ-1.6KB בלי שום ייבוא. pricing-book-map צריך אותו כדי שקישורים
+     ישנים ימשיכו לעבוד, ולכן הוא הופרד מ-song-offer.ts הכבד במכוון. */
+  "lib/data/song-offer-aliases.ts",
   "lib/data/pricing-catalog.ts",
   "lib/data/pricing-display.ts",
   "lib/data/pricing.ts",

@@ -89,4 +89,4 @@ export const CLOSER_TRAVEL_SHORT: Record<"car" | "transit", string> = {
   transit: "תחבורה ציבורית",
 };
 
-export const STUDIO_QUICK_UPGRADE_IDS = ["bts", "express", "ai_playback"] as const;
+export const STUDIO_QUICK_UPGRADE_IDS = ["bts", "ai_playback"] as const;

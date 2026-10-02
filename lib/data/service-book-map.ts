@@ -24,7 +24,7 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   "studio/blessings": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   "studio/recording-song-modiin": {
     bookCategory: "studio",
-    priceCatalogId: "cover_song",
+    priceCatalogId: "song_recording",
   },
   "studio/recording-studio": { bookCategory: "studio", priceCatalogId: "studio_hour" },
   "studio/mobile-studio": { bookCategory: "studio", priceCatalogId: "mobile_podcast_at_home" },

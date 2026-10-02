@@ -20,12 +20,17 @@ describe("smart-form-estimate", () => {
   });
 
   it("sums upsells from catalog", () => {
-    const est = calculateSmartFormEstimate("family", ["cover", "express"]);
-    assert.equal(est.baseCatalogId, "cover_song");
+    const est = calculateSmartFormEstimate("family", ["cover", "song_pitch"]);
+    assert.equal(est.baseCatalogId, "song_recording");
     assert.equal(
       est.totalExVat,
-      getExVat("cover_song") + getExVat("express_delivery"),
+      getExVat("song_recording") + getExVat("song_pitch_coaching"),
     );
+  });
+
+  it("offers no express chip for songs (2.10.2026)", () => {
+    const est = calculateSmartFormEstimate("family", ["cover", "express"]);
+    assert.equal(est.totalExVat, getExVat("song_recording"));
   });
 
   it("returns empty for anti-lead category", () => {
@@ -73,7 +78,7 @@ describe("smart-form-url", () => {
       contactMethod: "0501234567",
       socialOrId: "",
       termsAccepted: true,
-      baseCatalogId: "cover_song",
+      baseCatalogId: "song_recording",
       estimateExVat: 1200,
       upsellCatalogIds: [],
       bookCategory: "studio",
@@ -81,7 +86,7 @@ describe("smart-form-url", () => {
     const plain = buildSmartFormCloserPlainText(state);
     assert.ok(plain.includes("estimateExVat=1200"));
     assert.ok(plain.includes("vatRate=0.18"));
-    assert.ok(plain.includes("catalog=cover_song"));
+    assert.ok(plain.includes("catalog=song_recording"));
     assert.ok(plain.includes("returnPotential=event_based"));
     assert.ok(plain.includes("prepHref=/blog/studio-session-prep-checklist"));
     const json = smartFormStateToJson(state);

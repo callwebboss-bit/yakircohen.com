@@ -52,14 +52,15 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     adapted: {
       id: "adapted",
       title: "חבילה מותאמת",
-      summary: "שיר Pro - פיץ' ידני, ייעוץ ותמונות.",
-      catalogId: "song_package",
+      /* חבילות השיר ירדו (2.10.2026). המחיר הוא הבסיס, והתוספות נבחרות בנפרד. */
+      summary: "הקלטת שיר עם תוספות לבחירה: תיקון זיופים וטכנאי מנחה, קליפ ערוך מהסשן. התוספות בתשלום נפרד.",
+      catalogId: "song_recording",
     },
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "שיר מוכן באולפן - מיקס, מאסטר ותיקון זיופים.",
-      catalogId: "cover_song",
+      summary: "הקלטת שיר בלבד: הקלטה, מיקס ומאסטר בסשן של שעה. בלי תיקון זיופים.",
+      catalogId: "song_recording",
     },
   },
   podcast: {
@@ -147,7 +148,7 @@ export function resolveAdaptedCatalogId(
   }
   if (serviceId === "song") {
     if (answers.songGoal === "release") return "single_production";
-    if (answers.songGoal === "cover" || answers.songGoal === "gift") return "cover_song";
+    if (answers.songGoal === "cover" || answers.songGoal === "gift") return "song_recording";
     return base;
   }
   if (serviceId === "mobile-studio") {

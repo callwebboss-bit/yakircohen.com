@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Lightbulb, TrendingUp } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
@@ -219,7 +219,7 @@ function applyRecordingTypeToForm(
   return {
     ...prev,
     recordingType,
-    packageId: flow.defaultPackageId ?? (prev.packageId || "classic"),
+    packageId: flow.defaultPackageId ?? (prev.packageId || "song"),
     location: flow.hideLocation ? "modiin" : prev.location,
     mobileGeo: flow.hideLocation ? "" : prev.mobileGeo,
   };
@@ -518,10 +518,10 @@ export default function StudioRecordingBooking({
       serviceId: "recording",
     });
 
-  const classicFallbackPrice =
-    STUDIO_RECORDING_PACKAGES.find((p) => p.id === "classic")?.price ?? 990;
+  /* בלי חבילה עדיין: הערכה לפי הקלטת השיר מהקטלוג, בלי מספר קשיח */
+  const songFallbackPrice = getExVat("song_recording");
   const estimateSubtotal =
-    (activePackage?.price ?? classicFallbackPrice) + upgradesTotal + mobileExVat;
+    (activePackage?.price ?? songFallbackPrice) + upgradesTotal + mobileExVat;
 
   const groupScenariosForDisplay =
     !isConsultation && recorderCount >= 2 && groupPricingEligible
@@ -712,14 +712,6 @@ export default function StudioRecordingBooking({
     },
     [patchForm],
   );
-
-  const allInPrice = STUDIO_RECORDING_PACKAGES.find((p) => p.id === "all_in")?.price ?? 2380;
-  const autoUpgradeThreshold = allInPrice * 0.85;
-  const showAutoUpgrade =
-    step === 1 &&
-    form.packageId !== "all_in" &&
-    !isConsultation &&
-    baseSubtotal >= autoUpgradeThreshold;
 
   useEffect(() => {
     setStepBlockers([]);
@@ -1044,6 +1036,30 @@ export default function StudioRecordingBooking({
     });
     setStepBlockers([]);
     setStep3Transition(true);
+  };
+
+  /* הראיון משולב בקליפ הערוך (2.10.2026): בחירת הראיון מסמנת גם את הקליפ,
+     והסרת הקליפ מסירה גם את הראיון. שתי הבחירות גלויות בסיכום המחיר. */
+  const toggleStudioUpgrade = (id: string) => {
+    if (id === "podcast_interview" && !selectedUpgradeSet.has("performance_clip")) {
+      patchForm({
+        selectedUpgrades: [
+          ...form.selectedUpgrades.filter((u) => u !== "podcast_interview"),
+          "performance_clip",
+          "podcast_interview",
+        ],
+      });
+      return;
+    }
+    if (id === "performance_clip" && selectedUpgradeSet.has("performance_clip")) {
+      patchForm({
+        selectedUpgrades: form.selectedUpgrades.filter(
+          (u) => u !== "performance_clip" && u !== "podcast_interview",
+        ),
+      });
+      return;
+    }
+    toggleUpgrade(id);
   };
 
   const handleLastMinuteBtsChange = (checked: boolean) => {
@@ -1737,7 +1753,6 @@ export default function StudioRecordingBooking({
                     badge={pkg.badge}
                     featured={"featured" in pkg ? pkg.featured : undefined}
                     featuredLabel="הכי מומלץ - שגר ושכח"
-                    savings={"savings" in pkg ? pkg.savings : undefined}
                     footer={
                       <div className="flex items-center justify-between">
                         <PriceWithVat amountExVat={pkg.price} size="md" />
@@ -1779,7 +1794,7 @@ export default function StudioRecordingBooking({
               <StudioUpgradeQuickPills
                 allowedIds={pathUpgradeIds}
                 selected={selectedUpgradeSet}
-                onToggle={toggleUpgrade}
+                onToggle={toggleStudioUpgrade}
               />
             )}
 
@@ -1790,7 +1805,7 @@ export default function StudioRecordingBooking({
                   <BookUpsellSection
                     items={upgradeItems}
                     selected={selectedUpgradeSet}
-                    onToggle={toggleUpgrade}
+                    onToggle={toggleStudioUpgrade}
                   />
                 ) : null}
               </>
@@ -1821,29 +1836,6 @@ export default function StudioRecordingBooking({
                 onEnabledChange={(v) => patchForm({ splitCostEnabled: v })}
                 onCountChange={(n) => patchForm({ splitCostCount: n })}
               />
-            ) : null}
-
-            {showAutoUpgrade ? (
-              <div className="rounded-xl border border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] px-4 py-4 space-y-2">
-                <div className="flex items-start gap-2">
-                  <TrendingUp className="mt-0.5 size-4 shrink-0 text-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">
-                      עם מה שבחרתם, חבילת All-In כבר משתלמת יותר - הכל כלול בלי תוספות נפרדות.
-                    </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      שווה לשדרג ולקבל את החבילה המלאה במחיר טוב יותר.
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => patchForm({ packageId: "all_in" })}
-                  className="min-h-11 rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2 text-sm font-semibold text-white transition-opacity duration-fast ease-luxury hover:opacity-90"
-                >
-                  שדרג לחבילה המלאה ({allInPrice.toLocaleString("he-IL")} ₪ לפני מע״מ)
-                </button>
-              </div>
             ) : null}
 
             <BookOptionalAddonsButton

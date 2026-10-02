@@ -71,7 +71,7 @@ export const PRICING_HUB_SEO: HubPageSeo = {
   slug: "pricing",
   title: "מחירון שקוף - אולפן ופודקאסט מודיעין",
   description:
-    `מחירון שקוף ממודיעין. ברכה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪, שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪, פודקאסט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.`,
+    `מחירון שקוף ממודיעין. ברכה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪, הקלטת שיר ${getExVat("song_recording").toLocaleString("he-IL")} ₪, פודקאסט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.`,
   keywords: [
     "מחירון אולפן",
     "מחיר הקלטה באולפן",

@@ -107,7 +107,7 @@ export default function PricingHubPage() {
               מחירון מרכזי
             </h1>
             <AnswerBlock id="pricing-answer">
-              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. ברכה {formatNis(getExVat("blessing_recording"))}, שיר מוכן {formatNis(getExVat("cover_song"))}, פודקאסט אודיו {formatNis(getExVat("podcast_audio"))} - לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
+              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. ברכה {formatNis(getExVat("blessing_recording"))}, הקלטת שיר {formatNis(getExVat("song_recording"))}, פודקאסט אודיו {formatNis(getExVat("podcast_audio"))} - לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
             </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_EXCLUDE_VAT_NOTE}.

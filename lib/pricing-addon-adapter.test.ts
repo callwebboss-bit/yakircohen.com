@@ -19,9 +19,13 @@ describe("pricing-addon-adapter", () => {
     assert.equal(items[0]?.price, getExVat("podcast_extra_participant"));
   });
 
-  it("maps studio pro package to catalog addons", () => {
-    const items = getCatalogAddonsForStudioPackage("pro");
-    assert.ok(items.some((i) => i.id === "studio_session_clip"));
+  it("maps the remote studio package to its catalog addons", () => {
+    const items = getCatalogAddonsForStudioPackage("remote");
+    assert.ok(items.some((i) => i.id === "studio_pitch_correction"));
+  });
+
+  it("gives the song package no drawer addons, its add-ons are wizard upgrades", () => {
+    assert.deepEqual(getCatalogAddonsForStudioPackage("song"), []);
   });
 
   it("maps events bundle tiers to catalog addons", () => {

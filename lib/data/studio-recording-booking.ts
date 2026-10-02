@@ -1,4 +1,4 @@
-﻿import { getExVat, getWithEditingById } from "@/lib/data/pricing-catalog";
+﻿import { getExVat } from "@/lib/data/pricing-catalog";
 import { STUDIO_SESSION_CLIP_CATALOG_ID } from "@/lib/data/studio-session-clip";
 
 export type RecordingTypeId =
@@ -14,12 +14,9 @@ export type RecordingTypeId =
 
 export type AtmosphereId = "intimate" | "party" | "focused";
 
-export type StudioPackageId =
-  | "remote"
-  | "classic"
-  | "pro"
-  | "viral"
-  | "all_in";
+/* 2.10.2026: חבילות השיר (classic 990, pro, viral, all_in) ירדו. הקלטת שיר
+   היא בסיס אחד, song_recording, והתוספות שלו (docs/OWNER-DECISIONS-2026-10-02.md) */
+export type StudioPackageId = "remote" | "song";
 
 export type StudioUpgradeId =
   | "bts"
@@ -27,7 +24,6 @@ export type StudioUpgradeId =
   | "performance_clip"
   | "podcast_interview"
   | "photo_pack"
-  | "express"
   | "pitch_correction"
   | "ai_playback"
   | "vocal_coaching"
@@ -115,7 +111,7 @@ export const RECORDING_STUDIO_FAQS: readonly {
     id: "duration",
     question: "כמה זמן לוקחת ההקלטה?",
     answer:
-      "המיוחד שלנו: ללא לחץ זמן עד לתוצאה מושלמת. לוקחים את הזמן שצריך - שעה, שעתיים, כמה שנדרש לקבל את התוצאה הכי טובה שלכם.",
+      "הקלטת שיר היא סשן של שעה, ובסופו השיר המוכן כבר אצלכם. ברכה או אמירה - עד חצי שעה.",
   },
 ] as const;
 
@@ -152,9 +148,8 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
   description: string;
   highlights: readonly [string, string, string];
   price: number;
-  catalogId: "studio_remote" | "cover_song" | "song_package" | "studio_viral" | "studio_all_in";
+  catalogId: "studio_remote" | "song_recording";
   badge?: string;
-  savings?: string;
   featured?: boolean;
 }[] = [
   {
@@ -172,68 +167,19 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     price: getExVat("studio_remote"),
   },
   {
-    id: "classic",
+    id: "song",
     emoji: "🎙️",
-    name: "הקלטת אולפן קלאסית",
+    name: "הקלטת שיר באולפן",
     description:
-      "הקלטת שיר ללא לחץ זמן עד לתוצאה מוכנה - מיקס, מאסטרינג ותיקון זיופים",
+      "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול.",
     highlights: [
-      "הקלטה באולפן ללא לחץ זמן",
-      "מיקס, מאסטרינג ותיקון זיופים",
-      "מיועד לשיר מוכן - ברכה במסלול 590 ₪",
+      "סשן של שעה באולפן",
+      "הקלטה, מיקס ומאסטר",
+      "תיקון זיופים וטכנאי מנחה בתוספת",
     ],
-    catalogId: "cover_song",
-    price: getExVat("cover_song"),
+    catalogId: "song_recording",
+    price: getExVat("song_recording"),
     featured: true,
-    badge: "מומלץ",
-  },
-  {
-    id: "pro",
-    emoji: "🏆",
-    name: "הלהיט - Pro Studio",
-    description:
-      "הקלטה מלאה + Pitch Correction ידני + ייעוץ אמנותי + 3 תמונות סטילס מעובדות",
-    highlights: [
-      "הכל מ-Classic + ייעוץ אמנותי",
-      "Pitch Correction ידני",
-      "3 תמונות סטילס מעובדות",
-    ],
-    catalogId: "song_package",
-    price: getExVat("song_package"),
-    badge: "פופולרי",
-    savings: "חיסכון של 490 ₪ לעומת מחיר עצמאי",
-  },
-  {
-    id: "viral",
-    emoji: "🌟",
-    name: "הכוכב הויראלי",
-    description:
-      "חבילת Pro + קליפ אולפן מקצועי (Performance Video) ערוך לרשתות חברתיות",
-    highlights: [
-      "חבילת Pro מלאה",
-      "קליפ ביצוע מקצועי מהאולפן",
-      "מוכן לפרסום ברשתות",
-    ],
-    catalogId: "studio_viral",
-    price: getExVat("studio_viral"),
-    badge: "ויראלי",
-    savings: "חיסכון של 780 ₪ לעומת מחיר עצמאי",
-  },
-  {
-    id: "all_in",
-    emoji: "👑",
-    name: "All-In: סיפור חיים",
-    description:
-      "הפקה מלאה + קליפ תמונות גדילה מרגש מתמונות וסרטוני ילדות - הכל כלול, ללא הפתעות",
-    highlights: [
-      "הפקה מלאה + קליפ תמונות גדילה",
-      "מתמונות וסרטוני ילדות",
-      "הכל כלול - ללא הפתעות",
-    ],
-    catalogId: "studio_all_in",
-    price: getExVat("studio_all_in"),
-    badge: "הכי משתלם",
-    savings: "חיסכון של 1,120 ₪ לעומת מחיר עצמאי",
   },
 ] as const;
 
@@ -258,28 +204,21 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   },
   {
     id: "performance_clip",
-    name: "צילום קליפ מהסשן - עם עריכה",
-    description: "אותו צילום, עם עריכה לקובץ מוכן לשיתוף.",
-    price: getWithEditingById(STUDIO_SESSION_CLIP_CATALOG_ID)?.exVat ?? getExVat(STUDIO_SESSION_CLIP_CATALOG_ID),
-    badge: "חדש",
+    name: "קליפ ערוך מהסשן באולפן",
+    description: "אותו צילום, עם עריכה לקליפ מוכן לשיתוף.",
+    price: getExVat("studio_session_clip_edited"),
   },
   {
     id: "podcast_interview",
-    name: "ראיון משפחתי קצר (3 דקות)",
-    description: "שיחה מרגשת מוקלטת ומעובדת - קובץ שמע מוכן",
-    price: 350,
+    name: "ראיון קצר במתחם הפודקאסט (כ-5 דקות)",
+    description: "לפני הסשן, על השיר או על החוגג/ת. משולב בקליפ הערוך.",
+    price: getExVat("song_pre_session_interview"),
   },
   {
     id: "photo_pack",
     name: "בוק צילומים מורחב - 15 תמונות",
     description: "תמונות אולפן מקצועיות מעובדות לרשתות",
     price: 200,
-  },
-  {
-    id: "express",
-    name: "שירות אקספרס וקדימות בשיבוץ",
-    description: "עדיפות בלו\"ז, הגשה מהירה במיוחד",
-    price: 300,
   },
   {
     id: "pitch_correction",
@@ -354,10 +293,7 @@ export const STUDIO_SAVINGS_TIP_THRESHOLD = 5;
 /** חבילות אשף שזכאיות למחירון קבוצתי 190/95 */
 export const GROUP_PRICING_ELIGIBLE_PACKAGES = [
   "remote",
-  "classic",
-  "pro",
-  "viral",
-  "all_in",
+  "song",
 ] as const satisfies readonly StudioPackageId[];
 
 /** סוגי הקלטה ללא מחירון קבוצתי אוטומטי */
@@ -373,26 +309,18 @@ export const STUDIO_VIDEO_UPGRADE_IDS = [
   "add_clip",
 ] as const satisfies readonly StudioUpgradeId[];
 
-/** תוספות וידאו שכבר כלולות בחבילה - לא מציעים שוב */
+/** תוספות וידאו שכבר כלולות בחבילה - לא מציעים שוב. אף חבילה לא כוללת וידאו כרגע. */
 export const STUDIO_VIDEO_UPGRADES_HIDDEN_ON_PACKAGE: Partial<
   Record<StudioPackageId, readonly StudioUpgradeId[]>
-> = {
-  viral: ["performance_clip", "studio_session_video"],
-  all_in: ["performance_clip", "studio_session_video"],
-};
+> = {};
 
-/** שיר מוכן ומעלה כבר כוללים תיקון זיופים */
+/** אף חבילה לא כוללת תיקון זיופים (גם לא הקלטת השיר), ולכן התוספת מוצעת בכולן */
 export const STUDIO_PITCH_UPGRADE_HIDDEN_ON_PACKAGE: Partial<
   Record<StudioPackageId, readonly StudioUpgradeId[]>
-> = {
-  classic: ["pitch_correction"],
-  pro: ["pitch_correction"],
-  viral: ["pitch_correction"],
-  all_in: ["pitch_correction"],
-};
+> = {};
 
-/** חבילות עם קליפ/וידאו מובנה */
-export const STUDIO_VIDEO_PACKAGE_IDS = ["pro", "viral", "all_in"] as const satisfies readonly StudioPackageId[];
+/** חבילות עם קליפ/וידאו מובנה. אין כאלה מאז שחבילות השיר ירדו. */
+export const STUDIO_VIDEO_PACKAGE_IDS: readonly StudioPackageId[] = [];
 
 export type ScheduleWindowId = "weekdays" | "motzash";
 
@@ -440,12 +368,13 @@ export const STUDIO_UPGRADES_BY_PATH: Record<
     "podcast_interview",
   ],
   pro: [
+    /* קאבר בלי תיקון זיופים בבסיס, ולכן התוספת מוצעת גם כאן */
+    "pitch_correction",
     "bts",
     "studio_session_video",
     "performance_clip",
     "ai_playback",
     "podcast_interview",
-    "express",
   ],
 };
 

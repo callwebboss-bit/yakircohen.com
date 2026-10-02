@@ -1,4 +1,5 @@
 import { formatExVatWithVat } from "@/lib/data/pricing";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
 type PriceWithVatProps = {
@@ -7,6 +8,11 @@ type PriceWithVatProps = {
   className?: string;
   /** הצג רק שורה אחת (לפני מע״מ) */
   compact?: boolean;
+  /**
+   * איזה מחיר מוביל. ברירת המחדל לפני מע״מ, כדי שעמודי העסקים לא ישתנו.
+   * "withVat" לעמודי צרכן: הכולל בגדול, ולפני מע״מ בקטן מתחת.
+   */
+  lead?: "exVat" | "withVat";
 };
 
 const sizeClasses = {
@@ -20,9 +26,32 @@ export default function PriceWithVat({
   size = "md",
   className,
   compact = false,
+  lead = "exVat",
 }: PriceWithVatProps) {
   const { exVat, withVat } = formatExVatWithVat(amountExVat);
   const s = sizeClasses[size];
+
+  if (lead === "withVat") {
+    const consumer = formatConsumerPrice(amountExVat);
+    if (compact) {
+      return (
+        <span className={cn(s.main, "text-foreground", className)}>
+          {consumer.total}
+          <span className={cn(s.sub, "mr-1 font-normal text-muted-foreground")}>
+            כולל מע״מ
+          </span>
+        </span>
+      );
+    }
+    return (
+      <span className={cn("inline-flex flex-col gap-0.5", className)}>
+        <span className={cn(s.main, "text-foreground")}>{consumer.total}</span>
+        <span className={cn(s.sub, "text-muted-foreground")}>
+          כולל מע״מ ({consumer.exVatNote})
+        </span>
+      </span>
+    );
+  }
 
   if (compact) {
     return (

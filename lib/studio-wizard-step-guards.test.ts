@@ -20,28 +20,31 @@ describe("studio-wizard-step-guards", () => {
 
   it("blocks step 1 without package", () => {
     assert.equal(getStep1Blockers("").length, 1);
-    assert.equal(getStep1Blockers("classic").length, 0);
+    assert.equal(getStep1Blockers("song").length, 0);
   });
 });
 
 describe("buildStudioUpgradeItems", () => {
-  it("hides video upsells on viral package", () => {
-    const items = buildStudioUpgradeItems("viral", "events");
-    const ids = items.map((i) => i.id);
-    assert.ok(!ids.includes("studio_session_video"));
-    assert.ok(!ids.includes("performance_clip"));
+  it("offers the edited clip and the interview on the song events path", () => {
+    const ids = buildStudioUpgradeItems("song", "events").map((i) => i.id);
+    assert.ok(ids.includes("performance_clip"));
+    assert.ok(ids.includes("podcast_interview"));
     assert.ok(ids.includes("bts"));
   });
 
-  it("includes studio_session_video on classic events path", () => {
-    const items = buildStudioUpgradeItems("classic", "events");
-    assert.ok(items.some((i) => i.id === "studio_session_video"));
+  it("offers pitch correction on the song package too, it is not included (2.10.2026)", () => {
+    const remote = buildStudioUpgradeItems("remote", "events").map((i) => i.id);
+    const song = buildStudioUpgradeItems("song", "events").map((i) => i.id);
+    const songPro = buildStudioUpgradeItems("song", "pro").map((i) => i.id);
+    assert.ok(remote.includes("pitch_correction"));
+    assert.ok(song.includes("pitch_correction"));
+    assert.ok(songPro.includes("pitch_correction"));
   });
 
-  it("offers pitch correction on remote events path only", () => {
-    const remote = buildStudioUpgradeItems("remote", "events").map((i) => i.id);
-    const classic = buildStudioUpgradeItems("classic", "events").map((i) => i.id);
-    assert.ok(remote.includes("pitch_correction"));
-    assert.ok(!classic.includes("pitch_correction"));
+  it("never offers the removed express upgrade", () => {
+    for (const path of ["events", "pro"] as const) {
+      const ids = buildStudioUpgradeItems("song", path).map((i) => i.id as string);
+      assert.ok(!ids.includes("express"));
+    }
   });
 });

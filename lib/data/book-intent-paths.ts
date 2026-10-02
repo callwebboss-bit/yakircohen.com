@@ -42,10 +42,10 @@ export const BOOK_INTENT_PATHS: readonly BookIntentPath[] = [
     id: "song",
     title: "הקלטת שיר",
     emoji: "🎵",
-    difference: "הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים",
-    priceId: "cover_song",
+    difference: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת",
+    priceId: "song_recording",
     ctaLabel: "קבלו מחיר לשיר",
-    href: buildBookHref("studio", { catalog: "cover_song" }),
+    href: buildBookHref("studio", { catalog: "song_recording" }),
   },
   {
     id: "mobile",

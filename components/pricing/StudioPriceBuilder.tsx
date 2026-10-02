@@ -8,7 +8,7 @@ import {
   PRICE_BUILDER_DURATION_OPTIONS,
   PRICE_BUILDER_FINISH_OPTIONS,
   PRICE_BUILDER_PARTICIPANT_OPTIONS,
-  PRICE_BUILDER_URGENCY_OPTIONS,
+  PRICE_BUILDER_SONG_LINK,
   type PriceBuilderAnswers,
   type PriceBuilderOption,
 } from "@/lib/data/studio-price-builder";
@@ -94,8 +94,6 @@ export default function StudioPriceBuilder({ packages }: StudioPriceBuilderProps
     utm_campaign: "studio_price_builder",
   });
 
-  const primaryBook = !result.preferWhatsApp;
-
   return (
     <div
       id="price-builder"
@@ -109,9 +107,9 @@ export default function StudioPriceBuilder({ packages }: StudioPriceBuilderProps
           המחיר תלוי בך - לא בנו
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          אין חבילה אחת לכולם. המחיר נקבע לפי 4 פרמטרים: זמן, כמות אנשים, רמת
-          גימור ודחיפות. תענו על השאלות - המחיר מתעדכן מול העיניים. זה המחיר.
-          בלי הפתעות.
+          שעת חדר באולפן. המחיר נקבע לפי 3 פרמטרים: זמן, כמות אנשים ורמת
+          גימור. תענו על השאלות - המחיר מתעדכן מול העיניים. זה המחיר. בלי
+          הפתעות.
         </p>
       </header>
 
@@ -136,13 +134,6 @@ export default function StudioPriceBuilder({ packages }: StudioPriceBuilderProps
           value={answers.finish}
           options={PRICE_BUILDER_FINISH_OPTIONS}
           onChange={(id) => patch("finish", id)}
-        />
-        <QuestionGroup
-          legend="4. מתי צריך?"
-          name="pb-urgency"
-          value={answers.urgency}
-          options={PRICE_BUILDER_URGENCY_OPTIONS}
-          onChange={(id) => patch("urgency", id)}
         />
       </div>
 
@@ -176,49 +167,36 @@ export default function StudioPriceBuilder({ packages }: StudioPriceBuilderProps
         ) : null}
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-          {primaryBook ? (
-            <>
-              <Button
-                as="link"
-                href={result.bookHref}
-                className="min-h-12 w-full sm:w-auto"
-              >
-                הזמן עכשיו במחיר הזה
-              </Button>
-              <Button
-                as="a"
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-                className="min-h-12 w-full sm:w-auto"
-              >
-                רוצה לדבר עם אדם
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                as="a"
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-12 w-full sm:w-auto"
-              >
-                נאשר מחר בוואטסאפ
-              </Button>
-              <Button
-                as="link"
-                href={result.bookHref}
-                variant="secondary"
-                className="min-h-12 w-full sm:w-auto"
-              >
-                הזמנה מקוונת במחיר הזה
-              </Button>
-            </>
-          )}
+          <Button
+            as="link"
+            href={result.bookHref}
+            className="min-h-12 w-full sm:w-auto"
+          >
+            הזמן עכשיו במחיר הזה
+          </Button>
+          <Button
+            as="a"
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="secondary"
+            className="min-h-12 w-full sm:w-auto"
+          >
+            רוצה לדבר עם אדם
+          </Button>
         </div>
       </div>
+
+      {/* שיר אינו שעת חדר: הקלטה, מיקס ומאסטר במחיר אחד, בטופס נפרד */}
+      <p className="mt-4 text-sm text-muted-foreground">
+        {PRICE_BUILDER_SONG_LINK.text}{" "}
+        <a
+          href={PRICE_BUILDER_SONG_LINK.href}
+          className="font-semibold text-brand-red underline underline-offset-4"
+        >
+          {PRICE_BUILDER_SONG_LINK.label}
+        </a>
+      </p>
 
       {packages ? (
         <details id="studio-packages" className="mt-6 scroll-mt-24 rounded-xl border border-border bg-background px-4 py-3">

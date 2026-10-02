@@ -8,10 +8,10 @@ describe("calcStudioPackageFitPct", () => {
     assert.equal(calcStudioPackageFitPct({ recordingType: "cover", packageId: "", projectMode: "" }), null);
   });
 
-  it("returns deterministic fit for cover classic", () => {
+  it("returns deterministic fit for cover song", () => {
     const pct = calcStudioPackageFitPct({
       recordingType: "cover",
-      packageId: "classic",
+      packageId: "song",
       projectMode: "personal",
     });
     assert.ok(pct !== null && pct >= 85 && pct <= 98);

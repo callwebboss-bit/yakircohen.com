@@ -172,9 +172,9 @@ export function buildSiteSchema() {
           },
           {
             "@type": "Offer",
-            name: "שיר מוכן באולפן",
-            description: "הקלטה, מיקס, מאסטרינג ותיקון זיופים - מחיר לפני מע״מ",
-            price: String(getExVat("cover_song")),
+            name: "הקלטת שיר באולפן",
+            description: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר לפני מע״מ",
+            price: String(getExVat("song_recording")),
             priceCurrency: "ILS",
             url: `${BASE}/book`,
           },

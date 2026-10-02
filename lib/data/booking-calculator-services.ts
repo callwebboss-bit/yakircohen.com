@@ -31,7 +31,7 @@ export const SERVICES: Record<string, Service> = {
   recording_premium: {
     name: "הקלטת שיר פרמיום",
     category: "recordings",
-    // Calculator-only tier (catalog Pro = song_package 1480) - keep display price stable
+    // Calculator-only tier, אין לו שימוש באתר. חבילות השיר בקטלוג ירדו ב-2.10.2026
     price: 1190,
     icon: "🌟",
     desc: "חבילה עם עיבוד, תמונות ויועץ אמנותי",

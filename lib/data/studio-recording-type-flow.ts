@@ -35,11 +35,17 @@ export function getRecordingTypeFlow(
         defaultPackageId: "remote",
       };
     case "event_song":
+      return {
+        hideLocation: false,
+        hideAtmosphere: false,
+        defaultPackageId: "song",
+      };
+    /* דרשה היא ברכה ולא שיר. קודם ברירת המחדל הייתה חבילת השיר ב-990. */
     case "bar_mitzvah_speech":
       return {
         hideLocation: false,
         hideAtmosphere: false,
-        defaultPackageId: "classic",
+        defaultPackageId: "remote",
       };
     default:
       return {

@@ -234,7 +234,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
   {
     id: "studio",
     title: "אולפן והקלטות",
-    description: "ברכה, שיר מוכן, Pro, קליפ וסינגל - לפי התוצאה",
+    description: "ברכה, הקלטת שיר ותוספות, קליפ וסינגל - לפי התוצאה",
     href: "/studio/pricing",
     bookHref: "/book#studio",
     rows: [
@@ -247,22 +247,25 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         href: "/studio/recording-song-modiin",
         displayOrder: 20,
       }),
-      hubRow("cover_song", {
-        label: "שיר במתנה (שיר מוכן)",
+      /* הקלטת שיר: בסיס ושלוש תוספות, אותו סדר כמו בטופס ההצעה (2.10.2026) */
+      hubRow("song_recording", {
+        label: "הקלטת שיר (הקלטה, מיקס ומאסטר)",
         href: "/studio/recording-song-modiin",
         badge: "מומלץ",
         displayOrder: 30,
       }),
-      hubRow("song_package", {
-        label: "שיר Pro",
+      hubRow("song_pitch_coaching", {
+        label: "תוספת לשיר: תיקון זיופים וטכנאי מנחה",
         href: "/studio/recording-song-modiin",
         displayOrder: 40,
       }),
-      hubRow("studio_viral", {
+      hubRow("studio_session_clip_edited", {
+        label: "תוספת לשיר: קליפ ערוך מהסשן",
         href: "/studio/recording-song-modiin",
         displayOrder: 50,
       }),
-      hubRow("studio_all_in", {
+      hubRow("song_pre_session_interview", {
+        label: "תוספת לקליפ: ראיון קצר במתחם הפודקאסט",
         href: "/studio/recording-song-modiin",
         displayOrder: 60,
       }),
@@ -277,8 +280,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         displayOrder: 80,
       }),
       hubRow("studio_session_clip", {
-        label: "צילום קליפ מהסשן",
-        href: "/studio/recording-song-modiin",
+        label: "צילום קליפ מהסשן, בלי עריכה (לברכה)",
+        href: "/studio/blessings",
         displayOrder: 90,
       }),
       hubRow("studio_half_hour", {

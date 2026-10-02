@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 120,
-  "contentHash": "e472f9796cc2ddab",
+  "contentHash": "f871e4dbfab61931",
   "items": [
     {
       "id": "studio_half_hour",
@@ -52,44 +52,14 @@
       "suitedFor": "ברכה או אמירה בלי להגיע לאולפן"
     },
     {
-      "id": "cover_song",
-      "label": "שיר במתנה (שיר מוכן)",
+      "id": "song_recording",
+      "label": "הקלטת שיר באולפן",
       "category": "studio",
-      "exVat": 990,
-      "inclVat": 1168,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
-      "context": "הקלטה בלי לחץ זמן, מיקס, מאסטרינג ותיקון זיופים - קובץ מוכן",
+      "context": "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול.",
       "suitedFor": "שיר במתנה, קאבר, חופה, בר/בת מצווה"
-    },
-    {
-      "id": "song_package",
-      "label": "שיר Pro",
-      "category": "studio",
-      "exVat": 1480,
-      "inclVat": 1746,
-      "priceFrom": false,
-      "context": "הקלטה מלאה, Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות סטילס",
-      "suitedFor": "מי שרוצה שיר מוכן + נוכחות לרשתות"
-    },
-    {
-      "id": "studio_viral",
-      "label": "שיר + קליפ מהאולפן",
-      "category": "studio",
-      "exVat": 1950,
-      "inclVat": 2301,
-      "priceFrom": false,
-      "context": "חבילת Pro + קליפ ביצוע ערוך לרשתות",
-      "suitedFor": "שיר לאירוע שרוצים גם לשתף בוידאו"
-    },
-    {
-      "id": "studio_all_in",
-      "label": "All-In: סיפור חיים",
-      "category": "studio",
-      "exVat": 2380,
-      "inclVat": 2808,
-      "priceFrom": false,
-      "context": "הפקה מלאה + קליפ תמונות גדילה מתמונות וסרטוני ילדות",
-      "suitedFor": "בר/בת מצווה או מתנה משפחתית בלי הפתעות מחיר"
     },
     {
       "id": "single_production",
@@ -108,7 +78,7 @@
       "exVat": 4500,
       "inclVat": 5310,
       "priceFrom": false,
-      "context": "שיר מוגמר וקליפ וידאו לשיתוף"
+      "context": "שיר מוגמר וקליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו"
     },
     {
       "id": "studio_session_clip",
@@ -118,9 +88,7 @@
       "inclVat": 531,
       "priceFrom": false,
       "context": "צילום ההקלטה בזמן אמת, בלי עריכה",
-      "suitedFor": "מי שרוצה לראות איך נראית הקלטה אמיתית באולפן",
-      "withEditingExVat": 750,
-      "withEditingInclVat": 885
+      "suitedFor": "ברכה או אולפן נייד, למי שרוצה את הצילום בלי עריכה"
     },
     {
       "id": "studio_extra_participant",
@@ -151,6 +119,36 @@
       "priceFrom": false,
       "context": "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
       "suitedFor": "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים"
+    },
+    {
+      "id": "song_pitch_coaching",
+      "label": "תיקון זיופים וטכנאי שמכוון ומנחה",
+      "category": "addons",
+      "exVat": 300,
+      "inclVat": 354,
+      "priceFrom": false,
+      "context": "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+      "suitedFor": "תוספת להקלטת שיר באולפן"
+    },
+    {
+      "id": "studio_session_clip_edited",
+      "label": "קליפ ערוך מהסשן באולפן",
+      "category": "addons",
+      "exVat": 750,
+      "inclVat": 885,
+      "priceFrom": false,
+      "context": "צילום הסשן באולפן, ערוך לקליפ מוכן לשיתוף.",
+      "suitedFor": "תוספת להקלטת שיר באולפן"
+    },
+    {
+      "id": "song_pre_session_interview",
+      "label": "ראיון קצר במתחם הפודקאסט",
+      "category": "addons",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "כ-5 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+      "suitedFor": "תוספת לקליפ הערוך מהסשן"
     },
     {
       "id": "podcast_pilot",

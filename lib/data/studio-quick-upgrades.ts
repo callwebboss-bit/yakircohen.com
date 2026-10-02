@@ -18,12 +18,6 @@ export const STUDIO_QUICK_UPGRADE_CARDS: readonly StudioQuickUpgradeCard[] = [
     thumbSrc: "https://img.youtube.com/vi/8p22YCZEsmg/hqdefault.jpg",
   },
   {
-    id: "express",
-    title: "אקספרס וקדימות בשיבוץ",
-    subtitle: "עדיפות בלו\"ז והגשה מהירה במיוחד",
-    emoji: "⚡",
-  },
-  {
     id: "ai_playback",
     title: "פלייבק AI מותאם אישית",
     subtitle: "לחן מקורי לפי הסגנון שלכם",

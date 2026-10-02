@@ -58,27 +58,22 @@ export const SMART_FORM_CATEGORIES: readonly SmartFormCategory[] = [
       },
       {
         id: "cover",
-        label: "קאבר",
-        catalogId: "cover_song",
-        tooltip: "שיר מוכן - מיקס, מאסטר ותיקון זיופים",
+        label: "הקלטת שיר",
+        catalogId: "song_recording",
+        tooltip: "הקלטה, מיקס ומאסטר בסשן של שעה. בלי תיקון זיופים",
       },
       {
-        id: "song_package",
-        label: "שיר Pro",
-        catalogId: "song_package",
-        tooltip: "פיץ' ידני, ייעוץ אמנותי ו-3 תמונות",
+        id: "song_pitch",
+        label: "תיקון זיופים וטכנאי מנחה",
+        upsellCatalogId: "song_pitch_coaching",
+        tooltip: "לשיר: טכנאי שמכוון ומנחה בזמן ההקלטה, ותיקון זיופים",
       },
+
       {
         id: "voice_enhance",
         label: "שיפור קול",
         upsellCatalogId: "ai_voice_enhance",
         tooltip: "הבהרה ונוכחות לקול אחרי ההקלטה",
-      },
-      {
-        id: "express",
-        label: "VIP Rush (עד 48 שעות)",
-        upsellCatalogId: "express_delivery",
-        tooltip: "מסירה מזורזת - פרמיה על לוח זמנים דחוף",
       },
       {
         id: "summary_clip",

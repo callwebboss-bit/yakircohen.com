@@ -1,3 +1,5 @@
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export type PricingFaqItem = {
   id: string;
   question: string;
@@ -10,13 +12,14 @@ export const PRICING_FAQ_ITEMS: readonly PricingFaqItem[] = [
     id: "studio-half-vs-hour",
     question: "מה ההבדל בין חצי שעה לשעה באולפן?",
     answerPlain:
-      "אלה שעון חדר בלי עריכה: חצי שעה (750 ₪) לפיילוט פודקאסט או קריינות, שעה (1,500 ₪) לפרויקט ארוך יותר. לשיר במתנה לוקחים שיר מוכן (990 ₪) - לא שעת חדר.",
+      `אלה שעון חדר בלי עריכה: חצי שעה (750 ₪) לפיילוט פודקאסט או קריינות, שעה (1,500 ₪) לפרויקט ארוך יותר. לשיר במתנה לוקחים הקלטת שיר (${getExVat("song_recording").toLocaleString("he-IL")} ₪, עם מיקס ומאסטר) - לא שעת חדר.`,
   },
   {
-    id: "song-ready-vs-pro",
-    question: "מה ההבדל בין שיר מוכן לשיר Pro?",
+    /* 2.10.2026: חבילות השיר ירדו. שיר הוא בסיס ותוספות (lib/data/song-offer.ts) */
+    id: "song-pitch-included",
+    question: "האם תיקון זיופים כלול בהקלטת שיר?",
     answerPlain:
-      "שיר מוכן (990 ₪ לפני מע״מ) כולל הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים. שיר Pro (1,480 ₪) מוסיף Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות סטילס. שניהם יוצאים עם קובץ מוכן, לא גלם.",
+      `לא במחיר הבסיס. הקלטת שיר (${getExVat("song_recording").toLocaleString("he-IL")} ₪ לפני מע״מ) כוללת הקלטה, מיקס ומאסטר בסשן של שעה, והשיר אצלכם בסוף הסשן. תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת של ${getExVat("song_pitch_coaching").toLocaleString("he-IL")} ₪, וקליפ ערוך מהסשן ${getExVat("studio_session_clip_edited").toLocaleString("he-IL")} ₪.`,
   },
   {
     id: "podcast-which-package",

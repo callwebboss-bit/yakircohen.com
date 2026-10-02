@@ -22,7 +22,7 @@ export type StudioPricingAccordionPanel = {
   whatsappBody: string;
 };
 
-const songPrice = getExVat("cover_song");
+const songPrice = getExVat("song_recording");
 const blessingPrice = getExVat("blessing_recording");
 const studioHourPrice = getExVat("studio_hour");
 const podcastVideoPrice = getExVat("podcast_video");
@@ -45,21 +45,24 @@ const geoLines = (Object.keys(MOBILE_GEO_FEES) as Array<keyof typeof MOBILE_GEO_
 export const STUDIO_PRICING_ACCORDION_PANELS: readonly StudioPricingAccordionPanel[] = [
   {
     id: "song",
-    title: "שיר מוכן באולפן",
+    title: "הקלטת שיר באולפן",
     priceExVat: songPrice,
-    priceNote: "לפני מע״מ - מיקס, מאסטר ותיקון זיופים",
+    priceNote: "לפני מע״מ - הקלטה, מיקס ומאסטר. תיקון זיופים בתוספת",
     intentNote:
       "מסלול לשיר מוכן (קאבר / שיר לאירוע). לא ברכה ולא שעת חדר - לברכה ראו פאנל נפרד.",
     suitedFor: "שיר לחופה, בר מצווה, מתנה או קאבר באולפן במודיעין",
     includes: [
-      "סשן באולפן במודיעין עם ליווי ווקאלי",
-      "תיקון זיופים ועריכת סאונד",
-      "קובץ WAV + MP3",
+      "סשן של שעה באולפן במודיעין",
+      "הקלטה, מיקס ומאסטר",
     ],
-    extras: ["עיבוד / שיר מקורי - חבילות גבוהות יותר", "קליפ וידאו - בתוספת"],
-    delivery: "בדרך כלל תוך 48 שעות",
+    extras: [
+      `תיקון זיופים וטכנאי שמכוון ומנחה - ${getExVat("song_pitch_coaching").toLocaleString("he-IL")} ₪`,
+      `קליפ ערוך מהסשן - ${getExVat("studio_session_clip_edited").toLocaleString("he-IL")} ₪`,
+      "עיבוד / שיר מקורי - הפקת סינגל",
+    ],
+    delivery: "השיר אצלכם בסוף הסשן",
     serviceHref: "/studio/recording-song-modiin",
-    bookHref: buildBookHref("studio", { catalog: "cover_song" }),
+    bookHref: buildBookHref("studio", { catalog: "song_recording" }),
     closerService: "recording",
     whatsappBody: `שלום, מעוניין/ת בהקלטת שיר באולפן במודיעין (שיר בלבד) מ-${songPrice.toLocaleString("he-IL")} ₪ לפני מע״מ`,
   },

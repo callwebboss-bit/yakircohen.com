@@ -114,7 +114,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_studio_price",
       label: "🎙️ מחיר אולפן הקלטות",
       answer: {
-        text: `ברכה באולפן מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שיר מוכן (מיקס, מאסטר ותיקון זיופים) מ-₪${getExVat("cover_song").toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${getExVat("studio_remote").toLocaleString("he-IL")}. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.`,
+        text: `ברכה באולפן מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. הקלטת שיר (הקלטה, מיקס ומאסטר בסשן של שעה) ₪${getExVat("song_recording").toLocaleString("he-IL")}, ותיקון זיופים עם טכנאי מנחה בתוספת ₪${getExVat("song_pitch_coaching").toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${getExVat("studio_remote").toLocaleString("he-IL")}. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.`,
         readMoreHref: "/studio/pricing",
         readMoreLabel: "מחירון אולפן מלא",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת שיר - [מרחוק / באולפן]",
@@ -140,7 +140,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "🎚️ הקלטה פיזית באולפן",
       hidden: true,
       answer: {
-        text: `שיר מוכן באולפן מ-₪${getExVat("cover_song").toLocaleString("he-IL")} לפני מע״מ - הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים. ברכה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
+        text: `הקלטת שיר באולפן ₪${getExVat("song_recording").toLocaleString("he-IL")} לפני מע״מ - סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. ברכה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
         readMoreHref: "/studio/pricing",
         readMoreLabel: "מחירון אולפן מלא",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטה פיזית באולפן. מה הזמינות?",

@@ -78,7 +78,11 @@ export function studioPackageExperienceLine(
   if (packageId === "remote") {
     return "הקלטה, ניקוי רעשים ומיקס - תיקון זיופים לא כלול";
   }
-  return "הקלטה, עריכה, מיקס ותיקון זיופים דיגיטלי מלא";
+  /* 2.10.2026: גם הקלטת השיר לא כוללת תיקון זיופים, הוא תוספת בתשלום */
+  if (packageId === "song") {
+    return "הקלטה, מיקס ומאסטר - תיקון זיופים לא כלול במחיר הבסיס";
+  }
+  return "הקלטה, עריכה ומיקס";
 }
 
 function tpl(text: string, vars: Record<string, string | number>): string {
@@ -176,8 +180,10 @@ export function buildMelodyneReassurance(): string {
   return gm.melodyneReassurance;
 }
 
-function maybeMelodyneBlock(packageId?: StudioPackageId | null): string[] {
-  if (packageId === "remote") return [];
+/* ההבטחה "נהפוך את זה למושלם" (Melodyne) נכונה רק כשנבחרה תוספת תיקון
+   הזיופים. אף חבילה לא כוללת אותו מאז 2.10.2026. */
+function maybeMelodyneBlock(selectedUpgrades?: readonly StudioUpgradeId[]): string[] {
+  if (!selectedUpgrades?.includes("pitch_correction")) return [];
   return [buildMelodyneReassurance(), ""];
 }
 
@@ -444,7 +450,7 @@ export function generateDualTierGroupMessage(input: GroupMessageInput): string |
   if (input.recorderCount >= 3) parts.push(buildLineSplitterReassurance(), "");
   if (shouldShowKeyAdapter(input)) parts.push(buildKeyAdapterBlock(), "");
   parts.push(generateSnappyTimeline(), "");
-  parts.push(...maybeMelodyneBlock(input.studioPackageId));
+  parts.push(...maybeMelodyneBlock(input.selectedUpgrades));
   parts.push(buildExpressDeliveryGuarantee(), "");
   parts.push(buildGroupMicroDepositBlock(ctx), "");
   parts.push(buildClosingCta(), "");
@@ -488,7 +494,7 @@ export function generateGroupPackageMessage(input: GroupMessageInput): string | 
   }
   parts.push(generateSnappyTimeline(), "");
   parts.push(buildExperienceSection(), "");
-  parts.push(...maybeMelodyneBlock(input.studioPackageId));
+  parts.push(...maybeMelodyneBlock(input.selectedUpgrades));
 
   const upsells = buildSmartGroupUpsells(input, ctx);
   if (upsells) parts.push(upsells, "");

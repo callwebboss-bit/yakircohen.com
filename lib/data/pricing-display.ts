@@ -102,3 +102,28 @@ export function formatHubPriceDual(exVat: number, priceFrom = false): string {
   const prefix = priceFrom ? "מ-" : "";
   return `${prefix}${amount} ₪ + מע״מ = ${total} ₪`;
 }
+
+export type ConsumerPriceDisplay = {
+  /** "590 ₪" */
+  total: string;
+  /** "590 ₪ כולל מע״מ" */
+  totalLabel: string;
+  /** "500 ₪ + מע״מ" */
+  exVatNote: string;
+  /** "+590 ₪", לשורת תוספת */
+  delta: string;
+};
+
+/**
+ * מחיר לצרכן: כולל מע״מ קודם, ולפני מע״מ בקטן מתחת (החלטת הבעלים 2.10.2026,
+ * סעיף 17ד לחוק הגנת הצרכן). מוצרים לעסקים נשארים לפני מע״מ.
+ */
+export function formatConsumerPrice(exVat: number): ConsumerPriceDisplay {
+  const total = `${withVat(exVat).toLocaleString("he-IL")} ₪`;
+  return {
+    total,
+    totalLabel: `${total} כולל מע״מ`,
+    exVatNote: `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`,
+    delta: `+${total}`,
+  };
+}

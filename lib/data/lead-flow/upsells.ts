@@ -43,7 +43,8 @@ export const LEAD_FLOW_UPSELLS: readonly LeadFlowUpsell[] = [
     id: "express",
     label: "מסירה מהירה של תוצרים",
     catalogId: "express_delivery",
-    hideFor: ["confetti", "bubbles", "heavy-smoke", "used-gear"],
+    /* בשיר התוצאה ביד בסוף הסשן, ואין מסירה מזורזת לשירים (2.10.2026) */
+    hideFor: ["confetti", "bubbles", "heavy-smoke", "used-gear", "song"],
   },
 ];
 

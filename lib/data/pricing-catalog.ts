@@ -2,8 +2,18 @@
  * מקור אמת יחיד לכל מחירי השירות (לפני מע״מ).
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
  *
- * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה ושיר במתנה מאושרות במחיר.
- * תיקון זיופים ב-590 לא כלול. תוספת: studio_pitch_correction 300 ₪ (לא express).
+ * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה מאושרות במחיר. תיקון
+ * זיופים בברכה ובהקלטה מרחוק (590) לא כלול. תוספת: studio_pitch_correction 300 ₪.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-02 (docs/OWNER-DECISIONS-2026-10-02.md) -
+ * הקלטת שיר היא בסיס ותוספות בלבד: song_recording 500 (הקלטה, מיקס ומאסטר,
+ * סשן של שעה, התוצאה ביד בסוף הסשן, בלי תיקון זיופים). תוספות:
+ * song_pitch_coaching 300, studio_session_clip_edited 750,
+ * song_pre_session_interview 500 (משולב בקליפ, ולכן רק יחד איתו). החבילות
+ * cover_song, song_package, studio_viral ו-studio_all_in נמחקו, ואין מסירה
+ * מזורזת לשירים. קישורים ישנים ממופים ב-LEGACY_SONG_ALIASES (song-offer.ts).
+ * single_production ו-full_production_clip נשארים. studio_session_clip (450,
+ * גלם) נשאר לברכה ולאולפן הנייד.
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -64,6 +74,8 @@ export type PriceItem = {
   withEditing?: PriceWithEditing;
   /** מחיר התחלה - לא מחיר סופי קבוע */
   priceFrom?: boolean;
+  /** תוספת שאפשר לבחור רק יחד עם תוספת אחרת (מזהה קטלוג) */
+  requires?: string;
 };
 
 /** כל מחירי השירות - לפני מע״מ */
@@ -112,40 +124,13 @@ export const PRICING_CATALOG = [
     suitedFor: "ברכה או אמירה בלי להגיע לאולפן",
   },
   {
-    id: "cover_song",
-    label: "שיר במתנה (שיר מוכן)",
-    exVat: 990,
+    id: "song_recording",
+    label: "הקלטת שיר באולפן",
+    exVat: 500,
     category: "studio",
-    context: "הקלטה בלי לחץ זמן, מיקס, מאסטרינג ותיקון זיופים - קובץ מוכן",
-    scope: { includes: "הקלטה, מיקס, מאסטר ותיקון זיופים" },
+    context: "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול.",
+    scope: { duration: "סשן של שעה", includes: "הקלטה, מיקס ומאסטר", excludes: "תיקון זיופים" },
     suitedFor: "שיר במתנה, קאבר, חופה, בר/בת מצווה",
-  },
-  {
-    id: "song_package",
-    label: "שיר Pro",
-    exVat: 1480,
-    category: "studio",
-    context: "הקלטה מלאה, Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות סטילס",
-    scope: { includes: "הקלטה, תיקון פיץ' ידני, ייעוץ אמנותי, 3 תמונות מעובדות" },
-    suitedFor: "מי שרוצה שיר מוכן + נוכחות לרשתות",
-  },
-  {
-    id: "studio_viral",
-    label: "שיר + קליפ מהאולפן",
-    exVat: 1950,
-    category: "studio",
-    context: "חבילת Pro + קליפ ביצוע ערוך לרשתות",
-    scope: { includes: "חבילת Pro, קליפ ביצוע מהאולפן, קובץ מוכן לפרסום" },
-    suitedFor: "שיר לאירוע שרוצים גם לשתף בוידאו",
-  },
-  {
-    id: "studio_all_in",
-    label: "All-In: סיפור חיים",
-    exVat: 2380,
-    category: "studio",
-    context: "הפקה מלאה + קליפ תמונות גדילה מתמונות וסרטוני ילדות",
-    scope: { includes: "הפקה מלאה, קליפ תמונות גדילה, קובץ מוכן" },
-    suitedFor: "בר/בת מצווה או מתנה משפחתית בלי הפתעות מחיר",
   },
   {
     id: "single_production",
@@ -156,7 +141,7 @@ export const PRICING_CATALOG = [
     scope: { duration: "עד 6 שעות אולפן", includes: "עיבוד, מיקס ומאסטר מסחרי" },
     suitedFor: "זמרים שרוצים סינגל מוכן לסטרימינג",
   },
-  { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף" },
+  { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו" },
   {
     id: "studio_session_clip",
     label: "צילום קליפ מהסשן באולפן",
@@ -164,8 +149,7 @@ export const PRICING_CATALOG = [
     category: "studio",
     context: "צילום ההקלטה בזמן אמת, בלי עריכה",
     scope: { includes: "צילום הסשן באולפן וקובץ גלם" },
-    suitedFor: "מי שרוצה לראות איך נראית הקלטה אמיתית באולפן",
-    withEditing: { label: "קליפ מהסשן עם עריכה", exVat: 750 },
+    suitedFor: "ברכה או אולפן נייד, למי שרוצה את הצילום בלי עריכה",
   },
   {
     id: "studio_extra_participant",
@@ -190,6 +174,31 @@ export const PRICING_CATALOG = [
     category: "addons",
     context: "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
     suitedFor: "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים",
+  },
+  {
+    id: "song_pitch_coaching",
+    label: "תיקון זיופים וטכנאי שמכוון ומנחה",
+    exVat: 300,
+    category: "addons",
+    context: "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+    suitedFor: "תוספת להקלטת שיר באולפן",
+  },
+  {
+    id: "studio_session_clip_edited",
+    label: "קליפ ערוך מהסשן באולפן",
+    exVat: 750,
+    category: "addons",
+    context: "צילום הסשן באולפן, ערוך לקליפ מוכן לשיתוף.",
+    suitedFor: "תוספת להקלטת שיר באולפן",
+  },
+  {
+    id: "song_pre_session_interview",
+    label: "ראיון קצר במתחם הפודקאסט",
+    exVat: 500,
+    category: "addons",
+    context: "כ-5 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+    suitedFor: "תוספת לקליפ הערוך מהסשן",
+    requires: "studio_session_clip_edited",
   },
 
   // ─── פודקאסט ───
@@ -463,10 +472,8 @@ export const PRICING_ADDON_LINKS: Partial<
   studio_half_hour: ["podcast_editing_hour"],
   blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
   studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
-  cover_song: ["studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
-  song_package: ["studio_session_clip", "express_delivery"],
-  studio_viral: ["express_delivery", "photo_retouch"],
-  studio_all_in: ["express_delivery"],
+  /* סדר התוספות כאן הוא הסדר בטופס ההצעה (lib/data/song-offer.ts) */
+  song_recording: ["song_pitch_coaching", "studio_session_clip_edited", "song_pre_session_interview"],
   event_attraction_1: ["cinematic_slideshow", "led_lighting"],
   event_attraction_2: ["cinematic_slideshow", "pre_event_production"],
   event_attraction_3: ["cinematic_slideshow", "led_lighting"],
@@ -572,40 +579,33 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     ],
     glossaryTermSlugs: ["mixing", "pitch-correction"],
   },
-  cover_song: {
-    included: [
-      "הקלטה באולפן או מרחוק (לפי בחירה)",
-      "הנחיה מקצועית לכל אורך הסשן",
-      "תיקון זיופים טבעי ומדויק (לא Auto-Tune רובוטי)",
-      "מיקס מקצועי",
-      "מאסטרינג מוכן לספוטיפיי / וואטסאפ / רדיו",
-      "עריכת סאונד מלאה (ניקוי, איזון, העשרה)",
-      "קובץ סופי MP3 + WAV",
-      "שליחה מהירה בוואטסאפ + מייל",
-      "אפשרות לדוגמה קצרה לפני האישור הסופי",
-      "עד סבב תיקונים אחד כלול",
-      "חוויה נעימה גם למי ששר בפעם הראשונה",
-    ],
+  song_recording: {
+    /* "הקלטה, מיקס ומאסטר" מגיע מ-scope.includes ומופיע ראשון ברשימה */
+    included: ["סשן של שעה באולפן במודיעין", "השיר המוכן אצלכם בסוף הסשן"],
     excluded: [
-      "כתיבת מילים מקוריות",
-      "עיבוד מוזיקלי חדש לגמרי",
-      "קליפ",
-      "משתתפים נוספים",
-      "תיקונים מעבר לסבב אחד",
+      "תיקון זיופים",
+      "קליפ וידאו",
+      "כתיבת מילים או לחן",
+      "עיבוד מוזיקלי חדש",
     ],
-    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction", "wav", "mp3", "autotune"],
+    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction"],
   },
-  song_package: {
-    included: ["הקלטה מלאה", "Pitch Correction ידני", "ייעוץ אמנותי", "3 תמונות סטילס"],
-    excluded: ["קליפ ערוך", "כתיבת שיר מלאה", "נגני אולפן"],
+  song_pitch_coaching: {
+    included: ["טכנאי סאונד שמכוון ומנחה בזמן ההקלטה", "תיקון זיופים בשיר"],
+    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)", "סבב תיקונים נוסף"],
+    glossaryTermSlugs: ["pitch-correction"],
   },
-  studio_viral: {
-    included: ["חבילת Pro", "קליפ ביצוע מהאולפן", "קובץ מוכן לרשתות"],
-    excluded: ["צילום חוץ", "יום הפקה נפרד", "כתיבת שיר"],
+  studio_session_clip_edited: {
+    included: ["צילום הסשן באולפן", "עריכה לקליפ מוכן לשיתוף"],
+    excluded: ["צילום חוץ", "יום צילום נפרד"],
   },
-  studio_all_in: {
-    included: ["הפקה מלאה", "קליפ תמונות גדילה", "קובץ מוכן"],
-    excluded: ["צילום צוות ביום האירוע", "אלבום מודפס"],
+  song_pre_session_interview: {
+    included: [
+      "ראיון של כ-5 דקות במתחם הפודקאסט בחוץ, לפני הסשן",
+      "עזרה בהכנת השאלות",
+      "הראיון משולב בקליפ הערוך",
+    ],
+    excluded: ["הקליפ הערוך עצמו (תוספת נפרדת, חובה עם הראיון)", "פרק פודקאסט מלא"],
   },
   studio_session_clip: {
     included: ["צילום הסשן באולפן", "קובץ גלם"],
@@ -627,6 +627,12 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   single_production: {
     included: ["עד 6 שעות אולפן", "עיבוד", "מיקס", "מאסטר"],
     excluded: ["קליפ וידאו", "קמפיין הפצה", "נגנים או שינויים חריגים שלא תומחרו"],
+  },
+  /* S02: בלי הדריסה הזו הכרטיס ירש מהקטגוריה "לא כולל קליפ וידאו" ו"כתיבת
+     מילים או לחן", בדיוק מה שהמוצר כן כולל. התיאור תואם ל-services.ts. */
+  full_production_clip: {
+    included: ["כתיבת השיר", "עיבוד", "מיקס ומאסטר", "צילום ועריכת קליפ וידאו לשיתוף"],
+    excluded: ["יום צילום נוסף או צילום חוץ שלא סוכמו", "נגני אולפן שלא תומחרו", "קמפיין הפצה"],
   },
   podcast_audio: {
     included: ["הקלטה עד שעה באולפן", "עריכה ומיקס", "מסירה לספוטיפיי"],

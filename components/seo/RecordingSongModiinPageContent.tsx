@@ -42,7 +42,7 @@ const service = getStudioService("recording-song-modiin");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
-const COVER_SONG_EX_VAT = getExVat("cover_song");
+const COVER_SONG_EX_VAT = getExVat("song_recording");
 const SONG_CTA_LABEL = `הקלטת שיר באולפן מ-${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪`;
 
 const whatsappHref = buildWhatsAppHref({

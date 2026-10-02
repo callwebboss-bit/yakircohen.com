@@ -76,7 +76,7 @@ export default function RecordingSongFinalCTA() {
             phone: displayPhone,
           },
           serviceLabel: "ייעוץ מוזיקלי להקלטת שיר",
-          priceExVat: getExVat("song_package"),
+          priceExVat: getExVat("song_recording"),
           summaryLines,
           source: "/studio/recording-song-modiin",
           closerServiceId: "recording",
@@ -149,14 +149,14 @@ export default function RecordingSongFinalCTA() {
             className="absolute inset-0 animate-ping rounded-xl bg-brand-red opacity-20"
             aria-hidden
           />
-          הקלטת שיר באולפן מ-{getExVat("cover_song").toLocaleString("he-IL")} ₪
+          הקלטת שיר באולפן מ-{getExVat("song_recording").toLocaleString("he-IL")} ₪
         </a>
         <div>
           <Link
             href={buildBookHref("studio")}
             className="inline-flex min-h-12 items-center rounded-xl border border-border px-7 py-3 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red"
           >
-            {hubBookCtaLabel(getExVat("cover_song"))}
+            {hubBookCtaLabel(getExVat("song_recording"))}
           </Link>
         </div>
         <p className="text-xs text-muted-foreground">

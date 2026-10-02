@@ -197,14 +197,14 @@ const CASES: Case[] = [
     body: () =>
       buildSmartFormLeadEmailBody({
         categoryId: "family",
-        selectedChipIds: ["cover", "express"],
+        selectedChipIds: ["cover", "song_pitch"],
         name: CONTACT.name,
         contactMethod: PHONE,
         socialOrId: "@noa",
         termsAccepted: true,
-        baseCatalogId: "cover_song",
-        estimateExVat: 1500,
-        upsellCatalogIds: ["express_delivery"],
+        baseCatalogId: "song_recording",
+        estimateExVat: 800,
+        upsellCatalogIds: ["song_pitch_coaching"],
         bookCategory: "studio",
       }),
     crossSell: { bookCategory: "studio" },

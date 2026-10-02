@@ -3,7 +3,7 @@ import { getExVat } from "@/lib/data/pricing-catalog";
 import { MOBILE_STUDIO_BASE_EX_VAT } from "@/lib/data/mobile-studio-booking";
 import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
 
-const songFrom = getExVat("cover_song");
+const songFrom = getExVat("song_recording");
 const blessingFrom = getExVat("blessing_recording");
 
 /** ארבעה מסלולי המרה ראשיים ב-hub האולפן - עם מחיר עוגן */
@@ -11,7 +11,7 @@ export const STUDIO_HUB_PRIMARY_PATHS: readonly HubLinkItem[] = [
   {
     href: "/studio/recording-song-modiin",
     title: "הקלטת שיר באולפן",
-    description: `שיר לחופה, בר מצווה או מתנה. ליווי באולפן ומסירה תוך 48 שעות. מ-${songFrom.toLocaleString("he-IL")} ₪ לפני מע״מ.`,
+    description: `שיר לחופה, בר מצווה או מתנה. הקלטה, מיקס ומאסטר בסשן של שעה. ${songFrom.toLocaleString("he-IL")} ₪ לפני מע״מ.`,
     ctaLabel: `הקלטת שיר מ-${songFrom.toLocaleString("he-IL")} ₪`,
     isFeatured: true,
   },
