@@ -405,6 +405,7 @@ export default function StudioRecordingBooking({
     lastIntent,
     submit: wizardSubmit,
     isSubmitFailed,
+    isRetrying,
     retrySubmit,
   } = useBookingWizard({
     storageKey: "studio-recording",
@@ -1259,6 +1260,7 @@ export default function StudioRecordingBooking({
         whatsappHref={lastWaHref}
         delivery={isSubmitFailed ? "failed" : "sent"}
         onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="studio"
         routeId={routeId ?? (initialGiftMode ? "family-gifts" : null)}
         recordingType={form.recordingType || null}
@@ -2178,8 +2180,13 @@ export default function StudioRecordingBooking({
 
               <BookingSummaryActions
                 disabled={!form.termsAccepted || wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
-                socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5-7 ימי עבודה"
+                socialProof={
+                  form.packageId === "song"
+                    ? "השיר אצלכם בסוף הסשן"
+                    : "הקובץ הערוך אצלכם בדרך כלל תוך 24 עד 48 שעות"
+                }
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(total)),
                   onClick: () => onSubmitClick("continue_chat"),

@@ -33,6 +33,8 @@ type BookingSuccessPanelProps = {
    */
   delivery?: "sent" | "failed";
   onRetry?: () => void;
+  /** ניסיון חוזר בדרך: הכפתור נעול ומראה "שולחים שוב" */
+  retrying?: boolean;
 };
 
 export default function BookingSuccessPanel({
@@ -47,6 +49,7 @@ export default function BookingSuccessPanel({
   className,
   delivery = "sent",
   onRetry,
+  retrying = false,
 }: BookingSuccessPanelProps) {
   const copy = resolveBookingPostSubmitCopy(intent, bookCategory);
   const btsVideo = resolveBookingBtsVideo(bookCategory);
@@ -77,7 +80,7 @@ export default function BookingSuccessPanel({
   if (failed) {
     return (
       <div className={cn("rounded-2xl border border-border p-6 text-center", className)}>
-        <LeadSubmitFallback waHref={whatsappHref} onRetry={onRetry} />
+        <LeadSubmitFallback waHref={whatsappHref} onRetry={onRetry} retrying={retrying} />
         <button
           type="button"
           onClick={onNewBooking}

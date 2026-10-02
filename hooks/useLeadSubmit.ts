@@ -25,7 +25,11 @@ export type LeadWhatsAppMode = "auto" | "button" | "none";
  */
 export type LeadSubmitState =
   | { status: "idle" }
-  | { status: "submitting" }
+  | {
+      status: "submitting";
+      /** ניסיון חוזר אחרי כשל: מסך הגיבוי נשאר מוצג עם הקישור עד שיש תשובה */
+      retry?: { waHref: string; intent: LeadSubmitIntent };
+    }
   | {
       status: "success";
       waHref: string;

@@ -65,6 +65,8 @@ export type BookingSummaryActionsProps = {
   socialProof?: string;
   /** Disables both action buttons (e.g. until terms accepted) */
   disabled?: boolean;
+  /** השליחה בדרך (עד 12 שניות): הכפתורים נעולים והראשי אומר "שולחים" */
+  sending?: boolean;
   /** תשלומים ואמינות מתחת לכפתור הראשי */
   showPaymentTrust?: boolean;
   className?: string;
@@ -75,10 +77,12 @@ export default function BookingSummaryActions({
   startNow,
   consult15Min,
   socialProof,
-  disabled = false,
+  disabled: disabledProp = false,
+  sending = false,
   showPaymentTrust = false,
   className,
 }: BookingSummaryActionsProps) {
+  const disabled = disabledProp || sending;
   const [pulsing, setPulsing] = useState(false);
   const [koalendarOpen, setKoalendarOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -123,6 +127,10 @@ export default function BookingSummaryActions({
         </p>
       )}
 
+      <p className="sr-only" role="status" aria-live="polite">
+        {sending ? "שולחים את הפרטים" : ""}
+      </p>
+
       {/* PRIMARY - WhatsApp green */}
       {continueWhatsApp.href ? (
         <a
@@ -142,10 +150,12 @@ export default function BookingSummaryActions({
             continueWhatsApp.onClick?.();
             handleInteraction();
           }}
+          disabled={disabled}
+          aria-busy={sending || undefined}
           className={primaryBaseClass}
         >
           <WhatsAppIcon />
-          {continueWhatsApp.label}
+          {sending ? "שולחים" : continueWhatsApp.label}
         </button>
       )}
 
@@ -198,6 +208,7 @@ export default function BookingSummaryActions({
               startNow.onClick?.();
               handleInteraction();
             }}
+            disabled={disabled}
             className={secondaryBaseClass}
           >
             {startNow.label}

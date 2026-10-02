@@ -235,6 +235,7 @@ export default function PodcastBookingWizard({
     lastIntent,
     submit: wizardSubmit,
     isSubmitFailed,
+    isRetrying,
     retrySubmit,
   } = useBookingWizard({
     storageKey: "podcast",
@@ -749,6 +750,7 @@ export default function PodcastBookingWizard({
         whatsappHref={lastWaHref}
         delivery={isSubmitFailed ? "failed" : "sent"}
         onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="podcast"
         routeId={routeId}
         recordingType={form.packageId || null}
@@ -1245,6 +1247,7 @@ export default function PodcastBookingWizard({
               />
               <BookingSummaryActions
                 disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 socialProof={TIME_CLAIMS.podcastSameSecond}
                 continueWhatsApp={{

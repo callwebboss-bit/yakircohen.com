@@ -250,6 +250,7 @@ export default function EventsBookingWizard({
     lastIntent,
     submit: wizardSubmit,
     isSubmitFailed,
+    isRetrying,
     retrySubmit,
   } = useBookingWizard({
     storageKey: "events",
@@ -791,6 +792,7 @@ export default function EventsBookingWizard({
         whatsappHref={lastWaHref}
         delivery={isSubmitFailed ? "failed" : "sent"}
         onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="events"
         routeId={routeId}
         onNewBooking={resetWizard}
@@ -1389,6 +1391,7 @@ export default function EventsBookingWizard({
 
               <BookingSummaryActions
                 disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: whatsappCtaLabel,

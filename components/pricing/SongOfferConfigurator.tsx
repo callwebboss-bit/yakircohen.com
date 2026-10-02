@@ -76,7 +76,7 @@ export type SongOfferConfiguratorProps = {
 const PITCH_ID: SongAddonId = "song_pitch_coaching";
 const CLIP_ID: SongAddonId = "studio_session_clip_edited";
 
-type CallbackState = "closed" | "open" | "submitting" | "success" | "failed";
+type CallbackState = "closed" | "open" | "submitting" | "retrying" | "success" | "failed";
 
 const inputClass =
   "mt-1.5 min-h-12 w-full rounded-xl border border-border bg-background px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
@@ -551,7 +551,8 @@ function SongCallback({
       return;
     }
     const displayPhone = formatPhoneForDisplay(phoneCheck.normalizedPhone ?? phone);
-    setState("submitting");
+    /* בניסיון חוזר מסך הגיבוי נשאר, והכפתור שלו אומר "שולחים שוב" */
+    setState((prev) => (prev === "failed" || prev === "retrying" ? "retrying" : "submitting"));
     const result = await submitLeadToServer(
       buildSongCallbackPayload(quote, {
         name,
@@ -669,8 +670,12 @@ function SongCallback({
           </p>
         ) : null}
       </div>
-      {state === "failed" ? (
-        <LeadSubmitFallback waHref={quote.waHref} onRetry={() => void send()} />
+      {state === "failed" || state === "retrying" ? (
+        <LeadSubmitFallback
+          waHref={quote.waHref}
+          onRetry={() => void send()}
+          retrying={state === "retrying"}
+        />
       ) : (
         <button
           type="submit"

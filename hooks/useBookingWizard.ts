@@ -117,6 +117,29 @@ function resolveResumeStep(
   return Math.min(Math.max(0, hashStep), maxStep);
 }
 
+/**
+ * מה מסך התוצאה מציג לפי מצב השליחה. בניסיון חוזר הסטטוס חוזר ל-submitting
+ * עד 12 שניות. קודם isSubmitFailed ו-lastWaHref התאפסו באמצע, מסך הגיבוי
+ * נעלם והגולש ראה פתאום את הטופס. עכשיו המסך נשאר, והכפתור אומר "שולחים שוב".
+ */
+export function deriveSubmitView(submit: LeadSubmitState): {
+  isSubmitted: boolean;
+  isRetrying: boolean;
+  isSubmitFailed: boolean;
+  lastWaHref: string;
+  lastIntent: LeadSubmitIntent;
+} {
+  const retry = submit.status === "submitting" ? submit.retry : undefined;
+  const done = submit.status === "success" || submit.status === "failed" ? submit : undefined;
+  return {
+    isSubmitted: submit.status === "success",
+    isRetrying: retry != null,
+    isSubmitFailed: submit.status === "failed" || retry != null,
+    lastWaHref: done?.waHref ?? retry?.waHref ?? "",
+    lastIntent: done?.intent ?? retry?.intent ?? "continue_chat",
+  };
+}
+
 export function useBookingWizard<
   TForm extends { selectedUpsells?: string[]; selectedUpgrades?: string[] },
 >(config: WizardConfig<TForm>) {
@@ -247,8 +270,16 @@ export function useBookingWizard<
      כדי שגולש שהשליחה שלו נכשלה לא יאבד את מה שמילא. קודם מסך ההצלחה
      הופיע והטיוטה נמחקה עוד לפני שהבקשה יצאה. LF-02 */
   const deliver = useCallback(
-    async (last: { payload: LeadEmailPayload; waHref: string; intent: LeadSubmitIntent }) => {
-      dispatch({ type: "SET_SUBMIT", submit: { status: "submitting" } });
+    async (
+      last: { payload: LeadEmailPayload; waHref: string; intent: LeadSubmitIntent },
+      retry = false,
+    ) => {
+      dispatch({
+        type: "SET_SUBMIT",
+        submit: retry
+          ? { status: "submitting", retry: { waHref: last.waHref, intent: last.intent } }
+          : { status: "submitting" },
+      });
       const result = await submitLeadToServer(last.payload);
       if (result.ok) {
         dispatch({
@@ -317,19 +348,11 @@ export function useBookingWizard<
   const retrySubmit = useCallback(async (): Promise<boolean> => {
     const last = lastSubmitRef.current;
     if (!last || state.submit.status === "submitting") return false;
-    return deliver(last);
+    return deliver(last, true);
   }, [deliver, state.submit.status]);
 
-  const isSubmitted = state.submit.status === "success";
-  const isSubmitFailed = state.submit.status === "failed";
-  const lastWaHref =
-    state.submit.status === "success" || state.submit.status === "failed"
-      ? state.submit.waHref
-      : "";
-  const lastIntent =
-    state.submit.status === "success" || state.submit.status === "failed"
-      ? state.submit.intent
-      : "continue_chat";
+  const { isSubmitted, isRetrying, isSubmitFailed, lastWaHref, lastIntent } =
+    deriveSubmitView(state.submit);
   const isSubmitting = state.submit.status === "submitting";
 
   const setKoalendarOpen = useCallback((open: boolean) => {
@@ -375,6 +398,7 @@ export function useBookingWizard<
     resetWizard,
     isSubmitted,
     isSubmitFailed,
+    isRetrying,
     lastWaHref,
     lastIntent,
     isSubmitting,

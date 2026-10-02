@@ -70,7 +70,7 @@ export default function RecordingSongModiinPageContent() {
       <HowToSchema
         name="כיצד להקליט שיר באולפן"
         description="תהליך הקלטת שיר באולפן במודיעין - משיחת אפיון ועד קבלת קובץ מוכן"
-        totalTime="P3D"
+        totalTime="PT1H"
         steps={RECORDING_SONG_PROCESS_STEPS.map((s) => ({
           name: s.title,
           text: s.paragraphs[0] ?? s.title,

@@ -153,6 +153,7 @@ export default function SingerAmplificationBookingWizard({
     lastIntent,
     submit: wizardSubmit,
     isSubmitFailed,
+    isRetrying,
     retrySubmit,
   } = useBookingWizard({
     storageKey: "singer_amplification",
@@ -544,6 +545,7 @@ export default function SingerAmplificationBookingWizard({
         whatsappHref={lastWaHref}
         delivery={isSubmitFailed ? "failed" : "sent"}
         onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="singer"
         routeId={routeId}
         onNewBooking={handleNewBooking}
@@ -741,6 +743,7 @@ export default function SingerAmplificationBookingWizard({
               />
               <BookingSummaryActions
                 disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(totalExVat)),
