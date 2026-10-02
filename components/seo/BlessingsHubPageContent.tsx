@@ -3,6 +3,7 @@ import StudioExperienceSection from "@/components/booking/StudioExperienceSectio
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -184,6 +185,8 @@ export default function BlessingsHubPageContent() {
           </header>
           <BlessingsProcessGrid steps={BLESSING_POST_PRODUCTION_STEPS} />
         </section>
+
+        <ProfessionalStanceSection pathname="/studio/blessings" />
 
         <section
           className="rounded-xl border border-border bg-surface p-6 text-center sm:p-8"

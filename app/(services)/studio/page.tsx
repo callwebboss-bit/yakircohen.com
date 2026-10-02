@@ -9,6 +9,7 @@ import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
 import StudioGearRoom from "@/components/marketing/StudioGearRoom";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import HubPageSchema from "@/components/seo/HubPageSchema";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import StudioHubPathSections from "@/components/seo/StudioHubPathSections";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
@@ -211,6 +212,8 @@ export default function StudioHubPage() {
             links={trackItems}
             headingId="studio-tracks-heading"
           />
+
+          <ProfessionalStanceSection pathname="/studio" />
 
           <ProductionCalculator className="py-0" />
 

@@ -25,7 +25,7 @@ export default function ProfessionalStanceSection({ pathname, className }: Props
           id="professional-stance-heading"
           className="mt-3 font-serif text-section-title font-semibold text-foreground"
         >
-          העמדה המקצועית שלנו
+          העמדה המקצועית שלי
         </h2>
         <div className="mt-6 border-s-[3px] border-brand-red/40 ps-4">
           <p className="text-sm font-semibold text-foreground sm:text-base">

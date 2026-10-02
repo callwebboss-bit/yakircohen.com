@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -330,6 +331,8 @@ export default function OnlinePageContent() {
               <ShareButton title="מאגר שירותי AI אונליין | יקיר כהן הפקות" />
             </div>
           </div>
+          <ProfessionalStanceSection pathname="/online" />
+
           <CallbackLeadForm
             heading="השאירו פרטים להצעת מחיר מהירה"
             description="השאירו שם וטלפון ונחזור אליכם עם כיוון שירות ברור לפרויקט. ללא התחייבות."

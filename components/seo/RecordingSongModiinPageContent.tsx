@@ -7,6 +7,7 @@ import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
@@ -645,6 +646,8 @@ export default function RecordingSongModiinPageContent() {
           </section>
 
           <StudioExperienceSection />
+
+          <ProfessionalStanceSection pathname="/studio/recording-song-modiin" />
 
           {/* 11. Pricing */}
           <ServicePagePricingSection

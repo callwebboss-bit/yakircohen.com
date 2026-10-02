@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import TableOfContents from "@/components/ui/TableOfContents";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -479,6 +480,8 @@ export default function DjEventsPageContent() {
           subheading="שירותים משלימים ל-DJ לאירוע."
           links={DJ_RELATED_LINKS}
         />
+        <ProfessionalStanceSection pathname="/events/dj-events" />
+
         <ServicePagePricingSection
           service={service}
           heading="3 חבילות ברורות - מה כלול בכל אחת"

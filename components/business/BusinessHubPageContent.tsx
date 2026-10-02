@@ -1,4 +1,5 @@
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import { OUTCOME_CTA, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -94,6 +95,8 @@ export default function BusinessHubPageContent() {
             heading="מה מתאים לי?"
             headingId="business-hub-decision-heading"
           />
+          <ProfessionalStanceSection pathname="/business" />
+
           <TimeSavedMatrix hub="business" headingId="business-time-saved-heading" />
         </Container>
       </Section>

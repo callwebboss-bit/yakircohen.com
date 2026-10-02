@@ -5,6 +5,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -485,6 +486,8 @@ export default function PodcastHubPageContent() {
               </p>
             </div>
           </section>
+
+          <ProfessionalStanceSection pathname="/podcast" />
 
           {/* ── PRICING CARDS ──────────────────────────────────── */}
           <section aria-labelledby="pricing-heading">
