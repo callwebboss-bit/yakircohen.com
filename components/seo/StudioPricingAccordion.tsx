@@ -13,7 +13,10 @@ import {
   buildAccordionWhatsAppText,
   type StudioPricingAccordionPanel,
 } from "@/lib/data/studio-pricing-accordion";
+import { withVat } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const nis = (exVat: number) => `${withVat(exVat).toLocaleString("he-IL")} ₪`;
 
 function PanelActions({ panel }: { panel: StudioPricingAccordionPanel }) {
   const waHref = buildWhatsAppHref({
@@ -30,7 +33,7 @@ function PanelActions({ panel }: { panel: StudioPricingAccordionPanel }) {
         rel="noopener noreferrer"
         className="inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
       >
-        שליחה בוואטסאפ - {panel.title} מ-{panel.priceExVat.toLocaleString("he-IL")} ₪
+        שליחה בוואטסאפ - {panel.title} מ-{nis(panel.priceExVat)}
       </a>
       <Link
         href={panel.bookHref}
@@ -48,7 +51,13 @@ function PanelActions({ panel }: { panel: StudioPricingAccordionPanel }) {
   );
 }
 
-export default function StudioPricingAccordion() {
+export default function StudioPricingAccordion({
+  excludeIds = [],
+}: {
+  /** פאנלים שלא מוצגים, למשל "song" כשטופס השיר כבר בעמוד */
+  excludeIds?: readonly string[];
+} = {}) {
+  const panels = STUDIO_PRICING_ACCORDION_PANELS.filter((p) => !excludeIds.includes(p.id));
   return (
     <section aria-labelledby="studio-pricing-accordion-heading" className="space-y-4">
       <header className="mx-auto max-w-2xl text-center">
@@ -64,19 +73,21 @@ export default function StudioPricingAccordion() {
         </p>
       </header>
 
-      <Accordion type="single" collapsible defaultValue="song" className="bg-surface">
-        {STUDIO_PRICING_ACCORDION_PANELS.map((panel) => (
+      <Accordion type="single" collapsible defaultValue={panels[0]?.id} className="bg-surface">
+        {panels.map((panel) => (
           <AccordionItem key={panel.id} value={panel.id}>
             <AccordionTrigger className="text-base font-semibold text-foreground sm:text-lg">
               <span className="flex flex-col gap-0.5 pe-2 sm:flex-row sm:items-baseline sm:gap-3">
                 <span>{panel.title}</span>
                 <span className="text-sm font-medium text-brand-red sm:text-base">
-                  מ-{panel.priceExVat.toLocaleString("he-IL")} ₪
+                  מ-{nis(panel.priceExVat)}
                 </span>
               </span>
             </AccordionTrigger>
             <AccordionContent className="[&_a]:no-underline">
-              <p className="text-xs text-muted-foreground">{panel.priceNote}</p>
+              <p className="text-xs text-muted-foreground">
+                כולל מע״מ ({panel.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ) - {panel.priceNote}
+              </p>
               {panel.intentNote ? (
                 <p className="mt-2 rounded-lg border border-brand-red/20 bg-brand-red/5 px-3 py-2 text-sm text-foreground">
                   {panel.intentNote}

@@ -24,6 +24,7 @@ import {
   BOOK_PAGE_DESCRIPTION,
   BOOK_PAGE_KEYWORDS,
   BOOK_PAGE_TITLE,
+  BOOK_NOSCRIPT_TEXT,
 } from "@/lib/seo/book-page";
 
 const BOOK_CANONICAL = `${SITE_URL}/book`;
@@ -149,11 +150,7 @@ export default async function BookPage({
 
         <noscript>
           <Container className="max-w-3xl py-6 text-sm text-muted-foreground">
-            <p>
-              הזמנה מקוונת באתר יקיר כהן: הקלטות באולפן במודיעין (מ-990 ₪), פודקאסט,
-              אטרקציות לאירועים, הגברה לזמרים, DJ, צילום ושיעורים פרטיים. מחירים
-              לפני מע״מ מוצגים בדף; אפשר לשלוח פרטים בוואטסאפ.
-            </p>
+            <p>{BOOK_NOSCRIPT_TEXT}</p>
           </Container>
         </noscript>
 

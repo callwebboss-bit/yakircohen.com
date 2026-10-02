@@ -16,7 +16,7 @@ export default function StudioHubPathSections() {
     <div className="space-y-8">
       <ServiceHubLinks
         heading="מה מתאים לי?"
-        subheading="ארבעה מסלולים ברורים. האולפן במודיעין - או נייד עד אליכם. מחיר עוגן לפני מע״מ."
+        subheading="ארבעה מסלולים ברורים. האולפן במודיעין - או נייד עד אליכם. מחיר עוגן כולל מע״מ."
         links={links}
         headingId="studio-paths-heading"
         columns={2}

@@ -4,12 +4,15 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import type { PricingTier } from "@/lib/data/services";
+import { withVat } from "@/lib/data/pricing";
 
 type PricingTierToggleProps = {
   tiers: readonly PricingTier[];
   /** Index of the tier to highlight as recommended (0-based). */
   recommendedIndex?: number;
   className?: string;
+  /** "withVat" בעמוד צרכן: כולל מע״מ בגדול, לפני מע״מ בקטן */
+  priceLead?: "exVat" | "withVat";
 };
 
 function durationToIso(text?: string): string | undefined {
@@ -28,7 +31,9 @@ export default function PricingTierToggle({
   tiers,
   recommendedIndex = 0,
   className,
+  priceLead = "exVat",
 }: PricingTierToggleProps) {
+  const consumer = priceLead === "withVat";
   const [activeIdx, setActiveIdx] = useState(recommendedIndex);
   const active = tiers[activeIdx];
   if (!active) return null;
@@ -78,11 +83,20 @@ export default function PricingTierToggle({
         <div>
           <p className="text-2xl font-bold text-foreground tabular-nums">
             {active.priceExVat != null ? (
-              <data value={String(active.priceExVat)}>{active.price}</data>
+              <data value={String(active.priceExVat)}>
+                {consumer
+                  ? `${withVat(active.priceExVat).toLocaleString("he-IL")} ₪`
+                  : active.price}
+              </data>
             ) : (
               active.price
             )}
           </p>
+          {consumer && active.priceExVat != null ? (
+            <p className="text-xs text-muted-foreground mt-0.5">
+              כולל מע״מ ({active.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ)
+            </p>
+          ) : null}
           {active.scope?.duration ? (
             <p className="text-xs text-muted-foreground mt-0.5">
               {durationIso ? (
@@ -118,7 +132,7 @@ export default function PricingTierToggle({
         </a>
 
         <p className="text-center text-[10px] text-muted-foreground">
-          *המחירים לפני מע״מ (18%)
+          {consumer ? "*המחירים כוללים מע״מ" : "*המחירים לפני מע״מ (18%)"}
         </p>
       </div>
     </div>

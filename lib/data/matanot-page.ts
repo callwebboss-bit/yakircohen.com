@@ -1,3 +1,5 @@
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type MatanotEventCardData = {
@@ -6,7 +8,14 @@ export type MatanotEventCardData = {
   suitedFor: readonly string[];
   ideas: readonly string[];
   whatsappHref: string;
+  /** שורת מחיר כולל מע״מ עם קישור, כשיש מוצר עם מחיר קבוע */
+  priceLine?: string;
+  priceHref?: string;
 };
+
+/* הקלטת שיר במתנה, כולל מע״מ (החלטת הבעלים 2.10.2026). הקישור לטופס השיר
+   בעמוד המתנות. מחרוזת ולא buildSongOfferHref, כי הקובץ נטען גם בפופאפ לקוח. */
+const SONG_GIFT_PRICE = `מ-${withVat(getExVat("song_recording")).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 
 export type MatanotStep = {
   step: string;
@@ -81,6 +90,8 @@ export const MATANOT_EVENT_CARDS: readonly MatanotEventCardData[] = [
       utm_source: "website",
       utm_campaign: "matanot_birthday",
     }),
+    priceLine: `שיר יום הולדת באולפן ${SONG_GIFT_PRICE}`,
+    priceHref: "/studio/recording-song-modiin/gifts#song-offer",
   },
   {
     id: "bar-bat-mitzvah",

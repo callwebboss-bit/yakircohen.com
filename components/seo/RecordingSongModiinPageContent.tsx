@@ -6,7 +6,6 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
-import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -14,7 +13,6 @@ import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -26,14 +24,14 @@ import {
 import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
+import { SONG_OFFER_SECTION_ID } from "@/lib/data/song-offer";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
-import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import RecordingSongInquiryForm from "@/components/seo/RecordingSongInquiryForm";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import RecordingSongBeforeAfter from "@/components/seo/RecordingSongBeforeAfter";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
-import RecordingSongFinalCTA from "@/components/seo/RecordingSongFinalCTA";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import StudioSessionClipOffer from "@/components/booking/StudioSessionClipOffer";
 
@@ -42,14 +40,13 @@ const service = getStudioService("recording-song-modiin");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
-const COVER_SONG_EX_VAT = getExVat("song_recording");
-const SONG_CTA_LABEL = `הקלטת שיר באולפן מ-${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪`;
-
-const whatsappHref = buildWhatsAppHref({
-  text: "שלום, מעוניין בהקלטת שיר באולפן במודיעין",
-  utm_source: "website",
-  utm_campaign: "recording_song_hero_cta",
-});
+/* מחירים לצרכן: כולל מע״מ קודם (החלטת הבעלים 2.10.2026). הטופס עצמו
+   מחשב הכול מ-song-offer, וכאן רק שורות הטקסט שמסביבו. */
+const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
+const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
+const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
+const SONG_CTA_LABEL = `הקלטת שיר באולפן: ${SONG_PRICE.totalLabel}`;
+const PITCH_DEMO_ID = "pitch-before-after";
 
 const eventGridWhatsappHref = buildWhatsAppHref({
   text: "שלום, רציתי להתייעץ על הקלטת שיר באולפן לאירוע שלנו",
@@ -90,12 +87,32 @@ export default function RecordingSongModiinPageContent() {
         /* ServicePageSchema למעלה כבר פולט Service עם אותו @id, ועשיר יותר. */
         emitPageEntitySchema={false}
         metaDescription={service.metaDescription}
-        ctaLabel={SONG_CTA_LABEL}
-        startingPrice={`${COVER_SONG_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ`}
-        valueFrame="הקלטת שיר באולפן במודיעין - קובץ מוכן תוך 48 שעות"
-        bookLabel={hubBookCtaLabel(COVER_SONG_EX_VAT)}
+        startingPrice={SONG_PRICE.totalLabel}
+        valueFrame={`הקלטה, מיקס ומאסטר: ${SONG_PRICE.totalLabel}`}
+        heroPrimaryCta={{ href: SONG_OFFER_ANCHOR, label: "בחירת תוספות ומחיר סופי" }}
+        showBookCtaInHero={false}
       >
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
+          {/* הטופס מוקדם בעמוד, בערך המסך השני בנייד. טופס אחד בלבד בעמוד:
+              טופס הפנייה, ה-CTA הסופי ושאלון ההתאמה הוסרו כי התחרו בו. */}
+          <div>
+            <SongOfferSection
+              source="/studio/recording-song-modiin"
+              utmCampaign="recording_song_offer"
+              pitchDemoHref={`#${PITCH_DEMO_ID}`}
+              clipExampleHref="#studio-session-clip-heading"
+            />
+            <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">
+              רק ברכה או דרשה?{" "}
+              <Link
+                href="/studio/blessings"
+                className="font-semibold text-brand-red hover:underline"
+              >
+                הקלטת ברכה: {BLESSING_PRICE.totalLabel}
+              </Link>
+            </p>
+          </div>
+
           <ContextualIntroParagraph
             pathname="/studio/recording-song-modiin"
             className="max-w-3xl"
@@ -171,9 +188,9 @@ export default function RecordingSongModiinPageContent() {
             <ul className="mt-5 grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
               {[
                 "קול אנושי - לא סאונד רובוטי",
-                "תיקון זיופים מקצועי ועדין",
-                "ליווי טכני מלא מהייעוץ עד המסירה",
-                "מסירה תוך 48 שעות ב-WAV ו-MP3",
+                "הקלטה, מיקס ומאסטר במחיר הבסיס",
+                "סשן של שעה, והשיר אצלכם בסוף הסשן",
+                "תיקון זיופים וקליפ מהסשן כתוספות, לפי בחירה",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2 text-muted-foreground">
                   <span className="shrink-0 font-semibold text-brand-red" aria-hidden>✓</span>
@@ -183,9 +200,7 @@ export default function RecordingSongModiinPageContent() {
             </ul>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={SONG_OFFER_ANCHOR}
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
               >
                 {SONG_CTA_LABEL}
@@ -296,7 +311,7 @@ export default function RecordingSongModiinPageContent() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white hover:bg-brand-red-light"
               >
-                דברו איתי עכשיו - מסירה תוך 48 שעות</a>
+                דברו איתי עכשיו</a>
               <p className="mt-2 text-xs text-muted-foreground">
                 בלי שום התחייבות - נשמח רק לשמוע איזה שיר אתם אוהבים ולעזור
                 לכם לבחור את הפלייבק המתאים
@@ -318,10 +333,10 @@ export default function RecordingSongModiinPageContent() {
                 id="before-after-heading"
                 className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
               >
-                איך זה נשמע? כוחה של עריכת סאונד מקצועית
+                איך זה נשמע? לפני ואחרי עריכה ותיקון זיופים
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                הבדל של שמיים וארץ בין הקלטה גולמית לבין תוצאה סופית מלוטשת
+                מיקס ומאסטר כלולים במחיר הבסיס. תיקון הזיופים ששומעים כאן הוא תוספת.
               </p>
             </header>
             <div className="mt-8">
@@ -330,13 +345,14 @@ export default function RecordingSongModiinPageContent() {
           </section>
 
           <section
-            className="rounded-2xl border border-border bg-surface p-6 sm:p-10"
+            id={PITCH_DEMO_ID}
+            className="scroll-mt-24 rounded-2xl border border-border bg-surface p-6 sm:p-10"
             aria-labelledby="proposal-pitch-proof-recording-heading"
           >
             <ProposalGiftPitchProofSection
               headingId="proposal-pitch-proof-recording-heading"
-              heading="מתלבטים עם תיקון זיופים? שמעו ואז צפו בקליפ"
-              intro="שיר מתנה או קליפ מתננה - אותו קטע לפני ואחרי תיקון זיופים, ואז הקליפ המלא מהאולפן."
+              heading="מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי"
+              intro="אותו קטע לפני ואחרי תיקון זיופים, ואז הקליפ המלא מהאולפן. תיקון הזיופים לא כלול במחיר הבסיס, ומוסיפים אותו בטופס."
             />
           </section>
 
@@ -364,14 +380,14 @@ export default function RecordingSongModiinPageContent() {
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               מעל 500 משפחות ממודיעין, מכבים ורעות הקליטו שיר באולפן - רובן
-              בלי שום ניסיון שירה. עם ליווי אישי וטכנולוגיית AI מתקדמת, כל
-              שיר יוצא נקי ומדויק.
+              בלי שום ניסיון שירה. מי שרוצה ביטחון נוסף מוסיף את תוספת תיקון
+              הזיופים, עם טכנאי שמכוון ומנחה בזמן ההקלטה.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               {[
-                { emoji: "🎯", text: "תיקון זיופים מקצועי - קול אנושי" },
-                { emoji: "🤝", text: "ליווי טכני מלא - לא AI-רובוטי" },
-                { emoji: "⚡", text: "מסירה תוך 48 שעות" },
+                { emoji: "🎚️", text: "הקלטה, מיקס ומאסטר בבסיס" },
+                { emoji: "🎯", text: "תיקון זיופים כתוספת, קול אנושי" },
+                { emoji: "⏱️", text: "השיר אצלכם בסוף הסשן" },
               ].map((pill) => (
                 <div
                   key={pill.text}
@@ -383,12 +399,10 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </div>
             <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={SONG_OFFER_ANCHOR}
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-8 py-3.5 text-base font-semibold text-white hover:bg-brand-red-light"
             >
-              קבלו ייעוץ חינם - מסירה תוך 48 שעות</a>
+              בחירת תוספות ומחיר סופי</a>
             <p className="mt-3 text-xs text-muted-foreground">
               יש לכם שאלות טכניות?{" "}
               <a
@@ -401,7 +415,8 @@ export default function RecordingSongModiinPageContent() {
           </section>
 
           {/* 5. Video Examples */}
-          <StudioSessionClipOffer className="mb-8" />
+          {/* דוגמת הקליפ בלבד. הקליפ נבחר כתוספת בטופס, בלי מחירון שני כאן */}
+          <StudioSessionClipOffer className="mb-8" exampleOnly />
           <ShowcaseVideoSection playlistId="recording-song-modiin" />
 
           {/* 6. Local Social Proof */}
@@ -436,8 +451,8 @@ export default function RecordingSongModiinPageContent() {
               {[
                 ["איכות סאונד", "רעשי רקע, הד ותהודה בחדר", "אקוסטיקה מחושבת - אפס רעשים"],
                 ["ציוד הקלטה", "מיקרופון אוניברסלי", "Shure SM7B, SphereL22 - ציוד בינלאומי"],
-                ["ליווי מקצועי", "לבד מול המסך", "מאמן ווקאל בזמן אמת לאורך כל ההקלטה"],
-                ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר מלא + AI pitch correction"],
+                ["ליווי מקצועי", "לבד מול המסך", "טכנאי באולפן לאורך כל ההקלטה"],
+                ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר בבסיס, תיקון זיופים כתוספת"],
                 ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
                 ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
               ].map(([feature, home, studio]) => (
@@ -483,8 +498,8 @@ export default function RecordingSongModiinPageContent() {
                   {[
                     ["איכות סאונד", "רעשי רקע, הד ותהודה בחדר", "אקוסטיקה מחושבת - אפס רעשים"],
                     ["ציוד הקלטה", "מיקרופון אוניברסלי", "Shure SM7B, SphereL22 - ציוד בינלאומי"],
-                    ["ליווי מקצועי", "לבד מול המסך", "מאמן ווקאל בזמן אמת לאורך כל ההקלטה"],
-                    ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר מלא + AI pitch correction"],
+                    ["ליווי מקצועי", "לבד מול המסך", "טכנאי באולפן לאורך כל ההקלטה"],
+                    ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר בבסיס, תיקון זיופים כתוספת"],
                     ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
                     ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
                   ].map(([feature, home, studio]) => (
@@ -649,12 +664,7 @@ export default function RecordingSongModiinPageContent() {
 
           <ProfessionalStanceSection pathname="/studio/recording-song-modiin" />
 
-          {/* 11. Pricing */}
-          <ServicePagePricingSection
-            service={service}
-            heading="מחירון שקוף"
-            subheading="בלי הפתעות. המחיר שרואים הוא המחיר ששולמים."
-          />
+          {/* 11. מחירון: כרטיסי Pro ו-4,500 הוסרו (S02). המחיר היחיד בעמוד הוא הטופס */}
 
           {/* 12. Equipment */}
           <section aria-labelledby="equipment-heading">
@@ -685,7 +695,7 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-center text-xs text-muted-foreground">
-              המחירים לפני מע״מ (+18%). ניתן לשלם בצ׳ק, אשראי, העברה בנקאית או
+              המחירים בעמוד כוללים מע״מ. ניתן לשלם בצ׳ק, אשראי, העברה בנקאית או
               PayPal.
             </p>
           </section>
@@ -745,11 +755,14 @@ export default function RecordingSongModiinPageContent() {
             </div>
           </section>
 
-          {/* 15. Inquiry Form */}
-          <RecordingSongInquiryForm />
-
-          {/* 16. Final Conversion CTA */}
-          <RecordingSongFinalCTA />
+          <p className="text-center">
+            <a
+              href={SONG_OFFER_ANCHOR}
+              className="inline-flex min-h-12 items-center rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
+            >
+              {SONG_CTA_LABEL}
+            </a>
+          </p>
 
           {/* 17. Smartphone Blessing */}
           <section
@@ -841,7 +854,6 @@ export default function RecordingSongModiinPageContent() {
           />
 
           <ServiceBlogStrip posts={getBlogPostsByServiceSlug("studio/recording-song-modiin")} />
-          <NeedsDiscoveryLeadFlowSection defaultServiceId="song" heading="התאמת הצעת הקלטת שיר" />
           <PageRelatedFooter pathname="/studio/recording-song-modiin" />
         </div>
       </ServicePageLayout>

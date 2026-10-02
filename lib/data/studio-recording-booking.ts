@@ -12,6 +12,17 @@ export type RecordingTypeId =
   | "song_promotion_consultation"
   | "other";
 
+/**
+ * סוגי הקלטה שהם הקלטת שיר על פלייבק. ב-/book הם מציגים את טופס ההצעה
+ * (בסיס ותוספות, lib/data/song-offer.ts) במקום שלבי החבילות של האשף.
+ * "original" הוא הפקת סינגל ולכן נשאר באשף.
+ */
+export const SONG_RECORDING_TYPES = ["cover", "event_song"] as const satisfies readonly RecordingTypeId[];
+
+export function isSongRecordingType(id: RecordingTypeId | "" | null | undefined): boolean {
+  return (SONG_RECORDING_TYPES as readonly string[]).includes(id ?? "");
+}
+
 export type AtmosphereId = "intimate" | "party" | "focused";
 
 /* 2.10.2026: חבילות השיר (classic 990, pro, viral, all_in) ירדו. הקלטת שיר

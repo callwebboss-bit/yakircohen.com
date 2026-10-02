@@ -1,5 +1,6 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 import { getBusinessOpenStatus } from "@/lib/business-hours";
 
 export type ChatAnswer = {
@@ -114,9 +115,10 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_studio_price",
       label: "🎙️ מחיר אולפן הקלטות",
       answer: {
-        text: `ברכה באולפן מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. הקלטת שיר (הקלטה, מיקס ומאסטר בסשן של שעה) ₪${getExVat("song_recording").toLocaleString("he-IL")}, ותיקון זיופים עם טכנאי מנחה בתוספת ₪${getExVat("song_pitch_coaching").toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${getExVat("studio_remote").toLocaleString("he-IL")}. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.`,
-        readMoreHref: "/studio/pricing",
-        readMoreLabel: "מחירון אולפן מלא",
+        /* מחירים לצרכן כולל מע״מ, כמו טופס השיר (2.10.2026) */
+        text: `הקלטת שיר (הקלטה, מיקס ומאסטר בסשן של שעה) ₪${withVat(getExVat("song_recording")).toLocaleString("he-IL")} כולל מע״מ, ותיקון זיופים עם טכנאי מנחה בתוספת ₪${withVat(getExVat("song_pitch_coaching")).toLocaleString("he-IL")}. ברכה באולפן מ-₪${withVat(getExVat("blessing_recording")).toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${withVat(getExVat("studio_remote")).toLocaleString("he-IL")}. כל המחירים כוללים מע״מ. תספרו לי מה מתאים לכם.`,
+        readMoreHref: "/studio/recording-song-modiin#song-offer",
+        readMoreLabel: "בחירת תוספות ומחיר סופי לשיר",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת שיר - [מרחוק / באולפן]",
         whatsappCta: "ספרו לי מה מתאים לכם",
         utm_campaign: "chatbot_studio_price",
@@ -140,9 +142,9 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "🎚️ הקלטה פיזית באולפן",
       hidden: true,
       answer: {
-        text: `הקלטת שיר באולפן ₪${getExVat("song_recording").toLocaleString("he-IL")} לפני מע״מ - סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. ברכה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
-        readMoreHref: "/studio/pricing",
-        readMoreLabel: "מחירון אולפן מלא",
+        text: `הקלטת שיר באולפן ₪${withVat(getExVat("song_recording")).toLocaleString("he-IL")} כולל מע״מ - סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. ברכה מ-₪${withVat(getExVat("blessing_recording")).toLocaleString("he-IL")} כולל מע״מ. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
+        readMoreHref: "/studio/recording-song-modiin#song-offer",
+        readMoreLabel: "בחירת תוספות ומחיר סופי לשיר",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטה פיזית באולפן. מה הזמינות?",
         whatsappCta: "ספרו לי מה תרצו להקליט",
         utm_campaign: "chatbot_studio_physical",

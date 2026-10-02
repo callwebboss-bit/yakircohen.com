@@ -102,6 +102,11 @@ export type ServicePageLayoutProps = {
   corporateShareLabel?: string;
   /** שורת תוצאה קצרה מתחת לsubtitle לפני ה-CTA - "מה תקבלו בפועל" */
   valueFrame?: string;
+  /**
+   * כפתור ראשי ב-Hero שמוביל לעוגן בעמוד (למשל #song-offer) במקום וואטסאפ.
+   * כשהוא מוגדר, כפתור הוואטסאפ ב-Hero לא מוצג, והוואטסאפ נשאר בתחתית העמוד.
+   */
+  heroPrimaryCta?: { href: string; label: string };
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -248,6 +253,7 @@ export default function ServicePageLayout({
   faqs,
   corporateShareLabel,
   valueFrame,
+  heroPrimaryCta,
 }: ServicePageLayoutProps) {
   const pageEntitySchema = pagePath && emitPageEntitySchema
     ? buildServicePageEntitySchema({
@@ -273,9 +279,12 @@ export default function ServicePageLayout({
     serviceLabel: title,
     startingPrice,
   });
+  /* "לפני מע״מ" נוסף רק כשהמחיר לא אומר בעצמו אם הוא כולל מע״מ. קודם הוא
+     נוסף תמיד, ו-"590 ₪ כולל מע״מ" הפך ל-"590 ₪ כולל מע״מ לפני מע״מ". */
+  const priceSaysVat = startingPrice ? /מע["״]מ/.test(startingPrice) : false;
   const inquiryText =
     startingPrice && !baseText.includes(startingPrice)
-      ? `${baseText} - מחיר התחלתי: ${startingPrice} לפני מע״מ`
+      ? `${baseText} - מחיר התחלתי: ${startingPrice}${priceSaysVat ? "" : " לפני מע״מ"}`
       : baseText;
 
   const whatsappHref = buildWhatsAppHref({
@@ -373,6 +382,17 @@ export default function ServicePageLayout({
                   <LivePulseBadge />
                 ) : null}
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                {heroPrimaryCta ? (
+                  <Button
+                    as="a"
+                    href={heroPrimaryCta.href}
+                    variant="primary"
+                    liquid
+                    className="gap-2 px-6"
+                  >
+                    {heroPrimaryCta.label}
+                  </Button>
+                ) : (
                 <Button
                   as="a"
                   href={whatsappHref}
@@ -386,6 +406,7 @@ export default function ServicePageLayout({
                   <WhatsAppIcon />
                   {ctaLabel}
                 </Button>
+                )}
                 {resolvedShowBookInHero && resolvedBookHref ? (
                   <Button as="link" href={resolvedBookHref} variant="outline">
                     {resolvedBookLabel}

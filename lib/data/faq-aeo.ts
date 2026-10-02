@@ -4,6 +4,8 @@
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+import { getSongOfferView } from "@/lib/data/song-offer";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 export type AeoFaqItem = {
@@ -16,13 +18,17 @@ function stripDualPrefix(formatted: string): string {
   return formatted.replace(/^כרגע: מ-/, "החל מ-");
 }
 
+/**
+ * תשובת המחיר של הקלטת השיר נבנית מ-song-offer (הבסיס והתוספות מהקטלוג),
+ * כולל מע״מ קודם, כדי שתתאים לטופס בעמוד ולא תתיישן כשמחיר משתנה.
+ */
 export function buildRecordingSongStudioPriceAnswer(): string {
-  const song = stripDualPrefix(formatFromPriceDual(getExVat("song_recording")));
-  const pitch = getExVat("song_pitch_coaching").toLocaleString("he-IL");
-  const blessing = stripDualPrefix(
-    formatFromPriceDual(getExVat("blessing_recording")),
-  );
-  return `הקלטת שיר באולפן (הקלטה, מיקס ומאסטר בסשן של שעה) ${song}. תיקון זיופים וטכנאי מנחה בתוספת ${pitch} ₪ + מע״מ. ברכה או אמירה קצרה ${blessing}. מחירון מלא בעמוד.`;
+  const { base, addons } = getSongOfferView();
+  const blessing = withVat(getExVat("blessing_recording")).toLocaleString("he-IL");
+  const addonLines = addons
+    .map((a) => `${a.label} ${a.withVat.toLocaleString("he-IL")} ₪`)
+    .join(". ");
+  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. ברכה או אמירה קצרה ${blessing} ₪ כולל מע״מ.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

@@ -11,6 +11,17 @@
  */
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import {
+  buildSongCallbackPayload,
+  formatSongTotalLine,
+  SONG_OFFER_CALLBACK_FORM_ID,
+  SONG_OFFER_SECTION_ID,
+  songAddonKey,
+  songSelectionLines,
+  type SongCallbackContact,
+  type SongOfferQuote,
+  type SongPriceLine,
+} from "@/lib/data/song-offer-quote";
+import {
   getAddonsForBaseId,
   getPriceById,
   getPriceTransparencyById,
@@ -18,13 +29,12 @@ import {
 } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
-import { sanitizeLeadText } from "@/lib/form-validation";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
 export const SONG_OFFER_BASE_ID = "song_recording" satisfies PriceItemId;
-export const SONG_OFFER_SECTION_ID = "song-offer";
-export const SONG_OFFER_CALLBACK_FORM_ID = "song_offer_callback";
+export { SONG_OFFER_CALLBACK_FORM_ID, SONG_OFFER_SECTION_ID, formatSongTotalLine, songAddonKey };
+export type { SongOfferQuote, SongPriceLine };
 export const SONG_OFFER_PAGE_PATH = "/studio/recording-song-modiin";
 /** שם הפרמטר בכתובת שזוכר את הבחירה, ?addons=id,id */
 export const SONG_ADDONS_PARAM = "addons";
@@ -80,13 +90,6 @@ export function parseSongAddons(value: string | null | undefined): SongAddonId[]
   if (!value?.trim()) return [];
   return normalizeSongAddons(value.split(/[,\s]+/).map((part) => part.trim()));
 }
-
-export type SongPriceLine = {
-  id: PriceItemId;
-  label: string;
-  exVat: number;
-  withVat: number;
-};
 
 export type SongOfferCalc = {
   addonIds: SongAddonId[];
@@ -155,15 +158,6 @@ export function getSongOfferView(): SongOfferView {
   };
 }
 
-function nis(amount: number): string {
-  return `${amount.toLocaleString("he-IL")} ₪`;
-}
-
-/** "1,829 ₪ כולל מע״מ (1,550 ₪ + מע״מ)" */
-export function formatSongTotalLine(calc: SongOfferCalc): string {
-  return `${nis(calc.totalWithVat)} כולל מע״מ (${nis(calc.totalExVat)} + מע״מ)`;
-}
-
 export type SongMessageOptions = {
   /** נתיב העמוד, נכנס רק לתג [YC:] */
   source: string;
@@ -177,15 +171,6 @@ export type SongMessage = {
   ycTag: string;
 };
 
-/** שורות "מה בחרתי" עם מחיר כולל מע״מ לכל שורה, והסכום */
-function selectionLines(calc: SongOfferCalc): string[] {
-  return [
-    "מה בחרתי:",
-    ...calc.lines.map((line) => `• ${line.label} - ${nis(line.withVat)}`),
-    `סה״כ: ${formatSongTotalLine(calc)}`,
-  ];
-}
-
 export function buildSongOfferMessage(
   addonIds: readonly string[],
   { source, giftMode = false }: SongMessageOptions,
@@ -194,7 +179,7 @@ export function buildSongOfferMessage(
   const opening = giftMode
     ? "שלום, אשמח להקליט שיר במתנה באולפן."
     : "שלום, אשמח להקליט שיר באולפן.";
-  const text = [opening, ...selectionLines(calc), "מתי נוח לכם להקליט?"].join("\n");
+  const text = [opening, ...songSelectionLines(calc), "מתי נוח לכם להקליט?"].join("\n");
   const ycTag = buildYcLeadTag({
     service: "recording",
     price: calc.totalExVat,
@@ -236,57 +221,88 @@ export function buildSongOfferHref(
   return `${path}${qs}#${SONG_OFFER_SECTION_ID}`;
 }
 
-export type SongCallbackInput = {
-  name: string;
-  /** טלפון שכבר עבר validateIsraeliMobile */
-  phone: string;
+export type SongCallbackInput = SongCallbackContact & {
   addonIds: readonly string[];
-  source: string;
-  giftMode?: boolean;
-  /** מזהה שליחה קבוע לכל הצגה של הטופס, כדי שניסיון חוזר לא ייצור ליד כפול */
-  submissionId: string;
-  /** שדה ה-honeypot כפי שהוא, ריק אצל בני אדם */
-  honeypot?: string;
 };
 
-/**
- * בקשת "תתקשרו אליי" בחוזה השליחה של שלב 1 (submitLeadToServer). הגוף הוא
- * אותן שורות של הודעת הוואטסאפ, כדי שהבעלים יראה בדיוק מה הלקוח בחר. השרת
- * לא מחשב מחדש את הסכום, ולכן הוא נכנס גם ל-pricingRef לפני מע״מ.
- */
+/** משמש את מי שבונה בקשה בלי שילוב מוכן מראש (בדיקות, השרת). ראו buildSongCallbackPayload. */
 export function buildSongCallbackRequest(input: SongCallbackInput): LeadEmailPayload {
-  const calc = calcSongOffer(input.addonIds);
-  const name = sanitizeLeadText(input.name, 60);
-  const phone = sanitizeLeadText(input.phone, 20);
-  const { ycTag } = buildSongOfferMessage(calc.addonIds, {
+  const quote = buildSongOfferQuote(input.addonIds, {
     source: input.source,
     giftMode: input.giftMode,
   });
-  const body = [
-    "בקשה לשיחה חוזרת מטופס הקלטת השיר",
-    `שם: ${name}`,
-    `טלפון: ${phone}`,
-    ...(input.giftMode ? ["שיר במתנה"] : []),
-    "",
-    ...selectionLines(calc),
-    "",
-    `מקור: ${input.source}`,
-    ycTag,
-  ].join("\n");
+  return buildSongCallbackPayload(quote, input);
+}
+
+/** שילוב אחד עם כל מה שהטופס צריך: סכומים, הודעה, תג וקישורים */
+export function buildSongOfferQuote(
+  addonIds: readonly string[],
+  options: SongWhatsAppHrefOptions & { offerPath?: string },
+): SongOfferQuote {
+  const calc = calcSongOffer(addonIds);
+  const { text, ycTag } = buildSongOfferMessage(calc.addonIds, options);
   return {
-    formId: SONG_OFFER_CALLBACK_FORM_ID,
-    subject: `[יקיר כהן] שיחה חוזרת: הקלטת שיר, ${nis(calc.totalWithVat)} כולל מע״מ`,
-    body,
-    name,
-    phone,
-    website_verification: input.honeypot ?? "",
-    submissionId: input.submissionId,
-    serviceType: "studio",
-    pricingRef: {
-      sectionId: SONG_OFFER_SECTION_ID,
-      label: calc.lines.map((line) => line.label).join(" + "),
-      exVat: calc.totalExVat,
-      href: buildSongOfferHref(calc.addonIds),
-    },
+    addonIds: calc.addonIds,
+    lines: calc.lines,
+    totalExVat: calc.totalExVat,
+    totalWithVat: calc.totalWithVat,
+    totalLine: formatSongTotalLine(calc),
+    messageText: text,
+    ycTag,
+    waHref: buildSongOfferWhatsAppHref(calc.addonIds, options),
+    offerHref: buildSongOfferHref(calc.addonIds, options.offerPath),
+  };
+}
+
+/**
+ * כל השילובים החוקיים מחושבים מראש, לפי songAddonKey. שלוש תוספות והראיון
+ * רק עם הקליפ נותנים שישה שילובים, וזה מה שקומפוננטת השרת שולחת לטופס.
+ */
+export function getSongOfferQuotes(
+  options: SongWhatsAppHrefOptions & { offerPath?: string },
+): Record<string, SongOfferQuote> {
+  const quotes: Record<string, SongOfferQuote> = {};
+  const total = 1 << SONG_ADDON_IDS.length;
+  for (let mask = 0; mask < total; mask += 1) {
+    const ids = SONG_ADDON_IDS.filter((_, i) => mask & (1 << i));
+    const normalized = normalizeSongAddons(ids);
+    if (normalized.length !== ids.length) continue;
+    quotes[songAddonKey(normalized)] = buildSongOfferQuote(normalized, options);
+  }
+  return quotes;
+}
+
+export type SongOfferFormItem = {
+  id: string;
+  label: string;
+  description: string;
+  exVat: number;
+  withVat: number;
+  requires: SongAddonId | null;
+};
+
+export type SongOfferFormData = {
+  base: SongOfferFormItem;
+  addons: (SongOfferFormItem & { id: SongAddonId })[];
+  quotes: Record<string, SongOfferQuote>;
+};
+
+/** כל מה שהטופס צריך כ-props: הבסיס, התוספות וכל השילובים המחושבים */
+export function getSongOfferFormData(
+  options: SongWhatsAppHrefOptions & { offerPath?: string },
+): SongOfferFormData {
+  const view = getSongOfferView();
+  const pick = ({ id, label, description, exVat, withVat, requires }: SongOfferItemView) => ({
+    id,
+    label,
+    description,
+    exVat,
+    withVat,
+    requires,
+  });
+  return {
+    base: pick(view.base),
+    addons: view.addons.map((addon) => ({ ...pick(addon), id: addon.id as SongAddonId })),
+    quotes: getSongOfferQuotes(options),
   };
 }

@@ -7,6 +7,7 @@ import {
   type FitAudience,
   type ServiceFitEntry,
 } from "@/lib/data/service-fit-matrix";
+import { withVat } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
 const AUDIENCE_ORDER: readonly FitAudience[] = [
@@ -23,13 +24,26 @@ export type HubAudienceFitBlockProps = {
   className?: string;
   /** כמה שירותים מקסימום לכל קהל */
   maxPerAudience?: number;
+  /**
+   * "withVat" בעמודי צרכן שמציגים כולל מע״מ (למשל /studio, שבו גם טופס השיר).
+   * ברירת המחדל נשארת לפני מע״מ כדי שעמודי העסקים לא ישתנו.
+   */
+  priceLead?: "exVat" | "withVat";
 };
 
-function formatPrice(exVat: number): string {
-  return `מ-${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`;
+function formatPrice(exVat: number, lead: "exVat" | "withVat"): string {
+  return lead === "withVat"
+    ? `מ-${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`
+    : `מ-${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`;
 }
 
-function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
+function ServiceCard({
+  entry,
+  priceLead,
+}: {
+  entry: ServiceFitEntry;
+  priceLead: "exVat" | "withVat";
+}) {
   return (
     <li>
       <Link
@@ -43,7 +57,7 @@ function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
           {FIT_DELIVERY_LABEL[entry.delivery]} ·{" "}
           {FIT_OUTCOME_LABEL[entry.outcome]}
           {entry.priceAnchorExVat != null
-            ? ` · ${formatPrice(entry.priceAnchorExVat)}`
+            ? ` · ${formatPrice(entry.priceAnchorExVat, priceLead)}`
             : ""}
         </span>
       </Link>
@@ -61,6 +75,7 @@ export default function HubAudienceFitBlock({
   headingId = "hub-audience-fit-heading",
   className,
   maxPerAudience = 3,
+  priceLead = "exVat",
 }: HubAudienceFitBlockProps) {
   const byAudience = getHubFitByAudience(hubPath);
   const groups = AUDIENCE_ORDER.map((audience) => ({
@@ -96,7 +111,7 @@ export default function HubAudienceFitBlock({
             </h3>
             <ul className="mt-3 space-y-2">
               {entries.map((entry) => (
-                <ServiceCard key={entry.pathname} entry={entry} />
+                <ServiceCard key={entry.pathname} entry={entry} priceLead={priceLead} />
               ))}
             </ul>
           </div>

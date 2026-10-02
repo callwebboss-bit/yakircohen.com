@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import type { MatanotEventCardData } from "@/lib/data/matanot-page";
 
@@ -38,6 +39,14 @@ export default function MatanotEventCard({
           </ul>
         </div>
       </div>
+
+      {event.priceLine && event.priceHref ? (
+        <p className="mt-6 text-sm font-semibold">
+          <Link href={event.priceHref} className="text-brand-red-text underline-offset-4 hover:underline">
+            {event.priceLine}
+          </Link>
+        </p>
+      ) : null}
 
       <div className="mt-6">
         <Button

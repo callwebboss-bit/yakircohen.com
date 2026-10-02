@@ -7,6 +7,7 @@ import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import {
   VIDEO_CLIP_PROCESS,
   VIDEO_CLIP_WHY,
@@ -33,6 +34,15 @@ export default function BlessingsVideoClipPageContent() {
       showPortfolio={false}
     >
       <TrustStatsBar variant="compact" className="rounded-2xl border" />
+
+      {/* שיר וקליפ: הטופס עם הקליפ הערוך מסומן מראש. אפשר להוריד אותו ולהשאיר שיר בלבד */}
+      <SongOfferSection
+        source="/studio/blessings/video-clip"
+        initialAddonIds={["studio_session_clip_edited"]}
+        utmCampaign="video_clip_song_offer"
+        pitchDemoHref="#video-clip-pitch-proof"
+        intro="הקלטת שיר עם קליפ ערוך מהסשן. המחיר כולל מע״מ, ואפשר לשנות את הבחירה."
+      />
 
       <section aria-labelledby="video-clip-why-heading">
         <BlessingsSectionHeader
@@ -61,7 +71,7 @@ export default function BlessingsVideoClipPageContent() {
           id="video-clip-includes-heading"
           eyebrow="מה כלול"
           title="מה מקבלים בחבילה?"
-          description="אפשר גם הקלטת שיר בלבד - בלי צילום. נתאים לפי הצורך."
+          description="אפשר גם הקלטת שיר בלבד - בלי צילום. מורידים את הקליפ בטופס למעלה."
         />
         <ul className="mx-auto mt-8 grid max-w-3xl gap-3 sm:grid-cols-2">
           {service.features.map((feature) => (
@@ -79,13 +89,14 @@ export default function BlessingsVideoClipPageContent() {
       </section>
 
       <section
-        className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
+        id="video-clip-pitch-proof"
+        className="scroll-mt-24 rounded-2xl border border-border bg-surface p-6 sm:p-8"
         aria-labelledby="video-clip-pitch-proof-heading"
       >
         <ProposalGiftPitchProofSection
           headingId="video-clip-pitch-proof-heading"
-          heading="קליפ עם תיקון זיופים - שמעו לפני שמזמינים"
-          intro="חבילת שיר + וידאו כוללת בדרך כלל תיקון זיופים. אם אתם מתלבטים - שמעו את ההבדל ואז צפו בקליפ המלא."
+          heading="מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי"
+          intro="תיקון זיופים לא כלול במחיר הבסיס, ומוסיפים אותו בטופס למעלה. שמעו את ההבדל ואז צפו בקליפ המלא."
         />
       </section>
 

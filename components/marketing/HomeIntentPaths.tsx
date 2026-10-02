@@ -38,9 +38,11 @@ export default function HomeIntentPaths() {
                 <span className="mt-auto pt-1 text-xs font-semibold text-brand-red">
                   {hasNumericPrice ? (
                     <>
-                      החל מ-{exVat.toLocaleString("he-IL")} ₪ + מע״מ
+                      {/* כולל מע״מ קודם (2.10.2026). קודם השיר הוצג כ-500 + מע״מ
+                          והברכה כ-590 + מע״מ, ו-590 הופיע פעמיים במשמעות שונה */}
+                      החל מ-{withVat.toLocaleString("he-IL")} ₪ כולל מע״מ
                       <span className="block font-normal text-muted-foreground">
-                        כולל מע״מ: {withVat.toLocaleString("he-IL")} ₪
+                        {exVat.toLocaleString("he-IL")} ₪ + מע״מ
                       </span>
                     </>
                   ) : (

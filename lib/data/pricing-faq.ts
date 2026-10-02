@@ -1,4 +1,8 @@
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+
+/* המחירון המרכזי מוביל בכולל מע״מ (החלטת הבעלים 2.10.2026), ולכן גם התשובות */
+const nis = (id: PriceItemId) => `${withVat(getExVat(id)).toLocaleString("he-IL")} ₪`;
 
 export type PricingFaqItem = {
   id: string;
@@ -12,20 +16,20 @@ export const PRICING_FAQ_ITEMS: readonly PricingFaqItem[] = [
     id: "studio-half-vs-hour",
     question: "מה ההבדל בין חצי שעה לשעה באולפן?",
     answerPlain:
-      `אלה שעון חדר בלי עריכה: חצי שעה (750 ₪) לפיילוט פודקאסט או קריינות, שעה (1,500 ₪) לפרויקט ארוך יותר. לשיר במתנה לוקחים הקלטת שיר (${getExVat("song_recording").toLocaleString("he-IL")} ₪, עם מיקס ומאסטר) - לא שעת חדר.`,
+      `אלה שעון חדר בלי עריכה: חצי שעה (${nis("studio_half_hour")}) לפיילוט פודקאסט או קריינות, שעה (${nis("studio_hour")}) לפרויקט ארוך יותר. לשיר במתנה לוקחים הקלטת שיר (${nis("song_recording")}, עם מיקס ומאסטר) - לא שעת חדר. כל המחירים כוללים מע״מ.`,
   },
   {
     /* 2.10.2026: חבילות השיר ירדו. שיר הוא בסיס ותוספות (lib/data/song-offer.ts) */
     id: "song-pitch-included",
     question: "האם תיקון זיופים כלול בהקלטת שיר?",
     answerPlain:
-      `לא במחיר הבסיס. הקלטת שיר (${getExVat("song_recording").toLocaleString("he-IL")} ₪ לפני מע״מ) כוללת הקלטה, מיקס ומאסטר בסשן של שעה, והשיר אצלכם בסוף הסשן. תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת של ${getExVat("song_pitch_coaching").toLocaleString("he-IL")} ₪, וקליפ ערוך מהסשן ${getExVat("studio_session_clip_edited").toLocaleString("he-IL")} ₪.`,
+      `לא במחיר הבסיס. הקלטת שיר (${nis("song_recording")} כולל מע״מ) כוללת הקלטה, מיקס ומאסטר בסשן של שעה, והשיר אצלכם בסוף הסשן. תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת של ${nis("song_pitch_coaching")}, וקליפ ערוך מהסשן ${nis("studio_session_clip_edited")}, כולל מע״מ.`,
   },
   {
     id: "podcast-which-package",
     question: "איזו חבילת פודקאסט מתאימה לי?",
     answerPlain:
-      "פודקאסט אודיו (מ-950 ₪) - פרק בודד עם הקלטה ועריכה. וידאו (מ-1,650 ₪) - אם צריך נוכחות ביוטיוב. חבילת תוכן (מ-2,800 ₪) - אם רוצים גם רילז מהפרק. לא בטוחים? שלחו הודעה ונמליץ.",
+      `פודקאסט אודיו (מ-${nis("podcast_audio")}) - פרק בודד עם הקלטה ועריכה. וידאו (מ-${nis("podcast_video")}) - אם צריך נוכחות ביוטיוב. חבילת תוכן (מ-${nis("content_package")}) - אם רוצים גם רילז מהפרק. המחירים כוללים מע״מ. לא בטוחים? שלחו הודעה ונמליץ.`,
   },
   {
     id: "unsure-which-service",
@@ -43,7 +47,7 @@ export const PRICING_FAQ_ITEMS: readonly PricingFaqItem[] = [
     id: "vat-included",
     question: "האם המחירים כוללים מע״מ?",
     answerPlain:
-      "לא - המחירים במחירון הם לפני מע״מ (+18%). בלחיצה על שורה רואים גם את המחיר כולל מע״מ. בטופס ההזמנה (/book) מוצג המחיר הסופי.",
+      "כן. המחיר הגדול במחירון כולל מע״מ, ולידו בקטן המחיר לפני מע״מ. בטופס ההזמנה (/book) מוצג המחיר הסופי.",
   },
   {
     id: "how-to-book",

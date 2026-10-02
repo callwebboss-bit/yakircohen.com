@@ -38,21 +38,21 @@ export const RECORDING_SONG_PROCESS_STEPS: readonly RecordingSongProcessStep[] =
     step: "03",
     title: "הקלטה באולפן",
     paragraphs: [
-      "הקלטה עם Shure SM7B / SphereL22 + הנחיה בזמן אמת.",
+      "הקלטה עם Shure SM7B / SphereL22 בסשן של שעה.",
     ],
   },
   {
     step: "04",
-    title: "עריכה ומיקס",
+    title: "מיקס ומאסטר",
     paragraphs: [
-      "תיקון זיופים, ניקוי רקע, מיקס - תוצאה ברמת רדיו.",
+      "ניקוי רקע, מיקס ומאסטר. תיקון זיופים רק אם הוספתם אותו.",
     ],
   },
   {
     step: "05",
-    title: "אספקה מהירה",
+    title: "השיר אצלכם",
     paragraphs: [
-      "תוך 24-48 שעות: WAV + MP3 לוואטסאפ או מייל.",
+      "בסוף הסשן השיר המוכן כבר אצלכם.",
     ],
   },
 ] as const;
@@ -68,7 +68,7 @@ export const RECORDING_SONG_EQUIPMENT: readonly RecordingSongEquipmentItem[] = [
     emoji: "💻",
     title: "עיבוד דיגיטלי מתקדם",
     description:
-      "שימוש ב-AI לתיקון זיופים, ניקוי רעשים ושיפור הסאונד.",
+      "ניקוי רעשים ושיפור הסאונד. תיקון זיופים זמין כתוספת.",
   },
   {
     emoji: "🔊",

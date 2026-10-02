@@ -4,6 +4,7 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
@@ -222,6 +223,16 @@ export default function StudioGiftsPageContent() {
           </ol>
         </div>
       </section>
+
+      {/* שיר במתנה: אותו טופס כמו בעמוד השיר, עם כותרת והודעה של מתנה */}
+      <div className="border-b border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
+        <SongOfferSection
+          source="/studio/recording-song-modiin/gifts"
+          giftMode
+          utmCampaign="gifts_song_offer"
+          intro="מקליטים שיר כמתנה: בוחרים מה נכנס, ושולחים לנו את הבחירה."
+        />
+      </div>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">

@@ -17,6 +17,7 @@ import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
@@ -35,7 +36,7 @@ export const metadata = metadataFromService(service);
 const STUDIO_PRICING_LINK = {
   href: "/studio/pricing",
   title: "מחירון חבילות",
-  description: "שקיפות מלאה - שעת אולפן, חבילת שיר והפקת סינגל.",
+  description: "הקלטת שיר ותוספות, ברכה ושעת חדר.",
 } as const;
 
 const STUDIO_STRUCTURED_DATA = {
@@ -95,7 +96,10 @@ export default function StudioHubPage() {
         <div className="space-y-16">
           <StudioHubPathSections />
 
-          <HubAudienceFitBlock hubPath="/studio" />
+          {/* הטופס בגרסה המקוצרת: התוספות בתוך "הוסיפו תוספות" סגור */}
+          <SongOfferSection source="/studio" variant="compact" utmCampaign="studio_hub_song_offer" />
+
+          <HubAudienceFitBlock hubPath="/studio" priceLead="withVat" />
           <TimeSavedMatrix hub="studio" headingId="studio-time-saved-heading" />
 
           <MobileStudioComesToYou />

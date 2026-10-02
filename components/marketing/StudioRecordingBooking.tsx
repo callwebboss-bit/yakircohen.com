@@ -114,6 +114,7 @@ import {
   type StudioBookingPath,
   type StudioPackageId,
   type StudioUpgradeId,
+  isSongRecordingType,
 } from "@/lib/data/studio-recording-booking";
 import { buildStudioUpgradeItems } from "@/lib/data/studio-upgrade-display";
 import {
@@ -129,6 +130,7 @@ import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
+import SongOfferBookPanel from "@/components/pricing/SongOfferBookPanel";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -474,6 +476,9 @@ export default function StudioRecordingBooking({
   ]);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
+  /* הקלטת שיר עוברת לטופס ההצעה (בסיס ותוספות) במקום שלבי החבילות. האשף
+     נשאר לברכות, להקלטה מרחוק ולקריינות (2.10.2026) */
+  const isSongRecording = isSongRecordingType(form.recordingType);
   const bookingPath: StudioBookingPath = getStudioBookingPath(form.recordingType);
   const showCelebrantField = isEventCelebrantRecordingType(form.recordingType);
   /** ברכת כלה = מקליטת אחת בלבד - counter מסיח ומבלבל */
@@ -855,7 +860,7 @@ export default function StudioRecordingBooking({
   ];
 
   const livePriceReport =
-    total <= 0 || step > 2
+    total <= 0 || step > 2 || isSongRecording
       ? null
       : {
           totalExVat: total,
@@ -1446,6 +1451,10 @@ export default function StudioRecordingBooking({
               </div>
             </div>
 
+            {isSongRecording ? (
+              <SongOfferBookPanel giftMode={initialGiftMode} />
+            ) : (
+            <>
             {form.recordingType ? (
               <BookingSelectionConfirm
                 title={`נבחר: ${recordingLabel}`}
@@ -1692,12 +1701,19 @@ export default function StudioRecordingBooking({
               showBack={false}
             />
             <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
+            </>
+            )}
           </section>
         </BookingStepPanel>
       )}
 
+      {/* טיוטה ששמרה שלב מתקדם עם סוג שיר: מציגים את הטופס ולא מסך ריק */}
+      {step > 0 && isSongRecording ? (
+        <SongOfferBookPanel giftMode={initialGiftMode} />
+      ) : null}
+
       {/* Step 1: package selection */}
-      {step === 1 && (
+      {step === 1 && !isSongRecording && (
         <BookingStepPanel stepKey={1} stepLabel={stepAnnouncement}>
           <section className={bookSectionClass} aria-labelledby="book-step-heading-1">
             <header>
@@ -1863,7 +1879,7 @@ export default function StudioRecordingBooking({
       )}
 
       {/* Step 2: summary + contact form (closing) */}
-      {step === 2 && (
+      {step === 2 && !isSongRecording && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
             {step3HoldDeadline ? (
@@ -2191,7 +2207,7 @@ export default function StudioRecordingBooking({
       )}
 
       {/* Sticky price bar - step 2 only */}
-      {step === 2 && activePackage && (
+      {step === 2 && activePackage && !isSongRecording && (
         <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)] sm:hidden">
           <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="min-w-0">

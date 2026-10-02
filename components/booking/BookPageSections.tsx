@@ -26,6 +26,7 @@ import {
   OnlineRestoreBookingPanelLazy,
   PodcastBookingWizardLazy,
   SingerAmplificationBookingWizardLazy,
+  SongOfferBookPanelLazy,
 } from "@/components/booking/lazy";
 import { type BookCategoryId, parseBookEventItemFromSearch, parseBookPackageFromSearch } from "@/lib/book-url";
 import type { PricingBookTarget } from "@/lib/book-url";
@@ -127,6 +128,10 @@ function renderCategoryContent(
 
   switch (id) {
     case "studio":
+      /* קישור מחירון של הקלטת שיר: ישר לטופס ההצעה, בלי שאלון הסינון */
+      if (catalog?.songOffer) {
+        return <SongOfferBookPanelLazy initialAddonIds={catalog.songOffer.addonIds} />;
+      }
       return (
         <FilterGateLazy
           initialFilterPreset={studioFilterPreset}

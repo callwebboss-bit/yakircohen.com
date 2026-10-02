@@ -31,6 +31,11 @@ type PriceScopeDisplayProps = {
   catalogId?: PriceItemId;
   transparency?: PriceTransparency;
   showTransparency?: boolean;
+  /**
+   * "withVat" לעמודי צרכן: כולל מע״מ בגדול ולפני מע״מ בקטן מתחת (החלטת
+   * הבעלים 2.10.2026). ברירת המחדל לפני מע״מ, כדי שעמודי העסקים לא ישתנו.
+   */
+  lead?: "exVat" | "withVat";
 };
 
 const sizeClasses = {
@@ -52,9 +57,16 @@ export default function PriceScopeDisplay({
   catalogId,
   transparency,
   showTransparency = true,
+  lead = "exVat",
 }: PriceScopeDisplayProps) {
   const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix });
   const s = sizeClasses[size];
+  if (lead === "withVat" && !withEditing) {
+    const prefix = showFromPrefix ? "מ-" : "";
+    lines.primary = `${prefix}${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
+    lines.vatLine = `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`;
+    lines.compactLine = lines.scopeLine ? `${lines.primary} · ${lines.scopeLine}` : lines.primary;
+  }
 
   if (compact) {
     return (
@@ -109,7 +121,9 @@ export default function PriceScopeDisplay({
       {!hideVatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.vatLine}</p>
       ) : null}
-      <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+      {lead === "withVat" ? null : (
+        <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+      )}
       {suitedFor ? (
         <p className={cn(s.suited, "mt-1 text-muted-foreground")}>
           <span className="font-semibold text-foreground">מתאים ל: </span>
@@ -133,16 +147,23 @@ export function PriceScopeCompact({
   scope,
   showFromPrefix = false,
   className,
+  lead = "exVat",
 }: {
   exVat: number;
   scope?: PriceScope;
   showFromPrefix?: boolean;
   className?: string;
+  /** "withVat": הסכום כולל מע״מ, עם המילים "כולל מע״מ" */
+  lead?: "exVat" | "withVat";
 }) {
   const scopeLine = formatScopeLine(scope);
-  const amount = exVat.toLocaleString("he-IL");
+  const amount =
+    lead === "withVat"
+      ? `${withVat(exVat).toLocaleString("he-IL")}`
+      : exVat.toLocaleString("he-IL");
   const billing = scope?.billingLabel ?? "חד-פעמי";
-  const price = showFromPrefix ? `מ-${amount} ₪` : `${amount} ₪`;
+  const vatWord = lead === "withVat" ? " כולל מע״מ" : "";
+  const price = showFromPrefix ? `מ-${amount} ₪${vatWord}` : `${amount} ₪${vatWord}`;
   const text = scopeLine ? `${price} · ${scopeLine}` : `${price} · ${billing}`;
 
   return (

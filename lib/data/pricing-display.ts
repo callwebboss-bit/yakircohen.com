@@ -103,6 +103,12 @@ export function formatHubPriceDual(exVat: number, priceFrom = false): string {
   return `${prefix}${amount} ₪ + מע״מ = ${total} ₪`;
 }
 
+/** "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)", שורת מחיר לצרכן בטבלאות */
+export function formatConsumerPriceLine(exVat: number, priceFrom = false): string {
+  const prefix = priceFrom ? "מ-" : "";
+  return `${prefix}${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ (${exVat.toLocaleString("he-IL")} ₪ + מע״מ)`;
+}
+
 export type ConsumerPriceDisplay = {
   /** "590 ₪" */
   total: string;
