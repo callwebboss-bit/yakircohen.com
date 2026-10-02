@@ -4,10 +4,10 @@ import { constructMetadata } from "@/lib/metadata";
 import { buildMetaDescription } from "@/lib/seo/share-description";
 
 export const metadata: Metadata = constructMetadata({
-  title: "שובר מתנה מהאולפן | לבת מצווה, יום הולדת וחתונה - מסירה 48 שעות",
+  title: "שובר מתנה מהאולפן | לבת מצווה, יום הולדת וחתונה - נשלח מיד",
   description: buildMetaDescription(
     "שובר מתנה מקורי לכל אירוע - הקלטת שיר, קליפ לבת מצווה, פודקאסט עם סבא, רינגטון מצחיק ועוד.",
-    "מודיעין, פתח תקווה ואזור המרכז - מסירה דיגיטלית תוך 48 שעות. הזמנה בוואטסאפ.",
+    "מודיעין, פתח תקווה ואזור המרכז - השובר נשלח אליכם מיד. הזמנה בוואטסאפ.",
   ),
   slug: "studio/recording-song-modiin/gifts",
   keywords: [

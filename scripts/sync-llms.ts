@@ -60,7 +60,7 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - משתתפים בשיר, כולל מע״מ (זמר אחד כלול): ${getSongParticipantsExplanation().withVat}
 - DJ לאירועים (צוות, כ-4 שעות): ${meNis(dj)}
 - אטרקציה בודדת לאירוע: ${meNis(attraction)}
-- שובר מתנה לאולפן: ${meNis(voucherFloor)}
+- שובר מתנה לאולפן: ${meNis(voucherFloor)} · ${TIME_CLAIMS.voucherInstant}
 - חנות: https://yakircohen.com/shop
 `;
 

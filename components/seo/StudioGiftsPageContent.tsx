@@ -1,4 +1,5 @@
-﻿import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
@@ -111,7 +112,7 @@ export default function StudioGiftsPageContent() {
             {SITE_NAME}
           </p>
           <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-            שובר מתנה מקורי מהאולפן - מסירה תוך 48 שעות
+            שובר מתנה מקורי מהאולפן - נשלח אליכם מיד
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             שובר מתנה לכל שירות באתר - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ
@@ -134,7 +135,7 @@ export default function StudioGiftsPageContent() {
           </nav>
           <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
             <li>✓ כל שירות באולפן - לא סכום קבוע</li>
-            <li>✓ מסירה תוך 48 שעות - גם דיגיטלית לכל הארץ</li>
+            <li>✓ {TIME_CLAIMS.voucherInstant} - דיגיטלית לכל הארץ</li>
             <li>✓ המקבל/ת קובע/ת מתי לממש - תוקף שנה מיום הרכישה</li>
           </ul>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -144,7 +145,7 @@ export default function StudioGiftsPageContent() {
               rel="noopener noreferrer"
               className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
             >
-              הזמינו שובר - מסירה תוך 48 שעות
+              הזמינו שובר - נשלח מיד
             </a>
             <Link
               href="/voucher"
@@ -442,7 +443,7 @@ export default function StudioGiftsPageContent() {
               rel="noopener noreferrer"
               className="mt-5 inline-flex rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              הזמינו שובר מתנה - תוך 48 שעות
+              הזמינו שובר מתנה - נשלח מיד
             </a>
           </div>
         </div>
@@ -461,12 +462,12 @@ export default function StudioGiftsPageContent() {
       <PageBottomCta
         layout="section"
         variant="whatsapp"
-        heading="מוכנים להפתיע? שובר מתנה מקורי - מסירה תוך 48 שעות"
-        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. מסירה דיגיטלית לכל הארץ, תוקף שנה מיום הרכישה."
+        heading="מוכנים להפתיע? שובר מתנה מקורי - נשלח אליכם מיד"
+        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו שנה מיום הרכישה."
         headingId="studio-gifts-cta-heading"
         whatsappHref={MAIN_CTA}
-        whatsappLabel="הזמינו שובר תוך 48 שעות"
-        whatsappAriaLabel="הזמנת שובר מתנה - מסירה תוך 48 שעות"
+        whatsappLabel="הזמינו שובר, נשלח מיד"
+        whatsappAriaLabel="הזמנת שובר מתנה - השובר נשלח מיד"
         showBookContact={false}
       >
         <div className="flex flex-wrap justify-center gap-4">

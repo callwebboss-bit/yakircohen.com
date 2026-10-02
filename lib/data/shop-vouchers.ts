@@ -3,6 +3,7 @@ import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { SHOP_VOUCHER_IMAGES } from "@/lib/data/shop-page";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -52,6 +53,10 @@ export const SHOP_VOUCHER_TIERS: readonly ShopVoucherTier[] = [
 ] as const;
 
 export const SHOP_VOUCHER_FAQ_SCHEMA = [
+  {
+    question: "תוך כמה זמן מקבלים את השובר?",
+    answer: `מיד. ${TIME_CLAIMS.voucherInstant} בוואטסאפ או במייל, מוכן להעביר למקבל/ת המתנה.`,
+  },
   {
     question: "כמה זמן השובר בתוקף?",
     answer:
