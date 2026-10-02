@@ -536,7 +536,7 @@ const HEADER_PODCAST_NAV: SiteNavCategory = {
   label: "פודקאסט",
   href: "/podcast",
   featured: [
-    { label: "עריכת פודקאסט - 24 שעות", href: "/podcast/podcast-editing" },
+    { label: "עריכת פודקאסט - 24-48 שעות", href: "/podcast/podcast-editing" },
     { label: "פודקאסט נייד עד אליכם", href: "/podcast/mobile-podcast-at-home" },
     { label: "הקלטה באולפן (וידאו ואודיו)", href: "/podcast/podcast-recording" },
   ],

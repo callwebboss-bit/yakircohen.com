@@ -27,10 +27,10 @@ export const TIME_SAVED_MATRIX: Record<TimeSavedHub, readonly TimeSavedRow[]> = 
   podcast: [
     {
       id: "podcast-delivery",
-      criterion: "מסירת פרק אחרי הפקה מלאה",
+      criterion: "מתי הפרק אצלכם",
       others:
         'הבטחת "תוך שבוע" בלי תאריך ביומן. לפעמים הפרק מגיע רק אחרי חודש.',
-      ours: "בהפקה מלאה - לרוב תוך 24 שעות עבודה מסיום ההקלטה.",
+      ours: "באותה שנייה שמסיימים להקליט, באולפן וגם אצלכם בבית או במשרד.",
       href: "/podcast",
       linkLabel: "הפקת פודקאסט",
     },
