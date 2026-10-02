@@ -198,6 +198,16 @@ export default function StutteringCoursePage() {
           embedUrl="https://www.youtube.com/embed/yf004RFUdmM"
           title="קורס הפסקת גמגום - שיטת NeverMind | יקיר כהן הפקות"
         />
+        <div className="mx-auto mt-8 max-w-[260px]">
+          <LazyYouTubeEmbed
+            embedUrl="https://www.youtube.com/embed/591H4EX6miM"
+            title="קורס גמגום - לדבר נכון ולקבל את עצמך בביטחון אמיתי"
+            className="aspect-[9/16]"
+          />
+        </div>
+        <p className="mt-3 text-center text-xs text-muted-foreground">
+          סרטון קצר מתוך הקורס: איך לדבר נכון ולקבל את עצמך בביטחון אמיתי
+        </p>
       </section>
 
       <section className="border-t border-border bg-surface py-12 sm:py-14">

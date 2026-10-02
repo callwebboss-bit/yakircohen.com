@@ -1,6 +1,5 @@
 export type AudioDemoDifficulty = "severe" | "moderate" | "polish";
 
-export type AudioDemoStatus = "ready" | "pending";
 
 export type AudioDemoId =
   | "weber-restoration"
@@ -11,8 +10,7 @@ export type AudioDemoId =
   | "proposal-gift-pitch"
   | "blessing-mix"
   | "full-production"
-  | "funny-ringtone"
-  | "singer-live-tuning";
+  | "funny-ringtone";
 
 export type AudioDemo = {
   id: AudioDemoId;
@@ -23,7 +21,6 @@ export type AudioDemo = {
   beforeNote?: string;
   afterNote?: string;
   difficulty: AudioDemoDifficulty;
-  status: AudioDemoStatus;
   /** Hebrew disclaimer for severe / restoration demos */
   disclaimerHe?: string;
   recommendedPages: readonly string[];
@@ -43,7 +40,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "פודקאסט ישן, הרצאה, קלטת או ארכיון - דוגמה קיצונית",
     afterNote: "ניקוי רעשים, EQ ועריכה ידנית",
     difficulty: "severe",
-    status: "ready",
     disclaimerHe: SEVERE_RESTORATION_DISCLAIMER,
     recommendedPages: [
       "/podcast/podcast-editing",
@@ -67,7 +63,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "רעשי רקע, אקו ותהודה בחדר",
     afterNote: "קול נקי ומאוזן - דוגמה קלה יותר",
     difficulty: "moderate",
-    status: "ready",
     recommendedPages: [
       "/podcast",
       "/podcast/podcast-editing",
@@ -86,7 +81,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "לפני עריכה ותיקון זיופים",
     afterNote: "מיקס, מאסטר ופיץ׳ קורקשן",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: [
       "/studio/recording-song-modiin",
       "/book",
@@ -100,7 +94,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeLabel: "שירה גולמית",
     afterLabel: "אחרי תיקון זיופים",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: [
       "/online/vocal-fix/pitch-correction",
       "/book",
@@ -116,7 +109,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "שיר מתנה לחברה - הקלטה גולמית באולפן",
     afterNote: "אותו קטע אחרי תיקון זיופים, מיקס והכנה לקליפ",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: [
       "/online",
       "/pricing",
@@ -138,7 +130,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "הוקלט ונערך באולפן אחר, או אפילו בטלפון",
     afterNote: "תיקון זיופים מרחוק בלבד",
     difficulty: "moderate",
-    status: "ready",
     recommendedPages: ["/online/vocal-fix/pitch-correction"],
     storageKey: "pitch-correction-remote",
   },
@@ -151,7 +142,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "הקלטה ישירה ללא עיבוד",
     afterNote: "מוזיקת רקע ומיקס מקצועי",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: [
       "/studio/blessings/bride-groom-blessing",
       "/book",
@@ -167,7 +157,6 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeNote: "שירה בלי מוזיקה ובלי עיבוד",
     afterNote: "תופים, בס, הרמוניות ומיקס",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: [
       "/studio/recording-song-modiin",
       "/studio/recording-song-modiin/gifts/funny-ringtone",
@@ -182,22 +171,8 @@ export const AUDIO_DEMOS: readonly AudioDemo[] = [
     beforeLabel: "הקלטה גולמית",
     afterLabel: "רינגטון מוכן",
     difficulty: "polish",
-    status: "ready",
     recommendedPages: ["/studio/recording-song-modiin/gifts/funny-ringtone"],
     storageKey: "funny-ringtone",
-  },
-  {
-    id: "singer-live-tuning",
-    beforeSrc: "/audio/singer-live-raw.mp3",
-    afterSrc: "/audio/singer-live-tuned.mp3",
-    beforeLabel: "סאונד גולמי",
-    afterLabel: "אחרי כיוון אקוסטי",
-    beforeNote: "ללא איזון תדרים, סכנת פידבק",
-    afterNote: "RTA ואופטימיזציה לפני ההופעה",
-    difficulty: "moderate",
-    status: "pending",
-    recommendedPages: ["/events/equipment/singer-amplification"],
-    storageKey: "singer-live",
   },
 ] as const;
 

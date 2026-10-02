@@ -22,6 +22,244 @@
       "why": "audit:share --all דורש סמן מיקום במשפט הראשון. במודיעין עבר מהמשפט השני לראשון.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-01"
+    },
+    {
+      "url": "/academy/ai-music",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/academy/stuttering-course",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "description",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "outline",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "links",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "words",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "images",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/category/gifts",
+      "field": "imagesWithAlt",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/mixing-mastering-explained",
+      "field": "outline",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/blog/mixing-vs-mastering-explained",
+      "field": "exists",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/business",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/clinic",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/events/dj-events",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/events/equipment/singer-amplification",
+      "field": "outline",
+      "why": "הדגמת הזמר נמחקה בהחלטת הבעלים 2.10: שני קבצי האודיו שלה מעולם לא הועלו, והעמוד רינדר שני נגנים שבורים תחת הבטחה שיועלו בקרוב.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/events/equipment/singer-amplification",
+      "field": "words",
+      "why": "הדגמת הזמר נמחקה בהחלטת הבעלים 2.10: שני קבצי האודיו שלה מעולם לא הועלו, והעמוד רינדר שני נגנים שבורים תחת הבטחה שיועלו בקרוב.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "links",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "words",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "images",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "imagesWithAlt",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/pitch-correction",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/vocal-fix/send-file",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online/voice-cloning",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/online",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/photography",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/podcast",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/blessings",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/recording-song-modiin",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio",
+      "field": "outline",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/stuttering",
+      "field": "outline",
+      "why": "שינוי כותרת הרכיב מ'העמדה המקצועית שלנו' ל'שלי', בהחלטת הבעלים 2.10. הכותרת סתרה את 'אני מאמין ש:' שמופיע שורה מתחתיה. ה-h2 לא נגרע, הוא שונה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "site",
+      "field": "sitemap",
+      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/blessings/bat-mitzvah-clip",
+      "field": "outline",
+      "why": "הוסר בלוק 'גלריה בקרוב' שהבטיח תמונות שיתווספו לעמוד, בהחלטת הבעלים 2.10. לא קיימות תמונות גלריה לעמוד הזה, ולכן גם כותרת הסקשן ירדה איתו. הבעלים אישר את האובדן: כותרת בלי תוכן מתחתיה היא אות ריק לסורק. הוכחת האודיו בעמוד לא נפגעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/blessings/bat-mitzvah-clip",
+      "field": "words",
+      "why": "הוסר בלוק 'גלריה בקרוב' שהבטיח תמונות שיתווספו לעמוד, בהחלטת הבעלים 2.10. לא קיימות תמונות גלריה לעמוד הזה, ולכן גם כותרת הסקשן ירדה איתו. הבעלים אישר את האובדן: כותרת בלי תוכן מתחתיה היא אות ריק לסורק. הוכחת האודיו בעמוד לא נפגעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/blessings/video-clip",
+      "field": "outline",
+      "why": "הוסר בלוק 'גלריה בקרוב' שהבטיח תמונות שיתווספו לעמוד, בהחלטת הבעלים 2.10. לא קיימות תמונות גלריה לעמוד הזה, ולכן גם כותרת הסקשן ירדה איתו. הבעלים אישר את האובדן: כותרת בלי תוכן מתחתיה היא אות ריק לסורק. הוכחת האודיו בעמוד לא נפגעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
+    },
+    {
+      "url": "/studio/blessings/video-clip",
+      "field": "words",
+      "why": "הוסר בלוק 'גלריה בקרוב' שהבטיח תמונות שיתווספו לעמוד, בהחלטת הבעלים 2.10. לא קיימות תמונות גלריה לעמוד הזה, ולכן גם כותרת הסקשן ירדה איתו. הבעלים אישר את האובדן: כותרת בלי תוכן מתחתיה היא אות ריק לסורק. הוכחת האודיו בעמוד לא נפגעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-02"
     }
   ]
 }

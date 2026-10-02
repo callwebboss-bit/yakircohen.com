@@ -16,6 +16,15 @@ export const STUDIO_HUB_FEATURED: ShowcaseVideo = {
 export const STUDIO_HUB_PORTFOLIO_NOTE =
   "תיק עבודות מהאולפן - הופק והוקלט ביקיר כהן הפקות";
 
+/** דף הבית + תיק עבודות - קליפ רשמי למג'יק קאס */
+export const MAGIC_KASS_CLIP: ShowcaseVideo = {
+  videoId: "1DUnuS_hv5Y",
+  title: "מג'יק קאס (Magic Kass) - הקליפ הרשמי",
+};
+
+export const MAGIC_KASS_CLIP_CREDITS =
+  "הפקה ועיבוד מוזיקלי: יקיר כהן הפקות ורועי מאנה · מילים: רועי מאנה, יקיר כהן ויקיר איזמירלי · שירה: עמית רבוח · כוריאוגרפיה: לירון אבדר · רקדניות: להקת בלרין · סטודיו לי דאנס בניהול לירון אבדר";
+
 /** סדר התצוגה בעמוד /studio: תיק ראשי ואז סרטוני ערך */
 export const STUDIO_HUB_SHOWCASE_VIDEOS: readonly StudioValueVideo[] = [
   {

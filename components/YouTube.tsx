@@ -43,7 +43,7 @@ export default function YouTube({
         )}
       >
         <div>
-          <p className="text-sm font-semibold text-brand-red">סרטון בקרוב</p>
+          <p className="text-sm font-semibold text-brand-red">הסרטון לא זמין כרגע</p>
           <p className="mt-2 text-sm text-zinc-400">{title}</p>
           <a
             href="https://www.youtube.com/@yakircohen"

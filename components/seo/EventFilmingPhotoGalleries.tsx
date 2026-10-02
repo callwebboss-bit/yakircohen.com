@@ -14,23 +14,10 @@ export default function EventFilmingPhotoGalleries() {
   const bestOf = primary.slice(0, EVENT_FILMING_GALLERY_BEST_MAX);
   const events = archive.slice(0, EVENT_FILMING_GALLERY_EVENTS_MAX);
 
+  // אין תמונות בתיקייה. עדיף להציג כלום מאשר להבטיח גלריה שתגיע.
+  // ההבטחה הקודמת הוסרה ב-2.10.2026 בהחלטת הבעלים.
   if (bestOf.length === 0 && events.length === 0) {
-    return (
-      <section
-        className="rounded-2xl border border-dashed border-border bg-surface px-6 py-12 text-center"
-        aria-labelledby="event-filming-gallery-empty"
-      >
-        <h2
-          id="event-filming-gallery-empty"
-          className="text-lg font-semibold text-foreground"
-        >
-          גלריה בקרוב
-        </h2>
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-          תמונות מתיק העבודות יתווספו בקרוב. בינתיים - שלחו בוואטסאפ ונשמח להראות דוגמאות.
-        </p>
-      </section>
-    );
+    return null;
   }
 
   return (

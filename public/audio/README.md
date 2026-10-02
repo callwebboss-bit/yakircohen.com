@@ -19,13 +19,14 @@
 | `before-rengtone.mp3` / `after-ringtone.mp3` | רינגטון | רינגטון מצחיק |
 | `AI-patch-recommendation.mp3` | דמו AI (לא לפני/אחרי) | תיקון זיופים |
 | `voiceover-other-narrator.mp3` / `voiceover-yakir-cohen.mp3` | השוואת זהות: קריין אחר מול יקיר כהן (לא לפני/אחרי עיבוד) | `/portfolio`, `/voiceover`, `/voiceover/services` |
-| `NO+YAKIR.mp3` / `Yes_Vocal_Yakircohen.mp3` | מקור להעתקה בלבד. באתר משתמשים בשמות URL-בטוחים למעלה. `/audio/NO+YAKIR.mp3` `/audio/Yes_Vocal_Yakircohen.mp3` | לא לנגן ישירות |
+> קבצי המקור של השוואת הקריינות (`NO+YAKIR`, `Yes_Vocal_Yakircohen`) הועתקו לשמות ה-URL-בטוחים למעלה. שמות עם רווחים או `+` לא עולים לאתר ישירות.
 
 ## ממתינים להעלאה
 
 | קובץ | שימוש | סטטוס |
 |------|--------|--------|
 | `singer-live-raw.mp3` / `singer-live-tuned.mp3` | כיוון הגברה חיה | placeholder + "בקרוב" בעמוד |
+| `voiceover-yakir-cohen-warm.mp3` | גרסה חמה ואנרגטית של יקיר להשוואת הקריינות (מקור: `YES YAKIR 2.mp3` - להעתיק לשם הזה) | מוסתר עד ש-`VOICEOVER_YAKIR_WARM_READY=true` ב-`voiceover-narrator-compare.ts` |
 
 > **YouTube לדמו פודקאסט:** אחרי העלאה ליוטיוב, עדכנו `youtubeVideoId` ב-`lib/data/podcast-proof.ts`.
 

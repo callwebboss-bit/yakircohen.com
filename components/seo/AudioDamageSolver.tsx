@@ -30,6 +30,11 @@ type DamageCard = {
       afterLabel: string;
       storageKey: string;
     }
+  /**
+   * סוג נזק שאני יודע לתאר אבל אין לי עליו הדגמה מוקלטת. הקלף נשאר כי
+   * ההסבר עצמו שימושי, והטקסט אומר בפירוש שאין הדגמה במקום להבטיח
+   * שתהיה. ההבטחה "תהיה זמינה בקרוב" הוסרה ב-2.10.2026.
+   */
   | { hasDemo: false }
 );
 
@@ -135,18 +140,16 @@ export default function AudioDamageSolver() {
               </p>
             </>
           ) : (
-            <div className="text-center py-4">
+            <div className="py-4 text-center">
               <p className="text-2xl" aria-hidden>
                 {activeCard.icon}
               </p>
               <p className="mt-2 text-sm font-semibold text-foreground">
                 {activeCard.label}
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                דגימת שמע לסוג נזק זה תהיה זמינה בקרוב.
-              </p>
-              <p className="mt-2 text-xs text-muted-foreground">
-                בינתיים - שלחו קובץ לבדיקה חינם בוואטסאפ.
+              <p className="mt-2 text-sm text-muted-foreground">
+                אין לי כאן הדגמה לסוג הנזק הזה. שלחו קובץ ואגיד לכם מה אפשר
+                לעשות איתו.
               </p>
             </div>
           )}

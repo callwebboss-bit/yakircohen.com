@@ -33,14 +33,14 @@ export default function MicroAudioAudition({
 
   useEffect(() => () => stop(), [stop]);
 
-  if (!demo || demo.status === "pending") {
+  if (!demo) {
     return (
       <span
         className={cn(
           "inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-border bg-muted/30 text-xs text-muted-foreground",
           className,
         )}
-        title="דגימה בקרוב"
+        title="הדגמה לא זמינה"
         aria-hidden="true"
       >
         ♪

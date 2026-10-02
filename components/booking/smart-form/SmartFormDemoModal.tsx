@@ -27,7 +27,7 @@ export default function SmartFormDemoModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  if (!open || !demo || demo.status === "pending") return null;
+  if (!open || !demo) return null;
 
   return (
     <div

@@ -19,8 +19,7 @@ export type SoundProofProfileId =
   | "studio-acoustic"
   | "recording-vs-production"
   | "damage-room-echo"
-  | "damage-ac-noise"
-  | "singer-live-pending";
+  | "damage-ac-noise";
 
 const NOTE_GENERIC =
   "אלה יעדי העבודה של השירות. התוצאה בקובץ שלכם תלויה באיכות המקור.";
@@ -116,16 +115,6 @@ export const SOUND_PROOF_PROFILES: Record<SoundProofProfileId, SoundProofProfile
     ],
     note: "זהו שחזור של חומר פגום במיוחד. לא כל הקלטה חוזרת לאיכות אולפן.",
   },
-  "singer-live-tuning": {
-    id: "singer-live-tuning",
-    rows: [
-      { metric: "פידבק", before: "סיכון לשריקות", after: "חיתוך תדרים בעייתיים" },
-      { metric: "קריאות קול", before: "טקסט נבלע", after: "קול יושב מעל המיקס" },
-      { metric: "שליטה במערכת", before: "לפי תחושה", after: "RTA וכיוון מסודר" },
-      { metric: "בדיקה לפני אירוע", before: "לא תמיד", after: "סאונד צ'ק מלא" },
-    ],
-    note: NOTE_GENERIC,
-  },
   "podcast-editing": {
     id: "podcast-editing",
     rows: [
@@ -175,16 +164,6 @@ export const SOUND_PROOF_PROFILES: Record<SoundProofProfileId, SoundProofProfile
       { metric: "מסירה", before: "קובץ גולמי", after: "מתאים לפרסום" },
     ],
     note: NOTE_GENERIC,
-  },
-  "singer-live-pending": {
-    id: "singer-live-pending",
-    rows: [
-      { metric: "מדידה בחדר", before: "לפי תחושה", after: "RTA בזמן אמת" },
-      { metric: "פידבק", before: "סכנת שריקות", after: "הפחתת תדרים בעייתיים" },
-      { metric: "קריאות זמר", before: "תלויה בחדר", after: "קול ברור יותר" },
-      { metric: "תפעול", before: "מערכת לא מכוונת", after: "סאונד צ'ק מסודר" },
-    ],
-    note: "קבצי הדגמה יועלו בנפרד. הטבלה מתארת את תהליך הכיוון בשטח.",
   },
 };
 

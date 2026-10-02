@@ -180,7 +180,7 @@ export default function PremiumCrossfadePlayer({
   if (hasError) {
     return (
       <div className="flex min-h-[160px] items-center justify-center rounded-2xl border border-border bg-surface px-6 text-center text-sm text-muted-foreground">
-        קבצי ההדגמה יועלו בקרוב - בינתיים אפשר לבקש דוגמה בוואטסאפ.
+        לא הצלחנו לטעון את ההדגמה. אפשר לרענן את העמוד, או לבקש דוגמה בוואטסאפ.
       </div>
     );
   }

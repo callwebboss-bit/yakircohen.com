@@ -105,6 +105,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "FtzsXXnts_k",
     "5-PTfYMMlV4",
   ],
+  // Short מקורס הגמגום - מוצמד ראשון בפלייליסט הטיפים בתיק העבודות
+  "education-tips": ["591H4EX6miM"],
 };
 
 /** Titles for playlist IDs not always present in generated catalog */
@@ -115,9 +117,9 @@ export const PLAYLIST_VIDEO_FALLBACKS: Record<
   "q1Omi-3L3QM": { title: "פודקאסט מהאולפן, דוגמה מלאה" },
   wa_mOrjJvK8: { title: "לפני ואחרי עריכת זום" },
   "1DUnuS_hv5Y": {
-    title: "הפקה מוזיקלית מקורית מהאולפן",
+    title: "מג'יק קאס (Magic Kass) - הקליפ הרשמי",
     description:
-      "הופק, הוקלט ועובד ביקיר כהן הפקות ורועי מאנה · שירה: עמית רבוח · כוריאוגרפיה: לירון אבדר · מעל מיליון צפיות",
+      "הפקה ועיבוד מוזיקלי: יקיר כהן הפקות ורועי מאנה · מילים: רועי מאנה, יקיר כהן ויקיר איזמירלי · שירה: עמית רבוח · כוריאוגרפיה: לירון אבדר · רקדניות: להקת בלרין · סטודיו לי דאנס בניהול לירון אבדר · מעל מיליון צפיות",
   },
 };
 

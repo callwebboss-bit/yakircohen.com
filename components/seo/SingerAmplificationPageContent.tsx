@@ -6,7 +6,6 @@ import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
-import SingerBeforeAfterAudio from "@/components/singer-amplification/SingerBeforeAfterAudio";
 import SingerClosingLeadSection from "@/components/singer-amplification/SingerClosingLeadSection";
 import SingerEventGuideTabs from "@/components/singer-amplification/SingerEventGuideTabs";
 import SingerSystemBuilderWidget from "@/components/singer-amplification/SingerSystemBuilderWidget";
@@ -114,8 +113,6 @@ export default function SingerAmplificationPageContent() {
         <SingerEventGuideTabs />
 
         <SingerSystemBuilderWidget />
-
-        <SingerBeforeAfterAudio />
 
         {/* Anti-feedback / RTA */}
         <section

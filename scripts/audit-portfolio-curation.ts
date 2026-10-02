@@ -34,7 +34,6 @@ import {
  * מכאן, ולכן הרשימה לא יכולה להתיישן בשקט. המטרה היא שהיא תתרוקן.
  */
 const KNOWN_UNRESOLVED: ReadonlySet<string> = new Set([
-  "1DUnuS_hv5Y",
   "1ilgnokOS7Q",
   "5pBisBkfTEg",
   "9O0d3v1SqMc",

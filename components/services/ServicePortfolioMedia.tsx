@@ -61,6 +61,16 @@ export default function ServicePortfolioMedia({
 
   const displayGallery =
     showGallery && hasImages && (mediaType === "gallery" || mediaType === "video");
+
+  /**
+   * אין גלריה ואין הטמעה. קודם רונדר כאן בלוק "גלריה בקרוב" שהבטיח תמונות
+   * שיתווספו. נמדד ב-2.10.2026 על הבנייה: הוא הופיע בשני עמודים,
+   * /studio/blessings/video-clip ו-/studio/blessings/bat-mitzvah-clip.
+   * בהחלטת הבעלים, עדיף להציג כלום מאשר להבטיח מה שאין.
+   */
+  if (!displayGallery && !hasEmbed && mediaType !== "audio") {
+    return null;
+  }
   const subtitle =
     !showEmbed && displayGallery
       ? "תמונות מהשטח - לחצו על תמונה להגדלה"
@@ -136,20 +146,6 @@ export default function ServicePortfolioMedia({
             showFooterHint={false}
             noPriority={noPriority}
           />
-        ) : !hasEmbed && mediaType !== "audio" ? (
-          <div
-            className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-linear-to-br from-neutral-100 via-background to-neutral-200 shadow-sm"
-            role="status"
-          >
-            <div className="absolute inset-0 bg-linear-to-tr from-[var(--service-accent,#d42b2b)]/10 via-transparent to-foreground/5" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center">
-              <p className="text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)]">גלריה בקרוב</p>
-              <p className="max-w-sm text-xs leading-relaxed text-muted-foreground">
-                אנחנו מעלים דוגמאות נוספות לעמוד זה. בינתיים אפשר לצפות בוידאו או ליצור קשר
-                בוואטסאפ לדוגמאות מהאירועים שלנו.
-              </p>
-            </div>
-          </div>
         ) : null}
 
         {showEmbed && hasEmbed && mediaType === "video" ? (

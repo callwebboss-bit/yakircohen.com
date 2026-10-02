@@ -11,10 +11,11 @@ export type MobileStudioExampleVideosProps = {
 export default function MobileStudioExampleVideos({
   videos,
 }: MobileStudioExampleVideosProps) {
+  // סרטון בלי מזהה לא מוצג. קודם רונדר במקומו בלוק "סרטון בקרוב",
+  // והוא הוסר ב-2.10.2026: לא מבטיחים מדיה שאין.
   const withIds = videos.filter((v) => v.videoId?.trim());
-  const withoutIds = videos.filter((v) => !v.videoId?.trim());
 
-  if (withIds.length === 0 && withoutIds.length === 0) return null;
+  if (withIds.length === 0) return null;
 
   return (
     <div className="mt-8 space-y-8">
@@ -37,25 +38,6 @@ export default function MobileStudioExampleVideos({
         </ul>
       ) : null}
 
-      {withoutIds.map((video) => (
-        <div
-          key={video.title}
-          className="rounded-xl border border-dashed border-border bg-surface px-6 py-8 text-center"
-        >
-          <p className="text-sm font-semibold text-foreground">{video.title}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            סרטון בקרוב - בינתיים אפשר לצפות בדוגמאות בערוץ YouTube שלנו.
-          </p>
-          <a
-            href={YOUTUBE_CHANNEL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block text-sm font-semibold text-brand-red hover:underline"
-          >
-            לערוץ YouTube
-          </a>
-        </div>
-      ))}
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function BookingPackageMediaStrip({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const demo = audioDemoId ? getAudioDemo(audioDemoId) : null;
-  const hasAudio = demo?.status === "ready";
+  const hasAudio = Boolean(demo);
   const hasVideo = Boolean(youtubeVideoId);
 
   const stop = useCallback(() => {
@@ -42,7 +42,7 @@ export default function BookingPackageMediaStrip({
   const playClip = (e: React.MouseEvent, mode: "before" | "after") => {
     e.stopPropagation();
     e.preventDefault();
-    if (!demo || demo.status !== "ready") return;
+    if (!demo) return;
 
     if (playing === mode) {
       stop();

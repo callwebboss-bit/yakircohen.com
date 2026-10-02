@@ -6,6 +6,8 @@ import Section from "@/components/ui/Section";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { STUDIO_CLIENT_HIGHLIGHTS } from "@/lib/data/studio-clients";
 import {
+  MAGIC_KASS_CLIP,
+  MAGIC_KASS_CLIP_CREDITS,
   STUDIO_HUB_FEATURED,
   STUDIO_HUB_PORTFOLIO_NOTE,
 } from "@/lib/data/youtube-showcases";
@@ -31,6 +33,7 @@ export default function StudioClientsStrip({
   });
 
   const featuredEmbedUrl = youtubeEmbedUrl(STUDIO_HUB_FEATURED.videoId);
+  const magicKassEmbedUrl = youtubeEmbedUrl(MAGIC_KASS_CLIP.videoId);
 
   return (
     <Section
@@ -64,6 +67,23 @@ export default function StudioClientsStrip({
             />
             <figcaption className="mt-3 text-center text-sm text-muted-foreground">
               {STUDIO_HUB_PORTFOLIO_NOTE}
+            </figcaption>
+          </figure>
+        ) : null}
+
+        {showFeaturedVideo && magicKassEmbedUrl ? (
+          <figure className="mx-auto mt-10 max-w-3xl">
+            <LazyYouTubeEmbed
+              embedUrl={magicKassEmbedUrl}
+              title={MAGIC_KASS_CLIP.title}
+              className="overflow-hidden rounded-2xl border border-border shadow-sm"
+            />
+            <figcaption className="mt-3 text-center text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              <span className="font-semibold text-foreground">
+                {MAGIC_KASS_CLIP.title}
+              </span>
+              <br />
+              {MAGIC_KASS_CLIP_CREDITS}
             </figcaption>
           </figure>
         ) : null}

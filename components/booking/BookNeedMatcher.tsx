@@ -287,7 +287,7 @@ function MatcherResultCard({
         <StudioSessionClipOffer className="mt-4" headingLevel="h3" />
       ) : null}
 
-      {demo && demo.status === "ready" ? (
+      {demo ? (
         <div className="mt-4">
           <AudioShowcase
             variant={item.showcaseVariant}

@@ -115,20 +115,6 @@ export const SINGER_EVENT_GUIDE: readonly {
   },
 ] as const;
 
-export const SINGER_AUDIO_BEFORE_AFTER = {
-  heading:
-    "מאחורי הקלעים: איך נשמע סאונד לא מכוון מול מערכת מלוטשת?",
-  before: {
-    src: "/audio/singer-live-raw.mp3",
-    title: "סאונד גולמי (ללא איזון תדרים, סכנת פידבקים)",
-    badge: "לפני",
-  },
-  after: {
-    src: "/audio/singer-live-tuned.mp3",
-    title: "סאונד אחרי אופטימיזציה וכיוון אקוסטי",
-    badge: "אחרי",
-  },
-} as const;
 
 export const SINGER_FEEDBACK_PREVENTION = {
   heading: "איך אנחנו מונעים פידבקים באירוע שלכם",

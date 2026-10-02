@@ -6,6 +6,12 @@
  * ושתי כתובות בו כבר הצביעו לראוטים שנמחקו. השער הזה הופך את השדה
  * ממסמך כוונות לחוזה: כתובת שמופיעה בו חייבת להתקיים ולהציג הוכחת אודיו.
  *
+ * השער בודק גם שכל קובץ אודיו שהדגמה מצביעה אליו קיים בפועל. ב-2.10.2026
+ * נמצאה הדגמה שסומנה "pending" עם שני קבצים חסרים, ועמוד
+ * /events/equipment/singer-amplification רינדר בגללה שני נגנים שבורים
+ * עם הכיתוב "קבצי ההדגמה יועלו בקרוב". ההדגמה נמחקה, מנגנון ה-pending
+ * בוטל, והבדיקה הזו נוספה כדי שזה לא יחזור.
+ *
  * הזיהוי מכוון להיות רחב בכוונה. עמוד נחשב מכוסה אם איפשהו בעץ הייבוא שלו
  * יש ראיה להשמעת לפני/אחרי. זה תופס גם רכיבים ייעודיים כמו
  * FunnyRingtoneBeforeAfter שלא עוברים דרך audio-demos.ts, ולכן השער
@@ -15,9 +21,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const MAX_DEPTH = 5;
-
-/** הדגמות שעדיין לא הופקו. אין להן קבצי אודיו, ולכן הן לא מרונדרות. */
-const PENDING_ALLOWLIST = new Set(["singer-live-tuning"]);
 
 const PROOF_MARKS = [
   /<AudioShowcase\b/,
@@ -46,7 +49,12 @@ function findPageFile(routePath) {
     }
   })("app");
   for (const p of pages) {
-    const clean = path.dirname(p).replace(/[/\\]\([^)]*\)/g, "").slice("app".length);
+    const clean = path
+      .dirname(p)
+      .split(path.sep)
+      .join("/")
+      .replace(/\/\([^)]*\)/g, "")
+      .slice("app".length);
     if ((clean === "" ? "/" : clean) === routePath) return p;
   }
   return null;
@@ -82,12 +90,15 @@ for (const m of demosSrc.matchAll(
   /id: "([a-z0-9-]+)",([\s\S]*?)recommendedPages: (\[[^\]]*\])/g,
 )) {
   const [, demoId, between, listRaw] = m;
-  const pending = /status: "pending"/.test(between);
+  for (const src of between.matchAll(/(before|after)Src: "([^"]+)"/g)) {
+    const file = path.join("public", src[2]);
+    if (!fs.existsSync(file)) {
+      problems.push(`${demoId} : קובץ האודיו ${src[2]} לא קיים תחת public/`);
+    }
+  }
   for (const p of listRaw.matchAll(/"(\/[^"]*)"/g)) {
     const routePath = p[1];
     checked += 1;
-    if (pending && PENDING_ALLOWLIST.has(demoId)) continue;
-
     if (routePath.startsWith("/blog/")) {
       const slug = routePath.slice("/blog/".length);
       if (!blogPosts.has(slug)) {
@@ -112,8 +123,8 @@ if (problems.length > 0) {
   for (const p of problems) console.error(`  ✗ ${p}`);
   console.error(
     "\nרשומה ב-recommendedPages היא הבטחה שההדגמה מופיעה שם. או להוסיף אותה\n" +
-      "לעמוד, או להסיר את הכתובת מהשדה. אם ההדגמה עוד לא הופקה, להוסיף את\n" +
-      "המזהה ל-PENDING_ALLOWLIST עם הסבר.\n",
+      "לעמוד, או להסיר את הכתובת מהשדה. הדגמה בלי קבצי אודיו אמיתיים לא\n" +
+      "נכנסת לקובץ הנתונים, גם לא כטיוטה.\n",
   );
   process.exit(1);
 }
