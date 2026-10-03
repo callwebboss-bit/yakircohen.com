@@ -33,7 +33,7 @@ export type SongPriceLine = {
   label: string;
   exVat: number;
   withVat: number;
-  /** פירוט לפי משתתף, רק בשורת המשתתפים: "590 + 224 + 117 ₪ כולל מע״מ (500 + 190 + 99 ₪ + מע״מ)" */
+  /** פירוט לפי משתתף, רק בשורת המשתתפים: "590 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 ₪ + מע״מ)" */
   detail?: string;
 };
 
@@ -91,14 +91,13 @@ export function nis(amount: number): string {
 
 /**
  * כללי המשתתפים בשיר, מהקטלוג (SONG_PARTICIPANT_RULES ב-pricing-catalog.ts):
- * זמר אחד כלול, השני בתוספת secondExVat, מהשלישי והלאה groupExVat לכל אחד,
- * ועד max בשיר.
+ * זמר אחד כלול, וכל משתתף נוסף extraExVat, עד max בשיר (החלטות 3.10.2026,
+ * סבב רביעי: אין יותר מחיר נפרד לזמר השני).
  */
 export type SongParticipantRules = {
   included: number;
   max: number;
-  secondExVat: number;
-  groupExVat: number;
+  extraExVat: number;
 };
 
 /** מספר משתתפים תקין: שלם, בין המספר הכלול למקסימום. קלט לא מובן נותן את המינימום. */
@@ -111,7 +110,7 @@ export function clampSongParticipants(
   return Math.min(rules.max, Math.max(rules.included, Math.trunc(n)));
 }
 
-/** תוספת המשתתפים לפני מע״מ. 1 זמר: 0. 4 זמרים: 190 + 99 + 99. */
+/** תוספת המשתתפים לפני מע״מ. 1 זמר: 0. 4 זמרים: 3 × 99. */
 export function songParticipantsSurchargeExVat(
   participants: number,
   rules: SongParticipantRules,
@@ -119,20 +118,20 @@ export function songParticipantsSurchargeExVat(
   const n = clampSongParticipants(participants, rules);
   const extra = n - rules.included;
   if (extra <= 0) return 0;
-  return rules.secondExVat + (extra - 1) * rules.groupExVat;
+  return extra * rules.extraExVat;
 }
 
-/** התוספת לכל משתתף מעבר לכלול, לפי הסדר. 4 זמרים: [190, 99, 99]. */
+/** התוספת לכל משתתף מעבר לכלול, לפי הסדר. 4 זמרים: [99, 99, 99]. */
 export function songParticipantsExtras(participants: number, rules: SongParticipantRules): number[] {
   const n = clampSongParticipants(participants, rules);
   const extra = n - rules.included;
   if (extra <= 0) return [];
-  return [rules.secondExVat, ...Array.from({ length: extra - 1 }, () => rules.groupExVat)];
+  return Array.from({ length: extra }, () => rules.extraExVat);
 }
 
 /**
- * הפירוט לפי משתתף (החלטת הבעלים 3.10.2026, סבב שלישי), כולל מע״מ קודם:
- * "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)".
+ * הפירוט לפי משתתף, כולל מע״מ קודם:
+ * "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)".
  * החלק הראשון הוא בסיס השיר, שכולל זמר אחד.
  */
 export function songParticipantsBreakdown(
@@ -154,21 +153,31 @@ function roundWithVat(exVat: number, vatRate: number): number {
   return Math.round(exVat * (1 + vatRate));
 }
 
-/**
- * שורת ההסבר מתחת לבורר, כולל מע״מ קודם:
- * "זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר"
- */
-export function songParticipantsExplanation(rules: SongParticipantRules, vatRate: number): string {
-  return [
-    `זמר נוסף +${nis(roundWithVat(rules.secondExVat, vatRate))}`,
-    `מהזמר השלישי +${nis(roundWithVat(rules.groupExVat, vatRate))} לכל אחד`,
-    `עד ${rules.max} בשיר`,
-  ].join(" · ");
+export type SongParticipantsExplanation = {
+  /** "כל משתתף נוסף +117 ₪ כולל מע״מ" */
+  withVat: string;
+  /** "(99 ₪ + מע״מ)" */
+  exVat: string;
+  /** "עד 12 בשיר" */
+  limit: string;
+};
+
+/** חלקי שורת ההסבר מתחת לבורר */
+export function songParticipantsExplanationParts(
+  rules: SongParticipantRules,
+  vatRate: number,
+): SongParticipantsExplanation {
+  return {
+    withVat: `כל משתתף נוסף +${nis(roundWithVat(rules.extraExVat, vatRate))} כולל מע״מ`,
+    exVat: `(${nis(rules.extraExVat)} + מע״מ)`,
+    limit: `עד ${rules.max} בשיר`,
+  };
 }
 
-/** אותו הסבר לפני מע״מ, בקטן: "(190 ₪ ו-99 ₪ + מע״מ)" */
-export function songParticipantsExplanationExVat(rules: SongParticipantRules): string {
-  return `(${nis(rules.secondExVat)} ו-${nis(rules.groupExVat)} + מע״מ)`;
+/** "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בשיר" */
+export function songParticipantsExplanation(rules: SongParticipantRules, vatRate: number): string {
+  const { withVat, exVat, limit } = songParticipantsExplanationParts(rules, vatRate);
+  return `${withVat} ${exVat} · ${limit}`;
 }
 
 /* ─── חישוב, הודעה וקישורים ─── */

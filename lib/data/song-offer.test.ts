@@ -323,39 +323,45 @@ describe("getSongOfferExport (owner quoting tool)", () => {
   });
 });
 
-describe("song offer: participants (owner decision 2026-10-03)", () => {
-  it("the catalog holds the tiers: 1 included, 2nd 190, 3rd and up 99, max 12", () => {
+describe("song offer: participants (owner decisions 2026-10-03, round 4)", () => {
+  it("the catalog holds the rule: 1 included, every additional participant 99, max 12", () => {
     assert.deepEqual(getSongParticipantRules(), {
       included: 1,
       max: 12,
-      secondExVat: 190,
-      groupExVat: 99,
+      extraExVat: 99,
     });
-    assert.equal(getExVat("studio_extra_participant"), 190);
     assert.equal(getExVat("song_group_participant"), 99);
+    /* 190 נשאר לברכה ולשעת חדר בלבד, לא לשיר */
+    assert.equal(getExVat("studio_extra_participant"), 190);
   });
 
   it("surcharge before VAT for every count, clamped to 1..12", () => {
-    const expected = [0, 190, 289, 388, 487, 586, 685, 784, 883, 982, 1081, 1180];
+    const expected = [0, 99, 198, 297, 396, 495, 594, 693, 792, 891, 990, 1089];
     for (let n = 1; n <= 12; n += 1) {
       assert.equal(songParticipantsSurcharge(n), expected[n - 1], `n=${n}`);
     }
     assert.equal(songParticipantsSurcharge(0), 0);
     assert.equal(songParticipantsSurcharge(-3), 0);
-    assert.equal(songParticipantsSurcharge(13), 1180);
-    assert.equal(songParticipantsSurcharge(99), 1180);
+    assert.equal(songParticipantsSurcharge(13), 1089);
+    assert.equal(songParticipantsSurcharge(99), 1089);
   });
 
-  it("4 singers: 500 + 190 + 99 + 99 = 888 before VAT, 1,048 including VAT", () => {
+  it("2 singers: 500 + 99 = 599 before VAT, 707 including VAT", () => {
+    const calc = calcSongOffer([], 2);
+    assert.equal(calc.totalExVat, 599);
+    assert.equal(calc.totalWithVat, 707);
+  });
+
+  it("4 singers: 500 + 3 × 99 = 797 before VAT, 940 including VAT", () => {
     const calc = calcSongOffer([], 4);
     assert.equal(calc.participants, 4);
-    assert.equal(calc.totalExVat, 888);
-    assert.equal(calc.totalWithVat, 1048);
+    assert.equal(calc.totalExVat, 797);
+    assert.equal(calc.totalWithVat, 940);
     assert.deepEqual(
       calc.lines.map((l) => [l.id, l.label, l.exVat, l.withVat]),
       [
         ["song_recording", "הקלטת שיר (הקלטה, מיקס ומאסטר)", 500, 590],
-        ["song_participants", "משתתפים: 4", 388, 458],
+        ["song_participants", "משתתפים: 4", 297, 350],
       ],
     );
   });
@@ -367,11 +373,11 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
     assert.deepEqual(calcSongOffer([PITCH], 0), calc);
   });
 
-  it("limit 12: 1,680 before VAT, 1,982 including VAT, and 13 is cut to 12", () => {
+  it("limit 12: 500 + 11 × 99 = 1,589 before VAT, 1,875 including VAT, and 13 is cut to 12", () => {
     const calc = calcSongOffer([], 12);
     assert.equal(calc.participants, 12);
-    assert.equal(calc.totalExVat, 1680);
-    assert.equal(calc.totalWithVat, 1982);
+    assert.equal(calc.totalExVat, 1589);
+    assert.equal(calc.totalWithVat, 1875);
     assert.deepEqual(calcSongOffer([], 13), calc);
   });
 
@@ -389,9 +395,14 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
 
   it("the explanation line is built from the catalog, VAT-inclusive first", () => {
     const exp = getSongParticipantsExplanation();
-    assert.equal(exp.withVat, "זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר");
-    assert.equal(exp.exVat, "(190 ₪ ו-99 ₪ + מע״מ)");
-    assert.doesNotMatch(exp.withVat + exp.exVat, /[!—–…“”]/);
+    assert.equal(exp.withVat, "כל משתתף נוסף +117 ₪ כולל מע״מ");
+    assert.equal(exp.exVat, "(99 ₪ + מע״מ)");
+    assert.equal(exp.limit, "עד 12 בשיר");
+    assert.equal(
+      getSongOfferExport().participants.explanation,
+      "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בשיר",
+    );
+    assert.doesNotMatch(exp.withVat + exp.exVat + exp.limit, /[!—–…“”]/);
   });
 
   it("the WhatsApp message has a participants line with the surcharge", () => {
@@ -402,15 +413,15 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
         "שלום, אשמח להקליט שיר באולפן.",
         "מה בחרתי:",
         "• הקלטת שיר (הקלטה, מיקס ומאסטר) - 590 ₪",
-        "• משתתפים: 4 (כולל תוספת 458 ₪)",
-        "  פירוט לפי משתתף: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)",
+        "• משתתפים: 4 (כולל תוספת 350 ₪)",
+        "  פירוט לפי משתתף: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)",
         "  כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר.",
         "• קליפ ערוך מהסשן באולפן - 885 ₪",
-        "סה״כ: 1,933 ₪ כולל מע״מ (1,638 ₪ + מע״מ)",
+        "סה״כ: 1,825 ₪ כולל מע״מ (1,547 ₪ + מע״מ)",
         "מתי נוח לכם להקליט?",
       ].join("\n"),
     );
-    assert.match(ycTag, /price=1638/);
+    assert.match(ycTag, /price=1547/);
     assert.match(ycTag, /recorders=4/);
     assert.doesNotMatch(buildSongOfferMessage([], { source: "/x" }).ycTag, /recorders=/);
   });
@@ -438,13 +449,13 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
       source: "/studio/recording-song-modiin",
       submissionId: "sub-p",
     });
-    assert.ok(req.body.includes("• משתתפים: 4 (כולל תוספת 458 ₪)"));
+    assert.ok(req.body.includes("• משתתפים: 4 (כולל תוספת 350 ₪)"));
     assert.ok(
-      req.body.includes("פירוט לפי משתתף: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)"),
+      req.body.includes("פירוט לפי משתתף: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)"),
     );
     assert.ok(req.body.includes("כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר."));
-    assert.ok(req.body.includes("סה״כ: 1,048 ₪ כולל מע״מ (888 ₪ + מע״מ)"));
-    assert.equal(req.pricingRef?.exVat, 888);
+    assert.ok(req.body.includes("סה״כ: 940 ₪ כולל מע״מ (797 ₪ + מע״מ)"));
+    assert.equal(req.pricingRef?.exVat, 797);
     assert.equal(req.pricingRef?.href, "/studio/recording-song-modiin?participants=4#song-offer");
     assert.deepEqual(
       checkLeadNotifyPayload({ ...req, body: buildLeadNotifyBody(req) }),
@@ -456,8 +467,7 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
     const exp = getSongOfferExport();
     assert.equal(exp.participantsParam, "participants");
     assert.equal(exp.participants.max, 12);
-    assert.equal(exp.participants.secondExVat, 190);
-    assert.equal(exp.participants.groupExVat, 99);
+    assert.equal(exp.participants.extraExVat, 99);
   });
 });
 
@@ -471,15 +481,15 @@ describe("song offer: per-person breakdown (owner decision 3.10.2026, round 3)",
   it("breaks down 2, 4 and 12 singers from the catalog, VAT-inclusive first", () => {
     assert.equal(
       getSongParticipantsBreakdown(2).line,
-      "2 משתתפים: 590 + 224 ₪ כולל מע״מ (500 + 190 ₪ + מע״מ)",
+      "2 משתתפים: 590 + 117 ₪ כולל מע״מ (500 + 99 ₪ + מע״מ)",
     );
     assert.equal(
       getSongParticipantsBreakdown(4).line,
-      "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)",
+      "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)",
     );
     assert.equal(
       getSongParticipantsBreakdown(12).line,
-      "12 משתתפים: 590 + 224 + 10 × 117 ₪ כולל מע״מ (500 + 190 + 10 × 99 ₪ + מע״מ)",
+      "12 משתתפים: 590 + 11 × 117 ₪ כולל מע״מ (500 + 11 × 99 ₪ + מע״מ)",
     );
   });
 

@@ -4,14 +4,15 @@ import {
   mobileChannelPriceLine,
   mobileChannelsBreakdown,
 } from "@/lib/data/mobile-studio-booking";
+import { MOBILE_STUDIO_EPISODE_INCLUDED_COPY } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
 /** דוגמאות בטבלה הקטנה: זוג, ארבעה, והמקסימום */
 const EXAMPLE_PEOPLE = [2, 4, MOBILE_STUDIO_CHANNELS.max] as const;
 
 /**
- * אולפן נייד בבית או במשרד (החלטת הבעלים 3.10.2026, סבב שלישי): הקלטת האודיו
- * כלולה בהגעה, וכל אדם נוסף הוא ערוץ נוסף עד 12. מוצג בעמוד האולפן הנייד
+ * אולפן נייד בבית או במשרד (החלטת הבעלים 3.10.2026, סבבים שלישי ורביעי): פרק
+ * פודקאסט אודיו מוגמר (הקלטה, עריכה ומסירה) כלול בהגעה, וכל אדם נוסף הוא ערוץ נוסף עד 12. מוצג בעמוד האולפן הנייד
  * ובעמוד הפודקאסט הנייד, כולל מע״מ קודם, הכול מהקטלוג.
  */
 export default function MobileChannelsNote({ className }: { className?: string }) {
@@ -20,7 +21,7 @@ export default function MobileChannelsNote({ className }: { className?: string }
       className={cn("rounded-lg border border-brand-red/30 bg-brand-red/5 px-4 py-3", className)}
     >
       <p className="text-sm font-semibold text-foreground">
-        בבית או במשרד: הקלטת האודיו כלולה במחיר ההגעה, לאדם אחד.
+        בבית או במשרד: {MOBILE_STUDIO_EPISODE_INCLUDED_COPY}, לאדם אחד.
       </p>
       <p className="mt-1 text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
       <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine()}.</p>

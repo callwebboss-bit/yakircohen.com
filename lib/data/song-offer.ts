@@ -26,14 +26,15 @@ import {
   SONG_OFFER_SECTION_ID,
   SONG_PARTICIPANTS_PARAM,
   songAddonKey,
-  songParticipantsExplanation,
   songParticipantsBreakdown,
-  songParticipantsExplanationExVat,
+  songParticipantsExplanation,
+  songParticipantsExplanationParts,
   songParticipantsSurchargeExVat,
   type SongCallbackContact,
   type SongOfferCalc,
   type SongOfferQuote,
   type SongParticipantRules,
+  type SongParticipantsExplanation,
   type SongPriceLine,
   type SongQuoteData,
   type SongQuoteOptions,
@@ -120,8 +121,7 @@ export function getSongParticipantRules(): SongParticipantRules {
   return {
     included: SONG_PARTICIPANT_RULES.included,
     max: SONG_PARTICIPANT_RULES.max,
-    secondExVat: getExVat(SONG_PARTICIPANT_RULES.secondId),
-    groupExVat: getExVat(SONG_PARTICIPANT_RULES.groupId),
+    extraExVat: getExVat(SONG_PARTICIPANT_RULES.extraId),
   };
 }
 
@@ -135,16 +135,12 @@ export function songParticipantsSurcharge(participants: number): number {
   return songParticipantsSurchargeExVat(participants, getSongParticipantRules());
 }
 
-/** "זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר" */
-export function getSongParticipantsExplanation(): { withVat: string; exVat: string } {
-  const rules = getSongParticipantRules();
-  return {
-    withVat: songParticipantsExplanation(rules, CATALOG_VAT_RATE),
-    exVat: songParticipantsExplanationExVat(rules),
-  };
+/** { withVat: "כל משתתף נוסף +117 ₪ כולל מע״מ", exVat: "(99 ₪ + מע״מ)", limit: "עד 12 בשיר" } */
+export function getSongParticipantsExplanation(): SongParticipantsExplanation {
+  return songParticipantsExplanationParts(getSongParticipantRules(), CATALOG_VAT_RATE);
 }
 
-/** "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)", מהקטלוג */
+/** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)", מהקטלוג */
 export function getSongParticipantsBreakdown(participants: number): PersonBreakdown {
   return songParticipantsBreakdown(
     participants,
@@ -321,7 +317,7 @@ export type SongOfferFormData = {
   /** הנתונים שמהם הטופס מחשב כל הצעה בדפדפן (composeSongOfferQuote) */
   quoteData: SongQuoteData;
   /** שורת ההסבר מתחת לבורר המשתתפים */
-  participantsExplanation: { withVat: string; exVat: string };
+  participantsExplanation: SongParticipantsExplanation;
 };
 
 /** כל מה שהטופס צריך כ-props: הבסיס, התוספות, נתוני החישוב וההסבר */
@@ -374,7 +370,7 @@ export function getSongOfferExport(): SongOfferExport {
     pageHref: buildSongOfferHref(),
     addonsParam: SONG_ADDONS_PARAM,
     participantsParam: SONG_PARTICIPANTS_PARAM,
-    participants: { ...getSongParticipantRules(), explanation: getSongParticipantsExplanation().withVat },
+    participants: { ...getSongParticipantRules(), explanation: songParticipantsExplanation(getSongParticipantRules(), CATALOG_VAT_RATE) },
     combinations,
   };
 }

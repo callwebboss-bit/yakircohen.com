@@ -56,8 +56,8 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - הקלטת ברכה: ${consumer("blessing_recording", true)}
 - הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${consumer(SONG_OFFER_BASE_ID)}
 - תוספות לשיר, כולל מע״מ: ${songAddons}
-- משתתפים בשיר, כולל מע״מ (זמר אחד כלול): ${getSongParticipantsExplanation().withVat}. ${EXTRA_PERSON_COST_NOTE}
-- אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, הקלטת אודיו לאדם אחד כלולה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
+- משתתפים בשיר (זמר אחד כלול): ${getSongParticipantsExplanation().withVat} ${getSongParticipantsExplanation().exVat}, ${getSongParticipantsExplanation().limit}. ${EXTRA_PERSON_COST_NOTE}
+- אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, ופרק פודקאסט אודיו מוגמר לאדם אחד כלול: הקלטה, עריכה ומסירה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
 - DJ לאירועים (תקליטן מהצוות, 4 שעות, עד 300 מוזמנים): ${consumer("dj_premium", true)}
 - DJ יקיר כהן אישית (5 שעות): ${consumer("dj_yakir_personal", true)}
 - אטרקציה בודדת לאירוע: ${consumer("event_attraction_1", true)}

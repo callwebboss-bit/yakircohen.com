@@ -39,7 +39,7 @@ describe("participant cost copy (owner decision 3.10.2026, round 3)", () => {
   });
 
   it("formats parts and folds long runs", () => {
-    assert.equal(formatPriceParts([500, 190, 99, 99]), "500 + 190 + 99 + 99");
+    assert.equal(formatPriceParts([500, 99, 99, 99]), "500 + 99 + 99 + 99");
     assert.equal(formatPriceParts([500, 190, 99, 99, 99]), "500 + 190 + 99 + 99 + 99");
     assert.equal(formatPriceParts([2500, 99, 99, 99, 99]), "2,500 + 4 × 99");
   });
@@ -122,9 +122,16 @@ describe("studio wizard per-person line and breakdown", () => {
   it("song uses the song rules", () => {
     assert.equal(
       studioParticipantsBreakdown({ baseExVat: 500, recorderCount: 4, packageId: "song" })?.line,
-      "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)",
+      "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)",
     );
-    assert.match(studioPerPersonPriceLine("song"), /זמר נוסף \+224 ₪/);
+    assert.equal(
+      studioPerPersonPriceLine("song"),
+      "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בשיר",
+    );
+    assert.equal(
+      studioParticipantsBreakdown({ baseExVat: 500, recorderCount: 12, packageId: "song" })?.extrasExVat,
+      11 * 99,
+    );
   });
 
   it("remote (blessings) uses the pairs price the wizard charges", () => {

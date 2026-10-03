@@ -18,6 +18,12 @@ export type AeoFaqItem = {
 
 /* formatFromPriceDual מחזיר "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)". כאן הוא נקרא
    "החל מ-...". קודם הפונקציה הזו הסירה ביד את "כרגע:" (WP1). */
+/** "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ), עד 12 בשיר" */
+function songParticipantsLine(): string {
+  const { withVat, exVat, limit } = getSongParticipantsExplanation();
+  return `${withVat} ${exVat}, ${limit}`;
+}
+
 function stripDualPrefix(formatted: string): string {
   return `החל ${formatted}`;
 }
@@ -32,7 +38,7 @@ export function buildRecordingSongStudioPriceAnswer(): string {
   const addonLines = addons
     .map((a) => `${a.label} ${a.withVat.toLocaleString("he-IL")} ₪`)
     .join(". ");
-  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${getSongParticipantsExplanation().withVat}. ברכה או אמירה קצרה ${blessing} ₪ כולל מע״מ.`;
+  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה או אמירה קצרה ${blessing} ₪ כולל מע״מ.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

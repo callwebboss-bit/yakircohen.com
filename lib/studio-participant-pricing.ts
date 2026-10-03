@@ -7,7 +7,7 @@ import {
   getClientScenarioShortTitle,
 } from "@/lib/data/client-scenario-labels";
 import { VAT_RATE, formatNis, withVat as withVatAtSiteRate } from "@/lib/data/pricing";
-import { getSongParticipantRules, getSongParticipantsExplanation } from "@/lib/data/song-offer";
+import { getSongParticipantRules } from "@/lib/data/song-offer";
 import {
   clampSongParticipants,
   songParticipantsBreakdown,
@@ -297,8 +297,8 @@ export function calcStudioScenarios(options: {
     };
   }
 
-  /* הקלטת שיר (3.10.2026): מחיר אחד לפי מספר המשתתפים, מהקטלוג. השני 190,
-     מהשלישי 99 לכל אחד, עד 12 בשיר. בלי תרחישי זוגות או קבוצה. */
+  /* הקלטת שיר (3.10.2026, סבב רביעי): מחיר אחד לפי מספר המשתתפים, מהקטלוג.
+     כל משתתף נוסף 99, עד 12 בשיר. בלי תרחישי זוגות או קבוצה. */
   if (packageId === "song") {
     const rules = getSongParticipantRules();
     const count = clampSongParticipants(recorderCount, rules);
@@ -457,15 +457,14 @@ export { withVatAtSiteRate as withVatDefault };
  */
 export function studioPerPersonPriceLine(packageId: string | null | undefined, vatRate: number = VAT_RATE): string {
   if (packageId === "song") {
-    const { withVat, exVat } = getSongParticipantsExplanation();
-    return `${withVat} ${exVat}`;
+    return songParticipantsExplanation(getSongParticipantRules(), vatRate);
   }
   return formatPerPersonPrice(PAIR_EXTRA_PRICE, vatRate, "כל מקליט נוסף");
 }
 
 /**
  * הפירוט לפי מקליט לסכום שהאשף מציג (בלי פתיחת מוצ״ש):
- * "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)".
+ * "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)".
  * מקליט אחד, או חבילה שלא מתומחרת כקבוצה: null.
  */
 export function studioParticipantsBreakdown(options: {

@@ -19,7 +19,7 @@ import {
  *
  * במיזוג main ל-feature/sales-fix (3.10.2026) הותאם להחלטות
  * OWNER-DECISIONS-2026-10-02.md: שיר הוא בסיס ותוספות ואין "מסלול Pro"
- * של שלוש שעות; זמר שני 190, מהשלישי 99; והתוצאה של שיר ביד בסוף הסשן,
+ * של שלוש שעות; כל משתתף נוסף בשיר 99 (סבב רביעי); והתוצאה של שיר ביד בסוף הסשן,
  * ולכן גורם הדחיפות (מסירה רגילה בחמישה ימים, מהירה ב-48 שעות) ירד
  * והוחלף בתוספות. ההסבר של הבעלים על דחיפות ("מיקס צריך לנוח") שמור
  * בהיסטוריה של main, ויחזור אם יוחלט שיש שירות שבו הוא חל.
@@ -47,8 +47,7 @@ export type PriceFactor = {
 };
 
 export function buildStudioPriceFactors(): readonly PriceFactor[] {
-  const second = SONG_PARTICIPANT_RULES.secondId;
-  const group = SONG_PARTICIPANT_RULES.groupId;
+  const extra = SONG_PARTICIPANT_RULES.extraId;
   return [
     {
       id: "finish",
@@ -66,9 +65,8 @@ export function buildStudioPriceFactors(): readonly PriceFactor[] {
       id: "participants",
       title: "כמה אנשים מקליטים",
       what:
-        `מקליט אחד כלול בבסיס. בשיר, זמר שני ${vatNis(second)} ומהשלישי ${vatNis(group)} לכל אחד, ` +
-        `כולל מע״מ (${getExVat(second).toLocaleString("he-IL")} ₪ ו-${getExVat(group).toLocaleString("he-IL")} ₪ + מע״מ), ` +
-        `עד ${SONG_PARTICIPANT_RULES.max} בשיר.`,
+        `מקליט אחד כלול בבסיס. בשיר, כל משתתף נוסף ${vatNis(extra)} כולל מע״מ ` +
+        `(${getExVat(extra).toLocaleString("he-IL")} ₪ + מע״מ), עד ${SONG_PARTICIPANT_RULES.max} בשיר.`,
       why: "כל אחד הוא ערוץ נפרד: עוד הקלטה, עוד איזון, ועוד ערבוב במיקס.",
     },
     {

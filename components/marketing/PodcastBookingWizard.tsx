@@ -121,7 +121,7 @@ import {
   mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
-import { CATALOG_VAT_RATE } from "@/lib/data/pricing-catalog";
+import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -1138,7 +1138,7 @@ export default function PodcastBookingWizard({
                   <div className="rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
                     {selected && PODCAST_AUDIO_PACKAGE_IDS.includes(selected.id) ? (
                       <p className="text-sm font-semibold text-foreground">
-                        הקלטת האודיו כלולה במחיר ההגעה.
+                        {MOBILE_STUDIO_EPISODE_INCLUDED_COPY}.
                       </p>
                     ) : null}
                     <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>

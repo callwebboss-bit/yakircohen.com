@@ -40,6 +40,17 @@ describe("discount cap", () => {
     assert.equal(PRICING_TIERS[1].saving, "הנחה 8%");
   });
 
+  /* החלטות 3.10.2026, סבב רביעי: קורס DJ מלא 9,108 = 10 x 990 פחות 8% */
+  it("full DJ course: 9,108 before VAT, a catalog bundle of 10 private hours at the 8% cap", () => {
+    assert.equal(getExVat("academy_private_hour"), 990);
+    assert.equal(getExVat("academy_dj_course_full"), 9108);
+    const bundle = CATALOG_BUNDLES.find((b) => b.bundleId === "academy_dj_course_full");
+    assert.ok(bundle);
+    assert.equal(bundle.singleId, "academy_private_hour");
+    assert.equal(bundle.count, 10);
+    assert.equal(Math.round(catalogBundleDiscountRate(bundle) * 100), 8);
+  });
+
   it("the AI bundle discount is 8% of the AI services, rounded down", () => {
     assert.equal(aiBundleDiscountExVat(1800), 144);
     assert.ok(aiBundleDiscountExVat(1800) / 1800 <= MAX_DISCOUNT_RATE);

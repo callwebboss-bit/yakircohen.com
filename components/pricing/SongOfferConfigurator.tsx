@@ -58,7 +58,7 @@ export type SongOfferConfiguratorProps = {
   /** המחירים מהקטלוג כנתונים פשוטים. כל הצעה מחושבת מהם ב-composeSongOfferQuote. */
   quoteData: SongQuoteData;
   /** שורת ההסבר מתחת לבורר המשתתפים, כולל מע״מ ולפני מע״מ */
-  participantsExplanation: { withVat: string; exVat: string };
+  participantsExplanation: { withVat: string; exVat: string; limit: string };
   /** נתיב העמוד, נכנס לתג ולמייל */
   source: string;
   utmCampaign?: string;
@@ -358,7 +358,7 @@ function ParticipantsStepper({
   min: number;
   max: number;
   surchargeWithVat: number;
-  explanation: { withVat: string; exVat: string };
+  explanation: { withVat: string; exVat: string; limit: string };
   breakdown: PersonBreakdown;
   onChange: (delta: number) => void;
 }) {
@@ -380,6 +380,8 @@ function ParticipantsStepper({
           <span className="whitespace-nowrap text-xs font-normal text-muted-foreground">
             {explanation.exVat}
           </span>
+          {" · "}
+          {explanation.limit}
         </p>
       </div>
       <div className="flex items-center justify-between gap-3">

@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 154,
-  "contentHash": "db7b848a828c25d1",
+  "contentHash": "7835bcb4a6b2e2ce",
   "items": [
     {
       "id": "studio_half_hour",
@@ -98,16 +98,16 @@
       "inclVat": 224,
       "priceFrom": false,
       "context": "הקלטה נוספת וערבוב בסיסי",
-      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן. בשיר: הזמר השני"
+      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר"
     },
     {
       "id": "song_group_participant",
-      "label": "זמר נוסף בשיר, מהשלישי והלאה",
+      "label": "משתתף נוסף בשיר",
       "category": "addons",
       "exVat": 99,
       "inclVat": 117,
       "priceFrom": false,
-      "context": "מחיר קבוצה: מהזמר השלישי בשיר, לכל זמר. עד 12 משתתפים בשיר אחד.",
+      "context": "לכל משתתף נוסף בשיר, מהשני והלאה. עד 12 משתתפים בשיר אחד.",
       "suitedFor": "שיר משפחתי או קבוצתי"
     },
     {
@@ -215,7 +215,7 @@
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": true,
-      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד הקלטת האודיו כלולה, וכל אדם נוסף הוא ערוץ נוסף."
+      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד פרק פודקאסט אודיו מוגמר כלול (הקלטה, עריכה ומסירה), וכל אדם נוסף הוא ערוץ נוסף."
     },
     {
       "id": "mobile_extra_channel",
@@ -485,8 +485,8 @@
       "id": "academy_dj_course_full",
       "label": "קורס DJ פרטי מלא",
       "category": "academy",
-      "exVat": 8900,
-      "inclVat": 10502,
+      "exVat": 9108,
+      "inclVat": 10747,
       "priceFrom": true,
       "context": "10 מפגשים כולל בניית סט אישי"
     },

@@ -1,6 +1,7 @@
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { mobileChannelPriceLine, mobileChannelsBreakdown } from "@/lib/data/mobile-studio-booking";
 import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
+import { MOBILE_STUDIO_EPISODE_INCLUDED_COPY } from "@/lib/data/pricing-catalog";
 
 export const MOBILE_PODCAST_HERO_FEATURES: readonly string[] = [
   "האולפן מגיע אליכם, בית, משרד או אירוע",
@@ -128,10 +129,16 @@ export const MOBILE_PODCAST_FAQS: readonly {
       "בהחלט. צילום והפקת קליפים בהקלטה ניידת, כולל עריכת סרטונים קצרים לרשתות.",
   },
   {
+    id: "episode-included",
+    question: "מה כלול במחיר ההגעה בהקלטה בבית?",
+    /* החלטות 3.10.2026, סבב רביעי */
+    answer: `${MOBILE_STUDIO_EPISODE_INCLUDED_COPY}. מקליטים אצלכם, עורכים באולפן ושולחים קובץ פרק מוכן להעלאה. וידאו וקליפים הם תוספת.`,
+  },
+  {
     id: "extra-people",
     question: "כמה עולה כל אדם נוסף בהקלטה בבית?",
     /* החלטת הבעלים 3.10.2026, סבב שלישי, מהקטלוג */
-    answer: `הקלטת האודיו לאדם אחד כלולה במחיר ההגעה. ${EXTRA_PERSON_COST_NOTE}: ${mobileChannelPriceLine()}. לדוגמה, ${mobileChannelsBreakdown(4).line}.`,
+    answer: `פרק האודיו המוגמר לאדם אחד כלול במחיר ההגעה. ${EXTRA_PERSON_COST_NOTE}: ${mobileChannelPriceLine()}. לדוגמה, ${mobileChannelsBreakdown(4).line}.`,
   },
   {
     id: "noise",

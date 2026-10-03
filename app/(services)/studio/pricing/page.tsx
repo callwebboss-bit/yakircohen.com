@@ -238,7 +238,7 @@ export default function StudioPricingPage() {
           </p>
           <ol className="mx-auto mt-5 max-w-xl space-y-2 text-sm text-foreground">
             <li>1. ברכה קצרה - מסלול ברכה. שיר על פלייבק - הקלטת שיר, עם תוספות לפי בחירה. סינגל מסחרי - הפקה מלאה.</li>
-            <li>2. אדם אחד - מחיר בסיס. בשעת חדר ובברכה, תוספת {withVat(STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪ כולל מע״מ למקליט נוסף. בשיר: {SONG_PARTICIPANTS.withVat}.</li>
+            <li>2. אדם אחד - מחיר בסיס. בשעת חדר ובברכה, תוספת {withVat(STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪ כולל מע״מ למקליט נוסף. בשיר: {SONG_PARTICIPANTS.withVat} {SONG_PARTICIPANTS.exVat}, {SONG_PARTICIPANTS.limit}.</li>
             <li>3. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות, לא לשיר במתנה.</li>
           </ol>
           <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">

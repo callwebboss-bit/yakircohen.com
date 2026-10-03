@@ -15,9 +15,10 @@
  * single_production ו-full_production_clip נשארים. studio_session_clip (450,
  * גלם) נשאר לברכה ולאולפן הנייד.
  *
- * CONTENT_REVIEW: overlay 2026-10-03 - משתתפים בשיר: אחד כלול, השני 190
- * (studio_extra_participant), מהשלישי 99 לכל אחד (song_group_participant),
- * עד 12. ראו SONG_PARTICIPANT_RULES.
+ * CONTENT_REVIEW: overlay 2026-10-03 (סבב רביעי) - משתתפים בשיר: אחד כלול,
+ * וכל משתתף נוסף 99 (song_group_participant), עד 12. אין יותר 190 לזמר השני.
+ * ראו SONG_PARTICIPANT_RULES. studio_extra_participant (190) נשאר לברכה,
+ * לשעת חדר ולהקלטה מרחוק.
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -86,8 +87,8 @@ export type PriceItem = {
  * תקרת הנחה (החלטת הבעלים 3.10.2026, סבב שני): "כרגע אין הנחה מעל 8%".
  * חלה על חבילות בקטלוג, קופונים, מבצעים ומחיר ייחוס מוצג. נאכף ב-
  * validateDiscountPolicy (lib/data/discount-policy.ts, רץ ב-audit:pricing)
- * ובאחוזים בפרוזה ב-audit:trust-claims. מחיר מדורג שאינו מוצג כהנחה (זמר
- * שני 190, מהשלישי 99) אינו הנחה באחוזים ולא נבדק כאן.
+ * ובאחוזים בפרוזה ב-audit:trust-claims. מחיר למשתתף נוסף (99 בשיר) אינו
+ * הנחה באחוזים ולא נבדק כאן.
  */
 export const MAX_DISCOUNT_RATE = 0.08;
 export const MAX_DISCOUNT_PERCENT = Math.round(MAX_DISCOUNT_RATE * 100);
@@ -174,14 +175,14 @@ export const PRICING_CATALOG = [
     exVat: 190,
     category: "addons",
     context: "הקלטה נוספת וערבוב בסיסי",
-    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן. בשיר: הזמר השני",
+    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר",
   },
   {
     id: "song_group_participant",
-    label: "זמר נוסף בשיר, מהשלישי והלאה",
+    label: "משתתף נוסף בשיר",
     exVat: 99,
     category: "addons",
-    context: "מחיר קבוצה: מהזמר השלישי בשיר, לכל זמר. עד 12 משתתפים בשיר אחד.",
+    context: "לכל משתתף נוסף בשיר, מהשני והלאה. עד 12 משתתפים בשיר אחד.",
     suitedFor: "שיר משפחתי או קבוצתי",
   },
   {
@@ -267,8 +268,8 @@ export const PRICING_CATALOG = [
     label: "אולפן נייד, הגעה אליכם",
     exVat: 2500,
     category: "podcast",
-    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד הקלטת האודיו כלולה, וכל אדם נוסף הוא ערוץ נוסף.",
-    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות. בבית או במשרד: הקלטת אודיו לאדם אחד" },
+    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד פרק פודקאסט אודיו מוגמר כלול (הקלטה, עריכה ומסירה), וכל אדם נוסף הוא ערוץ נוסף.",
+    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות. בבית או במשרד: פרק פודקאסט אודיו מוגמר, הקלטה, עריכה ומסירה, לאדם אחד" },
     priceFrom: true,
   },
   /* החלטת הבעלים 3.10.2026, סבב שלישי: בבית או במשרד הקלטת האודיו כלולה
@@ -329,7 +330,8 @@ export const PRICING_CATALOG = [
   { id: "academy_master_monthly", label: "Master, מסלול חודשי", exVat: 3920, category: "academy", context: "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי" },
   { id: "academy_pro_partnership", label: "Pro-Partnership, 6 חודשים", exVat: 21500, category: "academy", context: "24 מפגשים, ליווי רכש וזהות מוזיקלית" },
   { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4554, category: "academy", context: "חמישה שיעורים של שעה, אחד על אחד", priceFrom: true },
-  { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 8900, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
+  /* החלטות 3.10.2026, סבב רביעי: הועלה מ-8,900 ל-9,108, תקרת 8% מול 10 x academy_private_hour (CATALOG_BUNDLES). */
+  { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 9108, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
   { id: "vocal_fix_short", label: "תיקון זיופים, קטע קצר", exVat: 375, category: "online", context: "עד שתי דקות" },
   { id: "studio_prep_digital", label: "חוברת הכנה דיגיטלית", exVat: 149, category: "addons", context: "מדריך הכנה לפני הסשן" },
   { id: "photography_wedding_4h", label: "צילום אירוע, 4 שעות", exVat: 6000, category: "photography", context: "חבילת פתיחה, עריכה בסיסית כלולה", priceFrom: true },
@@ -584,6 +586,7 @@ export const CATALOG_BUNDLES = [
   { bundleId: "mashup_custom_pack_3", singleId: "mashup_custom_planned", count: 3 },
   { bundleId: "dj_voice_tag_pack_5", singleId: "dj_voice_tag_single", count: 5 },
   { bundleId: "academy_lesson_card_5", singleId: "academy_private_hour", count: 5 },
+  { bundleId: "academy_dj_course_full", singleId: "academy_private_hour", count: 10 },
 ] as const satisfies readonly { bundleId: PriceItemId; singleId: PriceItemId; count: number }[];
 
 export type CatalogBundle = (typeof CATALOG_BUNDLES)[number];
@@ -604,6 +607,13 @@ export function attractionBundleDiscountPercent(): number {
 
 /** מה כלול ב-2,500 של האולפן הנייד (החלטת הבעלים 3.10.2026, סבב שני) */
 export const MOBILE_STUDIO_ARRIVAL_COPY = "הגעה עם כל הציוד, התאורה והצוות";
+
+/**
+ * החלטות 3.10.2026, סבב רביעי: באולפן הנייד בבית או במשרד, פרק פודקאסט אודיו
+ * מוגמר כלול ב-2,500, כולל הקלטה, עריכה ומסירה. ערוץ לכל אדם נוסף נשאר 99 עד 12.
+ */
+export const MOBILE_STUDIO_EPISODE_INCLUDED_COPY =
+  "פרק פודקאסט אודיו מוגמר כלול במחיר ההגעה: הקלטה, עריכה ומסירה";
 
 /**
  * אולפן נייד באירוע (החלטת הבעלים 3.10.2026, סבב שני): צילום פודקאסט
@@ -629,7 +639,7 @@ export function mobileStudioEventExVat(kind: "video" | "audio"): number {
 
 /**
  * אולפן נייד בבית או במשרד (החלטת הבעלים 3.10.2026, סבב שלישי): ההגעה
- * (mobile_podcast_at_home) כוללת הקלטת אודיו לאדם אחד. כל אדם נוסף הוא ערוץ
+ * (mobile_podcast_at_home) כוללת פרק פודקאסט אודיו מוגמר לאדם אחד (סבב רביעי). כל אדם נוסף הוא ערוץ
  * נוסף (mobile_extra_channel, 99) ועד 12 אנשים בהקלטה. החישוב
  * ב-mobileChannelsSurchargeExVat (lib/data/mobile-studio-booking.ts).
  */
@@ -646,21 +656,19 @@ export const MOBILE_STUDIO_CHANNEL_RULES = {
 };
 
 /**
- * משתתפים בהקלטת שיר (החלטת הבעלים 3.10.2026): זמר אחד כלול בבסיס, הזמר
- * השני בתוספת studio_extra_participant (190), ומהשלישי והלאה
- * song_group_participant (99) לכל אחד. עד 12 משתתפים בשיר אחד.
+ * משתתפים בהקלטת שיר (החלטות 3.10.2026, סבב רביעי): זמר אחד כלול בבסיס,
+ * וכל משתתף נוסף song_group_participant (99), עד 12 בשיר אחד. 4 זמרים:
+ * 500 + 3 × 99 = 797 לפני מע״מ.
  * החישוב ב-songParticipantsSurchargeExVat (lib/data/song-offer-quote.ts).
  */
 export const SONG_PARTICIPANT_RULES = {
   included: 1,
   max: 12,
-  secondId: "studio_extra_participant",
-  groupId: "song_group_participant",
+  extraId: "song_group_participant",
 } as const satisfies {
   included: number;
   max: number;
-  secondId: PriceItemId;
-  groupId: PriceItemId;
+  extraId: PriceItemId;
 };
 
 /** תוספות מוצעות לשירות בסיסי במחירון */
@@ -832,8 +840,8 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["מסלול בסיס", "קליפ", "סבב תיקונים נוסף"],
   },
   song_group_participant: {
-    included: ["הקלטת זמר נוסף באותו סשן", "שילוב בשיר"],
-    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)", "הזמר השני (תוספת משתתף נוסף)"],
+    included: ["הקלטת משתתף נוסף באותו סשן", "שילוב בשיר"],
+    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)"],
   },
   studio_extra_revision: {
     included: ["עריכה נוספת מלאה"],
