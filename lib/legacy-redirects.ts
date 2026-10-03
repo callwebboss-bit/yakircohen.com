@@ -9,6 +9,7 @@
  */
 
 import { CANONICAL_REDIRECTS } from "./site-architecture";
+import { SITE_URL } from "./site-url";
 
 export type LegacyRedirect = {
   source: string;
@@ -27,7 +28,6 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/blog/mixing-vs-mastering-explained": "/blog/mixing-mastering-explained",
   /** Google Sites / קישורים ישנים - דף הבית הקנוני הוא `/` בלבד */
   "/home": "/",
-  "/home/": "/",
   /** טופס העלאה שמעולם לא חובר לאחסון. הופנה לוואטסאפ, שם החומרים באמת מגיעים. */
   "/studio/upload":
     "https://wa.me/972587555456?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A9%D7%9C%D7%95%D7%97%20%D7%97%D7%95%D7%9E%D7%A8%D7%99%20%D7%92%D7%9C%D7%9D%20%D7%9C%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98",
@@ -364,7 +364,6 @@ const HEBREW_SERVICE_SLUGS: Record<string, string> = {
   "/reviews": "/about",
   "/מי": "/about",
   "/about-us": "/about",
-  "/about-us/": "/about",
   "/who-we-are": "/about",
   "/\\+6": "/contact",
   // Old portfolio pages
@@ -597,13 +596,61 @@ export function toNextSource(source: string): string {
   return source.replace(/[^\x00-\x7F]+/g, (run) => encodeURI(run));
 }
 
+/**
+ * קפיצה אחת במקום שלוש.
+ *
+ * כתובת ישנה מ-WordPress מגיעה כמו www.yakircohen.com/צרו-קשר/ (עם www ועם
+ * סלאש). עד עכשיו היא עברה שלוש הפניות: Next הוריד את הסלאש, כלל ה-www
+ * העביר לדומיין בלי www, ורק אז המפה הזו הפנתה ליעד. 308, 308, 308 ואז 200.
+ *
+ * עכשיו כל כלל במפה תופס את הכתובת עם סלאש ובלעדיו (`{/}?`, התחביר מהתיעוד
+ * של Next: node_modules/next/dist/docs/01-app/02-guides/self-hosting.md:250),
+ * ומפנה ליעד מלא עם הדומיין הקנוני. הכלל לא מוגבל ל-host, ולכן הוא תופס גם
+ * את www וגם את הדומיין בלי www, וכל אחד מהם מגיע ליעד בקפיצה אחת. זה עובד
+ * רק כי next.config.ts מכבה את הסרת הסלאש האוטומטית (skipTrailingSlashRedirect)
+ * ומציב את הכללים האלה לפני כלל ה-www.
+ */
+export function withOptionalTrailingSlash(source: string): string {
+  const trimmed = source.length > 1 ? source.replace(/\/+$/, "") : source;
+  return trimmed === "/" ? trimmed : `${trimmed}{/}?`;
+}
+
+export function toAbsoluteDestination(destination: string): string {
+  return /^https?:\/\//.test(destination) ? destination : `${SITE_URL}${destination}`;
+}
+
 function toRedirect(source: string, destination: string): LegacyRedirect {
-  return { source: toNextSource(source), destination, permanent: true as const };
+  return {
+    source: withOptionalTrailingSlash(toNextSource(source)),
+    destination: toAbsoluteDestination(destination),
+    permanent: true as const,
+  };
+}
+
+/**
+ * יעד עם query (היום רק /studio/upload לוואטסאפ) מקבל שני כללים מפורשים,
+ * עם סלאש ובלעדיו, במקום `{/}?`. זו בדיוק הצורה שעובדת היום באתר החי (308
+ * לוואטסאפ, נבדק 4.10), ולא מכניסים לה קבוצה שאי אפשר לבדוק מקומית.
+ *
+ * למה אי אפשר לבדוק מקומית: ב-next start, השרת של Next בונה מחדש את ה-query
+ * של היעד ומקודד רק ערכים שהגיעו מהבקשה עצמה
+ * (node_modules/next/dist/server/server-route-utils.js:13-27). הטקסט העברי
+ * של הוואטסאפ יוצא גולמי, ו-Node זורק ERR_INVALID_CHAR (500). ב-Vercel
+ * ההפניות רצות משכבת הניתוב ולא מהשרת הזה, ולכן באתר החי זה תקין.
+ */
+function toRedirects(source: string, destination: string): LegacyRedirect[] {
+  if (!destination.includes("?")) return [toRedirect(source, destination)];
+  const exact = toNextSource(source.length > 1 ? source.replace(/\/+$/, "") : source);
+  const absolute = toAbsoluteDestination(destination);
+  return [
+    { source: exact, destination: absolute, permanent: true as const },
+    { source: `${exact}/`, destination: absolute, permanent: true as const },
+  ];
 }
 
 export function getLegacyRedirects(): LegacyRedirect[] {
-  const fromMap = Object.entries(LEGACY_PATH_MAP).map(([source, destination]) =>
-    toRedirect(source, destination),
+  const fromMap = Object.entries(LEGACY_PATH_MAP).flatMap(([source, destination]) =>
+    toRedirects(source, destination),
   );
 
   const fromCanonical = Object.entries(CANONICAL_REDIRECTS).map(
@@ -627,7 +674,7 @@ export function getLegacyRedirects(): LegacyRedirect[] {
   );
 
   const fromWordpressPatterns: LegacyRedirect[] = WORDPRESS_PATTERNS.map(
-    ({ source, destination }) => ({ source, destination, permanent: true as const }),
+    ({ source, destination }) => toRedirect(source, destination),
   );
 
   /** Catch-all: any other /attractions/:path /events/attractions/:path */

@@ -84,6 +84,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  /* הסרת הסלאש האוטומטית של Next רצה לפני כל redirect, ולכן כתובת ישנה כמו
+     www.yakircohen.com/צרו-קשר/ עברה שלוש הפניות. כאן היא כבויה, והסלאש
+     מטופל בכללים ב-redirects() למטה, אחרי מפת הכתובות הישנות. ראו
+     withOptionalTrailingSlash ב-lib/legacy-redirects.ts. */
+  skipTrailingSlashRedirect: true,
   outputFileTracingExcludes: {
     "/**": ["./next.config.ts"],
   },
@@ -119,18 +124,32 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // www → canonical (no-www). Must come first so all other rules apply to the clean host.
+      /* 1. כתובות ישנות קודם, בלי הגבלת host: כל אחת תופסת www ובלי www, עם
+         סלאש ובלעדיו, ומפנה ליעד מלא בקפיצה אחת. */
+      ...getLegacyRedirects(),
+      /* ?add-to-cart= של WooCommerce מטופל ב-proxy.ts ולא כאן. הכלל שישב כאן
+         הפנה לעצמו: Next מעביר את ה-query של הבקשה ליעד ההפניה
+         (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/redirects.md:43),
+         ולכן /?add-to-cart=123 קיבל 308 אל /?add-to-cart=123 בלולאה (ED-12). */
+      /* 2. www לדומיין בלי www. עם סלאש בסוף: מורידים אותו באותה קפיצה. */
+      {
+        source: "/:path+/",
+        has: [{ type: "host", value: "www.yakircohen.com" }],
+        destination: "https://yakircohen.com/:path+",
+        permanent: true,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.yakircohen.com" }],
         destination: "https://yakircohen.com/:path*",
         permanent: true,
       },
-      /* ?add-to-cart= של WooCommerce מטופל ב-proxy.ts ולא כאן. הכלל שישב כאן
-         הפנה לעצמו: Next מעביר את ה-query של הבקשה ליעד ההפניה
-         (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/redirects.md:43),
-         ולכן /?add-to-cart=123 קיבל 308 אל /?add-to-cart=123 בלולאה (ED-12). */
-      ...getLegacyRedirects(),
+      /* 3. סלאש בסוף כתובת, במקום ההסרה האוטומטית שכובתה למעלה. */
+      {
+        source: "/:path+/",
+        destination: "/:path+",
+        permanent: true,
+      },
       // Strip .html extensions (produced by Pagefind crawling .next/server/app)
       {
         source: "/:path(.*)\\.html",

@@ -6,6 +6,7 @@ import {
   clearCartQuery,
   getLegacyRedirects,
   toNextSource,
+  withOptionalTrailingSlash,
 } from "@/lib/legacy-redirects";
 
 /** הנתיב כפי שהנתב של Next רואה אותו: parseUrl(req.url).pathname, כלומר מקודד */
@@ -26,6 +27,11 @@ function manifestMatches(source: string, pathname: string): boolean {
 }
 
 const NON_ASCII = /[^\x00-\x7F]/;
+
+/** המקור בלי סיומת הסלאש האופציונלי, כדי לבנות ממנו נתיב בקשה */
+function bareSource(source: string): string {
+  return source.replace(/\{\/\}\?$/, "");
+}
 
 describe("legacy redirects: Hebrew sources (ED-01)", () => {
   it("reproduces the bug: a raw Hebrew source never matches the request pathname", () => {
@@ -59,7 +65,7 @@ describe("legacy redirects: Hebrew sources (ED-01)", () => {
     const hebrew = getLegacyRedirects().filter((r) => r.source.includes("%D7"));
     assert.ok(hebrew.length >= 214, `expected at least 214 Hebrew sources, got ${hebrew.length}`);
     for (const { source } of hebrew) {
-      const pathname = requestPathname(decodeURI(source));
+      const pathname = requestPathname(decodeURI(bareSource(source)));
       assert.ok(serverMatches(source, pathname), `server matcher misses ${decodeURI(source)}`);
       assert.ok(manifestMatches(source, pathname), `manifest regex misses ${decodeURI(source)}`);
       assert.ok(serverMatches(source, pathname.toLowerCase()), `lower-case hex misses ${decodeURI(source)}`);
@@ -73,22 +79,30 @@ describe("legacy redirects: Hebrew sources (ED-01)", () => {
   });
 
   it("stays well under the Vercel limit of 1,024 redirects", () => {
-    /* +3 בשביל הכללים שכתובים ישירות ב-next.config.ts (היום 2: www ו-.html) */
-    assert.ok(getLegacyRedirects().length + 3 < 1024);
+    /* +5 בשביל הכללים שכתובים ישירות ב-next.config.ts (היום 4: שני כללי www, סלאש ו-.html) */
+    assert.ok(getLegacyRedirects().length + 5 < 1024);
   });
 
   it("English redirects are unchanged", () => {
-    const byDecoded = new Map(getLegacyRedirects().map((r) => [decodeURI(r.source), r]));
+    const byDecoded = new Map(getLegacyRedirects().map((r) => [decodeURI(bareSource(r.source)), r]));
     assert.deepEqual(byDecoded.get("/recording"), {
-      source: "/recording",
-      destination: "/studio",
+      source: "/recording{/}?",
+      destination: "https://yakircohen.com/studio",
       permanent: true,
     });
-    assert.equal(byDecoded.get("/attractions/:path*")?.destination, "/events/attractions/:path*");
+    assert.equal(
+      byDecoded.get("/attractions/:path*")?.destination,
+      "https://yakircohen.com/events/attractions/:path*",
+    );
   });
 
   it("maps the obvious legacy paths and keeps bat mitzvah songs off the wedding post", () => {
-    const dest = new Map(getLegacyRedirects().map((r) => [decodeURI(r.source), r.destination]));
+    const dest = new Map(
+      getLegacyRedirects().map((r) => [
+        decodeURI(bareSource(r.source)),
+        r.destination.replace("https://yakircohen.com", ""),
+      ]),
+    );
     assert.equal(dest.get("/צרו-קשר"), "/contact");
     assert.equal(dest.get("/אודותינו"), "/about");
     assert.equal(dest.get("/אולפן-הקלטות"), "/studio");
@@ -99,6 +113,43 @@ describe("legacy redirects: Hebrew sources (ED-01)", () => {
 
   it("all destinations are ASCII (Location header must not carry raw Hebrew)", () => {
     const offenders = getLegacyRedirects().filter((r) => NON_ASCII.test(r.destination));
+    assert.deepEqual(offenders, []);
+  });
+});
+
+describe("legacy redirects: one hop (www, trailing slash)", () => {
+  it("withOptionalTrailingSlash adds {/}? once and trims a written slash", () => {
+    assert.equal(withOptionalTrailingSlash("/recording"), "/recording{/}?");
+    assert.equal(withOptionalTrailingSlash("/recording/"), "/recording{/}?");
+    assert.equal(withOptionalTrailingSlash("/attractions/:path*"), "/attractions/:path*{/}?");
+    assert.equal(withOptionalTrailingSlash("/"), "/");
+  });
+
+  it("every source matches with and without a trailing slash (old WordPress URLs end in /)", () => {
+    const hebrew = getLegacyRedirects().filter((r) => r.source.includes("%D7"));
+    for (const { source } of hebrew) {
+      const pathname = requestPathname(decodeURI(bareSource(source)));
+      assert.ok(serverMatches(source, `${pathname}/`), `slash form misses ${decodeURI(bareSource(source))}`);
+      assert.ok(manifestMatches(source, `${pathname}/`), `slash form misses in manifest ${decodeURI(bareSource(source))}`);
+      assert.ok(serverMatches(source, pathname), `bare form misses ${decodeURI(bareSource(source))}`);
+    }
+    assert.ok(serverMatches("/2019/:path*{/}?", "/2019/some-post/"));
+    assert.ok(serverMatches("/2019/:path*{/}?", "/2019/some-post"));
+  });
+
+  it("a destination with a query keeps the literal source form that works live today (no {/}? group)", () => {
+    const withQuery = getLegacyRedirects().filter((r) => r.destination.includes("?"));
+    assert.ok(withQuery.length >= 2);
+    for (const r of withQuery) assert.ok(!r.source.includes("{"), `group in ${r.source}`);
+    const sources = withQuery.map((r) => r.source);
+    assert.ok(sources.includes("/studio/upload") && sources.includes("/studio/upload/"));
+  });
+
+  it("every destination is absolute, so www lands in one hop", () => {
+    /* יעד חיצוני (וואטסאפ של /studio/upload) כבר מלא. השאר על הדומיין הקנוני. */
+    const offenders = getLegacyRedirects().filter(
+      (r) => !r.destination.startsWith("https://yakircohen.com/") && !r.destination.startsWith("https://wa.me/"),
+    );
     assert.deepEqual(offenders, []);
   });
 });
