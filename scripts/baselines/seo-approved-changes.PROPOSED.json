@@ -1,0 +1,436 @@
+[
+  {
+    "url": "/",
+    "field": "description",
+    "why": "הברכה ירדה ל-500 לפני מע״מ (החלטה 3.10). המספר נכון, אבל עמוד צרכן מציג כולל מע״מ קודם (החלטת 2.10). מוצע: \"הקלטה מ-590 ₪ כולל מע״מ\" ב-app/page.tsx. האישור תקף גם אחרי התיקון, כי השדה שונה מהבסיס בכל מקרה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/",
+    "field": "images",
+    "why": "שתי תמונות ההמלצות שהוסרו (שלב 5 WP9b, FIT-04), ונוספה תמונה ממוזערת של קליפ מג'יק קאס (b7da505). נטו מינוס אחת.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/",
+    "field": "imagesWithAlt",
+    "why": "שתי תמונות ההמלצות שהוסרו היו עם alt. הממוזערת של מג'יק קאס היא alt ריק, כמו שאר ממוזערות היוטיוב בעמוד.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/academy",
+    "field": "links",
+    "why": "הקישור ל-/testimonials היה בתוך המקטע שירד.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/academy",
+    "field": "outline",
+    "why": "המקטע \"מה התלמידים אומרים\" ירד עם שלוש המלצות האקדמיה שנוצרו עם TODO ולא היו אמיתיות (שלב 5 WP9b).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/academy",
+    "field": "words",
+    "why": "אותו מקטע: 2,690 -> 2,650 מילים.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/bar-mitzvah-song-recording-guide",
+    "field": "outline",
+    "why": "כותרת טבלת המחיר עברה מ\"(לפני מע״מ)\" ל\"(כולל מע״מ)\", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/bride-groom-blessing-recording-tips",
+    "field": "outline",
+    "why": "כותרת טבלת המחיר עברה מ\"(לפני מע״מ)\" ל\"(כולל מע״מ)\", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/original-song-what-to-prepare",
+    "field": "outline",
+    "why": "כותרת טבלת המחיר עברה מ\"(לפני מע״מ)\" ל\"(כולל מע״מ)\", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/podcast-booking-guide",
+    "field": "outline",
+    "why": "\"פרק מוכן תוך 24 שעות\" הפך ל\"הפרק אצלכם בסוף ההקלטה\" (החלטת הבעלים 3.10). ה-h2 שונה, לא נגרע.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/podcast-for-small-business-worth-it",
+    "field": "outline",
+    "why": "\"פרק מוכן תוך 24 שעות\" הפך ל\"הפרק אצלכם בסוף ההקלטה\" (החלטת הבעלים 3.10). ה-h2 שונה, לא נגרע.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/recorded-song-birthday-gift",
+    "field": "description",
+    "why": "\"מחיר (450-1,200 ₪)\" הוצג כמחיר שלנו. עכשיו \"טווחי מחיר בשוק\" ו\"אצלנו 590 ₪ כולל מע״מ\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/studio-recording-cost-israel-2026",
+    "field": "outline",
+    "why": "כותרת טבלת המחיר עברה מ\"(לפני מע״מ)\" ל\"(כולל מע״מ)\", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/blog/unique-gift-recording-ideas-2026",
+    "field": "outline",
+    "why": "כותרת טבלת המחיר עברה מ\"(לפני מע״מ)\" ל\"(כולל מע״מ)\", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/data/industry-2026",
+    "field": "ldCounts",
+    "why": "Offer 31 -> 30: שתי שורות החבילות (cover_song, song_package) הוחלפו בשורה אחת של הקלטת שיר.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/events/wedding-attractions-packages",
+    "field": "description",
+    "why": "\"חיסכון 20-30%\" ירד (אין הנחה מעל 8%). עכשיו \"מספק אחד ובתיאום אחד\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/events/wedding-attractions-packages",
+    "field": "outline",
+    "why": "\"חוסכים כסף\" הפך ל\"הנחת חבילה על האטרקציות\" (8%). \"רגע של כוכב\" מוסתר כי אין לו מחיר בקטלוג (שלב 4 WP2, שאלת בעלים DJ-6).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/glossary/autotune",
+    "field": "inbound",
+    "why": "10 -> 6: הקישורים הגיעו מכרטיסי החבילות שירדו (שיר Pro, All-In) ב-/packages, /pricing, /studio/pricing ועמוד השיר. אין יותר מוצר עם Auto-Tune.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/matanot",
+    "field": "outline",
+    "why": "\"מקבלים הצעה ומשלמים מקדמה\" הפך ל\"מקבלים הצעה ומשריינים מועד\" (מקדמה אפשרית ובסכום שמסכמים יחד).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/online/online-ai-pricing",
+    "field": "outline",
+    "why": "נוסף h3 \"תיקון זיופים\" (שלב 4 WP6, תיקון זיופים מציג מחיר). שום כותרת לא ירדה, רק הסדר.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/packages",
+    "field": "outline",
+    "why": "\"שיר מוכן באולפן\" (990) הפך ל\"הקלטת שיר באולפן\" (בסיס ותוספות).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/packages",
+    "field": "words",
+    "why": "1,157 -> 1,146: תיאור החבילה הישנה ארוך יותר.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/photography",
+    "field": "images",
+    "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/photography",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/photography",
+    "field": "words",
+    "why": "1,773 -> 1,769: ליד מחיר הצילום כבר לא מוצגת המלצה של שירות אחר.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast",
+    "field": "description",
+    "why": "\"מוכן תוך 24 שעות מ-750 ₪\" הפך ל\"הפרק אצלכם באותה שנייה... פרק ערוך מ-1,121 ₪ כולל מע״מ\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast/faq",
+    "field": "outline",
+    "why": "\"פרק קצר, חצי שעה\" הפך ל\"הקלטה בלבד, חצי שעה\": 750 הוא חצי שעה גלם בלי עריכה (שלב 4 WP3).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast/podcast-production",
+    "field": "outline",
+    "why": "\"פרק קצר, חצי שעה\" הפך ל\"הקלטה בלבד, חצי שעה\": 750 הוא חצי שעה גלם בלי עריכה (שלב 4 WP3). ב-podcast-production רק הסדר השתנה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast/podcast-recording",
+    "field": "description",
+    "why": "\"פרק מוכן תוך 24 שעות\" הפך ל\"הפרק אצלכם באותה שנייה שמסיימים להקליט\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast/podcast-recording",
+    "field": "outline",
+    "why": "אותו שינוי ב-h2.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/podcast/podcast-studio-modiin",
+    "field": "outline",
+    "why": "\"פרק קצר, חצי שעה\" הפך ל\"הקלטה בלבד, חצי שעה\": 750 הוא חצי שעה גלם בלי עריכה (שלב 4 WP3).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/pricing",
+    "field": "description",
+    "why": "\"ברכה מ-590, שיר מוכן מ-990\" הפך ל\"ברכה מ-500, הקלטת שיר 500\". הטקסט אומר במפורש \"לפני ואחרי מע״מ\". אפשר לשקול כולל מע״מ קודם.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/pricing",
+    "field": "links",
+    "why": "autotune היה בכרטיס שיר Pro שירד. אין מוצר עם Auto-Tune.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/pricing",
+    "field": "outline",
+    "why": "\"עם תיקון זיופים או בלי?\" הפך ל\"מה עושה תוספת תיקון הזיופים?\". \"מה ההבדל בין שיר מוכן לשיר Pro?\" ירד עם שיר Pro. נוספו DJ, צילום ו\"האם תיקון זיופים כלול\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio",
+    "field": "images",
+    "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/bar-mitzvah",
+    "field": "images",
+    "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/bar-mitzvah",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/bride-groom-blessing",
+    "field": "images",
+    "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/bride-groom-blessing",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/video-clip",
+    "field": "images",
+    "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/blessings/video-clip",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/pricing",
+    "field": "description",
+    "why": "\"ברכה, שיר מוכן, Pro וסינגל\" הפך ל\"הקלטת שיר ב-590 ₪ כולל מע״מ ותוספות לפי בחירה\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/pricing",
+    "field": "outline",
+    "why": "ארבע החבילות ירדו ובמקומן \"הקלטת שיר: בוחרים ושולחים\". כותרות האקורדיון עברו למחיר כולל מע״מ (2,500 -> 2,950, 750 -> 885). שימו לב: \"פודקאסט באולפן מ-885 ₪\" נשען על חצי שעה גלם, בניגוד ל-WP3. שווה לבדוק בנפרד.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/pricing",
+    "field": "words",
+    "why": "3,135 -> 2,622: תיאורי ארבע החבילות שירדו.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin",
+    "field": "description",
+    "why": "\"מסירה תוך 48 שעות\" ירד. עכשיו \"הקלטה, מיקס ומאסטר בסשן של שעה. 590 ₪ כולל מע״מ\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin",
+    "field": "title",
+    "why": "\"תוך 48 שעות\" הפך ל\"590 ₪ כולל מע״מ\". המסירה היא בסוף הסשן.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin",
+    "field": "words",
+    "why": "4,534 -> 4,016: ארבע החבילות ירדו. נוספו שאלת פלייבק ותוכן הטופס.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin/gifts",
+    "field": "description",
+    "why": "אותו שינוי במשפט האחרון.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin/gifts",
+    "field": "h1",
+    "why": "\"מסירה תוך 48 שעות\" הפך ל\"נשלח אליכם מיד\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin/gifts",
+    "field": "outline",
+    "why": "אותו שינוי ב-h2. נוסף \"שיר במתנה: בוחרים ושולחים\".",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/studio/recording-song-modiin/gifts",
+    "field": "title",
+    "why": "\"מסירה 48 שעות\" הפך ל\"נשלח מיד\" (החלטה 3.10: השובר נשלח מיד).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/testimonials",
+    "field": "images",
+    "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/testimonials",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/testimonials",
+    "field": "inbound",
+    "why": "14 -> 13: הקישור מ-/academy ירד עם המקטע.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/testimonials",
+    "field": "words",
+    "why": "1,353 -> 1,263: ארבע המלצות שהוסרו (שלוש של האקדמיה ושל הפודקאסט שהועברה לשם אחר).",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video",
+    "field": "images",
+    "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video",
+    "field": "words",
+    "why": "1,651 -> 1,571: אותן המלצות בקרוסלה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video/corporate-video",
+    "field": "images",
+    "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video/corporate-video",
+    "field": "imagesWithAlt",
+    "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  },
+  {
+    "url": "/video/corporate-video",
+    "field": "words",
+    "why": "1,694 -> 1,617: אותן המלצות בקרוסלה.",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-03"
+  }
+]
