@@ -203,7 +203,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_dj",
       label: "🎵 DJ לחתונה ואירועים",
       answer: {
-        text: "שירותי DJ לאירוע מתחילים מ-₪5,000, ודיג'יי אישי של יקיר מ-₪8,305. כיוון שהמחיר וההתאמה תלויים לחלוטין בסוג האירוע והתאריך, השלב הראשון הוא בדיקת יומן.",
+        text: `שירותי DJ לאירוע: תקליטן מהצוות ${formatFromPriceDual(getExVat("dj_premium"))}, ויקיר כהן אישית ${formatFromPriceDual(getExVat("dj_yakir_personal"))}. כיוון שהמחיר וההתאמה תלויים בסוג האירוע ובתאריך, השלב הראשון הוא בדיקת יומן.`,
         readMoreHref: "/events",
         readMoreLabel: "מידע על שירותי DJ",
         whatsappMessage: "שלום, מחפש/ת DJ לאירוע ב-[תאריך]. האם התאריך פנוי?",

@@ -36,7 +36,7 @@ const SONG_BASE_ID = "song_recording" satisfies PriceItemId;
 /**
  * שורת מחיר בטבלאות "מחירון ... (לפני מע״מ)" בפוסטים, מהקטלוג (שלב 4 WP12,
  * PI-09, PI-22). הכותרות של הטבלאות אומרות "לפני מע״מ", ולכן כאן לפני מע״מ.
- * קודם "יקיר אישית" הופיע כ-9,800, המחיר כולל מע״מ, תחת כותרת לפני מע״מ.
+ * "יקיר אישית" הוא 9,800 לפני מע״מ (החלטת הבעלים 3.10.2026, סבב שני).
  */
 function blogExVat(id: PriceItemId): string {
   return `${getExVat(id).toLocaleString("he-IL")} ₪`;

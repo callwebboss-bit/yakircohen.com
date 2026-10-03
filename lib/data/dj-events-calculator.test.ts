@@ -9,6 +9,7 @@ import {
   getDjCalculatorCatalogIds,
 } from "@/lib/data/dj-events-calculator";
 import { getExVat, getPriceById } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 import { BOOK_AUDIENCE_ROUTES } from "@/lib/data/book-audience-routes";
 import { HOME_QUICK_PATHS } from "@/lib/data/home-quick-paths";
 import { getEventsService } from "@/lib/data/services";
@@ -24,10 +25,11 @@ describe("DJ calculator is bound to the catalog", () => {
     }
   });
 
-  it("Yakir in person is the ex-VAT catalog price, not the VAT-inclusive 9,800", () => {
+  it("Yakir in person is 9,800 before VAT (owner decision 3.10.2026, second round)", () => {
     const yakir = DJ_CALC_DJ_OPTIONS.find((o) => o.id === "dj_yakir");
     assert.equal(yakir?.priceExVat, getExVat("dj_yakir_personal"));
-    assert.notEqual(yakir?.priceExVat, 9800);
+    assert.equal(yakir?.priceExVat, 9800);
+    assert.equal(withVat(yakir!.priceExVat), 11564);
   });
 
   it("no 'special price' claim and the star moment stays hidden until priced", () => {

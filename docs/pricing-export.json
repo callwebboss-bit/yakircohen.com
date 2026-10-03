@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 123,
-  "contentHash": "05d729bf1220e544",
+  "contentHash": "9e5284967c6a3933",
   "items": [
     {
       "id": "studio_half_hour",
@@ -540,8 +540,8 @@
       "id": "dj_yakir_personal",
       "label": "תקליטן יקיר כהן אישית",
       "category": "dj",
-      "exVat": 8305,
-      "inclVat": 9800,
+      "exVat": 9800,
+      "inclVat": 11564,
       "priceFrom": false,
       "context": "5 שעות VIP עם יקיר על הקונסולה",
       "suitedFor": "חתונות VIP, אירועי חברה"

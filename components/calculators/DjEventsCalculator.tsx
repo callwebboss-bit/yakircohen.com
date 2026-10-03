@@ -214,8 +214,8 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
   );
   const { total: effectTotal, discount: effectDiscount } = calcEffectTotal(effects);
 
-  /* הכל לפני מע״מ, ומע״מ מתווסף פעם אחת בלבד (withVat). WP2: קודם 9,800
-     כולל מע״מ נכנס כאן כאילו הוא לפני מע״מ. */
+  /* הכל לפני מע״מ, ומע״מ מתווסף פעם אחת בלבד (withVat). יקיר אישית הוא
+     9,800 לפני מע״מ (החלטת הבעלים 3.10.2026, סבב שני). */
   const grandTotal = festivalSelected
     ? FESTIVAL_PACKAGE.priceExVat
     : djPrice + addonTotal + effectTotal;
