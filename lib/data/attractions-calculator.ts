@@ -36,8 +36,15 @@ export const ATTRACTION_CATEGORIES: { id: AttractionCategoryId; label: string }[
 
 export const GEO_FEES: Record<GeoKey, { label: string; fee: number }> = {
   center: { label: "מרכז (ללא תוספת)", fee: 0 },
-  north_south: { label: "צפון / דרום (+800 ₪)", fee: 800 },
-  eilat: { label: "אילת / גולן (+1,800 ₪)", fee: 1800 },
+  /* תוספות ההגעה מהקטלוג (travel_north_south, travel_eilat_golan), כמו שאר המחשבון */
+  north_south: {
+    label: `צפון / דרום (+${getExVat("travel_north_south").toLocaleString("he-IL")} ₪)`,
+    fee: getExVat("travel_north_south"),
+  },
+  eilat: {
+    label: `אילת / גולן (+${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪)`,
+    fee: getExVat("travel_eilat_golan"),
+  },
 };
 
 const BUNDLE_PRICES: Record<number, number> = {

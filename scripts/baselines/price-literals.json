@@ -499,20 +499,6 @@
   {
     "file": "lib/data/attractions-calculator.ts",
     "kind": "prose",
-    "value": 800,
-    "count": 1,
-    "example": "north_south: { label: \"צפון / דרום (+800 ₪)\", fee: 800 },"
-  },
-  {
-    "file": "lib/data/attractions-calculator.ts",
-    "kind": "prose",
-    "value": 1800,
-    "count": 1,
-    "example": "eilat: { label: \"אילת / גולן (+1,800 ₪)\", fee: 1800 },"
-  },
-  {
-    "file": "lib/data/attractions-calculator.ts",
-    "kind": "prose",
     "value": 5000,
     "count": 2,
     "example": "\"ועוד תאורה מושלמת לאירועים 5000 ש\\\"ח כולל הזזה, רובוטים, וצורות ליצירת מסיבה אמיתית\","
@@ -716,13 +702,6 @@
   {
     "file": "lib/data/blog.ts",
     "kind": "prose",
-    "value": 4450,
-    "count": 1,
-    "example": "<tr><td>כרטיסיית 5 שיעורים פרטיים, מחיר לשיעור מופחת</td><td>החל מ-4,450 ₪</td></tr>"
-  },
-  {
-    "file": "lib/data/blog.ts",
-    "kind": "prose",
     "value": 4500,
     "count": 2,
     "example": "<td>₪4,500-₪7,500</td>"
@@ -775,13 +754,6 @@
     "value": 8000,
     "count": 1,
     "example": "<td>₪8,000-₪15,000+</td>"
-  },
-  {
-    "file": "lib/data/blog.ts",
-    "kind": "prose",
-    "value": 8900,
-    "count": 1,
-    "example": "<tr><td>קורס DJ פרטי מלא, 10 מפגשים כולל בניית סט אישי</td><td>החל מ-8,900 ₪</td></tr>"
   },
   {
     "file": "lib/data/blog.ts",
@@ -1027,13 +999,6 @@
     "value": 199,
     "count": 1,
     "example": "promoPrice: 199,"
-  },
-  {
-    "file": "lib/data/cro/singer.ts",
-    "kind": "field",
-    "value": 399,
-    "count": 1,
-    "example": "promoPrice: 399,"
   },
   {
     "file": "lib/data/events-equipment-faq-page.ts",
@@ -1417,7 +1382,7 @@
     "file": "lib/data/services.ts",
     "kind": "prose",
     "value": 800,
-    "count": 3,
+    "count": 1,
     "example": "\"החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.\","
   },
   {
@@ -1426,13 +1391,6 @@
     "value": 1500,
     "count": 3,
     "example": "\"צילום מקצועי לחתונות דתיות ואירועים אינטימיים. 1,500 ₪ לשעה לפני מע״מ, והחבילות המוכנות מתחילות ב-4 שעות. עריכה בסיסית כלולה.\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 1800,
-    "count": 2,
-    "example": "\"החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.\","
   },
   {
     "file": "lib/data/services.ts",
@@ -1500,15 +1458,8 @@
   {
     "file": "lib/data/social-media.ts",
     "kind": "prose",
-    "value": 700,
-    "count": 1,
-    "example": "priceLabel: \"700 ₪\","
-  },
-  {
-    "file": "lib/data/social-media.ts",
-    "kind": "prose",
     "value": 1000,
-    "count": 3,
+    "count": 1,
     "example": "priceLabel: \"1,000 ₪\","
   },
   {
@@ -1517,13 +1468,6 @@
     "value": 2500,
     "count": 1,
     "example": "priceLabel: \"2,500 ₪\","
-  },
-  {
-    "file": "lib/data/social-media.ts",
-    "kind": "prose",
-    "value": 3000,
-    "count": 1,
-    "example": "priceLabel: \"3,000 ₪\","
   },
   {
     "file": "lib/data/social-media.ts",

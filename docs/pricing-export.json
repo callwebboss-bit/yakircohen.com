@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 156,
-  "contentHash": "6777f2f24505bbc3",
+  "itemCount": 154,
+  "contentHash": "db7b848a828c25d1",
   "items": [
     {
       "id": "studio_half_hour",
@@ -308,7 +308,7 @@
       "exVat": 11520,
       "inclVat": 13594,
       "priceFrom": false,
-      "context": "36 שיעורים, עם הטבה על שיעור הניסיון"
+      "context": "36 שיעורים אחד על אחד"
     },
     {
       "id": "academy_pro_session",
@@ -434,25 +434,7 @@
       "exVat": 399,
       "inclVat": 471,
       "priceFrom": false,
-      "context": "במקום המחיר המלא"
-    },
-    {
-      "id": "blessing_pair_combined",
-      "label": "ברכה משולבת, כלה וחתן",
-      "category": "studio",
-      "exVat": 1000,
-      "inclVat": 1180,
-      "priceFrom": false,
-      "context": "שני מקליטים באותה ברכה"
-    },
-    {
-      "id": "song_extended_pack",
-      "label": "חבילת שיר מורחבת",
-      "category": "studio",
-      "exVat": 1800,
-      "inclVat": 2124,
-      "priceFrom": true,
-      "context": "תיקוני פיץ' מתקדמים ועריכה מלאה"
+      "context": "מבצע הרגע האחרון באשף ההגברה"
     },
     {
       "id": "bat_mitzvah_clip",
@@ -494,10 +476,10 @@
       "id": "academy_lesson_card_5",
       "label": "כרטיסיית 5 שיעורים פרטיים",
       "category": "academy",
-      "exVat": 4450,
-      "inclVat": 5251,
+      "exVat": 4554,
+      "inclVat": 5374,
       "priceFrom": true,
-      "context": "מחיר מופחת לשיעור"
+      "context": "חמישה שיעורים של שעה, אחד על אחד"
     },
     {
       "id": "academy_dj_course_full",

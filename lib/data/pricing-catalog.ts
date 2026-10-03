@@ -300,11 +300,16 @@ export const PRICING_CATALOG = [
   // ─── נוספו 3.10.2026 אחרי audit:prose-price-backing ───
   // כל אלה הופיעו בפרוזה ובקוד בלי גיבוי בקטלוג, ולכן לא נכנסו
   // ל-JSON-LD ולא ל-llms.txt, ואף שער לא הגן עליהם מסחיפה.
+  // במיזוג ל-feature/sales-fix (3.10.2026) מול OWNER-DECISIONS-2026-10-02.md:
+  // song_extended_pack (1,800) ו-blessing_pair_combined (1,000) לא נכנסו, כי
+  // הקלטת שיר היא בסיס ותוספות בלבד וברכה היא 500 + 190 למשתתף. הכרטיסייה
+  // הועלתה מ-4,450 ל-4,554 (תקרת 8% מול 5 x academy_private_hour, ב-CATALOG_BUNDLES).
+  // בהקלטת ההופעה ירד "במקום המחיר המלא" (אין "במקום" במבצעים).
   { id: "travel_north_south", label: "תוספת הגעה לצפון או דרום", exVat: 800, category: "addons", context: "מעבר לאזור המרכז" },
   { id: "travel_eilat_golan", label: "תוספת הגעה לאילת או לגולן", exVat: 1800, category: "addons", context: "אזורים רחוקים, בתיאום מראש" },
   { id: "ulpan_trial", label: "אולפן עברית, שיעור ניסיון", exVat: 500, category: "academy", context: "שיעור יחיד אחד על אחד" },
   { id: "ulpan_monthly", label: "אולפן עברית, מסלול חודשי", exVat: 3200, category: "academy", context: "שיעור שבועי אחד על אחד" },
-  { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים, עם הטבה על שיעור הניסיון" },
+  { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים אחד על אחד" },
   { id: "academy_pro_session", label: "Pro Session, 90 דקות", exVat: 1280, category: "academy", context: "צלילה לעומק וניתוח ביצוע" },
   { id: "online_extra_minutes", label: "תיקון זיופים מעל 4 דקות", exVat: 100, category: "addons", context: "תוספת לשיר ארוך" },
   { id: "online_extra_channels", label: "מיקס מעל 16 ערוצים", exVat: 100, category: "addons", context: "תוספת לפרויקט רחב" },
@@ -318,14 +323,12 @@ export const PRICING_CATALOG = [
   { id: "gift_box_usb", label: "מארז דיסק און קי ועיצוב", exVat: 199, category: "addons", context: "תוספת למחיר ההפקה" },
   { id: "gift_box_full", label: "מארז מלא: דיסק און קי, אוזניות וקופסה", exVat: 399, category: "addons", context: "תוספת למחיר ההפקה" },
   { id: "funny_ringtone_promo", label: "רינגטון מצחיק, מבצע", exVat: 299, category: "studio", context: "הקלטה, עיבוד וקובץ מוכן" },
-  { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "במקום המחיר המלא" },
-  { id: "blessing_pair_combined", label: "ברכה משולבת, כלה וחתן", exVat: 1000, category: "studio", context: "שני מקליטים באותה ברכה" },
-  { id: "song_extended_pack", label: "חבילת שיר מורחבת", exVat: 1800, category: "studio", context: "תיקוני פיץ' מתקדמים ועריכה מלאה", priceFrom: true },
+  { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "מבצע הרגע האחרון באשף ההגברה" },
   { id: "bat_mitzvah_clip", label: "קליפ בת מצווה", exVat: 2590, category: "studio", context: "מחיר פתיחה, לפי משתתפים וצילומי חוץ", priceFrom: true },
   { id: "academy_focused_training", label: "הכשרה ממוקדת, 90 דקות", exVat: 1470, category: "academy", context: "DJ, הפקה או קריינות, אחד על אחד" },
   { id: "academy_master_monthly", label: "Master, מסלול חודשי", exVat: 3920, category: "academy", context: "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי" },
   { id: "academy_pro_partnership", label: "Pro-Partnership, 6 חודשים", exVat: 21500, category: "academy", context: "24 מפגשים, ליווי רכש וזהות מוזיקלית" },
-  { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4450, category: "academy", context: "מחיר מופחת לשיעור", priceFrom: true },
+  { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4554, category: "academy", context: "חמישה שיעורים של שעה, אחד על אחד", priceFrom: true },
   { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 8900, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
   { id: "vocal_fix_short", label: "תיקון זיופים, קטע קצר", exVat: 375, category: "online", context: "עד שתי דקות" },
   { id: "studio_prep_digital", label: "חוברת הכנה דיגיטלית", exVat: 149, category: "addons", context: "מדריך הכנה לפני הסשן" },
@@ -580,6 +583,7 @@ export const CATALOG_BUNDLES = [
   { bundleId: "mashup_ready_pack_10", singleId: "mashup_ready_single", count: 10 },
   { bundleId: "mashup_custom_pack_3", singleId: "mashup_custom_planned", count: 3 },
   { bundleId: "dj_voice_tag_pack_5", singleId: "dj_voice_tag_single", count: 5 },
+  { bundleId: "academy_lesson_card_5", singleId: "academy_private_hour", count: 5 },
 ] as const satisfies readonly { bundleId: PriceItemId; singleId: PriceItemId; count: number }[];
 
 export type CatalogBundle = (typeof CATALOG_BUNDLES)[number];

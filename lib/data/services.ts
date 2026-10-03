@@ -848,13 +848,13 @@ export const STUDIO_SERVICES = {
         id: "price",
         question: "כמה עולה אולפן נייד?",
         answer:
-          "החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.",
+          `החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +${getExVat("travel_north_south").toLocaleString("he-IL")} ₪, אילת/גולן +${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪.`,
       },
       {
         id: "areas",
         question: "לאילו אזורים מגיעים?",
         answer:
-          "לכל הארץ בתיאום מראש. מרכז (כולל מודיעין) ללא תוספת הגעה. צפון/דרום +800 ₪. אילת/גולן +1,800 ₪. שולחים מיקום בוואטסאפ לאישור זמינות.",
+          `לכל הארץ בתיאום מראש. מרכז (כולל מודיעין) ללא תוספת הגעה. צפון/דרום +${getExVat("travel_north_south").toLocaleString("he-IL")} ₪. אילת/גולן +${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪. שולחים מיקום בוואטסאפ לאישור זמינות.`,
       },
       {
         id: "scheduling",

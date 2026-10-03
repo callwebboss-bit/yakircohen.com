@@ -1,4 +1,11 @@
-﻿/** Social media management, Yakir Eizmirlis brand under Yakir Cohen Productions */
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+
+/* מחירי הסושיאל שחזרו לקטלוג ב-3.10.2026 נגזרים ממנו (מחירון עסקי, לפני מע״מ) */
+function socialNis(id: PriceItemId): string {
+  return `${getExVat(id).toLocaleString("he-IL")} ₪`;
+}
+
+/** Social media management, Yakir Eizmirlis brand under Yakir Cohen Productions */
 
 export const SOCIAL_MEDIA_BRAND = "יקיר איזמירלי";
 
@@ -100,14 +107,14 @@ export const ONE_OFF_SERVICES: readonly OneOffService[] = [
   {
     id: "single-video",
     name: "צילום ועריכת סרטון אחד",
-    priceLabel: "1,000 ₪",
+    priceLabel: socialNis("social_single_video"),
     description: "כולל קריאייטיב",
     utmCampaign: "social_media_oneoff_single",
   },
   {
     id: "bank-4",
     name: "צילום ועריכת 4 סרטונים",
-    priceLabel: "3,000 ₪",
+    priceLabel: socialNis("social_bank_4"),
     description: "בנק סרטונים לחודש או לקמפיין",
     utmCampaign: "social_media_oneoff_bank4",
   },
@@ -121,14 +128,14 @@ export const ONE_OFF_SERVICES: readonly OneOffService[] = [
   {
     id: "stories-bank",
     name: "עריכת בנק סטוריז (20 סטוריז)",
-    priceLabel: "1,000 ₪",
+    priceLabel: socialNis("social_stories_bank"),
     description: "עריכה בלבד לסטוריז",
     utmCampaign: "social_media_oneoff_stories",
   },
   {
     id: "consult-30",
     name: "שיחת ייעוץ טלפונית עם יקיר",
-    priceLabel: "700 ₪",
+    priceLabel: socialNis("social_consult_30"),
     priceNote: "עד 30 דקות",
     description: "ייעוץ ממוקד לתוכן ואסטרטגיה",
     utmCampaign: "social_media_consult_30",

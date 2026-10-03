@@ -49,7 +49,13 @@ const EXPLAINED = [
   /* שתי רשומות ה-1,750 של הבלוג (תאורת LED, מיקס חיצוני) נמחקו ב-3.10.2026:
      השורות כבר נגזרות מהקטלוג, ו-1,750 פרש עם mashup_ready_pack_3 וחשף אותן
      כמתות. */
-  { value: 4450, file: "lib/data/blog.ts", match: "כרטיסיית 5 שיעורים", why: "כרטיסייה לאקדמיה, לא מחיר קטלוג" },
+  /* 1,000 פרש עם blessing_pair_combined ו-1,800 עם song_extended_pack (לא נכנסו
+     במיזוג main, 3.10.2026: שיר הוא בסיס ותוספות). המופעים שנשארו אינם שיר
+     או ברכה. הכרטיסייה (4,450) נגזרת עכשיו מהקטלוג, ולכן הרשומה שלה ירדה. */
+  { value: 1000, file: "lib/data/blog.ts", match: "₪600-₪1,000", why: "טווח שוק לעיבוד בסיסי בטבלת השוואה" },
+  { value: 1000, file: "lib/data/blog.ts", match: "זה מוסיף 500-1,000", why: "טווח תוספת לאולם גדול בפוסט הסבר" },
+  { value: 1000, file: "lib/data/book-qualification-fields.ts", match: "400-1,000 ₪", why: "מדרגת תקציב שהלקוח בוחר" },
+  { value: 1000, file: "lib/data/social-media.ts", match: "1,000 ₪", why: "ייעוץ סושיאל של שעה, מחירון הסושיאל הנפרד" },
   { value: 5500, file: "lib/data/blog.ts", match: "DJ לבר מצווה בישראל", why: "טווח שוק מצוטט, מסומן בפוסט עצמו כסקירה ולא כמחירון שלנו" },
   { value: 3200, file: "lib/data/academy-ulpan-page.ts", match: "3,200", why: "מסלול חודשי לאולפן עברית, מחירון אקדמיה נפרד" },
   { value: 3200, file: "lib/data/academy-hebrew-lessons-en.ts", match: "3,200", why: "אותו מסלול, גרסה אנגלית" },

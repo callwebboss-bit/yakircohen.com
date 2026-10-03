@@ -44,7 +44,7 @@ export const SINGER_CRO_CONFIG = {
   lastMinuteUpsell: {
     label: "הקלטת ההופעה מהמיקסר",
     upgradeId: "singer_addon_3",
-    promoPrice: 399,
+    promoPrice: getExVat("singer_live_recording_promo"),
     listPrice: getExVat("singer_live_recording"),
   },
   exitIntent: {
