@@ -58,6 +58,7 @@
     "audit:llms-prices": "node scripts/audit-llms-prices.mjs && tsx scripts/sync-llms.ts --check",
     "audit:prose-price-backing": "node scripts/audit-prose-price-backing.mjs",
     "audit:prose-prices": "node scripts/audit-prose-prices.mjs",
+    "gbp:prices": "tsx scripts/gbp-price-sheet.ts",
     "audit:llms-coverage": "tsx scripts/audit-llms-coverage.ts",
     "audit:portfolio-curation": "tsx scripts/audit-portfolio-curation.ts",
     "export:pricing": "tsx scripts/export-pricing.ts",
