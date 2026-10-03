@@ -260,6 +260,10 @@ function extractHtml(html) {
   };
 }
 
+/* robots.txt מנורמל לרווח יחיד בשני המצבים. במצב remote נשמר בעבר הטקסט
+   הגולמי, ולכן ההשוואה מול הבסיס המנורמל נכשלה על כל הרצה בלי שדבר השתנה. */
+const normalizeRobots = (text) => (text ? text.replace(/\s+/g, " ").trim() : null);
+
 /* אותות ברמת האתר, לא ברמת העמוד. שלושתם קבצים שסורקים קוראים
    ישירות, ואף אחד מהם לא מופיע ב-HTML של עמוד כלשהו. */
 function siteSignals() {
@@ -269,14 +273,15 @@ function siteSignals() {
   const llms = read("public/llms.txt");
   return {
     sitemapUrls: sitemap ? [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort() : null,
-    robotsText: robots ? robots.replace(/\s+/g, " ").trim() : null,
+    robotsText: normalizeRobots(robots),
     llmsUrlCount: llms ? (llms.match(/yakircohen\.com/g) || []).length : null,
   };
 }
 
 /* ---------- הרצה ---------- */
 
-if (!existsSync(BUILD_DIR)) {
+/* במצב remote לא קוראים את .next בכלל, ולכן אין סיבה לדרוש בנייה מקומית. */
+if (!REMOTE && !existsSync(BUILD_DIR)) {
   console.error("\naudit:seo-diff");
   console.error("  ✗ אין בנייה ב-" + BUILD_DIR + ".");
   console.error("  תיקון: npm run build:full, ואז להריץ שוב.\n");
@@ -298,7 +303,7 @@ if (REMOTE) {
   const llms = await fetch(ORIGIN + "/llms.txt").then((r) => (r.ok ? r.text() : null)).catch(() => null);
   remoteSite = {
     sitemapUrls: urls,
-    robotsText: robots,
+    robotsText: normalizeRobots(robots),
     llmsUrlCount: llms ? (llms.match(/https?:\/\/[^\s)]+/g) || []).length : null,
   };
   const paths = [...new Set(urls.map((u) => { try { const p = new URL(u).pathname.replace(/\/$/, ""); return p || "/"; } catch { return u; } }))];
@@ -455,6 +460,45 @@ const note = (url, field, msg) => {
   if (!isApproved(url, field)) problems.push({ url, field, msg });
 };
 
+/* מצב remote: עמוד בסיס שאינו במפת האתר החיה לא נמשך, ולכן נראה "נעלם".
+   אבל עמודים כמו /book (דינמי, noindex או פשוט לא במפה) עדיין חיים. כאן כל
+   עמוד כזה נבדק ב-GET עם redirect:'manual': 200 פירושו שהעמוד קיים, ו-3xx
+   ליעד מוכר (עמוד שנמדד או עמוד בבסיס) פירושו הפניה מכוונת. רק השאר
+   מדווחים כ-exists. ירידה ממפת האתר עצמה נתפסת בנפרד בבדיקת sitemap. */
+const remoteAlive = new Map();
+if (REMOTE) {
+  const knownTargets = new Set([...Object.keys(pages), ...Object.keys(base.pages)]);
+  const missing = Object.keys(base.pages).filter((u) => !pages[u]);
+  for (const url of missing) {
+    try {
+      const r = await fetch(ORIGIN + url, {
+        redirect: "manual",
+        signal: AbortSignal.timeout(30_000),
+        headers: { "user-agent": "audit-seo-diff/remote" },
+      });
+      if (r.status === 200) {
+        remoteAlive.set(url, "200");
+      } else if (r.status >= 300 && r.status < 400) {
+        const loc = r.headers.get("location");
+        let target = null;
+        try {
+          target = loc ? decodeURI(new URL(loc, ORIGIN).pathname).replace(/(.)\/$/, "$1") : null;
+        } catch {
+          target = null;
+        }
+        if (target && knownTargets.has(target)) remoteAlive.set(url, r.status + " -> " + target);
+      }
+    } catch {
+      /* נשאר לא מוכר ומדווח כ-exists */
+    }
+  }
+  if (remoteAlive.size)
+    console.log(
+      "  remote: " + remoteAlive.size + " עמודי בסיס אינם במפת האתר אבל חיים: " +
+        [...remoteAlive].map(([u, s]) => u + " (" + s + ")").join(", "),
+    );
+}
+
 const sameSet = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
 
 /* קישורים נכנסים, תפוחים מול תפוחים. הבסיס נלכד עם --origin ולכן כלל את
@@ -481,6 +525,7 @@ for (const [url, was] of Object.entries(base.pages)) {
       note(url, "exists", "עמוד דינמי שמסלולו אינו ב-app-paths-manifest: המסלול נמחק מהבנייה");
       continue;
     }
+    if (remoteAlive.has(url)) continue;
     note(url, "exists", "הכתובת נעלמה מהבנייה");
     continue;
   }
@@ -538,9 +583,16 @@ if (base.site) {
 }
 
 const added = Object.keys(pages).filter((u) => !base.pages[u]);
+/* במצב remote עמוד בסיס שלא נמדד (לא במפת האתר החיה, למשל הפניה מכוונת או
+   עמוד מחוץ למפה) לא יכול להפעיל את האישור שלו. אישור כזה אינו מת, הוא פשוט
+   לא נבדק בהרצה הזו. מתות אמיתיות נמדדות במצב המקומי. */
 const staleApprovals = approved.changes
   .map((c, i) => ({ c, i }))
-  .filter(({ i }) => !approvedUsed.has(i));
+  .filter(({ i }) => !approvedUsed.has(i))
+  .filter(({ c }) => !REMOTE || c.url === "*" || c.url === "site" || Boolean(pages[c.url]))
+  /* אותו היגיון בכיוון ההפוך: בלי --origin עמוד דינמי (למשל /book) מדולג,
+     ולכן אישור עליו נבדק רק במצב remote או עם --origin. */
+  .filter(({ c }) => !skippedDynamic.includes(c.url));
 
 if (JSON_OUT) {
   console.log(JSON.stringify({ problems, added, staleApprovals: staleApprovals.map((s) => s.c) }, null, 2));
