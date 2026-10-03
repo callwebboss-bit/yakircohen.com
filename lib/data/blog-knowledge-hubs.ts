@@ -262,10 +262,75 @@ const EVENTS_HUB: KnowledgeHub = {
   ],
 };
 
+export function buildEditingHubAnswer(): string {
+  const noise = getExVat("ai_noise_basic").toLocaleString("he-IL");
+  const restore = getExVat("ai_voice_restore").toLocaleString("he-IL");
+  const pitch = getExVat("studio_pitch_correction").toLocaleString("he-IL");
+  return (
+    `ניקוי רעשים בסיסי מתחיל ב-${noise} ₪ לפני מע״מ, שחזור קול מלא ב-${restore} ₪, ` +
+    `ותיקון זיופים ב-${pitch} ₪. מה שקובע את המחיר הוא מצב הקובץ, לא אורכו. ` +
+    `רעש אפשר להוריד והד אפשר לצמצם, אבל עיוות ודחיסה מחקו מידע שאי אפשר להמציא. ` +
+    `שלחו קובץ לבדיקה לפני שמשלמים.`
+  );
+}
+
+export function buildEditingHubMetaDescription(): string {
+  const noise = getExVat("ai_noise_basic").toLocaleString("he-IL");
+  const restore = getExVat("ai_voice_restore").toLocaleString("he-IL");
+  return (
+    `ניקוי רעשים מ-${noise} ₪ + מע״מ, שחזור מלא מ-${restore} ₪ + מע״מ. ` +
+    `מה אפשר להציל, מה נמחק ולא חוזר, ואיך יודעים לפני שמשלמים.`
+  );
+}
+
+const EDITING_HUB: KnowledgeHub = {
+  categoryId: "editing",
+  heading: "כמה עולה להציל הקלטה גרועה?",
+  answer: buildEditingHubAnswer(),
+  metaDescription: buildEditingHubMetaDescription(),
+  groups: [
+    {
+      id: "what-can-be-saved",
+      title: "מה אפשר להציל, ומה כבר לא",
+      slugs: [
+        "rescue-damaged-recording",
+        "fix-phone-recording-noise",
+        "when-ai-audio-restoration-enough",
+        "ai-audio-restoration-real-examples",
+      ],
+    },
+    {
+      id: "old-or-noisy",
+      title: "הקלטה ישנה או מרועשת",
+      slugs: ["ai-audio-restoration-guide", "sound-recovery-ai-podcast"],
+    },
+    {
+      id: "off-pitch",
+      title: "הקול לא מדויק",
+      slugs: [
+        "vocal-tuning-for-everyone",
+        "pitch-correction-guide",
+        "pitch-correction-vs-autotune",
+      ],
+    },
+    {
+      id: "not-finished",
+      title: "הקובץ תקין אבל לא גמור",
+      slugs: ["mixing-mastering-explained"],
+    },
+    {
+      id: "how-it-works",
+      title: "איך השירות עובד, ומה לבדוק",
+      slugs: ["how-online-audio-service-works", "online-audio-service-complaints"],
+    },
+  ],
+};
+
 const HUBS: readonly KnowledgeHub[] = [
   STUDIO_HUB,
   VOICEOVER_HUB,
   EVENTS_HUB,
+  EDITING_HUB,
 ];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {
