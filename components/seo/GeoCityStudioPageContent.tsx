@@ -1,3 +1,4 @@
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -27,7 +28,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 /* מחיר ההגעה של האולפן הנייד מהקטלוג (mobile_podcast_at_home). אין מחיר רגיל
    אחר, ולכן בלי "מבצע". */
-const MOBILE_ARRIVAL_PRICE = getExVat("mobile_podcast_at_home").toLocaleString("he-IL");
+const MOBILE_ARRIVAL_PRICE = formatConsumerPriceLine(getExVat("mobile_podcast_at_home"));
 
 export type GeoCityStudioPageContentProps = {
   citySlug: NewGeoCitySlug;
@@ -135,7 +136,7 @@ export default function GeoCityStudioPageContent({
                 {" - "}
                 לא החדר במודיעין. מגיעים עם סאונד, תאורה וכל הציוד שנדרש
                 לשירה, קריינות או פודקאסט - לפי השירות שהזמנתם. ההגעה{" "}
-                {MOBILE_ARRIVAL_PRICE} ₪ לפני מע״מ.
+                {MOBILE_ARRIVAL_PRICE}.
               </li>
             </ol>
             <p className="mt-4 text-sm text-muted-foreground">
@@ -265,8 +266,7 @@ export default function GeoCityStudioPageContent({
                 אולפן נייד ברחובות
               </Link>
               {" - "}
-              סאונד, תאורה וציוד לפי השירות. הגעה ב-{MOBILE_ARRIVAL_PRICE} ₪ לפני
-              מע״מ.
+              סאונד, תאורה וציוד לפי השירות. הגעה ב-{MOBILE_ARRIVAL_PRICE}.
             </>
           ) : (
             <>
