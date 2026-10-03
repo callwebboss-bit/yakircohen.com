@@ -838,24 +838,43 @@ export function vatAmount(exVat: number): number {
   return withVatLocal(exVat) - exVat;
 }
 
-/** שורת מחיר לוואטסאפ: "כרגע: 750 ₪ + מע״מ 135 ₪ = 885 ₪ סופי" */
+/**
+ * שורת מחיר לוואטסאפ: "שיר: ₪750 + מע״מ ₪135 = ₪885 סופי".
+ * בלי "כרגע:" (WP1, ED-08, OE-27, S15): הקידומת הודבקה בכפתורים לתוך "מ-"
+ * ויצרה "מ-כרגע: מ-990". הסדר ex-VAT ואז הסכום הסופי נשאר כאן בכוונה: זו הודעה
+ * שהלקוח שולח לנו, והחשבון המפורש בה הוא מה שהבעלים מאשר בטלפון.
+ */
 export function formatPriceLine(exVat: number, label?: string): string {
   const vat = vatAmount(exVat);
   const total = withVatLocal(exVat);
   const base = label
     ? `${label}: ${formatNisLocal(exVat)}`
     : formatNisLocal(exVat);
-  return `כרגע: ${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
+  return `${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
 }
 
-/** תצוגת "מ-X ₪" כולל מע״מ */
+/** קהל המחיר: צרכן רואה כולל מע״מ קודם, עסק רואה לפני מע״מ קודם (החלטת הבעלים 2.10.2026) */
+export type PriceAudience = "consumer" | "business";
+
+/** תצוגת "מ-X ₪ כולל מע״מ" */
 export function formatFromPriceExVat(exVat: number): string {
-  return `כרגע מ-${withVatLocal(exVat).toLocaleString("he-IL")} ₪`;
+  return `מ-${withVatLocal(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 }
 
-/** תצוגת "מ-X ₪" לפני מע״מ + כולל */
-export function formatFromPriceDual(exVat: number): string {
-  return `כרגע: מ-${exVat.toLocaleString("he-IL")} ₪ + מע״מ = ${withVatLocal(exVat).toLocaleString("he-IL")} ₪`;
+/**
+ * "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)" לצרכן, "מ-500 ₪ + מע״מ (590 ₪ כולל מע״מ)"
+ * לעסקים (/business, /pro). מתחיל תמיד ב-"מ-", ולכן הקוראים לא מוסיפים "מ-"
+ * משלהם. אותו פורמט כמו formatPrice ב-pricing-display.ts (נבדק בבדיקה).
+ */
+export function formatFromPriceDual(
+  exVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  const ex = exVat.toLocaleString("he-IL");
+  const total = withVatLocal(exVat).toLocaleString("he-IL");
+  return audience === "business"
+    ? `מ-${ex} ₪ + מע״מ (${total} ₪ כולל מע״מ)`
+    : `מ-${total} ₪ כולל מע״מ (${ex} ₪ + מע״מ)`;
 }
 
 export const CATALOG_VAT_RATE = VAT_RATE_LOCAL;

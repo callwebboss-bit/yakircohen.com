@@ -1,5 +1,44 @@
-import type { PriceScope, PriceWithEditing } from "@/lib/data/pricing-catalog";
+import type { PriceAudience, PriceScope, PriceWithEditing } from "@/lib/data/pricing-catalog";
 import { PRICES_BEFORE_VAT_18, withVat } from "@/lib/data/pricing";
+
+export type { PriceAudience };
+
+/**
+ * קהל המחיר לפי נתיב או קטגוריית קטלוג (החלטת הבעלים 2.10.2026, תוכנית שלב 4
+ * WP10-WP11). /business, /pro וקטגוריית הקטלוג pro הם עסקים, ורואים לפני מע״מ
+ * קודם. כל השאר צרכן, ורואה כולל מע״מ קודם (סעיף 17ד לחוק הגנת הצרכן).
+ */
+export function getPriceAudience(pathOrCategory?: string | null): PriceAudience {
+  const key = pathOrCategory?.trim() ?? "";
+  if (key === "pro" || key === "business") return "business";
+  if (/^\/(business|pro)(\/|$)/.test(key)) return "business";
+  return "consumer";
+}
+
+export type FormattedPrice = {
+  /** השורה הגדולה: "מ-590 ₪ כולל מע״מ" לצרכן, "מ-500 ₪ + מע״מ" לעסק */
+  headline: string;
+  /** השורה הקטנה: "500 ₪ + מע״מ" לצרכן, "590 ₪ כולל מע״מ" לעסק */
+  vatNote: string;
+  /** שורה אחת: "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)" */
+  inline: string;
+  exVat: number;
+  totalWithVat: number;
+};
+
+/** מקור אחד לכל תצוגת מחיר באתר. ה-[YC:] וה-closer נשארים לפני מע״מ (נתון פנימי). */
+export function formatPrice(
+  exVat: number,
+  { from = false, audience = "consumer" }: { from?: boolean; audience?: PriceAudience } = {},
+): FormattedPrice {
+  const prefix = from ? "מ-" : "";
+  const totalWithVat = withVat(exVat);
+  const ex = `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`;
+  const total = `${totalWithVat.toLocaleString("he-IL")} ₪ כולל מע״מ`;
+  const headline = audience === "business" ? `${prefix}${ex}` : `${prefix}${total}`;
+  const vatNote = audience === "business" ? total : ex;
+  return { headline, vatNote, inline: `${headline} (${vatNote})`, exVat, totalWithVat };
+}
 
 export type PriceScopeDisplayLines = {
   primary: string;
@@ -37,12 +76,11 @@ export function formatScopeLine(scope?: PriceScope): string | undefined {
 export function formatDualPriceLines(
   baseExVat: number,
   withEditing: PriceWithEditing,
+  audience: PriceAudience = "consumer",
 ): DualPriceDisplayLines {
-  const base = baseExVat.toLocaleString("he-IL");
-  const edit = withEditing.exVat.toLocaleString("he-IL");
   return {
-    recordingOnly: `הקלטה בלבד - ${base} ₪ + מע״מ`,
-    withEditing: `${withEditing.label} - ${edit} ₪ + מע״מ`,
+    recordingOnly: `הקלטה בלבד - ${formatPrice(baseExVat, { audience }).inline}`,
+    withEditing: `${withEditing.label} - ${formatPrice(withEditing.exVat, { audience }).inline}`,
     socialProof: "רוב הלקוחות בוחרים באפשרות השנייה",
   };
 }
@@ -65,18 +103,19 @@ export function formatPriceScopeDisplay({
   exVat,
   scope,
   showFromPrefix = false,
+  audience = "consumer",
 }: {
   exVat: number;
   scope?: PriceScope;
   showFromPrefix?: boolean;
+  audience?: PriceAudience;
 }): PriceScopeDisplayLines {
-  const amount = exVat.toLocaleString("he-IL");
-  const prefix = showFromPrefix ? "מ-" : "";
-  const primary = `${prefix}${amount} ₪ + מע״מ`;
+  const price = formatPrice(exVat, { from: showFromPrefix, audience });
+  const primary = price.headline;
   const scopeLine = formatScopeLine(scope);
-  const total = withVat(exVat).toLocaleString("he-IL");
-  const vatLine = `כולל מע״מ: ${total} ₪`;
-  const beforeVatLine = PRICES_BEFORE_VAT_18;
+  const vatLine = price.vatNote;
+  /* "לפני מע״מ 18%" רק כשהמחיר הגדול הוא לפני מע״מ (עסקים) */
+  const beforeVatLine = audience === "business" ? PRICES_BEFORE_VAT_18 : "";
   const compactLine = scopeLine ? `${primary} · ${scopeLine}` : primary;
   return { primary, scopeLine, vatLine, beforeVatLine, compactLine };
 }
@@ -95,18 +134,18 @@ export function formatHubRowDescription(text?: string): string | undefined {
   return `${trimmed.trim()}...`;
 }
 
-/** שורת מחיר לכפתור הזמנה במחירון */
-export function formatHubPriceDual(exVat: number, priceFrom = false): string {
-  const amount = exVat.toLocaleString("he-IL");
-  const total = withVat(exVat).toLocaleString("he-IL");
-  const prefix = priceFrom ? "מ-" : "";
-  return `${prefix}${amount} ₪ + מע״מ = ${total} ₪`;
+/** שורת מחיר לכפתור הזמנה במחירון: כולל מע״מ קודם לצרכן, לפני מע״מ קודם לעסק */
+export function formatHubPriceDual(
+  exVat: number,
+  priceFrom = false,
+  audience: PriceAudience = "consumer",
+): string {
+  return formatPrice(exVat, { from: priceFrom, audience }).inline;
 }
 
 /** "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)", שורת מחיר לצרכן בטבלאות */
 export function formatConsumerPriceLine(exVat: number, priceFrom = false): string {
-  const prefix = priceFrom ? "מ-" : "";
-  return `${prefix}${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ (${exVat.toLocaleString("he-IL")} ₪ + מע״מ)`;
+  return formatPrice(exVat, { from: priceFrom }).inline;
 }
 
 export type ConsumerPriceDisplay = {

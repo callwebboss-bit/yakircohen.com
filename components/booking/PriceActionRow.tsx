@@ -7,6 +7,7 @@ import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
 import type { EventBookingItemId } from "@/lib/data/events-booking";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { whatsappQuoteCta } from "@/lib/data/conversion-copy";
+import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
 const CHAT_FAQ_ATTRACTIONS = "chatbot_attractions";
@@ -56,7 +57,7 @@ export default function PriceActionRow({
   );
   const chatHref = `?faq=${CHAT_FAQ_ATTRACTIONS}`;
   const whatsappHref = buildWhatsAppHref({
-    text: `שלום, מעוניין/ת ב${serviceLabel} - ראיתי מחיר של ${priceExVat.toLocaleString("he-IL")} ₪ לפני מע״מ באתר.`,
+    text: `שלום, מעוניין/ת ב${serviceLabel} - ראיתי באתר ${formatFromPriceDual(priceExVat)}.`,
     utm_source: "website",
     utm_campaign: utmCampaign,
   });

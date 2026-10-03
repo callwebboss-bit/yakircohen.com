@@ -105,7 +105,7 @@ export function calculateSmartFormEstimate(
     baseExVat,
     lines,
     totalExVat,
-    softFromCopy: `הערכת תקציב בסיסית לפרויקט מתחילה ב-${formatFromPriceDual(baseExVat)}`,
+    softFromCopy: `הערכת תקציב בסיסית לפרויקט מתחילה ${formatFromPriceDual(baseExVat)}`,
     availabilityNote: getSmartFormAvailabilityNote(),
   };
 }

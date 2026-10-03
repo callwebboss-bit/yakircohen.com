@@ -14,8 +14,10 @@ export type AeoFaqItem = {
   answer: string;
 };
 
+/* formatFromPriceDual מחזיר "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)". כאן הוא נקרא
+   "החל מ-...". קודם הפונקציה הזו הסירה ביד את "כרגע:" (WP1). */
 function stripDualPrefix(formatted: string): string {
-  return formatted.replace(/^כרגע: מ-/, "החל מ-");
+  return `החל ${formatted}`;
 }
 
 /**
@@ -113,7 +115,7 @@ export const DJ_WEDDING_VOICE_FAQ: AeoFaqItem = {
 
 export function buildVoucherGiftPriceAnswer(): string {
   const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
-  return `שובר מתנה לאולפן או אירוע החל מ-${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
+  return `שובר מתנה לאולפן או אירוע ${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
 }
 
 export const VOUCHER_GIFT_PRICE_FAQ: AeoFaqItem = {

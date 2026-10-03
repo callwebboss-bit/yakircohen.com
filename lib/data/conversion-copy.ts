@@ -1,7 +1,7 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildBookHref } from "@/lib/book-url";
 import { formatConsumerPrice, formatHubPriceDual } from "@/lib/data/pricing-display";
-import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, type PriceAudience } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 
@@ -100,8 +100,14 @@ export const CTA_LABELS = {
   headerQuoteHourShort: "📩 הצעה",
 } as const;
 
-export function whatsappQuoteCta(serviceLabel: string, priceExVat: number): string {
-  return `אני רוצה הצעה ל${serviceLabel} מ-${formatFromPriceDual(priceExVat)}`;
+/* formatFromPriceDual מתחיל ב-"מ-" בעצמו. קודם הקוראים הוסיפו "מ-" משלהם
+   והפלט היה "מ-כרגע: מ-990" (WP1, OE-27, ED-08, S15). */
+export function whatsappQuoteCta(
+  serviceLabel: string,
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `אני רוצה הצעה ל${serviceLabel} ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
 export function sendBookingWaCta(totalWithVat: number): string {
@@ -111,15 +117,19 @@ export function sendBookingWaCta(totalWithVat: number): string {
 export const PRICING_FRAMING_LINE =
   "כל מחיר כאן = מה שתקבלו בפועל. ללא עלויות נסתרות - פרטים סופיים בוואטסאפ.";
 
-export function whatsappAriaLabel(serviceLabel: string, priceExVat: number): string {
-  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat)}`;
+export function whatsappAriaLabel(
+  serviceLabel: string,
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
-export function hubBookCtaLabel(priceExVat: number): string {
-  const dual = formatFromPriceDual(priceExVat)
-    .replace(/^כרגע:\s*/, "")
-    .replace(/^מ-/, "");
-  return `הזמנה מקוונת מ-${dual}`;
+export function hubBookCtaLabel(
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `הזמנה מקוונת ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
 /** אותו כפתור לעמודי צרכן שמציגים כולל מע״מ (עמודים עם טופס הקלטת השיר) */
@@ -127,8 +137,12 @@ export function consumerBookCtaLabel(priceExVat: number): string {
   return `הזמנה מקוונת מ-${formatConsumerPrice(priceExVat).totalLabel}`;
 }
 
-export function pricingRowBookCta(priceExVat: number, priceFrom = false): string {
-  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom)}`;
+export function pricingRowBookCta(
+  priceExVat: number,
+  priceFrom = false,
+  audience: PriceAudience = "consumer",
+): string {
+  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom, audience)}`;
 }
 
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {

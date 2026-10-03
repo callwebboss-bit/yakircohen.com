@@ -458,7 +458,7 @@ export function buildFastWhatsAppMessage(
   emotionalAnswer?: string | null,
   qualificationAnswers?: Record<string, string>,
 ): string {
-  const priceLine = route.startingPriceDual.replace("כרגע: ", "ראינו ");
+  const priceLine = `ראינו ${route.startingPriceDual}`;
   const emotionLine = emotionalAnswer?.trim()
     ? `\nמה שחשוב לי: ${emotionalAnswer}`
     : "";

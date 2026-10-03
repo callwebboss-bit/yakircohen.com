@@ -68,7 +68,7 @@ const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   pricing: (
     <>
       ברכה / הקלטה קצרה{" "}
-      {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}.
+      {formatFromPriceDual(getExVat("blessing_recording"))}.
       פודקאסט פיילוט מ-{getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע״מ.
       ב
       <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}

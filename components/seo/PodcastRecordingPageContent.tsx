@@ -40,9 +40,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const PODCAST_RECORDING_META_DESCRIPTION =
   "רוצים פודקאסט מקצועי בלי להתעסק בציוד? מגיעים, מדברים, והפרק אצלכם באותה שנייה שמסיימים להקליט. צילום 4K וסאונד אולפני במודיעין.";
 
-const PODCAST_RECORDING_PRICE_LABEL = formatFromPriceDual(
-  PODCAST_RECORDING_PRICE,
-).replace(/^כרגע: מ-/, "החל מ-");
+const PODCAST_RECORDING_PRICE_LABEL = `החל ${formatFromPriceDual(PODCAST_RECORDING_PRICE)}`;
 
 const PODCAST_RECORDING_TITLE = "צילום והקלטת פודקאסט";
 

@@ -59,14 +59,9 @@ export default function PriceScopeDisplay({
   showTransparency = true,
   lead = "exVat",
 }: PriceScopeDisplayProps) {
-  const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix });
+  const audience = lead === "exVat" ? "business" : "consumer";
+  const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix, audience });
   const s = sizeClasses[size];
-  if (lead === "withVat" && !withEditing) {
-    const prefix = showFromPrefix ? "מ-" : "";
-    lines.primary = `${prefix}${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
-    lines.vatLine = `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`;
-    lines.compactLine = lines.scopeLine ? `${lines.primary} · ${lines.scopeLine}` : lines.primary;
-  }
 
   if (compact) {
     return (
@@ -77,7 +72,7 @@ export default function PriceScopeDisplay({
   }
 
   if (withEditing) {
-    const dual = formatDualPriceLines(exVat, withEditing);
+    const dual = formatDualPriceLines(exVat, withEditing, audience);
     const editTotal = withVat(withEditing.exVat).toLocaleString("he-IL");
     return (
       <div className={cn("space-y-1", className)}>
@@ -89,12 +84,14 @@ export default function PriceScopeDisplay({
         {lines.scopeLine ? (
           <p className={cn(s.scope, "text-muted-foreground")}>{lines.scopeLine}</p>
         ) : null}
-        {!hideVatLine ? (
+        {!hideVatLine && audience === "business" ? (
           <p className={cn(s.vat, "text-muted-foreground")}>
             כולל מע״מ (עריכה): {editTotal} ₪
           </p>
         ) : null}
-        <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+        {lines.beforeVatLine ? (
+          <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+        ) : null}
         {suitedFor ? (
           <p className={cn(s.suited, "text-muted-foreground")}>
             <span className="font-semibold text-foreground">מתאים ל: </span>
@@ -121,9 +118,9 @@ export default function PriceScopeDisplay({
       {!hideVatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.vatLine}</p>
       ) : null}
-      {lead === "withVat" ? null : (
+      {lines.beforeVatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
-      )}
+      ) : null}
       {suitedFor ? (
         <p className={cn(s.suited, "mt-1 text-muted-foreground")}>
           <span className="font-semibold text-foreground">מתאים ל: </span>

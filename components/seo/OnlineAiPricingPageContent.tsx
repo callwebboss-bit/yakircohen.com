@@ -188,7 +188,7 @@ const AI_SERVICES = [
 
 function formatServicePrice(exVat: number | null): string {
   if (exVat === null) return "לפי הצעה";
-  return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
+  return `החל ${formatFromPriceDual(exVat)}`;
 }
 
 function ServiceCta({

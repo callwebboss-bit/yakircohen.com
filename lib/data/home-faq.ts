@@ -41,7 +41,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
   {
     id: "pricing",
     question: "כמה עולה הקלטה או אירוע?",
-    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}. פודקאסט פיילוט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע"מ. בהזמנה מקוונת רואים מחיר סופי מיד.`,
+    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording"))}. פודקאסט פיילוט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע"מ. בהזמנה מקוונת רואים מחיר סופי מיד.`,
   },
   {
     id: "delivery-time",

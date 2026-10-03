@@ -30,7 +30,7 @@ export default function BookDynamicHeroSubtitle({
     <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
       <span className="font-medium text-foreground">{route.valueFrame}</span>
       {" - "}
-      {route.startingPriceDual.replace("כרגע: ", "")}, וואטסאפ מהיר או הזמנה מפורטת.
+      {route.startingPriceDual}, וואטסאפ מהיר או הזמנה מפורטת.
       {" "}
       4.9 כוכבים - תשובה ביום עסקים.
     </p>

@@ -109,7 +109,7 @@ export default function VisualReceipt({
         <p className="mt-2 text-xs text-muted-foreground">{estimate.softFromCopy}</p>
       ) : (
         <p className="mt-2 text-xs text-muted-foreground">
-          הערכת תקציב בסיסית לפרויקט מתחילה ב-
+          הערכת תקציב בסיסית לפרויקט מתחילה{" "}
           {formatFromPriceDual(estimate.baseExVat)}
         </p>
       )}

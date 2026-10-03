@@ -621,7 +621,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
 ] as const;
 
 export function formatHubPriceRow(exVat: number): string {
-  return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
+  return `החל ${formatFromPriceDual(exVat)}`;
 }
 
 export const PRICES_LAST_UPDATED = "אוגוסט 2026";

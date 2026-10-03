@@ -108,10 +108,7 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
 };
 
 function buildContactFaqItems(): FAQItem[] {
-  const blessingPrice = formatFromPriceDual(getExVat("blessing_recording")).replace(
-    "כרגע: ",
-    "",
-  );
+  const blessingPrice = formatFromPriceDual(getExVat("blessing_recording"));
   const studioHour = getExVat("studio_hour").toLocaleString("he-IL");
 
   return [
@@ -442,7 +439,7 @@ export default function ContactPageContent() {
               href="/book"
               className="text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
             >
-              רוצים מחיר מיד? הזמנה מקוונת {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: מ-", "מ-")}
+              רוצים מחיר מיד? הזמנה מקוונת {formatFromPriceDual(getExVat("blessing_recording"))}
             </Link>
           </p>
         </header>
