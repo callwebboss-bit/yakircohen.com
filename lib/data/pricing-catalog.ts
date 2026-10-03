@@ -723,7 +723,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
       "כתיבת מילים או לחן",
       "עיבוד מוזיקלי חדש",
     ],
-    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction"],
+    /* אותו מונחון שהיה לכרטיס "שיר מוכן" שירד (cover_song), כדי שהקישורים
+       למילון לא ירדו עם החבילות (seo-diff 3.10.2026). מוצג במחירון, ב-/packages
+       ומתחת לטופס השיר (SongOfferSection showGlossary). */
+    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction", "autotune", "wav", "mp3"],
   },
   song_pitch_coaching: {
     included: ["טכנאי סאונד שמכוון ומנחה בזמן ההקלטה", "תיקון זיופים בשיר"],

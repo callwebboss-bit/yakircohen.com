@@ -102,6 +102,7 @@ export default function RecordingSongModiinPageContent() {
               utmCampaign="recording_song_offer"
               pitchDemoHref={`#${PITCH_DEMO_ID}`}
               clipExampleHref="#studio-session-clip-heading"
+              showGlossary
             />
             <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">
               רק ברכה או דרשה?{" "}

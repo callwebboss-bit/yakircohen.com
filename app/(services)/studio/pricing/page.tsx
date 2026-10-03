@@ -162,7 +162,7 @@ export default function StudioPricingPage() {
         </section>
 
         {/* הקלטת שיר קודם: הטופס עם הבסיס והתוספות. אחריו ברכה וסינגל, ושעת חדר בבונה */}
-        <SongOfferSection source="/studio/pricing" utmCampaign="studio_pricing_song_offer" />
+        <SongOfferSection source="/studio/pricing" utmCampaign="studio_pricing_song_offer" showGlossary />
 
         <StudioPriceBuilder
           packages={

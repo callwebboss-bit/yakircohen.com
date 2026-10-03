@@ -1,3 +1,4 @@
+import { GlossaryLinks } from "@/components/pricing/CatalogOfferPanel";
 import SongOfferConfigurator, {
   type SongOfferVariant,
 } from "@/components/pricing/SongOfferConfigurator";
@@ -5,9 +6,11 @@ import {
   getSongOfferFormData,
   getSongParticipantRules,
   normalizeSongAddons,
+  SONG_OFFER_BASE_ID,
   SONG_OFFER_SECTION_ID,
   type SongAddonId,
 } from "@/lib/data/song-offer";
+import { getPriceTransparencyById } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
 type SongOfferSectionProps = {
@@ -24,6 +27,9 @@ type SongOfferSectionProps = {
   intro?: string;
   pitchDemoHref?: string;
   clipExampleHref?: string;
+  /** מונחון מתחת לטופס, מ-glossaryTermSlugs של הבסיס בקטלוג. רק בעמוד השיר
+      ובמחירון האולפן, שם עמדו כרטיסי החבילות שנשאו את הקישורים האלה. */
+  showGlossary?: boolean;
   /** ברירת מחדל song-offer. עמוד עם שני טפסים חייב מזהה שני. */
   id?: string;
   className?: string;
@@ -45,11 +51,15 @@ export default function SongOfferSection({
   intro,
   pitchDemoHref,
   clipExampleHref,
+  showGlossary = false,
   id = SONG_OFFER_SECTION_ID,
   className,
 }: SongOfferSectionProps) {
   const { base, addons, quoteData, participantsExplanation } = getSongOfferFormData();
   const rules = getSongParticipantRules();
+  const glossarySlugs = showGlossary
+    ? (getPriceTransparencyById(SONG_OFFER_BASE_ID).glossaryTermSlugs ?? [])
+    : [];
 
   return (
     <section
@@ -77,6 +87,12 @@ export default function SongOfferSection({
         pitchDemoHref={pitchDemoHref}
         clipExampleHref={clipExampleHref}
       />
+      {glossarySlugs.length > 0 ? (
+        <div className="mx-auto mt-4 max-w-xl text-right text-sm text-muted-foreground">
+          <p>מונחים שכדאי להכיר לפני הסשן:</p>
+          <GlossaryLinks slugs={glossarySlugs} />
+        </div>
+      ) : null}
     </section>
   );
 }

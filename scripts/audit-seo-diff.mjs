@@ -145,20 +145,6 @@ function headings(html, level) {
 function visibleWordCount(html) {
   const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   let text = body ? body[1] : html;
-  /* מחוון שעות הפעילות (LivePulseBadge) הוא רכיב שרת, ולכן שעת הבנייה
-     נצרבת ל-HTML. בנייה ב-18:53 כותבת "אולפן פעיל, זמין להקלטות השבוע"
-     ובנייה ב-00:06 כותבת "חוזרים ב-9:00": הפרש של ארבע מילים בתשעה עמודים,
-     בלי ששורת קוד אחת השתנתה. בלי החרגה כאן, כל בנייה בשעה אחרת הייתה
-     מדווחת רגרסיה מזויפת, והשומר היה מאבד אמינות.
-
-     הקישור לרכיב הוא המחלקה studio-live-dot. אם היא תשונה, ההחרגה תפסיק
-     לעבוד בשקט, ולכן מספר העמודים שמכילים אותה נשמר באותות האתר
-     (site.liveDotPages), וירידה לאפס נחשבת רגרסיה. */
-  text = text.replace(
-    /<aside\b[^>]*>(?:(?!<\/aside>)[\s\S])*<\/aside>/gi,
-    (el) => (el.includes("studio-live-dot") ? " " : el),
-  );
-
   text = text
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
@@ -268,7 +254,6 @@ function extractHtml(html) {
     ldTypes: ld.types,
     ldProps: ld.props,
     ldCounts: ld.counts,
-    liveDot: html.includes("studio-live-dot"),
     images: imgs.length,
     imagesWithAlt: imgs.filter((m) => /alt="[^"]+"/.test(m[0])).length,
     suspenseHidden: /<div hidden id="S:/.test(html),
@@ -389,7 +374,6 @@ const urlCount = Object.keys(pages).length;
 }
 
 const site = REMOTE ? remoteSite : siteSignals();
-site.liveDotPages = Object.values(pages).filter((p) => p.liveDot).length;
 
 if (urlCount === 0) {
   console.error("\naudit:seo-diff");
@@ -549,8 +533,6 @@ if (base.site) {
     note("site", "robots", "robots.txt השתנה");
   if (typeof b.llmsUrlCount === "number" && site.llmsUrlCount < b.llmsUrlCount)
     note("site", "llms", "כתובות ב-llms.txt: " + b.llmsUrlCount + " -> " + site.llmsUrlCount);
-  if (typeof b.liveDotPages === "number" && b.liveDotPages > 0 && site.liveDotPages === 0)
-    note("site", "liveDot", "המחלקה studio-live-dot נעלמה מכל העמודים: החרגת מחוון השעות ב-visibleWordCount כבר לא תופסת");
 } else {
   console.log("  הערה: הבסיס נלכד לפני שנוספו אותות ברמת האתר. לכתוב בסיס מחדש כדי לכסות אותם.");
 }

@@ -4,7 +4,9 @@
 
 **ההרצה:** `npm run build` אחד על הענף `feature/sales-fix` בקומיט `1ce077a` (BUILD_ID `OnXBn3jykEAP4smS7YG3B`), ואז `node scripts/audit-seo-diff.mjs --json` במצב הרגיל (בנייה מקומית, בלי `--write-baseline` ובלי `--origin`). הבסיס: `scripts/baselines/seo-pages.json`, נלכד 30.9.2026 מ-`c375b2c` (329 כתובות). הבנייה הנוכחית: 322 כתובות, ו-6 עמודים דינמיים דולגו כי אין `--origin`: `/blog`, `/book`, `/online/audio-music`, `/online/image-design`, `/online/podcast-voice`, `/online/video-content`. אין כתובות חדשות.
 
-**התוצאה: 72 הבדלים שלא אושרו, ו-5 אישורים מתים. כל הבדל יוחס לקומיט או להחלטה.**
+**הרצה שנייה, אחרי התיקונים:** `npm run build` אחד על הענף אחרי תיקון התיאור של דף הבית, החזרת קישורי המילון לטופס השיר ופרישת liveDot (BUILD_ID `mUPKCNDJm4M5i7uzxjt1O`), ואז `node scripts/audit-seo-diff.mjs` במצב הרגיל, שוב בלי `--write-baseline`. אותן 322 כתובות ואותם 6 עמודים דינמיים שדולגו. אין כתובות חדשות.
+
+**התוצאה: 60 הבדלים שלא אושרו, ו-5 אישורים מתים.** 60 ההבדלים הם בדיוק 60 הרשומות ב-`seo-approved-changes.PROPOSED.json`, אחד לאחד, בלי עודף ובלי חוסר. בהרצה הראשונה היו 72. 12 נעלמו בתיקון (ראו "תוקן בענף" למטה).
 
 | שדה | כמה |
 |---|---|
@@ -13,20 +15,16 @@
 | `images` | 9 |
 | `imagesWithAlt` | 9 |
 | `words` | 8 |
-| `inbound` | 7 |
-| `links` | 6 |
 | `title` | 2 |
 | `h1` | 1 |
+| `inbound` | 1 |
 | `ldCounts` | 1 |
-| `liveDot` | 1 |
+| `links` | 1 |
 
 | המלצה | כמה |
 |---|---|
-| לאשר | 61 |
-| לתקן ולאשר (`/` description: האישור תקף גם אחרי התיקון) | 1 |
-| לתקן (קישורי מילון שירדו עם חבילות השיר) | 7 |
-| תוקן אחרי הבנייה, בלי בנייה נוספת (`d9cb6ff`) | 2 |
-| לפרוש בקוד (liveDot) | 1 |
+| לאשר (כולל `/` description, שתוקן ועדיין שונה מהבסיס) | 60 |
+| תוקן בענף, נעלם בבנייה השנייה | 12 |
 
 ## מאיפה ההבדלים, בקצרה
 
@@ -45,7 +43,7 @@
 
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
-| description | "אולפן הקלטות מקצועי במודיעין - הקלטה מ-590 ₪ + מע״מ. פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך שעה. בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט." -> "אולפן הקלטות מקצועי במודיעין - הקלטה מ-500 ₪ + מע״מ. פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך שעה. בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט." | [`20f65fd`](https://github.com/callwebboss-bit/yakircohen.com/commit/20f65fd) [החלטות 3.10](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026) | **לתקן ולאשר** | הברכה ירדה ל-500 לפני מע״מ (החלטה 3.10). המספר נכון, אבל עמוד צרכן מציג כולל מע״מ קודם (החלטת 2.10). מוצע: "הקלטה מ-590 ₪ כולל מע״מ" ב-app/page.tsx. האישור תקף גם אחרי התיקון, כי השדה שונה מהבסיס בכל מקרה. |
+| description | "אולפן הקלטות מקצועי במודיעין - הקלטה מ-590 ₪ + מע״מ. פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך שעה. בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט." -> "אולפן הקלטות מקצועי במודיעין - הקלטה מ-590 ₪ כולל מע״מ. פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך שעה. בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט." | [`20f65fd`](https://github.com/callwebboss-bit/yakircohen.com/commit/20f65fd) [החלטות 3.10](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026), תיקון בענף (app/page.tsx) | **לאשר** | הברכה ירדה ל-500 לפני מע״מ (החלטה 3.10), ודף הבית הוא עמוד צרכן ולכן מוביל במחיר כולל מע״מ (החלטת 2.10). התיאור נבנה מהקטלוג (formatFromPriceExVat של blessing_recording): "הקלטה מ-590 ₪ כולל מע״מ". הבסיס אמר "מ-590 ₪ + מע״מ", ולכן השדה שונה מהבסיס. |
 | images | תמונות: 18 -> 17 | [`b0b0baf`](https://github.com/callwebboss-bit/yakircohen.com/commit/b0b0baf) שלב 5 WP9b, [סקירת המכירות](audits/SALES-AUDIT-APPENDIX.md) FIT-04, OAC-07; [`b7da505`](https://github.com/callwebboss-bit/yakircohen.com/commit/b7da505) | **לאשר** | שתי תמונות ההמלצות שהוסרו (שלב 5 WP9b, FIT-04), ונוספה תמונה ממוזערת של קליפ מג'יק קאס (b7da505). נטו מינוס אחת. |
 | imagesWithAlt | תמונות עם alt: 13 -> 11 | [`b0b0baf`](https://github.com/callwebboss-bit/yakircohen.com/commit/b0b0baf) שלב 5 WP9b, [סקירת המכירות](audits/SALES-AUDIT-APPENDIX.md) FIT-04, OAC-07; [`b7da505`](https://github.com/callwebboss-bit/yakircohen.com/commit/b7da505) | **לאשר** | שתי תמונות ההמלצות שהוסרו היו עם alt. הממוזערת של מג'יק קאס היא alt ריק, כמו שאר ממוזערות היוטיוב בעמוד. |
 
@@ -68,12 +66,6 @@
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
 | outline (h2-h4) | אבד: h2:מחירון חבילות ברכה לאירוע, 2026 (לפני מע"מ) / נוסף: h2:מחירון ברכה ושיר לאירוע, 2026 (כולל מע״מ) | [`60d91f4`](https://github.com/callwebboss-bit/yakircohen.com/commit/60d91f4) [הצגת מחירים 2.10](OWNER-DECISIONS-2026-10-02.md#הצגת-מחירים), S28, S29 | **לאשר** | כותרת טבלת המחיר עברה מ"(לפני מע״מ)" ל"(כולל מע״מ)", והטבלה נבנית מהקטלוג. ה-h2 לא נגרע, הוא שונה. |
-
-### `/blog/mobile-recording-studio-guide`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| links (יוצאים) | אבדו: /glossary/recording-studio | [`2f07936`](https://github.com/callwebboss-bit/yakircohen.com/commit/2f07936) [החלטות 3.10, סבב שני](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026-סבב-שני) סעיף 4 | **תוקן אחרי הבנייה** | שורת המחירון שוכתבה בלי הצירוף "אולפן הקלטות", ולכן הקישור האוטומטי למילון ירד. תוקן אחרי הבנייה ב-[`d9cb6ff`](https://github.com/callwebboss-bit/yakircohen.com/commit/d9cb6ff). לא נדרש אישור. לוודא בבנייה הבאה. |
 
 ### `/blog/original-song-what-to-prepare`
 
@@ -124,42 +116,6 @@
 | description | "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות, חבילת פסטיבל - חיסכון 20-30%." -> "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות או חבילת פסטיבל, מספק אחד ובתיאום אחד." | [`011a0b0`](https://github.com/callwebboss-bit/yakircohen.com/commit/011a0b0) [החלטות 3.10, סבב שני](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026-סבב-שני) סעיף 2 | **לאשר** | "חיסכון 20-30%" ירד (אין הנחה מעל 8%). עכשיו "מספק אחד ובתיאום אחד". |
 | outline (h2-h4) | אבד: h3:חוסכים כסף; h3:🌟 "רגע של כוכב" - אופציונלי / נוסף: h3:הנחת חבילה על האטרקציות | [`011a0b0`](https://github.com/callwebboss-bit/yakircohen.com/commit/011a0b0) [החלטות 3.10, סבב שני](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026-סבב-שני) סעיף 2; [`299ee9f`](https://github.com/callwebboss-bit/yakircohen.com/commit/299ee9f) | **לאשר** | "חוסכים כסף" הפך ל"הנחת חבילה על האטרקציות" (8%). "רגע של כוכב" מוסתר כי אין לו מחיר בקטלוג (שלב 4 WP2, שאלת בעלים DJ-6). |
 
-### `/glossary/autotune`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 10 -> 6 | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e), [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | 10 -> 6: הקישורים הגיעו מכרטיסי החבילות שירדו (שיר Pro, All-In) ב-/packages, /pricing, /studio/pricing ועמוד השיר. אין יותר מוצר עם Auto-Tune. |
-
-### `/glossary/mastering`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 16 -> 14 | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e), [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | 16 -> 14: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת "מה כלול" של הטופס, ואז הקישורים חוזרים. |
-
-### `/glossary/mp3`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 25 -> 23 | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e), [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | 25 -> 23: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת "מה כלול" של הטופס, ואז הקישורים חוזרים. |
-
-### `/glossary/pitch-correction`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 14 -> 12 | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e), [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | 14 -> 12: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת "מה כלול" של הטופס, ואז הקישורים חוזרים. |
-
-### `/glossary/recording-studio`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 3 -> 2 | [`2f07936`](https://github.com/callwebboss-bit/yakircohen.com/commit/2f07936) | **תוקן אחרי הבנייה** | 3 -> 2, אותו קישור. תוקן ב-[`d9cb6ff`](https://github.com/callwebboss-bit/yakircohen.com/commit/d9cb6ff). |
-
-### `/glossary/wav`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| inbound (נכנסים) | קישורים נכנסים: 21 -> 20 | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e), [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | 21 -> 20: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת "מה כלול" של הטופס, ואז הקישורים חוזרים. |
-
 ### `/matanot`
 
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
@@ -176,7 +132,6 @@
 
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
-| links (יוצאים) | אבדו: /glossary/autotune, /glossary/mp3, /glossary/wav | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | autotune, mp3, wav: מכרטיס "שיר מוכן באולפן" שירד. מוצע: תגיות מילון בכרטיס הקלטת השיר (mp3, wav). autotune אפשר לאשר. |
 | outline (h2-h4) | אבד: h3:שיר מוכן באולפן / נוסף: h3:הקלטת שיר באולפן | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | "שיר מוכן באולפן" (990) הפך ל"הקלטת שיר באולפן" (בסיס ותוספות). |
 | words | 1157 -> 1146 מילים | [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | 1,157 -> 1,146: תיאור החבילה הישנה ארוך יותר. |
 
@@ -224,7 +179,6 @@
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
 | description | "מחירון שקוף ממודיעין. ברכה מ-590 ₪, שיר מוכן מ-990 ₪, פודקאסט מ-950 ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת." -> "מחירון שקוף ממודיעין. ברכה מ-500 ₪, הקלטת שיר 500 ₪, פודקאסט מ-950 ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת." | [`20f65fd`](https://github.com/callwebboss-bit/yakircohen.com/commit/20f65fd), [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) [החלטות 3.10](OWNER-DECISIONS-2026-10-02.md#החלטות-3102026) | **לאשר** | "ברכה מ-590, שיר מוכן מ-990" הפך ל"ברכה מ-500, הקלטת שיר 500". הטקסט אומר במפורש "לפני ואחרי מע״מ". אפשר לשקול כולל מע״מ קודם. |
-| links (יוצאים) | אבדו: /glossary/autotune | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | autotune היה בכרטיס שיר Pro שירד. אין מוצר עם Auto-Tune. |
 | outline (h2-h4) | אבד: h2:עם תיקון זיופים או בלי? שמעו לפני שמחליטים; h3:מה ההבדל בין שיר מוכן לשיר Pro? / נוסף: h2:מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי; h3:צילום אירועים; h3:DJ לאירועים; h3:האם תיקון זיופים כלול בהקלטת שיר? | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c), [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | "עם תיקון זיופים או בלי?" הפך ל"מה עושה תוספת תיקון הזיופים?". "מה ההבדל בין שיר מוכן לשיר Pro?" ירד עם שיר Pro. נוספו DJ, צילום ו"האם תיקון זיופים כלול". |
 
 ### `/studio`
@@ -260,7 +214,6 @@
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
 | description | "מחירון שקוף לאולפן במודיעין - ברכה, שיר מוכן, Pro וסינגל מסחרי. הזמנה מהירה בוואטסאפ." -> "מחירון שקוף לאולפן במודיעין: הקלטת שיר ב-590 ₪ כולל מע״מ ותוספות לפי בחירה, הקלטת ברכה, סינגל ושעת חדר." | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | "ברכה, שיר מוכן, Pro וסינגל" הפך ל"הקלטת שיר ב-590 ₪ כולל מע״מ ותוספות לפי בחירה". |
-| links (יוצאים) | אבדו: /glossary/autotune, /glossary/mastering, /glossary/mixing, /glossary/pitch-correction | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | autotune, mastering, mixing, pitch-correction: מכרטיסי החבילות שירדו. מוצע: תגיות המילון בטופס השיר (ראו /glossary/mastering). |
 | outline (h2-h4) | אבד: h2:עם תיקון זיופים או בלי? שמעו לפני שמחליטים; h3:שיר מוכן באולפן; h3:שיר Pro; h3:שיר + קליפ מהאולפן; h3:All-In: סיפור חיים; h3:שיר מוכן באולפן מ- 990 ₪; h3:אולפן נייד מ- 2,500 ₪; h3:פודקאסט באולפן מ- 750 ₪; h3:פודקאסט וידאו מ- 1,650 ₪; h3:עריכת פודקאסט מ- 750 ₪; h3:שעת אולפן מ- 1,500 ₪ / נוסף: h2:הקלטת שיר: בוחרים ושולחים; h2:מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי; h3:אולפן נייד מ- 2,950 ₪; h3:פודקאסט באולפן מ- 885 ₪; h3:פודקאסט וידאו מ- 1,947 ₪; h3:עריכת פודקאסט מ- 885 ₪; h3:שעת אולפן מ- 1,770 ₪ | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c), [`1c1d82e`](https://github.com/callwebboss-bit/yakircohen.com/commit/1c1d82e) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד); [`3046a9f`](https://github.com/callwebboss-bit/yakircohen.com/commit/3046a9f) [הצגת מחירים 2.10](OWNER-DECISIONS-2026-10-02.md#הצגת-מחירים) | **לאשר** | ארבע החבילות ירדו ובמקומן "הקלטת שיר: בוחרים ושולחים". כותרות האקורדיון עברו למחיר כולל מע״מ (2,500 -> 2,950, 750 -> 885). שימו לב: "פודקאסט באולפן מ-885 ₪" נשען על חצי שעה גלם, בניגוד ל-WP3. שווה לבדוק בנפרד. |
 | words | 3135 -> 2622 מילים | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | 3,135 -> 2,622: תיאורי ארבע החבילות שירדו. |
 
@@ -269,7 +222,6 @@
 | שדה | לפני -> אחרי | מקור | המלצה | נימוק |
 |---|---|---|---|---|
 | description | "הקלטת שיר באולפן במודיעין - מסירה תוך 48 שעות. ליווי ווקאלי ותיקון זיופים. בר מצווה, חתונה וכניסה לחופה - קול נקי ואנושי." -> "הקלטת שיר באולפן במודיעין: הקלטה, מיקס ומאסטר בסשן של שעה. 590 ₪ כולל מע״מ, והשיר אצלכם בסוף הסשן. תיקון זיופים בתוספת. בר מצווה, חתונה וכניסה לחופה." | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | "מסירה תוך 48 שעות" ירד. עכשיו "הקלטה, מיקס ומאסטר בסשן של שעה. 590 ₪ כולל מע״מ". |
-| links (יוצאים) | אבדו: /glossary/autotune, /glossary/mastering, /glossary/mixing, /glossary/mp3, /glossary/pitch-correction, /glossary/wav | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לתקן** | autotune, mastering, mixing, mp3, pitch-correction, wav: מכרטיסי החבילות שירדו. מוצע: תגיות המילון ברשימת "מה כלול" בטופס השיר. |
 | title | "הקלטת שיר באולפן \| מודיעין - תוך 48 שעות \| יקיר כהן הפקות" -> "הקלטת שיר באולפן במודיעין \| 590 ₪ כולל מע״מ \| יקיר כהן הפקות" | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | "תוך 48 שעות" הפך ל"590 ₪ כולל מע״מ". המסירה היא בסוף הסשן. |
 | words | 4534 -> 4016 מילים | [`49cc78c`](https://github.com/callwebboss-bit/yakircohen.com/commit/49cc78c) [החלטות 2.10](OWNER-DECISIONS-2026-10-02.md#הקלטת-שיר-בסיס-ותוספות-בלבד) | **לאשר** | 4,534 -> 4,016: ארבע החבילות ירדו. נוספו שאלת פלייבק ותוכן הטופס. |
 
@@ -307,12 +259,6 @@
 | imagesWithAlt | תמונות עם alt: 14 -> 12 | [`b0b0baf`](https://github.com/callwebboss-bit/yakircohen.com/commit/b0b0baf) שלב 5 WP9b, [סקירת המכירות](audits/SALES-AUDIT-APPENDIX.md) FIT-04, OAC-07 | **לאשר** | אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt. |
 | words | 1694 -> 1617 מילים | [`b0b0baf`](https://github.com/callwebboss-bit/yakircohen.com/commit/b0b0baf) FIT-04 | **לאשר** | 1,694 -> 1,617: אותן המלצות בקרוסלה. |
 
-### `site`
-
-| שדה | לפני -> אחרי | מקור | המלצה | נימוק |
-|---|---|---|---|---|
-| liveDot (אתר) | המחלקה studio-live-dot נעלמה מכל העמודים: החרגת מחוון השעות ב-visibleWordCount כבר לא תופסת | [`b89f19d`](https://github.com/callwebboss-bit/yakircohen.com/commit/b89f19d) FIT-12 | **לפרוש בקוד** | LivePulseBadge (מחוון "אולפן פעיל") נמחק, ואיתו המחלקה studio-live-dot. לא לאשר: לפרוש את ההחרגה בקוד (ראו למטה). |
-
 ## 5 אישורים מתים למחיקה
 
 הבדיקה נכשלת על אישור שלא תאם שום הבדל. ארבעה צפויים, ואחד נוסף שהתגלה בהרצה הזו (`/events/bar-mitzvah`). למחוק את חמשתם מ-`seo-approved-changes.json`:
@@ -325,35 +271,29 @@
 | `/studio/blessings/bat-mitzvah-clip` | `words` | 2026-10-02 | 1,275 -> 1,288 | המילים כבר לא יורדות מול הבסיס, ולכן האישור לא תואם שום הבדל |
 | `/studio/blessings/video-clip` | `words` | 2026-10-02 | 1,788 -> 1,968 | המילים כבר לא יורדות מול הבסיס, ולכן האישור לא תואם שום הבדל |
 
-## פרישת החרגת liveDot
+## תוקן בענף
 
-`LivePulseBadge` נמחק ב-`b89f19d` (FIT-12, בלי אותות "חי" מדומים), ואיתו המחלקה `studio-live-dot`. ההחרגה ב-`visibleWordCount` קיימת רק כדי שהשעה בבנייה לא תשנה את ספירת המילים, ועכשיו אין מה להחריג. לא לאשר את ההבדל `site · liveDot`, אלא להסיר את ההחרגה ב-`scripts/audit-seo-diff.mjs`:
+12 הבדלים מההרצה הראשונה נעלמו בבנייה השנייה, ואין להם רשומה:
 
-1. ב-`visibleWordCount`: למחוק את הערת המחוון ואת ה-`text.replace` של `<aside>` עם `studio-live-dot` (בסביבות שורות 148-160).
-2. ב-`extractHtml`: למחוק את השדה `liveDot` (שורה 271).
-3. למחוק `site.liveDotPages = ...` (שורה 392).
-4. למחוק את הבדיקה `if (typeof b.liveDotPages === "number" ...)` ואת ה-`note("site", "liveDot", ...)` (שורות 552-553).
+1. **קישורי מילון בטופס השיר (7 פריטי "לתקן"):** ל-`song_recording` בקטלוג חזר המונחון של כרטיס "שיר מוכן" שירד: mixing, mastering, pitch-correction, autotune, wav, mp3. הוא מוצג בכרטיס ב-`/packages` ובמחירון, ומתחת לטופס השיר (`SongOfferSection showGlossary`) בעמוד השיר וב-`/studio/pricing` בשורה "מונחים שכדאי להכיר לפני הסשן". נעלמו: `links` ב-`/studio/recording-song-modiin`, `/studio/pricing` ו-`/packages`, ו-`inbound` ב-`/glossary/mastering`, `mp3`, `pitch-correction` ו-`wav`.
+2. **autotune (2 שהיו "לאשר"):** אותו מונחון מחזיר את `/glossary/autotune` גם ל-`/pricing`, ולכן `/pricing · links` ו-`/glossary/autotune · inbound` חזרו לבסיס. שתי הרשומות ירדו מ-PROPOSED, אחרת היו אישורים מתים.
+3. **אולפן נייד (2, `d9cb6ff`):** `/blog/mobile-recording-studio-guide · links` ו-`/glossary/recording-studio · inbound` אומתו בבנייה השנייה ונעלמו.
+4. **liveDot (1):** ההחרגה נפרשה ב-`scripts/audit-seo-diff.mjs`: הערת המחוון וה-`text.replace` של `<aside>` ב-`visibleWordCount`, השדה `liveDot` ב-`extractHtml`, `site.liveDotPages` והבדיקה `note("site", "liveDot", ...)`. הבסיס הנוכחי עדיין מחזיק `liveDot` ו-`liveDotPages`, הסקריפט פשוט לא קורא אותם, ובבסיס הבא הם לא ייכתבו.
 
-הבסיס הנוכחי עדיין מחזיק `liveDot` ו-`liveDotPages`. זה לא מפריע, ובבסיס הבא הם פשוט לא ייכתבו.
-
-## לתקן לפני אישור
-
-1. **`/` description:** "הקלטה מ-500 ₪ + מע״מ" בעמוד צרכן. לפי החלטת 2.10 צריך "מ-590 ₪ כולל מע״מ" (`app/page.tsx`, שורה 20). הרשומה ב-PROPOSED תקפה גם אחרי התיקון.
-2. **קישורי מילון בטופס השיר:** `/studio/recording-song-modiin` (6), `/studio/pricing` (4) ו-`/packages` (3) איבדו קישורים ל-`/glossary/mastering`, `mixing`, `pitch-correction`, `mp3`, `wav`. בקטלוג כבר יש `glossaryTermSlugs` ל-`song_recording` ולתוספות, אבל טופס השיר לא מציג אותם. הצגה שלהם ברשימת "מה כלול" מחזירה את הקישורים ואת הנכנסים במילון. אם מעדיפים לאשר במקום לתקן, הרשומות בבלוק השני למטה. `autotune` אפשר לאשר כבר עכשיו, כי אין מוצר עם Auto-Tune.
-3. **תוקן כבר:** `/blog/mobile-recording-studio-guide` איבד את הקישור ל-`/glossary/recording-studio` כי שורת האולפן הנייד בבלוג נכתבה מחדש בלי הצירוף "אולפן הקלטות" (`2f07936`). תוקן ב-`d9cb6ff`, אחרי הבנייה, ולכן אין לו רשומה. לוודא בבנייה הבאה שגם `/glossary/recording-studio · inbound` נעלם.
+התיאור של דף הבית תוקן באותו ענף: "הקלטה מ-590 ₪ כולל מע״מ", מהקטלוג (`app/page.tsx`). הוא עדיין שונה מהבסיס ("מ-590 ₪ + מע״מ"), ולכן הרשומה שלו נשארת ב-PROPOSED.
 
 הערה צדדית מהבדיקה, לא הבדל SEO: באקורדיון של `/studio/pricing` הכותרת "פודקאסט באולפן מ-885 ₪" נשענת על חצי שעה גלם, בזמן ש-WP3 קבע שהעוגן לפודקאסט הוא פרק ערוך.
 
-## הרשומות המוצעות (62), להדבקה ב-`changes`
+## הרשומות המוצעות (60), להדבקה ב-`changes`
 
-אותו תוכן ב-`scripts/baselines/seo-approved-changes.PROPOSED.json`. בלי liveDot (לפרוש בקוד), בלי שתי הרשומות שתוקנו, ובלי שבע רשומות "לתקן".
+אותו תוכן ב-`scripts/baselines/seo-approved-changes.PROPOSED.json`. בלי 12 ההבדלים שתוקנו בענף.
 
 ```json
 [
   {
     "url": "/",
     "field": "description",
-    "why": "הברכה ירדה ל-500 לפני מע״מ (החלטה 3.10). המספר נכון, אבל עמוד צרכן מציג כולל מע״מ קודם (החלטת 2.10). מוצע: \"הקלטה מ-590 ₪ כולל מע״מ\" ב-app/page.tsx. האישור תקף גם אחרי התיקון, כי השדה שונה מהבסיס בכל מקרה.",
+    "why": "הברכה ירדה ל-500 לפני מע״מ (החלטה 3.10), ודף הבית הוא עמוד צרכן ולכן מוביל במחיר כולל מע״מ (החלטת 2.10). התיאור נבנה מהקטלוג (formatFromPriceExVat של blessing_recording): \"הקלטה מ-590 ₪ כולל מע״מ\". הבסיס אמר \"מ-590 ₪ + מע״מ\", ולכן השדה שונה מהבסיס.",
     "approvedBy": "owner",
     "approvedAt": "2026-10-03"
   },
@@ -470,13 +410,6 @@
     "approvedAt": "2026-10-03"
   },
   {
-    "url": "/glossary/autotune",
-    "field": "inbound",
-    "why": "10 -> 6: הקישורים הגיעו מכרטיסי החבילות שירדו (שיר Pro, All-In) ב-/packages, /pricing, /studio/pricing ועמוד השיר. אין יותר מוצר עם Auto-Tune.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
     "url": "/matanot",
     "field": "outline",
     "why": "\"מקבלים הצעה ומשלמים מקדמה\" הפך ל\"מקבלים הצעה ומשריינים מועד\" (מקדמה אפשרית ובסכום שמסכמים יחד).",
@@ -571,13 +504,6 @@
     "url": "/pricing",
     "field": "description",
     "why": "\"ברכה מ-590, שיר מוכן מ-990\" הפך ל\"ברכה מ-500, הקלטת שיר 500\". הטקסט אומר במפורש \"לפני ואחרי מע״מ\". אפשר לשקול כולל מע״מ קודם.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/pricing",
-    "field": "links",
-    "why": "autotune היה בכרטיס שיר Pro שירד. אין מוצר עם Auto-Tune.",
     "approvedBy": "owner",
     "approvedAt": "2026-10-03"
   },
@@ -787,66 +713,8 @@
 ]
 ```
 
-## רק אם מאשרים במקום לתקן (7)
-
-לא בקובץ ה-PROPOSED. אם הקישורים יחזרו בתיקון, הרשומות האלה יהיו אישורים מתים.
-
-```json
-[
-  {
-    "url": "/glossary/mastering",
-    "field": "inbound",
-    "why": "16 -> 14: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת \"מה כלול\" של הטופס, ואז הקישורים חוזרים.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/glossary/mp3",
-    "field": "inbound",
-    "why": "25 -> 23: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת \"מה כלול\" של הטופס, ואז הקישורים חוזרים.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/glossary/pitch-correction",
-    "field": "inbound",
-    "why": "14 -> 12: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת \"מה כלול\" של הטופס, ואז הקישורים חוזרים.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/glossary/wav",
-    "field": "inbound",
-    "why": "21 -> 20: כרטיסי החבילות שירדו נשאו תגיות מילון. בטופס השיר יש glossaryTermSlugs (mixing, mastering, pitch-correction) אבל הוא לא מציג אותן. מוצע להציג אותן ברשימת \"מה כלול\" של הטופס, ואז הקישורים חוזרים.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/packages",
-    "field": "links",
-    "why": "autotune, mp3, wav: מכרטיס \"שיר מוכן באולפן\" שירד. מוצע: תגיות מילון בכרטיס הקלטת השיר (mp3, wav). autotune אפשר לאשר.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/studio/pricing",
-    "field": "links",
-    "why": "autotune, mastering, mixing, pitch-correction: מכרטיסי החבילות שירדו. מוצע: תגיות המילון בטופס השיר (ראו /glossary/mastering).",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  },
-  {
-    "url": "/studio/recording-song-modiin",
-    "field": "links",
-    "why": "autotune, mastering, mixing, mp3, pitch-correction, wav: מכרטיסי החבילות שירדו. מוצע: תגיות המילון ברשימת \"מה כלול\" בטופס השיר.",
-    "approvedBy": "owner",
-    "approvedAt": "2026-10-03"
-  }
-]
-```
-
 ## אחרי האישור
 
-1. להדביק את הרשומות, למחוק את חמשת האישורים המתים ולפרוש את liveDot.
+1. להדביק את הרשומות ולמחוק את חמשת האישורים המתים. liveDot כבר נפרש בקוד.
 2. בנייה אחת ו-`node scripts/audit-seo-diff.mjs`. צריך לצאת ירוק.
 3. כשהבעלים מרוצה, לכתוב בסיס חדש מעותק נקי של HEAD (`~/yakir-clean-wt`) עם `--write-baseline`, ואז אפשר לרוקן את רשימת האישורים.
