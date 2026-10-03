@@ -52,7 +52,13 @@
 | `podcast_audio` | 950 ₪ | 1,121 ₪ |
 | `podcast_video` | 1,650 ₪ | 1,947 ₪ |
 | `content_package` | 2,800 ₪ | 3,304 ₪ |
-| `event_attraction_1` | 1,750 ₪ | 2,065 ₪ |
+| `event_attraction_1` | 1,695 ₪ | 2,000 ₪ |
+| `event_attraction_2` (מ-3.10.2026 סבב שני, היה 3,051) | 3,119 ₪ | 3,680 ₪ |
+| `event_attraction_3` (היה 4,322) | 4,679 ₪ | 5,521 ₪ |
+| `event_attraction_4` (מחיר פתיחה, היה 5,424) | 6,238 ₪ | 7,361 ₪ |
+| `event_sound_rental` (חדש) | 2,500 ₪ | 2,950 ₪ |
+| `mobile_podcast_at_home` (אולפן נייד, הגעה) | 2,500 ₪ | 2,950 ₪ |
+| `dj_yakir_personal` (היה 8,305) | 9,800 ₪ | 11,564 ₪ |
 | `studio_pitch_correction` | 300 ₪ | 354 ₪ |
 
 רשימה מלאה: `PRICING_CATALOG` ב-`lib/data/pricing-catalog.ts`.
@@ -110,3 +116,23 @@ npm run audit:pricing
 - משתתפים בשיר: אחד כלול, השני 190, מהשלישי 99 לכל אחד, עד 12. בורר "כמה משתתפים בשיר?" בכל גרסאות הטופס, כולל `/book`. בהודעה: "משתתפים: N (כולל תוספת X ₪)", בתג `recorders=N`, ובקישור `?participants=N`.
 - `blessing_recording` ו-`studio_remote`: 500 ₪ לפני מע״מ (590 ₪ כולל). שניהם היו 590 לפני מע״מ. היפוך המחירים מול השיר (שאלה 4 הפתוחה) נסגר: ברכה ושיר באותו מחיר בסיס.
 - אשף האולפן עם חבילת השיר: `calcStudioScenarios` מחזיר תרחיש אחד לפי מחירי המשתתפים בשיר, במקום זוגות/סולו/קבוצה של 190/95. חבילת ההקלטה מרחוק נשארת על 190/95.
+
+## Overlay 2026-10-03, סבב שני (מקדמה, הנחות, DJ, אולפן נייד, הגברה, ראיון)
+
+ההחלטות המלאות: `docs/OWNER-DECISIONS-2026-10-02.md`, "החלטות 3.10.2026, סבב שני".
+
+- **שריון מועד:** נוסח אחד, `DATE_HOLD_TERMS` ב-`lib/data/conversion-copy.ts`: "שריון מועד: במקדמה בסכום שמסכמים יחד, לפי הפרויקט והמועד הפנוי." אין אחוז מקדמה, אין סכום קבוע, אין Hold לשעות ואין שוטף +N לצרכן.
+- **תקרת הנחה 8%:** `MAX_DISCOUNT_RATE` ו-`CATALOG_BUNDLES` בקטלוג. כל חבילה ב-`CATALOG_BUNDLES` היא N x מחיר בודד פחות 8%, מעוגל למעלה. נבדק ב-`lib/data/discount-policy.ts` (רץ ב-`audit:pricing`) ובאחוזים בפרוזה ב-`audit:trust-claims`.
+
+| מזהה | היה | עכשיו (לפני מע״מ) |
+|------|-----|-------------------|
+| `event_attraction_2` / `_3` / `_4` | 3,051 / 4,322 / 5,424 | 3,119 / 4,679 / 6,238 |
+| `mashup_ready_pack_3` / `_5` / `_10` | 1,750 / 2,750 / 5,200 | 1,794 / 2,990 / 5,980 |
+| `mashup_custom_pack_3` | 4,500 | 4,554 |
+| `dj_voice_tag_pack_5` | 1,200 | 1,610 |
+
+- **יקיר אישית:** `dj_yakir_personal` 9,800 לפני מע״מ (11,564 כולל).
+- **אולפן נייד:** `mobile_studio` (5,000) נמחק. `mobile_podcast_at_home` 2,500 = הגעה עם כל הציוד, התאורה והצוות (`MOBILE_STUDIO_ARRIVAL_COPY`). באירוע: `podcast_video` או `podcast_audio` ועל זה ההגעה (`mobileStudioEventExVat`).
+- **הגברה:** `event_sound_rental` 2,500, באשף האירועים, במחשבון ההזמנה, ב-`/events/equipment` וב-`/pricing`.
+- **ראיון לשיר:** עד 10 דקות (`SONG_INTERVIEW_DURATION`). **פלייבק:** `SONG_PLAYBACK_HELP` ברשימת מה שכלול בשיר.
+- **הנחת חבילת AI בצילום:** `aiBundleDiscountExVat`, 8% מסכום שירותי ה-AI (היה 500 קבועים).
