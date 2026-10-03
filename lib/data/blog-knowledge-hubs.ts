@@ -326,11 +326,76 @@ const EDITING_HUB: KnowledgeHub = {
   ],
 };
 
+export function buildPodcastHubAnswer(): string {
+  const pilot = getExVat("podcast_pilot").toLocaleString("he-IL");
+  const video = getExVat("podcast_video").toLocaleString("he-IL");
+  const editing = getExVat("podcast_editing_hour").toLocaleString("he-IL");
+  return (
+    `מתחילים בשמונה נושאים על דף, לא במיקרופון. אם יש לכם מספיק מה להגיד, ` +
+    `קובעים סשן, מקליטים, ושולחים לעריכה. פיילוט אודיו מתחיל ב-${pilot} ₪ ` +
+    `לפני מע״מ, פרק וידאו ב-${video} ₪, ועריכה בלבד ב-${editing} ₪ לשעה. ` +
+    `מה שמחזיק פודקאסט הוא לוח זמנים ולא ציוד, ואם אין לכם שמונה נושאים ` +
+    `עדיף לכתוב בלוג.`
+  );
+}
+
+export function buildPodcastHubMetaDescription(): string {
+  const pilot = getExVat("podcast_pilot").toLocaleString("he-IL");
+  const video = getExVat("podcast_video").toLocaleString("he-IL");
+  return (
+    `פיילוט אודיו מ-${pilot} ₪ + מע״מ, פרק וידאו מ-${video} ₪ + מע״מ. ` +
+    `האם שווה לכם בכלל, אולפן או מהבית, ומתי צריך עריכה מקצועית.`
+  );
+}
+
+const PODCAST_HUB: KnowledgeHub = {
+  categoryId: "podcast",
+  heading: "איך פודקאסט עובד, מהרעיון עד הפרק הראשון?",
+  answer: buildPodcastHubAnswer(),
+  metaDescription: buildPodcastHubMetaDescription(),
+  groups: [
+    {
+      id: "worth-it",
+      title: "האם שווה לכם בכלל",
+      slugs: [
+        "podcast-for-small-business-worth-it",
+        "business-podcast-roi-2026",
+        "first-podcast-without-wasting-money",
+      ],
+    },
+    {
+      id: "where",
+      title: "אולפן או מהבית",
+      slugs: ["podcast-studio-vs-home-recording", "prepare-voice-podcast-studio"],
+    },
+    {
+      id: "editing",
+      title: "מתי צריך עריכה, ומה לבדוק",
+      slugs: [
+        "podcast-needs-professional-editing",
+        "podcast-editing-complaints",
+        "zoom-call-to-radio-quality",
+      ],
+    },
+    {
+      id: "full-guide",
+      title: "מהרעיון עד הפרק הראשון",
+      slugs: ["podcast-production-guide-israel"],
+    },
+    {
+      id: "booking",
+      title: "הזמנה מהאתר",
+      slugs: ["podcast-booking-guide"],
+    },
+  ],
+};
+
 const HUBS: readonly KnowledgeHub[] = [
   STUDIO_HUB,
   VOICEOVER_HUB,
   EVENTS_HUB,
   EDITING_HUB,
+  PODCAST_HUB,
 ];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {
