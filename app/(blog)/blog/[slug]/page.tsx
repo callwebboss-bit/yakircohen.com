@@ -257,7 +257,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               whatsappMessage={funnel?.whatsappMessage ?? callout?.whatsappText}
               utm_campaign={callout?.utmCampaign ?? funnel?.utmCampaign ?? "blog_article_cta"}
               closerService={callout?.closerService ?? funnel?.closerService}
-              priceExVat={callout?.priceExVat ?? funnel?.priceExVat}
+              priceExVat={callout?.priceExVat ?? funnel?.priceExVat ?? undefined}
               closerRoute={post.slug}
               bookHref={callout?.bookHref ?? funnel?.bookHref}
               bookCtaLabel={funnel?.bookCtaLabel}

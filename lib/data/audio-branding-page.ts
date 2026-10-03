@@ -91,7 +91,7 @@ export const AUDIO_BRANDING_CONFIG: BusinessPageConfig = {
   ],
   faqs,
   relatedLinks: [
-    { label: "קריינות מקצועית", href: "/business/professional-voiceover" },
+    { label: "קריינות מקצועית", href: "/voiceover/services" },
     { label: "שירותי קריינות", href: "/voiceover/services" },
   ],
 };

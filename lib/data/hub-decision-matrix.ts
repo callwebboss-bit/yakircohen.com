@@ -142,7 +142,7 @@ export const BUSINESS_HUB_DECISIONS: readonly HubDecisionRow[] = [
   {
     ifYouWant: "קריינות או מיתוג קולי",
     thenGo: "קריינות עסקית",
-    href: "/business/professional-voiceover",
+    href: "/voiceover/services",
   },
 ] as const;
 
@@ -188,7 +188,7 @@ export const VOICEOVER_HUB_DECISIONS: readonly HubDecisionRow[] = [
   {
     ifYouWant: "קריינות לעסק עם חשבונית",
     thenGo: "קריינות עסקית",
-    href: "/business/professional-voiceover",
+    href: "/voiceover/services",
   },
   {
     ifYouWant: "ללמוד קריינות באולפן",

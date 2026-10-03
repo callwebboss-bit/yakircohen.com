@@ -13,7 +13,7 @@ import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import VoiceoverNarratorCompare from "@/components/seo/VoiceoverNarratorCompare";
 
 /* voiceover ולא studio: אותו יעד ומחיר, אבל עמוד עסקי נשאר לפני מע״מ */
-const bookCta = resolveServiceBookCta("voiceover");
+const bookCta = resolveServiceBookCta("business/professional-voiceover");
 
 export default function ProfessionalVoiceoverPageContent() {
   const ctaHref = buildWhatsAppHref({

@@ -11,6 +11,7 @@ import {
   resolveRowScope,
   resolveRowShowFromPrefix,
   resolveRowSuitedFor,
+  resolveRowWhatsAppFallback,
   type PricingHubRow,
 } from "@/lib/data/pricing-hub";
 import { CTA_LABELS, pricingRowBookCta } from "@/lib/data/conversion-copy";
@@ -113,6 +114,7 @@ export default function PricingHubRowAccordion({
         const panelId = `${baseId}-panel-${rowKey}`;
         const rowHref = resolveRowHref(row, sectionHref);
         const rowBookHref = resolveRowBookHref(row, sectionBookHref);
+        const rowWhatsAppHref = resolveRowWhatsAppFallback(row);
         const description = resolveRowDescription(row);
         const scope = resolveRowScope(row);
         const suitedFor = resolveRowSuitedFor(row);
@@ -196,14 +198,25 @@ export default function PricingHubRowAccordion({
                     lead={priceLead}
                   />
                 </div>
-                <Link
-                  href={rowBookHref}
-                  className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light`}
-                >
-                  {priceLead === "withVat"
-                    ? `${CTA_LABELS.bookOnline} - ${formatConsumerPriceLine(row.exVat, showFromPrefix)}`
-                    : pricingRowBookCta(row.exVat, showFromPrefix)}
-                </Link>
+                {rowWhatsAppHref ? (
+                  <a
+                    href={rowWhatsAppHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-[#178741] px-4 py-3 text-sm font-semibold text-white hover:bg-[#0f6e34]`}
+                  >
+                    {`${CTA_LABELS.fastWaQuote} בוואטסאפ - ${formatConsumerPriceLine(row.exVat, showFromPrefix)}`}
+                  </a>
+                ) : (
+                  <Link
+                    href={rowBookHref}
+                    className={`${linkClass} mt-3 inline-flex w-full justify-center rounded-xl bg-brand-red px-4 py-3 text-sm font-semibold text-white hover:bg-brand-red-light`}
+                  >
+                    {priceLead === "withVat"
+                      ? `${CTA_LABELS.bookOnline} - ${formatConsumerPriceLine(row.exVat, showFromPrefix)}`
+                      : pricingRowBookCta(row.exVat, showFromPrefix)}
+                  </Link>
+                )}
                 <div className="mt-3 flex flex-wrap gap-3 text-sm">
                   <InlineServiceLink href={rowHref}>פרטים נוספים</InlineServiceLink>
                 </div>

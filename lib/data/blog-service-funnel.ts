@@ -90,7 +90,7 @@ export type BlogFunnelTarget = {
   whatsappMessage: string;
   utmCampaign: string;
   closerService: string;
-  priceExVat: number;
+  priceExVat: number | null;
   bookHref: string;
   bookCtaLabel: string;
 };

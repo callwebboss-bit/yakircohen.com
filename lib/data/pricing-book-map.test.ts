@@ -85,3 +85,35 @@ describe("parseBookCatalogFromSearch", () => {
     assert.equal(parseBookCatalogFromSearch(null), null);
   });
 });
+
+/* שלב 4 WP5: פריט שהאשף פותח במחיר אחר לא נשלח לאשף */
+describe("notBookable catalog targets", () => {
+  it("podcast catalog ids open a wizard package at the same price, or are not bookable", async () => {
+    const { PODCAST_PACKAGES } = await import("@/lib/data/podcast-calculator");
+    const { getExVat } = await import("@/lib/data/pricing-catalog");
+    const { isPricingNotBookable, resolvePricingBookTarget } = await import("@/lib/data/pricing-book-map");
+    const ids = [
+      "podcast_pilot",
+      "podcast_audio",
+      "podcast_video",
+      "content_package",
+      "full_podcast_production",
+      "mobile_podcast_at_home",
+      "studio_self_service_hour",
+      "studio_half_hour",
+    ] as const;
+    for (const id of ids) {
+      const target = resolvePricingBookTarget(id);
+      if (!target?.podcastPackageId) continue;
+      const pkg = PODCAST_PACKAGES.find((p) => p.id === target.podcastPackageId);
+      if (pkg?.price !== getExVat(id)) {
+        assert.ok(isPricingNotBookable(id), `${id} opens ${target.podcastPackageId} at ${pkg?.price}`);
+      }
+    }
+  });
+
+  it("a not-bookable id does not preselect a wizard package", () => {
+    assert.equal(parseBookCatalogFromSearch("full_podcast_production"), null);
+    assert.equal(resolvePricingBookHref("full_podcast_production"), null);
+  });
+});

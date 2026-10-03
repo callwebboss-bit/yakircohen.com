@@ -102,7 +102,6 @@ const CLUSTER_DEFAULTS: Record<
     extraLinks: [
       { href: "/voiceover", label: "קריינות" },
       { href: "/voiceover/services", label: "שירותי קריינות" },
-      { href: "/business/professional-voiceover", label: "קריינות לעסקים" },
     ],
   },
   academy: {

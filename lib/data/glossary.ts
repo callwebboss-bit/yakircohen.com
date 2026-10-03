@@ -998,7 +998,7 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     definition: "IVR הוא תפריט קולי טלפוני שמנתב מתקשרים לפי לחצנים או דיבור.",
     also: "ברמת התוכן זה כולל פתיח, אפשרויות ניתוב, הודעת המתנה ועדכוני שעות פעילות.",
     relatedTerms: ["hold-message", "voiceover", "audio-logo"],
-    relatedService: { href: "/business/professional-voiceover", label: "קריינות לעסק" },
+    relatedService: { href: "/voiceover/services", label: "קריינות לעסק" },
   },
   {
     slug: "hold-message",
@@ -1008,7 +1008,7 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     definition: "הודעת המתנה היא קטע קולי שמתנגן בזמן שהמתקשר ממתין לנציג.",
     also: "בדרך כלל משלבים בה מידע ענייני, לא מכירה אגרסיבית.",
     relatedTerms: ["ivr", "voiceover", "audio-logo"],
-    relatedService: { href: "/business/professional-voiceover", label: "קריינות למרכזייה" },
+    relatedService: { href: "/voiceover/services", label: "קריינות למרכזייה" },
   },
   {
     slug: "voice-cloning",

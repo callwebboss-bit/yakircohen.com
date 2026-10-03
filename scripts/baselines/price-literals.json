@@ -1603,20 +1603,6 @@
     "example": "\"online/vocal-fix/mixing\": { bookCategory: \"online\", priceExVat: 500 },"
   },
   {
-    "file": "lib/data/service-book-map.ts",
-    "kind": "field",
-    "value": 990,
-    "count": 2,
-    "example": "academy: { bookCategory: \"academy\", priceExVat: 990 },"
-  },
-  {
-    "file": "lib/data/service-book-map.ts",
-    "kind": "field",
-    "value": 2800,
-    "count": 1,
-    "example": "\"events/equipment/singer-amplification\": { bookCategory: \"singer\", priceExVat: 2800 },"
-  },
-  {
     "file": "lib/data/services.ts",
     "kind": "prose",
     "value": 100,

@@ -8,7 +8,8 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
-import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
+import { isPricingNotBookable, resolvePricingBookHref } from "@/lib/data/pricing-book-map";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type PricingHubRow = {
   label: string;
@@ -217,6 +218,20 @@ export function resolveRowShowFromPrefix(row: PricingHubRow): boolean {
 
 export function resolveRowHref(row: PricingHubRow, sectionHref: string): string {
   return row.href ?? sectionHref;
+}
+
+/**
+ * שורה שהאשף לא מתמחר באותו מחיר (notBookable ב-pricing-book-map) מקבלת
+ * כפתור וואטסאפ עם שם השורה והמחיר, במקום "הזמנה מקוונת" שמבטיח מחיר אחד
+ * ופותח חבילה במחיר אחר. WP5.
+ */
+export function resolveRowWhatsAppFallback(row: PricingHubRow): string | null {
+  if (!row.catalogId || !isPricingNotBookable(row.catalogId)) return null;
+  return buildWhatsAppHref({
+    text: `שלום, מעוניין/ת ב${row.label} - ראיתי באתר ${formatFromPriceDual(row.exVat)}.`,
+    utm_source: "website",
+    utm_campaign: "pricing_row_whatsapp",
+  });
 }
 
 export function resolveRowBookHref(
