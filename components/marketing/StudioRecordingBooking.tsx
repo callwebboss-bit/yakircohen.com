@@ -138,7 +138,6 @@ import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
 import {
   StudioBusinessFields,
   StudioCostSplitBlock,
-  StudioDecoyVipCard,
   StudioFitMeter,
   StudioLastMinuteBtsOffer,
   StudioParkingBanner,
@@ -149,7 +148,6 @@ import {
   StudioUpgradeQuickPills,
   StudioWelcomePerkPills,
   WizardInlinePriceBar,
-  WizardStep3HoldTimer,
   WizardStepTransitionOverlay,
 } from "@/components/booking/StudioWizardCroBlocks";
 import { formatPrice } from "@/lib/data/pricing-display";
@@ -170,11 +168,6 @@ import {
   BOOKING_CTA,
   BOOKING_FAMILY_REPLY_LABELS,
 } from "@/lib/data/booking-shared";
-import {
-  saveStudioPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
-import { ensureHoldDeadline } from "@/lib/book-wizard-cro/urgency";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
@@ -376,11 +369,6 @@ export default function StudioRecordingBooking({
     null,
   );
   const prevStepRef = useRef(0);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "studio",
-    BOOK_WIZARD_COPY.priceHoldBadge,
-  );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
 
@@ -1029,7 +1017,6 @@ export default function StudioRecordingBooking({
 
   const completeStep3Transition = useCallback(() => {
     setStep3Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("studio"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -1093,13 +1080,6 @@ export default function StudioRecordingBooking({
   const showCroOverlays = !isSubmitted && step < 2;
 
   const handleExitIntent = () => {
-    if (activePackage && total > 0) {
-      saveStudioPriceHold({
-        packageLabel: activePackage.name,
-        totalExVat: total,
-      });
-      setPriceHoldLabel(BOOK_WIZARD_COPY.priceHoldBadge);
-    }
     setExitIntentOpen(true);
   };
 
@@ -1313,7 +1293,7 @@ export default function StudioRecordingBooking({
       ) : null}
 
       {showCroOverlays ? (
-        <WizardUrgencyHint priceHoldLabel={priceHoldLabel} className="-mt-6" />
+        <WizardUrgencyHint className="-mt-6" />
       ) : null}
 
       <p className="sr-only" aria-live="polite">
@@ -1780,7 +1760,6 @@ export default function StudioRecordingBooking({
                   />
                 );
               })}
-              {!isConsultation ? <StudioDecoyVipCard waHref={escapeWaHref} /> : null}
             </div>
 
             {!isConsultation && form.packageId ? (
@@ -1885,9 +1864,6 @@ export default function StudioRecordingBooking({
       {step === 2 && !isSongRecording && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
-            {step3HoldDeadline ? (
-              <WizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-            ) : null}
             <div className="rounded-2xl bg-surface p-5">
               <h2
                 id="book-step-heading-2"

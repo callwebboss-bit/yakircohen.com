@@ -31,7 +31,6 @@ import {
   PodcastReassuranceBadge,
   PodcastSessionPriorityPills,
   PodcastWelcomePerkPills,
-  PodcastWizardStep3HoldTimer,
   PodcastWizardStepTransitionOverlay,
   PodcastWizardUrgencyHint,
 } from "@/components/booking/PodcastWizardCroBlocks";
@@ -59,11 +58,6 @@ import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadN
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
-import {
-  ensureHoldDeadline,
-  saveCategoryPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
@@ -192,11 +186,6 @@ export default function PodcastBookingWizard({
   const coreContactMerged = useRef(false);
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "podcast",
-    PODCAST_CRO_CONFIG.urgency.priceHoldBadge,
-  );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const [celebrateKey, setCelebrateKey] = useState(0);
@@ -544,15 +533,8 @@ export default function PodcastBookingWizard({
   };
 
   const handleExitIntent = useCallback(() => {
-    if (packageTotal > 0 && packageSummaryLabel) {
-      saveCategoryPriceHold("podcast", {
-        packageLabel: packageSummaryLabel,
-        totalExVat: packageTotal,
-      });
-      setPriceHoldLabel(PODCAST_CRO_CONFIG.urgency.priceHoldBadge);
-    }
     setExitIntentOpen(true);
-  }, [packageTotal, packageSummaryLabel]);
+  }, []);
 
   useBookExitIntent({
     enabled: showCroOverlays && packageTotal > 0 && !!selected,
@@ -565,7 +547,6 @@ export default function PodcastBookingWizard({
 
   const completeStep2Transition = useCallback(() => {
     setStep2Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("podcast"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -790,7 +771,7 @@ export default function PodcastBookingWizard({
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <PodcastWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
+          <PodcastWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו חבילת פודקאסט</h2>
           <BookingStepGuide
             lines={[
@@ -1155,9 +1136,6 @@ export default function PodcastBookingWizard({
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
-          {step3HoldDeadline ? (
-            <PodcastWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-          ) : null}
           <p className="mb-4 text-center text-base font-semibold text-foreground">
             {PODCAST_CRO_CONFIG.step3Closer}
           </p>

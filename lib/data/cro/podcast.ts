@@ -1,5 +1,6 @@
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 /** config מלא לפודקאסט - גל ו' */
 export const PODCAST_CRO_CONFIG = {
@@ -30,31 +31,25 @@ export const PODCAST_CRO_CONFIG = {
       body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות רק אם תבקשו במפורש.",
     },
   },
-  transitionMessages: [
-    "מחשב זמני עריכה וניקוי רעשי רקע...",
-    "בודק זמינות אולפן...",
-    "מתאים חבילה לפי מספר משתתפים...",
-  ],
+  transitionMessages: CRO_SHARED.transitionMessages,
   escapePlacements: ["after_packages", "step_contact"],
-  urgency: {
-    holdPrefix: "המחיר והחבילה שמורים עבורך עוד",
-    holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
-    priceHoldBadge: "המחיר שמור ל-48 שעות",
-  },
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת ההקלטה",
   step3SummaryHeading: "סיכום קצר",
   step3ContactHeading: "פרטים לתיאום",
   priceReframe:
     "פחות מעלות של יום צילומים בודד - בשביל פרק מקצועי שעובד בשבילכם שנים",
+  /* בלי "במקום 300": לרגעי שיא אין פריט קטלוג משלהם (המחיר בתוספות נגזר
+     מ-studio_pitch_correction). ההנחה עצמה אמיתית ומחושבת מול המחיר שנגבה
+     בפועל, אבל מחיר ייחוס מוצג רק כשהוא קשור לפריט קטלוג של אותו מוצר. */
   lastMinuteUpsell: {
-    label: "רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪",
+    label: "רגעי שיא לרילס (עד 3 דק')",
     upgradeId: "highlights",
     promoPrice: 199,
-    listPrice: 300,
+    listPrice: getExVat("studio_pitch_correction"),
   },
   exitIntent: {
     title: "רגע לפני שעוזבים",
-    body: "שמרנו את המחיר שבחרתם. אפשר לחזור ולסגור בקליק.",
+    body: CRO_SHARED.exitIntentBody,
     cta: "המשיכו מהמקום שעצרתם",
     dismiss: "לא עכשיו, תודה",
   },

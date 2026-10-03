@@ -1050,13 +1050,6 @@
     "example": "description: \"לבבות, כוכבים, פרפרים או שטרות כסף, 500 ₪ באוויר?\","
   },
   {
-    "file": "lib/data/cro/events.ts",
-    "kind": "field",
-    "value": 18500,
-    "count": 1,
-    "example": "priceExVat: 18500,"
-  },
-  {
     "file": "lib/data/cro/podcast.ts",
     "kind": "field",
     "value": 199,
@@ -1064,74 +1057,11 @@
     "example": "promoPrice: 199,"
   },
   {
-    "file": "lib/data/cro/podcast.ts",
-    "kind": "prose",
-    "value": 199,
-    "count": 1,
-    "example": "label: \"רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪\","
-  },
-  {
-    "file": "lib/data/cro/podcast.ts",
-    "kind": "field",
-    "value": 300,
-    "count": 1,
-    "example": "listPrice: 300,"
-  },
-  {
-    "file": "lib/data/cro/podcast.ts",
-    "kind": "prose",
-    "value": 300,
-    "count": 1,
-    "example": "label: \"רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪\","
-  },
-  {
     "file": "lib/data/cro/singer.ts",
     "kind": "field",
     "value": 399,
     "count": 1,
     "example": "promoPrice: 399,"
-  },
-  {
-    "file": "lib/data/cro/singer.ts",
-    "kind": "prose",
-    "value": 399,
-    "count": 1,
-    "example": "label: \"הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪\","
-  },
-  {
-    "file": "lib/data/cro/singer.ts",
-    "kind": "field",
-    "value": 500,
-    "count": 1,
-    "example": "listPrice: 500,"
-  },
-  {
-    "file": "lib/data/cro/singer.ts",
-    "kind": "prose",
-    "value": 500,
-    "count": 1,
-    "example": "label: \"הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪\","
-  },
-  {
-    "file": "lib/data/cro/studio.ts",
-    "kind": "field",
-    "value": 250,
-    "count": 1,
-    "example": "listPrice: 250,"
-  },
-  {
-    "file": "lib/data/cro/studio.ts",
-    "kind": "prose",
-    "value": 250,
-    "count": 1,
-    "example": "label: \"להוסיף תמונות וסרטון קצר מהאולפן לסטורי - 99 ₪ במקום 250 ₪\","
-  },
-  {
-    "file": "lib/data/cro/studio.ts",
-    "kind": "field",
-    "value": 8900,
-    "count": 1,
-    "example": "priceExVat: 8900,"
   },
   {
     "file": "lib/data/events-equipment-faq-page.ts",
@@ -1797,12 +1727,5 @@
     "value": 2500,
     "count": 1,
     "example": "description: \"צילום + עריכה - מ-2,500 ₪\","
-  },
-  {
-    "file": "lib/studio-upgrade-pricing.ts",
-    "kind": "const",
-    "value": 250,
-    "count": 1,
-    "example": "export const LAST_MINUTE_BTS_LIST_PRICE = 250;"
   }
 ]

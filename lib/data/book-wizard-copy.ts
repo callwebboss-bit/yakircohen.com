@@ -14,7 +14,8 @@ export const BOOK_WIZARD_COPY = {
   fitMeterLabel: STUDIO_CRO_CONFIG.fitMeterLabel!,
   fitMeterDetail: STUDIO_CRO_CONFIG.fitMeterDetail!,
   splitCostLabel: "מתחלקים בעלות?",
-  splitCostPerPerson: (amount: string) => `רק ${amount} ₪ למשתתף (לפני מע״מ)`,
+  /* amount מגיע מ-formatConsumerPrice(...).totalLabel, כולל מע״מ */
+  splitCostPerPerson: (amount: string) => `רק ${amount} למשתתף`,
   waEscape: STUDIO_CRO_CONFIG.waEscape,
   companyNameLabel: "שם החברה / הארגון",
   needsInvoiceLabel: "צריך חשבונית מס",
@@ -31,7 +32,6 @@ export const BOOK_WIZARD_COPY = {
   travelModeTransit: "תחבורה ציבורית / אחר",
   parkingBanner: STUDIO_CRO_CONFIG.parkingCopy!,
   transitionMessages: STUDIO_CRO_CONFIG.transitionMessages,
-  priceHoldBadge: STUDIO_CRO_CONFIG.urgency.priceHoldBadge,
   exitIntentTitle: STUDIO_CRO_CONFIG.exitIntent.title,
   exitIntentBody: STUDIO_CRO_CONFIG.exitIntent.body,
   exitIntentCta: STUDIO_CRO_CONFIG.exitIntent.cta,
@@ -41,10 +41,7 @@ export const BOOK_WIZARD_COPY = {
   idleHelpDismiss: STUDIO_CRO_CONFIG.idleHelp.dismiss,
   pitchSafetyTitle: STUDIO_CRO_CONFIG.reassuranceByAnxiety.vocal_fix!.title,
   pitchSafetyBody: STUDIO_CRO_CONFIG.reassuranceByAnxiety.vocal_fix!.body,
-  step3HoldPrefix: STUDIO_CRO_CONFIG.urgency.holdPrefix,
-  step3HoldExpiredSoft: STUDIO_CRO_CONFIG.urgency.holdExpiredSoft,
   lastMinuteBtsLabel: STUDIO_CRO_CONFIG.lastMinuteUpsell!.label,
-  decoyVipCta: STUDIO_CRO_CONFIG.decoy!.ctaPrimary,
   priceReframe: STUDIO_CRO_CONFIG.priceReframe!,
 } as const;
 

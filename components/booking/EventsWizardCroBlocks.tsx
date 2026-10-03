@@ -1,10 +1,8 @@
 "use client";
 
 import { WizardAnxietyPills } from "@/components/booking/cro/WizardAnxietyPills";
-import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
 import { WizardLastMinuteUpsell, WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
-import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardWelcomePerkPills } from "@/components/booking/cro/WizardWelcomePerkPills";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
@@ -70,12 +68,6 @@ export function EventsEffectFailureBadge() {
   return <EventsReassuranceBadge anxietyId="effect_failure" />;
 }
 
-export function EventsDecoyVipCard({ escapeWaHref }: { escapeWaHref: string }) {
-  const decoy = EVENTS_CRO_CONFIG.decoy;
-  if (!decoy) return null;
-  return <WizardDecoyCard decoy={decoy} escapeWaHref={escapeWaHref} className="mt-4" />;
-}
-
 export function EventsWizardStepTransitionOverlay({
   active,
   layout = "summary",
@@ -98,24 +90,8 @@ export function EventsWizardStepTransitionOverlay({
   );
 }
 
-export function EventsWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="events" deadlineMs={deadlineMs} />;
-}
-
-export function EventsWizardUrgencyHint({
-  priceHoldLabel,
-  className,
-}: {
-  priceHoldLabel?: string | null;
-  className?: string;
-}) {
-  return (
-    <WizardUrgencyHint
-      category="events"
-      priceHoldLabel={priceHoldLabel}
-      className={className}
-    />
-  );
+export function EventsWizardUrgencyHint({ className }: { className?: string }) {
+  return <WizardUrgencyHint category="events" className={className} />;
 }
 
 export function EventsPriceReframe() {

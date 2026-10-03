@@ -1,5 +1,6 @@
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 /** config מלא להגברה לזמרים - גל ז' */
 export const SINGER_CRO_CONFIG = {
@@ -30,31 +31,24 @@ export const SINGER_CRO_CONFIG = {
       body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות רק אם תבקשו במפורש.",
     },
   },
-  transitionMessages: [
-    "בודק זמינות טכנאי בשטח...",
-    "מחשב עלות מערכת לפי גודל האירוע...",
-    "מתאים חבילה...",
-  ],
+  transitionMessages: CRO_SHARED.transitionMessages,
   escapePlacements: ["after_packages", "step_contact"],
-  urgency: {
-    holdPrefix: "המחיר והחבילה שמורים עבורך עוד",
-    holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
-    priceHoldBadge: "המחיר שמור ל-48 שעות",
-  },
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת ההזמנה",
   step3SummaryHeading: "סיכום קצר",
   step3ContactHeading: "פרטי ההופעה",
   priceReframe:
     "פחות מעלות של ציוד שכור ליום - בשביל הגברה מקצועית עם טכנאי בשטח",
+  /* מחיר הייחוס קשור לתוספת בקטלוג (singer_live_recording), שהבעלים אימת */
   lastMinuteUpsell: {
-    label: "הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪",
+    label: "הקלטת ההופעה מהמיקסר",
     upgradeId: "singer_addon_3",
     promoPrice: 399,
-    listPrice: 500,
+    listPrice: getExVat("singer_live_recording"),
+    referenceCatalogId: "singer_live_recording",
   },
   exitIntent: {
     title: "רגע לפני שעוזבים",
-    body: "שמרנו את המחיר שבחרתם. אפשר לחזור ולסגור בקליק.",
+    body: CRO_SHARED.exitIntentBody,
     cta: "המשיכו מהמקום שעצרתם",
     dismiss: "לא עכשיו, תודה",
   },

@@ -22,13 +22,11 @@ import WizardStepProgress from "@/components/booking/WizardStepProgress";
 import BookOptionalAddonsButton from "@/components/booking/BookOptionalAddonsButton";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import {
-  EventsDecoyVipCard,
   EventsLastMinutePhotoOffer,
   EventsPriceReframe,
   EventsReassuranceBadge,
   EventsSessionPriorityPills,
   EventsWelcomePerkPills,
-  EventsWizardStep3HoldTimer,
   EventsWizardStepTransitionOverlay,
   EventsWizardUrgencyHint,
 } from "@/components/booking/EventsWizardCroBlocks";
@@ -103,11 +101,6 @@ import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
-import {
-  ensureHoldDeadline,
-  saveCategoryPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
   scrollAndHighlightFirstError,
@@ -220,11 +213,6 @@ export default function EventsBookingWizard({
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const prevStepRef = useRef(0);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "events",
-    EVENTS_CRO_CONFIG.urgency.priceHoldBadge,
-  );
   const initialForm = useMemo(
     () => buildInitialEventsForm(initialEventItemId),
     [initialEventItemId],
@@ -607,15 +595,8 @@ export default function EventsBookingWizard({
   };
 
   const handleExitIntent = useCallback(() => {
-    if (bundleTotal > 0 && packageSummaryLabel) {
-      saveCategoryPriceHold("events", {
-        packageLabel: packageSummaryLabel,
-        totalExVat: bundleTotal,
-      });
-      setPriceHoldLabel(EVENTS_CRO_CONFIG.urgency.priceHoldBadge);
-    }
     setExitIntentOpen(true);
-  }, [bundleTotal, packageSummaryLabel]);
+  }, []);
 
   useBookExitIntent({
     enabled: showCroOverlays && bundleTotal > 0 && count > 0,
@@ -628,7 +609,6 @@ export default function EventsBookingWizard({
 
   const completeStep2Transition = useCallback(() => {
     setStep2Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("events"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -829,7 +809,7 @@ export default function EventsBookingWizard({
       {/* ── שלב 0: בחירת אטרקציות ── */}
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <EventsWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
+          <EventsWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו אטרקציות</h2>
           <p className="text-sm text-muted-foreground">
             2 אטרקציות = הנחה 10% · 3 = 15% · 4 ומעלה = 20% ומתנה · כמות כפולה נספרת כשתי אטרקציות
@@ -1104,10 +1084,6 @@ export default function EventsBookingWizard({
 
           <WizardContextFaqSnapshot items={eventsWizardFaqs} className="mt-6" />
 
-          {EVENTS_CRO_CONFIG.escapePlacements.includes("after_packages") ? (
-            <EventsDecoyVipCard escapeWaHref={escapeWaHref} />
-          ) : null}
-
           {count === 0 &&
           EVENTS_CRO_CONFIG.escapePlacements.includes("empty_results") ? (
             <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
@@ -1209,9 +1185,6 @@ export default function EventsBookingWizard({
       {/* ── שלב 2: סיכום ── */}
       {step === 2 && (count > 0 || hasSoundRental) && (
         <BookingStepPanel stepKey={2}>
-          {step3HoldDeadline ? (
-            <EventsWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-          ) : null}
           <p className="mb-4 text-center text-base font-semibold text-foreground">
             {EVENTS_CRO_CONFIG.step3Closer}
           </p>
