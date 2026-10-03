@@ -184,6 +184,25 @@ const AI_SERVICES = [
     ctaHref: "/online/vocal-fix/eq-fix",
     ctaLabel: "פרטים נוספים",
   },
+  /* WP6 (PI-05, PJ-09): תיקון זיופים לא הופיע במחירון האונליין, ובעמוד שלו
+     הייתה כותרת "כמה זה עולה?" בלי מחיר. המחיר מהקטלוג, כמו בעמוד המיקס,
+     באשף האולפן וב-PRICING.md. */
+  {
+    id: "studio_pitch_correction",
+    name: "תיקון זיופים",
+    icon: <EnhanceIcon />,
+    exVat: getExVat("studio_pitch_correction"),
+    billingType: "one-time" as const,
+    deliverables: [
+      "תיקון זיופים ידני, תו אחר תו",
+      "קול טבעי, לא Auto-Tune רובוטי",
+      "קובץ WAV או MP3 מוכן",
+    ],
+    note: "לשיר עד 4 דקות",
+    whatsappText: "שלום, יש לי שיר שצריך תיקון זיופים.",
+    ctaHref: "/online/vocal-fix/pitch-correction",
+    ctaLabel: "פרטים נוספים",
+  },
 ] as const;
 
 function formatServicePrice(exVat: number | null): string {

@@ -48,3 +48,33 @@ describe("price transparency overlay lists", () => {
     assert.ok(t.addons.includes("studio_pitch_correction"));
   });
 });
+
+/* שלב 4, סעיף 2H: רשימת "לא כולל" לא סותרת את שם המוצר, ואין טקסט תבנית */
+describe("transparency lists do not contradict the product", () => {
+  const KEYS = ["קליפ", "כתיבה", "כתיבת", "מיקס", "צילום", "תיקון זיופים"];
+  /* צילום קליפ גלם: "לא כולל קליפ מוכן לרשתות" הוא ההבדל בין גלם לערוך */
+  const ALLOWED = new Set(["studio_session_clip|קליפ"]);
+
+  it("no word from an item's label appears in its own excluded list", async () => {
+    const { PRICING_CATALOG, getPriceTransparencyById } = await import("@/lib/data/pricing-catalog");
+    const bad: string[] = [];
+    for (const item of PRICING_CATALOG) {
+      const t = getPriceTransparencyById(item.id);
+      for (const k of KEYS) {
+        if (!item.label.includes(k) || ALLOWED.has(`${item.id}|${k}`)) continue;
+        for (const line of t.excluded) if (line.includes(k)) bad.push(`${item.id}: ${line}`);
+      }
+    }
+    assert.deepEqual(bad, []);
+  });
+
+  it("no template placeholder text reaches the customer", async () => {
+    const { PRICING_CATALOG, getPriceTransparencyById } = await import("@/lib/data/pricing-catalog");
+    for (const item of PRICING_CATALOG) {
+      const t = getPriceTransparencyById(item.id);
+      for (const line of [...t.included, ...t.excluded]) {
+        assert.doesNotMatch(line, /שבכרטיס|__[A-Z_]+__/, item.id);
+      }
+    }
+  });
+});

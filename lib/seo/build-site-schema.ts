@@ -240,7 +240,8 @@ export function buildSiteSchema() {
             "@type": "Offer",
             name: "תיקון זיופים",
             description: "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
-            price: "250",
+            /* WP6: היה 250 כתוב. המחיר בקטלוג, בעמוד המיקס ובאשף הוא 300 */
+            price: String(getExVat("studio_pitch_correction")),
             priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/pitch-correction`,
           },
@@ -282,7 +283,7 @@ export function buildSiteSchema() {
           {
             "@type": "Offer",
             name: "תיקון זיופים",
-            price: "250",
+            price: String(getExVat("studio_pitch_correction")),
             priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/pitch-correction`,
           },

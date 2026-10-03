@@ -329,13 +329,6 @@
     "example": "\"כן. צביעה (colorization) זה שירות נפרד - 100 ₪ לתמונה.\","
   },
   {
-    "file": "components/seo/OnlinePitchCorrectionPageContent.tsx",
-    "kind": "prose",
-    "value": 100,
-    "count": 1,
-    "example": "לשירים ארוכים: מעל 4 דקות - 100 ₪ נוספים"
-  },
-  {
     "file": "components/seo/OnlineVocalFixPageContent.tsx",
     "kind": "prose",
     "value": 250,
@@ -1858,7 +1851,7 @@
     "file": "lib/seo/build-site-schema.ts",
     "kind": "field",
     "value": 250,
-    "count": 5,
+    "count": 3,
     "example": "price: \"250\","
   },
   {

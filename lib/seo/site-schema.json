@@ -261,7 +261,7 @@
           "@type": "Offer",
           "name": "תיקון זיופים",
           "description": "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
-          "price": "250",
+          "price": "300",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/online/vocal-fix/pitch-correction"
         },
@@ -307,7 +307,7 @@
         {
           "@type": "Offer",
           "name": "תיקון זיופים",
-          "price": "250",
+          "price": "300",
           "priceCurrency": "ILS",
           "url": "https://yakircohen.com/online/vocal-fix/pitch-correction"
         }

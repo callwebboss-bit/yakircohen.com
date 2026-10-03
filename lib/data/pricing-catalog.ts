@@ -530,6 +530,8 @@ type PriceTransparencyDraft = {
   glossaryTermSlugs?: readonly string[];
 };
 
+const ADDON_LABEL_TOKEN = "__ADDON_LABEL__";
+
 const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
   Record<PriceCategory, PriceTransparencyDraft>
 > = {
@@ -542,7 +544,8 @@ const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
     excluded: ["נסיעה ללוקיישן", "סרטונים קצרים נוספים", "כתמלול או כתוביות מעבר למה שמצוין"],
   },
   events: {
-    included: ["השירות או האטרקציה שבכרטיס", "הקמה ותפעול בסיסיים לפי הסיכום"],
+    /* WP6: היה "השירות או האטרקציה שבכרטיס", טקסט תבנית שהוצג ללקוח כמו שהוא */
+    included: ["הציוד והמפעיל לפי מה שנבחר", "הקמה ותפעול בסיסיים לפי הסיכום"],
     excluded: ["נסיעה חריגה", "שעות נוספות", "ציוד/אפקטים שלא נבחרו"],
   },
   dj: {
@@ -566,7 +569,9 @@ const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
     excluded: ["תוספות דחופות", "רישוי צד ג׳", "עבודת המשך מעבר למסלול"],
   },
   addons: {
-    included: ["התוספת שבכרטיס"],
+    /* היה "התוספת שבכרטיס", טקסט תבנית. getPriceTransparencyById שם כאן את
+       שם התוספת עצמה (ראו ADDON_LABEL_TOKEN). WP6 */
+    included: [ADDON_LABEL_TOKEN],
     excluded: ["מסלול בסיס שלא נרכש"],
   },
 };
@@ -676,6 +681,20 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   full_production_clip: {
     included: ["כתיבת השיר", "עיבוד", "מיקס ומאסטר", "צילום ועריכת קליפ וידאו לשיתוף"],
     excluded: ["יום צילום נוסף או צילום חוץ שלא סוכמו", "נגני אולפן שלא תומחרו", "קמפיין הפצה"],
+  },
+  /* WP6: שירי החברה ירשו מקטגוריית האולפן "לא כולל קליפ וידאו" ו"כתיבת מילים
+     או לחן", בזמן שהם נמכרים ככתיבה (ושיר הפרישה וההימנון גם כקליפ) */
+  corp_song_toast: {
+    included: ["כתיבת שיר הומוריסטי לאירוע", "הקלטה, מיקס ומאסטר"],
+    excluded: ["קליפ וידאו", "הופעה חיה באירוע"],
+  },
+  corp_song_retirement: {
+    included: ["כתיבת השיר", "הקלטה, מיקס ומאסטר", "קליפ לשיר"],
+    excluded: ["יום צילום נוסף שלא סוכם", "הופעה חיה באירוע"],
+  },
+  corp_song_anthem: {
+    included: ["כתיבת השיר", "הקלטה, מיקס ומאסטר", "קליפ למיתוג"],
+    excluded: ["יום צילום נוסף שלא סוכם", "קמפיין הפצה"],
   },
   podcast_audio: {
     included: ["הקלטה עד שעה באולפן", "עריכה ומיקס", "מסירה לספוטיפיי"],
@@ -820,7 +839,9 @@ export function getPriceTransparencyById(id: PriceItemId): PriceTransparency {
   return {
     included: uniqueLines([
       item.scope?.includes,
-      ...(override.included ?? categoryDraft.included ?? []),
+      ...(override.included ?? categoryDraft.included ?? []).map((line) =>
+        line === ADDON_LABEL_TOKEN ? item.label : line,
+      ),
     ]),
     excluded: uniqueLines([
       item.scope?.excludes,
