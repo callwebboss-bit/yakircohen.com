@@ -97,7 +97,9 @@ export const BUSINESS_HOURS_NOTE =
   "מקבלים פניות מסביב לשעון חוץ משבת וחג. מענה אנושי, הכי מהר שאפשר. פגישות והקלטות בתיאום מראש.";
 
 /** Trust metrics - homepage, book page, badges (edit values here) */
-export const GOOGLE_RATING = "4.9";
+/* 5.0 כמו שגוגל מציג בכרטיס העסק: 241 ביקורות, כולן 5 כוכבים (נבדק במפות
+   Google, 3.10.2026). עד אז היה כאן 4.9, ו-Perplexity צדק כשאמר 5.0. */
+export const GOOGLE_RATING = "5.0";
 export const GOOGLE_RATING_BEST = "5";
 export const GOOGLE_RATING_WORST = "1";
 /** Optional - shown in badge + schema when set (update from Google Business Profile) */
