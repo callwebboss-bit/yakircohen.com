@@ -72,13 +72,9 @@ export default function StudioGiftsPageContent() {
           __html: JSON.stringify(buildStudioGiftsServiceSchema()),
         }}
       />
-      <VideoObjectSchema
-        videos={schemaVideos}
-        faqItems={STUDIO_GIFT_FAQ.map((item) => ({
-          question: item.question,
-          answer: item.answer,
-        }))}
-      />
+      {/* FAQPage כבר נפלט ב-FaqPageSchema למעלה. כאן רק הווידאו, אחרת אותן
+          שאלות נשלחו פעמיים. */}
+      <VideoObjectSchema videos={schemaVideos} />
       <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"

@@ -59,6 +59,10 @@ export const STUDIO_ADDRESS_TITLE = "יקיר כהן הפקות - אולפן ה�
 export const STUDIO_ADDRESS_LINE =
   "עמק איילון 34, מודיעין מכבים רעות";
 
+/* נקודת הסיכה של העסק במפות Google (נבדק 3.10.2026). קודם היו באתר שלוש
+   קואורדינטות שונות (31.901, 31.896, 31.9077), אף אחת לא בדיוק על הסיכה. */
+export const STUDIO_GEO = { latitude: 31.904389, longitude: 35.013881 } as const;
+
 /** Combined line for metadata / schema */
 export const STUDIO_ADDRESS = `${STUDIO_ADDRESS_TITLE}, ${STUDIO_ADDRESS_LINE}`;
 

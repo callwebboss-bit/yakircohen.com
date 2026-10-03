@@ -14,7 +14,6 @@ import {
 } from "@/lib/data/blessings-subpages";
 import { getStudioService } from "@/lib/data/services";
 import { BLESSINGS_VIDEO_CLIP_VIDEOS } from "@/lib/data/youtube-showcases";
-import { BAT_MITZVAH_CLIP_FAQ } from "@/lib/data/bat-mitzvah-gifts-page";
 
 const service = getStudioService("blessings-video-clip");
 
@@ -100,13 +99,9 @@ export default function BlessingsVideoClipPageContent() {
         />
       </section>
 
-      <BatMitzvahClipShowcase
-        heading="קליפ בת מצווה - דוגמה מלאה"
-        faqItems={BAT_MITZVAH_CLIP_FAQ.slice(0, 2).map((item) => ({
-          question: item.question,
-          answer: item.answer,
-        }))}
-      />
+      {/* בלי faqItems: שתי שאלות בת המצווה לא מוצגות בעמוד הזה, ונשלחו לגוגל
+          כטקסט מוסתר. */}
+      <BatMitzvahClipShowcase heading="קליפ בת מצווה - דוגמה מלאה" />
 
       <ShowcaseVideoSection playlistId="blessings-video-clip" />
 

@@ -31,6 +31,7 @@ import { getEventsService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
+  STUDIO_GEO,
 } from "@/lib/constants";
 import {
   youtubeEmbedUrl,
@@ -64,13 +65,13 @@ const ENTERTAINMENT_BUSINESS_SCHEMA = {
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "עמק איילון 34",
-    "addressLocality": "מודיעין",
+    "addressLocality": "מודיעין-מכבים-רעות",
     "addressCountry": "IL",
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": "31.9077",
-    "longitude": "35.0064",
+    "latitude": STUDIO_GEO.latitude,
+    "longitude": STUDIO_GEO.longitude,
   },
   "url": "https://yakircohen.com",
   "telephone": "+972-58-7555456",

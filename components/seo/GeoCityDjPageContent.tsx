@@ -6,7 +6,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FadeIn from "@/components/ui/FadeIn";
-import { CONTACT_PHONE_E164 } from "@/lib/constants";
+import { CONTACT_PHONE_E164, STUDIO_GEO } from "@/lib/constants";
 import {
   getGeoCity,
   type GeoCitySlug,
@@ -119,13 +119,13 @@ export default function GeoCityDjPageContent({
         address: {
           "@type": "PostalAddress",
           streetAddress: "עמק איילון 34",
-          addressLocality: "מודיעין",
+          addressLocality: "מודיעין-מכבים-רעות",
           addressCountry: "IL",
         },
         geo: {
           "@type": "GeoCoordinates",
-          latitude: "31.9077",
-          longitude: "35.0064",
+          latitude: STUDIO_GEO.latitude,
+          longitude: STUDIO_GEO.longitude,
         },
         areaServed: [{ "@type": "City", name: city.nameHe }],
         serviceType: `DJ לאירועים ${city.nameHePrep}`,

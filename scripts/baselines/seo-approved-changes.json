@@ -187,7 +187,7 @@
     {
       "url": "/studio/recording-song-modiin",
       "field": "outline",
-      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת. בנוסף נוסף ב-2.10 בלוק \"מה מזיז את המחיר\", ולכן סדר הכותרות כולל גם אותו.",
+      "why": "בלוק העמדה המקצועית נוסף לעמוד בהחלטת הבעלים 2.10, ולכן סדר הכותרות השתנה. לא נגרעה שום כותרת. בנוסף נוסף ב-2.10 בלוק \"מה מזיז את המחיר\", ולכן סדר הכותרות כולל גם אותו. בנוסף, סבב AEO 1 (3.10): נוספה שאלה ב-FAQ, \"איך מעבירים לתקליטן באולם את השיר שהקלטנו?\".",
       "approvedBy": "owner",
       "approvedAt": "2026-10-02"
     },
@@ -1165,13 +1165,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/packages",
-      "field": "words",
-      "why": "1,157 -> 1,149: תיאור החבילה הישנה ארוך יותר.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/photography",
       "field": "images",
       "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
@@ -1182,13 +1175,6 @@
       "url": "/photography",
       "field": "imagesWithAlt",
       "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/photography",
-      "field": "words",
-      "why": "1,773 -> 1,769: ליד מחיר הצילום כבר לא מוצגת המלצה של שירות אחר.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     },
@@ -1237,7 +1223,7 @@
     {
       "url": "/podcast/podcast-studio-modiin",
       "field": "outline",
-      "why": "\"פרק קצר, חצי שעה\" הפך ל\"הקלטה בלבד, חצי שעה\": 750 הוא חצי שעה גלם בלי עריכה (שלב 4 WP3).",
+      "why": "\"פרק קצר, חצי שעה\" הפך ל\"הקלטה בלבד, חצי שעה\": 750 הוא חצי שעה גלם בלי עריכה (שלב 4 WP3). בנוסף, סבב AEO 1 (3.10): נוספה שאלה ראשונה ב-FAQ, \"האם יש סטודיו לפודקאסט במודיעין?\".",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     },
@@ -1476,6 +1462,62 @@
       "url": "/studio/mobile-studio",
       "field": "outline",
       "why": "סבב AEO 1 (3.10): נוספה שאלה ראשונה ב-FAQ, \"יש אולפן הקלטות שמגיע עד הבית?\", בניסוח של מי ששואל עוזר AI. כותרת h3 אחת נוספה, אף כותרת לא נגרעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/about/faq",
+      "field": "outline",
+      "why": "השאלה \"תוך כמה זמן קובץ הסאונד או הסרטון הערוך מוכן?\" ענתה \"2-3 ימי עסקים\" וסתרה את עמוד הבית ואת החלטות 2.10-3.10. עכשיו אותה שאלה ותשובה כמו בעמוד הבית, ממקור אחד (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldCounts",
+      "why": "4 שאלות נשלחו לגוגל ב-FaqPageSchema נפרד ולא הופיעו בעמוד (טקסט מוסתר). נשארה רשימת העמוד, 14 מתוך 14 גלויות (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/blog/wedding-songs-chuppah",
+      "field": "outline",
+      "why": "השאלה \"מה עם זכויות יוצרים?\" נמחקה מהפוסט: הבעלים החליט שהאתר לא עוסק ברישוי (3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/blessings/bat-mitzvah-clip",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/blessings/video-clip",
+      "field": "ldCounts",
+      "why": "2 שאלות על קליפ בת מצווה נשלחו לגוגל ולא מופיעות בעמוד הזה (טקסט מוסתר). הוסרו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/mobile-studio",
+      "field": "description",
+      "why": "המחיר בתיאור עבר ל\"כולל מע״מ\" קודם, מהקטלוג, לפי החלטת הבעלים 2.10 ובאישורו 3.10.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     }
