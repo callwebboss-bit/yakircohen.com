@@ -4,7 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { getSongParticipantsExplanation } from "./song-offer";
@@ -412,6 +412,12 @@ export const STUDIO_SERVICES = {
           "איך שולחים את הטקסט או הרעיון שלנו לפני שמגיעים לאולפן?",
         answer:
           "הכל קורה בקלות דרך הוואטסאפ. שולחים את המילים או הלחן שחשבתם עליו, ומתאמים יחד את הפלייבק לפני ההקלטה.",
+      },
+      {
+        /* עובדה שהבעלים אישר (3.10.2026, סבב שני) */
+        id: "playback-help",
+        question: "צריך להביא פלייבק להקלטת השיר?",
+        answer: `אם יש לכם פלייבק, שולחים אותו בוואטסאפ לפני הסשן. ${SONG_PLAYBACK_HELP}.`,
       },
       {
         id: "physical-studio",

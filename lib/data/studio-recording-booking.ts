@@ -1,4 +1,4 @@
-﻿import { getExVat } from "@/lib/data/pricing-catalog";
+﻿import { getExVat, SONG_INTERVIEW_DURATION } from "@/lib/data/pricing-catalog";
 import { STUDIO_SESSION_CLIP_CATALOG_ID } from "@/lib/data/studio-session-clip";
 
 export type RecordingTypeId =
@@ -221,7 +221,7 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   },
   {
     id: "podcast_interview",
-    name: "ראיון קצר במתחם הפודקאסט (כ-5 דקות)",
+    name: `ראיון קצר במתחם הפודקאסט (${SONG_INTERVIEW_DURATION})`,
     description: "לפני הסשן, על השיר או על החוגג/ת. משולב בקליפ הערוך.",
     price: getExVat("song_pre_session_interview"),
   },

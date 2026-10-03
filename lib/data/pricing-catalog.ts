@@ -82,6 +82,9 @@ export type PriceItem = {
   requires?: string;
 };
 
+/** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
+export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
+
 /** כל מחירי השירות - לפני מע״מ */
 /* בלי ההערה `: readonly PriceItem[]` כאן במכוון. היא גברה על ה-as const שבסוף
    המערך, ולכן PriceItemId התרחב ל-string פשוט: מזהה מומצא לחלוטין עבר
@@ -208,7 +211,10 @@ export const PRICING_CATALOG = [
     label: "ראיון קצר במתחם הפודקאסט",
     exVat: 500,
     category: "addons",
-    context: "כ-5 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+    /* החלטת הבעלים 3.10.2026 (סבב שני): עד 10 דקות (היה "כ-5 דקות"). עדיין
+       בלי מחיר רגיל, ולכן בלי מחיר מחוק ובלי "מבצע". */
+    context: "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+    scope: { duration: SONG_INTERVIEW_DURATION, includes: "ראיון במתחם הפודקאסט, משולב בקליפ הערוך" },
     suitedFor: "תוספת לקליפ הערוך מהסשן",
     requires: "studio_session_clip_edited",
   },
@@ -493,6 +499,9 @@ export const PRICING_CATALOG = [
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
+/** פלייבק בהקלטת שיר (עובדה שהבעלים אישר, 3.10.2026 סבב שני) */
+export const SONG_PLAYBACK_HELP = "אין לכם פלייבק? נעזור לכם להשיג";
+
 /** מה כלול ב-2,500 של האולפן הנייד (החלטת הבעלים 3.10.2026, סבב שני) */
 export const MOBILE_STUDIO_ARRIVAL_COPY = "הגעה עם כל הציוד, התאורה והצוות";
 
@@ -661,7 +670,7 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   },
   song_recording: {
     /* "הקלטה, מיקס ומאסטר" מגיע מ-scope.includes ומופיע ראשון ברשימה */
-    included: ["סשן של שעה באולפן במודיעין", "השיר המוכן אצלכם בסוף הסשן"],
+    included: ["סשן של שעה באולפן במודיעין", "השיר המוכן אצלכם בסוף הסשן", SONG_PLAYBACK_HELP],
     excluded: [
       "תיקון זיופים",
       "קליפ וידאו",
@@ -681,7 +690,7 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   },
   song_pre_session_interview: {
     included: [
-      "ראיון של כ-5 דקות במתחם הפודקאסט בחוץ, לפני הסשן",
+      `ראיון של ${SONG_INTERVIEW_DURATION} במתחם הפודקאסט בחוץ, לפני הסשן`,
       "עזרה בהכנת השאלות",
       "הראיון משולב בקליפ הערוך",
     ],
