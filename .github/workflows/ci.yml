@@ -23,9 +23,19 @@ jobs:
         with:
           node-version: "22"
 
-      # audit קורא את package-lock.json בלבד, ולכן אין צורך ב-npm ci
-      - name: npm audit
+      # audit קורא את package-lock.json בלבד, ולכן אין צורך ב-npm ci.
+      # השלב החוסם בודק רק תלויות שמגיעות לאתר החי (--omit=dev).
+      - name: npm audit (production dependencies, blocking)
+        run: npm audit --omit=dev --audit-level=high
+
+      # audit מלא, כולל כלי פיתוח, לא חוסם: נכון ל-3.10.2026 הוא אדום רק בגלל
+      # GHSA-vfj7-8cjw-p6xm ב-braces, תלות של כלי פיתוח בלבד שלא נשלחת לדפדפן
+      # ולשרת, ואין לה עדיין גרסה מתוקנת. שלב חוסם היה נשאר אדום בלי שום דבר
+      # שאפשר לתקן, ואדום קבוע מלמד להתעלם מ-CI. הלוג עדיין מראה כל ממצא חדש.
+      # להפוך לחוסם שוב כשיש תיקון ל-braces.
+      - name: npm audit (all dependencies, non-blocking)
         run: npm audit --audit-level=high
+        continue-on-error: true
 
   build:
     name: Build & Lint
