@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import OnlinePitchCorrectionPageContent from "@/components/seo/OnlinePitchCorrectionPageContent";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 import { constructMetadata } from "@/lib/metadata";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 
@@ -20,7 +22,8 @@ export const metadata: Metadata = constructMetadata({
 const PITCH_FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה תיקון זיופים?",
-    answer: "תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.",
+    /* החלטת בעלים 4.10.2026: המחיר הנכון הוא studio_pitch_correction (עד אז "מ-250 ₪", בלי מזהה בקטלוג) */
+    answer: `תיקון זיופים עולה ${formatConsumerPriceLine(getExVat("studio_pitch_correction"))} לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.`,
   },
   {
     question: "כמה זמן לוקח תיקון זיופים?",

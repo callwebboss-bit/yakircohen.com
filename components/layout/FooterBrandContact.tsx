@@ -9,6 +9,7 @@ import {
   SITE_LOGO_SRC,
   SITE_NAME,
   STUDIO_ADDRESS_LINE,
+  STUDIO_VISIT_NOTE,
   STUDIO_GOOGLE_MAPS_URL,
   STUDIO_WAZE_URL,
 } from "@/lib/constants";
@@ -66,6 +67,7 @@ export default function FooterBrandContact() {
           </a>
         </li>
         <li className="text-[var(--footer-muted)]">{STUDIO_ADDRESS_LINE}</li>
+        <li className="text-xs text-[var(--footer-muted)]">{STUDIO_VISIT_NOTE}</li>
         <li className="flex flex-wrap gap-x-3 gap-y-1">
           <a
             href={STUDIO_GOOGLE_MAPS_URL}

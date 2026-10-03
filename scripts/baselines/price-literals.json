@@ -189,13 +189,6 @@
     "example": "answer: \"תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.\","
   },
   {
-    "file": "app/online/vocal-fix/pitch-correction/page.tsx",
-    "kind": "prose",
-    "value": 250,
-    "count": 1,
-    "example": "answer: \"תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.\","
-  },
-  {
     "file": "app/online/vocal-fix/volume-balance/page.tsx",
     "kind": "prose",
     "value": 500,
@@ -535,7 +528,7 @@
     "file": "lib/data/blog.ts",
     "kind": "prose",
     "value": 250,
-    "count": 5,
+    "count": 3,
     "example": "<p>DIY עם Audacity או Descript אפשרי - אבל שעת עריכה של מתחיל שווה לעצמו ₪150-₪250. פרק של שעה יכול \"לאכול\" 4-6 שעות עבודה. כאן עבודה עם <a href=\"/podcast/podca"
   },
   {
@@ -661,7 +654,7 @@
     "file": "lib/data/blog.ts",
     "kind": "prose",
     "value": 2590,
-    "count": 2,
+    "count": 1,
     "example": "<td>₪2,590-₪3,800</td>"
   },
   {
@@ -1062,13 +1055,6 @@
     "value": 2500,
     "count": 4,
     "example": "\"פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\\\"מ.\","
-  },
-  {
-    "file": "lib/data/industry-2026.ts",
-    "kind": "prose",
-    "value": 4500,
-    "count": 3,
-    "example": "\"קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.\","
   },
   {
     "file": "lib/data/industry-2026.ts",

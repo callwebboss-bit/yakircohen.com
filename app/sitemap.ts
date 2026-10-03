@@ -267,7 +267,9 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   // ── Blog hub ───────────────────────────────────────────────────────────────
   { url: url("blog"), priority: 0.8, changeFrequency: "weekly" },
   { url: url("glossary"), priority: 0.7, changeFrequency: "weekly" },
+  { url: url("data"), priority: 0.5, changeFrequency: "yearly" },
   { url: url("data/industry-2026"), priority: 0.8, changeFrequency: "yearly" },
+  { url: url("data/recording-studio-costs-2026"), priority: 0.8, changeFrequency: "yearly" },
 
   // ── שירותים מקצועיים לעסקים ────────────────────────────────────────────────
   { url: url("pro"), priority: 0.85, changeFrequency: "monthly" },

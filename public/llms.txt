@@ -7,7 +7,7 @@
 ## יצירת קשר
 - טלפון / וואטסאפ: 058-7555456 (+972587555456)
 - אימייל: Mail@yakircohen.com
-- כתובת: עמק איילון 34, מודיעין-מכבים-רעות
+- כתובת: עמק איילון 34, מודיעין-מכבים-רעות · הגעה לאולפן בתיאום מראש בלבד
 - הזמנה: https://yakircohen.com/book
 
 ## מחירי פתיחה (מסונכרן מ-pricing-catalog. כולל מע״מ, ובסוגריים לפני מע״מ)
@@ -44,7 +44,9 @@
 - מגזין: https://yakircohen.com/blog
 - מתנות מוקלטות לפי אירוע: https://yakircohen.com/matanot
 - מונחון: https://yakircohen.com/glossary · 91 מונחי אודיו, אולפן ואירועים עם הגדרות קצרות
+- נתונים: https://yakircohen.com/data · אינדקס לשני עמודי הנתונים
 - נתוני תעשייה 2026: https://yakircohen.com/data/industry-2026 · מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל, עם מתודולוגיה גלויה
+- עלות אולפן הקלטות מקצועי: https://yakircohen.com/data/recording-studio-costs-2026 · לאן הולך מחיר הקלטת שיר, שורה אחרי שורה, עם מקור לכל מספר
 - אודות: https://yakircohen.com/about - מי עומד מאחורי האולפן
 - שאלות נפוצות: https://yakircohen.com/about/faq
 - שאלות נפוצות פודקאסט: https://yakircohen.com/podcast/faq

@@ -456,6 +456,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל לשנת 2026",
       },
       {
+        label: "עלות אולפן הקלטות",
+        href: "/data/recording-studio-costs-2026",
+        title: "לאן הולך מחיר הקלטת שיר, עם מקור לכל מספר",
+      },
+      {
         label: "מרכז שאלות נפוצות",
         href: "/about/faq",
         title: "תשובות לשאלות נפוצות על השירותים",

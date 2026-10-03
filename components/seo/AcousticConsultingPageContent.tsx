@@ -385,6 +385,14 @@ export default function AcousticConsultingPageContent() {
                   אולפן הקלטות מקצועי במודיעין
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/data/recording-studio-costs-2026"
+                  className="text-brand-red hover:underline"
+                >
+                  עלות אולפן הקלטות מקצועי
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -59,6 +59,10 @@ export const STUDIO_ADDRESS_TITLE = "יקיר כהן הפקות - אולפן ה�
 export const STUDIO_ADDRESS_LINE =
   "עמק איילון 34, מודיעין מכבים רעות";
 
+/** הנוסח שיקיר כתב בתיאור של כרטיס גוגל (4.10.2026). בכרטיס מסומן "יש קבלת קהל במקום",
+    כלומר השירות ניתן בכתובת, וההגעה בתיאום מראש. שתי השורות צריכות להיות זהות. */
+export const STUDIO_VISIT_NOTE = "הגעה לאולפן בתיאום מראש בלבד";
+
 /** Combined line for metadata / schema */
 export const STUDIO_ADDRESS = `${STUDIO_ADDRESS_TITLE}, ${STUDIO_ADDRESS_LINE}`;
 

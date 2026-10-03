@@ -195,6 +195,8 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/studio/blessings", label: "הקלטת ברכות" },
     { type: "text", value: ". לאולפן כללי - " },
     { type: "link", href: "/studio/recording-studio", label: "אולפן הקלטות" },
+    { type: "text", value: ". למה השיר עולה מה שהוא עולה - " },
+    { type: "link", href: "/data/recording-studio-costs-2026", label: "לאן הולך מחיר השיר" },
     { type: "text", value: "." },
   ],
   "/studio/blessings": [
@@ -649,6 +651,8 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/book", label: "הזמנה מקוונת" },
     { type: "text", value: ". למחירון כללי - " },
     { type: "link", href: "/pricing", label: "מחירון מרכזי" },
+    { type: "text", value: ". לפירוק המחיר שורה אחרי שורה - " },
+    { type: "link", href: "/data/recording-studio-costs-2026", label: "לאן הולך מחיר השיר" },
     { type: "text", value: "." },
   ],
   "/studio/mobile-studio": [
@@ -967,6 +971,17 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "link", href: "/podcast", label: "פודקאסט" },
     { type: "text", value: " ולמחירון כללי - " },
     { type: "link", href: "/pricing", label: "מחירון מרוכז" },
+    { type: "text", value: ". לעלות של אולפן מקצועי, עם מקור לכל מספר - " },
+    { type: "link", href: "/data/recording-studio-costs-2026", label: "עלות אולפן הקלטות" },
+    { type: "text", value: "." },
+  ],
+  "/data/recording-studio-costs-2026": [
+    { type: "text", value: "המחירים עצמם נמצאים ב" },
+    { type: "link", href: "/studio/pricing", label: "מחירון האולפן" },
+    { type: "text", value: ". להקלטת שיר - " },
+    { type: "link", href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
+    { type: "text", value: ". למחירי שוק נוספים - " },
+    { type: "link", href: "/data/industry-2026", label: "נתוני תעשייה 2026" },
     { type: "text", value: "." },
   ],
 };

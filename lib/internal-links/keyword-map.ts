@@ -285,8 +285,9 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
     href: "/data/industry-2026",
     anchor: "נתוני תעשייה 2026",
   },
+  /* 4.10.2026: שאילתת מחיר של לקוח שייכת לעמוד השיר (canonical, price-consistency-audit.md) */
   "כמה עולה להקליט שיר ב-2026": {
-    href: "/data/industry-2026",
+    href: "/studio/recording-song-modiin",
     anchor: "מחירי הקלטת שיר ב-2026",
   },
   "כמה עולה קליפ בר מצווה ב-2026": {
@@ -308,6 +309,22 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "כמה עולה להקליט פודקאסט ב-2026": {
     href: "/data/industry-2026",
     anchor: "מחיר הקלטת פודקאסט ב-2026",
+  },
+  "עלות אולפן הקלטות": {
+    href: "/data/recording-studio-costs-2026",
+    anchor: "עלות אולפן הקלטות",
+  },
+  "לאן הולך מחיר הקלטת שיר": {
+    href: "/data/recording-studio-costs-2026",
+    anchor: "לאן הולך מחיר הקלטת שיר",
+  },
+  "עלות הפעלת אולפן": {
+    href: "/data/recording-studio-costs-2026",
+    anchor: "עלות הפעלת אולפן",
+  },
+  "פירוק מחיר הקלטת שיר": {
+    href: "/data/recording-studio-costs-2026",
+    anchor: "פירוק מחיר הקלטת שיר",
   },
   "מה זה EQ": { href: "/glossary/eq", anchor: "מה זה EQ" },
   "מה זה אקולייזר": {

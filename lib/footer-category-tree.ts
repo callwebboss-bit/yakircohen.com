@@ -50,6 +50,7 @@ export const FOOTER_LEGAL_ROW_LINKS = [
   { href: "/about/faq", label: "שאלות נפוצות" },
   { href: "/shop", label: "חנות שוברים וציוד" },
   { href: "/data/industry-2026", label: "נתוני תעשייה 2026" },
+  { href: "/data/recording-studio-costs-2026", label: "עלות אולפן הקלטות" },
   { href: "/pricing", label: "מחירון" },
 ] as const;
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { buildStudioPriceFactors } from "@/lib/data/price-factors";
 
 type Props = {
@@ -50,6 +51,16 @@ export default function PriceFactorsSection({
             </div>
           ))}
         </dl>
+        {/* קישור אחד לעמוד העלויות. כתובת קבועה ולא import, כדי שהרכיב לא יהיה
+            תלוי בקובץ שעוד לא מקומט (4.10.2026). אחד מביטויי keyword-map. */}
+        <p className="mt-6 text-sm">
+          <Link
+            href="/data/recording-studio-costs-2026"
+            className="font-medium text-brand-red underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          >
+            פירוק מחיר הקלטת שיר
+          </Link>
+        </p>
       </div>
     </section>
   );

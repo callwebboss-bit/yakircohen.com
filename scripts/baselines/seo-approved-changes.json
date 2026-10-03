@@ -1123,13 +1123,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/data/industry-2026",
-      "field": "ldCounts",
-      "why": "Offer 31 -> 30: שתי שורות החבילות (cover_song, song_package) הוחלפו בשורה אחת של הקלטת שיר.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/events/wedding-attractions-packages",
       "field": "description",
       "why": "\"חיסכון 20-30%\" ירד (אין הנחה מעל 8%). עכשיו \"מספק אחד ובתיאום אחד\".",
@@ -1182,13 +1175,6 @@
       "url": "/photography",
       "field": "imagesWithAlt",
       "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/photography",
-      "field": "words",
-      "why": "1,773 -> 1,769: ליד מחיר הצילום כבר לא מוצגת המלצה של שירות אחר.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     },
@@ -1464,6 +1450,34 @@
       "why": "הכותרות שהכילו \"₪299\" ו\"מבצע\" הוחלפו בכותרות עם המחיר כולל מע״מ ובלי המילה מבצע: \"מה מקבלים ב-353 ₪ כולל מע״מ?\", \"הזמנת רינגטון, 353 ₪ כולל מע״מ\", \"מחיר ברור\" (החלטות 3.10 סבב רביעי).",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/blog/bat-mitzvah-clip-guide",
+      "field": "outline",
+      "why": "החלטת בעלים 4.10.2026: טבלת המחירים בפוסט היא טווחי שוק ולא המחירון שלנו. הכותרת 'מחירון קליפ בת מצווה - 2026' הפכה ל'טווחי מחיר בשוק לקליפ בת מצווה - 2026', ומתחת נוסף המחיר שלנו מהקטלוג (bat_mitzvah_clip). docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/blog/chuppah-song-guide-couples",
+      "field": "outline",
+      "why": "החלטת בעלים 4.10.2026: טבלת המחירים בפוסט היא טווחי שוק ולא המחירון שלנו. הכותרת 'מחירון הפקת שיר לחופה - 2026' הפכה ל'טווחי מחיר בשוק להפקת שיר לחופה - 2026', ומתחת נוספה פסקת 'ומה אנחנו גובים' מהקטלוג. docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/blog/studio-recording-cost-israel-2026",
+      "field": "description",
+      "why": "החלטת בעלים 4.10.2026: ניסוח של חבילות שנמחקו ב-2.10 ('מה כלול בכל חבילה') הוחלף ב'מה כלול בבסיס ומה בתוספות'. docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/blog/bride-groom-blessing-recording-tips",
+      "field": "description",
+      "why": "החלטת בעלים 4.10.2026: 'המחירים המעודכנים לחבילות ברכה' הפך ל'המחירים המעודכנים להקלטת ברכה', כי חבילות הברכה נמחקו ב-2.10. docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
     }
   ]
 }

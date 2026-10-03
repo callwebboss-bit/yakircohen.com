@@ -21,7 +21,7 @@ export function realDateModified(path: string): string | undefined {
   return iso ? iso.slice(0, 10) : undefined;
 }
 
-const SPEAKABLE: Record<string, unknown> = {
+export const SPEAKABLE: Record<string, unknown> = {
   "@type": "SpeakableSpecification",
   cssSelector: ["h1", ".faq-answer", "[data-speakable]"],
 };

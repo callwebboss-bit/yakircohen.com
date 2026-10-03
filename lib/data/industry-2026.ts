@@ -18,7 +18,7 @@ import { absoluteUrl } from "@/lib/site-url";
 
 export const INDUSTRY_2026_SLUG = "data/industry-2026";
 export const INDUSTRY_2026_PATHNAME = `/${INDUSTRY_2026_SLUG}`;
-export const INDUSTRY_2026_UPDATED_AT = "2026-08-18";
+export const INDUSTRY_2026_UPDATED_AT = "2026-10-04";
 
 export const INDUSTRY_2026_TITLE =
   "נתוני תעשייה 2026: מחירי הקלטה, פודקאסט, קליפ ואטרקציות בישראל";
@@ -120,7 +120,7 @@ export const INDUSTRY_2026_SPEAKABLE_ANSWER =
 
 export const INDUSTRY_2026_QUICK_ANSWERS = [
   `הקלטת שיר באולפן (הקלטה, מיקס ומאסטר) עולה ${nisEx("song_recording")}, ברכה ${nisEx("blessing_recording")} וסינגל מקורי ${nisEx("single_production")} - לפני מע"מ.`,
-  "קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.",
+  `קליפ בר או בת מצווה מתחיל במחירון האתר ב-${nisEx("bat_mitzvah_clip")} לפני מע"מ, ובמדריך השוק טווח נפוץ לקליפ מלא הוא 4,500-7,500 ₪.`,
   `אטרקציה בודדת לאירוע מתחילה ב-${nisEx("event_attraction_1")}, וחבילת שלוש אטרקציות ב-${nisEx("event_attraction_3")} - לפני מע"מ.`,
   "פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\"מ.",
 ] as const;
@@ -158,10 +158,13 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
     kicker: "קליפים",
     title: "כמה עולה קליפ בר או בת מצווה ב-2026?",
     intro:
-      "קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪ לפני מע\"מ, ובטווחי השוק שכבר פורסמו באתר הוא נע בדרך כלל בין 4,500 ל-7,500 ₪.",
+      `קליפ בר או בת מצווה מתחיל במחירון האתר ב-${nisEx("bat_mitzvah_clip")} לפני מע"מ, ובטווחי השוק שכבר פורסמו באתר קליפ מלא נע בדרך כלל בין 4,500 ל-7,500 ₪.`,
     note:
       "כאן חשוב להפריד בין מחירון השירות של האולפן לבין טווחי שוק רחבים יותר, בעיקר כשיש הרבה משתתפים או יום צילום מורחב.",
     rows: [
+      /* החלטת בעלים 4.10.2026: "קליפ בר מצווה" במחירון הוא bat_mitzvah_clip.
+         עד אז הסעיף פתח ב-full_production_clip (4,500), שהוא שיר מקורי עם קליפ. */
+      buildCatalogRow("bat_mitzvah_clip"),
       buildCatalogRow("full_production_clip", {
         note: "שיר מוגמר וקליפ וידאו לשיתוף. זהו מחירון השירות של האולפן, לא טווח שוק.",
       }),
@@ -258,7 +261,7 @@ export const INDUSTRY_2026_FAQS: readonly Industry2026FaqItem[] = [
     id: "bar-mitzvah-clip-2026",
     question: "כמה עולה קליפ בר מצווה או בת מצווה ב-2026?",
     answer:
-      "מחירון האולפן לקליפ מלא מתחיל ב-4,500 ₪ לפני מע\"מ. במדריך השוק שכבר פורסם באתר, טווח נפוץ לקליפ מלא הוא 4,500 עד 7,500 ₪, וקליפ מורחב יכול להגיע גם ל-8,000 עד 15,000 ₪ ומעלה.",
+      `מחירון האולפן לקליפ בר או בת מצווה מתחיל ב-${nisEx("bat_mitzvah_clip")} לפני מע"מ. במדריך השוק שכבר פורסם באתר, טווח נפוץ לקליפ מלא הוא 4,500 עד 7,500 ₪, וקליפ מורחב יכול להגיע גם ל-8,000 עד 15,000 ₪ ומעלה.`,
   },
   {
     id: "attractions-2026",
@@ -317,4 +320,4 @@ export const INDUSTRY_2026_DATASET_SCHEMA = {
     "שילוב בין מחירון האתר כ-source of truth לבין טווחי שוק שפורסמו כבר במדריכי 2026 באתר.",
 };
 
-export const INDUSTRY_2026_VAT_NOTE = `כל המחירים בעמוד הם לפני מע"מ (${Math.round(CATALOG_VAT_RATE * 100)}%).`;
+export const INDUSTRY_2026_VAT_NOTE = `מחירי הטבלאות לפני מע"מ (${Math.round(CATALOG_VAT_RATE * 100)}%).`;

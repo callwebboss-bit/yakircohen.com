@@ -19,7 +19,7 @@ import {
   INDUSTRY_2026_UPDATED_AT,
   INDUSTRY_2026_VAT_NOTE,
 } from "@/lib/data/industry-2026";
-import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
+import { SPEAKABLE, buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -34,10 +34,15 @@ const faqSchemaItems = INDUSTRY_2026_FAQS.map((item) => ({
   answer: item.answer,
 }));
 
-const pricingOffersSchema = buildPricingOffersSchema(
-  absoluteUrl(INDUSTRY_2026_PATHNAME.replace(/^\/+/, "")),
-  INDUSTRY_2026_OFFERS,
-);
+const INDUSTRY_2026_URL = absoluteUrl(INDUSTRY_2026_PATHNAME.replace(/^\/+/, ""));
+
+/* ה-WebPage היחיד בעמוד מקבל @id ו-speakable כאן, מקומית, במקום צומת WebPage
+   שני (pre-mortem 4.10.2026, ממצא 3). העזר המשותף לא משתנה. */
+const pricingOffersSchema = {
+  ...buildPricingOffersSchema(INDUSTRY_2026_URL, INDUSTRY_2026_OFFERS),
+  "@id": `${INDUSTRY_2026_URL}#webpage`,
+  speakable: SPEAKABLE,
+};
 
 const quickJumpLinks = INDUSTRY_2026_SECTIONS.map((section) => ({
   id: section.id,
