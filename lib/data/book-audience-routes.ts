@@ -1,9 +1,9 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
 import { EVENT_ATTRACTION_FROM_NIS } from "@/lib/data/pricing";
-import { DJ_TEAM_NOTE } from "@/lib/data/dj-events-calculator";
 import {
   catalogWithVat,
+  DJ_TEAM_NOTE,
   formatFromPriceDual,
   getExVat,
   getScopeById,

@@ -11,8 +11,9 @@
  */
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 
-/** החלטת הבעלים ED-04: התקליטן מהצוות, 4 שעות, עד 300 מוזמנים */
-export const DJ_TEAM_NOTE = "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים";
+import { DJ_TEAM_NOTE } from "@/lib/data/pricing-catalog";
+
+export { DJ_TEAM_NOTE };
 
 export type DjCalcOption = {
   id: string;

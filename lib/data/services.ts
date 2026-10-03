@@ -4,8 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { getAddonsForBaseId, getExVat, getScopeById, type PriceItemId, type PriceScope } from "./pricing-catalog";
-import { DJ_TEAM_NOTE } from "./dj-events-calculator";
+import { DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { getSongParticipantsExplanation } from "./song-offer";

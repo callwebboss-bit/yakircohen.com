@@ -904,5 +904,12 @@ export function formatFromPriceDual(
     : `מ-${total} ₪ כולל מע״מ (${ex} ₪ + מע״מ)`;
 }
 
+/**
+ * החלטת הבעלים ED-04: התקליטן מהצוות (dj_premium), 4 שעות, עד 300 מוזמנים.
+ * כאן ולא במודול נפרד: book-audience-routes נשלח לכל עמוד, והקטלוג כבר במטען
+ * (audit:client-data-weight).
+ */
+export const DJ_TEAM_NOTE = "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים";
+
 export const CATALOG_VAT_RATE = VAT_RATE_LOCAL;
 export { withVatLocal as catalogWithVat };
