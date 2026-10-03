@@ -31,7 +31,32 @@ const SCAN_DIRS = "lib components app public";
 const VAT_RATE = 0.18;
 
 /** מספרים בפרוזה שאינם מחיר שירות שלנו. כל רשומה דורשת נימוק. */
-const EXEMPT = [];
+const EXEMPT = [
+  /* טווחי שוק ומחקר שוק. מסומנים בפוסטים עצמם כסקירה ולא כמחירון שלנו. */
+  { value: 400, file: "lib/data/blog.ts", match: "מיקרופון USB איכותי", why: "טווח עלות ציוד ביתי, לא מחיר שלנו" },
+  { value: 400, file: "lib/data/blog.ts", match: "Blue Yeti Nano", why: "מחיר שוק של מיקרופון, המלצת ציוד" },
+  { value: 1700, file: "lib/data/blog.ts", match: "(+ זמן רב)", why: "טווח עלות עשה זאת בעצמך" },
+  { value: 4000, file: "lib/data/blog.ts", match: "₪4,000-₪6,500", why: "טווח שוק מצוטט" },
+  { value: 4000, file: "lib/data/blog.ts", match: "₪2,500-₪4,000+", why: "טווח שוק מצוטט" },
+  { value: 18000, file: "lib/data/blog.ts", match: "₪10,000-₪18,000+", why: "טווח שוק מצוטט" },
+  { value: 8000, file: "lib/data/blog.ts", match: "₪8,000-₪15,000+", why: "טווח שוק מצוטט" },
+  { value: 900, file: "lib/data/blog.ts", match: "הנפוץ ביותר לבר מצווה", why: "טווח שוק להקלטה ועריכה" },
+  { value: 900, file: "lib/data/blog.ts", match: "חבילה מורחבת (650-900 ₪)", why: "טווח שוק" },
+  { value: 5500, file: "lib/data/blog.ts", match: "DJ לבר מצווה בישראל", why: "סקר מחירי שוק, מסומן בפוסט ככזה" },
+  { value: 900, file: "lib/data/industry-2026.ts", match: "להקלטה ועריכה בסיסית", why: "טווח שוק בדוח התעשייה" },
+  { value: 900, file: "lib/data/industry-2026.ts", match: "טווח השוק הנפוץ", why: "אותו טווח, בניסוח מלא" },
+
+  /* חישוב לדוגמה בתוך טקסט, לא מחירון. */
+  { value: 9600, file: "lib/data/blog.ts", match: "8 פרקים ב-1,200 ₪ לפרק", why: "תרגיל חשבון להמחשת ROI" },
+
+  /* סכומי חיסכון, לא מחירים. */
+  { value: 490, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
+  { value: 780, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
+  { value: 1120, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
+
+  /* אפשרות תקציב בטופס, לא מחיר מוצר. */
+  { value: 400, file: "lib/data/book-qualification-fields.ts", match: "עד 400 ₪", why: "מדרגת תקציב שהלקוח בוחר" },
+];
 
 const PRICE_RE =
   /(?:₪\s*)(\d{1,3}(?:,\d{3})+|\d{3,6})|(\d{1,3}(?:,\d{3})+|\d{3,6})\s*(?:₪|ש״ח|ש"ח)/g;
