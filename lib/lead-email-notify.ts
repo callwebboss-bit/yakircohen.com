@@ -11,6 +11,7 @@ import {
   getCrossSellOffers,
   type CrossSellContext,
 } from "@/lib/data/booking-cross-sell";
+import type { LeadContactChannel } from "@/lib/leads/contact-channel";
 import { fitLeadBody } from "@/lib/leads/payload-check";
 import type { LeadIngestClientMeta, ServiceType } from "@/lib/leads/types";
 
@@ -25,6 +26,12 @@ export type LeadEmailPayload = {
   website_verification?: string;
   /** מזהה שליחה. ניסיון חוזר עם אותו מזהה לא ייצור מייל כפול אצל הבעלים. */
   submissionId?: string;
+  /**
+   * מה הלקוח קיבל: "whatsapp" כשהדפדפן פתח לו וואטסאפ, "callback" כשביקש
+   * שיחה חוזרת. קובע את השורה האחרונה ואת הנושא במייל לבעלים. בלי ערך השרת
+   * כותב ניסוח ניטרלי. ראו lib/leads/contact-channel.ts.
+   */
+  contactChannel?: LeadContactChannel;
   crossSell?: CrossSellContext;
   serviceType?: ServiceType;
   eventDate?: string;

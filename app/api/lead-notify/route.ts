@@ -2,6 +2,7 @@ import { after, NextResponse } from "next/server";
 import { sanitizeLeadText } from "@/lib/form-validation";
 import { guardPublicMutation } from "@/lib/api-guard";
 import { captureException } from "@/lib/sentry-capture";
+import { parseLeadContactChannel } from "@/lib/leads/contact-channel";
 import { ingestLead } from "@/lib/leads/ingest";
 import { logLeadFailure } from "@/lib/leads/log";
 import { checkLeadNotifyPayload, fitLeadBody } from "@/lib/leads/payload-check";
@@ -16,6 +17,7 @@ type LeadPayload = {
   email?: string;
   website_verification?: string;
   submissionId?: string;
+  contactChannel?: unknown;
   serviceType?: ServiceType;
   eventDate?: string;
   budgetHint?: number;
@@ -103,6 +105,7 @@ export async function POST(request: Request) {
       pricingRef: payload.pricingRef || payload.clientMeta?.pricingRef,
       clientMeta: payload.clientMeta,
       flags: check.flags,
+      contactChannel: parseLeadContactChannel(payload.contactChannel),
       submissionId:
         typeof payload.submissionId === "string"
           ? payload.submissionId.trim().slice(0, 64) || undefined

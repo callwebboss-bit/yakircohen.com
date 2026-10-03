@@ -124,6 +124,7 @@ export default function CallbackLeadForm({
             website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
+            contactChannel: "callback",
           },
           href,
           "continue_chat",

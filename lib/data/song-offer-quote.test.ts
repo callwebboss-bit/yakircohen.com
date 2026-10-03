@@ -93,6 +93,8 @@ describe("buildSongCallbackPayload (client) equals buildSongCallbackRequest", ()
       const direct = buildSongCallbackRequest({ ...contact, addonIds: quote.addonIds });
       assert.deepEqual(fromQuote, direct);
       assert.equal(fromQuote.formId, "song_offer_callback");
+      /* המייל לבעלים לא יטען שהלקוח קיבל וואטסאפ */
+      assert.equal(fromQuote.contactChannel, "callback");
       assert.deepEqual(
         checkLeadNotifyPayload({ ...fromQuote, body: buildLeadNotifyBody(fromQuote) }),
         { kind: "accept", flags: [] },

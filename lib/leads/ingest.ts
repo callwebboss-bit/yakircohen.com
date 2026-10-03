@@ -8,6 +8,11 @@ import {
   UPDATE_SUBJECT_PREFIX,
   type LeadRepeatResult,
 } from "@/lib/leads/duplicate";
+import {
+  leadEmailFooter,
+  leadSubjectChannelPrefix,
+  type LeadContactChannel,
+} from "@/lib/leads/contact-channel";
 import { leadDryRunMode } from "@/lib/leads/dry-run";
 import { normalizeIlMobile } from "@/lib/leads/format-phone-il";
 import { REVIEW_SUBJECT_PREFIX, type LeadSoftFlag } from "@/lib/leads/payload-check";
@@ -53,6 +58,8 @@ export type IngestLeadInput = {
   flags?: LeadSoftFlag[];
   /** מזהה שליחה מהדפדפן. ניסיון חוזר עם אותו מזהה אחרי הצלחה לא יישלח פעמיים. */
   submissionId?: string;
+  /** מה הלקוח קיבל, מהדפדפן. בלי ערך: שורת סיום ניטרלית ובלי סימון בנושא. */
+  contactChannel?: LeadContactChannel;
   request: Request;
   ip: string;
 };
@@ -76,6 +83,10 @@ export type IngestLeadResult = {
   notConfigured: boolean;
   followUps?: () => Promise<void>;
 };
+
+const BRAND_SUBJECT_TAG = "[יקיר כהן] ";
+/* חלק מהטפסים (שיחה חוזרת לשיר) כבר שולחים נושא שמתחיל בתג, והנושא יצא כפול */
+const BRAND_TAG_AT_START = /^\[יקיר כהן\]\s*/;
 
 function leadNotifyEmail(): string {
   return process.env.LEAD_NOTIFY_EMAIL?.trim() || CONTACT_EMAIL_INTERNAL;
@@ -220,7 +231,8 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
     offers,
     "",
     "---",
-    "נשלח אוטומטית מהאתר (גיבוי לידים). הלקוח גם קיבל קישור לוואטסאפ.",
+    /* קודם השורה תמיד אמרה שהלקוח קיבל וואטסאפ, גם כשביקש שיחה חוזרת */
+    leadEmailFooter(input.contactChannel),
   ]
     .filter(Boolean)
     .join("\n");
@@ -231,9 +243,11 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
       : ""
   }`;
 
-  const subject = `${flags.length ? REVIEW_SUBJECT_PREFIX : ""}${
+  const subject = `${flags.length ? REVIEW_SUBJECT_PREFIX : ""}${leadSubjectChannelPrefix(
+    input.contactChannel,
+  )}${
     isUpdate ? UPDATE_SUBJECT_PREFIX : ""
-  }${routing.urgentSubjectPrefix}[יקיר כהן] ${input.subject}`;
+  }${routing.urgentSubjectPrefix}${BRAND_SUBJECT_TAG}${input.subject.replace(BRAND_TAG_AT_START, "")}`;
 
   const configured = dryRun || isConfigured();
   let emailed = false;

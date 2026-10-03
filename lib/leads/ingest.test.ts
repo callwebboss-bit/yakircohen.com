@@ -177,6 +177,51 @@ describe("ingestLead", () => {
     assert.match(String(resendCalls()[0].body.subject), /^\[לבדיקה\] /);
   });
 
+  it("a callback lead says so in the footer and the subject, without a WhatsApp claim", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(
+      input({ formId: "song_offer_callback", subject: "שיחה חוזרת", contactChannel: "callback" }),
+    );
+    const sent = resendCalls()[0].body;
+    assert.match(String(sent.subject), /^\[שיחה חוזרת\] /);
+    assert.match(String(sent.text), /הלקוח ביקש שיחה חוזרת\. לא נשלחה לו הודעת וואטסאפ\.$/);
+    assert.doesNotMatch(String(sent.text), /קיבל קישור לוואטסאפ/);
+  });
+
+  it("a subject that already starts with the brand tag is not tagged twice", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(
+      input({ subject: "[יקיר כהן] שיחה חוזרת: הקלטת שיר", contactChannel: "callback" }),
+    );
+    assert.equal(
+      String(resendCalls()[0].body.subject),
+      "[שיחה חוזרת] [יקיר כהן] שיחה חוזרת: הקלטת שיר",
+    );
+  });
+
+  it("the callback mark comes after [לבדיקה] so a flagged lead still leads with review", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(input({ contactChannel: "callback", flags: ["spam_keyword"] }));
+    assert.match(String(resendCalls()[0].body.subject), /^\[לבדיקה\] \[שיחה חוזרת\] /);
+  });
+
+  it("a WhatsApp lead keeps the WhatsApp footer and an unmarked subject", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(input({ contactChannel: "whatsapp" }));
+    const sent = resendCalls()[0].body;
+    assert.match(String(sent.text), /הלקוח גם קיבל קישור לוואטסאפ\.$/);
+    assert.doesNotMatch(String(sent.subject), /שיחה חוזרת/);
+  });
+
+  it("no channel (old browser JS) gets a neutral footer, even for a callback formId", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(input({ formId: "song_offer_callback" }));
+    const sent = resendCalls()[0].body;
+    assert.match(String(sent.text), /נשלח אוטומטית מהאתר \(גיבוי לידים\)\.$/);
+    assert.doesNotMatch(String(sent.text), /וואטסאפ\.$/);
+    assert.doesNotMatch(String(sent.subject), /שיחה חוזרת\]/);
+  });
+
   it("customer follow-ups are returned, not sent inline", async () => {
     mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
     const r = await ingest.ingestLead(input({ email: "noa@example.com" }));

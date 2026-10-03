@@ -8,6 +8,7 @@ import {
   type LeadSubmitFailReason,
 } from "@/lib/lead-email-notify";
 import type { BookCategoryId } from "@/lib/book-url";
+import { contactChannelForWhatsAppMode } from "@/lib/leads/contact-channel";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 
 export type LeadSubmitIntent = "continue_chat" | "start_now";
@@ -90,6 +91,9 @@ export function useLeadSubmit() {
         payload: {
           ...emailPayload,
           submissionId: emailPayload.submissionId ?? createSubmissionId(),
+          /* הטופס יכול להצהיר בעצמו. אחרת לפי מצב הוואטסאפ, לא לפי formId */
+          contactChannel:
+            emailPayload.contactChannel ?? contactChannelForWhatsAppMode(mode),
         },
         waHref,
         intent,

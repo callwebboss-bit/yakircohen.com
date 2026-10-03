@@ -90,7 +90,11 @@ export default function SmartFormClient() {
       waHref: string,
       channel: "email" | "whatsapp",
     ): Promise<boolean> => {
-      const result = await submitLeadToServer(payload);
+      const result = await submitLeadToServer({
+        ...payload,
+        contactChannel:
+          payload.contactChannel ?? (channel === "whatsapp" ? "whatsapp" : undefined),
+      });
       setLeadFailure(result.ok ? null : { payload, waHref, channel });
       if (result.ok && channel === "email") setEmailSentHint(true);
       return result.ok;

@@ -359,6 +359,8 @@ export function buildSongCallbackPayload(
     phone,
     website_verification: input.honeypot ?? "",
     submissionId: input.submissionId,
+    /* הלקוח ביקש שיחה חוזרת ולא קיבל וואטסאפ. בלי זה המייל לבעלים טען שכן */
+    contactChannel: "callback",
     serviceType: "studio",
     pricingRef: {
       sectionId: SONG_OFFER_SECTION_ID,
