@@ -65,6 +65,7 @@ import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
   STUDIO_GOOGLE_MAPS_URL,
+  SITE_TRUST_STATS,
 } from "@/lib/constants";
 
 const bookCta = resolveServiceBookCta("podcast");
@@ -87,8 +88,9 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 
 /** נתוני אמינות - קבוצה נפרדת ממחירים/מפרט טכני, כדי שלא יתערבבו */
 const CREDIBILITY_STATS = [
-  { emoji: "🏆", value: "20+", label: "שנות ניסיון" },
-  { emoji: "🎧", value: "5,000+", label: "לקוחות מרוצים" },
+  /* מ-SITE_TRUST_STATS, מקור אחד לכל האתר (FIT-06) */
+  { emoji: "🏆", value: SITE_TRUST_STATS[0].value, label: SITE_TRUST_STATS[0].label },
+  { emoji: "🎧", value: SITE_TRUST_STATS[1].value, label: SITE_TRUST_STATS[1].label },
   { emoji: "⭐", value: `${GOOGLE_RATING} / 5`, label: "דירוג ממוצע בגוגל" },
   { emoji: "💬", value: `${GOOGLE_REVIEW_COUNT}+`, label: "ביקורות מאומתות" },
 ] as const;

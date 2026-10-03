@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { BLUR_DATA_URL } from "@/lib/blur";
+import { SITE_TRUST_STATS } from "@/lib/constants";
 import {
   ABOUT_HUB_SEO,
   hubSchemaPropsFromSeo,
@@ -103,7 +104,10 @@ const VALUES = [
 const HERO_BULLETS = [
   "אולפן הקלטות, פודקאסט, DJ ואטרקציות - במקום אחד",
   "מודיעין + הגעה לאירועים בירושלים והמרכז",
-  "20+ שנות ניסיון, 5,000+ לקוחות",
+  /* מ-SITE_TRUST_STATS, אותו מקור כמו דף הבית ועמוד הקשר (FIT-06) */
+  SITE_TRUST_STATS.slice(0, 2)
+    .map((s) => `${s.value} ${s.label}`)
+    .join(", "),
 ] as const;
 
 export default function AboutPage() {
