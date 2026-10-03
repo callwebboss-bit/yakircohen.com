@@ -5,6 +5,18 @@ import { formatFromPriceDual, type PriceAudience } from "@/lib/data/pricing-cata
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 
+/*
+ * שריון מועד ומקדמה (החלטת הבעלים 3.10.2026, סבב שני): "אם קבענו מועד והוא
+ * פנוי, ולפי מקום פנוי, אפשרית מקדמה מראש בסכום שמסכמים יחד, בכפוף לכך
+ * שהפרויקט מתבצע או משוריין". זה הנוסח היחיד לתשלום, מקדמה ושריון באתר.
+ * הוא מחליף "50% מקדמה", "מקדמה 30%", מקדמה קבועה בשקלים, שוטף +60 שהוצג
+ * למשפחות, "Hold ל-5 שעות" ו"נדרש תשלום מראש" (OE-18, PJ-28, S21, LF-15).
+ * closer-brand-copy.json מחזיק את אותו נוסח כטקסט, ובדיקה ב-conversion-copy.test.ts
+ * מוודאת שהוא לא נפרד ממנו.
+ */
+export const DATE_HOLD_TERMS_BODY = "במקדמה בסכום שמסכמים יחד, לפי הפרויקט והמועד הפנוי";
+export const DATE_HOLD_TERMS = `שריון מועד: ${DATE_HOLD_TERMS_BODY}.`;
+
 /** הסתייגות תפעולית, שורת משנה ליד הבטחות זמן */
 export const TIME_PROMISE_DISCLAIMER =
   'בדרך כלל מתקבלים טווחי הזמן האלה, לפי עומס ומורכבות הפרויקט.';

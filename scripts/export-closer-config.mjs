@@ -958,11 +958,11 @@ const payload = {
   leadFlowWaTemplates: brandCopy.leadFlowWaTemplates || {},
   leadFlowPackages,
   leadFlowRoutes,
+  /* שריון מועד (החלטת הבעלים 3.10.2026, סבב שני): מקדמה בסכום שמסכמים יחד,
+     בלי Hold של 5 שעות. המפתח hold5h נשאר בשם הישן כי yakir-closer.html קורא
+     אותו, והטקסט בו הוא נוסח השריון. */
   leadFlowHold: {
-    durationHours: 5,
-    policyText:
-      brandCopy.yakirCallScripts?.hold5h ||
-      "אפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.",
+    policyText: brandCopy.yakirCallScripts.hold5h,
   },
   crossSellOffers: brandCopy.crossSellOffers,
   groupFamilyPitch: brandCopy.groupFamilyPitch,

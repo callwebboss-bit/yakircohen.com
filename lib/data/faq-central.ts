@@ -1,5 +1,6 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 
 /* התשובה על "כמה עולה" נכנסת לסכמת FAQPage, ולכן מחיר מיושן כאן מתפרסם
    לגוגל כעובדה. היא הצהירה 1,750 ₪ לאטרקציה אחרי שהקטלוג כבר אמר 1,695.
@@ -138,7 +139,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "payment",
     question: "איך משלמים?",
     answer:
-      "אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר.",
+      `אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר. ${DATE_HOLD_TERMS}`,
     ctaText: "שאלו על תשלום בוואטסאפ",
     whatsappMessage: "שלום, איך אפשר לשלם עבור [שירות]?",
     utm_campaign: "faq_payment",

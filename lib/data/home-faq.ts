@@ -5,6 +5,7 @@
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { RECORDING_SONG_STUDIO_PRICE_FAQ } from "@/lib/data/faq-aeo";
 
 export type HomeFaqItem = {
@@ -59,7 +60,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "payment",
     question: "איך משלמים?",
     answerPlain:
-      "אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר.",
+      `אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר. ${DATE_HOLD_TERMS}`,
   },
   {
     id: "cancellation",

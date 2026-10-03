@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import { DATE_HOLD_TERMS_BODY } from "@/lib/data/conversion-copy";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
@@ -176,7 +177,7 @@ const FINE_PRINT = [
   { icon: "↩️", label: "ביטולים", text: "ביטול פחות מ-24 שעות מראש: חיוב מלא." },
   { icon: "🎛️", label: "ציוד", text: "הלימוד על ציוד מקצועי באולפן במודיעין." },
   { icon: "📁", label: "תוצרים", text: "כל חומרי הגלם עוברים אליך בסוף כל מפגש." },
-  { icon: "💳", label: "תשלום", text: "מראש בלינק מאובטח. מסלול חצי-שנתי: תשלום מלא מראש." },
+  { icon: "💳", label: "שריון מועד", text: `${DATE_HOLD_TERMS_BODY}.` },
   { icon: "📋", label: "מע\"מ", text: "המחיר הגדול כולל מע\"מ, ובקטן הסכום לפני מע\"מ." },
   {
     icon: "🕒",

@@ -1,3 +1,4 @@
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { getExVat } from "@/lib/data/pricing-catalog";
 
 export const SINGER_PAGE_HERO = {
@@ -422,7 +423,7 @@ export const SINGER_PROCESS: readonly {
   {
     step: "02",
     title: "הזמנה ואישור",
-    description: "מקדמה 30% לשריון תאריך, יתרה ביום ההופעה.",
+    description: DATE_HOLD_TERMS,
   },
   {
     step: "03",

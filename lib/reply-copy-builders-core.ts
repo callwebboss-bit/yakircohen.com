@@ -176,7 +176,9 @@ export function createReplyBuilders(brandCopy: BrandCopySlice) {
     if (ctx.leadDate) {
       parts.push(`לגבי ${formatScheduleDetail(ctx)}, נשמח לאשר שעה מדויקת.`);
     }
-    parts.push("מה נוח לכם - מקדמה עכשיו או שיחה קצרה של 3 דקות?");
+    /* נוסח השריון: DATE_HOLD_TERMS_BODY ב-conversion-copy.ts (החלטת הבעלים
+       3.10.2026, סבב שני). הקובץ הזה טהור ולא מייבא, ולכן הטקסט כתוב כאן. */
+    parts.push("מה נוח לכם - לשריין מועד במקדמה בסכום שמסכמים יחד, לפי הפרויקט והמועד הפנוי, או שיחה קצרה של 3 דקות?");
     return parts.join("\n");
   }
 

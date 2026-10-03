@@ -77,7 +77,7 @@ import {
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
-import { EVENTS_PAYMENT_TERMS_LINES } from "@/lib/data/legal-trust-copy";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -1383,14 +1383,10 @@ export default function EventsBookingWizard({
 
               <CheckoutTrustMicro className="mt-2" />
 
-              {/* תנאי תשלום מורחבים לאירועים */}
+              {/* שריון מועד: נוסח אחד לכל האתר (החלטת הבעלים 3.10.2026, סבב שני).
+                  כאן הוצגו למשפחות תנאי B2B: שוטף +60 וריבית פיגורים (OE-18). */}
               <div className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-[0.7rem] leading-relaxed text-muted-foreground">
-                <p className="font-medium text-foreground/70">תנאי תשלום לאירועים</p>
-                {EVENTS_PAYMENT_TERMS_LINES.map((line) => (
-                  <p key={line} className="mt-1">
-                    {line}
-                  </p>
-                ))}
+                <p>{DATE_HOLD_TERMS}</p>
               </div>
 
               {/* הגבלת אחריות ותנאים תפעוליים */}

@@ -10,6 +10,7 @@ import {
   getClientScenarioTitle,
 } from "@/lib/data/client-scenario-labels";
 import { formatNis, VAT_RATE } from "@/lib/data/pricing";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
@@ -43,7 +44,6 @@ export type GroupMessageInput = {
   vatRate?: number;
   hasMobile?: boolean;
   atmosphere?: string;
-  depositTotal?: number;
   customOptionAPrice?: number;
   leadDate?: string;
 };
@@ -55,8 +55,6 @@ export type GroupMessageContext = {
   pricePerPersonSave5: number;
   recommendedPerPerson: number;
   useDualTier: boolean;
-  depositTotal: number;
-  depositPerPerson: number;
   videoStudioPrice: number;
   scheduleLabel: string;
   pairsScenario: ReturnType<typeof calcStudioScenarios>["scenarios"][number] | null;
@@ -126,9 +124,6 @@ export function getGroupMessageContext(input: GroupMessageInput): GroupMessageCo
   const useDualTier = input.recorderCount >= DUAL_TIER_THRESHOLD && !!save5;
   const recommendedPerPerson = useDualTier ? pricePerPersonSave5 : pricePerPersonPairs;
   const pricePerPerson = recommendedPerPerson;
-  const depositTotal =
-    input.depositTotal ?? gm.studioDepositExVat ?? 300;
-  const depositPerPerson = Math.round(depositTotal / Math.max(1, input.recorderCount));
 
   const videoUpgrade = STUDIO_RECORDING_UPGRADES.find((u) => u.id === "performance_clip");
   const videoStudioPrice = videoUpgrade?.price ?? 400;
@@ -143,8 +138,6 @@ export function getGroupMessageContext(input: GroupMessageInput): GroupMessageCo
     pricePerPersonSave5,
     recommendedPerPerson,
     useDualTier,
-    depositTotal,
-    depositPerPerson,
     videoStudioPrice,
     scheduleLabel: scheduleLabel(input.scheduleWindow),
     pairsScenario: find("pairs"),
@@ -203,11 +196,11 @@ export function buildKeyAdapterBlock(): string {
   return gm.keyAdapter;
 }
 
-export function buildGroupMicroDepositBlock(ctx: GroupMessageContext): string {
-  return tpl(gm.microDeposit, {
-    depositTotal: ctx.depositTotal,
-    depositPerPerson: ctx.depositPerPerson,
-  });
+/* שריון מועד (החלטת הבעלים 3.10.2026, סבב שני): מקדמה בסכום שמסכמים יחד.
+   עד אז מקדמה קבועה של 300 ש"ח וחלוקה לאדם. הנוסח ב-closer-brand-copy.json
+   חייב להכיל את DATE_HOLD_TERMS_BODY (conversion-copy.test.ts). */
+export function buildGroupMicroDepositBlock(): string {
+  return gm.microDeposit;
 }
 
 export function buildSplitPaymentTip(ctx: GroupMessageContext): string {
@@ -452,7 +445,7 @@ export function generateDualTierGroupMessage(input: GroupMessageInput): string |
   parts.push(generateSnappyTimeline(), "");
   parts.push(...maybeMelodyneBlock(input.selectedUpgrades));
   parts.push(buildExpressDeliveryGuarantee(), "");
-  parts.push(buildGroupMicroDepositBlock(ctx), "");
+  parts.push(buildGroupMicroDepositBlock(), "");
   parts.push(buildClosingCta(), "");
   parts.push(
     tpl(gm.splitPaymentTip, { pricePerPerson: ctx.pricePerPersonSave5 }),
@@ -503,7 +496,7 @@ export function generateGroupPackageMessage(input: GroupMessageInput): string | 
     parts.push(buildHybridStudioBlock(), "");
   }
   parts.push(buildExpressDeliveryGuarantee(), "");
-  parts.push(buildGroupMicroDepositBlock(ctx), "");
+  parts.push(buildGroupMicroDepositBlock(), "");
   parts.push(buildClosingCta(), "");
   parts.push(
     tpl(gm.splitPaymentTip, {
@@ -545,7 +538,7 @@ export function generateSnappyGroupMessage(input: GroupMessageInput): string | n
   parts.push(generateSnappyTimeline(), "");
   parts.push(tpl(gm.videoStudioUpsell, { videoPrice: ctx.videoStudioPrice }), "");
   parts.push(buildClosingCta(), "");
-  parts.push(buildGroupMicroDepositBlock(ctx), "");
+  parts.push(buildGroupMicroDepositBlock(), "");
   parts.push(buildGroupFamilyPitchBlock(input, ctx));
 
   return parts.filter(Boolean).join("\n");
@@ -561,7 +554,7 @@ export function buildBookGroupEnrichmentBlock(input: GroupMessageInput): string[
     ctx.useDualTier
       ? `*הערכה למשפחה:* תקרת זוגות ~${ctx.pricePerPersonPairs} ש"ח לאדם | המלצתנו ~${ctx.pricePerPersonSave5} ש"ח לאדם (כולל מע״מ)`
       : `*הערכה למשפחה:* ~${ctx.pricePerPersonPairs} ש"ח לאדם (כולל מע״מ, מסלול זוגות)`,
-    `*מקדמה לשריון:* ${ctx.depositTotal} ש"ח (${ctx.depositPerPerson} ש"ח לאדם)`,
+    DATE_HOLD_TERMS,
     buildLineSplitterReassurance(),
   ];
 

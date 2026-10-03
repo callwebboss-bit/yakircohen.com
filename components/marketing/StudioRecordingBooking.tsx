@@ -41,7 +41,7 @@ import {
   FILTER_QUESTIONS,
   type FilterAnswers,
 } from "@/lib/data/filter-questions";
-import { sendBookingWaCta } from "@/lib/data/conversion-copy";
+import { DATE_HOLD_TERMS, sendBookingWaCta } from "@/lib/data/conversion-copy";
 import {
   calcMobileStudioExVat,
   MOBILE_GEO_FEES,
@@ -2107,7 +2107,7 @@ export default function StudioRecordingBooking({
                       : ` - ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם (כולל מע״מ)`}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    מקדמה לשריון: {groupMsgCtx.depositTotal} ₪ ({groupMsgCtx.depositPerPerson} ₪ לאדם)
+                    {DATE_HOLD_TERMS}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <button

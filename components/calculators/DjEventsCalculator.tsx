@@ -44,7 +44,7 @@ import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { sendBookingWaCta } from "@/lib/data/conversion-copy";
+import { DATE_HOLD_TERMS, sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
@@ -744,7 +744,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               { icon: "🛡️", text: "ביטוח ציוד וצד ג׳  -  אירוע מבוטח לגמרי" },
               { icon: "📦", text: "ציוד, הובלה, הקמה ופירוק  -  ללא הפתעות" },
               { icon: "⏰", text: "הגעה שעה לפני האירוע להקמה ובדיקות" },
-              { icon: "💳", text: "50% מקדמה בהזמנה, 50% ביום האירוע" },
+              { icon: "💳", text: DATE_HOLD_TERMS },
               { icon: "📋", text: "המחירים כוללים מע״מ. מתחת לכל מחיר: הסכום לפני מע״מ" },
               { icon: "📱", text: "סרטון מעוצב מכל אטרקציה  -  תוך 72 שעות" },
             ].map((item) => (

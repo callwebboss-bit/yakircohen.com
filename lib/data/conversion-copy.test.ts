@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import { readFileSync } from "node:fs";
+import brandCopy from "@/lib/data/closer-brand-copy.json";
 import {
+  DATE_HOLD_TERMS,
+  DATE_HOLD_TERMS_BODY,
   hubBookCtaLabel,
   pricingRowBookCta,
   whatsappAriaLabel,
@@ -64,5 +68,46 @@ describe("conversion-copy price labels", () => {
     assert.equal(business, "מ-500 ₪ + מע״מ (590 ₪ כולל מע״מ)");
     assert.ok(hubBookCtaLabel(ex).startsWith("הזמנה מקוונת מ-590 ₪"));
     assert.ok(whatsappQuoteCta("שיר", ex).startsWith("אני רוצה הצעה לשיר מ-590 ₪"));
+  });
+});
+
+/* החלטת הבעלים 3.10.2026 (סבב שני): נוסח אחד לשריון מועד ומקדמה בכל האתר
+   ובכלי הבעלים. closer-brand-copy.json הוא JSON ולא יכול לייבא את הקבוע,
+   ולכן הבדיקה מוודאת שהוא לא נפרד ממנו (OE-18, PJ-28, S21, LF-15). */
+describe("date hold terms", () => {
+  const CONTRADICTIONS = [
+    /\bHold\b(?! Us)/,
+    /לשמור תאריך ל-\d+ שעות|Hold \d/,
+    /תשלום מראש/,
+    /\d+%\s*מקדמה|מקדמה (?:של )?\d+%/,
+    /שוטף \+ ?\d+/,
+    /\{deposit(?:Total|PerPerson)?\}/,
+  ];
+
+  it("the statement reads as the owner set it", () => {
+    assert.equal(DATE_HOLD_TERMS, `שריון מועד: ${DATE_HOLD_TERMS_BODY}.`);
+    assert.match(DATE_HOLD_TERMS_BODY, /מקדמה בסכום שמסכמים יחד/);
+  });
+
+  it("every deposit and hold string in the owner tool uses the same statement", () => {
+    const texts = [
+      brandCopy.yakirCallScripts.hold5h,
+      brandCopy.leadFlowWaTemplates.quoteHold,
+      brandCopy.leadFlowWaTemplates.paymentAsk,
+      brandCopy.groupMessaging.microDeposit,
+      brandCopy.voiceScriptVariants.deposit,
+    ];
+    for (const t of texts) assert.ok(t.includes(DATE_HOLD_TERMS_BODY), t);
+  });
+
+  it("no contradicting payment term is left in the owner tool copy", () => {
+    const json = JSON.stringify(brandCopy);
+    for (const re of CONTRADICTIONS) assert.doesNotMatch(json, re);
+    assert.equal("studioDepositExVat" in brandCopy.groupMessaging, false);
+  });
+
+  it("the pure reply builder carries the same statement", () => {
+    const core = readFileSync("lib/reply-copy-builders-core.ts", "utf8");
+    assert.ok(core.includes(DATE_HOLD_TERMS_BODY.replace(/^ב/, "")));
   });
 });

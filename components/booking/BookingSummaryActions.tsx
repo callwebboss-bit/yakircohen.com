@@ -7,6 +7,7 @@ import KoalendarModal from "@/components/booking/KoalendarModal";
 import InfoTip from "@/components/ui/InfoTip";
 import { BOOKING_INSTALLMENT_LINE } from "@/lib/data/booking-shared";
 import { PAYMENT_SECURITY_LINE } from "@/lib/data/legal-trust-copy";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
@@ -164,7 +165,7 @@ export default function BookingSummaryActions({
           <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
             <LockIcon />
             <span>({BOOKING_INSTALLMENT_LINE})</span>
-            <InfoTip text="מקדמה קטנה לשריון התאריך, יתרה לפני האירוע. מחלקים את הסכום בוואטסאפ לפי מה שנוח." />
+            <InfoTip text={DATE_HOLD_TERMS} />
           </div>
           <div className="flex items-center justify-center gap-1.5 text-[0.65rem] text-muted-foreground">
             <ShieldIcon />
