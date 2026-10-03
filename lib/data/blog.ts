@@ -162,7 +162,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     utmCampaign: "podcast_hub",
     bookHref: "/book#podcast",
     closerService: "podcast",
-    priceExVat: 950,
+    priceExVat: getExVat("podcast_audio"),
   },
   studio: {
     href: "/studio",
@@ -182,7 +182,8 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     utmCampaign: "events_hub",
     bookHref: "/book#events",
     closerService: "effects_only",
-    priceExVat: 1750,
+    /* WP4: היה 1,750, מחיר אטרקציה שפרש */
+    priceExVat: getExVat("event_attraction_1"),
   },
   online: {
     href: "/online",
@@ -192,7 +193,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     utmCampaign: "online_hub",
     bookHref: "/book#online",
     closerService: "online_ai",
-    priceExVat: 250,
+    priceExVat: getExVat("damaged_recording_rescue"),
   },
   academy: {
     href: "/academy",
@@ -202,7 +203,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
     utmCampaign: "academy_hub",
     bookHref: "/book#academy",
     closerService: "academy",
-    priceExVat: 990,
+    priceExVat: getExVat("academy_private_hour"),
   },
   "academy/ai-music": {
     href: "/academy/ai-music",

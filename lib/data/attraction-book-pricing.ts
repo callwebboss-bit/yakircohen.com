@@ -4,6 +4,7 @@
 
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
+import { formatPrice } from "@/lib/data/pricing-display";
 import type { ServicePricingTier } from "@/lib/data/services";
 import {
   DOUBLE_QUANTITY_SURCHARGE,
@@ -66,6 +67,21 @@ export function parseBookEventItemFromSearch(
   return VALID_EVENT_ITEM_IDS.has(id) ? (id as EventBookingItemId) : null;
 }
 
+/**
+ * חיסכון מול אטרקציות בודדות, מחושב מהקטלוג וכולל מע״מ כמו המחיר שמוצג לצרכן.
+ * WP4 (PI-08): היה "חיסכון 300" ו"חיסכון 800" כתובים, בזמן שההפרש בקטלוג הוא
+ * 339 ו-763 לפני מע״מ (400 ו-900 כולל).
+ */
+export function bundleSavingWithVat(count: number): number {
+  const single = getExVat("event_attraction_1");
+  const id = `event_attraction_${count}` as "event_attraction_2" | "event_attraction_3";
+  return withVat(single) * count - withVat(getExVat(id));
+}
+
+function savingLabel(count: number): string {
+  return `חיסכון ${bundleSavingWithVat(count).toLocaleString("he-IL")} ₪ כולל מע״מ`;
+}
+
 export function getBundlePricingTable(): readonly BundlePricingRow[] {
   return [
     {
@@ -76,12 +92,12 @@ export function getBundlePricingTable(): readonly BundlePricingRow[] {
     {
       count: 2,
       priceExVat: getExVat("event_attraction_2"),
-      saving: "חיסכון 300 ₪",
+      saving: savingLabel(2),
     },
     {
       count: 3,
       priceExVat: getExVat("event_attraction_3"),
-      saving: "חיסכון 800 ₪",
+      saving: savingLabel(3),
     },
     {
       count: EVENT_GIFT_THRESHOLD,
@@ -104,7 +120,7 @@ function tiersForItem(item: EventBookingItem): AttractionPricingTier[] {
       priceNote:
         opt.addOnPrice === 0
           ? "מחיר לאטרקציה בודדת בחבילה"
-          : `+${opt.addOnPrice.toLocaleString("he-IL")} ₪ מעל בסיס`,
+          : `+${withVat(opt.addOnPrice).toLocaleString("he-IL")} ₪ כולל מע״מ מעל הבסיס`,
     }));
   }
 
@@ -167,23 +183,22 @@ export function formatAttractionPricingForChatbot(): string {
           ? `${r.count}+ אטרקציות`
           : `${r.count} אטרקציה${r.count > 1 ? "ות" : ""}`;
       const extra = r.saving ? ` (${r.saving})` : "";
-      return `• ${label} - ₪${r.priceExVat.toLocaleString("he-IL")}${extra}`;
+      return `• ${label} - ${formatPrice(r.priceExVat).inline}${extra}`;
     })
     .join("\n");
 
   const base = EVENT_SINGLE_PRICE_NIS;
-  const act2 = RIGID_ACTIVATION_OPTIONS.find((o) => o.key === "act_2")?.addOnPrice ?? 1750;
+  const act2 = getExVat("event_extra_activation");
   const grad = LIQUID_FREQUENCY_OPTIONS.find((o) => o.key === "freq_graduated");
 
   return [
-    `אטרקציה אחת - ₪${base.toLocaleString("he-IL")} לפני מע״מ. חבילות:`,
+    `אטרקציה אחת - ${formatPrice(base).inline}. חבילות:`,
     bundleLines,
     "",
     "לכל אטרקציה בוחרים כמות הפעלות:",
-    `• זיקוקים קרים / קונפטי - לפי רגעי שיא (הפעלה שנייה/שלישית = +₪${act2.toLocaleString("he-IL")} כל אחת)`,
+    `• זיקוקים קרים / קונפטי - לפי רגעי שיא (הפעלה שנייה/שלישית = +${formatPrice(act2).inline} כל אחת)`,
     `• עשן כבד / בועות - לפי תדירות: הפעלה אחת · 2 מדורגות (+${grad?.addOnPercent ?? "35%"}) · 2 מלאות (+50%) · אקסטרים (+100%)`,
     "",
-    `סופי לדוגמה (אטרקציה + מע״מ): ₪${withVat(base).toLocaleString("he-IL")}`,
     "מה האירוע שלכם ואיזה רגעים הכי חשוב לכם לצלם?",
   ].join("\n");
 }
@@ -193,7 +208,9 @@ function toServicePricingTier(tier: AttractionPricingTier): ServicePricingTier {
     name: tier.name,
     price: `${tier.priceExVat.toLocaleString("he-IL")} ₪`,
     priceExVat: tier.priceExVat,
-    priceNote: tier.priceNote ?? "לפני מע״מ",
+    /* המחיר עצמו מוצג כולל מע״מ ב-ServicePricingBlock (WP10). "לפני מע״מ" כאן
+       היה מתאר את המספר הקטן ולא את הגדול. */
+    priceNote: tier.priceNote,
     description: tier.description,
     featured: tier.featured,
     badge: tier.featured ? "הכי נמכר" : undefined,
@@ -235,7 +252,7 @@ export function servicePricingForEventBundles(): readonly ServicePricingTier[] {
         : `חבילת ${row.count} אטרקציות`,
     price: `${row.priceExVat.toLocaleString("he-IL")} ₪`,
     priceExVat: row.priceExVat,
-    priceNote: row.saving ? `${row.saving} · לפני מע״מ` : "לפני מע״מ",
+    priceNote: row.saving || undefined,
     description:
       row.count >= EVENT_GIFT_THRESHOLD
         ? "שלבו אפקטים בעמוד ההזמנה - כולל קליפ מתנה."
@@ -251,7 +268,7 @@ export function formatEventBundlePriceSummary(): string {
     .map((row) => {
       const label =
         row.count >= EVENT_GIFT_THRESHOLD ? `${row.count}+ אטרקציות` : `${row.count} אטרקציות`;
-      return `${label} ${row.priceExVat.toLocaleString("he-IL")} ₪`;
+      return `${label} ${formatPrice(row.priceExVat).headline}`;
     })
     .join(" · ");
 }
@@ -259,7 +276,7 @@ export function formatEventBundlePriceSummary(): string {
 export function ledBoothPriceFaqAnswer(): string {
   return [
     "עמדת LED מצוטטת בוואטסאפ לפי גודל מסך, משך האירוע ומיקום.",
-    `אפקטים משולבים (עשן, קונפטי, בועות) - אותו מחירון כמו /book#events: ${formatEventBundlePriceSummary()} (לפני מע״מ).`,
+    `אפקטים משולבים (עשן, קונפטי, בועות) - אותו מחירון כמו בעמוד ההזמנה: ${formatEventBundlePriceSummary()}.`,
   ].join(" ");
 }
 
@@ -267,4 +284,4 @@ export function ledBoothPurchaseCopy(): string {
   return "למפיקים, אולמות ותקליטנים - מחיר לפי מפרט (ארון מוכן או עמדה מלאה). הצעה בוואטסאפ, אחריות שנה, הדרכה ותמיכה.";
 }
 
-export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות - מאותו מחירון כמו /book, מאטרקציה אחת ${EVENT_SINGLE_PRICE_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ.`;
+export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות - מאותו מחירון כמו עמוד ההזמנה, מאטרקציה אחת ${formatPrice(EVENT_SINGLE_PRICE_NIS).headline}.`;

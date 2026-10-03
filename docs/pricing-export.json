@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 122,
-  "contentHash": "d9ee4790718f8565",
+  "itemCount": 123,
+  "contentHash": "05d729bf1220e544",
   "items": [
     {
       "id": "studio_half_hour",
@@ -637,6 +637,15 @@
       "inclVat": 1770,
       "priceFrom": false,
       "context": "ליווי מוזיקלי חי לרחבת הריקודים"
+    },
+    {
+      "id": "event_extra_activation",
+      "label": "הפעלה נוספת לאטרקציה",
+      "category": "events",
+      "exVat": 1200,
+      "inclVat": 1416,
+      "priceFrom": false,
+      "context": "רגע שיא נוסף: מיכל או מנועים חדשים לכל הפעלה"
     },
     {
       "id": "event_attraction_1",

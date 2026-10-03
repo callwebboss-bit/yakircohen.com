@@ -1,4 +1,5 @@
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
+import { getExVat } from "@/lib/data/pricing-catalog";
 
 export default function EventsAttractionsSchema() {
   const schema = {
@@ -11,8 +12,15 @@ export default function EventsAttractionsSchema() {
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "ILS",
-      lowPrice: 1750,
-      highPrice: 5500,
+      /* WP4: היה 1,750 עד 5,500, שני מחירים שפרשו מהקטלוג. עכשיו אטרקציה בודדת
+         עד חבילת ארבע, לפני מע״מ, עם דגל מע״מ מפורש. */
+      lowPrice: getExVat("event_attraction_1"),
+      highPrice: getExVat("event_attraction_4"),
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        priceCurrency: "ILS",
+        valueAddedTaxIncluded: false,
+      },
       offerCount: 12,
       availability: "https://schema.org/InStock",
       areaServed: {

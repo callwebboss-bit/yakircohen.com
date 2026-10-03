@@ -287,20 +287,6 @@
     "example": "כיסוי מלא או אפקט נקודתי. אפשר גם שטרות כסף, 500 ₪ באוויר לרגע"
   },
   {
-    "file": "components/seo/EventsAttractionsSchema.tsx",
-    "kind": "field",
-    "value": 1750,
-    "count": 1,
-    "example": "lowPrice: 1750,"
-  },
-  {
-    "file": "components/seo/EventsAttractionsSchema.tsx",
-    "kind": "field",
-    "value": 5500,
-    "count": 1,
-    "example": "highPrice: 5500,"
-  },
-  {
     "file": "components/seo/GeoCityDjPageContent.tsx",
     "kind": "field",
     "value": 5900,
@@ -567,20 +553,6 @@
     "example": "price: `11,520 ש\"ח`,"
   },
   {
-    "file": "lib/data/attraction-book-pricing.ts",
-    "kind": "prose",
-    "value": 300,
-    "count": 1,
-    "example": "saving: \"חיסכון 300 ₪\","
-  },
-  {
-    "file": "lib/data/attraction-book-pricing.ts",
-    "kind": "prose",
-    "value": 800,
-    "count": 1,
-    "example": "saving: \"חיסכון 800 ₪\","
-  },
-  {
     "file": "lib/data/attractions-calculator.ts",
     "kind": "prose",
     "value": 800,
@@ -635,13 +607,6 @@
     "value": 200,
     "count": 3,
     "example": "<td>₪200-₪500</td>"
-  },
-  {
-    "file": "lib/data/blog.ts",
-    "kind": "field",
-    "value": 250,
-    "count": 1,
-    "example": "priceExVat: 250,"
   },
   {
     "file": "lib/data/blog.ts",
@@ -736,13 +701,6 @@
   },
   {
     "file": "lib/data/blog.ts",
-    "kind": "field",
-    "value": 950,
-    "count": 1,
-    "example": "priceExVat: 950,"
-  },
-  {
-    "file": "lib/data/blog.ts",
     "kind": "prose",
     "value": 950,
     "count": 2,
@@ -754,13 +712,6 @@
     "value": 980,
     "count": 2,
     "example": "<tr><td>הפקה מקדימה ותיאום מוזיקלי מלא</td><td>980 ₪</td></tr>"
-  },
-  {
-    "file": "lib/data/blog.ts",
-    "kind": "field",
-    "value": 990,
-    "count": 1,
-    "example": "priceExVat: 990,"
   },
   {
     "file": "lib/data/blog.ts",
@@ -810,13 +761,6 @@
     "value": 1700,
     "count": 1,
     "example": "<td><strong>₪0-₪1,700</strong> (+ זמן רב)</td>"
-  },
-  {
-    "file": "lib/data/blog.ts",
-    "kind": "field",
-    "value": 1750,
-    "count": 1,
-    "example": "priceExVat: 1750,"
   },
   {
     "file": "lib/data/blog.ts",
@@ -1300,55 +1244,6 @@
     "value": 8900,
     "count": 1,
     "example": "priceExVat: 8900,"
-  },
-  {
-    "file": "lib/data/events-booking-upsells.ts",
-    "kind": "prose",
-    "value": 350,
-    "count": 2,
-    "example": "badge: \"חסכו 350 ₪\","
-  },
-  {
-    "file": "lib/data/events-booking-upsells.ts",
-    "kind": "field",
-    "value": 1356,
-    "count": 1,
-    "example": "price: 1356,"
-  },
-  {
-    "file": "lib/data/events-booking-upsells.ts",
-    "kind": "field",
-    "value": 1400,
-    "count": 2,
-    "example": "price: 1400,"
-  },
-  {
-    "file": "lib/data/events-booking-upsells.ts",
-    "kind": "field",
-    "value": 1695,
-    "count": 1,
-    "example": "originalPrice: 1695,"
-  },
-  {
-    "file": "lib/data/events-booking-upsells.ts",
-    "kind": "field",
-    "value": 1750,
-    "count": 2,
-    "example": "originalPrice: 1750,"
-  },
-  {
-    "file": "lib/data/events-booking.ts",
-    "kind": "field",
-    "value": 1200,
-    "count": 1,
-    "example": "{ key: \"act_2\", label: \"2 הפעלות (כניסה + סלואו)\", shortLabel: \"2 הפעלות\", addOnPrice: 1200 },"
-  },
-  {
-    "file": "lib/data/events-booking.ts",
-    "kind": "field",
-    "value": 2400,
-    "count": 1,
-    "example": "{ key: \"act_3\", label: \"3 הפעלות (כניסה, סלואו ופתיחת רחבה)\", shortLabel: \"3 הפעלות\", addOnPrice: 2400 },"
   },
   {
     "file": "lib/data/events-equipment-faq-page.ts",
