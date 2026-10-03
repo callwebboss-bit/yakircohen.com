@@ -881,8 +881,15 @@ if (!Array.isArray(brandCopy.quickInjectIds) || brandCopy.quickInjectIds.length 
   throw new Error("quickInjectIds must be a non-empty array");
 }
 
+/* WP8 (ED-02): ה-hash של הקטלוג, אותו אחד כמו ב-docs/pricing-export.json.
+   scripts/audit-closer-sync.mjs משווה אותו לקטלוג החי, כדי שכלי ההצעות לא
+   יצטט מחירים ישנים אחרי שינוי מחיר באתר. */
+const PRICING_EXPORT_FILE = path.join(ROOT, "docs", "pricing-export.json");
+const pricingContentHash = JSON.parse(fs.readFileSync(PRICING_EXPORT_FILE, "utf8")).contentHash;
+
 const payload = {
   generatedAt: new Date().toISOString(),
+  pricingContentHash,
   vatRate: VAT_RATE,
   catalog: catalogExport,
   priceTransparencyMap: buildTransparencyMap(catalogExport),
