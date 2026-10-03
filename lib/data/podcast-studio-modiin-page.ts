@@ -1,4 +1,7 @@
-import { PODCAST_STUDIO_MODIIN_PRICE_FAQ } from "./faq-aeo";
+import {
+  PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
+  PODCAST_STUDIO_MODIIN_PRICE_FAQ,
+} from "./faq-aeo";
 
 export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
@@ -75,6 +78,7 @@ export const STUDIO_MODIIN_FAQS: readonly {
   question: string;
   answer: string;
 }[] = [
+  PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
   {
     id: "multi-guest",

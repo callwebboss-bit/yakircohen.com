@@ -112,6 +112,17 @@ export type ServicePageLayoutProps = {
    * האולפן לא מעידים על התוכנית (FIT-06).
    */
   showTrustStats?: boolean;
+  /**
+   * שאלת ה-AEO הראשית של העמוד, גלויה מעל התוכן ולא רק באקורדיון. מוצגת במקום
+   * בלוק ה-metaDescription, עם id משלה ו-SpeakableSchema שמצביע עליה. Speakable
+   * בלבד: אותה שאלה כבר נכנסת ל-FAQPage דרך `faqs`, ופעמיים יהיה כפילות.
+   */
+  aeoAnswer?: {
+    id: string;
+    question: string;
+    text: string;
+    utmCampaign: string;
+  };
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -260,6 +271,7 @@ export default function ServicePageLayout({
   corporateShareLabel,
   valueFrame,
   heroPrimaryCta,
+  aeoAnswer,
 }: ServicePageLayoutProps) {
   const pageEntitySchema = pagePath && emitPageEntitySchema
     ? buildServicePageEntitySchema({
@@ -502,7 +514,36 @@ export default function ServicePageLayout({
         </section>
       ) : null}
 
-      {metaDescription && pagePath ? (
+      {aeoAnswer && pagePath ? (
+        <>
+          <SpeakableSchema
+            url={`https://yakircohen.com${pagePath}`}
+            cssSelector={["h1", `#${aeoAnswer.id}`]}
+          />
+          <div className="border-b border-border bg-background px-4 pb-6 pt-8 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl space-y-3">
+              <p className="text-sm font-semibold text-foreground">
+                {aeoAnswer.question}
+              </p>
+              <AnswerBlock id={aeoAnswer.id}>{aeoAnswer.text}</AnswerBlock>
+              <a
+                href={buildWhatsAppHref({
+                  text: `שאלה מהאתר: ${aeoAnswer.question}`,
+                  utm_source: "website",
+                  utm_campaign: aeoAnswer.utmCampaign,
+                  source: pagePath.replace(/^\/+/, ""),
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-brand-red hover:underline"
+              >
+                <WhatsAppIcon />
+                שאלה על זה? כתבו לנו בוואטסאפ
+              </a>
+            </div>
+          </div>
+        </>
+      ) : metaDescription && pagePath ? (
         <>
           <SpeakableSchema
             url={`https://yakircohen.com${pagePath}`}

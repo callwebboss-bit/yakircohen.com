@@ -39,7 +39,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "location-parking",
     question: "איפה האולפן ויש חנייה?",
     answerPlain:
-      "האולפן ממוקם בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.",
+      "האולפן ממוקם בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן.",
   },
   {
     id: "ai-restoration",

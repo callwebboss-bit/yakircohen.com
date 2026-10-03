@@ -40,6 +40,7 @@ import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchPro
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import StudioSessionClipOffer from "@/components/booking/StudioSessionClipOffer";
+import { SONG_TO_VENUE_DJ_FAQ } from "@/lib/data/faq-aeo";
 
 const service = getStudioService("recording-song-modiin");
 
@@ -741,7 +742,11 @@ export default function RecordingSongModiinPageContent() {
             </header>
             <div className="mx-auto mt-10 max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface px-4 sm:px-6">
               {service.faqs.map((faq) => (
-                <details key={faq.id} className="group py-1">
+                <details
+                  key={faq.id}
+                  className="group py-1"
+                  open={faq.id === SONG_TO_VENUE_DJ_FAQ.id}
+                >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 outline-none">
                     <h3 className="text-start text-sm font-semibold text-foreground sm:text-base">
                       {faq.question}
@@ -764,9 +769,20 @@ export default function RecordingSongModiinPageContent() {
                       </svg>
                     </span>
                   </summary>
-                  <p className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
-                    {faq.answer}
-                  </p>
+                  {faq.steps && faq.lead ? (
+                    <div className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
+                      <p>{faq.lead}</p>
+                      <ol className="mt-2 list-decimal space-y-1 ps-5">
+                        {faq.steps.map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  ) : (
+                    <p className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
+                      {faq.answer}
+                    </p>
+                  )}
                 </details>
               ))}
             </div>

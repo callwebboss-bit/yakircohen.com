@@ -9,11 +9,20 @@ import { getSongOfferView, getSongParticipantsExplanation } from "@/lib/data/son
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPriceFactorsAnswer } from "@/lib/data/price-factors";
 import { buildEventsHubAnswer } from "@/lib/data/blog-knowledge-hubs";
+import {
+  FOUNDER_CAREER_START_YEAR,
+  SITE_NAME,
+  STUDIO_ADDRESS_LINE,
+} from "@/lib/constants";
 
 export type AeoFaqItem = {
   id: string;
   question: string;
+  /** הטקסט המלא, כולל השלבים אם יש. זה מה שנכנס לסכמת FAQPage */
   answer: string;
+  /** שאלת תהליך: משפט פתיחה ושלבים, לרינדור כרשימה ממוספרת בעמוד */
+  lead?: string;
+  steps?: readonly string[];
 };
 
 /* formatFromPriceDual מחזיר "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)". כאן הוא נקרא
@@ -194,6 +203,50 @@ export const VOCAL_FIX_ONLINE_PRICE_FAQ: AeoFaqItem = {
   answer: buildVocalFixOnlinePriceAnswer(),
 };
 
+/* ארבע שאלות בניסוח של מי ששואל עוזר AI (סבב AEO 1, 3.10.2026). התשובה
+   פותחת בתשובה עצמה, עם שם העסק והכתובת מהקבועים, כי מנוע תשובות גוזר
+   משפט אחד או שניים ומייחס אותם לישות. הניסוח אושר על ידי יקיר, מהמילים שלו.
+   "מפיק מאז 2004" הוא הוותק האישי, לא גיל האולפן (2010). ראו
+   TRUST_STATS_CLARIFICATION ב-constants. */
+
+export const STUDIO_MODIIN_PRO_FAQ: AeoFaqItem = {
+  id: "aeo-studio-modiin",
+  question: "האם יש אולפן הקלטות מקצועי במודיעין?",
+  answer: `כן. האולפן של ${SITE_NAME} נמצא ב${STUDIO_ADDRESS_LINE}. מה שהופך אותו למקצועי: חדר הקלטה מבודד ונפרד מחדר העריכה, מיקרופוני Neumann ו-Townsend Sphere, וליווי צמוד מהסקיצה ועד המאסטר. יקיר מפיק מאז ${FOUNDER_CAREER_START_YEAR}, ויש גם את מה שמבינים רק כשמגיעים: התאורה החמה והאווירה שאין להסביר במילים. האולפן נמצא רק במודיעין, ואם נוח לכם יותר, האולפן הנייד מגיע אליכם.`,
+};
+
+export const MOBILE_STUDIO_HOME_FAQ: AeoFaqItem = {
+  id: "aeo-mobile-studio-home",
+  question: "יש אולפן הקלטות שמגיע עד הבית?",
+  answer: `כן. האולפן הנייד של ${SITE_NAME} מגיע אליכם לכל מקום בארץ: הביתה, למשרד או לכל חדר שקט. תוך פחות מ-30 דקות החדר הופך לאולפן, עם פנלים אקוסטיים, מיקרופונים מקצועיים ומפיק שנשאר לידכם לאורך כל ההקלטה. ככה את החוויה של האולפן מביאים עד אליכם, לשירה, לקריינות או לפודקאסט.`,
+};
+
+const SONG_TO_DJ_LEAD = "פשוט. ככה השיר מגיע מהאולפן לרחבה:";
+const SONG_TO_DJ_STEPS = [
+  "מקבלים מאיתנו את השיר בשני קבצים, WAV וגם MP3, בוואטסאפ או במייל.",
+  "מעבירים אותו לתקליטן בעצמכם, או נותנים לנו את המספר שלו ואנחנו שולחים ישר אליו.",
+  "אומרים לתקליטן באיזה רגע בדיוק להשמיע את השיר.",
+  "ביום האירוע מביאים גם גיבוי על USB, ליתר ביטחון.",
+] as const;
+
+export const SONG_TO_VENUE_DJ_FAQ: AeoFaqItem = {
+  id: "aeo-song-to-venue-dj",
+  question: "איך מעבירים לתקליטן באולם את השיר שהקלטנו?",
+  answer: `${SONG_TO_DJ_LEAD} ${SONG_TO_DJ_STEPS.map((step, i) => `${i + 1}. ${step}`).join(" ")}`,
+  lead: SONG_TO_DJ_LEAD,
+  steps: SONG_TO_DJ_STEPS,
+};
+
+/* חצי שעה כולל מע״מ, מהקטלוג. המחיר המלא (גם שעה) נמצא בשאלה הסמוכה
+   PODCAST_STUDIO_MODIIN_PRICE_FAQ באותו עמוד. */
+const PODCAST_HALF_HOUR_WITH_VAT = withVat(getExVat("studio_half_hour")).toLocaleString("he-IL");
+
+export const PODCAST_STUDIO_MODIIN_EXISTS_FAQ: AeoFaqItem = {
+  id: "aeo-podcast-studio-modiin",
+  question: "האם יש סטודיו לפודקאסט במודיעין?",
+  answer: `כן. סטודיו הפודקאסט של ${SITE_NAME} נמצא ב${STUDIO_ADDRESS_LINE}. יש בו 4 מתחמי הקלטה, עד 4 מיקרופונים בו זמנית ו-3 מצלמות קבועות, והפרק אצלכם באותה שנייה שמסיימים להקליט. חצי שעה באולפן החל מ-${PODCAST_HALF_HOUR_WITH_VAT} ₪ כולל מע״מ. הסטודיו נמצא רק במודיעין, ואם נוח לכם יותר, מקליטים גם אצלכם בבית או במשרד.`,
+};
+
 /** שאלות AEO מרוכזות לדפי hub ולבדיקות audit */
 export const TIER1_AEO_FAQS: readonly AeoFaqItem[] = [
   RECORDING_SONG_STUDIO_PRICE_FAQ,
@@ -207,4 +260,8 @@ export const TIER1_AEO_FAQS: readonly AeoFaqItem[] = [
   ATTRACTIONS_EVENT_PRICE_FAQ,
   ATTRACTIONS_EVENT_VOICE_FAQ,
   VOCAL_FIX_ONLINE_PRICE_FAQ,
+  STUDIO_MODIIN_PRO_FAQ,
+  MOBILE_STUDIO_HOME_FAQ,
+  SONG_TO_VENUE_DJ_FAQ,
+  PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
 ];

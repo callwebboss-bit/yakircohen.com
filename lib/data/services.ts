@@ -5,7 +5,13 @@
   withVat,
 } from "./pricing";
 import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
-import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
+import {
+  DJ_WEDDING_PRICE_FAQ,
+  MOBILE_STUDIO_HOME_FAQ,
+  RECORDING_SONG_STUDIO_PRICE_FAQ,
+  SONG_TO_VENUE_DJ_FAQ,
+  STUDIO_MODIIN_PRO_FAQ,
+} from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
@@ -45,6 +51,9 @@ export type ServiceFaq = {
   id: string;
   question: string;
   answer: string;
+  /** שאלת תהליך: משפט פתיחה + שלבים ממוספרים. `answer` נשאר הטקסט המלא לסכמה */
+  lead?: string;
+  steps?: readonly string[];
 };
 
 export type ServicePricingTier = {
@@ -217,7 +226,7 @@ export const STUDIO_SERVICES = {
         id: "studio-location",
         question: "איפה האולפן?",
         answer:
-          "מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. חניה חופשית בשפע ממש ליד האולפן.",
+          "מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן.",
       },
     ],
     hubCard: null,
@@ -257,6 +266,7 @@ export const STUDIO_SERVICES = {
       "שלום, אשמח לתאם סיור באולפן או סשן הקלטה במודיעין",
     utmCampaign: "studio_recording",
     faqs: [
+      STUDIO_MODIIN_PRO_FAQ,
       {
         id: "modiin-vs-ta",
         question: "למה אולפן במודיעין ולא בתל אביב?",
@@ -383,6 +393,7 @@ export const STUDIO_SERVICES = {
         answer:
           "בהקלטת שיר על פלייבק השיר המוכן אצלכם בסוף הסשן באולפן.",
       },
+      SONG_TO_VENUE_DJ_FAQ,
       {
         id: "booking-advance",
         question:
@@ -838,6 +849,7 @@ export const STUDIO_SERVICES = {
       "שלום, אשמח לקבל פרטים על אולפן הקלטות נייד - תאריך ומיקום",
     utmCampaign: "studio_mobile",
     faqs: [
+      MOBILE_STUDIO_HOME_FAQ,
       {
         id: "what-is",
         question: "מה זה אולפן נייד?",

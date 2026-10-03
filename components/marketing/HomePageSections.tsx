@@ -32,7 +32,8 @@ const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   "location-parking": (
     <>
       <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
-      איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.
+      איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע
+      ממש ליד האולפן.
     </>
   ),
   "ai-restoration": (

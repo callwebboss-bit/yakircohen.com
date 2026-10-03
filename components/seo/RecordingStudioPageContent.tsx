@@ -17,6 +17,7 @@ import {
 } from "@/lib/data/recording-studio-page";
 import { RECORDING_STUDIO_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
+import { STUDIO_MODIIN_PRO_FAQ } from "@/lib/data/faq-aeo";
 import { mapRecordingOfferingToHub } from "@/lib/data/studio-hub-mappers";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -42,6 +43,12 @@ export default function RecordingStudioPageContent() {
       bookSlug={service.slug}
       pagePath="/studio/recording-studio"
       faqs={service.faqs}
+      aeoAnswer={{
+        id: "aeo-answer-recording-studio",
+        question: STUDIO_MODIIN_PRO_FAQ.question,
+        text: STUDIO_MODIIN_PRO_FAQ.answer,
+        utmCampaign: "aeo_q1",
+      }}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -158,6 +165,7 @@ export default function RecordingStudioPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
+            defaultOpenId={STUDIO_MODIIN_PRO_FAQ.id}
             title="שאלות ותשובות"
             subtitle="לפני שמגיעים לסשן"
             className="py-0"
