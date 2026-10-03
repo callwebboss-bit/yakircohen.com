@@ -2905,7 +2905,7 @@ ${songAddonRows()}
 <p>גם חדר שיש בו קשיים אקוסטיים קשים, כמו הד חזק או תנועה בכביש ליד, עלול להגביל את מה שניתן לעשות עם הציוד הנייד.</p>
 <h2>מחירון אולפן נייד ואירועים, 2026 (לפני מע"מ)</h2>
 <table>
-<tr><td>אולפן נייד: הגעה עם כל הציוד, התאורה והצוות (בית, משרד או אירוע)</td><td>החל מ-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>אולפן הקלטות נייד: הגעה עם כל הציוד, התאורה והצוות (בית, משרד או אירוע)</td><td>החל מ-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪</td></tr>
 <tr><td>צילום פודקאסט באירוע, כולל ההגעה</td><td>החל מ-${mobileStudioEventExVat("video").toLocaleString("he-IL")} ₪</td></tr>
 <tr><td>הקלטת אודיו באירוע, כולל ההגעה</td><td>החל מ-${mobileStudioEventExVat("audio").toLocaleString("he-IL")} ₪</td></tr>
 <tr><td>חבילת פסטיבל הכל כלול עם DJ ואולפן נייד</td><td>החל מ-${getExVat("festival_all_in").toLocaleString("he-IL")} ₪</td></tr>
