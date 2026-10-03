@@ -49,10 +49,9 @@ const EXEMPT = [
   /* חישוב לדוגמה בתוך טקסט, לא מחירון. */
   { value: 9600, file: "lib/data/blog.ts", match: "8 פרקים ב-1,200 ₪ לפרק", why: "תרגיל חשבון להמחשת ROI" },
 
-  /* סכומי חיסכון, לא מחירים. */
-  { value: 490, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
-  { value: 780, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
-  { value: 1120, file: "lib/data/studio-recording-booking.ts", match: "חיסכון של", why: "הפרש מול מחיר עצמאי, לא מחיר" },
+  /* סכומי החיסכון ב-studio-recording-booking.ts ("חיסכון של 490/780/1,120")
+     ירדו ב-feature/sales-fix עם החבילות (בסיס ותוספות, תקרת הנחה 8%),
+     ולכן גם הפטורים שלהם. */
 
   /* אפשרות תקציב בטופס, לא מחיר מוצר. */
   { value: 400, file: "lib/data/book-qualification-fields.ts", match: "עד 400 ₪", why: "מדרגת תקציב שהלקוח בוחר" },
@@ -86,7 +85,15 @@ const files = execSync(`git ls-files ${SCAN_DIRS}`, { maxBuffer: 1e8 })
   .toString()
   .trim()
   .split("\n")
-  .filter((f) => /\.(ts|tsx|txt)$/.test(f) && f !== CATALOG && !/\.generated\./.test(f));
+  /* קובצי בדיקה לא מוצגים לגולש. הסכומים בהם הם תוצאות חישוב מהקטלוג
+     (בסיס + תוספות + משתתפים), ולכן אין להם שורה בקטלוג ואין צורך בכזו. */
+  .filter(
+    (f) =>
+      /\.(ts|tsx|txt)$/.test(f) &&
+      f !== CATALOG &&
+      !/\.generated\./.test(f) &&
+      !/\.test\.(ts|tsx)$/.test(f),
+  );
 
 const unbacked = [];
 const usedExempt = new Set();
