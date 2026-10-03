@@ -266,6 +266,11 @@ export const PRICING_CATALOG = [
   { id: "corp_song_anthem", label: "הימנון חברה", exVat: 12000, category: "studio", context: "שיר וקליפ, מיתוג ארגוני" },
   { id: "audiobook_sample", label: "ספר שמע, פרק דוגמה", exVat: 990, category: "online", context: "15 דקות הקלטה + עריכה" },
   { id: "audiobook_hour", label: "ספר שמע, שעת הקלטה", exVat: 750, category: "online", context: "הקלטה + עריכה בסיסית לשעת חומר" },
+  // קריינות עסקית. נוספו 3.10.2026: המחירים הופיעו בפרוזה בבלוג ובעמודי
+  // השירות בלי גיבוי בקטלוג, ולכן לא נכנסו ל-JSON-LD, ל-llms.txt, ולא
+  // היה שער שמגן עליהם מסחיפה.
+  { id: "voiceover_ivr", label: "קריינות למרכזייה", exVat: 450, category: "online", context: "עד 3 הודעות קצרות, קובץ בפורמט שהמרכזייה מקבלת", suitedFor: "מענה טלפוני, הודעת המתנה, הודעת חגים" },
+  { id: "voiceover_promo", label: "קריינות לסרטון תדמית", exVat: 750, category: "online", context: "עד 2 דקות, כולל בחירת טון והגהה", suitedFor: "סרטון תדמית, מנשר דיגיטלי, פרסומת קצרה" },
   { id: "audio_brand_starter", label: "מיתוג קולי, בסיס", exVat: 1500, category: "online", context: "ג'ינגל 15 שניות + 2 הודעות IVR" },
   { id: "audio_brand_full", label: "מיתוג קולי, מלא", exVat: 4500, category: "online", context: "לוגו קולי + IVR + מוזיקת המתנה + אפקטים" },
   { id: "audio_brand_premium", label: "מיתוג קולי, פרימיום", exVat: 8500, category: "online", context: "חבילה מלאה + שיבוט קול לעדכונים" },

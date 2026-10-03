@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 120,
-  "contentHash": "e472f9796cc2ddab",
+  "itemCount": 122,
+  "contentHash": "08901e384936c83a",
   "items": [
     {
       "id": "studio_half_hour",
@@ -337,6 +337,26 @@
       "inclVat": 885,
       "priceFrom": false,
       "context": "הקלטה + עריכה בסיסית לשעת חומר"
+    },
+    {
+      "id": "voiceover_ivr",
+      "label": "קריינות למרכזייה",
+      "category": "online",
+      "exVat": 450,
+      "inclVat": 531,
+      "priceFrom": false,
+      "context": "עד 3 הודעות קצרות, קובץ בפורמט שהמרכזייה מקבלת",
+      "suitedFor": "מענה טלפוני, הודעת המתנה, הודעת חגים"
+    },
+    {
+      "id": "voiceover_promo",
+      "label": "קריינות לסרטון תדמית",
+      "category": "online",
+      "exVat": 750,
+      "inclVat": 885,
+      "priceFrom": false,
+      "context": "עד 2 דקות, כולל בחירת טון והגהה",
+      "suitedFor": "סרטון תדמית, מנשר דיגיטלי, פרסומת קצרה"
     },
     {
       "id": "audio_brand_starter",

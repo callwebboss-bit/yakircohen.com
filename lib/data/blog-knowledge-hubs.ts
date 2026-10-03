@@ -132,7 +132,58 @@ const STUDIO_HUB: KnowledgeHub = {
   ],
 };
 
-const HUBS: readonly KnowledgeHub[] = [STUDIO_HUB];
+export function buildVoiceoverHubAnswer(): string {
+  const ivr = getExVat("voiceover_ivr").toLocaleString("he-IL");
+  const brand = getExVat("audio_brand_starter").toLocaleString("he-IL");
+  return (
+    `לקוח שמתקשר שומע את העסק לפני שהוא רואה אותו. הקלטה מהנייד ברעש רקע ` +
+    `יוצרת רושם תוך שניות, וקשה לתקן אותו אחר כך. קריינות למרכזייה מתחילה ` +
+    `ב-${ivr} ₪ לפני מע״מ לשלוש הודעות, וחבילת מיתוג קולי עם ג'ינגל ` +
+    `ב-${brand} ₪. מה שקובע את התוצאה הוא הטון שנבחר, לא הציוד.`
+  );
+}
+
+export function buildVoiceoverHubMetaDescription(): string {
+  const ivr = getExVat("voiceover_ivr").toLocaleString("he-IL");
+  const promo = getExVat("voiceover_promo").toLocaleString("he-IL");
+  return (
+    `מרכזייה מ-${ivr} ₪ + מע״מ, סרטון תדמית מ-${promo} ₪ + מע״מ. ` +
+    `מה לבדוק לפני שמזמינים, כמה תיקונים כלולים, ולמה זה נשמע מיושן.`
+  );
+}
+
+const VOICEOVER_HUB: KnowledgeHub = {
+  categoryId: "voiceover",
+  heading: "איך העסק שלי נשמע בטלפון?",
+  answer: buildVoiceoverHubAnswer(),
+  metaDescription: buildVoiceoverHubMetaDescription(),
+  groups: [
+    {
+      id: "why",
+      title: "למה זה משנה",
+      slugs: ["phone-voiceover-business", "professional-voiceover-for-business"],
+    },
+    {
+      id: "before",
+      title: "מה לבדוק לפני שמזמינים",
+      slugs: ["voiceover-business-complaints", "commercial-voiceover-guide"],
+    },
+    {
+      id: "more",
+      title: "מה עוד אפשר להפיק לעסק",
+      slugs: [
+        "audio-branding-for-business",
+        "corporate-content-studio-guide",
+        "on-site-podcast-studio-business",
+        "corporate-song-production-guide",
+        "audiobook-recording-israel-guide",
+        "vhs-tape-digitization-ai-guide",
+      ],
+    },
+  ],
+};
+
+const HUBS: readonly KnowledgeHub[] = [STUDIO_HUB, VOICEOVER_HUB];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {
   return HUBS.find((h) => h.categoryId === categoryId);
