@@ -174,23 +174,38 @@
         {
           "@type": "Offer",
           "name": "חצי שעה באולפן",
-          "description": "הקלטה קצרה, פודקאסט או ברכה - מחיר לפני מע״מ",
-          "price": "750",
+          "description": "הקלטה קצרה, פודקאסט או ברכה - קובץ גולמי, בלי עריכה",
+          "sku": "studio_half_hour",
+          "price": "885",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 750,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/studio/pricing"
         },
         {
           "@type": "Offer",
           "name": "שעת אולפן מלאה",
-          "description": "הקלטה באולפן במודיעין - מחיר לפני מע״מ",
-          "price": "1500",
+          "description": "הקלטה באולפן במודיעין",
+          "sku": "studio_hour",
+          "price": "1770",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 1500,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/studio/pricing"
         },
         {
           "@type": "Offer",
           "name": "הקלטת שיר באולפן",
           "description": "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר כולל מע״מ",
+          "sku": "song_recording",
           "price": "590",
           "priceCurrency": "ILS",
           "priceSpecification": {
@@ -204,25 +219,61 @@
         {
           "@type": "Offer",
           "name": "אטרקציה לאירוע",
-          "description": "עשן, בועות, זיקוקים ועוד - מחיר התחלתי לפני מע״מ",
-          "price": "1695",
+          "description": "עשן, בועות, זיקוקים ועוד - מחיר התחלתי",
+          "sku": "event_attraction_1",
+          "price": "2000",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 1695,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/events/attractions"
+        },
+        {
+          "@type": "Offer",
+          "name": "תקליטן מהצוות",
+          "description": "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים",
+          "sku": "dj_premium",
+          "price": "5900",
+          "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 5000,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
+          "url": "https://yakircohen.com/events/dj-events"
         },
         {
           "@type": "Offer",
           "name": "חבילת תוכן מלאה",
           "description": "מפרק אחד יוצאים כמה נכסי תוכן - פודקאסט, רילס וכתבה.",
-          "price": "2800",
+          "sku": "content_package",
+          "price": "3304",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 2800,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/podcast"
         },
         {
           "@type": "Offer",
           "name": "פודקאסט וידאו",
           "description": "וידאו בונה אמון - הקהל מגיע מוכן לפני שמתקשרים.",
-          "price": "1650",
+          "sku": "podcast_video",
+          "price": "1947",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 1650,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/podcast"
         },
         {
@@ -244,9 +295,16 @@
         {
           "@type": "Offer",
           "name": "תיקון הקלטות פגומות",
-          "description": "שחזור ארכיונים, פרקים ישנים והקלטות עם הד, רעש ועיוות",
-          "price": "250",
+          "description": "שחזור ארכיונים, פרקים ישנים והקלטות עם הד, רעש ועיוות, לכל 5 דקות",
+          "sku": "damaged_recording_rescue",
+          "price": "295",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 250,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/online/vocal-fix"
         },
         {
@@ -261,8 +319,15 @@
           "@type": "Offer",
           "name": "תיקון זיופים",
           "description": "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
-          "price": "300",
+          "sku": "studio_pitch_correction",
+          "price": "354",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 300,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/online/vocal-fix/pitch-correction"
         },
         {
@@ -307,8 +372,15 @@
         {
           "@type": "Offer",
           "name": "תיקון זיופים",
-          "price": "300",
+          "sku": "studio_pitch_correction",
+          "price": "354",
           "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 300,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/online/vocal-fix/pitch-correction"
         }
       ]

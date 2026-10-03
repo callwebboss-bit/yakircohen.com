@@ -62,10 +62,8 @@ const EXPLAINED = [
   { value: 990, file: "lib/data/academy-hub-courses.tsx", match: "fromPrice", catalogId: "academy_private_hour" },
   { value: 990, file: "lib/data/academy-private-sessions.ts", match: "שיעור מלא (60 דקות", catalogId: "academy_private_hour" },
   { value: 990, file: "lib/data/audience-landings.ts", match: "priceHint", catalogId: "academy_private_hour" },
-  { value: 990, file: "lib/data/blog.ts", match: "שיעור פרטי ממוקד באולפן", catalogId: "academy_private_hour" },
   { value: 990, file: "lib/seo/hub-pages.ts", match: "שיעור פרטי 990", catalogId: "academy_private_hour" },
   { value: 990, file: "app/business/audiobooks/page.tsx", match: "לפרק דוגמה", catalogId: "audiobook_sample" },
-  { value: 990, file: "lib/data/blog.ts", match: "פרק דוגמה (15 דקות)", catalogId: "audiobook_sample" },
   { value: 990, file: "public/llms.txt", match: "פרק דוגמה 990", catalogId: "audiobook_sample" },
 ];
 

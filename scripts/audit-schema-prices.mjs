@@ -64,8 +64,15 @@ const OUTSIDE_CATALOG = {
   "50": "lib/data/online-photo-enhance-page.ts",
 };
 
+/* id -> exVat, לבדיקת sku (שלב 4 WP12, סעיף 2D) */
+const catalogById = new Map();
+for (const m of catalogText.matchAll(/id:\s*"([^"]+)"[\s\S]*?exVat:\s*(\d+)/g)) {
+  if (!catalogById.has(m[1])) catalogById.set(m[1], Number(m[2]));
+}
+
 const schema = JSON.parse(fs.readFileSync(SCHEMA, "utf8"));
 const offers = [];
+const aggregates = [];
 (function walk(node) {
   if (Array.isArray(node)) return node.forEach(walk);
   if (!node || typeof node !== "object") return;
@@ -73,6 +80,7 @@ const offers = [];
     const spec = node.priceSpecification;
     offers.push({
       name: node.name ?? "(ללא שם)",
+      sku: node.sku ?? null,
       price: String(node.price),
       exVatSpec:
         spec && spec.valueAddedTaxIncluded === false && spec.price != null
@@ -80,10 +88,39 @@ const offers = [];
           : null,
     });
   }
+  if (node["@type"] === "AggregateOffer") {
+    aggregates.push({ low: node.lowPrice, high: node.highPrice });
+  }
   Object.values(node).forEach(walk);
 })(schema);
 
 const errors = [];
+
+/* sku = מזהה קטלוג: המחיר לפני מע״מ חייב להיות בדיוק של אותו פריט, וה-price
+   חייב להיות הוא או withVat שלו. כך הצעה לא יכולה לשאת מזהה של מוצר אחד ומחיר
+   של אחר. */
+for (const offer of offers) {
+  if (!offer.sku) continue;
+  const exVat = catalogById.get(offer.sku);
+  if (exVat === undefined) {
+    errors.push(`"${offer.name}": sku "${offer.sku}" אינו מזהה בקטלוג.`);
+    continue;
+  }
+  const ex = offer.exVatSpec ?? offer.price;
+  if (ex !== String(exVat) || (offer.exVatSpec && offer.price !== String(withVat(exVat)))) {
+    errors.push(`"${offer.name}": sku ${offer.sku}=${exVat}, אבל בסכמה ${offer.price} / ${offer.exVatSpec ?? "-"}.`);
+  }
+}
+
+/* AggregateOffer: גם lowPrice ו-highPrice חייבים להיות מחיר קטלוג או withVat שלו */
+const allowedAgg = new Set([...catalogById.values()].flatMap((v) => [String(v), String(withVat(v))]));
+for (const a of aggregates) {
+  for (const v of [a.low, a.high]) {
+    if (v != null && !allowedAgg.has(String(v))) {
+      errors.push(`AggregateOffer: ${v} אינו מחיר קטלוג ואינו withVat של מחיר קטלוג.`);
+    }
+  }
+}
 
 for (const offer of offers) {
   if (!/^\d+$/.test(offer.price)) {

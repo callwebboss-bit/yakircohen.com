@@ -128,9 +128,18 @@ const args = new Set(process.argv.slice(2));
 const catalog = parseCatalog();
 const hits = scan();
 
+/* public/llms.txt נכתב מחדש מהקטלוג ע״י sync:llms (גם שורות המחיר בגוף,
+   BODY_PRICES), ו-audit:llms-prices --check נכשל אם הוא סוטה. ערך שהוא exVat
+   של פריט בקטלוג או withVat שלו בקובץ הזה הוא פלט של הייצור, לא מחיר כתוב. */
+const GENERATED_FROM_CATALOG = new Set(["public/llms.txt"]);
+const catalogValues = new Set(
+  Object.values(catalog).flatMap((v) => [v, Math.round(v * 1.18)]),
+);
+
 const allowedUsed = new Set();
 const remaining = [];
 for (const h of hits) {
+  if (GENERATED_FROM_CATALOG.has(h.file) && catalogValues.has(h.value)) continue;
   const entry = ALLOWED.find((a) => a.file === h.file && h.text.includes(a.match));
   if (entry) {
     allowedUsed.add(entry);

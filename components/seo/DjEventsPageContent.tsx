@@ -36,6 +36,8 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 
 const service = getEventsService("events-dj");
 
@@ -81,8 +83,14 @@ const ENTERTAINMENT_BUSINESS_SCHEMA = {
   "offers": {
     "@type": "AggregateOffer",
     "priceCurrency": "ILS",
-    "lowPrice": "5900",
-    "highPrice": "9800",
+    /* WP12: כולל מע״מ, מהקטלוג (dj_premium עד dj_yakir_personal) */
+    "lowPrice": String(withVat(getExVat("dj_premium"))),
+    "highPrice": String(withVat(getExVat("dj_yakir_personal"))),
+    "priceSpecification": {
+      "@type": "PriceSpecification",
+      "priceCurrency": "ILS",
+      "valueAddedTaxIncluded": true,
+    },
   },
 };
 

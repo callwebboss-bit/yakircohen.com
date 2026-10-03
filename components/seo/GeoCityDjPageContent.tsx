@@ -14,6 +14,8 @@ import {
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 
 const RELIGIOUS_AUDIENCE_POINTS = [
   {
@@ -132,8 +134,14 @@ export default function GeoCityDjPageContent({
         offers: {
           "@type": "AggregateOffer",
           priceCurrency: "ILS",
-          lowPrice: "5900",
-          highPrice: "9800",
+          /* WP12: כולל מע״מ, מהקטלוג (dj_premium עד dj_yakir_personal) */
+          lowPrice: String(withVat(getExVat("dj_premium"))),
+          highPrice: String(withVat(getExVat("dj_yakir_personal"))),
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "ILS",
+            valueAddedTaxIncluded: true,
+          },
         },
       },
       {

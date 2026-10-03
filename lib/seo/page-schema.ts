@@ -1,3 +1,4 @@
+import { withVat } from "@/lib/data/pricing";
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import { absoluteUrl } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
@@ -93,6 +94,32 @@ export function buildWebPageSchema({
 }
 
 function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
+  /*
+   * שלב 4 WP12 (S28, PI-18, OE-34): מדרגה עם מחיר לפני מע״מ (priceExVat)
+   * נפלטת תמיד בפורמט אחד: price כולל מע״מ, כמו שהצרכן רואה, ו-priceSpecification
+   * עם המחיר לפני מע״מ ודגל valueAddedTaxIncluded: false. כשיש מזהה קטלוג הוא
+   * נכנס ל-sku, ו-audit:schema-prices יכול לבדוק אותו מול הקטלוג. קודם "5,000 ₪"
+   * של כרטיס נקרא כמחיר בלי שום ציון מע״מ.
+   */
+  if (tier.priceExVat != null) {
+    return {
+      "@type": "Offer",
+      name: tier.name,
+      description: tier.description,
+      ...(tier.catalogId ? { sku: tier.catalogId } : {}),
+      price: String(withVat(tier.priceExVat)),
+      priceCurrency: "ILS",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: tier.priceExVat,
+        priceCurrency: "ILS",
+        valueAddedTaxIncluded: false,
+      },
+      url: serviceUrl,
+      availability: "https://schema.org/InStock",
+    };
+  }
+
   /* schema.org דורש מספר נקי. מפריד אלפים בפסיק פוסל את ה-Offer בעיני גוגל. */
   const price = tier.price.replace(/[^\d.]/g, "");
 
@@ -103,27 +130,13 @@ function pricingToOffer(tier: ServicePricingTier, serviceUrl: string) {
    */
   if (!price) return null;
 
-  /* מחיר כולל מע״מ נושא גם את המחיר לפני מע״מ, באותו דפוס של
-     SeoPortfolioGalleryJsonLd, כדי שאף קורא לא יבין 590 כמחיר לפני מע״מ */
-  const priceSpecification =
-    tier.vatIncluded && tier.priceExVat != null
-      ? {
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: tier.priceExVat,
-            priceCurrency: "ILS",
-            valueAddedTaxIncluded: false,
-          },
-        }
-      : {};
-
   return {
     "@type": "Offer",
     name: tier.name,
     description: tier.description,
     price,
     priceCurrency: "ILS",
-    ...priceSpecification,
+    ...(/כולל מע["״]מ/.test(tier.price) ? { priceSpecification: { "@type": "PriceSpecification", priceCurrency: "ILS", valueAddedTaxIncluded: true } } : {}),
     url: serviceUrl,
     availability: "https://schema.org/InStock",
   };
@@ -272,8 +285,19 @@ export function buildPricingOffersSchema(
       "@id": `${pageUrl}#offer-${offer.id}`,
       name: offer.name,
       ...(offer.description ? { description: offer.description } : {}),
+      /* WP12: כולל מע״מ ב-price ולפני מע״מ ב-priceSpecification עם דגל, כמו
+         pricingToOffer. קודם המחיר לפני מע״מ נפלט בלי שום דגל. */
       ...(offer.priceExVat != null
-        ? { price: offer.priceExVat, priceCurrency: "ILS" }
+        ? {
+            price: String(withVat(offer.priceExVat)),
+            priceCurrency: "ILS",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: offer.priceExVat,
+              priceCurrency: "ILS",
+              valueAddedTaxIncluded: false,
+            },
+          }
         : {}),
       url: pageUrl,
       availability: "https://schema.org/InStock",
