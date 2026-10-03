@@ -15,6 +15,7 @@ import {
   GEO_STUDIO_PROCESS,
 } from "@/lib/data/studio-geo-page";
 import { getStudioService, type StudioServiceId } from "@/lib/data/services";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { mapGeoStudioServiceToHub } from "@/lib/data/studio-hub-mappers";
 import {
   youtubeEmbedUrl,
@@ -23,6 +24,10 @@ import {
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+
+/* מחיר ההגעה של האולפן הנייד מהקטלוג (mobile_podcast_at_home). אין מחיר רגיל
+   אחר, ולכן בלי "מבצע". */
+const MOBILE_ARRIVAL_PRICE = getExVat("mobile_podcast_at_home").toLocaleString("he-IL");
 
 export type GeoCityStudioPageContentProps = {
   citySlug: NewGeoCitySlug;
@@ -129,8 +134,8 @@ export default function GeoCityStudioPageContent({
                 <strong className="text-foreground">2. אולפן נייד עד אליכם ברחובות</strong>
                 {" - "}
                 לא החדר במודיעין. מגיעים עם סאונד, תאורה וכל הציוד שנדרש
-                לשירה, קריינות או פודקאסט - לפי השירות שהזמנתם. ההגעה כרגע
-                במחיר מבצע.
+                לשירה, קריינות או פודקאסט - לפי השירות שהזמנתם. ההגעה{" "}
+                {MOBILE_ARRIVAL_PRICE} ₪ לפני מע״מ.
               </li>
             </ol>
             <p className="mt-4 text-sm text-muted-foreground">
@@ -260,7 +265,8 @@ export default function GeoCityStudioPageContent({
                 אולפן נייד ברחובות
               </Link>
               {" - "}
-              סאונד, תאורה וציוד לפי השירות. הגעה כרגע במחיר מבצע.
+              סאונד, תאורה וציוד לפי השירות. הגעה ב-{MOBILE_ARRIVAL_PRICE} ₪ לפני
+              מע״מ.
             </>
           ) : (
             <>
