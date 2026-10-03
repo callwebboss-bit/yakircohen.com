@@ -297,6 +297,39 @@ export const PRICING_CATALOG = [
     withEditing: { label: "שירות עצמי + עריכה", exVat: 1100 },
   },
 
+  // ─── נוספו 3.10.2026 אחרי audit:prose-price-backing ───
+  // כל אלה הופיעו בפרוזה ובקוד בלי גיבוי בקטלוג, ולכן לא נכנסו
+  // ל-JSON-LD ולא ל-llms.txt, ואף שער לא הגן עליהם מסחיפה.
+  { id: "travel_north_south", label: "תוספת הגעה לצפון או דרום", exVat: 800, category: "addons", context: "מעבר לאזור המרכז" },
+  { id: "travel_eilat_golan", label: "תוספת הגעה לאילת או לגולן", exVat: 1800, category: "addons", context: "אזורים רחוקים, בתיאום מראש" },
+  { id: "ulpan_trial", label: "אולפן עברית, שיעור ניסיון", exVat: 500, category: "academy", context: "שיעור יחיד אחד על אחד" },
+  { id: "ulpan_monthly", label: "אולפן עברית, מסלול חודשי", exVat: 3200, category: "academy", context: "שיעור שבועי אחד על אחד" },
+  { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים, עם הטבה על שיעור הניסיון" },
+  { id: "academy_pro_session", label: "Pro Session, 90 דקות", exVat: 1280, category: "academy", context: "צלילה לעומק וניתוח ביצוע" },
+  { id: "online_extra_minutes", label: "תיקון זיופים מעל 4 דקות", exVat: 100, category: "addons", context: "תוספת לשיר ארוך" },
+  { id: "online_extra_channels", label: "מיקס מעל 16 ערוצים", exVat: 100, category: "addons", context: "תוספת לפרויקט רחב" },
+  { id: "online_extra_revision", label: "סבב תיקונים נוסף באונליין", exVat: 100, category: "addons", context: "מעבר לסבב הכלול" },
+  { id: "photo_colorization", label: "צביעת תמונת שחור לבן", exVat: 100, category: "addons", context: "לתמונה, שירות נפרד משדרוג AI" },
+  { id: "photo_enhance_20", label: "שדרוג 20 תמונות ב-AI", exVat: 600, category: "online", context: "חבילת תמונות לשיפור" },
+  { id: "social_single_video", label: "צילום ועריכת סרטון אחד", exVat: 1000, category: "online", context: "כולל קריאייטיב" },
+  { id: "social_bank_4", label: "צילום ועריכת 4 סרטונים", exVat: 3000, category: "online", context: "בנק סרטונים לחודש או לקמפיין" },
+  { id: "social_stories_bank", label: "עריכת בנק סטוריז, 20 יחידות", exVat: 1000, category: "online", context: "עריכה בלבד" },
+  { id: "social_consult_30", label: "שיחת ייעוץ תוכן, עד 30 דקות", exVat: 700, category: "online", context: "ייעוץ ממוקד לתוכן ואסטרטגיה" },
+  { id: "gift_box_usb", label: "מארז דיסק און קי ועיצוב", exVat: 199, category: "addons", context: "תוספת למחיר ההפקה" },
+  { id: "gift_box_full", label: "מארז מלא: דיסק און קי, אוזניות וקופסה", exVat: 399, category: "addons", context: "תוספת למחיר ההפקה" },
+  { id: "funny_ringtone_promo", label: "רינגטון מצחיק, מבצע", exVat: 299, category: "studio", context: "הקלטה, עיבוד וקובץ מוכן" },
+  { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "במקום המחיר המלא" },
+  { id: "blessing_pair_combined", label: "ברכה משולבת, כלה וחתן", exVat: 1000, category: "studio", context: "שני מקליטים באותה ברכה" },
+  { id: "song_extended_pack", label: "חבילת שיר מורחבת", exVat: 1800, category: "studio", context: "תיקוני פיץ' מתקדמים ועריכה מלאה", priceFrom: true },
+  { id: "bat_mitzvah_clip", label: "קליפ בת מצווה", exVat: 2590, category: "studio", context: "מחיר פתיחה, לפי משתתפים וצילומי חוץ", priceFrom: true },
+  { id: "academy_focused_training", label: "הכשרה ממוקדת, 90 דקות", exVat: 1470, category: "academy", context: "DJ, הפקה או קריינות, אחד על אחד" },
+  { id: "academy_master_monthly", label: "Master, מסלול חודשי", exVat: 3920, category: "academy", context: "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי" },
+  { id: "academy_pro_partnership", label: "Pro-Partnership, 6 חודשים", exVat: 21500, category: "academy", context: "24 מפגשים, ליווי רכש וזהות מוזיקלית" },
+  { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4450, category: "academy", context: "מחיר מופחת לשיעור", priceFrom: true },
+  { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 8900, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
+  { id: "vocal_fix_short", label: "תיקון זיופים, קטע קצר", exVat: 375, category: "online", context: "עד שתי דקות" },
+  { id: "studio_prep_digital", label: "חוברת הכנה דיגיטלית", exVat: 149, category: "addons", context: "מדריך הכנה לפני הסשן" },
+  { id: "photography_wedding_4h", label: "צילום אירוע, 4 שעות", exVat: 6000, category: "photography", context: "חבילת פתיחה, עריכה בסיסית כלולה", priceFrom: true },
   // ─── תוכן לעסקים (B2B) ───
   { id: "content_studio_pilot", label: "סושיאל דאמפ, פיילוט", exVat: 1650, category: "online", context: "שעה באולפן + 5 רילז/שורטס ערוכים" },
   { id: "content_studio_session", label: "סושיאל דאמפ, סשן מלא", exVat: 2800, category: "online", context: "2 שעות באולפן + 12 רילז עם כתוביות" },
@@ -324,6 +357,11 @@ export const PRICING_CATALOG = [
   { id: "corp_song_anthem", label: "הימנון חברה", exVat: 12000, category: "studio", context: "שיר וקליפ, מיתוג ארגוני" },
   { id: "audiobook_sample", label: "ספר שמע, פרק דוגמה", exVat: 990, category: "online", context: "15 דקות הקלטה + עריכה" },
   { id: "audiobook_hour", label: "ספר שמע, שעת הקלטה", exVat: 750, category: "online", context: "הקלטה + עריכה בסיסית לשעת חומר" },
+  // קריינות עסקית. נוספו 3.10.2026: המחירים הופיעו בפרוזה בבלוג ובעמודי
+  // השירות בלי גיבוי בקטלוג, ולכן לא נכנסו ל-JSON-LD, ל-llms.txt, ולא
+  // היה שער שמגן עליהם מסחיפה.
+  { id: "voiceover_ivr", label: "קריינות למרכזייה", exVat: 450, category: "online", context: "עד 3 הודעות קצרות, קובץ בפורמט שהמרכזייה מקבלת", suitedFor: "מענה טלפוני, הודעת המתנה, הודעת חגים" },
+  { id: "voiceover_promo", label: "קריינות לסרטון תדמית", exVat: 750, category: "online", context: "עד 2 דקות, כולל בחירת טון והגהה", suitedFor: "סרטון תדמית, מנשר דיגיטלי, פרסומת קצרה" },
   { id: "audio_brand_starter", label: "מיתוג קולי, בסיס", exVat: 1500, category: "online", context: "ג'ינגל 15 שניות + 2 הודעות IVR" },
   { id: "audio_brand_full", label: "מיתוג קולי, מלא", exVat: 4500, category: "online", context: "לוגו קולי + IVR + מוזיקת המתנה + אפקטים" },
   { id: "audio_brand_premium", label: "מיתוג קולי, פרימיום", exVat: 8500, category: "online", context: "חבילה מלאה + שיבוט קול לעדכונים" },
@@ -775,6 +813,11 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
       "הראיון משולב בקליפ הערוך",
     ],
     excluded: ["הקליפ הערוך עצמו (תוספת נפרדת, חובה עם הראיון)", "פרק פודקאסט מלא"],
+  },
+  /* מ-bat-mitzvah-gifts-page.ts (FAQ "מה כולל קליפ בת מצווה?") */
+  bat_mitzvah_clip: {
+    included: ["שאלון סיפור אישי וכתיבת מילים", "הקלטה באולפן וצילום", "שילוב תמונות ילדות וסרטונים מהבית", "עריכה ומיקס עד קובץ מוכן להקרנה ולרשתות"],
+    excluded: ["צילומי חוץ (לפי היקף)", "משתתפים נוספים (לפי מספר)"],
   },
   studio_session_clip: {
     included: ["צילום הסשן באולפן", "קובץ גלם"],

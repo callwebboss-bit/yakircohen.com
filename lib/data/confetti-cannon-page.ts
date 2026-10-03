@@ -30,8 +30,9 @@ export const CONFETTI_HIGHLIGHTS: readonly { emoji: string; title: string; text:
   },
   {
     emoji: "🛡️",
-    title: "בטיחות ללא פשרות",
-    text: "CO₂ בלבד, ללא אש, ללא עשן וללא סכנה.",
+    title: "CO₂ בלבד",
+    text:
+      "ללא אש וללא עשן. המיקום וההפעלה נקבעים מראש מול תנאי האולם.",
   },
 ] as const;
 

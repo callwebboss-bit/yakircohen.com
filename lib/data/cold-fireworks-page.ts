@@ -33,8 +33,9 @@ export const COLD_FIREWORKS_HIGHLIGHTS: readonly { emoji: string; title: string;
   },
   {
     emoji: "🛡️",
-    title: "בטיחות ללא פשרות",
-    text: "ללא אש, ללא עשן וללא גלאי עשן, מאושרים באולמות.",
+    title: "בלי אש חיה",
+    text:
+      "ללא אש, ללא עשן וללא גלאי עשן, מאושרים באולמות. אש אמיתית דורשת ערימת אישורים ועלולה לעצור אירוע באמצע.",
   },
 ] as const;
 

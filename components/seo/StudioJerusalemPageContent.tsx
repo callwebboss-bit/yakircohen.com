@@ -51,10 +51,11 @@ export default function StudioJerusalemPageContent() {
             id="jerusalem-intro-heading"
             className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            אולפן הקלטות בירושלים, חוויה בלתי נשכחת
+            מירושלים: אולפן נייד עד אליכם, או נסיעה של 30 דקות למודיעין
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            מחפשים אולפן בירושלים? יקיר כהן הפקות מציע אולפן מקצועי במודיעין  - 
+            לא בא לכם לנסוע? יש עכשיו אולפן נייד שמגיע עד אליכם, וצריך רק חדר
+            שקט ונקודת חשמל. ואם כן בא לכם, האולפן במודיעין  - 
             כ-30 דקות מירושלים. מתאים לקהל דתי, הקלטת שירים, ברכות וקליפים.
             ירושלמי במקור, עם יחס אישי וחם.
           </p>

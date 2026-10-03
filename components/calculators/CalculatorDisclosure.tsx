@@ -5,10 +5,13 @@ import { cn } from "@/lib/utils";
 
 export type CalculatorDisclosureProps = {
   title: string;
-  description: string;
+  /** ReactNode ולא string, כדי שאפשר יהיה לשמור קישורים שהיו בתיאור המקורי. */
+  description: ReactNode;
   buttonLabel: string;
   children: ReactNode;
   className?: string;
+  /** רמת הכותרת. ברירת מחדל h2; h3 כשהבלוק יושב בתוך סקשן שכבר יש בו h2. */
+  headingLevel?: "h2" | "h3";
 };
 
 /**
@@ -21,19 +24,25 @@ export default function CalculatorDisclosure({
   buttonLabel,
   children,
   className,
+  headingLevel = "h2",
 }: CalculatorDisclosureProps) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const Heading = headingLevel;
 
   return (
     <section className={cn("py-4", className)} aria-labelledby={`${panelId}-heading`}>
       <header className="mx-auto max-w-2xl text-center">
-        <h2
+        <Heading
           id={`${panelId}-heading`}
-          className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className={
+            headingLevel === "h3"
+              ? "text-center text-lg font-semibold text-foreground"
+              : "text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          }
         >
           {title}
-        </h2>
+        </Heading>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
           {description}
         </p>

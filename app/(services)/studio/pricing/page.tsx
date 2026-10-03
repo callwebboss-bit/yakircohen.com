@@ -13,6 +13,7 @@ import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
 import StudioPriceBuilder from "@/components/pricing/StudioPriceBuilder";
 import SongOfferSection from "@/components/pricing/SongOfferSection";
+import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import { STUDIO_PRICING } from "@/lib/data/services";
 import { withVat } from "@/lib/data/pricing";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
@@ -163,6 +164,7 @@ export default function StudioPricingPage() {
 
         {/* הקלטת שיר קודם: הטופס עם הבסיס והתוספות. אחריו ברכה וסינגל, ושעת חדר בבונה */}
         <SongOfferSection source="/studio/pricing" utmCampaign="studio_pricing_song_offer" showGlossary />
+        <PriceFactorsSection className="mt-4" />
 
         <StudioPriceBuilder
           packages={

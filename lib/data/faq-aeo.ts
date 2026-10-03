@@ -7,6 +7,8 @@ import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { getSongOfferView, getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { buildPriceFactorsAnswer } from "@/lib/data/price-factors";
+import { buildEventsHubAnswer } from "@/lib/data/blog-knowledge-hubs";
 
 export type AeoFaqItem = {
   id: string;
@@ -37,6 +39,19 @@ export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {
   id: "song-studio-price",
   question: "כמה עולה להקליט שיר באולפן?",
   answer: buildRecordingSongStudioPriceAnswer(),
+};
+
+/**
+ * "למה זה עולה ככה", לא "כמה זה עולה".
+ *
+ * נמדד ב-2.10.2026: 11 מתוך 13 שאלות ה-AEO באתר שאלו "כמה עולה",
+ * ואף אחת לא הסבירה מה מזיז את המספר. מבקר שגילה בארבעה מקומות
+ * ששיר עולה 990 לא מצא בשום מקום למה שלו יעלה 1,480.
+ */
+export const STUDIO_PRICE_FACTORS_FAQ: AeoFaqItem = {
+  id: "studio-price-factors",
+  question: "מה משפיע על מחיר הקלטה באולפן?",
+  answer: buildPriceFactorsAnswer(),
 };
 
 /** וריאנט מדובר לחיפוש קולי / AEO */
@@ -100,6 +115,19 @@ export function buildDjWeddingPriceAnswer(): string {
   );
   return `תקליטן מהצוות ${premium} (כ-4 שעות). יקיר כהן אישית על הקונסולה ${yakir}. המחיר תלוי באולם, שעות ואטרקציות - הצעה מפורטת לפני אישור.`;
 }
+
+/**
+ * "איך יודעים שהוא טוב", לא "כמה עולה".
+ *
+ * DJ_WEDDING_PRICE_FAQ כבר עונה על המחיר. השאלה הזו עונה על הקריטריון,
+ * והתשובה נגזרת מהתוכן שהבעלים כתב ב-3.10.2026 ושולב בארבעה פוסטים
+ * בבלוג.
+ */
+export const DJ_HOW_TO_KNOW_FAQ: AeoFaqItem = {
+  id: "dj-how-to-know",
+  question: "איך יודעים שתקליטן טוב?",
+  answer: buildEventsHubAnswer(),
+};
 
 export const DJ_WEDDING_PRICE_FAQ: AeoFaqItem = {
   id: "dj-wedding-price",

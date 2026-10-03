@@ -114,7 +114,7 @@ export default function GlossaryTermPageContent({ term }: { term: GlossaryTerm }
               </ul>
               <div className="mt-5 rounded-xl border border-border bg-background p-4">
                 <h3 className="text-sm font-semibold text-foreground">
-                  איך אצלנו חוסכים את זה
+                  איך אני חוסך לכם את זה
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   <GlossaryInlineText text={criticalMistakes.prevention} />

@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Link from "next/link";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
+import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
@@ -80,13 +81,14 @@ export default function PodcastStudioModiinPageContent() {
               ההקלטה המקצועית שהתוכן שלכם ראוי לה
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              ברוכים הבאים לסטודיו של יקיר כהן הפקות במודיעין. אנו מציעים
-              השכרת סטודיו לפודקאסט במודיעין והסביבה, עם ציוד הקלטה מתקדם,
-              חדר מבודד רעשים וליווי טכני מלא.
+              יש לכם משהו בראש, וצריך מישהו שיוציא אותו לפועל. מלווים אתכם
+              מרגע יצירת הקשר ובלי התחייבות, כדי להבין יחד מה אתם רוצים ומה
+              אתם באמת צריכים, ועד שההקלטה והצילום מוכנים.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              בין אם אתם ממודיעין, ירושלים או תל אביב, אנחנו כאן כדי להפוך את
-              הרעיון שלכם לפודקאסט מצליח.
+              לא משנה באיזה שלב אתם: בלי רעיון, עם רעיון, או עם הכל מוכן וצריך
+              רק לבצע. גם אם רק חשבתם לפתח את השיווק שלכם דרך תוכן, זה המקום
+              להתחיל. האולפן נמצא במודיעין, ומגיעים אליו גם מירושלים ומתל אביב.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
               הקלטה ביתית נוחה, אבל כדי להישמע ברמת ספוטיפיי או Apple Podcasts
@@ -148,25 +150,22 @@ export default function PodcastStudioModiinPageContent() {
           galleryLabel="תמונות מהסטודיו"
         />
 
-        <section aria-labelledby="pricing-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="pricing-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מחירון והשכרת סטודיו
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              המחיר משתנה לפי משך ההקלטה ושירותים נלווים. בחרו חבילה ושלחו
-              סיכום בוואטסאפ, או{" "}
-              <Link href="/podcast" className="font-medium text-brand-red hover:underline">
-                לעמוד הפודקאסט המלא
-              </Link>
-              .
-            </p>
-          </header>
+        <CalculatorDisclosure
+          title="מחירון והשכרת סטודיו"
+          description={
+            <>
+    המחיר משתנה לפי משך ההקלטה ושירותים נלווים. בחרו חבילה ושלחו
+    סיכום בוואטסאפ, או{" "}
+    <Link href="/podcast" className="font-medium text-brand-red hover:underline">
+    לעמוד הפודקאסט המלא
+    </Link>
+    .
+            </>
+          }
+          buttonLabel="פתחו מחשבון והמשיכו לוואטסאפ"
+        >
           <PodcastCalculatorLazy className="mt-8" />
-        </section>
+        </CalculatorDisclosure>
 
         <FAQAccordion
           items={[...STUDIO_MODIIN_FAQS]}

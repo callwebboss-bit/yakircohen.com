@@ -255,7 +255,7 @@ export default function GeoCityDjPageContent({
             מנגנון הפעולה: ניהול אישי מול פיקוח מערכתי
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            אנו מנטרלים את אלמנט המקריות מהאירוע. העבודה מתבצעת תחת מפרט טכני ומוזיקלי קבוע, המיושם בשני מסלולי בחירה ברורים:
+            באירוע אין הזדמנות שנייה. לכן העבודה נעשית לפי מפרט טכני ומוזיקלי קבוע, בשני מסלולים:
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl border border-border bg-surface p-6">

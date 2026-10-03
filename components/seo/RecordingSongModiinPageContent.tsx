@@ -7,6 +7,7 @@ import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
+import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import ServicePageSchema from "@/components/seo/ServicePageSchema";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
@@ -675,6 +676,8 @@ export default function RecordingSongModiinPageContent() {
 
           <ProfessionalStanceSection pathname="/studio/recording-song-modiin" />
 
+          <PriceFactorsSection />
+
           {/* 11. מחירון: כרטיסי Pro ו-4,500 הוסרו (S02). המחיר היחיד בעמוד הוא הטופס */}
 
           {/* 12. Equipment */}
@@ -792,8 +795,17 @@ export default function RecordingSongModiinPageContent() {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               הקלטה מהבית + עריכה מקצועית + מוזיקת רקע. ברכת כלה או חתן, ברכת
               הכהנים לבר/בת מצווה, דרשה מרגשת או ברכות משפחה - אפשר להקליט גם
-              בבית, אבל הקלטה באולפן מקצועי היא רמה אחרת: תוצאה חדה, מרגשת
-              ומקצועית שתהפוך את הרגע באירוע לבלתי נשכח.
+              בבית, אבל באולפן הברכה יוצאת ברורה ככל האפשר, גם למי שמגמגם וגם
+              למי שחושש מהמיקרופון. אני עובד עם אנשים שקשה להם להתבטא בלחץ, ויש
+              גם{" "}
+              <Link
+                href="/academy/stuttering-course"
+                className="font-medium text-brand-red underline-offset-4 hover:underline"
+              >
+                קורס ייעודי לגמגום
+              </Link>
+              . העזרה מתחילה כבר בניסוח הטקסט, ובעריכה מוסיפים מוזיקה ועצירות
+              במקומות שמחזקים את המשפט.
             </p>
             <ul className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-muted-foreground">
               {["ברכת כלה", "ברכת חתן", "דרשה", "ברכות משפחה"].map((tag) => (

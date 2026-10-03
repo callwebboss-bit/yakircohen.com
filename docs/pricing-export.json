@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 124,
-  "contentHash": "20ea3bfdfc297b90",
+  "itemCount": 156,
+  "contentHash": "6777f2f24505bbc3",
   "items": [
     {
       "id": "studio_half_hour",
@@ -266,6 +266,276 @@
       "withEditingInclVat": 1298
     },
     {
+      "id": "travel_north_south",
+      "label": "תוספת הגעה לצפון או דרום",
+      "category": "addons",
+      "exVat": 800,
+      "inclVat": 944,
+      "priceFrom": false,
+      "context": "מעבר לאזור המרכז"
+    },
+    {
+      "id": "travel_eilat_golan",
+      "label": "תוספת הגעה לאילת או לגולן",
+      "category": "addons",
+      "exVat": 1800,
+      "inclVat": 2124,
+      "priceFrom": false,
+      "context": "אזורים רחוקים, בתיאום מראש"
+    },
+    {
+      "id": "ulpan_trial",
+      "label": "אולפן עברית, שיעור ניסיון",
+      "category": "academy",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "שיעור יחיד אחד על אחד"
+    },
+    {
+      "id": "ulpan_monthly",
+      "label": "אולפן עברית, מסלול חודשי",
+      "category": "academy",
+      "exVat": 3200,
+      "inclVat": 3776,
+      "priceFrom": false,
+      "context": "שיעור שבועי אחד על אחד"
+    },
+    {
+      "id": "ulpan_annual",
+      "label": "אולפן עברית, מסלול שנתי",
+      "category": "academy",
+      "exVat": 11520,
+      "inclVat": 13594,
+      "priceFrom": false,
+      "context": "36 שיעורים, עם הטבה על שיעור הניסיון"
+    },
+    {
+      "id": "academy_pro_session",
+      "label": "Pro Session, 90 דקות",
+      "category": "academy",
+      "exVat": 1280,
+      "inclVat": 1510,
+      "priceFrom": false,
+      "context": "צלילה לעומק וניתוח ביצוע"
+    },
+    {
+      "id": "online_extra_minutes",
+      "label": "תיקון זיופים מעל 4 דקות",
+      "category": "addons",
+      "exVat": 100,
+      "inclVat": 118,
+      "priceFrom": false,
+      "context": "תוספת לשיר ארוך"
+    },
+    {
+      "id": "online_extra_channels",
+      "label": "מיקס מעל 16 ערוצים",
+      "category": "addons",
+      "exVat": 100,
+      "inclVat": 118,
+      "priceFrom": false,
+      "context": "תוספת לפרויקט רחב"
+    },
+    {
+      "id": "online_extra_revision",
+      "label": "סבב תיקונים נוסף באונליין",
+      "category": "addons",
+      "exVat": 100,
+      "inclVat": 118,
+      "priceFrom": false,
+      "context": "מעבר לסבב הכלול"
+    },
+    {
+      "id": "photo_colorization",
+      "label": "צביעת תמונת שחור לבן",
+      "category": "addons",
+      "exVat": 100,
+      "inclVat": 118,
+      "priceFrom": false,
+      "context": "לתמונה, שירות נפרד משדרוג AI"
+    },
+    {
+      "id": "photo_enhance_20",
+      "label": "שדרוג 20 תמונות ב-AI",
+      "category": "online",
+      "exVat": 600,
+      "inclVat": 708,
+      "priceFrom": false,
+      "context": "חבילת תמונות לשיפור"
+    },
+    {
+      "id": "social_single_video",
+      "label": "צילום ועריכת סרטון אחד",
+      "category": "online",
+      "exVat": 1000,
+      "inclVat": 1180,
+      "priceFrom": false,
+      "context": "כולל קריאייטיב"
+    },
+    {
+      "id": "social_bank_4",
+      "label": "צילום ועריכת 4 סרטונים",
+      "category": "online",
+      "exVat": 3000,
+      "inclVat": 3540,
+      "priceFrom": false,
+      "context": "בנק סרטונים לחודש או לקמפיין"
+    },
+    {
+      "id": "social_stories_bank",
+      "label": "עריכת בנק סטוריז, 20 יחידות",
+      "category": "online",
+      "exVat": 1000,
+      "inclVat": 1180,
+      "priceFrom": false,
+      "context": "עריכה בלבד"
+    },
+    {
+      "id": "social_consult_30",
+      "label": "שיחת ייעוץ תוכן, עד 30 דקות",
+      "category": "online",
+      "exVat": 700,
+      "inclVat": 826,
+      "priceFrom": false,
+      "context": "ייעוץ ממוקד לתוכן ואסטרטגיה"
+    },
+    {
+      "id": "gift_box_usb",
+      "label": "מארז דיסק און קי ועיצוב",
+      "category": "addons",
+      "exVat": 199,
+      "inclVat": 235,
+      "priceFrom": false,
+      "context": "תוספת למחיר ההפקה"
+    },
+    {
+      "id": "gift_box_full",
+      "label": "מארז מלא: דיסק און קי, אוזניות וקופסה",
+      "category": "addons",
+      "exVat": 399,
+      "inclVat": 471,
+      "priceFrom": false,
+      "context": "תוספת למחיר ההפקה"
+    },
+    {
+      "id": "funny_ringtone_promo",
+      "label": "רינגטון מצחיק, מבצע",
+      "category": "studio",
+      "exVat": 299,
+      "inclVat": 353,
+      "priceFrom": false,
+      "context": "הקלטה, עיבוד וקובץ מוכן"
+    },
+    {
+      "id": "singer_live_recording_promo",
+      "label": "הקלטת ההופעה מהמיקסר, מבצע",
+      "category": "addons",
+      "exVat": 399,
+      "inclVat": 471,
+      "priceFrom": false,
+      "context": "במקום המחיר המלא"
+    },
+    {
+      "id": "blessing_pair_combined",
+      "label": "ברכה משולבת, כלה וחתן",
+      "category": "studio",
+      "exVat": 1000,
+      "inclVat": 1180,
+      "priceFrom": false,
+      "context": "שני מקליטים באותה ברכה"
+    },
+    {
+      "id": "song_extended_pack",
+      "label": "חבילת שיר מורחבת",
+      "category": "studio",
+      "exVat": 1800,
+      "inclVat": 2124,
+      "priceFrom": true,
+      "context": "תיקוני פיץ' מתקדמים ועריכה מלאה"
+    },
+    {
+      "id": "bat_mitzvah_clip",
+      "label": "קליפ בת מצווה",
+      "category": "studio",
+      "exVat": 2590,
+      "inclVat": 3056,
+      "priceFrom": true,
+      "context": "מחיר פתיחה, לפי משתתפים וצילומי חוץ"
+    },
+    {
+      "id": "academy_focused_training",
+      "label": "הכשרה ממוקדת, 90 דקות",
+      "category": "academy",
+      "exVat": 1470,
+      "inclVat": 1735,
+      "priceFrom": false,
+      "context": "DJ, הפקה או קריינות, אחד על אחד"
+    },
+    {
+      "id": "academy_master_monthly",
+      "label": "Master, מסלול חודשי",
+      "category": "academy",
+      "exVat": 3920,
+      "inclVat": 4626,
+      "priceFrom": false,
+      "context": "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי"
+    },
+    {
+      "id": "academy_pro_partnership",
+      "label": "Pro-Partnership, 6 חודשים",
+      "category": "academy",
+      "exVat": 21500,
+      "inclVat": 25370,
+      "priceFrom": false,
+      "context": "24 מפגשים, ליווי רכש וזהות מוזיקלית"
+    },
+    {
+      "id": "academy_lesson_card_5",
+      "label": "כרטיסיית 5 שיעורים פרטיים",
+      "category": "academy",
+      "exVat": 4450,
+      "inclVat": 5251,
+      "priceFrom": true,
+      "context": "מחיר מופחת לשיעור"
+    },
+    {
+      "id": "academy_dj_course_full",
+      "label": "קורס DJ פרטי מלא",
+      "category": "academy",
+      "exVat": 8900,
+      "inclVat": 10502,
+      "priceFrom": true,
+      "context": "10 מפגשים כולל בניית סט אישי"
+    },
+    {
+      "id": "vocal_fix_short",
+      "label": "תיקון זיופים, קטע קצר",
+      "category": "online",
+      "exVat": 375,
+      "inclVat": 443,
+      "priceFrom": false,
+      "context": "עד שתי דקות"
+    },
+    {
+      "id": "studio_prep_digital",
+      "label": "חוברת הכנה דיגיטלית",
+      "category": "addons",
+      "exVat": 149,
+      "inclVat": 176,
+      "priceFrom": false,
+      "context": "מדריך הכנה לפני הסשן"
+    },
+    {
+      "id": "photography_wedding_4h",
+      "label": "צילום אירוע, 4 שעות",
+      "category": "photography",
+      "exVat": 6000,
+      "inclVat": 7080,
+      "priceFrom": true,
+      "context": "חבילת פתיחה, עריכה בסיסית כלולה"
+    },
+    {
       "id": "content_studio_pilot",
       "label": "סושיאל דאמפ, פיילוט",
       "category": "online",
@@ -364,6 +634,26 @@
       "inclVat": 885,
       "priceFrom": false,
       "context": "הקלטה + עריכה בסיסית לשעת חומר"
+    },
+    {
+      "id": "voiceover_ivr",
+      "label": "קריינות למרכזייה",
+      "category": "online",
+      "exVat": 450,
+      "inclVat": 531,
+      "priceFrom": false,
+      "context": "עד 3 הודעות קצרות, קובץ בפורמט שהמרכזייה מקבלת",
+      "suitedFor": "מענה טלפוני, הודעת המתנה, הודעת חגים"
+    },
+    {
+      "id": "voiceover_promo",
+      "label": "קריינות לסרטון תדמית",
+      "category": "online",
+      "exVat": 750,
+      "inclVat": 885,
+      "priceFrom": false,
+      "context": "עד 2 דקות, כולל בחירת טון והגהה",
+      "suitedFor": "סרטון תדמית, מנשר דיגיטלי, פרסומת קצרה"
     },
     {
       "id": "audio_brand_starter",

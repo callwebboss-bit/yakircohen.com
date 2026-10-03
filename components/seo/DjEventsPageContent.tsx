@@ -6,6 +6,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
 import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
+import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { DjEventsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -147,7 +148,7 @@ export default function DjEventsPageContent() {
             מנגנון הפעולה: ניהול אישי מול פיקוח מערכתי
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            אנו מנטרלים את אלמנט המקריות מהאירוע. העבודה מתבצעת תחת מפרט טכני ומוזיקלי קבוע, המיושם בשני מסלולי בחירה ברורים:
+            באירוע אין הזדמנות שנייה. לכן העבודה נעשית לפי מפרט טכני ומוזיקלי קבוע, בשני מסלולים:
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl border border-border bg-surface p-6">
@@ -389,20 +390,13 @@ export default function DjEventsPageContent() {
           </a>
         </section>
 
-        <section aria-labelledby="calculator-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="calculator-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              חבילות DJ + אטרקציות
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              בנו חבילה, קבלו מחיר ושלחו לוואטסאפ
-            </p>
-          </header>
+        <CalculatorDisclosure
+          title="חבילות DJ + אטרקציות"
+          description="בנו חבילה, קבלו מחיר ושלחו לוואטסאפ"
+          buttonLabel="פתחו את מחשבון החבילות"
+        >
           <DjEventsCalculatorLazy className="mt-8" />
-        </section>
+        </CalculatorDisclosure>
 
         <section aria-labelledby="why-dj-heading">
           <header className="mx-auto max-w-2xl text-center">
@@ -433,7 +427,7 @@ export default function DjEventsPageContent() {
             id="dj-geo-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            נגישות ופריסה גיאוגרפית
+            נגישות ואזורי שירות
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
             הסטנדרט המקצועי של המערכת אינו משתנה בהתאם למיקום הגאוגרפי. אנו מספקים שירותי DJ, הגברה והפקה{" "}

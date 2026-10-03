@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import TableOfContents from "@/components/ui/TableOfContents";
@@ -61,30 +62,17 @@ export default function PodcastFaqPageContent() {
           headingId="podcast-faq-services"
         />
 
-        <section
-          id="podcast-faq-calculator"
-          className="scroll-mt-24"
-          aria-labelledby="podcast-faq-calculator-heading"
+        <CalculatorDisclosure
+          title="מחשבון מחיר לפודקאסט"
+          description={
+            <>
+    בחרו חבילה, הוסיפו זמן אם צריך - וקבלו הערכת מחיר לפני שמדברים איתנו.
+            </>
+          }
+          buttonLabel="פתחו את מחשבון המחיר"
         >
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="podcast-faq-calculator-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              מחשבון מחיר לפודקאסט
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              בחרו חבילה, הוסיפו זמן אם צריך - וקבלו הערכת מחיר לפני שמדברים איתנו.
-            </p>
-          </header>
           <PodcastCalculatorLazy className="mt-8" />
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            לפרטים מלאים ודוגמאות מהאולפן -{" "}
-            <Link href="/podcast" className="font-semibold text-brand-red hover:underline">
-              מרכז הפודקאסט
-            </Link>
-          </p>
-        </section>
+        </CalculatorDisclosure>
 
         <section
           className="rounded-2xl border border-border bg-surface p-6 sm:p-8"

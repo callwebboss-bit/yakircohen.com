@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
+import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
@@ -139,20 +140,17 @@ export default function PodcastProductionPageContent() {
           </ul>
         </section>
 
-        <section aria-labelledby="pricing-heading">
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="pricing-heading"
-              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              חבילות והקלטה
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              בחרו נקודת התחלה, ליווי ארוך טווח מתואם בנפרד
-            </p>
-          </header>
+        <CalculatorDisclosure
+          title="חבילות והקלטה"
+          description={
+            <>
+    בחרו נקודת התחלה, ליווי ארוך טווח מתואם בנפרד
+            </>
+          }
+          buttonLabel="פתחו את מחשבון החבילות"
+        >
           <PodcastCalculatorLazy className="mt-8" />
-        </section>
+        </CalculatorDisclosure>
 
         <ServiceShowcaseSections
           assetsFolder="podcast"

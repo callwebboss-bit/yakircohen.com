@@ -6,7 +6,11 @@
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
-import { RECORDING_SONG_STUDIO_PRICE_FAQ } from "@/lib/data/faq-aeo";
+import {
+  DJ_HOW_TO_KNOW_FAQ,
+  RECORDING_SONG_STUDIO_PRICE_FAQ,
+  STUDIO_PRICE_FACTORS_FAQ,
+} from "@/lib/data/faq-aeo";
 
 export type HomeFaqItem = {
   id: string;
@@ -20,6 +24,16 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "song-studio-price",
     question: RECORDING_SONG_STUDIO_PRICE_FAQ.question,
     answerPlain: RECORDING_SONG_STUDIO_PRICE_FAQ.answer,
+  },
+  {
+    id: STUDIO_PRICE_FACTORS_FAQ.id,
+    question: STUDIO_PRICE_FACTORS_FAQ.question,
+    answerPlain: STUDIO_PRICE_FACTORS_FAQ.answer,
+  },
+  {
+    id: DJ_HOW_TO_KNOW_FAQ.id,
+    question: DJ_HOW_TO_KNOW_FAQ.question,
+    answerPlain: DJ_HOW_TO_KNOW_FAQ.answer,
   },
   {
     id: "location-parking",

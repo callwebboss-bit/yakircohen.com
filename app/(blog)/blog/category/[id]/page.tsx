@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleFeed, { type BlogPost as FeedPost } from "@/components/blog/ArticleFeed";
 import AnswerBlock from "@/components/seo/AnswerBlock";
+import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import Container from "@/components/ui/Container";
@@ -13,6 +14,7 @@ import {
   getFilterCategoryId,
   type BlogFilterCategory,
 } from "@/lib/data/blog-categories";
+import { getKnowledgeHub } from "@/lib/data/blog-knowledge-hubs";
 import { SITE_NAME } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/site-url";
 import {
@@ -58,10 +60,13 @@ function postsFor(category: BlogFilterCategory): FeedPost[] {
 }
 
 function seoFor(category: BlogFilterCategory, count: number): HubPageSeo {
+  const hub = getKnowledgeHub(category.id);
   return {
     slug: `blog/category/${category.id}`,
-    title: `מאמרים על ${category.label}`,
-    description: `כל המאמרים של מגזין ${SITE_NAME} על ${category.label}, ${count} מאמרים.`,
+    title: hub ? hub.heading : `מאמרים על ${category.label}`,
+    description: hub
+      ? `${hub.metaDescription} ${count} מדריכים.`
+      : `כל המאמרים של מגזין ${SITE_NAME} על ${category.label}, ${count} מאמרים.`,
     keywords: [category.label, "מגזין", "מדריכים"],
     hub: "blog",
   };
@@ -91,6 +96,19 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
 
   const posts = postsFor(category);
   const seo = seoFor(category, posts.length);
+  const hub = getKnowledgeHub(category.id);
+
+  /* מקובץ לפי שאלה ולא לפי תאריך. קורא שמגיע עם שאלה אחת לא צריך לסרוק
+     24 כרטיסים כדי למצוא את התשובה שלו. */
+  const bySlug = new Map(posts.map((post) => [post.slug, post]));
+  const groups = hub
+    ? hub.groups.map((group) => ({
+        ...group,
+        posts: group.slugs
+          .map((slug) => bySlug.get(slug))
+          .filter((post): post is FeedPost => Boolean(post)),
+      }))
+    : [];
 
   return (
     <>
@@ -124,7 +142,9 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
                 הזה יהפוך למרכז ידע. */}
             <div className="mt-4 max-w-2xl">
               <AnswerBlock id="blog-category-answer">
-                {`${category.label}: ${posts.length} מאמרים במגזין של ${SITE_NAME}. כל מאמר עונה על שאלה אחת שחוזרת לפני הזמנת שירות. אם השאלה שלכם לא נמצאת כאן, אפשר לשאול אותה ישירות בוואטסאפ.`}
+                {hub
+                  ? hub.answer
+                  : `${category.label}: ${posts.length} מאמרים במגזין של ${SITE_NAME}. כל מאמר עונה על שאלה אחת שחוזרת לפני הזמנת שירות. אם השאלה שלכם לא נמצאת כאן, אפשר לשאול אותה ישירות בוואטסאפ.`}
               </AnswerBlock>
             </div>
             <nav aria-label="קטגוריות המגזין" className="mt-8 flex flex-wrap gap-2">
@@ -152,14 +172,40 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
           </Container>
         </Section>
 
-        <Section ariaLabelledby="blog-category-feed-heading">
-          <Container>
-            <h2 id="blog-category-feed-heading" className="sr-only">
-              {posts.length} מאמרים על {category.label}
-            </h2>
-            <ArticleFeed posts={posts} />
-          </Container>
-        </Section>
+        {hub?.showPriceFactors ? (
+          <Section ariaLabelledby="price-factors-heading">
+            <Container>
+              <PriceFactorsSection />
+            </Container>
+          </Section>
+        ) : null}
+
+        {groups.length > 0 ? (
+          groups.map((group) => (
+            <Section key={group.id} ariaLabelledby={`group-${group.id}-heading`}>
+              <Container>
+                <h2
+                  id={`group-${group.id}-heading`}
+                  className="font-serif text-section-title font-semibold text-foreground"
+                >
+                  {group.title}
+                </h2>
+                <div className="mt-6">
+                  <ArticleFeed posts={group.posts} />
+                </div>
+              </Container>
+            </Section>
+          ))
+        ) : (
+          <Section ariaLabelledby="blog-category-feed-heading">
+            <Container>
+              <h2 id="blog-category-feed-heading" className="sr-only">
+                {posts.length} מאמרים על {category.label}
+              </h2>
+              <ArticleFeed posts={posts} />
+            </Container>
+          </Section>
+        )}
       </div>
     </>
   );
