@@ -1,4 +1,4 @@
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 
 export const WEDDING_PACKAGES_WHY: readonly {
@@ -19,9 +19,10 @@ export const WEDDING_PACKAGES_WHY: readonly {
   },
   {
     emoji: "💰",
-    title: "חוסכים כסף",
+    title: "הנחת חבילה על האטרקציות",
+    /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. היה "20-30% פחות" */
     description:
-      "חבילה משולבת, 20-30% פחות מהזמנה נפרדת. ההפרש יכול להגיע לאלפי שקלים.",
+      `מ-2 אטרקציות ומעלה, ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת. מחושב מהמחירון.`,
   },
   {
     emoji: "🎭",
@@ -79,7 +80,7 @@ export const WEDDING_PACKAGES_FAQ: readonly {
     id: "savings",
     question: "כמה באמת חוסכים?",
     answer:
-      "בדרך כלל 20-30% לעומת הזמנה נפרדת של כל שירות, תלוי בחבילה ובתאריך.",
+      `על האטרקציות: ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת, מ-2 אטרקציות ומעלה. ה-DJ וההגברה במחיר הרגיל שלהם.`,
   },
   {
     id: "booking",

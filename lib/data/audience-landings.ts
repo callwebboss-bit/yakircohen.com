@@ -1,5 +1,5 @@
 import type { FAQItem } from "@/components/ui/FAQAccordion";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 export type AudienceLandingService = {
   id: string;
@@ -89,7 +89,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           id: "packages",
           icon: "✨",
           title: "חבילות DJ + אטרקציות",
-          description: "עשן, זיקוקים, קונפטי - חיסכון של 20-30% בחבילה משולבת.",
+          description: `עשן, זיקוקים, קונפטי - מ-2 אטרקציות הנחת חבילה של ${attractionBundleDiscountPercent()}%.`,
           href: "/events/wedding-attractions-packages",
           priceHint: `חבילת "פסטיבל" ${formatFromPriceDual(getExVat("festival_all_in"))}`,
         },

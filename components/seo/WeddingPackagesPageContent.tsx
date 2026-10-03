@@ -16,6 +16,7 @@ import {
   WEDDING_PACKAGES_WHY,
 } from "@/lib/data/wedding-packages-page";
 import { getEventsService } from "@/lib/data/services";
+import { attractionBundleDiscountPercent } from "@/lib/data/pricing-catalog";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -64,8 +65,8 @@ export default function WeddingPackagesPageContent() {
             DJ + אטרקציות + הגברה בחבילה אחת
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-            במקום להזמין כל שירות בנפרד, חבילה שלמה במחיר מוזל. חוסכים כסף,
-            זמן וכאבי ראש.
+            במקום להזמין כל שירות בנפרד, ספק אחד ותיאום אחד. על האטרקציות
+            בחבילה: הנחה של {attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת.
           </p>
         </section>
 

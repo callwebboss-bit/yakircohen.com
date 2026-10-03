@@ -79,13 +79,6 @@
   {
     "file": "app/(services)/academy/page.tsx",
     "kind": "prose",
-    "value": 2300,
-    "count": 1,
-    "example": "priceNote: \"24 מפגשים, חלוקה גמישה. חיסכון של 2,300 שקלים.\","
-  },
-  {
-    "file": "app/(services)/academy/page.tsx",
-    "kind": "prose",
     "value": 3920,
     "count": 1,
     "example": "{ format: \"Master חודשי\", duration: \"4×60 דק׳\", includes: \"Direct Line + Feedback שבועי\", price: \"3,920 ₪ / חודש\" },"
@@ -409,7 +402,7 @@
     "file": "lib/data/academy-hebrew-lessons-en.ts",
     "kind": "prose",
     "value": 3200,
-    "count": 4,
+    "count": 2,
     "example": "price: \"₪3,200\","
   },
   {
@@ -493,7 +486,7 @@
     "file": "lib/data/academy-ulpan-page.ts",
     "kind": "prose",
     "value": 3200,
-    "count": 4,
+    "count": 2,
     "example": "price: `3,200 ש\"ח`,"
   },
   {

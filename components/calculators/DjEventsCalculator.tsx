@@ -22,7 +22,7 @@ import {
   readUtmSource,
 } from "@/lib/booking-messages";
 import { withVat } from "@/lib/data/pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
   DJ_CALC_ADDONS,
@@ -525,12 +525,12 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   ? `🎁 ${formatPrice(getEventBundlePrice(effects.size), { from: true }).inline}. מארבע אטרקציות המחיר נסגר בשיחה`
                   : effectDiscount > 0
                     ? `🎁 הנחת כמות: ${effects.size} אטרקציות ב-${priceLabel(getEventBundlePrice(effects.size))}`
-                    : `💡 עוד אטרקציה אחת ומתחילה הנחה של 10%`}
+                    : `💡 עוד אטרקציה אחת ומתחילה הנחת חבילה של ${attractionBundleDiscountPercent()}%`}
               </div>
             )}
             {effects.size === 0 && (
               <p className="mb-4 text-xs text-muted-foreground">
-                אטרקציה בודדת: {priceLabel(ATTRACTION_UNIT)} · שתיים: הנחה 10% · שלוש: הנחה 15% · ארבע ומעלה: הנחה 20%
+                אטרקציה בודדת: {priceLabel(ATTRACTION_UNIT)} · משתיים ומעלה: הנחת חבילה של {attractionBundleDiscountPercent()}%
               </p>
             )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

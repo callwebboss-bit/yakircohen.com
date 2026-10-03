@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 123,
-  "contentHash": "0e8e792523f0c2bf",
+  "contentHash": "799bb7df5864403e",
   "items": [
     {
       "id": "studio_half_hour",
@@ -650,28 +650,28 @@
       "id": "event_attraction_2",
       "label": "2 אטרקציות",
       "category": "events",
-      "exVat": 3051,
-      "inclVat": 3600,
+      "exVat": 3119,
+      "inclVat": 3680,
       "priceFrom": false,
-      "context": "הנחה 10%, 3,600 ₪ כולל מע״מ"
+      "context": "חבילה: 8% פחות משתי אטרקציות בודדות"
     },
     {
       "id": "event_attraction_3",
       "label": "3 אטרקציות",
       "category": "events",
-      "exVat": 4322,
-      "inclVat": 5100,
+      "exVat": 4679,
+      "inclVat": 5521,
       "priceFrom": false,
-      "context": "הנחה 15%, 5,100 ₪ כולל מע״מ"
+      "context": "חבילה: 8% פחות משלוש אטרקציות בודדות"
     },
     {
       "id": "event_attraction_4",
       "label": "4 אטרקציות ומעלה",
       "category": "events",
-      "exVat": 5424,
-      "inclVat": 6400,
+      "exVat": 6238,
+      "inclVat": 7361,
       "priceFrom": true,
-      "context": "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית"
+      "context": "מחיר פתיחה לארבע, 8% פחות מארבע בודדות, וקליפ היילייטס מתנה. מעבר לזה הצעה אישית"
     },
     {
       "id": "event_sound_rental",
@@ -981,8 +981,8 @@
       "id": "dj_voice_tag_pack_5",
       "label": "חבילת 5 תגים קוליים",
       "category": "pro",
-      "exVat": 1200,
-      "inclVat": 1416,
+      "exVat": 1610,
+      "inclVat": 1900,
       "priceFrom": false,
       "context": "חמישה תגים מותאמים עם אפקטים"
     },
@@ -1017,8 +1017,8 @@
       "id": "mashup_ready_pack_3",
       "label": "חבילת 3 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 1750,
-      "inclVat": 2065,
+      "exVat": 1794,
+      "inclVat": 2117,
       "priceFrom": false,
       "context": "שלושה שילובים מהמאגר"
     },
@@ -1026,8 +1026,8 @@
       "id": "mashup_ready_pack_5",
       "label": "חבילת 5 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 2750,
-      "inclVat": 3245,
+      "exVat": 2990,
+      "inclVat": 3528,
       "priceFrom": false,
       "context": "חמישה שילובים - עונת אירועים"
     },
@@ -1035,8 +1035,8 @@
       "id": "mashup_ready_pack_10",
       "label": "חבילת 10 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 5200,
-      "inclVat": 6136,
+      "exVat": 5980,
+      "inclVat": 7056,
       "priceFrom": false,
       "context": "מאגר אישי לדיג'יי"
     },
@@ -1044,8 +1044,8 @@
       "id": "mashup_custom_pack_3",
       "label": "חבילת 3 מאשאפים מותאמים",
       "category": "pro",
-      "exVat": 4500,
-      "inclVat": 5310,
+      "exVat": 4554,
+      "inclVat": 5374,
       "priceFrom": false,
       "context": "שלושה שילובים לפי בקשה"
     },

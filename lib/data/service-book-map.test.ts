@@ -36,7 +36,8 @@ describe("resolveServiceBookCta VAT display", () => {
 
   it("עמוד עסקים: לפני מע״מ קודם", () => {
     const cta = resolveServiceBookCta("business/professional-voiceover");
-    assert.match(cta?.bookLabel ?? "", /^הזמנה מקוונת מ-1,200 ₪ \+ מע״מ/);
+    /* החבילה עלתה ל-1,610 עם תקרת ההנחה (החלטת הבעלים 3.10.2026, סבב שני) */
+    assert.match(cta?.bookLabel ?? "", /^הזמנה מקוונת מ-1,610 ₪ \+ מע״מ/);
   });
 });
 

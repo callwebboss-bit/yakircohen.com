@@ -38,13 +38,14 @@ export const SINGER_CRO_CONFIG = {
   step3ContactHeading: "פרטי ההופעה",
   priceReframe:
     "פחות מעלות של ציוד שכור ליום - בשביל הגברה מקצועית עם טכנאי בשטח",
-  /* מחיר הייחוס קשור לתוספת בקטלוג (singer_live_recording), שהבעלים אימת */
+  /* המבצע אמיתי (הבעלים אישר), אבל "399 במקום 500" הוא 20%, ואין הנחה
+     מוצגת מעל 8% (החלטת הבעלים 3.10.2026, סבב שני). בלי referenceCatalogId
+     האשף לא מציג "במקום". listPrice נשאר לחישוב מה שנגבה בפועל. */
   lastMinuteUpsell: {
     label: "הקלטת ההופעה מהמיקסר",
     upgradeId: "singer_addon_3",
     promoPrice: 399,
     listPrice: getExVat("singer_live_recording"),
-    referenceCatalogId: "singer_live_recording",
   },
   exitIntent: {
     title: "רגע לפני שעוזבים",

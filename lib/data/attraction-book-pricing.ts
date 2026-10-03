@@ -2,7 +2,7 @@
  * תמחור אטרקציות לעמודי שיווק - מסונכרן עם events-booking.ts ו-/book#events.
  */
 
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { formatPrice } from "@/lib/data/pricing-display";
 import type { ServicePricingTier } from "@/lib/data/services";
@@ -147,7 +147,7 @@ function tiersForItem(item: EventBookingItem): AttractionPricingTier[] {
         /* יחידה שנייה נספרת כאטרקציה שנייה בסולם, ולכן המחיר הוא מחיר
            שתי האטרקציות ולא תוספת שטוחה. */
         priceExVat: getExVat("event_attraction_2"),
-        priceNote: "מחיר שתי אטרקציות, הנחה 10%",
+        priceNote: `מחיר שתי אטרקציות, הנחת חבילה של ${attractionBundleDiscountPercent()}%`,
       },
     ];
   }

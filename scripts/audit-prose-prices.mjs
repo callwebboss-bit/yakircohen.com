@@ -46,8 +46,9 @@ const SCAN_DIRS = "lib components app public";
    נבדקת מול הקטלוג החי, כך שאי אפשר "להשתיק" כאן מחיר שגוי: אם המזהה
    הזה יפסיק להחזיק את הערך, הרשומה עצמה תיכשל. */
 const EXPLAINED = [
-  { value: 1750, file: "lib/data/blog.ts", match: "תאורת LED", catalogId: "led_lighting" },
-  { value: 1750, file: "lib/data/blog.ts", match: "מיקס ומאסטרינג חיצוני", catalogId: "external_mix_master" },
+  /* שתי רשומות ה-1,750 של הבלוג (תאורת LED, מיקס חיצוני) נמחקו ב-3.10.2026:
+     השורות כבר נגזרות מהקטלוג, ו-1,750 פרש עם mashup_ready_pack_3 וחשף אותן
+     כמתות. */
   { value: 4450, file: "lib/data/blog.ts", match: "כרטיסיית 5 שיעורים", why: "כרטיסייה לאקדמיה, לא מחיר קטלוג" },
   { value: 5500, file: "lib/data/blog.ts", match: "DJ לבר מצווה בישראל", why: "טווח שוק מצוטט, מסומן בפוסט עצמו כסקירה ולא כמחירון שלנו" },
   { value: 3200, file: "lib/data/academy-ulpan-page.ts", match: "3,200", why: "מסלול חודשי לאולפן עברית, מחירון אקדמיה נפרד" },
@@ -74,6 +75,23 @@ const EXPLAINED = [
   { value: 5000, file: "lib/data/lead-flow/discovery-questions.ts", match: "5,000 ₪", why: "טווח תקציב בשאלון, לא מחיר" },
   { value: 5000, file: "lib/data/blog.ts", match: "₪1,500-₪5,000+", why: "טווח עלות פרק בהשוואת שוק" },
   { value: 5000, file: "lib/data/blog.ts", match: "טיפול אקוסטי בסיסי לחדר", why: "טווח שוק לטיפול אקוסטי" },
+  /* 4,500 ו-1,200 פרשו עם mashup_custom_pack_3 ו-dj_voice_tag_pack_5, שעלו
+     לתקרת ההנחה של 8% (החלטת הבעלים 3.10.2026, סבב שני). 4,500 הוא עדיין
+     הקליפ המלא, תוכן ה-HR והמיתוג הקולי. 1,200 בפרוזה הוא טווח שוק. */
+  { value: 4500, file: "app/business/employer-branding/page.tsx", match: "החל מ-4,500", catalogId: "employer_welcome" },
+  { value: 4500, file: "public/llms.txt", match: "תוכן HR וקליטה", catalogId: "employer_welcome" },
+  { value: 4500, file: "lib/data/business-hub-page.ts", match: "החל מ-4,500", catalogId: "employer_welcome" },
+  { value: 4500, file: "lib/data/industry-2026.ts", match: "קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500", catalogId: "full_production_clip" },
+  { value: 4500, file: "lib/data/industry-2026.ts", match: "מחירון האולפן לקליפ מלא מתחיל ב-4,500", catalogId: "full_production_clip" },
+  { value: 4500, file: "lib/data/blog.ts", match: "₪4,500-₪7,500", why: "טווח שוק לקליפ" },
+  { value: 4500, file: "lib/data/blog.ts", match: "חבילה בסיסית (3,500-4,500 ₪)", why: "טווח שוק ל-DJ" },
+  { value: 1200, file: "lib/data/blog.ts", match: "₪400-₪1,200", why: "טווח שוק למיקרופון USB" },
+  { value: 1200, file: "lib/data/blog.ts", match: "בין 450 ל-1,200", why: "טווח שוק לשיר מתנה" },
+  { value: 1200, file: "lib/data/blog.ts", match: "(900-1,200 ₪)", why: "טווח שוק לחבילת פרימיום" },
+  { value: 1200, file: "lib/data/blog.ts", match: "800-1,200 ₪", why: "טווח שוק לפרק פודקאסט" },
+  { value: 1200, file: "lib/data/blog.ts", match: "8 פרקים ב-1,200", why: "דוגמת חישוב בפוסט, לא מחיר" },
+  { value: 1200, file: "lib/data/industry-2026.ts", match: "400-1,200 ₪", why: "טווח שוק לציוד ביתי" },
+  { value: 1200, file: "lib/data/industry-2026.ts", match: "400 עד 1,200", why: "טווח שוק לציוד ביתי" },
 ];
 
 /* סכום עם פסיק אלפים, או סכום תלת-ספרתי שלם (לא זנב של 1500), ליד ₪ או ש״ח */

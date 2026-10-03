@@ -4,7 +4,7 @@
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { getSongParticipantsExplanation } from "./song-offer";
@@ -2007,11 +2007,13 @@ export const EVENTS_SERVICES = {
     category: "events",
     /* H1 ממוקד חתונה - ה-meta כבר מדבר חתונה, וזה העמוד שתופס את הכוונה הזו */
     title: "חבילות לחתונה - DJ, אטרקציות והגברה מספק אחד",
+    /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. "חסכו עד 30%" ו-
+       "חיסכון 20-30%" ירדו. ההנחה היחידה שנתמכת היא חבילת האטרקציות. */
     subtitle:
-      "חסכו עד 30%, שלבו DJ, אטרקציות והגברה בחבילה אחת. ספק אחד, תיאום אחד, מחיר מוזל.",
+      `שלבו DJ, אטרקציות והגברה בחבילה אחת. ספק אחד, תיאום אחד, ועל האטרקציות הנחת חבילה של ${attractionBundleDiscountPercent()}%.`,
     metaTitle: "חבילות חתונה - DJ ואטרקציות מודיעין",
     metaDescription:
-      "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות, חבילת פסטיבל - חיסכון 20-30%.",
+      "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות או חבילת פסטיבל, מספק אחד ובתיאום אחד.",
     keywords: [
       "חבילות לחתונה",
       "חבילת DJ ואטרקציות",
@@ -2021,7 +2023,7 @@ export const EVENTS_SERVICES = {
     features: [
       "חבילת DJ + 3 אטרקציות לבחירה (תקליטן מהצוות, 4 שעות)",
       "חבילת פסטיבל, DJ, אולפן נייד, 3 אפקטים ועוד",
-      "חיסכון 20-30% לעומת הזמנה נפרדת",
+      `מ-2 אטרקציות: הנחת חבילה של ${attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת`,
       "תיאום מסונכרן, DJ מכיר את כל האפקטים",
       `מחשבון חבילות + הצעה בוואטסאפ ${TIME_CLAIMS.quoteHour}`,
     ],
@@ -2052,7 +2054,7 @@ export const EVENTS_SERVICES = {
         id: "wedding-pkg-save",
         question: "כמה חוסכים בחבילה משולבת?",
         answer:
-          "בדרך כלל 20-30% לעומת הזמנת DJ, אטרקציות והגברה בנפרד. המחיר הסופי תלוי באורך האירוע, מיקום ומספר האפקטים.",
+          `על האטרקציות: מ-2 אטרקציות ומעלה ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת. ה-DJ וההגברה במחיר הרגיל שלהם. היתרון הגדול הוא ספק אחד ותיאום אחד. המחיר הסופי תלוי באורך האירוע, במיקום ובמספר האפקטים.`,
       },
       {
         id: "wedding-pkg-includes",

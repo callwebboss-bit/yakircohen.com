@@ -62,22 +62,21 @@ const TRUST_NUMBER = [
 ];
 
 /* מופעים מותרים של מספר אמון או של "במקום N ₪". { file, match, why } */
-const ALLOWED = [
-  {
-    file: "lib/data/academy-ulpan-page.ts",
-    match: "שיעור ניסיון ב-500",
-    why: "שיעור ניסיון מול מחיר המסלול החודשי של האולפן. שני מחירים אמיתיים של אותו מוצר (EXPLAINED ב-audit:prose-prices). שאלה לבעלים אם להשאיר את הניסוח",
-  },
-];
+/* "שיעור ניסיון ב-500 במקום 3,200" ירד (החלטת הבעלים 3.10.2026, סבב שני),
+   ואיתו הרשומה היחידה שהייתה כאן. */
+const ALLOWED = [];
 
 /* מחיר מחוק מותר רק כאן. source הוא הקובץ שמחזיק את מחיר הייחוס, ו-bound
    הוא הביטוי שקושר אותו לקטלוג. אם bound כבר לא מופיע ב-source, נכשל. */
 const LINE_THROUGH_BOUND = [
   {
+    /* תותח שני הציג 1,695 מחוק מול 1,424, כלומר 16% על השורה. מחיר הייחוס
+       ירד (החלטת הבעלים 3.10.2026, סבב שני), ואין היום תוספת עם מחיר ייחוס.
+       אם יחזור, events-booking-upsells.test.ts בודק קטלוג ותקרת 8%. */
     file: "components/booking/BookUpsellSection.tsx",
-    source: "lib/data/events-booking-upsells.ts",
-    bound: 'originalPrice: getExVat("event_attraction_1")',
-    why: "תותח שני: מחיר הייחוס הוא event_attraction_1 (שלב 4 WP4)",
+    source: "lib/data/events-booking-upsells.test.ts",
+    bound: "MAX_DISCOUNT_RATE",
+    why: "מחיר ייחוס של תוספת: מהקטלוג ועד 8% (events-booking-upsells.test.ts)",
   },
   {
     file: "components/booking/WizardCouponPriceLine.tsx",
@@ -100,7 +99,21 @@ const LINE_THROUGH_BOUND = [
 ];
 
 const REFERENCE_FIELD_LITERAL = /\b(?:originalPrice|listPrice|referencePrice|wasPrice)\s*:\s*\d/;
-const REFERENCE_PROSE = /במקום\s*₪?\s*\d[\d,]*\s*(?:₪|ש״ח|ש"ח|שקל)/;
+const REFERENCE_PROSE = /במקום\s*₪?\s*\d[\d,]*\s*(?:₪|ש״ח|ש"ח|שקל)|instead of[^"`]{0,24}₪\s*\d/i;
+
+/* אחוז הנחה בפרוזה (החלטת הבעלים 3.10.2026, סבב שני): "כרגע אין הנחה מעל
+   8%". מילת הנחה ואחוז באותו משפט, בכל סדר. הנחה שמחושבת בקוד נבדקת ב-
+   lib/data/discount-policy.ts. אחוז שנבנה מקבוע (${...}%) לא נתפס כאן,
+   ולכן כל קבוע כזה חייב להיגזר מ-MAX_DISCOUNT_RATE או מהקטלוג. */
+const MAX_DISCOUNT_PERCENT = 8;
+const DISCOUNT_WORD = String.raw`(?:הנחה|הנחת|בהנחה|חיסכון|חוסכים|חסכו|זול יותר|פחות מ|discount|savings?|off)`;
+const PCT = String.raw`(?<![\d.])(\d{1,3})(?:\s*-\s*(\d{1,3}))?\s*%`;
+const DISCOUNT_PERCENT_RES = [
+  new RegExp(String.raw`${DISCOUNT_WORD}[^"\`
+.]{0,30}?${PCT}`, "gi"),
+  new RegExp(String.raw`${PCT}[^"\`
+.]{0,20}?${DISCOUNT_WORD}`, "gi"),
+];
 
 function isComment(line, inBlock) {
   const t = line.trim();
@@ -152,6 +165,22 @@ for (const file of files) {
           why: "לקרוא SITE_TRUST_STATS / GOOGLE_RATING / GOOGLE_REVIEW_COUNT (FIT-06)",
           snippet,
         });
+    }
+
+    for (const re of DISCOUNT_PERCENT_RES) {
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(line)) !== null) {
+        const top = Math.max(Number(m[1]), Number(m[2] ?? 0));
+        if (top > MAX_DISCOUNT_PERCENT) {
+          failures.push({
+            where,
+            kind: `הנחה מעל ${MAX_DISCOUNT_PERCENT}%`,
+            why: "אין הנחה מעל 8% (החלטת הבעלים 3.10.2026, סבב שני). אחוז לגזור מ-MAX_DISCOUNT_RATE או מהקטלוג",
+            snippet,
+          });
+        }
+      }
     }
 
     if (/\bline-through\b/.test(line)) lineThroughFiles.add(file);

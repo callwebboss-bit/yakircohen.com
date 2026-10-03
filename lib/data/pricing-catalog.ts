@@ -82,6 +82,16 @@ export type PriceItem = {
   requires?: string;
 };
 
+/**
+ * תקרת הנחה (החלטת הבעלים 3.10.2026, סבב שני): "כרגע אין הנחה מעל 8%".
+ * חלה על חבילות בקטלוג, קופונים, מבצעים ומחיר ייחוס מוצג. נאכף ב-
+ * validateDiscountPolicy (lib/data/discount-policy.ts, רץ ב-audit:pricing)
+ * ובאחוזים בפרוזה ב-audit:trust-claims. מחיר מדורג שאינו מוצג כהנחה (זמר
+ * שני 190, מהשלישי 99) אינו הנחה באחוזים ולא נבדק כאן.
+ */
+export const MAX_DISCOUNT_RATE = 0.08;
+export const MAX_DISCOUNT_PERCENT = Math.round(MAX_DISCOUNT_RATE * 100);
+
 /** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
 export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
 
@@ -386,9 +396,12 @@ export const PRICING_CATALOG = [
      הבעלים ב-8.9.2026 וישב עד עכשיו כמספר ב-events-booking.ts. WP4 */
   { id: "event_extra_activation", label: "הפעלה נוספת לאטרקציה", exVat: 1200, category: "events", context: "רגע שיא נוסף: מיכל או מנועים חדשים לכל הפעלה" },
   { id: "event_attraction_1", label: "אטרקציה בודדת", exVat: 1695, category: "events", context: "2,000 ₪ כולל מע״מ" },
-  { id: "event_attraction_2", label: "2 אטרקציות", exVat: 3051, category: "events", context: "הנחה 10%, 3,600 ₪ כולל מע״מ" },
-  { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4322, category: "events", context: "הנחה 15%, 5,100 ₪ כולל מע״מ" },
-  { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 5424, category: "events", priceFrom: true, context: "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית" },
+  /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. החבילות היו 10%,
+     15% ו-20% (3,051 / 4,322 / 5,424). עכשיו כל אחת היא N x event_attraction_1
+     פחות 8%, מעוגל למעלה כדי לא לעבור את התקרה (CATALOG_BUNDLES). */
+  { id: "event_attraction_2", label: "2 אטרקציות", exVat: 3119, category: "events", context: "חבילה: 8% פחות משתי אטרקציות בודדות" },
+  { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4679, category: "events", context: "חבילה: 8% פחות משלוש אטרקציות בודדות" },
+  { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 6238, category: "events", priceFrom: true, context: "מחיר פתיחה לארבע, 8% פחות מארבע בודדות, וקליפ היילייטס מתנה. מעבר לזה הצעה אישית" },
   // ─── הגברה לזמרים ───
   /* החלטת הבעלים 3.10.2026 (סבב שני): השכרת הגברה לאירוע 2,500 לפני מע״מ.
      עד אז 1,750 כתוב באשף האירועים, בלי מזהה. */
@@ -454,14 +467,16 @@ export const PRICING_CATALOG = [
 
   // ─── שירותים מקצועיים לעסקים ───
   { id: "dj_voice_tag_single", label: "תג קולי בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות ממותגת עם אפקטי מועדון" },
-  { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1200, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
+  /* החבילות כאן ובמאשאפים: N x מחיר בודד פחות 8% (החלטת הבעלים 3.10.2026,
+     סבב שני). היו 31% (תגים), 10%, 15%, 20% ו-9% (מאשאפים). */
+  { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1610, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
   { id: "mashup_custom_planned", label: "מאשאפ מותאם (עד 3 ימי עסקים)", exVat: 1650, category: "pro", context: "שילוב שני שירים - עריכה ידנית, סבב תיקון אחד" },
   { id: "mashup_creative_plus", label: "שילוב יצירתי / דרוג+", exVat: 2200, category: "pro", context: "stems, משקל, מודולציה - הפקה מלאה באולפן" },
   { id: "mashup_ready_single", label: "מאשאפ מוכן לרכישה", exVat: 650, category: "pro", context: "גרסה ערוכה מהמאגר, נבדקה באירוע" },
-  { id: "mashup_ready_pack_3", label: "חבילת 3 מאשאפים מוכנים", exVat: 1750, category: "pro", context: "שלושה שילובים מהמאגר" },
-  { id: "mashup_ready_pack_5", label: "חבילת 5 מאשאפים מוכנים", exVat: 2750, category: "pro", context: "חמישה שילובים - עונת אירועים" },
-  { id: "mashup_ready_pack_10", label: "חבילת 10 מאשאפים מוכנים", exVat: 5200, category: "pro", context: "מאגר אישי לדיג'יי" },
-  { id: "mashup_custom_pack_3", label: "חבילת 3 מאשאפים מותאמים", exVat: 4500, category: "pro", context: "שלושה שילובים לפי בקשה" },
+  { id: "mashup_ready_pack_3", label: "חבילת 3 מאשאפים מוכנים", exVat: 1794, category: "pro", context: "שלושה שילובים מהמאגר" },
+  { id: "mashup_ready_pack_5", label: "חבילת 5 מאשאפים מוכנים", exVat: 2990, category: "pro", context: "חמישה שילובים - עונת אירועים" },
+  { id: "mashup_ready_pack_10", label: "חבילת 10 מאשאפים מוכנים", exVat: 5980, category: "pro", context: "מאגר אישי לדיג'יי" },
+  { id: "mashup_custom_pack_3", label: "חבילת 3 מאשאפים מותאמים", exVat: 4554, category: "pro", context: "שלושה שילובים לפי בקשה" },
   { id: "mashup_fixer_express", label: "מאשאפ מזורז (לפי זמינות)", exVat: 2400, category: "pro", context: "לא מובטח - רק אם יש מקום ביומן" },
   { id: "gym_music_set", label: "סט מוזיקה לחדר כושר", exVat: 750, category: "pro", context: "פלייליסט מחובר בקצב לשיעור או אימון" },
   { id: "ambience_space_set", label: "פלייליסט לאווירת חלל", exVat: 850, category: "pro", context: "מוזיקת רקע לפי סוג עסק ושעות פעילות" },
@@ -501,6 +516,37 @@ export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
 /** פלייבק בהקלטת שיר (עובדה שהבעלים אישר, 3.10.2026 סבב שני) */
 export const SONG_PLAYBACK_HELP = "אין לכם פלייבק? נעזור לכם להשיג";
+
+/**
+ * חבילות שהן N יחידות של פריט בודד. המחיר שלהן חייב להיות לפחות
+ * N x מחיר בודד x (1 - MAX_DISCOUNT_RATE). שורה חדשה כאן נבדקת אוטומטית.
+ */
+export const CATALOG_BUNDLES = [
+  { bundleId: "event_attraction_2", singleId: "event_attraction_1", count: 2 },
+  { bundleId: "event_attraction_3", singleId: "event_attraction_1", count: 3 },
+  { bundleId: "event_attraction_4", singleId: "event_attraction_1", count: 4 },
+  { bundleId: "mashup_ready_pack_3", singleId: "mashup_ready_single", count: 3 },
+  { bundleId: "mashup_ready_pack_5", singleId: "mashup_ready_single", count: 5 },
+  { bundleId: "mashup_ready_pack_10", singleId: "mashup_ready_single", count: 10 },
+  { bundleId: "mashup_custom_pack_3", singleId: "mashup_custom_planned", count: 3 },
+  { bundleId: "dj_voice_tag_pack_5", singleId: "dj_voice_tag_single", count: 5 },
+] as const satisfies readonly { bundleId: PriceItemId; singleId: PriceItemId; count: number }[];
+
+export type CatalogBundle = (typeof CATALOG_BUNDLES)[number];
+
+/** שיעור ההנחה של חבילה מול קנייה בנפרד, מהקטלוג */
+export function catalogBundleDiscountRate(bundle: CatalogBundle): number {
+  const separate = getExVat(bundle.singleId) * bundle.count;
+  return (separate - getExVat(bundle.bundleId)) / separate;
+}
+
+/** אחוז הנחת חבילת האטרקציות, לתצוגה ("הנחה 8%"). מעוגל, ולכן לעולם לא מעל התקרה. */
+export function attractionBundleDiscountPercent(): number {
+  const rates = CATALOG_BUNDLES.filter((b) => b.singleId === "event_attraction_1").map(
+    catalogBundleDiscountRate,
+  );
+  return Math.round(Math.max(...rates) * 100);
+}
 
 /** מה כלול ב-2,500 של האולפן הנייד (החלטת הבעלים 3.10.2026, סבב שני) */
 export const MOBILE_STUDIO_ARRIVAL_COPY = "הגעה עם כל הציוד, התאורה והצוות";

@@ -40,7 +40,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import Link from "next/link";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
@@ -814,7 +814,7 @@ export default function EventsBookingWizard({
           <EventsWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו אטרקציות</h2>
           <p className="text-sm text-muted-foreground">
-            2 אטרקציות = הנחה 10% · 3 = 15% · 4 ומעלה = 20% ומתנה · כמות כפולה נספרת כשתי אטרקציות
+            מ-2 אטרקציות: הנחת חבילה של {attractionBundleDiscountPercent()}% · 4 ומעלה: גם מתנה · כמות כפולה נספרת כשתי אטרקציות
           </p>
           <div id="book-events-selection" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {EVENT_BOOKING_ITEMS.map((item) => {
@@ -1025,7 +1025,7 @@ export default function EventsBookingWizard({
                         {qty === "double" ? (
                           <>
                             <span className="font-semibold text-green-700">נספר כשתי אטרקציות</span>
-                            <span className="text-muted-foreground"> (הנחה 10% על הזוג)</span>
+                            <span className="text-muted-foreground"> (הנחת חבילה של {attractionBundleDiscountPercent()}%)</span>
                           </>
                         ) : (
                           <span className="text-muted-foreground">כמות כפולה נספרת כשתי אטרקציות ומזכה בהנחה</span>

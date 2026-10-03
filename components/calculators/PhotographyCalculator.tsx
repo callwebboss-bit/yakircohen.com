@@ -24,7 +24,8 @@ import {
 } from "@/lib/booking-messages";
 import {
   ADDON_SECTION_LABELS,
-  AI_BUNDLE_DISCOUNT,
+  AI_BUNDLE_DISCOUNT_PERCENT,
+  aiBundleDiscountExVat,
   HOURLY_RATE,
   HOUR_PRESETS,
   PHOTOGRAPHY_ADDONS,
@@ -152,6 +153,11 @@ export default function PhotographyCalculator({
 
   const aiCount = selectedAI.size;
   const bundleActive = aiCount >= 2;
+  const aiSelectedSum = [...selectedAI].reduce(
+    (acc, id) => acc + (PHOTOGRAPHY_AI_SERVICES.find((a) => a.id === id)?.price ?? 0),
+    0,
+  );
+  const aiBundleDiscount = bundleActive ? aiBundleDiscountExVat(aiSelectedSum) : 0;
   const activePresetHours = HOUR_PRESETS.find((p) => p.hours === hours)?.hours ?? null;
 
   const total = useMemo(() => {
@@ -164,8 +170,8 @@ export default function PhotographyCalculator({
       (acc, id) => acc + (PHOTOGRAPHY_AI_SERVICES.find((a) => a.id === id)?.price ?? 0),
       0,
     );
-    return base + addonsSum + aiSum - (bundleActive ? AI_BUNDLE_DISCOUNT : 0);
-  }, [hours, selectedAddons, selectedAI, bundleActive]);
+    return base + addonsSum + aiSum - aiBundleDiscount;
+  }, [hours, selectedAddons, selectedAI, aiBundleDiscount]);
 
   const livePriceReport = useMemo(() => {
     if (total <= 0) return null;
@@ -220,7 +226,7 @@ export default function PhotographyCalculator({
       return a ? { label: "AI", value: `${a.label} - ${formatCurrency(a.price)}` } : null;
     }).filter(Boolean) as { label: string; value: string }[],
     ...(bundleActive
-      ? [{ label: "הנחת חבילת AI", value: `-${formatCurrency(AI_BUNDLE_DISCOUNT)}` }]
+      ? [{ label: `הנחת חבילת AI (${AI_BUNDLE_DISCOUNT_PERCENT}%)`, value: `-${formatCurrency(aiBundleDiscount)}` }]
       : []),
   ];
 
@@ -232,7 +238,7 @@ export default function PhotographyCalculator({
       name: sanitizeLeadText(contactForm.name, 60),
       phone: displayPhone,
     }, { bookCategory: "photography", source: "/book#photography" });
-  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, contactForm]);
+  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, contactForm]);
 
   const formValid =
     contactForm.name.trim().length >= 2 && contactForm.phone.trim().length >= 9;
@@ -257,7 +263,7 @@ export default function PhotographyCalculator({
       includeTrustFooter: true,
       ycForm: "photography_calculator",
     });
-  }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
+  }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, total]);
 
   const handleAction = useCallback(
     (intent: "continue_chat" | "start_now") => {
@@ -315,7 +321,7 @@ export default function PhotographyCalculator({
       );
       setFieldErrors(errs ?? {});
     },
-    [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, submitLead, total],
+    [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, submitLead, total],
   );
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
@@ -434,16 +440,16 @@ export default function PhotographyCalculator({
             </span>
           </div>
           <p className="mb-4 text-[0.7rem] text-muted-foreground">
-            הנחה של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ בבחירת שני שירותים ומעלה.
+            הנחה של {AI_BUNDLE_DISCOUNT_PERCENT}% על שירותי ה-AI בבחירת שני שירותים ומעלה.
           </p>
 
           {bundleActive ? (
             <p className="mb-4 rounded-lg border border-amber-300 bg-amber-100/80 px-3 py-2 text-sm font-semibold text-amber-900">
-              הנחת חבילת AI פעילה - חיסכון של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ
+              הנחת חבילת AI פעילה - חיסכון של {formatCurrencyWithVat(aiBundleDiscount)} כולל מע״מ
             </p>
           ) : aiCount === 1 ? (
             <p className="mb-4 rounded-lg border border-border bg-surface px-3 py-2 text-[0.7rem] text-muted-foreground">
-              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ
+              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {AI_BUNDLE_DISCOUNT_PERCENT}% על שירותי ה-AI
             </p>
           ) : null}
 
@@ -562,7 +568,7 @@ export default function PhotographyCalculator({
 
       <CalculatorStickyBar
         total={total}
-        subLabel={bundleActive ? `חיסכון: ${formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ` : undefined}
+        subLabel={bundleActive ? `חיסכון: ${formatCurrencyWithVat(aiBundleDiscount)} כולל מע״מ` : undefined}
         whatsappHref=""
         showCta
         continueDisabled={!formValid}

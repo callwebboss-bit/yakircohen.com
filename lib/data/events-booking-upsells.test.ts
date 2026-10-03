@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 import { EVENT_BOOKING_UPSELLS } from "@/lib/data/events-booking-upsells";
 import { RIGID_ACTIVATION_OPTIONS } from "@/lib/data/events-booking";
 import { bundleSavingWithVat, getBundlePricingTable } from "@/lib/data/attraction-book-pricing";
-import { PRICING_CATALOG, getExVat } from "@/lib/data/pricing-catalog";
+import { MAX_DISCOUNT_RATE, PRICING_CATALOG, getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 
 /* WP4 (OE-03, PI-06, PI-07, PI-08, OE-13, FIT-05) */
@@ -21,6 +21,13 @@ describe("event upsells and savings come from the catalog", () => {
     for (const u of EVENT_BOOKING_UPSELLS) {
       if (u.originalPrice == null) continue;
       assert.ok(catalogValues.has(u.originalPrice), `${u.id}: ${u.originalPrice}`);
+    }
+  });
+
+  it("no reference price shows more than 8% off (owner decision 3.10.2026, second round)", () => {
+    for (const u of EVENT_BOOKING_UPSELLS) {
+      if (u.originalPrice == null) continue;
+      assert.ok((u.originalPrice - u.price) / u.originalPrice <= MAX_DISCOUNT_RATE + 1e-9, u.id);
     }
   });
 

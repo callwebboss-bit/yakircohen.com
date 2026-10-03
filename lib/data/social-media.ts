@@ -144,10 +144,11 @@ export const ONE_OFF_SERVICES: readonly OneOffService[] = [
 ] as const;
 
 export const GEO_PROMO = {
-  discountPercent: 10,
+  /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. היה 10% */
+  discountPercent: 8,
   cities: ["מודיעין", "כפר סבא", "אילת"] as const,
   validUntilIso: "2026-07-01",
-  headline: "10% הנחה לעסקים במודיעין, כפר סבא ואילת",
+  headline: "8% הנחה לעסקים במודיעין, כפר סבא ואילת",
   subline: "בתוקף עד סוף חודש יוני 2026",
   storageKey: "social_media_promo_dismissed",
   utmCampaign: "social_media_promo_june",

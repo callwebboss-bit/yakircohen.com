@@ -7,6 +7,7 @@ import SmartFormClient from "@/components/booking/smart-form/SmartFormClient";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
+import { MAX_DISCOUNT_PERCENT } from "@/lib/data/pricing-catalog";
 import { useBookFlow } from "@/hooks/useBookFlow";
 import {
   DjEventsCalculatorLazy,
@@ -372,7 +373,8 @@ export default function BookPageSections({
         <div className="mx-auto flex max-w-[72rem] min-w-0 flex-wrap items-center justify-between gap-2 sm:px-6 lg:px-8">
           <p className="min-w-0 flex-1 text-sm font-medium leading-relaxed text-brand-red-text break-words">
             <span aria-hidden="true">🎖 </span>
-            מבצע לחיילים ולחיילות - 10% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
+            {/* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. היה 10% */}
+            מבצע לחיילים ולחיילות - {MAX_DISCOUNT_PERCENT}% הנחה על כל שירותי האולפן, הפודקאסט ואטרקציות לאירועים
           </p>
           <a
             href={buildWhatsAppHref({

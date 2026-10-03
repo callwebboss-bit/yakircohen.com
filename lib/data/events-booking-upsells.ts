@@ -23,9 +23,10 @@ export const EVENT_CONTEXTUAL_UPSELLS: readonly BookingUpsellItem[] = [
     whatYouGet: "2 תותחים יורים בו-זמנית - אפקט כפול ומרהיב",
     description: "כל הפעלה: גשם קונפטי מכיווני הרחבה משני צדדים בו-זמנית",
     /* עלות שולית של אטרקציה שנייה בסולם: event_attraction_2 פחות
-       event_attraction_1, ומחיר הייחוס הוא אטרקציה בודדת. שניהם מהקטלוג. */
+       event_attraction_1. בלי מחיר ייחוס: 1,695 מחוק מול המחיר השולי הוא
+       16% על השורה, בזמן שהנחת החבילה היא 8% על שתי האטרקציות (החלטת
+       הבעלים 3.10.2026, סבב שני). */
     price: getExVat("event_attraction_2") - getExVat("event_attraction_1"),
-    originalPrice: getExVat("event_attraction_1"),
     badge: "מחיר זוג",
     triggerAttractionIds: ["event_confetti"],
     isActivationUpgrade: false,
