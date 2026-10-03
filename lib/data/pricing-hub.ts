@@ -76,7 +76,7 @@ export const PRICING_HUB_SUPER_CATEGORIES: readonly PricingHubSuperCategory[] = 
   {
     id: "events",
     title: "אירועים והפקות",
-    description: "אטרקציות, מצגות תמונות והפקות לאירוע",
+    description: "DJ, אטרקציות, צילום ומצגות תמונות לאירוע",
     bgClass: "bg-surface",
   },
   {
@@ -100,7 +100,9 @@ const SECTION_SUPER_CATEGORY: Record<string, PricingHubSuperCategoryId> = {
   "reel-factory": "business",
   "audio-branding": "business",
   workshops: "business",
+  dj: "events",
   events: "events",
+  photography: "events",
   slideshows: "events",
   online: "online",
   transcription: "online",
@@ -395,6 +397,46 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("event_attraction_4", {
         label: "4+ אטרקציות + מתנה",
         note: "מצגת תמונות חינם",
+      }),
+    ],
+  },
+  /* שלב 4 WP13 (PI-14, FIT-02, OE-04, PJ-07): DJ, פסטיבל וצילום לא הופיעו
+     במחירון בכלל, ו"מחירון" בעמודים שלהם הוביל לכאן. השורות מהקטלוג. */
+  {
+    id: "dj",
+    title: "DJ לאירועים",
+    description: "תקליטן מהצוות, יקיר אישית וחבילת פסטיבל",
+    href: "/events/dj-events",
+    bookHref: "/book#dj",
+    rows: [
+      hubRow("dj_premium", {
+        label: "תקליטן מהצוות",
+        note: "4 שעות, עד 300 מוזמנים",
+        displayOrder: 10,
+      }),
+      hubRow("dj_yakir_personal", {
+        label: "יקיר כהן אישית על הקונסולה",
+        note: "5 שעות",
+        displayOrder: 20,
+      }),
+      hubRow("festival_all_in", {
+        label: "חבילת פסטיבל, הכל כלול",
+        href: "/events/wedding-attractions-packages",
+        displayOrder: 30,
+      }),
+    ],
+  },
+  {
+    id: "photography",
+    title: "צילום אירועים",
+    description: "צילום לפי שעה או אירוע מלא",
+    href: "/photography/events",
+    bookHref: "/book#photography",
+    rows: [
+      hubRow("event_photo_hourly", { label: "צילום אירוע לפי שעה", note: "כולל עריכה ומסירה דיגיטלית" }),
+      hubRow("full_event_photo_8h", {
+        label: "צילום אירוע מלא, 8 שעות",
+        href: "/photography/wedding",
       }),
     ],
   },
