@@ -1443,6 +1443,27 @@
       "why": "1,694 -> 1,617: אותן המלצות בקרוסלה.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "title",
+      "why": "\"299 ₪ מבצע\" הפך ל-\"353 ₪ כולל מע״מ\": הרינגטון הוא קריינות לכל דבר במחיר 299 + מע״מ, בלי מבצע, ולצרכן מוצג מחיר כולל מע״מ (החלטות 3.10 סבב רביעי, ו-2.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "description",
+      "why": "אותו שינוי בתיאור: \"299 ₪ מבצע\" הפך ל-\"353 ₪ כולל מע״מ\" (החלטות 3.10 סבב רביעי).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "outline",
+      "why": "הכותרות שהכילו \"₪299\" ו\"מבצע\" הוחלפו בכותרות עם המחיר כולל מע״מ ובלי המילה מבצע: \"מה מקבלים ב-353 ₪ כולל מע״מ?\", \"הזמנת רינגטון, 353 ₪ כולל מע״מ\", \"מחיר ברור\" (החלטות 3.10 סבב רביעי).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
     }
   ]
 }
