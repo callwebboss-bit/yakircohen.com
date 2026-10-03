@@ -65,6 +65,15 @@ const EXPLAINED = [
   { value: 990, file: "lib/seo/hub-pages.ts", match: "שיעור פרטי 990", catalogId: "academy_private_hour" },
   { value: 990, file: "app/business/audiobooks/page.tsx", match: "לפרק דוגמה", catalogId: "audiobook_sample" },
   { value: 990, file: "public/llms.txt", match: "פרק דוגמה 990", catalogId: "audiobook_sample" },
+  /* 5,000 פרש עם mobile_studio (האולפן הנייד אוחד ל-2,500, החלטת הבעלים
+     3.10.2026 סבב שני), אבל הוא עדיין המחיר של תקליטן מהצוות ושל שיר לחברה. */
+  { value: 5000, file: "public/llms.txt", match: "תקליטן מהצוות", catalogId: "dj_premium" },
+  { value: 5000, file: "public/llms.txt", match: "שירים לחברות", catalogId: "corp_song_toast" },
+  { value: 5000, file: "lib/data/business-hub-page.ts", match: "החל מ-5,000", catalogId: "corp_song_toast" },
+  { value: 5000, file: "lib/data/social-media.ts", match: "5,000 ₪", why: "חבילת סושיאל, מחירון ניהול הסושיאל הנפרד" },
+  { value: 5000, file: "lib/data/lead-flow/discovery-questions.ts", match: "5,000 ₪", why: "טווח תקציב בשאלון, לא מחיר" },
+  { value: 5000, file: "lib/data/blog.ts", match: "₪1,500-₪5,000+", why: "טווח עלות פרק בהשוואת שוק" },
+  { value: 5000, file: "lib/data/blog.ts", match: "טיפול אקוסטי בסיסי לחדר", why: "טווח שוק לטיפול אקוסטי" },
 ];
 
 /* סכום עם פסיק אלפים, או סכום תלת-ספרתי שלם (לא זנב של 1500), ליד ₪ או ש״ח */

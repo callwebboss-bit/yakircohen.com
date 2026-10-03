@@ -175,7 +175,8 @@ export const SERVICES: Record<string, Service> = {
   sound_rental: {
     name: "השכרת ציוד הגברה",
     category: "events",
-    price: EVENT_ATTRACTION_FROM_NIS,
+    /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). היה מחיר אטרקציה */
+    price: getExVat("event_sound_rental"),
     icon: "🔊",
     desc: "מערכת הגברה מקצועית לאירוע",
     upsells: [],

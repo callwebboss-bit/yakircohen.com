@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 123,
-  "contentHash": "9e5284967c6a3933",
+  "contentHash": "edd11ac2f8dca869",
   "items": [
     {
       "id": "studio_half_hour",
@@ -210,12 +210,12 @@
     },
     {
       "id": "mobile_podcast_at_home",
-      "label": "פודקאסט בבית / אולפן נייד",
+      "label": "אולפן נייד, הגעה אליכם",
       "category": "podcast",
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": true,
-      "context": "הגעה לבית או למשרד, הקלטה ועריכה"
+      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע"
     },
     {
       "id": "podcast_editing_hour",
@@ -547,16 +547,6 @@
       "suitedFor": "חתונות VIP, אירועי חברה"
     },
     {
-      "id": "mobile_studio",
-      "label": "אולפן הקלטות נייד",
-      "category": "events",
-      "exVat": 5000,
-      "inclVat": 5900,
-      "priceFrom": false,
-      "context": "הקמת מיקרופונים ועמדת עריכה בשטח",
-      "suitedFor": "אירועים, כנסים, בתי ספר"
-    },
-    {
       "id": "festival_all_in",
       "label": "חבילת פסטיבל הכל כלול",
       "category": "events",
@@ -682,6 +672,16 @@
       "inclVat": 6400,
       "priceFrom": true,
       "context": "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית"
+    },
+    {
+      "id": "event_sound_rental",
+      "label": "השכרת הגברה לאירוע",
+      "category": "events",
+      "exVat": 2500,
+      "inclVat": 2950,
+      "priceFrom": false,
+      "context": "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק. עד 250 אורחים",
+      "suitedFor": "אירוע עד 250 אורחים"
     },
     {
       "id": "singer_amp_basic",

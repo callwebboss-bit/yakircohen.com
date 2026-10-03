@@ -37,7 +37,7 @@ export default function SeoPortfolioGalleryJsonLd() {
     {
       name: SEO_PORTFOLIO_SERVICE_LABELS["mobile-studio"],
       url: `${SITE_URL}/studio/mobile-studio`,
-      catalogId: "mobile_studio" as const,
+      catalogId: "mobile_podcast_at_home" as const,
     },
   ];
 

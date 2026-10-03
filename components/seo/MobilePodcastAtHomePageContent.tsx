@@ -28,7 +28,7 @@ import {
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, MOBILE_STUDIO_ARRIVAL_COPY } from "@/lib/data/pricing-catalog";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 
 const MOBILE_PODCAST_TITLE = "פודקאסט נייד עד הבית";
@@ -125,7 +125,7 @@ export default function MobilePodcastAtHomePageContent() {
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li className="flex gap-2">
               <span className="text-brand-red" aria-hidden>•</span>
-              <span>המחיר הבסיסי מכסה הקלטה ניידת באזור המרכז.</span>
+              <span>המחיר הבסיסי באזור המרכז: {MOBILE_STUDIO_ARRIVAL_COPY}.</span>
             </li>
             <li className="flex gap-2">
               <span className="text-brand-red" aria-hidden>•</span>

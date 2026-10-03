@@ -27,7 +27,11 @@ import {
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import {
+  getExVat,
+  MOBILE_STUDIO_ARRIVAL_COPY,
+  mobileStudioEventExVat,
+} from "@/lib/data/pricing-catalog";
 import { getStudioService } from "@/lib/data/services";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -119,6 +123,11 @@ export default function MobileStudioPageContent() {
           </h2>
           <p className="mt-3 text-base font-semibold text-foreground">
             בסיס: {formatPrice(MOBILE_STUDIO_BASE_EX_VAT).inline}
+          </p>
+          <p className="mt-1 text-sm text-foreground/85">
+            {MOBILE_STUDIO_ARRIVAL_COPY}. באירוע: צילום פודקאסט{" "}
+            {formatPrice(mobileStudioEventExVat("video")).inline}, הקלטת אודיו{" "}
+            {formatPrice(mobileStudioEventExVat("audio")).inline}, כולל ההגעה.
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {PRICING_FRAMING_LINE}

@@ -45,7 +45,7 @@ const geoLines = (Object.keys(MOBILE_GEO_FEES) as Array<keyof typeof MOBILE_GEO_
 
 /**
  * אקורדיון מחיר סטודיו/פודקאסט - עוגנים מאושרים בלבד.
- * לא כולל mobile_studio=5000 (אירועים) ולא חבילות אירוע.
+ * לא כולל חבילות אירוע. האולפן הנייד הוא פריט אחד (mobile_podcast_at_home).
  */
 export const STUDIO_PRICING_ACCORDION_PANELS: readonly StudioPricingAccordionPanel[] = [
   {

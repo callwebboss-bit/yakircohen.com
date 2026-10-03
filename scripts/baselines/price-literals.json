@@ -238,13 +238,6 @@
     "example": "{`נצור איתך קשר בהקדם כדי לאשר את המועד ולשלוח פרטי תשלום לשיעור הניסיון ב-500 ש\"ח.`}"
   },
   {
-    "file": "components/marketing/EventsBookingWizard.tsx",
-    "kind": "const",
-    "value": 1750,
-    "count": 1,
-    "example": "const SOUND_RENTAL_PRICE = 1750;"
-  },
-  {
     "file": "components/pricing/PricingFaqSection.tsx",
     "kind": "prose",
     "value": 950,

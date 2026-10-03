@@ -398,6 +398,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         label: "4+ אטרקציות + מתנה",
         note: "מצגת תמונות חינם",
       }),
+      hubRow("event_sound_rental", {
+        label: "השכרת הגברה לאירוע",
+        note: "2 רמקולי RCF וסאב, עד 250 אורחים",
+        href: "/events/equipment",
+      }),
     ],
   },
   /* שלב 4 WP13 (PI-14, FIT-02, OE-04, PJ-07): DJ, פסטיבל וצילום לא הופיעו

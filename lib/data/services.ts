@@ -1704,8 +1704,13 @@ export const EVENTS_SERVICES = {
     ],
     pricing: [
       {
+        /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). היה "הצעה
+           בוואטסאפ" בעמוד, 1,750 באשף ו"מ-1,695" בכפתור (OE-20). */
         name: "חבילת הגברה מלאה",
-        price: "הצעה בוואטסאפ",
+        price: formatNis(getExVat("event_sound_rental")),
+        priceExVat: getExVat("event_sound_rental"),
+        catalogId: "event_sound_rental",
+        scope: getScopeById("event_sound_rental"),
         priceNote: "עד 10 שעות - עד 250 אורחים",
         description: "RCF + הקמה ופירוק + כיוונון בשטח.",
       },

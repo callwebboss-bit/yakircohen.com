@@ -36,7 +36,7 @@ export const LEAD_FLOW_UPSELLS: readonly LeadFlowUpsell[] = [
   {
     id: "mobile-studio",
     label: "אולפן נייד",
-    catalogId: "mobile_studio",
+    catalogId: "mobile_podcast_at_home",
     hideFor: ["mobile-studio"],
   },
   {

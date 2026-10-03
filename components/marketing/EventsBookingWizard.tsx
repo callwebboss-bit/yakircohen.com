@@ -297,7 +297,9 @@ export default function EventsBookingWizard({
   }, [step]);
 
   const SOUND_RENTAL_ID: EventBookingItemId = "sound_rental";
-  const SOUND_RENTAL_PRICE = 1750;
+  /* החלטת הבעלים 3.10.2026 (סבב שני): event_sound_rental, 2,500 לפני מע״מ.
+     עד אז 1,750 כתוב כאן, בלי מזהה קטלוג. */
+  const SOUND_RENTAL_PRICE = getExVat("event_sound_rental");
 
   /** הגברה היא line item נפרד - לא נכנסת לחישוב הבאנדל */
   const attractionIds = useMemo(

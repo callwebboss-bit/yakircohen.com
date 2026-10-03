@@ -64,6 +64,7 @@ export const MOBILE_STUDIO_WHATS_INCLUDED: readonly string[] = [
   "מיקרופון איכותי",
   "פנלים אקוסטיים ומסכי בידוד למיקרופון (Shields)",
   "אוזניות",
+  "תאורה",
   "ציוד נלווה",
   "איש מקצוע שמלווה אתכם לאורך כל הדרך",
 ] as const;

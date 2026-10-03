@@ -8,7 +8,7 @@ import {
   DJ_TEAM_NOTE,
   getDjCalculatorCatalogIds,
 } from "@/lib/data/dj-events-calculator";
-import { getExVat, getPriceById } from "@/lib/data/pricing-catalog";
+import { getExVat, getPriceById, mobileStudioEventExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { BOOK_AUDIENCE_ROUTES } from "@/lib/data/book-audience-routes";
 import { HOME_QUICK_PATHS } from "@/lib/data/home-quick-paths";
@@ -21,7 +21,9 @@ describe("DJ calculator is bound to the catalog", () => {
       assert.ok(getPriceById(id), id);
     }
     for (const o of [DJ_CALC_FESTIVAL, ...DJ_CALC_DJ_OPTIONS, ...DJ_CALC_ADDONS]) {
-      assert.equal(o.priceExVat, getExVat(o.catalogId), o.id);
+      const extras = ("extraCatalogIds" in o ? o.extraCatalogIds : []) ?? [];
+      const expected = getExVat(o.catalogId) + extras.reduce((sum, id) => sum + getExVat(id), 0);
+      assert.equal(o.priceExVat, expected, o.id);
     }
   });
 
@@ -30,6 +32,16 @@ describe("DJ calculator is bound to the catalog", () => {
     assert.equal(yakir?.priceExVat, getExVat("dj_yakir_personal"));
     assert.equal(yakir?.priceExVat, 9800);
     assert.equal(withVat(yakir!.priceExVat), 11564);
+  });
+
+  it("mobile studio at an event = podcast filming or audio recording + the 2,500 arrival", () => {
+    const video = DJ_CALC_ADDONS.find((o) => o.id === "studio_mobile_video");
+    const audio = DJ_CALC_ADDONS.find((o) => o.id === "studio_mobile_audio");
+    assert.equal(getExVat("mobile_podcast_at_home"), 2500);
+    assert.equal(video?.priceExVat, getExVat("podcast_video") + 2500);
+    assert.equal(audio?.priceExVat, getExVat("podcast_audio") + 2500);
+    assert.equal(video?.priceExVat, mobileStudioEventExVat("video"));
+    assert.equal(audio?.priceExVat, mobileStudioEventExVat("audio"));
   });
 
   it("no 'special price' claim and the star moment stays hidden until priced", () => {

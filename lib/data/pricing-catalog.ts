@@ -241,12 +241,18 @@ export const PRICING_CATALOG = [
     suitedFor: "מותגים שרוצים נוכחות רשתות חברתיות",
   },
   { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" },
+  /* החלטת הבעלים 3.10.2026 (סבב שני): אולפן נייד הוא פריט אחד. 2,500 לפני
+     מע״מ = הגעה עם כל הציוד, התאורה והצוות. mobile_studio (5,000) נמחק.
+     באירוע: צילום פודקאסט מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו,
+     ועל זה ההגעה. ראו MOBILE_STUDIO_EVENT_SERVICES. המזהה נשאר כדי לא לשבור
+     קישורי ?catalog= קיימים. */
   {
     id: "mobile_podcast_at_home",
-    label: "פודקאסט בבית / אולפן נייד",
+    label: "אולפן נייד, הגעה אליכם",
     exVat: 2500,
     category: "podcast",
-    context: "הגעה לבית או למשרד, הקלטה ועריכה",
+    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע",
+    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות" },
     priceFrom: true,
   },
   { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
@@ -354,14 +360,6 @@ export const PRICING_CATALOG = [
     suitedFor: "חתונות VIP, אירועי חברה",
   },
   {
-    id: "mobile_studio",
-    label: "אולפן הקלטות נייד",
-    exVat: 5000,
-    category: "events",
-    context: "הקמת מיקרופונים ועמדת עריכה בשטח",
-    suitedFor: "אירועים, כנסים, בתי ספר",
-  },
-  {
     id: "festival_all_in",
     label: "חבילת פסטיבל הכל כלול",
     exVat: 15000,
@@ -386,6 +384,17 @@ export const PRICING_CATALOG = [
   { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4322, category: "events", context: "הנחה 15%, 5,100 ₪ כולל מע״מ" },
   { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 5424, category: "events", priceFrom: true, context: "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית" },
   // ─── הגברה לזמרים ───
+  /* החלטת הבעלים 3.10.2026 (סבב שני): השכרת הגברה לאירוע 2,500 לפני מע״מ.
+     עד אז 1,750 כתוב באשף האירועים, בלי מזהה. */
+  {
+    id: "event_sound_rental",
+    label: "השכרת הגברה לאירוע",
+    exVat: 2500,
+    category: "events",
+    context: "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק. עד 250 אורחים",
+    scope: { includes: "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק" },
+    suitedFor: "אירוע עד 250 אורחים",
+  },
   { id: "singer_amp_basic", label: "הגברת זמר, בסיס מקצועי", exVat: 2800, category: "events", context: "2 מיקרופונים, זוג RCF, סאב 15, מיקסר, טכנאי", suitedFor: "סולו או דואט, עד 150 אורחים" },
   { id: "singer_amp_premium", label: "הגברת זמר, פרימיום", exVat: 5800, category: "events", context: "מערכת מורחבת עם מוניטורים ותאורה" },
   { id: "singer_amp_vip", label: "הגברת זמר, VIP", exVat: 7800, category: "events", context: "מערכת מלאה לאירוע גדול" },
@@ -483,6 +492,31 @@ export const PRICING_CATALOG = [
 ] as const satisfies readonly PriceItem[];
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
+
+/** מה כלול ב-2,500 של האולפן הנייד (החלטת הבעלים 3.10.2026, סבב שני) */
+export const MOBILE_STUDIO_ARRIVAL_COPY = "הגעה עם כל הציוד, התאורה והצוות";
+
+/**
+ * אולפן נייד באירוע (החלטת הבעלים 3.10.2026, סבב שני): צילום פודקאסט
+ * מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו, ועל כל אחד מהם
+ * ההגעה (mobile_podcast_at_home). המחשבון ותוספות האירוע קוראים מכאן.
+ */
+export const MOBILE_STUDIO_EVENT_SERVICES = {
+  arrivalId: "mobile_podcast_at_home",
+  videoId: "podcast_video",
+  audioId: "podcast_audio",
+} as const satisfies {
+  arrivalId: PriceItemId;
+  videoId: PriceItemId;
+  audioId: PriceItemId;
+};
+
+/** אולפן נייד באירוע, לפני מע״מ: השירות עצמו ועליו ההגעה */
+export function mobileStudioEventExVat(kind: "video" | "audio"): number {
+  const serviceId =
+    kind === "video" ? MOBILE_STUDIO_EVENT_SERVICES.videoId : MOBILE_STUDIO_EVENT_SERVICES.audioId;
+  return getExVat(serviceId) + getExVat(MOBILE_STUDIO_EVENT_SERVICES.arrivalId);
+}
 
 /**
  * משתתפים בהקלטת שיר (החלטת הבעלים 3.10.2026): זמר אחד כלול בבסיס, הזמר
@@ -711,6 +745,7 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["ימי צילום נוספים", "ניהול חודשי שוטף", "מסירה מזורזת אם לא נרכשה"],
   },
   mobile_podcast_at_home: {
+    included: [MOBILE_STUDIO_ARRIVAL_COPY],
     excluded: ["תוספת אזור/נסיעה", "וידאו אם לא נרכש", "שעות חריגות או פודקאסט רב-משתתפים מורחב"],
     scopeNote: "מחיר התחלה. המחיר הסופי תלוי במרחק, בהיקף ההקמה ובפורמט.",
     pricingMode: "from",
@@ -764,6 +799,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   noise_removal_segment: {
     included: ["ניקוי רעשי רקע לקטע עד 5 דקות"],
     excluded: ["הקלטה חדשה באולפן", "מיקס ומאסטר מלאים", "קליפ וידאו"],
+  },
+  event_sound_rental: {
+    included: ["2 רמקולי RCF וסאב", "הובלה, הקמה, כיוונון ופירוק", "עד 250 אורחים"],
+    excluded: ["טכנאי לכל האירוע אם לא סוכם", "תאורה", "DJ"],
   },
   dry_hire_day: {
     excluded: ["הובלה", "טכנאי", "ביטוח או הפקדה", "ציוד נוסף מעבר לפריט שנבחר"],

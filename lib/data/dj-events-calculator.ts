@@ -9,9 +9,13 @@
  * (5,000 ו-8,000) לא קיים בקטלוג בכלל, ולכן הוא מוסתר עד שהבעלים יתמחר אותו.
  * npm test סורק רק lib/, ולכן הנתונים כאן ולא בקומפוננטה.
  */
-import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
-
-import { DJ_TEAM_NOTE } from "@/lib/data/pricing-catalog";
+import {
+  DJ_TEAM_NOTE,
+  getExVat,
+  MOBILE_STUDIO_ARRIVAL_COPY,
+  MOBILE_STUDIO_EVENT_SERVICES,
+  type PriceItemId,
+} from "@/lib/data/pricing-catalog";
 
 export { DJ_TEAM_NOTE };
 
@@ -23,12 +27,15 @@ export type DjCalcOption = {
   badge: string | null;
   features?: readonly string[];
   icon?: string;
+  /** פריטי קטלוג שמתווספים למחיר (אולפן נייד באירוע: ההגעה) */
+  extraCatalogIds?: readonly PriceItemId[];
 };
 
 export type DjCalcPricedOption = DjCalcOption & { priceExVat: number };
 
 function priced<T extends DjCalcOption>(option: T): T & { priceExVat: number } {
-  return { ...option, priceExVat: getExVat(option.catalogId) };
+  const extras = (option.extraCatalogIds ?? []).reduce((sum, id) => sum + getExVat(id), 0);
+  return { ...option, priceExVat: getExVat(option.catalogId) + extras };
 }
 
 export const DJ_CALC_FESTIVAL = priced({
@@ -70,11 +77,24 @@ export const DJ_CALC_DJ_OPTIONS = [
 ] as const;
 
 export const DJ_CALC_ADDONS = [
+  /* אולפן נייד באירוע (החלטת הבעלים 3.10.2026, סבב שני): צילום פודקאסט
+     במחיר פודקאסט וידאו, הקלטת אודיו במחיר פודקאסט אודיו, ועל כל אחד
+     ההגעה (2,500). עד אז mobile_studio ב-5,000, שנמחק. */
   priced({
-    id: "studio_mobile",
-    catalogId: "mobile_studio",
-    name: "עמדת הקלטה לאורחים באירוע",
-    sub: "אולפן נייד באירוע: מיקרופונים, עריכה וקובץ לכל אורח",
+    id: "studio_mobile_video",
+    catalogId: MOBILE_STUDIO_EVENT_SERVICES.videoId,
+    extraCatalogIds: [MOBILE_STUDIO_EVENT_SERVICES.arrivalId],
+    name: "צילום פודקאסט באירוע",
+    sub: `אולפן נייד: ${MOBILE_STUDIO_ARRIVAL_COPY}. צילום במחיר פודקאסט וידאו, ועליו ההגעה`,
+    badge: null,
+    icon: "🎥",
+  } as const),
+  priced({
+    id: "studio_mobile_audio",
+    catalogId: MOBILE_STUDIO_EVENT_SERVICES.audioId,
+    extraCatalogIds: [MOBILE_STUDIO_EVENT_SERVICES.arrivalId],
+    name: "הקלטת אודיו באירוע",
+    sub: `אולפן נייד: ${MOBILE_STUDIO_ARRIVAL_COPY}. הקלטה במחיר פודקאסט אודיו, ועליה ההגעה`,
     badge: null,
     icon: "🎤",
   } as const),
@@ -149,7 +169,10 @@ export function getDjCalculatorCatalogIds(): PriceItemId[] {
   return [
     DJ_CALC_FESTIVAL.catalogId,
     ...DJ_CALC_DJ_OPTIONS.map((o) => o.catalogId),
-    ...DJ_CALC_ADDONS.map((o) => o.catalogId),
+    ...DJ_CALC_ADDONS.flatMap((o) => [
+      o.catalogId,
+      ...(("extraCatalogIds" in o ? o.extraCatalogIds : undefined) ?? []),
+    ]),
     DJ_CALC_ATTRACTION_ID,
   ];
 }

@@ -93,13 +93,15 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     adapted: {
       id: "adapted",
       title: "חבילה מותאמת",
-      summary: "אולפן הקלטות נייד לפי היקף האירוע.",
-      catalogId: "mobile_studio",
+      /* באירוע: ההגעה ועליה צילום פודקאסט או הקלטת אודיו (החלטת הבעלים
+         3.10.2026, סבב שני). שני פריטים, ולכן המחיר נסגר בשיחה. */
+      summary: "אולפן נייד באירוע: ההגעה, ועליה צילום פודקאסט או הקלטת אודיו לפי הבחירה.",
+      catalogId: null,
     },
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "פודקאסט נייד בבית / משרד - מחיר התחלה.",
+      summary: "אולפן נייד בבית או במשרד: הגעה עם כל הציוד, התאורה והצוות.",
       catalogId: "mobile_podcast_at_home",
     },
   },

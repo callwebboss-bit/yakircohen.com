@@ -10,6 +10,7 @@ import {
   getAddonsForBaseId,
   getExVat,
   getPriceById,
+  mobileStudioEventExVat,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import {
@@ -2904,11 +2905,12 @@ ${songAddonRows()}
 <p>גם חדר שיש בו קשיים אקוסטיים קשים, כמו הד חזק או תנועה בכביש ליד, עלול להגביל את מה שניתן לעשות עם הציוד הנייד.</p>
 <h2>מחירון אולפן נייד ואירועים, 2026 (לפני מע"מ)</h2>
 <table>
-<tr><td>אולפן נייד להקלטה אישית בבית (ברכה, פודקאסט, ראיון)</td><td>החל מ-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪</td></tr>
-<tr><td>הקמת אולפן הקלטות נייד לאירוע, כולל טכנאי</td><td>החל מ-${getExVat("mobile_studio").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>אולפן נייד: הגעה עם כל הציוד, התאורה והצוות (בית, משרד או אירוע)</td><td>החל מ-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>צילום פודקאסט באירוע, כולל ההגעה</td><td>החל מ-${mobileStudioEventExVat("video").toLocaleString("he-IL")} ₪</td></tr>
+<tr><td>הקלטת אודיו באירוע, כולל ההגעה</td><td>החל מ-${mobileStudioEventExVat("audio").toLocaleString("he-IL")} ₪</td></tr>
 <tr><td>חבילת פסטיבל הכל כלול עם DJ ואולפן נייד</td><td>החל מ-${getExVat("festival_all_in").toLocaleString("he-IL")} ₪</td></tr>
 </table>
-<p>המחיר הבסיסי מתחיל ב-${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪ להקלטה אישית באזור המרכז. תוספת נסיעה לצפון או דרום, תאורה מקצועית וצילום וידאו מתומחרים בנפרד לפי הצורך.</p>
+<p>ההגעה עולה ${getExVat("mobile_podcast_at_home").toLocaleString("he-IL")} ₪ באזור המרכז, עם כל הציוד, התאורה והצוות. באירוע, צילום פודקאסט מתומחר כמו פודקאסט וידאו והקלטת אודיו כמו פודקאסט אודיו, ועל זה ההגעה. תוספת נסיעה לצפון או לדרום לפי המרחק.</p>
 <h2>איך זה עובד בפועל</h2>
 <p>מגיעים עם מיקרופון, ממשק, מחשב נייד ופופ-פילטר. עורכים סקר מהיר של החלל לפני ההגדרה. מוצאים את הפינה הכי שקטה עם האקוסטיקה הכי טובה, ומתחילים.</p>
 <p>לאירועים גדולים יותר - אפשר לשלב עם ציוד הגברה, תאורה ואטרקציות. פרטים על האולפן הנייד ועל השירותים המשלימים - <a href="/studio/mobile-studio">דף האולפן הנייד</a>. לאלה שרוצים לשמוע מה עוד ניתן לצרף לאותו אירוע - <a href="/events/dj-events">שירות ה-DJ לאירועים</a> עובד בשיתוף מלא עם הצוות הנייד.</p>

@@ -118,7 +118,9 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   /* חבילות החתונה נמכרות כחבילה בהצעה, לא כאטרקציה בודדת */
   "events/wedding-attractions-packages": { bookCategory: "events" },
   /* ציוד והנחיה: אין להם מחיר פתיחה בקטלוג (שאלת בעלים: מנחה, עמדת LED) */
-  "events/equipment": { bookCategory: "singer" },
+  /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). אשף האירועים הוא
+     שמוכר את השכרת ההגברה במחיר הזה, ולכן הכפתור מוביל אליו. */
+  "events/equipment": { bookCategory: "events", priceCatalogId: "event_sound_rental" },
   "events/equipment/faq": { bookCategory: "singer" },
   "events/host": { bookCategory: "events" },
   "events/host/faq": { bookCategory: "events" },
