@@ -1,0 +1,2473 @@
+[
+  {
+    "file": "app/(services)/academy/hebrew-lessons/page.tsx",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "price: \"500\","
+  },
+  {
+    "file": "app/(services)/academy/hebrew-lessons/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 2,
+    "example": "answer: \"שיעור ניסיון עולה ₪500. מנוי חודשי או שנתי מוזיל את המחיר לשיעור. פרטים מלאים בעמוד ההזמנה.\","
+  },
+  {
+    "file": "app/(services)/academy/hebrew-lessons/page.tsx",
+    "kind": "field",
+    "value": 3200,
+    "count": 1,
+    "example": "price: \"3200\","
+  },
+  {
+    "file": "app/(services)/academy/hebrew-lessons/page.tsx",
+    "kind": "field",
+    "value": 11520,
+    "count": 1,
+    "example": "price: \"11520\","
+  },
+  {
+    "file": "app/(services)/academy/home-studio/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"ייעוץ אקוסטיקה לבניית אולפן הקלטות, אולפן פודקאסט ביתי וחדר משדר. תכנון אקוסטי, הדרכה מעשית וליווי צמוד. זום 60 דק 500 ₪ | ייעוץ מלא עם ביקור 950 ₪. בכל הארץ.\""
+  },
+  {
+    "file": "app/(services)/academy/home-studio/page.tsx",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "\"ייעוץ אקוסטיקה לבניית אולפן הקלטות, אולפן פודקאסט ביתי וחדר משדר. תכנון אקוסטי, הדרכה מעשית וליווי צמוד. זום 60 דק 500 ₪ | ייעוץ מלא עם ביקור 950 ₪. בכל הארץ.\""
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "field",
+    "value": 990,
+    "count": 1,
+    "example": "{ format: \"שיעור מלא\", duration: \"60 דק׳\", includes: \"לימוד נושא + תרגול + סיכום\", price: \"990 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "{ format: \"שיעור מלא\", duration: \"60 דק׳\", includes: \"לימוד נושא + תרגול + סיכום\", price: \"990 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "{ format: \"Pro Session\", duration: \"90 דק׳\", includes: \"צלילה לעומק + ניתוח ביצוע\", price: \"1,280 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 1470,
+    "count": 1,
+    "example": "{ format: \"הכשרה ממוקדת\", duration: \"90 דק׳\", includes: \"DJ / הפקה / קריינות 1:1\", price: \"1,470 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 1500,
+    "count": 1,
+    "example": "{ format: \"מעבדת סאונד\", duration: \"60 דק׳\", includes: \"הורה-ילד, תוצר דיגיטלי\", price: \"1,500 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 2300,
+    "count": 1,
+    "example": "priceNote: \"24 מפגשים, חלוקה גמישה. חיסכון של 2,300 שקלים.\","
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 3920,
+    "count": 1,
+    "example": "{ format: \"Master חודשי\", duration: \"4×60 דק׳\", includes: \"Direct Line + Feedback שבועי\", price: \"3,920 ₪ / חודש\" },"
+  },
+  {
+    "file": "app/(services)/academy/page.tsx",
+    "kind": "prose",
+    "value": 21500,
+    "count": 1,
+    "example": "{ format: \"Pro-Partnership\", duration: \"24 מפגשים / 6 חודשים\", includes: \"ליווי רכש + זהות מוזיקלית\", price: \"21,500 ₪\" },"
+  },
+  {
+    "file": "app/(services)/academy/workshops/page.tsx",
+    "kind": "prose",
+    "value": 2800,
+    "count": 2,
+    "example": "\"סדנה מעשית לצוות: רילז, טיקטוק, דיבור מול מצלמה. באולפן במודיעין או בחברה. החל מ-2,800 ₪.\","
+  },
+  {
+    "file": "app/(services)/podcast/corporate-podcast/page.tsx",
+    "kind": "prose",
+    "value": 4800,
+    "count": 1,
+    "example": "\"הפקת פודקאסט לחברות וארגונים. מיתוג מעסיק, שיווק תוכן, הפצה לספוטיפיי ואפל. ריטיינר חודשי מ-4,800 ₪. חשבונית מס.\","
+  },
+  {
+    "file": "app/(services)/podcast/self-service-studio/page.tsx",
+    "kind": "prose",
+    "value": 650,
+    "count": 1,
+    "example": "description: \"650 ₪ לשעה (לפני מע״מ). מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.\","
+  },
+  {
+    "file": "app/(services)/studio/recording-song-modiin/gifts/funny-ringtone/page.tsx",
+    "kind": "prose",
+    "value": 299,
+    "count": 2,
+    "example": "title: \"רינגטון מצחיק במתנה | 299 ₪ מבצע\","
+  },
+  {
+    "file": "app/business/audio-branding/page.tsx",
+    "kind": "prose",
+    "value": 1500,
+    "count": 1,
+    "example": "\"ג'ינגל, IVR, מוזיקת המתנה ואפקטים. חבילת סאונד למותג. החל מ-1,500 ₪ לפני מע״מ.\","
+  },
+  {
+    "file": "app/business/audiobooks/page.tsx",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "\"הקלטה, עריכה ומאסטרינג לספר קולי. ACX, Spotify, אייקאסט. החל מ-990 ₪ לפרק דוגמה.\","
+  },
+  {
+    "file": "app/business/employer-branding/page.tsx",
+    "kind": "prose",
+    "value": 4500,
+    "count": 1,
+    "example": "\"סרטון ברוכים הבאים, סיור וירטואלי, תוכן לעובדים חדשים. יום צילום או ריטיינר. החל מ-4,500 ₪.\","
+  },
+  {
+    "file": "app/business/on-site-studio/page.tsx",
+    "kind": "prose",
+    "value": 6500,
+    "count": 1,
+    "example": "\"אולפן זמני בחברה - מגיעים לחדר הישיבות. הקמה כשעה וחצי, קבצים בסוף היום. החל מ-6,500 ₪.\","
+  },
+  {
+    "file": "app/online/legacy-digitization/page.tsx",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "\"המרת VHS, MiniDV וקלטות לדיגיטל. שחזור AI לסאונד ותמונה. החל מ-350 ₪.\","
+  },
+  {
+    "file": "app/online/transcription/page.tsx",
+    "kind": "prose",
+    "value": 180,
+    "count": 1,
+    "example": "\"שלחו הקלטה, קבלו טקסט נקי. AI + עריכה אנושית. גם כתוביות SRT. החל מ-180 ₪.\","
+  },
+  {
+    "file": "app/online/vocal-fix/eq-fix/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"הסאונד נשמע עמום, צורמני או \\\"ביתי\\\"? שירות מקצועי לתיקון תדרים ו-EQ לקטעים של עד 5 דקות. שלחו קובץ וקבלו סאונד ברור ומקצועי ב-500 ₪ (לפני מע\\\"מ).\","
+  },
+  {
+    "file": "app/online/vocal-fix/mixing/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"מיקס ומאסטרינג לשיר שהוקלט בבית - 500 ₪, עד 16 ערוצים, 5 דקות. מאושר אישית. MP3+WAV תוך 5-7 ימים. סבב תיקונים כלול.\","
+  },
+  {
+    "file": "app/online/vocal-fix/noise-removal/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"מזגן, רחש, רוח ברקע? שירות מקצועי להסרת רעשי רקע לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו נקי ומוכן לפרסום ב-500 ₪ (לפני מע\\\"מ).\","
+  },
+  {
+    "file": "app/online/vocal-fix/page.tsx",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\","
+  },
+  {
+    "file": "app/online/vocal-fix/pitch-correction/page.tsx",
+    "kind": "prose",
+    "value": 100,
+    "count": 1,
+    "example": "answer: \"תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.\","
+  },
+  {
+    "file": "app/online/vocal-fix/pitch-correction/page.tsx",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "answer: \"תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.\","
+  },
+  {
+    "file": "app/online/vocal-fix/volume-balance/page.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"סובלים מווליום לא אחיד בהקלטה? שירות מקצועי לאיזון עוצמות קול לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו מאוזן ומוכן לפרסום ב-500 ₪ (לפני מע\\\"מ).\","
+  },
+  {
+    "file": "components/booking/BookPageSections.tsx",
+    "kind": "prose",
+    "value": 2200,
+    "count": 1,
+    "example": "<p className=\"mt-2 text-xs font-semibold text-brand-red\">2,200 ₪</p>"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 750,
+    "count": 1,
+    "example": "{ id: \"slideshow\", name: \"מצגת תמונות קולנועית\", sub: \"סיפור ויזואלי מרגש - רץ שקט על המסך כל הערב\", price: 750, icon: \"🖼️\" },"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 980,
+    "count": 1,
+    "example": "{ id: \"entry\", name: \"פסקול כניסה + קריינות דרמטית\", sub: \"כניסה שלא שוכחים - הפקה מראש + תיאום עם ה-DJ\", price: 980, icon: \"🎬\" },"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 1750,
+    "count": 1,
+    "example": "{ id: \"led\", name: \"עמדת LED לאירועים\", sub: \"תאורה דקורטיבית / הקרנת לוגו - שדרוג ויזואלי\", price: 1750, icon: \"💡\" },"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 5000,
+    "count": 3,
+    "example": "price: 5000,"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 8000,
+    "count": 1,
+    "example": "price: 8000,"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 9800,
+    "count": 1,
+    "example": "price: 9800,"
+  },
+  {
+    "file": "components/calculators/DjEventsCalculator.tsx",
+    "kind": "field",
+    "value": 15000,
+    "count": 1,
+    "example": "price: 15000,"
+  },
+  {
+    "file": "components/forms/AcademyTrialForm.tsx",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "priceExVat: 500,"
+  },
+  {
+    "file": "components/forms/AcademyTrialForm.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "{`נצור איתך קשר בהקדם כדי לאשר את המועד ולשלוח פרטי תשלום לשיעור הניסיון ב-500 ש\"ח.`}"
+  },
+  {
+    "file": "components/marketing/EventsBookingWizard.tsx",
+    "kind": "const",
+    "value": 1750,
+    "count": 1,
+    "example": "const SOUND_RENTAL_PRICE = 1750;"
+  },
+  {
+    "file": "components/pricing/PricingFaqSection.tsx",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "פודקאסט אודיו (מ-950 ₪) - פרק בודד עם הקלטה ועריכה. וידאו (מ-1,650 ₪) - אם צריך נוכחות ביוטיוב."
+  },
+  {
+    "file": "components/pricing/PricingFaqSection.tsx",
+    "kind": "prose",
+    "value": 1650,
+    "count": 1,
+    "example": "פודקאסט אודיו (מ-950 ₪) - פרק בודד עם הקלטה ועריכה. וידאו (מ-1,650 ₪) - אם צריך נוכחות ביוטיוב."
+  },
+  {
+    "file": "components/pricing/PricingFaqSection.tsx",
+    "kind": "prose",
+    "value": 2800,
+    "count": 1,
+    "example": "חבילת תוכן (מ-2,800 ₪) - אם רוצים גם רילז מהפרק. לא בטוחים?{\" \"}"
+  },
+  {
+    "file": "components/seo/AcousticConsultingPageContent.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "ייעוץ ראשוני (שיחת זום 60 דק&apos;) - 500 ₪ | ייעוץ מלא כולל ביקור"
+  },
+  {
+    "file": "components/seo/AcousticConsultingPageContent.tsx",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "פיזי ודו&quot;ח - 950 ₪"
+  },
+  {
+    "file": "components/seo/ConfettiCannonPageContent.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "כיסוי מלא או אפקט נקודתי. אפשר גם שטרות כסף, 500 ₪ באוויר לרגע"
+  },
+  {
+    "file": "components/seo/EventsAttractionsSchema.tsx",
+    "kind": "field",
+    "value": 1750,
+    "count": 1,
+    "example": "lowPrice: 1750,"
+  },
+  {
+    "file": "components/seo/EventsAttractionsSchema.tsx",
+    "kind": "field",
+    "value": 5500,
+    "count": 1,
+    "example": "highPrice: 5500,"
+  },
+  {
+    "file": "components/seo/GeoCityDjPageContent.tsx",
+    "kind": "field",
+    "value": 5900,
+    "count": 1,
+    "example": "lowPrice: \"5900\","
+  },
+  {
+    "file": "components/seo/GeoCityDjPageContent.tsx",
+    "kind": "field",
+    "value": 9800,
+    "count": 1,
+    "example": "highPrice: \"9800\","
+  },
+  {
+    "file": "components/seo/OnlineMixingPageContent.tsx",
+    "kind": "prose",
+    "value": 100,
+    "count": 2,
+    "example": "answer: \"עד 16 ערוצים כלולים. מעל 16 - 100 ₪ נוספים.\","
+  },
+  {
+    "file": "components/seo/OnlineMixingPageContent.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 2,
+    "example": "whatsappMessage: \"היי יקיר, מעוניין/ת במיקס ומאסטרינג (500 ₪). אשמח פרטים.\","
+  },
+  {
+    "file": "components/seo/OnlinePageContent.tsx",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "תיקון זיופים, מיקס, פודקאסט ותמונה - הכל מרחוק. מ-250 ₪, עם ליווי"
+  },
+  {
+    "file": "components/seo/OnlinePhotoEnhancePageContent.tsx",
+    "kind": "prose",
+    "value": 100,
+    "count": 1,
+    "example": "\"כן. צביעה (colorization) זה שירות נפרד - 100 ₪ לתמונה.\","
+  },
+  {
+    "file": "components/seo/OnlinePitchCorrectionPageContent.tsx",
+    "kind": "prose",
+    "value": 100,
+    "count": 1,
+    "example": "לשירים ארוכים: מעל 4 דקות - 100 ₪ נוספים"
+  },
+  {
+    "file": "components/seo/OnlineVocalFixPageContent.tsx",
+    "kind": "prose",
+    "value": 250,
+    "count": 2,
+    "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\";"
+  },
+  {
+    "file": "components/seo/PodcastEditingPageContent.tsx",
+    "kind": "prose",
+    "value": 750,
+    "count": 2,
+    "example": "subtitle=\"עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. מ-750 ₪ לשעת חומר לפני מע״מ.\""
+  },
+  {
+    "file": "components/seo/PodcastHubPageContent.tsx",
+    "kind": "prose",
+    "value": 750,
+    "count": 1,
+    "example": "subtitle=\"הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - מ-750 ₪ לפני מע״מ.\""
+  },
+  {
+    "file": "components/seo/PodcastSelfServicePageContent.tsx",
+    "kind": "prose",
+    "value": 650,
+    "count": 2,
+    "example": "text: \"שלום, מעוניין/ת באולפן שירות עצמי (650 ₪/שעה). אשמח לבדוק זמינות.\","
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "prose",
+    "value": 200,
+    "count": 1,
+    "example": "לקטעים ארוכים: כל 5 דקות נוספות - 200 ₪"
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "field",
+    "value": 250,
+    "count": 1,
+    "example": "price: \"250 ₪\","
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "prose",
+    "value": 250,
+    "count": 2,
+    "example": "price: \"250 ₪\","
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "field",
+    "value": 375,
+    "count": 1,
+    "example": "price: \"375 ₪\","
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "prose",
+    "value": 375,
+    "count": 1,
+    "example": "price: \"375 ₪\","
+  },
+  {
+    "file": "components/seo/VocalFixPricingBlock.tsx",
+    "kind": "prose",
+    "value": 500,
+    "count": 4,
+    "example": "איזון ווליומים (500 ₪)"
+  },
+  {
+    "file": "lib/chatbot-data.ts",
+    "kind": "prose",
+    "value": 1500,
+    "count": 1,
+    "example": "text: \"צילום אירוע מתחיל מ-₪1,500 לפי שעה, וחבילת צילום מלאה (עד 8 שעות) מתחילה מ-₪12,000. הפרט החשוב ביותר כרגע הוא בדיקת זמינות הצלמים לתאריך שלכם.\","
+  },
+  {
+    "file": "lib/chatbot-data.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 1,
+    "example": "text: \"שירותי DJ לאירוע מתחילים מ-₪5,000, ודיג'יי אישי של יקיר מ-₪8,305. כיוון שהמחיר וההתאמה תלויים לחלוטין בסוג האירוע והתאריך, השלב הראשון הוא בדיקת יומן.\","
+  },
+  {
+    "file": "lib/chatbot-data.ts",
+    "kind": "prose",
+    "value": 8305,
+    "count": 1,
+    "example": "text: \"שירותי DJ לאירוע מתחילים מ-₪5,000, ודיג'יי אישי של יקיר מ-₪8,305. כיוון שהמחיר וההתאמה תלויים לחלוטין בסוג האירוע והתאריך, השלב הראשון הוא בדיקת יומן.\","
+  },
+  {
+    "file": "lib/chatbot-data.ts",
+    "kind": "prose",
+    "value": 12000,
+    "count": 1,
+    "example": "text: \"צילום אירוע מתחיל מ-₪1,500 לפי שעה, וחבילת צילום מלאה (עד 8 שעות) מתחילה מ-₪12,000. הפרט החשוב ביותר כרגע הוא בדיקת זמינות הצלמים לתאריך שלכם.\","
+  },
+  {
+    "file": "lib/data/academy-ai-music-page.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "priceHint: \"מ־350 ₪\","
+  },
+  {
+    "file": "lib/data/academy-course-fit.ts",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "body: \"שיעור מלא (60 דקות, 990 ₪) או Pro Session (90 דקות, 1,280 ₪) - מחירים לפני מע״מ.\","
+  },
+  {
+    "file": "lib/data/academy-course-fit.ts",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "body: \"שיעור מלא (60 דקות, 990 ₪) או Pro Session (90 דקות, 1,280 ₪) - מחירים לפני מע״מ.\","
+  },
+  {
+    "file": "lib/data/academy-hebrew-lessons-en.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 8,
+    "example": "\"Private Hebrew lessons in Modiin & central Israel - in-person or Zoom. Spoken Hebrew from lesson one, one-on-one with a professional native speaker. Trial less"
+  },
+  {
+    "file": "lib/data/academy-hebrew-lessons-en.ts",
+    "kind": "prose",
+    "value": 3200,
+    "count": 4,
+    "example": "price: \"₪3,200\","
+  },
+  {
+    "file": "lib/data/academy-hebrew-lessons-en.ts",
+    "kind": "prose",
+    "value": 11520,
+    "count": 2,
+    "example": "price: \"₪11,520\","
+  },
+  {
+    "file": "lib/data/academy-home-studio-page.ts",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "price: \"500\","
+  },
+  {
+    "file": "lib/data/academy-home-studio-page.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 2,
+    "example": "'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע\"מ. ייעוץ מלא כולל ביקור פיזי ודו\"ח מפורט - 950 ₪ + מע\"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',"
+  },
+  {
+    "file": "lib/data/academy-home-studio-page.ts",
+    "kind": "field",
+    "value": 950,
+    "count": 1,
+    "example": "price: \"950\","
+  },
+  {
+    "file": "lib/data/academy-home-studio-page.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 2,
+    "example": "'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע\"מ. ייעוץ מלא כולל ביקור פיזי ודו\"ח מפורט - 950 ₪ + מע\"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',"
+  },
+  {
+    "file": "lib/data/academy-hub-courses.tsx",
+    "kind": "prose",
+    "value": 990,
+    "count": 2,
+    "example": "description: \"שעה ב-990 ₪ או Pro Session 90 דק׳ ב-1,280 ₪ - DJ, קול, הפקה ועוד\","
+  },
+  {
+    "file": "lib/data/academy-hub-courses.tsx",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "description: \"שעה ב-990 ₪ או Pro Session 90 דק׳ ב-1,280 ₪ - DJ, קול, הפקה ועוד\","
+  },
+  {
+    "file": "lib/data/academy-private-sessions.ts",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "\"היי יקיר, אני מעוניין/ת בשיעור מלא (60 דקות, 990 ₪). התחום: [הוסיפו]. אשמח לתיאום.\","
+  },
+  {
+    "file": "lib/data/academy-private-sessions.ts",
+    "kind": "field",
+    "value": 1280,
+    "count": 1,
+    "example": "price: 1280,"
+  },
+  {
+    "file": "lib/data/academy-private-sessions.ts",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "\"היי יקיר, אני מעוניין/ת ב-Pro Session (90 דקות, 1,280 ₪). התחום: [הוסיפו]. אשמח לתיאום.\","
+  },
+  {
+    "file": "lib/data/academy-ulpan-page.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 9,
+    "example": "\"שיעורים פרטיים לעברית מדוברת במודיעין והמרכז - פרונטלי או בזום. עברית בעברית, בלי שיטות מיושנות. שיעור ניסיון ב-500 ₪. קריין ומאסטר בעברית.\","
+  },
+  {
+    "file": "lib/data/academy-ulpan-page.ts",
+    "kind": "prose",
+    "value": 3200,
+    "count": 4,
+    "example": "price: `3,200 ש\"ח`,"
+  },
+  {
+    "file": "lib/data/academy-ulpan-page.ts",
+    "kind": "prose",
+    "value": 11520,
+    "count": 2,
+    "example": "price: `11,520 ש\"ח`,"
+  },
+  {
+    "file": "lib/data/attraction-book-pricing.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 1,
+    "example": "saving: \"חיסכון 300 ₪\","
+  },
+  {
+    "file": "lib/data/attraction-book-pricing.ts",
+    "kind": "prose",
+    "value": 800,
+    "count": 1,
+    "example": "saving: \"חיסכון 800 ₪\","
+  },
+  {
+    "file": "lib/data/attractions-calculator.ts",
+    "kind": "prose",
+    "value": 800,
+    "count": 1,
+    "example": "north_south: { label: \"צפון / דרום (+800 ₪)\", fee: 800 },"
+  },
+  {
+    "file": "lib/data/attractions-calculator.ts",
+    "kind": "prose",
+    "value": 1800,
+    "count": 1,
+    "example": "eilat: { label: \"אילת / גולן (+1,800 ₪)\", fee: 1800 },"
+  },
+  {
+    "file": "lib/data/attractions-calculator.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 2,
+    "example": "\"ועוד תאורה מושלמת לאירועים 5000 ש\\\"ח כולל הזזה, רובוטים, וצורות ליצירת מסיבה אמיתית\","
+  },
+  {
+    "file": "lib/data/audience-landings.ts",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "priceHint: \"החל מ-990 ₪\","
+  },
+  {
+    "file": "lib/data/audience-landings.ts",
+    "kind": "prose",
+    "value": 15000,
+    "count": 1,
+    "example": "priceHint: 'חבילת \"פסטיבל\" מ-15,000 ₪',"
+  },
+  {
+    "file": "lib/data/audiobooks-page.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 1,
+    "example": "\"750 ₪ לשעת חומר גולמי, כולל עריכה בסיסית.\","
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 150,
+    "count": 2,
+    "example": "<p>DIY עם Audacity או Descript אפשרי - אבל שעת עריכה של מתחיל שווה לעצמו ₪150-₪250. פרק של שעה יכול \"לאכול\" 4-6 שעות עבודה. כאן עבודה עם <a href=\"/podcast/podca"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 199,
+    "count": 1,
+    "example": "<p>הקובץ הדיגיטלי נשאר הבסיס. המארז הוא תוספת למחיר ההפקה. דיסק און קי + עיצוב: +199 ₪. חבילה מלאה (דיסק און קי + אוזניות + קופסה): +399 ₪. הפירוט המלא ב<a href"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 200,
+    "count": 3,
+    "example": "<td>₪200-₪500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "field",
+    "value": 250,
+    "count": 1,
+    "example": "priceExVat: 250,"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 250,
+    "count": 7,
+    "example": "<p>DIY עם Audacity או Descript אפשרי - אבל שעת עריכה של מתחיל שווה לעצמו ₪150-₪250. פרק של שעה יכול \"לאכול\" 4-6 שעות עבודה. כאן עבודה עם <a href=\"/podcast/podca"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 2,
+    "example": "<td>₪0-₪300 (Canva / AI)</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "<tr><td>קלטת אחת → דיגיטל</td><td>350 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 399,
+    "count": 2,
+    "example": "\"הקלטה באולפן + מסירה דיגיטלית או מארז פיזי. החבילה המלאה מ-+399 ₪ למחיר ההפקה.\","
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 400,
+    "count": 2,
+    "example": "<li><strong>הקלטה ביתית</strong> - מיקרופון USB איכותי (₪400-₪1,200), חדר עם ריפוד בסיסי, ותוכנה חינמית. מתאים לפיילוט ולתוכן מדובר.</li>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 450,
+    "count": 1,
+    "example": "<tr><td>קריינות למרכזייה טלפונית או IVR, עד 3 הודעות קצרות</td><td>450 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 7,
+    "example": "<td>₪200-₪500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 600,
+    "count": 5,
+    "example": "<td>₪0-₪600</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 2,
+    "example": "<tr><td>דיגיטל + שחזור AI</td><td>650 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 700,
+    "count": 2,
+    "example": "<td>₪700-₪2,000</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 4,
+    "example": "<tr><td>עריכת פודקאסט או סרטון קצר בנפרד</td><td>750 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 800,
+    "count": 7,
+    "example": "<td>₪0-₪800 (ציוד קיים / חדר ביתי)</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 900,
+    "count": 2,
+    "example": "<li><strong>הקלטה + עריכה בסיסית</strong> - 600-900 ש\"ח. הנפוץ ביותר לבר מצווה.</li>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "field",
+    "value": 950,
+    "count": 1,
+    "example": "priceExVat: 950,"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 2,
+    "example": "<tr><td>הקלטת פרק בודד עד שעה, כולל טכנאי</td><td>950 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 980,
+    "count": 2,
+    "example": "<tr><td>הפקה מקדימה ותיאום מוזיקלי מלא</td><td>980 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "field",
+    "value": 990,
+    "count": 1,
+    "example": "priceExVat: 990,"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 990,
+    "count": 2,
+    "example": "<tr><td>שיעור פרטי ממוקד באולפן, שעה אקדמית</td><td>990 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1000,
+    "count": 2,
+    "example": "<td>₪600-₪1,000</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1200,
+    "count": 6,
+    "example": "<li><strong>הקלטה ביתית</strong> - מיקרופון USB איכותי (₪400-₪1,200), חדר עם ריפוד בסיסי, ותוכנה חינמית. מתאים לפיילוט ולתוכן מדובר.</li>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1400,
+    "count": 2,
+    "example": "<tr><td>מסירה מהירה של תוצרים תוך 48 שעות</td><td>1,400 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1500,
+    "count": 9,
+    "example": "<td><strong>₪1,500-₪5,000+</strong></td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1650,
+    "count": 3,
+    "example": "<tr><td>הפקת פודקאסט וידאו מרובת מצלמות</td><td>1,650 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1700,
+    "count": 1,
+    "example": "<td><strong>₪0-₪1,700</strong> (+ זמן רב)</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "field",
+    "value": 1750,
+    "count": 1,
+    "example": "priceExVat: 1750,"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 1750,
+    "count": 3,
+    "example": "<tr><td>תאורת LED ועמדת תאורה משלימה להופעה</td><td>1,750 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 2000,
+    "count": 5,
+    "example": "<p>תקליטן במחיר נמוך הוא תקליטן שמפחד מהקהל. תקליטן מנוסה הוא פסיכולוג של המונים. הוא יודע מתי להגביר את הקצב ומתי לתת לאנשים אוויר. את הניסיון הזה אי אפשר לקנו"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 7,
+    "example": "<td>₪800-₪2,500 (אולפן + הנחיה)</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 2590,
+    "count": 2,
+    "example": "<td>₪2,590-₪3,800</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 2800,
+    "count": 2,
+    "example": "<tr><td>הגברה בסיסית להופעה קטנה או אקוסטית, כולל סאונדמן</td><td>החל מ-2,800 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 3000,
+    "count": 1,
+    "example": "<td>₪1,500-₪3,000</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 3500,
+    "count": 1,
+    "example": "<p>בוגרי קורסי DJ (כולל <a href=\"/academy/dj-course\">קורס DJ</a> אצלנו) מחפשים אירועים ראשונים ומציעים מחירים של 2,500-3,500 ₪. הם מגיעים עם ציוד מקצועי ובליווי"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 3800,
+    "count": 1,
+    "example": "<td>₪2,590-₪3,800</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 4000,
+    "count": 2,
+    "example": "<td>₪4,000-₪6,500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 4450,
+    "count": 1,
+    "example": "<tr><td>כרטיסיית 5 שיעורים פרטיים, מחיר לשיעור מופחת</td><td>החל מ-4,450 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 4500,
+    "count": 4,
+    "example": "<td>₪4,500-₪7,500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 7,
+    "example": "<td><strong>₪1,500-₪5,000+</strong></td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 5500,
+    "count": 1,
+    "example": "<p>DJ לבר מצווה בישראל ב-2026 עולה בין 3,500 ל-7,500 ₪. רוב האירועים נסגרים סביב 4,500-5,500 ₪. הפער בין המחירים נובע מכמה גורמים מדידים.</p>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 6000,
+    "count": 1,
+    "example": "<tr><td>ציוד בסיסי (מיקרופון, ממשק, תוכנה)</td><td>3,000 - 6,000 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 6500,
+    "count": 3,
+    "example": "<td>₪4,000-₪6,500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 7500,
+    "count": 5,
+    "example": "<td>₪4,500-₪7,500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 7800,
+    "count": 1,
+    "example": "\"חבילות 2,800-7,800 ₪, צ'ק סאונד והזמנה מקוונת עם בחירת חבילה מראש.\","
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 8000,
+    "count": 1,
+    "example": "<td>₪8,000-₪15,000+</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 8500,
+    "count": 2,
+    "example": "<tr><td>שיר פרישה + קליפ</td><td>8,500 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 8900,
+    "count": 1,
+    "example": "<tr><td>קורס DJ פרטי מלא, 10 מפגשים כולל בניית סט אישי</td><td>החל מ-8,900 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 9500,
+    "count": 1,
+    "example": "<td>₪6,500-₪9,500</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 9600,
+    "count": 1,
+    "example": "<p>נניח: 8 פרקים ב-1,200 ₪ לפרק = 9,600 ₪. כל פרק מייצר: קטע לרילס, פוסט בלינקדאין, ציטוטים לסטוריז, ומאמר בלוג מתומלל. בפועל מקבלים 30-40 יחידות תוכן ב-9,600 ₪"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 9800,
+    "count": 2,
+    "example": "<tr><td>תקליטן יקיר כהן באופן אישי, 5 שעות VIP</td><td>החל מ-9,800 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 10000,
+    "count": 3,
+    "example": "<td>₪10,000-₪18,000+</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 12000,
+    "count": 2,
+    "example": "<tr><td>צילום אירוע מלא 8 שעות</td><td>החל מ-12,000 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 15000,
+    "count": 1,
+    "example": "<td>₪8,000-₪15,000+</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 18000,
+    "count": 1,
+    "example": "<td>₪10,000-₪18,000+</td>"
+  },
+  {
+    "file": "lib/data/blog.ts",
+    "kind": "prose",
+    "value": 28000,
+    "count": 1,
+    "example": "<tr><td>ריטיינר: 2 ימים בחודש</td><td>28,000 ₪</td></tr>"
+  },
+  {
+    "file": "lib/data/book-audience-routes.ts",
+    "kind": "const",
+    "value": 990,
+    "count": 1,
+    "example": "const ACADEMY_FROM = 990;"
+  },
+  {
+    "file": "lib/data/book-audience-routes.ts",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "priceNote: \"שיעור 60 דק׳ - Pro Session 90 דק׳ מ-1,280 ₪\","
+  },
+  {
+    "file": "lib/data/book-audience-routes.ts",
+    "kind": "const",
+    "value": 2800,
+    "count": 1,
+    "example": "const SINGER_FROM = 2800;"
+  },
+  {
+    "file": "lib/data/book-qualification-fields.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 2,
+    "example": "options: [\"עד 300 ₪\", \"300-800 ₪\", \"800+ ₪\", \"לא יודע/ת עדיין\"],"
+  },
+  {
+    "file": "lib/data/book-qualification-fields.ts",
+    "kind": "prose",
+    "value": 400,
+    "count": 2,
+    "example": "options: [\"עד 400 ₪\", \"400-1,000 ₪\", \"1,000+ ₪\", \"לא יודע/ת עדיין\"],"
+  },
+  {
+    "file": "lib/data/book-qualification-fields.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "options: [\"לא בטוח/ה - קודם רוצה בדיקה\", \"עד 500 ₪\", \"500+ ₪\"],"
+  },
+  {
+    "file": "lib/data/book-qualification-fields.ts",
+    "kind": "prose",
+    "value": 800,
+    "count": 1,
+    "example": "options: [\"עד 300 ₪\", \"300-800 ₪\", \"800+ ₪\", \"לא יודע/ת עדיין\"],"
+  },
+  {
+    "file": "lib/data/book-qualification-fields.ts",
+    "kind": "prose",
+    "value": 1000,
+    "count": 1,
+    "example": "options: [\"עד 400 ₪\", \"400-1,000 ₪\", \"1,000+ ₪\", \"לא יודע/ת עדיין\"],"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 400,
+    "count": 1,
+    "example": "video_studio: { name: \"צילום במצלמות אולפן\", price: 400, desc: \"צילום באיכות HD\" },"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 450,
+    "count": 1,
+    "example": "price: 450,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 850,
+    "count": 1,
+    "example": "price: 850,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 1190,
+    "count": 1,
+    "example": "price: 1190,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 1200,
+    "count": 1,
+    "example": "price: 1200,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 1500,
+    "count": 1,
+    "example": "price: 1500,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 2500,
+    "count": 1,
+    "example": "price: 2500,"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 3540,
+    "count": 1,
+    "example": "premium_package: { name: \"חבילת ראש שקט - הכל\", price: 3540, desc: \"הפקה מלאה ומושלמת\" },"
+  },
+  {
+    "file": "lib/data/booking-calculator-services.ts",
+    "kind": "field",
+    "value": 5000,
+    "count": 1,
+    "example": "price: 5000,"
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 180,
+    "count": 1,
+    "example": "priceHint: \"החל מ-180 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "priceHint: \"החל מ-350 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 1,
+    "example": "priceHint: \"החל מ-750 ₪/שעה\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 2,
+    "example": "priceHint: \"החל מ-950 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 1500,
+    "count": 1,
+    "example": "priceHint: \"החל מ-1,500 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 1650,
+    "count": 1,
+    "example": "priceHint: \"החל מ-1,650 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 3,
+    "example": "priceHint: \"החל מ-2,500 ₪/חודש\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 4500,
+    "count": 1,
+    "example": "priceHint: \"החל מ-4,500 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 4800,
+    "count": 1,
+    "example": "priceHint: \"החל מ-4,800 ₪/חודש\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 1,
+    "example": "priceHint: \"החל מ-5,000 ₪\","
+  },
+  {
+    "file": "lib/data/business-hub-page.ts",
+    "kind": "prose",
+    "value": 6500,
+    "count": 1,
+    "example": "priceHint: \"החל מ-6,500 ₪\","
+  },
+  {
+    "file": "lib/data/closer-brand-copy.json",
+    "kind": "prose",
+    "value": 149,
+    "count": 1,
+    "example": "\"subline\": \"חבילת הכנה דיגיטלית: חימום קולי מודרך + ליטוש טקסט ב-AI. 149 ש\\\"ח בלבד\","
+  },
+  {
+    "file": "lib/data/closer-brand-copy.json",
+    "kind": "prose",
+    "value": 580,
+    "count": 1,
+    "example": "\"bodyTemplate\": \"שלום {INVITEE_FIRST_NAME},\\n\\nההזמנה שלך אושרה סופית! להלן פרטי המפגש, הוראות ההגעה והסכם העבודה הסטנדרטי של האולפן.\\n\\n📍 פרטי המפגש והוראות ה"
+  },
+  {
+    "file": "lib/data/confetti-cannon-page.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "description: \"לבבות, כוכבים, פרפרים או שטרות כסף, 500 ₪ באוויר?\","
+  },
+  {
+    "file": "lib/data/cro/events.ts",
+    "kind": "field",
+    "value": 18500,
+    "count": 1,
+    "example": "priceExVat: 18500,"
+  },
+  {
+    "file": "lib/data/cro/podcast.ts",
+    "kind": "field",
+    "value": 199,
+    "count": 1,
+    "example": "promoPrice: 199,"
+  },
+  {
+    "file": "lib/data/cro/podcast.ts",
+    "kind": "prose",
+    "value": 199,
+    "count": 1,
+    "example": "label: \"רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪\","
+  },
+  {
+    "file": "lib/data/cro/podcast.ts",
+    "kind": "field",
+    "value": 300,
+    "count": 1,
+    "example": "listPrice: 300,"
+  },
+  {
+    "file": "lib/data/cro/podcast.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 1,
+    "example": "label: \"רגעי שיא לרילס (עד 3 דק') - 199 ₪ במקום 300 ₪\","
+  },
+  {
+    "file": "lib/data/cro/singer.ts",
+    "kind": "field",
+    "value": 399,
+    "count": 1,
+    "example": "promoPrice: 399,"
+  },
+  {
+    "file": "lib/data/cro/singer.ts",
+    "kind": "prose",
+    "value": 399,
+    "count": 1,
+    "example": "label: \"הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪\","
+  },
+  {
+    "file": "lib/data/cro/singer.ts",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "listPrice: 500,"
+  },
+  {
+    "file": "lib/data/cro/singer.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "label: \"הקלטת ההופעה מהמיקסר - 399 ₪ במקום 500 ₪\","
+  },
+  {
+    "file": "lib/data/cro/studio.ts",
+    "kind": "field",
+    "value": 250,
+    "count": 1,
+    "example": "listPrice: 250,"
+  },
+  {
+    "file": "lib/data/cro/studio.ts",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "label: \"להוסיף תמונות וסרטון קצר מהאולפן לסטורי - 99 ₪ במקום 250 ₪\","
+  },
+  {
+    "file": "lib/data/cro/studio.ts",
+    "kind": "field",
+    "value": 8900,
+    "count": 1,
+    "example": "priceExVat: 8900,"
+  },
+  {
+    "file": "lib/data/events-booking-upsells.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 2,
+    "example": "badge: \"חסכו 350 ₪\","
+  },
+  {
+    "file": "lib/data/events-booking-upsells.ts",
+    "kind": "field",
+    "value": 1356,
+    "count": 1,
+    "example": "price: 1356,"
+  },
+  {
+    "file": "lib/data/events-booking-upsells.ts",
+    "kind": "field",
+    "value": 1400,
+    "count": 2,
+    "example": "price: 1400,"
+  },
+  {
+    "file": "lib/data/events-booking-upsells.ts",
+    "kind": "field",
+    "value": 1695,
+    "count": 1,
+    "example": "originalPrice: 1695,"
+  },
+  {
+    "file": "lib/data/events-booking-upsells.ts",
+    "kind": "field",
+    "value": 1750,
+    "count": 2,
+    "example": "originalPrice: 1750,"
+  },
+  {
+    "file": "lib/data/events-booking.ts",
+    "kind": "field",
+    "value": 1200,
+    "count": 1,
+    "example": "{ key: \"act_2\", label: \"2 הפעלות (כניסה + סלואו)\", shortLabel: \"2 הפעלות\", addOnPrice: 1200 },"
+  },
+  {
+    "file": "lib/data/events-booking.ts",
+    "kind": "field",
+    "value": 2400,
+    "count": 1,
+    "example": "{ key: \"act_3\", label: \"3 הפעלות (כניסה, סלואו ופתיחת רחבה)\", shortLabel: \"3 הפעלות\", addOnPrice: 2400 },"
+  },
+  {
+    "file": "lib/data/events-equipment-faq-page.ts",
+    "kind": "prose",
+    "value": 7800,
+    "count": 1,
+    "example": "description: \"חבילות 2,800-7,800 ₪ - Shure, RCF, צ'ק סאונד.\","
+  },
+  {
+    "file": "lib/data/faq-aeo.ts",
+    "kind": "prose",
+    "value": 3200,
+    "count": 1,
+    "example": "return `שובר מתנה לאולפן או אירוע ${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;"
+  },
+  {
+    "file": "lib/data/funny-ringtone-page.ts",
+    "kind": "prose",
+    "value": 299,
+    "count": 1,
+    "example": "\"היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (299 ש\\\"ח). אשמח לפרטים.\","
+  },
+  {
+    "file": "lib/data/greeting-tips.ts",
+    "kind": "prose",
+    "value": 2200,
+    "count": 1,
+    "example": "{ routes: [\"/video\"], tip: \"סרט תדמית מ-2,200 ₪ - מסירה תוך שבוע\", href: \"/video\" },"
+  },
+  {
+    "file": "lib/data/home-quick-paths.ts",
+    "kind": "field",
+    "value": 990,
+    "count": 1,
+    "example": "fromPriceExVat: 990,"
+  },
+  {
+    "file": "lib/data/hub-cross-sell.ts",
+    "kind": "prose",
+    "value": 149,
+    "count": 1,
+    "example": "prep_digital: \"149 ₪\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 1,
+    "example": "\"פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, הפקה מלאה 2,500 ₪, ועריכה נפרדת 750 ₪ לשעת חומר - לפני מע\\\"מ.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 900,
+    "count": 2,
+    "example": "\"600-900 ₪ להקלטה ועריכה בסיסית\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 3,
+    "example": "\"פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\\\"מ.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 1200,
+    "count": 2,
+    "example": "\"400-1,200 ₪\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 1650,
+    "count": 2,
+    "example": "\"פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\\\"מ.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 4,
+    "example": "\"פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\\\"מ.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 4500,
+    "count": 3,
+    "example": "\"קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 7500,
+    "count": 4,
+    "example": "\"קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.\","
+  },
+  {
+    "file": "lib/data/industry-2026.ts",
+    "kind": "prose",
+    "value": 15000,
+    "count": 1,
+    "example": "\"מחירון האולפן לקליפ מלא מתחיל ב-4,500 ₪ לפני מע\\\"מ. במדריך השוק שכבר פורסם באתר, טווח נפוץ לקליפ מלא הוא 4,500 עד 7,500 ₪, וקליפ מורחב יכול להגיע גם ל-8,000 עד"
+  },
+  {
+    "file": "lib/data/lead-flow/discovery-questions.ts",
+    "kind": "prose",
+    "value": 2000,
+    "count": 1,
+    "example": "{ id: \"under2k\", label: \"עד 2,000 ₪\" },"
+  },
+  {
+    "file": "lib/data/lead-flow/discovery-questions.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 2,
+    "example": "{ id: \"2-5k\", label: \"2,000-5,000 ₪\" },"
+  },
+  {
+    "file": "lib/data/matanot-page.ts",
+    "kind": "prose",
+    "value": 199,
+    "count": 1,
+    "example": "startingPrice: \"+199 ש\\\"ח למחיר ההפקה\","
+  },
+  {
+    "file": "lib/data/matanot-page.ts",
+    "kind": "prose",
+    "value": 399,
+    "count": 1,
+    "example": "startingPrice: \"+399 ש\\\"ח למחיר ההפקה\","
+  },
+  {
+    "file": "lib/data/online-mixing-page.ts",
+    "kind": "prose",
+    "value": 100,
+    "count": 2,
+    "example": "\"מעל 16 ערוצים - 100 ₪ נוספים\","
+  },
+  {
+    "file": "lib/data/online-mixing-page.ts",
+    "kind": "prose",
+    "value": 150,
+    "count": 1,
+    "example": "\"מעל 5 דקות - 150 ₪ נוספים\","
+  },
+  {
+    "file": "lib/data/online-mixing-page.ts",
+    "kind": "prose",
+    "value": 200,
+    "count": 1,
+    "example": "\"ניקוי רעשים - 200 ₪\","
+  },
+  {
+    "file": "lib/data/online-mixing-page.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 1,
+    "example": "\"תיקון זיופים מלא - 300 ₪\","
+  },
+  {
+    "file": "lib/data/online-page.ts",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "\"המחיר משתנה בהתאם לסוג ואורך הקובץ. לדוגמה, שירות הצלת הקלטה פגומה מתחיל ב-250 ₪ ל-5 דקות ראשונות. לצפייה בכל הקטלוג והתעריפים המלאים, ניתן לעבור לעמוד המחירון"
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "field",
+    "value": 100,
+    "count": 1,
+    "example": "price: \"100 ₪ לתמונה\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "prose",
+    "value": 100,
+    "count": 2,
+    "example": "price: \"100 ₪ לתמונה\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "field",
+    "value": 200,
+    "count": 1,
+    "example": "price: \"200\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "prose",
+    "value": 200,
+    "count": 1,
+    "example": "\"היי יקיר, מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "field",
+    "value": 350,
+    "count": 1,
+    "example": "price: \"350\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "\"היי יקיר, מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "field",
+    "value": 600,
+    "count": 1,
+    "example": "price: \"600\","
+  },
+  {
+    "file": "lib/data/online-photo-enhance-page.ts",
+    "kind": "prose",
+    "value": 600,
+    "count": 1,
+    "example": "\"היי יקיר, רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.\","
+  },
+  {
+    "file": "lib/data/photography-calculator.ts",
+    "kind": "field",
+    "value": 1800,
+    "count": 1,
+    "example": "price: 1800,"
+  },
+  {
+    "file": "lib/data/photography-calculator.ts",
+    "kind": "field",
+    "value": 2500,
+    "count": 1,
+    "example": "price: 2500,"
+  },
+  {
+    "file": "lib/data/podcast-hub-page.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 1,
+    "example": "\"חבילת בסיס מתחילה מ-750 ₪ לפרק (לפני מע״מ) וכוללת שעת סטודיו, הקלטה ועריכת סאונד מקצועית. הפקה עם צילום 4K מתחילה מ-2,500 ₪ ומגיעה עם MP4 ליוטיוב, MP3 להפצה לס"
+  },
+  {
+    "file": "lib/data/podcast-hub-page.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "\"חבילת בסיס מתחילה מ-750 ₪ לפרק (לפני מע״מ) וכוללת שעת סטודיו, הקלטה ועריכת סאונד מקצועית. הפקה עם צילום 4K מתחילה מ-2,500 ₪ ומגיעה עם MP4 ליוטיוב, MP3 להפצה לס"
+  },
+  {
+    "file": "lib/data/podcast-hub-tracks.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 2,
+    "example": "description: \"הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.\","
+  },
+  {
+    "file": "lib/data/podcast-hub-tracks.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "fromPrice: \"החל מ-950 ₪/פרק + מע״מ\","
+  },
+  {
+    "file": "lib/data/podcast-hub-tracks.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 2,
+    "example": "description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}, החל מ-2,500 ₪.`,"
+  },
+  {
+    "file": "lib/data/podcast-hub-tracks.ts",
+    "kind": "prose",
+    "value": 4800,
+    "count": 1,
+    "example": "fromPrice: \"החל מ-4,800 ₪/חודש + מע״מ\","
+  },
+  {
+    "file": "lib/data/podcast-production-page.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "description: \"כבר יש פורמט? מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע. החל מ-950 ₪ לפרק.\","
+  },
+  {
+    "file": "lib/data/podcast-production-page.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "description: \"צילום + הקלטה + עריכה, הפרק אצלכם באותה שנייה שמסיימים להקליט. החל מ-2,500 ₪.\","
+  },
+  {
+    "file": "lib/data/podcast-self-service-page.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 4,
+    "example": "\"650 ₪ לשעה, בלי עריכה ובלי ליווי\","
+  },
+  {
+    "file": "lib/data/podcast-self-service-page.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 5,
+    "example": "label: \"פרק קצר עם ליווי (750 ₪)\","
+  },
+  {
+    "file": "lib/data/podcast-self-service-page.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "label: \"פודקאסט אודיו (950 ₪)\","
+  },
+  {
+    "file": "lib/data/podcast-studio-modiin-page.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 2,
+    "example": "title: \"אולפן שירות עצמי (650 ₪/שעה)\","
+  },
+  {
+    "file": "lib/data/pre-built-sets-catalog.ts",
+    "kind": "field",
+    "value": 450,
+    "count": 2,
+    "example": "priceExVat: 450,"
+  },
+  {
+    "file": "lib/data/pre-built-sets-catalog.ts",
+    "kind": "field",
+    "value": 550,
+    "count": 2,
+    "example": "priceExVat: 550,"
+  },
+  {
+    "file": "lib/data/pre-built-sets-catalog.ts",
+    "kind": "field",
+    "value": 750,
+    "count": 1,
+    "example": "priceExVat: 750,"
+  },
+  {
+    "file": "lib/data/pricing-hub.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 1,
+    "example": "description: \"650 ₪ לשעה, בלי עריכה\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "\"תג קולי לדיג'ייז עם אפקטי מועדון. הקלטה באולפן במודיעין, מסירה בדרך כלל תוך יומיים. מ-350 ₪ לפני מע״מ.\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 450,
+    "count": 2,
+    "example": "\"סטי דיג'יי מוכנים לפי קטגוריה - קבלת פנים, להיטים ואירועי חברה. ערוכים ומחוברים בקצב. החל מ-450 שקלים לפני מע״מ.\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 1,
+    "example": "\"שילובי מאשאפ עם BPM וסולם, דוגמאות ביוטיוב, חבילות לדיג'יי וייצור באולפן. מוכן מ-650 ₪, מותאם עד 3 ימי עסקים.\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 2,
+    "example": "\"מקליטים, שולחים גולמי, מקבלים פרק מוגמר ושלושה סרטונים קצרים. עריכה שוטפת לחברות. מ-950 ₪ לפרק.\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "\"ייעוץ אקוסטיקה, תאורה ומפרט ציוד לאולפן פודקאסט - לפי מידות החדר. כולל עריכה ל-10 פרקים ראשונים. החל מ-2,500 שקלים.\","
+  },
+  {
+    "file": "lib/data/pro-services.ts",
+    "kind": "prose",
+    "value": 3500,
+    "count": 1,
+    "example": "\"תכנון פריסת רמקולים במחשב ומדידות מקצועיות בשטח לאירועים גדולים. לחברות הגברה. החל מ-3,500 שקלים.\","
+  },
+  {
+    "file": "lib/data/ready-mashups-catalog.ts",
+    "kind": "field",
+    "value": 650,
+    "count": 6,
+    "example": "priceExVat: 650,"
+  },
+  {
+    "file": "lib/data/service-book-map.ts",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "\"online/vocal-fix/mixing\": { bookCategory: \"online\", priceExVat: 500 },"
+  },
+  {
+    "file": "lib/data/service-book-map.ts",
+    "kind": "field",
+    "value": 990,
+    "count": 2,
+    "example": "academy: { bookCategory: \"academy\", priceExVat: 990 },"
+  },
+  {
+    "file": "lib/data/service-book-map.ts",
+    "kind": "field",
+    "value": 2800,
+    "count": 1,
+    "example": "\"events/equipment/singer-amplification\": { bookCategory: \"singer\", priceExVat: 2800 },"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 180,
+    "count": 1,
+    "example": "priceAnchorExVat: 180,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 350,
+    "count": 1,
+    "example": "priceAnchorExVat: 350,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 450,
+    "count": 1,
+    "example": "priceAnchorExVat: 450,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 650,
+    "count": 2,
+    "example": "priceAnchorExVat: 650,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 750,
+    "count": 6,
+    "example": "priceAnchorExVat: 750,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 950,
+    "count": 2,
+    "example": "priceAnchorExVat: 950,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 990,
+    "count": 2,
+    "example": "priceAnchorExVat: 990,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 1500,
+    "count": 2,
+    "example": "priceAnchorExVat: 1500,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 1650,
+    "count": 2,
+    "example": "priceAnchorExVat: 1650,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 1750,
+    "count": 3,
+    "example": "priceAnchorExVat: 1750,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 2500,
+    "count": 4,
+    "example": "priceAnchorExVat: 2500,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 2800,
+    "count": 1,
+    "example": "priceAnchorExVat: 2800,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 4500,
+    "count": 2,
+    "example": "priceAnchorExVat: 4500,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 4800,
+    "count": 1,
+    "example": "priceAnchorExVat: 4800,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 5000,
+    "count": 4,
+    "example": "priceAnchorExVat: 5000,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 6500,
+    "count": 1,
+    "example": "priceAnchorExVat: 6500,"
+  },
+  {
+    "file": "lib/data/service-fit-matrix.ts",
+    "kind": "field",
+    "value": 12000,
+    "count": 1,
+    "example": "priceAnchorExVat: 12000,"
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 100,
+    "count": 1,
+    "example": "\"כן. יש תוספת של 100 ₪, מוסיף המון לחוויה (כלול בחלק מהחבילות).\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 1,
+    "example": "\"כן, תוספת לפי מרחק ממודיעין (מרכז ללא תוספת, צפון +300 ₪, דרום +500 ₪).\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"כן, תוספת לפי מרחק ממודיעין (מרכז ללא תוספת, צפון +300 ₪, דרום +500 ₪).\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 800,
+    "count": 3,
+    "example": "\"החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "field",
+    "value": 950,
+    "count": 1,
+    "example": "price: \"950 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "price: \"950 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 1400,
+    "count": 1,
+    "example": "price: \"1,400 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 1500,
+    "count": 3,
+    "example": "\"צילום מקצועי לחתונות דתיות ואירועים אינטימיים. 1,500 ₪ לשעה לפני מע״מ, והחבילות המוכנות מתחילות ב-4 שעות. עריכה בסיסית כלולה.\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 1800,
+    "count": 2,
+    "example": "\"החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 2,
+    "example": "\"אולפן נייד מגיע לכל הארץ. החל מ-2,500 ₪ לפני מע״מ + תוספת אזור. פנלים אקוסטיים, מיקרופונים ומפיק צמוד.\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 2800,
+    "count": 3,
+    "example": "\"ציוד פרימיום + טכנאי מנוסה + צ'ק סאונד מלא, Shure, RCF, מוניטורים. ראש שקט להופעה הבאה. מ-2,800 ₪.\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 4500,
+    "count": 1,
+    "example": "price: \"4,500 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 5800,
+    "count": 1,
+    "example": "price: \"5,800 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 6000,
+    "count": 1,
+    "example": "price: \"מ-6,000 ₪\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 7800,
+    "count": 2,
+    "example": "\"חבילות 2,800 / 5,800 / 7,800 ₪, מחירים גלויים\","
+  },
+  {
+    "file": "lib/data/services.ts",
+    "kind": "prose",
+    "value": 15000,
+    "count": 1,
+    "example": "price: \"15,000 ₪\","
+  },
+  {
+    "file": "lib/data/shop-vouchers.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "range: \"₪2,500 - ₪3,200\","
+  },
+  {
+    "file": "lib/data/shop-vouchers.ts",
+    "kind": "prose",
+    "value": 3200,
+    "count": 1,
+    "example": "range: \"₪2,500 - ₪3,200\","
+  },
+  {
+    "file": "lib/data/singer-amplification-page.ts",
+    "kind": "prose",
+    "value": 300,
+    "count": 1,
+    "example": "\"מרכז - ללא תוספת - צפון +300 ₪ - דרום +500 ₪ (מבסיס מודיעין)\";"
+  },
+  {
+    "file": "lib/data/singer-amplification-page.ts",
+    "kind": "prose",
+    "value": 500,
+    "count": 1,
+    "example": "\"מרכז - ללא תוספת - צפון +300 ₪ - דרום +500 ₪ (מבסיס מודיעין)\";"
+  },
+  {
+    "file": "lib/data/site-search.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "description: \"הפקה מלאה, הפרק אצלכם באותה שנייה שמסיימים להקליט, החל מ-2,500 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 200,
+    "count": 1,
+    "example": "priceLabel: \"החל מ-200 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 700,
+    "count": 1,
+    "example": "priceLabel: \"700 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 1000,
+    "count": 3,
+    "example": "priceLabel: \"1,000 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "priceLabel: \"2,500 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 3000,
+    "count": 1,
+    "example": "priceLabel: \"3,000 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 5000,
+    "count": 2,
+    "example": "priceLabel: \"5,000 ₪\","
+  },
+  {
+    "file": "lib/data/social-media.ts",
+    "kind": "prose",
+    "value": 7800,
+    "count": 1,
+    "example": "priceLabel: \"7,800 ₪\","
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 150,
+    "count": 1,
+    "example": "price: 150,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 200,
+    "count": 1,
+    "example": "price: 200,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 250,
+    "count": 1,
+    "example": "price: 250,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 400,
+    "count": 2,
+    "example": "price: 400,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 500,
+    "count": 1,
+    "example": "price: 500,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 980,
+    "count": 1,
+    "example": "price: 980,"
+  },
+  {
+    "file": "lib/data/studio-recording-booking.ts",
+    "kind": "field",
+    "value": 2500,
+    "count": 1,
+    "example": "price: 2500,"
+  },
+  {
+    "file": "lib/data/wedding-packages-page.ts",
+    "kind": "prose",
+    "value": 15000,
+    "count": 1,
+    "example": "price: \"15,000 ₪\","
+  },
+  {
+    "file": "lib/pro-service-advisor.ts",
+    "kind": "prose",
+    "value": 1200,
+    "count": 1,
+    "example": "priceNote: \"חבילת 5 תגים - 1,200 שקלים לפני מע״מ\","
+  },
+  {
+    "file": "lib/seo-footer-links.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 1,
+    "example": "title: \"650 ₪ לשעה, קבצים גולמיים\","
+  },
+  {
+    "file": "lib/seo/build-site-schema.ts",
+    "kind": "field",
+    "value": 250,
+    "count": 5,
+    "example": "price: \"250\","
+  },
+  {
+    "file": "lib/seo/build-site-schema.ts",
+    "kind": "field",
+    "value": 500,
+    "count": 3,
+    "example": "price: \"500\","
+  },
+  {
+    "file": "lib/seo/hub-pages.ts",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "\"תיקון שירה ומיקס אונליין ממודיעין - תוצאה תוך 24-48 שעות. תיקון זיופים, פודקאסט ווידאו מרחוק מ-250 ₪, עם ליווי בוואטסאפ.\","
+  },
+  {
+    "file": "lib/seo/hub-pages.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 2,
+    "example": "\"אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, מיקרופוני Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט, מ-750 ₪.\","
+  },
+  {
+    "file": "lib/seo/hub-pages.ts",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "\"קורסי DJ והפקה מוזיקלית במודיעין. שיעור פרטי 990 ₪, Pro Session 1,280 ₪ - NeverMind ומעבדת סאונד.\","
+  },
+  {
+    "file": "lib/seo/hub-pages.ts",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "\"קורסי DJ והפקה מוזיקלית במודיעין. שיעור פרטי 990 ₪, Pro Session 1,280 ₪ - NeverMind ומעבדת סאונד.\","
+  },
+  {
+    "file": "lib/seo/ulpan-page-schema.ts",
+    "kind": "field",
+    "value": 3200,
+    "count": 1,
+    "example": "price: \"3200\","
+  },
+  {
+    "file": "lib/seo/ulpan-page-schema.ts",
+    "kind": "field",
+    "value": 11520,
+    "count": 1,
+    "example": "price: \"11520\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 250,
+    "count": 1,
+    "example": "description: \"ניקוי רעשים, הד, עיוותים - 250 ₪ עד 5 דק׳\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 650,
+    "count": 3,
+    "example": "label: \"אולפן שירות עצמי (650 ₪/שעה)\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 750,
+    "count": 2,
+    "example": "description: \"הקלטה באולפן - חצי שעה 750 ₪ - שעה 1,500 ₪ (לפני מע״מ)\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 1280,
+    "count": 1,
+    "example": "label: \"שיעור פרטי - 990 / 1,280 ₪\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 1500,
+    "count": 1,
+    "example": "description: \"הקלטה באולפן - חצי שעה 750 ₪ - שעה 1,500 ₪ (לפני מע״מ)\","
+  },
+  {
+    "file": "lib/site-architecture.ts",
+    "kind": "prose",
+    "value": 2500,
+    "count": 1,
+    "example": "description: \"צילום + עריכה - מ-2,500 ₪\","
+  },
+  {
+    "file": "lib/studio-upgrade-pricing.ts",
+    "kind": "const",
+    "value": 250,
+    "count": 1,
+    "example": "export const LAST_MINUTE_BTS_LIST_PRICE = 250;"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 117,
+    "count": 1,
+    "example": "- משתתפים בשיר, כולל מע״מ (זמר אחד כלול): זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 180,
+    "count": 1,
+    "example": "- תמלול וכתוביות: https://yakircohen.com/online/transcription · מ-180 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 224,
+    "count": 1,
+    "example": "- משתתפים בשיר, כולל מע״מ (זמר אחד כלול): זמר נוסף +224 ₪ · מהזמר השלישי +117 ₪ לכל אחד · עד 12 בשיר"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 350,
+    "count": 1,
+    "example": "- המרת VHS וקלטות: https://yakircohen.com/online/legacy-digitization · מ-350 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 354,
+    "count": 1,
+    "example": "- תוספות לשיר, כולל מע״מ: תיקון זיופים וטכנאי שמכוון ומנחה +354 ₪ · קליפ ערוך מהסשן באולפן +885 ₪ · ראיון קצר במתחם הפודקאסט, רק עם קליפ ערוך מהסשן באולפן +590 "
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 500,
+    "count": 2,
+    "example": "- הקלטת ברכה: מ-500 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 590,
+    "count": 2,
+    "example": "- הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): 590 ₪ כולל מע״מ (500 ₪ + מע״מ)"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 750,
+    "count": 2,
+    "example": "- אולפן - חצי שעה: 750 ₪ · שעת אולפן: 1,500 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 885,
+    "count": 1,
+    "example": "- תוספות לשיר, כולל מע״מ: תיקון זיופים וטכנאי שמכוון ומנחה +354 ₪ · קליפ ערוך מהסשן באולפן +885 ₪ · ראיון קצר במתחם הפודקאסט, רק עם קליפ ערוך מהסשן באולפן +590 "
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 950,
+    "count": 1,
+    "example": "- פודקאסט אודיו (עד שעה + עריכה): 950 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 990,
+    "count": 1,
+    "example": "- ספרי שמע: https://yakircohen.com/business/audiobooks · פרק דוגמה 990 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 1500,
+    "count": 2,
+    "example": "- אולפן - חצי שעה: 750 ₪ · שעת אולפן: 1,500 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 1650,
+    "count": 2,
+    "example": "- פודקאסט וידאו (3 מצלמות): 1,650 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 1695,
+    "count": 1,
+    "example": "- אטרקציה בודדת לאירוע: מ-1,695 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 2500,
+    "count": 2,
+    "example": "- הפקת פודקאסט מלאה: מ-2,500 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 2800,
+    "count": 1,
+    "example": "- סדנאות לצוותים: https://yakircohen.com/academy/workshops · מ-2,800 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 4500,
+    "count": 1,
+    "example": "- תוכן HR וקליטה: https://yakircohen.com/business/employer-branding · מ-4,500 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 5000,
+    "count": 2,
+    "example": "- DJ לאירועים (צוות, כ-4 שעות): מ-5,000 ₪"
+  },
+  {
+    "file": "public/llms.txt",
+    "kind": "prose",
+    "value": 6500,
+    "count": 1,
+    "example": "- אולפן זמני בחברה: https://yakircohen.com/business/on-site-studio · חצי יום 6,500 ₪"
+  }
+]
