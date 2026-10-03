@@ -4,7 +4,8 @@
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { getAddonsForBaseId, getExVat, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { getAddonsForBaseId, getExVat, getScopeById, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { DJ_TEAM_NOTE } from "./dj-events-calculator";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { getSongParticipantsExplanation } from "./song-offer";
@@ -1579,28 +1580,41 @@ export const EVENTS_SERVICES = {
       "חבילות עם אטרקציות, עשן, זיקוקים, קונפטי",
     ],
     pricing: [
+      /* WP2 (ED-04, החלטת הבעלים 7.9): הבסיס הוא dj_premium, תקליטן מהצוות,
+         4 שעות, עד 300 מוזמנים. היה "הצעה אישית" עם "עד 5 שעות, עד 150 אורחים"
+         בזמן שהשאלות הנפוצות והמחשבון באותו עמוד אמרו 5,000 ל-4 שעות. */
       {
-        name: "חבילת עיגון",
-        price: "הצעה אישית",
-        priceNote: "עד 5 שעות - עד 150 אורחים",
+        name: "תקליטן מהצוות",
+        price: formatNis(getExVat("dj_premium")),
+        priceExVat: getExVat("dj_premium"),
+        catalogId: "dj_premium",
+        scope: getScopeById("dj_premium"),
+        priceNote: DJ_TEAM_NOTE,
         description:
           "DJ מנוסה מהצוות - ציוד Pioneer CDJ + RCF - תאורת LED בסיסית - פגישת תכנון מוזיקלי - גיבוי לכל רכיב.",
       },
       {
         name: "חבילת פרימיום",
         price: "הצעה אישית",
-        priceNote: "עד 7 שעות - עד 300 אורחים",
+        /* השעות והמחיר של הפרימיום פתוחים אצל הבעלים (שאלת DJ-2). "עד 7 שעות"
+           נתן לחבילה הזולה יותר יותר שעות מחבילת הפסטיבל (5 שעות). */
+        priceNote: "שעות והיקף בהצעה אישית",
         description:
           "כל מה שבבסיס + תאורה מתקדמת (Moving Heads) + 2 אטרקציות לבחירה + הנחיה לחופה, ריקוד ראשון ועוגה.",
         featured: true,
         badge: "הכי מבוקשת",
       },
+      /* WP2: היה "פסטיבל VIP, הצעה אישית, 7+ שעות". יקיר אישית הוא
+         dj_yakir_personal, 5 שעות. */
       {
-        name: "חבילת פסטיבל VIP",
-        price: "הצעה אישית",
-        priceNote: "7+ שעות - ללא הגבלת אורחים",
+        name: "יקיר כהן אישית על הקונסולה",
+        price: formatNis(getExVat("dj_yakir_personal")),
+        priceExVat: getExVat("dj_yakir_personal"),
+        catalogId: "dj_yakir_personal",
+        scope: getScopeById("dj_yakir_personal"),
+        priceNote: "5 שעות תקלוט",
         description:
-          "יקיר כהן אישית על הקונסולה - 3+ אטרקציות - אולפן נייד - מצגת קולנועית - פסקול כניסה + קריינות - טכנאי צמוד.",
+          "יקיר כהן אישית על הקונסולה - ציוד הגברה ותאורה מקצועיים - פגישת תכנון אישית. אטרקציות, אולפן נייד ומצגת בתוספת.",
         badge: "VIP",
       },
     ],
@@ -1989,7 +2003,7 @@ export const EVENTS_SERVICES = {
       "הפקת חתונה",
     ],
     features: [
-      "חבילת DJ + 3 אטרקציות לבחירה (עד 7 שעות)",
+      "חבילת DJ + 3 אטרקציות לבחירה (תקליטן מהצוות, 4 שעות)",
       "חבילת פסטיבל, DJ, אולפן נייד, 3 אפקטים ועוד",
       "חיסכון 20-30% לעומת הזמנה נפרדת",
       "תיאום מסונכרן, DJ מכיר את כל האפקטים",
@@ -2004,7 +2018,9 @@ export const EVENTS_SERVICES = {
       },
       {
         name: 'חבילת "פסטיבל", הכל כלול',
-        price: "15,000 ₪",
+        price: formatNis(getExVat("festival_all_in")),
+        priceExVat: getExVat("festival_all_in"),
+        catalogId: "festival_all_in",
         priceNote: "הכי מלאה",
         description: "DJ, אולפן נייד, 3 אפקטים, פסקול כניסה, מצגת וטכנאי.",
       },

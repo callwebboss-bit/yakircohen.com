@@ -224,55 +224,6 @@
     "example": "<p className=\"mt-2 text-xs font-semibold text-brand-red\">2,200 ₪</p>"
   },
   {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 750,
-    "count": 1,
-    "example": "{ id: \"slideshow\", name: \"מצגת תמונות קולנועית\", sub: \"סיפור ויזואלי מרגש - רץ שקט על המסך כל הערב\", price: 750, icon: \"🖼️\" },"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 980,
-    "count": 1,
-    "example": "{ id: \"entry\", name: \"פסקול כניסה + קריינות דרמטית\", sub: \"כניסה שלא שוכחים - הפקה מראש + תיאום עם ה-DJ\", price: 980, icon: \"🎬\" },"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 1750,
-    "count": 1,
-    "example": "{ id: \"led\", name: \"עמדת LED לאירועים\", sub: \"תאורה דקורטיבית / הקרנת לוגו - שדרוג ויזואלי\", price: 1750, icon: \"💡\" },"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 5000,
-    "count": 3,
-    "example": "price: 5000,"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 8000,
-    "count": 1,
-    "example": "price: 8000,"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 9800,
-    "count": 1,
-    "example": "price: 9800,"
-  },
-  {
-    "file": "components/calculators/DjEventsCalculator.tsx",
-    "kind": "field",
-    "value": 15000,
-    "count": 1,
-    "example": "price: 15000,"
-  },
-  {
     "file": "components/forms/AcademyTrialForm.tsx",
     "kind": "field",
     "value": 500,
@@ -663,13 +614,6 @@
     "value": 990,
     "count": 1,
     "example": "priceHint: \"החל מ-990 ₪\","
-  },
-  {
-    "file": "lib/data/audience-landings.ts",
-    "kind": "prose",
-    "value": 15000,
-    "count": 1,
-    "example": "priceHint: 'חבילת \"פסטיבל\" מ-15,000 ₪',"
   },
   {
     "file": "lib/data/audiobooks-page.ts",
@@ -1079,24 +1023,10 @@
   },
   {
     "file": "lib/data/book-audience-routes.ts",
-    "kind": "const",
-    "value": 990,
-    "count": 1,
-    "example": "const ACADEMY_FROM = 990;"
-  },
-  {
-    "file": "lib/data/book-audience-routes.ts",
     "kind": "prose",
     "value": 1280,
     "count": 1,
     "example": "priceNote: \"שיעור 60 דק׳ - Pro Session 90 דק׳ מ-1,280 ₪\","
-  },
-  {
-    "file": "lib/data/book-audience-routes.ts",
-    "kind": "const",
-    "value": 2800,
-    "count": 1,
-    "example": "const SINGER_FROM = 2800;"
   },
   {
     "file": "lib/data/book-qualification-fields.ts",
@@ -1454,13 +1384,6 @@
     "value": 2200,
     "count": 1,
     "example": "{ routes: [\"/video\"], tip: \"סרט תדמית מ-2,200 ₪ - מסירה תוך שבוע\", href: \"/video\" },"
-  },
-  {
-    "file": "lib/data/home-quick-paths.ts",
-    "kind": "field",
-    "value": 990,
-    "count": 1,
-    "example": "fromPriceExVat: 990,"
   },
   {
     "file": "lib/data/hub-cross-sell.ts",
@@ -2072,13 +1995,6 @@
     "example": "\"חבילות 2,800 / 5,800 / 7,800 ₪, מחירים גלויים\","
   },
   {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 15000,
-    "count": 1,
-    "example": "price: \"15,000 ₪\","
-  },
-  {
     "file": "lib/data/shop-vouchers.ts",
     "kind": "prose",
     "value": 2500,
@@ -2210,13 +2126,6 @@
     "value": 2500,
     "count": 1,
     "example": "price: 2500,"
-  },
-  {
-    "file": "lib/data/wedding-packages-page.ts",
-    "kind": "prose",
-    "value": 15000,
-    "count": 1,
-    "example": "price: \"15,000 ₪\","
   },
   {
     "file": "lib/pro-service-advisor.ts",

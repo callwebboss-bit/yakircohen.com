@@ -56,13 +56,19 @@ test("כל Offer בסכמת Service נושא מחיר מספרי", () => {
 });
 
 test("מדרגה שהמחיר שלה טקסט אכן יורדת מה-offers ולא נספרת", () => {
-  /* events/dj-events: שלוש המדרגות שלו כולן "הצעה אישית", ולכן אין לו offers */
+  /* events/dj-events: מ-3.10.2026 (שלב 4 WP2) שתי מדרגות מתומחרות מהקטלוג
+     (dj_premium, dj_yakir_personal) והפרימיום נשאר "הצעה אישית". רק השתיים
+     המתומחרות נכנסות ל-offers. */
   const djEvents = ALL_SERVICES.find((s) => s.slug === "events/dj-events");
   assert.ok(djEvents, "events/dj-events לא נמצא ברג׳יסטרי");
-  assert.ok((djEvents.pricing ?? []).length > 0, "לשירות אין מדרגות, הבדיקה לא בודקת כלום");
+  const tiers = djEvents.pricing ?? [];
+  const textTiers = tiers.filter((t) => !/\d/.test(t.price));
+  assert.ok(textTiers.length > 0, "אין מדרגת טקסט, הבדיקה לא בודקת כלום");
 
   const schema = buildServiceSchema(djEvents) as { offers?: Offer[] };
-  assert.equal(schema.offers, undefined, "שירות שכל מדרגותיו טקסט לא אמור לפלוט offers בכלל");
+  const names = (schema.offers ?? []).map((o) => o.name);
+  assert.equal(names.length, tiers.length - textTiers.length);
+  for (const t of textTiers) assert.ok(!names.includes(t.name), `${t.name} נכנס ל-offers`);
 });
 
 test("הצומת הדק נושא את אותו אזור שירות כמו העשיר", () => {

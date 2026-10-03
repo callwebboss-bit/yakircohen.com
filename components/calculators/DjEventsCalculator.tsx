@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useMemo, useState } from "react";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
@@ -11,7 +11,6 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
-import { formatCurrency } from "@/components/calculators/formatCurrency";
 import {
   BOOKING_CTA,
   BOOKING_CONSULT_15_MIN,
@@ -22,8 +21,19 @@ import {
   buildConsultWhatsAppHref,
   readUtmSource,
 } from "@/lib/booking-messages";
-import { STUDIO_ONE_HOUR_NIS, withVat } from "@/lib/data/pricing";
+import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
+import {
+  DJ_CALC_ADDONS,
+  DJ_CALC_ATTRACTION_ID,
+  DJ_CALC_DJ_OPTIONS,
+  DJ_CALC_EFFECTS,
+  DJ_CALC_FESTIVAL,
+  type DjCalcAddonId,
+  type DjCalcDjId,
+  type DjCalcEffectId,
+} from "@/lib/data/dj-events-calculator";
 import { getEventBundlePrice, isEventQuoteOnly } from "@/lib/data/events-booking";
 import {
   formatPhoneForDisplay,
@@ -38,84 +48,18 @@ import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
+/* הנתונים והמחירים ב-lib/data/dj-events-calculator.ts, כל אפשרות קשורה למזהה
+   קטלוג (WP2). "רגע של כוכב" מוסתר עד שיתומחר. */
 
-const FESTIVAL_PACKAGE = {
-  id: "festival",
-  name: 'חבילת "פסטיבל"  -  הכל כלול',
-  sub: "DJ + אולפן נייד + 3 אטרקציות + פסקול כניסה + מצגת  -  אירוע שלם",
-  price: 15000,
-  includes: [
-    "DJ פרימיום מהצוות (5 שעות)",
-    "אולפן הקלטות נייד באירוע",
-    "3 אטרקציות אפקטים לבחירה",
-    "פסקול כניסה + קריינות דרמטית",
-    "מצגת תמונות קולנועית",
-    "סרטון מעוצב מכל אטרקציה",
-    "טכנאי צמוד + ציוד מלא",
-  ],
-} as const;
+const FESTIVAL_PACKAGE = DJ_CALC_FESTIVAL;
+const DJ_OPTIONS = DJ_CALC_DJ_OPTIONS;
+const ADDONS = DJ_CALC_ADDONS;
+const ATTRACTION_UNIT = getExVat(DJ_CALC_ATTRACTION_ID);
+const EFFECTS = DJ_CALC_EFFECTS;
 
-const DJ_OPTIONS = [
-  {
-    id: "dj_team",
-    name: "DJ פרימיום מהצוות",
-    sub: "DJ מנוסה מצוות יקיר כהן הפקות - 4 שעות",
-    price: 5000,
-    badge: null as string | null,
-    features: ["מערכת הגברה מקצועית", "תאורה בסיסית", "4 שעות ניהול רחבה", "סרטון מהרחבה"],
-  },
-  {
-    id: "dj_yakir",
-    name: "DJ יקיר כהן אישית",
-    sub: "יקיר כהן על הקונסולה  -  חוויה אחרת - 5 שעות",
-    price: 9800,
-    badge: "VIP",
-    features: ["ציוד הגברה פרימיום", "תאורה מקצועית", "5 שעות ניהול רחבה", "סרטון מהרחבה"],
-  },
-] as const;
-
-const STAR_OPTIONS = [
-  {
-    id: "star_team",
-    name: '"רגע של כוכב" עם הצוות',
-    sub: "ביצוע על הבמה עם פלייבק מקצועי",
-    price: 5000,
-    badge: null as string | null,
-  },
-  {
-    id: "star_yakir",
-    name: '"רגע של כוכב" עם יקיר כהן',
-    sub: "יקיר כהן מנחה ומלווה מאחורי הקלעים",
-    price: 8000,
-    badge: "VIP",
-  },
-] as const;
-
-const ADDONS = [
-  { id: "studio_mobile", name: "אולפן נייד באירוע", sub: "אולפן הקלטות נייד  -  מיקרופונים, עריכה, קובץ לכל אורח", price: 5000, icon: "🎤" },
-  { id: "entry", name: "פסקול כניסה + קריינות דרמטית", sub: "כניסה שלא שוכחים  -  הפקה מראש + תיאום עם ה-DJ", price: 980, icon: "🎬" },
-  { id: "slideshow", name: "מצגת תמונות קולנועית", sub: "סיפור ויזואלי מרגש  -  רץ שקט על המסך כל הערב", price: 750, icon: "🖼️" },
-  { id: "led", name: "עמדת LED לאירועים", sub: "תאורה דקורטיבית / הקרנת לוגו  -  שדרוג ויזואלי", price: 1750, icon: "💡" },
-  { id: "drummer", name: "מתופף אלקטרוני מקצועי", sub: "ליווי מוזיקלי חי לרחבה, ללא הגברה", price: getExVat("electronic_drummer"), icon: "🥁" },
-  { id: "record_song", name: "הקלטת שיר באולפן", sub: "מחיר מיוחד ללקוחות אירועים  -  כולל תיקון קול + קובץ", price: STUDIO_ONE_HOUR_NIS, icon: "🎵" },
-] as const;
-
-const ATTRACTION_UNIT = getExVat("event_attraction_1");
-
-const EFFECTS = [
-  { id: "smoke", name: "עשן כבד", sub: "מכונות בלעדיות, עד 4 דקות", icon: "💨", price: ATTRACTION_UNIT },
-  { id: "bubbles_smoke", name: "בועות סבון עשן", sub: 'הלהיט של העונה  -  מצטלם מדהים', icon: "🫧", price: ATTRACTION_UNIT, badge: "היט" },
-  { id: "balloons", name: "בלונים ענקיים", sub: "6 בלוני ענק לרחבה, ברגע שיא", icon: "🎈", price: ATTRACTION_UNIT },
-  { id: "sparklers", name: "זיקוקים קרים", sub: "רגע קסום של אש קרה  -  ניצוצות לבנים", icon: "❄️", price: ATTRACTION_UNIT },
-  { id: "confetti", name: "תותח קונפטי", sub: "פיצוץ צבעוני ברגע השיא", icon: "🎊", price: ATTRACTION_UNIT },
-  { id: "color_smoke", name: "עשן צבעוני", sub: "תותחי צבע ברחבה", icon: "🌈", price: ATTRACTION_UNIT },
-  { id: "foam", name: "תותח קצף", sub: "מושלם לפעילות ילדים וסוף לילה", icon: "🧴", price: ATTRACTION_UNIT },
-] as const;
-
-type EffectId = typeof EFFECTS[number]["id"];
-type DjId = typeof DJ_OPTIONS[number]["id"];
-type StarId = typeof STAR_OPTIONS[number]["id"];
-type AddonId = typeof ADDONS[number]["id"];
+type EffectId = DjCalcEffectId;
+type DjId = DjCalcDjId;
+type AddonId = DjCalcAddonId;
 
 /* סולם ההנחות מגיע מ-getEventBundlePrice, בדיוק כמו באשף ההזמנה וב-/book.
    קודם היה כאן חישוב נפרד של "חבילות של שלוש" עם 1,500 ו-3,540 קשיחים,
@@ -128,6 +72,21 @@ function calcEffectTotal(selected: Set<EffectId>): { total: number; discount: nu
 }
 
 /* ─── Sub-components ─────────────────────────────────────────────────────────── */
+
+/** "5,900 ₪ כולל מע״מ" בגדול ו-"5,000 ₪ + מע״מ" בקטן (החלטת הבעלים 2.10.2026) */
+function priceLabel(exVat: number): string {
+  return formatPrice(exVat).inline;
+}
+
+function CalcPrice({ exVat, className }: { exVat: number; className?: string }) {
+  const price = formatPrice(exVat);
+  return (
+    <span className={cn("inline-flex flex-col", className)}>
+      <span>{price.headline}</span>
+      <span className="text-[0.65rem] font-normal text-muted-foreground">{price.vatNote}</span>
+    </span>
+  );
+}
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -179,7 +138,7 @@ function ExclusiveCard({
         </span>
       </div>
       <p className="text-xs text-muted-foreground">{sub}</p>
-      <p className="text-xl font-bold text-brand-red">{formatCurrency(price)}</p>
+      <CalcPrice exVat={price} className="text-xl font-bold text-brand-red" />
     </button>
   );
 }
@@ -192,7 +151,6 @@ type DjPanelDraft = {
   step: number;
   festivalSelected: boolean;
   djId: DjId | null;
-  starId: StarId | null;
   addons: AddonId[];
   effects: EffectId[];
   form: FormState;
@@ -210,7 +168,6 @@ type DjEventsCalculatorProps = {
 export default function DjEventsCalculator({ className, routeId = null }: DjEventsCalculatorProps) {
   const [festivalSelected, setFestivalSelected] = useState(false);
   const [djId, setDjId] = useState<DjId | null>(null);
-  const [starId, setStarId] = useState<StarId | null>(null);
   const [addons, setAddons] = useState<Set<AddonId>>(new Set());
   const [effects, setEffects] = useState<Set<EffectId>>(new Set());
   const [form, setForm] = useState<FormState>({
@@ -243,7 +200,6 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     setFestivalSelected((v) => {
       if (!v) {
         setDjId(null);
-        setStarId(null);
         setAddons(new Set());
         setEffects(new Set());
       }
@@ -251,17 +207,18 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     });
   };
 
-  const djPrice = djId ? (DJ_OPTIONS.find((d) => d.id === djId)?.price ?? 0) : 0;
-  const starPrice = starId ? (STAR_OPTIONS.find((s) => s.id === starId)?.price ?? 0) : 0;
+  const djPrice = djId ? (DJ_OPTIONS.find((d) => d.id === djId)?.priceExVat ?? 0) : 0;
   const addonTotal = [...addons].reduce(
-    (acc, id) => acc + (ADDONS.find((a) => a.id === id)?.price ?? 0),
+    (acc, id) => acc + (ADDONS.find((a) => a.id === id)?.priceExVat ?? 0),
     0,
   );
   const { total: effectTotal, discount: effectDiscount } = calcEffectTotal(effects);
 
+  /* הכל לפני מע״מ, ומע״מ מתווסף פעם אחת בלבד (withVat). WP2: קודם 9,800
+     כולל מע״מ נכנס כאן כאילו הוא לפני מע״מ. */
   const grandTotal = festivalSelected
-    ? FESTIVAL_PACKAGE.price
-    : djPrice + starPrice + addonTotal + effectTotal;
+    ? FESTIVAL_PACKAGE.priceExVat
+    : djPrice + addonTotal + effectTotal;
 
   const livePriceReport = useMemo(() => {
     if (grandTotal <= 0) return null;
@@ -284,20 +241,16 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     if (festivalSelected) {
       lines.push({
         label: "חבילה",
-        value: `${FESTIVAL_PACKAGE.name} (${formatCurrency(FESTIVAL_PACKAGE.price)})`,
+        value: `${FESTIVAL_PACKAGE.name} (${priceLabel(FESTIVAL_PACKAGE.priceExVat)})`,
       });
     } else {
       if (djId) {
         const dj = DJ_OPTIONS.find((d) => d.id === djId)!;
-        lines.push({ label: "DJ", value: `${dj.name} (${formatCurrency(dj.price)})` });
-      }
-      if (starId) {
-        const star = STAR_OPTIONS.find((s) => s.id === starId)!;
-        lines.push({ label: "רגע של כוכב", value: `${star.name} (${formatCurrency(star.price)})` });
+        lines.push({ label: "DJ", value: `${dj.name} (${priceLabel(dj.priceExVat)})` });
       }
       addons.forEach((id) => {
         const a = ADDONS.find((x) => x.id === id)!;
-        lines.push({ label: "תוספת", value: `${a.name} (${formatCurrency(a.price)})` });
+        lines.push({ label: "תוספת", value: `${a.name} (${priceLabel(a.priceExVat)})` });
       });
       if (effects.size > 0) {
         lines.push({
@@ -309,7 +262,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
         });
       }
       if (effectDiscount > 0) {
-        lines.push({ label: "חיסכון אפקטים", value: `-${formatCurrency(effectDiscount)}` });
+        lines.push({
+          label: "הנחת כמות באפקטים",
+          value: `-${withVat(effectDiscount).toLocaleString("he-IL")} ₪ כולל מע״מ`,
+        });
       }
     }
     return lines;
@@ -323,7 +279,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
       name: sanitizeLeadText(form.name, 60),
       phone: displayPhone,
     }, { bookCategory: "dj", source: "dj-events" });
-  }, [form, festivalSelected, djId, starId, addons, effects, effectDiscount]);
+  }, [form, festivalSelected, djId, addons, effects, effectDiscount]);
 
   const hasSelection = grandTotal > 0;
   const formValid = isDjReserveFormValid(form);
@@ -341,12 +297,11 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
           : 0,
       festivalSelected,
       djId,
-      starId,
       addons: [...addons],
       effects: [...effects],
       form,
     }),
-    [hasSelection, festivalSelected, djId, starId, addons, effects, form],
+    [hasSelection, festivalSelected, djId, addons, effects, form],
   );
 
   useBookPanelDraft<DjPanelDraft>({
@@ -356,7 +311,6 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     onRestore: (saved) => {
       setFestivalSelected(saved.festivalSelected);
       setDjId(saved.djId);
-      setStarId(saved.starId);
       setAddons(new Set(saved.addons));
       setEffects(new Set(saved.effects));
       setForm(saved.form);
@@ -383,7 +337,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
       includeTrustFooter: true,
       ycForm: "dj_events_calculator",
     });
-  }, [hasSelection, formValid, form, grandTotal, festivalSelected, djId, starId, addons, effects, effectDiscount]);
+  }, [hasSelection, formValid, form, grandTotal, festivalSelected, djId, addons, effects, effectDiscount]);
 
   const handleAction = useCallback(
     (intent: "continue_chat" | "start_now") => {
@@ -438,7 +392,6 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
       hasSelection,
       festivalSelected,
       djId,
-      starId,
       addons,
       effects,
       effectDiscount,
@@ -476,11 +429,11 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                 <p className="mt-1 text-xs text-muted-foreground">{FESTIVAL_PACKAGE.sub}</p>
               </div>
               <p className="shrink-0 text-2xl font-bold text-brand-red">
-                {formatCurrency(FESTIVAL_PACKAGE.price)}
+                <CalcPrice exVat={FESTIVAL_PACKAGE.priceExVat} />
               </p>
             </div>
             <ul className="mt-4 grid grid-cols-1 gap-1 sm:grid-cols-2">
-              {FESTIVAL_PACKAGE.includes.map((f) => (
+              {FESTIVAL_PACKAGE.features.map((f) => (
                 <li key={f} className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span className="text-brand-red" aria-hidden>✓</span>
                   {f}
@@ -502,28 +455,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   key={dj.id}
                   name={dj.name}
                   sub={dj.sub}
-                  price={dj.price}
+                  price={dj.priceExVat}
                   badge={dj.badge}
                   selected={djId === dj.id}
                   onClick={() => setDjId((prev) => (prev === dj.id ? null : dj.id))}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Star moment */}
-          <div className="mt-8">
-            <SectionTitle>🌟 &quot;רגע של כוכב&quot;  -  אופציונלי</SectionTitle>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {STAR_OPTIONS.map((star) => (
-                <ExclusiveCard
-                  key={star.id}
-                  name={star.name}
-                  sub={star.sub}
-                  price={star.price}
-                  badge={star.badge}
-                  selected={starId === star.id}
-                  onClick={() => setStarId((prev) => (prev === star.id ? null : star.id))}
                 />
               ))}
             </div>
@@ -553,9 +488,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                       <p className="text-sm font-semibold text-foreground">{addon.name}</p>
                       <p className="text-xs text-muted-foreground">{addon.sub}</p>
                     </div>
-                    <span className="shrink-0 text-sm font-bold text-foreground">
-                      {formatCurrency(addon.price)}
-                    </span>
+                    <CalcPrice
+                      exVat={addon.priceExVat}
+                      className="shrink-0 text-sm font-bold text-foreground"
+                    />
                     <span
                       className={cn(
                         "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
@@ -586,15 +522,15 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   : "border-brand-red/30 bg-brand-red/5 text-foreground",
               )}>
                 {isEventQuoteOnly(effects.size)
-                  ? `🎁 מ-${formatCurrency(getEventBundlePrice(effects.size))} לפני מע״מ. מארבע אטרקציות המחיר נסגר בשיחה`
+                  ? `🎁 ${formatPrice(getEventBundlePrice(effects.size), { from: true }).inline}. מארבע אטרקציות המחיר נסגר בשיחה`
                   : effectDiscount > 0
-                    ? `🎁 הנחת כמות: -${formatCurrency(effectDiscount)} (${effects.size} אטרקציות ב-${formatCurrency(getEventBundlePrice(effects.size))})`
+                    ? `🎁 הנחת כמות: ${effects.size} אטרקציות ב-${priceLabel(getEventBundlePrice(effects.size))}`
                     : `💡 עוד אטרקציה אחת ומתחילה הנחה של 10%`}
               </div>
             )}
             {effects.size === 0 && (
               <p className="mb-4 text-xs text-muted-foreground">
-                אטרקציה בודדת: {formatCurrency(ATTRACTION_UNIT)} · שתיים: הנחה 10% · שלוש: הנחה 15% · ארבע ומעלה: הנחה 20%
+                אטרקציה בודדת: {priceLabel(ATTRACTION_UNIT)} · שתיים: הנחה 10% · שלוש: הנחה 15% · ארבע ומעלה: הנחה 20%
               </p>
             )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -621,7 +557,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                     <span className="text-2xl" aria-hidden>{ef.icon}</span>
                     <span className="text-xs font-semibold text-foreground">{ef.name}</span>
                     <span className="text-[0.65rem] text-muted-foreground leading-snug">{ef.sub}</span>
-                    <span className="text-sm font-bold text-brand-red">{formatCurrency(ef.price)}</span>
+                    <CalcPrice exVat={ATTRACTION_UNIT} className="text-sm font-bold text-brand-red" />
                   </button>
                 );
               })}
@@ -787,7 +723,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               { time: "קבלת פנים", icon: "🖼️", name: "מצגת + אולפן נייד", desc: "ברקע + אורחים מקליטים" },
               { time: "כניסה", icon: "🎬", name: "פסקול + עשן כבד", desc: "כניסה דרמטית" },
               { time: "רחבה", icon: "🎧", name: "DJ + מתופף + בלונים", desc: "שיא האנרגיה" },
-              { time: "רגע שיא", icon: "🌟", name: "רגע של כוכב + זיקוקים", desc: "הרגע שכולם מצלמים" },
+              { time: "רגע שיא", icon: "🌟", name: "זיקוקים קרים", desc: "הרגע שכולם מצלמים" },
               { time: "סיום", icon: "🎊", name: "קונפטי + קצף", desc: "סיום מטורף" },
             ].map((step) => (
               <div key={step.time} className="rounded-xl border border-border bg-background p-3 text-center">
@@ -809,7 +745,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               { icon: "📦", text: "ציוד, הובלה, הקמה ופירוק  -  ללא הפתעות" },
               { icon: "⏰", text: "הגעה שעה לפני האירוע להקמה ובדיקות" },
               { icon: "💳", text: "50% מקדמה בהזמנה, 50% ביום האירוע" },
-              { icon: "📋", text: "כל המחירים לפני מע״מ (יש להוסיף 18%)" },
+              { icon: "📋", text: "המחירים כוללים מע״מ. מתחת לכל מחיר: הסכום לפני מע״מ" },
               { icon: "📱", text: "סרטון מעוצב מכל אטרקציה  -  תוך 72 שעות" },
             ].map((item) => (
               <div key={item.text} className="flex items-start gap-2 text-xs text-muted-foreground">
@@ -823,9 +759,11 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
 
       {/* Sticky bar */}
       <CalculatorStickyBar
-        total={grandTotal}
-        totalLabel="השקעה משוערת - לפני מע״מ"
-        subLabel={effectDiscount > 0 ? `כולל חיסכון ${formatCurrency(effectDiscount)}` : undefined}
+        total={withVat(grandTotal)}
+        totalLabel="השקעה משוערת, כולל מע״מ"
+        subLabel={
+          grandTotal > 0 ? `${grandTotal.toLocaleString("he-IL")} ₪ + מע״מ` : undefined
+        }
         whatsappHref=""
         showCta={hasSelection}
         continueDisabled={!canReserve}

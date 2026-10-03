@@ -1,4 +1,7 @@
-﻿export const WEDDING_PACKAGES_WHY: readonly {
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
+
+export const WEDDING_PACKAGES_WHY: readonly {
   emoji: string;
   title: string;
   description: string;
@@ -31,7 +34,8 @@
 export const PACKAGE_DJ_THREE_ATTRACTIONS = {
   name: "חבילה 1: DJ + 3 אטרקציות",
   badge: "💎",
-  djHours: "עד 7 שעות",
+  /* WP2: היה "עד 7 שעות", יותר מחבילת הפסטיבל (5 שעות). DJ מהצוות הוא 4 שעות (ED-04) */
+  djHours: "תקליטן מהצוות, 4 שעות",
   attractions: [
     { label: "עשן כבד", href: "/events/attractions/wedding-smoking-machine" },
     { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
@@ -47,7 +51,7 @@ export const PACKAGE_DJ_THREE_ATTRACTIONS = {
 
 export const PACKAGE_FESTIVAL = {
   name: 'חבילת "פסטיבל", הכל כלול',
-  price: "15,000 ₪",
+  price: formatPrice(getExVat("festival_all_in")).inline,
   includes: [
     "DJ פרימיום מהצוות (5 שעות)",
     "אולפן הקלטות נייד באירוע",

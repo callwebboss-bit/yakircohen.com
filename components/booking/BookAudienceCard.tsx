@@ -245,7 +245,7 @@ export default function BookAudienceCard({
         )}
 
         <div className="mt-4 flex-1">
-          <BookPriceDual exVat={route.priceExVat} dualLabel={route.startingPriceDual} size="sm" />
+          <BookPriceDual exVat={route.priceExVat} audience={route.priceAudience} size="sm" />
           {!compact && bullets.length > 0 ? (
             <ul className="mt-3 space-y-1.5">
               {bullets.map((line) => (

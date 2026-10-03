@@ -1,4 +1,5 @@
 import type { FAQItem } from "@/components/ui/FAQAccordion";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 export type AudienceLandingService = {
   id: string;
@@ -81,7 +82,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           id: "dj",
           icon: "🎧",
           title: "DJ לחתונה",
-          description: "הגעה לפני האורחים, בדיקת סאונד, עד 7 שעות הפעלה.",
+          description: "הגעה לפני האורחים, בדיקת סאונד. תקליטן מהצוות 4 שעות, או יקיר אישית 5 שעות.",
           href: "/events/dj-events",
         },
         {
@@ -90,7 +91,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           title: "חבילות DJ + אטרקציות",
           description: "עשן, זיקוקים, קונפטי - חיסכון של 20-30% בחבילה משולבת.",
           href: "/events/wedding-attractions-packages",
-          priceHint: 'חבילת "פסטיבל" מ-15,000 ₪',
+          priceHint: `חבילת "פסטיבל" ${formatFromPriceDual(getExVat("festival_all_in"))}`,
         },
         {
           id: "photo",

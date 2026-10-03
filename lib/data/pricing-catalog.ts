@@ -338,6 +338,8 @@ export const PRICING_CATALOG = [
     exVat: 5000,
     category: "dj",
     context: "4 שעות תקלוט של דיג׳יי מנוסה",
+    /* החלטת הבעלים ED-04: תקליטן מהצוות, 4 שעות, עד 300 מוזמנים */
+    scope: { duration: "4 שעות תקלוט", includes: "תקליטן מהצוות" },
     suitedFor: "אירוע עד 300 מוזמנים",
   },
   {
@@ -346,6 +348,7 @@ export const PRICING_CATALOG = [
     exVat: 8305,
     category: "dj",
     context: "5 שעות VIP עם יקיר על הקונסולה",
+    scope: { duration: "5 שעות תקלוט", includes: "יקיר כהן על הקונסולה" },
     suitedFor: "חתונות VIP, אירועי חברה",
   },
   {

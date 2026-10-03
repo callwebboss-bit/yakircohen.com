@@ -3,7 +3,8 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import ServiceCard from "@/components/marketing/ServiceCard";
 import { HOME_QUICK_PATHS } from "@/lib/data/home-quick-paths";
-import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 export default function HomeQuickPaths() {
   return (
@@ -33,10 +34,7 @@ export default function HomeQuickPaths() {
 
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOME_QUICK_PATHS.map((path) => {
-            const priceExVat =
-              path.fromPriceExVat ??
-              (path.priceId ? getExVat(path.priceId) : 0);
-            const priceWithVat = catalogWithVat(priceExVat);
+            const price = formatPrice(getExVat(path.priceId), { from: true });
 
             return (
               <li key={path.id} className="h-full">
@@ -50,8 +48,8 @@ export default function HomeQuickPaths() {
                     </span>
                   }
                   suitedFor={path.suitedFor}
-                  fromPrice={`החל מ-${priceExVat.toLocaleString("he-IL")} ₪`}
-                  fromPriceSubline={`כולל מע״מ: ${priceWithVat.toLocaleString("he-IL")} ₪`}
+                  fromPrice={`החל ${price.headline}`}
+                  fromPriceSubline={`${path.priceLabel} · ${price.vatNote}`}
                   ctaLabel="לפרטים והרשמה"
                 />
               </li>
