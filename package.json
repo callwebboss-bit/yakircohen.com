@@ -56,6 +56,7 @@
     "audit:blog-categories": "node scripts/audit-blog-categories.mjs",
     "audit:schema-prices": "node scripts/audit-schema-prices.mjs",
     "audit:llms-prices": "node scripts/audit-llms-prices.mjs && tsx scripts/sync-llms.ts --check",
+    "audit:prose-price-backing": "node scripts/audit-prose-price-backing.mjs",
     "audit:prose-prices": "node scripts/audit-prose-prices.mjs",
     "audit:llms-coverage": "tsx scripts/audit-llms-coverage.ts",
     "audit:portfolio-curation": "tsx scripts/audit-portfolio-curation.ts",
