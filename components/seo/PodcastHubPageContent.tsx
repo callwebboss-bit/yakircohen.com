@@ -46,6 +46,9 @@ import {
 } from "@/lib/data/youtube-embeds";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Container from "@/components/ui/Container";
+import PriceWithVat from "@/components/booking/PriceWithVat";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
   PODCAST_HUB_TRACKS_CONTENT,
@@ -138,7 +141,7 @@ export default function PodcastHubPageContent() {
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט במודיעין"
-        subtitle="הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - מ-750 ₪ לפני מע״מ."
+        subtitle={`הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}.`}
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
@@ -146,7 +149,7 @@ export default function PodcastHubPageContent() {
         valueFrame={TIME_CLAIMS.podcastValueFrame}
         scarcityLabel="🔥 פנויים השבוע ל-3 פרויקטים בלבד"
         ctaLabel={PODCAST_HUB_CTA_LABEL}
-        startingPrice={`${PODCAST_HUB_STARTING_PRICE} ₪ לפני מע״מ`}
+        startingPrice={PODCAST_HUB_STARTING_PRICE}
         showBookCtaInHero={Boolean(bookCta)}
         bookHref={bookCta?.bookHref}
         bookLabel={bookCta?.bookLabel}
@@ -243,7 +246,7 @@ export default function PodcastHubPageContent() {
                     <span className="text-sm font-normal text-muted-foreground">
                       מ-
                     </span>
-                    {item.priceFrom.toLocaleString("he-IL")} ₪
+                    <PriceWithVat amountExVat={item.priceFrom} size="lg" lead="withVat" />
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     {item.outcome}
@@ -529,7 +532,7 @@ export default function PodcastHubPageContent() {
                         {pkg.id === "recording-only" ? "עד 30 דקות" : "עד שעה"}
                       </td>
                       <td className="p-4 font-semibold text-foreground">
-                        החל מ-{pkg.priceFrom.toLocaleString("he-IL")} ₪
+                        {formatPrice(pkg.priceFrom, { from: true }).inline}
                       </td>
                     </tr>
                   ))}
@@ -574,7 +577,7 @@ export default function PodcastHubPageContent() {
                       <span className="text-sm font-normal text-muted-foreground">
                         החל מ-
                       </span>
-                      {pkg.priceFrom.toLocaleString("he-IL")} ₪
+                      <PriceWithVat amountExVat={pkg.priceFrom} size="lg" lead="withVat" />
                     </p>
 
                     <ul className="mt-5 space-y-2.5">
@@ -620,7 +623,7 @@ export default function PodcastHubPageContent() {
                 רוצים לחשב מחיר מדויק לפרק שלכם?
               </h3>
               <p className="mt-2 text-center text-sm text-muted-foreground">
-                {PODCAST_HUB_STARTING_PRICE} ₪ -{" "}
+                {PODCAST_HUB_STARTING_PRICE} -{" "}
                 {PODCAST_HUB_STARTING_PRICE_NOTE}
               </p>
               <PodcastCalculatorLazy className="mt-6" />
@@ -761,7 +764,7 @@ export default function PodcastHubPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-lg font-semibold text-background">
-              החל מ-{PODCAST_HUB_STARTING_PRICE} ₪ לפרק של חצי שעה
+              פרק ערוך החל {PODCAST_HUB_STARTING_PRICE}
             </p>
             <p className="mt-1 text-sm text-background/70">
               {PODCAST_HUB_STARTING_PRICE_NOTE}

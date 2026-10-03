@@ -4,12 +4,11 @@
  * לא יוצרת URLs חדשים ולא משנה canonical.
  */
 
-import { getExVat } from "@/lib/data/pricing-catalog";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { getDecisionPaths } from "@/lib/data/service-decision-paths";
 import { getNextUpSuggestion } from "@/lib/data/next-up";
 import { getSameCategoryLinks } from "@/lib/site-architecture";
 
-const BLESSING_EX_VAT = getExVat("blessing_recording");
 
 export type FitAudience = "families" | "creators" | "business";
 export type FitDelivery = "in_studio" | "mobile" | "on_site" | "self_service";
@@ -33,7 +32,12 @@ export type ServiceFitEntry = {
   outcome: FitOutcome;
   /** דף מומלץ הבא - pathname קיים בלבד */
   nextPath: string;
-  priceAnchorExVat?: number;
+  /**
+   * עוגן מחיר מהקטלוג (שלב 4, סעיף 2B). היה priceAnchorExVat, מספר כתוב, ובפועל
+   * 36 מספרים: 990 לשיר אחרי שהמחיר ירד ל-500, 1,750 לאטרקציות, 750 (חצי שעה
+   * גלם) לעמוד הקלטת הפודקאסט. עמוד בלי מוצר מתומחר משלו לא מקבל עוגן.
+   */
+  priceAnchorId?: PriceItemId;
   notes?: string;
 };
 
@@ -94,7 +98,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "ready_song",
     nextPath: "/studio/blessings/video-clip",
-    priceAnchorExVat: 990,
+    priceAnchorId: "song_recording",
   },
   {
     pathname: "/studio/recording-song-modiin/gifts",
@@ -115,7 +119,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: BLESSING_EX_VAT,
+    priceAnchorId: "blessing_recording",
     notes: "אפשר גם מהבית - עדיין אותו outcome",
   },
   {
@@ -127,7 +131,6 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "video_clip",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 4500,
   },
   {
     pathname: "/studio/blessings/bar-mitzvah",
@@ -138,7 +141,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/blessings/video-clip",
-    priceAnchorExVat: BLESSING_EX_VAT,
+    priceAnchorId: "blessing_recording",
   },
   {
     pathname: "/studio/blessings/bride-groom-blessing",
@@ -149,7 +152,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: BLESSING_EX_VAT,
+    priceAnchorId: "blessing_recording",
   },
   {
     pathname: "/studio/mobile-studio",
@@ -161,7 +164,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "ready_song",
     nextPath: "/pricing",
-    priceAnchorExVat: 5000,
+    priceAnchorId: "mobile_podcast_at_home",
     notes: "לא לערבב עם הקלטה באולפן מודיעין",
   },
   {
@@ -173,7 +176,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/pricing",
-    priceAnchorExVat: 750,
+    priceAnchorId: "studio_half_hour",
   },
   {
     pathname: "/studio/studio-jerusalem",
@@ -219,7 +222,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-editing",
-    priceAnchorExVat: 750,
+    priceAnchorId: "full_podcast_production",
   },
   {
     pathname: "/podcast/podcast-production",
@@ -231,7 +234,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-editing",
-    priceAnchorExVat: 1650,
+    priceAnchorId: "podcast_video",
   },
   {
     pathname: "/podcast/podcast-editing",
@@ -242,7 +245,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-recording",
-    priceAnchorExVat: 750,
+    priceAnchorId: "podcast_editing_hour",
     notes: "מרחוק על קובץ קיים - לא סשן אולפן",
   },
   {
@@ -254,7 +257,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "self_service",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-recording",
-    priceAnchorExVat: 750,
+    priceAnchorId: "studio_half_hour",
     notes: "חדר+ציוד בלי הפקה מלאה",
   },
   {
@@ -266,7 +269,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "self_service",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-editing",
-    priceAnchorExVat: 650,
+    priceAnchorId: "studio_self_service_hour",
   },
   {
     pathname: "/podcast/mobile-podcast-at-home",
@@ -278,7 +281,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "finished_podcast_episode",
     nextPath: "/pricing",
-    priceAnchorExVat: 2500,
+    priceAnchorId: "mobile_podcast_at_home",
     notes: "לא לערבב עם הקלטה באולפן",
   },
   {
@@ -300,7 +303,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "finished_podcast_episode",
     nextPath: "/business",
-    priceAnchorExVat: 4800,
+    priceAnchorId: "corp_podcast_retainer",
     notes: "נפרד מפודקאסט ליוצרים פרטיים",
   },
   {
@@ -312,7 +315,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/corporate-podcast",
-    priceAnchorExVat: 950,
+    priceAnchorId: "bulk_podcast_episode",
   },
 
   // ── Business ──
@@ -325,7 +328,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "business_content_day",
     nextPath: "/business/on-site-studio",
-    priceAnchorExVat: 1650,
+    priceAnchorId: "content_studio_pilot",
   },
   {
     pathname: "/business/on-site-studio",
@@ -336,7 +339,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "business_content_day",
     nextPath: "/pricing",
-    priceAnchorExVat: 6500,
+    priceAnchorId: "on_site_half_day",
     notes: "on-site ≠ mobile למשפחה",
   },
   {
@@ -348,7 +351,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "video_clip",
     nextPath: "/business/content-studio",
-    priceAnchorExVat: 950,
+    priceAnchorId: "reel_factory_single",
   },
   {
     pathname: "/business/audiobooks",
@@ -359,7 +362,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "finished_audiobook",
     nextPath: "/voiceover/services",
-    priceAnchorExVat: 750,
+    priceAnchorId: "audiobook_hour",
   },
   {
     pathname: "/business/employer-branding",
@@ -370,7 +373,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "business_content_day",
     nextPath: "/business/content-studio",
-    priceAnchorExVat: 4500,
+    priceAnchorId: "employer_welcome",
   },
   {
     pathname: "/business/corporate-songs",
@@ -381,7 +384,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "ready_song",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 5000,
+    priceAnchorId: "corp_song_toast",
   },
 
   // ── Academy ──
@@ -425,7 +428,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/academy",
-    priceAnchorExVat: 990,
+    priceAnchorId: "academy_private_hour",
   },
   {
     pathname: "/academy/workshops",
@@ -436,7 +439,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "business_content_day",
     nextPath: "/business/content-studio",
-    priceAnchorExVat: 2800,
+    priceAnchorId: "workshop_team_2h",
   },
   {
     pathname: "/academy/ai-music",
@@ -459,7 +462,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/online/vocal-fix/send-file",
-    priceAnchorExVat: 450,
+    priceAnchorId: "ai_voice_enhance",
   },
   {
     pathname: "/online/mashup-fixer",
@@ -470,7 +473,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/events/dj-events",
-    priceAnchorExVat: 650,
+    priceAnchorId: "mashup_custom_planned",
   },
   {
     pathname: "/online/transcription",
@@ -481,7 +484,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/online",
-    priceAnchorExVat: 180,
+    priceAnchorId: "transcribe_30min",
   },
   {
     pathname: "/online/vocal-fix/pitch-correction",
@@ -502,7 +505,6 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 1750,
   },
   {
     pathname: "/online/voice-cloning",
@@ -514,7 +516,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "recorded_blessing",
     nextPath: "/voiceover/services",
-    priceAnchorExVat: 2500,
+    priceAnchorId: "voice_clone_setup",
   },
   {
     pathname: "/online/legacy-digitization",
@@ -525,7 +527,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "ready_song",
     nextPath: "/studio/blessings",
-    priceAnchorExVat: 350,
+    priceAnchorId: "legacy_dig_basic",
   },
   {
     pathname: "/podcast/studio-in-a-box",
@@ -536,7 +538,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/corporate-podcast",
-    priceAnchorExVat: 2500,
+    priceAnchorId: "studio_in_box_consult",
     notes: "ציוד לעסק - לא סשן באולפן",
   },
 
@@ -551,7 +553,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "ready_song",
     nextPath: "/events/attractions",
-    priceAnchorExVat: 5000,
+    priceAnchorId: "dj_premium",
   },
   {
     pathname: "/events/bar-mitzvah",
@@ -562,7 +564,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "video_clip",
     nextPath: "/studio/blessings/bar-mitzvah",
-    priceAnchorExVat: 5000,
+    priceAnchorId: "dj_premium",
     notes: "הפקת הערב בשטח. הקלטת הדרשה באולפן היא עמוד נפרד",
   },
   {
@@ -574,7 +576,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "video_clip",
     nextPath: "/events/wedding-attractions-packages",
-    priceAnchorExVat: 1750,
+    priceAnchorId: "event_attraction_1",
   },
   {
     pathname: "/events/wedding-attractions-packages",
@@ -595,7 +597,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "video_clip",
     nextPath: "/events/dj-events",
-    priceAnchorExVat: 1750,
+    priceAnchorId: "led_lighting",
   },
   {
     pathname: "/events/equipment",
@@ -627,7 +629,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "video_clip",
     nextPath: "/studio/recording-song-modiin",
-    priceAnchorExVat: 750,
+    priceAnchorId: "growth_slideshow_30",
   },
 
   // ── Voiceover / Video ──
@@ -672,7 +674,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "video_clip",
     nextPath: "/events/dj-events",
-    priceAnchorExVat: 12000,
+    priceAnchorId: "full_event_photo_8h",
   },
   {
     pathname: "/photography/events",
@@ -684,7 +686,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "assisted",
     outcome: "video_clip",
     nextPath: "/photography/wedding",
-    priceAnchorExVat: 1500,
+    priceAnchorId: "event_photo_hourly",
   },
   {
     pathname: "/business/audio-branding",
@@ -695,7 +697,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "recorded_blessing",
     nextPath: "/business/content-studio",
-    priceAnchorExVat: 1500,
+    priceAnchorId: "audio_brand_starter",
   },
   {
     pathname: "/business/social-media",
@@ -706,7 +708,6 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     guidance: "full_production",
     outcome: "business_content_day",
     nextPath: "/business/reel-factory",
-    priceAnchorExVat: 2500,
   },
   {
     pathname: "/business/professional-voiceover",

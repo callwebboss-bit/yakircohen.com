@@ -364,13 +364,6 @@
     "example": "subtitle=\"עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. מ-750 ₪ לשעת חומר לפני מע״מ.\""
   },
   {
-    "file": "components/seo/PodcastHubPageContent.tsx",
-    "kind": "prose",
-    "value": 750,
-    "count": 1,
-    "example": "subtitle=\"הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - מ-750 ₪ לפני מע״מ.\""
-  },
-  {
     "file": "components/seo/PodcastSelfServicePageContent.tsx",
     "kind": "prose",
     "value": 650,
@@ -1589,48 +1582,6 @@
     "example": "price: 2500,"
   },
   {
-    "file": "lib/data/podcast-hub-page.ts",
-    "kind": "prose",
-    "value": 750,
-    "count": 1,
-    "example": "\"חבילת בסיס מתחילה מ-750 ₪ לפרק (לפני מע״מ) וכוללת שעת סטודיו, הקלטה ועריכת סאונד מקצועית. הפקה עם צילום 4K מתחילה מ-2,500 ₪ ומגיעה עם MP4 ליוטיוב, MP3 להפצה לס"
-  },
-  {
-    "file": "lib/data/podcast-hub-page.ts",
-    "kind": "prose",
-    "value": 2500,
-    "count": 1,
-    "example": "\"חבילת בסיס מתחילה מ-750 ₪ לפרק (לפני מע״מ) וכוללת שעת סטודיו, הקלטה ועריכת סאונד מקצועית. הפקה עם צילום 4K מתחילה מ-2,500 ₪ ומגיעה עם MP4 ליוטיוב, MP3 להפצה לס"
-  },
-  {
-    "file": "lib/data/podcast-hub-tracks.ts",
-    "kind": "prose",
-    "value": 750,
-    "count": 2,
-    "example": "description: \"הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.\","
-  },
-  {
-    "file": "lib/data/podcast-hub-tracks.ts",
-    "kind": "prose",
-    "value": 950,
-    "count": 1,
-    "example": "fromPrice: \"החל מ-950 ₪/פרק + מע״מ\","
-  },
-  {
-    "file": "lib/data/podcast-hub-tracks.ts",
-    "kind": "prose",
-    "value": 2500,
-    "count": 2,
-    "example": "description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}, החל מ-2,500 ₪.`,"
-  },
-  {
-    "file": "lib/data/podcast-hub-tracks.ts",
-    "kind": "prose",
-    "value": 4800,
-    "count": 1,
-    "example": "fromPrice: \"החל מ-4,800 ₪/חודש + מע״מ\","
-  },
-  {
     "file": "lib/data/podcast-production-page.ts",
     "kind": "prose",
     "value": 950,
@@ -1769,125 +1720,6 @@
     "value": 2800,
     "count": 1,
     "example": "\"events/equipment/singer-amplification\": { bookCategory: \"singer\", priceExVat: 2800 },"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 180,
-    "count": 1,
-    "example": "priceAnchorExVat: 180,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 350,
-    "count": 1,
-    "example": "priceAnchorExVat: 350,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 450,
-    "count": 1,
-    "example": "priceAnchorExVat: 450,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 650,
-    "count": 2,
-    "example": "priceAnchorExVat: 650,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 750,
-    "count": 6,
-    "example": "priceAnchorExVat: 750,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 950,
-    "count": 2,
-    "example": "priceAnchorExVat: 950,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 990,
-    "count": 2,
-    "example": "priceAnchorExVat: 990,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 1500,
-    "count": 2,
-    "example": "priceAnchorExVat: 1500,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 1650,
-    "count": 2,
-    "example": "priceAnchorExVat: 1650,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 1750,
-    "count": 3,
-    "example": "priceAnchorExVat: 1750,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 2500,
-    "count": 4,
-    "example": "priceAnchorExVat: 2500,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 2800,
-    "count": 1,
-    "example": "priceAnchorExVat: 2800,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 4500,
-    "count": 2,
-    "example": "priceAnchorExVat: 4500,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 4800,
-    "count": 1,
-    "example": "priceAnchorExVat: 4800,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 5000,
-    "count": 4,
-    "example": "priceAnchorExVat: 5000,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 6500,
-    "count": 1,
-    "example": "priceAnchorExVat: 6500,"
-  },
-  {
-    "file": "lib/data/service-fit-matrix.ts",
-    "kind": "field",
-    "value": 12000,
-    "count": 1,
-    "example": "priceAnchorExVat: 12000,"
   },
   {
     "file": "lib/data/services.ts",
@@ -2166,7 +1998,7 @@
     "file": "lib/seo/hub-pages.ts",
     "kind": "prose",
     "value": 750,
-    "count": 2,
+    "count": 1,
     "example": "\"אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, מיקרופוני Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט, מ-750 ₪.\","
   },
   {

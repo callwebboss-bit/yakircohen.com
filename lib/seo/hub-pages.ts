@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 import type { ServiceEntity } from "@/lib/data/services";
 import { constructMetadata } from "@/lib/metadata";
 import {
@@ -21,7 +22,8 @@ export const PODCAST_HUB_SEO: HubPageSeo = {
   slug: "podcast",
   title: "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה",
   description:
-    "אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, מיקרופוני Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט, מ-750 ₪.",
+    /* WP3: היה "מ-750 ₪", מחיר חצי שעה גלם בלי עריכה, בתיאור שמבטיח פרק מוכן */
+    `אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט. פרק ערוך מ-${withVat(getExVat("podcast_audio")).toLocaleString("he-IL")} ₪ כולל מע״מ.`,
   keywords: [
     "אולפן פודקאסט",
     "תוכנית שמע",

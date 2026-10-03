@@ -7,7 +7,8 @@ import {
   type FitAudience,
   type ServiceFitEntry,
 } from "@/lib/data/service-fit-matrix";
-import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice, getPriceAudience } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
 const AUDIENCE_ORDER: readonly FitAudience[] = [
@@ -24,26 +25,18 @@ export type HubAudienceFitBlockProps = {
   className?: string;
   /** כמה שירותים מקסימום לכל קהל */
   maxPerAudience?: number;
-  /**
-   * "withVat" בעמודי צרכן שמציגים כולל מע״מ (למשל /studio, שבו גם טופס השיר).
-   * ברירת המחדל נשארת לפני מע״מ כדי שעמודי העסקים לא ישתנו.
-   */
+  /** @deprecated הקהל נגזר מנתיב כל כרטיס (getPriceAudience). נשאר לתאימות */
   priceLead?: "exVat" | "withVat";
 };
 
-function formatPrice(exVat: number, lead: "exVat" | "withVat"): string {
-  return lead === "withVat"
-    ? `מ-${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`
-    : `מ-${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`;
+/* כולל מע״מ לצרכן, לפני מע״מ לעמודי /business (החלטת הבעלים 2.10.2026) */
+function anchorLabel(entry: ServiceFitEntry): string {
+  if (!entry.priceAnchorId) return "";
+  const audience = getPriceAudience(entry.pathname);
+  return formatPrice(getExVat(entry.priceAnchorId), { from: true, audience }).headline;
 }
 
-function ServiceCard({
-  entry,
-  priceLead,
-}: {
-  entry: ServiceFitEntry;
-  priceLead: "exVat" | "withVat";
-}) {
+function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
   return (
     <li>
       <Link
@@ -56,9 +49,7 @@ function ServiceCard({
         <span className="text-xs text-muted-foreground">
           {FIT_DELIVERY_LABEL[entry.delivery]} ·{" "}
           {FIT_OUTCOME_LABEL[entry.outcome]}
-          {entry.priceAnchorExVat != null
-            ? ` · ${formatPrice(entry.priceAnchorExVat, priceLead)}`
-            : ""}
+          {entry.priceAnchorId ? ` · ${anchorLabel(entry)}` : ""}
         </span>
       </Link>
     </li>
@@ -75,7 +66,6 @@ export default function HubAudienceFitBlock({
   headingId = "hub-audience-fit-heading",
   className,
   maxPerAudience = 3,
-  priceLead = "exVat",
 }: HubAudienceFitBlockProps) {
   const byAudience = getHubFitByAudience(hubPath);
   const groups = AUDIENCE_ORDER.map((audience) => ({
@@ -111,7 +101,7 @@ export default function HubAudienceFitBlock({
             </h3>
             <ul className="mt-3 space-y-2">
               {entries.map((entry) => (
-                <ServiceCard key={entry.pathname} entry={entry} priceLead={priceLead} />
+                <ServiceCard key={entry.pathname} entry={entry} />
               ))}
             </ul>
           </div>

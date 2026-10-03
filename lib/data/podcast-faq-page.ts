@@ -1,7 +1,8 @@
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { PODCAST_RECORDING_PRICE } from "@/lib/data/podcast-recording-page";
-import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { STUDIO_HALF_HOUR_NIS, STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
 
 export const PODCAST_FAQ_TITLE = "שאלות ותשובות על הפקת פודקאסט";
@@ -95,7 +96,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
   {
     id: "podcast-faq-pricing",
     title: "מחירים וחבילות",
-    subtitle: `התחלה מ-${PODCAST_STARTER_PRICE} ₪ לפרק קצר - הפקה מלאה מ-${PODCAST_RECORDING_PRICE} ₪`,
+    subtitle: `פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"))} - הפקה מלאה ${formatFromPriceDual(PODCAST_RECORDING_PRICE)}`,
     items: [
       {
         id: "pricing-structure",
@@ -107,18 +108,18 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "starter-vs-full",
         question: "מה ההבדל בין פרק קצר להפקה מלאה?",
         answer:
-          "פרק קצר (חצי שעה באולפן) מתאים לפיילוט, תוכן קצר או הקלטה אודיו בסיסית. הפקה מלאה כוללת צילום 4K, סאונד אולפני, עריכה מקצועית וקבצים מוכנים ליוטיוב וספוטיפיי. בשתיהן הפרק אצלכם באותה שנייה שמסיימים להקליט.",
+          "הקלטה בלבד (חצי שעה באולפן, קובץ גולמי בלי עריכה) מתאימה לפיילוט או למי שעורך בעצמו. הפקה מלאה כוללת צילום 4K, סאונד אולפני, עריכה מקצועית וקבצים מוכנים ליוטיוב וספוטיפיי. בשתיהן הפרק אצלכם באותה שנייה שמסיימים להקליט.",
       },
       {
         id: "studio-rental-price",
         question: "כמה עולה להשכיר את האולפן לפודקאסט במודיעין?",
-        answer: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ - שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ). כולל ציוד, חדר מבודד וליווי טכני. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
+        answer: `חצי שעה ${formatPrice(STUDIO_HALF_HOUR_NIS).inline} - שעה ${formatPrice(STUDIO_ONE_HOUR_NIS).inline}. כולל ציוד, חדר מבודד וליווי טכני. קובץ גולמי, בלי עריכה. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
       },
       {
         id: "vat",
         question: "המחירים כוללים מע״מ?",
         answer:
-          "המחירים באתר מוצגים לפני מע״מ (+18%), אלא אם צוין אחרת. בהצעת מחיר בוואטסאפ תקבלו סכום סופי ברור.",
+          "כן. המחיר הגדול באתר כולל מע״מ, ומתחתיו בקטן הסכום לפני מע״מ. בהצעת מחיר בוואטסאפ תקבלו סכום סופי ברור.",
       },
       {
         id: "quote",
