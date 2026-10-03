@@ -88,6 +88,7 @@ const STUDIO_HUB: KnowledgeHub = {
         "how-to-record-at-home",
         "home-recording-7-mistakes",
         "home-mic-guide",
+        "headphones-purpose-guide",
         "studio-guide",
       ],
     },
@@ -390,12 +391,58 @@ const PODCAST_HUB: KnowledgeHub = {
   ],
 };
 
+export function buildAcademyHubAnswer(): string {
+  const lesson = getExVat("academy_private_hour").toLocaleString("he-IL");
+  const pro = getExVat("academy_pro_session").toLocaleString("he-IL");
+  const ulpan = getExVat("ulpan_monthly").toLocaleString("he-IL");
+  return (
+    `אפשר ללמוד שלושה דברים: תקלוט והפקה, דיבור מול קהל למי שמגמגם או חושש, ` +
+    `ועברית. שיעור פרטי מתחיל ב-${lesson} ₪ לפני מע״מ, Pro Session של 90 דקות ` +
+    `ב-${pro} ₪, ומסלול אולפן עברית חודשי ב-${ulpan} ₪. ` +
+    `אני לא מקבל כל אחד, אני עובד עם מי שבא לעבוד.`
+  );
+}
+
+export function buildAcademyHubMetaDescription(): string {
+  const lesson = getExVat("academy_private_hour").toLocaleString("he-IL");
+  const ulpan = getExVat("ulpan_monthly").toLocaleString("he-IL");
+  return (
+    `שיעור פרטי מ-${lesson} ₪ + מע״מ, אולפן עברית מ-${ulpan} ₪ + מע״מ. ` +
+    `קורס DJ או שיעור פרטי, דיבור מול קהל, ולימוד עברית במודיעין.`
+  );
+}
+
+const ACADEMY_HUB: KnowledgeHub = {
+  categoryId: "academy",
+  heading: "מה אפשר ללמוד אצלי?",
+  answer: buildAcademyHubAnswer(),
+  metaDescription: buildAcademyHubMetaDescription(),
+  groups: [
+    {
+      id: "dj",
+      title: "תקלוט והפקה",
+      slugs: ["dj-course-guide", "dj-course-vs-private-lesson"],
+    },
+    {
+      id: "speech",
+      title: "דיבור מול קהל",
+      slugs: ["no-speech-therapist-modiin"],
+    },
+    {
+      id: "hebrew",
+      title: "לימוד עברית",
+      slugs: ["hebrew-tutor-modiin-guide", "street-hebrew-vs-government-ulpan"],
+    },
+  ],
+};
+
 const HUBS: readonly KnowledgeHub[] = [
   STUDIO_HUB,
   VOICEOVER_HUB,
   EVENTS_HUB,
   EDITING_HUB,
   PODCAST_HUB,
+  ACADEMY_HUB,
 ];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {

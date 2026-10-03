@@ -4770,7 +4770,7 @@ export const BLOG_POSTS = [
 `.trim(),
     date: "18 באוגוסט 2026",
     thumbnail: "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
-    category: "ברכות והקלטות",
+    category: "אולפן הקלטות",
     relatedServiceSlug: "matanot",
     tags: ["אוזניות", "DJ", "אולפן", "מארז מתנה", "דיסק און קי"],
   },
