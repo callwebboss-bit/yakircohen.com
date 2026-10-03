@@ -203,7 +203,7 @@ export default function BlessingsHubPageContent() {
             כמה זה עולה?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            המחירים לפני מע״מ (+18%). ברכה כוללת הקלטה ועריכה בסיסית. מוזיקת רקע
+            ברכה {BLESSING_PRICE.totalLabel} ({BLESSING_PRICE.exVatNote}). ברכה כוללת הקלטה ועריכה בסיסית. מוזיקת רקע
             ותיקון זיופים בתוספת. הצעה מדויקת לפי סוג הברכה ואורכה, בוואטסאפ או
             במחירון האולפן.
           </p>

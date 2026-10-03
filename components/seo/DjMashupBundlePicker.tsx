@@ -70,7 +70,7 @@ export default function DjMashupBundlePicker({ embedded = false }: { embedded?: 
                 {retail.toLocaleString("he-IL")} ₪ לפני מע״מ בנפרד
               </p>
               <p className="text-lg font-semibold text-brand-red">
-                {formatFromPriceDual(bundlePrice)}
+                {formatFromPriceDual(bundlePrice, "business")}
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
                 חיסכון {saving.toLocaleString("he-IL")} ₪ לפני מע״מ

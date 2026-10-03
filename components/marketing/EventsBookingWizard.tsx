@@ -1320,14 +1320,13 @@ export default function EventsBookingWizard({
                   {savings > 0 ? (
                     <div className="flex items-center justify-between text-xs text-green-700">
                       <span>💰 חיסכון חבילה</span>
-                      <span>-{savings.toLocaleString("he-IL")} ₪</span>
+                      <span>-{withVat(savings).toLocaleString("he-IL")} ₪ כולל מע״מ</span>
                     </div>
                   ) : null}
                   <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
-                    <span>סה״כ לפני מע״מ</span>
-                    <span>{bundleTotal.toLocaleString("he-IL")} ₪</span>
+                    <span>סה״כ</span>
+                    <PriceWithVat amountExVat={bundleTotal} size="lg" />
                   </div>
-                  <PriceWithVat amountExVat={bundleTotal} size="lg" className="mt-1" />
                 </div>
               </div>
 

@@ -406,7 +406,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/pricing": [
-    { type: "text", value: "מחירים לפני מע״מ, בלי הפתעות. לחבילות מוכנות - " },
+    { type: "text", value: "מחירים כולל מע״מ, בלי הפתעות. לחבילות מוכנות - " },
     { type: "link", href: "/packages", label: "חבילות אולפן ואירועים" },
     { type: "text", value: ". להזמנה עם מחיר סופי - " },
     { type: "link", href: "/book", label: "הזמנה מקוונת" },

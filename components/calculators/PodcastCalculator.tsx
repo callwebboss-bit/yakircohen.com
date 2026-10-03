@@ -51,9 +51,9 @@ function PackageCard({
       <p className="text-[0.7rem] text-muted-foreground">{pkg.subtitle}</p>
       <p className="mt-1 text-[0.7rem] font-semibold text-brand-red">{pkg.ideal}</p>
 
-      <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrency(pkg.price)}</p>
+      <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrencyWithVat(pkg.price)}</p>
       <p className="text-[0.65rem] text-muted-foreground">
-        + מע״מ - {formatCurrencyWithVat(pkg.price)} סה״כ
+        כולל מע״מ ({formatCurrency(pkg.price)} + מע״מ)
       </p>
 
       <ul className="mt-4 space-y-2">
@@ -105,7 +105,7 @@ export default function PodcastCalculator({ className }: { className?: string })
     const base = [
       buildServiceWhatsAppText(`חבילת ${pkg.name}`),
       overtime,
-      `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
+      `סה״כ משוער: ${formatCurrencyWithVat(total)} כולל מע״מ (${formatCurrency(total)} + מע״מ)`,
     ]
       .filter(Boolean)
       .join("\n");
@@ -213,8 +213,6 @@ export default function PodcastCalculator({ className }: { className?: string })
       {pkg ? (
         <CalculatorStickyBar
           total={total}
-          totalLabel="סה״כ לפני מע״מ"
-          subLabel={`${formatCurrencyWithVat(total)} כולל מע״מ`}
           whatsappHref={whatsappHref}
           onWhatsAppClick={handleWhatsAppClick}
           showCta

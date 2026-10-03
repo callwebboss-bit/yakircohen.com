@@ -152,6 +152,7 @@ import {
   WizardStep3HoldTimer,
   WizardStepTransitionOverlay,
 } from "@/components/booking/StudioWizardCroBlocks";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { useStudioGhostLead } from "@/hooks/useStudioGhostLead";
 import { useBookExitIntent } from "@/hooks/useBookExitIntent";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
@@ -1562,8 +1563,8 @@ export default function StudioRecordingBooking({
                     </p>
                     <p className="mt-1 text-foreground">
                       {getClientScenarioShortTitle("pairs")}:{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} לפני מע״מ -{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.withVat)} סופי
+                      {formatNis(groupScenariosForDisplay.recommended.withVat)} כולל מע״מ (
+                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} + מע״מ)
                     </p>
                     {isMotzash ? (
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -1790,7 +1791,7 @@ export default function StudioRecordingBooking({
               <>
                 <BookingSelectionConfirm
                   title={`מסלול נבחר: ${activePackage.name}`}
-                  detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ - לחצו המשך לפרטים ואישור`}
+                  detail={`${formatPrice(activePackage.price).inline} - לחצו המשך לפרטים ואישור`}
                 />
                 {"catalogId" in activePackage ? (
                   <CatalogOfferPanel

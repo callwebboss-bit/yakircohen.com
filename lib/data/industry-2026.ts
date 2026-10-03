@@ -70,6 +70,9 @@ function buildCatalogRow(id: PriceItemId, overrides?: { note?: string }): Indust
     exVat: item.exVat,
     scope: item.scope,
     showFromPrefix: getPriceFromById(id),
+    /* עמוד נתוני שוק: הטבלה משווה לטווחי שוק שמצוטטים לפני מע״מ, ולכן כאן לפני
+       מע״מ קודם, עם INDUSTRY_2026_VAT_NOTE */
+    audience: "business",
   });
   const transparency = getPriceTransparencyById(id);
 

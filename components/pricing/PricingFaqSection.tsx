@@ -9,12 +9,13 @@ import {
   STUDIO_ONE_HOUR_NIS,
 } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 const FAQ_ANSWERS: Record<string, React.ReactNode> = {
   "studio-half-vs-hour": (
     <>
-      חצי שעה ({STUDIO_HALF_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ) מתאימה להקלטה בודדת, פיילוט או ברכה קצרה.
-      שעה ({STUDIO_ONE_HOUR_NIS.toLocaleString("he-IL")} ₪) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
+      חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}) מתאימה להקלטה בודדת, פיילוט או ברכה קצרה.
+      שעה ({formatPrice(STUDIO_ONE_HOUR_NIS).inline}) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
       שניהם כוללים ליווי טכני מלא.{" "}
       <InlineServiceLink href="/studio/pricing">מחירון אולפן</InlineServiceLink>
     </>
@@ -57,13 +58,13 @@ const FAQ_ANSWERS: Record<string, React.ReactNode> = {
   ),
   "need-more-time": (
     <>
-      תוספת זמן באולפן - לפי מחיר חצי שעה ({STUDIO_HALF_HOUR_NIS.toLocaleString("he-IL")} ₪ לפני מע״מ).
-      בפודקאסט - תוספת משתתף או זמן עריכה ({PODCAST_EDITING_PER_HOUR_NIS.toLocaleString("he-IL")} ₪ לשעת חומר) נספרים בנפרד ומוסברים לפני שמתחילים.
+      תוספת זמן באולפן - לפי מחיר חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}).
+      בפודקאסט - תוספת משתתף או זמן עריכה ({formatPrice(PODCAST_EDITING_PER_HOUR_NIS).headline} לשעת חומר) נספרים בנפרד ומוסברים לפני שמתחילים.
     </>
   ),
   "vat-included": (
     <>
-      לא - המחירים במחירון הם לפני מע״מ (+18%). בלחיצה על שורה רואים גם את המחיר כולל מע״מ. ב{" "}
+      כן. המחיר הגדול במחירון כולל מע״מ, ולידו בקטן הסכום לפני מע״מ. מוצרים לעסקים מוצגים לפני מע״מ. ב{" "}
       <InlineServiceLink href="/book">טופס ההזמנה</InlineServiceLink>{" "}
       מוצג המחיר הסופי.
     </>

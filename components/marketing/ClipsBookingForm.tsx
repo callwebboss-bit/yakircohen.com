@@ -31,6 +31,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 type ClipsBookingFormProps = {
   routeId?: string | null;
@@ -324,7 +325,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
                   </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
                   <p className="mt-1 text-xs font-medium text-brand-red">
-                    {price.toLocaleString("he-IL")} ₪ + מע״מ
+                    {formatPrice(price).inline}
                   </p>
                 </div>
               </button>

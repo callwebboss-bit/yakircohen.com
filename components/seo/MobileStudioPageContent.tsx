@@ -34,14 +34,15 @@ import {
   CONTACT_PHONE_E164,
 } from "@/lib/constants";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 const service = getStudioService("studio-mobile-studio");
 const pageHero = resolveServicePageHeroFromEntity(service);
 const heroProps = withServicePageHeroDefaults(pageHero);
 
-const MOBILE_STUDIO_CTA_LABEL = `אולפן נייד החל מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪`;
-const MOBILE_STUDIO_VALUE_FRAME = `החל מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ + תוספת אזור לפי מיקום`;
-const MOBILE_STUDIO_STARTING_PRICE = `${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ`;
+const MOBILE_STUDIO_CTA_LABEL = `אולפן נייד החל ${formatPrice(MOBILE_STUDIO_BASE_EX_VAT, { from: true }).headline}`;
+const MOBILE_STUDIO_VALUE_FRAME = `החל ${formatPrice(MOBILE_STUDIO_BASE_EX_VAT, { from: true }).headline} + תוספת אזור לפי מיקום`;
+const MOBILE_STUDIO_STARTING_PRICE = formatPrice(MOBILE_STUDIO_BASE_EX_VAT).inline;
 
 const MOBILE_GEO_ORDER: readonly MobileGeoId[] = [
   "center",
@@ -117,7 +118,7 @@ export default function MobileStudioPageContent() {
             מחיר אולפן נייד
           </h2>
           <p className="mt-3 text-base font-semibold text-foreground">
-            בסיס: {MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ
+            בסיס: {formatPrice(MOBILE_STUDIO_BASE_EX_VAT).inline}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {PRICING_FRAMING_LINE}
@@ -131,8 +132,8 @@ export default function MobileStudioPageContent() {
                   <span className="font-medium text-foreground">{geo.label}</span>
                   <span>
                     {geo.fee === 0
-                      ? `ללא תוספת הגעה - ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`
-                      : `+${geo.fee.toLocaleString("he-IL")} ₪ תוספת הגעה - סה״כ ${total.toLocaleString("he-IL")} ₪ לפני מע״מ`}
+                      ? `ללא תוספת הגעה - ${formatPrice(total).inline}`
+                      : `+${formatPrice(geo.fee).headline} תוספת הגעה - סה״כ ${formatPrice(total).inline}`}
                   </span>
                   <span className="text-muted-foreground">({geo.detail})</span>
                 </li>
@@ -158,7 +159,7 @@ export default function MobileStudioPageContent() {
             <li className="flex flex-wrap gap-x-2 gap-y-1">
               <span className="font-medium text-foreground">צילום קליפ מהסשן</span>
               <span>
-                החל מ-{MOBILE_CLIP_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ (עם עריכה - תוספת)
+                החל {formatPrice(MOBILE_CLIP_EX_VAT, { from: true }).inline} (עם עריכה - תוספת)
               </span>
             </li>
             <li className="flex flex-wrap gap-x-2 gap-y-1">

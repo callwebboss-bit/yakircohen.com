@@ -23,6 +23,7 @@ import {
   metadataForHubSeo,
 } from "@/lib/seo/hub-pages";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { withVat } from "@/lib/data/pricing";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME } from "@/lib/constants";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
@@ -159,13 +160,25 @@ const PRICING_ROWS = [
   { format: "Pro-Partnership", duration: "24 מפגשים / 6 חודשים", includes: "ליווי רכש + זהות מוזיקלית", price: "21,500 ₪" },
 ] as const;
 
+/**
+ * מחירי האקדמיה עדיין כתובים כטקסט (מחירון אקדמיה נפרד, שאלות בעלים פתוחות
+ * על 1,280/1,470 ועל הקורסים). התצוגה כולל מע״מ קודם (החלטת הבעלים
+ * 2.10.2026, שלב 4 WP11): "990 ₪" הופך ל-"1,168 ₪ כולל מע״מ".
+ */
+function vatFirst(text: string): string {
+  const m = text.match(/^([\d,]+)\s*₪(.*)$/);
+  if (!m) return text;
+  const exVat = Number(m[1].replace(/,/g, ""));
+  return `${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ${m[2]}`;
+}
+
 const FINE_PRINT = [
   { icon: "⏰", label: "דיוק", text: "מפגש מתחיל ומסתיים בדיוק בשעה שנקבעה." },
   { icon: "↩️", label: "ביטולים", text: "ביטול פחות מ-24 שעות מראש: חיוב מלא." },
   { icon: "🎛️", label: "ציוד", text: "הלימוד על ציוד מקצועי באולפן במודיעין." },
   { icon: "📁", label: "תוצרים", text: "כל חומרי הגלם עוברים אליך בסוף כל מפגש." },
   { icon: "💳", label: "תשלום", text: "מראש בלינק מאובטח. מסלול חצי-שנתי: תשלום מלא מראש." },
-  { icon: "📋", label: "מע\"מ", text: "כל המחירים הם ללא מע\"מ. יש להוסיף 18%." },
+  { icon: "📋", label: "מע\"מ", text: "המחיר הגדול כולל מע\"מ, ובקטן הסכום לפני מע\"מ." },
   {
     icon: "🕒",
     label: "מחירים",
@@ -375,7 +388,7 @@ export default function AcademyPage() {
             כל המסלולים במבט אחד
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            כל המחירים לפני מע&quot;מ (18%).
+            המחירים כוללים מע&quot;מ.
           </p>
         </header>
 
@@ -407,7 +420,7 @@ export default function AcademyPage() {
               </span>
               <span className="font-semibold text-brand-red">
                 <span className="text-xs font-normal text-muted-foreground sm:hidden">מחיר: </span>
-                {row.price}
+                {vatFirst(row.price)}
               </span>
             </div>
           ))}
@@ -515,10 +528,10 @@ export default function AcademyPage() {
 
                 <div className="mt-4">
                   <span className="text-2xl font-bold text-foreground">
-                    {track.price} ₪
+                    {vatFirst(`${track.price} ₪`)}
                   </span>
                   <span className="mr-1 text-xs text-muted-foreground">
-                    + מע&quot;מ
+                    ({track.price} ₪ + מע&quot;מ)
                   </span>
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     {track.priceNote}
@@ -623,10 +636,10 @@ export default function AcademyPage() {
 
                 <div className="mt-5">
                   <span className="text-3xl font-bold text-foreground">
-                    {plan.price} ₪
+                    {vatFirst(`${plan.price} ₪`)}
                   </span>
                   <span className="mr-1 text-sm text-muted-foreground">
-                    + מע&quot;מ
+                    ({plan.price} ₪ + מע&quot;מ)
                   </span>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {plan.priceNote}

@@ -125,6 +125,7 @@ import {
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
 
@@ -1056,7 +1057,7 @@ export default function PodcastBookingWizard({
                     {
                       id: "mobile" as const,
                       label: "🚗🏠 אולפן נייד - מגיעים עד אליכם",
-                      sub: `מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ + אזור`,
+                      sub: `${formatPrice(MOBILE_STUDIO_BASE_EX_VAT, { from: true }).headline} + אזור`,
                     },
                   ] as const
                 ).map((loc) => (
@@ -1106,7 +1107,7 @@ export default function PodcastBookingWizard({
                         >
                           <span className="font-semibold">{geo.label}</span>
                           <span className="mt-0.5 block text-muted-foreground">
-                            {price.toLocaleString("he-IL")} ₪ לפני מע״מ - {geo.detail}
+                            {formatPrice(price).inline} - {geo.detail}
                           </span>
                         </button>
                       );

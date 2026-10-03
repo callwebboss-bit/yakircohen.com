@@ -15,7 +15,7 @@ function formatItemPrice(
   priceNote?: string,
 ): string {
   if (priceNote) return priceNote;
-  if (pricingId) return formatFromPriceDual(getExVat(pricingId));
+  if (pricingId) return formatFromPriceDual(getExVat(pricingId), "business");
   return "בתיאום";
 }
 

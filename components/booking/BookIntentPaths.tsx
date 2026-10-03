@@ -58,9 +58,9 @@ export default function BookIntentPaths() {
                   </p>
                   {exVat != null ? (
                     <p className="mt-2 text-xs font-semibold text-brand-red">
-                      החל מ-{exVat.toLocaleString("he-IL")} ₪ + מע״מ
+                      החל מ-{catalogWithVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ
                       <span className="block font-normal text-muted-foreground">
-                        כולל מע״מ: {catalogWithVat(exVat).toLocaleString("he-IL")} ₪
+                        {exVat.toLocaleString("he-IL")} ₪ + מע״מ
                       </span>
                     </p>
                   ) : (

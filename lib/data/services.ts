@@ -1796,19 +1796,25 @@ export const EVENTS_SERVICES = {
     pricing: [
       {
         name: "בסיס מקצועי",
-        price: "2,800 ₪",
+        price: formatNis(getExVat("singer_amp_basic")),
+        priceExVat: getExVat("singer_amp_basic"),
+        catalogId: "singer_amp_basic",
         priceNote: "פופולרי - עד 150 אורחים",
         description: "סולו/דואט, SM58, RCF, מוניטור, צ'ק 30 דק׳.",
       },
       {
         name: "פרימיום",
-        price: "5,800 ₪",
+        price: formatNis(getExVat("singer_amp_premium")),
+        priceExVat: getExVat("singer_amp_premium"),
+        catalogId: "singer_amp_premium",
         priceNote: "עד 350 אורחים",
         description: "3 מיקרופונים אלחוטיים, 4 RCF, 2 סאבים, צ'ק 45 דק׳.",
       },
       {
         name: "VIP",
-        price: "7,800 ₪",
+        price: formatNis(getExVat("singer_amp_vip")),
+        priceExVat: getExVat("singer_amp_vip"),
+        catalogId: "singer_amp_vip",
         priceNote: "Line Array - 2 טכנאים",
         description: "עד 6 מיקרופונים, IEM, הקלטה אופציונלית.",
       },
@@ -3395,14 +3401,18 @@ export const VIDEO_SERVICES = {
     pricing: [
       {
         name: "פרומו רילס בודד",
-        price: "950 ₪",
-        priceNote: "לפני מע״מ - 2-3 ימי עסקים",
+        price: formatNis(getExVat("reel_factory_single")),
+        priceExVat: getExVat("reel_factory_single"),
+        catalogId: "reel_factory_single",
+        priceNote: "2-3 ימי עסקים",
         description: "חיתוך מ-5-10 קליפים גולמיים + כתוביות בסיסיות.",
       },
       {
         name: "Rave 24 שעות ★",
-        price: "1,400 ₪",
-        priceNote: "לפני מע״מ - מסירה עד 12:00",
+        price: formatNis(getExVat("reel_factory_rave_24h")),
+        priceExVat: getExVat("reel_factory_rave_24h"),
+        catalogId: "reel_factory_rave_24h",
+        priceNote: "מסירה עד 12:00",
         description:
           "ביט-סינק, אפקטים על הביט, צבע וסאונד - רילס שעושה חשק לסגור איתו.",
         featured: true,
@@ -3410,14 +3420,18 @@ export const VIDEO_SERVICES = {
       },
       {
         name: "Content Hub בסיס",
-        price: "2,800 ₪",
-        priceNote: "לחודש - לפני מע״מ",
+        price: formatNis(getExVat("reel_factory_starter_monthly")),
+        priceExVat: getExVat("reel_factory_starter_monthly"),
+        catalogId: "reel_factory_starter_monthly",
+        priceNote: "לחודש",
         description: "4 פרומואים ערוכים + פוסטים שיווקיים לכל אירוע.",
       },
       {
         name: "Content Hub פרו",
-        price: "4,500 ₪",
-        priceNote: "לחודש - לפני מע״מ",
+        price: formatNis(getExVat("reel_factory_pro_monthly")),
+        priceExVat: getExVat("reel_factory_pro_monthly"),
+        catalogId: "reel_factory_pro_monthly",
+        priceNote: "לחודש",
         description: "8 פרומואים + פוסטים + כיתובים מותאמים לכל פלטפורמה.",
       },
     ],
@@ -3572,8 +3586,9 @@ export const PHOTOGRAPHY_SERVICES = {
     pricing: [
       {
         name: "חבילת בסיס",
-        price: "מ-6,000 ₪",
-        priceNote: "4 שעות לפני מע״מ, עריכה בסיסית כלולה",
+        /* 4 שעות של event_photo_hourly. כולל מע״מ קודם (שלב 4 WP10-11) */
+        price: `מ-${withVat(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ כולל מע״מ`,
+        priceNote: `4 שעות (${(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ + מע״מ), עריכה בסיסית כלולה`,
         description: "אירוע קטן, צילום מלא ועריכה של תמונות נבחרות.",
       },
       {

@@ -7,7 +7,7 @@ import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
-import { formatCurrency } from "@/components/calculators/formatCurrency";
+import { formatCurrency, formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -99,7 +99,7 @@ function SelectableRow({
         <span className="block text-[0.7rem] text-muted-foreground">{sublabel}</span>
       </span>
       <span className={cn("shrink-0 text-sm font-bold whitespace-nowrap", priceClass)}>
-        {formatCurrency(price)}
+        {formatCurrencyWithVat(price)}
       </span>
     </button>
   );
@@ -360,7 +360,7 @@ export default function PhotographyCalculator({
                     {preset.sub}
                   </p>
                   <p className="text-sm font-bold text-brand-red">
-                    {formatCurrency(preset.hours * HOURLY_RATE)}
+                    {formatCurrencyWithVat(preset.hours * HOURLY_RATE)}
                   </p>
                 </button>
               );
@@ -373,7 +373,7 @@ export default function PhotographyCalculator({
             {/* סרגל הסיכום מציג "לפני מע״מ" רק מ-sm ומעלה, ולכן במובייל אין
                 לגולש שום ציון מע״מ. הסכומים כאן גלויים בכל רוחב. */}
             <p className="mt-2 text-[0.7rem] text-muted-foreground">
-              כל המחירים בעמוד הזה לפני מע״מ.
+              המחירים בעמוד הזה כוללים מע״מ.
             </p>
           </div>
 
@@ -381,7 +381,7 @@ export default function PhotographyCalculator({
             <div className="mb-3 flex items-center justify-between">
               <span className="text-sm font-semibold text-foreground">התאמה אישית</span>
               <span className="text-sm font-bold text-brand-red">
-                {hours} שעות - {formatCurrency(hours * HOURLY_RATE)}
+                {hours} שעות - {formatCurrencyWithVat(hours * HOURLY_RATE)} כולל מע״מ
               </span>
             </div>
             <input
@@ -398,7 +398,7 @@ export default function PhotographyCalculator({
               <span>16 שעות</span>
             </div>
             <p className="mt-2 text-center text-[0.65rem] text-muted-foreground">
-              {formatCurrency(HOURLY_RATE)} לשעה לפני מע״מ - כולל עריכה ומסירה דיגיטלית
+              {formatCurrencyWithVat(HOURLY_RATE)} לשעה כולל מע״מ ({formatCurrency(HOURLY_RATE)} + מע״מ) - כולל עריכה ומסירה דיגיטלית
             </p>
           </div>
         </section>
@@ -434,16 +434,16 @@ export default function PhotographyCalculator({
             </span>
           </div>
           <p className="mb-4 text-[0.7rem] text-muted-foreground">
-            הנחה של {formatCurrency(AI_BUNDLE_DISCOUNT)} בבחירת שני שירותים ומעלה.
+            הנחה של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ בבחירת שני שירותים ומעלה.
           </p>
 
           {bundleActive ? (
             <p className="mb-4 rounded-lg border border-amber-300 bg-amber-100/80 px-3 py-2 text-sm font-semibold text-amber-900">
-              הנחת חבילת AI פעילה - חיסכון של {formatCurrency(AI_BUNDLE_DISCOUNT)}
+              הנחת חבילת AI פעילה - חיסכון של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ
             </p>
           ) : aiCount === 1 ? (
             <p className="mb-4 rounded-lg border border-border bg-surface px-3 py-2 text-[0.7rem] text-muted-foreground">
-              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {formatCurrency(AI_BUNDLE_DISCOUNT)}
+              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ
             </p>
           ) : null}
 
@@ -562,7 +562,7 @@ export default function PhotographyCalculator({
 
       <CalculatorStickyBar
         total={total}
-        subLabel={bundleActive ? `חיסכון: ${formatCurrency(AI_BUNDLE_DISCOUNT)}` : undefined}
+        subLabel={bundleActive ? `חיסכון: ${formatCurrencyWithVat(AI_BUNDLE_DISCOUNT)} כולל מע״מ` : undefined}
         whatsappHref=""
         showCta
         continueDisabled={!formValid}

@@ -66,12 +66,12 @@ export default function StudioSessionClipOffer({
       <>
       <ul className="mt-4 space-y-1.5 text-sm text-foreground">
         <li>
-          בלי עריכה: {prices.rawExVat.toLocaleString("he-IL")} ₪ + מע״מ ={" "}
-          {catalogWithVat(prices.rawExVat).toLocaleString("he-IL")} ₪
+          בלי עריכה: {catalogWithVat(prices.rawExVat).toLocaleString("he-IL")} ₪ כולל מע״מ (
+          {prices.rawExVat.toLocaleString("he-IL")} ₪ + מע״מ)
         </li>
         <li>
-          {prices.editedLabel}: {prices.editedExVat.toLocaleString("he-IL")} ₪ + מע״מ ={" "}
-          {catalogWithVat(prices.editedExVat).toLocaleString("he-IL")} ₪
+          {prices.editedLabel}: {catalogWithVat(prices.editedExVat).toLocaleString("he-IL")} ₪ כולל מע״מ (
+          {prices.editedExVat.toLocaleString("he-IL")} ₪ + מע״מ)
         </li>
       </ul>
 

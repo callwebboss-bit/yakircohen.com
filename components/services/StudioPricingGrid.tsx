@@ -29,7 +29,7 @@ export type StudioPricingGridProps = {
   priceLead?: "exVat" | "withVat";
 };
 
-export default function StudioPricingGrid({ tiers, priceLead = "exVat" }: StudioPricingGridProps) {
+export default function StudioPricingGrid({ tiers, priceLead = "withVat" }: StudioPricingGridProps) {
   return (
     <Container>
       <div className="isolation-booth-cards grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

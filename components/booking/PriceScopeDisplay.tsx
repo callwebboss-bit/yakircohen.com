@@ -32,8 +32,8 @@ type PriceScopeDisplayProps = {
   transparency?: PriceTransparency;
   showTransparency?: boolean;
   /**
-   * "withVat" לעמודי צרכן: כולל מע״מ בגדול ולפני מע״מ בקטן מתחת (החלטת
-   * הבעלים 2.10.2026). ברירת המחדל לפני מע״מ, כדי שעמודי העסקים לא ישתנו.
+   * ברירת המחדל כולל מע״מ בגדול ולפני מע״מ בקטן (החלטת הבעלים 2.10.2026,
+   * שלב 4 WP11). "exVat" לעמודי עסקים בלבד.
    */
   lead?: "exVat" | "withVat";
 };
@@ -57,7 +57,7 @@ export default function PriceScopeDisplay({
   catalogId,
   transparency,
   showTransparency = true,
-  lead = "exVat",
+  lead = "withVat",
 }: PriceScopeDisplayProps) {
   const audience = lead === "exVat" ? "business" : "consumer";
   const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix, audience });
@@ -144,7 +144,7 @@ export function PriceScopeCompact({
   scope,
   showFromPrefix = false,
   className,
-  lead = "exVat",
+  lead = "withVat",
 }: {
   exVat: number;
   scope?: PriceScope;

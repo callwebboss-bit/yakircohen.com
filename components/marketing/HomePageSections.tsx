@@ -69,7 +69,7 @@ const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
     <>
       ברכה / הקלטה קצרה{" "}
       {formatFromPriceDual(getExVat("blessing_recording"))}.
-      פודקאסט פיילוט מ-{getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע״מ.
+      פרק פודקאסט ערוך {formatFromPriceDual(getExVat("podcast_audio"))}.
       ב
       <InlineServiceLink href="/book">הזמנה מקוונת</InlineServiceLink>{" "}
       רואים מחיר סופי מיד ושולחים בוואטסאפ - בלי לחכות לתשובה.

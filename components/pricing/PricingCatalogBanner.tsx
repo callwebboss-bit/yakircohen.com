@@ -1,5 +1,6 @@
 "use client";
 
+import { withVat } from "@/lib/data/pricing";
 import { getPriceById, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { useBookCoupon } from "@/components/booking/BookCouponContext";
@@ -26,7 +27,7 @@ export default function PricingCatalogBanner({ catalogId }: PricingCatalogBanner
       {priceLine}
       {couponApplies && offer ? (
         <p className="mt-2 text-xs font-medium text-brand-red">
-          קוד {offer.code} הוחל: -{offer.amountOffExVat.toLocaleString("he-IL")} ₪ לפני מע״מ
+          קוד {offer.code} הוחל: -{withVat(offer.amountOffExVat).toLocaleString("he-IL")} ₪ כולל מע״מ
         </p>
       ) : null}
       <PricingTransparencyBlock catalogId={catalogId} className="bg-white/70" />

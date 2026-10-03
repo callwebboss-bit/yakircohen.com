@@ -113,7 +113,7 @@ export default function PricingHubPage() {
             </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_INCLUDE_VAT_NOTE}.
-              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. מע״מ מוצג בלחיצה על כל שורה.
+              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. המחיר כולל מע״מ, ובלחיצה על שורה מופיע גם הסכום לפני מע״מ.
             </p>
             <ContextualIntroParagraph pathname="/pricing" className="mx-auto mt-4 max-w-xl text-center" />
             <p className="mt-2 text-xs text-muted-foreground">

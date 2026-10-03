@@ -1,5 +1,6 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { withVat } from "@/lib/data/pricing";
 import { getBusinessOpenStatus } from "@/lib/business-hours";
 
@@ -129,7 +130,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "📱 הקלטה מרחוק (מהטלפון)",
       hidden: true,
       answer: {
-        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול במחיר ${getExVat("studio_remote").toLocaleString("he-IL")} ₪; אפשר להוסיף ב-${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מתחיל מ-₪${getExVat("studio_remote").toLocaleString("he-IL")} לפני מע\"מ. ללא צורך בביקור באולפן.`,
+        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"))}. ללא צורך בביקור באולפן.`,
         readMoreHref: "/online/vocal-fix",
         readMoreLabel: "פרטים על שירות שיפור קול",
         whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
@@ -154,7 +155,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: `הקלטת ברכה לאירוע מתחילה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")} לפני מע״מ, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
+        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"))}, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${formatPrice(getExVat("studio_pitch_correction")).inline}. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",
@@ -166,7 +167,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_podcast",
       label: "🎧 מחיר פודקאסט",
       answer: {
-        text: `הקלטת פרק פודקאסט מתחילה מ-₪${getExVat("podcast_pilot").toLocaleString("he-IL")} לפני מע״מ. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
+        text: `פרק פודקאסט ערוך מתחיל ${formatFromPriceDual(getExVat("podcast_audio"))}. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
         readMoreHref: "/podcast",
         readMoreLabel: "חבילות ומחירי פודקאסט",
         whatsappMessage: "שלום, מעוניין/ת בפרטים על הקלטת פודקאסט. רוצה להבין מה מתאים לנו.",

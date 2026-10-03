@@ -53,7 +53,7 @@ function PricingTierCard({
       <PricingTransparencyBlock catalogId="event_attraction_1" compact />
       <div className="mt-4 border-t border-border pt-4">
         <PriceActionRow
-          serviceLabel={`${tier.name} - ${serviceLabel}`}
+          serviceLabel={`${serviceLabel}, ${tier.name}`}
           priceExVat={tier.priceExVat}
           eventItemId={eventItemId}
           utmCampaign={utmCampaign}
@@ -69,12 +69,15 @@ export default function AttractionBookPricingSection({
   serviceTitle,
   utmCampaign = "attraction_book_pricing",
   heading = "מחירון - כמו בעמוד ההזמנה",
-  subheading = "המחירים כאן זהים ל-/book#events. בוחרים אטרקציות, מוסיפים הפעלות ושולחים בוואטסאפ.",
+  subheading = "המחירים כאן זהים לעמוד ההזמנה. בוחרים אטרקציות, מוסיפים הפעלות ושולחים בוואטסאפ.",
   showBundleTable = true,
   className,
 }: AttractionBookPricingSectionProps) {
   const itemName = itemId ? getAttractionItemName(itemId) : null;
-  const label = serviceTitle ?? itemName ?? "אטרקציות לאירוע";
+  /* שם קצר לכפתור הוואטסאפ: שם האטרקציה, לא כותרת העמוד (WP1) */
+  const label =
+    itemName ??
+    (serviceTitle && serviceTitle.length <= 30 ? serviceTitle : "אטרקציות לאירוע");
   const tiers = itemId ? getAttractionPricingTiers(itemId) : [];
   const bundleRows = showBundleTable ? getBundlePricingTable() : [];
   const anchorPrice = tiers[0]?.priceExVat ?? bundleRows[0]?.priceExVat ?? 0;
@@ -143,9 +146,7 @@ export default function AttractionBookPricingSection({
                   <span className="font-medium text-foreground">
                     {row.count >= 4 ? `${row.count}+ אטרקציות` : `${row.count} אטרקציות`}
                   </span>
-                  <span className="font-semibold tabular-nums">
-                    {row.priceExVat.toLocaleString("he-IL")} ₪
-                  </span>
+                  <PriceWithVat amountExVat={row.priceExVat} size="sm" />
                 </div>
                 {row.saving ? (
                   <p className="mt-1 text-xs text-green-700">{row.saving}</p>

@@ -71,7 +71,7 @@ export default function PricingHubRowAccordion({
   sectionBookHref,
   sectionId,
   nested = false,
-  priceLead = "exVat",
+  priceLead = "withVat",
 }: PricingHubRowAccordionProps) {
   const baseId = useId();
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());

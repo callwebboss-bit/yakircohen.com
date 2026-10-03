@@ -336,13 +336,6 @@
     "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\";"
   },
   {
-    "file": "components/seo/PodcastEditingPageContent.tsx",
-    "kind": "prose",
-    "value": 750,
-    "count": 2,
-    "example": "subtitle=\"עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. מ-750 ₪ לשעת חומר לפני מע״מ.\""
-  },
-  {
     "file": "components/seo/PodcastSelfServicePageContent.tsx",
     "kind": "prose",
     "value": 650,
@@ -1625,27 +1618,6 @@
   },
   {
     "file": "lib/data/services.ts",
-    "kind": "field",
-    "value": 950,
-    "count": 1,
-    "example": "price: \"950 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 950,
-    "count": 1,
-    "example": "price: \"950 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 1400,
-    "count": 1,
-    "example": "price: \"1,400 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
     "kind": "prose",
     "value": 1500,
     "count": 3,
@@ -1669,35 +1641,14 @@
     "file": "lib/data/services.ts",
     "kind": "prose",
     "value": 2800,
-    "count": 3,
+    "count": 1,
     "example": "\"ציוד פרימיום + טכנאי מנוסה + צ'ק סאונד מלא, Shure, RCF, מוניטורים. ראש שקט להופעה הבאה. מ-2,800 ₪.\","
   },
   {
     "file": "lib/data/services.ts",
     "kind": "prose",
-    "value": 4500,
-    "count": 1,
-    "example": "price: \"4,500 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 5800,
-    "count": 1,
-    "example": "price: \"5,800 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
-    "value": 6000,
-    "count": 1,
-    "example": "price: \"מ-6,000 ₪\","
-  },
-  {
-    "file": "lib/data/services.ts",
-    "kind": "prose",
     "value": 7800,
-    "count": 2,
+    "count": 1,
     "example": "\"חבילות 2,800 / 5,800 / 7,800 ₪, מחירים גלויים\","
   },
   {

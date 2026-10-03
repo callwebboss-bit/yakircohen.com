@@ -759,11 +759,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
 
       {/* Sticky bar */}
       <CalculatorStickyBar
-        total={withVat(grandTotal)}
-        totalLabel="השקעה משוערת, כולל מע״מ"
-        subLabel={
-          grandTotal > 0 ? `${grandTotal.toLocaleString("he-IL")} ₪ + מע״מ` : undefined
-        }
+        total={grandTotal}
         whatsappHref=""
         showCta={hasSelection}
         continueDisabled={!canReserve}
