@@ -12,7 +12,6 @@ import { getBlogPostsByServiceSlug } from "@/lib/data/blog";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import { TimeSaverRoiSliderLazy } from "@/components/calculators/lazy";
 import HubDualCta from "@/components/marketing/HubDualCta";
-import Testimonials from "@/components/marketing/Testimonials";
 import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { academyCoursesByCategory } from "@/lib/data/academy-hub-courses";
@@ -433,12 +432,9 @@ export default function AcademyPage() {
         <TimeSaverRoiSliderLazy variant="academy" />
       </section>
 
-      {/* ── #7 Testimonials ── */}
-      <Testimonials
-        title="מה התלמידים אומרים"
-        subtitle="תוצאות מדידות מתלמידי האקדמיה - DJ, הפקה, קול ודיבור."
-        filterByPathPrefix="/academy"
-      />
+      {/* ── #7 Testimonials: הוסר בשלב 5 (OAC-07). שלוש ההמלצות של האקדמיה נוצרו
+          כמקום שמור ("TODO"), ובלי שתי המלצות אקדמיה הרכיב היה מציג המלצות של
+          אולפן ואירועים תחת "מה התלמידים אומרים". חוזר כשיש ציטוטים אמיתיים. ── */}
 
       {/* ── Academy tracks ── */}
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

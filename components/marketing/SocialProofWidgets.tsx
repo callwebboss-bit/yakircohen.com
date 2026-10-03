@@ -308,11 +308,18 @@ export function InstagramFeed({
    overlays until then with the same opacity-swap technique as InstagramFeed.
    ───────────────────────────────────────────────────────────────────────────── */
 
-/** ביקורות מקומיות - גיבוי מהיר בלי iframe */
+/**
+ * המלצות מהאתר - גיבוי מהיר בלי iframe. מסומנות במפורש כהמלצות מהאתר ולא
+ * כביקורות Google, כי הן מוצגות מתחת לתג הדירוג של Google (שלב 5, FIT-04).
+ */
 function LocalReviewsStrip() {
   const items = SITE_TESTIMONIALS.slice(0, 4);
   return (
-    <div className="space-y-3" aria-label="ביקורות לקוחות">
+    <div className="space-y-3" aria-label="המלצות מהאתר, לא ביקורות Google">
+      <p className="text-center text-xs text-muted-foreground">
+        המלצות שלקוחות שלחו לנו ישירות. אלה לא ביקורות Google, והביקורות עצמן בלשונית
+        ביקורות Google.
+      </p>
       {items.map((item) => (
         <blockquote
           key={item.id}
@@ -426,7 +433,7 @@ export function GoogleReviews({
             preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
           )}
         >
-          ביקורות נוספות מהאתר
+          המלצות מהאתר (לא Google)
         </button>
       </div>
 
