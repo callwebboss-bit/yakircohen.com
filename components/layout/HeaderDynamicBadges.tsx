@@ -79,13 +79,15 @@ export function WhatsAppAvailabilityBadge() {
       target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"
-      aria-label={available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק' בוואטסאפ"}
+      aria-label={available ? "פתוח עכשיו, עונים בוואטסאפ" : "וואטסאפ, עונים בשעות הפעילות"}
     >
       <span
         className={`h-2 w-2 shrink-0 rounded-full ${available ? "bg-green-500" : "bg-yellow-500"}`}
         aria-hidden
       />
-      {available ? "זמין עכשיו בוואטסאפ" : "חוזרים תוך כמה דק'"}
+      {/* לפי שעות הפעילות בשעון ישראל (lib/business-hours, FIT-12). כשסגור לא
+          מבטיחים "תוך כמה דקות" */}
+      {available ? "פתוח עכשיו, עונים בוואטסאפ" : "עונים בשעות הפעילות"}
     </a>
   );
 }

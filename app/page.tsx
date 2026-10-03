@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import HomePageSections from "@/components/marketing/HomePageSections";
-import EphemeralPulse from "@/components/marketing/EphemeralPulse";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
@@ -74,7 +73,6 @@ export default function HomePage() {
         heroWhatsAppHref={heroWhatsAppHref}
         bottomWhatsAppHref={bottomWhatsAppHref}
       />
-      <EphemeralPulse />
     </>
   );
 }

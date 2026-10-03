@@ -504,7 +504,8 @@ const INVENTORY_FILE = path.join(ROOT, "lib", "data", "equipment-inventory.ts");
 const INVENTORY_STATE_FILE = path.join(OUT_DIR, "equipment-inventory-state.json");
 const INVENTORY_BOOKINGS_SITE = path.join(ROOT, "lib", "data", "equipment-inventory-bookings.json");
 const LIVE_STATUS_STATE_FILE = path.join(OUT_DIR, "live-status-state.json");
-const LIVE_STATUS_SITE = path.join(ROOT, "lib", "data", "live-status.json");
+/* lib/data/live-status.json הוסר מהאתר בשלב 5 (FIT-12): התג "זמין להקלטות השבוע"
+   היה סטטי. הסטטוס נשאר פנימי ל-closer בלבד, ולא נכתב יותר לאתר. */
 
 const DEFAULT_LIVE_STATUS = {
   availability: { mode: "available", busyUntil: null, customLabel: null },
@@ -575,13 +576,6 @@ function loadLiveStatus() {
   try {
     if (fs.existsSync(LIVE_STATUS_STATE_FILE)) {
       return JSON.parse(fs.readFileSync(LIVE_STATUS_STATE_FILE, "utf8"));
-    }
-  } catch {
-    /* ignore */
-  }
-  try {
-    if (fs.existsSync(LIVE_STATUS_SITE)) {
-      return JSON.parse(fs.readFileSync(LIVE_STATUS_SITE, "utf8"));
     }
   } catch {
     /* ignore */
@@ -1004,13 +998,11 @@ const payload = {
 };
 
 const invBookings = payload.inventoryBookings;
-const liveStatus = payload.liveStatus;
 fs.writeFileSync(
   INVENTORY_BOOKINGS_SITE,
   `${JSON.stringify({ bookings: invBookings, updatedAt: new Date().toISOString() }, null, 2)}\n`,
   "utf8",
 );
-fs.writeFileSync(LIVE_STATUS_SITE, `${JSON.stringify(liveStatus, null, 2)}\n`, "utf8");
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(OUT_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

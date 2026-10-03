@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import LivePulseBadge from "@/components/marketing/LivePulseBadge";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
 import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
@@ -85,7 +84,6 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
           <div className="mt-8 flex flex-col gap-3">
-            <LivePulseBadge />
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
               <Button

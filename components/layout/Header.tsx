@@ -20,7 +20,6 @@ import {
 import { SiteSearchLazy } from "@/components/layout/header-lazy";
 import SearchKeyboardShortcut from "@/components/layout/SearchKeyboardShortcut";
 import StudioLiveIndicator from "@/components/layout/StudioLiveIndicator";
-import PromoBanner from "@/components/layout/PromoBanner";
 import {
   HeaderDynamicBadgesGroupLazy,
   TimeGreetingLazy,
@@ -237,17 +236,6 @@ export default function Header() {
             className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
             aria-hidden
           />
-          <div
-            className={cn(
-              "grid transition-[grid-template-rows] duration-300 ease-luxury motion-reduce:transition-none",
-              compactChrome ? "lg:grid-rows-[0fr]" : "grid-rows-[1fr]",
-            )}
-          >
-            <div className="overflow-hidden">
-              <PromoBanner />
-            </div>
-          </div>
-
           {mobileSearchOpen ? (
             <HeaderMobileSearchBar onCollapse={() => setMobileSearchOpen(false)} />
           ) : (

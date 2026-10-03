@@ -1,13 +1,14 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BUSINESS_HOURS,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
   FOOTER_LEGAL_LINKS,
   SITE_KICKER,
+  SITE_TRUST_STATS,
   SOCIAL_LINKS,
 } from "@/lib/constants";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -215,7 +216,7 @@ function buildQuizWhatsAppMessage(params: {
   });
 }
 
-import { getContactAvailabilityLabel } from "@/lib/studio-hours";
+import { getContactAvailabilityLabel, isStudioOpen } from "@/lib/studio-hours";
 
 export default function ContactPageContent() {
   const [step, setStep] = useState(1);
@@ -229,6 +230,15 @@ export default function ContactPageContent() {
   /* קבוע, ולא useState. התווית כבר אינה תלוית שעה, ו-useState עם
      פונקציית אתחול היה מריץ אותה גם בשרת וגם בהידרציה. */
   const availability = getContactAvailabilityLabel();
+  /* הנקודה הירוקה עוקבת אחרי שעות הפעילות בשעון ישראל (FIT-12). null עד
+     אחרי ההידרציה, כדי שהשעה לא תיצרב ל-HTML הסטטי. */
+  const [openNow, setOpenNow] = useState<boolean | null>(null);
+  useEffect(() => {
+    const update = () => setOpenNow(isStudioOpen());
+    queueMicrotask(update);
+    const id = window.setInterval(update, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   /* "נשלח" נגזר מתשובת השרת ולא מלחיצה. קודם מסך ההצלחה הופיע מיד אחרי
      void submitLead, גם כשהפרטים לא הגיעו. LF-02 */
@@ -409,7 +419,6 @@ export default function ContactPageContent() {
         className="flex min-h-12 items-center gap-4 border-b border-brand-red/30 bg-brand-red/8 px-4 py-3 transition-colors hover:bg-brand-red/12 sm:px-8"
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-60" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-red" />
         </span>
         <span className="min-w-0 flex-1 text-end">
@@ -417,7 +426,7 @@ export default function ContactPageContent() {
             צריכים פרויקט מהיום להיום?
           </span>
           <span className="block text-xs text-muted-foreground">
-            זמינות מהירה עכשיו - תגובה מהירה
+            כתבו בוואטסאפ ונבדוק אם אפשר עוד היום
           </span>
         </span>
         <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>
@@ -445,10 +454,9 @@ export default function ContactPageContent() {
         </header>
 
         <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
+          {/* המספרים מ-SITE_TRUST_STATS בלבד, כמו בדף הבית (FIT-06) */}
           {[
-            { num: "20+", label: "שנות ניסיון" },
-            { num: "500+", label: "פרויקטים" },
-            { num: "★ 5.0", label: "דירוג לקוחות" },
+            ...SITE_TRUST_STATS.map((s) => ({ num: s.value, label: s.label })),
             { num: "אנושי", label: "מענה, לא בוט" },
           ].map((item) => (
             <div key={item.label} className="bg-surface px-2 py-4 text-center">
@@ -462,7 +470,16 @@ export default function ContactPageContent() {
           className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-muted-foreground"
           aria-live="polite"
         >
-          <span className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_0_3px_rgba(34,197,94,0.25)]" />
+          <span
+            className={cn(
+              "h-2 w-2 rounded-full",
+              openNow === true && "bg-green-500 shadow-[0_0_0_3px_rgba(34,197,94,0.25)]",
+              openNow === false && "bg-yellow-500",
+              openNow === null && "bg-border",
+            )}
+            aria-hidden="true"
+          />
+          {openNow === true ? <span className="sr-only">פתוח עכשיו. </span> : null}
           {availability}
         </p>
 

@@ -256,7 +256,7 @@ export function servicePricingForEventBundles(): readonly ServicePricingTier[] {
     description:
       row.count >= EVENT_GIFT_THRESHOLD
         ? "שלבו אפקטים בעמוד ההזמנה - כולל קליפ מתנה."
-        : "מחיר חבילה משולבת - זהה ל-/book#events.",
+        : "מחיר חבילה משולבת, כמו בעמוד ההזמנה.",
     featured: row.highlight,
     badge: row.highlight ? "מתנה" : undefined,
   }));

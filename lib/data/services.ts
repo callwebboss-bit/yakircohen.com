@@ -2036,7 +2036,6 @@ export const EVENTS_SERVICES = {
     whatsappText:
       "שלום, מעוניין/ת בחבילת אירועים (DJ + אטרקציות), אשמח להצעת מחיר",
     utmCampaign: "wedding_packages",
-    scarcityLabel: "חיסכון עד 30% בחבילה משולבת",
     faqs: [
       {
         id: "wedding-pkg-save",

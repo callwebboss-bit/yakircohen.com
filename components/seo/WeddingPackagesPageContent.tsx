@@ -57,12 +57,9 @@ export default function WeddingPackagesPageContent() {
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 text-center sm:p-8"
           aria-labelledby="save-heading"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
-            חיסכון עד 30%
-          </p>
           <h2
             id="save-heading"
-            className="mt-2 text-xl font-semibold text-foreground sm:text-2xl"
+            className="text-xl font-semibold text-foreground sm:text-2xl"
           >
             DJ + אטרקציות + הגברה בחבילה אחת
           </h2>

@@ -2,9 +2,10 @@
 
 import { useBookUtmBoost, type BookUtmBoostOptions } from "@/hooks/useBookUtmBoost";
 import { getAudienceRouteById } from "@/lib/data/book-audience-routes";
+import { GOOGLE_RATING } from "@/lib/constants";
 
 export const BOOK_HERO_SUBTITLE_DEFAULT =
-  "עובדים על 5 עד 7 פרויקטים בשבוע. למטה - מה מפריע בהקלטה. אחרי זה מופיעים השירות והמחיר הסופי.";
+  "למטה - מה מפריע בהקלטה. אחרי זה מופיעים השירות והמחיר.";
 
 type BookDynamicHeroSubtitleProps = {
   defaultText: string;
@@ -32,7 +33,7 @@ export default function BookDynamicHeroSubtitle({
       {" - "}
       {route.startingPriceDual}, וואטסאפ מהיר או הזמנה מפורטת.
       {" "}
-      4.9 כוכבים - תשובה ביום עסקים.
+      {GOOGLE_RATING} כוכבים ב-Google - תשובה ביום עסקים.
     </p>
   );
 }

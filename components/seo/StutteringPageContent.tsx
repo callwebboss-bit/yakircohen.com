@@ -121,6 +121,7 @@ export default function StutteringPageContent() {
       features={FEATURES}
       whatsappText="שלום, אשמח לשוחח על ליווי בגמגום ולהבין מה מתאים לי"
       utmCampaign="stuttering_landing"
+      showTrustStats={false}
     >
       <Container className="space-y-16 py-12 sm:py-16">
 

@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import TrustBadges from "@/components/ui/TrustBadges";
 import SocialProofStrip from "@/components/marketing/SocialProofStrip";
-import LivePulseBadge from "@/components/marketing/LivePulseBadge";
 import HubAccentScope from "@/components/theme/HubAccentScope";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { OUTCOME_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -107,6 +106,12 @@ export type ServicePageLayoutProps = {
    * כשהוא מוגדר, כפתור הוואטסאפ ב-Hero לא מוצג, והוואטסאפ נשאר בתחתית העמוד.
    */
   heroPrimaryCta?: { href: string; label: string };
+  /**
+   * נתוני האמון של האולפן (SITE_TRUST_STATS) בראש העמוד. false בעמודים שאינם
+   * שירות של האולפן, כמו /stuttering, שם "5,000+ לקוחות" ודירוג Google של
+   * האולפן לא מעידים על התוכנית (FIT-06).
+   */
+  showTrustStats?: boolean;
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -246,6 +251,7 @@ export default function ServicePageLayout({
   bookLabel,
   showHeroScrollLink,
   maxHeroFeatures,
+  showTrustStats = true,
   category,
   pagePath,
   emitPageEntitySchema = true,
@@ -368,7 +374,7 @@ export default function ServicePageLayout({
               {subtitle}
             </p>
 
-            <SocialProofStrip className="mt-4" />
+            {showTrustStats ? <SocialProofStrip className="mt-4" /> : null}
 
             {valueFrame ? (
               <p className="mt-4 text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
@@ -378,9 +384,6 @@ export default function ServicePageLayout({
 
             {showHeroCtas ? (
               <div className="mt-7 flex flex-col gap-3">
-                {category === "studio" || category === "podcast" ? (
-                  <LivePulseBadge />
-                ) : null}
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 {heroPrimaryCta ? (
                   <Button
@@ -428,7 +431,7 @@ export default function ServicePageLayout({
               </p>
             ) : null}
 
-            {showHeroCtas ? (
+            {showHeroCtas && showTrustStats ? (
               <TrustBadges className="mt-4 hidden" />
             ) : null}
 

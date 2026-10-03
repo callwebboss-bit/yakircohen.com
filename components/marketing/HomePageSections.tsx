@@ -9,7 +9,6 @@ import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
 import HomeGiftsTeaser from "@/components/marketing/HomeGiftsTeaser";
 import HomeQuickPaths from "@/components/marketing/HomeQuickPaths";
-import LiveStatusBar from "@/components/marketing/LiveStatusBar";
 import { HomeSocialProofSectionLazy } from "@/components/marketing/lazy";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PremiumBundleCallout from "@/components/marketing/PremiumBundleCallout";
@@ -125,7 +124,7 @@ const VALUE_PROPS = [
   {
     title: "ניסיון מהשטח",
     description:
-      "עשרות אירועים, פודקאסטים והקלטות. יודעים מתי לדבר ומתי לתת לרגע לנשום.",
+      "אירועים, פודקאסטים והקלטות. יודעים מתי לדבר ומתי לתת לרגע לנשום.",
     href: "/events/attractions",
   },
   {
@@ -151,7 +150,6 @@ export default function HomePageSections({
 }: HomePageSectionsProps) {
   return (
     <>
-      <LiveStatusBar />
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
       <HomeQuickPaths />
 
