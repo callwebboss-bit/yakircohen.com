@@ -82,7 +82,7 @@ export const AUDIOBOOKS_CONFIG: BusinessPageConfig = {
   ],
   faqs,
   relatedLinks: [
-    { label: "קריינות מקצועית", href: "/business/professional-voiceover" },
+    { label: "קריינות מקצועית", href: "/voiceover/services" },
     { label: "קורס קריינות", href: "/academy/voiceover" },
   ],
 };

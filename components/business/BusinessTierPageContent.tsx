@@ -227,7 +227,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
                 {tier.priceNote ? (
                   <p className="text-xs text-muted-foreground">{tier.priceNote}</p>
                 ) : null}
-                <BookPriceDual exVat={tier.priceNis} className="mt-1" />
+                <BookPriceDual exVat={tier.priceNis} className="mt-1" audience="business" />
                 <p className="mt-3 text-sm text-muted-foreground">{tier.description}</p>
                 <ul className="mt-4 flex-1 space-y-2 text-sm text-muted-foreground">
                   {tier.deliverables.map((d) => (

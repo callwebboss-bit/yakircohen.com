@@ -1,5 +1,7 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
+import { withVat } from "@/lib/data/pricing";
 import { getBusinessOpenStatus } from "@/lib/business-hours";
 
 export type ChatAnswer = {
@@ -114,9 +116,10 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_studio_price",
       label: "🎙️ מחיר אולפן הקלטות",
       answer: {
-        text: `ברכה באולפן מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שיר מוכן (מיקס, מאסטר ותיקון זיופים) מ-₪${getExVat("cover_song").toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${getExVat("studio_remote").toLocaleString("he-IL")}. המחירים לפני מע״מ. תספרו לי מה מתאים לכם.`,
-        readMoreHref: "/studio/pricing",
-        readMoreLabel: "מחירון אולפן מלא",
+        /* מחירים לצרכן כולל מע״מ, כמו טופס השיר (2.10.2026) */
+        text: `הקלטת שיר (הקלטה, מיקס ומאסטר בסשן של שעה) ₪${withVat(getExVat("song_recording")).toLocaleString("he-IL")} כולל מע״מ, ותיקון זיופים עם טכנאי מנחה בתוספת ₪${withVat(getExVat("song_pitch_coaching")).toLocaleString("he-IL")}. ברכה באולפן מ-₪${withVat(getExVat("blessing_recording")).toLocaleString("he-IL")}. הקלטה מהטלפון בלי להגיע - גם מ-₪${withVat(getExVat("studio_remote")).toLocaleString("he-IL")}. כל המחירים כוללים מע״מ. תספרו לי מה מתאים לכם.`,
+        readMoreHref: "/studio/recording-song-modiin#song-offer",
+        readMoreLabel: "בחירת תוספות ומחיר סופי לשיר",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת שיר - [מרחוק / באולפן]",
         whatsappCta: "ספרו לי מה מתאים לכם",
         utm_campaign: "chatbot_studio_price",
@@ -127,7 +130,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "📱 הקלטה מרחוק (מהטלפון)",
       hidden: true,
       answer: {
-        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול במחיר ${getExVat("studio_remote").toLocaleString("he-IL")} ₪; אפשר להוסיף ב-${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מתחיל מ-₪${getExVat("studio_remote").toLocaleString("he-IL")} לפני מע\"מ. ללא צורך בביקור באולפן.`,
+        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"))}. ללא צורך בביקור באולפן.`,
         readMoreHref: "/online/vocal-fix",
         readMoreLabel: "פרטים על שירות שיפור קול",
         whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
@@ -140,9 +143,9 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "🎚️ הקלטה פיזית באולפן",
       hidden: true,
       answer: {
-        text: `שיר מוכן באולפן מ-₪${getExVat("cover_song").toLocaleString("he-IL")} לפני מע״מ - הקלטה בלי לחץ זמן, מיקס, מאסטר ותיקון זיופים. ברכה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")}. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
-        readMoreHref: "/studio/pricing",
-        readMoreLabel: "מחירון אולפן מלא",
+        text: `הקלטת שיר באולפן ₪${withVat(getExVat("song_recording")).toLocaleString("he-IL")} כולל מע״מ - סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. ברכה מ-₪${withVat(getExVat("blessing_recording")).toLocaleString("he-IL")} כולל מע״מ. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות.`,
+        readMoreHref: "/studio/recording-song-modiin#song-offer",
+        readMoreLabel: "בחירת תוספות ומחיר סופי לשיר",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטה פיזית באולפן. מה הזמינות?",
         whatsappCta: "ספרו לי מה תרצו להקליט",
         utm_campaign: "chatbot_studio_physical",
@@ -152,7 +155,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: `הקלטת ברכה לאירוע מתחילה מ-₪${getExVat("blessing_recording").toLocaleString("he-IL")} לפני מע״מ, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${getExVat("studio_pitch_correction").toLocaleString("he-IL")} ₪. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
+        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"))}, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${formatPrice(getExVat("studio_pitch_correction")).inline}. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",
@@ -164,7 +167,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_podcast",
       label: "🎧 מחיר פודקאסט",
       answer: {
-        text: `הקלטת פרק פודקאסט מתחילה מ-₪${getExVat("podcast_pilot").toLocaleString("he-IL")} לפני מע״מ. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
+        text: `פרק פודקאסט ערוך מתחיל ${formatFromPriceDual(getExVat("podcast_audio"))}. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
         readMoreHref: "/podcast",
         readMoreLabel: "חבילות ומחירי פודקאסט",
         whatsappMessage: "שלום, מעוניין/ת בפרטים על הקלטת פודקאסט. רוצה להבין מה מתאים לנו.",
@@ -200,7 +203,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_dj",
       label: "🎵 DJ לחתונה ואירועים",
       answer: {
-        text: "שירותי DJ לאירוע מתחילים מ-₪5,000, ודיג'יי אישי של יקיר מ-₪8,305. כיוון שהמחיר וההתאמה תלויים לחלוטין בסוג האירוע והתאריך, השלב הראשון הוא בדיקת יומן.",
+        text: `שירותי DJ לאירוע: תקליטן מהצוות ${formatFromPriceDual(getExVat("dj_premium"))}, ויקיר כהן אישית ${formatFromPriceDual(getExVat("dj_yakir_personal"))}. כיוון שהמחיר וההתאמה תלויים בסוג האירוע ובתאריך, השלב הראשון הוא בדיקת יומן.`,
         readMoreHref: "/events",
         readMoreLabel: "מידע על שירותי DJ",
         whatsappMessage: "שלום, מחפש/ת DJ לאירוע ב-[תאריך]. האם התאריך פנוי?",

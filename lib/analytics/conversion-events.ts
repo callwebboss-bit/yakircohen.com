@@ -41,7 +41,10 @@ export type ConversionEventName =
   | "session_rescuer_dismiss"
   | "book_wizard_step_celebrate"
   | "needs_flow_step"
-  | "needs_flow_wa_submit";
+  | "needs_flow_wa_submit"
+  /* ליד שהשרת אישר שהגיע לבעלים (200), וליד שלא הגיע. lib/lead-email-notify.ts. LF-19 */
+  | "generate_lead"
+  | "lead_submit_failed";
 
 export function trackConversion(
   name: ConversionEventName,

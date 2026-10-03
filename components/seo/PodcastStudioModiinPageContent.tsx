@@ -205,7 +205,7 @@ export default function PodcastStudioModiinPageContent() {
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
           >
-            קבע מקום עכשיו, {TIME_CLAIMS.podcastDelivery24h}</a>
+            קבע מקום עכשיו. {TIME_CLAIMS.podcastSameSecond}</a>
         </section>
 
         <GoogleReviews

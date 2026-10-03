@@ -99,7 +99,7 @@ export default function ContentStudioPageContent() {
                 {tier.priceNote ? (
                   <p className="text-xs text-muted-foreground">{tier.priceNote}</p>
                 ) : null}
-                <BookPriceDual exVat={tier.priceNis} className="mt-1" />
+                <BookPriceDual exVat={tier.priceNis} className="mt-1" audience="business" />
                 <p className="mt-3 text-sm text-muted-foreground">
                   {tier.description}
                 </p>

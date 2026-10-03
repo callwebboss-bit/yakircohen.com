@@ -3,6 +3,7 @@ import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { SHOP_VOUCHER_IMAGES } from "@/lib/data/shop-page";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -53,6 +54,10 @@ export const SHOP_VOUCHER_TIERS: readonly ShopVoucherTier[] = [
 
 export const SHOP_VOUCHER_FAQ_SCHEMA = [
   {
+    question: "תוך כמה זמן מקבלים את השובר?",
+    answer: `מיד. ${TIME_CLAIMS.voucherInstant} בוואטסאפ או במייל, מוכן להעביר למקבל/ת המתנה.`,
+  },
+  {
     question: "כמה זמן השובר בתוקף?",
     answer:
       "בדרך כלל שנה ממועד הרכישה. אם צריך תאריך אחר, כותבים לנו בוואטסאפ ומתאימים.",
@@ -69,25 +74,24 @@ export const SHOP_VOUCHER_FAQ_SCHEMA = [
   },
 ] as const;
 
+/* בלי savingLabel: "-10% / -15% / -20% חיסכון" לא נשענו על אף מחיר, ואין
+   הנחה מעל 8% (החלטת הבעלים 3.10.2026, סבב שני). */
 export const SHOP_BUNDLE_OFFERS = [
   {
     id: "studio-effects",
     title: "אולפן + אפקטים לאירוע",
-    savingLabel: "-10% חיסכון",
     desc: "שילוב מנצח של הקלטות אולפן עם חבילת תאורה ועשן לאירוע שלכם.",
     utmCampaign: "shop_bundle_studio_effects",
   },
   {
     id: "dj-sound",
     title: "חבילת DJ + הגברה",
-    savingLabel: "-15% חיסכון",
     desc: "פתרון מלא לאירועי בוטיק. עמדת DJ מקצועית עם מערכת סאונד מותאמת.",
     utmCampaign: "shop_bundle_dj_sound",
   },
   {
     id: "single-video",
     title: "הפקת סינגל + וידאו",
-    savingLabel: "-20% חיסכון",
     desc: "הקלטה, מיקס, מאסטרינג וצילום קליפ אולפן מקצועי ביום אחד.",
     utmCampaign: "shop_bundle_single_video",
   },

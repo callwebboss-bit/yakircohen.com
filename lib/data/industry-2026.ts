@@ -70,6 +70,9 @@ function buildCatalogRow(id: PriceItemId, overrides?: { note?: string }): Indust
     exVat: item.exVat,
     scope: item.scope,
     showFromPrefix: getPriceFromById(id),
+    /* עמוד נתוני שוק: הטבלה משווה לטווחי שוק שמצוטטים לפני מע״מ, ולכן כאן לפני
+       מע״מ קודם, עם INDUSTRY_2026_VAT_NOTE */
+    audience: "business",
   });
   const transparency = getPriceTransparencyById(id);
 
@@ -112,11 +115,11 @@ export const INDUSTRY_2026_CITATION =
    כולם אמרו 1,695. זה העמוד שנבנה כדי להיות מצוטט, ולכן דווקא כאן אסור
    שיהיה מספר שלא נגזר מהקטלוג. */
 export const INDUSTRY_2026_SPEAKABLE_ANSWER =
-  `הקלטת שיר מתחילה ב-${nisEx("blessing_recording")}, פודקאסט אודיו ב-${nisEx("podcast_audio")}, ` +
+  `הקלטת שיר מתחילה ב-${nisEx("song_recording")}, פודקאסט אודיו ב-${nisEx("podcast_audio")}, ` +
   `קליפ מלא ב-${nisEx("full_production_clip")} ואטרקציה בודדת ב-${nisEx("event_attraction_1")} - לפני מע"מ.`;
 
 export const INDUSTRY_2026_QUICK_ANSWERS = [
-  "הקלטת שיר באולפן מתחילה ב-590 ₪ לברכה, 990 ₪ לשיר מוכן ו-3,500 ₪ לסינגל מקורי - לפני מע\"מ.",
+  `הקלטת שיר באולפן (הקלטה, מיקס ומאסטר) עולה ${nisEx("song_recording")}, ברכה ${nisEx("blessing_recording")} וסינגל מקורי ${nisEx("single_production")} - לפני מע"מ.`,
   "קליפ בר או בת מצווה מלא מתחיל במחירון האתר ב-4,500 ₪, ובמדריך השוק טווח נפוץ מלא הוא 4,500-7,500 ₪.",
   `אטרקציה בודדת לאירוע מתחילה ב-${nisEx("event_attraction_1")}, וחבילת שלוש אטרקציות ב-${nisEx("event_attraction_3")} - לפני מע"מ.`,
   "פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, והפקה מלאה 2,500 ₪ - לפני מע\"מ.",
@@ -128,13 +131,12 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
     kicker: "אולפן",
     title: "כמה עולה להקליט שיר ב-2026?",
     intro:
-      "הקלטת שיר באולפן ב-2026 מתחילה ב-590 ₪ לברכה, 990 ₪ לשיר מוכן ו-3,500 ₪ לסינגל מקורי - לפני מע\"מ.",
+      `הקלטת שיר באולפן ב-2026 (הקלטה, מיקס ומאסטר) עולה ${nisEx("song_recording")}, ברכה ${nisEx("blessing_recording")} וסינגל מקורי ${nisEx("single_production")} - לפני מע"מ.`,
     note:
       "המחיר הסופי תלוי בעיקר בכמות שעות האולפן, בעיבוד המוזיקלי ובמספר הגרסאות שמבקשים לקבל.",
     rows: [
       buildCatalogRow("blessing_recording"),
-      buildCatalogRow("cover_song"),
-      buildCatalogRow("song_package"),
+      buildCatalogRow("song_recording"),
       buildCatalogRow("single_production"),
       buildMarketRangeRow(
         "טווח שוק להקלטת שיר לבר מצווה",

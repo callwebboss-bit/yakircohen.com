@@ -31,6 +31,11 @@ type PriceScopeDisplayProps = {
   catalogId?: PriceItemId;
   transparency?: PriceTransparency;
   showTransparency?: boolean;
+  /**
+   * ברירת המחדל כולל מע״מ בגדול ולפני מע״מ בקטן (החלטת הבעלים 2.10.2026,
+   * שלב 4 WP11). "exVat" לעמודי עסקים בלבד.
+   */
+  lead?: "exVat" | "withVat";
 };
 
 const sizeClasses = {
@@ -52,8 +57,10 @@ export default function PriceScopeDisplay({
   catalogId,
   transparency,
   showTransparency = true,
+  lead = "withVat",
 }: PriceScopeDisplayProps) {
-  const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix });
+  const audience = lead === "exVat" ? "business" : "consumer";
+  const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix, audience });
   const s = sizeClasses[size];
 
   if (compact) {
@@ -65,7 +72,7 @@ export default function PriceScopeDisplay({
   }
 
   if (withEditing) {
-    const dual = formatDualPriceLines(exVat, withEditing);
+    const dual = formatDualPriceLines(exVat, withEditing, audience);
     const editTotal = withVat(withEditing.exVat).toLocaleString("he-IL");
     return (
       <div className={cn("space-y-1", className)}>
@@ -77,12 +84,14 @@ export default function PriceScopeDisplay({
         {lines.scopeLine ? (
           <p className={cn(s.scope, "text-muted-foreground")}>{lines.scopeLine}</p>
         ) : null}
-        {!hideVatLine ? (
+        {!hideVatLine && audience === "business" ? (
           <p className={cn(s.vat, "text-muted-foreground")}>
             כולל מע״מ (עריכה): {editTotal} ₪
           </p>
         ) : null}
-        <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+        {lines.beforeVatLine ? (
+          <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+        ) : null}
         {suitedFor ? (
           <p className={cn(s.suited, "text-muted-foreground")}>
             <span className="font-semibold text-foreground">מתאים ל: </span>
@@ -109,7 +118,9 @@ export default function PriceScopeDisplay({
       {!hideVatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.vatLine}</p>
       ) : null}
-      <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+      {lines.beforeVatLine ? (
+        <p className={cn(s.vat, "text-muted-foreground")}>{lines.beforeVatLine}</p>
+      ) : null}
       {suitedFor ? (
         <p className={cn(s.suited, "mt-1 text-muted-foreground")}>
           <span className="font-semibold text-foreground">מתאים ל: </span>
@@ -133,16 +144,23 @@ export function PriceScopeCompact({
   scope,
   showFromPrefix = false,
   className,
+  lead = "withVat",
 }: {
   exVat: number;
   scope?: PriceScope;
   showFromPrefix?: boolean;
   className?: string;
+  /** "withVat": הסכום כולל מע״מ, עם המילים "כולל מע״מ" */
+  lead?: "exVat" | "withVat";
 }) {
   const scopeLine = formatScopeLine(scope);
-  const amount = exVat.toLocaleString("he-IL");
+  const amount =
+    lead === "withVat"
+      ? `${withVat(exVat).toLocaleString("he-IL")}`
+      : exVat.toLocaleString("he-IL");
   const billing = scope?.billingLabel ?? "חד-פעמי";
-  const price = showFromPrefix ? `מ-${amount} ₪` : `${amount} ₪`;
+  const vatWord = lead === "withVat" ? " כולל מע״מ" : "";
+  const price = showFromPrefix ? `מ-${amount} ₪${vatWord}` : `${amount} ₪${vatWord}`;
   const text = scopeLine ? `${price} · ${scopeLine}` : `${price} · ${billing}`;
 
   return (

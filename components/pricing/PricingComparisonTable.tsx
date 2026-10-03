@@ -11,7 +11,11 @@ import {
   type PricingComparisonRow,
 } from "@/lib/data/pricing-comparison";
 import { getPriceById, getPriceTransparencyById } from "@/lib/data/pricing-catalog";
-import { formatHubPriceDual, formatScopeLine } from "@/lib/data/pricing-display";
+import {
+  formatConsumerPriceLine,
+  formatHubPriceDual,
+  formatScopeLine,
+} from "@/lib/data/pricing-display";
 import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +34,10 @@ type ComparisonCells = {
   exVat: number;
 };
 
-function comparisonCells(row: PricingComparisonRow): ComparisonCells {
+function comparisonCells(
+  row: PricingComparisonRow,
+  priceLead: "exVat" | "withVat" = "exVat",
+): ComparisonCells {
   const item = getPriceById(row.catalogId);
   const transparency = getPriceTransparencyById(row.catalogId);
   return {
@@ -38,7 +45,10 @@ function comparisonCells(row: PricingComparisonRow): ComparisonCells {
     breakdown: formatComparisonBreakdown(row.catalogId),
     excluded: transparency.excluded.slice(0, 2).join(" · "),
     suitedFor: item.suitedFor ?? "",
-    priceLine: formatHubPriceDual(item.exVat, item.priceFrom === true),
+    priceLine:
+      priceLead === "withVat"
+        ? formatConsumerPriceLine(item.exVat, item.priceFrom === true)
+        : formatHubPriceDual(item.exVat, item.priceFrom === true),
     bookHref: resolvePricingBookHref(row.catalogId) ?? row.bookHref ?? "/book",
     exVat: item.exVat,
   };
@@ -49,6 +59,8 @@ export type PricingComparisonTableProps = {
   className?: string;
   enableCategoryFilter?: boolean;
   showBuilderLink?: boolean;
+  /** "withVat" בעמודי צרכן שמציגים כולל מע״מ קודם */
+  priceLead?: "exVat" | "withVat";
 };
 
 export default function PricingComparisonTable({
@@ -56,6 +68,7 @@ export default function PricingComparisonTable({
   className,
   enableCategoryFilter = false,
   showBuilderLink = false,
+  priceLead = "exVat",
 }: PricingComparisonTableProps) {
   const [cluster, setCluster] = useState<"all" | PricingComparisonCluster>("all");
   const [compareOn, setCompareOn] = useState(false);
@@ -75,15 +88,15 @@ export default function PricingComparisonTable({
     const a = rows.find((row) => row.id === aId);
     const b = rows.find((row) => row.id === bId);
     if (!a || !b) return null;
-    const aCells = comparisonCells(a);
-    const bCells = comparisonCells(b);
+    const aCells = comparisonCells(a, priceLead);
+    const bCells = comparisonCells(b, priceLead);
     return {
       scope: aCells.scope === bCells.scope,
       breakdown: aCells.breakdown === bCells.breakdown,
       excluded: aCells.excluded === bCells.excluded,
       suitedFor: aCells.suitedFor === bCells.suitedFor,
     };
-  }, [compareOn, selectedIds, rows]);
+  }, [compareOn, selectedIds, rows, priceLead]);
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {
@@ -202,7 +215,7 @@ export default function PricingComparisonTable({
           </thead>
           <tbody className="divide-y divide-border">
             {rows.map((row) => {
-              const cells = comparisonCells(row);
+              const cells = comparisonCells(row, priceLead);
               const selected = selectedIds.includes(row.id);
               const dimUnselected =
                 compareOn && selectedIds.length === 2 && !selected;
@@ -286,7 +299,7 @@ export default function PricingComparisonTable({
 
       <ul className="space-y-3 md:hidden">
         {rows.map((row) => {
-          const cells = comparisonCells(row);
+          const cells = comparisonCells(row, priceLead);
           return (
             <li
               key={row.id}

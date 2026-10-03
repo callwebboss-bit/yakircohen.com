@@ -2,12 +2,13 @@
 import FunnyRingtonePageContent from "@/components/seo/FunnyRingtonePageContent";
 import { constructMetadata } from "@/lib/metadata";
 import { buildMetaDescription } from "@/lib/seo/share-description";
+import { RINGTONE_PRICE_LABEL } from "@/lib/data/funny-ringtone-page";
 
 export const metadata: Metadata = constructMetadata({
-  title: "רינגטון מצחיק במתנה | 299 ₪ מבצע",
+  title: `רינגטון מצחיק במתנה | ${RINGTONE_PRICE_LABEL}`,
   description: buildMetaDescription(
     "רינגטון מצחיק במתנה ממודיעין.",
-    "299 ₪ מבצע - הקלטה, עיבוד וקובץ מוכן ל-iPhone ו-Android. שמעו לפני/אחרי והזמינו בוואטסאפ או בטופס.",
+    `${RINGTONE_PRICE_LABEL}: הקלטה, עיבוד וקובץ מוכן ל-iPhone ו-Android. שמעו לפני/אחרי והזמינו בוואטסאפ או בטופס.`,
   ),
   slug: "studio/recording-song-modiin/gifts/funny-ringtone",
   keywords: [

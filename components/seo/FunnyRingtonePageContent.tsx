@@ -13,10 +13,9 @@ import {
   RINGTONE_FAQ,
   RINGTONE_HERO,
   RINGTONE_INCLUDES,
-  RINGTONE_PRICE_NIS,
+  RINGTONE_PRICE_LABEL,
   RINGTONE_STEPS,
 } from "@/lib/data/funny-ringtone-page";
-import { formatNis } from "@/lib/data/pricing";
 import { SITE_NAME } from "@/lib/constants";
 import { buildFunnyRingtoneServiceSchema } from "@/lib/seo/gifts-page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -115,7 +114,7 @@ export default function FunnyRingtonePageContent() {
               rel="noopener noreferrer"
               className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
             >
-              הזמנה בוואטסאפ - {formatNis(RINGTONE_PRICE_NIS)}
+              הזמנה בוואטסאפ - {RINGTONE_PRICE_LABEL}
             </a>
             <a
               href="#ringtone-order-form"
@@ -155,7 +154,7 @@ export default function FunnyRingtonePageContent() {
             מה כלול
           </p>
           <h2 className="mt-3 font-serif text-xl font-semibold text-foreground sm:text-2xl">
-            מה מקבלים ב-{formatNis(RINGTONE_PRICE_NIS)}?
+            מה מקבלים ב-{RINGTONE_PRICE_LABEL}?
           </h2>
         </header>
         <ul className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
@@ -245,7 +244,7 @@ export default function FunnyRingtonePageContent() {
               מוכנים להזמין?
             </h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              {formatNis(RINGTONE_PRICE_NIS)} מבצע - וואטסאפ או טופס, מה שנוח
+              {RINGTONE_PRICE_LABEL}, וואטסאפ או טופס, מה שנוח
               לכם.
             </p>
           </header>
@@ -267,10 +266,10 @@ export default function FunnyRingtonePageContent() {
         layout="section"
         variant="whatsapp"
         heading="רוצים להפתיע מישהו בצלצול הבא?"
-        description={`רינגטון מצחיק במתנה - ${formatNis(RINGTONE_PRICE_NIS)} מבצע. נעזור לכם לנסח, להקליט ולסיים עם קובץ מוכן.`}
+        description={`רינגטון מצחיק במתנה, ${RINGTONE_PRICE_LABEL}. נעזור לכם לנסח, להקליט ולסיים עם קובץ מוכן.`}
         headingId="ringtone-bottom-cta-heading"
         whatsappHref={WHATSAPP_CTA}
-        whatsappLabel={`הזמנה בוואטסאפ - ${formatNis(RINGTONE_PRICE_NIS)}`}
+        whatsappLabel={`הזמנה בוואטסאפ - ${RINGTONE_PRICE_LABEL}`}
         whatsappAriaLabel="הזמנת רינגטון מצחיק בוואטסאפ"
         showBookContact={false}
       >

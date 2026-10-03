@@ -1,3 +1,4 @@
+import { mobileChannelPriceLine } from "@/lib/data/mobile-studio-booking";
 import type { LeadFlowServiceId } from "./services";
 
 export type ScopeBlocks = {
@@ -113,8 +114,10 @@ export const SCOPE_BLOCKS: Record<LeadFlowServiceId, ScopeBlocks> = {
       "הגעה עם ציוד הקלטה למיקום שסוכם",
       "הקמה ופירוק בסיסיים במקום",
       "הקלטה לפי משך שנקבע בהצעה",
+      "בבית או במשרד: הקלטת אודיו לאדם אחד",
     ],
     excludes: [
+      mobileChannelPriceLine(),
       "חדר מוכן אקוסטית מצד הלקוח אם לא קיים",
       "עריכה מלאה אם לא נכללה בהצעה",
       "נסיעות חריגות בלי תיאום מראש",

@@ -7,6 +7,7 @@ import KoalendarModal from "@/components/booking/KoalendarModal";
 import InfoTip from "@/components/ui/InfoTip";
 import { BOOKING_INSTALLMENT_LINE } from "@/lib/data/booking-shared";
 import { PAYMENT_SECURITY_LINE } from "@/lib/data/legal-trust-copy";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { PAYMENT_METHODS } from "@/lib/payment-methods";
 import { cn } from "@/lib/utils";
 
@@ -65,6 +66,8 @@ export type BookingSummaryActionsProps = {
   socialProof?: string;
   /** Disables both action buttons (e.g. until terms accepted) */
   disabled?: boolean;
+  /** השליחה בדרך (עד 12 שניות): הכפתורים נעולים והראשי אומר "שולחים" */
+  sending?: boolean;
   /** תשלומים ואמינות מתחת לכפתור הראשי */
   showPaymentTrust?: boolean;
   className?: string;
@@ -75,10 +78,12 @@ export default function BookingSummaryActions({
   startNow,
   consult15Min,
   socialProof,
-  disabled = false,
+  disabled: disabledProp = false,
+  sending = false,
   showPaymentTrust = false,
   className,
 }: BookingSummaryActionsProps) {
+  const disabled = disabledProp || sending;
   const [pulsing, setPulsing] = useState(false);
   const [koalendarOpen, setKoalendarOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -123,6 +128,10 @@ export default function BookingSummaryActions({
         </p>
       )}
 
+      <p className="sr-only" role="status" aria-live="polite">
+        {sending ? "שולחים את הפרטים" : ""}
+      </p>
+
       {/* PRIMARY - WhatsApp green */}
       {continueWhatsApp.href ? (
         <a
@@ -142,10 +151,12 @@ export default function BookingSummaryActions({
             continueWhatsApp.onClick?.();
             handleInteraction();
           }}
+          disabled={disabled}
+          aria-busy={sending || undefined}
           className={primaryBaseClass}
         >
           <WhatsAppIcon />
-          {continueWhatsApp.label}
+          {sending ? "שולחים" : continueWhatsApp.label}
         </button>
       )}
 
@@ -154,7 +165,7 @@ export default function BookingSummaryActions({
           <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
             <LockIcon />
             <span>({BOOKING_INSTALLMENT_LINE})</span>
-            <InfoTip text="מקדמה קטנה לשריון התאריך, יתרה לפני האירוע. מחלקים את הסכום בוואטסאפ לפי מה שנוח." />
+            <InfoTip text={DATE_HOLD_TERMS} />
           </div>
           <div className="flex items-center justify-center gap-1.5 text-[0.65rem] text-muted-foreground">
             <ShieldIcon />
@@ -198,6 +209,7 @@ export default function BookingSummaryActions({
               startNow.onClick?.();
               handleInteraction();
             }}
+            disabled={disabled}
             className={secondaryBaseClass}
           >
             {startNow.label}

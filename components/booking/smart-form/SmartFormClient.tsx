@@ -34,7 +34,12 @@ import {
   readBookCoreContact,
   saveBookCoreContact,
 } from "@/lib/book-wizard-cro/shared-contact";
-import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
+import {
+  createSubmissionId,
+  submitLeadToServer,
+  type LeadEmailPayload,
+} from "@/lib/lead-email-notify";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildSmartFormLeadEmailBody } from "@/lib/smart-form-lead-email";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
@@ -70,6 +75,39 @@ export default function SmartFormClient() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [emailSentHint, setEmailSentHint] = useState(false);
+  /* כשהשרת לא אישר שהליד הגיע: מסך גיבוי עם וואטסאפ, טלפון וניסיון חוזר.
+     קודם ערוץ המייל קיבל 400 על הקישור בגוף, ה-.then לא רץ והדחייה נבלעה. LF-01, LF-02 */
+  const [leadFailure, setLeadFailure] = useState<{
+    payload: LeadEmailPayload;
+    waHref: string;
+    channel: "email" | "whatsapp";
+  } | null>(null);
+  const [leadRetrying, setLeadRetrying] = useState(false);
+
+  const deliverLead = useCallback(
+    async (
+      payload: LeadEmailPayload,
+      waHref: string,
+      channel: "email" | "whatsapp",
+    ): Promise<boolean> => {
+      const result = await submitLeadToServer({
+        ...payload,
+        contactChannel:
+          payload.contactChannel ?? (channel === "whatsapp" ? "whatsapp" : undefined),
+      });
+      setLeadFailure(result.ok ? null : { payload, waHref, channel });
+      if (result.ok && channel === "email") setEmailSentHint(true);
+      return result.ok;
+    },
+    [],
+  );
+
+  const retryLead = useCallback(async () => {
+    if (!leadFailure || leadRetrying) return;
+    setLeadRetrying(true);
+    await deliverLead(leadFailure.payload, leadFailure.waHref, leadFailure.channel);
+    setLeadRetrying(false);
+  }, [deliverLead, leadFailure, leadRetrying]);
   const [contactHighlight, setContactHighlight] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
@@ -179,19 +217,30 @@ export default function SmartFormClient() {
     function onEmailChannel() {
       if (loading || submitLockRef.current) return;
       const state = buildState();
-      void notifyLeadByEmailAsync({
-        formId: "smart_form_book",
-        subject: "פנייה מ-Smart Form",
-        body: buildSmartFormLeadEmailBody(state),
-        name: state.name || undefined,
-        phone: parseContact(state.contactMethod).phone,
-        email: parseContact(state.contactMethod).email,
-      }).then(() => setEmailSentHint(true));
+      const waHref = buildWhatsAppHref({
+        text: [state.name ? `שלום, כאן ${state.name}.` : "שלום,", summaryLine]
+          .filter(Boolean)
+          .join("\n"),
+        utm_campaign: "smart_form_book",
+      });
+      void deliverLead(
+        {
+          formId: "smart_form_book",
+          subject: "פנייה מ-Smart Form",
+          body: buildSmartFormLeadEmailBody(state),
+          name: state.name || undefined,
+          phone: parseContact(state.contactMethod).phone,
+          email: parseContact(state.contactMethod).email,
+          submissionId: createSubmissionId(),
+        },
+        waHref,
+        "email",
+      );
     }
 
     window.addEventListener("yc-smart-form-email-channel", onEmailChannel);
     return () => window.removeEventListener("yc-smart-form-email-channel", onEmailChannel);
-  }, [buildState, loading]);
+  }, [buildState, deliverLead, loading, summaryLine]);
 
   const focusContactField = (message: string) => {
     setError(message);
@@ -301,17 +350,22 @@ export default function SmartFormClient() {
       utm_campaign: "smart_form_book",
     });
     openWhatsAppLead(waHref, { leadCategory: category?.bookCategory || "studio" });
-    void notifyLeadByEmailAsync({
-      formId: "smart_form_book",
-      subject: "ליד Smart Form - וואטסאפ",
-      body: buildSmartFormLeadEmailBody(state),
-      name: name.trim() || undefined,
-      phone: contact.phone,
-      email: contact.email,
-      crossSell: {
-        bookCategory: category?.bookCategory || "studio",
+    void deliverLead(
+      {
+        formId: "smart_form_book",
+        subject: "ליד Smart Form - וואטסאפ",
+        body: buildSmartFormLeadEmailBody(state),
+        name: name.trim() || undefined,
+        phone: contact.phone,
+        email: contact.email,
+        crossSell: {
+          bookCategory: category?.bookCategory || "studio",
+        },
+        submissionId: createSubmissionId(),
       },
-    });
+      waHref,
+      "whatsapp",
+    );
   };
 
   return (
@@ -589,6 +643,14 @@ export default function SmartFormClient() {
                     <p className="text-sm text-red-700" role="alert">
                       {error}
                     </p>
+                  ) : null}
+
+                  {leadFailure ? (
+                    <LeadSubmitFallback
+                      waHref={leadFailure.waHref}
+                      onRetry={() => void retryLead()}
+                      retrying={leadRetrying}
+                    />
                   ) : null}
 
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">

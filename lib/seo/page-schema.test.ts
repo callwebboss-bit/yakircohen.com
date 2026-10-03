@@ -7,6 +7,8 @@ import {
   VIDEO_SERVICES,
   VOICEOVER_SERVICES,
 } from "@/lib/data/services";
+import { withVat } from "@/lib/data/pricing";
+import { getAddonsForBaseId, getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { buildServicePageEntitySchema, buildServiceSchema } from "./page-schema";
 
 /*
@@ -54,13 +56,19 @@ test("כל Offer בסכמת Service נושא מחיר מספרי", () => {
 });
 
 test("מדרגה שהמחיר שלה טקסט אכן יורדת מה-offers ולא נספרת", () => {
-  /* events/dj-events: שלוש המדרגות שלו כולן "הצעה אישית", ולכן אין לו offers */
+  /* events/dj-events: מ-3.10.2026 (שלב 4 WP2) שתי מדרגות מתומחרות מהקטלוג
+     (dj_premium, dj_yakir_personal) והפרימיום נשאר "הצעה אישית". רק השתיים
+     המתומחרות נכנסות ל-offers. */
   const djEvents = ALL_SERVICES.find((s) => s.slug === "events/dj-events");
   assert.ok(djEvents, "events/dj-events לא נמצא ברג׳יסטרי");
-  assert.ok((djEvents.pricing ?? []).length > 0, "לשירות אין מדרגות, הבדיקה לא בודקת כלום");
+  const tiers = djEvents.pricing ?? [];
+  const textTiers = tiers.filter((t) => !/\d/.test(t.price));
+  assert.ok(textTiers.length > 0, "אין מדרגת טקסט, הבדיקה לא בודקת כלום");
 
   const schema = buildServiceSchema(djEvents) as { offers?: Offer[] };
-  assert.equal(schema.offers, undefined, "שירות שכל מדרגותיו טקסט לא אמור לפלוט offers בכלל");
+  const names = (schema.offers ?? []).map((o) => o.name);
+  assert.equal(names.length, tiers.length - textTiers.length);
+  for (const t of textTiers) assert.ok(!names.includes(t.name), `${t.name} נכנס ל-offers`);
 });
 
 test("הצומת הדק נושא את אותו אזור שירות כמו העשיר", () => {
@@ -83,4 +91,26 @@ test("הצומת הדק נושא את אותו אזור שירות כמו העש
     rich.areaServed,
     "שני צמתי ה-Service חייבים להצהיר על אותו אזור שירות בדיוק",
   );
+});
+
+test("עמוד השיר: Offers כולל מע״מ עם priceSpecification לפני מע״מ, והתוספות מהקטלוג", () => {
+  /* שלב 2 חלק ג: השיר ותוספותיו מוצגים לצרכן כולל מע״מ. Offer כולל מע״מ בלי
+     priceSpecification היה נקרא כמחיר לפני מע״מ, ו-590 הוא גם מחיר הברכה לפני מע״מ. */
+  const song = STUDIO_SERVICES["recording-song-modiin"];
+  const schema = buildServiceSchema(song) as {
+    offers?: (Offer & { priceSpecification?: { price?: unknown; valueAddedTaxIncluded?: unknown } })[];
+  };
+  const offers = schema.offers ?? [];
+  const expectedIds = ["song_recording", ...getAddonsForBaseId("song_recording").map((a) => a.id)];
+  for (const id of expectedIds) {
+    const exVat = getExVat(id as PriceItemId);
+    const offer = offers.find(
+      (o) => o.price === String(withVat(exVat)) && o.priceSpecification?.price === exVat,
+    );
+    assert.ok(offer, `חסר Offer כולל מע״מ ל-${id} (${withVat(exVat)} עם ${exVat} לפני מע״מ)`);
+    assert.equal(offer.priceSpecification?.valueAddedTaxIncluded, false);
+  }
+  for (const offer of offers) {
+    assert.ok(offer.priceSpecification, `Offer בלי priceSpecification בעמוד השיר: ${String(offer.name)}`);
+  }
 });

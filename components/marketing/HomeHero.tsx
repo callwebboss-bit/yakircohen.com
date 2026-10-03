@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import LivePulseBadge from "@/components/marketing/LivePulseBadge";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
 import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
@@ -13,11 +12,31 @@ import CtaOutcomeSubline from "@/components/marketing/CtaOutcomeSubline";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 
-const STUDIO_FROM_EX_VAT = getExVat("blessing_recording");
-const EVENTS_FROM_EX_VAT = getExVat("event_attraction_1");
-const PODCAST_FROM_EX_VAT = getExVat("studio_half_hour");
+/*
+ * עוגני המחיר בפסקת הפתיחה (תוכנית שלב 4, WP2-WP3). כל עוגן הוא המוצר שהשורה
+ * מדברת עליו: "DJ" הציג עד עכשיו את event_attraction_1 (אטרקציה בודדת, 1,695),
+ * ו"פודקאסט" הציג חצי שעה גלם בלי עריכה. DJ מהצוות הוא dj_premium (4 שעות, עד
+ * 300 מוזמנים, החלטת הבעלים ED-04), ופרק פודקאסט ערוך הוא podcast_audio.
+ * כולל מע״מ קודם ולפני מע״מ בקטן (החלטת הבעלים 2.10.2026).
+ */
+const STUDIO_FROM_ID: PriceItemId = "blessing_recording";
+const DJ_FROM_ID: PriceItemId = "dj_premium";
+const ATTRACTION_FROM_ID: PriceItemId = "event_attraction_1";
+const PODCAST_FROM_ID: PriceItemId = "podcast_audio";
+
+function HeroPrice({ id }: { id: PriceItemId }) {
+  const exVat = getExVat(id);
+  const price = formatPrice(exVat, { from: true });
+  return (
+    <>
+      <data value={String(price.totalWithVat)}>{price.headline}</data>{" "}
+      <span className="text-sm">({price.vatNote})</span>
+    </>
+  );
+}
 
 export type HomeHeroProps = {
   heroWhatsAppHref: string;
@@ -54,26 +73,17 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             data-speakable="true"
             className="text-lead mt-6 max-w-xl text-muted-foreground"
           >
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות, החל מ-
-            <data value={String(STUDIO_FROM_EX_VAT)}>
-              {STUDIO_FROM_EX_VAT.toLocaleString("he-IL")}
-            </data>{" "}
-            ₪ + מע״מ.{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ והגברה, החל מ-
-            <data value={String(EVENTS_FROM_EX_VAT)}>
-              {EVENTS_FROM_EX_VAT.toLocaleString("he-IL")}
-            </data>{" "}
-            ₪ + מע״מ.{" "}
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> ו
-            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink>, החל מ-
-            <data value={String(PODCAST_FROM_EX_VAT)}>
-              {PODCAST_FROM_EX_VAT.toLocaleString("he-IL")}
-            </data>{" "}
-            ₪ + מע״מ.{" "}
+            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות,{" "}
+            <HeroPrice id={STUDIO_FROM_ID} />.{" "}
+            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ מהצוות,{" "}
+            <HeroPrice id={DJ_FROM_ID} />, ואטרקציה לאירוע{" "}
+            <HeroPrice id={ATTRACTION_FROM_ID} />.{" "}
+            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>: פרק ערוך,{" "}
+            <HeroPrice id={PODCAST_FROM_ID} />.{" "}
+            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink> בהצעה לפי היקף.{" "}
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
           <div className="mt-8 flex flex-col gap-3">
-            <LivePulseBadge />
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
               <Button

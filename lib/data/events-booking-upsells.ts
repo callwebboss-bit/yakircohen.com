@@ -13,40 +13,20 @@ export const EVENT_GENERAL_UPSELLS: readonly BookingUpsellItem[] = [
 
 /** תוספות הקשריות - מוצגות רק כשהאטרקציה המתאימה נבחרת */
 export const EVENT_CONTEXTUAL_UPSELLS: readonly BookingUpsellItem[] = [
-  // ── שדרוגי הפעלה (נסתרים כשכבר שדרגו ידנית) ─────────────────────────────
-  {
-    id: "confetti_act2_promo",
-    name: "הפעלה שנייה של הקונפטי",
-    whatYouGet: "גשם קונפטי ב-2 רגעי שיא: כניסה + סלואו",
-    description: "כל הפעלה = מיכל קונפטי מלא וחדש",
-    price: 1400,
-    originalPrice: 1750,
-    badge: "חסכו 350 ₪",
-    triggerAttractionIds: ["event_confetti"],
-    isActivationUpgrade: true,
-  },
-  {
-    id: "sparklers_act2_promo",
-    name: "הפעלה שנייה של הזיקוקים",
-    whatYouGet: "ניצוצות ב-2 רגעי שיא: כניסה + סלואו",
-    description: "2 מכשירים יורים בכל הפעלה, מלאי מנועים חדש",
-    price: 1400,
-    originalPrice: 1750,
-    badge: "חסכו 350 ₪",
-    triggerAttractionIds: ["event_sparklers"],
-    isActivationUpgrade: true,
-  },
+  /* WP4 (OE-03, PI-06): "הפעלה שנייה ב-1,400 במקום 1,750" נמחקה לקונפטי
+     ולזיקוקים. 1,750 לא היה מחיר של שום דבר, וההפעלה השנייה האמיתית היא
+     event_extra_activation (1,200) שנבחרת בכרטיס האטרקציה עצמו (act_2). */
   // ── תוספת ציוד עצמאית (מוצגת בכל מצב הפעלה) ─────────────────────────────
   {
     id: "confetti_second_cannon",
     name: "תותח קונפטי שני",
     whatYouGet: "2 תותחים יורים בו-זמנית - אפקט כפול ומרהיב",
     description: "כל הפעלה: גשם קונפטי מכיווני הרחבה משני צדדים בו-זמנית",
-    /* עלות שולית של אטרקציה שנייה בסולם: 1,695 + 1,356 = 3,051,
-       בדיוק מחיר שתי אטרקציות. קודם היה 875 עם הבטחת 25%, מודל שסתר
-       את סולם ההנחות שנקבע. */
-    price: 1356,
-    originalPrice: 1695,
+    /* עלות שולית של אטרקציה שנייה בסולם: event_attraction_2 פחות
+       event_attraction_1. בלי מחיר ייחוס: 1,695 מחוק מול המחיר השולי הוא
+       16% על השורה, בזמן שהנחת החבילה היא 8% על שתי האטרקציות (החלטת
+       הבעלים 3.10.2026, סבב שני). */
+    price: getExVat("event_attraction_2") - getExVat("event_attraction_1"),
     badge: "מחיר זוג",
     triggerAttractionIds: ["event_confetti"],
     isActivationUpgrade: false,

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { createBookingWizardReducer } from "@/hooks/useBookingWizard";
+import { createBookingWizardReducer, deriveSubmitView } from "@/hooks/useBookingWizard";
 
 type TestForm = {
   name: string;
@@ -69,5 +69,39 @@ describe("bookingWizardReducer", () => {
     });
     const reset = reducer(success, { type: "SET_SUBMIT", submit: { status: "idle" } });
     assert.equal(reset.submit.status, "idle");
+  });
+});
+
+describe("deriveSubmitView (the failure screen stays during a retry)", () => {
+  it("first submit in flight: the form stays, no result screen", () => {
+    const v = deriveSubmitView({ status: "submitting" });
+    assert.equal(v.isSubmitFailed, false);
+    assert.equal(v.isRetrying, false);
+    assert.equal(v.lastWaHref, "");
+  });
+
+  it("failed: the fallback screen with the WhatsApp link", () => {
+    const v = deriveSubmitView({
+      status: "failed",
+      waHref: "https://wa.me/1",
+      intent: "start_now",
+      reason: "network",
+    });
+    assert.equal(v.isSubmitFailed, true);
+    assert.equal(v.isRetrying, false);
+    assert.equal(v.lastWaHref, "https://wa.me/1");
+    assert.equal(v.lastIntent, "start_now");
+  });
+
+  it("retry in flight: still the fallback screen, now retrying, same link", () => {
+    const v = deriveSubmitView({
+      status: "submitting",
+      retry: { waHref: "https://wa.me/1", intent: "start_now" },
+    });
+    assert.equal(v.isSubmitFailed, true);
+    assert.equal(v.isRetrying, true);
+    assert.equal(v.lastWaHref, "https://wa.me/1");
+    assert.equal(v.lastIntent, "start_now");
+    assert.equal(v.isSubmitted, false);
   });
 });

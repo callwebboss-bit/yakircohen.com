@@ -3,7 +3,7 @@ export const LEAD_FLOW_STEPS = [
   { id: "scope", title: "מה כולל / מה לא" },
   { id: "packages", title: "מחיר וחבילות" },
   { id: "upsells", title: "תוספות" },
-  { id: "hold", title: "Hold ותשלום" },
+  { id: "send", title: "סיכום ושליחה" },
 ] as const;
 
 export type LeadFlowStepId = (typeof LEAD_FLOW_STEPS)[number]["id"];

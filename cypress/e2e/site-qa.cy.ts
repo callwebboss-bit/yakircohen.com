@@ -19,22 +19,13 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
     });
   });
 
-  describe("Live Status Bar", () => {
-    beforeEach(() => {
-      cy.intercept("GET", "/api/live-visitors", {
-        statusCode: 200,
-        body: { configured: true, visitors: 8, fetchedAt: new Date().toISOString() },
-      }).as("liveVisitors");
+  /* "Live Status Bar" הוסר בשלב 5 (FIT-12, FIT-10): מונה הגולשים וסרגל הסטטוס
+     היו מדומים, וה-API שלהם נמחק. */
+  describe("No simulated live signals", () => {
+    it("home has no live status bar and no visitor counter", () => {
       cy.visit("/");
-    });
-
-    it("displays live status bar with visitor count", () => {
-      cy.get('[data-testid="live-status-bar"]').should("be.visible");
-      cy.wait("@liveVisitors");
-      cy.get('[data-testid="live-visitor-count"]').should("be.visible");
-      cy.contains("גולשים כרגע").should("be.visible");
-      cy.contains(/זמין|עסוק|ייעוץ|שבת|חוזרים/).should("be.visible");
-      cy.contains("20+").should("be.visible");
+      cy.get('[data-testid="live-status-bar"]').should("not.exist");
+      cy.contains("גולשים כרגע").should("not.exist");
     });
   });
 
@@ -88,8 +79,10 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
       cy.visit("/");
       cy.window().then((win) => {
         win.sessionStorage.clear();
+        /* openWhatsAppLead קורא ל-window.open בלי features ומאפס opener,
+           ולכן ה-stub מחזיר חלון עם opener שאפשר לכתוב אליו (LF-05) */
         cy.stub(win, "open")
-          .callsFake(() => ({ closed: false, close: () => undefined }))
+          .callsFake(() => ({ closed: false, opener: win, close: () => undefined }))
           .as("waOpen");
       });
     });
@@ -106,9 +99,11 @@ describe("Site QA -- RTL, responsiveness, links, forms", () => {
         cy.contains("button", "שלחו פרטים").click();
       });
 
-      cy.contains("תודה").should("be.visible");
-      cy.get("@waOpen").should("have.been.called");
+      /* טופס "נחזור אליכם" לא פותח וואטסאפ (LF-11), ומסך ההצלחה מופיע רק
+         אחרי שהשרת ענה 200 (LF-02) */
       cy.wait("@leadNotify");
+      cy.contains("קיבלנו את הפרטים").should("be.visible");
+      cy.get("@waOpen").should("not.have.been.called");
     });
   });
 

@@ -54,6 +54,7 @@ type PricingSectionBlockProps = {
     event: KeyboardEvent<HTMLButtonElement>,
     sectionId: string,
   ) => void;
+  priceLead: "exVat" | "withVat";
 };
 
 function PricingSectionBlock({
@@ -62,6 +63,7 @@ function PricingSectionBlock({
   baseId,
   onToggle,
   onTriggerKeyDown,
+  priceLead,
 }: PricingSectionBlockProps) {
   const triggerId = `${baseId}-section-trigger-${section.id}`;
   const panelId = `${baseId}-section-panel-${section.id}`;
@@ -134,6 +136,7 @@ function PricingSectionBlock({
           sectionBookHref={section.bookHref}
           sectionId={section.id}
           nested
+          priceLead={priceLead}
         />
         <div className="mt-3 flex flex-wrap gap-3 text-sm">
           <Link
@@ -160,11 +163,14 @@ export type PricingHubSectionsAccordionProps = {
   sections: readonly PricingHubSection[];
   /** מוצג אחרי קטגוריית הפודקאסט (אמצע הדף) */
   midPageSlot?: ReactNode;
+  /** "withVat": כולל מע״מ קודם בכל השורות */
+  priceLead?: "exVat" | "withVat";
 };
 
 export default function PricingHubSectionsAccordion({
   sections,
   midPageSlot,
+  priceLead = "exVat",
 }: PricingHubSectionsAccordionProps) {
   const baseId = useId();
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
@@ -239,6 +245,7 @@ export default function PricingHubSectionsAccordion({
                   baseId={baseId}
                   onToggle={toggle}
                   onTriggerKeyDown={onTriggerKeyDown}
+                  priceLead={priceLead}
                 />
               ))}
             </div>

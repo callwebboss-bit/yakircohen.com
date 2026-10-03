@@ -3,16 +3,25 @@
  * Falls back to in-memory Map when env is missing (dev / no Redis).
  */
 
+import { leadDryRunMode } from "@/lib/leads/dry-run";
+
 type ZMember = { score: number; member: string };
 
 const memory = new Map<string, { value: string; expiresAt?: number }>();
 const memoryZSets = new Map<string, ZMember[]>();
 
 function upstashConfigured(): { base: string; token: string } | null {
+  /* במצב dry-run לא נוגעים ב-Upstash גם אם .env.local מחזיק את המפתחות */
+  if (leadDryRunMode() !== "off") return null;
   const base = process.env.UPSTASH_REDIS_REST_URL?.trim();
   const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
   if (!base || !token) return null;
   return { base, token };
+}
+
+/** האם הלידים נשמרים לאורך זמן (Upstash), או רק בזיכרון של ה-instance. */
+export function isDurableStoreConfigured(): boolean {
+  return upstashConfigured() !== null;
 }
 
 export async function redisCommand(args: Array<string | number>): Promise<unknown> {

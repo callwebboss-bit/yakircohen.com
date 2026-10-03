@@ -22,13 +22,11 @@ import WizardStepProgress from "@/components/booking/WizardStepProgress";
 import BookOptionalAddonsButton from "@/components/booking/BookOptionalAddonsButton";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
 import {
-  EventsDecoyVipCard,
   EventsLastMinutePhotoOffer,
   EventsPriceReframe,
   EventsReassuranceBadge,
   EventsSessionPriorityPills,
   EventsWelcomePerkPills,
-  EventsWizardStep3HoldTimer,
   EventsWizardStepTransitionOverlay,
   EventsWizardUrgencyHint,
 } from "@/components/booking/EventsWizardCroBlocks";
@@ -42,7 +40,7 @@ import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
 import Link from "next/link";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
@@ -79,7 +77,7 @@ import {
   BOOKING_SUMMARY_INTRO,
   BOOKING_CONSULT_15_MIN,
 } from "@/lib/data/booking-shared";
-import { EVENTS_PAYMENT_TERMS_LINES } from "@/lib/data/legal-trust-copy";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -92,7 +90,7 @@ import {
 } from "@/lib/booking-messages";
 import { parseEventsFormDraft, type EventsFormDraft } from "@/lib/events-form-draft";
 import { EVENTS_CRO_CONFIG } from "@/lib/data/cro/events";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -103,11 +101,6 @@ import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
-import {
-  ensureHoldDeadline,
-  saveCategoryPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
   scrollAndHighlightFirstError,
@@ -220,11 +213,6 @@ export default function EventsBookingWizard({
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const prevStepRef = useRef(0);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "events",
-    EVENTS_CRO_CONFIG.urgency.priceHoldBadge,
-  );
   const initialForm = useMemo(
     () => buildInitialEventsForm(initialEventItemId),
     [initialEventItemId],
@@ -248,6 +236,10 @@ export default function EventsBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    isRetrying,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "events",
     formId: "events_booking_wizard",
@@ -305,7 +297,9 @@ export default function EventsBookingWizard({
   }, [step]);
 
   const SOUND_RENTAL_ID: EventBookingItemId = "sound_rental";
-  const SOUND_RENTAL_PRICE = 1750;
+  /* החלטת הבעלים 3.10.2026 (סבב שני): event_sound_rental, 2,500 לפני מע״מ.
+     עד אז 1,750 כתוב כאן, בלי מזהה קטלוג. */
+  const SOUND_RENTAL_PRICE = getExVat("event_sound_rental");
 
   /** הגברה היא line item נפרד - לא נכנסת לחישוב הבאנדל */
   const attractionIds = useMemo(
@@ -535,9 +529,9 @@ export default function EventsBookingWizard({
     form.selectedUpsells,
   ]);
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "events",
         serviceLabel: EVENTS_CRO_CONFIG.serviceLabel,
         formId: EVENTS_CRO_CONFIG.formId,
@@ -549,6 +543,7 @@ export default function EventsBookingWizard({
       }),
     [summaryLines, bundleTotal, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -566,6 +561,9 @@ export default function EventsBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת אטרקציות - שלב סגירה",
     body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -599,15 +597,8 @@ export default function EventsBookingWizard({
   };
 
   const handleExitIntent = useCallback(() => {
-    if (bundleTotal > 0 && packageSummaryLabel) {
-      saveCategoryPriceHold("events", {
-        packageLabel: packageSummaryLabel,
-        totalExVat: bundleTotal,
-      });
-      setPriceHoldLabel(EVENTS_CRO_CONFIG.urgency.priceHoldBadge);
-    }
     setExitIntentOpen(true);
-  }, [bundleTotal, packageSummaryLabel]);
+  }, []);
 
   useBookExitIntent({
     enabled: showCroOverlays && bundleTotal > 0 && count > 0,
@@ -620,7 +611,6 @@ export default function EventsBookingWizard({
 
   const completeStep2Transition = useCallback(() => {
     setStep2Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("events"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -777,11 +767,14 @@ export default function EventsBookingWizard({
         })
       : undefined;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="events"
         routeId={routeId}
         onNewBooking={resetWizard}
@@ -818,10 +811,10 @@ export default function EventsBookingWizard({
       {/* ── שלב 0: בחירת אטרקציות ── */}
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <EventsWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
+          <EventsWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו אטרקציות</h2>
           <p className="text-sm text-muted-foreground">
-            2 אטרקציות = הנחה 10% · 3 = 15% · 4 ומעלה = 20% ומתנה · כמות כפולה נספרת כשתי אטרקציות
+            מ-2 אטרקציות: הנחת חבילה של {attractionBundleDiscountPercent()}% · 4 ומעלה: גם מתנה · כמות כפולה נספרת כשתי אטרקציות
           </p>
           <div id="book-events-selection" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {EVENT_BOOKING_ITEMS.map((item) => {
@@ -1032,7 +1025,7 @@ export default function EventsBookingWizard({
                         {qty === "double" ? (
                           <>
                             <span className="font-semibold text-green-700">נספר כשתי אטרקציות</span>
-                            <span className="text-muted-foreground"> (הנחה 10% על הזוג)</span>
+                            <span className="text-muted-foreground"> (הנחת חבילה של {attractionBundleDiscountPercent()}%)</span>
                           </>
                         ) : (
                           <span className="text-muted-foreground">כמות כפולה נספרת כשתי אטרקציות ומזכה בהנחה</span>
@@ -1093,13 +1086,9 @@ export default function EventsBookingWizard({
 
           <WizardContextFaqSnapshot items={eventsWizardFaqs} className="mt-6" />
 
-          {EVENTS_CRO_CONFIG.escapePlacements.includes("after_packages") ? (
-            <EventsDecoyVipCard escapeWaHref={escapeWaHref} />
-          ) : null}
-
           {count === 0 &&
           EVENTS_CRO_CONFIG.escapePlacements.includes("empty_results") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
 
           <BookOptionalAddonsButton
@@ -1183,7 +1172,7 @@ export default function EventsBookingWizard({
             />
           </div>
           {EVENTS_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
@@ -1198,9 +1187,6 @@ export default function EventsBookingWizard({
       {/* ── שלב 2: סיכום ── */}
       {step === 2 && (count > 0 || hasSoundRental) && (
         <BookingStepPanel stepKey={2}>
-          {step3HoldDeadline ? (
-            <EventsWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-          ) : null}
           <p className="mb-4 text-center text-base font-semibold text-foreground">
             {EVENTS_CRO_CONFIG.step3Closer}
           </p>
@@ -1309,14 +1295,13 @@ export default function EventsBookingWizard({
                   {savings > 0 ? (
                     <div className="flex items-center justify-between text-xs text-green-700">
                       <span>💰 חיסכון חבילה</span>
-                      <span>-{savings.toLocaleString("he-IL")} ₪</span>
+                      <span>-{withVat(savings).toLocaleString("he-IL")} ₪ כולל מע״מ</span>
                     </div>
                   ) : null}
                   <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
-                    <span>סה״כ לפני מע״מ</span>
-                    <span>{bundleTotal.toLocaleString("he-IL")} ₪</span>
+                    <span>סה״כ</span>
+                    <PriceWithVat amountExVat={bundleTotal} size="lg" />
                   </div>
-                  <PriceWithVat amountExVat={bundleTotal} size="lg" className="mt-1" />
                 </div>
               </div>
 
@@ -1379,6 +1364,8 @@ export default function EventsBookingWizard({
               />
 
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: whatsappCtaLabel,
@@ -1396,14 +1383,10 @@ export default function EventsBookingWizard({
 
               <CheckoutTrustMicro className="mt-2" />
 
-              {/* תנאי תשלום מורחבים לאירועים */}
+              {/* שריון מועד: נוסח אחד לכל האתר (החלטת הבעלים 3.10.2026, סבב שני).
+                  כאן הוצגו למשפחות תנאי B2B: שוטף +60 וריבית פיגורים (OE-18). */}
               <div className="rounded-xl border border-border bg-surface/50 px-4 py-3 text-[0.7rem] leading-relaxed text-muted-foreground">
-                <p className="font-medium text-foreground/70">תנאי תשלום לאירועים</p>
-                {EVENTS_PAYMENT_TERMS_LINES.map((line) => (
-                  <p key={line} className="mt-1">
-                    {line}
-                  </p>
-                ))}
+                <p>{DATE_HOLD_TERMS}</p>
               </div>
 
               {/* הגבלת אחריות ותנאים תפעוליים */}

@@ -3,10 +3,10 @@
 import { WizardAnxietyPills } from "@/components/booking/cro/WizardAnxietyPills";
 import { WizardLastMinuteUpsell, WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
-import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardWelcomePerkPills } from "@/components/booking/cro/WizardWelcomePerkPills";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
+import type { CroLastMinuteUpsell } from "@/lib/book-wizard-cro/types";
 import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
 import type {
   SingerSessionPriorityId,
@@ -86,24 +86,8 @@ export function SingerWizardStepTransitionOverlay({
   );
 }
 
-export function SingerWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="singer" deadlineMs={deadlineMs} />;
-}
-
-export function SingerWizardUrgencyHint({
-  priceHoldLabel,
-  className,
-}: {
-  priceHoldLabel?: string | null;
-  className?: string;
-}) {
-  return (
-    <WizardUrgencyHint
-      category="singer"
-      priceHoldLabel={priceHoldLabel}
-      className={className}
-    />
-  );
+export function SingerWizardUrgencyHint({ className }: { className?: string }) {
+  return <WizardUrgencyHint category="singer" className={className} />;
 }
 
 export function SingerPriceReframe() {
@@ -121,12 +105,13 @@ export function SingerLastMinuteRecordingOffer({
   onChange: (v: boolean) => void;
   disabled?: boolean;
 }) {
-  const label =
-    SINGER_CRO_CONFIG.lastMinuteUpsell?.label ??
-    "הקלטת ההופעה מהמיקסר - מבצע לסגירה";
+  const cfg: CroLastMinuteUpsell | undefined = SINGER_CRO_CONFIG.lastMinuteUpsell;
+  const label = cfg?.label ?? "הקלטת ההופעה מהמיקסר - מבצע לסגירה";
   return (
     <WizardLastMinuteUpsell
       label={label}
+      priceExVat={cfg?.promoPrice}
+      referenceExVat={cfg?.referenceCatalogId ? cfg.listPrice : undefined}
       checked={checked}
       onChange={onChange}
       disabled={disabled}

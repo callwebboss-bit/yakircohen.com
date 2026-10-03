@@ -28,7 +28,7 @@ export default function ProServicePageContent({
   serviceId,
 }: ProServicePageContentProps) {
   const service = getProService(serviceId);
-  const startingPrice = formatFromPriceDual(getExVat(service.pricingId));
+  const startingPrice = formatFromPriceDual(getExVat(service.pricingId), "business");
   const hasShowcase = Boolean(service.showcasePlaylistId);
   const relatedPosts = service.relatedBlogSlugs?.length
     ? getBlogPostsBySlugs(service.relatedBlogSlugs)

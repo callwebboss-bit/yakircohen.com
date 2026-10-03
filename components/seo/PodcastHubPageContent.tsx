@@ -47,6 +47,9 @@ import {
 } from "@/lib/data/youtube-embeds";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Container from "@/components/ui/Container";
+import PriceWithVat from "@/components/booking/PriceWithVat";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
   PODCAST_HUB_TRACKS_CONTENT,
@@ -63,6 +66,7 @@ import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
   STUDIO_GOOGLE_MAPS_URL,
+  SITE_TRUST_STATS,
 } from "@/lib/constants";
 
 const bookCta = resolveServiceBookCta("podcast");
@@ -85,8 +89,9 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 
 /** נתוני אמינות - קבוצה נפרדת ממחירים/מפרט טכני, כדי שלא יתערבבו */
 const CREDIBILITY_STATS = [
-  { emoji: "🏆", value: "20+", label: "שנות ניסיון" },
-  { emoji: "🎧", value: "5,000+", label: "לקוחות מרוצים" },
+  /* מ-SITE_TRUST_STATS, מקור אחד לכל האתר (FIT-06) */
+  { emoji: "🏆", value: SITE_TRUST_STATS[0].value, label: SITE_TRUST_STATS[0].label },
+  { emoji: "🎧", value: SITE_TRUST_STATS[1].value, label: SITE_TRUST_STATS[1].label },
   { emoji: "⭐", value: `${GOOGLE_RATING} / 5`, label: "דירוג ממוצע בגוגל" },
   { emoji: "💬", value: `${GOOGLE_REVIEW_COUNT}+`, label: "ביקורות מאומתות" },
 ] as const;
@@ -104,8 +109,8 @@ const VALUE_PILLARS = [
   },
   {
     emoji: "🎧",
-    title: "עריכה ביום ההקלטה - מסירה תוך 4 ימים",
-    body: "הקלטה ועריכה ביום אחד. פרויקטים מורכבים נמסרים תוך 4 ימים לכל היותר. אין פרויקטים פתוחים, אין עיכובים.",
+    title: TIME_CLAIMS.podcastSameSecond,
+    body: `${TIME_CLAIMS.podcastSameSecondLong} באולפן וגם אצלכם בבית או במשרד.`,
   },
 ] as const;
 
@@ -139,7 +144,7 @@ export default function PodcastHubPageContent() {
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט במודיעין"
-        subtitle="הקלטת פודקאסט באולפן במודיעין. פרק מוכן להעלאה בדרך כלל תוך 24 שעות - מ-750 ₪ לפני מע״מ."
+        subtitle={`הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}.`}
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
@@ -147,7 +152,7 @@ export default function PodcastHubPageContent() {
         valueFrame={TIME_CLAIMS.podcastValueFrame}
         scarcityLabel="🔥 פנויים השבוע ל-3 פרויקטים בלבד"
         ctaLabel={PODCAST_HUB_CTA_LABEL}
-        startingPrice={`${PODCAST_HUB_STARTING_PRICE} ₪ לפני מע״מ`}
+        startingPrice={PODCAST_HUB_STARTING_PRICE}
         showBookCtaInHero={Boolean(bookCta)}
         bookHref={bookCta?.bookHref}
         bookLabel={bookCta?.bookLabel}
@@ -244,7 +249,7 @@ export default function PodcastHubPageContent() {
                     <span className="text-sm font-normal text-muted-foreground">
                       מ-
                     </span>
-                    {item.priceFrom.toLocaleString("he-IL")} ₪
+                    <PriceWithVat amountExVat={item.priceFrom} size="lg" lead="withVat" />
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     {item.outcome}
@@ -304,8 +309,8 @@ export default function PodcastHubPageContent() {
                 שיפור הקלטות ברמה אולפנית - בלי מאמץ
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - פרק מוכן תוך 24
-                שעות.
+                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - והפרק אצלכם באותה
+                שנייה שמסיימים להקליט.
               </p>
               <p className="mt-4 text-sm font-semibold text-brand-red">
                 {SKEPTICISM_CTA}
@@ -530,7 +535,7 @@ export default function PodcastHubPageContent() {
                         {pkg.id === "recording-only" ? "עד 30 דקות" : "עד שעה"}
                       </td>
                       <td className="p-4 font-semibold text-foreground">
-                        החל מ-{pkg.priceFrom.toLocaleString("he-IL")} ₪
+                        {formatPrice(pkg.priceFrom, { from: true }).inline}
                       </td>
                     </tr>
                   ))}
@@ -575,7 +580,7 @@ export default function PodcastHubPageContent() {
                       <span className="text-sm font-normal text-muted-foreground">
                         החל מ-
                       </span>
-                      {pkg.priceFrom.toLocaleString("he-IL")} ₪
+                      <PriceWithVat amountExVat={pkg.priceFrom} size="lg" lead="withVat" />
                     </p>
 
                     <ul className="mt-5 space-y-2.5">
@@ -619,7 +624,7 @@ export default function PodcastHubPageContent() {
                 title="רוצים לחשב מחיר מדויק לפרק שלכם?"
                 description={
                   <>
-                    {PODCAST_HUB_STARTING_PRICE} ₪ -{" "}
+                    {PODCAST_HUB_STARTING_PRICE} -{" "}
                     {PODCAST_HUB_STARTING_PRICE_NOTE}
                   </>
                 }
@@ -750,8 +755,8 @@ export default function PodcastHubPageContent() {
               מוכנים לפרק מוכן להעלאה?
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-background/70">
-              אולפן במודיעין. מקליטים, עורכים, ומקבלים קובץ מוכן לספוטיפיי או
-              יוטיוב. {TIME_CLAIMS.podcastDelivery24h}.
+              אולפן במודיעין, או אצלכם בבית ובמשרד. {TIME_CLAIMS.podcastSameSecond},
+              מוכן לספוטיפיי וליוטיוב.
             </p>
             <ul className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
               {PODCAST_HUB_CTA_BENEFITS.map((benefit) => (
@@ -764,7 +769,7 @@ export default function PodcastHubPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-lg font-semibold text-background">
-              החל מ-{PODCAST_HUB_STARTING_PRICE} ₪ לפרק של חצי שעה
+              פרק ערוך החל {PODCAST_HUB_STARTING_PRICE}
             </p>
             <p className="mt-1 text-sm text-background/70">
               {PODCAST_HUB_STARTING_PRICE_NOTE}

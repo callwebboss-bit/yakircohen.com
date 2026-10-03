@@ -8,7 +8,8 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
-import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
+import { isPricingNotBookable, resolvePricingBookHref } from "@/lib/data/pricing-book-map";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type PricingHubRow = {
   label: string;
@@ -75,7 +76,7 @@ export const PRICING_HUB_SUPER_CATEGORIES: readonly PricingHubSuperCategory[] = 
   {
     id: "events",
     title: "אירועים והפקות",
-    description: "אטרקציות, מצגות תמונות והפקות לאירוע",
+    description: "DJ, אטרקציות, צילום ומצגות תמונות לאירוע",
     bgClass: "bg-surface",
   },
   {
@@ -99,7 +100,9 @@ const SECTION_SUPER_CATEGORY: Record<string, PricingHubSuperCategoryId> = {
   "reel-factory": "business",
   "audio-branding": "business",
   workshops: "business",
+  dj: "events",
   events: "events",
+  photography: "events",
   slideshows: "events",
   online: "online",
   transcription: "online",
@@ -219,6 +222,20 @@ export function resolveRowHref(row: PricingHubRow, sectionHref: string): string 
   return row.href ?? sectionHref;
 }
 
+/**
+ * שורה שהאשף לא מתמחר באותו מחיר (notBookable ב-pricing-book-map) מקבלת
+ * כפתור וואטסאפ עם שם השורה והמחיר, במקום "הזמנה מקוונת" שמבטיח מחיר אחד
+ * ופותח חבילה במחיר אחר. WP5.
+ */
+export function resolveRowWhatsAppFallback(row: PricingHubRow): string | null {
+  if (!row.catalogId || !isPricingNotBookable(row.catalogId)) return null;
+  return buildWhatsAppHref({
+    text: `שלום, מעוניין/ת ב${row.label} - ראיתי באתר ${formatFromPriceDual(row.exVat)}.`,
+    utm_source: "website",
+    utm_campaign: "pricing_row_whatsapp",
+  });
+}
+
 export function resolveRowBookHref(
   row: PricingHubRow,
   sectionBookHref?: string,
@@ -234,7 +251,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
   {
     id: "studio",
     title: "אולפן והקלטות",
-    description: "ברכה, שיר מוכן, Pro, קליפ וסינגל - לפי התוצאה",
+    description: "ברכה, הקלטת שיר ותוספות, קליפ וסינגל - לפי התוצאה",
     href: "/studio/pricing",
     bookHref: "/book#studio",
     rows: [
@@ -247,22 +264,25 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         href: "/studio/recording-song-modiin",
         displayOrder: 20,
       }),
-      hubRow("cover_song", {
-        label: "שיר במתנה (שיר מוכן)",
+      /* הקלטת שיר: בסיס ושלוש תוספות, אותו סדר כמו בטופס ההצעה (2.10.2026) */
+      hubRow("song_recording", {
+        label: "הקלטת שיר (הקלטה, מיקס ומאסטר)",
         href: "/studio/recording-song-modiin",
         badge: "מומלץ",
         displayOrder: 30,
       }),
-      hubRow("song_package", {
-        label: "שיר Pro",
+      hubRow("song_pitch_coaching", {
+        label: "תוספת לשיר: תיקון זיופים וטכנאי מנחה",
         href: "/studio/recording-song-modiin",
         displayOrder: 40,
       }),
-      hubRow("studio_viral", {
+      hubRow("studio_session_clip_edited", {
+        label: "תוספת לשיר: קליפ ערוך מהסשן",
         href: "/studio/recording-song-modiin",
         displayOrder: 50,
       }),
-      hubRow("studio_all_in", {
+      hubRow("song_pre_session_interview", {
+        label: "תוספת לקליפ: ראיון קצר במתחם הפודקאסט",
         href: "/studio/recording-song-modiin",
         displayOrder: 60,
       }),
@@ -277,8 +297,8 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         displayOrder: 80,
       }),
       hubRow("studio_session_clip", {
-        label: "צילום קליפ מהסשן",
-        href: "/studio/recording-song-modiin",
+        label: "צילום קליפ מהסשן, בלי עריכה (לברכה)",
+        href: "/studio/blessings",
         displayOrder: 90,
       }),
       hubRow("studio_half_hour", {
@@ -377,6 +397,51 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("event_attraction_4", {
         label: "4+ אטרקציות + מתנה",
         note: "מצגת תמונות חינם",
+      }),
+      hubRow("event_sound_rental", {
+        label: "השכרת הגברה לאירוע",
+        note: "2 רמקולי RCF וסאב, עד 250 אורחים",
+        href: "/events/equipment",
+      }),
+    ],
+  },
+  /* שלב 4 WP13 (PI-14, FIT-02, OE-04, PJ-07): DJ, פסטיבל וצילום לא הופיעו
+     במחירון בכלל, ו"מחירון" בעמודים שלהם הוביל לכאן. השורות מהקטלוג. */
+  {
+    id: "dj",
+    title: "DJ לאירועים",
+    description: "תקליטן מהצוות, יקיר אישית וחבילת פסטיבל",
+    href: "/events/dj-events",
+    bookHref: "/book#dj",
+    rows: [
+      hubRow("dj_premium", {
+        label: "תקליטן מהצוות",
+        note: "4 שעות, עד 300 מוזמנים",
+        displayOrder: 10,
+      }),
+      hubRow("dj_yakir_personal", {
+        label: "יקיר כהן אישית על הקונסולה",
+        note: "5 שעות",
+        displayOrder: 20,
+      }),
+      hubRow("festival_all_in", {
+        label: "חבילת פסטיבל, הכל כלול",
+        href: "/events/wedding-attractions-packages",
+        displayOrder: 30,
+      }),
+    ],
+  },
+  {
+    id: "photography",
+    title: "צילום אירועים",
+    description: "צילום לפי שעה או אירוע מלא",
+    href: "/photography/events",
+    bookHref: "/book#photography",
+    rows: [
+      hubRow("event_photo_hourly", { label: "צילום אירוע לפי שעה", note: "כולל עריכה ומסירה דיגיטלית" }),
+      hubRow("full_event_photo_8h", {
+        label: "צילום אירוע מלא, 8 שעות",
+        href: "/photography/wedding",
       }),
     ],
   },
@@ -618,7 +683,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
 ] as const;
 
 export function formatHubPriceRow(exVat: number): string {
-  return formatFromPriceDual(exVat).replace("כרגע: ", "החל ");
+  return `החל ${formatFromPriceDual(exVat)}`;
 }
 
 export const PRICES_LAST_UPDATED = "אוגוסט 2026";

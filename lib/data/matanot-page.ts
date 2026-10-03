@@ -1,3 +1,6 @@
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 export type MatanotEventCardData = {
@@ -6,7 +9,14 @@ export type MatanotEventCardData = {
   suitedFor: readonly string[];
   ideas: readonly string[];
   whatsappHref: string;
+  /** שורת מחיר כולל מע״מ עם קישור, כשיש מוצר עם מחיר קבוע */
+  priceLine?: string;
+  priceHref?: string;
 };
+
+/* הקלטת שיר במתנה, כולל מע״מ (החלטת הבעלים 2.10.2026). הקישור לטופס השיר
+   בעמוד המתנות. מחרוזת ולא buildSongOfferHref, כי הקובץ נטען גם בפופאפ לקוח. */
+const SONG_GIFT_PRICE = `מ-${withVat(getExVat("song_recording")).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 
 export type MatanotStep = {
   step: string;
@@ -81,6 +91,8 @@ export const MATANOT_EVENT_CARDS: readonly MatanotEventCardData[] = [
       utm_source: "website",
       utm_campaign: "matanot_birthday",
     }),
+    priceLine: `שיר יום הולדת באולפן ${SONG_GIFT_PRICE}`,
+    priceHref: "/studio/recording-song-modiin/gifts#song-offer",
   },
   {
     id: "bar-bat-mitzvah",
@@ -125,7 +137,7 @@ export const MATANOT_EVENT_CARDS: readonly MatanotEventCardData[] = [
 export const MATANOT_STEPS: readonly MatanotStep[] = [
   { step: "1", title: "בוחרים סוג אירוע", body: "מתחילים מהאירוע ומהסגנון: שיר, ברכה או פודקאסט אישי." },
   { step: "2", title: "ממלאים פרטים בסיסיים", body: "שולחים תאריך, למי המתנה מיועדת ומה הרעיון הראשוני." },
-  { step: "3", title: "מקבלים הצעה ומשלמים מקדמה", body: "מסכמים מה מפיקים, מה נמסר ובאיזה לוח זמנים." },
+  { step: "3", title: "מקבלים הצעה ומשריינים מועד", body: `מסכמים מה מפיקים, מה נמסר ובאיזה לוח זמנים. ${DATE_HOLD_TERMS}` },
   { step: "4", title: "מקליטים באולפן או מרחוק", body: "אפשר להגיע למודיעין או לעבוד מרחוק, לפי סוג ההפקה." },
   { step: "5", title: "מקבלים קובץ ומארז לפי הצורך", body: "המסירה דיגיטלית, ויש גם אפשרות למארז פיזי." },
 ] as const;

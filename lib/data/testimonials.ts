@@ -1,6 +1,13 @@
 ﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
 
-/** On-site client quotes - used in UI and Review JSON-LD (no fabricated star ratings). */
+/**
+ * On-site client quotes - used in UI and Review JSON-LD (no fabricated star ratings).
+ *
+ * שלב 5 (FIT-04, OAC-07): הוסרו שלוש ההמלצות של האקדמיה (נוצרו עם
+ * "TODO: replace with real student quotes"), ההמלצה של הפודקאסט שהועברה
+ * מ"אורי מזרחי" ל"דניאל גרין", והתמונה של אדם אחר ליד ההמלצה של משה ברק.
+ * הבעלים יכול להחזיר המלצות אמיתיות ומאושרות לציטוט.
+ */
 export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
   {
     id: "1",
@@ -16,21 +23,6 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     projectImageSrc:
       "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
     projectImageAlt: "עריכת פודקאסט באולפן",
-  },
-  {
-    id: "2",
-    quote:
-      "הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים.",
-    name: "דניאל גרין",
-    role: "יזם, יבואן גרין אנד קו ישראל",
-    initials: "דג",
-    datePublished: "2026-01-08",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast",
-    serviceLabel: "הפקת פודקאסט",
-    projectImageSrc:
-      "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    projectImageAlt: "אולפן פודקאסט במודיעין",
   },
   {
     id: "3",
@@ -99,9 +91,6 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     serviceCategory: "studio",
     serviceHref: "/studio/recording-song-modiin",
     serviceLabel: "הקלטת שיר לחתונה",
-    projectImageSrc:
-      "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
-    projectImageAlt: "הקלטת שיר באולפן",
   },
   {
     id: "8",
@@ -132,42 +121,5 @@ export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
     projectImageSrc:
       "/images/services/events/attractions/cold-fireworks/זיקוקים קרים לחופה.webp",
     projectImageAlt: "אטרקציות לאירוע",
-  },
-  /* ── Academy / learning testimonials ── */
-  {
-    id: "10",
-    quote:
-      "אחרי חמישה שיעורי DJ עשיתי סט ראשון במסיבה פרטית. הגעתי מוכן לתרחישים ברחבה.",
-    name: "אלון",
-    role: "תלמיד קורס DJ, מודיעין",
-    initials: "א",
-    datePublished: "2026-04-10",
-    serviceCategory: "academy",
-    serviceHref: "/academy/dj-course",
-    serviceLabel: "קורס DJ",
-  },
-  {
-    id: "11",
-    quote:
-      "הבן שלי בן 12 סיים שיר מאפס בארבעה מפגשים במעבדת הסאונד. יצא עם קובץ מוכן.",
-    name: "רונית",
-    role: "אמא לתלמיד מעבדת הסאונד, מודיעין",
-    initials: "ר",
-    datePublished: "2026-03-15",
-    serviceCategory: "academy",
-    serviceHref: "/academy",
-    serviceLabel: "מעבדת הסאונד",
-  },
-  {
-    id: "12",
-    quote:
-      "אחרי שלושה מפגשי NeverMind הדיבור מול הצוות התייצב. פחות היסוסים בפגישות.",
-    name: "עמית",
-    role: "מנהל פיתוח, מרכז",
-    initials: "ע",
-    datePublished: "2026-05-20",
-    serviceCategory: "academy",
-    serviceHref: "/academy/stuttering-course",
-    serviceLabel: "פרוטוקול NeverMind",
   },
 ] as const;

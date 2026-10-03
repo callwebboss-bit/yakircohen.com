@@ -1,8 +1,21 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildBookHref } from "@/lib/book-url";
-import { formatHubPriceDual } from "@/lib/data/pricing-display";
-import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice, formatHubPriceDual } from "@/lib/data/pricing-display";
+import { formatFromPriceDual, type PriceAudience } from "@/lib/data/pricing-catalog";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
+import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
+
+/*
+ * שריון מועד ומקדמה (החלטת הבעלים 3.10.2026, סבב שני): "אם קבענו מועד והוא
+ * פנוי, ולפי מקום פנוי, אפשרית מקדמה מראש בסכום שמסכמים יחד, בכפוף לכך
+ * שהפרויקט מתבצע או משוריין". זה הנוסח היחיד לתשלום, מקדמה ושריון באתר.
+ * הוא מחליף "50% מקדמה", "מקדמה 30%", מקדמה קבועה בשקלים, שוטף +60 שהוצג
+ * למשפחות, "Hold ל-5 שעות" ו"נדרש תשלום מראש" (OE-18, PJ-28, S21, LF-15).
+ * closer-brand-copy.json מחזיק את אותו נוסח כטקסט, ובדיקה ב-conversion-copy.test.ts
+ * מוודאת שהוא לא נפרד ממנו.
+ */
+export const DATE_HOLD_TERMS_BODY = "במקדמה בסכום שמסכמים יחד, לפי הפרויקט והמועד הפנוי";
+export const DATE_HOLD_TERMS = `שריון מועד: ${DATE_HOLD_TERMS_BODY}.`;
 
 /** הסתייגות תפעולית, שורת משנה ליד הבטחות זמן */
 export const TIME_PROMISE_DISCLAIMER =
@@ -10,15 +23,24 @@ export const TIME_PROMISE_DISCLAIMER =
 
 /*
  * הבטחת מענה להצעה מאוחדת ל"תוך שעה" (החלטת הבעלים 8.9.2026, סעיף 9).
- * הבטחות מסירה נשארות 24 שעות והן דבר אחר לגמרי, ולכן podcastDelivery24h
- * לא משתנה. שם המפתח נושא את המספר בכוונה, כדי ששינוי ערך יחייב שינוי שם.
+ * הבטחות מסירה הן דבר אחר לגמרי.
+ *
+ * פודקאסט (החלטת הבעלים 3.10.2026): בכל הקלטת פודקאסט, באולפן וגם בבית או
+ * במשרד של הלקוח, הפרק אצל הלקוח באותה שנייה שמסיימים להקליט. ההקלטה עוברת
+ * ישר מהמצלמות למחשב עם חיתוך חי לפי מי שמדבר. podcastSameSecond מחליף את
+ * podcastDelivery24h ("תוך 24 שעות"), שנמחק כדי ש-tsc יראה כל מקום שהשתמש
+ * בו. 24-48 שעות נשאר רק לשירות העריכה הנפרד, כשהלקוח שולח קובץ.
  */
 export const TIME_CLAIMS = {
   quoteHour: "בדרך כלל תוך שעה",
   quoteHourCta: 'קבלו הצעה, בדרך כלל תוך שעה',
   headerQuoteHour: '📩 הצעה, בדרך כלל תוך שעה',
   bookPriceCheck: "בדקו מחיר במחשבון",
-  podcastDelivery24h: "בדרך כלל מוכן תוך 24 שעות",
+  /* שובר מתנה (החלטת הבעלים 3.10.2026): נשלח מיד, לא "מסירה תוך 48 שעות" */
+  voucherInstant: "השובר נשלח אליכם מיד",
+  podcastSameSecond: "הפרק אצלכם באותה שנייה שמסיימים להקליט",
+  podcastSameSecondLong:
+    "ההקלטה עוברת ישר מהמצלמות למחשב, עם חיתוך בין המצלמות לפי מי שמדבר, גם עם כמה אורחים. כשקמים מהכיסא, הפרק כבר אצלכם.",
   podcastValueFrame: "תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי",
   waResponse30m: "מענה אנושי בוואטסאפ, הכי מהר שאפשר",
   waResponse1h: "מענה אנושי בשעות הפעילות, הכי מהר שאפשר",
@@ -26,6 +48,27 @@ export const TIME_CLAIMS = {
   waResponse15mBusiness: "מענה אנושי בשעות הפעילות",
   waResponseMinutes: "בדרך כלל תוך דקות בוואטסאפ",
   humanResponseSubline: "*מענה אנושי, לא בוט",
+} as const;
+
+/**
+ * מסך הגיבוי כשהשרת לא אישר שהליד הגיע לבעלים (LF-02). קודם הגולש ראה
+ * "נשלח בהצלחה" גם כשהפרטים לא הגיעו לאף אחד. כאן הוא מקבל דרך בטוחה
+ * להעביר אותם: וואטסאפ עם אותו טקסט, טלפון, או ניסיון חוזר.
+ */
+export const LEAD_SUBMIT_FALLBACK = {
+  title: "הפרטים עוד לא הגיעו אלינו",
+  body: `אפשר לשלוח אותם בוואטסאפ בלחיצה אחת, או להתקשר ל-${CONTACT_PHONE_DISPLAY}.`,
+  whatsapp: "שליחה בוואטסאפ",
+  call: "התקשרו",
+  retry: "לנסות שוב",
+  retrying: "שולחים שוב",
+} as const;
+
+/** טופס "נחזור אליכם": הבטחת הזמן היא TIME_CLAIMS.quoteHour, בלי הבטחה חדשה. LF-11 */
+export const CALLBACK_SUCCESS_COPY = {
+  title: "קיבלנו את הפרטים",
+  body: `יקיר יחזור אליך ${TIME_CLAIMS.quoteHour} מ-${CONTACT_PHONE_DISPLAY}.`,
+  whatsappOptional: "מעדיפים וואטסאפ? אפשר לכתוב לנו גם שם",
 } as const;
 
 export const OUTCOME_CTA = {
@@ -69,8 +112,14 @@ export const CTA_LABELS = {
   headerQuoteHourShort: "📩 הצעה",
 } as const;
 
-export function whatsappQuoteCta(serviceLabel: string, priceExVat: number): string {
-  return `אני רוצה הצעה ל${serviceLabel} מ-${formatFromPriceDual(priceExVat)}`;
+/* formatFromPriceDual מתחיל ב-"מ-" בעצמו. קודם הקוראים הוסיפו "מ-" משלהם
+   והפלט היה "מ-כרגע: מ-990" (WP1, OE-27, ED-08, S15). */
+export function whatsappQuoteCta(
+  serviceLabel: string,
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `אני רוצה הצעה ל${serviceLabel} ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
 export function sendBookingWaCta(totalWithVat: number): string {
@@ -80,19 +129,32 @@ export function sendBookingWaCta(totalWithVat: number): string {
 export const PRICING_FRAMING_LINE =
   "כל מחיר כאן = מה שתקבלו בפועל. ללא עלויות נסתרות - פרטים סופיים בוואטסאפ.";
 
-export function whatsappAriaLabel(serviceLabel: string, priceExVat: number): string {
-  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat)}`;
+export function whatsappAriaLabel(
+  serviceLabel: string,
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
-export function hubBookCtaLabel(priceExVat: number): string {
-  const dual = formatFromPriceDual(priceExVat)
-    .replace(/^כרגע:\s*/, "")
-    .replace(/^מ-/, "");
-  return `הזמנה מקוונת מ-${dual}`;
+export function hubBookCtaLabel(
+  priceExVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  return `הזמנה מקוונת ${formatFromPriceDual(priceExVat, audience)}`;
 }
 
-export function pricingRowBookCta(priceExVat: number, priceFrom = false): string {
-  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom)}`;
+/** אותו כפתור לעמודי צרכן שמציגים כולל מע״מ (עמודים עם טופס הקלטת השיר) */
+export function consumerBookCtaLabel(priceExVat: number): string {
+  return `הזמנה מקוונת מ-${formatConsumerPrice(priceExVat).totalLabel}`;
+}
+
+export function pricingRowBookCta(
+  priceExVat: number,
+  priceFrom = false,
+  audience: PriceAudience = "consumer",
+): string {
+  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom, audience)}`;
 }
 
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {

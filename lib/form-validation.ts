@@ -9,10 +9,19 @@ export const MAX_LEAD_SUBMITS_PER_HOUR = 4;
 export const MAX_NOTES_LENGTH = 1_500;
 export const MAX_MESSAGE_LENGTH = 2_000;
 
-const SPAM_PATTERNS = [
+/* מילות ספאם בלבד, בלי קישורים ובלי מספרים. השרת משתמש בהן לסימון רך
+   ("[לבדיקה]") ולא לדחייה, ראו lib/leads/payload-check.ts. LF-01. */
+export const SPAM_KEYWORD_PATTERNS: readonly RegExp[] = [
   /\b(viagra|cialis|casino|forex|crypto\s*invest|bitcoin\s*profit)\b/i,
   /\b(click\s*here|buy\s*now|limited\s*offer|work\s*from\s*home)\b/i,
-  /(http:\/\/|https:\/\/|www\.)/i,
+];
+
+/** קישור בטקסט. מיוצא כדי שהשרת יבדוק בדיוק את אותו דפוס בשדה השם. */
+export const URL_PATTERN = /(http:\/\/|https:\/\/|www\.)/i;
+
+const SPAM_PATTERNS = [
+  ...SPAM_KEYWORD_PATTERNS,
+  URL_PATTERN,
   /\b\d{10,}\b.*\b\d{10,}\b/,
 ];
 

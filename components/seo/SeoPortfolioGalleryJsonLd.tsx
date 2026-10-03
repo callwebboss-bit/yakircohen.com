@@ -27,7 +27,7 @@ export default function SeoPortfolioGalleryJsonLd() {
     {
       name: SEO_PORTFOLIO_SERVICE_LABELS.song,
       url: `${SITE_URL}/studio/recording-song-modiin`,
-      catalogId: "cover_song" as const,
+      catalogId: "song_recording" as const,
     },
     {
       name: SEO_PORTFOLIO_SERVICE_LABELS.podcast,
@@ -37,7 +37,7 @@ export default function SeoPortfolioGalleryJsonLd() {
     {
       name: SEO_PORTFOLIO_SERVICE_LABELS["mobile-studio"],
       url: `${SITE_URL}/studio/mobile-studio`,
-      catalogId: "mobile_studio" as const,
+      catalogId: "mobile_podcast_at_home" as const,
     },
   ];
 

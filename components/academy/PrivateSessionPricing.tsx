@@ -4,6 +4,7 @@ import {
   PRIVATE_SESSION_PRICE_NOTE,
 } from "@/lib/data/academy-private-sessions";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { withVat } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
 export type PrivateSessionPricingProps = {
@@ -77,13 +78,13 @@ export default function PrivateSessionPricing({
 
                 <div className="mt-5 flex items-baseline gap-1">
                   <span className="text-4xl font-bold tracking-tight text-foreground">
-                    {plan.price.toLocaleString("he-IL")}
+                    {withVat(plan.price).toLocaleString("he-IL")}
                   </span>
                   <span className="text-lg font-semibold text-foreground">
                     ₪
                   </span>
                   <span className="me-2 text-xs text-muted-foreground">
-                    + מע״מ
+                    כולל מע״מ ({plan.price.toLocaleString("he-IL")} ₪ + מע״מ)
                   </span>
                 </div>
 

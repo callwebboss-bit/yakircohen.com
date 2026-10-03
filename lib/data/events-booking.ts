@@ -45,8 +45,8 @@ export type FrequencyOption = { key: LiquidFrequencyKey; label: string; shortLab
 /** אפשרויות הפעלה לאטרקציות rigid - כל הפעלה = מלאי גלם חדש ויקר */
 export const RIGID_ACTIVATION_OPTIONS: readonly ActivationOption[] = [
   { key: "act_1", label: "הפעלה אחת (בסלואו או בכניסה)", shortLabel: "הפעלה אחת", addOnPrice: 0 },
-  { key: "act_2", label: "2 הפעלות (כניסה + סלואו)", shortLabel: "2 הפעלות", addOnPrice: 1200 },
-  { key: "act_3", label: "3 הפעלות (כניסה, סלואו ופתיחת רחבה)", shortLabel: "3 הפעלות", addOnPrice: 2400 },
+  { key: "act_2", label: "2 הפעלות (כניסה + סלואו)", shortLabel: "2 הפעלות", addOnPrice: getExVat("event_extra_activation") },
+  { key: "act_3", label: "3 הפעלות (כניסה, סלואו ופתיחת רחבה)", shortLabel: "3 הפעלות", addOnPrice: getExVat("event_extra_activation") * 2 },
 ];
 
 /** אפשרויות תדירות לאטרקציות liquid - עלות שולית נמוכה, תמחור אחוזני */

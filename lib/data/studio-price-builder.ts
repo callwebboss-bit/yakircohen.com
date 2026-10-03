@@ -1,6 +1,9 @@
 /**
- * בונה מחיר אולפן - מיפוי שאלות לחבילות ותוספות מהקטלוג בלבד.
- * אין כפולות ואין אחוזי דחיפות.
+ * בונה מחיר אולפן - שעת חדר בלבד (30 דקות או שעה, גלם או עריכה, מספר
+ * מקליטים), מהקטלוג בלבד. אין כפולות ואין אחוזי דחיפות.
+ *
+ * 2.10.2026: הקלטת שיר יצאה מהבונה. שיר הוא בסיס ותוספות (lib/data/song-offer.ts)
+ * ואין בו בחירת משך. יצאו גם מיקס, 3 ו-6 שעות ושלב הדחיפות (express_delivery).
  */
 
 import { buildBookHref } from "@/lib/book-url";
@@ -12,19 +15,18 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { resolvePricingBookHref } from "@/lib/data/pricing-book-map";
+import { buildSongOfferHref } from "@/lib/data/song-offer";
 import { STUDIO_EXTRA_PARTICIPANT_PRICE } from "@/lib/data/studio-recording-booking";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
-export type PriceBuilderDuration = "30min" | "1hour" | "3hour" | "6hour";
-export type PriceBuilderFinish = "raw" | "edit" | "mix";
+export type PriceBuilderDuration = "30min" | "1hour";
+export type PriceBuilderFinish = "raw" | "edit";
 export type PriceBuilderParticipants = "solo" | "pair" | "group";
-export type PriceBuilderUrgency = "standard" | "express" | "tomorrow";
 
 export type PriceBuilderAnswers = {
   duration: PriceBuilderDuration;
   finish: PriceBuilderFinish;
   participants: PriceBuilderParticipants;
-  urgency: PriceBuilderUrgency;
 };
 
 export type PriceBuilderOption<T extends string> = {
@@ -39,9 +41,8 @@ export type PriceBuilderLine = {
 };
 
 export type DurationFinishResolve = {
-  catalogId: PriceItemId;
+  catalogId: "studio_half_hour" | "studio_hour";
   useWithEditing: boolean;
-  notes: readonly string[];
 };
 
 export type PriceBuilderResult = {
@@ -50,21 +51,25 @@ export type PriceBuilderResult = {
   packageExVat: number;
   extrasExVat: number;
   extraCount: number;
-  expressExVat: number;
   exVat: number;
   withVat: number;
   lines: PriceBuilderLine[];
   notes: string[];
   bookHref: string;
-  preferWhatsApp: boolean;
   whatsappText: string;
 };
+
+/** כרטיס הקישור מהבונה לטופס הקלטת השיר */
+export const PRICE_BUILDER_SONG_LINK = {
+  text: "רוצים להקליט שיר? זה לא שעת חדר: הקלטה, מיקס ומאסטר במחיר אחד, ותוספות לבחירה.",
+  label: "להצעת הקלטת השיר",
+  href: buildSongOfferHref(),
+} as const;
 
 export const PRICE_BUILDER_DEFAULTS: PriceBuilderAnswers = {
   duration: "30min",
   finish: "raw",
   participants: "solo",
-  urgency: "standard",
 };
 
 export const PRICE_BUILDER_DURATION_OPTIONS: readonly PriceBuilderOption<PriceBuilderDuration>[] =
@@ -77,17 +82,7 @@ export const PRICE_BUILDER_DURATION_OPTIONS: readonly PriceBuilderOption<PriceBu
     {
       id: "1hour",
       label: "שעה",
-      hint: "שיר מוכן באולפן",
-    },
-    {
-      id: "3hour",
-      label: "3 שעות",
-      hint: "שיר Pro",
-    },
-    {
-      id: "6hour",
-      label: "6+ שעות",
-      hint: "הפקה מלאה, סינגל",
+      hint: "קריינות, דרשה ארוכה, שעת חדר",
     },
   ];
 
@@ -106,39 +101,10 @@ export const PRICE_BUILDER_FINISH_OPTIONS: readonly PriceBuilderOption<PriceBuil
       label: "עריכה בסיסית + ניקוי AI",
       hint: "ניקוי ועריכה קצרה לפי הקטלוג",
     },
-    {
-      id: "mix",
-      label: "מיקס ומאסטר מלא",
-      hint: "חבילת שיר מוכן או סינגל מהמחירון",
-    },
   ];
 
-export const PRICE_BUILDER_URGENCY_OPTIONS: readonly PriceBuilderOption<PriceBuilderUrgency>[] =
-  [
-    { id: "standard", label: "תוך 5 ימים", hint: "בלי תוספת" },
-    {
-      id: "express",
-      label: "תוך 48 שעות",
-      hint: "מסירה מהירה מהמחירון",
-    },
-    {
-      id: "tomorrow",
-      label: "מחר",
-      hint: "אין מחיר קטלוגי. נאשר זמינות בוואטסאפ.",
-    },
-  ];
-
-const MIX_UPGRADE_NOTE =
-  "מיקס מלא נמכר כשיר מוכן באולפן, לא כתוספת לחצי שעת חדר.";
-const HOUR_MIX_NOTE =
-  "שיר מוכן כולל מיקס ומאסטר. זה מחיר התוצאה, לא שעת חדר פלוס מיקס.";
-const THREE_HOUR_RAW_NOTE =
-  "במסלול Pro הגימור כלול. אין מסלול גלם נפרד במחיר הזה.";
-const SIX_HOUR_RAW_NOTE =
-  "בסינגל מיקס ומאסטר כלולים. אין מסלול גלם נפרד במחיר הזה.";
 const THREE_PEOPLE_NOTE = `3 אנשים: תוספת ${STUDIO_EXTRA_PARTICIPANT_PRICE * 2} ₪ בתיאום (שני מקליטים נוספים).`;
 const GROUP_COUNT_NOTE = "4+ אנשים: מספר מדויק בתיאום.";
-const TOMORROW_NOTE = "מחר דורש אישור יומן בוואטסאפ. אין תוספת מחיר בקטלוג.";
 
 export function extraParticipantCount(
   participants: PriceBuilderParticipants,
@@ -152,46 +118,9 @@ export function resolveDurationFinish(
   duration: PriceBuilderDuration,
   finish: PriceBuilderFinish,
 ): DurationFinishResolve {
-  if (duration === "30min") {
-    if (finish === "edit") {
-      return { catalogId: "studio_half_hour", useWithEditing: true, notes: [] };
-    }
-    if (finish === "mix") {
-      return {
-        catalogId: "cover_song",
-        useWithEditing: false,
-        notes: [MIX_UPGRADE_NOTE],
-      };
-    }
-    return { catalogId: "studio_half_hour", useWithEditing: false, notes: [] };
-  }
-
-  if (duration === "1hour") {
-    if (finish === "edit") {
-      return { catalogId: "studio_hour", useWithEditing: true, notes: [] };
-    }
-    if (finish === "mix") {
-      return {
-        catalogId: "cover_song",
-        useWithEditing: false,
-        notes: [HOUR_MIX_NOTE],
-      };
-    }
-    return { catalogId: "studio_hour", useWithEditing: false, notes: [] };
-  }
-
-  if (duration === "3hour") {
-    return {
-      catalogId: "song_package",
-      useWithEditing: false,
-      notes: finish === "raw" ? [THREE_HOUR_RAW_NOTE] : [],
-    };
-  }
-
   return {
-    catalogId: "single_production",
-    useWithEditing: false,
-    notes: finish === "raw" ? [SIX_HOUR_RAW_NOTE] : [],
+    catalogId: duration === "30min" ? "studio_half_hour" : "studio_hour",
+    useWithEditing: finish === "edit",
   };
 }
 
@@ -217,10 +146,6 @@ export function calcStudioPriceBuilder(
   const extraCount = extraParticipantCount(answers.participants);
   const extrasExVat = extraCount * STUDIO_EXTRA_PARTICIPANT_PRICE;
 
-  const expressExVat =
-    answers.urgency === "express" ? getExVat("express_delivery") : 0;
-  const preferWhatsApp = answers.urgency === "tomorrow";
-
   const lines: PriceBuilderLine[] = [];
   if (withEditing) {
     lines.push({ label: item.label, exVat: baseExVat });
@@ -242,32 +167,12 @@ export function calcStudioPriceBuilder(
     });
   }
 
-  if (expressExVat > 0) {
-    lines.push({
-      label: getPriceById("express_delivery").label,
-      exVat: expressExVat,
-    });
-  }
-
-  const notes = [...resolved.notes];
+  const notes: string[] = [];
   if (answers.participants === "pair") notes.push(THREE_PEOPLE_NOTE);
   if (answers.participants === "group") notes.push(GROUP_COUNT_NOTE);
-  if (preferWhatsApp) notes.push(TOMORROW_NOTE);
 
-  const hourEditExVat = getWithEditingById("studio_hour")?.exVat;
-  if (
-    answers.duration === "1hour" &&
-    answers.finish === "mix" &&
-    hourEditExVat != null &&
-    packageExVat < hourEditExVat
-  ) {
-    notes.push(
-      `חבילת השיר (${packageExVat.toLocaleString("he-IL")} ₪) נמוכה משעת אולפן עם עריכה (${hourEditExVat.toLocaleString("he-IL")} ₪) כי הגימור נמכר כחבילה, לא כתוספת.`,
-    );
-  }
-
-  const exVat = packageExVat + extrasExVat + expressExVat;
-  const catalogId = resolved.catalogId;
+  const exVat = packageExVat + extrasExVat;
+  const catalogId: PriceItemId = resolved.catalogId;
   const bookHref =
     resolvePricingBookHref(catalogId) ??
     buildBookHref("studio", { catalog: catalogId });
@@ -281,22 +186,14 @@ export function calcStudioPriceBuilder(
     PRICE_BUILDER_PARTICIPANT_OPTIONS,
     answers.participants,
   );
-  const urgencyLabel = optionLabel(
-    PRICE_BUILDER_URGENCY_OPTIONS,
-    answers.urgency,
-  );
 
   const whatsappBody = [
     "שלום, מעוניין/ת בהקלטה באולפן לפי בונה המחיר:",
     `משך: ${durationLabel}`,
     `משתתפים: ${participantLabel}`,
     `גימור: ${finishLabel}`,
-    `מתי: ${urgencyLabel}`,
-    `מחיר: ${formatNis(exVat)} לפני מע״מ (${formatNis(withVat(exVat))} כולל)`,
-    preferWhatsApp ? "דרוש למחר - אשמח לאישור יומן." : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
+    `מחיר: ${formatNis(withVat(exVat))} כולל מע״מ (${formatNis(exVat)} לפני מע״מ)`,
+  ].join("\n");
 
   const whatsappText = `${whatsappBody}\n${buildYcLeadTag({
     service: catalogId,
@@ -309,12 +206,7 @@ export function calcStudioPriceBuilder(
         : answers.participants === "pair"
           ? 2
           : 4,
-    timing:
-      answers.urgency === "tomorrow"
-        ? "urgent"
-        : answers.urgency === "express"
-          ? "urgent"
-          : "month",
+    timing: "month",
   })}`;
 
   return {
@@ -323,13 +215,11 @@ export function calcStudioPriceBuilder(
     packageExVat,
     extrasExVat,
     extraCount,
-    expressExVat,
     exVat,
     withVat: withVat(exVat),
     lines,
     notes,
     bookHref,
-    preferWhatsApp,
     whatsappText,
   };
 }

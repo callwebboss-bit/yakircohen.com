@@ -18,10 +18,9 @@ const PODCAST_PACKAGE_CATALOG: Record<PodcastPackageId, PriceItemId> = {
 
 const STUDIO_PACKAGE_CATALOG: Partial<Record<StudioPackageId, PriceItemId>> = {
   remote: "studio_remote",
-  classic: "cover_song",
-  pro: "song_package",
-  viral: "studio_viral",
-  all_in: "studio_all_in",
+  /* song בכוונה לא כאן: באשף התוספות של השיר הן שדרוגים (performance_clip,
+     podcast_interview, pitch_correction) עם התלות בין הראיון לקליפ. אותן
+     תוספות גם במגירה היו מאפשרות לבחור פעמיים, או ראיון בלי קליפ. */
 };
 
 const EVENTS_BUNDLE_CATALOG: Record<number, PriceItemId> = {

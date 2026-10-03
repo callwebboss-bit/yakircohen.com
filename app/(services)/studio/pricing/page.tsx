@@ -12,17 +12,21 @@ import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import PricingTierToggle from "@/components/ui/PricingTierToggle";
 import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
 import StudioPriceBuilder from "@/components/pricing/StudioPriceBuilder";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import { STUDIO_PRICING } from "@/lib/data/services";
-import { PRICES_EXCLUDE_VAT_NOTE } from "@/lib/data/pricing";
+import { withVat } from "@/lib/data/pricing";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import { getSuitedForById } from "@/lib/data/pricing-catalog";
 import { STUDIO_EXTRA_PARTICIPANT_PRICE } from "@/lib/data/studio-recording-booking";
+import { getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { STUDIO_PRICING_ACCORDION_PANELS } from "@/lib/data/studio-pricing-accordion";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { absoluteUrl } from "@/lib/site-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+
+const SONG_PARTICIPANTS = getSongParticipantsExplanation();
 
 export const metadata = metadataFromPricing(STUDIO_PRICING);
 
@@ -32,9 +36,13 @@ const consultHref = buildWhatsAppHref({
   utm_campaign: "studio_pricing_consult",
 });
 
-/** חבילות לפי תוצאה - שעת חדר בלי עריכה נשארת באקורדיון */
+/* העמוד מציג את טופס השיר, שמוביל בכולל מע״מ, ולכן כל המחירים כאן כולל
+   מע״מ קודם (החלטת הבעלים 2.10.2026) */
+const PRICES_INCLUDE_VAT_NOTE = "המחירים כוללים מע״מ";
+
+/** חבילות לפי תוצאה. הקלטת השיר היא הטופס למעלה, ושעת חדר בלי עריכה בבונה ובאקורדיון */
 const STUDIO_OUTCOME_TIERS = STUDIO_PRICING.tiers.filter(
-  (tier) => tier.id !== "half-hour" && tier.id !== "hourly",
+  (tier) => tier.id !== "half-hour" && tier.id !== "hourly" && tier.id !== "song-recording",
 );
 
 /** מובייל: החבילה המומלצת = החבילה המסומנת featured (אותו סימון כמו בדסקטופ) */
@@ -51,14 +59,9 @@ const NEED_GUIDE = [
     href: "/studio/blessings",
   },
   {
-    need: getSuitedForById("cover_song"),
-    tier: "שיר מוכן באולפן",
-    href: "/studio/recording-song-modiin",
-  },
-  {
-    need: getSuitedForById("song_package"),
-    tier: "שיר Pro",
-    href: "/studio/recording-song-modiin",
+    need: getSuitedForById("song_recording"),
+    tier: "הקלטת שיר באולפן",
+    href: "#song-offer",
   },
   {
     need: getSuitedForById("single_production"),
@@ -110,7 +113,7 @@ export default function StudioPricingPage() {
               בחרו חבילה - בלי הפתעות
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {PRICES_EXCLUDE_VAT_NOTE}. כל חבילה כוללת ליווי טכני, חדר שקט וציוד
+              {PRICES_INCLUDE_VAT_NOTE}. כל חבילה כוללת ליווי טכני, חדר שקט וציוד
               מקצועי. לא בטוחים? נעזור לבחור בוואטסאפ.
             </p>
             <ContextualIntroParagraph
@@ -122,7 +125,7 @@ export default function StudioPricingPage() {
           <ul className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
             {[
               "תמחור לפי פרויקט",
-              "שדרוגים: מיקס, קליפ, מוזיקה",
+              "שיר: בסיס ותוספות לפי בחירה",
               "שובר מתנה זמין",
               "תיאום גמיש בערב",
             ].map((chip) => (
@@ -159,6 +162,8 @@ export default function StudioPricingPage() {
           </p>
         </section>
 
+        {/* הקלטת שיר קודם: הטופס עם הבסיס והתוספות. אחריו ברכה וסינגל, ושעת חדר בבונה */}
+        <SongOfferSection source="/studio/pricing" utmCampaign="studio_pricing_song_offer" showGlossary />
         <PriceFactorsSection className="mt-4" />
 
         <StudioPriceBuilder
@@ -169,10 +174,11 @@ export default function StudioPricingPage() {
                   tiers={STUDIO_OUTCOME_TIERS}
                   recommendedIndex={recommendedTierIndex}
                   className="mx-auto max-w-sm"
+                  priceLead="withVat"
                 />
               </div>
               <div className="hidden md:block">
-                <StudioPricingGrid tiers={STUDIO_OUTCOME_TIERS} />
+                <StudioPricingGrid tiers={STUDIO_OUTCOME_TIERS} priceLead="withVat" />
               </div>
             </>
           }
@@ -212,7 +218,7 @@ export default function StudioPricingPage() {
           </ul>
         </section>
 
-        <StudioPricingAccordion />
+        <StudioPricingAccordion excludeIds={["song"]} />
       </Container>
 
       <Container className="pb-8">
@@ -231,8 +237,8 @@ export default function StudioPricingPage() {
             התשובות שלכם קובעות את המחיר. לא אנחנו. תזיזו את הבחירות למעלה.
           </p>
           <ol className="mx-auto mt-5 max-w-xl space-y-2 text-sm text-foreground">
-            <li>1. ברכה או שיר קצר - מסלול ברכה. שיר מוכן - קלאסי. סינגל מסחרי - הפקה מלאה.</li>
-            <li>2. אדם אחד - מחיר בסיס. שניים ומעלה - תוספת {STUDIO_EXTRA_PARTICIPANT_PRICE} ₪ למקליט נוסף.</li>
+            <li>1. ברכה קצרה - מסלול ברכה. שיר על פלייבק - הקלטת שיר, עם תוספות לפי בחירה. סינגל מסחרי - הפקה מלאה.</li>
+            <li>2. אדם אחד - מחיר בסיס. בשעת חדר ובברכה, תוספת {withVat(STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪ כולל מע״מ למקליט נוסף. בשיר: {SONG_PARTICIPANTS.withVat} {SONG_PARTICIPANTS.exVat}, {SONG_PARTICIPANTS.limit}.</li>
             <li>3. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות, לא לשיר במתנה.</li>
           </ol>
           <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">
@@ -254,11 +260,12 @@ export default function StudioPricingPage() {
             <InlineServiceLink href="/online/vocal-fix">תיקון מרחוק</InlineServiceLink>{" "}
             או הקלטה{" "}
             <InlineServiceLink href="/studio/mobile-studio">בבית שלכם</InlineServiceLink>{" "}
-            - יש מסלול ייעודי. {PRICES_EXCLUDE_VAT_NOTE}.
+            - יש מסלול ייעודי. {PRICES_INCLUDE_VAT_NOTE}.
           </p>
           <PricingComparisonTable
             headingId="studio-comparison-heading"
             className="mx-auto mt-6 max-w-4xl"
+            priceLead="withVat"
           />
         </section>
 
@@ -268,8 +275,8 @@ export default function StudioPricingPage() {
         >
           <ProposalGiftPitchProofSection
             headingId="studio-pricing-pitch-proof-heading"
-            heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
-            intro="שיר מוכן כולל תיקון זיופים. ברכה והקלטה מהבית - בלי. שמעו את ההבדל ואז צפו בקליפ המלא."
+            heading="מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי"
+            intro="תיקון זיופים לא כלול במחיר הבסיס של הקלטת שיר, ומוסיפים אותו בטופס למעלה. שמעו את ההבדל ואז צפו בקליפ המלא."
           />
         </section>
 

@@ -31,7 +31,6 @@ import {
   PodcastReassuranceBadge,
   PodcastSessionPriorityPills,
   PodcastWelcomePerkPills,
-  PodcastWizardStep3HoldTimer,
   PodcastWizardStepTransitionOverlay,
   PodcastWizardUrgencyHint,
 } from "@/components/booking/PodcastWizardCroBlocks";
@@ -52,26 +51,31 @@ import { useBookExitIntent } from "@/hooks/useBookExitIntent";
 import { useWizardHistory } from "@/hooks/useWizardHistory";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
 import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
-import {
-  ensureHoldDeadline,
-  saveCategoryPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
+  PODCAST_AUDIO_PACKAGE_IDS,
   PODCAST_EXTRA_PARTICIPANT_PRICE,
+  PODCAST_INCLUDED_PARTICIPANTS,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
+  podcastPackageExVat,
+  podcastParticipantExtras,
+  podcastParticipantsCostExVat,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
+import {
+  buildPersonBreakdown,
+  EXTRA_PERSON_COST_NOTE,
+  formatPerPersonPrice,
+} from "@/lib/data/participant-cost-copy";
 import {
   getCatalogAddonsForPodcastPackage,
   resolveAddonLabel,
@@ -92,7 +96,7 @@ import {
   getPodcastStep1Checklist,
   type WizardStepBlocker,
 } from "@/lib/podcast-wizard-step-guards";
-import { sendBookingWaCta } from "@/lib/data/conversion-copy";
+import { sendBookingWaCta, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import {
   BOOKING_CTA,
@@ -113,8 +117,11 @@ import {
   calcMobileStudioExVat,
   MOBILE_GEO_FEES,
   MOBILE_STUDIO_BASE_EX_VAT,
+  MOBILE_STUDIO_CHANNELS,
+  mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
+import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -125,6 +132,7 @@ import {
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 const STEPS = ["חבילה", "פרטים", "סיכום"] as const;
 
@@ -191,11 +199,6 @@ export default function PodcastBookingWizard({
   const coreContactMerged = useRef(false);
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "podcast",
-    PODCAST_CRO_CONFIG.urgency.priceHoldBadge,
-  );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
   const [celebrateKey, setCelebrateKey] = useState(0);
@@ -233,6 +236,10 @@ export default function PodcastBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    isRetrying,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "podcast",
     formId: "podcast_booking_wizard",
@@ -361,10 +368,21 @@ export default function PodcastBookingWizard({
       : 0;
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
-  const extraParticipantsCost =
-    form.participantCount > 2
-      ? (form.participantCount - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE
-      : 0;
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: באולפן הנייד בבית או במשרד הקלטת
+     האודיו כלולה בהגעה, וכל אדם נוסף הוא ערוץ נוסף (99, עד 12). באולפן
+     במודיעין 2 כלולים, ומהשלישי podcast_extra_participant. */
+  const isMobile = form.location === "mobile";
+  const packageExVat = selected ? podcastPackageExVat(selected, isMobile) : 0;
+  const extraParticipantsCost = podcastParticipantsCostExVat(form.participantCount, isMobile);
+  const participantBreakdown =
+    extraParticipantsCost > 0
+      ? buildPersonBreakdown({
+          count: form.participantCount,
+          baseExVat: packageExVat + mobileExVat,
+          extrasExVat: podcastParticipantExtras(form.participantCount, isMobile),
+          vatRate: CATALOG_VAT_RATE,
+        })
+      : null;
   const upsellTotal = sumAddonPrices(new Set(form.selectedUpsells));
   const lastMinuteUpsellCfg = PODCAST_CRO_CONFIG.lastMinuteUpsell;
   const lastMinuteHighlightsDiscount =
@@ -375,7 +393,7 @@ export default function PodcastBookingWizard({
       : 0;
   const adjustedUpsellTotal = upsellTotal - lastMinuteHighlightsDiscount;
   const packageTotal =
-    (selected?.price ?? 0) +
+    packageExVat +
     form.overtimeBlocks * PODCAST_OVERTIME_RATE +
     extraParticipantsCost +
     adjustedUpsellTotal +
@@ -403,10 +421,9 @@ export default function PodcastBookingWizard({
         ? [
             {
               label: "מספר משתתפים",
-              value:
-                form.participantCount > 2
-                  ? `${form.participantCount} (+${extraParticipantsCost.toLocaleString("he-IL")} ₪)`
-                  : String(form.participantCount),
+              value: participantBreakdown
+                ? `${form.participantCount} (תוספת ${withVat(extraParticipantsCost).toLocaleString("he-IL")} ₪ כולל מע״מ). ${participantBreakdown.line}. ${EXTRA_PERSON_COST_NOTE}`
+                : String(form.participantCount),
             },
           ]
         : []),
@@ -423,7 +440,11 @@ export default function PodcastBookingWizard({
         ? [
             {
               label: "מיקום",
-              value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)`,
+              value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)${
+                selected && PODCAST_AUDIO_PACKAGE_IDS.includes(selected.id)
+                  ? ". הקלטת האודיו כלולה בהגעה"
+                  : ""
+              }. ${mobileChannelPriceLine()}`,
             },
           ]
         : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
@@ -475,9 +496,9 @@ export default function PodcastBookingWizard({
     ],
   );
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "podcast",
         serviceLabel: PODCAST_CRO_CONFIG.serviceLabel,
         formId: PODCAST_CRO_CONFIG.formId,
@@ -490,6 +511,7 @@ export default function PodcastBookingWizard({
       }),
     [summaryLinesForEscape, packageTotal, selected?.name, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -507,6 +529,9 @@ export default function PodcastBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת פודקאסט - שלב סגירה",
     body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -535,15 +560,8 @@ export default function PodcastBookingWizard({
   };
 
   const handleExitIntent = useCallback(() => {
-    if (packageTotal > 0 && packageSummaryLabel) {
-      saveCategoryPriceHold("podcast", {
-        packageLabel: packageSummaryLabel,
-        totalExVat: packageTotal,
-      });
-      setPriceHoldLabel(PODCAST_CRO_CONFIG.urgency.priceHoldBadge);
-    }
     setExitIntentOpen(true);
-  }, [packageTotal, packageSummaryLabel]);
+  }, []);
 
   useBookExitIntent({
     enabled: showCroOverlays && packageTotal > 0 && !!selected,
@@ -556,7 +574,6 @@ export default function PodcastBookingWizard({
 
   const completeStep2Transition = useCallback(() => {
     setStep2Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("podcast"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -735,11 +752,14 @@ export default function PodcastBookingWizard({
         })
       : undefined;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="podcast"
         routeId={routeId}
         recordingType={form.packageId || null}
@@ -778,7 +798,7 @@ export default function PodcastBookingWizard({
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <PodcastWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
+          <PodcastWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">בחרו חבילת פודקאסט</h2>
           <BookingStepGuide
             lines={[
@@ -825,16 +845,20 @@ export default function PodcastBookingWizard({
           {/* Participant count */}
           <div className="mt-6">
             <p className="mb-1 text-sm font-semibold text-foreground">כמה משתתפים בפרק?</p>
-            <p className="mb-3 text-xs text-muted-foreground">
-              עד 2 משתתפים - כלול במחיר. כל משתתף נוסף:{" "}
-              <span className="font-medium text-foreground">
-                +{PODCAST_EXTRA_PARTICIPANT_PRICE} ₪
-              </span>{" "}
-              (מיקרופון נוסף + עריכה מוגברת)
-            </p>
+            <div className="mb-3 rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
+              <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+              <p className="mt-1 text-sm text-foreground">
+                {isMobile
+                  ? `באולפן הנייד: ${mobileChannelPriceLine()}.`
+                  : `באולפן: עד ${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים. ${formatPerPersonPrice(PODCAST_EXTRA_PARTICIPANT_PRICE, CATALOG_VAT_RATE)} (מיקרופון נוסף ועריכה מוגברת).`}
+              </p>
+            </div>
             <div className="flex flex-wrap gap-2">
-              {[1, 2, 3, 4].map((count) => {
-                const extra = Math.max(0, count - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE;
+              {(isMobile
+                ? Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1)
+                : [1, 2, 3, 4]
+              ).map((count) => {
+                const extra = podcastParticipantsCostExVat(count, isMobile);
                 const active = form.participantCount === count;
                 return (
                   <button
@@ -853,21 +877,31 @@ export default function PodcastBookingWizard({
                       {count === 1 ? "מגיש יחיד" : `${count} אנשים`}
                     </span>
                     <span className={cn("text-[0.65rem]", active ? "text-brand-red/80" : "text-muted-foreground")}>
-                      {extra > 0 ? `+${extra} ₪` : "כלול"}
+                      {extra > 0 ? `+${withVat(extra).toLocaleString("he-IL")} ₪ כולל מע״מ` : "כלול"}
                     </span>
                   </button>
                 );
               })}
-              <a
-                href="https://wa.me/972587555456"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-              >
-                <span className="text-sm font-semibold">5+ אנשים</span>
-                <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
-              </a>
+              {isMobile ? null : (
+                <a
+                  href="https://wa.me/972587555456"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                >
+                  <span className="text-sm font-semibold">5+ אנשים</span>
+                  <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
+                </a>
+              )}
             </div>
+            {participantBreakdown ? (
+              <p className="mt-3 text-sm font-semibold text-foreground" aria-live="polite">
+                {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                <span className="text-xs font-normal text-muted-foreground">
+                  {participantBreakdown.exVat}
+                </span>
+              </p>
+            ) : null}
           </div>
 
           {selected ? (
@@ -972,7 +1006,7 @@ export default function PodcastBookingWizard({
           ) : null}
 
           {PODCAST_CRO_CONFIG.escapePlacements.includes("after_packages") && selected ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
 
           <BookOptionalAddonsButton
@@ -1045,7 +1079,7 @@ export default function PodcastBookingWizard({
                     {
                       id: "mobile" as const,
                       label: "🚗🏠 אולפן נייד - מגיעים עד אליכם",
-                      sub: `מ-${MOBILE_STUDIO_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ + אזור`,
+                      sub: `${formatPrice(MOBILE_STUDIO_BASE_EX_VAT, { from: true }).headline} + אזור`,
                     },
                   ] as const
                 ).map((loc) => (
@@ -1095,11 +1129,46 @@ export default function PodcastBookingWizard({
                         >
                           <span className="font-semibold">{geo.label}</span>
                           <span className="mt-0.5 block text-muted-foreground">
-                            {price.toLocaleString("he-IL")} ₪ לפני מע״מ - {geo.detail}
+                            {formatPrice(price).inline} - {geo.detail}
                           </span>
                         </button>
                       );
                     })}
+                  </div>
+                  <div className="rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
+                    {selected && PODCAST_AUDIO_PACKAGE_IDS.includes(selected.id) ? (
+                      <p className="text-sm font-semibold text-foreground">
+                        {MOBILE_STUDIO_EPISODE_INCLUDED_COPY}.
+                      </p>
+                    ) : null}
+                    <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+                    <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine()}.</p>
+                    <label
+                      htmlFor="pb-mobile-people"
+                      className="mt-2 block text-xs font-semibold text-foreground"
+                    >
+                      כמה אנשים בהקלטה?
+                    </label>
+                    <select
+                      id="pb-mobile-people"
+                      value={Math.min(form.participantCount, MOBILE_STUDIO_CHANNELS.max)}
+                      onChange={(e) => patchForm({ participantCount: Number(e.target.value) })}
+                      className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3 text-sm"
+                    >
+                      {Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>
+                          {n === 1 ? "אדם אחד" : `${n} אנשים`}
+                        </option>
+                      ))}
+                    </select>
+                    {participantBreakdown ? (
+                      <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
+                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {participantBreakdown.exVat}
+                        </span>
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               ) : null}
@@ -1130,7 +1199,7 @@ export default function PodcastBookingWizard({
             />
           </div>
           {PODCAST_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
@@ -1143,9 +1212,6 @@ export default function PodcastBookingWizard({
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
-          {step3HoldDeadline ? (
-            <PodcastWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-          ) : null}
           <p className="mb-4 text-center text-base font-semibold text-foreground">
             {PODCAST_CRO_CONFIG.step3Closer}
           </p>
@@ -1184,12 +1250,12 @@ export default function PodcastBookingWizard({
                   <li>
                     <span className="font-medium text-foreground">היום:</span>{" "}
                     {form.location === "mobile"
-                      ? "מגיעים אליכם עם הציוד. חומרי הגלם אצלכם בסוף הסשן"
-                      : "הקלטה באולפן במודיעין. חומרי הגלם אצלכם ביד בסוף הסשן"}
+                      ? "מגיעים אליכם עם הציוד ומקליטים"
+                      : "הקלטה באולפן במודיעין"}
                   </li>
                   <li>
-                    <span className="font-medium text-foreground">1 עד 3 ימי עבודה:</span>{" "}
-                    עריכה, מיקס ומאסטרינג מלאים
+                    <span className="font-medium text-foreground">כשמסיימים להקליט:</span>{" "}
+                    {TIME_CLAIMS.podcastSameSecondLong}
                   </li>
                   <li className="flex items-start gap-1.5">
                     <span>
@@ -1235,8 +1301,10 @@ export default function PodcastBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
-                socialProof="פרק ראשון מוכן בדרך כלל תוך 5 ימי עבודה"
+                socialProof={TIME_CLAIMS.podcastSameSecond}
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(packageTotal)),
                   onClick: () => handleAction("continue_chat"),
@@ -1292,7 +1360,7 @@ export default function PodcastBookingWizard({
         open={addonDrawerOpen && Boolean(selected)}
         packageLabel={selected?.name ?? "חבילה"}
         basePriceExVat={
-          (selected?.price ?? 0) +
+          packageExVat +
           form.overtimeBlocks * PODCAST_OVERTIME_RATE +
           extraParticipantsCost +
           mobileExVat

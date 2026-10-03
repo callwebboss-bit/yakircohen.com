@@ -1,3 +1,6 @@
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
+
 export type GreetingTip = {
   routes: string[];
   tip: string;
@@ -5,7 +8,7 @@ export type GreetingTip = {
 };
 
 export const GREETING_TIPS: GreetingTip[] = [
-  { routes: ["/studio"], tip: "שיר קאבר מ-590 ₪ - ניתן להביא מלווה", href: "/studio" },
+  { routes: ["/studio"], tip: `הקלטת שיר ${withVat(getExVat("song_recording")).toLocaleString("he-IL")} ₪ כולל מע״מ - ניתן להביא מלווה`, href: "/studio" },
   { routes: ["/studio/recording-song-modiin"], tip: "הקלטה, מיקס ומאסטרינג - בשעה אחת", href: "/studio/recording-song-modiin" },
   { routes: ["/podcast"], tip: "עריכת פרק כלולה בחבילות ההפקה", href: "/podcast" },
   { routes: ["/podcast/podcast-editing"], tip: "גם הקלטות ישנות - שחזור סאונד AI", href: "/podcast/podcast-editing" },

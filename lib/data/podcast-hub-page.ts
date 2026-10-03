@@ -1,6 +1,7 @@
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { PODCAST_PACKAGES, PODCAST_STARTER_PRICE } from "./podcast-calculator";
 
 export type PodcastExampleVideo = {
@@ -25,7 +26,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
 }[] = [
   {
     id: "recording",
-    title: "הקלטה רגילה",
+    title: "הקלטה בלבד, בלי עריכה",
     priceFrom: PODCAST_STARTER_PRICE,
     outcome: "קובץ MP3 גולמי מאולפן - עד חצי שעה",
     bestFor: "פיילוט, פרק קצר, או מי שעורך בעצמו",
@@ -53,7 +54,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
 ] as const;
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
-  `פרק ${TIME_CLAIMS.podcastDelivery24h} להעלאה`,
+  TIME_CLAIMS.podcastSameSecond,
   "4 מתחמי הקלטה עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
   "מצלמות Sony ZV-E10 + DJI Osmo 4 + צילום 4K רב-זוויתי",
   "שרשרת סאונד אולפנית - ממשקי UAD + iZotope",
@@ -87,8 +88,8 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   },
   {
     emoji: "⚡",
-    title: TIME_CLAIMS.podcastDelivery24h,
-    description: "אתם מדברים, אנחנו דואגים לטכניקה, לעריכה ולמסירה.",
+    title: TIME_CLAIMS.podcastSameSecond,
+    description: TIME_CLAIMS.podcastSameSecondLong,
   },
   {
     emoji: "✂️",
@@ -216,7 +217,7 @@ export const PODCAST_HUB_WORKFLOW: readonly {
   {
     step: "5",
     title: "פרק מוכן",
-    body: `${TIME_CLAIMS.podcastDelivery24h}, קבצים מוכנים להעלאה לספוטיפיי ויוטיוב.`,
+    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה לספוטיפיי וליוטיוב.`,
   },
 ] as const;
 
@@ -228,12 +229,14 @@ export const PODCAST_HUB_FAQS: readonly {
   {
     id: "hub-price-start",
     question: "כמה עולה פודקאסט באולפן?",
-    answer: `הקלטה רגילה מתחילה מ-${PODCAST_STARTER_PRICE.toLocaleString("he-IL")} ₪ לפני מע״מ (עד חצי שעה). פודקאסט וידאו מ-${getExVat("podcast_video").toLocaleString("he-IL")} ₪. עריכת פודקאסט מ-${getExVat("podcast_editing_hour").toLocaleString("he-IL")} ₪ לשעה. מחיר סופי לפי חבילה במחשבון בעמוד.`,
+    /* WP3 (PI-02, PB-01): העוגן הוא פרק ערוך (podcast_audio). 750 הוא חצי שעה
+       חדר, קובץ גולמי בלי עריכה, ונאמר כך במפורש. */
+    answer: `פרק אודיו ערוך ומוכן להפצה ${formatFromPriceDual(getExVat("podcast_audio"))}. פודקאסט וידאו ${formatFromPriceDual(getExVat("podcast_video"))}. הקלטה בלבד (חצי שעה חדר, קובץ גולמי, בלי עריכה) ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. עריכת פודקאסט ${formatFromPriceDual(getExVat("podcast_editing_hour"))} לשעה. מחיר סופי לפי חבילה במחשבון בעמוד.`,
   },
   {
     id: "hub-delivery",
     question: "תוך כמה זמן מקבלים את הפרק?",
-    answer: `${TIME_CLAIMS.podcastDelivery24h} להעלאה ברוב החבילות. פרויקטים מורכבים נמסרים עד 4 ימים.`,
+    answer: `באותה שנייה שמסיימים להקליט, בכל הקלטת פודקאסט, באולפן וגם אצלכם בבית או במשרד. ${TIME_CLAIMS.podcastSameSecondLong}`,
   },
   {
     id: "hub-who-for",
@@ -257,7 +260,7 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "price",
     question: "כמה עולה הקלטת פודקאסט מקצועית ומה כלול במחיר?",
     answer:
-      "חבילת בסיס מתחילה מ-750 ₪ לפרק (לפני מע״מ) וכוללת שעת סטודיו, הקלטה ועריכת סאונד מקצועית. הפקה עם צילום 4K מתחילה מ-2,500 ₪ ומגיעה עם MP4 ליוטיוב, MP3 להפצה לספוטיפיי ואפל פודקאסט. מחשבון מחירים מפורט זמין בדף זה.",
+      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}, וכולל הקלטה של עד שעה באולפן, עריכה ומיקס. הפקה מלאה עם צילום ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
   },
   {
     id: "duration",
@@ -377,17 +380,24 @@ export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
 export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "חוסכים זמן ואנרגיה",
   "תוצאה מקצועית",
-  TIME_CLAIMS.podcastDelivery24h,
+  TIME_CLAIMS.podcastSameSecond,
   "נוח ופשוט",
   "משתלם כלכלית",
 ] as const;
 
-export const PODCAST_HUB_STARTING_PRICE = String(PODCAST_STARTER_PRICE);
+/*
+ * WP3 (PI-02, PB-01, PJ-16, S08): "פרק מוכן להעלאה מ-750" הציג את מחיר חצי
+ * שעה חדר, קובץ גולמי בלי עריכה (studio_half_hour). פרק מוכן הוא
+ * podcast_audio. כולל מע״מ קודם (החלטת הבעלים 2.10.2026).
+ */
+const PODCAST_HUB_ANCHOR = formatPrice(getExVat("podcast_audio"), { from: true });
+/** "מ-1,121 ₪ כולל מע״מ (950 ₪ + מע״מ)" */
+export const PODCAST_HUB_STARTING_PRICE = PODCAST_HUB_ANCHOR.inline;
 export const PODCAST_HUB_STARTING_PRICE_NOTE =
-  "לפרק של חצי שעה - אולפן במודיעין - חניה בשפע - לפני מע״מ (+18%)";
+  "פרק אודיו ערוך ומוכן להפצה - אולפן במודיעין - חניה בשפע";
 
-/** תווית CTA: תוצאה + מחיר התחלתי קיים */
-export const PODCAST_HUB_CTA_LABEL = `פרק מוכן להעלאה מ-${PODCAST_STARTER_PRICE.toLocaleString("he-IL")} ₪`;
+/** תווית CTA: תוצאה + מחיר התחלתי של אותה תוצאה */
+export const PODCAST_HUB_CTA_LABEL = `פרק ערוך מוכן להעלאה ${PODCAST_HUB_ANCHOR.headline}`;
 
 const _audioPrice = PODCAST_PACKAGES.find((p) => p.id === "audio")?.price ?? 950;
 const _videoPrice = PODCAST_PACKAGES.find((p) => p.id === "video")?.price ?? 1650;

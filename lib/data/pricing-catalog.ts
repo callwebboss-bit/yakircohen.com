@@ -2,8 +2,23 @@
  * מקור אמת יחיד לכל מחירי השירות (לפני מע״מ).
  * עדכון מחירים: ערכו כאן בלבד, והריצו `npm run audit:pricing`.
  *
- * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה ושיר במתנה מאושרות במחיר.
- * תיקון זיופים ב-590 לא כלול. תוספת: studio_pitch_correction 300 ₪ (לא express).
+ * CONTENT_REVIEW: overlay 2026-08-19 - רשימות ברכה מאושרות במחיר. תיקון
+ * זיופים בברכה ובהקלטה מרחוק לא כלול. מ-3.10.2026 שתיהן 500 (היו 590). תוספת: studio_pitch_correction 300 ₪.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-02 (docs/OWNER-DECISIONS-2026-10-02.md) -
+ * הקלטת שיר היא בסיס ותוספות בלבד: song_recording 500 (הקלטה, מיקס ומאסטר,
+ * סשן של שעה, התוצאה ביד בסוף הסשן, בלי תיקון זיופים). תוספות:
+ * song_pitch_coaching 300, studio_session_clip_edited 750,
+ * song_pre_session_interview 500 (משולב בקליפ, ולכן רק יחד איתו). החבילות
+ * cover_song, song_package, studio_viral ו-studio_all_in נמחקו, ואין מסירה
+ * מזורזת לשירים. קישורים ישנים ממופים ב-LEGACY_SONG_ALIASES (song-offer.ts).
+ * single_production ו-full_production_clip נשארים. studio_session_clip (450,
+ * גלם) נשאר לברכה ולאולפן הנייד.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-03 (סבב רביעי) - משתתפים בשיר: אחד כלול,
+ * וכל משתתף נוסף 99 (song_group_participant), עד 12. אין יותר 190 לזמר השני.
+ * ראו SONG_PARTICIPANT_RULES. studio_extra_participant (190) נשאר לברכה,
+ * לשעת חדר ולהקלטה מרחוק.
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -64,7 +79,22 @@ export type PriceItem = {
   withEditing?: PriceWithEditing;
   /** מחיר התחלה - לא מחיר סופי קבוע */
   priceFrom?: boolean;
+  /** תוספת שאפשר לבחור רק יחד עם תוספת אחרת (מזהה קטלוג) */
+  requires?: string;
 };
+
+/**
+ * תקרת הנחה (החלטת הבעלים 3.10.2026, סבב שני): "כרגע אין הנחה מעל 8%".
+ * חלה על חבילות בקטלוג, קופונים, מבצעים ומחיר ייחוס מוצג. נאכף ב-
+ * validateDiscountPolicy (lib/data/discount-policy.ts, רץ ב-audit:pricing)
+ * ובאחוזים בפרוזה ב-audit:trust-claims. מחיר למשתתף נוסף (99 בשיר) אינו
+ * הנחה באחוזים ולא נבדק כאן.
+ */
+export const MAX_DISCOUNT_RATE = 0.08;
+export const MAX_DISCOUNT_PERCENT = Math.round(MAX_DISCOUNT_RATE * 100);
+
+/** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
+export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
 
 /** כל מחירי השירות - לפני מע״מ */
 /* בלי ההערה `: readonly PriceItem[]` כאן במכוון. היא גברה על ה-as const שבסוף
@@ -96,7 +126,7 @@ export const PRICING_CATALOG = [
   {
     id: "blessing_recording",
     label: "ברכה / אמירה",
-    exVat: 590,
+    exVat: 500,
     category: "studio",
     context: "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
     scope: { duration: "עד חצי שעה", includes: "הנחיה ועריכה בסיסית" },
@@ -105,47 +135,20 @@ export const PRICING_CATALOG = [
   {
     id: "studio_remote",
     label: "הקלטה מרחוק",
-    exVat: 590,
+    exVat: 500,
     category: "studio",
     context: "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
     scope: { includes: "ניקוי רעשים ומיקס" },
     suitedFor: "ברכה או אמירה בלי להגיע לאולפן",
   },
   {
-    id: "cover_song",
-    label: "שיר במתנה (שיר מוכן)",
-    exVat: 990,
+    id: "song_recording",
+    label: "הקלטת שיר באולפן",
+    exVat: 500,
     category: "studio",
-    context: "הקלטה בלי לחץ זמן, מיקס, מאסטרינג ותיקון זיופים - קובץ מוכן",
-    scope: { includes: "הקלטה, מיקס, מאסטר ותיקון זיופים" },
+    context: "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול.",
+    scope: { duration: "סשן של שעה", includes: "הקלטה, מיקס ומאסטר", excludes: "תיקון זיופים" },
     suitedFor: "שיר במתנה, קאבר, חופה, בר/בת מצווה",
-  },
-  {
-    id: "song_package",
-    label: "שיר Pro",
-    exVat: 1480,
-    category: "studio",
-    context: "הקלטה מלאה, Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות סטילס",
-    scope: { includes: "הקלטה, תיקון פיץ' ידני, ייעוץ אמנותי, 3 תמונות מעובדות" },
-    suitedFor: "מי שרוצה שיר מוכן + נוכחות לרשתות",
-  },
-  {
-    id: "studio_viral",
-    label: "שיר + קליפ מהאולפן",
-    exVat: 1950,
-    category: "studio",
-    context: "חבילת Pro + קליפ ביצוע ערוך לרשתות",
-    scope: { includes: "חבילת Pro, קליפ ביצוע מהאולפן, קובץ מוכן לפרסום" },
-    suitedFor: "שיר לאירוע שרוצים גם לשתף בוידאו",
-  },
-  {
-    id: "studio_all_in",
-    label: "All-In: סיפור חיים",
-    exVat: 2380,
-    category: "studio",
-    context: "הפקה מלאה + קליפ תמונות גדילה מתמונות וסרטוני ילדות",
-    scope: { includes: "הפקה מלאה, קליפ תמונות גדילה, קובץ מוכן" },
-    suitedFor: "בר/בת מצווה או מתנה משפחתית בלי הפתעות מחיר",
   },
   {
     id: "single_production",
@@ -156,7 +159,7 @@ export const PRICING_CATALOG = [
     scope: { duration: "עד 6 שעות אולפן", includes: "עיבוד, מיקס ומאסטר מסחרי" },
     suitedFor: "זמרים שרוצים סינגל מוכן לסטרימינג",
   },
-  { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף" },
+  { id: "full_production_clip", label: "הפקה מלאה וקליפ וידאו", exVat: 4500, category: "studio", context: "שיר מוגמר וקליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו" },
   {
     id: "studio_session_clip",
     label: "צילום קליפ מהסשן באולפן",
@@ -164,8 +167,7 @@ export const PRICING_CATALOG = [
     category: "studio",
     context: "צילום ההקלטה בזמן אמת, בלי עריכה",
     scope: { includes: "צילום הסשן באולפן וקובץ גלם" },
-    suitedFor: "מי שרוצה לראות איך נראית הקלטה אמיתית באולפן",
-    withEditing: { label: "קליפ מהסשן עם עריכה", exVat: 750 },
+    suitedFor: "ברכה או אולפן נייד, למי שרוצה את הצילום בלי עריכה",
   },
   {
     id: "studio_extra_participant",
@@ -173,7 +175,15 @@ export const PRICING_CATALOG = [
     exVat: 190,
     category: "addons",
     context: "הקלטה נוספת וערבוב בסיסי",
-    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן",
+    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר",
+  },
+  {
+    id: "song_group_participant",
+    label: "משתתף נוסף בשיר",
+    exVat: 99,
+    category: "addons",
+    context: "לכל משתתף נוסף בשיר, מהשני והלאה. עד 12 משתתפים בשיר אחד.",
+    suitedFor: "שיר משפחתי או קבוצתי",
   },
   {
     id: "studio_extra_revision",
@@ -189,7 +199,35 @@ export const PRICING_CATALOG = [
     exVat: 300,
     category: "addons",
     context: "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
-    suitedFor: "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים",
+    suitedFor: "ברכה או הקלטה מרחוק שרוצים גם תיקון זיופים",
+  },
+  {
+    id: "song_pitch_coaching",
+    label: "תיקון זיופים וטכנאי שמכוון ומנחה",
+    exVat: 300,
+    category: "addons",
+    context: "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+    suitedFor: "תוספת להקלטת שיר באולפן",
+  },
+  {
+    id: "studio_session_clip_edited",
+    label: "קליפ ערוך מהסשן באולפן",
+    exVat: 750,
+    category: "addons",
+    context: "צילום הסשן באולפן, ערוך לקליפ מוכן לשיתוף.",
+    suitedFor: "תוספת להקלטת שיר באולפן",
+  },
+  {
+    id: "song_pre_session_interview",
+    label: "ראיון קצר במתחם הפודקאסט",
+    exVat: 500,
+    category: "addons",
+    /* החלטת הבעלים 3.10.2026 (סבב שני): עד 10 דקות (היה "כ-5 דקות"). עדיין
+       בלי מחיר רגיל, ולכן בלי מחיר מחוק ובלי "מבצע". */
+    context: "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+    scope: { duration: SONG_INTERVIEW_DURATION, includes: "ראיון במתחם הפודקאסט, משולב בקליפ הערוך" },
+    suitedFor: "תוספת לקליפ הערוך מהסשן",
+    requires: "studio_session_clip_edited",
   },
 
   // ─── פודקאסט ───
@@ -220,15 +258,36 @@ export const PRICING_CATALOG = [
     suitedFor: "מותגים שרוצים נוכחות רשתות חברתיות",
   },
   { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" },
+  /* החלטת הבעלים 3.10.2026 (סבב שני): אולפן נייד הוא פריט אחד. 2,500 לפני
+     מע״מ = הגעה עם כל הציוד, התאורה והצוות. mobile_studio (5,000) נמחק.
+     באירוע: צילום פודקאסט מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו,
+     ועל זה ההגעה. ראו MOBILE_STUDIO_EVENT_SERVICES. המזהה נשאר כדי לא לשבור
+     קישורי ?catalog= קיימים. */
   {
     id: "mobile_podcast_at_home",
-    label: "פודקאסט בבית / אולפן נייד",
+    label: "אולפן נייד, הגעה אליכם",
     exVat: 2500,
     category: "podcast",
-    context: "הגעה לבית או למשרד, הקלטה ועריכה",
+    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד פרק פודקאסט אודיו מוגמר כלול (הקלטה, עריכה ומסירה), וכל אדם נוסף הוא ערוץ נוסף.",
+    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות. בבית או במשרד: פרק פודקאסט אודיו מוגמר, הקלטה, עריכה ומסירה, לאדם אחד" },
     priceFrom: true,
   },
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: בבית או במשרד הקלטת האודיו כלולה
+     ב-2,500. כל אדם נוסף הוא ערוץ נוסף, 99 + מע״מ, עד 12 אנשים בהקלטה.
+     ראו MOBILE_STUDIO_CHANNEL_RULES. */
+  {
+    id: "mobile_extra_channel",
+    label: "ערוץ הקלטה נוסף באולפן הנייד",
+    exVat: 99,
+    category: "podcast",
+    context: "כל אדם נוסף בהקלטה באולפן הנייד הוא ערוץ נוסף. עד 12 אנשים בהקלטה.",
+    scope: { includes: "מיקרופון וערוץ הקלטה לאדם נוסף" },
+    suitedFor: "הקלטה בבית או במשרד עם יותר מאדם אחד",
+  },
   { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
+  /* עד 3.10.2026 התוספת הזו בטופס הפודקאסט נקראה דרך studio_remote, כי שניהם
+     היו 590. הקלטה מרחוק ירדה ל-500, והעריכה המתקדמת לא השתנתה. */
+  { id: "podcast_editing_advanced", label: "עריכה מתקדמת לפודקאסט", exVat: 590, category: "podcast", context: "לכל שעה שצולמה, פתיח וסגיר" },
   { id: "podcast_extra_participant", label: "משתתף נוסף בפודקאסט", exVat: 150, category: "podcast", context: "תוספת מיקרופון ועריכה מוגברת מעל 2 אנשים" },
   {
     id: "studio_self_service_hour",
@@ -242,11 +301,16 @@ export const PRICING_CATALOG = [
   // ─── נוספו 3.10.2026 אחרי audit:prose-price-backing ───
   // כל אלה הופיעו בפרוזה ובקוד בלי גיבוי בקטלוג, ולכן לא נכנסו
   // ל-JSON-LD ולא ל-llms.txt, ואף שער לא הגן עליהם מסחיפה.
+  // במיזוג ל-feature/sales-fix (3.10.2026) מול OWNER-DECISIONS-2026-10-02.md:
+  // song_extended_pack (1,800) ו-blessing_pair_combined (1,000) לא נכנסו, כי
+  // הקלטת שיר היא בסיס ותוספות בלבד וברכה היא 500 + 190 למשתתף. הכרטיסייה
+  // הועלתה מ-4,450 ל-4,554 (תקרת 8% מול 5 x academy_private_hour, ב-CATALOG_BUNDLES).
+  // בהקלטת ההופעה ירד "במקום המחיר המלא" (אין "במקום" במבצעים).
   { id: "travel_north_south", label: "תוספת הגעה לצפון או דרום", exVat: 800, category: "addons", context: "מעבר לאזור המרכז" },
   { id: "travel_eilat_golan", label: "תוספת הגעה לאילת או לגולן", exVat: 1800, category: "addons", context: "אזורים רחוקים, בתיאום מראש" },
   { id: "ulpan_trial", label: "אולפן עברית, שיעור ניסיון", exVat: 500, category: "academy", context: "שיעור יחיד אחד על אחד" },
   { id: "ulpan_monthly", label: "אולפן עברית, מסלול חודשי", exVat: 3200, category: "academy", context: "שיעור שבועי אחד על אחד" },
-  { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים, עם הטבה על שיעור הניסיון" },
+  { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים אחד על אחד" },
   { id: "academy_pro_session", label: "Pro Session, 90 דקות", exVat: 1280, category: "academy", context: "צלילה לעומק וניתוח ביצוע" },
   { id: "online_extra_minutes", label: "תיקון זיופים מעל 4 דקות", exVat: 100, category: "addons", context: "תוספת לשיר ארוך" },
   { id: "online_extra_channels", label: "מיקס מעל 16 ערוצים", exVat: 100, category: "addons", context: "תוספת לפרויקט רחב" },
@@ -259,16 +323,15 @@ export const PRICING_CATALOG = [
   { id: "social_consult_30", label: "שיחת ייעוץ תוכן, עד 30 דקות", exVat: 700, category: "online", context: "ייעוץ ממוקד לתוכן ואסטרטגיה" },
   { id: "gift_box_usb", label: "מארז דיסק און קי ועיצוב", exVat: 199, category: "addons", context: "תוספת למחיר ההפקה" },
   { id: "gift_box_full", label: "מארז מלא: דיסק און קי, אוזניות וקופסה", exVat: 399, category: "addons", context: "תוספת למחיר ההפקה" },
-  { id: "funny_ringtone_promo", label: "רינגטון מצחיק, מבצע", exVat: 299, category: "studio", context: "הקלטה, עיבוד וקובץ מוכן" },
-  { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "במקום המחיר המלא" },
-  { id: "blessing_pair_combined", label: "ברכה משולבת, כלה וחתן", exVat: 1000, category: "studio", context: "שני מקליטים באותה ברכה" },
-  { id: "song_extended_pack", label: "חבילת שיר מורחבת", exVat: 1800, category: "studio", context: "תיקוני פיץ' מתקדמים ועריכה מלאה", priceFrom: true },
+  { id: "voiceover_funny_ringtone", label: "רינגטון מצחיק", exVat: 299, category: "online", context: "קריינות לכל דבר: הקלטה, עיבוד וקובץ מוכן" },
+  { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "מבצע הרגע האחרון באשף ההגברה" },
   { id: "bat_mitzvah_clip", label: "קליפ בת מצווה", exVat: 2590, category: "studio", context: "מחיר פתיחה, לפי משתתפים וצילומי חוץ", priceFrom: true },
   { id: "academy_focused_training", label: "הכשרה ממוקדת, 90 דקות", exVat: 1470, category: "academy", context: "DJ, הפקה או קריינות, אחד על אחד" },
   { id: "academy_master_monthly", label: "Master, מסלול חודשי", exVat: 3920, category: "academy", context: "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי" },
   { id: "academy_pro_partnership", label: "Pro-Partnership, 6 חודשים", exVat: 21500, category: "academy", context: "24 מפגשים, ליווי רכש וזהות מוזיקלית" },
-  { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4450, category: "academy", context: "מחיר מופחת לשיעור", priceFrom: true },
-  { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 8900, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
+  { id: "academy_lesson_card_5", label: "כרטיסיית 5 שיעורים פרטיים", exVat: 4554, category: "academy", context: "חמישה שיעורים של שעה, אחד על אחד", priceFrom: true },
+  /* החלטות 3.10.2026, סבב רביעי: הועלה מ-8,900 ל-9,108, תקרת 8% מול 10 x academy_private_hour (CATALOG_BUNDLES). */
+  { id: "academy_dj_course_full", label: "קורס DJ פרטי מלא", exVat: 9108, category: "academy", context: "10 מפגשים כולל בניית סט אישי", priceFrom: true },
   { id: "vocal_fix_short", label: "תיקון זיופים, קטע קצר", exVat: 375, category: "online", context: "עד שתי דקות" },
   { id: "studio_prep_digital", label: "חוברת הכנה דיגיטלית", exVat: 149, category: "addons", context: "מדריך הכנה לפני הסשן" },
   { id: "photography_wedding_4h", label: "צילום אירוע, 4 שעות", exVat: 6000, category: "photography", context: "חבילת פתיחה, עריכה בסיסית כלולה", priceFrom: true },
@@ -352,23 +415,20 @@ export const PRICING_CATALOG = [
     exVat: 5000,
     category: "dj",
     context: "4 שעות תקלוט של דיג׳יי מנוסה",
+    /* החלטת הבעלים ED-04: תקליטן מהצוות, 4 שעות, עד 300 מוזמנים */
+    scope: { duration: "4 שעות תקלוט", includes: "תקליטן מהצוות" },
     suitedFor: "אירוע עד 300 מוזמנים",
   },
   {
     id: "dj_yakir_personal",
     label: "תקליטן יקיר כהן אישית",
-    exVat: 8305,
+    /* החלטת הבעלים 3.10.2026 (סבב שני): 9,800 הוא לפני מע״מ (11,564 כולל).
+       עד אז 8,305, כי 9,800 נקרא כמחיר כולל מע״מ. */
+    exVat: 9800,
     category: "dj",
     context: "5 שעות VIP עם יקיר על הקונסולה",
+    scope: { duration: "5 שעות תקלוט", includes: "יקיר כהן על הקונסולה" },
     suitedFor: "חתונות VIP, אירועי חברה",
-  },
-  {
-    id: "mobile_studio",
-    label: "אולפן הקלטות נייד",
-    exVat: 5000,
-    category: "events",
-    context: "הקמת מיקרופונים ועמדת עריכה בשטח",
-    suitedFor: "אירועים, כנסים, בתי ספר",
   },
   {
     id: "festival_all_in",
@@ -387,11 +447,28 @@ export const PRICING_CATALOG = [
   { id: "growth_slideshow_100", label: "מצגת גדילה AI - 100 תמונות", exVat: 1900, category: "events", context: "פתיחה + סגירה, שיפור AI, מוזיקה, Full HD" },
   { id: "led_lighting", label: "עמדת תאורת LED", exVat: 1750, category: "events", context: "תאורה דקורטיבית או הקרנת לוגו" },
   { id: "electronic_drummer", label: "מתופף אלקטרוני מקצועי", exVat: 1500, category: "events", context: "ליווי מוזיקלי חי לרחבת הריקודים" },
+  /* הפעלה נוספת לזיקוקים קרים או קונפטי (act_2, act_3). המחיר נקבע ע״י
+     הבעלים ב-8.9.2026 וישב עד עכשיו כמספר ב-events-booking.ts. WP4 */
+  { id: "event_extra_activation", label: "הפעלה נוספת לאטרקציה", exVat: 1200, category: "events", context: "רגע שיא נוסף: מיכל או מנועים חדשים לכל הפעלה" },
   { id: "event_attraction_1", label: "אטרקציה בודדת", exVat: 1695, category: "events", context: "2,000 ₪ כולל מע״מ" },
-  { id: "event_attraction_2", label: "2 אטרקציות", exVat: 3051, category: "events", context: "הנחה 10%, 3,600 ₪ כולל מע״מ" },
-  { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4322, category: "events", context: "הנחה 15%, 5,100 ₪ כולל מע״מ" },
-  { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 5424, category: "events", priceFrom: true, context: "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית" },
+  /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. החבילות היו 10%,
+     15% ו-20% (3,051 / 4,322 / 5,424). עכשיו כל אחת היא N x event_attraction_1
+     פחות 8%, מעוגל למעלה כדי לא לעבור את התקרה (CATALOG_BUNDLES). */
+  { id: "event_attraction_2", label: "2 אטרקציות", exVat: 3119, category: "events", context: "חבילה: 8% פחות משתי אטרקציות בודדות" },
+  { id: "event_attraction_3", label: "3 אטרקציות", exVat: 4679, category: "events", context: "חבילה: 8% פחות משלוש אטרקציות בודדות" },
+  { id: "event_attraction_4", label: "4 אטרקציות ומעלה", exVat: 6238, category: "events", priceFrom: true, context: "מחיר פתיחה לארבע, 8% פחות מארבע בודדות, וקליפ היילייטס מתנה. מעבר לזה הצעה אישית" },
   // ─── הגברה לזמרים ───
+  /* החלטת הבעלים 3.10.2026 (סבב שני): השכרת הגברה לאירוע 2,500 לפני מע״מ.
+     עד אז 1,750 כתוב באשף האירועים, בלי מזהה. */
+  {
+    id: "event_sound_rental",
+    label: "השכרת הגברה לאירוע",
+    exVat: 2500,
+    category: "events",
+    context: "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק. עד 250 אורחים",
+    scope: { includes: "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק" },
+    suitedFor: "אירוע עד 250 אורחים",
+  },
   { id: "singer_amp_basic", label: "הגברת זמר, בסיס מקצועי", exVat: 2800, category: "events", context: "2 מיקרופונים, זוג RCF, סאב 15, מיקסר, טכנאי", suitedFor: "סולו או דואט, עד 150 אורחים" },
   { id: "singer_amp_premium", label: "הגברת זמר, פרימיום", exVat: 5800, category: "events", context: "מערכת מורחבת עם מוניטורים ותאורה" },
   { id: "singer_amp_vip", label: "הגברת זמר, VIP", exVat: 7800, category: "events", context: "מערכת מלאה לאירוע גדול" },
@@ -445,14 +522,16 @@ export const PRICING_CATALOG = [
 
   // ─── שירותים מקצועיים לעסקים ───
   { id: "dj_voice_tag_single", label: "תג קולי בודד לדיג'יי", exVat: 350, category: "pro", context: "קריינות ממותגת עם אפקטי מועדון" },
-  { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1200, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
+  /* החבילות כאן ובמאשאפים: N x מחיר בודד פחות 8% (החלטת הבעלים 3.10.2026,
+     סבב שני). היו 31% (תגים), 10%, 15%, 20% ו-9% (מאשאפים). */
+  { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1610, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
   { id: "mashup_custom_planned", label: "מאשאפ מותאם (עד 3 ימי עסקים)", exVat: 1650, category: "pro", context: "שילוב שני שירים - עריכה ידנית, סבב תיקון אחד" },
   { id: "mashup_creative_plus", label: "שילוב יצירתי / דרוג+", exVat: 2200, category: "pro", context: "stems, משקל, מודולציה - הפקה מלאה באולפן" },
   { id: "mashup_ready_single", label: "מאשאפ מוכן לרכישה", exVat: 650, category: "pro", context: "גרסה ערוכה מהמאגר, נבדקה באירוע" },
-  { id: "mashup_ready_pack_3", label: "חבילת 3 מאשאפים מוכנים", exVat: 1750, category: "pro", context: "שלושה שילובים מהמאגר" },
-  { id: "mashup_ready_pack_5", label: "חבילת 5 מאשאפים מוכנים", exVat: 2750, category: "pro", context: "חמישה שילובים - עונת אירועים" },
-  { id: "mashup_ready_pack_10", label: "חבילת 10 מאשאפים מוכנים", exVat: 5200, category: "pro", context: "מאגר אישי לדיג'יי" },
-  { id: "mashup_custom_pack_3", label: "חבילת 3 מאשאפים מותאמים", exVat: 4500, category: "pro", context: "שלושה שילובים לפי בקשה" },
+  { id: "mashup_ready_pack_3", label: "חבילת 3 מאשאפים מוכנים", exVat: 1794, category: "pro", context: "שלושה שילובים מהמאגר" },
+  { id: "mashup_ready_pack_5", label: "חבילת 5 מאשאפים מוכנים", exVat: 2990, category: "pro", context: "חמישה שילובים - עונת אירועים" },
+  { id: "mashup_ready_pack_10", label: "חבילת 10 מאשאפים מוכנים", exVat: 5980, category: "pro", context: "מאגר אישי לדיג'יי" },
+  { id: "mashup_custom_pack_3", label: "חבילת 3 מאשאפים מותאמים", exVat: 4554, category: "pro", context: "שלושה שילובים לפי בקשה" },
   { id: "mashup_fixer_express", label: "מאשאפ מזורז (לפי זמינות)", exVat: 2400, category: "pro", context: "לא מובטח - רק אם יש מקום ביומן" },
   { id: "gym_music_set", label: "סט מוזיקה לחדר כושר", exVat: 750, category: "pro", context: "פלייליסט מחובר בקצב לשיעור או אימון" },
   { id: "ambience_space_set", label: "פלייליסט לאווירת חלל", exVat: 850, category: "pro", context: "מוזיקת רקע לפי סוג עסק ושעות פעילות" },
@@ -490,6 +569,108 @@ export const PRICING_CATALOG = [
 
 export type PriceItemId = (typeof PRICING_CATALOG)[number]["id"];
 
+/** פלייבק בהקלטת שיר (עובדה שהבעלים אישר, 3.10.2026 סבב שני) */
+export const SONG_PLAYBACK_HELP = "אין לכם פלייבק? נעזור לכם להשיג";
+
+/**
+ * חבילות שהן N יחידות של פריט בודד. המחיר שלהן חייב להיות לפחות
+ * N x מחיר בודד x (1 - MAX_DISCOUNT_RATE). שורה חדשה כאן נבדקת אוטומטית.
+ */
+export const CATALOG_BUNDLES = [
+  { bundleId: "event_attraction_2", singleId: "event_attraction_1", count: 2 },
+  { bundleId: "event_attraction_3", singleId: "event_attraction_1", count: 3 },
+  { bundleId: "event_attraction_4", singleId: "event_attraction_1", count: 4 },
+  { bundleId: "mashup_ready_pack_3", singleId: "mashup_ready_single", count: 3 },
+  { bundleId: "mashup_ready_pack_5", singleId: "mashup_ready_single", count: 5 },
+  { bundleId: "mashup_ready_pack_10", singleId: "mashup_ready_single", count: 10 },
+  { bundleId: "mashup_custom_pack_3", singleId: "mashup_custom_planned", count: 3 },
+  { bundleId: "dj_voice_tag_pack_5", singleId: "dj_voice_tag_single", count: 5 },
+  { bundleId: "academy_lesson_card_5", singleId: "academy_private_hour", count: 5 },
+  { bundleId: "academy_dj_course_full", singleId: "academy_private_hour", count: 10 },
+] as const satisfies readonly { bundleId: PriceItemId; singleId: PriceItemId; count: number }[];
+
+export type CatalogBundle = (typeof CATALOG_BUNDLES)[number];
+
+/** שיעור ההנחה של חבילה מול קנייה בנפרד, מהקטלוג */
+export function catalogBundleDiscountRate(bundle: CatalogBundle): number {
+  const separate = getExVat(bundle.singleId) * bundle.count;
+  return (separate - getExVat(bundle.bundleId)) / separate;
+}
+
+/** אחוז הנחת חבילת האטרקציות, לתצוגה ("הנחה 8%"). מעוגל, ולכן לעולם לא מעל התקרה. */
+export function attractionBundleDiscountPercent(): number {
+  const rates = CATALOG_BUNDLES.filter((b) => b.singleId === "event_attraction_1").map(
+    catalogBundleDiscountRate,
+  );
+  return Math.round(Math.max(...rates) * 100);
+}
+
+/** מה כלול ב-2,500 של האולפן הנייד (החלטת הבעלים 3.10.2026, סבב שני) */
+export const MOBILE_STUDIO_ARRIVAL_COPY = "הגעה עם כל הציוד, התאורה והצוות";
+
+/**
+ * החלטות 3.10.2026, סבב רביעי: באולפן הנייד בבית או במשרד, פרק פודקאסט אודיו
+ * מוגמר כלול ב-2,500, כולל הקלטה, עריכה ומסירה. ערוץ לכל אדם נוסף נשאר 99 עד 12.
+ */
+export const MOBILE_STUDIO_EPISODE_INCLUDED_COPY =
+  "פרק פודקאסט אודיו מוגמר כלול במחיר ההגעה: הקלטה, עריכה ומסירה";
+
+/**
+ * אולפן נייד באירוע (החלטת הבעלים 3.10.2026, סבב שני): צילום פודקאסט
+ * מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו, ועל כל אחד מהם
+ * ההגעה (mobile_podcast_at_home). המחשבון ותוספות האירוע קוראים מכאן.
+ */
+export const MOBILE_STUDIO_EVENT_SERVICES = {
+  arrivalId: "mobile_podcast_at_home",
+  videoId: "podcast_video",
+  audioId: "podcast_audio",
+} as const satisfies {
+  arrivalId: PriceItemId;
+  videoId: PriceItemId;
+  audioId: PriceItemId;
+};
+
+/** אולפן נייד באירוע, לפני מע״מ: השירות עצמו ועליו ההגעה */
+export function mobileStudioEventExVat(kind: "video" | "audio"): number {
+  const serviceId =
+    kind === "video" ? MOBILE_STUDIO_EVENT_SERVICES.videoId : MOBILE_STUDIO_EVENT_SERVICES.audioId;
+  return getExVat(serviceId) + getExVat(MOBILE_STUDIO_EVENT_SERVICES.arrivalId);
+}
+
+/**
+ * אולפן נייד בבית או במשרד (החלטת הבעלים 3.10.2026, סבב שלישי): ההגעה
+ * (mobile_podcast_at_home) כוללת פרק פודקאסט אודיו מוגמר לאדם אחד (סבב רביעי). כל אדם נוסף הוא ערוץ
+ * נוסף (mobile_extra_channel, 99) ועד 12 אנשים בהקלטה. החישוב
+ * ב-mobileChannelsSurchargeExVat (lib/data/mobile-studio-booking.ts).
+ */
+export const MOBILE_STUDIO_CHANNEL_RULES = {
+  included: 1,
+  max: 12,
+  arrivalId: "mobile_podcast_at_home",
+  channelId: "mobile_extra_channel",
+} as const satisfies {
+  included: number;
+  max: number;
+  arrivalId: PriceItemId;
+  channelId: PriceItemId;
+};
+
+/**
+ * משתתפים בהקלטת שיר (החלטות 3.10.2026, סבב רביעי): זמר אחד כלול בבסיס,
+ * וכל משתתף נוסף song_group_participant (99), עד 12 בשיר אחד. 4 זמרים:
+ * 500 + 3 × 99 = 797 לפני מע״מ.
+ * החישוב ב-songParticipantsSurchargeExVat (lib/data/song-offer-quote.ts).
+ */
+export const SONG_PARTICIPANT_RULES = {
+  included: 1,
+  max: 12,
+  extraId: "song_group_participant",
+} as const satisfies {
+  included: number;
+  max: number;
+  extraId: PriceItemId;
+};
+
 /** תוספות מוצעות לשירות בסיסי במחירון */
 export const PRICING_ADDON_LINKS: Partial<
   Record<PriceItemId, readonly PriceItemId[]>
@@ -498,13 +679,12 @@ export const PRICING_ADDON_LINKS: Partial<
   podcast_audio: ["podcast_extra_participant", "podcast_editing_hour", "content_studio_pilot"],
   podcast_video: ["podcast_extra_participant", "quick_summary_clip", "transcribe_hour_srt"],
   content_package: ["transcribe_hour_srt", "express_delivery"],
+  mobile_podcast_at_home: ["mobile_extra_channel"],
   studio_half_hour: ["podcast_editing_hour"],
   blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
   studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
-  cover_song: ["studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
-  song_package: ["studio_session_clip", "express_delivery"],
-  studio_viral: ["express_delivery", "photo_retouch"],
-  studio_all_in: ["express_delivery"],
+  /* סדר התוספות כאן הוא הסדר בטופס ההצעה (lib/data/song-offer.ts) */
+  song_recording: ["song_pitch_coaching", "studio_session_clip_edited", "song_pre_session_interview"],
   event_attraction_1: ["cinematic_slideshow", "led_lighting"],
   event_attraction_2: ["cinematic_slideshow", "pre_event_production"],
   event_attraction_3: ["cinematic_slideshow", "led_lighting"],
@@ -522,6 +702,8 @@ type PriceTransparencyDraft = {
   glossaryTermSlugs?: readonly string[];
 };
 
+const ADDON_LABEL_TOKEN = "__ADDON_LABEL__";
+
 const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
   Record<PriceCategory, PriceTransparencyDraft>
 > = {
@@ -534,7 +716,8 @@ const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
     excluded: ["נסיעה ללוקיישן", "סרטונים קצרים נוספים", "כתמלול או כתוביות מעבר למה שמצוין"],
   },
   events: {
-    included: ["השירות או האטרקציה שבכרטיס", "הקמה ותפעול בסיסיים לפי הסיכום"],
+    /* WP6: היה "השירות או האטרקציה שבכרטיס", טקסט תבנית שהוצג ללקוח כמו שהוא */
+    included: ["הציוד והמפעיל לפי מה שנבחר", "הקמה ותפעול בסיסיים לפי הסיכום"],
     excluded: ["נסיעה חריגה", "שעות נוספות", "ציוד/אפקטים שלא נבחרו"],
   },
   dj: {
@@ -558,7 +741,9 @@ const PRICE_TRANSPARENCY_BY_CATEGORY: Partial<
     excluded: ["תוספות דחופות", "רישוי צד ג׳", "עבודת המשך מעבר למסלול"],
   },
   addons: {
-    included: ["התוספת שבכרטיס"],
+    /* היה "התוספת שבכרטיס", טקסט תבנית. getPriceTransparencyById שם כאן את
+       שם התוספת עצמה (ראו ADDON_LABEL_TOKEN). WP6 */
+    included: [ADDON_LABEL_TOKEN],
     excluded: ["מסלול בסיס שלא נרכש"],
   },
 };
@@ -610,40 +795,41 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     ],
     glossaryTermSlugs: ["mixing", "pitch-correction"],
   },
-  cover_song: {
-    included: [
-      "הקלטה באולפן או מרחוק (לפי בחירה)",
-      "הנחיה מקצועית לכל אורך הסשן",
-      "תיקון זיופים טבעי ומדויק (לא Auto-Tune רובוטי)",
-      "מיקס מקצועי",
-      "מאסטרינג מוכן לספוטיפיי / וואטסאפ / רדיו",
-      "עריכת סאונד מלאה (ניקוי, איזון, העשרה)",
-      "קובץ סופי MP3 + WAV",
-      "שליחה מהירה בוואטסאפ + מייל",
-      "אפשרות לדוגמה קצרה לפני האישור הסופי",
-      "עד סבב תיקונים אחד כלול",
-      "חוויה נעימה גם למי ששר בפעם הראשונה",
-    ],
+  song_recording: {
+    /* "הקלטה, מיקס ומאסטר" מגיע מ-scope.includes ומופיע ראשון ברשימה */
+    included: ["סשן של שעה באולפן במודיעין", "השיר המוכן אצלכם בסוף הסשן", SONG_PLAYBACK_HELP],
     excluded: [
-      "כתיבת מילים מקוריות",
-      "עיבוד מוזיקלי חדש לגמרי",
-      "קליפ",
-      "משתתפים נוספים",
-      "תיקונים מעבר לסבב אחד",
+      "תיקון זיופים",
+      "קליפ וידאו",
+      "כתיבת מילים או לחן",
+      "עיבוד מוזיקלי חדש",
     ],
-    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction", "wav", "mp3", "autotune"],
+    /* אותו מונחון שהיה לכרטיס "שיר מוכן" שירד (cover_song), כדי שהקישורים
+       למילון לא ירדו עם החבילות (seo-diff 3.10.2026). מוצג במחירון, ב-/packages
+       ומתחת לטופס השיר (SongOfferSection showGlossary). */
+    glossaryTermSlugs: ["mixing", "mastering", "pitch-correction", "autotune", "wav", "mp3"],
   },
-  song_package: {
-    included: ["הקלטה מלאה", "Pitch Correction ידני", "ייעוץ אמנותי", "3 תמונות סטילס"],
-    excluded: ["קליפ ערוך", "כתיבת שיר מלאה", "נגני אולפן"],
+  song_pitch_coaching: {
+    included: ["טכנאי סאונד שמכוון ומנחה בזמן ההקלטה", "תיקון זיופים בשיר"],
+    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)", "סבב תיקונים נוסף"],
+    glossaryTermSlugs: ["pitch-correction"],
   },
-  studio_viral: {
-    included: ["חבילת Pro", "קליפ ביצוע מהאולפן", "קובץ מוכן לרשתות"],
-    excluded: ["צילום חוץ", "יום הפקה נפרד", "כתיבת שיר"],
+  studio_session_clip_edited: {
+    included: ["צילום הסשן באולפן", "עריכה לקליפ מוכן לשיתוף"],
+    excluded: ["צילום חוץ", "יום צילום נפרד"],
   },
-  studio_all_in: {
-    included: ["הפקה מלאה", "קליפ תמונות גדילה", "קובץ מוכן"],
-    excluded: ["צילום צוות ביום האירוע", "אלבום מודפס"],
+  song_pre_session_interview: {
+    included: [
+      `ראיון של ${SONG_INTERVIEW_DURATION} במתחם הפודקאסט בחוץ, לפני הסשן`,
+      "עזרה בהכנת השאלות",
+      "הראיון משולב בקליפ הערוך",
+    ],
+    excluded: ["הקליפ הערוך עצמו (תוספת נפרדת, חובה עם הראיון)", "פרק פודקאסט מלא"],
+  },
+  /* מ-bat-mitzvah-gifts-page.ts (FAQ "מה כולל קליפ בת מצווה?") */
+  bat_mitzvah_clip: {
+    included: ["שאלון סיפור אישי וכתיבת מילים", "הקלטה באולפן וצילום", "שילוב תמונות ילדות וסרטונים מהבית", "עריכה ומיקס עד קובץ מוכן להקרנה ולרשתות"],
+    excluded: ["צילומי חוץ (לפי היקף)", "משתתפים נוספים (לפי מספר)"],
   },
   studio_session_clip: {
     included: ["צילום הסשן באולפן", "קובץ גלם"],
@@ -652,6 +838,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   studio_extra_participant: {
     included: ["הקלטה נוספת", "ערבוב בסיסי"],
     excluded: ["מסלול בסיס", "קליפ", "סבב תיקונים נוסף"],
+  },
+  song_group_participant: {
+    included: ["הקלטת משתתף נוסף באותו סשן", "שילוב בשיר"],
+    excluded: ["הקלטת השיר עצמה (מסלול הבסיס)"],
   },
   studio_extra_revision: {
     included: ["עריכה נוספת מלאה"],
@@ -666,6 +856,26 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     included: ["עד 6 שעות אולפן", "עיבוד", "מיקס", "מאסטר"],
     excluded: ["קליפ וידאו", "קמפיין הפצה", "נגנים או שינויים חריגים שלא תומחרו"],
   },
+  /* S02: בלי הדריסה הזו הכרטיס ירש מהקטגוריה "לא כולל קליפ וידאו" ו"כתיבת
+     מילים או לחן", בדיוק מה שהמוצר כן כולל. התיאור תואם ל-services.ts. */
+  full_production_clip: {
+    included: ["כתיבת השיר", "עיבוד", "מיקס ומאסטר", "צילום ועריכת קליפ וידאו לשיתוף"],
+    excluded: ["יום צילום נוסף או צילום חוץ שלא סוכמו", "נגני אולפן שלא תומחרו", "קמפיין הפצה"],
+  },
+  /* WP6: שירי החברה ירשו מקטגוריית האולפן "לא כולל קליפ וידאו" ו"כתיבת מילים
+     או לחן", בזמן שהם נמכרים ככתיבה (ושיר הפרישה וההימנון גם כקליפ) */
+  corp_song_toast: {
+    included: ["כתיבת שיר הומוריסטי לאירוע", "הקלטה, מיקס ומאסטר"],
+    excluded: ["קליפ וידאו", "הופעה חיה באירוע"],
+  },
+  corp_song_retirement: {
+    included: ["כתיבת השיר", "הקלטה, מיקס ומאסטר", "קליפ לשיר"],
+    excluded: ["יום צילום נוסף שלא סוכם", "הופעה חיה באירוע"],
+  },
+  corp_song_anthem: {
+    included: ["כתיבת השיר", "הקלטה, מיקס ומאסטר", "קליפ למיתוג"],
+    excluded: ["יום צילום נוסף שלא סוכם", "קמפיין הפצה"],
+  },
   podcast_audio: {
     included: ["הקלטה עד שעה באולפן", "עריכה ומיקס", "מסירה לספוטיפיי"],
     excluded: ["וידאו", "משתתפים נוספים מעבר לבסיס", "כתוביות SRT"],
@@ -679,9 +889,14 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["ימי צילום נוספים", "ניהול חודשי שוטף", "מסירה מזורזת אם לא נרכשה"],
   },
   mobile_podcast_at_home: {
-    excluded: ["תוספת אזור/נסיעה", "וידאו אם לא נרכש", "שעות חריגות או פודקאסט רב-משתתפים מורחב"],
+    included: [MOBILE_STUDIO_ARRIVAL_COPY, "בבית או במשרד: הקלטת אודיו לאדם אחד"],
+    excluded: ["תוספת אזור/נסיעה", "כל אדם נוסף: ערוץ הקלטה נוסף, עד 12", "וידאו אם לא נרכש", "שעות חריגות"],
     scopeNote: "מחיר התחלה. המחיר הסופי תלוי במרחק, בהיקף ההקמה ובפורמט.",
     pricingMode: "from",
+  },
+  mobile_extra_channel: {
+    included: ["מיקרופון וערוץ הקלטה לאדם נוסף", "שילוב בהקלטה באותו מפגש"],
+    excluded: ["ההגעה עצמה (אולפן נייד)", "יותר מ-12 אנשים בהקלטה אחת"],
   },
   dj_premium: {
     included: ["DJ מנוסה", "עד 4 שעות תקלוט"],
@@ -732,6 +947,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   noise_removal_segment: {
     included: ["ניקוי רעשי רקע לקטע עד 5 דקות"],
     excluded: ["הקלטה חדשה באולפן", "מיקס ומאסטר מלאים", "קליפ וידאו"],
+  },
+  event_sound_rental: {
+    included: ["2 רמקולי RCF וסאב", "הובלה, הקמה, כיוונון ופירוק", "עד 250 אורחים"],
+    excluded: ["טכנאי לכל האירוע אם לא סוכם", "תאורה", "DJ"],
   },
   dry_hire_day: {
     excluded: ["הובלה", "טכנאי", "ביטוח או הפקדה", "ציוד נוסף מעבר לפריט שנבחר"],
@@ -809,7 +1028,9 @@ export function getPriceTransparencyById(id: PriceItemId): PriceTransparency {
   return {
     included: uniqueLines([
       item.scope?.includes,
-      ...(override.included ?? categoryDraft.included ?? []),
+      ...(override.included ?? categoryDraft.included ?? []).map((line) =>
+        line === ADDON_LABEL_TOKEN ? item.label : line,
+      ),
     ]),
     excluded: uniqueLines([
       item.scope?.excludes,
@@ -833,25 +1054,51 @@ export function vatAmount(exVat: number): number {
   return withVatLocal(exVat) - exVat;
 }
 
-/** שורת מחיר לוואטסאפ: "כרגע: 750 ₪ + מע״מ 135 ₪ = 885 ₪ סופי" */
+/**
+ * שורת מחיר לוואטסאפ: "שיר: ₪750 + מע״מ ₪135 = ₪885 סופי".
+ * בלי "כרגע:" (WP1, ED-08, OE-27, S15): הקידומת הודבקה בכפתורים לתוך "מ-"
+ * ויצרה "מ-כרגע: מ-990". הסדר ex-VAT ואז הסכום הסופי נשאר כאן בכוונה: זו הודעה
+ * שהלקוח שולח לנו, והחשבון המפורש בה הוא מה שהבעלים מאשר בטלפון.
+ */
 export function formatPriceLine(exVat: number, label?: string): string {
   const vat = vatAmount(exVat);
   const total = withVatLocal(exVat);
   const base = label
     ? `${label}: ${formatNisLocal(exVat)}`
     : formatNisLocal(exVat);
-  return `כרגע: ${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
+  return `${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
 }
 
-/** תצוגת "מ-X ₪" כולל מע״מ */
+/** קהל המחיר: צרכן רואה כולל מע״מ קודם, עסק רואה לפני מע״מ קודם (החלטת הבעלים 2.10.2026) */
+export type PriceAudience = "consumer" | "business";
+
+/** תצוגת "מ-X ₪ כולל מע״מ" */
 export function formatFromPriceExVat(exVat: number): string {
-  return `כרגע מ-${withVatLocal(exVat).toLocaleString("he-IL")} ₪`;
+  return `מ-${withVatLocal(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 }
 
-/** תצוגת "מ-X ₪" לפני מע״מ + כולל */
-export function formatFromPriceDual(exVat: number): string {
-  return `כרגע: מ-${exVat.toLocaleString("he-IL")} ₪ + מע״מ = ${withVatLocal(exVat).toLocaleString("he-IL")} ₪`;
+/**
+ * "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)" לצרכן, "מ-500 ₪ + מע״מ (590 ₪ כולל מע״מ)"
+ * לעסקים (/business, /pro). מתחיל תמיד ב-"מ-", ולכן הקוראים לא מוסיפים "מ-"
+ * משלהם. אותו פורמט כמו formatPrice ב-pricing-display.ts (נבדק בבדיקה).
+ */
+export function formatFromPriceDual(
+  exVat: number,
+  audience: PriceAudience = "consumer",
+): string {
+  const ex = exVat.toLocaleString("he-IL");
+  const total = withVatLocal(exVat).toLocaleString("he-IL");
+  return audience === "business"
+    ? `מ-${ex} ₪ + מע״מ (${total} ₪ כולל מע״מ)`
+    : `מ-${total} ₪ כולל מע״מ (${ex} ₪ + מע״מ)`;
 }
+
+/**
+ * החלטת הבעלים ED-04: התקליטן מהצוות (dj_premium), 4 שעות, עד 300 מוזמנים.
+ * כאן ולא במודול נפרד: book-audience-routes נשלח לכל עמוד, והקטלוג כבר במטען
+ * (audit:client-data-weight).
+ */
+export const DJ_TEAM_NOTE = "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים";
 
 export const CATALOG_VAT_RATE = VAT_RATE_LOCAL;
 export { withVatLocal as catalogWithVat };

@@ -14,6 +14,8 @@ import {
 import { absoluteUrl, SITE_URL } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 
 const RELIGIOUS_AUDIENCE_POINTS = [
   {
@@ -132,8 +134,14 @@ export default function GeoCityDjPageContent({
         offers: {
           "@type": "AggregateOffer",
           priceCurrency: "ILS",
-          lowPrice: "5900",
-          highPrice: "9800",
+          /* WP12: כולל מע״מ, מהקטלוג (dj_premium עד dj_yakir_personal) */
+          lowPrice: String(withVat(getExVat("dj_premium"))),
+          highPrice: String(withVat(getExVat("dj_yakir_personal"))),
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "ILS",
+            valueAddedTaxIncluded: true,
+          },
         },
       },
       {
@@ -331,8 +339,6 @@ export default function GeoCityDjPageContent({
             <CallbackLeadForm
               heading="שאלון התאמה קצר"
               description="השאירו פרטים ונחזור אליכם עם ההתאמה הנכונה - יקיר או די ג'יי מהאקדמיה."
-              successHeading="תודה, נחזור אליכם בקרוב"
-              successDescription="פתחנו שיח בוואטסאפ. אפשר לצרף פרטים נוספים על האירוע."
               utmCampaign={city.utm.dj}
               serviceOptions={DJ_FORM_SERVICE_OPTIONS}
               formLabel={`שאלון התאמה לדי ג'יי ${city.nameHePrep}`}

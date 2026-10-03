@@ -1,5 +1,5 @@
 ﻿import { STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, MAX_DISCOUNT_RATE } from "@/lib/data/pricing-catalog";
 
 export type PhotographyAddonSection = "core" | "pre" | "during" | "post";
 
@@ -26,7 +26,16 @@ export type HourPreset = {
 };
 
 export const HOURLY_RATE = STUDIO_ONE_HOUR_NIS;
-export const AI_BUNDLE_DISCOUNT = 500;
+/**
+ * הנחת חבילת AI (שני שירותי AI ומעלה): 8% מסכום שירותי ה-AI, מעוגל למטה.
+ * החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. עד אז 500 ש"ח קבועים,
+ * שהם 28% מהזוג הזול (850 + 950).
+ */
+export function aiBundleDiscountExVat(aiSumExVat: number): number {
+  return Math.floor(aiSumExVat * MAX_DISCOUNT_RATE);
+}
+
+export const AI_BUNDLE_DISCOUNT_PERCENT = Math.round(MAX_DISCOUNT_RATE * 100);
 
 export const HOUR_PRESETS: HourPreset[] = [
   {

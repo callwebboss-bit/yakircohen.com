@@ -1,9 +1,11 @@
-﻿import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Link from "next/link";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
+import SongOfferSection from "@/components/pricing/SongOfferSection";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
@@ -20,9 +22,8 @@ import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   RINGTONE_HERO,
   RINGTONE_PAGE_PATH,
-  RINGTONE_PRICE_NIS,
+  RINGTONE_PRICE_LABEL,
 } from "@/lib/data/funny-ringtone-page";
-import { formatNis } from "@/lib/data/pricing";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import { buildStudioGiftsServiceSchema } from "@/lib/seo/gifts-page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -110,7 +111,7 @@ export default function StudioGiftsPageContent() {
             {SITE_NAME}
           </p>
           <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-            שובר מתנה מקורי מהאולפן - מסירה תוך 48 שעות
+            שובר מתנה מקורי מהאולפן - נשלח אליכם מיד
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             שובר מתנה לכל שירות באתר - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ
@@ -133,7 +134,7 @@ export default function StudioGiftsPageContent() {
           </nav>
           <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
             <li>✓ כל שירות באולפן - לא סכום קבוע</li>
-            <li>✓ מסירה תוך 48 שעות - גם דיגיטלית לכל הארץ</li>
+            <li>✓ {TIME_CLAIMS.voucherInstant} - דיגיטלית לכל הארץ</li>
             <li>✓ המקבל/ת קובע/ת מתי לממש - תוקף שנה מיום הרכישה</li>
           </ul>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -143,7 +144,7 @@ export default function StudioGiftsPageContent() {
               rel="noopener noreferrer"
               className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
             >
-              הזמינו שובר - מסירה תוך 48 שעות
+              הזמינו שובר - נשלח מיד
             </a>
             <Link
               href="/voucher"
@@ -223,6 +224,16 @@ export default function StudioGiftsPageContent() {
         </div>
       </section>
 
+      {/* שיר במתנה: אותו טופס כמו בעמוד השיר, עם כותרת והודעה של מתנה */}
+      <div className="border-b border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
+        <SongOfferSection
+          source="/studio/recording-song-modiin/gifts"
+          giftMode
+          utmCampaign="gifts_song_offer"
+          intro="מקליטים שיר כמתנה: בוחרים מה נכנס, ושולחים לנו את הבחירה."
+        />
+      </div>
+
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
@@ -257,7 +268,7 @@ export default function StudioGiftsPageContent() {
           <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
             <div className="flex flex-col justify-center p-6 sm:p-8">
               <span className="inline-flex w-fit rounded-full bg-brand-red px-3 py-0.5 text-xs font-bold text-white">
-                {formatNis(RINGTONE_PRICE_NIS)} מבצע
+                {RINGTONE_PRICE_LABEL}
               </span>
               <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">
                 רינגטון מצחיק - מתנה לכיף
@@ -431,7 +442,7 @@ export default function StudioGiftsPageContent() {
               rel="noopener noreferrer"
               className="mt-5 inline-flex rounded-xl bg-brand-red px-6 py-3 text-sm font-semibold text-white hover:bg-brand-red-light"
             >
-              הזמינו שובר מתנה - תוך 48 שעות
+              הזמינו שובר מתנה - נשלח מיד
             </a>
           </div>
         </div>
@@ -450,12 +461,12 @@ export default function StudioGiftsPageContent() {
       <PageBottomCta
         layout="section"
         variant="whatsapp"
-        heading="מוכנים להפתיע? שובר מתנה מקורי - מסירה תוך 48 שעות"
-        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. מסירה דיגיטלית לכל הארץ, תוקף שנה מיום הרכישה."
+        heading="מוכנים להפתיע? שובר מתנה מקורי - נשלח אליכם מיד"
+        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו שנה מיום הרכישה."
         headingId="studio-gifts-cta-heading"
         whatsappHref={MAIN_CTA}
-        whatsappLabel="הזמינו שובר תוך 48 שעות"
-        whatsappAriaLabel="הזמנת שובר מתנה - מסירה תוך 48 שעות"
+        whatsappLabel="הזמינו שובר, נשלח מיד"
+        whatsappAriaLabel="הזמנת שובר מתנה - השובר נשלח מיד"
         showBookContact={false}
       >
         <div className="flex flex-wrap justify-center gap-4">

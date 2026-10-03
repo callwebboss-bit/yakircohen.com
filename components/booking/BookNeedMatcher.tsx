@@ -303,7 +303,7 @@ function MatcherResultCard({
         </div>
       ) : null}
 
-      <PriceSocialProof className="mt-4" testimonialIndex={item.testimonialIndex} />
+      <PriceSocialProof className="mt-4" testimonialId={item.testimonialId} />
 
       <div className="mt-4 grid gap-2 sm:grid-cols-2">
         {item.ctaKind === "book" ? (

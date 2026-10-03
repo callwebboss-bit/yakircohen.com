@@ -25,9 +25,11 @@ function resolveTierWithEditing(tier: PricingTier) {
 
 export type StudioPricingGridProps = {
   tiers: readonly PricingTier[];
+  /** "withVat" בעמוד שמציג גם את טופס השיר, שמוביל בכולל מע״מ */
+  priceLead?: "exVat" | "withVat";
 };
 
-export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
+export default function StudioPricingGrid({ tiers, priceLead = "withVat" }: StudioPricingGridProps) {
   return (
     <Container>
       <div className="isolation-booth-cards grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -86,6 +88,7 @@ export default function StudioPricingGrid({ tiers }: StudioPricingGridProps) {
                     suitedFor={resolveTierSuitedFor(tier)}
                     withEditing={resolveTierWithEditing(tier)}
                     catalogId={tier.catalogId}
+                    lead={priceLead}
                   />
                 </div>
               ) : (

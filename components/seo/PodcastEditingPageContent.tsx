@@ -7,6 +7,7 @@ import PodcastZoomProofSection from "@/components/seo/PodcastZoomProofSection";
 import SoundProofTable from "@/components/seo/SoundProofTable";
 import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import { formatFromPriceExVat, getExVat } from "@/lib/data/pricing-catalog";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
@@ -41,13 +42,13 @@ export default function PodcastEditingPageContent() {
     <ServicePageLayout
       {...heroProps}
       title="עריכת פודקאסט מלאה"
-      subtitle="עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. מ-750 ₪ לשעת חומר לפני מע״מ."
+      subtitle={`עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. ${PODCAST_EDITING_PRICE_LABEL} (${PODCAST_EDITING_PRICE_NOTE}).`}
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
       corporateShareLabel="שירות עריכת פודקאסט"
       bookSlug="podcast/podcast-editing"
-      ctaLabel="עריכת פודקאסט מ-750 ₪"
+      ctaLabel={`עריכת פודקאסט ${formatFromPriceExVat(getExVat("podcast_editing_hour"))}`}
       scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} - ${PODCAST_EDITING_PRICE_NOTE}`}
       valueFrame="כבר יש הקלטה - בלי סשן אולפן חדש"
       pagePath="/podcast/podcast-editing"

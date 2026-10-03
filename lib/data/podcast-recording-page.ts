@@ -14,7 +14,7 @@ export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
   "סאונד אולפני נקי, Shure, Rode",
   "3 חללי הקלטה מעוצבים",
   "עריכה מקצועית מלאה",
-  `קבצים ${TIME_CLAIMS.podcastDelivery24h}`,
+  TIME_CLAIMS.podcastSameSecond,
   "מוכן להעלאה לספוטיפיי ויוטיוב",
 ] as const;
 
@@ -104,7 +104,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     items: [
       "וידאו MP4, 1080p או 4K (לפי בקשה) ליוטיוב",
       "אודיו MP3 מנורמל, ספוטיפיי, Apple Podcasts ועוד",
-      `הכל ${TIME_CLAIMS.podcastDelivery24h} עבודה`,
+      "הכל אצלכם באותה שנייה שמסיימים להקליט",
     ],
   },
 ] as const;
@@ -137,14 +137,14 @@ export const PODCAST_RECORDING_WORKFLOW: readonly {
   {
     step: "5",
     title: "פרק מוכן",
-    body: `${TIME_CLAIMS.podcastDelivery24h}, קבצים מוכנים להעלאה.`,
+    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה.`,
   },
 ] as const;
 
 export const PODCAST_RECORDING_WHY_US: readonly string[] = [
   "חוסכים זמן ואנרגיה, בלי ללמוד, לקנות ציוד או לערוך",
   "תוצאה מקצועית, נראה ונשמע כמו הפודקאסטים הגדולים",
-  `מהיר, הפרק ${TIME_CLAIMS.podcastDelivery24h}`,
+  "מהיר, הפרק אצלכם באותה שנייה שמסיימים להקליט",
   "נוח, מגיעים, מדברים, יוצאים",
   "משתלם, פחות מקניית ציוד ועשייה עצמית",
 ] as const;

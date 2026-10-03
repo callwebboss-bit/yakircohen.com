@@ -1,4 +1,5 @@
 import { RINGTONE_PRICE_NIS } from "@/lib/data/funny-ringtone-page";
+import { withVat } from "@/lib/data/pricing";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 
 /* היה כאן LocalBusiness אנונימי עם כתובת חלקית. עכשיו הפניה לצומת הקנוני,
@@ -31,8 +32,14 @@ export function buildFunnyRingtoneServiceSchema() {
     areaServed: GIFTS_AREA_SERVED,
     offers: {
       "@type": "Offer",
-      price: String(RINGTONE_PRICE_NIS),
+      price: String(withVat(RINGTONE_PRICE_NIS)),
       priceCurrency: "ILS",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: String(RINGTONE_PRICE_NIS),
+        priceCurrency: "ILS",
+        valueAddedTaxIncluded: false,
+      },
       availability: "https://schema.org/InStock",
     },
   };

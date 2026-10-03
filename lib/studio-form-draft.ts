@@ -89,15 +89,30 @@ const RECORDING_TYPES = [
 
 const ATMOSPHERE_IDS = ["intimate", "party", "focused"] as const satisfies readonly AtmosphereId[];
 
+/* טיוטה שמורה עם חבילת שיר שירדה (classic, pro, viral, all_in) חוזרת לברירת
+   המחדל, כי pickEnum לא מכיר אותה */
 const PACKAGE_IDS = [
   "remote",
-  "classic",
-  "pro",
-  "viral",
-  "all_in",
+  "song",
   "consultation_phone",
   "consultation_inperson",
 ] as const satisfies readonly (StudioPackageId | ConsultationPackageId)[];
+
+/* תוספת שירדה (express) לא נטענת מטיוטה ישנה */
+const UPGRADE_IDS = [
+  "bts",
+  "studio_session_video",
+  "performance_clip",
+  "podcast_interview",
+  "photo_pack",
+  "pitch_correction",
+  "ai_playback",
+  "vocal_coaching",
+  "family_duet",
+  "songwriting",
+  "add_clip",
+] as const satisfies readonly StudioUpgradeId[];
+const UPGRADE_ID_SET = new Set<string>(UPGRADE_IDS);
 
 const MOBILE_GEOS = ["center", "north_south", "eilat"] as const satisfies readonly MobileGeoId[];
 
@@ -151,7 +166,7 @@ export function parseStudioFormDraft(
     location,
     mobileGeo: pickEnum(raw.mobileGeo, MOBILE_GEOS) ?? initial.mobileGeo,
     selectedUpgrades: isStringArray(raw.selectedUpgrades)
-      ? (raw.selectedUpgrades as StudioUpgradeId[])
+      ? (raw.selectedUpgrades.filter((id) => UPGRADE_ID_SET.has(id)) as StudioUpgradeId[])
       : [],
     surpriseGift: pickBoolean(raw.surpriseGift, initial.surpriseGift),
     giftRecipientName: pickString(raw.giftRecipientName),

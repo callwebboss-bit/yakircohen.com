@@ -19,11 +19,17 @@ import { cn } from "@/lib/utils";
 type StudioSessionClipOfferProps = {
   className?: string;
   headingLevel?: "h2" | "h3";
+  /**
+   * רק הסרטון, בלי מחירון ובלי כפתורים. בעמוד הקלטת השיר הקליפ נבחר כתוספת
+   * בטופס, ומחירון שני ליד הטופס היה מתחרה בו.
+   */
+  exampleOnly?: boolean;
 };
 
 export default function StudioSessionClipOffer({
   className,
   headingLevel = "h2",
+  exampleOnly = false,
 }: StudioSessionClipOfferProps) {
   const prices = getStudioSessionClipPrices();
   const Heading = headingLevel;
@@ -56,14 +62,16 @@ export default function StudioSessionClipOffer({
         />
       </div>
 
+      {exampleOnly ? null : (
+      <>
       <ul className="mt-4 space-y-1.5 text-sm text-foreground">
         <li>
-          בלי עריכה: {prices.rawExVat.toLocaleString("he-IL")} ₪ + מע״מ ={" "}
-          {catalogWithVat(prices.rawExVat).toLocaleString("he-IL")} ₪
+          בלי עריכה: {catalogWithVat(prices.rawExVat).toLocaleString("he-IL")} ₪ כולל מע״מ (
+          {prices.rawExVat.toLocaleString("he-IL")} ₪ + מע״מ)
         </li>
         <li>
-          {prices.editedLabel}: {prices.editedExVat.toLocaleString("he-IL")} ₪ + מע״מ ={" "}
-          {catalogWithVat(prices.editedExVat).toLocaleString("he-IL")} ₪
+          {prices.editedLabel}: {catalogWithVat(prices.editedExVat).toLocaleString("he-IL")} ₪ כולל מע״מ (
+          {prices.editedExVat.toLocaleString("he-IL")} ₪ + מע״מ)
         </li>
       </ul>
 
@@ -83,6 +91,8 @@ export default function StudioSessionClipOffer({
           {CTA_LABELS.getQuote}
         </a>
       </div>
+      </>
+      )}
     </section>
   );
 }

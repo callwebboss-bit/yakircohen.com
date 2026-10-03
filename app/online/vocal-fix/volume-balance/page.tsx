@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import OnlineVolumeBalancePageContent from "@/components/seo/OnlineVolumeBalancePageContent";
 import { constructMetadata } from "@/lib/metadata";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 
 export const metadata: Metadata = constructMetadata({
@@ -21,7 +23,7 @@ export const metadata: Metadata = constructMetadata({
 const FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה שירות לאיזון ווליום?",
-    answer: "עלות השירות לאיזון עוצמות קול לקטע של עד 5 דקות היא 500 ₪ לפני מע\"מ (590 ₪ כולל מע\"מ).",
+    answer: `עלות השירות לאיזון עוצמות קול לקטע של עד 5 דקות היא ${getExVat("volume_balance_full").toLocaleString("he-IL")} ₪ לפני מע"מ (${withVat(getExVat("volume_balance_full")).toLocaleString("he-IL")} ₪ כולל מע"מ).`,
   },
   {
     question: "תוך כמה זמן אקבל את הקובץ המאוזן?",

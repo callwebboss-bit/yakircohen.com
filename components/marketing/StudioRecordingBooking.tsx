@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Lightbulb, TrendingUp } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import InfoTip from "@/components/ui/InfoTip";
 import BookingApprovals from "@/components/booking/BookingApprovals";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
@@ -41,7 +41,7 @@ import {
   FILTER_QUESTIONS,
   type FilterAnswers,
 } from "@/lib/data/filter-questions";
-import { sendBookingWaCta } from "@/lib/data/conversion-copy";
+import { DATE_HOLD_TERMS, sendBookingWaCta } from "@/lib/data/conversion-copy";
 import {
   calcMobileStudioExVat,
   MOBILE_GEO_FEES,
@@ -69,7 +69,11 @@ import {
   parseParticipantsFromText,
   STUDIO_RECORDING_MAX,
   STUDIO_SAVINGS_TIP_THRESHOLD,
+  studioParticipantsBreakdown,
+  studioPerPersonPriceLine,
 } from "@/lib/studio-participant-pricing";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
+import { mobileChannelPriceLine } from "@/lib/data/mobile-studio-booking";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
@@ -114,6 +118,7 @@ import {
   type StudioBookingPath,
   type StudioPackageId,
   type StudioUpgradeId,
+  isSongRecordingType,
 } from "@/lib/data/studio-recording-booking";
 import { buildStudioUpgradeItems } from "@/lib/data/studio-upgrade-display";
 import {
@@ -129,6 +134,7 @@ import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
+import SongOfferBookPanel from "@/components/pricing/SongOfferBookPanel";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
@@ -136,7 +142,6 @@ import { WizardCroShell } from "@/components/booking/cro/WizardCroShell";
 import {
   StudioBusinessFields,
   StudioCostSplitBlock,
-  StudioDecoyVipCard,
   StudioFitMeter,
   StudioLastMinuteBtsOffer,
   StudioParkingBanner,
@@ -147,9 +152,9 @@ import {
   StudioUpgradeQuickPills,
   StudioWelcomePerkPills,
   WizardInlinePriceBar,
-  WizardStep3HoldTimer,
   WizardStepTransitionOverlay,
 } from "@/components/booking/StudioWizardCroBlocks";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { useStudioGhostLead } from "@/hooks/useStudioGhostLead";
 import { useBookExitIntent } from "@/hooks/useBookExitIntent";
 import { useWizardUserIdle } from "@/hooks/useWizardUserIdle";
@@ -167,16 +172,11 @@ import {
   BOOKING_CTA,
   BOOKING_FAMILY_REPLY_LABELS,
 } from "@/lib/data/booking-shared";
-import {
-  saveStudioPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
-import { ensureHoldDeadline } from "@/lib/book-wizard-cro/urgency";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { trackBookWizardFunnel } from "@/lib/analytics/book-wizard-funnel";
 import { calcUpgradesTotalExVat } from "@/lib/studio-upgrade-pricing";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import PricingCatalogBanner from "@/components/pricing/PricingCatalogBanner";
 import CatalogOfferPanel from "@/components/pricing/CatalogOfferPanel";
@@ -219,7 +219,7 @@ function applyRecordingTypeToForm(
   return {
     ...prev,
     recordingType,
-    packageId: flow.defaultPackageId ?? (prev.packageId || "classic"),
+    packageId: flow.defaultPackageId ?? (prev.packageId || "song"),
     location: flow.hideLocation ? "modiin" : prev.location,
     mobileGeo: flow.hideLocation ? "" : prev.mobileGeo,
   };
@@ -373,11 +373,6 @@ export default function StudioRecordingBooking({
     null,
   );
   const prevStepRef = useRef(0);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "studio",
-    BOOK_WIZARD_COPY.priceHoldBadge,
-  );
   const [addonDrawerOpen, setAddonDrawerOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
 
@@ -401,6 +396,10 @@ export default function StudioRecordingBooking({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    isRetrying,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "studio-recording",
     formId: "studio_recording_booking",
@@ -471,6 +470,9 @@ export default function StudioRecordingBooking({
   ]);
 
   const isConsultation = form.recordingType === "song_promotion_consultation";
+  /* הקלטת שיר עוברת לטופס ההצעה (בסיס ותוספות) במקום שלבי החבילות. האשף
+     נשאר לברכות, להקלטה מרחוק ולקריינות (2.10.2026) */
+  const isSongRecording = isSongRecordingType(form.recordingType);
   const bookingPath: StudioBookingPath = getStudioBookingPath(form.recordingType);
   const showCelebrantField = isEventCelebrantRecordingType(form.recordingType);
   /** ברכת כלה = מקליטת אחת בלבד - counter מסיח ומבלבל */
@@ -515,10 +517,10 @@ export default function StudioRecordingBooking({
       serviceId: "recording",
     });
 
-  const classicFallbackPrice =
-    STUDIO_RECORDING_PACKAGES.find((p) => p.id === "classic")?.price ?? 990;
+  /* בלי חבילה עדיין: הערכה לפי הקלטת השיר מהקטלוג, בלי מספר קשיח */
+  const songFallbackPrice = getExVat("song_recording");
   const estimateSubtotal =
-    (activePackage?.price ?? classicFallbackPrice) + upgradesTotal + mobileExVat;
+    (activePackage?.price ?? songFallbackPrice) + upgradesTotal + mobileExVat;
 
   const groupScenariosForDisplay =
     !isConsultation && recorderCount >= 2 && groupPricingEligible
@@ -545,6 +547,17 @@ export default function StudioRecordingBooking({
           serviceId: "recording",
         })
       : null;
+
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: הפירוט לפי מקליט ליד הבורר ובהודעה */
+  const participantBreakdown = isConsultation
+    ? null
+    : studioParticipantsBreakdown({
+        baseExVat: activePackage?.price ?? songFallbackPrice,
+        recorderCount,
+        packageId: form.packageId || null,
+        recordingType: form.recordingType,
+        vatRate: VAT_RATE,
+      });
 
   const resolvedGroupScenario =
     form.scenarioChoice === "pairs"
@@ -710,14 +723,6 @@ export default function StudioRecordingBooking({
     [patchForm],
   );
 
-  const allInPrice = STUDIO_RECORDING_PACKAGES.find((p) => p.id === "all_in")?.price ?? 2380;
-  const autoUpgradeThreshold = allInPrice * 0.85;
-  const showAutoUpgrade =
-    step === 1 &&
-    form.packageId !== "all_in" &&
-    !isConsultation &&
-    baseSubtotal >= autoUpgradeThreshold;
-
   useEffect(() => {
     setStepBlockers([]);
   }, [step]);
@@ -826,6 +831,17 @@ export default function StudioRecordingBooking({
     ...(adultsCount > 0 ? [{ label: "מבוגרים", value: String(adultsCount) }] : []),
     ...(childrenCount > 0 ? [{ label: "ילדים", value: String(childrenCount) }] : []),
     ...(recorderCount > 0 ? [{ label: "סה״כ מקליטים", value: String(recorderCount) }] : []),
+    ...(participantBreakdown
+      ? [
+          {
+            label: "פירוט לפי משתתף",
+            value: `${participantBreakdown.line}. ${EXTRA_PERSON_COST_NOTE}`,
+          },
+        ]
+      : []),
+    ...(form.location === "mobile" && recorderCount > 1
+      ? [{ label: "אולפן נייד", value: mobileChannelPriceLine() }]
+      : []),
     ...(form.notes || form.customerNeed
       ? [
           {
@@ -860,7 +876,7 @@ export default function StudioRecordingBooking({
   ];
 
   const livePriceReport =
-    total <= 0 || step > 2
+    total <= 0 || step > 2 || isSongRecording
       ? null
       : {
           totalExVat: total,
@@ -869,7 +885,7 @@ export default function StudioRecordingBooking({
         };
   useReportBookWizardLivePrice(livePriceReport);
 
-  const escapeWaHref = buildWizardEscapeHref({
+  const escapeLead = buildWizardEscapeLead({
     category: "studio",
     serviceLabel: STUDIO_CRO_CONFIG.serviceLabel,
     formId: STUDIO_CRO_CONFIG.formId,
@@ -880,6 +896,7 @@ export default function StudioRecordingBooking({
     contactPhone: form.phone,
     ycStep: step + 1,
   });
+  const escapeWaHref = escapeLead.href;
 
   const consultHref = buildConsultWhatsAppHref(
     summaryLines,
@@ -906,6 +923,9 @@ export default function StudioRecordingBooking({
     phone: form.phone,
     subject: "טיוטת הזמנת אולפן - שלב סגירה",
     body: summaryLines.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -1023,7 +1043,6 @@ export default function StudioRecordingBooking({
 
   const completeStep3Transition = useCallback(() => {
     setStep3Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("studio"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -1037,6 +1056,30 @@ export default function StudioRecordingBooking({
     });
     setStepBlockers([]);
     setStep3Transition(true);
+  };
+
+  /* הראיון משולב בקליפ הערוך (2.10.2026): בחירת הראיון מסמנת גם את הקליפ,
+     והסרת הקליפ מסירה גם את הראיון. שתי הבחירות גלויות בסיכום המחיר. */
+  const toggleStudioUpgrade = (id: string) => {
+    if (id === "podcast_interview" && !selectedUpgradeSet.has("performance_clip")) {
+      patchForm({
+        selectedUpgrades: [
+          ...form.selectedUpgrades.filter((u) => u !== "podcast_interview"),
+          "performance_clip",
+          "podcast_interview",
+        ],
+      });
+      return;
+    }
+    if (id === "performance_clip" && selectedUpgradeSet.has("performance_clip")) {
+      patchForm({
+        selectedUpgrades: form.selectedUpgrades.filter(
+          (u) => u !== "performance_clip" && u !== "podcast_interview",
+        ),
+      });
+      return;
+    }
+    toggleUpgrade(id);
   };
 
   const handleLastMinuteBtsChange = (checked: boolean) => {
@@ -1063,13 +1106,6 @@ export default function StudioRecordingBooking({
   const showCroOverlays = !isSubmitted && step < 2;
 
   const handleExitIntent = () => {
-    if (activePackage && total > 0) {
-      saveStudioPriceHold({
-        packageLabel: activePackage.name,
-        totalExVat: total,
-      });
-      setPriceHoldLabel(BOOK_WIZARD_COPY.priceHoldBadge);
-    }
     setExitIntentOpen(true);
   };
 
@@ -1224,11 +1260,14 @@ export default function StudioRecordingBooking({
   const today = new Date().toISOString().split("T")[0];
   const stepAnnouncement = `שלב ${step + 1} מתוך ${STEPS.length}: ${STEPS[step]}`;
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="studio"
         routeId={routeId ?? (initialGiftMode ? "family-gifts" : null)}
         recordingType={form.recordingType || null}
@@ -1280,7 +1319,7 @@ export default function StudioRecordingBooking({
       ) : null}
 
       {showCroOverlays ? (
-        <WizardUrgencyHint priceHoldLabel={priceHoldLabel} className="-mt-6" />
+        <WizardUrgencyHint className="-mt-6" />
       ) : null}
 
       <p className="sr-only" aria-live="polite">
@@ -1421,6 +1460,10 @@ export default function StudioRecordingBooking({
               </div>
             </div>
 
+            {isSongRecording ? (
+              <SongOfferBookPanel giftMode={initialGiftMode} />
+            ) : (
+            <>
             {form.recordingType ? (
               <BookingSelectionConfirm
                 title={`נבחר: ${recordingLabel}`}
@@ -1504,6 +1547,25 @@ export default function StudioRecordingBooking({
                   <p className="mb-3 text-xs text-muted-foreground">
                     מבוגר וילד -- אותו מחיר. עוזר לנו להכין הצעה מדויקת
                   </p>
+                  <div className="mb-3 rounded-lg border border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-3 py-2">
+                    <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+                    <p className="mt-1 text-sm text-foreground">
+                      {studioPerPersonPriceLine(form.packageId || null, VAT_RATE)}
+                    </p>
+                    {form.location === "mobile" ? (
+                      <p className="mt-1 text-sm text-foreground">
+                        באולפן הנייד: {mobileChannelPriceLine()}.
+                      </p>
+                    ) : null}
+                    {participantBreakdown ? (
+                      <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
+                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {participantBreakdown.exVat}
+                        </span>
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <ParticipantCounter
@@ -1526,8 +1588,8 @@ export default function StudioRecordingBooking({
                     </p>
                     <p className="mt-1 text-foreground">
                       {getClientScenarioShortTitle("pairs")}:{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} לפני מע״מ -{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.withVat)} סופי
+                      {formatNis(groupScenariosForDisplay.recommended.withVat)} כולל מע״מ (
+                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} + מע״מ)
                     </p>
                     {isMotzash ? (
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -1666,13 +1728,20 @@ export default function StudioRecordingBooking({
               nextLabel={BOOK_WIZARD_COPY.nextStep}
               showBack={false}
             />
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
+            </>
+            )}
           </section>
         </BookingStepPanel>
       )}
 
+      {/* טיוטה ששמרה שלב מתקדם עם סוג שיר: מציגים את הטופס ולא מסך ריק */}
+      {step > 0 && isSongRecording ? (
+        <SongOfferBookPanel giftMode={initialGiftMode} />
+      ) : null}
+
       {/* Step 1: package selection */}
-      {step === 1 && (
+      {step === 1 && !isSongRecording && (
         <BookingStepPanel stepKey={1} stepLabel={stepAnnouncement}>
           <section className={bookSectionClass} aria-labelledby="book-step-heading-1">
             <header>
@@ -1692,7 +1761,7 @@ export default function StudioRecordingBooking({
                         "אפשר לשנות מסלול לפני השליחה",
                       ]
                     : [
-                        "שיר מוכן כולל מיקס, מאסטר ותיקון זיופים. הקלטה מהבית - בלי תיקון זיופים",
+                        "הקלטת שיר כוללת הקלטה, מיקס ומאסטר. תיקון זיופים בתוספת, גם בהקלטה מהבית",
                         "המחיר הוא על התוצאה הסופית - לא על זמן באולפן",
                         "תוספות אופציונליות מופיעות מתחת לבחירה",
                       ]
@@ -1728,7 +1797,6 @@ export default function StudioRecordingBooking({
                     badge={pkg.badge}
                     featured={"featured" in pkg ? pkg.featured : undefined}
                     featuredLabel="הכי מומלץ - שגר ושכח"
-                    savings={"savings" in pkg ? pkg.savings : undefined}
                     footer={
                       <div className="flex items-center justify-between">
                         <PriceWithVat amountExVat={pkg.price} size="md" />
@@ -1737,7 +1805,6 @@ export default function StudioRecordingBooking({
                   />
                 );
               })}
-              {!isConsultation ? <StudioDecoyVipCard waHref={escapeWaHref} /> : null}
             </div>
 
             {!isConsultation && form.packageId ? (
@@ -1748,7 +1815,7 @@ export default function StudioRecordingBooking({
               <>
                 <BookingSelectionConfirm
                   title={`מסלול נבחר: ${activePackage.name}`}
-                  detail={`${activePackage.price.toLocaleString("he-IL")} ₪ לפני מע״מ - לחצו המשך לפרטים ואישור`}
+                  detail={`${formatPrice(activePackage.price).inline} - לחצו המשך לפרטים ואישור`}
                 />
                 {"catalogId" in activePackage ? (
                   <CatalogOfferPanel
@@ -1770,7 +1837,7 @@ export default function StudioRecordingBooking({
               <StudioUpgradeQuickPills
                 allowedIds={pathUpgradeIds}
                 selected={selectedUpgradeSet}
-                onToggle={toggleUpgrade}
+                onToggle={toggleStudioUpgrade}
               />
             )}
 
@@ -1781,7 +1848,7 @@ export default function StudioRecordingBooking({
                   <BookUpsellSection
                     items={upgradeItems}
                     selected={selectedUpgradeSet}
-                    onToggle={toggleUpgrade}
+                    onToggle={toggleStudioUpgrade}
                   />
                 ) : null}
               </>
@@ -1814,29 +1881,6 @@ export default function StudioRecordingBooking({
               />
             ) : null}
 
-            {showAutoUpgrade ? (
-              <div className="rounded-xl border border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] px-4 py-4 space-y-2">
-                <div className="flex items-start gap-2">
-                  <TrendingUp className="mt-0.5 size-4 shrink-0 text-[var(--service-accent,#d42b2b)]" aria-hidden="true" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">
-                      עם מה שבחרתם, חבילת All-In כבר משתלמת יותר - הכל כלול בלי תוספות נפרדות.
-                    </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      שווה לשדרג ולקבל את החבילה המלאה במחיר טוב יותר.
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => patchForm({ packageId: "all_in" })}
-                  className="min-h-11 rounded-lg bg-[var(--service-accent,#d42b2b)] px-4 py-2 text-sm font-semibold text-white transition-opacity duration-fast ease-luxury hover:opacity-90"
-                >
-                  שדרג לחבילה המלאה ({allInPrice.toLocaleString("he-IL")} ₪ לפני מע״מ)
-                </button>
-              </div>
-            ) : null}
-
             <BookOptionalAddonsButton
               count={catalogAddonItems.length}
               onClick={() => setAddonDrawerOpen(true)}
@@ -1856,18 +1900,15 @@ export default function StudioRecordingBooking({
               onNext={attemptAdvanceFromStep1}
               nextLabel={BOOK_WIZARD_COPY.nextStep}
             />
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           </section>
         </BookingStepPanel>
       )}
 
       {/* Step 2: summary + contact form (closing) */}
-      {step === 2 && (
+      {step === 2 && !isSongRecording && (
         <BookingStepPanel stepKey={2} stepLabel={stepAnnouncement}>
           <section className={cn("mx-auto max-w-lg", bookSectionClass)}>
-            {step3HoldDeadline ? (
-              <WizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-            ) : null}
             <div className="rounded-2xl bg-surface p-5">
               <h2
                 id="book-step-heading-2"
@@ -2111,7 +2152,7 @@ export default function StudioRecordingBooking({
                       : ` - ~${groupMsgCtx.pricePerPersonPairs} ₪ לאדם (כולל מע״מ)`}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    מקדמה לשריון: {groupMsgCtx.depositTotal} ₪ ({groupMsgCtx.depositPerPerson} ₪ לאדם)
+                    {DATE_HOLD_TERMS}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -2160,9 +2201,14 @@ export default function StudioRecordingBooking({
               ) : null}
 
               <BookingSummaryActions
-                disabled={!form.termsAccepted}
+                disabled={!form.termsAccepted || wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
-                socialProof="רוב הלקוחות מקבלים את הקובץ הסופי תוך 5-7 ימי עבודה"
+                socialProof={
+                  form.packageId === "song"
+                    ? "השיר אצלכם בסוף הסשן"
+                    : "הקובץ הערוך אצלכם בדרך כלל תוך 24 עד 48 שעות"
+                }
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(total)),
                   onClick: () => onSubmitClick("continue_chat"),
@@ -2190,7 +2236,7 @@ export default function StudioRecordingBooking({
       )}
 
       {/* Sticky price bar - step 2 only */}
-      {step === 2 && activePackage && (
+      {step === 2 && activePackage && !isSongRecording && (
         <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)] sm:hidden">
           <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="min-w-0">

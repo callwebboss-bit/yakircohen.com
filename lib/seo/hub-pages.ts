@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 import type { ServiceEntity } from "@/lib/data/services";
 import { constructMetadata } from "@/lib/metadata";
 import {
@@ -21,7 +22,8 @@ export const PODCAST_HUB_SEO: HubPageSeo = {
   slug: "podcast",
   title: "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה",
   description:
-    "אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, מיקרופוני Shure & Rode, פרק בדרך כלל מוכן לספוטיפיי תוך 24 שעות מ-750 ₪.",
+    /* WP3: היה "מ-750 ₪", מחיר חצי שעה גלם בלי עריכה, בתיאור שמבטיח פרק מוכן */
+    `אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט. פרק ערוך מ-${withVat(getExVat("podcast_audio")).toLocaleString("he-IL")} ₪ כולל מע״מ.`,
   keywords: [
     "אולפן פודקאסט",
     "תוכנית שמע",
@@ -71,7 +73,7 @@ export const PRICING_HUB_SEO: HubPageSeo = {
   slug: "pricing",
   title: "מחירון שקוף - אולפן ופודקאסט מודיעין",
   description:
-    `מחירון שקוף ממודיעין. ברכה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪, שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪, פודקאסט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.`,
+    `מחירון שקוף ממודיעין. ברכה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪, הקלטת שיר ${getExVat("song_recording").toLocaleString("he-IL")} ₪, פודקאסט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪, אטרקציות לאירועים - לפני ואחרי מע״מ, עם הזמנה מקוונת.`,
   keywords: [
     "מחירון אולפן",
     "מחיר הקלטה באולפן",
@@ -81,7 +83,7 @@ export const PRICING_HUB_SEO: HubPageSeo = {
     "כמה עולה שעת אולפן",
     "מחיר הקלטת שיר",
     "מחיר מצגת תמונות",
-    "מחירים לפני מע״מ",
+    "מחירים כולל מע״מ",
     "הזמנת אולפן מקוון",
   ],
   hub: "pricing",

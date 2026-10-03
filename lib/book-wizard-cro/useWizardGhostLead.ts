@@ -54,13 +54,17 @@ export function useWizardGhostLead(opts: {
     const timer = window.setTimeout(() => {
       if (sentRef.current) return;
       const phone = validation.normalizedPhone ?? opts.phone;
-      void notifyLeadByEmailAsync({
-        formId: opts.formId,
-        subject: opts.subject,
-        body: `${opts.body}\n\n[partial: שלב סגירה - לא נשלח לוואטסאפ]`,
-        name: opts.name,
-        phone,
-      })
+      /* track:false: ליד חלקי לא נספר ב-GA4 כ-generate_lead */
+      void notifyLeadByEmailAsync(
+        {
+          formId: opts.formId,
+          subject: opts.subject,
+          body: `${opts.body}\n\n[partial: שלב סגירה - לא נשלח לוואטסאפ]`,
+          name: opts.name,
+          phone,
+        },
+        { track: false },
+      )
         .then(() => {
           sentRef.current = true;
           try {

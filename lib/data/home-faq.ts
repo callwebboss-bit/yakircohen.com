@@ -5,6 +5,7 @@
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import {
   DJ_HOW_TO_KNOW_FAQ,
   RECORDING_SONG_STUDIO_PRICE_FAQ,
@@ -55,13 +56,13 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
   {
     id: "pricing",
     question: "כמה עולה הקלטה או אירוע?",
-    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: ", "")}. פודקאסט פיילוט מ-${getExVat("podcast_pilot").toLocaleString("he-IL")} ₪ + מע"מ. בהזמנה מקוונת רואים מחיר סופי מיד.`,
+    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording"))}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. בהזמנה מקוונת רואים מחיר סופי מיד.`,
   },
   {
     id: "delivery-time",
     question: "תוך כמה זמן מקבלים קובץ מוכן?",
     answerPlain:
-      "הקלטת ברכה פשוטה: מוכן תוך 24-48 שעות. שיר מלא עם עריכה: עד 48 שעות. פודקאסט ואירועים: לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.",
+      "הקלטת ברכה פשוטה: מוכן תוך 24-48 שעות. הקלטת שיר על פלייבק: השיר אצלכם בסוף הסשן. פודקאסט: הפרק אצלכם באותה שנייה שמסיימים להקליט. אירועים: לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.",
   },
   {
     id: "service-area",
@@ -73,7 +74,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "payment",
     question: "איך משלמים?",
     answerPlain:
-      "אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר.",
+      `אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר. ${DATE_HOLD_TERMS}`,
   },
   {
     id: "cancellation",

@@ -16,6 +16,7 @@ import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { SERVICES } from "@/lib/data/booking-calculator-services";
 import { withVat } from "@/lib/data/pricing";
@@ -30,6 +31,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 type ClipsBookingFormProps = {
   routeId?: string | null;
@@ -68,6 +70,8 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     isSubmitting,
     successWaHref,
     successIntent,
+    submit: leadSubmit,
+    retry: retryLead,
   } = useLeadSubmit();
 
   const mergeErrors = useCallback(
@@ -221,8 +225,10 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
           href,
           "continue_chat",
           { leadCategory: "clips" },
-        );
-        clearPanelBookingDraft("clips");
+        ).then((ok) => {
+          /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+          if (ok) clearPanelBookingDraft("clips");
+        });
       },
     );
     setErrors(fieldErrs ?? {});
@@ -268,6 +274,17 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
     <div className="space-y-8">
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() =>
+            void retryLead().then((ok) => {
+              /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+              if (ok) clearPanelBookingDraft("clips");
+            })
+          }
+        />
+      ) : null}
 
       <div>
         <h2 className="mb-1 text-xl font-semibold text-foreground">בחרו שירותים</h2>
@@ -308,7 +325,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
                   </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
                   <p className="mt-1 text-xs font-medium text-brand-red">
-                    {price.toLocaleString("he-IL")} ₪ + מע״מ
+                    {formatPrice(price).inline}
                   </p>
                 </div>
               </button>

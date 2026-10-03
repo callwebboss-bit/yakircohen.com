@@ -86,7 +86,6 @@ const LAYOUT_CLIENT_BASELINE = [
   "components/layout/HeaderMobileSearchIsland.tsx",
   "components/layout/IntentNavStrip.tsx",
   "components/layout/MobileStickyCta.tsx",
-  "components/layout/PromoBanner.tsx",
   "components/layout/SearchKeyboardShortcut.tsx",
   "components/layout/SiteNav.tsx",
   "components/layout/SiteNavMenuIsland.tsx",
@@ -120,16 +119,18 @@ const LAYOUT_CLIENT_BASELINE = [
   "lib/business-hours.ts",
   "lib/company-details.ts",
   "lib/constants.ts",
-  "lib/coupon-banner-storage.ts",
   "lib/data/attraction-book-pricing.ts",
   "lib/data/book-audience-routes.ts",
   "lib/data/book-qualification-fields.ts",
   "lib/data/breadcrumb-titles.generated.ts",
   "lib/data/conversion-copy.ts",
-  "lib/data/coupon-offers.ts",
   "lib/data/events-booking.ts",
   "lib/data/intent-nav.ts",
   "lib/data/pricing-book-map.ts",
+  /* 2.10.2026: מיפוי הקישורים הישנים של חבילות השיר שירדו (?catalog=cover_song
+     וכו'). כ-1.6KB בלי שום ייבוא. pricing-book-map צריך אותו כדי שקישורים
+     ישנים ימשיכו לעבוד, ולכן הוא הופרד מ-song-offer.ts הכבד במכוון. */
+  "lib/data/song-offer-aliases.ts",
   "lib/data/pricing-catalog.ts",
   "lib/data/pricing-display.ts",
   "lib/data/pricing.ts",

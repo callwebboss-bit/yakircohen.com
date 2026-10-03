@@ -17,7 +17,6 @@ import {
   SingerReassuranceBadge,
   SingerSessionPriorityPills,
   SingerWelcomePerkPills,
-  SingerWizardStep3HoldTimer,
   SingerWizardStepTransitionOverlay,
   SingerWizardUrgencyHint,
 } from "@/components/booking/SingerWizardCroBlocks";
@@ -47,18 +46,13 @@ import {
   sumSingerAddons,
 } from "@/lib/data/singer-booking-addons";
 import { SINGER_CRO_CONFIG } from "@/lib/data/cro/singer";
-import { buildWizardEscapeHref } from "@/lib/book-wizard-cro/build-wizard-escape-href";
+import { buildWizardEscapeLead } from "@/lib/book-wizard-cro/build-wizard-escape-href";
 import { readBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
 import { useWizardGhostLead } from "@/lib/book-wizard-cro/useWizardGhostLead";
 import WizardPartialLeadNotice from "@/components/booking/cro/WizardPartialLeadNotice";
 import { useWizardFunnel } from "@/lib/book-wizard-cro/useWizardFunnel";
 import { fireBookingConfetti } from "@/lib/book-wizard-confetti";
 import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focus";
-import {
-  ensureHoldDeadline,
-  saveCategoryPriceHold,
-} from "@/lib/book-wizard-urgency";
-import { usePriceHoldBadge } from "@/lib/book-wizard-cro/use-price-hold-badge";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { withVat } from "@/lib/data/pricing";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
@@ -124,11 +118,6 @@ export default function SingerAmplificationBookingWizard({
   const [step2Transition, setStep2Transition] = useState(false);
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
   const [stepBlockers, setStepBlockers] = useState<readonly WizardStepBlocker[]>([]);
-  const [step3HoldDeadline, setStep3HoldDeadline] = useState<number | null>(null);
-  const [priceHoldLabel, setPriceHoldLabel] = usePriceHoldBadge(
-    "singer",
-    SINGER_CRO_CONFIG.urgency.priceHoldBadge,
-  );
 
   const initialForm = useMemo<SingerFormDraft>(
     () => ({ ...INITIAL, packageId: initialPackageId ?? "" }),
@@ -151,6 +140,10 @@ export default function SingerAmplificationBookingWizard({
     isSubmitted,
     lastWaHref,
     lastIntent,
+    submit: wizardSubmit,
+    isSubmitFailed,
+    isRetrying,
+    retrySubmit,
   } = useBookingWizard({
     storageKey: "singer_amplification",
     formId: "singer_amplification_booking",
@@ -289,9 +282,9 @@ export default function SingerAmplificationBookingWizard({
     [form, selected, lastMinuteUpsellCfg],
   );
 
-  const escapeWaHref = useMemo(
+  const escapeLead = useMemo(
     () =>
-      buildWizardEscapeHref({
+      buildWizardEscapeLead({
         category: "singer",
         serviceLabel: SINGER_CRO_CONFIG.serviceLabel,
         formId: SINGER_CRO_CONFIG.formId,
@@ -304,6 +297,7 @@ export default function SingerAmplificationBookingWizard({
       }),
     [summaryLinesForEscape, totalExVat, selected?.name, form.name, form.phone, step],
   );
+  const escapeWaHref = escapeLead.href;
 
   const handleGhostLeadFired = useCallback(() => {
     trackFunnel("GhostLead_Fired", {
@@ -321,6 +315,9 @@ export default function SingerAmplificationBookingWizard({
     phone: form.phone,
     subject: "טיוטת הזמנת הגברה לזמרים - שלב סגירה",
     body: summaryLinesForEscape.map((l) => `${l.label}: ${l.value}`).join("\n"),
+    /* אחרי לחיצה על שליחה הליד המלא כבר בדרך. בלי זה הליד החלקי ("לא נשלח
+       לוואטסאפ") יכול לצאת עד 2 שניות אחרי ההזמנה האמיתית. LF-03 */
+    enabled: wizardSubmit.status === "idle",
     onFired: handleGhostLeadFired,
   });
 
@@ -349,15 +346,8 @@ export default function SingerAmplificationBookingWizard({
   };
 
   const handleExitIntent = useCallback(() => {
-    if (totalExVat > 0 && packageSummaryLabel) {
-      saveCategoryPriceHold("singer", {
-        packageLabel: packageSummaryLabel,
-        totalExVat,
-      });
-      setPriceHoldLabel(SINGER_CRO_CONFIG.urgency.priceHoldBadge);
-    }
     setExitIntentOpen(true);
-  }, [totalExVat, packageSummaryLabel]);
+  }, []);
 
   useBookExitIntent({
     enabled: showCroOverlays && totalExVat > 0 && !!selected,
@@ -370,7 +360,6 @@ export default function SingerAmplificationBookingWizard({
 
   const completeStep2Transition = useCallback(() => {
     setStep2Transition(false);
-    setStep3HoldDeadline(ensureHoldDeadline("singer"));
     setStep(2);
     scrollToBookWizardPanelAndFocusStep(2);
   }, [setStep]);
@@ -530,11 +519,14 @@ export default function SingerAmplificationBookingWizard({
     if (initialPackageId) patchForm({ packageId: initialPackageId });
   };
 
-  if (isSubmitted && lastWaHref) {
+  if ((isSubmitted || isSubmitFailed) && lastWaHref) {
     return (
       <BookingSuccessPanel
         intent={lastIntent}
         whatsappHref={lastWaHref}
+        delivery={isSubmitFailed ? "failed" : "sent"}
+        onRetry={() => void retrySubmit()}
+        retrying={isRetrying}
         bookCategory="singer"
         routeId={routeId}
         onNewBooking={handleNewBooking}
@@ -556,7 +548,7 @@ export default function SingerAmplificationBookingWizard({
 
       {step === 0 && (
         <BookingStepPanel stepKey={0}>
-          <SingerWizardUrgencyHint priceHoldLabel={priceHoldLabel} className="mb-4" />
+          <SingerWizardUrgencyHint className="mb-4" />
           <h2 className="text-xl font-semibold text-foreground">
             בחרו חבילת הגברה לזמר/ה
           </h2>
@@ -603,7 +595,7 @@ export default function SingerAmplificationBookingWizard({
             />
           ) : null}
           {SINGER_CRO_CONFIG.escapePlacements.includes("after_packages") && form.packageId ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step0Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
@@ -678,7 +670,7 @@ export default function SingerAmplificationBookingWizard({
             />
           </div>
           {SINGER_CRO_CONFIG.escapePlacements.includes("step_contact") ? (
-            <WizardWhatsAppEscapeLink href={escapeWaHref} />
+            <WizardWhatsAppEscapeLink href={escapeWaHref} messageText={escapeLead.body} />
           ) : null}
           <WizardStepProgress items={step1Checklist} className="mt-4" />
           <WizardStepBlockerBanner blockers={stepBlockers} className="mt-4" />
@@ -689,9 +681,6 @@ export default function SingerAmplificationBookingWizard({
 
       {step === 2 && selected && (
         <BookingStepPanel stepKey={2}>
-          {step3HoldDeadline ? (
-            <SingerWizardStep3HoldTimer deadlineMs={step3HoldDeadline} />
-          ) : null}
           <p className="mb-4 text-center text-base font-semibold text-foreground">
             {SINGER_CRO_CONFIG.step3Closer}
           </p>
@@ -731,6 +720,8 @@ export default function SingerAmplificationBookingWizard({
                 termsError={errors.terms}
               />
               <BookingSummaryActions
+                disabled={wizardSubmit.status === "submitting"}
+                sending={wizardSubmit.status === "submitting"}
                 showPaymentTrust
                 continueWhatsApp={{
                   label: sendBookingWaCta(withVat(totalExVat)),

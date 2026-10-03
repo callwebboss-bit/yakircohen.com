@@ -54,4 +54,4 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
 ] as const;
 
 export const PRIVATE_SESSION_PRICE_NOTE =
-  "כל המחירים לפני מע״מ (18%). שיחת היכרות ראשונה - חינם.";
+  "המחיר הגדול כולל מע״מ (18%), ובקטן הסכום לפני מע״מ. שיחת היכרות ראשונה - חינם.";

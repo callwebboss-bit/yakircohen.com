@@ -4,6 +4,8 @@
  */
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+import { getSongOfferView, getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPriceFactorsAnswer } from "@/lib/data/price-factors";
 import { buildEventsHubAnswer } from "@/lib/data/blog-knowledge-hubs";
@@ -14,19 +16,29 @@ export type AeoFaqItem = {
   answer: string;
 };
 
-function stripDualPrefix(formatted: string): string {
-  return formatted.replace(/^כרגע: מ-/, "החל מ-");
+/* formatFromPriceDual מחזיר "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)". כאן הוא נקרא
+   "החל מ-...". קודם הפונקציה הזו הסירה ביד את "כרגע:" (WP1). */
+/** "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ), עד 12 בשיר" */
+function songParticipantsLine(): string {
+  const { withVat, exVat, limit } = getSongParticipantsExplanation();
+  return `${withVat} ${exVat}, ${limit}`;
 }
 
+function stripDualPrefix(formatted: string): string {
+  return `החל ${formatted}`;
+}
+
+/**
+ * תשובת המחיר של הקלטת השיר נבנית מ-song-offer (הבסיס והתוספות מהקטלוג),
+ * כולל מע״מ קודם, כדי שתתאים לטופס בעמוד ולא תתיישן כשמחיר משתנה.
+ */
 export function buildRecordingSongStudioPriceAnswer(): string {
-  const cover = stripDualPrefix(formatFromPriceDual(getExVat("cover_song")));
-  const package_ = stripDualPrefix(
-    formatFromPriceDual(getExVat("song_package")),
-  );
-  const blessing = stripDualPrefix(
-    formatFromPriceDual(getExVat("blessing_recording")),
-  );
-  return `שיר מוכן באולפן ${cover}. שיר Pro ${package_}. ברכה או אמירה קצרה ${blessing}. המחיר הסופי תלוי במורכבות - מחירון מלא בעמוד.`;
+  const { base, addons } = getSongOfferView();
+  const blessing = withVat(getExVat("blessing_recording")).toLocaleString("he-IL");
+  const addonLines = addons
+    .map((a) => `${a.label} ${a.withVat.toLocaleString("he-IL")} ₪`)
+    .join(". ");
+  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה או אמירה קצרה ${blessing} ₪ כולל מע״מ.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {
@@ -137,7 +149,7 @@ export const DJ_WEDDING_VOICE_FAQ: AeoFaqItem = {
 
 export function buildVoucherGiftPriceAnswer(): string {
   const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
-  return `שובר מתנה לאולפן או אירוע החל מ-${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
+  return `שובר מתנה לאולפן או אירוע ${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
 }
 
 export const VOUCHER_GIFT_PRICE_FAQ: AeoFaqItem = {

@@ -1,41 +1,34 @@
 import type { BookCategoryId } from "@/lib/book-url";
-import { SITE_TESTIMONIALS } from "@/lib/data/testimonials";
+import {
+  getPriceProofTestimonial,
+  getTestimonialById,
+} from "@/lib/data/price-social-proof";
 import {
   getTestimonialYear,
   TESTIMONIAL_CATEGORY_LABELS,
 } from "@/lib/data/testimonial-categories";
 import { cn } from "@/lib/utils";
 
-const CATEGORY_TESTIMONIAL_INDEX: Partial<Record<BookCategoryId, number>> = {
-  studio: 5,
-  podcast: 1,
-  events: 3,
-  dj: 7,
-  singer: 3,
-  photography: 6,
-  clips: 6,
-  academy: 9,
-  online: 0,
-  pro: 4,
-};
-
 type PriceSocialProofProps = {
   categoryId?: BookCategoryId;
-  /** אינדקס ב-SITE_TESTIMONIALS (ברירת מחדל לפי categoryId) */
-  testimonialIndex?: number;
+  /** מזהה ב-SITE_TESTIMONIALS. חייב להיות מאותו שירות (price-social-proof.test.ts) */
+  testimonialId?: string;
   className?: string;
 };
 
+/**
+ * המלצה אחת ליד מחיר, רק מאותו שירות. בלי התאמה לא מוצג כלום, במקום ציטוט
+ * של שירות אחר (שלב 5, FIT-04). זו המלצה מהאתר, לא ביקורת Google, ולכן
+ * בלי כוכב.
+ */
 export default function PriceSocialProof({
   categoryId,
-  testimonialIndex,
+  testimonialId,
   className,
 }: PriceSocialProofProps) {
-  const index =
-    testimonialIndex ??
-    (categoryId ? CATEGORY_TESTIMONIAL_INDEX[categoryId] : undefined) ??
-    1;
-  const item = SITE_TESTIMONIALS[index];
+  const item = testimonialId
+    ? getTestimonialById(testimonialId)
+    : getPriceProofTestimonial(categoryId);
   if (!item) return null;
 
   const quote =
@@ -49,9 +42,6 @@ export default function PriceSocialProof({
 
   return (
     <p className={cn("text-xs leading-relaxed text-muted-foreground", className)}>
-      <span className="text-brand-red" aria-hidden="true">
-        ★{" "}
-      </span>
       &quot;{quote}&quot;, {item.name}
       {meta ? ` · ${meta}` : null}
     </p>

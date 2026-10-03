@@ -3,14 +3,13 @@
 import { BOOK_WIZARD_COPY, STUDIO_QUICK_UPGRADE_IDS } from "@/lib/data/book-wizard-copy";
 import { STUDIO_CRO_CONFIG } from "@/lib/data/cro/studio";
 import { STUDIO_QUICK_UPGRADE_CARDS } from "@/lib/data/studio-quick-upgrades";
-import { WizardDecoyCard } from "@/components/booking/cro/WizardDecoyCard";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
-import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardLastMinuteUpsell, WizardParkingBanner } from "@/components/booking/cro/WizardCroExtras";
 import { STUDIO_RECORDING_UPGRADES, type StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import { calcStudioPackageFitPct } from "@/lib/studio-package-fit";
-import { formatNis } from "@/lib/data/pricing";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
+import { upgradePriceExVat } from "@/lib/studio-upgrade-pricing";
 import type { StudioFormDraft, SessionPriorityId, WelcomePerkId, TravelModeId } from "@/lib/studio-form-draft";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import { cn } from "@/lib/utils";
@@ -148,7 +147,7 @@ export function StudioUpgradeQuickPills({
                       : "bg-black/55 text-white",
                   )}
                 >
-                  {active ? "נוסף ✓" : `+${formatNis(price)}`}
+                  {active ? "נוסף ✓" : formatConsumerPrice(price).delta}
                 </span>
               </div>
               <div className="flex flex-1 flex-col gap-0.5 p-3">
@@ -209,7 +208,7 @@ export function StudioCostSplitBlock({
           />
           {perPerson != null ? (
             <p className="text-sm font-semibold text-emerald-700">
-              {BOOK_WIZARD_COPY.splitCostPerPerson(formatNis(perPerson))}
+              {BOOK_WIZARD_COPY.splitCostPerPerson(formatConsumerPrice(perPerson).totalLabel)}
             </p>
           ) : null}
         </div>
@@ -270,7 +269,7 @@ export function WizardInlinePriceBar({
     <div className="min-h-12 flex items-center justify-between gap-3 rounded-xl border border-[var(--service-accent,#d42b2b)]/25 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] px-4 py-2.5">
       <p className="truncate text-sm font-medium text-foreground">{title}</p>
       <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
-        {formatNis(totalExVat)} לפני מע״מ
+        {formatConsumerPrice(totalExVat).totalLabel}
       </p>
     </div>
   );
@@ -436,18 +435,6 @@ export function WizardStepTransitionOverlay({
   );
 }
 
-export function StudioDecoyVipCard({ waHref }: { waHref: string }) {
-  const decoy = STUDIO_CRO_CONFIG.decoy;
-  if (!decoy) return null;
-  return (
-    <WizardDecoyCard
-      decoy={decoy}
-      escapeWaHref={waHref}
-      className="lg:col-span-2"
-    />
-  );
-}
-
 export function StudioPitchSafetyBadge() {
   const reassurance = STUDIO_CRO_CONFIG.reassuranceByAnxiety.vocal_fix;
   if (!reassurance) return null;
@@ -456,10 +443,6 @@ export function StudioPitchSafetyBadge() {
       <WizardReassuranceBadge reassurance={reassurance} />
     </div>
   );
-}
-
-export function WizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="studio" deadlineMs={deadlineMs} />;
 }
 
 export function StudioLastMinuteBtsOffer({
@@ -475,6 +458,7 @@ export function StudioLastMinuteBtsOffer({
   return (
     <WizardLastMinuteUpsell
       label={label}
+      priceExVat={upgradePriceExVat("bts", { lastMinuteBtsDeal: true })}
       checked={checked}
       onChange={onChange}
       disabled={disabled}

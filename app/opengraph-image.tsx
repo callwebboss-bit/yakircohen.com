@@ -1,7 +1,9 @@
 ﻿import { ImageResponse } from "next/og";
 import { SITE_NAME } from "@/lib/constants";
 
-export const runtime = "edge";
+/* בלי runtime: ברירת המחדל nodejs. Edge Runtime הוצהר deprecated ב-Next 16.3,
+   והתיעוד אומר להסיר את ה-export (node_modules/next/dist/docs/01-app/
+   03-api-reference/03-file-conventions/02-route-segment-config/runtime.md). */
 export const alt = `${SITE_NAME} - אולפן, פודקאסט ואירועים במודיעין`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

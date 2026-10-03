@@ -38,6 +38,25 @@ if (catalogPrices.size === 0) {
   process.exit(1);
 }
 
+/**
+ * מחיר כולל מע״מ (שלב 2 חלק ג, 2.10.2026): הקלטת השיר ותוספותיה מוצגות לצרכן
+ * כולל מע״מ. מחיר כזה מתקבל רק כשהוא withVat של מחיר בקטלוג וגם השורה עצמה
+ * אומרת "כולל מע״מ". בלי הסימון בשורה, 590 כולל מע״מ שנכתב כמו מחיר רגיל
+ * היה נקרא כמחיר לפני מע״מ, ולכן הוא לא מתקבל.
+ */
+const vatRateMatch = catalogText.match(/VAT_RATE_LOCAL\s*=\s*([\d.]+)/);
+if (!vatRateMatch) {
+  console.error("=== audit:llms-prices ===\n");
+  console.error("  ✗ לא נמצא VAT_RATE_LOCAL ב-pricing-catalog.ts. הפורמט השתנה.");
+  process.exit(1);
+}
+const VAT_RATE = Number(vatRateMatch[1]);
+/* אותה נוסחה כמו withVatLocal בקטלוג */
+const withVatToExVat = new Map(
+  [...catalogPrices].map((ex) => [String(Math.round(Number(ex) * (1 + VAT_RATE))), ex]),
+);
+const VAT_INCLUDED_MARK = /כולל מע[״"]מ/;
+
 const raw = fs.readFileSync(LLMS, "utf8").replace(/\r\n/g, "\n");
 const startIdx = raw.indexOf(BLOCK_START);
 const endIdx = raw.indexOf(BLOCK_END);
@@ -66,6 +85,10 @@ lines.forEach((line, i) => {
     const price = match[1].replace(/,/g, "");
     if (catalogPrices.has(price)) {
       weak.push(`שורה ${lineNo}: ${match[1]} ₪`);
+      continue;
+    }
+    if (withVatToExVat.has(price) && VAT_INCLUDED_MARK.test(line)) {
+      weak.push(`שורה ${lineNo}: ${match[1]} ₪ (כולל מע״מ של ${withVatToExVat.get(price)})`);
       continue;
     }
 

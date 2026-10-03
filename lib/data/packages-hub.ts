@@ -23,7 +23,7 @@ export type PackageHubItem = {
   bookHref?: string;
 };
 
-const songTier = STUDIO_PRICING.tiers.find((t) => t.id === "song-classic");
+const songTier = STUDIO_PRICING.tiers.find((t) => t.id === "song-recording");
 const podcastAudio = PODCAST_PACKAGES.find((p) => p.id === "audio");
 const festivalExVat = getExVat("festival_all_in");
 
@@ -32,17 +32,17 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     id: "studio-song",
     category: "studio",
     categoryLabel: "אולפן",
-    name: songTier?.name ?? "שיר מוכן באולפן",
+    name: songTier?.name ?? "הקלטת שיר באולפן",
     description:
       songTier?.description ??
-      "הקלטה בלי לחץ זמן, מיקס ומאסטר - קובץ מוכן.",
-    priceExVat: getExVat("cover_song"),
-    catalogId: "cover_song",
-    scope: songTier?.scope ?? getScopeById("cover_song"),
+      "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת.",
+    priceExVat: getExVat("song_recording"),
+    catalogId: "song_recording",
+    scope: songTier?.scope ?? getScopeById("song_recording"),
     highlights: songTier?.highlights ?? [
-      "הקלטה מודרכת עם טיונינג ווקאלי",
-      "מיקס בסיסי ועיבוד סופי",
-      "קובץ מוכן לשיתוף",
+      "סשן של שעה באולפן",
+      "הקלטה, מיקס ומאסטר",
+      "השיר אצלכם בסוף הסשן",
     ],
     href: "/studio/pricing",
     bookHref: "/book",

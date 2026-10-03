@@ -17,7 +17,6 @@ import {
 import { SITE_NAME } from "@/lib/constants";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 import {
-  PRICES_EXCLUDE_VAT_NOTE,
   PRICES_LAST_UPDATED,
   PRICING_HUB_SECTIONS,
 } from "@/lib/data/pricing-hub";
@@ -36,8 +35,10 @@ import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy"
 import LeadFormSkeleton from "@/components/leads/LeadFormSkeleton";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import { PRICING_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
-import { HOLD_POLICY_TEXT } from "@/lib/data/lead-flow/payment-hold";
-import { formatNis } from "@/lib/data/pricing";
+import { formatNis, withVat } from "@/lib/data/pricing";
+
+/* המחירון המרכזי מוביל בכולל מע״מ, כמו טופס השיר (החלטת הבעלים 2.10.2026) */
+const PRICES_INCLUDE_VAT_NOTE = "המחירים כוללים מע״מ, ולפני מע״מ מופיע לידם בקטן";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -107,11 +108,11 @@ export default function PricingHubPage() {
               מחירון מרכזי
             </h1>
             <AnswerBlock id="pricing-answer">
-              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. ברכה {formatNis(getExVat("blessing_recording"))}, שיר מוכן {formatNis(getExVat("cover_song"))}, פודקאסט אודיו {formatNis(getExVat("podcast_audio"))} - לפני מע״מ. הזמנה ב-/book או בוואטסאפ.
+              מחירון שירותי אולפן, פודקאסט ואירועים במודיעין. הקלטת שיר {formatNis(withVat(getExVat("song_recording")))}, ברכה {formatNis(withVat(getExVat("blessing_recording")))}, פודקאסט אודיו {formatNis(withVat(getExVat("podcast_audio")))} - כולל מע״מ. הזמנה ב-/book או בוואטסאפ.
             </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
-              {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_EXCLUDE_VAT_NOTE}.
-              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. מע״מ מוצג בלחיצה על כל שורה.
+              {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_INCLUDE_VAT_NOTE}.
+              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. המחיר כולל מע״מ, ובלחיצה על שורה מופיע גם הסכום לפני מע״מ.
             </p>
             <ContextualIntroParagraph pathname="/pricing" className="mx-auto mt-4 max-w-xl text-center" />
             <p className="mt-2 text-xs text-muted-foreground">
@@ -170,13 +171,14 @@ export default function PricingHubPage() {
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
               המסלולים המרכזיים זה לצד זה - מה כלול, למי מתאים וכמה עולה.
-              המחירים מהמחירון המלא למטה. {PRICES_EXCLUDE_VAT_NOTE}.
+              המחירים מהמחירון המלא למטה. {PRICES_INCLUDE_VAT_NOTE}.
             </p>
             <PricingComparisonTable
               headingId="pricing-comparison-heading"
               className="mt-6"
               enableCategoryFilter
               showBuilderLink
+              priceLead="withVat"
             />
           </Container>
         </Section>
@@ -184,12 +186,13 @@ export default function PricingHubPage() {
         <Section padding="sm">
           <Container className="max-w-3xl">
             <p className="mb-4 text-xs text-muted-foreground">
-              {PRICES_EXCLUDE_VAT_NOTE}. מע״מ מוצג בלחיצה על כל שורה.
+              {PRICES_INCLUDE_VAT_NOTE}. הפירוט בלחיצה על כל שורה.
             </p>
             <PricingStandardsStrip />
             <PricingHubSectionsAccordion
               sections={PRICING_HUB_SECTIONS}
               midPageSlot={<PricingHesitantCta />}
+              priceLead="withVat"
             />
           </Container>
         </Section>
@@ -205,8 +208,8 @@ export default function PricingHubPage() {
             <div className="rounded-2xl border border-border bg-background px-4 py-10 sm:px-8">
               <ProposalGiftPitchProofSection
                 headingId="pricing-pitch-proof-heading"
-                heading="עם תיקון זיופים או בלי? שמעו לפני שמחליטים"
-                intro="שיר מוכן כולל תיקון זיופים. ברכה והקלטה מהבית - בלי. שמעו את ההבדל ואז צפו בקליפ המלא."
+                heading="מה עושה תוספת תיקון הזיופים? שמעו לפני ואחרי"
+                intro="תיקון זיופים לא כלול במחיר הבסיס של הקלטת שיר, ואפשר להוסיף אותו. שמעו את ההבדל ואז צפו בקליפ המלא."
               />
             </div>
           </Container>
@@ -223,9 +226,6 @@ export default function PricingHubPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               השאירו פרטים ונחזור אליכם בדרך כלל תוך שעה.
             </p>
-            <div className="mt-4 rounded-xl border border-border bg-background px-4 py-3 text-sm leading-relaxed text-foreground">
-              {HOLD_POLICY_TEXT}
-            </div>
             <div className="mt-6">
               <Suspense fallback={<LeadFormSkeleton />}>
                 <PricingInquiryFormLazy />
@@ -242,7 +242,7 @@ export default function PricingHubPage() {
                   מחפשים מתנה? שובר מתנה לאולפן
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  שובר מתנה מ-{getExVat("blessing_recording").toLocaleString("he-IL")} ₪ - ברכה, שיר או אטרקציה. ניתן לפדיון גמיש.
+                  שובר מתנה מ-{withVat(getExVat("blessing_recording")).toLocaleString("he-IL")} ₪ כולל מע״מ - ברכה, שיר או אטרקציה. ניתן לפדיון גמיש.
                 </p>
               </div>
               <Link

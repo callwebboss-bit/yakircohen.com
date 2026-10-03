@@ -1,4 +1,4 @@
-﻿/**
+/**
  * מפת אתר מרכזית - מקור אמת אחד לניווט, קנוניקליזציה וקישורים פנימיים.
  * עדכן כאן כשמוסיפים/מאחדים עמודים; Header, Footer ו-redirects נגזרים מכאן.
  */
@@ -121,7 +121,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         description: "סקירה, מחירון ומחשבון",
       },
       {
-        label: "הפקה מלאה (24 שעות)",
+        label: "הפקה מלאה",
         href: "/podcast/podcast-recording",
         description: "צילום + עריכה - מ-2,500 ₪",
       },
@@ -536,7 +536,7 @@ const HEADER_PODCAST_NAV: SiteNavCategory = {
   label: "פודקאסט",
   href: "/podcast",
   featured: [
-    { label: "עריכת פודקאסט - 24 שעות", href: "/podcast/podcast-editing" },
+    { label: "עריכת פודקאסט - 24-48 שעות", href: "/podcast/podcast-editing" },
     { label: "פודקאסט נייד עד אליכם", href: "/podcast/mobile-podcast-at-home" },
     { label: "הקלטה באולפן (וידאו ואודיו)", href: "/podcast/podcast-recording" },
   ],
@@ -688,7 +688,7 @@ export const CONTENT_EXPANSION_TOPICS: readonly {
     id: "podcast-recording",
     targetPath: "/podcast/podcast-recording",
     title: "הפקת פודקאסט מלאה",
-    sendUs: "תהליך 24 שעות, דוגמאות, השוואת חבילות",
+    sendUs: "הפרק ביד בסוף ההקלטה, דוגמאות, השוואת חבילות",
   },
   {
     id: "recording-song",

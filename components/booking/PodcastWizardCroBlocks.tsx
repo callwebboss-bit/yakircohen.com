@@ -3,10 +3,10 @@
 import { WizardAnxietyPills } from "@/components/booking/cro/WizardAnxietyPills";
 import { WizardLastMinuteUpsell, WizardPriceReframe } from "@/components/booking/cro/WizardCroExtras";
 import { WizardReassuranceBadge } from "@/components/booking/cro/WizardReassuranceBadge";
-import { WizardStep3HoldTimer as WizardStep3HoldTimerBase } from "@/components/booking/cro/WizardStep3HoldTimer";
 import { WizardStepTransitionSkeleton } from "@/components/booking/cro/WizardStepTransitionSkeleton";
 import { WizardWelcomePerkPills } from "@/components/booking/cro/WizardWelcomePerkPills";
 import WizardUrgencyHint from "@/components/booking/WizardUrgencyHint";
+import type { CroLastMinuteUpsell } from "@/lib/book-wizard-cro/types";
 import { PODCAST_CRO_CONFIG } from "@/lib/data/cro/podcast";
 import type {
   PodcastSessionPriorityId,
@@ -86,24 +86,8 @@ export function PodcastWizardStepTransitionOverlay({
   );
 }
 
-export function PodcastWizardStep3HoldTimer({ deadlineMs }: { deadlineMs: number }) {
-  return <WizardStep3HoldTimerBase category="podcast" deadlineMs={deadlineMs} />;
-}
-
-export function PodcastWizardUrgencyHint({
-  priceHoldLabel,
-  className,
-}: {
-  priceHoldLabel?: string | null;
-  className?: string;
-}) {
-  return (
-    <WizardUrgencyHint
-      category="podcast"
-      priceHoldLabel={priceHoldLabel}
-      className={className}
-    />
-  );
+export function PodcastWizardUrgencyHint({ className }: { className?: string }) {
+  return <WizardUrgencyHint category="podcast" className={className} />;
 }
 
 export function PodcastPriceReframe() {
@@ -121,12 +105,13 @@ export function PodcastLastMinuteHighlightsOffer({
   onChange: (v: boolean) => void;
   disabled?: boolean;
 }) {
-  const label =
-    PODCAST_CRO_CONFIG.lastMinuteUpsell?.label ??
-    "רגעי שיא לרילס - מבצע לסגירה";
+  const cfg: CroLastMinuteUpsell | undefined = PODCAST_CRO_CONFIG.lastMinuteUpsell;
+  const label = cfg?.label ?? "רגעי שיא לרילס - מבצע לסגירה";
   return (
     <WizardLastMinuteUpsell
       label={label}
+      priceExVat={cfg?.promoPrice}
+      referenceExVat={cfg?.referenceCatalogId ? cfg.listPrice : undefined}
       checked={checked}
       onChange={onChange}
       disabled={disabled}

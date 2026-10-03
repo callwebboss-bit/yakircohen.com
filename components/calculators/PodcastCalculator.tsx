@@ -15,6 +15,7 @@ import {
 } from "@/lib/data/podcast-calculator";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -50,9 +51,9 @@ function PackageCard({
       <p className="text-[0.7rem] text-muted-foreground">{pkg.subtitle}</p>
       <p className="mt-1 text-[0.7rem] font-semibold text-brand-red">{pkg.ideal}</p>
 
-      <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrency(pkg.price)}</p>
+      <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrencyWithVat(pkg.price)}</p>
       <p className="text-[0.65rem] text-muted-foreground">
-        + מע״מ - {formatCurrencyWithVat(pkg.price)} סה״כ
+        כולל מע״מ ({formatCurrency(pkg.price)} + מע״מ)
       </p>
 
       <ul className="mt-4 space-y-2">
@@ -104,7 +105,7 @@ export default function PodcastCalculator({ className }: { className?: string })
     const base = [
       buildServiceWhatsAppText(`חבילת ${pkg.name}`),
       overtime,
-      `סה״כ משוער: ${formatCurrency(total)} לפני מע״מ`,
+      `סה״כ משוער: ${formatCurrencyWithVat(total)} כולל מע״מ (${formatCurrency(total)} + מע״מ)`,
     ]
       .filter(Boolean)
       .join("\n");
@@ -124,7 +125,7 @@ export default function PodcastCalculator({ className }: { className?: string })
     [waText],
   );
 
-  const { submitLead } = useLeadSubmit();
+  const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   const handleWhatsAppClick = useCallback(() => {
     if (!pkg) return;
@@ -157,6 +158,13 @@ export default function PodcastCalculator({ className }: { className?: string })
         <p className="mx-auto mb-4 max-w-4xl text-center text-sm text-brand-red" role="alert">
           {globalError}
         </p>
+      ) : null}
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mx-auto mb-4 max-w-4xl"
+        />
       ) : null}
       <div className="mx-auto max-w-4xl space-y-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -205,8 +213,6 @@ export default function PodcastCalculator({ className }: { className?: string })
       {pkg ? (
         <CalculatorStickyBar
           total={total}
-          totalLabel="סה״כ לפני מע״מ"
-          subLabel={`${formatCurrencyWithVat(total)} כולל מע״מ`}
           whatsappHref={whatsappHref}
           onWhatsAppClick={handleWhatsAppClick}
           showCta

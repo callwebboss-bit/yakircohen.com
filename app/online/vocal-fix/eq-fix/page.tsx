@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import OnlineEqFixPageContent from "@/components/seo/OnlineEqFixPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 
 export const metadata: Metadata = constructMetadata({
@@ -21,7 +23,7 @@ export const metadata: Metadata = constructMetadata({
 const FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה שירות תיקון תדרים ו-EQ?",
-    answer: "עלות השירות לתיקון תדרים ו-EQ לקטע של עד 5 דקות היא 500 ₪ לפני מע\"מ (590 ₪ כולל מע\"מ).",
+    answer: `עלות השירות לתיקון תדרים ו-EQ לקטע של עד 5 דקות היא ${getExVat("eq_freq_fix").toLocaleString("he-IL")} ₪ לפני מע"מ (${withVat(getExVat("eq_freq_fix")).toLocaleString("he-IL")} ₪ כולל מע"מ).`,
   },
   {
     question: "מה זה EQ בשפה פשוטה?",

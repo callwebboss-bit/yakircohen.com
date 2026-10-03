@@ -14,12 +14,19 @@ describe("pricing hub studio display order", () => {
       .find((s) => s.id === "studio")
       ?.rows.map((row) => row.catalogId);
     assert.ok(labels);
-    const gift = labels!.indexOf("cover_song");
+    const gift = labels!.indexOf("song_recording");
     const half = labels!.indexOf("studio_half_hour");
     const hour = labels!.indexOf("studio_hour");
-    const clip = labels!.indexOf("studio_session_clip");
+    const clip = labels!.indexOf("studio_session_clip_edited");
     assert.ok(gift >= 0 && half > gift);
     assert.ok(hour > half);
     assert.ok(clip > gift);
+    /* התוספות של השיר מיד אחרי הבסיס, בסדר של הטופס */
+    assert.deepEqual(labels!.slice(gift, gift + 4), [
+      "song_recording",
+      "song_pitch_coaching",
+      "studio_session_clip_edited",
+      "song_pre_session_interview",
+    ]);
   });
 });

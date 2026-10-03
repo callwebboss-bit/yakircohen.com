@@ -23,7 +23,7 @@ export const SERVICES: Record<string, Service> = {
   recording_basic: {
     name: "הקלטת שיר בסיסית",
     category: "recordings",
-    price: getExVat("studio_remote"),
+    price: getExVat("song_recording"),
     icon: "🎤",
     desc: "הקלטה מקצועית עם מיקס ומאסטרינג",
     upsells: ["warmup", "melodyne", "production_full", "stems", "video_pro", "video_studio", "raw_only"],
@@ -31,7 +31,7 @@ export const SERVICES: Record<string, Service> = {
   recording_premium: {
     name: "הקלטת שיר פרמיום",
     category: "recordings",
-    // Calculator-only tier (catalog Pro = song_package 1480) - keep display price stable
+    // Calculator-only tier, אין לו שימוש באתר. חבילות השיר בקטלוג ירדו ב-2.10.2026
     price: 1190,
     icon: "🌟",
     desc: "חבילה עם עיבוד, תמונות ויועץ אמנותי",
@@ -175,7 +175,8 @@ export const SERVICES: Record<string, Service> = {
   sound_rental: {
     name: "השכרת ציוד הגברה",
     category: "events",
-    price: EVENT_ATTRACTION_FROM_NIS,
+    /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). היה מחיר אטרקציה */
+    price: getExVat("event_sound_rental"),
     icon: "🔊",
     desc: "מערכת הגברה מקצועית לאירוע",
     upsells: [],
@@ -264,7 +265,7 @@ export const UPSELLS: Record<string, Upsell> = {
   raw_only: { name: "הקלטה גולמית בלבד", price: 0, desc: "ללא עיבוד, קובץ גולמי" },
   editing_advanced: {
     name: "עריכה מתקדמת",
-    price: getExVat("studio_remote"),
+    price: getExVat("podcast_editing_advanced"),
     desc: "לכל שעה שצולמה, פתיח וסגיר",
   },
   full_edit: {

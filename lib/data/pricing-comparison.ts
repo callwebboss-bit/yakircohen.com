@@ -55,18 +55,11 @@ export const PRICING_COMPARISON_ROWS: readonly PricingComparisonRow[] = [
   },
   {
     id: "song",
-    title: "שיר מוכן באולפן",
-    catalogId: "cover_song",
+    title: "הקלטת שיר באולפן",
+    catalogId: "song_recording",
     href: "/studio/recording-song-modiin",
     cluster: "studio",
     badge: "הכי מבוקש",
-  },
-  {
-    id: "song-pro",
-    title: "שיר Pro",
-    catalogId: "song_package",
-    href: "/studio/recording-song-modiin",
-    cluster: "studio",
   },
   {
     id: "podcast",

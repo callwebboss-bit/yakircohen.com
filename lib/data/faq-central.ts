@@ -1,14 +1,11 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
-import type { PriceItemId } from "@/lib/data/pricing-catalog";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 
 /* התשובה על "כמה עולה" נכנסת לסכמת FAQPage, ולכן מחיר מיושן כאן מתפרסם
    לגוגל כעובדה. היא הצהירה 1,750 ₪ לאטרקציה אחרי שהקטלוג כבר אמר 1,695.
    pricing-catalog כבר נמצא בגרף הלקוח של ארבעת הרכיבים שמגיעים לקובץ הזה,
    ולכן הייבוא לא מוסיף בייטים. */
-function nisEx(id: PriceItemId): string {
-  return `${getExVat(id).toLocaleString("he-IL")} ₪`;
-}
 
 /**
  * מקור משותף ל-FAQ מרכזי (20 שאלות) - /about/faq + schema.
@@ -68,7 +65,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "vat-pricing",
     question: "המחירים באתר כוללים מע״מ?",
     answer:
-      "ברוב העמודים והמחשבונים המחיר מוצג לפני מע״מ (18%), ולידו מופיע גם המחיר כולל מע״מ. כך קל להשוות ולתכנן תקציב. הצעה סופית נקבעת אחרי שיחה קצרה.",
+      "המחיר הגדול באתר כולל מע״מ (18%), ולידו בקטן הסכום לפני מע״מ. בשירותים לעסקים המחיר מוצג לפני מע״מ. הצעה סופית נקבעת אחרי שיחה קצרה.",
     ctaText: "צפו במחירון המרכזי",
     whatsappMessage: "שלום, יש לי שאלה על מחירים ומע״מ לפני הזמנה",
     utm_campaign: "faq_vat",
@@ -133,7 +130,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "general-pricing",
     question: "כמה עולה הקלטה או אירוע?",
     answer:
-      `ברכה והקלטה קצרה החל מ-${nisEx("blessing_recording")} + מע״מ. פודקאסט פיילוט מ-${nisEx("podcast_audio")} + מע״מ. אטרקציה בודדת לאירוע מ-${nisEx("event_attraction_1")} + מע״מ. בהזמנה המקוונת רואים מחיר סופי מיד.`,
+      `ברכה והקלטה קצרה החל ${formatFromPriceDual(getExVat("blessing_recording"))}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. אטרקציה בודדת לאירוע ${formatFromPriceDual(getExVat("event_attraction_1"))}. בהזמנה המקוונת רואים מחיר סופי מיד.`,
     ctaText: "פתחו את המחירון המרכזי",
     whatsappMessage: "שלום, רוצה לדעת כמה עולה [סוג שירות] לפני שסוגרים",
     utm_campaign: "faq_general_pricing",
@@ -142,7 +139,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "payment",
     question: "איך משלמים?",
     answer:
-      "אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר.",
+      `אשראי, Bit, PayBox, Apple Pay ו-PayPal לפי תיאום. חשבונית מס מסודרת. פרטי כרטיס אשראי לא נשמרים באתר. ${DATE_HOLD_TERMS}`,
     ctaText: "שאלו על תשלום בוואטסאפ",
     whatsappMessage: "שלום, איך אפשר לשלם עבור [שירות]?",
     utm_campaign: "faq_payment",

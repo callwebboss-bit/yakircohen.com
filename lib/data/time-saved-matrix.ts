@@ -27,10 +27,10 @@ export const TIME_SAVED_MATRIX: Record<TimeSavedHub, readonly TimeSavedRow[]> = 
   podcast: [
     {
       id: "podcast-delivery",
-      criterion: "מסירת פרק אחרי הפקה מלאה",
+      criterion: "מתי הפרק אצלכם",
       others:
         'הבטחת "תוך שבוע" בלי תאריך ביומן. לפעמים הפרק מגיע רק אחרי חודש.',
-      ours: "בהפקה מלאה - לרוב תוך 24 שעות עבודה מסיום ההקלטה.",
+      ours: "באותה שנייה שמסיימים להקליט, באולפן וגם אצלכם בבית או במשרד.",
       href: "/podcast",
       linkLabel: "הפקת פודקאסט",
     },
@@ -56,7 +56,8 @@ export const TIME_SAVED_MATRIX: Record<TimeSavedHub, readonly TimeSavedRow[]> = 
       id: "studio-song",
       criterion: "מסירה אחרי הקלטת שיר",
       others: "זמן אולפן כולל רק הקלטה. העריכה מגיעה אחר כך, בלי תאריך מסירה ברור.",
-      ours: "חבילת שיר כוללת עריכה ותיקון זיופים - בדרך כלל תוך 48 שעות.",
+      /* 2.10.2026: סשן של שעה והתוצאה ביד באותו רגע. תיקון זיופים הוא תוספת */
+      ours: "סשן של שעה: הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. תיקון זיופים בתוספת.",
       href: "/studio/recording-song-modiin",
       linkLabel: "הקלטת שיר באולפן",
     },

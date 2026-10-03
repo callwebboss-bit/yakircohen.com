@@ -25,7 +25,7 @@
 | Pathname | Audience | Delivery | Guidance | Outcome | Next | Price |
 | --- | --- | --- | --- | --- | --- | --- |
 | `/studio/recording-song-modiin` | families | in_studio | full_production | ready_song | video-clip | 1200 |
-| `/studio/mobile-studio` | families | mobile | full_production | ready_song | /pricing | 5000 |
+| `/studio/mobile-studio` | families | mobile | full_production | ready_song | /pricing | 2500 |
 | `/podcast/podcast-editing` | creators | self_service | assisted | podcast | recording | 750 |
 | `/podcast/corporate-podcast` | business | in_studio | full_production | podcast | /business | 4800 |
 | `/business/on-site-studio` | business | on_site | full_production | content day | /pricing | 6500 |

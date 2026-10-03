@@ -41,11 +41,6 @@ export default function ShopBundlesSection() {
                 key={bundle.id}
                 className="hover-lift flex flex-col rounded-xl border-r-4 border-brand-red bg-surface p-8"
               >
-                <div className="mb-4">
-                  <span className="rounded bg-brand-red px-2 py-1 text-xs font-semibold text-white">
-                    {bundle.savingLabel}
-                  </span>
-                </div>
                 <h3 className="font-serif text-xl font-semibold text-foreground">
                   {bundle.title}
                 </h3>

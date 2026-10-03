@@ -55,6 +55,38 @@ function formatHour(hour: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+/**
+ * היום והשעה בישראל, לא באזור הזמן של המכשיר (FIT-12). עד שלב 5 החישוב
+ * השתמש ב-getDay/getHours של הדפדפן, כך שגולש בניו יורק ב-15:00 שלו (22:00
+ * בישראל) ראה "זמין עכשיו", ותג "עכשיו" בכותרת לא שיקף את השעה אצלנו.
+ */
+const JERUSALEM_CLOCK = new Intl.DateTimeFormat("en-US", {
+  timeZone: "Asia/Jerusalem",
+  weekday: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+const WEEKDAY_INDEX: Readonly<Record<string, number>> = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6,
+};
+
+export function jerusalemClock(date: Date): { day: number; now: number } {
+  const parts = JERUSALEM_CLOCK.formatToParts(date);
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? "";
+  const day = WEEKDAY_INDEX[get("weekday")] ?? date.getDay();
+  const hour = Number(get("hour")) % 24;
+  const minute = Number(get("minute"));
+  return { day, now: hour + minute / 60 };
+}
+
 export type BusinessOpenStatus = {
   isOpen: boolean;
   label: string;
@@ -70,8 +102,7 @@ export type NextOpening = {
 
 /** הפתיחה הבאה מרגע נתון, או null אם אין אף חלון בלוח. */
 export function getNextOpening(date: Date = new Date()): NextOpening | null {
-  const day = date.getDay();
-  const now = date.getHours() + date.getMinutes() / 60;
+  const { day, now } = jerusalemClock(date);
   const today = SCHEDULE[day];
   if (today && now < today.open) return { day, daysAhead: 0, open: today.open };
   for (let ahead = 1; ahead <= 7; ahead += 1) {
@@ -83,8 +114,7 @@ export function getNextOpening(date: Date = new Date()): NextOpening | null {
 }
 
 export function getBusinessOpenStatus(date: Date = new Date()): BusinessOpenStatus {
-  const day = date.getDay();
-  const now = date.getHours() + date.getMinutes() / 60;
+  const { day, now } = jerusalemClock(date);
   const today = SCHEDULE[day];
 
   if (today && now >= today.open && now < today.close) {

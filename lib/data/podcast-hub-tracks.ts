@@ -1,5 +1,6 @@
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 /** קבוצה 1: הפקת תוכן מוכן - פרקים ותכנים */
 export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
@@ -11,8 +12,8 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-recording",
     title: "צילום והקלטת פודקאסט",
-    description: `הפקה מלאה, פרק ${TIME_CLAIMS.podcastDelivery24h}, החל מ-2,500 ₪.`,
-    fromPrice: "החל מ-2,500 ₪ + מע״מ",
+    description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}.`,
+    fromPrice: `החל ${formatFromPriceDual(getExVat("full_podcast_production"))}`,
   },
   {
     href: "/podcast/podcast-production",
@@ -23,13 +24,14 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
     href: "/podcast/corporate-podcast",
     title: "פודקאסט ארגוני לחברות",
     description: "מיתוג מעסיק ושיווק תוכן - הפקה מלאה, ספוטיפיי, חשבונית מס.",
-    fromPrice: "החל מ-4,800 ₪/חודש + מע״מ",
+    /* עסקים: לפני מע״מ קודם */
+    fromPrice: `החל ${formatFromPriceDual(getExVat("corp_podcast_retainer"), "business")} לחודש`,
   },
   {
     href: "/podcast/bulk-production",
     title: "פס ייצור לעסקים",
     description: "מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע.",
-    fromPrice: "החל מ-950 ₪/פרק + מע״מ",
+    fromPrice: `החל ${formatFromPriceDual(getExVat("bulk_podcast_episode"), "business")} לפרק`,
   },
 ] as const;
 
@@ -38,8 +40,9 @@ export const PODCAST_HUB_TRACKS_STUDIO: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-studio-modiin",
     title: "השכרת סטודיו / אולפן במודיעין",
-    description: "הקלטה שקטה, חדר מבודד וליווי טכני - מ-750 ₪.",
-    fromPrice: "החל מ-750 ₪ + מע״מ",
+    /* WP3: 750 הוא חצי שעה חדר, קובץ גולמי בלי עריכה, ונאמר כך */
+    description: "חצי שעה חדר, קובץ גולמי, בלי עריכה. חדר מבודד וליווי טכני.",
+    fromPrice: `החל ${formatFromPriceDual(getExVat("studio_half_hour"))}`,
   },
   {
     href: "/podcast/mobile-podcast-at-home",

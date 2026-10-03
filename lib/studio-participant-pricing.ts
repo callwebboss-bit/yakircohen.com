@@ -7,6 +7,18 @@ import {
   getClientScenarioShortTitle,
 } from "@/lib/data/client-scenario-labels";
 import { VAT_RATE, formatNis, withVat as withVatAtSiteRate } from "@/lib/data/pricing";
+import { getSongParticipantRules } from "@/lib/data/song-offer";
+import {
+  clampSongParticipants,
+  songParticipantsBreakdown,
+  songParticipantsExplanation,
+  songParticipantsSurchargeExVat,
+} from "@/lib/data/song-offer-quote";
+import {
+  buildPersonBreakdown,
+  formatPerPersonPrice,
+  type PersonBreakdown,
+} from "@/lib/data/participant-cost-copy";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
   GROUP_PRICING_ELIGIBLE_PACKAGES,
@@ -285,6 +297,32 @@ export function calcStudioScenarios(options: {
     };
   }
 
+  /* הקלטת שיר (3.10.2026, סבב רביעי): מחיר אחד לפי מספר המשתתפים, מהקטלוג.
+     כל משתתף נוסף 99, עד 12 בשיר. בלי תרחישי זוגות או קבוצה. */
+  if (packageId === "song") {
+    const rules = getSongParticipantRules();
+    const count = clampSongParticipants(recorderCount, rules);
+    const scenario = buildScenario(
+      "pairs",
+      `שיר עם ${count} משתתפים`,
+      baseExVat,
+      songParticipantsSurchargeExVat(count, rules),
+      isMotzash,
+      vatRate,
+      recorderCount > rules.max
+        ? `עד ${rules.max} משתתפים בשיר אחד. מעבר לזה מתאמים בשיחה.`
+        : songParticipantsExplanation(rules, vatRate),
+    );
+    return {
+      eligible: true,
+      scenarios: [scenario],
+      recommended: scenario,
+      recorderCount,
+      isMotzash,
+      vatRate,
+    };
+  }
+
   const extras = recorderCount - 1;
   const scenarios: StudioScenario[] = [
     buildScenario(
@@ -409,3 +447,43 @@ export function withVatAtRate(amountExVat: number, vatRate: number = VAT_RATE): 
 }
 
 export { withVatAtSiteRate as withVatDefault };
+
+/* ─── מחיר לכל משתתף, לתצוגה (החלטת הבעלים 3.10.2026, סבב שלישי) ─── */
+
+/**
+ * השורה ליד בורר המקליטים באשף: כמה עולה כל מקליט נוסף, כולל מע״מ קודם.
+ * בשיר: מחירי השיר מהקטלוג. בשאר (הקלטה מרחוק, ברכות): תרחיש הזוגות המומלץ
+ * שהאשף מחשב בפועל (PAIR_EXTRA_PRICE).
+ */
+export function studioPerPersonPriceLine(packageId: string | null | undefined, vatRate: number = VAT_RATE): string {
+  if (packageId === "song") {
+    return songParticipantsExplanation(getSongParticipantRules(), vatRate);
+  }
+  return formatPerPersonPrice(PAIR_EXTRA_PRICE, vatRate, "כל מקליט נוסף");
+}
+
+/**
+ * הפירוט לפי מקליט לסכום שהאשף מציג (בלי פתיחת מוצ״ש):
+ * "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)".
+ * מקליט אחד, או חבילה שלא מתומחרת כקבוצה: null.
+ */
+export function studioParticipantsBreakdown(options: {
+  baseExVat: number;
+  recorderCount: number;
+  packageId?: string | null;
+  recordingType?: RecordingTypeId | "" | null;
+  vatRate?: number;
+}): PersonBreakdown | null {
+  const { baseExVat, recorderCount, packageId, recordingType, vatRate = VAT_RATE } = options;
+  if (recorderCount < 2) return null;
+  if (!isGroupPricingEligible({ packageId, recordingType, serviceId: "recording" })) return null;
+  if (packageId === "song") {
+    return songParticipantsBreakdown(recorderCount, getSongParticipantRules(), baseExVat, vatRate);
+  }
+  return buildPersonBreakdown({
+    count: recorderCount,
+    baseExVat,
+    extrasExVat: Array.from({ length: recorderCount - 1 }, () => PAIR_EXTRA_PRICE),
+    vatRate,
+  });
+}

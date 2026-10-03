@@ -5,11 +5,12 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import {
   RINGTONE_PAGE_PATH,
-  RINGTONE_PRICE_NIS,
+  RINGTONE_PRICE_FULL,
+  RINGTONE_PRICE_LABEL,
 } from "@/lib/data/funny-ringtone-page";
-import { formatNis } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -39,7 +40,7 @@ export default function FunnyRingtoneOrderForm() {
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: FORM_ID,
   });
-  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
+  const { submitLead, isSuccess, isSubmitting, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,7 +67,7 @@ export default function FunnyRingtoneOrderForm() {
             ? [{ label: "למי המתנה", value: sanitizeLeadText(recipient, 80) }]
             : []),
           ...(context ? [{ label: "סוג מתנה", value: context }] : []),
-          { label: "מחיר מבצע", value: formatNis(RINGTONE_PRICE_NIS) },
+          { label: "מחיר", value: RINGTONE_PRICE_FULL },
         ];
         const body = buildSimpleLeadMessage({
           contact: {
@@ -124,7 +125,7 @@ export default function FunnyRingtoneOrderForm() {
       noValidate
     >
       <h2 className="font-serif text-xl font-semibold text-foreground">
-        הזמנת רינגטון - {formatNis(RINGTONE_PRICE_NIS)} מבצע
+        הזמנת רינגטון, {RINGTONE_PRICE_LABEL}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
         השאירו פרטים ונחזור אליכם בשעות הפעילות. בלי התחייבות, רק כדי להבין את
@@ -133,6 +134,13 @@ export default function FunnyRingtoneOrderForm() {
 
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mt-3"
+        />
+      ) : null}
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

@@ -47,7 +47,11 @@ export type BookMatcherResult = {
   outputHint: string;
   demoId: AudioDemoId;
   showcaseVariant: BookMatcherShowcaseVariant;
-  testimonialIndex: number;
+  /**
+   * מזהה ב-SITE_TESTIMONIALS, רק מאותה קטגוריה (price-social-proof.test.ts).
+   * בלי מזהה אין המלצה ליד התוצאה (שלב 5, FIT-04).
+   */
+  testimonialId?: string;
 };
 
 function catalogCtaKind(catalogId: PriceItemId): "book" | "quote" {
@@ -71,13 +75,13 @@ const SONG_PACKAGE = result({
   id: "song-package",
   routeId: "family-gifts",
   categoryId: "studio",
-  catalogId: "cover_song",
-  title: "שיר מוכן באולפן",
-  why: "הקלטה בלי לחץ זמן. מיקס, מאסטר ותיקון זיופים נכנסים במחיר הקטלוג.",
-  outputHint: "קובץ מוכן לשיתוף אחרי מיקס",
+  catalogId: "song_recording",
+  title: "הקלטת שיר באולפן",
+  why: "סשן של שעה עם הקלטה, מיקס ומאסטר. תיקון זיופים וקליפ ערוך אפשר להוסיף.",
+  outputHint: "השיר המוכן אצלכם בסוף הסשן",
   demoId: "recording-vocal-polish",
   showcaseVariant: "vocal",
-  testimonialIndex: 6,
+  testimonialId: "7",
 });
 
 const SINGLE_PRODUCTION = result({
@@ -90,7 +94,7 @@ const SINGLE_PRODUCTION = result({
   outputHint: "מוכן לספוטיפיי אחרי מאסטר",
   demoId: "full-production",
   showcaseVariant: "vocal",
-  testimonialIndex: 6,
+  testimonialId: "7",
 });
 
 const BLESSING = result({
@@ -103,7 +107,7 @@ const BLESSING = result({
   outputHint: "קובץ מוכן לשיתוף במשפחה",
   demoId: "blessing-mix",
   showcaseVariant: "vocal",
-  testimonialIndex: 5,
+  testimonialId: "6",
 });
 
 const PODCAST_AUDIO = result({
@@ -116,7 +120,7 @@ const PODCAST_AUDIO = result({
   outputHint: "פרק ליוטיוב ולספוטיפיי",
   demoId: "podcast-zoom-cleanup",
   showcaseVariant: "remote",
-  testimonialIndex: 1,
+  testimonialId: "1",
 });
 
 const NOISE_FILE = result({
@@ -129,7 +133,6 @@ const NOISE_FILE = result({
   outputHint: "מתאים לקובץ קיים, בלי הקלטה באולפן",
   demoId: "podcast-zoom-cleanup",
   showcaseVariant: "remote",
-  testimonialIndex: 0,
 });
 
 const SIBILANCE_FIX = result({
@@ -142,7 +145,6 @@ const SIBILANCE_FIX = result({
   outputHint: "מתאים לקובץ קיים לפני העלאה",
   demoId: "pitch-correction",
   showcaseVariant: "vocal",
-  testimonialIndex: 6,
 });
 
 const RAW_QUOTE = result({
@@ -154,7 +156,6 @@ const RAW_QUOTE = result({
   outputHint: "קובץ גלם, בלי הפצה לספוטיפיי",
   demoId: "recording-vocal-polish",
   showcaseVariant: "vocal",
-  testimonialIndex: 5,
   ctaKind: "quote",
 });
 
@@ -168,9 +169,21 @@ const MOBILE_QUOTE = result({
   outputHint: "הקלטה אצלכם, מחיר לפי לוגיסטיקה",
   demoId: "podcast-zoom-cleanup",
   showcaseVariant: "remote",
-  testimonialIndex: 1,
+  testimonialId: "1",
   ctaKind: "quote",
 });
+
+/** כל התוצאות האפשריות, לבדיקות */
+export const BOOK_NEED_RESULTS: readonly BookMatcherResult[] = [
+  SONG_PACKAGE,
+  SINGLE_PRODUCTION,
+  BLESSING,
+  PODCAST_AUDIO,
+  NOISE_FILE,
+  SIBILANCE_FIX,
+  RAW_QUOTE,
+  MOBILE_QUOTE,
+];
 
 export function needsEditQuestion(pain: BookPainId): boolean {
   return pain === "noise" || pain === "flat";

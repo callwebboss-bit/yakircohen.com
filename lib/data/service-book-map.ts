@@ -1,162 +1,224 @@
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
-import { hubBookCtaLabel } from "@/lib/data/conversion-copy";
+import { CTA_LABELS, consumerBookCtaLabel, hubBookCtaLabel } from "@/lib/data/conversion-copy";
 import { resolveEventItemIdFromPath } from "@/lib/data/attraction-book-pricing";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { getPriceAudience } from "@/lib/data/pricing-display";
 
 export type ServiceBookCta = {
   bookHref: string;
   bookLabel: string;
   bookCategory: BookCategoryId;
-  /** מחיר התחלתי לפני מע״מ - לתג [YC:] ולקופי */
-  priceExVat: number;
+  /** מחיר התחלתי לפני מע״מ - לתג [YC:] ולקופי. null בעמוד בלי מוצר מתומחר משלו */
+  priceExVat: number | null;
+  /** מזהה הקטלוג שהמחיר בכפתור לקוח ממנו (שלב 4, סעיף 2G) */
+  priceCatalogId: PriceItemId | null;
 };
 
 type BookMapEntry = {
   bookCategory: BookCategoryId;
+  /**
+   * המוצר של העמוד עצמו. בלי מזהה, הכפתור הוא "הזמנה מקוונת" בלי מחיר: עמוד
+   * שאין לו מחיר משלו לא מציג מחיר של מוצר אחר (WP5, PB-03, PB-04, OAC-01).
+   */
   priceCatalogId?: PriceItemId;
-  /** כשאין מזהה בקטלוג (למשל אקדמיה 990) */
+  /**
+   * escape hatch: מחיר שאין לו עדיין מזהה בקטלוג. כל שימוש חייב הערה עם
+   * הסיבה והשאלה שפתוחה אצל הבעלים.
+   */
   priceExVat?: number;
+  /**
+   * עמוד שמציג את טופס הקלטת השיר: הכפתור מציג "מ-590 ₪ כולל מע״מ" בלבד,
+   * כמו הטופס (החלטת הבעלים 2.10.2026). שאר עמודי הצרכן מציגים כולל מע״מ
+   * ובסוגריים לפני מע״מ.
+   */
+  consumerVat?: true;
+  /** עמוד בלי כפתור הזמנה בכלל (רק וואטסאפ) */
+  noBook?: true;
 };
 
-/** slug (no leading slash) קטגוריית /book + מחיר התחלתי מהקטלוג */
+const attraction = (slug: string): [string, BookMapEntry] => [
+  slug,
+  { bookCategory: "events", priceCatalogId: "event_attraction_1" },
+];
+
+/**
+ * slug (בלי / בהתחלה) -> קטגוריית /book + המוצר של העמוד.
+ *
+ * WP5 (שלב 4): SLUG_PREFIX_FALLBACK נמחק. הוא נתן לכל עמוד בלי שורה מחיר של
+ * מוצר אחר: עמודי קריינות הציגו את מחיר הברכה, ציוד ומנחה הציגו אטרקציה,
+ * וכל עמודי הפודקאסט הציגו פיילוט אודיו. עכשיו כל עמוד חייב שורה מפורשת, ועמוד
+ * בלי שורה לא מקבל כפתור (נבדק ב-service-book-map.test.ts).
+ */
 const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
-  studio: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  // ─── אולפן ───
+  studio: { bookCategory: "studio", priceCatalogId: "blessing_recording", consumerVat: true },
+  "studio/pricing": { bookCategory: "studio", priceCatalogId: "blessing_recording", consumerVat: true },
   "studio/blessings": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  "studio/blessings/bar-mitzvah": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  "studio/blessings/bride-groom-blessing": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  /* קליפ לשיר/ברכה וקליפ בת מצווה: אין להם מזהה במחיר משלהם (שאלת בעלים:
+     קליפ בת מצווה 2,590). הכפתור בלי מחיר. */
+  "studio/blessings/video-clip": { bookCategory: "studio" },
+  "studio/blessings/bat-mitzvah-clip": { bookCategory: "studio" },
   "studio/recording-song-modiin": {
     bookCategory: "studio",
-    priceCatalogId: "cover_song",
+    priceCatalogId: "song_recording",
+    consumerVat: true,
   },
   "studio/recording-studio": { bookCategory: "studio", priceCatalogId: "studio_hour" },
   "studio/mobile-studio": { bookCategory: "studio", priceCatalogId: "mobile_podcast_at_home" },
-  events: { bookCategory: "events", priceCatalogId: "event_attraction_1" },
-  photography: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
-  video: { bookCategory: "clips", priceCatalogId: "quick_summary_clip" },
-  "business/reel-factory": {
-    bookCategory: "clips",
-    priceCatalogId: "reel_factory_rave_24h",
-  },
-  podcast: { bookCategory: "podcast", priceCatalogId: "podcast_pilot" },
-  voiceover: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
-  online: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
-  academy: { bookCategory: "academy", priceExVat: 990 },
+  /* עמודי הערים מובילים לאותו אולפן במודיעין: ברכה היא נקודת הכניסה */
+  "studio/studio-jerusalem": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  "studio/studio-shoham": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  "studio/studio-rehovot": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
+  "studio/studio-beit-shemesh": { bookCategory: "studio", priceCatalogId: "blessing_recording" },
   voucher: { bookCategory: "studio", priceCatalogId: "blessing_recording" },
-  pro: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" },
-  "events/dj/voice-tags": { bookCategory: "dj", priceCatalogId: "dj_voice_tag_single" },
-  "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_custom_planned" },
-  "events/dj/pre-built-sets": { bookCategory: "dj", priceCatalogId: "prebuilt_set_corporate" },
+  matanot: { bookCategory: "studio" },
+
+  // ─── קריינות: אין מחיר קריינות בקטלוג (שאלת בעלים: IVR, פרסומת, דקת קריינות) ───
+  voiceover: { bookCategory: "studio" },
+  "voiceover/services": { bookCategory: "studio" },
+  /* קורס הקריינות נמכר כשיעורים פרטיים באולפן */
+  "voiceover/course": { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+
+  // ─── פודקאסט: כל עמוד המוצר שלו ───
+  podcast: { bookCategory: "podcast", priceCatalogId: "podcast_audio" },
+  "podcast/faq": { bookCategory: "podcast", priceCatalogId: "podcast_audio" },
+  "podcast/podcast-recording": { bookCategory: "podcast", priceCatalogId: "full_podcast_production" },
+  "podcast/podcast-production": { bookCategory: "podcast", priceCatalogId: "full_podcast_production" },
+  "podcast/podcast-editing": { bookCategory: "online", priceCatalogId: "podcast_editing_hour" },
+  "podcast/podcast-studio-modiin": { bookCategory: "podcast", priceCatalogId: "studio_half_hour" },
+  "podcast/podcast-studio": { bookCategory: "podcast", priceCatalogId: "studio_half_hour" },
+  "podcast/mobile-podcast-at-home": { bookCategory: "podcast", priceCatalogId: "mobile_podcast_at_home" },
+  "podcast/self-service-studio": { bookCategory: "podcast", priceCatalogId: "studio_self_service_hour" },
+  /* פודקאסט עם סבא וסבתא: אין מחיר למסלולים (שאלת בעלים) */
+  "podcast/podcast-with-grandpa": { bookCategory: "podcast" },
   "podcast/studio-in-a-box": { bookCategory: "podcast", priceCatalogId: "studio_in_box_consult" },
   "podcast/bulk-production": { bookCategory: "podcast", priceCatalogId: "bulk_podcast_episode" },
-  "podcast/self-service-studio": {
-    bookCategory: "podcast",
-    priceCatalogId: "studio_self_service_hour",
-  },
-  "business/content-studio": {
-    bookCategory: "clips",
-    priceCatalogId: "content_studio_session",
-  },
-  "business/on-site-studio": {
-    bookCategory: "clips",
-    priceCatalogId: "on_site_half_day",
-  },
-  "business/corporate-songs": {
-    bookCategory: "studio",
-    priceCatalogId: "corp_song_toast",
-  },
-  "business/audiobooks": {
-    bookCategory: "online",
-    priceCatalogId: "audiobook_hour",
-  },
-  "business/audio-branding": {
-    bookCategory: "online",
-    priceCatalogId: "audio_brand_starter",
-  },
-  "online/legacy-digitization": {
-    bookCategory: "online",
-    priceCatalogId: "legacy_dig_basic",
-  },
-  "online/transcription": {
-    bookCategory: "online",
-    priceCatalogId: "transcribe_hour",
-  },
-  "online/voice-cloning": {
-    bookCategory: "online",
-    priceCatalogId: "voice_clone_setup",
-  },
-  "online/vocal-fix/noise-removal": {
-    bookCategory: "online",
-    priceCatalogId: "noise_removal_segment",
-  },
-  "online/vocal-fix/eq-fix": {
-    bookCategory: "online",
-    priceCatalogId: "eq_freq_fix",
-  },
-  "online/vocal-fix/volume-balance": {
-    bookCategory: "online",
-    priceCatalogId: "volume_balance_full",
-  },
-  // עמוד המיקס מציג 500 ₪ קשיח ואין ל-500 מזהה בקטלוג (external_mix_master=1750). escape-hatch כמו academy/singer.
-  "online/vocal-fix/mixing": { bookCategory: "online", priceExVat: 500 },
-  // עמוד נחיתה חדש לתיקון סאונד פודקאסט - בסיס חבילת שידוריאל = ניקוי רעשים (500)
-  "online/vocal-fix/podcast-repair": {
-    bookCategory: "online",
-    priceCatalogId: "noise_removal_segment",
-  },
-  "academy/workshops": {
-    bookCategory: "academy",
-    priceCatalogId: "workshop_team_2h",
-  },
-  "business/employer-branding": {
-    bookCategory: "online",
-    priceCatalogId: "employer_welcome",
-  },
+
+  // ─── אירועים ───
+  events: { bookCategory: "events", priceCatalogId: "event_attraction_1" },
+  ...Object.fromEntries(
+    [
+      "events/attractions",
+      "events/attractions/bubble-machine",
+      "events/attractions/bubble-machine/smoke-bubble-machine-events",
+      "events/attractions/cold-fireworks",
+      "events/attractions/confetti-cannon",
+      "events/attractions/giant-balloons",
+      "events/attractions/smoke-cannons-for-events",
+      "events/attractions/wedding-smoking-machine",
+      "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",
+      "events/stage-led-dj",
+    ].map(attraction),
+  ),
+  "events/dj-events": { bookCategory: "dj", priceCatalogId: "dj_premium" },
+  /* בר מצווה נכנס דרך אשף ה-DJ: ה-CTA הראשי הוא תקליטן, והאטרקציות אחריו */
+  "events/bar-mitzvah": { bookCategory: "dj", priceCatalogId: "dj_premium" },
+  /* חבילות החתונה נמכרות כחבילה בהצעה, לא כאטרקציה בודדת */
+  "events/wedding-attractions-packages": { bookCategory: "events" },
+  /* ציוד והנחיה: אין להם מחיר פתיחה בקטלוג (שאלת בעלים: מנחה, עמדת LED) */
+  /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). אשף האירועים הוא
+     שמוכר את השכרת ההגברה במחיר הזה, ולכן הכפתור מוביל אליו. */
+  "events/equipment": { bookCategory: "events", priceCatalogId: "event_sound_rental" },
+  "events/equipment/faq": { bookCategory: "singer" },
+  "events/host": { bookCategory: "events" },
+  "events/host/faq": { bookCategory: "events" },
+  "events/equipment/singer-amplification": { bookCategory: "singer", priceCatalogId: "singer_amp_basic" },
   "events/equipment/dry-hire": { bookCategory: "singer", priceCatalogId: "dry_hire_day" },
   "events/equipment/system-tuning": { bookCategory: "singer", priceCatalogId: "system_tuning_ease" },
-  "events/dj-events": { bookCategory: "dj", priceCatalogId: "dj_premium" },
-  /* בר מצווה נכנס דרך אשף ה-DJ ולא דרך אשף האטרקציות: ה-CTA הראשי הוא תקליטן,
-     והאטרקציות נבחרות אחריו. בלי השורה הזו ה-fallback של events/ היה מציג 1,750 ₪. */
-  "events/bar-mitzvah": { bookCategory: "dj", priceCatalogId: "dj_premium" },
-  "events/equipment/singer-amplification": { bookCategory: "singer", priceExVat: 2800 },
-};
+  "events/dj/voice-tags": { bookCategory: "dj", priceCatalogId: "dj_voice_tag_single" },
+  "events/dj/pre-built-sets": { bookCategory: "dj", priceCatalogId: "prebuilt_set_corporate" },
 
-const SLUG_PREFIX_FALLBACK: { prefix: string; entry: BookMapEntry }[] = [
-  { prefix: "studio/", entry: { bookCategory: "studio", priceCatalogId: "blessing_recording" } },
-  { prefix: "events/", entry: { bookCategory: "events", priceCatalogId: "event_attraction_1" } },
-  { prefix: "podcast/", entry: { bookCategory: "podcast", priceCatalogId: "podcast_pilot" } },
-  { prefix: "photography/", entry: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" } },
-  { prefix: "online/", entry: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" } },
-  { prefix: "academy/", entry: { bookCategory: "academy", priceExVat: 990 } },
-  { prefix: "voiceover/", entry: { bookCategory: "studio", priceCatalogId: "blessing_recording" } },
-  { prefix: "business/", entry: { bookCategory: "clips", priceCatalogId: "reel_factory_rave_24h" } },
-  { prefix: "pro/", entry: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" } },
-];
+  // ─── צילום ווידאו ───
+  photography: { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
+  "photography/events": { bookCategory: "photography", priceCatalogId: "event_photo_hourly" },
+  "photography/wedding": { bookCategory: "photography", priceCatalogId: "full_event_photo_8h" },
+  "photo-slideshow": { bookCategory: "events", priceCatalogId: "growth_slideshow_30" },
+  video: { bookCategory: "clips", priceCatalogId: "quick_summary_clip" },
+  "video/corporate-video": { bookCategory: "clips" },
+  "video/event-filming": { bookCategory: "clips" },
+  "video/presentation": { bookCategory: "clips" },
+
+  // ─── אונליין ───
+  online: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
+  "online/online-ai-pricing": { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
+  "online/vocal-fix": { bookCategory: "online", priceCatalogId: "ai_voice_enhance" },
+  "online/vocal-fix/pitch-correction": { bookCategory: "online", priceCatalogId: "studio_pitch_correction" },
+  "online/vocal-fix/noise-removal": { bookCategory: "online", priceCatalogId: "noise_removal_segment" },
+  "online/vocal-fix/eq-fix": { bookCategory: "online", priceCatalogId: "eq_freq_fix" },
+  "online/vocal-fix/volume-balance": { bookCategory: "online", priceCatalogId: "volume_balance_full" },
+  /* עמוד המיקס מציג 500 ואין ל-500 מזהה בקטלוג (external_mix_master הוא
+     1,750). escape hatch עד שהבעלים יחליט אם אלה שני מוצרים (שאלת אונליין 4). */
+  "online/vocal-fix/mixing": { bookCategory: "online", priceExVat: 500 },
+  /* תיקון סאונד לפודקאסט: הבסיס הוא ניקוי רעשים */
+  "online/vocal-fix/podcast-repair": { bookCategory: "online", priceCatalogId: "noise_removal_segment" },
+  "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_custom_planned" },
+  "online/legacy-digitization": { bookCategory: "online", priceCatalogId: "legacy_dig_basic" },
+  "online/transcription": { bookCategory: "online", priceCatalogId: "transcribe_hour" },
+  "online/voice-cloning": { bookCategory: "online", priceCatalogId: "voice_clone_setup" },
+
+  // ─── אקדמיה: שיעור פרטי הוא המוצר המתומחר ───
+  academy: { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+  "academy/private-lessons": { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+  "academy/music-production": { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+  "academy/voiceover": { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+  "academy/ai-music": { bookCategory: "academy", priceCatalogId: "academy_private_hour" },
+  "academy/workshops": { bookCategory: "academy", priceCatalogId: "workshop_team_2h" },
+  /* אולפן עברית: מחירון חודשי נפרד שלא בקטלוג (שאלת בעלים: 36 או 48 שיעורים) */
+  "academy/ulpan": { bookCategory: "academy" },
+
+  // ─── עסקים (לפני מע״מ קודם) ───
+  pro: { bookCategory: "pro", priceCatalogId: "dj_voice_tag_single" },
+  "business/reel-factory": { bookCategory: "clips", priceCatalogId: "reel_factory_rave_24h" },
+  "business/content-studio": { bookCategory: "clips", priceCatalogId: "content_studio_session" },
+  "business/on-site-studio": { bookCategory: "clips", priceCatalogId: "on_site_half_day" },
+  "business/corporate-songs": { bookCategory: "studio", priceCatalogId: "corp_song_toast" },
+  "business/audiobooks": { bookCategory: "online", priceCatalogId: "audiobook_hour" },
+  "business/audio-branding": { bookCategory: "online", priceCatalogId: "audio_brand_starter" },
+  "business/employer-branding": { bookCategory: "online", priceCatalogId: "employer_welcome" },
+  /* קריינות לעסקים: המוצר המתומחר היחיד הוא חבילת 5 תגים (1,200). הבעלים יכול
+     להטיל וטו (שאלת קריינות 2). */
+  "business/professional-voiceover": { bookCategory: "pro", priceCatalogId: "dj_voice_tag_pack_5" },
+
+  // ─── ללא /book ───
+  clinic: { bookCategory: "academy", noBook: true },
+};
 
 function normalizeSlug(slug: string): string {
   return slug.replace(/^\/+/, "").replace(/\/+$/, "");
 }
 
-function lookupEntry(slug: string): BookMapEntry | null {
-  const normalized = normalizeSlug(slug);
-  if (SERVICE_BOOK_MAP[normalized]) return SERVICE_BOOK_MAP[normalized];
-  const prefixHit = SLUG_PREFIX_FALLBACK.find((row) => normalized.startsWith(row.prefix));
-  return prefixHit?.entry ?? null;
+/** כל ה-slugs שיש להם שורה מפורשת (לבדיקה) */
+export function getServiceBookMapSlugs(): string[] {
+  return Object.keys(SERVICE_BOOK_MAP);
 }
 
 export function resolveServiceBookCta(slug: string): ServiceBookCta | null {
-  const entry = lookupEntry(slug);
-  if (!entry) return null;
+  const normalized = normalizeSlug(slug);
+  const entry = SERVICE_BOOK_MAP[normalized];
+  if (!entry || entry.noBook) return null;
+  const priceCatalogId = entry.priceCatalogId ?? null;
   const priceExVat =
-    entry.priceExVat ?? (entry.priceCatalogId ? getExVat(entry.priceCatalogId) : 0);
-  if (!priceExVat) return null;
-  const pagePath = `/${normalizeSlug(slug)}`;
+    entry.priceExVat ?? (priceCatalogId ? getExVat(priceCatalogId) : null);
+  const pagePath = `/${normalized}`;
   const eventItemId =
     entry.bookCategory === "events" ? resolveEventItemIdFromPath(pagePath) : null;
+  const audience = getPriceAudience(entry.bookCategory === "pro" ? "pro" : pagePath);
+  let bookLabel: string = CTA_LABELS.bookOnline;
+  if (priceExVat) {
+    bookLabel = entry.consumerVat
+      ? consumerBookCtaLabel(priceExVat)
+      : hubBookCtaLabel(priceExVat, audience);
+  }
   return {
     bookCategory: entry.bookCategory,
     bookHref: buildBookHref(
       entry.bookCategory,
       eventItemId ? { item: eventItemId } : undefined,
     ),
-    bookLabel: hubBookCtaLabel(priceExVat),
-    priceExVat,
+    bookLabel,
+    priceExVat: priceExVat || null,
+    priceCatalogId,
   };
 }

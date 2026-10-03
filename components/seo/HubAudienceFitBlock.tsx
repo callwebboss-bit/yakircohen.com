@@ -7,6 +7,8 @@ import {
   type FitAudience,
   type ServiceFitEntry,
 } from "@/lib/data/service-fit-matrix";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice, getPriceAudience } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
 const AUDIENCE_ORDER: readonly FitAudience[] = [
@@ -23,10 +25,15 @@ export type HubAudienceFitBlockProps = {
   className?: string;
   /** כמה שירותים מקסימום לכל קהל */
   maxPerAudience?: number;
+  /** @deprecated הקהל נגזר מנתיב כל כרטיס (getPriceAudience). נשאר לתאימות */
+  priceLead?: "exVat" | "withVat";
 };
 
-function formatPrice(exVat: number): string {
-  return `מ-${exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`;
+/* כולל מע״מ לצרכן, לפני מע״מ לעמודי /business (החלטת הבעלים 2.10.2026) */
+function anchorLabel(entry: ServiceFitEntry): string {
+  if (!entry.priceAnchorId) return "";
+  const audience = getPriceAudience(entry.pathname);
+  return formatPrice(getExVat(entry.priceAnchorId), { from: true, audience }).headline;
 }
 
 function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
@@ -42,9 +49,7 @@ function ServiceCard({ entry }: { entry: ServiceFitEntry }) {
         <span className="text-xs text-muted-foreground">
           {FIT_DELIVERY_LABEL[entry.delivery]} ·{" "}
           {FIT_OUTCOME_LABEL[entry.outcome]}
-          {entry.priceAnchorExVat != null
-            ? ` · ${formatPrice(entry.priceAnchorExVat)}`
-            : ""}
+          {entry.priceAnchorId ? ` · ${anchorLabel(entry)}` : ""}
         </span>
       </Link>
     </li>

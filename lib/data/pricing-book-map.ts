@@ -2,6 +2,10 @@ import { buildBookHref, type BookCategoryId } from "@/lib/book-url";
 import type { PodcastPackageId } from "@/lib/data/podcast-calculator";
 import { getPriceById, type PriceItemId } from "@/lib/data/pricing-catalog";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
+import {
+  resolveLegacySongAlias,
+  type SongAddonId,
+} from "@/lib/data/song-offer-aliases";
 import type {
   RecordingTypeId,
   StudioPackageId,
@@ -16,7 +20,36 @@ export type PricingBookTarget = {
   filterPreset?: Partial<FilterAnswers>;
   participantCount?: number;
   podcastLocation?: "modiin" | "mobile";
+  /** הצעת השיר: אילו תוספות מסומנות מראש בטופס (lib/data/song-offer.ts) */
+  songOffer?: { addonIds: readonly SongAddonId[] };
+  /**
+   * WP5 (שלב 4): החבילה שהאשף פותח לפריט הזה מתומחרת אחרת מהפריט בקטלוג
+   * (למשל הפקה מלאה 2,500 נפתחת כחבילת אודיו 950). כפתור "הזמנה מקוונת" היה
+   * מבטיח מחיר אחד ומציג אחר, ולכן הפריט לא נשלח לאשף: הכפתור הופך לוואטסאפ
+   * עם שם הפריט והמחיר. להסיר כשלאשף יש חבילה במחיר הזה.
+   */
+  notBookable?: string;
 };
+
+const SONG_FILTER_PRESET: Partial<FilterAnswers> = {
+  timeline: "this_month",
+  purpose: "personal",
+};
+
+function songTarget(
+  catalogId: PriceItemId,
+  addonIds: readonly SongAddonId[],
+  recordingTypeId: RecordingTypeId = "cover",
+): PricingBookTarget {
+  return {
+    category: "studio",
+    catalogId,
+    studioPackageId: "song",
+    recordingTypeId,
+    filterPreset: SONG_FILTER_PRESET,
+    songOffer: { addonIds },
+  };
+}
 
 const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
   // ─── אולפן ───
@@ -43,34 +76,13 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     studioPackageId: "remote",
     filterPreset: { timeline: "this_month" },
   },
-  cover_song: {
-    category: "studio",
-    catalogId: "cover_song",
-    studioPackageId: "classic",
-    recordingTypeId: "cover",
-    filterPreset: { timeline: "this_month", purpose: "personal" },
-  },
-  song_package: {
-    category: "studio",
-    catalogId: "song_package",
-    studioPackageId: "pro",
-    recordingTypeId: "event_song",
-    filterPreset: { timeline: "this_month", purpose: "personal" },
-  },
-  studio_viral: {
-    category: "studio",
-    catalogId: "studio_viral",
-    studioPackageId: "viral",
-    recordingTypeId: "event_song",
-    filterPreset: { timeline: "this_month", purpose: "personal" },
-  },
-  studio_all_in: {
-    category: "studio",
-    catalogId: "studio_all_in",
-    studioPackageId: "all_in",
-    recordingTypeId: "event_song",
-    filterPreset: { timeline: "this_month", purpose: "personal" },
-  },
+  song_recording: songTarget("song_recording", []),
+  song_pitch_coaching: songTarget("song_recording", ["song_pitch_coaching"]),
+  studio_session_clip_edited: songTarget("song_recording", ["studio_session_clip_edited"]),
+  song_pre_session_interview: songTarget("song_recording", [
+    "studio_session_clip_edited",
+    "song_pre_session_interview",
+  ]),
   single_production: {
     category: "studio",
     catalogId: "single_production",
@@ -80,16 +92,15 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
   full_production_clip: {
     category: "studio",
     catalogId: "full_production_clip",
-    studioPackageId: "viral",
     recordingTypeId: "original",
     filterPreset: { timeline: "this_month", purpose: "personal" },
   },
+  /* הצילום הגולמי (450) נשאר תוספת לברכה. לשיר יש קליפ ערוך, ראו למעלה. */
   studio_session_clip: {
     category: "studio",
     catalogId: "studio_session_clip",
-    studioPackageId: "classic",
-    recordingTypeId: "event_song",
-    filterPreset: { timeline: "this_month", purpose: "personal" },
+    recordingTypeId: "general_blessing",
+    filterPreset: { timeline: "this_month", purpose: "gift" },
   },
   // ─── פודקאסט ───
   podcast_pilot: {
@@ -116,12 +127,14 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     category: "podcast",
     catalogId: "full_podcast_production",
     podcastPackageId: "audio",
+    notBookable: "האשף פותח חבילת אודיו (podcast_audio), לא הפקה מלאה",
   },
   mobile_podcast_at_home: {
     category: "podcast",
     catalogId: "mobile_podcast_at_home",
     podcastPackageId: "audio",
     podcastLocation: "mobile",
+    notBookable: "האשף מחשב אודיו ועוד תוספת הגעה לפי אזור, לא את מחיר הפתיחה של האולפן הנייד",
   },
   podcast_extra_participant: {
     category: "podcast",
@@ -141,6 +154,7 @@ const PRICING_BOOK_MAP: Partial<Record<PriceItemId, PricingBookTarget>> = {
     category: "podcast",
     catalogId: "studio_self_service_hour",
     podcastPackageId: "starter",
+    notBookable: "האשף פותח את חבילת חצי השעה עם ליווי (studio_half_hour), לא שירות עצמי",
   },
   corp_podcast_pilot: {
     category: "pro",
@@ -162,18 +176,48 @@ export function resolvePricingBookTarget(
   return PRICING_BOOK_MAP[catalogId] ?? null;
 }
 
+/** פריט שהאשף מתמחר אחרת, ולכן אסור לשלוח אליו (ראו notBookable) */
+export function isPricingNotBookable(catalogId: PriceItemId): boolean {
+  return Boolean(PRICING_BOOK_MAP[catalogId]?.notBookable);
+}
+
+/** האם כפתור "הזמנה מקוונת" לפריט הזה מגיע לאשף באותו מחיר */
+export function isPricingBookable(catalogId: PriceItemId): boolean {
+  const target = PRICING_BOOK_MAP[catalogId];
+  return Boolean(target && !target.notBookable);
+}
+
 export function resolvePricingBookHref(catalogId: PriceItemId): string | null {
   const target = resolvePricingBookTarget(catalogId);
-  if (!target) return null;
+  if (!target || target.notBookable) return null;
   return buildBookHref(target.category, { catalog: catalogId });
 }
+
+/* סוג ההקלטה שהחבילה הישנה הניחה, כדי שקישור ישן ייפתח באותו מקום */
+const LEGACY_SONG_RECORDING_TYPE: Readonly<Record<string, RecordingTypeId>> = {
+  cover_song: "cover",
+  song_package: "event_song",
+  studio_viral: "event_song",
+  studio_all_in: "event_song",
+};
 
 export function parseBookCatalogFromSearch(
   value: string | null,
 ): PricingBookTarget | null {
   if (!value?.trim()) return null;
+  /* קישורים ישנים (?catalog=cover_song וכו') ממשיכים לעבוד: הבסיס עם
+     התוספות שהכי קרובות לחבילה שירדה */
+  const legacyAddons = resolveLegacySongAlias(value);
+  if (legacyAddons) {
+    return songTarget(
+      "song_recording",
+      legacyAddons,
+      LEGACY_SONG_RECORDING_TYPE[value.trim()] ?? "cover",
+    );
+  }
   const id = value.trim() as PriceItemId;
   if (!VALID_CATALOG_IDS.has(id)) return null;
+  if (!isPricingBookable(id)) return null;
   try {
     getPriceById(id);
   } catch {
