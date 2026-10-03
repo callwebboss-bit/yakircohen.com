@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 154,
-  "contentHash": "7835bcb4a6b2e2ce",
+  "contentHash": "9f5997a0e0e56e6c",
   "items": [
     {
       "id": "studio_half_hour",
@@ -419,13 +419,13 @@
       "context": "תוספת למחיר ההפקה"
     },
     {
-      "id": "funny_ringtone_promo",
-      "label": "רינגטון מצחיק, מבצע",
-      "category": "studio",
+      "id": "voiceover_funny_ringtone",
+      "label": "רינגטון מצחיק",
+      "category": "online",
       "exVat": 299,
       "inclVat": 353,
       "priceFrom": false,
-      "context": "הקלטה, עיבוד וקובץ מוכן"
+      "context": "קריינות לכל דבר: הקלטה, עיבוד וקובץ מוכן"
     },
     {
       "id": "singer_live_recording_promo",

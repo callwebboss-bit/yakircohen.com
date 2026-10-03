@@ -8,9 +8,9 @@ import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import {
   RINGTONE_PAGE_PATH,
-  RINGTONE_PRICE_NIS,
+  RINGTONE_PRICE_FULL,
+  RINGTONE_PRICE_LABEL,
 } from "@/lib/data/funny-ringtone-page";
-import { formatNis } from "@/lib/data/pricing";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
@@ -67,7 +67,7 @@ export default function FunnyRingtoneOrderForm() {
             ? [{ label: "למי המתנה", value: sanitizeLeadText(recipient, 80) }]
             : []),
           ...(context ? [{ label: "סוג מתנה", value: context }] : []),
-          { label: "מחיר מבצע", value: formatNis(RINGTONE_PRICE_NIS) },
+          { label: "מחיר", value: RINGTONE_PRICE_FULL },
         ];
         const body = buildSimpleLeadMessage({
           contact: {
@@ -125,7 +125,7 @@ export default function FunnyRingtoneOrderForm() {
       noValidate
     >
       <h2 className="font-serif text-xl font-semibold text-foreground">
-        הזמנת רינגטון - {formatNis(RINGTONE_PRICE_NIS)} מבצע
+        הזמנת רינגטון, {RINGTONE_PRICE_LABEL}
       </h2>
       <p className="mt-2 text-sm text-muted-foreground">
         השאירו פרטים ונחזור אליכם בשעות הפעילות. בלי התחייבות, רק כדי להבין את

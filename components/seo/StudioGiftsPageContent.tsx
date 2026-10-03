@@ -22,9 +22,8 @@ import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   RINGTONE_HERO,
   RINGTONE_PAGE_PATH,
-  RINGTONE_PRICE_NIS,
+  RINGTONE_PRICE_LABEL,
 } from "@/lib/data/funny-ringtone-page";
-import { formatNis } from "@/lib/data/pricing";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import { buildStudioGiftsServiceSchema } from "@/lib/seo/gifts-page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -269,7 +268,7 @@ export default function StudioGiftsPageContent() {
           <div className="grid grid-cols-1 gap-0 lg:grid-cols-2">
             <div className="flex flex-col justify-center p-6 sm:p-8">
               <span className="inline-flex w-fit rounded-full bg-brand-red px-3 py-0.5 text-xs font-bold text-white">
-                {formatNis(RINGTONE_PRICE_NIS)} מבצע
+                {RINGTONE_PRICE_LABEL}
               </span>
               <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">
                 רינגטון מצחיק - מתנה לכיף

@@ -112,13 +112,6 @@
     "example": "description: \"650 ₪ לשעה (לפני מע״מ). מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.\","
   },
   {
-    "file": "app/(services)/studio/recording-song-modiin/gifts/funny-ringtone/page.tsx",
-    "kind": "prose",
-    "value": 299,
-    "count": 2,
-    "example": "title: \"רינגטון מצחיק במתנה | 299 ₪ מבצע\","
-  },
-  {
     "file": "app/business/audio-branding/page.tsx",
     "kind": "prose",
     "value": 1500,
@@ -1013,13 +1006,6 @@
     "value": 3200,
     "count": 1,
     "example": "return `שובר מתנה לאולפן או אירוע ${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;"
-  },
-  {
-    "file": "lib/data/funny-ringtone-page.ts",
-    "kind": "prose",
-    "value": 299,
-    "count": 1,
-    "example": "\"היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (299 ש\\\"ח). אשמח לפרטים.\","
   },
   {
     "file": "lib/data/greeting-tips.ts",

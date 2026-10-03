@@ -323,7 +323,7 @@ export const PRICING_CATALOG = [
   { id: "social_consult_30", label: "שיחת ייעוץ תוכן, עד 30 דקות", exVat: 700, category: "online", context: "ייעוץ ממוקד לתוכן ואסטרטגיה" },
   { id: "gift_box_usb", label: "מארז דיסק און קי ועיצוב", exVat: 199, category: "addons", context: "תוספת למחיר ההפקה" },
   { id: "gift_box_full", label: "מארז מלא: דיסק און קי, אוזניות וקופסה", exVat: 399, category: "addons", context: "תוספת למחיר ההפקה" },
-  { id: "funny_ringtone_promo", label: "רינגטון מצחיק, מבצע", exVat: 299, category: "studio", context: "הקלטה, עיבוד וקובץ מוכן" },
+  { id: "voiceover_funny_ringtone", label: "רינגטון מצחיק", exVat: 299, category: "online", context: "קריינות לכל דבר: הקלטה, עיבוד וקובץ מוכן" },
   { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "מבצע הרגע האחרון באשף ההגברה" },
   { id: "bat_mitzvah_clip", label: "קליפ בת מצווה", exVat: 2590, category: "studio", context: "מחיר פתיחה, לפי משתתפים וצילומי חוץ", priceFrom: true },
   { id: "academy_focused_training", label: "הכשרה ממוקדת, 90 דקות", exVat: 1470, category: "academy", context: "DJ, הפקה או קריינות, אחד על אחד" },
