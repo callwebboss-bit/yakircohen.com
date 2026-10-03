@@ -147,8 +147,12 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: true,
   widenClientFileUpload: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
+  /* disableLogger ו-automaticVercelMonitors הוסרו (4.10.2026). ב-@sentry/nextjs
+     10.65 שניהם deprecated ושניהם של webpack בלבד: deprecatedWebpackOptions.js
+     ממפה אותם ל-webpack.treeshake.removeDebugLogging ול-webpack.automaticVercelMonitors,
+     ו-getWebpackPatch לא רץ כש-next build רץ על Turbopack. ניטור ה-Cron בדרך
+     הישנה (strategy "wrapper") נבנה רק ב-webpack.js, ולכן גם הוא לא היה פעיל
+     בבנייה הזו. בבנייה של Turbopack ההסרה לא משנה דבר. */
   /**
    * הסרת מודול ה-tracing מחבילת הדפדפן.
    *
@@ -157,8 +161,8 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
    * 20% ועלה כ-55KB של JS מנותח בכל עמוד. זו מדידה כפולה שכבר יש לה
    * מקור טוב יותר.
    *
-   * מה לא משתנה: מעקב השגיאות, ה-breadcrumbs, מפות המקור, ה-releases
-   * וניטור ה-Cron של Vercel. וחשוב מכל, סינון ה-PII ב-beforeSend
+   * מה לא משתנה: מעקב השגיאות, ה-breadcrumbs, מפות המקור וה-releases.
+   * וחשוב מכל, סינון ה-PII ב-beforeSend
    * וב-scrubRequest לא נוגע בזה בכלל.
    *
    * דגלי ה-Replay: הפרויקט לא משתמש ב-Session Replay, ולכן שלושת

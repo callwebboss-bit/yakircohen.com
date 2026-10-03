@@ -5,7 +5,16 @@ import { deriveHebrewAlt } from "@/lib/hebrew-image-alt";
 
 const IMAGE_EXT = /\.(avif|gif|jpe?g|jfif|png|svg|webp)$/i;
 
-/** Scoped to public/images/services so Turbopack does not trace the whole repo. */
+/**
+ * Scoped to public/images/services so Turbopack does not trace the whole repo.
+ * The ignore comment on process.cwd() alone was not enough: every fs call below
+ * receives a path built from it at runtime, and Turbopack flagged both the fs
+ * calls and the path.join calls that build their arguments ("Dynamic filesystem
+ * access causes tracing of the whole project"). Each one therefore carries its
+ * own turbopackIgnore, which is the opt-out the warning itself suggests. Behaviour is unchanged: every page that calls this module is
+ * prerendered at build time, when public/ is on disk, and no dynamic route
+ * imports it, so the server trace never needed these files at runtime.
+ */
 const SERVICES_IMAGES_ROOT = path.join(
   /*turbopackIgnore: true*/ process.cwd(),
   "public",
@@ -50,7 +59,7 @@ function readImageDimensions(
   absoluteFilePath: string,
 ): { width: number; height: number } | null {
   try {
-    const buffer = fs.readFileSync(absoluteFilePath);
+    const buffer = fs.readFileSync(/*turbopackIgnore: true*/ absoluteFilePath);
 
     // PNG: magic 89 50 4E 47, IHDR at offset 16
     if (
@@ -125,16 +134,18 @@ function readImagesFromAbsoluteDir(
   urlBasePath: string,
   indexOffset = 0,
 ): PortfolioImage[] {
-  if (!fs.existsSync(absoluteDir)) {
+  if (!fs.existsSync(/*turbopackIgnore: true*/ absoluteDir)) {
     return [];
   }
 
   return fs
-    .readdirSync(absoluteDir, { withFileTypes: true })
+    .readdirSync(/*turbopackIgnore: true*/ absoluteDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && IMAGE_EXT.test(entry.name))
     .sort((a, b) => a.name.localeCompare(b.name, "he"))
     .map((entry, index) => {
-      const dimensions = readImageDimensions(path.join(absoluteDir, entry.name));
+      const dimensions = readImageDimensions(
+        path.join(/*turbopackIgnore: true*/ absoluteDir, entry.name),
+      );
       return {
         filename: entry.name,
         src: `${urlBasePath}/${entry.name}`,
@@ -146,8 +157,11 @@ function readImagesFromAbsoluteDir(
 
 function resolveArchiveDirName(absoluteServiceDir: string): string | null {
   for (const dirName of PORTFOLIO_ARCHIVE_DIR_NAMES) {
-    const candidate = path.join(absoluteServiceDir, dirName);
-    if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
+    const candidate = path.join(/*turbopackIgnore: true*/ absoluteServiceDir, dirName);
+    if (
+      fs.existsSync(/*turbopackIgnore: true*/ candidate) &&
+      fs.statSync(/*turbopackIgnore: true*/ candidate).isDirectory()
+    ) {
       return dirName;
     }
   }
@@ -177,9 +191,12 @@ export function listServicePortfolioImageSet(
   const cached = portfolioImageSetCache.get(folder);
   if (cached) return cached;
 
-  const absoluteDir = path.join(SERVICES_IMAGES_ROOT, ...folder.split("/"));
+  const absoluteDir = path.join(
+    /*turbopackIgnore: true*/ SERVICES_IMAGES_ROOT,
+    ...folder.split("/"),
+  );
 
-  if (!fs.existsSync(absoluteDir)) {
+  if (!fs.existsSync(/*turbopackIgnore: true*/ absoluteDir)) {
     const empty: ServicePortfolioImageSet = { primary: [], archive: [] };
     portfolioImageSetCache.set(folder, empty);
     return empty;
@@ -191,7 +208,7 @@ export function listServicePortfolioImageSet(
   const archiveDirName = resolveArchiveDirName(absoluteDir);
   const archive = archiveDirName
     ? readImagesFromAbsoluteDir(
-        path.join(absoluteDir, archiveDirName),
+        path.join(/*turbopackIgnore: true*/ absoluteDir, archiveDirName),
         `${basePath}/${archiveDirName}`,
         primary.length,
       )
