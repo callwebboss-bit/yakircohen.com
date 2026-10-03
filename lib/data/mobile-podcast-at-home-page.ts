@@ -1,4 +1,6 @@
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { mobileChannelPriceLine, mobileChannelsBreakdown } from "@/lib/data/mobile-studio-booking";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 
 export const MOBILE_PODCAST_HERO_FEATURES: readonly string[] = [
   "האולפן מגיע אליכם, בית, משרד או אירוע",
@@ -124,6 +126,12 @@ export const MOBILE_PODCAST_FAQS: readonly {
     question: "האם ניתן לשלב צילום וידאו?",
     answer:
       "בהחלט. צילום והפקת קליפים בהקלטה ניידת, כולל עריכת סרטונים קצרים לרשתות.",
+  },
+  {
+    id: "extra-people",
+    question: "כמה עולה כל אדם נוסף בהקלטה בבית?",
+    /* החלטת הבעלים 3.10.2026, סבב שלישי, מהקטלוג */
+    answer: `הקלטת האודיו לאדם אחד כלולה במחיר ההגעה. ${EXTRA_PERSON_COST_NOTE}: ${mobileChannelPriceLine()}. לדוגמה, ${mobileChannelsBreakdown(4).line}.`,
   },
   {
     id: "noise",

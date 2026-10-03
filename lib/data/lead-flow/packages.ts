@@ -1,4 +1,5 @@
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import type { LeadFlowServiceId } from "./services";
 
 export const PACKAGE_TIER_IDS = ["full", "adapted", "economy"] as const;
@@ -101,7 +102,8 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "אולפן נייד בבית או במשרד: הגעה עם כל הציוד, התאורה והצוות.",
+      /* סבב שלישי 3.10.2026: הקלטת האודיו כלולה, וכל אדם נוסף ערוץ נוסף */
+      summary: `אולפן נייד בבית או במשרד: הגעה עם כל הציוד, התאורה והצוות, והקלטת אודיו כלולה. ${EXTRA_PERSON_COST_NOTE}.`,
       catalogId: "mobile_podcast_at_home",
     },
   },

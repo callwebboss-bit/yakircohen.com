@@ -2,6 +2,7 @@
 
 import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { clampMobilePeople, MOBILE_STUDIO_CHANNELS } from "@/lib/data/mobile-studio-booking";
 
 /** מחיר פתיחה, פרק חצי שעה (מוצג גם במרכז הפודקאסט) */
 export const PODCAST_STARTER_PRICE = STUDIO_HALF_HOUR_NIS;
@@ -88,3 +89,35 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
       "הדרך הכי נגישה להתחיל פודקאסט, בלי להתחייב לחבילה גדולה.",
   },
 ];
+
+/* ─── משתתפים ואולפן נייד (החלטת הבעלים 3.10.2026, סבב שלישי) ─── */
+
+/** באולפן: 2 משתתפים כלולים, וכל משתתף נוסף podcast_extra_participant */
+export const PODCAST_INCLUDED_PARTICIPANTS = 2;
+
+/**
+ * חבילות שהן הקלטת אודיו. בבית או במשרד הקלטת האודיו כלולה במחיר ההגעה
+ * (mobile_podcast_at_home), ולכן באולפן הנייד מחיר החבילה עצמה 0.
+ */
+export const PODCAST_AUDIO_PACKAGE_IDS: readonly PodcastPackageId[] = ["audio", "starter"];
+
+/** מחיר החבילה לפני מע״מ לפי מקום ההקלטה */
+export function podcastPackageExVat(pkg: Pick<PodcastPackage, "id" | "price">, mobile: boolean): number {
+  if (mobile && PODCAST_AUDIO_PACKAGE_IDS.includes(pkg.id)) return 0;
+  return pkg.price;
+}
+
+/** התוספת לכל משתתף מעבר לכלולים, לפי הסדר, לפני מע״מ */
+export function podcastParticipantExtras(participants: number, mobile: boolean): number[] {
+  if (mobile) {
+    const people = clampMobilePeople(participants);
+    return Array.from({ length: people - MOBILE_STUDIO_CHANNELS.included }, () => MOBILE_STUDIO_CHANNELS.channelExVat);
+  }
+  const extra = Math.max(0, Math.trunc(participants) - PODCAST_INCLUDED_PARTICIPANTS);
+  return Array.from({ length: extra }, () => PODCAST_EXTRA_PARTICIPANT_PRICE);
+}
+
+/** תוספת המשתתפים לפני מע״מ. באולפן מהשלישי, באולפן הנייד מהשני (ערוץ לכל אדם). */
+export function podcastParticipantsCostExVat(participants: number, mobile: boolean): number {
+  return podcastParticipantExtras(participants, mobile).reduce((sum, x) => sum + x, 0);
+}

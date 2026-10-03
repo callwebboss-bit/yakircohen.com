@@ -12,6 +12,7 @@ import {
   getSongOfferExport,
   getSongOfferView,
   getSongParticipantRules,
+  getSongParticipantsBreakdown,
   getSongParticipantsExplanation,
   isSongAddonAvailable,
   LEGACY_SONG_ALIASES,
@@ -402,6 +403,8 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
         "מה בחרתי:",
         "• הקלטת שיר (הקלטה, מיקס ומאסטר) - 590 ₪",
         "• משתתפים: 4 (כולל תוספת 458 ₪)",
+        "  פירוט לפי משתתף: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)",
+        "  כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר.",
         "• קליפ ערוך מהסשן באולפן - 885 ₪",
         "סה״כ: 1,933 ₪ כולל מע״מ (1,638 ₪ + מע״מ)",
         "מתי נוח לכם להקליט?",
@@ -436,6 +439,10 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
       submissionId: "sub-p",
     });
     assert.ok(req.body.includes("• משתתפים: 4 (כולל תוספת 458 ₪)"));
+    assert.ok(
+      req.body.includes("פירוט לפי משתתף: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)"),
+    );
+    assert.ok(req.body.includes("כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר."));
     assert.ok(req.body.includes("סה״כ: 1,048 ₪ כולל מע״מ (888 ₪ + מע״מ)"));
     assert.equal(req.pricingRef?.exVat, 888);
     assert.equal(req.pricingRef?.href, "/studio/recording-song-modiin?participants=4#song-offer");
@@ -451,5 +458,41 @@ describe("song offer: participants (owner decision 2026-10-03)", () => {
     assert.equal(exp.participants.max, 12);
     assert.equal(exp.participants.secondExVat, 190);
     assert.equal(exp.participants.groupExVat, 99);
+  });
+});
+
+describe("song offer: per-person breakdown (owner decision 3.10.2026, round 3)", () => {
+  it("one singer has no surcharge line and no breakdown in the message", () => {
+    const { text } = buildSongOfferMessage([], { source: "/x", participants: 1 });
+    assert.doesNotMatch(text, /פירוט לפי משתתף/);
+    assert.equal(calcSongOffer([], 1).lines.some((l) => l.detail), false);
+  });
+
+  it("breaks down 2, 4 and 12 singers from the catalog, VAT-inclusive first", () => {
+    assert.equal(
+      getSongParticipantsBreakdown(2).line,
+      "2 משתתפים: 590 + 224 ₪ כולל מע״מ (500 + 190 ₪ + מע״מ)",
+    );
+    assert.equal(
+      getSongParticipantsBreakdown(4).line,
+      "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)",
+    );
+    assert.equal(
+      getSongParticipantsBreakdown(12).line,
+      "12 משתתפים: 590 + 224 + 10 × 117 ₪ כולל מע״מ (500 + 190 + 10 × 99 ₪ + מע״מ)",
+    );
+  });
+
+  it("clamps the breakdown to the 12 limit and its extras sum to the surcharge", () => {
+    assert.equal(getSongParticipantsBreakdown(40).head, "12 משתתפים");
+    for (let n = 1; n <= 12; n += 1) {
+      assert.equal(getSongParticipantsBreakdown(n).extrasExVat, songParticipantsSurcharge(n));
+    }
+  });
+
+  it("the breakdown copy has no AI tells", () => {
+    for (let n = 1; n <= 12; n += 1) {
+      assert.doesNotMatch(getSongParticipantsBreakdown(n).line, /[!—–…“”]/);
+    }
   });
 });

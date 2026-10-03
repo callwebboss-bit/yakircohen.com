@@ -14,6 +14,7 @@
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
 import { sanitizeLeadText } from "@/lib/form-validation";
+import { buildPersonBreakdown, EXTRA_PERSON_COST_NOTE, type PersonBreakdown } from "@/lib/data/participant-cost-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildYcLeadTag } from "@/lib/yc-lead-tag";
 
@@ -32,6 +33,8 @@ export type SongPriceLine = {
   label: string;
   exVat: number;
   withVat: number;
+  /** פירוט לפי משתתף, רק בשורת המשתתפים: "590 + 224 + 117 ₪ כולל מע״מ (500 + 190 + 99 ₪ + מע״מ)" */
+  detail?: string;
 };
 
 /** מה שצריך לשורות "מה בחרתי" ולסכום */
@@ -119,6 +122,34 @@ export function songParticipantsSurchargeExVat(
   return rules.secondExVat + (extra - 1) * rules.groupExVat;
 }
 
+/** התוספת לכל משתתף מעבר לכלול, לפי הסדר. 4 זמרים: [190, 99, 99]. */
+export function songParticipantsExtras(participants: number, rules: SongParticipantRules): number[] {
+  const n = clampSongParticipants(participants, rules);
+  const extra = n - rules.included;
+  if (extra <= 0) return [];
+  return [rules.secondExVat, ...Array.from({ length: extra - 1 }, () => rules.groupExVat)];
+}
+
+/**
+ * הפירוט לפי משתתף (החלטת הבעלים 3.10.2026, סבב שלישי), כולל מע״מ קודם:
+ * "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)".
+ * החלק הראשון הוא בסיס השיר, שכולל זמר אחד.
+ */
+export function songParticipantsBreakdown(
+  participants: number,
+  rules: SongParticipantRules,
+  baseExVat: number,
+  vatRate: number,
+): PersonBreakdown {
+  const count = clampSongParticipants(participants, rules);
+  return buildPersonBreakdown({
+    count,
+    baseExVat,
+    extrasExVat: songParticipantsExtras(count, rules),
+    vatRate,
+  });
+}
+
 function roundWithVat(exVat: number, vatRate: number): number {
   return Math.round(exVat * (1 + vatRate));
 }
@@ -204,10 +235,16 @@ export function calcSongQuote(
     const addon = data.addons.find((a) => a.id === id);
     return addon ? [line(addon)] : [];
   });
+  const breakdown = songParticipantsBreakdown(count, data.participants, data.base.exVat, data.vatRate);
   const lines: SongPriceLine[] = [
     line(data.base),
     ...(surcharge > 0
-      ? [line({ id: SONG_PARTICIPANTS_LINE_ID, label: participantsLineLabel(count), exVat: surcharge })]
+      ? [
+          {
+            ...line({ id: SONG_PARTICIPANTS_LINE_ID, label: participantsLineLabel(count), exVat: surcharge }),
+            detail: `${breakdown.withVat} ${breakdown.exVat}`,
+          },
+        ]
       : []),
     ...addonLines,
   ];
@@ -230,10 +267,14 @@ export function formatSongTotalLine(totals: Pick<SongOfferTotals, "totalExVat" |
 export function songSelectionLines(totals: SongOfferTotals): string[] {
   return [
     "מה בחרתי:",
-    ...totals.lines.map((line) =>
+    ...totals.lines.flatMap((line) =>
       line.id === SONG_PARTICIPANTS_LINE_ID
-        ? `• ${line.label} (כולל תוספת ${nis(line.withVat)})`
-        : `• ${line.label} - ${nis(line.withVat)}`,
+        ? [
+            `• ${line.label} (כולל תוספת ${nis(line.withVat)})`,
+            ...(line.detail ? [`  פירוט לפי משתתף: ${line.detail}`] : []),
+            `  ${EXTRA_PERSON_COST_NOTE}.`,
+          ]
+        : [`• ${line.label} - ${nis(line.withVat)}`],
     ),
     `סה״כ: ${formatSongTotalLine(totals)}`,
   ];

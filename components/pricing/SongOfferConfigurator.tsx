@@ -15,6 +15,7 @@ import HoneypotField from "@/components/forms/HoneypotField";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { CALLBACK_SUCCESS_COPY, TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { EXTRA_PERSON_COST_NOTE, type PersonBreakdown } from "@/lib/data/participant-cost-copy";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
 import {
   buildSongCallbackPayload,
@@ -26,6 +27,7 @@ import {
   SONG_OFFER_CALLBACK_FORM_ID,
   SONG_PARTICIPANTS_PARAM,
   SONG_PARTICIPANTS_LINE_ID,
+  songParticipantsBreakdown,
   type SongOfferQuote,
   type SongQuoteData,
 } from "@/lib/data/song-offer-quote";
@@ -272,6 +274,12 @@ export default function SongOfferConfigurator({
           quote.lines.find((l) => l.id === SONG_PARTICIPANTS_LINE_ID)?.withVat ?? 0
         }
         explanation={participantsExplanation}
+        breakdown={songParticipantsBreakdown(
+          participants,
+          pRules,
+          quoteData.base.exVat,
+          quoteData.vatRate,
+        )}
         onChange={changeParticipants}
       />
 
@@ -331,8 +339,9 @@ export default function SongOfferConfigurator({
 
 /**
  * "כמה משתתפים בשיר?": מינוס ופלוס עם תוויות נגישות, הכפתורים ננעלים בגבולות,
- * והמספר והתוספת מוקראים דרך aria-live. מתחת שורת הסבר אחת מהקטלוג, כולל
- * מע״מ קודם, כדי שיהיה ברור כמה עולה כל זמר.
+ * והמספר והתוספת מוקראים דרך aria-live. מעל הכפתורים המחיר לכל משתתף, בולט,
+ * ומתחת הפירוט לפי משתתף (החלטת הבעלים 3.10.2026, סבב שלישי: "אנשים מזמינים
+ * קבוצות ולא מבינים שכל אדם נוסף זה עוד כסף").
  */
 function ParticipantsStepper({
   uid,
@@ -341,6 +350,7 @@ function ParticipantsStepper({
   max,
   surchargeWithVat,
   explanation,
+  breakdown,
   onChange,
 }: {
   uid: string;
@@ -349,6 +359,7 @@ function ParticipantsStepper({
   max: number;
   surchargeWithVat: number;
   explanation: { withVat: string; exVat: string };
+  breakdown: PersonBreakdown;
   onChange: (delta: number) => void;
 }) {
   const labelId = `${uid}-participants-label`;
@@ -362,6 +373,15 @@ function ParticipantsStepper({
       aria-labelledby={labelId}
       aria-describedby={helpId}
     >
+      <div id={helpId} className="mb-3 rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
+        <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+        <p className="mt-1 text-sm font-medium text-foreground">
+          {explanation.withVat}{" "}
+          <span className="whitespace-nowrap text-xs font-normal text-muted-foreground">
+            {explanation.exVat}
+          </span>
+        </p>
+      </div>
       <div className="flex items-center justify-between gap-3">
         <p id={labelId} className="text-sm font-semibold text-foreground">
           כמה משתתפים בשיר?
@@ -398,15 +418,16 @@ function ParticipantsStepper({
           </button>
         </div>
       </div>
-      <p className="mt-2 text-sm font-medium text-foreground" aria-hidden="true">
+      <p className="mt-2 text-sm font-semibold text-foreground" aria-hidden="true">
         {count === 1
           ? "זמר אחד כלול במחיר"
-          : `${count} משתתפים: תוספת ${nis(surchargeWithVat)} כולל מע״מ`}
+          : `${breakdown.head}: ${breakdown.withVat}`}
       </p>
-      <p id={helpId} className="mt-1 text-xs text-muted-foreground">
-        {explanation.withVat}{" "}
-        <span className="whitespace-nowrap">{explanation.exVat}</span>
-      </p>
+      {count > 1 ? (
+        <p className="mt-0.5 text-xs text-muted-foreground" aria-hidden="true">
+          {breakdown.exVat} · תוספת המשתתפים {nis(surchargeWithVat)} כולל מע״מ
+        </p>
+      ) : null}
     </div>
   );
 }

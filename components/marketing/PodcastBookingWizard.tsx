@@ -61,11 +61,21 @@ import { scrollToBookWizardPanelAndFocusStep } from "@/lib/book-wizard-step-focu
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
+  PODCAST_AUDIO_PACKAGE_IDS,
   PODCAST_EXTRA_PARTICIPANT_PRICE,
+  PODCAST_INCLUDED_PARTICIPANTS,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
+  podcastPackageExVat,
+  podcastParticipantExtras,
+  podcastParticipantsCostExVat,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
+import {
+  buildPersonBreakdown,
+  EXTRA_PERSON_COST_NOTE,
+  formatPerPersonPrice,
+} from "@/lib/data/participant-cost-copy";
 import {
   getCatalogAddonsForPodcastPackage,
   resolveAddonLabel,
@@ -107,8 +117,11 @@ import {
   calcMobileStudioExVat,
   MOBILE_GEO_FEES,
   MOBILE_STUDIO_BASE_EX_VAT,
+  MOBILE_STUDIO_CHANNELS,
+  mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
+import { CATALOG_VAT_RATE } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -355,10 +368,21 @@ export default function PodcastBookingWizard({
       : 0;
 
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
-  const extraParticipantsCost =
-    form.participantCount > 2
-      ? (form.participantCount - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE
-      : 0;
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: באולפן הנייד בבית או במשרד הקלטת
+     האודיו כלולה בהגעה, וכל אדם נוסף הוא ערוץ נוסף (99, עד 12). באולפן
+     במודיעין 2 כלולים, ומהשלישי podcast_extra_participant. */
+  const isMobile = form.location === "mobile";
+  const packageExVat = selected ? podcastPackageExVat(selected, isMobile) : 0;
+  const extraParticipantsCost = podcastParticipantsCostExVat(form.participantCount, isMobile);
+  const participantBreakdown =
+    extraParticipantsCost > 0
+      ? buildPersonBreakdown({
+          count: form.participantCount,
+          baseExVat: packageExVat + mobileExVat,
+          extrasExVat: podcastParticipantExtras(form.participantCount, isMobile),
+          vatRate: CATALOG_VAT_RATE,
+        })
+      : null;
   const upsellTotal = sumAddonPrices(new Set(form.selectedUpsells));
   const lastMinuteUpsellCfg = PODCAST_CRO_CONFIG.lastMinuteUpsell;
   const lastMinuteHighlightsDiscount =
@@ -369,7 +393,7 @@ export default function PodcastBookingWizard({
       : 0;
   const adjustedUpsellTotal = upsellTotal - lastMinuteHighlightsDiscount;
   const packageTotal =
-    (selected?.price ?? 0) +
+    packageExVat +
     form.overtimeBlocks * PODCAST_OVERTIME_RATE +
     extraParticipantsCost +
     adjustedUpsellTotal +
@@ -397,10 +421,9 @@ export default function PodcastBookingWizard({
         ? [
             {
               label: "מספר משתתפים",
-              value:
-                form.participantCount > 2
-                  ? `${form.participantCount} (+${extraParticipantsCost.toLocaleString("he-IL")} ₪)`
-                  : String(form.participantCount),
+              value: participantBreakdown
+                ? `${form.participantCount} (תוספת ${withVat(extraParticipantsCost).toLocaleString("he-IL")} ₪ כולל מע״מ). ${participantBreakdown.line}. ${EXTRA_PERSON_COST_NOTE}`
+                : String(form.participantCount),
             },
           ]
         : []),
@@ -417,7 +440,11 @@ export default function PodcastBookingWizard({
         ? [
             {
               label: "מיקום",
-              value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)`,
+              value: `אולפן נייד - ${MOBILE_GEO_FEES[form.mobileGeo].label} (+${calcMobileStudioExVat(form.mobileGeo).toLocaleString("he-IL")} ₪ לפני מע״מ)${
+                selected && PODCAST_AUDIO_PACKAGE_IDS.includes(selected.id)
+                  ? ". הקלטת האודיו כלולה בהגעה"
+                  : ""
+              }. ${mobileChannelPriceLine()}`,
             },
           ]
         : [{ label: "מיקום", value: "אולפן אקוסטי במודיעין" }]),
@@ -818,16 +845,20 @@ export default function PodcastBookingWizard({
           {/* Participant count */}
           <div className="mt-6">
             <p className="mb-1 text-sm font-semibold text-foreground">כמה משתתפים בפרק?</p>
-            <p className="mb-3 text-xs text-muted-foreground">
-              עד 2 משתתפים - כלול במחיר. כל משתתף נוסף:{" "}
-              <span className="font-medium text-foreground">
-                +{PODCAST_EXTRA_PARTICIPANT_PRICE} ₪
-              </span>{" "}
-              (מיקרופון נוסף + עריכה מוגברת)
-            </p>
+            <div className="mb-3 rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
+              <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+              <p className="mt-1 text-sm text-foreground">
+                {isMobile
+                  ? `באולפן הנייד: ${mobileChannelPriceLine()}.`
+                  : `באולפן: עד ${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים. ${formatPerPersonPrice(PODCAST_EXTRA_PARTICIPANT_PRICE, CATALOG_VAT_RATE)} (מיקרופון נוסף ועריכה מוגברת).`}
+              </p>
+            </div>
             <div className="flex flex-wrap gap-2">
-              {[1, 2, 3, 4].map((count) => {
-                const extra = Math.max(0, count - 2) * PODCAST_EXTRA_PARTICIPANT_PRICE;
+              {(isMobile
+                ? Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1)
+                : [1, 2, 3, 4]
+              ).map((count) => {
+                const extra = podcastParticipantsCostExVat(count, isMobile);
                 const active = form.participantCount === count;
                 return (
                   <button
@@ -846,21 +877,31 @@ export default function PodcastBookingWizard({
                       {count === 1 ? "מגיש יחיד" : `${count} אנשים`}
                     </span>
                     <span className={cn("text-[0.65rem]", active ? "text-brand-red/80" : "text-muted-foreground")}>
-                      {extra > 0 ? `+${extra} ₪` : "כלול"}
+                      {extra > 0 ? `+${withVat(extra).toLocaleString("he-IL")} ₪ כולל מע״מ` : "כלול"}
                     </span>
                   </button>
                 );
               })}
-              <a
-                href="https://wa.me/972587555456"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-              >
-                <span className="text-sm font-semibold">5+ אנשים</span>
-                <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
-              </a>
+              {isMobile ? null : (
+                <a
+                  href="https://wa.me/972587555456"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
+                >
+                  <span className="text-sm font-semibold">5+ אנשים</span>
+                  <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
+                </a>
+              )}
             </div>
+            {participantBreakdown ? (
+              <p className="mt-3 text-sm font-semibold text-foreground" aria-live="polite">
+                {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                <span className="text-xs font-normal text-muted-foreground">
+                  {participantBreakdown.exVat}
+                </span>
+              </p>
+            ) : null}
           </div>
 
           {selected ? (
@@ -1094,6 +1135,41 @@ export default function PodcastBookingWizard({
                       );
                     })}
                   </div>
+                  <div className="rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
+                    {selected && PODCAST_AUDIO_PACKAGE_IDS.includes(selected.id) ? (
+                      <p className="text-sm font-semibold text-foreground">
+                        הקלטת האודיו כלולה במחיר ההגעה.
+                      </p>
+                    ) : null}
+                    <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+                    <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine()}.</p>
+                    <label
+                      htmlFor="pb-mobile-people"
+                      className="mt-2 block text-xs font-semibold text-foreground"
+                    >
+                      כמה אנשים בהקלטה?
+                    </label>
+                    <select
+                      id="pb-mobile-people"
+                      value={Math.min(form.participantCount, MOBILE_STUDIO_CHANNELS.max)}
+                      onChange={(e) => patchForm({ participantCount: Number(e.target.value) })}
+                      className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3 text-sm"
+                    >
+                      {Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>
+                          {n === 1 ? "אדם אחד" : `${n} אנשים`}
+                        </option>
+                      ))}
+                    </select>
+                    {participantBreakdown ? (
+                      <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
+                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {participantBreakdown.exVat}
+                        </span>
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               ) : null}
               {form.location === "modiin" || (form.location === "mobile" && form.mobileGeo) ? (
@@ -1284,7 +1360,7 @@ export default function PodcastBookingWizard({
         open={addonDrawerOpen && Boolean(selected)}
         packageLabel={selected?.name ?? "חבילה"}
         basePriceExVat={
-          (selected?.price ?? 0) +
+          packageExVat +
           form.overtimeBlocks * PODCAST_OVERTIME_RATE +
           extraParticipantsCost +
           mobileExVat

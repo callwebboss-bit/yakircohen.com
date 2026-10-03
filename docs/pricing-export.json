@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 123,
-  "contentHash": "799bb7df5864403e",
+  "itemCount": 124,
+  "contentHash": "20ea3bfdfc297b90",
   "items": [
     {
       "id": "studio_half_hour",
@@ -215,7 +215,17 @@
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": true,
-      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע"
+      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד הקלטת האודיו כלולה, וכל אדם נוסף הוא ערוץ נוסף."
+    },
+    {
+      "id": "mobile_extra_channel",
+      "label": "ערוץ הקלטה נוסף באולפן הנייד",
+      "category": "podcast",
+      "exVat": 99,
+      "inclVat": 117,
+      "priceFrom": false,
+      "context": "כל אדם נוסף בהקלטה באולפן הנייד הוא ערוץ נוסף. עד 12 אנשים בהקלטה.",
+      "suitedFor": "הקלטה בבית או במשרד עם יותר מאדם אחד"
     },
     {
       "id": "podcast_editing_hour",

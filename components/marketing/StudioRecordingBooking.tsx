@@ -69,7 +69,11 @@ import {
   parseParticipantsFromText,
   STUDIO_RECORDING_MAX,
   STUDIO_SAVINGS_TIP_THRESHOLD,
+  studioParticipantsBreakdown,
+  studioPerPersonPriceLine,
 } from "@/lib/studio-participant-pricing";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
+import { mobileChannelPriceLine } from "@/lib/data/mobile-studio-booking";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
@@ -544,6 +548,17 @@ export default function StudioRecordingBooking({
         })
       : null;
 
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: הפירוט לפי מקליט ליד הבורר ובהודעה */
+  const participantBreakdown = isConsultation
+    ? null
+    : studioParticipantsBreakdown({
+        baseExVat: activePackage?.price ?? songFallbackPrice,
+        recorderCount,
+        packageId: form.packageId || null,
+        recordingType: form.recordingType,
+        vatRate: VAT_RATE,
+      });
+
   const resolvedGroupScenario =
     form.scenarioChoice === "pairs"
       ? "pairs"
@@ -816,6 +831,17 @@ export default function StudioRecordingBooking({
     ...(adultsCount > 0 ? [{ label: "מבוגרים", value: String(adultsCount) }] : []),
     ...(childrenCount > 0 ? [{ label: "ילדים", value: String(childrenCount) }] : []),
     ...(recorderCount > 0 ? [{ label: "סה״כ מקליטים", value: String(recorderCount) }] : []),
+    ...(participantBreakdown
+      ? [
+          {
+            label: "פירוט לפי משתתף",
+            value: `${participantBreakdown.line}. ${EXTRA_PERSON_COST_NOTE}`,
+          },
+        ]
+      : []),
+    ...(form.location === "mobile" && recorderCount > 1
+      ? [{ label: "אולפן נייד", value: mobileChannelPriceLine() }]
+      : []),
     ...(form.notes || form.customerNeed
       ? [
           {
@@ -1521,6 +1547,25 @@ export default function StudioRecordingBooking({
                   <p className="mb-3 text-xs text-muted-foreground">
                     מבוגר וילד -- אותו מחיר. עוזר לנו להכין הצעה מדויקת
                   </p>
+                  <div className="mb-3 rounded-lg border border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-3 py-2">
+                    <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
+                    <p className="mt-1 text-sm text-foreground">
+                      {studioPerPersonPriceLine(form.packageId || null, VAT_RATE)}
+                    </p>
+                    {form.location === "mobile" ? (
+                      <p className="mt-1 text-sm text-foreground">
+                        באולפן הנייד: {mobileChannelPriceLine()}.
+                      </p>
+                    ) : null}
+                    {participantBreakdown ? (
+                      <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
+                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
+                        <span className="text-xs font-normal text-muted-foreground">
+                          {participantBreakdown.exVat}
+                        </span>
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <ParticipantCounter

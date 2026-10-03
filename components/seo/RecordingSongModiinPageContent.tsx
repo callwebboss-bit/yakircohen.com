@@ -25,7 +25,12 @@ import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatConsumerPrice } from "@/lib/data/pricing-display";
-import { getSongParticipantsExplanation, SONG_OFFER_SECTION_ID } from "@/lib/data/song-offer";
+import {
+  getSongParticipantsBreakdown,
+  getSongParticipantsExplanation,
+  SONG_OFFER_SECTION_ID,
+} from "@/lib/data/song-offer";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import SongOfferSection from "@/components/pricing/SongOfferSection";
@@ -46,6 +51,7 @@ const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
 const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
 const SONG_PARTICIPANTS_LINE = getSongParticipantsExplanation().withVat;
+const SONG_FOUR_PEOPLE_EXAMPLE = getSongParticipantsBreakdown(4).line;
 const SONG_CTA_LABEL = `הקלטת שיר באולפן: ${SONG_PRICE.totalLabel}`;
 const PITCH_DEMO_ID = "pitch-before-after";
 
@@ -300,6 +306,9 @@ export default function RecordingSongModiinPageContent() {
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר:
                       {" "}{SONG_PARTICIPANTS_LINE}. אנחנו מחברים הכל לקטע אחד מוגמר.
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-foreground">
+                      {EXTRA_PERSON_COST_NOTE}. לדוגמה, {SONG_FOUR_PEOPLE_EXAMPLE}.
                     </p>
                   </div>
                 </div>

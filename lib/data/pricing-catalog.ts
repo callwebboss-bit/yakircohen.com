@@ -267,9 +267,21 @@ export const PRICING_CATALOG = [
     label: "אולפן נייד, הגעה אליכם",
     exVat: 2500,
     category: "podcast",
-    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע",
-    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות" },
+    context: "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד הקלטת האודיו כלולה, וכל אדם נוסף הוא ערוץ נוסף.",
+    scope: { includes: "הגעה עם כל הציוד, התאורה והצוות. בבית או במשרד: הקלטת אודיו לאדם אחד" },
     priceFrom: true,
+  },
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: בבית או במשרד הקלטת האודיו כלולה
+     ב-2,500. כל אדם נוסף הוא ערוץ נוסף, 99 + מע״מ, עד 12 אנשים בהקלטה.
+     ראו MOBILE_STUDIO_CHANNEL_RULES. */
+  {
+    id: "mobile_extra_channel",
+    label: "ערוץ הקלטה נוסף באולפן הנייד",
+    exVat: 99,
+    category: "podcast",
+    context: "כל אדם נוסף בהקלטה באולפן הנייד הוא ערוץ נוסף. עד 12 אנשים בהקלטה.",
+    scope: { includes: "מיקרופון וערוץ הקלטה לאדם נוסף" },
+    suitedFor: "הקלטה בבית או במשרד עם יותר מאדם אחד",
   },
   { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
   /* עד 3.10.2026 התוספת הזו בטופס הפודקאסט נקראה דרך studio_remote, כי שניהם
@@ -574,6 +586,24 @@ export function mobileStudioEventExVat(kind: "video" | "audio"): number {
 }
 
 /**
+ * אולפן נייד בבית או במשרד (החלטת הבעלים 3.10.2026, סבב שלישי): ההגעה
+ * (mobile_podcast_at_home) כוללת הקלטת אודיו לאדם אחד. כל אדם נוסף הוא ערוץ
+ * נוסף (mobile_extra_channel, 99) ועד 12 אנשים בהקלטה. החישוב
+ * ב-mobileChannelsSurchargeExVat (lib/data/mobile-studio-booking.ts).
+ */
+export const MOBILE_STUDIO_CHANNEL_RULES = {
+  included: 1,
+  max: 12,
+  arrivalId: "mobile_podcast_at_home",
+  channelId: "mobile_extra_channel",
+} as const satisfies {
+  included: number;
+  max: number;
+  arrivalId: PriceItemId;
+  channelId: PriceItemId;
+};
+
+/**
  * משתתפים בהקלטת שיר (החלטת הבעלים 3.10.2026): זמר אחד כלול בבסיס, הזמר
  * השני בתוספת studio_extra_participant (190), ומהשלישי והלאה
  * song_group_participant (99) לכל אחד. עד 12 משתתפים בשיר אחד.
@@ -599,6 +629,7 @@ export const PRICING_ADDON_LINKS: Partial<
   podcast_audio: ["podcast_extra_participant", "podcast_editing_hour", "content_studio_pilot"],
   podcast_video: ["podcast_extra_participant", "quick_summary_clip", "transcribe_hour_srt"],
   content_package: ["transcribe_hour_srt", "express_delivery"],
+  mobile_podcast_at_home: ["mobile_extra_channel"],
   studio_half_hour: ["podcast_editing_hour"],
   blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
   studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
@@ -803,10 +834,14 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["ימי צילום נוספים", "ניהול חודשי שוטף", "מסירה מזורזת אם לא נרכשה"],
   },
   mobile_podcast_at_home: {
-    included: [MOBILE_STUDIO_ARRIVAL_COPY],
-    excluded: ["תוספת אזור/נסיעה", "וידאו אם לא נרכש", "שעות חריגות או פודקאסט רב-משתתפים מורחב"],
+    included: [MOBILE_STUDIO_ARRIVAL_COPY, "בבית או במשרד: הקלטת אודיו לאדם אחד"],
+    excluded: ["תוספת אזור/נסיעה", "כל אדם נוסף: ערוץ הקלטה נוסף, עד 12", "וידאו אם לא נרכש", "שעות חריגות"],
     scopeNote: "מחיר התחלה. המחיר הסופי תלוי במרחק, בהיקף ההקמה ובפורמט.",
     pricingMode: "from",
+  },
+  mobile_extra_channel: {
+    included: ["מיקרופון וערוץ הקלטה לאדם נוסף", "שילוב בהקלטה באותו מפגש"],
+    excluded: ["ההגעה עצמה (אולפן נייד)", "יותר מ-12 אנשים בהקלטה אחת"],
   },
   dj_premium: {
     included: ["DJ מנוסה", "עד 4 שעות תקלוט"],

@@ -57,7 +57,8 @@
 | `event_attraction_3` (היה 4,322) | 4,679 ₪ | 5,521 ₪ |
 | `event_attraction_4` (מחיר פתיחה, היה 5,424) | 6,238 ₪ | 7,361 ₪ |
 | `event_sound_rental` (חדש) | 2,500 ₪ | 2,950 ₪ |
-| `mobile_podcast_at_home` (אולפן נייד, הגעה) | 2,500 ₪ | 2,950 ₪ |
+| `mobile_podcast_at_home` (אולפן נייד, הגעה. בבית או במשרד הקלטת אודיו לאדם אחד כלולה) | 2,500 ₪ | 2,950 ₪ |
+| `mobile_extra_channel` (חדש, 3.10.2026 סבב שלישי: כל אדם נוסף באולפן הנייד, עד 12) | 99 ₪ | 117 ₪ |
 | `dj_yakir_personal` (היה 8,305) | 9,800 ₪ | 11,564 ₪ |
 | `studio_pitch_correction` | 300 ₪ | 354 ₪ |
 
@@ -136,3 +137,14 @@ npm run audit:pricing
 - **הגברה:** `event_sound_rental` 2,500, באשף האירועים, במחשבון ההזמנה, ב-`/events/equipment` וב-`/pricing`.
 - **ראיון לשיר:** עד 10 דקות (`SONG_INTERVIEW_DURATION`). **פלייבק:** `SONG_PLAYBACK_HELP` ברשימת מה שכלול בשיר.
 - **הנחת חבילת AI בצילום:** `aiBundleDiscountExVat`, 8% מסכום שירותי ה-AI (היה 500 קבועים).
+
+## Overlay 2026-10-03, סבב שלישי (חבילות עסקיות, אודיו באירוע, אולפן נייד בבית, מחיר לכל משתתף)
+
+ההחלטות המלאות: `docs/OWNER-DECISIONS-2026-10-02.md`, "החלטות 3.10.2026, סבב שלישי".
+
+- **חבילות עסקיות:** נשארות כמו שהן. `mashup_ready_pack_3` / `_5` / `_10` = 1,794 / 2,990 / 5,980, `mashup_custom_pack_3` = 4,554, `dj_voice_tag_pack_5` = 1,610 (לפני מע״מ).
+- **הקלטת אודיו באירוע:** `podcast_audio` (950) ועל זה ההגעה (2,500), כלומר 3,450 לפני מע״מ. `MOBILE_STUDIO_EVENT_SERVICES.audioId` כבר היה `podcast_audio`, ולא שונה.
+- **אולפן נייד בבית או במשרד:** `mobile_podcast_at_home` 2,500 כולל הגעה עם כל הציוד, התאורה והצוות, **וגם הקלטת אודיו לאדם אחד**. כל אדם נוסף הוא ערוץ נוסף, `mobile_extra_channel` 99 + מע״מ (117 ₪ כולל), עד 12 אנשים בהקלטה. הכללים ב-`MOBILE_STUDIO_CHANNEL_RULES` בקטלוג, החישוב ב-`mobileChannelsSurchargeExVat` ו-`calcMobileStudioAtHomeExVat` (`lib/data/mobile-studio-booking.ts`). דוגמה: 4 אנשים = 2,500 + 99 + 99 + 99 = 2,797 לפני מע״מ.
+  - באשף הפודקאסט, כשבוחרים אולפן נייד: חבילת אודיו (`audio`, `starter`) עולה 0 כי היא כלולה בהגעה (`podcastPackageExVat`), וכל אדם מעבר לראשון הוא ערוץ (`podcastParticipantsCostExVat`), עד 12. באולפן במודיעין נשאר `podcast_extra_participant` (150) מהמשתתף השלישי.
+- **מחיר לכל משתתף:** משפט אחד, `EXTRA_PERSON_COST_NOTE` ב-`lib/data/participant-cost-copy.ts`: "כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר". הפירוט לפי משתתף נבנה ב-`buildPersonBreakdown`, כולל מע״מ קודם: "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)". מעל 3 תוספות זהות ברצף הן מתקצרות ל-"10 × 117". מופיע ליד בורר המשתתפים בטופס השיר, בהודעת הוואטסאפ ובשיחה החוזרת, באשף האולפן, באשף הפודקאסט, בעמוד האולפן הנייד, בעמוד הפודקאסט הנייד, ב-FAQ של עמוד השיר וב-llms.txt.
+

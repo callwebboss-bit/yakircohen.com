@@ -39,6 +39,7 @@ import {
 } from "@/lib/constants";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/data/pricing-display";
+import MobileChannelsNote from "@/components/pricing/MobileChannelsNote";
 
 const service = getStudioService("studio-mobile-studio");
 const pageHero = resolveServicePageHeroFromEntity(service);
@@ -132,6 +133,7 @@ export default function MobileStudioPageContent() {
           <p className="mt-1 text-sm text-muted-foreground">
             {PRICING_FRAMING_LINE}
           </p>
+          <MobileChannelsNote className="mt-4" />
           <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
             {MOBILE_GEO_ORDER.map((geoId) => {
               const geo = MOBILE_GEO_FEES[geoId];

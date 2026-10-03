@@ -7,7 +7,8 @@
 import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { getSongParticipantsExplanation } from "./song-offer";
+import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
+import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
@@ -18,7 +19,9 @@ import {
 /** שאלת הקבוצות בעמוד השיר, מהקטלוג: זמר אחד כלול, השני, מהשלישי, עד 12 */
 const SONG_GROUP_FAQ_ANSWER = (() => {
   const { withVat, exVat } = getSongParticipantsExplanation();
-  return `כן. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}. כולם מקליטים באותו סשן, ואנחנו מחברים הכל לשיר אחד.`;
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: כל משתתף נוסף מוסיף לתשלום, עם דוגמה */
+  const example = getSongParticipantsBreakdown(4).line;
+  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}. לדוגמה, ${example}. כולם מקליטים באותו סשן, ואנחנו מחברים הכל לשיר אחד.`;
 })();
 
 function nisWithVat(id: PriceItemId): string {

@@ -27,6 +27,7 @@ import {
   SONG_PARTICIPANTS_PARAM,
   songAddonKey,
   songParticipantsExplanation,
+  songParticipantsBreakdown,
   songParticipantsExplanationExVat,
   songParticipantsSurchargeExVat,
   type SongCallbackContact,
@@ -48,6 +49,7 @@ import {
 } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import type { SongAddonId } from "@/lib/data/song-offer-aliases";
+import type { PersonBreakdown } from "@/lib/data/participant-cost-copy";
 
 export const SONG_OFFER_BASE_ID = "song_recording" satisfies PriceItemId;
 export {
@@ -140,6 +142,16 @@ export function getSongParticipantsExplanation(): { withVat: string; exVat: stri
     withVat: songParticipantsExplanation(rules, CATALOG_VAT_RATE),
     exVat: songParticipantsExplanationExVat(rules),
   };
+}
+
+/** "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)", מהקטלוג */
+export function getSongParticipantsBreakdown(participants: number): PersonBreakdown {
+  return songParticipantsBreakdown(
+    participants,
+    getSongParticipantRules(),
+    getExVat(SONG_OFFER_BASE_ID),
+    CATALOG_VAT_RATE,
+  );
 }
 
 /** הנתונים הפשוטים שמהם השרת והדפדפן מחשבים כל הצעה */
