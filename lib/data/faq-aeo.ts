@@ -6,6 +6,7 @@
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPriceFactorsAnswer } from "@/lib/data/price-factors";
+import { buildEventsHubAnswer } from "@/lib/data/blog-knowledge-hubs";
 
 export type AeoFaqItem = {
   id: string;
@@ -108,6 +109,19 @@ export function buildDjWeddingPriceAnswer(): string {
   );
   return `תקליטן מהצוות ${premium} (כ-4 שעות). יקיר כהן אישית על הקונסולה ${yakir}. המחיר תלוי באולם, שעות ואטרקציות - הצעה מפורטת לפני אישור.`;
 }
+
+/**
+ * "איך יודעים שהוא טוב", לא "כמה עולה".
+ *
+ * DJ_WEDDING_PRICE_FAQ כבר עונה על המחיר. השאלה הזו עונה על הקריטריון,
+ * והתשובה נגזרת מהתוכן שהבעלים כתב ב-3.10.2026 ושולב בארבעה פוסטים
+ * בבלוג.
+ */
+export const DJ_HOW_TO_KNOW_FAQ: AeoFaqItem = {
+  id: "dj-how-to-know",
+  question: "איך יודעים שתקליטן טוב?",
+  answer: buildEventsHubAnswer(),
+};
 
 export const DJ_WEDDING_PRICE_FAQ: AeoFaqItem = {
   id: "dj-wedding-price",

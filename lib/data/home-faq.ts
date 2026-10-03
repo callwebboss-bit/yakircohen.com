@@ -6,6 +6,7 @@
 
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import {
+  DJ_HOW_TO_KNOW_FAQ,
   RECORDING_SONG_STUDIO_PRICE_FAQ,
   STUDIO_PRICE_FACTORS_FAQ,
 } from "@/lib/data/faq-aeo";
@@ -27,6 +28,11 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: STUDIO_PRICE_FACTORS_FAQ.id,
     question: STUDIO_PRICE_FACTORS_FAQ.question,
     answerPlain: STUDIO_PRICE_FACTORS_FAQ.answer,
+  },
+  {
+    id: DJ_HOW_TO_KNOW_FAQ.id,
+    question: DJ_HOW_TO_KNOW_FAQ.question,
+    answerPlain: DJ_HOW_TO_KNOW_FAQ.answer,
   },
   {
     id: "location-parking",

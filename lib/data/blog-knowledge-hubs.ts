@@ -183,7 +183,90 @@ const VOICEOVER_HUB: KnowledgeHub = {
   ],
 };
 
-const HUBS: readonly KnowledgeHub[] = [STUDIO_HUB, VOICEOVER_HUB];
+export function buildEventsHubAnswer(): string {
+  return (
+    "DJ טוב הוא מי שנהנה מכל סוג של מוזיקה, כי מי שרע לו לא יכול לעשות שמח. " +
+    "תשאלו אותו אילו ז'אנרים הוא אוהב, ותבדקו אם הוא נהנה גם מקלאסית " +
+    "ומאפריקאית, כי שם לומדים לשלוט בקצב. ושאלו מי מגיע בפועל, מה קורה " +
+    "אם הוא חולה, ומה הגיבוי לציוד."
+  );
+}
+
+export function buildEventsHubMetaDescription(): string {
+  const dj = getExVat("dj_premium").toLocaleString("he-IL");
+  const attraction = getExVat("event_attraction_1").toLocaleString("he-IL");
+  return (
+    `תקליטן מהצוות מ-${dj} ₪ + מע״מ, אטרקציה בודדת מ-${attraction} ₪ + מע״מ. ` +
+    `איזו מוזיקה הוא צריך לאהוב, מה לשאול לפני שחותמים, ומתי גם DJ טוב לא יציל.`
+  );
+}
+
+const EVENTS_HUB: KnowledgeHub = {
+  categoryId: "events",
+  heading: "איך אני יודע שהוא טוב?",
+  answer: buildEventsHubAnswer(),
+  metaDescription: buildEventsHubMetaDescription(),
+  groups: [
+    {
+      id: "choose",
+      title: "איך בוחרים, ומה לשאול",
+      slugs: [
+        "wedding-dj-selection-guide-2026",
+        "5-things-before-choosing-wedding-dj",
+        "dj-selection-guide-events",
+        "how-to-choose-wedding-dj-israel",
+      ],
+    },
+    {
+      id: "cost",
+      title: "כמה זה עולה",
+      slugs: ["dj-for-bar-mitzvah-cost", "cheap-dj-for-a-wedding"],
+    },
+    {
+      id: "effects",
+      title: "אפקטים: מה שווה את הכסף",
+      slugs: [
+        "wedding-effects-what-worth-it",
+        "wedding-smoke-machine-guide",
+        "heavy-smoke-vs-light-smoke-events",
+        "cold-fireworks-events",
+        "confetti-cannon-events-guide",
+        "giant-balloons-for-events",
+      ],
+    },
+    {
+      id: "music",
+      title: "המוזיקה עצמה",
+      slugs: ["wedding-songs-chuppah", "tips-for-perfect-wedding"],
+    },
+    {
+      id: "by-event",
+      title: "לפי סוג האירוע",
+      slugs: ["corporate-event-dj-guide", "dj-summer-weddings-2026"],
+    },
+    {
+      id: "vendors",
+      title: "שאר הספקים באירוע",
+      slugs: [
+        "wedding-photography-and-sound-guide",
+        "wedding-photography-guide",
+        "event-filming-guide",
+        "live-singer-sound-engineer-guide",
+      ],
+    },
+    {
+      id: "booking",
+      title: "הזמנה מהאתר",
+      slugs: ["events-booking-guide", "singer-amplification-booking"],
+    },
+  ],
+};
+
+const HUBS: readonly KnowledgeHub[] = [
+  STUDIO_HUB,
+  VOICEOVER_HUB,
+  EVENTS_HUB,
+];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {
   return HUBS.find((h) => h.categoryId === categoryId);
