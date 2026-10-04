@@ -1,4 +1,5 @@
-﻿import {
+﻿import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
+import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
@@ -611,7 +612,7 @@ export const STUDIO_SERVICES = {
       "האולפן במודיעין, כ-25-30 דקות מרחובות (כביש 431). אין סניף פיזי ברחובות - אפשר גם אולפן נייד עד אליכם עם סאונד ותאורה לפי השירות.",
     metaTitle: "אולפן הקלטות ברחובות | 25-30 דק׳ ממודיעין",
     metaDescription:
-      "אולפן הקלטות ברחובות: האולפן במודיעין, כ-25-30 דקות. או אולפן נייד עד אליכם עם סאונד ותאורה. הגעה כרגע במחיר מבצע.",
+      `אולפן הקלטות ברחובות: האולפן במודיעין, כ-25-30 דקות. או אולפן נייד עד אליכם עם סאונד ותאורה, הגעה ב-${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
     keywords: [
       "אולפן הקלטות ברחובות",
       "אולפן הקלטות רחובות",
@@ -624,7 +625,7 @@ export const STUDIO_SERVICES = {
       "כ-25-30 דקות נסיעה מרחובות לאולפן במודיעין (כביש 431)",
       "חניה פנויה ליד האולפן במודיעין",
       "אופציה: אולפן נייד ברחובות - סאונד, תאורה וציוד לפי השירות",
-      "הגעה ניידת כרגע במחיר מבצע",
+      `הגעה ניידת ב-${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}`,
       "שיר, ברכה, דרשה, קריינות או פודקאסט - לפי מה שהזמנתם",
     ],
     assetsFolder: "studio/jerusalem",
@@ -651,7 +652,7 @@ export const STUDIO_SERVICES = {
         id: "no-drive-option",
         question: "אפשר להקליט בלי לנסוע למודיעין?",
         answer:
-          "כן. אולפן נייד מגיע לרחובות עם סאונד, תאורה וציוד לפי השירות שהזמנתם. זה לא החדר במודיעין. ההגעה כרגע במחיר מבצע.",
+          `כן. אולפן נייד מגיע לרחובות עם סאונד, תאורה וציוד לפי השירות שהזמנתם. זה לא החדר במודיעין. ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "what-to-record-rehovot",
@@ -679,9 +680,9 @@ export const STUDIO_SERVICES = {
       },
       {
         id: "mobile-includes",
-        question: "מה כולל אולפן נייד ברחובות והאם ההגעה במבצע?",
+        question: "מה כולל אולפן נייד ברחובות וכמה עולה ההגעה?",
         answer:
-          "כן, ההגעה כרגע במחיר מבצע. מגיעים עם תאורה וכל הציוד שנדרש לסאונד שירה, קריינות או פודקאסט - לפי מה שהזמנתם. הפרטים והמחיר הסופי בוואטסאפ לפי השירות והמיקום.",
+          `ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}. מגיעים עם תאורה וכל הציוד שנדרש לסאונד שירה, קריינות או פודקאסט - לפי מה שהזמנתם. הפרטים והמחיר הסופי בוואטסאפ לפי השירות והמיקום.`,
       },
       {
         id: "parking-directions",
@@ -698,7 +699,7 @@ export const STUDIO_SERVICES = {
       {
         id: "rehovot-song-price",
         question: "כמה עולה הקלטת שיר לתושבי רחובות?",
-        answer: `אותו מחירון שירות לכל הארץ. ${RECORDING_SONG_STUDIO_PRICE_FAQ.answer} אולפן נייד - תוספת הגעה בתיאום (כרגע במחיר מבצע).`,
+        answer: `אותו מחירון שירות לכל הארץ. ${RECORDING_SONG_STUDIO_PRICE_FAQ.answer} אולפן נייד - תוספת הגעה של ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "experience",
@@ -842,7 +843,7 @@ export const STUDIO_SERVICES = {
         id: "what-is",
         question: "מה זה אולפן נייד?",
         answer:
-          "אנחנו מגיעים אליכם עם סאונד, תאורה וציוד מקצועי - לא החדר במודיעין. מחשב, כרטיס קול, מיקרופון, אוזניות וליווי. מתאים לשירה, קריינות או פודקאסט לפי השירות שהזמנתם. ההגעה כרגע במחיר מבצע.",
+          `אנחנו מגיעים אליכם עם סאונד, תאורה וציוד מקצועי - לא החדר במודיעין. מחשב, כרטיס קול, מיקרופון, אוזניות וליווי. מתאים לשירה, קריינות או פודקאסט לפי השירות שהזמנתם. ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "price",
