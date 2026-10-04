@@ -108,13 +108,6 @@
       "approvedAt": "2026-10-02"
     },
     {
-      "url": "/events/equipment/singer-amplification",
-      "field": "words",
-      "why": "הדגמת הזמר נמחקה בהחלטת הבעלים 2.10: שני קבצי האודיו שלה מעולם לא הועלו, והעמוד רינדר שני נגנים שבורים תחת הבטחה שיועלו בקרוב.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-02"
-    },
-    {
       "url": "/online/vocal-fix/mixing",
       "field": "links",
       "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
@@ -1056,13 +1049,6 @@
       "url": "/academy",
       "field": "outline",
       "why": "המקטע \"מה התלמידים אומרים\" ירד עם שלוש המלצות האקדמיה שנוצרו עם TODO ולא היו אמיתיות (שלב 5 WP9b).",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/academy",
-      "field": "words",
-      "why": "אותו מקטע: 2,690 -> 2,650 מילים.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     },
