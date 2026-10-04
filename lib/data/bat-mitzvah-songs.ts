@@ -183,6 +183,11 @@ export const BAT_MITZVAH_OVERPLAYED_SONGS: BatMitzvahSongList = {
       artist: "אייל גולן",
       source: "https://www.youtube.com/watch?v=-CZqRKYznrM",
     },
+    {
+      title: "יעשו לנו כבוד",
+      artist: "עומר אדם",
+      source: "https://www.youtube.com/watch?v=8krJL1tuRVI",
+    },
   ],
 };
 
