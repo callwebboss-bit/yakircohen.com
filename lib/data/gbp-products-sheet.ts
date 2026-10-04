@@ -7,13 +7,14 @@ export type GbpSheetRow = GbpProduct & {
   priceToEnter: number | null;
   exVat: number | null;
   url: string | null;
-  status: "ok" | "update" | "decide";
+  status: "ok" | "update" | "decide" | "free";
 };
 
 export function buildGbpSheet(): GbpSheetRow[] {
   return GBP_PRODUCTS.map((product) => {
     if (!product.catalogId) {
-      return { ...product, priceToEnter: null, exVat: null, url: null, status: "decide" as const };
+      const url = product.path ? absoluteUrl(product.path.replace(/^\/+/, "")) : null;
+      return { ...product, priceToEnter: null, exVat: null, url, status: product.free ? ("free" as const) : ("decide" as const) };
     }
     const exVat = getExVat(product.catalogId);
     const priceToEnter = catalogWithVat(exVat);
@@ -31,6 +32,7 @@ const STATUS_LABEL: Record<GbpSheetRow["status"], string> = {
   ok: "תקין",
   update: "לעדכן בכרטיס",
   decide: "החלטת בעלים",
+  free: "ללא עלות",
 };
 
 export function renderGbpSheetMarkdown(rows: GbpSheetRow[], generatedAt: string): string {

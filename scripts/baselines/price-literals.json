@@ -182,13 +182,6 @@
     "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\","
   },
   {
-    "file": "app/online/vocal-fix/pitch-correction/page.tsx",
-    "kind": "prose",
-    "value": 100,
-    "count": 1,
-    "example": "answer: \"תיקון זיופים עולה מ-250 ₪ לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.\","
-  },
-  {
     "file": "app/online/vocal-fix/volume-balance/page.tsx",
     "kind": "prose",
     "value": 500,

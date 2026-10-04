@@ -12,6 +12,10 @@ export const DATA_HUB_SLUG = "data";
 export const DATA_HUB_TITLE = "נתונים";
 export const DATA_HUB_DESCRIPTION = "נתוני תעשייה 2026 ועלות אולפן הקלטות.";
 
+/** משפט התשובה (speakable). בחירת הבעלים 4.10.2026 */
+export const DATA_HUB_ANSWER =
+  "כמה עולה באמת להקליט שיר, להפיק פודקאסט או להזמין אטרקציה, ולמה. נתוני מחיר ועלות מהאולפן, עם מקור לכל מספר.";
+
 export const DATA_HUB_LINKS = [
   { label: "נתוני תעשייה 2026", href: INDUSTRY_2026_PATHNAME },
   { label: "עלות אולפן הקלטות", href: STUDIO_COST_PATHNAME },

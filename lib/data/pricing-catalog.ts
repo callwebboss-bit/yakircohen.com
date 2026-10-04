@@ -384,6 +384,14 @@ export const PRICING_CATALOG = [
     category: "academy",
     context: "שיעור התנסות אחד - עברית / אולפן",
   },
+  /* החלטת בעלים 4.10.2026: 1,200 כולל מע״מ למפגש. 1,017 לפני מע״מ = 1,200 אחרי עיגול */
+  {
+    id: "academy_nevermind_session",
+    label: "פרוטוקול NeverMind, מפגש",
+    exVat: 1017,
+    category: "academy",
+    context: "מפגש 60 דקות באולפן: אימון מנטלי מול מיקרופון ושבירת חסמי דיבור",
+  },
   {
     id: "academy_private_hour",
     label: "שיעור פרטי 60 דקות",

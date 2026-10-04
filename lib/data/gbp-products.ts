@@ -21,6 +21,8 @@ export type GbpProduct = {
   /** המחיר שמופיע היום בכרטיס */
   gbpPriceNow: number | null;
   reportedAt: string;
+  /** שירות חינמי: אין מחיר בקטלוג, ובכרטיס כותבים "ללא עלות" */
+  free?: boolean;
   note?: string;
 };
 
@@ -33,6 +35,6 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
   { name: "קליפ ערוך מהסשן באולפן", catalogId: "studio_session_clip_edited", path: "/studio/recording-song-modiin", gbpPriceNow: 750, reportedAt: "2026-10-04", note: "בכרטיס הוזן המחיר לפני מע״מ" },
   { name: "מצגת תמונות", catalogId: "growth_slideshow_70", path: "/photo-slideshow", gbpPriceNow: 1450, reportedAt: "2026-10-04", note: "מצגת גדילה, 70 תמונות (יקיר אישר 4.10). בכרטיס הוזן המחיר לפני מע״מ" },
   { name: "שיפור סאונד AI", catalogId: "damaged_recording_rescue", path: "/online", gbpPriceNow: 250, reportedAt: "2026-10-04", note: "הצלת הקלטות פגומות (יקיר אישר 4.10). בכרטיס הוזן המחיר לפני מע״מ" },
-  { name: "פרוטוקול NeverMind", catalogId: null, path: "/academy/stuttering-course", gbpPriceNow: null, reportedAt: "2026-10-04", note: "עדיין נמכר (יקיר 4.10). ב-/academy מוצג 1,200 למפגש, מספר כתוב ביד ולא מהקטלוג. הוספה לקטלוג היא החלטת מחיר נפרדת" },
-  { name: "מפגש אפיון", catalogId: null, path: null, gbpPriceNow: null, reportedAt: "2026-10-04", note: "עדיין נמכר (יקיר 4.10). אין לו עמוד ואין מחיר באתר. הוספה לקטלוג היא החלטת מחיר נפרדת" },
+  { name: "פרוטוקול NeverMind", catalogId: "academy_nevermind_session", path: "/academy/stuttering-course", gbpPriceNow: null, reportedAt: "2026-10-04", note: "נכנס לקטלוג 4.10 (1,200 כולל מע״מ, החלטת בעלים)" },
+  { name: "מפגש אפיון", catalogId: null, path: "/contact", gbpPriceNow: null, reportedAt: "2026-10-04", free: true, note: "שיחת היכרות ללא עלות (יקיר 4.10). בכרטיס: מחיר 0 או \"ללא עלות\"" },
 ];

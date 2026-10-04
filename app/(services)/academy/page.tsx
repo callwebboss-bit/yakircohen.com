@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS_BODY } from "@/lib/data/conversion-copy";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -82,8 +83,8 @@ const ACADEMY_TRACKS = [
     badge: "ביטחון ודיבור",
     title: "פרוטוקול NeverMind",
     sub: "שבירת חסמי דיבור וגמגום דרך עבודה מול מיקרופון.",
-    price: "1,200",
-    priceNote: "למפגש, 60 דקות, באולפן",
+    price: catalogWithVat(getExVat("academy_nevermind_session")).toLocaleString("he-IL"),
+    priceNote: "למפגש, 60 דקות, באולפן, כולל מע״מ",
     features: [
       "אימון מנטלי מול מיקרופון",
       "שבירת חסמי דיבור",

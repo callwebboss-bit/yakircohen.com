@@ -23,7 +23,7 @@ const PITCH_FAQ_SCHEMA = buildFaqSchema([
   {
     question: "כמה עולה תיקון זיופים?",
     /* החלטת בעלים 4.10.2026: המחיר הנכון הוא studio_pitch_correction (עד אז "מ-250 ₪", בלי מזהה בקטלוג) */
-    answer: `תיקון זיופים עולה ${formatConsumerPriceLine(getExVat("studio_pitch_correction"))} לעד 4 דקות. לשירים ארוכים מעל 4 דקות נוספים 100 ₪.`,
+    answer: `תיקון זיופים עולה ${formatConsumerPriceLine(getExVat("studio_pitch_correction"))} לשיר.`,
   },
   {
     question: "כמה זמן לוקח תיקון זיופים?",

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import {
+  DATA_HUB_ANSWER,
   DATA_HUB_DESCRIPTION,
   DATA_HUB_ITEM_LIST,
   DATA_HUB_LINKS,
@@ -46,6 +47,9 @@ export default function DataHubPage() {
       <Section padding="sm" className="bg-background">
         <Container className="max-w-3xl">
           <h1 className="text-hero font-serif font-semibold text-foreground">{DATA_HUB_TITLE}</h1>
+          <p className="text-lead mt-4 text-muted-foreground" data-speakable>
+            {DATA_HUB_ANSWER}
+          </p>
           <ul className="mt-8 space-y-3">
             {DATA_HUB_LINKS.map((link) => (
               <li key={link.href}>
