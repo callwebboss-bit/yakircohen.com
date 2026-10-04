@@ -83,10 +83,9 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/חתן": "/blog/wedding-songs-chuppah",
   "/שירים-לחתונה": "/blog/wedding-songs-chuppah",
   "/שיר-כניסה-לחופה": "/blog/wedding-songs-chuppah",
-  /* היה מופנה לפוסט על שירי חתונה, כלומר הורה שחיפש שירים לבת מצווה נחת על
-     חתונות (PJ-34). קטגוריית האירועים בבלוג היא היעד הזמני עד שתיבנה רשימה
-     ייעודית (החלטת בעלים ED-05). */
-  "/שירים-לבת-מצווה-2": "/blog/category/events",
+  /* היה מופנה לפוסט על שירי חתונה (PJ-34), ואחר כך זמנית לקטגוריית האירועים
+     (ED-05). מ-4.10.2026 יש פוסט ייעודי שמאחד את ארבע הגרסאות של המאמר הישן. */
+  "/שירים-לבת-מצווה-2": "/blog/bat-mitzvah-songs",
   "/bride-groom-blessing": "/studio/blessings/bride-groom-blessing",
   "/bar-mitzvah-clip": "/studio/blessings/video-clip",
   "/video/bar-mitzvah-clip": "/studio/blessings/video-clip",
@@ -148,6 +147,10 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
      ו-/xmlrpc.php הועברו ל-410 ב-proxy.ts. ראו GONE_PATH_PREFIXES למעלה. */
   { source: "/2019/:path*",              destination: "/blog" },
   { source: "/2020/:path*",              destination: "/blog" },
+  /* שתי הכתובות עם התאריך של אותו מאמר (Wayback, 2021). לפני /2021/:path*,
+     שאחרת תופס אותן ושולח לאינדקס הבלוג. */
+  { source: "/2021/05/15/שירים-לבת-מצווה", destination: "/blog/bat-mitzvah-songs" },
+  { source: "/2021/09/06/רשימת-שירים-לבת-מצווה", destination: "/blog/bat-mitzvah-songs" },
   { source: "/2021/:path*",              destination: "/blog" },
   { source: "/2022/:path*",              destination: "/blog" },
   { source: "/privacy-policy/:path*",    destination: "/privacy" },
@@ -460,10 +463,10 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/שיר-לחופה-מרגש-הבחירה-המדויקת-לשיר-החו": "/blog/wedding-songs-chuppah",
   "/תכנון-חופה-ובחירת-שיר-מוצלח-ומרגש-במיו": "/blog/wedding-songs-chuppah",
   "/שירים-לחופה-איך-לבחור-זמר-איכותי": "/blog/wedding-songs-chuppah",
-  /* זמני, כמו "/שירים-לבת-מצווה-2" ב-LEGACY_PATH_MAP. לא לפוסט חתונה. */
-  "/שירים-לבת-מצווה": "/blog/category/events",
-  "/רשימת-שירים-לבת-מצווה": "/blog/category/events",
-  "/שירי-בת-מצווה-להרים-את-הרחבה-ולשמח-את-כ": "/blog/category/events",
+  /* כמו "/שירים-לבת-מצווה-2" ב-LEGACY_PATH_MAP: הפוסט הייעודי, לא פוסט חתונה. */
+  "/שירים-לבת-מצווה": "/blog/bat-mitzvah-songs",
+  "/רשימת-שירים-לבת-מצווה": "/blog/bat-mitzvah-songs",
+  "/שירי-בת-מצווה-להרים-את-הרחבה-ולשמח-את-כ": "/blog/bat-mitzvah-songs",
   // אולפן והקלטות
   "/אולפן-הקלטות": "/studio",
   "/אולפני-הקלטה": "/studio",
