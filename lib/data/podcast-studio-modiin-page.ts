@@ -1,4 +1,8 @@
-import { PODCAST_STUDIO_MODIIN_PRICE_FAQ } from "./faq-aeo";
+import { STUDIO_PARKING_NOTE } from "@/lib/constants";
+import {
+  PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
+  PODCAST_STUDIO_MODIIN_PRICE_FAQ,
+} from "./faq-aeo";
 
 export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
@@ -75,6 +79,7 @@ export const STUDIO_MODIIN_FAQS: readonly {
   question: string;
   answer: string;
 }[] = [
+  PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
   {
     id: "multi-guest",
@@ -91,6 +96,6 @@ export const STUDIO_MODIIN_FAQS: readonly {
   {
     id: "parking",
     question: "האם יש חניה במקום?",
-    answer: "כן, חניה נוחה ונגישה לכל מי שמגיע להקלטה.",
+    answer: `כן. ${STUDIO_PARKING_NOTE}.`,
   },
 ] as const;

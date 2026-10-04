@@ -28,6 +28,7 @@ import {
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { PODCAST_STUDIO_MODIIN_EXISTS_FAQ } from "@/lib/data/faq-aeo";
 
 const STUDIO_MODIIN_TITLE = "השכרת סטודיו לפודקאסט במודיעין";
 
@@ -58,6 +59,12 @@ export default function PodcastStudioModiinPageContent() {
       ctaLabel={`קביעת מקום, ${TIME_CLAIMS.quoteHour}`}
       pagePath="/podcast/podcast-studio-modiin"
       faqs={STUDIO_MODIIN_FAQS}
+      aeoAnswer={{
+        id: "aeo-answer-podcast-studio-modiin",
+        question: PODCAST_STUDIO_MODIIN_EXISTS_FAQ.question,
+        text: PODCAST_STUDIO_MODIIN_EXISTS_FAQ.answer,
+        utmCampaign: "aeo_q4",
+      }}
       {...heroProps}
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
@@ -169,6 +176,7 @@ export default function PodcastStudioModiinPageContent() {
 
         <FAQAccordion
           items={[...STUDIO_MODIIN_FAQS]}
+          defaultOpenId={PODCAST_STUDIO_MODIIN_EXISTS_FAQ.id}
           title="שאלות נפוצות, השכרת סטודיו לפודקאסט"
           className="py-0"
         />

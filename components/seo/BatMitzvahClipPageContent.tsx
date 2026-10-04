@@ -123,10 +123,8 @@ export default function BatMitzvahClipPageContent() {
       <TrustStatsBar variant="compact" className="border-b" />
 
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 py-14 sm:px-6 lg:px-8">
-        <BatMitzvahClipShowcase
-          showHeader={false}
-          faqItems={faqSchemaItems}
-        />
+        {/* FAQPage כבר נפלט ב-FaqPageSchema למעלה */}
+        <BatMitzvahClipShowcase showHeader={false} />
 
         <section aria-labelledby="bat-mitzvah-types-heading">
           <header className="mx-auto max-w-2xl text-center">

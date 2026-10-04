@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { STUDIO_GEO } from "@/lib/constants";
 import { Heebo, Noto_Serif_Hebrew } from "next/font/google";
 import GlossaryTooltipProvider from "@/components/glossary/GlossaryTooltipProvider";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
@@ -94,8 +95,8 @@ export const metadata: Metadata = {
     "ai-content-declaration": "human-authored-business-website",
     "geo.region": "IL-M",
     "geo.placename": "Modi'in-Maccabim-Re'ut",
-    "geo.position": "31.9077;35.0068",
-    ICBM: "31.9077, 35.0068",
+    "geo.position": `${STUDIO_GEO.latitude};${STUDIO_GEO.longitude}`,
+    ICBM: `${STUDIO_GEO.latitude}, ${STUDIO_GEO.longitude}`,
   },
 };
 

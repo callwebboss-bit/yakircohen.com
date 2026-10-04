@@ -1,3 +1,4 @@
+import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { PODCAST_RECORDING_PRICE } from "@/lib/data/podcast-recording-page";
@@ -193,7 +194,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "parking",
         question: "איפה האולפן ויש חניה?",
         answer:
-          "האולפן במודיעין (עמק איילון 34) - נגיש מהמרכז, ירושלים והשפלה. יש חניה נוחה במקום.",
+          `האולפן במודיעין, נגיש מהמרכז, ירושלים והשפלה. ${STUDIO_PARKING_NOTE}. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
     ],
   },

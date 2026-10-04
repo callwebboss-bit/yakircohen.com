@@ -6,8 +6,15 @@ import {
   withVat,
 } from "./pricing";
 import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
-import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
+import {
+  DJ_WEDDING_PRICE_FAQ,
+  MOBILE_STUDIO_HOME_FAQ,
+  RECORDING_SONG_STUDIO_PRICE_FAQ,
+  SONG_TO_VENUE_DJ_FAQ,
+  STUDIO_MODIIN_PRO_FAQ,
+} from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
@@ -46,6 +53,9 @@ export type ServiceFaq = {
   id: string;
   question: string;
   answer: string;
+  /** שאלת תהליך: משפט פתיחה + שלבים ממוספרים. `answer` נשאר הטקסט המלא לסכמה */
+  lead?: string;
+  steps?: readonly string[];
 };
 
 export type ServicePricingTier = {
@@ -218,7 +228,7 @@ export const STUDIO_SERVICES = {
         id: "studio-location",
         question: "איפה האולפן?",
         answer:
-          "מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. חניה חופשית בשפע ממש ליד האולפן.",
+          `מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. ${STUDIO_PARKING_NOTE}.`,
       },
     ],
     hubCard: null,
@@ -258,6 +268,7 @@ export const STUDIO_SERVICES = {
       "שלום, אשמח לתאם סיור באולפן או סשן הקלטה במודיעין",
     utmCampaign: "studio_recording",
     faqs: [
+      STUDIO_MODIIN_PRO_FAQ,
       {
         id: "modiin-vs-ta",
         question: "למה אולפן במודיעין ולא בתל אביב?",
@@ -326,7 +337,7 @@ export const STUDIO_SERVICES = {
       "הקלטה, מיקס ומאסטר במחיר הבסיס",
       "מיקרופוני SM7B ו-SphereL22 כמו בסטודיו בינלאומי",
       "סשן של שעה, והשיר אצלכם בסוף הסשן",
-      "מעל 500 משפחות ממודיעין, מכבים ורעות",
+      "אנחנו משרתים את מודיעין והסביבה באהבה ובשמחה",
     ],
     /* הכרטיסים לא מוצגים בעמוד (המחיר בעמוד הוא הטופס בלבד), הם מזינים את
        הסכמה. העמוד מוביל בכולל מע״מ, ולכן גם כאן: price כולל מע״מ, והסכמה
@@ -384,6 +395,7 @@ export const STUDIO_SERVICES = {
         answer:
           "בהקלטת שיר על פלייבק השיר המוכן אצלכם בסוף הסשן באולפן.",
       },
+      SONG_TO_VENUE_DJ_FAQ,
       {
         id: "booking-advance",
         question:
@@ -646,7 +658,7 @@ export const STUDIO_SERVICES = {
         id: "drive-from-rehovot",
         question: "איך מגיעים מרחובות לאולפן במודיעין?",
         answer:
-          "כביש 431 או נתיבי איילון - כ-25-30 דקות. יש חניה ליד האולפן. הכתובת המדויקת נשלחת בוואטסאפ אחרי תיאום.",
+          `כביש 431 או נתיבי איילון - כ-25-30 דקות. ${STUDIO_PARKING_NOTE}. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "no-drive-option",
@@ -688,7 +700,7 @@ export const STUDIO_SERVICES = {
         id: "parking-directions",
         question: "האם יש חניה / איך מגיעים למודיעין?",
         answer:
-          "יש חניה פנויה ליד האולפן במודיעין. מגיעים מכביש 431 או מנתיבי איילון, והכתובת המדויקת נשלחת בוואטסאפ אחרי תיאום.",
+          `${STUDIO_PARKING_NOTE}. מגיעים למודיעין מכביש 431 או מנתיבי איילון. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "suitable-services",
@@ -839,6 +851,7 @@ export const STUDIO_SERVICES = {
       "שלום, אשמח לקבל פרטים על אולפן הקלטות נייד - תאריך ומיקום",
     utmCampaign: "studio_mobile",
     faqs: [
+      MOBILE_STUDIO_HOME_FAQ,
       {
         id: "what-is",
         question: "מה זה אולפן נייד?",
@@ -951,7 +964,7 @@ export const STUDIO_SERVICES = {
         id: "delivery",
         question: "כמה זמן לוקח לקבל את הקובץ המוגמר?",
         answer:
-          "הקלטה באולפן: עד 24 שעות. מהבית: 24-48 שעות אחרי שליחת ההקלטה.",
+          "הקובץ מוכן תוך 24-48 שעות, בין אם הקלטתם באולפן ובין אם מהבית.",
       },
     ],
     hubCard: {
@@ -1019,7 +1032,7 @@ export const STUDIO_SERVICES = {
         id: "location",
         question: "האם אפשר להגיע מחוץ למודיעין?",
         answer:
-          "כן. לקוחות מגיעים מירושלים, תל אביב, השרון ויהודה ושומרון. האולפן ממוקם בצומת מסוע, נגיש בקלות בכביש 443.",
+          `כן. לקוחות מגיעים מירושלים, תל אביב, השרון ויהודה ושומרון. האולפן במודיעין מכבים רעות, ו${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "timing",

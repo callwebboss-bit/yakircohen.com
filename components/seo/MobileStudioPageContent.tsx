@@ -33,6 +33,7 @@ import {
   mobileStudioEventExVat,
 } from "@/lib/data/pricing-catalog";
 import { getStudioService } from "@/lib/data/services";
+import { MOBILE_STUDIO_HOME_FAQ } from "@/lib/data/faq-aeo";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -101,6 +102,12 @@ export default function MobileStudioPageContent() {
       bookSlug={service.slug}
       pagePath="/studio/mobile-studio"
       faqs={service.faqs}
+      aeoAnswer={{
+        id: "aeo-answer-mobile-studio",
+        question: MOBILE_STUDIO_HOME_FAQ.question,
+        text: MOBILE_STUDIO_HOME_FAQ.answer,
+        utmCampaign: "aeo_q2",
+      }}
       {...heroProps}
       ctaLabel={MOBILE_STUDIO_CTA_LABEL}
       valueFrame={MOBILE_STUDIO_VALUE_FRAME}
@@ -402,6 +409,7 @@ export default function MobileStudioPageContent() {
         {service.faqs.length > 0 ? (
           <FAQAccordion
             items={[...service.faqs]}
+            defaultOpenId={MOBILE_STUDIO_HOME_FAQ.id}
             title="שאלות ותשובות"
             subtitle="לפני שמזמינים אולפן נייד"
             className="py-0"

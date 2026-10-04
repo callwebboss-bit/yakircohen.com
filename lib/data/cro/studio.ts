@@ -1,3 +1,4 @@
+import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { WizardCroConfig } from "@/lib/book-wizard-cro/types";
 import { CRO_SHARED } from "@/lib/data/cro/shared";
 
@@ -29,7 +30,7 @@ export const STUDIO_CRO_CONFIG = {
   priceReframe:
     "פחות מעלות של שופינג חולף בקניון - בשביל מזכרת מקצועית שנשארת איתכם לכל החיים",
   parkingCopy:
-    "סידרנו לך ראש תל-אביבי שקט. חניה פרטית, מקורה ובחינם מחכה לך ישירות מתחת לאולפן. השלט לפתיחת המחסום יישלח אליך אוטומטית בוואטסאפ.",
+    `סידרנו לך ראש תל-אביבי שקט. ${STUDIO_PARKING_NOTE}. השלט לפתיחת המחסום יישלח אליך אוטומטית בוואטסאפ.`,
   /* בלי "במקום 250": ל-250 אין מחיר קטלוג (FIT-05, FIT-07). המחיר בפועל
      מגיע מ-lib/studio-upgrade-pricing.ts ומוצג ליד הטקסט, כולל מע״מ. */
   lastMinuteUpsell: {

@@ -3,7 +3,6 @@ import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import FunnyRingtoneBeforeAfter from "@/components/seo/FunnyRingtoneBeforeAfter";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import FunnyRingtoneOrderForm from "@/components/seo/FunnyRingtoneOrderForm";
-import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import PageBottomCta from "@/components/layout/PageBottomCta";
@@ -49,12 +48,6 @@ export default function FunnyRingtonePageContent() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(buildFunnyRingtoneServiceSchema()),
         }}
-      />
-      <VideoObjectSchema
-        faqItems={RINGTONE_FAQ.map((item) => ({
-          question: item.question,
-          answer: item.answer,
-        }))}
       />
       <section className="relative overflow-hidden border-b border-border">
         <div

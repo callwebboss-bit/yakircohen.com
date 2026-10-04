@@ -413,7 +413,7 @@ export default function SmartFormClient() {
                 ))}
               </div>
               <p className="mt-4 text-center text-[11px] text-muted-foreground">
-                מעל 500 זוגות ומשפחות הקליטו איתנו
+                אנחנו משרתים את מודיעין והסביבה באהבה ובשמחה
               </p>
             </div>
 

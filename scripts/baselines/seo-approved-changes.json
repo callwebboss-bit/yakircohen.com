@@ -1158,13 +1158,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/packages",
-      "field": "words",
-      "why": "1,157 -> 1,149: תיאור החבילה הישנה ארוך יותר.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/photography",
       "field": "images",
       "why": "הוסרו התמונה של ההמלצה שהועברה מ\"אורי מזרחי\" ל\"דניאל גרין\" והתמונה של אדם אחר ליד ההמלצה של משה ברק (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
@@ -1473,13 +1466,6 @@
       "approvedAt": "2026-10-04"
     },
     {
-      "url": "/blog/category/gifts",
-      "field": "words",
-      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-02"
-    },
-    {
       "url": "/blog/category/editing",
       "field": "title",
       "why": "/blog/category/editing הפך ממצעד מאמרים למרכז ידע, בהחלטת הבעלים 3.10. הכותרת היא השאלה שהוא נשאל בפועל, מחודדת לדלי הזה כדי שלא תתנגש בכותרת של מרכז האולפן. ה-h2 הסמוי \"12 מאמרים\" הוחלף בחמש כותרות קבוצה גלויות, מקובצות לפי מצב הקובץ ולא לפי סוג השירות, כדי שקורא שמגיע עם בעיה ימצא את הקבוצה שלו. המחירים נמשכים מ-pricing-catalog.",
@@ -1660,6 +1646,69 @@
       "why": "החלטת בעלים 4.10.2026: הכותרת 'כמה עולה להקליט שיר באולפן ב-2026' התחרתה בעמוד השיר (canonical). הוחלפה ב'מה באמת כלול במחיר הקלטת שיר באולפן, ואיפה מסתתרות עלויות'. docs/transparency/price-consistency-audit.md",
       "approvedBy": "owner",
       "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/studio/recording-studio",
+      "field": "outline",
+      "why": "סבב AEO 1 (3.10): נוספה שאלה ראשונה ב-FAQ, \"האם יש אולפן הקלטות מקצועי במודיעין?\", בניסוח של מי ששואל עוזר AI. כותרת h3 אחת נוספה, אף כותרת לא נגרעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/mobile-studio",
+      "field": "outline",
+      "why": "סבב AEO 1 (3.10): נוספה שאלה ראשונה ב-FAQ, \"יש אולפן הקלטות שמגיע עד הבית?\", בניסוח של מי ששואל עוזר AI. כותרת h3 אחת נוספה, אף כותרת לא נגרעה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/about/faq",
+      "field": "outline",
+      "why": "השאלה \"תוך כמה זמן קובץ הסאונד או הסרטון הערוך מוכן?\" ענתה \"2-3 ימי עסקים\" וסתרה את עמוד הבית ואת החלטות 2.10-3.10. עכשיו אותה שאלה ותשובה כמו בעמוד הבית, ממקור אחד (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldCounts",
+      "why": "4 שאלות נשלחו לגוגל ב-FaqPageSchema נפרד ולא הופיעו בעמוד (טקסט מוסתר). נשארה רשימת העמוד, 14 מתוך 14 גלויות (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/blog/wedding-songs-chuppah",
+      "field": "outline",
+      "why": "השאלה \"מה עם זכויות יוצרים?\" נמחקה מהפוסט: הבעלים החליט שהאתר לא עוסק ברישוי (3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/blessings/bat-mitzvah-clip",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/blessings/video-clip",
+      "field": "ldCounts",
+      "why": "2 שאלות על קליפ בת מצווה נשלחו לגוגל ולא מופיעות בעמוד הזה (טקסט מוסתר). הוסרו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts",
+      "field": "ldCounts",
+      "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-03"
     }
   ]
 }

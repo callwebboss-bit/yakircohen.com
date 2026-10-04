@@ -1,4 +1,5 @@
-﻿import type { ReactNode } from "react";
+﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Container from "@/components/ui/Container";
@@ -25,14 +26,14 @@ import {
   getHomeHubIcon,
 } from "@/lib/data/home-hub-cards";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
-import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
+import { CANCELLATION_SUMMARY, HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 import { TIME_CLAIMS, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";
 
 const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   "location-parking": (
     <>
-      <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
-      איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.
+      <InlineServiceLink href="/studio">האולפן</InlineServiceLink> במודיעין מכבים
+      רעות. {STUDIO_PARKING_NOTE}. {STUDIO_ADDRESS_COORDINATION_NOTE}.
     </>
   ),
   "ai-restoration": (
@@ -89,8 +90,7 @@ const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   ),
   cancellation: (
     <>
-      עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת
-      ב
+      {CANCELLATION_SUMMARY} הפרטים המלאים ב
       <Link href="/terms" className="font-medium text-brand-red hover:underline">
         תנאי השירות
       </Link>

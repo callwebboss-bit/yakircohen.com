@@ -1,3 +1,4 @@
+import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
@@ -248,7 +249,7 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "location-modiin",
     question: "איפה נמצא האולפן ואיך מגיעים ממרכז הארץ?",
     answer:
-      "אולפן הפודקאסט ממוקם במודיעין - בין תל אביב לירושלים, עם גישה נוחה מכביש 1 ו-431. חניה בשפע ממש ליד הכניסה. הנסיעה מתל אביב ומירושלים לוקחת כ-30 דקות.",
+      `אולפן הפודקאסט ממוקם במודיעין - בין תל אביב לירושלים, עם גישה נוחה מכביש 1 ו-431. ${STUDIO_PARKING_NOTE}. הנסיעה מתל אביב ומירושלים לוקחת כ-30 דקות.`,
   },
   {
     id: "professional-vs-home",
