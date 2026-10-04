@@ -4,6 +4,16 @@
 This version has breaking changes - APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+## מצב האתר ומה פתוח
+
+**`docs/HANDOFF-2026-10-04.md`** הוא נקודת הפתיחה: מה בוצע, מה פתוח,
+ואיזה ענפים מחזיקים עבודה שלא נכנסה ל-main. לקרוא אותו לפני שמתחילים
+משימה חדשה, כדי לא לבנות משהו שסוכן אחר כבר בנה.
+
+> **שימו לב:** הבעלים ביקש ב-4.10.2026 לעבור לדחיפה ישירה מהמק.
+> כל עוד המעבר לא בוצע, הכלל שמתחת עדיין בתוקף. אחרי שהוא יבוצע,
+> **צריך לעדכן את הסעיף הזה**, אחרת הוא מטעה. הצעדים במסמך המסירה.
+
 ## שתי מכונות, ריפו אחד על Dropbox. לקרוא לפני כל פעולה
 
 **הפקודה הראשונה בכל סשן שנוגע בבנייה, בבדיקות או בפריסה:**
