@@ -101,7 +101,7 @@ export const BUSINESS_HOURS_NOTE =
   "מקבלים פניות מסביב לשעון חוץ משבת וחג. מענה אנושי, הכי מהר שאפשר. פגישות והקלטות בתיאום מראש.";
 
 /** Trust metrics - homepage, book page, badges (edit values here) */
-/* 5.0 לפי כרטיס Google Business, דיווח הבעלים 4.10.2026. מספר הביקורות ממתין לעדכון ממנו */
+/* 5.0 ו-241 ביקורות לפי כרטיס Google Business, אושר על ידי הבעלים 4.10.2026 */
 export const GOOGLE_RATING = "5.0";
 export const GOOGLE_RATING_BEST = "5";
 export const GOOGLE_RATING_WORST = "1";
