@@ -53,10 +53,10 @@ export default function ProfessionalVoiceoverPageContent() {
             {SITE_NAME}
           </p>
           <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-            קריינות מקצועית
+            קריינות לסט DJ
           </h1>
           <p className="mx-auto mt-4 text-base font-medium text-foreground">
-            קריינות לסט (חבילה 5 משפטים)
+            חבילה של 5 משפטים, מוקלטת באולפן
           </p>
           <p className="mx-auto mt-5 max-w-2xl text-sm text-muted-foreground">
             קריינות בסט היא מה שגורם לקהל לדעת מי מנגן. בלעדיה הסט עובר בלי

@@ -3,7 +3,10 @@ import { test } from "node:test";
 import {
   BUSINESS_FOUNDING_YEAR,
   FOUNDER_CAREER_START_YEAR,
+  GOOGLE_RATING,
+  GOOGLE_REVIEW_COUNT,
   SITE_TRUST_STATS,
+  TRUST_CLAIM_SOURCES,
   TRUST_STATS_CLARIFICATION,
 } from "./constants";
 
@@ -65,4 +68,54 @@ test("שורת ההבהרה מזכירה את שני המספרים", () => {
     new RegExp(String(claimedYears())),
     "שורת ההבהרה חייבת לנקוב באותו מספר שנות ניסיון שמוצג בפס האמון",
   );
+});
+
+
+/*
+ * שלושת מספרי האמון נכנסים ל-JSON-LD, כלומר גוגל מצטט אותם כעובדה.
+ * עד 4.10.2026 רק "20+" היה מוגן, ואפשר היה לשנות את הדירוג בלי שאיש
+ * ישים לב. הבדיקות כאן דורשות שלכל מספר מוצג יהיה מקור מתועד, ושמקור
+ * לא יישאר תלוי באוויר אחרי שהמספר שלו השתנה.
+ */
+
+function displayedClaims(): string[] {
+  return [
+    ...SITE_TRUST_STATS.map((s) => s.value),
+    GOOGLE_REVIEW_COUNT,
+  ];
+}
+
+test("לכל מספר אמון מוצג יש מקור מתועד", () => {
+  const documented = new Set(TRUST_CLAIM_SOURCES.map((c) => c.value));
+  for (const claim of displayedClaims()) {
+    assert.ok(
+      documented.has(claim),
+      `"${claim}" מוצג באתר ונכנס ל-JSON-LD, ואין לו רשומה ב-TRUST_CLAIM_SOURCES. ` +
+        "מספר אמון בלי מקור הוא מספר שאי אפשר להגן עליו",
+    );
+  }
+});
+
+test("אין מקור שלא מתאים לשום מספר מוצג", () => {
+  const displayed = new Set(displayedClaims());
+  for (const claim of TRUST_CLAIM_SOURCES) {
+    assert.ok(
+      displayed.has(claim.value),
+      `ב-TRUST_CLAIM_SOURCES יש רשומה ל-"${claim.value}", אבל שום מספר מוצג לא תואם לה. ` +
+        "כנראה המספר שונה והמקור נשאר מאחור. לעדכן או למחוק",
+    );
+  }
+});
+
+test("הדירוג ומספר הביקורות מגיעים מאותו מקור שמתועד", () => {
+  const rating = TRUST_CLAIM_SOURCES.find((c) => c.value === `${GOOGLE_RATING} ★`);
+  assert.ok(rating, `אין מקור מתועד לדירוג ${GOOGLE_RATING}`);
+  assert.match(
+    rating.source,
+    /Google/,
+    "מקור הדירוג חייב לנקוב בכרטיס Google, כי שם הגולש יכול לאמת אותו",
+  );
+
+  const reviews = TRUST_CLAIM_SOURCES.find((c) => c.value === GOOGLE_REVIEW_COUNT);
+  assert.ok(reviews, `אין מקור מתועד ל-${GOOGLE_REVIEW_COUNT} ביקורות`);
 });
