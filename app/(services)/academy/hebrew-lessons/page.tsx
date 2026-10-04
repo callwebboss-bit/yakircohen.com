@@ -105,12 +105,9 @@ const pageSchema = {
           url: PAGE_URL,
         },
       ],
-      review: {
-        "@type": "Review",
-        author: { "@type": "Person", name: HEB_LESSONS_EN_TESTIMONIAL.author },
-        /* ללא reviewRating: אין כוכבים גלויים בעמוד. ראו ulpan-page-schema.ts. */
-        reviewBody: HEB_LESSONS_EN_TESTIMONIAL.quote,
-      },
+      /* בלי review: ההמלצה גלויה בעמוד, אבל בסכמה היא ישבה על Service, סוג
+         שגוגל לא מקבל לביקורות ("סוג אובייקט לא חוקי לשדה parent_node" ב-Search
+         Console), ובלי reviewRating, שגוגל דורש. ראו ulpan-page-schema.ts. */
     },
     {
       "@type": "FAQPage",

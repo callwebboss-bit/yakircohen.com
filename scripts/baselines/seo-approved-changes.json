@@ -1709,6 +1709,41 @@
       "why": "סקשן \"דוגמאות מהשטח\" הוסר מחמשת העמודים בהחלטת הבעלים 5.10.2026. lib/data/site-case-studies.ts נשא הערה מפורשת, \"עובדות מהשטח. עדכן מספרים לפי פרויקטים אמיתיים\", כלומר ששת המקרים היו מספרי תבנית ולא עבודות אמיתיות, והם הוצגו תחת כותרת שמצהירה שהם מהשטח. הבעלים אישר שהם אינם פרויקטים אמיתיים והורה להסיר, ומוסיף תיק עבודות אמיתי לכל האתר. עדיף לאבד כותרת ו-14 מילים מאשר להציג תוצאות שלא קרו.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-05"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldTypes",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldProps",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldCounts",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldTypes",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldProps",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
     }
   ]
 }
