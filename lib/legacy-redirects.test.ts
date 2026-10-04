@@ -107,8 +107,26 @@ describe("legacy redirects: Hebrew sources (ED-01)", () => {
     assert.equal(dest.get("/אודותינו"), "/about");
     assert.equal(dest.get("/אולפן-הקלטות"), "/studio");
     assert.equal(dest.get("/תקליטן-בנתניה"), "/events/dj-events");
-    assert.equal(dest.get("/שירים-לבת-מצווה"), "/blog/category/events");
-    assert.equal(dest.get("/שירים-לבת-מצווה-2"), "/blog/category/events");
+    for (const old of [
+      "/שירים-לבת-מצווה",
+      "/שירים-לבת-מצווה-2",
+      "/רשימת-שירים-לבת-מצווה",
+      "/שירי-בת-מצווה-להרים-את-הרחבה-ולשמח-את-כ",
+      "/2021/05/15/שירים-לבת-מצווה",
+      "/2021/09/06/רשימת-שירים-לבת-מצווה",
+    ]) {
+      assert.equal(dest.get(old), "/blog/bat-mitzvah-songs", old);
+    }
+  });
+
+  it("dated bat mitzvah URLs come before the /2021 catch-all that sends to /blog", () => {
+    const sources = getLegacyRedirects().map((r) => decodeURI(bareSource(r.source)));
+    const catchAll = sources.indexOf("/2021/:path*");
+    assert.ok(catchAll >= 0);
+    for (const dated of ["/2021/05/15/שירים-לבת-מצווה", "/2021/09/06/רשימת-שירים-לבת-מצווה"]) {
+      const at = sources.indexOf(dated);
+      assert.ok(at >= 0 && at < catchAll, dated);
+    }
   });
 
   it("all destinations are ASCII (Location header must not carry raw Hebrew)", () => {
