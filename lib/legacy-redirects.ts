@@ -520,6 +520,10 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/studio-podcasters": "/podcast/podcast-studio-modiin",
   "/יצחק-בצרי": "/podcast",
   "/שירים-לבר-מצווה": "/blog/bar-mitzvah-song-recording-guide",
+  /* הארכיון חסם את קריאת העמוד, ולכן התוכן הישן לא ידוע. היעד הוא השירות
+     שבסרטון היחיד באתר עם המילה "סטנדאפ": "דרשה שילד עושה סטנדאפ" (KzmhWvM8EEM,
+     תגית blessings-bar-mitzvah). הבעלים 4.10.2026: "מה שצריך לתקן, נתקן". */
+  "/סטנדאפ": "/studio/blessings/bar-mitzvah",
 };
 
 /** Old English slugs used before the current route structure */
