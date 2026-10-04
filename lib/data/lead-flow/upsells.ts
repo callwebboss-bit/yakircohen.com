@@ -36,14 +36,15 @@ export const LEAD_FLOW_UPSELLS: readonly LeadFlowUpsell[] = [
   {
     id: "mobile-studio",
     label: "אולפן נייד",
-    catalogId: "mobile_studio",
+    catalogId: "mobile_podcast_at_home",
     hideFor: ["mobile-studio"],
   },
   {
     id: "express",
     label: "מסירה מהירה של תוצרים",
     catalogId: "express_delivery",
-    hideFor: ["confetti", "bubbles", "heavy-smoke", "used-gear"],
+    /* בשיר התוצאה ביד בסוף הסשן, ואין מסירה מזורזת לשירים (2.10.2026) */
+    hideFor: ["confetti", "bubbles", "heavy-smoke", "used-gear", "song"],
   },
 ];
 

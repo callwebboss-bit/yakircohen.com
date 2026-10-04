@@ -11,7 +11,8 @@ const checks = [
   ["תוכן לעסקים group", html.includes("pricing-super-business")],
   ["Hesitant CTA", html.includes("לא יודע איזה שירות מתאים")],
   ["Fixed price hero", html.includes("מחירים קבועים")],
-  ["VAT note", html.includes("מע״מ מוצג בלחיצה על כל שורה")],
+  /* שלב 4 WP11: המחירון מוביל בכולל מע״מ */
+  ["VAT note", html.includes("המחיר כולל מע״מ, ובלחיצה על שורה מופיע גם הסכום לפני מע״מ")],
   ["Book CTA (not quote)", html.includes("הזמנה מקוונת") && !html.includes("קבל הצעת מחיר עכשיו")],
   ["FAQ comparison", html.includes("מה ההבדל בין חצי שעה לשעה באולפן")],
   ["FAQ unsure", html.includes("אני לא יודע איזה שירות לבחור")],

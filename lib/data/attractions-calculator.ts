@@ -1,4 +1,7 @@
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
+
+/** אחוז הנחת החבילה, מהקטלוג (8%, החלטת הבעלים 3.10.2026, סבב שני) */
+const BUNDLE_PCT = attractionBundleDiscountPercent();
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
 export type GeoKey = "center" | "north_south" | "eilat";
@@ -33,8 +36,15 @@ export const ATTRACTION_CATEGORIES: { id: AttractionCategoryId; label: string }[
 
 export const GEO_FEES: Record<GeoKey, { label: string; fee: number }> = {
   center: { label: "מרכז (ללא תוספת)", fee: 0 },
-  north_south: { label: "צפון / דרום (+800 ₪)", fee: 800 },
-  eilat: { label: "אילת / גולן (+1,800 ₪)", fee: 1800 },
+  /* תוספות ההגעה מהקטלוג (travel_north_south, travel_eilat_golan), כמו שאר המחשבון */
+  north_south: {
+    label: `צפון / דרום (+${getExVat("travel_north_south").toLocaleString("he-IL")} ₪)`,
+    fee: getExVat("travel_north_south"),
+  },
+  eilat: {
+    label: `אילת / גולן (+${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪)`,
+    fee: getExVat("travel_eilat_golan"),
+  },
 };
 
 const BUNDLE_PRICES: Record<number, number> = {
@@ -47,8 +57,9 @@ const BUNDLE_PRICES: Record<number, number> = {
 
 export const PRICING_TIERS = [
   { count: 1, price: getExVat("event_attraction_1"), saving: "" },
-  { count: 2, price: getExVat("event_attraction_2"), saving: "הנחה 10%" },
-  { count: 3, price: getExVat("event_attraction_3"), saving: "הנחה 15%" },
+  /* 8% מהקטלוג (החלטת הבעלים 3.10.2026, סבב שני). היה 10% ו-15% כתובים */
+  { count: 2, price: getExVat("event_attraction_2"), saving: `הנחה ${BUNDLE_PCT}%` },
+  { count: 3, price: getExVat("event_attraction_3"), saving: `הנחה ${BUNDLE_PCT}%` },
   { count: 4, price: getExVat("event_attraction_4"), saving: "+ קליפ מתנה", highlight: true },
 ] as const;
 
@@ -59,7 +70,7 @@ export const ATTRACTIONS: AttractionItem[] = [
     name: "זיקוקים קרים",
     shortDesc: "2 מכשירים · ל-4 מטרים גובה · ללא אש אמיתית",
     seoDesc:
-      "זיקוקים קרים מייצרים מפל ניצוצות לבן ומבריק ל-4 מטרים גובה - ללא אש אמיתית, בטוחים לחלוטין בסביבה סגורה ועל שמלות. 2 מכשירים בחבילה הבסיסית, ואפשר להזמין יחידה שנייה. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחה של 10%. מתאימים לכניסת הזוג לחופה, לרחבת הריקודים ולכל רגע שיא שאתם רוצים לצלם.",
+      `זיקוקים קרים מייצרים מפל ניצוצות לבן ומבריק ל-4 מטרים גובה - ללא אש אמיתית, בטוחים לחלוטין בסביבה סגורה ועל שמלות. 2 מכשירים בחבילה הבסיסית, ואפשר להזמין יחידה שנייה. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחת חבילה של ${BUNDLE_PCT}%. מתאימים לכניסת הזוג לחופה, לרחבת הריקודים ולכל רגע שיא שאתם רוצים לצלם.`,
     metaKeywords: ["זיקוקים קרים", "ניצוצות לחתונה", "אפקט זיקוקים", "Cold Spark", "ללא אש"],
     icon: "✨",
     category: "effects",
@@ -82,7 +93,7 @@ export const ATTRACTIONS: AttractionItem[] = [
     name: "גשם קונפטי",
     shortDesc: "יחידה אחת או שתיים - הרגע הכי מצולם",
     seoDesc:
-      "תותח קונפטי מפצץ אלפי פיסות נייר צבעוניות לאוויר ויוצר גשם של אושר. הרגע הזה הוא אחד הצילומים הכי ויראליים מאירועים. זמין בנייר לבן, צבעוני. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחה של 10%.",
+      `תותח קונפטי מפצץ אלפי פיסות נייר צבעוניות לאוויר ויוצר גשם של אושר. הרגע הזה הוא אחד הצילומים הכי ויראליים מאירועים. זמין בנייר לבן, צבעוני. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחת חבילה של ${BUNDLE_PCT}%.`,
     metaKeywords: ["תותח קונפטי", "גשם קונפטי", "קונפטי לחתונה", "אפקט קונפטי"],
     icon: "🎊",
     category: "effects",
@@ -91,9 +102,9 @@ export const ATTRACTIONS: AttractionItem[] = [
   {
     id: "smoke-cannons",
     name: "תותחי עשן",
-    shortDesc: "2 תותחים בבסיס · יחידה שנייה בהנחה 10%",
+    shortDesc: `2 תותחים בבסיס · יחידה שנייה בהנחת חבילה של ${BUNDLE_PCT}%`,
     seoDesc:
-      "תותחי עשן מייצרים ענני עשן ממוקדים לרגעי שיא באירוע. החבילה הבסיסית כוללת 2 תותחים, ואפשר להוסיף יחידה שנייה. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחה של 10%. מתאים לכניסות ולרגעי שיא. העשן לא מריח ומתפוגג תוך שבע שניות, כך שהוא לא נשאר באוויר ולא מפריע להמשך הערב.",
+      `תותחי עשן מייצרים ענני עשן ממוקדים לרגעי שיא באירוע. החבילה הבסיסית כוללת 2 תותחים, ואפשר להוסיף יחידה שנייה. שתי יחידות נספרות כשתי אטרקציות ומזכות בהנחת חבילה של ${BUNDLE_PCT}%. מתאים לכניסות ולרגעי שיא. העשן לא מריח ומתפוגג תוך שבע שניות, כך שהוא לא נשאר באוויר ולא מפריע להמשך הערב.`,
     metaKeywords: ["תותח עשן", "עשן לאירועים", "אפקט עשן", "smoke machine"],
     icon: "💨",
     category: "effects",

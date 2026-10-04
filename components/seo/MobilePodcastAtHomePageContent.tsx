@@ -28,8 +28,10 @@ import {
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, MOBILE_STUDIO_ARRIVAL_COPY } from "@/lib/data/pricing-catalog";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
+import { formatPrice } from "@/lib/data/pricing-display";
+import MobileChannelsNote from "@/components/pricing/MobileChannelsNote";
 
 const MOBILE_PODCAST_TITLE = "פודקאסט נייד עד הבית";
 
@@ -119,13 +121,14 @@ export default function MobilePodcastAtHomePageContent() {
             מחיר פודקאסט נייד
           </h2>
           <p className="mt-3 text-base font-semibold text-foreground">
-            החל מ-{MOBILE_PODCAST_BASE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ
+            החל {formatPrice(MOBILE_PODCAST_BASE_EX_VAT, { from: true }).inline}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">{PRICING_FRAMING_LINE}</p>
+          <MobileChannelsNote className="mt-4" />
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li className="flex gap-2">
               <span className="text-brand-red" aria-hidden>•</span>
-              <span>המחיר הבסיסי מכסה הקלטה ניידת באזור המרכז.</span>
+              <span>המחיר הבסיסי באזור המרכז: {MOBILE_STUDIO_ARRIVAL_COPY}.</span>
             </li>
             <li className="flex gap-2">
               <span className="text-brand-red" aria-hidden>•</span>

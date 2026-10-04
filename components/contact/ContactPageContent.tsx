@@ -1,13 +1,14 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BUSINESS_HOURS,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
   FOOTER_LEGAL_LINKS,
   SITE_KICKER,
+  SITE_TRUST_STATS,
   SOCIAL_LINKS,
 } from "@/lib/constants";
 import HoneypotField from "@/components/forms/HoneypotField";
@@ -21,6 +22,7 @@ import {
   validateContactQuiz,
 } from "@/lib/form-validation";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
@@ -107,10 +109,7 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
 };
 
 function buildContactFaqItems(): FAQItem[] {
-  const blessingPrice = formatFromPriceDual(getExVat("blessing_recording")).replace(
-    "כרגע: ",
-    "",
-  );
+  const blessingPrice = formatFromPriceDual(getExVat("blessing_recording"));
   const studioHour = getExVat("studio_hour").toLocaleString("he-IL");
 
   return [
@@ -217,7 +216,7 @@ function buildQuizWhatsAppMessage(params: {
   });
 }
 
-import { getContactAvailabilityLabel } from "@/lib/studio-hours";
+import { getContactAvailabilityLabel, isStudioOpen } from "@/lib/studio-hours";
 
 export default function ContactPageContent() {
   const [step, setStep] = useState(1);
@@ -228,12 +227,29 @@ export default function ContactPageContent() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   /* קבוע, ולא useState. התווית כבר אינה תלוית שעה, ו-useState עם
      פונקציית אתחול היה מריץ אותה גם בשרת וגם בהידרציה. */
   const availability = getContactAvailabilityLabel();
+  /* הנקודה הירוקה עוקבת אחרי שעות הפעילות בשעון ישראל (FIT-12). null עד
+     אחרי ההידרציה, כדי שהשעה לא תיצרב ל-HTML הסטטי. */
+  const [openNow, setOpenNow] = useState<boolean | null>(null);
+  useEffect(() => {
+    const update = () => setOpenNow(isStudioOpen());
+    queueMicrotask(update);
+    const id = window.setInterval(update, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { submitLead } = useLeadSubmit();
+  /* "נשלח" נגזר מתשובת השרת ולא מלחיצה. קודם מסך ההצלחה הופיע מיד אחרי
+     void submitLead, גם כשהפרטים לא הגיעו. LF-02 */
+  const {
+    submitLead,
+    isSuccess: submitted,
+    isSubmitting,
+    submit: leadSubmit,
+    retry: retryLead,
+    resetSubmit,
+  } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "contact_quiz",
   });
@@ -310,10 +326,10 @@ export default function ContactPageContent() {
     setPhone("");
     setEmail("");
     setMessage("");
-    setSubmitted(false);
+    resetSubmit();
     setFieldErrors({});
     quizDraft.clear();
-  }, [quizDraft]);
+  }, [quizDraft, resetSubmit]);
 
   const submitForm = useCallback(() => {
     if (!service || !timing || !budget) return;
@@ -367,9 +383,9 @@ export default function ContactPageContent() {
           href,
           "continue_chat",
           contactCrossSellCategory ? { leadCategory: contactCrossSellCategory } : undefined,
-        );
-        setSubmitted(true);
-        quizDraft.clear();
+        ).then((ok) => {
+          if (ok) quizDraft.clear();
+        });
       },
     );
 
@@ -403,7 +419,6 @@ export default function ContactPageContent() {
         className="flex min-h-12 items-center gap-4 border-b border-brand-red/30 bg-brand-red/8 px-4 py-3 transition-colors hover:bg-brand-red/12 sm:px-8"
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-60" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-red" />
         </span>
         <span className="min-w-0 flex-1 text-end">
@@ -411,7 +426,7 @@ export default function ContactPageContent() {
             צריכים פרויקט מהיום להיום?
           </span>
           <span className="block text-xs text-muted-foreground">
-            זמינות מהירה עכשיו - תגובה מהירה
+            כתבו בוואטסאפ ונבדוק אם אפשר עוד היום
           </span>
         </span>
         <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>
@@ -433,16 +448,15 @@ export default function ContactPageContent() {
               href="/book"
               className="text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
             >
-              רוצים מחיר מיד? הזמנה מקוונת {formatFromPriceDual(getExVat("blessing_recording")).replace("כרגע: מ-", "מ-")}
+              רוצים מחיר מיד? הזמנה מקוונת {formatFromPriceDual(getExVat("blessing_recording"))}
             </Link>
           </p>
         </header>
 
         <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
+          {/* המספרים מ-SITE_TRUST_STATS בלבד, כמו בדף הבית (FIT-06) */}
           {[
-            { num: "20+", label: "שנות ניסיון" },
-            { num: "500+", label: "פרויקטים" },
-            { num: "★ 5.0", label: "דירוג לקוחות" },
+            ...SITE_TRUST_STATS.map((s) => ({ num: s.value, label: s.label })),
             { num: "אנושי", label: "מענה, לא בוט" },
           ].map((item) => (
             <div key={item.label} className="bg-surface px-2 py-4 text-center">
@@ -456,7 +470,16 @@ export default function ContactPageContent() {
           className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-muted-foreground"
           aria-live="polite"
         >
-          <span className="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_0_3px_rgba(34,197,94,0.25)]" />
+          <span
+            className={cn(
+              "h-2 w-2 rounded-full",
+              openNow === true && "bg-green-500 shadow-[0_0_0_3px_rgba(34,197,94,0.25)]",
+              openNow === false && "bg-yellow-500",
+              openNow === null && "bg-border",
+            )}
+            aria-hidden="true"
+          />
+          {openNow === true ? <span className="sr-only">פתוח עכשיו. </span> : null}
           {availability}
         </p>
 
@@ -626,6 +649,17 @@ export default function ContactPageContent() {
                     <div className="relative space-y-3">
                       <HoneypotField value={honeypot} onChange={setHoneypot} />
                       <LeadFormAlert message={globalError} />
+                      {leadSubmit.status === "failed" ? (
+                        <LeadSubmitFallback
+                          waHref={leadSubmit.waHref}
+                          onRetry={() =>
+                            void retryLead().then((ok) => {
+                              /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+                              if (ok) quizDraft.clear();
+                            })
+                          }
+                        />
+                      ) : null}
                       <div>
                         <label htmlFor="contact-quiz-name" className="mb-1.5 block text-sm font-semibold text-foreground">
                           {FORM_MICROCOPY.nameLabel} *
@@ -755,7 +789,12 @@ export default function ContactPageContent() {
                         הפרטים שלכם שמורים אצלנו בלבד
                       </p>
                     </div>
-                    <QuizNav onBack={() => setStep(3)} onNext={submitForm} nextLabel="שלחו" />
+                    <QuizNav
+                      onBack={() => setStep(3)}
+                      onNext={submitForm}
+                      nextDisabled={isSubmitting}
+                      nextLabel={isSubmitting ? "שולחים" : "שלחו"}
+                    />
                   </QuestionBlock>
                 ) : null}
               </>

@@ -10,6 +10,12 @@ export const FilterGateLazy = dynamic(
   { loading: () => wizardSkeleton() },
 );
 
+/* טופס הקלטת השיר ב-/book, כשהגיעו מקישור מחירון של השיר (?catalog=song_recording) */
+export const SongOfferBookPanelLazy = dynamic(
+  () => import("@/components/pricing/SongOfferBookPanel"),
+  { loading: () => wizardSkeleton() },
+);
+
 // IMPROVED: defer heavy booking wizards from /book initial bundle
 export const PodcastBookingWizardLazy = dynamic(
   () => import("@/components/marketing/PodcastBookingWizard"),

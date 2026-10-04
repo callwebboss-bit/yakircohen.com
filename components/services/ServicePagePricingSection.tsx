@@ -22,6 +22,8 @@ export default function ServicePagePricingSection({
 
   return (
     <section
+      /* עוגן ל"מחירון" בסרגל הדביק במובייל (שלב 4 WP13) */
+      id="pricing-section"
       className={cn(
         "scroll-mt-24 rounded-2xl border border-border bg-surface px-4 py-10 sm:px-8",
         className,

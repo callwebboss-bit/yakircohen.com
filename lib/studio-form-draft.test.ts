@@ -52,7 +52,7 @@ describe("parseStudioFormDraft", () => {
       {
         recordingType: "event_song",
         atmosphere: "intimate",
-        packageId: "classic",
+        packageId: "song",
         scheduleWindow: "weekdays",
         name: "Yakir",
         phone: "0541234567",
@@ -63,10 +63,22 @@ describe("parseStudioFormDraft", () => {
     assert.ok(result);
     assert.equal(result!.recordingType, "event_song");
     assert.equal(result!.atmosphere, "intimate");
-    assert.equal(result!.packageId, "classic");
+    assert.equal(result!.packageId, "song");
     assert.equal(result!.scheduleWindow, "weekdays");
     assert.equal(result!.name, "Yakir");
     assert.equal(result!.termsAccepted, true);
+  });
+
+  it("drops removed song packages and the removed express upgrade from an old draft", () => {
+    for (const old of ["classic", "pro", "viral", "all_in"]) {
+      const result = parseStudioFormDraft(
+        { packageId: old, selectedUpgrades: ["express", "bts"] },
+        INITIAL,
+      );
+      assert.ok(result);
+      assert.equal(result!.packageId, INITIAL.packageId, old);
+      assert.deepEqual(result!.selectedUpgrades, ["bts"]);
+    }
   });
 
   it("rejects invalid enum values and keeps initial", () => {

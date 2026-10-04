@@ -1,28 +1,24 @@
 /**
- * Sync every service price in public/llms.txt from pricing-catalog (single source of truth).
+ * Sync opening prices in public/llms.txt from pricing-catalog (single source of truth).
  *
- * Run: npm run sync:llms           - כותב את המחירים מחדש מהקטלוג
+ * Run: npm run sync:llms           - כותב את הבלוק מחדש מהקטלוג
  * Run: npm run audit:llms-prices   - מוודא בלבד, נכשל אם הקובץ השמור התיישן
  *
  * למה יש כאן מצב בדיקה ולא סקריפט אודיט נפרד: רק vercel-build הריץ את הסנכרון,
  * ולכן הקובץ השמור בריפו הצהיר 1,200 ש״ח להקלטת שיר בזמן שהקטלוג אומר 990.
  * שומר שהיה בודק רק "המחיר קיים איפשהו בקטלוג" היה מאשר את זה, כי 1,200 באמת
  * קיים בקטלוג בתור ריטוש תמונות, חבילת תגים קוליים ועדכוני IVR. הדרך היחידה
- * שלא ניתן לרמות אותה היא לייצר את המחיר מחדש ולהשוות, ולכן הבדיקה חולקת את
+ * שלא ניתן לרמות אותה היא לייצר את הבלוק מחדש ולהשוות, ולכן הבדיקה חולקת את
  * אותו קוד ייצור בדיוק ולא יכולה לסטות ממנו.
- *
- * למה הורחב ל-INLINE_PRICES (4.10.2026): עשרה מחירים ישבו מחוץ לבלוק המיוצר,
- * בשורות השירות של /business ו-/online. audit-llms-prices.mjs בדק אותם בבדיקת
- * קיום בלבד והדפיס את מגבלתו בעצמו: "היא לא יכולה לדעת שהמחיר שייך לשירות
- * שבשורה". נמדד שכל העשרה נכונים היום, ולכן זו הקשחה ולא תיקון באג. הסכנה
- * הייתה עתידית: 1,650 ש״ח בשורת סושיאל דאמפ היה ממשיך לעבור גם אם הקטלוג
- * היה משנה אותו, כי 1,650 קיים בקטלוג גם בתור פודקאסט וידאו.
- *
- * הטקסט של כל שורה נשאר כתוב ביד. מיוצר רק הזנב שאחרי ה-" · ", כלומר המחיר.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { getExVat, type PriceItemId } from "../lib/data/pricing-catalog";
+import { getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { TIME_CLAIMS } from "../lib/data/conversion-copy";
+import { withVat } from "../lib/data/pricing";
+import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
+import { mobileChannelPriceLine } from "../lib/data/mobile-studio-booking";
+import { EXTRA_PERSON_COST_NOTE } from "../lib/data/participant-cost-copy";
 
 const root = resolve(import.meta.dirname, "..");
 const llmsPath = resolve(root, "public/llms.txt");
@@ -31,56 +27,74 @@ function nis(amount: number): string {
   return `${amount.toLocaleString("he-IL")} ₪`;
 }
 
-function meNis(amount: number): string {
-  return `מ-${nis(amount)}`;
+/* שלב 4 WP12 (S29, OE-40, PB-29): כל שורה אומרת במפורש אם המחיר כולל מע״מ.
+   צרכן: כולל מע״מ קודם ולפני מע״מ בסוגריים. עסקים: לפני מע״מ. */
+function consumer(id: PriceItemId, from = false): string {
+  const ex = getExVat(id);
+  return `${from ? "מ-" : ""}${nis(withVat(ex))} כולל מע״מ (${nis(ex)} + מע״מ)`;
 }
 
-const half = getExVat("studio_half_hour");
-const hour = getExVat("studio_hour");
-const podcastAudio = getExVat("podcast_audio");
-const podcastVideo = getExVat("podcast_video");
-const podcastFull = getExVat("full_podcast_production");
-const cover = getExVat("cover_song");
-const blessing = getExVat("blessing_recording");
-const dj = getExVat("dj_premium");
-const attraction = getExVat("event_attraction_1");
-const voucherFloor = half;
-const voiceoverIvr = getExVat("voiceover_ivr");
-const voiceoverPromo = getExVat("voiceover_promo");
-const noiseBasic = getExVat("ai_noise_basic");
-const voiceRestore = getExVat("ai_voice_restore");
+function business(id: PriceItemId, from = false): string {
+  return `${from ? "מ-" : ""}${nis(getExVat(id))} + מע״מ`;
+}
 
-const pricesBlock = `## מחירי פתיחה (לפני מע״מ, מסונכרן מ-pricing-catalog)
-- אולפן - חצי שעה: ${nis(half)} · שעת אולפן: ${nis(hour)}
-- פודקאסט אודיו (עד שעה + עריכה): ${nis(podcastAudio)}
-- פודקאסט וידאו (3 מצלמות): ${nis(podcastVideo)}
-- הפקת פודקאסט מלאה: ${meNis(podcastFull)}
-- הקלטת ברכה: ${meNis(blessing)} · הקלטת שיר (קאבר): ${meNis(cover)}
-- קריינות למרכזייה: ${nis(voiceoverIvr)} · קריינות לסרטון תדמית: ${nis(voiceoverPromo)}
-- ניקוי רעשים בהקלטה: ${meNis(noiseBasic)} · שחזור קול מלא: ${nis(voiceRestore)}
-- DJ לאירועים (צוות, כ-4 שעות): ${meNis(dj)}
-- אטרקציה בודדת לאירוע: ${meNis(attraction)}
-- שובר מתנה לאולפן: ${meNis(voucherFloor)}
+/* השיר והתוספות נקראים מהקטלוג דרך song-offer, כך שתוספת חדשה או מחיר חדש
+   נכנסים לכאן מעצמם. */
+function songAddonLine(id: PriceItemId): string {
+  const item = getPriceById(id);
+  const note = item.requires ? `, רק עם ${getPriceById(item.requires as PriceItemId).label}` : "";
+  return `${item.label}${note} +${nis(withVat(item.exVat))}`;
+}
+const songAddons = SONG_ADDON_IDS.map(songAddonLine).join(" · ");
+
+const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog. כולל מע״מ, ובסוגריים לפני מע״מ)
+- אולפן - חצי שעה, קובץ גולמי בלי עריכה: ${consumer("studio_half_hour")} · שעת אולפן: ${consumer("studio_hour")}
+- פודקאסט אודיו (עד שעה + עריכה): ${consumer("podcast_audio")}
+- פודקאסט וידאו (3 מצלמות): ${consumer("podcast_video")}
+- הפקת פודקאסט מלאה: ${consumer("full_podcast_production", true)}
+- בכל הקלטת פודקאסט, באולפן וגם בבית או במשרד של הלקוח: ${TIME_CLAIMS.podcastSameSecond} (ההקלטה עוברת ישר מהמצלמות למחשב, עם חיתוך חי לפי מי שמדבר)
+- הקלטת ברכה: ${consumer("blessing_recording", true)}
+- הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${consumer(SONG_OFFER_BASE_ID)}
+- תוספות לשיר, כולל מע״מ: ${songAddons}
+- משתתפים בשיר (זמר אחד כלול): ${getSongParticipantsExplanation().withVat} ${getSongParticipantsExplanation().exVat}, ${getSongParticipantsExplanation().limit}. ${EXTRA_PERSON_COST_NOTE}
+- אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, ופרק פודקאסט אודיו מוגמר לאדם אחד כלול: הקלטה, עריכה ומסירה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
+- קריינות למרכזייה (שלוש הודעות): ${consumer("voiceover_ivr")} · קריינות לסרטון תדמית: ${consumer("voiceover_promo")}
+- ניקוי רעשים בהקלטה קיימת: ${consumer("ai_noise_basic", true)} · שחזור קול מלא: ${consumer("ai_voice_restore")}
+- DJ לאירועים (תקליטן מהצוות, 4 שעות, עד 300 מוזמנים): ${consumer("dj_premium", true)}
+- DJ יקיר כהן אישית (5 שעות): ${consumer("dj_yakir_personal", true)}
+- אטרקציה בודדת לאירוע: ${consumer("event_attraction_1", true)}
+- שובר מתנה לאולפן: ${consumer("studio_half_hour", true)} · ${TIME_CLAIMS.voucherInstant}
 - חנות: https://yakircohen.com/shop
 `;
 
 /**
- * שורות מחיר שיושבות מחוץ לבלוק, בסעיפי /business ו-/online.
- * הכתובת היא העוגן כי היא ייחודית בקובץ, ו-`prefix` הוא הניסוח שלפני הסכום.
- * כל רשומה חייבת להתאים לשורה אחת בדיוק, אחרת הסקריפט נכשל.
+ * מחירים בשורות התוכן, לפי כתובת. השורה נכתבת מחדש מהקטלוג, ו---check נכשל אם
+ * היא התיישנה. עד עכשיו אלה היו עשרה מספרים כתובים ביד בלי ציון מע״מ.
  */
-const INLINE_PRICES: readonly { url: string; id: PriceItemId; prefix: string }[] = [
-  { url: "https://yakircohen.com/academy/workshops", id: "workshop_team_2h", prefix: "מ-" },
-  { url: "https://yakircohen.com/business/content-studio", id: "content_studio_pilot", prefix: "מ-" },
-  { url: "https://yakircohen.com/business/on-site-studio", id: "on_site_half_day", prefix: "חצי יום " },
-  { url: "https://yakircohen.com/business/corporate-songs", id: "corp_song_toast", prefix: "מ-" },
-  { url: "https://yakircohen.com/business/audiobooks", id: "audiobook_sample", prefix: "פרק דוגמה " },
-  { url: "https://yakircohen.com/business/audio-branding", id: "audio_brand_starter", prefix: "מ-" },
-  { url: "https://yakircohen.com/business/employer-branding", id: "employer_welcome", prefix: "מ-" },
-  { url: "https://yakircohen.com/online/legacy-digitization", id: "legacy_dig_basic", prefix: "מ-" },
-  { url: "https://yakircohen.com/online/transcription", id: "transcribe_30min", prefix: "מ-" },
-  { url: "https://yakircohen.com/online/voice-cloning", id: "voice_clone_setup", prefix: "מ-" },
-];
+const BODY_PRICES: Record<string, string> = {
+  "https://yakircohen.com/academy/workshops": business("workshop_team_2h", true),
+  "https://yakircohen.com/business/content-studio": business("content_studio_pilot", true),
+  "https://yakircohen.com/business/on-site-studio": `חצי יום ${business("on_site_half_day")}`,
+  "https://yakircohen.com/business/corporate-songs": business("corp_song_toast", true),
+  "https://yakircohen.com/business/audiobooks": `פרק דוגמה ${business("audiobook_sample")}`,
+  "https://yakircohen.com/business/audio-branding": business("audio_brand_starter", true),
+  "https://yakircohen.com/business/employer-branding": business("employer_welcome", true),
+  "https://yakircohen.com/online/legacy-digitization": consumer("legacy_dig_basic", true),
+  "https://yakircohen.com/online/transcription": consumer("transcribe_30min", true),
+  "https://yakircohen.com/online/voice-cloning": consumer("voice_clone_setup", true),
+};
+
+function applyBodyPrices(text: string): string {
+  return text
+    .split("\n")
+    .map((line) => {
+      const m = line.match(/^(- [^:]+: )(https:\/\/yakircohen\.com\/\S+)( · .*)?$/);
+      if (!m) return line;
+      const price = BODY_PRICES[m[2]];
+      return price ? `${m[1]}${m[2]} · ${price}` : line;
+    })
+    .join("\n");
+}
 
 /**
  * הקובץ מנורמל ל-LF מיד בקריאה, לפני כל חיתוך.
@@ -97,60 +111,35 @@ const INLINE_PRICES: readonly { url: string; id: PriceItemId; prefix: string }[]
  * שהאינדקס כבר מכיל, ולכן git לא רואה שינוי בכלל.
  */
 const raw = readFileSync(llmsPath, "utf8").replace(/\r\n/g, "\n");
+const start = "## מחירי פתיחה";
+const nextSection = "\n## מרכזי תוכן עיקריים";
+const startIdx = raw.indexOf(start);
+const nextIdx = raw.indexOf(nextSection);
 
-function fail(message: string): never {
-  console.error(`sync:llms — ${message}`);
+if (startIdx === -1 || nextIdx === -1 || nextIdx <= startIdx) {
+  console.error("sync:llms — could not find price section markers in llms.txt");
   process.exit(1);
 }
 
-function replacePricesBlock(text: string): string {
-  const start = "## מחירי פתיחה";
-  const nextSection = "\n## מרכזי תוכן עיקריים";
-  const startIdx = text.indexOf(start);
-  const nextIdx = text.indexOf(nextSection);
+const expectedBlock = pricesBlock.trimEnd() + "\n";
+const updated = applyBodyPrices(raw.slice(0, startIdx) + expectedBlock + raw.slice(nextIdx));
 
-  if (startIdx === -1 || nextIdx === -1 || nextIdx <= startIdx) {
-    fail("could not find price section markers in llms.txt");
-  }
-
-  return text.slice(0, startIdx) + pricesBlock.trimEnd() + "\n" + text.slice(nextIdx);
+/* משווים אחרי נרמול סופי שורה: הקובץ נערך גם מווינדוס, וכישלון על CRLF בלבד
+   היה מדווח על "מחיר שגוי" בזמן שאף מחיר לא השתנה. */
+function normalize(text: string): string {
+  return text.replace(/\r\n/g, "\n");
 }
-
-function replaceInlinePrices(text: string): string {
-  const lines = text.split("\n");
-  for (const entry of INLINE_PRICES) {
-    const hits: number[] = [];
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith("- ") && lines[i].includes(entry.url)) hits.push(i);
-    }
-    if (hits.length !== 1) {
-      fail(
-        `expected exactly one line for ${entry.url} in llms.txt, found ${hits.length}. ` +
-          "הכתובת היא העוגן של המחיר, ולכן היא חייבת להופיע פעם אחת בשורת רשימה.",
-      );
-    }
-    const line = lines[hits[0]];
-    const sepIdx = line.indexOf(" · ");
-    if (sepIdx === -1) {
-      fail(`line for ${entry.url} lost its " · " price separator in llms.txt`);
-    }
-    lines[hits[0]] = `${line.slice(0, sepIdx)} · ${entry.prefix}${nis(getExVat(entry.id))}`;
-  }
-  return lines.join("\n");
-}
-
-const expected = replaceInlinePrices(replacePricesBlock(raw));
 
 if (process.argv.includes("--check")) {
-  if (raw === expected) {
+  if (normalize(raw) === normalize(updated)) {
     console.log(
-      `audit:llms-prices OK — ${INLINE_PRICES.length + 11} מחירים ב-llms.txt תואמים ל-pricing-catalog.`,
+      "audit:llms-prices OK — בלוק מחירי הפתיחה ב-llms.txt תואם ל-pricing-catalog.",
     );
     process.exit(0);
   }
 
-  const actualLines = raw.split("\n");
-  const expectedLines = expected.split("\n");
+  const actualLines = normalize(raw).split("\n");
+  const expectedLines = normalize(updated).split("\n");
   const drifted: string[] = [];
   for (let i = 0; i < Math.max(actualLines.length, expectedLines.length); i++) {
     if (actualLines[i] !== expectedLines[i]) {
@@ -163,7 +152,7 @@ if (process.argv.includes("--check")) {
 
   console.error("=== audit:llms-prices ===\n");
   console.error(
-    `  ✗ מה: public/llms.txt מצהיר מחירים שלא תואמים ל-pricing-catalog.ts (${drifted.length} שורות).`,
+    `  ✗ מה: public/llms.txt מצהיר מחירי פתיחה שלא תואמים ל-pricing-catalog.ts (${drifted.length} שורות).`,
   );
   console.error(drifted.join("\n"));
   console.error(
@@ -174,7 +163,5 @@ if (process.argv.includes("--check")) {
   process.exit(1);
 }
 
-writeFileSync(llmsPath, expected, "utf8");
-console.log(
-  `sync:llms OK — ${INLINE_PRICES.length + 11} מחירים ב-public/llms.txt סונכרנו מ-pricing-catalog`,
-);
+writeFileSync(llmsPath, updated, "utf8");
+console.log("sync:llms OK — public/llms.txt prices synced from pricing-catalog");

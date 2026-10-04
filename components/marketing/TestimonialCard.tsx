@@ -106,7 +106,7 @@ export default function TestimonialCard({
               href={item.serviceHref}
               className="inline-flex min-h-11 items-center text-xs font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
-              הקשר מלא: {item.serviceLabel}
+              לשירות: {item.serviceLabel}
             </Link>
           ) : null}
         </footer>

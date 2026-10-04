@@ -141,16 +141,37 @@ const HUB_NAV: readonly { prefix: string; href: string; label: string }[] = [
   { prefix: "/photography", href: "/photography", label: "צילום" },
 ];
 
+/**
+ * עמודי DJ ואירועים שיש בהם בלוק מחיר (section#pricing-section). שלב 4 WP13
+ * (PI-14, FIT-02, OE-04, PJ-07): כפתור "מחירון" שלח אותם ל-/pricing, שאין בו
+ * שורות DJ, צילום או פסטיבל. כאן הוא קופץ לבלוק המחיר שבעמוד עצמו.
+ */
+const IN_PAGE_PRICING_PATHS = new Set([
+  "/events/dj-events",
+  "/events/bar-mitzvah",
+  "/events/wedding-attractions-packages",
+  "/events/stage-led-dj",
+  "/events/equipment",
+  "/events/attractions",
+]);
+
+function hasInPagePricing(normalized: string): boolean {
+  return (
+    IN_PAGE_PRICING_PATHS.has(normalized) || normalized.startsWith("/events/attractions/")
+  );
+}
+
 /** ניווט החלטתי למובייל: מחירון / הזמנה / hub שירות */
 export function getMobileDecisiveNav(pathname: string): MobileDecisiveNav {
   const normalized = pathname.replace(/\/+$/, "") || "/";
+  const pricingHref = hasInPagePricing(normalized) ? "#pricing-section" : "/pricing";
   for (const hub of HUB_NAV) {
     if (
       normalized === hub.prefix ||
       normalized.startsWith(`${hub.prefix}/`)
     ) {
       return {
-        pricingHref: "/pricing",
+        pricingHref,
         bookHref: "/book",
         serviceHref: hub.href,
         serviceLabel: hub.label,

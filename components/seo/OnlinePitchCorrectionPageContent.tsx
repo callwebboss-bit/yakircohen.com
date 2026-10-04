@@ -22,6 +22,14 @@ import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
+import PriceWithVat from "@/components/booking/PriceWithVat";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+
+const PITCH_PRICE_EX_VAT = getExVat("studio_pitch_correction");
+/* תוספת לשיר ארוך. עדיין לא בקטלוג (שאלת בעלים אונליין 5) */
+const PITCH_LONG_SURCHARGE_EX_VAT = 100;
+
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -276,6 +284,11 @@ export default function OnlinePitchCorrectionPageContent() {
       <section className="border-t border-border bg-surface py-12">
         <div className="mx-auto max-w-md px-4 text-center sm:px-6">
           <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
+          {/* WP6 (PI-05, PJ-09): הכותרת עמדה בלי מחיר. המחיר מהקטלוג, כולל מע״מ קודם */}
+          <p className="mt-4">
+            <PriceWithVat amountExVat={PITCH_PRICE_EX_VAT} size="lg" lead="withVat" />
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">לשיר עד 4 דקות</p>
           <Link
             href="/online/online-ai-pricing"
             className="mt-2 inline-block text-sm font-medium text-brand-red hover:underline"
@@ -290,7 +303,8 @@ export default function OnlinePitchCorrectionPageContent() {
             ))}
           </ul>
           <p className="mt-4 text-xs text-muted-foreground">
-            לשירים ארוכים: מעל 4 דקות - 100 ₪ נוספים
+            לשירים ארוכים: מעל 4 דקות - {withVat(PITCH_LONG_SURCHARGE_EX_VAT)} ₪ כולל מע״מ נוספים
+            ({PITCH_LONG_SURCHARGE_EX_VAT} ₪ + מע״מ)
           </p>
         </div>
       </section>

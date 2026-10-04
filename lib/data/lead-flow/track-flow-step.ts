@@ -6,7 +6,7 @@ export type LeadFlowStepName =
   | "scope"
   | "packages"
   | "upsells"
-  | "hold";
+  | "send";
 
 /** מעקב ניטרלי לכל מעבר שלב בזרימת הליד */
 export function trackFlowStep(

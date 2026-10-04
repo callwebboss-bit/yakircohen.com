@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
-import { formatNis } from "@/lib/data/pricing";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { markBookExitIntentShown } from "@/lib/book-wizard-urgency";
 import { cn } from "@/lib/utils";
 
@@ -74,7 +74,7 @@ export default function WizardExitIntentModal({
             <span className="font-semibold">{packageLabel}</span>
             <span className="mx-2 text-muted-foreground">·</span>
             <span className="tabular-nums font-bold text-[var(--service-accent,#d42b2b)]">
-              {formatNis(totalExVat)} לפני מע״מ
+              {formatPrice(totalExVat).headline}
             </span>
           </p>
         ) : null}

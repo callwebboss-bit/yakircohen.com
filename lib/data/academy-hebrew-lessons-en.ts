@@ -114,11 +114,11 @@ export const HEB_LESSONS_EN_PRICING = {
     price: "₪11,520",
     period: "per year",
     badge: "Recommended",
-    trialNote: "Trial lesson for just ₪500 (instead of first month at ₪3,200)",
+    trialNote: "You can start with a trial lesson for ₪500",
     features: [
       "One private lesson per week - in-person or Zoom",
-      "Trial lesson for ₪500 (instead of ₪3,200)",
-      "Significant yearly savings",
+      "Trial lesson for ₪500",
+      "36 lessons across the year",
       "Personal guidance & support",
     ] as const,
   },
@@ -196,7 +196,7 @@ export const HEB_LESSONS_EN_FAQ: FaqCtaItem[] = [
     id: "en-price",
     question: "How much does a private Hebrew lesson cost?",
     answer:
-      "A trial lesson is ₪500. The monthly plan is ₪3,200 (one weekly private lesson). The annual plan is ₪11,520 for 36 lessons, including a discounted trial lesson. In-person or Zoom - same price.",
+      "A trial lesson is ₪500. The monthly plan is ₪3,200 (one weekly private lesson). The annual plan is ₪11,520 for 36 lessons. In-person or Zoom - same price.",
     ctaText: "Ask about the plan that fits you",
     whatsappMessage:
       "Hi Yakir! I'm interested in private Hebrew lessons. Can you tell me about the plans and pricing?",

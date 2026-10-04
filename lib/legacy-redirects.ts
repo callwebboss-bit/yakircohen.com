@@ -83,7 +83,10 @@ const LEGACY_PATH_MAP: Record<string, string> = {
   "/חתן": "/blog/wedding-songs-chuppah",
   "/שירים-לחתונה": "/blog/wedding-songs-chuppah",
   "/שיר-כניסה-לחופה": "/blog/wedding-songs-chuppah",
-  "/שירים-לבת-מצווה-2": "/blog/wedding-song-2026",
+  /* היה מופנה לפוסט על שירי חתונה, כלומר הורה שחיפש שירים לבת מצווה נחת על
+     חתונות (PJ-34). קטגוריית האירועים בבלוג היא היעד הזמני עד שתיבנה רשימה
+     ייעודית (החלטת בעלים ED-05). */
+  "/שירים-לבת-מצווה-2": "/blog/category/events",
   "/bride-groom-blessing": "/studio/blessings/bride-groom-blessing",
   "/bar-mitzvah-clip": "/studio/blessings/video-clip",
   "/video/bar-mitzvah-clip": "/studio/blessings/video-clip",
@@ -120,6 +123,23 @@ export const GONE_PATH_PREFIXES = [
   "/wp-content",
   "/wp-json",
 ] as const;
+
+/**
+ * פרמטר עגלת WooCommerce שגוגל עדיין סורק מהאתר הישן (775 מתוך 1,000 השורות
+ * בדוח "נסרק ולא באינדקס", ED-12). proxy.ts מפנה פעם אחת לאותו נתיב בלי
+ * query בכלל: שאר הפרמטרים בכתובות האלה הם שרידי עגלה וקמפיין ישן
+ * (quantity, fbclid, utm), ואין בהם ערך שמצדיק עוד גרסה של אותו עמוד.
+ *
+ * מחזיר true אם הפרמטר היה שם וה-query נוקה, false אם לא נגעו בכתובת.
+ * מקבל כל אובייקט עם searchParams ו-search, כלומר גם URL וגם NextURL.
+ */
+export const CART_QUERY_KEY = "add-to-cart";
+
+export function clearCartQuery(url: { searchParams: URLSearchParams; search: string }): boolean {
+  if (!url.searchParams.has(CART_QUERY_KEY)) return false;
+  url.search = "";
+  return true;
+}
 
 export const GONE_EXACT_PATHS = ["/xmlrpc.php", "/index.aspx", "/main.asp"] as const;
 
@@ -364,6 +384,124 @@ const HEBREW_SERVICE_SLUGS: Record<string, string> = {
   "/דניס-צ׳רקוב": "/portfolio",
 };
 
+/**
+ * נתיבים עבריים מדוח "נסרק - לא נכלל באינדקס" של Search Console (טבלה.csv),
+ * שלא היו במפה בכלל. נוספו ב-2.10.2026 (ED-01): מתוך 195 נתיבי תוכן עבריים
+ * בדוח, 68 היו במפה ו-127 לא. כאן רק אלה שיש להם יעד ברור, לפי אותו היגיון
+ * של המפה למעלה (סלאג עירוני של תקליטן הולך לעמוד התקליטן, וכו').
+ * נתיבים עמומים, בעיקר פוסטים ישנים בלי מקבילה, נשארו בחוץ בכוונה: הפניה
+ * לעמוד לא קשור נחשבת אצל גוגל soft 404 בדיוק כמו ההפניה ההמונית שהוחלפה ב-410.
+ */
+const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
+  // אודות ויצירת קשר
+  "/אודות": "/about",
+  "/אודותינו": "/about",
+  "/קצת-עלינו": "/about",
+  "/צרו-קשר": "/contact",
+  "/יקיר-כהן-yakir-cohen-שירותי-מוזיקה": "/",
+  "/יקיר-כהן-yakir-cohen-שירותי-מוזיקה/2": "/",
+  "/המגזין": "/blog",
+  "/טופס-הרשמה-הזמנה-הקלטת-שיר-וקליפ-באולפ": "/book",
+  // תקליטן
+  "/dj-דתי/2": "/events/dj-events",
+  "/dj-חרדי": "/events/dj-events",
+  "/dj-חרדי/2": "/events/dj-events",
+  "/magazin/תקליטן-לאירועים": "/events/dj-events",
+  "/בחירת-דיגיי": "/events/dj-events",
+  "/די-גיי-לבר-מצווה": "/events/dj-events",
+  "/תופים-אלקטרוניים-לאירוע-זה-באמת-מוסיף": "/events/dj-events",
+  "/תקליטן-או-להקה-תקליטן-חתונה-במקום-להקה": "/events/dj-events",
+  "/תקליטן-בבת-ים": "/events/dj-events",
+  "/תקליטן-בגן-יבנה": "/events/dj-events",
+  "/תקליטן-בזכרון-יעקב": "/events/dj-events",
+  "/תקליטן-במבצע": "/events/dj-events",
+  "/תקליטן-במבצע/feed": "/events/dj-events",
+  "/תקליטן-בנתניה": "/events/dj-events",
+  "/תקליטן-בצפון": "/events/dj-events",
+  "/תקליטן-ברחובות": "/dj-events/cities/rehovot",
+  "/תקליטן-ברמת-גן": "/events/dj-events",
+  "/תקליטן-ברמת-השרון": "/events/dj-events",
+  "/תקליטן-דתי-לבר-מצווה/2": "/events/dj-events",
+  "/תקליטן-דתי-לחתונה": "/events/dj-events",
+  "/תקליטן-דתי-לחתונה/2": "/events/dj-events",
+  "/תקליטן-הבית-מעוניינים-לחסוך-חשוב-שתדע": "/events/dj-events",
+  "/תקליטן-זול": "/blog/cheap-dj-for-a-wedding",
+  "/תקליטן-חינה": "/events/dj-events",
+  "/תקליטן-חרדי": "/events/dj-events",
+  "/תקליטן-טוב/2": "/events/dj-events",
+  "/תקליטן-לאירוע": "/events/dj-events",
+  "/תקליטן-לברית": "/events/dj-events",
+  "/תקליטן-לברית-בירושלים": "/dj-events/cities/jerusalem",
+  "/תקליטן-לבריתה": "/events/dj-events",
+  "/תקליטן-לחתונה-באשקלון": "/events/dj-events",
+  "/תקליטן-לחתונה-בשרון": "/events/dj-events",
+  "/תקליטן-מבצע/2": "/events/dj-events",
+  "/מנחה-לאירוע-ותקליטן": "/events/host",
+  // אטרקציות וצילום
+  "/אטרקציות-לחתונה-2": "/events/attractions",
+  "/בובות-מרקדות-לאירועים": "/events/attractions",
+  "/קרח-יבש-לחתונות-ואירועים": "/events/attractions",
+  "/בלוני-לד-לאירועים/בלונים-1": "/events/attractions/giant-balloons",
+  "/בלוני-לד-לאירועים/בלונים-2": "/events/attractions/giant-balloons",
+  "/בלוני-לד-לאירועים/בלונים-3": "/events/attractions/giant-balloons",
+  "/בלוני-לד-לאירועים/בלונים-4": "/events/attractions/giant-balloons",
+  "/בלוני-לד-לאירועים/עיצוב-בלונים": "/events/attractions/giant-balloons",
+  "/תותח-קונפטי-לאירועים-2": "/events/attractions/confetti-cannon",
+  "/תותח-קונפטי-מה-זה-ומה-ההבדלים": "/events/attractions/confetti-cannon",
+  "/ארגון-חתונה-אחרי-הצעת-הנישואין-ארגון-א": "/events",
+  "/צילום-לאירועים": "/photography/events",
+  "/צלם-חתונות-מרכז": "/photography/wedding",
+  "/צלם-חתונות-במרכז-מתחתנים-מזל-טוב": "/photography/wedding",
+  /* מגנטים לאורחים הם תוספת במחשבון הצילום, שיושב ב-/photography */
+  "/מגנטים-לאירועים-בירושלים": "/photography",
+  "/מגנטים-לאירועים-מחיר": "/photography",
+  "/טיפים-לחתונה-טיפים-לאירוע-מוצלח": "/blog/tips-for-perfect-wedding",
+  // שירים לחופה ולבת מצווה
+  "/בחירת-שיר-כניסה-לחופה-כל-מה-שרציתם-לדע": "/blog/wedding-songs-chuppah",
+  "/שיר-לחופה-מרגש-הבחירה-המדויקת-לשיר-החו": "/blog/wedding-songs-chuppah",
+  "/תכנון-חופה-ובחירת-שיר-מוצלח-ומרגש-במיו": "/blog/wedding-songs-chuppah",
+  "/שירים-לחופה-איך-לבחור-זמר-איכותי": "/blog/wedding-songs-chuppah",
+  /* זמני, כמו "/שירים-לבת-מצווה-2" ב-LEGACY_PATH_MAP. לא לפוסט חתונה. */
+  "/שירים-לבת-מצווה": "/blog/category/events",
+  "/רשימת-שירים-לבת-מצווה": "/blog/category/events",
+  "/שירי-בת-מצווה-להרים-את-הרחבה-ולשמח-את-כ": "/blog/category/events",
+  // אולפן והקלטות
+  "/אולפן-הקלטות": "/studio",
+  "/אולפני-הקלטה": "/studio",
+  "/אולפני-הקלטות": "/studio",
+  "/שירות-אולפן-הקלטות": "/studio",
+  "/אולפן-הקלטות-לילדים": "/studio",
+  "/אולפן-הקלטות-בבאר-יעקוב": "/studio",
+  "/אולפן-הקלטות-בגדרה": "/studio",
+  "/אולפן-הקלטות-בבית-שמש": "/studio/studio-beit-shemesh",
+  "/אולפני-הקלטות-בירושלים": "/studio/studio-jerusalem",
+  "/מחירון-אולפן-הקלטות": "/studio/pricing",
+  "/להקליט-שיר-מחיר": "/studio/recording-song-modiin",
+  "/הקלטת-שיר-מקורי": "/studio/recording-song-modiin",
+  "/הקלטת-שיר-לבת-מצווה": "/studio/recording-song-modiin",
+  "/איך-להקליט-שיר-כל-מה-שרציתם-לדעת": "/studio/recording-song-modiin",
+  "/איך-להפיק-שיר": "/studio/recording-song-modiin",
+  "/הפקת-סינגל-כמה-זה-באמת-עולה-ומה-צריך-לד": "/studio/recording-song-modiin",
+  "/שיר-במתנה": "/studio/recording-song-modiin/gifts",
+  "/שיר-מתנה-לאמא-מלים-מוזיקה-ולב-אחד-גדו": "/studio/recording-song-modiin/gifts",
+  "/הקלטת-ברכות": "/studio/blessings",
+  "/הקלטת-ברכת-כלה": "/studio/blessings",
+  "/קליפ-בת-מצווה-2": "/studio/blessings/bat-mitzvah-clip",
+  "/קליפ-בת-מצווה-קליפ-לבת-מצווה": "/studio/blessings/bat-mitzvah-clip",
+  "/מיקרופון-זול-וטוב": "/blog/home-mic-guide",
+  "/פורמט-אודיו-מומלץ": "/blog/mp3-vs-wav-studio-guide",
+  // קריינות
+  "/כמה-עולה-קריינות": "/voiceover",
+  "/קריינות-בעברית-חינם": "/voiceover",
+  "/קריין-פרסומות/2": "/voiceover",
+  "/קריינות-לרדיו/2": "/voiceover",
+  "/קריינות-ל-dj/2": "/business/professional-voiceover",
+  "/קריינות-חינם-ספירה-לאחור-dj-סילבסטר/2": "/business/professional-voiceover",
+  "/הקלטת-נתב-שיחות": "/business/professional-voiceover",
+  // תיק עבודות ישן
+  "/צחי-נוי-2": "/portfolio",
+};
+
 /** Old English slugs used before the current route structure */
 const OLD_ENGLISH_SLUGS: Record<string, string> = {
   "/bubble-machine": "/events/attractions/bubble-machine",
@@ -435,8 +573,32 @@ const ATTRACTIONS_OVERRIDES: Record<string, string> = {
     "/events/attractions/smoke-cannons-for-events",
 };
 
+/**
+ * ה-source בצורה שהנתב של Next באמת משווה אליה: תווים שאינם ASCII מקודדים
+ * באחוזים (הצורה של encodeURI), וכל השאר נשאר כמו שהוא.
+ *
+ * למה: הנתב משווה את ה-regex של ה-redirect מול parsedUrl.pathname, שהוא
+ * הנתיב כפי שהגיע בבקשה, כלומר מקודד (/%D7%AA...). מקור בעברית גולמית לא
+ * תאם אף פעם, ולכן כל 214 המפתחות העבריים במפה החזירו 404 באתר החי (ED-01).
+ * ראו node_modules/next/dist/server/lib/router-utils/resolve-routes.js:
+ * parseUrl(req.url) בשורה 91 ו-route.match(curPathname) בשורה 238. רק
+ * ה-matcher של ה-proxy מנסה גם את הצורה המפוענחת (שורות 335-341).
+ *
+ * מחליפים ולא מוסיפים רשומה שנייה: הצורה הגולמית לא תואמת אף פעם, ושכפול רק
+ * היה מנפח את מספר ההפניות (ב-Vercel יש תקרה של 1,024, ראו
+ * node_modules/next/dist/docs/01-app/02-guides/redirecting.md:292).
+ *
+ * מקודדים רק את רצפי ה-non-ASCII ולא את כל המחרוזת, כדי שתחביר הדפוסים
+ * (`:path*`, `\\+`) יישאר שלם. לרצף עברי זה בדיוק encodeURI. ה-regex נבנה
+ * עם sensitive: false (node_modules/next/dist/lib/build-custom-route.js:17),
+ * ולכן גם קידוד באותיות קטנות (%d7) תואם.
+ */
+export function toNextSource(source: string): string {
+  return source.replace(/[^\x00-\x7F]+/g, (run) => encodeURI(run));
+}
+
 function toRedirect(source: string, destination: string): LegacyRedirect {
-  return { source, destination, permanent: true as const };
+  return { source: toNextSource(source), destination, permanent: true as const };
 }
 
 export function getLegacyRedirects(): LegacyRedirect[] {
@@ -453,6 +615,10 @@ export function getLegacyRedirects(): LegacyRedirect[] {
   );
 
   const fromHebrewSlugs = Object.entries(HEBREW_SERVICE_SLUGS).map(
+    ([source, destination]) => toRedirect(source, destination),
+  );
+
+  const fromGscHebrew = Object.entries(HEBREW_GSC_NOT_INDEXED).map(
     ([source, destination]) => toRedirect(source, destination),
   );
 
@@ -474,6 +640,7 @@ export function getLegacyRedirects(): LegacyRedirect[] {
     ...fromWordpressPatterns,
     ...fromMap,
     ...fromHebrewSlugs,
+    ...fromGscHebrew,
     ...fromOldEnglishSlugs,
     ...fromCanonical,
     ...fromAttractions,

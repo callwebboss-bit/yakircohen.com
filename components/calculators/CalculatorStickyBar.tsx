@@ -3,12 +3,13 @@
 "use client";
 
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
-import { formatCurrency } from "@/components/calculators/formatCurrency";
+import { formatCurrency, formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
 
 export type CalculatorStickyBarProps = {
+  /** סה״כ לפני מע״מ. הסרגל מציג כולל מע״מ בגדול ולפני מע״מ בקטן (שלב 4 WP11) */
   total: number;
   totalLabel?: string;
   subLabel?: string;
@@ -33,7 +34,7 @@ export type CalculatorStickyBarProps = {
 
 export default function CalculatorStickyBar({
   total,
-  totalLabel = "השקעה משוערת - לפני מע״מ",
+  totalLabel = "השקעה משוערת, כולל מע״מ",
   subLabel,
   whatsappHref,
   showCta = true,
@@ -85,8 +86,11 @@ export default function CalculatorStickyBar({
             {totalLabel}
           </p>
           <p className="text-xl font-bold text-brand-red sm:text-2xl">
-            {hasTotal ? formatCurrency(total) : emptyLabel}
+            {hasTotal ? formatCurrencyWithVat(total) : emptyLabel}
           </p>
+          {hasTotal ? (
+            <p className="text-[0.65rem] text-muted-foreground">{formatCurrency(total)} + מע״מ</p>
+          ) : null}
           {subLabel ? (
             <p className="truncate text-[0.65rem] font-medium text-brand-red">{subLabel}</p>
           ) : null}

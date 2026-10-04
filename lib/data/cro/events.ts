@@ -18,8 +18,8 @@ export const EVENTS_CRO_CONFIG = {
   ],
   reassuranceByAnxiety: {
     effect_failure: {
-      title: "אפס תקלות טכניות",
-      body: "ראש שקט: צוות גיבוי מלא וטכנאי צמוד מתחייבים לאפס תקלות טכניות. בודקים כל ציוד לפני כניסת האורחים.",
+      title: "ציוד גיבוי בכל אירוע",
+      body: "מגיעים עם ציוד גיבוי וטכנאי צמוד, ובודקים כל ציוד לפני כניסת האורחים.",
     },
     timing_stress: {
       title: "הגעה מוקדמת מובטחת",
@@ -30,35 +30,8 @@ export const EVENTS_CRO_CONFIG = {
       body: "המחיר שמופיע בסיכום כולל את מה שבחרתם. תוספות ביום האירוע רק אם תבקשו במפורש.",
     },
   },
-  transitionMessages: [
-    "בודק זמינות מלאי ציוד הגברה ותאורה לתאריך המבוקש...",
-    "מחשב חבילה משולבת...",
-    "מתאים הטבות לאירוע...",
-  ],
-  decoy: {
-    emoji: "🎆",
-    name: "Mega Wedding Spectacle",
-    description: "חבילת ענק לחתונה: עשן כבד, זיקוקים, DJ, צילום 4K וטכנאי צמוד ליום שלם.",
-    highlights: [
-      "3 אטרקציות פרימיום + הפעלה מלאה",
-      "DJ פרימיום + מערכת הגברה",
-      "צילום 4K + סרטון ערוך לרשתות",
-      "טכנאי צמוד מההגעה ועד סיום",
-    ],
-    priceExVat: 18500,
-    badge: "להשוואה בלבד",
-    footnote: "חבילה מותאמת לפרויקטים גדולים - לא נרכשת בטופס.",
-    ariaLabel: "חבילת אטרקציות לאירועים במרכז - להשוואה בלבד",
-    ctaPrimary: "דבר עם מפיק ראשי",
-    ctaSecondary: CRO_SHARED.decoyWaitlistNote,
-    waitlistUtmCampaign: "events_decoy_waitlist",
-  },
+  transitionMessages: CRO_SHARED.transitionMessages,
   escapePlacements: ["after_packages", "empty_results", "step_contact"],
-  urgency: {
-    holdPrefix: "המחיר והחבילה שמורים עבורך עוד",
-    holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
-    priceHoldBadge: "המחיר שמור ל-48 שעות",
-  },
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת ההזמנה",
   step3SummaryHeading: "סיכום הזמנה",
   step3ContactHeading: "פרטי האירוע",
@@ -73,7 +46,7 @@ export const EVENTS_CRO_CONFIG = {
   },
   exitIntent: {
     title: "רגע לפני שעוזבים",
-    body: "שמרנו את הבחירה שלכם. אפשר לחזור ולסגור בקליק.",
+    body: CRO_SHARED.exitIntentBody,
     cta: "המשיכו מהמקום שעצרתם",
     dismiss: "לא עכשיו, תודה",
   },

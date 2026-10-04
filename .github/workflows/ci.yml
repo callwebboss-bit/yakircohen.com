@@ -7,6 +7,36 @@ on:
     branches: [main]
 
 jobs:
+  # audit בג'וב נפרד: קודם הוא היה שלב בתוך build, ו-audit אדום דילג על
+  # lint, הבדיקות והבנייה, כך שלא ראינו אם הקוד עצמו תקין. הוא עדיין חוסם
+  # (ה-run נכשל אם הג'וב אדום), רק לא מסתיר את שאר השערים.
+  audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      # audit קורא את package-lock.json בלבד, ולכן אין צורך ב-npm ci.
+      # השלב החוסם בודק רק תלויות שמגיעות לאתר החי (--omit=dev).
+      - name: npm audit (production dependencies, blocking)
+        run: npm audit --omit=dev --audit-level=high
+
+      # audit מלא, כולל כלי פיתוח, לא חוסם: נכון ל-3.10.2026 הוא אדום רק בגלל
+      # GHSA-vfj7-8cjw-p6xm ב-braces, תלות של כלי פיתוח בלבד שלא נשלחת לדפדפן
+      # ולשרת, ואין לה עדיין גרסה מתוקנת. שלב חוסם היה נשאר אדום בלי שום דבר
+      # שאפשר לתקן, ואדום קבוע מלמד להתעלם מ-CI. הלוג עדיין מראה כל ממצא חדש.
+      # להפוך לחוסם שוב כשיש תיקון ל-braces.
+      - name: npm audit (all dependencies, non-blocking)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
   build:
     name: Build & Lint
     runs-on: ubuntu-latest
@@ -15,21 +45,18 @@ jobs:
       # fetch-depth: 0 כי שומרים שנשענים על היסטוריית git נכשלים בשיבוט
       # רדוד, ואז הם נכשלים בענן ועוברים מקומית, כלומר הכי גרוע.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
           cache: npm
 
       - name: Install dependencies
         run: npm ci
-
-      - name: npm audit
-        run: npm audit --audit-level=high
 
       - name: Lint
         run: npm run lint

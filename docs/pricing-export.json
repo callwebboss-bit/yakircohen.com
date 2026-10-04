@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 152,
-  "contentHash": "d508948e74291321",
+  "itemCount": 154,
+  "contentHash": "9f5997a0e0e56e6c",
   "items": [
     {
       "id": "studio_half_hour",
@@ -35,8 +35,8 @@
       "id": "blessing_recording",
       "label": "ברכה / אמירה",
       "category": "studio",
-      "exVat": 590,
-      "inclVat": 696,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
       "context": "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
       "suitedFor": "ברכת כלה, דרשה, אמירה לחתונה או בר/בת מצווה"
@@ -45,51 +45,21 @@
       "id": "studio_remote",
       "label": "הקלטה מרחוק",
       "category": "studio",
-      "exVat": 590,
-      "inclVat": 696,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
       "context": "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
       "suitedFor": "ברכה או אמירה בלי להגיע לאולפן"
     },
     {
-      "id": "cover_song",
-      "label": "שיר במתנה (שיר מוכן)",
+      "id": "song_recording",
+      "label": "הקלטת שיר באולפן",
       "category": "studio",
-      "exVat": 990,
-      "inclVat": 1168,
+      "exVat": 500,
+      "inclVat": 590,
       "priceFrom": false,
-      "context": "הקלטה בלי לחץ זמן, מיקס, מאסטרינג ותיקון זיופים - קובץ מוכן",
+      "context": "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול.",
       "suitedFor": "שיר במתנה, קאבר, חופה, בר/בת מצווה"
-    },
-    {
-      "id": "song_package",
-      "label": "שיר Pro",
-      "category": "studio",
-      "exVat": 1480,
-      "inclVat": 1746,
-      "priceFrom": false,
-      "context": "הקלטה מלאה, Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות סטילס",
-      "suitedFor": "מי שרוצה שיר מוכן + נוכחות לרשתות"
-    },
-    {
-      "id": "studio_viral",
-      "label": "שיר + קליפ מהאולפן",
-      "category": "studio",
-      "exVat": 1950,
-      "inclVat": 2301,
-      "priceFrom": false,
-      "context": "חבילת Pro + קליפ ביצוע ערוך לרשתות",
-      "suitedFor": "שיר לאירוע שרוצים גם לשתף בוידאו"
-    },
-    {
-      "id": "studio_all_in",
-      "label": "All-In: סיפור חיים",
-      "category": "studio",
-      "exVat": 2380,
-      "inclVat": 2808,
-      "priceFrom": false,
-      "context": "הפקה מלאה + קליפ תמונות גדילה מתמונות וסרטוני ילדות",
-      "suitedFor": "בר/בת מצווה או מתנה משפחתית בלי הפתעות מחיר"
     },
     {
       "id": "single_production",
@@ -108,7 +78,7 @@
       "exVat": 4500,
       "inclVat": 5310,
       "priceFrom": false,
-      "context": "שיר מוגמר וקליפ וידאו לשיתוף"
+      "context": "שיר מוגמר וקליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו"
     },
     {
       "id": "studio_session_clip",
@@ -118,9 +88,7 @@
       "inclVat": 531,
       "priceFrom": false,
       "context": "צילום ההקלטה בזמן אמת, בלי עריכה",
-      "suitedFor": "מי שרוצה לראות איך נראית הקלטה אמיתית באולפן",
-      "withEditingExVat": 750,
-      "withEditingInclVat": 885
+      "suitedFor": "ברכה או אולפן נייד, למי שרוצה את הצילום בלי עריכה"
     },
     {
       "id": "studio_extra_participant",
@@ -130,7 +98,17 @@
       "inclVat": 224,
       "priceFrom": false,
       "context": "הקלטה נוספת וערבוב בסיסי",
-      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן"
+      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר"
+    },
+    {
+      "id": "song_group_participant",
+      "label": "משתתף נוסף בשיר",
+      "category": "addons",
+      "exVat": 99,
+      "inclVat": 117,
+      "priceFrom": false,
+      "context": "לכל משתתף נוסף בשיר, מהשני והלאה. עד 12 משתתפים בשיר אחד.",
+      "suitedFor": "שיר משפחתי או קבוצתי"
     },
     {
       "id": "studio_extra_revision",
@@ -150,7 +128,37 @@
       "inclVat": 354,
       "priceFrom": false,
       "context": "Pitch Correction לשיר או ברכה. לא קדימות בשיבוץ (express).",
-      "suitedFor": "ברכה או הקלטה מרחוק ב-590 שרוצים גם תיקון זיופים"
+      "suitedFor": "ברכה או הקלטה מרחוק שרוצים גם תיקון זיופים"
+    },
+    {
+      "id": "song_pitch_coaching",
+      "label": "תיקון זיופים וטכנאי שמכוון ומנחה",
+      "category": "addons",
+      "exVat": 300,
+      "inclVat": 354,
+      "priceFrom": false,
+      "context": "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+      "suitedFor": "תוספת להקלטת שיר באולפן"
+    },
+    {
+      "id": "studio_session_clip_edited",
+      "label": "קליפ ערוך מהסשן באולפן",
+      "category": "addons",
+      "exVat": 750,
+      "inclVat": 885,
+      "priceFrom": false,
+      "context": "צילום הסשן באולפן, ערוך לקליפ מוכן לשיתוף.",
+      "suitedFor": "תוספת להקלטת שיר באולפן"
+    },
+    {
+      "id": "song_pre_session_interview",
+      "label": "ראיון קצר במתחם הפודקאסט",
+      "category": "addons",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+      "suitedFor": "תוספת לקליפ הערוך מהסשן"
     },
     {
       "id": "podcast_pilot",
@@ -202,12 +210,22 @@
     },
     {
       "id": "mobile_podcast_at_home",
-      "label": "פודקאסט בבית / אולפן נייד",
+      "label": "אולפן נייד, הגעה אליכם",
       "category": "podcast",
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": true,
-      "context": "הגעה לבית או למשרד, הקלטה ועריכה"
+      "context": "הגעה עם כל הציוד, התאורה והצוות, לבית, למשרד או לאירוע. בבית או במשרד פרק פודקאסט אודיו מוגמר כלול (הקלטה, עריכה ומסירה), וכל אדם נוסף הוא ערוץ נוסף."
+    },
+    {
+      "id": "mobile_extra_channel",
+      "label": "ערוץ הקלטה נוסף באולפן הנייד",
+      "category": "podcast",
+      "exVat": 99,
+      "inclVat": 117,
+      "priceFrom": false,
+      "context": "כל אדם נוסף בהקלטה באולפן הנייד הוא ערוץ נוסף. עד 12 אנשים בהקלטה.",
+      "suitedFor": "הקלטה בבית או במשרד עם יותר מאדם אחד"
     },
     {
       "id": "podcast_editing_hour",
@@ -217,6 +235,15 @@
       "inclVat": 885,
       "priceFrom": false,
       "context": "ניקוי רעשים, סנכרון וכתוביות"
+    },
+    {
+      "id": "podcast_editing_advanced",
+      "label": "עריכה מתקדמת לפודקאסט",
+      "category": "podcast",
+      "exVat": 590,
+      "inclVat": 696,
+      "priceFrom": false,
+      "context": "לכל שעה שצולמה, פתיח וסגיר"
     },
     {
       "id": "podcast_extra_participant",
@@ -281,7 +308,7 @@
       "exVat": 11520,
       "inclVat": 13594,
       "priceFrom": false,
-      "context": "36 שיעורים, עם הטבה על שיעור הניסיון"
+      "context": "36 שיעורים אחד על אחד"
     },
     {
       "id": "academy_pro_session",
@@ -392,13 +419,13 @@
       "context": "תוספת למחיר ההפקה"
     },
     {
-      "id": "funny_ringtone_promo",
-      "label": "רינגטון מצחיק, מבצע",
-      "category": "studio",
+      "id": "voiceover_funny_ringtone",
+      "label": "רינגטון מצחיק",
+      "category": "online",
       "exVat": 299,
       "inclVat": 353,
       "priceFrom": false,
-      "context": "הקלטה, עיבוד וקובץ מוכן"
+      "context": "קריינות לכל דבר: הקלטה, עיבוד וקובץ מוכן"
     },
     {
       "id": "singer_live_recording_promo",
@@ -407,25 +434,7 @@
       "exVat": 399,
       "inclVat": 471,
       "priceFrom": false,
-      "context": "במקום המחיר המלא"
-    },
-    {
-      "id": "blessing_pair_combined",
-      "label": "ברכה משולבת, כלה וחתן",
-      "category": "studio",
-      "exVat": 1000,
-      "inclVat": 1180,
-      "priceFrom": false,
-      "context": "שני מקליטים באותה ברכה"
-    },
-    {
-      "id": "song_extended_pack",
-      "label": "חבילת שיר מורחבת",
-      "category": "studio",
-      "exVat": 1800,
-      "inclVat": 2124,
-      "priceFrom": true,
-      "context": "תיקוני פיץ' מתקדמים ועריכה מלאה"
+      "context": "מבצע הרגע האחרון באשף ההגברה"
     },
     {
       "id": "bat_mitzvah_clip",
@@ -467,17 +476,17 @@
       "id": "academy_lesson_card_5",
       "label": "כרטיסיית 5 שיעורים פרטיים",
       "category": "academy",
-      "exVat": 4450,
-      "inclVat": 5251,
+      "exVat": 4554,
+      "inclVat": 5374,
       "priceFrom": true,
-      "context": "מחיר מופחת לשיעור"
+      "context": "חמישה שיעורים של שעה, אחד על אחד"
     },
     {
       "id": "academy_dj_course_full",
       "label": "קורס DJ פרטי מלא",
       "category": "academy",
-      "exVat": 8900,
-      "inclVat": 10502,
+      "exVat": 9108,
+      "inclVat": 10747,
       "priceFrom": true,
       "context": "10 מפגשים כולל בניית סט אישי"
     },
@@ -813,21 +822,11 @@
       "id": "dj_yakir_personal",
       "label": "תקליטן יקיר כהן אישית",
       "category": "dj",
-      "exVat": 8305,
-      "inclVat": 9800,
+      "exVat": 9800,
+      "inclVat": 11564,
       "priceFrom": false,
       "context": "5 שעות VIP עם יקיר על הקונסולה",
       "suitedFor": "חתונות VIP, אירועי חברה"
-    },
-    {
-      "id": "mobile_studio",
-      "label": "אולפן הקלטות נייד",
-      "category": "events",
-      "exVat": 5000,
-      "inclVat": 5900,
-      "priceFrom": false,
-      "context": "הקמת מיקרופונים ועמדת עריכה בשטח",
-      "suitedFor": "אירועים, כנסים, בתי ספר"
     },
     {
       "id": "festival_all_in",
@@ -912,6 +911,15 @@
       "context": "ליווי מוזיקלי חי לרחבת הריקודים"
     },
     {
+      "id": "event_extra_activation",
+      "label": "הפעלה נוספת לאטרקציה",
+      "category": "events",
+      "exVat": 1200,
+      "inclVat": 1416,
+      "priceFrom": false,
+      "context": "רגע שיא נוסף: מיכל או מנועים חדשים לכל הפעלה"
+    },
+    {
       "id": "event_attraction_1",
       "label": "אטרקציה בודדת",
       "category": "events",
@@ -924,28 +932,38 @@
       "id": "event_attraction_2",
       "label": "2 אטרקציות",
       "category": "events",
-      "exVat": 3051,
-      "inclVat": 3600,
+      "exVat": 3119,
+      "inclVat": 3680,
       "priceFrom": false,
-      "context": "הנחה 10%, 3,600 ₪ כולל מע״מ"
+      "context": "חבילה: 8% פחות משתי אטרקציות בודדות"
     },
     {
       "id": "event_attraction_3",
       "label": "3 אטרקציות",
       "category": "events",
-      "exVat": 4322,
-      "inclVat": 5100,
+      "exVat": 4679,
+      "inclVat": 5521,
       "priceFrom": false,
-      "context": "הנחה 15%, 5,100 ₪ כולל מע״מ"
+      "context": "חבילה: 8% פחות משלוש אטרקציות בודדות"
     },
     {
       "id": "event_attraction_4",
       "label": "4 אטרקציות ומעלה",
       "category": "events",
-      "exVat": 5424,
-      "inclVat": 6400,
+      "exVat": 6238,
+      "inclVat": 7361,
       "priceFrom": true,
-      "context": "מחיר פתיחה, הנחה 20%, 6,400 ₪ כולל מע״מ. מעבר לזה הצעה אישית"
+      "context": "מחיר פתיחה לארבע, 8% פחות מארבע בודדות, וקליפ היילייטס מתנה. מעבר לזה הצעה אישית"
+    },
+    {
+      "id": "event_sound_rental",
+      "label": "השכרת הגברה לאירוע",
+      "category": "events",
+      "exVat": 2500,
+      "inclVat": 2950,
+      "priceFrom": false,
+      "context": "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק. עד 250 אורחים",
+      "suitedFor": "אירוע עד 250 אורחים"
     },
     {
       "id": "singer_amp_basic",
@@ -1245,8 +1263,8 @@
       "id": "dj_voice_tag_pack_5",
       "label": "חבילת 5 תגים קוליים",
       "category": "pro",
-      "exVat": 1200,
-      "inclVat": 1416,
+      "exVat": 1610,
+      "inclVat": 1900,
       "priceFrom": false,
       "context": "חמישה תגים מותאמים עם אפקטים"
     },
@@ -1281,8 +1299,8 @@
       "id": "mashup_ready_pack_3",
       "label": "חבילת 3 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 1750,
-      "inclVat": 2065,
+      "exVat": 1794,
+      "inclVat": 2117,
       "priceFrom": false,
       "context": "שלושה שילובים מהמאגר"
     },
@@ -1290,8 +1308,8 @@
       "id": "mashup_ready_pack_5",
       "label": "חבילת 5 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 2750,
-      "inclVat": 3245,
+      "exVat": 2990,
+      "inclVat": 3528,
       "priceFrom": false,
       "context": "חמישה שילובים - עונת אירועים"
     },
@@ -1299,8 +1317,8 @@
       "id": "mashup_ready_pack_10",
       "label": "חבילת 10 מאשאפים מוכנים",
       "category": "pro",
-      "exVat": 5200,
-      "inclVat": 6136,
+      "exVat": 5980,
+      "inclVat": 7056,
       "priceFrom": false,
       "context": "מאגר אישי לדיג'יי"
     },
@@ -1308,8 +1326,8 @@
       "id": "mashup_custom_pack_3",
       "label": "חבילת 3 מאשאפים מותאמים",
       "category": "pro",
-      "exVat": 4500,
-      "inclVat": 5310,
+      "exVat": 4554,
+      "inclVat": 5374,
       "priceFrom": false,
       "context": "שלושה שילובים לפי בקשה"
     },

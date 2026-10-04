@@ -10,7 +10,6 @@ import {
   PRICE_FALLBACK_LABEL,
 } from "./resolve-price";
 import { getUpsellsForService } from "./upsells";
-import { HOLD_POLICY_TEXT } from "./payment-hold";
 
 export const LEAD_FLOW_WA_MAX_CHARS = 800;
 
@@ -21,7 +20,6 @@ export type LeadFlowMessageInput = {
   tierId: PackageTierId;
   tierCatalogExVat: number | null;
   selectedUpsellIds: readonly string[];
-  holdExpiresAt: number | null;
 };
 
 function truncateMessage(text: string, max = LEAD_FLOW_WA_MAX_CHARS): string {
@@ -64,15 +62,6 @@ export function buildLeadFlowWhatsAppText(input: LeadFlowMessageInput): string {
       ? `סה״כ: ${PRICE_FALLBACK_LABEL}`
       : formatLeadFlowWhatsAppPrice(total, "סה״כ נכון לכרגע"),
   );
-
-  if (input.holdExpiresAt) {
-    const until = new Date(input.holdExpiresAt).toLocaleString("he-IL", {
-      dateStyle: "short",
-      timeStyle: "short",
-    });
-    lines.push(`Hold עד: ${until}`);
-  }
-  lines.push(HOLD_POLICY_TEXT);
 
   return truncateMessage(lines.join("\n"));
 }

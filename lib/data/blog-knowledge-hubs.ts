@@ -1,4 +1,4 @@
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { catalogWithVat, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 /**
  * מרכזי ידע לדליי הבלוג.
@@ -39,30 +39,46 @@ export type KnowledgeHub = {
 };
 
 function stripDualPrefix(formatted: string): string {
-  return formatted.replace(/^כרגע: מ-/, "");
+  return formatted.replace(/^כרגע: מ-/, "").replace(/^מ-/, "");
 }
 
+function vatNis(exVat: number): string {
+  return `${catalogWithVat(exVat).toLocaleString("he-IL")} ₪`;
+}
+
+/*
+ * במיזוג main ל-feature/sales-fix (3.10.2026): התשובה נשענה על cover_song
+ * (990, "שיר מוכן שכולל מיקס, מאסטרינג ותיקון זיופים"). לפי
+ * OWNER-DECISIONS-2026-10-02.md הקלטת שיר היא song_recording, הקלטה, מיקס
+ * ומאסטר, ותיקון זיופים תוספת. ברכה ושיר באותו מחיר בסיס, ולכן כשהם שווים
+ * הם נאמרים במשפט אחד. מחיר לצרכן: כולל מע״מ קודם.
+ */
 export function buildStudioHubAnswer(): string {
-  const blessing = stripDualPrefix(
-    formatFromPriceDual(getExVat("blessing_recording")),
-  );
-  const song = stripDualPrefix(formatFromPriceDual(getExVat("cover_song")));
+  const blessingEx = getExVat("blessing_recording");
+  const songEx = getExVat("song_recording");
+  const opening =
+    blessingEx === songEx
+      ? `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(songEx))}, ` +
+        `לברכה או אמירה קצרה ולשיר מוכן עם מיקס ומאסטר. `
+      : `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(blessingEx))} לברכה או אמירה קצרה, ` +
+        `ו-${stripDualPrefix(formatFromPriceDual(songEx))} לשיר מוכן עם מיקס ומאסטר. `;
   return (
-    `הקלטה באולפן מתחילה ב-${blessing} לברכה או אמירה קצרה, ` +
-    `ו-${song} לשיר מוכן שכולל מיקס, מאסטרינג ותיקון זיופים. ` +
-    `מה שמזיז את המחיר הוא רמת הגימור, אורך ההקלטה, כמה אנשים מקליטים וכמה זה דחוף. ` +
+    opening +
+    `תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת. ` +
+    `מה שמזיז את המחיר הוא רמת הגימור, אורך ההקלטה, כמה אנשים מקליטים ואילו תוספות בוחרים. ` +
     `אפשר גם לצלם את ההקלטה לרשתות. ` +
     `לפני שמתחילים נבין מה אתם רוצים ליצור, ורק אז נגיד מחיר.`
   );
 }
 
 export function buildStudioHubMetaDescription(): string {
-  const blessing = getExVat("blessing_recording").toLocaleString("he-IL");
-  const song = getExVat("cover_song").toLocaleString("he-IL");
-  return (
-    `ברכה מ-${blessing} ₪ + מע״מ, שיר מוכן מ-${song} ₪ + מע״מ. ` +
-    `מה מזיז את המחיר, מה אפשר לעשות לבד, ומתי אולפן לא שווה את זה.`
-  );
+  const blessingEx = getExVat("blessing_recording");
+  const songEx = getExVat("song_recording");
+  const prices =
+    blessingEx === songEx
+      ? `ברכה או שיר מוכן מ-${vatNis(songEx)} כולל מע״מ. `
+      : `ברכה מ-${vatNis(blessingEx)} כולל מע״מ, שיר מוכן מ-${vatNis(songEx)} כולל מע״מ. `;
+  return prices + `מה מזיז את המחיר, מה אפשר לעשות לבד, ומתי אולפן לא שווה את זה.`;
 }
 
 const STUDIO_HUB: KnowledgeHub = {
@@ -140,7 +156,7 @@ export function buildVoiceoverHubAnswer(): string {
     `לקוח שמתקשר שומע את העסק לפני שהוא רואה אותו. הקלטה מהנייד ברעש רקע ` +
     `יוצרת רושם תוך שניות, וקשה לתקן אותו אחר כך. קריינות למרכזייה מתחילה ` +
     `ב-${ivr} ₪ לפני מע״מ לשלוש הודעות, וחבילת מיתוג קולי עם ג'ינגל ` +
-    `ב-${brand} ₪. מה שקובע את התוצאה הוא הטון שנבחר, לא הציוד.`
+    `ב-${brand} ₪ לפני מע״מ. מה שקובע את התוצאה הוא הטון שנבחר, לא הציוד.`
   );
 }
 
@@ -194,10 +210,11 @@ export function buildEventsHubAnswer(): string {
 }
 
 export function buildEventsHubMetaDescription(): string {
-  const dj = getExVat("dj_premium").toLocaleString("he-IL");
-  const attraction = getExVat("event_attraction_1").toLocaleString("he-IL");
+  /* אירועים הם צרכן: כולל מע״מ (החלטת הבעלים 2.10.2026) */
+  const dj = vatNis(getExVat("dj_premium"));
+  const attraction = vatNis(getExVat("event_attraction_1"));
   return (
-    `תקליטן מהצוות מ-${dj} ₪ + מע״מ, אטרקציה בודדת מ-${attraction} ₪ + מע״מ. ` +
+    `תקליטן מהצוות מ-${dj} כולל מע״מ, אטרקציה בודדת מ-${attraction} כולל מע״מ. ` +
     `איזו מוזיקה הוא צריך לאהוב, מה לשאול לפני שחותמים, ומתי גם DJ טוב לא יציל.`
   );
 }

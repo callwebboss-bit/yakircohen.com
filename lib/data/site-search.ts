@@ -30,7 +30,7 @@ const PODCAST_STARTING_LABEL = `החל מ-${PODCAST_STARTER_PRICE} ₪`;
 const PODCAST_HUB_ITEMS: SiteSearchItem[] = [
   {
     title: "הפקת פודקאסט מלאה",
-    description: `צילום 4K, הקלטה אולפנית, עריכה, פרק בדרך כלל מוכן תוך 24 שעות. ${PODCAST_STARTING_LABEL} לפרק קצר.`,
+    description: `צילום 4K, הקלטה אולפנית, והפרק אצלכם באותה שנייה שמסיימים להקליט. ${PODCAST_STARTING_LABEL} לפרק קצר.`,
     category: "פודקאסט",
     href: "/podcast",
     keywords: ["פודקאסט", "הקלטה", "אולפן", "4K", "ספוטיפיי", "750"],
@@ -44,7 +44,7 @@ const PODCAST_HUB_ITEMS: SiteSearchItem[] = [
   },
   {
     title: "צילום והקלטת פודקאסט",
-    description: "הפקה מלאה, פרק בדרך כלל מוכן תוך 24 שעות, החל מ-2,500 ₪",
+    description: "הפקה מלאה, הפרק אצלכם באותה שנייה שמסיימים להקליט, החל מ-2,500 ₪",
     category: "פודקאסט",
     href: "/podcast/podcast-recording",
     keywords: ["צילום", "הקלטה", "הפקה מלאה", "4K"],

@@ -114,8 +114,8 @@ export default function SessionRescuerBar() {
       <div className="mx-auto flex max-w-3xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-foreground">
           התחלתם להרכיב{" "}
-          <span className="font-semibold">{draft.packageLabel}</span>. השארנו את
-          המקום פנוי - ממשיכים משלב {draft.stepLabel}?
+          <span className="font-semibold">{draft.packageLabel}</span>. שמרנו את
+          הבחירות שלכם - ממשיכים משלב {draft.stepLabel}?
         </p>
         <div className="flex shrink-0 gap-2">
           <button

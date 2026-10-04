@@ -11,16 +11,46 @@ import {
   FOUNDER_KNOWS_ABOUT,
 } from "@/lib/seo/entity-same-as";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
-import {
-  EVENT_ATTRACTION_FROM_NIS,
-  STUDIO_HALF_HOUR_NIS,
-  STUDIO_ONE_HOUR_NIS,
-} from "@/lib/data/pricing";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
 import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME } from "@/lib/constants";
 
 const BASE = SITE_URL;
+
+/**
+ * הצעה מהקטלוג (שלב 4 WP12, S28, PI-18): sku הוא מזהה הקטלוג, price כולל מע״מ
+ * כמו שהצרכן רואה, ו-priceSpecification נושא את המחיר לפני מע״מ עם דגל.
+ * audit:schema-prices בודק את sku מול הקטלוג.
+ */
+function catalogOffer(
+  id: PriceItemId,
+  { name, description, url }: { name: string; description?: string; url: string },
+) {
+  const exVat = getExVat(id);
+  return {
+    "@type": "Offer" as const,
+    name,
+    ...(description ? { description } : {}),
+    sku: id,
+    price: String(withVat(exVat)),
+    priceCurrency: "ILS",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: exVat,
+      priceCurrency: "ILS",
+      valueAddedTaxIncluded: false,
+    },
+    url,
+  };
+}
+
+const PODCAST_PACKAGE_CATALOG_IDS: Record<string, PriceItemId> = {
+  social: "content_package",
+  video: "podcast_video",
+  audio: "podcast_audio",
+  starter: "studio_half_hour",
+};
 
 /* זהות העסק. האדם מקבל FOUNDER_SAME_AS, שאין בו את רישום המפות. */
 const sameAsUrls = [...BRAND_SAME_AS];
@@ -154,54 +184,41 @@ export function buildSiteSchema() {
         sameAs: sameAsUrls,
         parentOrganization: { "@id": ENTITY_IDS.organization },
         makesOffer: [
-          {
-            "@type": "Offer",
+          catalogOffer("studio_half_hour", {
             name: "חצי שעה באולפן",
-            description: "הקלטה קצרה, פודקאסט או ברכה - מחיר לפני מע״מ",
-            price: String(STUDIO_HALF_HOUR_NIS),
-            priceCurrency: "ILS",
+            description: "הקלטה קצרה, פודקאסט או ברכה - קובץ גולמי, בלי עריכה",
             url: `${BASE}/studio/pricing`,
-          },
-          {
-            "@type": "Offer",
+          }),
+          catalogOffer("studio_hour", {
             name: "שעת אולפן מלאה",
-            description: "הקלטה באולפן במודיעין - מחיר לפני מע״מ",
-            price: String(STUDIO_ONE_HOUR_NIS),
-            priceCurrency: "ILS",
+            description: "הקלטה באולפן במודיעין",
             url: `${BASE}/studio/pricing`,
-          },
-          {
-            "@type": "Offer",
-            name: "שיר מוכן באולפן",
-            description: "הקלטה, מיקס, מאסטרינג ותיקון זיופים - מחיר לפני מע״מ",
-            price: String(getExVat("cover_song")),
-            priceCurrency: "ILS",
-            url: `${BASE}/book`,
-          },
-          {
-            "@type": "Offer",
+          }),
+          /* השיר מוצג לצרכן כולל מע״מ (2.10.2026), ולכן price כולל מע״מ
+             ו-priceSpecification נושא את המחיר לפני מע״מ, כמו ב-SeoPortfolioGalleryJsonLd */
+          catalogOffer("song_recording", {
+            name: "הקלטת שיר באולפן",
+            description: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר כולל מע״מ",
+            url: `${BASE}/studio/recording-song-modiin`,
+          }),
+          catalogOffer("event_attraction_1", {
             name: "אטרקציה לאירוע",
-            description: "עשן, בועות, זיקוקים ועוד - מחיר התחלתי לפני מע״מ",
-            price: String(EVENT_ATTRACTION_FROM_NIS),
-            priceCurrency: "ILS",
+            description: "עשן, בועות, זיקוקים ועוד - מחיר התחלתי",
             url: `${BASE}/events/attractions`,
-          },
-          ...PODCAST_PACKAGES.slice(0, 2).map((pkg) => ({
-            "@type": "Offer" as const,
-            name: pkg.name,
-            description: pkg.summary,
-            price: String(pkg.price),
-            priceCurrency: "ILS",
-            url: `${BASE}/podcast`,
-          })),
-          {
-            "@type": "Offer",
-            name: "מחירון מרכזי",
-            description: "כל המחירים במקום אחד",
-            price: String(STUDIO_ONE_HOUR_NIS),
-            priceCurrency: "ILS",
-            url: `${BASE}/pricing`,
-          },
+          }),
+          catalogOffer("dj_premium", {
+            name: "תקליטן מהצוות",
+            description: "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים",
+            url: `${BASE}/events/dj-events`,
+          }),
+          ...PODCAST_PACKAGES.slice(0, 2).map((pkg) =>
+            catalogOffer(PODCAST_PACKAGE_CATALOG_IDS[pkg.id], {
+              name: pkg.name,
+              description: pkg.summary,
+              url: `${BASE}/podcast`,
+            }),
+          ),
+          /* "מחירון מרכזי" ירד: זה לא מוצר, והמחיר שלו היה שעת אולפן (S28) */
           {
             "@type": "Offer",
             name: "שיעור ניסיון עברית פרטי",
@@ -218,14 +235,11 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix`,
           },
-          {
-            "@type": "Offer",
+          catalogOffer("damaged_recording_rescue", {
             name: "תיקון הקלטות פגומות",
-            description: "שחזור ארכיונים, פרקים ישנים והקלטות עם הד, רעש ועיוות",
-            price: "250",
-            priceCurrency: "ILS",
+            description: "שחזור ארכיונים, פרקים ישנים והקלטות עם הד, רעש ועיוות, לכל 5 דקות",
             url: `${BASE}/online/vocal-fix`,
-          },
+          }),
           {
             "@type": "Offer",
             name: "מיקס ומאסטרינג מקוון",
@@ -234,14 +248,12 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/mixing`,
           },
-          {
-            "@type": "Offer",
+          /* WP6: היה 250 כתוב. המחיר בקטלוג, בעמוד המיקס ובאשף הוא 300 */
+          catalogOffer("studio_pitch_correction", {
             name: "תיקון זיופים",
             description: "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
-            price: "250",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/pitch-correction`,
-          },
+          }),
           {
             "@type": "Offer",
             name: "שדרוג תמונות AI",
@@ -277,13 +289,10 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/mixing`,
           },
-          {
-            "@type": "Offer",
+          catalogOffer("studio_pitch_correction", {
             name: "תיקון זיופים",
-            price: "250",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/pitch-correction`,
-          },
+          }),
         ],
       },
       /* 12 צמתי Review של המלצות שהאתר מפרסם על עצמו הוסרו מכאן ב-9.9.2026.

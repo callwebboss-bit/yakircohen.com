@@ -7,14 +7,14 @@ describe("smart-form-lead-email", () => {
   it("splits client / budget / social into readable blocks", () => {
     const state: SmartFormState = {
       categoryId: "family",
-      selectedChipIds: ["cover", "express"],
+      selectedChipIds: ["cover", "song_pitch"],
       name: "נועה כהן",
       contactMethod: "0501234567",
       socialOrId: "@noea_test",
       termsAccepted: true,
-      baseCatalogId: "cover_song",
-      estimateExVat: 1500,
-      upsellCatalogIds: ["express_delivery"],
+      baseCatalogId: "song_recording",
+      estimateExVat: 800,
+      upsellCatalogIds: ["song_pitch_coaching"],
       bookCategory: "studio",
     };
     const body = buildSmartFormLeadEmailBody(state);

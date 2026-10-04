@@ -1,4 +1,5 @@
 import type { BookCategoryId } from "@/lib/book-url";
+import type { PriceItemId } from "@/lib/data/pricing-catalog";
 
 /** קטגוריות Tier A עם וויזארד 3 שלבים + CRO מלא */
 export type TierACategoryId = "studio" | "events" | "podcast" | "singer";
@@ -19,32 +20,22 @@ export type CroReassurance = {
   body: string;
 };
 
-export type CroDecoyPackage = {
-  emoji: string;
-  name: string;
-  description: string;
-  highlights: readonly string[];
-  priceExVat: number;
-  badge: string;
-  footnote: string;
-  ariaLabel: string;
-  ctaPrimary: string;
-  ctaSecondary: string;
-  waitlistUtmCampaign: string;
-  youtubeVideoId?: string;
-};
-
 export type CroLastMinuteUpsell = {
+  /** טקסט בלבד, בלי מחירים. המחיר מוצג ליד הטקסט מהפורמט לצרכן (כולל מע״מ). */
   label: string;
   upgradeId: string;
   /**
-   * שני אלה אופציונליים בכוונה: שדרוג אינו חייב להיות מבצע.
-   * כשהם קיימים, listPrice חייב להיות מחיר שנגבה בפועל. מחיר ייחוס
-   * שלא נגבה הוא הצגה מטעה לפי חוק הגנת הצרכן, וזו בדיוק הסיבה
-   * שהם הוסרו מהאשף של האירועים.
+   * שני אלה אופציונליים בכוונה: שדרוג אינו חייב להיות מבצע. listPrice הוא
+   * המחיר שהאשף גובה בפועל על השדרוג, ומשמש רק לחישוב ההנחה.
    */
   promoPrice?: number;
   listPrice?: number;
+  /**
+   * מחיר "במקום" מוצג רק כשהוא קשור לפריט קטלוג של אותו מוצר, ו-listPrice
+   * שווה ל-getExVat שלו (נבדק ב-types.test.ts). מחיר ייחוס שלא נגבה הוא
+   * הצגה מטעה לפי חוק הגנת הצרכן (FIT-05).
+   */
+  referenceCatalogId?: PriceItemId;
 };
 
 export type WizardCroConfig = {
@@ -55,13 +46,7 @@ export type WizardCroConfig = {
   perks: readonly CroOption[];
   reassuranceByAnxiety: Partial<Record<string, CroReassurance>>;
   transitionMessages: readonly string[];
-  decoy?: CroDecoyPackage;
   escapePlacements: readonly EscapePlacementId[];
-  urgency: {
-    holdPrefix: string;
-    holdExpiredSoft: string;
-    priceHoldBadge: string;
-  };
   step3Closer: string;
   step3SummaryHeading: string;
   step3ContactHeading: string;

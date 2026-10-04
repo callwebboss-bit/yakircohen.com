@@ -10,12 +10,9 @@ import {
 } from "@/lib/data/proposal-clip-gifts-page";
 import { RINGTONE_PAGE_PATH } from "@/lib/data/funny-ringtone-page";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
-import {
-  formatMeNis,
-  formatNis,
-  STUDIO_HALF_HOUR_NIS,
-  STUDIO_ONE_HOUR_NIS,
-} from "@/lib/data/pricing";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { buildSongOfferHref, calcSongOffer } from "@/lib/data/song-offer";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 
 export {
@@ -26,6 +23,14 @@ export {
   PROPOSAL_CLIP_FEATURED_VIDEO_ID,
   PROPOSAL_CLIP_VIDEOS,
 };
+
+/* מחירים לצרכן כולל מע״מ. העמוד מציג את טופס השיר במצב מתנה (2.10.2026) */
+const GIFTS_PATH = "/studio/recording-song-modiin/gifts";
+const nis = (amount: number) => `${amount.toLocaleString("he-IL")} ₪`;
+const SONG_BASE = calcSongOffer([]);
+const SONG_WITH_CLIP = calcSongOffer(["studio_session_clip_edited"]);
+const PITCH_WITH_VAT = withVat(getExVat("song_pitch_coaching"));
+const BLESSING_WITH_VAT = withVat(getExVat("blessing_recording"));
 
 export type StudioGiftIdea = {
   id: string;
@@ -38,6 +43,9 @@ export type StudioGiftIdea = {
   videoTitle: string;
   whatsappText: string;
   utmCampaign: string;
+  /** שורת מחיר כולל מע״מ, מקשרת לטופס השיר בעמוד */
+  priceLine?: string;
+  priceHref?: string;
 };
 
 /** קישורים פנימיים בין עמודי מתנות / שוברים */
@@ -134,7 +142,7 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     badge: "יום הולדת",
     title: "שיר מתנה ליום הולדת",
     description:
-      "יום הקלטה באולפן: הקלטה, עריכה ומיקס מקצועי. מתנה מקורית לגיל 30, 40, 50 או לילד/ה - שיר מוקלט ומעובד שנשמר כקובץ.",
+      "סשן באולפן: הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. מתנה מקורית לגיל 30, 40, 50 או לילד/ה.",
     highlights: [
       "מתאים לכל גיל",
       "אפשר שיר מוכן או מילים אישיות",
@@ -146,6 +154,8 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     whatsappText:
       "היי יקיר, מעוניינים בשובר מתנה - שיר ליום הולדת באולפן.",
     utmCampaign: "gift_birthday_song",
+    priceLine: `${nis(SONG_BASE.totalWithVat)} כולל מע״מ: הקלטה, מיקס ומאסטר`,
+    priceHref: buildSongOfferHref([], GIFTS_PATH),
   },
   {
     id: "blessing-couple",
@@ -182,6 +192,8 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
     whatsappText:
       "היי יקיר, מעוניינים בשובר מתנה - שיר וקליפ באולפן.",
     utmCampaign: "gift_song_clip",
+    priceLine: `${nis(SONG_WITH_CLIP.totalWithVat)} כולל מע״מ: הקלטת שיר וקליפ ערוך מהסשן`,
+    priceHref: buildSongOfferHref(["studio_session_clip_edited"], GIFTS_PATH),
   },
   {
     id: "podcast-studio",
@@ -268,7 +280,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     id: "voucher-any-service",
     question: "האם השובר מוגבל לסכום או לשירות מסוים?",
     answer:
-      `שובר המתנה יכול לייצג כל שירות באתר - לפי המחירון (חצי שעה ${formatMeNis(STUDIO_HALF_HOUR_NIS)}, שעת אולפן ${formatNis(STUDIO_ONE_HOUR_NIS)}). מציינים בשובר שמדובר במתנה.`,
+      `שובר המתנה יכול לייצג כל שירות באתר, לפי המחירון. למשל הקלטת שיר ${nis(SONG_BASE.totalWithVat)} כולל מע״מ, או הקלטת ברכה ${nis(BLESSING_WITH_VAT)} כולל מע״מ. מציינים בשובר שמדובר במתנה.`,
     whatsappText:
       "היי יקיר, רוצים שובר מתנה - לא בטוחים איזה שירות. אשמח להמלצה.",
     utmCampaign: "gift_faq_voucher",
@@ -277,7 +289,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     id: "cant-sing",
     question: "אני ממש לא יודע לשיר, זה יכול לצאת מקצועי?",
     answer:
-      "זה החשש הכי נפוץ. רוב הלקוחות אינם זמרים. עם ליווי באולפן, הנחיה קולית ועריכה מתקדמת - כולם נשמעים במיטבם.",
+      `זה החשש הכי נפוץ, ורוב הלקוחות אינם זמרים. מי שרוצה ביטחון נוסף מוסיף לשיר את תוספת תיקון הזיופים (${nis(PITCH_WITH_VAT)} כולל מע״מ): טכנאי שמכוון ומנחה בזמן ההקלטה, ותיקון זיופים בעריכה.`,
     whatsappText:
       "היי יקיר, שובר מתנה להקלטת שיר - חוששים מהשירה. איך זה עובד?",
     utmCampaign: "gift_faq_sing",
@@ -294,7 +306,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     id: "timing",
     question: "כמה זמן מראש צריך לתאם?",
     answer:
-      "לרוב 2-3 שבועות לפני האירוע או המימוש. אירוע קרוב? דברו איתנו - נבדוק אפשרות אקספרס.",
+      "לרוב 2-3 שבועות לפני האירוע או המימוש. אירוע קרוב? דברו איתנו ונבדוק מועד פנוי. בהקלטת שיר הסשן הוא שעה, והשיר אצלכם בסוף הסשן.",
     whatsappText: "היי יקיר, שובר מתנה - האירוע בעוד שבועיים. אפשרי?",
     utmCampaign: "gift_faq_timing",
   },
@@ -302,7 +314,7 @@ export const STUDIO_GIFT_FAQ: readonly {
     id: "delivery",
     question: "איך מקבלים את המתנה והאם מתאים להקרנה?",
     answer:
-      "לינק להורדה ב-Full HD להקרנה, וגרסה קלה לוואטסאפ ורשתות - לפי סוג השירות.",
+      "השובר עצמו נשלח אליכם מיד, בוואטסאפ או במייל. אחרי המימוש: לינק להורדה ב-Full HD להקרנה, וגרסה קלה לוואטסאפ ורשתות - לפי סוג השירות.",
     whatsappText: "היי יקיר, שאלה על מסירת שובר מתנה / קליפ.",
     utmCampaign: "gift_faq_delivery",
   },

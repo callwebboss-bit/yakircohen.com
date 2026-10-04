@@ -4,7 +4,6 @@ import {
 } from "@/lib/data/studio-recording-booking";
 
 export const LAST_MINUTE_BTS_PROMO_PRICE = 99;
-export const LAST_MINUTE_BTS_LIST_PRICE = 250;
 
 export function upgradePriceExVat(
   id: StudioUpgradeId,

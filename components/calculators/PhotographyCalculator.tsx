@@ -7,7 +7,7 @@ import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
-import { formatCurrency } from "@/components/calculators/formatCurrency";
+import { formatCurrency, formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -24,7 +24,8 @@ import {
 } from "@/lib/booking-messages";
 import {
   ADDON_SECTION_LABELS,
-  AI_BUNDLE_DISCOUNT,
+  AI_BUNDLE_DISCOUNT_PERCENT,
+  aiBundleDiscountExVat,
   HOURLY_RATE,
   HOUR_PRESETS,
   PHOTOGRAPHY_ADDONS,
@@ -41,6 +42,7 @@ import {
 } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { sendBookingWaCta } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
@@ -98,7 +100,7 @@ function SelectableRow({
         <span className="block text-[0.7rem] text-muted-foreground">{sublabel}</span>
       </span>
       <span className={cn("shrink-0 text-sm font-bold whitespace-nowrap", priceClass)}>
-        {formatCurrency(price)}
+        {formatCurrencyWithVat(price)}
       </span>
     </button>
   );
@@ -126,7 +128,7 @@ export default function PhotographyCalculator({
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
   const [contactForm, setContactForm] = useState({ name: "", phone: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { submitLead } = useLeadSubmit();
+  const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "photography_calculator",
   });
@@ -151,6 +153,11 @@ export default function PhotographyCalculator({
 
   const aiCount = selectedAI.size;
   const bundleActive = aiCount >= 2;
+  const aiSelectedSum = [...selectedAI].reduce(
+    (acc, id) => acc + (PHOTOGRAPHY_AI_SERVICES.find((a) => a.id === id)?.price ?? 0),
+    0,
+  );
+  const aiBundleDiscount = bundleActive ? aiBundleDiscountExVat(aiSelectedSum) : 0;
   const activePresetHours = HOUR_PRESETS.find((p) => p.hours === hours)?.hours ?? null;
 
   const total = useMemo(() => {
@@ -163,8 +170,8 @@ export default function PhotographyCalculator({
       (acc, id) => acc + (PHOTOGRAPHY_AI_SERVICES.find((a) => a.id === id)?.price ?? 0),
       0,
     );
-    return base + addonsSum + aiSum - (bundleActive ? AI_BUNDLE_DISCOUNT : 0);
-  }, [hours, selectedAddons, selectedAI, bundleActive]);
+    return base + addonsSum + aiSum - aiBundleDiscount;
+  }, [hours, selectedAddons, selectedAI, aiBundleDiscount]);
 
   const livePriceReport = useMemo(() => {
     if (total <= 0) return null;
@@ -219,7 +226,7 @@ export default function PhotographyCalculator({
       return a ? { label: "AI", value: `${a.label} - ${formatCurrency(a.price)}` } : null;
     }).filter(Boolean) as { label: string; value: string }[],
     ...(bundleActive
-      ? [{ label: "הנחת חבילת AI", value: `-${formatCurrency(AI_BUNDLE_DISCOUNT)}` }]
+      ? [{ label: `הנחת חבילת AI (${AI_BUNDLE_DISCOUNT_PERCENT}%)`, value: `-${formatCurrency(aiBundleDiscount)}` }]
       : []),
   ];
 
@@ -231,7 +238,7 @@ export default function PhotographyCalculator({
       name: sanitizeLeadText(contactForm.name, 60),
       phone: displayPhone,
     }, { bookCategory: "photography", source: "/book#photography" });
-  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, contactForm]);
+  }, [hours, pkgName, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, contactForm]);
 
   const formValid =
     contactForm.name.trim().length >= 2 && contactForm.phone.trim().length >= 9;
@@ -256,7 +263,7 @@ export default function PhotographyCalculator({
       includeTrustFooter: true,
       ycForm: "photography_calculator",
     });
-  }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, total]);
+  }, [formValid, contactForm, hours, pkgName, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, total]);
 
   const handleAction = useCallback(
     (intent: "continue_chat" | "start_now") => {
@@ -306,13 +313,15 @@ export default function PhotographyCalculator({
             href,
             intent,
             { leadCategory: "photography" },
-          );
-          clearPanelBookingDraft("photography");
+          ).then((ok) => {
+            /* הטיוטה נמחקת רק אחרי שהשרת אישר שהליד הגיע. LF-02 */
+            if (ok) clearPanelBookingDraft("photography");
+          });
         },
       );
       setFieldErrors(errs ?? {});
     },
-    [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, submitLead, total],
+    [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, submitLead, total],
   );
 
   const sections: PhotographyAddonSection[] = ["core", "pre", "during", "post"];
@@ -357,7 +366,7 @@ export default function PhotographyCalculator({
                     {preset.sub}
                   </p>
                   <p className="text-sm font-bold text-brand-red">
-                    {formatCurrency(preset.hours * HOURLY_RATE)}
+                    {formatCurrencyWithVat(preset.hours * HOURLY_RATE)}
                   </p>
                 </button>
               );
@@ -370,7 +379,7 @@ export default function PhotographyCalculator({
             {/* סרגל הסיכום מציג "לפני מע״מ" רק מ-sm ומעלה, ולכן במובייל אין
                 לגולש שום ציון מע״מ. הסכומים כאן גלויים בכל רוחב. */}
             <p className="mt-2 text-[0.7rem] text-muted-foreground">
-              כל המחירים בעמוד הזה לפני מע״מ.
+              המחירים בעמוד הזה כוללים מע״מ.
             </p>
           </div>
 
@@ -378,7 +387,7 @@ export default function PhotographyCalculator({
             <div className="mb-3 flex items-center justify-between">
               <span className="text-sm font-semibold text-foreground">התאמה אישית</span>
               <span className="text-sm font-bold text-brand-red">
-                {hours} שעות - {formatCurrency(hours * HOURLY_RATE)}
+                {hours} שעות - {formatCurrencyWithVat(hours * HOURLY_RATE)} כולל מע״מ
               </span>
             </div>
             <input
@@ -395,7 +404,7 @@ export default function PhotographyCalculator({
               <span>16 שעות</span>
             </div>
             <p className="mt-2 text-center text-[0.65rem] text-muted-foreground">
-              {formatCurrency(HOURLY_RATE)} לשעה לפני מע״מ - כולל עריכה ומסירה דיגיטלית
+              {formatCurrencyWithVat(HOURLY_RATE)} לשעה כולל מע״מ ({formatCurrency(HOURLY_RATE)} + מע״מ) - כולל עריכה ומסירה דיגיטלית
             </p>
           </div>
         </section>
@@ -431,16 +440,16 @@ export default function PhotographyCalculator({
             </span>
           </div>
           <p className="mb-4 text-[0.7rem] text-muted-foreground">
-            הנחה של {formatCurrency(AI_BUNDLE_DISCOUNT)} בבחירת שני שירותים ומעלה.
+            הנחה של {AI_BUNDLE_DISCOUNT_PERCENT}% על שירותי ה-AI בבחירת שני שירותים ומעלה.
           </p>
 
           {bundleActive ? (
             <p className="mb-4 rounded-lg border border-amber-300 bg-amber-100/80 px-3 py-2 text-sm font-semibold text-amber-900">
-              הנחת חבילת AI פעילה - חיסכון של {formatCurrency(AI_BUNDLE_DISCOUNT)}
+              הנחת חבילת AI פעילה - חיסכון של {formatCurrencyWithVat(aiBundleDiscount)} כולל מע״מ
             </p>
           ) : aiCount === 1 ? (
             <p className="mb-4 rounded-lg border border-border bg-surface px-3 py-2 text-[0.7rem] text-muted-foreground">
-              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {formatCurrency(AI_BUNDLE_DISCOUNT)}
+              הוסיפו עוד שירות AI אחד וקבלו הנחת חבילה של {AI_BUNDLE_DISCOUNT_PERCENT}% על שירותי ה-AI
             </p>
           ) : null}
 
@@ -462,6 +471,18 @@ export default function PhotographyCalculator({
         <section className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
           <HoneypotField value={honeypot} onChange={setHoneypot} />
           <LeadFormAlert message={globalError} className="mb-4" />
+          {leadSubmit.status === "failed" ? (
+            <LeadSubmitFallback
+              waHref={leadSubmit.waHref}
+              onRetry={() =>
+                void retryLead().then((ok) => {
+                  /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+                  if (ok) clearPanelBookingDraft("photography");
+                })
+              }
+              className="mb-4"
+            />
+          ) : null}
           <h3 className="mb-4 text-base font-bold text-foreground">📋 פרטי קשר לשמירת תאריך</h3>
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
@@ -547,7 +568,7 @@ export default function PhotographyCalculator({
 
       <CalculatorStickyBar
         total={total}
-        subLabel={bundleActive ? `חיסכון: ${formatCurrency(AI_BUNDLE_DISCOUNT)}` : undefined}
+        subLabel={bundleActive ? `חיסכון: ${formatCurrencyWithVat(aiBundleDiscount)} כולל מע״מ` : undefined}
         whatsappHref=""
         showCta
         continueDisabled={!formValid}

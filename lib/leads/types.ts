@@ -57,6 +57,8 @@ export type LeadRecord = {
   openedAt?: string;
   followUpSentAt?: string;
   duplicateOf?: string;
+  /** סימונים רכים מבדיקת הגוף (מילות ספאם). הליד נשלח לבעלים עם "[לבדיקה]". */
+  reviewFlags?: string[];
 };
 
 export type LeadIngestClientMeta = {

@@ -10,19 +10,19 @@ export default function StudioLiveIndicator() {
     queueMicrotask(() => setLive(isStudioOpen()));
   }, []);
 
+  /* נקודת "פתוח עכשיו" לפי שעות הפעילות בשעון ישראל (lib/business-hours).
+     לא "מקליטים עכשיו": השעון לא יודע אם מישהו מקליט (FIT-12). בלי
+     animate-ping, כדי לא לרמוז על פעילות חיה. */
   // OPTIMIZED: reserved corner slot - client time (SSG-safe) without layout shift on reveal
   return (
     <span
       className="pointer-events-none absolute -end-1 -top-1 flex h-3 w-3"
       aria-hidden={!live}
-      aria-label={live ? "האולפן פעיל עכשיו" : undefined}
-      title={live ? "האולפן פעיל - מקליטים עכשיו 🎙️" : undefined}
+      aria-label={live ? "פתוח עכשיו לפי שעות הפעילות" : undefined}
+      title={live ? "פתוח עכשיו לפי שעות הפעילות" : undefined}
     >
       {live ? (
-        <>
-          <span className="absolute inline-flex h-full w-full motion-reduce:animate-none animate-ping rounded-full bg-brand-red opacity-60" />
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-red" />
-        </>
+        <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-red" />
       ) : null}
     </span>
   );

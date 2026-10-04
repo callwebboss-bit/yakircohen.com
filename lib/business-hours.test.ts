@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { BUSINESS_HOURS, getBusinessOpenStatus, getNextOpening } from "@/lib/business-hours";
 
-/* ימי השבוע ב-2026: 13.9 ראשון, 18.9 שישי, 19.9 שבת. */
-const at = (day: number, time: string) => new Date(`2026-09-${13 + day}T${time}:00`);
+/* ימי השבוע ב-2026: 13.9 ראשון, 18.9 שישי, 19.9 שבת. שעון ישראל (IDT, +03:00)
+   במפורש, כדי שהבדיקה לא תלויה באזור הזמן של המכונה שמריצה אותה. */
+const at = (day: number, time: string) => new Date(`2026-09-${13 + day}T${time}:00+03:00`);
 
 describe("business-hours נגזר מ-BUSINESS_HOURS", () => {
   it("הלוח שמוצג בפוטר הוא זה שנבדק", () => {
@@ -50,5 +51,22 @@ describe("business-hours נגזר מ-BUSINESS_HOURS", () => {
   it("getNextOpening מצביע על מוצאי שבת בשישי אחר הצהריים", () => {
     assert.deepEqual(getNextOpening(at(5, "16:00")), { day: 6, daysAhead: 1, open: 21 });
     assert.deepEqual(getNextOpening(at(6, "23:00")), { day: 0, daysAhead: 1, open: 9 });
+  });
+});
+
+describe("business-hours לפי שעון ישראל, לא לפי המכשיר (FIT-12)", () => {
+  it("22:30 בישראל סגור גם כשהגולש בניו יורק (15:30 אצלו)", () => {
+    const instant = new Date("2026-09-14T19:30:00Z");
+    assert.equal(getBusinessOpenStatus(instant).isOpen, false);
+  });
+
+  it("10:00 בישראל פתוח גם כשאצל הגולש בלוס אנג'לס עוד לילה", () => {
+    const instant = new Date("2026-09-14T07:00:00Z");
+    assert.equal(getBusinessOpenStatus(instant).isOpen, true);
+  });
+
+  it("שעון חורף: 21:30 בישראל ב-1.12 (UTC+2) פתוח", () => {
+    const instant = new Date("2026-12-01T19:30:00Z");
+    assert.equal(getBusinessOpenStatus(instant).isOpen, true);
   });
 });

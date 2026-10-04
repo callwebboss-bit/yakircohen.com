@@ -1,6 +1,12 @@
-import { formatNis } from "@/lib/data/pricing";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 
+/* מחיר הקטלוג voiceover_funny_ringtone, לפני מע״מ. קריינות לכל דבר, בלי "מבצע"
+   (החלטת הבעלים 3.10.2026, סבב רביעי). בדיקה מוודאת שהוא שווה לקטלוג. */
 export const RINGTONE_PRICE_NIS = 299;
+/** "353 ₪ כולל מע״מ" */
+export const RINGTONE_PRICE_LABEL = formatConsumerPrice(RINGTONE_PRICE_NIS).totalLabel;
+/** "353 ₪ כולל מע״מ (299 ₪ + מע״מ)" */
+export const RINGTONE_PRICE_FULL = `${RINGTONE_PRICE_LABEL} (${formatConsumerPrice(RINGTONE_PRICE_NIS).exVatNote})`;
 
 export const RINGTONE_AUDIO = {
   beforeSrc: "/audio/before-rengtone.mp3",
@@ -14,9 +20,9 @@ export const RINGTONE_HERO = {
   title: "רינגטון מצחיק שיגרום לכולם לצחוק בטלפון",
   subtitle:
     "מתנה מקורית ליום הולדת, הפתעה לחבר/ה או אירוע מיוחד - מקליטים, מעבדים ומגישים רינגטון אישי שמישהו באמת ישמיע בטלפון.",
-  priceBadge: `מבצע ${formatNis(RINGTONE_PRICE_NIS)}`,
+  priceBadge: RINGTONE_PRICE_LABEL,
   whatsappText:
-    "היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (299 ש\"ח). אשמח לפרטים.",
+    `היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (${RINGTONE_PRICE_LABEL}). אשמח לפרטים.`,
   utmCampaign: "gift_funny_ringtone",
 } as const;
 
@@ -37,8 +43,8 @@ export const RINGTONE_INCLUDES: readonly {
     body: "מצחיק, מרגש או קורע - מתאימים את הטון למי שמקבל את המתנה.",
   },
   {
-    title: "מחיר מבצע ברור",
-    body: `${formatNis(RINGTONE_PRICE_NIS)} לרינגטון אישי - בלי הפתעות.`,
+    title: "מחיר ברור",
+    body: `${RINGTONE_PRICE_FULL} לרינגטון אישי, בלי הפתעות.`,
   },
 ] as const;
 
@@ -120,7 +126,7 @@ export const RINGTONE_FAQ: readonly {
   {
     id: "price",
     question: "האם המחיר כולל הכל?",
-    answer: `כן - ${formatNis(RINGTONE_PRICE_NIS)} מבצע כולל הקלטה, עריכה וקובץ מוכן. בלי עלויות נסתרות.`,
+    answer: `כן. ${RINGTONE_PRICE_FULL} כולל הקלטה, עריכה וקובץ מוכן. בלי עלויות נסתרות.`,
     whatsappText: "היי יקיר, מה כולל המחיר של הרינגטון?",
     utmCampaign: "ringtone_faq_price",
   },

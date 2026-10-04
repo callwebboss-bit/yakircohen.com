@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MultiStepLeadShell from "@/components/leads/MultiStepLeadShell";
 import PackageTierCards from "@/components/lead-flow/PackageTierCards";
-import HoldCountdown from "@/components/lead-flow/HoldCountdown";
 import { DISCOVERY_QUESTIONS } from "@/lib/data/lead-flow/discovery-questions";
 import { SCOPE_BLOCKS } from "@/lib/data/lead-flow/scope-blocks";
 import {
@@ -14,11 +13,6 @@ import {
   type PackageTierId,
 } from "@/lib/data/lead-flow/packages";
 import { getUpsellsForService } from "@/lib/data/lead-flow/upsells";
-import {
-  computeHoldExpiresAt,
-  HOLD_POLICY_TEXT,
-  HOLD_STORAGE_KEY,
-} from "@/lib/data/lead-flow/payment-hold";
 import {
   LEAD_FLOW_SERVICES,
   getLeadFlowService,
@@ -46,7 +40,7 @@ const STEP_INDEX: Record<LeadFlowStepId, number> = {
   scope: 1,
   packages: 2,
   upsells: 3,
-  hold: 4,
+  send: 4,
 };
 
 type NeedsDiscoveryLeadFlowProps = {
@@ -69,7 +63,6 @@ export default function NeedsDiscoveryLeadFlow({
   const [priceRevealed, setPriceRevealed] = useState(false);
   const [selectedTier, setSelectedTier] = useState<PackageTierId | null>(null);
   const [upsellIds, setUpsellIds] = useState<string[]>([]);
-  const [holdExpiresAt, setHoldExpiresAt] = useState<number | null>(null);
 
   // Hydration-safe: sync from URL after mount
   useEffect(() => {
@@ -173,21 +166,15 @@ export default function NeedsDiscoveryLeadFlow({
     setPriceRevealed(false);
     setSelectedTier(null);
     setUpsellIds([]);
-    setHoldExpiresAt(null);
     setStepId("needs");
     syncUrl(id, "needs");
     trackFlowStep("service", { service: id });
   };
 
+  /* בלי Hold ובלי ספירה לאחור: שום תאריך לא נשמר בצד שלנו לפני אישור
+     (שלב 5, LF-15). */
   const onSelectTier = (tierId: PackageTierId) => {
     setSelectedTier(tierId);
-    const expires = computeHoldExpiresAt();
-    setHoldExpiresAt(expires);
-    try {
-      window.localStorage.setItem(HOLD_STORAGE_KEY, String(expires));
-    } catch {
-      /* ignore */
-    }
   };
 
   const toggleUpsell = (id: string) => {
@@ -205,7 +192,6 @@ export default function NeedsDiscoveryLeadFlow({
       tierId: selectedTier,
       tierCatalogExVat: selectedTierExVat,
       selectedUpsellIds: upsellIds,
-      holdExpiresAt,
     });
     trackConversion("needs_flow_wa_submit", { service: serviceId, tier: selectedTier });
     openWhatsAppLead(href);
@@ -405,21 +391,20 @@ export default function NeedsDiscoveryLeadFlow({
               </button>
               <button
                 type="button"
-                onClick={() => goStep("hold")}
+                onClick={() => goStep("send")}
                 className="min-h-12 rounded-xl bg-brand-red px-6 text-sm font-semibold text-white"
               >
-                המשך ל-Hold
+                המשך לסיכום
               </button>
             </div>
           </div>
         ) : null}
 
-        {stepId === "hold" ? (
+        {stepId === "send" ? (
           <div className="space-y-6">
-            <div className="rounded-xl border border-brand-red/30 bg-surface px-4 py-4 text-sm leading-relaxed text-foreground">
-              {HOLD_POLICY_TEXT}
-            </div>
-            <HoldCountdown expiresAt={holdExpiresAt} />
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              שולחים את הבחירות בוואטסאפ, ואנחנו חוזרים עם אישור תאריך ותנאי תשלום.
+            </p>
             <div className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
               <p className="font-semibold text-foreground">
                 חבילה: {selectedTier ? PACKAGE_TIERS[serviceId][selectedTier].title : " - "}

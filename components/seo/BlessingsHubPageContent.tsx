@@ -1,4 +1,6 @@
 ﻿import Link from "next/link";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -27,6 +29,8 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+
+const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
 
 const service = getStudioService("blessings-hub");
 const subLinks = getBlessingsSubLinks();
@@ -70,7 +74,7 @@ export default function BlessingsHubPageContent() {
       bookLabel={bookCta?.bookLabel}
       valueFrame="הקלטת ברכה באולפן במודיעין או מהבית - מסירה בדרך כלל תוך 24-48 שעות"
       ctaLabel="הקלטת ברכה - קבלו מחיר ותאריך"
-      startingPrice="590 ₪ לפני מע״מ"
+      startingPrice={`${BLESSING_PRICE.totalLabel} (${BLESSING_PRICE.exVatNote})`}
       pagePath="/studio/blessings"
       faqs={service.faqs}
     >
@@ -199,7 +203,7 @@ export default function BlessingsHubPageContent() {
             כמה זה עולה?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            המחירים לפני מע״מ (+18%). ברכה כוללת הקלטה ועריכה בסיסית. מוזיקת רקע
+            ברכה {BLESSING_PRICE.totalLabel} ({BLESSING_PRICE.exVatNote}). ברכה כוללת הקלטה ועריכה בסיסית. מוזיקת רקע
             ותיקון זיופים בתוספת. הצעה מדויקת לפי סוג הברכה ואורכה, בוואטסאפ או
             במחירון האולפן.
           </p>

@@ -39,11 +39,11 @@ export const MASHUP_BUNDLE_OFFERS: readonly MashupBundleOffer[] = [
   {
     id: "ready_10",
     title: "10 מאשאפים - מאגר אישי",
-    description: "בונים ספרייה משלך לשנה. הנחה משמעותית על רכישה בודדת.",
+    description: "בונים ספרייה משלך לשנה, במחיר חבילה.",
     count: 10,
     pricingId: "mashup_ready_pack_10",
     singlePricingId: "mashup_ready_single",
-    tags: ["מוכן", "מקסימום חיסכון"],
+    tags: ["מוכן", "מאגר שנתי"],
   },
   {
     id: "custom_3",

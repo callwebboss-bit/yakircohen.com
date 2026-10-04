@@ -44,6 +44,17 @@ export default function GiftIdeaCard({
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           {idea.description}
         </p>
+        {idea.priceLine ? (
+          <p className="mt-3 text-sm font-semibold text-foreground">
+            {idea.priceHref ? (
+              <a href={idea.priceHref} className="text-brand-red-text underline-offset-4 hover:underline">
+                {idea.priceLine}
+              </a>
+            ) : (
+              idea.priceLine
+            )}
+          </p>
+        ) : null}
         <ul className="mt-4 space-y-2">
           {idea.highlights.map((line) => (
             <li

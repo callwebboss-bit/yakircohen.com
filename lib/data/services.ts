@@ -1,16 +1,44 @@
-﻿import {
+﻿import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
+import {
   formatNis,
   STUDIO_HALF_HOUR_NIS,
   STUDIO_ONE_HOUR_NIS,
+  withVat,
 } from "./pricing";
-import { getExVat, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import { DJ_WEDDING_PRICE_FAQ, RECORDING_SONG_STUDIO_PRICE_FAQ } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
+import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "./youtube-embeds";
+
+/** מחיר לצרכן כולל מע״מ, "590 ₪". הקלטת שיר ותוספותיה מוצגות כך (2.10.2026). */
+/** שאלת הקבוצות בעמוד השיר, מהקטלוג: זמר אחד כלול, כל משתתף נוסף 99, עד 12 */
+const SONG_GROUP_FAQ_ANSWER = (() => {
+  const { withVat, exVat, limit } = getSongParticipantsExplanation();
+  /* החלטת הבעלים 3.10.2026, סבב שלישי: כל משתתף נוסף מוסיף לתשלום, עם דוגמה */
+  const example = getSongParticipantsBreakdown(4).line;
+  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}, ${limit}. לדוגמה, ${example}. כולם מקליטים באותו סשן, ואנחנו מחברים הכל לשיר אחד.`;
+})();
+
+function nisWithVat(id: PriceItemId): string {
+  return `${withVat(getExVat(id)).toLocaleString("he-IL")} ₪`;
+}
+
+/** מדרגה בכולל מע״מ לפי מזהה קטלוג, לעמודים שמובילים בכולל מע״מ (טופס השיר) */
+function consumerTier(id: PriceItemId) {
+  const exVat = getExVat(id);
+  return {
+    price: formatNis(withVat(exVat)),
+    priceExVat: exVat,
+    vatIncluded: true,
+    catalogId: id,
+  };
+}
 
 /** ─── Core types (AI-readable service registry) ─── */
 
@@ -25,6 +53,11 @@ export type ServicePricingTier = {
   price: string;
   /** לפני מע״מ - להצגה כפולה ולהודעות WhatsApp */
   priceExVat?: number;
+  /**
+   * price כבר כולל מע״מ (הקלטת שיר ותוספותיה, 2.10.2026). חובה יחד עם
+   * priceExVat, ואז הסכמה מוסיפה priceSpecification עם המחיר לפני מע״מ.
+   */
+  vatIncluded?: boolean;
   priceNote?: string;
   /** מזהה קטלוג לשאיבת scope / suitedFor / withEditing */
   catalogId?: PriceItemId;
@@ -161,7 +194,7 @@ export const STUDIO_SERVICES = {
         id: "studio-how-long",
         question: "כמה זמן לוקחת הקלטת שיר?",
         answer:
-          "שיר ברכה פשוט - שעה עד שעתיים. שיר מלא עם עיבוד - מספר מפגשים. מגיעים לאולפן, מקליטים ומקבלים קובץ מוכן תוך 2-3 ימי עסקים.",
+          "הקלטת שיר על פלייבק: סשן של שעה, והשיר אצלכם בסוף הסשן. ברכה קצרה - עד חצי שעה. שיר מקורי עם עיבוד חדש - כמה מפגשים, לפי ההפקה.",
       },
       {
         id: "studio-first-time",
@@ -173,13 +206,13 @@ export const STUDIO_SERVICES = {
         id: "studio-price",
         question: "כמה עולה הקלטה?",
         answer:
-          `ברכה / אמירה מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ. שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪ לפני מע״מ. פירוט במחירון.`,
+          `הקלטת שיר (הקלטה, מיקס ומאסטר) ${nisWithVat("song_recording")} כולל מע״מ, ותיקון זיופים בתוספת של ${nisWithVat("song_pitch_coaching")}. ברכה או אמירה ${nisWithVat("blessing_recording")} כולל מע״מ. פירוט במחירון.`,
       },
       {
         id: "studio-pitch-correction",
         question: "האם כלול Pitch Correction?",
         answer:
-          "עריכה בסיסית כלולה. Pitch correction ידני ומדויק הוא שירות נוסף - תלוי בצורך. נציין זאת מראש בהצעת המחיר.",
+          `לא במחיר הבסיס. בהקלטת שיר אפשר להוסיף תיקון זיופים עם טכנאי שמכוון ומנחה בזמן ההקלטה, ב-${nisWithVat("song_pitch_coaching")} כולל מע״מ. מסמנים את התוספת בטופס, והמחיר הסופי מופיע לפני ששולחים.`,
       },
       {
         id: "studio-location",
@@ -269,10 +302,10 @@ export const STUDIO_SERVICES = {
     category: "studio",
     title: "הקלטת שיר באולפן במודיעין",
     subtitle:
-      "הקלטת שיר באולפן במודיעין - ליווי ווקאלי, תיקון זיופים ומסירה תוך 48 שעות. מתאים גם למי שמגיע מחוץ לעיר.",
-    metaTitle: "הקלטת שיר באולפן | מודיעין - תוך 48 שעות",
+      `הקלטת שיר באולפן במודיעין: הקלטה, מיקס ומאסטר ב-${nisWithVat("song_recording")} כולל מע״מ. תיקון זיופים וקליפ מהסשן אפשר להוסיף. מתאים גם למי שמגיע מחוץ לעיר.`,
+    metaTitle: `הקלטת שיר באולפן במודיעין | ${nisWithVat("song_recording")} כולל מע״מ`,
     metaDescription:
-      "הקלטת שיר באולפן במודיעין - מסירה תוך 48 שעות. ליווי ווקאלי ותיקון זיופים. בר מצווה, חתונה וכניסה לחופה - קול נקי ואנושי.",
+      `הקלטת שיר באולפן במודיעין: הקלטה, מיקס ומאסטר בסשן של שעה. ${nisWithVat("song_recording")} כולל מע״מ, והשיר אצלכם בסוף הסשן. תיקון זיופים בתוספת. בר מצווה, חתונה וכניסה לחופה.`,
     keywords: [
       "הקלטת שיר באולפן",
       "הקלטת שיר מודיעין",
@@ -289,46 +322,35 @@ export const STUDIO_SERVICES = {
       "שיר פרישה",
     ],
     features: [
-      "ליווי אישי גם ללא שום ניסיון שירה",
-      "AI לתיקון זיופים - קול נקי ועריכה מדויקת",
+      "מתאים גם בלי שום ניסיון שירה",
+      "הקלטה, מיקס ומאסטר במחיר הבסיס",
       "מיקרופוני SM7B ו-SphereL22 כמו בסטודיו בינלאומי",
-      "מסירה תוך 48 שעות ב-WAV ו-MP3",
+      "סשן של שעה, והשיר אצלכם בסוף הסשן",
       "מעל 500 משפחות ממודיעין, מכבים ורעות",
     ],
+    /* הכרטיסים לא מוצגים בעמוד (המחיר בעמוד הוא הטופס בלבד), הם מזינים את
+       הסכמה. העמוד מוביל בכולל מע״מ, ולכן גם כאן: price כולל מע״מ, והסכמה
+       מוסיפה priceSpecification לפני מע״מ. התוספות נקראות מהקטלוג. */
     pricing: [
       {
-        name: "הקלטת שיר (קאבר)",
-        price: formatNis(getExVat("cover_song")),
-        priceExVat: getExVat("cover_song"),
-        catalogId: "cover_song",
+        ...consumerTier("song_recording"),
+        name: "הקלטת שיר באולפן",
         description:
-          "הקלטה על פלייבק קיים עם ליווי מלא. כולל עריכת סאונד ותיקון זיופים. המחיר לפני מע״מ.",
+          "הקלטה, מיקס ומאסטר בסשן של שעה. השיר אצלכם בסוף הסשן. תיקון זיופים לא כלול, אפשר להוסיף. המחיר כולל מע״מ.",
         featured: true,
         badge: "הכי מבוקש",
       },
+      ...getAddonsForBaseId("song_recording").map((addon) => ({
+        ...consumerTier(addon.id as PriceItemId),
+        name: `תוספת: ${addon.label}`,
+        description: `${addon.context ?? ""} המחיר כולל מע״מ.`.trim(),
+      })),
+      /* כרטיס ההפקה המלאה (4,500) ירד מעמוד השיר: הוא סתר את עצמו (S02) */
       {
-        name: "שיר Pro",
-        price: formatNis(getExVat("song_package")),
-        priceExVat: getExVat("song_package"),
-        catalogId: "song_package",
-        description:
-          "שיר מוכן + Pitch Correction ידני, ייעוץ אמנותי ו-3 תמונות. המחיר לפני מע״מ.",
-      },
-      {
-        name: "הפקה מלאה + קליפ וידאו",
-        price: formatNis(getExVat("full_production_clip")),
-        priceExVat: getExVat("full_production_clip"),
-        catalogId: "full_production_clip",
-        description:
-          "שיר מוגמר + קליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו. המחיר לפני מע״מ.",
-      },
-      {
+        ...consumerTier("blessing_recording"),
         name: "הקלטת ברכה / אמירה",
-        price: formatNis(getExVat("blessing_recording")),
-        priceExVat: getExVat("blessing_recording"),
-        catalogId: "blessing_recording",
         description:
-          "ברכה, דרשה קצרה או אמירה. עד 30 דקות. עריכת סאונד בסיסית. תיקון זיופים לא כלול. המחיר לפני מע״מ.",
+          "ברכה, דרשה קצרה או אמירה. עד 30 דקות. עריכת סאונד בסיסית. תיקון זיופים לא כלול. המחיר כולל מע״מ.",
       },
     ],
     assetsFolder: "studio/recording-song-modiin",
@@ -348,7 +370,7 @@ export const STUDIO_SERVICES = {
         id: "what-is-song-studio",
         question: "מה כוללת הקלטת שיר באולפן?",
         answer:
-          "סשן באולפן במודיעין עם ליווי ווקאלי, תיקון זיופים, עריכת סאונד ומסירת קובץ WAV ו-MP3. בדרך כלל תוך 48 שעות. מתאים לקאבר, שיר מתנה או שיר לאירוע.",
+          `סשן של שעה באולפן במודיעין: הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן. ${nisWithVat("song_recording")} כולל מע״מ. תיקון זיופים לא כלול במחיר הבסיס, ואפשר להוסיף אותו. מתאים לקאבר, שיר מתנה או שיר לאירוע.`,
       },
       {
         id: "outside-modiin",
@@ -360,41 +382,46 @@ export const STUDIO_SERVICES = {
         id: "delivery-48h",
         question: "תוך כמה זמן מקבלים את השיר אחרי ההקלטה?",
         answer:
-          "בדרך כלל תוך 48 שעות מקבלים קובץ מוכן ב-WAV ו-MP3. בעונות עמוסות נעדכן מראש על לוח זמנים.",
+          "בהקלטת שיר על פלייבק השיר המוכן אצלכם בסוף הסשן באולפן.",
       },
       {
         id: "booking-advance",
         question:
           "כמה זמן מראש כדאי להזמין סשן של הקלטת שיר לבר מצווה או חתונה?",
         answer:
-          "מומלץ לשריין מקום כ-3 עד 4 שבועות לפני האירוע כדי להבטיח זמינות באולפן ולתת לנו זמן עריכה רגוע. בעונות שיא - חגים וסמסטר האירועים - הזמינות מתמלאת מהר. נזכרתם מאוחר? אל דאגה - האולפן ערוך להפקות אקספרס מלוטשות גם תוך 48 שעות.",
+          "מומלץ לשריין מקום כ-3 עד 4 שבועות לפני האירוע כדי להבטיח זמינות באולפן ולתת לנו זמן עריכה רגוע. בעונות שיא - חגים וסמסטר האירועים - הזמינות מתמלאת מהר. נזכרתם מאוחר? כתבו לנו ונבדוק מה פנוי.",
       },
       {
         id: "not-singers",
         question: "אנחנו לא זמרים ומפחדים לזייף. האם השיר ייצא טוב?",
         answer:
-          "לחלוטין. האולפן מצויד בטכנולוגיית פיץ׳ קורקשן ותיקון זיופים מתקדם. הליווי המקצועי יגרום לכם להישמע במיטבכם - הטכנולוגיה מוציאה את הגרסה הכי טובה, נקייה ומחמיאה של הקול הטבעי שלכם, מבלי להפוך אתכם לרובוטים. מעל 90% מהלקוחות מגיעים ללא ניסיון שירה.",
+          `כן. רוב הלקוחות מגיעים בלי ניסיון שירה. מי שרוצה ביטחון נוסף מוסיף את תוספת תיקון הזיופים (${nisWithVat("song_pitch_coaching")} כולל מע״מ): טכנאי שמכוון ומנחה בזמן ההקלטה, ותיקון זיופים בעריכה. הקול נשאר טבעי ואנושי. התוספת לא כלולה במחיר הבסיס.`,
       },
       {
         id: "group-session",
         question:
-          "האם אפשר להגיע להקלטה יחד עם ההורים, האחים או חברים?",
-        answer:
-          "כן. מקליטים בקבוצות קטנות ומאחדים לסאונד אחד. לקבוצות גדולות - כמה סשנים קצרים שמחוברים לקטע אחד, שיר שכל אחד שר שורה.",
+          "האם אפשר להגיע להקלטה יחד עם ההורים, האחים או חברים? כמה זה עולה?",
+        answer: SONG_GROUP_FAQ_ANSWER,
       },
       {
         id: "pricing-factors",
         question:
           "מה משפיע על הקלטת שיר לבר מצווה מחיר ועלות השיר לחתונה?",
         answer:
-          "המחיר נקבע לפי מורכבות ההפקה - האם מדובר בשירה על פלייבק קיים עם תיקון קול, או בהפקה מוזיקלית מורכבת הכוללת כתיבת מילים מקוריות, עיבוד מוזיקלי ועריכה מלאה. ראו מחירון שקוף בעמוד זה, ופנו אלינו לקבלת הצעה מדויקת.",
+          `הקלטת שיר על פלייבק קיים היא מחיר קבוע: ${nisWithVat("song_recording")} כולל מע״מ להקלטה, מיקס ומאסטר, ותוספות לפי בחירה בטופס בעמוד. כתיבת מילים, עיבוד מוזיקלי חדש או הפקה מלאה מתומחרים בנפרד.`,
       },
       {
         id: "send-text",
         question:
           "איך שולחים את הטקסט או הרעיון שלנו לפני שמגיעים לאולפן?",
         answer:
-          "הכל קורה בקלות דרך הוואטסאפ. שולחים את המילים או הלחן שחשבתם עליו, ואנחנו מכינים את הפלייבק המדויק עבורכם מראש. אין צורך להגיע מוכנים לחלוטין - אנחנו עוזרים לגבש את הרעיון ולבנות תוכנית ברורה.",
+          "הכל קורה בקלות דרך הוואטסאפ. שולחים את המילים או הלחן שחשבתם עליו, ומתאמים יחד את הפלייבק לפני ההקלטה.",
+      },
+      {
+        /* עובדה שהבעלים אישר (3.10.2026, סבב שני) */
+        id: "playback-help",
+        question: "צריך להביא פלייבק להקלטת השיר?",
+        answer: `אם יש לכם פלייבק, שולחים אותו בוואטסאפ לפני הסשן. ${SONG_PLAYBACK_HELP}.`,
       },
       {
         id: "physical-studio",
@@ -407,7 +434,13 @@ export const STUDIO_SERVICES = {
         id: "video-clip",
         question: "האם יש אפשרות לשלב גם הפקת קליפ וידאו באולפן?",
         answer:
-          "כן. ניתן לתאם צילום וידאו מקצועי באולפן במהלך ההקלטה, ליצירת קליפ המתאים להקרנה על מסכים באולם האירועים.",
+          `כן. קליפ ערוך מהסשן באולפן הוא תוספת של ${nisWithVat("studio_session_clip_edited")} כולל מע״מ. מסמנים אותו בטופס בעמוד.`,
+      },
+      {
+        id: "pitch-included",
+        question: "האם תיקון זיופים כלול?",
+        answer:
+          `לא במחיר הבסיס. ${nisWithVat("song_recording")} כולל מע״מ הם הקלטה, מיקס ומאסטר. תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת של ${nisWithVat("song_pitch_coaching")} כולל מע״מ.`,
       },
     ],
     hubCard: {
@@ -579,7 +612,7 @@ export const STUDIO_SERVICES = {
       "האולפן במודיעין, כ-25-30 דקות מרחובות (כביש 431). אין סניף פיזי ברחובות - אפשר גם אולפן נייד עד אליכם עם סאונד ותאורה לפי השירות.",
     metaTitle: "אולפן הקלטות ברחובות | 25-30 דק׳ ממודיעין",
     metaDescription:
-      "אולפן הקלטות ברחובות: האולפן במודיעין, כ-25-30 דקות. או אולפן נייד עד אליכם עם סאונד ותאורה. הגעה כרגע במחיר מבצע.",
+      `אולפן הקלטות ברחובות: האולפן במודיעין, כ-25-30 דקות. או אולפן נייד עד אליכם עם סאונד ותאורה, הגעה ב-${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
     keywords: [
       "אולפן הקלטות ברחובות",
       "אולפן הקלטות רחובות",
@@ -592,7 +625,7 @@ export const STUDIO_SERVICES = {
       "כ-25-30 דקות נסיעה מרחובות לאולפן במודיעין (כביש 431)",
       "חניה פנויה ליד האולפן במודיעין",
       "אופציה: אולפן נייד ברחובות - סאונד, תאורה וציוד לפי השירות",
-      "הגעה ניידת כרגע במחיר מבצע",
+      `הגעה ניידת ב-${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}`,
       "שיר, ברכה, דרשה, קריינות או פודקאסט - לפי מה שהזמנתם",
     ],
     assetsFolder: "studio/jerusalem",
@@ -619,7 +652,7 @@ export const STUDIO_SERVICES = {
         id: "no-drive-option",
         question: "אפשר להקליט בלי לנסוע למודיעין?",
         answer:
-          "כן. אולפן נייד מגיע לרחובות עם סאונד, תאורה וציוד לפי השירות שהזמנתם. זה לא החדר במודיעין. ההגעה כרגע במחיר מבצע.",
+          `כן. אולפן נייד מגיע לרחובות עם סאונד, תאורה וציוד לפי השירות שהזמנתם. זה לא החדר במודיעין. ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "what-to-record-rehovot",
@@ -647,9 +680,9 @@ export const STUDIO_SERVICES = {
       },
       {
         id: "mobile-includes",
-        question: "מה כולל אולפן נייד ברחובות והאם ההגעה במבצע?",
+        question: "מה כולל אולפן נייד ברחובות וכמה עולה ההגעה?",
         answer:
-          "כן, ההגעה כרגע במחיר מבצע. מגיעים עם תאורה וכל הציוד שנדרש לסאונד שירה, קריינות או פודקאסט - לפי מה שהזמנתם. הפרטים והמחיר הסופי בוואטסאפ לפי השירות והמיקום.",
+          `ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}. מגיעים עם תאורה וכל הציוד שנדרש לסאונד שירה, קריינות או פודקאסט - לפי מה שהזמנתם. הפרטים והמחיר הסופי בוואטסאפ לפי השירות והמיקום.`,
       },
       {
         id: "parking-directions",
@@ -666,7 +699,7 @@ export const STUDIO_SERVICES = {
       {
         id: "rehovot-song-price",
         question: "כמה עולה הקלטת שיר לתושבי רחובות?",
-        answer: `אותו מחירון שירות לכל הארץ. ${RECORDING_SONG_STUDIO_PRICE_FAQ.answer} אולפן נייד - תוספת הגעה בתיאום (כרגע במחיר מבצע).`,
+        answer: `אותו מחירון שירות לכל הארץ. ${RECORDING_SONG_STUDIO_PRICE_FAQ.answer} אולפן נייד - תוספת הגעה של ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "experience",
@@ -810,19 +843,19 @@ export const STUDIO_SERVICES = {
         id: "what-is",
         question: "מה זה אולפן נייד?",
         answer:
-          "אנחנו מגיעים אליכם עם סאונד, תאורה וציוד מקצועי - לא החדר במודיעין. מחשב, כרטיס קול, מיקרופון, אוזניות וליווי. מתאים לשירה, קריינות או פודקאסט לפי השירות שהזמנתם. ההגעה כרגע במחיר מבצע.",
+          `אנחנו מגיעים אליכם עם סאונד, תאורה וציוד מקצועי - לא החדר במודיעין. מחשב, כרטיס קול, מיקרופון, אוזניות וליווי. מתאים לשירה, קריינות או פודקאסט לפי השירות שהזמנתם. ההגעה ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"))}.`,
       },
       {
         id: "price",
         question: "כמה עולה אולפן נייד?",
         answer:
-          "החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +800 ₪, אילת/גולן +1,800 ₪.",
+          `החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +${getExVat("travel_north_south").toLocaleString("he-IL")} ₪, אילת/גולן +${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪.`,
       },
       {
         id: "areas",
         question: "לאילו אזורים מגיעים?",
         answer:
-          "לכל הארץ בתיאום מראש. מרכז (כולל מודיעין) ללא תוספת הגעה. צפון/דרום +800 ₪. אילת/גולן +1,800 ₪. שולחים מיקום בוואטסאפ לאישור זמינות.",
+          `לכל הארץ בתיאום מראש. מרכז (כולל מודיעין) ללא תוספת הגעה. צפון/דרום +${getExVat("travel_north_south").toLocaleString("he-IL")} ₪. אילת/גולן +${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪. שולחים מיקום בוואטסאפ לאישור זמינות.`,
       },
       {
         id: "scheduling",
@@ -980,7 +1013,7 @@ export const STUDIO_SERVICES = {
         id: "duration",
         question: "כמה זמן לוקחת הקלטת ברכה לבר מצווה?",
         answer:
-          `ברכה קצרה: 30 עד 60 דקות. דרשה ארוכה: שעה עד שעתיים. בסוף מקבלים קובץ ${TIME_CLAIMS.podcastDelivery24h}.`,
+          `ברכה קצרה: 30 עד 60 דקות. דרשה ארוכה: שעה עד שעתיים. בסוף מקבלים קובץ ערוך, בדרך כלל תוך 24 עד 48 שעות.`,
       },
       {
         id: "location",
@@ -1110,12 +1143,12 @@ export type StudioServiceId = keyof typeof STUDIO_SERVICES;
 export const STUDIO_PRICING: StudioPricingConfig = {
   metaTitle: "מחירון חבילות אולפן הקלטות",
   metaDescription:
-    "מחירון שקוף לאולפן במודיעין - ברכה, שיר מוכן, Pro וסינגל מסחרי. הזמנה מהירה בוואטסאפ.",
+    `מחירון שקוף לאולפן במודיעין: הקלטת שיר ב-${nisWithVat("song_recording")} כולל מע״מ ותוספות לפי בחירה, הקלטת ברכה, סינגל ושעת חדר.`,
   slug: "studio/pricing",
   keywords: ["מחירון אולפן", "מחיר הקלטת שיר", "חבילת אולפן מודיעין"],
   title: "מחירון חבילות אולפן",
   subtitle:
-    "מחיר לפי התוצאה שיוצאת ביד - לא לפי שעון. המחירים לפני מע״מ (+18%).",
+    "מחיר לפי התוצאה שיוצאת ביד - לא לפי שעון. המחירים כוללים מע״מ.",
   features: [
     "תמחור ברור לפי סוג הפרויקט",
     "אפשרות לשדרוגים: עריכה, מוזיקה, קליפ וידאו",
@@ -1139,69 +1172,21 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       utmCampaign: "studio_pricing_blessing",
     },
     {
-      id: "song-classic",
-      name: "שיר מוכן באולפן",
-      price: formatNis(getExVat("cover_song")),
-      priceExVat: getExVat("cover_song"),
-      catalogId: "cover_song",
-      scope: { includes: "הקלטה בלי לחץ זמן, מיקס, מאסטרינג, תיקון זיופים" },
-      description: "המסלול לשיר במתנה - יוצאים עם קובץ מוכן, לא עם גלם.",
+      id: "song-recording",
+      name: "הקלטת שיר באולפן",
+      price: formatNis(getExVat("song_recording")),
+      priceExVat: getExVat("song_recording"),
+      catalogId: "song_recording",
+      scope: { duration: "סשן של שעה", includes: "הקלטה, מיקס ומאסטר", excludes: "תיקון זיופים" },
+      description: "השיר המוכן אצלכם בסוף הסשן. תיקון זיופים וקליפ ערוך בתוספת.",
       highlights: [
-        "הקלטה בלי לחץ זמן",
-        "מיקס, מאסטרינג ותיקון זיופים",
-        "קובץ WAV + MP3",
+        "סשן של שעה באולפן",
+        "הקלטה, מיקס ומאסטר",
+        "השיר אצלכם בסוף הסשן",
       ],
-      whatsappText: "שלום, מעוניין בהקלטת שיר מוכן באולפן",
-      utmCampaign: "studio_pricing_classic",
-      featured: true,
-    },
-    {
-      id: "song-package",
-      name: "שיר Pro",
-      price: formatNis(getExVat("song_package")),
-      priceExVat: getExVat("song_package"),
-      catalogId: "song_package",
-      scope: { includes: "Pitch Correction ידני, ייעוץ אמנותי, 3 תמונות" },
-      description: "שיר מוכן + תמונות וייעוץ - לשיתוף ברשתות.",
-      highlights: [
-        "הכל מהשיר המוכן",
-        "Pitch Correction ידני",
-        "3 תמונות סטילס מעובדות",
-      ],
-      whatsappText: "שלום, מעוניין בחבילת שיר Pro באולפן",
+      whatsappText: "שלום, אשמח להקליט שיר באולפן",
       utmCampaign: "studio_pricing_song",
-    },
-    {
-      id: "viral",
-      name: "שיר + קליפ מהאולפן",
-      price: formatNis(getExVat("studio_viral")),
-      priceExVat: getExVat("studio_viral"),
-      catalogId: "studio_viral",
-      scope: { includes: "חבילת Pro + קליפ ביצוע ערוך" },
-      description: "Pro + קליפ ביצוע מהסשן, מוכן לרשתות.",
-      highlights: [
-        "חבילת Pro מלאה",
-        "קליפ ביצוע מהאולפן",
-        "קובץ מוכן לפרסום",
-      ],
-      whatsappText: "שלום, מעוניין בשיר עם קליפ מהאולפן",
-      utmCampaign: "studio_pricing_viral",
-    },
-    {
-      id: "all-in",
-      name: "All-In: סיפור חיים",
-      price: formatNis(getExVat("studio_all_in")),
-      priceExVat: getExVat("studio_all_in"),
-      catalogId: "studio_all_in",
-      scope: { includes: "הפקה מלאה + קליפ תמונות גדילה" },
-      description: "הפקה + קליפ גדילה מתמונות וסרטוני ילדות.",
-      highlights: [
-        "הפקה מלאה",
-        "קליפ תמונות גדילה",
-        "מחיר סגור - בלי הפתעות",
-      ],
-      whatsappText: "שלום, מעוניין בחבילת All-In באולפן",
-      utmCampaign: "studio_pricing_all_in",
+      featured: true,
     },
     {
       id: "single-production",
@@ -1604,28 +1589,41 @@ export const EVENTS_SERVICES = {
       "חבילות עם אטרקציות, עשן, זיקוקים, קונפטי",
     ],
     pricing: [
+      /* WP2 (ED-04, החלטת הבעלים 7.9): הבסיס הוא dj_premium, תקליטן מהצוות,
+         4 שעות, עד 300 מוזמנים. היה "הצעה אישית" עם "עד 5 שעות, עד 150 אורחים"
+         בזמן שהשאלות הנפוצות והמחשבון באותו עמוד אמרו 5,000 ל-4 שעות. */
       {
-        name: "חבילת עיגון",
-        price: "הצעה אישית",
-        priceNote: "עד 5 שעות - עד 150 אורחים",
+        name: "תקליטן מהצוות",
+        price: formatNis(getExVat("dj_premium")),
+        priceExVat: getExVat("dj_premium"),
+        catalogId: "dj_premium",
+        scope: getScopeById("dj_premium"),
+        priceNote: DJ_TEAM_NOTE,
         description:
           "DJ מנוסה מהצוות - ציוד Pioneer CDJ + RCF - תאורת LED בסיסית - פגישת תכנון מוזיקלי - גיבוי לכל רכיב.",
       },
       {
         name: "חבילת פרימיום",
         price: "הצעה אישית",
-        priceNote: "עד 7 שעות - עד 300 אורחים",
+        /* השעות והמחיר של הפרימיום פתוחים אצל הבעלים (שאלת DJ-2). "עד 7 שעות"
+           נתן לחבילה הזולה יותר יותר שעות מחבילת הפסטיבל (5 שעות). */
+        priceNote: "שעות והיקף בהצעה אישית",
         description:
           "כל מה שבבסיס + תאורה מתקדמת (Moving Heads) + 2 אטרקציות לבחירה + הנחיה לחופה, ריקוד ראשון ועוגה.",
         featured: true,
         badge: "הכי מבוקשת",
       },
+      /* WP2: היה "פסטיבל VIP, הצעה אישית, 7+ שעות". יקיר אישית הוא
+         dj_yakir_personal, 5 שעות. */
       {
-        name: "חבילת פסטיבל VIP",
-        price: "הצעה אישית",
-        priceNote: "7+ שעות - ללא הגבלת אורחים",
+        name: "יקיר כהן אישית על הקונסולה",
+        price: formatNis(getExVat("dj_yakir_personal")),
+        priceExVat: getExVat("dj_yakir_personal"),
+        catalogId: "dj_yakir_personal",
+        scope: getScopeById("dj_yakir_personal"),
+        priceNote: "5 שעות תקלוט",
         description:
-          "יקיר כהן אישית על הקונסולה - 3+ אטרקציות - אולפן נייד - מצגת קולנועית - פסקול כניסה + קריינות - טכנאי צמוד.",
+          "יקיר כהן אישית על הקונסולה - ציוד הגברה ותאורה מקצועיים - פגישת תכנון אישית. אטרקציות, אולפן נייד ומצגת בתוספת.",
         badge: "VIP",
       },
     ],
@@ -1716,8 +1714,13 @@ export const EVENTS_SERVICES = {
     ],
     pricing: [
       {
+        /* event_sound_rental (החלטת הבעלים 3.10.2026, סבב שני). היה "הצעה
+           בוואטסאפ" בעמוד, 1,750 באשף ו"מ-1,695" בכפתור (OE-20). */
         name: "חבילת הגברה מלאה",
-        price: "הצעה בוואטסאפ",
+        price: formatNis(getExVat("event_sound_rental")),
+        priceExVat: getExVat("event_sound_rental"),
+        catalogId: "event_sound_rental",
+        scope: getScopeById("event_sound_rental"),
         priceNote: "עד 10 שעות - עד 250 אורחים",
         description: "RCF + הקמה ופירוק + כיוונון בשטח.",
       },
@@ -1807,19 +1810,25 @@ export const EVENTS_SERVICES = {
     pricing: [
       {
         name: "בסיס מקצועי",
-        price: "2,800 ₪",
+        price: formatNis(getExVat("singer_amp_basic")),
+        priceExVat: getExVat("singer_amp_basic"),
+        catalogId: "singer_amp_basic",
         priceNote: "פופולרי - עד 150 אורחים",
         description: "סולו/דואט, SM58, RCF, מוניטור, צ'ק 30 דק׳.",
       },
       {
         name: "פרימיום",
-        price: "5,800 ₪",
+        price: formatNis(getExVat("singer_amp_premium")),
+        priceExVat: getExVat("singer_amp_premium"),
+        catalogId: "singer_amp_premium",
         priceNote: "עד 350 אורחים",
         description: "3 מיקרופונים אלחוטיים, 4 RCF, 2 סאבים, צ'ק 45 דק׳.",
       },
       {
         name: "VIP",
-        price: "7,800 ₪",
+        price: formatNis(getExVat("singer_amp_vip")),
+        priceExVat: getExVat("singer_amp_vip"),
+        catalogId: "singer_amp_vip",
         priceNote: "Line Array - 2 טכנאים",
         description: "עד 6 מיקרופונים, IEM, הקלטה אופציונלית.",
       },
@@ -2002,11 +2011,13 @@ export const EVENTS_SERVICES = {
     category: "events",
     /* H1 ממוקד חתונה - ה-meta כבר מדבר חתונה, וזה העמוד שתופס את הכוונה הזו */
     title: "חבילות לחתונה - DJ, אטרקציות והגברה מספק אחד",
+    /* החלטת הבעלים 3.10.2026 (סבב שני): אין הנחה מעל 8%. "חסכו עד 30%" ו-
+       "חיסכון 20-30%" ירדו. ההנחה היחידה שנתמכת היא חבילת האטרקציות. */
     subtitle:
-      "חסכו עד 30%, שלבו DJ, אטרקציות והגברה בחבילה אחת. ספק אחד, תיאום אחד, מחיר מוזל.",
+      `שלבו DJ, אטרקציות והגברה בחבילה אחת. ספק אחד, תיאום אחד, ועל האטרקציות הנחת חבילה של ${attractionBundleDiscountPercent()}%.`,
     metaTitle: "חבילות חתונה - DJ ואטרקציות מודיעין",
     metaDescription:
-      "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות, חבילת פסטיבל - חיסכון 20-30%.",
+      "חבילות אטרקציות חובה לחתונה במודיעין. DJ + 3 אטרקציות או חבילת פסטיבל, מספק אחד ובתיאום אחד.",
     keywords: [
       "חבילות לחתונה",
       "חבילת DJ ואטרקציות",
@@ -2014,9 +2025,9 @@ export const EVENTS_SERVICES = {
       "הפקת חתונה",
     ],
     features: [
-      "חבילת DJ + 3 אטרקציות לבחירה (עד 7 שעות)",
+      "חבילת DJ + 3 אטרקציות לבחירה (תקליטן מהצוות, 4 שעות)",
       "חבילת פסטיבל, DJ, אולפן נייד, 3 אפקטים ועוד",
-      "חיסכון 20-30% לעומת הזמנה נפרדת",
+      `מ-2 אטרקציות: הנחת חבילה של ${attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת`,
       "תיאום מסונכרן, DJ מכיר את כל האפקטים",
       `מחשבון חבילות + הצעה בוואטסאפ ${TIME_CLAIMS.quoteHour}`,
     ],
@@ -2029,7 +2040,9 @@ export const EVENTS_SERVICES = {
       },
       {
         name: 'חבילת "פסטיבל", הכל כלול',
-        price: "15,000 ₪",
+        price: formatNis(getExVat("festival_all_in")),
+        priceExVat: getExVat("festival_all_in"),
+        catalogId: "festival_all_in",
         priceNote: "הכי מלאה",
         description: "DJ, אולפן נייד, 3 אפקטים, פסקול כניסה, מצגת וטכנאי.",
       },
@@ -2040,13 +2053,12 @@ export const EVENTS_SERVICES = {
     whatsappText:
       "שלום, מעוניין/ת בחבילת אירועים (DJ + אטרקציות), אשמח להצעת מחיר",
     utmCampaign: "wedding_packages",
-    scarcityLabel: "חיסכון עד 30% בחבילה משולבת",
     faqs: [
       {
         id: "wedding-pkg-save",
         question: "כמה חוסכים בחבילה משולבת?",
         answer:
-          "בדרך כלל 20-30% לעומת הזמנת DJ, אטרקציות והגברה בנפרד. המחיר הסופי תלוי באורך האירוע, מיקום ומספר האפקטים.",
+          `על האטרקציות: מ-2 אטרקציות ומעלה ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת. ה-DJ וההגברה במחיר הרגיל שלהם. היתרון הגדול הוא ספק אחד ותיאום אחד. המחיר הסופי תלוי באורך האירוע, במיקום ובמספר האפקטים.`,
       },
       {
         id: "wedding-pkg-includes",
@@ -3404,14 +3416,18 @@ export const VIDEO_SERVICES = {
     pricing: [
       {
         name: "פרומו רילס בודד",
-        price: "950 ₪",
-        priceNote: "לפני מע״מ - 2-3 ימי עסקים",
+        price: formatNis(getExVat("reel_factory_single")),
+        priceExVat: getExVat("reel_factory_single"),
+        catalogId: "reel_factory_single",
+        priceNote: "2-3 ימי עסקים",
         description: "חיתוך מ-5-10 קליפים גולמיים + כתוביות בסיסיות.",
       },
       {
         name: "Rave 24 שעות ★",
-        price: "1,400 ₪",
-        priceNote: "לפני מע״מ - מסירה עד 12:00",
+        price: formatNis(getExVat("reel_factory_rave_24h")),
+        priceExVat: getExVat("reel_factory_rave_24h"),
+        catalogId: "reel_factory_rave_24h",
+        priceNote: "מסירה עד 12:00",
         description:
           "ביט-סינק, אפקטים על הביט, צבע וסאונד - רילס שעושה חשק לסגור איתו.",
         featured: true,
@@ -3419,14 +3435,18 @@ export const VIDEO_SERVICES = {
       },
       {
         name: "Content Hub בסיס",
-        price: "2,800 ₪",
-        priceNote: "לחודש - לפני מע״מ",
+        price: formatNis(getExVat("reel_factory_starter_monthly")),
+        priceExVat: getExVat("reel_factory_starter_monthly"),
+        catalogId: "reel_factory_starter_monthly",
+        priceNote: "לחודש",
         description: "4 פרומואים ערוכים + פוסטים שיווקיים לכל אירוע.",
       },
       {
         name: "Content Hub פרו",
-        price: "4,500 ₪",
-        priceNote: "לחודש - לפני מע״מ",
+        price: formatNis(getExVat("reel_factory_pro_monthly")),
+        priceExVat: getExVat("reel_factory_pro_monthly"),
+        catalogId: "reel_factory_pro_monthly",
+        priceNote: "לחודש",
         description: "8 פרומואים + פוסטים + כיתובים מותאמים לכל פלטפורמה.",
       },
     ],
@@ -3581,8 +3601,9 @@ export const PHOTOGRAPHY_SERVICES = {
     pricing: [
       {
         name: "חבילת בסיס",
-        price: "מ-6,000 ₪",
-        priceNote: "4 שעות לפני מע״מ, עריכה בסיסית כלולה",
+        /* 4 שעות של event_photo_hourly. כולל מע״מ קודם (שלב 4 WP10-11) */
+        price: `מ-${withVat(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ כולל מע״מ`,
+        priceNote: `4 שעות (${(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ + מע״מ), עריכה בסיסית כלולה`,
         description: "אירוע קטן, צילום מלא ועריכה של תמונות נבחרות.",
       },
       {

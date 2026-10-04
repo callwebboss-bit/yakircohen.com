@@ -56,7 +56,7 @@ function CatalogLine({ line }: { line: string }) {
   );
 }
 
-function GlossaryLinks({ slugs }: { slugs: readonly string[] }) {
+export function GlossaryLinks({ slugs }: { slugs: readonly string[] }) {
   /* היטל slug לשם המונח, במקום המונחון המלא. שליפת מונח מלא מכאן גררה
      62KB של הגדרות לדפדפן, בשביל שם אחד לקישור. */
   const terms = slugs

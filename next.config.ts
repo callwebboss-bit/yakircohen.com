@@ -126,13 +126,10 @@ const nextConfig: NextConfig = {
         destination: "https://yakircohen.com/:path*",
         permanent: true,
       },
-      // Strip WooCommerce ?add-to-cart= parameter that Google still crawls from the old WP site.
-      {
-        source: "/:path*",
-        has: [{ type: "query", key: "add-to-cart" }],
-        destination: "/:path*",
-        permanent: true,
-      },
+      /* ?add-to-cart= של WooCommerce מטופל ב-proxy.ts ולא כאן. הכלל שישב כאן
+         הפנה לעצמו: Next מעביר את ה-query של הבקשה ליעד ההפניה
+         (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/redirects.md:43),
+         ולכן /?add-to-cart=123 קיבל 308 אל /?add-to-cart=123 בלולאה (ED-12). */
       ...getLegacyRedirects(),
       // Strip .html extensions (produced by Pagefind crawling .next/server/app)
       {
@@ -150,8 +147,12 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: true,
   widenClientFileUpload: true,
-  disableLogger: true,
-  automaticVercelMonitors: true,
+  /* disableLogger ו-automaticVercelMonitors הוסרו (4.10.2026). ב-@sentry/nextjs
+     10.65 שניהם deprecated ושניהם של webpack בלבד: deprecatedWebpackOptions.js
+     ממפה אותם ל-webpack.treeshake.removeDebugLogging ול-webpack.automaticVercelMonitors,
+     ו-getWebpackPatch לא רץ כש-next build רץ על Turbopack. ניטור ה-Cron בדרך
+     הישנה (strategy "wrapper") נבנה רק ב-webpack.js, ולכן גם הוא לא היה פעיל
+     בבנייה הזו. בבנייה של Turbopack ההסרה לא משנה דבר. */
   /**
    * הסרת מודול ה-tracing מחבילת הדפדפן.
    *
@@ -160,8 +161,8 @@ export default withSentryConfig(withBundleAnalyzer(nextConfig), {
    * 20% ועלה כ-55KB של JS מנותח בכל עמוד. זו מדידה כפולה שכבר יש לה
    * מקור טוב יותר.
    *
-   * מה לא משתנה: מעקב השגיאות, ה-breadcrumbs, מפות המקור, ה-releases
-   * וניטור ה-Cron של Vercel. וחשוב מכל, סינון ה-PII ב-beforeSend
+   * מה לא משתנה: מעקב השגיאות, ה-breadcrumbs, מפות המקור וה-releases.
+   * וחשוב מכל, סינון ה-PII ב-beforeSend
    * וב-scrubRequest לא נוגע בזה בכלל.
    *
    * דגלי ה-Replay: הפרויקט לא משתמש ב-Session Replay, ולכן שלושת

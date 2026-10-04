@@ -141,7 +141,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "הקלטה ועריכה בבית הלקוח",
       },
       {
-        label: "עריכת פודקאסט, פרק מוכן ב-24 שעות",
+        label: "עריכת פודקאסט, פרק מוכן תוך 24-48 שעות",
         href: "/podcast/podcast-editing",
         title: "עריכת פודקאסט מקצועית מרחוק",
       },

@@ -5,7 +5,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 export default function ReadyMashupsCatalogSection({ embedded = false }: { embedded?: boolean }) {
-  const priceLabel = formatFromPriceDual(READY_MASHUPS_CATALOG[0]?.priceExVat ?? 650);
+  const priceLabel = formatFromPriceDual(READY_MASHUPS_CATALOG[0]?.priceExVat ?? 650, "business");
 
   return (
     <section
@@ -53,7 +53,7 @@ export default function ReadyMashupsCatalogSection({ embedded = false }: { embed
                 </p>
               ) : null}
               <p className="mt-3 text-sm font-semibold text-brand-red">
-                {formatFromPriceDual(item.priceExVat)}
+                {formatFromPriceDual(item.priceExVat, "business")}
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 <Link

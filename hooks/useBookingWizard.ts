@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useMemo, useReducer } from "react";
+import { useCallback, useMemo, useReducer, useRef } from "react";
 import { useBookingDraft } from "@/hooks/useBookingDraft";
 import { isRecord } from "@/lib/wizard-draft-parse";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import type { LeadSubmitIntent, LeadSubmitState } from "@/hooks/useLeadSubmit";
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import type { ValidationResult } from "@/lib/form-validation";
-import { notifyLeadByEmailAsync } from "@/lib/lead-email-notify";
+import { createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
 import { parseBookCategoryFromHash, parseBookWizardStepFromHash, type BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { clearBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
@@ -115,6 +115,29 @@ function resolveResumeStep(
   const hashStep = parseBookWizardStepFromHash(window.location.hash);
   if (hashStep == null) return draftStep;
   return Math.min(Math.max(0, hashStep), maxStep);
+}
+
+/**
+ * מה מסך התוצאה מציג לפי מצב השליחה. בניסיון חוזר הסטטוס חוזר ל-submitting
+ * עד 12 שניות. קודם isSubmitFailed ו-lastWaHref התאפסו באמצע, מסך הגיבוי
+ * נעלם והגולש ראה פתאום את הטופס. עכשיו המסך נשאר, והכפתור אומר "שולחים שוב".
+ */
+export function deriveSubmitView(submit: LeadSubmitState): {
+  isSubmitted: boolean;
+  isRetrying: boolean;
+  isSubmitFailed: boolean;
+  lastWaHref: string;
+  lastIntent: LeadSubmitIntent;
+} {
+  const retry = submit.status === "submitting" ? submit.retry : undefined;
+  const done = submit.status === "success" || submit.status === "failed" ? submit : undefined;
+  return {
+    isSubmitted: submit.status === "success",
+    isRetrying: retry != null,
+    isSubmitFailed: submit.status === "failed" || retry != null,
+    lastWaHref: done?.waHref ?? retry?.waHref ?? "",
+    lastIntent: done?.intent ?? retry?.intent ?? "continue_chat",
+  };
 }
 
 export function useBookingWizard<
@@ -237,6 +260,50 @@ export function useBookingWizard<
     [state.form.selectedUpsells],
   );
 
+  const lastSubmitRef = useRef<{
+    payload: LeadEmailPayload;
+    waHref: string;
+    intent: LeadSubmitIntent;
+  } | null>(null);
+
+  /* הצלחה רק אחרי 200 מהשרת. הטיוטה ופרטי הקשר המשותפים נמחקים רק אז,
+     כדי שגולש שהשליחה שלו נכשלה לא יאבד את מה שמילא. קודם מסך ההצלחה
+     הופיע והטיוטה נמחקה עוד לפני שהבקשה יצאה. LF-02 */
+  const deliver = useCallback(
+    async (
+      last: { payload: LeadEmailPayload; waHref: string; intent: LeadSubmitIntent },
+      retry = false,
+    ) => {
+      dispatch({
+        type: "SET_SUBMIT",
+        submit: retry
+          ? { status: "submitting", retry: { waHref: last.waHref, intent: last.intent } }
+          : { status: "submitting" },
+      });
+      const result = await submitLeadToServer(last.payload);
+      if (result.ok) {
+        dispatch({
+          type: "SET_SUBMIT",
+          submit: { status: "success", waHref: last.waHref, intent: last.intent },
+        });
+        draft.clear();
+        clearBookCoreContact();
+        return true;
+      }
+      dispatch({
+        type: "SET_SUBMIT",
+        submit: {
+          status: "failed",
+          waHref: last.waHref,
+          intent: last.intent,
+          reason: result.reason,
+        },
+      });
+      return false;
+    },
+    [draft],
+  );
+
   const runSubmit = useCallback(
     (
       validateFields: () => ValidationResult,
@@ -247,26 +314,25 @@ export function useBookingWizard<
       },
       options?: { leadCategory?: BookCategoryId },
     ): Record<string, string> | null => {
+      if (state.submit.status === "submitting") return null;
       const fieldErrs = guard.attemptSubmit(validateFields, (result) => {
         const { waHref, email, intent = "continue_chat" } = buildResult(result);
-        dispatch({
-          type: "SET_SUBMIT",
-          submit: { status: "success", waHref, intent },
-        });
-        draft.clear();
-        clearBookCoreContact();
+        /* וואטסאפ נפתח בתוך הלחיצה, לפני ה-await, כדי שחוסם חלונות לא יעצור */
         openWhatsAppLead(
           waHref,
           options?.leadCategory ? { leadCategory: options.leadCategory } : undefined,
         );
-        void notifyLeadByEmailAsync({
-          ...email,
-          website_verification: guard.honeypot,
-        }).catch((err) => {
-          if (process.env.NODE_ENV !== "production") {
-            console.warn("[useBookingWizard] email notify failed", err);
-          }
-        });
+        const last = {
+          payload: {
+            ...email,
+            website_verification: guard.honeypot,
+            submissionId: email.submissionId ?? createSubmissionId(),
+          },
+          waHref,
+          intent,
+        };
+        lastSubmitRef.current = last;
+        void deliver(last);
       });
 
       if (fieldErrs) {
@@ -275,14 +341,18 @@ export function useBookingWizard<
       }
       return null;
     },
-    [guard, draft],
+    [guard, deliver, state.submit.status],
   );
 
-  const isSubmitted = state.submit.status === "success";
-  const lastWaHref =
-    state.submit.status === "success" ? state.submit.waHref : "";
-  const lastIntent =
-    state.submit.status === "success" ? state.submit.intent : "continue_chat";
+  /** ניסיון חוזר עם אותו מזהה שליחה, בלי runLeadGuard ובלי לפתוח שוב וואטסאפ. */
+  const retrySubmit = useCallback(async (): Promise<boolean> => {
+    const last = lastSubmitRef.current;
+    if (!last || state.submit.status === "submitting") return false;
+    return deliver(last, true);
+  }, [deliver, state.submit.status]);
+
+  const { isSubmitted, isRetrying, isSubmitFailed, lastWaHref, lastIntent } =
+    deriveSubmitView(state.submit);
   const isSubmitting = state.submit.status === "submitting";
 
   const setKoalendarOpen = useCallback((open: boolean) => {
@@ -299,6 +369,7 @@ export function useBookingWizard<
     dispatch({ type: "SET_ERRORS", errors: {} });
     dispatch({ type: "SET_SUBMIT", submit: { status: "idle" } });
     dispatch({ type: "DISMISS_DRAFT" });
+    lastSubmitRef.current = null;
   }, [config.initialForm, draft, guard]);
 
   const selectedUpgradeSet = useMemo(
@@ -323,8 +394,11 @@ export function useBookingWizard<
     guard,
     dismissDraft,
     runSubmit,
+    retrySubmit,
     resetWizard,
     isSubmitted,
+    isSubmitFailed,
+    isRetrying,
     lastWaHref,
     lastIntent,
     isSubmitting,

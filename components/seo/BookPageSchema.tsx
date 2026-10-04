@@ -21,7 +21,7 @@ const BOOK_FAQ_ITEMS = [
   },
   {
     question: "מה המחיר ההתחלתי להקלטה באולפן במודיעין?",
-    answer: `הקלטה באולפן מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ (ברכה, בלי תיקון זיופים). שיר מוכן מ-${getExVat("cover_song").toLocaleString("he-IL")} ₪ לפני מע״מ, כולל מיקס, מאסטר ותיקון זיופים.`,
+    answer: `הקלטה באולפן מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ (ברכה, בלי תיקון זיופים). הקלטת שיר ${getExVat("song_recording").toLocaleString("he-IL")} ₪ לפני מע״מ, כולל הקלטה, מיקס ומאסטר. תיקון זיופים בתוספת.`,
   },
   {
     question: "האם אפשר להזמין אטרקציות לאירועים אונליין?",

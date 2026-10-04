@@ -29,7 +29,7 @@ export default function NeedsDiscoveryLeadFlowSection({
           {heading}
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          שאלות קצרות, מה כלול ומה לא, מחיר מאחורי כפתור, תוספות ומדיניות Hold.
+          כמה שאלות קצרות, ואחריהן המחיר ומה כלול בו.
         </p>
         <div className="mt-8">
           <NeedsDiscoveryLeadFlowLazy defaultServiceId={defaultServiceId} />

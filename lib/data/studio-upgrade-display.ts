@@ -31,16 +31,12 @@ const UPGRADE_DISPLAY: Partial<Record<StudioUpgradeId, UpgradeDisplayMeta>> = {
     youtubeVideoId: STUDIO_SESSION_CLIP_YOUTUBE_ID,
   },
   performance_clip: {
-    whatYouGet: "אותו צילום, עם עריכה לקובץ מוכן לשיתוף",
+    whatYouGet: "אותו צילום, ערוך לקליפ מוכן לשיתוף",
     youtubeVideoId: STUDIO_SESSION_CLIP_YOUTUBE_ID,
   },
   podcast_interview: {
-    whatYouGet: "במתחם הפודקאסט האורבני המשפחתי",
+    whatYouGet: "כ-5 דקות במתחם הפודקאסט, משולב בקליפ הערוך",
     imageSrc: PODCAST_URBAN_IMAGE,
-  },
-  express: {
-    whatYouGet: "עדיפות בלו\"ז והגשה מהירה במיוחד",
-    thumbIcon: "⚡",
   },
   pitch_correction: {
     whatYouGet: "תיקון זיופים לשיר או ברכה - בלי סאונד רובוטי",

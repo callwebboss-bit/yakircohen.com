@@ -1,3 +1,4 @@
+import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 import type { RecordingTypeId, StudioPackageId } from "@/lib/data/studio-recording-booking";
 
 export type RecordingTypeFlow = {
@@ -26,7 +27,7 @@ export function getRecordingTypeFlow(
         hideLocation: false,
         hideAtmosphere: false,
         defaultPackageId: "remote",
-        remoteHint: "ברירת מחדל: הקלטה מרחוק (590 ₪). אפשר גם להגיע לאולפן במודיעין.",
+        remoteHint: `ברירת מחדל: הקלטה מרחוק (${catalogWithVat(getExVat("studio_remote")).toLocaleString("he-IL")} ₪ כולל מע״מ). אפשר גם להגיע לאולפן במודיעין.`,
       };
     case "general_blessing":
       return {
@@ -35,11 +36,17 @@ export function getRecordingTypeFlow(
         defaultPackageId: "remote",
       };
     case "event_song":
+      return {
+        hideLocation: false,
+        hideAtmosphere: false,
+        defaultPackageId: "song",
+      };
+    /* דרשה היא ברכה ולא שיר. קודם ברירת המחדל הייתה חבילת השיר ב-990. */
     case "bar_mitzvah_speech":
       return {
         hideLocation: false,
         hideAtmosphere: false,
-        defaultPackageId: "classic",
+        defaultPackageId: "remote",
       };
     default:
       return {

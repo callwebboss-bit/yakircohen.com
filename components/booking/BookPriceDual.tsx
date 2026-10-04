@@ -1,16 +1,18 @@
-import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
-import { withVat, VAT_RATE } from "@/lib/data/pricing";
+import { VAT_RATE } from "@/lib/data/pricing";
+import { formatPrice, type PriceAudience } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
 type BookPriceDualProps = {
   exVat: number;
-  /** Use pre-formatted string from route data */
+  /** @deprecated השורה נגזרת מ-exVat. נשאר לתאימות, לא מוצג */
   dualLabel?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
   catalogId?: PriceItemId;
+  /** "business" בעמודי /business ו-/pro: לפני מע״מ קודם */
+  audience?: PriceAudience;
 };
 
 const SIZE_CLASS = {
@@ -19,25 +21,29 @@ const SIZE_CLASS = {
   lg: "text-base",
 } as const;
 
+/**
+ * מחיר התחלה בכרטיסי /book: כולל מע״מ בגדול, לפני מע״מ בקטן (החלטת הבעלים
+ * 2.10.2026). בלי "סופי" ליד מחיר "מ-" (WP2): מחיר התחלה אינו מחיר סופי.
+ */
 export default function BookPriceDual({
   exVat,
-  dualLabel,
   size = "md",
   className,
   catalogId,
+  audience = "consumer",
 }: BookPriceDualProps) {
   const vat = Math.round(exVat * VAT_RATE);
-  const total = withVat(exVat);
-  const main = dualLabel ?? formatFromPriceDual(exVat);
+  const price = formatPrice(exVat, { from: true, audience });
 
   return (
     <div className={cn("min-w-0 space-y-0.5", className)}>
-      <p className={cn("break-words font-bold text-foreground", SIZE_CLASS[size])}>{main}</p>
+      <p className={cn("break-words font-bold text-foreground", SIZE_CLASS[size])}>
+        {price.headline}
+      </p>
       <p className="break-words text-xs text-muted-foreground">
-        {exVat.toLocaleString("he-IL")} ₪ + מע״מ (18%) {vat.toLocaleString("he-IL")} ₪ ={" "}
-        <span className="font-semibold text-foreground">
-          {total.toLocaleString("he-IL")} ₪ סופי
-        </span>
+        {audience === "business"
+          ? price.vatNote
+          : `${exVat.toLocaleString("he-IL")} ₪ + מע״מ (18%) ${vat.toLocaleString("he-IL")} ₪`}
       </p>
       {catalogId ? <PricingTransparencyBlock catalogId={catalogId} compact /> : null}
     </div>

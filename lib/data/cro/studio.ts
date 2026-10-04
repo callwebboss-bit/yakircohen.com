@@ -21,39 +21,8 @@ export const STUDIO_CRO_CONFIG = {
       body: "אנחנו מציגים את המציאות: אם צריך תיקון - Melodyne ו-Auto-Tune מנקים זיופים. זה לא קסם; צריך גם ביצוע סביר. המטרה: תוצאה נקייה שתרגישו בנוח לשתף.",
     },
   },
-  transitionMessages: [
-    "בודק זמינות טכנאים...",
-    "מחשב עלויות חבילה...",
-    "מתאים הטבות אישיות...",
-  ],
-  decoy: {
-    emoji: "💎",
-    name: "Celebrity VIP Production",
-    description:
-      "יום הפקה שלם באולפן: ליווי מפיק מנוסה, הדרכה קולית מלאה לפני הקלטה, ובניית ליין-אפ מותאם - לא רק \"שעה במיקרופון\".",
-    highlights: [
-      "יום הפקה שלם + מפיק/מוזיקאי מלווה לאורך כל הסשן",
-      "הדרכה קולית מלאה, חימום מודרך, ותרגול לפני הקלטה",
-      "קליפ 4K מרובה מצלמות + עריכת מאסטר עם שותף מיקס במיאמי (תיאום מראש)",
-      "ליווי קידום: רילס, BTS, ותוכנית פרסום ל-30 יום",
-      "בר קליל ואירוח מלא לאורך היום - לפרויקטים גדולים בלבד",
-    ],
-    priceExVat: 8900,
-    badge: "מסלול זמרים מנוסים",
-    footnote:
-      "חבילה מותאמת אישית לפרויקטים גדולים - לא נרכשת בטופס. נתאם בוואטסאפ לפי היקף, זמן באולפן ודרישות קידום.",
-    ariaLabel: "חבילת הפקה באולפן הקלטות במודיעין - מסלול זמרים מנוסים",
-    youtubeVideoId: "q18Lu0MvXHo",
-    ctaPrimary: "דבר עם מפיק ראשי",
-    ctaSecondary: CRO_SHARED.decoyWaitlistNote,
-    waitlistUtmCampaign: "studio_decoy_waitlist",
-  },
+  transitionMessages: CRO_SHARED.transitionMessages,
   escapePlacements: ["after_packages", "after_high_price", "step_contact"],
-  urgency: {
-    holdPrefix: "המחיר, הצ'ופר והחניה שמורים עבורך עוד",
-    holdExpiredSoft: CRO_SHARED.step3HoldExpiredSoft,
-    priceHoldBadge: "המחיר שמור ל-48 שעות",
-  },
   step3Closer: "נשאר רק עוד שלב אחד קצר לנעילת הסשן שלך",
   step3SummaryHeading: "סיכום קצר",
   step3ContactHeading: "פרטים לתיאום",
@@ -61,17 +30,17 @@ export const STUDIO_CRO_CONFIG = {
     "פחות מעלות של שופינג חולף בקניון - בשביל מזכרת מקצועית שנשארת איתכם לכל החיים",
   parkingCopy:
     "סידרנו לך ראש תל-אביבי שקט. חניה פרטית, מקורה ובחינם מחכה לך ישירות מתחת לאולפן. השלט לפתיחת המחסום יישלח אליך אוטומטית בוואטסאפ.",
+  /* בלי "במקום 250": ל-250 אין מחיר קטלוג (FIT-05, FIT-07). המחיר בפועל
+     מגיע מ-lib/studio-upgrade-pricing.ts ומוצג ליד הטקסט, כולל מע״מ. */
   lastMinuteUpsell: {
-    label: "להוסיף תמונות וסרטון קצר מהאולפן לסטורי - 99 ₪ במקום 250 ₪",
+    label: "להוסיף תמונות וסרטון קצר מהאולפן לסטורי",
     upgradeId: "bts",
-    promoPrice: 99,
-    listPrice: 250,
   },
   fitMeterLabel: "התאמה לצרכים שלך",
   fitMeterDetail: "החבילה מתאימה - בלי תוספות מיותרות",
   exitIntent: {
     title: "רגע לפני שעוזבים",
-    body: "שמרנו את המחיר שבחרתם ל-48 שעות. אפשר לחזור ולסגור בקליק בלי להתחיל מחדש.",
+    body: CRO_SHARED.exitIntentBody,
     cta: "המשיכו מהמקום שעצרתם",
     dismiss: "לא עכשיו, תודה",
   },

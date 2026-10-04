@@ -23,8 +23,8 @@ export const UNIFIED_CALC_CATEGORIES: readonly CalcCategory[] = [
     bookHref: "/studio",
     options: [
       { id: "blessing", label: "ברכה / אמירה", note: "עד חצי שעה + עריכה", exVat: getExVat("blessing_recording") },
-      { id: "cover", label: "שיר מוכן באולפן", note: "מיקס, מאסטר, תיקון זיופים", exVat: getExVat("cover_song") },
-      { id: "package", label: "שיר Pro", note: "פיץ' ידני + תמונות + ייעוץ", exVat: getExVat("song_package") },
+      { id: "cover", label: "הקלטת שיר באולפן", note: "הקלטה, מיקס ומאסטר. בלי תיקון זיופים", exVat: getExVat("song_recording") },
+      { id: "song_pitch", label: "שיר + תיקון זיופים וטכנאי מנחה", note: "הבסיס ועוד התוספת", exVat: getExVat("song_recording") + getExVat("song_pitch_coaching") },
       { id: "single", label: "הפקת סינגל מלא", note: "6 שעות + מאסטר מסחרי", exVat: getExVat("single_production") },
     ],
   },

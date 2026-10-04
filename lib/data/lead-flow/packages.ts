@@ -1,4 +1,5 @@
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import type { LeadFlowServiceId } from "./services";
 
 export const PACKAGE_TIER_IDS = ["full", "adapted", "economy"] as const;
@@ -52,14 +53,15 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     adapted: {
       id: "adapted",
       title: "חבילה מותאמת",
-      summary: "שיר Pro - פיץ' ידני, ייעוץ ותמונות.",
-      catalogId: "song_package",
+      /* חבילות השיר ירדו (2.10.2026). המחיר הוא הבסיס, והתוספות נבחרות בנפרד. */
+      summary: "הקלטת שיר עם תוספות לבחירה: תיקון זיופים וטכנאי מנחה, קליפ ערוך מהסשן. התוספות בתשלום נפרד.",
+      catalogId: "song_recording",
     },
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "שיר מוכן באולפן - מיקס, מאסטר ותיקון זיופים.",
-      catalogId: "cover_song",
+      summary: "הקלטת שיר בלבד: הקלטה, מיקס ומאסטר בסשן של שעה. בלי תיקון זיופים.",
+      catalogId: "song_recording",
     },
   },
   podcast: {
@@ -92,13 +94,16 @@ export const PACKAGE_TIERS: Record<LeadFlowServiceId, PackageMap> = {
     adapted: {
       id: "adapted",
       title: "חבילה מותאמת",
-      summary: "אולפן הקלטות נייד לפי היקף האירוע.",
-      catalogId: "mobile_studio",
+      /* באירוע: ההגעה ועליה צילום פודקאסט או הקלטת אודיו (החלטת הבעלים
+         3.10.2026, סבב שני). שני פריטים, ולכן המחיר נסגר בשיחה. */
+      summary: "אולפן נייד באירוע: ההגעה, ועליה צילום פודקאסט או הקלטת אודיו לפי הבחירה.",
+      catalogId: null,
     },
     economy: {
       id: "economy",
       title: "חבילה חסכונית",
-      summary: "פודקאסט נייד בבית / משרד - מחיר התחלה.",
+      /* סבב שלישי 3.10.2026: הקלטת האודיו כלולה, וכל אדם נוסף ערוץ נוסף */
+      summary: `אולפן נייד בבית או במשרד: הגעה עם כל הציוד, התאורה והצוות, והקלטת אודיו כלולה. ${EXTRA_PERSON_COST_NOTE}.`,
       catalogId: "mobile_podcast_at_home",
     },
   },
@@ -147,7 +152,7 @@ export function resolveAdaptedCatalogId(
   }
   if (serviceId === "song") {
     if (answers.songGoal === "release") return "single_production";
-    if (answers.songGoal === "cover" || answers.songGoal === "gift") return "cover_song";
+    if (answers.songGoal === "cover" || answers.songGoal === "gift") return "song_recording";
     return base;
   }
   if (serviceId === "mobile-studio") {

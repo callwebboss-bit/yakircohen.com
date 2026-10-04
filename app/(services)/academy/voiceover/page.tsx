@@ -207,7 +207,7 @@ export default function VoiceoverCoursePage() {
           צריכים קריין לפרויקט ולא קורס? ראו{" "}
           <InlineServiceLink href="/voiceover">שירותי קריינות</InlineServiceLink>
           . לקריינות עסקית עם חשבונית -{" "}
-          <InlineServiceLink href="/business/professional-voiceover">
+          <InlineServiceLink href="/voiceover/services">
             קריינות לעסק
           </InlineServiceLink>
           . לשיעור בודד -{" "}

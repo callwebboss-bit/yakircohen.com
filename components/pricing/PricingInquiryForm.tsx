@@ -3,9 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { PRICING_HUB_SECTIONS } from "@/lib/data/pricing-hub";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildPricingInquiryBody } from "@/lib/pricing-inquiry-body";
 import { formatIlMobileDisplay, normalizeIlMobile } from "@/lib/leads/format-phone-il";
 import type { ServiceType } from "@/lib/leads/types";
 import MultiStepLeadShell, { useMultiStep } from "@/components/leads/MultiStepLeadShell";
@@ -45,7 +47,8 @@ function sectionToServiceType(sectionId: string): ServiceType {
 export default function PricingInquiryForm() {
   const searchParams = useSearchParams();
   const ask = searchParams.get("ask") || "";
-  const { submitLead, isSubmitting, isSuccess } = useLeadSubmit();
+  const { submitLead, isSubmitting, isSuccess, submit: leadSubmit, retry: retryLead } =
+    useLeadSubmit();
   const multi = useMultiStep(STEPS.length);
 
   const [sectionId, setSectionId] = useState(ask || PRICING_HUB_SECTIONS[0]?.id || "studio");
@@ -148,65 +151,57 @@ export default function PricingInquiryForm() {
       return;
     }
 
-    const priceLine = selectedRow
-      ? `${selectedRow.label} - ${selectedRow.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`
-      : section?.title || "";
-
-    const body = [
-      `שירות: ${section?.title || sectionId}`,
-      priceLine ? `מחירון: ${priceLine}` : null,
-      `קישור: https://yakircohen.com/pricing?ask=${section?.id || sectionId}`,
-      qualify.eventDate ? `תאריך: ${qualify.eventDate}` : null,
-      qualify.budgetHint ? `תקציב משוער: ${qualify.budgetHint}` : null,
-      qualify.recordingType ? `סוג הקלטה: ${qualify.recordingType}` : null,
-      message ? `הודעה: ${message}` : null,
-      `שם: ${name}`,
-      `טלפון: ${normalized}`,
-      email ? `אימייל: ${email}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const body = buildPricingInquiryBody({
+      sectionId: section?.id || sectionId,
+      sectionTitle: section?.title,
+      row: selectedRow,
+      qualify,
+      message,
+      name,
+      phone: normalized,
+      email,
+    });
 
     const waHref = buildWhatsAppHref({
       text: `היי, פנייה ממחירון:\n${body}`,
       source: "pricing-inquiry",
     });
 
-    try {
-      await submitLead(
-        {
-          formId: "pricing_inquiry",
-          subject: `פנייה ממחירון - ${section?.title || "כללי"} - ${name}`,
-          body,
-          name,
-          phone: normalized,
-          email: email.trim() || undefined,
-          website_verification: honeypot,
-          serviceType,
-          eventDate: qualify.eventDate,
-          budgetHint: qualify.budgetHint ? Number(qualify.budgetHint) : undefined,
-          pricingRef: selectedRow
-            ? {
-                sectionId: section!.id,
-                label: selectedRow.label,
-                exVat: selectedRow.exVat,
-                href: selectedRow.href || section!.href,
-              }
-            : {
-                sectionId: section!.id,
-                label: section!.title,
-                href: section!.href,
-              },
-        },
-        waHref,
-      );
+    /* submitLead לא זורק. כשל מוצג ב-LeadSubmitFallback, והטיוטה נמחקת רק
+       אחרי שהשרת אישר שהליד הגיע. קודם ה-catch כאן לא יכול היה לרוץ. LF-02 */
+    const ok = await submitLead(
+      {
+        formId: "pricing_inquiry",
+        subject: `פנייה ממחירון - ${section?.title || "כללי"} - ${name}`,
+        body,
+        name,
+        phone: normalized,
+        email: email.trim() || undefined,
+        website_verification: honeypot,
+        serviceType,
+        eventDate: qualify.eventDate,
+        budgetHint: qualify.budgetHint ? Number(qualify.budgetHint) : undefined,
+        pricingRef: selectedRow
+          ? {
+              sectionId: section!.id,
+              label: selectedRow.label,
+              exVat: selectedRow.exVat,
+              href: selectedRow.href || section!.href,
+            }
+          : {
+              sectionId: section!.id,
+              label: section!.title,
+              href: section!.href,
+            },
+      },
+      waHref,
+    );
+    if (ok) {
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch {
         /* ignore */
       }
-    } catch {
-      setError("משהו השתבש. נסו שוב או פנו בוואטסאפ.");
     }
   }
 
@@ -381,6 +376,22 @@ export default function PricingInquiryForm() {
               <p className="text-xs text-destructive" role="alert">
                 {error}
               </p>
+            ) : null}
+            {leadSubmit.status === "failed" ? (
+              <LeadSubmitFallback
+                waHref={leadSubmit.waHref}
+                onRetry={() =>
+                  void retryLead().then((ok) => {
+                    /* כמו בשליחה הראשונה: הטיוטה נמחקת רק אחרי אישור השרת */
+                    if (!ok) return;
+                    try {
+                      localStorage.removeItem(DRAFT_KEY);
+                    } catch {
+                      /* ignore */
+                    }
+                  })
+                }
+              />
             ) : null}
             <div className="flex gap-3">
               <button

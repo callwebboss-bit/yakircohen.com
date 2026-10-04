@@ -1,4 +1,5 @@
 import type { FAQItem } from "@/components/ui/FAQAccordion";
+import { attractionBundleDiscountPercent, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 
 export type AudienceLandingService = {
   id: string;
@@ -81,16 +82,16 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           id: "dj",
           icon: "🎧",
           title: "DJ לחתונה",
-          description: "הגעה לפני האורחים, בדיקת סאונד, עד 7 שעות הפעלה.",
+          description: "הגעה לפני האורחים, בדיקת סאונד. תקליטן מהצוות 4 שעות, או יקיר אישית 5 שעות.",
           href: "/events/dj-events",
         },
         {
           id: "packages",
           icon: "✨",
           title: "חבילות DJ + אטרקציות",
-          description: "עשן, זיקוקים, קונפטי - חיסכון של 20-30% בחבילה משולבת.",
+          description: `עשן, זיקוקים, קונפטי - מ-2 אטרקציות הנחת חבילה של ${attractionBundleDiscountPercent()}%.`,
           href: "/events/wedding-attractions-packages",
-          priceHint: 'חבילת "פסטיבל" מ-15,000 ₪',
+          priceHint: `חבילת "פסטיבל" ${formatFromPriceDual(getExVat("festival_all_in"))}`,
         },
         {
           id: "photo",
@@ -119,7 +120,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
       id: "couples-price",
       question: "האם המחירים כוללים מע״מ?",
       answer:
-        "המחירים באתר לפני מע״מ (+18%). הצעה סופית בוואטסאפ או בהזמנה המקוונת - בלי הפתעות.",
+        "כן. המחיר הגדול באתר כולל מע״מ, ולידו בקטן הסכום לפני מע״מ. הצעה סופית בוואטסאפ או בהזמנה המקוונת - בלי הפתעות.",
     },
   ],
   whatsappText: "שלום, מתכננים חתונה ורוצים הצעה לשיר / DJ / חבילה משולבת",

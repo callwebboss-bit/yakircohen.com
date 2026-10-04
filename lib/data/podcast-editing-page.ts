@@ -1,16 +1,17 @@
 ﻿import {
   formatNis,
   PODCAST_EDITING_PER_HOUR_NIS,
-  PRICES_EXCLUDE_VAT_NOTE,
+  withVat,
 } from "@/lib/data/pricing";
 import { PODCAST_EDITING_PRICE_FAQ } from "./faq-aeo";
 
 /** עריכה לפרק - תמחור לפי שעת חומר גולמי */
 export const PODCAST_EDITING_PRICE_LABEL = `${formatNis(
-  PODCAST_EDITING_PER_HOUR_NIS,
+  withVat(PODCAST_EDITING_PER_HOUR_NIS),
   { withSymbol: false },
-)} ₪ לשעת חומר גולמי`;
-export const PODCAST_EDITING_PRICE_NOTE = PRICES_EXCLUDE_VAT_NOTE;
+)} ₪ כולל מע״מ לשעת חומר גולמי`;
+/* כולל מע״מ קודם (שלב 4 WP11). היה PRICES_EXCLUDE_VAT_NOTE */
+export const PODCAST_EDITING_PRICE_NOTE = `${formatNis(PODCAST_EDITING_PER_HOUR_NIS, { withSymbol: false })} ₪ + מע״מ`;
 
 export const PODCAST_EDITING_HERO_FEATURES: readonly string[] = [
   "ניקוי רעשי רקע מקצועי, בלי לפגוע בקול",

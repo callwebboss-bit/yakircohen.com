@@ -1,14 +1,23 @@
 "use client";
 
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
+/**
+ * המחיר מוצג כולל מע״מ (לצרכן). מחיר "במקום" רק כשהוא קשור לקטלוג: הקורא
+ * מעביר referenceExVat רק מ-referenceCatalogId (types.test.ts בודק התאמה).
+ */
 export function WizardLastMinuteUpsell({
   label,
+  priceExVat,
+  referenceExVat,
   checked,
   onChange,
   disabled,
 }: {
   label: string;
+  priceExVat?: number;
+  referenceExVat?: number;
   checked: boolean;
   onChange: (v: boolean) => void;
   disabled?: boolean;
@@ -30,7 +39,21 @@ export function WizardLastMinuteUpsell({
         onChange={(e) => onChange(e.target.checked)}
         className="mt-1 h-4 w-4 accent-[var(--service-accent,#d42b2b)]"
       />
-      <span className="text-sm font-medium text-foreground">{label}</span>
+      <span className="text-sm font-medium text-foreground">
+        {label}
+        {priceExVat != null ? (
+          <>
+            {" - "}
+            <span className="tabular-nums">{formatConsumerPrice(priceExVat).totalLabel}</span>
+            {referenceExVat != null && referenceExVat > priceExVat ? (
+              <span className="text-muted-foreground">
+                {" במקום "}
+                <span className="tabular-nums">{formatConsumerPrice(referenceExVat).total}</span>
+              </span>
+            ) : null}
+          </>
+        ) : null}
+      </span>
     </label>
   );
 }

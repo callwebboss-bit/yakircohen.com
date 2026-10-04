@@ -21,8 +21,8 @@ const BY_INTENT_ID: Record<
   Pick<HomeIntentPath, "outcome" | "priceId" | "fromPriceExVat" | "priceNote">
 > = {
   song: {
-    outcome: "קאבר או שיר מקורי, כולל ליווי מקצועי",
-    priceId: "cover_song",
+    outcome: "שיר על פלייבק: הקלטה, מיקס ומאסטר",
+    priceId: "song_recording",
   },
   blessing: {
     outcome: "הקלטה באולפן במודיעין, קובץ מוכן לאירוע",

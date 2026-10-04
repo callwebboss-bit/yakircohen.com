@@ -1,7 +1,6 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import PriceScopeDisplay, { resolveBillingDataAttr } from "@/components/booking/PriceScopeDisplay";
-import PriceSocialProof from "@/components/booking/PriceSocialProof";
 import { getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { whatsappQuoteCta } from "@/lib/data/conversion-copy";
@@ -101,9 +100,6 @@ export default function ServicePricingBlock({
                     {tier.scope ? null : tier.priceNote ? (
                       <p className="mt-1 text-xs text-muted-foreground">{tier.priceNote}</p>
                     ) : null}
-                    {tier.featured ? (
-                      <PriceSocialProof className="mt-2" testimonialIndex={1} />
-                    ) : null}
                   </>
                 ) : tier.priceNote ? (
                   <p className="mt-1 text-xs text-muted-foreground">
@@ -155,7 +151,7 @@ export default function ServicePricingBlock({
               חבילות ומחירון שקוף
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מחירים לפני מע״מ וכולל מע״מ - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
+              המחיר הגדול כולל מע״מ, ובקטן לפני מע״מ - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
             </p>
           </header>
         ) : null}

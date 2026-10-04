@@ -132,7 +132,9 @@ export const BUSINESS_HUB_GROUPS: readonly BusinessHubGroup[] = [
         icon: "🎙️",
         title: "קריינות מקצועית",
         description: "פרסומות, IVR, מרכזיות ותוכן דיגיטלי. באולפן במודיעין.",
-        href: "/business/professional-voiceover",
+        /* WP5 (market-09/11): פרסומות ו-IVR נמכרים בעמוד שירותי הקריינות. עמוד
+           הקריינות לעסקים מתומחר כחבילת תגים לדיג'יי (1,200) */
+        href: "/voiceover/services",
         priceHint: "הצעה לפי פרויקט",
       },
       {

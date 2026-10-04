@@ -7,12 +7,14 @@ import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import Button from "@/components/ui/Button";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
+import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import {
   formatPhoneForDisplay,
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { CALLBACK_SUCCESS_COPY } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -44,8 +46,8 @@ const DEFAULT_SERVICE_OPTIONS = [
 export default function CallbackLeadForm({
   heading = "מעדיפים שנחזור אליכם?",
   description = "השאירו פרטים ונחזור אליכם בשעות הפעילות. מענה אנושי, ללא התחייבות.",
-  successHeading = "תודה, מיד נחזור אליכם.",
-  successDescription = "פתחנו שיח בוואטסאפ - אפשר לצרף גם קובץ לדוגמה אם יש.",
+  successHeading = CALLBACK_SUCCESS_COPY.title,
+  successDescription = CALLBACK_SUCCESS_COPY.body,
   utmCampaign = "callback_lead_form",
   serviceOptions = DEFAULT_SERVICE_OPTIONS,
   formLabel = "טופס יצירת קשר",
@@ -67,7 +69,14 @@ export default function CallbackLeadForm({
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId,
   });
-  const { submitLead, isSuccess, isSubmitting } = useLeadSubmit();
+  const {
+    submitLead,
+    isSuccess,
+    isSubmitting,
+    successWaHref,
+    submit: leadSubmit,
+    retry: retryLead,
+  } = useLeadSubmit();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -115,8 +124,13 @@ export default function CallbackLeadForm({
             website_verification: honeypot,
             name: sanitizeLeadText(name, 60),
             phone: displayPhone,
+            contactChannel: "callback",
           },
           href,
+          "continue_chat",
+          /* "נחזור אליכם" לא פותח וואטסאפ. קודם הטופס דחף את הגולש לשלוח
+             הודעה בעצמו, בניגוד למה שהבטיח. הקישור נשאר כאפשרות במסך ההצלחה. LF-11 */
+          { whatsapp: "none" },
         );
       },
     );
@@ -131,6 +145,16 @@ export default function CallbackLeadForm({
       >
         <p className="text-lg font-semibold text-foreground">{successHeading}</p>
         <p className="mt-2 text-sm text-muted-foreground">{successDescription}</p>
+        {successWaHref ? (
+          <a
+            href={successWaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+          >
+            {CALLBACK_SUCCESS_COPY.whatsappOptional}
+          </a>
+        ) : null}
       </div>
     );
   }
@@ -147,6 +171,13 @@ export default function CallbackLeadForm({
 
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       <LeadFormAlert message={globalError} />
+      {leadSubmit.status === "failed" ? (
+        <LeadSubmitFallback
+          waHref={leadSubmit.waHref}
+          onRetry={() => void retryLead()}
+          className="mt-4"
+        />
+      ) : null}
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

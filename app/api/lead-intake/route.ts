@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import {
   buildIntakeEmailBody,
   type BookIntakeCloserPayload,
@@ -7,7 +7,6 @@ import { fireCloserWebhook } from "@/lib/closer-webhook";
 import type { ServiceTypeTag } from "@/lib/book-intake/presets";
 import {
   HONEYPOT_FIELD_NAME,
-  isLeadSpam,
   sanitizeLeadText,
   validateHoneypot,
   validateIsraeliMobile,
@@ -15,6 +14,15 @@ import {
 import { guardPublicMutation } from "@/lib/api-guard";
 import { captureException } from "@/lib/sentry-capture";
 import { ingestLead } from "@/lib/leads/ingest";
+import { logLeadFailure } from "@/lib/leads/log";
+import {
+  leadSoftFlags,
+  MAX_LEAD_BODY_CHARS,
+  nameHasUrl,
+  type LeadSoftFlag,
+} from "@/lib/leads/payload-check";
+
+const FORM_ID = "book_intake_wizard";
 
 const VALID_SERVICE_TAGS = new Set<ServiceTypeTag>([
   "MIX_AND_MASTER",
@@ -40,7 +48,7 @@ const FIELD_LIMITS: Record<string, number> = {
   user_choice_preset: 120,
   lead_email: 120,
 };
-const MAX_EMAIL_BODY_CHARS = 8000;
+const MAX_EMAIL_BODY_CHARS = MAX_LEAD_BODY_CHARS;
 
 function isValidPayload(body: LeadIntakeRequest): boolean {
   if (!body.ticket_code?.trim() || !body.lead_name?.trim() || !body.lead_phone?.trim()) {
@@ -77,41 +85,50 @@ function isValidPayload(body: LeadIntakeRequest): boolean {
  * הקוד הקודם עשה fetch ל-/api/lead-notify עם Origin מזויף, ותפס שגיאות ב-.catch.
  * שתי בעיות: קפיצת רשת מיותרת שיכולה ליפול על timeout או על cold start, ובעיקר
  * ש-fetch לא נכשל על סטטוס HTTP. תשובת 502 מ-lead-notify (כלומר המייל לא נשלח)
- * לא הפעילה את ה-catch כלל, והליד נחשב כאילו נקלט. כאן sendFailed נבדק במפורש.
+ * לא הפעילה את ה-catch כלל, והליד נחשב כאילו נקלט. כאן notified נבדק במפורש.
  *
- * הבדיקות (honeypot, טלפון, ספאם) כבר רצו למעלה, ולכן אין צורך לשכפל אותן.
+ * הבדיקות (honeypot, טלפון, קישור בשם) כבר רצו למעלה, ולכן אין צורך לשכפל אותן.
  */
 async function notifyLead(
   payload: BookIntakeCloserPayload,
   emailBody: string,
+  flags: LeadSoftFlag[],
   request: Request,
   ip: string,
-): Promise<boolean> {
+): Promise<{ notified: boolean; leadId?: string; notConfigured?: boolean }> {
   try {
     const result = await ingestLead({
-      formId: "book_intake_wizard",
+      formId: FORM_ID,
       subject: `פנייה מהירה - ${payload.ticket_code}`,
       body: emailBody,
       name: payload.lead_name,
       phone: payload.lead_phone,
+      flags,
+      submissionId: payload.ticket_code,
       request,
       ip,
     });
-
-    if (result.sendFailed) {
-      captureException(new Error("lead-intake: lead stored but email send failed"), {
-        tags: { route: "lead-intake", channel: "ingest" },
-        extra: { leadId: result.leadId, ticket: payload.ticket_code },
+    if (result.followUps) {
+      const followUps = result.followUps;
+      after(async () => {
+        try {
+          await followUps();
+        } catch (err) {
+          captureException(err, { tags: { route: "lead-intake", channel: "follow-ups" } });
+        }
       });
-      return false;
     }
-    return true;
+    return {
+      notified: result.notified,
+      leadId: result.leadId,
+      notConfigured: result.notConfigured,
+    };
   } catch (err) {
     captureException(err, {
       tags: { route: "lead-intake", channel: "ingest" },
       extra: { ticket: payload.ticket_code },
     });
-    return false;
+    return { notified: false };
   }
 }
 
@@ -120,12 +137,21 @@ export async function POST(request: Request) {
     bucket: "lead-intake",
     max: 8,
   });
-  if (!gate.ok) return gate.response;
+  if (!gate.ok) {
+    logLeadFailure({
+      route: "lead-intake",
+      formId: FORM_ID,
+      status: gate.response.status,
+      error: "gate",
+    });
+    return gate.response;
+  }
 
   let body: LeadIntakeRequest;
   try {
     body = (await request.json()) as LeadIntakeRequest;
   } catch {
+    logLeadFailure({ route: "lead-intake", formId: FORM_ID, status: 400, error: "invalid_json" });
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
@@ -137,11 +163,13 @@ export async function POST(request: Request) {
   }
 
   if (!isValidPayload(body)) {
+    logLeadFailure({ route: "lead-intake", formId: FORM_ID, status: 400, error: "invalid_payload" });
     return NextResponse.json({ ok: false, error: "invalid_payload" }, { status: 400 });
   }
 
   const phoneR = validateIsraeliMobile(body.lead_phone);
   if (!phoneR.ok) {
+    logLeadFailure({ route: "lead-intake", formId: FORM_ID, status: 400, error: "invalid_phone" });
     return NextResponse.json({ ok: false, error: "invalid_phone" }, { status: 400 });
   }
 
@@ -153,25 +181,49 @@ export async function POST(request: Request) {
     urgency_flag: false,
   };
 
-  if (isLeadSpam(payload.lead_name) || isLeadSpam(payload.free_text_description)) {
+  /* אותם כללים כמו ב-/api/lead-notify (lib/leads/payload-check.ts): קישור בשם
+     נדחה, מילות ספאם בטקסט החופשי רק מסמנות לבדיקה. קודם כל קישור בתיאור של
+     הלקוח (למשל שיר ביוטיוב) דחה את הפנייה כולה. LF-01, LF-16 */
+  if (nameHasUrl(payload.lead_name)) {
+    logLeadFailure({ route: "lead-intake", formId: FORM_ID, status: 400, error: "rejected" });
     return NextResponse.json({ ok: false, error: "rejected" }, { status: 400 });
   }
 
-  /* אותן שתי בדיקות ש-/api/lead-notify הריץ על הגוף הבנוי, עכשיו כאן */
   const emailBody = buildIntakeEmailBody(payload);
   if (emailBody.length > MAX_EMAIL_BODY_CHARS) {
+    logLeadFailure({
+      route: "lead-intake",
+      formId: FORM_ID,
+      status: 400,
+      error: "body_too_long",
+      bodyLength: emailBody.length,
+    });
     return NextResponse.json({ ok: false, error: "body_too_long" }, { status: 400 });
   }
-  if (isLeadSpam(emailBody)) {
-    return NextResponse.json({ ok: false, error: "rejected" }, { status: 400 });
-  }
+  const flags = leadSoftFlags(payload.lead_name, emailBody);
 
-  const [notified] = await Promise.all([
-    notifyLead(payload, emailBody, request, gate.ip),
+  const [delivery] = await Promise.all([
+    notifyLead(payload, emailBody, flags, request, gate.ip),
     fireCloserWebhook(payload),
   ]);
 
-  /* ok נשאר true גם כשההתראה נכשלה: הלקוח ממשיך לוואטסאפ בכל מקרה, וזו עדיין
-     הדרך שבה הליד מגיע. notified חושף את הכשל לניטור במקום להעלים אותו. */
-  return NextResponse.json({ ok: true, ticket_code: payload.ticket_code, notified });
+  /* ok משקף עכשיו אם הבעלים קיבל את הליד. קודם ok היה true תמיד, והאשף הציג
+     הצלחה גם כשהפרטים לא הגיעו לאף אחד. LF-02 */
+  if (!delivery.notified) {
+    const status = delivery.notConfigured ? 503 : 502;
+    const error = delivery.notConfigured ? "not_configured" : "not_notified";
+    logLeadFailure({
+      route: "lead-intake",
+      formId: FORM_ID,
+      status,
+      error,
+      leadId: delivery.leadId,
+      bodyLength: emailBody.length,
+    });
+    return NextResponse.json(
+      { ok: false, error, ticket_code: payload.ticket_code, notified: false },
+      { status },
+    );
+  }
+  return NextResponse.json({ ok: true, ticket_code: payload.ticket_code, notified: true });
 }

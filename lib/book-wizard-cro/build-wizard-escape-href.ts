@@ -6,7 +6,7 @@ import type { BookingSummaryLine } from "@/lib/booking-messages";
 import type { BookCategoryId } from "@/lib/book-url";
 import { sanitizeLeadText } from "@/lib/form-validation";
 
-export function buildWizardEscapeHref(opts: {
+export type WizardEscapeOptions = {
   category: BookCategoryId;
   serviceLabel: string;
   formId: string;
@@ -17,7 +17,15 @@ export function buildWizardEscapeHref(opts: {
   contactPhone?: string;
   ycStep: number;
   utmCampaign?: string;
-}): string {
+};
+
+/**
+ * גוף ההודעה המלא (בשביל המייל לבעלים) והקישור ללקוח.
+ * buildWhatsAppHref מסיר מהקישור את השורות הפנימיות (LF-06), ולכן אסור לגזור
+ * את גוף המייל מתוך הקישור: "ליד פרימיום" ושורת "כוונה" היו נעלמים מהמייל,
+ * והכלי המקומי של הבעלים קורא אותן.
+ */
+export function buildWizardEscapeLead(opts: WizardEscapeOptions): { body: string; href: string } {
   const lines = pickProgressiveSummaryLines(opts.summaryLines, 4);
   const body = buildBookingWhatsAppBody({
     intent: "continue_chat",
@@ -37,11 +45,16 @@ export function buildWizardEscapeHref(opts: {
     ycForm: opts.formId,
   });
 
-  return buildWhatsAppHref({
+  const href = buildWhatsAppHref({
     text: body,
     utm_source: "website",
     utm_campaign: opts.utmCampaign ?? `${opts.category}_wizard_escape`,
   });
+  return { body, href };
+}
+
+export function buildWizardEscapeHref(opts: WizardEscapeOptions): string {
+  return buildWizardEscapeLead(opts).href;
 }
 
 /** @deprecated use buildWizardEscapeHref */

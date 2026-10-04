@@ -504,7 +504,8 @@ const INVENTORY_FILE = path.join(ROOT, "lib", "data", "equipment-inventory.ts");
 const INVENTORY_STATE_FILE = path.join(OUT_DIR, "equipment-inventory-state.json");
 const INVENTORY_BOOKINGS_SITE = path.join(ROOT, "lib", "data", "equipment-inventory-bookings.json");
 const LIVE_STATUS_STATE_FILE = path.join(OUT_DIR, "live-status-state.json");
-const LIVE_STATUS_SITE = path.join(ROOT, "lib", "data", "live-status.json");
+/* lib/data/live-status.json הוסר מהאתר בשלב 5 (FIT-12): התג "זמין להקלטות השבוע"
+   היה סטטי. הסטטוס נשאר פנימי ל-closer בלבד, ולא נכתב יותר לאתר. */
 
 const DEFAULT_LIVE_STATUS = {
   availability: { mode: "available", busyUntil: null, customLabel: null },
@@ -575,13 +576,6 @@ function loadLiveStatus() {
   try {
     if (fs.existsSync(LIVE_STATUS_STATE_FILE)) {
       return JSON.parse(fs.readFileSync(LIVE_STATUS_STATE_FILE, "utf8"));
-    }
-  } catch {
-    /* ignore */
-  }
-  try {
-    if (fs.existsSync(LIVE_STATUS_SITE)) {
-      return JSON.parse(fs.readFileSync(LIVE_STATUS_SITE, "utf8"));
     }
   } catch {
     /* ignore */
@@ -784,6 +778,36 @@ function parseChatbotFaq() {
   }
 }
 
+/**
+ * הצעת הקלטת השיר (שלב 2 חלק ג, 2.10.2026): בסיס ושלוש תוספות. parseStudioPackages
+ * כבר לא מוצא את חבילות השיר שנמחקו (classic/pro/viral/all_in) ומפיל אותן
+ * בשקט, ולכן הכלי מקבל את ההצעה כאובייקט מפורש מ-getSongOfferExport, עם כל
+ * השילובים החוקיים והסכומים שהטופס באתר מציג.
+ */
+const SONG_OFFER_FILE = path.join(ROOT, "lib", "data", "song-offer.ts");
+function loadSongOfferExport() {
+  const tmpOut = path.join(ROOT, ".next", "tmp-song-offer-export.cjs");
+  try {
+    fs.mkdirSync(path.join(ROOT, ".next"), { recursive: true });
+    esbuild.buildSync({
+      entryPoints: [SONG_OFFER_FILE],
+      bundle: true,
+      format: "cjs",
+      platform: "node",
+      outfile: tmpOut,
+      tsconfig: path.join(ROOT, "tsconfig.json"),
+      logLevel: "silent",
+    });
+    const offer = createRequire(import.meta.url)(tmpOut).getSongOfferExport();
+    if (offer?.base?.id !== "song_recording" || !offer.combinations?.length) {
+      throw new Error("export:closer songOffer: getSongOfferExport returned no base or no combinations");
+    }
+    return offer;
+  } finally {
+    try { fs.unlinkSync(tmpOut); } catch { /* ignore */ }
+  }
+}
+
 const catalogText = fs.readFileSync(CATALOG_FILE, "utf8");
 const routesText = fs.readFileSync(ROUTES_FILE, "utf8");
 const studioText = fs.readFileSync(STUDIO_FILE, "utf8");
@@ -851,12 +875,20 @@ if (!Array.isArray(brandCopy.quickInjectIds) || brandCopy.quickInjectIds.length 
   throw new Error("quickInjectIds must be a non-empty array");
 }
 
+/* WP8 (ED-02): ה-hash של הקטלוג, אותו אחד כמו ב-docs/pricing-export.json.
+   scripts/audit-closer-sync.mjs משווה אותו לקטלוג החי, כדי שכלי ההצעות לא
+   יצטט מחירים ישנים אחרי שינוי מחיר באתר. */
+const PRICING_EXPORT_FILE = path.join(ROOT, "docs", "pricing-export.json");
+const pricingContentHash = JSON.parse(fs.readFileSync(PRICING_EXPORT_FILE, "utf8")).contentHash;
+
 const payload = {
   generatedAt: new Date().toISOString(),
+  pricingContentHash,
   vatRate: VAT_RATE,
   catalog: catalogExport,
   priceTransparencyMap: buildTransparencyMap(catalogExport),
   bookRoutePresets: parseBookRoutes(routesText),
+  songOffer: loadSongOfferExport(),
   studioPackages: parseStudioPackages(studioText, catalogExport),
   studioUpgrades: parseStudioUpgrades(studioText, catalogExport),
   recordingTypes: parseRecordingTypes(studioText),
@@ -926,11 +958,11 @@ const payload = {
   leadFlowWaTemplates: brandCopy.leadFlowWaTemplates || {},
   leadFlowPackages,
   leadFlowRoutes,
+  /* שריון מועד (החלטת הבעלים 3.10.2026, סבב שני): מקדמה בסכום שמסכמים יחד,
+     בלי Hold של 5 שעות. המפתח hold5h נשאר בשם הישן כי yakir-closer.html קורא
+     אותו, והטקסט בו הוא נוסח השריון. */
   leadFlowHold: {
-    durationHours: 5,
-    policyText:
-      brandCopy.yakirCallScripts?.hold5h ||
-      "אפשר לשמור תאריך ל-5 שעות. אחרי זה, בלי אישור ותשלום מראש, התאריך נפתח מחדש.",
+    policyText: brandCopy.yakirCallScripts.hold5h,
   },
   crossSellOffers: brandCopy.crossSellOffers,
   groupFamilyPitch: brandCopy.groupFamilyPitch,
@@ -966,13 +998,11 @@ const payload = {
 };
 
 const invBookings = payload.inventoryBookings;
-const liveStatus = payload.liveStatus;
 fs.writeFileSync(
   INVENTORY_BOOKINGS_SITE,
   `${JSON.stringify({ bookings: invBookings, updatedAt: new Date().toISOString() }, null, 2)}\n`,
   "utf8",
 );
-fs.writeFileSync(LIVE_STATUS_SITE, `${JSON.stringify(liveStatus, null, 2)}\n`, "utf8");
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(OUT_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");

@@ -16,6 +16,7 @@ import {
   WEDDING_PACKAGES_WHY,
 } from "@/lib/data/wedding-packages-page";
 import { getEventsService } from "@/lib/data/services";
+import { attractionBundleDiscountPercent } from "@/lib/data/pricing-catalog";
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
@@ -57,18 +58,15 @@ export default function WeddingPackagesPageContent() {
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 text-center sm:p-8"
           aria-labelledby="save-heading"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
-            חיסכון עד 30%
-          </p>
           <h2
             id="save-heading"
-            className="mt-2 text-xl font-semibold text-foreground sm:text-2xl"
+            className="text-xl font-semibold text-foreground sm:text-2xl"
           >
             DJ + אטרקציות + הגברה בחבילה אחת
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-            במקום להזמין כל שירות בנפרד, חבילה שלמה במחיר מוזל. חוסכים כסף,
-            זמן וכאבי ראש.
+            במקום להזמין כל שירות בנפרד, ספק אחד ותיאום אחד. על האטרקציות
+            בחבילה: הנחה של {attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת.
           </p>
         </section>
 

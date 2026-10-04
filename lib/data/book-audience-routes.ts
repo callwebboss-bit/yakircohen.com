@@ -1,10 +1,15 @@
 import type { BookCategoryId } from "@/lib/book-url";
 import type { FilterAnswers } from "@/lib/data/filter-questions";
+import { EVENT_ATTRACTION_FROM_NIS } from "@/lib/data/pricing";
 import {
-  EVENT_ATTRACTION_FROM_NIS,
-  STUDIO_HALF_HOUR_NIS,
-} from "@/lib/data/pricing";
-import { formatFromPriceDual, getExVat, getScopeById, type PriceScope } from "@/lib/data/pricing-catalog";
+  catalogWithVat,
+  DJ_TEAM_NOTE,
+  formatFromPriceDual,
+  getExVat,
+  getScopeById,
+  type PriceAudience,
+  type PriceScope,
+} from "@/lib/data/pricing-catalog";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
 import { appendYcLeadTag, emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -68,6 +73,8 @@ export type BookAudienceRoute = {
   priceNote?: string;
   scope?: PriceScope;
   startingPriceDual: string;
+  /** "business" למסלול pro-b2b: לפני מע״מ קודם. ברירת מחדל צרכן */
+  priceAudience?: PriceAudience;
   upsellHint: string;
   emotionalQuestion: string;
   emotionalOptions: readonly EmotionalOption[];
@@ -108,16 +115,18 @@ export function getSuperCategoryForRoute(routeId: string): BookSuperCategory | n
   return null;
 }
 
-const STUDIO_FROM = 590;
-const SINGER_FROM = 2800;
-const ACADEMY_FROM = 990;
+const STUDIO_FROM = getExVat("blessing_recording");
+const PODCAST_FROM = getExVat("podcast_audio");
+const DJ_FROM = getExVat("dj_premium");
+const SINGER_FROM = getExVat("singer_amp_basic");
+const ACADEMY_FROM = getExVat("academy_private_hour");
 const ONLINE_FROM = getExVat("damaged_recording_rescue");
 /* היה studio_hour, כלומר שעת אולפן. ההיקף שנגזר ממנו הצהיר "לא כולל עריכה"
    מתחת לכרטיס צילום, בעוד עמוד הצילום מבטיח שהעריכה כלולה. */
 const PHOTO_FROM = getExVat("event_photo_hourly");
 
-function dual(exVat: number): string {
-  return formatFromPriceDual(exVat);
+function dual(exVat: number, audience: PriceAudience = "consumer"): string {
+  return formatFromPriceDual(exVat, audience);
 }
 
 export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
@@ -150,7 +159,7 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     filterPreset: { purpose: "gift", timeline: "this_month" },
     whatsappFastMessageBase:
       "שלום, אנחנו מחפשים הקלטה לאירוע משפחתי.\nמה שחסר לנו: ברכה / שיר לאירוע משפחתי\nשם החוגג/ת (מי יקליט): _____",
-    valueFrame: "590₪ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך",
+    valueFrame: `${catalogWithVat(STUDIO_FROM).toLocaleString("he-IL")} ₪ כולל מע״מ שחוסכים הקלטה לא מקצועית ועריכה יקרה אחר כך`,
     closerServiceId: "recording",
     homeCardTitle: "שיר בהפתעה וברכות",
     homeCardDescription:
@@ -171,10 +180,12 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     description:
       "חדר מבודד רעשים, ציוד שידורי ועריכה מלאה. תגיעו, תדברו, תקבלו MP3 גמור.",
     essenceMicroCopy: "התוכן שלכם יישמע מקצועי, ברור ומוכן לפרסום.",
-    priceExVat: STUDIO_HALF_HOUR_NIS,
-    priceNote: "חצי שעה באולפן",
-    scope: getScopeById("studio_half_hour"),
-    startingPriceDual: dual(STUDIO_HALF_HOUR_NIS),
+    /* WP3 (PI-02, PB-01): היה studio_half_hour, חצי שעה בלי עריכה, מתחת
+       לכותרת שמבטיחה "עריכה מלאה" ו-"MP3 גמור". פרק ערוך הוא podcast_audio. */
+    priceExVat: PODCAST_FROM,
+    priceNote: "פרק אודיו ערוך, מוכן להפצה",
+    scope: getScopeById("podcast_audio"),
+    startingPriceDual: dual(PODCAST_FROM),
     upsellHint: "אפשר להוסיף: עריכת פרקים - חבילה חודשית - תמלול",
     emotionalQuestion: "מה התוכן שאתם רוצים שהעולם ישמע?",
     emotionalOptions: [
@@ -244,10 +255,13 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     description:
       "DJ בוטיק עם ציוד מלא לאירועים. מוזיקה, עשן כבד, זיקוקים קרים ו-LED - לקהל מעורב וחד-גוני.",
     essenceMicroCopy: "DJ ואפקטים לאירועים. ניסיון בקהלים מעורבי-גיל ובסוגי אירועים שונים.",
-    priceExVat: EVENT_ATTRACTION_FROM_NIS,
-    priceNote: "מחיר התחלתי לאפקט / DJ",
-    scope: { includes: "DJ או אפקט בודד" },
-    startingPriceDual: dual(EVENT_ATTRACTION_FROM_NIS),
+    /* WP2 (FIT-01, OE-01, PJ-01): היה event_attraction_1 (אטרקציה בודדת)
+       בכרטיס שכותרתו DJ. DJ מהצוות הוא dj_premium, 4 שעות ועד 300 מוזמנים
+       (החלטת הבעלים ED-04). */
+    priceExVat: DJ_FROM,
+    priceNote: DJ_TEAM_NOTE,
+    scope: getScopeById("dj_premium"),
+    startingPriceDual: dual(DJ_FROM),
     upsellHint: "אפשר לשלב: עשן + זיקוקים + LED במחיר חבילה",
     emotionalQuestion: "מהו הסגנון המוזיקלי לאירוע?",
     emotionalOptions: [
@@ -414,7 +428,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
     priceExVat: getExVat("dj_voice_tag_single"),
     priceNote: "תג קולי בודד",
     scope: { includes: "תג קולי מוכן לשידור" },
-    startingPriceDual: dual(getExVat("dj_voice_tag_single")),
+    startingPriceDual: dual(getExVat("dj_voice_tag_single"), "business"),
+    priceAudience: "business",
     upsellHint: "אפשר לשלב: חבילת 5 תגים - מאשאפ חירום - פס ייצור חודשי",
     emotionalQuestion: "איזה שירות הכי דחוף לכם?",
     emotionalOptions: [
@@ -458,7 +473,7 @@ export function buildFastWhatsAppMessage(
   emotionalAnswer?: string | null,
   qualificationAnswers?: Record<string, string>,
 ): string {
-  const priceLine = route.startingPriceDual.replace("כרגע: ", "ראינו ");
+  const priceLine = `ראינו ${route.startingPriceDual}`;
   const emotionLine = emotionalAnswer?.trim()
     ? `\nמה שחשוב לי: ${emotionalAnswer}`
     : "";
