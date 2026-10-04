@@ -14,23 +14,23 @@ function walk(dir, files = []) {
   return files;
 }
 
+// ערך של 11 תווים נחשב מזהה סרטון רק כשהמפתח שלו עצמו מדבר על סרטון
+// (videoId, youtubeId, video). חלון של 40 תווים לפני הנקודתיים תפס מילים
+// משורות סמוכות והפך ל-FAIL את "VideoObject", "bat-mitzvah" ו-"bat_mitzvah".
+const VIDEO_KEY = /video|youtube|embed/i;
+
 const ids = new Map();
 for (const file of walk(join(ROOT, "lib")).concat(walk(join(ROOT, "components")))) {
   const text = readFileSync(file, "utf8");
-  let m;
-  const re1 = /videoId:\s*["']([A-Za-z0-9_-]{11})["']/g;
-  while ((m = re1.exec(text))) add(m[1], file);
-  const re2 = /:\s*["']([A-Za-z0-9_-]{11})["']/g;
-  while ((m = re2.exec(text))) {
-    if (text.slice(Math.max(0, m.index - 40), m.index).match(/embed|youtube|video|Video|YOUTUBE|SHOWCASE|CLIP|FEATURED/i)) {
-      add(m[1], file);
-    }
+  for (const m of text.matchAll(/["']?([\w$@-]+)["']?\s*:\s*["']([A-Za-z0-9_-]{11})["']/g)) {
+    if (VIDEO_KEY.test(m[1])) add(m[2], file);
   }
 }
 
+// כל ערך במפות של youtube-embeds.ts הוא מזהה, גם כשהמפתח לא מצוטט (batMitzvahClips)
 const embedsText = readFileSync(join(ROOT, "lib/data/youtube-embeds.ts"), "utf8");
 for (const m of embedsText.matchAll(
-  /["'][\w-]+["']:\s*["']([A-Za-z0-9_-]{11})["']/g,
+  /["']?[\w-]+["']?:\s*["']([A-Za-z0-9_-]{11})["']/g,
 )) {
   add(m[1], "lib/data/youtube-embeds.ts");
 }
