@@ -255,13 +255,13 @@ describe("song offer: callback request (Phase 1 submit contract)", () => {
 
   it("carries the selection, the totals and a link back to it", () => {
     assert.ok(req.body.includes("• קליפ ערוך מהסשן באולפן - 885 ₪"));
-    assert.ok(req.body.includes("• ראיון קצר במתחם הפודקאסט - 590 ₪"));
+    assert.ok(req.body.includes("• פודקאסט אישי לפני השיר - 590 ₪"));
     assert.ok(req.body.includes("סה״כ: 2,065 ₪ כולל מע״מ (1,750 ₪ + מע״מ)"));
     assert.ok(req.body.includes("[YC:"));
     assert.ok(req.subject.includes("2,065 ₪"));
     assert.deepEqual(req.pricingRef, {
       sectionId: "song-offer",
-      label: "הקלטת שיר (הקלטה, מיקס ומאסטר) + קליפ ערוך מהסשן באולפן + ראיון קצר במתחם הפודקאסט",
+      label: "הקלטת שיר (הקלטה, מיקס ומאסטר) + קליפ ערוך מהסשן באולפן + פודקאסט אישי לפני השיר",
       exVat: 1750,
       href: `/studio/recording-song-modiin?addons=${CLIP},${INTERVIEW}#song-offer`,
     });
@@ -532,11 +532,12 @@ describe("song offer: the 3.10.2026 lead (six singers, clip, family talk, photos
     assert.deepEqual(normalizeSongAddons(ALL), ALL);
   });
 
-  it("the interview covers a family talk and is delivered on its own too", () => {
+  it("the personal podcast covers family questions and is delivered on its own too", () => {
     const view = getSongOfferView();
     const interview = view.addons.find((a) => a.id === INTERVIEW)!;
     const text = [interview.description, ...interview.included].join(" ");
-    assert.match(text, /שיחה משפחתית/);
+    assert.match(text, /המשפחה או חבר קרוב/);
+    assert.match(text, /מראיינים/);
     assert.match(text, /קובץ נפרד/);
   });
 

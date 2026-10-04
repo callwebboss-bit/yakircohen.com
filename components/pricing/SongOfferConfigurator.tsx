@@ -316,7 +316,7 @@ export default function SongOfferConfigurator({
 
       <div className="mt-4">
         <label htmlFor={`${uid}-notes`} className="text-sm font-semibold text-foreground">
-          משהו נוסף שחשוב לכם? (לא חובה)
+          משהו נוסף שחשוב לכם לציין? (לא חובה)
         </label>
         <textarea
           id={`${uid}-notes`}
@@ -329,7 +329,7 @@ export default function SongOfferConfigurator({
           aria-describedby={`${uid}-notes-help`}
         />
         <p id={`${uid}-notes-help`} className="mt-1 text-xs text-muted-foreground">
-          נכנס להודעה כמו שכתבתם, בלי מחיר.
+          חששות, בקשות, או כל דבר שיעזור לכם. זה המקום לספר.
         </p>
       </div>
 

@@ -221,7 +221,7 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   },
   {
     id: "podcast_interview",
-    name: `ראיון קצר במתחם הפודקאסט (${SONG_INTERVIEW_DURATION})`,
+    name: `פודקאסט אישי לפני השיר (${SONG_INTERVIEW_DURATION})`,
     description: "לפני הסשן, על השיר או על החוגג/ת. משולב בקליפ הערוך.",
     price: getExVat("song_pre_session_interview"),
   },

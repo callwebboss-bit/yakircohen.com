@@ -282,7 +282,7 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         displayOrder: 50,
       }),
       hubRow("song_pre_session_interview", {
-        label: "תוספת לקליפ: ראיון קצר במתחם הפודקאסט",
+        label: "תוספת לקליפ: פודקאסט אישי לפני השיר",
         href: "/studio/recording-song-modiin",
         displayOrder: 60,
       }),
