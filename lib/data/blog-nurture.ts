@@ -376,9 +376,9 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
       { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
       { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת מצווה" },
     ],
-    ctaHeading: "רוצים לבנות את הרשימה יחד?",
-    ctaBody: "כתבו לנו בוואטסאפ מתי האירוע ומי הקהל, ונדבר.",
-    ctaLabel: "כתבו לנו בוואטסאפ",
+    ctaHeading: "לא בטוחים איזה שיר מתאים לקול שלה?",
+    ctaBody: "שלחו לנו בוואטסאפ קטע קצר שבו היא שרה, ונגיד לכם אילו שירים מתאימים לה.",
+    ctaLabel: "שלחו קטע בוואטסאפ",
   },
   "wedding-songs-chuppah": {
     audience: [
