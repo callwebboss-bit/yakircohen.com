@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 162,
-  "contentHash": "b0ebbc037390caea",
+  "itemCount": 163,
+  "contentHash": "4bfa691c16014afe",
   "items": [
     {
       "id": "studio_half_hour",
@@ -79,6 +79,16 @@
       "inclVat": 5310,
       "priceFrom": false,
       "context": "שיר מוגמר וקליפ וידאו לשיתוף. כולל כתיבה, עיבוד, מיקס ועריכת וידאו"
+    },
+    {
+      "id": "song_original_mitzvah",
+      "label": "שיר מקורי לבר או בת מצווה",
+      "category": "studio",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "כתיבת מילים ולחן לפי מילים שכותבים יחד איתכם, עד שתי סקיצות שונות, והקלטה באולפן. תיקון זיופים לא כלול.",
+      "suitedFor": "בר או בת מצווה"
     },
     {
       "id": "studio_session_clip",
