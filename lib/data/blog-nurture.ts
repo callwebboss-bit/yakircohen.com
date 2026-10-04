@@ -46,6 +46,7 @@ export const NURTURE_BLOG_SLUGS = [
   "record-song-10-minutes-ai",
   "headphones-purpose-guide",
   "wedding-songs-chuppah",
+  "bat-mitzvah-songs",
 ] as const;
 
 export type NurtureBlogSlug = (typeof NURTURE_BLOG_SLUGS)[number];
@@ -364,6 +365,21 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
      וה-CTA הראשי מצביע ל-/studio (hub) במקום לעמוד הקלטת השיר.
      הקישור הראשון נשאר האולפן - מי שבוחר שיר לחופה הוא לקוח אולפן.
      חבילות החתונה נוספות כקישור שלישי בלי לוותר על המשפך. */
+  "bat-mitzvah-songs": {
+    audience: [
+      "הורים שבונים רשימת שירים לבת מצווה",
+      "מי שמחפש שיר כניסה, קצבי או מרגש",
+      "משפחה שרוצה להקליט שיר לבת",
+    ],
+    serviceLinks: [
+      { href: "/events/bar-mitzvah", label: "DJ לבר ובת מצווה" },
+      { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
+      { href: "/studio/blessings/bat-mitzvah-clip", label: "קליפ בת מצווה" },
+    ],
+    ctaHeading: "רוצים לבנות את הרשימה יחד?",
+    ctaBody: "כתבו לנו בוואטסאפ מתי האירוע ומי הקהל, ונדבר.",
+    ctaLabel: "כתבו לנו בוואטסאפ",
+  },
   "wedding-songs-chuppah": {
     audience: [
       "זוגות שבוחרים שיר כניסה לחופה ולריקוד הראשון",

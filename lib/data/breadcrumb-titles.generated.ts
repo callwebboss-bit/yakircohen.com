@@ -87,7 +87,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "podcast-editing-complaints": "עריכת פודקאסט איטית, יקרה ולא שקופה? 5 תלונות קלאסיות",
   "online-audio-service-complaints": "שלחתי קובץ לתיקון זיופים - יצא רובוטי או לא חזר. 5 תלונות על עריכה מרחוק",
   "voiceover-business-complaints": "קריינות לעסק שנשמעת זולה או רובוטית: 5 תלונות על קריינים",
-  "headphones-purpose-guide": "איך לבחור אוזניות: קודם מגדירים מטרה"
+  "headphones-purpose-guide": "איך לבחור אוזניות: קודם מגדירים מטרה",
+  "bat-mitzvah-songs": "שירים לבת מצווה: שיר כניסה, שירים דתיים ושיר מהמשפחה"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */
