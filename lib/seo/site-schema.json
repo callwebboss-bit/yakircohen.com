@@ -104,8 +104,8 @@
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 31.901,
-        "longitude": 35.013
+        "latitude": 31.904389,
+        "longitude": 35.013881
       },
       "hasMap": "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8",
       "openingHoursSpecification": [

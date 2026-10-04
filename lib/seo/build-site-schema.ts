@@ -14,7 +14,7 @@ import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import { withVat } from "@/lib/data/pricing";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
-import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME } from "@/lib/constants";
+import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME, STUDIO_GEO } from "@/lib/constants";
 
 const BASE = SITE_URL;
 
@@ -142,8 +142,8 @@ export function buildSiteSchema() {
         address: ADDRESS,
         geo: {
           "@type": "GeoCoordinates",
-          latitude: 31.901,
-          longitude: 35.013,
+          latitude: STUDIO_GEO.latitude,
+          longitude: STUDIO_GEO.longitude,
         },
         hasMap: STUDIO_MAPS_URL,
         openingHoursSpecification: [

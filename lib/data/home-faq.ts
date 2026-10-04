@@ -12,6 +12,21 @@ import {
   STUDIO_PRICE_FACTORS_FAQ,
 } from "@/lib/data/faq-aeo";
 
+/* מדיניות הביטול כמו שהיא כתובה בתנאי השירות (lib/data/legal/terms-content.tsx,
+   סעיף 1). קודם היו שלוש גרסאות: "החזר מלא עד 14 יום" בסכמה, ו"ננסה לתאם מועד
+   חלופי" בעמוד הבית ובעמוד השאלות. מקור אחד לשלושתם. */
+export const CANCELLATION_SUMMARY =
+  "ביטול עד 14 יום לפני האירוע: החזר מלא. פחות מ-14 יום: בודקים כל בקשה, ואם נמצאת הזמנה חלופית, זה בחינם. שינוי תאריך: בלי דמי שינוי, לפי זמינות. ביטול בגלל כוח עליון: החזר מלא.";
+export const CANCELLATION_ANSWER = `${CANCELLATION_SUMMARY} הפרטים המלאים בתנאי השירות.`;
+
+/* זמני מסירה לפי החלטות הבעלים 2.10-3.10: ברכה 24-48 שעות, שיר בסוף הסשן,
+   פודקאסט באותה שנייה. גם /about/faq קורא מכאן, כדי שלא תהיה שם גרסה אחרת. */
+export const DELIVERY_TIME_FAQ = {
+  question: "תוך כמה זמן מקבלים קובץ מוכן?",
+  answer:
+    "הקלטת ברכה פשוטה: מוכן תוך 24-48 שעות. הקלטת שיר על פלייבק: השיר אצלכם בסוף הסשן. פודקאסט: הפרק אצלכם באותה שנייה שמסיימים להקליט. אירועים: לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.",
+} as const;
+
 export type HomeFaqItem = {
   id: string;
   question: string;
@@ -39,7 +54,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "location-parking",
     question: "איפה האולפן ויש חנייה?",
     answerPlain:
-      "האולפן ממוקם בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח.",
+      "האולפן ממוקם בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן.",
   },
   {
     id: "ai-restoration",
@@ -60,9 +75,8 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
   },
   {
     id: "delivery-time",
-    question: "תוך כמה זמן מקבלים קובץ מוכן?",
-    answerPlain:
-      "הקלטת ברכה פשוטה: מוכן תוך 24-48 שעות. הקלטת שיר על פלייבק: השיר אצלכם בסוף הסשן. פודקאסט: הפרק אצלכם באותה שנייה שמסיימים להקליט. אירועים: לפי היקף הפרויקט. לוח זמנים ברור נקבע בשיחה הראשונה.",
+    question: DELIVERY_TIME_FAQ.question,
+    answerPlain: DELIVERY_TIME_FAQ.answer,
   },
   {
     id: "service-area",
@@ -80,7 +94,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "cancellation",
     question: "מה קורה אם צריך לבטל או לשנות תאריך?",
     answerPlain:
-      "ביטול עד 14 יום לפני - החזר מלא. שינוי תאריך - חינם. פרטים מלאים בתנאי השירות.",
+      CANCELLATION_ANSWER,
   },
   {
     id: "remote-fix",

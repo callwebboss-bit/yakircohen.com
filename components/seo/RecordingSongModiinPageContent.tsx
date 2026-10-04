@@ -40,6 +40,7 @@ import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchPro
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import StudioSessionClipOffer from "@/components/booking/StudioSessionClipOffer";
+import { SONG_TO_VENUE_DJ_FAQ } from "@/lib/data/faq-aeo";
 
 const service = getStudioService("recording-song-modiin");
 
@@ -394,8 +395,8 @@ export default function RecordingSongModiinPageContent() {
               רוב הלקוחות שלנו אינם זמרים מקצועיים.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              מעל 500 משפחות ממודיעין, מכבים ורעות הקליטו שיר באולפן - רובן
-              בלי שום ניסיון שירה. מי שרוצה ביטחון נוסף מוסיף את תוספת תיקון
+              משפחות מכל מודיעין והסביבה כבר הקליטו אצלנו שיר, רובן בלי שום
+              ניסיון שירה. מי שרוצה ביטחון נוסף מוסיף את תוספת תיקון
               הזיופים, עם טכנאי שמכוון ומנחה בזמן ההקלטה.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -440,11 +441,12 @@ export default function RecordingSongModiinPageContent() {
             aria-label="אמינות מקומית"
           >
             <p className="text-center text-sm leading-relaxed text-muted-foreground">
-              כבר מעל{" "}
-              <strong className="text-foreground">500 משפחות</strong> ממודיעין,
-              מכבים, רעות ומהסביבה הקליטו שיר באולפן - מאירועי בית ספר עירוני
-              א׳ ובית ספר שבלולים, דרך אירועי עיריית מודיעין ועד לחתונות
-              פרטיות.
+              במודיעין, מכבים, רעות, מורשת והסביבה כבר יודעים:{" "}
+              <strong className="text-foreground">
+                אנחנו משרתים את המודיעינים באהבה ובשמחה
+              </strong>
+              , מאירועי בית ספר עירוני א׳ ובית ספר שבלולים, דרך אירועי עיריית
+              מודיעין ועד לחתונות פרטיות.
             </p>
           </section>
 
@@ -469,7 +471,7 @@ export default function RecordingSongModiinPageContent() {
                 ["ליווי מקצועי", "לבד מול המסך", "טכנאי באולפן לאורך כל ההקלטה"],
                 ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר בבסיס, תיקון זיופים כתוספת"],
                 ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
-                ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
+                ["נגישות", "-", "עמק איילון 34, 3 דקות נסיעה מתחנת הרכבת מודיעין מרכז"],
               ].map(([feature, home, studio]) => (
                 <li key={feature} className="rounded-xl border border-border bg-surface p-4">
                   <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
@@ -516,7 +518,7 @@ export default function RecordingSongModiinPageContent() {
                     ["ליווי מקצועי", "לבד מול המסך", "טכנאי באולפן לאורך כל ההקלטה"],
                     ["עריכה", "אוטומטית ובסיסית", "מיקס ומאסטר בבסיס, תיקון זיופים כתוספת"],
                     ["שמירת הקובץ", "אצלכם בלבד", "גיבוי ענן לכל החיים - זמין תמיד בלחיצת כפתור"],
-                    ["נגישות", "-", "מרכז מודיעין - 15 דקות ממכבים ורעות"],
+                    ["נגישות", "-", "עמק איילון 34, 3 דקות נסיעה מתחנת הרכבת מודיעין מרכז"],
                   ].map(([feature, home, studio]) => (
                     <tr key={feature} className="bg-surface hover:bg-muted/20">
                       <td className="px-6 py-4 font-medium text-foreground">{feature}</td>
@@ -741,7 +743,11 @@ export default function RecordingSongModiinPageContent() {
             </header>
             <div className="mx-auto mt-10 max-w-3xl divide-y divide-border rounded-xl border border-border bg-surface px-4 sm:px-6">
               {service.faqs.map((faq) => (
-                <details key={faq.id} className="group py-1">
+                <details
+                  key={faq.id}
+                  className="group py-1"
+                  open={faq.id === SONG_TO_VENUE_DJ_FAQ.id}
+                >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 outline-none">
                     <h3 className="text-start text-sm font-semibold text-foreground sm:text-base">
                       {faq.question}
@@ -764,9 +770,20 @@ export default function RecordingSongModiinPageContent() {
                       </svg>
                     </span>
                   </summary>
-                  <p className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
-                    {faq.answer}
-                  </p>
+                  {faq.steps && faq.lead ? (
+                    <div className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
+                      <p>{faq.lead}</p>
+                      <ol className="mt-2 list-decimal space-y-1 ps-5">
+                        {faq.steps.map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  ) : (
+                    <p className="pb-5 pt-1 text-sm leading-relaxed text-muted-foreground">
+                      {faq.answer}
+                    </p>
+                  )}
                 </details>
               ))}
             </div>

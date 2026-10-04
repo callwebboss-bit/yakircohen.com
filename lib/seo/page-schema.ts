@@ -2,6 +2,7 @@ import { withVat } from "@/lib/data/pricing";
 import type { ServiceEntity, ServicePricingTier } from "@/lib/data/services";
 import { absoluteUrl } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import { STUDIO_GEO } from "@/lib/constants";
 import { BRAND_SUFFIX } from "@/lib/seo/normalize-title";
 import sitemapDates from "@/lib/data/sitemap-dates.generated.json";
 
@@ -36,8 +37,8 @@ const SERVICE_AREA_SERVED: Record<string, unknown> = {
   "@type": "GeoCircle",
   geoMidpoint: {
     "@type": "GeoCoordinates",
-    latitude: 31.896,
-    longitude: 35.010,
+    latitude: STUDIO_GEO.latitude,
+    longitude: STUDIO_GEO.longitude,
   },
   geoRadius: "50000",
 };

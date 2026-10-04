@@ -1,6 +1,7 @@
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
+import { CANCELLATION_ANSWER, DELIVERY_TIME_FAQ } from "@/lib/data/home-faq";
 
 /* התשובה על "כמה עולה" נכנסת לסכמת FAQPage, ולכן מחיר מיושן כאן מתפרסם
    לגוגל כעובדה. היא הצהירה 1,750 ₪ לאטרקציה אחרי שהקטלוג כבר אמר 1,695.
@@ -44,9 +45,10 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
   },
   {
     id: "delivery-time",
-    question: "תוך כמה זמן קובץ הסאונד או הסרטון הערוך מוכן?",
-    answer:
-      "שירים וברכות לאירועים מוכנים בדרך כלל תוך 2-3 ימי עסקים. פודקאסטים ותכנים עסקיים מקבלים עדיפות עריכה כדי שלא תפספסו את ציר הזמן השיווקי שלכם. יש לכם אירוע דחוף? ציינו את התאריך מראש ונאמת מה אפשרי.",
+    /* "2-3 ימי עסקים" סתר את "השיר אצלכם בסוף הסשן" ואת הפודקאסט המיידי,
+       ושתי הגרסאות נשלחו לגוגל מאותו עמוד. עכשיו אותו מקור כמו עמוד הבית. */
+    question: DELIVERY_TIME_FAQ.question,
+    answer: DELIVERY_TIME_FAQ.answer,
     ctaText: "יש לכם תאריך אחרון בראש? שלחו ונחשב יחד מה אפשרי",
     whatsappMessage:
       "שלום, יש לנו פרויקט סאונד שצריך לסיים עד [תאריך]. מה הכי מהיר שאפשר לתזמן הקלטה ועריכה?",
@@ -102,7 +104,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "location-parking",
     question: "איפה האולפן ויש חנייה?",
     answer:
-      "האולפן בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח. נגישות נוחה מהמרכז וירושלים.",
+      "האולפן בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן. נגישות נוחה מהמרכז וירושלים.",
     ctaText: "קבלו מחיר ותאריך פנוי",
     whatsappMessage: "שלום, רוצה לתאם הגעה לאולפן במודיעין. מתי יש מקום?",
     utm_campaign: "faq_location",
@@ -148,7 +150,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "cancellation",
     question: "מה קורה אם צריך לבטל או לשנות תאריך?",
     answer:
-      "עדכנו אותנו בהקדם בוואטסאפ. ננסה לתאם מועד חלופי. מדיניות ביטולים מפורטת בתנאי השירות באתר.",
+      CANCELLATION_ANSWER,
     ctaText: "עדכנו אותנו בוואטסאפ",
     whatsappMessage: "שלום, צריך לשנות/לבטל תאריך שהזמנו. מה האפשרויות?",
     utm_campaign: "faq_cancellation",
