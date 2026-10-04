@@ -81,11 +81,6 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
         note: "8A↔8B - רגש עומר על דרופ בינלאומי, אותו מספר על הגלגל.",
       },
     },
-    youtubeDemo: {
-      videoId: "0pYqGVnjKts",
-      label: "רפרנס - Can't Hold Us × מזרחית",
-      source: "reference",
-    },
   },
   eden_hurricane_german_avny: {
     music: {
@@ -420,11 +415,6 @@ export const MASHUP_IDEA_ENRICHMENTS: Record<string, MashupIdeaEnrichment> = {
         targetBpm: 128,
         note: "טיקטוק הוכיח את הרעיון - הגרסה המקצועית לרחבה חכמה.",
       },
-    },
-    youtubeDemo: {
-      videoId: "pSykR71LHEQ",
-      label: "רפרנס - Heat Waves mashup culture",
-      source: "reference",
     },
   },
   gospel_afro_hora: {
