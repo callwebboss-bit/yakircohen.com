@@ -179,8 +179,9 @@ export const PRICING_CATALOG = [
     label: "תמונות וסרטונים מהבית, עד 40",
     exVat: 400,
     category: "addons",
-    context: "עד 40 תמונות וסרטונים שלכם מהבית משולבים בשיר. יותר מ-40 בהצעת מחיר.",
-    suitedFor: "תוספת לשיר באולפן",
+    context: "עד 40 תמונות וסרטונים שלכם מהבית, משולבים בקליפ הערוך. יותר מ-40 בהצעת מחיר.",
+    suitedFor: "תוספת לקליפ הערוך מהסשן",
+    requires: "studio_session_clip_edited",
   },
   {
     id: "studio_session_clip",
