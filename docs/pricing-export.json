@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 163,
-  "contentHash": "4bfa691c16014afe",
+  "itemCount": 164,
+  "contentHash": "416ff98f74deb301",
   "items": [
     {
       "id": "studio_half_hour",
@@ -89,6 +89,16 @@
       "priceFrom": false,
       "context": "כתיבת מילים ולחן לפי מילים שכותבים יחד איתכם, עד שתי סקיצות שונות, והקלטה באולפן. תיקון זיופים לא כלול.",
       "suitedFor": "בר או בת מצווה"
+    },
+    {
+      "id": "song_home_media_40",
+      "label": "תמונות וסרטונים מהבית, עד 40",
+      "category": "addons",
+      "exVat": 400,
+      "inclVat": 472,
+      "priceFrom": false,
+      "context": "עד 40 תמונות וסרטונים שלכם מהבית משולבים בשיר. יותר מ-40 בהצעת מחיר.",
+      "suitedFor": "תוספת לשיר באולפן"
     },
     {
       "id": "studio_session_clip",
