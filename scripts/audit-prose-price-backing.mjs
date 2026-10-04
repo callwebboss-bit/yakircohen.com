@@ -118,7 +118,9 @@ for (const file of files) {
       values.add(Number((m[1] || m[2]).replace(/,/g, "")));
     }
     for (const value of values) {
-      if (backed.has(value)) continue;
+      /* הפטור נבדק לפני הגיבוי: מחיר שוק של מיקרופון ב-400 לא הופך למחיר
+         שלנו כשבמקרה נכנס לקטלוג פריט ב-400 (תמונות וסרטונים מהבית, 4.10.2026).
+         בסדר ההפוך הפטור המנומק היה הופך ל"מת" והשער היה נכשל עליו. */
       const entry = EXEMPT.find(
         (e) => e.value === value && e.file === file && line.includes(e.match),
       );
@@ -126,6 +128,7 @@ for (const file of files) {
         usedExempt.add(entry);
         continue;
       }
+      if (backed.has(value)) continue;
       unbacked.push({
         file,
         line: idx + 1,
