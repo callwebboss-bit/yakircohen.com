@@ -4,64 +4,53 @@
 This version has breaking changes - APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-## שתי מכונות, ריפו אחד על Dropbox. לקרוא לפני כל פעולה
+## מצב האתר ומה פתוח
 
-**הפקודה הראשונה בכל סשן שנוגע בבנייה, בבדיקות או בפריסה:**
+**`docs/HANDOFF-2026-10-04.md`** הוא נקודת הפתיחה: מה בוצע, מה פתוח,
+ואיזה ענפים מחזיקים עבודה שלא נכנסה ל-main. לקרוא אותו לפני שמתחילים
+משימה חדשה, כדי לא לבנות משהו שסוכן אחר כבר בנה.
 
-```
-npm run deploy:status
-```
+## מאיפה עובדים ומי דוחף (מ-4.10.2026)
 
-היא קוראת בלבד, ואומרת מי המכונה הזו, אם עץ העבודה נקי, אם תיקיות הבנייה
-מוחרגות מ-Dropbox, אם node_modules הותקן בפלטפורמה הנכונה, ומה הפעולה הבאה.
-יוצאת בקוד 1 כשמשהו חוסם.
+**הריפו כבר לא ב-Dropbox.** העותק שעובדים בו הוא שיבוט מ-GitHub:
 
-**החלוקה, ואינה נתונה לפרשנות:**
-
-| מכונה | תפקיד | מה אסור |
+| מכונה | נתיב | תפקיד |
 |---|---|---|
-| מק | פיתוח, מדידה, קומיטים | אין הרשאות GitHub. לא לנסות `git push` |
-| ווינדוס | פיתוח **וגם הפורס הבלעדי** | לא לפרוס לפני `deploy:status` ירוק וקריאת `docs/DEPLOY-RUNBOOK.md` |
+| מק | `~/Code/yakircohen-site` | פיתוח, מדידה, **ודחיפה ל-GitHub** (טוקן ב-osxkeychain) |
+| ווינדוס | אין | **לא דוחף.** הבעלים הפסיק לדחוף מווינדוס ב-4.10 |
 
-**מה שמפתיע סוכנים חדשים:** ה-`.git` עצמו מסונכרן ב-Dropbox. קומיט שנוצר
-במק **כבר נמצא** בווינדוס בלי `git pull`, ו-GitHub עדיין לא מכיר אותו.
-לכן `git fetch` לא יביא את העבודה של המכונה השנייה, והיעדר הקומיטים
-ב-GitHub אינו סימן שמשהו חסר.
+**התיקייה `Dropbox/YakirCohen.com/yakircohen-site` היא ארכיון.** ה-`.git`
+שלה פגום: חסרים בו 17 קובצי pack ו-8 אובייקטים בטווח `1d0be2e..e2550b8`,
+ויש בו 10 עותקים מתנגשים של `index`. לא להריץ בה git, לא לעבוד בה, ולא
+להעתיק ממנה תיקייה שלמה. מה שעוד לא נדחף משם שמור כ-bundle ב-`~/yakir-backups`,
+ונמשך לשיבוט עם `git fetch <bundle> <ענף>:<ענף>`.
 
-**מה שאסור להסתנכרן ב-Dropbox:** `.next`, `node_modules`, `.visual-baseline`.
-הדגל `com.dropbox.ignored` הוא לכל מכונה בנפרד ויושב על התיקייה עצמה,
-ולכן מחיקת התיקייה מוחקת אותו.
+**הסדר בכל סשן:**
+1. `git pull` על `main`.
+2. worktree וענף לכל סשן (`git worktree add ../wt-<נושא> -b <ענף>`). שני סשנים
+   לא כותבים לאותו עץ.
+3. `npm run deploy:status` לפני בנייה, בדיקות או דחיפה.
+4. לפני דחיפה: `npm test`, `npx tsc --noEmit`, `npm run verify:seo`, ושינוי
+   שמשפיע על עמודים גם `npm run build:full` ו-`npm run audit:seo-diff`.
+5. דחיפה ל-`main` רק כשהכול ירוק, ואחריה בדיקת CI ופריסת Vercel על הקומיט.
 
-**מ-20.9.2026 זה אוטומטי:** `postinstall` מריץ את `scripts/dropbox-ignore.mjs`
-אחרי כל `npm ci` ו-`npm install`, ומחזיר את הדגל מיד. הסקריפט לא עושה
-כלום ב-Vercel וב-CI, ולעולם לא מפיל התקנה. אפשר להריץ אותו גם לבד:
-`npm run dropbox:ignore`.
+**`local-tools`** (הכלי yakir-closer) נשאר ב-Dropbox, ומגיעים אליו דרך symlink:
+`~/Code/local-tools` מצביע על `Dropbox/YakirCohen.com/local-tools`. ארבעה
+סקריפטים מצפים ל-`../local-tools` (למשל `scripts/export-closer-config.mjs:26`).
 
-בלי זה שתי המכונות דורסות זו את זו, וזה קרה פעמיים: ב-14.9 נמצאו 11
-עותקים מתנגשים בתוך `.next`, וב-19.9 `npm ci` בווינדוס דרס את ההתקנה
-של המק (esbuild של win32, `tsx` בלי הרשאת הרצה, 34 חבילות בלבד).
-
-**להשהות את Dropbox לפני `npm ci`.** `npm ci` מוחק את `node_modules`
-ויוצר אותה מחדש, ולכן הדגל אבד לאורך כל ההתקנה ו-`postinstall` מחזיר
-אותו רק בסוף. בחלון הזה Dropbox יכול להתחיל לסנכרן את ההתקנה באמצע
-ולהשאיר אותה קטועה. נמדד 20.9.2026: 90 חבילות בווינדוס במקום 594.
-הסדר: להשהות סנכרון, `npm ci`, `npm run deploy:status`, ואז לחדש.
-
-**קובץ שנראה "לא שמור" אף שכבר נשמר במכונה השנייה:** ה-`.git` ועץ
-העבודה מסתנכרנים ב-Dropbox בנפרד, ולכן ההיסטוריה יכולה להגיע לפני
-הקבצים. `git checkout -- <קובץ>` מחזיר אותו מהאינדקס, שכבר נכון.
+**קבצים מקומיים שלא בגיט:** `.env.local`, `.vercel/project.json`, `.mcp.json`.
 
 **לפני פריסה:** `npm run verify:predeploy` מריץ את כל השערים ומסתיים
-ב-`audit:seo-diff`, שחוסם כל גריעה לא מאושרת באות סורקים ב-329 הכתובות.
+ב-`audit:seo-diff`, שחוסם כל גריעה לא מאושרת באות סורקים.
 
 ## Project rules
 
 Full stack, env, build, and deployment conventions: **`.cursor/rules/yakircohen-project.mdc`** (always applied in Cursor).
 
-## Build load (important on Dropbox / multiple agents)
+## Build load (multiple agents)
 
 - **Do not** run `npm run build` from every agent in parallel -- it stacks CPU/RAM and fights over `.next/`.
-- **Prefer** `npm run verify:quick` (unit tests + security smoke -- fast on Dropbox).
-- **Lint + tests:** `npm run verify:ci` (CI / pre-push; slow locally on Dropbox).
+- **Prefer** `npm run verify:quick` (unit tests + security smoke).
+- **Lint + tests:** `npm run verify:ci` (CI / pre-push).
 - **One build at a time:** `npm run build` is mutex-locked; if blocked, wait or run `npm run build:stop`.
 - **Full production check:** run `npm run verify:predeploy` (or `npm run build` alone) once manually -- not per-agent.
