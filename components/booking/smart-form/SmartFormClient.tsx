@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import VisualReceipt from "@/components/booking/smart-form/VisualReceipt";
+import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import SmartFormLoading from "@/components/booking/smart-form/SmartFormLoading";
 import ContactChannelChooser from "@/components/booking/smart-form/ContactChannelChooser";
 import SmartFormProcessStrip from "@/components/booking/smart-form/SmartFormProcessStrip";
@@ -130,6 +131,17 @@ export default function SmartFormClient() {
     () => calculateSmartFormEstimate(categoryId, selectedChipIds),
     [categoryId, selectedChipIds],
   );
+
+  /* הסרגל התחתון בנייד מציג את הבחירה והמחיר כשבוחרים שירות בטופס הזה.
+     בלי הדיווח הוא נשאר על "בחרו שירות להמשך" גם אחרי הבחירה. */
+  const livePriceReport = useMemo(
+    () =>
+      step === 2 && category && !isAntiLead && estimate.totalExVat > 0
+        ? { totalExVat: estimate.totalExVat, title: category.title, source: "smart-form" as const }
+        : null,
+    [step, category, isAntiLead, estimate.totalExVat],
+  );
+  useReportBookWizardLivePrice(livePriceReport);
 
   const goToStep = (nextStep: number) => setStep(nextStep);
 
@@ -570,7 +582,7 @@ export default function SmartFormClient() {
                     </Link>
                   ) : null}
 
-                  <div className="space-y-3">
+                  <div id="smart-form-contact" className="space-y-3">
                     <label className="block text-sm font-medium text-foreground">
                       שם
                       <input
