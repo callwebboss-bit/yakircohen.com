@@ -58,6 +58,8 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - תוספות לשיר, כולל מע״מ: ${songAddons}
 - משתתפים בשיר (זמר אחד כלול): ${getSongParticipantsExplanation().withVat} ${getSongParticipantsExplanation().exVat}, ${getSongParticipantsExplanation().limit}. ${EXTRA_PERSON_COST_NOTE}
 - אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, ופרק פודקאסט אודיו מוגמר לאדם אחד כלול: הקלטה, עריכה ומסירה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
+- קריינות למרכזייה (שלוש הודעות): ${consumer("voiceover_ivr")} · קריינות לסרטון תדמית: ${consumer("voiceover_promo")}
+- ניקוי רעשים בהקלטה קיימת: ${consumer("ai_noise_basic", true)} · שחזור קול מלא: ${consumer("ai_voice_restore")}
 - DJ לאירועים (תקליטן מהצוות, 4 שעות, עד 300 מוזמנים): ${consumer("dj_premium", true)}
 - DJ יקיר כהן אישית (5 שעות): ${consumer("dj_yakir_personal", true)}
 - אטרקציה בודדת לאירוע: ${consumer("event_attraction_1", true)}

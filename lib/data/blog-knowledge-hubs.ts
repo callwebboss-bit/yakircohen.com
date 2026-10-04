@@ -104,6 +104,7 @@ const STUDIO_HUB: KnowledgeHub = {
         "how-to-record-at-home",
         "home-recording-7-mistakes",
         "home-mic-guide",
+        "headphones-purpose-guide",
         "studio-guide",
       ],
     },
@@ -279,10 +280,186 @@ const EVENTS_HUB: KnowledgeHub = {
   ],
 };
 
+export function buildEditingHubAnswer(): string {
+  const noise = getExVat("ai_noise_basic").toLocaleString("he-IL");
+  const restore = getExVat("ai_voice_restore").toLocaleString("he-IL");
+  const pitch = getExVat("studio_pitch_correction").toLocaleString("he-IL");
+  return (
+    `ניקוי רעשים בסיסי מתחיל ב-${noise} ₪ לפני מע״מ, שחזור קול מלא ב-${restore} ₪, ` +
+    `ותיקון זיופים ב-${pitch} ₪. מה שקובע את המחיר הוא מצב הקובץ, לא אורכו. ` +
+    `רעש אפשר להוריד והד אפשר לצמצם, אבל עיוות ודחיסה מחקו מידע שאי אפשר להמציא. ` +
+    `שלחו קובץ לבדיקה לפני שמשלמים.`
+  );
+}
+
+export function buildEditingHubMetaDescription(): string {
+  const noise = getExVat("ai_noise_basic").toLocaleString("he-IL");
+  const restore = getExVat("ai_voice_restore").toLocaleString("he-IL");
+  return (
+    `ניקוי רעשים מ-${noise} ₪ + מע״מ, שחזור מלא מ-${restore} ₪ + מע״מ. ` +
+    `מה אפשר להציל, מה נמחק ולא חוזר, ואיך יודעים לפני שמשלמים.`
+  );
+}
+
+const EDITING_HUB: KnowledgeHub = {
+  categoryId: "editing",
+  heading: "כמה עולה להציל הקלטה גרועה?",
+  answer: buildEditingHubAnswer(),
+  metaDescription: buildEditingHubMetaDescription(),
+  groups: [
+    {
+      id: "what-can-be-saved",
+      title: "מה אפשר להציל, ומה כבר לא",
+      slugs: [
+        "rescue-damaged-recording",
+        "fix-phone-recording-noise",
+        "when-ai-audio-restoration-enough",
+        "ai-audio-restoration-real-examples",
+      ],
+    },
+    {
+      id: "old-or-noisy",
+      title: "הקלטה ישנה או מרועשת",
+      slugs: ["ai-audio-restoration-guide", "sound-recovery-ai-podcast"],
+    },
+    {
+      id: "off-pitch",
+      title: "הקול לא מדויק",
+      slugs: [
+        "vocal-tuning-for-everyone",
+        "pitch-correction-guide",
+        "pitch-correction-vs-autotune",
+      ],
+    },
+    {
+      id: "not-finished",
+      title: "הקובץ תקין אבל לא גמור",
+      slugs: ["mixing-mastering-explained"],
+    },
+    {
+      id: "how-it-works",
+      title: "איך השירות עובד, ומה לבדוק",
+      slugs: ["how-online-audio-service-works", "online-audio-service-complaints"],
+    },
+  ],
+};
+
+export function buildPodcastHubAnswer(): string {
+  const pilot = getExVat("podcast_pilot").toLocaleString("he-IL");
+  const video = getExVat("podcast_video").toLocaleString("he-IL");
+  const editing = getExVat("podcast_editing_hour").toLocaleString("he-IL");
+  return (
+    `מתחילים בשמונה נושאים על דף, לא במיקרופון. אם יש לכם מספיק מה להגיד, ` +
+    `קובעים סשן, מקליטים, ושולחים לעריכה. פיילוט אודיו מתחיל ב-${pilot} ₪ ` +
+    `לפני מע״מ, פרק וידאו ב-${video} ₪, ועריכה בלבד ב-${editing} ₪ לשעה. ` +
+    `מה שמחזיק פודקאסט הוא לוח זמנים ולא ציוד, ואם אין לכם שמונה נושאים ` +
+    `עדיף לכתוב בלוג.`
+  );
+}
+
+export function buildPodcastHubMetaDescription(): string {
+  const pilot = getExVat("podcast_pilot").toLocaleString("he-IL");
+  const video = getExVat("podcast_video").toLocaleString("he-IL");
+  return (
+    `פיילוט אודיו מ-${pilot} ₪ + מע״מ, פרק וידאו מ-${video} ₪ + מע״מ. ` +
+    `האם שווה לכם בכלל, אולפן או מהבית, ומתי צריך עריכה מקצועית.`
+  );
+}
+
+const PODCAST_HUB: KnowledgeHub = {
+  categoryId: "podcast",
+  heading: "איך פודקאסט עובד, מהרעיון עד הפרק הראשון?",
+  answer: buildPodcastHubAnswer(),
+  metaDescription: buildPodcastHubMetaDescription(),
+  groups: [
+    {
+      id: "worth-it",
+      title: "האם שווה לכם בכלל",
+      slugs: [
+        "podcast-for-small-business-worth-it",
+        "business-podcast-roi-2026",
+        "first-podcast-without-wasting-money",
+      ],
+    },
+    {
+      id: "where",
+      title: "אולפן או מהבית",
+      slugs: ["podcast-studio-vs-home-recording", "prepare-voice-podcast-studio"],
+    },
+    {
+      id: "editing",
+      title: "מתי צריך עריכה, ומה לבדוק",
+      slugs: [
+        "podcast-needs-professional-editing",
+        "podcast-editing-complaints",
+        "zoom-call-to-radio-quality",
+      ],
+    },
+    {
+      id: "full-guide",
+      title: "מהרעיון עד הפרק הראשון",
+      slugs: ["podcast-production-guide-israel"],
+    },
+    {
+      id: "booking",
+      title: "הזמנה מהאתר",
+      slugs: ["podcast-booking-guide"],
+    },
+  ],
+};
+
+export function buildAcademyHubAnswer(): string {
+  const lesson = getExVat("academy_private_hour").toLocaleString("he-IL");
+  const pro = getExVat("academy_pro_session").toLocaleString("he-IL");
+  const ulpan = getExVat("ulpan_monthly").toLocaleString("he-IL");
+  return (
+    `אפשר ללמוד שלושה דברים: תקלוט והפקה, דיבור מול קהל למי שמגמגם או חושש, ` +
+    `ועברית. שיעור פרטי מתחיל ב-${lesson} ₪ לפני מע״מ, Pro Session של 90 דקות ` +
+    `ב-${pro} ₪, ומסלול אולפן עברית חודשי ב-${ulpan} ₪. ` +
+    `אני לא מקבל כל אחד, אני עובד עם מי שבא לעבוד.`
+  );
+}
+
+export function buildAcademyHubMetaDescription(): string {
+  const lesson = getExVat("academy_private_hour").toLocaleString("he-IL");
+  const ulpan = getExVat("ulpan_monthly").toLocaleString("he-IL");
+  return (
+    `שיעור פרטי מ-${lesson} ₪ + מע״מ, אולפן עברית מ-${ulpan} ₪ + מע״מ. ` +
+    `קורס DJ או שיעור פרטי, דיבור מול קהל, ולימוד עברית במודיעין.`
+  );
+}
+
+const ACADEMY_HUB: KnowledgeHub = {
+  categoryId: "academy",
+  heading: "מה אפשר ללמוד אצלי?",
+  answer: buildAcademyHubAnswer(),
+  metaDescription: buildAcademyHubMetaDescription(),
+  groups: [
+    {
+      id: "dj",
+      title: "תקלוט והפקה",
+      slugs: ["dj-course-guide", "dj-course-vs-private-lesson"],
+    },
+    {
+      id: "speech",
+      title: "דיבור מול קהל",
+      slugs: ["no-speech-therapist-modiin"],
+    },
+    {
+      id: "hebrew",
+      title: "לימוד עברית",
+      slugs: ["hebrew-tutor-modiin-guide", "street-hebrew-vs-government-ulpan"],
+    },
+  ],
+};
+
 const HUBS: readonly KnowledgeHub[] = [
   STUDIO_HUB,
   VOICEOVER_HUB,
   EVENTS_HUB,
+  EDITING_HUB,
+  PODCAST_HUB,
+  ACADEMY_HUB,
 ];
 
 export function getKnowledgeHub(categoryId: string): KnowledgeHub | undefined {
