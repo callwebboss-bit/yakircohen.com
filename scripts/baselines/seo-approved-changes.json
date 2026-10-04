@@ -1123,13 +1123,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/data/industry-2026",
-      "field": "ldCounts",
-      "why": "Offer 31 -> 30: שתי שורות החבילות (cover_song, song_package) הוחלפו בשורה אחת של הקלטת שיר.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/events/wedding-attractions-packages",
       "field": "description",
       "why": "\"חיסכון 20-30%\" ירד (אין הנחה מעל 8%). עכשיו \"מספק אחד ובתיאום אחד\".",
@@ -1182,13 +1175,6 @@
       "url": "/photography",
       "field": "imagesWithAlt",
       "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/photography",
-      "field": "words",
-      "why": "1,773 -> 1,769: ליד מחיר הצילום כבר לא מוצגת המלצה של שירות אחר.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
     },
