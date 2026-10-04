@@ -556,6 +556,9 @@ export const PRICING_CATALOG = [
   /* החבילות כאן ובמאשאפים: N x מחיר בודד פחות 8% (החלטת הבעלים 3.10.2026,
      סבב שני). היו 31% (תגים), 10%, 15%, 20% ו-9% (מאשאפים). */
   { id: "dj_voice_tag_pack_5", label: "חבילת 5 תגים קוליים", exVat: 1610, category: "pro", context: "חמישה תגים מותאמים עם אפקטים" },
+  /* החלטת הבעלים 4.10.2026: "רמיקס מסיפור זה החל מ-500 ש״ח לפני מע״מ", לפי
+     הבקשה. מוצג בפוסט /blog/wedding-slow-songs. */
+  { id: "remix_couple_story", label: "רמיקס מהסיפור של הזוג", exVat: 500, category: "pro", context: "הזוג מספר את הסיפור שלו, והוא הופך לרמיקס לרחבה. המחיר לפי הבקשה", priceFrom: true },
   { id: "mashup_custom_planned", label: "מאשאפ מותאם (עד 3 ימי עסקים)", exVat: 1650, category: "pro", context: "שילוב שני שירים - עריכה ידנית, סבב תיקון אחד" },
   { id: "mashup_creative_plus", label: "שילוב יצירתי / דרוג+", exVat: 2200, category: "pro", context: "stems, משקל, מודולציה - הפקה מלאה באולפן" },
   { id: "mashup_ready_single", label: "מאשאפ מוכן לרכישה", exVat: 650, category: "pro", context: "גרסה ערוכה מהמאגר, נבדקה באירוע" },
