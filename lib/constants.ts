@@ -134,8 +134,11 @@ export const BUSINESS_FOUNDING_YEAR = 2010;
  *
  * הערך נמסר על ידי הבעלים. lib/constants.test.ts מוודא ש-"20+" המוצג
  * עדיין מתיישב איתו, כדי שהמספר לא יתיישן בשקט.
+ *
+ * 4.10.2026, הבעלים: "שנת תחילת הקריירה 2001. שנת פתיחת העסק 2010" (היה
+ * 2004). 1.12.2001 בכרטיס Google Business הוא שנת הקריירה, לא ההקמה.
  */
-export const FOUNDER_CAREER_START_YEAR = 2004;
+export const FOUNDER_CAREER_START_YEAR = 2001;
 
 export const SITE_TRUST_STATS = [
   { value: "20+", label: "שנות ניסיון" },
