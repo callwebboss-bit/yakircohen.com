@@ -1499,6 +1499,20 @@
       "why": "החלטת בעלים 4.10.2026: 'המחירים המעודכנים לחבילות ברכה' הפך ל'המחירים המעודכנים להקלטת ברכה', כי חבילות הברכה נמחקו ב-2.10. docs/transparency/price-consistency-audit.md",
       "approvedBy": "owner",
       "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/blog/studio-recording-cost-israel-2026",
+      "field": "title",
+      "why": "החלטת בעלים 4.10.2026: הכותרת 'כמה עולה להקליט שיר באולפן ב-2026' התחרתה בעמוד השיר (canonical). הוחלפה ב'מה באמת כלול במחיר הקלטת שיר באולפן, ואיפה מסתתרות עלויות'. docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/blog/studio-recording-cost-israel-2026",
+      "field": "h1",
+      "why": "החלטת בעלים 4.10.2026: הכותרת 'כמה עולה להקליט שיר באולפן ב-2026' התחרתה בעמוד השיר (canonical). הוחלפה ב'מה באמת כלול במחיר הקלטת שיר באולפן, ואיפה מסתתרות עלויות'. docs/transparency/price-consistency-audit.md",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
     }
   ]
 }
