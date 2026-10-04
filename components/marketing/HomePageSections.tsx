@@ -1,4 +1,5 @@
-﻿import type { ReactNode } from "react";
+﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Container from "@/components/ui/Container";
@@ -31,9 +32,8 @@ import { TIME_CLAIMS, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy
 const HOME_FAQ_UI_OVERRIDES: Record<string, ReactNode> = {
   "location-parking": (
     <>
-      <InlineServiceLink href="/studio">האולפן</InlineServiceLink> ממוקם בעמק
-      איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע
-      ממש ליד האולפן.
+      <InlineServiceLink href="/studio">האולפן</InlineServiceLink> במודיעין מכבים
+      רעות. {STUDIO_PARKING_NOTE}. {STUDIO_ADDRESS_COORDINATION_NOTE}.
     </>
   ),
   "ai-restoration": (

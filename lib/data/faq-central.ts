@@ -1,3 +1,4 @@
+import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
@@ -104,7 +105,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "location-parking",
     question: "איפה האולפן ויש חנייה?",
     answer:
-      "האולפן בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן. נגישות נוחה מהמרכז וירושלים.",
+      `האולפן במודיעין מכבים רעות, נגיש מהמרכז ומירושלים. ${STUDIO_PARKING_NOTE}. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
     ctaText: "קבלו מחיר ותאריך פנוי",
     whatsappMessage: "שלום, רוצה לתאם הגעה לאולפן במודיעין. מתי יש מקום?",
     utm_campaign: "faq_location",

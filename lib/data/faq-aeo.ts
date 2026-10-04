@@ -12,7 +12,7 @@ import { buildEventsHubAnswer } from "@/lib/data/blog-knowledge-hubs";
 import {
   FOUNDER_CAREER_START_YEAR,
   SITE_NAME,
-  STUDIO_ADDRESS_LINE,
+  STUDIO_ADDRESS_COORDINATION_NOTE,
 } from "@/lib/constants";
 
 export type AeoFaqItem = {
@@ -212,7 +212,7 @@ export const VOCAL_FIX_ONLINE_PRICE_FAQ: AeoFaqItem = {
 export const STUDIO_MODIIN_PRO_FAQ: AeoFaqItem = {
   id: "aeo-studio-modiin",
   question: "האם יש אולפן הקלטות מקצועי במודיעין?",
-  answer: `כן. האולפן של ${SITE_NAME} נמצא ב${STUDIO_ADDRESS_LINE}. מה שהופך אותו למקצועי: חדר הקלטה מבודד ונפרד מחדר העריכה, מיקרופוני Neumann ו-Townsend Sphere, וליווי צמוד מהסקיצה ועד המאסטר. יקיר מפיק מאז ${FOUNDER_CAREER_START_YEAR}, ויש גם את מה שמבינים רק כשמגיעים: התאורה החמה והאווירה שאין להסביר במילים. האולפן נמצא רק במודיעין, ואם נוח לכם יותר, האולפן הנייד מגיע אליכם.`,
+  answer: `כן. האולפן של ${SITE_NAME} נמצא במודיעין מכבים רעות. מה שהופך אותו למקצועי: חדר הקלטה מבודד ונפרד מחדר העריכה, מיקרופוני Neumann ו-Townsend Sphere, וליווי צמוד מהסקיצה ועד המאסטר. יקיר מפיק מאז ${FOUNDER_CAREER_START_YEAR}, ויש גם את מה שמבינים רק כשמגיעים: התאורה החמה והאווירה שאין להסביר במילים. האולפן נמצא רק במודיעין, ואם נוח לכם יותר, האולפן הנייד מגיע אליכם. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
 };
 
 export const MOBILE_STUDIO_HOME_FAQ: AeoFaqItem = {
@@ -244,7 +244,7 @@ const PODCAST_HALF_HOUR_WITH_VAT = withVat(getExVat("studio_half_hour")).toLocal
 export const PODCAST_STUDIO_MODIIN_EXISTS_FAQ: AeoFaqItem = {
   id: "aeo-podcast-studio-modiin",
   question: "האם יש סטודיו לפודקאסט במודיעין?",
-  answer: `כן. סטודיו הפודקאסט של ${SITE_NAME} נמצא ב${STUDIO_ADDRESS_LINE}. יש בו 4 מתחמי הקלטה, עד 4 מיקרופונים בו זמנית ו-3 מצלמות קבועות, והפרק אצלכם באותה שנייה שמסיימים להקליט. חצי שעה באולפן החל מ-${PODCAST_HALF_HOUR_WITH_VAT} ₪ כולל מע״מ. הסטודיו נמצא רק במודיעין, ואם נוח לכם יותר, מקליטים גם אצלכם בבית או במשרד.`,
+  answer: `כן. סטודיו הפודקאסט של ${SITE_NAME} נמצא במודיעין מכבים רעות. יש בו 4 מתחמי הקלטה, עד 4 מיקרופונים בו זמנית ו-3 מצלמות קבועות, ו${TIME_CLAIMS.podcastSameSecond}. חצי שעה באולפן החל מ-${PODCAST_HALF_HOUR_WITH_VAT} ₪ כולל מע״מ. הסטודיו נמצא רק במודיעין, ואם נוח לכם יותר, מקליטים גם אצלכם בבית או במשרד.`,
 };
 
 /** שאלות AEO מרוכזות לדפי hub ולבדיקות audit */

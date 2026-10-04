@@ -1,3 +1,4 @@
+import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
@@ -29,7 +30,7 @@ const FAQ_ITEMS: FAQItem[] = [
     id: "distance",
     question: "כמה זמן נסיעה משוהם?",
     answer:
-      "כ-10-15 דקות בנסיעה רגילה דרך כביש 443. יש חניה פנויה ממש ליד האולפן - בלי להסתובב.",
+      `כ-10-15 דקות בנסיעה רגילה דרך כביש 443. ${STUDIO_PARKING_NOTE}.`,
   },
   {
     id: "first-time",
@@ -195,7 +196,7 @@ export default function PodcastShohamPage() {
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               כביש 443 דרומה לכיוון מודיעין. נסיעה של 10-15 דקות ברוב שעות היום.
-              חניה פנויה ברחוב ליד האולפן - לא צריך לחפש.
+              {STUDIO_PARKING_NOTE}.
             </p>
             <p className="mt-4 text-sm text-muted-foreground">
               כתובת: עמק איילון 34, מודיעין-מכבים-רעות. קוד כניסה ישלח בWA לפני ההקלטה.

@@ -4,6 +4,7 @@
  * Prices are derived from pricing-catalog (single source of truth).
  */
 
+import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import {
@@ -54,7 +55,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
     id: "location-parking",
     question: "איפה האולפן ויש חנייה?",
     answerPlain:
-      "האולפן ממוקם בעמק איילון 34, מודיעין מכבים רעות. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן.",
+      `האולפן במודיעין מכבים רעות. ${STUDIO_PARKING_NOTE}. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
   },
   {
     id: "ai-restoration",

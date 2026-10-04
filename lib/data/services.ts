@@ -14,7 +14,7 @@ import {
   STUDIO_MODIIN_PRO_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { STUDIO_ADDRESS_LINE } from "@/lib/constants";
+import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
@@ -228,7 +228,7 @@ export const STUDIO_SERVICES = {
         id: "studio-location",
         question: "איפה האולפן?",
         answer:
-          "מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. חניה פרטית בשטח, וגם חניה חופשית בשפע ממש ליד האולפן.",
+          `מודיעין-מכבים-רעות - כ-30 דקות מירושלים, נגיש מהשפלה והמרכז. ${STUDIO_PARKING_NOTE}.`,
       },
     ],
     hubCard: null,
@@ -658,7 +658,7 @@ export const STUDIO_SERVICES = {
         id: "drive-from-rehovot",
         question: "איך מגיעים מרחובות לאולפן במודיעין?",
         answer:
-          `כביש 431 או נתיבי איילון - כ-25-30 דקות. יש חניה ליד האולפן. הכתובת: ${STUDIO_ADDRESS_LINE}.`,
+          `כביש 431 או נתיבי איילון - כ-25-30 דקות. ${STUDIO_PARKING_NOTE}. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "no-drive-option",
@@ -700,7 +700,7 @@ export const STUDIO_SERVICES = {
         id: "parking-directions",
         question: "האם יש חניה / איך מגיעים למודיעין?",
         answer:
-          `יש חניה פנויה ליד האולפן במודיעין. מגיעים מכביש 431 או מנתיבי איילון, והכתובת היא ${STUDIO_ADDRESS_LINE}.`,
+          `${STUDIO_PARKING_NOTE}. מגיעים למודיעין מכביש 431 או מנתיבי איילון. ${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "suitable-services",
@@ -1032,7 +1032,7 @@ export const STUDIO_SERVICES = {
         id: "location",
         question: "האם אפשר להגיע מחוץ למודיעין?",
         answer:
-          `כן. לקוחות מגיעים מירושלים, תל אביב, השרון ויהודה ושומרון. האולפן ב${STUDIO_ADDRESS_LINE}.`,
+          `כן. לקוחות מגיעים מירושלים, תל אביב, השרון ויהודה ושומרון. האולפן במודיעין מכבים רעות, ו${STUDIO_ADDRESS_COORDINATION_NOTE}.`,
       },
       {
         id: "timing",

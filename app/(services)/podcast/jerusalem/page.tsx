@@ -1,3 +1,4 @@
+import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
@@ -30,7 +31,7 @@ const FAQ_ITEMS: FAQItem[] = [
     id: "distance",
     question: "כמה זמן נסיעה מירושלים?",
     answer:
-      "כ-30 דקות בנסיעה רגילה דרך כביש 1. יש חניה פנויה ממש ליד האולפן - בלי להסתובב.",
+      `כ-30 דקות בנסיעה רגילה דרך כביש 1. ${STUDIO_PARKING_NOTE}.`,
   },
   {
     id: "first-time",
@@ -197,7 +198,7 @@ export default function PodcastJerusalemPage() {
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               כביש 1 מירושלים לכיוון תל אביב, יציאה מודיעין. נסיעה של כ-30 דקות ברוב שעות היום
-              (לא בשעות פקקים עמוסות). חניה פנויה ברחוב ליד האולפן - לא צריך לחפש.
+              (לא בשעות פקקים עמוסות). {STUDIO_PARKING_NOTE}.
             </p>
             <p className="mt-4 text-sm text-muted-foreground">
               כתובת: עמק איילון 34, מודיעין-מכבים-רעות. קוד כניסה ישלח בWA לפני ההקלטה.

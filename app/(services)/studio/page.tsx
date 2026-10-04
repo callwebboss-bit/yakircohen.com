@@ -1,4 +1,5 @@
-﻿import { metadataFromService } from "@/lib/data/service-metadata";
+﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
+import { metadataFromService } from "@/lib/data/service-metadata";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
@@ -120,8 +121,8 @@ export default function StudioHubPage() {
                 איפה האולפן במודיעין
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                עמק איילון 34, מודיעין-מכבים-רעות. חניה בשפע, נגיש מירושלים,
-                השפלה והמרכז.
+                מודיעין-מכבים-רעות, נגיש מירושלים, השפלה והמרכז.{" "}
+                {STUDIO_PARKING_NOTE}. {STUDIO_ADDRESS_COORDINATION_NOTE}.
               </p>
               <ul className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
                 {[
