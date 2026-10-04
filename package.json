@@ -47,6 +47,7 @@
     "audit:seo-diff": "node scripts/audit-seo-diff.mjs",
     "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
     "audit:visual": "node scripts/audit-visual.mjs",
+    "audit:live-tour": "node scripts/audit-live-tour.mjs",
     "audit:404": "tsx scripts/audit-404-list.ts",
     "generate:og-images": "node scripts/generate-og-images.mjs",
     "generate:shop-images": "node scripts/generate-shop-images.mjs",
