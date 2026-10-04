@@ -23,6 +23,10 @@
 > אם הכפתור לא קיים בחשבון הזה, לדלג לשלב 2 ולחזור לכאן אחרי
 > שהאירועים ייראו לראשונה (בדרך כלל עד 24 שעות מהפריסה).
 
+> `generate_lead` התחיל לשדר רק כש-PR #2 עלה ב-3.10.2026 בערב, ולכן
+> ייתכן שגם הוא עדיין לא ברשימה. אם הוא חסר, ליצור אותו כאן לפי שם
+> באותו אופן.
+
 ---
 
 ## שלב 2: לסמן את שאר אירועי ההמרה
@@ -30,11 +34,12 @@
 **Admin** → **Data display** → **Events**. בטבלה יש עמודה
 **Mark as key event** עם מתג לכל שורה.
 
-להדליק את המתג בשש השורות האלה:
+להדליק את המתג בשבע השורות האלה:
 
 | אירוע | למה זה המרה |
 |---|---|
-| `book_lead_submit` | הליד נשלח בפועל מהאשף |
+| `generate_lead` | **החשוב ביותר.** נשלח רק אחרי שהשרת אישר שהליד הגיע אליך (200 + notified). זה הליד הוודאי |
+| `book_lead_submit` | כוונה: נשלח רגע לפני פתיחת וואטסאפ, לא אישור קבלה |
 | `book_success_wa_click` | הלקוח פתח וואטסאפ אחרי שסיים את האשף |
 | `book_fast_whatsapp` | ליד מהיר מכרטיס ב-/book |
 | `needs_flow_wa_submit` | ליד ממסלול איתור הצרכים |
@@ -42,9 +47,15 @@
 | `chatbot_wa_cta_click` | מעבר לוואטסאפ מתוך הצ׳אט |
 
 **לא לסמן** כהמרה: `book_wizard_start`, `book_wizard_step`,
-`book_success_panel`, `pricing_calculator_interact`, `portfolio_demo_play`.
-אלה שלבי משפך ומיקרו-אינטראקציות. אם מסמנים אותם כהמרה, שיעור ההמרה
-מתנפח ומפסיק לומר משהו.
+`book_success_panel`, `pricing_calculator_interact`, `portfolio_demo_play`,
+וגם `lead_submit_failed`. אלה שלבי משפך ומיקרו-אינטראקציות.
+אם מסמנים אותם כהמרה, שיעור ההמרה מתנפח ומפסיק לומר משהו.
+`lead_submit_failed` הוא ההפך מהמרה: הוא נשלח כשהליד **לא** הגיע אליך.
+שווה להוסיף עליו התראה, לא לספור אותו כהצלחה.
+
+> **עודכן 4.10.2026.** `generate_lead` ו-`lead_submit_failed` נוספו
+> ב-PR #2 ולא היו במסמך הזה. מקור: `lib/analytics/conversion-events.ts`,
+> `lib/lead-email-notify.ts:213`, `components/booking/BookUniversalIntakeWizard.tsx:262`.
 
 ---
 
