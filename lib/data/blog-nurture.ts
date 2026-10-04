@@ -47,6 +47,7 @@ export const NURTURE_BLOG_SLUGS = [
   "headphones-purpose-guide",
   "wedding-songs-chuppah",
   "bat-mitzvah-songs",
+  "wedding-slow-songs",
 ] as const;
 
 export type NurtureBlogSlug = (typeof NURTURE_BLOG_SLUGS)[number];
@@ -378,6 +379,21 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
     ],
     ctaHeading: "רוצים לבנות את הרשימה יחד?",
     ctaBody: "כתבו לנו בוואטסאפ מתי האירוע ומי הקהל, ונדבר.",
+    ctaLabel: "כתבו לנו בוואטסאפ",
+  },
+  "wedding-slow-songs": {
+    audience: [
+      "זוגות שבוחרים שיר לסלואו",
+      "מי שמתכנן חתונה דתית ורוצה לדעת מתי עושים סלואו",
+      "מי שרוצה רמיקס או גרסה אישית לשיר שלו",
+    ],
+    serviceLinks: [
+      { href: "/events/dj-events", label: "תקליטן לחתונה" },
+      { href: "/events/attractions/wedding-smoking-machine", label: "עשן כבד לסלואו" },
+      { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
+    ],
+    ctaHeading: "רוצים לבנות את הסלואו יחד?",
+    ctaBody: "כתבו לנו בוואטסאפ מתי החתונה ואיזה שירים אתם אוהבים, ונדבר.",
     ctaLabel: "כתבו לנו בוואטסאפ",
   },
   "wedding-songs-chuppah": {

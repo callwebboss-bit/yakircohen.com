@@ -255,7 +255,7 @@ const EVENTS_HUB: KnowledgeHub = {
     {
       id: "music",
       title: "המוזיקה עצמה",
-      slugs: ["wedding-songs-chuppah", "bat-mitzvah-songs", "tips-for-perfect-wedding"],
+      slugs: ["wedding-songs-chuppah", "wedding-slow-songs", "bat-mitzvah-songs", "tips-for-perfect-wedding"],
     },
     {
       id: "by-event",
