@@ -17,6 +17,14 @@ import {
   WEDDING_SLOW_NOSTALGIC_SONGS,
 } from "@/lib/data/wedding-slow-songs";
 import {
+  RECEPTION_INSTRUMENTAL,
+  RECEPTION_ISRAELI_CLASSICS,
+  RECEPTION_ISRAELI_RECENT,
+  RECEPTION_MIZRAHI,
+  RECEPTION_OUR_PICKS,
+  RECEPTION_RELIGIOUS,
+} from "@/lib/data/reception-songs";
+import {
   catalogWithVat,
   getAddonsForBaseId,
   getExVat,
@@ -4959,6 +4967,60 @@ ${batMitzvahSongListHtml(WEDDING_SLOW_NOSTALGIC_SONGS)}
     relatedServiceSlug: "events/dj-events",
     funnelIntent: "awareness",
     tags: ["שירי סלואו לחתונה", "סלואו בחתונה דתית", "שירים חדשים לחתונה", "שירים נוסטלגיים", "תקליטן לחתונה"],
+  },
+  {
+    slug: "reception-songs",
+    seo: {
+      title: "שירים לקבלת פנים 2026 | ישראלי, מזרחי, קלאסי ודתי, מתקליטן",
+      description:
+        "שירים לקבלת פנים בחתונה ובאירוע: איך המוזיקה קובעת את האופי של הערב, איזה שירים לא לשים, ורשימות לפי סגנון: ישראלי, מזרחי, כלי וקלאסי, ולאירוע דתי.",
+      datePublished: "2026-10-04",
+    },
+    title: "שירים לקבלת פנים: איך בוחרים, ומה לא לשים",
+    excerpt:
+      "המוזיקה בקבלת הפנים קובעת את האופי של כל הערב. איך בוחרים, איזה שירים לא לשים, ורשימות לפי סגנון: ישראלי, מזרחי, כלי וקלאסי, ולאירוע דתי.",
+    content: `
+<p>לפני שמחפשים שירים לקבלת פנים, צריך לדעת את פניהם של מי אתם מקבלים, ואיזה אופי אתם רוצים לתת לאירוע. המוזיקה בכניסה היא הדבר הראשון שהאורחים שומעים, והיא קובעת את האווירה של כל הערב.</p>
+<p><strong>עודכן: 4 באוקטובר 2026.</strong></p>
+
+<h2>למה המוזיקה בקבלת הפנים חשובה</h2>
+<p>הרבה חושבים שבקבלת הפנים המוזיקה היא רק רקע. בפועל, כאן נבנית האנרגיה שתלווה אתכם כל הערב. קבלת פנים יכולה להימשך יותר משעתיים, ובזמן הזה לכל אורח יש כמה דקות לשמוע שיר שהוא באמת אוהב, תוך כדי שהוא מנשנש או שותה משהו מהבר.</p>
+
+<h2>המוזיקה קובעת את האופי</h2>
+<p>דמיינו שאתם מגיעים לאולם ושומעים בכניסה מוזיקה קלאסית: בטהובן, באך, הנדל. מיד תרגישו שזה אירוע רגוע ויוקרתי. ואם בכניסה מתנגנים שלמה ארצי, שלום חנוך ואריק איינשטיין, תרגישו שזה אירוע ישראלי, ביתי ושליו. לכן הרשימות כאן מחולקות לפי סגנון.</p>
+
+<h2>הטעות הגדולה: שירי פרידה</h2>
+<p>בניגוד לריקודים, בקבלת הפנים שומעים את המילים. הן נכנסות ללב של האורחים ומעוררות מחשבות וזיכרונות. לכן חשוב לנגן שירים שמחים, עם מסר חיובי שמתאים לשמחה. יש שירים מוכרים ויפים שמומלצים לקבלת פנים, אבל כשמקשיבים למילים מגלים שהם שירי פרידה. שיר פרידה לא מתאים לחתונה, גם אם הוא קליט.</p>
+
+<h2>ההמלצות שלנו</h2>
+${batMitzvahSongListHtml(RECEPTION_OUR_PICKS)}
+
+<h2>קלאסיקות ישראליות</h2>
+${batMitzvahSongListHtml(RECEPTION_ISRAELI_CLASSICS)}
+
+<h2>ישראלי עדכני</h2>
+${batMitzvahSongListHtml(RECEPTION_ISRAELI_RECENT)}
+
+<h2>מזרחי וים תיכוני</h2>
+${batMitzvahSongListHtml(RECEPTION_MIZRAHI)}
+
+<h2>כלי, ג'אז וקלאסי</h2>
+<p>מוזיקה בלי מילים לא מתחרה בשיחות של האורחים, ומתאימה לאירוע רגוע ויוקרתי:</p>
+${batMitzvahSongListHtml(RECEPTION_INSTRUMENTAL)}
+
+<h2>לאירוע דתי</h2>
+${batMitzvahSongListHtml(RECEPTION_RELIGIOUS)}
+
+<h2>רוצים סט מוכן?</h2>
+<p>יש כל כך הרבה שירים שמתאימים לקבלת פנים, בהמון סגנונות. דברו איתנו, ונבנה לכם סט שמתאים לאירוע ולאורחים, ואפילו ננגן אותו. <a href="/events/dj-events">תקליטן לחתונה ולאירועים</a>.</p>
+<p>ממשיכים לחופה ולרחבה? יש לנו <a href="/blog/wedding-songs-chuppah">מדריך שירים לחופה</a> ו<a href="/blog/wedding-slow-songs">שירי סלואו לחתונה</a>.</p>
+`.trim(),
+    date: "4 באוקטובר 2026",
+    thumbnail: "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
+    category: "DJ ואירועים",
+    relatedServiceSlug: "events/dj-events",
+    funnelIntent: "awareness",
+    tags: ["שירים לקבלת פנים", "מוזיקה לקבלת פנים", "קבלת פנים בחתונה", "שירים לאירוע דתי", "תקליטן לחתונה"],
   },
 ] as const satisfies readonly BlogPost[];
 

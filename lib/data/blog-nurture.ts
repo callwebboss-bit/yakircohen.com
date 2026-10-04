@@ -48,6 +48,7 @@ export const NURTURE_BLOG_SLUGS = [
   "wedding-songs-chuppah",
   "bat-mitzvah-songs",
   "wedding-slow-songs",
+  "reception-songs",
 ] as const;
 
 export type NurtureBlogSlug = (typeof NURTURE_BLOG_SLUGS)[number];
@@ -379,6 +380,21 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
     ],
     ctaHeading: "רוצים לבנות את הרשימה יחד?",
     ctaBody: "כתבו לנו בוואטסאפ מתי האירוע ומי הקהל, ונדבר.",
+    ctaLabel: "כתבו לנו בוואטסאפ",
+  },
+  "reception-songs": {
+    audience: [
+      "זוגות שבונים פלייליסט לקבלת הפנים",
+      "מי שמארגן אירוע ורוצה לקבוע את האווירה מהכניסה",
+      "מי שמתכנן אירוע דתי ומחפש שירים מתאימים",
+    ],
+    serviceLinks: [
+      { href: "/events/dj-events", label: "תקליטן לחתונה" },
+      { href: "/events/wedding-attractions-packages", label: "חבילות לחתונה" },
+      { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
+    ],
+    ctaHeading: "רוצים שנבנה לכם סט לקבלת הפנים?",
+    ctaBody: "כתבו לנו בוואטסאפ מתי האירוע ומי האורחים, ונדבר.",
     ctaLabel: "כתבו לנו בוואטסאפ",
   },
   "wedding-slow-songs": {

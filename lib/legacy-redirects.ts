@@ -194,6 +194,7 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
      ו-/xmlrpc.php הועברו ל-410 ב-proxy.ts. ראו GONE_PATH_PREFIXES למעלה. */
   /* הכתובות עם התאריך של מדריך הסלואו (Wayback). לפני /2019 ו-/2021. */
   { source: "/2019/11/05/שירי-סלואו-לחתונה", destination: "/blog/wedding-slow-songs" },
+  { source: "/2019/11/05/שירים-לקבלת-פנים", destination: "/blog/reception-songs" },
   { source: "/2021/08/25/שירי-סלואו", destination: "/blog/wedding-slow-songs" },
   { source: "/2019/:path*",              destination: "/blog" },
   { source: "/2020/:path*",              destination: "/blog" },
@@ -578,6 +579,10 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/שירי-סלואו-לחתונה": "/blog/wedding-slow-songs",
   "/שירי-סלואו-לחתונה-2": "/blog/wedding-slow-songs",
   "/שירי-סלואו": "/blog/wedding-slow-songs",
+  /* המדריך הישן "שירים לקבלת פנים" (7 קליקים, 865 הופעות), ועותק כפול שלו
+     מ-Wayback. מ-4.10.2026 יש פוסט ייעודי. */
+  "/שירים-לקבלת-פנים": "/blog/reception-songs",
+  "/שירים-לקבלת-פנים/שירים-לקבלת-פנים": "/blog/reception-songs",
 };
 
 /** Old English slugs used before the current route structure */

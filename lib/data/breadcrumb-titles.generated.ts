@@ -89,7 +89,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "voiceover-business-complaints": "קריינות לעסק שנשמעת זולה או רובוטית: 5 תלונות על קריינים",
   "headphones-purpose-guide": "איך לבחור אוזניות: קודם מגדירים מטרה",
   "bat-mitzvah-songs": "שירים לבת מצווה: שיר כניסה, שירים דתיים ושיר מהמשפחה",
-  "wedding-slow-songs": "שירי סלואו לחתונה: מה זוגות בוחרים, שירים חדשים ונוסטלגיים"
+  "wedding-slow-songs": "שירי סלואו לחתונה: מה זוגות בוחרים, שירים חדשים ונוסטלגיים",
+  "reception-songs": "שירים לקבלת פנים: איך בוחרים, ומה לא לשים"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */
