@@ -24,6 +24,7 @@ import {
   nis,
   normalizeSongSelection,
   SONG_ADDONS_PARAM,
+  SONG_NOTES_MAX,
   SONG_OFFER_CALLBACK_FORM_ID,
   SONG_PARTICIPANTS_PARAM,
   SONG_PARTICIPANTS_LINE_ID,
@@ -110,6 +111,8 @@ export default function SongOfferConfigurator({
   const [participants, setParticipants] = useState<number>(() =>
     clampSongParticipants(initialParticipants ?? pRules.included, pRules),
   );
+  /* בקשות בלי שורת מחיר: מה מצלמים, מי משתתף בשיחה המשפחתית וכדומה */
+  const [notes, setNotes] = useState("");
 
   /* הבחירה נזכרת ב-?addons= בכתובת. קוראים אותה רק אחרי הטעינה, ב-useEffect
      ולא ב-useSearchParams, כדי שהעמוד יישאר מרונדר מראש בלי גבול Suspense
@@ -149,8 +152,8 @@ export default function SongOfferConfigurator({
 
   const quoteFor = useCallback(
     (ids: readonly string[], count: number) =>
-      composeSongOfferQuote(quoteData, ids, count, { source, giftMode, utmCampaign }),
-    [quoteData, source, giftMode, utmCampaign],
+      composeSongOfferQuote(quoteData, ids, count, { source, giftMode, utmCampaign, notes }),
+    [quoteData, source, giftMode, utmCampaign, notes],
   );
   const quote = useMemo(() => quoteFor(selected, participants), [quoteFor, selected, participants]);
 
@@ -310,6 +313,25 @@ export default function SongOfferConfigurator({
       >
         סה״כ {quote.totalLine}
       </p>
+
+      <div className="mt-4">
+        <label htmlFor={`${uid}-notes`} className="text-sm font-semibold text-foreground">
+          משהו נוסף שחשוב לכם? (לא חובה)
+        </label>
+        <textarea
+          id={`${uid}-notes`}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value.slice(0, SONG_NOTES_MAX))}
+          maxLength={SONG_NOTES_MAX}
+          rows={3}
+          dir="rtl"
+          className="mt-2 block w-full rounded-xl border border-border bg-background px-3 py-2 text-base text-foreground"
+          aria-describedby={`${uid}-notes-help`}
+        />
+        <p id={`${uid}-notes-help`} className="mt-1 text-xs text-muted-foreground">
+          נכנס להודעה כמו שכתבתם, בלי מחיר.
+        </p>
+      </div>
 
       <p className="mt-3 text-sm text-muted-foreground">
         סשן של שעה באולפן, והשיר אצלכם בסוף הסשן. באתר לא משלמים כלום.

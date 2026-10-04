@@ -31,6 +31,8 @@ import { checkLeadNotifyPayload, FORM_ID_PATTERN } from "@/lib/leads/payload-che
 const PITCH = "song_pitch_coaching";
 const CLIP = "studio_session_clip_edited";
 const INTERVIEW = "song_pre_session_interview";
+const BTS = "studio_bts";
+const PHOTOS = "studio_photo_pack";
 
 /* כל 8 תתי-הקבוצות של שלוש התוספות, עם המחיר שהבעלים אישר (OWNER-DECISIONS-2026-10-02).
    ראיון בלי קליפ אינו בחירה חוקית, ולכן המחיר שלו הוא המחיר בלי הראיון. */
@@ -51,12 +53,15 @@ const ALL_COMBINATIONS: Array<{
 ];
 
 describe("song offer: catalog", () => {
-  it("reads the base and the three add-ons from the catalog, in order", () => {
+  it("reads the base and the five add-ons from the catalog, in order", () => {
     assert.equal(getExVat("song_recording"), 500);
     assert.equal(getExVat(PITCH), 300);
     assert.equal(getExVat(CLIP), 750);
     assert.equal(getExVat(INTERVIEW), 500);
-    assert.deepEqual(SONG_ADDON_IDS, [PITCH, CLIP, INTERVIEW]);
+    /* החלטת הבעלים 4.10.2026: אותם מחירים כמו באשף /book */
+    assert.equal(getExVat(BTS), 250);
+    assert.equal(getExVat(PHOTOS), 200);
+    assert.deepEqual(SONG_ADDON_IDS, [PITCH, CLIP, INTERVIEW, BTS, PHOTOS]);
   });
 
   it("the removed song packages are gone from the catalog", () => {
@@ -85,6 +90,8 @@ describe("song offer: catalog", () => {
         [PITCH, 300, 354, null],
         [CLIP, 750, 885, null],
         [INTERVIEW, 500, 590, CLIP],
+        [BTS, 250, 295, null],
+        [PHOTOS, 200, 236, null],
       ],
     );
   });
@@ -295,11 +302,12 @@ describe("formatConsumerPrice", () => {
 });
 
 describe("getSongOfferExport (owner quoting tool)", () => {
-  it("exports the six valid combinations with the same totals as calcSongOffer", () => {
+  it("exports every valid combination with the same totals as calcSongOffer", () => {
     const exp = getSongOfferExport();
     assert.equal(exp.base.id, "song_recording");
     assert.deepEqual(exp.addons.map((a) => a.id), [...SONG_ADDON_IDS]);
-    assert.equal(exp.combinations.length, 6);
+    /* 5 תוספות הן 32 תתי-קבוצות, פחות 8 שיש בהן ראיון בלי קליפ */
+    assert.equal(exp.combinations.length, 24);
     for (const combo of exp.combinations) {
       const calc = calcSongOffer(combo.addonIds);
       assert.deepEqual(combo.addonIds, calc.addonIds);
@@ -504,5 +512,59 @@ describe("song offer: per-person breakdown (owner decision 3.10.2026, round 3)",
     for (let n = 1; n <= 12; n += 1) {
       assert.doesNotMatch(getSongParticipantsBreakdown(n).line, /[!—–…“”]/);
     }
+  });
+});
+
+describe("song offer: the 3.10.2026 lead (six singers, clip, family talk, photos)", () => {
+  const ALL = [PITCH, CLIP, INTERVIEW, BTS, PHOTOS];
+  const ORDER = [CLIP, INTERVIEW, BTS, PHOTOS];
+
+  it("six participants with clip, family talk, behind the scenes and photos: 2,695 + VAT = 3,180", () => {
+    const calc = calcSongOffer(ORDER, 6);
+    assert.equal(calc.totalExVat, 500 + 5 * 99 + 750 + 500 + 250 + 200);
+    assert.equal(calc.totalExVat, 2695);
+    assert.equal(calc.totalWithVat, 3180);
+    assert.deepEqual(calc.addonIds, ORDER);
+  });
+
+  it("the photo and video add-ons do not need the clip", () => {
+    assert.deepEqual(normalizeSongAddons([BTS, PHOTOS]), [BTS, PHOTOS]);
+    assert.deepEqual(normalizeSongAddons(ALL), ALL);
+  });
+
+  it("the interview covers a family talk and is delivered on its own too", () => {
+    const view = getSongOfferView();
+    const interview = view.addons.find((a) => a.id === INTERVIEW)!;
+    const text = [interview.description, ...interview.included].join(" ");
+    assert.match(text, /שיחה משפחתית/);
+    assert.match(text, /קובץ נפרד/);
+  });
+
+  it("notes go into the message and the callback, without changing the total", () => {
+    const notes = "  שיחה משפחתית לפני השיר, ושישה זמרים  ";
+    const { text } = buildSongOfferMessage(ORDER, { source: "/studio/recording-song-modiin", participants: 6, notes });
+    assert.ok(text.includes("הערות: שיחה משפחתית לפני השיר, ושישה זמרים"));
+    assert.ok(text.indexOf("הערות:") < text.indexOf("מתי נוח לכם להקליט?"));
+    assert.ok(text.includes("סה״כ: 3,180 ₪ כולל מע״מ (2,695 ₪ + מע״מ)"));
+    const req = buildSongCallbackRequest({
+      name: "נועה כהן",
+      phone: "054-123-4567",
+      addonIds: ORDER,
+      participants: 6,
+      notes,
+      source: "/studio/recording-song-modiin",
+      submissionId: "sub-notes",
+      honeypot: "",
+    });
+    assert.ok(req.body.includes("הערות: שיחה משפחתית לפני השיר, ושישה זמרים"));
+    assert.equal(req.pricingRef?.exVat, 2695);
+  });
+
+  it("no notes line when the field is empty, and long notes are cut", () => {
+    const { text } = buildSongOfferMessage([CLIP], { source: "/x", notes: "   " });
+    assert.ok(!text.includes("הערות:"));
+    const long = buildSongOfferMessage([CLIP], { source: "/x", notes: "א".repeat(900) }).text;
+    const line = long.split("\n").find((l) => l.startsWith("הערות: "))!;
+    assert.equal(line.length, "הערות: ".length + 500);
   });
 });

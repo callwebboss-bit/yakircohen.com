@@ -27,6 +27,8 @@ export const SONG_ADDONS_PARAM = "addons";
 export const SONG_PARTICIPANTS_PARAM = "participants";
 /** מזהה שורת תוספת המשתתפים (לא מזהה קטלוג, היא מחברת שני פריטים) */
 export const SONG_PARTICIPANTS_LINE_ID = "song_participants";
+/** אורך מקסימלי להערה החופשית של הלקוח, בהודעה ובמייל */
+export const SONG_NOTES_MAX = 500;
 
 export type SongPriceLine = {
   id: string;
@@ -57,6 +59,8 @@ export type SongOfferQuote = SongOfferTotals & {
   waHref: string;
   /** קישור חזרה לטופס עם הבחירה */
   offerHref: string;
+  /** ההערה החופשית של הלקוח אחרי ניקוי, או מחרוזת ריקה */
+  notes: string;
 };
 
 /** מפתח קבוע לשילוב. הבחירה כבר מנורמלת, ולכן הסדר הוא סדר הקטלוג. */
@@ -207,7 +211,15 @@ export type SongQuoteOptions = {
   includeYcTag?: boolean;
   /** נתיב הטופס לקישור החזרה, ברירת מחדל עמוד השיר */
   offerPath?: string;
+  /* בקשות שאין להן שורת מחיר (למשל מה מצלמים או איך השיחה המשפחתית תיראה).
+     נכנסות כשורה בהודעה ובמייל, בלי מחיר ובלי השפעה על הסכום. */
+  notes?: string;
 };
+
+/** ההערה אחרי ניקוי וקיצור, או מחרוזת ריקה */
+export function cleanSongNotes(notes: string | undefined): string {
+  return sanitizeLeadText(notes ?? "", SONG_NOTES_MAX).trim();
+}
 
 export type SongOfferCalc = {
   addonIds: SongAddonId[];
@@ -299,12 +311,18 @@ export type SongMessage = {
 export function buildSongMessageFromCalc(
   data: SongQuoteData,
   calc: SongOfferCalc,
-  { source, giftMode = false }: Pick<SongQuoteOptions, "source" | "giftMode">,
+  { source, giftMode = false, notes }: Pick<SongQuoteOptions, "source" | "giftMode" | "notes">,
 ): SongMessage {
   const opening = giftMode
     ? "שלום, אשמח להקליט שיר במתנה באולפן."
     : "שלום, אשמח להקליט שיר באולפן.";
-  const text = [opening, ...songSelectionLines(calc), "מתי נוח לכם להקליט?"].join("\n");
+  const cleanNotes = cleanSongNotes(notes);
+  const text = [
+    opening,
+    ...songSelectionLines(calc),
+    ...(cleanNotes ? [`הערות: ${cleanNotes}`] : []),
+    "מתי נוח לכם להקליט?",
+  ].join("\n");
   const ycTag = buildYcLeadTag({
     service: "recording",
     price: calc.totalExVat,
@@ -361,6 +379,7 @@ export function composeSongOfferQuote(
       data.participants.included,
       options.offerPath,
     ),
+    notes: cleanSongNotes(options.notes),
   };
 }
 
@@ -385,7 +404,8 @@ export type SongCallbackContact = {
  * נכנס גם ל-pricingRef לפני מע״מ.
  */
 export function buildSongCallbackPayload(
-  quote: Pick<SongOfferQuote, "lines" | "totalExVat" | "totalWithVat" | "ycTag" | "offerHref">,
+  quote: Pick<SongOfferQuote, "lines" | "totalExVat" | "totalWithVat" | "ycTag" | "offerHref"> &
+    Partial<Pick<SongOfferQuote, "notes">>,
   input: SongCallbackContact,
 ): LeadEmailPayload {
   const name = sanitizeLeadText(input.name, 60);
@@ -397,6 +417,7 @@ export function buildSongCallbackPayload(
     ...(input.giftMode ? ["שיר במתנה"] : []),
     "",
     ...songSelectionLines(quote),
+    ...(quote.notes ? [`הערות: ${quote.notes}`] : []),
     "",
     `מקור: ${input.source}`,
     quote.ycTag,

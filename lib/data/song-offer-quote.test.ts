@@ -33,8 +33,9 @@ function allInputs(): string[][] {
 describe("getSongOfferQuotes (the precomputed combinations the form receives)", () => {
   const quotes = getSongOfferQuotes({ source: SOURCE });
 
-  it("holds exactly the six valid combinations (interview only with the clip)", () => {
-    assert.equal(Object.keys(quotes).length, 6);
+  it("holds every valid combination (interview only with the clip)", () => {
+    /* 5 תוספות (4.10.2026: נוספו studio_bts ו-studio_photo_pack): 32 תתי-קבוצות, פחות 8 עם ראיון בלי קליפ */
+    assert.equal(Object.keys(quotes).length, 24);
     assert.ok(quotes.base);
     assert.equal(quotes["song_pre_session_interview"], undefined);
   });

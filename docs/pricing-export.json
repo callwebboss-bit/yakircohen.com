@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 154,
-  "contentHash": "9f5997a0e0e56e6c",
+  "itemCount": 157,
+  "contentHash": "413d5e2e03de4fb5",
   "items": [
     {
       "id": "studio_half_hour",
@@ -157,8 +157,28 @@
       "exVat": 500,
       "inclVat": 590,
       "priceFrom": false,
-      "context": "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
+      "context": "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן: ראיון על השיר או על החוגג/ת, או שיחה משפחתית מצולמת שבה שואלים זה את זה. עוזרים עם השאלות. נמסר כקובץ נפרד וגם משולב בקליפ הערוך.",
       "suitedFor": "תוספת לקליפ הערוך מהסשן"
+    },
+    {
+      "id": "studio_bts",
+      "label": "תמונות וסרטון קצר מהאולפן",
+      "category": "addons",
+      "exVat": 250,
+      "inclVat": 295,
+      "priceFrom": false,
+      "context": "קובץ מוכן לשליחה למשפחה בוואטסאפ או בסטורי.",
+      "suitedFor": "תוספת להקלטה באולפן"
+    },
+    {
+      "id": "studio_photo_pack",
+      "label": "בוק צילומים מורחב - 15 תמונות",
+      "category": "addons",
+      "exVat": 200,
+      "inclVat": 236,
+      "priceFrom": false,
+      "context": "תמונות אולפן מקצועיות מעובדות לרשתות.",
+      "suitedFor": "תוספת להקלטה באולפן"
     },
     {
       "id": "podcast_pilot",
@@ -717,6 +737,15 @@
       "inclVat": 590,
       "priceFrom": false,
       "context": "שיעור התנסות אחד - עברית / אולפן"
+    },
+    {
+      "id": "academy_nevermind_session",
+      "label": "פרוטוקול NeverMind, מפגש",
+      "category": "academy",
+      "exVat": 1017,
+      "inclVat": 1200,
+      "priceFrom": false,
+      "context": "מפגש 60 דקות באולפן: אימון מנטלי מול מיקרופון ושבירת חסמי דיבור"
     },
     {
       "id": "academy_private_hour",

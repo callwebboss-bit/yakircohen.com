@@ -224,10 +224,32 @@ export const PRICING_CATALOG = [
     category: "addons",
     /* החלטת הבעלים 3.10.2026 (סבב שני): עד 10 דקות (היה "כ-5 דקות"). עדיין
        בלי מחיר רגיל, ולכן בלי מחיר מחוק ובלי "מבצע". */
-    context: "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן, על השיר או על החוגג/ת. עוזרים עם השאלות. הראיון משולב בקליפ הערוך.",
-    scope: { duration: SONG_INTERVIEW_DURATION, includes: "ראיון במתחם הפודקאסט, משולב בקליפ הערוך" },
+    /* החלטת הבעלים 4.10.2026: גם שיחה משפחתית מצולמת, שבה בני המשפחה שואלים
+       זה את זה, נכנסת כאן באותו מחיר ובאותו זמן. נמסרת כקובץ נפרד שאפשר
+       להקרין לפני השיר, וגם משולבת בקליפ. */
+    context: "עד 10 דקות במתחם הפודקאסט בחוץ לפני הסשן: ראיון על השיר או על החוגג/ת, או שיחה משפחתית מצולמת שבה שואלים זה את זה. עוזרים עם השאלות. נמסר כקובץ נפרד וגם משולב בקליפ הערוך.",
+    scope: { duration: SONG_INTERVIEW_DURATION, includes: "ראיון או שיחה משפחתית במתחם הפודקאסט, קובץ נפרד ומשולב בקליפ הערוך" },
     suitedFor: "תוספת לקליפ הערוך מהסשן",
     requires: "studio_session_clip_edited",
+  },
+  /* שני הפריטים האלה היו מחירים קשיחים באשף /book (studio-recording-booking.ts).
+     החלטת הבעלים 4.10.2026: הם תוספות גם לשיר, באותם מחירים, ולכן עברו לכאן
+     כדי שיהיה להם מחיר אחד. */
+  {
+    id: "studio_bts",
+    label: "תמונות וסרטון קצר מהאולפן",
+    exVat: 250,
+    category: "addons",
+    context: "קובץ מוכן לשליחה למשפחה בוואטסאפ או בסטורי.",
+    suitedFor: "תוספת להקלטה באולפן",
+  },
+  {
+    id: "studio_photo_pack",
+    label: "בוק צילומים מורחב - 15 תמונות",
+    exVat: 200,
+    category: "addons",
+    context: "תמונות אולפן מקצועיות מעובדות לרשתות.",
+    suitedFor: "תוספת להקלטה באולפן",
   },
 
   // ─── פודקאסט ───
@@ -692,7 +714,13 @@ export const PRICING_ADDON_LINKS: Partial<
   blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
   studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
   /* סדר התוספות כאן הוא הסדר בטופס ההצעה (lib/data/song-offer.ts) */
-  song_recording: ["song_pitch_coaching", "studio_session_clip_edited", "song_pre_session_interview"],
+  song_recording: [
+    "song_pitch_coaching",
+    "studio_session_clip_edited",
+    "song_pre_session_interview",
+    "studio_bts",
+    "studio_photo_pack",
+  ],
   event_attraction_1: ["cinematic_slideshow", "led_lighting"],
   event_attraction_2: ["cinematic_slideshow", "pre_event_production"],
   event_attraction_3: ["cinematic_slideshow", "led_lighting"],
@@ -828,9 +856,10 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   },
   song_pre_session_interview: {
     included: [
-      `ראיון של ${SONG_INTERVIEW_DURATION} במתחם הפודקאסט בחוץ, לפני הסשן`,
+      `ראיון או שיחה משפחתית של ${SONG_INTERVIEW_DURATION} במתחם הפודקאסט בחוץ, לפני הסשן`,
       "עזרה בהכנת השאלות",
-      "הראיון משולב בקליפ הערוך",
+      "קובץ נפרד, שאפשר להקרין לפני השיר",
+      "משולב גם בקליפ הערוך",
     ],
     excluded: ["הקליפ הערוך עצמו (תוספת נפרדת, חובה עם הראיון)", "פרק פודקאסט מלא"],
   },

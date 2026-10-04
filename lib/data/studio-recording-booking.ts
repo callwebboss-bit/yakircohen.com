@@ -205,7 +205,7 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
     id: "bts",
     name: "תמונות וסרטון קצר מהאולפן",
     description: "קובץ מוכן לשליחה למשפחה בוואטסאפ או בסטורי",
-    price: 250,
+    price: getExVat("studio_bts"),
   },
   {
     id: "studio_session_video",
@@ -229,7 +229,7 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
     id: "photo_pack",
     name: "בוק צילומים מורחב - 15 תמונות",
     description: "תמונות אולפן מקצועיות מעובדות לרשתות",
-    price: 200,
+    price: getExVat("studio_photo_pack"),
   },
   {
     id: "pitch_correction",
@@ -301,7 +301,7 @@ export const STUDIO_FILMING_MAX = 5;
 /** מעל מספר זה - מציעים חיסכון בצמצום מקליטים */
 export const STUDIO_SAVINGS_TIP_THRESHOLD = 5;
 
-/** חבילות אשף שזכאיות למחירון קבוצתי. remote: 190/95. song: מחיר שיר לפי משתתפים (190, ואז 99), ראו calcStudioScenarios */
+/** חבילות אשף שזכאיות למחירון קבוצתי. remote: 190/95. song: מחיר שיר לפי משתתפים (99 לכל משתתף מהשני, SONG_PARTICIPANT_RULES), ראו calcStudioScenarios */
 export const GROUP_PRICING_ELIGIBLE_PACKAGES = [
   "remote",
   "song",
