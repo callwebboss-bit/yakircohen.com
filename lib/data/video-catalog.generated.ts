@@ -1103,18 +1103,6 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
     ]
   },
   {
-    "videoId": "g8Kfb6QFRT0",
-    "title": "Mp3 או Wav? מה איכותי יותר? אמפי 3 או WAV? על מה לשמור את השיר?",
-    "youtubeUrl": "https://www.youtube.com/watch?v=g8Kfb6QFRT0",
-    "tags": [
-      "education"
-    ],
-    "services": [
-      "recording-studio",
-      "studio-hub"
-    ]
-  },
-  {
     "videoId": "uSADHJreYdQ",
     "title": "איזה מיקרופון לקנות לסטודיו או אולפן הקלטות והאם יש מיקרופון זול וטוב?",
     "youtubeUrl": "https://www.youtube.com/watch?v=uSADHJreYdQ",
@@ -3761,4 +3749,4 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
   }
 ] as const;
 
-export const PORTFOLIO_CATALOG_COUNT = 273 as const;
+export const PORTFOLIO_CATALOG_COUNT = 272 as const;
