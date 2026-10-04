@@ -31,7 +31,7 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "podcast-needs-professional-editing": "5 סימנים שהפרק שלכם צריך עריכה מקצועית - לא רק חיתוך",
   "rescue-damaged-recording": "הצלת הקלטה פגומה: מה אפשרי, מה לא ואיך מקבלים החלטה נכונה",
   "no-speech-therapist-modiin": "אל תחפשו קלינאי תקשורת במודיעין",
-  "studio-recording-cost-israel-2026": "כמה עולה להקליט שיר באולפן ב-2026 (ומה באמת כלול במחיר)",
+  "studio-recording-cost-israel-2026": "מה באמת כלול במחיר הקלטת שיר באולפן, ואיפה מסתתרות עלויות",
   "first-podcast-without-wasting-money": "איך מפיקים פודקאסט ראשון בלי לבזבז 10,000 ₪ על טעויות",
   "how-to-choose-wedding-dj-israel": "תקליטן לחתונה: איך לא לשבור את האירוע (מדריך בחירה)",
   "wedding-effects-what-worth-it": "עשן, זיקוקים ובועות לחתונה: מה באמת שווה את הכסף",
