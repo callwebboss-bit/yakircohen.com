@@ -9,7 +9,9 @@
 export type SongAddonId =
   | "song_pitch_coaching"
   | "studio_session_clip_edited"
-  | "song_pre_session_interview";
+  | "song_pre_session_interview"
+  | "studio_bts"
+  | "studio_photo_pack";
 
 /**
  * קישורים ישנים מהמחירון ומהאשף, ?catalog=cover_song וכדומה. כל חבילה שירדה

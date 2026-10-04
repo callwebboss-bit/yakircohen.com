@@ -24,6 +24,8 @@ describe("price transparency overlay lists", () => {
       "song_pitch_coaching",
       "studio_session_clip_edited",
       "song_pre_session_interview",
+      "studio_bts",
+      "studio_photo_pack",
     ]);
     assert.equal(t.pricingMode, "fixed");
   });

@@ -1451,20 +1451,6 @@
   {
     "file": "lib/data/studio-recording-booking.ts",
     "kind": "field",
-    "value": 200,
-    "count": 1,
-    "example": "price: 200,"
-  },
-  {
-    "file": "lib/data/studio-recording-booking.ts",
-    "kind": "field",
-    "value": 250,
-    "count": 1,
-    "example": "price: 250,"
-  },
-  {
-    "file": "lib/data/studio-recording-booking.ts",
-    "kind": "field",
     "value": 400,
     "count": 2,
     "example": "price: 400,"
