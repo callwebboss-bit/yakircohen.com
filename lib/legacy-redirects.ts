@@ -140,7 +140,16 @@ export function clearCartQuery(url: { searchParams: URLSearchParams; search: str
   return true;
 }
 
-export const GONE_EXACT_PATHS = ["/xmlrpc.php", "/index.aspx", "/main.asp"] as const;
+/* req.nextUrl.pathname מגיע מקודד, ולכן נתיב עברי נרשם כאן מקודד.
+   "/%D7%9B%D7%9E%D7%94-..." הוא /כמה-לתת-לחתונה-כמה-להביא-לחתונה: מדריך ישן
+   על סכום המתנה בחתונה (17 קליקים), בלי קשר לשירות. אושר כ-410 על ידי
+   הבעלים 4.10.2026, כי הפניה לעמוד לא קשור נספרת אצל גוגל כ-soft 404. */
+export const GONE_EXACT_PATHS = [
+  "/xmlrpc.php",
+  "/index.aspx",
+  "/main.asp",
+  "/%D7%9B%D7%9E%D7%94-%D7%9C%D7%AA%D7%AA-%D7%9C%D7%97%D7%AA%D7%95%D7%A0%D7%94-%D7%9B%D7%9E%D7%94-%D7%9C%D7%94%D7%91%D7%99%D7%90-%D7%9C%D7%97%D7%AA%D7%95%D7%A0%D7%94",
+] as const;
 
 const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   /* /product, /product-tag, /product-category, /category, /tag, /shop-2, /wp-*
@@ -502,6 +511,15 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/הקלטת-נתב-שיחות": "/business/professional-voiceover",
   // תיק עבודות ישן
   "/צחי-נוי-2": "/portfolio",
+  /* אושר על ידי הבעלים 4.10.2026. ארבע כתובות שהחזירו 404 באתר החי (curl
+     באותו יום). התוכן הישן נבדק בארכיון האינטרנט, והיעד הוא עמוד באותו נושא:
+     "קליפ בר מצווה" היה עמוד שירות (75 קליקים ב-Search Console), "יצחק בצרי"
+     היה פרק פודקאסט שעדיין ביוטיוב (jBa06DNRXw0). "שירים לבר מצווה" היה
+     מדריך, והיעד זמני עד שהמדריך יחזור. */
+  "/קליפ-בר-מצווה": "/studio/blessings/video-clip",
+  "/studio-podcasters": "/podcast/podcast-studio-modiin",
+  "/יצחק-בצרי": "/podcast",
+  "/שירים-לבר-מצווה": "/blog/bar-mitzvah-song-recording-guide",
 };
 
 /** Old English slugs used before the current route structure */
