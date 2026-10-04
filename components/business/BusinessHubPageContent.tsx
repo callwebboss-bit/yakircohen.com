@@ -53,7 +53,7 @@ export default function BusinessHubPageContent() {
           </h1>
           <p className="text-lead mt-4 text-muted-foreground">
             רילז, קריינות מקצועית, פודקאסט לעסק וסרט תדמית. הפקה מלאה עם
-            חשבונית מס - תגובה, בדרך כלל תוך שעה. מודיעין, פתח תקווה וכל אזור המרכז.
+            חשבונית מס - תגובה, בדרך כלל תוך 24 שעות. מודיעין, פתח תקווה וכל אזור המרכז.
           </p>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             מחפשים שיר במתנה או DJ לחתונה?{" "}

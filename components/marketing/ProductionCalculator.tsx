@@ -481,7 +481,7 @@ export default function ProductionCalculator({
                 <span aria-hidden="true" className="text-xs opacity-70"> </span>
               </a>
               <p className="mt-3 text-xs text-muted-foreground">
-                מענה אישי, בדרך כלל תוך שעה
+                מענה אישי, בדרך כלל תוך 24 שעות
               </p>
             </div>
           </div>

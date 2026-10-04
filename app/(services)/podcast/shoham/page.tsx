@@ -215,7 +215,7 @@ export default function PodcastShohamPage() {
               מוכנים להקליט פרק ראשון?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              שולחים הודעה עם נושא הפודקאסט ותאריך מועדף - ומחזירים עם מחיר ותאריך פנוי תוך שעה.
+              שולחים הודעה עם נושא הפודקאסט ותאריך מועדף - ומחזירים עם מחיר ותאריך פנוי תוך 24 שעות.
             </p>
             <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button

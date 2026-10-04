@@ -336,7 +336,7 @@ export default function RecordingSongModiinPageContent() {
 
           <BusinessCrossLink
             title="מחפשים גם אפקטים לאירוע?"
-            text="קונפטי, עשן כבד ובועות סבון - הפעלה מקצועית עם מפעיל צמוד ותיאום עם ה-DJ. אישור, בדרך כלל תוך שעה."
+            text="קונפטי, עשן כבד ובועות סבון - הפעלה מקצועית עם מפעיל צמוד ותיאום עם ה-DJ. אישור, בדרך כלל תוך 24 שעות."
             href="/events/attractions"
             linkLabel="לכל האטרקציות לאירוע"
           />

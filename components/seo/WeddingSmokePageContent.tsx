@@ -305,7 +305,7 @@ export default function WeddingSmokePageContent() {
             id="smoke-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            רוצים עשן כבד לסלואו? קבלו הצעה, בדרך כלל תוך שעה
+            רוצים עשן כבד לסלואו? קבלו הצעה, בדרך כלל תוך 24 שעות
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
             תאריך, סוג אירוע ומיקום - נחזור עם הצעה מדויקת. גם בטלפון:{" "}
@@ -330,7 +330,7 @@ export default function WeddingSmokePageContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex rounded-md bg-brand-red px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light"
           >
-            קבלו הצעה, בדרך כלל תוך שעה
+            קבלו הצעה, בדרך כלל תוך 24 שעות
           </a>
           <p className="mx-auto mt-3 max-w-lg text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}

@@ -122,7 +122,7 @@ export default function BookQualificationMiniForm({
             כמה פרטים ונחזור עם הצעה מדויקת
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            {route.title} · בדרך כלל תוך שעתיים בימי עבודה
+            {route.title} · בדרך כלל תוך 24 שעות בימי עבודה
           </p>
 
           <div className="mt-3 space-y-3">

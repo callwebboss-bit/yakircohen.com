@@ -224,7 +224,7 @@ export default function PricingHubPage() {
               יש לכם שאלה על המחירים?
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              השאירו פרטים ונחזור אליכם בדרך כלל תוך שעה.
+              השאירו פרטים ונחזור אליכם בדרך כלל תוך 24 שעות.
             </p>
             <div className="mt-6">
               <Suspense fallback={<LeadFormSkeleton />}>

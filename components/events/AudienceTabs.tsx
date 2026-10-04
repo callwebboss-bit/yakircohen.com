@@ -317,7 +317,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
             </h3>
             <p className="text-sm leading-relaxed text-muted-foreground">
               ייעוץ ראשוני ללא עלות - נתאים חבילה לצרכים ולתקציב שלכם ונשלח
-              הצעה, בדרך כלל תוך שעה.
+              הצעה, בדרך כלל תוך 24 שעות.
             </p>
 
             {/* Trust signals */}

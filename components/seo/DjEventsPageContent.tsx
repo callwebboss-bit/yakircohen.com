@@ -513,7 +513,7 @@ export default function DjEventsPageContent() {
             ))}
           </ul>
           <p className="mt-5 text-xs text-muted-foreground">
-            לחצו על הכפתור למטה ותקבלו הצעת מחיר מדויקת תוך שעה - ללא עגלולים.
+            לחצו על הכפתור למטה ותקבלו הצעת מחיר מדויקת תוך 24 שעות - ללא עגלולים.
           </p>
         </section>
 
@@ -564,7 +564,7 @@ export default function DjEventsPageContent() {
             id="dj-book-cta-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            שריינו תאריך - קבלו הצעה תוך שעה
+            שריינו תאריך - קבלו הצעה תוך 24 שעות
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             בחרו חבילה, ראו מחיר שקוף ושלחו פרטים ישירות.

@@ -18,7 +18,7 @@ import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 const HOME_TITLE = "אולפן הקלטות במודיעין - פודקאסט ואירועים";
 const HOME_DESCRIPTION =
   `אולפן הקלטות מקצועי במודיעין - הקלטה ${formatFromPriceExVat(getExVat("blessing_recording"))}. ` +
-  "פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך שעה. " +
+  "פודקאסט, הקלטת שיר, שיפור סאונד AI ואולפן נייד עד הבית. תיקון זיופים וקריינות אנושית לפתח תקווה, שוהם וכל אזור המרכז - הצעה, בדרך כלל תוך 24 שעות. " +
   TIME_PROMISE_DISCLAIMER;
 
 export const metadata: Metadata = {

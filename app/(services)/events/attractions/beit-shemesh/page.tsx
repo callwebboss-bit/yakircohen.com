@@ -215,7 +215,7 @@ export default function AttractionsBeitShemeshPage() {
               מוכנים לתכנן את האירוע?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              שולחים הודעה עם תאריך ומיקום האירוע - ומקבלים הצעה עם מחירים בתוך שעה.
+              שולחים הודעה עם תאריך ומיקום האירוע - ומקבלים הצעה עם מחירים בתוך 24 שעות.
             </p>
             <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button
