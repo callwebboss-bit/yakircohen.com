@@ -65,6 +65,107 @@ export const BAT_MITZVAH_ENTRANCE_SONGS: BatMitzvahSongList = {
       note: "מפסטיגל 2004",
       source: "https://www.youtube.com/watch?v=4amB_v7uqKU",
     },
+    /* מכאן: מחקר 4.10.2026, אושר על ידי הבעלים באותו יום. */
+    {
+      title: "קחי לך",
+      artist: "ריטה ומשי קלינשטיין",
+      note: "דואט של אמא ובת",
+      source: "https://www.youtube.com/watch?v=Y0845qZjvAM",
+    },
+    {
+      title: "מתנות קטנות",
+      artist: "רמי קלינשטיין",
+      note: "שיר תודה שכל הדורות מכירים",
+      source: "https://www.youtube.com/watch?v=pn_p5_8taxg",
+    },
+    {
+      title: "באה אליכם",
+      artist: "מירי מסיקה",
+      source: "https://www.youtube.com/watch?v=7IaJXfVY5Pk",
+    },
+  ],
+};
+
+/** שירים חדשים, סוף 2025 ו-2026. מחקר 4.10.2026, אושר על ידי הבעלים באותו יום. */
+export const BAT_MITZVAH_2026_SONGS: BatMitzvahSongList = {
+  id: "2026",
+  songs: [
+    {
+      title: "רוצי ילדה",
+      artist: "בן צור",
+      note: "מילים שמעודדות ילדה",
+      source: "https://www.youtube.com/watch?v=qXcXNXBJbp8",
+    },
+    {
+      title: "אהבת השם",
+      artist: "בן צור",
+      source: "https://www.youtube.com/watch?v=5m-riTk7N2I",
+    },
+    {
+      title: "או לה פופה",
+      artist: "נועה קירל",
+      source: "https://www.youtube.com/watch?v=aQfI0WP-fcE",
+    },
+    {
+      title: "הלוואי",
+      artist: "חנן בן ארי ופאר טסי",
+      note: "לרגע מרגש, לא לריקוד",
+      source: "https://www.youtube.com/watch?v=4DbqBFPv1aE",
+    },
+  ],
+};
+
+/** בת מצווה דתית. מחקר 4.10.2026, אושר על ידי הבעלים באותו יום. */
+export const BAT_MITZVAH_RELIGIOUS_SONGS: BatMitzvahSongList = {
+  id: "religious",
+  songs: [
+    {
+      title: "תוכו רצוף אהבה",
+      artist: "ישי ריבו",
+      note: "לכניסה שקטה",
+      source: "https://www.youtube.com/watch?v=fQRgX3ivUKU",
+    },
+    {
+      title: "קטנתי",
+      artist: "יונתן רזאל",
+      note: "שיר תודה",
+      source: "https://www.youtube.com/watch?v=HZYivKwVmJc",
+    },
+    {
+      title: "נפשי",
+      artist: "ישי ריבו ומוטי שטיינמץ",
+      source: "https://www.youtube.com/watch?v=-6hnYAEUV2M",
+    },
+    {
+      title: "ותיקח מרים",
+      artist: "חנן בן ארי ולהקת קולות",
+      note: "רגע ריקוד של הבנות",
+      source: "https://he.wikipedia.org/wiki/חנן_בן_ארי",
+    },
+    {
+      title: "לך אלי תשוקתי",
+      artist: "מאיר בנאי",
+      note: "פיוט, לכניסה שקטה",
+      source: "https://www.youtube.com/watch?v=yb6xrWnEsxc",
+    },
+  ],
+};
+
+/** בת מצווה חרדית: קול גברי. מחקר 4.10.2026, אושר על ידי הבעלים באותו יום. */
+export const BAT_MITZVAH_HAREDI_SONGS: BatMitzvahSongList = {
+  id: "haredi",
+  songs: [
+    {
+      title: "בת מלך",
+      artist: "חיים ישראל ושלומי שבת",
+      source: "https://www.youtube.com/watch?v=5EDeYowMZwE",
+    },
+    {
+      title: "עלה קטן שלי",
+      artist: "אברהם פריד",
+      note: "אבא לילד שיוצא לדרך",
+      source: "https://www.youtube.com/watch?v=ezSvfzIS7-w",
+    },
   ],
 };
 
@@ -85,8 +186,12 @@ export const BAT_MITZVAH_OVERPLAYED_SONGS: BatMitzvahSongList = {
   ],
 };
 
+/** הרשימה של מה שנמאס נשארת אחרונה: הטסט בודק שאף שיר ממנה לא מומלץ ברשימות האחרות. */
 export const BAT_MITZVAH_SONG_LISTS = [
   BAT_MITZVAH_ENTRANCE_SONGS,
+  BAT_MITZVAH_2026_SONGS,
+  BAT_MITZVAH_RELIGIOUS_SONGS,
+  BAT_MITZVAH_HAREDI_SONGS,
   BAT_MITZVAH_OVERPLAYED_SONGS,
 ] as const;
 

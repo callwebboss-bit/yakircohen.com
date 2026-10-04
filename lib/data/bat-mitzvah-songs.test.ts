@@ -20,9 +20,12 @@ describe("bat mitzvah songs", () => {
   });
 
   it("an overplayed song is never also recommended", () => {
-    const [entrance, overplayed] = BAT_MITZVAH_SONG_LISTS;
+    const overplayed = BAT_MITZVAH_SONG_LISTS[BAT_MITZVAH_SONG_LISTS.length - 1];
+    assert.equal(overplayed.id, "overplayed");
     const tired = new Set(overplayed.songs.map((s) => s.title));
-    for (const song of entrance.songs) assert.ok(!tired.has(song.title), song.title);
+    for (const list of BAT_MITZVAH_SONG_LISTS.slice(0, -1)) {
+      for (const song of list.songs) assert.ok(!tired.has(song.title), song.title);
+    }
   });
 
   it("renders a list, and nothing at all for an empty list", () => {
