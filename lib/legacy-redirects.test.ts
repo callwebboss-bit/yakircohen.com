@@ -5,6 +5,7 @@ import { getPathMatch } from "next/dist/shared/lib/router/utils/path-match";
 import {
   clearCartQuery,
   getLegacyRedirects,
+  goneEquivalent,
   toNextSource,
   withOptionalTrailingSlash,
 } from "@/lib/legacy-redirects";
@@ -189,5 +190,22 @@ describe("clearCartQuery (ED-12)", () => {
     const url = new URL("https://yakircohen.com/studio?add-to-cart");
     assert.equal(clearCartQuery(url), true);
     assert.equal(url.search, "");
+  });
+});
+
+describe("goneEquivalent (product URLs with a real page get 308, not 410)", () => {
+  it("maps an encoded product path, with or without a trailing slash", () => {
+    const encoded = encodeURI("/product/קורס-די-גיי-פרטי");
+    assert.equal(goneEquivalent(encoded), "/academy/dj-course");
+    assert.equal(goneEquivalent(`${encoded}/`), "/academy/dj-course");
+  });
+
+  it("leaves every other product path to the 410", () => {
+    assert.equal(goneEquivalent(encodeURI("/product/מוצר-שלא-קיים")), null);
+    assert.equal(goneEquivalent("/product"), null);
+  });
+
+  it("does not throw on a malformed encoding", () => {
+    assert.equal(goneEquivalent("/product/%E0%A4%A"), null);
   });
 });

@@ -132,6 +132,44 @@ export const GONE_PATH_PREFIXES = [
  * מחזיר true אם הפרמטר היה שם וה-query נוקה, false אם לא נגעו בכתובת.
  * מקבל כל אובייקט עם searchParams ו-search, כלומר גם URL וגם NextURL.
  */
+/**
+ * חריגים מה-410: כתובות מוצר ישנות שהביאו קליקים ויש להן עמוד מקביל אמיתי.
+ * כמו /shop-2, הן מקבלות 308 ב-proxy.ts ולא 410. כל השאר תחת /product ממשיך
+ * לקבל 410, כי ההנמקה למעלה נגד הפניה המונית לעמוד לא קשור לא השתנתה.
+ *
+ * המקור: Search Console, ישראל, 16 חודשים עד 29.9.2026 (נקרא 4.10.2026). נכנסו
+ * רק כתובות עם 3 קליקים ומעלה שיש להן עמוד באותו נושא. המספר בהערה הוא הקליקים.
+ *
+ * זוגות ולא אובייקט: זו לא הפניה של next.config, ולכן audit-proxy-gone לא צריך
+ * לראות כאן "מקור 301" שמצל על ה-410. הנתיבים לא מקודדים, ו-goneEquivalent
+ * מפענח את ה-pathname לפני ההשוואה.
+ */
+const GONE_EQUIVALENT_PAIRS: ReadonlyArray<readonly [string, string]> = [
+  ["/product/קורס-די-גיי-פרטי", "/academy/dj-course"], // 29
+  ["/product/תותח-קונפטי-לאירועים", "/events/attractions/confetti-cannon"], // 27
+  ["/product/צילום-פודקאסט", "/podcast/podcast-recording"], // 15
+  ["/product/חבילת-סושיאל", "/business/social-media"], // 8
+  ["/product/עמדת-דיגיי-לד-להשכרה", "/events/stage-led-dj"], // 6
+  ["/product/חבילות-אטרקציות-לחתונה-חבילה-2", "/events/wedding-attractions-packages"], // 6
+  ["/product/תקליטן-לאירוע-קטן", "/events/dj-events"], // 4
+  ["/product/שיפור-איכות-הקלטה", "/online/vocal-fix"], // 4
+  ["/product/הקלטת-שיר-באולפן-מסלול-חוויה", "/studio/recording-song-modiin"], // 3
+  ["/product/2-רובי-עשן-לאירועים", "/events/attractions/smoke-cannons-for-events"], // 3
+];
+
+const GONE_EQUIVALENTS = new Map(GONE_EQUIVALENT_PAIRS);
+
+/** יעד מקביל לכתובת שאחרת הייתה מקבלת 410, או null. מקבל pathname מקודד או לא. */
+export function goneEquivalent(pathname: string): string | null {
+  let path = pathname.replace(/\/+$/, "");
+  try {
+    path = decodeURIComponent(path);
+  } catch {
+    return null;
+  }
+  return GONE_EQUIVALENTS.get(path) ?? null;
+}
+
 export const CART_QUERY_KEY = "add-to-cart";
 
 export function clearCartQuery(url: { searchParams: URLSearchParams; search: string }): boolean {
@@ -527,6 +565,13 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
      שבסרטון היחיד באתר עם המילה "סטנדאפ": "דרשה שילד עושה סטנדאפ" (KzmhWvM8EEM,
      תגית blessings-bar-mitzvah). הבעלים 4.10.2026: "מה שצריך לתקן, נתקן". */
   "/סטנדאפ": "/studio/blessings/bar-mitzvah",
+  /* Search Console, ישראל, 16 חודשים (4.10.2026): כתובות ישנות עם קליקים שהחזירו
+     404, ויש להן עמוד באותו נושא. המספר הוא קליקים והופעות. */
+  "/אולפן-הקלטה-מחירים": "/studio/pricing", // 4, 511
+  "/zikukim-karim-leiruim": "/events/attractions/cold-fireworks", // 4, 187
+  "/studio-rishon": "/studio", // 3, 304. כמו /אולפן-הקלטות-בראשון
+  "/מוזיקה-בירושלים": "/dj-events/cities/jerusalem", // 3, 242
+  "/אולפן-הקלטות-לבת-מצווה": "/studio/blessings/bat-mitzvah-clip", // 3, 919. Wayback: "אולפן הקלטות לבת מצווה"
   /* המדריך הישן "שירי סלואו לחתונה" (89 קליקים ב-Search Console) ושתי גרסאות
      שלו מ-Wayback. מ-4.10.2026 יש פוסט ייעודי. /שירי-סלואו-לחתונה-לועזי לא
      כאן: הפוסט עברי בלבד, והפניה אליו לא תענה על החיפוש. */

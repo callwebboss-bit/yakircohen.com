@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES, clearCartQuery } from "@/lib/legacy-redirects";
+import { GONE_EXACT_PATHS, GONE_PATH_PREFIXES, clearCartQuery, goneEquivalent } from "@/lib/legacy-redirects";
 
 /**
  * `410 Gone` לשרידי WooCommerce ו-WordPress.
@@ -30,6 +30,14 @@ export function proxy(req: NextRequest) {
   if (clean === "/shop-2") {
     target.pathname = "/shop";
     target.hash = "vouchers";
+    return NextResponse.redirect(target, 308);
+  }
+
+  /* כתובת מוצר ישנה עם עמוד מקביל אמיתי: 308 אליו, ולא 410. ראו GONE_EQUIVALENT_PAIRS. */
+  const equivalent = goneEquivalent(clean);
+  if (equivalent) {
+    target.pathname = equivalent;
+    target.search = "";
     return NextResponse.redirect(target, 308);
   }
 
