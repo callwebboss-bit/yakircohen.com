@@ -1695,6 +1695,41 @@
       "why": "רשימת השאלות נשלחה לגוגל פעמיים, פעם ב-FaqPageSchema ופעם דרך VideoObjectSchema. נשאר עותק אחד. השאלות בעמוד לא השתנו (אישור הבעלים 3.10).",
       "approvedBy": "owner",
       "approvedAt": "2026-10-03"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldTypes",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldProps",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/hebrew-lessons",
+      "field": "ldCounts",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldTypes",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
+    },
+    {
+      "url": "/academy/ulpan",
+      "field": "ldProps",
+      "why": "הביקורת הוסרה מהסכמה בלבד, ההמלצה נשארת גלויה בעמוד. Search Console דיווח \"סוג אובייקט לא חוקי לשדה parent_node\" (Review על Service), ול-Review לא היה reviewRating, שדה חובה אצל גוגל (אישור הבעלים 4.10).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-04"
     }
   ]
 }

@@ -4,7 +4,6 @@ import {
   ULPAN_PAGE_PATH,
   ULPAN_PRICING,
   ULPAN_SHOWCASE_VIDEOS,
-  ULPAN_TESTIMONIAL,
 } from "@/lib/data/academy-ulpan-page";
 import { absoluteUrl } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
@@ -125,14 +124,11 @@ export function buildUlpanPageSchema() {
             description: "שיעור היכרות  -  אבחון רמה וקביעת מטרות",
           },
         ],
-        review: {
-          "@type": "Review",
-          author: { "@type": "Person", name: ULPAN_TESTIMONIAL.author },
-          /* ללא reviewRating: מדיניות ה-review snippets של גוגל דורשת שהדירוג
-             יהיה גלוי למשתמש בעמוד, ובעמוד הזה לא מוצג אף כוכב. אותה המלצה
-             גם שימשה לדרג חמישה כוכבים בשני עמודים שונים. ההמלצה עצמה נשארת. */
-          reviewBody: ULPAN_TESTIMONIAL.quote,
-        },
+        /* בלי review (החלטת הבעלים 4.10.2026). ההמלצה נשארת גלויה בעמוד.
+           בסכמה היא הייתה Review בלי reviewRating, ששדה חובה לביקורת אצל
+           גוגל. ובעמוד אין כוכבים גלויים, כך שאי אפשר להוסיף דירוג.
+           בעמוד /academy/hebrew-lessons אותה ביקורת ישבה על Service,
+           ושם Search Console דיווח "סוג אובייקט לא חוקי לשדה parent_node". */
       },
       ...videoNodes,
       {
