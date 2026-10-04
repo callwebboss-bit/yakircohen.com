@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 164,
-  "contentHash": "416ff98f74deb301",
+  "contentHash": "4a7a19be6f55586f",
   "items": [
     {
       "id": "studio_half_hour",
@@ -97,8 +97,8 @@
       "exVat": 400,
       "inclVat": 472,
       "priceFrom": false,
-      "context": "עד 40 תמונות וסרטונים שלכם מהבית משולבים בשיר. יותר מ-40 בהצעת מחיר.",
-      "suitedFor": "תוספת לשיר באולפן"
+      "context": "עד 40 תמונות וסרטונים שלכם מהבית, משולבים בקליפ הערוך. יותר מ-40 בהצעת מחיר.",
+      "suitedFor": "תוספת לקליפ הערוך מהסשן"
     },
     {
       "id": "studio_session_clip",
