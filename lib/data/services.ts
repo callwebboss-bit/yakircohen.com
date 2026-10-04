@@ -815,7 +815,7 @@ export const STUDIO_SERVICES = {
       "חוסכים נסיעות: אנחנו מביאים ציוד, אקוסטיקה ומפיק מקצועי הביתה, למשרד או למוסד. הקלטת שירים וקליפים בסטנדרט גבוה - במקום שבו אתם הכי בבית.",
     metaTitle: "אולפן נייד | מגיע עד הבית",
     metaDescription:
-      "אולפן נייד מגיע לכל הארץ. החל מ-2,500 ₪ לפני מע״מ + תוספת אזור. פנלים אקוסטיים, מיקרופונים ומפיק צמוד.",
+      `אולפן נייד מגיע לכל הארץ. ${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"), true)} + תוספת אזור. פנלים אקוסטיים, מיקרופונים ומפיק צמוד.`,
     keywords: [
       "אולפן נייד",
       "אולפן הקלטות נייד",
@@ -849,7 +849,7 @@ export const STUDIO_SERVICES = {
         id: "price",
         question: "כמה עולה אולפן נייד?",
         answer:
-          `החל מ-2,500 ₪ לפני מע״מ. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +${getExVat("travel_north_south").toLocaleString("he-IL")} ₪, אילת/גולן +${getExVat("travel_eilat_golan").toLocaleString("he-IL")} ₪.`,
+          `${formatConsumerPriceLine(getExVat("mobile_podcast_at_home"), true)}. תוספת אזור לפי מיקום: מרכז ללא תוספת, צפון/דרום +${formatConsumerPriceLine(getExVat("travel_north_south"))}, אילת/גולן +${formatConsumerPriceLine(getExVat("travel_eilat_golan"))}.`,
       },
       {
         id: "areas",
