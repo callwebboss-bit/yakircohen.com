@@ -9,7 +9,8 @@ import type { PriceItemId } from "@/lib/data/pricing-catalog";
    docs/OWNER-DECISIONS-2026-10-02.md:26-29).
 
    gbpPriceNow הוא מה שמופיע בכרטיס לפי הדיווח האחרון של הבעלים. כשמעדכנים את
-   הכרטיס, מעדכנים גם כאן, כדי שהבדיקה הבאה תראה "תקין". */
+   הכרטיס, מעדכנים גם כאן, כדי שהבדיקה הבאה תראה "תקין".
+   4.10.2026: הבעלים עדכן את הכרטיס לפי המחירון, וכל השורות תואמות. */
 
 export type GbpProduct = {
   /** השם כפי שהוא בכרטיס */
@@ -30,11 +31,11 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
   { name: "בועות סבון", catalogId: "event_attraction_1", path: "/events/attractions/bubble-machine", gbpPriceNow: 2000, reportedAt: "2026-10-04" },
   { name: "תותח קונפטי", catalogId: "event_attraction_1", path: "/events/attractions/confetti-cannon", gbpPriceNow: 2000, reportedAt: "2026-10-04" },
   { name: "פודקאסט וידאו", catalogId: "podcast_video", path: "/podcast", gbpPriceNow: 1947, reportedAt: "2026-10-04" },
-  { name: "חבילת 3 אטרקציות לאירועים", catalogId: "event_attraction_3", path: "/events/attractions", gbpPriceNow: 5100, reportedAt: "2026-10-04" },
-  { name: "הקלטת שיר", catalogId: "song_recording", path: "/studio/recording-song-modiin", gbpPriceNow: 990, reportedAt: "2026-10-04" },
-  { name: "קליפ ערוך מהסשן באולפן", catalogId: "studio_session_clip_edited", path: "/studio/recording-song-modiin", gbpPriceNow: 750, reportedAt: "2026-10-04", note: "בכרטיס הוזן המחיר לפני מע״מ" },
-  { name: "מצגת תמונות", catalogId: "growth_slideshow_70", path: "/photo-slideshow", gbpPriceNow: 1450, reportedAt: "2026-10-04", note: "מצגת גדילה, 70 תמונות (יקיר אישר 4.10). בכרטיס הוזן המחיר לפני מע״מ" },
-  { name: "שיפור סאונד AI", catalogId: "damaged_recording_rescue", path: "/online", gbpPriceNow: 250, reportedAt: "2026-10-04", note: "הצלת הקלטות פגומות (יקיר אישר 4.10). בכרטיס הוזן המחיר לפני מע״מ" },
-  { name: "פרוטוקול NeverMind", catalogId: "academy_nevermind_session", path: "/academy/stuttering-course", gbpPriceNow: null, reportedAt: "2026-10-04", note: "נכנס לקטלוג 4.10 (1,200 כולל מע״מ, החלטת בעלים)" },
+  { name: "חבילת 3 אטרקציות לאירועים", catalogId: "event_attraction_3", path: "/events/attractions", gbpPriceNow: 5521, reportedAt: "2026-10-04" },
+  { name: "הקלטת שיר", catalogId: "song_recording", path: "/studio/recording-song-modiin", gbpPriceNow: 590, reportedAt: "2026-10-04" },
+  { name: "קליפ ערוך מהסשן באולפן", catalogId: "studio_session_clip_edited", path: "/studio/recording-song-modiin", gbpPriceNow: 885, reportedAt: "2026-10-04" },
+  { name: "מצגת תמונות", catalogId: "growth_slideshow_70", path: "/photo-slideshow", gbpPriceNow: 1711, reportedAt: "2026-10-04", note: "מצגת גדילה, 70 תמונות (יקיר אישר 4.10)" },
+  { name: "שיפור סאונד AI", catalogId: "damaged_recording_rescue", path: "/online", gbpPriceNow: 295, reportedAt: "2026-10-04", note: "הצלת הקלטות פגומות (יקיר אישר 4.10)" },
+  { name: "פרוטוקול NeverMind", catalogId: "academy_nevermind_session", path: "/academy/stuttering-course", gbpPriceNow: 1200, reportedAt: "2026-10-04", note: "נכנס לקטלוג 4.10 (1,200 כולל מע״מ, החלטת בעלים)" },
   { name: "מפגש אפיון", catalogId: null, path: "/contact", gbpPriceNow: null, reportedAt: "2026-10-04", free: true, note: "שיחת היכרות ללא עלות (יקיר 4.10). בכרטיס: מחיר 0 או \"ללא עלות\"" },
 ];
