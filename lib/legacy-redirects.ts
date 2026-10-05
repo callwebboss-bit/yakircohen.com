@@ -195,6 +195,7 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   /* הכתובות עם התאריך של מדריך הסלואו (Wayback). לפני /2019 ו-/2021. */
   { source: "/2019/11/05/שירי-סלואו-לחתונה", destination: "/blog/wedding-slow-songs" },
   { source: "/2019/11/05/שירים-לקבלת-פנים", destination: "/blog/reception-songs" },
+  { source: "/2022/05/17/דרשה-לבר-מצווה-קצר-ולעניין", destination: "/blog/bar-mitzvah-speech" },
   { source: "/2021/08/25/שירי-סלואו", destination: "/blog/wedding-slow-songs" },
   { source: "/2019/:path*",              destination: "/blog" },
   { source: "/2020/:path*",              destination: "/blog" },
@@ -354,7 +355,10 @@ const HEBREW_SERVICE_SLUGS: Record<string, string> = {
   "/הקלטת-ברכות-לאירוע": "/studio/blessings",
   "/הקלטת-ברכות-באולפן-הקלטות-חוויה-מקצ": "/studio/blessings",
   "/הקלטת-דרשה-לבר-מצווה": "/studio/blessings/bar-mitzvah",
-  "/דרשה-לבר-מצווה-קצר-ולעניין": "/studio/blessings/bar-mitzvah",
+  /* 301 קליקים ו-7,905 הופעות ב-Search Console. מי שחיפש "דרשה לבר מצווה
+     קצר ולעניין" חיפש עזרה בכתיבה, ולכן מ-5.10.2026 היעד הוא המדריך, שמקשר
+     לשירות. הבעלים: "תמשיך עם מדריך הדרשה". */
+  "/דרשה-לבר-מצווה-קצר-ולעניין": "/blog/bar-mitzvah-speech",
   "/קליפ-בת-מצווה": "/studio/blessings/bat-mitzvah-clip",
   "/סרטוני-בת-מצווה": "/studio/blessings/bat-mitzvah-clip",
   "/סרטון-קליפ-לבת-מצווה-הפקה-מרגשת-תוך-24-ש": "/studio/blessings/bat-mitzvah-clip",

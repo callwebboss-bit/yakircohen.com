@@ -90,7 +90,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "headphones-purpose-guide": "איך לבחור אוזניות: קודם מגדירים מטרה",
   "bat-mitzvah-songs": "שירים לבת מצווה: שיר כניסה, שירים דתיים ושיר מהמשפחה",
   "wedding-slow-songs": "שירי סלואו לחתונה: מה זוגות בוחרים, שירים חדשים ונוסטלגיים",
-  "reception-songs": "שירים לקבלת פנים: איך בוחרים, ומה לא לשים"
+  "reception-songs": "שירים לקבלת פנים: איך בוחרים, ומה לא לשים",
+  "bar-mitzvah-speech": "דרשה לבר מצווה קצר ולעניין: מבנה, טופס עזר, ובלייב או מוקלט"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */
