@@ -278,6 +278,51 @@
         },
         {
           "@type": "Offer",
+          "name": "פודקאסט אודיו",
+          "description": "כלול: ההקלטה, עריכת ההקלטה וחלל האולפן. או: שיפור סאונד להקלטה קיימת שאתם מביאים",
+          "sku": "podcast_audio",
+          "price": "1121",
+          "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 950,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
+          "url": "https://yakircohen.com/podcast"
+        },
+        {
+          "@type": "Offer",
+          "name": "חבילת 4 פרקי אודיו",
+          "description": "כל פרק בחבילה הוא פרק אודיו מלא: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם. אותו כלל משתתפים בכל פרק",
+          "sku": "podcast_audio_pack_4",
+          "price": "4125",
+          "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 3496,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
+          "url": "https://yakircohen.com/podcast"
+        },
+        {
+          "@type": "Offer",
+          "name": "חבילת 8 פרקי אודיו",
+          "description": "כל פרק בחבילה הוא פרק אודיו מלא: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם. אותו כלל משתתפים בכל פרק",
+          "sku": "podcast_audio_pack_8",
+          "price": "8251",
+          "priceCurrency": "ILS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 6992,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
+          "url": "https://yakircohen.com/podcast"
+        },
+        {
+          "@type": "Offer",
           "name": "שיעור ניסיון עברית פרטי",
           "description": "שיעור היכרות אחד על אחד - פרונטלי או בזום, מודיעין והמרכז",
           "price": "500",
