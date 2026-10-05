@@ -1,6 +1,5 @@
 import { metadataFromService } from "@/lib/data/service-metadata";
 import AudienceTabs from "@/components/events/AudienceTabs";
-import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
@@ -35,7 +34,6 @@ export default function EventsHubPage() {
           headingId="events-hub-decision-heading"
         />
         <AudienceTabs />
-        <CaseStudySection hub="events" />
         <ClientJourneySteps variant="events" display="compact" />
         <ServiceHubLinks
           heading="שירותי אירועים"

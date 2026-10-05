@@ -5,7 +5,6 @@ import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
-import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import HomeHero from "@/components/marketing/HomeHero";
 import HomeGiftsTeaser from "@/components/marketing/HomeGiftsTeaser";
@@ -261,8 +260,6 @@ export default function HomePageSections({
           </details>
         </Container>
       </Section>
-
-      <CaseStudySection />
 
       <Testimonials />
 

@@ -4,7 +4,6 @@ import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
-import CaseStudySection from "@/components/marketing/CaseStudySection";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";
 import MobileStudioComesToYou from "@/components/marketing/MobileStudioComesToYou";
 import StudioClientsStrip from "@/components/marketing/StudioClientsStrip";
@@ -207,8 +206,6 @@ export default function StudioHubPage() {
           </p>
 
           <TrustStatsBar className="rounded-2xl border" />
-
-          <CaseStudySection hub="studio" className="border-0 bg-transparent px-0" />
 
           <StudioClientsStrip className="rounded-2xl border-x" />
 
