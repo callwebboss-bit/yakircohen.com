@@ -190,10 +190,13 @@ export const TRUST_CLAIM_SOURCES: readonly TrustClaimSource[] = [
      נוסח ראשון השתמש ב-`${GOOGLE_RATING} ★`, ואז הרשומה זזה יחד עם הקבוע
      והבדיקה לא יכלה ליפול לעולם. מספר שמשתנה חייב לשבור את ההתאמה. */
   {
-    value: "4.9 ★",
-    source: "כרטיס Google Business Profile של העסק",
+    /* עודכן מ-"4.9 ★" ל-"5.0 ★" ב-5.10.2026. הבדיקה הזו היא שתפסה את
+       הפער: main כבר נשא 5.0 מ-feature/sales-fix, והרשומה נשארה על 4.9.
+       זה בדיוק התרחיש שבגללו היא נכתבה. */
+    value: "5.0 ★",
+    source: "כרטיס Google Business Profile של העסק, אושר על ידי הבעלים ב-4.10.2026",
     approvedBy: "owner",
-    approvedAt: "2026-10-04",
+    approvedAt: "2026-10-05",
   },
   {
     value: "241",
