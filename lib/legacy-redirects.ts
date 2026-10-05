@@ -178,16 +178,7 @@ export function clearCartQuery(url: { searchParams: URLSearchParams; search: str
   return true;
 }
 
-/* req.nextUrl.pathname מגיע מקודד, ולכן נתיב עברי נרשם כאן מקודד.
-   "/%D7%9B%D7%9E%D7%94-..." הוא /כמה-לתת-לחתונה-כמה-להביא-לחתונה: מדריך ישן
-   על סכום המתנה בחתונה (17 קליקים), בלי קשר לשירות. אושר כ-410 על ידי
-   הבעלים 4.10.2026, כי הפניה לעמוד לא קשור נספרת אצל גוגל כ-soft 404. */
-export const GONE_EXACT_PATHS = [
-  "/xmlrpc.php",
-  "/index.aspx",
-  "/main.asp",
-  "/%D7%9B%D7%9E%D7%94-%D7%9C%D7%AA%D7%AA-%D7%9C%D7%97%D7%AA%D7%95%D7%A0%D7%94-%D7%9B%D7%9E%D7%94-%D7%9C%D7%94%D7%91%D7%99%D7%90-%D7%9C%D7%97%D7%AA%D7%95%D7%A0%D7%94",
-] as const;
+export const GONE_EXACT_PATHS = ["/xmlrpc.php", "/index.aspx", "/main.asp"] as const;
 
 const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   /* /product, /product-tag, /product-category, /category, /tag, /shop-2, /wp-*
@@ -595,6 +586,9 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/כמה-עדים-צריך-לחתונה-לחופה": "/blog/tips-for-perfect-wedding", // 5, 1,297
   "/דניאל-גרין": "/portfolio", // 4, 392. כמו שאר שמות האמנים מהאתר הישן
   "/שירי-סלואו-לחתונה-לועזי": "/blog/wedding-slow-songs",
+  /* היה 410 מ-4.10 (מדריך על סכום המתנה, לא קשור לשירות). הבעלים 5.10.2026:
+     גם הוא לפי הכלל של כתובות עם מעט קליקים, ולכן הפניה לעמוד שעשוי לעניין. */
+  "/כמה-לתת-לחתונה-כמה-להביא-לחתונה": "/blog/tips-for-perfect-wedding", // 17, 3,306
 };
 
 /** Old English slugs used before the current route structure */
