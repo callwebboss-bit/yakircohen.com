@@ -327,9 +327,15 @@ function parseStudioParticipantRules(studioText, catalog) {
   const extraParticipantPrice =
     extraFromCatalog?.exVat ??
     parseConstNumber(studioText, "STUDIO_EXTRA_PARTICIPANT_PRICE", 190);
+  /* החלטות 5.10.2026 (ברכות): בברכה, בדרשה ובהקלטה מרחוק כל דובר נוסף
+     blessing_extra_participant (99), עד 12. extraParticipantPrice ו-pairExtraPrice
+     נשארו לשעת חדר. הכלי צריך לקרוא את השדות החדשים לברכות. */
+  const blessingExtra = (catalog ?? []).find((item) => item.id === "blessing_extra_participant");
   return {
     extraParticipantPrice,
     pairExtraPrice: Math.round(extraParticipantPrice / 2),
+    blessingExtraParticipantPrice: blessingExtra?.exVat ?? 99,
+    blessingMaxParticipants: 12,
     recordingMax: parseConstNumber(studioText, "STUDIO_RECORDING_MAX", 10),
     filmingMax: parseConstNumber(studioText, "STUDIO_FILMING_MAX", 5),
     savingsTipThreshold: parseConstNumber(studioText, "STUDIO_SAVINGS_TIP_THRESHOLD", 5),

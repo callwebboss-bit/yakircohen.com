@@ -5,6 +5,7 @@ import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeade
 import BlessingsWhyGrid from "@/components/blessings/BlessingsWhyGrid";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import BlessingPriceNote from "@/components/pricing/BlessingPriceNote";
 import {
   BAR_MITZVAH_PROCESS,
   BAR_MITZVAH_WHY,
@@ -31,7 +32,12 @@ const RELATED_LINKS = [
 
 export default function BlessingsBarMitzvahPageContent() {
   return (
-    <ServicePageFromRegistry service={service} portfolioLabel="ברכות בר/בת מצווה">
+    <ServicePageFromRegistry
+      service={service}
+      portfolioLabel="ברכות בר/בת מצווה"
+      /* החלטות 5.10.2026 (ברכות): מחיר, דוברים וטקסט, ליד אזור המחיר */
+      pricingFooter={<BlessingPriceNote className="mx-auto max-w-3xl" />}
+    >
       <TrustStatsBar variant="compact" className="rounded-2xl border" />
 
       {/* What can be recorded */}

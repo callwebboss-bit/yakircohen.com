@@ -59,8 +59,8 @@ export function buildStudioHubAnswer(): string {
   const opening =
     blessingEx === songEx
       ? `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(songEx))}, ` +
-        `לברכה או אמירה קצרה ולשיר מוכן עם מיקס ומאסטר. `
-      : `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(blessingEx))} לברכה או אמירה קצרה, ` +
+        `לברכה, דרשה או אמירה ולשיר מוכן עם מיקס ומאסטר. `
+      : `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(blessingEx))} לברכה, דרשה או אמירה, ` +
         `ו-${stripDualPrefix(formatFromPriceDual(songEx))} לשיר מוכן עם מיקס ומאסטר. `;
   return (
     opening +

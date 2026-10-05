@@ -2,23 +2,20 @@
  * מנוע מחירון קבוצתי להקלטות אולפן - מקור אמת משותף לאתר ול-yakir-closer.
  */
 
-import {
-  getClientScenarioDescription,
-  getClientScenarioShortTitle,
-} from "@/lib/data/client-scenario-labels";
 import { VAT_RATE, formatNis, withVat as withVatAtSiteRate } from "@/lib/data/pricing";
 import { getSongParticipantRules } from "@/lib/data/song-offer";
+import {
+  blessingSpeakersBreakdown,
+  blessingSpeakersPriceLine,
+  getBlessingParticipantRules,
+} from "@/lib/data/blessing-offer";
 import {
   clampSongParticipants,
   songParticipantsBreakdown,
   songParticipantsExplanation,
   songParticipantsSurchargeExVat,
 } from "@/lib/data/song-offer-quote";
-import {
-  buildPersonBreakdown,
-  formatPerPersonPrice,
-  type PersonBreakdown,
-} from "@/lib/data/participant-cost-copy";
+import type { PersonBreakdown } from "@/lib/data/participant-cost-copy";
 import type { RecordingTypeId, StudioPackageId, StudioUpgradeId } from "@/lib/data/studio-recording-booking";
 import {
   GROUP_PRICING_ELIGIBLE_PACKAGES,
@@ -38,7 +35,6 @@ export {
   STUDIO_SAVINGS_TIP_THRESHOLD,
 };
 
-export const PAIR_EXTRA_PRICE = Math.round(STUDIO_EXTRA_PARTICIPANT_PRICE / 2);
 export const MOTZASH_SURCHARGE = 0.5;
 
 export type StudioScenarioId = "pairs" | "solo" | "group" | "save5";
@@ -298,82 +294,30 @@ export function calcStudioScenarios(options: {
   }
 
   /* הקלטת שיר (3.10.2026, סבב רביעי): מחיר אחד לפי מספר המשתתפים, מהקטלוג.
-     כל משתתף נוסף 99, עד 12 בשיר. בלי תרחישי זוגות או קבוצה. */
-  if (packageId === "song") {
-    const rules = getSongParticipantRules();
-    const count = clampSongParticipants(recorderCount, rules);
-    const scenario = buildScenario(
-      "pairs",
-      `שיר עם ${count} משתתפים`,
-      baseExVat,
-      songParticipantsSurchargeExVat(count, rules),
-      isMotzash,
-      vatRate,
-      recorderCount > rules.max
-        ? `עד ${rules.max} משתתפים בשיר אחד. מעבר לזה מתאמים בשיחה.`
-        : songParticipantsExplanation(rules, vatRate),
-    );
-    return {
-      eligible: true,
-      scenarios: [scenario],
-      recommended: scenario,
-      recorderCount,
-      isMotzash,
-      vatRate,
-    };
-  }
-
-  const extras = recorderCount - 1;
-  const scenarios: StudioScenario[] = [
-    buildScenario(
-      "pairs",
-      getClientScenarioShortTitle("pairs"),
-      baseExVat,
-      extras * PAIR_EXTRA_PRICE,
-      isMotzash,
-      vatRate,
-      getClientScenarioDescription("pairs"),
-    ),
-    buildScenario(
-      "solo",
-      getClientScenarioShortTitle("solo"),
-      baseExVat,
-      extras * STUDIO_EXTRA_PARTICIPANT_PRICE,
-      isMotzash,
-      vatRate,
-      getClientScenarioDescription("solo"),
-    ),
-    buildScenario(
-      "group",
-      getClientScenarioShortTitle("group"),
-      baseExVat,
-      0,
-      isMotzash,
-      vatRate,
-      getClientScenarioDescription("group"),
-    ),
-  ];
-
-  if (recorderCount > STUDIO_SAVINGS_TIP_THRESHOLD) {
-    scenarios.push(
-      buildScenario(
-        "save5",
-        getClientScenarioShortTitle("save5"),
-        baseExVat,
-        (STUDIO_SAVINGS_TIP_THRESHOLD - 1) * PAIR_EXTRA_PRICE,
-        isMotzash,
-        vatRate,
-        getClientScenarioDescription("save5"),
-      ),
-    );
-  }
-
-  const recommended = scenarios.find((s) => s.id === "pairs") ?? scenarios[0];
-
+     כל משתתף נוסף 99, עד 12 בשיר. בלי תרחישי זוגות או קבוצה.
+     ברכה, דרשה והקלטה מרחוק (החלטות 5.10.2026 (ברכות)): אותו כלל, כל דובר
+     נוסף 99 (blessing_extra_participant), עד 12. תרחישי הזוגות (95) והמחיר
+     לכל אחד (190) ירדו. */
+  const isSong = packageId === "song";
+  const rules = isSong ? getSongParticipantRules() : getBlessingParticipantRules();
+  const count = clampSongParticipants(recorderCount, rules);
+  const scenario = buildScenario(
+    "pairs",
+    isSong ? `שיר עם ${count} משתתפים` : `הקלטה עם ${count} דוברים`,
+    baseExVat,
+    songParticipantsSurchargeExVat(count, rules),
+    isMotzash,
+    vatRate,
+    recorderCount > rules.max
+      ? `עד ${rules.max} ${isSong ? "משתתפים בשיר אחד" : "דוברים בהקלטה אחת"}. מעבר לזה מתאמים בשיחה.`
+      : isSong
+        ? songParticipantsExplanation(rules, vatRate)
+        : blessingSpeakersPriceLine(vatRate),
+  );
   return {
     eligible: true,
-    scenarios,
-    recommended,
+    scenarios: [scenario],
+    recommended: scenario,
     recorderCount,
     isMotzash,
     vatRate,
@@ -452,14 +396,14 @@ export { withVatAtSiteRate as withVatDefault };
 
 /**
  * השורה ליד בורר המקליטים באשף: כמה עולה כל מקליט נוסף, כולל מע״מ קודם.
- * בשיר: מחירי השיר מהקטלוג. בשאר (הקלטה מרחוק, ברכות): תרחיש הזוגות המומלץ
- * שהאשף מחשב בפועל (PAIR_EXTRA_PRICE).
+ * בשיר: מחירי השיר מהקטלוג. בשאר (הקלטה מרחוק, ברכות): כל דובר נוסף
+ * blessing_extra_participant (החלטות 5.10.2026 (ברכות)).
  */
 export function studioPerPersonPriceLine(packageId: string | null | undefined, vatRate: number = VAT_RATE): string {
   if (packageId === "song") {
     return songParticipantsExplanation(getSongParticipantRules(), vatRate);
   }
-  return formatPerPersonPrice(PAIR_EXTRA_PRICE, vatRate, "כל מקליט נוסף");
+  return blessingSpeakersPriceLine(vatRate);
 }
 
 /**
@@ -480,10 +424,5 @@ export function studioParticipantsBreakdown(options: {
   if (packageId === "song") {
     return songParticipantsBreakdown(recorderCount, getSongParticipantRules(), baseExVat, vatRate);
   }
-  return buildPersonBreakdown({
-    count: recorderCount,
-    baseExVat,
-    extrasExVat: Array.from({ length: recorderCount - 1 }, () => PAIR_EXTRA_PRICE),
-    vatRate,
-  });
+  return blessingSpeakersBreakdown(recorderCount, baseExVat, vatRate);
 }

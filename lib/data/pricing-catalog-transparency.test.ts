@@ -3,12 +3,20 @@ import { describe, it } from "node:test";
 import { getPriceTransparencyById } from "@/lib/data/pricing-catalog";
 
 describe("price transparency overlay lists", () => {
+  /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע ותיקונים כלולים */
   it("lists blessing includes without pitch correction", () => {
     const t = getPriceTransparencyById("blessing_recording");
-    assert.ok(t.included.some((line) => line.includes("עריכת סאונד בסיסית")));
+    assert.ok(t.included.some((line) => line.includes("בלי הגבלת זמן")));
+    assert.ok(t.included.includes("מוזיקת רקע"));
+    assert.ok(t.included.includes("תיקונים"));
     assert.ok(t.excluded.includes("תיקון זיופים"));
-    assert.ok(t.excluded.includes("מוזיקה ברקע"));
+    assert.ok(!t.excluded.some((line) => /מוזיק|סבב|חצי שעה/.test(line)), t.excluded.join(" | "));
+    assert.ok(!t.included.some((line) => /חצי שעה|30 דקות|60 דקות/.test(line)), t.included.join(" | "));
     assert.ok(t.addons.includes("studio_pitch_correction"));
+    assert.ok(t.addons.includes("blessing_extra_participant"));
+    assert.ok(t.addons.includes("blessing_text_rewrite"));
+    assert.ok(!t.addons.includes("studio_extra_participant"));
+    assert.ok(!t.addons.includes("studio_extra_revision"));
   });
 
   it("song recording includes mix and master and excludes pitch correction (2.10.2026)", () => {
@@ -45,7 +53,10 @@ describe("price transparency overlay lists", () => {
 
   it("keeps remote mix but excludes pitch correction", () => {
     const t = getPriceTransparencyById("studio_remote");
-    assert.ok(t.included.includes("מיקס"));
+    assert.ok(t.included.some((line) => line.includes("מיקס")));
+    assert.ok(t.included.some((line) => line.includes("וואטסאפ")));
+    assert.ok(t.excluded.includes("הנחיה בזמן ההקלטה"));
+    assert.match(t.scopeNote ?? "", /AI/);
     assert.ok(t.excluded.includes("תיקון זיופים"));
     assert.ok(t.addons.includes("studio_pitch_correction"));
   });

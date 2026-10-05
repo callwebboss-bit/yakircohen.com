@@ -134,10 +134,13 @@ describe("studio wizard per-person line and breakdown", () => {
     );
   });
 
-  it("remote (blessings) uses the pairs price the wizard charges", () => {
-    const b = studioParticipantsBreakdown({ baseExVat: 500, recorderCount: 3, packageId: "remote" });
-    assert.equal(b?.extrasExVat, 2 * Math.round(getExVat("studio_extra_participant") / 2));
-    assert.match(studioPerPersonPriceLine("remote"), /^כל מקליט נוסף: \+\d+ ₪ כולל מע״מ/);
+  /* החלטות 5.10.2026 (ברכות): כל דובר נוסף 99, בלי זוגות */
+  it("remote (blessings) charges 99 per extra speaker", () => {
+    const b = studioParticipantsBreakdown({ baseExVat: 500, recorderCount: 4, packageId: "remote" });
+    assert.equal(b?.extrasExVat, 3 * 99);
+    assert.equal(b?.line, "4 דוברים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)");
+    assert.equal(studioPerPersonPriceLine("remote"), "כל דובר נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בהקלטה");
+    assert.equal(getExVat("blessing_extra_participant"), 99);
   });
 
   it("one recorder or a consultation type has no breakdown", () => {

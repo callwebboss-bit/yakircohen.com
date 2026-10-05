@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 158,
-  "contentHash": "d882ba720a16de7a",
+  "itemCount": 160,
+  "contentHash": "c9d2656795880473",
   "items": [
     {
       "id": "studio_half_hour",
@@ -27,7 +27,7 @@
       "inclVat": 1770,
       "priceFrom": false,
       "context": "60 דקות חדר - קריינות, דיבור או פרויקט בלי מיקס",
-      "suitedFor": "קריינות, דרשה ארוכה, שעת חדר בלי מיקס",
+      "suitedFor": "קריינות, שעת חדר בלי מיקס",
       "withEditingExVat": 2000,
       "withEditingInclVat": 2360
     },
@@ -38,8 +38,8 @@
       "exVat": 500,
       "inclVat": 590,
       "priceFrom": false,
-      "context": "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
-      "suitedFor": "ברכת כלה, דרשה, אמירה לחתונה או בר/בת מצווה"
+      "context": "ברכה או דרשה, בלי הגבלת זמן: הנחיה, עריכה, מוזיקת רקע, תיקונים וליווי",
+      "suitedFor": "ברכת כלה, דרשה לבר/בת מצווה, אמירה לחתונה"
     },
     {
       "id": "studio_remote",
@@ -48,8 +48,8 @@
       "exVat": 500,
       "inclVat": 590,
       "priceFrom": false,
-      "context": "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
-      "suitedFor": "ברכה או אמירה בלי להגיע לאולפן"
+      "context": "שולחים הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע. בלי תיקון זיופים.",
+      "suitedFor": "ברכה או דרשה בלי להגיע לאולפן"
     },
     {
       "id": "song_recording",
@@ -98,7 +98,27 @@
       "inclVat": 224,
       "priceFrom": false,
       "context": "הקלטה נוספת וערבוב בסיסי",
-      "suitedFor": "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר"
+      "suitedFor": "מקליט נוסף באותו סשן בשעת חדר. לא בשיר ולא בברכה"
+    },
+    {
+      "id": "blessing_extra_participant",
+      "label": "דובר נוסף בברכה או בדרשה",
+      "category": "addons",
+      "exVat": 99,
+      "inclVat": 117,
+      "priceFrom": false,
+      "context": "לכל דובר נוסף, מהשני והלאה. עד 12 בהקלטה אחת.",
+      "suitedFor": "ברכה משפחתית, הורים ואחים באותה ברכה"
+    },
+    {
+      "id": "blessing_text_rewrite",
+      "label": "כתיבה מחדש של טקסט הברכה",
+      "category": "addons",
+      "exVat": 150,
+      "inclVat": 177,
+      "priceFrom": false,
+      "context": "כותבים איתכם את הברכה או הדרשה מחדש. ליטוש קל כלול בבסיס",
+      "suitedFor": "מי שאין לו טקסט, או שרוצה לכתוב אותו מחדש"
     },
     {
       "id": "song_group_participant",

@@ -9,6 +9,7 @@ import BlessingsWhyGrid from "@/components/blessings/BlessingsWhyGrid";
 import BlessingsBrideGroomBeforeAfter from "@/components/seo/BlessingsBrideGroomBeforeAfter";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import BlessingPriceNote from "@/components/pricing/BlessingPriceNote";
 import {
   BRIDE_GROOM_PROCESS,
   BRIDE_GROOM_WHY,
@@ -27,7 +28,12 @@ const RELATED_LINKS = [
 
 export default function BlessingsBrideGroomPageContent() {
   return (
-    <ServicePageFromRegistry service={service} portfolioLabel="ברכת חתן וכלה">
+    <ServicePageFromRegistry
+      service={service}
+      portfolioLabel="ברכת חתן וכלה"
+      /* החלטות 5.10.2026 (ברכות): מחיר, דוברים וטקסט, ליד אזור המחיר */
+      pricingFooter={<BlessingPriceNote className="mx-auto max-w-3xl" />}
+    >
       <TrustStatsBar variant="compact" className="rounded-2xl border" />
 
       <section aria-labelledby="bride-groom-audio-heading">

@@ -1,5 +1,6 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { BLESSING_REMOTE_TRADEOFF_NOTE, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { blessingSpeakersPriceLine } from "@/lib/data/blessing-offer";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { withVat } from "@/lib/data/pricing";
 import { getBusinessOpenStatus } from "@/lib/business-hours";
@@ -130,7 +131,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "📱 הקלטה מרחוק (מהטלפון)",
       hidden: true,
       answer: {
-        text: `שולחים קובץ הקלטה מהטלפון ומקבלים חזרה עם ניקוי רעשים ומיקס. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"))}. ללא צורך בביקור באולפן.`,
+        text: `שולחים קובץ הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע. ${BLESSING_REMOTE_TRADEOFF_NOTE}. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"))}. ללא צורך בביקור באולפן.`,
         readMoreHref: "/online/vocal-fix",
         readMoreLabel: "פרטים על שירות שיפור קול",
         whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
@@ -155,7 +156,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"))}, כולל ליווי קולי ועריכת סאונד בסיסית (אספקה תוך 24-48 שעות). תיקון זיופים בתוספת ${formatPrice(getExVat("studio_pitch_correction")).inline}. מוזיקת רקע בתוספת. המחיר משתנה לפי מספר המברכים. ספרו לי על האירוע.`,
+        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"))}, בלי הגבלת זמן, כולל הנחיה, עריכה, מוזיקת רקע ותיקונים (אספקה תוך 24-48 שעות). דרשה באותו מחיר. דובר אחד כלול, ${blessingSpeakersPriceLine()}. תיקון זיופים בתוספת ${formatPrice(getExVat("studio_pitch_correction")).inline}. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",

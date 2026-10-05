@@ -47,7 +47,7 @@ export function buildRecordingSongStudioPriceAnswer(): string {
   const addonLines = addons
     .map((a) => `${a.label} ${a.withVat.toLocaleString("he-IL")} ₪`)
     .join(". ");
-  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה או אמירה קצרה ${blessing} ₪ כולל מע״מ.`;
+  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה, דרשה או אמירה ${blessing} ₪ כולל מע״מ, בלי הגבלת זמן ועם מוזיקת רקע.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

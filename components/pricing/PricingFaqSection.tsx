@@ -14,7 +14,7 @@ import { formatPrice } from "@/lib/data/pricing-display";
 const FAQ_ANSWERS: Record<string, React.ReactNode> = {
   "studio-half-vs-hour": (
     <>
-      חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}) מתאימה להקלטה בודדת, פיילוט או ברכה קצרה.
+      חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}) מתאימה להקלטה בודדת או פיילוט. ברכה ודרשה הן מסלול נפרד, בלי הגבלת זמן.
       שעה ({formatPrice(STUDIO_ONE_HOUR_NIS).inline}) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
       שניהם כוללים ליווי טכני מלא.{" "}
       <InlineServiceLink href="/studio/pricing">מחירון אולפן</InlineServiceLink>

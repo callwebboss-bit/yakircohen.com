@@ -5,7 +5,7 @@ import {
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { attractionBundleDiscountPercent, DJ_ATTRACTIONS_DISCOUNT_NOTE, DJ_PER_EVENT_NOTE, DJ_PER_EVENT_SHORT, DJ_PREMIUM_INCLUDED, DJ_PREMIUM_TAGLINE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { attractionBundleDiscountPercent, BLESSING_NO_TIME_LIMIT_NOTE, BLESSING_TEXT_POLISH_NOTE, DJ_ATTRACTIONS_DISCOUNT_NOTE, DJ_PER_EVENT_NOTE, DJ_PER_EVENT_SHORT, DJ_PREMIUM_INCLUDED, DJ_PREMIUM_TAGLINE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import {
   DJ_WEDDING_PRICE_FAQ,
   MOBILE_STUDIO_HOME_FAQ,
@@ -15,6 +15,14 @@ import {
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { djTravelFeesLine } from "./dj-travel-fees";
+import {
+  BLESSING_DURATION_ANSWER,
+  blessingPriceLine,
+  blessingSpeakersPriceLine,
+  buildBlessingGroupAnswer,
+  buildBlessingPriceAnswer,
+  buildBlessingRemoteAnswer,
+} from "./blessing-offer";
 import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
@@ -205,7 +213,7 @@ export const STUDIO_SERVICES = {
         id: "studio-how-long",
         question: "כמה זמן לוקחת הקלטת שיר?",
         answer:
-          "הקלטת שיר על פלייבק: סשן של שעה, והשיר אצלכם בסוף הסשן. ברכה קצרה - עד חצי שעה. שיר מקורי עם עיבוד חדש - כמה מפגשים, לפי ההפקה.",
+          "הקלטת שיר על פלייבק: סשן של שעה, והשיר אצלכם בסוף הסשן. ברכה או דרשה - בלי הגבלת זמן. שיר מקורי עם עיבוד חדש - כמה מפגשים, לפי ההפקה.",
       },
       {
         id: "studio-first-time",
@@ -217,7 +225,7 @@ export const STUDIO_SERVICES = {
         id: "studio-price",
         question: "כמה עולה הקלטה?",
         answer:
-          `הקלטת שיר (הקלטה, מיקס ומאסטר) ${nisWithVat("song_recording")} כולל מע״מ, ותיקון זיופים בתוספת של ${nisWithVat("song_pitch_coaching")}. ברכה או אמירה ${nisWithVat("blessing_recording")} כולל מע״מ. פירוט במחירון.`,
+          `הקלטת שיר (הקלטה, מיקס ומאסטר) ${nisWithVat("song_recording")} כולל מע״מ, ותיקון זיופים בתוספת של ${nisWithVat("song_pitch_coaching")}. ברכה או דרשה ${nisWithVat("blessing_recording")} כולל מע״מ, בלי הגבלת זמן ועם מוזיקת רקע. פירוט במחירון.`,
       },
       {
         id: "studio-pitch-correction",
@@ -361,8 +369,8 @@ export const STUDIO_SERVICES = {
       {
         ...consumerTier("blessing_recording"),
         name: "הקלטת ברכה / אמירה",
-        description:
-          "ברכה, דרשה קצרה או אמירה. עד 30 דקות. עריכת סאונד בסיסית. תיקון זיופים לא כלול. המחיר כולל מע״מ.",
+        /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע כלולה */
+        description: `ברכה, דרשה או אמירה. ${BLESSING_NO_TIME_LIMIT_NOTE}. ${blessingSpeakersPriceLine()}. תיקון זיופים לא כלול. המחיר כולל מע״מ.`,
       },
     ],
     assetsFolder: "studio/recording-song-modiin",
@@ -915,7 +923,7 @@ export const STUDIO_SERVICES = {
     category: "studio",
     title: "הקלטת ברכות באולפן או מהבית",
     subtitle:
-      "הקלטת ברכה באולפן במודיעין או מהבית. עריכת סאונד בסיסית ומסירה מוכנה לאירוע - בדרך כלל תוך 24-48 שעות. מוזיקת רקע ותיקון זיופים בתוספת.",
+      "הקלטת ברכה או דרשה באולפן במודיעין או מהבית, באותו מחיר. בלי הגבלת זמן, עם הנחיה, עריכה, מוזיקת רקע ותיקונים. מסירה מוכנה לאירוע, בדרך כלל תוך 24-48 שעות.",
     metaTitle: "הקלטת ברכות באולפן | מודיעין",
     metaDescription:
       "הקלטת ברכה באולפן במודיעין או מהבית. דרשה, בר/בת מצווה וחתן וכלה - ליווי ועריכה. מסירה בדרך כלל תוך 24-48 שעות.",
@@ -930,8 +938,8 @@ export const STUDIO_SERVICES = {
     features: [
       "הקלטה באולפן במודיעין או מהבית בסמארטפון",
       "ליווי מקצועי בהגייה, קצב ואינטונציה",
-      "עריכת סאונד בסיסית וניקוי רעשים",
-      "מוזיקת רקע ותיקון זיופים בתוספת, לא במחיר הבסיס",
+      "עריכה, ניקוי רעשים, מוזיקת רקע ותיקונים, בלי הגבלת זמן",
+      "דובר אחד כלול, וכל דובר נוסף בתוספת קטנה",
       "מסירה תוך 24-48 שעות",
     ],
     assetsFolder: "studio/blessings/bride-groom-blessing",
@@ -944,22 +952,24 @@ export const STUDIO_SERVICES = {
     utmCampaign: "blessings_hub",
     faqs: [
       {
+        id: "price",
+        question: "כמה עולה להקליט ברכה או דרשה?",
+        answer: buildBlessingPriceAnswer(),
+      },
+      {
         id: "duration",
         question: "כמה זמן לוקח להקליט ברכה?",
-        answer:
-          "ברכה קצרה (2-3 דקות): כ-30 דקות באולפן. ברכה ארוכה או דרשה (5-10 דקות): כשעה באולפן.",
+        answer: BLESSING_DURATION_ANSWER,
       },
       {
         id: "group",
         question: "אפשר להקליט כמה אנשים ביחד?",
-        answer:
-          "בהחלט. באולפן, כמה מברכים שתרצו. בהקלטה מהבית, עד 5 מברכים בחבילה אחת.",
+        answer: buildBlessingGroupAnswer(),
       },
       {
         id: "studio-vs-home",
         question: "מתלבטים בין אולפן להקלטה מהבית?",
-        answer:
-          "אולפן, לאיכות הגבוהה ביותר וליווי מלא. מהבית, לנוחות ובזמן שלכם. שתי האופציות מגיעות לתוצאה מקצועית ומוכנה לאירוע.",
+        answer: `אולפן, לאיכות הגבוהה ביותר וליווי מלא. מהבית, לנוחות ובזמן שלכם. ${buildBlessingRemoteAnswer()}`,
       },
       {
         id: "delivery",
@@ -981,7 +991,7 @@ export const STUDIO_SERVICES = {
     category: "studio",
     title: "דרשות וברכות לבר/בת מצווה",
     subtitle:
-      "ברכות מהלב, דרשות מדויקות והקלטה שמכבדת את הרגע. מסייעים בניסוח, בהנחיה ובהפקה עד לקובץ מוכן להשמעה באירוע. מגיעים מכל הארץ.",
+      "ברכות מהלב, דרשות מדויקות והקלטה שמכבדת את הרגע. ברכה ודרשה באותו מחיר, בלי הגבלת זמן: הנחיה, עריכה ומוזיקת רקע עד קובץ מוכן להשמעה באירוע. מגיעים מכל הארץ.",
     metaTitle: "הקלטת ברכה ודרשה לבר מצווה | יקיר כהן",
     metaDescription:
       "הקלטת ברכות ודרשות לבר/בת מצווה באולפן במודיעין. עזרה בניסוח, ליווי אישי ועריכה. לכל הארץ.",
@@ -997,9 +1007,9 @@ export const STUDIO_SERVICES = {
       "הקלטת ברכה לאירוע",
     ],
     features: [
-      "עזרה בניסוח ברכה אישית, מכובדת ומדויקת לגיל",
+      `${BLESSING_TEXT_POLISH_NOTE}, וכתיבה מחדש בתוספת`,
       "הקלטה רגועה שמאפשרת ביטוי טבעי מול המיקרופון",
-      "עריכה נקייה. מוזיקת רקע עדינה בתוספת לפי אופי האירוע",
+      "עריכה נקייה ומוזיקת רקע עדינה לפי אופי האירוע, כלולות במחיר",
       "מסירה בפורמט מוכן להשמעה בטקס או במסיבה",
       "אפשרות להוסיף וידאו או קליפ משלים",
     ],
@@ -1014,8 +1024,7 @@ export const STUDIO_SERVICES = {
       {
         id: "price",
         question: "כמה עולה להקליט ברכה לבר מצווה?",
-        answer:
-          `הקלטת ברכה מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ. עריכה בסיסית כלולה. מוזיקת רקע ותיקון זיופים בתוספת. שיר ברכה מקורי במחיר נפרד.`,
+        answer: `${buildBlessingPriceAnswer()} שיר ברכה מקורי במחיר נפרד.`,
       },
       {
         id: "what-to-record",
@@ -1026,8 +1035,7 @@ export const STUDIO_SERVICES = {
       {
         id: "duration",
         question: "כמה זמן לוקחת הקלטת ברכה לבר מצווה?",
-        answer:
-          `ברכה קצרה: 30 עד 60 דקות. דרשה ארוכה: שעה עד שעתיים. בסוף מקבלים קובץ ערוך, בדרך כלל תוך 24 עד 48 שעות.`,
+        answer: `${BLESSING_DURATION_ANSWER} בסוף מקבלים קובץ ערוך, בדרך כלל תוך 24 עד 48 שעות.`,
       },
       {
         id: "location",
@@ -1055,13 +1063,13 @@ export const STUDIO_SERVICES = {
     category: "studio",
     title: "ברכת חתן וכלה מוקלטת באולפן",
     subtitle:
-      "הקלטה באולפן, ליווי בניסוח הטקסט ועריכת סאונד עם מוזיקת רקע. מסירה לפני יום האירוע.",
+      "הקלטה באולפן בלי הגבלת זמן, ליטוש הטקסט ועריכת סאונד עם מוזיקת רקע, כלולים במחיר. מסירה לפני יום האירוע.",
     metaTitle: "ברכת חתן וכלה מקצועית באולפן",
     metaDescription:
       "ברכת חתן וכלה באולפן במודיעין. ליווי בניסוח, הקלטה שקטה ומיקס - מתנה משפחתית.",
     keywords: ["ברכת חתן כלה", "ברכה לחתונה", "הקלטת ברכה באולפן"],
     features: [
-      "ליווי בכתיבה ובעריכת הטקס לרגש מאוזן ולא מוגזם",
+      `${BLESSING_TEXT_POLISH_NOTE}, לרגש מאוזן ולא מוגזם`,
       "הקלטה באווירה פרטית שמאפשרת אמיתיות",
       "שילוב מוזיקה רגשית בהתאם לסגנון החתונה",
       "מסירה מהירה לפני יום האירוע",
@@ -1079,19 +1087,17 @@ export const STUDIO_SERVICES = {
         id: "bride-groom-how",
         question: "איך מתחילים ברכת חתן וכלה?",
         answer:
-          "שולחים הודעה בוואטסאפ, מתאמים מועד באולפן במודיעין ומקבלים הנחיה קצרה לניסוח. מקליטים בשעה-שעתיים ומקבלים קובץ מוכן לפני יום האירוע.",
+          "שולחים הודעה בוואטסאפ, מתאמים מועד באולפן במודיעין ומקבלים הנחיה קצרה לניסוח. מקליטים בלי הגבלת זמן ומקבלים קובץ מוכן לפני יום האירוע.",
       },
       {
         id: "bride-groom-text",
         question: "צריך טקסט מוכן מראש?",
-        answer:
-          "לא חובה. אפשר להגיע עם טיוטה או לבנות את הניסוח יחד איתנו לפני ההקלטה. המטרה: משפטים קצרים שנשמעים טבעי, לא נאום ארוך.",
+        answer: `לא חובה. אפשר להגיע עם טיוטה, ו${BLESSING_TEXT_POLISH_NOTE}. אין טיוטה, או שרוצים לכתוב מחדש? כותבים יחד, בתוספת. המטרה: משפטים קצרים שנשמעים טבעי, לא נאום ארוך.`,
       },
       {
         id: "bride-groom-price",
         question: "כמה עולה ברכה מוקלטת?",
-        answer:
-          `ברכה מתחילה מ-${getExVat("blessing_recording").toLocaleString("he-IL")} ₪ לפני מע״מ. מחיר סופי לפי אורך הטקסט. מוזיקת רקע בתוספת. רואים הצעה לפני שמתחייבים.`,
+        answer: buildBlessingPriceAnswer(),
       },
       {
         id: "bride-groom-delivery",
@@ -1175,12 +1181,13 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       price: formatNis(getExVat("blessing_recording")),
       priceExVat: getExVat("blessing_recording"),
       catalogId: "blessing_recording",
-      scope: { duration: "עד חצי שעה", includes: "הנחיה, עריכה בסיסית, קובץ מוכן" },
-      description: "ברכה, דרשה או אמירה - הנחיה ועריכה, קובץ לאירוע.",
+      /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע ותיקונים כלולים */
+      scope: { duration: "בלי הגבלת זמן", includes: "הנחיה, עריכה, מוזיקת רקע, תיקונים" },
+      description: `${blessingPriceLine()}. הנחיה, עריכה ומוזיקת רקע, קובץ לאירוע.`,
       highlights: [
-        "עד חצי שעה באולפן",
-        "הנחיה ועריכה בסיסית",
-        "קובץ מוכן לאירוע",
+        "בלי הגבלת זמן באולפן",
+        "הנחיה, עריכה, מוזיקת רקע ותיקונים",
+        blessingSpeakersPriceLine(),
       ],
       whatsappText: "שלום, מעוניין בהקלטת ברכה באולפן",
       utmCampaign: "studio_pricing_blessing",

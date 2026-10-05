@@ -17,8 +17,14 @@
  *
  * CONTENT_REVIEW: overlay 2026-10-03 (סבב רביעי) - משתתפים בשיר: אחד כלול,
  * וכל משתתף נוסף 99 (song_group_participant), עד 12. אין יותר 190 לזמר השני.
- * ראו SONG_PARTICIPANT_RULES. studio_extra_participant (190) נשאר לברכה,
- * לשעת חדר ולהקלטה מרחוק.
+ * ראו SONG_PARTICIPANT_RULES. studio_extra_participant (190) נשאר לשעת חדר.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-05 (החלטות 5.10.2026 (ברכות)) - ברכה ודרשה
+ * באותו מחיר (blessing_recording 500), בלי הגבלת זמן, עם הנחיה, עריכה, מוזיקת
+ * רקע, תיקונים, טייקים וליווי. דובר אחד כלול, וכל דובר נוסף
+ * blessing_extra_participant (99), עד 12 (BLESSING_PARTICIPANT_RULES). הקלטה
+ * מרחוק (studio_remote) באותו מחיר. ליטוש קל של הטקסט כלול, וכתיבה מחדש
+ * blessing_text_rewrite (150).
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -127,6 +133,23 @@ export const DJ_ATTRACTIONS_DISCOUNT_NOTE =
 export const DJ_TRAVEL_FEE_IDS = ["travel_north_south", "travel_eilat_golan"] as const;
 export const DJ_TRAVEL_CENTER_NOTE = "אזור המרכז: בלי תוספת הגעה";
 
+/* ─── ברכות ודרשות: החלטות 5.10.2026 (ברכות) ───
+ * 1. ברכה ודרשה לבר או בת מצווה באותו מחיר (blessing_recording), בלי הגבלת
+ *    זמן, עם הנחיה, עריכה, מוזיקת רקע, תיקונים, הפסקות וטייקים וליווי.
+ * 2. דובר אחד כלול, וכל דובר נוסף 99 (BLESSING_PARTICIPANT_RULES), עד 12.
+ * 3. הקלטה מרחוק (studio_remote) באותו מחיר: שולחים בוואטסאפ ויקיר מתקן ומסדר.
+ * 4. ליטוש קל של הטקסט כלול. כתיבה מחדש: blessing_text_rewrite.
+ * מחרוזות קצרות בלי מספרים. המחירים נבנים ב-lib/data/blessing-offer.ts.
+ */
+export const BLESSING_SAME_PRICE_NOTE = "ברכה ודרשה לבר או בת מצווה באותו מחיר";
+export const BLESSING_NO_TIME_LIMIT_NOTE =
+  "בלי הגבלת זמן: הנחיה, עריכה, מוזיקת רקע, תיקונים, הפסקות וטייקים כמה שצריך, וליווי עד הקובץ המוכן";
+export const BLESSING_TEXT_POLISH_NOTE = "ליטוש קל של הטקסט כלול, במסגרת השירות, באהבה";
+export const BLESSING_REMOTE_NOTE =
+  "שולחים את ההקלטה בוואטסאפ, ויקיר מתקן ומסדר אותה. באותו מחיר כמו באולפן";
+export const BLESSING_REMOTE_TRADEOFF_NOTE =
+  "מה מפסידים מרחוק: אין הנחיה בזמן ההקלטה ואין את האקוסטיקה של האולפן. את רוב האיכות מחזירים היום בכלי AI, את ההנחיה לא";
+
 /** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
 export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
 
@@ -154,7 +177,8 @@ export const PRICING_CATALOG = [
     category: "studio",
     context: "60 דקות חדר - קריינות, דיבור או פרויקט בלי מיקס",
     scope: { duration: "60 דקות", includes: "הנדסת הקלטה", excludes: "עריכה" },
-    suitedFor: "קריינות, דרשה ארוכה, שעת חדר בלי מיקס",
+    /* "דרשה ארוכה" ירד: דרשה באותו מחיר כמו ברכה (החלטות 5.10.2026 (ברכות)) */
+    suitedFor: "קריינות, שעת חדר בלי מיקס",
     withEditing: { label: "שעת אולפן + עריכה", exVat: 2000 },
   },
   {
@@ -162,18 +186,20 @@ export const PRICING_CATALOG = [
     label: "ברכה / אמירה",
     exVat: 500,
     category: "studio",
-    context: "עד חצי שעה באולפן או מרחוק, הנחיה, עריכה בסיסית וקובץ מוכן",
-    scope: { duration: "עד חצי שעה", includes: "הנחיה ועריכה בסיסית" },
-    suitedFor: "ברכת כלה, דרשה, אמירה לחתונה או בר/בת מצווה",
+    /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן. היה "עד חצי שעה" ו"עריכה בסיסית" */
+    context: "ברכה או דרשה, בלי הגבלת זמן: הנחיה, עריכה, מוזיקת רקע, תיקונים וליווי",
+    scope: { duration: "בלי הגבלת זמן", includes: "הנחיה, עריכה, מוזיקת רקע, תיקונים וליווי" },
+    suitedFor: "ברכת כלה, דרשה לבר/בת מצווה, אמירה לחתונה",
   },
   {
     id: "studio_remote",
     label: "הקלטה מרחוק",
     exVat: 500,
     category: "studio",
-    context: "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס. בלי תיקון זיופים.",
-    scope: { includes: "ניקוי רעשים ומיקס" },
-    suitedFor: "ברכה או אמירה בלי להגיע לאולפן",
+    /* החלטות 5.10.2026 (ברכות): אותו מחיר כמו באולפן. שולחים בוואטסאפ ויקיר מתקן ומסדר */
+    context: "שולחים הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע. בלי תיקון זיופים.",
+    scope: { includes: "תיקון וסידור ההקלטה: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע" },
+    suitedFor: "ברכה או דרשה בלי להגיע לאולפן",
   },
   {
     id: "song_recording",
@@ -209,7 +235,25 @@ export const PRICING_CATALOG = [
     exVat: 190,
     category: "addons",
     context: "הקלטה נוספת וערבוב בסיסי",
-    suitedFor: "דואט, הורה, או מקליט נוסף באותו סשן, בברכה או בשעת חדר. לא בשיר",
+    /* החלטות 5.10.2026 (ברכות): בברכה ובהקלטה מרחוק כל דובר נוסף הוא
+       blessing_extra_participant (99). כאן נשארה רק שעת החדר. */
+    suitedFor: "מקליט נוסף באותו סשן בשעת חדר. לא בשיר ולא בברכה",
+  },
+  {
+    id: "blessing_extra_participant",
+    label: "דובר נוסף בברכה או בדרשה",
+    exVat: 99,
+    category: "addons",
+    context: "לכל דובר נוסף, מהשני והלאה. עד 12 בהקלטה אחת.",
+    suitedFor: "ברכה משפחתית, הורים ואחים באותה ברכה",
+  },
+  {
+    id: "blessing_text_rewrite",
+    label: "כתיבה מחדש של טקסט הברכה",
+    exVat: 150,
+    category: "addons",
+    context: "כותבים איתכם את הברכה או הדרשה מחדש. ליטוש קל כלול בבסיס",
+    suitedFor: "מי שאין לו טקסט, או שרוצה לכתוב אותו מחדש",
   },
   {
     id: "song_group_participant",
@@ -732,6 +776,21 @@ export const MOBILE_STUDIO_CHANNEL_RULES = {
  * 500 + 3 × 99 = 797 לפני מע״מ.
  * החישוב ב-songParticipantsSurchargeExVat (lib/data/song-offer-quote.ts).
  */
+/**
+ * דוברים בברכה, בדרשה ובהקלטה מרחוק (החלטות 5.10.2026 (ברכות)): דובר אחד
+ * כלול, וכל דובר נוסף blessing_extra_participant (99), עד 12. אותו כלל כמו
+ * בשיר. משפחה של 4: 500 + 3 × 99 = 797 לפני מע״מ (940 כולל).
+ */
+export const BLESSING_PARTICIPANT_RULES = {
+  included: 1,
+  max: 12,
+  extraId: "blessing_extra_participant",
+} as const satisfies {
+  included: number;
+  max: number;
+  extraId: PriceItemId;
+};
+
 export const SONG_PARTICIPANT_RULES = {
   included: 1,
   max: 12,
@@ -752,8 +811,10 @@ export const PRICING_ADDON_LINKS: Partial<
   content_package: ["transcribe_hour_srt", "express_delivery"],
   mobile_podcast_at_home: ["mobile_extra_channel"],
   studio_half_hour: ["podcast_editing_hour"],
-  blessing_recording: ["studio_pitch_correction", "studio_extra_revision", "studio_extra_participant", "studio_session_clip"],
-  studio_remote: ["studio_pitch_correction", "studio_extra_revision", "studio_session_clip"],
+  /* החלטות 5.10.2026 (ברכות): תיקונים כלולים, ולכן סבב התיקונים ירד. דובר
+     נוסף 99 במקום 190, וכתיבה מחדש של הטקסט כתוספת */
+  blessing_recording: ["blessing_extra_participant", "blessing_text_rewrite", "studio_pitch_correction", "studio_session_clip"],
+  studio_remote: ["blessing_extra_participant", "blessing_text_rewrite", "studio_pitch_correction"],
   /* סדר התוספות כאן הוא הסדר בטופס ההצעה (lib/data/song-offer.ts) */
   song_recording: [
     "song_pitch_coaching",
@@ -837,40 +898,47 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     included: ["60 דקות אולפן", "הנדסת הקלטה", "זמן חדר נקי בלבד"],
     excluded: ["עריכה", "תיקון זיופים", "מיקס ומאסטר מלאים", "קליפ או צילום"],
   },
+  /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן. מוזיקת רקע ותיקונים כלולים */
   blessing_recording: {
     included: [
-      "עד חצי שעה באולפן או מרחוק",
+      "בלי הגבלת זמן, באולפן או מרחוק",
       "הנחיה אישית רגועה (גם למי שמעולם לא דיבר מול מיקרופון)",
+      "ליווי לאורך כל ההקלטה, הפסקות וטייקים כמה שצריך",
       "הקלטה נקייה עם מיקרופונים מקצועיים",
-      "עריכת סאונד בסיסית (ניקוי רעשים, איזון ווליום)",
-      "תיקון קל של טעויות דיבור",
+      "עריכה (ניקוי רעשים, איזון ווליום, תיקון טעויות דיבור)",
+      "מוזיקת רקע",
+      "תיקונים",
+      BLESSING_TEXT_POLISH_NOTE,
       "קובץ MP3 + WAV מוכן",
       "שליחה בוואטסאפ + מייל",
       "אפשרות לגיבוי בשרתים שלנו או מחיקה מיידית",
       "יחס אישי ודיסקרטיות מלאה",
     ],
     excluded: [
-      "כתיבת טקסט",
-      "מוזיקה ברקע",
+      "כתיבה מחדש של הטקסט (תוספת)",
+      "כל דובר נוסף (תוספת לכל אחד, עד 12)",
       "קליפ",
       "תיקון זיופים",
-      "תיקונים נוספים מעבר לסבב אחד",
     ],
+    scopeNote: `${BLESSING_SAME_PRICE_NOTE}. ${BLESSING_NO_TIME_LIMIT_NOTE}.`,
     glossaryTermSlugs: ["wav", "mp3"],
   },
   studio_remote: {
     included: [
-      "הקלטה מהטלפון בבית",
-      "ניקוי רעשים",
-      "מיקס",
+      "שולחים הקלטה מהטלפון בוואטסאפ",
+      "יקיר מתקן ומסדר: ניקוי רעשים, עריכה ומיקס",
+      "מוזיקת רקע",
+      BLESSING_TEXT_POLISH_NOTE,
       "קובץ מוכן",
     ],
     excluded: [
-      "הגעה לאולפן",
+      "הנחיה בזמן ההקלטה",
+      "האקוסטיקה של האולפן",
+      "כל דובר נוסף (תוספת לכל אחד, עד 12)",
       "תיקון זיופים",
       "קליפ וידאו",
-      "שעת חדר",
     ],
+    scopeNote: BLESSING_REMOTE_TRADEOFF_NOTE,
     glossaryTermSlugs: ["mixing", "pitch-correction"],
   },
   song_recording: {
@@ -922,6 +990,14 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   song_group_participant: {
     included: ["הקלטת משתתף נוסף באותו סשן", "שילוב בשיר"],
     excluded: ["הקלטת השיר עצמה (מסלול הבסיס)"],
+  },
+  blessing_extra_participant: {
+    included: ["הקלטת דובר נוסף באותה ברכה", "שילוב בקובץ הערוך"],
+    excluded: ["הברכה עצמה (מסלול הבסיס)", "יותר מ-12 דוברים בהקלטה אחת"],
+  },
+  blessing_text_rewrite: {
+    included: ["כתיבה מחדש של הברכה או הדרשה יחד איתכם", "התאמה לגיל, לאירוע ולסגנון המשפחה"],
+    excluded: ["ההקלטה עצמה (מסלול הבסיס)"],
   },
   studio_extra_revision: {
     included: ["עריכה נוספת מלאה"],

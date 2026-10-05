@@ -133,6 +133,7 @@ npm run audit:pricing
 | `dj_voice_tag_pack_5` | 1,200 | 1,610 |
 
 - **יקיר אישית:** `dj_yakir_personal` 9,800 לפני מע״מ (11,564 כולל).
+- **ברכות (החלטות 5.10.2026 (ברכות)):** `blessing_recording` ו-`studio_remote` 500, בלי הגבלת זמן, עם מוזיקת רקע ותיקונים. דובר נוסף `blessing_extra_participant` 99 עד 12 (`BLESSING_PARTICIPANT_RULES`), כתיבה מחדש `blessing_text_rewrite` 150. `studio_extra_participant` (190) נשאר לשעת חדר.
 - **DJ לאירוע, לא לפי שעות (החלטות 5.10.2026 (DJ)):** `dj_premium` ו-`dj_yakir_personal` בלי מגבלת שעות ובלי חיוב על שעות נוספות (`DJ_PER_EVENT_NOTE`). תוספת ההגעה `travel_north_south` (800) ו-`travel_eilat_golan` (1,800) לא שונתה, ומוצגת בעמודי ה-DJ דרך `lib/data/dj-travel-fees.ts`.
 - **אולפן נייד:** `mobile_studio` (5,000) נמחק. `mobile_podcast_at_home` 2,500 = הגעה עם כל הציוד, התאורה והצוות (`MOBILE_STUDIO_ARRIVAL_COPY`). באירוע: `podcast_video` או `podcast_audio` ועל זה ההגעה (`mobileStudioEventExVat`).
 - **הגברה:** `event_sound_rental` 2,500, באשף האירועים, במחשבון ההזמנה, ב-`/events/equipment` וב-`/pricing`.

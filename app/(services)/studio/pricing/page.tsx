@@ -19,6 +19,7 @@ import { withVat } from "@/lib/data/pricing";
 import { SKEPTICISM_CTA } from "@/lib/data/conversion-copy";
 import { getSuitedForById } from "@/lib/data/pricing-catalog";
 import { STUDIO_EXTRA_PARTICIPANT_PRICE } from "@/lib/data/studio-recording-booking";
+import { blessingSpeakersPriceLine } from "@/lib/data/blessing-offer";
 import { getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { STUDIO_PRICING_ACCORDION_PANELS } from "@/lib/data/studio-pricing-accordion";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
@@ -237,8 +238,8 @@ export default function StudioPricingPage() {
             התשובות שלכם קובעות את המחיר. לא אנחנו. תזיזו את הבחירות למעלה.
           </p>
           <ol className="mx-auto mt-5 max-w-xl space-y-2 text-sm text-foreground">
-            <li>1. ברכה קצרה - מסלול ברכה. שיר על פלייבק - הקלטת שיר, עם תוספות לפי בחירה. סינגל מסחרי - הפקה מלאה.</li>
-            <li>2. אדם אחד - מחיר בסיס. בשעת חדר ובברכה, תוספת {withVat(STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪ כולל מע״מ למקליט נוסף. בשיר: {SONG_PARTICIPANTS.withVat} {SONG_PARTICIPANTS.exVat}, {SONG_PARTICIPANTS.limit}.</li>
+            <li>1. ברכה או דרשה - מסלול ברכה, בלי הגבלת זמן. שיר על פלייבק - הקלטת שיר, עם תוספות לפי בחירה. סינגל מסחרי - הפקה מלאה.</li>
+            <li>2. אדם אחד - מחיר בסיס. בשעת חדר, תוספת {withVat(STUDIO_EXTRA_PARTICIPANT_PRICE).toLocaleString("he-IL")} ₪ כולל מע״מ למקליט נוסף. בברכה ובדרשה: {blessingSpeakersPriceLine()}. בשיר: {SONG_PARTICIPANTS.withVat} {SONG_PARTICIPANTS.exVat}, {SONG_PARTICIPANTS.limit}.</li>
             <li>3. שעת חדר בלי עריכה שייכת לפודקאסט ולקריינות, לא לשיר במתנה.</li>
           </ol>
           <p className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground">

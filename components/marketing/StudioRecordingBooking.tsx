@@ -62,7 +62,7 @@ import {
   isGroupBookingLead,
   type GroupMessageInput,
 } from "@/lib/studio-group-messaging";
-import { getClientScenarioDescription, getClientScenarioShortTitle } from "@/lib/data/client-scenario-labels";
+import { getClientScenarioDescription } from "@/lib/data/client-scenario-labels";
 import {
   calcStudioScenarios,
   isGroupPricingEligible,
@@ -1542,7 +1542,7 @@ export default function StudioRecordingBooking({
                     <h3 className="text-base font-semibold text-foreground">
                       כמה מקליטים צפויים?
                     </h3>
-                    <InfoTip text="מעל 2 מקליטים עוברים למחירון קבוצתי -- כל זוג מקליט בנפרד, מחיר לאדם יורד. נחשב ביחד בוואטסאפ." />
+                    <InfoTip text="מקליט אחד כלול, וכל מקליט נוסף מוסיף למחיר לפי המחירון. נחשב ביחד בוואטסאפ." />
                   </div>
                   <p className="mb-3 text-xs text-muted-foreground">
                     מבוגר וילד -- אותו מחיר. עוזר לנו להכין הצעה מדויקת
@@ -1587,7 +1587,7 @@ export default function StudioRecordingBooking({
                       הערכת מחיר מומלצת לקבוצה (סופי יתואם בשיחה)*
                     </p>
                     <p className="mt-1 text-foreground">
-                      {getClientScenarioShortTitle("pairs")}:{" "}
+                      {groupScenariosForDisplay.recommended.label}:{" "}
                       {formatNis(groupScenariosForDisplay.recommended.withVat)} כולל מע״מ (
                       {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} + מע״מ)
                     </p>

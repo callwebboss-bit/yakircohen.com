@@ -1,3 +1,6 @@
+import { blessingTextRewriteLine } from "@/lib/data/blessing-offer";
+import { BLESSING_TEXT_POLISH_NOTE } from "@/lib/data/pricing-catalog";
+
 export type BlessingsProcessStep = {
   step: string;
   title: string;
@@ -20,14 +23,14 @@ export const BAR_MITZVAH_WHY: readonly BlessingsWhyCard[] = [
   {
     emoji: "✏️",
     title: "עזרה בניסוח",
-    description:
-      "מלווים בכתיבה ובעריכת הטקס - ברכה אישית, מכובדת ומתאימה לגיל ולסגנון המשפחה.",
+    /* החלטות 5.10.2026 (ברכות): ליטוש קל כלול, כתיבה מחדש בתוספת */
+    description: `${BLESSING_TEXT_POLISH_NOTE}. ${blessingTextRewriteLine()}.`,
   },
   {
     emoji: "🎵",
     title: "עריכה + מוזיקה",
     description:
-      "ניקוי רעשים ועריכה בסיסית כלולים. מוזיקת רקע ותיקון זיופים בתוספת.",
+      "עריכה, ניקוי רעשים, מוזיקת רקע ותיקונים כלולים, בלי הגבלת זמן. תיקון זיופים בתוספת.",
   },
   {
     emoji: "🎬",
@@ -51,7 +54,7 @@ export const BAR_MITZVAH_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "03",
     title: "עריכה ומיקס",
-    description: "עריכה בסיסית ואיזון. מוזיקת רקע בתוספת.",
+    description: "עריכה, איזון ומוזיקת רקע, כלולים במחיר.",
   },
   {
     step: "04",
@@ -77,7 +80,7 @@ export const BRIDE_GROOM_WHY: readonly BlessingsWhyCard[] = [
     emoji: "🎧",
     title: "הבדל ששומעים",
     description:
-      "עריכה בסיסית וניקוי - לא הקלטה ביתית גולמית. מוזיקת רקע ומיקס מלא בתוספת.",
+      "עריכה, ניקוי ומוזיקת רקע - לא הקלטה ביתית גולמית. הכול כלול במחיר.",
   },
   {
     emoji: "⏱️",
@@ -91,7 +94,7 @@ export const BRIDE_GROOM_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "01",
     title: "כתיבה ותיאום",
-    description: "עוזרים לנסח, מגדירים טון ואורך - לפני שמגיעים לאולפן.",
+    description: `מגדירים טון ואורך לפני שמגיעים לאולפן. ${BLESSING_TEXT_POLISH_NOTE}.`,
   },
   {
     step: "02",
@@ -101,7 +104,7 @@ export const BRIDE_GROOM_PROCESS: readonly BlessingsProcessStep[] = [
   {
     step: "03",
     title: "עריכה ומוזיקה",
-    description: "עריכה בסיסית ואיזון. מוזיקת רקע בתוספת.",
+    description: "עריכה, איזון ומוזיקת רקע, כלולים במחיר.",
   },
   {
     step: "04",

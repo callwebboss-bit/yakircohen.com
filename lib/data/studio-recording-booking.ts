@@ -1,4 +1,4 @@
-﻿import { getExVat, SONG_INTERVIEW_DURATION } from "@/lib/data/pricing-catalog";
+﻿import { BLESSING_REMOTE_TRADEOFF_NOTE, getExVat, SONG_INTERVIEW_DURATION } from "@/lib/data/pricing-catalog";
 import { STUDIO_SESSION_CLIP_CATALOG_ID } from "@/lib/data/studio-session-clip";
 
 export type RecordingTypeId =
@@ -122,7 +122,7 @@ export const RECORDING_STUDIO_FAQS: readonly {
     id: "duration",
     question: "כמה זמן לוקחת ההקלטה?",
     answer:
-      "הקלטת שיר היא סשן של שעה, ובסופו השיר המוכן כבר אצלכם. ברכה או אמירה - עד חצי שעה.",
+      "הקלטת שיר היא סשן של שעה, ובסופו השיר המוכן כבר אצלכם. ברכה או דרשה - בלי הגבלת זמן, כמה טייקים והפסקות שצריך.",
   },
 ] as const;
 
@@ -167,12 +167,12 @@ export const STUDIO_RECORDING_PACKAGES: readonly {
     id: "remote",
     emoji: "📱",
     name: "הקלטה מרחוק (Remote)",
-    description:
-      "הקלטה מהטלפון בבית - ניקוי רעשים ומיקס באולפן. תיקון זיופים לא כלול.",
+    /* החלטות 5.10.2026 (ברכות): אותו מחיר כמו באולפן, עם הוויתור בגלוי */
+    description: `שולחים הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר. ${BLESSING_REMOTE_TRADEOFF_NOTE}.`,
     highlights: [
-      "מקליטים מהטלפון בבית",
-      "ניקוי רעשים ומיקס באולפן",
-      "תיקון זיופים בתוספת, לא במחיר הבסיס",
+      "שולחים הקלטה מהטלפון בוואטסאפ",
+      "יקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע",
+      "בלי הנחיה בזמן ההקלטה ובלי האקוסטיקה של האולפן",
     ],
     catalogId: "studio_remote",
     price: getExVat("studio_remote"),
@@ -252,9 +252,9 @@ export const STUDIO_RECORDING_UPGRADES: readonly {
   {
     id: "family_duet",
     name: "דואט משפחתי - הוספת הורה/אח",
+    /* החלטות 5.10.2026 (ברכות): דובר נוסף בברכה 99, לא 190 */
     description: "אותו סשן - גם ההורים/האחים מקליטים ברכה קצרה",
-    price: getExVat("studio_extra_participant"),
-    badge: "+20% ערך",
+    price: getExVat("blessing_extra_participant"),
   },
   {
     id: "songwriting",
@@ -301,7 +301,7 @@ export const STUDIO_FILMING_MAX = 5;
 /** מעל מספר זה - מציעים חיסכון בצמצום מקליטים */
 export const STUDIO_SAVINGS_TIP_THRESHOLD = 5;
 
-/** חבילות אשף שזכאיות למחירון קבוצתי. remote: 190/95. song: מחיר שיר לפי משתתפים (99 לכל משתתף מהשני, SONG_PARTICIPANT_RULES), ראו calcStudioScenarios */
+/** חבילות אשף שזכאיות למחירון קבוצתי. remote: כל דובר נוסף 99 (BLESSING_PARTICIPANT_RULES, החלטות 5.10.2026 (ברכות)). song: 99 לכל משתתף מהשני (SONG_PARTICIPANT_RULES). ראו calcStudioScenarios */
 export const GROUP_PRICING_ELIGIBLE_PACKAGES = [
   "remote",
   "song",

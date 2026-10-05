@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatConsumerPrice } from "@/lib/data/pricing-display";
+import BlessingPriceNote from "@/components/pricing/BlessingPriceNote";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -202,11 +203,8 @@ export default function BlessingsHubPageContent() {
           >
             כמה זה עולה?
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            ברכה {BLESSING_PRICE.totalLabel} ({BLESSING_PRICE.exVatNote}). ברכה כוללת הקלטה ועריכה בסיסית. מוזיקת רקע
-            ותיקון זיופים בתוספת. הצעה מדויקת לפי סוג הברכה ואורכה, בוואטסאפ או
-            במחירון האולפן.
-          </p>
+          {/* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע כלולה, דובר נוסף בתוספת */}
+          <BlessingPriceNote className="mx-auto mt-4 max-w-xl" />
           <Link
             href="/studio/pricing"
             className={chipClass}

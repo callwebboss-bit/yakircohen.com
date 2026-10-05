@@ -77,12 +77,12 @@ export const PRICE_BUILDER_DURATION_OPTIONS: readonly PriceBuilderOption<PriceBu
     {
       id: "30min",
       label: "30 דקות",
-      hint: "הקלטה קצרה, ברכה, פיילוט",
+      hint: "הקלטה קצרה, פיילוט",
     },
     {
       id: "1hour",
       label: "שעה",
-      hint: "קריינות, דרשה ארוכה, שעת חדר",
+      hint: "קריינות, שעת חדר",
     },
   ];
 

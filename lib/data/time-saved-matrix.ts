@@ -65,7 +65,7 @@ export const TIME_SAVED_MATRIX: Record<TimeSavedHub, readonly TimeSavedRow[]> = 
       id: "studio-blessing",
       criterion: "הקלטת ברכה עד קובץ מוכן",
       others: "סשן ועריכה נפרדים, בלי חלון מסירה כתוב.",
-      ours: "סשן של 30-60 דקות, וקובץ מוכן בדרך כלל תוך 24-48 שעות.",
+      ours: "סשן בלי הגבלת זמן, עם עריכה ומוזיקת רקע, וקובץ מוכן בדרך כלל תוך 24-48 שעות.",
       href: "/studio/blessings",
       linkLabel: "הקלטת ברכות",
     },

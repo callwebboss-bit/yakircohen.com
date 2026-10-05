@@ -13,8 +13,9 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { DJ_PER_EVENT_NOTE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { BLESSING_NO_TIME_LIMIT_NOTE, BLESSING_REMOTE_NOTE, BLESSING_REMOTE_TRADEOFF_NOTE, BLESSING_TEXT_POLISH_NOTE, DJ_PER_EVENT_NOTE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
 import { djTravelFeesLine } from "../lib/data/dj-travel-fees";
+import { blessingSpeakersPriceLine, blessingTextRewriteLine } from "../lib/data/blessing-offer";
 import { TIME_CLAIMS } from "../lib/data/conversion-copy";
 import { withVat } from "../lib/data/pricing";
 import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
@@ -54,7 +55,9 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - פודקאסט וידאו (3 מצלמות): ${consumer("podcast_video")}
 - הפקת פודקאסט מלאה: ${consumer("full_podcast_production", true)}
 - בכל הקלטת פודקאסט, באולפן וגם בבית או במשרד של הלקוח: ${TIME_CLAIMS.podcastSameSecond} (ההקלטה עוברת ישר מהמצלמות למחשב, עם חיתוך חי לפי מי שמדבר)
-- הקלטת ברכה: ${consumer("blessing_recording", true)}
+- הקלטת ברכה או דרשה לבר/בת מצווה (אותו מחיר, ${BLESSING_NO_TIME_LIMIT_NOTE}): ${consumer("blessing_recording", true)} · ${blessingSpeakersPriceLine()} · ${EXTRA_PERSON_COST_NOTE}
+- ${BLESSING_TEXT_POLISH_NOTE} · ${blessingTextRewriteLine()}
+- הקלטה מרחוק (${BLESSING_REMOTE_NOTE}): ${consumer("studio_remote", true)}. ${BLESSING_REMOTE_TRADEOFF_NOTE}
 - הקלטת שיר באולפן (הקלטה, מיקס ומאסטר, סשן של שעה, תיקון זיופים לא כלול): ${consumer(SONG_OFFER_BASE_ID)}
 - תוספות לשיר, כולל מע״מ: ${songAddons}
 - משתתפים בשיר (זמר אחד כלול): ${getSongParticipantsExplanation().withVat} ${getSongParticipantsExplanation().exVat}, ${getSongParticipantsExplanation().limit}. ${EXTRA_PERSON_COST_NOTE}

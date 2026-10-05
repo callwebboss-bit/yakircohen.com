@@ -553,7 +553,7 @@ export function buildBookGroupEnrichmentBlock(input: GroupMessageInput): string[
     "",
     ctx.useDualTier
       ? `*הערכה למשפחה:* תקרת זוגות ~${ctx.pricePerPersonPairs} ש"ח לאדם | המלצתנו ~${ctx.pricePerPersonSave5} ש"ח לאדם (כולל מע״מ)`
-      : `*הערכה למשפחה:* ~${ctx.pricePerPersonPairs} ש"ח לאדם (כולל מע״מ, מסלול זוגות)`,
+      : `*הערכה למשפחה:* ~${ctx.pricePerPersonPairs} ש"ח לאדם (כולל מע״מ)`,
     DATE_HOLD_TERMS,
     buildLineSplitterReassurance(),
   ];

@@ -2273,7 +2273,7 @@ ${songWhatWeCharge()}
 <p>כשמבינים מה עומד מאחורי המספר, קל הרבה יותר להשוות בין הצעות ולבחור נכון.</p>
 <h2>מחירון 2026 - הקלטת שיר וברכה באולפן (כולל מע״מ)</h2>
 <table>
-<tr><td>הקלטת ברכה או אמירה, עד חצי שעה</td><td>${nisVat("blessing_recording")}</td></tr>
+<tr><td>הקלטת ברכה, דרשה או אמירה, בלי הגבלת זמן ועם מוזיקת רקע</td><td>${nisVat("blessing_recording")}</td></tr>
 ${songBaseRow()}
 ${songAddonRows()}
 <tr><td>הפקת סינגל מקורי מאפס</td><td>החל מ-${nisVat("single_production")}</td></tr>
