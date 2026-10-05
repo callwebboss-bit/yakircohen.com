@@ -13,7 +13,8 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { DJ_PER_EVENT_NOTE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getExVat, getPriceById, type PriceItemId } from "../lib/data/pricing-catalog";
+import { djTravelFeesLine } from "../lib/data/dj-travel-fees";
 import { TIME_CLAIMS } from "../lib/data/conversion-copy";
 import { withVat } from "../lib/data/pricing";
 import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
@@ -60,8 +61,9 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, ופרק פודקאסט אודיו מוגמר לאדם אחד כלול: הקלטה, עריכה ומסירה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
 - קריינות למרכזייה (שלוש הודעות): ${consumer("voiceover_ivr")} · קריינות לסרטון תדמית: ${consumer("voiceover_promo")}
 - ניקוי רעשים בהקלטה קיימת: ${consumer("ai_noise_basic", true)} · שחזור קול מלא: ${consumer("ai_voice_restore")}
-- DJ לאירועים (תקליטן מהצוות, 4 שעות, עד 300 מוזמנים): ${consumer("dj_premium", true)}
-- DJ יקיר כהן אישית (5 שעות): ${consumer("dj_yakir_personal", true)}
+- DJ לאירועים (${DJ_TEAM_NOTE}): ${consumer("dj_premium", true)}
+- DJ יקיר כהן אישית (${DJ_YAKIR_NOTE}): ${consumer("dj_yakir_personal", true)}
+- DJ: ${DJ_PER_EVENT_NOTE} ${djTravelFeesLine()}
 - אטרקציה בודדת לאירוע: ${consumer("event_attraction_1", true)}
 - שובר מתנה לאולפן: ${consumer("studio_half_hour", true)} · ${TIME_CLAIMS.voucherInstant}
 - חנות: https://yakircohen.com/shop

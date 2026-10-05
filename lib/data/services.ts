@@ -5,7 +5,7 @@ import {
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { attractionBundleDiscountPercent, DJ_TEAM_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { attractionBundleDiscountPercent, DJ_ATTRACTIONS_DISCOUNT_NOTE, DJ_PER_EVENT_NOTE, DJ_PER_EVENT_SHORT, DJ_PREMIUM_INCLUDED, DJ_PREMIUM_TAGLINE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import {
   DJ_WEDDING_PRICE_FAQ,
   MOBILE_STUDIO_HOME_FAQ,
@@ -14,6 +14,7 @@ import {
   STUDIO_MODIIN_PRO_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { djTravelFeesLine } from "./dj-travel-fees";
 import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
@@ -1603,8 +1604,8 @@ export const EVENTS_SERVICES = {
     ],
     pricing: [
       /* WP2 (ED-04, החלטת הבעלים 7.9): הבסיס הוא dj_premium, תקליטן מהצוות,
-         4 שעות, עד 300 מוזמנים. היה "הצעה אישית" עם "עד 5 שעות, עד 150 אורחים"
-         בזמן שהשאלות הנפוצות והמחשבון באותו עמוד אמרו 5,000 ל-4 שעות. */
+         עד 300 מוזמנים. החלטות 5.10.2026 (DJ): מחיר לאירוע, לא לפי שעות,
+         ו"4 שעות" ירד מכל כרטיסי ה-DJ. */
       {
         name: "תקליטן מהצוות",
         price: formatNis(getExVat("dj_premium")),
@@ -1618,23 +1619,22 @@ export const EVENTS_SERVICES = {
       {
         name: "חבילת פרימיום",
         price: "הצעה אישית",
-        /* השעות והמחיר של הפרימיום פתוחים אצל הבעלים (שאלת DJ-2). "עד 7 שעות"
-           נתן לחבילה הזולה יותר יותר שעות מחבילת הפסטיבל (5 שעות). */
-        priceNote: "שעות והיקף בהצעה אישית",
-        description:
-          "כל מה שבבסיס + תאורה מתקדמת (Moving Heads) + 2 אטרקציות לבחירה + הנחיה לחופה, ריקוד ראשון ועוגה.",
+        /* החלטות 5.10.2026 (DJ), סעיף 2: נשארת הצעה אישית, בלי מחיר. מה
+           שכלול מגיע מ-DJ_PREMIUM_INCLUDED בקטלוג. */
+        priceNote: `${DJ_PREMIUM_TAGLINE}. היקף בהצעה אישית, לאירוע ולא לפי שעות`,
+        description: `כלול: ${DJ_PREMIUM_INCLUDED.join(", ")}.`,
         featured: true,
         badge: "הכי מבוקשת",
       },
       /* WP2: היה "פסטיבל VIP, הצעה אישית, 7+ שעות". יקיר אישית הוא
-         dj_yakir_personal, 5 שעות. */
+         dj_yakir_personal. החלטות 5.10.2026 (DJ): עד שהאירוע נגמר, לא 5 שעות. */
       {
         name: "יקיר כהן אישית על הקונסולה",
         price: formatNis(getExVat("dj_yakir_personal")),
         priceExVat: getExVat("dj_yakir_personal"),
         catalogId: "dj_yakir_personal",
         scope: getScopeById("dj_yakir_personal"),
-        priceNote: "5 שעות תקלוט",
+        priceNote: DJ_YAKIR_NOTE,
         description:
           "יקיר כהן אישית על הקונסולה - ציוד הגברה ותאורה מקצועיים - פגישת תכנון אישית. אטרקציות, אולפן נייד ומצגת בתוספת.",
         badge: "VIP",
@@ -1652,6 +1652,17 @@ export const EVENTS_SERVICES = {
         id: DJ_WEDDING_PRICE_FAQ.id,
         question: DJ_WEDDING_PRICE_FAQ.question,
         answer: DJ_WEDDING_PRICE_FAQ.answer,
+      },
+      {
+        /* החלטות 5.10.2026 (DJ): מחיר לאירוע ובלי שעות נוספות, ותוספת ההגעה מהקטלוג */
+        id: "dj-hours",
+        question: "כמה שעות התקליטן נשאר? יש חיוב על שעות נוספות?",
+        answer: `${DJ_PER_EVENT_NOTE} מבינים מראש לאיזה אירוע מגיעים, ומגיעים מכל הלב עד שהוא מסתיים.`,
+      },
+      {
+        id: "dj-travel",
+        question: "יש תוספת הגעה?",
+        answer: `${djTravelFeesLine()}.`,
       },
       {
         id: "songs",
@@ -1928,7 +1939,7 @@ export const EVENTS_SERVICES = {
         price: formatNis(getExVat("dj_premium")),
         priceExVat: getExVat("dj_premium"),
         catalogId: "dj_premium",
-        scope: { duration: "עד 4 שעות", includes: "הגברה, תאורת LED בסיסית, מיקרופון אלחוטי" },
+        scope: { duration: DJ_PER_EVENT_SHORT, includes: "הגברה, תאורת LED בסיסית, מיקרופון אלחוטי" },
         description:
           "תקליטן מנוסה מהצוות, תיאום מוזיקלי מראש וניהול לוח הזמנים מול המשפחה והאולם.",
       },
@@ -1937,9 +1948,10 @@ export const EVENTS_SERVICES = {
            צירוף כחבילה מוזלת. מספר מלא כאן היה סותר את הטענה בעמוד החבילות. */
         name: "DJ + 3 אטרקציות",
         price: "הצעה בוואטסאפ",
-        priceNote: "מתומחר כחבילה, לא כסכום של שני שירותים נפרדים",
+        /* החלטות 5.10.2026 (DJ), סעיף 4: DJ עם אטרקציות בהנחה, בהצעה אישית */
+        priceNote: DJ_ATTRACTIONS_DISCOUNT_NOTE,
         scope: {
-          duration: "עד 4 שעות תקלוט",
+          duration: DJ_PER_EVENT_SHORT,
           includes: "תקליטן, הגברה, תאורת LED ושלוש אטרקציות לבחירה",
         },
         suitedFor: "בר או בת מצווה עד 300 מוזמנים",
@@ -1978,7 +1990,7 @@ export const EVENTS_SERVICES = {
         id: "bm-price",
         question: "כמה עולה DJ לבר מצווה?",
         answer:
-          `תקליטן מהצוות מתחיל ב-${getExVat("dj_premium").toLocaleString("he-IL")} ₪ לפני מע״מ לעד 4 שעות, כולל הגברה ותאורת LED בסיסית. אטרקציות נוספות מתומחרות בנפרד לפי אותו מחירון של עמוד ההזמנה. המחיר הסופי תלוי במיקום, במספר האורחים ובמשך האירוע.`,
+          `תקליטן מהצוות מתחיל ב-${formatConsumerPriceLine(getExVat("dj_premium"))}, כולל הגברה ותאורת LED בסיסית. ${DJ_PER_EVENT_NOTE} ${DJ_ATTRACTIONS_DISCOUNT_NOTE} מחוץ לאזור המרכז יש תוספת הגעה, והיא מוצגת בעמוד.`,
       },
       {
         id: "bm-vs-bat",
@@ -2002,7 +2014,7 @@ export const EVENTS_SERVICES = {
         id: "bm-area",
         question: "לאיזה אזורים מגיעים?",
         answer:
-          "מודיעין, ירושלים, השרון והמרכז כשירות שוטף, ושאר הארץ בתיאום מראש. תוספת נסיעה מחוץ לאזור המרכז נקבעת לפי מרחק ומצוינת בהצעה.",
+          `מודיעין, ירושלים, השרון והמרכז כשירות שוטף, ושאר הארץ בתיאום מראש. ${djTravelFeesLine()}.`,
       },
       {
         id: "bm-when",
@@ -2038,7 +2050,7 @@ export const EVENTS_SERVICES = {
       "הפקת חתונה",
     ],
     features: [
-      "חבילת DJ + 3 אטרקציות לבחירה (תקליטן מהצוות, 4 שעות)",
+      "חבילת DJ + 3 אטרקציות לבחירה (תקליטן מהצוות, מחיר לאירוע ולא לפי שעות)",
       "חבילת פסטיבל, DJ, אולפן נייד, 3 אפקטים ועוד",
       `מ-2 אטרקציות: הנחת חבילה של ${attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת`,
       "תיאום מסונכרן, DJ מכיר את כל האפקטים",
@@ -2048,7 +2060,8 @@ export const EVENTS_SERVICES = {
       {
         name: "חבילה 1: DJ + 3 אטרקציות",
         price: "הצעה בוואטסאפ",
-        priceNote: "3 אטרקציות לבחירה",
+        /* החלטות 5.10.2026 (DJ), סעיף 4 */
+        priceNote: `3 אטרקציות לבחירה. ${DJ_ATTRACTIONS_DISCOUNT_NOTE}`,
         description: "DJ מקצועי + עשן / זיקוקים / קונפטי / בועות / LED.",
       },
       {

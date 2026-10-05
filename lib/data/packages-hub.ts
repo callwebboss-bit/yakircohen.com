@@ -74,7 +74,7 @@ export const PACKAGE_HUB_ITEMS: readonly PackageHubItem[] = [
     catalogId: "festival_all_in",
     scope: getScopeById("festival_all_in"),
     highlights: [
-      "DJ פרימיום (5 שעות)",
+      "DJ פרימיום עד שהאירוע נגמר",
       "אולפן הקלטות נייד באירוע",
       "3 אטרקציות לבחירה",
       "תיאום מסונכרן - ספק אחד",

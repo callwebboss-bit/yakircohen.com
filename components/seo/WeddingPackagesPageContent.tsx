@@ -6,6 +6,7 @@ import { DjEventsCalculatorLazy } from "@/components/calculators/lazy";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
+import DjEventTermsNote from "@/components/pricing/DjEventTermsNote";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -125,7 +126,7 @@ export default function WeddingPackagesPageContent() {
               מה כלול?
             </h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-              <li>🎧 DJ מקצועי ({PACKAGE_DJ_THREE_ATTRACTIONS.djHours})</li>
+              <li>🎧 DJ מקצועי ({PACKAGE_DJ_THREE_ATTRACTIONS.djNote})</li>
               <li>🎆 3 אטרקציות לבחירה מהרשימה:</li>
             </ul>
             <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -162,6 +163,9 @@ export default function WeddingPackagesPageContent() {
               ))}
             </ul>
           </article>
+
+          {/* החלטות 5.10.2026 (DJ): מחיר לאירוע, תוספת הגעה ו-DJ עם אטרקציות */}
+          <DjEventTermsNote className="mx-auto mt-8 max-w-3xl" />
         </section>
 
         <ServiceShowcaseSections

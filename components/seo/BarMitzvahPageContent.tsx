@@ -1,6 +1,7 @@
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import ProcessSteps from "@/components/marketing/ProcessSteps";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import DjEventTermsNote from "@/components/pricing/DjEventTermsNote";
 import {
   BAR_MITZVAH_DECISIONS,
   BAR_MITZVAH_TIMELINE,
@@ -25,6 +26,8 @@ export default function BarMitzvahPageContent() {
          אירועים באופן כללי ולא מציגה אותם כתיק עבודות של בר מצווה. */
       portfolioLabel="אירועים שהפקנו"
       pricingSource="registry"
+      /* החלטות 5.10.2026 (DJ): מחיר לאירוע ותוספת הגעה ליד המחיר */
+      pricingFooter={<DjEventTermsNote className="mx-auto mt-8 max-w-3xl" />}
       valueFrame="תקליטן, הגברה לדרשה, אפקטים ומצגת מאותו צוות. הצעה אחת, תיאום אחד."
     >
       <div className="space-y-12">

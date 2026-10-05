@@ -8,7 +8,19 @@ import {
   DJ_TEAM_NOTE,
   getDjCalculatorCatalogIds,
 } from "@/lib/data/dj-events-calculator";
-import { getExVat, getPriceById, mobileStudioEventExVat } from "@/lib/data/pricing-catalog";
+import {
+  DJ_PER_EVENT_NOTE,
+  DJ_PREMIUM_INCLUDED,
+  DJ_PREMIUM_TAGLINE,
+  DJ_YAKIR_NOTE,
+  getExVat,
+  getPriceById,
+  getPriceTransparencyById,
+  mobileStudioEventExVat,
+} from "@/lib/data/pricing-catalog";
+import { djTravelFeesLine, getDjTravelFeeRows } from "@/lib/data/dj-travel-fees";
+import { PACKAGE_DJ_THREE_ATTRACTIONS, PACKAGE_FESTIVAL } from "@/lib/data/wedding-packages-page";
+import { buildDjWeddingPriceAnswer } from "@/lib/data/faq-aeo";
 import { withVat } from "@/lib/data/pricing";
 import { BOOK_AUDIENCE_ROUTES } from "@/lib/data/book-audience-routes";
 import { HOME_QUICK_PATHS } from "@/lib/data/home-quick-paths";
@@ -72,7 +84,7 @@ describe("DJ price anchors", () => {
     assert.equal(podcast?.priceId, "podcast_audio");
   });
 
-  it("the DJ page cards use dj_premium (4 h) and dj_yakir_personal (5 h)", () => {
+  it("the DJ page cards use dj_premium and dj_yakir_personal", () => {
     const service = getEventsService("events-dj");
     const ids = (service?.pricing ?? []).map((t) => t.catalogId).filter(Boolean);
     assert.ok(ids.includes("dj_premium"));
@@ -80,5 +92,79 @@ describe("DJ price anchors", () => {
     for (const t of service?.pricing ?? []) {
       assert.doesNotMatch(`${t.priceNote ?? ""}`, /7 שעות|150 אורחים/);
     }
+  });
+});
+
+/* החלטות 5.10.2026 (DJ) */
+const HOURS_LIMIT = /\d+\s*שעות|כ-\d+ שעות|שעה נוספת|שעות חריגות/;
+
+describe("DJ is priced per event, not per hour (owner decisions 5.10.2026)", () => {
+  it("no DJ offer text carries an hour limit", () => {
+    const texts: string[] = [DJ_TEAM_NOTE, DJ_YAKIR_NOTE, DJ_CALC_FESTIVAL.features.join(" ")];
+    for (const id of ["dj_premium", "dj_yakir_personal", "festival_all_in"] as const) {
+      const item = getPriceById(id);
+      texts.push(`${item.context ?? ""} ${item.scope?.duration ?? ""}`);
+    }
+    for (const id of ["dj_premium", "dj_yakir_personal"] as const) {
+      const t = getPriceTransparencyById(id);
+      texts.push([...t.included, ...t.excluded].join(" "));
+      assert.equal(t.scopeNote, DJ_PER_EVENT_NOTE, id);
+    }
+    for (const o of DJ_CALC_DJ_OPTIONS) texts.push(`${o.sub} ${(o.features ?? []).join(" ")}`);
+    for (const slug of ["events-dj", "events-bar-mitzvah", "events-wedding-packages"] as const) {
+      const service = getEventsService(slug);
+      for (const t of service?.pricing ?? []) {
+        texts.push(`${t.priceNote ?? ""} ${t.description} ${t.scope?.duration ?? ""}`);
+      }
+      for (const f of service?.features ?? []) texts.push(f);
+    }
+    texts.push(PACKAGE_DJ_THREE_ATTRACTIONS.djNote, PACKAGE_FESTIVAL.includes.join(" "));
+    texts.push(buildDjWeddingPriceAnswer());
+    for (const route of BOOK_AUDIENCE_ROUTES.filter((r) => r.categoryId === "dj")) {
+      texts.push(`${route.priceNote ?? ""} ${route.scope?.duration ?? ""}`);
+    }
+    for (const text of texts) assert.doesNotMatch(text, HOURS_LIMIT, text);
+  });
+
+  it("the team DJ keeps the 300-guest cap (ED-04) as guests only", () => {
+    assert.match(DJ_TEAM_NOTE, /עד 300 מוזמנים/);
+    assert.equal(getPriceById("dj_premium").suitedFor, "אירוע עד 300 מוזמנים");
+  });
+
+  it("the DJ FAQ says there is no overtime charge", () => {
+    const faq = getEventsService("events-dj")?.faqs.find((f) => f.id === "dj-hours");
+    assert.match(faq?.answer ?? "", /בלי חיוב על שעות נוספות/);
+  });
+
+  it("the Premium card stays a personal quote and lists everything the owner named", () => {
+    const premium = (getEventsService("events-dj")?.pricing ?? []).find((t) => t.name === "חבילת פרימיום");
+    assert.ok(premium);
+    assert.equal(premium.price, "הצעה אישית");
+    assert.equal(premium.priceExVat, undefined);
+    assert.match(premium.priceNote ?? "", new RegExp(DJ_PREMIUM_TAGLINE));
+    for (const item of DJ_PREMIUM_INCLUDED) assert.ok(premium.description.includes(item), item);
+    for (const word of ["מנחה", "צוות גיבוי", "צוות בנייה והקמה", "רמיקסים בלעדיים", "עזרה בהקלטות"]) {
+      assert.ok(DJ_PREMIUM_INCLUDED.some((i) => i.includes(word)), word);
+    }
+  });
+});
+
+describe("DJ travel fees are visible and come from the catalog", () => {
+  it("north/south and Eilat/Golan, VAT-inclusive first", () => {
+    const rows = getDjTravelFeeRows();
+    assert.deepEqual(rows.map((r) => r.id), ["travel_north_south", "travel_eilat_golan"]);
+    for (const r of rows) {
+      const ex = getExVat(r.id);
+      assert.equal(r.headline, `${withVat(ex).toLocaleString("he-IL")} ₪ כולל מע״מ`);
+      assert.equal(r.vatNote, `${ex.toLocaleString("he-IL")} ₪ + מע״מ`);
+    }
+    assert.equal(getExVat("travel_north_south"), 800);
+    assert.equal(getExVat("travel_eilat_golan"), 1800);
+    assert.match(djTravelFeesLine(), /אזור המרכז: בלי תוספת הגעה/);
+  });
+
+  it("the bar mitzvah area FAQ quotes the travel fees", () => {
+    const faq = getEventsService("events-bar-mitzvah")?.faqs.find((f) => f.id === "bm-area");
+    assert.ok(faq?.answer.includes(djTravelFeesLine()));
   });
 });

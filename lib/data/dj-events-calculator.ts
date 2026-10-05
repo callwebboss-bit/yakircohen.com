@@ -11,6 +11,7 @@
  */
 import {
   DJ_TEAM_NOTE,
+  DJ_YAKIR_NOTE,
   getExVat,
   MOBILE_STUDIO_ARRIVAL_COPY,
   MOBILE_STUDIO_EVENT_SERVICES,
@@ -45,7 +46,7 @@ export const DJ_CALC_FESTIVAL = priced({
   sub: "DJ, אולפן נייד, 3 אטרקציות, פסקול כניסה ומצגת. אירוע שלם",
   badge: null,
   features: [
-    "DJ פרימיום מהצוות (5 שעות)",
+    "DJ פרימיום מהצוות, עד שהאירוע נגמר",
     "אולפן הקלטות נייד באירוע",
     "3 אטרקציות אפקטים לבחירה",
     "פסקול כניסה + קריינות דרמטית",
@@ -55,8 +56,8 @@ export const DJ_CALC_FESTIVAL = priced({
   ],
 } as const);
 
-/* שעות: תקליטן מהצוות 4 שעות ועד 300 מוזמנים (החלטת הבעלים ED-04), יקיר
-   אישית 5 שעות. אותו נוסח כמו services.ts ועמוד החתונות. */
+/* תקליטן מהצוות עד 300 מוזמנים (החלטת הבעלים ED-04). החלטות 5.10.2026 (DJ):
+   מחיר לאירוע ולא לפי שעות, ולכן אין שעות בכרטיס. אותו נוסח כמו services.ts. */
 export const DJ_CALC_DJ_OPTIONS = [
   priced({
     id: "dj_team",
@@ -64,15 +65,15 @@ export const DJ_CALC_DJ_OPTIONS = [
     name: "DJ פרימיום מהצוות",
     sub: DJ_TEAM_NOTE,
     badge: null,
-    features: ["מערכת הגברה מקצועית", "תאורה בסיסית", "4 שעות ניהול רחבה", "סרטון מהרחבה"],
+    features: ["מערכת הגברה מקצועית", "תאורה בסיסית", "ניהול רחבה עד שהאירוע נגמר", "סרטון מהרחבה"],
   } as const),
   priced({
     id: "dj_yakir",
     catalogId: "dj_yakir_personal",
     name: "DJ יקיר כהן אישית",
-    sub: "יקיר כהן על הקונסולה, 5 שעות",
+    sub: DJ_YAKIR_NOTE,
     badge: "VIP",
-    features: ["ציוד הגברה פרימיום", "תאורה מקצועית", "5 שעות ניהול רחבה", "סרטון מהרחבה"],
+    features: ["ציוד הגברה פרימיום", "תאורה מקצועית", "ניהול רחבה עד שהאירוע נגמר", "סרטון מהרחבה"],
   } as const),
 ] as const;
 

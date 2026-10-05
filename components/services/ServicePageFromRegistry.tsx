@@ -47,6 +47,8 @@ export type ServicePageFromRegistryProps = {
    * בודדת (למשל הפקת בר מצווה) שבהם טבלת האטרקציות אינה ההצעה הראשית.
    */
   pricingSource?: "auto" | "registry";
+  /** מוצג מיד מתחת לכרטיסי המחיר (למשל תנאי DJ ותוספת הגעה) */
+  pricingFooter?: ReactNode;
 };
 
 export default function ServicePageFromRegistry({
@@ -58,6 +60,7 @@ export default function ServicePageFromRegistry({
   valueFrame,
   relatedServices,
   pricingSource = "auto",
+  pricingFooter,
 }: ServicePageFromRegistryProps) {
   const showPortfolioSection =
     showPortfolio &&
@@ -162,6 +165,7 @@ export default function ServicePageFromRegistry({
         ) : (
           <div id="pricing-section">
             <ServicePagePricingSection service={service} />
+            {pricingFooter}
           </div>
         )}
 

@@ -1,4 +1,4 @@
-import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { DJ_TEAM_NOTE, type PriceItemId } from "@/lib/data/pricing-catalog";
 
 export type HomeQuickPath = {
   id: string;
@@ -37,7 +37,7 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
     suitedFor: "חתונות, בר/בת מצווה ואירועי חברה",
     /* היה event_attraction_1 (אטרקציה בודדת) מתחת לכותרת שמדברת על DJ. WP2 */
     priceId: "dj_premium",
-    priceLabel: "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים",
+    priceLabel: DJ_TEAM_NOTE,
     href: "/events",
     utmCampaign: "home_quick_events",
   },

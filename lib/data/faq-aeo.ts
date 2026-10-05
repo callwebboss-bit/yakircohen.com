@@ -3,7 +3,7 @@
  * מחירים נמשכים מ-pricing-catalog (מקור אמת יחיד).
  */
 
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DJ_PER_EVENT_SHORT, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { getSongOfferView, getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -128,7 +128,8 @@ export function buildDjWeddingPriceAnswer(): string {
   const yakir = stripDualPrefix(
     formatFromPriceDual(getExVat("dj_yakir_personal")),
   );
-  return `תקליטן מהצוות ${premium} (כ-4 שעות). יקיר כהן אישית על הקונסולה ${yakir}. המחיר תלוי באולם, שעות ואטרקציות - הצעה מפורטת לפני אישור.`;
+  /* החלטות 5.10.2026 (DJ): מחיר לאירוע, לא לפי שעות. היה "(כ-4 שעות)" */
+  return `תקליטן מהצוות ${premium}. יקיר כהן אישית על הקונסולה ${yakir}. ${DJ_PER_EVENT_SHORT}: מגיעים עד שהאירוע נגמר. המחיר תלוי באולם, באזור ובאטרקציות - הצעה מפורטת לפני אישור.`;
 }
 
 /**

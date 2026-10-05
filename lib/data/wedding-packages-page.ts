@@ -1,4 +1,9 @@
-import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
+import {
+  attractionBundleDiscountPercent,
+  DJ_ATTRACTIONS_DISCOUNT_NOTE,
+  DJ_TEAM_NOTE,
+  getExVat,
+} from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 
 export const WEDDING_PACKAGES_WHY: readonly {
@@ -35,8 +40,8 @@ export const WEDDING_PACKAGES_WHY: readonly {
 export const PACKAGE_DJ_THREE_ATTRACTIONS = {
   name: "חבילה 1: DJ + 3 אטרקציות",
   badge: "💎",
-  /* WP2: היה "עד 7 שעות", יותר מחבילת הפסטיבל (5 שעות). DJ מהצוות הוא 4 שעות (ED-04) */
-  djHours: "תקליטן מהצוות, 4 שעות",
+  /* WP2: היה "עד 7 שעות". החלטות 5.10.2026 (DJ): מחיר לאירוע, לא לפי שעות */
+  djNote: DJ_TEAM_NOTE,
   attractions: [
     { label: "עשן כבד", href: "/events/attractions/wedding-smoking-machine" },
     { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
@@ -54,7 +59,7 @@ export const PACKAGE_FESTIVAL = {
   name: 'חבילת "פסטיבל", הכל כלול',
   price: formatPrice(getExVat("festival_all_in")).inline,
   includes: [
-    "DJ פרימיום מהצוות (5 שעות)",
+    "DJ פרימיום מהצוות, עד שהאירוע נגמר",
     "אולפן הקלטות נייד באירוע",
     "3 אטרקציות חובה לבחירה: עשן, קונפטי, זיקוקים",
     "תיאום אמנים אורחים והפתעות",
@@ -80,7 +85,8 @@ export const WEDDING_PACKAGES_FAQ: readonly {
     id: "savings",
     question: "כמה באמת חוסכים?",
     answer:
-      `על האטרקציות: ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת, מ-2 אטרקציות ומעלה. ה-DJ וההגברה במחיר הרגיל שלהם.`,
+      /* החלטות 5.10.2026 (DJ), סעיף 4: DJ עם אטרקציות בהנחה, בהצעה אישית */
+      `על האטרקציות: ${attractionBundleDiscountPercent()}% פחות ממחיר אטרקציה בודדת, מ-2 אטרקציות ומעלה. ${DJ_ATTRACTIONS_DISCOUNT_NOTE}`,
   },
   {
     id: "booking",

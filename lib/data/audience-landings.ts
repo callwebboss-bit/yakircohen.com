@@ -82,7 +82,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           id: "dj",
           icon: "🎧",
           title: "DJ לחתונה",
-          description: "הגעה לפני האורחים, בדיקת סאונד. תקליטן מהצוות 4 שעות, או יקיר אישית 5 שעות.",
+          description: "הגעה לפני האורחים, בדיקת סאונד. תקליטן מהצוות או יקיר אישית, מחיר לאירוע ולא לפי שעות: מגיעים עד שהאירוע נגמר.",
           href: "/events/dj-events",
         },
         {

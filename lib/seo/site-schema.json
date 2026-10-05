@@ -234,7 +234,7 @@
         {
           "@type": "Offer",
           "name": "תקליטן מהצוות",
-          "description": "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים",
+          "description": "תקליטן מהצוות, עד 300 מוזמנים, מחיר לאירוע ולא לפי שעות",
           "sku": "dj_premium",
           "price": "5900",
           "priceCurrency": "ILS",

@@ -7,6 +7,7 @@ import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
+import DjEventTermsNote from "@/components/pricing/DjEventTermsNote";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -462,6 +463,8 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                 />
               ))}
             </div>
+            {/* החלטות 5.10.2026 (DJ): מחיר לאירוע ותוספת הגעה, ליד מחיר ה-DJ */}
+            <DjEventTermsNote className="mt-4" />
           </div>
 
           {/* Add-ons */}

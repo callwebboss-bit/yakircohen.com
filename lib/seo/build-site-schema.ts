@@ -12,7 +12,7 @@ import {
 } from "@/lib/seo/entity-same-as";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import { withVat } from "@/lib/data/pricing";
-import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { DJ_TEAM_NOTE, getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
 import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME, STUDIO_GEO } from "@/lib/constants";
 
@@ -208,7 +208,7 @@ export function buildSiteSchema() {
           }),
           catalogOffer("dj_premium", {
             name: "תקליטן מהצוות",
-            description: "תקליטן מהצוות, 4 שעות, עד 300 מוזמנים",
+            description: DJ_TEAM_NOTE,
             url: `${BASE}/events/dj-events`,
           }),
           ...PODCAST_PACKAGES.slice(0, 2).map((pkg) =>

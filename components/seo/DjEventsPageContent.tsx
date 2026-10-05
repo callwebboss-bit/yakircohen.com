@@ -12,6 +12,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServicePagePricingSection from "@/components/services/ServicePagePricingSection";
+import DjEventTermsNote from "@/components/pricing/DjEventTermsNote";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolveServicePageHeroFromEntity } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -490,6 +491,8 @@ export default function DjEventsPageContent() {
           heading="3 חבילות ברורות - מה כלול בכל אחת"
           subheading="כל חבילה בנויה כך שתדעו בדיוק מה אתם מקבלים - הצעת מחיר מדויקת בוואטסאפ לאחר שיתוף פרטי האירוע"
         />
+        {/* החלטות 5.10.2026 (DJ): מחיר לאירוע, תוספת הגעה ו-DJ עם אטרקציות, ליד המחיר */}
+        <DjEventTermsNote className="mx-auto max-w-3xl" />
 
         {/* בלוק שקיפות - מה משפיע על המחיר */}
         <section

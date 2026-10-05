@@ -256,8 +256,8 @@ export const BOOK_AUDIENCE_ROUTES: readonly BookAudienceRoute[] = [
       "DJ בוטיק עם ציוד מלא לאירועים. מוזיקה, עשן כבד, זיקוקים קרים ו-LED - לקהל מעורב וחד-גוני.",
     essenceMicroCopy: "DJ ואפקטים לאירועים. ניסיון בקהלים מעורבי-גיל ובסוגי אירועים שונים.",
     /* WP2 (FIT-01, OE-01, PJ-01): היה event_attraction_1 (אטרקציה בודדת)
-       בכרטיס שכותרתו DJ. DJ מהצוות הוא dj_premium, 4 שעות ועד 300 מוזמנים
-       (החלטת הבעלים ED-04). */
+       בכרטיס שכותרתו DJ. DJ מהצוות הוא dj_premium, עד 300 מוזמנים (החלטת
+       הבעלים ED-04), מחיר לאירוע ולא לפי שעות (החלטות 5.10.2026 (DJ)). */
     priceExVat: DJ_FROM,
     priceNote: DJ_TEAM_NOTE,
     scope: getScopeById("dj_premium"),

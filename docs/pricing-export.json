@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 158,
-  "contentHash": "3b7c9fcbe2d64312",
+  "contentHash": "d882ba720a16de7a",
   "items": [
     {
       "id": "studio_half_hour",
@@ -844,7 +844,7 @@
       "exVat": 5000,
       "inclVat": 5900,
       "priceFrom": false,
-      "context": "4 שעות תקלוט של דיג׳יי מנוסה",
+      "context": "דיג׳יי מנוסה מהצוות, מחיר לאירוע ולא לפי שעות",
       "suitedFor": "אירוע עד 300 מוזמנים"
     },
     {
@@ -854,7 +854,7 @@
       "exVat": 9800,
       "inclVat": 11564,
       "priceFrom": false,
-      "context": "5 שעות VIP עם יקיר על הקונסולה",
+      "context": "יקיר על הקונסולה, לערב מושלם או בוקר מושלם",
       "suitedFor": "חתונות VIP, אירועי חברה"
     },
     {
