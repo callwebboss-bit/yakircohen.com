@@ -325,8 +325,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         label: "הפקת פודקאסט מלאה",
         href: "/podcast/podcast-production",
       }),
+      /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו, ומשתתף נוסף 99 */
+      hubRow("podcast_audio_pack_4", { href: "/podcast#podcast-packs" }),
+      hubRow("podcast_audio_pack_8", { href: "/podcast#podcast-packs" }),
       hubRow("podcast_extra_participant", {
-        label: "משתתף נוסף (מעל 2)",
+        label: "משתתף נוסף (מהשלישי, עד 12)",
         note: "תוספת לכל פרק",
         href: "/podcast",
       }),

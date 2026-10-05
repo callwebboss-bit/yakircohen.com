@@ -49,7 +49,10 @@
 |------|------------------|----------------------|
 | `studio_half_hour` | 750 ₪ | 885 ₪ |
 | `studio_hour` | 1,500 ₪ | 1,770 ₪ |
-| `podcast_audio` | 950 ₪ | 1,121 ₪ |
+| `podcast_audio` (5.10.2026: הקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה קיימת) | 950 ₪ | 1,121 ₪ |
+| `podcast_extra_participant` (5.10.2026, היה 150: מהמשתתף השלישי, עד 12) | 99 ₪ | 117 ₪ |
+| `podcast_audio_pack_4` (חדש, 5.10.2026: 4 × 950 פחות 8%) | 3,496 ₪ | 4,125 ₪ |
+| `podcast_audio_pack_8` (חדש, 5.10.2026: 8 × 950 פחות 8%) | 6,992 ₪ | 8,251 ₪ |
 | `podcast_video` | 1,650 ₪ | 1,947 ₪ |
 | `content_package` | 2,800 ₪ | 3,304 ₪ |
 | `event_attraction_1` | 1,695 ₪ | 2,000 ₪ |
@@ -147,7 +150,7 @@ npm run audit:pricing
 - **חבילות עסקיות:** נשארות כמו שהן. `mashup_ready_pack_3` / `_5` / `_10` = 1,794 / 2,990 / 5,980, `mashup_custom_pack_3` = 4,554, `dj_voice_tag_pack_5` = 1,610 (לפני מע״מ).
 - **הקלטת אודיו באירוע:** `podcast_audio` (950) ועל זה ההגעה (2,500), כלומר 3,450 לפני מע״מ. `MOBILE_STUDIO_EVENT_SERVICES.audioId` כבר היה `podcast_audio`, ולא שונה.
 - **אולפן נייד בבית או במשרד:** `mobile_podcast_at_home` 2,500 כולל הגעה עם כל הציוד, התאורה והצוות, **וגם הקלטת אודיו לאדם אחד**. כל אדם נוסף הוא ערוץ נוסף, `mobile_extra_channel` 99 + מע״מ (117 ₪ כולל), עד 12 אנשים בהקלטה. הכללים ב-`MOBILE_STUDIO_CHANNEL_RULES` בקטלוג, החישוב ב-`mobileChannelsSurchargeExVat` ו-`calcMobileStudioAtHomeExVat` (`lib/data/mobile-studio-booking.ts`). דוגמה: 4 אנשים = 2,500 + 99 + 99 + 99 = 2,797 לפני מע״מ.
-  - באשף הפודקאסט, כשבוחרים אולפן נייד: חבילת אודיו (`audio`, `starter`) עולה 0 כי היא כלולה בהגעה (`podcastPackageExVat`), וכל אדם מעבר לראשון הוא ערוץ (`podcastParticipantsCostExVat`), עד 12. באולפן במודיעין נשאר `podcast_extra_participant` (150) מהמשתתף השלישי.
+  - באשף הפודקאסט, כשבוחרים אולפן נייד: חבילת אודיו (`audio`, `starter`) עולה 0 כי היא כלולה בהגעה (`podcastPackageExVat`), וכל אדם מעבר לראשון הוא ערוץ (`podcastParticipantsCostExVat`), עד 12. באולפן במודיעין `podcast_extra_participant` מהמשתתף השלישי (99 מ-5.10.2026, היה 150), עד 12.
 - **מחיר לכל משתתף:** משפט אחד, `EXTRA_PERSON_COST_NOTE` ב-`lib/data/participant-cost-copy.ts`: "כל משתתף נוסף הוא ערוץ הקלטה נוסף ומוסיף למחיר". הפירוט לפי משתתף נבנה ב-`buildPersonBreakdown`, כולל מע״מ קודם: "4 משתתפים: 590 + 224 + 117 + 117 ₪ כולל מע״מ (500 + 190 + 99 + 99 ₪ + מע״מ)". מעל 3 תוספות זהות ברצף הן מתקצרות ל-"10 × 117". מופיע ליד בורר המשתתפים בטופס השיר, בהודעת הוואטסאפ ובשיחה החוזרת, באשף האולפן, באשף הפודקאסט, בעמוד האולפן הנייד, בעמוד הפודקאסט הנייד, ב-FAQ של עמוד השיר וב-llms.txt.
 
 ## Overlay 2026-10-03, סבב רביעי (משתתפים בשיר, פרק כלול באולפן הנייד, קורס DJ)
@@ -157,3 +160,12 @@ npm run audit:pricing
 - **משתתפים בשיר:** כל משתתף נוסף `song_group_participant` 99 + מע״מ (117 ₪ כולל), עד 12. אין יותר 190 לזמר השני. `SONG_PARTICIPANT_RULES` = `{ included: 1, max: 12, extraId: "song_group_participant" }`. דוגמה: 4 זמרים = 797 לפני מע״מ = 940 כולל. הפירוט: "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)". `studio_extra_participant` (190) נשאר לברכה, לשעת חדר ולהקלטה מרחוק (וזוגות 95 באשף ההקלטה מרחוק).
 - **אולפן נייד בבית או במשרד:** ב-2,500 של `mobile_podcast_at_home` כלול פרק פודקאסט אודיו מוגמר, הקלטה, עריכה ומסירה (`MOBILE_STUDIO_EPISODE_INCLUDED_COPY`). `mobile_extra_channel` 99 לכל אדם נוסף עד 12 לא השתנה.
 - **קורס DJ מלא:** `academy_dj_course_full` 9,108 (היה 8,900) = 10 × `academy_private_hour` (990) פחות 8%. נוסף ל-`CATALOG_BUNDLES`.
+
+### החלטות 5.10.2026 (פודקאסט)
+ההחלטות המלאות: `docs/OWNER-DECISIONS-2026-10-02.md`, "החלטות 5.10.2026 (פודקאסט)".
+
+- **פרק אודיו:** `podcast_audio` 950 כולל את ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה קיימת (`PODCAST_AUDIO_SCOPE_NOTE`). "עד שעה" נשאר.
+- **משתתפים:** `PODCAST_PARTICIPANT_RULES` = `{ included: 2, max: 12, extraId: "podcast_extra_participant" }`, 99 לכל נוסף. 4 משתתפים = 950 + 2 × 99 = 1,148 לפני מע״מ.
+- **חבילות:** `podcast_audio_pack_4` (3,496) ו-`podcast_audio_pack_8` (6,992), ב-`CATALOG_BUNDLES` (8%).
+- **פודקאסט עם סבא וסבתא:** אותו מחיר כמו פודקאסט רגיל (`podcast_audio`, `podcast_video`).
+- **לא שונו:** `podcast_video` (1,650), `full_podcast_production` (2,500).

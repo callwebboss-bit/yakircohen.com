@@ -25,6 +25,13 @@
  * blessing_extra_participant (99), עד 12 (BLESSING_PARTICIPANT_RULES). הקלטה
  * מרחוק (studio_remote) באותו מחיר. ליטוש קל של הטקסט כלול, וכתיבה מחדש
  * blessing_text_rewrite (150).
+ *
+ * CONTENT_REVIEW: overlay 2026-10-05 (החלטות 5.10.2026 (פודקאסט)) - podcast_audio
+ * (950) כולל הקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה קיימת
+ * שהלקוח מביא. משתתף נוסף בפודקאסט 99 (היה 150), 2 כלולים, עד 12
+ * (PODCAST_PARTICIPANT_RULES). פודקאסט עם סבא באותו מחיר כמו פודקאסט רגיל.
+ * חבילות פרקי אודיו: podcast_audio_pack_4 (3,496), podcast_audio_pack_8 (6,992),
+ * ב-CATALOG_BUNDLES. podcast_video ו-full_podcast_production לא שונו.
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -149,6 +156,21 @@ export const BLESSING_REMOTE_NOTE =
   "שולחים את ההקלטה בוואטסאפ, ויקיר מתקן ומסדר אותה. באותו מחיר כמו באולפן";
 export const BLESSING_REMOTE_TRADEOFF_NOTE =
   "מה מפסידים מרחוק: אין הנחיה בזמן ההקלטה ואין את האקוסטיקה של האולפן. את רוב האיכות מחזירים היום בכלי AI, את ההנחיה לא";
+
+/* ─── פודקאסט: החלטות 5.10.2026 (פודקאסט) ───
+ * 1. פרק אודיו (podcast_audio) כולל את ההקלטה, עריכת ההקלטה וחלל האולפן. או
+ *    במקום זה: שיפור סאונד להקלטה קיימת שהלקוח מביא. "עד שעה" נשאר, כי הבעלים
+ *    לא קבע מגבלת זמן אחרת והנוסח לא סותר את ההחלטה.
+ * 2. משתתף נוסף 99 (podcast_extra_participant), 2 כלולים כמו קודם, עד 12.
+ * 3. פודקאסט עם סבא וסבתא עולה כמו פודקאסט רגיל (podcast_audio / podcast_video).
+ * 4. חבילות פרקי אודיו, הנחה של עד 8% (CATALOG_BUNDLES).
+ */
+export const PODCAST_AUDIO_INCLUDES_NOTE = "ההקלטה, עריכת ההקלטה וחלל האולפן";
+export const PODCAST_AUDIO_EXISTING_NOTE = "או: שיפור סאונד להקלטה קיימת שאתם מביאים";
+export const PODCAST_AUDIO_SCOPE_NOTE = `כלול: ${PODCAST_AUDIO_INCLUDES_NOTE}. ${PODCAST_AUDIO_EXISTING_NOTE}`;
+export const PODCAST_GRANDPA_SAME_PRICE_NOTE = "פודקאסט עם סבא וסבתא עולה בדיוק כמו פודקאסט רגיל";
+export const PODCAST_PACK_NOTE =
+  "כל פרק בחבילה הוא פרק אודיו מלא: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם. אותו כלל משתתפים בכל פרק";
 
 /** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
 export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
@@ -338,9 +360,12 @@ export const PRICING_CATALOG = [
     label: "פודקאסט אודיו מוכן להפצה",
     exVat: 950,
     category: "podcast",
-    context: "הקלטה עד שעה, עריכה, מיקס ומסירה לספוטיפיי",
-    scope: { duration: "עד שעה", includes: "הקלטה באולפן, עריכה, מיקס, מסירה לספוטיפיי" },
-    suitedFor: "פרק ראשון או סדרה - בלי לנהל הפצה לבד",
+    context: "הקלטה עד שעה, עריכת ההקלטה וחלל האולפן. או שיפור סאונד להקלטה קיימת שאתם מביאים",
+    scope: {
+      duration: "עד שעה",
+      includes: "ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה קיימת",
+    },
+    suitedFor: "פרק ראשון או סדרה, או מי שכבר הקליט ורוצה סאונד טוב יותר",
   },
   {
     id: "podcast_video",
@@ -389,7 +414,27 @@ export const PRICING_CATALOG = [
   /* עד 3.10.2026 התוספת הזו בטופס הפודקאסט נקראה דרך studio_remote, כי שניהם
      היו 590. הקלטה מרחוק ירדה ל-500, והעריכה המתקדמת לא השתנתה. */
   { id: "podcast_editing_advanced", label: "עריכה מתקדמת לפודקאסט", exVat: 590, category: "podcast", context: "לכל שעה שצולמה, פתיח וסגיר" },
-  { id: "podcast_extra_participant", label: "משתתף נוסף בפודקאסט", exVat: 150, category: "podcast", context: "תוספת מיקרופון ועריכה מוגברת מעל 2 אנשים" },
+  /* החלטות 5.10.2026 (פודקאסט): 99 (היה 150), כמו בשיר ובברכה. 2 כלולים, עד 12 */
+  { id: "podcast_extra_participant", label: "משתתף נוסף בפודקאסט", exVat: 99, category: "podcast", context: "מיקרופון וערוץ הקלטה לכל משתתף מעבר ל-2, עד 12 בפרק" },
+  /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו, N × podcast_audio פחות עד 8% */
+  {
+    id: "podcast_audio_pack_4",
+    label: "חבילת 4 פרקי אודיו",
+    exVat: 3496,
+    category: "podcast",
+    context: "4 פרקי אודיו מלאים, למשל פרק בשבוע לחודש. כל פרק: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
+    scope: { includes: "4 פרקי אודיו מלאים", billingLabel: "לחבילה" },
+    suitedFor: "חודש ראשון של פודקאסט, פרק בשבוע",
+  },
+  {
+    id: "podcast_audio_pack_8",
+    label: "חבילת 8 פרקי אודיו",
+    exVat: 6992,
+    category: "podcast",
+    context: "8 פרקי אודיו מלאים, עונה שלמה. כל פרק: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
+    scope: { includes: "8 פרקי אודיו מלאים", billingLabel: "לחבילה" },
+    suitedFor: "עונה של פודקאסט, פרק בשבוע לחודשיים",
+  },
   {
     id: "studio_self_service_hour",
     label: "אולפן שירות עצמי",
@@ -702,6 +747,10 @@ export const CATALOG_BUNDLES = [
   { bundleId: "dj_voice_tag_pack_5", singleId: "dj_voice_tag_single", count: 5 },
   { bundleId: "academy_lesson_card_5", singleId: "academy_private_hour", count: 5 },
   { bundleId: "academy_dj_course_full", singleId: "academy_private_hour", count: 10 },
+  /* החלטות 5.10.2026 (פודקאסט): 4 × 950 = 3,800 → 3,496 ו-8 × 950 = 7,600 →
+     6,992, בדיוק 8%, כמו שאר החבילות (discount-policy.test.ts) */
+  { bundleId: "podcast_audio_pack_4", singleId: "podcast_audio", count: 4 },
+  { bundleId: "podcast_audio_pack_8", singleId: "podcast_audio", count: 8 },
 ] as const satisfies readonly { bundleId: PriceItemId; singleId: PriceItemId; count: number }[];
 
 export type CatalogBundle = (typeof CATALOG_BUNDLES)[number];
@@ -791,6 +840,25 @@ export const BLESSING_PARTICIPANT_RULES = {
   extraId: PriceItemId;
 };
 
+/**
+ * משתתפים בפודקאסט באולפן (החלטות 5.10.2026 (פודקאסט)): "ליישר ל-99". הקופי
+ * הקיים הגדיר 2 משתתפים כלולים ("מעל 2 אנשים", PODCAST_INCLUDED_PARTICIPANTS),
+ * ולכן 2 נשארים כלולים, וכל משתתף נוסף 99, עד 12 בפרק. 4 משתתפים בפרק אודיו:
+ * 950 + 2 × 99 = 1,148 לפני מע״מ. באולפן הנייד חל MOBILE_STUDIO_CHANNEL_RULES.
+ */
+export const PODCAST_PARTICIPANT_RULES = {
+  included: 2,
+  max: 12,
+  extraId: "podcast_extra_participant",
+} as const satisfies {
+  included: number;
+  max: number;
+  extraId: PriceItemId;
+};
+
+/** חבילות פרקי האודיו, לפי הסדר שבו הן מוצגות */
+export const PODCAST_AUDIO_PACK_IDS = ["podcast_audio_pack_4", "podcast_audio_pack_8"] as const satisfies readonly PriceItemId[];
+
 export const SONG_PARTICIPANT_RULES = {
   included: 1,
   max: 12,
@@ -807,6 +875,8 @@ export const PRICING_ADDON_LINKS: Partial<
 > = {
   podcast_pilot: ["podcast_extra_participant", "podcast_editing_hour", "quick_summary_clip"],
   podcast_audio: ["podcast_extra_participant", "podcast_editing_hour", "content_studio_pilot"],
+  podcast_audio_pack_4: ["podcast_extra_participant"],
+  podcast_audio_pack_8: ["podcast_extra_participant"],
   podcast_video: ["podcast_extra_participant", "quick_summary_clip", "transcribe_hour_srt"],
   content_package: ["transcribe_hour_srt", "express_delivery"],
   mobile_podcast_at_home: ["mobile_extra_channel"],
@@ -1032,9 +1102,32 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     included: ["כתיבת השיר", "הקלטה, מיקס ומאסטר", "קליפ למיתוג"],
     excluded: ["יום צילום נוסף שלא סוכם", "קמפיין הפצה"],
   },
+  /* החלטות 5.10.2026 (פודקאסט): ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור
+     סאונד להקלטה קיימת. 2 משתתפים כלולים */
   podcast_audio: {
-    included: ["הקלטה עד שעה באולפן", "עריכה ומיקס", "מסירה לספוטיפיי"],
-    excluded: ["וידאו", "משתתפים נוספים מעבר לבסיס", "כתוביות SRT"],
+    included: [
+      "הקלטה עד שעה",
+      "עריכת ההקלטה",
+      "חלל האולפן",
+      "2 משתתפים",
+      "או במקום ההקלטה: שיפור סאונד להקלטה קיימת שאתם מביאים",
+    ],
+    excluded: ["וידאו", "כל משתתף מעבר ל-2 (תוספת לכל אחד, עד 12)", "כתוביות SRT"],
+    scopeNote: PODCAST_AUDIO_SCOPE_NOTE,
+  },
+  podcast_audio_pack_4: {
+    included: ["4 פרקי אודיו מלאים", "בכל פרק: הקלטה עד שעה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה שלכם", "2 משתתפים בכל פרק"],
+    excluded: ["וידאו", "כל משתתף מעבר ל-2 בפרק (תוספת לכל אחד, עד 12)", "כתוביות SRT"],
+    scopeNote: PODCAST_PACK_NOTE,
+  },
+  podcast_audio_pack_8: {
+    included: ["8 פרקי אודיו מלאים", "בכל פרק: הקלטה עד שעה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה שלכם", "2 משתתפים בכל פרק"],
+    excluded: ["וידאו", "כל משתתף מעבר ל-2 בפרק (תוספת לכל אחד, עד 12)", "כתוביות SRT"],
+    scopeNote: PODCAST_PACK_NOTE,
+  },
+  podcast_extra_participant: {
+    included: ["מיקרופון וערוץ הקלטה למשתתף נוסף", "שילוב בפרק הערוך"],
+    excluded: ["הפרק עצמו (מסלול הבסיס)", "יותר מ-12 משתתפים בפרק אחד"],
   },
   podcast_video: {
     included: ["הקלטה רב-מצלמת", "3 מצלמות", "תאורה באולפן"],

@@ -4,6 +4,7 @@ import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import FAQAccordion from "@/components/ui/FAQAccordion";
+import PodcastPriceNote from "@/components/pricing/PodcastPriceNote";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
@@ -137,6 +138,7 @@ export default function PodcastWithGrandpaPageContent() {
           <p className="mt-1 text-sm text-muted-foreground">
             {PODCAST_GRANDPA_PRICING_ARTICLE.subtitle}
           </p>
+          <PodcastPriceNote variant="grandpa" className="mt-4" />
           <Link
             href={PODCAST_GRANDPA_PRICING_ARTICLE.href}
             className="mt-4 inline-flex text-sm font-semibold text-brand-red hover:underline"

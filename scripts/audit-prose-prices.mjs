@@ -98,6 +98,12 @@ const EXPLAINED = [
   { value: 1200, file: "lib/data/blog.ts", match: "8 פרקים ב-1,200", why: "דוגמת חישוב בפוסט, לא מחיר" },
   { value: 1200, file: "lib/data/industry-2026.ts", match: "400-1,200 ₪", why: "טווח שוק לציוד ביתי" },
   { value: 1200, file: "lib/data/industry-2026.ts", match: "400 עד 1,200", why: "טווח שוק לציוד ביתי" },
+  /* 150 פרש עם podcast_extra_participant (99, החלטות 5.10.2026 (פודקאסט)), אבל
+     הוא עדיין כתיבה מחדש של ברכה. השאר טווחי שוק או תעריף נפרד. */
+  { value: 150, file: "public/llms.txt", match: "כתיבה מחדש של הטקסט", catalogId: "blessing_text_rewrite" },
+  { value: 150, file: "lib/data/blog.ts", match: "₪150-₪250", why: "טווח שוק לשעת עריכה של מתחיל" },
+  { value: 150, file: "lib/data/blog.ts", match: "50-150 ₪", why: "טווח שוק למעמד מיקרופון" },
+  { value: 150, file: "lib/data/online-mixing-page.ts", match: "מעל 5 דקות - 150", why: "תוספת אורך במיקס אונליין, לא משתתף בפודקאסט" },
 ];
 
 /* סכום עם פסיק אלפים, או סכום תלת-ספרתי שלם (לא זנב של 1500), ליד ₪ או ש״ח */

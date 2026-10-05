@@ -47,6 +47,8 @@ import {
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import Container from "@/components/ui/Container";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import PodcastPriceNote from "@/components/pricing/PodcastPriceNote";
+import { PODCAST_AUDIO_PACKS } from "@/lib/data/podcast-calculator";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
@@ -125,12 +127,21 @@ export default function PodcastHubPageContent() {
   const pageUrl = absoluteUrl("podcast");
   const pricingOffersSchema = buildPricingOffersSchema(
     pageUrl,
-    PODCAST_HUB_PRICING_PACKAGES.map((pkg) => ({
-      id: pkg.id,
-      name: pkg.title,
-      description: pkg.subtitle,
-      priceExVat: pkg.priceFrom,
-    })),
+    [
+      ...PODCAST_HUB_PRICING_PACKAGES.map((pkg) => ({
+        id: pkg.id,
+        name: pkg.title,
+        description: pkg.subtitle,
+        priceExVat: pkg.priceFrom,
+      })),
+      /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
+      ...PODCAST_AUDIO_PACKS.map((pack) => ({
+        id: pack.id,
+        name: pack.label,
+        description: pack.suitedFor,
+        priceExVat: pack.exVat,
+      })),
+    ],
   );
 
   return (
@@ -615,6 +626,16 @@ export default function PodcastHubPageContent() {
                 );
               })}
             </ul>
+
+            <section className="mt-10" aria-labelledby="podcast-packs-heading">
+              <h3
+                id="podcast-packs-heading"
+                className="text-lg font-semibold text-foreground"
+              >
+                מה כלול בפרק, משתתפים וחבילות פרקים
+              </h3>
+              <PodcastPriceNote id="podcast-packs" className="mt-3" />
+            </section>
 
             {/* Calculator for fine-tuning */}
             <div className="mt-12">

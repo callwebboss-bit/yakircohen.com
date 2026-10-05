@@ -3,6 +3,8 @@ import type { FAQItem } from "@/components/ui/FAQAccordion";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { PODCAST_RECORDING_PRICE } from "@/lib/data/podcast-recording-page";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { podcastParticipantPriceLine, podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
+import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { STUDIO_HALF_HOUR_NIS, STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
 
@@ -182,7 +184,13 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "guests",
         question: "אפשר להביא אורחים להקלטה?",
         answer:
-          "בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.",
+          `בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. ${EXTRA_PERSON_COST_NOTE}: ${podcastParticipantPriceLine()}. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.`,
+      },
+      /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
+      {
+        id: "audio-packs",
+        question: "יש חבילה לכמה פרקים?",
+        answer: podcastSeriesAnswer(),
       },
       {
         id: "studio-spaces",

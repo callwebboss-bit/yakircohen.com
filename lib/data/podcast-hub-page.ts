@@ -1,9 +1,15 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_PACK_NOTE } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
-import { PODCAST_PACKAGES, PODCAST_STARTER_PRICE } from "./podcast-calculator";
+import {
+  PODCAST_AUDIO_PACKS,
+  PODCAST_PACKAGES,
+  PODCAST_STARTER_PRICE,
+  podcastAudioPackLine,
+  podcastParticipantPriceLine,
+} from "./podcast-calculator";
 
 export type PodcastExampleVideo = {
   videoId: string;
@@ -261,7 +267,13 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "price",
     question: "כמה עולה הקלטת פודקאסט מקצועית ומה כלול במחיר?",
     answer:
-      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}, וכולל הקלטה של עד שעה באולפן, עריכה ומיקס. הפקה מלאה עם צילום ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
+      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}, עד שעה. ${podcastParticipantPriceLine()}. הפקה מלאה עם צילום ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
+  },
+  /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו במקום "הצעה לפי סדרה" */
+  {
+    id: "audio-packs",
+    question: "יש חבילה לכמה פרקים?",
+    answer: `כן. ${PODCAST_AUDIO_PACKS.map(podcastAudioPackLine).join(". ")}. ${PODCAST_PACK_NOTE}.`,
   },
   {
     id: "duration",
@@ -437,10 +449,11 @@ export const PODCAST_HUB_PRICING_PACKAGES: readonly {
     id: "audio-production",
     badge: "הכי פופולרי",
     title: "הפקת פודקאסט אודיו",
-    subtitle: "הפתרון המלא - שעת סטודיו, עריכה וקובץ מוכן",
+    subtitle: "ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
     priceFrom: _audioPrice,
     features: [
       "הקלטה מלאה של עד שעה - בלי לחץ",
+      "או: שיפור סאונד להקלטה קיימת שאתם מביאים",
       "שיפור הקלטות וניקוי רעשים בבינה מלאכותית",
       "עריכה, מיקס ונורמליזציה מלאים",
       "MP3 מוכן לספוטיפיי, אפל פודקאסטס ועוד",

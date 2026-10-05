@@ -91,8 +91,8 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   "podcast/podcast-studio": { bookCategory: "podcast", priceCatalogId: "studio_half_hour" },
   "podcast/mobile-podcast-at-home": { bookCategory: "podcast", priceCatalogId: "mobile_podcast_at_home" },
   "podcast/self-service-studio": { bookCategory: "podcast", priceCatalogId: "studio_self_service_hour" },
-  /* פודקאסט עם סבא וסבתא: אין מחיר למסלולים (שאלת בעלים) */
-  "podcast/podcast-with-grandpa": { bookCategory: "podcast" },
+  /* החלטות 5.10.2026 (פודקאסט): פודקאסט עם סבא וסבתא עולה כמו פודקאסט רגיל */
+  "podcast/podcast-with-grandpa": { bookCategory: "podcast", priceCatalogId: "podcast_audio" },
   "podcast/studio-in-a-box": { bookCategory: "podcast", priceCatalogId: "studio_in_box_consult" },
   "podcast/bulk-production": { bookCategory: "podcast", priceCatalogId: "bulk_podcast_episode" },
 

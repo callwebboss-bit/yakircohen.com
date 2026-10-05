@@ -1,4 +1,7 @@
-﻿export const PODCAST_GRANDPA_EXAMPLE_VIDEO = {
+﻿import { PODCAST_MAX_PARTICIPANTS, podcastDualPrice, podcastParticipantPriceLine } from "@/lib/data/podcast-calculator";
+import { getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_GRANDPA_SAME_PRICE_NOTE } from "@/lib/data/pricing-catalog";
+
+export const PODCAST_GRANDPA_EXAMPLE_VIDEO = {
   videoId: "GFYoIU-UseE",
   title: "פודקאסט עם סבא או סבתא - דוגמה מהאולפן",
 } as const;
@@ -7,7 +10,7 @@ export const PODCAST_GRANDPA_HERO_FEATURES: readonly string[] = [
   "פודקאסט משפחתי + הקלטת שיר באולפן",
   "חוויה של כשעה-שעתיים באולפן במודיעין",
   "תיעוד סיפורי חיים והגשמת חלום",
-  "פודקאסט ערוך, שיר מוקלט וקליפ וידאו",
+  "פודקאסט ערוך, ואם רוצים גם שיר מוקלט וקליפ",
   "גלריית תמונות ועמוד פרטי למשפחה",
   "מתנה מקורית ליום הולדת ויובל",
 ] as const;
@@ -57,11 +60,11 @@ export const PODCAST_GRANDPA_DELIVERABLES: readonly {
   },
   {
     title: "שיר מוקלט",
-    description: "השיר של סבא/סבתא, מעובד סאונד, מוכן להאזנה שוב ושוב.",
+    description: "השיר של סבא/סבתא, מעובד סאונד, מוכן להאזנה שוב ושוב. בתוספת, במחיר של הקלטת שיר רגילה.",
   },
   {
     title: "סרטון וידאו מרגש",
-    description: "קליפ ערוך של 3-5 דקות מהרגעים היפים באולפן.",
+    description: "קליפ ערוך של 3-5 דקות מהרגעים היפים באולפן. בפודקאסט וידאו, או כתוספת לשיר.",
     link: { href: "/studio/blessings/video-clip", label: "פרטים על הפקת קליפים" },
   },
   {
@@ -129,7 +132,7 @@ export const PODCAST_GRANDPA_FAQS: readonly {
     id: "participants",
     question: "כמה אנשים יכולים להשתתף?",
     answer:
-      "עד 6-8 משתתפים בו-זמנית. למשפחות גדולות, תיאום בתורות או במועדים נפרדים.",
+      `עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק, כמו בפודקאסט רגיל. ${podcastParticipantPriceLine()}.`,
   },
   {
     id: "singing",
@@ -146,8 +149,9 @@ export const PODCAST_GRANDPA_FAQS: readonly {
   {
     id: "price",
     question: "מה המחיר של החוויה?",
-    answer:
-      "המחיר משתנה לפי החבילה (פודקאסט בלבד, שיר בלבד, או חבילה מלאה). ראו את מחירון האולפן לפרטים.",
+    /* החלטות 5.10.2026 (פודקאסט): אותו מחיר כמו פודקאסט רגיל. היה "המחיר משתנה
+       לפי החבילה", בלי מספר */
+    answer: `${PODCAST_GRANDPA_SAME_PRICE_NOTE}. פודקאסט אודיו ${podcastDualPrice(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}. פודקאסט וידאו ${podcastDualPrice(getExVat("podcast_video"))}. הקלטת שיר, אם רוצים גם שיר, ${podcastDualPrice(getExVat("song_recording"))}. ${podcastParticipantPriceLine()}.`,
   },
 ] as const;
 

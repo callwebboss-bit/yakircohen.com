@@ -164,10 +164,11 @@ export const SERVICES: Record<string, Service> = {
     desc: "כיף מטורף לילדים שיזכרו לכל החיים",
     upsells: [],
   },
+  /* החלטות 5.10.2026 (פודקאסט): אותו מחיר כמו פודקאסט רגיל. היה מחיר אטרקציה */
   podcast_grandpa: {
     name: "פודקאסט עם סבא",
-    category: "events",
-    price: EVENT_ATTRACTION_FROM_NIS,
+    category: "podcasts",
+    price: getExVat("podcast_audio"),
     icon: "🎙️",
     desc: "הקלטת סיפור חיים - מתנה שנשארת לדורות",
     upsells: [],

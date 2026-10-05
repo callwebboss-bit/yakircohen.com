@@ -12,7 +12,6 @@ export type EventBookingItemId =
   | "event_smoke_gun"
   | "event_slideshow"
   | "event_foam"
-  | "podcast_grandpa"
   | "sound_rental";
 
 /** סוג תמחור האטרקציה: rigid = חומרי גלם מתכלים, liquid = מוצר נוזלי/גז */
@@ -162,14 +161,9 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     badge: "kids",
     desc: "פעילות קצף לילדים - ציוד בטיחותי, מתאים לגיל 10-",
   },
-  {
-    id: "podcast_grandpa",
-    name: "פודקאסט עם סבא",
-    svgPath: "M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm7 9c0 3.52-2.61 6.44-6 6.93V22h-2v-4.07C7.61 17.44 5 14.52 5 11h2a5 5 0 0 0 10 0h2z",
-    svgViewBox: "0 0 24 24",
-    desc: "מתנה דיגיטלית שנשמרת לאורך זמן, כולל הקלטת שיר",
-    href: "/podcast",
-  },
+  /* podcast_grandpa ירד מאשף האירועים (החלטות 5.10.2026 (פודקאסט)): הוא נספר
+     שם כאטרקציה ותומחר במחיר אטרקציה. פודקאסט עם סבא עולה כמו פודקאסט רגיל,
+     ומוזמן באשף הפודקאסט (/podcast/podcast-with-grandpa). */
   {
     id: "sound_rental",
     name: "השכרת ציוד הגברה",

@@ -62,19 +62,20 @@ import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
 import {
   PODCAST_AUDIO_PACKAGE_IDS,
-  PODCAST_EXTRA_PARTICIPANT_PRICE,
-  PODCAST_INCLUDED_PARTICIPANTS,
+  PODCAST_AUDIO_PACKS,
+  PODCAST_MAX_PARTICIPANTS,
   PODCAST_OVERTIME_RATE,
   PODCAST_PACKAGES,
+  podcastAudioPackLine,
   podcastPackageExVat,
   podcastParticipantExtras,
+  podcastParticipantPriceLine,
   podcastParticipantsCostExVat,
   type PodcastPackageId,
 } from "@/lib/data/podcast-calculator";
 import {
   buildPersonBreakdown,
   EXTRA_PERSON_COST_NOTE,
-  formatPerPersonPrice,
 } from "@/lib/data/participant-cost-copy";
 import {
   getCatalogAddonsForPodcastPackage,
@@ -370,7 +371,8 @@ export default function PodcastBookingWizard({
   const selected = PODCAST_PACKAGES.find((p) => p.id === form.packageId);
   /* החלטת הבעלים 3.10.2026, סבב שלישי: באולפן הנייד בבית או במשרד הקלטת
      האודיו כלולה בהגעה, וכל אדם נוסף הוא ערוץ נוסף (99, עד 12). באולפן
-     במודיעין 2 כלולים, ומהשלישי podcast_extra_participant. */
+     במודיעין 2 כלולים, ומהשלישי podcast_extra_participant (99, עד 12, החלטות
+     5.10.2026 (פודקאסט)). */
   const isMobile = form.location === "mobile";
   const packageExVat = selected ? podcastPackageExVat(selected, isMobile) : 0;
   const extraParticipantsCost = podcastParticipantsCostExVat(form.participantCount, isMobile);
@@ -838,6 +840,20 @@ export default function PodcastBookingWizard({
             />
           ) : null}
 
+          {form.packageId === "audio" && !isMobile ? (
+            <div className="mt-4 rounded-lg border border-border bg-surface px-3 py-2" data-testid="podcast-audio-packs">
+              <p className="text-sm font-semibold text-foreground">מתכננים סדרה? חבילות פרקי אודיו</p>
+              <ul className="mt-1 space-y-0.5 text-sm text-foreground">
+                {PODCAST_AUDIO_PACKS.map((pack) => (
+                  <li key={pack.id}>{podcastAudioPackLine(pack)}</li>
+                ))}
+              </ul>
+              <p className="mt-1 text-xs text-muted-foreground">
+                כתבו בהודעה איזו חבילה מתאימה, ונסגור את המועדים יחד.
+              </p>
+            </div>
+          ) : null}
+
           {form.packageId ? (
             <WizardContextFaqSnapshot items={wizardFaqs} className="mt-6" />
           ) : null}
@@ -850,13 +866,13 @@ export default function PodcastBookingWizard({
               <p className="mt-1 text-sm text-foreground">
                 {isMobile
                   ? `באולפן הנייד: ${mobileChannelPriceLine()}.`
-                  : `באולפן: עד ${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים. ${formatPerPersonPrice(PODCAST_EXTRA_PARTICIPANT_PRICE, CATALOG_VAT_RATE)} (מיקרופון נוסף ועריכה מוגברת).`}
+                  : `באולפן: ${podcastParticipantPriceLine()}.`}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              {(isMobile
-                ? Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1)
-                : [1, 2, 3, 4]
+              {Array.from(
+                { length: isMobile ? MOBILE_STUDIO_CHANNELS.max : PODCAST_MAX_PARTICIPANTS },
+                (_, i) => i + 1,
               ).map((count) => {
                 const extra = podcastParticipantsCostExVat(count, isMobile);
                 const active = form.participantCount === count;
@@ -882,17 +898,6 @@ export default function PodcastBookingWizard({
                   </button>
                 );
               })}
-              {isMobile ? null : (
-                <a
-                  href="https://wa.me/972587555456"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-sm text-muted-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red"
-                >
-                  <span className="text-sm font-semibold">5+ אנשים</span>
-                  <span className="text-[0.65rem]">ווטסאפ לתיאום</span>
-                </a>
-              )}
             </div>
             {participantBreakdown ? (
               <p className="mt-3 text-sm font-semibold text-foreground" aria-live="polite">

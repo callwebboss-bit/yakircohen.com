@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 160,
-  "contentHash": "c9d2656795880473",
+  "itemCount": 162,
+  "contentHash": "b0ebbc037390caea",
   "items": [
     {
       "id": "studio_half_hour",
@@ -216,8 +216,8 @@
       "exVat": 950,
       "inclVat": 1121,
       "priceFrom": false,
-      "context": "הקלטה עד שעה, עריכה, מיקס ומסירה לספוטיפיי",
-      "suitedFor": "פרק ראשון או סדרה - בלי לנהל הפצה לבד"
+      "context": "הקלטה עד שעה, עריכת ההקלטה וחלל האולפן. או שיפור סאונד להקלטה קיימת שאתם מביאים",
+      "suitedFor": "פרק ראשון או סדרה, או מי שכבר הקליט ורוצה סאונד טוב יותר"
     },
     {
       "id": "podcast_video",
@@ -289,10 +289,30 @@
       "id": "podcast_extra_participant",
       "label": "משתתף נוסף בפודקאסט",
       "category": "podcast",
-      "exVat": 150,
-      "inclVat": 177,
+      "exVat": 99,
+      "inclVat": 117,
       "priceFrom": false,
-      "context": "תוספת מיקרופון ועריכה מוגברת מעל 2 אנשים"
+      "context": "מיקרופון וערוץ הקלטה לכל משתתף מעבר ל-2, עד 12 בפרק"
+    },
+    {
+      "id": "podcast_audio_pack_4",
+      "label": "חבילת 4 פרקי אודיו",
+      "category": "podcast",
+      "exVat": 3496,
+      "inclVat": 4125,
+      "priceFrom": false,
+      "context": "4 פרקי אודיו מלאים, למשל פרק בשבוע לחודש. כל פרק: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
+      "suitedFor": "חודש ראשון של פודקאסט, פרק בשבוע"
+    },
+    {
+      "id": "podcast_audio_pack_8",
+      "label": "חבילת 8 פרקי אודיו",
+      "category": "podcast",
+      "exVat": 6992,
+      "inclVat": 8251,
+      "priceFrom": false,
+      "context": "8 פרקי אודיו מלאים, עונה שלמה. כל פרק: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
+      "suitedFor": "עונה של פודקאסט, פרק בשבוע לחודשיים"
     },
     {
       "id": "studio_self_service_hour",

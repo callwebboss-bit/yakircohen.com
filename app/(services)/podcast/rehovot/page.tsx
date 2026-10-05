@@ -1,4 +1,5 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
+import { podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { constructMetadata } from "@/lib/metadata";
@@ -54,7 +55,8 @@ const FAQ_ITEMS: FAQItem[] = [
     id: "series",
     question: "יש הנחה על סדרת פרקים?",
     answer:
-      "לסדרה קבועה בונים הצעה אחת לפי מספר הפרקים והתדירות, ומחיר הפרק הבודד הוא נקודת המוצא. אין חבילות קבועות של 4 או 8 פרקים. מתאים לפודקאסטים עסקיים עם יציאה קבועה.",
+      /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
+      podcastSeriesAnswer(),
   },
 ];
 

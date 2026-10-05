@@ -21,6 +21,8 @@ import { withVat } from "../lib/data/pricing";
 import { getSongParticipantsExplanation, SONG_ADDON_IDS, SONG_OFFER_BASE_ID } from "../lib/data/song-offer";
 import { mobileChannelPriceLine } from "../lib/data/mobile-studio-booking";
 import { EXTRA_PERSON_COST_NOTE } from "../lib/data/participant-cost-copy";
+import { PODCAST_AUDIO_PACKS, podcastAudioPackLine, podcastParticipantPriceLine } from "../lib/data/podcast-calculator";
+import { PODCAST_AUDIO_SCOPE_NOTE, PODCAST_GRANDPA_SAME_PRICE_NOTE, PODCAST_PACK_NOTE } from "../lib/data/pricing-catalog";
 
 const root = resolve(import.meta.dirname, "..");
 const llmsPath = resolve(root, "public/llms.txt");
@@ -51,7 +53,10 @@ const songAddons = SONG_ADDON_IDS.map(songAddonLine).join(" · ");
 
 const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog. כולל מע״מ, ובסוגריים לפני מע״מ)
 - אולפן - חצי שעה, קובץ גולמי בלי עריכה: ${consumer("studio_half_hour")} · שעת אולפן: ${consumer("studio_hour")}
-- פודקאסט אודיו (עד שעה + עריכה): ${consumer("podcast_audio")}
+- פודקאסט אודיו (עד שעה. ${PODCAST_AUDIO_SCOPE_NOTE}): ${consumer("podcast_audio")}
+- משתתפים בפודקאסט באולפן: ${podcastParticipantPriceLine()}. ${EXTRA_PERSON_COST_NOTE}
+- חבילות פרקי אודיו: ${PODCAST_AUDIO_PACKS.map(podcastAudioPackLine).join(" · ")}. ${PODCAST_PACK_NOTE}
+- ${PODCAST_GRANDPA_SAME_PRICE_NOTE} (אודיו או וידאו)
 - פודקאסט וידאו (3 מצלמות): ${consumer("podcast_video")}
 - הפקת פודקאסט מלאה: ${consumer("full_podcast_production", true)}
 - בכל הקלטת פודקאסט, באולפן וגם בבית או במשרד של הלקוח: ${TIME_CLAIMS.podcastSameSecond} (ההקלטה עוברת ישר מהמצלמות למחשב, עם חיתוך חי לפי מי שמדבר)

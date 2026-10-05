@@ -12,7 +12,15 @@ import {
 } from "@/lib/seo/entity-same-as";
 import { PODCAST_PACKAGES } from "@/lib/data/podcast-calculator";
 import { withVat } from "@/lib/data/pricing";
-import { DJ_TEAM_NOTE, getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import {
+  DJ_TEAM_NOTE,
+  getExVat,
+  getPriceById,
+  PODCAST_AUDIO_PACK_IDS,
+  PODCAST_AUDIO_SCOPE_NOTE,
+  PODCAST_PACK_NOTE,
+  type PriceItemId,
+} from "@/lib/data/pricing-catalog";
 import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
 import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME, STUDIO_GEO } from "@/lib/constants";
 
@@ -215,6 +223,19 @@ export function buildSiteSchema() {
             catalogOffer(PODCAST_PACKAGE_CATALOG_IDS[pkg.id], {
               name: pkg.name,
               description: pkg.summary,
+              url: `${BASE}/podcast`,
+            }),
+          ),
+          /* החלטות 5.10.2026 (פודקאסט): פרק אודיו וחבילות פרקי אודיו */
+          catalogOffer("podcast_audio", {
+            name: "פודקאסט אודיו",
+            description: PODCAST_AUDIO_SCOPE_NOTE,
+            url: `${BASE}/podcast`,
+          }),
+          ...PODCAST_AUDIO_PACK_IDS.map((id) =>
+            catalogOffer(id, {
+              name: getPriceById(id).label,
+              description: PODCAST_PACK_NOTE,
               url: `${BASE}/podcast`,
             }),
           ),

@@ -34,7 +34,7 @@ export const UNIFIED_CALC_CATEGORIES: readonly CalcCategory[] = [
     title: "פודקאסט",
     bookHref: "/podcast",
     options: [
-      { id: "audio", label: "פרק אודיו מוכן להפצה", note: "הקלטה + עריכה + ספוטיפיי", exVat: getExVat("podcast_audio") },
+      { id: "audio", label: "פרק אודיו מוכן להפצה", note: "הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם", exVat: getExVat("podcast_audio") },
       { id: "video", label: "פרק וידאו", note: "3 מצלמות + תאורה", exVat: getExVat("podcast_video") },
       { id: "content", label: "חבילת תוכן", note: "וידאו + 3 רילז + כתוביות", exVat: getExVat("content_package") },
       { id: "editing", label: "עריכה בלבד", note: "לשעת חומר גולמי", exVat: getExVat("podcast_editing_hour") },
