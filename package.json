@@ -64,6 +64,8 @@
     "export:pricing": "tsx scripts/export-pricing.ts",
     "audit:pricing-export": "tsx scripts/export-pricing.ts --check",
     "audit:closer-sync": "node scripts/audit-closer-sync.mjs",
+    "export:quote": "node scripts/export-quote-prices.mjs",
+    "audit:quote-sync": "node scripts/audit-quote-sync.mjs",
     "generate:client-data": "tsx scripts/generate-client-data.ts",
     "audit:client-data": "tsx scripts/generate-client-data.ts --check",
     "audit:client-data-weight": "node scripts/audit-client-data-weight.mjs",

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import {
   ADMIN_COOKIE_MAX_AGE_SEC,
   issueSessionValue,
+  shouldRenewSession,
   verifySessionValue,
 } from "@/lib/admin-session-value";
 
@@ -20,8 +21,14 @@ import {
  */
 
 export const ADMIN_COOKIE_NAME = "yc_admin_session";
-export const ADMIN_LOGIN_PATH = "/admin/login";
-export const ADMIN_HOME_PATH = "/admin/leads";
+/* הנתיבים והבדיקה של next חיים במודול טהור, כדי שיהיה אפשר לבדוק אותם */
+export {
+  ADMIN_HOME_PATH,
+  ADMIN_LOGIN_PATH,
+  adminLoginUrl,
+  resolveAdminNextPath,
+  safeAdminNextPath,
+} from "@/lib/admin-next-path";
 
 function expectedToken(): string | null {
   const value = process.env.ADMIN_LEADS_TOKEN?.trim();
@@ -59,34 +66,51 @@ export async function isAdminRequestAuthorized(request: Request): Promise<boolea
   return isAdminAuthenticated();
 }
 
+/* אפשרויות אחידות לכניסה, לחידוש וליציאה. קוקי שמחודש עם path או sameSite
+   אחרים היה נשמר בדפדפן כקוקי שני ליד הישן, ולא במקומו. */
+function sessionCookie(value: string, maxAge: number) {
+  return {
+    name: ADMIN_COOKIE_NAME,
+    value,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    // Site-wide: the export route lives under /api/admin/*, which a "/admin" path would not cover.
+    path: "/",
+    maxAge,
+  };
+}
+
 export async function setAdminSessionCookie(token: string): Promise<void> {
   /* מקבל את הסוד, שומר נגזרת. אם הסוד שגוי אין מה לשמור. */
   if (!verifyAdminToken(token)) return;
   const value = issueSessionValue(expectedToken());
   if (!value) return;
   const store = await cookies();
-  store.set({
-    name: ADMIN_COOKIE_NAME,
-    value,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    // Site-wide: the export route lives under /api/admin/*, which a "/admin" path would not cover.
-    path: "/",
-    maxAge: ADMIN_COOKIE_MAX_AGE_SEC,
-  });
+  store.set(sessionCookie(value, ADMIN_COOKIE_MAX_AGE_SEC));
+}
+
+/**
+ * מנפיק קוקי חדש ל-30 יום כשהנוכחי תקף ונשארו לו פחות מ-7 ימים.
+ * מחזיר true רק כשחודש. בלי קוקי תקף לא קורה כלום, ולכן אין כאן דרך להיכנס
+ * בלי הסוד, ואין צורך בהגבלת קצב.
+ *
+ * המחיר: מי שמחזיק קוקי תקף יכול להאריך אותו כל עוד הוא משתמש בו. יציאה
+ * מהמערכת עדיין מוחקת אותו מהדפדפן, והחלפת ADMIN_LEADS_TOKEN ב-Vercel עדיין
+ * פוסלת כל קוקי קיים, כולל כאלה שחודשו.
+ */
+export async function renewAdminSessionCookieIfNeeded(): Promise<boolean> {
+  const secret = expectedToken();
+  const store = await cookies();
+  const current = store.get(ADMIN_COOKIE_NAME)?.value?.trim();
+  if (!shouldRenewSession(current, secret)) return false;
+  const value = issueSessionValue(secret);
+  if (!value) return false;
+  store.set(sessionCookie(value, ADMIN_COOKIE_MAX_AGE_SEC));
+  return true;
 }
 
 export async function clearAdminSessionCookie(): Promise<void> {
   const store = await cookies();
-  store.set({
-    name: ADMIN_COOKIE_NAME,
-    value: "",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    // Site-wide: the export route lives under /api/admin/*, which a "/admin" path would not cover.
-    path: "/",
-    maxAge: 0,
-  });
+  store.set(sessionCookie("", 0));
 }

@@ -7,6 +7,7 @@ import { ADMIN_LOGIN_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
 import { listLeads } from "@/lib/leads/store";
 import type { LeadStatus, ServiceType } from "@/lib/leads/types";
 import { adminLogoutAction } from "@/app/admin/login/actions";
+import { AdminLogoutForm } from "@/components/admin/SalesDesk";
 
 export const metadata: Metadata = {
   title: "לידים | ניהול",
@@ -63,20 +64,18 @@ export default async function AdminLeadsPage({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h1 className="font-serif text-2xl font-semibold text-foreground">לידים</h1>
             <div className="flex flex-wrap items-center gap-2">
+              <a href="/admin/sales" className="inline-block rounded-md bg-brand-red px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-red-light">עמדת מחירים</a>
               <a
                 href={`/api/admin/leads/export${exportQuery ? `?${exportQuery}` : ""}`}
                 className="inline-block rounded-md border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted/50"
               >
                 ⬇ ייצוא לידים (JSON)
               </a>
-              <form action={adminLogoutAction}>
-                <button
-                  type="submit"
-                  className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/50"
-                >
-                  יציאה
-                </button>
-              </form>
+              {/* מוחק גם את אישורי ההזמנה האחרונים מהדפדפן (עמדת המחירים) */}
+              <AdminLogoutForm
+                action={adminLogoutAction}
+                className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/50"
+              />
             </div>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">

@@ -1,14 +1,21 @@
 import { CONTACT_PHONE_WHATSAPP } from "@/lib/constants";
 
+/* נושא שכבר פותח בברכה הוא הודעה מוכנה מנתוני השירות ("שלום, מעוניין/ת
+   ב..."). עד 6.10.2026 היא נעטפה בפתיחה שנייה, והלקוח שלח "שלום, אשמח לשמוע
+   על שלום, מעוניין..." (תוכנית עמדת המכירות, סעיף 8). רק מילת ברכה שאחריה
+   פסיק או רווח, כדי ש"הילוך" או "היין" לא ייתפסו כברכה. */
+const GREETING_START = /^(?:שלום|היי|הי|אהלן)[,\s]/;
+
 /** Standard inquiry line - always names the service or package on the page.
  *  When startingPrice is provided it appends the starting price so the client
  *  enters the conversation already knowing what to expect.
+ *  A subject that already opens with a greeting is used as-is, without a second greeting.
  */
 export function buildServiceWhatsAppText(subject: string, startingPrice?: string): string {
   const trimmed = subject.trim();
-  const base = trimmed
-    ? `שלום, אשמח לשמוע על ${trimmed}`
-    : "שלום, אשמח לשמוע על השירות";
+  const base = GREETING_START.test(trimmed)
+    ? trimmed
+    : `שלום, אשמח לשמוע על ${trimmed || "השירות"}`;
   return startingPrice ? `${base} - מחיר: ${startingPrice}` : base;
 }
 

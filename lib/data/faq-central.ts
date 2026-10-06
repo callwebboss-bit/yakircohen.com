@@ -9,6 +9,11 @@ import { CANCELLATION_ANSWER, DELIVERY_TIME_FAQ } from "@/lib/data/home-faq";
    pricing-catalog כבר נמצא בגרף הלקוח של ארבעת הרכיבים שמגיעים לקובץ הזה,
    ולכן הייבוא לא מוסיף בייטים. */
 
+/* מה להביא לאולפן. גם אישור ההזמנה (lib/sales/voucher.ts) קורא מכאן, כדי
+   שהלקוח יקבל באישור בדיוק את מה שכתוב בשאלות הנפוצות ולא גרסה שנייה. */
+export const STUDIO_BRING_NOTE = "טקסט מודפס או בטלפון, בגדים נוחים, ואוזניות אם יש לכם";
+export const STUDIO_ARRIVE_EARLY_NOTE = "מגיעים 10 דקות לפני";
+
 /**
  * מקור משותף ל-FAQ מרכזי (20 שאלות) - /about/faq + schema.
  * עמוד הבית שומר על HOME_FAQ עשיר (8 שאלות) + קישור לכאן.
@@ -177,8 +182,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
   {
     id: "studio-prep",
     question: "מה להביא להקלטה ראשונה באולפן?",
-    answer:
-      "טקסט מודפס או בטלפון, בגדים נוחים, ואוזניות אם יש לכם. לא צריך ניסיון קודם. מגיעים 10 דקות לפני, עוברים על התסריט ומתחילים.",
+    answer: `${STUDIO_BRING_NOTE}. לא צריך ניסיון קודם. ${STUDIO_ARRIVE_EARLY_NOTE}, עוברים על התסריט ומתחילים.`,
     ctaText: "תאמו הקלטה ראשונה",
     whatsappMessage: "שלום, מקליטים לראשונה באולפן. מה כדאי להביא?",
     utm_campaign: "faq_studio_prep",

@@ -84,6 +84,7 @@ alwaysApply: true
 ## Pricing & WhatsApp closing
 
 - **All new prices** → `lib/data/pricing-catalog.ts` only; run `npm run audit:pricing` before commit
+- שינוי מחיר בקטלוג: הפריסה מעדכנת לבד את `/admin/sales`. אחריה, מעותק שמסונכרן עם main: `npm run export:quote` ואז `npm run audit:quote-sync`, כדי ש-`quote.html` במק יקבל את המחירים.
 - Use `formatExVatWithVat()` / `PriceWithVat` for display; never show ex-VAT alone without VAT line
 - **All WhatsApp messages** → `lib/whatsapp-closing.ts` (or `lib/booking-messages.ts` wrappers)
 - Every lead message must include: need (if collected), price with VAT split, source path, intent tag

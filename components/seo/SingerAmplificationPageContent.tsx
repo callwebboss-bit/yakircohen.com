@@ -32,6 +32,8 @@ import {
   SINGER_WHY_BLOCKS,
 } from "@/lib/data/singer-amplification-page";
 import { getEventsService } from "@/lib/data/services";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice, formatPrice } from "@/lib/data/pricing-display";
 import { SINGER_AMPLIFICATION_VIDEOS } from "@/lib/data/youtube-showcases";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -246,10 +248,12 @@ export default function SingerAmplificationPageContent() {
 
           <ul className="mt-10 space-y-8">
             {SINGER_PACKAGES.map((pkg) => {
-              const packageLabel = `${pkg.name} (${pkg.price})`;
+              /* כולל מע״מ קודם, בכרטיס ובהודעה (עמוד צרכן, החלטת הבעלים 2.10.2026) */
+              const packagePrice = formatPrice(getExVat(pkg.catalogId));
               const packageWhatsappHref = buildWhatsAppHref({
                 text: buildServiceWhatsAppText(
-                  `${service.whatsappText} - ${packageLabel}`,
+                  `${service.whatsappText} - ${pkg.name}`,
+                  packagePrice.inline,
                 ),
                 utm_source: "website",
                 utm_campaign: `${service.utmCampaign}_pkg_${pkg.id}`,
@@ -269,7 +273,8 @@ export default function SingerAmplificationPageContent() {
                         {pkg.badge}
                       </span>
                     ) : null}
-                    <span className="text-xl font-bold text-brand-red">{pkg.price}</span>
+                    <span className="text-xl font-bold text-brand-red">{packagePrice.headline}</span>
+                    <span className="text-xs text-muted-foreground">{packagePrice.vatNote}</span>
                   </div>
                   <ul className="mt-4 flex-1 space-y-1.5 text-sm text-muted-foreground">
                     {pkg.includes.map((line) => (
@@ -321,7 +326,10 @@ export default function SingerAmplificationPageContent() {
                 className="flex justify-between rounded-lg border border-border bg-surface px-4 py-2.5 text-sm"
               >
                 <span>{addon.name}</span>
-                <span className="font-semibold text-brand-red">{addon.price}</span>
+                <span className="font-semibold text-brand-red">
+                  {formatConsumerPrice(getExVat(addon.catalogId)).totalLabel}
+                  {addon.perHour ? " לשעה" : null}
+                </span>
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 
 export const SINGER_PAGE_HERO = {
   title: "מערכת סאונד לזמרים שמבינים שהופעה היא לא מבחן טכני",
@@ -342,10 +342,18 @@ export const SINGER_WHY_BLOCKS: readonly {
 
 export type SingerPackageId = "basic" | "premium" | "vip";
 
+/*
+ * price נשאר הסכום לפני מע״מ כטקסט, כי אשף ההזמנה ותוספות ההזמנה מחלצים ממנו
+ * את המספר (SingerAmplificationBookingWizard, singer-booking-addons). מה שהלקוח
+ * רואה ושולח בוואטסאפ נבנה מ-catalogId עם formatPrice, כולל מע״מ קודם
+ * (החלטת הבעלים 2.10.2026). עד 6.10.2026 העמוד והודעת הוואטסאפ הציגו את
+ * price עצמו, לפני מע״מ ובלי ציון.
+ */
 export const SINGER_PACKAGES: readonly {
   id: SingerPackageId;
   name: string;
   price: string;
+  catalogId: PriceItemId;
   badge?: string;
   includes: readonly string[];
   suitedFor: string;
@@ -354,6 +362,7 @@ export const SINGER_PACKAGES: readonly {
     id: "basic",
     name: "חבילה 1: בסיס מקצועי",
     price: `${getExVat("singer_amp_basic").toLocaleString("he-IL")} ₪`,
+    catalogId: "singer_amp_basic",
     badge: "פופולרי",
     includes: [
       "2 מיקרופונים Shure SM58",
@@ -371,6 +380,7 @@ export const SINGER_PACKAGES: readonly {
     id: "premium",
     name: "חבילה 2: פרימיום",
     price: `${getExVat("singer_amp_premium").toLocaleString("he-IL")} ₪`,
+    catalogId: "singer_amp_premium",
     includes: [
       "3 מיקרופונים אלחוטיים Shure Beta 58A",
       "4 רמקולי RCF פרונט",
@@ -387,6 +397,7 @@ export const SINGER_PACKAGES: readonly {
     id: "vip",
     name: "חבילה 3: VIP",
     price: `${getExVat("singer_amp_vip").toLocaleString("he-IL")} ₪`,
+    catalogId: "singer_amp_vip",
     includes: [
       "עד 6 מיקרופונים (Shure + EV RE20)",
       "Line Array RCF HDL6-A",
@@ -402,12 +413,19 @@ export const SINGER_PACKAGES: readonly {
   },
 ] as const;
 
-export const SINGER_ADDONS: readonly { name: string; price: string }[] = [
-  { name: "מיקרופון נוסף", price: `${getExVat("singer_extra_mic")} ₪` },
-  { name: "מוניטור אישי נוסף", price: `${getExVat("singer_extra_monitor")} ₪` },
-  { name: "שליטה מרחוק על המיקס (אפליקציה)", price: `${getExVat("singer_remote_mix")} ₪` },
-  { name: "הקלטת ההופעה מהמיקסר", price: `${getExVat("singer_live_recording")} ₪` },
-  { name: "שעות נוספות", price: `${getExVat("singer_extra_hour")} ₪/שעה` },
+/* כמו בחבילות: price לפני מע״מ נשאר בשביל singer-booking-addons, שמחלץ ממנו
+   את המספר ואת "שעה". התצוגה בעמוד נבנית מ-catalogId, כולל מע״מ קודם. */
+export const SINGER_ADDONS: readonly {
+  name: string;
+  price: string;
+  catalogId: PriceItemId;
+  perHour?: boolean;
+}[] = [
+  { name: "מיקרופון נוסף", price: `${getExVat("singer_extra_mic")} ₪`, catalogId: "singer_extra_mic" },
+  { name: "מוניטור אישי נוסף", price: `${getExVat("singer_extra_monitor")} ₪`, catalogId: "singer_extra_monitor" },
+  { name: "שליטה מרחוק על המיקס (אפליקציה)", price: `${getExVat("singer_remote_mix")} ₪`, catalogId: "singer_remote_mix" },
+  { name: "הקלטת ההופעה מהמיקסר", price: `${getExVat("singer_live_recording")} ₪`, catalogId: "singer_live_recording" },
+  { name: "שעות נוספות", price: `${getExVat("singer_extra_hour")} ₪/שעה`, catalogId: "singer_extra_hour", perHour: true },
 ] as const;
 
 export const SINGER_PROCESS: readonly {
