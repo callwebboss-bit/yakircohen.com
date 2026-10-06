@@ -1298,13 +1298,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/studio/recording-song-modiin",
-      "field": "words",
-      "why": "4,534 -> 4,298: ארבע החבילות ירדו. נוספו שאלת פלייבק, תוכן הטופס, ואחרי המיזוג של main גם בלוק \"מה מזיז את המחיר\".",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/studio/recording-song-modiin/gifts",
       "field": "description",
       "why": "אותו שינוי במשפט האחרון.",
