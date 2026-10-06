@@ -45,6 +45,15 @@ const SCAN_DIRS = "lib components app public";
 /* מופעי פרוזה של ערך שפרש, שהם באמת מוצר אחר. כל רשומה עם catalogId
    נבדקת מול הקטלוג החי, כך שאי אפשר "להשתיק" כאן מחיר שגוי: אם המזהה
    הזה יפסיק להחזיק את הערך, הרשומה עצמה תיכשל. */
+/* מזהים שהמחיר שלהם מעולם לא נכתב כפרוזה: כל מופע שלו נגזר מהקטלוג. כשהמחיר שלהם
+   משתנה, הערך הישן לא נבדק בכל הריפו (500 הוא מחיר תקף של עוד 11 פריטים, ו-49
+   שורות כאלה הן מוצרים אחרים). במקום זה נבדק בדיוק מה שמסוכן: שורת פרוזה שמזכירה
+   את שם הפריט ליד הערך הישן, לפני או אחרי מע״מ. מזהה שנמחק מהקטלוג כאן נכשל.
+   החלטת הבעלים 7.10.2026: השיר המקורי עלה מ-500 ל-850 לפני מע״מ. */
+const CATALOG_ONLY = [
+  { id: "song_original_mitzvah", label: "שיר מקורי לבר או בת מצווה" },
+];
+
 const EXPLAINED = [
   /* שתי רשומות ה-1,750 של הבלוג (תאורת LED, מיקס חיצוני) נמחקו ב-3.10.2026:
      השורות כבר נגזרות מהקטלוג, ו-1,750 פרש עם mashup_ready_pack_3 וחשף אותן
@@ -163,8 +172,12 @@ if (changed.length === 0) {
   process.exit(0);
 }
 
+const catalogOnlyIds = new Set(CATALOG_ONLY.map((e) => e.id));
+const narrow = changed.filter((c) => catalogOnlyIds.has(c.id));
+const missingCatalogOnly = CATALOG_ONLY.filter((e) => !(e.id in current));
+
 const atRisk = new Map();
-for (const c of changed) {
+for (const c of changed.filter((c) => !catalogOnlyIds.has(c.id))) {
   if (!atRisk.has(c.from)) atRisk.set(c.from, []);
   atRisk.get(c.from).push(c);
 }
@@ -216,6 +229,16 @@ for (const file of files) {
     while ((m = PRICE_RE.exec(line)) !== null) {
       values.add(Number((m[1] || m[2]).replace(/,/g, "")));
     }
+    for (const c of narrow) {
+      const label = CATALOG_ONLY.find((e) => e.id === c.id).label;
+      if (!line.includes(label)) continue;
+      const old = [c.from, Math.round(c.from * 1.18)];
+      for (const value of values) {
+        if (old.includes(value)) {
+          unexplained.push({ file, line: idx + 1, value, text: line.trim().replace(/\s+/g, " "), narrowId: c.id });
+        }
+      }
+    }
     for (const value of values) {
       if (!atRisk.has(value)) continue;
       if (VAT_INCLUSIVE_LINE.test(line) && currentWithVat.has(value)) continue;
@@ -251,6 +274,12 @@ if (unexplained.length > 0) {
   failed = true;
   console.error(`  ✗ ${unexplained.length} מופעי פרוזה עדיין מצטטים מחיר שפרש:\n`);
   for (const u of unexplained) {
+    if (u.narrowId) {
+      console.error(`    ${u.file}:${u.line}`);
+      console.error(`      ${u.text.slice(0, 120)}`);
+      console.error(`      ${u.value} היה המחיר של ${u.narrowId} (עכשיו ${current[u.narrowId]} לפני מע״מ), והשורה מזכירה אותו בשם.\n`);
+      continue;
+    }
     const owners = atRisk.get(u.value).map((c) => c.id).join(", ");
     const holders = Object.keys(current).filter((id) => current[id] === u.value);
     console.error(`    ${u.file}:${u.line}`);
@@ -263,6 +292,13 @@ if (unexplained.length > 0) {
     }
     console.error("");
   }
+}
+
+if (missingCatalogOnly.length > 0) {
+  failed = true;
+  console.error(`  ✗ ${missingCatalogOnly.length} מזהים ב-CATALOG_ONLY לא קיימים בקטלוג. רשומה מתה:\n`);
+  for (const e of missingCatalogOnly) console.error(`    ${e.id}`);
+  console.error("");
 }
 
 if (stale.length > 0) {
@@ -287,4 +323,8 @@ if (failed) {
   process.exit(1);
 }
 
-console.log(`  תקין. כל מופעי הפרוזה של ${atRisk.size} הערכים שפרשו מוסברים ומקושרים לקטלוג.\n`);
+console.log(`  תקין. כל מופעי הפרוזה של ${atRisk.size} הערכים שפרשו מוסברים ומקושרים לקטלוג.`);
+if (narrow.length > 0) {
+  console.log(`  ${narrow.length} מזהים שהמחיר שלהם מגיע רק מהקטלוג נבדקו לפי השם שלהם: ${narrow.map((c) => c.id).join(", ")}.`);
+}
+console.log("");
