@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { getMobileDecisiveNav } from "@/lib/mobile-sticky-context";
 import { cn } from "@/lib/utils";
 
-/** דפים עם sticky ייעודי / טופס - לא לכפול */
-const HIDE_PREFIXES = ["/contact", "/book", "/pricing"] as const;
+/** דפים עם sticky ייעודי / טופס - לא לכפול. /admin הוא כלי פנימי, הסרגל מסתיר בו כרטיסים. */
+const HIDE_PREFIXES = ["/contact", "/book", "/pricing", "/admin"] as const;
 
 function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
   return prefixes.some(

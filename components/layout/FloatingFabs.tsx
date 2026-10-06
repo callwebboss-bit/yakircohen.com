@@ -10,12 +10,14 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { cn } from "@/lib/utils";
 
 /** Routes with their own bottom CTA / sticky bar - hide duplicate floating WhatsApp. */
-const HIDE_FLOATING_WHATSAPP_PREFIXES = ["/contact", "/book"] as const;
+const HIDE_FLOATING_WHATSAPP_PREFIXES = ["/contact", "/book", "/admin"] as const;
 
-const HIDE_SEND_FILE_PREFIXES = ["/contact", "/book", "/online"] as const;
+const HIDE_SEND_FILE_PREFIXES = ["/contact", "/book", "/online", "/admin"] as const;
 
 /** Chat widget only on conversion surfaces - skip content-heavy paths. */
+/** /admin: כלי פנימי של יקיר, הכפתורים ללקוחות רק מסתירים בו כרטיסים. */
 const HIDE_CHAT_PREFIXES = [
+  "/admin",
   "/blog",
   "/gallery",
   "/portfolio",
