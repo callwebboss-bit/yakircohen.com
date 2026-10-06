@@ -112,7 +112,7 @@ export default function RecordingSongModiinPageContent() {
               כמה עולה להקליט שיר באולפן?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {SONG_PRICE.totalLabel} כולל מע״מ: הקלטה, מיקס ומאסטר בסשן של שעה. לכל
+              {SONG_PRICE.totalLabel}: הקלטה, מיקס ומאסטר בסשן של שעה. לכל
               תוספת יש מחיר גלוי, ובטופס כאן רואים את הסכום הסופי לפני ששולחים.
             </p>
           </section>
