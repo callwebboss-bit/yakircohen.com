@@ -23,6 +23,11 @@ const BLOG_ALLOWED_TAGS = [
   "th",
   "td",
   "div",
+  /* 6.10.2026: טיפ שנפתח בלחיצה ברשימות השירים. שתיהן תגיות אינרטיות בלי
+     יכולת הרצה, ו-sanitize-html מסיר כל מאפיין שאינו ברשימה למטה, כולל
+     ontoggle. scripts/security-smoke.ts מאמת את זה בכל הרצה. */
+  "details",
+  "summary",
 ] as const;
 
 const BLOG_GLOSSARY_PHRASES = GLOSSARY_TOOLTIP_PHRASES.filter(({ phrase }) => {
@@ -43,6 +48,7 @@ export function sanitizeBlogHtml(html: string): string {
     allowedAttributes: {
       a: ["href"],
       div: ["class"],
+      details: ["class"],
       th: ["colspan", "rowspan"],
       td: ["colspan", "rowspan"],
     },

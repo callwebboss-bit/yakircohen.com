@@ -14,6 +14,18 @@ if (/<script|javascript:/i.test(html)) {
   throw new Error("Blog HTML sanitizer allowed dangerous content");
 }
 
+/* details/summary הותרו ב-6.10.2026 לטיפ שנפתח בלחיצה. הן אינרטיות, אבל
+   ל-details יש ontoggle, ולכן מאומת כאן שמאפייני אירוע עדיין מוסרים. */
+const tip = sanitizeBlogHtml(
+  '<details class="song-tip" ontoggle="alert(1)" open><summary onclick="alert(2)">x</summary><p>y</p></details>',
+);
+if (/on\w+\s*=/i.test(tip)) {
+  throw new Error("Blog HTML sanitizer kept an event handler on details/summary");
+}
+if (!tip.includes("<details") || !tip.includes("<summary")) {
+  throw new Error("Blog HTML sanitizer dropped the details tip markup");
+}
+
 if (!isAllowedEmbedUrl("https://www.youtube.com/embed/abc")) {
   throw new Error("YouTube embed URL should be allowed");
 }
