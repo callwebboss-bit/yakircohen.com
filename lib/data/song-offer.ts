@@ -208,7 +208,7 @@ export function getSongOfferView(): SongOfferView {
   };
 }
 
-export type SongMessageOptions = Pick<SongQuoteOptions, "source" | "giftMode" | "notes"> & {
+export type SongMessageOptions = Pick<SongQuoteOptions, "source" | "giftMode" | "notes" | "specialRequest"> & {
   /** מספר המשתתפים בשיר, ברירת מחדל 1 */
   participants?: number;
 };
@@ -222,10 +222,15 @@ export type SongMessage = {
 
 export function buildSongOfferMessage(
   addonIds: readonly string[],
-  { source, giftMode = false, participants = 1, notes }: SongMessageOptions,
+  { source, giftMode = false, participants = 1, notes, specialRequest = false }: SongMessageOptions,
 ): SongMessage {
   const data = getSongQuoteData();
-  return buildSongMessageFromCalc(data, calcSongQuote(data, addonIds, participants), { source, giftMode, notes });
+  return buildSongMessageFromCalc(data, calcSongQuote(data, addonIds, participants), {
+    source,
+    giftMode,
+    notes,
+    specialRequest,
+  });
 }
 
 export type SongWhatsAppHrefOptions = SongQuoteOptions & { participants?: number };
@@ -258,6 +263,8 @@ export type SongCallbackInput = SongCallbackContact & {
   participants?: number;
   /** ההערה החופשית מהטופס */
   notes?: string;
+  /** סימון "בקשה מיוחדת", מחכה להצעת מחיר */
+  specialRequest?: boolean;
 };
 
 /** משמש את מי שבונה בקשה בלי הצעה מוכנה (בדיקות, השרת). ראו buildSongCallbackPayload. */
@@ -267,6 +274,7 @@ export function buildSongCallbackRequest(input: SongCallbackInput): LeadEmailPay
     giftMode: input.giftMode,
     participants: input.participants,
     notes: input.notes,
+    specialRequest: input.specialRequest,
   });
   return buildSongCallbackPayload(quote, input);
 }

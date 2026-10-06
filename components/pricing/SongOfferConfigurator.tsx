@@ -113,6 +113,9 @@ export default function SongOfferConfigurator({
   );
   /* בקשות בלי שורת מחיר: מה מצלמים, מי משתתף בשיחה המשפחתית וכדומה */
   const [notes, setNotes] = useState("");
+  /* החלטת הבעלים 6.10.2026: בקשה מעבר למה שבטופס (למשל יותר מ-40 תמונות מהבית) מקבלת
+     הצעת מחיר. הסימון לא משנה את הסכום, רק מוסיף שורה להודעה ולמייל. */
+  const [specialRequest, setSpecialRequest] = useState(false);
 
   /* הבחירה נזכרת ב-?addons= בכתובת. קוראים אותה רק אחרי הטעינה, ב-useEffect
      ולא ב-useSearchParams, כדי שהעמוד יישאר מרונדר מראש בלי גבול Suspense
@@ -152,8 +155,14 @@ export default function SongOfferConfigurator({
 
   const quoteFor = useCallback(
     (ids: readonly string[], count: number) =>
-      composeSongOfferQuote(quoteData, ids, count, { source, giftMode, utmCampaign, notes }),
-    [quoteData, source, giftMode, utmCampaign, notes],
+      composeSongOfferQuote(quoteData, ids, count, {
+        source,
+        giftMode,
+        utmCampaign,
+        notes,
+        specialRequest,
+      }),
+    [quoteData, source, giftMode, utmCampaign, notes, specialRequest],
   );
   const quote = useMemo(() => quoteFor(selected, participants), [quoteFor, selected, participants]);
 
@@ -314,9 +323,45 @@ export default function SongOfferConfigurator({
         סה״כ {quote.totalLine}
       </p>
 
+      <div
+        className={cn(
+          "mt-4 rounded-xl border bg-background transition-colors",
+          specialRequest ? "border-brand-red/50" : "border-border",
+        )}
+      >
+        <label htmlFor={`${uid}-special`} className="flex min-h-14 cursor-pointer items-start gap-3 p-3">
+          <input
+            id={`${uid}-special`}
+            type="checkbox"
+            checked={specialRequest}
+            onChange={(e) => {
+              setSpecialRequest(e.target.checked);
+              trackConversion("pricing_calculator_interact", {
+                calculator: "song_offer",
+                addon: "special_request",
+                checked: e.target.checked,
+                total: quote.totalWithVat,
+                source,
+              });
+            }}
+            className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,#d42b2b)]"
+            aria-describedby={`${uid}-special-desc`}
+          />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-foreground">
+              בקשה מיוחדת, מעבר למה שבטופס
+            </span>
+            <span id={`${uid}-special-desc`} className="mt-0.5 block text-xs text-muted-foreground">
+              למשל יותר מ-40 תמונות וסרטונים מהבית. כתבו למטה מה צריך, ונחזור אליכם עם הצעת מחיר.
+            </span>
+          </span>
+          <span className="shrink-0 text-sm font-semibold text-foreground">הצעת מחיר</span>
+        </label>
+      </div>
+
       <div className="mt-4">
         <label htmlFor={`${uid}-notes`} className="text-sm font-semibold text-foreground">
-          משהו נוסף שחשוב לכם לציין? (לא חובה)
+          {specialRequest ? "מה הבקשה המיוחדת?" : "משהו נוסף שחשוב לכם לציין? (לא חובה)"}
         </label>
         <textarea
           id={`${uid}-notes`}

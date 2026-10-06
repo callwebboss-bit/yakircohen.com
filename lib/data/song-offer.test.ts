@@ -7,6 +7,7 @@ import {
   buildSongCallbackRequest,
   buildSongOfferHref,
   buildSongOfferMessage,
+  buildSongOfferQuote,
   buildSongOfferWhatsAppHref,
   calcSongOffer,
   getSongOfferExport,
@@ -25,6 +26,7 @@ import {
   songParticipantsSurcharge,
   type SongAddonId,
 } from "@/lib/data/song-offer";
+import { SONG_SPECIAL_REQUEST_LINE } from "@/lib/data/song-offer-quote";
 import { buildLeadNotifyBody } from "@/lib/lead-email-notify";
 import { checkLeadNotifyPayload, FORM_ID_PATTERN } from "@/lib/leads/payload-check";
 
@@ -576,5 +578,50 @@ describe("song offer: the 3.10.2026 lead (six singers, clip, family talk, photos
     const long = buildSongOfferMessage([CLIP], { source: "/x", notes: "א".repeat(900) }).text;
     const line = long.split("\n").find((l) => l.startsWith("הערות: "))!;
     assert.equal(line.length, "הערות: ".length + 500);
+  });
+});
+
+describe("song offer: special request (owner 6.10.2026, a quote for anything not in the form)", () => {
+  it("adds one line to the message, before the notes, without changing the total", () => {
+    const plain = buildSongOfferMessage([CLIP], { source: "/x", notes: "60 תמונות" }).text;
+    const special = buildSongOfferMessage([CLIP], {
+      source: "/x",
+      notes: "60 תמונות",
+      specialRequest: true,
+    }).text;
+    assert.ok(!plain.includes(SONG_SPECIAL_REQUEST_LINE));
+    assert.ok(special.includes(SONG_SPECIAL_REQUEST_LINE));
+    assert.ok(special.indexOf(SONG_SPECIAL_REQUEST_LINE) < special.indexOf("הערות: 60 תמונות"));
+    assert.ok(special.indexOf(SONG_SPECIAL_REQUEST_LINE) < special.indexOf("מתי נוח לכם להקליט?"));
+    const total = (t: string) => t.split("\n").find((l) => l.startsWith("סה״כ"));
+    assert.equal(total(special), total(plain));
+  });
+
+  it("is off by default, and the quote says so", () => {
+    const quote = buildSongOfferQuote([], { source: "/x" });
+    assert.equal(quote.specialRequest, false);
+    assert.ok(!quote.messageText.includes(SONG_SPECIAL_REQUEST_LINE));
+    assert.equal(buildSongOfferQuote([], { source: "/x", specialRequest: true }).specialRequest, true);
+  });
+
+  it("reaches the callback email, body and subject, with the same price", () => {
+    const base = {
+      name: "נועה כהן",
+      phone: "054-123-4567",
+      addonIds: [CLIP],
+      source: "/studio/recording-song-modiin",
+      submissionId: "sub-special",
+      honeypot: "",
+    };
+    const plain = buildSongCallbackRequest(base);
+    const special = buildSongCallbackRequest({ ...base, specialRequest: true });
+    assert.ok(!plain.body.includes(SONG_SPECIAL_REQUEST_LINE));
+    assert.ok(special.body.includes(SONG_SPECIAL_REQUEST_LINE));
+    assert.ok(special.subject.endsWith(", בקשה מיוחדת"));
+    assert.equal(special.pricingRef?.exVat, plain.pricingRef?.exVat);
+  });
+
+  it("the line has no AI tells", () => {
+    assert.doesNotMatch(SONG_SPECIAL_REQUEST_LINE, /[!—–…“”]/);
   });
 });

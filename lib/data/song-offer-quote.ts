@@ -61,6 +61,8 @@ export type SongOfferQuote = SongOfferTotals & {
   offerHref: string;
   /** ההערה החופשית של הלקוח אחרי ניקוי, או מחרוזת ריקה */
   notes: string;
+  /** הלקוח סימן בקשה מיוחדת, מעבר למה שבטופס, ומחכה להצעת מחיר. לא משנה את הסכום. */
+  specialRequest: boolean;
 };
 
 /** מפתח קבוע לשילוב. הבחירה כבר מנורמלת, ולכן הסדר הוא סדר הקטלוג. */
@@ -220,7 +222,14 @@ export type SongQuoteOptions = {
   /* בקשות שאין להן שורת מחיר (למשל מה מצלמים או איך השיחה המשפחתית תיראה).
      נכנסות כשורה בהודעה ובמייל, בלי מחיר ובלי השפעה על הסכום. */
   notes?: string;
+  /* החלטת הבעלים 6.10.2026: סימון נפרד לכל מה שאין לו שורה בטופס, למשל יותר מ-40
+     תמונות וסרטונים מהבית. הבעלים נותן הצעת מחיר. נכנס כשורה בהודעה ובמייל, בלי מחיר
+     ובלי השפעה על הסכום. */
+  specialRequest?: boolean;
 };
+
+/** השורה שנכנסת להודעה ולמייל כשהלקוח סימן בקשה מיוחדת */
+export const SONG_SPECIAL_REQUEST_LINE = "בקשה מיוחדת, מעבר למה שבטופס: אשמח להצעת מחיר.";
 
 /** ההערה אחרי ניקוי וקיצור, או מחרוזת ריקה */
 export function cleanSongNotes(notes: string | undefined): string {
@@ -317,7 +326,12 @@ export type SongMessage = {
 export function buildSongMessageFromCalc(
   data: SongQuoteData,
   calc: SongOfferCalc,
-  { source, giftMode = false, notes }: Pick<SongQuoteOptions, "source" | "giftMode" | "notes">,
+  {
+    source,
+    giftMode = false,
+    notes,
+    specialRequest = false,
+  }: Pick<SongQuoteOptions, "source" | "giftMode" | "notes" | "specialRequest">,
 ): SongMessage {
   const opening = giftMode
     ? "שלום, אשמח להקליט שיר במתנה באולפן."
@@ -326,6 +340,7 @@ export function buildSongMessageFromCalc(
   const text = [
     opening,
     ...songSelectionLines(calc),
+    ...(specialRequest ? [SONG_SPECIAL_REQUEST_LINE] : []),
     ...(cleanNotes ? [`הערות: ${cleanNotes}`] : []),
     "מתי נוח לכם להקליט?",
   ].join("\n");
@@ -386,6 +401,7 @@ export function composeSongOfferQuote(
       options.offerPath,
     ),
     notes: cleanSongNotes(options.notes),
+    specialRequest: options.specialRequest === true,
   };
 }
 
@@ -411,7 +427,7 @@ export type SongCallbackContact = {
  */
 export function buildSongCallbackPayload(
   quote: Pick<SongOfferQuote, "lines" | "totalExVat" | "totalWithVat" | "ycTag" | "offerHref"> &
-    Partial<Pick<SongOfferQuote, "notes">>,
+    Partial<Pick<SongOfferQuote, "notes" | "specialRequest">>,
   input: SongCallbackContact,
 ): LeadEmailPayload {
   const name = sanitizeLeadText(input.name, 60);
@@ -423,6 +439,7 @@ export function buildSongCallbackPayload(
     ...(input.giftMode ? ["שיר במתנה"] : []),
     "",
     ...songSelectionLines(quote),
+    ...(quote.specialRequest ? [SONG_SPECIAL_REQUEST_LINE] : []),
     ...(quote.notes ? [`הערות: ${quote.notes}`] : []),
     "",
     `מקור: ${input.source}`,
@@ -430,7 +447,7 @@ export function buildSongCallbackPayload(
   ].join("\n");
   return {
     formId: SONG_OFFER_CALLBACK_FORM_ID,
-    subject: `[יקיר כהן] שיחה חוזרת: הקלטת שיר, ${nis(quote.totalWithVat)} כולל מע״מ`,
+    subject: `[יקיר כהן] שיחה חוזרת: הקלטת שיר, ${nis(quote.totalWithVat)} כולל מע״מ${quote.specialRequest ? ", בקשה מיוחדת" : ""}`,
     body,
     name,
     phone,
