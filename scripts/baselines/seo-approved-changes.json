@@ -1765,6 +1765,13 @@
       "why": "Search Console, 6.10.2026: שני צמתי Product לציוד האולפן (Townsend Sphere L22, UAD Apollo Twin) סומנו \"לא תקין\" כי חסרים offers, review או aggregateRating. הציוד לא נמכר, ולכן הוסר מהסכמה, והוא עדיין מוצג בעמוד. צומת LocalBusiness שהוסר היה רק הפניה (@id) לצומת הקנוני.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-06"
+    },
+    {
+      "url": "/blog/live-singer-sound-engineer-guide",
+      "field": "links",
+      "why": "מאמר חדש, /blog/memorial-ceremony-songs, הצטרף לדלי \"אירועים ו-DJ\" בבקשת הבעלים 6.10.2026. מנגנון הפוסטים הקשורים מבוסס דלי, ולכן פוסט חדש מחליף שכן קיים ברשימה. נמדד בפלט הבנוי לפני האישור: wedding-song-2026 נשאר עם 11 קישורים נכנסים אחרי האובדן, והמאמר החדש מקבל 3 ואינו יתום.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-06"
     }
   ]
 }

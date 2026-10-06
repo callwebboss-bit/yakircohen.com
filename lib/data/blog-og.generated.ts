@@ -16,6 +16,7 @@ export const BLOG_OG_BY_THUMBNAIL: Readonly<Record<string, string>> = {
   "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp": "/images/og/blog/og-1277d59555e4.webp",
   "/images/services/events/dj-events/עמדה ותאורה יקירכהן באירוע.webp": "/images/og/blog/og-d33df162e120.webp",
   "/images/services/events/dj-events/עמדת די גיי ותאורה.webp": "/images/og/blog/og-28eeb443a479.webp",
+  "/images/services/events/equipment/eq-מיקרופון להגברות מיוחדות.webp": "/images/og/blog/og-7b85f232be6c.webp",
   "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp": "/images/og/blog/og-65ba383b16c0.webp",
   "/images/services/events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp": "/images/og/blog/og-d328e71f7bf1.webp",
   "/images/services/events/wedding-packages/שירים-לאירועים.webp": "/images/og/blog/og-5ab96842ba3f.webp",

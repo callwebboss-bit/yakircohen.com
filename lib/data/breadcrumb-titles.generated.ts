@@ -92,7 +92,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "wedding-slow-songs": "שירי סלואו לחתונה: מה זוגות בוחרים, שירים חדשים ונוסטלגיים",
   "reception-songs": "שירים לקבלת פנים: איך בוחרים, ומה לא לשים",
   "bar-mitzvah-speech": "דרשה לבר מצווה קצר ולעניין: מבנה, טופס עזר, ובלייב או מוקלט",
-  "songs-for-grandparents": "שיר לסבא ולסבתא: מה באמת שרים, ומה עדיף לא"
+  "songs-for-grandparents": "שיר לסבא ולסבתא: מה באמת שרים, ומה עדיף לא",
+  "memorial-ceremony-songs": "שירים לטקס זיכרון ולאזכרה, ומה צריך כדי שישמעו"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */

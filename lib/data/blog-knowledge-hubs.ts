@@ -262,7 +262,8 @@ const EVENTS_HUB: KnowledgeHub = {
     {
       id: "by-event",
       title: "לפי סוג האירוע",
-      slugs: ["corporate-event-dj-guide", "dj-summer-weddings-2026"],
+      slugs: [
+        "memorial-ceremony-songs","corporate-event-dj-guide", "dj-summer-weddings-2026"],
     },
     {
       id: "vendors",
