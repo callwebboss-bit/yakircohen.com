@@ -92,7 +92,8 @@ export const BLOG_SLUGS = [
   "bar-mitzvah-speech",
   "songs-for-grandparents",
   "memorial-ceremony-songs",
-  "songs-for-parents"
+  "songs-for-parents",
+  "songs-for-spouse"
 ] as const;
 
 export type BlogPostSlug = (typeof BLOG_SLUGS)[number];
