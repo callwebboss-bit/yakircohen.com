@@ -381,6 +381,7 @@ const PODCAST_HUB: KnowledgeHub = {
       id: "worth-it",
       title: "האם שווה לכם בכלל",
       slugs: [
+        "corporate-podcast-after-yes",
         "podcast-for-small-business-worth-it",
         "business-podcast-roi-2026",
         "first-podcast-without-wasting-money",

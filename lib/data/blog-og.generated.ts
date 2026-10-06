@@ -22,6 +22,7 @@ export const BLOG_OG_BY_THUMBNAIL: Readonly<Record<string, string>> = {
   "/images/services/events/wedding-packages/שירים-לאירועים.webp": "/images/og/blog/og-5ab96842ba3f.webp",
   "/images/services/photography/wedding/LEOM9008.webp": "/images/og/blog/og-35fff4c030d5.webp",
   "/images/services/photography/wedding/LEOM9080.webp": "/images/og/blog/og-1bd8af34a2f2.webp",
+  "/images/services/podcast/רואה חשבון באולפן.webp": "/images/og/blog/og-7b87df5851c1.webp",
   "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp": "/images/og/blog/og-792bb39f2764.webp",
   "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp": "/images/og/blog/og-e01e3f439c31.webp",
   "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp": "/images/og/blog/og-dde7954e7489.webp",

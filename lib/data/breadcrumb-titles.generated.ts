@@ -95,7 +95,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "songs-for-grandparents": "שיר לסבא ולסבתא: מה באמת שרים, ומה עדיף לא",
   "memorial-ceremony-songs": "שירים לטקס זיכרון ולאזכרה, ומה צריך כדי שישמעו",
   "songs-for-parents": "שיר לאמא ולאבא: מה שרים, ואיך מכוונים אותו",
-  "songs-for-spouse": "שיר לבעל ולאישה: שיר יום נישואין הוא לא שיר חתונה"
+  "songs-for-spouse": "שיר לבעל ולאישה: שיר יום נישואין הוא לא שיר חתונה",
+  "corporate-podcast-after-yes": "פודקאסט לחברה: מה קורה אחרי שהחלטתם כן"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */
