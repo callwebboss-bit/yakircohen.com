@@ -1,4 +1,13 @@
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
+import YOUTUBE_UPLOAD_DATES from "@/lib/data/youtube-upload-dates.generated.json";
+
+/**
+ * תאריך ההעלאה האמיתי של סרטון, מ-YouTube עצמו (scripts/fetch-youtube-upload-dates.mjs).
+ * בלי uploadDate גוגל מסמנת את ה-VideoObject כפריט לא תקף (Search Console, 6.10.2026).
+ */
+export function youtubeUploadDate(videoId: string): string | undefined {
+  return (YOUTUBE_UPLOAD_DATES as Record<string, string>)[videoId.trim()];
+}
 
 export type VideoSchemaInput = {
   videoId: string;
@@ -32,7 +41,8 @@ export function buildVideoObjectSchema(input: VideoSchemaInput) {
   };
   /* uploadDate מושמט כשאינו ידוע. עדיף להשמיט מאשר לפרסם תאריך מומצא -
      תאריך שגוי ב-structured data הוא טענה עובדתית לא נכונה מול Google. */
-  return input.uploadDate ? { ...schema, uploadDate: input.uploadDate } : schema;
+  const uploadDate = input.uploadDate ?? youtubeUploadDate(input.videoId);
+  return uploadDate ? { ...schema, uploadDate } : schema;
 }
 
 export function buildVideoObjectGraph(videos: readonly VideoSchemaInput[]) {

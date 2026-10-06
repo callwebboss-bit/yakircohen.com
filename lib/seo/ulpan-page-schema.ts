@@ -11,6 +11,7 @@ import { FOUNDER_NAME } from "@/lib/constants";
 import {
   youtubeEmbedUrlFromId,
   youtubeThumbnailUrl,
+  youtubeUploadDate,
   youtubeWatchUrl,
 } from "@/lib/video-schema";
 
@@ -32,7 +33,8 @@ function buildVideoNodes() {
     thumbnailUrl: youtubeThumbnailUrl(video.videoId),
     contentUrl: youtubeWatchUrl(video.videoId),
     embedUrl: youtubeEmbedUrlFromId(video.videoId),
-    uploadDate: "2024-01-01",
+    /* היה "2024-01-01" קבוע לכל הסרטונים, כלומר תאריך מומצא. עכשיו התאריך האמיתי מ-YouTube. */
+    ...(youtubeUploadDate(video.videoId) ? { uploadDate: youtubeUploadDate(video.videoId) } : {}),
     inLanguage: "he-IL",
     educationalUse: "instruction",
     publisher: { "@id": ENTITY_IDS.organization },

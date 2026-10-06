@@ -90,7 +90,8 @@
     "ingest:blog": "node scripts/ingest-blog-queue.mjs",
     "cy:open": "cypress open",
     "cy:run": "start-server-and-test dev http://localhost:3000 cy:run:only",
-    "cy:run:only": "cypress run --browser chrome --spec cypress/e2e/site-qa.cy.ts,cypress/e2e/coupon-banner.cy.ts,cypress/e2e/a11y.cy.ts,cypress/e2e/booking-flows.cy.ts"
+    "cy:run:only": "cypress run --browser chrome --spec cypress/e2e/site-qa.cy.ts,cypress/e2e/coupon-banner.cy.ts,cypress/e2e/a11y.cy.ts,cypress/e2e/booking-flows.cy.ts",
+    "sync:youtube-dates": "node scripts/fetch-youtube-upload-dates.mjs"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.130",
