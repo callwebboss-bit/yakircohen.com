@@ -34,8 +34,10 @@ describe("getSongOfferQuotes (the precomputed combinations the form receives)", 
   const quotes = getSongOfferQuotes({ source: SOURCE });
 
   it("holds every valid combination (interview only with the clip)", () => {
-    /* 5 תוספות (4.10.2026: נוספו studio_bts ו-studio_photo_pack): 32 תתי-קבוצות, פחות 8 עם ראיון בלי קליפ */
-    assert.equal(Object.keys(quotes).length, 24);
+    /* 7 תוספות (6.10.2026: נוספו song_home_media_40 ו-cloud_storage_permanent): 128 תתי-קבוצות.
+       בלי קליפ יש 64, ומהן רק 16 בלי ראיון ובלי תמונות מהבית, שתיהן רק עם הקליפ.
+       128 פחות 48 שווה 80. */
+    assert.equal(Object.keys(quotes).length, 80);
     assert.ok(quotes.base);
     assert.equal(quotes["song_pre_session_interview"], undefined);
   });

@@ -11,7 +11,9 @@ export type SongAddonId =
   | "studio_session_clip_edited"
   | "song_pre_session_interview"
   | "studio_bts"
-  | "studio_photo_pack";
+  | "studio_photo_pack"
+  | "song_home_media_40"
+  | "cloud_storage_permanent";
 
 /**
  * קישורים ישנים מהמחירון ומהאשף, ?catalog=cover_song וכדומה. כל חבילה שירדה

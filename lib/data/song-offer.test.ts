@@ -33,6 +33,9 @@ const CLIP = "studio_session_clip_edited";
 const INTERVIEW = "song_pre_session_interview";
 const BTS = "studio_bts";
 const PHOTOS = "studio_photo_pack";
+/* החלטות הבעלים: תמונות וסרטונים מהבית רק עם הקליפ (4.10), שמירה קבועה בענן ב-49 ₪ כולל מע״מ (6.10) */
+const HOME_MEDIA = "song_home_media_40";
+const STORAGE = "cloud_storage_permanent";
 
 /* כל 8 תתי-הקבוצות של שלוש התוספות, עם המחיר שהבעלים אישר (OWNER-DECISIONS-2026-10-02).
    ראיון בלי קליפ אינו בחירה חוקית, ולכן המחיר שלו הוא המחיר בלי הראיון. */
@@ -53,7 +56,7 @@ const ALL_COMBINATIONS: Array<{
 ];
 
 describe("song offer: catalog", () => {
-  it("reads the base and the five add-ons from the catalog, in order", () => {
+  it("reads the base and the seven add-ons from the catalog, in order", () => {
     assert.equal(getExVat("song_recording"), 500);
     assert.equal(getExVat(PITCH), 300);
     assert.equal(getExVat(CLIP), 750);
@@ -61,7 +64,9 @@ describe("song offer: catalog", () => {
     /* החלטת הבעלים 4.10.2026: אותם מחירים כמו באשף /book */
     assert.equal(getExVat(BTS), 250);
     assert.equal(getExVat(PHOTOS), 200);
-    assert.deepEqual(SONG_ADDON_IDS, [PITCH, CLIP, INTERVIEW, BTS, PHOTOS]);
+    assert.equal(getExVat(HOME_MEDIA), 400);
+    assert.equal(getExVat(STORAGE), 41.5);
+    assert.deepEqual(SONG_ADDON_IDS, [PITCH, CLIP, INTERVIEW, BTS, PHOTOS, HOME_MEDIA, STORAGE]);
   });
 
   it("the removed song packages are gone from the catalog", () => {
@@ -92,6 +97,8 @@ describe("song offer: catalog", () => {
         [INTERVIEW, 500, 590, CLIP],
         [BTS, 250, 295, null],
         [PHOTOS, 200, 236, null],
+        [HOME_MEDIA, 400, 472, CLIP],
+        [STORAGE, 41.5, 49, null],
       ],
     );
   });
@@ -306,8 +313,9 @@ describe("getSongOfferExport (owner quoting tool)", () => {
     const exp = getSongOfferExport();
     assert.equal(exp.base.id, "song_recording");
     assert.deepEqual(exp.addons.map((a) => a.id), [...SONG_ADDON_IDS]);
-    /* 5 תוספות הן 32 תתי-קבוצות, פחות 8 שיש בהן ראיון בלי קליפ */
-    assert.equal(exp.combinations.length, 24);
+    /* 7 תוספות הן 128 תתי-קבוצות. בלי קליפ יש 64, ומהן רק 16 בלי ראיון ובלי תמונות
+       מהבית, שתיהן רק עם הקליפ. 128 פחות 48 שווה 80. */
+    assert.equal(exp.combinations.length, 80);
     for (const combo of exp.combinations) {
       const calc = calcSongOffer(combo.addonIds);
       assert.deepEqual(combo.addonIds, calc.addonIds);
@@ -315,11 +323,12 @@ describe("getSongOfferExport (owner quoting tool)", () => {
       assert.equal(combo.totalWithVat, calc.totalWithVat);
       assert.equal(combo.offerHref, buildSongOfferHref(combo.addonIds));
     }
-    /* הראיון רק עם הקליפ: אף שילוב לא כולל ראיון בלי קליפ */
+    /* הראיון והתמונות מהבית רק עם הקליפ: אף שילוב לא כולל אותם בלי קליפ */
     assert.ok(
       exp.combinations.every(
         (c) =>
-          !c.addonIds.includes("song_pre_session_interview") ||
+          (!c.addonIds.includes("song_pre_session_interview") &&
+            !c.addonIds.includes("song_home_media_40")) ||
           c.addonIds.includes("studio_session_clip_edited"),
       ),
     );

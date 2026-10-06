@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 164,
-  "contentHash": "4a7a19be6f55586f",
+  "itemCount": 165,
+  "contentHash": "a5f1355862855390",
   "items": [
     {
       "id": "studio_half_hour",
@@ -89,6 +89,16 @@
       "priceFrom": false,
       "context": "כתיבת מילים ולחן לפי מילים שכותבים יחד איתכם, עד שתי סקיצות שונות, והקלטה באולפן. תיקון זיופים לא כלול.",
       "suitedFor": "בר או בת מצווה"
+    },
+    {
+      "id": "cloud_storage_permanent",
+      "label": "שמירה קבועה בענן, בלי תאריך תפוגה",
+      "category": "addons",
+      "exVat": 41.5,
+      "inclVat": 49,
+      "priceFrom": false,
+      "context": "השיר והקליפ נשמרים בענן שלנו בלי תאריך תפוגה, ואפשר לפתוח אותם מכל מקום. תשלום חד-פעמי.",
+      "suitedFor": "תוספת לשיר ולקליפ"
     },
     {
       "id": "song_home_media_40",

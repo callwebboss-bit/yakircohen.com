@@ -34,6 +34,8 @@ describe("price transparency overlay lists", () => {
       "song_pre_session_interview",
       "studio_bts",
       "studio_photo_pack",
+      "song_home_media_40",
+      "cloud_storage_permanent",
     ]);
     assert.equal(t.pricingMode, "fixed");
   });

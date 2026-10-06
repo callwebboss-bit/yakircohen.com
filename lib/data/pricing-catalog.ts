@@ -254,6 +254,19 @@ export const PRICING_CATALOG = [
     scope: { includes: "כתיבת מילים ולחן, עד שתי סקיצות שונות, והקלטה באולפן", excludes: "תיקון זיופים" },
     suitedFor: "בר או בת מצווה",
   },
+  /* החלטת הבעלים 6.10.2026: 49 ₪ כולל מע״מ, תשלום חד-פעמי. 41.5 לפני מע״מ הוא
+     המספר שמתעגל בדיוק ל-49 (withVatLocal מעגל, 41.5 כפול 1.18 שווה 48.97). הנוסח
+     "בלי תאריך תפוגה" במקום "לכל החיים": השמירה תלויה במנוי הענן של העסק, וגוגל
+     עלולה למחוק תוכן של חשבון שחורג מהנפח שנתיים ויותר
+     (support.google.com/googleone/answer/9312312). */
+  {
+    id: "cloud_storage_permanent",
+    label: "שמירה קבועה בענן, בלי תאריך תפוגה",
+    exVat: 41.5,
+    category: "addons",
+    context: "השיר והקליפ נשמרים בענן שלנו בלי תאריך תפוגה, ואפשר לפתוח אותם מכל מקום. תשלום חד-פעמי.",
+    suitedFor: "תוספת לשיר ולקליפ",
+  },
   /* החלטת הבעלים 4.10.2026: תוספת נפרדת, לא אחת מתוספות התמונות מהאולפן.
      יותר מ-40, או כל דבר אחר מעבר למה שכתוב, מסמנים ומקבלים הצעת מחיר. */
   {
@@ -915,6 +928,9 @@ export const PRICING_ADDON_LINKS: Partial<
     "song_pre_session_interview",
     "studio_bts",
     "studio_photo_pack",
+    /* החלטות הבעלים: תמונות וסרטונים מהבית רק עם הקליפ (4.10), ושמירה קבועה בענן (6.10) */
+    "song_home_media_40",
+    "cloud_storage_permanent",
   ],
   event_attraction_1: ["cinematic_slideshow", "led_lighting"],
   event_attraction_2: ["cinematic_slideshow", "pre_event_production"],

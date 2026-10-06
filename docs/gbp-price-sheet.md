@@ -1,6 +1,6 @@
 # מחירים לכרטיס Google Business
 
-נוצר אוטומטית מ-`lib/data/pricing-catalog.ts` ו-`lib/data/gbp-products.ts` (2026-10-04). לא לערוך ידנית: `npm run gbp:prices`.
+נוצר אוטומטית מ-`lib/data/pricing-catalog.ts` ו-`lib/data/gbp-products.ts` (2026-10-06). לא לערוך ידנית: `npm run gbp:prices`.
 
 המחיר להזנה הוא כולל מע״מ, כמו באתר. אחרי שמעדכנים את הכרטיס, מעדכנים את `gbpPriceNow` ב-`lib/data/gbp-products.ts`.
 
