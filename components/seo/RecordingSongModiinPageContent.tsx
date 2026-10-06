@@ -107,6 +107,16 @@ export default function RecordingSongModiinPageContent() {
         <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
           {/* הטופס מוקדם בעמוד, בערך המסך השני בנייד. טופס אחד בלבד בעמוד:
               טופס הפנייה, ה-CTA הסופי ושאלון ההתאמה הוסרו כי התחרו בו. */}
+          <section className="max-w-3xl" aria-labelledby="recording-song-cost-heading">
+            <h2 id="recording-song-cost-heading" className="font-serif text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+              כמה עולה להקליט שיר באולפן?
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {SONG_PRICE.totalLabel} כולל מע״מ: הקלטה, מיקס ומאסטר בסשן של שעה. לכל
+              תוספת יש מחיר גלוי, ובטופס כאן רואים את הסכום הסופי לפני ששולחים.
+            </p>
+          </section>
+
           <div>
             <SongOfferSection
               source="/studio/recording-song-modiin"
@@ -159,6 +169,40 @@ export default function RecordingSongModiinPageContent() {
                 אולפן הקלטות בשוהם
               </Link>{" "}
               - נסיעה קצרה לאותו אולפן.
+            </p>
+          </section>
+
+          <section className="max-w-3xl" aria-labelledby="recording-song-delivery-heading">
+            <h2 id="recording-song-delivery-heading" className="font-serif text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+              מה מקבלים ביד
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              את השיר מקבלים בשני פורמטים, WAV ו-MP3. הוא מגיע אליכם בוואטסאפ, וגם
+              בקישור להורדה בדרופבוקס ובגוגל דרייב. צריכים אותו על דיסק און קי? אפשר
+              להביא אחד, או לקנות אצלנו באולפן.
+            </p>
+          </section>
+
+          <section className="max-w-3xl" aria-labelledby="recording-song-gift-heading">
+            <h2 id="recording-song-gift-heading" className="font-serif text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+              שיר במתנה
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              כל שנה שוברים את הראש מה לקנות. ואין דבר מרגש יותר מלתת לבן או לבת
+              הזוג, לאבא, לאמא, לסבא או לסבתא את ההרגשה של זמר ליום אחד, באולפן
+              הקלטות אמיתי ומקצועי. אצלנו מקבלים לא רק הפקה מושלמת, אלא גם חוויה:
+              המקום, הליווי, והסאונד. תשמעו את עצמכם בציוד שקשה למצוא במקומות שלא
+              משקיעים בשמע איכותי.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <Link href="/studio/recording-song-modiin/gifts" className="font-semibold text-brand-red hover:underline">
+                שיר במתנה: בוחרים ושולחים
+              </Link>
+              , או{" "}
+              <Link href="/shop#vouchers" className="font-semibold text-brand-red hover:underline">
+                שובר מתנה להקלטה באולפן
+              </Link>
+              .
             </p>
           </section>
 
