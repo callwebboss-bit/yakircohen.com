@@ -1,6 +1,5 @@
 ﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { metadataFromService } from "@/lib/data/service-metadata";
-import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import Link from "next/link";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
@@ -22,7 +21,6 @@ import SongOfferSection from "@/components/pricing/SongOfferSection";
 import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
-import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { getStudioHubIcon } from "@/lib/data/studio-hub-icons";
 import {
   getStudioHubLinks,
@@ -40,29 +38,10 @@ const STUDIO_PRICING_LINK = {
   description: "הקלטת שיר ותוספות, ברכה ושעת חדר.",
 } as const;
 
-const STUDIO_STRUCTURED_DATA = {
-  "@context": "https://schema.org",
-  "@graph": [
-    /* היה כאן LocalBusiness שני, אנונימי, עם אותה כתובת. הוא הצהיר
-       image ו-url תחת www.yakircohen.com, והתמונה מחזירה 404 בשני
-       הדומיינים ואינה קיימת בריפו. כל שאר השדות שכפלו את הצומת הקנוני,
-       ו-priceRange אפילו סתר אותו: "$" מול "₪₪".
-       עכשיו זו הפניה בלבד, כדי שהציוד למטה ייקשר לעסק האמיתי. */
-    { "@type": "LocalBusiness", "@id": ENTITY_IDS.localBusiness },
-    {
-      "@type": "Product",
-      name: "Townsend Sphere L22",
-      description:
-        "מיקרופון מודלינג אולפני המשמש כרכיב ליבה בשרשרת ההקלטה של האולפן.",
-    },
-    {
-      "@type": "Product",
-      name: "UAD Apollo Twin",
-      description:
-        "ממשק אודיו מתקדם המיועד להקלטה ועיבוד סאונד בזמן אמת עם DSP מובנה.",
-    },
-  ],
-} as const;
+/* היו כאן שני צמתי Product לציוד (Townsend Sphere L22, UAD Apollo Twin). Search
+   Console, 6.10.2026, "קטעי קוד של מוצרים": שני פריטים לא תקינים, "יש לציין
+   offers, review או aggregateRating". הציוד לא נמכר, ולכן הוא לא Product.
+   הציוד עדיין מוצג בעמוד עצמו (StudioGearRoom). */
 
 export default function StudioHubPage() {
   const hubLinks = getStudioHubLinks();
@@ -83,10 +62,6 @@ export default function StudioHubPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(STUDIO_STRUCTURED_DATA) }}
-      />
       <HubPageSchema {...hubSchemaPropsFromService(service, "studio")} />
       <ServicePageFromRegistry
         service={service}
