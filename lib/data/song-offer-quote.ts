@@ -25,6 +25,9 @@ export const SONG_OFFER_PAGE_PATH = "/studio/recording-song-modiin";
 export const SONG_ADDONS_PARAM = "addons";
 /** שם הפרמטר בכתובת שזוכר את מספר המשתתפים, ?participants=4 */
 export const SONG_PARTICIPANTS_PARAM = "participants";
+/** סוג השיר בכתובת, ?song=original לשיר מקורי לבר או בת מצווה. בלי הפרמטר: שיר קיים. */
+export const SONG_KIND_PARAM = "song";
+export type SongKind = "cover" | "original";
 /** מזהה שורת תוספת המשתתפים (לא מזהה קטלוג, היא מחברת שני פריטים) */
 export const SONG_PARTICIPANTS_LINE_ID = "song_participants";
 /** אורך מקסימלי להערה החופשית של הלקוח, בהודעה ובמייל */
@@ -199,11 +202,16 @@ export type SongQuoteItem = {
   /** השם בשורה של ההודעה */
   label: string;
   exVat: number;
+  /** פתיחת הודעת הוואטסאפ, רק לבסיס שאינו הקלטת שיר קיים */
+  messageOpening?: string;
 };
 
 /** כל מה שצריך כדי לחשב הצעה, בלי הקטלוג. השרת בונה אותו ב-getSongQuoteData. */
 export type SongQuoteData = {
   base: SongQuoteItem;
+  /* החלטת הבעלים 6.10.2026: שיר מקורי לבר או בת מצווה, בסיס חלופי עם אותן תוספות.
+     בוחרים אותו בטופס, והוא מחליף את הבסיס בחישוב (withSongKind). */
+  original?: SongQuoteItem;
   addons: readonly (SongQuoteItem & { id: SongAddonId; requires: SongAddonId | null })[];
   participants: SongParticipantRules;
   vatRate: number;
@@ -243,6 +251,21 @@ export type SongOfferCalc = {
   totalExVat: number;
   totalWithVat: number;
 };
+
+/** הנתונים עם הבסיס שנבחר. שיר מקורי מחליף את הבסיס, וכל השאר (תוספות, משתתפים) זהה. */
+export function withSongKind(data: SongQuoteData, kind: SongKind): SongQuoteData {
+  return kind === "original" && data.original ? { ...data, base: data.original } : data;
+}
+
+/** איזה סוג שיר מחושב בנתונים האלה */
+export function songKindOf(data: SongQuoteData): SongKind {
+  return data.original && data.base.id === data.original.id ? "original" : "cover";
+}
+
+/** קריאה סלחנית של ?song= מהכתובת */
+export function parseSongKind(value: string | null | undefined): SongKind {
+  return value === "original" ? "original" : "cover";
+}
 
 function rulesOf(data: SongQuoteData): SongAddonRule[] {
   return data.addons.map((a) => ({ id: a.id, requires: a.requires }));
@@ -335,7 +358,7 @@ export function buildSongMessageFromCalc(
 ): SongMessage {
   const opening = giftMode
     ? "שלום, אשמח להקליט שיר במתנה באולפן."
-    : "שלום, אשמח להקליט שיר באולפן.";
+    : (data.base.messageOpening ?? "שלום, אשמח להקליט שיר באולפן.");
   const cleanNotes = cleanSongNotes(notes);
   const text = [
     opening,
@@ -362,8 +385,10 @@ export function buildSongOfferHrefFrom(
   participants: number,
   included: number,
   path: string = SONG_OFFER_PAGE_PATH,
+  kind: SongKind = "cover",
 ): string {
   const params: string[] = [];
+  if (kind === "original") params.push(`${SONG_KIND_PARAM}=original`);
   if (addonIds.length) params.push(`${SONG_ADDONS_PARAM}=${addonIds.join(",")}`);
   if (participants > included) params.push(`${SONG_PARTICIPANTS_PARAM}=${participants}`);
   const qs = params.length ? `?${params.join("&")}` : "";
@@ -399,6 +424,7 @@ export function composeSongOfferQuote(
       calc.participants,
       data.participants.included,
       options.offerPath,
+      songKindOf(data),
     ),
     notes: cleanSongNotes(options.notes),
     specialRequest: options.specialRequest === true,

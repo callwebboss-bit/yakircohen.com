@@ -23,12 +23,16 @@ import {
   composeSongOfferQuote,
   nis,
   normalizeSongSelection,
+  parseSongKind,
   SONG_ADDONS_PARAM,
+  SONG_KIND_PARAM,
   SONG_NOTES_MAX,
   SONG_OFFER_CALLBACK_FORM_ID,
   SONG_PARTICIPANTS_PARAM,
   SONG_PARTICIPANTS_LINE_ID,
   songParticipantsBreakdown,
+  withSongKind,
+  type SongKind,
   type SongOfferQuote,
   type SongQuoteData,
 } from "@/lib/data/song-offer-quote";
@@ -116,6 +120,10 @@ export default function SongOfferConfigurator({
   /* החלטת הבעלים 6.10.2026: בקשה מעבר למה שבטופס (למשל יותר מ-40 תמונות מהבית) מקבלת
      הצעת מחיר. הסימון לא משנה את הסכום, רק מוסיף שורה להודעה ולמייל. */
   const [specialRequest, setSpecialRequest] = useState(false);
+  /* החלטת הבעלים 6.10.2026: שיר מקורי לבר או בת מצווה כבסיס חלופי. לא בשיר במתנה. */
+  const showKindChoice = Boolean(quoteData.original) && !giftMode;
+  const [kind, setKind] = useState<SongKind>("cover");
+  const data = useMemo(() => withSongKind(quoteData, kind), [quoteData, kind]);
 
   /* הבחירה נזכרת ב-?addons= בכתובת. קוראים אותה רק אחרי הטעינה, ב-useEffect
      ולא ב-useSearchParams, כדי שהעמוד יישאר מרונדר מראש בלי גבול Suspense
@@ -125,6 +133,7 @@ export default function SongOfferConfigurator({
     const params = new URLSearchParams(window.location.search);
     const raw = params.get(SONG_ADDONS_PARAM);
     const rawCount = params.get(SONG_PARTICIPANTS_PARAM);
+    const rawKind = params.get(SONG_KIND_PARAM);
     /* פעם אחת אחרי הטעינה, מכתובת שהשרת לא רואה. אין כאן מפל רינדורים */
     if (raw != null) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -133,14 +142,19 @@ export default function SongOfferConfigurator({
     if (rawCount != null) {
       setParticipants(clampSongParticipants(rawCount, pRules));
     }
-  }, [rules, pRules]);
+    if (rawKind != null && showKindChoice) {
+      setKind(parseSongKind(rawKind));
+    }
+  }, [rules, pRules, showKindChoice]);
 
   /* כתיבה לכתובת רק אחרי שהגולש שינה משהו. replaceState משתלב עם הנתב של
      Next (node_modules/next/dist/docs/01-app/01-getting-started/04-linking-and-navigating.md:343-345). */
   const writeUrl = useCallback(
-    (ids: readonly string[], count: number) => {
+    (ids: readonly string[], count: number, songKind: SongKind) => {
       try {
         const url = new URL(window.location.href);
+        if (songKind === "original") url.searchParams.set(SONG_KIND_PARAM, "original");
+        else url.searchParams.delete(SONG_KIND_PARAM);
         if (ids.length) url.searchParams.set(SONG_ADDONS_PARAM, ids.join(","));
         else url.searchParams.delete(SONG_ADDONS_PARAM);
         if (count > pRules.included) url.searchParams.set(SONG_PARTICIPANTS_PARAM, String(count));
@@ -155,14 +169,14 @@ export default function SongOfferConfigurator({
 
   const quoteFor = useCallback(
     (ids: readonly string[], count: number) =>
-      composeSongOfferQuote(quoteData, ids, count, {
+      composeSongOfferQuote(data, ids, count, {
         source,
         giftMode,
         utmCampaign,
         notes,
         specialRequest,
       }),
-    [quoteData, source, giftMode, utmCampaign, notes, specialRequest],
+    [data, source, giftMode, utmCampaign, notes, specialRequest],
   );
   const quote = useMemo(() => quoteFor(selected, participants), [quoteFor, selected, participants]);
 
@@ -172,7 +186,7 @@ export default function SongOfferConfigurator({
       rules,
     );
     setSelected(next);
-    writeUrl(next, participants);
+    writeUrl(next, participants, kind);
     trackConversion("pricing_calculator_interact", {
       calculator: "song_offer",
       addon: id,
@@ -182,11 +196,24 @@ export default function SongOfferConfigurator({
     });
   }
 
+  function chooseKind(next: SongKind) {
+    if (next === kind) return;
+    setKind(next);
+    writeUrl(selected, participants, next);
+    trackConversion("pricing_calculator_interact", {
+      calculator: "song_offer",
+      addon: "song_kind",
+      kind: next,
+      total: composeSongOfferQuote(withSongKind(quoteData, next), selected, participants, { source }).totalWithVat,
+      source,
+    });
+  }
+
   function changeParticipants(delta: number) {
     const next = clampSongParticipants(participants + delta, pRules);
     if (next === participants) return;
     setParticipants(next);
-    writeUrl(selected, next);
+    writeUrl(selected, next, kind);
     trackConversion("pricing_calculator_interact", {
       calculator: "song_offer",
       addon: "participants",
@@ -202,11 +229,11 @@ export default function SongOfferConfigurator({
       variant === "book"
         ? {
             totalExVat: quote.totalExVat,
-            title: base.label,
+            title: kind === "original" ? "שיר מקורי לבר או בת מצווה" : base.label,
             ctaLabel: `שלחו בוואטסאפ · ${nis(quote.totalWithVat)}`,
           }
         : null,
-    [variant, quote.totalExVat, quote.totalWithVat, base.label],
+    [variant, quote.totalExVat, quote.totalWithVat, base.label, kind],
   );
   useReportBookWizardLivePrice(livePrice);
 
@@ -241,18 +268,65 @@ export default function SongOfferConfigurator({
         </h2>
       ) : null}
 
+      {showKindChoice ? (
+        <fieldset className={cn(variant !== "book" && "mt-4")}>
+          <legend className="text-sm font-semibold text-foreground">איזה שיר?</legend>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            {(
+              [
+                {
+                  value: "cover" as const,
+                  title: "שיר קיים",
+                  description: "מקליטים על פלייבק של שיר שאתם אוהבים",
+                },
+                {
+                  value: "original" as const,
+                  title: "שיר מקורי לבר או בת מצווה",
+                  description: "כותבים יחד את המילים, עושים לחן ומקליטים",
+                },
+              ]
+            ).map((option) => (
+              <label
+                key={option.value}
+                htmlFor={`${uid}-kind-${option.value}`}
+                className={cn(
+                  "flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border bg-background p-3",
+                  kind === option.value ? "border-brand-red/50" : "border-border",
+                )}
+              >
+                <input
+                  id={`${uid}-kind-${option.value}`}
+                  type="radio"
+                  name={`${uid}-kind`}
+                  value={option.value}
+                  checked={kind === option.value}
+                  onChange={() => chooseKind(option.value)}
+                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,#d42b2b)]"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-foreground">{option.title}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">{option.description}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ) : null}
+
       {/* בסיס: תמיד כלול, מוצג נעול ולא כמתג */}
       <div
         className={cn(
           "rounded-xl border-2 border-brand-red/40 bg-background p-4",
-          variant !== "book" && "mt-4",
+          (variant !== "book" || showKindChoice) && "mt-4",
         )}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-base font-semibold text-foreground">{base.label}</p>
+            <p className="text-base font-semibold text-foreground">
+              {kind === "original" ? "שיר מקורי לבר או בת מצווה" : base.label}
+            </p>
             <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="מה כלול">
-              {["הקלטה", "מיקס", "מאסטר"].map((chip) => (
+              {(kind === "original" ? ["מילים", "לחן, עד שתי סקיצות", "הקלטה"] : ["הקלטה", "מיקס", "מאסטר"]).map((chip) => (
                 <li
                   key={chip}
                   className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-xs font-medium text-foreground"
@@ -267,9 +341,9 @@ export default function SongOfferConfigurator({
           </span>
         </div>
         <p className="mt-3">
-          <span className="text-3xl font-bold text-foreground">{nis(base.withVat)}</span>
+          <span className="text-3xl font-bold text-foreground">{nis(quote.lines[0].withVat)}</span>
           <span className="ms-2 text-xs text-muted-foreground">
-            כולל מע״מ ({nis(base.exVat)} + מע״מ)
+            כולל מע״מ ({nis(quote.lines[0].exVat)} + מע״מ)
           </span>
         </p>
         <p className="mt-2 text-xs text-muted-foreground">
@@ -289,8 +363,8 @@ export default function SongOfferConfigurator({
         breakdown={songParticipantsBreakdown(
           participants,
           pRules,
-          quoteData.base.exVat,
-          quoteData.vatRate,
+          data.base.exVat,
+          data.vatRate,
         )}
         onChange={changeParticipants}
       />
