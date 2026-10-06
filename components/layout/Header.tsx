@@ -31,6 +31,14 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
 
+/**
+ * גובה פס הברכה והכוונה בדסקטופ: גבול 1px + padding 0.75rem + צ'יפ min-h-10.
+ * הפס מחוץ ל-layout של ה-header (absolute), והמקום שלו שמור ב-spacer מתחת ל-header.
+ * ככה ה-header לא משנה גובה בפתיחה ובסגירה, ו-scroll anchoring של Chrome לא מזיז את הגלילה
+ * ולא מפעיל מחדש את useScrollDirection בלולאה.
+ */
+const HEADER_STRIP_HEIGHT = "h-[calc(3.25rem+1px)]";
+
 const headerQuoteWhatsAppHref = buildWhatsAppHref({
   text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
   utm_source: "website",
@@ -195,12 +203,18 @@ function HeaderMainBar({
 
       <div
         className={cn(
-          "grid transition-[grid-template-rows] duration-300 ease-luxury motion-reduce:transition-none",
-          compactChrome ? "lg:grid-rows-[0fr]" : "grid-rows-[1fr]",
+          "pointer-events-none absolute inset-x-0 top-full hidden overflow-hidden lg:block",
+          HEADER_STRIP_HEIGHT,
         )}
       >
-        <div className="overflow-hidden">
-          <div className="hidden border-t border-border/40 bg-surface/40 lg:block">
+        <div
+          className={cn(
+            "pointer-events-auto h-full border-b border-border bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80",
+            "transition-transform duration-300 ease-luxury motion-reduce:transition-none",
+            compactChrome ? "-translate-y-full" : "translate-y-0",
+          )}
+        >
+          <div className="h-full bg-surface/40">
             <Container variant="wide" className="flex items-center gap-4 py-1.5">
               <TimeGreetingLazy compact className="min-w-0 flex-1 py-1" />
               <IntentNavStrip compact className="max-w-[58%] shrink-0" />
@@ -223,6 +237,7 @@ export default function Header() {
           scrollDir === "down" && !menu.menuOpen && !mobileSearchOpen;
         const compactChrome = hidden;
         return (
+        <>
         <header
           data-pagefind-ignore
           className={cn(
@@ -249,6 +264,8 @@ export default function Header() {
             />
           )}
         </header>
+        <div aria-hidden className={cn("hidden lg:block", HEADER_STRIP_HEIGHT)} />
+        </>
         );
       }}
     </SiteNavMenuIsland>
