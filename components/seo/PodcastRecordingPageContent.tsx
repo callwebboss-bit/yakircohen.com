@@ -318,7 +318,9 @@ export default function PodcastRecordingPageContent() {
 
         <FAQAccordion
           items={[...PODCAST_RECORDING_FAQS]}
-          title="שאלות נפוצות, הפקת פודקאסט מלאה"
+          /* אישור הבעלים 7.10.2026: "צילום פודקאסט" (638 הופעות, מקום 10) הוא הביטוי של העמוד הזה,
+             ו"הפקת פודקאסט" שייך ל-/podcast/podcast-production */
+          title="שאלות נפוצות על צילום פודקאסט"
           className="py-0"
         />
 
