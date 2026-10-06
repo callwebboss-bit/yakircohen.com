@@ -1,6 +1,6 @@
 # מחירים לכרטיס Google Business
 
-נוצר אוטומטית מ-`lib/data/pricing-catalog.ts` ו-`lib/data/gbp-products.ts` (2026-10-06). לא לערוך ידנית: `npm run gbp:prices`.
+נוצר אוטומטית מ-`lib/data/pricing-catalog.ts` ו-`lib/data/gbp-products.ts` (2026-10-07). לא לערוך ידנית: `npm run gbp:prices`.
 
 המחיר להזנה הוא כולל מע״מ, כמו באתר. אחרי שמעדכנים את הכרטיס, מעדכנים את `gbpPriceNow` ב-`lib/data/gbp-products.ts`.
 
@@ -15,4 +15,5 @@
 | מצגת תמונות | 1,711 | 1,450 | 1,711 | תקין | https://yakircohen.com/photo-slideshow | מצגת גדילה, 70 תמונות (יקיר אישר 4.10) |
 | שיפור סאונד AI | 295 | 250 | 295 | תקין | https://yakircohen.com/online | הצלת הקלטות פגומות (יקיר אישר 4.10) |
 | פרוטוקול NeverMind | 1,200 | 1,017 | 1,200 | תקין | https://yakircohen.com/academy/stuttering-course | נכנס לקטלוג 4.10 (1,200 כולל מע״מ, החלטת בעלים) |
+| שיר מקורי לבר או בת מצווה | 1,003 | 850 | 590 | לעדכן בכרטיס | https://yakircohen.com/studio/recording-song-modiin |  |
 | מפגש אפיון | - | - | - | ללא עלות | https://yakircohen.com/contact | שיחת היכרות ללא עלות (יקיר 4.10). בכרטיס: מחיר 0 או "ללא עלות" |

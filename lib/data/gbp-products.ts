@@ -37,5 +37,7 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
   { name: "מצגת תמונות", catalogId: "growth_slideshow_70", path: "/photo-slideshow", gbpPriceNow: 1711, reportedAt: "2026-10-04", note: "מצגת גדילה, 70 תמונות (יקיר אישר 4.10)" },
   { name: "שיפור סאונד AI", catalogId: "damaged_recording_rescue", path: "/online", gbpPriceNow: 295, reportedAt: "2026-10-04", note: "הצלת הקלטות פגומות (יקיר אישר 4.10)" },
   { name: "פרוטוקול NeverMind", catalogId: "academy_nevermind_session", path: "/academy/stuttering-course", gbpPriceNow: 1200, reportedAt: "2026-10-04", note: "נכנס לקטלוג 4.10 (1,200 כולל מע״מ, החלטת בעלים)" },
+  /* נוסף לכרטיס 4.10.2026 ב-590. המחיר עלה ל-1,003 כולל מע״מ ב-7.10 (החלטת הבעלים) */
+  { name: "שיר מקורי לבר או בת מצווה", catalogId: "song_original_mitzvah", path: "/studio/recording-song-modiin", gbpPriceNow: 590, reportedAt: "2026-10-06" },
   { name: "מפגש אפיון", catalogId: null, path: "/contact", gbpPriceNow: null, reportedAt: "2026-10-04", free: true, note: "שיחת היכרות ללא עלות (יקיר 4.10). בכרטיס: מחיר 0 או \"ללא עלות\"" },
 ];

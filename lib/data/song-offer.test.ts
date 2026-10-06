@@ -636,10 +636,11 @@ describe("song offer: special request (owner 6.10.2026, a quote for anything not
 describe("song offer: original song for a bar or bat mitzvah (owner 6.10.2026)", () => {
   const data = getSongQuoteData();
 
-  it("the original song is a second base from the catalog, 590 incl. VAT", () => {
+  it("the original song is a second base from the catalog, 350 more than a recording (7.10.2026)", () => {
     assert.equal(data.original?.id, "song_original_mitzvah");
-    assert.equal(data.original?.exVat, 500);
-    assert.equal(getExVat("song_original_mitzvah"), 500);
+    assert.equal(data.original?.exVat, 850);
+    assert.equal(getExVat("song_original_mitzvah"), getExVat("song_recording") + 350);
+    assert.equal(withVat(850), 1003);
   });
 
   it("choosing it swaps only the base: same add-ons, same participant rules", () => {
@@ -650,7 +651,7 @@ describe("song offer: original song for a bar or bat mitzvah (owner 6.10.2026)",
     assert.equal(withSongKind(data, "cover"), data);
     const calc = calcSongQuote(original, [CLIP], 3);
     assert.equal(calc.lines[0].id, "song_original_mitzvah");
-    assert.equal(calc.totalExVat, 500 + 2 * 99 + 750);
+    assert.equal(calc.totalExVat, 850 + 2 * 99 + 750);
   });
 
   it("the message, the tag and the link back say it is the original song", () => {

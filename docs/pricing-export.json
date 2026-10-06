@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 165,
-  "contentHash": "a5f1355862855390",
+  "contentHash": "d020ca912ca30af5",
   "items": [
     {
       "id": "studio_half_hour",
@@ -84,8 +84,8 @@
       "id": "song_original_mitzvah",
       "label": "שיר מקורי לבר או בת מצווה",
       "category": "studio",
-      "exVat": 500,
-      "inclVat": 590,
+      "exVat": 850,
+      "inclVat": 1003,
       "priceFrom": false,
       "context": "כתיבת מילים ולחן לפי מילים שכותבים יחד איתכם, עד שתי סקיצות שונות, והקלטה באולפן. תיקון זיופים לא כלול.",
       "suitedFor": "בר או בת מצווה"
