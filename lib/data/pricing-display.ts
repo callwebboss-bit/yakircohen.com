@@ -27,13 +27,22 @@ export type FormattedPrice = {
 };
 
 /** מקור אחד לכל תצוגת מחיר באתר. ה-[YC:] וה-closer נשארים לפני מע״מ (נתון פנימי). */
+/* מחיר לפני מע״מ יכול להיות לא שלם: 41.5 לפני מע״מ הוא בדיוק 49 ₪ כולל מע״מ (שמירה
+   קבועה בענן, 6.10.2026). אז מציגים שתי ספרות אחרי הנקודה, "1,291.50", ולא "1,291.5".
+   מחיר שלם נשאר כמו שהיה. */
+function amountText(amount: number): string {
+  return Number.isInteger(amount)
+    ? amount.toLocaleString("he-IL")
+    : amount.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 export function formatPrice(
   exVat: number,
   { from = false, audience = "consumer" }: { from?: boolean; audience?: PriceAudience } = {},
 ): FormattedPrice {
   const prefix = from ? "מ-" : "";
   const totalWithVat = withVat(exVat);
-  const ex = `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`;
+  const ex = `${amountText(exVat)} ₪ + מע״מ`;
   const total = `${totalWithVat.toLocaleString("he-IL")} ₪ כולל מע״מ`;
   const headline = audience === "business" ? `${prefix}${ex}` : `${prefix}${total}`;
   const vatNote = audience === "business" ? total : ex;
@@ -168,7 +177,7 @@ export function formatConsumerPrice(exVat: number): ConsumerPriceDisplay {
   return {
     total,
     totalLabel: `${total} כולל מע״מ`,
-    exVatNote: `${exVat.toLocaleString("he-IL")} ₪ + מע״מ`,
+    exVatNote: `${amountText(exVat)} ₪ + מע״מ`,
     delta: `+${total}`,
   };
 }

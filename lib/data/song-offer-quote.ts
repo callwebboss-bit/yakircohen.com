@@ -87,8 +87,14 @@ export function normalizeSongSelection(
     .map((rule) => rule.id);
 }
 
+/* מחיר לפני מע״מ יכול להיות לא שלם: 41.5 לפני מע״מ הוא בדיוק 49 ₪ כולל מע״מ (שמירה
+   קבועה בענן, 6.10.2026). אז מציגים שתי ספרות אחרי הנקודה, "1,291.50", ולא "1,291.5".
+   מחיר שלם נשאר כמו שהיה. */
 export function nis(amount: number): string {
-  return `${amount.toLocaleString("he-IL")} ₪`;
+  const text = Number.isInteger(amount)
+    ? amount.toLocaleString("he-IL")
+    : amount.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${text} ₪`;
 }
 
 /* ─── משתתפים ─── */

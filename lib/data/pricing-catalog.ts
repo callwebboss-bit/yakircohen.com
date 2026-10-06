@@ -1384,7 +1384,10 @@ export function formatFromPriceDual(
   exVat: number,
   audience: PriceAudience = "consumer",
 ): string {
-  const ex = exVat.toLocaleString("he-IL");
+  /* 41.5 (שמירה קבועה בענן) מוצג "41.50", כמו בטופס השיר */
+  const ex = Number.isInteger(exVat)
+    ? exVat.toLocaleString("he-IL")
+    : exVat.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const total = withVatLocal(exVat).toLocaleString("he-IL");
   return audience === "business"
     ? `מ-${ex} ₪ + מע״מ (${total} ₪ כולל מע״מ)`
