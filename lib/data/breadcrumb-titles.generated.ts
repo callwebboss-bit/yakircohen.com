@@ -93,7 +93,8 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "reception-songs": "שירים לקבלת פנים: איך בוחרים, ומה לא לשים",
   "bar-mitzvah-speech": "דרשה לבר מצווה קצר ולעניין: מבנה, טופס עזר, ובלייב או מוקלט",
   "songs-for-grandparents": "שיר לסבא ולסבתא: מה באמת שרים, ומה עדיף לא",
-  "memorial-ceremony-songs": "שירים לטקס זיכרון ולאזכרה, ומה צריך כדי שישמעו"
+  "memorial-ceremony-songs": "שירים לטקס זיכרון ולאזכרה, ומה צריך כדי שישמעו",
+  "songs-for-parents": "שיר לאמא ולאבא: מה שרים, ואיך מכוונים אותו"
 };
 
 /** slug של עמוד שירות (בלי לוכסן מוביל) לכותרת שלו */

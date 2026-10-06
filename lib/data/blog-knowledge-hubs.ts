@@ -128,6 +128,7 @@ const STUDIO_HUB: KnowledgeHub = {
       title: "לפי האירוע שלכם",
       slugs: [
         "songs-for-grandparents",
+        "songs-for-parents",
         "bar-mitzvah-song-recording-guide",
         "bar-mitzvah-speech",
         "bat-mitzvah-clip-guide",
