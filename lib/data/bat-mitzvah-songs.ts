@@ -17,6 +17,12 @@ export type BatMitzvahSong = {
   note?: string;
   /** איפה נבדקו השם והמבצע. לא מוצג באתר. */
   source: string;
+  /**
+   * איך לכוון את השיר לרגע מסוים: מה לשנות, ולמה זה הופך אותו למשהו אחר.
+   * מוצג כטיפ שנפתח בלחיצה, ולכן עובד גם בטלפון, בשונה מ-title של HTML
+   * שלא נפתח כלל במגע. בלי ציטוט מילות השיר.
+   */
+  intentTip?: string;
 };
 
 export type BatMitzvahSongList = {
@@ -210,7 +216,10 @@ export function batMitzvahSongListHtml(list: BatMitzvahSongList): string {
   const items = list.songs
     .map((song) => {
       const note = song.note ? `. ${escapeHtml(song.note)}` : "";
-      return `<li><strong>${escapeHtml(song.title)}</strong>, ${escapeHtml(song.artist)}${note}</li>`;
+      const tip = song.intentTip
+        ? `<details class="song-tip"><summary>איך לכוון אותו</summary><p>${escapeHtml(song.intentTip)}</p></details>`
+        : "";
+      return `<li><strong>${escapeHtml(song.title)}</strong>, ${escapeHtml(song.artist)}${note}${tip}</li>`;
     })
     .join("\n");
   return `<ul>\n${items}\n</ul>`;
