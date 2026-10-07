@@ -1,22 +1,17 @@
 "use client";
 
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
-
-const PODCAST_SERVICE_OPTIONS = [
-  "הקלטה בלבד באולפן",
-  "הפקת פודקאסט אודיו מלאה",
-  "פודקאסט וידאו / פרמיום",
-  "פודקאסט משפחתי (סבא/סבתא, אירוע)",
-  "ניקוי הקלטת זום / ביתית",
-  "אולפן פודקאסט נייד (עד הבית)",
-  "עדיין לא בטוח/ה",
-] as const;
+import {
+  CALLBACK_PODCAST_CONTEXT,
+  CALLBACK_PODCAST_SERVICE_OPTIONS,
+} from "@/lib/leads/callback-lead";
 
 export default function PodcastLeadForm() {
   return (
     <CallbackLeadForm
       utmCampaign="podcast_lead_form"
-      serviceOptions={PODCAST_SERVICE_OPTIONS}
+      serviceOptions={CALLBACK_PODCAST_SERVICE_OPTIONS}
+      serviceContext={CALLBACK_PODCAST_CONTEXT}
       formLabel="טופס יצירת קשר לפודקאסט"
     />
   );

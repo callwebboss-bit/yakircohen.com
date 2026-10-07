@@ -8,6 +8,12 @@ delete process.env.UPSTASH_REDIS_REST_TOKEN;
 delete process.env.LEAD_DRY_RUN;
 delete process.env.ADMIN_WHATSAPP_ALERT;
 
+import {
+  buildCallbackLead,
+  CALLBACK_PODCAST_CONTEXT,
+  CALLBACK_PODCAST_SERVICE_OPTIONS,
+} from "@/lib/leads/callback-lead";
+
 type IngestMod = typeof import("@/lib/leads/ingest");
 type StoreMod = typeof import("@/lib/leads/store");
 let ingest: IngestMod;
@@ -186,6 +192,37 @@ describe("ingestLead", () => {
     assert.match(String(sent.subject), /^\[שיחה חוזרת\] /);
     assert.match(String(sent.text), /הלקוח ביקש שיחה חוזרת\. לא נשלחה לו הודעת וואטסאפ\.$/);
     assert.doesNotMatch(String(sent.text), /קיבל קישור לוואטסאפ/);
+  });
+
+  it("CallbackLeadForm: the owner email names the service the customer picked", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    const lead = buildCallbackLead({
+      name: "נועה",
+      phone: phone(),
+      selectedService: "הפקת פודקאסט אודיו מלאה",
+      options: CALLBACK_PODCAST_SERVICE_OPTIONS,
+      context: CALLBACK_PODCAST_CONTEXT,
+      sourcePath: "/podcast",
+    });
+    await ingest.ingestLead(
+      input({
+        formId: lead.payload.formId,
+        subject: lead.payload.subject,
+        body: lead.payload.body,
+        phone: lead.payload.phone,
+        serviceType: lead.payload.serviceType,
+        contactChannel: lead.payload.contactChannel,
+      }),
+    );
+    const sent = resendCalls()[0].body;
+    assert.match(
+      String(sent.subject),
+      /^\[שיחה חוזרת\] (\[דחוף\] )?\[יקיר כהן\] ליד חדש - פודקאסט, הפקת פודקאסט אודיו מלאה$/,
+    );
+    assert.match(String(sent.text), /\*שירות:\* פודקאסט, הפקת פודקאסט אודיו מלאה/);
+    assert.match(String(sent.text), /service=podcast\|/);
+    assert.match(String(sent.text), /source=\/podcast\|/);
+    assert.match(String(sent.html), /ליד פודקאסט/);
   });
 
   it("a subject that already starts with the brand tag is not tagged twice", async () => {
