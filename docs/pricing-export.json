@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 165,
-  "contentHash": "a5f1355862855390",
+  "itemCount": 166,
+  "contentHash": "3fab19c6d4b85294",
   "items": [
     {
       "id": "studio_half_hour",
@@ -825,6 +825,16 @@
       "inclVat": 1168,
       "priceFrom": false,
       "context": "שיעור 1:1 באולפן או בזום"
+    },
+    {
+      "id": "vocal_coaching_hour",
+      "label": "פיתוח קול, שעה",
+      "category": "academy",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "שעה עם מורה לפיתוח קול, באולפן, אצלכם, במקום ניטרלי או בזום",
+      "suitedFor": "זמרים וזמרות מתחילים, והכנה לסשן הקלטה"
     },
     {
       "id": "transcribe_30min",

@@ -346,6 +346,11 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         description: "60 או 90 דקות 1:1",
       },
       {
+        label: "פיתוח קול - 500 ₪ לשעה",
+        href: "/academy/private-lessons#vocal-coaching",
+        description: "לזמרים מתחילים, עם מורה לפיתוח קול",
+      },
+      {
         label: "ייעוץ אקוסטיקה ובניית אולפן",
         href: "/academy/home-studio",
         description: "אולפן ביתי, פודקאסט ומשדר",
