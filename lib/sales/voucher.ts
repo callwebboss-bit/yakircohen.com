@@ -29,6 +29,7 @@ import {
   SONG_PARTICIPANT_RULES,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
+import { generateLeadCode, LEAD_CODE_ALPHABET, normalizeLeadCode } from "@/lib/lead-code";
 import { SITE_URL } from "@/lib/site-url";
 import {
   getSalesCard,
@@ -86,37 +87,20 @@ export type VoucherData = {
 /* ─── קוד ─── */
 
 export const VOUCHER_CODE_PREFIX = "YC-";
-/* בלי 0, O, 1, I ו-L: מקריאים את הקוד בטלפון ומקלידים אותו במורנינג */
-export const VOUCHER_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-const VOUCHER_CODE_LENGTH = 4;
-const VOUCHER_CODE_RE = new RegExp(`^${VOUCHER_CODE_PREFIX}[${VOUCHER_CODE_ALPHABET}]{${VOUCHER_CODE_LENGTH}}$`);
-
-function defaultRandom(): number {
-  const cryptoApi = globalThis.crypto;
-  if (cryptoApi?.getRandomValues) {
-    const buffer = new Uint32Array(1);
-    cryptoApi.getRandomValues(buffer);
-    return buffer[0] / 0x100000000;
-  }
-  return Math.random();
-}
+/* האלפבית והמחולל משותפים לקוד הפנייה בהודעת הוואטסאפ, כי זה אותו קוד:
+   "קוד פנייה: A7K2" מההודעה הופך לאישור YC-A7K2 (החלטת הבעלים D67, 7.10.2026) */
+export const VOUCHER_CODE_ALPHABET = LEAD_CODE_ALPHABET;
 
 /** "YC-A7K2": ארבעה תווים בלי תווים שמתבלבלים */
-export function generateVoucherCode(random: () => number = defaultRandom): string {
-  let body = "";
-  for (let i = 0; i < VOUCHER_CODE_LENGTH; i += 1) {
-    const index = Math.floor(random() * VOUCHER_CODE_ALPHABET.length);
-    body += VOUCHER_CODE_ALPHABET[Math.min(VOUCHER_CODE_ALPHABET.length - 1, Math.max(0, index))];
-  }
-  return `${VOUCHER_CODE_PREFIX}${body}`;
+export function generateVoucherCode(random?: () => number): string {
+  return `${VOUCHER_CODE_PREFIX}${generateLeadCode(random)}`;
 }
 
 /** "yc-a7k2" או "A7K2" הופכים ל-"YC-A7K2". קוד עם תו לא מהאלפבית מחזיר null. */
 export function normalizeVoucherCode(text: string | null | undefined): string | null {
   const compact = (text ?? "").trim().toUpperCase().replace(/\s+/g, "");
-  const body = compact.replace(/^YC-?/, "");
-  const code = `${VOUCHER_CODE_PREFIX}${body}`;
-  return VOUCHER_CODE_RE.test(code) ? code : null;
+  const body = normalizeLeadCode(compact.replace(/^YC-?/, ""));
+  return body ? `${VOUCHER_CODE_PREFIX}${body}` : null;
 }
 
 /* ─── תאריכים ─── */

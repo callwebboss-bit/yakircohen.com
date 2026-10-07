@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
+import { readWhatsAppLeadCode, stampWhatsAppLeadCode } from "@/lib/whatsapp";
 
 const g = globalThis as Record<string, unknown>;
 
@@ -55,8 +56,24 @@ describe("openWhatsAppLead (LF-05)", () => {
     const popup = { closed: false, opener: {} as unknown };
     const stub = install(popup);
     assert.equal(openWhatsAppLead(HREF), true);
-    assert.deepEqual(stub.openArgs, [[HREF, "_blank"]]);
+    assert.equal(stub.openArgs.length, 1);
+    assert.equal(stub.openArgs[0][1], "_blank");
+    assert.equal(stub.openArgs[0].length, 2);
     assert.equal(popup.opener, null);
+  });
+
+  /* החלטת הבעלים D67, 7.10.2026 */
+  it("adds a lead code as the last line, and keeps a code the link already has", () => {
+    const stub = install({ closed: false, opener: null });
+    openWhatsAppLead(HREF);
+    const opened = String(stub.openArgs[0][0]);
+    const text = new URL(opened).searchParams.get("text") ?? "";
+    assert.match(text, /^hi\nקוד פנייה: [A-HJKMNP-Z2-9]{4}$/);
+
+    const coded = stampWhatsAppLeadCode(HREF, "A7K2");
+    openWhatsAppLead(coded);
+    assert.equal(stub.openArgs[1][0], coded);
+    assert.equal(readWhatsAppLeadCode(String(stub.openArgs[1][0])), "A7K2");
   });
 
   it("a blocked popup returns false and never navigates the site tab", () => {

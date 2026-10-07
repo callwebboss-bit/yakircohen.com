@@ -7,6 +7,8 @@ import {
   CALLBACK_PODCAST_CONTEXT,
   CALLBACK_PODCAST_SERVICE_OPTIONS,
 } from "@/lib/leads/callback-lead";
+import { attachLeadCode } from "@/lib/lead-email-notify";
+import { buildWhatsAppHref, readWhatsAppLeadCode } from "@/lib/whatsapp";
 
 /* בלי Upstash אמיתי ובלי Resend אמיתי: כל fetch עובר דרך המוק */
 delete process.env.UPSTASH_REDIS_REST_URL;
@@ -224,6 +226,45 @@ describe("ingestLead", () => {
     assert.match(String(sent.text), /service=podcast\|/);
     assert.match(String(sent.text), /source=\/podcast\|/);
     assert.match(String(sent.html), /ליד פודקאסט/);
+  });
+
+  /* החלטת הבעלים D67, 7.10.2026: הקוד שהלקוח שולח בוואטסאפ, בראש המייל ובנושא */
+  it("the owner email carries the same lead code as the customer's WhatsApp link", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    const lead = buildCallbackLead({
+      name: "נועה",
+      phone: phone(),
+      selectedService: "הפקת פודקאסט אודיו מלאה",
+      options: CALLBACK_PODCAST_SERVICE_OPTIONS,
+      context: CALLBACK_PODCAST_CONTEXT,
+      sourcePath: "/podcast",
+    });
+    /* כמו useLeadSubmit: קוד אחד לגוף ולקישור במסך ההצלחה */
+    const coded = attachLeadCode(lead.payload, buildWhatsAppHref({ text: lead.body }));
+    await ingest.ingestLead(
+      input({
+        formId: coded.payload.formId,
+        subject: coded.payload.subject,
+        body: coded.payload.body,
+        phone: coded.payload.phone,
+        contactChannel: coded.payload.contactChannel,
+      }),
+    );
+    const sent = resendCalls()[0].body;
+    assert.equal(readWhatsAppLeadCode(coded.waHref), coded.code);
+    assert.match(String(sent.subject), new RegExp(`\\(קוד פנייה: ${coded.code}\\)$`));
+    assert.match(String(sent.text), new RegExp(`^קוד פנייה: ${coded.code}\n`));
+    /* הפרטים המלאים נשארים במייל, כולל התג */
+    assert.match(String(sent.text), /service=podcast\|/);
+    assert.match(String(sent.html), new RegExp(`>${coded.code}<`));
+  });
+
+  it("a lead without a code gets no code line and no code in the subject", async () => {
+    mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
+    await ingest.ingestLead(input());
+    const sent = resendCalls()[0].body;
+    assert.doesNotMatch(String(sent.subject), /קוד פנייה/);
+    assert.doesNotMatch(String(sent.text), /קוד פנייה/);
   });
 
   it("a subject that already starts with the brand tag is not tagged twice", async () => {

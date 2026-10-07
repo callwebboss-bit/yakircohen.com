@@ -35,6 +35,7 @@ import {
   saveBookCoreContact,
 } from "@/lib/book-wizard-cro/shared-contact";
 import {
+  attachLeadCode,
   createSubmissionId,
   submitLeadToServer,
   type LeadEmailPayload,
@@ -223,7 +224,8 @@ export default function SmartFormClient() {
           .join("\n"),
         utm_campaign: "smart_form_book",
       });
-      void deliverLead(
+      /* אותו קוד פנייה במייל ובקישור הגיבוי לוואטסאפ (D67) */
+      const coded = attachLeadCode(
         {
           formId: "smart_form_book",
           subject: "פנייה מ-Smart Form",
@@ -234,8 +236,8 @@ export default function SmartFormClient() {
           submissionId: createSubmissionId(),
         },
         waHref,
-        "email",
       );
+      void deliverLead(coded.payload, coded.waHref, "email");
     }
 
     window.addEventListener("yc-smart-form-email-channel", onEmailChannel);
@@ -345,12 +347,8 @@ export default function SmartFormClient() {
     if (enrichment?.prepHref) {
       body += `\n\nהכנה לאולפן: ${SITE_URL}${enrichment.prepHref}`;
     }
-    const waHref = buildWhatsAppHref({
-      text: body,
-      utm_campaign: "smart_form_book",
-    });
-    openWhatsAppLead(waHref, { leadCategory: category?.bookCategory || "studio" });
-    void deliverLead(
+    /* אותו קוד פנייה בהודעה שהלקוח שולח ובמייל לבעלים (D67) */
+    const coded = attachLeadCode(
       {
         formId: "smart_form_book",
         subject: "ליד Smart Form - וואטסאפ",
@@ -363,9 +361,13 @@ export default function SmartFormClient() {
         },
         submissionId: createSubmissionId(),
       },
-      waHref,
-      "whatsapp",
+      buildWhatsAppHref({
+        text: body,
+        utm_campaign: "smart_form_book",
+      }),
     );
+    openWhatsAppLead(coded.waHref, { leadCategory: category?.bookCategory || "studio" });
+    void deliverLead(coded.payload, coded.waHref, "whatsapp");
   };
 
   return (

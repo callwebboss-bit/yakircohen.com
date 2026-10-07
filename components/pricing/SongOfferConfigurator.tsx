@@ -42,7 +42,8 @@ import {
   validateIsraeliMobile,
   validatePersonName,
 } from "@/lib/form-validation";
-import { createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
+import { generateLeadCode } from "@/lib/lead-code";
+import { attachLeadCode, createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
 import { cn } from "@/lib/utils";
 
 /** אותו מבנה כמו SongOfferItemView ב-song-offer.ts, בלי לייבא את הקטלוג */
@@ -466,7 +467,7 @@ export default function SongOfferConfigurator({
       </a>
       <BookingWhatsAppPreview
         className="mt-2"
-        messageBody={`${quote.messageText}\n${quote.ycTag}`}
+        messageBody={quote.messageText}
       />
 
       <SongCallback
@@ -687,6 +688,7 @@ function SongCallback({
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
   const [submissionId, setSubmissionId] = useState("");
+  const [leadCode, setLeadCode] = useState("");
   const [sentPhone, setSentPhone] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
@@ -700,8 +702,10 @@ function SongCallback({
   }, [state]);
 
   function open() {
-    /* מזהה חדש בכל פעם שהטופס נפתח, וקבוע לניסיונות חוזרים */
+    /* מזהה חדש בכל פעם שהטופס נפתח, וקבוע לניסיונות חוזרים. כך גם קוד
+       הפנייה שנכנס למייל לבעלים (D67) */
     setSubmissionId(createSubmissionId());
+    setLeadCode(generateLeadCode());
     setState("open");
   }
 
@@ -721,7 +725,7 @@ function SongCallback({
     const displayPhone = formatPhoneForDisplay(phoneCheck.normalizedPhone ?? phone);
     /* בניסיון חוזר מסך הגיבוי נשאר, והכפתור שלו אומר "שולחים שוב" */
     setState((prev) => (prev === "failed" || prev === "retrying" ? "retrying" : "submitting"));
-    const result = await submitLeadToServer(
+    const { payload } = attachLeadCode(
       buildSongCallbackPayload(quote, {
         name,
         phone: displayPhone,
@@ -730,7 +734,10 @@ function SongCallback({
         submissionId,
         honeypot,
       }),
+      undefined,
+      leadCode,
     );
+    const result = await submitLeadToServer(payload);
     if (result.ok) {
       trackConversion("book_lead_submit", {
         category: "studio",

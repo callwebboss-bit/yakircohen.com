@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ProService, ProServiceSimpleCta } from "@/lib/data/pro-services";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -41,7 +42,8 @@ export default function ProServiceTopicCta({ service, config }: ProServiceTopicC
       utm_campaign: `${service.utmCampaign}_topic`,
     });
 
-    window.open(href, "_blank", "noopener,noreferrer");
+    /* דרך openWhatsAppLead ולא window.open ישיר: שם נכנס קוד הפנייה (D67) */
+    openWhatsAppLead(href);
   };
 
   return (

@@ -7,7 +7,7 @@ import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import type { LeadSubmitIntent, LeadSubmitState } from "@/hooks/useLeadSubmit";
 import type { LeadEmailPayload } from "@/lib/lead-email-notify";
 import type { ValidationResult } from "@/lib/form-validation";
-import { createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
+import { attachLeadCode, createSubmissionId, submitLeadToServer } from "@/lib/lead-email-notify";
 import { parseBookCategoryFromHash, parseBookWizardStepFromHash, type BookCategoryId } from "@/lib/book-url";
 import { openWhatsAppLead } from "@/lib/open-whatsapp-lead";
 import { clearBookCoreContact } from "@/lib/book-wizard-cro/shared-contact";
@@ -316,7 +316,10 @@ export function useBookingWizard<
     ): Record<string, string> | null => {
       if (state.submit.status === "submitting") return null;
       const fieldErrs = guard.attemptSubmit(validateFields, (result) => {
-        const { waHref, email, intent = "continue_chat" } = buildResult(result);
+        const built = buildResult(result);
+        const intent = built.intent ?? "continue_chat";
+        /* אותו קוד פנייה במייל לבעלים ובהודעה שהלקוח שולח (D67) */
+        const { payload: email, waHref } = attachLeadCode(built.email, built.waHref);
         /* וואטסאפ נפתח בתוך הלחיצה, לפני ה-await, כדי שחוסם חלונות לא יעצור */
         openWhatsAppLead(
           waHref,

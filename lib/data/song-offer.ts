@@ -231,7 +231,7 @@ export type SongMessageOptions = Pick<SongQuoteOptions, "source" | "giftMode" | 
 export type SongMessage = {
   /** ההודעה ללקוח, בגוף ראשון, בלי התג */
   text: string;
-  /** תג [YC:...] לכלי של הבעלים. מי שבונה את הקישור מחליט אם לצרף אותו. */
+  /** תג [YC:...] לכלי של הבעלים, רק לגוף המייל. בקישור ללקוח אין תג (D67). */
   ycTag: string;
 };
 
