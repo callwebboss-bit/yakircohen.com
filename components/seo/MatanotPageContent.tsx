@@ -159,6 +159,10 @@ export default function MatanotPageContent() {
               <Link href="/studio/recording-song-modiin/gifts" className="font-semibold text-brand-red hover:underline">
                 שוברים ורעיונות מהאולפן
               </Link>
+              . ואפשר גם{" "}
+              <Link href="/matanot/gift-voucher" className="font-semibold text-brand-red hover:underline">
+                לעצב שובר אישי ולהוריד אותו כתמונה
+              </Link>
               .
             </p>
           </div>
