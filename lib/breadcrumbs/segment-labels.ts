@@ -34,6 +34,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "photo-slideshow": "מצגת תמונות",
   "podcast-recording": "הקלטת פודקאסט",
   "podcast-production": "הפקת פודקאסט",
+  subscription: "מנוי חודשי",
   "podcast-editing": "עריכת פודקאסט",
   "podcast-studio": "אולפן פודקאסט",
   "podcast-studio-modiin": "סטודיו במודיעין",
