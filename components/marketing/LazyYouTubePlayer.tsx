@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import { VIDEO_WATCH_LABEL } from "@/lib/data/pricing";
@@ -90,14 +89,18 @@ export default function LazyYouTubePlayer({
              הסרטון (שאינה עוד aria-hidden). כל נוסח נפרד נכשל ב-axe
              label-content-name-mismatch על 11 מ-12 התבניות (16.9.2026). */
         >
-          <Image
+          {/* 6.10.2026: <img> רגיל ולא next/image. מקור ה-hqdefault הוא 480x360, וה-sizes הקודם
+              ביקש מהאופטימייזר רוחבים עד 1920 (הגדלה בלי שיפור), בכל פוסטר ובכמה פורמטים.
+              ב-12 השעות שנמדדו ב-Vercel 35 מ-83 הטרנספורמציות הגיעו מ-10 פוסטרים כאלה,
+              ומכסת ה-Hobby (5,000 ל-30 יום) נוצלה. הכותרת למעלה כבר הצהירה על הכוונה הזו. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={thumbnailSrc}
             alt=""
             aria-hidden
-            fill
-            sizes="(max-width: 768px) 100vw, 720px"
-            className="object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
             loading="lazy"
+            decoding="async"
             onError={() =>
               setThumbnailSrc(
                 `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,

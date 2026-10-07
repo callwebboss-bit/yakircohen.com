@@ -5103,7 +5103,7 @@ ${batMitzvahSongListHtml(RECEPTION_RELIGIOUS)}
 
 <h2>דוגמאות מהאולפן</h2>
 <ul>
-<li><a href="https://www.youtube.com/watch?v=Y8w_BRwe_tg">איך מקליטים ילד ביישן ומגיעים לתוצאה</a> (הסרטון למעלה)</li>
+<li><a href="https://www.youtube.com/watch?v=y8w_BRwe_tg">איך מקליטים ילד ביישן ומגיעים לתוצאה</a> (הסרטון למעלה)</li>
 <li><a href="https://www.youtube.com/watch?v=KzmhWvM8EEM">דרשה שילד עושה סטנדאפ, כולל כתיבה והכוונה</a></li>
 <li><a href="https://www.youtube.com/watch?v=X1IO30Jsfqg">הקלטת דרשה לבת מצווה: כמה אפשר להתבלבל בדרשה</a></li>
 <li><a href="https://www.youtube.com/watch?v=63R17iIWrTM">כמה זמן לוקח להקליט דרשה, מאחורי הקלעים</a></li>
@@ -5114,7 +5114,7 @@ ${batMitzvahSongListHtml(RECEPTION_RELIGIOUS)}
     thumbnail: "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
     category: "אולפן הקלטות",
     relatedServiceSlug: "studio/blessings/bar-mitzvah",
-    youtubeUrl: "https://www.youtube.com/watch?v=Y8w_BRwe_tg",
+    youtubeUrl: "https://www.youtube.com/watch?v=y8w_BRwe_tg",
     funnelIntent: "awareness",
     tags: ["דרשה לבר מצווה", "דרשה קצרה", "טופס עזר לדרשה", "הקלטת דרשה", "דרשה לבת מצווה"],
   },
