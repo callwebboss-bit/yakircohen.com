@@ -380,9 +380,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         note: "פרק או ראיון עד שעה",
         href: "/online/vocal-fix",
       }),
+      /* D68 (7.10.2026): רעש קבוע אחד בהקלטה קצרה. העמוד שהשורה מקשרת אליו מוכר
+         את הניקוי המלא (noise_removal_segment) ומסביר את ההבדל */
       hubRow("ai_noise_basic", {
         label: "ניקוי רעשים בסיסי",
-        note: "להקלטות קצרות עם רעש קבוע",
+        note: "לרעש קבוע אחד בהקלטה קצרה",
         href: "/online/vocal-fix/noise-removal",
       }),
     ],

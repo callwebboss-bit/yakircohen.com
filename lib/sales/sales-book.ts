@@ -172,8 +172,8 @@ export const SALES_IGNORED_IDS: Readonly<Partial<Record<PriceItemId, string>>> =
   studio_extra_revision:
     "לא ידוע על איזה מסלול יש סבב כלול. שאלת בעלים פתוחה (תוכנית עמדת המכירות, סבב 1, שאלה 3)",
   online_extra_minutes: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
-  online_extra_channels: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
-  online_extra_revision: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
+  /* online_extra_channels ו-online_extra_revision ירדו מכאן: מ-7.10.2026 הם
+     תוספות של online_home_mix (החלטת הבעלים D73) */
   gift_box_usb: "תוספת למחיר הפקה, בלי בסיס מוגדר בקטלוג",
   gift_box_full: "תוספת למחיר הפקה, בלי בסיס מוגדר בקטלוג",
   studio_prep_digital: "חוברת הכנה, בלי בסיס מוגדר בקטלוג",

@@ -248,41 +248,35 @@ export function buildSiteSchema() {
             priceCurrency: "ILS",
             url: `${BASE}/academy/ulpan`,
           },
-          {
-            "@type": "Offer",
+          /* D75 (7.10.2026): היה "250" כתוב. עכשיו vocal_fix_short מהקטלוג */
+          catalogOffer("vocal_fix_short", {
             name: "שיפור קול מהנייד",
             description: "הסרת רעשים, חידוד והעשרת קול - הקלטה ביתית לאיכות אולפן",
-            price: "250",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix`,
-          },
+          }),
           catalogOffer("damaged_recording_rescue", {
             name: "תיקון הקלטות פגומות",
             description: "שחזור ארכיונים, פרקים ישנים והקלטות עם הד, רעש ועיוות, לכל 5 דקות",
             url: `${BASE}/online/vocal-fix`,
           }),
-          {
-            "@type": "Offer",
+          /* D73 (7.10.2026): היה "500" כתוב בלי מזהה. עכשיו online_home_mix מהקטלוג */
+          catalogOffer("online_home_mix", {
             name: "מיקס ומאסטרינג מקוון",
             description: "סאונד מסחרי מוכן לספוטיפיי, יוטיוב ורדיו",
-            price: "500",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/mixing`,
-          },
+          }),
           /* WP6: היה 250 כתוב. המחיר בקטלוג, בעמוד המיקס ובאשף הוא 300 */
           catalogOffer("studio_pitch_correction", {
             name: "תיקון זיופים",
             description: "Pitch Correction מדויק וטבעי - לא Auto-Tune אוטומטי",
             url: `${BASE}/online/vocal-fix/pitch-correction`,
           }),
-          {
-            "@type": "Offer",
+          /* D72 (7.10.2026): היה "50" כתוב, מחוץ לקטלוג. עכשיו photo_enhance_1 */
+          catalogOffer("photo_enhance_1", {
             name: "שדרוג תמונות AI",
             description: "הגדלה, חידוד ושיפור תמונות ישנות באמצעות AI",
-            price: "50",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/photo-enhance`,
-          },
+          }),
         ],
       },
       {

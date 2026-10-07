@@ -161,25 +161,11 @@
     "example": "\"הסאונד נשמע עמום, צורמני או \\\"ביתי\\\"? שירות מקצועי לתיקון תדרים ו-EQ לקטעים של עד 5 דקות. שלחו קובץ וקבלו סאונד ברור ומקצועי ב-500 ₪ (לפני מע\\\"מ).\","
   },
   {
-    "file": "app/online/vocal-fix/mixing/page.tsx",
-    "kind": "prose",
-    "value": 500,
-    "count": 1,
-    "example": "\"מיקס ומאסטרינג לשיר שהוקלט בבית - 500 ₪, עד 16 ערוצים, 5 דקות. מאושר אישית. MP3+WAV תוך 5-7 ימים. סבב תיקונים כלול.\","
-  },
-  {
     "file": "app/online/vocal-fix/noise-removal/page.tsx",
     "kind": "prose",
     "value": 500,
     "count": 1,
     "example": "\"מזגן, רחש, רוח ברקע? שירות מקצועי להסרת רעשי רקע לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו נקי ומוכן לפרסום ב-500 ₪ (לפני מע\\\"מ).\","
-  },
-  {
-    "file": "app/online/vocal-fix/page.tsx",
-    "kind": "prose",
-    "value": 250,
-    "count": 1,
-    "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\","
   },
   {
     "file": "app/online/vocal-fix/volume-balance/page.tsx",
@@ -252,39 +238,11 @@
     "example": "כיסוי מלא או אפקט נקודתי. אפשר גם שטרות כסף, 500 ₪ באוויר לרגע"
   },
   {
-    "file": "components/seo/OnlineMixingPageContent.tsx",
-    "kind": "prose",
-    "value": 100,
-    "count": 2,
-    "example": "answer: \"עד 16 ערוצים כלולים. מעל 16 - 100 ₪ נוספים.\","
-  },
-  {
-    "file": "components/seo/OnlineMixingPageContent.tsx",
-    "kind": "prose",
-    "value": 500,
-    "count": 2,
-    "example": "whatsappMessage: \"היי יקיר, מעוניין/ת במיקס ומאסטרינג (500 ₪). אשמח פרטים.\","
-  },
-  {
     "file": "components/seo/OnlinePageContent.tsx",
     "kind": "prose",
     "value": 250,
     "count": 1,
     "example": "תיקון זיופים, מיקס, פודקאסט ותמונה - הכל מרחוק. מ-250 ₪, עם ליווי"
-  },
-  {
-    "file": "components/seo/OnlinePhotoEnhancePageContent.tsx",
-    "kind": "prose",
-    "value": 100,
-    "count": 1,
-    "example": "\"כן. צביעה (colorization) זה שירות נפרד - 100 ₪ לתמונה.\","
-  },
-  {
-    "file": "components/seo/OnlineVocalFixPageContent.tsx",
-    "kind": "prose",
-    "value": 250,
-    "count": 2,
-    "example": "\"הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.\";"
   },
   {
     "file": "components/seo/PodcastSelfServicePageContent.tsx",
@@ -299,41 +257,6 @@
     "value": 200,
     "count": 1,
     "example": "לקטעים ארוכים: כל 5 דקות נוספות - 200 ₪"
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "field",
-    "value": 250,
-    "count": 1,
-    "example": "price: \"250 ₪\","
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "prose",
-    "value": 250,
-    "count": 2,
-    "example": "price: \"250 ₪\","
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "field",
-    "value": 375,
-    "count": 1,
-    "example": "price: \"375 ₪\","
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "prose",
-    "value": 375,
-    "count": 1,
-    "example": "price: \"375 ₪\","
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "prose",
-    "value": 500,
-    "count": 4,
-    "example": "איזון ווליומים (500 ₪)"
   },
   {
     "file": "lib/chatbot-data.ts",
@@ -1094,30 +1017,9 @@
   {
     "file": "lib/data/online-mixing-page.ts",
     "kind": "prose",
-    "value": 100,
-    "count": 2,
-    "example": "\"מעל 16 ערוצים - 100 ₪ נוספים\","
-  },
-  {
-    "file": "lib/data/online-mixing-page.ts",
-    "kind": "prose",
     "value": 150,
     "count": 1,
     "example": "\"מעל 5 דקות - 150 ₪ נוספים\","
-  },
-  {
-    "file": "lib/data/online-mixing-page.ts",
-    "kind": "prose",
-    "value": 200,
-    "count": 1,
-    "example": "\"ניקוי רעשים - 200 ₪\","
-  },
-  {
-    "file": "lib/data/online-mixing-page.ts",
-    "kind": "prose",
-    "value": 300,
-    "count": 1,
-    "example": "\"תיקון זיופים מלא - 300 ₪\","
   },
   {
     "file": "lib/data/online-page.ts",
@@ -1125,62 +1027,6 @@
     "value": 250,
     "count": 1,
     "example": "\"המחיר משתנה בהתאם לסוג ואורך הקובץ. לדוגמה, שירות הצלת הקלטה פגומה מתחיל ב-250 ₪ ל-5 דקות ראשונות. לצפייה בכל הקטלוג והתעריפים המלאים, ניתן לעבור לעמוד המחירון"
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "field",
-    "value": 100,
-    "count": 1,
-    "example": "price: \"100 ₪ לתמונה\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "prose",
-    "value": 100,
-    "count": 2,
-    "example": "price: \"100 ₪ לתמונה\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "field",
-    "value": 200,
-    "count": 1,
-    "example": "price: \"200\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "prose",
-    "value": 200,
-    "count": 1,
-    "example": "\"היי יקיר, מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "field",
-    "value": 350,
-    "count": 1,
-    "example": "price: \"350\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "prose",
-    "value": 350,
-    "count": 1,
-    "example": "\"היי יקיר, מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "field",
-    "value": 600,
-    "count": 1,
-    "example": "price: \"600\","
-  },
-  {
-    "file": "lib/data/online-photo-enhance-page.ts",
-    "kind": "prose",
-    "value": 600,
-    "count": 1,
-    "example": "\"היי יקיר, רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.\","
   },
   {
     "file": "lib/data/photography-calculator.ts",
@@ -1314,13 +1160,6 @@
     "value": 650,
     "count": 6,
     "example": "priceExVat: 650,"
-  },
-  {
-    "file": "lib/data/service-book-map.ts",
-    "kind": "field",
-    "value": 500,
-    "count": 1,
-    "example": "\"online/vocal-fix/mixing\": { bookCategory: \"online\", priceExVat: 500 },"
   },
   {
     "file": "lib/data/services.ts",
@@ -1494,14 +1333,14 @@
     "file": "lib/seo/build-site-schema.ts",
     "kind": "field",
     "value": 250,
-    "count": 2,
+    "count": 1,
     "example": "price: \"250\","
   },
   {
     "file": "lib/seo/build-site-schema.ts",
     "kind": "field",
     "value": 500,
-    "count": 3,
+    "count": 2,
     "example": "price: \"500\","
   },
   {

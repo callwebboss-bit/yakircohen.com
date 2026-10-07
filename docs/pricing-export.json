@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 165,
-  "contentHash": "66a19eb2266e2ec1",
+  "itemCount": 171,
+  "contentHash": "5b1d7379ba1e55c5",
   "items": [
     {
       "id": "studio_half_hour",
@@ -446,6 +446,24 @@
       "context": "לתמונה, שירות נפרד משדרוג AI"
     },
     {
+      "id": "photo_enhance_1",
+      "label": "שדרוג תמונה אחת ב-AI",
+      "category": "online",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תמונה בודדת"
+    },
+    {
+      "id": "photo_enhance_5",
+      "label": "שדרוג 5 תמונות ב-AI",
+      "category": "online",
+      "exVat": 200,
+      "inclVat": 236,
+      "priceFrom": false,
+      "context": "חבילת תמונות לשיפור"
+    },
+    {
       "id": "photo_enhance_20",
       "label": "שדרוג 20 תמונות ב-AI",
       "category": "online",
@@ -453,6 +471,24 @@
       "inclVat": 708,
       "priceFrom": false,
       "context": "חבילת תמונות לשיפור"
+    },
+    {
+      "id": "photo_manual_color_fix",
+      "label": "תיקון צבע ידני לתמונה",
+      "category": "addons",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תוספת לשדרוג AI, כשה-AI לא מספיק"
+    },
+    {
+      "id": "photo_scratch_removal",
+      "label": "הסרת שריטות או כתמים מתמונה",
+      "category": "addons",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תוספת לשדרוג AI"
     },
     {
       "id": "social_single_video",
@@ -582,12 +618,21 @@
     },
     {
       "id": "vocal_fix_short",
-      "label": "תיקון זיופים, קטע קצר",
+      "label": "שיפור קול מהנייד, עד 5 דקות",
+      "category": "online",
+      "exVat": 250,
+      "inclVat": 295,
+      "priceFrom": false,
+      "context": "מסלול רגיל, אספקה תוך 1 עד 3 ימי עסקים"
+    },
+    {
+      "id": "vocal_fix_express",
+      "label": "שיפור קול מהנייד, מסלול חירום",
       "category": "online",
       "exVat": 375,
       "inclVat": 443,
       "priceFrom": false,
-      "context": "עד שתי דקות"
+      "context": "עד 5 דקות, אספקה תוך 4 עד 12 שעות"
     },
     {
       "id": "studio_prep_digital",
@@ -1233,13 +1278,22 @@
       "context": "עיבוד מקצועי לכל הפורמטים"
     },
     {
+      "id": "online_home_mix",
+      "label": "מיקס ומאסטרינג לשיר שהוקלט בבית",
+      "category": "online",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "עד 16 ערוצים ועד 5 דקות, סבב תיקונים אחד, MP3 ו-WAV תוך 5 עד 7 ימי עסקים"
+    },
+    {
       "id": "ai_noise_basic",
       "label": "ניקוי רעשים בסיסי",
       "category": "online",
       "exVat": 350,
       "inclVat": 413,
       "priceFrom": false,
-      "context": "להקלטות קצרות עם רעש קבוע"
+      "context": "רעש קבוע אחד ברקע, כמו מזגן, בהקלטה קצרה"
     },
     {
       "id": "ai_voice_restore",
@@ -1270,10 +1324,10 @@
     },
     {
       "id": "ai_photo_upgrade",
-      "label": "שדרוג תמונות ב-AI",
+      "label": "שדרוג 10 תמונות ב-AI",
       "category": "online",
-      "exVat": 250,
-      "inclVat": 295,
+      "exVat": 350,
+      "inclVat": 413,
       "priceFrom": false,
       "context": "שיפור רזולוציה, צבע וחדות ל-10 תמונות"
     },
@@ -1333,12 +1387,12 @@
     },
     {
       "id": "noise_removal_segment",
-      "label": "ניקוי רעשים",
+      "label": "ניקוי רעשים מלא",
       "category": "online",
       "exVat": 500,
       "inclVat": 590,
       "priceFrom": false,
-      "context": "הסרת רעשי רקע לקטע עד 5 דקות"
+      "context": "כל רעשי הרקע (מזגן, מאוורר, רחש, רוח) בקטע עד 5 דקות"
     },
     {
       "id": "eq_freq_fix",
