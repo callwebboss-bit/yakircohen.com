@@ -17,13 +17,23 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { accessSync, constants as fsConstants, existsSync, readFileSync, readdirSync } from "node:fs";
+import { accessSync, constants as fsConstants, existsSync, readFileSync, readdirSync, realpathSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const IS_WINDOWS = process.platform === "win32";
 const IS_MAC = process.platform === "darwin";
+/* בדיקות Dropbox רלוונטיות רק כשהריפו באמת יושב בתיקיית Dropbox. מ-4.10.2026 העבודה
+   ב-~/Code, ושם `.next` לא מסתנכרן. בלי הבדיקה הזו כל worktree עם `.next` יצא אדום
+   ועצר את verify:predeploy בשלב הראשון. */
+const IN_DROPBOX = (() => {
+  try {
+    return /dropbox/i.test(realpathSync(ROOT));
+  } catch {
+    return /dropbox/i.test(ROOT);
+  }
+})();
 
 const git = (...args) => {
   try {
@@ -76,7 +86,7 @@ if (dirty.length === 0) {
 
 if (behindRemote && Number(behindRemote) > 0) {
   problems.push(
-    `GitHub מקדים את המכונה הזו ב-${behindRemote} קומיטים על ${branch}. זה חריג כשהריפו מסונכרן ב-Dropbox: לבדוק מה נדחף ומאיפה לפני שממשיכים.`,
+    `GitHub מקדים את המכונה הזו ב-${behindRemote} קומיטים על ${branch}. לבדוק מה נדחף ומאיפה לפני שממשיכים, ולמשוך אם צריך (git pull --ff-only).`,
   );
 }
 
@@ -108,7 +118,7 @@ const ignoreState = (dir) => {
   return "לא ידוע";
 };
 
-for (const dir of [".next", "node_modules", ".visual-baseline"]) {
+for (const dir of IN_DROPBOX ? [".next", "node_modules", ".visual-baseline"] : []) {
   const state = ignoreState(dir);
   if (state === "מוחרג") lines.push(ok(`${dir}: ${state}`));
   else if (state === "אין תיקייה") lines.push(info(`${dir}: ${state}`));
@@ -122,6 +132,8 @@ for (const dir of [".next", "node_modules", ".visual-baseline"]) {
     );
   }
 }
+
+if (!IN_DROPBOX) lines.push(info("הריפו לא בתוך תיקיית Dropbox, ולכן בדיקת ההחרגה לא נדרשת"));
 
 /* ---------- node_modules ---------- */
 lines.push("");
@@ -255,17 +267,13 @@ if (problems.length > 0) {
   lines.push("");
   lines.push("  לטפל בכל השורות האדומות לפני כל פעולת פריסה.");
 } else if (IS_WINDOWS) {
-  lines.push(ok("המכונה מוכנה. זו המכונה היחידה שדוחפת ל-GitHub."));
-  lines.push("");
-  lines.push("  1. לקרוא: docs/DEPLOY-RUNBOOK.md, סעיף 0ג");
-  lines.push("  2. npm ci            (אם לא רץ מאז שינוי ב-package.json)");
-  lines.push("  3. npm run verify:predeploy   (כולל audit:seo-diff כשער חוסם)");
-  lines.push(`  4. git push -u origin ${branch}`);
-  lines.push("  5. Vercel: תצוגה מקדימה, ואז PR אל main");
+  lines.push(ok("ווינדוס לא דוחף ולא פורס מאז 4.10.2026 (AGENTS.md). הפיתוח והדחיפה מהמק."));
 } else {
-  lines.push(ok("מכונת פיתוח. אין מכאן דחיפה ל-GitHub."));
-  lines.push("  קומיטים שנוצרים כאן מגיעים לווינדוס דרך ה-.git המשותף ב-Dropbox.");
-  lines.push("  הפריסה עצמה נעשית משם בלבד.");
+  lines.push(ok("המכונה מוכנה. המק מפתח, מודד ודוחף ל-GitHub (AGENTS.md)."));
+  lines.push("");
+  lines.push("  1. לעבוד ב-worktree נפרד ולא בעץ המשותף");
+  lines.push("  2. npm run verify:predeploy   (כולל audit:seo-diff כשער חוסם)");
+  lines.push(`  3. דחיפה ל-main רק באישור הבעלים: git push origin HEAD:main (הענף הנוכחי: ${branch})`);
 }
 lines.push("");
 
