@@ -15,7 +15,7 @@ export const RECORDING_STUDIO_FEATURED_VIDEO_ID = "UnBc2a3ve9w";
 export const RECORDING_STUDIO_HIGHLIGHTS: readonly string[] = [
   "20 שנות ניסיון, עבודה עם אמנים גדולים והפקות טלוויזיה",
   "ציוד קצה: Neumann, Apollo ואקוסטיקה מחושבת",
-  "לב מודיעין, חניה בשפע, נגישות מלאה",
+  "לב מודיעין, חניה בשפע, קל להגיע",
   "שיטת הסינון, עובדים עם מי שבא לעבוד ברצינות",
 ] as const;
 

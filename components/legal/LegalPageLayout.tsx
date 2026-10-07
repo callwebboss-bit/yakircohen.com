@@ -15,7 +15,7 @@ export type LegalSection = {
 export type LegalPageLayoutProps = {
   title: string;
   intro: string;
-  updatedLabel: string;
+  updatedLabel: ReactNode;
   sections: LegalSection[];
   currentHref?: LegalPageHref;
 };

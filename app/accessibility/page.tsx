@@ -6,7 +6,7 @@ import { constructMetadata } from "@/lib/metadata";
 export const metadata: Metadata = constructMetadata({
   title: "הצהרת נגישות",
   description:
-    "הצהרת נגישות של יקיר כהן הפקות - WCAG 2.1 AA, ניווט מקלדת, טפסים נגישים ודרכי פנייה לבקשת סיוע.",
+    "הצהרת נגישות של יקיר כהן הפקות: עמידה חלקית בת\"י 5568 ברמה AA, מה נגיש כיום, מגבלות ידועות, פרטי רכז הנגישות ודרכי פנייה.",
   slug: "accessibility",
 });
 
