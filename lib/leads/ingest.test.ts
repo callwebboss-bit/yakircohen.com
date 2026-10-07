@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { afterEach, before, beforeEach, describe, it, mock } from "node:test";
+/* ייבוא סטטי מורם בכל מקרה לראש הקובץ ב-ESM. callback-lead לא נוגע ב-store, ב-ingest או ב-redis */
+import {
+  buildCallbackLead,
+  CALLBACK_PODCAST_CONTEXT,
+  CALLBACK_PODCAST_SERVICE_OPTIONS,
+} from "@/lib/leads/callback-lead";
 
 /* בלי Upstash אמיתי ובלי Resend אמיתי: כל fetch עובר דרך המוק */
 delete process.env.UPSTASH_REDIS_REST_URL;
@@ -8,11 +14,6 @@ delete process.env.UPSTASH_REDIS_REST_TOKEN;
 delete process.env.LEAD_DRY_RUN;
 delete process.env.ADMIN_WHATSAPP_ALERT;
 
-import {
-  buildCallbackLead,
-  CALLBACK_PODCAST_CONTEXT,
-  CALLBACK_PODCAST_SERVICE_OPTIONS,
-} from "@/lib/leads/callback-lead";
 
 type IngestMod = typeof import("@/lib/leads/ingest");
 type StoreMod = typeof import("@/lib/leads/store");
@@ -217,9 +218,9 @@ describe("ingestLead", () => {
     const sent = resendCalls()[0].body;
     assert.match(
       String(sent.subject),
-      /^\[שיחה חוזרת\] (\[דחוף\] )?\[יקיר כהן\] ליד חדש - פודקאסט, הפקת פודקאסט אודיו מלאה$/,
+      /^\[שיחה חוזרת\] (\[דחוף\] )?\[יקיר כהן\] ליד חדש - פודקאסט \(הפקת פודקאסט אודיו מלאה\)$/,
     );
-    assert.match(String(sent.text), /\*שירות:\* פודקאסט, הפקת פודקאסט אודיו מלאה/);
+    assert.match(String(sent.text), /\*שירות:\* פודקאסט \(הפקת פודקאסט אודיו מלאה\)/);
     assert.match(String(sent.text), /service=podcast\|/);
     assert.match(String(sent.text), /source=\/podcast\|/);
     assert.match(String(sent.html), /ליד פודקאסט/);

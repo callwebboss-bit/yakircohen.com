@@ -168,7 +168,8 @@ export function resolveCallbackService(
     CALLBACK_FALLBACK_CLOSER_SERVICE;
 
   let label: string;
-  if (picked && topic && picked.label !== topic) label = `${topic}, ${picked.label}`;
+  /* בסוגריים ולא בפסיק: יש נושאי עמוד שכבר מכילים פסיק ("פודקאסט, דיבור וקריינות") */
+  if (picked && topic && picked.label !== topic) label = `${topic} (${picked.label})`;
   else label = picked?.label || topic || CALLBACK_NO_SERVICE_LABEL;
 
   return {

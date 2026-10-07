@@ -78,7 +78,7 @@ describe("buildCallbackLead: the service the customer picked reaches the owner",
     const tag = parseYcLeadTag(lead.body);
     assert.equal(tag?.service, "podcast");
     assert.equal(tag?.source, "/podcast");
-    assert.equal(lead.payload.subject, "ליד חדש - פודקאסט, הפקת פודקאסט אודיו מלאה");
+    assert.equal(lead.payload.subject, "ליד חדש - פודקאסט (הפקת פודקאסט אודיו מלאה)");
     assert.equal(lead.payload.serviceType, "podcast");
   });
 
@@ -106,7 +106,7 @@ describe("buildCallbackLead: the service the customer picked reaches the owner",
       sourcePath: "/podcast",
     });
     assert.equal(parseYcLeadTag(lead.body)?.service, "podcast");
-    assert.equal(lead.payload.subject, "ליד חדש - פודקאסט, עדיין לא בטוח/ה");
+    assert.equal(lead.payload.subject, "ליד חדש - פודקאסט (עדיין לא בטוח/ה)");
     assert.equal(lead.payload.serviceType, "podcast");
   });
 
@@ -134,7 +134,7 @@ describe("buildCallbackLead: the service the customer picked reaches the owner",
     const tag = parseYcLeadTag(lead.body);
     assert.equal(tag?.service, "recording");
     assert.equal(tag?.form, "event_index_subscription");
-    assert.equal(lead.payload.subject, "ליד חדש - מנוי דופק השוק, חברת הגברה");
+    assert.equal(lead.payload.subject, "ליד חדש - מנוי דופק השוק (חברת הגברה)");
     assert.equal("serviceType" in lead.payload, false);
     /* בלי serviceType השרת ממשיך לגזור מה-formId, כמו לפני התיקון */
     assert.equal(inferServiceTypeFromFormId("event_index_subscription"), "events");
