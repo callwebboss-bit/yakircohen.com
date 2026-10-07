@@ -15,7 +15,6 @@ import {
   PODCAST_PRODUCTION_INCLUDES,
   PODCAST_PRODUCTION_PHASES,
 } from "@/lib/data/podcast-production-page";
-import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const PRODUCTION_TITLE = "הפקת פודקאסט מא׳ עד ת׳";
@@ -34,7 +33,8 @@ export default function PodcastProductionPageContent() {
   return (
     <ServicePageLayout
       title="הפקת פודקאסט מא׳ עד ת׳"
-      subtitle="ליווי מקצועי מהרעיון ועד פרסום: אפיון, תסריט, מיתוג שמע, הקלטה, עריכה והפצה. מתאים ליזמים, מומחים ומותגים שרוצים פודקאסט אמיתי לטווח ארוך."
+      /* קהל היעד באישור הבעלים 7.10.2026: גם מי שמתחיל את הפודקאסט הראשון שלו */
+      subtitle="ליווי מקצועי מהרעיון ועד פרסום: אפיון, תסריט, מיתוג שמע, הקלטה, עריכה והפצה. מתאים לבעלי עסקים, מומחים ומותגים, וגם למי שמתחיל את הפודקאסט הראשון שלו."
       features={PODCAST_PRODUCTION_HERO_FEATURES}
       whatsappText="שלום, מעוניין בליווי והפקת פודקאסט משלב הרעיון"
       utmCampaign="podcast_production"
@@ -52,13 +52,30 @@ export default function PodcastProductionPageContent() {
             id="production-intro-heading"
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            לא רק פרק אחד, מערך שלם
+            {/* אישור הבעלים 7.10.2026: "הפקת פודקאסט" (765 הופעות, מקום 26 ב-Search Console)
+                שייך לעמוד הזה, ועד היום הופיע בתוכן רק ב-H1 */}
+            מה זה הפקת פודקאסט אצלנו
           </h2>
+          {/* המילים של יקיר. 2015: שנה אחרי פריצת הפודקאסט לקהל הרחב (Serial, 2014,
+              descript.com/blog/article/history-of-podcasts), ובשנה שבה קמה בישראל רשת
+              הפודקאסטים סביב "עושים היסטוריה" (hamichlol.org.il, עושים היסטוריה) */}
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            הפקת פרק בודדת מושלמת לרגע ההקלטה. ליווי מא׳ עד ת׳ בונה את
-            הפודקאסט כמוצר: פורמט, מיתוג, לוח שידורים וצמיחה. מתחילים בפרק
-            ראשון, אפשר בחבילת חצי שעה ב-{PODCAST_STARTER_PRICE} ₪, וממשיכים
-            לפי קצב שנוח לכם.
+            הפקת פודקאסט אצלנו מתחילה בשיחה שמדייקת הכל: על מה הפודקאסט, למי
+            הוא, ומה חשוב לכם להוציא ממנו. ככה אתם יודעים בדיוק לאן אתם מגיעים.
+            אני מפיק פודקאסטים מאז 2015.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            למי שרוצה פודקאסט עם ליווי מלא: בעלי עסקים, מומחים ומותגים, וגם מי
+            שמתחיל את הפודקאסט הראשון שלו. כבר יודעים מה אתם עושים ורוצים רק
+            להקליט? מתאימים לכם{" "}
+            <Link href="/podcast/podcast-recording" className="font-medium text-brand-red hover:underline">
+              עמוד ההקלטה
+            </Link>{" "}
+            או{" "}
+            <Link href="/podcast/podcast-studio-modiin" className="font-medium text-brand-red hover:underline">
+              השכרת הסטודיו
+            </Link>
+            .
           </p>
         </section>
 

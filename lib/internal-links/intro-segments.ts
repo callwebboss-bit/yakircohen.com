@@ -424,7 +424,9 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: ". לזוגות - " },
     { type: "link", href: "/for-couples", label: "מסלול לחתונה" },
     { type: "text", value: ", לפודקאסט - " },
-    { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט" },
+    /* אישור הבעלים 7.10.2026: הביטוי "הפקת פודקאסט" שייך ל-/podcast/podcast-production
+       (השירות המלווה מא׳ עד ת׳). כאן הוא שם השירות ולא פרק בודד, ולכן לא לעמוד ההקלטה */
+    { type: "link", href: "/podcast/podcast-production", label: "הפקת פודקאסט" },
     { type: "text", value: "." },
   ],
   "/book": [
@@ -710,7 +712,11 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "פודקאסט לחברות - תוכן מקצועי שמייצר סמכות ולידים. לפס ייצור חודשי - " },
     { type: "link", href: "/podcast/bulk-production", label: "פס ייצור" },
     { type: "text", value: ". לפרק ראשון - " },
-    { type: "link", href: "/podcast/podcast-recording", label: "הפקת פודקאסט" },
+    /* אישור הבעלים 7.10.2026: "הפקת פודקאסט" שייך ל-/podcast/podcast-production.
+       "פרק ראשון" בעמוד הזה הוא התחלת הפודקאסט של החברה ולא פרק בודד: נקודת ההתחלה
+       בעמוד היא הפיילוט (שיחת אסטרטגיה, אפיון פורמט, מיתוג שמע, setup ערוץ, ב-corporate-podcast-page.ts),
+       ו-relatedLinks של אותו עמוד כבר מפנים "הפקת פודקאסט מלאה" לעמוד ההפקה */
+    { type: "link", href: "/podcast/podcast-production", label: "הפקת פודקאסט" },
     { type: "text", value: "." },
   ],
   "/podcast/self-service-studio": [

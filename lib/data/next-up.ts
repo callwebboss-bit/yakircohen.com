@@ -66,6 +66,15 @@ export const NEXT_UP_BY_PATH: Readonly<Record<string, NextUpSuggestion>> = {
     prompt: "צריכים גם עריכה?",
     label: "עריכת פודקאסט",
   },
+  /* רשומה משלו במקום הנפילה ל-"/podcast/" (עריכת פודקאסט): בליווי העריכה
+     כבר כלולה (אישור הבעלים 7.10.2026). ההמשך הוא פס הייצור, למי שכבר יש לו
+     פורמט, במילים של השוואת המסלולים בעמוד. לא שיחת אפיון: הבלוק הזה הוא
+     ניווט בין עמודים, וכפתור האפיון בוואטסאפ כבר נמצא ממש מעליו בעמוד. */
+  "/podcast/podcast-production": {
+    href: "/podcast/bulk-production",
+    prompt: "כבר יש לכם פורמט?",
+    label: "פס ייצור פודקאסט",
+  },
   "/podcast/podcast-editing": {
     href: "/podcast/podcast-recording",
     prompt: "עדיין בלי הקלטה באולפן?",
