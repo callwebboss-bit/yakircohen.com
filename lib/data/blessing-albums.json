@@ -1,12 +1,4 @@
 {
-  "_comment": "דפי נחיתה למשפחה לפי slug. שדות: slug, honoree (למי האלבום), occasion (סוג האירוע), organizer (מי אוסף, שם פרטי), deadline (YYYY-MM-DD, לא חובה). ה-slug חייב להיות ארוך ובלתי ניתן לניחוש, כי הדף ציבורי, ולא לשים בו פרטים רגישים. הרשומה example-album היא דוגמה לתבנית בלבד, למחוק אותה לפני הפעלה.",
-  "albums": [
-    {
-      "slug": "example-album",
-      "honoree": "דוגמה",
-      "occasion": "יום הולדת",
-      "organizer": "דוגמה",
-      "deadline": "2027-01-01"
-    }
-  ]
+  "_comment": "דפי נחיתה למשפחה לפי slug. שדות: slug, honoree (למי האלבום), occasion (סוג האירוע), organizer (מי אוסף, שם פרטי), deadline (YYYY-MM-DD, לא חובה). ה-slug חייב להיות ארוך ובלתי ניתן לניחוש, כי הדף ציבורי, ולא לשים בו פרטים רגישים.",
+  "albums": []
 }

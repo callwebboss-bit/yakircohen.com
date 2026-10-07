@@ -17,12 +17,16 @@ test("normalizeVoucherCode: אותיות גדולות וניקוי רווחים"
   assert.equal(normalizeVoucherCode("ab%2D12"), "AB-12");
 });
 
-test("findVoucher: מוצא לפי קוד בכל אותיות, ומחזיר null לקוד לא ידוע", () => {
-  const [first] = getAllVoucherCodes();
-  assert.ok(first);
-  assert.ok(findVoucher(first.toLowerCase()));
+test("findVoucher: קוד לא ידוע או לא תקין מחזיר null", () => {
   assert.equal(findVoucher("NOT-A-REAL-CODE"), null);
   assert.equal(findVoucher("%E0%A4%A"), null);
+});
+
+test("findVoucher: מוצא כל קוד קיים בכל אותיות (כשיש שוברים)", () => {
+  for (const code of getAllVoucherCodes()) {
+    assert.ok(findVoucher(code), code);
+    assert.ok(findVoucher(code.toLowerCase()), code.toLowerCase());
+  }
 });
 
 test("isVoucherExpired: לפי תאריך סיום", () => {
