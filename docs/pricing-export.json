@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 165,
-  "contentHash": "d020ca912ca30af5",
+  "contentHash": "66a19eb2266e2ec1",
   "items": [
     {
       "id": "studio_half_hour",
@@ -642,7 +642,7 @@
       "exVat": 6500,
       "inclVat": 7670,
       "priceFrom": false,
-      "context": "4 שעות, חדר ישיבות, עד 4 מרואים"
+      "context": "4 שעות, חדר ישיבות, עד 4 מרואיינים"
     },
     {
       "id": "on_site_full_day",
@@ -864,7 +864,7 @@
     },
     {
       "id": "voice_clone_clip",
-      "label": "קlip ממודל קול, עד דקה",
+      "label": "קליפ ממודל קול, עד דקה",
       "category": "online",
       "exVat": 450,
       "inclVat": 531,

@@ -1,6 +1,6 @@
 /**
- * הצעת הקלטת השיר: בסיס אחד, שלוש תוספות ומספר משתתפים
- * (docs/OWNER-DECISIONS-2026-10-02.md).
+ * הצעת הקלטת השיר: בסיס אחד, התוספות של הבסיס בקטלוג ומספר משתתפים
+ * (docs/OWNER-DECISIONS-2026-10-02.md, שהתחיל משלוש תוספות).
  *
  * מודול טהור, בלי React. הצד הזה קורא את הקטלוג (song_recording,
  * PRICING_ADDON_LINKS ו-SONG_PARTICIPANT_RULES) ובונה ממנו SongQuoteData.
@@ -298,8 +298,13 @@ export function buildSongOfferQuote(
 }
 
 /**
- * כל השילובים החוקיים מחושבים מראש, לפי songAddonKey. שלוש תוספות והראיון
- * רק עם הקליפ נותנים שישה שילובים, וזה מה שקומפוננטת השרת שולחת לטופס.
+ * כל השילובים החוקיים מחושבים מראש, לפי songAddonKey (validSongCombinations):
+ * כל תת-קבוצה של התוספות בקטלוג, חוץ מצירוף שבו תוספת עם requires נבחרה בלי
+ * התנאי שלה (היום הפודקאסט האישי והתמונות מהבית רק עם הקליפ). 7 תוספות נותנות
+ * 80 שילובים, והבדיקה ב-song-offer-quote.test.ts נועלת את המספר.
+ * הטופס לא מקבל את המפה הזו: הוא מחשב כל הצעה בדפדפן מ-quoteData
+ * (composeSongOfferQuote). כאן היא משמשת את הבדיקות כמקור להשוואה, ו-
+ * getSongOfferExport נשען על אותה רשימת שילובים.
  */
 export function getSongOfferQuotes(
   options: SongWhatsAppHrefOptions,

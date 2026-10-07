@@ -156,7 +156,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     hook: "מוכח ב-Hypeddit: build לדרופ שכולם מכירים.",
     whyItWorks:
       "מאשאפ שכבר הוכח ב-Hypeddit (DJ Homba) - אותה תיבה אנרגטית, אותו קהל מזרחית. דוקטור נותן build-up, פנתרה סוגרת בדרופ שכולם מכירים.",
-    mergeTip: "בridge דוקטור → פתיחת פנתרה. אל תדלג על ה-build - הקהל צריך את העלייה.",
+    mergeTip: "ב-bridge דוקטור → פתיחת פנתרה. אל תדלג על ה-build - הקהל צריך את העלייה.",
     crowdProfile: "חתונות מזרחית קלאסית. עובד גם בבר מצווה עם קהל מבוגר יותר.",
     bpmHint: "128-130",
     technicalNote: "סולמות קרובים במפת Camelot - עריכה ידנית על הטומים עדיף על sync אוטומטי.",
@@ -191,7 +191,7 @@ export const DJ_MASHUP_IDEAS: readonly DjMashupIdea[] = [
     crowdProfile: "חתונה מעורבת: מזרחית + מיינסטרים. נקודת שיא לפני סלואו.",
     bpmHint: "128",
     keyHint: "8A → 8B",
-    technicalNote: "pitch עומר +1 או -1 סמitone לפי גרסה. בדוק ב-Tunebat לפני מיקס.",
+    technicalNote: "pitch עומר +1 או -1 semitone לפי גרסה. בדוק ב-Tunebat לפני מיקס.",
     energy: "גבוה",
     researchSource: "Serato Nadav Agami + DJ Shlomi wedding lists",
     proCta: "custom",

@@ -99,7 +99,6 @@ function messageTitle(card: SalesCardDraft): string {
 const CONTEXT_SKIP = /→|1:1|לא מובטח|מחיר|חשבונית|₪|%/;
 const NO_CONTEXT_IDS: Readonly<Record<string, string>> = {
   mashup_creative_plus: "השם בהודעה כבר אומר הפקה מלאה באולפן, והשאר מונחים טכניים",
-  on_site_half_day: "בקטלוג כתוב 'מרואים' (כנראה מרואיינים), עד שיתוקן שם",
 };
 
 /* context שכתוב על הלקוח בגוף שלישי, ובהודעה ממנו נשמע מוזר. בלי מספרים, כדי
