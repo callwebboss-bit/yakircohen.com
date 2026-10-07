@@ -62,6 +62,12 @@ test("offerCount הוא מספר השורות, והטווח תקין, במטבע
   });
 });
 
+test("צומת Service לא נושא inLanguage (validator.schema.org מתריע שזה לא מאפיין של Service)", () => {
+  for (const node of services) {
+    assert.ok(!("inLanguage" in node), node["@id"]);
+  }
+});
+
 test("מזהי ה-Service ייחודיים ולא מתנגשים עם מזהי ה-Offer", () => {
   const ids = services.map((node) => node["@id"]);
   assert.equal(new Set(ids).size, ids.length);

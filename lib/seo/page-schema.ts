@@ -345,7 +345,6 @@ export function buildPricingSectionsSchema(
         name: section.title,
         description: section.description,
         url: absoluteUrl(section.href),
-        inLanguage: "he-IL",
         provider: { "@id": ENTITY_IDS.organization },
         areaServed: SERVICE_AREA_SERVED,
         offers: {
