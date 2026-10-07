@@ -61,6 +61,16 @@ export default function HomeGiftsTeaser() {
             לכל רעיונות המתנה
           </Link>
         </div>
+
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          יום הולדת לילדים?{" "}
+          <Link
+            href="/studio/kids-birthday"
+            className="inline-flex min-h-12 items-center font-semibold text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-catalog-gold"
+          >
+            שעתיים באולפן, בחמישה שלבים
+          </Link>
+        </p>
       </Container>
     </Section>
   );

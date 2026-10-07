@@ -62,6 +62,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/studio-rehovot"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/studio-beit-shemesh"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/mobile-studio"), priority: 0.8, changeFrequency: "monthly" },
+  { url: url("studio/kids-birthday"), priority: 0.8, changeFrequency: "monthly" },
 
   // ── Podcast ────────────────────────────────────────────────────────────────
   { url: url("podcast"), priority: 0.9, changeFrequency: "monthly" },
