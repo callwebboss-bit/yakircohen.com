@@ -272,10 +272,17 @@ export type PricingOfferInput = {
   priceExVat?: number | null;
 };
 
+export type PricingOffersOptions = {
+  /** תאריך YYYY-MM-DD. נפלט רק על הצעות שיש להן מחיר, וכשהפרמטר חסר הפלט לא משתנה. */
+  priceValidUntil?: string;
+};
+
 export function buildPricingOffersSchema(
   pageUrl: string,
   offers: PricingOfferInput[],
+  options: PricingOffersOptions = {},
 ) {
+  const { priceValidUntil } = options;
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -292,6 +299,7 @@ export function buildPricingOffersSchema(
         ? {
             price: String(withVat(offer.priceExVat)),
             priceCurrency: "ILS",
+            ...(priceValidUntil ? { priceValidUntil } : {}),
             priceSpecification: {
               "@type": "UnitPriceSpecification",
               price: offer.priceExVat,
@@ -303,6 +311,63 @@ export function buildPricingOffersSchema(
       url: pageUrl,
       availability: "https://schema.org/InStock",
     })),
+  };
+}
+
+export type PricingSectionInput = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  rows: readonly { exVat: number }[];
+};
+
+/**
+ * טווח מחירים לכל קבוצה במחירון, לא טווח אחד לכל העמוד: הצעה אחת שמכסה את
+ * כל המחירון היא "מחירון כהצעה", וזה בדיוק מה שהוסר כממצא S28 (docs/PRICING.md).
+ *
+ * המספרים נגזרים משורות הקבוצה, ששואבות מהקטלוג, באותה נוסחת מע״מ כמו
+ * ההצעות הבודדות. offerCount הוא מספר השורות ולא קבוע. קבוצה בלי שורות
+ * מושמטת: טווח של כלום הוא צומת שבור.
+ */
+export function buildPricingSectionsSchema(
+  pageUrl: string,
+  sections: readonly PricingSectionInput[],
+  priceValidUntil: string,
+) {
+  const graph = sections
+    .filter((section) => section.rows.length > 0)
+    .map((section) => {
+      const prices = section.rows.map((row) => withVat(row.exVat));
+      return {
+        "@type": "Service",
+        "@id": `${pageUrl}#service-${section.id}`,
+        name: section.title,
+        description: section.description,
+        url: absoluteUrl(section.href),
+        inLanguage: "he-IL",
+        provider: { "@id": ENTITY_IDS.organization },
+        areaServed: SERVICE_AREA_SERVED,
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "ILS",
+          lowPrice: String(Math.min(...prices)),
+          highPrice: String(Math.max(...prices)),
+          offerCount: prices.length,
+          priceValidUntil,
+          availability: "https://schema.org/InStock",
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "ILS",
+            valueAddedTaxIncluded: true,
+          },
+        },
+      };
+    });
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
   };
 }
 

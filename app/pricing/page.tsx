@@ -8,7 +8,12 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import PricingHubQuickNav from "@/components/marketing/PricingHubQuickNav";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { buildFaqSchema, buildItemListSchema, buildPricingOffersSchema } from "@/lib/seo/page-schema";
+import {
+  buildFaqSchema,
+  buildItemListSchema,
+  buildPricingOffersSchema,
+  buildPricingSectionsSchema,
+} from "@/lib/seo/page-schema";
 import {
   hubSchemaPropsFromSeo,
   metadataForHubSeo,
@@ -18,6 +23,7 @@ import { SITE_NAME } from "@/lib/constants";
 import { PRICING_FRAMING_LINE } from "@/lib/data/conversion-copy";
 import {
   PRICES_LAST_UPDATED,
+  PRICES_VALID_UNTIL,
   PRICING_HUB_SECTIONS,
 } from "@/lib/data/pricing-hub";
 import { PRICING_FAQ_ITEMS } from "@/lib/data/pricing-faq";
@@ -63,6 +69,13 @@ const pricingOffersSchema = buildPricingOffersSchema(
       priceExVat: row.exVat,
     })),
   ),
+  { priceValidUntil: PRICES_VALID_UNTIL },
+);
+
+const pricingSectionsSchema = buildPricingSectionsSchema(
+  absoluteUrl("pricing"),
+  PRICING_HUB_SECTIONS,
+  PRICES_VALID_UNTIL,
 );
 
 const pricingItemListSchema = buildItemListSchema(
@@ -97,6 +110,10 @@ export default function PricingHubPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingOffersSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pricingSectionsSchema) }}
       />
       <article className="bg-background">
         <Section padding="sm" className="border-b border-border bg-background text-center">

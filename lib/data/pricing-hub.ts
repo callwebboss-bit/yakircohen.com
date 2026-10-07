@@ -694,4 +694,14 @@ export function formatHubPriceRow(exVat: number): string {
 
 export const PRICES_LAST_UPDATED = "אוגוסט 2026";
 
+/**
+ * תוקף המחירים ב-JSON-LD של /pricing (priceValidUntil), בפורמט YYYY-MM-DD.
+ *
+ * זו התחייבות עסקית ולא נתון שאפשר לגזור: אין בריפו שום מקור לתוקף מחיר, והכלל
+ * באתר הוא שהשמטה עדיפה על תאריך מומצא (lib/seo/page-schema.ts). התאריך נקבע
+ * על ידי הבעלים ב-7.10.2026. לעדכן אותו יחד עם עדכון מחירים, ולפני שהוא פג:
+ * lib/seo/pricing-hub-schema.test.ts נכשל כשנשארו פחות מ-14 יום.
+ */
+export const PRICES_VALID_UNTIL = "2026-12-31";
+
 export { PRICES_EXCLUDE_VAT_NOTE };
