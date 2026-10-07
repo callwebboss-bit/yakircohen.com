@@ -19,7 +19,9 @@ import {
   DJ_PER_EVENT_SHORT,
   getPriceById,
   MOBILE_STUDIO_CHANNEL_RULES,
+  PODCAST_FULL_PRODUCTION_NOTE,
   PODCAST_PARTICIPANT_RULES,
+  PODCAST_VIDEO_INCLUDES_NOTE,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
@@ -105,6 +107,9 @@ const NO_CONTEXT_IDS: Readonly<Record<string, string>> = {
    שלא יתיישן מול הקטלוג */
 const MESSAGE_DETAIL: Readonly<Record<string, string>> = {
   studio_self_service_hour: "שעת הקלטה בלי עריכה, ואתם לוקחים את הקבצים הגולמיים.",
+  /* החלטת הבעלים D63, 7.10.2026: המשפט המלא מהקטלוג, ולא רק השורה הראשונה של "כלול" */
+  podcast_video: `${PODCAST_VIDEO_INCLUDES_NOTE}.`,
+  full_podcast_production: `${PODCAST_FULL_PRODUCTION_NOTE}.`,
 };
 
 function detailSentence(card: SalesCardDraft): string | null {

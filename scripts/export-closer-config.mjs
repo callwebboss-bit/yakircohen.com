@@ -322,7 +322,7 @@ function parseConstStringArray(text, name) {
   return items;
 }
 
-function parseStudioParticipantRules(studioText, catalog) {
+function parseStudioParticipantRules(studioText, catalog, catalogText = "") {
   const extraFromCatalog = (catalog ?? []).find((item) => item.id === "studio_extra_participant");
   const extraParticipantPrice =
     extraFromCatalog?.exVat ??
@@ -336,7 +336,13 @@ function parseStudioParticipantRules(studioText, catalog) {
     pairExtraPrice: Math.round(extraParticipantPrice / 2),
     blessingExtraParticipantPrice: blessingExtra?.exVat ?? 99,
     blessingMaxParticipants: 12,
-    recordingMax: parseConstNumber(studioText, "STUDIO_RECORDING_MAX", 10),
+    /* החלטת הבעלים D64, 7.10.2026: STUDIO_RECORDING_MAX מפנה ל-STUDIO_SIMULTANEOUS_RECORDERS
+       בקטלוג (4), ולכן קוראים משם קודם. בלי זה הכלי היה נופל ל-10 */
+    recordingMax: parseConstNumber(
+      catalogText,
+      "STUDIO_SIMULTANEOUS_RECORDERS",
+      parseConstNumber(studioText, "STUDIO_RECORDING_MAX", 10),
+    ),
     filmingMax: parseConstNumber(studioText, "STUDIO_FILMING_MAX", 5),
     savingsTipThreshold: parseConstNumber(studioText, "STUDIO_SAVINGS_TIP_THRESHOLD", 5),
     motzashSurcharge: 0.5,
@@ -899,7 +905,7 @@ const payload = {
   studioUpgrades: parseStudioUpgrades(studioText, catalogExport),
   recordingTypes: parseRecordingTypes(studioText),
   atmosphereTypes: parseAtmosphereTypes(studioText),
-  studioParticipantRules: parseStudioParticipantRules(studioText, catalogExport),
+  studioParticipantRules: parseStudioParticipantRules(studioText, catalogExport, catalogText),
   blogPosts: parseBlogPosts(blogText),
   filterQuestions: parseFilterQuestions(filterText),
   leadSources: [

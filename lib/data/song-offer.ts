@@ -46,6 +46,7 @@ import {
   getPriceById,
   getPriceTransparencyById,
   SONG_PARTICIPANT_RULES,
+  STUDIO_TURNS_NOTE,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
@@ -139,9 +140,13 @@ export function songParticipantsSurcharge(participants: number): number {
   return songParticipantsSurchargeExVat(participants, getSongParticipantRules());
 }
 
-/** { withVat: "כל משתתף נוסף +117 ₪ כולל מע״מ", exVat: "(99 ₪ + מע״מ)", limit: "עד 12 בשיר" } */
+/** { withVat: "כל משתתף נוסף +117 ₪ כולל מע״מ", exVat: "(99 ₪ + מע״מ)", limit: "עד 12 בשיר", turns } */
 export function getSongParticipantsExplanation(): SongParticipantsExplanation {
-  return songParticipantsExplanationParts(getSongParticipantRules(), CATALOG_VAT_RATE);
+  /* turns: קיבולת האולפן ליד בורר המשתתפים, החלטת הבעלים D64, 7.10.2026 */
+  return {
+    ...songParticipantsExplanationParts(getSongParticipantRules(), CATALOG_VAT_RATE),
+    turns: STUDIO_TURNS_NOTE,
+  };
 }
 
 /** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)", מהקטלוג */

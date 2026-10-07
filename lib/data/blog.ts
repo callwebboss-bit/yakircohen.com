@@ -2346,7 +2346,7 @@ ${songAddonRows()}
 <table>
 <tr><td>הקלטת פרק בודד עד שעה, כולל טכנאי</td><td>${blogExVat("podcast_audio")}</td></tr>
 <tr><td>הפקת פודקאסט וידאו מרובת מצלמות</td><td>${blogExVat("podcast_video")}</td></tr>
-<tr><td>הפקה מלאה הכוללת הגעה, הקלטה ועריכה עד פרק מוכן</td><td>${blogExVat("full_podcast_production")}</td></tr>
+<tr><td>הפקה מלאה: צילום ב-3 מצלמות באולפן, הפרק המלא בסוף ההקלטה ועריכה נוספת תוך 24 עד 48 שעות</td><td>${blogExVat("full_podcast_production")}</td></tr>
 <tr><td>עריכת פודקאסט או סרטון קצר בנפרד</td><td>${blogExVat("podcast_editing_hour")}</td></tr>
 </table>
 <h2>מה משתלם יותר בטווח הארוך</h2>
@@ -3006,7 +3006,7 @@ ${songAddonRows()}
 <h2>עלויות הפקת פודקאסט ריאלי, 2026 (לפני מע"מ)</h2>
 <table>
 <tr><td>הקלטת פרק בודד באולפן, כולל עריכה ומסירה</td><td>${blogExVat("podcast_audio")}</td></tr>
-<tr><td>הפקה מלאה - הגעה, הקלטה ועריכה עד פרק מוכן</td><td>${blogExVat("full_podcast_production")}</td></tr>
+<tr><td>הפקה מלאה באולפן: צילום ב-3 מצלמות, הפרק המלא בסוף ההקלטה ועריכה נוספת תוך 24 עד 48 שעות</td><td>${blogExVat("full_podcast_production")}</td></tr>
 <tr><td>הפקת פודקאסט וידאו מרובת מצלמות</td><td>${blogExVat("podcast_video")}</td></tr>
 </table>
 <h2>מה מבדיל פודקאסט שמוליד לקוחות</h2>

@@ -336,6 +336,10 @@ export default function SalesCard({ card, open, highlighted, onToggle, onCopy, o
           {card.participants?.length ? (
             <section>
               <h3 className="text-xs font-semibold text-foreground">לפי מספר משתתפים</h3>
+              {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */}
+              {card.participantsNote ? (
+                <p className="mt-1 text-xs text-muted-foreground">{card.participantsNote}.</p>
+              ) : null}
               <table className="mt-1 w-full text-right">
                 <thead className="text-xs text-muted-foreground">
                   <tr>

@@ -122,7 +122,7 @@ import {
   mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
-import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY } from "@/lib/data/pricing-catalog";
+import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -868,6 +868,10 @@ export default function PodcastBookingWizard({
                   ? `באולפן הנייד: ${mobileChannelPriceLine()}.`
                   : `באולפן: ${podcastParticipantPriceLine()}.`}
               </p>
+              {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. באולפן הנייד אין תורות */}
+              {isMobile ? null : (
+                <p className="mt-1 text-xs text-muted-foreground">{STUDIO_TURNS_NOTE}.</p>
+              )}
             </div>
             <div className="flex flex-wrap gap-2">
               {Array.from(

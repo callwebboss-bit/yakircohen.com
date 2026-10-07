@@ -63,7 +63,7 @@ export type SongOfferConfiguratorProps = {
   /** המחירים מהקטלוג כנתונים פשוטים. כל הצעה מחושבת מהם ב-composeSongOfferQuote. */
   quoteData: SongQuoteData;
   /** שורת ההסבר מתחת לבורר המשתתפים, כולל מע״מ ולפני מע״מ */
-  participantsExplanation: { withVat: string; exVat: string; limit: string };
+  participantsExplanation: { withVat: string; exVat: string; limit: string; turns?: string };
   /** נתיב העמוד, נכנס לתג ולמייל */
   source: string;
   utmCampaign?: string;
@@ -499,7 +499,7 @@ function ParticipantsStepper({
   min: number;
   max: number;
   surchargeWithVat: number;
-  explanation: { withVat: string; exVat: string; limit: string };
+  explanation: { withVat: string; exVat: string; limit: string; turns?: string };
   breakdown: PersonBreakdown;
   onChange: (delta: number) => void;
 }) {
@@ -524,6 +524,10 @@ function ParticipantsStepper({
           {" · "}
           {explanation.limit}
         </p>
+        {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */}
+        {explanation.turns ? (
+          <p className="mt-1 text-xs text-muted-foreground">{explanation.turns}.</p>
+        ) : null}
       </div>
       <div className="flex items-center justify-between gap-3">
         <p id={labelId} className="text-sm font-semibold text-foreground">

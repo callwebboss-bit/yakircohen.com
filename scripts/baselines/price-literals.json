@@ -1043,20 +1043,6 @@
     "example": "price: 2500,"
   },
   {
-    "file": "lib/data/podcast-production-page.ts",
-    "kind": "prose",
-    "value": 950,
-    "count": 1,
-    "example": "description: \"כבר יש פורמט? מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע. החל מ-950 ₪ לפרק.\","
-  },
-  {
-    "file": "lib/data/podcast-production-page.ts",
-    "kind": "prose",
-    "value": 2500,
-    "count": 1,
-    "example": "description: \"צילום + הקלטה + עריכה, הפרק אצלכם באותה שנייה שמסיימים להקליט. החל מ-2,500 ₪.\","
-  },
-  {
     "file": "lib/data/podcast-self-service-page.ts",
     "kind": "prose",
     "value": 650,
@@ -1223,20 +1209,6 @@
     "value": 3200,
     "count": 1,
     "example": "range: \"₪2,500 - ₪3,200\","
-  },
-  {
-    "file": "lib/data/singer-amplification-page.ts",
-    "kind": "prose",
-    "value": 300,
-    "count": 1,
-    "example": "\"מרכז - ללא תוספת - צפון +300 ₪ - דרום +500 ₪ (מבסיס מודיעין)\";"
-  },
-  {
-    "file": "lib/data/singer-amplification-page.ts",
-    "kind": "prose",
-    "value": 500,
-    "count": 1,
-    "example": "\"מרכז - ללא תוספת - צפון +300 ₪ - דרום +500 ₪ (מבסיס מודיעין)\";"
   },
   {
     "file": "lib/data/site-search.ts",

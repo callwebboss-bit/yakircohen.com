@@ -479,7 +479,7 @@ export default function EventsBookingWizard({
     ...(form.location ? [{ label: "מיקום", value: sanitizeLeadText(form.location, 120) }] : []),
     ...(labels.length > 0 ? [{ label: "אטרקציות", value: labels.join(", ") }] : []),
     ...(hasSoundRental ? [{ label: "הגברה", value: `השכרת ציוד הגברה (+${SOUND_RENTAL_PRICE.toLocaleString("he-IL")} ₪)` }] : []),
-    ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "מצגת תמונות חינם" }] : []),
+    ...(count >= EVENT_GIFT_THRESHOLD ? [{ label: "מתנה", value: "קליפ היילייטס 60 שניות" }] : []),
     ...(savings > 0 ? [{ label: "חיסכון חבילה", value: `${savings.toLocaleString()} ₪` }] : []),
     ...(form.sessionPriority
       ? [

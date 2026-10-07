@@ -1605,7 +1605,8 @@ export default function StudioRecordingBooking({
                 ) : null}
                 {form.adultsCount + form.childrenCount > STUDIO_RECORDING_MAX ? (
                   <p className="text-xs font-medium text-amber-800">
-                    מעל {STUDIO_RECORDING_MAX} מקליטים - נתאם חלוקה לזוגות בשקט באולפן
+                    {/* החלטת הבעלים D64, 7.10.2026: בתורות, והמחיר לא משתנה */}
+                    מעל {STUDIO_RECORDING_MAX} מקליטים - מקליטים בתורות, והתורות לא משנות את המחיר
                   </p>
                 ) : null}
               </div>

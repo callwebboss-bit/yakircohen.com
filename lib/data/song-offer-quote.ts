@@ -175,6 +175,8 @@ export type SongParticipantsExplanation = {
   exVat: string;
   /** "עד 12 בשיר" */
   limit: string;
+  /** קיבולת האולפן, "עד 4 מקליטים בבת אחת..." (החלטת הבעלים D64, 7.10.2026) */
+  turns?: string;
 };
 
 /** חלקי שורת ההסבר מתחת לבורר */

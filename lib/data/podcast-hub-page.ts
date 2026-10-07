@@ -1,7 +1,7 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
-import { formatFromPriceDual, getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_PACK_NOTE } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_EXTRA_EDIT_NOTE, PODCAST_PACK_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
   PODCAST_AUDIO_PACKS,
@@ -44,7 +44,8 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
     id: "video",
     title: "פודקאסט וידאו",
     priceFrom: getExVat("podcast_video"),
-    outcome: "MP4 ליוטיוב + MP3 לספוטיפיי אחרי עריכה",
+    /* החלטת הבעלים D63, 7.10.2026: בווידאו הפרק המלא בסוף ההקלטה. עריכה נוספת רק בהפקה המלאה */
+    outcome: "MP4 ליוטיוב + MP3 לספוטיפיי, מיד בסוף ההקלטה",
     bestFor: "ראיונות, מיתוג ונוכחות ויזואלית",
     href: "/podcast/podcast-production",
     linkLabel: "לפרטי פודקאסט וידאו",
@@ -86,7 +87,8 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
   {
     emoji: "📹",
     title: "צילום 4K",
-    description: "2-3 מצלמות, זוויות מגוונות ותאורת סטודיו מקצועית.",
+    /* החלטת הבעלים D63, 7.10.2026: 3 מצלמות ותאורה (היה "2-3") */
+    description: "3 מצלמות, זוויות מגוונות ותאורת סטודיו מקצועית.",
   },
   {
     emoji: "📤",
@@ -176,7 +178,8 @@ export const PODCAST_HUB_INCLUDED: readonly {
   },
   {
     title: "צילום וידאו",
-    description: "2-3 מצלמות 4K, תאורת סטודיו, framing מקצועי.",
+    /* החלטת הבעלים D63, 7.10.2026: 3 מצלמות (היה "2-3") */
+    description: "3 מצלמות 4K, תאורת סטודיו, framing מקצועי.",
   },
   {
     title: "קבצים סופיים",
@@ -267,7 +270,7 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "price",
     question: "כמה עולה הקלטת פודקאסט מקצועית ומה כלול במחיר?",
     answer:
-      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}, עד שעה. ${podcastParticipantPriceLine()}. הפקה מלאה עם צילום ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
+      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}, עד שעה. ${podcastParticipantPriceLine()}. הפקה מלאה עם צילום ו${PODCAST_EXTRA_EDIT_NOTE} ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
   },
   /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו במקום "הצעה לפי סדרה" */
   {
@@ -285,7 +288,8 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "guests",
     question: "כמה משתתפים יכולים להקליט בו זמנית?",
     answer:
-      "המערכת מנתבת עד 4 מיקרופונים נפרדים בו זמנית, בפורמט של יחיד, זוג או פאנל מרובה משתתפים. כל משתתף מקבל מיקרופון ייעודי ואוזניות אישיות.",
+      /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
+      `המערכת מנתבת עד 4 מיקרופונים נפרדים בו זמנית, בפורמט של יחיד, זוג או פאנל מרובה משתתפים. כל משתתף מקבל מיקרופון ייעודי ואוזניות אישיות. ${STUDIO_TURNS_NOTE}.`,
   },
   {
     id: "deliverables",

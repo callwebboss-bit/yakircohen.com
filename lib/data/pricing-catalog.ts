@@ -32,6 +32,15 @@
  * (PODCAST_PARTICIPANT_RULES). פודקאסט עם סבא באותו מחיר כמו פודקאסט רגיל.
  * חבילות פרקי אודיו: podcast_audio_pack_4 (3,496), podcast_audio_pack_8 (6,992),
  * ב-CATALOG_BUNDLES. podcast_video ו-full_podcast_production לא שונו.
+ *
+ * CONTENT_REVIEW: overlay 2026-10-07 (החלטות הבעלים D63-D70, 7.10.2026) -
+ * podcast_video: צילום ב-3 מצלמות ותאורה, הפרק המלא מיד בסוף ההקלטה.
+ * full_podcast_production: אותו דבר, ועוד עריכה נוספת תוך 24 עד 48 שעות (D63).
+ * האולפן: 4 מקליטים בבת אחת, מעל 4 בתורות (D64, STUDIO_SIMULTANEOUS_RECORDERS).
+ * בשיר: באולפן תיקונים בלי הגבלה, אחר כך 2 סבבים, וכל סבב נוסף
+ * studio_extra_revision (D65). חריגה מסשן השיר: studio_half_hour לכל חצי שעה,
+ * כמו בפודקאסט (D66). נסיעה להגברת זמר: singer_travel_north, singer_travel_south
+ * (D69). המתנה ב-4 אטרקציות היא קליפ היילייטס (D70).
  */
 
 const VAT_RATE_LOCAL = 0.18;
@@ -171,6 +180,22 @@ export const PODCAST_AUDIO_SCOPE_NOTE = `כלול: ${PODCAST_AUDIO_INCLUDES_NOTE
 export const PODCAST_GRANDPA_SAME_PRICE_NOTE = "פודקאסט עם סבא וסבתא עולה בדיוק כמו פודקאסט רגיל";
 export const PODCAST_PACK_NOTE =
   "כל פרק בחבילה הוא פרק אודיו מלא: הקלטה, עריכה וחלל האולפן, או שיפור סאונד להקלטה שלכם. אותו כלל משתתפים בכל פרק";
+
+/* ─── פודקאסט וידאו והפקה מלאה: החלטת הבעלים D63, 7.10.2026 (D43, D44) ───
+ * ההבדל היחיד בין השניים הוא העריכה הנוספת. מחרוזות בלי מחיר, כדי שהעמודים,
+ * המחשבון ועמדת המכירות יגידו אותו דבר. */
+export const PODCAST_VIDEO_INCLUDES_NOTE = "צילום ב-3 מצלמות ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה";
+export const PODCAST_EXTRA_EDIT_TIME = "תוך 24 עד 48 שעות";
+export const PODCAST_EXTRA_EDIT_NOTE = `עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}`;
+export const PODCAST_FULL_PRODUCTION_NOTE = `${PODCAST_VIDEO_INCLUDES_NOTE}, ועוד ${PODCAST_EXTRA_EDIT_NOTE}`;
+
+/**
+ * קיבולת האולפן (החלטת הבעלים D64, 7.10.2026): 4 מקליטים בבת אחת. מעל 4
+ * מקליטים בתורות, וכללי המחיר עד 12 משתתפים (PODCAST_PARTICIPANT_RULES,
+ * SONG_PARTICIPANT_RULES) לא משתנים בגלל התורות. זו קיבולת ולא מחיר.
+ */
+export const STUDIO_SIMULTANEOUS_RECORDERS = 4;
+export const STUDIO_TURNS_NOTE = `עד ${STUDIO_SIMULTANEOUS_RECORDERS} מקליטים בבת אחת. מעל ${STUDIO_SIMULTANEOUS_RECORDERS} מקליטים בתורות, והתורות לא משנות את המחיר`;
 
 /** אורך הראיון לפני סשן השיר (החלטת הבעלים 3.10.2026, סבב שני) */
 export const SONG_INTERVIEW_DURATION = "עד 10 דקות";
@@ -327,8 +352,9 @@ export const PRICING_CATALOG = [
     label: "סבב תיקונים נוסף",
     exVat: 580,
     category: "addons",
-    context: "עריכה נוספת מלאה מעבר לסבב הכלול",
-    suitedFor: "אחרי שהסבב הכלול במסלול כבר נוצל",
+    /* החלטת הבעלים D65, 7.10.2026: בשיר 2 סבבים כלולים אחרי האולפן, וזה הסבב שאחריהם */
+    context: "סבב תיקונים בשיר, מעבר ל-2 הסבבים הכלולים אחרי הסשן",
+    suitedFor: "אחרי ש-2 סבבי התיקונים הכלולים בשיר נוצלו",
   },
   {
     id: "studio_pitch_correction",
@@ -409,7 +435,8 @@ export const PRICING_CATALOG = [
     label: "פודקאסט וידאו",
     exVat: 1650,
     category: "podcast",
-    context: "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה",
+    /* החלטת הבעלים D63, 7.10.2026. היה "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה" */
+    context: PODCAST_VIDEO_INCLUDES_NOTE,
     suitedFor: "פודקאסטים עם נוכחות ויזואלית ביוטיוב",
   },
   {
@@ -420,7 +447,9 @@ export const PRICING_CATALOG = [
     context: "וידאו, 3 רילס עם כתוביות והעלאה לפלטפורמות",
     suitedFor: "מותגים שרוצים נוכחות רשתות חברתיות",
   },
-  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" },
+  /* החלטת הבעלים D63, 7.10.2026 (D43, D44): כמו פודקאסט וידאו, ועוד עריכה נוספת.
+     היה "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" */
+  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: PODCAST_FULL_PRODUCTION_NOTE },
   /* החלטת הבעלים 3.10.2026 (סבב שני): אולפן נייד הוא פריט אחד. 2,500 לפני
      מע״מ = הגעה עם כל הציוד, התאורה והצוות. mobile_studio (5,000) נמחק.
      באירוע: צילום פודקאסט מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו,
@@ -682,6 +711,11 @@ export const PRICING_CATALOG = [
   { id: "singer_remote_mix", label: "שליטה מרחוק על המיקס", exVat: 300, category: "addons", context: "אפליקציה" },
   { id: "singer_live_recording", label: "הקלטת ההופעה מהמיקסר", exVat: 500, category: "addons" },
   { id: "singer_extra_hour", label: "שעת הגברה נוספת", exVat: 300, category: "addons" },
+  /* החלטת הבעלים D69, 7.10.2026: נסיעה להגברת זמר בלבד, מבסיס מודיעין. היו
+     מספרים קשיחים ב-SINGER_TRAVEL_NOTE. בשאר השירותים נשארים travel_north_south
+     ו-travel_eilat_golan */
+  { id: "singer_travel_north", label: "תוספת נסיעה להגברת זמר בצפון", exVat: 300, category: "addons", context: "רק להגברת זמר, מבסיס מודיעין. אזור המרכז בלי תוספת" },
+  { id: "singer_travel_south", label: "תוספת נסיעה להגברת זמר בדרום", exVat: 500, category: "addons", context: "רק להגברת זמר, מבסיס מודיעין. אזור המרכז בלי תוספת" },
 
   // ─── צילום ───
   { id: "full_event_photo_8h", label: "צילום אירוע מלא 8 שעות", exVat: 12000, category: "photography", context: "מההכנות ועד שיא הלילה" },
@@ -1081,17 +1115,21 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   song_recording: {
     /* "הקלטה, מיקס ומאסטר" מגיע מ-scope.includes ומופיע ראשון ברשימה */
     /* הפרדת קול מהשיר לפלייבק כלולה (החלטת הבעלים 6.10.2026) */
+    /* סבבי התיקונים: החלטת הבעלים D65, 7.10.2026. סבב שלישי ואילך: studio_extra_revision */
     included: [
       "סשן של שעה באולפן במודיעין",
       "השיר המוכן אצלכם בסוף הסשן",
+      "באולפן תיקונים בלי הגבלה, ואחר כך 2 סבבים תוך 24 שעות",
       SONG_PLAYBACK_HELP,
       "אין פלייבק? מפרידים את קול הזמר מהשיר ב-AI",
     ],
+    /* חריגה מהשעה: החלטת הבעלים D66, 7.10.2026, studio_half_hour לכל חצי שעה כמו בפודקאסט */
     excluded: [
       "תיקון זיופים",
       "קליפ וידאו",
       "כתיבת מילים או לחן",
       "עיבוד מוזיקלי חדש",
+      "חריגה מעבר לשעה, לפי חצי שעה",
     ],
     /* אותו מונחון שהיה לכרטיס "שיר מוכן" שירד (cover_song), כדי שהקישורים
        למילון לא ירדו עם החבילות (seo-diff 3.10.2026). מוצג במחירון, ב-/packages
@@ -1142,8 +1180,9 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     included: ["כתיבה מחדש של הברכה או הדרשה יחד איתכם", "התאמה לגיל, לאירוע ולסגנון המשפחה"],
     excluded: ["ההקלטה עצמה (מסלול הבסיס)"],
   },
+  /* החלטת הבעלים D65, 7.10.2026: סבב מעבר ל-2 הסבבים הכלולים בשיר */
   studio_extra_revision: {
-    included: ["עריכה נוספת מלאה"],
+    included: ["סבב תיקונים אחד בשיר, מעבר ל-2 הסבבים הכלולים"],
     excluded: ["הקלטה חדשה", "שדרוג מסלול"],
   },
   studio_pitch_correction: {
@@ -1208,8 +1247,14 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     included: ["מיקרופון וערוץ הקלטה למשתתף נוסף", "שילוב בפרק הערוך"],
     excluded: ["הפרק עצמו (מסלול הבסיס)", "יותר מ-12 משתתפים בפרק אחד"],
   },
+  /* החלטת הבעלים D63, 7.10.2026 (D43, D44): הפרק המלא מיד בסוף ההקלטה. העריכה
+     הנוספת היא מה שמבדיל את ההפקה המלאה */
   podcast_video: {
-    included: ["הקלטה רב-מצלמת", "3 מצלמות", "תאורה באולפן"],
+    included: ["צילום ב-3 מצלמות", "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה"],
+    excluded: ["עריכה נוספת אחרי ההקלטה (בהפקה המלאה)", "רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
+  },
+  full_podcast_production: {
+    included: ["צילום ב-3 מצלמות", "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה", PODCAST_EXTRA_EDIT_NOTE],
     excluded: ["רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
   },
   content_package: {
