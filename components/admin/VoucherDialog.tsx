@@ -604,7 +604,7 @@ export default function VoucherDialog({ request, onClose, onIssued }: VoucherDia
               </DialogTitle>
               <DialogDescription>
                 {request.kind === "gift"
-                  ? `שולחים לקונה, והוא מעביר הלאה. בלי מחיר. לפני השובר הראשון: לעדכן באתר את התוקף ל-${GIFT_VALIDITY_YEARS} שנים.`
+                  ? `שולחים לקונה, והוא מעביר הלאה. בלי מחיר. התוקף בשובר: ${GIFT_VALIDITY_YEARS} שנים, המינימום בחוק.`
                   : "שולחים מיד אחרי ה״כן״, ושוב באותו קוד אחרי המקדמה. בלי מחיר."}
               </DialogDescription>
             </div>

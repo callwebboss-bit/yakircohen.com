@@ -158,8 +158,13 @@ describe("order confirmation", () => {
     const session = order({ cardId: "academy_nevermind_session" });
     assert.equal(session.where, "אולפן במודיעין, הכתובת נשלחת בוואטסאפ");
     assert.equal(session.parking, STUDIO_PARKING_NOTE);
-    /* "באולפן או בזום": לא קובעים מקום */
-    assert.equal(order({ cardId: "academy_private_hour" }).where, null);
+    /* שאר השיעורים: המקום נקבע בשיחה, ומחוץ לאולפן יש תוספת נסיעות (החלטה 7.10) */
+    const lesson = order({ cardId: "academy_private_hour" });
+    assert.equal(lesson.where, "המקום נקבע בשיחה. מחוץ לאולפן יש תוספת נסיעות");
+    assert.equal(lesson.whenLabel, "מתי:");
+    assert.equal(lesson.parking, null);
+    assert.equal(lesson.bring, null);
+    assert.doesNotMatch(lesson.where ?? "", /\d/);
   });
 
   it("cancellation, terms, disclaimer and footer", () => {
@@ -212,7 +217,8 @@ describe("gift voucher", () => {
     assert.equal(data.giftTo, "סבתא רחל");
     assert.equal(data.giftFrom, "הנכדים, באהבה");
     assert.equal(data.serviceTitle, "פודקאסט עם סבתא באולפן");
-    assert.equal(GIFT_VALIDITY_YEARS, 5);
+    /* החוק: שנתיים לפחות. פחות מזה לא עובר */
+    assert.ok(GIFT_VALIDITY_YEARS >= 2);
     assert.equal(data.validUntilText, `6.10.${2026 + GIFT_VALIDITY_YEARS}`);
     assert.equal(
       data.redemption,
@@ -236,10 +242,13 @@ describe("gift voucher", () => {
     assert.equal(gift({ cardId: slideshow.id, giftTitle: "מצגת לסבתא, 500 שקל" }).serviceTitle, "מצגת לסבתא");
   });
 
-  it("29 February is valid until 1 March, five years later", () => {
+  it("29 February is valid until 1 March of the expiry year, so validity never shrinks", () => {
     const leap = gift({ issuedAt: new Date(Date.UTC(2028, 1, 29, 9)) });
     assert.equal(leap.issuedText, "29.2.2028");
-    assert.equal(leap.validUntilText, "1.3.2033");
+    /* שנת התפוגה מחושבת מהקבוע, כדי ששינוי תוקף לא ישבור את הבדיקה */
+    const expiryYear = 2028 + GIFT_VALIDITY_YEARS;
+    const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+    assert.equal(leap.validUntilText, isLeap(expiryYear) ? `29.2.${expiryYear}` : `1.3.${expiryYear}`);
   });
 
   it("dates follow Israel time, not UTC", () => {

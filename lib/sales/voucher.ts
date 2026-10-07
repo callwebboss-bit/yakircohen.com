@@ -121,8 +121,10 @@ export function normalizeVoucherCode(text: string | null | undefined): string | 
 
 /* ─── תאריכים ─── */
 
-/* תוקף שובר מתנה: לפחות שנתיים לפי החוק, וברירת המחדל שנקבעה בתוכנית היא 5 שנים */
-export const GIFT_VALIDITY_YEARS = 5;
+/* תוקף שובר מתנה. הבעלים ביקש שנה (7.10.2026), אבל חוק הגנת הצרכן קובע לשובר
+   מתנה תוקף של שנתיים לפחות מיום ההנפקה, ולכן זה המינימום שאפשר לכתוב.
+   מקור: https://www.emun.org/credits-and-gift-vouchers/ */
+export const GIFT_VALIDITY_YEARS = 2;
 
 const JERUSALEM_DATE = new Intl.DateTimeFormat("en-GB", {
   timeZone: "Asia/Jerusalem",
@@ -143,7 +145,7 @@ export function formatVoucherDate(date: Date): string {
   return `${day}.${month}.${year}`;
 }
 
-/* 29.2 שאין לו מקבילה בעוד 5 שנים נדחה ל-1.3, כלומר התוקף לא מתקצר */
+/* 29.2 שאין לו מקבילה בשנת התפוגה נדחה ל-1.3, כלומר התוקף לא מתקצר */
 function addYearsText(date: Date, years: number): string {
   const { day, month, year } = jerusalemDateParts(date);
   const shifted = new Date(Date.UTC(year + years, month - 1, day));
@@ -194,12 +196,15 @@ function cleanText(text: string | null | undefined, max: number): string | null 
 
 /* ─── איפה ─── */
 
-type VoucherPlace = "studio" | "event" | "client" | null;
+type VoucherPlace = "studio" | "event" | "client" | "coordinated" | null;
 
 const PLACE_TEXT: Record<Exclude<VoucherPlace, null>, string> = {
   studio: "אולפן במודיעין, הכתובת נשלחת בוואטסאפ",
   event: "במקום האירוע",
   client: "אצלכם, במקום שתיאמנו",
+  /* החלטת הבעלים 7.10.2026 על שיעורים: "מה שקובעים בשיחה, אם זה לא באולפן זה
+     בתוספת נסיעות". בלי מספר: התוספת נסגרת בשיחה, לא באישור */
+  coordinated: "המקום נקבע בשיחה. מחוץ לאולפן יש תוספת נסיעות",
 };
 
 /* שירותים שנעשים מרחוק, גם אם הקטגוריה שלהם היא אולפן או פודקאסט */
@@ -223,6 +228,8 @@ function placeOf(card: SalesCard): VoucherPlace {
       return "studio";
     case "dj":
       return "event";
+    case "academy":
+      return "coordinated";
     case "events":
       return EVENT_DELIVERED_IDS.has(card.id) || card.id.startsWith("growth_slideshow_") ? null : "event";
     case "photography":

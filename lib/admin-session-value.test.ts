@@ -2,8 +2,11 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   ADMIN_COOKIE_MAX_AGE_SEC,
+  ADMIN_SESSION_ABSOLUTE_MAX_DAYS,
   ADMIN_SESSION_RENEW_THRESHOLD_DAYS,
   issueSessionValue,
+  readSessionLoginAt,
+  sessionMaxAgeSec,
   shouldRenewSession,
   verifySessionValue,
 } from "@/lib/admin-session-value";
@@ -26,11 +29,15 @@ describe("קוקי האדמין: תפוגה וחתימה", () => {
     assert.equal(verifySessionValue(value, SECRET, NOW + 31 * DAY), false);
   });
 
-  it("הארכת התפוגה ביד פוסלת את החתימה", () => {
+  it("הארכת התפוגה או הזזת רגע הכניסה ביד פוסלות את החתימה", () => {
     const value = issueSessionValue(SECRET, NOW)!;
-    const signature = value.slice(value.indexOf(".") + 1);
-    const forged = `${NOW + 365 * DAY}.${signature}`;
-    assert.equal(verifySessionValue(forged, SECRET, NOW), false);
+    const [, loginAt, signature] = value.split(".");
+    assert.equal(verifySessionValue(`${NOW + 365 * DAY}.${loginAt}.${signature}`, SECRET, NOW), false);
+    assert.equal(verifySessionValue(`${NOW + 20 * DAY}.${NOW + DAY}.${signature}`, SECRET, NOW + 2 * DAY), false);
+  });
+
+  it("הפורמט של v2, תפוגה וחתימה בלי רגע כניסה, נפסל", () => {
+    assert.equal(verifySessionValue(`${NOW + DAY}.${"a".repeat(64)}`, SECRET, NOW), false);
   });
 
   it("סוד אחר אינו מאמת", () => {
@@ -43,14 +50,14 @@ describe("קוקי האדמין: תפוגה וחתימה", () => {
   });
 
   it("ערכים פגומים אינם זורקים", () => {
-    for (const bad of ["", ".", "abc", "123.", ".abc", "NaN.deadbeef", null, undefined]) {
+    for (const bad of ["", ".", "..", "abc", "123.", ".abc", "1..x", "NaN.1.deadbeef", "1.2.3.4", null, undefined]) {
       assert.equal(verifySessionValue(bad, SECRET, NOW), false);
     }
   });
 
   it("בלי סוד אין הנפקה ואין אימות", () => {
     assert.equal(issueSessionValue(null, NOW), null);
-    assert.equal(verifySessionValue("1.2", null, NOW), false);
+    assert.equal(verifySessionValue("1.2.3", null, NOW), false);
   });
 });
 
@@ -90,10 +97,10 @@ describe("חידוש קוקי האדמין", () => {
   it("חתימה מזויפת, סוד אחר או ערך פגום לא מתחדשים גם כשהתפוגה קרובה", () => {
     const value = issueSessionValue(SECRET, NOW)!;
     const late = NOW + (LIFETIME_DAYS - 1) * DAY;
-    const signature = value.slice(value.indexOf(".") + 1);
-    assert.equal(shouldRenewSession(`${NOW + 2 * DAY}.${signature}`, SECRET, NOW), false);
+    const [, loginAt, signature] = value.split(".");
+    assert.equal(shouldRenewSession(`${NOW + 2 * DAY}.${loginAt}.${signature}`, SECRET, NOW), false);
     assert.equal(shouldRenewSession(value, "another-secret-entirely", late), false);
-    for (const bad of ["", ".", "abc", "NaN.deadbeef", null, undefined]) {
+    for (const bad of ["", ".", "abc", "NaN.1.deadbeef", null, undefined]) {
       assert.equal(shouldRenewSession(bad, SECRET, late), false);
     }
     assert.equal(shouldRenewSession(value, null, late), false);
@@ -111,5 +118,59 @@ describe("חידוש קוקי האדמין", () => {
     const renewed = issueSessionValue(SECRET, renewAt);
     assert.equal(verifySessionValue(renewed, SECRET, renewAt + (LIFETIME_DAYS - 1) * DAY), true);
     assert.equal(shouldRenewSession(renewed, SECRET, renewAt), false);
+  });
+});
+
+describe("תקרת 90 יום מרגע הכניסה", () => {
+  const MAX_DAYS = ADMIN_SESSION_ABSOLUTE_MAX_DAYS;
+
+  /* מדמה שימוש יומיומי: בכל יום, אם צריך, מחדשים עם רגע הכניסה המקורי */
+  function useDaily(days: number): { value: string | null; lastValidDay: number } {
+    let value = issueSessionValue(SECRET, NOW);
+    let lastValidDay = 0;
+    for (let day = 1; day <= days; day++) {
+      const at = NOW + day * DAY;
+      if (!verifySessionValue(value, SECRET, at)) break;
+      lastValidDay = day;
+      if (shouldRenewSession(value, SECRET, at)) {
+        value = issueSessionValue(SECRET, at, readSessionLoginAt(value, SECRET, at)!);
+      }
+    }
+    return { value, lastValidDay };
+  }
+
+  it("שימוש כל יום מחזיק את הכניסה עד 90 יום, ולא יום אחרי", () => {
+    const { lastValidDay } = useDaily(MAX_DAYS + 10);
+    assert.equal(lastValidDay, MAX_DAYS - 1);
+  });
+
+  it("החידוש שומר את רגע הכניסה המקורי", () => {
+    const first = issueSessionValue(SECRET, NOW)!;
+    const at = NOW + 25 * DAY;
+    const renewed = issueSessionValue(SECRET, at, readSessionLoginAt(first, SECRET, at)!)!;
+    assert.equal(readSessionLoginAt(renewed, SECRET, at), NOW);
+  });
+
+  it("קרוב לתקרה התפוגה נעצרת בתקרה, ואין יותר חידוש", () => {
+    const at = NOW + (MAX_DAYS - 5) * DAY;
+    const renewed = issueSessionValue(SECRET, at, NOW)!;
+    assert.equal(verifySessionValue(renewed, SECRET, NOW + MAX_DAYS * DAY - 1), true);
+    assert.equal(verifySessionValue(renewed, SECRET, NOW + MAX_DAYS * DAY), false);
+    assert.equal(shouldRenewSession(renewed, SECRET, NOW + (MAX_DAYS - 1) * DAY), false);
+  });
+
+  it("רגע כניסה מעבר לתקרה נפסל גם עם חתימה נכונה", () => {
+    const loginAt = NOW - (MAX_DAYS + 1) * DAY;
+    const value = issueSessionValue(SECRET, loginAt + (MAX_DAYS - 1) * DAY, loginAt)!;
+    assert.equal(verifySessionValue(value, SECRET, NOW), false);
+    assert.equal(readSessionLoginAt(value, SECRET, NOW), null);
+  });
+
+  it("maxAge של הקוקי שווה לזמן שנשאר עד התפוגה", () => {
+    const value = issueSessionValue(SECRET, NOW)!;
+    assert.equal(sessionMaxAgeSec(value, NOW), ADMIN_COOKIE_MAX_AGE_SEC);
+    const near = issueSessionValue(SECRET, NOW + (MAX_DAYS - 2) * DAY, NOW)!;
+    assert.equal(sessionMaxAgeSec(near, NOW + (MAX_DAYS - 2) * DAY), 2 * 24 * 60 * 60);
+    assert.equal(sessionMaxAgeSec("garbage", NOW), 0);
   });
 });

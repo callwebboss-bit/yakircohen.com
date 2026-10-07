@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import {
   ADMIN_COOKIE_MAX_AGE_SEC,
   issueSessionValue,
+  readSessionLoginAt,
+  sessionMaxAgeSec,
   shouldRenewSession,
   verifySessionValue,
 } from "@/lib/admin-session-value";
@@ -91,22 +93,22 @@ export async function setAdminSessionCookie(token: string): Promise<void> {
 }
 
 /**
- * מנפיק קוקי חדש ל-30 יום כשהנוכחי תקף ונשארו לו פחות מ-7 ימים.
- * מחזיר true רק כשחודש. בלי קוקי תקף לא קורה כלום, ולכן אין כאן דרך להיכנס
- * בלי הסוד, ואין צורך בהגבלת קצב.
- *
- * המחיר: מי שמחזיק קוקי תקף יכול להאריך אותו כל עוד הוא משתמש בו. יציאה
- * מהמערכת עדיין מוחקת אותו מהדפדפן, והחלפת ADMIN_LEADS_TOKEN ב-Vercel עדיין
- * פוסלת כל קוקי קיים, כולל כאלה שחודשו.
+ * מנפיק קוקי חדש כשהנוכחי תקף ונשארו לו פחות מ-7 ימים. רגע הכניסה המקורי
+ * עובר לערך החדש, ולכן אחרי 90 יום מהכניסה אין עוד חידוש (החלטת הבעלים
+ * 7.10.2026). מחזיר true רק כשחודש. בלי קוקי תקף לא קורה כלום, ולכן אין כאן
+ * דרך להיכנס בלי הסוד, ואין צורך בהגבלת קצב.
  */
 export async function renewAdminSessionCookieIfNeeded(): Promise<boolean> {
   const secret = expectedToken();
   const store = await cookies();
   const current = store.get(ADMIN_COOKIE_NAME)?.value?.trim();
   if (!shouldRenewSession(current, secret)) return false;
-  const value = issueSessionValue(secret);
+  const now = Date.now();
+  const loginAtMs = readSessionLoginAt(current, secret, now);
+  if (loginAtMs === null) return false;
+  const value = issueSessionValue(secret, now, loginAtMs);
   if (!value) return false;
-  store.set(sessionCookie(value, ADMIN_COOKIE_MAX_AGE_SEC));
+  store.set(sessionCookie(value, sessionMaxAgeSec(value, now)));
   return true;
 }
 
