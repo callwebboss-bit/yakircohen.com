@@ -2,7 +2,9 @@
 
 import { useId } from "react";
 import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
+import FieldError from "@/components/forms/FieldError";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   maskIsraeliPhoneInput,
@@ -35,7 +37,7 @@ export default function BookingPhoneInput({
 }: BookingPhoneInputProps) {
   const autoId = useId();
   const id = idProp ?? autoId;
-  const errorId = `${id}-error`;
+  const errorId = fieldErrorId(id);
   const hintId = `${id}-hint`;
 
   const handleChange = (raw: string) => {
@@ -69,7 +71,7 @@ export default function BookingPhoneInput({
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-semibold">
         {label}
-        {required ? " *" : ""}
+        {required ? <span aria-hidden="true"> *</span> : null}
       </label>
       <input
         id={id}
@@ -82,7 +84,8 @@ export default function BookingPhoneInput({
         onBlur={handleBlur}
         placeholder={placeholder}
         aria-invalid={!!error}
-        aria-describedby={error ? `${hintId} ${errorId}` : hintId}
+        aria-required={required ? "true" : undefined}
+        aria-describedby={describedBy(hint && hintId, error && errorId)}
         className={cn(
           bookFieldClass,
           error && "border-red-400",
@@ -95,9 +98,7 @@ export default function BookingPhoneInput({
         </p>
       ) : null}
       {error ? (
-        <p id={errorId} className="mt-1 text-xs text-red-500" data-field-error="">
-          {error}
-        </p>
+        <FieldError id={errorId} message={error} />
       ) : (
         <BookingFieldFeedback valid={isValid} hint="מספר תקין" />
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import PhoneInputField from "@/components/forms/PhoneInputField";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
@@ -12,6 +13,8 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SINGER_CLOSING_CTA } from "@/lib/data/singer-amplification-page";
@@ -36,8 +39,9 @@ export default function SingerClosingLeadSection({
   const { honeypot, setHoneypot, globalError, attemptSubmit } = guard;
   const { submitLead, isSuccess, isSubmitting, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formEl = e.currentTarget;
     const fieldErrs = attemptSubmit(
       () =>
         validateBookingLead({
@@ -88,6 +92,8 @@ export default function SingerClosingLeadSection({
       },
     );
     setErrors(fieldErrs ?? {});
+    /* פוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby (F-11) */
+    if (fieldErrs && Object.keys(fieldErrs).length > 0) scrollAndHighlightFirstError(formEl);
   };
 
   return (
@@ -131,9 +137,9 @@ export default function SingerClosingLeadSection({
             או השאירו פרטים - נחזור אליכם
           </p>
           {isSuccess ? (
-            <p className="text-sm text-brand-red">
+            <FocusedStatus className="text-sm text-brand-red">
               תודה! נפתח וואטסאפ - אם לא, ניצור קשר בקרוב.
-            </p>
+            </FocusedStatus>
           ) : (
             <>
               <HoneypotField value={honeypot} onChange={setHoneypot} />
@@ -148,23 +154,26 @@ export default function SingerClosingLeadSection({
               <div className="space-y-3">
                 <div>
                   <label htmlFor="sg-cb-name" className="mb-1 block text-xs font-semibold">
-                    שם *
+                    שם <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="sg-cb-name"
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className={cn(inputClass, errors.name && "border-red-400")}
+                    aria-required="true"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={describedBy(errors.name && fieldErrorId("sg-cb-name"))}
                   />
-                  {errors.name ? (
-                    <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-                  ) : null}
+                  <FieldError id={fieldErrorId("sg-cb-name")} message={errors.name} />
                 </div>
                 <PhoneInputField
                   id="sg-cb-phone"
                   value={phone}
                   onChange={setPhone}
                   error={errors.phone}
+                  required
                 />
                 <div>
                   <label htmlFor="sg-cb-notes" className="mb-1 block text-xs font-semibold">

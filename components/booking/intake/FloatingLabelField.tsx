@@ -1,6 +1,12 @@
 "use client";
 
 import { useId, type Ref } from "react";
+import FieldError from "@/components/forms/FieldError";
+import {
+  describedBy,
+  fieldErrorId,
+  splitRequiredLabel,
+} from "@/lib/field-error";
 import { cn } from "@/lib/utils";
 
 type FloatingLabelFieldProps = {
@@ -17,6 +23,11 @@ type FloatingLabelFieldProps = {
   dir?: "rtl" | "ltr";
   className?: string;
   inputRef?: Ref<HTMLInputElement>;
+  /**
+   * שדה חובה: aria-required וכוכבית aria-hidden. לא `required` מקורי, הוא עוקף
+   * את הולידטורים המותאמים (F-45). בלי הפרמטר, " *" בסוף התווית מזוהה כחובה.
+   */
+  required?: boolean;
 };
 
 export default function FloatingLabelField({
@@ -32,57 +43,63 @@ export default function FloatingLabelField({
   dir = "rtl",
   className,
   inputRef,
+  required,
 }: FloatingLabelFieldProps) {
   const autoId = useId();
   const id = idProp ?? autoId;
+  const errorId = fieldErrorId(id);
+  const hintId = `${id}-hint`;
   const filled = value.trim().length > 0;
+  const { text: labelText, required: labelRequired } =
+    splitRequiredLabel(label);
+  const isRequired = required ?? labelRequired;
 
   return (
-    <div className={cn("relative", className)}>
-      <input
-        ref={inputRef}
-        id={id}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        autoComplete={autoComplete}
-        inputMode={inputMode}
-        dir={dir}
-        placeholder=" "
-        aria-invalid={error ? true : undefined}
-        aria-describedby={
-          error ? `${id}-error` : hint ? `${id}-hint` : undefined
-        }
-        className={cn(
-          "peer w-full min-h-12 rounded-xl border bg-background px-4 pt-5 pb-2 text-sm text-foreground",
-          "border-border focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-          error && "border-brand-red/60",
-        )}
-      />
-      <label
-        htmlFor={id}
-        className={cn(
-          "pointer-events-none absolute start-4 text-muted-foreground transition-all duration-200",
-          "peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-brand-red",
-          filled ? "top-1.5 text-xs" : "top-1/2 -translate-y-1/2 text-sm",
-        )}
-      >
-        {label}
-      </label>
-      {error ? (
-        <p
-          id={`${id}-error`}
-          className="mt-1.5 text-xs text-brand-red"
-          role="alert"
-          data-field-error=""
+    <div className={className}>
+      {/* F-11 (7.10.2026): התווית absolute ביחס לשדה בלבד. הרמז והשגיאה יושבים מחוץ
+          למעטפת ה-relative, אחרת הגובה שלהם דחף את התווית אל מחוץ לשדה כשהשגיאה והרמז
+          מוצגים יחד. */}
+      <div className="relative">
+        <input
+          ref={inputRef}
+          id={id}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          autoComplete={autoComplete}
+          inputMode={inputMode}
+          dir={dir}
+          placeholder=" "
+          aria-invalid={error ? true : undefined}
+          aria-required={isRequired ? "true" : undefined}
+          aria-describedby={describedBy(hint && hintId, error && errorId)}
+          className={cn(
+            "peer w-full min-h-12 rounded-xl border bg-background px-4 pt-5 pb-2 text-sm text-foreground",
+            "border-border focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
+            error && "border-brand-red/60",
+          )}
+        />
+        <label
+          htmlFor={id}
+          className={cn(
+            "pointer-events-none absolute start-4 text-muted-foreground transition-all duration-200",
+            "peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-brand-red",
+            filled ? "top-1.5 text-xs" : "top-1/2 -translate-y-1/2 text-sm",
+          )}
         >
-          {error}
-        </p>
-      ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-xs text-muted-foreground">
+          {labelText}
+          {isRequired ? <span aria-hidden="true"> *</span> : null}
+        </label>
+      </div>
+      {/* הרמז נשאר ב-DOM גם כשיש שגיאה, כדי שלא ייעלם מה-aria-describedby. בלי
+          role="alert": scrollAndHighlightFirstError מעביר פוקוס לשדה, והשגיאה
+          מוקראת משם, אחרת היא הייתה מוקראת פעמיים (F-11) */}
+      {hint ? (
+        <p id={hintId} className="mt-1.5 text-xs text-muted-foreground">
           {hint}
         </p>
       ) : null}
+      <FieldError id={errorId} message={error} className="mt-1.5" />
     </div>
   );
 }

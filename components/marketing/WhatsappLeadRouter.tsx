@@ -90,6 +90,27 @@ export default function WhatsappLeadRouter({
             const title = card.homeCardTitle ?? card.title;
             const descriptionText = card.homeCardDescription ?? card.description;
             const features = card.homeFeatures ?? [];
+            const price = card.priceExVat.toLocaleString("he-IL");
+            // F-32 (נגישות, 7.10.2026): ה-aria-label הקודם (כותרת + מחיר + "פתיחת
+            // וואטסאפ") לא הכיל את תיאור הכרטיס, את הרשימה ואת טקסט הכפתור, ולכן
+            // פקודת קול ("לחץ על הצעת מחיר בוואטסאפ") לא התאימה לשם (2.5.3).
+            // השם הוא עכשיו כל הטקסט הנראה בסדר התצוגה, מופרד ברווח, כמו
+            // שהוא נבנה מהתוכן. ה-span של הכפתור מוסתר ב-aria-hidden ולכן חייב
+            // להיכנס לכאן ידנית, דרך אותו ctaLabel שמוצג בכפתור.
+            const ctaLabel = featured ? "קבלו הצעה בוואטסאפ" : "הצעת מחיר בוואטסאפ";
+            const accessibleName = [
+              featured ? "פופולרי" : null,
+              title,
+              descriptionText,
+              ...features,
+              card.valueFrame,
+              "החל מ-",
+              `${price} ₪`,
+              "+ מע״מ",
+              ctaLabel,
+            ]
+              .filter(Boolean)
+              .join(" ");
 
             return (
               <a
@@ -105,7 +126,7 @@ export default function WhatsappLeadRouter({
                     ? "border-2 border-brand-red bg-background shadow-xl shadow-brand-red/5 [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.25)]"
                     : "border-border bg-background shadow-sm [@media(hover:hover)]:border-brand-red [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.12)]",
                 )}
-                aria-label={`${title} - החל מ-${card.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ - פתיחת וואטסאפ`}
+                aria-label={accessibleName}
               >
                 {featured ? (
                   <span className="absolute start-0 top-0 rounded-br-xl bg-brand-red px-5 py-1.5 text-xs font-bold tracking-wide text-white">
@@ -186,9 +207,7 @@ export default function WhatsappLeadRouter({
                     )}
                     aria-hidden="true"
                   >
-                    <span>
-                      {featured ? "קבלו הצעה בוואטסאפ" : "הצעת מחיר בוואטסאפ"}
-                    </span>
+                    <span>{ctaLabel}</span>
                     <WaIcon />
                   </span>
                 </div>

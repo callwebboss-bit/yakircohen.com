@@ -1,5 +1,6 @@
 "use client";
 
+import { describedBy } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { NEEDS_DISCOVERY_SCRIPT } from "@/lib/whatsapp-closing";
 import { cn } from "@/lib/utils";
@@ -11,6 +12,11 @@ type NeedsDiscoveryStepProps = {
   /** Show the 5-line opener script above the textarea */
   showScript?: boolean;
   id?: string;
+  /**
+   * מזהה הודעת השגיאה (fieldErrorId(id)), רק כשיש שגיאה. השדה מסומן aria-invalid
+   * ומפנה אליה ב-aria-describedby, אחרי הרמז. ההודעה עצמה מרונדרת אצל הקורא (F-11).
+   */
+  errorId?: string;
 };
 
 export default function NeedsDiscoveryStep({
@@ -19,7 +25,9 @@ export default function NeedsDiscoveryStep({
   className,
   showScript = true,
   id = "customer-need",
+  errorId,
 }: NeedsDiscoveryStepProps) {
+  const hintId = `${id}-hint`;
   return (
     <div className={cn("space-y-3", className)}>
       {showScript ? (
@@ -33,7 +41,7 @@ export default function NeedsDiscoveryStep({
         <label htmlFor={id} className="block text-sm font-semibold text-foreground">
           {FORM_MICROCOPY.visionLabel}
         </label>
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p id={hintId} className="mt-1 text-xs text-muted-foreground">
           אופציונלי - עוזר לנו להתאים חבילה בלי לחץ מכירה.
         </p>
         <textarea
@@ -42,6 +50,8 @@ export default function NeedsDiscoveryStep({
           onChange={(e) => onChange(e.target.value)}
           rows={3}
           placeholder={FORM_MICROCOPY.visionPlaceholder}
+          aria-invalid={errorId ? true : undefined}
+          aria-describedby={describedBy(hintId, errorId)}
           className="mt-2 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
         />
       </div>

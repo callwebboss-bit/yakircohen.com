@@ -29,28 +29,28 @@ export default function PremiumBundleCallout() {
       <p className="text-lead mt-4 max-w-3xl text-muted-foreground">
         <Link
           href="/studio"
-          className="font-medium text-brand-red transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="font-medium text-brand-red underline underline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           הזמנתם אולפן
         </Link>
         ? מוסיפים חבילת אפקטים (
         <Link
           href="/events/attractions/wedding-smoking-machine"
-          className="font-medium text-brand-red transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="font-medium text-brand-red underline underline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           עשן כבד
         </Link>{" "}
         +{" "}
         <Link
           href="/events/attractions/cold-fireworks"
-          className="font-medium text-brand-red transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="font-medium text-brand-red underline underline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           זיקוקים
         </Link>
         ) או{" "}
         <Link
           href="/photography"
-          className="font-medium text-brand-red transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          className="font-medium text-brand-red underline underline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
         >
           צילום מקצועי
         </Link>{" "}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import type { MashupYoutubeDemo } from "@/lib/mashup-music-theory";
+import { useModalA11y } from "@/hooks/useModalA11y";
 
 type MashupYoutubeModalProps = {
   demo: MashupYoutubeDemo | null;
@@ -9,23 +9,15 @@ type MashupYoutubeModalProps = {
 };
 
 export default function MashupYoutubeModal({ demo, onClose }: MashupYoutubeModalProps) {
-  useEffect(() => {
-    if (!demo) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [demo, onClose]);
+  /* F-18, 7.10.2026: נעילת הגלילה עברה ל-hook המשותף עם מונה פניות. קודם
+     overflow="" בסגירה יכול היה למחוק נעילה של שכבה אחרת (ולהפך). */
+  const dialogRef = useModalA11y({ active: Boolean(demo), onEscape: onClose });
 
   if (!demo) return null;
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
       role="dialog"
       aria-modal="true"

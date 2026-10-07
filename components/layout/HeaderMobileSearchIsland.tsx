@@ -1,8 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
 import { SiteSearchLazy } from "@/components/layout/header-lazy";
 import Container from "@/components/ui/Container";
 import { useRenderCount } from "@/hooks/useRenderCount";
+
+/** ה-id של כפתור פתיחת החיפוש. Header מחזיר אליו את הפוקוס אחרי שהשורה נסגרת. */
+export const MOBILE_SEARCH_TOGGLE_ID = "header-mobile-search-toggle";
 
 function SearchIcon() {
   return (
@@ -31,6 +35,7 @@ export function HeaderMobileSearchToggle({
 
   return (
     <button
+      id={MOBILE_SEARCH_TOGGLE_ID}
       type="button"
       onClick={onExpand}
       className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95 lg:hidden"
@@ -44,6 +49,25 @@ export function HeaderMobileSearchToggle({
 
 export function HeaderMobileSearchBar({ onCollapse }: { onCollapse: () => void }) {
   useRenderCount("HeaderMobileSearchBar");
+
+  // F-25 (7.10.2026): Esc סוגר את שורת החיפוש. כש-combobox פתוח עם תוצאות
+  // (aria-expanded=true) הלחיצה הראשונה שייכת ל-SiteSearch, שסוגר את הרשימה,
+  // והשנייה סוגרת את השורה. capture כדי לקרוא את המצב לפני שהמאזין של
+  // SiteSearch על ה-document מעדכן אותו.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.getAttribute("aria-expanded") === "true"
+      ) {
+        return;
+      }
+      onCollapse();
+    };
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => document.removeEventListener("keydown", onKeyDown, true);
+  }, [onCollapse]);
 
   return (
     <Container variant="wide" className="relative flex h-16 items-center gap-3 sm:h-[4.25rem] lg:hidden">

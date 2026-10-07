@@ -3,13 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useHeaderMenu } from "@/components/layout/header-menu-context";
 import {
   HeaderMobileSearchBar,
   HeaderMobileSearchToggle,
+  MOBILE_SEARCH_TOGGLE_ID,
 } from "@/components/layout/HeaderMobileSearchIsland";
 import { SiteNavDesktop } from "@/components/layout/SiteNav";
 import IntentNavStrip from "@/components/layout/IntentNavStrip";
@@ -245,6 +246,20 @@ function HeaderMainBar({
 export default function Header() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const scrollDir = useScrollDirection(8);
+  const restoreSearchToggleFocusRef = useRef(false);
+
+  // F-25 (7.10.2026): שורת החיפוש מחליפה את כל שורת ה-header, ולכן כפתור הפתיחה
+  // הוא אלמנט חדש אחרי הסגירה והפוקוס נופל ל-body. מחזירים אליו את הפוקוס
+  // רק כשהסגירה באה מ-Esc או מכפתור הסגירה (onCollapse), לא מכל סיבה אחרת.
+  const collapseMobileSearch = useCallback(() => {
+    restoreSearchToggleFocusRef.current = true;
+    setMobileSearchOpen(false);
+  }, []);
+  useEffect(() => {
+    if (mobileSearchOpen || !restoreSearchToggleFocusRef.current) return;
+    restoreSearchToggleFocusRef.current = false;
+    document.getElementById(MOBILE_SEARCH_TOGGLE_ID)?.focus();
+  }, [mobileSearchOpen]);
 
   return (
     <SiteNavMenuIsland>
@@ -268,7 +283,7 @@ export default function Header() {
             aria-hidden
           />
           {mobileSearchOpen ? (
-            <HeaderMobileSearchBar onCollapse={() => setMobileSearchOpen(false)} />
+            <HeaderMobileSearchBar onCollapse={collapseMobileSearch} />
           ) : (
             <HeaderMainBar
               onOpenMobileSearch={() => setMobileSearchOpen(true)}

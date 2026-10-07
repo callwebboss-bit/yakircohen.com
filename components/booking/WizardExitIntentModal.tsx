@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { markBookExitIntentShown } from "@/lib/book-wizard-urgency";
+import { useModalA11y } from "@/hooks/useModalA11y";
 import { cn } from "@/lib/utils";
 
 type WizardExitIntentModalProps = {
@@ -29,14 +29,15 @@ export default function WizardExitIntentModal({
   continueCta = BOOK_WIZARD_COPY.exitIntentCta,
   dismissCta = BOOK_WIZARD_COPY.exitIntentDismiss,
 }: WizardExitIntentModalProps) {
-  useEffect(() => {
-    if (!open) return;
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [open, onClose]);
+  /* F-18, 7.10.2026. Escape ממשיך לקרוא ל-onClose ישירות ולא ל-handleDismiss
+     (כמו שהיה): הוא לא מסמן markBookExitIntentShown, רק הכפתור מסמן.
+     מיקוד ראשוני על החלון עצמו ולא על "המשך": החלון קופץ כשהעכבר יוצא מראש
+     הדף, לפעמים באמצע הקלדה, ו-Space או Enter היו מפעילים את ה-CTA בטעות. */
+  const dialogRef = useModalA11y({
+    active: open,
+    onEscape: onClose,
+    initialFocus: "container",
+  });
 
   if (!open) return null;
 
@@ -52,10 +53,12 @@ export default function WizardExitIntentModal({
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="wizard-exit-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      tabIndex={-1}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 focus:outline-none"
     >
       <div
         className="absolute inset-0 bg-black/55 backdrop-blur-sm"

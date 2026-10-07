@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -8,6 +8,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import DjEventTermsNote from "@/components/pricing/DjEventTermsNote";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -41,7 +42,9 @@ import {
   sanitizeLeadText,
   validateDjReserve,
 } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -178,6 +181,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
     location: "",
   });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const reserveFormRef = useRef<HTMLDivElement>(null);
   const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "dj_events_calculator",
@@ -386,6 +390,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
         },
       );
       setFieldErrors(errs ?? {});
+      /* הכפתור בסרגל התחתון, לא בטופס: הפוקוס עובר לשדה השגוי הראשון (F-11) */
+      if (errs && Object.keys(errs).length > 0) {
+        scrollAndHighlightFirstError(reserveFormRef.current);
+      }
     },
     [
       attemptSubmit,
@@ -570,7 +578,10 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
 
         {/* ── Date reservation form ── */}
         {hasSelection && (
-          <div className="relative rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
+          <div
+            ref={reserveFormRef}
+            className="relative rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6"
+          >
             <HoneypotField value={honeypot} onChange={setHoneypot} />
             <LeadFormAlert message={globalError} className="mb-4" />
             {leadSubmit.status === "failed" ? (
@@ -591,7 +602,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label htmlFor="dj-name" className="mb-1.5 block text-xs font-semibold text-foreground">
-                  {FORM_MICROCOPY.nameLabel} *
+                  {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id="dj-name"
@@ -600,18 +611,18 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   placeholder={FORM_MICROCOPY.namePlaceholder}
                   aria-invalid={Boolean(fieldErrors.name)}
+                  aria-required="true"
+                  aria-describedby={describedBy(fieldErrors.name && fieldErrorId("dj-name"))}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                     fieldErrors.name ? "border-brand-red" : "border-border",
                   )}
                 />
-                {fieldErrors.name ? (
-                  <p className="mt-1 text-xs text-brand-red">{fieldErrors.name}</p>
-                ) : null}
+                <FieldError id={fieldErrorId("dj-name")} message={fieldErrors.name} />
               </div>
               <div>
                 <label htmlFor="dj-phone" className="mb-1.5 block text-xs font-semibold text-foreground">
-                  {FORM_MICROCOPY.phoneLabel} *
+                  {FORM_MICROCOPY.phoneLabel} <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id="dj-phone"
@@ -621,24 +632,25 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   value={form.phone}
                   onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                   placeholder={FORM_MICROCOPY.phonePlaceholder}
-                  aria-describedby="dj-phone-hint"
+                  aria-describedby={describedBy(
+                    "dj-phone-hint",
+                    fieldErrors.phone && fieldErrorId("dj-phone"),
+                  )}
                   aria-invalid={Boolean(fieldErrors.phone)}
+                  aria-required="true"
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                     fieldErrors.phone ? "border-brand-red" : "border-border",
                   )}
                 />
-                {fieldErrors.phone ? (
-                  <p className="mt-1 text-xs text-brand-red">{fieldErrors.phone}</p>
-                ) : (
-                  <p id="dj-phone-hint" className="mt-1 text-xs text-muted-foreground">
-                    {FORM_MICROCOPY.phoneHint}
-                  </p>
-                )}
+                <p id="dj-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                  {FORM_MICROCOPY.phoneHint}
+                </p>
+                <FieldError id={fieldErrorId("dj-phone")} message={fieldErrors.phone} />
               </div>
               <div>
                 <label htmlFor="dj-date" className="mb-1.5 block text-xs font-semibold text-foreground">
-                  תאריך האירוע *
+                  תאריך האירוע <span aria-hidden="true">*</span>
                 </label>
                 <input
                   id="dj-date"
@@ -647,14 +659,14 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   value={form.date}
                   onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
                   aria-invalid={Boolean(fieldErrors.date)}
+                  aria-required="true"
+                  aria-describedby={describedBy(fieldErrors.date && fieldErrorId("dj-date"))}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                     fieldErrors.date ? "border-brand-red" : "border-border",
                   )}
                 />
-                {fieldErrors.date ? (
-                  <p className="mt-1 text-xs text-brand-red">{fieldErrors.date}</p>
-                ) : null}
+                <FieldError id={fieldErrorId("dj-date")} message={fieldErrors.date} />
               </div>
               <div>
                 <label htmlFor="dj-location" className="mb-1.5 block text-xs font-semibold text-foreground">
@@ -667,14 +679,15 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
                   placeholder="שם האולם / עיר"
                   aria-invalid={Boolean(fieldErrors.location)}
+                  aria-describedby={describedBy(
+                    fieldErrors.location && fieldErrorId("dj-location"),
+                  )}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                     fieldErrors.location ? "border-brand-red" : "border-border",
                   )}
                 />
-                {fieldErrors.location ? (
-                  <p className="mt-1 text-xs text-brand-red">{fieldErrors.location}</p>
-                ) : null}
+                <FieldError id={fieldErrorId("dj-location")} message={fieldErrors.location} />
               </div>
             </div>
             {!canReserve && !Object.keys(fieldErrors).length ? (

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
@@ -8,6 +8,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import CalculatorStickyBar from "@/components/calculators/CalculatorStickyBar";
 import { formatCurrency, formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -40,7 +41,9 @@ import {
   validateIsraeliMobile,
   validatePersonName,
 } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -128,6 +131,7 @@ export default function PhotographyCalculator({
   const [selectedAI, setSelectedAI] = useState<Set<string>>(new Set());
   const [contactForm, setContactForm] = useState({ name: "", phone: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const contactSectionRef = useRef<HTMLElement>(null);
   const { submitLead, submit: leadSubmit, retry: retryLead } = useLeadSubmit();
   const { honeypot, setHoneypot, globalError, attemptSubmit } = useLeadFormGuard({
     formId: "photography_calculator",
@@ -320,6 +324,10 @@ export default function PhotographyCalculator({
         },
       );
       setFieldErrors(errs ?? {});
+      /* הכפתור בסרגל התחתון, לא בטופס: הפוקוס עובר לשדה השגוי הראשון (F-11) */
+      if (errs && Object.keys(errs).length > 0) {
+        scrollAndHighlightFirstError(contactSectionRef.current);
+      }
     },
     [attemptSubmit, contactForm, hours, pkgName, routeId, selectedAddons, selectedAI, bundleActive, aiBundleDiscount, submitLead, total],
   );
@@ -468,7 +476,10 @@ export default function PhotographyCalculator({
           </div>
         </section>
 
-        <section className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6">
+        <section
+          ref={contactSectionRef}
+          className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-6"
+        >
           <HoneypotField value={honeypot} onChange={setHoneypot} />
           <LeadFormAlert message={globalError} className="mb-4" />
           {leadSubmit.status === "failed" ? (
@@ -487,7 +498,7 @@ export default function PhotographyCalculator({
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="photo-name" className="mb-1.5 block text-xs font-semibold text-foreground">
-                {FORM_MICROCOPY.nameLabel} *
+                {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
               </label>
               <input
                 id="photo-name"
@@ -496,18 +507,18 @@ export default function PhotographyCalculator({
                 onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
                 placeholder={FORM_MICROCOPY.namePlaceholder}
                 aria-invalid={Boolean(fieldErrors.name)}
+                aria-required="true"
+                aria-describedby={describedBy(fieldErrors.name && fieldErrorId("photo-name"))}
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                   fieldErrors.name ? "border-brand-red" : "border-border",
                 )}
               />
-              {fieldErrors.name && (
-                <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.name}</p>
-              )}
+              <FieldError id={fieldErrorId("photo-name")} message={fieldErrors.name} />
             </div>
             <div>
               <label htmlFor="photo-phone" className="mb-1.5 block text-xs font-semibold text-foreground">
-                {FORM_MICROCOPY.phoneLabel} *
+                {FORM_MICROCOPY.phoneLabel} <span aria-hidden="true">*</span>
               </label>
               <input
                 id="photo-phone"
@@ -517,21 +528,21 @@ export default function PhotographyCalculator({
                 value={contactForm.phone}
                 onChange={(e) => setContactForm((f) => ({ ...f, phone: e.target.value }))}
                 placeholder={FORM_MICROCOPY.phonePlaceholder}
-                aria-describedby="photo-phone-hint"
+                aria-describedby={describedBy(
+                  "photo-phone-hint",
+                  fieldErrors.phone && fieldErrorId("photo-phone"),
+                )}
                 aria-invalid={Boolean(fieldErrors.phone)}
+                aria-required="true"
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
                   fieldErrors.phone ? "border-brand-red" : "border-border",
                 )}
               />
-              {fieldErrors.phone && (
-                <p className="mt-1 text-xs text-brand-red" data-field-error="">{fieldErrors.phone}</p>
-              )}
-              {!fieldErrors.phone && (
-                <p id="photo-phone-hint" className="mt-1 text-xs text-muted-foreground">
-                  {FORM_MICROCOPY.phoneHint}
-                </p>
-              )}
+              <p id="photo-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                {FORM_MICROCOPY.phoneHint}
+              </p>
+              <FieldError id={fieldErrorId("photo-phone")} message={fieldErrors.phone} />
             </div>
           </div>
           <div className="mt-4 space-y-4">

@@ -575,7 +575,7 @@ export default function DjEventsPageContent() {
             גם בטלפון:{" "}
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
-              className="font-medium text-brand-red hover:underline"
+              className="font-medium text-brand-red underline underline-offset-2"
             >
               {CONTACT_PHONE_DISPLAY}
             </a>

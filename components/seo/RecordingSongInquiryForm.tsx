@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -13,7 +14,9 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -42,6 +45,7 @@ export default function RecordingSongInquiryForm() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
 
     const errs = attemptSubmit(
       () =>
@@ -101,18 +105,20 @@ export default function RecordingSongInquiryForm() {
     );
 
     setFieldErrors(errs ?? {});
+    /* פוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby (F-11) */
+    if (errs && Object.keys(errs).length > 0) scrollAndHighlightFirstError(formEl);
   }
 
   if (isSuccess) {
     return (
-      <div className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center">
+      <FocusedStatus className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center">
         <p className="text-lg font-semibold text-foreground">
           תודה! מיד נחזור אליכם.
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           פתחנו שיח בוואטסאפ - ספרו לנו קצת על השיר שאתם חולמים עליו.
         </p>
-      </div>
+      </FocusedStatus>
     );
   }
 
@@ -157,10 +163,10 @@ export default function RecordingSongInquiryForm() {
             placeholder={FORM_MICROCOPY.namePlaceholder}
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.name)}
+            aria-required="true"
+            aria-describedby={describedBy(fieldErrors.name && fieldErrorId("inquiry-name"))}
           />
-          {fieldErrors.name ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
-          ) : null}
+          <FieldError id={fieldErrorId("inquiry-name")} message={fieldErrors.name} />
         </div>
 
         <div>
@@ -179,17 +185,18 @@ export default function RecordingSongInquiryForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder={FORM_MICROCOPY.phonePlaceholder}
-            aria-describedby="inquiry-phone-hint"
+            aria-describedby={describedBy(
+              "inquiry-phone-hint",
+              fieldErrors.phone && fieldErrorId("inquiry-phone"),
+            )}
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.phone)}
+            aria-required="true"
           />
-          {fieldErrors.phone ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
-          ) : (
-            <p id="inquiry-phone-hint" className="mt-1 text-xs text-muted-foreground">
-              {FORM_MICROCOPY.phoneHint}
-            </p>
-          )}
+          <p id="inquiry-phone-hint" className="mt-1 text-xs text-muted-foreground">
+            {FORM_MICROCOPY.phoneHint}
+          </p>
+          <FieldError id={fieldErrorId("inquiry-phone")} message={fieldErrors.phone} />
         </div>
 
         <div className="sm:col-span-2">
@@ -219,7 +226,9 @@ export default function RecordingSongInquiryForm() {
             value={customerNeed}
             onChange={setCustomerNeed}
             id="inquiry-need"
+            errorId={fieldErrors.notes ? fieldErrorId("inquiry-need") : undefined}
           />
+          <FieldError id={fieldErrorId("inquiry-need")} message={fieldErrors.notes} />
         </div>
       </div>
 

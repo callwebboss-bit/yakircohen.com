@@ -815,7 +815,7 @@ function SongCallback({
           className={cn(inputClass, errors.name && "border-red-400")}
         />
         {errors.name ? (
-          <p id={`${nameId}-error`} className="mt-1 text-xs text-red-600">
+          <p id={`${nameId}-error`} className="mt-1 text-xs text-brand-red-text">
             {errors.name}
           </p>
         ) : null}
@@ -840,7 +840,7 @@ function SongCallback({
           className={cn(inputClass, "text-left", errors.phone && "border-red-400")}
         />
         {errors.phone ? (
-          <p id={`${phoneId}-error`} className="mt-1 text-xs text-red-600">
+          <p id={`${phoneId}-error`} className="mt-1 text-xs text-brand-red-text">
             {errors.phone}
           </p>
         ) : null}

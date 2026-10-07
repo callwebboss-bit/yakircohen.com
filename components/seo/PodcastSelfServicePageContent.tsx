@@ -110,7 +110,11 @@ export default function PodcastSelfServicePageContent() {
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
             מחפשים תוכן עסקי (רילז)?{" "}
-            <Link href="/business/content-studio" className="text-brand-red hover:underline">
+            {/* underline קבוע על הקישור שבתוך הפסקה (F-03, WCAG 1.4.1, 7.10.2026) */}
+            <Link
+              href="/business/content-studio"
+              className="text-brand-red underline underline-offset-2"
+            >
               סושיאל דאמפ
             </Link>
             . לא שירות עצמי.

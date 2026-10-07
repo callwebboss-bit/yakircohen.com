@@ -723,6 +723,46 @@ html.a11y-highlight-links a[href] {
   outline-offset: 2px;
 }
 
+/* F-14 (נגישות, 7.10.2026): במצב "הדגשת קישורים" לכל קישור יש מסגרת אדומה
+   קבועה, והחוק הזה לא בשכבה ולכן גובר על כל utility של Tailwind וגם על
+   :focus-visible הגלובלי. הטבעת של המיקוד הייתה זהה להדגשה, ו-94 מתוך 112
+   עצירות Tab בעמוד הבית לא שינו אף פיקסל. כאן המיקוד מקבל טבעת כהה עבה עם
+   הילה לבנה, כך שהיא נראית על כל רקע (גם בפוטר הכהה), ושונה מההדגשה.
+   #1a1a1a הוא ערך ה-foreground של הבסיס, כתוב ישירות ולא דרך
+   var(--color-foreground) כי הטוקן מתהפך ל-.dark.
+   בלי background: הוא היה נצבע מעל קישורי-על שקופים (a.absolute.inset-0
+   ב-hero ובכרטיסים) ומכסה את הוידאו והפוסטר. */
+html.a11y-highlight-links a[href]:focus-visible {
+  outline: 3px solid #1a1a1a;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #fff;
+}
+
+/* קישור-על מכסה את כל הכרטיס, וההורה לרוב עם overflow:hidden: מסגרת
+   שיוצאת החוצה נחתכת. לכן ההדגשה והמיקוד שלו נמשכים פנימה, וההילה הלבנה
+   היא inset. מסגרת 3px + offset שלילי 3px נשארת בתוך קצה הכרטיס. */
+html.a11y-highlight-links a.absolute.inset-0 {
+  outline-offset: -2px;
+  /* הטבעת עוקבת אחרי פינות המסגרת העגולות. בלי זה הפינות של טבעת מרובעת
+     נחתכות על ידי ה-overflow:hidden העגול של ההורה. */
+  border-radius: inherit;
+}
+
+html.a11y-highlight-links a.absolute.inset-0:focus-visible {
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 6px #fff;
+}
+
+/* F-13 + F-14: מסגרת ה-hero (ServicePageLayout) מציירת בעצמה טבעת אדומה
+   חיצונית כשקישור-העל שבתוכה במיקוד (has-[:focus-visible]). במצב "הדגשת קישורים"
+   זו הייתה טבעת שנייה מעל הטבעת הכהה עם ההילה הלבנה של הקישור עצמו. כאן
+   נשארת טבעת אחת, הפנימית, כמו בכל קישור אחר במצב הזה (כהה עם הילה לבנה,
+   שונה מההדגשה האדומה הקבועה). החוק לא בשכבה ולכן גובר על ה-utility של
+   Tailwind, והוא מוגבל למסגרת overflow-hidden שהקישור-על יושב בה. */
+html.a11y-highlight-links .overflow-hidden:has(> a.absolute.inset-0:focus-visible) {
+  outline: none;
+}
+
 @media (forced-colors: active) {
   .card-chrome::before,
   .scroll-progress {
@@ -1417,9 +1457,27 @@ progress.studio-meter-flash::-moz-progress-bar {
   background: var(--footer-bg);
   color: var(--footer-fg);
   content-visibility: auto;
+  /* F-01 (נגישות, 7.10.2026): מ-768px הפוטר מציג עכשיו את כל הקישורים
+     (113 קישורים שהיו נסתרים) והגובה שנמדד בפועל הוא 1153-1726px. ה-72rem
+     (1152px) התאים לפוטר הנמוך, והפער היה יוצר הזזת פריסה כשהפוטר נכנס
+     לתצוגה. 100rem (1600px) קרוב לגובה בפועל; ה-auto זוכר את הגובה האמיתי
+     אחרי הרינדור הראשון. */
   contain-intrinsic-size: auto 72rem;
 }
 
+@media (min-width: 768px) {
+  .footer-shell {
+    contain-intrinsic-size: auto 100rem;
+  }
+}
+
+/* F-01 (נגישות, 7.10.2026): ב-Chromium 148+ ל-details סגור יש
+   ::details-content עם content-visibility:hidden מגיליון ה-UA. ה-display:block
+   על הגוף והגובה האוטומטי לא מספיקים: התוכן לא מרונדר, לא ניתן למיקוד ולא
+   מוקרא, ו-113 הקישורים בפוטר (כולל /accessibility) נעלמו בדסקטופ בלי כפתור
+   פתיחה. ה-content-visibility:visible חייב להישאר בתוך ה-media query: מחוץ לו
+   האקורדיון במובייל היה מציג תוכן סגור. לא להחליף ב-open ב-SSR, זה פותח את
+   האקורדיון גם במובייל. */
 @media (min-width: 768px) {
   .chrome-more > .chrome-more-summary {
     display: none;
@@ -1431,6 +1489,7 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 
   .chrome-more::details-content {
+    content-visibility: visible;
     height: auto !important;
     overflow: visible;
   }
@@ -1445,6 +1504,7 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 
   .footer-more::details-content {
+    content-visibility: visible;
     height: auto !important;
     overflow: visible;
   }

@@ -138,8 +138,12 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+// F-13 (7.10.2026): קישור ה"לצפייה בדוגמא" הוא absolute inset-0 בתוך המסגרת
+// הזו, שהיא overflow-hidden, ולכן הטבעת של הקישור עצמו נחתכת לגמרי. outline של
+// אלמנט לא נחתך על ידי ה-overflow של עצמו, אז הטבעת עוברת למסגרת (has-[:focus-visible]),
+// בצבע המותג הגלובלי ולא ב---service-accent הגולמי (ניגודיות מתחת ל-3:1).
 const HERO_FRAME_CLASS =
-  "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-neutral-200 shadow-[0_20px_64px_rgba(0,0,0,0.18)] sm:aspect-[5/4] lg:aspect-[4/3]";
+  "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-neutral-200 shadow-[0_20px_64px_rgba(0,0,0,0.18)] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-red sm:aspect-[5/4] lg:aspect-[4/3]";
 
 function ServiceHeroVideoVisual({
   heroVideoEmbedUrl,
@@ -199,7 +203,7 @@ function ServiceHeroVisual({
       {showVideoPlay ? (
         <Link
           href={scrollHref}
-          className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+          className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15"
         >
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[var(--service-accent,#d42b2b)] ring-2 ring-[var(--service-accent,#d42b2b)]/70 shadow-[0_0_40px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)] sm:h-[4.5rem] sm:w-[4.5rem]">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden>
@@ -436,7 +440,7 @@ export default function ServicePageLayout({
                 {TIME_CLAIMS.waResponse1h}{" "}
                 <Link
                   href="/start"
-                  className="font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline"
+                  className="font-semibold text-[var(--service-accent-ink,#8a1c1c)] underline underline-offset-2"
                 >
                   איך התהליך עובד
                 </Link>

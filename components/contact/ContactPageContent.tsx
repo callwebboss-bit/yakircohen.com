@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   BUSINESS_HOURS,
   CONTACT_PHONE_DISPLAY,
@@ -11,6 +11,7 @@ import {
   SITE_TRUST_STATS,
   SOCIAL_LINKS,
 } from "@/lib/constants";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import BookDraftRecoveryBanner from "@/components/booking/BookDraftRecoveryBanner";
@@ -26,7 +27,9 @@ import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import type { BookCategoryId } from "@/lib/book-url";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import {
   parseContactQuizDraft,
   type ContactQuizDraft,
@@ -219,6 +222,7 @@ function buildQuizWhatsAppMessage(params: {
 import { getContactAvailabilityLabel, isStudioOpen } from "@/lib/studio-hours";
 
 export default function ContactPageContent() {
+  const quizFormRef = useRef<HTMLFormElement>(null);
   const [step, setStep] = useState(1);
   const [service, setService] = useState<ServiceKey | null>(null);
   const [timing, setTiming] = useState<TimingKey | null>(null);
@@ -390,6 +394,10 @@ export default function ContactPageContent() {
     );
 
     setFieldErrors(errs ?? {});
+    /* פוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby (F-11) */
+    if (errs && Object.keys(errs).length > 0) {
+      scrollAndHighlightFirstError(quizFormRef.current);
+    }
   }, [
     name,
     phone,
@@ -484,6 +492,7 @@ export default function ContactPageContent() {
         </p>
 
         <form
+          ref={quizFormRef}
           className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
           onSubmit={(e) => e.preventDefault()}
           aria-label="טופס יצירת קשר"
@@ -662,7 +671,7 @@ export default function ContactPageContent() {
                       ) : null}
                       <div>
                         <label htmlFor="contact-quiz-name" className="mb-1.5 block text-sm font-semibold text-foreground">
-                          {FORM_MICROCOPY.nameLabel} *
+                          {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
                         </label>
                         <input
                           id="contact-quiz-name"
@@ -691,14 +700,18 @@ export default function ContactPageContent() {
                               : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
                           )}
                           aria-invalid={Boolean(fieldErrors.name)}
+                          aria-describedby={describedBy(
+                            fieldErrors.name && fieldErrorId("contact-quiz-name"),
+                          )}
                         />
-                        {fieldErrors.name ? (
-                          <p className="mt-1 text-xs text-brand-red">{fieldErrors.name}</p>
-                        ) : null}
+                        <FieldError
+                          id={fieldErrorId("contact-quiz-name")}
+                          message={fieldErrors.name}
+                        />
                       </div>
                       <div>
                         <label htmlFor="contact-quiz-phone" className="mb-1.5 block text-sm font-semibold text-foreground">
-                          {FORM_MICROCOPY.phoneLabel} *
+                          {FORM_MICROCOPY.phoneLabel} <span aria-hidden="true">*</span>
                         </label>
                         <input
                           id="contact-quiz-phone"
@@ -729,45 +742,63 @@ export default function ContactPageContent() {
                               ? "border-brand-red ring-2 ring-brand-red/30"
                               : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
                           )}
-                          aria-describedby="contact-phone-hint"
+                          aria-describedby={describedBy(
+                            "contact-phone-hint",
+                            fieldErrors.phone && fieldErrorId("contact-quiz-phone"),
+                          )}
                           aria-invalid={Boolean(fieldErrors.phone)}
                         />
-                        {fieldErrors.phone ? (
-                          <p className="mt-1 text-xs text-brand-red">{fieldErrors.phone}</p>
-                        ) : (
-                          <p id="contact-phone-hint" className="mt-1 text-xs text-muted-foreground">
-                            {FORM_MICROCOPY.phoneHint}
-                          </p>
-                        )}
+                        {/* הרמז נשאר ב-DOM גם כשיש שגיאה, כדי שלא ייעלם מה-aria-describedby (F-11) */}
+                        <p id="contact-phone-hint" className="mt-1 text-xs text-muted-foreground">
+                          {FORM_MICROCOPY.phoneHint}
+                        </p>
+                        <FieldError
+                          id={fieldErrorId("contact-quiz-phone")}
+                          message={fieldErrors.phone}
+                        />
                       </div>
-                      <input
-                        type="email"
-                        maxLength={254}
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          if (fieldErrors.email) {
-                            setFieldErrors((prev) => {
-                              const next = { ...prev };
-                              delete next.email;
-                              return next;
-                            });
-                          }
-                        }}
-                        placeholder="מייל (אופציונלי)"
-                        autoComplete="email"
-                        className={cn(
-                          "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
-                          fieldErrors.email
-                            ? "border-brand-red ring-2 ring-brand-red/30"
-                            : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
-                        )}
-                        aria-label="מייל"
-                        aria-invalid={Boolean(fieldErrors.email)}
-                      />
-                      {fieldErrors.email ? (
-                        <p className="text-xs text-brand-red">{fieldErrors.email}</p>
-                      ) : null}
+                      <div>
+                        {/* תווית גלויה במקום placeholder ו-aria-label בלבד (F-46, 7.10.2026).
+                            השם הנגיש הוא הטקסט הגלוי, כולל "(אופציונלי)" */}
+                        <label
+                          htmlFor="contact-quiz-email"
+                          className="mb-1.5 block text-sm font-semibold text-foreground"
+                        >
+                          מייל (אופציונלי)
+                        </label>
+                        <input
+                          id="contact-quiz-email"
+                          type="email"
+                          maxLength={254}
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (fieldErrors.email) {
+                              setFieldErrors((prev) => {
+                                const next = { ...prev };
+                                delete next.email;
+                                return next;
+                              });
+                            }
+                          }}
+                          placeholder="מייל (אופציונלי)"
+                          autoComplete="email"
+                          className={cn(
+                            "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
+                            fieldErrors.email
+                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              : "border-border focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+                          )}
+                          aria-invalid={Boolean(fieldErrors.email)}
+                          aria-describedby={describedBy(
+                            fieldErrors.email && fieldErrorId("contact-quiz-email"),
+                          )}
+                        />
+                        <FieldError
+                          id={fieldErrorId("contact-quiz-email")}
+                          message={fieldErrors.email}
+                        />
+                      </div>
                       <NeedsDiscoveryStep
                         value={message}
                         onChange={(v) => {
@@ -781,10 +812,16 @@ export default function ContactPageContent() {
                           }
                         }}
                         id="contact-customer-need"
+                        errorId={
+                          fieldErrors.message ? fieldErrorId("contact-customer-need") : undefined
+                        }
                       />
-                      {fieldErrors.message ? (
-                        <p className="text-xs text-brand-red">{fieldErrors.message}</p>
-                      ) : null}
+                      {/* ההודעה מקושרת לשדה דרך errorId, והפוקוס עובר לשדה אחרי שליחה (F-11) */}
+                      <FieldError
+                        id={fieldErrorId("contact-customer-need")}
+                        message={fieldErrors.message}
+                        className="mt-0"
+                      />
                       <p className="text-center text-xs text-muted-foreground">
                         הפרטים שלכם שמורים אצלנו בלבד
                       </p>
@@ -799,7 +836,7 @@ export default function ContactPageContent() {
                 ) : null}
               </>
             ) : (
-              <div className="py-4 text-center">
+              <FocusedStatus className="py-4 text-center">
                 <p className="text-4xl" aria-hidden="true">
                   🎉
                 </p>
@@ -846,7 +883,7 @@ export default function ContactPageContent() {
                 >
                   שלחו פנייה נוספת
                 </button>
-              </div>
+              </FocusedStatus>
             )}
           </div>
         </form>

@@ -32,10 +32,12 @@ export default function BlogFeaturedStrip({ posts }: BlogFeaturedStripProps) {
         <ul className="grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
             <li key={post.slug}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-brand-red/40">
+              {/* F-13 (7.10.2026): הקישור ממלא כרטיס overflow-hidden, ולכן הטבעת שלו
+                  נחתכה לגמרי. הטבעת יושבת על הכרטיס עצמו (has-[:focus-visible]). */}
+              <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-brand-red/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-red">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="flex h-full flex-col focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  className="flex h-full flex-col"
                 >
                   {post.thumbnail ? (
                     <div className="relative aspect-[16/10] overflow-hidden border-b border-border">

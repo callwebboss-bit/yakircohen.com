@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { useId } from "react";
+import FieldError from "@/components/forms/FieldError";
 import InfoTip from "@/components/ui/InfoTip";
 import { BOOKING_APPROVALS_LIGHT } from "@/lib/data/booking-shared";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { cn } from "@/lib/utils";
 
 export type BookingApprovalsCopy = {
@@ -28,6 +31,9 @@ export default function BookingApprovals({
   termsError,
   className,
 }: BookingApprovalsProps) {
+  /* שגיאת האישור מקושרת לתיבת הסימון, והפוקוס עובר אליה אחרי שליחה (F-11) */
+  const fieldId = useId();
+  const termsErrorId = fieldErrorId(`${fieldId}-terms`);
   if (variant === "light") {
     return (
       <div className={cn("space-y-3 rounded-xl border border-border bg-surface p-4", className)}>
@@ -61,16 +67,14 @@ export default function BookingApprovals({
             onChange={(e) => onTermsChange(e.target.checked)}
             className="mt-0.5 h-4 w-4 accent-brand-red"
             aria-required
+            aria-invalid={Boolean(termsError)}
+            aria-describedby={describedBy(termsError && termsErrorId)}
           />
           <span className="text-sm text-foreground">
             קראתי ומאשר/ת את תנאי השירות ומדיניות הפרטיות
           </span>
         </label>
-        {termsError ? (
-          <p className="text-xs text-red-500" data-field-error="">
-            {termsError}
-          </p>
-        ) : null}
+        <FieldError id={termsErrorId} message={termsError} className="mt-0" />
       </div>
     );
   }
@@ -117,14 +121,12 @@ export default function BookingApprovals({
           onChange={(e) => onTermsChange(e.target.checked)}
           className="mt-0.5 h-4 w-4 accent-brand-red"
           aria-required
+          aria-invalid={Boolean(termsError)}
+          aria-describedby={describedBy(termsError && termsErrorId)}
         />
         <span className="text-sm text-foreground">{copy?.termsLabel}</span>
       </label>
-      {termsError ? (
-        <p className="text-xs text-red-500" data-field-error="">
-          {termsError}
-        </p>
-      ) : null}
+      <FieldError id={termsErrorId} message={termsError} className="mt-0" />
     </div>
   );
 }

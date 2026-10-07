@@ -53,6 +53,7 @@ export default function IntakeStepContact({
         error={errors.name}
         autoComplete="name"
         inputRef={nameInputRef}
+        required
       />
       <FloatingLabelField
         label="טלפון נייד"

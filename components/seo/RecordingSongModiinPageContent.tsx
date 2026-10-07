@@ -129,7 +129,7 @@ export default function RecordingSongModiinPageContent() {
               רק ברכה או דרשה?{" "}
               <Link
                 href="/studio/blessings"
-                className="font-semibold text-brand-red hover:underline"
+                className="font-semibold text-brand-red underline underline-offset-2"
               >
                 הקלטת ברכה: {BLESSING_PRICE.totalLabel}
               </Link>
@@ -157,14 +157,14 @@ export default function RecordingSongModiinPageContent() {
               לתושבי{" "}
               <Link
                 href="/studio/studio-rehovot"
-                className="font-semibold text-brand-red hover:underline"
+                className="font-semibold text-brand-red underline underline-offset-2"
               >
                 אולפן הקלטות ברחובות
               </Link>{" "}
               ו{" "}
               <Link
                 href="/studio/studio-shoham"
-                className="font-semibold text-brand-red hover:underline"
+                className="font-semibold text-brand-red underline underline-offset-2"
               >
                 אולפן הקלטות בשוהם
               </Link>{" "}
@@ -195,11 +195,11 @@ export default function RecordingSongModiinPageContent() {
               משקיעים בשמע איכותי.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              <Link href="/studio/recording-song-modiin/gifts" className="font-semibold text-brand-red hover:underline">
+              <Link href="/studio/recording-song-modiin/gifts" className="font-semibold text-brand-red underline underline-offset-2">
                 שיר במתנה: בוחרים ושולחים
               </Link>
               , או{" "}
-              <Link href="/shop#vouchers" className="font-semibold text-brand-red hover:underline">
+              <Link href="/shop#vouchers" className="font-semibold text-brand-red underline underline-offset-2">
                 שובר מתנה להקלטה באולפן
               </Link>
               .
@@ -696,7 +696,7 @@ export default function RecordingSongModiinPageContent() {
             <p className="font-semibold text-foreground">שדרג את ההקלטה לאחר האולפן</p>
             <p className="mt-2 text-sm text-muted-foreground">
               מיקס מקצועי, תיקון זיופים או ניקוי רעשים - הכל אפשרי מרחוק תוך ימים בודדים.{" "}
-              <Link href="/online/vocal-fix/mixing" className="font-semibold text-brand-red hover:underline">
+              <Link href="/online/vocal-fix/mixing" className="font-semibold text-brand-red underline underline-offset-2">
                 שירות מיקס ומאסטרינג </Link>
             </p>
           </div>
@@ -791,7 +791,8 @@ export default function RecordingSongModiinPageContent() {
                   className="group py-1"
                   open={faq.id === SONG_TO_VENUE_DJ_FAQ.id}
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 outline-none">
+                  {/* F-12 (7.10.2026): בלי outline-none, שהסיר את הטבעת הגלובלית ולא החליף אותה. */}
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-lg py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red">
                     <h3 className="text-start text-sm font-semibold text-foreground sm:text-base">
                       {faq.question}
                     </h3>
@@ -863,7 +864,7 @@ export default function RecordingSongModiinPageContent() {
               גם{" "}
               <Link
                 href="/academy/stuttering-course"
-                className="font-medium text-brand-red underline-offset-4 hover:underline"
+                className="font-medium text-brand-red underline underline-offset-4"
               >
                 קורס ייעודי לגמגום
               </Link>
@@ -915,7 +916,7 @@ export default function RecordingSongModiinPageContent() {
                 מענה טלפוני במשרדים: א׳-ה׳ 09:00-22:00 -{" "}
                 <a
                   href={`tel:${CONTACT_PHONE_E164}`}
-                  className="font-medium text-brand-red hover:underline"
+                  className="font-medium text-brand-red underline underline-offset-2"
                 >
                   {CONTACT_PHONE_DISPLAY}
                 </a>{" "}

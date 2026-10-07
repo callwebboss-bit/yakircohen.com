@@ -1,4 +1,5 @@
-﻿import BackToTopButton from "@/components/layout/BackToTopButton";
+﻿import Link from "next/link";
+import BackToTopButton from "@/components/layout/BackToTopButton";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Container from "@/components/ui/Container";
 import FooterBrandContact from "@/components/layout/FooterBrandContact";
@@ -54,9 +55,21 @@ export default function Footer() {
         </details>
 
         <div className="mt-8 grid gap-4 border-t border-[var(--footer-border)] pt-6 md:grid-cols-2 md:items-center lg:grid-cols-3">
-          <p className="text-center text-xs text-[var(--footer-muted)] md:text-start">
-            © {currentYear} {SITE_NAME}
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 md:justify-start">
+            <p className="text-center text-xs text-[var(--footer-muted)] md:text-start">
+              © {currentYear} {SITE_NAME}
+            </p>
+            {/* F-01 (נגישות, 7.10.2026): קישור קבוע להצהרה מחוץ ל-details. שני
+                הקישורים הקיימים יושבים בתוך "מידע נוסף", שסגור במובייל, והקישור
+                כאן נשאר נגיש בכל רוחב גם אם הבלוק הזה לא מרונדר.
+                #b0b6bc על #0f1419 = 9.05:1; ב-hover #ff6b6b = 6.67:1. */}
+            <Link
+              href="/accessibility"
+              className="inline-flex min-h-11 items-center text-xs text-[var(--footer-muted)] underline underline-offset-4 transition-colors hover:text-[var(--footer-link-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            >
+              הצהרת נגישות
+            </Link>
+          </div>
           <div className="flex flex-col items-center gap-2 md:items-end lg:col-start-3">
             <BackToTopButton />
             <p className="text-xs text-[var(--footer-muted)]">מודיעין - ירושלים - המרכז</p>

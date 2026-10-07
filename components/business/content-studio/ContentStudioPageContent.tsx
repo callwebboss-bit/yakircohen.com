@@ -144,22 +144,25 @@ export default function ContentStudioPageContent() {
           <h2 className="text-sm font-semibold text-foreground">
             לא בטוחים מה מתאים?
           </h2>
+          {/* כל קישור כאן בא אחרי תווית טקסט באותה שורה, לכן הוא קישור בתוך טקסט
+              וצריך underline קבוע (F-03, WCAG 1.4.1, 7.10.2026). רשימות הקישורים
+              הטהורות למטה פטורות. */}
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li>
               <strong className="text-foreground">צילום בעסק + ניהול עמודים:</strong>{" "}
-              <Link href="/business/social-media" className="text-brand-red hover:underline">
+              <Link href="/business/social-media" className="text-brand-red underline underline-offset-2">
                 ניהול סושיאל
               </Link>
             </li>
             <li>
               <strong className="text-foreground">עריכת חומר מאירוע (DJ/צלם):</strong>{" "}
-              <Link href="/business/reel-factory" className="text-brand-red hover:underline">
+              <Link href="/business/reel-factory" className="text-brand-red underline underline-offset-2">
                 מפעל הרילס לספקים
               </Link>
             </li>
             <li>
               <strong className="text-foreground">פרק פודקאסט ארוך:</strong>{" "}
-              <Link href="/podcast" className="text-brand-red hover:underline">
+              <Link href="/podcast" className="text-brand-red underline underline-offset-2">
                 מרכז הפודקאסט
               </Link>
             </li>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import BookUpsellSection from "@/components/booking/BookUpsellSection";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import type { BookingUpsellItem } from "@/lib/data/booking-shared";
 import { cn } from "@/lib/utils";
+import { useModalA11y } from "@/hooks/useModalA11y";
 
 type SmartAddonDrawerProps = {
   open: boolean;
@@ -27,18 +27,13 @@ export default function SmartAddonDrawer({
   onClose,
   onContinue,
 }: SmartAddonDrawerProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const first = panelRef.current?.querySelector<HTMLElement>("button, [href]");
-    first?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  /* F-18, 7.10.2026: המגירה כבר מיקדה את הפקד הראשון, אבל בלי לולאת Tab
+     ובלי החזרת מיקוד (D5-06: 7 מתוך 30 לחיצות Tab יצאו מהמגירה). ה-hook
+     מוסיף אותם, יחד עם נעילת גלילה ו-Escape. */
+  const panelRef = useModalA11y({
+    active: open && items.length > 0,
+    onEscape: onClose,
+  });
 
   if (!open || items.length === 0) return null;
 

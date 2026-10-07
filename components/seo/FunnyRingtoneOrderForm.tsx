@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState, type FormEvent } from "react";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -16,7 +17,9 @@ import {
   sanitizeLeadText,
   validateBookingLead,
 } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -44,6 +47,7 @@ export default function FunnyRingtoneOrderForm() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
 
     const errs = attemptSubmit(
       () =>
@@ -100,11 +104,13 @@ export default function FunnyRingtoneOrderForm() {
     );
 
     setFieldErrors(errs ?? {});
+    /* פוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby (F-11) */
+    if (errs && Object.keys(errs).length > 0) scrollAndHighlightFirstError(formEl);
   }
 
   if (isSuccess) {
     return (
-      <div className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center">
+      <FocusedStatus className="rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center">
         <p className="text-lg font-semibold text-foreground">
           תודה! מיד נחזור אליכם.
         </p>
@@ -112,7 +118,7 @@ export default function FunnyRingtoneOrderForm() {
           פתחנו שיח בוואטסאפ - ספרו לנו על מי שמקבל את הרינגטון ואיזה סגנון מצחיק
           מתאים.
         </p>
-      </div>
+      </FocusedStatus>
     );
   }
 
@@ -159,10 +165,10 @@ export default function FunnyRingtoneOrderForm() {
             placeholder={FORM_MICROCOPY.namePlaceholder}
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.name)}
+            aria-required="true"
+            aria-describedby={describedBy(fieldErrors.name && fieldErrorId("ringtone-name"))}
           />
-          {fieldErrors.name ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
-          ) : null}
+          <FieldError id={fieldErrorId("ringtone-name")} message={fieldErrors.name} />
         </div>
 
         <div>
@@ -181,17 +187,18 @@ export default function FunnyRingtoneOrderForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder={FORM_MICROCOPY.phonePlaceholder}
-            aria-describedby="ringtone-phone-hint"
+            aria-describedby={describedBy(
+              "ringtone-phone-hint",
+              fieldErrors.phone && fieldErrorId("ringtone-phone"),
+            )}
             className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.phone)}
+            aria-required="true"
           />
-          {fieldErrors.phone ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
-          ) : (
-            <p id="ringtone-phone-hint" className="mt-1 text-xs text-muted-foreground">
-              {FORM_MICROCOPY.phoneHint}
-            </p>
-          )}
+          <p id="ringtone-phone-hint" className="mt-1 text-xs text-muted-foreground">
+            {FORM_MICROCOPY.phoneHint}
+          </p>
+          <FieldError id={fieldErrorId("ringtone-phone")} message={fieldErrors.phone} />
         </div>
 
         <div>

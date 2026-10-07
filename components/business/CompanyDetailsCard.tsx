@@ -241,9 +241,14 @@ function CompanyDetailsCompact({ className }: { className?: string }) {
         {FOOTER_LEGAL_LINKS.map((link, index) => (
           <span key={link.href}>
             {index > 0 ? " · " : null}
+            {/* F-39 (7.10.2026): הוריאנט הקומפקטי יושב רק בפוטר הכהה (#0f1419), שם
+                text-brand-red ב-12px נותן 3.68:1 (נדרש 4.5:1), והקישורים נחשפו גם
+                ב-768px ומעלה אחרי F-01. צבע הטקסט של הפוטר עם קו תחתון, כמו שאר
+                קישורי הטקסט בפוטר. הריחוף נשאר: .footer-shell a:hover ב-globals.css
+                צובע ב---footer-link-hover (#ff6b6b), והמיקוד נשאר הטבעת הגלובלית. */}
             <Link
               href={link.href}
-              className="inline-flex min-h-9 items-center font-semibold text-brand-red hover:underline"
+              className="inline-flex min-h-9 items-center font-semibold text-[var(--footer-fg)] underline decoration-1 underline-offset-4"
             >
               {link.label}
             </Link>
