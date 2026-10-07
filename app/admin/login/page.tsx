@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { ADMIN_HOME_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
+import { isAdminAuthenticated, resolveAdminNextPath, safeAdminNextPath } from "@/lib/admin-auth";
 import { adminLoginAction } from "./actions";
 
 export const metadata: Metadata = {
@@ -12,17 +12,20 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-type SearchParams = Promise<{ error?: string }>;
+type SearchParams = Promise<{ error?: string; next?: string | string[] }>;
 
 export default async function AdminLoginPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
-  if (await isAdminAuthenticated()) {
-    redirect(ADMIN_HOME_PATH);
-  }
   const sp = await searchParams;
+  /* העמוד שביקשו לפני הכניסה. מערך (next כפול ב-URL) או נתיב לא בטוח נפסלים,
+     ואז חוזרים לדף הבית של הניהול כמו קודם. */
+  const nextPath = safeAdminNextPath(sp.next);
+  if (await isAdminAuthenticated()) {
+    redirect(resolveAdminNextPath(nextPath));
+  }
   const isRateLimited = sp.error === "rate";
   const hasError = sp.error === "1" || isRateLimited;
   /* בלי ההודעה הנפרדת, מי שנחסם על קצב היה חוזר לטופס בלי שום חיווי
@@ -40,6 +43,7 @@ export default async function AdminLoginPage({
             הזינו את מפתח הניהול. הוא נשמר בעוגייה מאובטחת ל-30 יום.
           </p>
           <form action={adminLoginAction} className="mt-6 space-y-3">
+            {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
             <label htmlFor="admin-token" className="block text-xs font-semibold text-foreground">
               מפתח ניהול
             </label>

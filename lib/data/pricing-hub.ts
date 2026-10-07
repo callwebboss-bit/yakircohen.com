@@ -380,9 +380,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         note: "פרק או ראיון עד שעה",
         href: "/online/vocal-fix",
       }),
+      /* D68 (7.10.2026): רעש קבוע אחד בהקלטה קצרה. העמוד שהשורה מקשרת אליו מוכר
+         את הניקוי המלא (noise_removal_segment) ומסביר את ההבדל */
       hubRow("ai_noise_basic", {
         label: "ניקוי רעשים בסיסי",
-        note: "להקלטות קצרות עם רעש קבוע",
+        note: "לרעש קבוע אחד בהקלטה קצרה",
         href: "/online/vocal-fix/noise-removal",
       }),
     ],
@@ -397,9 +399,10 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("event_attraction_1", { label: "אטרקציה בודדת" }),
       hubRow("event_attraction_2", { label: "2 אטרקציות (חבילה)" }),
       hubRow("event_attraction_3", { label: "3 אטרקציות (חבילה)" }),
+      /* החלטת הבעלים D70, 7.10.2026: המתנה היא קליפ היילייטס, כמו בקטלוג (היה "מצגת תמונות") */
       hubRow("event_attraction_4", {
         label: "4+ אטרקציות + מתנה",
-        note: "מצגת תמונות חינם",
+        note: "קליפ היילייטס 60 שניות במתנה",
       }),
       hubRow("event_sound_rental", {
         label: "השכרת הגברה לאירוע",

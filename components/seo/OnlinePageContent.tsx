@@ -1,5 +1,9 @@
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import {
+  CALLBACK_ONLINE_HUB_CONTEXT,
+  CALLBACK_ONLINE_HUB_SERVICE_OPTIONS,
+} from "@/lib/leads/callback-lead";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
@@ -337,13 +341,8 @@ export default function OnlinePageContent() {
             heading="השאירו פרטים להצעת מחיר מהירה"
             description="השאירו שם וטלפון ונחזור אליכם עם כיוון שירות ברור לפרויקט. ללא התחייבות."
             utmCampaign="online_hub_quote"
-            serviceOptions={[
-              "אודיו ומוזיקה",
-              "פודקאסט וקריינות",
-              "וידאו ותוכן",
-              "תמונה ועיצוב AI",
-              "התאמה אישית",
-            ]}
+            serviceOptions={CALLBACK_ONLINE_HUB_SERVICE_OPTIONS}
+            serviceContext={CALLBACK_ONLINE_HUB_CONTEXT}
             formLabel="טופס הצעת מחיר מהירה לשירותי אונליין"
           />
         </div>

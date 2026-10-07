@@ -1,6 +1,10 @@
 ﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import {
+  callbackOnlineCategoryContext,
+  callbackOnlineCategoryOptions,
+} from "@/lib/leads/callback-lead";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -274,7 +278,8 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             heading={enrichment.leadHeading}
             description="נחזור אליכם מהר עם התאמה נכונה לפרויקט."
             utmCampaign={`online_${category.slug}_lead`}
-            serviceOptions={[category.title, "התאמה אישית", "לא בטוח/ה עדיין"]}
+            serviceOptions={callbackOnlineCategoryOptions(category.title)}
+            serviceContext={callbackOnlineCategoryContext(category.title)}
             formLabel={`טופס לידים לקטגוריה ${category.title}`}
           />
         </div>

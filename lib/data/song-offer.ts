@@ -1,6 +1,6 @@
 /**
- * הצעת הקלטת השיר: בסיס אחד, שלוש תוספות ומספר משתתפים
- * (docs/OWNER-DECISIONS-2026-10-02.md).
+ * הצעת הקלטת השיר: בסיס אחד, התוספות של הבסיס בקטלוג ומספר משתתפים
+ * (docs/OWNER-DECISIONS-2026-10-02.md, שהתחיל משלוש תוספות).
  *
  * מודול טהור, בלי React. הצד הזה קורא את הקטלוג (song_recording,
  * PRICING_ADDON_LINKS ו-SONG_PARTICIPANT_RULES) ובונה ממנו SongQuoteData.
@@ -46,6 +46,7 @@ import {
   getPriceById,
   getPriceTransparencyById,
   SONG_PARTICIPANT_RULES,
+  STUDIO_TURNS_NOTE,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
@@ -66,6 +67,10 @@ export type { SongOfferCalc, SongOfferQuote, SongParticipantRules, SongPriceLine
 
 /** שם הבסיס בהודעה ובמייל, עם מה שכלול בו */
 const BASE_LINE_LABEL = "הקלטת שיר (הקלטה, מיקס ומאסטר)";
+
+/** שיר מקורי לבר או בת מצווה: בסיס חלופי בטופס (החלטת הבעלים 6.10.2026) */
+export const SONG_ORIGINAL_BASE_ID = "song_original_mitzvah" satisfies PriceItemId;
+const ORIGINAL_LINE_LABEL = "שיר מקורי לבר או בת מצווה (מילים, לחן והקלטה)";
 
 export type { SongAddonId };
 /* המיפוי של הקישורים הישנים יושב במודול קטן בלי תלויות, ראו שם למה */
@@ -135,9 +140,13 @@ export function songParticipantsSurcharge(participants: number): number {
   return songParticipantsSurchargeExVat(participants, getSongParticipantRules());
 }
 
-/** { withVat: "כל משתתף נוסף +117 ₪ כולל מע״מ", exVat: "(99 ₪ + מע״מ)", limit: "עד 12 בשיר" } */
+/** { withVat: "כל משתתף נוסף +117 ₪ כולל מע״מ", exVat: "(99 ₪ + מע״מ)", limit: "עד 12 בשיר", turns } */
 export function getSongParticipantsExplanation(): SongParticipantsExplanation {
-  return songParticipantsExplanationParts(getSongParticipantRules(), CATALOG_VAT_RATE);
+  /* turns: קיבולת האולפן ליד בורר המשתתפים, החלטת הבעלים D64, 7.10.2026 */
+  return {
+    ...songParticipantsExplanationParts(getSongParticipantRules(), CATALOG_VAT_RATE),
+    turns: STUDIO_TURNS_NOTE,
+  };
 }
 
 /** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)", מהקטלוג */
@@ -154,6 +163,12 @@ export function getSongParticipantsBreakdown(participants: number): PersonBreakd
 export function getSongQuoteData(): SongQuoteData {
   return {
     base: { id: SONG_OFFER_BASE_ID, label: BASE_LINE_LABEL, exVat: getExVat(SONG_OFFER_BASE_ID) },
+    original: {
+      id: SONG_ORIGINAL_BASE_ID,
+      label: ORIGINAL_LINE_LABEL,
+      exVat: getExVat(SONG_ORIGINAL_BASE_ID),
+      messageOpening: "שלום, אשמח לשיר מקורי לבר או בת מצווה.",
+    },
     addons: SONG_ADDON_IDS.map((id) => {
       const item = getPriceById(id);
       return { id, label: item.label, exVat: item.exVat, requires: getSongAddonRequirement(id) };
@@ -216,7 +231,7 @@ export type SongMessageOptions = Pick<SongQuoteOptions, "source" | "giftMode" | 
 export type SongMessage = {
   /** ההודעה ללקוח, בגוף ראשון, בלי התג */
   text: string;
-  /** תג [YC:...] לכלי של הבעלים. מי שבונה את הקישור מחליט אם לצרף אותו. */
+  /** תג [YC:...] לכלי של הבעלים, רק לגוף המייל. בקישור ללקוח אין תג (D67). */
   ycTag: string;
 };
 
@@ -288,8 +303,13 @@ export function buildSongOfferQuote(
 }
 
 /**
- * כל השילובים החוקיים מחושבים מראש, לפי songAddonKey. שלוש תוספות והראיון
- * רק עם הקליפ נותנים שישה שילובים, וזה מה שקומפוננטת השרת שולחת לטופס.
+ * כל השילובים החוקיים מחושבים מראש, לפי songAddonKey (validSongCombinations):
+ * כל תת-קבוצה של התוספות בקטלוג, חוץ מצירוף שבו תוספת עם requires נבחרה בלי
+ * התנאי שלה (היום הפודקאסט האישי והתמונות מהבית רק עם הקליפ). 7 תוספות נותנות
+ * 80 שילובים, והבדיקה ב-song-offer-quote.test.ts נועלת את המספר.
+ * הטופס לא מקבל את המפה הזו: הוא מחשב כל הצעה בדפדפן מ-quoteData
+ * (composeSongOfferQuote). כאן היא משמשת את הבדיקות כמקור להשוואה, ו-
+ * getSongOfferExport נשען על אותה רשימת שילובים.
  */
 export function getSongOfferQuotes(
   options: SongWhatsAppHrefOptions,

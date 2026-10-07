@@ -130,7 +130,7 @@ export const VIDEO_CLIP_WHY: readonly BlessingsWhyCard[] = [
     emoji: "📱",
     title: "מוכן לרשתות",
     description:
-      "פורמטים מותאמים לוואטסאפ, אינסטagram ולהצגה באירוע.",
+      "פורמטים מותאמים לוואטסאפ, אינסטגרם ולהצגה באירוע.",
   },
   {
     emoji: "🎁",

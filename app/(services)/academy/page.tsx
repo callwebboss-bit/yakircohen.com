@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
-import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { DATE_HOLD_TERMS_BODY } from "@/lib/data/conversion-copy";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -83,8 +84,11 @@ const ACADEMY_TRACKS = [
     badge: "ביטחון ודיבור",
     title: "פרוטוקול NeverMind",
     sub: "שבירת חסמי דיבור וגמגום דרך עבודה מול מיקרופון.",
-    price: catalogWithVat(getExVat("academy_nevermind_session")).toLocaleString("he-IL"),
-    priceNote: "למפגש, 60 דקות, באולפן, כולל מע״מ",
+    /* price בכל המסלולים הוא הסכום לפני מע״מ, והכרטיס וההודעה מוסיפים מע״מ.
+       עד 6.10.2026 נכתב כאן הסכום כולל מע״מ, ולכן הכרטיס הוסיף מע״מ פעם שנייה
+       בגדול, ובקטן ובוואטסאפ כתב "+ מע״מ" ליד סכום שכבר כולל אותו. */
+    price: getExVat("academy_nevermind_session").toLocaleString("he-IL"),
+    priceNote: "למפגש, 60 דקות, באולפן",
     features: [
       "אימון מנטלי מול מיקרופון",
       "שבירת חסמי דיבור",
@@ -174,6 +178,14 @@ function vatFirst(text: string): string {
   if (!m) return text;
   const exVat = Number(m[1].replace(/,/g, ""));
   return `${withVat(exVat).toLocaleString("he-IL")} ₪ כולל מע״מ${m[2]}`;
+}
+
+/**
+ * שורת המחיר בהודעת הוואטסאפ, באותו סדר כמו הכרטיס: הסכום כולל מע״מ, ואחריו
+ * בסוגריים הסכום לפני מע״מ. עד 6.10.2026 ההודעה שלחה רק את הסכום לפני מע״מ.
+ */
+function whatsappPriceLine(exVatText: string): string {
+  return formatPrice(Number(exVatText.replace(/,/g, ""))).inline;
 }
 
 const FINE_PRINT = [
@@ -493,7 +505,7 @@ export default function AcademyPage() {
         <div className="grid gap-6 sm:grid-cols-3">
           {ACADEMY_TRACKS.map((track) => {
             const href = buildWhatsAppHref({
-              text: `${track.waText} - מחיר: ${track.price} ₪ + מע\"מ`,
+              text: `${track.waText} - מחיר: ${whatsappPriceLine(track.price)}`,
               utm_source: "academy",
               utm_campaign: track.utm,
             });
@@ -611,7 +623,7 @@ export default function AcademyPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           {RETAINER_PLANS.map((plan) => {
             const href = buildWhatsAppHref({
-              text: `${plan.waText} - מחיר: ${plan.price} ₪ + מע\"מ`,
+              text: `${plan.waText} - מחיר: ${whatsappPriceLine(plan.price)}`,
               utm_source: "academy",
               utm_campaign: plan.utm,
             });

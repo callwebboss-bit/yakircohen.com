@@ -1,4 +1,5 @@
 import type { ServiceType } from "@/lib/leads/types";
+import { wrapCustomerEmail } from "@/lib/leads/templates/email-shell";
 
 const GUIDES: Partial<Record<ServiceType, { title: string; bullets: string[]; href: string }>> = {
   studio: {
@@ -75,12 +76,12 @@ export function buildPreCallGuide(serviceType: ServiceType): {
     `פרטים: ${guide.href}`,
   ].join("\n");
 
-  const html = `
-<div style="font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:right;">
+  /* לוגו בראש וחתימה בסוף מהמעטפת המשותפת: עד בדיקת הלוגו 7.10.2026
+     המייל הזה יצא בלי לוגו ובלי שם השולח */
+  const html = wrapCustomerEmail(`
   <h2 style="margin:0 0 8px;font-size:18px;">${guide.title}</h2>
   <ul>${guide.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>
-  <p><a href="${guide.href}">לפרטים באתר</a></p>
-</div>`.trim();
+  <p><a href="${guide.href}">לפרטים באתר</a></p>`);
 
   return {
     subject: guide.title,

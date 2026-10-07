@@ -15,6 +15,7 @@ import {
   getSongParticipantRules,
   getSongParticipantsBreakdown,
   getSongParticipantsExplanation,
+  getSongQuoteData,
   isSongAddonAvailable,
   LEGACY_SONG_ALIASES,
   normalizeSongAddons,
@@ -26,7 +27,13 @@ import {
   songParticipantsSurcharge,
   type SongAddonId,
 } from "@/lib/data/song-offer";
-import { SONG_SPECIAL_REQUEST_LINE } from "@/lib/data/song-offer-quote";
+import {
+  calcSongQuote,
+  composeSongOfferQuote,
+  parseSongKind,
+  SONG_SPECIAL_REQUEST_LINE,
+  withSongKind,
+} from "@/lib/data/song-offer-quote";
 import { buildLeadNotifyBody } from "@/lib/lead-email-notify";
 import { checkLeadNotifyPayload, FORM_ID_PATTERN } from "@/lib/leads/payload-check";
 
@@ -230,15 +237,14 @@ describe("song offer: WhatsApp message", () => {
     assert.match(ycTag, /purpose=gift/);
   });
 
-  it("the wa.me link carries the total, and the tag only when asked", () => {
+  /* החלטת הבעלים D67, 7.10.2026: בלי תג בהודעת הלקוח. הקוד נכנס בלחיצה */
+  it("the wa.me link carries the total and no tag", () => {
     const href = buildSongOfferWhatsAppHref([CLIP], { source: "/studio" });
     assert.ok(href.startsWith("https://wa.me/"));
     const text = new URL(href).searchParams.get("text") ?? "";
     assert.ok(text.includes("1,475 ₪ כולל מע״מ (1,250 ₪ + מע״מ)"));
-    assert.ok(text.includes("[YC:"));
+    assert.ok(!text.includes("[YC:"));
     assert.ok(!text.includes("📍"));
-    const noTag = buildSongOfferWhatsAppHref([CLIP], { source: "/studio", includeYcTag: false });
-    assert.ok(!(new URL(noTag).searchParams.get("text") ?? "").includes("[YC:"));
   });
 });
 
@@ -623,5 +629,50 @@ describe("song offer: special request (owner 6.10.2026, a quote for anything not
 
   it("the line has no AI tells", () => {
     assert.doesNotMatch(SONG_SPECIAL_REQUEST_LINE, /[!—–…“”]/);
+  });
+});
+
+describe("song offer: original song for a bar or bat mitzvah (owner 6.10.2026)", () => {
+  const data = getSongQuoteData();
+
+  it("the original song is a second base from the catalog, 350 more than a recording (7.10.2026)", () => {
+    assert.equal(data.original?.id, "song_original_mitzvah");
+    assert.equal(data.original?.exVat, 850);
+    assert.equal(getExVat("song_original_mitzvah"), getExVat("song_recording") + 350);
+    assert.equal(withVat(850), 1003);
+  });
+
+  it("choosing it swaps only the base: same add-ons, same participant rules", () => {
+    const original = withSongKind(data, "original");
+    assert.equal(original.base.id, "song_original_mitzvah");
+    assert.deepEqual(original.addons, data.addons);
+    assert.deepEqual(original.participants, data.participants);
+    assert.equal(withSongKind(data, "cover"), data);
+    const calc = calcSongQuote(original, [CLIP], 3);
+    assert.equal(calc.lines[0].id, "song_original_mitzvah");
+    assert.equal(calc.totalExVat, 850 + 2 * 99 + 750);
+  });
+
+  it("the message, the tag and the link back say it is the original song", () => {
+    const quote = composeSongOfferQuote(withSongKind(data, "original"), [], 1, { source: "/x" });
+    assert.ok(quote.messageText.startsWith("שלום, אשמח לשיר מקורי לבר או בת מצווה."));
+    assert.ok(quote.messageText.includes("שיר מקורי לבר או בת מצווה (מילים, לחן והקלטה)"));
+    assert.ok(quote.ycTag.includes("song_original_mitzvah"));
+    assert.ok(quote.offerHref.includes("song=original"));
+    const cover = composeSongOfferQuote(data, [], 1, { source: "/x" });
+    assert.ok(!cover.offerHref.includes("song="));
+    assert.ok(cover.messageText.startsWith("שלום, אשמח להקליט שיר באולפן."));
+  });
+
+  it("gift mode keeps its own opening line", () => {
+    const quote = composeSongOfferQuote(withSongKind(data, "original"), [], 1, { source: "/x", giftMode: true });
+    assert.ok(quote.messageText.startsWith("שלום, אשמח להקליט שיר במתנה באולפן."));
+  });
+
+  it("reads ?song= forgivingly", () => {
+    assert.equal(parseSongKind("original"), "original");
+    assert.equal(parseSongKind("cover"), "cover");
+    assert.equal(parseSongKind("bogus"), "cover");
+    assert.equal(parseSongKind(null), "cover");
   });
 });

@@ -20,6 +20,6 @@ describe("bar mitzvah speech guide", () => {
     const post = getBlogPostBySlug("bar-mitzvah-speech");
     assert.ok(post);
     assert.ok(post.content.includes('href="/studio/blessings/bar-mitzvah"'));
-    assert.match(post.youtubeUrl ?? "", /Y8w_BRwe_tg/);
+    assert.match(post.youtubeUrl ?? "", /y8w_BRwe_tg/);
   });
 });

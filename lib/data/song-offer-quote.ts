@@ -25,6 +25,9 @@ export const SONG_OFFER_PAGE_PATH = "/studio/recording-song-modiin";
 export const SONG_ADDONS_PARAM = "addons";
 /** שם הפרמטר בכתובת שזוכר את מספר המשתתפים, ?participants=4 */
 export const SONG_PARTICIPANTS_PARAM = "participants";
+/** סוג השיר בכתובת, ?song=original לשיר מקורי לבר או בת מצווה. בלי הפרמטר: שיר קיים. */
+export const SONG_KIND_PARAM = "song";
+export type SongKind = "cover" | "original";
 /** מזהה שורת תוספת המשתתפים (לא מזהה קטלוג, היא מחברת שני פריטים) */
 export const SONG_PARTICIPANTS_LINE_ID = "song_participants";
 /** אורך מקסימלי להערה החופשית של הלקוח, בהודעה ובמייל */
@@ -172,6 +175,8 @@ export type SongParticipantsExplanation = {
   exVat: string;
   /** "עד 12 בשיר" */
   limit: string;
+  /** קיבולת האולפן, "עד 4 מקליטים בבת אחת..." (החלטת הבעלים D64, 7.10.2026) */
+  turns?: string;
 };
 
 /** חלקי שורת ההסבר מתחת לבורר */
@@ -199,24 +204,26 @@ export type SongQuoteItem = {
   /** השם בשורה של ההודעה */
   label: string;
   exVat: number;
+  /** פתיחת הודעת הוואטסאפ, רק לבסיס שאינו הקלטת שיר קיים */
+  messageOpening?: string;
 };
 
 /** כל מה שצריך כדי לחשב הצעה, בלי הקטלוג. השרת בונה אותו ב-getSongQuoteData. */
 export type SongQuoteData = {
   base: SongQuoteItem;
+  /* החלטת הבעלים 6.10.2026: שיר מקורי לבר או בת מצווה, בסיס חלופי עם אותן תוספות.
+     בוחרים אותו בטופס, והוא מחליף את הבסיס בחישוב (withSongKind). */
+  original?: SongQuoteItem;
   addons: readonly (SongQuoteItem & { id: SongAddonId; requires: SongAddonId | null })[];
   participants: SongParticipantRules;
   vatRate: number;
 };
 
 export type SongQuoteOptions = {
-  /** נתיב העמוד, נכנס רק לתג [YC:] */
+  /** נתיב העמוד, נכנס רק לתג [YC:] שבמייל לבעלים */
   source: string;
   giftMode?: boolean;
   utmCampaign?: string;
-  /* החלטת הבעלים על התג בהודעת הלקוח עדיין פתוחה (שאלה 6), ולכן כמו בשאר
-     האתר אחרי שלב 1 הוא נשאר כברירת מחדל */
-  includeYcTag?: boolean;
   /** נתיב הטופס לקישור החזרה, ברירת מחדל עמוד השיר */
   offerPath?: string;
   /* בקשות שאין להן שורת מחיר (למשל מה מצלמים או איך השיחה המשפחתית תיראה).
@@ -243,6 +250,21 @@ export type SongOfferCalc = {
   totalExVat: number;
   totalWithVat: number;
 };
+
+/** הנתונים עם הבסיס שנבחר. שיר מקורי מחליף את הבסיס, וכל השאר (תוספות, משתתפים) זהה. */
+export function withSongKind(data: SongQuoteData, kind: SongKind): SongQuoteData {
+  return kind === "original" && data.original ? { ...data, base: data.original } : data;
+}
+
+/** איזה סוג שיר מחושב בנתונים האלה */
+export function songKindOf(data: SongQuoteData): SongKind {
+  return data.original && data.base.id === data.original.id ? "original" : "cover";
+}
+
+/** קריאה סלחנית של ?song= מהכתובת */
+export function parseSongKind(value: string | null | undefined): SongKind {
+  return value === "original" ? "original" : "cover";
+}
 
 function rulesOf(data: SongQuoteData): SongAddonRule[] {
   return data.addons.map((a) => ({ id: a.id, requires: a.requires }));
@@ -299,10 +321,15 @@ export function formatSongTotalLine(totals: Pick<SongOfferTotals, "totalExVat" |
   return `${nis(totals.totalWithVat)} כולל מע״מ (${nis(totals.totalExVat)} + מע״מ)`;
 }
 
+/* עמדת המכירות מזהה לפי שתי השורות האלה הודעה מטופס השיר ובונה ממנה את
+   הבחירה, כי אחרי D67 אין בהודעה תג [YC:] (lib/sales/paste-match.ts) */
+export const SONG_SELECTION_HEADER = "מה בחרתי:";
+export const SONG_TOTAL_PREFIX = "סה״כ:";
+
 /** שורות "מה בחרתי" עם מחיר כולל מע״מ לכל שורה, והסכום */
 export function songSelectionLines(totals: SongOfferTotals): string[] {
   return [
-    "מה בחרתי:",
+    SONG_SELECTION_HEADER,
     ...totals.lines.flatMap((line) =>
       line.id === SONG_PARTICIPANTS_LINE_ID
         ? [
@@ -312,14 +339,14 @@ export function songSelectionLines(totals: SongOfferTotals): string[] {
           ]
         : [`• ${line.label} - ${nis(line.withVat)}`],
     ),
-    `סה״כ: ${formatSongTotalLine(totals)}`,
+    `${SONG_TOTAL_PREFIX} ${formatSongTotalLine(totals)}`,
   ];
 }
 
 export type SongMessage = {
   /** ההודעה ללקוח, בגוף ראשון, בלי התג */
   text: string;
-  /** תג [YC:...] לכלי של הבעלים. מי שבונה את הקישור מחליט אם לצרף אותו. */
+  /** תג [YC:...] לכלי של הבעלים, רק לגוף המייל. בקישור ללקוח אין תג (D67). */
   ycTag: string;
 };
 
@@ -335,7 +362,7 @@ export function buildSongMessageFromCalc(
 ): SongMessage {
   const opening = giftMode
     ? "שלום, אשמח להקליט שיר במתנה באולפן."
-    : "שלום, אשמח להקליט שיר באולפן.";
+    : (data.base.messageOpening ?? "שלום, אשמח להקליט שיר באולפן.");
   const cleanNotes = cleanSongNotes(notes);
   const text = [
     opening,
@@ -362,8 +389,10 @@ export function buildSongOfferHrefFrom(
   participants: number,
   included: number,
   path: string = SONG_OFFER_PAGE_PATH,
+  kind: SongKind = "cover",
 ): string {
   const params: string[] = [];
+  if (kind === "original") params.push(`${SONG_KIND_PARAM}=original`);
   if (addonIds.length) params.push(`${SONG_ADDONS_PARAM}=${addonIds.join(",")}`);
   if (participants > included) params.push(`${SONG_PARTICIPANTS_PARAM}=${participants}`);
   const qs = params.length ? `?${params.join("&")}` : "";
@@ -379,8 +408,10 @@ export function composeSongOfferQuote(
 ): SongOfferQuote {
   const calc = calcSongQuote(data, addonIds, participants);
   const { text, ycTag } = buildSongMessageFromCalc(data, calc, options);
+  /* בלי התג: הלקוח שולח רק את הבחירה, וקוד הפנייה נכנס בלחיצה (D67, 7.10.2026).
+     התג נשאר ב-ycTag לגוף המייל של "תתקשרו אליי" */
   const waHref = buildWhatsAppHref({
-    text: options.includeYcTag === false ? text : `${text}\n${ycTag}`,
+    text,
     utm_source: "website",
     utm_campaign: options.utmCampaign ?? "song_offer",
   });
@@ -399,6 +430,7 @@ export function composeSongOfferQuote(
       calc.participants,
       data.participants.included,
       options.offerPath,
+      songKindOf(data),
     ),
     notes: cleanSongNotes(options.notes),
     specialRequest: options.specialRequest === true,

@@ -126,12 +126,14 @@ const AI_SERVICES = [
     icon: <NoiseIcon />,
     exVat: getExVat("ai_noise_basic"),
     billingType: "one-time" as const,
+    /* החלטת הבעלים D68, 7.10.2026: שני שירותים. כאן רעש קבוע אחד בהקלטה קצרה,
+       והניקוי המלא הוא noise_removal_segment בהמשך הרשימה */
     deliverables: [
-      "הסרת רעש קבוע (מזגן, רקע)",
+      "הסרת רעש קבוע אחד ברקע, כמו מזגן",
       "נורמליזציה בסיסית",
       "קובץ WAV או MP3 מוכן",
     ],
-    note: "להקלטות קצרות עם רעש קבוע",
+    note: "לרעש קבוע אחד בהקלטה קצרה. לכמה סוגי רעש יחד: ניקוי רעשים, לקטע עד 5 דקות",
     whatsappText: "שלום, אשמח לקבל הצעת מחיר לניקוי רעשים בסיסי",
     ctaHref: null as string | null,
     ctaLabel: "קבלו הצעה בוואטסאפ",
@@ -158,12 +160,13 @@ const AI_SERVICES = [
     icon: <NoiseMuteIcon />,
     exVat: getExVat("noise_removal_segment"),
     billingType: "one-time" as const,
+    /* D68: ניקוי מלא של כל רעשי הרקע, לא רק רעש קבוע אחד (ai_noise_basic) */
     deliverables: [
-      "הסרת רעשי רקע (מזגן, מאוורר, רחש, רוח)",
+      "הסרת כל רעשי הרקע יחד (מזגן, מאוורר, רחש, רוח)",
       "שמירה על קול טבעי ללא 'לחץ'",
       "קובץ WAV או MP3 מוכן",
     ],
-    note: "לקטע עד 5 דקות",
+    note: "ניקוי מלא של כל רעשי הרקע, לקטע עד 5 דקות",
     whatsappText: "שלום, יש לי הקלטה עם רעשי רקע - אשמח לניקוי.",
     ctaHref: "/online/vocal-fix/noise-removal",
     ctaLabel: "פרטים נוספים",

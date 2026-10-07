@@ -103,6 +103,12 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["radix-ui"],
   },
   images: {
+    /* 6.10.2026: מכסת Image Optimization ב-Hobby נוצלה (5,045 מתוך 5,000 בחלון של 30 יום),
+       וגרסאות חדשות החזירו 402. Vercel מחייבת טרנספורמציה על כל MISS וגם על כל STALE.
+       ברירת המחדל של Next היא 14400 שניות, כלומר כל גרסה של תמונה מרוחקת (i.ytimg.com)
+       מתיישנת ומחושבת מחדש בערך כל ארבע שעות. 31 יום הם הערך שהתיעוד של Vercel ממליץ עליו
+       לתמונות שלא משתנות. תמונות מקומיות כבר נושאות immutable ב-vercel.json. */
+    minimumCacheTTL: 2678400,
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

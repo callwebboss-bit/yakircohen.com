@@ -4,9 +4,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { isRateLimitedDurable } from "@/lib/api-guard";
 import {
-  ADMIN_HOME_PATH,
   ADMIN_LOGIN_PATH,
+  adminLoginUrl,
   clearAdminSessionCookie,
+  resolveAdminNextPath,
   setAdminSessionCookie,
   verifyAdminToken,
 } from "@/lib/admin-auth";
@@ -27,17 +28,21 @@ async function clientIp(): Promise<string> {
 }
 
 export async function adminLoginAction(formData: FormData): Promise<void> {
+  /* next מגיע מהטופס, כלומר מהלקוח. adminLoginUrl ו-resolveAdminNextPath
+     מעבירים אותו הלאה רק כשהוא נתיב תחת /admin/ באותו אתר (lib/admin-next-path.ts),
+     ולכן אי אפשר להשתמש בכניסה כדי לשלוח את יקיר לאתר אחר. */
+  const next = formData.get("next");
   const ip = await clientIp();
   if (await isRateLimitedDurable(`rl:admin-login:${ip}`, LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_MS)) {
-    redirect(`${ADMIN_LOGIN_PATH}?error=rate`);
+    redirect(adminLoginUrl(next, "rate"));
   }
 
   const token = String(formData.get("token") || "").trim();
   if (!verifyAdminToken(token)) {
-    redirect(`${ADMIN_LOGIN_PATH}?error=1`);
+    redirect(adminLoginUrl(next, "1"));
   }
   await setAdminSessionCookie(token);
-  redirect(ADMIN_HOME_PATH);
+  redirect(resolveAdminNextPath(next));
 }
 
 export async function adminLogoutAction(): Promise<void> {

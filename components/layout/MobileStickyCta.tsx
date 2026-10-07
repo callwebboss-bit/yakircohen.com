@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePastFold } from "@/hooks/useScrollDirection";
 import { getMobileDecisiveNav } from "@/lib/mobile-sticky-context";
 import { cn } from "@/lib/utils";
 
-/** דפים עם sticky ייעודי / טופס - לא לכפול */
-const HIDE_PREFIXES = ["/contact", "/book", "/pricing"] as const;
+/** דפים עם sticky ייעודי / טופס - לא לכפול. /admin הוא כלי פנימי, הסרגל מסתיר בו כרטיסים. */
+const HIDE_PREFIXES = ["/contact", "/book", "/pricing", "/admin"] as const;
 
 function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
   return prefixes.some(
@@ -20,6 +21,7 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
  */
 export default function MobileStickyCta() {
   const pathname = usePathname() ?? "/";
+  const pastFold = usePastFold();
 
   if (matchesPrefix(pathname, HIDE_PREFIXES)) {
     return null;
@@ -35,7 +37,11 @@ export default function MobileStickyCta() {
 
   return (
     <div
-      className="mobile-sticky-cta fixed inset-x-[5.5rem] bottom-[calc(env(safe-area-inset-bottom)_+_0.75rem)] z-40 overflow-hidden rounded-2xl border border-catalog-gold/30 bg-background/95 shadow-[0_8px_24px_rgb(0_0_0_/_0.12)] backdrop-blur-sm transition-opacity duration-300 md:hidden"
+      className={cn(
+        "mobile-sticky-cta fixed inset-x-[5.5rem] bottom-[calc(env(safe-area-inset-bottom)_+_0.75rem)] z-40 overflow-hidden rounded-2xl border border-catalog-gold/30 bg-background/95 shadow-[0_8px_24px_rgb(0_0_0_/_0.12)] backdrop-blur-sm transition-opacity duration-300 md:hidden",
+        /* במסך הראשון ה-CTA של העמוד עצמו חשוב יותר. הסרגל מופיע אחרי גלילה קלה. */
+        !pastFold && "invisible opacity-0 pointer-events-none",
+      )}
       data-lead-surface="mobile_sticky"
       role="navigation"
       aria-label="ניווט מהיר"

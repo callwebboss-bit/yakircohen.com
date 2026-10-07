@@ -1,4 +1,5 @@
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { INTENT_NAV_ITEMS } from "@/lib/data/intent-nav";
 
 export type HomeIntentPath = {
@@ -38,7 +39,8 @@ const BY_INTENT_ID: Record<
   },
   wedding: {
     outcome: "DJ, אטרקציות והגברה בחבילה אחת מספק אחד",
-    priceNote: "הצעה תוך 24 שעות",
+    /* D62: באתר "בדרך כלל תוך שעה", לא 24 שעות */
+    priceNote: `הצעה ${TIME_CLAIMS.quoteHour}`,
   },
   barmitzvah: {
     outcome: "DJ, אפקטים, הגברה לדרשה ומצגת גדילה",
@@ -50,7 +52,8 @@ const BY_INTENT_ID: Record<
   },
   business: {
     outcome: "רילז, קריינות ופודקאסט עם חשבונית מס",
-    priceNote: "הצעה תוך 24 שעות",
+    /* D62: באתר "בדרך כלל תוך שעה", לא 24 שעות */
+    priceNote: `הצעה ${TIME_CLAIMS.quoteHour}`,
   },
   pricing: {
     outcome: "כל המחירים במקום אחד, לפני ואחרי מע״מ",

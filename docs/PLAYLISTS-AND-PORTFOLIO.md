@@ -24,7 +24,7 @@
 3. בדוק תיוגים ב-`lib/data/video-catalog.overrides.ts` אם צריך תיקון ידני.
 4. וידאו ראשי לעמוד שירות בודד -- עדכן `youtube-embeds.ts` + `services.ts` אם צריך embed יחיד.
 5. וידאו לעמוד עם כמה דוגמאות -- `youtube-showcases.ts` או `ShowcaseVideoSection` עם `playlistId`.
-6. בדיקת תקינות: `node scripts/check-youtube-ids.mjs` (325 IDs, 0 שבורים -- נכון ליוני 2026).
+6. בדיקת תקינות: `npm run check:youtube` (מריץ `scripts/check-videos.mjs`, שסורק מפתחות וקישורים מלאים ב-lib, components ו-app; 515 IDs, 0 שבורים -- נכון ל-7.10.2026). הבדיקה רצה גם בתוך `preflight-deploy`.
 
 ## עמודים עם `playlistEmbedUrl: null` (מכוון)
 

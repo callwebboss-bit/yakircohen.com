@@ -5,7 +5,8 @@
  * שאפשר לפעול לפיה. כל ממצא מדפיס גם למה זה קרה וגם מה עושים.
  *
  * הרצה:  node scripts/preflight-deploy.mjs
- * דגלים: --skip-env   לדלג על בדיקת משתני סביבה (למשל בבדיקה מקומית)
+ * דגלים: --skip-env     לדלג על בדיקת משתני סביבה (למשל בבדיקה מקומית)
+ *        --skip-videos  לדלג על בדיקת סרטוני היוטיוב (דורשת רשת, כ-10 שניות)
  */
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -14,6 +15,7 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const skipEnv = process.argv.includes("--skip-env");
+const skipVideos = process.argv.includes("--skip-videos");
 const errors = [];
 const warnings = [];
 
@@ -262,6 +264,50 @@ if (!skipEnv) {
   const major = Number(process.versions.node.split(".")[0]);
   if (major < 20) {
     fail(`Node ${process.versions.node}`, "הפרויקט דורש Node 20 ומעלה.", "לעדכן Node");
+  }
+}
+
+/* ── 7. סרטוני יוטיוב חיים ───────────────────────────────────────────────────
+   סרטון שנמחק או שההטמעה שלו נחסמה לא מפיל שום build: הנגן פשוט מציג למבקר
+   "הסרטון לא זמין". רק בדיקה מול oEmbed תופסת את זה לפני הפריסה.
+   401 ו-404 חוסמים. תשובה לא חד-משמעית (429, שגיאת שרת, אין רשת) רק מזהירה,
+   כדי ש-preflight לא ייפול כשאין חיבור ליוטיוב. */
+if (!skipVideos) {
+  try {
+    const { runVideoCheck } = await import("./check-videos.mjs");
+    const { rows, broken, unknown } = await runVideoCheck(ROOT);
+
+    if (!rows.length) {
+      warn(
+        "בדיקת היוטיוב לא מצאה אף מזהה",
+        "כנראה הרצתם את preflight מתיקייה שאינה שורש הפרויקט, ולכן הסריקה לא ראתה את lib, components ו-app.",
+        "להריץ מתיקיית הפרויקט, או להוסיף --skip-videos",
+      );
+    }
+    for (const v of broken) {
+      fail(
+        `סרטון יוטיוב ${v.id} מחזיר ${v.status.replace("BROKEN ", "")} (${v.file})`,
+        v.status.endsWith("401")
+          ? "הבעלים חסם הטמעה בסרטון. הנגן בעמוד יציג למבקר הודעת שגיאה במקום הסרטון."
+          : "הסרטון נמחק או הפך פרטי. הנגן בעמוד יציג למבקר הודעת שגיאה במקום הסרטון.",
+        "להחליף או להסיר את המזהה בקובץ, ואז להריץ npm run check:youtube",
+      );
+    }
+    if (unknown.length) {
+      const shown = unknown.slice(0, 5).map((u) => `${u.id} (${u.status.replace("UNKNOWN ", "")})`);
+      const more = unknown.length > shown.length ? ` ועוד ${unknown.length - shown.length}` : "";
+      warn(
+        `${unknown.length} סרטוני יוטיוב לא נבדקו: ${shown.join(", ")}${more}`,
+        "יוטיוב החזיר תשובה לא חד-משמעית (הגבלת קצב, שגיאת שרת או חוסר רשת), ולכן אי אפשר לדעת אם הסרטון תקין.",
+        "להריץ שוב npm run check:youtube כשיש רשת",
+      );
+    }
+  } catch (e) {
+    warn(
+      `בדיקת היוטיוב לא רצה: ${e.message}`,
+      "הסקריפט scripts/check-videos.mjs לא נטען או קרס, ולכן אין ביטחון שהסרטונים באתר חיים.",
+      "להריץ node scripts/check-videos.mjs ולקרוא את השגיאה",
+    );
   }
 }
 

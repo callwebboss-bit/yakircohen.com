@@ -443,7 +443,6 @@ export const PRO_SERVICES: readonly ProService[] = [
     faqs: [
       { question: "האם אפשר לבקש שינויים?", answer: "כן - התאמות קטנות (הסרת או הוספת שיר בודד) בתוספת תשלום סמלי." },
       { question: "באיזה פורמט?", answer: "דיסק און קי מוכן לתוכנת ניהול מוזיקה, או קבצים בדרייב." },
-      { question: "מה לגבי זכויות יוצרים?", answer: "הסטים מיועדים לשימוש מקצועי באירועים פרטיים. רישוי לשידור - באחריות הלקוח." },
     ],
     closerServiceId: "prebuilt_sets",
     bookCategoryId: "dj",

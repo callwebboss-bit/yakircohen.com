@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 166,
-  "contentHash": "3fab19c6d4b85294",
+  "itemCount": 174,
+  "contentHash": "5f702dcd964e7f0f",
   "items": [
     {
       "id": "studio_half_hour",
@@ -84,8 +84,8 @@
       "id": "song_original_mitzvah",
       "label": "שיר מקורי לבר או בת מצווה",
       "category": "studio",
-      "exVat": 500,
-      "inclVat": 590,
+      "exVat": 850,
+      "inclVat": 1003,
       "priceFrom": false,
       "context": "כתיבת מילים ולחן לפי מילים שכותבים יחד איתכם, עד שתי סקיצות שונות, והקלטה באולפן. תיקון זיופים לא כלול.",
       "suitedFor": "בר או בת מצווה"
@@ -167,8 +167,8 @@
       "exVat": 580,
       "inclVat": 684,
       "priceFrom": false,
-      "context": "עריכה נוספת מלאה מעבר לסבב הכלול",
-      "suitedFor": "אחרי שהסבב הכלול במסלול כבר נוצל"
+      "context": "סבב תיקונים בשיר, מעבר ל-2 הסבבים הכלולים אחרי הסשן",
+      "suitedFor": "אחרי ש-2 סבבי התיקונים הכלולים בשיר נוצלו"
     },
     {
       "id": "studio_pitch_correction",
@@ -256,7 +256,7 @@
       "exVat": 1650,
       "inclVat": 1947,
       "priceFrom": false,
-      "context": "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה",
+      "context": "צילום ב-3 מצלמות ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה",
       "suitedFor": "פודקאסטים עם נוכחות ויזואלית ביוטיוב"
     },
     {
@@ -276,7 +276,7 @@
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": false,
-      "context": "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן"
+      "context": "צילום ב-3 מצלמות ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה, ועוד עריכה נוספת תוך 24 עד 48 שעות"
     },
     {
       "id": "mobile_podcast_at_home",
@@ -446,6 +446,24 @@
       "context": "לתמונה, שירות נפרד משדרוג AI"
     },
     {
+      "id": "photo_enhance_1",
+      "label": "שדרוג תמונה אחת ב-AI",
+      "category": "online",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תמונה בודדת"
+    },
+    {
+      "id": "photo_enhance_5",
+      "label": "שדרוג 5 תמונות ב-AI",
+      "category": "online",
+      "exVat": 200,
+      "inclVat": 236,
+      "priceFrom": false,
+      "context": "חבילת תמונות לשיפור"
+    },
+    {
       "id": "photo_enhance_20",
       "label": "שדרוג 20 תמונות ב-AI",
       "category": "online",
@@ -453,6 +471,24 @@
       "inclVat": 708,
       "priceFrom": false,
       "context": "חבילת תמונות לשיפור"
+    },
+    {
+      "id": "photo_manual_color_fix",
+      "label": "תיקון צבע ידני לתמונה",
+      "category": "addons",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תוספת לשדרוג AI, כשה-AI לא מספיק"
+    },
+    {
+      "id": "photo_scratch_removal",
+      "label": "הסרת שריטות או כתמים מתמונה",
+      "category": "addons",
+      "exVat": 50,
+      "inclVat": 59,
+      "priceFrom": false,
+      "context": "תוספת לשדרוג AI"
     },
     {
       "id": "social_single_video",
@@ -582,12 +618,21 @@
     },
     {
       "id": "vocal_fix_short",
-      "label": "תיקון זיופים, קטע קצר",
+      "label": "שיפור קול מהנייד, עד 5 דקות",
+      "category": "online",
+      "exVat": 250,
+      "inclVat": 295,
+      "priceFrom": false,
+      "context": "מסלול רגיל, אספקה תוך 1 עד 3 ימי עסקים"
+    },
+    {
+      "id": "vocal_fix_express",
+      "label": "שיפור קול מהנייד, מסלול חירום",
       "category": "online",
       "exVat": 375,
       "inclVat": 443,
       "priceFrom": false,
-      "context": "עד שתי דקות"
+      "context": "עד 5 דקות, אספקה תוך 4 עד 12 שעות"
     },
     {
       "id": "studio_prep_digital",
@@ -642,7 +687,7 @@
       "exVat": 6500,
       "inclVat": 7670,
       "priceFrom": false,
-      "context": "4 שעות, חדר ישיבות, עד 4 מרואים"
+      "context": "4 שעות, חדר ישיבות, עד 4 מרואיינים"
     },
     {
       "id": "on_site_full_day",
@@ -874,7 +919,7 @@
     },
     {
       "id": "voice_clone_clip",
-      "label": "קlip ממודל קול, עד דקה",
+      "label": "קליפ ממודל קול, עד דקה",
       "category": "online",
       "exVat": 450,
       "inclVat": 531,
@@ -1144,6 +1189,24 @@
       "priceFrom": false
     },
     {
+      "id": "singer_travel_north",
+      "label": "תוספת נסיעה להגברת זמר בצפון",
+      "category": "addons",
+      "exVat": 300,
+      "inclVat": 354,
+      "priceFrom": false,
+      "context": "רק להגברת זמר, מבסיס מודיעין. אזור המרכז בלי תוספת"
+    },
+    {
+      "id": "singer_travel_south",
+      "label": "תוספת נסיעה להגברת זמר בדרום",
+      "category": "addons",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "רק להגברת זמר, מבסיס מודיעין. אזור המרכז בלי תוספת"
+    },
+    {
       "id": "full_event_photo_8h",
       "label": "צילום אירוע מלא 8 שעות",
       "category": "photography",
@@ -1243,13 +1306,22 @@
       "context": "עיבוד מקצועי לכל הפורמטים"
     },
     {
+      "id": "online_home_mix",
+      "label": "מיקס ומאסטרינג לשיר שהוקלט בבית",
+      "category": "online",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "עד 16 ערוצים ועד 5 דקות, סבב תיקונים אחד, MP3 ו-WAV תוך 5 עד 7 ימי עסקים"
+    },
+    {
       "id": "ai_noise_basic",
       "label": "ניקוי רעשים בסיסי",
       "category": "online",
       "exVat": 350,
       "inclVat": 413,
       "priceFrom": false,
-      "context": "להקלטות קצרות עם רעש קבוע"
+      "context": "רעש קבוע אחד ברקע, כמו מזגן, בהקלטה קצרה"
     },
     {
       "id": "ai_voice_restore",
@@ -1280,10 +1352,10 @@
     },
     {
       "id": "ai_photo_upgrade",
-      "label": "שדרוג תמונות ב-AI",
+      "label": "שדרוג 10 תמונות ב-AI",
       "category": "online",
-      "exVat": 250,
-      "inclVat": 295,
+      "exVat": 350,
+      "inclVat": 413,
       "priceFrom": false,
       "context": "שיפור רזולוציה, צבע וחדות ל-10 תמונות"
     },
@@ -1343,12 +1415,12 @@
     },
     {
       "id": "noise_removal_segment",
-      "label": "ניקוי רעשים",
+      "label": "ניקוי רעשים מלא",
       "category": "online",
       "exVat": 500,
       "inclVat": 590,
       "priceFrom": false,
-      "context": "הסרת רעשי רקע לקטע עד 5 דקות"
+      "context": "כל רעשי הרקע (מזגן, מאוורר, רחש, רוח) בקטע עד 5 דקות"
     },
     {
       "id": "eq_freq_fix",

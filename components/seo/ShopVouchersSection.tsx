@@ -1,4 +1,4 @@
-import ShopCardImage from "@/components/seo/ShopCardImage";
+import Image from "next/image";
 import TrackedShopCta from "@/components/seo/TrackedShopCta";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
@@ -8,6 +8,7 @@ import {
   SHOP_VOUCHER_FAQ_SCHEMA,
   SHOP_VOUCHER_TIERS,
 } from "@/lib/data/shop-vouchers";
+import { BLUR_DATA_URL } from "@/lib/blur";
 import { cn } from "@/lib/utils";
 
 const FAQ_ITEMS: FAQItem[] = SHOP_VOUCHER_FAQ_UI.map((item) => ({
@@ -61,10 +62,25 @@ export default function ShopVouchersSection() {
                     פופולרי
                   </span>
                 ) : null}
-                <ShopCardImage
-                  src={tier.imageSrc}
-                  alt={tier.imageAlt}
-                />
+                {/* אותה מסגרת כמו ShopCardImage, אבל unoptimized. בדיקת הלוגו
+                    7.10.2026 החליפה את תמונות השוברים (לוגו, ושובר פרימיום בלי
+                    ALMOG COHEN) באותם שמות קבצים. מכסת Image Optimization של
+                    Hobby מלאה (next.config.ts), וכל גרסה חדשה דרך /_next/image
+                    מחזירה 402 ותמונה שבורה. unoptimized מגיש את הקובץ עצמו
+                    (webp ‏1200x900, עד כ-100KB), בלי לגעת במכסה. */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
+                  <Image
+                    src={tier.imageSrc}
+                    alt={tier.imageAlt}
+                    fill
+                    unoptimized
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
+                  />
+                </div>
                 <div className="flex grow flex-col p-6">
                   <div className="mb-4 flex items-start justify-between gap-3">
                     <h3 className="font-serif text-xl font-semibold text-foreground">

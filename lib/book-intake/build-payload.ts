@@ -8,6 +8,7 @@ import {
   formatPhoneForDisplay,
   sanitizeLeadText,
 } from "@/lib/form-validation";
+import { formatLeadCodeLine, generateLeadCode, normalizeLeadCode, withLeadCodeLine } from "@/lib/lead-code";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { appendYcLeadTag, type YcLeadTagInput } from "@/lib/yc-lead-tag";
 
@@ -21,6 +22,8 @@ export type BookIntakeCloserPayload = {
   user_choice_preset: string;
   free_text_description: string;
   file_meta?: IntakeFileMeta;
+  /** קוד פנייה (D67): אותו קוד בשורה האחרונה של הוואטסאפ ובמייל לבעלים */
+  lead_code?: string;
 };
 
 export type BookIntakeFormData = {
@@ -56,6 +59,7 @@ export function buildPayload(formData: BookIntakeFormData): BookIntakeCloserPayl
     urgency_flag: false,
     user_choice_preset: preset.userChoicePreset,
     free_text_description: sanitizeLeadText(formData.freeTextDescription, 1500),
+    lead_code: generateLeadCode(),
   };
 
   const email = formData.email.trim();
@@ -102,7 +106,10 @@ export function buildIntakeWhatsAppBody(payload: BookIntakeCloserPayload): strin
     form: "book_intake",
   };
 
-  return appendYcLeadTag(lines.join("\n"), tagInput);
+  const tagged = appendYcLeadTag(lines.join("\n"), tagInput);
+  /* התג יורד בקישור (toCustomerWhatsAppText), והקוד נשאר השורה האחרונה (D67) */
+  const code = normalizeLeadCode(payload.lead_code);
+  return code ? withLeadCodeLine(tagged, code) : tagged;
 }
 
 export function buildIntakeWhatsAppHref(payload: BookIntakeCloserPayload): string {
@@ -115,7 +122,9 @@ export function buildIntakeWhatsAppHref(payload: BookIntakeCloserPayload): strin
 
 export function buildIntakeEmailBody(payload: BookIntakeCloserPayload): string {
   const preset = getPresetByTag(payload.service_type_tag);
+  const code = normalizeLeadCode(payload.lead_code);
   const lines = [
+    code ? formatLeadCodeLine(code) : null,
     `כרטיס: ${payload.ticket_code}`,
     `שם: ${payload.lead_name}`,
     `טלפון: ${formatPhoneForDisplay(payload.lead_phone)}`,

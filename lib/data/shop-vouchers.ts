@@ -59,8 +59,11 @@ export const SHOP_VOUCHER_FAQ_SCHEMA = [
   },
   {
     question: "כמה זמן השובר בתוקף?",
+    /* חוק הגנת הצרכן: שובר מתנה בתוקף שנתיים לפחות מיום ההנפקה (החלטת הבעלים
+       7.10.2026). אותו תוקף מודפס בשובר שיוצא מ-/admin/sales, GIFT_VALIDITY_YEARS
+       ב-lib/sales/voucher.ts, ובדיקה ב-voucher.test.ts שומרת על ההתאמה. */
     answer:
-      "בדרך כלל שנה ממועד הרכישה. אם צריך תאריך אחר, כותבים לנו בוואטסאפ ומתאימים.",
+      "שנתיים מיום הרכישה. צריך יותר זמן? כותבים לנו בוואטסאפ ומאריכים.",
   },
   {
     question: "איך מממשים את השובר?",
@@ -99,7 +102,7 @@ export const SHOP_BUNDLE_OFFERS = [
 
 export type ShopLeadSection = "vouchers" | "bundles" | "used-gear" | "dj-used-gear";
 
-/** WhatsApp href with Closer [YC:...] tag: source=shop_{section}_{tier} */
+/** קישור וואטסאפ לחנות. התג [YC:] יורד בקישור ללקוח (D67) */
 export function buildShopWhatsAppHref(opts: {
   text: string;
   section: ShopLeadSection;

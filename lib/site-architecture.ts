@@ -474,7 +474,7 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
       { label: "קריינות מקצועית", href: "/voiceover/services" },
       { label: "וידאו", href: "/video", description: "אירועים, תדמית ומצגות" },
       { label: "צילום", href: "/photography", description: "חתונות ואירועים" },
-      { label: "שירותים מקצועיים לDJ", href: "/pro", description: "תגים קוליים, סטים וציוד" },
+      { label: "שירותים מקצועיים ל-DJ", href: "/pro", description: "תגים קוליים, סטים וציוד" },
     ],
   },
 ];

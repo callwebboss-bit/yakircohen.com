@@ -3,6 +3,7 @@ import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import Container from "@/components/ui/Container";
 import type { PricingTier } from "@/lib/data/services";
 import { getScopeById, getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -34,9 +35,14 @@ export default function StudioPricingGrid({ tiers, priceLead = "withVat" }: Stud
     <Container>
       <div className="isolation-booth-cards grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {tiers.map((tier) => {
+          /* ההודעה ללקוח באותו סדר כמו הכרטיס. עד 6.10.2026 נשלח כאן הסכום
+             לפני מע״מ בלי שום ציון, ב-/studio/pricing שכתוב בו "המחירים כוללים
+             מע״מ", ולקוח יכול היה להבין שזה הסכום הסופי. */
           const priceLabel =
             tier.priceExVat != null
-              ? `${tier.priceExVat.toLocaleString("he-IL")} ₪`
+              ? formatPrice(tier.priceExVat, {
+                  audience: priceLead === "exVat" ? "business" : "consumer",
+                }).inline
               : tier.price;
           const whatsappHref = buildWhatsAppHref({
             text: buildServiceWhatsAppText(tier.name, priceLabel),

@@ -43,6 +43,8 @@ This version has breaking changes - APIs, conventions, and file structure may al
 **לפני פריסה:** `npm run verify:predeploy` מריץ את כל השערים ומסתיים
 ב-`audit:seo-diff`, שחוסם כל גריעה לא מאושרת באות סורקים.
 
+שינוי מחיר בקטלוג: הפריסה מעדכנת לבד את `/admin/sales`. אחריה, מעותק שמסונכרן עם main: `npm run export:quote` ואז `npm run audit:quote-sync`, כדי ש-`quote.html` במק יקבל את המחירים.
+
 ## Project rules
 
 Full stack, env, build, and deployment conventions: **`.cursor/rules/yakircohen-project.mdc`** (always applied in Cursor).
