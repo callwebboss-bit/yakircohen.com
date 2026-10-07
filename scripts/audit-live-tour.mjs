@@ -90,6 +90,10 @@ const AUDIO_PAGES = [
 /** עמודים עם סרגל תחתון משלהם (PricingStickyBookCta, BookStickyMobileBar). הוא כפיל של ה-CTA, לא מכסה אותו. */
 const OWN_STICKY_BAR = new Set(["/pricing", "/book"]);
 
+/* הבטחת מענה (לא זמן מסירה) של 24 שעות. החלטת הבעלים D62, 5.10.2026: היא רק בכרטיס גוגל,
+   ובאתר TIME_CLAIMS.quoteHour ("בדרך כלל תוך שעה"). */
+const RESPONSE_24H = /(?:אחזור|נחזור|יחזור|חוזרים|הצעה|מענה|תשובה)[^.\n]{0,24}תוך 24 שעות/;
+
 /** תקן קבצי ההדגמה, public/audio/README.md: עד 2MB. */
 const MAX_AUDIO_BYTES = 2 * 1024 * 1024;
 
@@ -313,9 +317,10 @@ async function tourPages(browser) {
     const area = `page ${path}`;
     add(area, "נטען", resp.status() === 200 ? "pass" : "fail", `status ${resp.status()}`);
     add(area, "H1 אחד בדיוק (גולמי ומרונדר)", d.h1 === 1 && rawH1 === 1 ? "pass" : "fail", `מרונדר ${d.h1}, גולמי ${rawH1}`);
-    // ציטוט לקוח אמיתי עם "תוך שעה" הוא לא הבטחה, ונשאר
-    const promiseText = d.text.replace(/תוך שעה הכנסנו/g, "");
-    add(area, "בלי הבטחת 'תוך שעה'", /תוך שעה|בתוך שעה/.test(promiseText) ? "fail" : "pass");
+    /* החלטת הבעלים D62 ו-D76, 7.10.2026: באתר נשאר "בדרך כלל תוך שעה", ולכן הכשל הוא
+       הבטחת מענה של 24 שעות ולא "תוך שעה" כמו בענף של 4.10. */
+    const reply24h = d.text.match(RESPONSE_24H);
+    add(area, "הבטחת מענה לפי D62, בלי 'תוך 24 שעות'", reply24h ? "fail" : "pass", reply24h ? `"${reply24h[0]}"` : "");
     const ownBar = OWN_STICKY_BAR.has(path);
     add(area, "מסך ראשון בלי שכבות צפות מעל התוכן", d.layers === 0 || ownBar ? "pass" : "warn", ownBar ? "סרגל תחתון משלו, מדלגים" : `${d.layers} שכבות`);
     add(area, "CTA במסך הראשון", d.cta ? "pass" : "warn", d.cta ? `"${d.cta}"` : "לא נמצא קישור ל-/book, וואטסאפ או טלפון");
