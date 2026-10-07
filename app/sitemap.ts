@@ -6,20 +6,28 @@ import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
 import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
 import SITEMAP_DATES from "@/lib/data/sitemap-dates.generated.json";
+import {
+  categoryLastModified,
+  postLastModified,
+  routeDateFor,
+} from "@/lib/seo/sitemap-lastmod";
 
 const url = (path: string) => `${SITE_URL}/${path}`;
 
 /**
- * תאריך שינוי אמיתי מהיסטוריית git (scripts/generate-sitemap-dates.mjs).
- * לא תאריך build: לסמן 229 עמודים כמתעדכנים בכל דיפלוי הופך את lastmod לאות
- * חסר ערך בעיני גוגל, כולל בעמודי הבלוג שבהם התאריך כן מדויק.
- * ראוט בלי היסטוריה פשוט לא מקבל lastModified.
+ * תאריך שינוי אמיתי מהיסטוריית git של קבצי התוכן של כל עמוד
+ * (scripts/generate-sitemap-dates.mjs). לא תאריך build: לסמן 229 עמודים כמתעדכנים
+ * בכל דיפלוי הופך את lastmod לאות חסר ערך בעיני גוגל, כולל בעמודי הבלוג שבהם
+ * התאריך כן מדויק. ראוט בלי תאריך פשוט לא מקבל lastModified.
+ *
+ * בלוג וקטגוריות הבלוג לא עוברים דרך ה-JSON: כולם יושבים בקובץ אחד ו-git לא
+ * יכול להבדיל ביניהם, ולכן התאריך שלהם בא משדות התאריך של התוכן.
  */
 const routeDates = SITEMAP_DATES as Record<string, string>;
 
 function withLastModified<T extends { url: string }>(entry: T): T {
   const pathname = entry.url === SITE_URL ? "/" : entry.url.slice(SITE_URL.length);
-  const iso = routeDates[pathname.replace(/\/$/, "") || "/"];
+  const iso = routeDateFor(routeDates, pathname);
   return iso ? { ...entry, lastModified: new Date(iso) } : entry;
 }
 
@@ -284,7 +292,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const blogDateMap = new Map(BLOG_POSTS.map((p) => [p.slug, p.seo.datePublished]));
+  const blogDateMap = new Map(BLOG_POSTS.map((p) => [p.slug, postLastModified(p)]));
   const blogRoutes: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => {
     const dateStr = blogDateMap.get(slug);
     return {
@@ -313,11 +321,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   /* עמודי הקטגוריה של הבלוג, סטטיים ומותרים לאינדוקס. הם הקישור הנכנס
      היחיד ל-18 פוסטים שעמוד המגזין לא מציג (הוא מציג 8, והשאר מאחורי
      ?page=2 שמסומן noindex). */
-  const categoryRoutes: MetadataRoute.Sitemap = BLOG_FILTER_CATEGORIES.map((c) => ({
-    url: url(`blog/category/${c.id}`),
-    priority: 0.7,
-    changeFrequency: "weekly" as const,
-  }));
+  const categoryRoutes: MetadataRoute.Sitemap = BLOG_FILTER_CATEGORIES.map((c) => {
+    /* הקטגוריה מתעדכנת כשנכנס אליה פוסט חדש או מתעדכן פוסט שבה */
+    const dateStr = categoryLastModified(c.id, BLOG_POSTS);
+    return {
+      url: url(`blog/category/${c.id}`),
+      ...(dateStr ? { lastModified: new Date(dateStr) } : {}),
+      priority: 0.7,
+      changeFrequency: "weekly" as const,
+    };
+  });
 
   const all = [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes, ...categoryRoutes];
   const seen = new Set<string>();
