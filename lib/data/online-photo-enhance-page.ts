@@ -1,4 +1,7 @@
 ﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+import { withVat } from "@/lib/data/pricing";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 
 export const PHOTO_ENHANCE_PROCESS_STEPS: ProcessStep[] = [
   {
@@ -55,10 +58,27 @@ export const PHOTO_ENHANCE_STEPS: readonly { step: string; body: string }[] = [
   },
 ] as const;
 
+/* החלטת הבעלים D72, 7.10.2026: המחירים בעמוד נכונים והם לפני מע״מ. מאז הם
+   נקראים מהקטלוג (photo_enhance_1, photo_enhance_5, ai_photo_upgrade,
+   photo_enhance_20 והתוספות), ומוצגים כולל מע״מ קודם כמו בכל עמוד לצרכן. */
+
+/** מחיר לתמונה כולל מע״מ. 236 / 5 = 47.2 מוצג "47.20", כמו amountText ב-pricing-display */
+function perImageText(exVat: number, count: number): string {
+  const each = withVat(exVat) / count;
+  const text = Number.isInteger(each)
+    ? each.toLocaleString("he-IL")
+    : each.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${text} ₪ לתמונה כולל מע״מ`;
+}
+
 export type PhotoEnhancePackage = {
   id: string;
+  catalogId: PriceItemId;
   count: string;
+  /** "236 ₪", כולל מע״מ */
   price: string;
+  /** "כולל מע״מ (200 ₪ + מע״מ)" */
+  vatNote: string;
   perImage: string;
   premium?: boolean;
   ctaLabel: string;
@@ -75,67 +95,90 @@ export type PhotoEnhanceAddon = {
   utmCampaign: string;
 };
 
+function photoPackage(
+  pkg: Omit<PhotoEnhancePackage, "price" | "vatNote" | "perImage" | "whatsappMessage"> & {
+    images: number;
+    whatsappMessage: (totalLabel: string) => string;
+  },
+): PhotoEnhancePackage {
+  const { images, whatsappMessage, ...rest } = pkg;
+  const exVat = getExVat(pkg.catalogId);
+  const price = formatConsumerPrice(exVat);
+  return {
+    ...rest,
+    price: price.total,
+    vatNote: `כולל מע״מ (${price.exVatNote})`,
+    perImage: perImageText(exVat, images),
+    whatsappMessage: whatsappMessage(price.totalLabel),
+  };
+}
+
 export const PHOTO_ENHANCE_PACKAGES: readonly PhotoEnhancePackage[] = [
-  {
+  photoPackage({
     id: "single",
+    catalogId: "photo_enhance_1",
+    images: 1,
     count: "תמונה בודדת",
-    price: "50",
-    perImage: "50 ₪ לתמונה",
     ctaLabel: "הזמינו תמונה אחת ",
-    whatsappMessage:
-      "היי יקיר, רוצה לשדרג תמונה אחת ב-AI (50 ₪). אשמח לשלוח לבדיקה.",
+    whatsappMessage: (total) =>
+      `היי יקיר, רוצה לשדרג תמונה אחת ב-AI (${total}). אשמח לשלוח לבדיקה.`,
     utmCampaign: "photo_enhance_pkg_single",
-  },
-  {
+  }),
+  photoPackage({
     id: "5",
+    catalogId: "photo_enhance_5",
+    images: 5,
     count: "5 תמונות",
-    price: "200",
-    perImage: "40 ₪ לתמונה",
     ctaLabel: "הזמינו חבילת 5 ",
-    whatsappMessage:
-      "היי יקיר, מעוניין/ת בחבילת שדרוג ל-5 תמונות (200 ₪). אשמח פרטים.",
+    whatsappMessage: (total) =>
+      `היי יקיר, מעוניין/ת בחבילת שדרוג ל-5 תמונות (${total}). אשמח פרטים.`,
     utmCampaign: "photo_enhance_pkg_5",
-  },
-  {
+  }),
+  photoPackage({
     id: "10",
+    catalogId: "ai_photo_upgrade",
+    images: 10,
     count: "10 תמונות",
-    price: "350",
-    perImage: "35 ₪ לתמונה",
     premium: true,
     ctaLabel: "הזמינו חבילת 10 ",
-    whatsappMessage:
-      "היי יקיר, מעוניין/ת בחבילת 10 תמונות לשדרוג AI (350 ₪).",
+    whatsappMessage: (total) =>
+      `היי יקיר, מעוניין/ת בחבילת 10 תמונות לשדרוג AI (${total}).`,
     utmCampaign: "photo_enhance_pkg_10",
-  },
-  {
+  }),
+  photoPackage({
     id: "20",
+    catalogId: "photo_enhance_20",
+    images: 20,
     count: "20 תמונות",
-    price: "600",
-    perImage: "30 ₪ לתמונה",
     ctaLabel: "הזמינו חבילת 20 ",
-    whatsappMessage:
-      "היי יקיר, רוצה חבילת 20 תמונות לשדרוג AI (600 ₪). אשמח לשלוח את הקבצים.",
+    whatsappMessage: (total) =>
+      `היי יקיר, רוצה חבילת 20 תמונות לשדרוג AI (${total}). אשמח לשלוח את הקבצים.`,
     utmCampaign: "photo_enhance_pkg_20",
-  },
+  }),
 ] as const;
+
+const manualColor = formatConsumerPrice(getExVat("photo_manual_color_fix"));
+const scratchRemoval = formatConsumerPrice(getExVat("photo_scratch_removal"));
+/** צביעה: גם בשאלות הנפוצות בעמוד (OnlinePhotoEnhancePageContent) */
+export const PHOTO_COLORIZATION_PRICE = formatConsumerPrice(getExVat("photo_colorization"));
 
 export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
   {
     id: "manual-color",
     title: "תיקון צבע ידני (אם ה-AI לא מספיק)",
-    price: "50 ₪ נוספים",
+    price: `תוספת של ${manualColor.totalLabel} (${manualColor.exVatNote})`,
     ctaLabel: "בקשו תיקון צבע",
     whatsappMessage:
-      "היי יקיר, רוצה תיקון צבע ידני לתמונה (תוספת 50 ₪). יש לי [כמה] תמונות.",
+      `היי יקיר, רוצה תיקון צבע ידני לתמונה (תוספת ${manualColor.totalLabel}). יש לי [כמה] תמונות.`,
     utmCampaign: "photo_enhance_addon_color",
   },
   {
     id: "scratch-removal",
     title: "הסרת שריטות או כתמים",
-    price: "50 ₪ נוספים",
+    price: `תוספת של ${scratchRemoval.totalLabel} (${scratchRemoval.exVatNote})`,
     ctaLabel: "בקשו הסרת פגמים",
     whatsappMessage:
-      "היי יקיר, יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת 50 ₪)",
+      `היי יקיר, יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת ${scratchRemoval.totalLabel})`,
     utmCampaign: "photo_enhance_addon_scratch",
   },
   {
@@ -150,10 +193,10 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
   {
     id: "colorization",
     title: "צביעת שחור-לבן (colorization)",
-    price: "100 ₪ לתמונה",
+    price: `${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה (${PHOTO_COLORIZATION_PRICE.exVatNote})`,
     ctaLabel: "בקשו צביעה",
     whatsappMessage:
-      "היי יקיר, רוצה לצבוע תמונת שחור-לבן (colorization, 100 ₪ לתמונה).",
+      `היי יקיר, רוצה לצבוע תמונת שחור-לבן (colorization, ${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה).`,
     utmCampaign: "photo_enhance_addon_bw",
   },
 ] as const;
@@ -183,7 +226,7 @@ export const PHOTO_ENHANCE_COMPARE: readonly {
 export const PHOTO_ENHANCE_WHY_US: readonly string[] = [
   'לא סתם "מעלים לאתר AI" - בודקים כל תמונה ומתקנים ידנית בפוטושופ אם צריך',
   "20 שנות ניסיון בעבודה על תמונות ווידאו",
-  "מחירים הוגנים - 50 ₪ לתמונה, הרבה פחות מעיצוב גרפי מלא",
+  `מחירים הוגנים - ${formatConsumerPrice(getExVat("photo_enhance_1")).totalLabel} לתמונה, הרבה פחות מעיצוב גרפי מלא`,
   "מהירים - בדרך כלל יום עבודה אחד",
   "לא מרוצים? נתקן עד שתהיו מרוצים",
 ] as const;

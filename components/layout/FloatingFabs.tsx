@@ -6,7 +6,7 @@ import AccessibilityToggle from "@/components/ui/AccessibilityToggle";
 import ChatWidget from "@/components/ui/ChatWidget";
 import SendFileFab from "@/components/ui/SendFileFab";
 import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
-import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { usePastFold, useScrollDirection } from "@/hooks/useScrollDirection";
 import { cn } from "@/lib/utils";
 
 /** Routes with their own bottom CTA / sticky bar - hide duplicate floating WhatsApp. */
@@ -46,10 +46,14 @@ const elevatedPosition =
 
 const scrollHide = "opacity-0 pointer-events-none translate-y-2";
 
+/** במסך הראשון בנייד הכפתורים הצפים לא מכסים את ה-CTA של העמוד. כפתור הנגישות נשאר תמיד. */
+const firstFoldHide = "max-md:invisible max-md:opacity-0 max-md:pointer-events-none";
+
 /** All floating FABs - deferred after MobileStickyCta. */
 export default function FloatingFabs() {
   const pathname = usePathname();
   const scrollDir = useScrollDirection();
+  const pastFold = usePastFold();
   const [chatOpen, setChatOpen] = useState(false);
 
   const hideWhatsApp = matchesPrefix(pathname, HIDE_FLOATING_WHATSAPP_PREFIXES);
@@ -73,6 +77,7 @@ export default function FloatingFabs() {
       ? "bottom-[10.5rem] sm:bottom-[11.5rem] max-md:bottom-[10.5rem]"
       : "bottom-[5.5rem] sm:bottom-[6.5rem]",
     fabsHidden && !chatOpen && scrollHide,
+    !pastFold && !chatOpen && firstFoldHide,
   );
 
   const sendFilePosition = cn(
@@ -82,6 +87,7 @@ export default function FloatingFabs() {
       ? "bottom-[14.5rem] sm:bottom-[15.5rem] max-md:bottom-[14.5rem]"
       : "bottom-[9.5rem] sm:bottom-[10.5rem]",
     fabsHidden && scrollHide,
+    !pastFold && firstFoldHide,
   );
 
   const handleChatOpenChange = useCallback((open: boolean) => {
@@ -94,7 +100,9 @@ export default function FloatingFabs() {
       {!hideChat ? (
         <ChatWidget className={chatFabPosition} onOpenChange={handleChatOpenChange} />
       ) : null}
-      {!hideWhatsApp ? <WhatsAppWidget className={fabPosition} /> : null}
+      {!hideWhatsApp ? (
+        <WhatsAppWidget className={cn(fabPosition, !pastFold && firstFoldHide)} />
+      ) : null}
       <AccessibilityToggle className={fabPosition} />
     </div>
   );

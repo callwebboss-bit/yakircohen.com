@@ -3,7 +3,7 @@
  * מחירים נמשכים מ-pricing-catalog (מקור אמת יחיד).
  */
 
-import { DJ_PER_EVENT_SHORT, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { DJ_PER_EVENT_SHORT, formatFromPriceDual, getExVat, PODCAST_EXTRA_EDIT_TIME } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { getSongOfferView, getSongParticipantsExplanation } from "@/lib/data/song-offer";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
@@ -94,7 +94,8 @@ export function buildPodcastRecordingPriceAnswer(): string {
   const full = stripDualPrefix(
     formatFromPriceDual(getExVat("full_podcast_production")),
   );
-  return `פודקאסט אודיו ${audio}. פודקאסט וידאו ${video}. הפקה מלאה (צילום + הקלטה + עריכה) ${full}. המחיר תלוי בפורמט ובמשך ההקלטה.`;
+  /* החלטת הבעלים D63, 7.10.2026: וידאו = 3 מצלמות והפרק בסוף ההקלטה. הפקה מלאה = אותו דבר ועריכה נוספת */
+  return `פודקאסט אודיו ${audio}. פודקאסט וידאו (3 מצלמות, הפרק המלא בסוף ההקלטה) ${video}. הפקה מלאה (צילום + הקלטה + עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}) ${full}. המחיר תלוי בפורמט ובמשך ההקלטה.`;
 }
 
 export const PODCAST_HOW_TO_RECORD_FAQ: AeoFaqItem = {

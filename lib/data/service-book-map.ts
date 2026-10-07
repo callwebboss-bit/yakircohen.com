@@ -143,14 +143,16 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
   // ─── אונליין ───
   online: { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
   "online/online-ai-pricing": { bookCategory: "online", priceCatalogId: "damaged_recording_rescue" },
-  "online/vocal-fix": { bookCategory: "online", priceCatalogId: "ai_voice_enhance" },
+  /* החלטת הבעלים D75, 7.10.2026: העמוד מוכר שיפור קול מהנייד (vocal_fix_short).
+     היה ai_voice_enhance (450), מחיר שלא מופיע בעמוד */
+  "online/vocal-fix": { bookCategory: "online", priceCatalogId: "vocal_fix_short" },
   "online/vocal-fix/pitch-correction": { bookCategory: "online", priceCatalogId: "studio_pitch_correction" },
   "online/vocal-fix/noise-removal": { bookCategory: "online", priceCatalogId: "noise_removal_segment" },
   "online/vocal-fix/eq-fix": { bookCategory: "online", priceCatalogId: "eq_freq_fix" },
   "online/vocal-fix/volume-balance": { bookCategory: "online", priceCatalogId: "volume_balance_full" },
-  /* עמוד המיקס מציג 500 ואין ל-500 מזהה בקטלוג (external_mix_master הוא
-     1,750). escape hatch עד שהבעלים יחליט אם אלה שני מוצרים (שאלת אונליין 4). */
-  "online/vocal-fix/mixing": { bookCategory: "online", priceExVat: 500 },
+  /* החלטת הבעלים D73, 7.10.2026: שני מוצרים. עמוד המיקס מוכר את online_home_mix
+     (500), ו-external_mix_master (1,750) נשאר שירות נפרד. עד אז escape hatch של 500 */
+  "online/vocal-fix/mixing": { bookCategory: "online", priceCatalogId: "online_home_mix" },
   /* תיקון סאונד לפודקאסט: הבסיס הוא ניקוי רעשים */
   "online/vocal-fix/podcast-repair": { bookCategory: "online", priceCatalogId: "noise_removal_segment" },
   "online/mashup-fixer": { bookCategory: "online", priceCatalogId: "mashup_custom_planned" },

@@ -11,8 +11,8 @@ import type {
 import { renewAdminSessionIfNeeded } from "@/app/admin/session-actions";
 import { formatPrice } from "@/lib/data/pricing-display";
 import type { SalesBook, SalesCard as SalesCardData } from "@/lib/sales/sales-book";
+import { matchPaste, normalizeSearch, type PasteMatch, type PasteResult } from "@/lib/sales/paste-match";
 import type { VoucherKind } from "@/lib/sales/voucher";
-import { parseYcLeadTag } from "@/lib/yc-lead-tag";
 
 /**
  * עמדת המכירות לוואטסאפ (תוכנית עמדת המכירות, סעיפים 1 עד 5): חיפוש שירות,
@@ -41,198 +41,14 @@ const CATEGORY_LABEL: Readonly<Record<string, string>> = {
 };
 const CATEGORY_ORDER = ["studio", "podcast", "events", "dj", "photography", "online", "academy", "pro", "addons"];
 
-/* ─── חיפוש ─── */
-
-/* "דיג׳יי" ו"דיגיי", "ש״ח" ו"שח": גרש וגרשיים לא משנים התאמה */
-function normalizeSearch(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[׳'"״`]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function escapeRegExp(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/* ─── הדבקת הודעה ─── */
-
-/*
- * מזהה השירות בתג [YC:] הוא לפעמים מזהה של yakir-closer ולא של הקטלוג
- * ("recording" לכל הקלטה באולפן). זה מיפוי אחרון, אחרי מזהה קטלוג בתג
- * ואחרי המילים בהודעה עצמה, כי הוא הכי פחות מדויק.
- */
-const CLOSER_SERVICE_CARD: Readonly<Record<string, string>> = {
-  recording: "song_recording",
-  blessing: "blessing_recording",
-  podcast: "podcast_audio",
-  podcast_video: "podcast_video",
-  podcast_editing: "podcast_editing_hour",
-  bulk_podcast: "bulk_podcast_episode",
-  mobile_studio_home: "mobile_podcast_at_home",
-  dj: "dj_premium",
-  effects_only: "event_attraction_1",
-  live_sound: "singer_amp_basic",
-  studio_hour: "studio_hour",
-  dry_hire: "dry_hire_day",
-  system_tuning: "system_tuning_ease",
-  studio_in_box: "studio_in_box_consult",
-  prebuilt_sets: "prebuilt_set_corporate",
-  mashup_fixer: "mashup_fixer_express",
-  dj_voice_tags: "dj_voice_tag_single",
-  bat_mitzvah: "bat_mitzvah_clip",
-};
-
-/* קוד אישור או שובר שכבר נמצא בהודעה: YC-A7K2, "קוד פנייה: A7K2", או code= בתג.
-   הבדיקה שהוא תקין (בלי 0, O, 1, I, L) נעשית בדיאלוג, ושם נוצר קוד חדש אם לא */
-const CODE_PATTERNS = [
-  /(?<![A-Za-z0-9])YC-?([A-Za-z0-9]{4})(?![A-Za-z0-9])/i,
-  /(?:קוד|מספר)(?:\s+(?:ה?פנייה|ה?פניה|ה?שובר|ה?הזמנה|ה?אישור))?\s*:?\s*([A-Za-z0-9]{4})(?![A-Za-z0-9])/,
-  /[|[](?:code|ref)=(?:YC-?)?([A-Za-z0-9]{4})(?![A-Za-z0-9])/i,
-];
-
-function findCode(text: string): string | null {
-  for (const pattern of CODE_PATTERNS) {
-    const match = pattern.exec(text);
-    if (match) return `YC-${match[1].toUpperCase()}`;
-  }
-  return null;
-}
-
-/* אות שימוש אחת לפני מילה: "בפודקאסט", "לחתונה" */
-const HEBREW_PREFIX = "[ובהלמשכ]?";
-
-/* מילה שמופיעה בהודעה כמילה שלמה, גם עם אות שימוש לפניה */
-function wordScore(card: SalesCardData, body: string): number {
-  const title = normalizeSearch(card.title);
-  let score = 0;
-  for (const raw of new Set([card.title, ...card.searchTerms])) {
-    const term = normalizeSearch(raw);
-    if (term.length < 3 && !/^[a-z]{2}$/.test(term)) continue;
-    const re = new RegExp(`(?<![\\p{L}\\p{N}])${HEBREW_PREFIX}${escapeRegExp(term)}(?![\\p{L}\\p{N}])`, "u");
-    if (re.test(body)) score += term === title ? term.length * 3 : term.length;
-  }
-  return score;
-}
-
-/* הכי הרבה מילים תואמות. בתיקו הכרטיס הקודם בספר מנצח, כלומר הנפוצים */
-function bestByWords(body: string, cards: readonly SalesCardData[]): SalesCardData | null {
-  let best: SalesCardData | null = null;
-  let bestScore = 2;
-  for (const card of cards) {
-    const score = wordScore(card, body);
-    if (score > bestScore) {
-      best = card;
-      bestScore = score;
-    }
-  }
-  return best;
-}
-
-type PasteMatch = {
-  card: SalesCardData;
-  via: "tag" | "words" | "service";
-  addonIds: string[];
-  participants: number | null;
-  seenExVat: number | null;
-  todayExVat: number;
-  /** הבחירה מהתג נבנית מחדש בדיוק (טופס השיר), ולכן אפשר להשוות לה את המחיר */
-  exact: boolean;
-  /** רק כש-exact: המחיר בתג שונה מאותה בחירה היום. זה ההתרעה "הלקוח ראה מחיר אחר" */
-  mismatch: boolean;
-  /** המחיר בתג שווה לאחד המחירים בכרטיס: הבסיס, שורת משתתפים, צירוף או הבחירה מהתג */
-  seenOnCard: boolean;
-};
-type PasteResult = { match: PasteMatch | null; code: string | null };
+/* ─── הדבקת הודעה (lib/sales/paste-match.ts) ─── */
 
 const VIA_LABEL: Record<PasteMatch["via"], string> = {
   tag: "לפי התג מהאתר",
+  selection: "לפי הבחירה בהודעה",
   words: "לפי מילים בהודעה",
   service: "לפי סוג השירות בתג",
 };
-
-function round2(value: number): number {
-  return Math.round(value * 100) / 100;
-}
-
-/* מה הבחירה מהתג עולה היום: שורת המשתתפים (או הבסיס) ועוד השדרוגים, לפני מע״מ */
-function selectionExVat(card: SalesCardData, addonIds: readonly string[], participants: number | null): number {
-  const row = participants != null ? card.participants?.find((r) => r.count === participants) : undefined;
-  const addons = card.addons.filter((a) => addonIds.includes(a.id)).reduce((sum, a) => sum + a.exVat, 0);
-  return round2((row?.totalExVat ?? card.exVat) + addons);
-}
-
-function matchPaste(text: string, cards: readonly SalesCardData[]): PasteResult {
-  const code = findCode(text);
-  const tag = parseYcLeadTag(text);
-  const byId = new Map(cards.map((c) => [c.id, c]));
-  const body = normalizeSearch(text.replace(/\[YC:[^\]]*\]/g, " "));
-
-  let card: SalesCardData | null = null;
-  let via: PasteMatch["via"] = "words";
-  let addonIds: string[] = [];
-  let fullyRead = false;
-  if (tag) {
-    const packageIds = (tag.package?.split(",") ?? []).map((id) => id.trim()).filter(Boolean);
-    const ids = [...packageIds, tag.service.trim()].filter(Boolean);
-    const baseId = ids.find((id) => byId.has(id));
-    const base = baseId ? byId.get(baseId) : undefined;
-    if (base) {
-      card = base;
-      via = "tag";
-      addonIds = ids.filter((id) => id !== base.id && base.addons.some((a) => a.id === id));
-      /* טופס השיר כותב בתג את הבסיס ראשון ואחריו רק מזהי שדרוגים (song-offer-quote.ts) */
-      fullyRead = packageIds[0] === base.id && packageIds.slice(1).every((id) => addonIds.includes(id));
-    }
-  }
-  card ??= bestByWords(body, cards);
-  if (!card && tag) {
-    const id = CLOSER_SERVICE_CARD[tag.service];
-    const mapped = id ? byId.get(id) : undefined;
-    if (mapped) {
-      card = mapped;
-      via = "service";
-    }
-  }
-  if (!card) return { match: null, code };
-
-  const rows = card.participants;
-  const wanted = tag?.recorders ?? null;
-  const participants =
-    rows?.length && wanted != null && wanted >= rows[0].count && wanted <= rows[rows.length - 1].count ? wanted : null;
-  const seen = tag?.price != null && Number.isFinite(tag.price) && tag.price > 0 ? tag.price : null;
-  const today = selectionExVat(card, addonIds, participants);
-  /*
-   * מתריעים רק כשאפשר לבנות את הבחירה מחדש בדיוק: טופס השיר, שבתג שלו הבסיס,
-   * השדרוגים ומספר המשתתפים. בונה המחיר של האולפן, מחשבון ה-DJ ומחשבון
-   * הפודקאסט כותבים בתג סכום של צירוף שאין לנו את כל חלקיו (עריכה, משתתפים,
-   * שדרוגי DJ, זמן נוסף), והשוואה למחיר הבסיס הייתה מתריעה על מחיר נכון. שם
-   * מציגים את המחיר שהלקוח ראה כהערה, וההחלטה אצל יקיר.
-   */
-  const exact = via === "tag" && tag?.form === "song_offer" && fullyRead && (wanted == null || participants != null);
-  const same = (value: number) => seen != null && Math.abs(value - seen) < 0.005;
-  const known = [
-    today,
-    card.exVat,
-    ...(rows ?? []).map((r) => r.totalExVat),
-    ...card.combos.map((c) => c.totalExVat),
-  ];
-  return {
-    match: {
-      card,
-      via,
-      addonIds,
-      participants,
-      seenExVat: seen,
-      todayExVat: today,
-      exact,
-      mismatch: exact && seen != null && !same(today),
-      seenOnCard: known.some(same),
-    },
-    code,
-  };
-}
 
 /* ─── שליחה חוזרת: 20 האחרונים בדפדפן ─── */
 
@@ -366,7 +182,7 @@ function trackCopy(cardId: string): void {
 /*
  * שלושה מצבים, ורק אחד מהם התרעה. "הלקוח ראה מחיר אחר" הוא הסימן לא לשלוח
  * /אישור (תוכנית, סעיף 6), ולכן הוא מופיע רק כשהבחירה נבנתה מחדש בדיוק והמחיר
- * באמת השתנה. בכל מקרה אחר המחיר מהתג הוא מידע, לא אזעקה.
+ * באמת השתנה. בכל מקרה אחר המחיר מהתג הישן או משורת הסה״כ הוא מידע, לא אזעקה.
  */
 function SeenPriceNote({ match, seenExVat }: { match: PasteMatch; seenExVat: number }) {
   const { audience, priceFrom } = match.card;
@@ -554,7 +370,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
           rows={3}
           value={pasteText}
           onChange={(e) => onPasteChange(e.target.value)}
-          placeholder="ההודעה מהוואטסאפ, כולל השורה [YC:...] אם יש"
+          placeholder="ההודעה מהוואטסאפ, כולל השורה קוד פנייה אם יש"
           className="w-full rounded-md border border-border bg-background px-3 py-2 text-base text-foreground"
           aria-describedby="sales-paste-result"
         />
@@ -578,7 +394,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
           {paste?.code ? (
             <p className="text-muted-foreground">
               קוד מההודעה: <span dir="ltr" className="font-mono font-semibold text-foreground">{paste.code}</span>.
-              ייכנס לאישור ההזמנה.
+              ייכנס לאישור ההזמנה, ואותו קוד רושמים במורנינג.
             </p>
           ) : null}
         </div>

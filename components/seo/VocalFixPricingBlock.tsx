@@ -5,41 +5,64 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 
 type Track = {
   id: "standard" | "express";
+  catalogId: PriceItemId;
   label: string;
   badge?: string;
   delivery: string;
+  /** "295 ₪", כולל מע״מ */
   price: string;
+  /** "כולל מע״מ (250 ₪ + מע״מ)" */
   priceNote: string;
   whatsappText: string;
   utmCampaign: string;
 };
 
+/* החלטת הבעלים D75, 7.10.2026: המחירים בעמוד נכונים והם לפני מע״מ, ומאז הם
+   נקראים מהקטלוג (vocal_fix_short, vocal_fix_express). עמוד לצרכן, ולכן כולל
+   מע״מ קודם. עד אז "250 ₪" ו-"375 ₪" נכתבו כאן ביד. */
+function track(
+  t: Omit<Track, "price" | "priceNote" | "whatsappText"> & {
+    whatsappText: (totalLabel: string) => string;
+  },
+): Track {
+  const price = formatConsumerPrice(getExVat(t.catalogId));
+  return {
+    ...t,
+    price: price.total,
+    priceNote: `כולל מע״מ (${price.exVatNote})`,
+    whatsappText: t.whatsappText(price.totalLabel),
+  };
+}
+
 const TRACKS: Track[] = [
-  {
+  track({
     id: "standard",
+    catalogId: "vocal_fix_short",
     label: "מסלול רגיל",
     delivery: "1-3 ימי עסקים",
-    price: "250 ₪",
-    priceNote: "+ מע\"מ",
-    whatsappText:
-      "היי יקיר, אני מעוניין/ת בשירות שיפור קול מהנייד (250 ₪ עד 5 דק). אשמח לשלוח קובץ.",
+    whatsappText: (total) =>
+      `היי יקיר, אני מעוניין/ת בשירות שיפור קול מהנייד (${total} עד 5 דק). אשמח לשלוח קובץ.`,
     utmCampaign: "vocal_fix_standard",
-  },
-  {
+  }),
+  track({
     id: "express",
+    catalogId: "vocal_fix_express",
     label: "מסלול חירום",
     badge: "אקספרס",
     delivery: "4-12 שעות",
-    price: "375 ₪",
-    priceNote: "+ מע\"מ",
-    whatsappText:
-      "היי יקיר, אני צריך/ה שיפור קול בדחיפות - מסלול חירום (4-12 שעות). מה הזמינות?",
+    whatsappText: (total) =>
+      `היי יקיר, אני צריך/ה שיפור קול בדחיפות - מסלול חירום (${total}, 4-12 שעות). מה הזמינות?`,
     utmCampaign: "vocal_fix_express",
-  },
+  }),
 ];
+
+/* הקישורים לשירותים האחים: המחיר מהקטלוג, כולל מע״מ קודם. היו "(500 ₪)" כתוב ביד */
+const siblingPrice = (id: PriceItemId) => formatConsumerPrice(getExVat(id)).totalLabel;
 
 const PRICE_INCLUDED = [
   "עיבוד מקצועי לקובץ אחד",
@@ -127,7 +150,8 @@ export default function VocalFixPricingBlock() {
             </li>
           )}
         </ul>
-        <PricingTransparencyBlock catalogId="damaged_recording_rescue" className="text-start" />
+        {/* D75: הפירוט של המסלול שנבחר. עד 7.10 הוצג כאן damaged_recording_rescue, מוצר אחר */}
+        <PricingTransparencyBlock catalogId={track.catalogId} className="text-start" />
 
         {activeTrack === "standard" && (
           <p className="mt-4 text-xs text-muted-foreground">
@@ -155,25 +179,25 @@ export default function VocalFixPricingBlock() {
             href="/online/vocal-fix/volume-balance"
             className="font-medium text-brand-red hover:underline"
           >
-            איזון ווליומים (500 ₪)
+            איזון ווליומים ({siblingPrice("volume_balance_full")})
           </Link>
           <Link
             href="/online/vocal-fix/noise-removal"
             className="font-medium text-brand-red hover:underline"
           >
-            ניקוי רעשים (500 ₪)
+            ניקוי רעשים מלא ({siblingPrice("noise_removal_segment")})
           </Link>
           <Link
             href="/online/vocal-fix/eq-fix"
             className="font-medium text-brand-red hover:underline"
           >
-            תיקון תדרים ו-EQ (500 ₪)
+            תיקון תדרים ו-EQ ({siblingPrice("eq_freq_fix")})
           </Link>
           <Link
             href="/online/vocal-fix/mixing"
             className="font-medium text-brand-red hover:underline"
           >
-            מיקס ומאסטרינג (500 ₪)
+            מיקס ומאסטרינג ({siblingPrice("online_home_mix")})
           </Link>
           {/* עד 16.9.2026 לעמוד הזה היה קישור פנימי אחד, מפוסט בלוג. ה-hub
               של vocal-fix הוא ההורה שלו, ולכן הקישור נכנס כאן ליד שאר האחים. */}

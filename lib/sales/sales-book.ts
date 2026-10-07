@@ -31,6 +31,7 @@ import {
   PODCAST_PARTICIPANT_RULES,
   PRICING_CATALOG,
   SONG_PARTICIPANT_RULES,
+  STUDIO_TURNS_NOTE,
   type PriceItem,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
@@ -94,6 +95,8 @@ export type SalesCard = {
   excluded: string[] | null;
   addons: SalesAddon[];
   participants: SalesParticipantRow[] | null;
+  /** שורה ליד טבלת המשתתפים, למשל קיבולת האולפן (STUDIO_TURNS_NOTE), או null */
+  participantsNote: string | null;
   combos: SalesCombo[];
   /** הודעת וואטסאפ ללקוח, עד 350 תווים */
   message: string;
@@ -169,11 +172,11 @@ const STANDALONE_ADDON_IDS = new Set<PriceItemId>(["photo_colorization"]);
  * כל שורה עם הסיבה, כדי שפריט לא ייעלם בשקט.
  */
 export const SALES_IGNORED_IDS: Readonly<Partial<Record<PriceItemId, string>>> = {
-  studio_extra_revision:
-    "לא ידוע על איזה מסלול יש סבב כלול. שאלת בעלים פתוחה (תוכנית עמדת המכירות, סבב 1, שאלה 3)",
+  /* studio_extra_revision ירד מכאן: החלטת הבעלים D65, 7.10.2026 ענתה על השאלה
+     הפתוחה, והוא שדרוג של הקלטת השיר (SALES_EXTRA_ADDON_LINKS) */
   online_extra_minutes: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
-  online_extra_channels: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
-  online_extra_revision: "תוספת לשירות אונליין, אין בקטלוג בסיס שמקושר אליה",
+  /* online_extra_channels ו-online_extra_revision ירדו מכאן: מ-7.10.2026 הם
+     תוספות של online_home_mix (החלטת הבעלים D73) */
   gift_box_usb: "תוספת למחיר הפקה, בלי בסיס מוגדר בקטלוג",
   gift_box_full: "תוספת למחיר הפקה, בלי בסיס מוגדר בקטלוג",
   studio_prep_digital: "חוברת הכנה, בלי בסיס מוגדר בקטלוג",
@@ -183,8 +186,12 @@ export const SALES_IGNORED_IDS: Readonly<Partial<Record<PriceItemId, string>>> =
 /**
  * שדרוגים שאין להם קישור ב-PRICING_ADDON_LINKS, ובכל זאת שייכים לבסיס ברור:
  * - הגברת זמר: אותן חמש תוספות כמו SINGER_ADDONS בעמוד ההגברה
- *   (lib/data/singer-amplification-page.ts).
+ *   (lib/data/singer-amplification-page.ts), ושתי תוספות הנסיעה שלה (החלטת
+ *   הבעלים D69, 7.10.2026).
  * - משתתף נוסף בשעת חדר: "מקליט נוסף באותו סשן בשעת חדר" (suitedFor בקטלוג).
+ * - הקלטת שיר: סבב תיקונים נוסף (החלטת הבעלים D65, 7.10.2026) וחצי שעה נוספת
+ *   כשהסשן עובר שעה (D66). רק בעמדה ולא ב-PRICING_ADDON_LINKS, כי משם נבנה גם
+ *   הטופס באתר, ושם הלקוח לא בוחר מראש סבב שלישי או חריגה.
  * המחירים עצמם מהקטלוג, כאן רק השיוך.
  */
 const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[]>> = (() => {
@@ -194,16 +201,29 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     "singer_remote_mix",
     "singer_live_recording",
     "singer_extra_hour",
+    "singer_travel_north",
+    "singer_travel_south",
   ] as const satisfies readonly PriceItemId[];
   const roomTime = ["studio_extra_participant"] as const satisfies readonly PriceItemId[];
+  const song = ["studio_extra_revision", "studio_half_hour"] as const satisfies readonly PriceItemId[];
   return {
     singer_amp_basic: singer,
     singer_amp_premium: singer,
     singer_amp_vip: singer,
     studio_half_hour: roomTime,
     studio_hour: roomTime,
+    song_recording: song,
   };
 })();
+
+/* שם השדרוג בכרטיס, כשהשם בקטלוג מתאר את הפריט כשירות בפני עצמו. חצי שעה
+   באולפן בכרטיס השיר היא חריגה מהסשן (החלטת הבעלים D66, 7.10.2026) */
+const SALES_ADDON_LABEL: Partial<Record<PriceItemId, Partial<Record<PriceItemId, string>>>> = {
+  song_recording: { studio_half_hour: "חצי שעה נוספת, כשהסשן עובר שעה" },
+};
+
+/* קיבולת האולפן ליד טבלת המשתתפים (החלטת הבעלים D64, 7.10.2026) */
+const PARTICIPANTS_NOTE_IDS = new Set<string>(["song_recording", "podcast_audio"]);
 
 const CATALOG = PRICING_CATALOG as readonly PriceItem[];
 
@@ -631,7 +651,12 @@ function addonsFor(id: PriceItemId): SalesAddon[] {
   if (id === "dj_premium" || id === "dj_yakir_personal") return djAddons();
   const linked = getAddonsForBaseId(id).map((item) => item.id as PriceItemId);
   const extra = SALES_EXTRA_ADDON_LINKS[id] ?? [];
-  return [...linked, ...extra.filter((x) => !linked.includes(x))].map(catalogAddon);
+  const labels = SALES_ADDON_LABEL[id] ?? {};
+  return [...linked, ...extra.filter((x) => !linked.includes(x))].map((addonId) => {
+    const addon = catalogAddon(addonId);
+    const label = labels[addonId];
+    return label ? { ...addon, label } : addon;
+  });
 }
 
 /* ─── עמוד וקהל ─── */
@@ -722,6 +747,7 @@ function buildCard(item: PriceItem): SalesCard {
     excluded,
     addons: addonsFor(id),
     participants: participantsFor(id),
+    participantsNote: PARTICIPANTS_NOTE_IDS.has(id) ? STUDIO_TURNS_NOTE : null,
     combos: combosFor(item),
     pageUrl: pagePath ? absoluteUrl(pagePath) : null,
     searchTerms: searchTermsFor(item, family),

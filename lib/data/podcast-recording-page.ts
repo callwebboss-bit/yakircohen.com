@@ -4,16 +4,23 @@
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import {
+  getExVat,
+  PODCAST_EXTRA_EDIT_NOTE,
+  PODCAST_EXTRA_EDIT_TIME,
+  STUDIO_TURNS_NOTE,
+} from "@/lib/data/pricing-catalog";
 
 export const PODCAST_RECORDING_PRICE = getExVat("full_podcast_production");
 export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא - כולל צילום, הקלטה ועריכה";
 
+/* החלטת הבעלים D63, 7.10.2026 (D43, D44): 3 מצלמות כמו בפודקאסט וידאו (היה
+   "2-3"), הפרק המלא בסוף ההקלטה, ועוד עריכה נוספת תוך 24 עד 48 שעות */
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
-  "צילום 4K ב-2-3 מצלמות",
+  "צילום 4K ב-3 מצלמות",
   "סאונד אולפני נקי, Shure, Rode",
   "3 חללי הקלטה מעוצבים",
-  "עריכה מקצועית מלאה",
+  `עריכה מקצועית נוספת ${PODCAST_EXTRA_EDIT_TIME}`,
   TIME_CLAIMS.podcastSameSecond,
   "מוכן להעלאה לספוטיפיי ויוטיוב",
 ] as const;
@@ -71,7 +78,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     emoji: "🎥",
     title: "צילום וידאו ברמה הגבוהה ביותר",
     items: [
-      "2-3 מצלמות 4K, זוויות מגוונות, מראה דינמי",
+      "3 מצלמות 4K, זוויות מגוונות, מראה דינמי",
       "תאורת סטודיו מקצועית",
       "Framing מושלם, כל פריים נראה מקצועי",
     ],
@@ -104,7 +111,8 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     items: [
       "וידאו MP4, 1080p או 4K (לפי בקשה) ליוטיוב",
       "אודיו MP3 מנורמל, ספוטיפיי, Apple Podcasts ועוד",
-      "הכל אצלכם באותה שנייה שמסיימים להקליט",
+      "הפרק המלא אצלכם באותה שנייה שמסיימים להקליט",
+      `העריכה הנוספת אצלכם ${PODCAST_EXTRA_EDIT_TIME}`,
     ],
   },
 ] as const;
@@ -132,12 +140,12 @@ export const PODCAST_RECORDING_WORKFLOW: readonly {
   {
     step: "4",
     title: "אנחנו עורכים",
-    body: "עריכה מקצועית מלאה על כל החומר.",
+    body: "הפרק המלא כבר אצלכם, ואנחנו עוברים על כל החומר בעריכה נוספת.",
   },
   {
     step: "5",
     title: "פרק מוכן",
-    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה.`,
+    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה. ${PODCAST_EXTRA_EDIT_NOTE}.`,
   },
 ] as const;
 
@@ -165,7 +173,8 @@ export const PODCAST_RECORDING_FAQS: readonly {
   {
     id: "guests",
     question: "אפשר להביא אורחים?",
-    answer: "בהחלט. יש מיקרופונים ואוזניות לכמה משתתפים.",
+    /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
+    answer: `בהחלט. יש מיקרופון ייעודי ואוזניות לכל משתתף. ${STUDIO_TURNS_NOTE}.`,
   },
   {
     id: "revisions",

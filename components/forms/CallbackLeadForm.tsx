@@ -8,15 +8,17 @@ import Button from "@/components/ui/Button";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
-import {
-  formatPhoneForDisplay,
-  sanitizeLeadText,
-  validateBookingLead,
-} from "@/lib/form-validation";
+import { formatPhoneForDisplay, validateBookingLead } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { CALLBACK_SUCCESS_COPY } from "@/lib/data/conversion-copy";
+import {
+  buildCallbackLead,
+  CALLBACK_DEFAULT_SERVICE_OPTIONS,
+  CALLBACK_LEAD_FORM_ID,
+  type CallbackPageContext,
+  type CallbackServiceOption,
+} from "@/lib/leads/callback-lead";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
-import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 const fieldClass =
   "mt-1.5 min-h-11 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
@@ -27,21 +29,16 @@ export type CallbackLeadFormProps = {
   successHeading?: string;
   successDescription?: string;
   utmCampaign?: string;
-  serviceOptions?: readonly string[];
+  /** כל אפשרות נושאת קטגוריה, כדי שהליד יגיע לבעלים עם השירות שנבחר */
+  serviceOptions?: readonly CallbackServiceOption[];
+  /** על מה העמוד: לנושא המייל, וכשהלקוח לא בחר שירות */
+  serviceContext?: CallbackPageContext;
   formLabel?: string;
   formId?: string;
   className?: string;
+  /** בלי ערך: הנתיב של העמוד שבו הטופס נשלח */
   source?: string;
 };
-
-const DEFAULT_SERVICE_OPTIONS = [
-  "הקלטה באולפן",
-  "פודקאסט",
-  "אירוע / DJ",
-  "קריינות",
-  "וידאו / צילום",
-  "עדיין לא בטוח/ה",
-] as const;
 
 export default function CallbackLeadForm({
   heading = "מעדיפים שנחזור אליכם?",
@@ -49,11 +46,12 @@ export default function CallbackLeadForm({
   successHeading = CALLBACK_SUCCESS_COPY.title,
   successDescription = CALLBACK_SUCCESS_COPY.body,
   utmCampaign = "callback_lead_form",
-  serviceOptions = DEFAULT_SERVICE_OPTIONS,
+  serviceOptions = CALLBACK_DEFAULT_SERVICE_OPTIONS,
+  serviceContext,
   formLabel = "טופס יצירת קשר",
-  formId = "callback_lead_form",
+  formId = CALLBACK_LEAD_FORM_ID,
   className = "",
-  source = "/contact",
+  source,
 }: CallbackLeadFormProps) {
   const fieldIds = useId();
   const nameId = `${fieldIds}-name`;
@@ -98,34 +96,27 @@ export default function CallbackLeadForm({
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
           : phone.trim();
-        const body = buildSimpleLeadMessage({
-          contact: {
-            name: sanitizeLeadText(name, 60),
-            phone: displayPhone,
-          },
-          serviceLabel: service || "פנייה מהאתר",
-          customerNeed: customerNeed.trim()
-            ? sanitizeLeadText(customerNeed, 500)
-            : null,
-          source,
-          closerServiceId: "recording",
-          ycForm: formId,
+        /* קודם: service=recording, מקור "/contact" ונושא קבוע בכל עמוד ובכל
+           בחירה, והבעלים לא ידע מה הלקוח רוצה. עכשיו השירות שנבחר והנתיב
+           האמיתי. lib/leads/callback-lead.ts */
+        const lead = buildCallbackLead({
+          formId,
+          name,
+          phone: displayPhone,
+          selectedService: service,
+          customerNeed,
+          options: serviceOptions,
+          context: serviceContext,
+          sourcePath: source ?? window.location.pathname,
+          honeypot,
         });
         const href = buildWhatsAppHref({
-          text: body,
+          text: lead.body,
           utm_source: "website",
           utm_campaign: utmCampaign,
         });
         void submitLead(
-          {
-            formId,
-            subject: "ליד חדש - בקשת חזרה",
-            body,
-            website_verification: honeypot,
-            name: sanitizeLeadText(name, 60),
-            phone: displayPhone,
-            contactChannel: "callback",
-          },
+          lead.payload,
           href,
           "continue_chat",
           /* "נחזור אליכם" לא פותח וואטסאפ. קודם הטופס דחף את הגולש לשלוח
@@ -246,8 +237,8 @@ export default function CallbackLeadForm({
             >
               <option value="">בחרו שירות (אופציונלי)</option>
               {serviceOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
+                <option key={opt.label} value={opt.label}>
+                  {opt.label}
                 </option>
               ))}
             </select>

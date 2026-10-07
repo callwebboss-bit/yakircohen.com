@@ -9,11 +9,13 @@ export type OgImageConfig = {
   height: number;
 };
 
+/* בדיקת הלוגו 7.10.2026: עד אז תמונת אולפן לאורך שהוצהרה כ-1200x900. עכשיו התמונה
+   עם הלוגו מ-generate-og-images, כמו בשאר הקטגוריות */
 const DEFAULT_OG: OgImageConfig = {
-  path: "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
+  path: "/images/og/home.webp",
   alt: `${SITE_NAME} - אולפן הקלטות במודיעין`,
-  width: 1200,
-  height: 900,
+  width: DEFAULT_OG_WIDTH,
+  height: DEFAULT_OG_HEIGHT,
 };
 
 const CATEGORY_OG: Record<ServiceCategory, OgImageConfig> = {

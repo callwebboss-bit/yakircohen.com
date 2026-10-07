@@ -12,6 +12,7 @@ import {
   validateIsraeliMobile,
 } from "@/lib/form-validation";
 import { guardPublicMutation } from "@/lib/api-guard";
+import { normalizeLeadCode } from "@/lib/lead-code";
 import { captureException } from "@/lib/sentry-capture";
 import { ingestLead } from "@/lib/leads/ingest";
 import { logLeadFailure } from "@/lib/leads/log";
@@ -179,6 +180,8 @@ export async function POST(request: Request) {
     lead_phone: phoneR.normalizedPhone ?? body.lead_phone.trim(),
     free_text_description: sanitizeLeadText(body.free_text_description, 1500),
     urgency_flag: false,
+    /* קוד פנייה (D67): רשות. קוד לא תקין יורד בשקט, האימות לא משתנה */
+    lead_code: normalizeLeadCode(body.lead_code) ?? undefined,
   };
 
   /* אותם כללים כמו ב-/api/lead-notify (lib/leads/payload-check.ts): קישור בשם

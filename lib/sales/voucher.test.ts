@@ -299,6 +299,8 @@ describe("no price anywhere", () => {
     ]) {
       text = text.split(allowed).join(" ");
     }
+    /* שורות "כלול" מהקטלוג הן טקסט מיובא. בשיר: "2 סבבים תוך 24 שעות" (החלטת הבעלים D65, 7.10.2026) */
+    for (const line of card("song_recording").included ?? []) text = text.split(line).join(" ");
     assert.doesNotMatch(text, /\d/);
     const g = gift({ giftTo: "רחל" });
     let giftText = allText(g);

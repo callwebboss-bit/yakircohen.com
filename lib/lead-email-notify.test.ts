@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { interpretLeadError, interpretLeadResponse } from "@/lib/lead-email-notify";
+import { findLeadCode } from "@/lib/lead-code";
+import {
+  attachLeadCode,
+  buildLeadNotifyBody,
+  interpretLeadError,
+  interpretLeadResponse,
+} from "@/lib/lead-email-notify";
+import { buildWhatsAppHref, readWhatsAppLeadCode, stampWhatsAppLeadCode } from "@/lib/whatsapp";
+import { buildClosingMessage } from "@/lib/whatsapp-closing";
 
 /* החלטת ההצלחה היחידה של כל הטפסים (LF-02): 200 ו-ok:true, ושום דבר אחר */
 describe("interpretLeadResponse", () => {
@@ -49,5 +57,55 @@ describe("interpretLeadError", () => {
     const err = new Error("aborted");
     err.name = "AbortError";
     assert.deepEqual(interpretLeadError(err), { ok: false, reason: "timeout" });
+  });
+});
+
+/* החלטת הבעלים D67, 7.10.2026: אותו קוד פנייה במייל לבעלים ובהודעת הלקוח */
+describe("attachLeadCode", () => {
+  const body = buildClosingMessage({
+    serviceLabel: "הקלטה באולפן",
+    contact: { name: "נועה", phone: "050-123-4567" },
+    priceExVat: 500,
+    closerServiceId: "recording",
+    ycForm: "contact_quiz",
+  });
+  const waHref = buildWhatsAppHref({ text: body, utm_source: "website" });
+  const payload = { formId: "contact_quiz", subject: "ליד חדש", body };
+
+  it("one code in the owner body and in the customer's WhatsApp text", () => {
+    const coded = attachLeadCode(payload, waHref);
+    assert.match(coded.code, /^[A-HJKMNP-Z2-9]{4}$/);
+    assert.equal(findLeadCode(coded.payload.body), coded.code);
+    assert.equal(readWhatsAppLeadCode(coded.waHref), coded.code);
+    /* המייל שומר את הפרטים המלאים והתג, הלקוח רק את הקוד */
+    assert.ok(coded.payload.body.includes("[YC:"));
+    const customer = new URL(coded.waHref).searchParams.get("text") ?? "";
+    assert.ok(!customer.includes("[YC:"));
+    assert.ok(customer.endsWith(`קוד פנייה: ${coded.code}`));
+  });
+
+  it("the browser's notify body still carries the code", () => {
+    const coded = attachLeadCode(payload, waHref);
+    assert.equal(findLeadCode(buildLeadNotifyBody(coded.payload)), coded.code);
+  });
+
+  it("keeps a code that is already there, so a retry or success link has the same one", () => {
+    const first = attachLeadCode(payload, waHref);
+    const again = attachLeadCode(first.payload, first.waHref);
+    assert.equal(again.code, first.code);
+    assert.equal(again.payload.body, first.payload.body);
+    assert.equal(again.waHref, first.waHref);
+
+    const fromHref = attachLeadCode(payload, stampWhatsAppLeadCode(waHref, "A7K2"));
+    assert.equal(fromHref.code, "A7K2");
+    assert.equal(findLeadCode(fromHref.payload.body), "A7K2");
+  });
+
+  it("works without a WhatsApp link (callback only) and with a known code", () => {
+    const coded = attachLeadCode(payload, undefined, "a7k2");
+    assert.equal(coded.code, "A7K2");
+    assert.equal(coded.waHref, "");
+    assert.equal(findLeadCode(coded.payload.body), "A7K2");
+    assert.match(attachLeadCode(payload, "", "nope").code, /^[A-HJKMNP-Z2-9]{4}$/);
   });
 });

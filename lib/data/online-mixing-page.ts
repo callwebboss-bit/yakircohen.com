@@ -1,4 +1,6 @@
 ﻿import type { ProcessStep } from "@/components/marketing/ProcessSteps";
+import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 
 export const MIXING_PROCESS_STEPS: ProcessStep[] = [
   {
@@ -140,12 +142,21 @@ export const MIXING_PRICE_INCLUDED: readonly string[] = [
   "קובץ MP3 + WAV",
 ] as const;
 
+/** "118 ₪ כולל מע״מ (100 ₪ + מע״מ)": עמוד לצרכן, כולל מע״מ קודם */
+const extraPrice = (id: PriceItemId) => formatConsumerPriceLine(getExVat(id));
+
+/* החלטת הבעלים D73, 7.10.2026: התוספות שיש להן פריט בקטלוג נקראות ממנו
+   (PRICING_ADDON_LINKS של online_home_mix). "מעל 5 דקות" נשאר כמו שהוא: בעמוד
+   150 ובקטלוג אין פריט תואם (online_extra_minutes הוא 100 לתיקון זיופים), ולכן
+   זו שאלה פתוחה לבעלים ולא החלטה שלנו.
+   D68: "ניקוי רעשים - 200 ₪" ירד. אין שירות ב-200, ומהעמוד לא ברור אם הכוונה
+   לרעש קבוע (ai_noise_basic) או לניקוי מלא (noise_removal_segment). */
 export const MIXING_EXTRAS: readonly string[] = [
-  "מעל 16 ערוצים - 100 ₪ נוספים",
+  `מעל 16 ערוצים - ${extraPrice("online_extra_channels")} נוספים`,
   "מעל 5 דקות - 150 ₪ נוספים",
-  "תיקון זיופים מלא - 300 ₪",
-  "ניקוי רעשים - 200 ₪",
-  "סבב תיקונים נוסף - 100 ₪",
+  `תיקון זיופים מלא - ${extraPrice("studio_pitch_correction")}`,
+  "ניקוי רעשים מעבר למה שכלול במיקס - שירות נפרד",
+  `סבב תיקונים נוסף - ${extraPrice("online_extra_revision")}`,
 ] as const;
 
 export const MIXING_WHY_US: readonly string[] = [

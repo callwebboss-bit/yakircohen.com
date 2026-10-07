@@ -11,6 +11,7 @@ import { useBookCoupon } from "@/components/booking/BookCouponContext";
 import type { BookCategoryId } from "@/lib/book-url";
 import { scrollToBookWizardPanel } from "@/lib/book-scroll";
 import { withVat } from "@/lib/data/pricing";
+import { catalogWithVat } from "@/lib/data/pricing-catalog";
 import { applyCouponDiscountExVat } from "@/lib/data/coupon-offers";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,13 @@ type BookStickyMobileBarProps = {
   activeRouteId?: string | null;
   className?: string;
 };
+
+function scrollToSmartFormContact() {
+  document.getElementById("smart-form-contact")?.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+}
 
 function resolveRoute(
   category: BookCategoryId,
@@ -40,6 +48,41 @@ export default function BookStickyMobileBar({
   const { offer } = useBookCoupon();
 
   const intakeInView = layout?.intakeInView ?? false;
+  /* הטופס החכם בראש הדף אין לו activeCategory. כשהוא מדווח בחירה, הסרגל מציג אותה
+     ולא "בחרו שירות להמשך". המחיר זהה לשורת "סה״כ משוער" בכרטיס ההערכה. */
+  const smartFormPrice =
+    !activeCategory && livePrice?.source === "smart-form" ? livePrice : null;
+
+  if (smartFormPrice) {
+    return (
+      <div
+        className={cn(
+          "book-glass-bar fixed inset-x-0 bottom-0 z-40 border-t border-border/50 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] sm:hidden",
+          className,
+        )}
+        role="region"
+        aria-label="סיכום הערכה והמשך"
+      >
+        <div className="mx-auto flex max-w-[72rem] items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-semibold text-foreground">
+              {smartFormPrice.title}
+            </p>
+            <p className="text-sm font-bold tabular-nums text-brand-red">
+              {catalogWithVat(smartFormPrice.totalExVat).toLocaleString("he-IL")} ₪ כולל מע״מ
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={scrollToSmartFormContact}
+            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-brand-red px-4 text-sm font-semibold text-white hover:bg-brand-red-light"
+          >
+            השלמת פרטים
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!activeCategory) {
     return (

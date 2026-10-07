@@ -16,6 +16,8 @@ export type BookWizardLivePriceState = {
   title?: string;
   /** תווית מלאה לכפתור וואטסאפ (אופציונלי) */
   ctaLabel?: string;
+  /** מקור הדיווח. "smart-form" = הטופס החכם בראש /book, שאין לו activeCategory */
+  source?: "smart-form";
 };
 
 type BookWizardLivePriceContextValue = {

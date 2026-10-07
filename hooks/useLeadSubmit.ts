@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import {
+  attachLeadCode,
   createSubmissionId,
   submitLeadToServer,
   type LeadEmailPayload,
@@ -81,21 +82,24 @@ export function useLeadSubmit() {
     ): Promise<boolean> => {
       if (inFlightRef.current) return false;
       const mode = options?.whatsapp ?? "auto";
+      /* אותו קוד פנייה במייל לבעלים ובהודעה שהלקוח שולח (D67). ניסיון חוזר
+         משתמש ב-lastRef, ולכן הקוד לא משתנה בו */
+      const coded = attachLeadCode(emailPayload, waHref);
       if (mode === "auto") {
         openWhatsAppLead(
-          waHref,
+          coded.waHref,
           options?.leadCategory ? { leadCategory: options.leadCategory } : undefined,
         );
       }
       const last: LastSubmit = {
         payload: {
-          ...emailPayload,
+          ...coded.payload,
           submissionId: emailPayload.submissionId ?? createSubmissionId(),
           /* הטופס יכול להצהיר בעצמו. אחרת לפי מצב הוואטסאפ, לא לפי formId */
           contactChannel:
             emailPayload.contactChannel ?? contactChannelForWhatsAppMode(mode),
         },
-        waHref,
+        waHref: coded.waHref,
         intent,
       };
       lastRef.current = last;

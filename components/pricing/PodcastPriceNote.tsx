@@ -11,6 +11,7 @@ import {
   PODCAST_AUDIO_SCOPE_NOTE,
   PODCAST_GRANDPA_SAME_PRICE_NOTE,
   PODCAST_PACK_NOTE,
+  STUDIO_TURNS_NOTE,
 } from "@/lib/data/pricing-catalog";
 import { cn } from "@/lib/utils";
 
@@ -50,6 +51,8 @@ export default function PodcastPriceNote({
       </p>
       <p className="mt-2 text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
       <p className="mt-1 text-sm text-foreground">{podcastParticipantPriceLine()}.</p>
+      {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */}
+      <p className="mt-1 text-xs text-muted-foreground">{STUDIO_TURNS_NOTE}.</p>
       <p className="mt-1 text-xs text-muted-foreground">{podcastParticipantExampleLine(4)}.</p>
       {variant === "packs" ? (
         <>
