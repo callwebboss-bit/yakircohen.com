@@ -1,0 +1,14 @@
+{
+  "_comment": "שוברים שהונפקו, לפי קוד. כל רשומה: code, amountNis או packageLabel, from, to, message, issuedAt (YYYY-MM-DD), validUntil (YYYY-MM-DD). הקוד חייב להיות ארוך ובלתי ניתן לניחוש, כי הדף הוא ציבורי. הרשומה EXAMPLE-0000 היא דוגמה לתבנית בלבד, למחוק לפני ההנפקה הראשונה.",
+  "vouchers": [
+    {
+      "code": "EXAMPLE-0000",
+      "amountNis": 500,
+      "from": "דוגמה",
+      "to": "דוגמה",
+      "message": "רשומת דוגמה לתבנית. לא שובר אמיתי.",
+      "issuedAt": "2026-01-01",
+      "validUntil": "2027-01-01"
+    }
+  ]
+}

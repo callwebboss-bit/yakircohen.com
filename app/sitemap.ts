@@ -33,6 +33,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("testimonials"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("packages"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("matanot"), priority: 0.82, changeFrequency: "monthly" },
+  { url: url("matanot/gift-voucher"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("areas"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/virtual-tour"), priority: 0.74, changeFrequency: "monthly" },
@@ -45,6 +46,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   },
   { url: url("studio/blessings/bride-groom-blessing"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/blessings/video-clip"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("studio/blessings/milestone-album"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/pricing"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/recording-song-modiin"), priority: 0.8, changeFrequency: "monthly" },
   {
