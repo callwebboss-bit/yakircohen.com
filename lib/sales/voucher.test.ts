@@ -341,3 +341,19 @@ describe("no price anywhere", () => {
     assert.equal(order({ dateText: "יום ה׳ 15.10.2026", timeText: "18:00" }).when, "יום ה׳ 15.10.2026, 18:00");
   });
 });
+
+describe("site gift voucher validity matches the printed voucher", () => {
+  it("the shop FAQs say the same validity the voucher prints", async () => {
+    const { SHOP_VOUCHER_FAQ_SCHEMA } = await import("@/lib/data/shop-vouchers");
+    const { SHOP_VOUCHER_FAQ_UI } = await import("@/lib/data/shop-page");
+    const words: Record<number, string> = { 2: "שנתיים", 3: "שלוש שנים", 5: "חמש שנים" };
+    const expected = words[GIFT_VALIDITY_YEARS];
+    assert.ok(expected, "add the Hebrew wording for the new validity here and in the shop FAQs");
+    const answers = [...SHOP_VOUCHER_FAQ_SCHEMA, ...SHOP_VOUCHER_FAQ_UI]
+      .filter((q) => /תוקף/.test(q.question))
+      .map((q) => q.answer);
+    assert.ok(answers.length >= 2);
+    for (const answer of answers) assert.match(answer, new RegExp(`^${expected}`));
+  });
+});
+
