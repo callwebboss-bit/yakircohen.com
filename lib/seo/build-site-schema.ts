@@ -21,7 +21,7 @@ import {
   PODCAST_PACK_NOTE,
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
-import { DEFAULT_OG_IMAGE_URL } from "@/lib/seo-config";
+import { SITE_PHOTO_URL } from "@/lib/seo-config";
 import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME, STUDIO_GEO } from "@/lib/constants";
 
 const BASE = SITE_URL;
@@ -85,7 +85,7 @@ export function buildSiteSchema() {
         description:
           "אולפן הקלטות פרמיום, הפקות מוזיקה לאירועים, פודקאסטים וקריינות במודיעין",
         inLanguage: "he-IL",
-        image: DEFAULT_OG_IMAGE_URL,
+        image: SITE_PHOTO_URL,
         publisher: { "@id": ENTITY_IDS.organization },
       },
       {
@@ -142,7 +142,7 @@ export function buildSiteSchema() {
         /* גוגל ממליץ על image ל-LocalBusiness והצומת היה בלעדיו. אותה תמונה
            שכבר משמשת את WebSite, ולכן היא קיימת, נמדדה חיה ומוגשת מהדומיין
            הקנוני. עמוד /studio הצהיר במקומה קובץ תחת www שמחזיר 404. */
-        image: DEFAULT_OG_IMAGE_URL,
+        image: SITE_PHOTO_URL,
         telephone: CONTACT_PHONE_E164,
         priceRange: "₪₪",
         currenciesAccepted: "ILS",

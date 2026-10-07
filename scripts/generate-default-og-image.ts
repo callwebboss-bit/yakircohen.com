@@ -20,6 +20,7 @@ import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import sharp from "sharp";
 import { SITE_NAME } from "../lib/constants";
+import { logoPng } from "./lib/brand-logo.mjs";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -52,7 +53,10 @@ function cardSvg(): Buffer {
 }
 
 async function main() {
+  /* הלוגו בפינה השמאלית העליונה, מעל קו השם (בדיקת הלוגו 7.10.2026) */
+  const logo = await logoPng({ width: 260, color: "#1A1A1A" });
   const png = await sharp(cardSvg())
+    .composite([{ input: logo, top: 72, left: 80 }])
     .png({ compressionLevel: 9, palette: true, quality: 90 })
     .toBuffer();
 

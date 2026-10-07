@@ -1,4 +1,5 @@
 import type { ServiceType } from "@/lib/leads/types";
+import { wrapCustomerEmail } from "@/lib/leads/templates/email-shell";
 
 const PORTFOLIO: Record<string, { label: string; href: string }[]> = {
   studio: [
@@ -57,14 +58,13 @@ export function buildAutoReplyText(input: {
     "https://yakircohen.com",
   ].join("\n");
 
-  const html = `
-<div style="font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:right;color:#111;">
+  /* הלוגו והחתימה "יקיר כהן הפקות · yakircohen.com" באים מהמעטפת המשותפת
+     (בדיקת הלוגו 7.10.2026), ולכן החתימה לא כתובה כאן שוב */
+  const html = wrapCustomerEmail(`
   <p>${esc(name)},</p>
   <p>קיבלנו את הפנייה. נחזור אליך בדרך כלל תוך <strong>${eta} שעות</strong> (ימי עסקים).</p>
   <p>בינתיים - דוגמאות רלוונטיות:</p>
-  <ul>${links.map((l) => `<li><a href="${l.href}">${l.label}</a></li>`).join("")}</ul>
-  <p>יקיר כהן הפקות<br/><a href="https://yakircohen.com">yakircohen.com</a></p>
-</div>`.trim();
+  <ul>${links.map((l) => `<li><a href="${l.href}">${l.label}</a></li>`).join("")}</ul>`);
 
   return {
     subject: `קיבלנו את הפנייה - נחזור תוך ${eta} שעות`,

@@ -2,9 +2,17 @@
 # npm run generate:shop-images — יוצר גרסות זמניות מתמונות services/
 # החלפה בקבצים שלך באותם שמות = בלי שינוי קוד
 
-voucher-basic.webp
-voucher-premium.webp
-voucher-custom.webp
+# שוברים (voucher-*): הסקריפט יוצר אותם מחדש בכל הרצה ומוסיף את הלוגו
+# (בדיקת הלוגו 7.10.2026). להחלפת תמונה של שובר מעלים אותה בשם השובר
+# עם סיומת jpg, jfif, jpeg או png (למשל voucher-premium.jpg) ומריצים את
+# הסקריפט. קובץ webp בשם השובר נדרס בהרצה הבאה.
+# כרטיסי השוברים מוצגים עם unoptimized, ולכן החלפה שלהם לא נוגעת במכסת
+# התמונות של Vercel. כרטיסי gear-* עוברים דרך next/image: כל עוד המכסה
+# של Hobby מלאה, קובץ חדש או תוכן חדש שם מחזיר 402 ותמונה שבורה.
+
+voucher-basic.webp     (מקור: voucher-basic.jfif)
+voucher-premium.webp   (מקור: services/events/dj-events/עמדה ותאורה יקירכהן באירוע.webp)
+voucher-custom.webp    (מקור: services/studio/recording-song-modiin/מתחם יקיר כהן הפקות.webp)
 gear-rcf745.webp
 gear-traktor-s4.webp
 gear-krk.webp

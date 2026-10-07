@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import VoucherCanvas, { type VoucherCanvasHandle } from "@/components/admin/VoucherCanvas";
+import VoucherCanvas, { type VoucherCanvasHandle, type VoucherLogoStatus } from "@/components/admin/VoucherCanvas";
 import type { SalesCard } from "@/lib/sales/sales-book";
 import {
   buildVoucherData,
@@ -200,6 +200,10 @@ function VoucherForm({ request, onIssued }: { request: VoucherDialogRequest; onI
   const [codeInput, setCodeInput] = useState(initialCode);
   const [lastValidCode, setLastValidCode] = useState(initialCode);
   const [notice, setNotice] = useState<string | null>(null);
+  /* שובר בלי לוגו לא יוצא: שיתוף, שמירה ו-PDF פתוחים רק כשהלוגו צויר
+     (בדיקת הלוגו 7.10.2026). קודם כשל בטעינה נבלע, והתמונה נשלחה בלי לוגו */
+  const [logoStatus, setLogoStatus] = useState<VoucherLogoStatus>("loading");
+  const canExport = logoStatus === "ok";
 
   const typedCode = normalizeVoucherCode(codeInput);
   const code = typedCode ?? lastValidCode;
@@ -268,6 +272,11 @@ function VoucherForm({ request, onIssued }: { request: VoucherDialogRequest; onI
       trackedRef.current = true;
       trackVoucher(kind, card.id);
     }
+  };
+
+  const retryLogo = () => {
+    setLogoStatus("loading");
+    canvasRef.current?.retry();
   };
 
   const getFile = (): File | null => {
@@ -544,17 +553,36 @@ function VoucherForm({ request, onIssued }: { request: VoucherDialogRequest; onI
           fileName={fileName}
           statusTone={form.status === "date_held" ? "confirmed" : "pending"}
           label={`${data.title} ${data.code}: ${data.serviceTitle}`}
+          onLogoStatus={setLogoStatus}
         />
       </div>
 
       <div className="sticky bottom-0 -mx-4 grid gap-2 border-t border-border bg-popover px-4 pt-3 pb-1">
+        {logoStatus === "failed" ? (
+          <div className="flex flex-wrap items-center justify-between gap-2" role="alert">
+            <p className="text-sm font-semibold text-brand-red-text">הלוגו לא נטען. נסו שוב בעוד רגע.</p>
+            <button
+              type="button"
+              onClick={retryLogo}
+              className="min-h-11 shrink-0 rounded-md border border-border px-3 text-sm font-medium text-foreground hover:bg-muted/50"
+            >
+              טעינה מחדש
+            </button>
+          </div>
+        ) : null}
         <div className="flex gap-2">
-          <button type="button" onClick={handleShare} className={`${actionClass} bg-brand-red text-white hover:bg-brand-red-light`}>
+          <button
+            type="button"
+            onClick={handleShare}
+            disabled={!canExport}
+            className={`${actionClass} bg-brand-red text-white hover:bg-brand-red-light`}
+          >
             שתף
           </button>
           <button
             type="button"
             onClick={handleSave}
+            disabled={!canExport}
             className={`${actionClass} border border-border bg-background text-foreground hover:bg-muted/50`}
           >
             שמור תמונה
@@ -562,6 +590,7 @@ function VoucherForm({ request, onIssued }: { request: VoucherDialogRequest; onI
           <button
             type="button"
             onClick={() => void handlePrint()}
+            disabled={!canExport}
             aria-label="PDF: הדפסה או שמירה כ-PDF בדף A5"
             className={`${actionClass} border border-border bg-background text-foreground hover:bg-muted/50`}
           >
