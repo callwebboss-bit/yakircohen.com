@@ -1,4 +1,5 @@
 import { encodeCode39, isCode39Encodable } from "@/lib/code39";
+import { VOUCHER_LOGO_DATA_URL } from "@/lib/sales/voucher-logo.generated";
 
 /**
  * ציור תמונת שובר בצד הלקוח, על canvas. בלי שרת: שום פרט אישי לא יוצא מהדפדפן.
@@ -206,12 +207,15 @@ function drawBarcode(
 /** ברקוד להמחשה כשאין עדיין קוד: אותו קידוד, על טקסט קבוע שאינו קוד אמיתי. */
 const PLACEHOLDER_BARCODE_TEXT = "YAKIR-COHEN";
 
-function loadLogo(): Promise<HTMLImageElement | null> {
-  return new Promise((resolve) => {
+/* הלוגו נטען מ-data URL שבתוך החבילה, כמו בעמדת המכירות: אין בקשת רשת שיכולה
+   להיכשל. אם בכל זאת נכשל, מחזירים שגיאה ולא משמיטים את הלוגו בשקט, כדי שלא
+   יצא שובר בלי לוגו מבלי שמישהו ידע. */
+function loadLogo(): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-    img.src = "/images/logo.svg";
+    img.onerror = () => reject(new Error("voucher logo failed to load"));
+    img.src = VOUCHER_LOGO_DATA_URL;
   });
 }
 
@@ -277,11 +281,9 @@ export async function drawVoucherImage(
   const left = pad + 70;
   const innerWidth = right - left;
 
-  if (logo) {
-    const logoH = 150;
-    const logoW = (logo.naturalWidth / logo.naturalHeight) * logoH;
-    ctx.drawImage(logo, left, pad + 36, logoW, logoH);
-  }
+  const logoH = 150;
+  const logoW = (logo.naturalWidth / logo.naturalHeight) * logoH;
+  ctx.drawImage(logo, left, pad + 36, logoW, logoH);
 
   ctx.fillStyle = COLORS.red;
   ctx.font = `600 26px ${sans}`;

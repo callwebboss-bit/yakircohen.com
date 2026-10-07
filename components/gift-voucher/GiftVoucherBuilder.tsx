@@ -29,6 +29,7 @@ export default function GiftVoucherBuilder() {
   const [to, setTo] = useState("");
   const [message, setMessage] = useState("");
   const [downloadError, setDownloadError] = useState(false);
+  const [previewError, setPreviewError] = useState(false);
 
   const choice = useMemo(
     () => GIFT_VOUCHER_CHOICES.find((c) => c.id === choiceId),
@@ -46,12 +47,15 @@ export default function GiftVoucherBuilder() {
     let cancelled = false;
     const timer = window.setTimeout(() => {
       if (cancelled) return;
-      void drawVoucherImage(canvas, {
+      setPreviewError(false);
+      drawVoucherImage(canvas, {
         from,
         to,
         message,
         valueLabel,
         validityLabel: GIFT_VOUCHER_VALIDITY_LABEL,
+      }).catch(() => {
+        if (!cancelled) setPreviewError(true);
       });
     }, 120);
     return () => {
@@ -257,6 +261,11 @@ export default function GiftVoucherBuilder() {
             בדפדפן שלכם ולא נשלחים אליו.
           </p>
         )}
+        {previewError ? (
+          <p className="text-sm text-brand-red-text" role="alert">
+            לא הצלחנו לצייר את תצוגת השובר. רעננו את הדף ונסו שוב.
+          </p>
+        ) : null}
         {downloadError ? (
           <p className="text-sm text-brand-red-text" role="alert">
             לא הצלחנו ליצור את התמונה בדפדפן הזה. נסו דפדפן אחר.
