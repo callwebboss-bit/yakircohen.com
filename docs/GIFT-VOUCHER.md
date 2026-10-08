@@ -44,7 +44,13 @@
 
 ## הקלוסר
 
-הכלי הפנימי (yakir-closer) אינו חלק מהאתר. `.vercelignore` וסקריפט `guard-no-local-tools-deploy.mjs` מכשילים פריסה אם קבצים שלו מופיעים, ובאתר החי כל הכתובות שלו מחזירות 404. ה-webhook שהעביר לידים לקלוסר מושבת (`lib/closer-webhook.ts` לא שולח כלום, 8.10.2026). נשאר למחוק את `CLOSER_INTAKE_WEBHOOK_URL` ו-`CLOSER_INTAKE_TOKEN` מ-Vercel.
+הכלי הפנימי (yakir-closer) אינו חלק מהאתר, ואינו ניגש אליו דרך הרשת (החלטת הבעלים 8.10.2026). `.vercelignore` וסקריפט `guard-no-local-tools-deploy.mjs` מכשילים פריסה אם קבצים שלו מופיעים, ובאתר החי כל הכתובות שלו מחזירות 404. שלושה חיבורים שהיו נותקו:
+
+- **webhook לידים** (`lib/closer-webhook.ts`): מושבת, לא שולח כלום. המשתנים `CLOSER_INTAKE_WEBHOOK_URL` ו-`CLOSER_INTAKE_TOKEN` לא קיימים ב-Vercel.
+- **`/api/analytics/realtime`** (אנליטיקס חי לקלוסר, `CLOSER_ANALYTICS_TOKEN`): הנתיב נמחק. אפשר למחוק את המשתנה מ-Vercel.
+- **Bearer ב-`/api/admin/leads/export`**: הוסר. הייצוא פתוח רק לקוקי האדמין בדפדפן.
+
+מה שנשאר: `scripts/export-closer-config.mjs` עדיין כותב לקלוסר המקומי כתובת אנליטיקס שכבר לא קיימת, ולכן לשונית התובנות בקלוסר לא תעבוד עד שיעדכנו אותה שם. שוברי המתנה לא קשורים לקלוסר.
 
 ## ידוע שלא נעשה
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAdminRequestAuthorized } from "@/lib/admin-auth";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { guardRateLimit } from "@/lib/api-guard";
 import { listLeads } from "@/lib/leads/store";
 import type { LeadStatus, ServiceType } from "@/lib/leads/types";
@@ -11,8 +11,9 @@ export async function GET(request: Request) {
   const guard = await guardRateLimit(request, { bucket: "admin-leads-export", max: 6 });
   if (!guard.ok) return guard.response;
 
-  // Session cookie (browser) or Bearer ADMIN_LEADS_TOKEN (local Closer). Never a query param.
-  if (!(await isAdminRequestAuthorized(request))) {
+  /* רק קוקי הסשן של האדמין בדפדפן. נתיב ה-Bearer של "קלוסר מקומי" הוסר ב-8.10.2026
+     (החלטת הבעלים: הקלוסר פנימי בלבד ולא ניגש לאתר דרך הרשת). */
+  if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 404 });
   }
 

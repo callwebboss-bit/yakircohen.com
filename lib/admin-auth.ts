@@ -16,10 +16,10 @@ import {
  * הסוד המשותף (ADMIN_LEADS_TOKEN) מוקלד פעם אחת ב-/admin/login. הוא לעולם לא
  * מופיע ב-URL, ולכן אינו דולף להיסטוריית דפדפן, ל-Referer או ללוגים.
  *
- * הקוקי מחזיק נגזרת HMAC של הסוד ולא את הסוד עצמו. ההבדל מהותי: הסוד הוא גם
- * אישור Bearer תקף מול /api/admin/leads/export, ולכן קוקי שדולף (גיבוי מחשב,
- * סנכרון דפדפן, אירוע ב-Sentry) היה מוסר גישה מלאה ל-API. נגזרת HMAC מאמתת
- * את הסשן בלי להיות שמישה כ-Bearer.
+ * הקוקי מחזיק נגזרת HMAC של הסוד ולא את הסוד עצמו. כשהסוד היה גם אישור Bearer
+ * תקף מול /api/admin/leads/export, קוקי שדולף (גיבוי מחשב, סנכרון דפדפן, אירוע
+ * ב-Sentry) היה מוסר גישה מלאה ל-API. נתיב ה-Bearer הוסר ב-8.10.2026 (הקלוסר לא
+ * ניגש לאתר דרך הרשת), אבל הנגזרת נשארת: היא מאמתת את הסשן בלי לחשוף את הסוד.
  */
 
 export const ADMIN_COOKIE_NAME = "yc_admin_session";
@@ -57,15 +57,6 @@ export function verifyAdminToken(candidate: string | null | undefined): boolean 
 export async function isAdminAuthenticated(): Promise<boolean> {
   const store = await cookies();
   return verifySessionValue(store.get(ADMIN_COOKIE_NAME)?.value?.trim(), expectedToken());
-}
-
-/** Cookie or `Authorization: Bearer` - for route handlers hit by the browser or by the local Closer. */
-export async function isAdminRequestAuthorized(request: Request): Promise<boolean> {
-  const auth = request.headers.get("authorization")?.trim();
-  if (auth?.startsWith("Bearer ")) {
-    return verifyAdminToken(auth.slice("Bearer ".length));
-  }
-  return isAdminAuthenticated();
 }
 
 /* אפשרויות אחידות לכניסה, לחידוש וליציאה. קוקי שמחודש עם path או sameSite

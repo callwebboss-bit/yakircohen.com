@@ -179,10 +179,6 @@ export async function fetchGa4RealtimeSnapshot(): Promise<RealtimeSnapshot> {
   }
 }
 
-export function verifyCloserAnalyticsToken(request: Request): boolean {
-  return verifyBearerToken(request, process.env.CLOSER_ANALYTICS_TOKEN);
-}
-
 export function verifyEventIndexToken(request: Request): boolean {
   return verifyBearerToken(request, process.env.EVENT_INDEX_TOKEN);
 }

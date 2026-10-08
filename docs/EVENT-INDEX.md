@@ -27,7 +27,6 @@
 
 | Variable | Purpose |
 |----------|---------|
-| `CLOSER_ANALYTICS_TOKEN` | Bearer for `GET /api/analytics/realtime` (Closer insights tab) |
 | `GA4_PROPERTY_ID` | GA4 property (default `397966715`) |
 | `GA4_SERVICE_ACCOUNT_JSON` | Service account JSON with Analytics Readonly |
 | `EVENT_INDEX_TOKEN` | Bearer for `GET /api/event-index/full` |
