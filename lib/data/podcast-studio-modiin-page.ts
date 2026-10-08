@@ -1,9 +1,97 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
-import { STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
+import { getExVat, STUDIO_TURNS_NOTE, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { formatPrice, type FormattedPrice } from "@/lib/data/pricing-display";
 import {
   PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
 } from "./faq-aeo";
+
+/* המילה "להשכרה" לא הופיעה בעמוד, והמשנה והקריאה לפעולה דיברו על קריינות
+   אנושית ו-AI במקום על האולפן. העובדות כאן רק מתשובות הבעלים 8.10.2026
+   (תשובה 7 לציוד, תשובה 8 למה שמייחד את האולפן). "יותר מ-20 שנות ניסיון"
+   ולא "אולפן שקיים 20 שנה": הקריירה מ-2001 והעסק נפתח ב-2010
+   (FOUNDER_CAREER_START_YEAR ו-BUSINESS_FOUNDING_YEAR ב-lib/constants.ts),
+   ו-"20+" מאושר ב-TRUST_CLAIM_SOURCES שם. */
+export const STUDIO_MODIIN_RENTAL = {
+  heading: "אולפן פודקאסט להשכרה במודיעין",
+  /* הפארקים: תשובת הבעלים 8.10.2026 ("בחוץ" = פארקים ענקיים ליד האולפן, לצילומים או לשבת בימים יפים) */
+  body: "אולפן נקי ומסודר, שקט ונוח, עם אווירה טובה ועיצוב חדיש וחלומי. אנחנו תמיד שואפים לקדמת הטכנולוגיה, ויש לנו יותר מ-20 שנות ניסיון. האזור נגיש, ויש חניה בשפע. האולפן ממוקם ליד פארקים גדולים במודיעין, שמתאימים לצילומים בחוץ או לשבת בהם בימים יפים.",
+  equipmentLabel: "הציוד",
+  /* תשובת הבעלים 8.10.2026, השנייה: עד ארבעה SM7B, ו-RE20 ו-MV7 כבחירה לפי הסאונד
+     והמראה, מיקרופון חדר לקבוצה או קהל. שתי מצלמות מרכזיות ועוד אחת רחבה (3, כמו
+     PODCAST_VIDEO_CAMERAS_NOTE ו"3 מצלמות קבועות" בתשובת ה-AEO), ועוד לפי דרישה.
+     "עד 4 מיקרופונים בו זמנית" (D64) לא משתנה: RE20 ו-MV7 הם חלופות, לא ערוצים נוספים. */
+  equipment:
+    "עד ארבעה מיקרופונים Shure SM7B. מי שמחפש סאונד עמוק של שדרני רדיו מקליט ב-Electro-Voice RE20, ומי שמחפש מיקרופון שנראה חדשני, עם סאונד רך ומלטף, ב-Shure MV7. כשיש כמה אנשים או קהל, יש גם מיקרופון חדר. מצלמות Sony ZV-E10 II: שתיים מרכזיות ועוד אחת רחבה, ואם צריך עוד, יש מצלמות נוספות לפי דרישה. עד שישה אנשים נכנסים בנוח לצילום.",
+} as const;
+
+export type StudioModiinPriceCard = {
+  id: PriceItemId;
+  name: string;
+  badge?: string;
+  price: FormattedPrice;
+  lines: readonly string[];
+  /** החבילה שמוצגת ראשונה ומודגשת */
+  primary?: boolean;
+};
+
+function podcastPackage(id: PodcastPackageId) {
+  const pkg = PODCAST_PACKAGES.find((p) => p.id === id);
+  if (!pkg) throw new Error(`podcast package ${id} missing from PODCAST_PACKAGES`);
+  return pkg;
+}
+
+/* "מ-" כי כל משתתף מעבר לשניים מוסיף למחיר בכל חבילה באולפן
+   (podcastParticipantExtras ב-lib/data/podcast-calculator.ts) */
+function studioPrice(id: PriceItemId): FormattedPrice {
+  return formatPrice(getExVat(id), { from: true });
+}
+
+const VIDEO_PACKAGE = podcastPackage("video");
+const AUDIO_PACKAGE = podcastPackage("audio");
+
+export const STUDIO_MODIIN_PRICES_HEADING = "מחירי השכרת האולפן";
+
+/* ארבע החבילות היו מוסתרות מאחורי המחשבון. תשובות הבעלים 8.10.2026: חבילת
+   הווידאו היא המרכזית ומוצגת ראשונה (תשובה 6), האודיו מוצג כאפשרות נוספת כדי
+   שיבינו שזה עוד ערוץ (תשובה 6), ובחצי השעה כתוב מה מקבלים בפועל: קובץ גולמי,
+   ובצילום עם חיתוך בין המצלמות גם הפרק (תשובה 5). המחירים רק מהקטלוג, כולל
+   מע״מ קודם כי זה עמוד צרכן. השמות והמשנה של החבילות מהמחשבון, כדי ששני
+   המקומות יגידו אותו דבר. */
+export const STUDIO_MODIIN_PRICE_CARDS: readonly StudioModiinPriceCard[] = [
+  {
+    id: "podcast_video",
+    name: VIDEO_PACKAGE.name,
+    badge: VIDEO_PACKAGE.badge,
+    price: studioPrice("podcast_video"),
+    lines: [VIDEO_PACKAGE.subtitle, TIME_CLAIMS.podcastSameSecond],
+    primary: true,
+  },
+  {
+    id: "podcast_audio",
+    name: AUDIO_PACKAGE.name,
+    price: studioPrice("podcast_audio"),
+    lines: ["אפשרות נוספת, בלי וידאו", AUDIO_PACKAGE.subtitle],
+  },
+  {
+    id: "studio_half_hour",
+    name: "חצי שעה באולפן",
+    price: studioPrice("studio_half_hour"),
+    /* תשובת הבעלים 8.10.2026: בחצי שעה עם מצלמות מקבלים את מתקני האולפן והדרכה, לא פרק ערוך */
+    lines: [
+      "קובץ גולמי, בלי עריכה",
+      "עם מצלמות: שימוש במתקני האולפן, כולל טלוויזיות ומוניטורים",
+      "הדרכה מקצועית וליווי של איש טכני",
+    ],
+  },
+];
+
+/* מחיר השירות העצמי היה כתוב ביד ובלי מע״מ, בזמן ש-/pricing מציג אותו כולל
+   מע״מ. עכשיו מהקטלוג, כולל מע״מ קודם, כמו בבלוק המחירים של העמוד (בדיקת
+   העמוד מול תשובות הבעלים 8.10.2026). */
+const SELF_SERVICE_HOUR = formatPrice(getExVat("studio_self_service_hour"));
 
 export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
@@ -56,9 +144,8 @@ export const STUDIO_MODIIN_RELATED_SERVICES: readonly {
   },
   {
     emoji: "🔌",
-    title: "אולפן שירות עצמי (650 ₪/שעה)",
-    description:
-      "650 ₪ לשעה. מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.",
+    title: `אולפן שירות עצמי (${SELF_SERVICE_HOUR.headline} לשעה)`,
+    description: `${SELF_SERVICE_HOUR.headline} לשעה (${SELF_SERVICE_HOUR.vatNote}). מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.`,
     href: "/podcast/self-service-studio",
   },
   {

@@ -24,7 +24,13 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "ברכה מוקלטת": { href: "/studio/blessings", anchor: "ברכה מוקלטת" },
   "הקלטת פודקאסט": { href: "/podcast/podcast-recording", anchor: "הקלטת פודקאסט" },
   "עריכת פודקאסט": { href: "/podcast/podcast-editing", anchor: "עריכת פודקאסט" },
-  "אולפן פודקאסט": { href: "/podcast/podcast-studio-modiin", anchor: "אולפן פודקאסט" },
+  /* אישור הבעלים 8.10.2026: "אולפן פודקאסט" שייך לדף הפודקאסט הראשי, ועמוד הסטודיו
+     במודיעין מחזיק את כוונת ההשכרה. הביטוי הארוך גובר בהתאמה (buildMatcher). */
+  "אולפן פודקאסט": { href: "/podcast", anchor: "אולפן פודקאסט" },
+  "אולפן פודקאסט להשכרה": {
+    href: "/podcast/podcast-studio-modiin",
+    anchor: "אולפן פודקאסט להשכרה",
+  },
   קריינות: { href: "/voiceover", anchor: "קריינות" },
   "קריינות מקצועית": { href: "/voiceover", anchor: "קריינות מקצועית" },
   "שירותי קריינות": { href: "/voiceover/services", anchor: "שירותי קריינות" },

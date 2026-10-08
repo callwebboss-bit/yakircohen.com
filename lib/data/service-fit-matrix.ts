@@ -22,11 +22,15 @@ export type FitDelivery =
   | "self_service";
 export type FitGuidance = "self_service" | "assisted" | "full_production";
 /* guided_podcast: ליווי שלם מהאפיון ועד הפרק, לא פרק בודד מוכן (אישור הבעלים
-   7.10.2026, שלבי הליווי ב-lib/data/podcast-production-page.ts). */
+   7.10.2026, שלבי הליווי ב-lib/data/podcast-production-page.ts).
+   studio_raw_or_switched: השכרת האולפן. תשובות הבעלים 8.10.2026: קובץ גולמי,
+   ועם מצלמות שימוש במתקני האולפן, הדרכה וליווי של איש טכני. לא "פרק פודקאסט
+   מוכן", כי חצי שעה באולפן היא קובץ גולמי בלי עריכה. */
 export type FitOutcome =
   | "ready_song"
   | "recorded_blessing"
   | "finished_podcast_episode"
+  | "studio_raw_or_switched"
   | "guided_podcast"
   | "video_clip"
   | "finished_audiobook"
@@ -76,6 +80,7 @@ export const FIT_OUTCOME_LABEL: Record<FitOutcome, string> = {
   ready_song: "שיר מוכן",
   recorded_blessing: "ברכה מוקלטת",
   finished_podcast_episode: "פרק פודקאסט מוכן",
+  studio_raw_or_switched: "קובץ גולמי, עם ליווי טכני ומתקני האולפן",
   guided_podcast: "פודקאסט בליווי מלא, מהאפיון ועד הפרק",
   video_clip: "וידאו / קליפ",
   finished_audiobook: "ספר שמע מוכן",
@@ -275,7 +280,9 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     primaryAudience: "creators",
     delivery: "in_studio",
     guidance: "assisted",
-    outcome: "finished_podcast_episode",
+    /* היה finished_podcast_episode, "פרק פודקאסט מוכן", ליד עוגן של חצי שעה
+       גלם. תשובות הבעלים 8.10.2026, תשובה 5 */
+    outcome: "studio_raw_or_switched",
     nextPath: "/podcast/podcast-recording",
     priceAnchorId: "studio_half_hour",
     notes: "חדר+ציוד בלי הפקה מלאה",

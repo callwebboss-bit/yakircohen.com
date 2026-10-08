@@ -348,11 +348,7 @@ export default function StutteringCoursePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-2xl px-4 py-10 text-center sm:px-6 lg:px-8">
-        <p className="text-sm italic text-muted-foreground">
-          &quot;גם בני גנץ למד שדיבור זה קודם כל ראש שקט.&quot;
-        </p>
-      </section>
+      {/* הוסר באישור הבעלים 8.10.2026: משפט על בני גנץ בלי מקור, שנשמע כמו קשר או המלצה */}
 
       <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 sm:pb-16 lg:px-8">
         <h2 className="mb-6 text-center text-xl font-semibold tracking-tight text-foreground sm:text-2xl">

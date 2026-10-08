@@ -1,4 +1,6 @@
 import { encodeCode39, isCode39Encodable } from "@/lib/code39";
+import { DOCUMENT_BLESSING_LINE } from "@/lib/constants";
+import { drawMicrophone, drawSilverStripes, drawStamp } from "@/lib/voucher-brand-art";
 import { VOUCHER_LOGO_DATA_URL } from "@/lib/sales/voucher-logo.generated";
 
 /**
@@ -128,135 +130,6 @@ function fitMessage(
   return { lines: [], size: 20, lineHeight: 29 };
 }
 
-/** מיקרופון בציור ישיר: קפסולה, קשת תמיכה, רגל ובסיס. cx,cy במרכז האייקון. */
-function drawMicrophone(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  size: number,
-  color: string,
-): void {
-  const w = size * 0.34;
-  const h = size * 0.56;
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
-  ctx.lineCap = "round";
-  ctx.lineWidth = Math.max(3, size * 0.07);
-
-  // קפסולה
-  const top = cy - size * 0.36;
-  ctx.beginPath();
-  if (typeof ctx.roundRect === "function") {
-    ctx.roundRect(cx - w / 2, top, w, h, w / 2);
-  } else {
-    /* דפדפנים ישנים בלי roundRect: קפסולה מקשת ושני קווים */
-    const r = w / 2;
-    ctx.moveTo(cx - r, top + r);
-    ctx.arc(cx, top + r, r, Math.PI, 0, false);
-    ctx.lineTo(cx + r, top + h - r);
-    ctx.arc(cx, top + h - r, r, 0, Math.PI, false);
-    ctx.closePath();
-  }
-  ctx.fill();
-
-  // סורגים לבנים על הקפסולה
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = Math.max(2, size * 0.035);
-  for (let i = 1; i <= 3; i += 1) {
-    const y = top + (h * i) / 4;
-    ctx.beginPath();
-    ctx.moveTo(cx - w / 2 + size * 0.05, y);
-    ctx.lineTo(cx + w / 2 - size * 0.05, y);
-    ctx.stroke();
-  }
-
-  // קשת תמיכה, רגל ובסיס
-  ctx.strokeStyle = color;
-  ctx.lineWidth = Math.max(3, size * 0.07);
-  const arcR = w * 0.95;
-  const arcY = top + h * 0.55;
-  ctx.beginPath();
-  ctx.arc(cx, arcY, arcR, 0, Math.PI, false);
-  ctx.stroke();
-  const stemTop = arcY + arcR;
-  const stemBottom = cy + size * 0.42;
-  ctx.beginPath();
-  ctx.moveTo(cx, stemTop);
-  ctx.lineTo(cx, stemBottom);
-  ctx.moveTo(cx - w * 0.6, stemBottom);
-  ctx.lineTo(cx + w * 0.6, stemBottom);
-  ctx.stroke();
-  ctx.restore();
-}
-
-/** טקסט לאורך קשת: כל תו מסובב לפי מקומו על המעגל. */
-function drawTextOnArc(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  cx: number,
-  cy: number,
-  radius: number,
-  centerAngle: number,
-  letterSpacing: number,
-  inward: boolean,
-): void {
-  const chars = [...text];
-  const widths = chars.map((ch) => ctx.measureText(ch).width + letterSpacing);
-  const total = widths.reduce((sum, w) => sum + w, 0) - letterSpacing;
-  let angle = centerAngle - (inward ? -1 : 1) * (total / radius / 2);
-  chars.forEach((ch, index) => {
-    const step = widths[index] / radius;
-    const mid = angle + (inward ? -1 : 1) * (step / 2);
-    ctx.save();
-    ctx.translate(cx + radius * Math.cos(mid), cy + radius * Math.sin(mid));
-    ctx.rotate(mid + (inward ? -Math.PI / 2 : Math.PI / 2));
-    ctx.fillText(ch, 0, 0);
-    ctx.restore();
-    angle += (inward ? -1 : 1) * step;
-  });
-}
-
-/** חותמת עגולה באנגלית: טבעת טקסט, מיקרופון במרכז, "EST. 2010" למטה. */
-function drawStamp(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  r: number,
-  sans: string,
-): void {
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate((-9 * Math.PI) / 180);
-  ctx.translate(-cx, -cy);
-  ctx.globalAlpha = 0.88;
-  ctx.strokeStyle = COLORS.redDark;
-  ctx.fillStyle = COLORS.redDark;
-
-  ctx.lineWidth = 5;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r - 10, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(cx, cy, r * 0.55, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.direction = "ltr";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  ctx.font = `700 15px ${sans}`;
-  drawTextOnArc(ctx, "YAKIR COHEN PRODUCTIONS", cx, cy, r * 0.76, -Math.PI / 2, 1.5, false);
-  ctx.font = `700 13px ${sans}`;
-  drawTextOnArc(ctx, "RECORDING STUDIO", cx, cy, r * 0.8, Math.PI / 2, 1.5, true);
-
-  drawMicrophone(ctx, cx, cy - 3, r * 0.62, COLORS.redDark);
-  ctx.restore();
-}
-
 /** ברקוד Code 39: פסים שחורים בתוך המלבן הנתון. */
 function drawBarcode(
   ctx: CanvasRenderingContext2D,
@@ -334,23 +207,12 @@ export async function drawVoucherImage(
   ctx.strokeRect(pad + 18, pad + 18, width - (pad + 18) * 2, height - (pad + 18) * 2);
 
   // פסי כסף בצדדים: פס רחב ופס דק בכל צד, בגרדיאנט מתכתי אנכי
-  const stripeTop = pad + 40;
-  const stripeBottom = height - pad - 40;
-  const metal = ctx.createLinearGradient(0, stripeTop, 0, stripeBottom);
-  metal.addColorStop(0, "#c9d0d6");
-  metal.addColorStop(0.35, "#9aa3ad");
-  metal.addColorStop(0.5, "#e6eaee");
-  metal.addColorStop(0.65, "#9aa3ad");
-  metal.addColorStop(1, "#c9d0d6");
-  ctx.fillStyle = metal;
-  for (const [x, w] of [
-    [pad + 34, 12],
-    [pad + 54, 4],
-    [width - pad - 46, 12],
-    [width - pad - 58, 4],
-  ] as const) {
-    ctx.fillRect(x, stripeTop, w, stripeBottom - stripeTop);
-  }
+  drawSilverStripes(ctx, {
+    width,
+    top: pad + 40,
+    bottom: height - pad - 40,
+    inset: pad + 34,
+  });
 
   const right = width - pad - 70;
   const left = pad + 70;
@@ -406,7 +268,7 @@ export async function drawVoucherImage(
   ctx.textAlign = "center";
   ctx.fillStyle = COLORS.muted;
   ctx.font = `400 22px ${sans}`;
-  ctx.fillText("בס״ד", width / 2, pad + 62);
+  ctx.fillText(DOCUMENT_BLESSING_LINE, width / 2, pad + 62);
   ctx.textAlign = "right";
 
   // מיקרופון באמבלמה במרכז העליון

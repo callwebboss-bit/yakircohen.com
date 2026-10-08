@@ -18,7 +18,10 @@ import {
   STUDIO_MODIIN_FAQS,
   STUDIO_MODIIN_HERO_FEATURES,
   STUDIO_MODIIN_HERO_IMAGE,
+  STUDIO_MODIIN_PRICE_CARDS,
+  STUDIO_MODIIN_PRICES_HEADING,
   STUDIO_MODIIN_RELATED_SERVICES,
+  STUDIO_MODIIN_RENTAL,
   STUDIO_MODIIN_WHY_US,
 } from "@/lib/data/podcast-studio-modiin-page";
 import { mapEmojiLinkToHub } from "@/lib/data/studio-hub-mappers";
@@ -50,7 +53,9 @@ export default function PodcastStudioModiinPageContent() {
   return (
     <ServicePageLayout
       title="השכרת סטודיו לפודקאסט במודיעין"
-      subtitle={`פודקאסט שנשמע אנושי ומקצועי - לא AI-רובוטי. קריינות אנושית, ציוד מתקדם, ליווי טכני מלא וקביעת מקום ${TIME_CLAIMS.quoteHour}.`}
+      /* העמוד על השכרת האולפן, לא על קריינות. העובדות מתשובה 8 של הבעלים
+         (תשובות הבעלים 8.10.2026): נקי, שקט, נוח, אזור נגיש, חניה בשפע */
+      subtitle={`אולפן נקי, שקט ונוח, באזור נגיש עם חניה בשפע. ציוד מתקדם, ליווי טכני מלא וקביעת מקום ${TIME_CLAIMS.quoteHour}.`}
       features={STUDIO_MODIIN_HERO_FEATURES}
       whatsappText="שלום, מעוניין בהשכרת סטודיו לפודקאסט במודיעין"
       utmCampaign="podcast_studio_modiin"
@@ -69,6 +74,26 @@ export default function PodcastStudioModiinPageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-studio-modiin" className="max-w-3xl" />
+
+        {/* "להשכרה" לא הופיע בעמוד. האולפן והציוד במילים של הבעלים
+            (תשובות הבעלים 8.10.2026, תשובות 7 ו-8) */}
+        <section aria-labelledby="studio-rental-heading" className="max-w-3xl">
+          <h2
+            id="studio-rental-heading"
+            className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          >
+            {STUDIO_MODIIN_RENTAL.heading}
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {STUDIO_MODIIN_RENTAL.body}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <span className="font-semibold text-foreground">
+              {STUDIO_MODIIN_RENTAL.equipmentLabel}:
+            </span>{" "}
+            {STUDIO_MODIIN_RENTAL.equipment}
+          </p>
+        </section>
 
         <ShowcaseVideoSection
           heading="דוגמאות מהסטודיו במודיעין"
@@ -157,6 +182,51 @@ export default function PodcastStudioModiinPageContent() {
           galleryLabel="תמונות מהסטודיו"
         />
 
+        {/* המחירים גלויים לפני המחשבון: וידאו ראשון, אודיו כאפשרות, וחצי שעה
+            עם מה שמקבלים (תשובות הבעלים 8.10.2026, תשובות 5 ו-6) */}
+        <section aria-labelledby="studio-prices-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="studio-prices-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              {STUDIO_MODIIN_PRICES_HEADING}
+            </h2>
+          </header>
+          <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {STUDIO_MODIIN_PRICE_CARDS.map((card) => (
+              <li
+                key={card.id}
+                data-price-id={card.id}
+                className={`flex flex-col rounded-xl bg-surface p-5 ${
+                  card.primary ? "border-2 border-brand-red/40" : "border border-border"
+                }`}
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-base font-semibold text-foreground">{card.name}</h3>
+                  {card.badge ? (
+                    <span className="rounded-full bg-brand-red px-2.5 py-0.5 text-xs font-bold text-white">
+                      {card.badge}
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-3 text-xl font-bold text-brand-red">{card.price.headline}</p>
+                <p className="text-xs text-muted-foreground">{card.price.vatNote}</p>
+                <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
+                  {card.lines.map((line) => (
+                    <li key={line} className="flex gap-2">
+                      <span className="shrink-0 text-brand-red" aria-hidden>
+                        ✓
+                      </span>
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <CalculatorDisclosure
           title="מחירון והשכרת סטודיו"
           description={
@@ -191,14 +261,17 @@ export default function PodcastStudioModiinPageContent() {
           >
             מוכנים להקליט? קביעת מקום, {TIME_CLAIMS.quoteHour}
           </h2>
+          {/* היה "קול אנושי, לא AI-רובוטי", שלא קשור להשכרת אולפן. עכשיו עובדות
+              מתשובה 8 (תשובות הבעלים 8.10.2026): שקט, נוח, מסודר, ויותר מ-20
+              שנות ניסיון, לא "אולפן שקיים 20 שנה" (העסק נפתח ב-2010) */}
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. הפודקאסט שלכם
-            ראוי לקול אנושי - לא AI-רובוטי.
+            אל תתנו לציוד לא מתאים או לרעשי רקע לפגוע בתוכן. אצלנו מקליטים
+            באולפן שקט, נוח ומסודר.
           </p>
           <ul className="mx-auto mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             {[
               `קביעת מקום, ${TIME_CLAIMS.quoteHour}`,
-              "קריינות אנושית - ללא AI-רובוטי",
+              "יותר מ-20 שנות ניסיון",
               "ליווי טכני מלא",
             ].map((item) => (
               <li key={item} className="flex items-center gap-1.5">
