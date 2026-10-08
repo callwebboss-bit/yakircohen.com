@@ -208,7 +208,7 @@ export default function BatMitzvahClipPageContent() {
             מתנות מהאולפן
           </Link>
           <Link
-            href="/voucher"
+            href="/shop#vouchers"
             className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
           >
             שובר מתנה

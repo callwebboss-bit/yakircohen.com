@@ -935,7 +935,7 @@ export default function RecordingSongModiinPageContent() {
               { href: "/events/attractions/confetti-cannon", title: "תותח קונפטי", description: "ניירות צבעוניים ברגע השיא של האירוע." },
               { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד לסלואו", description: "ענן לבן על רצפת הריקודים." },
               { href: "/events/dj-events", title: "DJ לאירוע", description: "תקליטן מקצועי שמנהל את הרחבה כל הערב." },
-              { href: "/voucher", title: "שובר מתנה", description: "שובר להקלטה באולפן או אטרקציה לאירוע." },
+              { href: "/shop#vouchers", title: "שובר מתנה", description: "שובר להקלטה באולפן או אטרקציה לאירוע." },
               { href: "/book", title: "הזמנה מקוונת", description: "בדיקת מחיר ותיאום דרך טופס ההזמנה.", ctaLabel: "להזמנה" },
             ]}
           />

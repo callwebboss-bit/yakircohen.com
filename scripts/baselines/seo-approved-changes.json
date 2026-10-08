@@ -3144,6 +3144,62 @@
       "why": "\"טיפול בגמגום\" הפך ל\"אימון דיבור לגמגום\". אותו דף כבר עונה שזה לא תחליף לטיפול רפואי או קלינאי (D81). הבעלים: \"4 תתקן\", 8.10.2026.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/for-couples",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/podcast/podcast-with-grandpa",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/blessings/bat-mitzvah-clip",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/blessings/bride-groom-blessing",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/blessings",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/recording-song-modiin/gifts/funny-ringtone",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/recording-song-modiin",
+      "field": "links",
+      "why": "הקישור ל-/voucher הוחלף ביעד הסופי /shop#vouchers, או בעמוד המתנות לפי תשובה 1 של הבעלים (8.10.2026). /voucher מפנה ב-308, אז זה אותו יעד בלי קפיצה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/voucher",
+      "field": "inbound",
+      "why": "/voucher מפנה ב-308 ל-/shop#vouchers, והקישורים אליו הוחלפו ביעד הסופי (בלי קפיצה). העמוד עצמו לא השתנה (ניתוח שיר במתנה 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
     }
   ]
 }

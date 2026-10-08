@@ -16,7 +16,9 @@ import {
   STUDIO_GIFT_FAQ,
   STUDIO_GIFT_IDEAS,
   STUDIO_GIFT_QUICK_LINKS,
+  STUDIO_GIFT_VALIDITY_TEXT,
 } from "@/lib/data/studio-gifts-page";
+import { SONG_OFFER_SECTION_ID } from "@/lib/data/song-offer";
 import { BAT_MITZVAH_STARTING_PRICE } from "@/lib/data/bat-mitzvah-gifts-page";
 import { STUDIO_GIFTS_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
@@ -35,6 +37,9 @@ const MAIN_CTA = buildWhatsAppHref({
   utm_source: "studio",
   utm_campaign: "studio_gifts_main_cta",
 });
+
+/* הכפתור הראשי ב-Hero מוביל לטופס השיר במתנה שמתחתיו, כמו בעמוד השיר */
+const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
 
 const VOUCHER_CTA = buildWhatsAppHref({
   text: "היי יקיר, רוצים להזמין שובר מתנה - לציין שזו מתנה ולבחור שירות. אשמח לפרטים.",
@@ -106,17 +111,60 @@ export default function StudioGiftsPageContent() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
             {SITE_NAME}
           </p>
+          {/* תשובות הבעלים 8.10.2026, תשובות 1-2: העמוד הוא הבית של "שיר
+              במתנה". השיר ראשון והשובר אפשרות שנייה. "השיר המוכן אצלכם בסוף
+              הסשן" לא חדש: כך כתוב בעמוד השיר (recording-song-modiin-page.ts,
+              שלב 05, ו-RecordingSongModiinPageContent.tsx). */}
           <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-            שובר מתנה מקורי מהאולפן - נשלח אליכם מיד
+            שיר במתנה מהאולפן
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            שובר מתנה לכל שירות באתר - הקלטת שיר, פודקאסט עם סבא, ברכה, קליפ
-            לבת/בר מצווה, רינגטון מצחיק ועוד. המחיר לפי השירות שבחרתם, עם
-            סימון ברור שמדובר במתנה.
+            מתאים למי שרוצה לתת מתנה מיוחדת וייחודית, כזאת שמשאירה גם חוויה וגם
+            מוצר ביד: שיר, או כל דבר אחר שמבצעים באולפן. בהקלטת שיר, השיר המוכן
+            אצלכם בסוף הסשן.
           </p>
+          <div className="mt-6 flex justify-center">
+            <a
+              href={SONG_OFFER_ANCHOR}
+              className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
+            >
+              בחירת תוספות ומחיר סופי
+            </a>
+          </div>
+          {/* השובר נשאר, כאפשרות השנייה (תשובות הבעלים 8.10.2026, תשובה 1).
+              התוקף נגזר מהקבוע שהשובר מדפיס (תשובה 4), לא נכתב ביד. */}
+          <div className="mx-auto mt-8 max-w-xl border-t border-border pt-6">
+            <p className="text-sm font-semibold text-foreground">
+              אפשרות שנייה: שובר מתנה מהאולפן
+            </p>
+            <ul className="mx-auto mt-3 flex flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
+              <li>✓ כל שירות באולפן - לא סכום קבוע</li>
+              <li>✓ {TIME_CLAIMS.voucherInstant} - דיגיטלית לכל הארץ</li>
+              <li>
+                ✓ המקבל/ת קובע/ת מתי לממש - תוקף {STUDIO_GIFT_VALIDITY_TEXT}{" "}
+                מיום הרכישה
+              </li>
+            </ul>
+            <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href={VOUCHER_CTA}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full max-w-xs items-center justify-center rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground hover:border-brand-red/40 hover:text-brand-red sm:w-auto"
+              >
+                הזמינו שובר - נשלח מיד
+              </a>
+              <Link
+                href="/voucher"
+                className="inline-flex w-full max-w-xs items-center justify-center rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground hover:border-brand-red/40 sm:w-auto"
+              >
+                איך עובד השובר
+              </Link>
+            </div>
+          </div>
           <nav
             aria-label="עמודים קשורים"
-            className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2"
+            className="mx-auto mt-6 flex max-w-2xl flex-wrap justify-center gap-2"
           >
             {STUDIO_GIFT_QUICK_LINKS.map((link) => (
               <Link
@@ -128,29 +176,20 @@ export default function StudioGiftsPageContent() {
               </Link>
             ))}
           </nav>
-          <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
-            <li>✓ כל שירות באולפן - לא סכום קבוע</li>
-            <li>✓ {TIME_CLAIMS.voucherInstant} - דיגיטלית לכל הארץ</li>
-            <li>✓ המקבל/ת קובע/ת מתי לממש - תוקף שנתיים מיום הרכישה</li>
-          </ul>
-          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href={VOUCHER_CTA}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
-            >
-              הזמינו שובר - נשלח מיד
-            </a>
-            <Link
-              href="/voucher"
-              className="inline-flex w-full max-w-xs items-center justify-center rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground hover:border-brand-red/40 sm:w-auto"
-            >
-              איך עובד השובר
-            </Link>
-          </div>
         </div>
       </section>
+
+      {/* שיר במתנה: אותו טופס כמו בעמוד השיר, עם כותרת והודעה של מתנה. עבר
+          לבלוק הראשון אחרי ה-Hero כי העמוד הוא הבית של "שיר במתנה" (תשובות
+          הבעלים 8.10.2026, תשובה 1). השובר וכל השאר אחריו, באותו סדר. */}
+      <div className="border-b border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
+        <SongOfferSection
+          source="/studio/recording-song-modiin/gifts"
+          giftMode
+          utmCampaign="gifts_song_offer"
+          intro="מקליטים שיר כמתנה: בוחרים מה נכנס, ושולחים לנו את הבחירה."
+        />
+      </div>
 
       <TrustStatsBar variant="compact" className="border-b" />
 
@@ -219,16 +258,6 @@ export default function StudioGiftsPageContent() {
           </ol>
         </div>
       </section>
-
-      {/* שיר במתנה: אותו טופס כמו בעמוד השיר, עם כותרת והודעה של מתנה */}
-      <div className="border-b border-border bg-background px-4 py-12 sm:px-6 lg:px-8">
-        <SongOfferSection
-          source="/studio/recording-song-modiin/gifts"
-          giftMode
-          utmCampaign="gifts_song_offer"
-          intro="מקליטים שיר כמתנה: בוחרים מה נכנס, ושולחים לנו את הבחירה."
-        />
-      </div>
 
       <section className="mx-auto max-w-[72rem] px-4 py-14 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
@@ -458,7 +487,7 @@ export default function StudioGiftsPageContent() {
         layout="section"
         variant="whatsapp"
         heading="מוכנים להפתיע? שובר מתנה מקורי - נשלח אליכם מיד"
-        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו שנתיים מיום הרכישה."
+        description={`שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו ${STUDIO_GIFT_VALIDITY_TEXT} מיום הרכישה.`}
         headingId="studio-gifts-cta-heading"
         whatsappHref={MAIN_CTA}
         whatsappLabel="הזמינו שובר, נשלח מיד"

@@ -14,6 +14,7 @@ import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { buildSongOfferHref, calcSongOffer } from "@/lib/data/song-offer";
 import { YOUTUBE_SERVICE_EMBED_IDS } from "@/lib/data/youtube-embeds";
+import { GIFT_VALIDITY_YEARS } from "@/lib/sales/voucher";
 
 export {
   BAT_MITZVAH_CLIP_TYPES,
@@ -31,6 +32,19 @@ const SONG_BASE = calcSongOffer([]);
 const SONG_WITH_CLIP = calcSongOffer(["studio_session_clip_edited"]);
 const PITCH_WITH_VAT = withVat(getExVat("song_pitch_coaching"));
 const BLESSING_WITH_VAT = withVat(getExVat("blessing_recording"));
+
+/* תוקף שובר המתנה בעמוד. תשובות הבעלים 8.10.2026, תשובה 4: שנתיים בכל מקום
+   (חוק הגנת הצרכן מחייב לפחות שנתיים). העמוד כתב "שנה" בשני מקומות, בזמן
+   שהשובר שיוצא מ-/admin/sales מדפיס שנתיים. לכן הניסוח נגזר מאותו קבוע
+   שהשובר מדפיס, GIFT_VALIDITY_YEARS ב-lib/sales/voucher.ts, ולא נכתב ביד.
+   אותה מפת מילים כמו בבדיקה ב-lib/sales/voucher.test.ts. */
+const VALIDITY_WORDS: Readonly<Record<number, string>> = {
+  2: "שנתיים",
+  3: "שלוש שנים",
+  5: "חמש שנים",
+};
+export const STUDIO_GIFT_VALIDITY_TEXT =
+  VALIDITY_WORDS[GIFT_VALIDITY_YEARS] ?? `${GIFT_VALIDITY_YEARS} שנים`;
 
 export type StudioGiftIdea = {
   id: string;
@@ -78,7 +92,8 @@ export const GIFT_VOUCHER_STEPS: readonly {
   {
     step: "3",
     title: "המקבל מממש מתי שנוח",
-    body: "הנמען בוחר תאריך, מגיע לאולפן במודיעין (או שירות בשטח לפי סוג) וחווה את החוויה. אתם נשארים עם הרגע, לא עם עוד חפץ.",
+    /* תשובות הבעלים 8.10.2026: מתנה שמשאירה גם חוויה וגם מוצר ביד (היה: "לא עם עוד חפץ") */
+    body: "הנמען בוחר תאריך, מגיע לאולפן במודיעין (או שירות בשטח לפי סוג), חווה את החוויה ויוצא עם השיר או ההקלטה ביד.",
   },
 ] as const;
 
@@ -276,6 +291,17 @@ export const STUDIO_GIFT_FAQ: readonly {
   whatsappText: string;
   utmCampaign: string;
 }[] = [
+  {
+    /* תשובות הבעלים 8.10.2026, תשובה 3, במילים שלו. ראשונה ברשימה כי העמוד
+       פותח עכשיו בשיר במתנה. FaqPageSchema בעמוד נבנה מהרשימה הזו, ולכן
+       ה-JSON-LD מתעדכן יחד עם מה שרואים. */
+    id: "choose-song",
+    question: "איך בוחרים שיר, ומה עושים כשאין מילים?",
+    answer:
+      "בוחרים שיר לפי מה שחושבים שיעשה טוב למי שמקבל את המתנה. כשאין מילים, תמיד אפשר להדפיס אותן. באולפן אפשר לעשות הכל.",
+    whatsappText: "היי יקיר, שיר במתנה: מתלבטים איזה שיר לבחור. אשמח לעזרה.",
+    utmCampaign: "gift_faq_choose_song",
+  },
   {
     id: "voucher-any-service",
     question: "האם השובר מוגבל לסכום או לשירות מסוים?",

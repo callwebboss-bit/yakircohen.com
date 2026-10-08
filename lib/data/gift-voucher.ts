@@ -51,7 +51,20 @@ export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = PACKAGE_DEFS.m
  */
 export const GIFT_VOUCHER_VALIDITY_YEARS = 2;
 
-export const GIFT_VOUCHER_VALIDITY_LABEL = "תוקף: שנתיים מיום הרכישה";
+
+/* אותה מפת מילים כמו בבדיקה ב-lib/sales/voucher.test.ts */
+const VALIDITY_YEARS_WORDS: Readonly<Record<number, string>> = {
+  2: "שנתיים",
+  3: "שלוש שנים",
+  5: "חמש שנים",
+};
+
+/** "שנתיים". נגזר מהקבוע, כדי ששום עמוד לא יכתוב את התוקף ביד. */
+export const GIFT_VOUCHER_VALIDITY_TEXT =
+  VALIDITY_YEARS_WORDS[GIFT_VOUCHER_VALIDITY_YEARS] ?? `${GIFT_VOUCHER_VALIDITY_YEARS} שנים`;
+
+/** שורת התוקף שמודפסת על התמונה שמורידים. */
+export const GIFT_VOUCHER_VALIDITY_LABEL = `תוקף: ${GIFT_VOUCHER_VALIDITY_TEXT} מיום הרכישה`;
 
 export const GIFT_VOUCHER_LIMITS = {
   name: 40,

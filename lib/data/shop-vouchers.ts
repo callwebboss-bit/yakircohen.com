@@ -4,6 +4,7 @@ import {
   STUDIO_HALF_HOUR_NIS,
 } from "@/lib/data/pricing";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { GIFT_VOUCHER_VALIDITY_TEXT } from "@/lib/data/gift-voucher";
 import { SHOP_VOUCHER_IMAGES } from "@/lib/data/shop-page";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -63,10 +64,11 @@ export const SHOP_VOUCHER_FAQ_SCHEMA = [
   {
     question: "כמה זמן השובר בתוקף?",
     /* חוק הגנת הצרכן: שובר מתנה בתוקף שנתיים לפחות מיום ההנפקה (החלטת הבעלים
-       7.10.2026). אותו תוקף מודפס בשובר שיוצא מ-/admin/sales, GIFT_VALIDITY_YEARS
-       ב-lib/sales/voucher.ts, ובדיקה ב-voucher.test.ts שומרת על ההתאמה. */
-    answer:
-      "שנתיים מיום הרכישה. צריך יותר זמן? כותבים לנו בוואטסאפ ומאריכים.",
+       7.10.2026, ותשובות הבעלים 8.10.2026, תשובה 4: שנתיים בכל מקום). המילה
+       נגזרת מ-GIFT_VOUCHER_VALIDITY_TEXT, אותו קבוע שמודפס על השובר שמורידים
+       ב-/matanot/gift-voucher, ולא נכתבת ביד. התאמה לשובר שיוצא מ-/admin/sales
+       (GIFT_VALIDITY_YEARS ב-lib/sales/voucher.ts) נבדקת ב-voucher.test.ts. */
+    answer: `${GIFT_VOUCHER_VALIDITY_TEXT} מיום הרכישה. צריך יותר זמן? כותבים לנו בוואטסאפ ומאריכים.`,
   },
   {
     question: "איך מממשים את השובר?",

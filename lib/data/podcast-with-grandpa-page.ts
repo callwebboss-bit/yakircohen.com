@@ -92,7 +92,7 @@ export const PODCAST_GRANDPA_AUDIENCES: readonly {
     emoji: "🎂",
     title: "מתנת יום הולדת מיוחדת",
     description: "גיל 70, 80, 90, מתנה שתישאר לדורות במקום עוד ארוחה.",
-    link: { href: "/voucher", label: "רעיונות נוספים למתנות" },
+    link: { href: "/matanot", label: "רעיונות נוספים למתנות" },
   },
   {
     emoji: "💍",
@@ -165,6 +165,6 @@ export const PODCAST_GRANDPA_RELATED_LINKS: readonly {
   { emoji: "🎵", label: "הקלטת שירים וברכות", href: "/studio/recording-song-modiin" },
   { emoji: "🎬", label: "הפקת קליפים", href: "/studio/blessings/video-clip" },
   { emoji: "🖼️", label: "מצגת תמונות לאירוע", href: "/photo-slideshow" },
-  { emoji: "🎁", label: "שיר/קליפ במתנה", href: "/voucher" },
+  { emoji: "🎁", label: "שיר/קליפ במתנה", href: "/studio/recording-song-modiin/gifts" },
   { emoji: "📦", label: "הזמנת שירותים", href: "/book" },
 ] as const;

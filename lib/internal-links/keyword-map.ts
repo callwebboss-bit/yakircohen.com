@@ -182,6 +182,12 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "השכרת הגברה": { href: "/events/equipment", anchor: "השכרת הגברה" },
   "הגברה לאירועים": { href: "/events/equipment", anchor: "הגברה לאירועים" },
   "שובר מתנה": { href: "/shop#vouchers", anchor: "שובר מתנה" },
+  /* תשובות הבעלים 8.10.2026, תשובה 1: "שיר במתנה" יושב בעמוד המתנות של האולפן,
+     השיר קודם והשובר אחריו. "שובר מתנה" נשאר על /shop#vouchers. */
+  "שיר במתנה": {
+    href: "/studio/recording-song-modiin/gifts",
+    anchor: "שיר במתנה",
+  },
   "מתנה מוקלטת": { href: "/matanot", anchor: "מתנה מוקלטת" },
   "מארז מתנה מוקלט": { href: "/matanot", anchor: "מארז מתנה מוקלט" },
   "אוזניות לאולפן": { href: "/studio", anchor: "אוזניות לאולפן" },
