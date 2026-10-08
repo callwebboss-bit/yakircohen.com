@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
+import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/constants";
 import {
-  LEGACY_AUDIO_SAMPLE,
-  LEGACY_AUDIO_SAMPLE_TODO,
   LEGACY_CTA,
   LEGACY_DELIVERABLES,
   LEGACY_FAQS,
@@ -20,8 +20,10 @@ import {
   LEGACY_RECORDING_SLUG,
   LEGACY_RECORDING_SUBTITLE,
   LEGACY_RECORDING_TITLE,
+  LEGACY_SAMPLE,
   LEGACY_WHY_NOW,
 } from "@/lib/data/legacy-recording";
+import { youtubeEmbedUrl } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 /*
@@ -33,6 +35,8 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 const H2 = "font-serif text-2xl font-semibold text-foreground sm:text-3xl";
 const PROSE = "text-base leading-8 text-muted-foreground sm:text-lg";
+const QUIET_LINK =
+  "text-base font-semibold text-[var(--service-accent-ink,#8a1c1c)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]";
 
 /*
  * עובדה שחסרה מוצגת כמו שהיא כתובה בנתונים, אבל מודגשת כדי שהבעלים יראה
@@ -64,12 +68,6 @@ function WithTodos({ text }: { text: string }) {
 function pagesLabel(pages: number): string {
   if (pages === 1) return "עמוד אחד";
   return `${pages} עמודים`;
-}
-
-function formatDuration(seconds: number): string {
-  const minutes = Math.floor(seconds / 60);
-  const rest = String(seconds % 60).padStart(2, "0");
-  return `${minutes}:${rest}`;
 }
 
 /*
@@ -118,25 +116,6 @@ function FileIcon() {
       <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
       <path d="M14 3v5h5" />
       <path d="M9 13h6M9 17h6" />
-    </svg>
-  );
-}
-
-function MusicNoteIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-6 w-6 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M9 18V6l10-2v12" />
-      <circle cx="6.5" cy="18" r="2.5" />
-      <circle cx="16.5" cy="16" r="2.5" />
     </svg>
   );
 }
@@ -215,9 +194,10 @@ export default function LegacyRecordingPageContent() {
             </li>
           ))}
         </ul>
-        <p className={`mt-6 ${PROSE}`}>
-          <span className="font-semibold text-foreground">מבחינת התהליך עצמו: </span>
-          <WithTodos text={LEGACY_OWNER_FACTS.preparation} />
+        <p className="mt-6">
+          <a href="#questions" className={QUIET_LINK}>
+            לרשימת {LEGACY_QUESTIONS_COUNT} השאלות להורדה
+          </a>
         </p>
       </Band>
 
@@ -340,6 +320,14 @@ export default function LegacyRecordingPageContent() {
               <dt className="font-semibold text-foreground">{row.label}</dt>
               <dd className="text-base leading-7 text-muted-foreground">
                 <WithTodos text={row.value} />
+                {row.link ? (
+                  <>
+                    {" "}
+                    <Link href={row.link.href} className={QUIET_LINK}>
+                      {row.link.label}
+                    </Link>
+                  </>
+                ) : null}
               </dd>
             </div>
           ))}
@@ -348,54 +336,20 @@ export default function LegacyRecordingPageContent() {
 
       <Band id="sample" tinted>
         <h2 id="sample-title" className={H2}>
-          דוגמה לשמיעה
+          {LEGACY_SAMPLE.heading}
         </h2>
-        {LEGACY_AUDIO_SAMPLE ? (
-          <figure className="mt-6">
-            <audio
-              controls
-              preload="none"
-              src={LEGACY_AUDIO_SAMPLE.src}
-              className="w-full"
-              aria-label={LEGACY_AUDIO_SAMPLE.title}
-            >
-              הדפדפן הזה אינו מנגן קבצי שמע. התמלול מופיע מתחת.
-            </audio>
-            <figcaption className="mt-3 text-sm leading-6 text-muted-foreground">
-              {LEGACY_AUDIO_SAMPLE.title}
-              {" · "}
-              {formatDuration(LEGACY_AUDIO_SAMPLE.durationSeconds)}
-            </figcaption>
-            <details className="mt-4">
-              <summary className="cursor-pointer text-sm font-semibold text-foreground">
-                תמלול הדוגמה
-              </summary>
-              <p className="mt-3 text-base leading-7 text-muted-foreground">
-                {LEGACY_AUDIO_SAMPLE.transcript}
-              </p>
-            </details>
-          </figure>
-        ) : (
-          /*
-           * מצב מסומן ולא נגן שבור: אין כאן <audio>, אין כפתור ▶ ואין הפניה ל-
-           * /audio. ההחלטה מ-2.10.2026 (public/audio/README.md): לא מחזיקים
-           * בקוד הדגמה בלי קבצים, כי הנגנים השבורים עלו לאוויר.
-           */
-          <div
-            role="note"
-            className="mt-6 flex items-start gap-4 rounded-2xl border border-dashed border-border bg-background p-5 sm:p-6"
-          >
-            <span className="mt-0.5 text-[var(--service-accent-ink,#8a1c1c)]">
-              <MusicNoteIcon />
-            </span>
-            <div>
-              <p className="font-semibold text-foreground">דוגמת אודיו</p>
-              <p className="mt-1 text-base leading-7 text-muted-foreground">
-                <WithTodos text={LEGACY_AUDIO_SAMPLE_TODO} />
-              </p>
-            </div>
-          </div>
-        )}
+        <p className={`mt-6 ${PROSE}`}>{LEGACY_SAMPLE.caption}</p>
+        {/* הנגן הקיים באתר (נטען רק בלחיצה), כמו בעמוד סיור האולפן והפודקאסט */}
+        <LazyYouTubeEmbed
+          embedUrl={youtubeEmbedUrl(LEGACY_SAMPLE.video.videoId) ?? ""}
+          title={LEGACY_SAMPLE.video.title}
+          className="mt-6 aspect-video overflow-hidden rounded-2xl"
+        />
+        <p className="mt-5">
+          <Link href="/podcast/podcast-with-grandpa" className={QUIET_LINK}>
+            לעמוד פודקאסט עם סבא וסבתא
+          </Link>
+        </p>
       </Band>
 
       <Band id="faq">

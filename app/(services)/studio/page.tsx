@@ -22,6 +22,7 @@ import ShareButton from "@/components/ui/ShareButton";
 import SmartMap from "@/components/ui/SmartMap";
 import { hubSchemaPropsFromService } from "@/lib/seo/hub-pages";
 import { getStudioHubIcon } from "@/lib/data/studio-hub-icons";
+import { LEGACY_RECORDING_READY } from "@/lib/data/legacy-recording";
 import {
   getStudioHubLinks,
   getStudioService,
@@ -38,6 +39,15 @@ const STUDIO_PRICING_LINK = {
   description: "הקלטת שיר ותוספות, ברכה ושעת חדר.",
 } as const;
 
+/* ראיון מוקלט עם בן משפחה (תשובת הבעלים 8.10.2026, B18: "להוסיף קישור, כן").
+   נכנס רק כשהדף מוכן (LEGACY_RECORDING_READY), כדי שגולש לא יגיע לעמוד עם
+   סימוני TODO שעדיין חסום לאינדוקס. */
+const STUDIO_LEGACY_LINK = {
+  href: "/studio/legacy-recording",
+  title: "ראיון מוקלט עם בן משפחה",
+  description: "שיחה מוקלטת עם בן משפחה מבוגר, עריכה לפרקים ונוסח כתוב.",
+} as const;
+
 /* היו כאן שני צמתי Product לציוד (Townsend Sphere L22, UAD Apollo Twin). Search
    Console, 6.10.2026, "קטעי קוד של מוצרים": שני פריטים לא תקינים, "יש לציין
    offers, review או aggregateRating". הציוד לא נמכר, ולכן הוא לא Product.
@@ -45,7 +55,11 @@ const STUDIO_PRICING_LINK = {
 
 export default function StudioHubPage() {
   const hubLinks = getStudioHubLinks();
-  const tracks = [STUDIO_PRICING_LINK, ...hubLinks];
+  const tracks = [
+    STUDIO_PRICING_LINK,
+    ...hubLinks,
+    ...(LEGACY_RECORDING_READY ? [STUDIO_LEGACY_LINK] : []),
+  ];
   const trackItems: HubLinkItem[] = tracks.map((track) => {
     const isPricing = track.href === STUDIO_PRICING_LINK.href;
     return {

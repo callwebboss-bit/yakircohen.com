@@ -18,12 +18,16 @@ import { absoluteUrl } from "@/lib/site-url";
  *
  * למה לא buildServicePageEntitySchema: הוא תמיד מוסיף areaServed של מעגל
  * 50 ק"מ סביב האולפן (lib/seo/page-schema.ts:36-44). זה אזור ההגעה של
- * שירותים אחרים. אזור ההגעה להקלטה בבית עוד לא נמסר (LEGACY_OWNER_FACTS.homeVisit),
- * ולכן הוא לא נכנס לסכמה. כשיוחלט, להוסיף areaServed כאן.
+ * שירותים אחרים. הקלטה בבית נעשית באולפן הנייד (תשובת הבעלים 8.10.2026, B8),
+ * ואזורי ההגעה שלו מוגדרים בעמוד האולפן הנייד ולא נמסרו לשירות הזה, ולכן
+ * areaServed לא נכנס לסכמה.
  *
- * בלי offers, בכוונה. Offer בלי מחיר הוא צומת שבור (page-schema.ts:124-132),
- * ולהמציא מספר אסור. כשהבעלים יחליט על מחיר: להכניס אותו ל-pricing-catalog.ts
- * ולבנות את ה-Offer משם, כמו ב-pricingToOffer.
+ * בלי offers, בכוונה, כמו בעמוד הקרוב /podcast/podcast-with-grandpa: הוא נבנה
+ * על ServicePageLayout עם pagePath, כלומר buildServicePageEntitySchema
+ * (page-schema.ts:187-231), שפולט Service ו-FAQPage בלי offers, והוא אינו ברשומת
+ * השירותים (services.ts) שממנה נגזרים Offer. המחיר כן מוצג בטקסט, דרך הקטלוג
+ * (podcast_audio), והוא גם בתשובת ה-FAQ. אם יוחלט להוסיף Offer, הוא נבנה
+ * מהקטלוג כמו pricingToOffer (page-schema.ts:97), ו-audit:schema-prices בודק אותו.
  *
  * בצומת ה-Service אין inLanguage, dateModified ו-speakable. הקומיט 62c6ecf2
  * הסיר inLanguage מצמתי Service אחרי ש-validator.schema.org הזהיר שהוא אינו

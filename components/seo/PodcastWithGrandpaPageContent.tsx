@@ -7,6 +7,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import PodcastPriceNote from "@/components/pricing/PodcastPriceNote";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
+import { LEGACY_RECORDING_READY } from "@/lib/data/legacy-recording";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
@@ -206,6 +207,16 @@ export default function PodcastWithGrandpaPageContent() {
             >
               למידע נוסף על האולפן במודיעין </Link>
           </p>
+          {/* תשובת הבעלים 8.10.2026, B17. נכנס כשהדף החדש מוכן (LEGACY_RECORDING_READY) */}
+          {LEGACY_RECORDING_READY ? (
+            <p className="mt-2">
+              <Link
+                href="/studio/legacy-recording"
+                className="text-sm font-semibold text-brand-red hover:underline"
+              >
+                ראיון מוקלט עם בן משפחה, עם עריכה לפרקים ונוסח כתוב </Link>
+            </p>
+          ) : null}
         </section>
 
         <section aria-labelledby="audience-heading">

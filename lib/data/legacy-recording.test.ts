@@ -2,8 +2,11 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
+import { podcastDualPrice } from "@/lib/data/podcast-calculator";
+import { PODCAST_GRANDPA_EXAMPLE_VIDEO } from "@/lib/data/podcast-with-grandpa-page";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { youtubeEmbedUrl } from "@/lib/data/youtube-embeds";
 import {
-  LEGACY_AUDIO_SAMPLE,
   LEGACY_CTA,
   LEGACY_DELIVERABLES,
   LEGACY_FAQS,
@@ -19,12 +22,14 @@ import {
   LEGACY_RECORDING_OPEN_FACT_KEYS,
   LEGACY_RECORDING_READY,
   LEGACY_RECORDING_SUBTITLE,
+  LEGACY_SAMPLE,
   LEGACY_WHY_NOW,
   openLegacyFactKeys,
 } from "@/lib/data/legacy-recording";
 import { buildLegacyRecordingSchema } from "@/lib/seo/legacy-recording-schema";
 
 const root = join(import.meta.dirname, "..", "..");
+const dataSource = readFileSync(join(import.meta.dirname, "legacy-recording.ts"), "utf8");
 
 /* כל הקופי הגלוי של הדף, למעט שדות מסוג עובדה חסרה שנבדקים בנפרד */
 function allCopy(): string[] {
@@ -61,11 +66,29 @@ test("יש בדיוק 15 שאלות, כולן ייחודיות וכולן שאל
   }
 });
 
-test("הקופי נקי מתווים אסורים וממחיר", () => {
+test("הקופי נקי מתווים אסורים", () => {
   for (const text of allCopy()) {
     assert.ok(!FORBIDDEN_CHARS.test(text), `תו אסור ב: ${text}`);
-    assert.ok(!/₪|שקל|ש"ח/.test(text), `מחיר בקופי: ${text}`);
   }
+});
+
+test("המחיר נגזר מהקטלוג, אותו מחיר כמו פודקאסט עם סבא וסבתא, בלי סכום בקוד", () => {
+  const catalogPrice = podcastDualPrice(getExVat("podcast_audio"));
+  assert.ok(LEGACY_OWNER_FACTS.price.includes(catalogPrice));
+  /* אותו ביטוי שבו עמוד פודקאסט עם סבא מציג את מחיר האודיו (שאלת "מה המחיר") */
+  const priceFaq = LEGACY_FAQS.find((f) => f.id === "price");
+  assert.equal(priceFaq?.answer, LEGACY_OWNER_FACTS.price);
+  assert.ok(!/[\u20AA]|ש"ח|\d\s*שקל/.test(dataSource), "סכום כתוב בקובץ הנתונים");
+  /* כל מקום בקופי שיש בו סימן שקל חייב להכיל את מחיר הקטלוג, לא סכום אחר */
+  for (const text of allCopy().filter((t) => /\u20AA/.test(t))) {
+    assert.ok(text.includes(catalogPrice), `סכום שאינו מהקטלוג: ${text}`);
+  }
+});
+
+test("דוגמת הווידאו היא של פודקאסט עם סבא, ויש לה כתובת הטמעה", () => {
+  assert.equal(LEGACY_SAMPLE.video, PODCAST_GRANDPA_EXAMPLE_VIDEO);
+  const embed = youtubeEmbedUrl(LEGACY_SAMPLE.video.videoId);
+  assert.ok(embed?.startsWith("https://www.youtube.com/embed/"));
 });
 
 test("כותרת הדפדפן בטווח 50-60 עם סיומת המותג", () => {
@@ -84,10 +107,7 @@ test("openLegacyFactKeys מזהה רק ערכים שמתחילים בסימון 
 
 test("מוכנות לפרסום נגזרת מהנתונים ולא מדגל ידני", () => {
   assert.deepEqual(LEGACY_RECORDING_OPEN_FACT_KEYS, openLegacyFactKeys());
-  assert.equal(
-    LEGACY_RECORDING_READY,
-    LEGACY_RECORDING_OPEN_FACT_KEYS.length === 0 && LEGACY_AUDIO_SAMPLE !== null,
-  );
+  assert.equal(LEGACY_RECORDING_READY, LEGACY_RECORDING_OPEN_FACT_KEYS.length === 0);
 });
 
 test("כל שדה ב-LEGACY_OWNER_FACTS משמש בעמוד או בשאלות", () => {
@@ -96,8 +116,8 @@ test("כל שדה ב-LEGACY_OWNER_FACTS משמש בעמוד או בשאלות", 
     LEGACY_PRACTICAL_DETAILS,
     LEGACY_FAQS,
   ]);
-  /* אורך הראיון והקובץ הערוך ו-preparation מוצגים ישירות ברכיב */
-  const renderedDirectly = ["interviewLength", "editedFileLength", "preparation"];
+  /* אורך הראיון והקובץ הערוך מוצגים ישירות ברכיב */
+  const renderedDirectly = ["interviewLength", "editedFileLength"];
   for (const [key, value] of Object.entries(LEGACY_OWNER_FACTS)) {
     if (renderedDirectly.includes(key)) continue;
     /* JSON מוסיף לוכסנים לפני מרכאות, לכן משווים מול הצורה המוברחת */
@@ -143,11 +163,4 @@ test("קובץ ה-PDF קיים, תקין, וגודלו ומספר עמודיו �
 test("שם ההורדה הוא PDF, והנתיב לא נקרא href", () => {
   assert.ok(LEGACY_QUESTIONS_PDF.downloadName.endsWith(".pdf"));
   assert.ok(LEGACY_QUESTIONS_PDF.path.startsWith("/downloads/"));
-});
-
-test("אם יש דוגמת אודיו: הקובץ קיים, עד 60 שניות, ויש תמלול", () => {
-  if (!LEGACY_AUDIO_SAMPLE) return;
-  assert.ok(existsSync(join(root, "public", LEGACY_AUDIO_SAMPLE.src)));
-  assert.ok(LEGACY_AUDIO_SAMPLE.durationSeconds <= 60);
-  assert.ok(LEGACY_AUDIO_SAMPLE.transcript.trim().length > 0);
 });
