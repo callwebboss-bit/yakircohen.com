@@ -1,7 +1,7 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import type { TestimonialItem } from "@/components/marketing/Testimonials";
-import { formatFromPriceDual, getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_EXTRA_EDIT_NOTE, PODCAST_PACK_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, PODCAST_VIDEO_CAMERAS_NOTE, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_EXTRA_EDIT_NOTE, PODCAST_PACK_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
   PODCAST_AUDIO_PACKS,
@@ -88,7 +88,7 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
     emoji: "📹",
     title: "צילום 4K",
     /* החלטת הבעלים D63, 7.10.2026: 3 מצלמות ותאורה (היה "2-3") */
-    description: "3 מצלמות, זוויות מגוונות ותאורת סטודיו מקצועית.",
+    description: `${PODCAST_VIDEO_CAMERAS_NOTE}, זוויות מגוונות ותאורת סטודיו מקצועית.`,
   },
   {
     emoji: "📤",
@@ -179,7 +179,7 @@ export const PODCAST_HUB_INCLUDED: readonly {
   {
     title: "צילום וידאו",
     /* החלטת הבעלים D63, 7.10.2026: 3 מצלמות (היה "2-3") */
-    description: "3 מצלמות 4K, תאורת סטודיו, framing מקצועי.",
+    description: `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}, תאורת סטודיו, framing מקצועי.`,
   },
   {
     title: "קבצים סופיים",
