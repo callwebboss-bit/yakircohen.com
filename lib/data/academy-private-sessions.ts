@@ -69,7 +69,7 @@ export const PRIVATE_SESSION_PLANS: readonly PrivateSessionPlan[] = [
     cta: "לתיאום שיעור",
     utmCampaign: "academy_vocal_coaching",
     whatsappText:
-      "היי יקיר, אני מעוניין/ת בשיעור פיתוח קול (60 דקות, 500 ₪ לפני מע״מ). אשמח לתיאום.",
+      `היי יקיר, אני מעוניין/ת בשיעור פיתוח קול (60 דקות, ${getExVat("vocal_coaching_hour").toLocaleString("he-IL")} ₪ לפני מע״מ). אשמח לתיאום.`,
   },
 ] as const;
 
