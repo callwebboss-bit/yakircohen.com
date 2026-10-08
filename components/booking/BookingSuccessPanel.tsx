@@ -15,6 +15,7 @@ import {
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import { cn } from "@/lib/utils";
 import BookingCrossSellSection from "@/components/booking/BookingCrossSellSection";
+import { FocusedStatus } from "@/components/forms/FieldError";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 
 type BookingSuccessPanelProps = {
@@ -92,13 +93,14 @@ export default function BookingSuccessPanel({
     );
   }
 
+  /* הפאנל מרונדר רק אחרי שליחה (כל הקוראים מחליפים בו את הטופס), לכן הפוקוס
+     עובר אליו בעלייה: FocusedStatus הוא role="status" עם tabIndex -1 (F-11) */
   return (
-    <div
+    <FocusedStatus
       className={cn(
         "rounded-2xl border border-green-600/30 bg-green-600/5 p-8 text-center",
         className,
       )}
-      role="status"
     >
       <p className="text-4xl" aria-hidden="true">
         ✓
@@ -167,6 +169,6 @@ export default function BookingSuccessPanel({
         atmosphere={atmosphere}
         className="text-center sm:text-right"
       />
-    </div>
+    </FocusedStatus>
   );
 }

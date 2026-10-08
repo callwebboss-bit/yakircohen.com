@@ -39,8 +39,11 @@ export default function IntentNavStrip({
       ) : null}
       <ul
         className={cn(
+          /* F-72 (7.10.2026): ה-scroller חותך (overflow-x:auto) גם את טבעת הפוקוס של
+             הצ'יפ, שבולטת 4px (outline 2px + offset 2px). py-1/px-1 נותנים לה מקום,
+             ו-my-1 שלילי מבטל את התוספת האנכית כדי שגובה הפס (52px) לא ישתנה. */
           compact
-            ? "scroll-area-x scroll-fade-x flex flex-nowrap gap-1.5"
+            ? "scroll-area-x scroll-fade-x -my-1 flex flex-nowrap gap-1.5 px-1 py-1"
             : "flex flex-wrap gap-2",
         )}
       >
@@ -62,7 +65,7 @@ export default function IntentNavStrip({
                     : "min-h-11 px-3.5 py-1.5 text-sm",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   active
-                    ? "border-brand-red bg-brand-red/10 text-brand-red"
+                    ? "border-brand-red bg-brand-red/10 text-brand-red-text"
                     : "border-border bg-background text-foreground hover:border-brand-red/40 hover:text-brand-red",
                 )}
               >

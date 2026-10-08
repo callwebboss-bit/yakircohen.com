@@ -87,7 +87,7 @@ const CLIP_ID: SongAddonId = "studio_session_clip_edited";
 type CallbackState = "closed" | "open" | "submitting" | "retrying" | "success" | "failed";
 
 const inputClass =
-  "mt-1.5 min-h-12 w-full rounded-xl border border-border bg-background px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
+  "mt-1.5 min-h-12 w-full rounded-xl border border-input bg-background px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
 
 export default function SongOfferConfigurator({
   base,
@@ -445,7 +445,7 @@ export default function SongOfferConfigurator({
           maxLength={SONG_NOTES_MAX}
           rows={3}
           dir="rtl"
-          className="mt-2 block w-full rounded-xl border border-border bg-background px-3 py-2 text-base text-foreground"
+          className="mt-2 block w-full rounded-xl border border-input bg-background px-3 py-2 text-base text-foreground"
           aria-describedby={`${uid}-notes-help`}
         />
         <p id={`${uid}-notes-help`} className="mt-1 text-xs text-muted-foreground">
@@ -461,7 +461,7 @@ export default function SongOfferConfigurator({
         href={quote.waHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 flex min-h-12 w-full items-center justify-center rounded-xl bg-[#25D366] px-4 text-base font-semibold text-white hover:bg-[#1fb857]"
+        className="mt-4 flex min-h-12 w-full items-center justify-center rounded-xl bg-[#178741] px-4 text-base font-semibold text-white hover:bg-[#0f6e34]"
       >
         שלחו בוואטסאפ · {nis(quote.totalWithVat)}
       </a>
@@ -815,7 +815,7 @@ function SongCallback({
           className={cn(inputClass, errors.name && "border-red-400")}
         />
         {errors.name ? (
-          <p id={`${nameId}-error`} className="mt-1 text-xs text-red-600">
+          <p id={`${nameId}-error`} className="mt-1 text-xs text-brand-red-text">
             {errors.name}
           </p>
         ) : null}
@@ -840,7 +840,7 @@ function SongCallback({
           className={cn(inputClass, "text-left", errors.phone && "border-red-400")}
         />
         {errors.phone ? (
-          <p id={`${phoneId}-error`} className="mt-1 text-xs text-red-600">
+          <p id={`${phoneId}-error`} className="mt-1 text-xs text-brand-red-text">
             {errors.phone}
           </p>
         ) : null}

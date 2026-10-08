@@ -375,7 +375,8 @@ export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
     serviceLabel: "פודקאסט עם סבא",
     projectImageSrc:
       "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    projectImageAlt: "פודקאסט משפחתי באולפן",
+    /* F-35 (7.10.2026): בתמונה אולפן ריק, בלי אנשים, ולכן "פודקאסט משפחתי" הטעה */
+    projectImageAlt: "אולפן פודקאסט ריק עם שתי כורסאות ומיקרופון על זרוע",
   },
   {
     id: "podcast-hub-3",
@@ -390,7 +391,8 @@ export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
     serviceLabel: "הפקת פודקאסט",
     projectImageSrc:
       "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
-    projectImageAlt: "הקלטת פודקאסט",
+    /* F-35: התמונה היא מיקרופון ידני בתקריב ולא הקלטת פודקאסט */
+    projectImageAlt: "מיקרופון ידני מקרוב על רקע מטושטש של אורות במה",
   },
 ] as const;
 

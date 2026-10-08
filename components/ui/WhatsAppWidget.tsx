@@ -29,6 +29,9 @@ export default function WhatsAppWidget({
 }: WhatsAppWidgetProps) {
   const href = buildWhatsAppHref({ text, utm_source, utm_campaign, phone });
 
+  /* F-05 + F-42 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו ב-MobileStickyCta. הסמל
+     הלבן על הגוון הגולמי נמדד 2.43:1 ב-/online (1.4.11), וטבעת הפוקוס באותו גוון 2.32:1.
+     הזוהר הוא rgb(212 43 43) = #d42b2b, כדי שלא יישאר הילה בצבע אחר סביב כפתור אדום. */
   return (
     <a
       href={href}
@@ -39,7 +42,7 @@ export default function WhatsAppWidget({
       onClick={() =>
         trackConversion("whatsapp_fab_click", { campaign: utm_campaign })
       }
-      className={`fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/30 bg-[var(--service-accent,#d42b2b)] pb-[env(safe-area-inset-bottom)] text-white shadow-[0_0_24px_color-mix(in_srgb,var(--service-accent,#d42b2b)_25%,transparent)] transition-[transform,box-shadow,background-color] duration-300 ease-[var(--ease-luxury)] hover:scale-105 hover:shadow-[0_0_32px_color-mix(in_srgb,var(--service-accent,#d42b2b)_40%,transparent)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:bottom-8 sm:right-8 ${className}`.trim()}
+      className={`fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full border border-brand-red/30 bg-brand-red pb-[env(safe-area-inset-bottom)] text-white shadow-[0_0_24px_rgb(212_43_43_/_0.25)] transition-[transform,box-shadow,background-color] duration-300 ease-[var(--ease-luxury)] hover:scale-105 hover:shadow-[0_0_32px_rgb(212_43_43_/_0.4)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:bottom-8 sm:right-8 ${className}`.trim()}
     >
       <WhatsAppIcon />
     </a>

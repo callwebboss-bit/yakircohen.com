@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useEscapeLayer } from "@/hooks/useEscapeLayer";
 import { MATANOT_EVENT_CARDS } from "@/lib/data/matanot-page";
 import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
 import { trackConversion } from "@/lib/analytics/conversion-events";
@@ -130,17 +131,17 @@ export default function GiftFinderPopup() {
   /* שחרור בטיחות ב-unmount */
   useEffect(() => () => releaseBottomSlot("gift"), []);
 
-  /* Escape רק כשהפוקוס בתוך הפופ-אפ, כדי לא לחטוף Escape מהעמוד */
-  useEffect(() => {
-    if (!visible) return undefined;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      if (!rootRef.current?.contains(document.activeElement)) return;
-      close("dismiss");
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [visible, close]);
+  /* Escape מכל מקום בעמוד (F-74). לפני כן רק כשהפוקוס בתוך הפופ-אפ, אבל הוא
+     אחרון ב-DOM ולא מקבל מיקוד, כך שמשתמש מקלדת הגיע אליו רק אחרי כל העמוד.
+     הוויתור על שער המיקוד בטוח רק בגלל מחסנית השכבות: הפופ-אפ הוא שכבת רקע,
+     ולכן Escape של תפריט, צ'אט, פאנל או חלון מודאלי פתוחים לא סוגר אותו ולא
+     שורף לו snooze של 3 ימים, וגם לא כשהמיקוד בשדה טקסט. אין סגירה
+     אוטומטית בשום מקרה אחר: רק מקש Escape מפורש. */
+  useEscapeLayer({
+    active: visible && !pathHidden,
+    onEscape: () => close("dismiss"),
+    ambient: true,
+  });
 
   if (!visible || pathHidden) return null;
 

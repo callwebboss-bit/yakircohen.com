@@ -44,7 +44,16 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
 const elevatedPosition =
   "bottom-[5.5rem] sm:bottom-[6.5rem] max-md:bottom-[5.5rem]";
 
-const scrollHide = "opacity-0 pointer-events-none translate-y-2";
+/* F-02 (7.10.2026): הכפתורים נעלמים בגלילה למטה אבל נשארים בסדר הטאב, ולכן
+   כפתור ממוקד היה בלתי נראה (2.4.7). כל מי שמחזיק פוקוס חוזר להיות גלוי.
+   כשהמחלקה יושבת על האלמנט הממוקד עצמו (<a> של וואטסאפ ושל שליחת קובץ) זה
+   focus-visible, וכשהיא יושבת על עטיפה (הצ'אט) זה focus-within.
+   לא inert, aria-hidden או visibility:hidden: הם מוציאים את הכפתור מסדר
+   הטאב ומפעילים את aria-hidden-focus. */
+const scrollHideOnFocusable =
+  "opacity-0 pointer-events-none translate-y-2 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:translate-y-0";
+const scrollHideOnWrapper =
+  "opacity-0 pointer-events-none translate-y-2 focus-within:opacity-100 focus-within:pointer-events-auto focus-within:translate-y-0";
 
 /** במסך הראשון בנייד הכפתורים הצפים לא מכסים את ה-CTA של העמוד. כפתור הנגישות נשאר תמיד. */
 const firstFoldHide = "max-md:invisible max-md:opacity-0 max-md:pointer-events-none";
@@ -64,19 +73,23 @@ export default function FloatingFabs() {
   // Hide FABs on scroll-down; never hide while chat panel is open.
   const fabsHidden = scrollDir === "down" && !chatOpen;
 
-  // WhatsApp (end) + AccessibilityToggle (start) sit in side gutters beside the sticky bar.
+  // WhatsApp (end) sits in the side gutter beside the sticky bar.
   const fabPosition = cn(
     "transition-[opacity,transform] duration-300",
     elevated && elevatedPosition,
-    fabsHidden && scrollHide,
+    fabsHidden && scrollHideOnFocusable,
   );
+
+  // F-02 (החלטת בעלים 10.9.2026): ווידג'ט הנגישות לא מוסתר בגלילה. מי שצריך
+  // אותו חייב למצוא אותו, והדיאלוג הפתוח שלו לא דוהה בזמן שקוראים אותו.
+  const a11yFabPosition = cn(elevated && elevatedPosition);
 
   const chatFabPosition = cn(
     "transition-[opacity,transform] duration-300",
     elevated
       ? "bottom-[10.5rem] sm:bottom-[11.5rem] max-md:bottom-[10.5rem]"
       : "bottom-[5.5rem] sm:bottom-[6.5rem]",
-    fabsHidden && !chatOpen && scrollHide,
+    fabsHidden && !chatOpen && scrollHideOnWrapper,
     !pastFold && !chatOpen && firstFoldHide,
   );
 
@@ -86,7 +99,7 @@ export default function FloatingFabs() {
     elevated
       ? "bottom-[14.5rem] sm:bottom-[15.5rem] max-md:bottom-[14.5rem]"
       : "bottom-[9.5rem] sm:bottom-[10.5rem]",
-    fabsHidden && scrollHide,
+    fabsHidden && scrollHideOnFocusable,
     !pastFold && firstFoldHide,
   );
 
@@ -95,7 +108,10 @@ export default function FloatingFabs() {
   }, []);
 
   return (
-    <div className="floating-fabs-cluster contents">
+    /* F-51 (7.10.2026): קופסה אמיתית ולא display:contents, כי contents מאבד את
+       ה-landmark בחלק מהדפדפנים. כל הילדים position:fixed, אז לקופסה אין גובה
+       והפריסה לא משתנה. ה-class נשאר כי globals.css בוחר את ילדיה הישירים. */
+    <aside aria-label="פעולות מהירות" className="floating-fabs-cluster">
       {!hideSendFile ? <SendFileFab className={sendFilePosition} /> : null}
       {!hideChat ? (
         <ChatWidget className={chatFabPosition} onOpenChange={handleChatOpenChange} />
@@ -103,7 +119,7 @@ export default function FloatingFabs() {
       {!hideWhatsApp ? (
         <WhatsAppWidget className={cn(fabPosition, !pastFold && firstFoldHide)} />
       ) : null}
-      <AccessibilityToggle className={fabPosition} />
-    </div>
+      <AccessibilityToggle className={a11yFabPosition} />
+    </aside>
   );
 }

@@ -54,7 +54,7 @@ export default function PodcastSelfServicePageContent() {
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 sm:p-8"
           aria-label="מחיר"
         >
-          <p className="text-sm font-semibold text-brand-red">מחיר לשעה</p>
+          <p className="text-sm font-semibold text-brand-red-text">מחיר לשעה</p>
           <p className="mt-2 text-3xl font-bold text-foreground">
             {SELF_SERVICE_PRICE.toLocaleString("he-IL")} ₪
             <span className="text-base font-normal text-muted-foreground">
@@ -110,7 +110,11 @@ export default function PodcastSelfServicePageContent() {
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
             מחפשים תוכן עסקי (רילז)?{" "}
-            <Link href="/business/content-studio" className="text-brand-red hover:underline">
+            {/* underline קבוע על הקישור שבתוך הפסקה (F-03, WCAG 1.4.1, 7.10.2026) */}
+            <Link
+              href="/business/content-studio"
+              className="text-brand-red underline underline-offset-2"
+            >
               סושיאל דאמפ
             </Link>
             . לא שירות עצמי.

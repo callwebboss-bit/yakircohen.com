@@ -31,7 +31,7 @@ export default function CtaTrustStrip({
         href={STUDIO_GOOGLE_MAPS_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-semibold text-foreground hover:text-brand-red hover:underline"
+        className="font-semibold text-foreground underline underline-offset-2 hover:text-brand-red"
       >
         {GOOGLE_RATING} ★ בגוגל
       </Link>

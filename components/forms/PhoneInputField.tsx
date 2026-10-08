@@ -1,5 +1,7 @@
 "use client";
 
+import FieldError from "@/components/forms/FieldError";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { normalizeIsraeliMobile } from "@/lib/form-validation";
 import { cn } from "@/lib/utils";
@@ -12,6 +14,8 @@ export type PhoneInputFieldProps = {
   label?: string;
   placeholder?: string;
   hint?: string;
+  /** aria-required וכוכבית aria-hidden. לא `required` מקורי: הוא עוקף את הולידטורים המותאמים. */
+  required?: boolean;
   className?: string;
 };
 
@@ -27,15 +31,18 @@ export default function PhoneInputField({
   label = FORM_MICROCOPY.phoneLabel,
   placeholder = FORM_MICROCOPY.phonePlaceholder,
   hint = FORM_MICROCOPY.phoneHint,
+  required = false,
   className,
 }: PhoneInputFieldProps) {
   const isValid = Boolean(value.trim() && normalizeIsraeliMobile(value.trim()));
   const hintId = `${id}-hint`;
+  const errorId = fieldErrorId(id);
 
   return (
     <div className={className}>
       <label htmlFor={id} className="block text-sm font-semibold text-foreground">
         {label}
+        {required ? <span aria-hidden="true"> *</span> : null}
       </label>
       <div className="relative mt-1.5">
         <input
@@ -55,10 +62,11 @@ export default function PhoneInputField({
               ? "border-green-500 pe-10 focus:border-green-500"
               : error
                 ? "border-red-400 focus:border-red-400"
-                : "border-border focus:border-brand-red",
+                : "border-input focus:border-brand-red",
           )}
           aria-invalid={!!error}
-          aria-describedby={error ? `${hintId} ${id}-error` : hintId}
+          aria-required={required ? "true" : undefined}
+          aria-describedby={describedBy(hint && hintId, error && errorId)}
         />
         {isValid ? (
           <span
@@ -74,11 +82,9 @@ export default function PhoneInputField({
           {hint}
         </p>
       ) : null}
-      {error ? (
-        <p id={`${id}-error`} className="mt-1 text-xs text-red-500" role="alert">
-          {error}
-        </p>
-      ) : null}
+      {/* בלי role="alert": scrollAndHighlightFirstError מעביר פוקוס לשדה והשגיאה
+          מוקראת דרך aria-describedby, ו-alert נוסף היה מקריא אותה פעמיים (F-11) */}
+      <FieldError id={errorId} message={error} />
     </div>
   );
 }

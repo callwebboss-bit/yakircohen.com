@@ -1,11 +1,13 @@
 "use client";
 
 import IntakeFilePicker from "@/components/booking/intake/IntakeFilePicker";
+import FieldError from "@/components/forms/FieldError";
 import {
   INTAKE_PRESETS,
   type ServiceTypeTag,
 } from "@/lib/book-intake/presets";
 import type { IntakeFileMeta } from "@/lib/book-intake/file-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { cn } from "@/lib/utils";
 
 type IntakeStepServiceProps = {
@@ -36,10 +38,15 @@ export default function IntakeStepService({
   className,
 }: IntakeStepServiceProps) {
   const showOptionalFields = Boolean(serviceTypeTag);
+  const serviceErrorId = fieldErrorId("intake-service");
+  const freeTextErrorId = fieldErrorId("intake-free-text");
 
   return (
     <div className={cn("space-y-6", className)}>
-      <fieldset className="space-y-3">
+      <fieldset
+        className="space-y-3"
+        aria-describedby={describedBy(errors.serviceTypeTag && serviceErrorId)}
+      >
         <legend className="text-sm font-semibold text-foreground">מה אתם צריכים?</legend>
         <div className="grid gap-2 sm:grid-cols-2">
           {INTAKE_PRESETS.map((preset) => {
@@ -67,11 +74,14 @@ export default function IntakeStepService({
             );
           })}
         </div>
-        {errors.serviceTypeTag ? (
-          <p className="text-xs text-brand-red" role="alert" data-field-error="">
-            {errors.serviceTypeTag}
-          </p>
-        ) : null}
+        {/* שגיאת קבוצה: אין פקד אחד שמקבל פוקוס, לכן role="alert" נשאר והפוקוס
+            לא זז (scrollAndHighlightFirstError מדלג על הודעה כזו) */}
+        <FieldError
+          id={serviceErrorId}
+          message={errors.serviceTypeTag}
+          className="mt-0"
+          announce
+        />
       </fieldset>
 
       {showOptionalFields ? (
@@ -87,16 +97,18 @@ export default function IntakeStepService({
               maxLength={1500}
               rows={3}
               placeholder={descriptionPlaceholder}
-              className="w-full min-h-12 resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20"
+              aria-invalid={errors.freeTextDescription ? true : undefined}
+              aria-describedby={describedBy(errors.freeTextDescription && freeTextErrorId)}
+              className="w-full min-h-12 resize-y rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20"
             />
             <p className="text-xs text-muted-foreground text-start">
               {freeTextDescription.length}/1500
             </p>
-            {errors.freeTextDescription ? (
-              <p className="text-xs text-brand-red" role="alert">
-                {errors.freeTextDescription}
-              </p>
-            ) : null}
+            <FieldError
+              id={freeTextErrorId}
+              message={errors.freeTextDescription}
+              className="mt-0"
+            />
           </div>
 
           <div className="space-y-2">

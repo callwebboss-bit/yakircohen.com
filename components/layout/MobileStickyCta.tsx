@@ -30,9 +30,20 @@ export default function MobileStickyCta() {
   const { pricingHref, bookHref, serviceHref, serviceLabel } =
     getMobileDecisiveNav(pathname);
 
+  /* F-73 (7.10.2026): כל תא מתחיל משליש מהסרגל, יכול לגדול ולא קטן מהתווית שלו, והשורה
+     עוטפת כשהשלושה לא נכנסים. קודם grid-cols-3 נתן ~39px לתא ב-320px ו-~56px ב-375px,
+     וה-truncate חתך תוויות כמו "אירועים" ו"פודקאסט". תווית היא מילה אחת ולא נשברת בתוך
+     התא, אז במסך צר התא האחרון יורד לשורה שנייה והטקסט נשאר שלם (1.4.10). px-1 ולא px-2:
+     הריפוד הקטן מוריד את רוחב המינימום של התא, כך שברוב רוחבי הטלפון (360-412px) הסרגל
+     נשאר בשורה אחת, וירידה לשורה שנייה קורית רק בצר מאוד או בתווית ארוכה. בשורה
+     אחת התאים נשארים שלישים שווים, כך שהמראה לא משתנה.
+     ב-hover הטקסט בצבע ה-ink של ה-hub (F-04), לא בגוון הגולמי. */
+  const cellClass = "grow basis-[calc((100%_-_0.75rem)/3)]";
+
   const secondaryClass = cn(
-    "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full border border-border bg-surface px-2 text-sm font-semibold text-foreground",
-    "transition-[color,border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]",
+    cellClass,
+    "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full border border-border bg-surface px-1 text-center text-sm font-semibold text-foreground",
+    "transition-[color,border-color,transform] duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]",
   );
 
   return (
@@ -46,22 +57,23 @@ export default function MobileStickyCta() {
       role="navigation"
       aria-label="ניווט מהיר"
     >
-      <div className="mx-auto grid max-w-lg grid-cols-3 gap-1.5 px-2 py-2">
+      <div className="mx-auto flex max-w-lg flex-wrap gap-1.5 px-2 py-2">
         <Link href={pricingHref} className={secondaryClass}>
           מחירון
         </Link>
         <Link
           href={bookHref}
           className={cn(
+            cellClass,
             /* bg-brand-red ולא גוון ה-hub. באולפן הגוון הוא כתום #d97706, ולבן
                עליו נמדד 3.19:1, מתחת ל-AA. צבע הפעולה נשאר אדום בכל hub. */
-            "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full bg-brand-red px-2 text-sm font-semibold text-white",
+            "inline-flex min-h-12 touch-manipulation items-center justify-center rounded-full bg-brand-red px-1 text-center text-sm font-semibold text-white",
             "transition-transform duration-fast ease-luxury active:scale-[0.97]",
           )}
         >
           הזמנה
         </Link>
-        <Link href={serviceHref} className={cn(secondaryClass, "truncate")}>
+        <Link href={serviceHref} className={secondaryClass}>
           {serviceLabel}
         </Link>
       </div>

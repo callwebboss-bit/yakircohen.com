@@ -31,6 +31,8 @@ export type FaqCtaItem = {
   /** Pre-filled WhatsApp message. Hebrew is safe - buildWhatsAppHref encodes it. */
   whatsappMessage: string;
   utm_campaign: string;
+  /** שפת השאלה והתשובה כשהן לא בעברית (WCAG 3.1.2, F-56). מסמן lang ו-dir=ltr בלבד. */
+  lang?: "en";
 };
 
 export type FAQWithCtaLinksProps = {
@@ -93,7 +95,9 @@ export default function FAQWithCtaLinks({
                   }
                 }}
               >
-                <span>{item.question}</span>
+                <span lang={item.lang} dir={item.lang ? "ltr" : undefined}>
+                  {item.question}
+                </span>
 
                 {/* Chevron indicator */}
                 <span
@@ -136,7 +140,11 @@ export default function FAQWithCtaLinks({
               <div className="overflow-hidden">
                 <div className="pb-6 pt-1">
                   {/* Answer body */}
-                  <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  <p
+                    lang={item.lang}
+                    dir={item.lang ? "ltr" : undefined}
+                    className="text-sm leading-relaxed text-muted-foreground sm:text-base"
+                  >
                     <GlossaryInlineText text={item.answer} />
                   </p>
 

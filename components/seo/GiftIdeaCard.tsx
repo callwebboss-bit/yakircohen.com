@@ -35,7 +35,7 @@ export default function GiftIdeaCard({
           reverse && "lg:order-2",
         )}
       >
-        <span className="inline-flex w-fit rounded-full bg-brand-red/10 px-3 py-0.5 text-xs font-semibold text-brand-red">
+        <span className="inline-flex w-fit rounded-full bg-brand-red/10 px-3 py-0.5 text-xs font-semibold text-brand-red-text">
           {idea.badge}
         </span>
         <h3 className="mt-3 font-serif text-lg font-semibold text-foreground sm:text-xl">

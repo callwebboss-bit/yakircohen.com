@@ -22,6 +22,14 @@ const FOCUSABLE_SELECTORS =
 
 const LS_KEY = "yc_last_faq";
 
+/* F-05 + F-42 (7.10.2026): הלשונית הנבחרת bg-brand-red עם טקסט לבן (5.02:1). לבן על
+   גוון ה-hub הגולמי נמדד 2.42:1 ב-/online ו-3.18:1 ב-/studio. הטבעת פנימית (offset
+   שלילי): על הרקע האדום היא לבנה, ובלשונית הלא נבחרת היא ב-ink של ה-hub, שעל רקע
+   בהיר מגיע ל-5.07:1 ומעלה. ה-fallback הוא האדום של המותג. */
+const TAB_SELECTED = "bg-brand-red text-white focus-visible:outline-white";
+const TAB_IDLE =
+  "text-muted-foreground hover:bg-muted focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]";
+
 function ChatBubbleIcon() {
   return (
     <svg
@@ -214,7 +222,16 @@ export default function ChatWidget({
   }, [view]);
 
   // ─── Focus management ─────────────────────────────────────────────────────
+  // F-26 + F-25 (7.10.2026): ה-effect רץ גם בעלייה ראשונה (view=closed), ושם הוא העביר
+  // את הפוקוס ל-FAB בסוף ה-DOM בכל פעם שמשהו כבר היה ממוקד, כלומר גנב אותו ממי שלחץ
+  // Tab ב-150ms הראשונות וגרם לו לאבד את קישור הדילוג. לכן מחזירים פוקוס ל-FAB רק
+  // במעבר מפתוח לסגור (prevViewRef), ורק אם הפוקוס עדיין בפאנל או שנפל ל-body.
+  // ב-Esc הפאנל נהיה inert והפוקוס נופל ל-body, ולכן התנאי כולל גם את body. התנאי
+  // על activeElement נשאר: בלעדיו ה-FAB היה מקבל פוקוס בכל טעינה.
+  const prevViewRef = useRef<"closed" | "list" | "answer">("closed");
   useEffect(() => {
+    const prevView = prevViewRef.current;
+    prevViewRef.current = view;
     if (view === "list") {
       if (activeTab === "guided") {
         guidedFirstButtonRef.current?.focus();
@@ -223,8 +240,9 @@ export default function ChatWidget({
       }
     } else if (view === "answer") {
       answerRef.current?.focus();
-    } else {
-      if (document.activeElement !== document.body) {
+    } else if (prevView !== "closed") {
+      const active = document.activeElement;
+      if (active === document.body || panelRef.current?.contains(active)) {
         fabRef.current?.focus();
       }
     }
@@ -431,9 +449,12 @@ export default function ChatWidget({
         {showPulse && (
           <span
             aria-hidden
-            className="absolute inset-0 rounded-full bg-[var(--service-accent,#d42b2b)] opacity-60 animate-ping"
+            className="absolute inset-0 rounded-full bg-brand-red opacity-60 animate-ping"
           />
         )}
+      {/* F-05 + F-42 (7.10.2026): bg-brand-red ולא גוון ה-hub. הסמל הלבן על הגוון הגולמי
+          נמדד 2.43:1 ב-/online (1.4.11), וטבעת הפוקוס באותו גוון 2.32:1. הזוהר
+          rgb(212 43 43) = #d42b2b, כדי שלא יישאר הילה בצבע אחר סביב כפתור אדום. */}
       <button
         ref={fabRef}
         onClick={() => (view === "closed" ? handleOpen() : handleClose())}
@@ -444,7 +465,7 @@ export default function ChatWidget({
             ? "פתיחת מרכז מידע מהיר ושאלות נפוצות"
             : "סגירת מרכז מידע"
         }
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--service-accent,#d42b2b)] text-white shadow-[0_0_24px_color-mix(in_srgb,var(--service-accent,#d42b2b)_25%,transparent)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-luxury)] hover:scale-105 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-red text-white shadow-[0_0_24px_rgb(212_43_43_/_0.25)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-luxury)] hover:scale-105 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
         <ChatBubbleIcon />
       </button>
@@ -488,7 +509,7 @@ export default function ChatWidget({
           <button
             onClick={handleClose}
             aria-label="סגירת חלונית המידע וחזרה לעמוד הראשי"
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:border-muted-foreground/40 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:border-muted-foreground/40 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]"
           >
             <CloseIcon />
           </button>
@@ -512,10 +533,8 @@ export default function ChatWidget({
                   aria-selected={activeTab === "faq"}
                   onClick={() => setActiveTab("faq")}
                   className={cn(
-                    "flex-1 py-2 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",
-                    activeTab === "faq"
-                      ? "bg-[var(--service-accent,#d42b2b)] text-white"
-                      : "text-muted-foreground hover:bg-muted",
+                    "flex-1 py-2 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]",
+                    activeTab === "faq" ? TAB_SELECTED : TAB_IDLE,
                   )}
                 >
                   שאלות נפוצות
@@ -525,10 +544,8 @@ export default function ChatWidget({
                   aria-selected={activeTab === "guided"}
                   onClick={handleSwitchToGuided}
                   className={cn(
-                    "flex-1 py-2 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",
-                    activeTab === "guided"
-                      ? "bg-[var(--service-accent,#d42b2b)] text-white"
-                      : "text-muted-foreground hover:bg-muted",
+                    "flex-1 py-2 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]",
+                    activeTab === "guided" ? TAB_SELECTED : TAB_IDLE,
                   )}
                 >
                   עזרו לי לבחור ←
@@ -625,7 +642,7 @@ export default function ChatWidget({
                   onClick={() => handleShare(activeQuestion)}
                   title="שליחת תשובה זו"
                   aria-label="שיתוף קישור לתשובה זו"
-                  className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                  className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]"
                 >
                   <ShareIcon />
                 </button>
@@ -639,7 +656,7 @@ export default function ChatWidget({
                 <Link
                   href={activeQuestion.answer.readMoreHref}
                   onClick={() => handleReadMore(activeQuestion.answer.readMoreHref!)}
-                  className="inline-block text-xs font-semibold text-[var(--service-accent,#d42b2b)] underline underline-offset-4 hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                  className="inline-block text-xs font-semibold text-[var(--service-accent-ink,var(--color-brand-red))] underline underline-offset-4 hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]"
                 >
                   {activeQuestion.answer.readMoreLabel}
                 </Link>
@@ -665,7 +682,7 @@ export default function ChatWidget({
                         activeQuestion.id,
                       )
                     }
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#178741] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0f6e34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178741]"
                   >
                     <span aria-hidden>📲</span>
                     {activeQuestion.answer.whatsappCta ?? "להמשך בוואטסאפ"}
@@ -674,7 +691,7 @@ export default function ChatWidget({
                   {/* Copy inquiry text */}
                   <button
                     onClick={() => handleCopy(activeQuestion)}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-border px-4 py-2 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]"
                   >
                     <CopyIcon />
                     {copied ? "הנוסח הועתק ✓" : "העתקת נוסח הפנייה"}
@@ -699,7 +716,7 @@ export default function ChatWidget({
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+            className="block text-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent-ink,var(--color-brand-red))]"
           >
             מחפשים מענה ישיר ומותאם אישית? יקיר יענה לכם בוואטסאפ, {TIME_CLAIMS.waResponseMinutes}
           </a>

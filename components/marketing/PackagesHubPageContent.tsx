@@ -128,11 +128,18 @@ export default function PackagesHubPageContent() {
         <Container className="max-w-3xl text-center">
           <p className="text-sm text-muted-foreground">
             מחפשים מסלול לפי קהל?{" "}
-            <Link href="/for-couples" className="text-brand-red hover:underline">
+            {/* underline קבוע על קישורים בתוך הפסקה (F-03, WCAG 1.4.1, 7.10.2026) */}
+            <Link
+              href="/for-couples"
+              className="text-brand-red underline underline-offset-2"
+            >
               לזוגות וחתונות
             </Link>
             {" · "}
-            <Link href="/for-creators" className="text-brand-red hover:underline">
+            <Link
+              href="/for-creators"
+              className="text-brand-red underline underline-offset-2"
+            >
               ליוצרים
             </Link>
           </p>

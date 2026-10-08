@@ -55,7 +55,7 @@ export default function SmokeBubbleMachinePageContent() {
           </span>
         </p>
 
-        <section className="max-w-3xl" aria-labelledby="smoke-bubble-intro">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             הכירו את האטרקציה שתכבוש את האורחים, מכונת בועות עשן. בועות סבון
             מבריקות עם ענן עשן עדין בתוכן, לחתונות, בר/בת מצווה, אירועי חברה

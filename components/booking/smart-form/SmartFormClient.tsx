@@ -617,7 +617,7 @@ export default function SmartFormClient() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         autoComplete="name"
-                        className="mt-1 min-h-[48px] w-full rounded-lg border border-border bg-white px-3 text-foreground touch-manipulation"
+                        className="mt-1 min-h-[48px] w-full rounded-lg border border-input bg-white px-3 text-foreground touch-manipulation"
                         disabled={loading}
                       />
                     </label>
@@ -638,7 +638,7 @@ export default function SmartFormClient() {
                         className={`mt-1 min-h-[48px] w-full rounded-lg border bg-white px-3 text-foreground touch-manipulation ${
                           contactHighlight
                             ? "border-red-400 ring-1 ring-red-300"
-                            : "border-border"
+                            : "border-input"
                         }`}
                         disabled={loading}
                       />
@@ -651,7 +651,7 @@ export default function SmartFormClient() {
                         value={socialOrId}
                         onChange={(e) => setSocialOrId(e.target.value)}
                         placeholder="@username או קישור"
-                        className="mt-1 min-h-[48px] w-full rounded-lg border border-border bg-white px-3 text-foreground touch-manipulation"
+                        className="mt-1 min-h-[48px] w-full rounded-lg border border-input bg-white px-3 text-foreground touch-manipulation"
                         disabled={loading}
                       />
                     </label>

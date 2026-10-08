@@ -24,7 +24,15 @@ export const GALLERY_CATEGORY_LABELS: Record<GalleryCategory, string> = {
   academy: "אקדמיה",
 };
 
-/** תמונות שמופיעות גם בבלוג ובדפי שירות - נתיבים קיימים בפרודקשן */
+/**
+ * תמונות שמופיעות גם בבלוג ובדפי שירות - נתיבים קיימים בפרודקשן.
+ *
+ * F-52 (7.10.2026): קישור שכל תוכנו תמונה נקרא בתיאור של התמונה ולא ביעד שלו, ושלושה
+ * יעדים (/studio/recording-studio, /events/dj-events, /studio/recording-song-modiin)
+ * נקשרו פעמיים בשמות שונים. לכל פריט יש עכשיו כיתוב שמציין את היעד, ושני
+ * הקישורים לאותו יעד נבדלים בכיתוב. נוסף טקסט בלבד: ה-alt לא הוסר מאף תמונה,
+ * כדי ש-imagesWithAlt לא ירד.
+ */
 export const GALLERY_ITEMS: readonly GalleryItem[] = [
   {
     id: "studio-hub",
@@ -48,6 +56,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "מתחם יקיר כהן הפקות",
     category: "studio",
     href: "/studio/recording-studio",
+    caption: "אולפן הקלטות במודיעין",
   },
   {
     id: "blessing",
@@ -71,6 +80,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "עמדת DJ באירוע חי",
     category: "events",
     href: "/events/dj-events",
+    caption: "תקליטן לאירועים",
   },
   {
     id: "corporate-event",
@@ -94,6 +104,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "שירים לאירועים",
     category: "events",
     href: "/studio/recording-song-modiin",
+    caption: "הקלטת שיר לאירוע",
   },
   {
     id: "smoke",
@@ -109,6 +120,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "זיקוקים קרים לחופה",
     category: "events",
     href: "/events/attractions/cold-fireworks",
+    caption: "זיקוקים קרים לאירועים",
   },
   {
     id: "podcast-room",
@@ -121,9 +133,12 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   {
     id: "podcast-mic",
     src: "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
-    alt: "מיקרופון Shure באולפן",
+    /* F-35 (7.10.2026): הקובץ הוא מיקרופון ידני בתקריב על רקע אורות, לא מיקרופון באולפן.
+       השם שמוביל ליעד (אולפן הפודקאסט במודיעין) עבר לכיתוב. */
+    alt: "מיקרופון ידני מקרוב על רקע מטושטש של אורות במה",
     category: "podcast",
     href: "/podcast/podcast-studio-modiin",
+    caption: "אולפן פודקאסט במודיעין",
   },
   {
     id: "voiceover-mic",
@@ -139,6 +154,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "הקלטת קריינות באולפן",
     category: "voiceover",
     href: "/voiceover/services",
+    caption: "שירותי קריינות",
   },
   {
     id: "academy-studio",
@@ -162,5 +178,6 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: "הקלטה באולפן",
     category: "academy",
     href: "/studio/recording-studio",
+    caption: "אולפן הקלטות מקצועי",
   },
 ] as const;

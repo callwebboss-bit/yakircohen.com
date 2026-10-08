@@ -7,6 +7,8 @@ import {
 } from "@/lib/data/studio-recording-booking";
 import { bookFieldClass } from "@/lib/book-form-ui";
 import BookingFieldFeedback from "@/components/booking/BookingFieldFeedback";
+import FieldError from "@/components/forms/FieldError";
+import { fieldErrorId } from "@/lib/field-error";
 import { cn } from "@/lib/utils";
 
 type BookingSchedulePickerProps = {
@@ -43,19 +45,21 @@ export default function BookingSchedulePicker({
   const groupId = useId();
   const dateId = useId();
   const timeId = useId();
-  const scheduleErrorId = `${groupId}-schedule-error`;
-  const dateErrorId = `${dateId}-error`;
-  const timeErrorId = `${timeId}-error`;
+  const scheduleErrorId = fieldErrorId(`${groupId}-schedule`);
+  const dateErrorId = fieldErrorId(dateId);
+  const timeErrorId = fieldErrorId(timeId);
 
   return (
     <div className="space-y-4">
       <div>
         <p id={groupId} className="mb-2 text-xs font-semibold text-foreground">
-          מועד מועדף *
+          מועד מועדף <span aria-hidden="true">*</span>
         </p>
         <div
           role="radiogroup"
           aria-labelledby={groupId}
+          aria-required="true"
+          aria-invalid={!!errors.scheduleWindow}
           aria-describedby={errors.scheduleWindow ? scheduleErrorId : undefined}
           className="grid grid-cols-1 gap-2 sm:grid-cols-2"
         >
@@ -82,9 +86,7 @@ export default function BookingSchedulePicker({
           })}
         </div>
         {errors.scheduleWindow ? (
-          <p id={scheduleErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
-            {errors.scheduleWindow}
-          </p>
+          <FieldError id={scheduleErrorId} message={errors.scheduleWindow} />
         ) : (
           <BookingFieldFeedback
             valid={Boolean(scheduleWindow)}
@@ -103,7 +105,8 @@ export default function BookingSchedulePicker({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label htmlFor={dateId} className="mb-1.5 block text-xs font-semibold">
-              תאריך{dateOptional ? " (אופציונלי)" : " *"}
+              תאריך
+              {dateOptional ? " (אופציונלי)" : <span aria-hidden="true"> *</span>}
             </label>
             <input
               id={dateId}
@@ -112,18 +115,16 @@ export default function BookingSchedulePicker({
               value={date}
               onChange={(e) => onDateChange(e.target.value)}
               aria-invalid={!!errors.date}
+              aria-required={dateOptional ? undefined : "true"}
               aria-describedby={errors.date ? dateErrorId : undefined}
               className={cn(bookFieldClass, errors.date && "border-red-400")}
             />
-            {errors.date ? (
-              <p id={dateErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
-                {errors.date}
-              </p>
-            ) : null}
+            <FieldError id={dateErrorId} message={errors.date} />
           </div>
           <div>
             <label htmlFor={timeId} className="mb-1.5 block text-xs font-semibold">
-              שעה{dateOptional ? " (אופציונלי)" : " *"}
+              שעה
+              {dateOptional ? " (אופציונלי)" : <span aria-hidden="true"> *</span>}
             </label>
             <input
               id={timeId}
@@ -132,14 +133,11 @@ export default function BookingSchedulePicker({
               value={time}
               onChange={(e) => onTimeChange(e.target.value)}
               aria-invalid={!!errors.time}
+              aria-required={dateOptional ? undefined : "true"}
               aria-describedby={errors.time ? timeErrorId : undefined}
               className={cn(bookFieldClass, errors.time && "border-red-400")}
             />
-            {errors.time ? (
-              <p id={timeErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
-                {errors.time}
-              </p>
-            ) : null}
+            <FieldError id={timeErrorId} message={errors.time} />
           </div>
         </div>
       ) : null}

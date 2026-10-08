@@ -27,7 +27,9 @@ export default function VoiceSearchMicButton({
       aria-pressed={isListening}
       className={cn(
         "flex items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-brand-red",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/30",
+        /* F-42 (7.10.2026): ring-brand-red/30 נמדד 1.6:1 על הרקע, מתחת ל-3:1 של 1.4.11.
+           צבע מלא (4.81:1) בכל 332 העמודים שבהם יש שדה חיפוש. */
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red",
         dim,
         isListening &&
           "border border-brand-red/30 bg-brand-red/5 text-brand-red motion-safe:animate-pulse",

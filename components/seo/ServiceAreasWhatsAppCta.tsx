@@ -32,7 +32,7 @@ export default function ServiceAreasWhatsAppCta() {
         value={city}
         onChange={(event) => setCity(event.target.value)}
         placeholder="לדוגמה: ירושלים"
-        className="mt-4 min-h-12 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-brand-red"
+        className="mt-4 min-h-12 w-full rounded-xl border border-input bg-surface px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-brand-red"
       />
       <div className="mt-5">
         <Button

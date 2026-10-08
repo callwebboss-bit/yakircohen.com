@@ -1334,7 +1334,7 @@ export default function EventsBookingWizard({
                   onChange={(e) => patchForm({ customerNeed: e.target.value })}
                   rows={3}
                   placeholder="שעת ההפעלה המדויקת, אחראי מטעמכם באולם, מגבלות האולם (גובה תקרה, איסור עשן), ספקים נוספים לתיאום..."
-                  className="mt-1 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
+                  className="mt-1 w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-[border-color,box-shadow] placeholder:text-muted-foreground focus:border-brand-red focus:ring-2 focus:ring-brand-red/30"
                 />
               </div>
 

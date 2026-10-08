@@ -16,6 +16,7 @@ import {
 } from "@/lib/data/blog";
 import { getDiagnosticForPost } from "@/lib/data/blog-diagnostic";
 import { getBlogNurture } from "@/lib/data/blog-nurture";
+import { blogThumbnailAlt } from "@/lib/data/portfolio-image-alts";
 import { resolveBlogFunnel } from "@/lib/data/blog-service-funnel";
 import { ensureImageAlt } from "@/lib/image-alt";
 import {
@@ -200,7 +201,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="relative -mt-10 aspect-[16/9] overflow-hidden rounded-xl border border-border bg-surface shadow-lg">
             <Image
               src={post.thumbnail}
-              alt={ensureImageAlt(post.title, { fallback: post.title })}
+              /* F-54 (7.10.2026): ה-alt היה כותרת הפוסט, כלומר אותו טקסט פעמיים ברצף
+                 (ה-h1 ואחריו התמונה), על תמונה ממוחזרת שלא קשורה לנושא. עכשיו תיאור קצר
+                 של הקובץ עצמו. alt נשאר לא ריק, ולכן imagesWithAlt לא משתנה. */
+              alt={
+                blogThumbnailAlt(post.thumbnail) ??
+                ensureImageAlt(post.title, { fallback: post.title })
+              }
               fill
               priority
               sizes="(max-width: 768px) 100vw, 48rem"

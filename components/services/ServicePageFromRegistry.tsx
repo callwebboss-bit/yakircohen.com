@@ -155,7 +155,9 @@ export default function ServicePageFromRegistry({
         ) : null}
 
         {/* AttractionBookPricingSection מרנדר בעצמו section#pricing-section,
-            ולכן אסור לעטוף אותו ב-div עם אותו id (מזהה כפול ב-DOM). */}
+            ולכן אסור לעטוף אותו ב-div עם אותו id (מזהה כפול ב-DOM). אותו דבר
+            ב-ServicePagePricingSection (F-59, 7.10.2026): העוגן נשאר על העטיפה
+            רק כשאין מחירון ולכן אין section. */}
         {useAttractionPricing ? (
           <AttractionBookPricingSection
             itemId={eventItemId}
@@ -163,7 +165,7 @@ export default function ServicePageFromRegistry({
             utmCampaign={service.utmCampaign}
           />
         ) : (
-          <div id="pricing-section">
+          <div id={service.pricing?.length ? undefined : "pricing-section"}>
             <ServicePagePricingSection service={service} />
             {pricingFooter}
           </div>

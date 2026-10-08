@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useTabs } from "@/hooks/useTabs";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
@@ -77,6 +78,12 @@ export default function VocalFixPricingBlock() {
   );
 
   const track = TRACKS.find((t) => t.id === activeTrack)!;
+  /* F-70: חיצים, Home/End וטאב מתגלגל לפי APG (ב-RTL ArrowLeft = הבא) */
+  const { getTabProps } = useTabs({
+    count: TRACKS.length,
+    selectedIndex: TRACKS.findIndex((t) => t.id === activeTrack),
+    onSelect: (index) => setActiveTrack(TRACKS[index].id),
+  });
 
   const ctaHref = buildWhatsAppHref({
     text: track.whatsappText,
@@ -92,11 +99,12 @@ export default function VocalFixPricingBlock() {
         aria-label="בחרו מסלול"
         className="mb-4 flex overflow-hidden rounded-xl border border-border"
       >
-        {TRACKS.map((t) => (
+        {TRACKS.map((t, i) => (
           <button
             key={t.id}
             role="tab"
             aria-selected={t.id === activeTrack}
+            {...getTabProps(i)}
             onClick={() => setActiveTrack(t.id)}
             className={cn(
               "relative flex-1 px-3 py-2.5 text-xs font-semibold transition-colors",
@@ -106,8 +114,10 @@ export default function VocalFixPricingBlock() {
             )}
           >
             {t.label}
+            {/* F-41: bg-white/20 על הלשונית הלא נבחרת (bg-muted/40) נמדד 1.05:1, ועל
+                הנבחרת (אדום) 3.84:1. מילוי אדום כהה אחיד נותן 8.00:1 לטקסט הלבן בשתיהן. */}
             {t.badge && (
-              <span className="absolute right-1.5 top-1.5 rounded-full bg-white/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+              <span className="absolute right-1.5 top-1.5 rounded-full bg-brand-red-dark px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
                 {t.badge}
               </span>
             )}

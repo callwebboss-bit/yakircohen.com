@@ -74,7 +74,7 @@ export default function GlossaryHubContent({
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="EQ, LUFS, צ'ק סאונד, מיתוג קולי"
-                className="min-h-12 rounded-xl border border-border bg-background px-4 text-base outline-none transition-colors focus:border-brand-red"
+                className="min-h-12 rounded-xl border border-input bg-background px-4 text-base outline-none transition-colors focus:border-brand-red"
               />
             </label>
             <div className="rounded-2xl border border-border bg-background p-4 text-sm text-muted-foreground">

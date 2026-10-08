@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -79,7 +80,7 @@ export default function WeddingSmokePageContent() {
             לעמוד עשן כבד לאירועים גדולים </Link>
         </section>
 
-        <section className="max-w-3xl" aria-labelledby="smoke-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             הסוד של צלמים מקצועיים: עשן שצמוד לרצפה, לא עולה לפנים, ומשלים את
             התמונות במקום להרוס אותן. חוויית סלואו על ענן, 100% עשן כבד איכותי
@@ -245,7 +246,7 @@ export default function WeddingSmokePageContent() {
               להתפשר על עשן כבד, או לא?
             </h2>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: עשן נוזלי זול מול עשן כבד" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -270,7 +271,7 @@ export default function WeddingSmokePageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <AttractionBookPricingSection

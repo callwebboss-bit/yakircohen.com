@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import AttractionBookPricingSection from "@/components/booking/AttractionBookPricingSection";
@@ -71,7 +72,7 @@ export default function ColdFireworksPageContent() {
     >
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/attractions/cold-fireworks" className="max-w-3xl" />
-        <section className="max-w-3xl" aria-labelledby="cold-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מחפשים זיקוקים קרים לחתונה או לבר מצווה עם אפקט דרמטי בלי סיכונים?
             Cold Sparklers מייצרים אש קרה, ניצוצות זהובות ללא להבות, ללא עשן,
@@ -195,7 +196,7 @@ export default function ColdFireworksPageContent() {
               זיקוקים קרים מול מסורתיים
             </h2>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: זיקוקים קרים מול מסורתיים" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -220,7 +221,7 @@ export default function ColdFireworksPageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <section aria-labelledby="why-cold-heading">

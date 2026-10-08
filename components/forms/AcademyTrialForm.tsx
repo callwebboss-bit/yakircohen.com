@@ -1,13 +1,16 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { sanitizeLeadText, type ValidationResult } from "@/lib/form-validation";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -57,22 +60,13 @@ const EMPTY_FORM: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 const selectClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 const textareaClass =
-  "w-full resize-none rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
-
-function FieldError({ message }: { message?: string }) {
-  if (!message) return null;
-  return (
-    <p role="alert" data-field-error className="mt-1 text-xs text-red-600">
-      {message}
-    </p>
-  );
-}
+  "w-full resize-none rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 function Label({
   htmlFor,
@@ -97,6 +91,7 @@ function Label({
 }
 
 export default function AcademyTrialForm() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -207,28 +202,26 @@ export default function AcademyTrialForm() {
     });
 
     setErrors(fieldErrs ?? {});
+    /* פוקוס לשדה השגוי הראשון (והגלילה אליו כמו קודם), והשגיאה מוקראת דרך
+       aria-describedby. לכן אין role="alert" בהודעות (F-11, 7.10.2026) */
     if (fieldErrs && Object.keys(fieldErrs).length > 0) {
-      setTimeout(() => {
-        document
-          .querySelector("[data-field-error]")
-          ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 50);
+      scrollAndHighlightFirstError(rootRef.current);
     }
   };
 
   if (isSuccess) {
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
+      <FocusedStatus className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
         <h3 className="text-lg font-semibold text-foreground">תודה על הפנייה</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
           {`נצור איתך קשר בהקדם כדי לאשר את המועד ולשלוח פרטי תשלום לשיעור הניסיון ב-500 ש"ח.`}
         </p>
-      </div>
+      </FocusedStatus>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div ref={rootRef} className="space-y-6">
       <LeadFormAlert message={globalError} />
       {leadSubmit.status === "failed" ? (
         <LeadSubmitFallback
@@ -252,9 +245,12 @@ export default function AcademyTrialForm() {
             value={form.name}
             onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
             placeholder={FORM_MICROCOPY.namePlaceholder}
+            aria-required="true"
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={describedBy(errors.name && fieldErrorId("trial-name"))}
             className={cn(inputClass, errors.name && "border-red-400")}
           />
-          <FieldError message={errors.name} />
+          <FieldError id={fieldErrorId("trial-name")} message={errors.name} />
         </div>
 
         <div>
@@ -269,15 +265,18 @@ export default function AcademyTrialForm() {
             value={form.phone}
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
             placeholder={FORM_MICROCOPY.phonePlaceholder}
-            aria-describedby="trial-phone-hint"
+            aria-required="true"
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={describedBy(
+              "trial-phone-hint",
+              errors.phone && fieldErrorId("trial-phone"),
+            )}
             className={cn(inputClass, errors.phone && "border-red-400")}
           />
-          <FieldError message={errors.phone} />
-          {!errors.phone ? (
-            <p id="trial-phone-hint" className="mt-1 text-xs text-muted-foreground">
-              {FORM_MICROCOPY.phoneHint}
-            </p>
-          ) : null}
+          <p id="trial-phone-hint" className="mt-1 text-xs text-muted-foreground">
+            {FORM_MICROCOPY.phoneHint}
+          </p>
+          <FieldError id={fieldErrorId("trial-phone")} message={errors.phone} />
         </div>
 
         <div>
@@ -292,9 +291,12 @@ export default function AcademyTrialForm() {
             value={form.email}
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
             placeholder="your@email.com"
+            aria-required="true"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={describedBy(errors.email && fieldErrorId("trial-email"))}
             className={cn(inputClass, errors.email && "border-red-400")}
           />
-          <FieldError message={errors.email} />
+          <FieldError id={fieldErrorId("trial-email")} message={errors.email} />
         </div>
 
         <div>
@@ -305,6 +307,9 @@ export default function AcademyTrialForm() {
             id="trial-level"
             value={form.hebrewLevel}
             onChange={(e) => setForm((p) => ({ ...p, hebrewLevel: e.target.value }))}
+            aria-required="true"
+            aria-invalid={Boolean(errors.hebrewLevel)}
+            aria-describedby={describedBy(errors.hebrewLevel && fieldErrorId("trial-level"))}
             className={cn(selectClass, errors.hebrewLevel && "border-red-400")}
           >
             <option value="">בחרו רמה...</option>
@@ -314,7 +319,7 @@ export default function AcademyTrialForm() {
               </option>
             ))}
           </select>
-          <FieldError message={errors.hebrewLevel} />
+          <FieldError id={fieldErrorId("trial-level")} message={errors.hebrewLevel} />
         </div>
 
         <div>
@@ -327,9 +332,12 @@ export default function AcademyTrialForm() {
             min={today}
             value={form.preferredDate}
             onChange={(e) => setForm((p) => ({ ...p, preferredDate: e.target.value }))}
+            aria-required="true"
+            aria-invalid={Boolean(errors.preferredDate)}
+            aria-describedby={describedBy(errors.preferredDate && fieldErrorId("trial-date"))}
             className={cn(inputClass, errors.preferredDate && "border-red-400")}
           />
-          <FieldError message={errors.preferredDate} />
+          <FieldError id={fieldErrorId("trial-date")} message={errors.preferredDate} />
         </div>
 
         <div>
@@ -340,6 +348,9 @@ export default function AcademyTrialForm() {
             id="trial-time"
             value={form.preferredTime}
             onChange={(e) => setForm((p) => ({ ...p, preferredTime: e.target.value }))}
+            aria-required="true"
+            aria-invalid={Boolean(errors.preferredTime)}
+            aria-describedby={describedBy(errors.preferredTime && fieldErrorId("trial-time"))}
             className={cn(selectClass, errors.preferredTime && "border-red-400")}
           >
             <option value="">בוקר, צהריים, ערב</option>
@@ -349,7 +360,7 @@ export default function AcademyTrialForm() {
               </option>
             ))}
           </select>
-          <FieldError message={errors.preferredTime} />
+          <FieldError id={fieldErrorId("trial-time")} message={errors.preferredTime} />
         </div>
       </div>
 
@@ -361,6 +372,9 @@ export default function AcademyTrialForm() {
           id="trial-location"
           value={form.location}
           onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))}
+          aria-required="true"
+          aria-invalid={Boolean(errors.location)}
+          aria-describedby={describedBy(errors.location && fieldErrorId("trial-location"))}
           className={cn(selectClass, errors.location && "border-red-400")}
         >
           <option value="">בחרו מיקום...</option>
@@ -370,7 +384,7 @@ export default function AcademyTrialForm() {
             </option>
           ))}
         </select>
-        <FieldError message={errors.location} />
+        <FieldError id={fieldErrorId("trial-location")} message={errors.location} />
       </div>
 
       {/* Optional fields */}

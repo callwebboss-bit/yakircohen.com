@@ -134,7 +134,10 @@ export default function BookingPackageMediaStrip({
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
-              <span className="absolute inset-0 flex items-center justify-center bg-black/25 text-white">
+              <span
+                className="absolute inset-0 flex items-center justify-center bg-black/25 text-white"
+                aria-hidden="true"
+              >
                 ▶
               </span>
             </span>

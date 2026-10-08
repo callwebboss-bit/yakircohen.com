@@ -36,6 +36,8 @@ export type ServiceCardProps = {
   showTrustMicro?: boolean;
   /** קישור חיצוני (וואטסאפ) - משתמש ב-<a> במקום Link פנימי */
   external?: boolean;
+  /** שפת הכותרת והתיאור הקצר כשהם לא בעברית (WCAG 3.1.2, F-56). מסמן lang ו-dir=ltr. */
+  lang?: "en";
   className?: string;
 };
 
@@ -91,6 +93,7 @@ export default function ServiceCard({
   bullets,
   showTrustMicro,
   external = false,
+  lang,
   className,
 }: ServiceCardProps) {
   const badgeLabel = badge ?? (isAiService ? AI_BADGE_DEFAULT : undefined);
@@ -137,6 +140,8 @@ export default function ServiceCard({
         </div>
 
         <h3
+          lang={lang}
+          dir={lang ? "ltr" : undefined}
           className={cn(
             "text-xl font-bold text-foreground transition-colors duration-200",
             "group-hover:text-brand-red",
@@ -152,7 +157,11 @@ export default function ServiceCard({
             className="mt-2"
           />
         ) : (
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p
+            lang={lang}
+            dir={lang ? "ltr" : undefined}
+            className="mt-2 text-sm leading-relaxed text-muted-foreground"
+          >
             {description}
           </p>
         )}

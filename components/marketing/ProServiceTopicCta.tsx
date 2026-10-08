@@ -67,7 +67,7 @@ export default function ProServiceTopicCta({ service, config }: ProServiceTopicC
             <input
               id={`topic-${service.id}`}
               type="text"
-              className="min-h-11 w-full flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              className="min-h-11 w-full flex-1 rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               placeholder={config.placeholder}
               value={topic}
               onChange={(e) => setTopic(e.target.value)}

@@ -15,7 +15,7 @@ export type LegalSection = {
 export type LegalPageLayoutProps = {
   title: string;
   intro: string;
-  updatedLabel: string;
+  updatedLabel: ReactNode;
   sections: LegalSection[];
   currentHref?: LegalPageHref;
 };
@@ -86,7 +86,10 @@ export default function LegalPageLayout({
                 >
                   {section.title}
                 </h2>
-                <div className="prose-legal mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-foreground [&_li]:mt-1 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:leading-relaxed [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pe-6">
+                {/* [&_a]:underline: קישור אדום בתוך טקסט אפור הוא 1.33:1, לכן קו תחתון
+                    קבוע הוא הסימן היחיד שאינו צבע (F-03, WCAG 1.4.1, 7.10.2026).
+                    כאן ולא בקבצי התוכן: מכסה את כל ארבעת העמודים בשינוי אחד. */}
+                <div className="prose-legal mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground [&_a]:underline [&_a]:underline-offset-2 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-foreground [&_li]:mt-1 [&_ol]:list-decimal [&_ol]:pe-6 [&_p]:leading-relaxed [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pe-6">
                   {section.content}
                 </div>
               </section>

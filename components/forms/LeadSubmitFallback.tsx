@@ -35,7 +35,7 @@ export default function LeadSubmitFallback({
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center rounded-lg bg-[#25D366] px-4 text-sm font-semibold text-white"
+            className="inline-flex min-h-11 items-center rounded-lg bg-[#178741] px-4 text-sm font-semibold text-white hover:bg-[#0f6e34]"
           >
             {LEAD_SUBMIT_FALLBACK.whatsapp}
           </a>

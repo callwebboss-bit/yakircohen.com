@@ -9,9 +9,11 @@ import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
 import PriceWithVat from "@/components/booking/PriceWithVat";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import PhoneInputField from "@/components/forms/PhoneInputField";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
@@ -42,7 +44,7 @@ const CLIPS_SERVICES = Object.entries(SERVICES)
   .map(([id, s]) => ({ id, ...s }));
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type ClipsPanelDraft = {
   step: number;
@@ -289,11 +291,11 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       <div>
         <h2 className="mb-1 text-xl font-semibold text-foreground">בחרו שירותים</h2>
         <p className="mb-4 text-sm text-muted-foreground">ניתן לבחור כמה שירותים</p>
-        {errors.services && (
-          <p className="mb-3 text-xs text-red-500" data-field-error>
-            {errors.services}
-          </p>
-        )}
+        <FieldError
+          id={fieldErrorId("clips-services")}
+          message={errors.services}
+          className="mb-3 mt-0"
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           {CLIPS_SERVICES.map(({ id, icon, name: sName, desc, price }) => {
             const active = selected.has(id);
@@ -343,7 +345,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="clips-name" className="mb-1.5 block text-xs font-semibold">
-            {FORM_MICROCOPY.nameLabel} *
+            {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
           </label>
           <input
             id="clips-name"
@@ -352,14 +354,18 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
             onChange={(e) => setName(e.target.value)}
             placeholder={FORM_MICROCOPY.namePlaceholder}
             className={cn(inputClass, errors.name && "border-red-400")}
+            aria-invalid={!!errors.name}
+            aria-required="true"
+            aria-describedby={describedBy(errors.name && fieldErrorId("clips-name"))}
           />
-          {errors.name && <p className="mt-1 text-xs text-red-500" data-field-error>{errors.name}</p>}
+          <FieldError id={fieldErrorId("clips-name")} message={errors.name} />
         </div>
         <PhoneInputField
           id="clips-phone"
           value={phone}
           onChange={setPhone}
           error={errors.phone}
+          required
         />
       </div>
 

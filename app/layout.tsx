@@ -18,6 +18,7 @@ import GiftFinderPopupLazy from "@/components/marketing/GiftFinderPopupLazy";
 import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
+import { A11Y_PREFS_BOOT_SCRIPT } from "@/lib/a11y-prefs-boot";
 import {
   DEFAULT_OPEN_GRAPH,
   DEFAULT_TWITTER,
@@ -117,11 +118,20 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
+      /* F-68: הסקריפט בראש ה-body מוסיף ל-<html> את מחלקות ה-a11y-* לפני ההידרציה,
+         ולכן ה-className בדפדפן שונה מזה של השרת. ההתעלמות חלה על האלמנט הזה בלבד. */
+      suppressHydrationWarning
     >
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
         {/* בגוף ולא ב-<head>: Cypress מוסיף בראש ה-head רווח וסקריפט, ו-React מצמיד
             את הילד היחיד של ה-head לצומת הראשון שם. צומת טקסט לא מתאים לתג script,
             וההידרציה של כל העמוד נכשלת (שגיאה 418). */}
+        {/* F-68 (8.10.2026): החלת העדפות הנגישות השמורות לפני הציור הראשון. בגוף
+            ולא ב-head, מאותה סיבה של SpeculationRules: ילד יחיד ב-head נצמד לצומת
+            הראשון שם, ו-Cypress מוסיף שם רווח וסקריפט. הסקריפט יושב ראשון בגוף,
+            לפני כל תוכן, ולכן מחלקות ה-a11y-* על <html> קיימות לפני הציור.
+            מקור והסבר ב-lib/a11y-prefs-boot.ts. */}
+        <script dangerouslySetInnerHTML={{ __html: A11Y_PREFS_BOOT_SCRIPT }} />
         <SpeculationRules />
         <GoogleAnalytics />
         <Analytics />
@@ -139,9 +149,15 @@ export default function RootLayout({
         <Header />
         <Breadcrumbs />
         <GlossaryTooltipProvider>
+          {/* F-69: tabIndex=-1 כדי שה-skip link ו"חזרה למעלה" יעבירו לכאן גם את
+              המיקוד ולא רק את הגלילה (ב-Chromium המיקוד נשאר על ה-body). בלי
+              focus:outline-none הטבעת הגלובלית הייתה מקיפה את כל התוכן.
+              F-28: scroll-mt-[4.25rem] נמחק. scroll-padding-top שעל html ב-globals.css
+              הוא שמחזיק את כל הפער, ושניהם יחד היו מצטברים. */}
           <main
             id="main-content"
-            className="min-w-0 flex-1 overflow-x-clip scroll-mt-[4.25rem] max-md:pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))]"
+            tabIndex={-1}
+            className="min-w-0 flex-1 overflow-x-clip focus:outline-none max-md:pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))]"
           >
             {children}
           </main>

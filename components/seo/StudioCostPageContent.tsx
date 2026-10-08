@@ -168,6 +168,9 @@ export default function StudioCostPageContent() {
                                       className="underline decoration-dotted underline-offset-2 hover:text-brand-red"
                                     >
                                       {line.label}
+                                      {/* F-63 (7.10.2026): קישור לקובץ PDF חיצוני מכריז על סוג הקובץ ועל לשונית חדשה */}
+                                      {line.sourceUrl.toLowerCase().endsWith(".pdf") ? " (PDF)" : null}
+                                      <span className="sr-only"> (נפתח בלשונית חדשה)</span>
                                     </a>
                                   ) : (
                                     line.label

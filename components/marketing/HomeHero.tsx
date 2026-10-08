@@ -58,7 +58,7 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
 
       <Container className="relative grid gap-10 pt-16 pb-10 sm:pt-20 sm:pb-12 lg:grid-cols-2 lg:items-center lg:gap-16 lg:pt-24 lg:pb-14">
         <div className="relative z-10">
-          <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-red uppercase">
+          <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-red-text uppercase">
             {SITE_NAME}
           </p>
           {/* IMPROVED: fluid hero typography */}

@@ -171,7 +171,7 @@ export default function EventIndexAttractionsCatalog({ index, hasFullAccess }: P
                     onChange={(e) =>
                       setPrice(item.id, parsePriceInput(e.target.value))
                     }
-                    className="w-full max-w-[12rem] min-h-11 rounded-xl border border-border bg-surface px-4 text-base tabular-nums sm:text-sm"
+                    className="w-full max-w-[12rem] min-h-11 rounded-xl border border-input bg-surface px-4 text-base tabular-nums sm:text-sm"
                   />
                 </div>
                 <div className="sm:text-end">

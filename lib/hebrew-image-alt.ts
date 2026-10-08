@@ -104,11 +104,34 @@ const HEBREW_DICT: Readonly<Record<string, string>> = {
   raanana: "רעננה",
 };
 
+/** תווית הגיבוי כשאין לתמונה תיאור שמיש: "תמונה מתיק העבודות - תמונה 3". */
+export const IMAGE_ALT_FALLBACK_LABEL = "תמונה מתיק העבודות";
+
+const HEBREW_LETTER = /[א-ת]/;
+
 /**
- * Builds descriptive Hebrew alt from asset paths like
- * `/images/services/podcast/guest-interview-studio-02.webp`.
+ * אסימון שהוא שריד של שם קובץ ולא מילה: scaled של וורדפרס, copy, BURST של טלפון,
+ * קידומות מצלמה (IMG, DSC, LEOM, LMR, LMS, WA) עם ספרות, חמש ספרות ומעלה, מספר
+ * העתק "(1)" ומידות כמו 1024x576.
  */
-export function deriveHebrewAlt(srcOrFilename: string, ordinal = 0): string {
+const FILE_ARTIFACT_TOKEN =
+  /^(?:scaled|copy|burst\d*|(?:img|dsc|dscn|pxl|leom|lmr|lms|wa)\d*)$|\d{5,}|\(\d+\)|\d{3,}x\d{3,}/i;
+
+/**
+ * F-20 (ביקורת נגישות 7.10.2026): האם המחרוזת שנגזרה משם קובץ היא alt שמיש.
+ * בלי אות עברית אחת, או עם שריד של שם קובץ, היא נקראת בקול ככלום
+ * ("leom9008", "00000img burst20200701191123548 cover scaled").
+ */
+export function isUsableDerivedAlt(alt: string): boolean {
+  if (!HEBREW_LETTER.test(alt)) return false;
+  return !alt.split(/\s+/).some((token) => FILE_ARTIFACT_TOKEN.test(token));
+}
+
+/**
+ * ה-alt שנגזר משם הקובץ, או null כשאין ממנו תיאור שמיש. מילים לא מתורגמות לא
+ * מצטרפות לתוצאה: הצירוף הזה מכניס אנגלית לתוך alt עברי ("sparklers on ריקוד floor").
+ */
+export function deriveHebrewAltOrNull(srcOrFilename: string): string | null {
   const filename =
     srcOrFilename.split("/").pop()?.replace(/\.[^.]+$/, "") ?? srcOrFilename;
 
@@ -121,8 +144,20 @@ export function deriveHebrewAlt(srcOrFilename: string, ordinal = 0): string {
     .map((seg) => HEBREW_DICT[seg] ?? null)
     .filter((t): t is string => t !== null);
 
-  if (translated.length > 0) return translated.join(", ");
+  const candidate =
+    translated.length > 0 ? translated.join(", ") : segments.join(" ").trim();
 
-  const readable = segments.join(" ").trim();
-  return readable || `תמונה ${ordinal + 1} מהגלריה`;
+  return candidate && isUsableDerivedAlt(candidate) ? candidate : null;
+}
+
+/**
+ * Builds descriptive Hebrew alt from asset paths like
+ * `/images/services/podcast/guest-interview-studio-02.webp`.
+ * שם קובץ שאין ממנו תיאור שמיש מקבל "תמונה מתיק העבודות - תמונה N".
+ */
+export function deriveHebrewAlt(srcOrFilename: string, ordinal = 0): string {
+  return (
+    deriveHebrewAltOrNull(srcOrFilename) ??
+    `${IMAGE_ALT_FALLBACK_LABEL} - תמונה ${ordinal + 1}`
+  );
 }

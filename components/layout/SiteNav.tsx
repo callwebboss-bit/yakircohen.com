@@ -48,7 +48,14 @@ const DesktopDropdown = memo(function DesktopDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // F-04 (7.10.2026): טקסט ניווט פעיל והובר, וסרגל התחתון, בצבע --service-accent-ink
+  // ולא בגוון הגולמי: כתום 3.04, ציאן 2.32, ירוק 3.60 על #fafaf8, מתחת ל-4.5.
+  // ה-fallback הוא האדום של המותג, כך שבית, מחירון ויצירת קשר לא משתנים.
+  // F-15 (7.10.2026): תבנית disclosure ולא menu. הפאנל נטען רק כשהוא פתוח,
+  // ולכן aria-controls מוצג רק אז ולא מצביע על id שאינו קיים.
+  const panelId = useId();
 
   // Coarse-pointer devices (tablets, phones) use click only - no hover logic
   const isHoverDevice = () =>
@@ -73,17 +80,40 @@ const DesktopDropdown = memo(function DesktopDropdown({
 
   useEffect(() => {
     if (!open) return;
+    const closeNow = () => {
+      setOpen(false);
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+    };
     const onPointerDown = (e: PointerEvent) => {
-      if (!wrapRef.current?.contains(e.target as Node)) {
-        setOpen(false);
-        if (closeTimeoutRef.current) {
-          clearTimeout(closeTimeoutRef.current);
-          closeTimeoutRef.current = null;
-        }
+      if (!wrapRef.current?.contains(e.target as Node)) closeNow();
+    };
+    // F-24 (7.10.2026): Escape סוגר גם תפריט שנפתח ב-hover. הפוקוס חוזר
+    // לכפתור רק אם הוא היה בתוך ה-wrapper, כדי לא לגזול אותו ממקום אחר.
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      const focusWasInside = wrapRef.current?.contains(document.activeElement);
+      closeNow();
+      if (focusWasInside) triggerRef.current?.focus();
+    };
+    // F-24: Tab החוצה סוגר את התפריט. focusin על ה-document ולא focusout על
+    // ה-wrapper: ב-Safari ו-Firefox במק לחיצה על קישור לא ממקדת אותו, ו-focusout
+    // עם relatedTarget=null היה מוחק את התפריט באמצע הלחיצה ובולע אותה.
+    const onFocusIn = (e: FocusEvent) => {
+      if (e.target instanceof Node && !wrapRef.current?.contains(e.target)) {
+        closeNow();
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("focusin", onFocusIn);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("focusin", onFocusIn);
+    };
   }, [open]);
 
   return (
@@ -94,15 +124,16 @@ const DesktopDropdown = memo(function DesktopDropdown({
       onMouseLeave={handleMouseLeave}
     >
       <button
+        ref={triggerRef}
         type="button"
         className={cn(
           "group relative inline-flex min-h-11 items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95",
           isActive
-            ? "text-[var(--service-accent,#d42b2b)]"
-            : "text-foreground/90 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
+            ? "text-[var(--service-accent-ink,var(--color-brand-red))]"
+            : "text-foreground/90 hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
         )}
         aria-expanded={open}
-        aria-haspopup="true"
+        aria-controls={open ? panelId : undefined}
         onClick={() => {
           clearTimeout(closeTimeoutRef.current!);
           setOpen((v) => !v);
@@ -112,7 +143,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
         <ChevronIcon open={open} />
         <span
           className={cn(
-            "pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
+            "pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent-ink,var(--color-brand-red))] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
             (isActive || open) && "scale-x-100",
           )}
           aria-hidden
@@ -120,8 +151,8 @@ const DesktopDropdown = memo(function DesktopDropdown({
       </button>
       {open ? (
         <div
+          id={panelId}
           className="absolute start-0 top-full z-[60] mt-1.5 min-w-[20rem] max-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-border bg-background p-2 shadow-xl"
-          role="menu"
         >
           {category.featured && category.featured.length > 0 ? (
             <>
@@ -130,9 +161,8 @@ const DesktopDropdown = memo(function DesktopDropdown({
                   <Link
                     key={item.href}
                     href={item.href}
-                    role="menuitem"
                     onClick={() => setOpen(false)}
-                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
+                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
                   >
                     {item.label}
                   </Link>
@@ -143,8 +173,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
           ) : null}
           <Link
             href={category.href}
-            role="menuitem"
-            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-[var(--service-accent,#d42b2b)] transition-all duration-fast ease-luxury hover:bg-surface active:scale-[0.98]"
+            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-[var(--service-accent-ink,var(--color-brand-red))] transition-all duration-fast ease-luxury hover:bg-surface active:scale-[0.98]"
             onClick={() => setOpen(false)}
           >
             {category.label} - סקירה
@@ -156,8 +185,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
                 <li key={child.href}>
                   <Link
                     href={child.href}
-                    role="menuitem"
-                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
+                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.98]"
                     onClick={() => setOpen(false)}
                   >
                     <span className="font-medium">{child.label}</span>
@@ -194,7 +222,7 @@ function MobileAccordion({
         type="button"
         className={cn(
           "flex min-h-[3.75rem] w-full items-center gap-3 py-3.5 text-start transition-all duration-fast ease-luxury active:scale-[0.98]",
-          isActive ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
+          isActive ? "text-[var(--service-accent-ink,var(--color-brand-red))]" : "text-foreground",
         )}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -275,6 +303,7 @@ export function SiteNavMenuButton({
 function DesktopSearchButton() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -282,7 +311,12 @@ function DesktopSearchButton() {
       if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
     };
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape") return;
+      // F-25 (7.10.2026): הפופאובר נמחק מה-DOM עם הפוקוס בתוכו, והפוקוס נופל
+      // ל-body. חוזרים לכפתור רק אם הפוקוס היה בתוך ה-wrapper.
+      const focusWasInside = wrapRef.current?.contains(document.activeElement);
+      setOpen(false);
+      if (focusWasInside) triggerRef.current?.focus();
     };
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
@@ -295,6 +329,7 @@ function DesktopSearchButton() {
   return (
     <div ref={wrapRef} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         aria-label="חיפוש באתר"
         aria-expanded={open}
@@ -302,8 +337,8 @@ function DesktopSearchButton() {
         className={cn(
           "flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-fast ease-luxury active:scale-95",
           open
-            ? "bg-surface text-[var(--service-accent,#d42b2b)]"
-            : "text-foreground/70 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
+            ? "bg-surface text-[var(--service-accent-ink,var(--color-brand-red))]"
+            : "text-foreground/70 hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
         )}
       >
         <svg
@@ -342,8 +377,8 @@ export function SiteNavDesktop() {
     cn(
       "group relative min-h-10 rounded-lg px-2.5 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95 xl:px-3",
       isHeaderNavLinkActive(href, pathname)
-        ? "text-[var(--service-accent,#d42b2b)]"
-        : "text-foreground/90 hover:text-[var(--service-accent,#d42b2b)]",
+        ? "text-[var(--service-accent-ink,var(--color-brand-red))]"
+        : "text-foreground/90 hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
     );
 
   return (
@@ -366,7 +401,7 @@ export function SiteNavDesktop() {
           >
             {entry.label}
             <span
-              className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
+              className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent-ink,var(--color-brand-red))] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
               aria-hidden
             />
           </Link>
@@ -393,9 +428,24 @@ export function SiteNavMobileDrawer({
   menuOpen,
   onCloseMenu,
   drawerId,
-}: Pick<SiteNavProps, "menuOpen" | "onCloseMenu" | "drawerId">) {
+  buttonId,
+}: Pick<SiteNavProps, "menuOpen" | "onCloseMenu" | "drawerId" | "buttonId">) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
   const { primary, secondary } = getMobileNavSections();
+
+  // F-25 (7.10.2026): סגירה בכפתור X או ב-Esc מחזירה את הפוקוס לכפתור ההמבורגר,
+  // כי הדרואר נמחק עם הפוקוס בתוכו והוא נופל ל-body. ההחזרה לא יושבת ב-cleanup
+  // של ה-effect: ה-cleanup רץ גם בלחיצה על קישור (מעבר עמוד), ושם הפוקוס
+  // צריך להישאר על העמוד החדש. fallback לפי id: ב-Safari במק לחיצה על כפתור
+  // לא ממקדת אותו, ואז activeElement בפתיחה הוא body.
+  const closeAndRestoreFocus = useCallback(() => {
+    onCloseMenu();
+    const opener = openerRef.current?.isConnected
+      ? openerRef.current
+      : document.getElementById(buttonId);
+    opener?.focus();
+  }, [onCloseMenu, buttonId]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -403,6 +453,17 @@ export function SiteNavMobileDrawer({
     document.body.style.overflow = "hidden";
 
     const panel = panelRef.current;
+    // שומרים את הפותח לפני שהפוקוס עובר לתוך הדרואר. התנאי panel.contains
+    // מגן מפני הרצה חוזרת של ה-effect (StrictMode) אחרי שהפוקוס כבר בפנים.
+    const active = document.activeElement;
+    if (
+      !openerRef.current &&
+      active instanceof HTMLElement &&
+      active !== document.body &&
+      !panel?.contains(active)
+    ) {
+      openerRef.current = active;
+    }
     const focusable = panel
       ? Array.from(
           panel.querySelectorAll<HTMLElement>(
@@ -416,7 +477,7 @@ export function SiteNavMobileDrawer({
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onCloseMenu();
+        closeAndRestoreFocus();
         return;
       }
       if (e.key !== "Tab" || focusable.length === 0) return;
@@ -435,7 +496,7 @@ export function SiteNavMobileDrawer({
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [menuOpen, onCloseMenu]);
+  }, [menuOpen, closeAndRestoreFocus]);
 
   return (
     <div
@@ -443,6 +504,7 @@ export function SiteNavMobileDrawer({
       ref={panelRef}
       role="dialog"
       aria-modal="true"
+      aria-label="תפריט האתר"
       aria-hidden={!menuOpen}
       inert={!menuOpen}
       className={cn(
@@ -459,13 +521,13 @@ export function SiteNavMobileDrawer({
           href="/"
           className="text-base font-bold tracking-tight text-foreground"
           onClick={onCloseMenu}
-          aria-label="דף הבית"
+          aria-label={`${SITE_NAME} - דף הבית`}
         >
           {SITE_NAME}
         </Link>
         <button
           type="button"
-          onClick={onCloseMenu}
+          onClick={closeAndRestoreFocus}
           className="touch-target flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-all duration-fast ease-luxury hover:bg-surface hover:text-brand-red active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           aria-label="סגירת תפריט"
         >
@@ -532,14 +594,16 @@ export function SiteNavMobileDrawer({
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/book"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             הזמנה
           </Link>
+          {/* F-05 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו ב-MobileStickyCta. לבן על
+              הגוון הגולמי נמדד 2.42 (ציאן) עד 3.76:1, מתחת ל-4.5. */}
           <Link
             href="/contact"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] text-sm font-bold text-white transition-all duration-fast ease-luxury active:scale-[0.97]"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-brand-red text-sm font-bold text-white transition-all duration-fast ease-luxury active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             צור קשר

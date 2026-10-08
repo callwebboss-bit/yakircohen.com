@@ -19,6 +19,10 @@ const PAGES_TO_CHECK = [
   "/book",
   "/contact",
   "/about",
+  // דפי תוכן משפטי ונגישות (F-22 / I-4, ביקורת 7.10.2026): לא נבדקו קודם
+  "/accessibility",
+  "/terms",
+  "/privacy",
 ];
 
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
@@ -51,8 +55,11 @@ for (const path of PAGES_TO_CHECK) {
   process.stdout.write(`Checking ${url} ... `);
   try {
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20000 });
+    // תכונות שנוספות אחרי הידרציה (למשל tabindex של ScrollableTable) חייבות
+    // להיות במקומן לפני הסריקה, אחרת scrollable-region-focusable נכשל לשווא
+    await page.waitForLoadState("networkidle", { timeout: 10000 }).catch(() => {});
     const results = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa"])
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
       .analyze();
     const serious = results.violations.filter(
       (v) => v.impact === "critical" || v.impact === "serious",

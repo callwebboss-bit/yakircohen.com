@@ -338,7 +338,7 @@ export default function PrivateLessonsPage() {
                 bookHref={bookCta.bookHref}
                 bookLabel={bookCta.bookLabel}
                 className="[&_a]:min-h-12"
-                whatsappAriaLabel="תיאום שיעור פרטי בוואטסאפ"
+                whatsappAriaLabel="תיאום בוואטסאפ - שיעור פרטי"
               />
             ) : (
               <>
@@ -353,7 +353,7 @@ export default function PrivateLessonsPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-border bg-background px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                  aria-label="תיאום שיעור פרטי בוואטסאפ"
+                  aria-label="תיאום בוואטסאפ - שיעור פרטי"
                 >
                   תיאום בוואטסאפ
                 </a>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTabs } from "@/hooks/useTabs";
 import { cn } from "@/lib/utils";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import type { PricingTier } from "@/lib/data/services";
@@ -35,6 +36,12 @@ export default function PricingTierToggle({
 }: PricingTierToggleProps) {
   const consumer = priceLead === "withVat";
   const [activeIdx, setActiveIdx] = useState(recommendedIndex);
+  /* F-70: חיצים, Home/End וטאב מתגלגל לפי APG (ב-RTL ArrowLeft = הבא) */
+  const { getTabProps } = useTabs({
+    count: tiers.length,
+    selectedIndex: activeIdx,
+    onSelect: setActiveIdx,
+  });
   const active = tiers[activeIdx];
   if (!active) return null;
 
@@ -60,6 +67,7 @@ export default function PricingTierToggle({
             aria-selected={idx === activeIdx}
             aria-controls={`tier-panel-${tier.id}`}
             id={`tier-tab-${tier.id}`}
+            {...getTabProps(idx)}
             onClick={() => setActiveIdx(idx)}
             className={cn(
               "hardware-toggle flex-1 px-3 py-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",

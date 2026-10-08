@@ -1,7 +1,9 @@
 "use client";
 
 import { useId } from "react";
+import FieldError from "@/components/forms/FieldError";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { fieldErrorId, splitRequiredLabel } from "@/lib/field-error";
 import { cn } from "@/lib/utils";
 
 type BookingDateTimeFieldsProps = {
@@ -11,6 +13,7 @@ type BookingDateTimeFieldsProps = {
   onTimeChange: (value: string) => void;
   minDate: string;
   errors?: { date?: string; time?: string };
+  /** " *" בסוף התווית מזוהה כחובה: aria-required וכוכבית aria-hidden (F-45) */
   dateLabel?: string;
   timeLabel?: string;
 };
@@ -27,14 +30,17 @@ export default function BookingDateTimeFields({
 }: BookingDateTimeFieldsProps) {
   const dateId = useId();
   const timeId = useId();
-  const dateErrorId = `${dateId}-error`;
-  const timeErrorId = `${timeId}-error`;
+  const dateErrorId = fieldErrorId(dateId);
+  const timeErrorId = fieldErrorId(timeId);
+  const dateParts = splitRequiredLabel(dateLabel);
+  const timeParts = splitRequiredLabel(timeLabel);
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div>
         <label htmlFor={dateId} className="mb-1.5 block text-xs font-semibold">
-          {dateLabel}
+          {dateParts.text}
+          {dateParts.required ? <span aria-hidden="true"> *</span> : null}
         </label>
         <input
           id={dateId}
@@ -43,18 +49,16 @@ export default function BookingDateTimeFields({
           value={date}
           onChange={(e) => onDateChange(e.target.value)}
           aria-invalid={!!errors.date}
+          aria-required={dateParts.required ? "true" : undefined}
           aria-describedby={errors.date ? dateErrorId : undefined}
           className={cn(bookFieldClass, errors.date && "border-red-400")}
         />
-        {errors.date ? (
-          <p id={dateErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
-            {errors.date}
-          </p>
-        ) : null}
+        <FieldError id={dateErrorId} message={errors.date} />
       </div>
       <div>
         <label htmlFor={timeId} className="mb-1.5 block text-xs font-semibold">
-          {timeLabel}
+          {timeParts.text}
+          {timeParts.required ? <span aria-hidden="true"> *</span> : null}
         </label>
         <input
           id={timeId}
@@ -62,14 +66,11 @@ export default function BookingDateTimeFields({
           value={time}
           onChange={(e) => onTimeChange(e.target.value)}
           aria-invalid={!!errors.time}
+          aria-required={timeParts.required ? "true" : undefined}
           aria-describedby={errors.time ? timeErrorId : undefined}
           className={cn(bookFieldClass, errors.time && "border-red-400")}
         />
-        {errors.time ? (
-          <p id={timeErrorId} className="mt-1 text-xs text-red-500" data-field-error="">
-            {errors.time}
-          </p>
-        ) : null}
+        <FieldError id={timeErrorId} message={errors.time} />
       </div>
     </div>
   );

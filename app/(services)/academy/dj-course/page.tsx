@@ -350,7 +350,7 @@ export default function DjCoursePage() {
             target="_blank"
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            aria-label="קביעת מפגש אפיון לקורס DJ בוואטסאפ"
+            aria-label="קבע מפגש אפיון בוואטסאפ - קורס DJ"
           >
             <svg
               viewBox="0 0 24 24"

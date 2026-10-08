@@ -9,8 +9,10 @@ import BookPriceDual from "@/components/booking/BookPriceDual";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelDraft";
@@ -40,7 +42,7 @@ const onlineLivePriceReport = {
 } as const;
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type OnlineRestoreBookingPanelProps = {
   initialEmotionalLabel?: string | null;
@@ -278,7 +280,7 @@ export default function OnlineRestoreBookingPanel({
       <div className="space-y-3">
         <div>
           <label htmlFor="online-restore-name" className="mb-1.5 block text-xs font-semibold">
-            {FORM_MICROCOPY.nameLabel} *
+            {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
           </label>
           <input
             id="online-restore-name"
@@ -290,16 +292,14 @@ export default function OnlineRestoreBookingPanel({
               if (errors.name) mergeErrors({ name: "" });
             }}
             aria-invalid={!!errors.name}
+            aria-required="true"
+            aria-describedby={describedBy(errors.name && fieldErrorId("online-restore-name"))}
           />
-          {errors.name ? (
-            <p className="mt-1 text-xs text-red-500" data-field-error="">
-              {errors.name}
-            </p>
-          ) : null}
+          <FieldError id={fieldErrorId("online-restore-name")} message={errors.name} />
         </div>
         <div>
           <label htmlFor="online-restore-phone" className="mb-1.5 block text-xs font-semibold">
-            {FORM_MICROCOPY.phoneLabel} *
+            {FORM_MICROCOPY.phoneLabel} <span aria-hidden="true">*</span>
           </label>
           <input
             id="online-restore-phone"
@@ -312,14 +312,16 @@ export default function OnlineRestoreBookingPanel({
             }}
             dir="ltr"
             aria-invalid={!!errors.phone}
+            aria-required="true"
+            aria-describedby={describedBy(
+              "online-restore-phone-hint",
+              errors.phone && fieldErrorId("online-restore-phone"),
+            )}
           />
-          {errors.phone ? (
-            <p className="mt-1 text-xs text-red-500" data-field-error="">
-              {errors.phone}
-            </p>
-          ) : (
-            <p className="mt-1 text-xs text-muted-foreground">{FORM_MICROCOPY.phoneHint}</p>
-          )}
+          <p id="online-restore-phone-hint" className="mt-1 text-xs text-muted-foreground">
+            {FORM_MICROCOPY.phoneHint}
+          </p>
+          <FieldError id={fieldErrorId("online-restore-phone")} message={errors.phone} />
         </div>
       </div>
 

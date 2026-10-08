@@ -48,7 +48,6 @@ function GearCard({ item }: { item: ShopGearItem }) {
         campaign={`shop_gear_${item.id}`}
         section="used-gear"
         className="group block text-start"
-        aria-label={`${item.title} - שליחה בוואטסאפ`}
       >
         <ShopCardImage
           src={item.imageSrc}
@@ -146,7 +145,7 @@ export default function UsedGearInventorySection() {
             campaign="shop_dj_used_gear_cta"
             section="dj-used-gear"
             className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-brand-red px-8 py-4 text-base font-semibold text-white"
-            aria-label="פנייה בוואטסאפ לציוד DJ יד שנייה"
+            aria-label="פנייה לציוד DJ - יד שנייה, בוואטסאפ"
           >
             <span>פנייה לציוד DJ</span>
             <Send className="h-5 w-5" aria-hidden />

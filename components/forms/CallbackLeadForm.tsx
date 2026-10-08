@@ -2,6 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import NeedsDiscoveryStep from "@/components/booking/NeedsDiscoveryStep";
+import FieldError, { FocusedStatus } from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import Button from "@/components/ui/Button";
@@ -9,7 +10,9 @@ import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { formatPhoneForDisplay, validateBookingLead } from "@/lib/form-validation";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
+import { scrollAndHighlightFirstError } from "@/lib/scroll-to-error";
 import { CALLBACK_SUCCESS_COPY } from "@/lib/data/conversion-copy";
 import {
   buildCallbackLead,
@@ -21,7 +24,7 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const fieldClass =
-  "mt-1.5 min-h-11 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
+  "mt-1.5 min-h-11 w-full rounded-lg border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
 
 export type CallbackLeadFormProps = {
   heading?: string;
@@ -78,6 +81,7 @@ export default function CallbackLeadForm({
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
 
     const errs = attemptSubmit(
       () =>
@@ -127,11 +131,13 @@ export default function CallbackLeadForm({
     );
 
     setFieldErrors(errs ?? {});
+    /* פוקוס לשדה השגוי הראשון, והשגיאה מוקראת דרך aria-describedby (F-11) */
+    if (errs && Object.keys(errs).length > 0) scrollAndHighlightFirstError(formEl);
   }
 
   if (isSuccess) {
     return (
-      <div
+      <FocusedStatus
         className={`rounded-2xl border border-brand-red/30 bg-brand-red/5 p-8 text-center ${className}`.trim()}
       >
         <p className="text-lg font-semibold text-foreground">{successHeading}</p>
@@ -146,7 +152,7 @@ export default function CallbackLeadForm({
             {CALLBACK_SUCCESS_COPY.whatsappOptional}
           </a>
         ) : null}
-      </div>
+      </FocusedStatus>
     );
   }
 
@@ -187,11 +193,10 @@ export default function CallbackLeadForm({
             placeholder={FORM_MICROCOPY.namePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={describedBy(fieldErrors.name && fieldErrorId(nameId))}
             aria-required="true"
           />
-          {fieldErrors.name ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>
-          ) : null}
+          <FieldError id={fieldErrorId(nameId)} message={fieldErrors.name} />
         </div>
 
         <div>
@@ -213,15 +218,13 @@ export default function CallbackLeadForm({
             placeholder={FORM_MICROCOPY.phonePlaceholder}
             className={fieldClass}
             aria-invalid={Boolean(fieldErrors.phone)}
-            aria-describedby={`${phoneId}-hint`}
+            aria-describedby={describedBy(`${phoneId}-hint`, fieldErrors.phone && fieldErrorId(phoneId))}
             aria-required="true"
           />
           <p id={`${phoneId}-hint`} className="mt-1 text-xs text-muted-foreground">
             {FORM_MICROCOPY.phoneHint}
           </p>
-          {fieldErrors.phone ? (
-            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>
-          ) : null}
+          <FieldError id={fieldErrorId(phoneId)} message={fieldErrors.phone} />
         </div>
 
         {serviceOptions.length > 0 ? (
@@ -250,7 +253,9 @@ export default function CallbackLeadForm({
             value={customerNeed}
             onChange={setCustomerNeed}
             id={`${fieldIds}-need`}
+            errorId={fieldErrors.notes ? fieldErrorId(`${fieldIds}-need`) : undefined}
           />
+          <FieldError id={fieldErrorId(`${fieldIds}-need`)} message={fieldErrors.notes} />
         </div>
       </div>
 

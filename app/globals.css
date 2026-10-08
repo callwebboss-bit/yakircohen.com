@@ -26,7 +26,10 @@
      כי הוא אינו בודק מצבי ריחוף. הערך החדש הוא 5.73:1 על לבן ו-5.48:1 על
      הרקע. המדרג נשמר: בסיס 5.02, ריחוף 5.73, לחיצה 8.00.
      חוב ידוע: השם אומר light והערך כהה מהבסיס, כי שני השימושים של הטוקן
-     דורשים הכהיה. שינוי שם נוגע ב-132 קבצים ולכן נדחה בכוונה. */
+     דורשים הכהיה. שינוי שם נוגע ב-132 קבצים ולכן נדחה בכוונה.
+     F-37 (7.10.2026): אותה בעיה בכפתורי outline ו-ghost, שם הריחוף צובע גוון
+     אדום מאחורי טקסט אדום (4.11:1 על /10, 3.82 על /15). ב-Button.tsx הטקסט עובר
+     ב-hover וב-active ל-brand-red-text. */
   --color-brand-red-light: #c52525;
   --color-brand-red-dark: #9a2222;
   --color-brand-red-text: #9a2222;
@@ -246,6 +249,11 @@
 
   html[data-coupon-banner="open"] #main-content {
     padding-bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* F-28: אותו מרווח גם לגלילת מיקוד, כדי שגיליון הקופון לא יכסה אלמנט במיקוד */
+  html[data-coupon-banner="open"] {
+    scroll-padding-bottom: calc(11rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -654,9 +662,37 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* IMPROVED: anchor scroll targets clear sticky header */
-  [id] {
-    scroll-margin-top: 5rem;
+  /* F-28 (נגישות, 7.10.2026): ה-header הדביק (114px בדסקטופ, 69px עד 1023px) ופסי
+     התחתית הקבועים במובייל כיסו אלמנטים במיקוד ויעדי עוגן: Shift+Tab ב-/studio
+     הסתיר כ-11 מתוך 70 עצירות, ויעדי skip link ועוגנים נחתו 18-46px מתחת
+     ל-header (scroll-margin של 68-80px מול 114px).
+     scroll-padding על html תקף לגלילת מיקוד, #hash, scrollIntoView וה-skip link.
+     הוא נוסף ל-scroll-margin של היעד ולא מחליף אותו, ולכן כלל ה-scroll-margin-top
+     הישן של כל [id] (5rem) והמחלקה scroll-mt של main (4.25rem) נמחקו באותו שינוי,
+     וכל הפער נאסף כאן.
+     מ-1024px יש גם שורת ניווט (נעלמת בגלילה למטה, ומופיעה מתחת ל-header
+     בגלילה למעלה), לכן 9rem; מתחת לזה ה-header הוא שורה אחת ו-5rem מספיקים.
+     מתחת ל-768px הסרגל הדביק התחתון והכפתורים הצפים מכסים את תחתית החלון. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 9rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    html {
+      scroll-padding-bottom: 7.5rem;
+    }
+  }
+
+  /* כשהמיקוד בתוך ה-header עצמו (קיצור "/", Shift+Tab מאמצע העמוד) אין מה לפנות:
+     ה-padding היה מגלגל את העמוד למעלה כדי להוריד את האלמנט מתחת ל-header. */
+  html:has(header :focus) {
+    scroll-padding-top: 0;
   }
 
   :target:not(main):not(header):not(footer):not(nav):not(body):not(html) {
@@ -694,6 +730,15 @@
   }
 }
 
+/* F-28: 45 יעדי עוגן בקוד נושאים scroll-mt-24 (6rem) מהימים שה-offset היה
+   ב-[id] בלבד. מאז ש-html קיבל scroll-padding-top, ה-scroll-margin של היעד
+   נוסף אליו, והם היו נוחתים 240px מתחת לראש החלון בדסקטופ. הכלל לא בשכבה
+   ולכן גובר על ה-utility; הוא מתאפס רק עבור scroll-mt-24 (ולא עבור ערכים
+   מכוונים אחרים כמו scroll-mt-[12.5rem] של המחשבון). */
+.scroll-mt-24 {
+  scroll-margin-top: 0;
+}
+
 html.a11y-large-text {
   font-size: 112.5%;
 }
@@ -709,8 +754,26 @@ html.a11y-high-contrast {
   --muted: #f0f0f0;
   --muted-foreground: #3f3f3f;
   --border: color-mix(in srgb, black 22%, transparent);
-  --input: color-mix(in srgb, black 22%, transparent);
+  /* F-43 + F-09: גבול שדה ב-#595959 (7:1 על לבן). 22% שחור נתן 1.69:1. */
+  --input: #595959;
   --color-border-subtle: color-mix(in srgb, black 14%, transparent);
+  /* F-43 (נגישות, 7.10.2026): המצב הקודם מיפה רק שישה טוקנים נייטרליים, ולכן
+     117 צמתי ניגודיות ב-56 עמודים נשארו בדיוק כמו במצב הרגיל: אדום מותג על
+     גוון אדום (4.32:1), גוון ה-hub בניווט (2.3-3.6:1), טקסט אדום בפוטר הכהה.
+     --color-brand-red מוגדר ב-@theme הרגיל (לא inline), ולכן הדריסה מגיעה לכל
+     ה-utilities שלו, כולל bg-brand-red/10 ו-text-brand-red. #9a2222 נותן 7.65:1
+     על הרקע ו-6.57:1 על גוון /10, ולבן על #9a2222 נותן 8.00:1.
+     --service-accent מקבל את ערך ה-ink של אותו hub (5.07-8.14:1 על #fafaf8);
+     בעמוד בלי hub אין ink, ואז נשאר אדום המותג הכהה. */
+  --color-brand-red: #9a2222;
+  --service-accent: var(--service-accent-ink, var(--color-brand-red));
+}
+
+/* HubAccentScope כותב --service-accent גם כ-inline style על div עוטף, וערך inline
+   גובר על כל כלל מ-stylesheet, ולכן הדריסה שלמעלה לא מגיעה לתוכן שבתוכו. !important
+   מנצח inline רגיל. הבורר תופס רק את ה-div העוטף (הוא היחיד עם ink inline). */
+html.a11y-high-contrast [style*="--service-accent-ink"] {
+  --service-accent: var(--service-accent-ink) !important;
 }
 
 html.a11y-high-contrast a[href] {
@@ -721,6 +784,46 @@ html.a11y-high-contrast a[href] {
 html.a11y-highlight-links a[href] {
   outline: 2px solid var(--color-brand-red);
   outline-offset: 2px;
+}
+
+/* F-14 (נגישות, 7.10.2026): במצב "הדגשת קישורים" לכל קישור יש מסגרת אדומה
+   קבועה, והחוק הזה לא בשכבה ולכן גובר על כל utility של Tailwind וגם על
+   :focus-visible הגלובלי. הטבעת של המיקוד הייתה זהה להדגשה, ו-94 מתוך 112
+   עצירות Tab בעמוד הבית לא שינו אף פיקסל. כאן המיקוד מקבל טבעת כהה עבה עם
+   הילה לבנה, כך שהיא נראית על כל רקע (גם בפוטר הכהה), ושונה מההדגשה.
+   #1a1a1a הוא ערך ה-foreground של הבסיס, כתוב ישירות ולא דרך
+   var(--color-foreground) כי הטוקן מתהפך ל-.dark.
+   בלי background: הוא היה נצבע מעל קישורי-על שקופים (a.absolute.inset-0
+   ב-hero ובכרטיסים) ומכסה את הוידאו והפוסטר. */
+html.a11y-highlight-links a[href]:focus-visible {
+  outline: 3px solid #1a1a1a;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #fff;
+}
+
+/* קישור-על מכסה את כל הכרטיס, וההורה לרוב עם overflow:hidden: מסגרת
+   שיוצאת החוצה נחתכת. לכן ההדגשה והמיקוד שלו נמשכים פנימה, וההילה הלבנה
+   היא inset. מסגרת 3px + offset שלילי 3px נשארת בתוך קצה הכרטיס. */
+html.a11y-highlight-links a.absolute.inset-0 {
+  outline-offset: -2px;
+  /* הטבעת עוקבת אחרי פינות המסגרת העגולות. בלי זה הפינות של טבעת מרובעת
+     נחתכות על ידי ה-overflow:hidden העגול של ההורה. */
+  border-radius: inherit;
+}
+
+html.a11y-highlight-links a.absolute.inset-0:focus-visible {
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 6px #fff;
+}
+
+/* F-13 + F-14: מסגרת ה-hero (ServicePageLayout) מציירת בעצמה טבעת אדומה
+   חיצונית כשקישור-העל שבתוכה במיקוד (has-[:focus-visible]). במצב "הדגשת קישורים"
+   זו הייתה טבעת שנייה מעל הטבעת הכהה עם ההילה הלבנה של הקישור עצמו. כאן
+   נשארת טבעת אחת, הפנימית, כמו בכל קישור אחר במצב הזה (כהה עם הילה לבנה,
+   שונה מההדגשה האדומה הקבועה). החוק לא בשכבה ולכן גובר על ה-utility של
+   Tailwind, והוא מוגבל למסגרת overflow-hidden שהקישור-על יושב בה. */
+html.a11y-highlight-links .overflow-hidden:has(> a.absolute.inset-0:focus-visible) {
+  outline: none;
 }
 
 @media (forced-colors: active) {
@@ -803,7 +906,14 @@ html.a11y-highlight-links a[href] {
   --accent-foreground: #1a1a1a;
   --destructive: #d42b2b;
   --border: #e5e5e5;
-  --input: #e5e5e5;
+  /* F-09 (נגישות, 7.10.2026): הטוקן של גבול שדות טופס. #e5e5e5 נתן 1.21-1.26:1
+     מול הרקע, ו-1.4.11 דורש 3:1 לגבול שמזהה את הבקרה. #858585 נותן 3.53:1 על
+     #fafaf8 ו-3.69:1 על לבן. הטוקן מגיע ל-utility `border-input` דרך
+     --color-input ב-@theme inline (למעלה). החלפת `border-border` ל-`border-input`
+     במחרוזות השדות נעשית בקומפוננטות עצמן. כלל גלובלי על input/select/textarea
+     לא נוסף בכוונה: בתוך @layer base הוא מפסיד ל-utilities, ומחוץ לשכבה הוא
+     דורס גם border-brand-red של מיקוד ושל שגיאה (נבדק בביקורת). */
+  --input: #858585;
   --ring: #d42b2b;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -1417,9 +1527,27 @@ progress.studio-meter-flash::-moz-progress-bar {
   background: var(--footer-bg);
   color: var(--footer-fg);
   content-visibility: auto;
+  /* F-01 (נגישות, 7.10.2026): מ-768px הפוטר מציג עכשיו את כל הקישורים
+     (113 קישורים שהיו נסתרים) והגובה שנמדד בפועל הוא 1153-1726px. ה-72rem
+     (1152px) התאים לפוטר הנמוך, והפער היה יוצר הזזת פריסה כשהפוטר נכנס
+     לתצוגה. 100rem (1600px) קרוב לגובה בפועל; ה-auto זוכר את הגובה האמיתי
+     אחרי הרינדור הראשון. */
   contain-intrinsic-size: auto 72rem;
 }
 
+@media (min-width: 768px) {
+  .footer-shell {
+    contain-intrinsic-size: auto 100rem;
+  }
+}
+
+/* F-01 (נגישות, 7.10.2026): ב-Chromium 148+ ל-details סגור יש
+   ::details-content עם content-visibility:hidden מגיליון ה-UA. ה-display:block
+   על הגוף והגובה האוטומטי לא מספיקים: התוכן לא מרונדר, לא ניתן למיקוד ולא
+   מוקרא, ו-113 הקישורים בפוטר (כולל /accessibility) נעלמו בדסקטופ בלי כפתור
+   פתיחה. ה-content-visibility:visible חייב להישאר בתוך ה-media query: מחוץ לו
+   האקורדיון במובייל היה מציג תוכן סגור. לא להחליף ב-open ב-SSR, זה פותח את
+   האקורדיון גם במובייל. */
 @media (min-width: 768px) {
   .chrome-more > .chrome-more-summary {
     display: none;
@@ -1431,6 +1559,7 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 
   .chrome-more::details-content {
+    content-visibility: visible;
     height: auto !important;
     overflow: visible;
   }
@@ -1445,6 +1574,7 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 
   .footer-more::details-content {
+    content-visibility: visible;
     height: auto !important;
     overflow: visible;
   }

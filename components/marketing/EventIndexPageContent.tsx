@@ -318,7 +318,7 @@ export default function EventIndexPageContent() {
                   value={tokenInput}
                   onChange={(e) => setTokenInput(e.target.value)}
                   placeholder="קוד גישה"
-                  className="min-h-11 min-w-[200px] flex-1 rounded-lg border border-border bg-background px-4 text-sm"
+                  className="min-h-11 min-w-[200px] flex-1 rounded-lg border border-input bg-background px-4 text-sm"
                   autoComplete="off"
                 />
                 <button

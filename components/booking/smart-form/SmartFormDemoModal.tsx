@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import SoundProofTable from "@/components/seo/SoundProofTable";
 import { getAudioDemo, type AudioDemoId } from "@/lib/data/audio-demos";
 import PremiumCrossfadePlayer from "@/components/ui/PremiumCrossfadePlayer";
+import { useModalA11y } from "@/hooks/useModalA11y";
 
 type SmartFormDemoModalProps = {
   open: boolean;
@@ -18,14 +18,9 @@ export default function SmartFormDemoModal({
 }: SmartFormDemoModalProps) {
   const demo = getAudioDemo(demoId);
 
-  useEffect(() => {
-    if (!open) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  /* F-18, 7.10.2026. ה-ref על הפאנל ולא על שכבת הרקע: כפתור הרקע השקוף
+     (מסך מלא) לא אמור להיות עצירה בלולאת ה-Tab או הפקד הראשון שמקבל מיקוד. */
+  const panelRef = useModalA11y({ active: open && Boolean(demo), onEscape: onClose });
 
   if (!open || !demo) return null;
 
@@ -42,7 +37,10 @@ export default function SmartFormDemoModal({
         aria-label="סגור"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-md rounded-xl border border-border bg-white p-5 shadow-xl">
+      <div
+        ref={panelRef}
+        className="relative z-10 w-full max-w-md rounded-xl border border-border bg-white p-5 shadow-xl"
+      >
         <div className="mb-3 flex items-start justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-foreground">תראו איך זה נשמע</p>

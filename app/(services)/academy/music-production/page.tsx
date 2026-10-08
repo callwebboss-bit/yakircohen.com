@@ -94,6 +94,10 @@ const MUSIC_PRODUCTION_FAQ: FAQItem[] = [
   },
 ];
 
+/* F-32 (7.10.2026): השם הנגיש מתחיל בטקסט הגלוי של הכפתור (בלי האימוג'י), ואחריו ההקשר.
+   כך פקודת קול "קבעו שיחה" מפעילה אותו. */
+const WA_CTA_ARIA_LABEL = `${OUTCOME_CTA.heroBookNoCommit.replace(/^\p{Extended_Pictographic}\uFE0F?\s*/u, "")}, קורס יצירה מוזיקלית בוואטסאפ`;
+
 const bookCta = resolveServiceBookCta("academy/music-production");
 const musicProductionTechBarrierRelief = resolveTechBarrierRelief(
   "/academy/music-production",
@@ -268,7 +272,7 @@ export default function MusicProductionPage() {
               whatsappLabel={OUTCOME_CTA.heroBookNoCommit}
               bookHref={bookCta.bookHref}
               bookLabel={bookCta.bookLabel}
-              whatsappAriaLabel="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
+              whatsappAriaLabel={WA_CTA_ARIA_LABEL}
             />
           ) : (
             <a
@@ -276,7 +280,7 @@ export default function MusicProductionPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              aria-label="קביעת מפגש אפיון לקורס יצירה מוזיקלית בוואטסאפ"
+              aria-label={WA_CTA_ARIA_LABEL}
             >
               {OUTCOME_CTA.heroBookNoCommit}
             </a>

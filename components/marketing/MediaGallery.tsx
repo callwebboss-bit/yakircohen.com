@@ -12,6 +12,7 @@ import { BLUR_DATA_URL } from "@/lib/blur";
 import { ensureImageAlt } from "@/lib/image-alt";
 import { deriveHebrewAlt } from "@/lib/hebrew-image-alt";
 import { cn } from "@/lib/utils";
+import { lockBodyScroll, trapTabKey } from "@/hooks/useModalA11y";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Types
@@ -152,8 +153,12 @@ function ChevronRightIcon() {
    - role="dialog" + aria-modal on the overlay
    - Focus is moved to the close button on open; restored to the triggering
      thumbnail on close via a stored ref.
-   - Document-level keydown listener handles Prev / Next / Escape.
-   - Body scroll is locked for the lifetime of the open dialog.
+   - Document-level keydown listener handles Prev / Next / Escape, and loops
+     Tab / Shift+Tab inside the dialog (F-17, 7.10.2026). main is NOT made
+     inert: the dialog is rendered inside main#main-content (no portal), so
+     inert would disable the dialog itself.
+   - Body scroll is locked for the lifetime of the open dialog, through the
+     shared ref-counted lock in hooks/useModalA11y (F-18).
    - Touch swipe: left next, right previous.
    ───────────────────────────────────────────────────────────────────────────── */
 
@@ -166,19 +171,18 @@ type LightboxProps = {
 };
 
 function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const touchStartX = useRef<number | null>(null);
   const item = items[index];
 
-  /* Body scroll lock - save scrollY so we can restore it on unmount. */
+  /* Body scroll lock. "fixed" mode keeps the old behaviour (position:fixed,
+     scrollY saved and restored), but through the shared ref-counted lock:
+     the previous cssText="" on close could wipe another overlay's lock. */
   useEffect(() => {
-    const y = window.scrollY;
-    document.body.style.cssText = `overflow:hidden;position:fixed;top:-${y}px;width:100%;`;
+    const unlock = lockBodyScroll("fixed");
     closeButtonRef.current?.focus();
-    return () => {
-      document.body.style.cssText = "";
-      window.scrollTo(0, y);
-    };
+    return unlock;
   }, []);
 
   /* Document-level keyboard handler. */
@@ -187,6 +191,7 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
       if (e.key === "ArrowLeft") { e.preventDefault(); onPrev(); }
       else if (e.key === "ArrowRight") { e.preventDefault(); onNext(); }
       else if (e.key === "Escape") { e.preventDefault(); onClose(); }
+      else if (e.key === "Tab") trapTabKey(e, dialogRef.current);
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
@@ -218,6 +223,7 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label="תצוגת תמונה מוגדלת"
@@ -299,7 +305,11 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
         <p className="text-xs font-medium tabular-nums text-white/50">
           {counter}
         </p>
-        <p className="max-w-lg text-sm text-white/75">{item.alt}</p>
+        {/* F-55: the image above already carries this alt; hiding the caption
+            stops the screen reader from reading it twice. */}
+        <p className="max-w-lg text-sm text-white/75" aria-hidden="true">
+          {item.alt}
+        </p>
       </div>
     </div>
   );
@@ -419,7 +429,7 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift flex flex-col overflow-hidden rounded-xl border border-border bg-neutral-100 transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+                className="hover-lift flex flex-col overflow-hidden rounded-xl border border-border bg-neutral-100 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,#d42b2b)] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
               >
                 <button
                   type="button"
@@ -447,7 +457,10 @@ export default function MediaGallery({
                     <span className="text-xs font-semibold text-white">הגדל</span>
                   </div>
                 </button>
-                <figcaption className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground">
+                <figcaption
+                  className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground"
+                  aria-hidden="true"
+                >
                   {item.alt}
                 </figcaption>
               </li>
@@ -461,7 +474,7 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,#d42b2b)] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
               >
                 <button
                   type="button"
@@ -502,7 +515,10 @@ export default function MediaGallery({
                     </span>
                   </div>
                 </button>
-                <figcaption className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground">
+                <figcaption
+                  className="line-clamp-1 border-t border-border bg-background px-2.5 py-2 text-xs text-muted-foreground"
+                  aria-hidden="true"
+                >
                   {item.alt}
                 </figcaption>
               </li>

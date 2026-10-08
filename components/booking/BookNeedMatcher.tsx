@@ -190,11 +190,13 @@ function MatcherQuestion<T extends string>({
       <div className="grid gap-2 sm:grid-cols-2">
         {options.map((option) => {
           const isSelected = selectedId === option.id;
+          // F-12 (7.10.2026): הרדיו הוא sr-only (1x1), אז המיקוד שלו לא נראה.
+          // הטבעת עוברת לכרטיס עצמו דרך has-[:focus-visible].
           return (
             <label
               key={option.id}
               className={cn(
-                "flex min-h-12 cursor-pointer items-center rounded-xl border px-4 py-3 text-sm font-medium transition-colors",
+                "flex min-h-12 cursor-pointer items-center rounded-xl border px-4 py-3 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-red",
                 isSelected
                   ? "border-brand-red bg-brand-red/10 text-brand-red"
                   : "border-border bg-background text-foreground hover:border-brand-red/40",

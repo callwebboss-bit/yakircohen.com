@@ -61,10 +61,14 @@ function AccordionTrigger({
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
   return (
     <AccordionPrimitive.Header className="flex">
+      {/* F-12 (7.10.2026): בלי outline-none. ב-Tailwind v4 הוא קובע outline-style:none
+          ומנצח את focus-visible:outline-2 (מחושב "none 2px"), ולכן לא נראה מיקוד
+          מקלדת. הטבעת פנימית (offset שלילי) כי שורש האקורדיון הוא overflow-hidden
+          וחותך טבעת חיצונית בשלוש צלעות. */}
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "touch-target group/accordion-trigger flex flex-1 items-center justify-between gap-4 border border-transparent px-4 py-4 text-start text-sm font-semibold transition-colors outline-none hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red disabled:pointer-events-none disabled:opacity-50 sm:px-5 sm:text-base",
+          "touch-target group/accordion-trigger flex flex-1 items-center justify-between gap-4 border border-transparent px-4 py-4 text-start text-sm font-semibold transition-colors hover:text-brand-red focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-red disabled:pointer-events-none disabled:opacity-50 sm:px-5 sm:text-base",
           className
         )}
         {...props}

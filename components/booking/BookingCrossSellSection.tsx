@@ -51,7 +51,7 @@ export default function BookingCrossSellSection({
               className="rounded-xl border border-border bg-card p-4 text-sm leading-relaxed shadow-sm"
             >
               {offer.badge === "popular" ? (
-                <span className="mb-2 inline-block rounded-full bg-brand-red/10 px-2 py-0.5 text-xs font-semibold text-brand-red">
+                <span className="mb-2 inline-block rounded-full bg-brand-red/10 px-2 py-0.5 text-xs font-semibold text-brand-red-text">
                   נפוץ
                 </span>
               ) : null}
@@ -65,7 +65,7 @@ export default function BookingCrossSellSection({
               {price ? (
                 <p className="mt-2 text-xs font-semibold text-brand-red">{price}</p>
               ) : offer.stat ? (
-                <p className="mt-2 text-xs font-medium text-brand-red/80">{offer.stat}</p>
+                <p className="mt-2 text-xs font-medium text-brand-red-text">{offer.stat}</p>
               ) : null}
               {trackThankYou ? (
                 <button

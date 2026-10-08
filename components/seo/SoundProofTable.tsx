@@ -1,5 +1,6 @@
 "use client";
 
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import { cn } from "@/lib/utils";
 import {
   getSoundProofProfileById,
@@ -20,10 +21,15 @@ export default function SoundProofTable({
   const profile = getSoundProofProfileById(profileId);
   const rows =
     density === "compact" ? profile.rows.slice(0, 3) : profile.rows;
+  /* F-22: שם ייחודי לכל פרופיל, כדי שאזורי גלילה באותו עמוד לא יחלקו שם זהה */
+  const tableLabel = `טבלת לפני ואחרי השירות: ${rows
+    .slice(0, 2)
+    .map((row) => row.metric)
+    .join(", ")}`;
 
   return (
     <div className={cn("rounded-xl border border-border bg-background", className)}>
-      <div className="overflow-x-auto">
+      <ScrollableTable label={tableLabel}>
         <table className="w-full min-w-[20rem] text-right text-xs sm:text-sm">
           <thead>
             <tr className="border-b border-border bg-surface">
@@ -59,7 +65,7 @@ export default function SoundProofTable({
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollableTable>
       {profile.note ? (
         <p className="border-t border-border px-3 py-2 text-[0.7rem] leading-relaxed text-muted-foreground">
           {profile.note}

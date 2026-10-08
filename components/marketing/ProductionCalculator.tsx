@@ -334,7 +334,7 @@ export default function ProductionCalculator({
               onChange={(e) => setRawDate(e.target.value)}
               dir="ltr"
               className={cn(
-                "mt-4 w-full rounded-xl border border-border bg-background",
+                "mt-4 w-full rounded-xl border border-input bg-background",
                 "px-4 py-3 text-sm text-foreground [color-scheme:light]",
                 "transition-[border-color,box-shadow] duration-fast ease-luxury",
                 "focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/40",

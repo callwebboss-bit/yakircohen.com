@@ -26,10 +26,13 @@ export default function LazyClickEmbed({
   const [active, setActive] = useState(false);
   const embedAllowed = isAllowedEmbedUrl(src);
 
+  // F-13 (7.10.2026): הכפתור absolute inset-0 בתוך מסגרת overflow-hidden, ולכן
+  // הטבעת שלו נחתכת לגמרי. הטבעת יושבת על המסגרת (outline של אלמנט לא נחתך על ידי
+  // ה-overflow של עצמו), בצבע המותג הגלובלי ולא ב---service-accent הגולמי.
   return (
     <div
       className={cn(
-        "relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-neutral-200",
+        "relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-neutral-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-red",
         className,
       )}
     >
@@ -50,7 +53,7 @@ export default function LazyClickEmbed({
         <button
           type="button"
           onClick={() => setActive(true)}
-          className="group absolute inset-0 flex w-full flex-col items-center justify-center gap-5 bg-black/92 px-6 text-center transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
+          className="group absolute inset-0 flex w-full flex-col items-center justify-center gap-5 bg-black/92 px-6 text-center transition-transform duration-fast ease-luxury active:scale-[0.98]"
         >
           <p className="text-[0.65rem] font-bold tracking-[0.25em] text-white/70 uppercase">
             לחצו לצפייה

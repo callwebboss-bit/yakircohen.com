@@ -29,6 +29,7 @@ import BookingSuccessPanel from "@/components/booking/BookingSuccessPanel";
 import BookReplyStudio from "@/components/booking/BookReplyStudio";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import WizardCouponPriceLine from "@/components/booking/WizardCouponPriceLine";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useBookingWizard } from "@/hooks/useBookingWizard";
@@ -76,6 +77,7 @@ import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import { mobileChannelPriceLine } from "@/lib/data/mobile-studio-booking";
 import { useBookWizardStep } from "@/hooks/useBookWizardStep";
 import { bookFieldClass, bookSectionClass } from "@/lib/book-form-ui";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import {
   formatPhoneForDisplay,
@@ -1962,7 +1964,7 @@ export default function StudioRecordingBooking({
 
                 <div>
                   <label htmlFor="sr-name" className="mb-1.5 block text-xs font-semibold">
-                    {FORM_MICROCOPY.nameLabel} *
+                    {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
                   </label>
                   <input
                     id="sr-name"
@@ -1984,11 +1986,12 @@ export default function StudioRecordingBooking({
                       }
                     }}
                     className={cn(bookFieldClass, errors.name && "border-red-400")}
+                    aria-invalid={!!errors.name}
+                    aria-required="true"
+                    aria-describedby={describedBy(errors.name && fieldErrorId("sr-name"))}
                   />
                   {errors.name ? (
-                    <p className="mt-1 text-xs text-red-500" data-field-error="">
-                      {errors.name}
-                    </p>
+                    <FieldError id={fieldErrorId("sr-name")} message={errors.name} />
                   ) : (
                     <BookingFieldFeedback
                       valid={form.name.trim().length >= 2}

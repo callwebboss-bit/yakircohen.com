@@ -55,13 +55,20 @@ export default function BusinessHubPageContent() {
             רילז, קריינות מקצועית, פודקאסט לעסק וסרט תדמית. הפקה מלאה עם
             חשבונית מס - תגובה, בדרך כלל תוך שעה. מודיעין, פתח תקווה וכל אזור המרכז.
           </p>
+          {/* underline קבוע על קישורים בתוך הפסקה (F-03, WCAG 1.4.1, 7.10.2026) */}
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             מחפשים שיר במתנה או DJ לחתונה?{" "}
-            <Link href="/studio" className="text-brand-red hover:underline">
+            <Link
+              href="/studio"
+              className="text-brand-red underline underline-offset-2"
+            >
               אולפן לאירועים משפחתיים
             </Link>{" "}
             ·{" "}
-            <Link href="/events" className="text-brand-red hover:underline">
+            <Link
+              href="/events"
+              className="text-brand-red underline underline-offset-2"
+            >
               אירועים
             </Link>
           </p>

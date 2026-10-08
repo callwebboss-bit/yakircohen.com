@@ -38,10 +38,15 @@ export default function GalleryPageContent() {
           <h1 className="text-hero mt-4 font-semibold text-foreground">
             תמונות מהאולפן, האירועים והפודקאסטים
           </h1>
+          {/* underline קבוע על הקישור שבתוך הפסקה: אדום על אפור הוא 1.33:1, צבע
+              לבדו אינו סימן (F-03, WCAG 1.4.1, 7.10.2026) */}
           <p className="text-lead mt-4 text-muted-foreground">
             דוגמאות מהשטח במודיעין והמרכז - אולפן, DJ, אפקטים וקריינות. לסרטונים
             מלאים ראו{" "}
-            <Link href="/portfolio" className="text-brand-red hover:underline">
+            <Link
+              href="/portfolio"
+              className="text-brand-red underline underline-offset-2"
+            >
               תיק הוידאו
             </Link>
             .

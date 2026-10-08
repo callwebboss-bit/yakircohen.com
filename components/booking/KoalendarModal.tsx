@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect } from "react";
+import { useModalA11y } from "@/hooks/useModalA11y";
 
 const KOALENDAR_URL = "https://koalendar.com/e/Studio?embed=true";
 const KOALENDAR_DIRECT = "https://koalendar.com/e/Studio";
@@ -11,19 +11,14 @@ type KoalendarModalProps = {
 };
 
 export default function KoalendarModal({ open, onClose }: KoalendarModalProps) {
-  useEffect(() => {
-    if (!open) return;
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [open, onClose]);
+  /* מיקוד, לולאת Tab, נעילת גלילה והחזרת מיקוד (F-18, 7.10.2026). */
+  const dialogRef = useModalA11y({ active: open, onEscape: onClose });
 
   if (!open) return null;
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label="קביעת פגישת ייעוץ"

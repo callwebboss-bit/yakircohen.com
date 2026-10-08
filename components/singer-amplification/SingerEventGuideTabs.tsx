@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTabs } from "@/hooks/useTabs";
 import {
   SINGER_EVENT_GUIDE,
   type SingerEventGuideId,
@@ -12,6 +13,12 @@ export default function SingerEventGuideTabs() {
     SINGER_EVENT_GUIDE[0].id,
   );
   const active = SINGER_EVENT_GUIDE.find((g) => g.id === activeId)!;
+  /* F-70: חיצים, Home/End וטאב מתגלגל לפי APG (ב-RTL ArrowLeft = הבא) */
+  const { getTabProps } = useTabs({
+    count: SINGER_EVENT_GUIDE.length,
+    selectedIndex: SINGER_EVENT_GUIDE.findIndex((g) => g.id === activeId),
+    onSelect: (index) => setActiveId(SINGER_EVENT_GUIDE[index].id),
+  });
 
   return (
     <section aria-labelledby="event-guide-heading">
@@ -32,7 +39,7 @@ export default function SingerEventGuideTabs() {
         aria-label="סוגי אירועים"
         className="mt-8 flex flex-wrap justify-center gap-2"
       >
-        {SINGER_EVENT_GUIDE.map((guide) => {
+        {SINGER_EVENT_GUIDE.map((guide, i) => {
           const selected = guide.id === activeId;
           return (
             <button
@@ -42,6 +49,7 @@ export default function SingerEventGuideTabs() {
               id={`guide-tab-${guide.id}`}
               aria-selected={selected}
               aria-controls={`guide-panel-${guide.id}`}
+              {...getTabProps(i)}
               onClick={() => setActiveId(guide.id)}
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-semibold transition-colors",

@@ -10,6 +10,7 @@ import BookWhatHappensNext from "@/components/booking/BookWhatHappensNext";
 import BookTrustBadges from "@/components/booking/BookTrustBadges";
 import BookPriceDual from "@/components/booking/BookPriceDual";
 import BookingWhatsAppPreview from "@/components/booking/BookingWhatsAppPreview";
+import FieldError from "@/components/forms/FieldError";
 import HoneypotField from "@/components/forms/HoneypotField";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
@@ -17,6 +18,7 @@ import { clearPanelBookingDraft, useBookPanelDraft } from "@/hooks/useBookPanelD
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { bookFieldClass } from "@/lib/book-form-ui";
+import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { buildBookingWhatsAppBody, readUtmSource } from "@/lib/booking-messages";
 import { PRIVATE_SESSION_PLANS } from "@/lib/data/academy-private-sessions";
@@ -292,7 +294,7 @@ export default function AcademyBookingWizard({
       <div className="space-y-3">
         <div>
           <label htmlFor="academy-name" className="mb-1.5 block text-xs font-semibold">
-            {FORM_MICROCOPY.nameLabel} *
+            {FORM_MICROCOPY.nameLabel} <span aria-hidden="true">*</span>
           </label>
           <input
             id="academy-name"
@@ -305,12 +307,10 @@ export default function AcademyBookingWizard({
               if (errors.name) mergeErrors({ name: "" });
             }}
             aria-invalid={!!errors.name}
+            aria-required="true"
+            aria-describedby={describedBy(errors.name && fieldErrorId("academy-name"))}
           />
-          {errors.name ? (
-            <p className="mt-1 text-xs text-red-500" data-field-error="">
-              {errors.name}
-            </p>
-          ) : null}
+          <FieldError id={fieldErrorId("academy-name")} message={errors.name} />
         </div>
         <BookingPhoneInput
           id="academy-phone"

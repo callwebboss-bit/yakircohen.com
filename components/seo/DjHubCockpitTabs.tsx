@@ -7,6 +7,7 @@ import DjMashupBundlePicker from "@/components/seo/DjMashupBundlePicker";
 import DjMashupIdeasSection from "@/components/seo/DjMashupIdeasSection";
 import MashupMusicOffersSection from "@/components/seo/MashupMusicOffersSection";
 import ReadyMashupsCatalogSection from "@/components/seo/ReadyMashupsCatalogSection";
+import { useTabs } from "@/hooks/useTabs";
 import type { ProService } from "@/lib/data/pro-services";
 import { cn } from "@/lib/utils";
 
@@ -106,16 +107,13 @@ export default function DjHubCockpitTabs({ service }: DjHubCockpitTabsProps) {
     }, 120);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-    const total = HUB_TABS.length;
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      handleSelect((index + 1) % total);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      handleSelect((index - 1 + total) % total);
-    }
-  };
+  /* F-70: מקלדת לפי APG. ב-RTL ArrowLeft = הבא ו-ArrowRight = הקודם, Home/End,
+     tabIndex מתגלגל, והמיקוד עובר לטאב שנבחר (קודם הוא נשאר על הישן). */
+  const { getTabProps } = useTabs({
+    count: HUB_TABS.length,
+    selectedIndex: activeIndex,
+    onSelect: handleSelect,
+  });
 
   const activeTab = HUB_TABS[activeIndex]!;
 
@@ -144,9 +142,8 @@ export default function DjHubCockpitTabs({ service }: DjHubCockpitTabsProps) {
               id={`dj-tab-${tab.id}`}
               aria-selected={isActive}
               aria-controls={`dj-panel-${tab.id}`}
-              tabIndex={isActive ? 0 : -1}
+              {...getTabProps(i)}
               onClick={() => handleSelect(i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
               className={cn(
                 "min-h-11 rounded-lg px-3 py-2.5 text-sm font-semibold select-none",
                 "transition-[background-color,color,box-shadow] duration-normal ease-luxury",

@@ -29,6 +29,7 @@ export function SiteNavMenuIsland({ children }: SiteNavMenuIslandProps) {
           menuOpen={menu.menuOpen}
           onCloseMenu={menu.closeMenu}
           drawerId={menu.drawerId}
+          buttonId={menu.buttonId}
         />
       ) : null}
     </HeaderMenuProvider>
