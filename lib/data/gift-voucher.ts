@@ -1,14 +1,6 @@
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 
-/**
- * כתובת דף התשלום אצל ספק הסליקה הקיים (GROW).
- * הבעלים ממלא כאן. ריק = הכפתור "לרכישה" מושבת והמסך מציג הודעה במקומו.
- * אפשר לשלב {amount} (הסכום בשקלים, מספר שלם) אם הספק תומך בסכום בכתובת.
- * לא מועברים בכתובת שם הנותן, שם המקבל וההודעה: פרטים אישיים לא עוברים ב-URL.
- */
-export const GIFT_VOUCHER_CHECKOUT_URL = "";
-
 export type GiftVoucherChoice =
   | { kind: "amount"; id: string; label: string; amountNis: number }
   | {
@@ -59,28 +51,22 @@ export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = [
 ];
 
 /**
- * שורת התוקף שמודפסת על התמונה. מקור: שאלות ותשובות החנות (shop-vouchers.ts,
- * "בדרך כלל שנה ממועד הרכישה"). הבעלים צריך לאשר שזה התוקף הקבוע.
+ * תוקף השובר. אותו כלל כמו שובר עמדת המכירות: GIFT_VALIDITY_YEARS ב-
+ * lib/sales/voucher.ts (שנתיים, החלטת הבעלים 7.10.2026, חוק הגנת הצרכן).
+ * הערך כאן מקביל ולא מיובא, כדי שהרכיב בצד הלקוח לא יסחב את כל מודול המכירות.
+ * lib/gift-voucher.test.ts נכשל אם המספרים לא זהים.
+ *
+ * סיכון משפטי פתוח (נקרא ב-8.10.2026 מנוסח תקנות שירותי תשלום (פטור מהוראות
+ * החוק), התשפ"ב-2022, תקנה 2(א), https://www.nevo.co.il/law_html/law00/208503.htm,
+ * דרך WebFetch, לא אומת מול עורך דין): שובר לשירות מסוים הוא שנתיים לפחות, אבל
+ * שובר בסכום כסף (תו קנייה, כרטיס מתנה) הוא 5 שנים לפחות. הסכומים 300/500/1,000
+ * הם שוברי סכום. לפני הפעלה מול לקוחות לאשר עם עורך דין, או להשאיר חבילות בלבד.
  */
-export const GIFT_VOUCHER_VALIDITY_LABEL = "תוקף: שנה מיום הרכישה";
+export const GIFT_VOUCHER_VALIDITY_YEARS = 2;
+
+export const GIFT_VOUCHER_VALIDITY_LABEL = "תוקף: שנתיים מיום הרכישה";
 
 export const GIFT_VOUCHER_LIMITS = {
   name: 40,
   message: 220,
 } as const;
-
-/** כתובת הרכישה לבחירה נתונה, או null כשהכתובת עוד לא הוגדרה. */
-export function buildGiftVoucherCheckoutUrl(
-  template: string,
-  amountNis: number,
-): string | null {
-  const trimmed = template.trim();
-  if (!trimmed) return null;
-  const filled = trimmed.replaceAll("{amount}", String(amountNis));
-  try {
-    const url = new URL(filled);
-    return url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}

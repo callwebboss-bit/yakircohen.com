@@ -131,7 +131,7 @@ export default function StudioGiftsPageContent() {
           <ul className="mx-auto mt-5 flex max-w-xl flex-col gap-2 text-start text-sm text-muted-foreground sm:text-center">
             <li>✓ כל שירות באולפן - לא סכום קבוע</li>
             <li>✓ {TIME_CLAIMS.voucherInstant} - דיגיטלית לכל הארץ</li>
-            <li>✓ המקבל/ת קובע/ת מתי לממש - תוקף שנה מיום הרכישה</li>
+            <li>✓ המקבל/ת קובע/ת מתי לממש - תוקף שנתיים מיום הרכישה</li>
           </ul>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
@@ -458,7 +458,7 @@ export default function StudioGiftsPageContent() {
         layout="section"
         variant="whatsapp"
         heading="מוכנים להפתיע? שובר מתנה מקורי - נשלח אליכם מיד"
-        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו שנה מיום הרכישה."
+        description="שובר מתנה לכל שירות באולפן - נרשום במפורש שמדובר במתנה. השובר נשלח אליכם מיד, דיגיטלית לכל הארץ, ותוקפו שנתיים מיום הרכישה."
         headingId="studio-gifts-cta-heading"
         whatsappHref={MAIN_CTA}
         whatsappLabel="הזמינו שובר, נשלח מיד"

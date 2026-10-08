@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { GIFT_VALIDITY_YEARS } from "@/lib/sales/voucher";
 import {
   findVoucher,
   formatVoucherDate,
@@ -8,8 +9,9 @@ import {
   normalizeVoucherCode,
 } from "@/lib/gift-voucher";
 import {
-  buildGiftVoucherCheckoutUrl,
   GIFT_VOUCHER_CHOICES,
+  GIFT_VOUCHER_VALIDITY_LABEL,
+  GIFT_VOUCHER_VALIDITY_YEARS,
 } from "@/lib/data/gift-voucher";
 
 test("normalizeVoucherCode: אותיות גדולות וניקוי רווחים", () => {
@@ -46,14 +48,9 @@ test("formatVoucherDate: תאריך לא תקין חוזר כמו שהוא", () 
   assert.equal(formatVoucherDate("not-a-date"), "not-a-date");
 });
 
-test("buildGiftVoucherCheckoutUrl: ריק, http ולא תקין נדחים, {amount} מוחלף", () => {
-  assert.equal(buildGiftVoucherCheckoutUrl("", 500), null);
-  assert.equal(buildGiftVoucherCheckoutUrl("http://pay.example/x", 500), null);
-  assert.equal(buildGiftVoucherCheckoutUrl("javascript:alert(1)", 500), null);
-  assert.equal(
-    buildGiftVoucherCheckoutUrl("https://pay.example/x?sum={amount}", 500),
-    "https://pay.example/x?sum=500",
-  );
+test("תוקף השובר זהה לשובר עמדת המכירות ולשאלות החנות", () => {
+  assert.equal(GIFT_VOUCHER_VALIDITY_YEARS, GIFT_VALIDITY_YEARS);
+  assert.equal(GIFT_VOUCHER_VALIDITY_LABEL, "תוקף: שנתיים מיום הרכישה");
 });
 
 test("GIFT_VOUCHER_CHOICES: מזהים ייחודיים וסכום חיובי", () => {
