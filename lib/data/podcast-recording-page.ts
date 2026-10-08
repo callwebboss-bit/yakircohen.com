@@ -62,8 +62,32 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     exVat: getExVat("full_podcast_production"),
     suitedFor: getPriceById("full_podcast_production")?.suitedFor,
     summary: `${PODCAST_FULL_PRODUCTION_NOTE}.`,
-    points: ["קטעי ריל: בתוספת"],
+    /* הבעלים, 8.10.2026: הפקה מלאה כוללת ייעוץ ועריכה מהודקת וקפדנית יותר, כלולים ב-2,500 */
+    points: [
+      "ייעוץ ועריכה מהודקת וקפדנית יותר, כלולים",
+      "מעברי תמונה, וכל מה שמעלה את הפרק לרמה פרימיום",
+      "קטעי ריל: בתוספת",
+    ],
   },
+] as const;
+
+/*
+ * שיפורי הסאונד שעוברים על כל הפקה שיוצאת מהאולפן, בכל חבילה (הבעלים, 8.10.2026).
+ * השמות של הבעלים. שורת ההסבר קצרה וטכנית בלבד ועדיין לאישורו.
+ * "ריכוך צלילים צורמים" הוא אפשרות ולא ברירת מחדל, כפי שהבעלים כתב.
+ */
+export type PodcastQualityIconId = "deesser" | "eq" | "diction" | "balance" | "soften";
+
+export const PODCAST_PRODUCTION_QUALITY: readonly {
+  id: PodcastQualityIconId;
+  title: string;
+  note: string;
+}[] = [
+  { id: "deesser", title: "די-אסר", note: "מרככים צלילי S חדים בדיבור" },
+  { id: "eq", title: "שיפור EQ", note: "מאזנים את תדרי הקול" },
+  { id: "diction", title: "שיפור דיקציה", note: "הדיבור נשמע ברור יותר" },
+  { id: "balance", title: "איזון מושלם", note: "איזון בין הקולות והרמות בפרק" },
+  { id: "soften", title: "ריכוך צלילים צורמים", note: "אפשרות, לפי הצורך בפרק" },
 ] as const;
 
 /* שורה על האולפן מעל גלריית התמונות, מהמילים של הבעלים (7.10.2026). */

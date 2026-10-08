@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
+import PodcastQualityIcon from "@/components/seo/PodcastQualityIcon";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import CategoryRelatedLinks from "@/components/seo/CategoryRelatedLinks";
@@ -20,6 +21,7 @@ import {
   PODCAST_RECORDING_HERO_FEATURES,
   PODCAST_RECORDING_INCLUDED,
   PODCAST_RECORDING_PACKAGES,
+  PODCAST_PRODUCTION_QUALITY,
   PODCAST_RECORDING_PRICE,
   PODCAST_RECORDING_PRICE_NOTE,
   PODCAST_RECORDING_STUDIO_FEEL,
@@ -178,6 +180,32 @@ export default function PodcastRecordingPageContent() {
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="quality-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="quality-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              בכל הפקה שיוצאת מהאולפן
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+              שיפורי הסאונד שעוברים על הפרק שלכם, בכל חבילה.
+            </p>
+          </header>
+          <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            {PODCAST_PRODUCTION_QUALITY.map((item) => (
+              <li
+                key={item.id}
+                className="flex flex-col items-center rounded-xl border border-border bg-surface p-4 text-center"
+              >
+                <PodcastQualityIcon id={item.id} />
+                <h3 className="mt-3 text-sm font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.note}</p>
               </li>
             ))}
           </ul>
