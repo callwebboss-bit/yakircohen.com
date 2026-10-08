@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DOCUMENT_BLESSING_LINE } from "@/lib/constants";
 import VoucherImageButton from "@/components/gift-voucher/VoucherImageButton";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -44,7 +45,7 @@ export default async function VoucherPage({ params }: Props) {
     <Section className="bg-background" ariaLabelledby="voucher-title" padding="sm">
       <Container className="max-w-2xl">
         <article className="rounded-2xl border-2 border-brand-red bg-surface p-8 text-center shadow-sm sm:p-12">
-          <p className="mb-3 text-xs text-muted-foreground">בס״ד</p>
+          <p className="mb-3 text-xs text-muted-foreground">{DOCUMENT_BLESSING_LINE}</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             יקיר כהן הפקות
           </p>

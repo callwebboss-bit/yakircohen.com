@@ -219,3 +219,9 @@ export const TRUST_CLAIM_SOURCES: readonly TrustClaimSource[] = [
  * באותו עמוד, וזה בדיוק סוג הפער שפוגע באמון.
  */
 export const TRUST_STATS_CLARIFICATION = `ניסיון אישי של 20+ שנים · האולפן פועל מאז ${BUSINESS_FOUNDING_YEAR} · ${GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google`;
+
+/**
+ * "בס״ד" בקטן בראש כל מסמך ללקוח: שובר מתנה (תמונה ודף) ושני המסמכים של עמדת
+ * המכירות. החלטת הבעלים 8.10.2026, ללקוחות דתיים. קבוע אחד כדי שההחלטה תחול בכל מקום.
+ */
+export const DOCUMENT_BLESSING_LINE = "בס״ד";

@@ -13,7 +13,7 @@
  * המודול מקבל VoucherData, שאין בו מחיר, ומצייר. את הגופן ואת הלוגו טוען
  * הרכיב (components/admin/VoucherCanvas.tsx), כי טעינה תלויה ב-document.
  */
-import { SITE_NAME } from "@/lib/constants";
+import { DOCUMENT_BLESSING_LINE, SITE_NAME } from "@/lib/constants";
 import type { VoucherData } from "@/lib/sales/voucher";
 
 export const VOUCHER_WIDTH = 1080;
@@ -428,6 +428,9 @@ function drawOrder(p: Painter, data: VoucherData, assets: VoucherAssets, options
   ctx.fillRect(0, 0, W, bar);
   ctx.fillRect(0, H - bar, W, bar);
 
+  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), מתחת לפס האדום */
+  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W / 2, 46, "center");
+
   /* כותרת העסק: לוגו מימין, שם ותיאור משמאלו */
   const logoH = 92;
   const logoW = logoH * assets.logoAspect;
@@ -605,6 +608,9 @@ function drawGift(p: Painter, data: VoucherData, assets: VoucherAssets): void {
   ctx.globalAlpha = 1;
   drawDiamond(ctx, W / 2, 40, 9, t.accent);
   drawDiamond(ctx, W / 2, H - 40, 9, t.accent);
+
+  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), בין המסגרת ללוגו */
+  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W / 2, 82, "center");
 
   const logoH = 96;
   const logoW = logoH * assets.logoAspect;

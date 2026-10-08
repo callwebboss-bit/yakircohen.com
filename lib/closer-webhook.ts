@@ -8,29 +8,16 @@ export type CloserTouchPayload = {
   cta_type?: string;
 };
 
+/**
+ * מושבת. החלטת הבעלים 8.10.2026: yakir-closer הוא כלי פנימי של יקיר בלבד ולא
+ * מקבל שום דבר מהאתר. הפונקציה נשארת כדי שהנתיבים /api/lead-intake ו-/api/lead-touch
+ * והרכיבים בצד הלקוח ימשיכו לעבוד בלי שינוי, אבל היא לא שולחת בקשה לשום כתובת,
+ * גם אם CLOSER_INTAKE_WEBHOOK_URL ו-CLOSER_INTAKE_TOKEN עדיין מוגדרים ב-Vercel.
+ * lib/closer-webhook.test.ts מוכיח את זה. להסרה מלאה: למחוק את שני המשתנים מ-Vercel,
+ * ואז את /api/lead-touch ואת fireLeadTouch (הם שולחים רק לקלוסר).
+ */
 export async function fireCloserWebhook(
   payload: BookIntakeCloserPayload | CloserTouchPayload,
 ): Promise<void> {
-  const url = process.env.CLOSER_INTAKE_WEBHOOK_URL?.trim();
-  if (!url) return;
-
-  const token = process.env.CLOSER_INTAKE_TOKEN?.trim();
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 3000);
-
-  try {
-    await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-  } catch (err) {
-    console.warn("[closer-webhook] closer webhook failed", err);
-  } finally {
-    clearTimeout(timeout);
-  }
+  void payload;
 }

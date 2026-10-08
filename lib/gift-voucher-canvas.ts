@@ -1,4 +1,5 @@
 import { encodeCode39, isCode39Encodable } from "@/lib/code39";
+import { DOCUMENT_BLESSING_LINE } from "@/lib/constants";
 import { VOUCHER_LOGO_DATA_URL } from "@/lib/sales/voucher-logo.generated";
 
 /**
@@ -406,7 +407,7 @@ export async function drawVoucherImage(
   ctx.textAlign = "center";
   ctx.fillStyle = COLORS.muted;
   ctx.font = `400 22px ${sans}`;
-  ctx.fillText("בס״ד", width / 2, pad + 62);
+  ctx.fillText(DOCUMENT_BLESSING_LINE, width / 2, pad + 62);
   ctx.textAlign = "right";
 
   // מיקרופון באמבלמה במרכז העליון
