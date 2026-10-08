@@ -271,9 +271,12 @@ describe("no price anywhere", () => {
   it("for every card, order and gift: no currency, no VAT, none of the card's amounts", () => {
     for (const c of buildSalesBook().cards) {
       const addonIds = c.addons.map((a) => a.id);
+      /* קוד קבוע בלי ספרות: קוד אקראי עלול להכיל ספרות שמתנגשות עם סכום בקטלוג.
+         קודים אמיתיים (YC-XXXX עם ספרות) נבדקים בנפרד למעלה. */
+      const code = "YC-ABCD";
       const docs = [
-        buildVoucherData({ kind: "order", cardId: c.id, addonIds, participants: 4, firstName: "דנה", issuedAt: ISSUED }),
-        buildVoucherData({ kind: "gift", cardId: c.id, addonIds, giftTo: "רחל", giftFrom: "נועם", issuedAt: ISSUED }),
+        buildVoucherData({ kind: "order", cardId: c.id, addonIds, participants: 4, firstName: "דנה", issuedAt: ISSUED, code }),
+        buildVoucherData({ kind: "gift", cardId: c.id, addonIds, giftTo: "רחל", giftFrom: "נועם", issuedAt: ISSUED, code }),
       ];
       const amounts = priceNumbers(c);
       for (const data of docs) {
