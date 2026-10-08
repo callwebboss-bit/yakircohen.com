@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 174,
-  "contentHash": "809721b87a3c2fe9",
+  "contentHash": "4aa72c2e1452d3b8",
   "items": [
     {
       "id": "studio_half_hour",
@@ -187,7 +187,7 @@
       "exVat": 300,
       "inclVat": 354,
       "priceFrom": false,
-      "context": "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+      "context": "הטכנאי עובד איתכם לעומק על השירה בזמן ההקלטה, תו אחרי תו ואות אחרי אות, ותיקון זיופים בשיר.",
       "suitedFor": "תוספת להקלטת שיר באולפן"
     },
     {

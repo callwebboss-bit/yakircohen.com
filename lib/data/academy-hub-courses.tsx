@@ -39,7 +39,7 @@ export const ACADEMY_HUB_COURSES: readonly AcademyHubCourse[] = [
   {
     id: "music-production",
     href: "/academy/music-production",
-    title: "יצירה מוזיקלית",
+    title: "הפקה מוזיקלית",
     description: "עריכה ב-DAW, הפקה, מיקס ומאסטרינג מאפס",
     icon: "🎚️",
     category: "music-production",

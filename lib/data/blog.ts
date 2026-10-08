@@ -284,7 +284,7 @@ const PODCAST_SERVICE_LOOKUP: Record<string, RelatedServiceCallout> = {
   },
   "academy/stuttering-course": {
     href: "/academy/stuttering-course",
-    title: "קורס טיפול בגמגום - גישה לוגית, לא רק טכנית",
+    title: "קורס גמגום - גישה לוגית, לא רק טכנית",
     subtitle:
       "עבודה על הפירוש שהראש נותן לקהל, לא רק על הצליל. פגישות פנים מול פנים או מרחוק.",
     whatsappText: "שלום, אשמח לתאם פגישת חקירה לוגית לגמגום (שעה). פנים מול פנים או מרחוק.",

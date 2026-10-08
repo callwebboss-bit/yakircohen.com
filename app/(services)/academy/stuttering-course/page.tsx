@@ -22,7 +22,7 @@ import {
 export const metadata: Metadata = constructMetadata({
   title: "קורס הפסקת גמגום | שיטת NeverMind",
   description:
-    "תוכנית טיפולית מקיפה לגמגום לילדים ומבוגרים. שיטת NeverMind: נשימה, ביטחון עצמי ודיבור חופשי. קורס מול מיקרופון באולפן במודיעין.",
+    "תוכנית אימון מקיפה לגמגום לילדים ומבוגרים. שיטת NeverMind: נשימה, ביטחון עצמי ודיבור חופשי. קורס מול מיקרופון באולפן במודיעין.",
   slug: "academy/stuttering-course",
   keywords: [
     "קורס גמגום",
@@ -138,7 +138,7 @@ export default function StutteringCoursePage() {
           </p>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            תוכנית טיפולית מקיפה לגמגום לילדים ומבוגרים. שיטת NeverMind
+            תוכנית אימון מקיפה לגמגום לילדים, למבוגרים ולילדים בליווי מבוגר. שיטת NeverMind
             ייחודית המשלבת נשימה, ביטחון עצמי ודיבור חופשי.
           </p>
 
@@ -220,7 +220,7 @@ export default function StutteringCoursePage() {
               לא &quot;איך להוציא מילה&quot;. אלא &quot;למה היא נתקעת&quot;
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              רוב הטיפולים מתמקדים רק ב&quot;איך להוציא מילה&quot;. אנחנו
+              רוב השיטות מתמקדות רק ב&quot;איך להוציא מילה&quot;. אנחנו
               מתמקדים ב&quot;למה המילה נתקעת&quot;. הגמגום נובע מלחץ, חרדה
               ופחד מהגמגום עצמו - מעגל קסמים ששוברים אותו לא בכוח, אלא
               בהבנה.
@@ -253,7 +253,7 @@ export default function StutteringCoursePage() {
               ילדים
             </p>
             <h3 className="mt-2 text-lg font-semibold text-foreground">
-              טיפול בגמגום אצל ילדים
+              אימון לילדים שמגמגמים
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               ילד לא צריך להרגיש &quot;מקולקל&quot;. הוא צריך להרגיש מובן.

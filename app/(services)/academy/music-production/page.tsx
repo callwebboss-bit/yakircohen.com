@@ -96,7 +96,7 @@ const MUSIC_PRODUCTION_FAQ: FAQItem[] = [
 
 /* F-32 (7.10.2026): השם הנגיש מתחיל בטקסט הגלוי של הכפתור (בלי האימוג'י), ואחריו ההקשר.
    כך פקודת קול "קבעו שיחה" מפעילה אותו. */
-const WA_CTA_ARIA_LABEL = `${OUTCOME_CTA.heroBookNoCommit.replace(/^\p{Extended_Pictographic}\uFE0F?\s*/u, "")}, קורס יצירה מוזיקלית בוואטסאפ`;
+const WA_CTA_ARIA_LABEL = `${OUTCOME_CTA.heroBookNoCommit.replace(/^\p{Extended_Pictographic}\uFE0F?\s*/u, "")}, קורס הפקה מוזיקלית בוואטסאפ`;
 
 const bookCta = resolveServiceBookCta("academy/music-production");
 const musicProductionTechBarrierRelief = resolveTechBarrierRelief(
@@ -105,7 +105,7 @@ const musicProductionTechBarrierRelief = resolveTechBarrierRelief(
 
 export default function MusicProductionPage() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר, אני מעוניין/ת בקורס יצירה מוזיקלית והפקה. אשמח לשמוע פרטים ולקבוע מפגש אפיון.",
+    text: "היי יקיר, אני מעוניין/ת בקורס הפקה מוזיקלית. אשמח לשמוע פרטים ולקבוע מפגש אפיון.",
     utm_source: "academy",
     utm_campaign: "music_production_cta",
   });
@@ -137,7 +137,7 @@ export default function MusicProductionPage() {
               </li>
               <li aria-hidden="true">/</li>
               <li className="font-medium text-foreground" aria-current="page">
-                יצירה מוזיקלית
+                הפקה מוזיקלית
               </li>
             </ol>
           </nav>
@@ -147,7 +147,7 @@ export default function MusicProductionPage() {
           </p>
 
           <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            קורס יצירה מוזיקלית
+            קורס הפקה מוזיקלית
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -286,7 +286,7 @@ export default function MusicProductionPage() {
             </a>
           )}
           <div className="mt-5 flex justify-center">
-            <ShareButton title="קורס יצירה מוזיקלית | יקיר כהן הפקות" />
+            <ShareButton title="קורס הפקה מוזיקלית | יקיר כהן הפקות" />
           </div>
         </div>
       </section>

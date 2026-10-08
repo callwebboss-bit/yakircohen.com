@@ -2,7 +2,7 @@ export const NEVERMIND_EXTERNAL_URL = "https://nevermind.co.il";
 
 export const STUTTERING_PROCESS_PILLARS: readonly string[] = [
   "הפחתת לחץ כללי בחיים",
-  "טיפול ישיר בפחד מגמגום",
+  "עבודה ישירה על הפחד מגמגום",
   "בניית ביטחון עצמי בדיבור",
   "יכולת לדבר גם על נושאים קשים ורגשיים",
 ] as const;

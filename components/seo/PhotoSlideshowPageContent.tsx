@@ -60,7 +60,7 @@ export default function PhotoSlideshowPageContent() {
       whatsappText={service.whatsappText}
       utmCampaign={service.utmCampaign}
       bookSlug={service.slug}
-      scarcityLabel="עריכה מקצועית - מסירה תוך 48 שעות"
+      scarcityLabel="עריכה מקצועית - בדרך כלל תוך 48 שעות"
       pagePath="/photo-slideshow"
       faqs={service.faqs}
       {...heroProps}
@@ -82,7 +82,7 @@ export default function PhotoSlideshowPageContent() {
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             מחפשים עריכת מצגת מהיום למחר? מאות תמונות ואפס זמן? אנחנו עורכים
-            סרט מקצועי עם מוזיקה ומעברים, מוכן להקרנה ב-48 שעות (או פחות).
+            סרט מקצועי עם מוזיקה ומעברים, מוכן להקרנה בדרך כלל תוך 48 שעות.
           </p>
           <a
             href={expressHref}
@@ -345,7 +345,11 @@ export default function PhotoSlideshowPageContent() {
 
         {service.faqs.length > 0 ? (
           <FAQAccordion
-            items={[...service.faqs, ...GROWTH_SLIDESHOW_FAQS]}
+            items={[
+              ...service.faqs,
+              /* growth-delivery כפול לשאלת זמן ההכנה של העמוד */
+              ...GROWTH_SLIDESHOW_FAQS.filter((faq) => faq.id !== "growth-delivery"),
+            ]}
             title="שאלות נפוצות, מצגת תמונות ומצגת גדילה"
             className="py-0"
           />

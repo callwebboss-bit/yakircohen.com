@@ -181,7 +181,7 @@ export default function StutteringPageContent() {
               לא &quot;איך להוציא מילה&quot; - אלא &quot;למה היא נתקעת&quot;
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              רוב הטיפולים מתמקדים ב&quot;איך להוציא מילה&quot;. שיטת{" "}
+              רוב השיטות מתמקדות ב&quot;איך להוציא מילה&quot;. שיטת{" "}
               <a
                 href={NEVERMIND_EXTERNAL_URL}
                 target="_blank"
@@ -252,7 +252,7 @@ export default function StutteringPageContent() {
                 ילדים ונוער
               </p>
               <h3 className="mt-2 text-lg font-semibold text-foreground">
-                טיפול בגמגום אצל ילדים
+                אימון לילדים שמגמגמים
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 ילד לא צריך להרגיש &quot;מקולקל&quot;. הוא צריך להרגיש מובן.
