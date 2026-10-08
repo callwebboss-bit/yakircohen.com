@@ -23,7 +23,7 @@ import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection"
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 export const metadata: Metadata = constructMetadata({
-  title: "קורס יצירה מוזיקלית",
+  title: "קורס הפקה מוזיקלית",
   description:
     "עריכה ב-DAW, הפקה, מיקס ומאסטרינג. קורס אישי 1:1 עם יקיר כהן באולפן מקצועי במודיעין. מהרעיון הראשון עד תוצר מוגמר.",
   slug: "academy/music-production",

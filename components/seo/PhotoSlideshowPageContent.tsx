@@ -47,7 +47,7 @@ export default function PhotoSlideshowPageContent() {
   });
 
   const expressHref = buildWhatsAppHref({
-    text: "אני צריך מצגת דחוף לאירוע, אשמח לשמוע על שירות אקספרס (24-48 שעות).",
+    text: "אני צריך מצגת דחוף לאירוע, אשמח לבדוק זמינות.",
     utm_source: "website",
     utm_campaign: "photo_slideshow_express",
   });
@@ -78,11 +78,12 @@ export default function PhotoSlideshowPageContent() {
             id="slideshow-express-heading"
             className="mt-2 text-xl font-semibold text-foreground sm:text-2xl"
           >
-            נתקעתם בלי מצגת? שירות אקספרס
+            נתקעתם בלי מצגת לאירוע?
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            מחפשים עריכת מצגת מהיום למחר? מאות תמונות ואפס זמן? אנחנו עורכים
-            סרט מקצועי עם מוזיקה ומעברים, מוכן להקרנה בדרך כלל תוך 48 שעות.
+            האירוע מתקרב ויש מאות תמונות ואפס זמן? אנחנו עורכים סרט מקצועי עם
+            מוזיקה ומעברים, מוכן להקרנה בדרך כלל תוך 48 שעות. לאירועים דחופים -
+            כתבו לנו ונבדוק זמינות.
           </p>
           <a
             href={expressHref}

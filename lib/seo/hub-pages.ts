@@ -209,7 +209,7 @@ export const CLINIC_HUB_SEO: HubPageSeo = {
 
 export const STUTTERING_HUB_SEO: HubPageSeo = {
   slug: "stuttering",
-  title: "טיפול בגמגום במודיעין | שיטת NeverMind",
+  title: "אימון לגמגום במודיעין | שיטת NeverMind",
   description:
     "ליווי לגמגום במודיעין. ילדים, נוער ומבוגרים - שיטת NeverMind מול מיקרופון.",
   keywords: [
