@@ -87,7 +87,7 @@ describe("Booking Flows", () => {
   describe("Pricing overlay copy", () => {
     it("shows before-VAT line and include disclosure", () => {
       cy.visit("/pricing");
-      cy.contains("לפני מע״מ 18%").should("exist");
+      cy.contains("כולל מע״מ").should("exist");
       cy.contains("מה כלול").should("exist");
       cy.contains("חצי שעה חדר (בלי עריכה)").should("exist");
     });
