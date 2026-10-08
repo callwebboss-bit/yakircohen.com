@@ -15,7 +15,6 @@ import {
   GIFT_VOUCHER_VALIDITY_YEARS,
 } from "@/lib/data/gift-voucher";
 import { SHOP_VOUCHER_FAQ_SCHEMA } from "@/lib/data/shop-vouchers";
-import { GIFT_VALIDITY_YEARS } from "@/lib/sales/voucher";
 
 test("normalizeVoucherCode: אותיות גדולות וניקוי רווחים", () => {
   assert.equal(normalizeVoucherCode(" ab-12 "), "AB-12");
