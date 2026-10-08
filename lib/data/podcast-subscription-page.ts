@@ -85,7 +85,7 @@ export type SubscriptionFaq = {
 export const PODCAST_SUBSCRIPTION_FAQS: readonly SubscriptionFaq[] = [
   {
     question: "יש התחייבות לתקופה מינימלית?",
-    answer: "המנוי נבנה לשנה, אבל אף אחד לא כבול. אפשר לבטל בכל שלב ובכל דרך, ולהישאר רק כשטוב לכם.",
+    answer: "המנוי נבנה לשנה והחיוב חודשי, אבל אף אחד לא כבול. אפשר לבטל בכל שלב ובכל דרך, ולהישאר רק כשטוב לכם.",
   },
   {
     question: "אפשר לבטל את המנוי? איך מקבלים החזר?",
