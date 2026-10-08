@@ -274,7 +274,7 @@ export default function FunnyRingtonePageContent() {
             כל המתנות מהאולפן
           </Link>
           <Link
-            href="/voucher"
+            href="/shop#vouchers"
             className="text-sm text-brand-red hover:underline"
           >
             שובר מתנה

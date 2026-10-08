@@ -403,7 +403,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "קורס גמגום",
         href: "/academy/stuttering-course",
-        title: "טיפול בגמגום",
+        title: "אימון לגמגום",
       },
       {
         label: "סדנאות לצוותים",

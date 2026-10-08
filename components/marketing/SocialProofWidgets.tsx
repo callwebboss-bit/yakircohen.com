@@ -308,6 +308,13 @@ export function InstagramFeed({
    overlays until then with the same opacity-swap technique as InstagramFeed.
    ───────────────────────────────────────────────────────────────────────────── */
 
+/*
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: SITE_TESTIMONIALS ריק. כל עוד אין
+ * המלצות מהאתר, הלשונית "המלצות מהאתר" לא מוצגת וביקורות Google מוצגות
+ * מיד. הלשונית חוזרת לבד כשתיכנס לרשימה המלצה עם מקור ואישור.
+ */
+const HAS_SITE_TESTIMONIALS = SITE_TESTIMONIALS.length > 0;
+
 /**
  * המלצות מהאתר - גיבוי מהיר בלי iframe. מסומנות במפורש כהמלצות מהאתר ולא
  * כביקורות Google, כי הן מוצגות מתחת לתג הדירוג של Google (שלב 5, FIT-04).
@@ -381,7 +388,7 @@ export function GoogleReviews({
   compactHeader = false,
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
-  const [preferLocal, setPreferLocal] = useState(true);
+  const [preferLocal, setPreferLocal] = useState(HAS_SITE_TESTIMONIALS);
 
   return (
     <section
@@ -406,38 +413,40 @@ export function GoogleReviews({
         </header>
       ) : null}
 
-      <div
-        className="mb-4 flex flex-wrap justify-center gap-2 text-xs"
-        role="tablist"
-        aria-label="מקור ביקורות"
-      >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={!preferLocal}
-          onClick={() => setPreferLocal(false)}
-          className={cn(
-            "rounded-full px-3 py-1.5 font-semibold transition-colors",
-            !preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
-          )}
+      {HAS_SITE_TESTIMONIALS ? (
+        <div
+          className="mb-4 flex flex-wrap justify-center gap-2 text-xs"
+          role="tablist"
+          aria-label="מקור ביקורות"
         >
-          ביקורות Google (חי)
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={preferLocal}
-          onClick={() => setPreferLocal(true)}
-          className={cn(
-            "rounded-full px-3 py-1.5 font-semibold transition-colors",
-            preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
-          )}
-        >
-          המלצות מהאתר (לא Google)
-        </button>
-      </div>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={!preferLocal}
+            onClick={() => setPreferLocal(false)}
+            className={cn(
+              "rounded-full px-3 py-1.5 font-semibold transition-colors",
+              !preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
+            )}
+          >
+            ביקורות Google (חי)
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={preferLocal}
+            onClick={() => setPreferLocal(true)}
+            className={cn(
+              "rounded-full px-3 py-1.5 font-semibold transition-colors",
+              preferLocal ? "bg-brand-red text-white" : "bg-surface text-muted-foreground",
+            )}
+          >
+            המלצות מהאתר (לא Google)
+          </button>
+        </div>
+      ) : null}
 
-      {preferLocal ? (
+      {HAS_SITE_TESTIMONIALS && preferLocal ? (
         <LocalReviewsStrip />
       ) : (
         <div className="relative max-h-[min(720px,85vh)] min-h-[420px] overflow-y-auto overflow-x-hidden rounded-2xl border border-border sm:min-h-[560px]">

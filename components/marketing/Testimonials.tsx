@@ -36,9 +36,20 @@ export type TestimonialsProps = {
 
 const DEFAULT_TESTIMONIALS: TestimonialItem[] = [...SITE_TESTIMONIALS];
 
+const SUBTITLE_WITH_ITEMS =
+  "המלצות מלקוחות אולפן, אירועים ופודקאסטים, עם קישור להקשר המלא.";
+/*
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: SITE_TESTIMONIALS ריק. בלי המלצות
+ * הסקשן מציג רק את דירוג Google, ההבהרה והקישורים, בלי רשת ריקה, ותת-הכותרת
+ * לא מבטיחה המלצות שאין בעמוד. ה-H2 וה-id נשארים, כי עמודי השירות מקשרים
+ * ל-#testimonials-section ("חוות דעת").
+ */
+const SUBTITLE_EMPTY =
+  "הביקורות שלקוחות כתבו עלינו נמצאות ב-Google Maps, ושם אפשר לקרוא את כולן.";
+
 export default function Testimonials({
   title = "מה הלקוחות אומרים",
-  subtitle = "המלצות מלקוחות אולפן, אירועים ופודקאסטים, עם קישור להקשר המלא.",
+  subtitle,
   items = DEFAULT_TESTIMONIALS,
   className,
   filterByPathPrefix,
@@ -53,6 +64,8 @@ export default function Testimonials({
       : items
     : items;
 
+  const hasItems = displayItems.length > 0;
+  const shownSubtitle = subtitle ?? (hasItems ? SUBTITLE_WITH_ITEMS : SUBTITLE_EMPTY);
   const categoryBreakdown = formatCategoryBreakdown(displayItems);
 
   return (
@@ -70,7 +83,7 @@ export default function Testimonials({
             {title}
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {subtitle}
+            {shownSubtitle}
           </p>
           {categoryBreakdown ? (
             <p className="mt-2 text-xs text-muted-foreground">{categoryBreakdown}</p>
@@ -86,7 +99,7 @@ export default function Testimonials({
               href="/testimonials"
               className="font-semibold text-brand-red hover:underline"
             >
-              לכל ההמלצות באתר
+              {hasItems ? "לכל ההמלצות באתר" : "לעמוד הביקורות"}
             </Link>
             {" · "}
             <Link
@@ -100,13 +113,15 @@ export default function Testimonials({
           </p>
         </header>
 
-        <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {displayItems.map((item) => (
-            <li key={item.id} className="reveal">
-              <TestimonialCard item={item} />
-            </li>
-          ))}
-        </ul>
+        {hasItems ? (
+          <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {displayItems.map((item) => (
+              <li key={item.id} className="reveal">
+                <TestimonialCard item={item} />
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </Container>
     </Section>
   );

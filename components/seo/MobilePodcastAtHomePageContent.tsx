@@ -400,7 +400,10 @@ export default function MobilePodcastAtHomePageContent() {
           </ul>
         </section>
 
-        {/* Social proof */}
+        {/* Social proof. החלטת הבעלים 8.10.2026, בדיקת ההמלצות: שני הציטוטים
+            שהיו כאן (דניאל גרין, יוסי כהן) הוסרו, כי אין להם מקור ציבורי.
+            הכותרת "לקוחות שכבר בחרו בנייד" הוחלפה, כי דירוג Google הוא של העסק
+            כולו ולא של האולפן הנייד בלבד. */}
         <section
           aria-labelledby="social-proof-heading"
           className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
@@ -409,38 +412,12 @@ export default function MobilePodcastAtHomePageContent() {
             id="social-proof-heading"
             className="text-center text-xl font-semibold text-foreground sm:text-2xl"
           >
-            לקוחות שכבר בחרו בנייד
+            מה הלקוחות אומרים
           </h2>
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <blockquote className="rounded-xl border border-border bg-background p-5">
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                &quot;הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים.&quot;
-              </p>
-              <footer className="mt-4 flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red-text">
-                  דג
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-foreground">דניאל גרין</p>
-                  <p className="text-xs text-muted-foreground">יזם, גרין אנד קו</p>
-                </div>
-              </footer>
-            </blockquote>
-            <blockquote className="rounded-xl border border-border bg-background p-5">
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                &quot;אירוע חברה עם הפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת.&quot;
-              </p>
-              <footer className="mt-4 flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red-text">
-                  יכ
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-foreground">יוסי כהן</p>
-                  <p className="text-xs text-muted-foreground">מנכ״ל, חברת הייטק</p>
-                </div>
-              </footer>
-            </blockquote>
-          </div>
+          <p className="mt-3 text-center text-sm text-muted-foreground">
+            הביקורות שלקוחות כתבו עלינו נמצאות ב-Google Maps, על כל השירותים יחד
+            ולא רק על האולפן הנייד.
+          </p>
           <div className="mt-6 flex justify-center">
             <GoogleRatingBadge variant="compact" showReviewCta={false} />
           </div>

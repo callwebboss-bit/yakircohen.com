@@ -4,8 +4,10 @@
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { formatPrice } from "@/lib/data/pricing-display";
 import {
   getExVat,
+  getPriceById,
   PODCAST_EXTRA_EDIT_NOTE,
   PODCAST_EXTRA_EDIT_TIME,
   PODCAST_FULL_PRODUCTION_NOTE,
@@ -26,6 +28,7 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
   id: "audio" | "video" | "full";
   title: string;
   exVat: number;
+  suitedFor?: string;
   summary: string;
   points: readonly string[];
 }[] = [
@@ -33,6 +36,7 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     id: "audio",
     title: "אודיו",
     exVat: getExVat("podcast_audio"),
+    suitedFor: getPriceById("podcast_audio")?.suitedFor,
     summary:
       "בלי צילום. הקלטת אודיו ברמה גבוהה, ועריכה שמובילה את הקטע לסאונד החם והמדויק שחיפשתם.",
     points: [
@@ -44,13 +48,19 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     id: "video",
     title: "וידאו",
     exVat: getExVat("podcast_video"),
+    suitedFor: getPriceById("podcast_video")?.suitedFor,
     summary: `${PODCAST_VIDEO_INCLUDES_NOTE}.`,
-    points: ["קטעי ריל: בתוספת", "עריכה נוספת: בהפקה המלאה"],
+    points: [
+      "מפיק מלווה בזמן אמת",
+      `עריכה נוספת (ניקוי גמגומים, שיעולים ושתיקות): בתוספת, ${formatPrice(getExVat("podcast_editing_hour"), { from: true }).inline}, או כלולה בהפקה המלאה`,
+      "קטעי ריל: בתוספת",
+    ],
   },
   {
     id: "full",
     title: "הפקה מלאה",
     exVat: getExVat("full_podcast_production"),
+    suitedFor: getPriceById("full_podcast_production")?.suitedFor,
     summary: `${PODCAST_FULL_PRODUCTION_NOTE}.`,
     points: ["קטעי ריל: בתוספת"],
   },
@@ -65,7 +75,7 @@ export const PODCAST_RECORDING_STUDIO_FEEL =
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
   `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}`,
   "סאונד אולפני נקי, Shure, Rode",
-  "3 חללי הקלטה מעוצבים",
+  "רקע ועיצוב שמשתנים לפי מה שתרצו",
   `עריכה מקצועית נוספת ${PODCAST_EXTRA_EDIT_TIME}`,
   TIME_CLAIMS.podcastSameSecond,
   "מוכן להעלאה לספוטיפיי ויוטיוב",

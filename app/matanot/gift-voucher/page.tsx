@@ -8,7 +8,7 @@ import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 
 const TITLE = "שובר מתנה להקלטה באולפן: עיצוב והורדה";
 const DESCRIPTION =
-  "בוחרים סכום או חבילה, כותבים למי ומאת מי והודעה אישית, ורואים את השובר מיד. אפשר להוריד אותו כתמונה ולהגיש למקבל/ת.";
+  "בוחרים חבילה, כותבים למי ומאת מי והודעה אישית, ורואים את השובר מיד. אפשר להוריד אותו כתמונה ולהגיש למקבל/ת.";
 
 export const metadata: Metadata = constructMetadata({
   title: TITLE,
@@ -47,7 +47,7 @@ export default function GiftVoucherPage() {
               שובר מתנה להקלטה באולפן
             </h1>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              בוחרים סכום או חבילה, כותבים כמה מילים אישיות, ורואים את השובר
+              בוחרים חבילה, כותבים כמה מילים אישיות, ורואים את השובר
               בזמן אמת. את התמונה אפשר להוריד ולהעביר למקבל/ת.
             </p>
           </header>

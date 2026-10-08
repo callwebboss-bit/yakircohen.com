@@ -69,7 +69,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           icon: "🎁",
           title: "שובר מתנה לאולפן",
           description: "מתנה לזוג לפני החתונה - שעה באולפן או חבילת שיר.",
-          href: "/voucher",
+          href: "/shop#vouchers",
         },
       ],
     },

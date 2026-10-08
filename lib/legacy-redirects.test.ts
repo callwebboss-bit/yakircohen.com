@@ -22,7 +22,8 @@ function serverMatches(source: string, pathname: string): boolean {
 
 /** ה-regex שנכתב ל-routes-manifest, שממנו Vercel בונה את הניתוב */
 function manifestMatches(source: string, pathname: string): boolean {
-  /* ['/_next'] כמו ש-next build מעביר. בלי דגל i: הדפדפן שולח hex באותיות גדולות */
+  /* ['/_next'] כמו ש-next build מעביר. בלי דגל i, כמו ב-routes-manifest: Next שומר
+     רק את compiled.source (build-custom-route.js:24, 28), ולכן %d7 לא תואם %D7 ב-Vercel */
   const route = buildCustomRoute("redirect", { source, destination: "/", permanent: true }, ["/_next"]);
   return new RegExp(route.regex).test(pathname);
 }
@@ -170,6 +171,85 @@ describe("legacy redirects: one hop (www, trailing slash)", () => {
       (r) => !r.destination.startsWith("https://yakircohen.com/") && !r.destination.startsWith("https://wa.me/"),
     );
     assert.deepEqual(offenders, []);
+  });
+});
+
+/** אותו נתיב בקשה, עם hex באותיות קטנות כמו בקישורים של WordPress (%d7%a9) */
+function lowerHex(pathname: string): string {
+  return pathname.replace(/%[0-9A-F]{2}/g, (escape) => escape.toLowerCase());
+}
+
+/**
+ * היעד של הכלל הראשון שתואם, לפי הסדר ב-routes-manifest וב-regex שלו. זה מה
+ * ש-Vercel עושה: הכללים של getLegacyRedirects יושבים ראשונים ב-next.config.ts:135,
+ * לפני כללי ה-www והסלאש, ולכן התאמה כאן היא קפיצה אחת ליעד מלא.
+ */
+function firstManifestDestination(pathname: string): string | null {
+  const hit = getLegacyRedirects().find((r) => manifestMatches(r.source, pathname));
+  return hit ? hit.destination.replace("https://yakircohen.com", "") : null;
+}
+
+describe("legacy redirects: lowercase hex from WordPress links (8.10.2026)", () => {
+  /* כתובות ישנות מוכרות. /שיר-במתנה הוא המקרה שנבדק באתר החי (404 באותיות
+     קטנות). מדריך הדרשה הוא הכתובת עם הכי הרבה קליקים במפה. הכתובת עם התאריך
+     בודקת שהתאום יושב לפני "/2019/:path*". */
+  const known: ReadonlyArray<readonly [string, string]> = [
+    ["/שיר-במתנה", "/studio/recording-song-modiin/gifts"],
+    ["/שיר-מתנה-לחתן-ולכלה-להעניק-להם-רגע-מה", "/studio/recording-song-modiin/gifts"],
+    ["/דרשה-לבר-מצווה-קצר-ולעניין", "/blog/bar-mitzvah-speech"],
+    ["/צרו-קשר", "/contact"],
+    ["/אולפן-הקלטות-בירושלים", "/studio/studio-jerusalem"],
+    ["/2019/11/05/שירי-סלואו-לחתונה", "/blog/wedding-slow-songs"],
+  ];
+
+  it("reproduces the bug: the upper-case source alone misses a lower-case request in the manifest regex", () => {
+    const source = getLegacyRedirects().find((r) => decodeURI(bareSource(r.source)) === "/שיר-במתנה")!.source;
+    assert.match(source, /%D7/);
+    const lower = lowerHex(requestPathname("/שיר-במתנה"));
+    assert.equal(lower, "/%d7%a9%d7%99%d7%a8-%d7%91%d7%9e%d7%aa%d7%a0%d7%94");
+    assert.equal(manifestMatches(source, lower), false);
+  });
+
+  it("known old Hebrew URLs reach the same target in upper and lower case, with and without the slash", () => {
+    for (const [old, target] of known) {
+      const upper = requestPathname(old);
+      const lower = lowerHex(upper);
+      assert.notEqual(lower, upper, old);
+      for (const pathname of [upper, `${upper}/`, lower, `${lower}/`]) {
+        assert.equal(firstManifestDestination(pathname), target, `${old} as ${pathname}`);
+      }
+    }
+  });
+
+  it("the dated lower-case URL does not fall into the /2019 catch-all", () => {
+    const lower = lowerHex(requestPathname("/2019/11/05/שירי-סלואו-לחתונה/"));
+    assert.notEqual(firstManifestDestination(lower), "/blog");
+  });
+
+  it("every encoded source is followed directly by its lower-case twin with the same destination", () => {
+    const all = getLegacyRedirects();
+    /* המקורות עצמם, בלי התאומים: יש בהם לפחות escape אחד עם אות גדולה */
+    const encoded = all.filter((r) => r.source !== lowerHex(r.source));
+    assert.ok(encoded.length >= 214);
+    for (const r of encoded) {
+      const twin = all[all.indexOf(r) + 1];
+      assert.ok(twin, `no twin after ${decodeURI(r.source)}`);
+      assert.equal(twin.source, lowerHex(r.source), decodeURI(r.source));
+      assert.equal(twin.destination, r.destination, decodeURI(r.source));
+      const pathname = lowerHex(requestPathname(decodeURI(bareSource(r.source))));
+      assert.ok(manifestMatches(twin.source, pathname), `twin misses ${decodeURI(r.source)}`);
+    }
+  });
+
+  it("ASCII sources get no twin", () => {
+    const all = getLegacyRedirects();
+    assert.equal(all.filter((r) => decodeURI(bareSource(r.source)) === "/recording").length, 1);
+  });
+
+  it("stays under the 1,000 custom routes where next build starts warning", () => {
+    /* load-custom-routes.js:473 סופר headers + rewrites + redirects. היום: כלל
+       headers אחד ב-next.config.ts, אפס rewrites, וארבעה redirects שכתובים שם ישירות. */
+    assert.ok(getLegacyRedirects().length + 4 + 1 < 1000);
   });
 });
 

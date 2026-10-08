@@ -23,7 +23,7 @@ export const PODCAST_HUB_SEO: HubPageSeo = {
   title: "אולפן פודקאסט מקצועי במודיעין | מבוסס חומרה",
   description:
     /* WP3: היה "מ-750 ₪", מחיר חצי שעה גלם בלי עריכה, בתיאור שמבטיח פרק מוכן */
-    `אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. 4 מתחמי הקלטה, Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט. פרק ערוך מ-${withVat(getExVat("podcast_audio")).toLocaleString("he-IL")} ₪ כולל מע״מ.`,
+    `אולפן פודקאסט מקצועי במודיעין, מבוסס חומרה. עד 4 מיקרופונים, Shure & Rode, הפרק אצלכם באותה שנייה שמסיימים להקליט. פרק ערוך מ-${withVat(getExVat("podcast_audio")).toLocaleString("he-IL")} ₪ כולל מע״מ.`,
   keywords: [
     "אולפן פודקאסט",
     "תוכנית שמע",
@@ -209,7 +209,7 @@ export const CLINIC_HUB_SEO: HubPageSeo = {
 
 export const STUTTERING_HUB_SEO: HubPageSeo = {
   slug: "stuttering",
-  title: "טיפול בגמגום במודיעין | שיטת NeverMind",
+  title: "אימון לגמגום במודיעין | שיטת NeverMind",
   description:
     "ליווי לגמגום במודיעין. ילדים, נוער ומבוגרים - שיטת NeverMind מול מיקרופון.",
   keywords: [

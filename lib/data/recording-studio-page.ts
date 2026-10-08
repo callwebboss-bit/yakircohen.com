@@ -1,4 +1,6 @@
-﻿export type RecordingStudioOffering = {
+﻿import { PODCAST_VIDEO_CAMERAS_NOTE } from "@/lib/data/pricing-catalog";
+
+export type RecordingStudioOffering = {
   title: string;
   subtitle: string;
   description: string;
@@ -31,7 +33,7 @@ export const RECORDING_STUDIO_OFFERINGS: readonly RecordingStudioOffering[] = [
     title: "פודקאסטים מצולמים (Vodcast)",
     subtitle: "הפודקאסט שלך, ברמת טלוויזיה",
     description:
-      "אולפן פודקאסטים במודיעין, 3 מצלמות 4K, סאונד ברודקאסט, עריכה מלאה ותוצר מוכן ליוטיוב וטיקטוק.",
+      `אולפן פודקאסטים במודיעין, צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}, סאונד ברודקאסט, והפרק המלא אצלכם מיד בסוף ההקלטה, מוכן ליוטיוב וטיקטוק.`,
     href: "/podcast",
   },
   {

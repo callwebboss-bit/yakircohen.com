@@ -23,7 +23,7 @@ const RELATED_LINKS = [
   { href: "/studio/blessings", label: "כל סוגי הברכות" },
   { href: "/studio/blessings/bar-mitzvah", label: "בר/בת מצווה" },
   { href: "/studio/blessings/video-clip", label: "שיר + קליפ" },
-  { href: "/voucher", label: "שובר מתנה" },
+  { href: "/shop#vouchers", label: "שובר מתנה" },
 ] as const;
 
 export default function BlessingsBrideGroomPageContent() {

@@ -257,7 +257,7 @@ export default function BlessingsHubPageContent() {
             </li>
             <li>
               <Link
-                href="/voucher"
+                href="/shop#vouchers"
                 className={chipClass}
               >
                 שובר מתנה

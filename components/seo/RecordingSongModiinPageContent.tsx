@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
-import TestimonialCard from "@/components/marketing/TestimonialCard";
+import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import MobileStudioComesToYou from "@/components/marketing/MobileStudioComesToYou";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
@@ -20,7 +20,6 @@ import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import {
   RECORDING_SONG_EQUIPMENT,
   RECORDING_SONG_PROCESS_STEPS,
-  RECORDING_SONG_TESTIMONIALS,
 } from "@/lib/data/recording-song-modiin-page";
 import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
@@ -307,7 +306,7 @@ export default function RecordingSongModiinPageContent() {
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       גם ילד שלא שר לעולם - מקליט בסביבה שקטה עם ליווי
-                      מקצועי. לא מוסרים הקלטה עד שאחרי אישור סופי.
+                      מקצועי. לא מוסרים הקלטה לפני אישור סופי.
                     </p>
                   </div>
                 </div>
@@ -701,7 +700,9 @@ export default function RecordingSongModiinPageContent() {
             </p>
           </div>
 
-          {/* 10. Testimonials */}
+          {/* 10. ביקורות. החלטת הבעלים 8.10.2026, בדיקת ההמלצות: שלוש ההמלצות
+              שהיו כאן הוסרו (אין להן מקור ציבורי). במקומן דירוג Google וקישור
+              לביקורות עצמן. */}
           <section aria-labelledby="testimonials-heading">
             <header className="mx-auto max-w-2xl text-center">
               <h2
@@ -710,14 +711,14 @@ export default function RecordingSongModiinPageContent() {
               >
                 מה אומרים הלקוחות
               </h2>
+              <p className="mt-3 text-sm text-muted-foreground">
+                הביקורות שלקוחות כתבו עלינו נמצאות ב-Google Maps, על כל השירותים
+                יחד.
+              </p>
             </header>
-            <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {RECORDING_SONG_TESTIMONIALS.map((item) => (
-                <li key={item.id}>
-                  <TestimonialCard item={item} />
-                </li>
-              ))}
-            </ul>
+            <div className="mt-6 flex justify-center">
+              <GoogleRatingBadge variant="compact" />
+            </div>
           </section>
 
           <StudioExperienceSection />
@@ -935,7 +936,7 @@ export default function RecordingSongModiinPageContent() {
               { href: "/events/attractions/confetti-cannon", title: "תותח קונפטי", description: "ניירות צבעוניים ברגע השיא של האירוע." },
               { href: "/events/attractions/wedding-smoking-machine", title: "עשן כבד לסלואו", description: "ענן לבן על רצפת הריקודים." },
               { href: "/events/dj-events", title: "DJ לאירוע", description: "תקליטן מקצועי שמנהל את הרחבה כל הערב." },
-              { href: "/voucher", title: "שובר מתנה", description: "שובר להקלטה באולפן או אטרקציה לאירוע." },
+              { href: "/shop#vouchers", title: "שובר מתנה", description: "שובר להקלטה באולפן או אטרקציה לאירוע." },
               { href: "/book", title: "הזמנה מקוונת", description: "בדיקת מחיר ותיאום דרך טופס ההזמנה.", ctaLabel: "להזמנה" },
             ]}
           />

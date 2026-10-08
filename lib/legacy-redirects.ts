@@ -533,6 +533,10 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   "/הפקת-סינגל-כמה-זה-באמת-עולה-ומה-צריך-לד": "/studio/recording-song-modiin",
   "/שיר-במתנה": "/studio/recording-song-modiin/gifts",
   "/שיר-מתנה-לאמא-מלים-מוזיקה-ולב-אחד-גדו": "/studio/recording-song-modiin/gifts",
+  /* עוד עמוד "שיר מתנה" מהאתר הישן, אותו נושא כמו שתי השורות למעלה. החזיר 404
+     באתר החי ב-8.10.2026 (curl, בלי הפניה בכלל). תשובות הבעלים 8.10.2026,
+     תשובה 1: "שיר במתנה" חי בעמוד המתנות. */
+  "/שיר-מתנה-לחתן-ולכלה-להעניק-להם-רגע-מה": "/studio/recording-song-modiin/gifts",
   "/הקלטת-ברכות": "/studio/blessings",
   "/הקלטת-ברכת-כלה": "/studio/blessings",
   "/קליפ-בת-מצווה-2": "/studio/blessings/bat-mitzvah-clip",
@@ -678,12 +682,46 @@ const ATTRACTIONS_OVERRIDES: Record<string, string> = {
  * node_modules/next/dist/docs/01-app/02-guides/redirecting.md:292).
  *
  * מקודדים רק את רצפי ה-non-ASCII ולא את כל המחרוזת, כדי שתחביר הדפוסים
- * (`:path*`, `\\+`) יישאר שלם. לרצף עברי זה בדיוק encodeURI. ה-regex נבנה
- * עם sensitive: false (node_modules/next/dist/lib/build-custom-route.js:17),
- * ולכן גם קידוד באותיות קטנות (%d7) תואם.
+ * (`:path*`, `\\+`) יישאר שלם. לרצף עברי זה בדיוק encodeURI, כלומר hex באותיות
+ * גדולות (%D7). קידוד באותיות קטנות (%d7) לא תואם את ה-source הזה ב-Vercel,
+ * ולכן כל מקור מקודד מקבל תאום. ראו withLowercaseHexTwin למטה.
  */
 export function toNextSource(source: string): string {
   return source.replace(/[^\x00-\x7F]+/g, (run) => encodeURI(run));
+}
+
+/**
+ * כל מקור מקודד מקבל תאום באותיות hex קטנות (%d7 לצד %D7), מיד אחריו ועם אותו יעד.
+ *
+ * למה: WordPress הוציא את הקישורים שלו בקידוד באותיות קטנות, וכך הם יושבים
+ * היום באתרים חיצוניים ובגוגל. בצילום Wayback של דף הבית הישן
+ * (web.archive.org/web/20211225132510/https://www.yakircohen.com/) כל 54
+ * הקישורים העבריים הם %d7 באותיות קטנות, כולם עם www וכולם עם סלאש בסוף.
+ * באתר החי, 8.10.2026 (curl): /שיר-במתנה באותיות גדולות קיבל 308 לעמוד המתנות,
+ * ובאותיות קטנות 404. הסיבה: Next בונה את ה-regex עם sensitive: false, אבל
+ * שומר ב-routes-manifest רק את compiled.source, בלי הדגל i
+ * (node_modules/next/dist/lib/build-custom-route.js:17, 24, 28), ו-Vercel מנתב
+ * לפי ה-regex הזה. ההערה הקודמת כאן טענה שאותיות קטנות תואמות, והבדיקה בדקה רק
+ * את ה-matcher של next start, שכן מקבל את הדגל.
+ *
+ * למה לא בפענוח ב-proxy.ts, כמו goneEquivalent: redirects רצים לפני ה-proxy
+ * (node_modules/next/dist/docs/01-app/02-guides/redirecting.md:293). כתובת
+ * WordPress מגיעה עם סלאש ולעתים עם www, ואז כלל הסלאש או כלל ה-www
+ * (next.config.ts:141-158) תופסים אותה קודם, וה-proxy היה נותן קפיצה שנייה
+ * (נבדק ב-curl: הצורה עם הסלאש קיבלה 308 לאותה כתובת בלי סלאש, ואז 404).
+ * כתובת עם תאריך הייתה נופלת ל-"/2019/:path*" ומגיעה לאינדקס הבלוג במקום
+ * למדריך (נבדק ב-curl: /2019/11/05/שירי-סלואו-לחתונה/ באותיות קטנות הגיע ל-/blog).
+ * התאום יושב באותו מקום ברשימה כמו המקור, ולכן שלושת המקרים מגיעים ליעד בקפיצה אחת.
+ *
+ * המחיר: 337 כללים נוספים (8.10.2026: 472 מקורות, 809 כללים יחד עם התאומים).
+ * סך הכל עדיין מתחת ל-1,000, הסף שבו Next מזהיר
+ * (node_modules/next/dist/lib/load-custom-routes.js:473), ומתחת לתקרה של 1,024
+ * ב-Vercel. הבדיקה ב-legacy-redirects.test.ts שומרת על שני הספים.
+ * קידוד מעורב (%D7%a9) לא מכוסה: אף מקור מוכר לא מייצר אותו.
+ */
+export function withLowercaseHexTwin(redirect: LegacyRedirect): LegacyRedirect[] {
+  const lower = redirect.source.replace(/%[0-9A-F]{2}/g, (escape) => escape.toLowerCase());
+  return lower === redirect.source ? [redirect] : [redirect, { ...redirect, source: lower }];
 }
 
 /**
@@ -782,5 +820,5 @@ export function getLegacyRedirects(): LegacyRedirect[] {
     ...fromCanonical,
     ...fromAttractions,
     attractionsCatchAll,
-  ];
+  ].flatMap(withLowercaseHexTwin);
 }

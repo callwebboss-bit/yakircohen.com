@@ -5,8 +5,6 @@ import Button from "@/components/ui/Button";
 import { formatNis } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
-  buildGiftVoucherCheckoutUrl,
-  GIFT_VOUCHER_CHECKOUT_URL,
   GIFT_VOUCHER_CHOICES,
   GIFT_VOUCHER_LIMITS,
   GIFT_VOUCHER_VALIDITY_LABEL,
@@ -24,7 +22,7 @@ const FIELD =
 export default function GiftVoucherBuilder() {
   const uid = useId();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [choiceId, setChoiceId] = useState(GIFT_VOUCHER_CHOICES[1]?.id ?? "");
+  const [choiceId, setChoiceId] = useState(GIFT_VOUCHER_CHOICES[0]?.id ?? "");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [message, setMessage] = useState("");
@@ -36,10 +34,10 @@ export default function GiftVoucherBuilder() {
     [choiceId],
   );
   const valueLabel = choice
-    ? choice.kind === "package"
-      ? `${choice.label}, ${formatNis(choice.amountNis)} כולל מע״מ`
-      : `${formatNis(choice.amountNis)} לשימוש באולפן`
+    ? `${choice.label}, ${formatNis(choice.amountNis)} כולל מע״מ`
     : "";
+
+  const validityLabel = GIFT_VOUCHER_VALIDITY_LABEL;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -53,7 +51,7 @@ export default function GiftVoucherBuilder() {
         to,
         message,
         valueLabel,
-        validityLabel: GIFT_VOUCHER_VALIDITY_LABEL,
+        validityLabel,
       }).catch(() => {
         if (!cancelled) setPreviewError(true);
       });
@@ -62,14 +60,8 @@ export default function GiftVoucherBuilder() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [from, to, message, valueLabel]);
+  }, [from, to, message, valueLabel, validityLabel]);
 
-  const checkoutUrl = choice
-    ? buildGiftVoucherCheckoutUrl(GIFT_VOUCHER_CHECKOUT_URL, choice.amountNis)
-    : null;
-
-  /* בלי כתובת סליקה: הכפתור פותח וואטסאפ עם בקשת רכישה מוכנה. הפרטים נשלחים
-     ליקיר בלחיצה של הגולש עצמו, לא לצד שלישי. */
   const whatsappHref = choice
     ? buildWhatsAppHref({
         text: [
@@ -95,7 +87,7 @@ export default function GiftVoucherBuilder() {
         to,
         message,
         valueLabel,
-        validityLabel: GIFT_VOUCHER_VALIDITY_LABEL,
+        validityLabel,
       });
       const blob = await canvasToPngBlob(canvas);
       const href = URL.createObjectURL(blob);
@@ -120,7 +112,7 @@ export default function GiftVoucherBuilder() {
       >
         <fieldset>
           <legend className="font-serif text-xl font-semibold text-foreground">
-            1. בחרו סכום או חבילה
+            1. בחרו חבילה
           </legend>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {GIFT_VOUCHER_CHOICES.map((option) => {
@@ -149,11 +141,9 @@ export default function GiftVoucherBuilder() {
                   <span className="mt-1 text-sm text-muted-foreground">
                     {option.label}
                   </span>
-                  {option.kind === "package" ? (
-                    <span className="mt-1 text-xs text-muted-foreground">
-                      {option.note}
-                    </span>
-                  ) : null}
+                  <span className="mt-1 text-xs text-muted-foreground">
+                    {option.note}
+                  </span>
                 </label>
               );
             })}
@@ -219,17 +209,7 @@ export default function GiftVoucherBuilder() {
         />
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          {checkoutUrl ? (
-            <Button
-              as="a"
-              href={checkoutUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-12 flex-1"
-            >
-              לרכישה
-            </Button>
-          ) : whatsappHref ? (
+          {whatsappHref ? (
             <Button
               as="a"
               href={whatsappHref}
@@ -250,17 +230,11 @@ export default function GiftVoucherBuilder() {
           </Button>
         </div>
 
-        {!checkoutUrl ? (
-          <p className="text-sm text-muted-foreground" role="status">
-            הכפתור לרכישה פותח וואטסאפ עם הבחירה והפרטים שמילאתם, ומשם מתאמים
-            את התשלום ומקבלים את קוד השובר.
-          </p>
-        ) : (
-          <p className="text-sm text-muted-foreground">
-            התשלום מתבצע אצל ספק הסליקה. שם הנותן, שם המקבל וההודעה נשארים
-            בדפדפן שלכם ולא נשלחים אליו.
-          </p>
-        )}
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          לחיצה על לרכישה פותחת וואטסאפ עם הבחירה והפרטים שמילאתם. אחרי שנדבר
+          נשלח הצעת מחיר, התשלום הוא מראש ובמלואו, ואחריו חשבונית ירוקה והשובר
+          עם קוד.
+        </p>
         {previewError ? (
           <p className="text-sm text-brand-red-text" role="alert">
             לא הצלחנו לצייר את תצוגת השובר. רעננו את הדף ונסו שוב.

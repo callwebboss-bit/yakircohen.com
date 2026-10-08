@@ -22,19 +22,15 @@ export const BOOK_CATEGORY_TESTIMONIAL_CATEGORY: Partial<
   online: "online",
 };
 
-/** ההמלצה ליד המחיר בכרטיסי /book. קטגוריה בלי רשומה לא מציגה המלצה. */
-export const PRICE_PROOF_TESTIMONIAL_ID: Partial<Record<BookCategoryId, string>> = {
-  /* ברכה מוקלטת */
-  studio: "6",
-  /* עריכה ושחזור של פודקאסט */
-  podcast: "1",
-  /* אטרקציות לאירוע */
-  events: "9",
-  /* DJ לחתונה */
-  dj: "8",
-  /* שירותים דיגיטליים */
-  online: "3",
-};
+/**
+ * ההמלצה ליד המחיר בכרטיסי /book. קטגוריה בלי רשומה לא מציגה המלצה.
+ *
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: ריק. חמשת המזהים שהיו כאן (6, 1, 9,
+ * 8, 3) הצביעו על המלצות שהוסרו מ-SITE_TESTIMONIALS כי אין להן מקור ציבורי.
+ * בלי המלצה PriceSocialProof לא מציג כלום, ודירוג Google כבר מופיע בראש
+ * /book (BookHeroTrustChips) וב-/book/[category] (TrustStatsBar).
+ */
+export const PRICE_PROOF_TESTIMONIAL_ID: Partial<Record<BookCategoryId, string>> = {};
 
 export function getTestimonialById(id: string | undefined): TestimonialItem | undefined {
   if (!id) return undefined;

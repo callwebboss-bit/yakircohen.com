@@ -1,26 +1,12 @@
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 
-/**
- * כתובת דף התשלום אצל ספק הסליקה הקיים (GROW).
- * הבעלים ממלא כאן. ריק = הכפתור "לרכישה" מושבת והמסך מציג הודעה במקומו.
- * אפשר לשלב {amount} (הסכום בשקלים, מספר שלם) אם הספק תומך בסכום בכתובת.
- * לא מועברים בכתובת שם הנותן, שם המקבל וההודעה: פרטים אישיים לא עוברים ב-URL.
- */
-export const GIFT_VOUCHER_CHECKOUT_URL = "";
-
-export type GiftVoucherChoice =
-  | { kind: "amount"; id: string; label: string; amountNis: number }
-  | {
-      kind: "package";
-      id: string;
-      label: string;
-      note: string;
-      amountNis: number;
-    };
-
-/** סכומי שובר חופשיים. הבעלים קובע אילו סכומים מוצעים. */
-export const GIFT_VOUCHER_AMOUNTS_NIS = [300, 500, 1000] as const;
+export type GiftVoucherChoice = {
+  id: string;
+  label: string;
+  note: string;
+  amountNis: number;
+};
 
 /** חבילות מהקטלוג. הסכום כולל מע״מ ונגזר מהקטלוג, לא נכתב ביד. */
 const PACKAGE_DEFS = [
@@ -38,49 +24,49 @@ const PACKAGE_DEFS = [
   },
 ] as const;
 
-export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = [
-  ...GIFT_VOUCHER_AMOUNTS_NIS.map(
-    (amountNis): GiftVoucherChoice => ({
-      kind: "amount",
-      id: `amount-${amountNis}`,
-      label: "סכום לשימוש באולפן",
-      amountNis,
-    }),
-  ),
-  ...PACKAGE_DEFS.map(
-    (pkg): GiftVoucherChoice => ({
-      kind: "package",
-      id: `package-${pkg.id}`,
-      label: pkg.label,
-      note: pkg.note,
-      amountNis: withVat(getExVat(pkg.catalogId)),
-    }),
-  ),
-];
+/**
+ * חבילות בלבד, בלי שוברי סכום (החלטת הבעלים 8.10.2026): שובר לשירות מסוים הוא
+ * שנתיים לפחות לפי תקנות שירותי תשלום, ושובר בסכום כסף 5 שנים לפחות. ראו להלן.
+ */
+export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = PACKAGE_DEFS.map(
+  (pkg): GiftVoucherChoice => ({
+    id: `package-${pkg.id}`,
+    label: pkg.label,
+    note: pkg.note,
+    amountNis: withVat(getExVat(pkg.catalogId)),
+  }),
+);
 
 /**
- * שורת התוקף שמודפסת על התמונה. מקור: שאלות ותשובות החנות (shop-vouchers.ts,
- * "בדרך כלל שנה ממועד הרכישה"). הבעלים צריך לאשר שזה התוקף הקבוע.
+ * תוקף השובר. אותו כלל כמו שובר עמדת המכירות: GIFT_VALIDITY_YEARS ב-
+ * lib/sales/voucher.ts (שנתיים, החלטת הבעלים 7.10.2026, חוק הגנת הצרכן).
+ * הערך כאן מקביל ולא מיובא, כדי שהרכיב בצד הלקוח לא יסחב את כל מודול המכירות.
+ * lib/gift-voucher.test.ts נכשל אם המספרים לא זהים.
+ *
+ * סיכון משפטי פתוח (נקרא ב-8.10.2026 מנוסח תקנות שירותי תשלום (פטור מהוראות
+ * החוק), התשפ"ב-2022, תקנה 2(א), https://www.nevo.co.il/law_html/law00/208503.htm,
+ * דרך WebFetch, לא אומת מול עורך דין): שובר לשירות מסוים הוא שנתיים לפחות, אבל
+ * שובר בסכום כסף (תו קנייה, כרטיס מתנה) הוא 5 שנים לפחות. לכן הוסרו הסכומים
+ * החופשיים והשארנו חבילות בלבד. להוספת שובר סכום חזרה צריך אישור עורך דין ותוקף 5 שנים.
  */
-export const GIFT_VOUCHER_VALIDITY_LABEL = "תוקף: שנה מיום הרכישה";
+export const GIFT_VOUCHER_VALIDITY_YEARS = 2;
+
+
+/* אותה מפת מילים כמו בבדיקה ב-lib/sales/voucher.test.ts */
+const VALIDITY_YEARS_WORDS: Readonly<Record<number, string>> = {
+  2: "שנתיים",
+  3: "שלוש שנים",
+  5: "חמש שנים",
+};
+
+/** "שנתיים". נגזר מהקבוע, כדי ששום עמוד לא יכתוב את התוקף ביד. */
+export const GIFT_VOUCHER_VALIDITY_TEXT =
+  VALIDITY_YEARS_WORDS[GIFT_VOUCHER_VALIDITY_YEARS] ?? `${GIFT_VOUCHER_VALIDITY_YEARS} שנים`;
+
+/** שורת התוקף שמודפסת על התמונה שמורידים. */
+export const GIFT_VOUCHER_VALIDITY_LABEL = `תוקף: ${GIFT_VOUCHER_VALIDITY_TEXT} מיום הרכישה`;
 
 export const GIFT_VOUCHER_LIMITS = {
   name: 40,
   message: 220,
 } as const;
-
-/** כתובת הרכישה לבחירה נתונה, או null כשהכתובת עוד לא הוגדרה. */
-export function buildGiftVoucherCheckoutUrl(
-  template: string,
-  amountNis: number,
-): string | null {
-  const trimmed = template.trim();
-  if (!trimmed) return null;
-  const filled = trimmed.replaceAll("{amount}", String(amountNis));
-  try {
-    const url = new URL(filled);
-    return url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}

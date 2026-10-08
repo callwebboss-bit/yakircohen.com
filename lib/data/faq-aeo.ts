@@ -102,7 +102,7 @@ export const PODCAST_HOW_TO_RECORD_FAQ: AeoFaqItem = {
   id: "how-to-record-podcast",
   question: "איך להקליט פודקאסט?",
   answer:
-    `קובעים תאריך, מגיעים לאולפן במודיעין, מקליטים ומצלמים עד שעה, ומקבלים פרק ערוך ${TIME_CLAIMS.quoteHour}. אין צורך בציוד ביתי - מספיק תוכן או נקודות לדיון. לפני ההגעה: טלפון על שקט, תסריט או שאלות מוכנות.`,
+    `קובעים תאריך, מגיעים לאולפן במודיעין, מקליטים ומצלמים עד שעה, ו${TIME_CLAIMS.podcastSameSecond}. אין צורך בציוד ביתי - מספיק תוכן או נקודות לדיון. לפני ההגעה: טלפון על שקט, תסריט או שאלות מוכנות.`,
 };
 
 export const PODCAST_RECORDING_PRICE_FAQ: AeoFaqItem = {
@@ -252,7 +252,7 @@ const PODCAST_HALF_HOUR_WITH_VAT = withVat(getExVat("studio_half_hour")).toLocal
 export const PODCAST_STUDIO_MODIIN_EXISTS_FAQ: AeoFaqItem = {
   id: "aeo-podcast-studio-modiin",
   question: "האם יש סטודיו לפודקאסט במודיעין?",
-  answer: `כן. סטודיו הפודקאסט של ${SITE_NAME} נמצא במודיעין מכבים רעות. יש בו 4 מתחמי הקלטה, עד 4 מיקרופונים בו זמנית ו-3 מצלמות קבועות, ו${TIME_CLAIMS.podcastSameSecond}. חצי שעה באולפן החל מ-${PODCAST_HALF_HOUR_WITH_VAT} ₪ כולל מע״מ. הסטודיו נמצא רק במודיעין, ואם נוח לכם יותר, מקליטים גם אצלכם בבית או במשרד.`,
+  answer: `כן. סטודיו הפודקאסט של ${SITE_NAME} נמצא במודיעין מכבים רעות. יש בו חלל שהרקע שלו משתנה לפי בקשה, עד 4 מיקרופונים בו זמנית ו-3 מצלמות קבועות, ו${TIME_CLAIMS.podcastSameSecond}. חצי שעה באולפן החל מ-${PODCAST_HALF_HOUR_WITH_VAT} ₪ כולל מע״מ. הסטודיו נמצא רק במודיעין, ואם נוח לכם יותר, מקליטים גם אצלכם בבית או במשרד.`,
 };
 
 /** שאלות AEO מרוכזות לדפי hub ולבדיקות audit */

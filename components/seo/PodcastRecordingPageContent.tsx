@@ -168,6 +168,11 @@ export default function PodcastRecordingPageContent() {
                 <p className="mt-4 text-sm leading-relaxed text-foreground">
                   {pkg.summary}
                 </p>
+                {pkg.suitedFor ? (
+                  <p className="mt-3 text-sm text-foreground/80">
+                    מתאים ל{pkg.suitedFor}.
+                  </p>
+                ) : null}
                 <ul className="mt-3 list-disc space-y-1.5 pr-5 text-sm text-muted-foreground">
                   {pkg.points.map((point) => (
                     <li key={point}>{point}</li>

@@ -11,12 +11,23 @@ import { getSameCategoryLinks } from "@/lib/site-architecture";
 
 
 export type FitAudience = "families" | "creators" | "business";
-export type FitDelivery = "in_studio" | "mobile" | "on_site" | "self_service";
+/* studio_or_mobile: לשירות שבאמת מוכר את שתי הדרכים באותו עמוד (ליווי הפקת
+   פודקאסט, אישור הבעלים 7.10.2026). עמודים שמוכרים רק אולפן או רק נייד נשארים
+   in_studio או mobile, לפי כלל ההפרדה ב-docs/SERVICE-FIT-MATRIX.md. */
+export type FitDelivery =
+  | "in_studio"
+  | "mobile"
+  | "studio_or_mobile"
+  | "on_site"
+  | "self_service";
 export type FitGuidance = "self_service" | "assisted" | "full_production";
+/* guided_podcast: ליווי שלם מהאפיון ועד הפרק, לא פרק בודד מוכן (אישור הבעלים
+   7.10.2026, שלבי הליווי ב-lib/data/podcast-production-page.ts). */
 export type FitOutcome =
   | "ready_song"
   | "recorded_blessing"
   | "finished_podcast_episode"
+  | "guided_podcast"
   | "video_clip"
   | "finished_audiobook"
   | "business_content_day";
@@ -50,6 +61,7 @@ export const FIT_AUDIENCE_LABEL: Record<FitAudience, string> = {
 export const FIT_DELIVERY_LABEL: Record<FitDelivery, string> = {
   in_studio: "באולפן",
   mobile: "נייד - מגיע אליכם",
+  studio_or_mobile: "באולפן במודיעין או נייד",
   on_site: "אצל הלקוח",
   self_service: "עצמאי / מרחוק",
 };
@@ -64,6 +76,7 @@ export const FIT_OUTCOME_LABEL: Record<FitOutcome, string> = {
   ready_song: "שיר מוכן",
   recorded_blessing: "ברכה מוקלטת",
   finished_podcast_episode: "פרק פודקאסט מוכן",
+  guided_podcast: "פודקאסט בליווי מלא, מהאפיון ועד הפרק",
   video_clip: "וידאו / קליפ",
   finished_audiobook: "ספר שמע מוכן",
   business_content_day: "יום תוכן לעסק",
@@ -230,11 +243,18 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     titleHe: "הפקת פודקאסט",
     primaryAudience: "creators",
     secondaryAudience: "business",
-    delivery: "in_studio",
+    /* אישור הבעלים 7.10.2026: העמוד מוכר ליווי שלם, מקליטים באולפן במודיעין
+       או בנייד, והעריכה כלולה. לכן לא "פרק מוכן", לא "באולפן" בלבד, והצעד
+       הבא כבר לא עריכת פודקאסט. פס הייצור הוא ההמשך למי שכבר יש לו פורמט,
+       כמו בהשוואת המסלולים בעמוד. שיחת האפיון עצמה לא יכולה להופיע כאן:
+       nextPath הוא עמוד מהמטריצה בלבד, והכפתור שלה כבר בעמוד. */
+    delivery: "studio_or_mobile",
     guidance: "full_production",
-    outcome: "finished_podcast_episode",
-    nextPath: "/podcast/podcast-editing",
-    priceAnchorId: "podcast_video",
+    outcome: "guided_podcast",
+    nextPath: "/podcast/bulk-production",
+    /* בלי priceAnchorId (היה podcast_video), אישור הבעלים 7.10.2026: לליווי
+       אין מחיר התחלה אחד, "קודם מבינים מה אתם צריכים, ורק אחר כך מדברים על
+       מחיר". השדה אופציונלי, כמו בכל עמוד בלי מוצר מתומחר משלו. */
   },
   {
     pathname: "/podcast/podcast-editing",
@@ -254,7 +274,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     titleHe: "השכרת אולפן פודקאסט",
     primaryAudience: "creators",
     delivery: "in_studio",
-    guidance: "self_service",
+    guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-recording",
     priceAnchorId: "studio_half_hour",

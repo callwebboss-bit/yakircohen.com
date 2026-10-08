@@ -1,6 +1,5 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import type { TestimonialItem } from "@/components/marketing/Testimonials";
 import { formatFromPriceDual, getExVat, PODCAST_VIDEO_CAMERAS_NOTE, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_EXTRA_EDIT_NOTE, PODCAST_PACK_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
@@ -47,7 +46,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
     /* החלטת הבעלים D63, 7.10.2026: בווידאו הפרק המלא בסוף ההקלטה. עריכה נוספת רק בהפקה המלאה */
     outcome: "MP4 ליוטיוב + MP3 לספוטיפיי, מיד בסוף ההקלטה",
     bestFor: "ראיונות, מיתוג ונוכחות ויזואלית",
-    href: "/podcast/podcast-production",
+    href: "/podcast/podcast-recording",
     linkLabel: "לפרטי פודקאסט וידאו",
   },
   {
@@ -63,7 +62,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
   TIME_CLAIMS.podcastSameSecond,
-  "4 מתחמי הקלטה עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
+  "עד 4 מיקרופונים נפרדים בו זמנית, בחלל שמעצבים לפי מה שתרצו",
   "מצלמות Sony ZV-E10 + DJI Osmo 4 + צילום 4K רב-זוויתי",
   "שרשרת סאונד אולפנית - ממשקי UAD + iZotope",
   "WAV + MP3 + MP4 + קובץ RSS + הדרכת הפצה לספוטיפיי ואפל",
@@ -76,8 +75,8 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
 }[] = [
   {
     emoji: "🎬",
-    title: "3 חללי הקלטה",
-    description: "אורבני, ירוק או רשמי, בוחרים את האווירה שמתאימה לכם.",
+    title: "חלל שמשתנה לפי מה שתרצו",
+    description: "אורבני, ירוק, רשמי או רקע אחר שתבחרו. אפשר לשנות גם במקום.",
   },
   {
     emoji: "🎙️",
@@ -346,55 +345,11 @@ export const PODCAST_HUB_FAQS: readonly {
   },
 ] as const;
 
-export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
-  {
-    id: "podcast-hub-1",
-    quote:
-      "תוך שעה הכנסנו, דיברנו, ויצאנו עם פרק מוכן. הסאונד יצא כמו רדיו מקצועי. ממליץ בחום.",
-    name: "דניאל כ.",
-    role: "בעל עסק, מודיעין",
-    initials: "דכ",
-    datePublished: "2025-07-18",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast",
-    serviceLabel: "אולפן פודקאסט",
-    projectImageSrc:
-      "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
-    projectImageAlt: "הקלטת פודקאסט באולפן",
-  },
-  {
-    id: "podcast-hub-2",
-    quote:
-      "לא האמנתי שאפשר להקליט פודקאסט משפחתי ברמה כזאת. יקיר ידע בדיוק איך לגרום לנו להרגיש בנוח.",
-    name: "מיכל ש.",
-    role: "פודקאסט עם סבא",
-    initials: "מש",
-    datePublished: "2025-11-02",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast/podcast-with-grandpa",
-    serviceLabel: "פודקאסט עם סבא",
-    projectImageSrc:
-      "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    /* F-35 (7.10.2026): בתמונה אולפן ריק, בלי אנשים, ולכן "פודקאסט משפחתי" הטעה */
-    projectImageAlt: "אולפן פודקאסט ריק עם שתי כורסאות ומיקרופון על זרוע",
-  },
-  {
-    id: "podcast-hub-3",
-    quote:
-      "הגשנו 3 פרקים לספוטיפיי שבוע אחרי שהתחלנו. הצוות דאג לכל הטכנולוגיה ואנחנו רק דיברנו.",
-    name: "רן א.",
-    role: "יוצר תוכן, ירושלים",
-    initials: "רא",
-    datePublished: "2026-01-22",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast/podcast-production",
-    serviceLabel: "הפקת פודקאסט",
-    projectImageSrc:
-      "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
-    /* F-35: התמונה היא מיקרופון ידני בתקריב ולא הקלטת פודקאסט */
-    projectImageAlt: "מיקרופון ידני מקרוב על רקע מטושטש של אורות במה",
-  },
-] as const;
+/*
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: PODCAST_HUB_TESTIMONIALS הוסר.
+ * לשלוש ההמלצות (דניאל כ., מיכל ש., רן א.) לא נמצא מקור ציבורי, ואף אחת
+ * לא תואמת לביקורות Google. בעמוד מוצג במקומן דירוג Google עם קישור.
+ */
 
 export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "חוסכים זמן ואנרגיה",
@@ -480,7 +435,7 @@ export const PODCAST_HUB_PRICING_PACKAGES: readonly {
     features: [
       "זמן הקלטה של עד 30 דקות - בלי לחץ",
       "ציוד הקלטה מקצועי - סאונד ברמת רדיו",
-      "3 חללי הקלטה לבחירה",
+      "רקע ועיצוב לפי בחירה",
       "קובץ MP3 גולמי איכותי, מוכן לעריכה",
       "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",
       "✓ גיבוי חומרי גלם למשך שנה",

@@ -372,7 +372,7 @@ export const PRICING_CATALOG = [
     label: "תיקון זיופים וטכנאי שמכוון ומנחה",
     exVat: 300,
     category: "addons",
-    context: "טכנאי סאונד שמכוון ומנחה אתכם בזמן ההקלטה, ותיקון זיופים בשיר.",
+    context: "הטכנאי עובד איתכם לעומק על השירה בזמן ההקלטה, תו אחרי תו ואות אחרי אות, ותיקון זיופים בשיר.",
     suitedFor: "תוספת להקלטת שיר באולפן",
   },
   {
@@ -431,7 +431,7 @@ export const PRICING_CATALOG = [
       duration: "עד שעה",
       includes: "ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה קיימת",
     },
-    suitedFor: "פרק ראשון או סדרה, או מי שכבר הקליט ורוצה סאונד טוב יותר",
+    suitedFor: "אנשי עסקים שרוצים לתעד טקסים או ישיבות סגורות, וגם מי שכבר הקליט ורוצה סאונד טוב יותר",
   },
   {
     id: "podcast_video",
@@ -440,7 +440,7 @@ export const PRICING_CATALOG = [
     category: "podcast",
     /* החלטת הבעלים D63, 7.10.2026. היה "הקלטה רב-מצלמת באולפן, 3 מצלמות ותאורה" */
     context: PODCAST_VIDEO_INCLUDES_NOTE,
-    suitedFor: "פודקאסטים עם נוכחות ויזואלית ביוטיוב",
+    suitedFor: "מי שרוצה לקדם מוצר או עסק ולהיראות יותר ברשתות",
   },
   {
     id: "content_package",
@@ -452,7 +452,7 @@ export const PRICING_CATALOG = [
   },
   /* החלטת הבעלים D63, 7.10.2026 (D43, D44): כמו פודקאסט וידאו, ועוד עריכה נוספת.
      היה "הקלטה באולפן, עריכה מלאה והפקה עד פרק מוכן" */
-  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: PODCAST_FULL_PRODUCTION_NOTE },
+  { id: "full_podcast_production", label: "הפקת פודקאסט מלאה", exVat: 2500, category: "podcast", context: PODCAST_FULL_PRODUCTION_NOTE, suitedFor: "מי שרוצה ראש שקט" },
   /* החלטת הבעלים 3.10.2026 (סבב שני): אולפן נייד הוא פריט אחד. 2,500 לפני
      מע״מ = הגעה עם כל הציוד, התאורה והצוות. mobile_studio (5,000) נמחק.
      באירוע: צילום פודקאסט מתומחר כפודקאסט וידאו, הקלטת אודיו כפודקאסט אודיו,
