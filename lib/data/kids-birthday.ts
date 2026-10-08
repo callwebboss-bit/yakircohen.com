@@ -4,17 +4,16 @@
  * קובץ אחד ממנו נגזרים העמוד, טופס ההזמנה, אימות הטופס, הסכמה והשאלות
  * הנפוצות. הבעלים ממלא במקום אחד.
  *
- * מה ידוע (מקור: הבקשה לבניית העמוד, 7.10.2026):
- * - האירוע נמשך שעתיים.
- * - חמישה שלבים לפי הסדר: קבלת פנים, בחירת שיר, הקלטה בתאים, מיקס קצר,
- *   האזנה משותפת.
- * - טופס ההזמנה מעביר לוואטסאפ עם תאריך ומספר ילדים.
- * - המחיר נשאר ריק עד שהבעלים ימלא אותו.
+ * מקורות (כל עובדה בקובץ נושאת את המקור שלה בהערה לידה):
+ * - הבקשה לבניית העמוד, 7.10.2026: שעתיים, חמשת השלבים לפי הסדר, טופס
+ *   שמעביר לוואטסאפ עם תאריך ומספר ילדים, מחיר שנשאר ריק.
+ * - תשובות הבעלים, 8.10.2026, מסומנות A1, A2 וכן הלאה. הן נאמרו בדיבור, והניסוח
+ *   כאן מסדר אותן בלי להוסיף פרט שלא נאמר.
  *
- * כל השאר לא נמסר, ולכן הוא null והעמוד מציג במקומו את סימון ה-TODO שלצידו.
- * אסור להשלים ערך "בהיגיון": עדיף שדה חסר מסומן על ערך משוער.
+ * מה שלא נמסר הוא null, והעמוד מציג במקומו את סימון ה-TODO שלצידו. אסור
+ * להשלים ערך "בהיגיון": עדיף שדה חסר מסומן על ערך משוער.
  *
- * איך ממלאים שדה:
+ * איך ממלאים שדה שנשאר:
  * 1. מחליפים את null בערך (מספר, טקסט או רשימה, לפי סוג השדה).
  * 2. מרוקנים את מחרוזת ה-TODO שלצידו (משאירים "").
  * הסימון חי רק בקובץ הזה. השער audit:owner-todos נכשל כל עוד נשאר סימון
@@ -48,6 +47,8 @@ export const KIDS_BIRTHDAY_UTM_CAMPAIGN = "studio_kids_birthday";
 export const KIDS_BIRTHDAY_SERVICE_LABEL = "יום הולדת לילדים באולפן";
 
 export const KIDS_BIRTHDAY_HERO = {
+  /* "באולפן": הבעלים לא היה בטוח (A14), אבל A12 קובע שהכול מתקיים באולפן
+     במודיעין, ולכן זה נשאר. */
   title: "יום הולדת לילדים באולפן",
   /* מקור: הבקשה. "שעתיים" ושמות חמשת השלבים כפי שנמסרו, בלי תוספות. */
   subtitle:
@@ -66,12 +67,10 @@ export const KIDS_BIRTHDAY_HERO = {
 
 export type KidsBirthdayStage = {
   id: string;
-  /** שם השלב כפי שהבעלים נתן אותו */
+  /** שם השלב כפי שהבעלים נתן אותו (הבקשה, 7.10.2026) */
   title: string;
-  /** מה קורה בשלב, במילים של הבעלים */
-  description: OwnerField<string>;
-  /** משך השלב בדקות. אין לחלק את השעתיים בעצמנו. */
-  minutes: OwnerField<number>;
+  /** מה קורה בשלב. המקור של כל תיאור בהערה לידו. משך בדקות לא מוצג: הבעלים לא ביקש. */
+  description: string;
 };
 
 /** חמשת השלבים לפי הסדר שהבעלים נתן. הסדר הוא חלק מהעובדה. */
@@ -79,93 +78,85 @@ export const KIDS_BIRTHDAY_STAGES: readonly KidsBirthdayStage[] = [
   {
     id: "welcome",
     title: "קבלת פנים",
-    description: field<string>(
-      null,
-      "[[TODO-OWNER: מה קורה בשלב 'קבלת פנים', משפט או שניים]]",
-    ),
-    minutes: field<number>(
-      null,
-      "[[TODO-OWNER: כמה דקות נמשכת 'קבלת פנים']]",
-    ),
+    /* תשובת הבעלים 8.10.2026, A1: "מחכים שכולם יגיעו, זה בדרך כלל בשעה
+       שאנחנו מסכמים, בדיוק באותה שעה מתאספים ונכנסים לאולפן." */
+    description:
+      "מחכים שכולם יגיעו. זה בדרך כלל בשעה שסיכמנו, ובאותה שעה מתאספים ונכנסים לאולפן.",
   },
   {
     id: "song-choice",
     title: "בחירת שיר",
-    description: field<string>(
-      null,
-      "[[TODO-OWNER: מה קורה בשלב 'בחירת שיר': מי בוחר, מתוך מה, ומה אם הילדים לא מסכימים]]",
-    ),
-    minutes: field<number>(
-      null,
-      "[[TODO-OWNER: כמה דקות נמשכת 'בחירת שיר']]",
-    ),
+    /* תשובת הבעלים 8.10.2026, A2: "נעשית על ידי הצבעה או סקר שעושים ביחד,
+       אפשר לעשות זה בוואטסאפ, ובדרך כלל החלטת הרוב מתקבלת." */
+    description:
+      "בוחרים בהצבעה או בסקר שעושים ביחד. אפשר לעשות את זה בוואטסאפ. בדרך כלל החלטת הרוב מתקבלת.",
   },
   {
     id: "booth-recording",
     title: "הקלטה בתאים",
-    description: field<string>(
-      null,
-      "[[TODO-OWNER: מה קורה בשלב 'הקלטה בתאים': כמה ילדים בתא, איך מתחלפים, מי מנחה]]",
-    ),
-    minutes: field<number>(
-      null,
-      "[[TODO-OWNER: כמה דקות נמשכת 'הקלטה בתאים']]",
-    ),
+    /* תשובת הבעלים 8.10.2026, A3: "אפשר להכניס עד חמישה ילדים בתא, המלצה
+       שלנו להקליט ילד ילד כל פעם בנפרד." */
+    description:
+      "אפשר להכניס עד חמישה ילדים בתא. ההמלצה שלנו היא להקליט ילד ילד, כל פעם בנפרד.",
   },
   {
     id: "short-mix",
     title: "מיקס קצר",
-    description: field<string>(
-      null,
-      "[[TODO-OWNER: מה קורה בשלב 'מיקס קצר' ובמה הילדים עסוקים בזמן הזה]]",
-    ),
-    minutes: field<number>(
-      null,
-      "[[TODO-OWNER: כמה דקות נמשך 'מיקס קצר']]",
-    ),
+    /* תשובת הבעלים 8.10.2026, A4: "הילדים יושבים בסבלנות או שיכולים לשחק
+       בחוץ במתחם הפודקאסטים, יש מספיק עניין במקום." */
+    description:
+      "הילדים יושבים בסבלנות, או שיכולים לשחק בחוץ במתחם הפודקאסטים. יש מספיק עניין במקום.",
   },
   {
     id: "group-listening",
     title: "האזנה משותפת",
-    description: field<string>(
-      null,
-      "[[TODO-OWNER: מה קורה בשלב 'האזנה משותפת']]",
-    ),
-    minutes: field<number>(
-      null,
-      "[[TODO-OWNER: כמה דקות נמשכת 'האזנה משותפת']]",
-    ),
+    /* A5 לא נענה. הניסוח רק חוזר על שם השלב, בלי פרט שלא נאמר, ומחכה לאישור
+       הבעלים. זה לא סימון TODO במכוון: אין כאן עובדה שצריך למלא. */
+    description: "מאזינים יחד.",
   },
 ];
 
-/** האורך הכולל של האירוע, בשעות. מקור: הבקשה ("בשעתיים"). */
+/** האורך הכולל של האירוע. מקור: הבקשה ("בשעתיים"). */
 export const KIDS_BIRTHDAY_DURATION_LABEL = "שעתיים";
 
+/**
+ * קיבולת המקום. תשובת הבעלים 8.10.2026 (שאלת הקיבולת): "אי אפשר להכניס יותר
+ * מ-14 אנשים. ובמידה ויש יותר, אז צריך לחלק את זה לפי קבוצות. המקום מאכלס
+ * עד 14 איש." זה מספר אנשים במקום, לא בהכרח ילדים, ולכן הוא לא חוסם את
+ * הטופס וגם לא נקרא "מקסימום ילדים". הנוסח בעמוד כפי שהבעלים הורה.
+ */
+export const KIDS_BIRTHDAY_CAPACITY = {
+  people: 14,
+  note: "המקום מאכלס עד 14 איש. אם יש יותר, מחלקים לקבוצות.",
+} as const;
+
 export const KIDS_BIRTHDAY = {
-  /** לאיזה גיל, בניסוח חופשי של הבעלים (למשל "גילאי 6 עד 12") */
+  /**
+   * לאיזה גיל. תשובת הבעלים 8.10.2026 (שאלת הגילאים) הייתה הקלטה קולית לא
+   * ברורה ("לכל גיל היי, שבע"), כנראה "מגיל 7". לכן הערך נשאר ריק, והשאלה
+   * לבעלים היא האישור. אסור לכתוב גיל בעמוד לפני שהוא אישר.
+   */
   ageRange: field<string>(
     null,
-    "[[TODO-OWNER: לאיזה טווח גילאים מתאים יום ההולדת, בניסוח שלך]]",
+    "[[TODO-OWNER: הבנתי שמגיל 7 ומעלה, בלי גיל מקסימום. נכון?]]",
   ),
-  /** מינימום ילדים לאירוע. כשהוא מולא, הטופס חוסם הזמנה מתחתיו. */
+  /**
+   * מינימום ילדים לאירוע. לא נענה. כשהוא מולא, הטופס חוסם הזמנה מתחתיו.
+   * מקסימום ילדים לא נקבע: ראו KIDS_BIRTHDAY_CAPACITY.
+   */
   minChildren: field<number>(
     null,
-    "[[TODO-OWNER: מינימום ילדים לאירוע, מספר]]",
+    "[[TODO-OWNER: מה מינימום הילדים לאירוע?]]",
   ),
-  /** מקסימום ילדים לאירוע. כשהוא מולא, הטופס חוסם הזמנה מעליו. */
-  maxChildren: field<number>(
-    null,
-    "[[TODO-OWNER: מקסימום ילדים לאירוע, מספר]]",
-  ),
-  /** מה כל ילד מקבל הביתה, פריט בכל שורה */
+  /** מה הילד לוקח הביתה בסוף היום, פריט בכל שורה. לא נענה. */
   takeHome: field<readonly string[]>(
     null,
-    "[[TODO-OWNER: מה כל ילד מקבל הביתה, רשימה]]",
+    "[[TODO-OWNER: מה הילד לוקח הביתה בסוף היום? למשל קובץ השיר המוקלט?]]",
   ),
-  /** מה ההורים צריכים להביא, פריט בכל שורה */
+  /** מה ההורים צריכים להביא, פריט בכל שורה. לא נענה. */
   parentsBring: field<readonly string[]>(
     null,
-    "[[TODO-OWNER: מה ההורים צריכים להביא, רשימה]]",
+    "[[TODO-OWNER: מה ההורים צריכים להביא?]]",
   ),
   /**
    * מחיר. נשאר ריק בכוונה: הבעלים ימלא. ראו את הערת הקובץ על הקטלוג.
@@ -174,16 +165,26 @@ export const KIDS_BIRTHDAY = {
     null,
     "[[TODO-OWNER: מחיר יום ההולדת, כולל מה כלול ומה לא, ואם הוא למשפחה או לילד]]",
   ),
-  /**
-   * איפה האירוע מתקיים. בקוד יש כתובת של האולפן (lib/constants.ts:59,
-   * עמק איילון 34, מודיעין מכבים רעות), אבל הבעלים לא אמר שיום ההולדת
-   * מתקיים שם, ולכן היא לא מועתקת לכאן.
-   */
-  location: field<string>(
-    null,
-    "[[TODO-OWNER: איפה מתקיים יום ההולדת, כתובת או אזור. באולפן במודיעין או במקום אחר]]",
-  ),
 };
+
+/**
+ * הכנה לפני האירוע. תשובת הבעלים 8.10.2026, A9: "כל ילד מקבל פלייבק להתכונן.
+ * מילים, ויש אפשרות גם לראות במקום. אבל בדרך כלל חשוב לזכור הכל בעל פה, זה
+ * מראה שמתכוננים."
+ */
+export const KIDS_BIRTHDAY_PREPARATION =
+  "כל ילד מקבל פלייבק כדי להתכונן, ומילים. אפשר גם לראות את המילים במקום, אבל בדרך כלל חשוב לזכור הכול בעל פה: זה מראה שהתכוננו.";
+
+/**
+ * איפה. תשובת הבעלים 8.10.2026, A12: "הכל מתקיים באולפן במודיעין, לפעמים גם
+ * אפשרי לעשות צילום בגנים בחוץ, או אם מישהו מזמין אולפן נייד, אז אפשר אחרי
+ * זה לחלק גם לצילומי חוץ. הכל תלוי בהתאם למה שהזמינו."
+ */
+export const KIDS_BIRTHDAY_LOCATION = {
+  text: "הכול מתקיים באולפן במודיעין. לפעמים אפשר גם לעשות צילום בגנים בחוץ, ואם מזמינים אולפן נייד, אפשר אחר כך לחלק גם לצילומי חוץ. הכול לפי מה שהוזמן.",
+  /** קישור לעמוד האולפן הנייד, שהבעלים הזכיר בתשובה */
+  mobileStudio: { href: "/studio/mobile-studio", label: "פרטים על האולפן הנייד" },
+} as const;
 
 export type KidsBirthdayGalleryImage = {
   src: string;
@@ -194,10 +195,13 @@ export type KidsBirthdayGalleryImage = {
 };
 
 /**
- * גלריה. כאן רק תמונות אולפן והקלטה שכבר קיימות באתר (תיקיית
- * public/images/services/studio), ואף אחת מהן אינה מיום הולדת. ה-alt מתאר
+ * גלריה. תשובת הבעלים 8.10.2026, A13: הבעלים יוסיף תמונות בעצמו, ומה שיש
+ * כאן עכשיו הוא ברירת מחדל. אלה תמונות אולפן והקלטה שכבר קיימות באתר
+ * (public/images/services/studio), ואף אחת מהן אינה מיום הולדת. ה-alt מתאר
  * מה שנראה בתמונה, ולכן אין בו "יום הולדת". הכותרת בעמוד היא "מהאולפן".
- * תמונות מיום הולדת אמיתי יתווספו כאן כשהבעלים יעלה אותן.
+ *
+ * להוספת תמונה: מוסיפים אובייקט למערך (נתיב מ-public, alt אמיתי, ומידות
+ * הקובץ). התמונות מוצגות לפי הסדר במערך.
  */
 export const KIDS_BIRTHDAY_GALLERY: readonly KidsBirthdayGalleryImage[] = [
   {
@@ -220,32 +224,15 @@ export const KIDS_BIRTHDAY_GALLERY: readonly KidsBirthdayGalleryImage[] = [
   },
 ];
 
-/**
- * מה מוצג ליד הגלריה עד שיעלו תמונות מיום הולדת אמיתי. כשהן הועלו ונוספו
- * למערך למעלה, מרוקנים את המחרוזת ("") והעמוד לא מציג את ההערה.
- */
-export const KIDS_BIRTHDAY_GALLERY_TODO: string =
-  "[[TODO-OWNER: להעלות תמונות מיום הולדת]]";
-
 /* ---------- נגזרות: מה שמוצג בפועל, מחושב מהשדות למעלה ---------- */
 
 export type KidsBirthdayLimits = {
+  /** מינימום ילדים. null = לא נקבע, והאימות מדלג עליו. */
   min: number | null;
-  max: number | null;
 };
 
 export function getKidsBirthdayLimits(): KidsBirthdayLimits {
-  return {
-    min: KIDS_BIRTHDAY.minChildren.value,
-    max: KIDS_BIRTHDAY.maxChildren.value,
-  };
-}
-
-/** משפט על טווח הילדים, או null כשחסר מינימום או מקסימום */
-export function describeChildrenRange(limits: KidsBirthdayLimits): string | null {
-  const { min, max } = limits;
-  if (min === null || max === null) return null;
-  return `מינימום ${min} ילדים, מקסימום ${max}.`;
+  return { min: KIDS_BIRTHDAY.minChildren.value };
 }
 
 /** חיבור הרשימה למשפט: "א, ב וג". עברית: ו' החיבור צמודה לפריט האחרון. */
@@ -265,20 +252,18 @@ export type KidsBirthdayFaq = {
 };
 
 /**
- * שאלות נפוצות. תשובה נכתבת רק מעובדה מוכרת: מהבקשה או משדה שהבעלים מילא.
- * שאלה בלי תשובה נשארת בעמוד עם סימון TODO ולא נכנסת ל-FAQPage ב-JSON-LD.
+ * שאלות נפוצות. תשובה נכתבת רק מעובדה מוכרת: מהבקשה, מתשובות הבעלים או משדה
+ * שהבעלים מילא. שאלה בלי תשובה נשארת בעמוד עם סימון TODO ולא נכנסת ל-FAQPage
+ * ב-JSON-LD.
  */
 export function buildKidsBirthdayFaqs(
   data: typeof KIDS_BIRTHDAY = KIDS_BIRTHDAY,
   stages: readonly KidsBirthdayStage[] = KIDS_BIRTHDAY_STAGES,
 ): KidsBirthdayFaq[] {
   const stageTitles = stages.map((s) => s.title);
-  const range = describeChildrenRange({
-    min: data.minChildren.value,
-    max: data.maxChildren.value,
-  });
   const takeHome = data.takeHome.value;
   const parentsBring = data.parentsBring.value;
+  const min = data.minChildren.value;
 
   return [
     {
@@ -301,23 +286,32 @@ export function buildKidsBirthdayFaqs(
       todo: "",
     },
     {
+      id: "preparation",
+      question: "איך הילדים מתכוננים לפני יום ההולדת?",
+      answer: KIDS_BIRTHDAY_PREPARATION,
+      todo: "",
+    },
+    {
+      id: "capacity",
+      question: "כמה אנשים המקום מאכלס?",
+      answer: KIDS_BIRTHDAY_CAPACITY.note,
+      todo: "",
+    },
+    {
       id: "age",
       question: "לאיזה גיל זה מתאים?",
       answer: data.ageRange.value,
       todo: data.ageRange.todo,
     },
     {
-      id: "children-count",
-      question: "כמה ילדים צריך, וכמה אפשר?",
-      answer: range,
-      todo:
-        data.minChildren.value === null
-          ? data.minChildren.todo
-          : data.maxChildren.todo,
+      id: "min-children",
+      question: "כמה ילדים צריך כדי לקיים יום הולדת?",
+      answer: min !== null ? `מינימום ${min} ילדים.` : null,
+      todo: data.minChildren.todo,
     },
     {
       id: "take-home",
-      question: "מה כל ילד מקבל הביתה?",
+      question: "מה הילד לוקח הביתה בסוף היום?",
       answer: takeHome && takeHome.length > 0 ? `${joinHebrewList(takeHome)}.` : null,
       todo: data.takeHome.todo,
     },
@@ -339,13 +333,13 @@ export function buildKidsBirthdayFaqs(
     {
       id: "where",
       question: "איפה זה מתקיים?",
-      answer: data.location.value,
-      todo: data.location.todo,
+      answer: KIDS_BIRTHDAY_LOCATION.text,
+      todo: "",
     },
   ];
 }
 
-/** רק השאלות שיש להן תשובה, בצורה שמתאימה ל-buildFaqSchema ול-faqs של ה-layout */
+/** רק השאלות שיש להן תשובה, בצורה שמתאימה ל-buildFaqSchema ול-FaqPageSchema */
 export function getAnsweredFaqs(
   faqs: readonly KidsBirthdayFaq[],
 ): { question: string; answer: string }[] {

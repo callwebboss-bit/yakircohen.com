@@ -10,7 +10,7 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { parseYcLeadTag } from "@/lib/yc-lead-tag";
 
-const NO_LIMITS = { min: null, max: null };
+const NO_LIMITS = { min: null };
 
 /** תאריך עתידי תקף, בפורמט שמחזיר input מסוג date */
 function futureIso(daysAhead = 30): string {
@@ -32,12 +32,19 @@ describe("parseChildrenCount", () => {
 });
 
 describe("validateChildrenCount", () => {
-  it("בלי מינימום ומקסימום (null): מדלג עליהם ומקבל כל כמות סבירה", () => {
+  it("בלי מינימום (null): מדלג עליו ומקבל כל כמות סבירה", () => {
     assert.equal(validateChildrenCount("1", NO_LIMITS).ok, true);
     assert.equal(validateChildrenCount("40", NO_LIMITS).ok, true);
   });
 
-  it("בלי מקסימום, תקרת השפיות חוסמת ספאם בלי להיראות כמגבלה עסקית", () => {
+  it("מעל 14 (הקיבולת של המקום) מותר: ההערה מידעית ולא חוסמת", () => {
+    for (const n of ["14", "15", "30", "120"]) {
+      assert.equal(validateChildrenCount(n, NO_LIMITS).ok, true, n);
+    }
+  });
+
+  it("תקרת השפיות חוסמת ספאם בלי להיראות כמגבלה עסקית", () => {
+    assert.equal(validateChildrenCount(String(CHILDREN_SANITY_CAP), NO_LIMITS).ok, true);
     const res = validateChildrenCount(String(CHILDREN_SANITY_CAP + 1), NO_LIMITS);
     assert.equal(res.ok, false);
     assert.ok(!res.ok && !res.errors.children.includes(String(CHILDREN_SANITY_CAP)));
@@ -49,21 +56,12 @@ describe("validateChildrenCount", () => {
     }
   });
 
-  it("כשמינימום ומקסימום מולאו: חוסם מתחת ומעל, ומציין את המספר", () => {
-    const limits = { min: 6, max: 12 };
+  it("כשהמינימום מולא: חוסם מתחתיו ומציין את המספר, ולא חוסם מעליו", () => {
+    const limits = { min: 6 };
     const low = validateChildrenCount("5", limits);
-    const high = validateChildrenCount("13", limits);
     assert.ok(!low.ok && low.errors.children.includes("6"));
-    assert.ok(!high.ok && high.errors.children.includes("12"));
     assert.equal(validateChildrenCount("6", limits).ok, true);
-    assert.equal(validateChildrenCount("12", limits).ok, true);
-  });
-
-  it("רק מינימום או רק מקסימום", () => {
-    assert.equal(validateChildrenCount("3", { min: 4, max: null }).ok, false);
-    assert.equal(validateChildrenCount("90", { min: 4, max: null }).ok, true);
-    assert.equal(validateChildrenCount("30", { min: null, max: 20 }).ok, false);
-    assert.equal(validateChildrenCount("1", { min: null, max: 20 }).ok, true);
+    assert.equal(validateChildrenCount("20", limits).ok, true);
   });
 });
 
@@ -98,9 +96,11 @@ describe("validateKidsBirthdayLead", () => {
     assert.ok(!res.ok && "date" in res.errors && !("eventDate" in res.errors));
   });
 
-  it("מכבד מינימום ומקסימום שמולאו", () => {
-    const res = validateKidsBirthdayLead({ ...valid, children: "3" }, { min: 5, max: 10 });
-    assert.ok(!res.ok && "children" in res.errors);
+  it("מכבד מינימום שמולא, ולא חוסם מעל קיבולת המקום", () => {
+    const low = validateKidsBirthdayLead({ ...valid, children: "3" }, { min: 5 });
+    assert.ok(!low.ok && "children" in low.errors);
+    const over = validateKidsBirthdayLead({ ...valid, children: "18" }, { min: 5 });
+    assert.equal(over.ok, true);
   });
 });
 

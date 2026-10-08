@@ -2,8 +2,10 @@
  * לוגיקה טהורה של טופס ההזמנה ב-/studio/kids-birthday: אימות והודעת וואטסאפ.
  * יושבת ב-lib ולא ברכיב כדי שתיבדק בלי דפדפן.
  *
- * מגבלות מינימום ומקסימום ילדים מגיעות מ-lib/data/kids-birthday.ts. כשהערך
- * שם הוא null האימות מדלג עליו, ולא ממציא מגבלה.
+ * מינימום הילדים מגיע מ-lib/data/kids-birthday.ts. כשהוא null האימות מדלג
+ * עליו, ולא ממציא מגבלה. מקסימום ילדים לא נקבע: הבעלים אמר שהמקום מאכלס עד
+ * 14 איש, ומספר האנשים אינו מספר הילדים, ולכן הטופס לא חוסם מעל 14. ההערה
+ * על הקיבולת מוצגת ליד השדה והשליחה נשארת אפשרית.
  */
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import {
@@ -22,8 +24,8 @@ import {
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
 /**
- * תקרת שפיות לספאם כשהבעלים עוד לא קבע מקסימום. זה לא כלל עסקי, ולכן היא
- * לא מוצגת לגולש כמגבלה של האירוע.
+ * תקרת שפיות נגד ספאם ומספרים מופרכים. זה לא כלל עסקי, והיא לא מוצגת לגולש
+ * כמגבלה של האירוע. מעל הקיבולת של המקום (14 איש) מותר לשלוח: מחלקים לקבוצות.
  */
 export const CHILDREN_SANITY_CAP = 200;
 
@@ -64,13 +66,7 @@ export function validateChildrenCount(
       errors: { children: `מספר הילדים המינימלי הוא ${limits.min}` },
     };
   }
-  if (limits.max !== null && n > limits.max) {
-    return {
-      ok: false,
-      errors: { children: `מספר הילדים המקסימלי הוא ${limits.max}` },
-    };
-  }
-  if (limits.max === null && n > CHILDREN_SANITY_CAP) {
+  if (n > CHILDREN_SANITY_CAP) {
     return { ok: false, errors: { children: "מספר הילדים לא נראה סביר" } };
   }
   return { ok: true };

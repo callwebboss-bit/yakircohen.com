@@ -7,6 +7,7 @@ import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import { useLeadFormGuard } from "@/hooks/useLeadFormGuard";
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import {
+  KIDS_BIRTHDAY_CAPACITY,
   KIDS_BIRTHDAY_FORM_ID,
   KIDS_BIRTHDAY_PATH,
   KIDS_BIRTHDAY_SERVICE_LABEL,
@@ -55,12 +56,15 @@ function todayIso(): string {
   return `${now.getFullYear()}-${month}-${day}`;
 }
 
-function limitsHint(limits: KidsBirthdayLimits): string | null {
-  const { min, max } = limits;
-  if (min !== null && max !== null) return `בין ${min} ל-${max} ילדים`;
-  if (min !== null) return `מינימום ${min} ילדים`;
-  if (max !== null) return `מקסימום ${max} ילדים`;
-  return null;
+/**
+ * ההערה ליד שדה מספר הילדים. היא מידע ולא חסימה: הבעלים אמר שהמקום מאכלס עד
+ * 14 איש, ושאם יש יותר מחלקים לקבוצות, ולכן אפשר לשלוח גם מעל 14.
+ */
+function countHint(limits: KidsBirthdayLimits): string {
+  const parts: string[] = [];
+  if (limits.min !== null) parts.push(`מינימום ${limits.min} ילדים.`);
+  parts.push(KIDS_BIRTHDAY_CAPACITY.note);
+  return parts.join(" ");
 }
 
 const DIRECT_WHATSAPP_HREF = buildWhatsAppHref({
@@ -102,7 +106,7 @@ export default function KidsBirthdayOrderForm({
     date: `${uid}-date`,
     children: `${uid}-children`,
   } as const;
-  const hint = limitsHint(limits);
+  const hint = countHint(limits);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -274,7 +278,6 @@ export default function KidsBirthdayOrderForm({
               type="number"
               inputMode="numeric"
               min={limits.min ?? 1}
-              max={limits.max ?? undefined}
               step={1}
               value={children}
               onChange={(e) => setChildren(e.target.value)}
@@ -282,10 +285,8 @@ export default function KidsBirthdayOrderForm({
               aria-invalid={Boolean(fieldErrors.children)}
               aria-describedby={
                 fieldErrors.children
-                  ? `${ids.children}-error`
-                  : hint
-                    ? `${ids.children}-hint`
-                    : undefined
+                  ? `${ids.children}-error ${ids.children}-hint`
+                  : `${ids.children}-hint`
               }
               className={FIELD_CLASS}
             />
@@ -293,11 +294,10 @@ export default function KidsBirthdayOrderForm({
               <p id={`${ids.children}-error`} className="mt-1 text-sm text-red-700">
                 {fieldErrors.children}
               </p>
-            ) : hint ? (
-              <p id={`${ids.children}-hint`} className="mt-1 text-sm text-muted-foreground">
-                {hint}
-              </p>
             ) : null}
+            <p id={`${ids.children}-hint`} className="mt-1 text-sm text-muted-foreground">
+              {hint}
+            </p>
           </div>
         </div>
 

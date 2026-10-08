@@ -19,7 +19,7 @@
     "sync:blog-slugs": "node scripts/sync-blog-slugs.mjs",
     "generate:sitemap-dates": "node scripts/generate-sitemap-dates.mjs",
     "generate:blog-og": "node scripts/generate-blog-og.mjs",
-    "vercel-build": "node scripts/guard-no-local-tools-deploy.mjs && tsx scripts/validate-coupon-offers.ts && npm run generate:schema && npm run sync:blog-slugs && npm run generate:client-data && npm run sync:llms && npm run build:full",
+    "vercel-build": "node scripts/guard-no-local-tools-deploy.mjs && npm run audit:owner-todos && tsx scripts/validate-coupon-offers.ts && npm run generate:schema && npm run sync:blog-slugs && npm run generate:client-data && npm run sync:llms && npm run build:full",
     "guard:local-tools": "node scripts/guard-no-local-tools-deploy.mjs",
     "index:search": "node scripts/prepare-pagefind.mjs && node scripts/run-pagefind.mjs && node -e \"try{require('fs').rmSync('.pagefind-src',{recursive:true,force:true})}catch(e){console.warn('[index:search] cleanup skipped:',e.message)}\"",
     "start": "next start",

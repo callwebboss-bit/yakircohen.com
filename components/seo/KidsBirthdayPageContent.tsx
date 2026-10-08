@@ -10,12 +10,14 @@ import Container from "@/components/ui/Container";
 import {
   KIDS_BIRTHDAY,
   KIDS_BIRTHDAY_AEO,
+  KIDS_BIRTHDAY_CAPACITY,
   KIDS_BIRTHDAY_DURATION_LABEL,
   KIDS_BIRTHDAY_FORM_ANCHOR,
   KIDS_BIRTHDAY_GALLERY,
-  KIDS_BIRTHDAY_GALLERY_TODO,
   KIDS_BIRTHDAY_HERO,
+  KIDS_BIRTHDAY_LOCATION,
   KIDS_BIRTHDAY_PATH,
+  KIDS_BIRTHDAY_PREPARATION,
   KIDS_BIRTHDAY_STAGES,
   buildKidsBirthdayFaqs,
   getAnsweredFaqs,
@@ -151,16 +153,8 @@ export default function KidsBirthdayPageContent() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <h3 className={CARD_TITLE_CLASS}>{stage.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">משך: </span>
-                    {stage.minutes.value !== null ? (
-                      <span>{stage.minutes.value} דקות</span>
-                    ) : (
-                      <OwnerTodoNote text={stage.minutes.todo} />
-                    )}
-                  </p>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    <FieldText field={stage.description} />
+                    {stage.description}
                   </p>
                 </div>
               </li>
@@ -199,20 +193,21 @@ export default function KidsBirthdayPageContent() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="inline font-medium text-foreground">מקסימום: </dt>
-                  <dd className="inline">
-                    {KIDS_BIRTHDAY.maxChildren.value !== null ? (
-                      `${KIDS_BIRTHDAY.maxChildren.value} ילדים`
-                    ) : (
-                      <OwnerTodoNote text={KIDS_BIRTHDAY.maxChildren.todo} />
-                    )}
-                  </dd>
+                  <dt className="inline font-medium text-foreground">קיבולת: </dt>
+                  <dd className="inline">{KIDS_BIRTHDAY_CAPACITY.note}</dd>
                 </div>
               </dl>
             </div>
 
             <div className={CARD_CLASS}>
-              <h3 className={CARD_TITLE_CLASS}>מה כל ילד מקבל הביתה</h3>
+              <h3 className={CARD_TITLE_CLASS}>הכנה לפני</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {KIDS_BIRTHDAY_PREPARATION}
+              </p>
+            </div>
+
+            <div className={CARD_CLASS}>
+              <h3 className={CARD_TITLE_CLASS}>מה הילד לוקח הביתה בסוף היום</h3>
               <div className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 <FieldList field={KIDS_BIRTHDAY.takeHome} />
               </div>
@@ -228,11 +223,17 @@ export default function KidsBirthdayPageContent() {
             <div className={CARD_CLASS}>
               <h3 className={CARD_TITLE_CLASS}>איפה</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                <FieldText field={KIDS_BIRTHDAY.location} />
+                {KIDS_BIRTHDAY_LOCATION.text}{" "}
+                <Link
+                  href={KIDS_BIRTHDAY_LOCATION.mobileStudio.href}
+                  className="inline-flex min-h-12 items-center font-semibold text-brand-red hover:underline"
+                >
+                  {KIDS_BIRTHDAY_LOCATION.mobileStudio.label}
+                </Link>
               </p>
             </div>
 
-            <div className={CARD_CLASS}>
+            <div className={`${CARD_CLASS} md:col-span-2`}>
               <h3 className={CARD_TITLE_CLASS}>מחיר</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 <FieldText field={KIDS_BIRTHDAY.price} />
@@ -247,6 +248,7 @@ export default function KidsBirthdayPageContent() {
               מהאולפן
             </h2>
           </header>
+          {/* הבעלים יוסיף תמונות במערך KIDS_BIRTHDAY_GALLERY ב-lib/data/kids-birthday.ts */}
           {KIDS_BIRTHDAY_GALLERY.length > 0 ? (
             <MediaGallery
               images={KIDS_BIRTHDAY_GALLERY.map((image) => ({ ...image }))}
@@ -255,11 +257,6 @@ export default function KidsBirthdayPageContent() {
               noPriority
               className="mt-8"
             />
-          ) : null}
-          {KIDS_BIRTHDAY_GALLERY_TODO ? (
-            <p className="mt-6 text-center">
-              <OwnerTodoNote text={KIDS_BIRTHDAY_GALLERY_TODO} />
-            </p>
           ) : null}
         </div>
 
