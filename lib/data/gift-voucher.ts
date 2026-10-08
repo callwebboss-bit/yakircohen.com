@@ -70,3 +70,32 @@ export const GIFT_VOUCHER_LIMITS = {
   name: 40,
   message: 220,
 } as const;
+
+/**
+ * נוסח הבקשה בוואטסאפ. עברית בכתובת מקודדת כ-6 תווים לאות, ולכן שם ארוך והודעה
+ * של 220 תווים מגיעים לכ-2,400 תווים בקישור, ויישום או דפדפן עלולים לחתוך אותו
+ * בשקט. ההודעה האישית נחתכת כאן ל-MAX_MESSAGE_IN_REQUEST תווים, והתמונה
+ * שהלקוח מוריד מחזיקה את הנוסח המלא.
+ */
+export const GIFT_VOUCHER_MAX_MESSAGE_IN_REQUEST = 100;
+
+export function buildGiftVoucherRequestText(input: {
+  valueLabel: string;
+  to: string;
+  from: string;
+  message: string;
+}): string {
+  const message = input.message.trim();
+  const shortMessage =
+    message.length > GIFT_VOUCHER_MAX_MESSAGE_IN_REQUEST
+      ? `${message.slice(0, GIFT_VOUCHER_MAX_MESSAGE_IN_REQUEST).trimEnd()} (המשך בתמונה)`
+      : message;
+  return [
+    `שלום, אשמח לרכוש שובר מתנה: ${input.valueLabel}.`,
+    input.to.trim() ? `עבור: ${input.to.trim()}.` : "",
+    input.from.trim() ? `מאת: ${input.from.trim()}.` : "",
+    shortMessage ? `ההודעה האישית: ${shortMessage}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}

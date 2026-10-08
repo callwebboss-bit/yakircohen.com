@@ -5,13 +5,14 @@ import Button from "@/components/ui/Button";
 import { formatNis } from "@/lib/data/pricing";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import {
+  buildGiftVoucherRequestText,
   GIFT_VOUCHER_CHOICES,
   GIFT_VOUCHER_LIMITS,
   GIFT_VOUCHER_VALIDITY_LABEL,
 } from "@/lib/data/gift-voucher";
 import {
-  canvasToPngBlob,
   drawVoucherImage,
+  saveVoucherImage,
   VOUCHER_IMAGE_SIZE,
 } from "@/lib/gift-voucher-canvas";
 import { cn } from "@/lib/utils";
@@ -64,14 +65,7 @@ export default function GiftVoucherBuilder() {
 
   const whatsappHref = choice
     ? buildWhatsAppHref({
-        text: [
-          `שלום, אשמח לרכוש שובר מתנה: ${valueLabel}.`,
-          to ? `עבור: ${to}.` : "",
-          from ? `מאת: ${from}.` : "",
-          message ? `ההודעה האישית: ${message}` : "",
-        ]
-          .filter(Boolean)
-          .join(" "),
+        text: buildGiftVoucherRequestText({ valueLabel, to, from, message }),
         utm_source: "website",
         utm_campaign: "gift_voucher_builder",
       })
@@ -89,15 +83,7 @@ export default function GiftVoucherBuilder() {
         valueLabel,
         validityLabel,
       });
-      const blob = await canvasToPngBlob(canvas);
-      const href = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = href;
-      link.download = "gift-voucher-yakir-cohen.png";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(href);
+      await saveVoucherImage(canvas, "gift-voucher-yakir-cohen.png");
     } catch {
       setDownloadError(true);
     }
@@ -122,6 +108,7 @@ export default function GiftVoucherBuilder() {
                   key={option.id}
                   className={cn(
                     "flex min-h-12 cursor-pointer flex-col rounded-lg border p-4 transition-colors",
+                    "focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-red",
                     selected
                       ? "border-brand-red bg-brand-red/5"
                       : "border-border bg-surface hover:border-brand-red/40",

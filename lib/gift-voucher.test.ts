@@ -1,15 +1,26 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
+import vouchersFile from "@/lib/data/vouchers.json";
+import { isCode39Encodable } from "@/lib/code39";
+import type { VoucherRecord } from "@/lib/gift-voucher";
 import { GIFT_VALIDITY_YEARS } from "@/lib/sales/voucher";
 import {
+  addYearsIso,
   findVoucher,
+  generateVoucherCode,
+  getVoucherStatus,
+  validateVoucherRecords,
+  VOUCHER_CODE_PATTERN,
   formatVoucherDate,
   getAllVoucherCodes,
   isVoucherExpired,
   normalizeVoucherCode,
 } from "@/lib/gift-voucher";
 import {
+  buildGiftVoucherRequestText,
   GIFT_VOUCHER_CHOICES,
+  GIFT_VOUCHER_LIMITS,
   GIFT_VOUCHER_VALIDITY_LABEL,
   GIFT_VOUCHER_VALIDITY_TEXT,
   GIFT_VOUCHER_VALIDITY_YEARS,
@@ -71,4 +82,99 @@ test("תוקף השובר: שנתיים, זהה לשובר של עמדת המכ�
   const answer = SHOP_VOUCHER_FAQ_SCHEMA.find((q) => /תוקף/.test(q.question))?.answer ?? "";
   assert.ok(answer.startsWith(`${GIFT_VOUCHER_VALIDITY_TEXT} מיום הרכישה`), answer);
   assert.doesNotMatch(`${GIFT_VOUCHER_VALIDITY_LABEL} ${answer}`, /(^|\s)שנה(\s|$)/);
+});
+
+test("buildGiftVoucherRequestText: הקישור בוואטסאפ נשאר קצר גם בקלט המקסימלי", () => {
+  const text = buildGiftVoucherRequestText({
+    valueLabel: "חצי שעה באולפן, ₪885 כולל מע״מ",
+    to: "ש".repeat(GIFT_VOUCHER_LIMITS.name),
+    from: "ד".repeat(GIFT_VOUCHER_LIMITS.name),
+    message: "מ".repeat(GIFT_VOUCHER_LIMITS.message),
+  });
+  const href = buildWhatsAppHref({
+    text,
+    utm_source: "website",
+    utm_campaign: "gift_voucher_builder",
+  });
+  assert.ok(href.length < 1750, `href length ${href.length}`);
+  assert.ok(text.includes("(המשך בתמונה)"));
+});
+
+test("buildGiftVoucherRequestText: הודעה קצרה נשלחת כמו שהיא, בלי שדות ריקים", () => {
+  const text = buildGiftVoucherRequestText({
+    valueLabel: "שעה באולפן",
+    to: "",
+    from: "דנה",
+    message: "מזל טוב",
+  });
+  assert.equal(
+    text,
+    "שלום, אשמח לרכוש שובר מתנה: שעה באולפן. מאת: דנה. ההודעה האישית: מזל טוב",
+  );
+});
+
+test("generateVoucherCode: פורמט תקין, ייחודי, ומקודד ב-Code 39", () => {
+  const codes = new Set<string>();
+  for (let i = 0; i < 500; i += 1) {
+    const code = generateVoucherCode();
+    assert.match(code, VOUCHER_CODE_PATTERN);
+    assert.ok(isCode39Encodable(code), code);
+    codes.add(code);
+  }
+  assert.equal(codes.size, 500);
+});
+
+test("addYearsIso: שנתיים קדימה, וב-29 בפברואר נופל על 1 במרץ (מאוחר, לא מוקדם)", () => {
+  assert.equal(addYearsIso("2026-10-08", 2), "2028-10-08");
+  assert.equal(addYearsIso("2028-02-29", 2), "2030-03-01");
+});
+
+test("getVoucherStatus: מומש, פג תוקף, בתוקף", () => {
+  const base = {
+    code: "YC-AAAA-BBBB-CCCC",
+    packageLabel: "שעה באולפן",
+    from: "א",
+    to: "ב",
+    message: "",
+    issuedAt: "2026-01-01",
+    validUntil: "2028-01-01",
+  };
+  assert.equal(getVoucherStatus(base, new Date("2027-01-01T00:00:00Z")), "valid");
+  assert.equal(getVoucherStatus(base, new Date("2028-06-01T00:00:00Z")), "expired");
+  assert.equal(
+    getVoucherStatus({ ...base, redeemedAt: "2026-05-05" }, new Date("2027-01-01T00:00:00Z")),
+    "redeemed",
+  );
+});
+
+test("validateVoucherRecords: תופס קוד קצר, כפילות ותוקף קצר מהמינימום", () => {
+  const ok = {
+    code: "YC-AAAA-BBBB-CCCC",
+    packageLabel: "שעה באולפן",
+    from: "א",
+    to: "ב",
+    message: "מזל טוב",
+    issuedAt: "2026-10-08",
+    validUntil: "2028-10-08",
+  };
+  assert.deepEqual(validateVoucherRecords([ok], GIFT_VOUCHER_VALIDITY_YEARS), []);
+  const errors = validateVoucherRecords(
+    [
+      ok,
+      { ...ok, code: "YC-A7K2", validUntil: "2027-10-08" },
+      { ...ok, code: ok.code },
+    ],
+    GIFT_VOUCHER_VALIDITY_YEARS,
+  );
+  assert.ok(errors.some((e) => e.includes("פורמט")));
+  assert.ok(errors.some((e) => e.includes("כפול")));
+  assert.ok(errors.some((e) => e.includes("תוקף קצר")));
+});
+
+test("vouchers.json האמיתי: כל הרשומות עוברות אימות", () => {
+  const errors = validateVoucherRecords(
+    vouchersFile.vouchers as VoucherRecord[],
+    GIFT_VOUCHER_VALIDITY_YEARS,
+  );
+  assert.deepEqual(errors, []);
 });
