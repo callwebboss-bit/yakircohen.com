@@ -11,7 +11,7 @@ export type VoucherImageInput = {
   from: string;
   to: string;
   message: string;
-  /** שורת הסכום או החבילה, כפי שמוצגת למשתמש */
+  /** שורת החבילה והמחיר, כפי שמוצגת למשתמש */
   valueLabel: string;
   /** קוד השובר. ריק = מסגרת עם ברקוד להמחשה והסבר שהקוד יתווסף לאחר הרכישה */
   code?: string;

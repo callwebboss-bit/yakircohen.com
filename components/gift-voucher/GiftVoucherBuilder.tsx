@@ -22,7 +22,7 @@ const FIELD =
 export default function GiftVoucherBuilder() {
   const uid = useId();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [choiceId, setChoiceId] = useState(GIFT_VOUCHER_CHOICES[1]?.id ?? "");
+  const [choiceId, setChoiceId] = useState(GIFT_VOUCHER_CHOICES[0]?.id ?? "");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [message, setMessage] = useState("");
@@ -34,9 +34,7 @@ export default function GiftVoucherBuilder() {
     [choiceId],
   );
   const valueLabel = choice
-    ? choice.kind === "package"
-      ? `${choice.label}, ${formatNis(choice.amountNis)} כולל מע״מ`
-      : `${formatNis(choice.amountNis)} לשימוש באולפן`
+    ? `${choice.label}, ${formatNis(choice.amountNis)} כולל מע״מ`
     : "";
 
   const validityLabel = GIFT_VOUCHER_VALIDITY_LABEL;
@@ -114,7 +112,7 @@ export default function GiftVoucherBuilder() {
       >
         <fieldset>
           <legend className="font-serif text-xl font-semibold text-foreground">
-            1. בחרו סכום או חבילה
+            1. בחרו חבילה
           </legend>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {GIFT_VOUCHER_CHOICES.map((option) => {
@@ -143,11 +141,9 @@ export default function GiftVoucherBuilder() {
                   <span className="mt-1 text-sm text-muted-foreground">
                     {option.label}
                   </span>
-                  {option.kind === "package" ? (
-                    <span className="mt-1 text-xs text-muted-foreground">
-                      {option.note}
-                    </span>
-                  ) : null}
+                  <span className="mt-1 text-xs text-muted-foreground">
+                    {option.note}
+                  </span>
                 </label>
               );
             })}

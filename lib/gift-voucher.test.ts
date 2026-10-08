@@ -53,7 +53,7 @@ test("תוקף השובר זהה לשובר עמדת המכירות ולשאלו
   assert.equal(GIFT_VOUCHER_VALIDITY_LABEL, "תוקף: שנתיים מיום הרכישה");
 });
 
-test("GIFT_VOUCHER_CHOICES: מזהים ייחודיים וסכום חיובי", () => {
+test("GIFT_VOUCHER_CHOICES: מזהים ייחודיים, סכום חיובי, חבילות בלבד", () => {
   const ids = GIFT_VOUCHER_CHOICES.map((c) => c.id);
   assert.equal(new Set(ids).size, ids.length);
   for (const choice of GIFT_VOUCHER_CHOICES) assert.ok(choice.amountNis > 0);

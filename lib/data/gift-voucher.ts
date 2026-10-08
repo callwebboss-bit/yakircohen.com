@@ -1,18 +1,12 @@
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 
-export type GiftVoucherChoice =
-  | { kind: "amount"; id: string; label: string; amountNis: number }
-  | {
-      kind: "package";
-      id: string;
-      label: string;
-      note: string;
-      amountNis: number;
-    };
-
-/** סכומי שובר חופשיים. הבעלים קובע אילו סכומים מוצעים. */
-export const GIFT_VOUCHER_AMOUNTS_NIS = [300, 500, 1000] as const;
+export type GiftVoucherChoice = {
+  id: string;
+  label: string;
+  note: string;
+  amountNis: number;
+};
 
 /** חבילות מהקטלוג. הסכום כולל מע״מ ונגזר מהקטלוג, לא נכתב ביד. */
 const PACKAGE_DEFS = [
@@ -30,25 +24,18 @@ const PACKAGE_DEFS = [
   },
 ] as const;
 
-export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = [
-  ...GIFT_VOUCHER_AMOUNTS_NIS.map(
-    (amountNis): GiftVoucherChoice => ({
-      kind: "amount",
-      id: `amount-${amountNis}`,
-      label: "סכום לשימוש באולפן",
-      amountNis,
-    }),
-  ),
-  ...PACKAGE_DEFS.map(
-    (pkg): GiftVoucherChoice => ({
-      kind: "package",
-      id: `package-${pkg.id}`,
-      label: pkg.label,
-      note: pkg.note,
-      amountNis: withVat(getExVat(pkg.catalogId)),
-    }),
-  ),
-];
+/**
+ * חבילות בלבד, בלי שוברי סכום (החלטת הבעלים 8.10.2026): שובר לשירות מסוים הוא
+ * שנתיים לפחות לפי תקנות שירותי תשלום, ושובר בסכום כסף 5 שנים לפחות. ראו להלן.
+ */
+export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = PACKAGE_DEFS.map(
+  (pkg): GiftVoucherChoice => ({
+    id: `package-${pkg.id}`,
+    label: pkg.label,
+    note: pkg.note,
+    amountNis: withVat(getExVat(pkg.catalogId)),
+  }),
+);
 
 /**
  * תוקף השובר. אותו כלל כמו שובר עמדת המכירות: GIFT_VALIDITY_YEARS ב-
@@ -59,8 +46,8 @@ export const GIFT_VOUCHER_CHOICES: readonly GiftVoucherChoice[] = [
  * סיכון משפטי פתוח (נקרא ב-8.10.2026 מנוסח תקנות שירותי תשלום (פטור מהוראות
  * החוק), התשפ"ב-2022, תקנה 2(א), https://www.nevo.co.il/law_html/law00/208503.htm,
  * דרך WebFetch, לא אומת מול עורך דין): שובר לשירות מסוים הוא שנתיים לפחות, אבל
- * שובר בסכום כסף (תו קנייה, כרטיס מתנה) הוא 5 שנים לפחות. הסכומים 300/500/1,000
- * הם שוברי סכום. לפני הפעלה מול לקוחות לאשר עם עורך דין, או להשאיר חבילות בלבד.
+ * שובר בסכום כסף (תו קנייה, כרטיס מתנה) הוא 5 שנים לפחות. לכן הוסרו הסכומים
+ * החופשיים והשארנו חבילות בלבד. להוספת שובר סכום חזרה צריך אישור עורך דין ותוקף 5 שנים.
  */
 export const GIFT_VOUCHER_VALIDITY_YEARS = 2;
 
