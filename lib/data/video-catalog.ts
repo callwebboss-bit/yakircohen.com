@@ -7,7 +7,8 @@ export type PortfolioTag =
   | "voiceover"
   | "education"
   | "entertainment"
-  | "brand-tv";
+  | "brand-tv"
+  | "video-editing";
 
 export type PortfolioVideo = {
   videoId: string;

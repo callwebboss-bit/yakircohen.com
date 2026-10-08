@@ -14,6 +14,16 @@ describe("VideoObject uploadDate", () => {
     assert.deepEqual(missing, [], "npm run sync:youtube-dates");
   });
 
+  /* 8.10.2026: הקובץ המיוצר הוא לא המקור היחיד. סרטון ב-video-catalog.supplement.ts בלי תאריך
+     מקבל VideoObject בלי uploadDate, וזה בדיוק מה ש-Search Console סימן כלא תקף ב-6.10. */
+  it("every supplement video has a real upload date", () => {
+    const supplement = readFileSync("lib/data/video-catalog.supplement.ts", "utf8");
+    const ids = [...supplement.matchAll(/videoId:\s*"([A-Za-z0-9_-]{11})"/g)].map((m) => m[1]);
+    assert.ok(ids.length > 0);
+    const missing = ids.filter((id) => !youtubeUploadDate(id));
+    assert.deepEqual(missing, [], "npm run sync:youtube-dates");
+  });
+
   it("the schema takes the date from YouTube when the caller does not pass one", () => {
     const schema = buildVideoObjectSchema({ videoId: "LKg3pwdon_M", name: "x" });
     assert.match(String((schema as { uploadDate?: string }).uploadDate), /^\d{4}-\d{2}-\d{2}T/);

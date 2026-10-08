@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -136,6 +137,8 @@ export default function ContentStudioPageContent() {
             ))}
           </div>
         </section>
+
+        <ShowcaseVideoSection playlistId="video-editing" />
 
         <section
           className="rounded-xl border border-border bg-muted/30 p-6"

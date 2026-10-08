@@ -2,7 +2,7 @@
  * Keyword rules for auto-tagging portfolio videos (Hebrew titles).
  */
 
-/** @typedef {'studio-recording' | 'podcast' | 'blessings' | 'bat-bar-mitzvah' | 'dj-events' | 'voiceover' | 'education' | 'entertainment' | 'brand-tv'} PortfolioTag */
+/** @typedef {'studio-recording' | 'podcast' | 'blessings' | 'bat-bar-mitzvah' | 'dj-events' | 'voiceover' | 'education' | 'entertainment' | 'brand-tv' | 'video-editing'} PortfolioTag */
 
 /** @type {readonly { tag: PortfolioTag; patterns: RegExp[] }[]} */
 export const TAG_RULES = [
@@ -66,6 +66,7 @@ export const TAG_TO_PLAYLISTS = {
   education: ["studio-hub", "recording-studio"],
   entertainment: ["studio-hub-entertainment"],
   "brand-tv": ["studio-hub-entertainment", "podcast-hub"],
+  "video-editing": ["video-editing"],
 };
 
 export const CONVERSION_PLAYLISTS = new Set([

@@ -21,7 +21,8 @@ export type PlaylistId =
   | "bulk-production"
   | "mashup-fixer"
   | "studio-gifts"
-  | "education-tips";
+  | "education-tips"
+  | "video-editing";
 
 export type PlaylistConfig = {
   id: PlaylistId;
@@ -293,6 +294,16 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
     requireAnyTag: ["education"],
     pagePaths: ["/portfolio"],
   },
+  "video-editing": {
+    id: "video-editing",
+    heading: "עריכת וידאו ורשתות חברתיות",
+    subheading: "מסך ירוק ושורטס לעסקים: דוגמאות לעבודות עריכה.",
+    kicker: "עריכה",
+    initialVisible: 4,
+    expandBatch: 6,
+    pagePaths: ["/portfolio", "/business/content-studio"],
+    serviceLink: { href: "/business/content-studio", label: "לחבילות רילז לעסקים" },
+  },
 };
 
 /** Hub page section order */
@@ -303,6 +314,7 @@ export const PORTFOLIO_HUB_PLAYLIST_ORDER: readonly PlaylistId[] = [
   "podcast-hub",
   "events-dj",
   "voiceover-hub",
+  "video-editing",
   "education-tips",
   "studio-hub-entertainment",
 ];

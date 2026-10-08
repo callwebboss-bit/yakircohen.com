@@ -69,8 +69,23 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "5pBisBkfTEg",
     "lmYykgKAdUg",
   ],
-  "voiceover-hub": ["O2RHNRZCmZM", "7DEp-gnDTs4", "Tcv7Tb1uCfI"],
-  "voiceover-services": ["7DEp-gnDTs4", "zHkq_5bXptg", "qYiuRdBJMuE"],
+  /* יקב פאסק (קריינות, 8.10.2026): בראש, לפני סרטוני ה-DJ */
+  "voiceover-hub": [
+    "-nU3anctSJY",
+    "5JPLiE7IbpU",
+    "vLxPpfoDWqc",
+    "O2RHNRZCmZM",
+    "7DEp-gnDTs4",
+    "Tcv7Tb1uCfI",
+  ],
+  "voiceover-services": [
+    "-nU3anctSJY",
+    "5JPLiE7IbpU",
+    "vLxPpfoDWqc",
+    "7DEp-gnDTs4",
+    "zHkq_5bXptg",
+    "qYiuRdBJMuE",
+  ],
   "voiceover-course": ["wN4N0QsfDJo", "oVeIMBTmS_8"],
   "studio-gifts": [
     "LKg3pwdon_M",
@@ -107,6 +122,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   ],
   // Short מקורס הגמגום - מוצמד ראשון בפלייליסט הטיפים בתיק העבודות
   "education-tips": ["591H4EX6miM"],
+  /* מסך ירוק, ואז סושיאל. השורט אחרון: הוא 9:16 במסגרת 16:9 */
+  "video-editing": ["8lfWwn0uJMg", "0--BIes-66Y", "APKGwP3CO50", "--_pBWzA5Hk"],
 };
 
 /** Titles for playlist IDs not always present in generated catalog */

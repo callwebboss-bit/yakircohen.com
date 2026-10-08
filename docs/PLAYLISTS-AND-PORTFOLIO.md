@@ -26,6 +26,22 @@
 5. וידאו לעמוד עם כמה דוגמאות -- `youtube-showcases.ts` או `ShowcaseVideoSection` עם `playlistId`.
 6. בדיקת תקינות: `npm run check:youtube` (מריץ `scripts/check-videos.mjs`, שסורק מפתחות וקישורים מלאים ב-lib, components ו-app; 515 IDs, 0 שבורים -- נכון ל-7.10.2026). הבדיקה רצה גם בתוך `preflight-deploy`.
 
+## הוספת סרטון בודד או כמה סרטונים, בלי ייבוא (המסלול המומלץ, 8.10.2026)
+
+`npm run import:portfolio` כותב מחדש את **כל** `video-catalog.generated.ts` מקובץ הטקסט. קובץ שמכיל רק סרטונים חדשים ימחק את שאר הקטלוג,
+והמספר "272 סרטונים" נקרא מהקובץ הזה. לכן סרטונים בודדים נכנסים דרך `lib/data/video-catalog.supplement.ts`:
+
+1. שורה חדשה ב-`PORTFOLIO_VIDEO_SUPPLEMENT`: `videoId` (11 תווים, מותר `-` ו-`_`), `title`, `youtubeUrl` (לשורט: `/shorts/`), `tags` (מתוך `PortfolioTag`) ו-`services`.
+2. מי מציג אותו: פלייליסט שיש לו `requireAnyTag` בודק רק תגיות, וכל פלייליסט אחר בודק אם ה-id שלו נמצא ב-`services`.
+   `studio-hub` מציג רק את `PLAYLIST_EXPLICIT_IDS` שלו, ולכן סרטון חדש לא יופיע בו בלי להוסיף אותו שם.
+3. סדר: `PLAYLIST_FEATURED_IDS` ב-`video-catalog.overrides.ts`. מה שלא ברשימה ממוין לפי התו הראשון של המזהה ואז לפי הכותרת.
+4. תאריך העלאה: `npm run sync:youtube-dates` (דורש רשת). בלעדיו ה-VideoObject מתפרסם בלי `uploadDate`, ו-Search Console מסמן אותו כלא תקף (6.10.2026).
+   `lib/video-schema.test.ts` נכשל על supplement בלי תאריך.
+5. בדיקות: `npm run check:youtube`, `npm run audit:portfolio-curation`, `npm test`.
+6. פלייליסט חדש: `PlaylistId` ו-`VIDEO_PLAYLISTS` ב-`video-playlists.ts`, ו-`PORTFOLIO_HUB_PLAYLIST_ORDER` אם הוא מוצג ב-`/portfolio`. כשהוא מוצג בעמוד שירות: `<ShowcaseVideoSection playlistId="..." />`.
+
+הספירה "272 סרטונים" לא כוללת את סרטוני ה-supplement.
+
 ## עמודים עם `playlistEmbedUrl: null` (מכוון)
 
 | עמוד | סיבה |
