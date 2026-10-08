@@ -118,10 +118,11 @@ export default function RootLayout({
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
     >
-      <head>
-        <SpeculationRules />
-      </head>
       <body className="flex min-h-dvh min-w-0 flex-col overflow-x-clip bg-background font-sans text-foreground antialiased">
+        {/* בגוף ולא ב-<head>: Cypress מוסיף בראש ה-head רווח וסקריפט, ו-React מצמיד
+            את הילד היחיד של ה-head לצומת הראשון שם. צומת טקסט לא מתאים לתג script,
+            וההידרציה של כל העמוד נכשלת (שגיאה 418). */}
+        <SpeculationRules />
         <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
