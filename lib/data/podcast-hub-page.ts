@@ -47,7 +47,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
     /* החלטת הבעלים D63, 7.10.2026: בווידאו הפרק המלא בסוף ההקלטה. עריכה נוספת רק בהפקה המלאה */
     outcome: "MP4 ליוטיוב + MP3 לספוטיפיי, מיד בסוף ההקלטה",
     bestFor: "ראיונות, מיתוג ונוכחות ויזואלית",
-    href: "/podcast/podcast-production",
+    href: "/podcast/podcast-recording",
     linkLabel: "לפרטי פודקאסט וידאו",
   },
   {
@@ -63,7 +63,7 @@ export const PODCAST_HUB_SERVICE_COMPARE: readonly {
 
 export const PODCAST_HUB_HERO_FEATURES: readonly string[] = [
   TIME_CLAIMS.podcastSameSecond,
-  "4 מתחמי הקלטה עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
+  "עד 4 מיקרופונים נפרדים בו זמנית, בחלל שמעצבים לפי מה שתרצו",
   "מצלמות Sony ZV-E10 + DJI Osmo 4 + צילום 4K רב-זוויתי",
   "שרשרת סאונד אולפנית - ממשקי UAD + iZotope",
   "WAV + MP3 + MP4 + קובץ RSS + הדרכת הפצה לספוטיפיי ואפל",
@@ -76,8 +76,8 @@ export const PODCAST_HUB_PACKAGE_HIGHLIGHTS: readonly {
 }[] = [
   {
     emoji: "🎬",
-    title: "3 חללי הקלטה",
-    description: "אורבני, ירוק או רשמי, בוחרים את האווירה שמתאימה לכם.",
+    title: "חלל שמשתנה לפי מה שתרצו",
+    description: "אורבני, ירוק, רשמי או רקע אחר שתבחרו. אפשר לשנות גם במקום.",
   },
   {
     emoji: "🎙️",
@@ -480,7 +480,7 @@ export const PODCAST_HUB_PRICING_PACKAGES: readonly {
     features: [
       "זמן הקלטה של עד 30 דקות - בלי לחץ",
       "ציוד הקלטה מקצועי - סאונד ברמת רדיו",
-      "3 חללי הקלטה לבחירה",
+      "רקע ועיצוב לפי בחירה",
       "קובץ MP3 גולמי איכותי, מוכן לעריכה",
       "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",
       "✓ גיבוי חומרי גלם למשך שנה",

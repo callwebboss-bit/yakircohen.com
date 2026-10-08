@@ -307,7 +307,7 @@ export default function RecordingSongModiinPageContent() {
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       גם ילד שלא שר לעולם - מקליט בסביבה שקטה עם ליווי
-                      מקצועי. לא מוסרים הקלטה עד שאחרי אישור סופי.
+                      מקצועי. לא מוסרים הקלטה לפני אישור סופי.
                     </p>
                   </div>
                 </div>

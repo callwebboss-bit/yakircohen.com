@@ -274,7 +274,7 @@ export const SERVICE_FIT_MATRIX: readonly ServiceFitEntry[] = [
     titleHe: "השכרת אולפן פודקאסט",
     primaryAudience: "creators",
     delivery: "in_studio",
-    guidance: "self_service",
+    guidance: "assisted",
     outcome: "finished_podcast_episode",
     nextPath: "/podcast/podcast-recording",
     priceAnchorId: "studio_half_hour",

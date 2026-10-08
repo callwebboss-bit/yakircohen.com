@@ -68,8 +68,8 @@ const GEAR_RECORDING = [
 
 const GEAR_PODCAST_VIDEO = [
   {
-    title: "מתחמי הקלטת פודקאסט",
-    detail: "4 מתחמים עצמאיים - עד 4 מיקרופונים נפרדים בו זמנית",
+    title: "חלל הקלטת פודקאסט",
+    detail: "עיצוב שמשתנה לפי בקשה - עד 4 מיקרופונים נפרדים בו זמנית",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
         <rect x="1" y="6" width="22" height="12" rx="2" />

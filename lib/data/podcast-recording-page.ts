@@ -75,7 +75,7 @@ export const PODCAST_RECORDING_STUDIO_FEEL =
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
   `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}`,
   "סאונד אולפני נקי, Shure, Rode",
-  "3 חללי הקלטה מעוצבים",
+  "רקע ועיצוב שמשתנים לפי מה שתרצו",
   `עריכה מקצועית נוספת ${PODCAST_EXTRA_EDIT_TIME}`,
   TIME_CLAIMS.podcastSameSecond,
   "מוכן להעלאה לספוטיפיי ויוטיוב",
