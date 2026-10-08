@@ -31,7 +31,7 @@ description: סנכרון אחרי כל שינוי במחירון או בתיא�
 2. `npm run export:closer`. הפקודה משנה גם חותמת זמן ב-`lib/data/equipment-inventory-bookings.json`: מחזירים אותו עם `git checkout --`.
 3. `npm run audit:closer-sync` חייב להדפיס "תקין" עם אותה חתימה.
 4. `npm run export:quote`, ואז `npm run audit:quote-sync`, גם הוא עם אותה חתימה.
-5. אם בהרצה מופיע "UNMAPPED - ask Yakir": אלה מפתחות ב-`prices.js` שאין להם מקביל בקטלוג, והם נשארים עם הערך הישן. נכון ל-8.10.2026 יש 32 כאלה, ורק חמישה מהם בשימוש ב-`quote.html` (`official.remote`, `official.specterr`, `estimates.multi`, `estimates.heavy`, `estimates.video_upgrade`). מדווחים לבעלים, ולא ממפים בעצמכם.
+5. מחירים ב-`prices.js` שאין להם פריט בקטלוג חיים ב-`MANUAL` בתוך `scripts/export-quote-prices.mjs`, חתומים בתאריך שהבעלים אישר (8.10.2026: 15 ערכים, אחד אחד), והם נכתבים משם ולא מהקובץ הקיים. שינוי מחיר ידני: עורכים שם, מריצים את השערים, ואחרי הדחיפה `export:quote`. מפתח שאינו בקטלוג, לא ב-`MANUAL` ולא ב-`RETIRED` מופיע כ-"UNMAPPED - ask Yakir" ונשאר עם הערך הישן: מדווחים לבעלים ושואלים, ולא ממפים בעצמכם. מפתח שאף קובץ בכלי ההצעות לא קורא נכנס ל-`RETIRED` (נבדק ב-8.10: 15 כאלה הוסרו).
 
 ### 3. כרטיס Google Business
 אין לנו גישה לכרטיס. `npm run gbp:prices` מעדכן את `docs/gbp-price-sheet.md` ומדפיס אילו שורות מסומנות "לעדכן בכרטיס". הבעלים מעתיק אותן ידנית. כשהוא מדווח שעדכן, מעדכנים `gbpPriceNow` ב-`lib/data/gbp-products.ts`, וכך `npm run gbp:prices -- --check` יראה "תקין".

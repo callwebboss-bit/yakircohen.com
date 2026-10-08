@@ -48,7 +48,8 @@ const HASH_LINE_RE = /catalog contentHash: ([0-9a-f]{16})/;
  * מפתח ב-prices.js ← מזהה בקטלוג. vat: "ex" = לפני מע״מ (quote.html מוסיף מע״מ
  * על הסך), "incl" = כולל מע״מ (רק במפתחות ששמם נגמר ב-_incl_vat).
  * התוויות בהערות הן מ-docs/מחירון.json במערכת המקומית, שממנו נוצר הקובץ הישן.
- * כל מפתח שלא כאן נשאר עם הערך הקיים ומדווח כ-UNMAPPED.
+ * כל מפתח שלא כאן, ולא ב-MANUAL (ערך ידני חתום) ולא ב-RETIRED (מוסר), נשאר עם
+ * הערך הקיים ומדווח כ-UNMAPPED.
  */
 const MAP = {
   official: {
@@ -72,10 +73,77 @@ const MAP = {
     /* "אירוע מסלול אישי (כולל מע״מ)". בקטלוג: "תקליטן יקיר כהן אישית".
        בקובץ הישן נרשם כ"כולל מע״מ" אותו מספר שבקטלוג הוא המחיר לפני מע״מ. */
     dj_personal_incl_vat: { id: "dj_yakir_personal", vat: "incl" },
+    /* "תיקון זיופים קל". החלטת הבעלים 8.10.2026: ההצעה הבסיסית זהה למחיר באתר,
+       studio_pitch_correction (300 לפני מע״מ), ולא 390 כמו במחירון הישן. הרמה
+       "מלא" (pitch_full) נשארת ידנית ב-MANUAL, כי בקטלוג אין לה פריט. */
+    pitch_light: { id: "studio_pitch_correction", vat: "ex" },
   },
-  /* הערכות "החל מ" לתוספות. לא מוצרים בקטלוג, ולכן בכוונה בלי מיפוי. */
-  estimates: {},
+  estimates: {
+    /* "ריבוי משתתפים". החלטת הבעלים 8.10.2026: 99 לכל משתתף נוסף, כמו בקטלוג
+       לשיר, לברכה ולפודקאסט. משתתף נוסף בשעת חדר (studio_extra_participant, 190)
+       לא נוגע בזה והוא נשאר כמו שהוא. */
+    multi: { id: "blessing_extra_participant", vat: "ex" },
+  },
   proposed: {},
+};
+
+/*
+ * ערכים ידניים שהבעלים אישר ב-8.10.2026, אחד אחד. אין להם פריט זהה בקטלוג, ולכן
+ * המספר חי כאן ונכתב ל-prices.js מכאן ולא מהקובץ הקיים. לשנות מחיר ידני: לערוך
+ * כאן ולהריץ export:quote אחרי הדחיפה. כולם לפני מע״מ, כמו שאר prices.js.
+ * מפתח שמופיע גם ב-MAP לא יכול להופיע כאן (הבדיקה למטה עוצרת).
+ */
+const MANUAL_APPROVED = "2026-10-08";
+const MANUAL = {
+  official: {
+    remote: 750, /* עריכה מרחוק, "החל מ" */
+    specterr: 200, /* קליפ ויזואלי מבוסס AI */
+    pitch_full: 650, /* תיקון זיופים מלא */
+    effects_min: 350, /* אפקטים מעבר למיקס הבסיסי */
+    voice_album_base: 890, /* קול לאלבום AI */
+    /* חבילת המשפחה: מופיעה רק ב-quote.html (familyOnly) */
+    family_research: 290,
+    family_photos_digital: 250,
+    family_photos_scan: 450,
+    family_child_video: 350,
+    family_growth_video: 750,
+    family_blessings: 390,
+    family_raw: 250,
+    family_stills: 450,
+  },
+  estimates: {
+    heavy: 300, /* עריכה כבדה / שחזור קשה, "החל מ" */
+    /* שדרוג לצילום או וידאו: 750, עודכן מ-700 ב-8.10.2026. המספר זהה ל-
+       studio_session_clip_edited בקטלוג, אבל לא הוכח שזה אותו שירות, ולכן ידני. */
+    video_upgrade: 750,
+  },
+  proposed: {},
+};
+
+/*
+ * מפתחות שהוסרו מ-prices.js ב-8.10.2026. נבדק שאף קובץ ב-ui_interface לא קורא
+ * אותם (quote.html, index.html, index.js, vocal-engine.js, vocal-session-wizard.html).
+ * הם נשארו רק מהמחירון הישן מ-2.9.2026 (docs/מחירון.json): חבילת אפקטים, אלבום קול
+ * AI, ברכה מרגשת מטקסט, מותג קולי, מנוי תוכן חודשי ופודקאסט תוך 24 שעות.
+ */
+const RETIRED = {
+  official: [
+    "effects_max",
+    "voice_album_full",
+    "voice_album_addon",
+    "blessing_from_text_base",
+    "blessing_from_text_song",
+    "blessing_from_text_real_voice",
+    "voice_brand_full",
+    "content_sub_basic_min",
+    "content_sub_basic_max",
+    "content_sub_ext_min",
+    "content_sub_ext_max",
+    "sameday_std_addon",
+    "sameday_std_total",
+    "sameday_ext_addon",
+    "sameday_ext_total",
+  ],
 };
 
 function fail(lines) {
@@ -166,13 +234,31 @@ function buildNext(current, exportDoc) {
   for (const section of ["official", "estimates", "proposed"]) {
     const currentSection = current?.[section] ?? {};
     const sectionMap = MAP[section] ?? {};
-    /* סדר המפתחות נשמר כמו בקובץ הקיים, ומפתח ממופה שחסר בו נוסף בסוף. */
+    const manual = MANUAL[section] ?? {};
+    const retired = new Set(RETIRED[section] ?? []);
+    /* סדר המפתחות נשמר כמו בקובץ הקיים, ומפתח ממופה או ידני שחסר בו נוסף בסוף. */
     const keys = [
-      ...Object.keys(currentSection),
-      ...Object.keys(sectionMap).filter((k) => !(k in currentSection)),
+      ...Object.keys(currentSection).filter((k) => !retired.has(k)),
+      ...[...Object.keys(sectionMap), ...Object.keys(manual)].filter(
+        (k) => !(k in currentSection),
+      ),
     ];
+    for (const key of retired) {
+      if (key in currentSection) {
+        rows.push({
+          key: `${section}.${key}`,
+          status: "retired",
+          oldValue: currentSection[key],
+        });
+      }
+    }
     for (const key of keys) {
       const oldValue = currentSection[key];
+      if (key in manual) {
+        next[section][key] = manual[key];
+        rows.push({ key: `${section}.${key}`, status: "manual", oldValue, newValue: manual[key] });
+        continue;
+      }
       const entry = sectionMap[key];
       if (!entry) {
         next[section][key] = oldValue;
@@ -208,6 +294,12 @@ function render(next, contentHash, rows) {
     "// נוצר אוטומטית מהקטלוג באתר (lib/data/pricing-catalog.ts) על ידי npm run export:quote בריפו yakircohen-site. לא לערוך ידנית.",
     `// עודכן: ${next.updated} · catalog contentHash: ${contentHash}`,
   ];
+  const manualKeys = rows.filter((r) => r.status === "manual").map((r) => r.key);
+  if (manualKeys.length) {
+    lines.push(
+      `// ידני, אושר על ידי הבעלים ${MANUAL_APPROVED} (MANUAL ב-scripts/export-quote-prices.mjs): ${manualKeys.join(", ")}`,
+    );
+  }
   if (unmapped.length) {
     lines.push(
       `// UNMAPPED - ask Yakir (אין מקביל בקטלוג, נשאר הערך מהקובץ הקודם): ${unmapped.join(", ")}`,
@@ -225,6 +317,8 @@ function printReport(rows, contentHash, guard) {
   const changed = rows.filter((r) => r.status === "changed");
   const same = rows.filter((r) => r.status === "same");
   const unmapped = rows.filter((r) => r.status === "unmapped");
+  const manual = rows.filter((r) => r.status === "manual");
+  const retired = rows.filter((r) => r.status === "retired");
   const pad = Math.max(...rows.map((r) => r.key.length), 10) + 2;
   const vatLabel = (r) => (r.vat === "incl" ? "כולל מע״מ" : "לפני מע״מ");
 
@@ -244,11 +338,34 @@ function printReport(rows, contentHash, guard) {
   for (const r of same) {
     console.log(`  ${r.key.padEnd(pad)}${fmt(r.newValue)}   ${r.id} (${vatLabel(r)})`);
   }
+  console.log(`\nידני, אושר ${MANUAL_APPROVED} (${manual.length}), הערך נכתב מ-MANUAL בסקריפט:`);
+  for (const r of manual) {
+    const shown = r.oldValue === r.newValue ? fmt(r.newValue) : `${fmt(r.oldValue)} → ${fmt(r.newValue)}`;
+    console.log(`  ${r.key.padEnd(pad)}${shown}`);
+  }
+  console.log(`\nיוסרו מהקובץ (${retired.length}), לא בשימוש באף קובץ בכלי ההצעות:`);
+  for (const r of retired) {
+    console.log(`  ${r.key.padEnd(pad)}${fmt(r.oldValue)}`);
+  }
   console.log(`\nUNMAPPED - ask Yakir (${unmapped.length}), נשאר הערך הקיים:`);
   for (const r of unmapped) {
     console.log(`  ${r.key.padEnd(pad)}${fmt(r.oldValue)}`);
   }
   console.log("");
+}
+
+/* מפתח לא יכול להיות גם ממופה, גם ידני וגם מוסר: מקור אחד לכל מחיר. */
+for (const section of ["official", "estimates", "proposed"]) {
+  const mapped = new Set(Object.keys(MAP[section] ?? {}));
+  const manual = new Set(Object.keys(MANUAL[section] ?? {}));
+  const retired = RETIRED[section] ?? [];
+  const clashes = [
+    ...[...manual].filter((k) => mapped.has(k)),
+    ...retired.filter((k) => mapped.has(k) || manual.has(k)),
+  ];
+  if (clashes.length) {
+    fail([`  ✗ ${section}: מפתח בכמה מקורות (MAP, MANUAL, RETIRED): ${clashes.join(", ")}`]);
+  }
 }
 
 console.log(`=== export:quote${DRY_RUN ? " (dry-run)" : ""} ===\n`);
