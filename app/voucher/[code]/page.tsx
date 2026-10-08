@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import VoucherImageButton from "@/components/gift-voucher/VoucherImageButton";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { formatNis } from "@/lib/data/pricing";
 import {
   findVoucher,
   formatVoucherDate,
   getAllVoucherCodes,
-  isVoucherExpired,
+  getVoucherStatus,
 } from "@/lib/gift-voucher";
 
 /* הקודים נקראים מ-lib/data/vouchers.json. קודים ידועים נבנים מראש. קוד אחר
    (למשל אותו קוד באותיות קטנות) נבדק מול אותו JSON ב-findVoucher, ואם אינו שם
    מקבל 404. אין שום מקור נתונים אחר, ולכן אין מה לנחש מול שרת חי. */
 type Props = { params: Promise<{ code: string }> };
+
+/* הסטטוס (בתוקף, פג, מומש) מחושב לפי התאריך. בלי רענון הדף היה קופא על הסטטוס
+   של זמן הפריסה, ושובר שפג תוקפו המשיך להופיע "בתוקף" עד הפריסה הבאה. */
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return getAllVoucherCodes().map((code) => ({ code }));
@@ -23,6 +27,8 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   title: { absolute: "שובר מתנה | יקיר כהן הפקות" },
   robots: { index: false, follow: false, nocache: true },
+  /* הקוד הוא הסוד היחיד של הדף. בלי referrer הוא לא דולף לאתר שהקישור בו נלחץ. */
+  referrer: "no-referrer",
 };
 
 export default async function VoucherPage({ params }: Props) {
@@ -30,17 +36,15 @@ export default async function VoucherPage({ params }: Props) {
   const voucher = findVoucher(code);
   if (!voucher) notFound();
 
-  const expired = isVoucherExpired(voucher);
-  const value = voucher.packageLabel
-    ? voucher.packageLabel
-    : voucher.amountNis
-      ? `${formatNis(voucher.amountNis)} לשימוש באולפן`
-      : "";
+  const status = getVoucherStatus(voucher);
+  /* רק מה שהמקבל זכאי לו, בלי מחיר (החלטת הבעלים 8.10.2026) */
+  const value = voucher.packageLabel ?? "";
 
   return (
     <Section className="bg-background" ariaLabelledby="voucher-title" padding="sm">
       <Container className="max-w-2xl">
         <article className="rounded-2xl border-2 border-brand-red bg-surface p-8 text-center shadow-sm sm:p-12">
+          <p className="mb-3 text-xs text-muted-foreground">בס״ד</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             יקיר כהן הפקות
           </p>
@@ -83,7 +87,11 @@ export default async function VoucherPage({ params }: Props) {
             </div>
           </dl>
 
-          {expired ? (
+          {status === "redeemed" ? (
+            <p className="mt-6 text-sm font-medium text-foreground" role="status">
+              השובר מומש ב-{formatVoucherDate(voucher.redeemedAt ?? voucher.issuedAt)}.
+            </p>
+          ) : status === "expired" ? (
             <p className="mt-6 text-sm font-medium text-brand-red-text" role="status">
               תוקף השובר הסתיים. אפשר לפנות אלינו בוואטסאפ ולבדוק מה אפשר לעשות.
             </p>
@@ -92,6 +100,19 @@ export default async function VoucherPage({ params }: Props) {
               למימוש שולחים הודעה בוואטסאפ עם קוד השובר ומתאמים תאריך.
             </p>
           )}
+          {status !== "redeemed" ? (
+            <VoucherImageButton
+              filename={`gift-voucher-${voucher.code}.png`}
+              input={{
+                from: voucher.from,
+                to: voucher.to,
+                message: voucher.message,
+                valueLabel: value,
+                validityLabel: `בתוקף עד ${formatVoucherDate(voucher.validUntil)}`,
+                code: voucher.code,
+              }}
+            />
+          ) : null}
         </article>
       </Container>
     </Section>

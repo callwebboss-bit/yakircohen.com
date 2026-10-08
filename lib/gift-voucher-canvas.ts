@@ -11,7 +11,7 @@ export type VoucherImageInput = {
   from: string;
   to: string;
   message: string;
-  /** שורת החבילה והמחיר, כפי שמוצגת למשתמש */
+  /** שורת החבילה (מה שהמקבל זכאי לו), בלי מחיר. המחיר לא מודפס על השובר. */
   valueLabel: string;
   /** קוד השובר. ריק = מסגרת עם ברקוד להמחשה והסבר שהקוד יתווסף לאחר הרכישה */
   code?: string;
@@ -39,6 +39,26 @@ function fontStack(cssVar: string, fallback: string): string {
   return value ? `${value}, ${fallback}` : fallback;
 }
 
+/** מילה ארוכה מהרוחב (כתובת, רצף תווים בלי רווח) נשברת לפי תווים, ולא חורגת מהמסגרת. */
+function breakLongWord(
+  ctx: CanvasRenderingContext2D,
+  word: string,
+  maxWidth: number,
+): string[] {
+  const parts: string[] = [];
+  let chunk = "";
+  for (const ch of [...word]) {
+    if (chunk && ctx.measureText(chunk + ch).width > maxWidth) {
+      parts.push(chunk);
+      chunk = ch;
+    } else {
+      chunk += ch;
+    }
+  }
+  if (chunk) parts.push(chunk);
+  return parts;
+}
+
 /** שבירת שורות לפי רוחב נמדד, כדי שההודעה לא תחרוג מהמסגרת. */
 function wrapLines(
   ctx: CanvasRenderingContext2D,
@@ -47,7 +67,14 @@ function wrapLines(
 ): string[] {
   const lines: string[] = [];
   for (const paragraph of text.split(/\r?\n/)) {
-    const words = paragraph.split(/\s+/).filter(Boolean);
+    const words = paragraph
+      .split(/\s+/)
+      .filter(Boolean)
+      .flatMap((word) =>
+        ctx.measureText(word).width > maxWidth
+          ? breakLongWord(ctx, word, maxWidth)
+          : [word],
+      );
     let line = "";
     for (const word of words) {
       const candidate = line ? `${line} ${word}` : word;
@@ -61,6 +88,44 @@ function wrapLines(
     lines.push(line);
   }
   return lines;
+}
+
+/** גודל גופן שבו שורה אחת נכנסת לרוחב נתון (מקטינים עד minSize). */
+function fitLineSize(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  weight: number,
+  startSize: number,
+  minSize: number,
+  family: string,
+): number {
+  for (let size = startSize; size >= minSize; size -= 1) {
+    ctx.font = `${weight} ${size}px ${family}`;
+    if (ctx.measureText(text).width <= maxWidth) return size;
+  }
+  return minSize;
+}
+
+/**
+ * הודעה אישית שנכנסת תמיד: מקטינים את הגופן עד שהיא נכנסת ב-maxLines שורות.
+ * קודם נחתכו בשקט שורות מעבר לשלוש, והמשפט האחרון של הברכה נעלם מהתמונה.
+ */
+function fitMessage(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  maxLines: number,
+  sans: string,
+): { lines: string[]; size: number; lineHeight: number } {
+  for (let size = 30; size >= 20; size -= 2) {
+    ctx.font = `400 ${size}px ${sans}`;
+    const lines = wrapLines(ctx, text, maxWidth);
+    if (lines.length <= maxLines || size === 20) {
+      return { lines: lines.slice(0, maxLines), size, lineHeight: Math.round(size * 1.4) };
+    }
+  }
+  return { lines: [], size: 20, lineHeight: 29 };
 }
 
 /** מיקרופון בציור ישיר: קפסולה, קשת תמיכה, רגל ובסיס. cx,cy במרכז האייקון. */
@@ -82,7 +147,17 @@ function drawMicrophone(
   // קפסולה
   const top = cy - size * 0.36;
   ctx.beginPath();
-  ctx.roundRect(cx - w / 2, top, w, h, w / 2);
+  if (typeof ctx.roundRect === "function") {
+    ctx.roundRect(cx - w / 2, top, w, h, w / 2);
+  } else {
+    /* דפדפנים ישנים בלי roundRect: קפסולה מקשת ושני קווים */
+    const r = w / 2;
+    ctx.moveTo(cx - r, top + r);
+    ctx.arc(cx, top + r, r, Math.PI, 0, false);
+    ctx.lineTo(cx + r, top + h - r);
+    ctx.arc(cx, top + h - r, r, 0, Math.PI, false);
+    ctx.closePath();
+  }
   ctx.fill();
 
   // סורגים לבנים על הקפסולה
@@ -309,20 +384,30 @@ export async function drawVoucherImage(
   ctx.fillText(`עבור: ${input.to || "המקבל/ת"}`, right, pad + 420);
 
   ctx.fillStyle = COLORS.muted;
-  ctx.font = `400 30px ${sans}`;
-  const messageLines = wrapLines(ctx, input.message || "", innerWidth).slice(0, 3);
-  messageLines.forEach((line, index) => {
-    ctx.fillText(line, right, pad + 480 + index * 44);
+  const fitted = fitMessage(ctx, input.message || "", innerWidth, 3, sans);
+  ctx.font = `400 ${fitted.size}px ${sans}`;
+  fitted.lines.forEach((line, index) => {
+    ctx.fillText(line, right, pad + 466 + index * fitted.lineHeight);
   });
 
+  /* שם נותן ארוך נכנס לשטח שמימין לחותמת (עד x=1000), ולא עובר דרכה */
+  const fromText = `מאת: ${input.from || "הנותן/ת"}`;
+  const fromSize = fitLineSize(ctx, fromText, right - 1000, 500, 32, 20, sans);
   ctx.fillStyle = COLORS.ink;
-  ctx.font = `500 32px ${sans}`;
-  ctx.fillText(`מאת: ${input.from || "הנותן/ת"}`, right, height - pad - 118);
+  ctx.font = `500 ${fromSize}px ${sans}`;
+  ctx.fillText(fromText, right, height - pad - 118);
 
   // תוקף
   ctx.fillStyle = COLORS.redDark;
   ctx.font = `600 26px ${sans}`;
   ctx.fillText(input.validityLabel, right, height - pad - 76);
+
+  // בס״ד בקטן למעלה, ללקוחות דתיים
+  ctx.textAlign = "center";
+  ctx.fillStyle = COLORS.muted;
+  ctx.font = `400 22px ${sans}`;
+  ctx.fillText("בס״ד", width / 2, pad + 62);
+  ctx.textAlign = "right";
 
   // מיקרופון באמבלמה במרכז העליון
   const emblemX = width / 2;
@@ -335,7 +420,7 @@ export async function drawVoucherImage(
   drawMicrophone(ctx, emblemX, emblemY, 92, COLORS.red);
 
   // חותמת
-  drawStamp(ctx, 860, height - pad - 168, 112, sans);
+  drawStamp(ctx, 860, height - pad - 128, 100, sans);
 
   // קוד שובר + ברקוד, בצד שמאל למטה
   const codeW = 480;
@@ -362,7 +447,7 @@ export async function drawVoucherImage(
     ctx.direction = "rtl";
     ctx.fillStyle = COLORS.muted;
     ctx.font = `400 23px ${sans}`;
-    ctx.fillText("קוד השובר יתווסף לאחר הרכישה", codeX + codeW / 2, codeY + 104);
+    ctx.fillText("טיוטה. תקף רק עם קוד אחרי תשלום", codeX + codeW / 2, codeY + 104);
   }
   ctx.direction = "rtl";
   ctx.textAlign = "right";
@@ -383,4 +468,40 @@ export function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
       "image/png",
     );
   });
+}
+
+/**
+ * שומר את תמונת השובר. בטלפון נפתח גיליון השיתוף (גלריה, וואטסאפ), כי הורדה
+ * דרך קישור לא עובדת בדפדפן הפנימי של וואטסאפ ואינסטגרם ובחלק מגרסאות Safari
+ * בנייד. בדסקטופ זו הורדה רגילה. זורק שגיאה אם יצירת התמונה נכשלה.
+ */
+export async function saveVoucherImage(
+  canvas: HTMLCanvasElement,
+  filename: string,
+): Promise<void> {
+  const blob = await canvasToPngBlob(canvas);
+  const file = new File([blob], filename, { type: "image/png" });
+  const isTouch =
+    typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
+  if (
+    isTouch &&
+    typeof navigator.canShare === "function" &&
+    navigator.canShare({ files: [file] })
+  ) {
+    try {
+      await navigator.share({ files: [file] });
+      return;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      /* כשל אחר בשיתוף: ממשיכים להורדה רגילה */
+    }
+  }
+  const href = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = href;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(href), 10_000);
 }
