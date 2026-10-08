@@ -3,14 +3,17 @@
  *
  * הדף בנוי כטיוטה. כל עוד PODCAST_SUBSCRIPTION_IS_DRAFT דלוק:
  *  - הדף לא באינדקס (robots), לא במפת האתר ולא בניווט.
- *  - המחירים ומספרי הפרקים הם placeholder, והדף אומר את זה בגלוי.
- *  - לא נפלטת סכמת Offer או FAQPage, כי סכמה חייבת להתאים למה שהגולש רואה,
- *    ומחיר או מדיניות ביטול שלא נקבעו הם לא עובדה.
+ *  - הדף אומר בגלוי שהמסלולים והמחירים הם הצעה שעוד לא אושרה.
+ *  - לא נפלטת סכמת Offer או FAQPage.
  *
- * להוציא מטיוטה: להגדיר priceExVat לכל מסלול, להשלים את התשובות ב-
- * PODCAST_SUBSCRIPTION_FAQS ולהפוך את הדגל ל-false. מחיר אמיתי שייך בקטלוג
- * (lib/data/pricing-catalog.ts), לא כאן.
+ * מחירים לא נכתבים כסכום. כל מחיר נגזר מהקטלוג (lib/data/pricing-catalog.ts),
+ * כך ששינוי שם מתעדכן גם כאן, וגם בתשובות הנפוצות.
+ *
+ * להוציא מטיוטה: אישור הבעלים למסלולים ולנוסח התשובות, להפוך את הדגל ל-false,
+ * להוסיף את הדף למפת האתר ולניווט.
  */
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPrice } from "@/lib/data/pricing-display";
 
 export const PODCAST_SUBSCRIPTION_PATH = "/podcast/subscription";
 export const PODCAST_SUBSCRIPTION_TITLE = "מנוי חודשי להפקת פודקאסט";
@@ -21,18 +24,50 @@ export type SubscriptionPlanId = "basic" | "extended" | "video";
 export type SubscriptionPlan = {
   id: SubscriptionPlanId;
   name: string;
-  /** placeholder עד שהבעלים קובע. */
+  /** שורה קצרה מתחת לשם המסלול. */
+  tagline: string;
   episodesPerMonth: number;
   audioEditing: boolean;
   videoEditing: boolean;
-  /** לפני מע״מ. null = עוד לא נקבע. */
+  /** לפני מע״מ, לחודש. null = עוד לא נקבע. */
   priceExVat: number | null;
 };
 
+/*
+ * המסלולים הם הצעה, והבעלים העביר את הבחירה אליי (8.10.2026) ואישר "הכי נכון".
+ *  - בסיס: 2 פרקי אודיו, כל אחד במחיר פרק אודיו בודד, בלי הנחה.
+ *  - מורחב: חבילת 4 פרקי אודיו הקיימת (פרק בשבוע), במחירה, הנחה של 8%.
+ *  - וידאו: 4 פרקי וידאו במחיר פרק וידאו בודד. הנחת ה-8% נקבעה רק לחבילות אודיו,
+ *    ולכן לא הוחלה כאן בלי אישור.
+ */
 export const PODCAST_SUBSCRIPTION_PLANS: readonly SubscriptionPlan[] = [
-  { id: "basic", name: "בסיס", episodesPerMonth: 2, audioEditing: true, videoEditing: false, priceExVat: null },
-  { id: "extended", name: "מורחב", episodesPerMonth: 4, audioEditing: true, videoEditing: false, priceExVat: null },
-  { id: "video", name: "וידאו", episodesPerMonth: 4, audioEditing: true, videoEditing: true, priceExVat: null },
+  {
+    id: "basic",
+    name: "בסיס",
+    tagline: "פרק כל שבועיים",
+    episodesPerMonth: 2,
+    audioEditing: true,
+    videoEditing: false,
+    priceExVat: 2 * getExVat("podcast_audio"),
+  },
+  {
+    id: "extended",
+    name: "מורחב",
+    tagline: "פרק בשבוע",
+    episodesPerMonth: 4,
+    audioEditing: true,
+    videoEditing: false,
+    priceExVat: getExVat("podcast_audio_pack_4"),
+  },
+  {
+    id: "video",
+    name: "וידאו",
+    tagline: "פרק בשבוע, עם צילום",
+    episodesPerMonth: 4,
+    audioEditing: true,
+    videoEditing: true,
+    priceExVat: 4 * getExVat("podcast_video"),
+  },
 ];
 
 export type SubscriptionFaq = {
@@ -41,12 +76,28 @@ export type SubscriptionFaq = {
   answer: string | null;
 };
 
+/*
+ * תשובות הבעלים, 8.10.2026. נוסח הביטול וההחזר הוא ניסוח שלי לפי דבריו
+ * ("מחיר פודקאסט יחיד לפי החבילה, לא לפי המחיר המיוחד") ולאישורו.
+ * שמירה קבועה: הקטלוג כותב "בלי תאריך תפוגה" ולא "לכל החיים" (הערה ב-
+ * pricing-catalog.ts, החלטה מ-6.10), ולכן כך גם כאן.
+ */
 export const PODCAST_SUBSCRIPTION_FAQS: readonly SubscriptionFaq[] = [
-  /* תשובות הבעלים, 8.10.2026. ביטול עדיין לא סוכם, ולכן FAQPage לא נפלט. */
-  { question: "יש התחייבות לתקופה מינימלית?", answer: "המנוי הוא למשך שנה, כמו כל עסקה אצלנו." },
-  { question: "אפשר לבטל את המנוי? איך ומתי?", answer: null },
+  {
+    question: "יש התחייבות לתקופה מינימלית?",
+    answer: "המנוי נבנה לשנה, אבל אף אחד לא כבול. אפשר לבטל בכל שלב ובכל דרך, ולהישאר רק כשטוב לכם.",
+  },
+  {
+    question: "אפשר לבטל את המנוי? איך מקבלים החזר?",
+    answer:
+      "אפשר לבטל בכל שלב, בכל דרך שנוחה לכם. ההחזר מחושב לפי מה ששילמתם פחות הפרקים שכבר הופקו, כשכל פרק נחשב לפי מחיר פרק בודד בחבילה שלכם ולא לפי מחיר המנוי המוזל. אם הפרקים שהופקו עלו יותר ממה ששילמתם, לא גובים מכם את ההפרש.",
+  },
   { question: "מה קורה עם פרק שלא נוצל באותו חודש?", answer: "פרק שלא נוצל נשמר לחודש הבא." },
   { question: "אפשר לעבור בין מסלולים באמצע התקופה?", answer: "אפשר לעבור בין מסלולים בתחילת כל חודש." },
+  {
+    question: "האם הפרקים נשמרים אצלכם אחרי שנשלחו?",
+    answer: `אחרי שהפרק נשלח אליכם, השירות הושלם. ברוב המקרים אנחנו שומרים גיבויים, אבל מתחייבים לשמור רק כשהובטח, או כשביקשתם שמירה כחלק מהשירות. מי שרוצה ודאות יכול להוסיף שמירה קבועה בענן שלנו, בלי תאריך תפוגה, ב-${formatPrice(getExVat("cloud_storage_permanent")).inline}, תשלום חד-פעמי.`,
+  },
 ];
 
 export const PODCAST_SUBSCRIPTION_FAQ_PLACEHOLDER = "התשובה תעודכן אחרי שהתנאים יסוכמו.";

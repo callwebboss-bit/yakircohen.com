@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { PODCAST_SUBSCRIPTION_PLANS, type SubscriptionPlan } from "@/lib/data/podcast-subscription-page";
+import { PODCAST_SUBSCRIPTION_FAQS, PODCAST_SUBSCRIPTION_PLANS, type SubscriptionPlan } from "@/lib/data/podcast-subscription-page";
+import { getExVat } from "@/lib/data/pricing-catalog";
 import {
   buildSubscriptionOffersSchema,
   buildSubscriptionWhatsAppText,
@@ -40,7 +41,15 @@ describe("buildSubscriptionWhatsAppText", () => {
 
 describe("buildSubscriptionOffersSchema", () => {
   it("בלי מחירים לא נפלטת סכמה (placeholder)", () => {
-    assert.equal(buildSubscriptionOffersSchema(PODCAST_SUBSCRIPTION_PLANS), null);
+    const unpriced = PODCAST_SUBSCRIPTION_PLANS.map((plan) => ({ ...plan, priceExVat: null }));
+    assert.equal(buildSubscriptionOffersSchema(unpriced), null);
+  });
+  it("מחירי המסלולים נגזרים מהקטלוג ולא נכתבים כסכום", () => {
+    const byId = Object.fromEntries(PODCAST_SUBSCRIPTION_PLANS.map((plan) => [plan.id, plan.priceExVat]));
+    assert.equal(byId.basic, 2 * getExVat("podcast_audio"));
+    assert.equal(byId.extended, getExVat("podcast_audio_pack_4"));
+    assert.equal(byId.video, 4 * getExVat("podcast_video"));
+    assert.ok(buildSubscriptionOffersSchema(PODCAST_SUBSCRIPTION_PLANS), "עם מחירי הקטלוג נפלטת סכמה");
   });
   it("מחיר חסר באחד המסלולים מבטל את כל הסכמה", () => {
     assert.equal(buildSubscriptionOffersSchema([priced[0], { ...priced[1], priceExVat: null }]), null);
@@ -73,5 +82,15 @@ describe("subscriptionFaqSchemaItems", () => {
   });
   it("כל התשובות קיימות: מוחזרות כולן", () => {
     assert.equal(subscriptionFaqSchemaItems([{ question: "ש?", answer: "ת" }]).length, 1);
+  });
+  it("תשובת השמירה בענן נגזרת ממחיר הקטלוג ואומרת 'בלי תאריך תפוגה'", () => {
+    const retention = PODCAST_SUBSCRIPTION_FAQS.find((faq) => faq.question.includes("נשמרים"));
+    assert.ok(retention?.answer);
+    assert.match(retention.answer, /בלי תאריך תפוגה/);
+    assert.doesNotMatch(retention.answer, /לכל החיים/);
+    assert.ok(retention.answer.includes(String(Math.round(getExVat("cloud_storage_permanent") * 1.18))));
+  });
+  it("אין עוד תשובה ריקה בדף המנוי", () => {
+    assert.ok(PODCAST_SUBSCRIPTION_FAQS.every((faq) => faq.answer));
   });
 });

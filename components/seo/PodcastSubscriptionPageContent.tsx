@@ -44,7 +44,7 @@ export default function PodcastSubscriptionPageContent() {
             role="note"
             className="mt-4 rounded-lg border border-brand-red/40 bg-brand-red/8 px-4 py-3 text-sm text-foreground"
           >
-            טיוטה: המחירים ומספרי הפרקים כאן הם placeholder ולא סופיים, והדף לא באינדקס של גוגל.
+            טיוטה: המסלולים והמחירים כאן הם הצעה שעוד לא אושרה, והדף לא באינדקס של גוגל.
           </p>
         ) : null}
       </header>

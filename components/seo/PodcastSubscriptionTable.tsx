@@ -31,6 +31,19 @@ function priceCell(plan: SubscriptionPlan) {
   );
 }
 
+function perEpisodeCell(plan: SubscriptionPlan) {
+  if (plan.priceExVat == null) return PRICE_PLACEHOLDER;
+  const perEpisodeExVat = Math.round(plan.priceExVat / plan.episodesPerMonth);
+  return (
+    <>
+      <span className="block font-semibold text-foreground">
+        {withVat(perEpisodeExVat).toLocaleString("he-IL")} ₪
+      </span>
+      <span className="block text-xs text-muted-foreground">כולל מע״מ</span>
+    </>
+  );
+}
+
 const yesNo = (included: boolean) => (included ? "כלולה" : "לא כלולה");
 
 /**
@@ -61,7 +74,8 @@ export default function PodcastSubscriptionTable({ plans }: { plans: readonly Su
     { label: "פרקים בחודש", render: (plan) => plan.episodesPerMonth },
     { label: "עריכת אודיו", render: (plan) => yesNo(plan.audioEditing) },
     { label: "עריכת וידאו", render: (plan) => yesNo(plan.videoEditing) },
-    { label: "מחיר", render: priceCell },
+    { label: "מחיר לפרק", render: perEpisodeCell },
+    { label: "מחיר לחודש", render: priceCell },
   ];
 
   return (
@@ -92,6 +106,7 @@ export default function PodcastSubscriptionTable({ plans }: { plans: readonly Su
                       className="size-4 accent-brand-red"
                     />
                     <span className="text-base font-semibold">{plan.name}</span>
+                    <span className="text-xs font-normal text-muted-foreground">{plan.tagline}</span>
                   </label>
                 </th>
               ))}
