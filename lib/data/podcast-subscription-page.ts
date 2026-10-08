@@ -42,10 +42,11 @@ export type SubscriptionFaq = {
 };
 
 export const PODCAST_SUBSCRIPTION_FAQS: readonly SubscriptionFaq[] = [
-  { question: "יש התחייבות לתקופה מינימלית?", answer: null },
+  /* תשובות הבעלים, 8.10.2026. ביטול עדיין לא סוכם, ולכן FAQPage לא נפלט. */
+  { question: "יש התחייבות לתקופה מינימלית?", answer: "המנוי הוא למשך שנה, כמו כל עסקה אצלנו." },
   { question: "אפשר לבטל את המנוי? איך ומתי?", answer: null },
-  { question: "מה קורה עם פרק שלא נוצל באותו חודש?", answer: null },
-  { question: "אפשר לעבור בין מסלולים באמצע התקופה?", answer: null },
+  { question: "מה קורה עם פרק שלא נוצל באותו חודש?", answer: "פרק שלא נוצל נשמר לחודש הבא." },
+  { question: "אפשר לעבור בין מסלולים באמצע התקופה?", answer: "אפשר לעבור בין מסלולים בתחילת כל חודש." },
 ];
 
 export const PODCAST_SUBSCRIPTION_FAQ_PLACEHOLDER = "התשובה תעודכן אחרי שהתנאים יסוכמו.";
