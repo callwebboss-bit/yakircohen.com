@@ -117,7 +117,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
        87 הפוסטים, כלומר האתר הצהיר על עדכון שלא קרה. */
     ...(post.seo.dateModified ? { dateModified: post.seo.dateModified } : {}),
     url: canonical,
-    image: absoluteUrl(post.thumbnail),
+    /* אותה תמונה כמו og:image ולא התמונה הממוזערת. בדיקת הלוגו של 7.10.2026
+       מצאה שכאן הוצהר /images/studio.svg ב-7 פוסטים (קובץ SVG ‏1184x864 עם
+       שוליים לבנים) ובשלושה צילום עם מותג של די-ג'יי אחר על מסך ה-LED.
+       תמונת השיתוף היא 1200x630 עם הלוגו, ולשלושה האלה נוצרה ממקור נקי. */
+    image: absoluteUrl(BLOG_OG_BY_THUMBNAIL[post.thumbnail] ?? post.thumbnail),
     /* מחבר אנושי, לא ארגון. ישות ה-#founder (Person) כבר קיימת בגרף האתר
        עם שם, תפקיד, תמונה ו-sameAs. 87 פוסטים בלי מחבר מזוהה הם בדיוק מה
        שמדדי E-E-A-T של גוגל ומנועי תשובות מחפשים. המפרסם נשאר הארגון. */

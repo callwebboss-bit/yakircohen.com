@@ -1,4 +1,5 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
+import { STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import {
   PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
@@ -85,7 +86,8 @@ export const STUDIO_MODIIN_FAQS: readonly {
     id: "multi-guest",
     question: "האם ניתן להקליט פודקאסט עם מספר משתתפים?",
     answer:
-      "בהחלט. הסטודיו מאובזר להקלטת מספר משתתפים בו-זמנית, בנפרד או יחד, בהתאם לצורך.",
+      /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
+      `בהחלט. הסטודיו מאובזר להקלטת מספר משתתפים בו-זמנית, בנפרד או יחד, בהתאם לצורך. ${STUDIO_TURNS_NOTE}.`,
   },
   {
     id: "equipment",

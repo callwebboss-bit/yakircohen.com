@@ -3,6 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import {
+  CALLBACK_EVENT_INDEX_CONTEXT,
+  CALLBACK_EVENT_INDEX_OPTIONS,
+} from "@/lib/leads/callback-lead";
 import EventIndexAttractionsBundle from "@/components/marketing/EventIndexAttractionsBundle";
 import EventIndexAttractionsCatalog from "@/components/marketing/EventIndexAttractionsCatalog";
 import EventIndexProducerPitch from "@/components/marketing/EventIndexProducerPitch";
@@ -348,12 +352,8 @@ export default function EventIndexPageContent() {
             formId="event_index_subscription"
             utmCampaign="event_index_subscription"
             source="/pro/event-index"
-            serviceOptions={[
-              "ספק אירועים / דיג'יי",
-              "חברת הגברה",
-              "מפיק או מפיקה",
-              "אחר",
-            ]}
+            serviceOptions={CALLBACK_EVENT_INDEX_OPTIONS}
+            serviceContext={CALLBACK_EVENT_INDEX_CONTEXT}
           />
         </Container>
       </Section>

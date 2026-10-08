@@ -1551,10 +1551,19 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 }
 
+/* אטום, לא שקוף: ב-82% עם בלר הטקסט שמתחת לסרגל עבר דרכו ונצבע על הטקסט של הסרגל (סיור לקוח 4.10.2026) */
 .book-glass-bar {
-  background: color-mix(in srgb, var(--background) 82%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--background);
+}
+
+/* iOS Safari מגדיל את הדף כשמתמקדים בשדה קטן מ-16px. נמדד 14px בכל שדות /book (סיור לקוח 4.10.2026).
+   מחוץ ל-@layer בכוונה, כדי לגבור על text-sm של כלי העזר. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { trackConversion } from "@/lib/analytics/conversion-events";
+import { stampWhatsAppLeadCode } from "@/lib/whatsapp";
 
 /**
  * מודד לחיצות יוצאות לוואטסאפ ולטלפון, מכל מקום באתר, ממאזין אחד.
@@ -42,16 +43,45 @@ function campaignFor(href: string): string {
   }
 }
 
+/*
+ * קוד פנייה (החלטת הבעלים D67, 7.10.2026): רוב קישורי הוואטסאפ נבנים בשרת
+ * ונשמרים ב-HTML הסטטי, ולכן קוד שנוצר שם היה זהה לכל הגולשים. הקוד נכנס
+ * לקישור ברגע הלחיצה, לפני שהדפדפן עובר אליו, ולחיצה שנייה על אותו קישור
+ * שומרת את אותו קוד. קישור שכבר נושא קוד (כי אותו קוד נשלח במייל) לא משתנה.
+ */
+function stampLeadCode(anchor: Element): void {
+  if (!(anchor instanceof HTMLAnchorElement)) return;
+  const href = anchor.getAttribute("href") ?? "";
+  if (!href.includes("wa.me/") && !href.includes("api.whatsapp.com/")) return;
+  const stamped = stampWhatsAppLeadCode(href);
+  if (stamped !== href) anchor.setAttribute("href", stamped);
+}
+
+function anchorOf(event: MouseEvent): Element | null {
+  const target = event.target;
+  if (!(target instanceof Element)) return null;
+  return target.closest("a[href]");
+}
+
 export default function OutboundLeadTracker() {
   useEffect(() => {
+    /* לחיצה אמצעית פותחת כרטיסייה בלי אירוע click, ולכן גם בה נכנס הקוד */
+    function onAuxClick(event: MouseEvent) {
+      try {
+        const anchor = anchorOf(event);
+        if (anchor) stampLeadCode(anchor);
+      } catch {
+        /* הקוד לעולם לא מפיל ניווט של גולש */
+      }
+    }
+
     function onClick(event: MouseEvent) {
       try {
-        if (event.defaultPrevented) return;
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-
-        const anchor = target.closest("a[href]");
+        const anchor = anchorOf(event);
         if (!anchor) return;
+        /* לפני כל דילוג של המדידה: גם משטח שמדווח בעצמו צריך קוד פנייה */
+        stampLeadCode(anchor);
+        if (event.defaultPrevented) return;
 
         /* משטח שכבר מדווח אירוע משלו. מדלגים כדי לא לספור פעמיים. */
         if (anchor.closest("[data-lead-tracked]")) return;
@@ -80,7 +110,11 @@ export default function OutboundLeadTracker() {
     /* capture: נמדד לפני כל onClick מקומי, כך שגם handler שעוצר הפצה
        לא מסתיר את הלחיצה מהדוח. */
     document.addEventListener("click", onClick, { capture: true });
-    return () => document.removeEventListener("click", onClick, { capture: true });
+    document.addEventListener("auxclick", onAuxClick, { capture: true });
+    return () => {
+      document.removeEventListener("click", onClick, { capture: true });
+      document.removeEventListener("auxclick", onAuxClick, { capture: true });
+    };
   }, []);
 
   return null;

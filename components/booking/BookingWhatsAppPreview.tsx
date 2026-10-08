@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { toCustomerWhatsAppText } from "@/lib/whatsapp";
 
 type SummaryLine = { label: string; value: string };
 
@@ -24,8 +25,10 @@ export default function BookingWhatsAppPreview({
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  /* מה שהלקוח באמת שולח: בלי שורות פנימיות ובלי תג [YC:] (D67). קוד הפנייה
+     נוצר רק בלחיצת השליחה, ולכן הוא לא מופיע בתצוגה */
   const previewText =
-    messageBody ??
+    (messageBody != null ? toCustomerWhatsAppText(messageBody) : null) ??
     (`*${serviceLabel ?? "הזמנה"}*\n\n` +
       summaryLines.map((l) => `• ${l.label}: ${l.value}`).join("\n") +
       (totalWithVat !== undefined

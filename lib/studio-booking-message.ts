@@ -66,8 +66,9 @@ export function buildStudioParticipantsBlock(ctx: StudioLeadMessageContext): str
   }
   lines.push("מבוגר וילד - אותו מחיר");
 
+  /* החלטת הבעלים D64, 7.10.2026: מעל 4 מקליטים בתורות, בלי שינוי במחיר */
   if (ctx.recorderCount > STUDIO_RECORDING_MAX) {
-    lines.push(`⚠️ מעל ${STUDIO_RECORDING_MAX} - נתאם זוגות בשקט באולפן`);
+    lines.push(`⚠️ מעל ${STUDIO_RECORDING_MAX} - מקליטים בתורות, עד ${STUDIO_RECORDING_MAX} בבת אחת`);
   }
 
   return lines;

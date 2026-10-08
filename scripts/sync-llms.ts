@@ -51,6 +51,7 @@ function songAddonLine(id: PriceItemId): string {
 }
 const songAddons = SONG_ADDON_IDS.map(songAddonLine).join(" · ");
 
+/* ניקוי רעשים בשתי שורות נפרדות: רעש קבוע אחד מול ניקוי מלא (החלטת הבעלים D68, 7.10.2026) */
 const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog. כולל מע״מ, ובסוגריים לפני מע״מ)
 - אולפן - חצי שעה, קובץ גולמי בלי עריכה: ${consumer("studio_half_hour")} · שעת אולפן: ${consumer("studio_hour")}
 - פודקאסט אודיו (עד שעה. ${PODCAST_AUDIO_SCOPE_NOTE}): ${consumer("podcast_audio")}
@@ -68,7 +69,7 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - משתתפים בשיר (זמר אחד כלול): ${getSongParticipantsExplanation().withVat} ${getSongParticipantsExplanation().exVat}, ${getSongParticipantsExplanation().limit}. ${EXTRA_PERSON_COST_NOTE}
 - אולפן נייד בבית או במשרד (הגעה עם כל הציוד, התאורה והצוות, ופרק פודקאסט אודיו מוגמר לאדם אחד כלול: הקלטה, עריכה ומסירה): ${consumer("mobile_podcast_at_home", true)} · ${mobileChannelPriceLine()}
 - קריינות למרכזייה (שלוש הודעות): ${consumer("voiceover_ivr")} · קריינות לסרטון תדמית: ${consumer("voiceover_promo")}
-- ניקוי רעשים בהקלטה קיימת: ${consumer("ai_noise_basic", true)} · שחזור קול מלא: ${consumer("ai_voice_restore")}
+- ניקוי רעש קבוע אחד בהקלטה קצרה: ${consumer("ai_noise_basic", true)} · ניקוי רעשים מלא לקטע עד 5 דקות: ${consumer("noise_removal_segment")} · שחזור קול מלא: ${consumer("ai_voice_restore")}
 - DJ לאירועים (${DJ_TEAM_NOTE}): ${consumer("dj_premium", true)}
 - DJ יקיר כהן אישית (${DJ_YAKIR_NOTE}): ${consumer("dj_yakir_personal", true)}
 - DJ: ${DJ_PER_EVENT_NOTE} ${djTravelFeesLine()}

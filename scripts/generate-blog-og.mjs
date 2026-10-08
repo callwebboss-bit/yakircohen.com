@@ -20,6 +20,15 @@
  * מקור קטן מ-1200x630 מוגדל, וזה מכוון: תמונה רכה בגודל הנכון עדיפה על
  * תמונה חדה שהרשת דוחה. הסקריפט מדווח על כל מקור כזה בשמו.
  *
+ * לוגו: בדיקת הלוגו של 7.10.2026 מצאה שאף תמונת שיתוף של הבלוג לא נושאת
+ * את הלוגו. מי שמקבל מאמר בוואטסאפ רואה צילום בלי לדעת של מי האתר. לכן
+ * כל תמונה מקבלת את logoBadge המשותף (scripts/lib/brand-logo.mjs), אותה
+ * לוחית כמו בשאר תמונות השיתוף באתר.
+ *
+ * שם הקובץ נגזר מנתיב התמונה הממוזערת ולא מהמקור בפועל, גם כשיש החלפת מקור
+ * (OG_SOURCE_OVERRIDES). כך כתובות og:image לא משתנות, וקו הבסיס של
+ * audit:seo-diff ‏(scripts/baselines/seo-pages.json) נשאר תקף.
+ *
  * הרצה: npm run generate:blog-og
  */
 
@@ -28,6 +37,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { logoBadge } from "./lib/brand-logo.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BLOG_DATA = join(ROOT, "lib", "data", "blog.ts");
@@ -42,6 +52,29 @@ const PAD_BACKGROUND = { r: 250, g: 250, b: 248, alpha: 1 };
 
 /** מתחת ליחס הזה התמונה נחשבת לאורך ונכנסת בשלמותה במקום להיחתך. */
 const PORTRAIT_RATIO = 0.9;
+
+/**
+ * מקור אחר לתמונת השיתוף בלבד, כשהתמונה הממוזערת עצמה לא מתאימה לשיתוף.
+ * המפתח הוא התמונה הממוזערת כפי שהיא ב-lib/data/blog.ts, הערך הוא המקור
+ * שממנו נוצרת תמונת השיתוף.
+ *
+ * חבילת סלואו: בצילום רואים על מסך ה-LED של עמדת הדי-ג'יי "ALMOG COHEN",
+ * מותג של די-ג'יי אחר (בדיקת הלוגו 7.10.2026). הוא תמונת השיתוף של
+ * wedding-song-2026, של 5-things-before-choosing-wedding-dj ושל
+ * heavy-smoke-vs-light-smoke-events. המחליף הוא ריקוד סלואו בעשן הכבד של
+ * יקיר כהן הפקות, מתיקיית תיק העבודות של העשן הכבד (שנקראת דרך
+ * lib/service-portfolio-images.ts). 2400x1800, אותו נושא של זוג בעשן, ובלי
+ * שום מותג זר בפריים (נבדק בעין על הקובץ המלא, 7.10.2026).
+ *
+ * למה לא להחליף את thumbnail ב-blog.ts: התמונה הממוזערת בעמוד עוברת דרך
+ * next/image, ומכסת אופטימיזציית התמונות ב-Vercel Hobby מוצתה. קובץ חדש
+ * מאחורי next/image מחזיר 402 ותמונה שבורה. תמונת השיתוף מוגשת ישירות
+ * מ-public ולא נוגעת במכסה.
+ */
+const OG_SOURCE_OVERRIDES = {
+  "/images/services/events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp":
+    "/images/services/events/attractions/wedding-smoking-machine/ריקוד סלואו בעשן הכבד של יקיר כהן הפקות.webp",
+};
 
 function ogNameFor(sourcePath) {
   return "og-" + createHash("sha256").update(sourcePath).digest("hex").slice(0, 12) + ".webp";
@@ -63,13 +96,25 @@ const map = {};
 const upscaled = [];
 const padded = [];
 const failed = [];
+const overridden = [];
+
+/* החלפת מקור שאין לה תמונה ממוזערת היא רשומה מתה: מישהו החליף את התמונה
+   בפוסט וההחלפה כבר לא עושה כלום. נכשלים כדי שלא תישאר הגנה מדומה. */
+for (const key of Object.keys(OG_SOURCE_OVERRIDES)) {
+  if (!thumbnails.includes(key)) failed.push(`${key} (החלפת מקור בלי תמונה ממוזערת באף פוסט)`);
+}
+
+/* הלוחית זהה בכל התמונות, ולכן מרונדרת פעם אחת. */
+const badge = await logoBadge({ canvasWidth: OG_WIDTH });
 
 for (const thumb of thumbnails) {
-  const source = join(ROOT, "public", decodeURIComponent(thumb));
+  const sourcePublic = OG_SOURCE_OVERRIDES[thumb] ?? thumb;
+  const source = join(ROOT, "public", decodeURIComponent(sourcePublic));
   if (!existsSync(source)) {
-    failed.push(`${thumb} (הקובץ אינו קיים)`);
+    failed.push(`${sourcePublic} (הקובץ אינו קיים)`);
     continue;
   }
+  if (sourcePublic !== thumb) overridden.push(`${thumb}\n      מקור: ${sourcePublic}`);
 
   const outName = ogNameFor(thumb);
   const outPath = join(OUT_DIR, outName);
@@ -81,10 +126,11 @@ for (const thumb of thumbnails) {
     const isPortrait = ratio < PORTRAIT_RATIO;
 
     if (meta.width < OG_WIDTH || meta.height < OG_HEIGHT) {
-      upscaled.push(`${thumb} (${meta.width}x${meta.height})`);
+      upscaled.push(`${sourcePublic} (${meta.width}x${meta.height})`);
     }
-    if (isPortrait) padded.push(`${thumb} (${meta.width}x${meta.height})`);
+    if (isPortrait) padded.push(`${sourcePublic} (${meta.width}x${meta.height})`);
 
+    let base;
     if (isPortrait) {
       /* רקע מטושטש מהתמונה עצמה, ולא פס בצבע אחיד.
          נמדד על צילום 1536x2048: עם פס אחיד התמונה תפסה שליש מהרוחב ושני
@@ -98,20 +144,21 @@ for (const thumb of thumbnails) {
       const foreground = await sharp(source)
         .resize(OG_WIDTH, OG_HEIGHT, { fit: "inside", withoutEnlargement: false })
         .toBuffer();
-      await sharp(blurred)
+      base = await sharp(blurred)
         .composite([{ input: foreground, gravity: "centre" }])
-        .webp({ quality: 82 })
-        .toFile(outPath);
+        .toBuffer();
     } else {
-      await sharp(source)
+      base = await sharp(source)
         .resize(OG_WIDTH, OG_HEIGHT, {
           fit: "cover",
           position: sharp.strategy.attention,
           background: PAD_BACKGROUND,
         })
-        .webp({ quality: 82 })
-        .toFile(outPath);
+        .toBuffer();
     }
+
+    /* הלוגו מונח אחרון, מעל התמונה הסופית, כדי שהחיתוך לא יזיז או יחתוך אותו. */
+    await sharp(base).composite([badge]).webp({ quality: 82 }).toFile(outPath);
 
     map[thumb] = publicPath;
   } catch (error) {
@@ -139,7 +186,11 @@ ${entries}
 );
 
 console.log("\ngenerate:blog-og");
-console.log(`  ${Object.keys(map).length} תמונות שיתוף ב-${OG_WIDTH}x${OG_HEIGHT}.`);
+console.log(`  ${Object.keys(map).length} תמונות שיתוף ב-${OG_WIDTH}x${OG_HEIGHT}, כולן עם הלוגו.`);
+if (overridden.length) {
+  console.log(`\n  ${overridden.length} תמונות שיתוף נוצרו ממקור אחר מהתמונה הממוזערת (OG_SOURCE_OVERRIDES):`);
+  for (const o of overridden) console.log("    " + o);
+}
 if (padded.length) {
   console.log(`\n  ${padded.length} מקורות לאורך נכנסו בשלמותם על רקע במקום להיחתך:`);
   for (const p of padded) console.log("    " + p);

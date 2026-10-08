@@ -3,6 +3,7 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import {
+  PHOTO_COLORIZATION_PRICE,
   PHOTO_ENHANCE_ADDONS,
   PHOTO_ENHANCE_AI_FEATURES,
   PHOTO_ENHANCE_COMPARE,
@@ -35,7 +36,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     id: "bw",
     question: "זה עובד על תמונות שחור-לבן?",
     answer:
-      "כן. צביעה (colorization) זה שירות נפרד - 100 ₪ לתמונה.",
+      `כן. צביעה (colorization) זה שירות נפרד - ${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה (${PHOTO_COLORIZATION_PRICE.exVatNote}).`,
     ctaText: "שאלו על צביעה",
     whatsappMessage: "היי יקיר, יש לי תמונת שחור-לבן - גם אפשר לצבוע?",
     utm_campaign: "photo_enhance_faq_bw",
@@ -204,8 +205,12 @@ export default function OnlinePhotoEnhancePageContent() {
                   </span>
                 )}
                 <p className="font-semibold text-foreground">{pkg.count}</p>
+                {/* D72: כולל מע״מ קודם (עמוד לצרכן), לפני מע״מ בקטן מתחת */}
                 <p className="mt-2 text-3xl font-bold text-foreground">
-                  {pkg.price} ₪
+                  {pkg.price}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {pkg.vatNote}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {pkg.perImage}

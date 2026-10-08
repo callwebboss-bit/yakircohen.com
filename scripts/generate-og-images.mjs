@@ -7,6 +7,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { logoBadge } from "./lib/brand-logo.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
@@ -14,18 +15,25 @@ const outDir = path.join(root, "public", "images", "og");
 const servicesDir = path.join(root, "public", "images", "services");
 
 /** @type {Array<{ name: string; source?: string; sourceDir?: string; headline?: string; subline?: string }>} */
+/* video, photography ו-academy קיבלו מקור מפורש ב-7.10.2026: בתיקיות שלהן אין קובץ בשורש
+   (רק תתי-תיקיות), והגיבוי studio/hub/1.webp כבר לא קיים, אז הסקריפט דילג עליהן */
 const TARGETS = [
+  /* תמונת השיתוף ברירת המחדל (בית ועוד כ-160 עמודים). עד 7.10.2026 זו הייתה תמונת אולפן
+     לאורך (1536x2048) שנחתכה, והשלט על הקיר נחתך החוצה. כאן: תמונה לרוחב שהשלט בתוכה */
+  { name: "home.webp", source: "studio/recording-song-modiin/סטודיו יקיר כהן.webp", headline: "אולפן הקלטות, פודקאסט ואירועים" },
   { name: "studio.webp", source: "studio/hub/אולפן-הקלטות-מקצועי-מודיעין.webp", headline: "אולפן הקלטות במודיעין" },
   { name: "podcast.webp", sourceDir: "podcast", headline: "אולפן פודקאסט במודיעין" },
   { name: "events.webp", sourceDir: "events/dj-events", headline: "DJ ואטרקציות לאירועים" },
-  { name: "video.webp", sourceDir: "video", headline: "הפקת וידאו וצילום", subline: "יקיר כהן הפקות" },
-  { name: "photography.webp", sourceDir: "photography", headline: "צילום אירועים", subline: "יקיר כהן הפקות" },
+  { name: "video.webp", source: "academy/music-production/אולפן-הקלטה-במודיעין-יקיר-כהן-הפקות.webp", headline: "הפקת וידאו וצילום", subline: "יקיר כהן הפקות" },
+  { name: "photography.webp", source: "photography/wedding/LMR52141.webp", headline: "צילום אירועים", subline: "יקיר כהן הפקות" },
   { name: "voiceover.webp", sourceDir: "voiceover", headline: "קריינות מקצועית" },
-  { name: "academy.webp", sourceDir: "academy", headline: "אקדמיה למוזיקה", subline: "קורסים והכשרות" },
+  { name: "academy.webp", source: "video/corporate-video/מקליטים זקו אייזנברג.webp", headline: "אקדמיה למוזיקה", subline: "קורסים והכשרות" },
   { name: "online.webp", source: "studio/hub/אולפן פודקאסט - יקיר כהן 1.webp", headline: "שירותים מקוונים" },
   { name: "pricing.webp", source: "studio/hub/איציק שמלי באולפן יקיר כהן הפקות.webp", headline: "מחירון שקוף" },
   { name: "blog.webp", source: "studio/hub/הורים שומעים ברכה באולפן הקלטות יקיר כהן הפקות.webp", headline: "בלוג ומדריכים", subline: "טיפים מהאולפן" },
-  { name: "shop.webp", source: "events/wedding-packages/חבילת סלואו יקיר כהן הפקות.webp", headline: "חנות דיגיטלית" },
+  /* עד 7.10.2026 המקור היה צילום חתונה שעל מסך ה-LED שלו המותג של די-ג'יי אחר
+     (ALMOG COHEN). זו התמונה שמופיעה כשמשתפים קישור לשובר */
+  { name: "shop.webp", source: "studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp", headline: "חנות דיגיטלית" },
   { name: "voucher.webp", source: "studio/blessings/bride-groom-blessing/הקלטה באולפן.webp", headline: "שובר מתנה" },
   { name: "book.webp", source: "studio/recording-song-modiin/אולפן ההקלטה יקיר כהן.webp", headline: "הזמנה מקוונת", subline: "מחיר שקוף" },
 ];
@@ -83,17 +91,10 @@ function headlineOverlaySvg(headline, subline) {
 
 async function renderOg({ src, dest, headline, subline }) {
   const base = sharp(src).resize(1200, 630, { fit: "cover", position: "centre" });
-
-  if (!headline) {
-    await base.webp({ quality: 82 }).toFile(dest);
-    return;
-  }
-
-  const overlay = headlineOverlaySvg(headline, subline);
-  await base
-    .composite([{ input: overlay, top: 0, left: 0 }])
-    .webp({ quality: 82 })
-    .toFile(dest);
+  /* הלוגו בכל תמונת שיתוף (בדיקת הלוגו 7.10.2026: באף אחת מהן לא היה) */
+  const layers = [await logoBadge({ canvasWidth: 1200 })];
+  if (headline) layers.unshift({ input: headlineOverlaySvg(headline, subline), top: 0, left: 0 });
+  await base.composite(layers).webp({ quality: 82 }).toFile(dest);
 }
 
 async function main() {

@@ -15,8 +15,9 @@ type VisualReceiptProps = {
 };
 
 /**
- * קבלה ויזואלית - כל השורות ב-exVat בלבד.
- * מע״מ 18% מוצג פעם אחת דרך formatFromPriceDual / catalogWithVat - בלי כפל בחישוב.
+ * קבלה ויזואלית - שורות הפירוט ב-exVat בלבד, והסה״כ מוצג כולל מע״מ קודם.
+ * לצרכן מציגים כולל מע״מ קודם ובקטן לפני מע״מ (docs/PRICING.md:22), ולכן הכותרת
+ * היא totalWithVat. מע״מ 18% מחושב פעם אחת דרך catalogWithVat - בלי כפל בחישוב.
  */
 export default function VisualReceipt({
   estimate,
@@ -58,6 +59,8 @@ export default function VisualReceipt({
         </p>
       ) : null}
 
+      <p className="mb-1 text-[11px] text-muted-foreground">פירוט לפני מע״מ</p>
+
       {baseLine ? (
         <div className="flex items-baseline justify-between gap-3 text-muted-foreground">
           <span>בסיס: {baseLine.label}</span>
@@ -92,13 +95,13 @@ export default function VisualReceipt({
           justUpdated ? "bg-emerald-50" : "bg-transparent"
         }`}
       >
-        <span>סה״כ משוער</span>
+        <span>סה״כ משוער, כולל מע״מ</span>
         <span className="tabular-nums">
-          {estimate.totalExVat.toLocaleString("he-IL")} ₪
+          {totalWithVat.toLocaleString("he-IL")} ₪
         </span>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
-        לפני מע״מ ({vatPct}%). כולל מע״מ: {totalWithVat.toLocaleString("he-IL")} ₪
+        לפני מע״מ ({vatPct}%): {estimate.totalExVat.toLocaleString("he-IL")} ₪
       </p>
 
       <p className="mt-2 text-[11px] leading-snug text-muted-foreground">

@@ -9,6 +9,7 @@ import {
 import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { cn } from "@/lib/utils";
 
 export default function BookQuickIntakeSection() {
@@ -59,7 +60,7 @@ export default function BookQuickIntakeSection() {
               שלחו פנייה מהירה
             </h2>
             <p className="mb-6 text-sm text-muted-foreground">
-              לא מצאתם כיוון מתאים? תארו בקצרה - אחזור תוך 24 שעות.
+              לא מצאתם כיוון מתאים? תארו בקצרה, ואחזור אליכם {TIME_CLAIMS.quoteHour}.
             </p>
             <BookUniversalIntakeWizardLazy />
           </>

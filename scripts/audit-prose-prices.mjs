@@ -52,6 +52,10 @@ const SCAN_DIRS = "lib components app public";
    החלטת הבעלים 7.10.2026: השיר המקורי עלה מ-500 ל-850 לפני מע״מ. */
 const CATALOG_ONLY = [
   { id: "song_original_mitzvah", label: "שיר מקורי לבר או בת מצווה" },
+  /* החלטת הבעלים D72, 7.10.2026: 10 תמונות עלו מ-250 ל-350. 250 עדיין מחיר תקף
+     של vocal_fix_short, damaged_recording_rescue ועוד, והמחיר של הפריט הזה לא
+     נכתב כפרוזה בשום מקום */
+  { id: "ai_photo_upgrade", label: "שדרוג 10 תמונות ב-AI" },
 ];
 
 const EXPLAINED = [

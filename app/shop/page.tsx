@@ -6,7 +6,6 @@ import { metadataForHubSeo, SHOP_HUB_SEO, hubSchemaPropsFromSeo } from "@/lib/se
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { absoluteUrl } from "@/lib/site-url";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
-import { SITE_NAME } from "@/lib/constants";
 import { VAT_RATE } from "@/lib/data/pricing";
 
 export const metadata = {
@@ -24,7 +23,10 @@ function productOffers() {
     name: tier.title,
     description: tier.desc,
     image: absoluteUrl(tier.imageSrc.replace(/^\//, "")),
-    brand: { "@type": "Brand", name: SITE_NAME },
+    /* בדיקת הלוגו 7.10.2026: היה Brand עם שם בלבד, בלי לוגו. הפניה לצומת
+       הארגון (SiteSchema ב-app/layout.tsx, בכל עמוד) נותנת למוצר את השם ואת
+       הלוגו מאותו מקור, ו-Google מקבל Organization כ-brand של Product. */
+    brand: { "@id": ENTITY_IDS.organization },
     offers: {
       "@type": "Offer",
       price: String(Math.round(tier.priceExVat! * (1 + VAT_RATE))),

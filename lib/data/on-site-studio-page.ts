@@ -133,7 +133,7 @@ export const ON_SITE_STUDIO_CONFIG: BusinessPageConfig = {
       "on_site_half_day",
       undefined,
       "4 שעות. מתאים לסשן הקלטות מרוכז.",
-      ["עד 4 מרואים", "חדר ישיבות אחד", "ליווי טכני"],
+      ["עד 4 מרואיינים", "חדר ישיבות אחד", "ליווי טכני"],
       "on_site_half_day",
     ),
     tier(

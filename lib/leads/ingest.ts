@@ -14,6 +14,7 @@ import {
   type LeadContactChannel,
 } from "@/lib/leads/contact-channel";
 import { leadDryRunMode } from "@/lib/leads/dry-run";
+import { findLeadCode, formatLeadCodeLine } from "@/lib/lead-code";
 import { normalizeIlMobile } from "@/lib/leads/format-phone-il";
 import { REVIEW_SUBJECT_PREFIX, type LeadSoftFlag } from "@/lib/leads/payload-check";
 import { isDurableStoreConfigured } from "@/lib/leads/redis";
@@ -214,11 +215,15 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
     logStoreError("save", err);
   }
 
+  /* קוד הפנייה מהגוף, אותו קוד שהלקוח שולח בוואטסאפ (D67). נכנס לראש המייל
+     ולנושא, כדי שיקיר ימצא את הליד לפי הקוד שבהודעה. הגוף נשאר הנתון היחיד */
+  const leadCode = findLeadCode(input.body);
   const routing = planAdminRouting(lead);
   const card = buildAdminContextCardHtml(lead, false);
   const serviceHtml = buildServiceAdminBodyHtml(lead);
   const offers = routing.includeAlternativeOffers ? routing.alternativeOffersText : "";
   const textBody = [
+    leadCode ? formatLeadCodeLine(leadCode) : null,
     `מקור: ${lead.formId}`,
     isUpdate && lead.duplicateOf ? `עדכון לליד קיים: ${lead.duplicateOf}` : null,
     flags.length ? `לבדיקה: ${flags.join(", ")}` : null,
@@ -247,7 +252,9 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
     input.contactChannel,
   )}${
     isUpdate ? UPDATE_SUBJECT_PREFIX : ""
-  }${routing.urgentSubjectPrefix}${BRAND_SUBJECT_TAG}${input.subject.replace(BRAND_TAG_AT_START, "")}`;
+  }${routing.urgentSubjectPrefix}${BRAND_SUBJECT_TAG}${input.subject.replace(BRAND_TAG_AT_START, "")}${
+    leadCode ? ` (${formatLeadCodeLine(leadCode)})` : ""
+  }`;
 
   const configured = dryRun || isConfigured();
   let emailed = false;

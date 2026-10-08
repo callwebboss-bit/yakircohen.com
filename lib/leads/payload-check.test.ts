@@ -384,7 +384,9 @@ describe("wizard escape lead", () => {
     assert.ok(body.includes("*כוונה:*"));
     assert.ok(!customer.includes("ליד פרימיום"));
     assert.ok(!customer.includes("*כוונה:*"));
-    assert.ok(customer.includes("[YC:"));
+    /* D67: התג רק במייל לבעלים */
+    assert.ok(body.includes("[YC:"));
+    assert.ok(!customer.includes("[YC:"));
   });
 });
 

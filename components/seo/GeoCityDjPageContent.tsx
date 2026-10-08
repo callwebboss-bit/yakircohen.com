@@ -1,6 +1,10 @@
 import Link from "next/link";
 import SectionDwellTracker from "@/components/analytics/SectionDwellTracker";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
+import {
+  CALLBACK_DJ_SERVICE_OPTIONS,
+  callbackDjCityContext,
+} from "@/lib/leads/callback-lead";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
@@ -43,12 +47,6 @@ const PRODUCTION_SERVICES = [
   { label: "אטרקציות", href: "/events/attractions" },
   { label: "צלם", href: "/photography/wedding" },
   { label: "מפיק אירוע בפועל", href: "/events/host" },
-] as const;
-
-const DJ_FORM_SERVICE_OPTIONS = [
-  "יקיר כהן (בוטיק)",
-  "די ג'יי בוגר האקדמיה",
-  "עדיין לא בטוח/ה",
 ] as const;
 
 function buildFaqItems(cityNamePrep: string): FAQItem[] {
@@ -340,7 +338,8 @@ export default function GeoCityDjPageContent({
               heading="שאלון התאמה קצר"
               description="השאירו פרטים ונחזור אליכם עם ההתאמה הנכונה - יקיר או די ג'יי מהאקדמיה."
               utmCampaign={city.utm.dj}
-              serviceOptions={DJ_FORM_SERVICE_OPTIONS}
+              serviceOptions={CALLBACK_DJ_SERVICE_OPTIONS}
+              serviceContext={callbackDjCityContext(city.nameHePrep)}
               formLabel={`שאלון התאמה לדי ג'יי ${city.nameHePrep}`}
             />
           </div>

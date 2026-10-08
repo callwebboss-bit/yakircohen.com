@@ -1,5 +1,5 @@
 ﻿import { PODCAST_MAX_PARTICIPANTS, podcastDualPrice, podcastParticipantPriceLine } from "@/lib/data/podcast-calculator";
-import { getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_GRANDPA_SAME_PRICE_NOTE } from "@/lib/data/pricing-catalog";
+import { getExVat, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_GRANDPA_SAME_PRICE_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 
 export const PODCAST_GRANDPA_EXAMPLE_VIDEO = {
   videoId: "GFYoIU-UseE",
@@ -132,7 +132,8 @@ export const PODCAST_GRANDPA_FAQS: readonly {
     id: "participants",
     question: "כמה אנשים יכולים להשתתף?",
     answer:
-      `עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק, כמו בפודקאסט רגיל. ${podcastParticipantPriceLine()}.`,
+      /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
+      `עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק, כמו בפודקאסט רגיל. ${STUDIO_TURNS_NOTE}. ${podcastParticipantPriceLine()}.`,
   },
   {
     id: "singing",

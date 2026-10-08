@@ -18,9 +18,14 @@ import SuccessRateEstimator from "@/components/seo/SuccessRateEstimator";
 import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import VocalFixPricingBlock from "@/components/seo/VocalFixPricingBlock";
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
+
+/* D75: המחיר מהקטלוג (vocal_fix_short), כולל מע״מ קודם. היה "250 ₪" כתוב ביד */
+const VOCAL_FIX_PRICE = formatConsumerPrice(getExVat("vocal_fix_short"));
 
 const VOCAL_FIX_ANSWER =
-  "הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. 250 ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.";
+  `הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. ${VOCAL_FIX_PRICE.totalLabel} (${VOCAL_FIX_PRICE.exVatNote}) עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.`;
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -63,7 +68,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
 
 export default function OnlineVocalFixPageContent() {
   const ctaHref = buildWhatsAppHref({
-    text: "היי יקיר, אני מעוניין/ת בשירות שיפור קול מהנייד (250 ₪ עד 5 דק). אשמח לשלוח קובץ.",
+    text: `היי יקיר, אני מעוניין/ת בשירות שיפור קול מהנייד (${VOCAL_FIX_PRICE.totalLabel} עד 5 דק). אשמח לשלוח קובץ.`,
     utm_source: "online",
     utm_campaign: "vocal_fix_cta",
   });

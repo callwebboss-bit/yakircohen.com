@@ -1,6 +1,6 @@
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, PODCAST_EXTRA_EDIT_NOTE } from "@/lib/data/pricing-catalog";
 
 /** קבוצה 1: הפקת תוכן מוכן - פרקים ותכנים */
 export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
@@ -12,7 +12,8 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-recording",
     title: "צילום והקלטת פודקאסט",
-    description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}.`,
+    /* החלטת הבעלים D63, 7.10.2026 (D43, D44) */
+    description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}, ועוד ${PODCAST_EXTRA_EDIT_NOTE}.`,
     fromPrice: `החל ${formatFromPriceDual(getExVat("full_podcast_production"))}`,
   },
   {

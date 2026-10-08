@@ -347,6 +347,11 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
         description: "60 או 90 דקות 1:1",
       },
       {
+        label: "פיתוח קול, שיעור של שעה",
+        href: "/academy/private-lessons#vocal-coaching",
+        description: "לזמרים מתחילים, עם מורה לפיתוח קול",
+      },
+      {
         label: "ייעוץ אקוסטיקה ובניית אולפן",
         href: "/academy/home-studio",
         description: "אולפן ביתי, פודקאסט ומשדר",
@@ -470,7 +475,7 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
       { label: "קריינות מקצועית", href: "/voiceover/services" },
       { label: "וידאו", href: "/video", description: "אירועים, תדמית ומצגות" },
       { label: "צילום", href: "/photography", description: "חתונות ואירועים" },
-      { label: "שירותים מקצועיים לDJ", href: "/pro", description: "תגים קוליים, סטים וציוד" },
+      { label: "שירותים מקצועיים ל-DJ", href: "/pro", description: "תגים קוליים, סטים וציוד" },
     ],
   },
 ];

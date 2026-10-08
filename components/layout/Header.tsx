@@ -112,19 +112,35 @@ function HeaderLogo() {
       onClick={closeMenu}
       aria-label={`${SITE_NAME} - דף הבית`}
     >
-      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-brand-red/25 bg-surface p-1 sm:h-11 sm:w-11">
+      {/* בדיקת הלוגו 7.10.2026: בטלפון הלוגו יצא בערך 25x11 פיקסלים (ריבוע 30x30 עם
+          סימן ביחס 2:1, ריפוד p-1 ורווח ריק בתוך ה-viewBox), והוא סימן המותג היחיד
+          מתחת ל-640px כי שם העסק מוסתר שם. לכן תיבה מלבנית 2:1 בלי ריפוד.
+          רוחב 80 אבל min-w-0 ו-shrink: נמדד באתר החי שב-375px יש ללוגו עד 114px וב-320px
+          רק 59px עד הכפתורים (shrink-0), אז במסך צר התיבה מתכווצת ולא דוחפת אותם. */}
+      <span className="relative flex h-10 w-20 min-w-0 shrink items-center justify-center overflow-hidden rounded-lg border border-brand-red/25 bg-surface sm:h-11 sm:w-[5.5rem]">
+        {/* מעל הקפל, אז eager ולא lazy. בלי preload כדי לא להתחרות בתמונת ה-LCP.
+            unoptimized: קובץ SVG מוגש ממילא כמו שהוא (next/dist/shared/lib/get-img-props.js), וכך גודל חדש
+            לא יוצר גרסת /_next/image חדשה שתחזיר 402 במכסת Hobby.
+            הציור תופס רק x 29.5-359 ו-y 39-183.5 מתוך 400x200 (נמדד ב-scripts/lib/brand-logo.mjs),
+            כלומר יושב נמוך ב-5.6% מהגובה, אז ההזזה ממרכזת אותו בתיבה. לא מגדילים כדי לחתוך
+            את השוליים: בניסוי על האתר החי הגדלה של 15% שמה את ה-Y מתחת לנקודת
+            StudioLiveIndicator שבפינה. */}
         <Image
           src={SITE_LOGO_SRC}
           alt=""
-          width={40}
+          width={80}
           height={40}
-          className="h-full w-full object-contain"
-          loading="lazy"
+          unoptimized
+          className="h-full w-full translate-x-[1.4%] -translate-y-[5.6%] object-contain"
+          loading="eager"
           decoding="async"
         />
         <StudioLiveIndicator />
       </span>
-      <span className="hidden min-w-0 flex-col sm:flex">
+      {/* בין 1024 ל-1279 שורת הכפתורים בדסקטופ תופסת 838px (נמדד באתר החי), ונשארו 95-110px
+          ללוגו ולשם. השם כבר היה נחתך לארבע אותיות, וליד תיבה של 88 היה נשאר ממנו רק שבר.
+          לכן הוא מוסתר בטווח הזה וחוזר מ-xl, שם יש לו מקום מלא. */}
+      <span className="hidden min-w-0 flex-col sm:flex lg:hidden xl:flex">
         <span className="truncate text-base font-semibold tracking-tight sm:text-lg">
           {SITE_NAME}
         </span>

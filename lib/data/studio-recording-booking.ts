@@ -1,4 +1,9 @@
-﻿import { BLESSING_REMOTE_TRADEOFF_NOTE, getExVat, SONG_INTERVIEW_DURATION } from "@/lib/data/pricing-catalog";
+﻿import {
+  BLESSING_REMOTE_TRADEOFF_NOTE,
+  getExVat,
+  SONG_INTERVIEW_DURATION,
+  STUDIO_SIMULTANEOUS_RECORDERS,
+} from "@/lib/data/pricing-catalog";
 import { STUDIO_SESSION_CLIP_CATALOG_ID } from "@/lib/data/studio-session-clip";
 
 export type RecordingTypeId =
@@ -289,11 +294,12 @@ export const PARTICIPANTS_OPTIONS = [
 /** עלות כל משתתף נוסף - הכנת מיק, סאונד-צ'ק ועריכה נפרדת */
 export const STUDIO_EXTRA_PARTICIPANT_PRICE = getExVat("studio_extra_participant");
 
-/** עלות סבב עריכה/תיקונים נוסף מעבר לסבב הראשון הכלול במחיר */
+/** עלות סבב תיקונים נוסף. בשיר: מעבר ל-2 הסבבים הכלולים אחרי הסשן (החלטת הבעלים D65, 7.10.2026) */
 export const STUDIO_EXTRA_REVISION_PRICE = getExVat("studio_extra_revision");
 
-/** קיבולת אולפן להקלטה בו-זמנית */
-export const STUDIO_RECORDING_MAX = 10;
+/** קיבולת אולפן להקלטה בו-זמנית. מעל זה מקליטים בתורות, והמחיר לפי כללי
+    המשתתפים בקטלוג (עד 12) לא משתנה. החלטת הבעלים D64, 7.10.2026 (היה 10) */
+export const STUDIO_RECORDING_MAX = STUDIO_SIMULTANEOUS_RECORDERS;
 
 /** מקסימום בפריים וידאו */
 export const STUDIO_FILMING_MAX = 5;

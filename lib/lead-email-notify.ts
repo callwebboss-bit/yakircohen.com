@@ -12,8 +12,10 @@ import {
   type CrossSellContext,
 } from "@/lib/data/booking-cross-sell";
 import type { LeadContactChannel } from "@/lib/leads/contact-channel";
+import { findLeadCode, generateLeadCode, normalizeLeadCode, withLeadCodeLine } from "@/lib/lead-code";
 import { fitLeadBody } from "@/lib/leads/payload-check";
 import type { LeadIngestClientMeta, ServiceType } from "@/lib/leads/types";
+import { readWhatsAppLeadCode, stampWhatsAppLeadCode } from "@/lib/whatsapp";
 
 export type LeadEmailPayload = {
   formId: string;
@@ -112,6 +114,31 @@ export function buildLeadNotifyBody(payload: LeadEmailPayload): string {
   return fitLeadBody(
     `${payload.body.trim()}${crossSellBlock}\n\n---\nלהדבקה ב-yakir-closer: העתיקו את גוף ההודעה למעלה לשדה "קליטה מהירה".\nאו פתחו מקומית: ${closerLink}\nאחרי ייבוא - שלב א׳: הצעת מחיר.`,
   );
+}
+
+/**
+ * קוד פנייה אחד לליד ולהודעת הוואטסאפ שלו (החלטת הבעלים D67, 7.10.2026).
+ * הבעלים מקבל במייל את הגוף המלא עם תג [YC:] ועם "קוד פנייה: XXXX", והלקוח
+ * שולח בוואטסאפ רק את הקוד, כך שיקיר מחבר בין השניים לפי הקוד. קוד שכבר
+ * קיים בגוף או בקישור נשמר, כדי שניסיון חוזר או מסך הצלחה לא ייצרו קוד שני.
+ * השרת לא סומך על הקוד הזה לשום החלטה: הוא רק מחלץ אותו מהגוף לנושא המייל.
+ */
+export function attachLeadCode(
+  payload: LeadEmailPayload,
+  waHref?: string,
+  /** קוד שהטופס כבר החזיק (קבוע לניסיונות חוזרים), כשאין קוד בגוף */
+  knownCode?: string,
+): { payload: LeadEmailPayload; waHref: string; code: string } {
+  const code =
+    findLeadCode(payload.body) ??
+    (waHref ? readWhatsAppLeadCode(waHref) : null) ??
+    normalizeLeadCode(knownCode) ??
+    generateLeadCode();
+  return {
+    payload: { ...payload, body: withLeadCodeLine(payload.body, code) },
+    waHref: waHref ? stampWhatsAppLeadCode(waHref, code) : "",
+    code,
+  };
 }
 
 export const LEAD_SUBMIT_TIMEOUT_MS = 12_000;

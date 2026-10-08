@@ -1,5 +1,6 @@
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import type { BookCategoryId } from "@/lib/book-url";
+import { stampWhatsAppLeadCode } from "@/lib/whatsapp";
 
 type OpenWhatsAppLeadOptions = {
   /** When set, fires `book_lead_submit` before opening WhatsApp. */
@@ -18,7 +19,9 @@ type OpenWhatsAppLeadOptions = {
  * גם כשהחלון נחסם, הכרטיסייה של האתר לא עוברת דף: מסך ההצלחה או מסך הגיבוי
  * כבר מציגים קישור שהגולש לוחץ עליו בעצמו.
  */
-export function openWhatsAppLead(href: string, options?: OpenWhatsAppLeadOptions): boolean {
+export function openWhatsAppLead(rawHref: string, options?: OpenWhatsAppLeadOptions): boolean {
+  /* קוד פנייה בשורה האחרונה (D67). קוד שכבר בקישור, כי גם נשלח במייל, נשאר */
+  const href = stampWhatsAppLeadCode(rawHref);
   if (options?.leadCategory) {
     trackConversion("book_lead_submit", { category: options.leadCategory });
   }

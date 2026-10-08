@@ -71,6 +71,12 @@ export type VoucherAssets = {
   logoGold: CanvasImageSource | null;
   /** רוחב חלקי גובה של הלוגו */
   logoAspect: number;
+  /**
+   * הלוגו נטען וגם הרסטר הצבוע שלו באמת מכיל דיו. בלי זה התמונה יוצאת בלי
+   * לוגו, ולכן עמדת המכירות לא מאפשרת לשתף, לשמור או להדפיס (בדיקת הלוגו
+   * 7.10.2026). הציור עצמו לא בודק את הדגל: מה שיש, מצויר
+   */
+  logoOk: boolean;
 };
 
 export type VoucherDrawOptions = {
@@ -703,16 +709,80 @@ export function drawVoucher(
 /**
  * הלוגו (שחור) צבוע בצבע אחד: מציירים אותו על קנבס צדדי ומשאירים את הצבע
  * רק איפה שיש לוגו (source-in). מצויר בגודל קבוע וגדול, כדי שיישאר חד.
+ *
+ * null כשאין הקשר ציור. קודם הוחזר כאן קנבס ריק, והשובר יצא עם "לוגו"
+ * שקוף בלי שאיש ידע (בדיקת הלוגו 7.10.2026).
  */
-export function tintImage(image: CanvasImageSource, color: string, width: number, height: number): HTMLCanvasElement {
+export function tintImage(
+  image: CanvasImageSource,
+  color: string,
+  width: number,
+  height: number,
+): HTMLCanvasElement | null {
   const canvas = document.createElement("canvas");
   canvas.width = Math.max(1, Math.round(width));
   canvas.height = Math.max(1, Math.round(height));
   const ctx = canvas.getContext("2d");
-  if (!ctx) return canvas;
+  if (!ctx) return null;
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
   ctx.globalCompositeOperation = "source-in";
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   return canvas;
+}
+
+/**
+ * טעינה שנשמרת לכל הדף, חוץ מטעינה שנכשלה. קריאות בזמן טעינה מקבלות את
+ * אותה הבטחה. תוצאה ש-ok מחזיר עליה false, או דחייה, נשכחות, והקריאה הבאה
+ * טוענת מחדש. קודם assetsPromise ??= שמר גם לוגו null לכל חיי העמוד (בדיקת
+ * הלוגו 7.10.2026).
+ */
+export function memoUnlessFailed<T>(load: () => Promise<T>, ok: (value: T) => boolean): () => Promise<T> {
+  let cached: Promise<T> | null = null;
+  return () => {
+    if (cached) return cached;
+    const promise = load();
+    cached = promise;
+    const forget = () => {
+      if (cached === promise) cached = null;
+    };
+    promise.then((value) => {
+      if (!ok(value)) forget();
+    }, forget);
+    return promise;
+  };
+}
+
+/*
+ * כמה מהשטח צריך להיות דיו כדי שהלוגו ייחשב מצויר. ברסטר של 720 על 361
+ * הלוגו מכסה כ-17% מהפיקסלים באטימות של חצי ומעלה (נמדד ב-Chromium,
+ * 7.10.2026). כשל מחזיר 0, ולכן רף של 1% מפריד בלי להיות עדין מדי.
+ */
+export const LOGO_MIN_INK = 0.01;
+
+/** האם בערוץ האטימות (RGBA, כמו ש-getImageData מחזיר) יש מספיק דיו */
+export function alphaHasInk(rgba: ArrayLike<number>, minFraction = LOGO_MIN_INK): boolean {
+  const pixels = Math.floor(rgba.length / 4);
+  if (pixels === 0) return false;
+  const needed = Math.max(1, Math.ceil(pixels * minFraction));
+  let ink = 0;
+  for (let i = 3; i < rgba.length; i += 4) {
+    if (rgba[i] >= 128 && ++ink >= needed) return true;
+  }
+  return false;
+}
+
+/**
+ * האם הרסטר של הלוגו באמת מכיל דיו. false גם כשהקריאה נכשלת: קנבס "מוכתם"
+ * (SecurityError) היה מפיל גם את toBlob של השובר, אז עדיף לדעת כבר כאן.
+ */
+export function canvasHasInk(canvas: HTMLCanvasElement | null): boolean {
+  if (!canvas) return false;
+  try {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return false;
+    return alphaHasInk(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
+  } catch {
+    return false;
+  }
 }

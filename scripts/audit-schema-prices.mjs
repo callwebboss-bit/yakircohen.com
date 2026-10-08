@@ -60,9 +60,9 @@ for (const m of catalogText.matchAll(
  * שגרמה לכל זה. כל היתר חייב לנקוב בקובץ המקור, והשומר מוודא שהמחיר באמת
  * נמצא שם. היתר שמתיישן נכשל מעצמו.
  */
-const OUTSIDE_CATALOG = {
-  "50": "lib/data/online-photo-enhance-page.ts",
-};
+/* "50" (שדרוג תמונה ב-AI) ירד מכאן: מ-7.10.2026 הוא photo_enhance_1 בקטלוג
+   (החלטת הבעלים D72), וההצעה בסכמה נבנית ב-catalogOffer */
+const OUTSIDE_CATALOG = {};
 
 /* id -> exVat, לבדיקת sku (שלב 4 WP12, סעיף 2D) */
 const catalogById = new Map();

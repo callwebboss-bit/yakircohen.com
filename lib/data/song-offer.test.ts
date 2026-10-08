@@ -237,15 +237,14 @@ describe("song offer: WhatsApp message", () => {
     assert.match(ycTag, /purpose=gift/);
   });
 
-  it("the wa.me link carries the total, and the tag only when asked", () => {
+  /* החלטת הבעלים D67, 7.10.2026: בלי תג בהודעת הלקוח. הקוד נכנס בלחיצה */
+  it("the wa.me link carries the total and no tag", () => {
     const href = buildSongOfferWhatsAppHref([CLIP], { source: "/studio" });
     assert.ok(href.startsWith("https://wa.me/"));
     const text = new URL(href).searchParams.get("text") ?? "";
     assert.ok(text.includes("1,475 ₪ כולל מע״מ (1,250 ₪ + מע״מ)"));
-    assert.ok(text.includes("[YC:"));
+    assert.ok(!text.includes("[YC:"));
     assert.ok(!text.includes("📍"));
-    const noTag = buildSongOfferWhatsAppHref([CLIP], { source: "/studio", includeYcTag: false });
-    assert.ok(!(new URL(noTag).searchParams.get("text") ?? "").includes("[YC:"));
   });
 });
 

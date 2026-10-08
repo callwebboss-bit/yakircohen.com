@@ -136,6 +136,9 @@ const LAYOUT_CLIENT_BASELINE = [
   "lib/data/pricing.ts",
   "lib/data/youtube-embeds.ts",
   "lib/footer-category-tree.ts",
+  /* קוד פנייה (החלטת הבעלים D67): המאזין ללחיצות וואטסאפ מוסיף "קוד פנייה:
+     XXXX" לקישור ברגע הלחיצה, כי הקישורים נשמרים ב-HTML הסטטי. 3KB, בלי ייבוא */
+  "lib/lead-code.ts",
   "lib/mobile-sticky-context.ts",
   "lib/pagefind-loader.ts",
   "lib/safe-json-ld.ts",

@@ -2,12 +2,14 @@ import Link from "next/link";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, getPriceFromById } from "@/lib/data/pricing-catalog";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import ShareButton from "@/components/ui/ShareButton";
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
 
 const PRICE_EX_VAT = getExVat("noise_removal_segment");
+const BASIC_EX_VAT = getExVat("ai_noise_basic");
 
 const WHAT_YOU_GET = [
   "הסרת רעשי רקע: מזגן, מאוורר, רחש אלקטרוני, רוח",
@@ -21,7 +23,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     id: "what-is",
     question: "מה זה ניקוי רעשים בדיוק?",
     answer:
-      "AI וכלים מקצועיים שמזהים את הרעש הקבוע ברקע - מזגן, מאוורר, רחש חשמלי - ומסירים אותו מבלי לפגוע בקול הדובר. התוצאה: הקלטה נקייה שנשמעת כאילו צולמה בסטודיו.",
+      "AI וכלים מקצועיים שמזהים את כל רעשי הרקע - מזגן, מאוורר, רחש חשמלי - ומסירים אותם מבלי לפגוע בקול הדובר. התוצאה: הקלטה נקייה שנשמעת כאילו צולמה בסטודיו.",
     ctaText: "שלחו קובץ",
     whatsappMessage: "היי יקיר, יש לי הקלטה עם רעשי רקע - אשמח לסקיצה.",
     utm_campaign: "noise_faq_what",
@@ -149,9 +151,21 @@ export default function OnlineNoiseRemovalPageContent() {
           <p className="mt-3 text-2xl font-bold text-brand-red">
             {formatFromPriceDual(PRICE_EX_VAT)}
           </p>
-          <p className="mt-1 text-sm text-muted-foreground">לקטע עד 5 דקות</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            ניקוי מלא של כל רעשי הרקע, לקטע עד 5 דקות
+          </p>
           <p className="mt-2 text-xs text-muted-foreground">
             קטעים ארוכים יותר - הצעת מחיר בוואטסאפ
+          </p>
+          {/* החלטת הבעלים D68, 7.10.2026: שני שירותי ניקוי רעשים. העמוד הזה הוא
+              הניקוי המלא (noise_removal_segment), והבסיסי מוצג כאן כדי שיהיה ברור
+              מה ההבדל ביניהם */}
+          <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
+            רק רעש קבוע אחד בהקלטה קצרה, כמו מזגן? יש גם ניקוי רעשים בסיסי ב-
+            {formatConsumerPriceLine(BASIC_EX_VAT, getPriceFromById("ai_noise_basic"))}.{" "}
+            <Link href="/online/online-ai-pricing" className="text-brand-red hover:underline">
+              כל שירותי ה-AI והמחירים
+            </Link>
           </p>
           <div className="mt-6 flex flex-col items-center gap-3">
             <a

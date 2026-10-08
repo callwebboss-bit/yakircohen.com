@@ -102,7 +102,7 @@ export const SHOP_BUNDLE_OFFERS = [
 
 export type ShopLeadSection = "vouchers" | "bundles" | "used-gear" | "dj-used-gear";
 
-/** WhatsApp href with Closer [YC:...] tag: source=shop_{section}_{tier} */
+/** קישור וואטסאפ לחנות. התג [YC:] יורד בקישור ללקוח (D67) */
 export function buildShopWhatsAppHref(opts: {
   text: string;
   section: ShopLeadSection;

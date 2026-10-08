@@ -5,7 +5,7 @@ import {
   STUDIO_ONE_HOUR_NIS,
   withVat,
 } from "./pricing";
-import { attractionBundleDiscountPercent, BLESSING_NO_TIME_LIMIT_NOTE, BLESSING_TEXT_POLISH_NOTE, DJ_ATTRACTIONS_DISCOUNT_NOTE, DJ_PER_EVENT_NOTE, DJ_PER_EVENT_SHORT, DJ_PREMIUM_INCLUDED, DJ_PREMIUM_TAGLINE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, type PriceItemId, type PriceScope } from "./pricing-catalog";
+import { attractionBundleDiscountPercent, BLESSING_NO_TIME_LIMIT_NOTE, BLESSING_TEXT_POLISH_NOTE, DJ_ATTRACTIONS_DISCOUNT_NOTE, DJ_PER_EVENT_NOTE, DJ_PER_EVENT_SHORT, DJ_PREMIUM_INCLUDED, DJ_PREMIUM_TAGLINE, DJ_TEAM_NOTE, DJ_YAKIR_NOTE, getAddonsForBaseId, getExVat, getScopeById, SONG_PLAYBACK_HELP, STUDIO_TURNS_NOTE, type PriceItemId, type PriceScope } from "./pricing-catalog";
 import {
   DJ_WEDDING_PRICE_FAQ,
   MOBILE_STUDIO_HOME_FAQ,
@@ -38,7 +38,8 @@ const SONG_GROUP_FAQ_ANSWER = (() => {
   const { withVat, exVat, limit } = getSongParticipantsExplanation();
   /* החלטת הבעלים 3.10.2026, סבב שלישי: כל משתתף נוסף מוסיף לתשלום, עם דוגמה */
   const example = getSongParticipantsBreakdown(4).line;
-  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}, ${limit}. לדוגמה, ${example}. כולם מקליטים באותו סשן, כל אחד בתורו, כדי שכל קול יישמע נקי. אחר כך אני מחבר הכול לשיר אחד, וזה החלק שלוקח זמן.`;
+  /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. היה "כל אחד בתורו", בסתירה ל-4 בבת אחת */
+  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}, ${limit}. לדוגמה, ${example}. כולם מקליטים באותו סשן: ${STUDIO_TURNS_NOTE}. אחר כך אני מחבר הכול לשיר אחד, וזה החלק שלוקח זמן.`;
 })();
 
 function nisWithVat(id: PriceItemId): string {

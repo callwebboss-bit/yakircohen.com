@@ -501,3 +501,32 @@ describe("sales book: search", () => {
     assert.ok(card("song_recording").pageUrl?.startsWith("https://yakircohen.com/"));
   });
 });
+
+/* החלטות הבעלים D64, D65, D66, D69, 7.10.2026 */
+describe("sales book: owner decisions 7.10.2026", () => {
+  it("song card: extra revision round and an extra half hour, priced from the catalog", () => {
+    const addons = card("song_recording").addons;
+    const revision = addons.find((a) => a.id === "studio_extra_revision");
+    const overtime = addons.find((a) => a.id === "studio_half_hour");
+    assert.ok(revision, "no studio_extra_revision add-on (D65)");
+    assert.ok(overtime, "no studio_half_hour add-on (D66)");
+    assert.equal(revision.exVat, getExVat("studio_extra_revision"));
+    assert.equal(overtime.exVat, getExVat("studio_half_hour"));
+    assert.match(overtime.label, /עובר שעה/);
+    assert.ok(!Object.hasOwn(SALES_IGNORED_IDS, "studio_extra_revision"));
+  });
+
+  it("singer amplification cards carry the two travel add-ons (D69)", () => {
+    for (const id of ["singer_amp_basic", "singer_amp_premium", "singer_amp_vip"] as const) {
+      const ids = card(id).addons.map((a) => a.id);
+      assert.ok(ids.includes("singer_travel_north"), `${id}: no north travel`);
+      assert.ok(ids.includes("singer_travel_south"), `${id}: no south travel`);
+    }
+  });
+
+  it("song and podcast cards show the studio capacity next to the participants table (D64)", () => {
+    assert.match(card("song_recording").participantsNote ?? "", /בתורות/);
+    assert.match(card("podcast_audio").participantsNote ?? "", /בתורות/);
+    assert.equal(card("blessing_recording").participantsNote, null);
+  });
+});

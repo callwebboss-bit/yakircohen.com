@@ -1,3 +1,4 @@
+import { findLeadCode, LEAD_CODE_LABEL } from "@/lib/lead-code";
 import type { LeadRecord } from "@/lib/leads/types";
 import { scoreBand } from "@/lib/leads/score";
 
@@ -19,6 +20,11 @@ export function buildAdminContextCardHtml(lead: LeadRecord, isDuplicate: boolean
   const geo = [lead.enrichment.geo?.city, lead.enrichment.geo?.country]
     .filter(Boolean)
     .join(", ");
+  /* אותו קוד שהלקוח שולח בוואטסאפ (D67), שורה ראשונה בכרטיס */
+  const leadCode = findLeadCode(lead.body);
+  const codeRow = leadCode
+    ? `<tr><td style="padding:4px 0;color:#6b7280;">${LEAD_CODE_LABEL}</td><td style="padding:4px 0;font-weight:700;font-family:monospace;direction:ltr;text-align:right;">${esc(leadCode)}</td></tr>`
+    : "";
 
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:right;">
@@ -35,6 +41,7 @@ export function buildAdminContextCardHtml(lead: LeadRecord, isDuplicate: boolean
   <tr>
     <td style="border:1px solid #e5e7eb;border-top:0;padding:12px 16px;background:#f9fafb;border-radius:0 0 12px 12px;">
       <table width="100%" style="font-size:13px;color:#111827;border-collapse:collapse;">
+        ${codeRow}
         <tr><td style="padding:4px 0;color:#6b7280;">שירות</td><td style="padding:4px 0;font-weight:600;">${esc(lead.serviceType)}</td></tr>
         <tr><td style="padding:4px 0;color:#6b7280;">מחיר מחירון</td><td style="padding:4px 0;font-weight:600;">${esc(price)}</td></tr>
         <tr><td style="padding:4px 0;color:#6b7280;">שם</td><td style="padding:4px 0;">${esc(lead.name || " - ")}</td></tr>

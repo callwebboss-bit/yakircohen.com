@@ -2,7 +2,7 @@ import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/con
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { PODCAST_RECORDING_PRICE } from "@/lib/data/podcast-recording-page";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, PODCAST_EXTRA_EDIT_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { podcastParticipantPriceLine, podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
 import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import { formatPrice } from "@/lib/data/pricing-display";
@@ -27,7 +27,8 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-recording",
     title: "הפקה מלאה (צילום + הקלטה + עריכה)",
-    description: `הפרק אצלכם באותה שנייה שמסיימים להקליט - החל מ-${PODCAST_RECORDING_PRICE} ₪.`,
+    /* החלטת הבעלים D63, 7.10.2026: העריכה הנוספת, ומחיר כולל מע״מ קודם (היה בלי מע״מ ובלי פסיק אלפים) */
+    description: `הפרק אצלכם באותה שנייה שמסיימים להקליט, ועוד ${PODCAST_EXTRA_EDIT_NOTE} - החל ${formatPrice(PODCAST_RECORDING_PRICE, { from: true }).inline}.`,
   },
   {
     href: "/podcast/podcast-studio-modiin",
@@ -111,7 +112,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "starter-vs-full",
         question: "מה ההבדל בין פרק קצר להפקה מלאה?",
         answer:
-          "הקלטה בלבד (חצי שעה באולפן, קובץ גולמי בלי עריכה) מתאימה לפיילוט או למי שעורך בעצמו. הפקה מלאה כוללת צילום 4K, סאונד אולפני, עריכה מקצועית וקבצים מוכנים ליוטיוב וספוטיפיי. בשתיהן הפרק אצלכם באותה שנייה שמסיימים להקליט.",
+          `הקלטה בלבד (חצי שעה באולפן, קובץ גולמי בלי עריכה) מתאימה לפיילוט או למי שעורך בעצמו. הפקה מלאה כוללת צילום 4K, סאונד אולפני, עריכה מקצועית וקבצים מוכנים ליוטיוב וספוטיפיי. בשתיהן הפרק אצלכם באותה שנייה שמסיימים להקליט, ובהפקה המלאה מגיעה אחר כך ${PODCAST_EXTRA_EDIT_NOTE}.`,
       },
       {
         id: "studio-rental-price",
@@ -184,7 +185,8 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "guests",
         question: "אפשר להביא אורחים להקלטה?",
         answer:
-          `בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. ${EXTRA_PERSON_COST_NOTE}: ${podcastParticipantPriceLine()}. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.`,
+          /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
+          `בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. ${STUDIO_TURNS_NOTE}. ${EXTRA_PERSON_COST_NOTE}: ${podcastParticipantPriceLine()}. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.`,
       },
       /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
       {

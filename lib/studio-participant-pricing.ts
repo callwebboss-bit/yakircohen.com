@@ -208,8 +208,9 @@ export function buildStudioGuidelines(options: {
   const parts = ["חזרות בבית", "שקט באולפן"];
   const { recorderCount, hasVideoUpgrade } = options;
 
+  /* החלטת הבעלים D64, 7.10.2026: מעל 4 מקליטים בתורות (היה "חלוקה לזוגות", מעל 10) */
   if (recorderCount > STUDIO_RECORDING_MAX) {
-    parts.push(`חלוקה לזוגות - עד ${STUDIO_RECORDING_MAX} באולפן בו-זמנית`);
+    parts.push(`הקלטה בתורות - עד ${STUDIO_RECORDING_MAX} באולפן בבת אחת`);
   }
 
   const filming = formatFilmingGuidance({ recorderCount, hasVideoUpgrade });

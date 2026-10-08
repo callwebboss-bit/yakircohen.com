@@ -296,7 +296,8 @@ function buildPricingSection(input: GroupMessageInput, ctx: GroupMessageContext)
     lines.push(`${input.recorderCount} מקליטים.`);
   }
   lines.push(
-    `האולפן בנוי לעד ${STUDIO_RECORDING_MAX} משתתפים בו-זמנית, ולכן נחלק את העבודה בצורה חכמה ומקצועית:`,
+    /* החלטת הבעלים D64, 7.10.2026: 4 בבת אחת, מעל 4 בתורות */
+    `האולפן בנוי לעד ${STUDIO_RECORDING_MAX} משתתפים בו-זמנית, ומעל ${STUDIO_RECORDING_MAX} מקליטים בתורות. כך נחלק את העבודה בצורה חכמה ומקצועית:`,
   );
   lines.push("");
 
@@ -525,7 +526,7 @@ export function generateSnappyGroupMessage(input: GroupMessageInput): string | n
     "קראנו את הפרטים. הנה הכל בצורה הכי פשוטה, שקופה וקלילה:",
     "",
     `*החוויה שלכם:* ${studioPackageExperienceLine(input.studioPackageId)} - בקצב שלכם ובלי לחץ.`,
-    `*ההרכב:* ${input.recorderCount} משתתפים. האולפן בנוי לעד ${STUDIO_RECORDING_MAX} בו-זמנית, ולכן נחלק בצורה הכי יעילה:`,
+    `*ההרכב:* ${input.recorderCount} משתתפים. האולפן בנוי לעד ${STUDIO_RECORDING_MAX} בו-זמנית, ומעל ${STUDIO_RECORDING_MAX} בתורות. כך נחלק בצורה הכי יעילה:`,
     "",
     `🏆 *המסלול המומלץ (חלוקה מהירה לזוגות):*`,
     getClientScenarioDescription("pairs"),

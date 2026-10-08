@@ -19,8 +19,10 @@ import {
   PODCAST_RECORDING_FAQS,
   PODCAST_RECORDING_HERO_FEATURES,
   PODCAST_RECORDING_INCLUDED,
+  PODCAST_RECORDING_PACKAGES,
   PODCAST_RECORDING_PRICE,
   PODCAST_RECORDING_PRICE_NOTE,
+  PODCAST_RECORDING_STUDIO_FEEL,
   PODCAST_RECORDING_STUDIO_SPACES,
   PODCAST_RECORDING_WHY_US,
   PODCAST_RECORDING_WORKFLOW,
@@ -144,6 +146,36 @@ export default function PodcastRecordingPageContent() {
               פרטים והזמנה בוואטסאפ
             </TrackedCtaLink>
           </div>
+        </section>
+
+        <section aria-labelledby="packages-heading">
+          <header className="mx-auto max-w-2xl text-center">
+            <h2
+              id="packages-heading"
+              className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+            >
+              אודיו, וידאו או הפקה מלאה
+            </h2>
+          </header>
+          <ul className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
+            {PODCAST_RECORDING_PACKAGES.map((pkg) => (
+              <li
+                key={pkg.id}
+                className="flex flex-col rounded-xl border border-border bg-surface p-5"
+              >
+                <h3 className="text-lg font-semibold text-foreground">{pkg.title}</h3>
+                <BookPriceDual exVat={pkg.exVat} className="mt-2" />
+                <p className="mt-4 text-sm leading-relaxed text-foreground">
+                  {pkg.summary}
+                </p>
+                <ul className="mt-3 list-disc space-y-1.5 pr-5 text-sm text-muted-foreground">
+                  {pkg.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="max-w-3xl" aria-labelledby="full-production-heading">
@@ -284,6 +316,10 @@ export default function PodcastRecordingPageContent() {
             ))}
           </ol>
         </section>
+
+        <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-foreground/80">
+          {PODCAST_RECORDING_STUDIO_FEEL}
+        </p>
 
         <ServiceShowcaseSections
           assetsFolder="podcast"

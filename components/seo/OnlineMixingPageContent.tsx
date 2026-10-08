@@ -20,6 +20,12 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 import { getAudioDemo, SEVERE_RESTORATION_DISCLAIMER } from "@/lib/data/audio-demos";
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPrice, formatConsumerPriceLine } from "@/lib/data/pricing-display";
+
+/* החלטת הבעלים D73, 7.10.2026: מיקס לשיר מהבית הוא online_home_mix בקטלוג.
+   עד אז "500 ₪" נכתב כאן ביד, בלי מזהה. */
+const MIX_PRICE = formatConsumerPrice(getExVat("online_home_mix"));
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {
@@ -45,7 +51,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
   {
     id: "tracks",
     question: "כמה ערוצים אפשר?",
-    answer: "עד 16 ערוצים כלולים. מעל 16 - 100 ₪ נוספים.",
+    answer: `עד 16 ערוצים כלולים. מעל 16 - ${formatConsumerPriceLine(getExVat("online_extra_channels"))} נוספים.`,
     ctaText: "שאלו על פרויקט",
     whatsappMessage: "היי יקיר, יש לי [X] ערוצים למיקס. מה המחיר?",
     utm_campaign: "mixing_faq_tracks",
@@ -69,9 +75,9 @@ const FAQ_ITEMS: FaqCtaItem[] = [
   {
     id: "revisions",
     question: "מה אם לא מרוצים מהתוצאה?",
-    answer: "סבב תיקונים אחד כלול. תגידו מה לשנות ונתקן. סבב נוסף - 100 ₪.",
+    answer: `סבב תיקונים אחד כלול. תגידו מה לשנות ונתקן. סבב נוסף - ${formatConsumerPriceLine(getExVat("online_extra_revision"))}.`,
     ctaText: "התחילו פרויקט",
-    whatsappMessage: "היי יקיר, מעוניין/ת במיקס ומאסטרינג (500 ₪). אשמח פרטים.",
+    whatsappMessage: `היי יקיר, מעוניין/ת במיקס ומאסטרינג (${MIX_PRICE.totalLabel}). אשמח פרטים.`,
     utm_campaign: "mixing_faq_revision",
   },
 ];
@@ -318,8 +324,11 @@ export default function OnlineMixingPageContent() {
       <section className="mx-auto max-w-md px-4 py-14 sm:px-6">
         <div className="rounded-2xl border border-brand-red/30 bg-background p-8 text-center shadow-sm">
           <h2 className="text-xl font-semibold text-foreground">כמה זה עולה?</h2>
-          <p className="mt-4 text-4xl font-bold text-foreground">500 ₪</p>
-          <p className="text-sm text-muted-foreground">לשיר + מע&quot;מ</p>
+          {/* D73: online_home_mix מהקטלוג. כולל מע״מ קודם (עמוד לצרכן), לפני מע״מ בקטן */}
+          <p className="mt-4 text-4xl font-bold text-foreground">{MIX_PRICE.total}</p>
+          <p className="text-sm text-muted-foreground">
+            לשיר, כולל מע״מ ({MIX_PRICE.exVatNote})
+          </p>
           <ul className="mt-6 space-y-2 text-start text-sm text-muted-foreground">
             {MIXING_PRICE_INCLUDED.map((item) => (
               <li key={item} className="flex gap-2">

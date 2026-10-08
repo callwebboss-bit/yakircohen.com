@@ -71,7 +71,7 @@ const FEATURES = [
   },
   {
     title: "עריכה מלאה כולל",
-    desc: "חיתוך, ניקוי רעשים, נורמליזציה לSpotify ומוזיקת רקע אם רוצים.",
+    desc: "חיתוך, ניקוי רעשים, נורמליזציה ל-Spotify ומוזיקת רקע אם רוצים.",
   },
   {
     title: "מסירה לפרסום",
@@ -131,7 +131,7 @@ export default function PodcastRehovotPage() {
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
               מגיעים ממודיעין - 25 דקות מרחובות דרך כביש 431 עם חניה פנויה.
-              מקליטים, עורכים ומוסרים פרק מוכן לSpotify ו-Apple Podcasts.
+              מקליטים, עורכים ומוסרים פרק מוכן ל-Spotify ו-Apple Podcasts.
             </p>
             <p className="mt-3 text-sm font-semibold text-brand-red">
               תהליך מלווה לפרק ראשון, בדרך כלל בלי חודשים של ניסוי
@@ -201,7 +201,7 @@ export default function PodcastRehovotPage() {
               {STUDIO_PARKING_NOTE}.
             </p>
             <p className="mt-4 text-sm text-muted-foreground">
-              כתובת: עמק איילון 34, מודיעין-מכבים-רעות. קוד כניסה ישלח בWA לפני ההקלטה.
+              כתובת: עמק איילון 34, מודיעין-מכבים-רעות. קוד כניסה ישלח ב-WA לפני ההקלטה.
             </p>
           </section>
 

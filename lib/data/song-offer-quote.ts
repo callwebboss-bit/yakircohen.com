@@ -175,6 +175,8 @@ export type SongParticipantsExplanation = {
   exVat: string;
   /** "עד 12 בשיר" */
   limit: string;
+  /** קיבולת האולפן, "עד 4 מקליטים בבת אחת..." (החלטת הבעלים D64, 7.10.2026) */
+  turns?: string;
 };
 
 /** חלקי שורת ההסבר מתחת לבורר */
@@ -218,13 +220,10 @@ export type SongQuoteData = {
 };
 
 export type SongQuoteOptions = {
-  /** נתיב העמוד, נכנס רק לתג [YC:] */
+  /** נתיב העמוד, נכנס רק לתג [YC:] שבמייל לבעלים */
   source: string;
   giftMode?: boolean;
   utmCampaign?: string;
-  /* החלטת הבעלים על התג בהודעת הלקוח עדיין פתוחה (שאלה 6), ולכן כמו בשאר
-     האתר אחרי שלב 1 הוא נשאר כברירת מחדל */
-  includeYcTag?: boolean;
   /** נתיב הטופס לקישור החזרה, ברירת מחדל עמוד השיר */
   offerPath?: string;
   /* בקשות שאין להן שורת מחיר (למשל מה מצלמים או איך השיחה המשפחתית תיראה).
@@ -322,10 +321,15 @@ export function formatSongTotalLine(totals: Pick<SongOfferTotals, "totalExVat" |
   return `${nis(totals.totalWithVat)} כולל מע״מ (${nis(totals.totalExVat)} + מע״מ)`;
 }
 
+/* עמדת המכירות מזהה לפי שתי השורות האלה הודעה מטופס השיר ובונה ממנה את
+   הבחירה, כי אחרי D67 אין בהודעה תג [YC:] (lib/sales/paste-match.ts) */
+export const SONG_SELECTION_HEADER = "מה בחרתי:";
+export const SONG_TOTAL_PREFIX = "סה״כ:";
+
 /** שורות "מה בחרתי" עם מחיר כולל מע״מ לכל שורה, והסכום */
 export function songSelectionLines(totals: SongOfferTotals): string[] {
   return [
-    "מה בחרתי:",
+    SONG_SELECTION_HEADER,
     ...totals.lines.flatMap((line) =>
       line.id === SONG_PARTICIPANTS_LINE_ID
         ? [
@@ -335,14 +339,14 @@ export function songSelectionLines(totals: SongOfferTotals): string[] {
           ]
         : [`• ${line.label} - ${nis(line.withVat)}`],
     ),
-    `סה״כ: ${formatSongTotalLine(totals)}`,
+    `${SONG_TOTAL_PREFIX} ${formatSongTotalLine(totals)}`,
   ];
 }
 
 export type SongMessage = {
   /** ההודעה ללקוח, בגוף ראשון, בלי התג */
   text: string;
-  /** תג [YC:...] לכלי של הבעלים. מי שבונה את הקישור מחליט אם לצרף אותו. */
+  /** תג [YC:...] לכלי של הבעלים, רק לגוף המייל. בקישור ללקוח אין תג (D67). */
   ycTag: string;
 };
 
@@ -404,8 +408,10 @@ export function composeSongOfferQuote(
 ): SongOfferQuote {
   const calc = calcSongQuote(data, addonIds, participants);
   const { text, ycTag } = buildSongMessageFromCalc(data, calc, options);
+  /* בלי התג: הלקוח שולח רק את הבחירה, וקוד הפנייה נכנס בלחיצה (D67, 7.10.2026).
+     התג נשאר ב-ycTag לגוף המייל של "תתקשרו אליי" */
   const waHref = buildWhatsAppHref({
-    text: options.includeYcTag === false ? text : `${text}\n${ycTag}`,
+    text,
     utm_source: "website",
     utm_campaign: options.utmCampaign ?? "song_offer",
   });

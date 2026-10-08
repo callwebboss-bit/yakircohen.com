@@ -380,9 +380,11 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
         note: "פרק או ראיון עד שעה",
         href: "/online/vocal-fix",
       }),
+      /* D68 (7.10.2026): רעש קבוע אחד בהקלטה קצרה. העמוד שהשורה מקשרת אליו מוכר
+         את הניקוי המלא (noise_removal_segment) ומסביר את ההבדל */
       hubRow("ai_noise_basic", {
         label: "ניקוי רעשים בסיסי",
-        note: "להקלטות קצרות עם רעש קבוע",
+        note: "לרעש קבוע אחד בהקלטה קצרה",
         href: "/online/vocal-fix/noise-removal",
       }),
     ],
@@ -397,9 +399,10 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       hubRow("event_attraction_1", { label: "אטרקציה בודדת" }),
       hubRow("event_attraction_2", { label: "2 אטרקציות (חבילה)" }),
       hubRow("event_attraction_3", { label: "3 אטרקציות (חבילה)" }),
+      /* החלטת הבעלים D70, 7.10.2026: המתנה היא קליפ היילייטס, כמו בקטלוג (היה "מצגת תמונות") */
       hubRow("event_attraction_4", {
         label: "4+ אטרקציות + מתנה",
-        note: "מצגת תמונות חינם",
+        note: "קליפ היילייטס 60 שניות במתנה",
       }),
       hubRow("event_sound_rental", {
         label: "השכרת הגברה לאירוע",
@@ -690,5 +693,15 @@ export function formatHubPriceRow(exVat: number): string {
 }
 
 export const PRICES_LAST_UPDATED = "אוגוסט 2026";
+
+/**
+ * תוקף המחירים ב-JSON-LD של /pricing (priceValidUntil), בפורמט YYYY-MM-DD.
+ *
+ * זו התחייבות עסקית ולא נתון שאפשר לגזור: אין בריפו שום מקור לתוקף מחיר, והכלל
+ * באתר הוא שהשמטה עדיפה על תאריך מומצא (lib/seo/page-schema.ts). התאריך נקבע
+ * על ידי הבעלים ב-7.10.2026. לעדכן אותו יחד עם עדכון מחירים, ולפני שהוא פג:
+ * lib/seo/pricing-hub-schema.test.ts נכשל כשנשארו פחות מ-14 יום.
+ */
+export const PRICES_VALID_UNTIL = "2026-12-31";
 
 export { PRICES_EXCLUDE_VAT_NOTE };
