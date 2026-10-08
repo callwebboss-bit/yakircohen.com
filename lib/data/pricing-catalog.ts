@@ -480,7 +480,7 @@ export const PRICING_CATALOG = [
     scope: { includes: "מיקרופון וערוץ הקלטה לאדם נוסף" },
     suitedFor: "הקלטה בבית או במשרד עם יותר מאדם אחד",
   },
-  { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות" },
+  { id: "podcast_editing_hour", label: "עריכת פודקאסט או סרטון קצר", exVat: 750, category: "podcast", context: "ניקוי רעשים, סנכרון וכתוביות, וגם ניקוי גמגומים, שיעולים ושתיקות. המחיר לכל שעה מצולמת" },
   /* עד 3.10.2026 התוספת הזו בטופס הפודקאסט נקראה דרך studio_remote, כי שניהם
      היו 590. הקלטה מרחוק ירדה ל-500, והעריכה המתקדמת לא השתנתה. */
   { id: "podcast_editing_advanced", label: "עריכה מתקדמת לפודקאסט", exVat: 590, category: "podcast", context: "לכל שעה שצולמה, פתיח וסגיר" },

@@ -86,7 +86,7 @@ export const PODCAST_PRODUCTION_QUALITY: readonly {
   { id: "deesser", title: "די-אסר", note: "מרככים צלילי S חדים בדיבור" },
   { id: "eq", title: "שיפור EQ", note: "מאזנים את תדרי הקול" },
   { id: "diction", title: "שיפור דיקציה", note: "הדיבור נשמע ברור יותר" },
-  { id: "balance", title: "איזון מושלם", note: "איזון בין הקולות והרמות בפרק" },
+  { id: "balance", title: "איזון מושלם", note: "איזון עוצמות בין כל הדוברים, ובינם לבין המוזיקה אם יש" },
   { id: "soften", title: "ריכוך צלילים צורמים", note: "אפשרות, לפי הצורך בפרק" },
 ] as const;
 
