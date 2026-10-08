@@ -12,8 +12,10 @@ import { getExVat } from "@/lib/data/pricing-catalog";
  * מה נתן הבעלים: בבקשה מ-7.10.2026, ראיון מוקלט באולפן או בבית עם בן משפחה
  * מבוגר, עריכה לפרקים לפי נושאים, מוזיקת רקע עדינה, ואספקה כקובץ אודיו ערוך
  * ועוד נוסח כתוב. ב-8.10.2026 הוא ענה על רוב השאלות, וכל עובדה למטה נושאת
- * את מספר התשובה שלה ("B#", תשובת הבעלים 8.10.2026). כל עובדה שעוד לא נמסרה
- * נשארת סימון TODO של הבעלים, ואסור להמציא אותה.
+ * את מספר התשובה שלה ("B#", תשובת הבעלים 8.10.2026). בסבב הסינון מ-8.10.2026
+ * הוסר כל פרט שלא נאמר במפורש או שאי אפשר לעמוד בו, והדף נשאר בלי סימוני
+ * TODO. עובדה שתתווסף בעתיד, ועוד לא נמסרה, נכנסת כסימון TODO של הבעלים
+ * (ראו "מה הוסר" בהמשך), ואסור להמציא אותה.
  *
  * איך ממלאים: חיפוש של סימן ה-TODO של הבעלים בקובץ הזה (הפקודה בתחתית ההערה),
  * והחלפת כל מחרוזת בערך האמיתי. אין צורך לגעת בעמוד או ברכיב. כשלא נשארת
@@ -57,7 +59,19 @@ export const LEGACY_RECORDING_KEYWORDS = [
   "ראיון עם הורים מבוגרים",
 ] as const;
 
-/* ───────────────────────── עובדות מתשובות הבעלים, וחסרות ───────────────────────── */
+/* ───────────────────────── עובדות מתשובות הבעלים ───────────────────────── */
+
+/*
+ * מה הוסר ב-8.10.2026 ואיפה אפשר להחזיר (רק בהחלטת הבעלים, ובנוסח שלו):
+ * - נוסח כתוב: סוג (תמלול מלא או ערוך), מי מכין, פורמט, שפה. היה
+ *   LEGACY_OWNER_FACTS.writtenText וקופסת "איך הוא נוצר" ב-LEGACY_DELIVERABLES.
+ * - שמירת עותק אצל העסק: שמירה בשרתים, משך שמירה ומחיקה (B15). היו
+ *   LEGACY_OWNER_FACTS.recordingKeeping ו-retention, שורת "פרטיות והקלטות"
+ *   ב-LEGACY_PRACTICAL_DETAILS והמשפטים בתשובת ה-FAQ "מי מקבל את הקבצים".
+ * - וידאו: פורמט וידאו ושיטת מסירה שלו (B6). היו ב-LEGACY_OWNER_FACTS.fileFormat.
+ * - נגישות: "האולפן נגיש" ו"גישה מלאה", היו ב-LEGACY_OWNER_FACTS.studioAccess.
+ * - "וזה משתנה מראיון לראיון" (פירוש שלי ל-B4), היה ב-LEGACY_OWNER_FACTS.chapters.
+ */
 
 /**
  * מחיר, כפי שהבעלים קבע (B1): מחיר של פודקאסט רגיל לשעה, והתוספת היא הערך של
@@ -68,8 +82,9 @@ export const LEGACY_RECORDING_KEYWORDS = [
 const LEGACY_PRICE_TEXT = `המחיר הוא מחיר של פודקאסט אודיו רגיל של עד שעה: ${podcastDualPrice(getExVat("podcast_audio"))}. מה שנוסף הוא הערך של השאלות המיוחדות לסבא ולהשארת זיכרון. הקלטה בבית: במחירי האולפן הנייד.`;
 
 /**
- * ערך שנמסר הוא טקסט כמו שהוא צריך להיקרא בעמוד (הערכים נכנסים למשפטים
- * ולטבלה כמות שהם). ערך שחסר הוא שאלה ישירה לבעלים בתוך סימון.
+ * כל ערך הוא טקסט כמו שהוא צריך להיקרא בעמוד (הערכים נכנסים למשפטים ולטבלה
+ * כמות שהם). עובדה שחסרה נכתבת כשאלה ישירה לבעלים בתוך סימון TODO, וכל עוד
+ * היא קיימת בקובץ הדף חסום לאינדוקס.
  */
 export const LEGACY_OWNER_FACTS = {
   /* B1 */
@@ -78,20 +93,17 @@ export const LEGACY_OWNER_FACTS = {
   interviewLength: "עד שעה, ואפשר גם לערוך פרק קצר ומעניין",
   /* B3 */
   editedFileLength: "בין 10 ל-40 דקות",
-  /* B4: "המשפחה קובעת וזה משתנה בהתאם לפרק לפרק" */
-  chapters: "המשפחה קובעת את חלוקת הנושאים, וזה משתנה מראיון לראיון",
-  /* B5 */
-  deliveryTime: "עד שלושה ימי עסקים",
-  /* B6: "דרופ" לא ברור (Dropbox או Drive), ולכן "קישור להורדה" */
-  fileFormat:
-    "קובץ אודיו ב-MP3 או ב-WAV, לפי הדרישה. קטע וידאו, אם מדובר בו, ב-MP4. הקבצים נשלחים בקישור להורדה, ווידאו אפשר גם בקישור לא רשום ביוטיוב",
-  /* B7 לא ענה על הנוסח הכתוב: נשאר חסר */
-  writtenText:
-    "[[TODO-OWNER: איך נוצר הנוסח הכתוב: תמלול מלא או נוסח ערוך, מי מכין אותו, ובאיזה פורמט הוא נמסר]]",
+  /* B4: "המשפחה קובעת". "וזה משתנה" הוסר, כי הפירוש שלו לא ודאי */
+  chapters: "המשפחה קובעת את חלוקת הנושאים",
+  /* B5, "בדרך כלל" בהנחיית הבעלים 8.10.2026: אין התחייבות למועד */
+  deliveryTime: "בדרך כלל עד שלושה ימי עסקים",
+  /* B6: אודיו בלבד. "דרופ" לא ברור (Dropbox או Drive), ולכן "קישור להורדה" */
+  fileFormat: "קובץ אודיו ב-MP3 או ב-WAV, לפי הדרישה, שנשלח בקישור להורדה",
   /* B8 */
   homeVisit: "הקלטה בבית נעשית באולפן הנייד, עד הבית, במחירי האולפן הנייד",
-  /* B9: "גישה מושלמת" נכתב "גישה מלאה" */
-  studioAccess: "האולפן נגיש: הכול נמצא בקומת קרקע, עם גישה מלאה",
+  /* B9: רק "הכול בקומת קרקע". המשפט השני הוא נוסח הבעלים 8.10.2026, בלי הבטחה להתאמה */
+  studioAccess:
+    "הכול בקומת קרקע. אם יש צורך בהתאמה מיוחדת, אפשר לכתוב לנו מראש",
   /* B10 */
   interviewer: "בן משפחה מראיין",
   /* B11 */
@@ -99,15 +111,9 @@ export const LEGACY_OWNER_FACTS = {
   /* B13 לצד B12: "אפשר גם להוריד פדיחות ושתיקות" (בעריכה) */
   emotionalConduct:
     "אם בן המשפחה מתרגש ורוצה לעשות הפסקה, זה אפשרי בכיף. ובעריכה אפשר להוריד שתיקות ורגעים מביכים",
-  /* B14 */
+  /* B14. שום דבר על מה קורה עם העותק אצלנו (הבעלים 8.10.2026) */
   fileRecipients:
     "הקבצים מגיעים למי שיצר קשר עם יקיר, ואפשר להעביר את הקישור לכל המשפחה",
-  /* B15, החלק הברור */
-  recordingKeeping:
-    "העותק נשמר אצל מי שקיבל את הקישור. אם מבקשים, אפשר לשמור אותו גם בשרתים של יקיר כהן הפקות",
-  /* B15, "עד מועד האירוע" לא ברור: אין אירוע בשירות הזה */
-  retention:
-    "[[TODO-OWNER: כמה זמן יקיר כהן הפקות שומרים עותק, ואיך מבקשים למחוק?]]",
 } satisfies Record<string, string>;
 
 export type LegacyOwnerFactKey = keyof typeof LEGACY_OWNER_FACTS;
@@ -159,8 +165,8 @@ export const LEGACY_RECORDING_READY =
    תיעוד" ו"זיכרונות מתפרטים עם הזמן". בלי דחיפות, בלי הבטחה רגשית. */
 export const LEGACY_WHY_NOW = [
   "בכל משפחה יש סיפורים שרק מי שחי אותם יודע לספר: איך הכירו, מאיפה הגיעו, איך נראו הבית והשכונה. סיפור שלא סופר בקול ובסדר נשאר בלי תיעוד.",
-  "זיכרונות מתפרטים עם הזמן. שמות, תאריכים וסדר האירועים מיטשטשים. שיחה אחת מסודרת, שמקליטים ומקשיבים בה עד הסוף, שומרת את הסיפור כפי שסופר, עם הקול והקצב של מי שסיפר אותו.",
-  "אין כאן לחץ. כדאי לבחור זמן שנוח לבן המשפחה, ולא למהר. הסיבה לשוחח עכשיו פשוטה: שיחה שלא התקיימה לא משאירה אחריה כלום, ושיחה שהתקיימה נשארת לכל מי שירצה לשמוע אותה אחר כך.",
+  "זיכרונות מתפרטים עם הזמן. שמות, תאריכים וסדר האירועים מיטשטשים. שיחה מוקלטת שומרת את הסיפור כפי שסופר, עם הקול והקצב של מי שסיפר אותו.",
+  "אין כאן לחץ. כדאי לבחור זמן שנוח לבן המשפחה, ולא למהר. הסיבה לשוחח עכשיו פשוטה: שיחה שלא התקיימה לא משאירה אחריה כלום, ושיחה שהוקלטה אפשר לשמוע שוב.",
 ] as const;
 
 /* ───────────────────────── איך מתכוננים ───────────────────────── */
@@ -285,25 +291,32 @@ export const LEGACY_QUESTIONS_PDF = {
 
 /* ───────────────────────── מה מקבלים ───────────────────────── */
 
-export const LEGACY_DELIVERABLES = [
+export type LegacyDeliverable = {
+  id: string;
+  title: string;
+  body: string;
+  details: readonly { label: string; value: string }[];
+};
+
+export const LEGACY_DELIVERABLES: readonly LegacyDeliverable[] = [
   {
     id: "audio",
     title: "קובץ אודיו ערוך",
     /* המילים של הבעלים: עריכה לפרקים לפי נושאים, מוזיקת רקע עדינה */
     body: "הראיון נערך לפרקים לפי נושאים, עם מוזיקת רקע עדינה.",
     details: [
-      { label: "מספר פרקים", value: LEGACY_OWNER_FACTS.chapters },
+      { label: "חלוקה לפרקים", value: LEGACY_OWNER_FACTS.chapters },
       { label: "פורמט ומסירה", value: LEGACY_OWNER_FACTS.fileFormat },
     ],
   },
   {
     id: "text",
     title: "נוסח כתוב",
-    /* המילים של הבעלים: "פלוס נוסח כתוב" */
+    /* המילים של הבעלים: "פלוס נוסח כתוב". בלי פרטים נוספים, בכוונה (8.10.2026) */
     body: "לצד האודיו מתקבל נוסח כתוב של הראיון.",
-    details: [{ label: "איך הוא נוצר", value: LEGACY_OWNER_FACTS.writtenText }],
+    details: [],
   },
-] as const;
+];
 
 /* ───────────────────────── פרטים מעשיים ───────────────────────── */
 
@@ -329,10 +342,6 @@ export const LEGACY_PRACTICAL_DETAILS: readonly LegacyPracticalRow[] = [
   { label: "שפות", value: LEGACY_OWNER_FACTS.languages },
   { label: "זמן אספקה", value: LEGACY_OWNER_FACTS.deliveryTime },
   {
-    label: "פרטיות והקלטות",
-    value: `${LEGACY_OWNER_FACTS.recordingKeeping}. ${LEGACY_OWNER_FACTS.retention}`,
-  },
-  {
     label: "מחיר",
     value: LEGACY_OWNER_FACTS.price,
     link: {
@@ -356,12 +365,12 @@ export const LEGACY_FAQS: readonly LegacyFaq[] = [
   {
     id: "where",
     question: "איפה מקליטים?",
-    answer: `באולפן במודיעין או בבית של המשפחה. ${STUDIO_ADDRESS_COORDINATION_NOTE}. לגבי חניה באולפן: ${STUDIO_PARKING_NOTE}. ${LEGACY_OWNER_FACTS.studioAccess}. ${LEGACY_OWNER_FACTS.homeVisit}.`,
+    answer: `באולפן במודיעין או בבית של המשפחה. ${STUDIO_ADDRESS_COORDINATION_NOTE}. לגבי חניה באולפן: ${STUDIO_PARKING_NOTE}. נגישות האולפן: ${LEGACY_OWNER_FACTS.studioAccess}. ${LEGACY_OWNER_FACTS.homeVisit}.`,
   },
   {
     id: "length",
     question: "כמה זמן זה לוקח?",
-    answer: `הראיון נמשך ${LEGACY_OWNER_FACTS.interviewLength}. אורך הקובץ הערוך: ${LEGACY_OWNER_FACTS.editedFileLength}. זמן האספקה לקובץ הערוך ולנוסח הכתוב: ${LEGACY_OWNER_FACTS.deliveryTime}.`,
+    answer: `אורך הראיון: ${LEGACY_OWNER_FACTS.interviewLength}. אורך טיפוסי של הקובץ הערוך: ${LEGACY_OWNER_FACTS.editedFileLength}. זמן האספקה לקובץ הערוך ולנוסח הכתוב: ${LEGACY_OWNER_FACTS.deliveryTime}.`,
   },
   {
     id: "price",
@@ -376,7 +385,7 @@ export const LEGACY_FAQS: readonly LegacyFaq[] = [
   {
     id: "files",
     question: "מי מקבל את הקבצים?",
-    answer: `מה שמתקבל הוא קובץ אודיו ערוך ונוסח כתוב. ${LEGACY_OWNER_FACTS.fileRecipients}. ${LEGACY_OWNER_FACTS.recordingKeeping}. ${LEGACY_OWNER_FACTS.retention}`,
+    answer: `מה שמתקבל הוא קובץ אודיו ערוך ונוסח כתוב. ${LEGACY_OWNER_FACTS.fileRecipients}.`,
   },
   {
     id: "questions",
@@ -389,7 +398,7 @@ export const LEGACY_FAQS: readonly LegacyFaq[] = [
 
 export const LEGACY_CTA = {
   heading: "אם יש שאלות",
-  body: "אפשר לכתוב או להתקשר ולשאול הכול, לפני שמחליטים משהו.",
+  body: "אפשר לכתוב או להתקשר ולשאול, לפני שמחליטים משהו.",
   whatsappLabel: "לכתוב בוואטסאפ",
   whatsappText: `שלום, אשמח לשמוע על ${LEGACY_RECORDING_TITLE}`,
   utmCampaign: "legacy_recording_cta",

@@ -72,6 +72,51 @@ test("הקופי נקי מתווים אסורים", () => {
   }
 });
 
+/* סבב הסינון מ-8.10.2026: אפס הבטחה שלא נאמרה. הרשימה היא מה שהוסר, ומה
+   שלא אמור לחזור בלי החלטה של הבעלים (איפה מחזירים: הערת "מה הוסר" ב-
+   legacy-recording.ts) */
+const REMOVED_PROMISES: readonly [RegExp, string][] = [
+  [/MP4|וידאו|יוטיוב/, "וידאו כחלק מהשירות (הדף מתאר שירות אודיו)"],
+  [/שרתים|מחיקה|למחוק|שומרים עותק|נשמר/, "שמירת עותק אצל העסק"],
+  [/תמלול|נוסח ערוך|מי מכין/, "פירוט על הנוסח הכתוב"],
+  [/גישה מלאה|האולפן נגיש/, "הבטחת נגישות"],
+  [/נבטיח|מבטיחים|בהחלט|תמיד|מובטח|התאמה אישית|מושלם/, "לשון הבטחה"],
+];
+
+test("אין הבטחות שלא נאמרו: וידאו, שמירה אצל העסק, פירוט הנוסח הכתוב, נגישות", () => {
+  /* הסרטון מתיק העבודות הוא דוגמה ולא חלק מהרשימה, ולכן אינו בקופי הנבדק */
+  for (const text of allCopy()) {
+    for (const [pattern, what] of REMOVED_PROMISES) {
+      assert.ok(!pattern.test(text), `${what}: ${text}`);
+    }
+  }
+});
+
+test("זמן האספקה כתוב עם 'בדרך כלל' בכל מקום שהוא מופיע", () => {
+  assert.ok(LEGACY_OWNER_FACTS.deliveryTime.startsWith("בדרך כלל"));
+  const faq = LEGACY_FAQS.find((f) => f.id === "length");
+  assert.ok(faq?.answer.includes(LEGACY_OWNER_FACTS.deliveryTime));
+  const row = LEGACY_PRACTICAL_DETAILS.find((r) => r.label === "זמן אספקה");
+  assert.equal(row?.value, LEGACY_OWNER_FACTS.deliveryTime);
+  /* "שלושה ימי עסקים" לא מופיע בלי "בדרך כלל" לפניו */
+  for (const text of allCopy()) {
+    if (text.includes("שלושה ימי עסקים")) assert.ok(text.includes("בדרך כלל עד שלושה ימי עסקים"), text);
+  }
+});
+
+test("הנוסח הכתוב מופיע רק בניסוח מהבקשה, בלי פרטים", () => {
+  const text = LEGACY_DELIVERABLES.find((d) => d.id === "text");
+  assert.equal(text?.body, "לצד האודיו מתקבל נוסח כתוב של הראיון.");
+  assert.equal(text?.details.length, 0);
+});
+
+test("נגישות: רק קומת קרקע, ובלי הבטחה להתאמה", () => {
+  assert.equal(
+    LEGACY_OWNER_FACTS.studioAccess,
+    "הכול בקומת קרקע. אם יש צורך בהתאמה מיוחדת, אפשר לכתוב לנו מראש",
+  );
+});
+
 test("המחיר נגזר מהקטלוג, אותו מחיר כמו פודקאסט עם סבא וסבתא, בלי סכום בקוד", () => {
   const catalogPrice = podcastDualPrice(getExVat("podcast_audio"));
   assert.ok(LEGACY_OWNER_FACTS.price.includes(catalogPrice));
@@ -108,6 +153,13 @@ test("openLegacyFactKeys מזהה רק ערכים שמתחילים בסימון 
 test("מוכנות לפרסום נגזרת מהנתונים ולא מדגל ידני", () => {
   assert.deepEqual(LEGACY_RECORDING_OPEN_FACT_KEYS, openLegacyFactKeys());
   assert.equal(LEGACY_RECORDING_READY, LEGACY_RECORDING_OPEN_FACT_KEYS.length === 0);
+});
+
+test("אחרי סבב הסינון אין סימון חסר בנתונים, ולכן הדף מוכן לאינדוקס", () => {
+  assert.deepEqual(LEGACY_RECORDING_OPEN_FACT_KEYS, []);
+  assert.equal(LEGACY_RECORDING_READY, true);
+  /* אותו תנאי נשען על הקוד עצמו: אף מחרוזת בקובץ הנתונים לא מתחילה בסימון */
+  assert.ok(!/"\[\[TODO/.test(dataSource));
 });
 
 test("כל שדה ב-LEGACY_OWNER_FACTS משמש בעמוד או בשאלות", () => {

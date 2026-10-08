@@ -296,16 +296,18 @@ export default function LegacyRecordingPageContent() {
             >
               <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
               <p className="mt-2 text-base leading-7 text-muted-foreground">{item.body}</p>
-              <dl className="mt-4 space-y-3 border-t border-border pt-4">
-                {item.details.map((detail) => (
-                  <div key={detail.label}>
-                    <dt className="text-sm font-semibold text-foreground">{detail.label}</dt>
-                    <dd className="mt-0.5 text-base leading-7 text-muted-foreground">
-                      <WithTodos text={detail.value} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              {item.details.length > 0 ? (
+                <dl className="mt-4 space-y-3 border-t border-border pt-4">
+                  {item.details.map((detail) => (
+                    <div key={detail.label}>
+                      <dt className="text-sm font-semibold text-foreground">{detail.label}</dt>
+                      <dd className="mt-0.5 text-base leading-7 text-muted-foreground">
+                        <WithTodos text={detail.value} />
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
             </div>
           ))}
         </div>
