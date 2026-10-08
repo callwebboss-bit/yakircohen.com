@@ -34,7 +34,10 @@ export default function GiftVoucherBuilder() {
     () => GIFT_VOUCHER_CHOICES.find((c) => c.id === choiceId),
     [choiceId],
   );
-  const valueLabel = choice
+  /* על השובר עצמו אין מחיר (החלטת הבעלים 8.10.2026): רק מה שהמקבל זכאי לו.
+     המחיר נשאר בבחירה למעלה ובבקשה לוואטסאפ, שהיא אל יקיר ולא אל המקבל. */
+  const valueLabel = choice ? choice.label : "";
+  const requestLabel = choice
     ? `${choice.label}, ${formatNis(choice.amountNis)} כולל מע״מ`
     : "";
 
@@ -65,7 +68,12 @@ export default function GiftVoucherBuilder() {
 
   const whatsappHref = choice
     ? buildWhatsAppHref({
-        text: buildGiftVoucherRequestText({ valueLabel, to, from, message }),
+        text: buildGiftVoucherRequestText({
+          valueLabel: requestLabel,
+          to,
+          from,
+          message,
+        }),
         utm_source: "website",
         utm_campaign: "gift_voucher_builder",
       })

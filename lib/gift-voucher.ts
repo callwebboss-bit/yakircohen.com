@@ -2,6 +2,7 @@ import vouchersFile from "@/lib/data/vouchers.json";
 
 export type VoucherRecord = {
   code: string;
+  /** מה ששולם, כולל מע״מ. פנימי בלבד: לא מוצג על השובר ולא בדף. */
   amountNis?: number;
   packageLabel?: string;
   from: string;
@@ -114,8 +115,8 @@ export function validateVoucherRecords(
     }
     if (seen.has(r.code)) errors.push(`${at}: קוד כפול`);
     seen.add(r.code);
-    if (!r.packageLabel && !(r.amountNis && r.amountNis > 0)) {
-      errors.push(`${at}: חסרים packageLabel או amountNis`);
+    if (!r.packageLabel) {
+      errors.push(`${at}: חסר packageLabel (שוברי סכום הוסרו, והמחיר לא מוצג על השובר)`);
     }
     if (r.from.length > 40 || r.to.length > 40) errors.push(`${at}: שם ארוך מ-40 תווים`);
     if (r.message.length > 220) errors.push(`${at}: הודעה ארוכה מ-220 תווים`);

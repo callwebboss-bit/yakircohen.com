@@ -11,7 +11,7 @@ export type VoucherImageInput = {
   from: string;
   to: string;
   message: string;
-  /** שורת החבילה והמחיר, כפי שמוצגת למשתמש */
+  /** שורת החבילה (מה שהמקבל זכאי לו), בלי מחיר. המחיר לא מודפס על השובר. */
   valueLabel: string;
   /** קוד השובר. ריק = מסגרת עם ברקוד להמחשה והסבר שהקוד יתווסף לאחר הרכישה */
   code?: string;
@@ -401,6 +401,13 @@ export async function drawVoucherImage(
   ctx.fillStyle = COLORS.redDark;
   ctx.font = `600 26px ${sans}`;
   ctx.fillText(input.validityLabel, right, height - pad - 76);
+
+  // בס״ד בקטן למעלה, ללקוחות דתיים
+  ctx.textAlign = "center";
+  ctx.fillStyle = COLORS.muted;
+  ctx.font = `400 22px ${sans}`;
+  ctx.fillText("בס״ד", width / 2, pad + 62);
+  ctx.textAlign = "right";
 
   // מיקרופון באמבלמה במרכז העליון
   const emblemX = width / 2;

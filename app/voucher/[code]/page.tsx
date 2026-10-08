@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import VoucherImageButton from "@/components/gift-voucher/VoucherImageButton";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { formatNis } from "@/lib/data/pricing";
 import {
   findVoucher,
   formatVoucherDate,
@@ -38,21 +37,14 @@ export default async function VoucherPage({ params }: Props) {
   if (!voucher) notFound();
 
   const status = getVoucherStatus(voucher);
-  const value = voucher.packageLabel
-    ? voucher.packageLabel
-    : voucher.amountNis
-      ? `${formatNis(voucher.amountNis)} לשימוש באולפן`
-      : "";
-  /* מה ששולם בפועל, מהרשומה ולא מהקטלוג, כדי ששינוי מחיר לא ישנה שובר שהונפק */
-  const paid =
-    voucher.packageLabel && voucher.amountNis
-      ? `שולם ${formatNis(voucher.amountNis)} כולל מע״מ`
-      : "";
+  /* רק מה שהמקבל זכאי לו, בלי מחיר (החלטת הבעלים 8.10.2026) */
+  const value = voucher.packageLabel ?? "";
 
   return (
     <Section className="bg-background" ariaLabelledby="voucher-title" padding="sm">
       <Container className="max-w-2xl">
         <article className="rounded-2xl border-2 border-brand-red bg-surface p-8 text-center shadow-sm sm:p-12">
+          <p className="mb-3 text-xs text-muted-foreground">בס״ד</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             יקיר כהן הפקות
           </p>
@@ -66,9 +58,6 @@ export default async function VoucherPage({ params }: Props) {
             <p className="mt-4 text-2xl font-semibold text-brand-red-text">
               {value}
             </p>
-          ) : null}
-          {paid ? (
-            <p className="mt-1 text-sm text-muted-foreground">{paid}</p>
           ) : null}
 
           <p className="mt-8 text-lg text-foreground">עבור: {voucher.to}</p>
@@ -118,9 +107,7 @@ export default async function VoucherPage({ params }: Props) {
                 from: voucher.from,
                 to: voucher.to,
                 message: voucher.message,
-                valueLabel: voucher.packageLabel
-                  ? `${voucher.packageLabel}${voucher.amountNis ? `, ${formatNis(voucher.amountNis)} כולל מע״מ` : ""}`
-                  : value,
+                valueLabel: value,
                 validityLabel: `בתוקף עד ${formatVoucherDate(voucher.validUntil)}`,
                 code: voucher.code,
               }}
