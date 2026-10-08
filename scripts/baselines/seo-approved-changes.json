@@ -3200,6 +3200,195 @@
       "why": "/voucher מפנה ב-308 ל-/shop#vouchers, והקישורים אליו הוחלפו ביעד הסופי (בלי קפיצה). העמוד עצמו לא השתנה (ניתוח שיר במתנה 8.10.2026).",
       "approvedBy": "owner",
       "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions/giant-balloons",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions/giant-balloons",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions/smoke-cannons-for-events",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions/smoke-cannons-for-events",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions",
+      "field": "links",
+      "why": "כל כרטיס המלצה קישר לעמוד השירות שלו. הכרטיסים הוסרו כי לא נמצא להם מקור (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions",
+      "field": "inbound",
+      "why": "קישורים נכנסים מכרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/attractions",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/bar-mitzvah",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events/bar-mitzvah",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/events",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/",
+      "field": "words",
+      "why": "הטקסט של ההמלצות שהוסרו. במקומן הדירוג והביקורות האמיתיות מגוגל (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/photography/wedding",
+      "field": "outline",
+      "why": "כותרת ההמלצות שונתה או נוספה כותרת \"ביקורות Google\", כי ההמלצות בלי מקור הוסרו (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/photography/wedding",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/photography/wedding",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/photography",
+      "field": "links",
+      "why": "כל כרטיס המלצה קישר לעמוד השירות שלו. הכרטיסים הוסרו כי לא נמצא להם מקור (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/photography",
+      "field": "words",
+      "why": "הטקסט של ההמלצות שהוסרו. במקומן הדירוג והביקורות האמיתיות מגוגל (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/podcast",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/podcast",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/recording-song-modiin",
+      "field": "images",
+      "why": "כרטיסי ההמלצות שהוסרו כללו תמונה או אווטאר. החלטת הבעלים 8.10.2026: 19 המלצות בלי מקור ציבורי הוסרו, ובמקומן הביקורות האמיתיות מגוגל.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/studio/recording-song-modiin",
+      "field": "imagesWithAlt",
+      "why": "כמו images: האווטארים של כרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/testimonials",
+      "field": "outline",
+      "why": "כותרת ההמלצות שונתה או נוספה כותרת \"ביקורות Google\", כי ההמלצות בלי מקור הוסרו (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/testimonials",
+      "field": "links",
+      "why": "כל כרטיס המלצה קישר לעמוד השירות שלו. הכרטיסים הוסרו כי לא נמצא להם מקור (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/video/corporate-video",
+      "field": "links",
+      "why": "כל כרטיס המלצה קישר לעמוד השירות שלו. הכרטיסים הוסרו כי לא נמצא להם מקור (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/video",
+      "field": "links",
+      "why": "כל כרטיס המלצה קישר לעמוד השירות שלו. הכרטיסים הוסרו כי לא נמצא להם מקור (החלטת הבעלים 8.10.2026).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
+    },
+    {
+      "url": "/voiceover",
+      "field": "inbound",
+      "why": "קישורים נכנסים מכרטיסי ההמלצות שהוסרו (החלטת הבעלים 8.10.2026, בדיקת ההמלצות).",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-08"
     }
   ]
 }

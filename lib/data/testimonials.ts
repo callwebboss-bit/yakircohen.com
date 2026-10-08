@@ -1,125 +1,20 @@
 ﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
 
 /**
- * On-site client quotes - used in UI and Review JSON-LD (no fabricated star ratings).
+ * המלצות לקוחות שמוצגות באתר. כרגע אין אף אחת.
  *
- * שלב 5 (FIT-04, OAC-07): הוסרו שלוש ההמלצות של האקדמיה (נוצרו עם
- * "TODO: replace with real student quotes"), ההמלצה של הפודקאסט שהועברה
- * מ"אורי מזרחי" ל"דניאל גרין", והתמונה של אדם אחר ליד ההמלצה של משה ברק.
- * הבעלים יכול להחזיר המלצות אמיתיות ומאושרות לציטוט.
+ * הרשימה משמשת רק את הממשק: Testimonials (דף הבית ועמודי השירות),
+ * הלשונית "המלצות מהאתר" ב-GoogleReviews, ו-PriceSocialProof ליד מחירים.
+ * ביקורות ב-JSON-LD כבר לא נבנות ממנה: הן הוסרו ב-2b184dcb (9.9.2026).
+ * כשהרשימה ריקה כל צרכן מציג במקומה את דירוג Google ואת הקישור לביקורות.
+ *
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: הוסרו שמונה ההמלצות שהיו כאן
+ * (מזהים 1, 3 עד 9). לאף אחת מהן לא נמצא מקור ציבורי, ואף אחת לא תואמת
+ * לביקורות Google שהאתר כבר מציג. ביקורות אמיתיות מוצגות רק דרך
+ * GoogleReviews (הטמעה) או כדירוג מצטבר עם קישור, ולא מעתיקים את הטקסט
+ * שלהן לקוד. המלצה חוזרת לכאן רק אם יש לה מקור ואישור לציטוט.
+ *
+ * קודם לכן, בשלב 5 (FIT-04, OAC-07), הוסרו שלוש המלצות אקדמיה ממקום שמור
+ * וההמלצה שהועברה מ"אורי מזרחי" ל"דניאל גרין".
  */
-export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [
-  {
-    id: "1",
-    quote:
-      "שחזור אודיו ב-AI שהזמנו הציל הקלטה ישנה שהייתה כמעט אבודה. איכות נקייה, מקצועית ומעל הציפיות.",
-    name: "דנה לוי",
-    role: "מפיקה עצמאית, מודיעין",
-    initials: "דל",
-    datePublished: "2025-11-12",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast/podcast-editing",
-    serviceLabel: "שחזור סאונד ב-AI",
-    projectImageSrc:
-      "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
-    projectImageAlt: "עריכת פודקאסט באולפן",
-  },
-  {
-    id: "3",
-    quote:
-      "שיפור תמונה חכם לחומרי שיווק - פרטים חדים ומראה יוקרתי. חסכנו זמן יקר בלי להתעפשר על אסתטיקה.",
-    name: "מיכל אברהם",
-    role: "מנהלת שיווק, הסביבה",
-    initials: "מא",
-    datePublished: "2025-09-20",
-    serviceCategory: "online",
-    serviceHref: "/online",
-    serviceLabel: "שירותים דיגיטליים",
-  },
-  {
-    id: "4",
-    quote:
-      "אירוע חברה עם מוזיקה חיה והפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת.",
-    name: "יוסי כהן",
-    role: "מנכ״ל, חברת הייטק",
-    initials: "יכ",
-    datePublished: "2025-10-05",
-    serviceCategory: "events",
-    serviceHref: "/events",
-    serviceLabel: "הפקת אירועים",
-    projectImageSrc:
-      "/images/services/events/dj-events/אירוע חברה עם מיתוג.webp",
-    projectImageAlt: "הפקת אירוע חברה",
-  },
-  {
-    id: "5",
-    quote:
-      "קריינות לסרטון תדמית - קובץ WAV מסופק בדרך כלל תוך 24 שעות, 3 גרסאות טמפו, מחיר זהה להצעה הראשונית.",
-    name: "נועה שפירא",
-    role: "מייסדת סטארטאפ",
-    initials: "נש",
-    datePublished: "2025-12-01",
-    serviceCategory: "voiceover",
-    serviceHref: "/voiceover",
-    serviceLabel: "קריינות",
-    projectImageSrc: "/images/services/voiceover/מיקרופון קריינות.webp",
-    projectImageAlt: "הקלטת קריינות באולפן",
-  },
-  {
-    id: "6",
-    quote:
-      "הקלטת ברכה בת 90 שניות - שלושה טייקים, עריכה כלולה במחיר, קובץ MP3 מוכן לשידור.",
-    name: "רחל גולן",
-    role: "לקוחה פרטית",
-    initials: "רג",
-    datePublished: "2025-08-14",
-    serviceCategory: "studio",
-    serviceHref: "/studio/blessings",
-    serviceLabel: "ברכות מוקלטות",
-    projectImageSrc:
-      "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
-    projectImageAlt: "הקלטת ברכה באולפן",
-  },
-  {
-    id: "7",
-    quote:
-      "שיר לחתונה - הקלטה, מיקס ו-mastering בישיבה אחת. הקובץ הועבר 3 ימים לפני האירוע, פורמט WAV ו-MP3.",
-    name: "משה ברק",
-    role: "אב מודיעין",
-    initials: "מב",
-    datePublished: "2026-02-14",
-    serviceCategory: "studio",
-    serviceHref: "/studio/recording-song-modiin",
-    serviceLabel: "הקלטת שיר לחתונה",
-  },
-  {
-    id: "8",
-    quote:
-      "DJ לחתונה: הגעה שעתיים לפני. בדיקת סאונד עברה תוך 20 דקות. 5 שעות הפעלה רצופה בלי הפסקה טכנית.",
-    name: "תמר ויקי",
-    role: "כלה, רחובות",
-    initials: "תו",
-    datePublished: "2025-12-20",
-    serviceCategory: "events",
-    serviceHref: "/events/dj-events",
-    serviceLabel: "DJ לחתונה",
-    projectImageSrc:
-      "/images/services/events/dj-events/עמדת די גיי ותאורה.webp",
-    projectImageAlt: "DJ ותאורה בחתונה",
-  },
-  {
-    id: "9",
-    quote:
-      "אטרקציות לאירוע חברה: עשן כניסה ותותחי קונפטי. הקמה 45 דקות לפני האורחים. פירוק ופינוי השטח לפני סיום האירוע.",
-    name: "איתי לוינסון",
-    role: "מנכ\"ל, חברת הייטק תל אביב",
-    initials: "אל",
-    datePublished: "2026-01-30",
-    serviceCategory: "events",
-    serviceHref: "/events/attractions",
-    serviceLabel: "אטרקציות לאירועים",
-    projectImageSrc:
-      "/images/services/events/attractions/cold-fireworks/זיקוקים קרים לחופה.webp",
-    projectImageAlt: "אטרקציות לאירוע",
-  },
-] as const;
+export const SITE_TESTIMONIALS: readonly TestimonialItem[] = [];

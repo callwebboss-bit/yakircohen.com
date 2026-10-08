@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ScrollableTable from "@/components/ui/ScrollableTable";
-import TestimonialCard from "@/components/marketing/TestimonialCard";
+import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
@@ -38,7 +38,6 @@ import {
   PODCAST_HUB_STARTING_PRICE,
   PODCAST_HUB_STARTING_PRICE_NOTE,
   PODCAST_HUB_STUDIO_SPACES,
-  PODCAST_HUB_TESTIMONIALS,
   PODCAST_HUB_WORKFLOW,
 } from "@/lib/data/podcast-hub-page";
 import {
@@ -67,7 +66,6 @@ import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
-  STUDIO_GOOGLE_MAPS_URL,
   SITE_TRUST_STATS,
 } from "@/lib/constants";
 
@@ -725,7 +723,10 @@ export default function PodcastHubPageContent() {
             galleryLabel="תמונות מאולפן הפודקאסט במודיעין"
           />
 
-          {/* ── F: SOCIAL PROOF / TESTIMONIALS ────────────────── */}
+          {/* ── F: SOCIAL PROOF ────────────────────────────────── */}
+          {/* החלטת הבעלים 8.10.2026, בדיקת ההמלצות: שלוש ההמלצות שהיו כאן הוסרו
+              (אין להן מקור ציבורי). במקומן דירוג Google וקישור לביקורות עצמן.
+              ה-id נשאר כי תוכן העניינים מקשר אליו. */}
           <section aria-labelledby="testimonials-heading">
             <header className="mx-auto max-w-2xl text-center">
               <h2
@@ -735,24 +736,13 @@ export default function PodcastHubPageContent() {
                 מה אומרים מי שכבר הקליטו
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                המלצות מלקוחות פודקאסט, עם קישור להקשר המלא לכל אחת.
+                הביקורות שלקוחות כתבו עלינו נמצאות ב-Google Maps, על כל השירותים
+                יחד ולא רק על פודקאסט.
               </p>
-              <Link
-                href={STUDIO_GOOGLE_MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-red hover:underline"
-              >
-                צפו ב-{GOOGLE_REVIEW_COUNT}+ ביקורות מאומתות ב-Google Maps ↗
-              </Link>
             </header>
-            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {PODCAST_HUB_TESTIMONIALS.map((item) => (
-                <li key={item.id}>
-                  <TestimonialCard item={item} />
-                </li>
-              ))}
-            </ul>
+            <div className="mt-6 flex justify-center">
+              <GoogleRatingBadge variant="compact" />
+            </div>
           </section>
 
           {/* ── G: FAQ ─────────────────────────────────────────── */}

@@ -1,6 +1,5 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import type { TestimonialItem } from "@/components/marketing/Testimonials";
 import { formatFromPriceDual, getExVat, PODCAST_VIDEO_CAMERAS_NOTE, PODCAST_AUDIO_SCOPE_NOTE, PODCAST_EXTRA_EDIT_NOTE, PODCAST_PACK_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
@@ -346,55 +345,11 @@ export const PODCAST_HUB_FAQS: readonly {
   },
 ] as const;
 
-export const PODCAST_HUB_TESTIMONIALS: readonly TestimonialItem[] = [
-  {
-    id: "podcast-hub-1",
-    quote:
-      "תוך שעה הכנסנו, דיברנו, ויצאנו עם פרק מוכן. הסאונד יצא כמו רדיו מקצועי. ממליץ בחום.",
-    name: "דניאל כ.",
-    role: "בעל עסק, מודיעין",
-    initials: "דכ",
-    datePublished: "2025-07-18",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast",
-    serviceLabel: "אולפן פודקאסט",
-    projectImageSrc:
-      "/images/services/academy/music-production/אולפני יקיר כהן הפקות פודקאסט.webp",
-    projectImageAlt: "הקלטת פודקאסט באולפן",
-  },
-  {
-    id: "podcast-hub-2",
-    quote:
-      "לא האמנתי שאפשר להקליט פודקאסט משפחתי ברמה כזאת. יקיר ידע בדיוק איך לגרום לנו להרגיש בנוח.",
-    name: "מיכל ש.",
-    role: "פודקאסט עם סבא",
-    initials: "מש",
-    datePublished: "2025-11-02",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast/podcast-with-grandpa",
-    serviceLabel: "פודקאסט עם סבא",
-    projectImageSrc:
-      "/images/services/studio/hub/אולפן פודקאסט - יקיר כהן 1.webp",
-    /* F-35 (7.10.2026): בתמונה אולפן ריק, בלי אנשים, ולכן "פודקאסט משפחתי" הטעה */
-    projectImageAlt: "אולפן פודקאסט ריק עם שתי כורסאות ומיקרופון על זרוע",
-  },
-  {
-    id: "podcast-hub-3",
-    quote:
-      "הגשנו 3 פרקים לספוטיפיי שבוע אחרי שהתחלנו. הצוות דאג לכל הטכנולוגיה ואנחנו רק דיברנו.",
-    name: "רן א.",
-    role: "יוצר תוכן, ירושלים",
-    initials: "רא",
-    datePublished: "2026-01-22",
-    serviceCategory: "podcast",
-    serviceHref: "/podcast/podcast-production",
-    serviceLabel: "הפקת פודקאסט",
-    projectImageSrc:
-      "/images/services/events/equipment/singer-amplification/מיקרופון שור לזמרים.webp",
-    /* F-35: התמונה היא מיקרופון ידני בתקריב ולא הקלטת פודקאסט */
-    projectImageAlt: "מיקרופון ידני מקרוב על רקע מטושטש של אורות במה",
-  },
-] as const;
+/*
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: PODCAST_HUB_TESTIMONIALS הוסר.
+ * לשלוש ההמלצות (דניאל כ., מיכל ש., רן א.) לא נמצא מקור ציבורי, ואף אחת
+ * לא תואמת לביקורות Google. בעמוד מוצג במקומן דירוג Google עם קישור.
+ */
 
 export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
   "חוסכים זמן ואנרגיה",

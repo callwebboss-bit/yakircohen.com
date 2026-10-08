@@ -50,6 +50,9 @@ export type BookMatcherResult = {
   /**
    * מזהה ב-SITE_TESTIMONIALS, רק מאותה קטגוריה (price-social-proof.test.ts).
    * בלי מזהה אין המלצה ליד התוצאה (שלב 5, FIT-04).
+   *
+   * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: לאף תוצאה אין מזהה. המזהים 7, 6
+   * ו-1 הצביעו על המלצות שהוסרו כי אין להן מקור ציבורי.
    */
   testimonialId?: string;
 };
@@ -81,7 +84,6 @@ const SONG_PACKAGE = result({
   outputHint: "השיר המוכן אצלכם בסוף הסשן",
   demoId: "recording-vocal-polish",
   showcaseVariant: "vocal",
-  testimonialId: "7",
 });
 
 const SINGLE_PRODUCTION = result({
@@ -94,7 +96,6 @@ const SINGLE_PRODUCTION = result({
   outputHint: "מוכן לספוטיפיי אחרי מאסטר",
   demoId: "full-production",
   showcaseVariant: "vocal",
-  testimonialId: "7",
 });
 
 const BLESSING = result({
@@ -107,7 +108,6 @@ const BLESSING = result({
   outputHint: "קובץ מוכן לשיתוף במשפחה",
   demoId: "blessing-mix",
   showcaseVariant: "vocal",
-  testimonialId: "6",
 });
 
 const PODCAST_AUDIO = result({
@@ -120,7 +120,6 @@ const PODCAST_AUDIO = result({
   outputHint: "פרק ליוטיוב ולספוטיפיי",
   demoId: "podcast-zoom-cleanup",
   showcaseVariant: "remote",
-  testimonialId: "1",
 });
 
 const NOISE_FILE = result({
@@ -169,7 +168,6 @@ const MOBILE_QUOTE = result({
   outputHint: "הקלטה אצלכם, מחיר לפי לוגיסטיקה",
   demoId: "podcast-zoom-cleanup",
   showcaseVariant: "remote",
-  testimonialId: "1",
   ctaKind: "quote",
 });
 

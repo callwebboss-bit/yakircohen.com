@@ -1,6 +1,4 @@
-﻿import type { TestimonialItem } from "@/components/marketing/Testimonials";
-
-export type RecordingSongProcessStep = {
+﻿export type RecordingSongProcessStep = {
   step: string;
   title: string;
   paragraphs: readonly string[];
@@ -116,53 +114,11 @@ export type RecordingSongEventPillar = {
   tag: string;
 };
 
-export const RECORDING_SONG_TESTIMONIALS: readonly TestimonialItem[] = [
-  {
-    id: "recording-song-1",
-    quote:
-      "הקלטת בר מצווה ללא ניסיון קודם - 3 שעות אולפן, עריכה ומיקס כלולים. קובץ מוכן יומיים לפני האירוע.",
-    name: "רונית א.",
-    role: "אמא לבר מצווה, מודיעין עילית",
-    initials: "רא",
-    datePublished: "2025-09-10",
-    serviceCategory: "studio",
-    serviceHref: "/studio/blessings/bar-mitzvah",
-    serviceLabel: "הקלטה לבר מצווה",
-    projectImageSrc:
-      "/images/services/studio/blessings/bride-groom-blessing/הקלטה באולפן.webp",
-    projectImageAlt: "הקלטת שיר לבר מצווה",
-  },
-  {
-    id: "recording-song-2",
-    quote:
-      "שיר הפתעה לחתונה - כתיבת מילים, הקלטה, מיקס ו-mastering. 4 גרסאות אורך, מסירה 5 ימים לפני המועד.",
-    name: "דנה ל.",
-    role: "מכבים",
-    initials: "דל",
-    datePublished: "2025-12-08",
-    serviceCategory: "studio",
-    serviceHref: "/studio/recording-song-modiin",
-    serviceLabel: "הקלטת שיר לחתונה",
-    projectImageSrc:
-      "/images/services/studio/recording-song-modiin/אוהד בוזגלו מקליט.webp",
-    projectImageAlt: "הקלטת שיר לחתונה",
-  },
-  {
-    id: "recording-song-3",
-    quote:
-      "שיר כניסה לחופה - הקלטה, עריכה וקובץ מוכן לנגינה. כניסה מוצלחת ללא תקלות טכניות.",
-    name: "ערן ונעמה ש.",
-    role: "חתן וכלה, רעות",
-    initials: "ענ",
-    datePublished: "2026-02-01",
-    serviceCategory: "studio",
-    serviceHref: "/studio/recording-song-modiin",
-    serviceLabel: "שיר כניסה לחופה",
-    projectImageSrc:
-      "/images/services/events/wedding-packages/שירים-לאירועים.webp",
-    projectImageAlt: "שיר לכניסה לחופה",
-  },
-] as const;
+/*
+ * החלטת הבעלים 8.10.2026, בדיקת ההמלצות: RECORDING_SONG_TESTIMONIALS הוסר.
+ * לשלוש ההמלצות (רונית א., דנה ל., ערן ונעמה ש.) לא נמצא מקור ציבורי, ואף
+ * אחת לא תואמת לביקורות Google. בעמוד מוצג במקומן דירוג Google עם קישור.
+ */
 
 export const RECORDING_SONG_EVENT_PILLARS: readonly RecordingSongEventPillar[] =
   [
