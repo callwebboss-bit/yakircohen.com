@@ -14,6 +14,7 @@
  * הרכיב (components/admin/VoucherCanvas.tsx), כי טעינה תלויה ב-document.
  */
 import { DOCUMENT_BLESSING_LINE, SITE_NAME } from "@/lib/constants";
+import { drawMicrophone, drawSilverStripes, drawStamp } from "@/lib/voucher-brand-art";
 import type { VoucherData } from "@/lib/sales/voucher";
 
 export const VOUCHER_WIDTH = 1080;
@@ -44,14 +45,15 @@ export const ORDER_THEME: VoucherTheme = {
   hairline: "#8a6f2e",
 };
 
-/* מתנה: כהה וזהב, בהשראת השובר שיקיר הכין ביד ב-5.10 */
+/* מתנה: לבן, אדום, פסי כסף וקו זהב, כמו תמונת השובר באתר (החלטת הבעלים 8.10.2026,
+   "אני רוצה את הלבן"). הגרסה הכהה והזהובה בוטלה. */
 export const GIFT_THEME: VoucherTheme = {
-  background: "#0c0b0a",
-  ink: "#e8dcc8",
-  soft: "rgba(232, 220, 200, 0.74)",
-  accent: "#c9a46c",
-  title: "#e8c98a",
-  hairline: "#c9a46c",
+  background: "#ffffff",
+  ink: "#1a1a1a",
+  soft: "#5c5c5c",
+  accent: "#d42b2b",
+  title: "#1a1a1a",
+  hairline: "#8a6f2e",
 };
 
 /** צבע הרקע של המסמך, גם לדף ההדפסה סביב התמונה */
@@ -576,17 +578,6 @@ function drawOrder(p: Painter, data: VoucherData, assets: VoucherAssets, options
 
 /* ─── שובר מתנה ─── */
 
-function drawDiamond(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, color: string): void {
-  ctx.beginPath();
-  ctx.moveTo(cx, cy - r);
-  ctx.lineTo(cx + r, cy);
-  ctx.lineTo(cx, cy + r);
-  ctx.lineTo(cx - r, cy);
-  ctx.closePath();
-  ctx.fillStyle = color;
-  ctx.fill();
-}
-
 function drawGift(p: Painter, data: VoucherData, assets: VoucherAssets): void {
   const { ctx } = p;
   const t = GIFT_THEME;
@@ -598,23 +589,30 @@ function drawGift(p: Painter, data: VoucherData, assets: VoucherAssets): void {
   ctx.fillStyle = t.background;
   ctx.fillRect(0, 0, W, H);
 
-  /* מסגרת כפולה בזהב, עם יהלום באמצע הצלע העליונה והתחתונה */
+  /* מסגרת אדומה עם קו זהב פנימי, פסי כסף בצדדים, מיקרופון וחותמת, כמו באתר */
   ctx.strokeStyle = t.accent;
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 5;
   ctx.strokeRect(40, 40, W - 80, H - 80);
-  ctx.globalAlpha = 0.45;
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = t.hairline;
+  ctx.lineWidth = 1.5;
   ctx.strokeRect(54, 54, W - 108, H - 108);
-  ctx.globalAlpha = 1;
-  drawDiamond(ctx, W / 2, 40, 9, t.accent);
-  drawDiamond(ctx, W / 2, H - 40, 9, t.accent);
+  drawSilverStripes(ctx, { width: W, top: 120, bottom: H - 120, inset: 70 });
 
   /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), בין המסגרת ללוגו */
   p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W / 2, 82, "center");
 
   const logoH = 96;
   const logoW = logoH * assets.logoAspect;
-  if (assets.logoGold) ctx.drawImage(assets.logoGold, (W - logoW) / 2, 96, logoW, logoH);
+  if (assets.logo) ctx.drawImage(assets.logo, (W - logoW) / 2, 96, logoW, logoH);
+
+  /* מיקרופון מימין ללוגו (בעברית, צד ימין) וחותמת משמאלו: אמבלמה וחותמת של המותג */
+  ctx.strokeStyle = t.accent;
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(190, 150, 52, 0, Math.PI * 2);
+  ctx.stroke();
+  drawMicrophone(ctx, 190, 150, 72, t.accent);
+  drawStamp(ctx, 878, 160, 90, assets.fontFamily);
 
   const center = (text: string, style: TextStyle, baseline: number) =>
     p.single([{ text, style }], W / 2, baseline, "center");
