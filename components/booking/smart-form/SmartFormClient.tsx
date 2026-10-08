@@ -35,6 +35,7 @@ import {
   readBookCoreContact,
   saveBookCoreContact,
 } from "@/lib/book-wizard-cro/shared-contact";
+import { getSuitedForById } from "@/lib/data/pricing-catalog";
 import {
   attachLeadCode,
   createSubmissionId,
@@ -520,6 +521,32 @@ export default function SmartFormClient() {
                           );
                         })}
                       </div>
+
+                      {/*
+                        ההסבר של הצ'יפ הנבחר, גלוי.
+
+                        למה (8.10.2026): ה-tooltip של כל צ'יפ הוצג רק דרך
+                        title, שלא נפתח כלל במגע, ודרך span עם sr-only
+                        שמוסתר ויזואלית. כלומר בטלפון מי שמזמין ראה שם
+                        בלבד, בלי שום הסבר מה הוא בוחר.
+
+                        "מתאים ל" נמשך מ-pricing-catalog לפי ה-catalogId
+                        שכבר קיים בצ'יפ, ולא נכתב כאן, כדי שלא יסטה ממקור
+                        האמת. צ'יפ בלי suitedFor מציג רק את ההסבר שלו.
+                      */}
+                      {(() => {
+                        const chosen = packageChips.find((c) => selectedChipIds.includes(c.id));
+                        if (!chosen) return null;
+                        const suited = chosen.catalogId ? getSuitedForById(chosen.catalogId) : undefined;
+                        if (!chosen.tooltip && !suited) return null;
+                        return (
+                          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                            {chosen.tooltip}
+                            {chosen.tooltip && suited ? " " : null}
+                            {suited ? `מתאים ל${suited}.` : null}
+                          </p>
+                        );
+                      })()}
                     </div>
                   ) : null}
 
