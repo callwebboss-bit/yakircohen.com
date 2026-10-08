@@ -122,7 +122,7 @@ import {
   mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
-import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
+import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY, PODCAST_VIDEO_CAMERAS_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -157,7 +157,7 @@ const PODCAST_COMPARISON_ROWS = [
   { label: "עריכה ומיקס", ids: ["audio", "video", "social"] },
   { label: "מאסטרינג", ids: ["audio", "video", "social"] },
   { label: "העלאה לספוטיפיי", ids: ["audio", "video", "social"] },
-  { label: "הקלטת וידאו (3 מצלמות)", ids: ["video", "social"] },
+  { label: `הקלטת וידאו (${PODCAST_VIDEO_CAMERAS_NOTE})`, ids: ["video", "social"] },
   { label: "3 קטעי רילס", ids: ["social"] },
   { label: "העלאה לאפל + יוטיוב", ids: ["social"] },
 ] as const;
