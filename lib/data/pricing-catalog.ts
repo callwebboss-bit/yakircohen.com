@@ -185,8 +185,9 @@ export const PODCAST_PACK_NOTE =
  * ההבדל היחיד בין השניים הוא העריכה הנוספת. מחרוזות בלי מחיר, כדי שהעמודים,
  * המחשבון ועמדת המכירות יגידו אותו דבר. */
 /* הבעלים 7.10.2026, אחרי D63: 3 מצלמות כסטנדרט, ולפעמים 2 לפי הצורך, בלי הבדל במחיר.
+   הבעלים 8.10.2026 (מחליף): באולפן 4 מצלמות, והשימוש בהן תלוי בפרק, ולכן "3 עד 4".
    נוסח אחד בכל האתר, כדי שהעמודים והקטלוג לא יסתרו זה את זה. */
-export const PODCAST_VIDEO_CAMERAS_NOTE = "3 מצלמות, ולפעמים 2 לפי הצורך באותו מחיר";
+export const PODCAST_VIDEO_CAMERAS_NOTE = "3 עד 4 מצלמות לפי הפרק, באותו מחיר";
 export const PODCAST_VIDEO_INCLUDES_NOTE = `צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}, ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה`;
 export const PODCAST_EXTRA_EDIT_TIME = "תוך 24 עד 48 שעות";
 export const PODCAST_EXTRA_EDIT_NOTE = `עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}`;
