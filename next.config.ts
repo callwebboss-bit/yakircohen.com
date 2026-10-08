@@ -109,9 +109,11 @@ const nextConfig: NextConfig = {
        מתיישנת ומחושבת מחדש בערך כל ארבע שעות. 31 יום הם הערך שהתיעוד של Vercel ממליץ עליו
        לתמונות שלא משתנות. תמונות מקומיות כבר נושאות immutable ב-vercel.json. */
     minimumCacheTTL: 2678400,
-    formats: ["image/avif", "image/webp"],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    /* 7.10.2026: שלב 2 של אותה מכסה. webp בלבד (בלי avif), שלושה רוחבי מסך ו-4 גדלים קטנים,
+       כדי שלכל תמונה יהיו הרבה פחות וריאנטים שנספרים כטרנספורמציה. */
+    formats: ["image/webp"],
+    deviceSizes: [640, 1080, 1920],
+    imageSizes: [64, 128, 256, 384],
     remotePatterns: [
       {
         protocol: "https",
