@@ -20,6 +20,7 @@ description: דחיפה ל-main ואימות באתר החי של yakircohen.com
   git worktree add ~/Code/wt-<נושא> -b <ענף> origin/main
   cp -cR ~/Code/yakircohen-site/node_modules ~/Code/wt-<נושא>/node_modules
   ```
+  **לפני כן** בודקים שהנתיב לא קיים (`[ -e ~/Code/wt-<נושא> ]`), מריצים את `git worktree add` לבד ובודקים את קוד היציאה שלו, ולא מצנרים אותו ל-`tail` ולא מחברים אחריו `cd` עם `&&`. ב-8.10 נתיב קיים של סשן אחר (`~/Code/wt-podcast`) גרם לכישלון שהוסתר, והפקודות הבאות רצו בתוך העץ של הסשן ההוא (קומיט ו-`node_modules` מקוננים נכנסו אליו ונדרשה החזרה ידנית). גם `cp -cR` לתיקייה שכבר קיימת יוצר תיקייה מקוננת. בשם ענף שכבר קיים (למשל מניסיון שנכשל) משתמשים בלי `-b`.
 - **לא עובדים ולא עושים git בתיקיית Dropbox** (`Dropbox/YakirCohen.com/yakircohen-site`). היא ארכיון עם `.git` פגום.
 - `npm run deploy:status`. כל שורה אדומה מדווחים לבעלים עם הטקסט שלה. שורת `.next` של Dropbox הופיעה גם ב-worktree מחוץ ל-Dropbox ב-6.10 והוחלט שהיא לא חלה. לפני שמתעלמים ממנה מוודאים עם `pwd -P` שהנתיב באמת מחוץ ל-Dropbox.
 
@@ -43,6 +44,10 @@ description: דחיפה ל-main ואימות באתר החי של yakircohen.com
 - **כשהשרשרת נעצרת מוקדם.** `verify:predeploy` היא שרשרת `&&`, ושלב כושל מבטל בשקט את כל מה שאחריו. שני חסמים שאינם קשורים לשינוי כבר הופיעו (7.10.2026). הראשון: `deploy:status` יוצא 1 על קבצים לא שמורים ועל `.next` שמסומן "מסתנכרן ב-Dropbox" גם מחוץ ל-Dropbox (התיקון שהסקריפט מציע: `xattr -w com.dropbox.ignored 1 .next`). השני: `audit:closer-sync` נכשל כש-yakir-closer מצטט מחירון ישן אחרי שינוי מחיר ב-main (התיקון: `npm run export:closer`, שכותב ל-`../local-tools`, ואחריו `audit:closer-sync` ו-`audit:quote-sync`; הפקודה משנה גם חותמת זמן ב-`lib/data/equipment-inventory-bookings.json`, ואותה מחזירים עם `git checkout --`). כשהשרשרת נעצרת בשלב שאינו קשור לשינוי, מריצים את השלבים שאחריו אחד אחד עם קוד יציאה לכל אחד, ומדווחים לבעלים על החסם במפורש. לא מדווחים "ירוק" על שרשרת שנעצרה.
 - **קוד יציאה של פקודת רקע.** `cmd; echo "EXIT $?"` מדווח את קוד היציאה של ה-`echo`, וההתראה אומרת "0" גם כשהשרשרת יצאה 1. כותבים `rc=$?` ללוג ומסיימים ב-`exit $rc`, וקוראים את הקוד מהלוג.
 - **קבצים נגזרים שהשרשרת כותבת** (`lib/data/sitemap-dates.generated.json` ועוד) יכולים לכלול שינויים בעמודים של סשן אחר. מכניסים לקומיט רק שינוי שקשור לעבודה, ומחזירים את השאר עם `git checkout --`.
+- **סנכרון המחירון הוא מצב משותף לכל הסשנים.** `npm run export:closer` כותב ל-`~/Code/local-tools` ו-`npm run export:quote` כותב ל-`~/Documents/yakircohen-ai-local/ui_interface/prices.js`. הסשן שהריץ אחרון גובר, ולכן סנכרון שנעשה לפני הדחיפה התיישן תוך שעה (ב-8.10 ה-closer חזר לחתימת `main` אחרי שסנכרנתי אותו מענף). מסנכרנים **אחרי** הדחיפה, מעץ שבו `lib/data/pricing-catalog.ts` זהה בבייטים ל-`origin/main` (`export:quote` מסרב אחרת), מגבים קודם את הקבצים שנכתבים, ומריצים אחר כך `audit:closer-sync` ו-`audit:quote-sync`. `export:closer` משנה גם חותמת זמן ב-`lib/data/equipment-inventory-bookings.json`, ואותה מחזירים.
+- **ה-hook `pre-push` יכול להיכשל פעם אחת תחת עומס** (ב-8.10 ה-load average היה כ-190, כמה סשנים בנו במקביל). מריצים ידנית `npm run verify:quick`, ואם הוא עובר דוחפים שוב. לעולם לא `--no-verify`.
+- **המתנה לתהליך:** לא כותבים `while pgrep -f "<תבנית>"` בתוך פקודה שמכילה את התבנית, כי `pgrep -f` תופס את הפקודה עצמה והלולאה לא נגמרת. בודקים נוכחות של תיקייה או קובץ במקום.
+- **שער אדום שאינו שלך.** כש-`main` עצמו אדום בשער שהשינוי שלך לא נוגע בו (ב-8.10: `audit:price-literals` ו-`audit:links` מקומיט של סשן אחר), מוכיחים זאת: `git diff --name-only origin/main..HEAD` מול הקבצים שבפלט השער, ו-`git log -S` לאיתור הקומיט. מריצים את שאר השערים אחד אחד (סקריפט עם קוד יציאה לכל שלב), מדווחים לבעלים, ומתקנים רק אם הוא ביקש. אסור לערוך את הבסיס המוקפא `scripts/baselines/price-literals.json` כדי להשתיק שער.
 
 ## 3. אישור לדחיפה
 

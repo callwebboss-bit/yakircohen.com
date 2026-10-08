@@ -8,16 +8,62 @@ import {
   getExVat,
   PODCAST_EXTRA_EDIT_NOTE,
   PODCAST_EXTRA_EDIT_TIME,
+  PODCAST_FULL_PRODUCTION_NOTE,
+  PODCAST_VIDEO_CAMERAS_NOTE,
+  PODCAST_VIDEO_INCLUDES_NOTE,
   STUDIO_TURNS_NOTE,
 } from "@/lib/data/pricing-catalog";
 
 export const PODCAST_RECORDING_PRICE = getExVat("full_podcast_production");
 export const PODCAST_RECORDING_PRICE_NOTE = "לפרק מלא - כולל צילום, הקלטה ועריכה";
 
+/*
+ * שלוש החבילות בעמוד (החלטת הבעלים 7.10.2026: טבלה קצרה של שלוש החבילות).
+ * אודיו: מהמילים של הבעלים, מהודק. וידאו והפקה מלאה: הנוסח מ-D63 בקטלוג (מקור אחד),
+ * עם "3 מצלמות, ולפעמים 2" לפי הכרעת הבעלים. המחירים נמשכים מהקטלוג ולא נכתבים כסכום.
+ */
+export const PODCAST_RECORDING_PACKAGES: readonly {
+  id: "audio" | "video" | "full";
+  title: string;
+  exVat: number;
+  summary: string;
+  points: readonly string[];
+}[] = [
+  {
+    id: "audio",
+    title: "אודיו",
+    exVat: getExVat("podcast_audio"),
+    summary:
+      "בלי צילום. הקלטת אודיו ברמה גבוהה, ועריכה שמובילה את הקטע לסאונד החם והמדויק שחיפשתם.",
+    points: [
+      "מקליטים גם מחוץ לאולפן, בטקסים והרצאות (ההגעה בתוספת)",
+      "בדרך כלל כדאי להקליט גם וידאו, אבל זה לבחירתכם",
+    ],
+  },
+  {
+    id: "video",
+    title: "וידאו",
+    exVat: getExVat("podcast_video"),
+    summary: `${PODCAST_VIDEO_INCLUDES_NOTE}.`,
+    points: ["קטעי ריל: בתוספת", "עריכה נוספת: בהפקה המלאה"],
+  },
+  {
+    id: "full",
+    title: "הפקה מלאה",
+    exVat: getExVat("full_podcast_production"),
+    summary: `${PODCAST_FULL_PRODUCTION_NOTE}.`,
+    points: ["קטעי ריל: בתוספת"],
+  },
+] as const;
+
+/* שורה על האולפן מעל גלריית התמונות, מהמילים של הבעלים (7.10.2026). */
+export const PODCAST_RECORDING_STUDIO_FEEL =
+  "מי שנכנס מרגיש את זה מיד: האווירה, התאורה, הריח, איך שהמקום נראה ואיך הוא נשמע, וכל מה שקורה בו. חלומי.";
+
 /* החלטת הבעלים D63, 7.10.2026 (D43, D44): 3 מצלמות כמו בפודקאסט וידאו (היה
    "2-3"), הפרק המלא בסוף ההקלטה, ועוד עריכה נוספת תוך 24 עד 48 שעות */
 export const PODCAST_RECORDING_HERO_FEATURES: readonly string[] = [
-  "צילום 4K ב-3 מצלמות",
+  `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}`,
   "סאונד אולפני נקי, Shure, Rode",
   "3 חללי הקלטה מעוצבים",
   `עריכה מקצועית נוספת ${PODCAST_EXTRA_EDIT_TIME}`,
@@ -78,7 +124,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     emoji: "🎥",
     title: "צילום וידאו ברמה הגבוהה ביותר",
     items: [
-      "3 מצלמות 4K, זוויות מגוונות, מראה דינמי",
+      `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}, זוויות מגוונות, מראה דינמי`,
       "תאורת סטודיו מקצועית",
       "Framing מושלם, כל פריים נראה מקצועי",
     ],

@@ -25,6 +25,16 @@ type BookingSelectableCardProps = {
   audioDemoId?: AudioDemoId;
   /** דוגמת וידאו בקליק */
   youtubeVideoId?: string;
+  /**
+   * "מתאים ל..." מתוך pricing-catalog, דרך getSuitedForById.
+   *
+   * למה זה כאן (7.10.2026): 161 מתוך 165 פריטי הקטלוג נושאים הסבר,
+   * ו-36 נושאים גם suitedFor, אבל המידע הוצג רק במחירון ובעמודי
+   * השירות ונעלם בדיוק ברגע שבו בוחרים ומזמינים. בקשת הבעלים: שבכל
+   * מקום שמזמינים בו יהיה מידע נוסף זמין. הטקסט נמשך מהקטלוג ולא
+   * נכתב כאן, כדי שלא יסטה ממקור האמת.
+   */
+  suitedFor?: string;
 };
 
 export function BookingSelectionCheck({ active }: { active: boolean }) {
@@ -92,6 +102,7 @@ export default function BookingSelectableCard({
   badge,
   featured,
   featuredLabel = "הכי מומלץ",
+  suitedFor,
   savings,
   footer,
   className,
@@ -141,6 +152,17 @@ export default function BookingSelectableCard({
       <span className={cn("text-sm font-semibold text-foreground", compact && "font-semibold")}>
         {title}
       </span>
+
+      {suitedFor ? (
+        <span
+          className={cn(
+            "w-full text-xs leading-relaxed text-muted-foreground",
+            compact && "text-center",
+          )}
+        >
+          מתאים ל{suitedFor}
+        </span>
+      ) : null}
 
       {highlights && highlights.length > 0 ? (
         <ul className={cn("w-full space-y-1", compact && "text-center")}>

@@ -10,6 +10,7 @@ import {
   PODCAST_AUDIO_PACK_IDS,
   PODCAST_PACK_NOTE,
   PODCAST_PARTICIPANT_RULES,
+  PODCAST_VIDEO_CAMERAS_NOTE,
 } from "@/lib/data/pricing-catalog";
 import { buildPersonBreakdown, formatPerPersonPrice } from "@/lib/data/participant-cost-copy";
 import { clampMobilePeople, MOBILE_STUDIO_CHANNELS } from "@/lib/data/mobile-studio-booking";
@@ -61,7 +62,7 @@ export const PODCAST_PACKAGES: PodcastPackage[] = [
     /* החלטת הבעלים D63, 7.10.2026: הפרק המלא בסוף ההקלטה. עריכה נוספת היא
        ההפקה המלאה (full_podcast_production), ולכן "עריכה ליוטיוב" ירד מכאן */
     features: [
-      "3 מצלמות באולפן",
+      `צילום באולפן ב-${PODCAST_VIDEO_CAMERAS_NOTE}`,
       "הפרק המלא אצלכם מיד בסוף ההקלטה",
       "תאורה וסאונד מקצועיים",
       "אחסון ענן עד ההקלטה הבאה",

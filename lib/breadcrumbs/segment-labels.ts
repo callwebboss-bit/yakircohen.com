@@ -97,6 +97,8 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "bat-mitzvah-clip": "קליפ בת מצווה",
   "video-clip": "שיר + קליפ",
   "bride-groom-blessing": "ברכת חתן וכלה",
+  "milestone-album": "אלבום ברכות מוקלטות",
+  "gift-voucher": "שובר מתנה",
   shop: "חנות",
   data: "נתונים",
   portfolio: "תיק עבודות",

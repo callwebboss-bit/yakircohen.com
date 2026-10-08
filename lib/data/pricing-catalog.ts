@@ -184,7 +184,10 @@ export const PODCAST_PACK_NOTE =
 /* ─── פודקאסט וידאו והפקה מלאה: החלטת הבעלים D63, 7.10.2026 (D43, D44) ───
  * ההבדל היחיד בין השניים הוא העריכה הנוספת. מחרוזות בלי מחיר, כדי שהעמודים,
  * המחשבון ועמדת המכירות יגידו אותו דבר. */
-export const PODCAST_VIDEO_INCLUDES_NOTE = "צילום ב-3 מצלמות ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה";
+/* הבעלים 7.10.2026, אחרי D63: 3 מצלמות כסטנדרט, ולפעמים 2 לפי הצורך, בלי הבדל במחיר.
+   נוסח אחד בכל האתר, כדי שהעמודים והקטלוג לא יסתרו זה את זה. */
+export const PODCAST_VIDEO_CAMERAS_NOTE = "3 מצלמות, ולפעמים 2 לפי הצורך באותו מחיר";
+export const PODCAST_VIDEO_INCLUDES_NOTE = `צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}, ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה`;
 export const PODCAST_EXTRA_EDIT_TIME = "תוך 24 עד 48 שעות";
 export const PODCAST_EXTRA_EDIT_NOTE = `עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}`;
 export const PODCAST_FULL_PRODUCTION_NOTE = `${PODCAST_VIDEO_INCLUDES_NOTE}, ועוד ${PODCAST_EXTRA_EDIT_NOTE}`;
@@ -1264,11 +1267,11 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
   /* החלטת הבעלים D63, 7.10.2026 (D43, D44): הפרק המלא מיד בסוף ההקלטה. העריכה
      הנוספת היא מה שמבדיל את ההפקה המלאה */
   podcast_video: {
-    included: ["צילום ב-3 מצלמות", "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה"],
+    included: [`צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}`, "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה"],
     excluded: ["עריכה נוספת אחרי ההקלטה (בהפקה המלאה)", "רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
   },
   full_podcast_production: {
-    included: ["צילום ב-3 מצלמות", "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה", PODCAST_EXTRA_EDIT_NOTE],
+    included: [`צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}`, "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה", PODCAST_EXTRA_EDIT_NOTE],
     excluded: ["רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
   },
   content_package: {

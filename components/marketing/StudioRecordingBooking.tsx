@@ -132,7 +132,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { scrollAndHighlightFirstError, scrollToFirstWizardBlocker } from "@/lib/scroll-to-error";
 import type { ReplyContext } from "@/lib/reply-copy-builders";
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, getSuitedForById } from "@/lib/data/pricing-catalog";
 import { useReportBookWizardLivePrice } from "@/components/booking/BookWizardLivePrice";
 import SongOfferBookPanel from "@/components/pricing/SongOfferBookPanel";
 import WizardWhatsAppEscapeLink from "@/components/booking/WizardWhatsAppEscapeLink";
@@ -1793,6 +1793,9 @@ export default function StudioRecordingBooking({
                         : undefined
                     }
                     title={pkg.name}
+                    suitedFor={
+                      "catalogId" in pkg ? getSuitedForById(pkg.catalogId) : undefined
+                    }
                     highlights={pkg.highlights}
                     emoji={pkg.emoji}
                     badge={pkg.badge}

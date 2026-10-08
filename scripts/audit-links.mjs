@@ -23,7 +23,8 @@ function walk(dir, ext, out = []) {
     if (e.isDirectory()) {
       if (e.name === "node_modules" || e.name === ".next") continue;
       walk(full, ext, out);
-    } else if (ext.some((x) => e.name.endsWith(x))) {
+    } else if (ext.some((x) => e.name.endsWith(x)) && !/\.test\.[cm]?[jt]sx?$/.test(e.name)) {
+      /* קובצי בדיקה מכילים כתובות דמה כמו href: "/x", והן לא קישורים באתר */
       out.push(full);
     }
   }
