@@ -87,6 +87,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.9,
     changeFrequency: "monthly",
   },
+  { url: url("podcast/subscription"), priority: 0.7, changeFrequency: "monthly" },
   {
     url: url("podcast/podcast-with-grandpa"),
     priority: 0.85,

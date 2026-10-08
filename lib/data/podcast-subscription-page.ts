@@ -1,7 +1,9 @@
 /**
  * דף /podcast/subscription: שלושה מסלולי מנוי חודשי לפודקאסט.
  *
- * הדף בנוי כטיוטה. כל עוד PODCAST_SUBSCRIPTION_IS_DRAFT דלוק:
+ * מצב הדף נקבע בדגל PODCAST_SUBSCRIPTION_IS_DRAFT. כבוי (8.10.2026, באישור
+ * הבעלים): הדף באינדקס, במפת האתר, מקושר מעמוד ההקלטה ומרכז הפודקאסט, ונפלטות
+ * סכמות Service עם AggregateOffer ו-FAQPage. כל עוד הדגל דלוק:
  *  - הדף לא באינדקס (robots), לא במפת האתר ולא בניווט.
  *  - הדף אומר בגלוי שהמסלולים והמחירים הם הצעה שעוד לא אושרה.
  *  - לא נפלטת סכמת Offer או FAQPage.
@@ -17,7 +19,7 @@ import { formatPrice } from "@/lib/data/pricing-display";
 
 export const PODCAST_SUBSCRIPTION_PATH = "/podcast/subscription";
 export const PODCAST_SUBSCRIPTION_TITLE = "מנוי חודשי להפקת פודקאסט";
-export const PODCAST_SUBSCRIPTION_IS_DRAFT = true;
+export const PODCAST_SUBSCRIPTION_IS_DRAFT = false;
 
 export type SubscriptionPlanId = "basic" | "extended" | "video";
 

@@ -637,6 +637,13 @@ export default function PodcastHubPageContent() {
                 מה כלול בפרק, משתתפים וחבילות פרקים
               </h3>
               <PodcastPriceNote id="podcast-packs" className="mt-3" />
+              <p className="mt-4 text-sm text-muted-foreground">
+                מקליטים כל שבוע?{" "}
+                <Link href="/podcast/subscription" className="font-semibold text-brand-red hover:underline">
+                  יש גם מנוי חודשי
+                </Link>
+                .
+              </p>
             </section>
 
             {/* Calculator for fine-tuning */}

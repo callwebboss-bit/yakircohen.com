@@ -183,6 +183,13 @@ export default function PodcastRecordingPageContent() {
               </li>
             ))}
           </ul>
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            מקליטים כל שבוע?{" "}
+            <Link href="/podcast/subscription" className="font-semibold text-brand-red hover:underline">
+              יש גם מנוי חודשי
+            </Link>
+            .
+          </p>
         </section>
 
         <section aria-labelledby="quality-heading">
