@@ -1064,13 +1064,6 @@
     "example": "label: \"פודקאסט אודיו (950 ₪)\","
   },
   {
-    "file": "lib/data/podcast-studio-modiin-page.ts",
-    "kind": "prose",
-    "value": 650,
-    "count": 2,
-    "example": "title: \"אולפן שירות עצמי (650 ₪/שעה)\","
-  },
-  {
     "file": "lib/data/pre-built-sets-catalog.ts",
     "kind": "field",
     "value": 450,
