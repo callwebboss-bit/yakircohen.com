@@ -2,10 +2,9 @@
  * לוגיקה טהורה של טופס ההזמנה ב-/studio/kids-birthday: אימות והודעת וואטסאפ.
  * יושבת ב-lib ולא ברכיב כדי שתיבדק בלי דפדפן.
  *
- * מינימום הילדים מגיע מ-lib/data/kids-birthday.ts. כשהוא null האימות מדלג
- * עליו, ולא ממציא מגבלה. מקסימום ילדים לא נקבע: הבעלים אמר שהמקום מאכלס עד
- * 14 איש, ומספר האנשים אינו מספר הילדים, ולכן הטופס לא חוסם מעל 14. ההערה
- * על הקיבולת מוצגת ליד השדה והשליחה נשארת אפשרית.
+ * אין כאן מינימום או מקסימום ילדים: הבעלים לא קבע מינימום, ואמר שהמקום
+ * מאכלס עד 14 איש (מספר אנשים, לא ילדים), ולכן הטופס לא חוסם. ההערה על
+ * הקיבולת מוצגת ליד השדה והשליחה נשארת אפשרית גם מעל 14.
  */
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import {
@@ -19,7 +18,6 @@ import {
   KIDS_BIRTHDAY_FORM_ID,
   KIDS_BIRTHDAY_PATH,
   KIDS_BIRTHDAY_SERVICE_LABEL,
-  type KidsBirthdayLimits,
 } from "@/lib/data/kids-birthday";
 import { buildSimpleLeadMessage } from "@/lib/whatsapp-closing";
 
@@ -46,10 +44,7 @@ export function parseChildrenCount(raw: string): number | null {
   return n >= 1 ? n : null;
 }
 
-export function validateChildrenCount(
-  raw: string,
-  limits: KidsBirthdayLimits,
-): ValidationResult {
+export function validateChildrenCount(raw: string): ValidationResult {
   if (!raw.trim()) {
     return { ok: false, errors: { children: "נא להזין מספר ילדים" } };
   }
@@ -58,12 +53,6 @@ export function validateChildrenCount(
     return {
       ok: false,
       errors: { children: "מספר הילדים צריך להיות מספר שלם, מ-1 ומעלה" },
-    };
-  }
-  if (limits.min !== null && n < limits.min) {
-    return {
-      ok: false,
-      errors: { children: `מספר הילדים המינימלי הוא ${limits.min}` },
     };
   }
   if (n > CHILDREN_SANITY_CAP) {
@@ -75,7 +64,6 @@ export function validateChildrenCount(
 /** אימות מלא של הטופס. מפתחות השגיאות זהים לשמות השדות: name, phone, date, children. */
 export function validateKidsBirthdayLead(
   fields: KidsBirthdayFormFields,
-  limits: KidsBirthdayLimits,
 ): ValidationResult {
   const errors: FieldErrors = {};
   let normalizedPhone: string | undefined;
@@ -93,7 +81,7 @@ export function validateKidsBirthdayLead(
     errors.date = date.errors.eventDate ?? "תאריך לא תקין";
   }
 
-  const children = validateChildrenCount(fields.children, limits);
+  const children = validateChildrenCount(fields.children);
   if (!children.ok) Object.assign(errors, children.errors);
 
   if (Object.keys(errors).length > 0) return { ok: false, errors };

@@ -10,8 +10,6 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { parseYcLeadTag } from "@/lib/yc-lead-tag";
 
-const NO_LIMITS = { min: null };
-
 /** תאריך עתידי תקף, בפורמט שמחזיר input מסוג date */
 function futureIso(daysAhead = 30): string {
   const d = new Date();
@@ -32,36 +30,28 @@ describe("parseChildrenCount", () => {
 });
 
 describe("validateChildrenCount", () => {
-  it("בלי מינימום (null): מדלג עליו ומקבל כל כמות סבירה", () => {
-    assert.equal(validateChildrenCount("1", NO_LIMITS).ok, true);
-    assert.equal(validateChildrenCount("40", NO_LIMITS).ok, true);
+  it("אין מינימום: כל כמות סבירה מתקבלת, כולל ילד אחד", () => {
+    assert.equal(validateChildrenCount("1").ok, true);
+    assert.equal(validateChildrenCount("40").ok, true);
   });
 
   it("מעל 14 (הקיבולת של המקום) מותר: ההערה מידעית ולא חוסמת", () => {
     for (const n of ["14", "15", "30", "120"]) {
-      assert.equal(validateChildrenCount(n, NO_LIMITS).ok, true, n);
+      assert.equal(validateChildrenCount(n).ok, true, n);
     }
   });
 
   it("תקרת השפיות חוסמת ספאם בלי להיראות כמגבלה עסקית", () => {
-    assert.equal(validateChildrenCount(String(CHILDREN_SANITY_CAP), NO_LIMITS).ok, true);
-    const res = validateChildrenCount(String(CHILDREN_SANITY_CAP + 1), NO_LIMITS);
+    assert.equal(validateChildrenCount(String(CHILDREN_SANITY_CAP)).ok, true);
+    const res = validateChildrenCount(String(CHILDREN_SANITY_CAP + 1));
     assert.equal(res.ok, false);
     assert.ok(!res.ok && !res.errors.children.includes(String(CHILDREN_SANITY_CAP)));
   });
 
   it("שדה ריק ושאינו מספר שלם נחסמים", () => {
     for (const bad of ["", "  ", "abc", "0", "3.5"]) {
-      assert.equal(validateChildrenCount(bad, NO_LIMITS).ok, false, bad);
+      assert.equal(validateChildrenCount(bad).ok, false, bad);
     }
-  });
-
-  it("כשהמינימום מולא: חוסם מתחתיו ומציין את המספר, ולא חוסם מעליו", () => {
-    const limits = { min: 6 };
-    const low = validateChildrenCount("5", limits);
-    assert.ok(!low.ok && low.errors.children.includes("6"));
-    assert.equal(validateChildrenCount("6", limits).ok, true);
-    assert.equal(validateChildrenCount("20", limits).ok, true);
   });
 });
 
@@ -74,16 +64,13 @@ describe("validateKidsBirthdayLead", () => {
   };
 
   it("טופס תקין: ok עם טלפון מנורמל", () => {
-    const res = validateKidsBirthdayLead(valid, NO_LIMITS);
+    const res = validateKidsBirthdayLead(valid);
     assert.equal(res.ok, true);
     assert.ok(res.ok && res.normalizedPhone === "0523456789");
   });
 
   it("מחזיר שגיאה לכל שדה לפי שמו: name, phone, date, children", () => {
-    const res = validateKidsBirthdayLead(
-      { name: "", phone: "123", date: "", children: "" },
-      NO_LIMITS,
-    );
+    const res = validateKidsBirthdayLead({ name: "", phone: "123", date: "", children: "" });
     assert.equal(res.ok, false);
     assert.deepEqual(
       !res.ok && Object.keys(res.errors).sort(),
@@ -92,14 +79,12 @@ describe("validateKidsBirthdayLead", () => {
   });
 
   it("תאריך בעבר נחסם תחת date", () => {
-    const res = validateKidsBirthdayLead({ ...valid, date: "2020-01-01" }, NO_LIMITS);
+    const res = validateKidsBirthdayLead({ ...valid, date: "2020-01-01" });
     assert.ok(!res.ok && "date" in res.errors && !("eventDate" in res.errors));
   });
 
-  it("מכבד מינימום שמולא, ולא חוסם מעל קיבולת המקום", () => {
-    const low = validateKidsBirthdayLead({ ...valid, children: "3" }, { min: 5 });
-    assert.ok(!low.ok && "children" in low.errors);
-    const over = validateKidsBirthdayLead({ ...valid, children: "18" }, { min: 5 });
+  it("לא חוסם מעל קיבולת המקום (14): מחלקים לקבוצות", () => {
+    const over = validateKidsBirthdayLead({ ...valid, children: "18" });
     assert.equal(over.ok, true);
   });
 });

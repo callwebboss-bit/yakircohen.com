@@ -3,12 +3,10 @@ import MediaGallery from "@/components/marketing/MediaGallery";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import KidsBirthdayOrderForm from "@/components/seo/KidsBirthdayOrderForm";
-import OwnerTodoNote from "@/components/seo/OwnerTodoNote";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import Container from "@/components/ui/Container";
 import {
-  KIDS_BIRTHDAY,
   KIDS_BIRTHDAY_AEO,
   KIDS_BIRTHDAY_CAPACITY,
   KIDS_BIRTHDAY_DURATION_LABEL,
@@ -20,62 +18,30 @@ import {
   KIDS_BIRTHDAY_PREPARATION,
   KIDS_BIRTHDAY_STAGES,
   buildKidsBirthdayFaqs,
-  getAnsweredFaqs,
-  getKidsBirthdayLimits,
-  type OwnerField,
 } from "@/lib/data/kids-birthday";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { absoluteUrl } from "@/lib/site-url";
 
 /**
- * /studio/kids-birthday. כל ערך שהבעלים לא נתן מגיע כ-null מ-lib/data/kids-birthday.ts
- * ומוצג כאן כסימון TODO. אין כאן עובדה שלא באה משם.
+ * /studio/kids-birthday. כל מה שמוצג כאן מגיע מ-lib/data/kids-birthday.ts,
+ * ושם לכל עובדה יש מקור. אין כאן עובדה או הבטחה שלא באה משם.
  *
  * מעטפת משלו ולא ServicePageLayout, בכוונה: ה-layout המשותף מוסיף לכל עמוד
  * אולפן בלוק "מה באמת צריך מכם" (טענות על השירות כמו "ההדרכה, ההקלטה והליטוש
  * קורים באותו סשן"), שורת מענה, נתוני אמון ו-CTA תחתון שמבטיח "הצעת מחיר
  * מותאמת". הבעלים לא אמר אף אחד מהם על יום ההולדת. הסכמה (Service ללא offers
- * ו-FAQPage) נבנית כאן מאותם בונים של שאר העמודים.
+ * ו-FAQPage) נבנית כאן מאותם בונים של שאר העמודים. אין כאן נתיב חזרה לפריטים
+ * שהוסרו: ראו הערת הפתיחה ב-lib/data/kids-birthday.ts.
  */
 
 const CARD_CLASS = "rounded-xl border border-border bg-surface p-5 sm:p-6";
 const CARD_TITLE_CLASS = "text-base font-semibold text-foreground";
 
-/** ערך השדה, או סימון ה-TODO שלו */
-function FieldText({ field }: { field: OwnerField<string> }) {
-  return field.value !== null ? (
-    <span>{field.value}</span>
-  ) : (
-    <OwnerTodoNote text={field.todo} />
-  );
-}
-
-function FieldList({ field }: { field: OwnerField<readonly string[]> }) {
-  if (field.value === null || field.value.length === 0) {
-    return <OwnerTodoNote text={field.todo} />;
-  }
-  return (
-    <ul className="space-y-1.5">
-      {field.value.map((item) => (
-        <li key={item} className="flex gap-2">
-          <span className="text-brand-red" aria-hidden>
-            •
-          </span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export default function KidsBirthdayPageContent() {
   const faqs = buildKidsBirthdayFaqs();
-  const limits = getKidsBirthdayLimits();
-
-  const answeredFaqs = getAnsweredFaqs(faqs);
-  /* Service בלי offers: אין מחיר עד שהבעלים ימלא, והצעה בלי מחיר היא צומת
-     שבור בעיני גוגל. FAQPage רק מהשאלות שיש להן תשובה, בלי שאלות עם TODO. */
+  /* Service בלי offers: אין מחיר בעמוד, והצעה בלי מחיר היא צומת שבור בעיני
+     גוגל. ה-FAQPage נבנה מאותן שאלות שמוצגות בעמוד. */
   const serviceSchema = buildServicePageEntitySchema({
     pagePath: KIDS_BIRTHDAY_PATH,
     title: KIDS_BIRTHDAY_HERO.title,
@@ -88,7 +54,7 @@ export default function KidsBirthdayPageContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(serviceSchema) }}
       />
-      <FaqPageSchema items={answeredFaqs} />
+      <FaqPageSchema items={faqs} />
       <SpeakableSchema
         url={absoluteUrl(KIDS_BIRTHDAY_PATH)}
         cssSelector={["h1", `#${KIDS_BIRTHDAY_AEO.id}`]}
@@ -171,32 +137,12 @@ export default function KidsBirthdayPageContent() {
               הפרטים לפני שמזמינים
             </h2>
           </header>
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className={CARD_CLASS}>
-              <h3 className={CARD_TITLE_CLASS}>לאיזה גיל</h3>
+              <h3 className={CARD_TITLE_CLASS}>כמה אנשים</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                <FieldText field={KIDS_BIRTHDAY.ageRange} />
+                {KIDS_BIRTHDAY_CAPACITY.note}
               </p>
-            </div>
-
-            <div className={CARD_CLASS}>
-              <h3 className={CARD_TITLE_CLASS}>כמה ילדים</h3>
-              <dl className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
-                <div>
-                  <dt className="inline font-medium text-foreground">מינימום: </dt>
-                  <dd className="inline">
-                    {KIDS_BIRTHDAY.minChildren.value !== null ? (
-                      `${KIDS_BIRTHDAY.minChildren.value} ילדים`
-                    ) : (
-                      <OwnerTodoNote text={KIDS_BIRTHDAY.minChildren.todo} />
-                    )}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="inline font-medium text-foreground">קיבולת: </dt>
-                  <dd className="inline">{KIDS_BIRTHDAY_CAPACITY.note}</dd>
-                </div>
-              </dl>
             </div>
 
             <div className={CARD_CLASS}>
@@ -207,36 +153,9 @@ export default function KidsBirthdayPageContent() {
             </div>
 
             <div className={CARD_CLASS}>
-              <h3 className={CARD_TITLE_CLASS}>מה הילד לוקח הביתה בסוף היום</h3>
-              <div className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                <FieldList field={KIDS_BIRTHDAY.takeHome} />
-              </div>
-            </div>
-
-            <div className={CARD_CLASS}>
-              <h3 className={CARD_TITLE_CLASS}>מה ההורים צריכים להביא</h3>
-              <div className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                <FieldList field={KIDS_BIRTHDAY.parentsBring} />
-              </div>
-            </div>
-
-            <div className={CARD_CLASS}>
               <h3 className={CARD_TITLE_CLASS}>איפה</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {KIDS_BIRTHDAY_LOCATION.text}{" "}
-                <Link
-                  href={KIDS_BIRTHDAY_LOCATION.mobileStudio.href}
-                  className="inline-flex min-h-12 items-center font-semibold text-brand-red hover:underline"
-                >
-                  {KIDS_BIRTHDAY_LOCATION.mobileStudio.label}
-                </Link>
-              </p>
-            </div>
-
-            <div className={`${CARD_CLASS} md:col-span-2`}>
-              <h3 className={CARD_TITLE_CLASS}>מחיר</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                <FieldText field={KIDS_BIRTHDAY.price} />
+                {KIDS_BIRTHDAY_LOCATION}
               </p>
             </div>
           </div>
@@ -277,7 +196,7 @@ export default function KidsBirthdayPageContent() {
             </p>
           </header>
           <div className="mx-auto mt-8 max-w-3xl">
-            <KidsBirthdayOrderForm limits={limits} />
+            <KidsBirthdayOrderForm />
           </div>
         </section>
 
@@ -285,7 +204,7 @@ export default function KidsBirthdayPageContent() {
           items={faqs.map((faq) => ({
             id: faq.id,
             question: faq.question,
-            answer: faq.answer ?? <OwnerTodoNote text={faq.todo} />,
+            answer: faq.answer,
           }))}
           title="שאלות ותשובות"
           subtitle="לפני שמזמינים יום הולדת לילדים"

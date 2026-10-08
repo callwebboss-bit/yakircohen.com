@@ -12,7 +12,6 @@ import {
   KIDS_BIRTHDAY_PATH,
   KIDS_BIRTHDAY_SERVICE_LABEL,
   KIDS_BIRTHDAY_UTM_CAMPAIGN,
-  type KidsBirthdayLimits,
 } from "@/lib/data/kids-birthday";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
 import { formatPhoneForDisplay, sanitizeLeadText } from "@/lib/form-validation";
@@ -60,12 +59,7 @@ function todayIso(): string {
  * ההערה ליד שדה מספר הילדים. היא מידע ולא חסימה: הבעלים אמר שהמקום מאכלס עד
  * 14 איש, ושאם יש יותר מחלקים לקבוצות, ולכן אפשר לשלוח גם מעל 14.
  */
-function countHint(limits: KidsBirthdayLimits): string {
-  const parts: string[] = [];
-  if (limits.min !== null) parts.push(`מינימום ${limits.min} ילדים.`);
-  parts.push(KIDS_BIRTHDAY_CAPACITY.note);
-  return parts.join(" ");
-}
+const COUNT_HINT = KIDS_BIRTHDAY_CAPACITY.note;
 
 const DIRECT_WHATSAPP_HREF = buildWhatsAppHref({
   text: `שלום, אני מעוניין/ת ב${KIDS_BIRTHDAY_SERVICE_LABEL}.\nתאריך מבוקש: \nמספר ילדים: `,
@@ -74,11 +68,7 @@ const DIRECT_WHATSAPP_HREF = buildWhatsAppHref({
   source: KIDS_BIRTHDAY_PATH,
 });
 
-export default function KidsBirthdayOrderForm({
-  limits,
-}: {
-  limits: KidsBirthdayLimits;
-}) {
+export default function KidsBirthdayOrderForm() {
   const uid = useId();
   const hydrated = useHydrated();
 
@@ -106,13 +96,12 @@ export default function KidsBirthdayOrderForm({
     date: `${uid}-date`,
     children: `${uid}-children`,
   } as const;
-  const hint = countHint(limits);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const errors = attemptSubmit(
-      () => validateKidsBirthdayLead({ name, phone, date, children }, limits),
+      () => validateKidsBirthdayLead({ name, phone, date, children }),
       (result) => {
         const displayPhone = result.normalizedPhone
           ? formatPhoneForDisplay(result.normalizedPhone)
@@ -231,20 +220,14 @@ export default function KidsBirthdayOrderForm({
               placeholder={FORM_MICROCOPY.phonePlaceholder}
               aria-required="true"
               aria-invalid={Boolean(fieldErrors.phone)}
-              aria-describedby={
-                fieldErrors.phone ? `${ids.phone}-error` : `${ids.phone}-hint`
-              }
+              aria-describedby={fieldErrors.phone ? `${ids.phone}-error` : undefined}
               className={cn(FIELD_CLASS, "text-start")}
             />
             {fieldErrors.phone ? (
               <p id={`${ids.phone}-error`} className="mt-1 text-sm text-red-700">
                 {fieldErrors.phone}
               </p>
-            ) : (
-              <p id={`${ids.phone}-hint`} className="mt-1 text-sm text-muted-foreground">
-                {FORM_MICROCOPY.phoneHint}
-              </p>
-            )}
+            ) : null}
           </div>
 
           <div>
@@ -277,7 +260,7 @@ export default function KidsBirthdayOrderForm({
               id={ids.children}
               type="number"
               inputMode="numeric"
-              min={limits.min ?? 1}
+              min={1}
               step={1}
               value={children}
               onChange={(e) => setChildren(e.target.value)}
@@ -296,7 +279,7 @@ export default function KidsBirthdayOrderForm({
               </p>
             ) : null}
             <p id={`${ids.children}-hint`} className="mt-1 text-sm text-muted-foreground">
-              {hint}
+              {COUNT_HINT}
             </p>
           </div>
         </div>
