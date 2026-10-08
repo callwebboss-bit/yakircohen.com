@@ -10,6 +10,12 @@ const EDITING = ["8lfWwn0uJMg", "0--BIes-66Y", "APKGwP3CO50", "--_pBWzA5Hk"];
 
 const ids = (playlist: PlaylistId) => getPlaylistVideos(playlist).map((v) => v.videoId);
 
+describe("portfolio playlists: basic song recording example", () => {
+  it("the basic-edit example leads the song-recording playlist", () => {
+    assert.equal(ids("recording-song-modiin")[0], "OLgVysdB6fA");
+  });
+});
+
 describe("portfolio playlists: winery work", () => {
   it("the three Pasek voiceovers lead both voiceover playlists", () => {
     assert.deepEqual(ids("voiceover-hub").slice(0, 3), PASEK);

@@ -13,6 +13,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "c55HTqTArFo",
   ],
   "recording-song-modiin": [
+    /* דוגמת ההקלטה הבסיסית, לשלוח לכל מי שמזמין (8.10.2026) */
+    "OLgVysdB6fA",
     "QRMxKVUOOl0",
     "8i4K2f5gQfM",
     "LKg3pwdon_M",

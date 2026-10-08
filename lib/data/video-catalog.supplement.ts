@@ -105,4 +105,13 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
     services: ["video-editing"],
     description: "שורט טיזר ליקב, לרשתות החברתיות.",
   },
+  {
+    videoId: "OLgVysdB6fA",
+    title: "ככה באמת נשמעת שירה באולפן: לפני ואחרי עריכה בסיסית",
+    youtubeUrl: "https://www.youtube.com/watch?v=OLgVysdB6fA",
+    tags: ["studio-recording"],
+    services: ["recording-song-modiin", "recording-studio"],
+    description:
+      "עריכה בסיסית, כמו בהקלטת שיר רגילה. מתאים למי שיודע לשיר ולא צריך תיקון זיופים.",
+  },
 ] as const;
