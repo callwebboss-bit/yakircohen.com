@@ -263,7 +263,7 @@ export default function FunnyRingtonePageContent() {
         headingId="ringtone-bottom-cta-heading"
         whatsappHref={WHATSAPP_CTA}
         whatsappLabel={`הזמנה בוואטסאפ - ${RINGTONE_PRICE_LABEL}`}
-        whatsappAriaLabel="הזמנת רינגטון מצחיק בוואטסאפ"
+        whatsappAriaLabel={`הזמנה בוואטסאפ - ${RINGTONE_PRICE_LABEL}, רינגטון מצחיק במתנה`}
         showBookContact={false}
       >
         <div className="flex flex-wrap justify-center gap-4">

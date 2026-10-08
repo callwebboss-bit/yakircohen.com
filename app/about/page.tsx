@@ -224,7 +224,9 @@ export default function AboutPage() {
                   <p className="text-sm font-semibold leading-snug text-white">
                     {card.label}
                   </p>
-                  <p className="mt-0.5 text-xs text-white/70 transition-colors duration-fast group-hover:text-brand-red">
+                  {/* F-08 (7.10.2026): ב-hover התווית הייתה אדומה על התמונה, בניגודיות 2.7 עד 3.65.
+                      עכשיו היא מתבהרת ללבן, ונשארת על שכבת ההכהיה שבתחתית הכרטיס. */}
+                  <p className="mt-0.5 text-xs text-white/70 transition-colors duration-fast group-hover:text-white">
                     {card.cta} </p>
                 </div>
               </Link>
@@ -334,7 +336,9 @@ export default function AboutPage() {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-surface lg:order-first">
                   <Image
                     src="/images/services/studio/hub/משפחה מקליטה באולפן הקלטות יקיר כהן הפקות.webp"
-                    alt="הצוות המקצועי של יקיר כהן הפקות"
+                    /* F-35 (7.10.2026): הצילום הוא חמישה לקוחות עם אוזניות בתא ההקלטה, לא צוות.
+                       אותו קובץ מתואר ב-/studio כמשפחה מקליטה. הכותרת "המשפחה המקצועית" נשארת. */
+                    alt="חמישה אנשים עם אוזניות מקליטים יחד באולפן ומחייכים למצלמה"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"

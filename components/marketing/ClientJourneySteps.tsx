@@ -15,9 +15,12 @@ export type ClientJourneyStepsProps = {
 };
 
 function StepBadge({ number }: { number: number }) {
+  /* F-38 (נגישות, 7.10.2026): המספר היה text-brand-red על #1a1a1a, 3.46:1
+     (3.76 בניגודיות גבוהה), וזה המספר היחיד שהגולש הרואה מקבל. עכשיו לבן
+     (16.65:1) והאדום נשאר בטבעת בלבד. */
   return (
     <div
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-bold text-brand-red ring-1 ring-brand-red/40"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white ring-1 ring-brand-red/40"
       aria-hidden="true"
     >
       {number}

@@ -89,7 +89,7 @@ export default function VenueSizeCalculator() {
             setPreset(null);
           }}
           placeholder="למשל 250"
-          className="w-28 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none"
+          className="w-28 rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none"
         />
       </div>
 

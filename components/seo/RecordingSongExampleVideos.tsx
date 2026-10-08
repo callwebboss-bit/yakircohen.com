@@ -66,6 +66,8 @@ export default function RecordingSongExampleVideos({
               href={`https://www.youtube.com/watch?v=${video.videoId}`}
               target="_blank"
               rel="noopener noreferrer"
+              /* F-63 (7.10.2026): עד 30 קישורים באותו שם בעמוד. השם מתחיל בטקסט הגלוי ומוסיף את שם הסרטון. */
+              aria-label={`צפייה ב-YouTube: ${video.title} (נפתח בלשונית חדשה)`}
               className="mt-2 text-xs font-medium text-brand-red hover:underline"
             >
               צפייה ב-YouTube

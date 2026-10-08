@@ -54,7 +54,7 @@ export default function PodcastSelfServicePageContent() {
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 sm:p-8"
           aria-label="מחיר"
         >
-          <p className="text-sm font-semibold text-brand-red">מחיר לשעה</p>
+          <p className="text-sm font-semibold text-brand-red-text">מחיר לשעה</p>
           <p className="mt-2 text-3xl font-bold text-foreground">
             {SELF_SERVICE_PRICE.toLocaleString("he-IL")} ₪
             <span className="text-base font-normal text-muted-foreground">

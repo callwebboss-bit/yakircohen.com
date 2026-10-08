@@ -1162,7 +1162,7 @@ export default function PodcastBookingWizard({
                       id="pb-mobile-people"
                       value={Math.min(form.participantCount, MOBILE_STUDIO_CHANNELS.max)}
                       onChange={(e) => patchForm({ participantCount: Number(e.target.value) })}
-                      className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3 text-sm"
+                      className="mt-1 min-h-11 w-full rounded-xl border border-input bg-background px-3 text-sm"
                     >
                       {Array.from({ length: MOBILE_STUDIO_CHANNELS.max }, (_, i) => i + 1).map((n) => (
                         <option key={n} value={n}>

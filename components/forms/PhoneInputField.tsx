@@ -62,7 +62,7 @@ export default function PhoneInputField({
               ? "border-green-500 pe-10 focus:border-green-500"
               : error
                 ? "border-red-400 focus:border-red-400"
-                : "border-border focus:border-brand-red",
+                : "border-input focus:border-brand-red",
           )}
           aria-invalid={!!error}
           aria-required={required ? "true" : undefined}

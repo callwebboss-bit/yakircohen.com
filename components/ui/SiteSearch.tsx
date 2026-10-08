@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import VoiceSearchMicButton from "@/components/ui/VoiceSearchMicButton";
@@ -40,10 +40,16 @@ const SearchResultRow = memo(function SearchResultRow({
   resultId: string;
   onSelect: () => void;
 }) {
+  /* F-23 (7.10.2026): הקישור עצמו הוא ה-option. קודם <li role="option"> עטף <a>, כלומר
+     אלמנט אינטראקטיבי בתוך option (axe nested-interactive, 7 צמתים). ה-li הוא
+     presentation כדי שה-listbox ימשיך לראות option כצאצא ישיר. */
   return (
-    <li role="option" id={resultId} aria-selected={active}>
+    <li role="presentation">
       <Link
         href={result.url}
+        role="option"
+        id={resultId}
+        aria-selected={active}
         onClick={onSelect}
         className={cn(
           "group flex min-h-11 flex-col justify-center gap-1 border-b border-border px-4 py-3 last:border-b-0",
@@ -92,6 +98,9 @@ export default function SiteSearch({
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const voiceAutoNavigateRef = useRef(false);
+  // F-23: id ייחודי לכל מופע (header, מגירה, שורת חיפוש במובייל), כדי ש-aria-controls
+  // ו-aria-activedescendant לא יצביעו על רשימה של מופע אחר.
+  const listId = useId();
 
   const onNavigate = useCallback(
     (href: string) => {
@@ -129,6 +138,18 @@ export default function SiteSearch({
   const emptyMessage = statusMessage(status, query, results.length, loading);
   const showSpinner = (loading || isStale) && !isListening;
   const showMic = voiceSupported && !showSpinner;
+
+  // F-23 (7.10.2026): ספירת התוצאות (או "לא נמצאו תוצאות") מוכרזת באזור ה-live הקיים.
+  // קודם הקלדה החזירה עד 7 תוצאות בלי שום הכרזה. לא מכריזים בזמן טעינה או כשהרשימה
+  // עדיין מהשאילתה הקודמת (isStale), וכשיש תוצאה פעילה היא מוכרזת במקומה.
+  const resultsAnnouncement =
+    showDropdown && !loading && !isStale
+      ? results.length > 0
+        ? results.length === 1
+          ? "נמצאה תוצאה אחת"
+          : `נמצאו ${results.length} תוצאות`
+        : emptyMessage
+      : null;
 
   useEffect(() => {
     if (!voiceAutoNavigateRef.current || loading || status !== "success") return;
@@ -178,6 +199,17 @@ export default function SiteSearch({
     };
   }, [open, isListening, stopListening]);
 
+  // F-23: סוגר את הרשימה והרמזים כשהפוקוס יוצא מהקונטיינר (Tab החוצה). relatedTarget=null
+  // מתעלמים ממנו: ב-Safari לחיצה על קישור לא ממקדת אותו, ו-blur עם null היה מוחק את
+  // הרשימה באמצע הלחיצה ובולע אותה. לחיצה מחוץ לקונטיינר נתפסת ב-pointerdown למעלה.
+  const handleContainerBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget;
+    if (!(next instanceof Node)) return;
+    if (containerRef.current?.contains(next)) return;
+    setOpen(false);
+    setActiveIndex(-1);
+  };
+
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!showDropdown || results.length === 0) return;
 
@@ -194,7 +226,12 @@ export default function SiteSearch({
   };
 
   return (
-    <div ref={containerRef} dir="rtl" className={cn("relative w-full", className)}>
+    <div
+      ref={containerRef}
+      dir="rtl"
+      className={cn("relative w-full", className)}
+      onBlur={handleContainerBlur}
+    >
       <div className="relative">
         <svg
           className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -232,12 +269,12 @@ export default function SiteSearch({
           aria-label={placeholder}
           aria-autocomplete="list"
           aria-expanded={showDropdown}
-          aria-controls="site-search-results"
+          aria-controls={showDropdown ? listId : undefined}
           aria-activedescendant={
-            activeIndex >= 0 ? `site-search-result-${activeIndex}` : undefined
+            activeIndex >= 0 ? `${listId}-result-${activeIndex}` : undefined
           }
           className={cn(
-            "min-h-11 w-full rounded-xl border border-border bg-background",
+            "min-h-11 w-full rounded-xl border border-input bg-background",
             "py-2.5 pe-12 ps-9 text-sm text-foreground placeholder:text-muted-foreground",
             "outline-none transition-[border-color,box-shadow] duration-fast ease-luxury",
             "focus:border-brand-red focus:ring-2 focus:ring-brand-red/15",
@@ -286,8 +323,10 @@ export default function SiteSearch({
         {liveMessage}
         {voiceError}
         {activeIndex >= 0 && results[activeIndex]
-          ? `תוצאה ${activeIndex + 1} מתוך ${results.length}: ${results[activeIndex].meta?.title ?? results[activeIndex].url}`
-          : null}
+          ? ` תוצאה ${activeIndex + 1} מתוך ${results.length}: ${results[activeIndex].meta?.title ?? results[activeIndex].url}`
+          : resultsAnnouncement
+            ? ` ${resultsAnnouncement}`
+            : null}
       </div>
 
       {voiceError && !isListening && (
@@ -322,7 +361,7 @@ export default function SiteSearch({
 
       {showDropdown && (
         <ul
-          id="site-search-results"
+          id={listId}
           role="listbox"
           aria-label="תוצאות חיפוש"
           className={cn(
@@ -335,7 +374,7 @@ export default function SiteSearch({
             ? results.map((result, index) => (
                 <SearchResultRow
                   key={result.url}
-                  resultId={`site-search-result-${index}`}
+                  resultId={`${listId}-result-${index}`}
                   result={result}
                   active={index === activeIndex}
                   onSelect={() => {

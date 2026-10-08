@@ -31,7 +31,7 @@ export default function MatanotPackageCard({
           rel="noopener noreferrer"
           variant="secondary"
           className="min-h-12 w-full"
-          aria-label={`שליחת הודעת וואטסאפ עבור חבילת ${pkg.title}`}
+          aria-label={`אני רוצה חבילה זו - ${pkg.title}, בוואטסאפ`}
         >
           אני רוצה חבילה זו
         </Button>

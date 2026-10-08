@@ -50,6 +50,9 @@ const DesktopDropdown = memo(function DesktopDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // F-04 (7.10.2026): טקסט ניווט פעיל והובר, וסרגל התחתון, בצבע --service-accent-ink
+  // ולא בגוון הגולמי: כתום 3.04, ציאן 2.32, ירוק 3.60 על #fafaf8, מתחת ל-4.5.
+  // ה-fallback הוא האדום של המותג, כך שבית, מחירון ויצירת קשר לא משתנים.
   // F-15 (7.10.2026): תבנית disclosure ולא menu. הפאנל נטען רק כשהוא פתוח,
   // ולכן aria-controls מוצג רק אז ולא מצביע על id שאינו קיים.
   const panelId = useId();
@@ -126,8 +129,8 @@ const DesktopDropdown = memo(function DesktopDropdown({
         className={cn(
           "group relative inline-flex min-h-11 items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95",
           isActive
-            ? "text-[var(--service-accent,#d42b2b)]"
-            : "text-foreground/90 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
+            ? "text-[var(--service-accent-ink,var(--color-brand-red))]"
+            : "text-foreground/90 hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
         )}
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
@@ -140,7 +143,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
         <ChevronIcon open={open} />
         <span
           className={cn(
-            "pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
+            "pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent-ink,var(--color-brand-red))] transition-transform duration-normal ease-luxury group-hover:scale-x-100",
             (isActive || open) && "scale-x-100",
           )}
           aria-hidden
@@ -159,7 +162,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
+                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
                   >
                     {item.label}
                   </Link>
@@ -170,7 +173,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
           ) : null}
           <Link
             href={category.href}
-            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-[var(--service-accent,#d42b2b)] transition-all duration-fast ease-luxury hover:bg-surface active:scale-[0.98]"
+            className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-[var(--service-accent-ink,var(--color-brand-red))] transition-all duration-fast ease-luxury hover:bg-surface active:scale-[0.98]"
             onClick={() => setOpen(false)}
           >
             {category.label} - סקירה
@@ -182,7 +185,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
                 <li key={child.href}>
                   <Link
                     href={child.href}
-                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.98]"
+                    className="block rounded-lg px-3 py-2.5 text-sm text-foreground/90 transition-all duration-fast ease-luxury hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.98]"
                     onClick={() => setOpen(false)}
                   >
                     <span className="font-medium">{child.label}</span>
@@ -219,7 +222,7 @@ function MobileAccordion({
         type="button"
         className={cn(
           "flex min-h-[3.75rem] w-full items-center gap-3 py-3.5 text-start transition-all duration-fast ease-luxury active:scale-[0.98]",
-          isActive ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
+          isActive ? "text-[var(--service-accent-ink,var(--color-brand-red))]" : "text-foreground",
         )}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -334,8 +337,8 @@ function DesktopSearchButton() {
         className={cn(
           "flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-fast ease-luxury active:scale-95",
           open
-            ? "bg-surface text-[var(--service-accent,#d42b2b)]"
-            : "text-foreground/70 hover:bg-surface hover:text-[var(--service-accent,#d42b2b)]",
+            ? "bg-surface text-[var(--service-accent-ink,var(--color-brand-red))]"
+            : "text-foreground/70 hover:bg-surface hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
         )}
       >
         <svg
@@ -374,8 +377,8 @@ export function SiteNavDesktop() {
     cn(
       "group relative min-h-10 rounded-lg px-2.5 py-2 text-sm font-medium transition-all duration-fast ease-luxury active:scale-95 xl:px-3",
       isHeaderNavLinkActive(href, pathname)
-        ? "text-[var(--service-accent,#d42b2b)]"
-        : "text-foreground/90 hover:text-[var(--service-accent,#d42b2b)]",
+        ? "text-[var(--service-accent-ink,var(--color-brand-red))]"
+        : "text-foreground/90 hover:text-[var(--service-accent-ink,var(--color-brand-red))]",
     );
 
   return (
@@ -398,7 +401,7 @@ export function SiteNavDesktop() {
           >
             {entry.label}
             <span
-              className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent,#d42b2b)] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
+              className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-0.5 origin-center scale-x-0 rounded-full bg-[var(--service-accent-ink,var(--color-brand-red))] transition-transform duration-normal ease-luxury group-hover:scale-x-100"
               aria-hidden
             />
           </Link>
@@ -518,7 +521,7 @@ export function SiteNavMobileDrawer({
           href="/"
           className="text-base font-bold tracking-tight text-foreground"
           onClick={onCloseMenu}
-          aria-label="דף הבית"
+          aria-label={`${SITE_NAME} - דף הבית`}
         >
           {SITE_NAME}
         </Link>
@@ -591,14 +594,16 @@ export function SiteNavMobileDrawer({
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/book"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] active:scale-[0.97]"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             הזמנה
           </Link>
+          {/* F-05 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו ב-MobileStickyCta. לבן על
+              הגוון הגולמי נמדד 2.42 (ציאן) עד 3.76:1, מתחת ל-4.5. */}
           <Link
             href="/contact"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] text-sm font-bold text-white transition-all duration-fast ease-luxury active:scale-[0.97]"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl bg-brand-red text-sm font-bold text-white transition-all duration-fast ease-luxury active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             צור קשר

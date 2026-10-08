@@ -462,7 +462,7 @@ export default function StudioGiftsPageContent() {
         headingId="studio-gifts-cta-heading"
         whatsappHref={MAIN_CTA}
         whatsappLabel="הזמינו שובר, נשלח מיד"
-        whatsappAriaLabel="הזמנת שובר מתנה - השובר נשלח מיד"
+        whatsappAriaLabel="הזמינו שובר, נשלח מיד - שובר מתנה בוואטסאפ"
         showBookContact={false}
       >
         <div className="flex flex-wrap justify-center gap-4">

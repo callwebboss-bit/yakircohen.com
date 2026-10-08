@@ -9,10 +9,14 @@ const variantStyles: Record<ButtonVariant, string> = {
     "bg-brand-red font-semibold text-white shadow-sm hover:bg-brand-red-light active:bg-brand-red-dark",
   secondary:
     "border border-border bg-surface font-medium text-foreground hover:border-brand-red/40 hover:text-brand-red active:bg-surface-elevated",
+  /* F-37 (נגישות, 7.10.2026): טקסט brand-red על גוון /10 נמדד 4.11:1 ב-hover
+     (4.29 בניגודיות גבוהה) ועל /15 ב-active 3.82:1. ב-hover וב-active הטקסט
+     עובר ל-brand-red-text (#9a2222: 6.57:1 על /10, 6.09 על /15). לא מורידים את
+     הגוון ל-/5, כי גם הוא 4.47:1. ה-ghost קיבל את אותו הדבר (4.45:1 על /5). */
   outline:
-    "border border-brand-red font-medium text-brand-red hover:bg-brand-red/10 active:bg-brand-red/15",
+    "border border-brand-red font-medium text-brand-red hover:bg-brand-red/10 hover:text-brand-red-text active:bg-brand-red/15 active:text-brand-red-text",
   ghost:
-    "font-medium text-foreground hover:bg-brand-red/5 hover:text-brand-red active:bg-brand-red/10",
+    "font-medium text-foreground hover:bg-brand-red/5 hover:text-brand-red-text active:bg-brand-red/10 active:text-brand-red-text",
 };
 
 // IMPROVED: min-h-11 touch target, active micro-interaction, ghost variant, external link support

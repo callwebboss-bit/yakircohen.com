@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CheckIcon } from "@/components/ui/Icons";
+import { useTabs } from "@/hooks/useTabs";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -202,17 +203,13 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
     return () => clearTimeout(t);
   };
 
-  /* Keyboard navigation: ArrowLeft = next in RTL reading direction, ArrowRight = prev */
-  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-    const total = AUDIENCE_TABS.length;
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      handleSelect((index + 1) % total);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      handleSelect((index - 1 + total) % total);
-    }
-  };
+  /* F-70: מקלדת לפי APG. ב-RTL ArrowLeft = הבא ו-ArrowRight = הקודם, Home/End,
+     tabIndex מתגלגל, והמיקוד עובר לטאב שנבחר (קודם הוא נשאר על הישן). */
+  const { getTabProps } = useTabs({
+    count: AUDIENCE_TABS.length,
+    selectedIndex: activeIndex,
+    onSelect: handleSelect,
+  });
 
   const activeTab = AUDIENCE_TABS[activeIndex];
   const whatsappHref = buildWhatsAppHref({
@@ -240,9 +237,8 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
               id={`tab-${tab.id}`}
               aria-selected={isActive}
               aria-controls={`panel-${tab.id}`}
-              tabIndex={isActive ? 0 : -1}
+              {...getTabProps(i)}
               onClick={() => handleSelect(i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
               className={cn(
                 "rounded-lg px-3 py-2.5 text-sm font-semibold select-none",
                 "transition-[background-color,color,box-shadow] duration-normal ease-luxury",

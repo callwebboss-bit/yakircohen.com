@@ -126,7 +126,7 @@ export default function PageBottomCta({
           ) : null}
         </div>
         {whatsappHref ? (
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             מענה אנושי מהיר, {TIME_CLAIMS.waResponse30m}, בלי שום התחייבות.
           </p>
         ) : null}

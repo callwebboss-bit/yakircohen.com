@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
@@ -91,7 +92,7 @@ export default function StageLedDjPageContent() {
           </p>
         </section>
 
-        <section className="max-w-3xl" aria-labelledby="led-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             אתם משקיעים באלפי שקלים בסאונד ותאורה, אבל במרכז הרחבה עומד שולחן
             פלסטיק עם מפה שחורה? עמדת LED היא הבמה שלכם, קנבס דיגיטלי ללוגו,
@@ -291,7 +292,7 @@ export default function StageLedDjPageContent() {
               עמדת LED מול מסך טלוויזיה
             </h2>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: עמדת LED מול מסך טלוויזיה" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -316,7 +317,7 @@ export default function StageLedDjPageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <section

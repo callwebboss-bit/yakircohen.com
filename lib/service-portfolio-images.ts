@@ -1,7 +1,10 @@
 ﻿import fs from "node:fs";
 import path from "node:path";
 import { serviceImageBasePath } from "@/lib/data/services";
-import { deriveHebrewAlt } from "@/lib/hebrew-image-alt";
+import {
+  PORTFOLIO_IMAGES_URL_PREFIX,
+  resolvePortfolioImageAlt,
+} from "@/lib/data/portfolio-image-alts";
 
 const IMAGE_EXT = /\.(avif|gif|jpe?g|jfif|png|svg|webp)$/i;
 
@@ -146,10 +149,19 @@ function readImagesFromAbsoluteDir(
       const dimensions = readImageDimensions(
         path.join(/*turbopackIgnore: true*/ absoluteDir, entry.name),
       );
+      const src = `${urlBasePath}/${entry.name}`;
       return {
         filename: entry.name,
-        src: `${urlBasePath}/${entry.name}`,
-        alt: deriveHebrewAlt(entry.name, indexOffset + index),
+        src,
+        /* F-20 / F-36 (7.10.2026): קודם משפט כתוב ביד לפי הנתיב היחסי מ-public/images/services,
+           ורק בלעדיו נגזר משם הקובץ. הנתיב נגזר מכתובת התמונה ולא מנתיב קובץ, כדי לא
+           להוסיף עוד קריאת path דינמית ש-Turbopack יצטרך להתעלם ממנה. */
+        alt: resolvePortfolioImageAlt(
+          src.startsWith(PORTFOLIO_IMAGES_URL_PREFIX)
+            ? src.slice(PORTFOLIO_IMAGES_URL_PREFIX.length)
+            : entry.name,
+          indexOffset + index,
+        ),
         ...(dimensions ?? {}),
       };
     });

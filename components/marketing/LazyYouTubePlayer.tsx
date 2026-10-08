@@ -91,8 +91,13 @@ export default function LazyYouTubePlayer({
           className="group absolute inset-0 h-full w-full transition-transform duration-fast ease-luxury focus-visible:outline-none active:scale-[0.98]"
           onClick={() => setIsActive(true)}
           /* בלי aria-label: השם הנגיש נגזר מהתוכן הגלוי, watchLabel ואחריו כותרת
-             הסרטון (שאינה עוד aria-hidden). כל נוסח נפרד נכשל ב-axe
-             label-content-name-mismatch על 11 מ-12 התבניות (16.9.2026). */
+             הסרטון, כלומר "לצפייה בדוגמא <כותרת>", בסדר שבו הם נראים. כל נוסח נפרד
+             נכשל ב-axe label-content-name-mismatch על 11 מ-12 התבניות (16.9.2026).
+             F-31 (7.10.2026): ה-aria-hidden ישב על העטיפה כולה, כולל התווית, ולכן
+             השם היה הכותרת בלבד ודיבור "לצפייה בדוגמא" לא הפעיל את הכפתור (2.5.3).
+             עכשיו הוא רק על אייקון ה-play, והתווית נשארת בשם. F-58: העטיפות הן
+             span ולא div/p, כי בתוך button מותר רק תוכן ביטויי (phrasing). כולן
+             absolute, ולכן הן כבר בלוק בלי להוסיף display. */
         >
           {/* 6.10.2026: <img> רגיל ולא next/image. מקור ה-hqdefault הוא 480x360, וה-sizes הקודם
               ביקש מהאופטימייזר רוחבים עד 1920 (הגדלה בלי שיפור), בכל פוסטר ובכמה פורמטים.
@@ -113,21 +118,19 @@ export default function LazyYouTubePlayer({
             }
           />
 
-          <div
+          <span
             className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 transition-opacity duration-normal ease-luxury group-hover:from-black/90 group-hover:via-black/30"
             aria-hidden="true"
           />
 
-          <div
+          <span
             className="pointer-events-none absolute inset-0 rounded-xl group-focus-visible:outline-[3px] group-focus-visible:-outline-offset-4 group-focus-visible:outline-white group-focus-visible:shadow-[inset_0_0_0_8px_rgba(0,0,0,0.55)]"
             aria-hidden="true"
           />
 
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-            aria-hidden="true"
-          >
+          <span className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <span
+              aria-hidden="true"
               className={cn(
                 "flex h-20 w-20 items-center justify-center rounded-full text-[var(--service-accent,#d42b2b)]",
                 "bg-black/80 ring-2 ring-[var(--service-accent,#d42b2b)]/70",
@@ -155,15 +158,18 @@ export default function LazyYouTubePlayer({
                 />
               </svg>
             </span>
-            <span className="text-sm font-semibold tracking-wide text-white/95 sm:text-base">
+            {/* F-08 (7.10.2026): התווית ישבה על הפוסטר בלי רקע, ובנקודות הבהירות של התמונה
+                נמדדה ב-1.7 עד 2.8 מול 4.5 הנדרשים. גלולה כהה מתחתיה נותנת לה רקע קבוע
+                (לבן על שחור 70% מעל פיקסל לבן הוא כ-8.6:1), בלי תלות בצבעי התמונה. */}
+            <span className="rounded-full bg-black/70 px-3 py-1 text-sm font-semibold tracking-wide text-white sm:text-base">
               {watchLabel}
             </span>
-          </div>
+          </span>
 
           {/* ── Video title - bottom of frame ── */}
-          <p className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90">
+          <span className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90">
             {title}
-          </p>
+          </span>
         </button>
       )}
     </div>

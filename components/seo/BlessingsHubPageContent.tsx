@@ -81,7 +81,7 @@ export default function BlessingsHubPageContent() {
     >
       <Container className="space-y-16 py-12 sm:py-16">
         <ContextualIntroParagraph pathname="/studio/blessings" className="max-w-3xl" />
-        <section className="max-w-3xl" aria-labelledby="blessings-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             ברכה טובה יכולה להיות רגע מרכזי באירוע, אבל לא כולם מרגישים
             בנוח לברך בלייב מול קהל. הקלטה ועריכה מקצועית פותרת את זה: אתם

@@ -56,7 +56,7 @@ export default async function AdminLoginPage({
               dir="ltr"
               aria-invalid={hasError}
               aria-describedby={hasError ? "admin-token-error" : undefined}
-              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
             />
             {hasError ? (
               <p id="admin-token-error" className="text-xs text-red-500" role="alert">

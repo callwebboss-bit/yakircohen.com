@@ -180,7 +180,7 @@ function trackVoucher(kind: VoucherKind, cardId: string): void {
 /* ─── הטופס ─── */
 
 const fieldClass =
-  "w-full rounded-md border border-border bg-background px-3 py-2 text-base text-foreground focus-visible:outline-2 focus-visible:outline-brand-red";
+  "w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground focus-visible:outline-2 focus-visible:outline-brand-red";
 const labelClass = "block text-xs font-semibold text-foreground";
 const actionClass =
   "inline-flex min-h-12 flex-1 items-center justify-center rounded-md px-3 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50";

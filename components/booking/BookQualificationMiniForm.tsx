@@ -5,7 +5,7 @@ import type { BookAudienceRoute, QualificationField } from "@/lib/data/book-audi
 import { cn } from "@/lib/utils";
 
 const INPUT_CLASS =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-[border-color,box-shadow] duration-fast ease-luxury focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type BookQualificationMiniFormProps = {
   route: BookAudienceRoute;

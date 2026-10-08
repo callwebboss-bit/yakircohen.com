@@ -42,7 +42,7 @@ export default function AcademyUlpanPageContent() {
       {/* Hero */}
       <header className="border-b border-border bg-gradient-to-b from-brand-red/[0.04] to-transparent px-4 py-16 sm:py-24">
         <div className="mx-auto max-w-5xl">
-          <nav aria-label="breadcrumb" className="text-xs text-muted-foreground">
+          <nav aria-label="מיקום בעמוד" className="text-xs text-muted-foreground">
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
                 <Link href="/" className="hover:text-brand-red">
@@ -209,7 +209,7 @@ export default function AcademyUlpanPageContent() {
                 {city}
               </li>
             ))}
-            <li className="rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-1.5 text-sm font-medium text-brand-red">
+            <li className="rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-1.5 text-sm font-medium text-brand-red-text">
               + זום לכל הארץ
             </li>
           </ul>
@@ -236,7 +236,7 @@ export default function AcademyUlpanPageContent() {
                   <th className="px-4 py-3 text-start font-semibold text-muted-foreground">
                     אולפן ממשלתי
                   </th>
-                  <th className="px-4 py-3 text-start font-semibold text-brand-red">
+                  <th className="px-4 py-3 text-start font-semibold text-brand-red-text">
                     שיעור פרטי
                   </th>
                 </tr>

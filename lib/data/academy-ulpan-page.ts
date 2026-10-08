@@ -401,6 +401,8 @@ export const ULPAN_FAQ: FaqCtaItem[] = [
     whatsappMessage:
       "Hi Yakir! I'm looking for a private Hebrew tutor in Modiin (or Zoom). I'd like to book a trial lesson.",
     utm_campaign: "academy_ulpan_faq_english",
+    /* F-56 (7.10.2026): השאלה והתשובה באנגלית, FAQWithCtaLinks מסמן אותן lang="en" */
+    lang: "en",
   },
   {
     id: "commitment",

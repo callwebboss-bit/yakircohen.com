@@ -39,7 +39,7 @@ export default function ServiceAutoQualifyFields({
             type="date"
             value={values.eventDate || ""}
             onChange={(e) => onChange({ ...values, eventDate: e.target.value })}
-            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+            className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
           />
         </div>
       ) : null}
@@ -55,7 +55,7 @@ export default function ServiceAutoQualifyFields({
             inputMode="numeric"
             value={values.budgetHint || ""}
             onChange={(e) => onChange({ ...values, budgetHint: e.target.value })}
-            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+            className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
             placeholder="למשל 1500"
           />
         </div>
@@ -69,7 +69,7 @@ export default function ServiceAutoQualifyFields({
             id="aq-rec"
             value={values.recordingType || ""}
             onChange={(e) => onChange({ ...values, recordingType: e.target.value })}
-            className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+            className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
           >
             <option value="">בחרו</option>
             <option value="voice">דיבור / קריינות</option>

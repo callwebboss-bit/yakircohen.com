@@ -271,7 +271,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
             onFocus={() => setOpen(true)}
             placeholder="חפשו שירות, שיר, אולפן..."
             className={cn(
-              "min-h-11 w-full rounded-xl border border-border bg-surface py-4 ps-5 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
+              "min-h-11 w-full rounded-xl border border-input bg-surface py-4 ps-5 text-base font-medium text-foreground outline-none transition-[border-color,box-shadow] focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
               voiceSupported ? "pe-14" : "pe-5",
               isListening && "border-brand-red ring-2 ring-brand-red/30",
             )}
@@ -380,7 +380,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
               </span>
               <h2 className="font-serif text-xl font-semibold">{cube.title}</h2>
               <p className="text-sm text-white/70">{cube.description}</p>
-              <span className="mt-auto text-xs font-bold text-brand-red group-hover:underline">
+              <span className="mt-auto text-xs font-bold text-[#ff6b6b] group-hover:underline">
                 לפרטים </span>
             </Link>
           ))}

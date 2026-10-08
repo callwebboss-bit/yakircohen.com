@@ -34,7 +34,10 @@ function UpsellThumb({
           loading="lazy"
         />
         {active ? (
-          <span className="absolute inset-0 flex items-center justify-center bg-[var(--service-accent,#d42b2b)]/20 text-lg text-white">
+          <span
+            className="absolute inset-0 flex items-center justify-center bg-[var(--service-accent,#d42b2b)]/20 text-lg text-white"
+            aria-hidden="true"
+          >
             ✓
           </span>
         ) : null}
@@ -51,7 +54,10 @@ function UpsellThumb({
           className="h-full w-full object-cover"
           loading="lazy"
         />
-        <span className="absolute inset-0 flex items-center justify-center bg-black/25 text-white">
+        <span
+          className="absolute inset-0 flex items-center justify-center bg-black/25 text-white"
+          aria-hidden="true"
+        >
           ▶
         </span>
       </span>
@@ -104,89 +110,92 @@ function UpsellRow({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={onToggle}
+      {/*
+        F-48 (7.10.2026): שורת התוספת היא עטיפה עם עיצוב הכרטיס, ובתוכה כפתור
+        הבחירה (aria-pressed) וכפתור "צפו בדוגמה" כאחים. קודם "צפו בדוגמה" היה
+        span role=button בתוך הכפתור, פקד אינטראקטיבי בתוך פקד, שקורא מסך לא
+        מגיע אליו באופן אמין.
+      */}
+      <div
         className={cn(
-          "group flex w-full min-h-[4.5rem] items-start gap-3 rounded-xl border p-3 text-start transition-[border-color,background-color,box-shadow]",
+          "group rounded-xl border transition-[border-color,background-color,box-shadow]",
           active
             ? "border-[var(--service-accent,#d42b2b)]/50 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] shadow-sm"
             : "border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-sm",
         )}
-        aria-pressed={active}
       >
-        <span
-          className={cn(
-            "mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border text-[0.65rem] font-bold",
-            active
-              ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)] text-white"
-              : "border-border group-hover:border-[var(--service-accent,#d42b2b)]/40",
-          )}
-          aria-hidden="true"
+        <button
+          type="button"
+          onClick={onToggle}
+          className="flex w-full min-h-[4.5rem] items-start gap-3 rounded-xl p-3 text-start"
+          aria-pressed={active}
         >
-          {active ? "✓" : ""}
-        </span>
-
-        <UpsellThumb item={item} active={active} />
-
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-sm font-semibold text-foreground">{item.name}</span>
-            {item.badge ? (
-              <span className="rounded bg-[var(--service-accent,#d42b2b)]/10 px-1.5 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent,#d42b2b)]">
-                {item.badge}
-              </span>
-            ) : null}
-          </div>
-          {item.whatYouGet ? (
-            <p className="mt-0.5 text-xs font-medium text-foreground/85">{item.whatYouGet}</p>
-          ) : null}
-          {item.description ? (
-            <p className="mt-0.5 text-xs text-muted-foreground">{item.description}</p>
-          ) : null}
-          {item.youtubeVideoId ? (
-            <span
-              role="button"
-              tabIndex={0}
-              onClick={(e) => {
-                e.stopPropagation();
-                setVideoOpen(true);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setVideoOpen(true);
-                }
-              }}
-              className="mt-1.5 inline-flex min-h-9 items-center text-xs font-semibold text-[var(--service-accent,#d42b2b)] underline-offset-2 hover:underline"
-            >
-              צפו בדוגמה
-            </span>
-          ) : null}
-          {savings ? (
-            <p className="mt-1 text-[0.65rem] font-medium text-emerald-700">
-              חיסכון: {savings.toLocaleString("he-IL")} ₪ לעומת מחיר רגיל
-            </p>
-          ) : null}
-        </div>
-
-        <div className="shrink-0 pt-0.5 text-end">
-          {item.originalPrice ? (
-            <span className="block text-xs text-muted-foreground line-through">
-              +{item.originalPrice.toLocaleString("he-IL")} ₪
-            </span>
-          ) : null}
           <span
             className={cn(
-              "text-sm font-bold tabular-nums",
-              active ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
+              "mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border text-[0.65rem] font-bold",
+              active
+                ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)] text-white"
+                : "border-border group-hover:border-[var(--service-accent,#d42b2b)]/40",
             )}
+            aria-hidden="true"
           >
-            {item.price > 0 ? `+${item.price.toLocaleString("he-IL")} ₪` : "כלול"}
+            {active ? "✓" : ""}
           </span>
-        </div>
-      </button>
+
+          <UpsellThumb item={item} active={active} />
+
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-sm font-semibold text-foreground">{item.name}</span>
+              {item.badge ? (
+                <span className="rounded bg-[var(--service-accent,#d42b2b)]/10 px-1.5 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent,#d42b2b)]">
+                  {item.badge}
+                </span>
+              ) : null}
+            </div>
+            {item.whatYouGet ? (
+              <p className="mt-0.5 text-xs font-medium text-foreground/85">{item.whatYouGet}</p>
+            ) : null}
+            {item.description ? (
+              <p className="mt-0.5 text-xs text-muted-foreground">{item.description}</p>
+            ) : null}
+            {savings ? (
+              <p className="mt-1 text-[0.65rem] font-medium text-emerald-700">
+                חיסכון: {savings.toLocaleString("he-IL")} ₪ לעומת מחיר רגיל
+              </p>
+            ) : null}
+          </div>
+
+          <div className="shrink-0 pt-0.5 text-end">
+            {item.originalPrice ? (
+              <span className="block text-xs text-muted-foreground line-through">
+                +{item.originalPrice.toLocaleString("he-IL")} ₪
+              </span>
+            ) : null}
+            <span
+              className={cn(
+                "text-sm font-bold tabular-nums",
+                active ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
+              )}
+            >
+              {item.price > 0 ? `+${item.price.toLocaleString("he-IL")} ₪` : "כלול"}
+            </span>
+          </div>
+        </button>
+
+        {item.youtubeVideoId ? (
+          /* ps-[7.75rem]: מיישר מתחת לעמודת הטקסט (תיבת סימון 1.25rem + תמונה 5rem + שני רווחים של 0.75rem) */
+          <div className="pb-2 pe-3 ps-[7.75rem]">
+            <button
+              type="button"
+              onClick={() => setVideoOpen(true)}
+              className="inline-flex min-h-9 items-center text-xs font-semibold text-[var(--service-accent,#d42b2b)] underline-offset-2 hover:underline"
+            >
+              צפו בדוגמה
+            </button>
+          </div>
+        ) : null}
+      </div>
 
       {item.youtubeVideoId ? (
         <BookDemoVideoModal

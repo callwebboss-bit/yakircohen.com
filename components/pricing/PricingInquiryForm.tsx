@@ -250,7 +250,7 @@ export default function PricingInquiryForm() {
                   setSectionId(e.target.value);
                   setRowLabel("");
                 }}
-                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
               >
                 {PRICING_HUB_SECTIONS.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -267,7 +267,7 @@ export default function PricingInquiryForm() {
                 id="piq-row"
                 value={rowLabel}
                 onChange={(e) => setRowLabel(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
               >
                 <option value="">לא בחרתי שורה ספציפית</option>
                 {section?.rows.map((r) => (
@@ -303,7 +303,7 @@ export default function PricingInquiryForm() {
                 rows={3}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                 placeholder="על מה תרצו לשמוע?"
               />
             </div>
@@ -338,7 +338,7 @@ export default function PricingInquiryForm() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                 />
               </div>
               <div>
@@ -353,7 +353,7 @@ export default function PricingInquiryForm() {
                   value={phone}
                   onChange={(e) => setPhone(formatIlMobileDisplay(e.target.value))}
                   onBlur={() => setPhone(formatIlMobileDisplay(phone))}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                   placeholder="05X-XXX-XXXX"
                   dir="ltr"
                 />
@@ -368,7 +368,7 @@ export default function PricingInquiryForm() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm"
                 dir="ltr"
               />
             </div>

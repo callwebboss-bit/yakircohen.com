@@ -42,7 +42,7 @@ const onlineLivePriceReport = {
 } as const;
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
+  "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20";
 
 type OnlineRestoreBookingPanelProps = {
   initialEmotionalLabel?: string | null;

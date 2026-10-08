@@ -24,7 +24,7 @@ import {
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const fieldClass =
-  "mt-1.5 min-h-11 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
+  "mt-1.5 min-h-11 w-full rounded-lg border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red";
 
 export type CallbackLeadFormProps = {
   heading?: string;

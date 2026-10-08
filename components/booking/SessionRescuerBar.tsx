@@ -10,6 +10,7 @@ import {
 } from "@/lib/booking-draft-rescuer";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
+import { useEscapeLayer } from "@/hooks/useEscapeLayer";
 import { cn } from "@/lib/utils";
 
 function isDismissedForDraft(category: RescuableDraft["category"], savedAt: string): boolean {
@@ -99,6 +100,10 @@ export default function SessionRescuerBar() {
     trackConversion("session_rescuer_dismiss", { category: draft.category });
     setVisible(false);
   }, [draft]);
+
+  /* F-74: Escape סוגר את הסרגל מכל מקום, כמו "הסתירו". שכבת רקע: לא גוברת על
+     תפריט, צ'אט או חלון מודאלי פתוחים, ולא פועלת כשהמיקוד בשדה טקסט. */
+  useEscapeLayer({ active: visible && !!draft, onEscape: dismiss, ambient: true });
 
   if (!visible || !draft) return null;
 

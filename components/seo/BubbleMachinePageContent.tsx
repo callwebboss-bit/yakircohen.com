@@ -65,7 +65,7 @@ export default function BubbleMachinePageContent() {
           className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-6 sm:p-8"
           aria-labelledby="smoke-bubble-hit-heading"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-text">
             היט 2026
           </p>
           <h2
@@ -85,7 +85,7 @@ export default function BubbleMachinePageContent() {
             לעמוד בועות עשן </Link>
         </section>
 
-        <section className="max-w-3xl" aria-labelledby="bubble-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מחפשים בועות סבון ברגע מסוים בתוכנית? אנחנו מביאים מכונות, מפעיל
             ומפעילים בדיוק לפי התזמון שלכם, כולל בועות עשן, LED והפעלה מקצועית.

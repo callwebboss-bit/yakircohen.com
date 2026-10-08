@@ -172,7 +172,7 @@ export default function BookReplyStudio({
         <SectionLabel>{labels.editLabel || "עריכה"}</SectionLabel>
         <textarea
           className={cn(
-            "w-full resize-y rounded-xl border-2 border-border bg-white px-4 py-3 leading-relaxed text-foreground shadow-inner focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
+            "w-full resize-y rounded-xl border-2 border-input bg-white px-4 py-3 leading-relaxed text-foreground shadow-inner focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
             compact ? "min-h-[160px] text-sm" : "min-h-[240px] text-base",
           )}
           dir="rtl"

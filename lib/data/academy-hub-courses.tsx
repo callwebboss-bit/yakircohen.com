@@ -15,6 +15,8 @@ export type AcademyHubCourse = {
   icon: string;
   fromPrice?: string;
   category: AcademyCourseCategory;
+  /** שפת הכותרת והתיאור כשהם לא בעברית (F-56, 3.1.2) */
+  lang?: "en";
 };
 
 export const ACADEMY_HUB_COURSES: readonly AcademyHubCourse[] = [
@@ -98,6 +100,7 @@ export const ACADEMY_HUB_COURSES: readonly AcademyHubCourse[] = [
     description: "Private Hebrew lessons for Olim, expats & Hi-Tech - in-person or Zoom",
     icon: "🇬🇧",
     category: "academic",
+    lang: "en",
   },
   {
     id: "workshops",
@@ -153,6 +156,7 @@ function courseToHubItem(course: AcademyHubCourse): HubLinkItem {
     description: course.description,
     icon: courseIcon(course.icon),
     fromPrice: course.fromPrice,
+    lang: course.lang,
   };
 }
 

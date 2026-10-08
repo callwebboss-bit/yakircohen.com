@@ -3,19 +3,24 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-type A11yOption = "largeText" | "highContrast" | "highlightLinks";
+type A11yOption = "largeText" | "highContrast" | "highlightLinks" | "noShortcuts";
 const STORAGE_KEY = "yc_a11y_prefs";
 
 const OPTIONS: Array<{ id: A11yOption; label: string }> = [
   { id: "largeText", label: "הגדלת טקסט" },
   { id: "highContrast", label: "ניגודיות גבוהה" },
   { id: "highlightLinks", label: "הדגשת קישורים" },
+  /* F-30 (WCAG 2.1.4, 8.10.2026): קיצור "/" לחיפוש הוא מקש בודד, ולכן חייב להיות ניתן
+     לכיבוי. אין לו מחלקת html: SearchKeyboardShortcut קורא את ההעדפה מ-localStorage
+     בזמן הלחיצה. */
+  { id: "noShortcuts", label: "כיבוי קיצור החיפוש (/)" },
 ];
 
 const DEFAULT_ACTIVE: Record<A11yOption, boolean> = {
   largeText: false,
   highContrast: false,
   highlightLinks: false,
+  noShortcuts: false,
 };
 
 function loadPrefs(): Record<A11yOption, boolean> {
@@ -112,7 +117,10 @@ export default function AccessibilityToggle({
     >
       {/* F-29 (7.10.2026): הכפתור קודם בסדר ה-DOM והדיאלוג אחריו, כדי ש-Tab מהכפתור
           ימשיך לאפשרויות (קודם הן היו זמינות רק ב-Shift+Tab). המיקום החזותי לא
-          משתנה: הדיאלוג absolute מעל הכפתור. */}
+          משתנה: הדיאלוג absolute מעל הכפתור.
+          F-42 (7.10.2026): טבעת הפוקוס outline-brand-red ולא גוון ה-hub. הכפתור צף על
+          רקעים בהירים וכהים, וגוון ה-hub נמדד 2.32:1 (ציאן) ב-/online, מתחת ל-3:1.
+          האדום של המותג הוא 4.81:1 על בהיר ו-3.46:1 על #1a1a1a. */}
       <button
         ref={triggerRef}
         type="button"
@@ -120,7 +128,7 @@ export default function AccessibilityToggle({
         aria-controls={menuId}
         aria-label={open ? "סגירת תפריט נגישות" : "פתיחת תפריט נגישות"}
         onClick={() => (open ? handleClose() : setOpen(true))}
-        className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface p-3.5 text-foreground shadow-lg transition-transform duration-fast ease-luxury hover:scale-105 hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+        className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface p-3.5 text-foreground shadow-lg transition-transform duration-fast ease-luxury hover:scale-105 hover:border-[var(--service-accent,#d42b2b)]/40 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
         <AccessibilityIcon />
         <span className="sr-only">נגישות</span>

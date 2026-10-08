@@ -36,7 +36,7 @@ function FieldInput({
   onChange: (v: string) => void;
 }) {
   const baseClass =
-    "w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
+    "w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red";
 
   if (field.type === "textarea") {
     return (

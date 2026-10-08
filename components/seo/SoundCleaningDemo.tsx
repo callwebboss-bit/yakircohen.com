@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 type DemoState = "idle" | "processing" | "done" | "error";
@@ -65,6 +65,7 @@ export default function SoundCleaningDemo() {
   const [afterUrl, setAfterUrl] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
 
   const waHref = buildWhatsAppHref({
     text: "היי יקיר, ניסיתי את הדמו לניקוי סאונד - רוצה תוצאה מקצועית. אשמח לשמוע.",
@@ -163,12 +164,15 @@ export default function SoundCleaningDemo() {
       </div>
 
       {state === "idle" && (
-        <div
-          role="button"
-          tabIndex={0}
-          aria-label="גרור קובץ אודיו לכאן או לחץ לבחירה"
-          onClick={() => inputRef.current?.click()}
-          onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
+        /*
+          F-47 (7.10.2026): אזור הגרירה הוא label של שדה הקובץ, במקום div role=button
+          שעוטף שדה ממוקד (axe nested-interactive) ומטפל רק ב-Enter. הדפדפן נותן
+          בחינם Tab, Enter ו-Space, פתיחת הבורר בלחיצה, והשם הנגיש הוא הטקסט הגלוי.
+          הטקסטים בפנים הם span עם display:block כי תוכן label הוא phrasing בלבד.
+          הפוקוס של השדה (sr-only) מוצג כמסגרת על ה-label.
+        */
+        <label
+          htmlFor={inputId}
           onDrop={(e) => {
             e.preventDefault();
             setDragging(false);
@@ -180,13 +184,13 @@ export default function SoundCleaningDemo() {
             setDragging(true);
           }}
           onDragLeave={() => setDragging(false)}
-          className={`cursor-pointer rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors ${
+          className={`block cursor-pointer rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-red ${
             dragging
               ? "border-[#06b6d4] bg-[#06b6d4]/5"
               : "border-[#06b6d4]/40 hover:border-[#06b6d4] hover:bg-[#06b6d4]/5"
           }`}
         >
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#06b6d4]/10">
+          <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#06b6d4]/10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-7 w-7 text-[#06b6d4]"
@@ -202,14 +206,14 @@ export default function SoundCleaningDemo() {
                 d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
               />
             </svg>
-          </div>
-          <p className="text-sm font-medium text-foreground">גרור קובץ אודיו לכאן</p>
-          <p className="mt-1 text-xs text-muted-foreground">או לחץ לבחירה מהמחשב</p>
-          <p className="mt-3 text-xs text-muted-foreground">MP3, WAV, M4A - 5 עד 15 שניות, עד 8MB</p>
+          </span>
+          <span className="block text-sm font-medium text-foreground">גרור קובץ אודיו לכאן</span>
+          <span className="mt-1 block text-xs text-muted-foreground">או לחץ לבחירה מהמחשב</span>
+          <span className="mt-3 block text-xs text-muted-foreground">MP3, WAV, M4A - 5 עד 15 שניות, עד 8MB</span>
           <input
+            id={inputId}
             ref={inputRef}
             type="file"
-            aria-label="בחירת קובץ אודיו לניקוי"
             accept="audio/*"
             className="sr-only"
             onChange={(e) => {
@@ -217,7 +221,7 @@ export default function SoundCleaningDemo() {
               if (f) pick(f);
             }}
           />
-        </div>
+        </label>
       )}
 
       {state === "processing" && (

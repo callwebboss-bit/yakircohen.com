@@ -295,7 +295,7 @@ export default function SingerAmplificationPageContent() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-center rounded-md bg-brand-red px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
-                      aria-label={`הזמנת ${pkg.name} בוואטסאפ`}
+                      aria-label={`הזמנה בוואטסאפ - ${pkg.name}`}
                     >
                       הזמנה בוואטסאפ
                     </a>

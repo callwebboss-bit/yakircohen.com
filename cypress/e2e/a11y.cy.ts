@@ -14,11 +14,10 @@ const CRITICAL_PAGES = [
   { path: "/pricing", label: "מחירון" },
 ];
 
-// ההערה כאן סתרה את הקוד: היא אמרה ש-color-contrast מוחרג, אבל הוא לא היה
-// ברשימה ולכן כן נאכף. משאירים אותו נאכף, כי ניגודיות היא כשל WCAG 1.4.3
-// אמיתי ולא החלטת עיצוב, ומיישרים את ההערה למה שהקוד באמת עושה.
-// scrollable-region-focusable מוחרג: דפוס ידוע של טבלאות גולשות.
-const AXE_DISABLE_RULES = ["scrollable-region-focusable"];
+// אין חריגים: גם color-contrast וגם scrollable-region-focusable נאכפים.
+// scrollable-region-focusable הוצא מהחריגים ב-7.10.2026 (F-22) אחרי שטבלאות
+// גולשות נעטפות ב-components/ui/ScrollableTable.tsx, שנותן להן tabindex ושם.
+// טבלה חדשה עם overflow-x-auto חייבת להשתמש בו.
 
 describe("Accessibility - axe-core WCAG 2.1 AA", () => {
   CRITICAL_PAGES.forEach(({ path, label }) => {
@@ -36,9 +35,6 @@ describe("Accessibility - axe-core WCAG 2.1 AA", () => {
         return win.axe
           .run(win.document, {
             runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] },
-            rules: Object.fromEntries(
-              AXE_DISABLE_RULES.map((id) => [id, { enabled: false }]),
-            ),
           })
           .then((results) => {
             const critical = results.violations.filter(

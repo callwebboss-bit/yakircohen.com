@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
@@ -290,7 +291,7 @@ export default function PodcastHubPageContent() {
               {PODCAST_HUB_WORKFLOW.map((step) => (
                 <li key={step.step} className="text-center">
                   <div
-                    className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-brand-red ring-1 ring-brand-red/40"
+                    className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white ring-1 ring-brand-red/40"
                     aria-hidden="true"
                   >
                     {step.step}
@@ -523,7 +524,10 @@ export default function PodcastHubPageContent() {
             </header>
 
             {/* Comparison table - one glance, no scrolling back and forth */}
-            <div className="mt-8 overflow-x-auto rounded-2xl border border-border">
+            <ScrollableTable
+              label="טבלת חבילות הפקת פודקאסט ומחירים"
+              className="mt-8 rounded-2xl border border-border"
+            >
               <table className="w-full min-w-[560px] border-collapse text-sm">
                 <thead>
                   <tr className="bg-surface text-foreground">
@@ -551,7 +555,7 @@ export default function PodcastHubPageContent() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ScrollableTable>
 
             <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
               {PODCAST_HUB_PRICING_PACKAGES.map((pkg) => {

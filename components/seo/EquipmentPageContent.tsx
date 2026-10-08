@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
@@ -88,7 +89,7 @@ export default function EquipmentPageContent() {
           />
         ))}
 
-        <section className="max-w-3xl" aria-labelledby="equip-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             מתכננים אירוע בגינה? באולם ללא הגברה? אנחנו מספקים מערכות הגברה
             מקצועיות עם צליל נקי ועוצמתי, לא צריך להיות טכנאי סאונד, אנחנו
@@ -259,7 +260,7 @@ export default function EquipmentPageContent() {
               RCF מול ציוד רגיל
             </h2>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: RCF מול ציוד רגיל" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -282,7 +283,7 @@ export default function EquipmentPageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <section aria-labelledby="use-cases-heading">

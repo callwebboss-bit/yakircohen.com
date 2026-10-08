@@ -216,7 +216,10 @@ function ServiceHeroVisual({
               />
             </svg>
           </span>
-          <span className="text-sm font-semibold text-white drop-shadow-md">
+          {/* F-08 (7.10.2026): התווית הלבנה ישבה ישר על התמונה, ובנקודות הבהירות שלה נמדדה
+              ב-1.69 עד 2.0 מול 4.5 הנדרשים (/studio, /events/attractions, /podcast, /video).
+              גלולה כהה נותנת לה רקע קבוע בלי תלות בצבעי הצילום. */}
+          <span className="rounded-full bg-black/70 px-3 py-1 text-sm font-semibold text-white">
             לצפייה בדוגמא
           </span>
         </Link>
@@ -232,7 +235,9 @@ function ServiceHeroVisual({
     <Link
       href={scrollHref}
       className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
-      aria-label="גלילה לגלריית תמונות"
+      /* F-32 (7.10.2026): השם הנגיש מתחיל במחרוזת הגלויה "דוגמאות מהשטח" ואחריה הפעולה.
+         קודם הוא היה "גלילה לגלריית תמונות" בלבד, ודיבור של הטקסט הגלוי לא הפעיל את הקישור (2.5.3). */
+      aria-label="דוגמאות מהשטח - גלילה לגלריית תמונות"
     >
       <div className="group-hover-scale-sm relative motion-reduce:transform-none">
         {frame}
@@ -338,7 +343,11 @@ export default function ServicePageLayout({
           dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(pageEntitySchema) }}
         />
       ) : null}
+      {/* F-58 (7.10.2026): header בתוך article הוא אלמנט גנרי, ו-aria-labelledby עליו נדחה
+          (axe aria-prohibited-attr ב-74 עמודים). role="group" הופך אותו לקבוצה בעלת שם
+          ה-h1, כמו שהקוד התכוון. */}
       <header
+        role="group"
         className="relative min-h-[26rem] overflow-hidden border-b border-border max-lg:min-h-[30rem] sm:max-lg:min-h-[32rem]"
         aria-labelledby="service-page-heading"
       >

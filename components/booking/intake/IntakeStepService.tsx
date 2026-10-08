@@ -99,7 +99,7 @@ export default function IntakeStepService({
               placeholder={descriptionPlaceholder}
               aria-invalid={errors.freeTextDescription ? true : undefined}
               aria-describedby={describedBy(errors.freeTextDescription && freeTextErrorId)}
-              className="w-full min-h-12 resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20"
+              className="w-full min-h-12 resize-y rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20"
             />
             <p className="text-xs text-muted-foreground text-start">
               {freeTextDescription.length}/1500

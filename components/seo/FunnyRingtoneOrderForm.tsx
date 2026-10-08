@@ -163,7 +163,7 @@ export default function FunnyRingtoneOrderForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={FORM_MICROCOPY.namePlaceholder}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.name)}
             aria-required="true"
             aria-describedby={describedBy(fieldErrors.name && fieldErrorId("ringtone-name"))}
@@ -191,7 +191,7 @@ export default function FunnyRingtoneOrderForm() {
               "ringtone-phone-hint",
               fieldErrors.phone && fieldErrorId("ringtone-phone"),
             )}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-required="true"
           />
@@ -214,7 +214,7 @@ export default function FunnyRingtoneOrderForm() {
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
             placeholder="שם החבר/ה או בן/בת הזוג"
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
           />
         </div>
 
@@ -229,7 +229,7 @@ export default function FunnyRingtoneOrderForm() {
             id="ringtone-context"
             value={context}
             onChange={(e) => setContext(e.target.value)}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
           >
             <option value="">בחרו (אופציונלי)</option>
             {CONTEXT_OPTIONS.map((opt) => (

@@ -528,7 +528,7 @@ export default function AcademyPage() {
                   {track.icon}
                 </span>
 
-                <span className="mt-3 inline-block self-start rounded-full bg-brand-red/10 px-2.5 py-1 text-xs font-semibold text-brand-red">
+                <span className="mt-3 inline-block self-start rounded-full bg-brand-red/10 px-2.5 py-1 text-xs font-semibold text-brand-red-text">
                   {track.badge}
                 </span>
 

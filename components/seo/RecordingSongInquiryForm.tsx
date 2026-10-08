@@ -161,7 +161,7 @@ export default function RecordingSongInquiryForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={FORM_MICROCOPY.namePlaceholder}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.name)}
             aria-required="true"
             aria-describedby={describedBy(fieldErrors.name && fieldErrorId("inquiry-name"))}
@@ -189,7 +189,7 @@ export default function RecordingSongInquiryForm() {
               "inquiry-phone-hint",
               fieldErrors.phone && fieldErrorId("inquiry-phone"),
             )}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-required="true"
           />
@@ -210,7 +210,7 @@ export default function RecordingSongInquiryForm() {
             id="inquiry-event"
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
+            className="mt-1.5 w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red"
           >
             <option value="">בחרו (אופציונלי)</option>
             {EVENT_TYPE_OPTIONS.map((opt) => (

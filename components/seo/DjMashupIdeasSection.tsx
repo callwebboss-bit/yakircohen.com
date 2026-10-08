@@ -29,16 +29,19 @@ const WISHLIST_KEY = "yc_mashup_wishlist";
 type MomentFilter = MashupMoment | "הכל";
 type TierFilter = MashupTier | "הכל";
 
+/* F-06 + F-41 (נגישות, 7.10.2026): התגיות כאן על גוון בהיר. text-brand-red על
+   bg-brand-red/10 נמדד 4.13:1 ו-text-amber-700 על bg-amber-500/10 4.33:1, שניהם
+   מתחת ל-4.5. עכשיו brand-red-text (6.57:1 על /10) ו-amber-800. */
 const ENERGY_STYLES = {
-  גבוה: "bg-brand-red/10 text-brand-red",
-  בינוני: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  גבוה: "bg-brand-red/10 text-brand-red-text",
+  בינוני: "bg-amber-500/10 text-amber-800 dark:text-amber-400",
   רך: "bg-muted text-muted-foreground",
 } as const;
 
 const COMPAT_STYLES = {
   גבוהה: "text-emerald-700 dark:text-emerald-400",
-  בינונית: "text-amber-700 dark:text-amber-400",
-  "דרוג+": "text-brand-red",
+  בינונית: "text-amber-800 dark:text-amber-400",
+  "דרוג+": "text-brand-red-text",
 } as const;
 
 const TIER_STYLES = {
@@ -258,7 +261,7 @@ function IdeaCard({
   return (
     <article
       id={`mashup-idea-${idea.id}`}
-      className={cn("scroll-mt-28 flex flex-col rounded-xl border p-4 sm:p-5", TIER_STYLES[tier])}
+      className={cn("flex flex-col rounded-xl border p-4 sm:p-5", TIER_STYLES[tier])}
     >
       <div className="flex flex-wrap items-center gap-2">
         {tier === "יצירתי" ? (
@@ -321,7 +324,7 @@ function IdeaCard({
         {idea.mergeTip}
       </p>
       {idea.upgradePlus ? (
-        <p className="mt-2 text-xs leading-relaxed text-brand-red/90">
+        <p className="mt-2 text-xs leading-relaxed text-brand-red-text">
           <span className="font-medium">דרוג+: </span>
           {idea.upgradePlus}
         </p>
@@ -356,7 +359,7 @@ function IdeaCard({
           className={cn(
             "inline-flex min-h-9 items-center rounded-lg border px-3 text-xs font-semibold",
             saved
-              ? "border-brand-red bg-brand-red/10 text-brand-red"
+              ? "border-brand-red bg-brand-red/10 text-brand-red-text"
               : "border-border text-muted-foreground hover:border-brand-red/30",
           )}
         >
@@ -373,7 +376,7 @@ function IdeaCard({
             "inline-flex min-h-10 flex-1 items-center justify-center rounded-lg px-4 text-sm font-semibold transition-colors",
             tier === "יצירתי"
               ? "bg-brand-red text-white hover:bg-brand-red-light"
-              : "border border-brand-red/30 text-brand-red hover:bg-brand-red/5",
+              : "border border-brand-red/30 text-brand-red hover:bg-brand-red/5 hover:text-brand-red-text",
           )}
         >
           {tier === "יצירתי" ? "בואו נבנה" : "רוצה גרסה מוכנה"}

@@ -28,6 +28,8 @@ export type HubLinkItem = {
   external?: boolean;
   /** מחיר התחלה, למשל "החל מ-590 ₪ + מע״מ" */
   fromPrice?: string;
+  /** שפת הכותרת והתיאור כשהם לא בעברית (WCAG 3.1.2, F-56) */
+  lang?: "en";
 };
 
 export type ServiceHubLinksProps = {
@@ -127,6 +129,7 @@ export default function ServiceHubLinks({
               fromPrice={track.fromPrice}
               ctaLabel={track.ctaLabel}
               external={track.external}
+              lang={track.lang}
             />
           </li>
         ))}

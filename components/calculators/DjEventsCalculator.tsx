@@ -615,7 +615,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   aria-describedby={describedBy(fieldErrors.name && fieldErrorId("dj-name"))}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                    fieldErrors.name ? "border-brand-red" : "border-border",
+                    fieldErrors.name ? "border-brand-red" : "border-input",
                   )}
                 />
                 <FieldError id={fieldErrorId("dj-name")} message={fieldErrors.name} />
@@ -640,7 +640,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   aria-required="true"
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                    fieldErrors.phone ? "border-brand-red" : "border-border",
+                    fieldErrors.phone ? "border-brand-red" : "border-input",
                   )}
                 />
                 <p id="dj-phone-hint" className="mt-1 text-xs text-muted-foreground">
@@ -663,7 +663,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   aria-describedby={describedBy(fieldErrors.date && fieldErrorId("dj-date"))}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                    fieldErrors.date ? "border-brand-red" : "border-border",
+                    fieldErrors.date ? "border-brand-red" : "border-input",
                   )}
                 />
                 <FieldError id={fieldErrorId("dj-date")} message={fieldErrors.date} />
@@ -684,7 +684,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   )}
                   className={cn(
                     "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                    fieldErrors.location ? "border-brand-red" : "border-border",
+                    fieldErrors.location ? "border-brand-red" : "border-input",
                   )}
                 />
                 <FieldError id={fieldErrorId("dj-location")} message={fieldErrors.location} />

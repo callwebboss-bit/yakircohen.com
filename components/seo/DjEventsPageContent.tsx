@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import TableOfContents from "@/components/ui/TableOfContents";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -340,7 +341,7 @@ export default function DjEventsPageContent() {
               איך לא ליפול על תקליטן זול לחתונה?
             </h2>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: תקליטן זול או ממוצע מול יקיר כהן הפקות" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -365,7 +366,7 @@ export default function DjEventsPageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <section

@@ -47,7 +47,7 @@ export default function LeadKanban({ leads }: { leads: LeadRecord[] }) {
                       name="status"
                       defaultValue={lead.status}
                       onChange={(e) => e.currentTarget.form?.requestSubmit()}
-                      className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1 text-xs"
+                      className="mt-1 w-full rounded-md border border-input bg-background px-2 py-1 text-xs"
                     >
                       {COLUMNS.map((c) => (
                         <option key={c.status} value={c.status}>

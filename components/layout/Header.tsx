@@ -40,6 +40,8 @@ const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
  */
 const HEADER_STRIP_HEIGHT = "h-[calc(3.25rem+1px)]";
 
+const HEADER_TAGLINE = "אולפן, DJ, פודקאסט ואטרקציות";
+
 const headerQuoteWhatsAppHref = buildWhatsAppHref({
   text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
   utm_source: "website",
@@ -74,6 +76,33 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
   );
 }
 
+/**
+ * F-60 (7.10.2026): האימוג'י הפותח את תווית ה-CTA ("📩 הצעה...") הוא קישוט.
+ * מפרידים אותו כדי להסתיר אותו מקורא מסך ולבנות את ה-aria-label בלעדיו, בלי
+ * למחוק אותו מהמחרוזת (הוא נספר ב-words של audit:seo-diff). הפונקציה טהורה
+ * ורצה על קבועים, אז ה-markup זהה בשרת ובלקוח.
+ */
+function splitLeadingEmoji(label: string): { emoji: string | null; text: string } {
+  const match = label.match(/^(\p{Extended_Pictographic}\uFE0F?)\s+(.*)$/u);
+  return match ? { emoji: match[1], text: match[2] } : { emoji: null, text: label };
+}
+
+const QUOTE_CTA_FULL = splitLeadingEmoji(CTA_LABELS.headerQuoteHour);
+const QUOTE_CTA_SHORT = splitLeadingEmoji(CTA_LABELS.headerQuoteHourShort);
+
+function QuoteCtaLabel({ emoji, text }: { emoji: string | null; text: string }) {
+  return (
+    <>
+      {emoji ? (
+        <>
+          <span aria-hidden="true">{emoji}</span>{" "}
+        </>
+      ) : null}
+      {text}
+    </>
+  );
+}
+
 function HeaderQuoteCta() {
   const pathname = usePathname();
 
@@ -95,10 +124,14 @@ function HeaderQuoteCta() {
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
         "min-h-11 px-2.5 py-1.5 text-[11px] leading-tight sm:px-3 sm:text-xs md:px-4 md:text-sm",
       )}
-      aria-label={`${CTA_LABELS.headerQuoteHour} בוואטסאפ`}
+      aria-label={`${QUOTE_CTA_FULL.text} בוואטסאפ`}
     >
-      <span className="lg:hidden">{CTA_LABELS.headerQuoteHourShort}</span>
-      <span className="hidden lg:inline">{CTA_LABELS.headerQuoteHour}</span>
+      <span className="lg:hidden">
+        <QuoteCtaLabel {...QUOTE_CTA_SHORT} />
+      </span>
+      <span className="hidden lg:inline">
+        <QuoteCtaLabel {...QUOTE_CTA_FULL} />
+      </span>
     </a>
   );
 }
@@ -111,7 +144,9 @@ function HeaderLogo() {
       href="/"
       className="group flex min-w-0 shrink items-center gap-2.5 leading-tight sm:gap-3"
       onClick={closeMenu}
-      aria-label={`${SITE_NAME} - דף הבית`}
+      /* F-33 (7.10.2026): ה-aria-label חייב להכיל את הטקסט הנראה (2.5.3), כולל
+         הסלוגן שמוצג מ-sm. מתחת ל-sm הוא מוסתר, והתווית נשארת כדי שהקישור יקבל שם. */
+      aria-label={`${SITE_NAME} ${HEADER_TAGLINE} - דף הבית`}
     >
       {/* בדיקת הלוגו 7.10.2026: בטלפון הלוגו יצא בערך 25x11 פיקסלים (ריבוע 30x30 עם
           סימן ביחס 2:1, ריפוד p-1 ורווח ריק בתוך ה-viewBox), והוא סימן המותג היחיד
@@ -146,7 +181,7 @@ function HeaderLogo() {
           {SITE_NAME}
         </span>
         <span className="truncate text-xs text-muted-foreground transition-colors group-hover:text-brand-red-text">
-          אולפן, DJ, פודקאסט ואטרקציות
+          {HEADER_TAGLINE}
         </span>
       </span>
     </Link>
@@ -226,7 +261,10 @@ function HeaderMainBar({
       >
         <div
           className={cn(
-            "pointer-events-auto h-full border-b border-border bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80",
+            /* F-40 (7.10.2026): רקע אטום ולא שקוף חלקית. 20% שקיפות הכניסו את מה
+               שנגלל מתחת, והורידו את הניגודיות של הסלוגן ושל טקסט הניווט
+               ל-3.0 עד 4.1:1 מעל אזורים כהים. */
+            "pointer-events-auto h-full border-b border-border bg-background",
             "transition-transform duration-300 ease-luxury motion-reduce:transition-none",
             compactChrome ? "-translate-y-full" : "translate-y-0",
           )}
@@ -279,7 +317,7 @@ export default function Header() {
         >
           <SearchKeyboardShortcut />
           <div
-            className="pointer-events-none absolute inset-0 -z-10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80"
+            className="pointer-events-none absolute inset-0 -z-10 bg-background"
             aria-hidden
           />
           {mobileSearchOpen ? (

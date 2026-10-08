@@ -511,7 +511,7 @@ export default function PhotographyCalculator({
                 aria-describedby={describedBy(fieldErrors.name && fieldErrorId("photo-name"))}
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                  fieldErrors.name ? "border-brand-red" : "border-border",
+                  fieldErrors.name ? "border-brand-red" : "border-input",
                 )}
               />
               <FieldError id={fieldErrorId("photo-name")} message={fieldErrors.name} />
@@ -536,7 +536,7 @@ export default function PhotographyCalculator({
                 aria-required="true"
                 className={cn(
                   "w-full rounded-xl border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-                  fieldErrors.phone ? "border-brand-red" : "border-border",
+                  fieldErrors.phone ? "border-brand-red" : "border-input",
                 )}
               />
               <p id="photo-phone-hint" className="mt-1 text-xs text-muted-foreground">

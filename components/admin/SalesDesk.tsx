@@ -371,7 +371,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
           value={pasteText}
           onChange={(e) => onPasteChange(e.target.value)}
           placeholder="ההודעה מהוואטסאפ, כולל השורה קוד פנייה אם יש"
-          className="w-full rounded-md border border-border bg-background px-3 py-2 text-base text-foreground"
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground"
           aria-describedby="sales-paste-result"
         />
         <div id="sales-paste-result" role="status" aria-live="polite" className="grid gap-1 text-sm">
@@ -421,7 +421,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="חיפוש: שיר, DJ, סבא"
           enterKeyHint="search"
-          className="w-full rounded-md border border-border bg-background px-3 py-2.5 text-base text-foreground"
+          className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-base text-foreground"
         />
       </div>
 

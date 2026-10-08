@@ -33,7 +33,8 @@ export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
     title: "הגברה RCF 745",
     subtitle: "רמקולים מוגברים כולל סאבוופר, יצאו מהפקות.",
     imageSrc: "/images/shop/gear-rcf745.webp",
-    imageAlt: "רמקולים מוגברים RCF להפקות אירועים",
+    /* F-35 (7.10.2026): בתמונה מיקרופון ידני ולא רמקולים. המוצר נשאר בכותרת ובשם הסכמה. */
+    imageAlt: "מיקרופון ידני מקרוב על רקע כהה ומטושטש",
     schemaName: "רמקולים מוגברים RCF 745 כולל סאבוופר",
     model: "RCF 745",
     condition: "יד שנייה - ציוד עבודה מהפקות, נבדק לתקינות",
@@ -45,7 +46,8 @@ export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
     title: "Traktor S4 MK3",
     subtitle: "עמדות די ג'יי, פלטות ואביזרים.",
     imageSrc: "/images/shop/gear-traktor-s4.webp",
-    imageAlt: "קונטרולר Traktor S4 לעמדת די ג'יי",
+    /* F-35: בתמונה חזית לד של עמדת DJ על במה, לא הקונטרולר */
+    imageAlt: "עמדת DJ שחורה עם חזית לד ולוגו על במה באולם",
     schemaName: "עמדות די ג'יי Traktor S4 MK3",
     model: "Native Instruments Traktor Kontrol S4 MK3",
     condition: "יד שנייה - יצא מהפקות DJ, נבדק לתקינות",
@@ -57,7 +59,10 @@ export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
     title: "ציוד אולפן",
     subtitle: "מיקרופונים, ממשקים ומוניטורים.",
     imageSrc: "/images/shop/gear-krk.webp",
-    imageAlt: "ציוד אולפן מקצועי למכירה",
+    /* F-35: gear-krk.webp ו-gear-accessories.webp הם אותו קובץ (אותו md5), תקריב של
+       מיקרופון אולפן על זרוע. שני ה-alt מתארים אותו, כל אחד בניסוח אחר. הפתרון המלא
+       הוא תמונות מוצר אמיתיות; עד אז ה-alt לא מוכר מה שלא רואים. */
+    imageAlt: "מיקרופון אולפן על זרוע מתכווננת, בתקריב על רקע כהה",
     schemaName: "ציוד אולפן יד שנייה",
     model: "מוניטורים / ממשקים / מיקרופונים (לפי מלאי)",
     condition: "יד שנייה - ציוד אולפן עבודה, נבדק לתקינות",
@@ -93,7 +98,7 @@ export const SHOP_GEAR_ITEMS: readonly ShopGearItem[] = [
     title: "אביזרים",
     subtitle: "כבלים, סטנדים ותיקי נשיאה.",
     imageSrc: "/images/shop/gear-accessories.webp",
-    imageAlt: "אביזרי הגברה ואולפן",
+    imageAlt: "זרוע מיקרופון ומחבר כבל בתקריב על רקע כהה",
     schemaName: "אביזרי הגברה ואולפן",
     model: "כבלים / סטנדים / תיקים (לפי מלאי)",
     condition: "יד שנייה - אביזרי עבודה, נבדק לתקינות",

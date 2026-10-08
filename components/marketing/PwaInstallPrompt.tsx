@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEscapeLayer } from "@/hooks/useEscapeLayer";
 import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
 
 const STORAGE_KEY = "pwa-install-dismissed-until";
@@ -89,6 +90,10 @@ export default function PwaInstallPrompt() {
     }
     handleDismiss();
   }
+
+  /* F-74: Escape סוגר את ההנחיה מכל מקום, כמו כפתור הסגירה (כולל cooldown של 7
+     ימים). שכבת רקע: לא גוברת על תפריט, צ'אט או חלון מודאלי פתוחים. */
+  useEscapeLayer({ active: visible, onEscape: handleDismiss, ambient: true });
 
   if (!visible) return null;
 

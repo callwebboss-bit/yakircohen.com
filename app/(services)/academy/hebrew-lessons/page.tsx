@@ -471,7 +471,11 @@ export default function HebrewLessonsPage() {
                 key={step.step}
                 className="rounded-2xl border border-border bg-background p-6"
               >
-                <span className="text-3xl font-bold text-brand-red/20">{step.step}</span>
+                {/* F-41: מספר-סימן-מים (brand-red/20, 1.36:1) שכפול של מספור ה-ol. מוסתר מקוראי מסך
+                    ונשאר עיטור, ולא נצבע בגוון כהה כדי לא לשנות את העיצוב. */}
+                <span className="text-3xl font-bold text-brand-red/20" aria-hidden="true">
+                  {step.step}
+                </span>
                 <h3 className="mt-3 text-sm font-semibold text-foreground">{step.title}</h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                   {step.description}

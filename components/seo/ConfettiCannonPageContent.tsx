@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import NeedsDiscoveryLeadFlowSection from "@/components/lead-flow/NeedsDiscoveryLeadFlowSection";
@@ -89,7 +90,7 @@ export default function ConfettiCannonPageContent() {
             לעמוד בועות עשן LED </Link>
         </section>
 
-        <section className="max-w-3xl" aria-labelledby="confetti-intro-heading">
+        <section className="max-w-3xl">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
             תדמיינו, המוזיקה בשיא, כולם מריעים, וברגע המדויק... בום! מטר של קונפטי
             צבעוני ממלא את האוויר. זה לא עוד גימיק, זה רגע שכולם יזכרו, יצטלמו
@@ -178,7 +179,7 @@ export default function ConfettiCannonPageContent() {
               ההבדל? כמו בין זיקוק קטן לבין מופע זיקוקים שלם
             </p>
           </header>
-          <div className="mt-8 overflow-x-auto">
+          <ScrollableTable label="טבלת השוואה: צינורות מהחנות מול תותח מקצועי" className="mt-8">
             <table className="w-full min-w-[32rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border text-start">
@@ -203,7 +204,7 @@ export default function ConfettiCannonPageContent() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollableTable>
         </section>
 
         <section aria-labelledby="benefits-heading">

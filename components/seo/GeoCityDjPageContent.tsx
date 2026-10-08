@@ -396,7 +396,7 @@ export default function GeoCityDjPageContent({
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`פתיחת שיח בוואטסאפ על די ג'יי לאירועים ${city.nameHePrep}`}
+              aria-label={`דברו איתנו בוואטסאפ - די ג'יי לאירועים ${city.nameHePrep}`}
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
             >
               <WhatsAppIcon />

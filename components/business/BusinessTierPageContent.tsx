@@ -218,7 +218,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
                 )}
               >
                 {tier.badge ? (
-                  <span className="mb-3 inline-flex w-fit rounded-full bg-brand-red/10 px-3 py-1 text-xs font-semibold text-brand-red">
+                  <span className="mb-3 inline-flex w-fit rounded-full bg-brand-red/10 px-3 py-1 text-xs font-semibold text-brand-red-text">
                     {tier.badge}
                   </span>
                 ) : null}

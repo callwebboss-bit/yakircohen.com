@@ -97,7 +97,7 @@ export default function MobilePodcastAtHomePageContent() {
             </a>
             <a
               href={`tel:${CONTACT_PHONE_E164}`}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-red/40 bg-background px-6 py-3.5 text-sm font-semibold text-brand-red hover:bg-brand-red/5"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-red/40 bg-background px-6 py-3.5 text-sm font-semibold text-brand-red hover:bg-brand-red/5 hover:text-brand-red-text"
             >
               {CONTACT_PHONE_DISPLAY}
             </a>
@@ -242,6 +242,8 @@ export default function MobilePodcastAtHomePageContent() {
             </p>
           </header>
 
+          {/* F-41 (7.10.2026): על הפאזה הפעילה (רקע אדום מלא) טקסט white/80 נמדד 3.68:1, ועל הפאזות
+              האחרות (גוון /8) אדום המותג 4.25:1. לכן לבן מלא על האדום ו-brand-red-text על הגוון. */}
           {/* Timeline bar - desktop */}
           <div className="mt-8 hidden sm:block">
             <div dir="ltr" className="relative flex overflow-hidden rounded-xl">
@@ -260,7 +262,7 @@ export default function MobilePodcastAtHomePageContent() {
                   >
                     <p
                       className={`text-xs font-bold tabular-nums ${
-                        phase.type === "active" ? "text-white/80" : "text-brand-red"
+                        phase.type === "active" ? "text-white" : "text-brand-red-text"
                       }`}
                     >
                       {phase.duration}
@@ -288,8 +290,8 @@ export default function MobilePodcastAtHomePageContent() {
                 <div
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                     phase.type === "active"
-                      ? "bg-white/20 text-white"
-                      : "bg-brand-red/15 text-brand-red"
+                      ? "bg-black/20 text-white"
+                      : "bg-brand-red/15 text-brand-red-text"
                   }`}
                 >
                   {i + 1}
@@ -297,7 +299,7 @@ export default function MobilePodcastAtHomePageContent() {
                 <div>
                   <p
                     className={`text-xs font-bold tabular-nums ${
-                      phase.type === "active" ? "text-white/80" : "text-brand-red"
+                      phase.type === "active" ? "text-white" : "text-brand-red-text"
                     }`}
                   >
                     {phase.duration}
@@ -311,7 +313,7 @@ export default function MobilePodcastAtHomePageContent() {
                   </p>
                   <p
                     className={`mt-1 text-sm ${
-                      phase.type === "active" ? "text-white/80" : "text-muted-foreground"
+                      phase.type === "active" ? "text-white" : "text-muted-foreground"
                     }`}
                   >
                     {phase.description}
@@ -415,7 +417,7 @@ export default function MobilePodcastAtHomePageContent() {
                 &quot;הפקת הפודקאסט שלנו קיבלה ליטוש סאונד ועריכה ברמה בינלאומית. צוות מדויק, זמינים וקשובים.&quot;
               </p>
               <footer className="mt-4 flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red-text">
                   דג
                 </div>
                 <div>
@@ -429,7 +431,7 @@ export default function MobilePodcastAtHomePageContent() {
                 &quot;אירוע חברה עם הפקה מלאה - לוח הזמנים עמד, הציוד הוקם לפני הפתיחה, לא נרשמה תקלה אחת.&quot;
               </p>
               <footer className="mt-4 flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-xs font-bold text-brand-red-text">
                   יכ
                 </div>
                 <div>

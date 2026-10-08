@@ -29,7 +29,9 @@ export const SHOP_VOUCHER_TIERS: readonly ShopVoucherTier[] = [
     desc: "מתאים להקלטת שיר, ברכה קצרה או אטרקציה לאירוע.",
     utmCampaign: "shop_voucher_basic",
     imageSrc: SHOP_VOUCHER_IMAGES.basic,
-    imageAlt: "הקלטה באולפן במודיעין",
+    /* F-35 (7.10.2026): התמונה היא מעטפה וכרטיס ריק על שולחן, לא הקלטה באולפן.
+       ה-alt מתאר את מה שרואים, וההבטחה נשארת בכותרת ובתיאור של הכרטיס. */
+    imageAlt: "מעטפה עם סרט וכרטיס מתנה ריק על שולחן, לצד טלפון עם הודעות",
   },
   {
     id: "premium",
@@ -38,7 +40,8 @@ export const SHOP_VOUCHER_TIERS: readonly ShopVoucherTier[] = [
     desc: "שילוב אולפן ואפקטים, או חבילת אטרקציות. ליווי אישי.",
     utmCampaign: "shop_voucher_premium",
     imageSrc: SHOP_VOUCHER_IMAGES.premium,
-    imageAlt: "חבילת אירוע ואולפן",
+    /* F-35: בתמונה עמדת DJ עם חזית לד ופנסים נעים באוהל, בלי אולפן */
+    imageAlt: "עמדת DJ עם חזית לד ופנסים נעים באוהל אירועים",
     popular: true,
   },
   {
