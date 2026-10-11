@@ -13,30 +13,9 @@ import SongIncludedLine from "@/components/pricing/SongIncludedLine";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
-import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
-import { formatPrice } from "@/lib/data/pricing-display";
 
-/*
- * עוגני המחיר בפסקת הפתיחה (תוכנית שלב 4, WP2-WP3). כל עוגן הוא המוצר שהשורה
- * מדברת עליו. DJ מהצוות הוא dj_premium (עד 300 מוזמנים, החלטת הבעלים ED-04;
- * מחיר לאירוע ולא לפי שעות, החלטות 5.10.2026 (DJ)), ופרק פודקאסט ערוך הוא
- * podcast_audio.
- * ק7 (11.10.2026): הפסקה בסדר הדלתות (D93), שיר ומתנה ופודקאסט קודם. השיר
- * והברכה באותו מחיר פתיחה (song_recording ו-blessing_recording, שניהם 500 לפני
- * מע״מ), ולכן עוגן אחד לשניהם. "השיר אצלכם בסוף הסשן" הוא ההקשר של
- * song_recording בקטלוג, ולכן הוא נאמר על השיר בלבד. המחיר של פרק הפודקאסט
- * הוא באולפן, ו"אצלכם" נאמר בנפרד, כי האולפן הנייד מתומחר אחרת.
- */
-const SONG_FROM_ID: PriceItemId = "song_recording";
-const DJ_FROM_ID: PriceItemId = "dj_premium";
-const PODCAST_FROM_ID: PriceItemId = "podcast_audio";
-
-function HeroPrice({ id }: { id: PriceItemId }) {
-  const exVat = getExVat(id);
-  /* D86 (11.10.2026): מחיר אחד, כולל מע״מ. קודם כל מחיר בפסקה הופיע פעמיים */
-  const price = formatPrice(exVat, { from: true, channel: "page" });
-  return <data value={String(price.totalWithVat)}>{price.headline}</data>;
-}
+/* פסקת הפתיחה (#home-answer) בלי מחירים מ-11.10.2026: המחיר מופיע על כל דלת
+   (HomeDoors), והבעלים ביקש לקצר. */
 
 export type HomeHeroProps = {
   heroWhatsAppHref: string;
@@ -79,16 +58,14 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             data-speakable="true"
             className="text-lead mt-6 max-w-xl text-muted-foreground"
           >
+            {/* קצר ובלי מחירים: המחיר כבר על כל דלת, ושורת "מה כלול" באה מיד אחרי
+                (הבעלים, 11.10.2026: "לקצר", עד אז 590 הופיע שלוש פעמים בראש הדף) */}
             <InlineServiceLink href="/studio/recording-song-modiin">הקלטת שיר</InlineServiceLink>{" "}
             או <InlineServiceLink href="/studio/blessings">ברכה מוקלטת</InlineServiceLink>, גם
-            כמתנה: <HeroPrice id={SONG_FROM_ID} />, והשיר אצלכם בסוף הסשן.{" "}
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>: פרק ערוך באולפן{" "}
-            <HeroPrice id={PODCAST_FROM_ID} />, ואפשר גם להקליט אצלכם.{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ מהצוות{" "}
-            <HeroPrice id={DJ_FROM_ID} />.{" "}
-            <InlineServiceLink href="/business">לעסקים</InlineServiceLink>: קריינות, רילז
-            ופודקאסט.{" "}
-            <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
+            כמתנה, ו<InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> באולפן או
+            אצלכם. גם DJ ל<InlineServiceLink href="/events">אירועים</InlineServiceLink>, שירותים{" "}
+            <InlineServiceLink href="/business">לעסקים</InlineServiceLink> ו
+            <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> מרחוק.
           </p>
           {/* D102: שורה נפרדת ולא בתוך #home-answer, שהוא תשובת ה-AEO של העמוד */}
           <SongIncludedLine className="mt-3 max-w-xl" />
