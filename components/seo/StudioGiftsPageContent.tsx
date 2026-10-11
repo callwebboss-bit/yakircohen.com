@@ -33,7 +33,8 @@ import { SITE_NAME } from "@/lib/constants";
 import ShareButton from "@/components/ui/ShareButton";
 
 const MAIN_CTA = buildWhatsAppHref({
-  text: "היי יקיר, מעוניינים בשובר מתנה מהאולפן. אשמח לשמוע איזה שירותים אפשריים ואיך זה עובד.",
+  /* משפט הפתיחה של טופס המתנה (D94, 11.10.2026) */
+  text: "שלום, אשמח להקליט שיר במתנה באולפן.",
   utm_source: "studio",
   utm_campaign: "studio_gifts_main_cta",
 });

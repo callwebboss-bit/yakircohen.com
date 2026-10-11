@@ -42,6 +42,7 @@ export default function LeadSubmitFallback({
         ) : null}
         <a
           href={`tel:${CONTACT_PHONE_E164}`}
+          data-lead-surface="lead_fallback"
           className="inline-flex min-h-11 items-center rounded-lg border border-border bg-background px-4 text-sm font-semibold text-foreground"
         >
           {LEAD_SUBMIT_FALLBACK.call}

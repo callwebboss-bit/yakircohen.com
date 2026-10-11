@@ -36,6 +36,7 @@ export default function PricingHesitantCta({ askSectionId = "studio" }: PricingH
         </Link>
         <a
           href={`tel:${CONTACT_PHONE_E164}`}
+          data-lead-surface="pricing_hesitant"
           className={`${linkClass} border border-border bg-background text-foreground hover:border-brand-red/40`}
         >
           {CONTACT_PHONE_DISPLAY}

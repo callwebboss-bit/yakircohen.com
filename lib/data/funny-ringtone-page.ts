@@ -23,7 +23,7 @@ export const RINGTONE_HERO = {
     "מתנה מקורית ליום הולדת, הפתעה לחבר/ה או אירוע מיוחד - מקליטים, מעבדים ומגישים רינגטון אישי שמישהו באמת ישמיע בטלפון.",
   priceBadge: RINGTONE_PRICE_LABEL,
   whatsappText:
-    `היי יקיר, מעוניינ/ת ברינגטון מצחיק במתנה (${RINGTONE_PRICE_LABEL}). אשמח לפרטים.`,
+    `היי יקיר, אשמח להזמין רינגטון מצחיק במתנה (${RINGTONE_PRICE_LABEL}).`,
   utmCampaign: "gift_funny_ringtone",
 } as const;
 

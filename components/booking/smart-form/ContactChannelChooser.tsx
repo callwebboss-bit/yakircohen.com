@@ -88,6 +88,7 @@ export default function ContactChannelChooser({
         </button>
         <a
           href={disabled ? undefined : `tel:${CONTACT_PHONE_E164}`}
+          data-lead-surface="book_contact_chooser"
           aria-disabled={disabled}
           className={`${TOUCH} rounded-lg border border-border bg-white px-3 text-sm font-semibold text-foreground hover:border-brand-red ${
             disabled ? "pointer-events-none opacity-50" : ""

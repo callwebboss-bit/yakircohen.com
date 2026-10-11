@@ -5,16 +5,18 @@ import { useEffect, useState } from "react";
 import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";
 import { isShabbatOrAfterFriday, isStudioOpen } from "@/lib/studio-hours";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref, GENERAL_QUOTE_TEXT, PAGE_QUOTE_ATTR } from "@/lib/whatsapp";
 
 const headerWhatsAppHref = buildWhatsAppHref({
-  text: "שלום, אשמח לשמוע על השירותים שלכם.",
+  /* ההודעה לפי העמוד, ברגע הלחיצה (D94, 11.10.2026) */
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "header_wa_badge",
 });
 
 const headerResponseTimeWhatsAppHref = buildWhatsAppHref({
-  text: "שלום, אשמח לשמוע על השירותים שלכם.",
+  /* ההודעה לפי העמוד, ברגע הלחיצה (D94, 11.10.2026) */
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "header_response_time",
 });
@@ -43,6 +45,7 @@ export function HeaderResponseTimeBadge() {
   return (
     <a
       href={headerResponseTimeWhatsAppHref}
+      {...{ [PAGE_QUOTE_ATTR]: "" }}
       target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground lg:flex"
@@ -76,6 +79,7 @@ export function WhatsAppAvailabilityBadge() {
   return (
     <a
       href={headerWhatsAppHref}
+      {...{ [PAGE_QUOTE_ATTR]: "" }}
       target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-1.5 rounded-none border-0 bg-transparent px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-surface hover:text-foreground"

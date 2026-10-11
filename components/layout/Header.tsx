@@ -27,8 +27,8 @@ import {
 } from "@/components/layout/header-dynamic-badges-lazy";
 import Container from "@/components/ui/Container";
 import { CONTACT_PHONE_E164, SITE_LOGO_SRC, SITE_NAME } from "@/lib/constants";
-import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { CTA_LABELS } from "@/lib/data/conversion-copy";
+import { buildWhatsAppHref, pageQuoteText } from "@/lib/whatsapp";
 
 const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
 
@@ -42,11 +42,15 @@ const HEADER_STRIP_HEIGHT = "h-[calc(3.25rem+1px)]";
 
 const HEADER_TAGLINE = "אולפן, DJ, פודקאסט ואטרקציות";
 
-const headerQuoteWhatsAppHref = buildWhatsAppHref({
-  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
-  utm_source: "website",
-  utm_campaign: "header_quote_24h",
-});
+/* ההודעה לא מבטיחה זמן בפי הלקוח, ההבטחה כתובה על הכפתור. היא נאמרת לפי
+   השירות של העמוד (D94, 11.10.2026). שם הקמפיין נשאר, כדי לא לפצל את GA4. */
+function headerQuoteWhatsAppHref(pathname: string): string {
+  return buildWhatsAppHref({
+    text: pageQuoteText(pathname),
+    utm_source: "website",
+    utm_campaign: "header_quote_24h",
+  });
+}
 
 function PhoneIcon({ className }: { className?: string }) {
   return (
@@ -112,7 +116,7 @@ function HeaderQuoteCta() {
 
   return (
     <a
-      href={headerQuoteWhatsAppHref}
+      href={headerQuoteWhatsAppHref(pathname)}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
@@ -216,9 +220,11 @@ function HeaderMainBar({
             <SiteSearchLazy />
           </div>
           <HeaderMobileSearchToggle onExpand={onOpenMobileSearch} />
+          {/* חיוג גלוי גם בטלפון (החלטת הבעלים D97, 11.10.2026). מ-5.7 הוא הוסתר
+              מתחת ל-640px, ובטלפון לא נשארה דרך לחייג מראש העמוד */}
           <a
             href={`tel:${CONTACT_PHONE_E164}`}
-            className={cn(mobileIconButtonClass, "hidden sm:inline-flex")}
+            className={mobileIconButtonClass}
             aria-label="חיוג מהיר"
           >
             <PhoneIcon className="h-5 w-5" />

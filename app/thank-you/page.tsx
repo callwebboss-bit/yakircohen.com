@@ -6,7 +6,7 @@ import Section from "@/components/ui/Section";
 import { buildBookHref } from "@/lib/book-url";
 import { THANK_YOU_TO_BOOK_CATEGORY } from "@/lib/data/book-closer-map";
 import { constructMetadata } from "@/lib/metadata";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildServiceWhatsAppText, buildWhatsAppHref, GENERAL_QUOTE_TEXT } from "@/lib/whatsapp";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 export const metadata: Metadata = constructMetadata({
@@ -119,7 +119,7 @@ function isServiceId(v: string | undefined): v is ServiceId {
 }
 
 const DEFAULT_WA_HREF = buildWhatsAppHref({
-  text: buildServiceWhatsAppText("יצירת קשר"),
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "thank_you_cta",
 });

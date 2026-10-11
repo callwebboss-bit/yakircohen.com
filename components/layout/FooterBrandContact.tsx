@@ -13,13 +13,14 @@ import {
   STUDIO_GOOGLE_MAPS_URL,
   STUDIO_WAZE_URL,
 } from "@/lib/constants";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref, GENERAL_QUOTE_TEXT, PAGE_QUOTE_ATTR } from "@/lib/whatsapp";
 
 const FOOTER_TAGLINE =
   "יקיר כהן הפקות, אולפן הקלטות, פודקאסט, DJ ואטרקציות במודיעין והמרכז.";
 
 const footerWhatsAppHref = buildWhatsAppHref({
-  text: "שלום, אשמח לשמוע על השירותים שלכם.",
+  /* ההודעה לפי העמוד, ברגע הלחיצה (D94, 11.10.2026) */
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "footer_whatsapp",
 });
@@ -106,6 +107,7 @@ export default function FooterBrandContact() {
 
       <a
         href={footerWhatsAppHref}
+        {...{ [PAGE_QUOTE_ATTR]: "" }}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#178741] px-4 text-sm font-semibold text-white shadow-md transition-[filter,transform] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178741] sm:w-auto"

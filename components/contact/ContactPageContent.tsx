@@ -25,7 +25,7 @@ import {
 import { useLeadSubmit } from "@/hooks/useLeadSubmit";
 import LeadSubmitFallback from "@/components/forms/LeadSubmitFallback";
 import type { BookCategoryId } from "@/lib/book-url";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref, GENERAL_QUOTE_TEXT } from "@/lib/whatsapp";
 import { closerServiceForContactQuiz } from "@/lib/lead-source-registry";
 import { describedBy, fieldErrorId } from "@/lib/field-error";
 import { FORM_MICROCOPY } from "@/lib/form-microcopy";
@@ -177,13 +177,14 @@ function buildContactFaqItems(): FAQItem[] {
 }
 
 const sameDayHref = buildWhatsAppHref({
-  text: buildServiceWhatsAppText("פרויקט מהיום להיום"),
+  /* בלי "עוד היום": D7 (3.10) אוסר את זה עד שיש יומן מחובר */
+  text: "שלום, אשמח להצעת מחיר לפרויקט דחוף.",
   utm_source: "website",
   utm_campaign: "contact_same_day",
 });
 
 const defaultWaHref = buildWhatsAppHref({
-  text: buildServiceWhatsAppText("יצירת קשר"),
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "contact_page",
 });
@@ -432,10 +433,10 @@ export default function ContactPageContent() {
         </span>
         <span className="min-w-0 flex-1 text-end">
           <span className="block text-sm font-bold text-foreground">
-            צריכים פרויקט מהיום להיום?
+            יש לכם פרויקט דחוף?
           </span>
           <span className="block text-xs text-muted-foreground">
-            כתבו בוואטסאפ ונבדוק אם אפשר עוד היום
+            כתבו לנו בוואטסאפ, ונבדוק מה הזמינות הקרובה
           </span>
         </span>
         <span className="shrink-0 text-brand-red" aria-hidden="true"> </span>

@@ -381,7 +381,8 @@ export const STUDIO_SERVICES = {
       YOUTUBE_SERVICE_EMBED_IDS["recording-song-modiin"],
     ),
     mediaType: "video",
-    whatsappText: "שלום, מעוניין בהקלטת שיר באולפן במודיעין",
+    /* משפט הפתיחה של טופס השיר (D94, 11.10.2026) */
+    whatsappText: "שלום, אשמח להקליט שיר באולפן.",
     utmCampaign: "studio_recording_modiin",
     faqs: [
       {

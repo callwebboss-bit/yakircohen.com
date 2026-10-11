@@ -29,7 +29,7 @@ import {
   CENTRAL_FAQ_TOC,
   getCentralFaqSectionItems,
 } from "@/lib/data/faq-central";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Metadata
@@ -89,7 +89,7 @@ const VERTICAL_FAQ_LINKS = [
    ───────────────────────────────────────────────────────────────────────────── */
 
 const FAQ_BOTTOM_WHATSAPP = buildWhatsAppHref({
-  text: buildServiceWhatsAppText("שאלה מעמוד שאלות נפוצות"),
+  text: "שלום, יש לי שאלה.",
   utm_source: "website",
   utm_campaign: "faq_bottom_cta",
 });

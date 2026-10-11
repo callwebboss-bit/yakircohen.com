@@ -8,7 +8,7 @@ const BEFORE_SRC = "/audio/recording-raw-sample.mp3";
 const AFTER_SRC = "/audio/recording-clean-sample.mp3";
 
 const whatsappHref = buildWhatsAppHref({
-  text: "שלום, שמעתי את ההדגמה באתר - אשמח לשמוע עוד על הקלטת שיר באולפן.",
+  text: "שלום, אשמח להקליט שיר באולפן.",
   utm_source: "website",
   utm_campaign: "recording_song_before_after",
 });

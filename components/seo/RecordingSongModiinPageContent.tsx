@@ -69,7 +69,7 @@ const SONG_CTA_LABEL = `הקלטת שיר באולפן: ${SONG_PRICE.totalLabel}
 const PITCH_DEMO_ID = "pitch-before-after";
 
 const eventGridWhatsappHref = buildWhatsAppHref({
-  text: "שלום, רציתי להתייעץ על הקלטת שיר באולפן לאירוע שלנו",
+  text: "שלום, אשמח להקליט שיר באולפן לאירוע שלנו.",
   utm_source: "website",
   utm_campaign: "recording_song_event_grid_cta",
 });

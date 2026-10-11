@@ -78,6 +78,19 @@ export function buildTrustFooter(bookCategory?: BookCategoryId, packageId?: stri
   ].filter(Boolean).join("\n");
 }
 
+/**
+ * משפט הפתיחה בקול הלקוח, לפי השירות (D94, 11.10.2026). אלה המשפטים של
+ * הטפסים באתר: שיר "שלום, אשמח להקליט שיר באולפן.", פודקאסט "שלום, אשמח
+ * להקליט פודקאסט.". אודיו או וידאו כבר כתוב בבחירות, ולכן בלי שורה למילוי.
+ */
+export function customerOpener(bookCategory?: BookCategoryId, packageId?: string | null): string {
+  if (bookCategory === "podcast") return "שלום, אשמח להקליט פודקאסט.";
+  if (bookCategory === "studio" && packageId?.split(",").includes("song")) {
+    return "שלום, אשמח להקליט שיר באולפן.";
+  }
+  return "שלום, אשמח להצעת מחיר.";
+}
+
 export type ClosingIntent = "continue_chat" | "start_now";
 
 export type ClosingTiming = "urgent" | "month" | "flexible" | "future" | null;
@@ -95,8 +108,9 @@ export type ClosingMessageOptions = {
   summaryLines?: readonly { label: string; value: string }[];
   source?: string | null;
   timing?: ClosingTiming;
+  /** @deprecated מ-11.10.2026 (D94) לא מוסיף כלום להודעה. נשאר כדי לא לשבור קריאות קיימות */
   includeTrustFooter?: boolean;
-  /** קטגוריית השירות - משפיע על תוכן ה-trust footer */
+  /** קטגוריית השירות - קובעת את משפט הפתיחה בקול הלקוח */
   bookCategory?: BookCategoryId;
   /** מזהה שירות ב-yakir-closer (recording, podcast, dj...) */
   closerServiceId?: string | null;
@@ -163,7 +177,6 @@ export function buildClosingMessage({
   summaryLines = [],
   source,
   timing,
-  includeTrustFooter = false,
   bookCategory,
   closerServiceId,
   ycStep = 1,
@@ -220,11 +233,13 @@ export function buildClosingMessage({
   }
 
   if (progressiveNarrative) {
-    const greet = contact.name.trim() || "שם";
-    lines.push(`שלום ${greet}, תודה שפניתם 🎤`);
+    /* ההודעה בקול הלקוח (D94, 11.10.2026). עד היום הלקוח שלח "שלום [השם שלו],
+       תודה שפניתם" ו"מה הבנו", כלומר הודה לעצמו בשם העסק. "מה בחרתי" הוא גם
+       מה שתיבת ההדבקה ב-/admin/sales מחפשת (lib/sales/paste-match.ts). */
+    lines.push(customerOpener(bookCategory, ycPackage));
     lines.push("");
     if (summaryLines.length > 0) {
-      lines.push("*מה הבנו:*");
+      lines.push("*מה בחרתי:*");
       for (const { label, value } of summaryLines) {
         lines.push(`• ${label}: ${value}`);
       }
@@ -288,10 +303,9 @@ export function buildClosingMessage({
     lines.push(`📍 מקור: ${source.trim()}`);
   }
 
-  if (includeTrustFooter) {
-    lines.push("");
-    lines.push(buildTrustFooter(bookCategory, ycPackage));
-  }
+  /* includeTrustFooter כבר לא מוסיף כלום להודעה: כתובת, שעות, הבטחת מסירה
+     ושורות אמון הם דברים שהעסק אומר, לא הלקוח. הם נכתבים בתשובה של יקיר
+     (D94, 11.10.2026, מחליף בהודעה את חתימת השירות של S1003-02). */
 
   let body = lines.join("\n").trim();
 

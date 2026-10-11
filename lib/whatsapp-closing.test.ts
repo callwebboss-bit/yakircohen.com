@@ -37,7 +37,8 @@ describe("buildTrustFooter", () => {
     assert.match(footer, /מודיעין/);
   });
 
-  it("the closing message passes the package through to the footer", () => {
+  /* D94, 11.10.2026: כתובת, שעות והבטחת מסירה לא נשלחים מהטלפון של הלקוח */
+  it("the closing message never carries the trust footer, even when asked", () => {
     const text = buildClosingMessage({
       serviceLabel: "הקלטה באולפן",
       contact: { name: "נועה", phone: "054-123-4567" },
@@ -45,7 +46,34 @@ describe("buildTrustFooter", () => {
       ycPackage: "song",
       includeTrustFooter: true,
     });
-    assert.match(text, /השיר אצלכם בסוף הסשן/);
-    assert.doesNotMatch(text, /24-48/);
+    assert.doesNotMatch(text, /עמק איילון/);
+    assert.doesNotMatch(text, /השיר אצלכם בסוף הסשן/);
+    assert.doesNotMatch(text, /🕐/);
+  });
+});
+
+describe("progressive narrative in the customer's voice (D94)", () => {
+  const base = {
+    serviceLabel: "הקלטה באולפן",
+    contact: { name: "נועה", phone: "054-123-4567" },
+    summaryLines: [{ label: "מסלול", value: "שיר" }],
+    progressiveNarrative: true,
+  } as const;
+
+  it("a song opens with the song form sentence and lists 'מה בחרתי'", () => {
+    const text = buildClosingMessage({ ...base, bookCategory: "studio", ycPackage: "song" });
+    assert.ok(text.startsWith("שלום, אשמח להקליט שיר באולפן."), text);
+    assert.match(text, /\*מה בחרתי:\*/);
+    assert.doesNotMatch(text, /תודה שפניתם|מה הבנו/);
+  });
+
+  it("a podcast opens with the podcast sentence", () => {
+    const text = buildClosingMessage({ ...base, bookCategory: "podcast" });
+    assert.ok(text.startsWith("שלום, אשמח להקליט פודקאסט."), text);
+  });
+
+  it("any other service opens with the general quote sentence", () => {
+    const text = buildClosingMessage({ ...base, bookCategory: "events" });
+    assert.ok(text.startsWith("שלום, אשמח להצעת מחיר."), text);
   });
 });

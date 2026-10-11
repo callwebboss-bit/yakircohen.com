@@ -5,10 +5,15 @@ import { findLeadCode } from "@/lib/lead-code";
 import {
   buildServiceWhatsAppText,
   buildWhatsAppHref,
+  customerSourceLine,
+  GENERAL_QUOTE_TEXT,
+  pageQuoteText,
   readWhatsAppLeadCode,
   stampWhatsAppLeadCode,
   toCustomerWhatsAppText,
+  withPageQuoteText,
 } from "@/lib/whatsapp";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildClosingMessage } from "@/lib/whatsapp-closing";
 import { buildIntakeWhatsAppHref, buildPayload } from "@/lib/book-intake/build-payload";
 import { buildConsultWhatsAppHref } from "@/lib/booking-messages";
@@ -166,7 +171,7 @@ describe("lead code in the WhatsApp link (D67)", () => {
 
   it("buildWhatsAppHref keeps an existing code last, after the source line", () => {
     const text = decodeText(buildWhatsAppHref({ text: "שלום\nקוד פנייה: A7K2", source: "/studio" }));
-    assert.equal(text, "שלום\n\n📍 מקור: /studio\nקוד פנייה: A7K2");
+    assert.equal(text, "שלום\n\nמהעמוד: אולפן ההקלטות\nקוד פנייה: A7K2");
   });
 });
 
@@ -225,5 +230,55 @@ describe("no [YC:] in any customer WhatsApp link (D67)", () => {
   it("book intake: the code in the link is the code sent to the owner", () => {
     const payload = buildPayload({ name: "נועה", phone: "0501234567", email: "", serviceTypeTag: null, freeTextDescription: "" });
     assert.equal(readWhatsAppLeadCode(buildIntakeWhatsAppHref(payload)), payload.lead_code);
+  });
+});
+
+/* D94, 11.10.2026: הודעת הלקוח בקול הלקוח, בעברית, בלי הבטחת זמן */
+describe("customer message wording (D94)", () => {
+  it("the general quote text promises no time", () => {
+    for (const claim of Object.values(TIME_CLAIMS)) {
+      assert.ok(!GENERAL_QUOTE_TEXT.includes(claim), claim);
+    }
+    assert.doesNotMatch(GENERAL_QUOTE_TEXT, /בדרך כלל|תוך שעה|תוך 24/);
+  });
+
+  it("the quote text names the service of the page", () => {
+    assert.equal(pageQuoteText("/studio/recording-song-modiin"), "שלום, אשמח להצעת מחיר להקלטת שיר.");
+    assert.equal(pageQuoteText("/studio/recording-song-modiin/gifts"), "שלום, אשמח להצעת מחיר לשיר במתנה.");
+    assert.equal(pageQuoteText("/podcast/podcast-studio-modiin"), "שלום, אשמח להצעת מחיר להקלטת פודקאסט.");
+    assert.equal(pageQuoteText("/"), GENERAL_QUOTE_TEXT);
+    assert.equal(pageQuoteText("/about"), GENERAL_QUOTE_TEXT);
+  });
+
+  it("no page quote promises a time", () => {
+    for (const path of ["/", "/studio", "/podcast", "/events/dj-events", "/matanot", "/studio/blessings"]) {
+      assert.doesNotMatch(pageQuoteText(path), /בדרך כלל|תוך שעה|תוך 24/, path);
+    }
+  });
+
+  it("source lines become a Hebrew page name, or disappear", () => {
+    assert.equal(customerSourceLine("studio/recording-song-modiin"), "מהעמוד: הקלטת שיר");
+    assert.equal(customerSourceLine("/book#podcast"), "מהעמוד: הזמנה מקוונת");
+    assert.equal(customerSourceLine("pricing-hero"), "מהעמוד: מחירון");
+    assert.equal(customerSourceLine("website"), null);
+    assert.equal(customerSourceLine("podcast/mobile-podcast-at-home"), "מהעמוד: פודקאסט בבית");
+    assert.equal(customerSourceLine("events/attractions/bubble-machine/smoke-bubble-machine-events"), "מהעמוד: מכונת בועות");
+    assert.equal(toCustomerWhatsAppText("שלום\n\n📍 מקור: podcast/podcast-production"), "שלום\n\nמהעמוד: הפקת פודקאסט");
+    assert.equal(toCustomerWhatsAppText("שלום\n\n📍 מקור: unknown-thing"), "שלום");
+  });
+
+  it("no customer link carries an English source slug", () => {
+    const href = buildWhatsAppHref({ text: "שלום", source: "studio/recording-song-modiin" });
+    assert.doesNotMatch(decodeText(href), /📍 מקור|[a-z]{3,}\//);
+  });
+
+  it("the footer button takes the page sentence at click and keeps its code", () => {
+    const raw = buildWhatsAppHref({ text: GENERAL_QUOTE_TEXT, utm_campaign: "footer_quote_cta" });
+    const first = stampWhatsAppLeadCode(withPageQuoteText(raw, "/podcast"));
+    const text = decodeText(first);
+    assert.match(text, /^שלום, אשמח להצעת מחיר להקלטת פודקאסט\.\nקוד פנייה: [A-HJKMNP-Z2-9]{4}$/);
+    const second = stampWhatsAppLeadCode(withPageQuoteText(first, "/podcast"));
+    assert.equal(decodeText(second), text, "a second click keeps the same code");
+    assert.match(first, /utm_campaign=footer_quote_cta/);
   });
 });

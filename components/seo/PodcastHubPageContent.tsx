@@ -58,7 +58,7 @@ import {
   PODCAST_HUB_TRACKS_STUDIO,
   PODCAST_HUB_TRACKS_SUPPORT,
 } from "@/lib/data/podcast-hub-tracks";
-import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { PODCAST_HUB_SEO } from "@/lib/seo/hub-pages";
 import { SKEPTICISM_CTA, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
@@ -117,9 +117,8 @@ const VALUE_PILLARS = [
 
 export default function PodcastHubPageContent() {
   const whatsappHref = buildWhatsAppHref({
-    text: buildServiceWhatsAppText(
-      "שלום, מעוניין/ת בהקלטת פודקאסט מקצועית באולפן, אשמח לשמוע על חבילות וזמינות.",
-    ),
+    /* משפט הפתיחה לפודקאסט (D94, 11.10.2026). אודיו או וידאו קובע את המחיר (D63) */
+    text: "שלום, אשמח להקליט פודקאסט. אודיו או וידאו: ___",
     utm_source: "website",
     utm_campaign: "podcast_hub_cta",
   });
@@ -156,7 +155,7 @@ export default function PodcastHubPageContent() {
         title="אולפן פודקאסט במודיעין"
         subtitle={`הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}.`}
         features={PODCAST_HUB_HERO_FEATURES}
-        whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
+        whatsappText="שלום, אשמח להקליט פודקאסט. אודיו או וידאו: ___"
         utmCampaign="podcast_hub"
         corporateShareLabel="שירות הפקת הפודקאסטים"
         valueFrame={TIME_CLAIMS.podcastValueFrame}

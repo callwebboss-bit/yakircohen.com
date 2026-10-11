@@ -38,7 +38,9 @@ export function HeaderMobileSearchToggle({
       id={MOBILE_SEARCH_TOGGLE_ID}
       type="button"
       onClick={onExpand}
-      className="touch-target inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95 lg:hidden"
+      /* מתחת ל-390px החיפוש מוסתר כאן ונשאר בתפריט: כפתור החיוג חזר לכותרת
+         (D97, 11.10.2026), וב-320 עד 375 הוא מחץ את הלוגו ל-7 עד 62 פיקסלים */
+      className="touch-target hidden min-[390px]:inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-fast ease-luxury hover:border-brand-red/50 hover:text-brand-red active:scale-95 lg:hidden"
       aria-label="חיפוש באתר"
       aria-expanded={false}
     >

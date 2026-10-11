@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { buildWhatsAppHref, GENERAL_QUOTE_TEXT, PAGE_QUOTE_ATTR } from "@/lib/whatsapp";
 
+/* בלי הבטחת זמן בפי הלקוח (D94, 11.10.2026). הפוטר נבנה בשרת פעם אחת לכל
+   האתר, ולכן OutboundLeadTracker מחליף את ההודעה בהודעה של העמוד ברגע הלחיצה. */
 const quoteWhatsAppHref = buildWhatsAppHref({
-  text: `שלום, אשמח להצעת מחיר ${TIME_CLAIMS.quoteHour}.`,
+  text: GENERAL_QUOTE_TEXT,
   utm_source: "website",
   utm_campaign: "footer_quote_cta",
 });
@@ -51,6 +53,7 @@ export default function FooterConversionCtas() {
                 rel="noopener noreferrer"
                 className={className}
                 aria-label={`${cta.label} בוואטסאפ`}
+                {...{ [PAGE_QUOTE_ATTR]: "" }}
               >
                 {cta.label}
               </a>

@@ -21,6 +21,97 @@ export function buildServiceWhatsAppText(subject: string, startingPrice?: string
 }
 
 /*
+ * שם העמוד בעברית בהודעת הלקוח (החלטת הבעלים D94, 11.10.2026).
+ * עד היום הלקוח שלח "📍 מקור: studio/recording-song-modiin" באנגלית. עכשיו
+ * הוא שולח "מהעמוד: הקלטת שיר", ומקור שאין לו שם כאן לא נשלח בכלל: השירות
+ * כבר כתוב בהודעה, קוד הפנייה בשורה האחרונה, והמקור המלא נשאר בתג [YC:]
+ * שבמייל לבעלים. quote הוא ההמשך של "שלום, אשמח להצעת מחיר" בכפתור הכללי
+ * שבראש ובתחתית כל עמוד. הקלוזר המקומי
+ * (local-tools/lead-message-parser.js, PAGE_NAME_TO_PATH) מתרגם את השמות
+ * בחזרה לנתיב, אז שם ששונה כאן משתנה גם שם.
+ */
+type PageLabel = { prefix: string; page: string; quote: string | null };
+
+const PAGE_LABELS: readonly PageLabel[] = [
+  { prefix: "studio/recording-song-modiin/gifts", page: "שיר במתנה", quote: "לשיר במתנה" },
+  { prefix: "studio/recording-song-modiin", page: "הקלטת שיר", quote: "להקלטת שיר" },
+  { prefix: "studio/blessings", page: "ברכה מוקלטת", quote: "להקלטת ברכה" },
+  { prefix: "studio/mobile-studio", page: "אולפן נייד", quote: "לאולפן נייד" },
+  { prefix: "studio/pricing", page: "מחירון האולפן", quote: null },
+  { prefix: "studio", page: "אולפן ההקלטות", quote: "לאולפן ההקלטות" },
+  { prefix: "podcast/podcast-studio-modiin", page: "אולפן פודקאסט", quote: "להקלטת פודקאסט" },
+  { prefix: "podcast/podcast-production", page: "הפקת פודקאסט", quote: "להפקת פודקאסט" },
+  { prefix: "podcast/podcast-recording", page: "צילום פודקאסט", quote: "להקלטת פודקאסט" },
+  { prefix: "podcast", page: "פודקאסט", quote: "להקלטת פודקאסט" },
+  { prefix: "podcast/mobile-podcast-at-home", page: "פודקאסט בבית", quote: "להקלטת פודקאסט בבית" },
+  { prefix: "podcast/podcast-editing", page: "עריכת פודקאסט", quote: "לעריכת פודקאסט" },
+  { prefix: "matanot", page: "מתנות", quote: "לשיר במתנה" },
+  { prefix: "shop", page: "חנות השוברים", quote: "לשובר מתנה" },
+  { prefix: "events/attractions/wedding-smoking-machine/heavy-smoke-large-events", page: "עשן כבד", quote: "לעשן כבד באירוע" },
+  { prefix: "events/attractions/wedding-smoking-machine", page: "מכונת עשן", quote: "למכונת עשן לאירוע" },
+  { prefix: "events/attractions/bubble-machine", page: "מכונת בועות", quote: "למכונת בועות לאירוע" },
+  { prefix: "events/attractions/confetti-cannon", page: "תותח קונפטי", quote: "לתותח קונפטי לאירוע" },
+  { prefix: "events/attractions", page: "אטרקציות לאירוע", quote: "לאטרקציה לאירוע" },
+  { prefix: "events/dj-events", page: "DJ לאירועים", quote: "ל-DJ לאירוע" },
+  { prefix: "dj-events", page: "DJ לאירועים", quote: "ל-DJ לאירוע" },
+  { prefix: "events", page: "אירועים", quote: "לאירוע" },
+  { prefix: "photography", page: "צילום", quote: "לצילום" },
+  { prefix: "voiceover", page: "קריינות", quote: "לקריינות" },
+  { prefix: "online", page: "שירותים אונליין", quote: null },
+  { prefix: "business", page: "לעסקים", quote: null },
+  { prefix: "academy", page: "אקדמיה", quote: null },
+  { prefix: "pricing", page: "מחירון", quote: null },
+  { prefix: "book", page: "הזמנה מקוונת", quote: null },
+  { prefix: "contact", page: "צור קשר", quote: null },
+];
+
+/** "/studio/x/?a#b" או "studio/x" או "pricing-hero" -> "studio/x" / "pricing-hero" */
+function normalizePagePath(value: string): string {
+  return value
+    .trim()
+    .split(/[?#]/)[0]
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+}
+
+/* התחילית הארוכה נבדקת קודם, בלי תלות בסדר הכתיבה ברשימה */
+const PAGE_LABELS_LONGEST_FIRST = [...PAGE_LABELS].sort((a, b) => b.prefix.length - a.prefix.length);
+
+function pageLabelFor(value: string): PageLabel | null {
+  const path = normalizePagePath(value);
+  if (!path) return null;
+  return (
+    PAGE_LABELS_LONGEST_FIRST.find(
+      ({ prefix }) =>
+        path === prefix ||
+        path.startsWith(`${prefix}/`) ||
+        /* מקורות כמו pricing-hero ו-pricing_toggle שייכים לעמוד המחירון */
+        (!path.includes("/") && (path.startsWith(`${prefix}-`) || path.startsWith(`${prefix}_`))),
+    ) ?? null
+  );
+}
+
+/** שורת המקור בהודעת הלקוח, או null כשאין לעמוד שם בעברית */
+export function customerSourceLine(source: string): string | null {
+  const label = pageLabelFor(source);
+  return label ? `מהעמוד: ${label.page}` : null;
+}
+
+/** ההודעה מהכפתור הכללי "הצעה" בראש ובתחתית העמוד, לפי העמוד (D94) */
+export function pageQuoteText(pathname: string): string {
+  const quote = pageLabelFor(pathname)?.quote;
+  return quote ? `שלום, אשמח להצעת מחיר ${quote}.` : GENERAL_QUOTE_TEXT;
+}
+
+/** ההודעה הכללית, בלי הבטחת זמן: ההבטחה כתובה על הכפתור עצמו (D94) */
+export const GENERAL_QUOTE_TEXT = "שלום, אשמח להצעת מחיר.";
+
+/** סימון על קישור שההודעה שלו נקבעת לפי העמוד ברגע הלחיצה */
+export const PAGE_QUOTE_ATTR = "data-wa-page-quote";
+
+const SOURCE_LINE = /^📍\s*מקור:\s*(.*)$/;
+
+/*
  * שורות פנימיות שנבנות ב-buildClosingMessage (lib/whatsapp-closing.ts) בשביל
  * הבעלים, ושאסור שהלקוח ישלח מהטלפון שלו: "ליד פרימיום", דגלי תזמון ושורת
  * "כוונה" (LF-06). המייל לבעלים מקבל את הגוף המלא בנפרד בכל נקודת קריאה,
@@ -42,9 +133,15 @@ const YC_TAG_ANYWHERE = /\[YC:[^\]]*\]/g;
 /** מסיר מהודעת הלקוח את השורות הפנימיות ואת תג [YC:]. טהורה. */
 export function toCustomerWhatsAppText(text: string): string {
   const hadTag = text.includes("[YC:");
+  const hadSource = text.includes("📍");
   const kept = text
     .split("\n")
     .flatMap((line) => {
+      const source = line.trim().match(SOURCE_LINE);
+      if (source) {
+        const hebrew = customerSourceLine(source[1]);
+        return hebrew ? [hebrew] : [];
+      }
       if (!line.includes("[YC:")) return [line];
       const withoutTag = line.replace(YC_TAG_ANYWHERE, "").trimEnd();
       /* שורה שהייתה רק תג יורדת כולה */
@@ -57,7 +154,7 @@ export function toCustomerWhatsAppText(text: string): string {
     });
   /* שורות ריקות שנשארו בראש ההודעה אחרי ההסרה, ובסופה כשהתג היה השורה האחרונה */
   while (kept.length && !kept[0].trim()) kept.shift();
-  while (hadTag && kept.length && !kept[kept.length - 1].trim()) kept.pop();
+  while ((hadTag || hadSource) && kept.length && !kept[kept.length - 1].trim()) kept.pop();
   return kept.join("\n");
 }
 
@@ -73,7 +170,7 @@ export type WhatsAppWidgetProps = {
 /**
  * Builds a wa.me deep-link with every dynamic query value passed through
  * `encodeURIComponent` to preserve Hebrew text and prevent URL breakage.
- * Pass `source` to append "📍 מקור: ..." to the message body (not as a UTM param).
+ * Pass `source` (a page path) to append "מהעמוד: ..." in Hebrew (D94), not as a UTM param.
  */
 export function buildWhatsAppHref({
   text,
@@ -86,7 +183,8 @@ export function buildWhatsAppHref({
   "text" | "utm_source" | "utm_campaign" | "phone"
 > & { source?: string }): string {
   const customerText = text ? toCustomerWhatsAppText(text) : text;
-  let fullText = source && customerText ? `${customerText}\n\n📍 מקור: ${source}` : customerText;
+  const sourceLine = source ? customerSourceLine(source) : null;
+  let fullText = sourceLine && customerText ? `${customerText}\n\n${sourceLine}` : customerText;
   /* קוד פנייה שכבר בטקסט נשאר השורה האחרונה, גם אחרי שורת המקור (D67) */
   const code = fullText ? findLeadCode(fullText) : null;
   if (fullText && code) fullText = withLeadCodeLine(fullText, code);
@@ -168,5 +266,19 @@ export function stampWhatsAppLeadCode(href: string, code?: string): string {
   const existing = findLeadCode(parts.text);
   if (!code && existing) return href;
   const text = withLeadCodeLine(toCustomerWhatsAppText(parts.text), code ?? generateLeadCode());
+  return `${parts.before}text=${encodeURIComponent(text)}${parts.after}`;
+}
+
+/**
+ * מחליף את ההודעה בקישור לעסק בהודעה של העמוד (pageQuoteText). משמש את
+ * הכפתור הכללי בתחתית העמוד, שנבנה בשרת פעם אחת לכל האתר ולכן לא יודע
+ * באיזה עמוד הוא נמצא. קוד פנייה שכבר בהודעה נשמר. טהורה.
+ */
+export function withPageQuoteText(href: string, pathname: string): string {
+  const parts = splitBusinessWhatsAppText(href);
+  if (!parts) return href;
+  const code = findLeadCode(parts.text);
+  const base = pageQuoteText(pathname);
+  const text = code ? withLeadCodeLine(base, code) : base;
   return `${parts.before}text=${encodeURIComponent(text)}${parts.after}`;
 }

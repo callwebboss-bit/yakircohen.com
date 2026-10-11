@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { trackConversion } from "@/lib/analytics/conversion-events";
-import { stampWhatsAppLeadCode } from "@/lib/whatsapp";
+import { PAGE_QUOTE_ATTR, stampWhatsAppLeadCode, withPageQuoteText } from "@/lib/whatsapp";
 
 /**
  * מודד לחיצות יוצאות לוואטסאפ ולטלפון, מכל מקום באתר, ממאזין אחד.
@@ -60,10 +60,14 @@ function campaignFor(href: string): string {
  */
 function stampLeadCode(anchor: Element): void {
   if (!(anchor instanceof HTMLAnchorElement)) return;
-  const href = anchor.getAttribute("href") ?? "";
+  let href = anchor.getAttribute("href") ?? "";
   if (!href.includes("wa.me/") && !href.includes("api.whatsapp.com/")) return;
+  /* כפתור כללי שנבנה בשרת לכל האתר: ההודעה נאמרת לפי העמוד (D94) */
+  if (anchor.hasAttribute(PAGE_QUOTE_ATTR)) {
+    href = withPageQuoteText(href, window.location.pathname);
+  }
   const stamped = stampWhatsAppLeadCode(href);
-  if (stamped !== href) anchor.setAttribute("href", stamped);
+  if (stamped !== anchor.getAttribute("href")) anchor.setAttribute("href", stamped);
 }
 
 function anchorOf(event: MouseEvent): Element | null {

@@ -309,9 +309,11 @@ export default function ServicePageLayout({
   /* "לפני מע״מ" נוסף רק כשהמחיר לא אומר בעצמו אם הוא כולל מע״מ. קודם הוא
      נוסף תמיד, ו-"590 ₪ כולל מע״מ" הפך ל-"590 ₪ כולל מע״מ לפני מע״מ". */
   const priceSaysVat = startingPrice ? /מע["״]מ/.test(startingPrice) : false;
+  /* המחיר בשורה משלו. קודם הוא הודבק לסוף המשפט, ויצא ". - מחיר התחלתי: מ-1,121"
+     עם "מ-" כפול. בלי המחרוזת "מחיר:", שהקלוזר קורא כמחיר לפני מע״מ. */
   const inquiryText =
     startingPrice && !baseText.includes(startingPrice)
-      ? `${baseText} - מחיר התחלתי: ${startingPrice}${priceSaysVat ? "" : " לפני מע״מ"}`
+      ? `${baseText}\nהמחיר באתר: ${startingPrice}${priceSaysVat ? "" : " לפני מע״מ"}`
       : baseText;
 
   const whatsappHref = buildWhatsAppHref({
