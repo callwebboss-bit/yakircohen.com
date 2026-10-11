@@ -544,9 +544,6 @@ export default function AcademyPage() {
                   <span className="text-2xl font-bold text-foreground">
                     {vatFirst(`${track.price} ₪`)}
                   </span>
-                  <span className="mr-1 text-xs text-muted-foreground">
-                    ({track.price} ₪ + מע&quot;מ)
-                  </span>
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     {track.priceNote}
                   </p>
@@ -651,9 +648,6 @@ export default function AcademyPage() {
                 <div className="mt-5">
                   <span className="text-3xl font-bold text-foreground">
                     {vatFirst(`${plan.price} ₪`)}
-                  </span>
-                  <span className="mr-1 text-sm text-muted-foreground">
-                    ({plan.price} ₪ + מע&quot;מ)
                   </span>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {plan.priceNote}

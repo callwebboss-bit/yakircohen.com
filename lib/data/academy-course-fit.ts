@@ -2,6 +2,7 @@
  * בלוקי "למי זה מתאים / תוצאה / תהליך" לדפי קורסים באקדמיה.
  * התוכן נשען על נתונים קיימים בדפים (FAQ, סילבוס, מה כלול) - בלי הבטחות חדשות.
  */
+import { withVat } from "@/lib/data/pricing";
 
 export type AcademyCourseStep = {
   title: string;
@@ -138,7 +139,7 @@ export const PRIVATE_LESSONS_FIT: AcademyCourseFit = {
   ],
   outcome: {
     title: "מה יוצאים איתו ביד",
-    body: "שיעור מלא (60 דקות, 990 ₪) או Pro Session (90 דקות, 1,280 ₪) - מחירים לפני מע״מ.",
+    body: `שיעור מלא (60 דקות, ${withVat(990).toLocaleString("he-IL")} ₪) או Pro Session (90 דקות, ${withVat(1280).toLocaleString("he-IL")} ₪) - כולל מע״מ.`,
     bullets: [
       "תוכנית התקדמות אישית עם מטרות ותרגילים להמשך",
       "עבודה על ציוד אולפן אמיתי - מיקרופון אולפני, קונטרולרים, תחנת עבודה",

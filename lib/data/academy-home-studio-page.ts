@@ -1,4 +1,5 @@
-﻿export const HOME_STUDIO_IMAGES_BASE = "/images/services/academy/home-studio";
+import { withVat } from "@/lib/data/pricing";
+export const HOME_STUDIO_IMAGES_BASE = "/images/services/academy/home-studio";
 
 export const HOME_STUDIO_BEFORE_IMAGE = `${HOME_STUDIO_IMAGES_BASE}/לפני.webp`;
 export const HOME_STUDIO_AFTER_IMAGE = `${HOME_STUDIO_IMAGES_BASE}/אחרי.webp`;
@@ -120,7 +121,7 @@ export const HOME_STUDIO_FAQS: readonly {
     id: "price",
     question: "כמה עולה ייעוץ אקוסטיקה לאולפן?",
     answer:
-      'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע"מ. ייעוץ מלא כולל ביקור פיזי ודו"ח מפורט - 950 ₪ + מע"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',
+      `ייעוץ ראשוני בשיחת זום (60 דקות) - ${withVat(500).toLocaleString("he-IL")} ₪ כולל מע"מ. ייעוץ מלא כולל ביקור פיזי ודו"ח מפורט - ${withVat(950).toLocaleString("he-IL")} ₪ כולל מע"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.`,
   },
   {
     id: "small-room",

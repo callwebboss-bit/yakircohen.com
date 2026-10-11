@@ -280,20 +280,6 @@
     "example": "priceHint: \"מ־350 ₪\","
   },
   {
-    "file": "lib/data/academy-course-fit.ts",
-    "kind": "prose",
-    "value": 990,
-    "count": 1,
-    "example": "body: \"שיעור מלא (60 דקות, 990 ₪) או Pro Session (90 דקות, 1,280 ₪) - מחירים לפני מע״מ.\","
-  },
-  {
-    "file": "lib/data/academy-course-fit.ts",
-    "kind": "prose",
-    "value": 1280,
-    "count": 1,
-    "example": "body: \"שיעור מלא (60 דקות, 990 ₪) או Pro Session (90 דקות, 1,280 ₪) - מחירים לפני מע״מ.\","
-  },
-  {
     "file": "lib/data/academy-hebrew-lessons-en.ts",
     "kind": "prose",
     "value": 500,
@@ -325,7 +311,7 @@
     "file": "lib/data/academy-home-studio-page.ts",
     "kind": "prose",
     "value": 500,
-    "count": 2,
+    "count": 1,
     "example": "'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע\"מ. ייעוץ מלא כולל ביקור פיזי ודו\"ח מפורט - 950 ₪ + מע\"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',"
   },
   {
@@ -339,7 +325,7 @@
     "file": "lib/data/academy-home-studio-page.ts",
     "kind": "prose",
     "value": 950,
-    "count": 2,
+    "count": 1,
     "example": "'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע\"מ. ייעוץ מלא כולל ביקור פיזי ודו\"ח מפורט - 950 ₪ + מע\"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',"
   },
   {
@@ -404,13 +390,6 @@
     "value": 5000,
     "count": 2,
     "example": "\"ועוד תאורה מושלמת לאירועים 5000 ש\\\"ח כולל הזזה, רובוטים, וצורות ליצירת מסיבה אמיתית\","
-  },
-  {
-    "file": "lib/data/audience-landings.ts",
-    "kind": "prose",
-    "value": 990,
-    "count": 1,
-    "example": "priceHint: \"החל מ-990 ₪\","
   },
   {
     "file": "lib/data/audiobooks-page.ts",
@@ -1046,7 +1025,7 @@
     "file": "lib/data/podcast-self-service-page.ts",
     "kind": "prose",
     "value": 650,
-    "count": 4,
+    "count": 3,
     "example": "\"650 ₪ לשעה, בלי עריכה ובלי ליווי\","
   },
   {

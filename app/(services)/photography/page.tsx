@@ -32,7 +32,7 @@ export default function PhotographyHubPage() {
 
         <CalculatorDisclosure
           title="הזמנת צלם - מחשבון חבילה"
-          description="שעות צילום, תוספות ושירותי AI - מחיר משוער לפני מע״מ."
+          description="שעות צילום, תוספות ושירותי AI - מחיר משוער כולל מע״מ."
           buttonLabel="פתחו מחשבון חבילה והמשיכו להזמנה"
         >
           <PhotographyCalculator />

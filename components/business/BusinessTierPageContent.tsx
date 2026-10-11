@@ -198,7 +198,9 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
           {config.termsVatNote ? (
             <p className="mt-2 text-sm text-muted-foreground">{config.termsVatNote}</p>
           ) : (
-            <p className="mt-2 text-sm text-muted-foreground">המחירים לפני מע״מ</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {config.priceAudience === "consumer" ? "המחירים כוללים מע״מ" : "המחירים לפני מע״מ"}
+            </p>
           )}
           <ul
             className={cn(

@@ -152,6 +152,7 @@ export function PriceScopeCompact({
   showFromPrefix = false,
   className,
   lead = "withVat",
+  businessToggle = false,
 }: {
   exVat: number;
   scope?: PriceScope;
@@ -159,6 +160,8 @@ export function PriceScopeCompact({
   className?: string;
   /** "withVat": הסכום כולל מע״מ, עם המילים "כולל מע״מ" */
   lead?: "exVat" | "withVat";
+  /** במחירון: הסכום לפני מע״מ מוסתר, ומוצג רק כשמסמנים "לעסקים" (D86) */
+  businessToggle?: boolean;
 }) {
   const scopeLine = formatScopeLine(scope);
   const amount =
@@ -171,7 +174,15 @@ export function PriceScopeCompact({
   const text = scopeLine ? `${price} · ${scopeLine}` : `${price} · ${billing}`;
 
   return (
-    <span className={cn("text-xs text-muted-foreground", className)}>{text}</span>
+    <span className={cn("text-xs text-muted-foreground", className)}>
+      {text}
+      {businessToggle && lead === "withVat" ? (
+        <span className="vat-business-only" data-vat-business>
+          {" "}
+          ({exVat.toLocaleString("he-IL")} ₪ + מע״מ)
+        </span>
+      ) : null}
+    </span>
   );
 }
 

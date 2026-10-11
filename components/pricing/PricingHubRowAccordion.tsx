@@ -151,6 +151,7 @@ export default function PricingHubRowAccordion({
                       showFromPrefix={showFromPrefix}
                       className="mt-1"
                       lead={priceLead}
+                      businessToggle
                     />
                   ) : null}
                 </div>

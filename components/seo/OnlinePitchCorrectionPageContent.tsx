@@ -304,7 +304,6 @@ export default function OnlinePitchCorrectionPageContent() {
           </ul>
           <p className="mt-4 text-xs text-muted-foreground">
             לשירים ארוכים: מעל 4 דקות - {withVat(PITCH_LONG_SURCHARGE_EX_VAT)} ₪ כולל מע״מ נוספים
-            ({PITCH_LONG_SURCHARGE_EX_VAT} ₪ + מע״מ)
           </p>
         </div>
       </section>
