@@ -40,7 +40,7 @@ export default async function AdminLoginPage({
         <Container className="max-w-sm">
           <h1 className="font-serif text-2xl font-semibold text-foreground">כניסה לניהול</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            הזינו את מפתח הניהול. הוא נשמר בעוגייה מאובטחת ל-30 יום.
+            הזינו את מפתח הניהול. הכניסה נשמרת בעוגייה מאובטחת ומתחדשת לבד כשמשתמשים בה, עד 90 יום מהכניסה.
           </p>
           <form action={adminLoginAction} className="mt-6 space-y-3">
             {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
