@@ -28,6 +28,7 @@ import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { withVat } from "@/lib/data/pricing";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME } from "@/lib/constants";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import { resolveTechBarrierRelief } from "@/lib/data/tech-barrier-relief";
@@ -762,6 +763,7 @@ export default function AcademyPage() {
               bookLabel={bookCta.bookLabel}
             />
           ) : null}
+          <NewServicesLinks paths={["/podcast/host-coaching", "/studio/ai-song-gift"]} />
           <PageRelatedFooter pathname="/academy" className="mx-auto mt-10 max-w-xl" />
         </div>
       </section>

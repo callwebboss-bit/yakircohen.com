@@ -1,6 +1,9 @@
 import { buildBookHref } from "@/lib/book-url";
 import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
 import type { PlaylistId } from "@/lib/data/video-playlists";
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
+
+const PARODY_PUBLISHED = isServiceOfferPublished("/studio/parody");
 
 export type PortfolioPlaylistCtaConfig = {
   /** ניסוח המשך חוויה - לא "הזמן עכשיו" */
@@ -98,10 +101,12 @@ export const PORTFOLIO_PLAYLIST_CTA: Partial<
     bookLabel: "תיאום הקלטת קריינות",
     utmCampaign: "portfolio_cta_voiceover",
   }),
+  /* מ-11.10.2026: הפלייליסט הוא תיק העבודות של הפרודיה. כשעמוד הפרודיה מתפרסם,
+     הכפתור מוביל אליו במקום לעמוד המתנות הכללי. */
   "studio-hub-entertainment": cta({
     prompt: "רוצים הפקה מצחיקה במתנה?",
-    serviceHref: "/studio/recording-song-modiin/gifts",
-    serviceLabel: "למתנות מהאולפן",
+    serviceHref: PARODY_PUBLISHED ? "/studio/parody" : "/studio/recording-song-modiin/gifts",
+    serviceLabel: PARODY_PUBLISHED ? "לפרודיה לאירוע" : "למתנות מהאולפן",
     bookCategory: "studio",
     catalog: "song_recording",
     bookLabel: "תיאום סשן דומה",

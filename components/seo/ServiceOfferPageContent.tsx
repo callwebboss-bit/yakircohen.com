@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
+import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
@@ -12,6 +13,7 @@ import {
   schemaOffers,
   type ServiceOfferPage,
 } from "@/lib/data/service-offers/types";
+import { isLinkableFrom } from "@/lib/data/service-offers/status";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildServicePageEntitySchema } from "@/lib/seo/page-schema";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -25,6 +27,9 @@ import { getExVat } from "@/lib/data/pricing-catalog";
  */
 export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPage }) {
   const rows = resolvePriceRows(page.prices);
+  /* עמוד שפורסם לא מקשר לעמוד חדש שעדיין טיוטה */
+  const related = page.related.filter((link) => isLinkableFrom(page.draft, link.href));
+  const alternatives = (page.alternatives?.items ?? []).filter((item) => isLinkableFrom(page.draft, item.href));
   const whatsappText = buildPricingInquiryMessage({
     packageLabel: page.whatsapp.packageLabel,
     priceExVat: getExVat(page.whatsapp.priceId),
@@ -91,7 +96,25 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
         </Container>
       </Section>
 
-      <Section className="bg-surface" ariaLabelledby="offer-how-title" padding="sm">
+      {page.audience ? (
+        <Section className="bg-surface" ariaLabelledby="offer-audience-title" padding="sm">
+          <Container className="max-w-3xl">
+            <BlessingsSectionHeader id="offer-audience-title" eyebrow="למי זה מתאים" title={page.audience.title} />
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+              {page.audience.items.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-xl border border-border bg-background px-4 py-3 text-sm leading-relaxed text-foreground"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      ) : null}
+
+      <Section className="bg-background" ariaLabelledby="offer-how-title" padding="sm">
         <Container>
           <BlessingsSectionHeader id="offer-how-title" eyebrow="איך זה עובד" title="צעד אחרי צעד" />
           <ol role="list" className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -179,17 +202,49 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
         </Section>
       ))}
 
+      {page.videos?.items.length ? (
+        <Section className="border-t border-border bg-surface" ariaLabelledby="offer-videos-title" padding="sm">
+          <Container>
+            <BlessingsSectionHeader
+              id="offer-videos-title"
+              eyebrow="דוגמאות"
+              title={page.videos.title}
+              description={page.videos.description}
+            />
+            <RecordingSongExampleVideos videos={page.videos.items} className="mt-8" />
+          </Container>
+        </Section>
+      ) : null}
+
+      {page.alternatives && alternatives.length ? (
+        <Section className="bg-background" ariaLabelledby="offer-alternatives-title" padding="sm">
+          <Container className="max-w-3xl">
+            <BlessingsSectionHeader id="offer-alternatives-title" eyebrow="מה מתאים לכם" title={page.alternatives.title} />
+            <ul className="mt-8 grid gap-3">
+              {alternatives.map((item) => (
+                <li key={item.href} className="rounded-xl border border-border bg-surface px-4 py-4">
+                  <Link href={item.href} className="text-sm font-semibold text-brand-red hover:underline">
+                    {item.label}
+                  </Link>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      ) : null}
+
       <Section className="border-t border-border bg-surface" ariaLabelledby="offer-faq-title" padding="sm">
         <Container className="max-w-3xl">
           <BlessingsSectionHeader id="offer-faq-title" eyebrow="שאלות" title="שאלות נפוצות" />
           <div className="mt-8">
             <FAQWithCtaLinks items={faqItems} />
           </div>
-          {page.related.length ? (
+          {related.length ? (
             <nav aria-label="שירותים קשורים" className="mt-10 text-center">
               <p className="text-sm font-semibold text-foreground">עוד שירותים שקשורים לזה</p>
               <ul className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
-                {page.related.map((link) => (
+                {related.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="font-semibold text-brand-red hover:underline">
                       {link.label}

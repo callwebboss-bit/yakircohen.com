@@ -1,5 +1,6 @@
 ﻿import PodcastProductionPageContent from "@/components/seo/PodcastProductionPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 export const metadata = constructMetadata({
   title: "הפקת פודקאסט מא׳ עד ת׳ | ליווי מקצועי",
@@ -16,5 +17,10 @@ export const metadata = constructMetadata({
 });
 
 export default function PodcastProductionPage() {
-  return <PodcastProductionPageContent />;
+  return (
+    <>
+      <PodcastProductionPageContent />
+      <NewServicesLinks paths={["/podcast/launch-package", "/podcast/host-coaching", "/podcast/live-podcast"]} />
+    </>
+  );
 }

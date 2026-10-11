@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -17,6 +18,14 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
   intro:
     "שיחה על הבמה, מול קהל, שמוקלטת ומצולמת כפרק פודקאסט. מגיעים עם כל הציוד, התאורה והצוות, לכנס, לאירוע חברה או לערב קהילה.",
   highlight: "עד 4 משתתפים על הבמה, וצילום וידאו כלול.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "כנס מקצועי",
+      "אירוע חברה",
+      "ערב קהילה"
+    ],
+  },
   steps: [
     {
       title: "מתאמים",
@@ -48,6 +57,31 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
     { id: "live_podcast_venue_sound", label: "עם ההגברה של המקום", note: "כשיש במקום הגברה, מתחברים אליה", from: true },
   ],
   priceNote: "מחוץ למרכז יש תוספת נסיעה, כמו באולפן הנייד.",
+  alternatives: {
+    title: "פודקאסט חי, או משהו אחר?",
+    items: [
+      {
+        "href": "/podcast/mobile-podcast-at-home",
+        "label": "אולפן פודקאסט נייד",
+        "body": "מקליטים בלי קהל, בבית או במשרד."
+      },
+      {
+        "href": "/podcast/corporate-podcast",
+        "label": "פודקאסט ארגוני",
+        "body": "רוצים סדרת פרקים לחברה, ולא אירוע אחד."
+      },
+      {
+        "href": "/business/on-site-studio",
+        "label": "אולפן זמני בחברה",
+        "body": "רוצים אולפן שנשאר אצלכם לתקופה."
+      },
+      {
+        "href": "/events/equipment",
+        "label": "הגברה לאירועים",
+        "body": "צריכים רק הגברה, בלי הקלטה."
+      }
+    ],
+  },
   faqs: [
     {
       id: "live-how-many",
@@ -76,5 +110,5 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
     { href: "/podcast/corporate-podcast", label: "פודקאסט ארגוני" },
     { href: "/events/equipment", label: "הגברה לאירועים" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/podcast/live-podcast"),
 };

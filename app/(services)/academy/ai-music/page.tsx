@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AiMusicPageContent from "@/components/seo/AiMusicPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 export const metadata: Metadata = constructMetadata({
   title: "קורס AI במוזיקה | לימוד ושירותים בליווי",
@@ -19,5 +20,10 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function AiMusicPage() {
-  return <AiMusicPageContent />;
+  return (
+    <>
+      <AiMusicPageContent />
+      <NewServicesLinks paths={["/studio/ai-song-gift"]} />
+    </>
+  );
 }

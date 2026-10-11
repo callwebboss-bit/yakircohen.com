@@ -1,4 +1,5 @@
 import { calcSongOffer } from "@/lib/data/song-offer";
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /* כמה יוצא לכל אחד: אותו חישוב כמו טופס השיר (calcSongOffer), כדי שהסכום כאן
@@ -28,6 +29,14 @@ export const GROUP_SESSION_PAGE: ServiceOfferPage = {
   intro:
     "מגיעים יחד ומקליטים שיר אחד משותף, כשכל אחד נכנס ומקליט את הקטע שלו. יוצאים עם תוצרים מוגמרים. מתאים למסיבת רווקות, ליום הולדת ולכל קבוצה שרוצה חוויה משותפת באולפן במודיעין.",
   highlight: "סשן קבוצתי לוקח בין שעה לשעתיים. קבוצה של 8 לוקחת בדרך כלל עד שעה.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "מסיבת רווקות",
+      "יום הולדת עם חברים",
+      "משפחה שמקליטה שיר אחד לאירוע"
+    ],
+  },
   steps: [
     {
       title: "מגיעים ומתאספים",
@@ -96,6 +105,35 @@ export const GROUP_SESSION_PAGE: ServiceOfferPage = {
       ],
     },
   ],
+  videos: {
+    title: "כך נשמעת הקלטה קבוצתית",
+    items: [
+      {
+        "videoId": "hg4u1GhrZ3Y",
+        "title": "כל המשפחה מקליטה שיר לבת מצווה"
+      }
+    ],
+  },
+  alternatives: {
+    title: "סשן קבוצתי, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/recording-song-modiin",
+        "label": "הקלטת שיר",
+        "body": "מקליטים לבד או בזוג, לא כקבוצה."
+      },
+      {
+        "href": "/studio/mobile-studio",
+        "label": "האולפן הנייד",
+        "body": "רוצים שהאולפן יגיע אליכם, במקום להגיע אלינו."
+      },
+      {
+        "href": "/academy/workshops",
+        "label": "סדנאות לצוותים",
+        "body": "מדובר בצוות מהעבודה, ביום גיבוש."
+      }
+    ],
+  },
   faqs: [
     {
       id: "group-duration",
@@ -141,5 +179,5 @@ export const GROUP_SESSION_PAGE: ServiceOfferPage = {
     { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
     { href: "/studio/virtual-tour", label: "סיור באולפן" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/group-session"),
 };

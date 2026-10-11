@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import PodcastHubPageContent from "@/components/seo/PodcastHubPageContent";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 import { PODCAST_HUB_TRACKS } from "@/lib/data/podcast-hub-tracks";
 import {
   hubSchemaPropsFromSeo,
@@ -15,6 +16,7 @@ export default function PodcastHubPage() {
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(PODCAST_HUB_SEO)} />
       <PodcastHubPageContent />
+      <NewServicesLinks paths={["/podcast/launch-package", "/podcast/live-podcast", "/podcast/host-coaching"]} />
     </>
   );
 }

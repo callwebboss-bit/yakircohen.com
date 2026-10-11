@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -14,6 +15,14 @@ export const PROFESSIONAL_SINGER_PAGE: ServiceOfferPage = {
   h1: "שיר במתנה, בביצוע זמר או זמרת מקצועיים",
   intro:
     "לא כל מי שרוצה לתת שיר רוצה גם לשיר אותו. אתם מביאים את הסיפור או את השיר, וזמר או זמרת מהצוות שלנו מבצעים אותו באולפן.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "מי שרוצה לתת שיר בלי לשיר בעצמו",
+      "שיר מקורי או פרודיה שצריכים קול מקצועי",
+      "מתנה לחתונה, ליום הולדת או ליום נישואין"
+    ],
+  },
   steps: [
     {
       title: "בוחרים שיר",
@@ -44,6 +53,26 @@ export const PROFESSIONAL_SINGER_PAGE: ServiceOfferPage = {
     { id: "song_house_singer", addon: true, note: "תוספת לכל שיר" },
   ],
   priceNote: "בשיר מקורי או בפרודיה, הזמר הוא תוספת למחיר של אותו שיר.",
+  alternatives: {
+    title: "זמר מהצוות, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/recording-song-modiin",
+        "label": "הקלטת שיר",
+        "body": "רוצים לשיר בעצמכם, עם ליווי ותיקון זיופים."
+      },
+      {
+        "href": "/studio/original-song",
+        "label": "שיר מקורי לכל אירוע",
+        "body": "צריך קודם לכתוב את השיר."
+      },
+      {
+        "href": "/studio/parody",
+        "label": "פרודיה לאירוע",
+        "body": "רוצים מילים חדשות ומצחיקות על לחן מוכר."
+      }
+    ],
+  },
   faqs: [
     {
       id: "singer-who",
@@ -71,5 +100,5 @@ export const PROFESSIONAL_SINGER_PAGE: ServiceOfferPage = {
     { href: "/studio/parody", label: "פרודיה לאירוע" },
     { href: "/studio/recording-song-modiin", label: "הקלטת שיר" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/professional-singer"),
 };

@@ -5,6 +5,7 @@ import {
 
   getStudioService,
 } from "@/lib/data/services";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 
 
@@ -18,7 +19,12 @@ export const metadata = metadataFromService(service);
 
 export default function BlessingsHubPage() {
 
-  return <BlessingsHubPageContent />;
+  return (
+    <>
+      <BlessingsHubPageContent />
+      <NewServicesLinks paths={["/studio/blessings/enlistment", "/studio/original-song"]} />
+    </>
+  );
 
 }
 

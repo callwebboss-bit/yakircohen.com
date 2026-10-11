@@ -1,5 +1,6 @@
 ﻿import MobilePodcastAtHomePageContent from "@/components/seo/MobilePodcastAtHomePageContent";
 import { constructMetadata } from "@/lib/metadata";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 export const metadata = constructMetadata({
   title: "פודקאסט נייד עד הבית | האולפן מגיע אליכם",
@@ -16,5 +17,10 @@ export const metadata = constructMetadata({
 });
 
 export default function MobilePodcastAtHomePage() {
-  return <MobilePodcastAtHomePageContent />;
+  return (
+    <>
+      <MobilePodcastAtHomePageContent />
+      <NewServicesLinks paths={["/podcast/live-podcast", "/studio/class-song"]} />
+    </>
+  );
 }

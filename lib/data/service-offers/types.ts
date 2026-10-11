@@ -33,6 +33,15 @@ export type ServiceOfferExtraSection = {
   items: readonly { title: string; body: string }[];
 };
 
+export type ServiceOfferVideo = { videoId: string; title: string; description?: string };
+
+/**
+ * "לא בטוחים שזה מה שאתם צריכים?": קישורים לעמודים קרובים, עם משפט שאומר מתי
+ * לבחור בהם. זה מה שמונע מהעמוד להתחרות בעמוד קיים על אותה כוונת חיפוש: כל
+ * עמוד אומר במפורש למי הוא, ומפנה את השאר לעמוד הנכון.
+ */
+export type ServiceOfferAlternative = { href: string; label: string; body: string };
+
 export type ServiceOfferPage = {
   /** "/studio/parody" */
   path: string;
@@ -45,6 +54,8 @@ export type ServiceOfferPage = {
   intro: string;
   /** משפט קצר מתחת לפתיחה, למשל זמן מסירה */
   highlight?: string;
+  /** "למי זה מתאים" */
+  audience?: { title: string; items: readonly string[] };
   steps: readonly ServiceOfferStep[];
   includesTitle: string;
   includes: readonly string[];
@@ -53,6 +64,9 @@ export type ServiceOfferPage = {
   /** הערה מתחת לטבלת המחיר */
   priceNote?: string;
   extraSections?: readonly ServiceOfferExtraSection[];
+  /** דוגמאות אמיתיות מהקטלוג (video-catalog.generated.ts), רק כשהכותרת מתאימה לשירות */
+  videos?: { title: string; description?: string; items: readonly ServiceOfferVideo[] };
+  alternatives?: { title: string; items: readonly ServiceOfferAlternative[] };
   faqs: readonly ServiceOfferFaq[];
   whatsapp: {
     /** "פרודיה לאירוע", נכנס ל"שלום, אשמח לשמוע על ..." */

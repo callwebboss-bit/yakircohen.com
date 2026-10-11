@@ -5,6 +5,7 @@ import {
 
   getStudioService,
 } from "@/lib/data/services";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 
 
@@ -18,7 +19,12 @@ export const metadata = metadataFromService(service);
 
 export default function RecordingSongModiinPage() {
 
-  return <RecordingSongModiinPageContent />;
+  return (
+    <>
+      <RecordingSongModiinPageContent />
+      <NewServicesLinks paths={["/studio/original-song", "/studio/parody", "/studio/professional-singer", "/studio/group-session", "/studio/ai-song-gift"]} />
+    </>
+  );
 
 }
 

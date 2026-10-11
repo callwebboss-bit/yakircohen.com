@@ -4,6 +4,7 @@ import {
   BusinessServicePage,
 } from "@/lib/business-page-shell";
 import { CORPORATE_PODCAST_CONFIG } from "@/lib/data/corporate-podcast-page";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 const SLUG = "podcast/corporate-podcast";
 
@@ -24,5 +25,10 @@ export const metadata: Metadata = buildBusinessPageMetadata({
 });
 
 export default function CorporatePodcastPage() {
-  return <BusinessServicePage slug={SLUG} config={CORPORATE_PODCAST_CONFIG} />;
+  return (
+    <>
+      <BusinessServicePage slug={SLUG} config={CORPORATE_PODCAST_CONFIG} />
+      <NewServicesLinks paths={["/podcast/live-podcast", "/podcast/host-coaching"]} />
+    </>
+  );
 }

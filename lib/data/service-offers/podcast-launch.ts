@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -16,6 +17,14 @@ export const PODCAST_LAUNCH_PAGE: ServiceOfferPage = {
   h1: "חבילת השקה לפודקאסט חדש",
   intro:
     "כל מה שצריך לפני הפרק הראשון: פגישת אפיון שבונה את הפורמט, טריילר שמציג את הפודקאסט, ותמונת עטיפה ממעצב מקצועי.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "מי שמתחיל פודקאסט ראשון",
+      "עסק שרוצה לפתוח פודקאסט",
+      "פודקאסט קיים שרוצה להתחיל מחדש עם פורמט ברור"
+    ],
+  },
   steps: [
     {
       title: "פגישת אפיון",
@@ -44,6 +53,31 @@ export const PODCAST_LAUNCH_PAGE: ServiceOfferPage = {
   priceTitle: "כמה עולה חבילת ההשקה",
   prices: [{ id: "podcast_launch_package" }],
   priceNote: "הקלטת הפרקים בנפרד, לפי חבילות הפודקאסט.",
+  alternatives: {
+    title: "חבילת השקה, או משהו אחר?",
+    items: [
+      {
+        "href": "/podcast/podcast-production",
+        "label": "הפקת פודקאסט",
+        "body": "כבר יש לכם פורמט, ואתם רוצים הפקה שוטפת של פרקים."
+      },
+      {
+        "href": "/podcast/podcast-recording",
+        "label": "הקלטת פודקאסט",
+        "body": "רוצים רק להקליט פרק."
+      },
+      {
+        "href": "/podcast/subscription",
+        "label": "מנוי פודקאסט",
+        "body": "רוצים פרקים קבועים כל חודש."
+      },
+      {
+        "href": "/podcast/host-coaching",
+        "label": "אימון הנחיה",
+        "body": "רוצים להתאמן על ההנחיה לפני הפרק הראשון."
+      }
+    ],
+  },
   faqs: [
     {
       id: "launch-vs-episode",
@@ -72,5 +106,5 @@ export const PODCAST_LAUNCH_PAGE: ServiceOfferPage = {
     { href: "/podcast/podcast-recording", label: "הקלטת פודקאסט" },
     { href: "/podcast/subscription", label: "מנוי פודקאסט" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/podcast/launch-package"),
 };

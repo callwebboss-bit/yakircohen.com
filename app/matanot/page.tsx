@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import MatanotPageContent from "@/components/seo/MatanotPageContent";
 import { constructMetadata } from "@/lib/metadata";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 export const metadata: Metadata = constructMetadata({
   title: "מתנה מוקלטת לפי אירוע | חתונה, יום הולדת, בר מצווה ויום נישואין",
@@ -21,5 +22,10 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function MatanotPage() {
-  return <MatanotPageContent />;
+  return (
+    <>
+      <MatanotPageContent />
+      <NewServicesLinks paths={["/studio/original-song", "/studio/parody", "/studio/ai-song-gift", "/studio/group-session", "/studio/professional-singer", "/studio/blessings/enlistment"]} />
+    </>
+  );
 }

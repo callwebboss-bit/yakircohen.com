@@ -3,6 +3,7 @@ import {
   BusinessServicePage,
 } from "@/lib/business-page-shell";
 import { CORPORATE_SONGS_CONFIG } from "@/lib/data/corporate-songs-page";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 const SLUG = "business/corporate-songs";
 
@@ -26,5 +27,10 @@ export const metadata = buildBusinessPageMetadata({
 });
 
 export default function CorporateSongsPage() {
-  return <BusinessServicePage slug={SLUG} config={CORPORATE_SONGS_CONFIG} />;
+  return (
+    <>
+      <BusinessServicePage slug={SLUG} config={CORPORATE_SONGS_CONFIG} />
+      <NewServicesLinks paths={["/studio/parody", "/studio/original-song"]} label="לאירוע פרטי" />
+    </>
+  );
 }

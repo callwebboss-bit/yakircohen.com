@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/proposal-clip-gifts-page";
 import { RINGTONE_PAGE_PATH } from "@/lib/data/funny-ringtone-page";
 import { ORIGINAL_SONG_PAGE } from "@/lib/data/service-offers/original-song";
+import { publishedServiceLinks } from "@/lib/data/service-offers/status";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
 import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -73,6 +74,14 @@ export const STUDIO_GIFT_QUICK_LINKS: readonly {
   { href: "/voucher", label: "שובר מתנה" },
   { href: "/podcast/podcast-with-grandpa", label: "פודקאסט עם סבא" },
   { href: "/studio/recording-song-modiin", label: "הקלטת שיר במודיעין" },
+  /* השירותים החדשים מ-11.10.2026, רק אחרי שפורסמו (lib/data/service-offers/status.ts) */
+  ...publishedServiceLinks([
+    "/studio/original-song",
+    "/studio/parody",
+    "/studio/ai-song-gift",
+    "/studio/professional-singer",
+    "/studio/group-session",
+  ]),
 ] as const;
 
 export const GIFT_VOUCHER_STEPS: readonly {

@@ -3,6 +3,7 @@ import FunnyRingtonePageContent from "@/components/seo/FunnyRingtonePageContent"
 import { constructMetadata } from "@/lib/metadata";
 import { buildMetaDescription } from "@/lib/seo/share-description";
 import { RINGTONE_PRICE_LABEL } from "@/lib/data/funny-ringtone-page";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 export const metadata: Metadata = constructMetadata({
   title: `רינגטון מצחיק במתנה | ${RINGTONE_PRICE_LABEL}`,
@@ -25,5 +26,10 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function FunnyRingtonePage() {
-  return <FunnyRingtonePageContent />;
+  return (
+    <>
+      <FunnyRingtonePageContent />
+      <NewServicesLinks paths={["/studio/parody", "/studio/ai-song-gift"]} />
+    </>
+  );
 }

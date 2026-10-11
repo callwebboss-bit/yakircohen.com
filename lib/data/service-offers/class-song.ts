@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -16,6 +17,14 @@ export const CLASS_SONG_PAGE: ServiceOfferPage = {
   intro:
     "שיר סיום לגן, לכיתה או למחזור, בלי לצאת מבית הספר. אנחנו מגיעים עם האולפן הנייד עד הכיתה, או לכל מקום שאפשר לשיר בו, וכל תלמיד ותלמידה נכנסים בתורם להקלטה.",
   highlight: "הילדים לא נוסעים לשום מקום. האולפן מגיע אליהם.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "גן שמסיים שנה",
+      "כיתה שמסיימת את בית הספר",
+      "מחזור שרוצה שיר משותף"
+    ],
+  },
   steps: [
     {
       title: "מתאמים מקום ומועד",
@@ -51,6 +60,26 @@ export const CLASS_SONG_PAGE: ServiceOfferPage = {
     },
   ],
   priceNote: "המחיר לכיתה או לגן שלם נקבע יחד, לפי מספר הילדים והזמן.",
+  alternatives: {
+    title: "שיר סיום, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/group-session",
+        "label": "סשן קבוצתי באולפן",
+        "body": "הקבוצה מעדיפה להגיע לאולפן במודיעין."
+      },
+      {
+        "href": "/studio/mobile-studio",
+        "label": "האולפן הנייד",
+        "body": "צריך הקלטה אחרת, בבית או במשרד."
+      },
+      {
+        "href": "/photo-slideshow",
+        "label": "מצגת תמונות",
+        "body": "רוצים גם מצגת תמונות מהשנה."
+      }
+    ],
+  },
   faqs: [
     {
       id: "class-come-to-studio",
@@ -79,5 +108,5 @@ export const CLASS_SONG_PAGE: ServiceOfferPage = {
     { href: "/studio/recording-song-modiin", label: "הקלטת שיר" },
     { href: "/photo-slideshow", label: "מצגת תמונות" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/class-song"),
 };

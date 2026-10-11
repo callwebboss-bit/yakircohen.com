@@ -63,3 +63,33 @@ describe("hospitality upgrade", () => {
     assert.equal(withVat(getExVat("studio_hospitality_upgrade")), 149);
   });
 });
+
+describe("publish state", () => {
+  it("every page has a label in status.ts and every label has a page", async () => {
+    const { SERVICE_OFFER_LABELS } = await import("@/lib/data/service-offers/status");
+    const pagePaths = SERVICE_OFFER_PAGES.map((p) => p.path).sort();
+    assert.deepEqual(Object.keys(SERVICE_OFFER_LABELS).sort(), pagePaths);
+  });
+
+  it("existing pages link only to published pages", async () => {
+    const { publishedServiceLinks, SERVICE_OFFER_LABELS, isServiceOfferPublished } = await import(
+      "@/lib/data/service-offers/status"
+    );
+    const all = Object.keys(SERVICE_OFFER_LABELS) as (keyof typeof SERVICE_OFFER_LABELS)[];
+    const links = publishedServiceLinks(all);
+    assert.deepEqual(
+      links.map((l) => l.href),
+      all.filter((p) => isServiceOfferPublished(p)),
+    );
+  });
+
+  it("alternatives and related links point to real routes", () => {
+    for (const page of SERVICE_OFFER_PAGES) {
+      for (const link of [...page.related, ...(page.alternatives?.items ?? [])]) {
+        const path = link.href.replace(/^\//, "");
+        const candidates = [join("app", path, "page.tsx"), join("app/(services)", path, "page.tsx")];
+        assert.ok(candidates.some((c) => existsSync(join(process.cwd(), c))), `${page.path} -> ${link.href}`);
+      }
+    }
+  });
+});

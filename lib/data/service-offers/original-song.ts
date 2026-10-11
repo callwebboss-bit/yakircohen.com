@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -16,6 +17,16 @@ export const ORIGINAL_SONG_PAGE: ServiceOfferPage = {
   intro:
     "שיר שנכתב רק בשבילכם: לחתונה, להצעת נישואין, ליום נישואין, ליום הולדת או לבר ובת מצווה. כותבים יחד איתכם את המילים, עושים לחן ומקליטים באולפן במודיעין.",
   highlight: "אותו מחיר לכל אירוע.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "זוג לפני החתונה, לחופה או לריקוד",
+      "הצעת נישואין",
+      "יום נישואין",
+      "יום הולדת",
+      "בר ובת מצווה"
+    ],
+  },
   steps: [
     {
       title: "מספרים לנו את הסיפור",
@@ -49,6 +60,40 @@ export const ORIGINAL_SONG_PAGE: ServiceOfferPage = {
     { id: "studio_session_clip", addon: true },
   ],
   priceNote: "אותו מחיר לחתונה, להצעת נישואין, ליום נישואין, ליום הולדת ולבר ובת מצווה.",
+  videos: {
+    title: "איך נראה שיר מקורי באולפן",
+    items: [
+      {
+        "videoId": "K8c9xAHWN-g",
+        "title": "איך מקליטים שיר מקורי, כל התהליך עד התוצר הסופי"
+      }
+    ],
+  },
+  alternatives: {
+    title: "שיר מקורי, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/recording-song-modiin",
+        "label": "הקלטת שיר קיים",
+        "body": "רוצים לשיר שיר שכבר קיים, על פלייבק."
+      },
+      {
+        "href": "/studio/parody",
+        "label": "פרודיה לאירוע",
+        "body": "רוצים מילים חדשות ומצחיקות על לחן שכולם מכירים."
+      },
+      {
+        "href": "/studio/ai-song-gift",
+        "label": "שיר AI במתנה",
+        "body": "רוצים מתנה שנעשית כולה מרחוק, ובמחיר נמוך יותר."
+      },
+      {
+        "href": "/studio/blessings/bat-mitzvah-clip",
+        "label": "קליפ לבת או לבר מצווה",
+        "body": "רוצים גם קליפ עם תמונות ילדות וסרטונים מהבית."
+      }
+    ],
+  },
   faqs: [
     {
       id: "original-vs-recording",
@@ -84,5 +129,5 @@ export const ORIGINAL_SONG_PAGE: ServiceOfferPage = {
     { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
     { href: "/studio/blessings", label: "ברכות מוקלטות" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/original-song"),
 };

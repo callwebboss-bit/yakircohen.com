@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -15,6 +16,14 @@ export const ENLISTMENT_PAGE: ServiceOfferPage = {
   h1: "שיר או ברכה לגיוס",
   intro:
     "מתנה מהמשפחה לחייל או לחיילת לפני הגיוס: שיר, ברכה מוקלטת, או שניהם. קובץ שיכול ללוות אותם בשירות.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "הורים ואחים לפני הגיוס",
+      "סבא וסבתא שרוצים להגיד משהו לחייל",
+      "כל המשפחה, בשיר אחד או בברכה אחת"
+    ],
+  },
   steps: [
     {
       title: "בוחרים מה מקליטים",
@@ -48,6 +57,26 @@ export const ENLISTMENT_PAGE: ServiceOfferPage = {
     { id: "blessing_extra_participant", addon: true, note: "כל דובר נוסף בברכה, עד 12" },
   ],
   priceNote: "מצגת תמונות מחושבת בנפרד, בעמוד מצגת התמונות.",
+  alternatives: {
+    title: "גיוס, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/blessings",
+        "label": "ברכות מוקלטות",
+        "body": "ברכה לאירוע אחר, כמו חתונה או בר מצווה."
+      },
+      {
+        "href": "/studio/blessings/milestone-album",
+        "label": "אלבום ברכות מוקלטות מרחוק",
+        "body": "כל אחד מהמשפחה מקליט ברכה מהבית, ואנחנו מחברים לקובץ אחד."
+      },
+      {
+        "href": "/photo-slideshow",
+        "label": "מצגת תמונות",
+        "body": "רוצים מצגת תמונות בנוסף לשיר או לברכה."
+      }
+    ],
+  },
   faqs: [
     {
       id: "enlist-song-or-blessing",
@@ -82,5 +111,5 @@ export const ENLISTMENT_PAGE: ServiceOfferPage = {
     { href: "/studio/recording-song-modiin", label: "הקלטת שיר" },
     { href: "/photo-slideshow", label: "מצגת תמונות" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/blessings/enlistment"),
 };

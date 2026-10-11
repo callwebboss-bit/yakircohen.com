@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -18,6 +19,15 @@ export const PARODY_PAGE: ServiceOfferPage = {
   intro:
     "לוקחים שיר שכולם מכירים, וכותבים לו מילים חדשות, מצחיקות ואישיות. ליום הולדת, לחתונה, לפרישה או למסיבת רווקות.",
   highlight: "השיר מוכן תוך 24 שעות.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "יום הולדת עגול, עם הבדיחות שרק החברים מבינים",
+      "חתונה, כשהחברים רוצים לשיר משהו לזוג",
+      "פרישה או פרידה מהעבודה",
+      "מסיבת רווקות"
+    ],
+  },
   steps: [
     {
       title: "שולחים לנו פרטים",
@@ -50,6 +60,53 @@ export const PARODY_PAGE: ServiceOfferPage = {
     { id: "song_house_singer", addon: true, note: "אם לא רוצים לשיר בעצמכם" },
     { id: "studio_pitch_correction", addon: true },
   ],
+  videos: {
+    title: "פרודיות מהאולפן",
+    description: "פרודיות שהפקנו באולפן. כך נשמע לחן מוכר עם מילים חדשות.",
+    items: [
+      {
+        "videoId": "nsHUwF9hc_U",
+        "title": "איך עושים פרודיה? מאחורי הקלעים באולפן"
+      },
+      {
+        "videoId": "y1LHYRx7teQ",
+        "title": "הזוג הזה, גרסת הסטודנטים"
+      },
+      {
+        "videoId": "Aj1j4Km0V5s",
+        "title": "ג'וני, הגרסה הנשית"
+      },
+      {
+        "videoId": "xID2V0BM_g0",
+        "title": "פרודיה על מתכון מטבוחה"
+      }
+    ],
+  },
+  alternatives: {
+    title: "פרודיה, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/original-song",
+        "label": "שיר מקורי לכל אירוע",
+        "body": "רוצים לחן חדש שנכתב רק בשבילכם, ולא לחן מוכר."
+      },
+      {
+        "href": "/studio/recording-song-modiin/gifts/funny-ringtone",
+        "label": "רינגטון מצחיק במתנה",
+        "body": "רוצים משהו קצר ומצחיק לטלפון, ולא שיר שלם."
+      },
+      {
+        "href": "/business/corporate-songs",
+        "label": "שיר לחברה",
+        "body": "השיר מיועד לחברה או לצוות, עם חשבונית מס."
+      },
+      {
+        "href": "/studio/professional-singer",
+        "label": "שיר בביצוע זמר מהצוות",
+        "body": "אתם לא רוצים לשיר בכלל."
+      }
+    ],
+  },
   faqs: [
     {
       id: "parody-what-to-send",
@@ -83,5 +140,5 @@ export const PARODY_PAGE: ServiceOfferPage = {
     { href: "/studio/professional-singer", label: "זמר שישיר בשבילכם" },
     { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/parody"),
 };

@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -15,6 +16,14 @@ export const HOST_COACHING_PAGE: ServiceOfferPage = {
   h1: "אימון הנחיה לפודקאסט",
   intro:
     "לפני הפרק הראשון, או כשרוצים להשתפר. בוחרים מאמן, ומתאמנים במתחם ההפקה שלנו, עם כל מה שהאולפן מאפשר.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "מנחי פודקאסט לפני הפרק הראשון",
+      "מגישים ומרצים",
+      "מי שעולה מול מיקרופון או מצלמה"
+    ],
+  },
   steps: [
     {
       title: "בוחרים מאמן",
@@ -57,6 +66,26 @@ export const HOST_COACHING_PAGE: ServiceOfferPage = {
       ],
     },
   ],
+  alternatives: {
+    title: "אימון הנחיה, או משהו אחר?",
+    items: [
+      {
+        "href": "/academy/voiceover",
+        "label": "קורס קריינות ודיבור נכון",
+        "body": "רוצים קורס מלא, ולא מפגש אימון."
+      },
+      {
+        "href": "/stuttering",
+        "label": "אימון דיבור לגמגום",
+        "body": "הקושי הוא גמגום, ולא הנחיה."
+      },
+      {
+        "href": "/podcast/launch-package",
+        "label": "חבילת השקה לפודקאסט",
+        "body": "רוצים גם לבנות את הפורמט, הטריילר והעטיפה."
+      }
+    ],
+  },
   faqs: [
     {
       id: "coach-who",
@@ -85,5 +114,5 @@ export const HOST_COACHING_PAGE: ServiceOfferPage = {
     { href: "/podcast/podcast-recording", label: "הקלטת פודקאסט" },
     { href: "/academy", label: "האקדמיה" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/podcast/host-coaching"),
 };

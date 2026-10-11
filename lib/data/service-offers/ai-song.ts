@@ -1,3 +1,4 @@
+import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /**
@@ -16,6 +17,14 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
   h1: "שיר AI במתנה",
   intro:
     "שיר אישי שנוצר עם AI, ונבנה יחד איתכם. הקול בשיר יכול להיות שלכם, קול של זמר שנוצר ב-AI, או זמר או זמרת מהצוות שלנו. הכול מרחוק, בלי להגיע לאולפן.",
+  audience: {
+    title: "למי זה מתאים",
+    items: [
+      "מתנה מרחוק, בלי להגיע לאולפן",
+      "מי שלא רוצה לשיר",
+      "יום הולדת, יום נישואין או הפתעה"
+    ],
+  },
   steps: [
     {
       title: "מספרים לנו",
@@ -49,6 +58,36 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
   ],
   priceNote:
     "עובדים יחד, צעד אחרי צעד. חזרה לשלב שכבר אישרתם משפיעה על כל מה שנבנה אחריו, ולכן היא בתוספת מחיר.",
+  videos: {
+    title: "איך נשמע שיר שנבנה עם AI",
+    description: "סשן אמיתי באולפן: מרעיון לשיר מלא עם AI.",
+    items: [
+      {
+        "videoId": "hmEuYVR4ifA",
+        "title": "להקליט שיר ב-10 דקות עם AI"
+      }
+    ],
+  },
+  alternatives: {
+    title: "שיר AI, או משהו אחר?",
+    items: [
+      {
+        "href": "/studio/original-song",
+        "label": "שיר מקורי לכל אירוע",
+        "body": "רוצים לחן שנכתב ומוקלט באולפן, עם נגיעה אנושית מההתחלה."
+      },
+      {
+        "href": "/studio/recording-song-modiin",
+        "label": "הקלטת שיר באולפן",
+        "body": "רוצים את החוויה של הקלטה באולפן."
+      },
+      {
+        "href": "/academy/ai-music",
+        "label": "קורס AI במוזיקה",
+        "body": "רוצים ללמוד ליצור לבד עם AI."
+      }
+    ],
+  },
   faqs: [
     {
       id: "ai-voice-options",
@@ -83,5 +122,5 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
     { href: "/studio/professional-singer", label: "זמר שישיר בשבילכם" },
     { href: "/studio/recording-song-modiin/gifts", label: "מתנות מהאולפן" },
   ],
-  draft: true,
+  draft: !isServiceOfferPublished("/studio/ai-song-gift"),
 };
