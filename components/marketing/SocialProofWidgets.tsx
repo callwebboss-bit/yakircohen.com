@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { scheduleIdle } from "@/lib/schedule-idle";
 import {

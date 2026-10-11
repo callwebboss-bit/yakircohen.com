@@ -1,7 +1,7 @@
 import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { constructMetadata } from "@/lib/metadata";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site-url";

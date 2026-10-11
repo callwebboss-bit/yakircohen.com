@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import type { BlogPost } from "@/lib/data/blog";
 

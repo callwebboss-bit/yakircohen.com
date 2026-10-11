@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useEffect, useState } from "react";
 import { CONTACT_PHONE_E164 } from "@/lib/constants";
 import { isLikelyAvailableForWhatsApp } from "@/lib/business-hours";

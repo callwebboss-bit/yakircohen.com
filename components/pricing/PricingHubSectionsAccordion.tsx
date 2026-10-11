@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { Fragment, useEffect, useId, useState, type KeyboardEvent, type ReactNode } from "react";
 import PricingHubRowAccordion from "@/components/pricing/PricingHubRowAccordion";
 import {

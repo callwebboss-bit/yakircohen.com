@@ -13,7 +13,7 @@
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";
 import TableOfContents from "@/components/ui/TableOfContents";

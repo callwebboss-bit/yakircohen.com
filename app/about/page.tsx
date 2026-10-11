@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubPageSchema from "@/components/seo/HubPageSchema";

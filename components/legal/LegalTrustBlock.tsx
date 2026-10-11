@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { FOOTER_LEGAL_LINKS, GOOGLE_REVIEW_COUNT } from "@/lib/constants";
 
 export default function LegalTrustBlock() {

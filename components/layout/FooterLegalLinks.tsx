@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { FOOTER_LEGAL_LINKS } from "@/lib/constants";
 import { FOOTER_LEGAL_ROW_LINKS } from "@/lib/footer-category-tree";
 

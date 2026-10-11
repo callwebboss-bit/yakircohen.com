@@ -1,5 +1,5 @@
 import { useId } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { ONLINE_LIABILITY_FORM_URL } from "@/lib/data/online-send-file-page";
 
 type ClientMaterialsLiabilityBannerProps = {

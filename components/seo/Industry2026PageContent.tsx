@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FAQAccordion from "@/components/ui/FAQAccordion";

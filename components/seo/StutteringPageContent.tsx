@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";

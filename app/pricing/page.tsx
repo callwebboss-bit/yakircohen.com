@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { Suspense } from "react";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import AnswerBlock from "@/components/seo/AnswerBlock";

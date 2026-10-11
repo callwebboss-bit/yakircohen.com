@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useEffect, useRef, useState } from "react";
 import { CheckIcon } from "@/components/ui/Icons";
 import { useTabs } from "@/hooks/useTabs";

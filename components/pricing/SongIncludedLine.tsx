@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { getExVat, getPriceById } from "@/lib/data/pricing-catalog";
 import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";

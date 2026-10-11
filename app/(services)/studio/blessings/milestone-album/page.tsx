@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import BlessingsProcessGrid from "@/components/blessings/BlessingsProcessGrid";
 import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
 import PhoneRecordingTips from "@/components/blessings/PhoneRecordingTips";

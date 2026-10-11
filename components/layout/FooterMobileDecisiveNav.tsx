@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { usePathname } from "next/navigation";
 import { getMobileDecisiveNav } from "@/lib/mobile-sticky-context";
 import { CTA_LABELS } from "@/lib/data/conversion-copy";

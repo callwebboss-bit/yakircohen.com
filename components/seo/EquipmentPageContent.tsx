@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import ScrollableTable from "@/components/ui/ScrollableTable";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";

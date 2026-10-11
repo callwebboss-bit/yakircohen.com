@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useId } from "react";
 import FieldError from "@/components/forms/FieldError";
 import InfoTip from "@/components/ui/InfoTip";

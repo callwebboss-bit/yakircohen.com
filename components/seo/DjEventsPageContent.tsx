@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import ScrollableTable from "@/components/ui/ScrollableTable";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import TableOfContents from "@/components/ui/TableOfContents";

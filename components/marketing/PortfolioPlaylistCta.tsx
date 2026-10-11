@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { PortfolioPlaylistCtaConfig } from "@/lib/data/portfolio-playlist-cta";
 import { formatHubPriceDual } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";

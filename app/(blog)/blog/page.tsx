@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { permanentRedirect } from "next/navigation";
 import BlogFeaturedStrip from "@/components/blog/BlogFeaturedStrip";
 import ArticleFeed, {

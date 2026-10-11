@@ -5,7 +5,7 @@ import { OUTCOME_CTA, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useId, useState, type KeyboardEvent } from "react";
 import PriceScopeDisplay, { PriceScopeCompact } from "@/components/booking/PriceScopeDisplay";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";

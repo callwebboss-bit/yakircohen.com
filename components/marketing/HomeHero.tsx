@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
 import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";

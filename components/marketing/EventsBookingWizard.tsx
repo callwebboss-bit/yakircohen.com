@@ -38,7 +38,7 @@ import BookingFormField from "@/components/booking/BookingFormField";
 import BookingPhoneInput from "@/components/booking/BookingPhoneInput";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import HoneypotField from "@/components/forms/HoneypotField";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import LeadFormAlert from "@/components/forms/LeadFormAlert";
 import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { useBookingWizard } from "@/hooks/useBookingWizard";

@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useEffect, useRef, useState } from "react";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
 import KoalendarModal from "@/components/booking/KoalendarModal";

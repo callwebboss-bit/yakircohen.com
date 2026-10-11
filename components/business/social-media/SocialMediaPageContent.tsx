@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import SocialMediaHeroGrid from "@/components/business/social-media/SocialMediaHeroGrid";
 import SocialMediaOneOffPricing from "@/components/business/social-media/SocialMediaOneOffPricing";

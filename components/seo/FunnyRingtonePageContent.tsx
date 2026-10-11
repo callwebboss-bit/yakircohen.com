@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import FunnyRingtoneBeforeAfter from "@/components/seo/FunnyRingtoneBeforeAfter";
 import FullProductionShowcaseSection from "@/components/seo/FullProductionShowcaseSection";

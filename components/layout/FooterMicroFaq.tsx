@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { HOME_FAQ_ITEMS } from "@/lib/data/home-faq";
 
 const FOOTER_FAQ_IDS = ["song-studio-price", "delivery-time", "payment", "cancellation"] as const;

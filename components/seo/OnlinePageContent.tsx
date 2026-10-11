@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import {
   CALLBACK_ONLINE_HUB_CONTEXT,

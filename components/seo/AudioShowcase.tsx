@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useCallback } from "react";
 import SoundProofTable from "@/components/seo/SoundProofTable";
 import { trackConversion } from "@/lib/analytics/conversion-events";

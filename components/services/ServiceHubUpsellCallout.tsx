@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { HUB_CROSS_SELL, type HubCrossSellOffer } from "@/lib/data/hub-cross-sell";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 

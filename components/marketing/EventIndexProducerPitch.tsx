@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   PRODUCER_PITCH,
   PRO_BUNDLE_3_EX_VAT,

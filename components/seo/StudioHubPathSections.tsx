@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import {
   STUDIO_HUB_PATH_EXTRAS,

@@ -1,5 +1,5 @@
 // UI-EXCEPTION: premium card glow + single CTA - see docs/ui-exceptions.md
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { ReactNode } from "react";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import ReadMoreText from "@/components/ui/ReadMoreText";
@@ -235,7 +235,6 @@ export default function ServiceCard({
           ) : (
             <Link
               href={href}
-              prefetch
               aria-label={`${ctaLabel} - ${title}`}
               className={cn(
                 "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",

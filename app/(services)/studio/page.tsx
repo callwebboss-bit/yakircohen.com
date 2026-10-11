@@ -1,6 +1,6 @@
 ﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { metadataFromService } from "@/lib/data/service-metadata";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ClientJourneySteps from "@/components/marketing/ClientJourneySteps";
 import PriceFactorsSection from "@/components/seo/PriceFactorsSection";
 import ProductionCalculator from "@/components/marketing/ProductionCalculator";

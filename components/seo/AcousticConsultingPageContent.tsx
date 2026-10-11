@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import { withVat } from "@/lib/data/pricing";
 import StudioAcousticBeforeAfter from "@/components/seo/StudioAcousticBeforeAfter";

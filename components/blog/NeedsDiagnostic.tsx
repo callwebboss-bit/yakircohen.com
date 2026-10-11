@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { DiagnosticConfig, DiagnosticQuestion } from "@/lib/data/blog-diagnostic";
 import { cn } from "@/lib/utils";
 

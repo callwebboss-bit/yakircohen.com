@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
   SERVICE_CARD_DETAILS_CTA,

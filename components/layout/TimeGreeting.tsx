@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useEffect, useState } from "react";
 import { GREETING_TIPS, GENERAL_TIPS } from "@/lib/data/greeting-tips";
 import { cn } from "@/lib/utils";

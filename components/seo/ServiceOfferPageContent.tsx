@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import Button from "@/components/ui/Button";

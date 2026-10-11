@@ -11,7 +11,7 @@ import SmartFormCategoryFaq from "@/components/booking/smart-form/SmartFormCateg
 import SmartFormDemoModal from "@/components/booking/smart-form/SmartFormDemoModal";
 import SmartFormStandards from "@/components/booking/smart-form/SmartFormStandards";
 import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   SMART_FORM_ANTI_LEAD_MESSAGE,
   SMART_FORM_STEP1_CATEGORIES,

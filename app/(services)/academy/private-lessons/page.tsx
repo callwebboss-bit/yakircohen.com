@@ -1,5 +1,5 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSections";
 import PrivateSessionPricing from "@/components/academy/PrivateSessionPricing";
 import HubDualCta from "@/components/marketing/HubDualCta";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import PageBottomCta from "@/components/layout/PageBottomCta";

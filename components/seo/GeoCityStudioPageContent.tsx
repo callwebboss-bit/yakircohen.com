@@ -1,5 +1,5 @@
 import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";

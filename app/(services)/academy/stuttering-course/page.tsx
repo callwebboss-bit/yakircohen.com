@@ -1,5 +1,5 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { constructMetadata } from "@/lib/metadata";
 import LazyYouTubeEmbed from "@/components/marketing/LazyYouTubeEmbed";
 import { buildWhatsAppHref } from "@/lib/whatsapp";

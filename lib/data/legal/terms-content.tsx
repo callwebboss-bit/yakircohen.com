@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import { LEGAL_PHONE_DISPLAY, legalWhatsAppHref } from "@/lib/legal-contact";
 import type { LegalSection } from "@/components/legal/LegalPageLayout";
 import { ONLINE_SAMPLE_RULES } from "@/lib/data/legal-trust-copy";

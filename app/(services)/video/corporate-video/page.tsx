@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { metadataFromService } from "@/lib/data/service-metadata";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";

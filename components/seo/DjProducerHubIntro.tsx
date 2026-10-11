@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
 const HUB_POINTS = [

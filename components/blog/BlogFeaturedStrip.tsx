@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
 import Image from "next/image";
 import Container from "@/components/ui/Container";

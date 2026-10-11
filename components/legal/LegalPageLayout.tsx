@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import LegalRelatedLinks from "@/components/legal/LegalRelatedLinks";
 import LegalTrustBlock from "@/components/legal/LegalTrustBlock";
 import Container from "@/components/ui/Container";

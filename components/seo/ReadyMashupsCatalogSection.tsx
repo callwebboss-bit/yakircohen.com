@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { READY_MASHUPS_CATALOG } from "@/lib/data/ready-mashups-catalog";
 import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";

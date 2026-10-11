@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import ClientMaterialsLiabilityBanner from "@/components/seo/ClientMaterialsLiabilityBanner";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import GrowthSlideshowSection from "@/components/seo/GrowthSlideshowSection";

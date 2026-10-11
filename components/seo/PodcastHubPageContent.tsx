@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import PackageLadder from "@/components/pricing/PackageLadder";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";

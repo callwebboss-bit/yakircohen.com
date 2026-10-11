@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { BlogPost } from "@/lib/data/blog";
 
 type Props = {

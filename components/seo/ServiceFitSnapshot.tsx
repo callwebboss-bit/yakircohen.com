@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   FIT_AUDIENCE_LABEL,
   FIT_DELIVERY_LABEL,

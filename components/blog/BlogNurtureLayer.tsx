@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { BlogNurtureConfig } from "@/lib/data/blog-nurture";
 
 type Props = {

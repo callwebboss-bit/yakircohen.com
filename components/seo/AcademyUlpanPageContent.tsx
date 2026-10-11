@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import AcademyTrialForm from "@/components/forms/AcademyTrialForm";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";

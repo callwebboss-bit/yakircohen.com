@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { notFound } from "next/navigation";
 import ArticleFeed, { type BlogPost as FeedPost } from "@/components/blog/ArticleFeed";
 import AnswerBlock from "@/components/seo/AnswerBlock";

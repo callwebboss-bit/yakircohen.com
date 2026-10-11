@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
 import { BOOKING_INSTALLMENT_LINE } from "@/lib/data/booking-shared";
 import { buildBookHref, type BookCategoryId } from "@/lib/book-url";

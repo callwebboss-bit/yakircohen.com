@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { formatHebrewDate } from "@/lib/format-hebrew-date";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { cn } from "@/lib/utils";
 

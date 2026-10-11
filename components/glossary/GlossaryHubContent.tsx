@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useMemo, useState } from "react";
 import type { GlossaryCategoryId, GlossaryTerm } from "@/lib/data/glossary";
 import { GLOSSARY_CATEGORIES } from "@/lib/data/glossary";

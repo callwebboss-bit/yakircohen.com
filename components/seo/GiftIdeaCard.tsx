@@ -1,7 +1,7 @@
 // UI-EXCEPTION: split layout + video column - see docs/ui-exceptions.md
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import YouTube from "@/components/YouTube";
 import Button from "@/components/ui/Button";
 import type { StudioGiftIdea } from "@/lib/data/studio-gifts-page";

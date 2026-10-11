@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { ReactNode } from "react";
 import PageBottomCta from "@/components/layout/PageBottomCta";
 import CorporateShareButton from "@/components/ui/CorporateShareButton";

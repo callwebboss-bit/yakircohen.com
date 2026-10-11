@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { usePathname } from "next/navigation";
 import { INTENT_NAV_ITEMS, doorForIntent } from "@/lib/data/intent-nav";
 import { cn } from "@/lib/utils";

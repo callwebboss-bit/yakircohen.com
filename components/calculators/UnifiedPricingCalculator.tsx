@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { UNIFIED_CALC_CATEGORIES } from "@/lib/data/unified-calculator";
 import { VAT_RATE as VAT } from "@/lib/data/pricing";
 

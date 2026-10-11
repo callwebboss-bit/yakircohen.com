@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import GlossaryInlineText from "@/components/glossary/GlossaryInlineText";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import AnswerBlock from "@/components/seo/AnswerBlock";

@@ -2,7 +2,7 @@ import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import GiftIdeaCard from "@/components/seo/GiftIdeaCard";
 import SongOfferSection from "@/components/pricing/SongOfferSection";

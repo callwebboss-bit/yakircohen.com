@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { HubDecisionRow } from "@/lib/data/hub-decision-matrix";
 
 type Props = {

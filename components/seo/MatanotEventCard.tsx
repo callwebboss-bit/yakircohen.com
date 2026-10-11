@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import Button from "@/components/ui/Button";
 import type { MatanotEventCardData } from "@/lib/data/matanot-page";
 

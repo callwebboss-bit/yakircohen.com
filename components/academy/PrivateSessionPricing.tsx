@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import {
   PRIVATE_SESSION_PLANS,
   PRIVATE_SESSION_PRICE_NOTE,

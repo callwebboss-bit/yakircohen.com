@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { ProService, ProServiceId, ProWizardField } from "@/lib/data/pro-services";
 import { getMashupIdeaById } from "@/lib/data/dj-mashup-ideas";
 import { getBundleById, type MashupBundleId } from "@/lib/data/mashup-bundle-pricing";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import ReelFactoryAudienceGrid from "@/components/business/reel-factory/ReelFactoryAudienceGrid";
 import ReelFactoryOneOffPricing from "@/components/business/reel-factory/ReelFactoryOneOffPricing";

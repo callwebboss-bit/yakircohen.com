@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import AiSongCaseStudyVideo from "@/components/marketing/AiSongCaseStudyVideo";
 import YouTubeShowcase from "@/components/marketing/YouTubeShowcase";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";

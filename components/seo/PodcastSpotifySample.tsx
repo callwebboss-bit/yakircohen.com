@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import LazyClickEmbed from "@/components/marketing/LazyClickEmbed";
 import { PODCAST_SPOTIFY_SAMPLE } from "@/lib/data/podcast-media";
 import { cn } from "@/lib/utils";

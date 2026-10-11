@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import BackToTopButton from "@/components/layout/BackToTopButton";
 import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Container from "@/components/ui/Container";

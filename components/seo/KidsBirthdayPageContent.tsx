@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import MediaGallery from "@/components/marketing/MediaGallery";
 import AnswerBlock from "@/components/seo/AnswerBlock";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";

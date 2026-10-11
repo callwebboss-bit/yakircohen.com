@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import BookDemoVideoModal from "@/components/booking/BookDemoVideoModal";
 import BookPriceDual from "@/components/booking/BookPriceDual";
 import BookQualificationMiniForm from "@/components/booking/BookQualificationMiniForm";

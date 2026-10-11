@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   HOME_TRUST_FEATURES,
   getHomeTrustFeatureIcon,
@@ -17,7 +17,6 @@ export default function HomeTrustFeatureGrid() {
             <Link
               key={feature.id}
               href={feature.href}
-              prefetch
               className="flex min-w-[85%] snap-start items-start gap-4 rounded-xl border border-border/40 bg-background p-5 shadow-sm transition-colors hover:border-brand-red/30 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:min-w-0"
             >
               <div

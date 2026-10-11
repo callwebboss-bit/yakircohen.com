@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { usePathname } from "next/navigation";
 import { CalendarIcon, WhatsAppIcon } from "@/components/ui/Icons";
 import { useKeyboardOpen } from "@/hooks/useKeyboardOpen";

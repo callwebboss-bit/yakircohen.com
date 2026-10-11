@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { JourneyVariant } from "@/lib/data/client-journey";
 import { getJourneyVariant } from "@/lib/data/client-journey";
 import { cn } from "@/lib/utils";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { HOME_INTENT_PATHS } from "@/lib/data/home-intent-paths";
 import { doorForIntent } from "@/lib/data/intent-nav";
 import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
@@ -26,7 +26,6 @@ export default function HomeIntentPaths() {
             <li key={path.id} data-door={doorForIntent(path.id)} data-door-item={path.id}>
               <Link
                 href={path.href}
-                prefetch
                 className="group flex h-full min-h-12 flex-col gap-1 rounded-xl border border-border bg-surface p-4 transition-colors duration-200 hover:border-brand-red/40 hover:bg-brand-red/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 <span className="text-sm font-bold text-foreground transition-colors group-hover:text-brand-red">

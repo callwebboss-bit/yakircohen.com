@@ -2,7 +2,7 @@ import Image from "next/image";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { GoogleReviews } from "@/components/marketing/SocialProofWidgets";
 import CalculatorDisclosure from "@/components/calculators/CalculatorDisclosure";
 import { PodcastCalculatorLazy } from "@/components/calculators/lazy";

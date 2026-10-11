@@ -1,6 +1,6 @@
 ﻿import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import type { ReactNode } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import CallbackLeadForm from "@/components/forms/CallbackLeadForm";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";

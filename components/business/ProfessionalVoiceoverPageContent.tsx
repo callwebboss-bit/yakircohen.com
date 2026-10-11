@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import YouTube from "@/components/YouTube";
 import {
   DJ_SET_VOICEOVER_BENEFITS,

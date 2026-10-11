@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import ServiceCard from "@/components/marketing/ServiceCard";
@@ -80,7 +80,6 @@ export default function HomeQuickPaths() {
             </div>
             <Link
               href="/online"
-              prefetch
               aria-label="שלח קובץ לבדיקה חינם - שירות עריכה מרחוק"
               className="inline-flex min-h-12 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-md transition-all hover:bg-brand-red-light hover:shadow-lg active:scale-[0.98] lg:w-auto"
             >

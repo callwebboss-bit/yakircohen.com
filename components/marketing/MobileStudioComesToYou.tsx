@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 
 const MOBILE_COMES_POINTS = [
   "הקמה מקצועית תוך פחות מ-30 דקות",

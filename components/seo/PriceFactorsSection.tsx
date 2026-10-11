@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { buildStudioPriceFactors } from "@/lib/data/price-factors";
 
 type Props = {

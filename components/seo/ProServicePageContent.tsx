@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ProServiceWizard from "@/components/marketing/ProServiceWizard";
 import ProServiceTopicCta from "@/components/marketing/ProServiceTopicCta";
 import ProcessSteps from "@/components/marketing/ProcessSteps";

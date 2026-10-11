@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSection";
 import {
   ONLINE_LIABILITY_COMMITMENTS,

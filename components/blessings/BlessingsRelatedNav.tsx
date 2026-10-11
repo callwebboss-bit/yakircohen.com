@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 
 export type BlessingsRelatedNavProps = {
   links: readonly { href: string; label: string }[];

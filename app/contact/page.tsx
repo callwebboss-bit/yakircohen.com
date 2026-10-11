@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ContactPageContent from "@/components/contact/ContactPageContent";
 import StudioNearbyPlaces from "@/components/contact/StudioNearbyPlaces";
 import HubPageSchema from "@/components/seo/HubPageSchema";

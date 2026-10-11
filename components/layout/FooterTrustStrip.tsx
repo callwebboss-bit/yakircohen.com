@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   GOOGLE_RATING,
   GOOGLE_RATING_LABEL,

@@ -1,5 +1,5 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { DATE_HOLD_TERMS_BODY } from "@/lib/data/conversion-copy";

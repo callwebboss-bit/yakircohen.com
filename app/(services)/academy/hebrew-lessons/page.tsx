@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import FAQWithCtaLinks from "@/components/ui/FAQWithCtaLinks";

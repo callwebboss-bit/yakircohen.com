@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { EventIndexWeek } from "@/lib/data/event-index.generated";
 import {
   PRO_ATTRACTIONS,

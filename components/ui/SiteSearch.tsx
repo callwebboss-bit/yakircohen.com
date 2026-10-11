@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useRouter } from "next/navigation";
 import VoiceSearchMicButton from "@/components/ui/VoiceSearchMicButton";
 import {

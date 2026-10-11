@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { CTA_LABELS, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref, GENERAL_QUOTE_TEXT, PAGE_QUOTE_ATTR } from "@/lib/whatsapp";
 

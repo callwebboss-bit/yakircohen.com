@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import SoundCleaningDemo from "@/components/seo/SoundCleaningDemo";
 import AudioShowcase from "@/components/seo/AudioShowcase";

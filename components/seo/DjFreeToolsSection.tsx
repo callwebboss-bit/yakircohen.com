@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   DJ_FREE_TOOL_CATEGORIES,
   DJ_FREE_TOOLS_LAST_VERIFIED,

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import { useCallback, useId, useState } from "react";
 import {
   buildInvoiceClipboardText,

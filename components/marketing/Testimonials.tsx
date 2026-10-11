@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import TestimonialCard from "@/components/marketing/TestimonialCard";
 import Container from "@/components/ui/Container";

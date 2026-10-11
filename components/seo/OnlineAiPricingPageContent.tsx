@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import AudioShowcase from "@/components/seo/AudioShowcase";
 import ClientMaterialsLiabilityBanner from "@/components/seo/ClientMaterialsLiabilityBanner";

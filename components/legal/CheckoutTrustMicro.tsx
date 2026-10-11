@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import {
   CANCELLATION_SHORT_LINE,
   LEGAL_TRUST_LINKS,

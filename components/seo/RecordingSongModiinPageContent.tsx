@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+﻿import Link from "@/components/ui/IntentLink";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
 import ServiceJourney from "@/components/marketing/ServiceJourney";
 import { getSongJourney } from "@/lib/data/service-journeys";

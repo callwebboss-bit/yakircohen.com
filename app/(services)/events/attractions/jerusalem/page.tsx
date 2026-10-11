@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { constructMetadata } from "@/lib/metadata";

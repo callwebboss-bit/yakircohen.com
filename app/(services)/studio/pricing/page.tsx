@@ -1,5 +1,5 @@
 import { metadataFromPricing } from "@/lib/data/service-metadata";
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import TrustStatsBar from "@/components/marketing/TrustStatsBar";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import type { LegalSection } from "@/components/legal/LegalPageLayout";
 import CatalogOfferPanel from "@/components/pricing/CatalogOfferPanel";
 import { TIME_CLAIMS, TIME_PROMISE_DISCLAIMER } from "@/lib/data/conversion-copy";

@@ -1,5 +1,5 @@
 // UI-EXCEPTION: full-width grid span promo - see docs/ui-exceptions.md
-import Link from "next/link";
+import Link from "@/components/ui/IntentLink";
 import Button from "@/components/ui/Button";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
