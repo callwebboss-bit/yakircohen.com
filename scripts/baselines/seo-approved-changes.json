@@ -116,13 +116,6 @@
     },
     {
       "url": "/online/vocal-fix/mixing",
-      "field": "images",
-      "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-02"
-    },
-    {
-      "url": "/online/vocal-fix/mixing",
       "field": "imagesWithAlt",
       "why": "מיזוג שני פוסטי המיקס לאחד עם 301, בהחלטת הבעלים 2.10. הפוסט שנמחק סתר את pricing-catalog במחיר (500-1,400 מול external_mix_master=1750), והתוכן הייחודי שלו עבר לפוסט ששרד.",
       "approvedBy": "owner",
@@ -3450,6 +3443,13 @@
       "url": "/business/audiobooks",
       "field": "h1",
       "why": "פרוטוקול הקופי (11.10.2026): 'מקצה לקצה' נאסר ב-audit:ai-tells, וה-H1 בתוך העמוד 'הפקת ספר קולי מקצה לקצה' הפך ל'הפקת ספר קולי: הקלטה, עריכה ומאסטרינג', בבחירת הבעלים (לפי תת-הכותרת של העמוד). ה-title 'הפקת ספרי שמע' לא השתנה.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-11"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "outline",
+      "why": "נוסף סקשן \"מיקס ומאסטרינג - עבודות שלנו\" (גל שואקה, מג'יק קאס ושני טיפים), בקשת המשרד ואישור הבעלים 11.10.2026.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-11"
     }
