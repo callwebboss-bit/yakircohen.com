@@ -262,7 +262,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "events-cold-fireworks",
-    src: "/images/services/events/attractions/cold-fireworks/זיקוקים קרים בכניסת חתן וכלה לחתונה.webp",
+    src: "/images/services/events/attractions/cold-fireworks/archive/זיקוקים קרים בכניסת חתן וכלה לחתונה.webp",
     alt: "זיקוקים קרים בכניסת חתן וכלה לחתונה",
     category: "events",
     href: "/events/attractions/cold-fireworks",

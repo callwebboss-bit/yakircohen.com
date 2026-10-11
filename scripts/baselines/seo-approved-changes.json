@@ -1242,20 +1242,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/studio/blessings/bride-groom-blessing",
-      "field": "images",
-      "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/studio/blessings/bride-groom-blessing",
-      "field": "imagesWithAlt",
-      "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/studio/blessings/video-clip",
       "field": "images",
       "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
