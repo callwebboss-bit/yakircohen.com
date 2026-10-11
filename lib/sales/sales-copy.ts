@@ -25,6 +25,7 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
+import type { MorningLink } from "@/lib/sales/morning-links";
 import type { SalesCardDraft } from "@/lib/sales/sales-book";
 
 export const SALES_MESSAGE_MAX = 350;
@@ -385,4 +386,60 @@ export function buildCardConfirmLine(card: SalesCardDraft): string | null {
 /** ברירת המחדל לשורת "סיכמנו" באישור ההזמנה: אותה נקודה כעובדה, בלי מחיר */
 export function buildCardAgreedLine(card: SalesCardDraft): string | null {
   return confirmFor(card)?.agreed ?? null;
+}
+
+/* ─── לינק לתשלום ─── */
+
+/*
+ * הודעת התשלום נשלחת אחרי שהמחיר כבר סוכם, ולכן היא קצרה: מה, כמה, ואיך משלמים.
+ * הסכום תמיד כולל מע״מ, כי זה מה שהלינק גובה (גם לכרטיס לעסקים). "החשבונית
+ * מגיעה למייל" הוא מה שמורנינג עושה בלינק לתשלום (מדריך "יצירת לינק לתשלום").
+ */
+const PAY_METHODS = "באשראי או bit";
+const PAY_AFTER = "אחרי התשלום החשבונית מגיעה למייל אוטומטית.";
+
+/* "590 ₪", כמו headline ב-pricing-display.ts (הסימן אחרי המספר), ועם אגורות רק כשצריך */
+export function nisText(amount: number): string {
+  const text = Number.isInteger(amount)
+    ? amount.toLocaleString("he-IL")
+    : amount.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${text} ₪`;
+}
+
+function inclVatText(card: Pick<SalesCardDraft, "inclVat">): string {
+  return `${nisText(card.inclVat)} כולל מע״מ`;
+}
+
+/** הודעת תשלום לכרטיס: לינק קבוע ("לינק לתשלום"), או סכום פתוח (הלקוח בוחר את הסכום בלינק) */
+export function buildPaymentMessage(card: SalesCardDraft, link: MorningLink): string {
+  const title = messageTitle(card);
+  if (link.kind === "deposit") return buildDepositMessage(link);
+  if (link.kind === "fixed") {
+    return `לתשלום על ${title}, ${inclVatText(card)}, ${PAY_METHODS}: ${link.url}\n${PAY_AFTER}`;
+  }
+  const amount = card.priceFrom ? "בסכום שסיכמנו" : `${inclVatText(card)}, בלינק בוחרים את הסכום הזה`;
+  return `לתשלום על ${title}, ${amount}, ${PAY_METHODS}: ${link.url}\n${PAY_AFTER}`;
+}
+
+/** הודעת מקדמה לשמירת תאריך (D6: הגעה באותו יום דורשת מקדמה של 200 ש״ח) */
+export function buildDepositMessage(link: MorningLink): string {
+  const amount = link.inclVat == null ? "מקדמה" : `מקדמה של ${nisText(link.inclVat)}`;
+  return `${amount} לשמירת התאריך, ${PAY_METHODS}: ${link.url}\n${PAY_AFTER}`;
+}
+
+/**
+ * השדות ליצירת לינק קבוע במורנינג (תשלומים > לינקים לתשלום > לינק לעסקה רגילה),
+ * להעתקה והדבקה. בלי מספרים חדשים: הכל מהכרטיס.
+ */
+export function buildMorningLinkFields(card: SalesCardDraft): string {
+  const description = (card.included ?? []).slice(0, 3).map(plainLine).join(", ");
+  return [
+    `שם הלינק: ${card.title}`,
+    `מחיר: ${nisText(card.inclVat)} כולל מע״מ (${nisText(card.exVat)} לפני מע״מ)`,
+    description ? `תיאור: ${description}` : null,
+    `קוד פריט: ${card.id}`,
+    `אחרי היצירה: npm run morning:link -- --id ${card.id} --url <הלינק>`,
+  ]
+    .filter((l): l is string => Boolean(l))
+    .join("\n");
 }

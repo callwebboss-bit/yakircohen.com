@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
  * formatPrice, כמו באתר: לצרכן כולל מע״מ קודם, לעסק לפני מע״מ קודם.
  */
 
-export type SalesCopyKind = "message" | "confirm";
+export type SalesCopyKind = "message" | "confirm" | "pay" | "pay-link" | "deposit" | "morning-fields";
 
 type SalesCardProps = {
   card: SalesCardData;
@@ -27,6 +27,8 @@ type SalesCardProps = {
   onToggle: (id: string) => void;
   onCopy: (cardId: string, what: SalesCopyKind) => void;
   onVoucher: (card: SalesCardData, kind: VoucherKind) => void;
+  /** הודעת המקדמה מהספר, או null עד שלינק המקדמה ייווצר במורנינג */
+  depositMessage: string | null;
 };
 
 /* clipboard API, ואם הוא חסום (דפדפן ישן, הקשר לא מאובטח) העתקה דרך שדה זמני */
@@ -178,7 +180,86 @@ function MorningTable({
 const chipClass =
   "inline-flex min-h-11 items-center justify-center rounded-md border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/50";
 
-export default function SalesCard({ card, open, highlighted, onToggle, onCopy, onVoucher }: SalesCardProps) {
+/* ─── לינק לתשלום ─── */
+
+const LINK_KIND_LABEL = { fixed: "לינק קבוע לשירות", open: "לינק בסכום פתוח", deposit: "מקדמה" } as const;
+
+/*
+ * הלינקים נוצרים ידנית במורנינג ונשמרים ב-lib/data/morning-links.json. עד שיש
+ * לינק קבוע לשירות, ההודעה הולכת עם לינק הסכום הפתוח, והכפתור "שדות ללינק
+ * במורנינג" מעתיק מה להקליד שם כדי ליצור אחד (docs/MORNING-LINKS.md).
+ */
+function PaymentSection({
+  card,
+  copied,
+  copy,
+  depositMessage,
+}: {
+  card: SalesCardData;
+  copied: SalesCopyKind | "failed" | null;
+  copy: (what: SalesCopyKind) => Promise<void>;
+  depositMessage: string | null;
+}) {
+  const link = card.payLink;
+  return (
+    <section aria-label="לינק לתשלום" className="grid gap-2 rounded-lg border border-border p-3">
+      <h3 className="flex flex-wrap items-center gap-2 text-xs font-semibold text-foreground">
+        לינק לתשלום
+        {link ? (
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+            {LINK_KIND_LABEL[link.kind]}
+          </span>
+        ) : null}
+      </h3>
+      {card.payMessage ? (
+        <p className="rounded-lg bg-muted p-3 leading-relaxed whitespace-pre-wrap text-foreground select-text">
+          {card.payMessage}
+        </p>
+      ) : (
+        <p className="text-muted-foreground">
+          עוד אין לינק לתשלום. יוצרים במורנינג (תשלומים, לינקים לתשלום) ושומרים עם npm run morning:link.
+        </p>
+      )}
+      <div className="flex flex-wrap gap-2">
+        {card.payMessage ? (
+          <button type="button" onClick={() => void copy("pay")} className={chipClass}>
+            {copied === "pay" ? "הועתק" : "העתק הודעה עם לינק"}
+          </button>
+        ) : null}
+        {link ? (
+          <button type="button" onClick={() => void copy("pay-link")} className={chipClass}>
+            {copied === "pay-link" ? "הועתק" : "העתק רק את הלינק"}
+          </button>
+        ) : null}
+        {depositMessage ? (
+          <button type="button" onClick={() => void copy("deposit")} className={chipClass}>
+            {copied === "deposit" ? "הועתק" : "העתק לינק מקדמה"}
+          </button>
+        ) : null}
+        {card.morningLinkFields ? (
+          <button
+            type="button"
+            onClick={() => void copy("morning-fields")}
+            className={chipClass}
+            aria-label="העתק את השדות ליצירת לינק קבוע לשירות הזה במורנינג"
+          >
+            {copied === "morning-fields" ? "הועתק" : "שדות ללינק קבוע במורנינג"}
+          </button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+export default function SalesCard({
+  card,
+  open,
+  highlighted,
+  onToggle,
+  onCopy,
+  onVoucher,
+  depositMessage,
+}: SalesCardProps) {
   const [copied, setCopied] = useState<SalesCopyKind | "failed" | null>(null);
   const timerRef = useRef<number | undefined>(undefined);
   const panelId = `sales-card-panel-${card.id}`;
@@ -186,8 +267,17 @@ export default function SalesCard({ card, open, highlighted, onToggle, onCopy, o
 
   useEffect(() => () => window.clearTimeout(timerRef.current), []);
 
+  const copySource: Readonly<Record<SalesCopyKind, string | null>> = {
+    message: card.message,
+    confirm: card.confirmLine,
+    pay: card.payMessage,
+    "pay-link": card.payLink?.url ?? null,
+    deposit: depositMessage,
+    "morning-fields": card.morningLinkFields,
+  };
+
   const copy = async (what: SalesCopyKind) => {
-    const text = what === "message" ? card.message : card.confirmLine;
+    const text = copySource[what];
     if (!text) return;
     const ok = await copyText(text);
     window.clearTimeout(timerRef.current);
@@ -284,6 +374,8 @@ export default function SalesCard({ card, open, highlighted, onToggle, onCopy, o
               בעוד יומיים
             </button>
           </div>
+
+          <PaymentSection card={card} copied={copied} copy={copy} depositMessage={depositMessage} />
 
           <div className="grid gap-3 sm:grid-cols-2">
             <section>

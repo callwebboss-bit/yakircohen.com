@@ -167,14 +167,23 @@ function formatIssued(iso: string): string {
     : date.toLocaleDateString("he-IL", { timeZone: "Asia/Jerusalem", day: "numeric", month: "numeric" });
 }
 
+const COPY_ANNOUNCEMENT: Readonly<Record<SalesCopyKind, string>> = {
+  message: "ההודעה הועתקה",
+  confirm: "שורת רק לוודא הועתקה",
+  pay: "הודעת התשלום הועתקה",
+  "pay-link": "הלינק לתשלום הועתק",
+  deposit: "הודעת המקדמה הועתקה",
+  "morning-fields": "השדות ללינק במורנינג הועתקו",
+};
+
 /* ─── מדידה ─── */
 
 type GtagFn = (...args: unknown[]) => void;
 
 /* בלי פרטים אישיים: רק מזהה הכרטיס. ספירת שימוש שבועית מול הלידים (תוכנית, מעקב) */
-function trackCopy(cardId: string): void {
+function trackCopy(cardId: string, what: SalesCopyKind): void {
   const w = window as Window & { gtag?: GtagFn };
-  w.gtag?.("event", "sales_desk_copy", { card_id: cardId });
+  w.gtag?.("event", "sales_desk_copy", { card_id: cardId, copy_kind: what });
 }
 
 /* ─── המחיר שהלקוח ראה ─── */
@@ -300,9 +309,9 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
   };
 
   const onCopy = (cardId: string, what: SalesCopyKind) => {
-    trackCopy(cardId);
+    trackCopy(cardId, what);
     const title = byId.get(cardId)?.title ?? "";
-    setAnnouncement(what === "message" ? `ההודעה הועתקה: ${title}` : `שורת רק לוודא הועתקה: ${title}`);
+    setAnnouncement(`${COPY_ANNOUNCEMENT[what]}: ${title}`);
   };
 
   const setCategoryOpen = (category: string, open: boolean) =>
@@ -353,6 +362,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
       onToggle={toggle}
       onCopy={onCopy}
       onVoucher={openVoucher}
+      depositMessage={book.deposit?.message ?? null}
     />
   );
 

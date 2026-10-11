@@ -53,7 +53,15 @@ import {
 } from "@/lib/data/events-booking";
 import { PRICING_HUB_SECTIONS, resolveRowHref } from "@/lib/data/pricing-hub";
 import { absoluteUrl } from "@/lib/site-url";
-import { buildCardAgreedLine, buildCardConfirmLine, buildCardMessage } from "@/lib/sales/sales-copy";
+import { getDepositLink, getPaymentLink, type MorningLink } from "@/lib/sales/morning-links";
+import {
+  buildCardAgreedLine,
+  buildCardConfirmLine,
+  buildCardMessage,
+  buildDepositMessage,
+  buildMorningLinkFields,
+  buildPaymentMessage,
+} from "@/lib/sales/sales-copy";
 
 export type SalesAudience = "consumer" | "business";
 export type SalesLine = { id: string; label: string; qty: number; unitExVat: number };
@@ -110,9 +118,17 @@ export type SalesCard = {
   featured: boolean;
   /** שורת הבסיס למורנינג */
   morningLines: SalesLine[];
+  /** לינק תשלום במורנינג: קבוע לשירות, או סכום פתוח, או null עד שייווצר (morning-links.json) */
+  payLink: MorningLink | null;
+  /** הודעת התשלום ללקוח עם הלינק, או null כשאין לינק */
+  payMessage: string | null;
+  /** השדות ליצירת לינק קבוע במורנינג, להעתקה. null כשכבר יש לינק קבוע או במחיר "החל מ" */
+  morningLinkFields: string | null;
 };
 export type SalesBook = {
   cards: SalesCard[];
+  /** לינק המקדמה (200 ₪, D6) והודעה מוכנה, או null עד שייווצר במורנינג */
+  deposit: { link: MorningLink; message: string } | null;
   /** אותו hash כמו docs/pricing-export.json */
   contentHash: string;
   /** כמה פריטים בקטלוג (לכותרת העמוד) */
@@ -120,7 +136,10 @@ export type SalesBook = {
 };
 
 /** הכרטיס בלי ההודעות. ממנו sales-copy.ts בונה את ההודעה, את "רק לוודא" ואת "סיכמנו". */
-export type SalesCardDraft = Omit<SalesCard, "message" | "confirmLine" | "agreedLine">;
+export type SalesCardDraft = Omit<
+  SalesCard,
+  "message" | "confirmLine" | "agreedLine" | "payLink" | "payMessage" | "morningLinkFields"
+>;
 
 /* ─── איזה פריט מקבל כרטיס ─── */
 
@@ -775,11 +794,15 @@ function buildCard(item: PriceItem): SalesCard {
     featured: (FEATURED_CARD_IDS as readonly string[]).includes(id),
     morningLines: [line(id)],
   };
+  const payLink = getPaymentLink(id, { priceFrom });
   return {
     ...draft,
     message: buildCardMessage(draft),
     confirmLine: buildCardConfirmLine(draft),
     agreedLine: buildCardAgreedLine(draft),
+    payLink,
+    payMessage: payLink ? buildPaymentMessage(draft, payLink) : null,
+    morningLinkFields: priceFrom || payLink?.kind === "fixed" ? null : buildMorningLinkFields(draft),
   };
 }
 
@@ -889,7 +912,13 @@ export function buildSalesBook(): SalesBook {
     .map((card, index) => ({ card, index }))
     .sort((a, b) => rank(a.card) - rank(b.card) || a.index - b.index)
     .map(({ card }) => card);
-  bookCache = { cards: ordered, contentHash: catalogContentHash(), itemCount: CATALOG.length };
+  const depositLink = getDepositLink();
+  bookCache = {
+    cards: ordered,
+    deposit: depositLink ? { link: depositLink, message: buildDepositMessage(depositLink) } : null,
+    contentHash: catalogContentHash(),
+    itemCount: CATALOG.length,
+  };
   return bookCache;
 }
 
