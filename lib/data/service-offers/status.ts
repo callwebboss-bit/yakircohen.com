@@ -22,7 +22,19 @@ export const SERVICE_OFFER_LABELS = {
 
 export type ServiceOfferPath = keyof typeof SERVICE_OFFER_LABELS;
 
-const PUBLISHED: ReadonlySet<ServiceOfferPath> = new Set<ServiceOfferPath>([]);
+/* "תפרסם את כולם", הבעלים 11.10.2026 */
+const PUBLISHED: ReadonlySet<ServiceOfferPath> = new Set<ServiceOfferPath>([
+  "/studio/parody",
+  "/studio/original-song",
+  "/studio/group-session",
+  "/studio/ai-song-gift",
+  "/studio/professional-singer",
+  "/studio/class-song",
+  "/studio/blessings/enlistment",
+  "/podcast/live-podcast",
+  "/podcast/launch-package",
+  "/podcast/host-coaching",
+]);
 
 export function isServiceOfferPublished(path: ServiceOfferPath): boolean {
   return PUBLISHED.has(path);

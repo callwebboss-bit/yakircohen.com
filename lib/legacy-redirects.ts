@@ -186,7 +186,7 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   /* הכתובות עם התאריך של מדריך הסלואו (Wayback). לפני /2019 ו-/2021. */
   { source: "/2019/11/05/שירי-סלואו-לחתונה", destination: "/blog/wedding-slow-songs" },
   { source: "/2019/11/05/שירים-לקבלת-פנים", destination: "/blog/reception-songs" },
-  { source: "/2019/11/05/רעיונות-למסיבת-רווקות", destination: "/events/attractions" },
+  { source: "/2019/11/05/רעיונות-למסיבת-רווקות", destination: "/studio/group-session" }, // 11.10.2026, כמו הכתובת בלי התאריך
   { source: "/2022/05/17/דרשה-לבר-מצווה-קצר-ולעניין", destination: "/blog/bar-mitzvah-speech" },
   { source: "/2021/08/25/שירי-סלואו", destination: "/blog/wedding-slow-songs" },
   { source: "/2019/:path*",              destination: "/blog" },
@@ -586,7 +586,8 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   /* הבעלים 5.10.2026: כתובת עם מעט קליקים לא מקבלת מדריך משלה, אלא הפניה
      לעמוד שעשוי לעניין את מי שחיפש אותה. המספרים: קליקים והופעות, Search
      Console, ישראל, 16 חודשים. */
-  "/רעיונות-למסיבת-רווקות": "/events/attractions", // 5, 932
+  /* מ-11.10.2026 יש עמוד ייעודי למסיבת רווקות באולפן (אישור הבעלים לפרסום) */
+  "/רעיונות-למסיבת-רווקות": "/studio/group-session", // 5, 932
   "/כמה-עדים-צריך-לחתונה-לחופה": "/blog/tips-for-perfect-wedding", // 5, 1,297
   "/דניאל-גרין": "/portfolio", // 4, 392. כמו שאר שמות האמנים מהאתר הישן
   "/שירי-סלואו-לחתונה-לועזי": "/blog/wedding-slow-songs",
