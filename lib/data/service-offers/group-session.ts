@@ -1,4 +1,6 @@
+import { BUSINESS_HOURS } from "@/lib/constants";
 import { calcSongOffer } from "@/lib/data/song-offer";
+import { MOTZASH_SURCHARGE } from "@/lib/studio-participant-pricing";
 import { isServiceOfferPublished } from "@/lib/data/service-offers/status";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
@@ -16,7 +18,9 @@ function perPersonLine(size: number): string {
  * 11.10.2026. כולם מקליטים שיר אחד משותף, וכל אחד את הקטע שלו. המחיר: המחירון
  * הקיים של הקלטת שיר ומשתתף נוסף (תשובה "א'"), והמחיר
  * הסופי נקבע יחד ("סומך על שיקול הדעת שנגבש יחד"). אולפן A, סטודיו B וסטודיו C:
- * השמות של הבעלים.
+ * השמות של הבעלים. שעות הפעילות: BUSINESS_HOURS (lib/constants.ts). מוצאי שבת:
+ * תוספת 50% (MOTZASH_SURCHARGE, lib/studio-participant-pricing.ts, ו-
+ * studio-recording-booking.ts, "פתיחה במיוחד - תוספת 50% פתיחת אולפן").
  */
 export const GROUP_SESSION_PAGE: ServiceOfferPage = {
   path: "/studio/group-session",
@@ -162,6 +166,11 @@ export const GROUP_SESSION_PAGE: ServiceOfferPage = {
       id: "group-size",
       question: "כמה אנשים יכולים להשתתף?",
       answer: "עד 12 משתתפים בשיר המשותף. כל אחד מקליט את הקטע שלו, לבד, בזוגות או בשלשות, לפי מה שקובעים יחד.",
+    },
+    {
+      id: "group-when",
+      question: "מתי אפשר לקבוע?",
+      answer: `${BUSINESS_HOURS.map((h) => `${h.days}: ${h.hours}`).join(". ")}. במוצאי שבת יש תוספת של ${Math.round(MOTZASH_SURCHARGE * 100)}% על פתיחת האולפן.`,
     },
     {
       id: "group-one-song",

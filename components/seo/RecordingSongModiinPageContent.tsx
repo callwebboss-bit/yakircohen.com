@@ -40,6 +40,7 @@ import FullProductionShowcaseSection from "@/components/seo/FullProductionShowca
 import BusinessCrossLink from "@/components/marketing/BusinessCrossLink";
 import StudioSessionClipOffer from "@/components/booking/StudioSessionClipOffer";
 import { SONG_TO_VENUE_DJ_FAQ } from "@/lib/data/faq-aeo";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 
 const service = getStudioService("recording-song-modiin");
 
@@ -255,6 +256,13 @@ export default function RecordingSongModiinPageContent() {
                 </li>
               ))}
             </ul>
+            {/* 11.10.2026: "שיר מקורי" כאן הוא שיר שאתם מקליטים. שיר שנכתב מאפס יש לו
+                עמוד משלו, והקישור מופיע רק אחרי שהעמוד פורסם (service-offers/status.ts) */}
+            <NewServicesLinks
+              paths={["/studio/original-song"]}
+              label="רוצים שיר שנכתב רק בשבילכם, מילים ולחן?"
+              className="mx-0 max-w-none px-0 py-4 text-start"
+            />
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href={SONG_OFFER_ANCHOR}

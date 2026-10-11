@@ -59,7 +59,8 @@ export const CLASS_SONG_PAGE: ServiceOfferPage = {
       from: true,
     },
   ],
-  priceNote: "המחיר לכיתה או לגן שלם נקבע יחד, לפי מספר הילדים והזמן.",
+  /* תוספת ההגעה: MOBILE_GEO_FEES ב-lib/data/mobile-studio-booking.ts (מרכז 0) */
+  priceNote: "המחיר לכיתה או לגן שלם נקבע יחד, לפי מספר הילדים והזמן. במודיעין ובמרכז אין תוספת הגעה, ובצפון ובדרום יש.",
   alternatives: {
     title: "שיר סיום, או משהו אחר?",
     items: [
