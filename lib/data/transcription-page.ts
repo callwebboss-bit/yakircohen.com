@@ -49,6 +49,8 @@ function tier(
 }
 
 export const TRANSCRIPTION_CONFIG: BusinessPageConfig = {
+  /* שירות לפרטיים: מחיר אחד, כולל מע״מ (D91, D86, 11.10.2026) */
+  priceAudience: "consumer",
   brand: "תמלול וכתוביות",
   pageTitle: "תמלול פודקאסט, ראיונות ווידאו",
   subtitle:

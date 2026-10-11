@@ -2,6 +2,7 @@
 
 import type { FAQItem } from "@/components/ui/FAQAccordion";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 
 export const SELF_SERVICE_PRICE = getExVat("studio_self_service_hour");
 
@@ -67,7 +68,7 @@ export const SELF_SERVICE_FAQS: FAQItem[] = [
   {
     id: "vat",
     question: "האם המחיר כולל מע״מ?",
-    answer: "לא. 650 ₪ לפני מע״מ.",
+    answer: `כן. ${withVat(getExVat("studio_self_service_hour")).toLocaleString("he-IL")} ₪ לשעה, כולל מע״מ.`,
   },
 ];
 

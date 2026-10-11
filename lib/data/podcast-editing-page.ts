@@ -11,7 +11,6 @@ export const PODCAST_EDITING_PRICE_LABEL = `${formatNis(
   { withSymbol: false },
 )} ₪ כולל מע״מ לשעת חומר גולמי`;
 /* כולל מע״מ קודם (שלב 4 WP11). היה PRICES_EXCLUDE_VAT_NOTE */
-export const PODCAST_EDITING_PRICE_NOTE = `${formatNis(PODCAST_EDITING_PER_HOUR_NIS, { withSymbol: false })} ₪ + מע״מ`;
 
 export const PODCAST_EDITING_HERO_FEATURES: readonly string[] = [
   "ניקוי רעשי רקע מקצועי, בלי לפגוע בקול",

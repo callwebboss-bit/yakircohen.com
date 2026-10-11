@@ -84,7 +84,7 @@ export default function PrivateSessionPricing({
                     ₪
                   </span>
                   <span className="me-2 text-xs text-muted-foreground">
-                    כולל מע״מ ({plan.price.toLocaleString("he-IL")} ₪ + מע״מ)
+                    כולל מע״מ
                   </span>
                 </div>
 

@@ -3,6 +3,7 @@ import {
   formatMeNis,
   formatNis,
   PODCAST_EDITING_PER_HOUR_NIS,
+  withVat,
 } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 
@@ -32,7 +33,7 @@ export const HUB_CROSS_SELL: Record<
     eyebrow: "תוספת לחבילה",
     title: "עשן כבד או צילום אחרי ההקלטה",
     body: "אותו תיאום, ספק אחד. מתאים לחתונה או בר/בת מצווה.",
-    priceLabel: `אטרקציה ${formatMeNis(EVENT_ATTRACTION_FROM_NIS)} לפני מע״מ`,
+    priceLabel: `אטרקציה ${formatMeNis(withVat(EVENT_ATTRACTION_FROM_NIS))} כולל מע״מ`,
     primaryHref: "/events/attractions/wedding-smoking-machine",
     primaryLabel: "עשן כבד לאירוע",
     secondaryHref: "/photography/wedding",
@@ -44,8 +45,8 @@ export const HUB_CROSS_SELL: Record<
     id: "events-slideshow",
     eyebrow: "תוספת לאירוע",
     title: "מצגת תמונות קולנועית",
-    body: `מוכנה ליום האירוע. מחיר נפרד מאטרקציות: ${formatNis(slideshowPrice)} לפני מע״מ.`,
-    priceLabel: formatNis(slideshowPrice),
+    body: `מוכנה ליום האירוע. מחיר נפרד מאטרקציות: ${formatNis(withVat(slideshowPrice))} כולל מע״מ.`,
+    priceLabel: formatNis(withVat(slideshowPrice)),
     primaryHref: "/photo-slideshow",
     primaryLabel: "מצגת תמונות",
     secondaryHref: "/shop#bundles",
@@ -58,7 +59,7 @@ export const HUB_CROSS_SELL: Record<
     eyebrow: "תוספת לפודקאסט",
     title: "עריכת פרק מוכן לפרסום",
     body: "הקלטה באולפן ועריכה באותו תהליך. בלי שני ספקים.",
-    priceLabel: `${formatNis(PODCAST_EDITING_PER_HOUR_NIS)} לשעת חומר גולמי, לפני מע״מ`,
+    priceLabel: `${formatNis(withVat(PODCAST_EDITING_PER_HOUR_NIS))} לשעת חומר גולמי, כולל מע״מ`,
     primaryHref: "/podcast/podcast-editing",
     primaryLabel: "עריכת פודקאסט",
     secondaryHref: "/shop#bundles",
@@ -71,6 +72,6 @@ export const HUB_CROSS_SELL: Record<
 /** Prices shown on thank-you cross-sell cards (offer id → label). */
 export const CROSS_SELL_PRICE_BY_ID: Record<string, string> = {
   prep_digital: "149 ₪",
-  slideshow: formatNis(slideshowPrice),
-  bts_clip: formatMeNis(singleEffectPrice),
+  slideshow: formatNis(withVat(slideshowPrice)),
+  bts_clip: formatMeNis(withVat(singleEffectPrice)),
 };

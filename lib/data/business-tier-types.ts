@@ -40,6 +40,11 @@ export type BusinessPageConfig = {
   hubWhatsappText: string;
   utmCampaign: string;
   termsVatNote?: string;
+  /**
+   * "consumer": שירות לפרטיים שיושב בתבנית העסקית (D91, 11.10.2026). הכרטיס מציג
+   * מחיר אחד, כולל מע״מ (D86). ברירת המחדל "business": לפני מע״מ קודם.
+   */
+  priceAudience?: "consumer" | "business";
   tiers: readonly BusinessTier[];
   processSteps?: readonly BusinessProcessStep[];
   /** למי זה מתאים - כרטיסים קצרים */

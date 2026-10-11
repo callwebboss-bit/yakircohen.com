@@ -18,7 +18,6 @@ import {
   PODCAST_EDITING_FAQS,
   PODCAST_EDITING_HERO_FEATURES,
   PODCAST_EDITING_PRICE_LABEL,
-  PODCAST_EDITING_PRICE_NOTE,
   PODCAST_EDITING_SERVICES,
   PODCAST_EDITING_WHY_US,
   PODCAST_EDITING_WORKFLOW,
@@ -42,14 +41,14 @@ export default function PodcastEditingPageContent() {
     <ServicePageLayout
       {...heroProps}
       title="עריכת פודקאסט מלאה"
-      subtitle={`עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. ${PODCAST_EDITING_PRICE_LABEL} (${PODCAST_EDITING_PRICE_NOTE}).`}
+      subtitle={`עריכת פודקאסט כשירות נפרד. שולחים קובץ גולמי, מקבלים פרק מוכן להעלאה - בדרך כלל תוך 24-48 שעות. ${PODCAST_EDITING_PRICE_LABEL}.`}
       features={PODCAST_EDITING_HERO_FEATURES}
       whatsappText="שלום, מעוניין/ת בעריכת פודקאסט מקצועית לפרק שהקלטתי"
       utmCampaign="podcast_editing"
       corporateShareLabel="שירות עריכת פודקאסט"
       bookSlug="podcast/podcast-editing"
       ctaLabel={`עריכת פודקאסט ${formatFromPriceExVat(getExVat("podcast_editing_hour"))}`}
-      scarcityLabel={`${PODCAST_EDITING_PRICE_LABEL} - ${PODCAST_EDITING_PRICE_NOTE}`}
+      scarcityLabel={PODCAST_EDITING_PRICE_LABEL}
       valueFrame="כבר יש הקלטה - בלי סשן אולפן חדש"
       pagePath="/podcast/podcast-editing"
       faqs={PODCAST_EDITING_FAQS}

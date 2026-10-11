@@ -25,10 +25,9 @@ import {
  * בהיסטוריה של main, ויחזור אם יוחלט שיש שירות שבו הוא חל.
  */
 
-/** "354 ₪ כולל מע״מ (300 ₪ + מע״מ)" */
+/** "354 ₪ כולל מע״מ". טקסט בעמוד, ולכן בלי לפני מע״מ (D86, 11.10.2026) */
 function dualNis(id: PriceItemId): string {
-  const ex = getExVat(id);
-  return `${catalogWithVat(ex).toLocaleString("he-IL")} ₪ כולל מע״מ (${ex.toLocaleString("he-IL")} ₪ + מע״מ)`;
+  return `${catalogWithVat(getExVat(id)).toLocaleString("he-IL")} ₪ כולל מע״מ`;
 }
 
 function vatNis(id: PriceItemId): string {
@@ -65,8 +64,8 @@ export function buildStudioPriceFactors(): readonly PriceFactor[] {
       id: "participants",
       title: "כמה אנשים מקליטים",
       what:
-        `מקליט אחד כלול בבסיס. בשיר, כל משתתף נוסף ${vatNis(extra)} כולל מע״מ ` +
-        `(${getExVat(extra).toLocaleString("he-IL")} ₪ + מע״מ), עד ${SONG_PARTICIPANT_RULES.max} בשיר.`,
+        `מקליט אחד כלול בבסיס. בשיר, כל משתתף נוסף ${vatNis(extra)} כולל מע״מ, ` +
+        `עד ${SONG_PARTICIPANT_RULES.max} בשיר.`,
       why: "כל אחד הוא ערוץ נפרד: עוד הקלטה, עוד איזון, ועוד ערבוב במיקס.",
     },
     {

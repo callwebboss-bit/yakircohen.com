@@ -13,6 +13,7 @@ import {
   buildFastWhatsAppMessage,
 } from "@/lib/data/book-audience-routes";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { withVat } from "@/lib/data/pricing";
 import { cn } from "@/lib/utils";
 
 const HOME_ROUTES = HOME_AUDIENCE_DISPLAY_ORDER.map((id) => {
@@ -90,7 +91,8 @@ export default function WhatsappLeadRouter({
             const title = card.homeCardTitle ?? card.title;
             const descriptionText = card.homeCardDescription ?? card.description;
             const features = card.homeFeatures ?? [];
-            const price = card.priceExVat.toLocaleString("he-IL");
+            /* D86 (11.10.2026): מחיר אחד, כולל מע״מ */
+            const price = withVat(card.priceExVat).toLocaleString("he-IL");
             // F-32 (נגישות, 7.10.2026): ה-aria-label הקודם (כותרת + מחיר + "פתיחת
             // וואטסאפ") לא הכיל את תיאור הכרטיס, את הרשימה ואת טקסט הכפתור, ולכן
             // פקודת קול ("לחץ על הצעת מחיר בוואטסאפ") לא התאימה לשם (2.5.3).
@@ -106,7 +108,7 @@ export default function WhatsappLeadRouter({
               card.valueFrame,
               "החל מ-",
               `${price} ₪`,
-              "+ מע״מ",
+              "כולל מע״מ",
               ctaLabel,
             ]
               .filter(Boolean)
@@ -191,10 +193,10 @@ export default function WhatsappLeadRouter({
                       החל מ-
                     </span>
                     <span className="text-3xl font-black text-brand-red">
-                      {card.priceExVat.toLocaleString("he-IL")} ₪
+                      {price} ₪
                     </span>
                     <span className="text-xs font-normal text-muted-foreground">
-                      + מע״מ
+                      כולל מע״מ
                     </span>
                   </div>
 

@@ -180,7 +180,7 @@ export const FOR_CREATORS_LANDING: AudienceLandingConfig = {
           title: "קורס DJ והפקה",
           description: "שיעור פרטי באולפן - מיקס, ביטים ופרוטוקול NeverMind.",
           href: "/academy/dj-course",
-          priceHint: "החל מ-990 ₪",
+          priceHint: `החל ${formatFromPriceDual(getExVat("academy_private_hour"), "consumer", "page")}`,
         },
         {
           id: "music-production",

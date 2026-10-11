@@ -52,9 +52,7 @@ function PackageCard({
       <p className="mt-1 text-[0.7rem] font-semibold text-brand-red">{pkg.ideal}</p>
 
       <p className="mt-3 text-3xl font-bold text-foreground">{formatCurrencyWithVat(pkg.price)}</p>
-      <p className="text-[0.65rem] text-muted-foreground">
-        כולל מע״מ ({formatCurrency(pkg.price)} + מע״מ)
-      </p>
+      <p className="text-[0.65rem] text-muted-foreground">כולל מע״מ</p>
 
       <ul className="mt-4 space-y-2">
         {pkg.features.map((f) => (

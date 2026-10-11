@@ -57,8 +57,7 @@ export default function PremiumBundleCallout() {
         ומשדרגים את האירוע. טווח מומלץ:{" "}
         {/* כולל מע״מ קודם (שלב 4 WP11). היה טווח לפני מע״מ בלי שום ציון מע״מ */}
         <strong className="text-brand-red">₪{withVat(getExVat("event_attraction_1")).toLocaleString("he-IL")}</strong> עד{" "}
-        <strong className="text-brand-red">₪{withVat(getExVat("event_attraction_2")).toLocaleString("he-IL")}+</strong> כולל מע״מ
-        ({getExVat("event_attraction_1").toLocaleString("he-IL")} עד {getExVat("event_attraction_2").toLocaleString("he-IL")} ₪ + מע״מ).
+        <strong className="text-brand-red">₪{withVat(getExVat("event_attraction_2")).toLocaleString("he-IL")}</strong> כולל מע״מ.
       </p>
       <Button
         as="a"

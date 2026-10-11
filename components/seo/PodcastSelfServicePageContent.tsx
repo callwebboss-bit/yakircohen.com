@@ -18,6 +18,7 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import { withVat } from "@/lib/data/pricing";
 
 const pageHero = resolvePodcastFolderHero(
   "אולפן שירות עצמי",
@@ -56,11 +57,8 @@ export default function PodcastSelfServicePageContent() {
         >
           <p className="text-sm font-semibold text-brand-red-text">מחיר לשעה</p>
           <p className="mt-2 text-3xl font-bold text-foreground">
-            {SELF_SERVICE_PRICE.toLocaleString("he-IL")} ₪
-            <span className="text-base font-normal text-muted-foreground">
-              {" "}
-              + מע״מ
-            </span>
+            {withVat(SELF_SERVICE_PRICE).toLocaleString("he-IL")} ₪
+            <span className="text-base font-normal text-muted-foreground"> כולל מע״מ</span>
           </p>
           <BookPriceDual
             exVat={SELF_SERVICE_PRICE}

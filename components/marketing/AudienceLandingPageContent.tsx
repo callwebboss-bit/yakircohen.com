@@ -18,7 +18,9 @@ function toHubLinks(
     href: svc.href,
     title: svc.title,
     description: svc.description,
-    fromPrice: svc.priceHint ? `${svc.priceHint} + מע״מ` : undefined,
+    /* בלי "+ מע״מ" (D86, 11.10.2026): priceHint כבר אומר "כולל מע״מ", והתוספת
+       יצרה "17,700 ₪ כולל מע״מ + מע״מ", או "חבילת שיר באולפן + מע״מ" בלי מחיר */
+    fromPrice: svc.priceHint || undefined,
     suitedFor: svc.audienceNote,
   }));
 }

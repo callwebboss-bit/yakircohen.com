@@ -40,6 +40,7 @@ import CompanyDetailsCard from "@/components/business/CompanyDetailsCard";
 import Button from "@/components/ui/Button";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 import {
   STUDIO_NEARBY_FAQ,
   STUDIO_NEARBY_LANDMARK_FAQ,
@@ -113,7 +114,7 @@ const ROADMAPS: Record<ServiceKey, string[]> = {
 
 function buildContactFaqItems(): FAQItem[] {
   const blessingPrice = formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page");
-  const studioHour = getExVat("studio_hour").toLocaleString("he-IL");
+  const studioHour = withVat(getExVat("studio_hour")).toLocaleString("he-IL");
 
   return [
     {
@@ -121,7 +122,7 @@ function buildContactFaqItems(): FAQItem[] {
       question: "כמה עולה הקלטה באולפן?",
       answer: (
         <p>
-          ברכה / הקלטה קצרה {blessingPrice}. שעת אולפן מ-{studioHour} ₪ + מע״מ. מחיר
+          ברכה / הקלטה קצרה {blessingPrice}. שעת אולפן מ-{studioHour} ₪ כולל מע״מ. מחיר
           סופי מוצג ב{" "}
           <Link href="/book" className="font-semibold text-brand-red hover:underline">
             הזמנה מקוונת

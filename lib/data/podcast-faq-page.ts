@@ -6,7 +6,7 @@ import { formatFromPriceDual, getExVat, PODCAST_EXTRA_EDIT_NOTE, STUDIO_TURNS_NO
 import { podcastParticipantPriceLine, podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
 import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
 import { formatPagePrice } from "@/lib/data/pricing-display";
-import { STUDIO_HALF_HOUR_NIS, STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
+import { STUDIO_HALF_HOUR_NIS, STUDIO_ONE_HOUR_NIS, withVat } from "@/lib/data/pricing";
 
 export const PODCAST_FAQ_TITLE = "שאלות ותשובות על הפקת פודקאסט";
 
@@ -33,7 +33,7 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
   {
     href: "/podcast/podcast-studio-modiin",
     title: "השכרת סטודיו במודיעין",
-    description: `חצי שעה ${STUDIO_HALF_HOUR_NIS} ₪ - שעה ${STUDIO_ONE_HOUR_NIS} ₪ (לפני מע״מ).`,
+    description: `חצי שעה ${withVat(STUDIO_HALF_HOUR_NIS).toLocaleString("he-IL")} ₪ - שעה ${withVat(STUDIO_ONE_HOUR_NIS).toLocaleString("he-IL")} ₪, כולל מע״מ.`,
   },
   {
     href: "/podcast/podcast-editing",

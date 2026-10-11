@@ -25,7 +25,7 @@ function priceCell(plan: SubscriptionPlan) {
         {withVat(plan.priceExVat).toLocaleString("he-IL")} ₪ לחודש
       </span>
       <span className="block text-xs text-muted-foreground">
-        כולל מע״מ, {plan.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ
+        כולל מע״מ
       </span>
     </>
   );

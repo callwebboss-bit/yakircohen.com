@@ -412,7 +412,7 @@ export default function PhotographyCalculator({
               <span>16 שעות</span>
             </div>
             <p className="mt-2 text-center text-[0.65rem] text-muted-foreground">
-              {formatCurrencyWithVat(HOURLY_RATE)} לשעה כולל מע״מ ({formatCurrency(HOURLY_RATE)} + מע״מ) - כולל עריכה ומסירה דיגיטלית
+              {formatCurrencyWithVat(HOURLY_RATE)} לשעה כולל מע״מ - כולל עריכה ומסירה דיגיטלית
             </p>
           </div>
         </section>

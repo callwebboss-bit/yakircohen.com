@@ -9,6 +9,7 @@ import ServicePageLayout from "@/components/services/ServicePageLayout";
 import Container from "@/components/ui/Container";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import BookPriceDual from "@/components/booking/BookPriceDual";
+import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import type { BusinessPageConfig } from "@/lib/data/business-tier-types";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -223,11 +224,23 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
                   </span>
                 ) : null}
                 <h3 className="font-semibold text-foreground">{tier.name}</h3>
-                <p className="mt-2 text-2xl font-bold text-foreground">{tier.priceLabel}</p>
-                {tier.priceNote ? (
-                  <p className="text-xs text-muted-foreground">{tier.priceNote}</p>
-                ) : null}
-                <BookPriceDual exVat={tier.priceNis} className="mt-1" audience="business" />
+                {config.priceAudience === "consumer" ? (
+                  <>
+                    {/* שירות לפרטיים (D91): מחיר אחד, כולל מע״מ (D86) */}
+                    <p className="mt-2 text-2xl font-bold text-foreground">
+                      {formatConsumerPrice(tier.priceNis).total}
+                    </p>
+                    <p className="text-xs text-muted-foreground">כולל מע״מ</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="mt-2 text-2xl font-bold text-foreground">{tier.priceLabel}</p>
+                    {tier.priceNote ? (
+                      <p className="text-xs text-muted-foreground">{tier.priceNote}</p>
+                    ) : null}
+                    <BookPriceDual exVat={tier.priceNis} className="mt-1" audience="business" />
+                  </>
+                )}
                 <p className="mt-3 text-sm text-muted-foreground">{tier.description}</p>
                 <ul className="mt-4 flex-1 space-y-2 text-sm text-muted-foreground">
                   {tier.deliverables.map((d) => (

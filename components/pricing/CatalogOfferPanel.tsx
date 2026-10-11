@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { withVat } from "@/lib/data/pricing";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import {
   getPriceById,
@@ -132,8 +133,9 @@ export default function CatalogOfferPanel({
         ) : (
           <p className="leading-relaxed text-foreground/85">
             מחיר המסלול:{" "}
+            {/* D86 (11.10.2026): מחיר אחד, כולל מע״מ. value נשאר הסכום לפני מע״מ לנתונים */}
             <data value={String(item.exVat)}>
-              {item.exVat.toLocaleString("he-IL")} ₪ + מע״מ
+              {withVat(item.exVat).toLocaleString("he-IL")} ₪ כולל מע״מ
             </data>
             {item.scope?.duration ? (
               <>

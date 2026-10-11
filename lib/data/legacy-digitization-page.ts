@@ -49,6 +49,8 @@ function tier(
 }
 
 export const LEGACY_DIGITIZATION_CONFIG: BusinessPageConfig = {
+  /* שירות לפרטיים: מחיר אחד, כולל מע״מ (D91, D86, 11.10.2026) */
+  priceAudience: "consumer",
   brand: "החייאת זיכרונות",
   pageTitle: "המרת VHS וקלטות לדיגיטל",
   subtitle:

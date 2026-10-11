@@ -49,6 +49,8 @@ function tier(
 }
 
 export const VOICE_CLONING_CONFIG: BusinessPageConfig = {
+  /* שירות לפרטיים: מחיר אחד, כולל מע״מ (D91, D86, 11.10.2026) */
+  priceAudience: "consumer",
   brand: "שיבוט קול",
   pageTitle: "שיבוט קול לעסקים",
   subtitle:

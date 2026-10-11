@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withVat } from "@/lib/data/pricing";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import HowToSchema from "@/components/seo/HowToSchema";
 import PodcastQualityIcon from "@/components/seo/PodcastQualityIcon";
@@ -237,10 +238,10 @@ export default function PodcastRecordingPageContent() {
             מתאים למי שרוצה להתמקד בתוכן ולתת לנו לדאוג לכל השאר.
           </p>
           <p className="mt-6 text-2xl font-bold text-brand-red">
-            {PODCAST_RECORDING_PRICE.toLocaleString("he-IL")} ₪
+            {withVat(PODCAST_RECORDING_PRICE).toLocaleString("he-IL")} ₪
             <span className="text-base font-normal text-muted-foreground">
               {" "}
-              + מע״מ, {PODCAST_RECORDING_PRICE_NOTE}
+              כולל מע״מ, {PODCAST_RECORDING_PRICE_NOTE}
             </span>
           </p>
           <BookPriceDual
