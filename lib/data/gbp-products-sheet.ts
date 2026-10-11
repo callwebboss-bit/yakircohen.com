@@ -7,11 +7,15 @@ export type GbpSheetRow = GbpProduct & {
   priceToEnter: number | null;
   exVat: number | null;
   url: string | null;
-  status: "ok" | "update" | "decide" | "free";
+  status: "ok" | "update" | "decide" | "free" | "service";
 };
 
 export function buildGbpSheet(): GbpSheetRow[] {
   return GBP_PRODUCTS.map((product) => {
+    if (product.listing === "service") {
+      const url = product.path ? absoluteUrl(product.path.replace(/^\/+/, "")) : null;
+      return { ...product, priceToEnter: null, exVat: null, url, status: "service" as const };
+    }
     if (!product.catalogId) {
       const url = product.path ? absoluteUrl(product.path.replace(/^\/+/, "")) : null;
       return { ...product, priceToEnter: null, exVat: null, url, status: product.free ? ("free" as const) : ("decide" as const) };
@@ -33,6 +37,7 @@ const STATUS_LABEL: Record<GbpSheetRow["status"], string> = {
   update: "לעדכן בכרטיס",
   decide: "החלטת בעלים",
   free: "ללא עלות",
+  service: "עורך השירותים, בלי מחיר",
 };
 
 export function renderGbpSheetMarkdown(rows: GbpSheetRow[], generatedAt: string): string {

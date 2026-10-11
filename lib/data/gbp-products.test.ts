@@ -35,7 +35,23 @@ test("כל קישור במיפוי הוא עמוד קיים באתר", () => {
 
 test("המחיר להזנה בכרטיס הוא כולל מע״מ ונגזר מהקטלוג", () => {
   for (const row of buildGbpSheet()) {
-    if (!row.catalogId) continue;
+    if (!row.catalogId || row.listing === "service") continue;
     assert.equal(row.priceToEnter, Math.round(getExVat(row.catalogId) * (1 + CATALOG_VAT_RATE)), row.name);
+  }
+});
+
+/* החלטת הבעלים 11.10.2026: שירותים בעורך השירותים בלי מחיר. מדיניות הכרטיס
+   (support 7400114) אוסרת מחיר וקריאה לפעולה בטקסט, ושם שירות מותאם לא יכול
+   לכלול מחיר או טלפון (support 9455399). */
+test("שירות בכרטיס: בלי מחיר, ובטקסט אין מחיר, טלפון או קריאה לפעולה", () => {
+  const services = buildGbpSheet().filter((row) => row.listing === "service");
+  assert.ok(services.length > 0);
+  for (const row of services) {
+    assert.equal(row.priceToEnter, null, row.name);
+    assert.equal(row.status, "service", row.name);
+    for (const text of [row.name, row.description ?? ""]) {
+      assert.ok(!/₪|ש"ח|ש״ח|\d{2,3}-?\d{7}|כתבו לנו|התקשרו|וואטסאפ/.test(text), `${row.name}: ${text}`);
+    }
+    assert.ok((row.description ?? "").length > 0 && (row.description ?? "").length <= 250, row.name);
   }
 });
