@@ -4,10 +4,6 @@
     {
       "path": "/api/market-alerts",
       "schedule": "0 6 * * 5"
-    },
-    {
-      "path": "/api/cron/lead-followups",
-      "schedule": "0 7 * * *"
     }
   ],
   "headers": [

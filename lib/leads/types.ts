@@ -55,6 +55,11 @@ export type LeadRecord = {
   budgetHint?: number;
   resendEmailId?: string;
   openedAt?: string;
+  /** Resend אישר שהמייל לבעלים נמסר לתיבה (email.delivered) */
+  deliveredAt?: string;
+  /** המייל לבעלים חזר, נכשל, סומן כספאם, נחסם או מתעכב (webhook של Resend) */
+  deliveryIssue?: { type: string; at: string };
+  /** שדה ישן: התזכורת היומית בוטלה ב-11.10.2026 (D95). נשאר לרשומות קיימות */
   followUpSentAt?: string;
   duplicateOf?: string;
   /** סימונים רכים מבדיקת הגוף (מילות ספאם). הליד נשלח לבעלים עם "[לבדיקה]". */

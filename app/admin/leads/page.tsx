@@ -6,6 +6,7 @@ import Section from "@/components/ui/Section";
 import { ADMIN_LOGIN_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
 import { listLeads } from "@/lib/leads/store";
 import type { LeadStatus, ServiceType } from "@/lib/leads/types";
+import { leadMailStatusLabel } from "@/lib/leads/resend-events";
 import { adminLogoutAction } from "@/app/admin/login/actions";
 import { AdminLogoutForm } from "@/components/admin/SalesDesk";
 
@@ -92,6 +93,8 @@ export default async function AdminLeadsPage({
                   <th className="px-3 py-2 font-semibold">שם</th>
                   <th className="px-3 py-2 font-semibold">טלפון</th>
                   <th className="px-3 py-2 font-semibold">סטטוס</th>
+                  <th className="px-3 py-2 font-semibold">מייל אליך</th>
+                  <th className="px-3 py-2 font-semibold">טופס</th>
                   <th className="px-3 py-2 font-semibold">נושא</th>
                 </tr>
               </thead>
@@ -108,6 +111,8 @@ export default async function AdminLeadsPage({
                       {lead.phone || " - "}
                     </td>
                     <td className="px-3 py-2">{lead.status}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">{leadMailStatusLabel(lead)}</td>
+                    <td className="px-3 py-2 text-xs text-muted-foreground" dir="ltr">{lead.formId}</td>
                     <td className="max-w-xs truncate px-3 py-2">{lead.subject}</td>
                   </tr>
                 ))}

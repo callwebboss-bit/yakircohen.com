@@ -65,15 +65,3 @@ export async function listLeads(limit = 100): Promise<LeadRecord[]> {
   }
   return leads;
 }
-
-export async function listLeadsNeedingFollowUp(
-  olderThanMs: number,
-): Promise<LeadRecord[]> {
-  const all = await listLeads(200);
-  const cutoff = Date.now() - olderThanMs;
-  return all.filter((l) => {
-    if (l.followUpSentAt || l.openedAt) return false;
-    if (l.status !== "new") return false;
-    return Date.parse(l.createdAt) <= cutoff;
-  });
-}

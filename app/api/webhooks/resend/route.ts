@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { listLeads, updateLead } from "@/lib/leads/store";
+import { classifyResendEvent } from "@/lib/leads/resend-events";
+import { logLeadDeliveryProblem } from "@/lib/leads/log";
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 type ResendWebhookEvent = {
@@ -77,14 +79,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  if (type === "email.opened" || type === "email.clicked") {
-    const leads = await listLeads(200);
-    const match = leads.find((l) => l.resendEmailId === emailId);
-    if (match && !match.openedAt) {
-      await updateLead(match.id, {
-        openedAt: event.data?.created_at || new Date().toISOString(),
-        status: match.status === "new" ? "contacted" : match.status,
-      });
+  const kind = classifyResendEvent(type);
+  if (kind === "ignore") return NextResponse.json({ ok: true });
+
+  const at = event.data?.created_at || new Date().toISOString();
+  const leads = await listLeads(200);
+  const match = leads.find((l) => l.resendEmailId === emailId);
+  /* רק המייל לבעלים נשמר על הליד (resendEmailId). מייל אחר, למשל התשובה
+     האוטומטית ללקוח, לא מעדכן כלום */
+  if (!match) return NextResponse.json({ ok: true, matched: false });
+
+  if (kind === "engagement") {
+    /* פתיחת המייל של הבעלים היא לא פנייה ללקוח, ולכן הסטטוס לא משתנה.
+       לפי D34, contacted נרשם רק כשהבעלים פונה ללקוח (11.10.2026) */
+    if (!match.openedAt) await updateLead(match.id, { openedAt: at });
+  } else if (kind === "delivered") {
+    if (!match.deliveredAt) await updateLead(match.id, { deliveredAt: at });
+  } else {
+    await updateLead(match.id, { deliveryIssue: { type, at } });
+    if (kind === "problem") {
+      logLeadDeliveryProblem({ leadId: match.id, formId: match.formId, type });
     }
   }
 

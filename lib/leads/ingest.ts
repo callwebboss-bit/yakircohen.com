@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { CONTACT_EMAIL_INTERNAL } from "@/lib/constants";
+import { logLeadEmailSendFailure } from "@/lib/leads/log";
 import { buildLeadEnrichment, type ClientEnrichmentHints } from "@/lib/leads/enrichment";
 import {
   classifyLeadRepeat,
@@ -276,6 +277,9 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
       adminSend = { ok: false, status: 0, error: "resend_threw" };
     }
     emailed = adminSend.ok;
+    if (!adminSend.ok) {
+      logLeadEmailSendFailure({ formId: input.formId, status: adminSend.status, error: adminSend.error });
+    }
     if (adminSend.ok && adminSend.id && stored) {
       lead.resendEmailId = adminSend.id;
       try {

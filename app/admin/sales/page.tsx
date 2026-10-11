@@ -6,6 +6,15 @@ import Section from "@/components/ui/Section";
 import { adminLoginUrl, isAdminAuthenticated } from "@/lib/admin-auth";
 import { buildSalesBook } from "@/lib/sales/sales-book";
 import { adminLogoutAction } from "@/app/admin/login/actions";
+import WeeklyCountCard from "@/components/admin/WeeklyCountCard";
+import { saveWeeklyCountsAction } from "@/app/admin/sales/actions";
+import { listLeads } from "@/lib/leads/store";
+import {
+  addDays,
+  countWeeklyFormLeads,
+  getWeeklyManualCounts,
+  weekStartIsrael,
+} from "@/lib/leads/weekly-count";
 
 /**
  * עמדת המחירים לוואטסאפ (תוכנית עמדת המכירות, סעיף 1). מאחורי הכניסה הקיימת,
@@ -33,6 +42,22 @@ export default async function AdminSalesPage() {
   }
   const book = buildSalesBook();
 
+  /* השבוע ושלושת השבועות שלפניו (D95). הלידים נשמרים 90 יום, ולכן 4 שבועות
+     תמיד בתוך הטווח */
+  const weekStart = weekStartIsrael(new Date());
+  const leads = await listLeads(200);
+  const weekLabelOf = (start: string) =>
+    `${start.slice(8, 10)}.${start.slice(5, 7)} עד ${addDays(start, 6).slice(8, 10)}.${addDays(start, 6).slice(5, 7)}`;
+  const previousStarts = [1, 2, 3].map((n) => addDays(weekStart, -7 * n));
+  const [manual, ...previousManual] = await Promise.all(
+    [weekStart, ...previousStarts].map((start) => getWeeklyManualCounts(start)),
+  );
+  const previous = previousStarts.map((start, i) => ({
+    label: weekLabelOf(start),
+    forms: countWeeklyFormLeads(leads, start).total,
+    manual: previousManual[i],
+  }));
+
   return (
     <article className="bg-background">
       <Section padding="sm">
@@ -58,6 +83,14 @@ export default async function AdminSalesPage() {
               <AdminLogoutForm action={adminLogoutAction} />
             </div>
           </header>
+          <WeeklyCountCard
+            weekStart={weekStart}
+            weekLabel={weekLabelOf(weekStart)}
+            forms={countWeeklyFormLeads(leads, weekStart)}
+            manual={manual}
+            previous={previous}
+            action={saveWeeklyCountsAction}
+          />
           <SalesDesk book={book} />
         </Container>
       </Section>

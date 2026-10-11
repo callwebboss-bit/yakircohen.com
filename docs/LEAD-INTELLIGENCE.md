@@ -21,7 +21,7 @@
 | `/api/leads/ingest` | Alias |
 | `/api/leads/recover` | Abandoned draft (phone required, no admin email spam) |
 | `/api/webhooks/resend` | `email.opened` tracking |
-| `/api/cron/lead-followups` | Daily 07:00 UTC reminder (Hobby: once/day; Bearer `CRON_SECRET`) |
+| ~~`/api/cron/lead-followups`~~ | בוטל ב-11.10.2026 (החלטת הבעלים D95): התזכורת "ליד לא נפתח" יצאה על כל ליד, כי מעקב הפתיחות של Resend כבוי |
 | `/admin/login` → `/admin/leads` | RSC table + kanban. Enter `ADMIN_LEADS_TOKEN` once on the login page; it is kept in an HttpOnly cookie (30 days), never in the URL. Export API also accepts `Authorization: Bearer <ADMIN_LEADS_TOKEN>` for the local Closer. |
 
 ## Env
