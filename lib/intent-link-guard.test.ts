@@ -9,7 +9,8 @@ describe("IntentLink guard", () => {
   it("only IntentLink imports next/link", () => {
     const out = execFileSync(
       "git",
-      ["grep", "-l", 'from "next/link"', "--", "app", "components", "lib", "hooks"],
+      /* המחרוזת מורכבת משני חלקים, כדי שהקובץ הזה לא ימצא את עצמו */
+      ["grep", "-l", 'from "next' + '/link"', "--", "app", "components", "lib", "hooks"],
       { encoding: "utf8" },
     );
     const files = out.split("\n").filter(Boolean);

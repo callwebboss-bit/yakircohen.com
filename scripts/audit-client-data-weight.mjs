@@ -74,6 +74,11 @@ const LAYOUT_CLIENT_BASELINE = [
      הוא חייב להיות בכל עמוד מעצם תפקידו: הוא תופס גם קישורים בעמודים
      שטרם נוצרו, במקום onClick בעשרות רכיבים שיתיישן בעמוד הבא. */
   "components/analytics/OutboundLeadTracker.tsx",
+  /* 11.10.2026: עטיפה של next/link (שכבר בכל עמוד) שטוענת מראש רק בכוונה.
+     1.9KB, מייבאת רק next/link ו-useState. היא חייבת להיות בפוטר ובתפריט,
+     כי שם רוב הקישורים: בלעדיה ביקור אחד ב-/studio שלח 92 בקשות ברקע,
+     וזה מה שהקפיץ את ISR Reads ב-Vercel ל-1.5 מיליון. */
+  "components/ui/IntentLink.tsx",
   "components/booking/SessionRescuerBarLazy.tsx",
   "components/business/CompanyDetailsCard.tsx",
   "components/glossary/GlossaryTooltipProvider.tsx",
