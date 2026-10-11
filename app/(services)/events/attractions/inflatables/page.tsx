@@ -11,6 +11,8 @@ export default function InflatablesPage() {
     <ServicePageFromRegistry
       service={service}
       portfolioLabel="מגלשת מים מתנפחת"
+      /* מחירי איסוף עצמי והחבילה מהקטלוג, לא טבלת החבילות של אטרקציות עם מפעיל */
+      pricingSource="registry"
     />
   );
 }
