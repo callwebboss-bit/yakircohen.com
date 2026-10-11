@@ -102,7 +102,7 @@ export default function PwaInstallPrompt() {
       role="dialog"
       aria-label="שמור את האתר למסך הבית"
       dir="rtl"
-      className="fixed bottom-4 inset-x-4 z-50 flex items-start gap-3 rounded-xl border border-border bg-surface p-4 shadow-lg sm:inset-x-auto sm:start-4 sm:w-80"
+      className="fixed bottom-[calc(var(--float-inset)+1rem)] inset-x-4 z-50 flex items-start gap-3 rounded-xl border border-border bg-surface p-4 shadow-lg sm:inset-x-auto sm:start-4 sm:w-80"
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-red text-white text-lg font-bold select-none">
         י

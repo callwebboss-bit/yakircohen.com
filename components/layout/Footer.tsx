@@ -36,7 +36,7 @@ export default function Footer() {
         </div>
 
         <details className="footer-more mt-10">
-          <summary className="footer-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-[var(--footer-fg)] marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+          <summary className="summary-cue footer-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-[var(--footer-fg)] marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
             מידע נוסף
           </summary>
           <div className="footer-more-body mt-6 space-y-10">

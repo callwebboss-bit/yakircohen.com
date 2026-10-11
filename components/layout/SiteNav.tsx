@@ -599,7 +599,7 @@ export function SiteNavMobileDrawer({
           >
             הזמנה
           </Link>
-          {/* F-05 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו ב-MobileStickyCta. לבן על
+          {/* F-05 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו בפס הפעולה התחתון (MobileActionBar). לבן על
               הגוון הגולמי נמדד 2.42 (ציאן) עד 3.76:1, מתחת ל-4.5. */}
           <Link
             href="/contact"

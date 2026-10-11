@@ -281,7 +281,7 @@ export default function AboutPage() {
         <Section padding="sm">
           <Container className="max-w-3xl">
           <details className="group rounded-2xl border border-border bg-surface">
-            <summary className="min-h-11 cursor-pointer list-none px-6 py-5 text-lg font-semibold text-foreground marker:content-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red [&::-webkit-details-marker]:hidden">
+            <summary className="summary-cue min-h-11 cursor-pointer list-none px-6 py-5 text-lg font-semibold text-foreground marker:content-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red [&::-webkit-details-marker]:hidden">
               עוד עלינו
               <span className="ms-2 text-sm font-normal text-muted-foreground">
                 (ביוגרפיה וצוות)

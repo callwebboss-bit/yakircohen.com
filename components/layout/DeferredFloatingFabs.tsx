@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import MobileStickyCta from "@/components/layout/MobileStickyCta";
+import MobileActionBar from "@/components/layout/MobileActionBar";
 
 const FloatingFabs = dynamic(() => import("@/components/layout/FloatingFabs"), {
   ssr: false,
 });
 
-// OPTIMIZED: mobile sticky CTA renders immediately; FABs defer with shorter mobile timeout
+// פס הפעולה התחתון נטען מיד (הוא חלק מהעמוד במובייל); הכפתורים הצפים נדחים
 export default function DeferredFloatingFabs() {
   const [showFabs, setShowFabs] = useState(false);
 
@@ -39,7 +39,7 @@ export default function DeferredFloatingFabs() {
 
   return (
     <>
-      <MobileStickyCta />
+      <MobileActionBar />
       {showFabs ? <FloatingFabs /> : null}
     </>
   );

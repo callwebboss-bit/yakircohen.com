@@ -141,7 +141,7 @@ export default function ProServicePageContent({
           <>
             <ProServiceTopicCta service={service} config={service.simpleCta} />
             <details className="group rounded-2xl border border-border bg-surface">
-              <summary className="cursor-pointer list-none px-6 py-4 text-sm font-medium text-muted-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+              <summary className="summary-cue cursor-pointer list-none px-6 py-4 text-sm font-medium text-muted-foreground marker:content-none [&::-webkit-details-marker]:hidden">
                 <span className="group-open:hidden">
                   {service.simpleCta.calculatorSummary ?? "רוצים הערכת מחיר מדויקת?"}
                 </span>

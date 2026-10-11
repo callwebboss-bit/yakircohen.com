@@ -154,7 +154,7 @@ export default function GiftFinderPopup() {
       dir="rtl"
       /* bottom-28 בכל הרזולוציות: מרחף מעל מקבץ ה-FAB והסרגל הדביק במקום לכסות
          אותם, כך שכפתור הוואטסאפ נשאר גלוי ולחיץ ואין צורך להסתיר שום דבר. */
-      className="fixed inset-x-4 bottom-28 z-50 rounded-2xl border border-catalog-gold/40 bg-surface p-4 shadow-lg sm:inset-x-auto sm:start-4 sm:max-w-sm"
+      className="fixed inset-x-4 bottom-[calc(var(--float-inset)+7rem)] z-50 rounded-2xl border border-catalog-gold/40 bg-surface p-4 shadow-lg sm:inset-x-auto sm:start-4 sm:max-w-sm"
     >
       <button
         type="button"

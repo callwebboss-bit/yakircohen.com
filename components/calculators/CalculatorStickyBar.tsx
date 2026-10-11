@@ -79,7 +79,7 @@ export default function CalculatorStickyBar({
   const resolvedStartNowLabel = startNowLabel ?? "התחל תהליך והזמן עכשיו";
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 overflow-x-clip border-t border-border bg-background/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)]">
+    <div className="fixed inset-x-0 bottom-[var(--float-inset)] z-40 overflow-x-clip border-t border-border bg-background/95 backdrop-blur-md pb-[var(--float-safe)]">
       <div className="mx-auto flex min-w-0 max-w-3xl items-center gap-3 px-4 py-3 sm:justify-between sm:gap-4">
         <div className="hidden min-w-0 sm:block">
           <p className="text-[0.65rem] font-semibold tracking-wider text-muted-foreground uppercase">

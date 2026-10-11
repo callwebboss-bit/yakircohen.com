@@ -56,7 +56,7 @@ export default function WhatsappLeadRouter({
     >
       <Container>
         <details className="chrome-more">
-          <summary className="chrome-more-summary flex min-h-12 cursor-pointer list-none items-center justify-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+          <summary className="summary-cue chrome-more-summary flex min-h-12 cursor-pointer list-none items-center justify-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
             {eyebrow}
           </summary>
           <div className="chrome-more-body">

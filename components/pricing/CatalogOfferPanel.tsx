@@ -85,7 +85,7 @@ function Disclosure({
 }) {
   return (
     <details className="group rounded-lg border border-catalog-gold/35 bg-background/50 open:border-catalog-gold/55 open:bg-background/80">
-      <summary className="flex min-h-12 cursor-pointer list-none items-center px-2.5 py-2 font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+      <summary className="summary-cue flex min-h-12 cursor-pointer list-none items-center px-2.5 py-2 font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
         {title}
       </summary>
       <div className="collapse-grid">

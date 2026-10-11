@@ -200,7 +200,7 @@ export default function StudioPriceBuilder({ packages }: StudioPriceBuilderProps
 
       {packages ? (
         <details id="studio-packages" className="mt-6 scroll-mt-24 rounded-xl border border-border bg-background px-4 py-3">
-          <summary className="flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+          <summary className="summary-cue flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
             הצג את כל החבילות
           </summary>
           <div className="mt-4 pb-2">{packages}</div>

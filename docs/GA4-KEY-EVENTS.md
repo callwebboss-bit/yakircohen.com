@@ -43,7 +43,7 @@
 | `book_success_wa_click` | הלקוח פתח וואטסאפ אחרי שסיים את האשף |
 | `book_fast_whatsapp` | ליד מהיר מכרטיס ב-/book |
 | `needs_flow_wa_submit` | ליד ממסלול איתור הצרכים |
-| `whatsapp_fab_click` | לחיצה על הכפתור הצף |
+| `whatsapp_fab_click` | לחיצה על הכפתור הצף בדסקטופ, או על "וואטסאפ" בפס הפעולה התחתון במובייל (מ-11.10.2026; בפס הפרמטר `surface` הוא `mobile_action_bar`) |
 | `chatbot_wa_cta_click` | מעבר לוואטסאפ מתוך הצ׳אט |
 
 **לא לסמן** כהמרה: `book_wizard_start`, `book_wizard_step`,
@@ -82,7 +82,7 @@
 | `Lead campaign` | Event | `campaign` | איזה נוסח קמפיין הביא את הלחיצה |
 
 הערכים האפשריים של `surface`: `header`, `footer`, `page_bottom_cta`,
-`mobile_sticky`, `body`.
+`mobile_sticky`, `mobile_action_bar`, `body`. (`mobile_sticky` הוא הסרגל הדביק שהוחלף ב-11.10.2026 בפס הפעולה; הערך נשאר בנתונים ההיסטוריים.)
 
 > נתונים מצטברים מרגע הרישום בלבד. רישום היום לא ממלא אתמול.
 

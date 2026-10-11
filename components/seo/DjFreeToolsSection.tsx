@@ -87,7 +87,7 @@ export default function DjFreeToolsSection({ embedded = false }: { embedded?: bo
       </div>
 
       <details className="mt-10 rounded-2xl border border-border bg-muted/30 p-6">
-        <summary className="cursor-pointer list-none text-lg font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+        <summary className="summary-cue cursor-pointer list-none text-lg font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
           תבניות לנסות בבית
         </summary>
         <p className="mt-2 text-sm text-muted-foreground">

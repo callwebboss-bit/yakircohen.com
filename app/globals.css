@@ -240,7 +240,7 @@
 
 /* Coupon sheet open — hide competing bottom UI on mobile */
 @media (max-width: 767px) {
-  html[data-coupon-banner="open"] .mobile-sticky-cta,
+  html[data-coupon-banner="open"] .mobile-action-bar,
   html[data-coupon-banner="open"] .floating-fabs-cluster > * {
     opacity: 0;
     pointer-events: none;
@@ -258,8 +258,68 @@
 }
 
 /* אין כלל הסתרה למאתר המתנות בכוונה: הפופ-אפ מרחף מעל מקבץ ה-FAB
-   (bottom-28) ולכן לא מכסה את כפתור הוואטסאפ, את ווידג'ט הנגישות
-   או את הסרגל הדביק. עדיף למקם נכון מאשר להסתיר UI קיים. */
+   (bottom-28 ועוד --float-inset) ולכן לא מכסה את ווידג'ט הנגישות או את
+   פס הפעולה. עדיף למקם נכון מאשר להסתיר UI קיים. */
+
+/* ─── הסטת תחתית לאלמנטים צפים ───
+   פס הפעולה התחתון (components/layout/MobileActionBar.tsx) תופס את תחתית המסך
+   במובייל. כל אלמנט צף, פופאפ או FAB, מוסיף את --float-inset ל-bottom שלו כדי
+   לא להיקבר מתחת לפס, ובעמוד בלי פס הערך הוא 0 והכול נשאר כמו קודם.
+   --float-safe הוא ה-safe-area שהאלמנט צריך לשלם בעצמו: כשהפס קיים הוא כבר
+   שילם אותו, ולכן שם הערך 0 (אחרת הרווח היה נספר פעמיים).
+   זיהוי הפס הוא :has() על ה-class שלו, כך שהוא נכון כבר ב-HTML של השרת, בלי JS
+   ובלי קפיצה אחרי ההידרציה. (feature/popup-manager, 7.10.2026; בהירות שלב 1.) */
+:root {
+  --action-bar-h: 3.5rem;
+  --float-inset: 0px;
+  --float-safe: env(safe-area-inset-bottom, 0px);
+}
+@media (max-width: 767px) {
+  html:has(.mobile-action-bar) {
+    --float-inset: calc(var(--action-bar-h) + env(safe-area-inset-bottom, 0px));
+    --float-safe: 0px;
+  }
+}
+
+/* ─── סימן פתיחה לאקורדיון (בהירות שלב 1, 11.10.2026) ───
+   summary שה-marker שלו הוסר (list-none) ואין בו אייקון נראה כמו כותרת בפס
+   ריק, והלקוח לא יודע שאפשר ללחוץ. בסיור החי נמדדו 2 כאלה בדף הבית ו-180
+   במחירון ("מה כלול", "מה לא כלול"). החץ נוסף ב-CSS עם class אחד, בלי JSX.
+   חץ מגבולות ולא מתו, כדי שלא ייקרא בקורא מסך. גבול פיזי (right/bottom)
+   בכוונה: החץ מצביע למטה בכל כיוון כתיבה. */
+.summary-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-cue::after {
+  content: "";
+  flex: none;
+  inline-size: 0.5em;
+  block-size: 0.5em;
+  margin-inline-start: auto;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.75;
+  transform: translateY(-25%) rotate(45deg);
+  transition: transform 200ms ease;
+}
+.summary-cue.justify-center::after {
+  margin-inline-start: 0;
+}
+details[open] > .summary-cue::after {
+  transform: translateY(20%) rotate(225deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .summary-cue::after {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .summary-cue::after {
+    border-color: CanvasText;
+  }
+}
 
 @keyframes ticker-in {
   from { opacity: 0; transform: translateY(0.4rem); }

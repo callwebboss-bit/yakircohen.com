@@ -110,8 +110,8 @@ export default function SessionRescuerBar() {
   return (
     <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[45] border-t border-brand-red/25 bg-surface/95 px-4 py-3 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm",
-        "pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]",
+        "fixed inset-x-0 bottom-[var(--float-inset)] z-[45] border-t border-brand-red/25 bg-surface/95 px-4 py-3 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm",
+        "pb-[calc(0.75rem+var(--float-safe))]",
       )}
       role="status"
       aria-live="polite"

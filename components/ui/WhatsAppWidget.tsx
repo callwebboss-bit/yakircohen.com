@@ -29,7 +29,7 @@ export default function WhatsAppWidget({
 }: WhatsAppWidgetProps) {
   const href = buildWhatsAppHref({ text, utm_source, utm_campaign, phone });
 
-  /* F-05 + F-42 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו ב-MobileStickyCta. הסמל
+  /* F-05 + F-42 (7.10.2026): bg-brand-red ולא גוון ה-hub, כמו בפס הפעולה התחתון (MobileActionBar). הסמל
      הלבן על הגוון הגולמי נמדד 2.43:1 ב-/online (1.4.11), וטבעת הפוקוס באותו גוון 2.32:1.
      הזוהר הוא rgb(212 43 43) = #d42b2b, כדי שלא יישאר הילה בצבע אחר סביב כפתור אדום. */
   return (

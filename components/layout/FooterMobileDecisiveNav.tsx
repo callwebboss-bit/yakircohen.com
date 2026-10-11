@@ -22,7 +22,7 @@ export default function FooterMobileDecisiveNav() {
 
   return (
     <details className="group mb-8 md:hidden">
-      <summary className="flex min-h-12 cursor-pointer list-none items-center font-semibold text-[var(--footer-fg)] marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+      <summary className="summary-cue flex min-h-12 cursor-pointer list-none items-center font-semibold text-[var(--footer-fg)] marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
         קישורים מהירים
       </summary>
       <nav className="mt-3" aria-label="ניווט מהיר בפוטר">

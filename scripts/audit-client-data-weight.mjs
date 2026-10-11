@@ -85,7 +85,15 @@ const LAYOUT_CLIENT_BASELINE = [
   "components/layout/Header.tsx",
   "components/layout/HeaderMobileSearchIsland.tsx",
   "components/layout/IntentNavStrip.tsx",
-  "components/layout/MobileStickyCta.tsx",
+  /* 11.10.2026 (בהירות שלב 1, מתוך feature/popup-manager של 7.10.2026): פס הפעולה
+     התחתון במובייל (וואטסאפ, מחירון, הזמנה) מחליף את MobileStickyCta ואת שני
+     הכפתורים הצפים. הוא חייב להיות ב-HTML של השרת כדי שה-:has() ב-globals.css
+     יזיז את שאר האלמנטים הצפים בלי קפיצה. הוא מביא איתו שלושה קבצים קטנים בלי
+     ייבוא כבד: זיהוי מקלדת (hook ומאזין) ורשימת העמודים בלי פס. */
+  "components/layout/MobileActionBar.tsx",
+  "hooks/useKeyboardOpen.ts",
+  "lib/action-bar-routes.ts",
+  "lib/viewport-keyboard.ts",
   "components/layout/SearchKeyboardShortcut.tsx",
   "components/layout/SiteNav.tsx",
   "components/layout/SiteNavMenuIsland.tsx",

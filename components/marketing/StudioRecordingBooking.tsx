@@ -2244,7 +2244,7 @@ export default function StudioRecordingBooking({
 
       {/* Sticky price bar - step 2 only */}
       {step === 2 && activePackage && !isSongRecording && (
-        <div className="fixed inset-x-0 bottom-0 z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom)] sm:hidden">
+        <div className="fixed inset-x-0 bottom-[var(--float-inset)] z-30 overflow-x-clip border-t border-border bg-surface/95 backdrop-blur-sm pb-[var(--float-safe)] sm:hidden">
           <div className="mx-auto flex min-w-0 max-w-4xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="min-w-0">
               <p className="truncate text-[0.65rem] text-muted-foreground">

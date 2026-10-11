@@ -230,7 +230,7 @@ export default function HomePageSections({
       >
         <Container>
           <details className="chrome-more max-md:[&_#value-heading]:sr-only">
-            <summary className="chrome-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
+            <summary className="summary-cue chrome-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
               למה לקוחות חוזרים אלינו
             </summary>
             <div className="chrome-more-body">

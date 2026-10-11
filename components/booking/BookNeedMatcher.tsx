@@ -229,7 +229,7 @@ function MatcherScopeTooltip({ catalogId }: { catalogId: PriceItemId }) {
 
   return (
     <details className="mt-3">
-      <summary className="flex min-h-12 cursor-pointer list-none items-center text-sm font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
+      <summary className="summary-cue flex min-h-12 cursor-pointer list-none items-center text-sm font-semibold text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
         כולל / לא כולל
       </summary>
       <div className="mt-2 space-y-1.5 rounded-lg border border-border/70 bg-background/60 px-2.5 py-2 text-[0.7rem] leading-relaxed text-muted-foreground">

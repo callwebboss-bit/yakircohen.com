@@ -37,6 +37,8 @@ function savePrefs(prefs: Record<A11yOption, boolean>): void {
   } catch {}
 }
 
+/* סמל הנגישות המקובל: דמות עם ידיים פתוחות בתוך עיגול. קודם היה כאן פלוס בעיגול,
+   שלא אומר "נגישות" למי שמחפש את הכפתור (בהירות שלב 1, 11.10.2026). */
 function AccessibilityIcon() {
   return (
     <svg
@@ -44,11 +46,15 @@ function AccessibilityIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="h-5 w-5"
       aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 8v8M8 12h8" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="6.5" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M7 9.5l5 1.2 5-1.2" />
+      <path d="M12 10.7v3.3l-2.5 4.5M12 14l2.5 4.5" />
     </svg>
   );
 }

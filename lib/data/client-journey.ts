@@ -29,7 +29,7 @@ export const CLIENT_JOURNEY_VARIANTS: readonly JourneyVariantConfig[] = [
         number: 2,
         title: "ביצוע",
         description:
-          "מקליטים, מערכים, ממקסים או מפעילים ציוד - לפי מה שנקבע בשלב הראשון.",
+          "מקליטים, מערכים, עושים מיקס או מפעילים ציוד - לפי מה שנקבע בשלב הראשון.",
       },
       {
         number: 3,
