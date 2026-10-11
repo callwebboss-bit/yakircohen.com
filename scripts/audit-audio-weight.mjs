@@ -3,7 +3,9 @@
  *
  * התקן כתוב ב-public/audio/README.md ונקבע על ידי הבעלים: "כל קובץ: MP3,
  * 20-60 שניות, מומלץ עד 2MB". נמדד 30.9.2026 שחמישה קבצים חורגים, והכבד
- * שבהם 7.2MB באורך 3:10. גולש שמשווה לפני ואחרי אינו מאזין לשלוש דקות,
+ * שבהם 7.2MB באורך 3:10. ב-11.10.2026 הבעלים ייצא מחדש את כל 21 הקבצים:
+ * הנפח ירד מ-31MB ל-16MB, ושני הקבצים הכבדים ביותר (After-Pitch-Present,
+ * Befor-pitch-yakir) עומדים בתקן ויצאו מהרשימה. ארבעה נשארו מעל דקה. גולש שמשווה לפני ואחרי אינו מאזין לשלוש דקות,
  * והקובץ נטען בכל פתיחה של העמוד שמכיל אותו.
  *
  * השומר קורא את כותרת ה-MP3 ישירות, בלי ffmpeg: מדלג על תג ID3, מוצא את
@@ -31,12 +33,10 @@ const MAX_SECONDS = 60;
  * הדוגמאות שמוכרות את השירות ורק הוא יודע איזה קטע בהן הכי משכנע.
  */
 const KNOWN = [
-  { file: "After-Pitch-Present.mp3", why: "דוגמת אחרי, 3:10 ב-320kbps. ממתינה לחיתוך לקטע של עד דקה" },
-  { file: "Befor-pitch-yakir.mp3", why: "דוגמת לפני המקבילה, 3:04. לחתוך את אותו קטע בדיוק" },
-  { file: "dry-vocal-raw.mp3", why: "קול יבש, 3:48. לחתוך לאותו קטע כמו full-production" },
+  { file: "dry-vocal-raw.mp3", why: "קול יבש, 1:10 (יוצא מחדש 11.10.2026, היה 3:48). מעל דקה, לחתוך לאותו קטע כמו full-production" },
   { file: "bride-blessing-tuned.mp3", why: "ברכת כלה אחרי, 1:35. קרוב לתקן, לחתוך ל-60 שניות" },
-  { file: "bride-blessing-raw.mp3", why: "ברכת כלה לפני, 1:16. לחתוך לאותו קטע כמו הגרסה שאחרי" },
-  { file: "full-production.mp3", why: "הפקה מלאה, 2:32. לחתוך לאותו קטע כמו dry-vocal-raw" },
+  { file: "bride-blessing-raw.mp3", why: "ברכת כלה לפני, 1:15. לחתוך לאותו קטע כמו הגרסה שאחרי" },
+  { file: "full-production.mp3", why: "הפקה מלאה, 1:15 (יוצא מחדש 11.10.2026, היה 2:32). לחתוך לאותו קטע כמו dry-vocal-raw" },
 ];
 
 const MPEG1_LAYER3_BITRATES = [
@@ -61,10 +61,21 @@ function probeMp3(path) {
     const kbps = MPEG1_LAYER3_BITRATES[(buf[i + 2] >> 4) & 0xf];
     const sampleRate = SAMPLE_RATES[(buf[i + 2] >> 2) & 3];
     if (!kbps || !sampleRate) continue;
+    const channels = ((buf[i + 3] >> 6) & 3) === 3 ? 1 : 2;
+    /* קבצי VBR נושאים בפריים הראשון תג Xing/Info עם מספר הפריימים. בלעדיו האורך
+       נגזר מקצב הסיביות של הפריים הראשון, וזה טועה בקובץ VBR (נמדד 11.10.2026:
+       dry-vocal-raw הוצג 2:03 והאורך האמיתי 1:10). */
+    const crc = (buf[i + 1] & 1) === 0 ? 2 : 0;
+    const tag = i + 4 + crc + (channels === 1 ? 17 : 32);
+    const marker = buf.toString("ascii", tag, tag + 4);
+    if ((marker === "Xing" || marker === "Info") && buf[tag + 7] & 1) {
+      const frames = buf.readUInt32BE(tag + 8);
+      return { bytes: buf.length, kbps, channels, seconds: Math.round((frames * 1152) / sampleRate) };
+    }
     return {
       bytes: buf.length,
       kbps,
-      channels: ((buf[i + 3] >> 6) & 3) === 3 ? 1 : 2,
+      channels,
       seconds: Math.round(((buf.length - i) * 8) / (kbps * 1000)),
     };
   }
