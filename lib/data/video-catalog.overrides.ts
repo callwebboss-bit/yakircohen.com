@@ -75,6 +75,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   ],
   /* יקב פאסק (קריינות, 8.10.2026): בראש, לפני סרטוני ה-DJ */
   "voiceover-hub": [
+    /* פרסומת טלוויזיה ששודרה בערוץ 14 (הבעלים 11.10.2026) */
+    "kMBtj7hLTHA",
     "-nU3anctSJY",
     "5JPLiE7IbpU",
     "vLxPpfoDWqc",

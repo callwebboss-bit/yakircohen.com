@@ -237,4 +237,13 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
     tags: ["dj-events"],
     services: ["dry-hire"],
   },
+  /* 11.10.2026, הבעלים: "קריינות לטלוויזיה ערוץ 14, קריינות פרסומת לבנא משקאות" */
+  {
+    videoId: "kMBtj7hLTHA",
+    title: "קריינות לפרסומת טלוויזיה: בנא משקאות, ערוץ 14",
+    youtubeUrl: "https://www.youtube.com/watch?v=kMBtj7hLTHA",
+    tags: ["voiceover"],
+    services: ["voiceover-hub", "voiceover-services"],
+    description: "פרסומת חג לבנא משקאות ששודרה בערוץ 14. קריינות: יקיר כהן.",
+  },
 ] as const;
