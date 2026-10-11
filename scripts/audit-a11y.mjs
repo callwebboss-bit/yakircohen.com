@@ -28,6 +28,33 @@ const PAGES_TO_CHECK = [
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
 const force = process.env.RUN_A11Y === "1" || process.env.CI_A11Y === "1";
 
+// ממצאי צד שלישי שאין לנו דרך לתקן ושכבר מופיעים בהצהרת הנגישות
+// ("תכנים של צד שלישי" ב-lib/data/legal/accessibility-content.tsx). צר בכוונה:
+// כלל אחד, ורק בצמתים שבתוך iframe של Elfsight. כל כלל אחר באותו iframe, וכל
+// color-contrast מחוץ לו, עדיין מכשיל. הצמתים מודפסים כ-KNOWN ולא נעלמים.
+// החלטת הבעלים 11.10.2026. נמדד אז: 3 צמתים בדף הבית, 6 ב-/testimonials.
+const KNOWN_THIRD_PARTY = [
+  { rule: "color-contrast", frameHostSuffix: ".elf.site", label: "Elfsight" },
+];
+
+/** הצומת יושב בתוך iframe מוכר, והכלל שלו ברשימת היתר של אותו iframe? */
+async function knownThirdParty(page, ruleId, node) {
+  const [frameSelector] = node.target;
+  if (node.target.length < 2 || typeof frameSelector !== "string") return null;
+  const candidates = KNOWN_THIRD_PARTY.filter((k) => k.rule === ruleId);
+  if (candidates.length === 0) return null;
+  const src = await page
+    .evaluate((sel) => document.querySelector(sel)?.getAttribute("src") ?? "", frameSelector)
+    .catch(() => "");
+  let host = "";
+  try {
+    host = new URL(src).hostname;
+  } catch {
+    return null;
+  }
+  return candidates.find((k) => host.endsWith(k.frameHostSuffix)) ?? null;
+}
+
 let chromium;
 let AxeBuilder;
 try {
@@ -70,10 +97,28 @@ for (const path of PAGES_TO_CHECK) {
     const serious = results.violations.filter(
       (v) => v.impact === "critical" || v.impact === "serious",
     );
-    if (serious.length) {
-      violations += serious.length;
+    const failing = [];
+    const knownNotes = [];
+    for (const v of serious) {
+      const nodes = [];
+      let knownCount = 0;
+      let knownLabel = "";
+      for (const node of v.nodes) {
+        const known = await knownThirdParty(page, v.id, node);
+        if (known) {
+          knownCount += 1;
+          knownLabel = known.label;
+        } else {
+          nodes.push(node);
+        }
+      }
+      if (knownCount > 0) knownNotes.push(`${v.id} x${knownCount} inside ${knownLabel} iframe`);
+      if (nodes.length > 0) failing.push({ ...v, nodes });
+    }
+    if (failing.length) {
+      violations += failing.length;
       console.log("FAIL");
-      for (const v of serious) {
+      for (const v of failing) {
         console.error(`  [${v.impact?.toUpperCase()}] ${v.id}: ${v.description}`);
         for (const node of v.nodes.slice(0, 2)) {
           console.error(`    → ${node.html.slice(0, 120)}`);
@@ -81,6 +126,9 @@ for (const path of PAGES_TO_CHECK) {
       }
     } else {
       console.log("OK");
+    }
+    for (const note of knownNotes) {
+      console.log(`  KNOWN (third party, listed in /accessibility): ${note}`);
     }
   } catch (err) {
     console.error(`\n  Error: ${err instanceof Error ? err.message : err}`);
