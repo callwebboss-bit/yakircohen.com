@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HOME_INTENT_PATHS } from "@/lib/data/home-intent-paths";
+import { doorForIntent } from "@/lib/data/intent-nav";
 import { catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 
 /**
@@ -22,7 +23,7 @@ export default function HomeIntentPaths() {
           const withVat = catalogWithVat(exVat);
 
           return (
-            <li key={path.id}>
+            <li key={path.id} data-door={doorForIntent(path.id)} data-door-item={path.id}>
               <Link
                 href={path.href}
                 prefetch

@@ -6,10 +6,12 @@
  * רואה מה מכסה את ה-CTA. הסיור הראשון (4.10.2026) מצא כך סרגל תחתון שקוף,
  * שתי הבטחות זמן באותו דף וכרטיס הערכה שהציג את המחיר לפני מע"מ.
  *
- * מה הוא עושה (שלושה חלקים, --only=book,pages,audio):
- *   book   מסע ב-/book עד שלב 3 של הוויזארד. לא לוחץ שליחה, לעולם.
- *   pages  עשרת עמודי הכסף: H1, הבטחת זמן, שכבות צפות במסך הראשון, CTA, מחירים.
- *   audio  כל עמוד עם הדגמות: לחיצה אמיתית על "הפעל ניגון" ובדיקה שהקובץ מנגן.
+ * מה הוא עושה (ארבעה חלקים, --only=book,pages,audio,clarity):
+ *   book     מסע ב-/book עד שלב 3 של הוויזארד. לא לוחץ שליחה, לעולם.
+ *   pages    עשרת עמודי הכסף: H1, הבטחת זמן, שכבות צפות במסך הראשון, CTA, מחירים.
+ *   audio    כל עמוד עם הדגמות: לחיצה אמיתית על "הפעל ניגון" ובדיקה שהקובץ מנגן.
+ *   clarity  מדדי תוכנית הבהירות (11.10.2026): מסכים, חלוקות שירותים, ₪, כפתורים
+ *            צפים, אקורדיונים בלי סימן, ואירועי GA4 של שלב 0. כותב גם clarity.json.
  *
  * בטיחות, ואי אפשר לכבות אותן:
  *   - כל בקשה ל-Google Analytics / GTM נחסמת, כדי לא לזהם את משפך הלידים.
@@ -43,7 +45,7 @@ const args = Object.fromEntries(
   }),
 );
 const BASE = (args.base || "https://yakircohen.com").replace(/\/$/, "");
-const ONLY = new Set((args.only || "book,pages,audio").split(","));
+const ONLY = new Set((args.only || "book,pages,audio,clarity").split(","));
 const DAY = new Date().toISOString().slice(0, 10);
 const OUT = args.out || join(homedir(), "yakir-tour-reports", DAY);
 mkdirSync(join(OUT, "screens"), { recursive: true });
@@ -118,11 +120,16 @@ function loadCatalogPrices() {
 
 /* ---------- דפדפן עם חסימות ---------- */
 const leadAttempts = [];
+/* /api/lead-touch הוא יומן לחיצה (lib/lead-touch.ts), לא ליד. גם הוא נחסם, אבל
+   לחיצה על כפתור הפתיחה בחלק clarity שולחת אותו בכוונה, ולכן הוא נספר לבד. */
+const touchAttempts = [];
 async function newContext(browser) {
   const ctx = await browser.newContext({ ...devices["iPhone 14"], locale: "he-IL" });
   await ctx.route(/google-analytics\.com|googletagmanager\.com|analytics\.google\.com/, (r) => r.abort());
   await ctx.route(/\/api\/(lead|leads)/, (r) => {
-    leadAttempts.push(`${r.request().method()} ${r.request().url()}`);
+    const line = `${r.request().method()} ${r.request().url()}`;
+    if (/\/api\/lead-touch(\?|$)/.test(r.request().url())) touchAttempts.push(line);
+    else leadAttempts.push(line);
     return r.abort();
   });
   await ctx.addInitScript(() => {
@@ -340,6 +347,199 @@ async function tourPages(browser) {
   await ctx.close();
 }
 
+/* ---------- חלק 4: בהירות (תוכנית הבהירות, 11.10.2026) ----------
+ * מודד את טבלת המדדים של התוכנית (~/.claude/plans/snazzy-discovering-bee.md):
+ * כמה מסכים, כמה חלוקות שירותים, איפה "איך זה עובד", כמה ₪, כמה כפתורים
+ * צפים, אקורדיונים בלי סימן פתיחה, ומחירים לפני מע"מ בדף צרכני.
+ * בשלב 0 הכול info (קו בסיס). השלבים הבאים יהפכו מדד ליעד שמכשיל.
+ * הנתונים נכתבים גם ל-clarity.json, להשוואה לפני ואחרי. */
+const CLARITY_PAGES = ["/", "/studio", "/studio/recording-song-modiin", "/events/dj-events", "/podcast", "/pricing"];
+
+/** תחילית של אזור שירות. קבוצה עם 3 אזורים שונים או יותר היא "חלוקת שירותים" */
+const SERVICE_PREFIXES = ["/studio", "/events", "/dj-events", "/podcast", "/business", "/online", "/academy", "/matanot", "/voiceover", "/video", "/photography", "/pro"];
+
+/** עמודי עסקים מציגים לפני מע"מ בכוונה (D86, docs/PRICING.md) */
+const BUSINESS_PAGES = /^\/(business|pro)(\/|$)/;
+
+function loadCatalogPriceSets() {
+  const file = join(ROOT, "lib", "data", "pricing-catalog.ts");
+  if (!existsSync(file)) return null;
+  const ex = new Set();
+  const inc = new Set();
+  for (const m of readFileSync(file, "utf8").matchAll(/exVat:\s*(\d+)/g)) {
+    ex.add(Number(m[1]));
+    inc.add(Math.round(Number(m[1]) * 1.18));
+  }
+  return { ex, inc };
+}
+
+async function measureFloating(page) {
+  return page.evaluate(() => {
+    const vh = innerHeight;
+    const counted = [];
+    for (const e of document.querySelectorAll("body *")) {
+      const cs = getComputedStyle(e);
+      if (cs.position !== "fixed" && cs.position !== "sticky") continue;
+      if (cs.visibility === "hidden" || cs.display === "none" || parseFloat(cs.opacity) < 0.05) continue;
+      if (e.closest("header")) continue;
+      const b = e.getBoundingClientRect();
+      if (b.width < 20 || b.height < 20 || b.height > 260 || b.bottom <= 0 || b.top >= vh) continue;
+      if (counted.some((c) => c.contains(e))) continue;
+      counted.push(e);
+    }
+    const a11y = counted.filter((e) => /נגישות/.test((e.getAttribute("aria-label") || "") + (e.innerText || "")));
+    return {
+      total: counted.length,
+      a11y: a11y.length,
+      labels: counted.map((e) => (e.getAttribute("aria-label") || e.innerText || e.tagName).trim().replace(/\s+/g, " ").slice(0, 24)),
+    };
+  });
+}
+
+async function tourClarity(browser) {
+  console.log("\n== clarity: מדדי בהירות ==");
+  const sets = loadCatalogPriceSets();
+  const ctx = await newContext(browser);
+  const summary = {};
+  for (const path of CLARITY_PAGES) {
+    const page = await ctx.newPage();
+    const resp = await page.goto(`${BASE}${path}`, { waitUntil: "load" });
+    await page.waitForTimeout(2500);
+    await scrollThrough(page);
+    const area = `clarity ${path}`;
+    if (resp.status() !== 200) {
+      add(area, "נטען", "fail", `status ${resp.status()}`);
+      await page.close();
+      continue;
+    }
+    const d = await page.evaluate(({ prefixes }) => {
+      const vh = innerHeight;
+      const main = document.querySelector("main") || document.body;
+      const abs = (el) => el.getBoundingClientRect().top + scrollY;
+      const primaryEnd = document.querySelector("[data-clarity-primary-end]");
+      const screens = document.documentElement.scrollHeight / vh;
+      const primaryScreens = primaryEnd ? abs(primaryEnd) / vh : screens;
+
+      /* חלוקת שירותים: רשימה של כרטיסים או פריטים (li, article), גלויה, שהקישור
+         הראשון בכל פריט מוביל לאזור שירות, ויש בה שלושה אזורים שונים לפחות.
+         קישורים בתוך פסקה (אזורי שירות, שאלות נפוצות) לא נספרים. */
+      const prefixOf = (href) => prefixes.find((p) => href === p || href.startsWith(`${p}/`));
+      const visible = (el) => {
+        const b = el.getBoundingClientRect();
+        return b.width > 0 && b.height > 0;
+      };
+      let groupings = 0;
+      const lists = [...main.querySelectorAll("ul, ol, [role='list']")].filter((l) => visible(l) && !l.parentElement.closest("ul, ol"));
+      for (const l of lists) {
+        const areas = new Set();
+        for (const item of l.querySelectorAll(":scope > li, :scope > article, :scope > div")) {
+          const a = item.querySelector("a[href^='/']");
+          if (!a || !visible(a)) continue;
+          const p = prefixOf(a.getAttribute("href"));
+          if (p) areas.add(p);
+        }
+        if (areas.size >= 3) groupings++;
+      }
+
+      const how = [...main.querySelectorAll("h2, h3")].find((h) => /מה קורה (אחרי|מרגע) ש?פונים|איך זה עובד|שלב אחר שלב/.test(h.textContent));
+      const howScreens = how ? abs(how) / vh : null;
+
+      /* אקורדיון בלי סימן פתיחה: summary בלי marker, בלי SVG ובלי תו חץ או פלוס */
+      let cueless = 0;
+      for (const s of main.querySelectorAll("details > summary")) {
+        const b = s.getBoundingClientRect();
+        if (!b.width || !b.height) continue;
+        const cs = getComputedStyle(s);
+        const marker = cs.display === "list-item" && cs.listStyleType !== "none";
+        const icon = s.querySelector("svg, [data-chevron], [aria-hidden='true']");
+        const glyph = /[▾▸›‹⌄+−⊕]/.test(s.textContent) || getComputedStyle(s, "::after").content !== "none" || getComputedStyle(s, "::before").content !== "none";
+        if (!marker && !icon && !glyph) cueless++;
+      }
+
+      const text = main.innerText;
+      return { screens, primaryScreens, groupings, howScreens, cueless, text };
+    }, { prefixes: SERVICE_PREFIXES });
+
+    const amounts = [...d.text.matchAll(/(?:₪\s?([\d,]+)|([\d,]+)\s?(?:₪|ש"ח|ש״ח))/g)].map((m) => Number((m[1] || m[2]).replace(/,/g, ""))).filter(Boolean);
+    let exOnly = 0;
+    let unknown = 0;
+    if (sets) {
+      for (const v of amounts) {
+        if (sets.inc.has(v)) continue;
+        if (sets.ex.has(v)) exOnly++;
+        else unknown++;
+      }
+    }
+    const vatLines = (d.text.match(/\+\s?מע[״"]מ|לפני מע[״"]מ/g) || []).length;
+
+    /* כפתורים צפים: אחרי גלילה למטה, ואחרי עצירה וגלילה קטנה למעלה. שם רואים הכי הרבה */
+    const h = await page.evaluate(() => document.documentElement.scrollHeight);
+    await page.evaluate((y) => scrollTo(0, y), Math.round(h * 0.45));
+    await page.waitForTimeout(900);
+    const floatDown = await measureFloating(page);
+    await page.evaluate(() => scrollBy(0, -120));
+    await page.waitForTimeout(900);
+    const floatUp = await measureFloating(page);
+    const floating = floatUp.total >= floatDown.total ? floatUp : floatDown;
+    await shot(page, `clarity-${path.replace(/\//g, "_") || "home"}-mid`);
+
+    const r1 = (n) => (n == null ? "לא נמצא" : (Math.round(n * 10) / 10).toString());
+    add(area, "מסכים בנייד (כל העמוד)", "info", r1(d.screens));
+    if (path === "/") {
+      add(area, "מסכים עד סוף השכבה הראשית", "info", r1(d.primaryScreens));
+      add(area, "חלוקות שירותים", "info", String(d.groupings));
+    }
+    add(area, "'איך זה עובד' אחרי כמה מסכים", "info", r1(d.howScreens));
+    add(area, "מספרי ₪ גלויים", "info", String(amounts.length));
+    if (!BUSINESS_PAGES.test(path)) {
+      add(area, "סכומים לפני מע\"מ בדף צרכני (D86)", "info", `${exOnly} לפני מע"מ בלבד, ${unknown} לא בקטלוג, ${vatLines} שורות "+ מע״מ" או "לפני מע״מ"`);
+    }
+    add(area, "כפתורים צפים בו זמנית", "info", `${floating.total} (מהם נגישות ${floating.a11y}): ${floating.labels.join(" | ")}`);
+    add(area, "אקורדיונים בלי סימן פתיחה", d.cueless ? "warn" : "pass", String(d.cueless));
+    summary[path] = {
+      screens: d.screens,
+      primaryScreens: d.primaryScreens,
+      groupings: path === "/" ? d.groupings : undefined,
+      howScreens: d.howScreens,
+      shekelAmounts: amounts.length,
+      exVatOnlyAmounts: exOnly,
+      unknownAmounts: unknown,
+      vatLines,
+      floating: floating.total,
+      floatingA11y: floating.a11y,
+      cuelessSummaries: d.cueless,
+    };
+    await page.close();
+  }
+
+  /* האירועים של שלב 0: לחיצה אמיתית, ואז קריאת dataLayer. GA חסום ברשת, אבל
+     gtag של @next/third-parties דוחף ל-dataLayer לפני השליחה, וניווט Link
+     נשאר באותו window, כך שהרשומה שורדת את המעבר. */
+  const page = await ctx.newPage();
+  const events = {};
+  for (const [name, selector] of [
+    ["door_select", "[data-door] a[href^='/']"],
+    ["book_cta_click", "main a[href^='/book']"],
+  ]) {
+    await page.goto(`${BASE}/`, { waitUntil: "load" });
+    await page.waitForTimeout(2500);
+    const link = page.locator(`${selector}:visible`).first();
+    if (!(await link.count())) {
+      add("clarity events", name, "info", "אין קישור מתאים בעמוד");
+      continue;
+    }
+    await link.scrollIntoViewIfNeeded();
+    await link.click({ timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(1200);
+    const fired = await page.evaluate((n) => (window.dataLayer || []).filter((e) => e && e[0] === "event" && e[1] === n).length, name).catch(() => 0);
+    events[name] = fired;
+    add("clarity events", name, fired ? "pass" : "info", fired ? `נורה ${fired}` : "לא נורה (עוד לא באוויר בבסיס הזה?)");
+  }
+  await page.close();
+  await ctx.close();
+  writeFileSync(join(OUT, "clarity.json"), JSON.stringify({ base: BASE, day: DAY, pages: summary, events }, null, 2));
+}
+
 /* ---------- חלק 3: אודיו ---------- */
 async function tourAudio(browser) {
   console.log("\n== audio: ניגון הדגמות ==");
@@ -416,10 +616,12 @@ try {
   if (ONLY.has("book")) await tourBook(browser);
   if (ONLY.has("pages")) await tourPages(browser);
   if (ONLY.has("audio")) await tourAudio(browser);
+  if (ONLY.has("clarity")) await tourClarity(browser);
 } finally {
   await browser.close();
 }
 add("safety", "אף בקשת ליד לא יצאה", leadAttempts.length === 0 ? "pass" : "fail", leadAttempts.join(" | "));
+if (touchAttempts.length) add("safety", "יומני לחיצה (lead-touch) נחסמו ולא נשלחו", "info", String(touchAttempts.length));
 
 const count = (s) => results.filter((r) => r.status === s).length;
 const icon = { pass: "✓", fail: "✗", warn: "!", info: "i" };

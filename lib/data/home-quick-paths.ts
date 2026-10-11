@@ -1,7 +1,10 @@
+import type { DoorId } from "@/lib/data/intent-nav";
 import { DJ_TEAM_NOTE, type PriceItemId } from "@/lib/data/pricing-catalog";
 
 export type HomeQuickPath = {
   id: string;
+  /** הדלת שהכרטיס שייך אליה (D84). בשלב 0 תווית מדידה בלבד (data-door) */
+  door: DoorId;
   emoji: string;
   title: string;
   description: string;
@@ -18,6 +21,7 @@ export type HomeQuickPath = {
 export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   {
     id: "studio",
+    door: "song-gift",
     emoji: "🎙️",
     title: "אולפן והקלטות",
     description:
@@ -30,6 +34,7 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   },
   {
     id: "events",
+    door: "event",
     emoji: "🎉",
     title: "אירועים והנחיה",
     description:
@@ -43,6 +48,7 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   },
   {
     id: "podcast",
+    door: "podcast",
     emoji: "🎧",
     title: "פודקאסט וקריינות",
     description:
@@ -56,6 +62,7 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   },
   {
     id: "academy",
+    door: "more",
     emoji: "🤖",
     title: "AI וקורסים",
     description:

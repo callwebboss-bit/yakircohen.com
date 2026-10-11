@@ -10,6 +10,29 @@ export type IntentNavItem = {
   href: string;
 };
 
+/**
+ * ארבע הדלתות (D84, 11.10.2026) ושורת "עוד" (D85). בשלב 0 של תוכנית הבהירות
+ * הן רק תווית מדידה (data-door), כדי לאסוף נתוני "לפני" על הכפתורים הקיימים
+ * לפני שהכותרת ודף הבית עוברים לדלתות.
+ */
+export type DoorId = "event" | "song-gift" | "podcast" | "business" | "more";
+
+export const DOOR_BY_INTENT_ID: Readonly<Record<string, DoorId>> = {
+  song: "song-gift",
+  blessing: "song-gift",
+  mobile: "song-gift",
+  gifts: "song-gift",
+  podcast: "podcast",
+  wedding: "event",
+  barmitzvah: "event",
+  business: "business",
+  pricing: "more",
+};
+
+export function doorForIntent(id: string): DoorId {
+  return DOOR_BY_INTENT_ID[id] ?? "more";
+}
+
 export const INTENT_NAV_ITEMS: readonly IntentNavItem[] = [
   {
     id: "song",

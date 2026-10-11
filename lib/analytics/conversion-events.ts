@@ -21,6 +21,11 @@ export type ConversionEventName =
   /* כל לחיצת וואטסאפ ממשטח שאין לו אירוע משלו. ראו OutboundLeadTracker */
   | "whatsapp_cta_click"
   | "phone_call_click"
+  /* תוכנית הבהירות, שלב 0 (11.10.2026). לא key events: קו בסיס לפני ואחרי
+     הדלתות ודף הבית. כולם נמדדים ב-OutboundLeadTracker. */
+  | "book_cta_click"
+  | "door_select"
+  | "chooser_step"
   | "portfolio_demo_play"
   | "pricing_calculator_interact"
   | "thank_you_upsell_click"

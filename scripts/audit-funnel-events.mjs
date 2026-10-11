@@ -27,6 +27,10 @@ const GA4_MICRO_CONVERSIONS = [
      components/analytics/OutboundLeadTracker.tsx */
   "whatsapp_cta_click",
   "phone_call_click",
+  /* נוספו 11.10.2026: תוכנית הבהירות, שלב 0. קו בסיס לדלתות ולדף הבית */
+  "book_cta_click",
+  "door_select",
+  "chooser_step",
 ];
 
 function walk(dir, out = []) {
@@ -72,6 +76,9 @@ const callSiteChecks = [
   { name: "shop_cta_click", needle: "shop_cta_click" },
   { name: "book_wizard_start", needle: 'trackConversion("book_wizard_start"' },
   { name: "book_lead_submit", needle: 'trackConversion("book_lead_submit"' },
+  { name: "book_cta_click", needle: 'trackConversion("book_cta_click"' },
+  { name: "door_select", needle: 'trackConversion("door_select"' },
+  { name: "chooser_step", needle: 'trackConversion("chooser_step"' },
 ];
 
 const missingCalls = callSiteChecks.filter((c) => !corpus.includes(c.needle));

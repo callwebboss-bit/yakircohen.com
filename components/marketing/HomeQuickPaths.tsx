@@ -37,7 +37,12 @@ export default function HomeQuickPaths() {
             const price = formatPrice(getExVat(path.priceId), { from: true });
 
             return (
-              <li key={path.id} className="h-full">
+              <li
+                key={path.id}
+                className="h-full"
+                data-door={path.door}
+                data-door-item={path.id}
+              >
                 <ServiceCard
                   title={path.title}
                   description={path.description}
@@ -57,7 +62,11 @@ export default function HomeQuickPaths() {
           })}
         </ul>
 
-        <div className="mt-12 rounded-2xl border border-border bg-background p-8 shadow-sm md:p-10">
+        <div
+          className="mt-12 rounded-2xl border border-border bg-background p-8 shadow-sm md:p-10"
+          data-door="more"
+          data-door-item="online"
+        >
           <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-8 text-right lg:flex-row">
             <div className="lg:max-w-2xl">
               <h3 className="text-xl font-bold text-foreground md:text-2xl">

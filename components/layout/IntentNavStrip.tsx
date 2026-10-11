@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { INTENT_NAV_ITEMS } from "@/lib/data/intent-nav";
+import { INTENT_NAV_ITEMS, doorForIntent } from "@/lib/data/intent-nav";
 import { cn } from "@/lib/utils";
 
 export type IntentNavStripProps = {
@@ -53,7 +53,12 @@ export default function IntentNavStrip({
             (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
           return (
-            <li key={item.id} className={compact ? "shrink-0" : undefined}>
+            <li
+              key={item.id}
+              className={compact ? "shrink-0" : undefined}
+              data-door={doorForIntent(item.id)}
+              data-door-item={item.id}
+            >
               <Link
                 href={item.href}
                 onClick={onNavigate}

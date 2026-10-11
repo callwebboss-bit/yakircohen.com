@@ -21,6 +21,15 @@ import { stampWhatsAppLeadCode } from "@/lib/whatsapp";
  * ב-data-lead-tracked ומדולגים. השניים האחרים נפתחים דרך window.open
  * ולא עוברים כאן בכלל. התוצאה: whatsapp_cta_click סופר בדיוק את מה
  * שלא נמדד עד היום, ואינו משנה אף מספר קיים.
+ *
+ * תוכנית הבהירות (11.10.2026, שלב 0): אותו מאזין מודד גם את מה שצריך
+ * כדי לשפוט את הדלתות ואת דף הבית לפני ואחרי.
+ * - book_cta_click: קישור פנימי ל-/book. היום אין לו אירוע GA4 בכלל
+ *   (docs/DESIGN-TRACK.md:151-153). fireLeadTouch בכפתור הפתיחה כותב
+ *   ליומן בשרת, לא ל-GA4, ולכן אין כאן ספירה כפולה.
+ * - door_select: קישור בתוך [data-door], עם הדלת והפריט.
+ * - chooser_step: שינוי radio בתוך [data-chooser], פעם אחת לכל שאלה
+ *   בכל צפייה בעמוד (חצים במקלדת מפעילים change בכל תזוזה).
  */
 
 /** ערך מדווח כשלא נמצא מקור מדויק, כדי שלא יהיה שדה ריק בדוח */
@@ -63,6 +72,11 @@ function anchorOf(event: MouseEvent): Element | null {
   return target.closest("a[href]");
 }
 
+/** קישור פנימי ל-/book, כולל /book/... ו-/book?..., בלי /booking וכדומה */
+function isBookHref(href: string): boolean {
+  return /^\/book(?:[/?#]|$)/.test(href);
+}
+
 export default function OutboundLeadTracker() {
   useEffect(() => {
     /* לחיצה אמצעית פותחת כרטיסייה בלי אירוע click, ולכן גם בה נכנס הקוד */
@@ -95,6 +109,25 @@ export default function OutboundLeadTracker() {
           return;
         }
 
+        const door = anchor.closest("[data-door]");
+        if (door) {
+          trackConversion("door_select", {
+            page,
+            surface,
+            door: door.getAttribute("data-door") || UNKNOWN,
+            item: door.getAttribute("data-door-item") || UNKNOWN,
+          });
+        }
+
+        if (isBookHref(href)) {
+          trackConversion("book_cta_click", {
+            page,
+            surface,
+            target: href.split(/[?#]/)[0],
+          });
+          return;
+        }
+
         if (href.includes("wa.me/") || href.includes("api.whatsapp.com/")) {
           trackConversion("whatsapp_cta_click", {
             page,
@@ -107,13 +140,45 @@ export default function OutboundLeadTracker() {
       }
     }
 
+    /* שאלה שכבר נספרה בעמוד הזה. המפתח כולל את הנתיב, כי המאזין חי לאורך
+       ניווט בצד הלקוח, וצפייה בעמוד אחר היא ספירה חדשה. */
+    const countedChooserSteps = new Set<string>();
+
+    function onChange(event: Event) {
+      try {
+        const input = event.target;
+        if (!(input instanceof HTMLInputElement) || input.type !== "radio") return;
+        const chooser = input.closest("[data-chooser]");
+        if (!chooser) return;
+        const page = window.location.pathname;
+        const chooserId = chooser.getAttribute("data-chooser") || UNKNOWN;
+        const step =
+          input.closest("[data-chooser-step]")?.getAttribute("data-chooser-step") ||
+          input.name ||
+          UNKNOWN;
+        const key = `${page}|${chooserId}|${step}`;
+        if (countedChooserSteps.has(key)) return;
+        countedChooserSteps.add(key);
+        trackConversion("chooser_step", {
+          page,
+          chooser: chooserId,
+          step,
+          answer: input.value || UNKNOWN,
+        });
+      } catch {
+        /* מדידה לעולם לא מפילה אינטראקציה */
+      }
+    }
+
     /* capture: נמדד לפני כל onClick מקומי, כך שגם handler שעוצר הפצה
        לא מסתיר את הלחיצה מהדוח. */
     document.addEventListener("click", onClick, { capture: true });
     document.addEventListener("auxclick", onAuxClick, { capture: true });
+    document.addEventListener("change", onChange, { capture: true });
     return () => {
       document.removeEventListener("click", onClick, { capture: true });
       document.removeEventListener("auxclick", onAuxClick, { capture: true });
+      document.removeEventListener("change", onChange, { capture: true });
     };
   }, []);
 

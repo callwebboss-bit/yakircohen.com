@@ -57,6 +57,13 @@
 > ב-PR #2 ולא היו במסמך הזה. מקור: `lib/analytics/conversion-events.ts`,
 > `lib/lead-email-notify.ts:213`, `components/booking/BookUniversalIntakeWizard.tsx:262`.
 
+**גם אלה לא לסמן** (נוספו 11.10.2026, תוכנית הבהירות, שלב 0):
+`book_cta_click` (לחיצה על קישור ל-/book), `door_select` (בחירת דלת או
+מסלול, עם הפרמטרים `door` ו-`item`), ו-`chooser_step` (תשובה בבוחר "מה
+מתאים לי?"). הם קו בסיס להשוואה לפני ואחרי הדלתות ודף הבית, לא המרות.
+כדי לראות אותם בדוחות לפי דלת, רושמים מימד מותאם `door` (Event scope),
+כמו `page` ו-`surface` למטה. מקור: `components/analytics/OutboundLeadTracker.tsx`.
+
 ---
 
 ## שלב 3: הצעד שהכי שוכחים. בלעדיו השדות לא קיימים בדוחות
