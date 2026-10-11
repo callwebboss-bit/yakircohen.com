@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import HeroScrollCue from "@/components/marketing/HeroScrollCue";
 import HeroTrackedCta from "@/components/marketing/HeroTrackedCta";
 import CtaOutcomeSubline from "@/components/marketing/CtaOutcomeSubline";
+import SongIncludedLine from "@/components/pricing/SongIncludedLine";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
@@ -80,6 +81,8 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink> בהצעה לפי היקף.{" "}
             <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
           </p>
+          {/* D102: שורה נפרדת ולא בתוך #home-answer, שהוא תשובת ה-AEO של העמוד */}
+          <SongIncludedLine className="mt-3 max-w-xl" />
           <div className="mt-8 flex flex-col gap-3">
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>

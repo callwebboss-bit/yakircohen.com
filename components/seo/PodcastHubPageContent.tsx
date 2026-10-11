@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ScrollableTable from "@/components/ui/ScrollableTable";
+import PackageLadder from "@/components/pricing/PackageLadder";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
@@ -33,7 +33,6 @@ import {
   PODCAST_HUB_HERO_FEATURES,
   PODCAST_HUB_INCLUDED,
   PODCAST_HUB_PACKAGE_HIGHLIGHTS,
-  PODCAST_HUB_PRICING_PACKAGES,
   PODCAST_HUB_SERVICE_COMPARE,
   PODCAST_HUB_STARTING_PRICE,
   PODCAST_HUB_STARTING_PRICE_PAGE,
@@ -50,7 +49,8 @@ import Container from "@/components/ui/Container";
 import PriceWithVat from "@/components/booking/PriceWithVat";
 import PodcastPriceNote from "@/components/pricing/PodcastPriceNote";
 import { PODCAST_AUDIO_PACKS } from "@/lib/data/podcast-calculator";
-import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat, getPriceById, getPriceFromById, type PriceItemId } from "@/lib/data/pricing-catalog";
+import { getPodcastLadder } from "@/lib/data/podcast-ladder";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { resolveServiceBookCta } from "@/lib/data/service-book-map";
 import {
@@ -71,6 +71,14 @@ import {
 } from "@/lib/constants";
 
 const bookCta = resolveServiceBookCta("podcast");
+
+/* תוכנית הבהירות, שלב 4 (D103): סולם החבילות, ו"הקלטה בלבד" בשורה מתחתיו */
+const PODCAST_LADDER = getPodcastLadder();
+const RECORDING_ONLY_ID: PriceItemId = "studio_half_hour";
+const RECORDING_ONLY_PRICE = formatPrice(getExVat(RECORDING_ONLY_ID), {
+  from: getPriceFromById(RECORDING_ONLY_ID),
+  channel: "page",
+}).headline;
 
 const PODCAST_HUB_TOC = [
   { id: "compare-heading", label: "השוואת מסלולים", level: 2 as const },
@@ -127,12 +135,19 @@ export default function PodcastHubPageContent() {
   const pricingOffersSchema = buildPricingOffersSchema(
     pageUrl,
     [
-      ...PODCAST_HUB_PRICING_PACKAGES.map((pkg) => ({
+      /* D103: אותן חבילות כמו בסולם בעמוד, ועוד "הקלטה בלבד" שמתחתיו */
+      ...PODCAST_LADDER.packages.map((pkg) => ({
         id: pkg.id,
-        name: pkg.title,
-        description: pkg.subtitle,
-        priceExVat: pkg.priceFrom,
+        name: pkg.name,
+        description: getPriceById(pkg.catalogId).suitedFor,
+        priceExVat: pkg.exVat,
       })),
+      {
+        id: "recording-only",
+        name: "הקלטה בלבד, בלי עריכה",
+        description: "עד 30 דקות באולפן וקובץ גולמי בלי עריכה",
+        priceExVat: getExVat(RECORDING_ONLY_ID),
+      },
       /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
       ...PODCAST_AUDIO_PACKS.map((pack) => ({
         id: pack.id,
@@ -521,113 +536,31 @@ export default function PodcastHubPageContent() {
               </p>
             </header>
 
-            {/* Comparison table - one glance, no scrolling back and forth */}
-            <ScrollableTable
-              label="טבלת חבילות הפקת פודקאסט ומחירים"
-              className="mt-8 rounded-2xl border border-border"
-            >
-              <table className="w-full min-w-[560px] border-collapse text-sm">
-                <thead>
-                  <tr className="bg-surface text-foreground">
-                    <th className="p-4 text-start font-semibold">סוג שירות</th>
-                    <th className="p-4 text-start font-semibold">מה כלול</th>
-                    <th className="p-4 text-start font-semibold">זמן הקלטה</th>
-                    <th className="p-4 text-start font-semibold">מחיר</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {PODCAST_HUB_PRICING_PACKAGES.map((pkg, i) => (
-                    <tr
-                      key={pkg.id}
-                      className={i % 2 === 0 ? "bg-background" : "bg-surface/50"}
-                    >
-                      <td className="p-4 font-semibold text-foreground">{pkg.title}</td>
-                      <td className="p-4 text-muted-foreground">{pkg.subtitle}</td>
-                      <td className="p-4 text-muted-foreground">
-                        {pkg.id === "recording-only" ? "עד 30 דקות" : "עד שעה"}
-                      </td>
-                      <td className="p-4 font-semibold text-foreground">
-                        {formatPrice(pkg.priceFrom, { from: true, channel: "page" }).inline}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ScrollableTable>
-
-            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-              {PODCAST_HUB_PRICING_PACKAGES.map((pkg) => {
-                const pkgWhatsapp = buildWhatsAppHref({
-                  text: pkg.whatsappText,
+            {/* תוכנית הבהירות, שלב 4 (D103, 11.10.2026): סולם אחד, אותן 3 חבילות כמו
+                בעמוד הקלטת הפודקאסט. כאן עמדו טבלה וכרטיסים עם 3 חבילות אחרות,
+                ו"פרימיום" היה בהן חבילה אחרת מאשר בעמוד ההקלטה. */}
+            <PackageLadder
+              ladder={PODCAST_LADDER}
+              caption="השוואת חבילות פודקאסט: אודיו, וידאו והפקה מלאה"
+              utmPrefix="podcast_pricing"
+              className="mt-8"
+            />
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              רוצים לערוך בעצמכם? הקלטה בלבד, עד 30 דקות באולפן וקובץ גולמי בלי עריכה:{" "}
+              {RECORDING_ONLY_PRICE}.{" "}
+              <a
+                href={buildWhatsAppHref({
+                  text: "שלום, אשמח להקליט פודקאסט בלי עריכה.",
                   utm_source: "website",
-                  utm_campaign: `podcast_pricing_${pkg.id}`,
-                });
-                return (
-                  <li key={pkg.id}>
-                    <article
-                      data-billing-type="one-time"
-                      data-package-id={pkg.id}
-                      itemScope
-                      itemType="https://schema.org/Offer"
-                      className={
-                        pkg.highlighted
-                          ? "relative h-full rounded-2xl border-2 border-brand-red bg-surface p-7 shadow-[0_0_30px_rgba(212,43,43,0.12)]"
-                          : "relative h-full rounded-2xl border border-border bg-surface p-7"
-                      }
-                    >
-                    {pkg.badge ? (
-                      <span className="absolute -top-3 right-5 inline-flex items-center rounded-full bg-brand-red px-3 py-0.5 text-xs font-bold text-white">
-                        {pkg.badge}
-                      </span>
-                    ) : null}
-
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {pkg.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {pkg.subtitle}
-                    </p>
-
-                    <p className="mt-5 text-3xl font-bold text-foreground">
-                      <span className="text-sm font-normal text-muted-foreground">
-                        החל מ-
-                      </span>
-                      <PriceWithVat amountExVat={pkg.priceFrom} size="lg" lead="withVat" />
-                    </p>
-
-                    <ul className="mt-5 space-y-2.5">
-                      {pkg.features.map((f) => (
-                        <li
-                          key={f}
-                          className="flex items-start gap-2 text-sm text-muted-foreground"
-                        >
-                          <span
-                            className="mt-0.5 shrink-0 text-brand-red"
-                            aria-hidden
-                          >
-                            {f.startsWith("✓") ? "" : "✓"}
-                          </span>
-                          <span>{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href={pkgWhatsapp}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={
-                        pkg.highlighted
-                          ? "touch-press mt-7 block rounded-xl bg-brand-red px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-red-light active:bg-brand-red-dark"
-                          : "touch-press mt-7 block rounded-xl border border-brand-red/40 px-4 py-3 text-center text-sm font-semibold text-brand-red hover:bg-brand-red/5 active:bg-brand-red/10"
-                      }
-                    >
-                      {pkg.ctaLabel} </a>
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
+                  utm_campaign: "podcast_pricing_recording-only",
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-red underline underline-offset-2 hover:text-brand-red-light"
+              >
+                לשאלה בוואטסאפ
+              </a>
+            </p>
 
             <section className="mt-10" aria-labelledby="podcast-packs-heading">
               <h3

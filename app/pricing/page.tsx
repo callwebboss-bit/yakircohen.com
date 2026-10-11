@@ -35,6 +35,7 @@ import PricingFaqSection from "@/components/pricing/PricingFaqSection";
 import PricingHesitantCta from "@/components/pricing/PricingHesitantCta";
 import PricingStandardsStrip from "@/components/pricing/PricingStandardsStrip";
 import PricingComparisonTable from "@/components/pricing/PricingComparisonTable";
+import SongIncludedLine from "@/components/pricing/SongIncludedLine";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import UnifiedPricingCalculator from "@/components/calculators/UnifiedPricingCalculator";
 import PricingInquiryFormLazy from "@/components/pricing/PricingInquiryFormLazy";
@@ -131,6 +132,7 @@ export default function PricingHubPage() {
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_INCLUDE_VAT_NOTE}.
               שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;.
             </p>
+            <SongIncludedLine className="mx-auto mt-2 max-w-xl" />
             <ContextualIntroParagraph pathname="/pricing" className="mx-auto mt-4 max-w-xl text-center" />
             <p className="mt-2 text-xs text-muted-foreground">
               עודכן: {PRICES_LAST_UPDATED}
