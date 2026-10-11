@@ -41,7 +41,7 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
     },
     {
       title: "הפרק אצלכם",
-      description: "השיחה מוקלטת ומצולמת, ומוסרים לכם אותה כפרק.",
+      description: "השיחה מוקלטת ומצולמת, והפרק המוכן אצלכם תוך 24 עד 48 שעות.",
     },
   ],
   includesTitle: "מה כלול",
@@ -50,6 +50,7 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
     "עד 4 מיקרופונים על הבמה",
     "צילום וידאו",
     "הגברה לקהל עד 250 איש, או חיבור להגברה של המקום",
+    "הפרק המוכן אצלכם תוך 24 עד 48 שעות",
   ],
   priceTitle: "כמה עולה פודקאסט חי",
   prices: [
@@ -92,6 +93,11 @@ export const LIVE_PODCAST_PAGE: ServiceOfferPage = {
       id: "live-video",
       question: "הצילום כלול?",
       answer: "כן. צילום וידאו כלול בשני המסלולים.",
+    },
+    {
+      id: "live-delivery",
+      question: "מתי מקבלים את הפרק?",
+      answer: "תוך 24 עד 48 שעות מהאירוע.",
     },
     {
       id: "live-venue-sound",

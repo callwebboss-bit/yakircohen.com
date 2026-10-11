@@ -17,6 +17,7 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
   h1: "שיר AI במתנה",
   intro:
     "שיר אישי שנוצר עם AI, ונבנה יחד איתכם. הקול בשיר יכול להיות שלכם, קול של זמר שנוצר ב-AI, או זמר או זמרת מהצוות שלנו. הכול מרחוק, בלי להגיע לאולפן.",
+  highlight: "השיר מוכן תוך 48 שעות מרגע שאישרתם את המילים.",
   audience: {
     title: "למי זה מתאים",
     items: [
@@ -40,7 +41,7 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
     },
     {
       title: "השיר אצלכם",
-      description: "מלטשים, עושים מיקס, ושולחים לכם את השיר המוכן.",
+      description: "מלטשים, עושים מיקס, ושולחים לכם את השיר המוכן תוך 48 שעות מאישור המילים.",
     },
   ],
   includesTitle: "מה כלול בשיר AI",
@@ -98,6 +99,11 @@ export const AI_SONG_PAGE: ServiceOfferPage = {
       id: "ai-remote",
       question: "צריך להגיע לאולפן?",
       answer: "לא. הכול נעשה מרחוק. אם בוחרים בקול שלכם, מקליטים בטלפון ושולחים לנו.",
+    },
+    {
+      id: "ai-time",
+      question: "תוך כמה זמן השיר מוכן?",
+      answer: "תוך 48 שעות מרגע שאישרתם את המילים.",
     },
     {
       id: "ai-changes",
