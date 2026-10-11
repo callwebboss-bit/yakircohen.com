@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
+import { withVat } from "@/lib/data/pricing";
 import StudioAcousticBeforeAfter from "@/components/seo/StudioAcousticBeforeAfter";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
@@ -278,12 +279,11 @@ export default function AcousticConsultingPageContent() {
                   <p className="mt-1 text-sm text-muted-foreground">{plan.sub}</p>
 
                   <div className="mt-5">
+                    {/* D86 (11.10.2026): מחיר אחד, כולל מע״מ */}
                     <span className="text-3xl font-bold text-foreground">
-                      {plan.price} ₪
+                      {withVat(Number(plan.price)).toLocaleString("he-IL")} ₪
                     </span>
-                    <span className="mr-1 text-sm text-muted-foreground">
-                      + מע&quot;מ
-                    </span>
+                    <span className="mr-1 text-sm text-muted-foreground">כולל מע״מ</span>
                   </div>
 
                   <ul className="mt-4 flex-1 space-y-2">

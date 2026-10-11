@@ -23,6 +23,8 @@ export type HubLinkItem = {
   icon?: ReactNode;
   /** תווית קהל - "מתאים ל:" */
   suitedFor?: string;
+  /** כרטיס של שירות לחברות: המחיר לפני מע״מ בכוונה (D91). audit:vat-display מדלג עליו */
+  vatBusiness?: boolean;
   descriptionFull?: string;
   ctaLabel?: string;
   external?: boolean;
@@ -114,6 +116,7 @@ export default function ServiceHubLinks({
             key={track.href}
             className="h-full"
             style={{ viewTransitionName: hubViewTransitionName(track.href) }}
+            data-vat-business={track.vatBusiness ? "" : undefined}
           >
             <ServiceCard
               title={track.title}

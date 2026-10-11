@@ -212,7 +212,7 @@ export default function PricingHubPage() {
             </p>
             {/* D86 (11.10.2026): לצרכן מחיר אחד, כולל מע״מ. עסק מסמן ורואה גם את הסכום
                 לפני מע״מ בכל שורה. CSS בלבד (globals.css, vat-business-only), בלי JS */}
-            <label className="mb-4 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground">
+            <label data-vat-business className="mb-4 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground">
               <input
                 id="vat-business-toggle"
                 type="checkbox"

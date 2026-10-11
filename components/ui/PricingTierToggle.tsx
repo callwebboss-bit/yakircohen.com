@@ -102,7 +102,7 @@ export default function PricingTierToggle({
           </p>
           {consumer && active.priceExVat != null ? (
             <p className="text-xs text-muted-foreground mt-0.5">
-              כולל מע״מ ({active.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ)
+              כולל מע״מ
             </p>
           ) : null}
           {active.scope?.duration ? (

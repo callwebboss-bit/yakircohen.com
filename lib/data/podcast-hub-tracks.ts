@@ -25,14 +25,16 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
     href: "/podcast/corporate-podcast",
     title: "פודקאסט ארגוני לחברות",
     description: "מיתוג מעסיק ושיווק תוכן - הפקה מלאה, ספוטיפיי, חשבונית מס.",
-    /* עסקים: לפני מע״מ קודם */
+    /* עסקים: לפני מע״מ קודם (D91) */
     fromPrice: `החל ${formatFromPriceDual(getExVat("corp_podcast_retainer"), "business", "page")} לחודש`,
+    vatBusiness: true,
   },
   {
     href: "/podcast/bulk-production",
     title: "פס ייצור לעסקים",
     description: "מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע.",
     fromPrice: `החל ${formatFromPriceDual(getExVat("bulk_podcast_episode"), "business", "page")} לפרק`,
+    vatBusiness: true,
   },
 ] as const;
 

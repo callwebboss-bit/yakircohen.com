@@ -3,7 +3,7 @@
 "use client";
 
 import WhatsAppIcon from "@/components/calculators/WhatsAppIcon";
-import { formatCurrency, formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
+import { formatCurrencyWithVat } from "@/components/calculators/formatCurrency";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
@@ -88,9 +88,6 @@ export default function CalculatorStickyBar({
           <p className="text-xl font-bold text-brand-red sm:text-2xl">
             {hasTotal ? formatCurrencyWithVat(total) : emptyLabel}
           </p>
-          {hasTotal ? (
-            <p className="text-[0.65rem] text-muted-foreground">{formatCurrency(total)} + מע״מ</p>
-          ) : null}
           {subLabel ? (
             <p className="truncate text-[0.65rem] font-medium text-brand-red">{subLabel}</p>
           ) : null}

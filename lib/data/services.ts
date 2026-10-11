@@ -3676,7 +3676,7 @@ export const PHOTOGRAPHY_SERVICES = {
         name: "חבילת בסיס",
         /* 4 שעות של event_photo_hourly. כולל מע״מ קודם (שלב 4 WP10-11) */
         price: `מ-${withVat(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ כולל מע״מ`,
-        priceNote: `4 שעות (${(getExVat("event_photo_hourly") * 4).toLocaleString("he-IL")} ₪ + מע״מ), עריכה בסיסית כלולה`,
+        priceNote: "4 שעות, עריכה בסיסית כלולה",
         description: "אירוע קטן, צילום מלא ועריכה של תמונות נבחרות.",
       },
       {

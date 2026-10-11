@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { withVat } from "@/lib/data/pricing";
 import PodcastSoundRepairPageContent, {
   FAQ_ITEMS,
 } from "@/components/seo/PodcastSoundRepairPageContent";
@@ -12,7 +13,7 @@ export const metadata: Metadata = constructMetadata({
   /* בלי סיומת מותג: constructMetadata מוסיף אותה, ו-normalizeTitle מסיר רק
      את השם המלא, ולכן "| יקיר כהן" חלקי היה נשאר וגורם למותג כפול בתוצאות. */
   title: "תיקון סאונד פודקאסט מרחוק",
-  description: `תיקון סאונד לפרק פודקאסט קיים: ניקוי רעשים, איזון ווליום ו-EQ. קטע מ-${PRICE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ, סקיצה ראשונית חינם. שולחים קובץ ומקבלים אותו מוכן להעלאה.`,
+  description: `תיקון סאונד לפרק פודקאסט קיים: ניקוי רעשים, איזון ווליום ו-EQ. קטע מ-${withVat(PRICE_EX_VAT).toLocaleString("he-IL")} ₪ כולל מע״מ, סקיצה ראשונית חינם. שולחים קובץ ומקבלים אותו מוכן להעלאה.`,
   slug: "online/vocal-fix/podcast-repair",
   keywords: [
     "תיקון סאונד פודקאסט",

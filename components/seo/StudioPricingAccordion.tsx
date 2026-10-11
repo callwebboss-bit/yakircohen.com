@@ -86,7 +86,7 @@ export default function StudioPricingAccordion({
             </AccordionTrigger>
             <AccordionContent className="[&_a]:no-underline">
               <p className="text-xs text-muted-foreground">
-                כולל מע״מ ({panel.priceExVat.toLocaleString("he-IL")} ₪ + מע״מ) - {panel.priceNote}
+                כולל מע״מ - {panel.priceNote}
               </p>
               {panel.intentNote ? (
                 <p className="mt-2 rounded-lg border border-brand-red/20 bg-brand-red/5 px-3 py-2 text-sm text-foreground">

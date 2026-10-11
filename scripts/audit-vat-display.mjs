@@ -11,8 +11,9 @@
  * אזור שמסומן data-vat-business (למשל מתג "לעסקים" במחירון) מדולג.
  *
  * מצבים:
- *   node scripts/audit-vat-display.mjs            דוח בלבד, תמיד יוצא 0 (שלב 2א)
- *   node scripts/audit-vat-display.mjs --strict   יוצא 1 על כל ממצא (משלב 2ה)
+ *   node scripts/audit-vat-display.mjs            דוח בלבד, תמיד יוצא 0
+ *   node scripts/audit-vat-display.mjs --strict   יוצא 1 על כל ממצא. רץ ב-verify:predeploy
+ *                                                 אחרי build:full (11.10.2026, שלב 2ה)
  *   --json                                        פלט JSON לכל כתובת
  *
  * מה הוא לא רואה: עמודים דינמיים (/book, /online/*) ומחירים שאשף מצייר אחרי לחיצה.
@@ -29,6 +30,26 @@ const JSON_OUT = args.includes("--json");
 
 /** עמודים שמציגים לפני מע״מ בכוונה, או שאינם עמוד ללקוח */
 const EXEMPT = /^\/(business|pro|admin|api)(\/|$)/;
+
+/**
+ * D91 (11.10.2026): שירותים לחברות שיושבים בכתובות רגילות נשארים לפני מע״מ, כמו
+ * /business. D92: תוכן עריכתי של מחירי שוק (הבלוג ודפי /data) נשאר לפני מע״מ
+ * עם התווית. רשימה סגורה: עמוד חדש לחברות נכנס לכאן רק בהחלטה.
+ */
+const EXEMPT_BY_DECISION = [
+  /^\/blog(\/|$)/, // D92
+  /^\/data(\/|$)/, // D92
+  /^\/podcast\/corporate-podcast$/, // D91
+  /^\/podcast\/bulk-production$/, // D91
+  /^\/podcast\/studio-in-a-box$/, // D91
+  /^\/academy\/workshops$/, // D91
+  /^\/events\/dj\/(pre-built-sets|voice-tags)$/, // D91
+  /^\/events\/equipment\/(dry-hire|system-tuning)$/, // D91
+  /^\/online\/mashup-fixer$/, // D91
+];
+
+/** משפט שמסביר את הכלל ("בשירותים לעסקים המחיר מוצג לפני מע״מ") אינו מחיר */
+const EXPLANATION = /לעסקים[^.]{0,40}לפני\s+מע[״"]מ/;
 
 const PATTERNS = [
   { id: "plus-vat", re: /\+\s?מע[״"]מ/g },
@@ -104,11 +125,13 @@ if (!existsSync(BUILD_DIR)) {
 const rows = [];
 for (const file of walk(BUILD_DIR)) {
   const url = toUrl(file);
-  if (EXEMPT.test(url)) continue;
+  if (EXEMPT.test(url) || EXEMPT_BY_DECISION.some((re) => re.test(url))) continue;
   const text = visibleText(readFileSync(file, "utf8"));
   const hits = [];
   for (const { id, re } of PATTERNS) {
     for (const m of text.matchAll(re)) {
+      const around = text.slice(Math.max(0, m.index - 60), m.index + m[0].length);
+      if (EXPLANATION.test(around)) continue;
       hits.push({ id, context: text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 10).trim() });
     }
   }

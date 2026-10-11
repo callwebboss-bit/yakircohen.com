@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
+
+/* D86 (11.10.2026): בכרטיס מחיר אחד, כולל מע״מ, מהקטלוג */
+const nisVat = (id: Parameters<typeof getExVat>[0]) => `${withVat(getExVat(id)).toLocaleString("he-IL")} ₪`;
 
 export type AcademyCourseCategory =
   | "music-production"
@@ -72,9 +77,9 @@ export const ACADEMY_HUB_COURSES: readonly AcademyHubCourse[] = [
     id: "private-lessons",
     href: "/academy/private-lessons",
     title: "שיעור פרטי",
-    description: "שעה ב-990 ₪ או Pro Session 90 דק׳ ב-1,280 ₪ - DJ, קול, הפקה ועוד",
+    description: `שעה ב-${nisVat("academy_private_hour")} או Pro Session 90 דק׳ ב-${nisVat("academy_pro_session")} - DJ, קול, הפקה ועוד`,
     icon: "🎵",
-    fromPrice: "החל מ-990 ₪ + מע״מ",
+    fromPrice: `החל מ-${nisVat("academy_private_hour")} כולל מע״מ`,
     category: "academic",
   },
   {
