@@ -2,6 +2,7 @@ import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/con
 import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 import { CANCELLATION_ANSWER, DELIVERY_TIME_FAQ } from "@/lib/data/home-faq";
 import { REVISION_RULES } from "@/lib/data/legal-trust-copy";
 import { REVISION_POLICIES } from "@/lib/data/revision-policy";
@@ -24,8 +25,10 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
   {
     id: "fake-singing",
     question: "אני לא זמר או זמרת, מה קורה אם אזייף בהקלטת השיר?",
-    answer:
-      "לא צריך ניסיון שירה. רוב האנשים שמגיעים לאולפן לא עמדו מול מיקרופון בחיים שלהם. אנחנו משתמשים בטכנולוגיית תיקון סאונד מתקדמת שמיישרת את הקול ומלטשת אותו, יחד עם הדרכה צמודה בזמן ההקלטה. לא מוסרים הקלטה עד שהתוצאה מדויקת.",
+    /* החלטת הבעלים 11.10.2026: היה "טכנולוגיית תיקון סאונד שמיישרת את הקול" ו"לא
+       מוסרים הקלטה עד שהתוצאה מדויקת". תיקון זיופים הוא תוספת בתשלום
+       (song_pitch_coaching), והתשובה לא מבטיחה תוצאה בלי גבול */
+    answer: `לא צריך ניסיון שירה. רוב האנשים שמגיעים לאולפן לא עמדו מול מיקרופון בחיים שלהם. טכנאי איתכם באולפן לאורך כל ההקלטה, ובאולפן מתקנים בלי הגבלה. תיקון זיופים לא כלול במחיר הבסיס, ואפשר להוסיף אותו: ${formatConsumerPriceLine(getExVat("song_pitch_coaching"))}.`,
     ctaText: "שלחו לנו 10 שניות של הקול שלכם ותחליטו אחרי",
     whatsappMessage:
       "שלום, אני רוצה להקליט שיר לאירוע אבל חושש מהזיופים. מצרף קטע קצר של הקול שלי לפני שסוגרים.",
