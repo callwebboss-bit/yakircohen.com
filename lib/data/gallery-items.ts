@@ -190,7 +190,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "studio-father-son",
-    src: "/images/services/studio/recording-song-modiin/archive/הקלטת אב ובן באולפן.webp",
+    src: "/images/services/studio/recording-song-modiin/אבא ובן מקליטים שיר באולפן.webp",
     alt: "הקלטת אב ובן באולפן",
     category: "studio",
     href: "/studio/recording-song-modiin",
@@ -198,7 +198,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "studio-kids-song",
-    src: "/images/services/studio/recording-song-modiin/archive/הקלטת שיר לילדים בתא ההקלטה.webp",
+    src: "/images/services/studio/recording-song-modiin/אווירת הקלטה של שיר לילדים.webp",
     alt: "הקלטת שיר לילדים בתא ההקלטה",
     category: "studio",
     href: "/studio/recording-song-modiin",
@@ -222,7 +222,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "podcast-lounge",
-    src: "/images/services/podcast/archive/אולפן פודקאסט עם ספות וקיר מיקרופון.webp",
+    src: "/images/services/podcast/אולפן פודקאסט עם ספות וקיר מיקרופון.webp",
     alt: "אולפן פודקאסט עם ספות וקיר מיקרופון",
     category: "podcast",
     href: "/podcast",
@@ -230,7 +230,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "podcast-sport-interview",
-    src: "/images/services/podcast/archive/ראיון פודקאסט עם ספורטאי באולפן.webp",
+    src: "/images/services/podcast/אורח ספורטאי בראיון פודקאסט באולפן.webp",
     alt: "ראיון פודקאסט עם ספורטאי באולפן",
     category: "podcast",
     href: "/podcast",
@@ -254,7 +254,7 @@ export const GALLERY_ITEMS: readonly GalleryItem[] = [
   },
   {
     id: "events-heavy-smoke",
-    src: "/images/services/events/attractions/wedding-smoking-machine/עשן כבד מתפשט על הדשא באירוע בחוץ.webp",
+    src: "/images/services/events/attractions/wedding-smoking-machine/ענן עשן כבד על הדשא באירוע בחוץ.webp",
     alt: "עשן כבד מתפשט על הדשא באירוע בחוץ",
     category: "events",
     href: "/events/attractions/wedding-smoking-machine",
