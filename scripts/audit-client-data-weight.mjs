@@ -91,6 +91,10 @@ const LAYOUT_CLIENT_BASELINE = [
      יזיז את שאר האלמנטים הצפים בלי קפיצה. הוא מביא איתו שלושה קבצים קטנים בלי
      ייבוא כבד: זיהוי מקלדת (hook ומאזין) ורשימת העמודים בלי פס. */
   "components/layout/MobileActionBar.tsx",
+  /* 11.10.2026 (בהירות 1ג, מתוך feature/popup-manager): עטיפה דינמית של מנהל
+     הפופאפים, באותו דפוס של SessionRescuerBarLazy. המנהל עצמו (lib/popup-manager.ts)
+     נטען רק אחרי ההידרציה, ולכן אינו בגרף הזה. */
+  "components/layout/PopupManagerRuntimeLazy.tsx",
   "hooks/useKeyboardOpen.ts",
   "lib/action-bar-routes.ts",
   "lib/viewport-keyboard.ts",

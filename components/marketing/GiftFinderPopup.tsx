@@ -2,28 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 import { useEscapeLayer } from "@/hooks/useEscapeLayer";
 import { MATANOT_EVENT_CARDS } from "@/lib/data/matanot-page";
-import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
+import { usePopupSlot } from "@/hooks/usePopupSlot";
+import { isQuietRoute } from "@/lib/action-bar-routes";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 
 /**
  * מאתר מתנה - עוזר קצר ולא-פולשני שמחליף את פופ-אפ הקופון העונתי.
  *
- * תיאום עם שאר ה-UI התחתון:
- * - תופס את המשבצת המשותפת (bottom-overlay-slot) כדי שלא ייערם עם סרגלים אחרים.
- * - ממוקם ב-bottom-28 ומרחף מעל מקבץ ה-FAB והסרגל הדביק במקום לכסות אותם, כך
- *   שכפתור הוואטסאפ וווידג'ט הנגישות נשארים גלויים ולחיצים. עדיף למקם נכון
- *   מאשר להסתיר UI קיים, ולכן אין כאן דגל CSS להסתרה.
+ * התזמון (25 שניות או 40 אחוז גלילה), "אחד לביקור", ההסתרה במובייל בזמן מילוי
+ * טופס והסגירה ל-30 יום מנוהלים ב-lib/popup-manager.ts. הרכיב מחליט רק באילו
+ * עמודים הוא מועמד ומה הוא מציג.
+ *
+ * - במובייל הוא יושב מעל פס הפעולה התחתון (--float-inset), ובדסקטופ מעל כפתור
+ *   הוואטסאפ, כך שאף אחד מהם לא מכוסה.
  * - עמודים עם סרגל CTA תחתון משלהם מוחרגים ב-HIDE_PREFIXES.
- * - נסגר ומחזיר את המשבצת בכל ניווט, כדי שלא יחזיק אותה לכל הסשן.
+ * - נעלם בכל ניווט, כדי שלא יישאר על המסך בעמוד שלא הוצג בו.
  */
-
-const LS_SNOOZE = "yc_gift_finder_snooze";
-const SNOOZE_MS = 3 * 24 * 60 * 60 * 1000; // 3 ימים
-const SHOW_DELAY_MS = 8000;
-const SCROLL_MIN = 0.2;
 
 /** "/" מוחרג כי בעמוד הבית כבר יש סקשן מתנות עם אותו מסר */
 const HIDE_EXACT = ["/"];
@@ -38,98 +35,48 @@ const HIDE_PREFIXES = [
   "/studio/recording-song-modiin",
 ];
 
-function isSnoozed(): boolean {
-  try {
-    const raw = localStorage.getItem(LS_SNOOZE);
-    return raw ? Date.now() < Number(raw) : false;
-  } catch {
-    return false;
-  }
-}
-
-function setSnooze(): void {
-  try {
-    localStorage.setItem(LS_SNOOZE, String(Date.now() + SNOOZE_MS));
-  } catch {
-    /* ignore */
-  }
-}
-
 export default function GiftFinderPopup() {
   const pathname = usePathname() ?? "/";
-  const [visible, setVisible] = useState(false);
-  const triggeredRef = useRef(false);
   const lastPathRef = useRef(pathname);
   const rootRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const showTrackedRef = useRef(false);
   const headingId = useId();
 
   const pathHidden =
+    isQuietRoute(pathname) ||
     HIDE_EXACT.includes(pathname) ||
     HIDE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
-  /** מסתיר ומחזיר את המשבצת בלי לשרוף את ה-snooze */
-  const retire = useCallback(() => {
-    setVisible(false);
-    releaseBottomSlot("gift");
-  }, []);
+  const { visible, dismiss, release } = usePopupSlot("gift", {
+    enabled: !pathHidden,
+    priority: 20,
+  });
 
   const close = useCallback(
     (reason: "dismiss" | "navigate") => {
       const owned = rootRef.current?.contains(document.activeElement) ?? false;
-      setSnooze();
-      retire();
+      dismiss();
       trackConversion("gift_finder_close", { reason });
       if (reason === "dismiss" && owned) previousFocusRef.current?.focus?.();
     },
-    [retire],
+    [dismiss],
   );
 
-  /* טריגר: מזרימים טיימר רק אחרי שהגולש גלל מספיק, והמאזין מסיר את עצמו. */
+  /* הצגה נמדדת פעם אחת, גם אם הפופאפ הוסתר וחזר בזמן מילוי טופס */
   useEffect(() => {
-    if (pathHidden || triggeredRef.current || isSnoozed()) return undefined;
-    let timer = 0;
-    let rafId = 0;
-    const arm = () => {
-      if (timer) return;
-      timer = window.setTimeout(() => {
-        if (triggeredRef.current || !claimBottomSlot("gift")) return;
-        triggeredRef.current = true;
-        previousFocusRef.current = document.activeElement as HTMLElement;
-        setVisible(true);
-        trackConversion("gift_finder_show", {});
-      }, SHOW_DELAY_MS);
-    };
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = window.requestAnimationFrame(() => {
-        rafId = 0;
-        const max = Math.max(1, document.body.scrollHeight - window.innerHeight);
-        if (window.scrollY / max >= SCROLL_MIN) {
-          window.removeEventListener("scroll", onScroll);
-          arm();
-        }
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (timer) window.clearTimeout(timer);
-      /* בלי ביטול ה-rAF, callback שנותר בתור יכול לדרוך טיימר חדש שה-cleanup
-         כבר לא יכול לנקות - וזה היה מדליק את הדגל בלי פופ-אפ על המסך. */
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, [pathHidden, pathname]);
+    if (!visible || showTrackedRef.current) return;
+    showTrackedRef.current = true;
+    previousFocusRef.current = document.activeElement as HTMLElement;
+    trackConversion("gift_finder_show", {});
+  }, [visible]);
 
-  /* בכל ניווט: להחזיר את המשבצת במקום להחזיק אותה לכל הסשן */
+  /* בכל ניווט: משחררים את המשבצת בלי לשמור סגירה */
   useEffect(() => {
     if (lastPathRef.current === pathname) return;
     lastPathRef.current = pathname;
-    retire();
-  }, [pathname, retire]);
-
-  /* שחרור בטיחות ב-unmount */
-  useEffect(() => () => releaseBottomSlot("gift"), []);
+    release();
+  }, [pathname, release]);
 
   /* Escape מכל מקום בעמוד (F-74). לפני כן רק כשהפוקוס בתוך הפופ-אפ, אבל הוא
      אחרון ב-DOM ולא מקבל מיקוד, כך שמשתמש מקלדת הגיע אליו רק אחרי כל העמוד.

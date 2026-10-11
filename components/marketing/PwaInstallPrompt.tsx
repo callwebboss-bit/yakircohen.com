@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import { useEscapeLayer } from "@/hooks/useEscapeLayer";
-import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
+import { usePopupSlot } from "@/hooks/usePopupSlot";
+import { isQuietRoute } from "@/lib/action-bar-routes";
+import { isPopupDismissed } from "@/lib/popup-manager";
 
-const STORAGE_KEY = "pwa-install-dismissed-until";
-const DELAY_MS = 90_000;
-const COOLDOWN_DAYS = 7;
+/* התזמון, "אחד לביקור" והסגירה ל-30 יום חיים ב-lib/popup-manager.ts. הרכיב
+   רק מחליט אם יש מה להציג (iOS, או דפדפן שהציע התקנה) ומצייר. */
 
 type PromptEvent = Event & { prompt: () => Promise<void> };
 
@@ -20,82 +22,55 @@ function getIosSnapshot() {
   );
 }
 
-function getIosServerSnapshot() {
+function getStandaloneSnapshot() {
+  return window.matchMedia("(display-mode: standalone)").matches;
+}
+
+function getFalseSnapshot() {
   return false;
 }
 
-function isDismissed() {
-  try {
-    const until = localStorage.getItem(STORAGE_KEY);
-    return until ? Date.now() < Number(until) : false;
-  } catch {
-    return false;
-  }
-}
-
-function dismiss() {
-  try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      String(Date.now() + COOLDOWN_DAYS * 86_400_000),
-    );
-  } catch {}
-}
-
 export default function PwaInstallPrompt() {
+  const pathname = usePathname() ?? "/";
   const deferredPrompt = useRef<PromptEvent | null>(null);
-  const [visible, setVisible] = useState(false);
   const [canInstall, setCanInstall] = useState(false);
-  const isIos = useSyncExternalStore(subscribeNoop, getIosSnapshot, getIosServerSnapshot);
+  const isIos = useSyncExternalStore(subscribeNoop, getIosSnapshot, getFalseSnapshot);
+  const isStandalone = useSyncExternalStore(
+    subscribeNoop,
+    getStandaloneSnapshot,
+    getFalseSnapshot,
+  );
 
   useEffect(() => {
-    if (
-      isDismissed() ||
-      window.matchMedia("(display-mode: standalone)").matches
-    )
-      return;
-
+    if (isStandalone || isPopupDismissed("pwa")) return undefined;
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       deferredPrompt.current = e as PromptEvent;
       setCanInstall(true);
     };
     window.addEventListener("beforeinstallprompt", handleBeforeInstall);
-
-    // Only schedule the banner if there's something to show
-    // (iOS instructions OR the native install prompt)
-    const timer = setTimeout(() => {
-      // מתאם שכבה תחתונה: להופיע רק אם אין סרגל תחתון אחר (קופון/שחזור טיוטה)
-      if ((isIos || deferredPrompt.current) && claimBottomSlot("pwa")) {
-        setVisible(true);
-      }
-    }, DELAY_MS);
-
-    return () => {
-      clearTimeout(timer);
+    return () =>
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
-      releaseBottomSlot("pwa");
-    };
-  }, [isIos]);
+  }, [isStandalone]);
 
-  function handleDismiss() {
-    dismiss();
-    setVisible(false);
-    releaseBottomSlot("pwa");
-  }
+  // יש מה להציג רק עם הוראות iOS או עם ההתקנה המקורית של הדפדפן
+  const slot = usePopupSlot("pwa", {
+    enabled: !isStandalone && (isIos || canInstall) && !isQuietRoute(pathname),
+    priority: 10,
+  });
 
   async function handleInstall() {
     if (deferredPrompt.current) {
       await deferredPrompt.current.prompt();
     }
-    handleDismiss();
+    slot.dismiss();
   }
 
-  /* F-74: Escape סוגר את ההנחיה מכל מקום, כמו כפתור הסגירה (כולל cooldown של 7
-     ימים). שכבת רקע: לא גוברת על תפריט, צ'אט או חלון מודאלי פתוחים. */
-  useEscapeLayer({ active: visible, onEscape: handleDismiss, ambient: true });
+  /* F-74: Escape סוגר את ההנחיה מכל מקום, כמו כפתור הסגירה (מנהל הפופאפים
+     זוכר את הסגירה). שכבת רקע: לא גוברת על תפריט, צ'אט או חלון מודאלי פתוחים. */
+  useEscapeLayer({ active: slot.visible, onEscape: slot.dismiss, ambient: true });
 
-  if (!visible) return null;
+  if (!slot.visible) return null;
 
   return (
     <div
@@ -132,7 +107,7 @@ export default function PwaInstallPrompt() {
         )}
       </div>
       <button
-        onClick={handleDismiss}
+        onClick={slot.dismiss}
         aria-label="סגור"
         className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >

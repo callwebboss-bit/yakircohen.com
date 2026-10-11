@@ -15,6 +15,7 @@ import SiteSchema from "@/components/seo/SiteSchema";
 import DeferredFloatingFabs from "@/components/layout/DeferredFloatingFabs";
 import PwaInstallPromptLazy from "@/components/marketing/PwaInstallPromptLazy";
 import GiftFinderPopupLazy from "@/components/marketing/GiftFinderPopupLazy";
+import PopupManagerRuntimeLazy from "@/components/layout/PopupManagerRuntimeLazy";
 import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
@@ -168,6 +169,7 @@ export default function RootLayout({
         </GlossaryTooltipProvider>
         <Footer />
         <DeferredFloatingFabs />
+        <PopupManagerRuntimeLazy />
         <SessionRescuerBarLazy />
         <PwaInstallPromptLazy />
         <GiftFinderPopupLazy />
