@@ -56,7 +56,7 @@ export default function ContactChannelChooser({
           aria-hidden
         />
         <span className={isOpen ? "text-emerald-700" : "text-red-700"}>
-          {status?.label ?? "בודקים שעות פעילות..."}
+          {status?.label ?? "בודקים שעות מענה"}
         </span>
       </div>
 

@@ -91,7 +91,7 @@ export default function FooterBrandContact() {
 
       <div className="mt-4 space-y-1.5">
         <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-[var(--footer-muted)]">
-          שעות פעילות
+          שעות מענה בטלפון ובוואטסאפ
         </p>
         <BusinessOpenBadge />
         {BUSINESS_HOURS.map((slot) => (

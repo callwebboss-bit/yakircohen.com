@@ -20,11 +20,11 @@ describe("business-hours נגזר מ-BUSINESS_HOURS", () => {
     assert.equal(getBusinessOpenStatus(at(4, "21:59")).isOpen, true);
     assert.deepEqual(getBusinessOpenStatus(at(0, "22:00")), {
       isOpen: false,
-      label: "סגור להיום. חוזרים מחר ב-09:00",
+      label: "חוזרים לענות מחר ב-09:00",
     });
     assert.deepEqual(getBusinessOpenStatus(at(1, "08:30")), {
       isOpen: false,
-      label: "סגור. נפתח היום ב-09:00",
+      label: "חוזרים לענות היום ב-09:00",
     });
   });
 
@@ -32,19 +32,19 @@ describe("business-hours נגזר מ-BUSINESS_HOURS", () => {
     assert.equal(getBusinessOpenStatus(at(5, "13:59")).isOpen, true);
     assert.deepEqual(getBusinessOpenStatus(at(5, "15:00")), {
       isOpen: false,
-      label: "סגור לשבת. חוזרים במוצאי שבת ב-21:00",
+      label: "חוזרים לענות במוצאי שבת ב-21:00",
     });
   });
 
   it("שבת: סגור ביום, פתוח 21:00-22:30, ואחר כך מחר ב-09:00", () => {
     assert.deepEqual(getBusinessOpenStatus(at(6, "12:00")), {
       isOpen: false,
-      label: "סגור בשבת. חוזרים במוצאי שבת ב-21:00",
+      label: "שבת. חוזרים לענות במוצאי שבת ב-21:00",
     });
     assert.equal(getBusinessOpenStatus(at(6, "21:30")).isOpen, true);
     assert.deepEqual(getBusinessOpenStatus(at(6, "22:45")), {
       isOpen: false,
-      label: "סגור להיום. חוזרים מחר ב-09:00",
+      label: "חוזרים לענות מחר ב-09:00",
     });
   });
 

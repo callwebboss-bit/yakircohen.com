@@ -501,7 +501,7 @@ export default function ChatWidget({
                   )}
                   aria-hidden
                 />
-                {open ? "זמין כעת" : "סגור כעת"}
+                {open ? "עונים עכשיו" : "מחוץ לשעות המענה"}
               </p>
             </div>
           </div>

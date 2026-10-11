@@ -154,33 +154,9 @@ export function buildSiteSchema() {
           longitude: STUDIO_GEO.longitude,
         },
         hasMap: STUDIO_MAPS_URL,
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-            ],
-            opens: "09:00",
-            closes: "22:00",
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Friday",
-            opens: "09:00",
-            closes: "14:00",
-          },
-          /* מוצאי שבת. 21:00 בטוח אחרי צאת השבת בכל עונות השנה. */
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Saturday",
-            opens: "21:00",
-            closes: "22:30",
-          },
-        ],
+        /* 12.10.2026: אין openingHoursSpecification. האולפן פועל בתיאום מראש בלבד,
+           ובכרטיס Google הוגדר "פתוח, בלי שעות קבועות" (החלטת הבעלים). שעות המענה
+           בטלפון ובוואטסאפ מוצגות בעמודים מתוך BUSINESS_HOURS ב-lib/constants.ts. */
         areaServed: [
           { "@type": "City", name: "מודיעין-מכבים-רעות" },
           { "@type": "City", name: "ירושלים" },
