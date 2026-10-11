@@ -90,13 +90,15 @@ export const STUDIO_MODIIN_PRICE_CARDS: readonly StudioModiinPriceCard[] = [
   {
     id: "podcast_hours_pass_5",
     name: "כרטיסיית 5 שעות",
-    price: studioPrice("podcast_hours_pass_5"),
+    /* מחיר קבוע, בלי "מ-" */
+    price: formatPrice(getExVat("podcast_hours_pass_5")),
     lines: ["5 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
   },
   {
     id: "podcast_hours_pass_10",
     name: "כרטיסיית 10 שעות",
-    price: studioPrice("podcast_hours_pass_10"),
+    /* מחיר קבוע, בלי "מ-" */
+    price: formatPrice(getExVat("podcast_hours_pass_10")),
     lines: ["10 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
   },
 ];
