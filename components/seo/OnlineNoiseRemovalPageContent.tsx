@@ -120,7 +120,7 @@ export default function OnlineNoiseRemovalPageContent() {
           >
             שלחו קובץ בוואטסאפ </a>
           <p className="mt-3 text-xs text-muted-foreground">
-            {formatFromPriceDual(PRICE_EX_VAT)} · קטע עד 5 דקות
+            {formatFromPriceDual(PRICE_EX_VAT, "consumer", "page")} · קטע עד 5 דקות
           </p>
         </div>
       </section>
@@ -149,7 +149,7 @@ export default function OnlineNoiseRemovalPageContent() {
         <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
           <h2 className="text-xl font-semibold text-foreground">מחיר</h2>
           <p className="mt-3 text-2xl font-bold text-brand-red">
-            {formatFromPriceDual(PRICE_EX_VAT)}
+            {formatFromPriceDual(PRICE_EX_VAT, "consumer", "page")}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             ניקוי מלא של כל רעשי הרקע, לקטע עד 5 דקות

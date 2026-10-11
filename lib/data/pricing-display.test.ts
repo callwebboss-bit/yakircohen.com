@@ -32,8 +32,8 @@ describe("pricing display audience", () => {
       const outputs = [
         formatPrice(ex).inline,
         formatPrice(ex, { from: true }).inline,
-        formatHubPriceDual(ex),
-        formatConsumerPriceLine(ex, true),
+        formatHubPriceDual(ex, false, "consumer", "message"),
+        formatConsumerPriceLine(ex, true, "message"),
         formatFromPriceDual(ex),
         formatPriceScopeDisplay({ exVat: ex }).primary + " " + formatPriceScopeDisplay({ exVat: ex }).vatLine,
         formatDualPriceLines(ex, { label: "עם עריכה", exVat: ex + 100 }).recordingOnly,
@@ -92,4 +92,16 @@ describe("pricing display channel (D86)", () => {
     assert.equal(p.vatNote, `${n(500)} ₪ + מע״מ`);
     assert.equal(p.inline, `${n(withVat(500))} ₪ כולל מע״מ (${n(500)} ₪ + מע״מ)`);
   });
+});
+
+/* D86: שורות הטבלה והכפתור הן טקסט בעמוד, ולכן ברירת המחדל שלהן היא מחיר אחד */
+describe("page-default line formatters (D86)", () => {
+  for (const ex of [500, 950, 5000]) {
+    it(`formatConsumerPriceLine and formatHubPriceDual show only ${n(withVat(ex))}`, () => {
+      for (const out of [formatConsumerPriceLine(ex), formatConsumerPriceLine(ex, true), formatHubPriceDual(ex)]) {
+        assert.equal(firstAmount(out), withVat(ex), out);
+        assert.doesNotMatch(out, /\+ מע״מ|לפני מע״מ/, out);
+      }
+    });
+  }
 });

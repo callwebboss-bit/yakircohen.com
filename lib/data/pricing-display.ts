@@ -173,21 +173,24 @@ export function formatHubRowDescription(text?: string): string | undefined {
   return `${trimmed.trim()}...`;
 }
 
-/** שורת מחיר לכפתור הזמנה במחירון: כולל מע״מ קודם לצרכן, לפני מע״מ קודם לעסק */
+/** שורת מחיר לכפתור הזמנה במחירון: כולל מע״מ בלבד לצרכן, לפני מע״מ קודם לעסק.
+    כל הקוראים הם טקסט בעמוד, ולכן ברירת המחדל כאן "page" (D86, 11.10.2026) */
 export function formatHubPriceDual(
   exVat: number,
   priceFrom = false,
   audience: PriceAudience = "consumer",
-  channel: PriceChannel = "message",
+  channel: PriceChannel = "page",
 ): string {
   return formatPrice(exVat, { from: priceFrom, audience, channel }).inline;
 }
 
-/** "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)", שורת מחיר לצרכן בטבלאות */
+/** "מ-590 ₪ כולל מע״מ", שורת מחיר לצרכן בטבלאות ובתשובות בעמוד. כל הקוראים הם
+    טקסט בעמוד, ולכן ברירת המחדל "page" (D86, 11.10.2026). "message" מחזיר גם
+    "(500 ₪ + מע״מ)" */
 export function formatConsumerPriceLine(
   exVat: number,
   priceFrom = false,
-  channel: PriceChannel = "message",
+  channel: PriceChannel = "page",
 ): string {
   return formatPrice(exVat, { from: priceFrom, channel }).inline;
 }

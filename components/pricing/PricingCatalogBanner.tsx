@@ -13,7 +13,7 @@ type PricingCatalogBannerProps = {
 export default function PricingCatalogBanner({ catalogId }: PricingCatalogBannerProps) {
   const { offer } = useBookCoupon();
   const item = getPriceById(catalogId);
-  const priceLine = formatFromPriceDual(item.exVat);
+  const priceLine = formatFromPriceDual(item.exVat, "consumer", "page");
   const couponApplies = offer != null && offer.catalogId === catalogId;
 
   return (

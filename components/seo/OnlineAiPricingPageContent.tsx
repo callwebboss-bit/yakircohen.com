@@ -210,7 +210,7 @@ const AI_SERVICES = [
 
 function formatServicePrice(exVat: number | null): string {
   if (exVat === null) return "לפי הצעה";
-  return `החל ${formatFromPriceDual(exVat)}`;
+  return `החל ${formatFromPriceDual(exVat, "consumer", "page")}`;
 }
 
 function ServiceCta({
