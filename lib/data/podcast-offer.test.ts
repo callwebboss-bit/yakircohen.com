@@ -137,7 +137,7 @@ describe("podcast copy rules", () => {
     const texts = [
       podcastParticipantPriceLine(),
       podcastSeriesAnswer(),
-      ...PODCAST_AUDIO_PACKS.map(podcastAudioPackLine),
+      ...PODCAST_AUDIO_PACKS.map((pack) => podcastAudioPackLine(pack)),
       ...PODCAST_GRANDPA_FAQS.map((f) => f.answer),
       getPriceById("podcast_audio").context ?? "",
       ...PODCAST_AUDIO_PACK_IDS.map((id) => getPriceById(id).context ?? ""),

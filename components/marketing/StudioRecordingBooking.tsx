@@ -1556,7 +1556,7 @@ export default function StudioRecordingBooking({
                     </p>
                     {form.location === "mobile" ? (
                       <p className="mt-1 text-sm text-foreground">
-                        באולפן הנייד: {mobileChannelPriceLine()}.
+                        באולפן הנייד: {mobileChannelPriceLine("page")}.
                       </p>
                     ) : null}
                     {participantBreakdown ? (

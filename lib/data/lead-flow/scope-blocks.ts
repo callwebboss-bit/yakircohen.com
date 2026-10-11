@@ -117,7 +117,7 @@ export const SCOPE_BLOCKS: Record<LeadFlowServiceId, ScopeBlocks> = {
       "בבית או במשרד: הקלטת אודיו לאדם אחד",
     ],
     excludes: [
-      mobileChannelPriceLine(),
+      mobileChannelPriceLine("page"),
       "חדר מוכן אקוסטית מצד הלקוח אם לא קיים",
       "עריכה מלאה אם לא נכללה בהצעה",
       "נסיעות חריגות בלי תיאום מראש",

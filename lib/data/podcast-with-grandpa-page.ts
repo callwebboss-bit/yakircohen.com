@@ -133,7 +133,7 @@ export const PODCAST_GRANDPA_FAQS: readonly {
     question: "כמה אנשים יכולים להשתתף?",
     answer:
       /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
-      `עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק, כמו בפודקאסט רגיל. ${STUDIO_TURNS_NOTE}. ${podcastParticipantPriceLine()}.`,
+      `עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק, כמו בפודקאסט רגיל. ${STUDIO_TURNS_NOTE}. ${podcastParticipantPriceLine("page")}.`,
   },
   {
     id: "singing",
@@ -152,7 +152,7 @@ export const PODCAST_GRANDPA_FAQS: readonly {
     question: "מה המחיר של החוויה?",
     /* החלטות 5.10.2026 (פודקאסט): אותו מחיר כמו פודקאסט רגיל. היה "המחיר משתנה
        לפי החבילה", בלי מספר */
-    answer: `${PODCAST_GRANDPA_SAME_PRICE_NOTE}. פודקאסט אודיו ${podcastDualPrice(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}. פודקאסט וידאו ${podcastDualPrice(getExVat("podcast_video"))}. הקלטת שיר, אם רוצים גם שיר, ${podcastDualPrice(getExVat("song_recording"))}. ${podcastParticipantPriceLine()}.`,
+    answer: `${PODCAST_GRANDPA_SAME_PRICE_NOTE}. פודקאסט אודיו ${podcastDualPrice(getExVat("podcast_audio"), "page")}. ${PODCAST_AUDIO_SCOPE_NOTE}. פודקאסט וידאו ${podcastDualPrice(getExVat("podcast_video"), "page")}. הקלטת שיר, אם רוצים גם שיר, ${podcastDualPrice(getExVat("song_recording"), "page")}. ${podcastParticipantPriceLine("page")}.`,
   },
 ] as const;
 

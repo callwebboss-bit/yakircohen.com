@@ -186,7 +186,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         question: "אפשר להביא אורחים להקלטה?",
         answer:
           /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
-          `בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. ${STUDIO_TURNS_NOTE}. ${EXTRA_PERSON_COST_NOTE}: ${podcastParticipantPriceLine()}. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.`,
+          `בהחלט. יש מיקרופונים ואוזניות למספר משתתפים. ${STUDIO_TURNS_NOTE}. ${EXTRA_PERSON_COST_NOTE}: ${podcastParticipantPriceLine("page")}. כדאי לעדכן מראש כמה אנשים מגיעים כדי שנכין מקום וציוד.`,
       },
       /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו */
       {

@@ -138,7 +138,7 @@ export const MOBILE_PODCAST_FAQS: readonly {
     id: "extra-people",
     question: "כמה עולה כל אדם נוסף בהקלטה בבית?",
     /* החלטת הבעלים 3.10.2026, סבב שלישי, מהקטלוג */
-    answer: `פרק האודיו המוגמר לאדם אחד כלול במחיר ההגעה. ${EXTRA_PERSON_COST_NOTE}: ${mobileChannelPriceLine()}. לדוגמה, ${mobileChannelsBreakdown(4).line}.`,
+    answer: `פרק האודיו המוגמר לאדם אחד כלול במחיר ההגעה. ${EXTRA_PERSON_COST_NOTE}: ${mobileChannelPriceLine("page")}. לדוגמה, ${mobileChannelsBreakdown(4).pageLine}.`,
   },
   {
     id: "noise",

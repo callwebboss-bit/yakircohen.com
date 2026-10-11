@@ -54,8 +54,10 @@ export type PersonBreakdown = {
   withVat: string;
   /** "(500 + 99 + 99 + 99 ₪ + מע״מ)" */
   exVat: string;
-  /** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)" */
+  /** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)". להודעות */
   line: string;
+  /** "4 משתתפים: 590 + 117 + 117 + 117 ₪ כולל מע״מ". לטקסט בעמוד (D86, 11.10.2026) */
+  pageLine: string;
   /** סכום התוספות לפני מע״מ */
   extrasExVat: number;
 };
@@ -77,11 +79,21 @@ export function buildPersonBreakdown(input: PersonBreakdownInput): PersonBreakdo
     withVat,
     exVat,
     line: `${head}: ${withVat} ${exVat}`,
+    pageLine: `${head}: ${withVat}`,
     extrasExVat: input.extrasExVat.reduce((sum, x) => sum + x, 0),
   };
 }
 
-/** "כל משתתף נוסף: +117 ₪ כולל מע״מ (99 ₪ + מע״מ)" */
-export function formatPerPersonPrice(exVat: number, vatRate: number, label = "כל משתתף נוסף"): string {
-  return `${label}: +${n(Math.round(exVat * (1 + vatRate)))} ₪ כולל מע״מ (${n(exVat)} ₪ + מע״מ)`;
+/**
+ * "כל משתתף נוסף: +117 ₪ כולל מע״מ (99 ₪ + מע״מ)" להודעות ול-llms.txt.
+ * channel "page" מחזיר "כל משתתף נוסף: +117 ₪ כולל מע״מ" (D86, 11.10.2026).
+ */
+export function formatPerPersonPrice(
+  exVat: number,
+  vatRate: number,
+  label = "כל משתתף נוסף",
+  channel: "page" | "message" = "message",
+): string {
+  const total = `${label}: +${n(Math.round(exVat * (1 + vatRate)))} ₪ כולל מע״מ`;
+  return channel === "page" ? total : `${total} (${n(exVat)} ₪ + מע״מ)`;
 }

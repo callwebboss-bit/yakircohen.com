@@ -24,7 +24,7 @@ export default function MobileChannelsNote({ className }: { className?: string }
         בבית או במשרד: {MOBILE_STUDIO_EPISODE_INCLUDED_COPY}, לאדם אחד.
       </p>
       <p className="mt-1 text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
-      <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine()}.</p>
+      <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine("page")}.</p>
       <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
         {EXAMPLE_PEOPLE.map((people) => {
           const b = mobileChannelsBreakdown(people);
@@ -32,8 +32,7 @@ export default function MobileChannelsNote({ className }: { className?: string }
             <li key={people}>
               <span className="font-medium text-foreground">
                 {b.head}: {b.withVat}
-              </span>{" "}
-              {b.exVat}
+              </span>
             </li>
           );
         })}

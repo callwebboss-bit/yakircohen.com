@@ -56,7 +56,7 @@ const pricesBlock = `## מחירי פתיחה (מסונכרן מ-pricing-catalog
 - אולפן - חצי שעה, קובץ גולמי בלי עריכה: ${consumer("studio_half_hour")} · שעת אולפן: ${consumer("studio_hour")}
 - פודקאסט אודיו (עד שעה. ${PODCAST_AUDIO_SCOPE_NOTE}): ${consumer("podcast_audio")}
 - משתתפים בפודקאסט באולפן: ${podcastParticipantPriceLine()}. ${EXTRA_PERSON_COST_NOTE}
-- חבילות פרקי אודיו: ${PODCAST_AUDIO_PACKS.map(podcastAudioPackLine).join(" · ")}. ${PODCAST_PACK_NOTE}
+- חבילות פרקי אודיו: ${PODCAST_AUDIO_PACKS.map((pack) => podcastAudioPackLine(pack)).join(" · ")}. ${PODCAST_PACK_NOTE}
 - ${PODCAST_GRANDPA_SAME_PRICE_NOTE} (אודיו או וידאו)
 - פודקאסט וידאו (3 מצלמות): ${consumer("podcast_video")}
 - הפקת פודקאסט מלאה: ${consumer("full_podcast_production", true)}

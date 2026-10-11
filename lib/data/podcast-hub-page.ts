@@ -240,7 +240,7 @@ export const PODCAST_HUB_FAQS: readonly {
     question: "כמה עולה פודקאסט באולפן?",
     /* WP3 (PI-02, PB-01): העוגן הוא פרק ערוך (podcast_audio). 750 הוא חצי שעה
        חדר, קובץ גולמי בלי עריכה, ונאמר כך במפורש. */
-    answer: `פרק אודיו ערוך ומוכן להפצה ${formatFromPriceDual(getExVat("podcast_audio"))}. פודקאסט וידאו ${formatFromPriceDual(getExVat("podcast_video"))}. הקלטה בלבד (חצי שעה חדר, קובץ גולמי, בלי עריכה) ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. עריכת פודקאסט ${formatFromPriceDual(getExVat("podcast_editing_hour"))} לשעה. מחיר סופי לפי חבילה במחשבון בעמוד.`,
+    answer: `פרק אודיו ערוך ומוכן להפצה ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}. פודקאסט וידאו ${formatFromPriceDual(getExVat("podcast_video"), "consumer", "page")}. הקלטה בלבד (חצי שעה חדר, קובץ גולמי, בלי עריכה) ${formatFromPriceDual(PODCAST_STARTER_PRICE, "consumer", "page")}. עריכת פודקאסט ${formatFromPriceDual(getExVat("podcast_editing_hour"), "consumer", "page")} לשעה. מחיר סופי לפי חבילה במחשבון בעמוד.`,
   },
   {
     id: "hub-delivery",
@@ -269,13 +269,13 @@ export const PODCAST_HUB_FAQS: readonly {
     id: "price",
     question: "כמה עולה הקלטת פודקאסט מקצועית ומה כלול במחיר?",
     answer:
-      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. ${PODCAST_AUDIO_SCOPE_NOTE}, עד שעה. ${podcastParticipantPriceLine()}. הפקה מלאה עם צילום ו${PODCAST_EXTRA_EDIT_NOTE} ${formatFromPriceDual(getExVat("full_podcast_production"))}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE)}. מחשבון מחירים מפורט זמין בדף זה.`,
+      `פרק אודיו ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}. ${PODCAST_AUDIO_SCOPE_NOTE}, עד שעה. ${podcastParticipantPriceLine("page")}. הפקה מלאה עם צילום ו${PODCAST_EXTRA_EDIT_NOTE} ${formatFromPriceDual(getExVat("full_podcast_production"), "consumer", "page")}, ומגיעה עם MP4 ליוטיוב ו-MP3 להפצה בספוטיפיי ואפל פודקאסט. הקלטה בלבד, חצי שעה חדר וקובץ גולמי בלי עריכה, ${formatFromPriceDual(PODCAST_STARTER_PRICE, "consumer", "page")}. מחשבון מחירים מפורט זמין בדף זה.`,
   },
   /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו במקום "הצעה לפי סדרה" */
   {
     id: "audio-packs",
     question: "יש חבילה לכמה פרקים?",
-    answer: `כן. ${PODCAST_AUDIO_PACKS.map(podcastAudioPackLine).join(". ")}. ${PODCAST_PACK_NOTE}.`,
+    answer: `כן. ${PODCAST_AUDIO_PACKS.map((pack) => podcastAudioPackLine(pack, "page")).join(". ")}. ${PODCAST_PACK_NOTE}.`,
   },
   {
     id: "duration",
@@ -365,8 +365,13 @@ export const PODCAST_HUB_CTA_BENEFITS: readonly string[] = [
  * podcast_audio. כולל מע״מ קודם (החלטת הבעלים 2.10.2026).
  */
 const PODCAST_HUB_ANCHOR = formatPrice(getExVat("podcast_audio"), { from: true });
-/** "מ-1,121 ₪ כולל מע״מ (950 ₪ + מע״מ)" */
+/** "מ-1,121 ₪ כולל מע״מ (950 ₪ + מע״מ)". עובר להודעת הוואטסאפ (startingPrice) */
 export const PODCAST_HUB_STARTING_PRICE = PODCAST_HUB_ANCHOR.inline;
+/** "מ-1,121 ₪ כולל מע״מ". לטקסט בעמוד (D86, 11.10.2026) */
+export const PODCAST_HUB_STARTING_PRICE_PAGE = formatPrice(getExVat("podcast_audio"), {
+  from: true,
+  channel: "page",
+}).inline;
 export const PODCAST_HUB_STARTING_PRICE_NOTE =
   "פרק אודיו ערוך ומוכן להפצה - אולפן במודיעין - חניה בשפע";
 

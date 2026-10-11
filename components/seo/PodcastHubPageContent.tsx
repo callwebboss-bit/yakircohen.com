@@ -36,6 +36,7 @@ import {
   PODCAST_HUB_PRICING_PACKAGES,
   PODCAST_HUB_SERVICE_COMPARE,
   PODCAST_HUB_STARTING_PRICE,
+  PODCAST_HUB_STARTING_PRICE_PAGE,
   PODCAST_HUB_STARTING_PRICE_NOTE,
   PODCAST_HUB_STUDIO_SPACES,
   PODCAST_HUB_WORKFLOW,
@@ -153,7 +154,7 @@ export default function PodcastHubPageContent() {
         {...heroProps}
         category="podcast"
         title="אולפן פודקאסט במודיעין"
-        subtitle={`הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}.`}
+        subtitle={`הקלטת פודקאסט באולפן במודיעין. הפרק אצלכם באותה שנייה שמסיימים להקליט - פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}.`}
         features={PODCAST_HUB_HERO_FEATURES}
         whatsappText="שלום, מעוניין/ת בהקלטת פודקאסט באולפן מקצועי במודיעין, אשמח לשמוע על חבילות וזמינות."
         utmCampaign="podcast_hub"
@@ -241,7 +242,7 @@ export default function PodcastHubPageContent() {
                 הקלטה, וידאו או עריכה - מה מתאים?
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                שלושה מסלולים נפוצים. המחיר לפני מע״מ. בוחרים לפי מה שכבר יש
+                שלושה מסלולים נפוצים. המחיר כולל מע״מ. בוחרים לפי מה שכבר יש
                 לכם ומה שרוצים לקבל בסוף.
               </p>
             </header>
@@ -517,7 +518,7 @@ export default function PodcastHubPageContent() {
                 חבילות הפקת פודקאסט - מחיר שקוף
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                אולפן פודקאסט במודיעין. לפני מע״מ (+18%). ללא הפתעות.
+                אולפן פודקאסט במודיעין. המחירים כוללים מע״מ. ללא הפתעות.
               </p>
             </header>
 
@@ -547,7 +548,7 @@ export default function PodcastHubPageContent() {
                         {pkg.id === "recording-only" ? "עד 30 דקות" : "עד שעה"}
                       </td>
                       <td className="p-4 font-semibold text-foreground">
-                        {formatPrice(pkg.priceFrom, { from: true }).inline}
+                        {formatPrice(pkg.priceFrom, { from: true, channel: "page" }).inline}
                       </td>
                     </tr>
                   ))}
@@ -653,7 +654,7 @@ export default function PodcastHubPageContent() {
                 title="רוצים לחשב מחיר מדויק לפרק שלכם?"
                 description={
                   <>
-                    {PODCAST_HUB_STARTING_PRICE} -{" "}
+                    {PODCAST_HUB_STARTING_PRICE_PAGE} -{" "}
                     {PODCAST_HUB_STARTING_PRICE_NOTE}
                   </>
                 }
@@ -790,7 +791,7 @@ export default function PodcastHubPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-lg font-semibold text-background">
-              פרק ערוך החל {PODCAST_HUB_STARTING_PRICE}
+              פרק ערוך החל {PODCAST_HUB_STARTING_PRICE_PAGE}
             </p>
             <p className="mt-1 text-sm text-background/70">
               {PODCAST_HUB_STARTING_PRICE_NOTE}

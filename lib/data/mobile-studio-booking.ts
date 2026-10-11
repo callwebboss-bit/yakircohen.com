@@ -81,6 +81,6 @@ export function mobileChannelsBreakdown(people: number, baseExVat: number = MOBI
 }
 
 /** "כל אדם נוסף ערוץ הקלטה נוסף: +117 ₪ כולל מע״מ (99 ₪ + מע״מ), עד 12 אנשים בהקלטה" */
-export function mobileChannelPriceLine(): string {
-  return `${formatPerPersonPrice(MOBILE_STUDIO_CHANNELS.channelExVat, CATALOG_VAT_RATE, "כל אדם נוסף")}, עד ${MOBILE_STUDIO_CHANNELS.max} אנשים בהקלטה`;
+export function mobileChannelPriceLine(channel: "page" | "message" = "message"): string {
+  return `${formatPerPersonPrice(MOBILE_STUDIO_CHANNELS.channelExVat, CATALOG_VAT_RATE, "כל אדם נוסף", channel)}, עד ${MOBILE_STUDIO_CHANNELS.max} אנשים בהקלטה`;
 }

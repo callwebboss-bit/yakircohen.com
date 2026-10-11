@@ -845,7 +845,7 @@ export default function PodcastBookingWizard({
               <p className="text-sm font-semibold text-foreground">מתכננים סדרה? חבילות פרקי אודיו</p>
               <ul className="mt-1 space-y-0.5 text-sm text-foreground">
                 {PODCAST_AUDIO_PACKS.map((pack) => (
-                  <li key={pack.id}>{podcastAudioPackLine(pack)}</li>
+                  <li key={pack.id}>{podcastAudioPackLine(pack, "page")}</li>
                 ))}
               </ul>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -865,8 +865,8 @@ export default function PodcastBookingWizard({
               <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
               <p className="mt-1 text-sm text-foreground">
                 {isMobile
-                  ? `באולפן הנייד: ${mobileChannelPriceLine()}.`
-                  : `באולפן: ${podcastParticipantPriceLine()}.`}
+                  ? `באולפן הנייד: ${mobileChannelPriceLine("page")}.`
+                  : `באולפן: ${podcastParticipantPriceLine("page")}.`}
               </p>
               {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. באולפן הנייד אין תורות */}
               {isMobile ? null : (
@@ -1151,7 +1151,7 @@ export default function PodcastBookingWizard({
                       </p>
                     ) : null}
                     <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
-                    <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine()}.</p>
+                    <p className="mt-1 text-sm text-foreground">{mobileChannelPriceLine("page")}.</p>
                     <label
                       htmlFor="pb-mobile-people"
                       className="mt-2 block text-xs font-semibold text-foreground"

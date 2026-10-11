@@ -142,9 +142,12 @@ export function podcastParticipantsCostExVat(participants: number, mobile: boole
   return podcastParticipantExtras(participants, mobile).reduce((sum, x) => sum + x, 0);
 }
 
-/** "2 משתתפים כלולים. כל משתתף נוסף: +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בפרק" */
-export function podcastParticipantPriceLine(): string {
-  return `${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים. ${formatPerPersonPrice(PODCAST_EXTRA_PARTICIPANT_PRICE, CATALOG_VAT_RATE)} · עד ${PODCAST_MAX_PARTICIPANTS} בפרק`;
+/**
+ * "2 משתתפים כלולים. כל משתתף נוסף: +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בפרק".
+ * channel "page" בלי הסוגריים (D86, 11.10.2026). ברירת המחדל להודעות ול-llms.txt.
+ */
+export function podcastParticipantPriceLine(channel: "page" | "message" = "message"): string {
+  return `${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים. ${formatPerPersonPrice(PODCAST_EXTRA_PARTICIPANT_PRICE, CATALOG_VAT_RATE, undefined, channel)} · עד ${PODCAST_MAX_PARTICIPANTS} בפרק`;
 }
 
 /* ─── חבילות פרקי אודיו (החלטות 5.10.2026 (פודקאסט)) ─── */
@@ -181,27 +184,36 @@ function nis(amount: number): string {
  * "חבילת 4 פרקי אודיו: 4,125 ₪ כולל מע״מ (3,496 ₪ + מע״מ)". בלי מחיר לפרק:
  * הוא לא מגובה בקטלוג (audit:price-literals).
  */
-export function podcastAudioPackLine(pack: PodcastAudioPack): string {
-  return `${pack.label}: ${nis(catalogWithVat(pack.exVat))} כולל מע״מ (${nis(pack.exVat)} + מע״מ)`;
+export function podcastAudioPackLine(
+  pack: PodcastAudioPack,
+  channel: "page" | "message" = "message",
+): string {
+  const total = `${pack.label}: ${nis(catalogWithVat(pack.exVat))} כולל מע״מ`;
+  return channel === "page" ? total : `${total} (${nis(pack.exVat)} + מע״מ)`;
 }
 
-/** "1,121 ₪ כולל מע״מ (950 ₪ + מע״מ)" */
-export function podcastDualPrice(exVat: number): string {
-  return `${nis(catalogWithVat(exVat))} כולל מע״מ (${nis(exVat)} + מע״מ)`;
+/** "1,121 ₪ כולל מע״מ (950 ₪ + מע״מ)"; channel "page": "1,121 ₪ כולל מע״מ" (D86) */
+export function podcastDualPrice(exVat: number, channel: "page" | "message" = "message"): string {
+  const total = `${nis(catalogWithVat(exVat))} כולל מע״מ`;
+  return channel === "page" ? total : `${total} (${nis(exVat)} + מע״מ)`;
 }
 
 /** דוגמה: 4 משתתפים בפרק אודיו באולפן, פירוט לפי משתתף כולל מע״מ קודם */
-export function podcastParticipantExampleLine(count = 4): string {
+export function podcastParticipantExampleLine(
+  count = 4,
+  channel: "page" | "message" = "message",
+): string {
   const audio = getExVat("podcast_audio");
   return buildPersonBreakdown({
     count,
     baseExVat: audio,
     extrasExVat: podcastParticipantExtras(count, false),
     vatRate: CATALOG_VAT_RATE,
-  }).line;
+  })[channel === "page" ? "pageLine" : "line"];
 }
 
 /** תשובה ל"יש הנחה על סדרת פרקים?" (עמודי הערים ומרכז הפודקאסט) */
 export function podcastSeriesAnswer(): string {
-  return `כן, יש שתי חבילות קבועות. ${PODCAST_AUDIO_PACKS.map(podcastAudioPackLine).join(". ")}. ${PODCAST_PACK_NOTE}. לסדרת וידאו בונים הצעה לפי מספר הפרקים.`;
+  /* תשובה בעמוד בלבד (עמודי הערים ו-/podcast/faq), ולכן ערוץ "page" (D86) */
+  return `כן, יש שתי חבילות קבועות. ${PODCAST_AUDIO_PACKS.map((pack) => podcastAudioPackLine(pack, "page")).join(". ")}. ${PODCAST_PACK_NOTE}. לסדרת וידאו בונים הצעה לפי מספר הפרקים.`;
 }

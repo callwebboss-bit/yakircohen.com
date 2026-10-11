@@ -40,9 +40,9 @@ export default function PodcastPriceNote({
         <>
           <p className="text-sm font-semibold text-foreground">{PODCAST_GRANDPA_SAME_PRICE_NOTE}.</p>
           <ul className="mt-1 space-y-0.5 text-sm text-foreground">
-            <li>פודקאסט אודיו: {podcastDualPrice(getExVat("podcast_audio"))}</li>
-            <li>פודקאסט וידאו: {podcastDualPrice(getExVat("podcast_video"))}</li>
-            <li>הקלטת שיר באולפן, אם רוצים גם שיר: {podcastDualPrice(getExVat("song_recording"))}</li>
+            <li>פודקאסט אודיו: {podcastDualPrice(getExVat("podcast_audio"), "page")}</li>
+            <li>פודקאסט וידאו: {podcastDualPrice(getExVat("podcast_video"), "page")}</li>
+            <li>הקלטת שיר באולפן, אם רוצים גם שיר: {podcastDualPrice(getExVat("song_recording"), "page")}</li>
           </ul>
         </>
       ) : null}
@@ -50,16 +50,16 @@ export default function PodcastPriceNote({
         פרק אודיו: {PODCAST_AUDIO_SCOPE_NOTE}.
       </p>
       <p className="mt-2 text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
-      <p className="mt-1 text-sm text-foreground">{podcastParticipantPriceLine()}.</p>
+      <p className="mt-1 text-sm text-foreground">{podcastParticipantPriceLine("page")}.</p>
       {/* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */}
       <p className="mt-1 text-xs text-muted-foreground">{STUDIO_TURNS_NOTE}.</p>
-      <p className="mt-1 text-xs text-muted-foreground">{podcastParticipantExampleLine(4)}.</p>
+      <p className="mt-1 text-xs text-muted-foreground">{podcastParticipantExampleLine(4, "page")}.</p>
       {variant === "packs" ? (
         <>
           <p className="mt-3 text-sm font-semibold text-foreground">חבילות פרקי אודיו</p>
           <ul className="mt-1 space-y-0.5 text-sm text-foreground">
             {PODCAST_AUDIO_PACKS.map((pack) => (
-              <li key={pack.id}>{podcastAudioPackLine(pack)}</li>
+              <li key={pack.id}>{podcastAudioPackLine(pack, "page")}</li>
             ))}
           </ul>
           <p className="mt-1 text-xs text-muted-foreground">{PODCAST_PACK_NOTE}.</p>
