@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { getLegacyRedirects } from "@/lib/legacy-redirects";
+import { GOOGLE_WRITE_REVIEW_URL } from "@/lib/constants";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 
@@ -139,6 +140,14 @@ const nextConfig: NextConfig = {
          הפנה לעצמו: Next מעביר את ה-query של הבקשה ליעד ההפניה
          (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/redirects.md:43),
          ולכן /?add-to-cart=123 קיבל 308 אל /?add-to-cart=123 בלולאה (ED-12). */
+      /* כתובת קצרה לבקשת ביקורת: לכרטיס QR באולפן ולהודעה בוואטסאפ (D96, 11.10.2026).
+         זמנית (307) ולפני כללי ה-www, כדי שאפשר יהיה להחליף יעד בלי להדפיס מחדש,
+         ו-www.yakircohen.com/review יגיע ליעד בקפיצה אחת. */
+      {
+        source: "/review",
+        destination: GOOGLE_WRITE_REVIEW_URL,
+        permanent: false,
+      },
       /* 2. www לדומיין בלי www. עם סלאש בסוף: מורידים אותו באותה קפיצה. */
       {
         source: "/:path+/",

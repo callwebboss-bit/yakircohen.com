@@ -3,6 +3,7 @@ import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
   GOOGLE_RATING_LABEL,
+  GOOGLE_WRITE_REVIEW_URL,
   STUDIO_GOOGLE_MAPS_URL,
 } from "@/lib/constants";
 import { StarIcon } from "@/components/ui/Icons";
@@ -103,7 +104,7 @@ export default function GoogleRatingBadge({
           </Link>
           {showReviewCta ? (
             <Link
-              href={STUDIO_GOOGLE_MAPS_URL}
+              href={GOOGLE_WRITE_REVIEW_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-semibold text-muted-foreground transition-colors hover:text-brand-red"

@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { describe, it, test } from "node:test";
 import {
   BUSINESS_FOUNDING_YEAR,
   FOUNDER_CAREER_START_YEAR,
+  GOOGLE_PLACE_ID,
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
+  GOOGLE_WRITE_REVIEW_URL,
   SITE_TRUST_STATS,
   TRUST_CLAIM_SOURCES,
   TRUST_STATS_CLARIFICATION,
@@ -118,4 +120,15 @@ test("הדירוג ומספר הביקורות מגיעים מאותו מקור 
 
   const reviews = TRUST_CLAIM_SOURCES.find((c) => c.value === GOOGLE_REVIEW_COUNT);
   assert.ok(reviews, `אין מקור מתועד ל-${GOOGLE_REVIEW_COUNT} ביקורות`);
+});
+
+/* D96, 11.10.2026: "השאירו ביקורת" פותח את טופס הביקורת, לא את המפה */
+describe("GOOGLE_WRITE_REVIEW_URL", () => {
+  it("is Google's write-review form for the studio's place_id", () => {
+    assert.equal(
+      GOOGLE_WRITE_REVIEW_URL,
+      `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`,
+    );
+    assert.match(GOOGLE_PLACE_ID, /^ChIJ[\w-]{20,}$/);
+  });
 });

@@ -83,6 +83,15 @@ export const STUDIO_MAPS_URL = "https://maps.app.goo.gl/mZXM2wzCtZpFKT5Y8";
 
 export const STUDIO_GOOGLE_MAPS_URL = STUDIO_MAPS_URL;
 
+/**
+ * טופס "כתיבת ביקורת" של גוגל לעסק (החלטת הבעלים D96, 11.10.2026). עד היום
+ * "השאירו ביקורת ב-Google" פתח את המפה, והלקוח היה צריך לחפש לבד את הכפתור.
+ * place_id נגזר מהקישור הקצר ונבדק מול אותה סיכה (11.10.2026). אם הבעלים
+ * מעתיק מהפרופיל קישור "קבלת ביקורות נוספות", מחליפים כאן ובהפניה /review.
+ */
+export const GOOGLE_PLACE_ID = "ChIJl1AQXa3VAhURSyd1FCGiq8E";
+export const GOOGLE_WRITE_REVIEW_URL = `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`;
+
 export const STUDIO_WAZE_URL = STUDIO_MAPS_URL;
 
 /** Footer-only links (trust links live in FOOTER_SEMANTIC_TREE column 5) */
