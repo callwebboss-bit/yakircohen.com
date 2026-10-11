@@ -2,7 +2,7 @@ import { STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { PODCAST_PACKAGES, type PodcastPackageId } from "@/lib/data/podcast-calculator";
 import { getExVat, STUDIO_TURNS_NOTE, type PriceItemId } from "@/lib/data/pricing-catalog";
-import { formatPrice, type FormattedPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice, type FormattedPrice } from "@/lib/data/pricing-display";
 import {
   PODCAST_STUDIO_MODIIN_EXISTS_FAQ,
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
@@ -46,7 +46,7 @@ function podcastPackage(id: PodcastPackageId) {
 /* "מ-" כי כל משתתף מעבר לשניים מוסיף למחיר בכל חבילה באולפן
    (podcastParticipantExtras ב-lib/data/podcast-calculator.ts) */
 function studioPrice(id: PriceItemId): FormattedPrice {
-  return formatPrice(getExVat(id), { from: true });
+  return formatPagePrice(getExVat(id), { from: true });
 }
 
 const VIDEO_PACKAGE = podcastPackage("video");
@@ -91,14 +91,14 @@ export const STUDIO_MODIIN_PRICE_CARDS: readonly StudioModiinPriceCard[] = [
     id: "podcast_hours_pass_5",
     name: "כרטיסיית 5 שעות",
     /* מחיר קבוע, בלי "מ-" */
-    price: formatPrice(getExVat("podcast_hours_pass_5")),
+    price: formatPagePrice(getExVat("podcast_hours_pass_5")),
     lines: ["5 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
   },
   {
     id: "podcast_hours_pass_10",
     name: "כרטיסיית 10 שעות",
     /* מחיר קבוע, בלי "מ-" */
-    price: formatPrice(getExVat("podcast_hours_pass_10")),
+    price: formatPagePrice(getExVat("podcast_hours_pass_10")),
     lines: ["10 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
   },
 ];
@@ -106,7 +106,7 @@ export const STUDIO_MODIIN_PRICE_CARDS: readonly StudioModiinPriceCard[] = [
 /* מחיר השירות העצמי היה כתוב ביד ובלי מע״מ, בזמן ש-/pricing מציג אותו כולל
    מע״מ. עכשיו מהקטלוג, כולל מע״מ קודם, כמו בבלוק המחירים של העמוד (בדיקת
    העמוד מול תשובות הבעלים 8.10.2026). */
-const SELF_SERVICE_HOUR = formatPrice(getExVat("studio_self_service_hour"));
+const SELF_SERVICE_HOUR = formatPagePrice(getExVat("studio_self_service_hour"));
 
 export const STUDIO_MODIIN_HERO_IMAGE = {
   src: "/images/services/studio/hub/ישראל אהרוני באולפן.webp",
@@ -160,7 +160,7 @@ export const STUDIO_MODIIN_RELATED_SERVICES: readonly {
   {
     emoji: "🔌",
     title: `אולפן שירות עצמי (${SELF_SERVICE_HOUR.headline} לשעה)`,
-    description: `${SELF_SERVICE_HOUR.headline} לשעה (${SELF_SERVICE_HOUR.vatNote}). מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.`,
+    description: `${SELF_SERVICE_HOUR.headline} לשעה. מגיעים עם לפטופ, מקליטים, לוקחים קבצים גולמיים. בלי עריכה.`,
     href: "/podcast/self-service-studio",
   },
   {

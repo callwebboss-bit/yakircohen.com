@@ -143,7 +143,7 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     id: "general-pricing",
     question: "כמה עולה הקלטה או אירוע?",
     answer:
-      `ברכה והקלטה קצרה החל ${formatFromPriceDual(getExVat("blessing_recording"))}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. אטרקציה בודדת לאירוע ${formatFromPriceDual(getExVat("event_attraction_1"))}. בהזמנה המקוונת רואים מחיר סופי מיד.`,
+      `ברכה והקלטה קצרה החל ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}. אטרקציה בודדת לאירוע ${formatFromPriceDual(getExVat("event_attraction_1"), "consumer", "page")}. בהזמנה המקוונת רואים מחיר סופי מיד.`,
     ctaText: "פתחו את המחירון המרכזי",
     whatsappMessage: "שלום, רוצה לדעת כמה עולה [סוג שירות] לפני שסוגרים",
     utm_campaign: "faq_general_pricing",

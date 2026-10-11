@@ -4,7 +4,7 @@
 
 import { attractionBundleDiscountPercent, getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 import type { ServicePricingTier } from "@/lib/data/services";
 import {
   DOUBLE_QUANTITY_SURCHARGE,
@@ -183,7 +183,7 @@ export function formatAttractionPricingForChatbot(): string {
           ? `${r.count}+ אטרקציות`
           : `${r.count} אטרקציה${r.count > 1 ? "ות" : ""}`;
       const extra = r.saving ? ` (${r.saving})` : "";
-      return `• ${label} - ${formatPrice(r.priceExVat).inline}${extra}`;
+      return `• ${label} - ${formatPagePrice(r.priceExVat).inline}${extra}`;
     })
     .join("\n");
 
@@ -192,11 +192,11 @@ export function formatAttractionPricingForChatbot(): string {
   const grad = LIQUID_FREQUENCY_OPTIONS.find((o) => o.key === "freq_graduated");
 
   return [
-    `אטרקציה אחת - ${formatPrice(base).inline}. חבילות:`,
+    `אטרקציה אחת - ${formatPagePrice(base).inline}. חבילות:`,
     bundleLines,
     "",
     "לכל אטרקציה בוחרים כמות הפעלות:",
-    `• זיקוקים קרים / קונפטי - לפי רגעי שיא (הפעלה שנייה/שלישית = +${formatPrice(act2).inline} כל אחת)`,
+    `• זיקוקים קרים / קונפטי - לפי רגעי שיא (הפעלה שנייה/שלישית = +${formatPagePrice(act2).inline} כל אחת)`,
     `• עשן כבד / בועות - לפי תדירות: הפעלה אחת · 2 מדורגות (+${grad?.addOnPercent ?? "35%"}) · 2 מלאות (+50%) · אקסטרים (+100%)`,
     "",
     "מה האירוע שלכם ואיזה רגעים הכי חשוב לכם לצלם?",
@@ -268,7 +268,7 @@ export function formatEventBundlePriceSummary(): string {
     .map((row) => {
       const label =
         row.count >= EVENT_GIFT_THRESHOLD ? `${row.count}+ אטרקציות` : `${row.count} אטרקציות`;
-      return `${label} ${formatPrice(row.priceExVat).headline}`;
+      return `${label} ${formatPagePrice(row.priceExVat).headline}`;
     })
     .join(" · ");
 }
@@ -284,4 +284,4 @@ export function ledBoothPurchaseCopy(): string {
   return "למפיקים, אולמות ותקליטנים - מחיר לפי מפרט (ארון מוכן או עמדה מלאה). הצעה בוואטסאפ, אחריות שנה, הדרכה ותמיכה.";
 }
 
-export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות - מאותו מחירון כמו עמוד ההזמנה, מאטרקציה אחת ${formatPrice(EVENT_SINGLE_PRICE_NIS).headline}.`;
+export const LED_BOOTH_SUBTITLE_TRAIL = `חבילות אפקטים משולבות - מאותו מחירון כמו עמוד ההזמנה, מאטרקציה אחת ${formatPagePrice(EVENT_SINGLE_PRICE_NIS).headline}.`;

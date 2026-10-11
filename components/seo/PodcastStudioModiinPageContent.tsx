@@ -211,7 +211,9 @@ export default function PodcastStudioModiinPageContent() {
                   ) : null}
                 </div>
                 <p className="mt-3 text-xl font-bold text-brand-red">{card.price.headline}</p>
-                <p className="text-xs text-muted-foreground">{card.price.vatNote}</p>
+                {card.price.vatNote ? (
+                  <p className="text-xs text-muted-foreground">{card.price.vatNote}</p>
+                ) : null}
                 <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
                   {card.lines.map((line) => (
                     <li key={line} className="flex gap-2">

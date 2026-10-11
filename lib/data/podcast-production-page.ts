@@ -1,6 +1,6 @@
 import { STUDIO_HALF_HOUR_NIS } from "@/lib/data/pricing";
 import { getExVat, PODCAST_FULL_PRODUCTION_NOTE } from "@/lib/data/pricing-catalog";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 
 export const PODCAST_PRODUCTION_HERO_FEATURES: readonly string[] = [
   "ליווי מא׳ עד ת׳, מהרעיון ועד פרסום",
@@ -70,14 +70,14 @@ export const PODCAST_PRODUCTION_COMPARE: readonly {
   {
     title: "הפקה מלאה, פרק אחד",
     /* החלטת הבעלים D63, 7.10.2026: מה כלול מהקטלוג, והמחיר כולל מע״מ קודם (היה מספר קשיח בלי מע״מ) */
-    description: `${PODCAST_FULL_PRODUCTION_NOTE}. החל ${formatPrice(getExVat("full_podcast_production"), { from: true }).inline}.`,
+    description: `${PODCAST_FULL_PRODUCTION_NOTE}. החל ${formatPagePrice(getExVat("full_podcast_production"), { from: true }).inline}.`,
     href: "/podcast/podcast-recording",
     cta: "לעמוד הפקה מלאה",
   },
   {
     title: "פס ייצור לעסקים",
     /* מהקטלוג, כולל מע״מ קודם כמו כל העמוד (היה מספר קשיח בלי מע״מ) */
-    description: `כבר יש פורמט? מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע. החל ${formatPrice(getExVat("bulk_podcast_episode"), { from: true }).inline} לפרק.`,
+    description: `כבר יש פורמט? מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע. החל ${formatPagePrice(getExVat("bulk_podcast_episode"), { from: true }).inline} לפרק.`,
     href: "/podcast/bulk-production",
     cta: "לפס ייצור",
   },
@@ -91,7 +91,7 @@ export const PODCAST_PRODUCTION_COMPARE: readonly {
     /* השם שאושר ב-3.10 (docs/SEO-APPROVALS-03-10.md:173), והמחיר כולל מע״מ קודם (אישור הבעלים 7.10.2026).
        studio_half_hour הוא חצי שעה חדר וקובץ גולמי, בלי עריכה (lib/data/podcast-hub-page.ts, הערת WP3) */
     title: "הקלטה בלבד, חצי שעה",
-    description: `הקלטה של עד 30 דקות באולפן, קובץ גולמי בלי עריכה. ${formatPrice(STUDIO_HALF_HOUR_NIS).inline}.`,
+    description: `הקלטה של עד 30 דקות באולפן, קובץ גולמי בלי עריכה. ${formatPagePrice(STUDIO_HALF_HOUR_NIS).inline}.`,
     href: "/podcast",
     cta: "למחירון וחבילות",
   },
@@ -132,7 +132,7 @@ export const PODCAST_PRODUCTION_FAQS: readonly {
     id: "new",
     question: "מתאים למי שמתחיל עכשיו?",
     answer:
-      `בהחלט. מתחילים באפיון, מקליטים פרק ראשון (אפשר בהקלטה של חצי שעה, ${formatPrice(STUDIO_HALF_HOUR_NIS).inline}), וממשיכים לפי קצב שנוח.`,
+      `בהחלט. מתחילים באפיון, מקליטים פרק ראשון (אפשר בהקלטה של חצי שעה, ${formatPagePrice(STUDIO_HALF_HOUR_NIS).inline}), וממשיכים לפי קצב שנוח.`,
   },
   {
     id: "remote",

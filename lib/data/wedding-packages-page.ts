@@ -4,7 +4,7 @@ import {
   DJ_TEAM_NOTE,
   getExVat,
 } from "@/lib/data/pricing-catalog";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 
 export const WEDDING_PACKAGES_WHY: readonly {
   emoji: string;
@@ -57,7 +57,7 @@ export const PACKAGE_DJ_THREE_ATTRACTIONS = {
 
 export const PACKAGE_FESTIVAL = {
   name: 'חבילת "פסטיבל", הכל כלול',
-  price: formatPrice(getExVat("festival_all_in")).inline,
+  price: formatPagePrice(getExVat("festival_all_in")).inline,
   includes: [
     "DJ פרימיום מהצוות, עד שהאירוע נגמר",
     "אולפן הקלטות נייד באירוע",

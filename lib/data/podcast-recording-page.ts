@@ -4,7 +4,7 @@
   PODCAST_STUDIO_MODIIN_PRICE_FAQ,
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 import {
   getExVat,
   getPriceById,
@@ -53,7 +53,7 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     summary: `${PODCAST_VIDEO_INCLUDES_NOTE}.`,
     points: [
       "מפיק מלווה בזמן אמת",
-      `עריכה נוספת (ניקוי גמגומים, שיעולים ושתיקות): בתוספת, ${formatPrice(getExVat("podcast_editing_hour"), { from: true }).inline}, או כלולה בהפקה המלאה`,
+      `עריכה נוספת (ניקוי גמגומים, שיעולים ושתיקות): בתוספת, ${formatPagePrice(getExVat("podcast_editing_hour"), { from: true }).inline}, או כלולה בהפקה המלאה`,
       `קטעי ריל: בתוספת, או ${PODCAST_FULL_PRODUCTION_REELS_NOTE} כלולים בהפקה המלאה`,
     ],
   },

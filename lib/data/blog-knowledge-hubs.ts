@@ -58,10 +58,10 @@ export function buildStudioHubAnswer(): string {
   const songEx = getExVat("song_recording");
   const opening =
     blessingEx === songEx
-      ? `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(songEx))}, ` +
+      ? `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(songEx, "consumer", "page"))}, ` +
         `לברכה, דרשה או אמירה ולשיר מוכן עם מיקס ומאסטר. `
-      : `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(blessingEx))} לברכה, דרשה או אמירה, ` +
-        `ו-${stripDualPrefix(formatFromPriceDual(songEx))} לשיר מוכן עם מיקס ומאסטר. `;
+      : `הקלטה באולפן מתחילה ב-${stripDualPrefix(formatFromPriceDual(blessingEx, "consumer", "page"))} לברכה, דרשה או אמירה, ` +
+        `ו-${stripDualPrefix(formatFromPriceDual(songEx, "consumer", "page"))} לשיר מוכן עם מיקס ומאסטר. `;
   return (
     opening +
     `תיקון זיופים עם טכנאי שמכוון ומנחה הוא תוספת. ` +

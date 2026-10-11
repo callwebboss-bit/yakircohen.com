@@ -5,7 +5,7 @@ import { PODCAST_RECORDING_PRICE } from "@/lib/data/podcast-recording-page";
 import { formatFromPriceDual, getExVat, PODCAST_EXTRA_EDIT_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { podcastParticipantPriceLine, podcastSeriesAnswer } from "@/lib/data/podcast-calculator";
 import { EXTRA_PERSON_COST_NOTE } from "@/lib/data/participant-cost-copy";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 import { STUDIO_HALF_HOUR_NIS, STUDIO_ONE_HOUR_NIS } from "@/lib/data/pricing";
 
 export const PODCAST_FAQ_TITLE = "שאלות ותשובות על הפקת פודקאסט";
@@ -28,7 +28,7 @@ export const PODCAST_FAQ_SERVICE_LINKS: readonly HubLinkItem[] = [
     href: "/podcast/podcast-recording",
     title: "הפקה מלאה (צילום + הקלטה + עריכה)",
     /* החלטת הבעלים D63, 7.10.2026: העריכה הנוספת, ומחיר כולל מע״מ קודם (היה בלי מע״מ ובלי פסיק אלפים) */
-    description: `הפרק אצלכם באותה שנייה שמסיימים להקליט, ועוד ${PODCAST_EXTRA_EDIT_NOTE} - החל ${formatPrice(PODCAST_RECORDING_PRICE, { from: true }).inline}.`,
+    description: `הפרק אצלכם באותה שנייה שמסיימים להקליט, ועוד ${PODCAST_EXTRA_EDIT_NOTE} - החל ${formatPagePrice(PODCAST_RECORDING_PRICE, { from: true }).inline}.`,
   },
   {
     href: "/podcast/podcast-studio-modiin",
@@ -100,7 +100,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
   {
     id: "podcast-faq-pricing",
     title: "מחירים וחבילות",
-    subtitle: `פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"))} - הפקה מלאה ${formatFromPriceDual(PODCAST_RECORDING_PRICE)}`,
+    subtitle: `פרק ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")} - הפקה מלאה ${formatFromPriceDual(PODCAST_RECORDING_PRICE, "consumer", "page")}`,
     items: [
       {
         id: "pricing-structure",
@@ -117,7 +117,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
       {
         id: "studio-rental-price",
         question: "כמה עולה להשכיר את האולפן לפודקאסט במודיעין?",
-        answer: `חצי שעה ${formatPrice(STUDIO_HALF_HOUR_NIS).inline} - שעה ${formatPrice(STUDIO_ONE_HOUR_NIS).inline}. כולל ציוד, חדר מבודד וליווי טכני. קובץ גולמי, בלי עריכה. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
+        answer: `חצי שעה ${formatPagePrice(STUDIO_HALF_HOUR_NIS).inline} - שעה ${formatPagePrice(STUDIO_ONE_HOUR_NIS).inline}. כולל ציוד, חדר מבודד וליווי טכני. קובץ גולמי, בלי עריכה. עריכה, צילום או חבילה מורחבת - בתוספת לפי הצורך.`,
       },
       {
         id: "vat",

@@ -91,7 +91,7 @@ export const FOR_COUPLES_LANDING: AudienceLandingConfig = {
           title: "חבילות DJ + אטרקציות",
           description: `עשן, זיקוקים, קונפטי - מ-2 אטרקציות הנחת חבילה של ${attractionBundleDiscountPercent()}%.`,
           href: "/events/wedding-attractions-packages",
-          priceHint: `חבילת "פסטיבל" ${formatFromPriceDual(getExVat("festival_all_in"))}`,
+          priceHint: `חבילת "פסטיבל" ${formatFromPriceDual(getExVat("festival_all_in"), "consumer", "page")}`,
         },
         {
           id: "photo",

@@ -14,7 +14,7 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
     title: "צילום והקלטת פודקאסט",
     /* החלטת הבעלים D63, 7.10.2026 (D43, D44) */
     description: `הפקה מלאה, ${TIME_CLAIMS.podcastSameSecond}, ועוד ${PODCAST_EXTRA_EDIT_NOTE}.`,
-    fromPrice: `החל ${formatFromPriceDual(getExVat("full_podcast_production"))}`,
+    fromPrice: `החל ${formatFromPriceDual(getExVat("full_podcast_production"), "consumer", "page")}`,
   },
   {
     href: "/podcast/podcast-production",
@@ -26,13 +26,13 @@ export const PODCAST_HUB_TRACKS_CONTENT: readonly HubLinkItem[] = [
     title: "פודקאסט ארגוני לחברות",
     description: "מיתוג מעסיק ושיווק תוכן - הפקה מלאה, ספוטיפיי, חשבונית מס.",
     /* עסקים: לפני מע״מ קודם */
-    fromPrice: `החל ${formatFromPriceDual(getExVat("corp_podcast_retainer"), "business")} לחודש`,
+    fromPrice: `החל ${formatFromPriceDual(getExVat("corp_podcast_retainer"), "business", "page")} לחודש`,
   },
   {
     href: "/podcast/bulk-production",
     title: "פס ייצור לעסקים",
     description: "מקליטים, שולחים גולמי, מקבלים פרק מוכן וקליפים כל שבוע.",
-    fromPrice: `החל ${formatFromPriceDual(getExVat("bulk_podcast_episode"), "business")} לפרק`,
+    fromPrice: `החל ${formatFromPriceDual(getExVat("bulk_podcast_episode"), "business", "page")} לפרק`,
   },
 ] as const;
 
@@ -43,7 +43,7 @@ export const PODCAST_HUB_TRACKS_STUDIO: readonly HubLinkItem[] = [
     title: "השכרת סטודיו / אולפן במודיעין",
     /* WP3: 750 הוא חצי שעה חדר, קובץ גולמי בלי עריכה, ונאמר כך */
     description: "חצי שעה חדר, קובץ גולמי, בלי עריכה. חדר מבודד וליווי טכני.",
-    fromPrice: `החל ${formatFromPriceDual(getExVat("studio_half_hour"))}`,
+    fromPrice: `החל ${formatFromPriceDual(getExVat("studio_half_hour"), "consumer", "page")}`,
   },
   {
     href: "/podcast/mobile-podcast-at-home",

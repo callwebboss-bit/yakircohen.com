@@ -72,7 +72,7 @@ export const HOME_FAQ_ITEMS: readonly HomeFaqItem[] = [
   {
     id: "pricing",
     question: "כמה עולה הקלטה או אירוע?",
-    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording"))}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"))}. בהזמנה מקוונת רואים מחיר סופי מיד.`,
+    answerPlain: `ברכה / הקלטה קצרה ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}. פרק פודקאסט ערוך ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}. בהזמנה מקוונת רואים מחיר סופי מיד.`,
   },
   {
     id: "delivery-time",

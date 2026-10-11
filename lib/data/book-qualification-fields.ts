@@ -52,9 +52,9 @@ const BUDGET_FAMILY_GIFTS: QualificationField = {
   waLabel: BUDGET_WA_LABEL,
   lowBudgetOption: "עד 300 ₪",
   lowBudgetMessage:
-    `המחיר ההתחלתי להקלטת ברכה באולפן: ${formatFromPriceDual(getExVat("blessing_recording"))}. ` +
+    `המחיר ההתחלתי להקלטת ברכה באולפן: ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}. ` +
     `אם התקציב נמוך מזה - יש גם שיפור וניקוי להקלטה שכבר יש לך, ` +
-    `${formatFromPriceDual(getExVat("ai_voice_enhance"))} בשירותי ה-AI שלנו.`,
+    `${formatFromPriceDual(getExVat("ai_voice_enhance"), "consumer", "page")} בשירותי ה-AI שלנו.`,
 };
 
 const BUDGET_PODCAST: QualificationField = {
@@ -66,9 +66,9 @@ const BUDGET_PODCAST: QualificationField = {
   waLabel: BUDGET_WA_LABEL,
   lowBudgetOption: "עד 400 ₪",
   lowBudgetMessage:
-    `חצי שעה באולפן: ${formatFromPriceDual(getExVat("studio_half_hour"))}. ` +
+    `חצי שעה באולפן: ${formatFromPriceDual(getExVat("studio_half_hour"), "consumer", "page")}. ` +
     `אם התקציב נמוך יותר - אפשר שיפור קול חכם להקלטה עצמאית שכבר הקלטת, ` +
-    `${formatFromPriceDual(getExVat("ai_voice_enhance"))}.`,
+    `${formatFromPriceDual(getExVat("ai_voice_enhance"), "consumer", "page")}.`,
 };
 
 const BUDGET_ONLINE_RESTORE: QualificationField = {

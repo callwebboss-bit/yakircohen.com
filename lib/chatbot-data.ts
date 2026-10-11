@@ -1,7 +1,7 @@
 import { formatAttractionPricingForChatbot } from "@/lib/data/attraction-book-pricing";
 import { BLESSING_REMOTE_TRADEOFF_NOTE, formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { blessingSpeakersPriceLine } from "@/lib/data/blessing-offer";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 import { withVat } from "@/lib/data/pricing";
 import { getBusinessOpenStatus } from "@/lib/business-hours";
 
@@ -131,7 +131,7 @@ export const CHATBOT_DATA: ChatbotData = {
       label: "📱 הקלטה מרחוק (מהטלפון)",
       hidden: true,
       answer: {
-        text: `שולחים קובץ הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע. ${BLESSING_REMOTE_TRADEOFF_NOTE}. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"))}. ללא צורך בביקור באולפן.`,
+        text: `שולחים קובץ הקלטה מהטלפון בוואטסאפ, ויקיר מתקן ומסדר: ניקוי רעשים, עריכה, מיקס ומוזיקת רקע. ${BLESSING_REMOTE_TRADEOFF_NOTE}. תיקון זיופים לא כלול; אפשר להוסיף ב-${formatPagePrice(getExVat("studio_pitch_correction")).inline}. מתחיל ${formatFromPriceDual(getExVat("studio_remote"), "consumer", "page")}. ללא צורך בביקור באולפן.`,
         readMoreHref: "/online/vocal-fix",
         readMoreLabel: "פרטים על שירות שיפור קול",
         whatsappMessage: "שלום יקיר, מעוניין/ת בהקלטה מרחוק. מצרף/ת קובץ לבדיקה:",
@@ -156,7 +156,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"))}, בלי הגבלת זמן, כולל הנחיה, עריכה, מוזיקת רקע ותיקונים (אספקה תוך 24-48 שעות). דרשה באותו מחיר. דובר אחד כלול, ${blessingSpeakersPriceLine()}. תיקון זיופים בתוספת ${formatPrice(getExVat("studio_pitch_correction")).inline}. ספרו לי על האירוע.`,
+        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}, בלי הגבלת זמן, כולל הנחיה, עריכה, מוזיקת רקע ותיקונים (אספקה תוך 24-48 שעות). דרשה באותו מחיר. דובר אחד כלול, ${blessingSpeakersPriceLine()}. תיקון זיופים בתוספת ${formatPagePrice(getExVat("studio_pitch_correction")).inline}. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",
@@ -168,7 +168,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_podcast",
       label: "🎧 מחיר פודקאסט",
       answer: {
-        text: `פרק פודקאסט ערוך מתחיל ${formatFromPriceDual(getExVat("podcast_audio"))}. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
+        text: `פרק פודקאסט ערוך מתחיל ${formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page")}. התמחור משתנה לפי הפורמט: אודיו, צילום וידאו או מספר משתתפים. נבין יחד מה הפורמט הנכון.`,
         readMoreHref: "/podcast",
         readMoreLabel: "חבילות ומחירי פודקאסט",
         whatsappMessage: "שלום, מעוניין/ת בפרטים על הקלטת פודקאסט. רוצה להבין מה מתאים לנו.",
@@ -204,7 +204,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_dj",
       label: "🎵 DJ לחתונה ואירועים",
       answer: {
-        text: `שירותי DJ לאירוע: תקליטן מהצוות ${formatFromPriceDual(getExVat("dj_premium"))}, ויקיר כהן אישית ${formatFromPriceDual(getExVat("dj_yakir_personal"))}. כיוון שהמחיר וההתאמה תלויים בסוג האירוע ובתאריך, השלב הראשון הוא בדיקת יומן.`,
+        text: `שירותי DJ לאירוע: תקליטן מהצוות ${formatFromPriceDual(getExVat("dj_premium"), "consumer", "page")}, ויקיר כהן אישית ${formatFromPriceDual(getExVat("dj_yakir_personal"), "consumer", "page")}. כיוון שהמחיר וההתאמה תלויים בסוג האירוע ובתאריך, השלב הראשון הוא בדיקת יומן.`,
         readMoreHref: "/events",
         readMoreLabel: "מידע על שירותי DJ",
         whatsappMessage: "שלום, מחפש/ת DJ לאירוע ב-[תאריך]. האם התאריך פנוי?",

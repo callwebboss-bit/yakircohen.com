@@ -27,10 +27,10 @@ export type AeoFaqItem = {
 
 /* formatFromPriceDual מחזיר "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)". כאן הוא נקרא
    "החל מ-...". קודם הפונקציה הזו הסירה ביד את "כרגע:" (WP1). */
-/** "כל משתתף נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ), עד 12 בשיר" */
+/** "כל משתתף נוסף +117 ₪ כולל מע״מ, עד 12 בשיר". טקסט בעמוד, ולכן בלי לפני מע״מ (D86) */
 function songParticipantsLine(): string {
-  const { withVat, exVat, limit } = getSongParticipantsExplanation();
-  return `${withVat} ${exVat}, ${limit}`;
+  const { withVat, limit } = getSongParticipantsExplanation();
+  return `${withVat}, ${limit}`;
 }
 
 function stripDualPrefix(formatted: string): string {
@@ -78,8 +78,8 @@ export const RECORDING_SONG_VOICE_FAQ: AeoFaqItem = {
 };
 
 export function buildPodcastStudioHourPriceAnswer(): string {
-  const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
-  const hour = stripDualPrefix(formatFromPriceDual(getExVat("studio_hour")));
+  const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour"), "consumer", "page"));
+  const hour = stripDualPrefix(formatFromPriceDual(getExVat("studio_hour"), "consumer", "page"));
   return `חצי שעה באולפן ${half}. שעה מלאה ${hour}. המחיר כולל ליווי טכני. עריכה מלאה או הפקת וידאו - בתוספת לפי חבילה.`;
 }
 
@@ -90,10 +90,10 @@ export const PODCAST_STUDIO_MODIIN_PRICE_FAQ: AeoFaqItem = {
 };
 
 export function buildPodcastRecordingPriceAnswer(): string {
-  const audio = stripDualPrefix(formatFromPriceDual(getExVat("podcast_audio")));
-  const video = stripDualPrefix(formatFromPriceDual(getExVat("podcast_video")));
+  const audio = stripDualPrefix(formatFromPriceDual(getExVat("podcast_audio"), "consumer", "page"));
+  const video = stripDualPrefix(formatFromPriceDual(getExVat("podcast_video"), "consumer", "page"));
   const full = stripDualPrefix(
-    formatFromPriceDual(getExVat("full_podcast_production")),
+    formatFromPriceDual(getExVat("full_podcast_production"), "consumer", "page"),
   );
   /* החלטת הבעלים D63, 7.10.2026: וידאו = 3 מצלמות והפרק בסוף ההקלטה. הפקה מלאה = אותו דבר ועריכה נוספת */
   return `פודקאסט אודיו ${audio}. פודקאסט וידאו (${PODCAST_VIDEO_CAMERAS_NOTE}, הפרק המלא בסוף ההקלטה) ${video}. הפקה מלאה (צילום + הקלטה + עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}) ${full}. המחיר תלוי בפורמט ובמשך ההקלטה.`;
@@ -114,7 +114,7 @@ export const PODCAST_RECORDING_PRICE_FAQ: AeoFaqItem = {
 
 export function buildPodcastEditingPriceAnswer(): string {
   const perHour = stripDualPrefix(
-    formatFromPriceDual(getExVat("podcast_editing_hour")),
+    formatFromPriceDual(getExVat("podcast_editing_hour"), "consumer", "page"),
   );
   return `עריכת פודקאסט עולה ${perHour} לכל שעת חומר גולמי. כולל ניקוי רעשים, סנכרון ונורמליזציה. פרק מוכן לספוטיפיי ויוטיוב - לפי היקף החומר.`;
 }
@@ -126,9 +126,9 @@ export const PODCAST_EDITING_PRICE_FAQ: AeoFaqItem = {
 };
 
 export function buildDjWeddingPriceAnswer(): string {
-  const premium = stripDualPrefix(formatFromPriceDual(getExVat("dj_premium")));
+  const premium = stripDualPrefix(formatFromPriceDual(getExVat("dj_premium"), "consumer", "page"));
   const yakir = stripDualPrefix(
-    formatFromPriceDual(getExVat("dj_yakir_personal")),
+    formatFromPriceDual(getExVat("dj_yakir_personal"), "consumer", "page"),
   );
   /* החלטות 5.10.2026 (DJ): מחיר לאירוע, לא לפי שעות. היה "(כ-4 שעות)" */
   return `תקליטן מהצוות ${premium}. יקיר כהן אישית על הקונסולה ${yakir}. ${DJ_PER_EVENT_SHORT}: מגיעים עד שהאירוע נגמר. המחיר תלוי באולם, באזור ובאטרקציות - הצעה מפורטת לפני אישור.`;
@@ -160,7 +160,7 @@ export const DJ_WEDDING_VOICE_FAQ: AeoFaqItem = {
 };
 
 export function buildVoucherGiftPriceAnswer(): string {
-  const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour")));
+  const half = stripDualPrefix(formatFromPriceDual(getExVat("studio_half_hour"), "consumer", "page"));
   return `שובר מתנה לאולפן או אירוע ${half}. טווח נפוץ לחבילה משודרגת: 2,500 עד 3,200 ₪ לפני מע״מ. המחיר הסופי לפי סוג השירות.`;
 }
 
@@ -178,7 +178,7 @@ export const VOUCHER_GIFT_VOICE_FAQ: AeoFaqItem = {
 
 export function buildAttractionsEventPriceAnswer(): string {
   const from = stripDualPrefix(
-    formatFromPriceDual(getExVat("event_attraction_1")),
+    formatFromPriceDual(getExVat("event_attraction_1"), "consumer", "page"),
   );
   return `אטרקציה בודדת לאירוע ${from}. חבילות עשן וזיקוקים לפי היקף האירוע. מחיר סופי אחרי פרטי אולם ושעות.`;
 }
@@ -196,7 +196,7 @@ export const ATTRACTIONS_EVENT_VOICE_FAQ: AeoFaqItem = {
 };
 
 export function buildVocalFixOnlinePriceAnswer(): string {
-  const from = stripDualPrefix(formatFromPriceDual(getExVat("ai_voice_enhance")));
+  const from = stripDualPrefix(formatFromPriceDual(getExVat("ai_voice_enhance"), "consumer", "page"));
   return `תיקון זיופים ושיפור ווקאלי מרחוק ${from} לקובץ קצר. מיקס ומאסטרינג לפי אורך החומר. מסירה בדרך כלל תוך 24 שעות.`;
 }
 

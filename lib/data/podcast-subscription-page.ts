@@ -15,7 +15,7 @@
  * להוסיף את הדף למפת האתר ולניווט.
  */
 import { getExVat } from "@/lib/data/pricing-catalog";
-import { formatPrice } from "@/lib/data/pricing-display";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 
 export const PODCAST_SUBSCRIPTION_PATH = "/podcast/subscription";
 export const PODCAST_SUBSCRIPTION_TITLE = "מנוי חודשי להפקת פודקאסט";
@@ -101,7 +101,7 @@ export const PODCAST_SUBSCRIPTION_FAQS: readonly SubscriptionFaq[] = [
   { question: "אפשר לעבור בין מסלולים באמצע התקופה?", answer: "אפשר לעבור בין מסלולים בתחילת כל חודש." },
   {
     question: "האם הפרקים נשמרים אצלכם אחרי שנשלחו?",
-    answer: `אחרי שהפרק נשלח אליכם, השירות הושלם. ברוב המקרים אנחנו שומרים גיבויים, אבל מתחייבים לשמור רק כשהובטח, או כשביקשתם שמירה כחלק מהשירות. מי שרוצה ודאות יכול להוסיף שמירה קבועה בענן שלנו, בלי תאריך תפוגה, ב-${formatPrice(getExVat("cloud_storage_permanent")).inline} לכל פרק, תשלום חד-פעמי.`,
+    answer: `אחרי שהפרק נשלח אליכם, השירות הושלם. ברוב המקרים אנחנו שומרים גיבויים, אבל מתחייבים לשמור רק כשהובטח, או כשביקשתם שמירה כחלק מהשירות. מי שרוצה ודאות יכול להוסיף שמירה קבועה בענן שלנו, בלי תאריך תפוגה, ב-${formatPagePrice(getExVat("cloud_storage_permanent")).inline} לכל פרק, תשלום חד-פעמי.`,
   },
 ];
 
