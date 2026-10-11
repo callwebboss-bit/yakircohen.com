@@ -10,6 +10,7 @@ import {
   PRICE_FALLBACK_LABEL,
 } from "./resolve-price";
 import { getUpsellsForService } from "./upsells";
+import { isCatalogPriceFrom } from "@/lib/data/pricing-catalog";
 
 export const LEAD_FLOW_WA_MAX_CHARS = 800;
 
@@ -30,10 +31,11 @@ function truncateMessage(text: string, max = LEAD_FLOW_WA_MAX_CHARS): string {
 export function buildLeadFlowWhatsAppText(input: LeadFlowMessageInput): string {
   const service = getLeadFlowService(input.serviceId);
   const tier = PACKAGE_TIERS[input.serviceId][input.tierId];
+  const tierFrom = isCatalogPriceFrom(tier.catalogId);
   const lines: string[] = [
     `בקשת הצעה - ${service?.label ?? input.serviceId}`,
     `חבילה: ${tier.title}`,
-    formatLeadFlowWhatsAppPrice(input.tierCatalogExVat, "מחיר חבילה נכון לכרגע"),
+    formatLeadFlowWhatsAppPrice(input.tierCatalogExVat, "מחיר חבילה נכון לכרגע", tierFrom),
   ];
 
   const answerBits = Object.entries(input.answerLabels)
@@ -47,10 +49,12 @@ export function buildLeadFlowWhatsAppText(input: LeadFlowMessageInput): string {
     input.selectedUpsellIds.includes(u.id),
   );
   const upsellEx: (number | null)[] = [];
+  let anyFrom = tierFrom;
   if (upsells.length) {
     const parts = upsells.map((u) => {
       const ex = tryGetExVat(u.catalogId);
       upsellEx.push(ex);
+      if (isCatalogPriceFrom(u.catalogId)) anyFrom = true;
       return `${u.label} (${ex === null ? PRICE_FALLBACK_LABEL : `${ex} ₪ + מע״מ`})`;
     });
     lines.push(`תוספות: ${parts.join(", ")}`);
@@ -60,7 +64,7 @@ export function buildLeadFlowWhatsAppText(input: LeadFlowMessageInput): string {
   lines.push(
     total === null
       ? `סה״כ: ${PRICE_FALLBACK_LABEL}`
-      : formatLeadFlowWhatsAppPrice(total, "סה״כ נכון לכרגע"),
+      : formatLeadFlowWhatsAppPrice(total, "סה״כ נכון לכרגע", anyFrom),
   );
 
   return truncateMessage(lines.join("\n"));

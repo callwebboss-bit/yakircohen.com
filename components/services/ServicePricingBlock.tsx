@@ -1,7 +1,7 @@
 ﻿import type { ServicePricingTier } from "@/lib/data/services";
 import CheckoutTrustMicro from "@/components/legal/CheckoutTrustMicro";
 import PriceScopeDisplay, { resolveBillingDataAttr } from "@/components/booking/PriceScopeDisplay";
-import { getSuitedForById, getWithEditingById } from "@/lib/data/pricing-catalog";
+import { getSuitedForById, getWithEditingById, isCatalogPriceFrom } from "@/lib/data/pricing-catalog";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { whatsappQuoteCta } from "@/lib/data/conversion-copy";
 import { buildPricingInquiryMessage } from "@/lib/whatsapp-closing";
@@ -50,6 +50,8 @@ export default function ServicePricingBlock({
             const whatsappText = buildPricingInquiryMessage({
               packageLabel,
               priceExVat: tier.priceExVat,
+              /* כרטיס "מ-..." או מחיר התחלה בקטלוג: ההודעה לא אומרת "סופי" */
+              priceFrom: tier.price.trim().startsWith("מ-") || isCatalogPriceFrom(tier.catalogId),
               source: source ?? serviceTitle,
             });
             const whatsappHref = buildWhatsAppHref({

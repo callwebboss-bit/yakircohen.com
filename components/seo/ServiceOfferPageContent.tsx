@@ -32,6 +32,8 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
   const whatsappText = buildPricingInquiryMessage({
     packageLabel: page.whatsapp.packageLabel,
     priceExVat: getExVat(page.whatsapp.priceId),
+    /* "מ-" בעמוד (שורה עם from) או בקטלוג: ההודעה לא אומרת "סופי" */
+    priceFrom: rows.some((row) => row.id === page.whatsapp.priceId && row.from) || undefined,
     source: page.path,
     closerServiceId: page.whatsapp.priceId,
   });

@@ -41,11 +41,11 @@ export function formatLeadFlowPrice(exVat: number | null): {
   };
 }
 
-export function formatLeadFlowWhatsAppPrice(exVat: number | null, label?: string): string {
+export function formatLeadFlowWhatsAppPrice(exVat: number | null, label?: string, from = false): string {
   if (exVat === null || Number.isNaN(exVat)) {
     return label ? `${label}: ${PRICE_FALLBACK_LABEL}` : PRICE_FALLBACK_LABEL;
   }
-  return formatPriceLine(exVat, label);
+  return formatPriceLine(exVat, label, { from });
 }
 
 export function sumExVat(amounts: readonly (number | null)[]): number | null {

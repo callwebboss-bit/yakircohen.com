@@ -9,7 +9,7 @@ import {
 } from "@/lib/constants";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { formatNis, withVat } from "@/lib/data/pricing";
-import { formatPriceLine } from "@/lib/data/pricing-catalog";
+import { formatPriceLine, isCatalogPriceFrom } from "@/lib/data/pricing-catalog";
 import { progressiveIntentLine } from "@/lib/progressive-booking-message";
 import { appendYcLeadTag } from "@/lib/yc-lead-tag";
 
@@ -28,8 +28,8 @@ export function buildNeedsDiscoveryOpener(): string {
   return NEEDS_DISCOVERY_SCRIPT.join("\n");
 }
 
-export function buildPriceLine(exVat: number, label?: string): string {
-  return formatPriceLine(exVat, label);
+export function buildPriceLine(exVat: number, label?: string, options?: { from?: boolean }): string {
+  return formatPriceLine(exVat, label, options);
 }
 
 /**
@@ -103,6 +103,8 @@ export type ClosingMessageOptions = {
   packageLabel?: string | null;
   /** מחיר לפני מע״מ */
   priceExVat?: number | null;
+  /** מחיר התחלה ("מ-"). בלי ערך: לפי priceFrom בקטלוג של closerServiceId */
+  priceFrom?: boolean;
   /** מחיר כולל מע״מ (אם כבר מחושב) */
   totalWithVat?: number | null;
   summaryLines?: readonly { label: string; value: string }[];
@@ -173,6 +175,7 @@ export function buildClosingMessage({
   customerNeed,
   packageLabel,
   priceExVat,
+  priceFrom,
   totalWithVat,
   summaryLines = [],
   source,
@@ -257,7 +260,7 @@ export function buildClosingMessage({
   }
 
   if (priceExVat !== undefined && priceExVat !== null) {
-    lines.push(`*מחיר:* ${buildPriceLine(priceExVat)}`);
+    lines.push(`*מחיר:* ${buildPriceLine(priceExVat, undefined, { from: priceFrom ?? isCatalogPriceFrom(closerServiceId) })}`);
   } else if (total !== undefined) {
     lines.push(`*סה"כ מוערך:* ${formatNis(total)} (כולל מע״מ)`);
   }
@@ -357,6 +360,7 @@ export type SimpleLeadOptions = {
   customerNeed?: string | null;
   summaryLines?: readonly { label: string; value: string }[];
   priceExVat?: number | null;
+  priceFrom?: boolean;
   source?: string | null;
   intent?: ClosingIntent;
   closerServiceId?: string | null;
@@ -367,6 +371,8 @@ export type SimpleLeadOptions = {
 export function buildPricingInquiryMessage(options: {
   packageLabel: string;
   priceExVat?: number | null;
+  /** מחיר התחלה ("מ-"). בלי ערך: לפי priceFrom בקטלוג של closerServiceId */
+  priceFrom?: boolean;
   source?: string | null;
   closerServiceId?: string | null;
   ycForm?: string | null;
@@ -375,7 +381,8 @@ export function buildPricingInquiryMessage(options: {
     `שלום, אשמח לשמוע על ${options.packageLabel}`,
   ];
   if (options.priceExVat !== undefined && options.priceExVat !== null) {
-    lines.push(`*מחיר:* ${buildPriceLine(options.priceExVat)}`);
+    const from = options.priceFrom ?? isCatalogPriceFrom(options.closerServiceId);
+    lines.push(`*מחיר:* ${buildPriceLine(options.priceExVat, undefined, { from })}`);
   }
   if (options.source?.trim()) {
     lines.push("");
@@ -402,6 +409,7 @@ export function buildSimpleLeadMessage(options: SimpleLeadOptions): string {
     customerNeed: options.customerNeed,
     summaryLines: options.summaryLines,
     priceExVat: options.priceExVat,
+    priceFrom: options.priceFrom,
     source: options.source,
     intent: options.intent ?? "continue_chat",
     closerServiceId: options.closerServiceId,

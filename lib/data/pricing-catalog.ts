@@ -1646,13 +1646,28 @@ export function vatAmount(exVat: number): number {
  * ויצרה "מ-כרגע: מ-990". הסדר ex-VAT ואז הסכום הסופי נשאר כאן בכוונה: זו הודעה
  * שהלקוח שולח לנו, והחשבון המפורש בה הוא מה שהבעלים מאשר בטלפון.
  */
-export function formatPriceLine(exVat: number, label?: string): string {
+export function formatPriceLine(
+  exVat: number,
+  label?: string,
+  options?: { from?: boolean },
+): string {
   const vat = vatAmount(exVat);
   const total = withVatLocal(exVat);
+  /* מחיר התחלה אינו סופי (הבעלים 11.10.2026): "סופי" על "מ-1,003" אמר ללקוח
+     שזה המחיר, כשבעמוד כתוב שהסופי נקבע אחרי שבודקים */
+  const from = options?.from ? "מ-" : "";
   const base = label
-    ? `${label}: ${formatNisLocal(exVat)}`
-    : formatNisLocal(exVat);
-  return `${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
+    ? `${label}: ${from}${formatNisLocal(exVat)}`
+    : `${from}${formatNisLocal(exVat)}`;
+  return options?.from
+    ? `${base} + מע״מ ${formatNisLocal(vat)} = מ-${formatNisLocal(total)} (מחיר התחלה)`
+    : `${base} + מע״מ ${formatNisLocal(vat)} = ${formatNisLocal(total)} סופי`;
+}
+
+/** מחיר התחלה בקטלוג (priceFrom). מזהה שאינו בקטלוג, או בלי מזהה: false */
+export function isCatalogPriceFrom(id: string | null | undefined): boolean {
+  if (!id) return false;
+  return Boolean((PRICING_CATALOG as readonly PriceItem[]).find((item) => item.id === id)?.priceFrom);
 }
 
 /** קהל המחיר: צרכן רואה כולל מע״מ קודם, עסק רואה לפני מע״מ קודם (החלטת הבעלים 2.10.2026) */
