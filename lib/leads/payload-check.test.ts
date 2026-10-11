@@ -196,7 +196,7 @@ const CASES: Case[] = [
     formId: "smart_form_book",
     body: () =>
       buildSmartFormLeadEmailBody({
-        categoryId: "family",
+        categoryId: "song",
         selectedChipIds: ["cover", "song_pitch"],
         name: CONTACT.name,
         contactMethod: PHONE,

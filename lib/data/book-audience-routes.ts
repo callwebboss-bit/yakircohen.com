@@ -28,17 +28,18 @@ export const BOOK_SUPER_CATEGORIES: {
   icon: string;
   routeIds: readonly string[];
 }[] = [
-  {
-    id: "events",
-    label: "אירועים והפקות",
-    icon: "🎤",
-    routeIds: ["events-attractions", "dj-vip", "singer-amplification", "photo-clips"],
-  },
+  /* ק7 (11.10.2026, D93): הקלטות ואולפן (שיר, מתנה ופודקאסט) לפני אירועים */
   {
     id: "studio",
     label: "הקלטות ואולפן",
     icon: "🎧",
     routeIds: ["family-gifts", "podcast-content"],
+  },
+  {
+    id: "events",
+    label: "אירועים והפקות",
+    icon: "🎤",
+    routeIds: ["events-attractions", "dj-vip", "singer-amplification", "photo-clips"],
   },
   {
     id: "learn",

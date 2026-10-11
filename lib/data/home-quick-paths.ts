@@ -17,7 +17,11 @@ export type HomeQuickPath = {
   utmCampaign: string;
 };
 
-/** 4 מסלולי כניסה מהירים - מחירים מ-pricing-catalog */
+/**
+ * 4 מסלולי כניסה מהירים - מחירים מ-pricing-catalog.
+ * ק7 (11.10.2026, D93): פודקאסט לפני אירועים, באותו סדר כמו הדלתות שמעליהם.
+ * משמש גם את עמוד 404 (app/not-found.tsx).
+ */
 export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
   {
     id: "studio",
@@ -33,20 +37,6 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
     utmCampaign: "home_quick_studio",
   },
   {
-    id: "events",
-    door: "event",
-    emoji: "🎉",
-    title: "אירועים והנחיה",
-    description:
-      "שירותי DJ מקצועיים, מערכות הגברה מתקדמות, תאורה ואפקטים מיוחדים.",
-    suitedFor: "חתונות, בר/בת מצווה ואירועי חברה",
-    /* היה event_attraction_1 (אטרקציה בודדת) מתחת לכותרת שמדברת על DJ. WP2 */
-    priceId: "dj_premium",
-    priceLabel: DJ_TEAM_NOTE,
-    href: "/events",
-    utmCampaign: "home_quick_events",
-  },
-  {
     id: "podcast",
     door: "podcast",
     emoji: "🎧",
@@ -59,6 +49,20 @@ export const HOME_QUICK_PATHS: readonly HomeQuickPath[] = [
     priceLabel: "פרק אודיו ערוך, מוכן להפצה",
     href: "/podcast",
     utmCampaign: "home_quick_podcast",
+  },
+  {
+    id: "events",
+    door: "event",
+    emoji: "🎉",
+    title: "אירועים והנחיה",
+    description:
+      "שירותי DJ מקצועיים, מערכות הגברה מתקדמות, תאורה ואפקטים מיוחדים.",
+    suitedFor: "חתונות, בר/בת מצווה ואירועי חברה",
+    /* היה event_attraction_1 (אטרקציה בודדת) מתחת לכותרת שמדברת על DJ. WP2 */
+    priceId: "dj_premium",
+    priceLabel: DJ_TEAM_NOTE,
+    href: "/events",
+    utmCampaign: "home_quick_events",
   },
   {
     id: "academy",

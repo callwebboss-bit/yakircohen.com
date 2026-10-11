@@ -14,10 +14,14 @@ import LazyYouTubePlayer from "@/components/marketing/LazyYouTubePlayer";
 import Link from "@/components/ui/IntentLink";
 import {
   SMART_FORM_ANTI_LEAD_MESSAGE,
-  SMART_FORM_STEP1_CATEGORIES,
+  SMART_FORM_STEP1_PRIMARY,
+  SMART_FORM_STEP1_SECONDARY,
   getSmartFormCategory,
+  type SmartFormCategory,
   type SmartFormCategoryId,
 } from "@/lib/data/smart-form-matrix";
+import { formatPagePrice } from "@/lib/data/pricing-display";
+import { trackConversion } from "@/lib/analytics/conversion-events";
 import {
   SMART_FORM_DELIVERY_NOTE,
   getSmartFormEnrichment,
@@ -35,7 +39,7 @@ import {
   readBookCoreContact,
   saveBookCoreContact,
 } from "@/lib/book-wizard-cro/shared-contact";
-import { getSuitedForById } from "@/lib/data/pricing-catalog";
+import { getExVat, getSuitedForById } from "@/lib/data/pricing-catalog";
 import {
   attachLeadCode,
   createSubmissionId,
@@ -52,6 +56,13 @@ import { formatIlMobileDisplay, normalizeIlMobile } from "@/lib/leads/format-pho
 import { SITE_URL } from "@/lib/site-url";
 
 const TOUCH_BTN = "min-h-[48px] touch-manipulation select-none";
+
+/** מחיר אחד, כולל מע״מ, בכרטיס הגדול (D86). מה-catalogId של הכרטיס */
+function step1PriceLabel(item: SmartFormCategory): string | null {
+  if (!item.catalogId) return null;
+  return formatPagePrice(getExVat(item.catalogId), { from: item.cardPriceFrom ?? true })
+    .headline;
+}
 
 function looksLikeEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -147,6 +158,17 @@ export default function SmartFormClient() {
   const goToStep = (nextStep: number) => setStep(nextStep);
 
   const selectCategory = (id: SmartFormCategoryId) => {
+    /* ק7: כרטיסי השלב הראשון הם כפתורים ולא קישורים, ולכן המאזין של
+       OutboundLeadTracker לא רואה אותם. אותו אירוע door_select, ישירות */
+    const chosen = getSmartFormCategory(id);
+    if (chosen) {
+      trackConversion("door_select", {
+        page: "/book",
+        surface: "book_step1",
+        door: chosen.door,
+        item: chosen.id,
+      });
+    }
     setCategoryId(id);
     setSelectedChipIds([]);
     setError(null);
@@ -397,35 +419,68 @@ export default function SmartFormClient() {
           >
             {/* Step 1 */}
             <div className="w-full flex-shrink-0" dir="rtl" aria-hidden={step !== 1} inert={step !== 1}>
-              <div className="mb-4 overflow-hidden rounded-xl border border-border">
-                <LazyYouTubePlayer
-                  videoId={YOUTUBE_SERVICE_EMBED_IDS["studio-hub"]}
-                  title="מה מחכה לכם באולפן"
-                  className="aspect-video w-full"
-                />
-              </div>
               <h2 id="smart-form-heading" className="text-xl font-bold mb-2 text-foreground">
                 מה באת לעשות?
               </h2>
               <p className="mb-6 text-sm text-muted-foreground">
                 בחרו כרטיס אחד - אחר כך פרטים והערכת תקציב
               </p>
+              {/* D93 (11.10.2026): שני כרטיסים גדולים, שיר או שיר במתנה ופודקאסט,
+                  וכל השאר גלויים בקטן מתחתם, בלי לחיצה נוספת. הסרטון ירד מתחת
+                  לבחירה, כדי שהכרטיסים יהיו הדבר הראשון בשלב */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {SMART_FORM_STEP1_CATEGORIES.map((item) => (
+                {SMART_FORM_STEP1_PRIMARY.map((item) => {
+                  const price = step1PriceLabel(item);
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => selectCategory(item.id)}
+                      data-door={item.door}
+                      data-door-item={item.id}
+                      className={`${TOUCH_BTN} flex flex-col items-start gap-2 rounded-2xl border-2 border-brand-red/30 bg-surface p-5 text-right transition-all hover:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red`}
+                    >
+                      <span className="block text-lg font-bold text-foreground">{item.title}</span>
+                      {item.cardLine ? (
+                        <span className="block text-sm leading-relaxed text-muted-foreground">
+                          {item.cardLine}
+                        </span>
+                      ) : null}
+                      {price ? (
+                        <span className="block text-sm font-semibold text-brand-red-text">
+                          {price}
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-6 mb-2 text-sm font-semibold text-foreground">עוד אפשרויות</p>
+              <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                {SMART_FORM_STEP1_SECONDARY.map((item) => (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => selectCategory(item.id)}
-                    className={`${TOUCH_BTN} p-6 text-right border border-border rounded-xl hover:border-brand-red hover:bg-surface transition-all focus:outline-none focus:ring-2 focus:ring-brand-red`}
+                    data-door={item.door}
+                    data-door-item={item.id}
+                    className={`${TOUCH_BTN} rounded-xl border border-border px-3 py-2.5 text-right text-sm hover:border-brand-red hover:bg-surface transition-all focus:outline-none focus:ring-2 focus:ring-brand-red`}
                   >
                     <span className="block font-semibold text-foreground">{item.title}</span>
                     {item.antiLead ? (
-                      <span className="mt-1 block text-xs text-muted-foreground">
+                      <span className="mt-0.5 block text-xs text-muted-foreground">
                         בדיקת התאמה
                       </span>
                     ) : null}
                   </button>
                 ))}
+              </div>
+              <div className="mt-6 overflow-hidden rounded-xl border border-border">
+                <LazyYouTubePlayer
+                  videoId={YOUTUBE_SERVICE_EMBED_IDS["studio-hub"]}
+                  title="מה מחכה לכם באולפן"
+                  className="aspect-video w-full"
+                />
               </div>
               <p className="mt-4 text-center text-[11px] text-muted-foreground">
                 אנחנו משרתים את מודיעין והסביבה באהבה ובשמחה

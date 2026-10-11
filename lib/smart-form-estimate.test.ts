@@ -20,7 +20,7 @@ describe("smart-form-estimate", () => {
   });
 
   it("sums upsells from catalog", () => {
-    const est = calculateSmartFormEstimate("family", ["cover", "song_pitch"]);
+    const est = calculateSmartFormEstimate("song", ["cover", "song_pitch"]);
     assert.equal(est.baseCatalogId, "song_recording");
     assert.equal(
       est.totalExVat,
@@ -29,7 +29,7 @@ describe("smart-form-estimate", () => {
   });
 
   it("offers no express chip for songs (2.10.2026)", () => {
-    const est = calculateSmartFormEstimate("family", ["cover", "express"]);
+    const est = calculateSmartFormEstimate("song", ["cover", "express"]);
     assert.equal(est.totalExVat, getExVat("song_recording"));
   });
 
@@ -72,7 +72,7 @@ describe("smart-form-url", () => {
 
   it("builds closer-safe plain text with exVat and vatRate", () => {
     const state: SmartFormState = {
-      categoryId: "family",
+      categoryId: "song",
       selectedChipIds: ["cover"],
       name: "נועה",
       contactMethod: "0501234567",
