@@ -253,6 +253,57 @@ describe("legacy redirects: lowercase hex from WordPress links (8.10.2026)", () 
   });
 });
 
+describe("legacy redirects: D57 old URLs that were still 404 or landed on /blog (11.10.2026)", () => {
+  /* curl ב-11.10.2026: שש הראשונות החזירו 404, וחמש עם התאריך נפלו ל-"/2019/:path*"
+     ונחתו על /blog. כל אחת צריכה להגיע ליעד בקפיצה אחת: אותיות hex גדולות
+     וקטנות, עם סלאש ובלעדיו. www מכוסה כי הכללים לא תלויים ב-host, והיעד מלא
+     (ראו "every destination is absolute" למעלה). */
+  const added: ReadonlyArray<readonly [string, string]> = [
+    ["/שיר-כניסה-לחופה-הקלטת-ווקאלית-מקצועית", "/studio/recording-song-modiin"],
+    ["/הקלטת-שיר-בר-בת-מצווה", "/studio/recording-song-modiin"],
+    ["/שירים-לחופה", "/blog/wedding-songs-chuppah"],
+    ["/שירים-חופה", "/blog/wedding-songs-chuppah"],
+    ["/הקלטת-דרשה-לבר-בת-מצווה", "/blog/bar-mitzvah-speech"],
+    ["/שיר-כניסה-לחופה-איך-לבחור-זמר-איכותי", "/blog/wedding-songs-chuppah"],
+    ["/2019/11/05/שיר-כניסה-לחופה", "/blog/wedding-songs-chuppah"],
+    ["/2019/11/05/שירים-חופה-ההמלצות-של-די-גיי-יקיר-כהן", "/blog/wedding-songs-chuppah"],
+    ["/2019/11/05/בחירת-שיר-כניסה-לחופה-כל-מה-שרציתם-לדע", "/blog/wedding-songs-chuppah"],
+    ["/2019/11/05/שירים-לחופה-איך-לבחור-זמר-איכותי", "/blog/wedding-songs-chuppah"],
+    ["/2019/11/26/הקלטת-דרשה-לבר-מצווה", "/blog/bar-mitzvah-speech"],
+  ];
+
+  it("each one reaches its page in one hop, upper and lower case hex, with and without the slash", () => {
+    for (const [old, target] of added) {
+      const upper = requestPathname(old);
+      const lower = lowerHex(upper);
+      for (const pathname of [upper, `${upper}/`, lower, `${lower}/`]) {
+        assert.equal(firstManifestDestination(pathname), target, `${old} as ${pathname}`);
+      }
+    }
+  });
+
+  it("the dated ones sit before the /2019 catch-all, and the catch-all still sends other posts to /blog", () => {
+    const sources = getLegacyRedirects().map((r) => decodeURI(bareSource(r.source)));
+    const catchAll = sources.indexOf("/2019/:path*");
+    assert.ok(catchAll >= 0);
+    for (const [old] of added.filter(([path]) => path.startsWith("/2019/"))) {
+      const at = sources.indexOf(old);
+      assert.ok(at >= 0 && at < catchAll, old);
+    }
+    assert.equal(firstManifestDestination(requestPathname("/2019/11/05/פוסט-אחר/")), "/blog");
+  });
+
+  it("the short sources match only themselves, and the undated /הקלטת-דרשה-לבר-מצווה keeps its service target", () => {
+    /* "/שירים-לחופה" ו-"/שירים-חופה" קצרות. הכלל מעוגן לסוף הנתיב, ולא תופס כתובת ארוכה יותר */
+    assert.equal(firstManifestDestination(requestPathname("/שירים-לחופה-כתובת-שלא-קיימת")), null);
+    assert.equal(firstManifestDestination(requestPathname("/שירים-חופה-כתובת-שלא-קיימת")), null);
+    assert.equal(
+      firstManifestDestination(requestPathname("/הקלטת-דרשה-לבר-מצווה")),
+      "/studio/blessings/bar-mitzvah",
+    );
+  });
+});
+
 describe("clearCartQuery (ED-12)", () => {
   it("drops the whole query when add-to-cart is present", () => {
     const url = new URL("https://yakircohen.com/?add-to-cart=123&quantity=1&utm_source=fb");
