@@ -269,7 +269,7 @@ function PaymentSection({
       {depositMessage ? (
         <div className="flex flex-wrap items-center gap-2 border-t border-dashed border-border pt-2">
           {showDeposit ? (
-            chip("deposit", "העתק לינק מקדמה 200 ₪")
+            chip("deposit", "העתק לינק מקדמה")
           ) : (
             <button
               type="button"
