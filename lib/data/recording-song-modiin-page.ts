@@ -15,6 +15,7 @@ export type RecordingSongExampleVideo = {
   title: string;
   /** טקסט תומך מתחת לכותרת (אופציונלי) */
   description?: string;
+  badge?: string;
 };
 
 export const RECORDING_SONG_PROCESS_STEPS: readonly RecordingSongProcessStep[] = [

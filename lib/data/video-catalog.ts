@@ -25,4 +25,6 @@ export type ShowcaseVideoItem = {
   videoId: string;
   title: string;
   description?: string;
+  /** תווית קטנה מעל השם בכרטיס, למשל "טיפ" */
+  badge?: string;
 };

@@ -8,6 +8,7 @@ import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph"
 import HubDecisionMatrix from "@/components/seo/HubDecisionMatrix";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
 import AudioShowcase from "@/components/seo/AudioShowcase";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import { ACADEMY_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import ServiceBlogStrip from "@/components/blog/ServiceBlogStrip";
@@ -727,6 +728,18 @@ export default function AcademyPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── טיפים מהאולפן: הארכיון עבר לכאן מתיק העבודות (שלב ב, 12.10.2026) ── */}
+      <section className="border-t border-border bg-background py-14 sm:py-16">
+        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+          <ShowcaseVideoSection
+            playlistId="education-tips"
+            sectionId="studio-tips"
+            portfolioCards
+            schemaVideoLimit={6}
+          />
         </div>
       </section>
 

@@ -23,6 +23,8 @@ export type RecordingSongExampleVideosProps = {
    * מגיע מהסקשן ולא מכל נגן בנפרד (11.10.2026: 194 רשומות על 126 סרטונים).
    */
   portfolioCards?: boolean;
+  /** רמת הכותרת של כרטיס בתיק העבודות (ברירת מחדל h3) */
+  cardHeadingLevel?: 3 | 4;
 };
 
 export default function RecordingSongExampleVideos({
@@ -32,8 +34,9 @@ export default function RecordingSongExampleVideos({
   className,
   autoPlayFeatured: _autoPlayFeatured = false,
   portfolioCards = false,
+  cardHeadingLevel = 3,
 }: RecordingSongExampleVideosProps) {
-  const TitleTag = portfolioCards ? "h3" : "p";
+  const TitleTag = portfolioCards ? (cardHeadingLevel === 4 ? "h4" : "h3") : "p";
   const [visibleCount, setVisibleCount] = useState(initialVisible);
   const cap = Math.min(visibleCount, videos.length);
   const visible = videos.slice(0, cap);
@@ -43,21 +46,34 @@ export default function RecordingSongExampleVideos({
 
   return (
     <div className={className}>
-      <p className="mb-4 text-center text-xs text-muted-foreground">
-        {VIDEO_WATCH_LABEL}
-        {visible.length > 1 ? " - לחצו לצפייה" : null}
-      </p>
+      {portfolioCards ? null : (
+        <p className="mb-4 text-center text-xs text-muted-foreground">
+          {VIDEO_WATCH_LABEL}
+          {visible.length > 1 ? " - לחצו לצפייה" : null}
+        </p>
+      )}
 
       <ul
         className={cn(
-          "grid gap-6",
-          visible.length === 1
-            ? "mx-auto max-w-3xl grid-cols-1"
-            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+          portfolioCards && visible.length > 1
+            ? /* בנייד: שורה שגוללת לרוחב במקום עמודה של כרטיסים ברוחב מלא (12.10.2026) */
+              "-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+            : "grid gap-6",
+          portfolioCards && visible.length > 1
+            ? null
+            : visible.length === 1
+              ? "mx-auto max-w-3xl grid-cols-1"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
         )}
       >
         {visible.map((video) => (
-          <li key={video.videoId} className="flex flex-col">
+          <li
+            key={video.videoId}
+            className={cn(
+              "flex flex-col",
+              portfolioCards && visible.length > 1 ? "w-[78%] shrink-0 snap-start sm:w-auto" : null,
+            )}
+          >
             <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
               <YouTube
                 videoId={video.videoId}
@@ -67,7 +83,17 @@ export default function RecordingSongExampleVideos({
                 showTitle={!portfolioCards}
               />
             </div>
-            <TitleTag className="mt-3 text-sm font-semibold text-foreground">
+            {video.badge ? (
+              <p className="mt-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-brand-red">
+                {video.badge}
+              </p>
+            ) : null}
+            <TitleTag
+              className={cn(
+                "text-sm font-semibold text-foreground",
+                video.badge ? "mt-1" : "mt-3",
+              )}
+            >
               {video.title}
             </TitleTag>
             {video.description ? (
