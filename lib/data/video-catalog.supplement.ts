@@ -190,7 +190,7 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
   },
   {
     videoId: "5pBisBkfTEg",
-    title: "סוף הלילה ברחבה עם יקיר כהן הפקות",
+    title: "סוף הלילה ברחבה, 1:30 בלילה",
     youtubeUrl: "https://www.youtube.com/watch?v=5pBisBkfTEg",
     tags: ["dj-events"],
     services: ["events-dj", "events-attractions"],
