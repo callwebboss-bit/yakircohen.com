@@ -52,6 +52,8 @@ const SCAN_DIRS = "lib components app public";
    החלטת הבעלים 7.10.2026: השיר המקורי עלה מ-500 ל-850 לפני מע״מ. */
 const CATALOG_ONLY = [
   { id: "song_original_mitzvah", label: "שיר מקורי לבר או בת מצווה" },
+  /* 11.10.2026: אותו פריט, פתוח לכל אירוע. השם הישן עדיין בפרוזה של הבלוג. */
+  { id: "song_original_mitzvah", label: "שיר מקורי לכל אירוע" },
   /* החלטת הבעלים D72, 7.10.2026: 10 תמונות עלו מ-250 ל-350. 250 עדיין מחיר תקף
      של vocal_fix_short, damaged_recording_rescue ועוד, והמחיר של הפריט הזה לא
      נכתב כפרוזה בשום מקום */
@@ -234,8 +236,9 @@ for (const file of files) {
       values.add(Number((m[1] || m[2]).replace(/,/g, "")));
     }
     for (const c of narrow) {
-      const label = CATALOG_ONLY.find((e) => e.id === c.id).label;
-      if (!line.includes(label)) continue;
+      /* לפריט יכולים להיות כמה שמות (שם ישן שעוד בפרוזה ושם חדש) */
+      const labels = CATALOG_ONLY.filter((e) => e.id === c.id).map((e) => e.label);
+      if (!labels.some((label) => line.includes(label))) continue;
       const old = [c.from, Math.round(c.from * 1.18)];
       for (const value of values) {
         if (old.includes(value)) {

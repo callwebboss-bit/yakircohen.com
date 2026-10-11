@@ -176,6 +176,14 @@ export type ServicePageEntityInput = {
   title: string;
   description: string;
   faqs?: readonly FaqSchemaInput[];
+  /**
+   * הצעות מחיר מהקטלוג, לפני מע״מ. נפלטות כ-Offer בתוך ה-Service, עם המחיר כולל
+   * מע״מ ב-price ולפני מע״מ ב-priceSpecification, כמו buildPricingOffersSchema.
+   * בלי הפרמטר הפלט לא משתנה.
+   */
+  offers?: readonly { id: string; name: string; priceExVat: number; priceFrom?: boolean }[];
+  /** YYYY-MM-DD, נפלט רק כשיש offers */
+  priceValidUntil?: string;
 };
 
 /**
@@ -189,6 +197,8 @@ export function buildServicePageEntitySchema({
   title,
   description,
   faqs,
+  offers,
+  priceValidUntil,
 }: ServicePageEntityInput) {
   const pageUrl = absoluteUrl(pagePath.replace(/^\/+/, ""));
 
@@ -205,6 +215,26 @@ export function buildServicePageEntitySchema({
     speakable: SPEAKABLE,
     provider: { "@id": ENTITY_IDS.organization },
     areaServed: SERVICE_AREA_SERVED,
+    ...(offers?.length
+      ? {
+          offers: offers.map((offer) => ({
+            "@type": "Offer",
+            "@id": `${pageUrl}#offer-${offer.id}`,
+            name: offer.name,
+            price: String(withVat(offer.priceExVat)),
+            priceCurrency: "ILS",
+            ...(priceValidUntil ? { priceValidUntil } : {}),
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: offer.priceExVat,
+              priceCurrency: "ILS",
+              valueAddedTaxIncluded: false,
+            },
+            url: pageUrl,
+            availability: "https://schema.org/InStock",
+          })),
+        }
+      : {}),
   };
 
   const graph: Record<string, unknown>[] = [serviceEntity];

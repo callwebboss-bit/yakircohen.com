@@ -124,6 +124,11 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/data/recording-studio-costs-2026": "עלות אולפן הקלטות",
   "/studio/recording-song-modiin/gifts": "חבילות",
   "/studio/recording-song-modiin/gifts/funny-ringtone": "רינגטון מצחיק במתנה",
+  /* עמודי השירותים החדשים, 11.10.2026 (lib/data/service-offers) */
+  "/studio/original-song": "שיר מקורי לכל אירוע",
+  "/studio/group-session": "מסיבת רווקות וסשן קבוצתי",
+  "/studio/class-song": "שיר סיום לגן או לכיתה",
+  "/studio/blessings/enlistment": "שיר או ברכה לגיוס",
   "/matanot": "מתנות",
   "/areas": "אזורי שירות",
   "/studio/virtual-tour": "סיור וירטואלי",

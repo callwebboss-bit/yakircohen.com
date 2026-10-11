@@ -9,6 +9,7 @@ import {
   PROPOSAL_CLIP_VIDEOS,
 } from "@/lib/data/proposal-clip-gifts-page";
 import { RINGTONE_PAGE_PATH } from "@/lib/data/funny-ringtone-page";
+import { ORIGINAL_SONG_PAGE } from "@/lib/data/service-offers/original-song";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
 import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
@@ -127,7 +128,10 @@ export const STUDIO_GIFT_IDEAS: readonly StudioGiftIdea[] = [
       "גם למי שלא זמר/ית",
       "קובץ מוכן לוואטסאפ ולהקרנה",
     ],
-    href: "/studio/recording-song-modiin",
+    /* החלטת הבעלים 11.10.2026: הצעת נישואין באותו מחיר כמו השיר המקורי. הכרטיס
+       מוביל לעמוד השיר המקורי רק אחרי שהוא מתפרסם (draft=false). */
+    href: ORIGINAL_SONG_PAGE.draft ? "/studio/recording-song-modiin" : ORIGINAL_SONG_PAGE.path,
+    priceLine: `${nis(withVat(getExVat("song_original_mitzvah")))} כולל מע״מ: מילים, לחן והקלטה`,
     videoId: PROPOSAL_CLIP_FEATURED_VIDEO_ID,
     videoTitle: PROPOSAL_CLIP_VIDEOS[0]?.title ?? "קליפ מתננה מהאולפן",
     whatsappText:

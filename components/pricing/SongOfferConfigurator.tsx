@@ -230,7 +230,7 @@ export default function SongOfferConfigurator({
       variant === "book"
         ? {
             totalExVat: quote.totalExVat,
-            title: kind === "original" ? "שיר מקורי לבר או בת מצווה" : base.label,
+            title: kind === "original" ? "שיר מקורי לכל אירוע" : base.label,
             ctaLabel: `שלחו בוואטסאפ · ${nis(quote.totalWithVat)}`,
           }
         : null,
@@ -282,7 +282,7 @@ export default function SongOfferConfigurator({
                 },
                 {
                   value: "original" as const,
-                  title: "שיר מקורי לבר או בת מצווה",
+                  title: "שיר מקורי לכל אירוע",
                   description: "כותבים יחד את המילים, עושים לחן ומקליטים",
                 },
               ]
@@ -324,7 +324,7 @@ export default function SongOfferConfigurator({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="text-base font-semibold text-foreground">
-              {kind === "original" ? "שיר מקורי לבר או בת מצווה" : base.label}
+              {kind === "original" ? "שיר מקורי לכל אירוע" : base.label}
             </p>
             <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="מה כלול">
               {(kind === "original" ? ["מילים", "לחן, עד שתי סקיצות", "הקלטה"] : ["הקלטה", "מיקס", "מאסטר"]).map((chip) => (

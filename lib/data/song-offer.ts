@@ -68,9 +68,9 @@ export type { SongOfferCalc, SongOfferQuote, SongParticipantRules, SongPriceLine
 /** שם הבסיס בהודעה ובמייל, עם מה שכלול בו */
 const BASE_LINE_LABEL = "הקלטת שיר (הקלטה, מיקס ומאסטר)";
 
-/** שיר מקורי לבר או בת מצווה: בסיס חלופי בטופס (החלטת הבעלים 6.10.2026) */
+/** שיר מקורי: בסיס חלופי בטופס (החלטת הבעלים 6.10.2026). מ-11.10.2026 לכל אירוע. */
 export const SONG_ORIGINAL_BASE_ID = "song_original_mitzvah" satisfies PriceItemId;
-const ORIGINAL_LINE_LABEL = "שיר מקורי לבר או בת מצווה (מילים, לחן והקלטה)";
+const ORIGINAL_LINE_LABEL = "שיר מקורי לכל אירוע (מילים, לחן והקלטה)";
 
 export type { SongAddonId };
 /* המיפוי של הקישורים הישנים יושב במודול קטן בלי תלויות, ראו שם למה */
@@ -167,7 +167,7 @@ export function getSongQuoteData(): SongQuoteData {
       id: SONG_ORIGINAL_BASE_ID,
       label: ORIGINAL_LINE_LABEL,
       exVat: getExVat(SONG_ORIGINAL_BASE_ID),
-      messageOpening: "שלום, אשמח לשיר מקורי לבר או בת מצווה.",
+      messageOpening: "שלום, אשמח לשיר מקורי.",
     },
     addons: SONG_ADDON_IDS.map((id) => {
       const item = getPriceById(id);

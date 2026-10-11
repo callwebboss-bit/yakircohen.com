@@ -25,7 +25,7 @@ export const SONG_OFFER_PAGE_PATH = "/studio/recording-song-modiin";
 export const SONG_ADDONS_PARAM = "addons";
 /** שם הפרמטר בכתובת שזוכר את מספר המשתתפים, ?participants=4 */
 export const SONG_PARTICIPANTS_PARAM = "participants";
-/** סוג השיר בכתובת, ?song=original לשיר מקורי לבר או בת מצווה. בלי הפרמטר: שיר קיים. */
+/** סוג השיר בכתובת, ?song=original לשיר מקורי (לכל אירוע מ-11.10.2026). בלי הפרמטר: שיר קיים. */
 export const SONG_KIND_PARAM = "song";
 export type SongKind = "cover" | "original";
 /** מזהה שורת תוספת המשתתפים (לא מזהה קטלוג, היא מחברת שני פריטים) */

@@ -655,8 +655,8 @@ describe("song offer: original song for a bar or bat mitzvah (owner 6.10.2026)",
 
   it("the message, the tag and the link back say it is the original song", () => {
     const quote = composeSongOfferQuote(withSongKind(data, "original"), [], 1, { source: "/x" });
-    assert.ok(quote.messageText.startsWith("שלום, אשמח לשיר מקורי לבר או בת מצווה."));
-    assert.ok(quote.messageText.includes("שיר מקורי לבר או בת מצווה (מילים, לחן והקלטה)"));
+    assert.ok(quote.messageText.startsWith("שלום, אשמח לשיר מקורי."));
+    assert.ok(quote.messageText.includes("שיר מקורי לכל אירוע (מילים, לחן והקלטה)"));
     assert.ok(quote.ycTag.includes("song_original_mitzvah"));
     assert.ok(quote.offerHref.includes("song=original"));
     const cover = composeSongOfferQuote(data, [], 1, { source: "/x" });
