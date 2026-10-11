@@ -10,6 +10,7 @@ import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import PodcastSpotifySample from "@/components/seo/PodcastSpotifySample";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import BookPriceDual from "@/components/booking/BookPriceDual";
+import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
 import TrackedCtaLink from "@/components/marketing/TrackedCtaLink";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
@@ -18,6 +19,7 @@ import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
 import { PODCAST_SHOWCASE_VIDEOS } from "@/lib/data/youtube-showcases";
 import {
   PODCAST_RECORDING_AUDIENCES,
+  PODCAST_RECORDING_FACTS,
   PODCAST_RECORDING_FAQS,
   PODCAST_RECORDING_HERO_FEATURES,
   PODCAST_RECORDING_INCLUDED,
@@ -111,9 +113,10 @@ export default function PodcastRecordingPageContent() {
         <ContextualIntroParagraph pathname="/podcast/podcast-recording" className="max-w-3xl" />
 
         <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          אתה רוצה להוציא פודקאסט, אבל כל פעם שאתה מנסה להקליט בבית - יוצא
-          רעשים, הד, ואיכות שמביישת אותך לשתף. הפרק נשאר ב&quot;בקרוב&quot;.
-          אני מבין את זה - פעם אחת שתבוא לאולפן, תבין למה אנשים חוזרים.
+          {/* הנוסח של הבעלים, ברבים ובעברית מתוקנת (אישור הבעלים 11.10.2026) */}
+          רוצים להוציא פודקאסט, אבל כל הקלטה בבית יוצאת עם רעשים והד, ולא נעים
+          לשתף אותה. הפרק נשאר ב&quot;בקרוב&quot;. אני מבין את זה. תבואו פעם אחת
+          לאולפן, ותבינו למה אנשים חוזרים.
         </p>
 
         <ShowcaseVideoSection
@@ -130,10 +133,10 @@ export default function PodcastRecordingPageContent() {
           aria-label="הזמנה מהירה"
         >
           <p className="text-sm font-semibold text-foreground sm:text-base">
-            הפתרון המלא, אתם מגיעים, מדברים, ויוצאים עם פרק מוכן
+            רוצים לבדוק תאריך באולפן?
           </p>
           <p className="mt-2 text-xs text-muted-foreground sm:text-sm">
-            כולל צילום 4K, סאונד אולפני, עריכה מלאה וקבצים מוכנים להעלאה
+            צילום 4K, סאונד אולפני ועריכה, לפי החבילה שתבחרו
           </p>
           <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
             <TrackedCtaLink
@@ -197,6 +200,18 @@ export default function PodcastRecordingPageContent() {
             </Link>
             .
           </p>
+          {/* "המספרים המלאים": שורות מהקטלוג (תשובות הבעלים 11.10.2026) */}
+          <div className="mx-auto mt-8 max-w-3xl rounded-xl border border-border bg-surface p-5">
+            <h3 className="text-base font-semibold text-foreground">המספרים המלאים</h3>
+            <dl className="mt-3 divide-y divide-border/60 text-sm">
+              {PODCAST_RECORDING_FACTS.map((fact) => (
+                <div key={fact.label} className="grid gap-1 py-2.5 sm:grid-cols-[8rem_1fr] sm:gap-4">
+                  <dt className="font-semibold text-foreground">{fact.label}</dt>
+                  <dd className="text-muted-foreground">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </section>
 
         <section aria-labelledby="quality-heading">
@@ -233,12 +248,11 @@ export default function PodcastRecordingPageContent() {
             id="full-production-heading"
             className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
-            צילום + הקלטה + עריכה = {TIME_CLAIMS.podcastSameSecond}
+            צילום, הקלטה ועריכה במקום אחד
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            רוצים פודקאסט מקצועי אבל לא רוצים להתעסק עם ציוד, הקלטה ועריכה?
-            זה בדיוק מה שהשירות הזה עושה. אתם מגיעים, בוחרים חלל, מדברים  - 
-            ויוצאים עם פרק מוכן להעלאה.
+            רוצים פודקאסט מקצועי בלי להתעסק עם ציוד, הקלטה ועריכה? בוחרים חלל,
+            מתיישבים ומדברים.
           </p>
           <p className="mt-4 text-sm text-muted-foreground">
             מתאים למי שרוצה להתמקד בתוכן ולתת לנו לדאוג לכל השאר.
@@ -250,11 +264,10 @@ export default function PodcastRecordingPageContent() {
               כולל מע״מ, {PODCAST_RECORDING_PRICE_NOTE}
             </span>
           </p>
-          <BookPriceDual
-            exVat={PODCAST_RECORDING_PRICE}
-            catalogId="full_podcast_production"
-            className="mt-2"
-          />
+          {/* 11.10.2026: בלי שורת "מ-2,950" שחזרה על המחיר הקבוע שמעליה, רק מה כלול */}
+          <div className="mt-2">
+            <PricingTransparencyBlock catalogId="full_podcast_production" compact />
+          </div>
         </section>
 
         <section aria-labelledby="audience-heading">
@@ -415,11 +428,11 @@ export default function PodcastRecordingPageContent() {
             id="recording-cta-heading"
             className="text-xl font-semibold text-foreground sm:text-2xl"
           >
-            מוכנים להתחיל את הפודקאסט שלכם?
+            עדיף לדבר?
           </h2>
+          {/* אישור הבעלים 11.10.2026: הבלוק נשאר כי רק בו יש טלפון בסוף העמוד */}
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            תפסיקו לחשוב על זה ותתחילו לעשות. פודקאסט מקצועי קרוב יותר ממה
-            שאתם חושבים.
+            תתקשרו, ותספרו מה הפודקאסט. אגיד לכם איזו חבילה מתאימה.
           </p>
           <p className="mt-4 text-lg font-bold text-brand-red">
             {PODCAST_RECORDING_PRICE_LABEL} לפרק

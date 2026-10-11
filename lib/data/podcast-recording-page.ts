@@ -12,7 +12,6 @@ import {
   PODCAST_EXTRA_EDIT_NOTE,
   PODCAST_FULL_PRODUCTION_REELS_NOTE,
   PODCAST_EXTRA_EDIT_TIME,
-  PODCAST_FULL_PRODUCTION_NOTE,
   PODCAST_VIDEO_CAMERAS_NOTE,
   PODCAST_VIDEO_INCLUDES_NOTE,
   STUDIO_TURNS_NOTE,
@@ -63,15 +62,33 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     title: "הפקה מלאה",
     exVat: getExVat("full_podcast_production"),
     suitedFor: getPriceById("full_podcast_production")?.suitedFor,
-    summary: `${PODCAST_FULL_PRODUCTION_NOTE}.`,
+    /* 11.10.2026: בעמוד הזה כשורות נפרדות ולא כמשפט אחד של 30 מילים. התוכן הוא
+       PODCAST_FULL_PRODUCTION_NOTE (וידאו + עריכה נוספת + רילס), שנשאר בקטלוג כמו שהוא */
+    summary: "כל מה שבחבילת הווידאו, ובנוסף עריכה נוספת, ייעוץ ורילס.",
     /* הבעלים, 8.10.2026: הפקה מלאה כוללת ייעוץ ועריכה מהודקת וקפדנית יותר, כלולים ב-2,500 */
     points: [
-      "ייעוץ ועריכה מהודקת וקפדנית יותר, כלולים",
+      PODCAST_EXTRA_EDIT_NOTE,
+      "ייעוץ ועריכה מהודקת וקפדנית יותר",
       "מעברי תמונה, וכל מה שמעלה את הפרק לרמה פרימיום",
       /* החלטת הבעלים 11.10.2026: היה "קטעי ריל: בתוספת" */
-      `${PODCAST_FULL_PRODUCTION_REELS_NOTE}, כלולים`,
+      PODCAST_FULL_PRODUCTION_REELS_NOTE,
     ],
   },
+] as const;
+
+/*
+ * "המספרים המלאים" מתחת לחבילות (11.10.2026, תשובות הבעלים לשאלות העובדה).
+ * כל שורה מהקטלוג או מקבוע קיים, בלי סכום שנכתב ביד.
+ */
+export const PODCAST_RECORDING_FACTS: readonly { label: string; value: string }[] = [
+  { label: "משתתפים", value: `${podcastParticipantPriceLine("page")}. ${STUDIO_TURNS_NOTE}` },
+  { label: "זמן באולפן", value: "עד שעה, וגמישות של כמה דקות" },
+  {
+    label: "תיקונים",
+    value: `סבב אחד כלול. כל סבב נוסף ${formatPagePrice(getExVat("podcast_extra_revision")).inline}`,
+  },
+  { label: "עריכה נוספת", value: `${PODCAST_EXTRA_EDIT_TIME}. בתוספת בווידאו, כלולה בהפקה המלאה` },
+  { label: "ביקור לפני", value: "בלי עלות, למי שכבר סגר הקלטה" },
 ] as const;
 
 /*
@@ -131,7 +148,7 @@ export const PODCAST_RECORDING_AUDIENCES: readonly {
   {
     emoji: "🏢",
     title: "חברות",
-    description: "פודקאסט תדמיתי/שיווקי ברמה גבוהה.",
+    description: "פודקאסט תדמית או שיווק, ברמה גבוהה.",
   },
 ] as const;
 
@@ -140,7 +157,7 @@ export const PODCAST_RECORDING_STUDIO_SPACES: readonly {
   description: string;
 }[] = [
   { title: "החלל האורבני", description: "מודרני ונעים, קירות חשופים, אווירה אורבנית." },
-  { title: "החלל הירוק / סטנדרטי", description: "רענן ומרגיע, צמחייה טבעית." },
+  { title: "החלל הירוק", description: "רענן ומרגיע, צמחייה טבעית. זה החלל הסטנדרטי." },
   { title: "החלל הרשמי", description: "מקצועי ויוקרתי, עיצוב אלגנטי, תחושת פרימיום." },
 ] as const;
 
@@ -159,11 +176,13 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
   },
   {
     emoji: "🎥",
-    title: "צילום וידאו ברמה הגבוהה ביותר",
+    /* הבעלים 11.10.2026: עובדה במקום "ברמה הגבוהה ביותר" ו-"Framing מושלם".
+       החיתוך החי: החלטת הבעלים 3.10.2026 (lib/data/conversion-copy.ts) */
+    title: "צילום וידאו ב-4K",
     items: [
       `צילום 4K ב-${PODCAST_VIDEO_CAMERAS_NOTE}, זוויות מגוונות, מראה דינמי`,
       "תאורת סטודיו מקצועית",
-      "Framing מושלם, כל פריים נראה מקצועי",
+      "חיתוך חי בין המצלמות לפי מי שמדבר",
     ],
   },
   {
@@ -184,7 +203,7 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
       "סנכרון אודיו ווידאו",
       "מעברים דינמיים בין מצלמות",
       "תיקוני צבע בסיסיים",
-      "פתיח/סגיר, שלכם או מהמאגר",
+      "פתיח וסגיר, שלכם או מהמאגר",
       "עריכת סאונד ונורמליזציה",
     ],
   },
@@ -194,7 +213,6 @@ export const PODCAST_RECORDING_INCLUDED: readonly {
     items: [
       "וידאו MP4, 1080p או 4K (לפי בקשה) ליוטיוב",
       "אודיו MP3 מנורמל, ספוטיפיי, Apple Podcasts ועוד",
-      "הפרק המלא אצלכם באותה שנייה שמסיימים להקליט",
       `העריכה הנוספת אצלכם ${PODCAST_EXTRA_EDIT_TIME}`,
     ],
   },
@@ -228,16 +246,19 @@ export const PODCAST_RECORDING_WORKFLOW: readonly {
   {
     step: "5",
     title: "פרק מוכן",
-    body: `${TIME_CLAIMS.podcastSameSecond}, מוכן להעלאה. ${PODCAST_EXTRA_EDIT_NOTE}.`,
+    /* הבעלים 11.10.2026: ההבטחה "באותה שנייה" נשארת ב-3 מקומות בעמוד (שורת הפתיחה, כרטיסי החבילות, FAQ) */
+    body: `MP4 ליוטיוב ו-MP3 לספוטיפיי. ${PODCAST_EXTRA_EDIT_NOTE}.`,
   },
 ] as const;
 
+/* הבעלים 11.10.2026: 4 שורות עם עובדה במקום "כמו הפודקאסטים הגדולים" ו"משתלם",
+   בלי החזרות "באותה שנייה" ו"מגיעים, מדברים". המיקרופונים: PODCAST_RECORDING_INCLUDED,
+   המפיק: כרטיס הווידאו */
 export const PODCAST_RECORDING_WHY_US: readonly string[] = [
   "חוסכים זמן ואנרגיה, בלי ללמוד, לקנות ציוד או לערוך",
-  "תוצאה מקצועית, נראה ונשמע כמו הפודקאסטים הגדולים",
-  "מהיר, הפרק אצלכם באותה שנייה שמסיימים להקליט",
-  "נוח, מגיעים, מדברים, יוצאים",
-  "משתלם, פחות מקניית ציוד ועשייה עצמית",
+  "נשמע כמו אולפן, כי זה אולפן: Shure, Rode ו-Audio-Technica",
+  "מפיק לידכם בזמן ההקלטה, לא רק עורך אחריה",
+  "בלי לקנות מיקרופונים, מצלמות ותאורה",
 ] as const;
 
 export const PODCAST_RECORDING_FAQS: readonly {
