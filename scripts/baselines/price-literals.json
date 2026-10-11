@@ -329,20 +329,6 @@
     "example": "'ייעוץ ראשוני בשיחת זום (60 דקות) - 500 ₪ + מע\"מ. ייעוץ מלא כולל ביקור פיזי ודו\"ח מפורט - 950 ₪ + מע\"מ. ביקור פיזי בכל הארץ, בחישוב הוצאות נסיעה.',"
   },
   {
-    "file": "lib/data/academy-hub-courses.tsx",
-    "kind": "prose",
-    "value": 990,
-    "count": 2,
-    "example": "description: \"שעה ב-990 ₪ או Pro Session 90 דק׳ ב-1,280 ₪ - DJ, קול, הפקה ועוד\","
-  },
-  {
-    "file": "lib/data/academy-hub-courses.tsx",
-    "kind": "prose",
-    "value": 1280,
-    "count": 1,
-    "example": "description: \"שעה ב-990 ₪ או Pro Session 90 דק׳ ב-1,280 ₪ - DJ, קול, הפקה ועוד\","
-  },
-  {
     "file": "lib/data/academy-private-sessions.ts",
     "kind": "prose",
     "value": 990,
