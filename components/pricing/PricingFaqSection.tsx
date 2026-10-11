@@ -14,8 +14,8 @@ import { formatPrice } from "@/lib/data/pricing-display";
 const FAQ_ANSWERS: Record<string, React.ReactNode> = {
   "studio-half-vs-hour": (
     <>
-      חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}) מתאימה להקלטה בודדת או פיילוט. ברכה ודרשה הן מסלול נפרד, בלי הגבלת זמן.
-      שעה ({formatPrice(STUDIO_ONE_HOUR_NIS).inline}) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
+      חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS, { channel: "page" }).inline}) מתאימה להקלטה בודדת או פיילוט. ברכה ודרשה הן מסלול נפרד, בלי הגבלת זמן.
+      שעה ({formatPrice(STUDIO_ONE_HOUR_NIS, { channel: "page" }).inline}) מתאימה לכמה ניסיונות, מספר משתתפים או עריכה בסיסית באותו יום.
       שניהם כוללים ליווי טכני מלא.{" "}
       <InlineServiceLink href="/studio/pricing">מחירון אולפן</InlineServiceLink>
     </>
@@ -58,13 +58,13 @@ const FAQ_ANSWERS: Record<string, React.ReactNode> = {
   ),
   "need-more-time": (
     <>
-      תוספת זמן באולפן - לפי מחיר חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS).inline}).
+      תוספת זמן באולפן - לפי מחיר חצי שעה ({formatPrice(STUDIO_HALF_HOUR_NIS, { channel: "page" }).inline}).
       בפודקאסט - תוספת משתתף או זמן עריכה ({formatPrice(PODCAST_EDITING_PER_HOUR_NIS).headline} לשעת חומר) נספרים בנפרד ומוסברים לפני שמתחילים.
     </>
   ),
   "vat-included": (
     <>
-      כן. המחיר הגדול במחירון כולל מע״מ, ולידו בקטן הסכום לפני מע״מ. מוצרים לעסקים מוצגים לפני מע״מ. ב{" "}
+      כן. המחירים במחירון כוללים מע״מ. מוצרים לעסקים מוצגים לפני מע״מ. ב{" "}
       <InlineServiceLink href="/book">טופס ההזמנה</InlineServiceLink>{" "}
       מוצג המחיר הסופי.
     </>

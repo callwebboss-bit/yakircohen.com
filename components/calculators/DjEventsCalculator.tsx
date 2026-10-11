@@ -77,19 +77,19 @@ function calcEffectTotal(selected: Set<EffectId>): { total: number; discount: nu
 
 /* ─── Sub-components ─────────────────────────────────────────────────────────── */
 
-/** "5,900 ₪ כולל מע״מ" בגדול ו-"5,000 ₪ + מע״מ" בקטן (החלטת הבעלים 2.10.2026) */
+/** "5,900 ₪ כולל מע״מ (5,000 ₪ + מע״מ)": לסיכום שנשלח בוואטסאפ ולליד */
 function priceLabel(exVat: number): string {
   return formatPrice(exVat).inline;
 }
 
+/** "5,900 ₪ כולל מע״מ": בעמוד, מחיר אחד (D86, 11.10.2026) */
+function pagePriceLabel(exVat: number): string {
+  return formatPrice(exVat, { channel: "page" }).inline;
+}
+
 function CalcPrice({ exVat, className }: { exVat: number; className?: string }) {
-  const price = formatPrice(exVat);
-  return (
-    <span className={cn("inline-flex flex-col", className)}>
-      <span>{price.headline}</span>
-      <span className="text-[0.65rem] font-normal text-muted-foreground">{price.vatNote}</span>
-    </span>
-  );
+  const price = formatPrice(exVat, { channel: "page" });
+  return <span className={cn("inline-flex flex-col", className)}>{price.headline}</span>;
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -533,15 +533,15 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
                   : "border-brand-red/30 bg-brand-red/5 text-foreground",
               )}>
                 {isEventQuoteOnly(effects.size)
-                  ? `🎁 ${formatPrice(getEventBundlePrice(effects.size), { from: true }).inline}. מארבע אטרקציות המחיר נסגר בשיחה`
+                  ? `🎁 ${formatPrice(getEventBundlePrice(effects.size), { from: true, channel: "page" }).inline}. מארבע אטרקציות המחיר נסגר בשיחה`
                   : effectDiscount > 0
-                    ? `🎁 הנחת כמות: ${effects.size} אטרקציות ב-${priceLabel(getEventBundlePrice(effects.size))}`
+                    ? `🎁 הנחת כמות: ${effects.size} אטרקציות ב-${pagePriceLabel(getEventBundlePrice(effects.size))}`
                     : `💡 עוד אטרקציה אחת ומתחילה הנחת חבילה של ${attractionBundleDiscountPercent()}%`}
               </div>
             )}
             {effects.size === 0 && (
               <p className="mb-4 text-xs text-muted-foreground">
-                אטרקציה בודדת: {priceLabel(ATTRACTION_UNIT)} · משתיים ומעלה: הנחת חבילה של {attractionBundleDiscountPercent()}%
+                אטרקציה בודדת: {pagePriceLabel(ATTRACTION_UNIT)} · משתיים ומעלה: הנחת חבילה של {attractionBundleDiscountPercent()}%
               </p>
             )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -761,7 +761,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               { icon: "📦", text: "ציוד, הובלה, הקמה ופירוק  -  ללא הפתעות" },
               { icon: "⏰", text: "הגעה שעה לפני האירוע להקמה ובדיקות" },
               { icon: "💳", text: DATE_HOLD_TERMS },
-              { icon: "📋", text: "המחירים כוללים מע״מ. מתחת לכל מחיר: הסכום לפני מע״מ" },
+              { icon: "📋", text: "המחירים כוללים מע״מ" },
               { icon: "📱", text: "סרטון מעוצב מכל אטרקציה  -  תוך 72 שעות" },
             ].map((item) => (
               <div key={item.text} className="flex items-start gap-2 text-xs text-muted-foreground">

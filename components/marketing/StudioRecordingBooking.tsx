@@ -1561,10 +1561,7 @@ export default function StudioRecordingBooking({
                     ) : null}
                     {participantBreakdown ? (
                       <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
-                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
-                        <span className="text-xs font-normal text-muted-foreground">
-                          {participantBreakdown.exVat}
-                        </span>
+                        {participantBreakdown.head}: {participantBreakdown.withVat}
                       </p>
                     ) : null}
                   </div>
@@ -1590,8 +1587,7 @@ export default function StudioRecordingBooking({
                     </p>
                     <p className="mt-1 text-foreground">
                       {groupScenariosForDisplay.recommended.label}:{" "}
-                      {formatNis(groupScenariosForDisplay.recommended.withVat)} כולל מע״מ (
-                      {formatNis(groupScenariosForDisplay.recommended.subtotalExVat)} + מע״מ)
+                      {formatNis(groupScenariosForDisplay.recommended.withVat)} כולל מע״מ
                     </p>
                     {isMotzash ? (
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -1821,7 +1817,7 @@ export default function StudioRecordingBooking({
               <>
                 <BookingSelectionConfirm
                   title={`מסלול נבחר: ${activePackage.name}`}
-                  detail={`${formatPrice(activePackage.price).inline} - לחצו המשך לפרטים ואישור`}
+                  detail={`${formatPrice(activePackage.price, { channel: "page" }).inline} - לחצו המשך לפרטים ואישור`}
                 />
                 {"catalogId" in activePackage ? (
                   <CatalogOfferPanel

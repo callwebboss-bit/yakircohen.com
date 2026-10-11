@@ -130,12 +130,12 @@ export default function MobileStudioPageContent() {
             מחיר אולפן נייד
           </h2>
           <p className="mt-3 text-base font-semibold text-foreground">
-            בסיס: {formatPrice(MOBILE_STUDIO_BASE_EX_VAT).inline}
+            בסיס: {formatPrice(MOBILE_STUDIO_BASE_EX_VAT, { channel: "page" }).inline}
           </p>
           <p className="mt-1 text-sm text-foreground/85">
             {MOBILE_STUDIO_ARRIVAL_COPY}. באירוע: צילום פודקאסט{" "}
-            {formatPrice(mobileStudioEventExVat("video")).inline}, הקלטת אודיו{" "}
-            {formatPrice(mobileStudioEventExVat("audio")).inline}, כולל ההגעה.
+            {formatPrice(mobileStudioEventExVat("video"), { channel: "page" }).inline}, הקלטת אודיו{" "}
+            {formatPrice(mobileStudioEventExVat("audio"), { channel: "page" }).inline}, כולל ההגעה.
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {PRICING_FRAMING_LINE}
@@ -150,8 +150,8 @@ export default function MobileStudioPageContent() {
                   <span className="font-medium text-foreground">{geo.label}</span>
                   <span>
                     {geo.fee === 0
-                      ? `ללא תוספת הגעה - ${formatPrice(total).inline}`
-                      : `+${formatPrice(geo.fee).headline} תוספת הגעה - סה״כ ${formatPrice(total).inline}`}
+                      ? `ללא תוספת הגעה - ${formatPrice(total, { channel: "page" }).inline}`
+                      : `+${formatPrice(geo.fee).headline} תוספת הגעה - סה״כ ${formatPrice(total, { channel: "page" }).inline}`}
                   </span>
                   <span className="text-muted-foreground">({geo.detail})</span>
                 </li>
@@ -177,7 +177,7 @@ export default function MobileStudioPageContent() {
             <li className="flex flex-wrap gap-x-2 gap-y-1">
               <span className="font-medium text-foreground">צילום קליפ מהסשן</span>
               <span>
-                החל {formatPrice(MOBILE_CLIP_EX_VAT, { from: true }).inline} (עם עריכה - תוספת)
+                החל {formatPrice(MOBILE_CLIP_EX_VAT, { from: true, channel: "page" }).inline} (עם עריכה - תוספת)
               </span>
             </li>
             <li className="flex flex-wrap gap-x-2 gap-y-1">

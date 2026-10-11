@@ -327,7 +327,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
                   </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">{desc}</p>
                   <p className="mt-1 text-xs font-medium text-brand-red">
-                    {formatPrice(price).inline}
+                    {formatPrice(price, { channel: "page" }).inline}
                   </p>
                 </div>
               </button>

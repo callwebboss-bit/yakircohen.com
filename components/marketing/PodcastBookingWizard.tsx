@@ -905,10 +905,7 @@ export default function PodcastBookingWizard({
             </div>
             {participantBreakdown ? (
               <p className="mt-3 text-sm font-semibold text-foreground" aria-live="polite">
-                {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
-                <span className="text-xs font-normal text-muted-foreground">
-                  {participantBreakdown.exVat}
-                </span>
+                {participantBreakdown.head}: {participantBreakdown.withVat}
               </p>
             ) : null}
           </div>
@@ -1138,7 +1135,7 @@ export default function PodcastBookingWizard({
                         >
                           <span className="font-semibold">{geo.label}</span>
                           <span className="mt-0.5 block text-muted-foreground">
-                            {formatPrice(price).inline} - {geo.detail}
+                            {formatPrice(price, { channel: "page" }).inline} - {geo.detail}
                           </span>
                         </button>
                       );
@@ -1172,10 +1169,7 @@ export default function PodcastBookingWizard({
                     </select>
                     {participantBreakdown ? (
                       <p className="mt-2 text-sm font-semibold text-foreground" aria-live="polite">
-                        {participantBreakdown.head}: {participantBreakdown.withVat}{" "}
-                        <span className="text-xs font-normal text-muted-foreground">
-                          {participantBreakdown.exVat}
-                        </span>
+                        {participantBreakdown.head}: {participantBreakdown.withVat}
                       </p>
                     ) : null}
                   </div>

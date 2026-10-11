@@ -121,7 +121,7 @@ export default function MobilePodcastAtHomePageContent() {
             מחיר פודקאסט נייד
           </h2>
           <p className="mt-3 text-base font-semibold text-foreground">
-            החל {formatPrice(MOBILE_PODCAST_BASE_EX_VAT, { from: true }).inline}
+            החל {formatPrice(MOBILE_PODCAST_BASE_EX_VAT, { from: true, channel: "page" }).inline}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">{PRICING_FRAMING_LINE}</p>
           <MobileChannelsNote className="mt-4" />
