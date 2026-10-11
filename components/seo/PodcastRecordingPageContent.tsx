@@ -432,7 +432,7 @@ export default function PodcastRecordingPageContent() {
           </h2>
           {/* אישור הבעלים 11.10.2026: הבלוק נשאר כי רק בו יש טלפון בסוף העמוד */}
           <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            תתקשרו, ותספרו מה הפודקאסט. אגיד לכם איזו חבילה מתאימה.
+            תתקשרו ותספרו על מה הפודקאסט. אגיד לכם איזו חבילה מתאימה.
           </p>
           <p className="mt-4 text-lg font-bold text-brand-red">
             {PODCAST_RECORDING_PRICE_LABEL} לפרק

@@ -5,7 +5,7 @@
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { formatPagePrice } from "@/lib/data/pricing-display";
-import { podcastParticipantPriceLine } from "@/lib/data/podcast-calculator";
+import { PODCAST_INCLUDED_PARTICIPANTS, PODCAST_MAX_PARTICIPANTS } from "@/lib/data/podcast-calculator";
 import {
   getExVat,
   getPriceById,
@@ -76,18 +76,25 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
   },
 ] as const;
 
+/* משתתפים בפרוזה (בלי "·" של שורת המחשבון): 2 כלולים, מחיר נוסף, תקרה וקיבולת */
+const PODCAST_PARTICIPANTS_PROSE = `${PODCAST_INCLUDED_PARTICIPANTS} משתתפים כלולים, וכל משתתף נוסף ${formatPagePrice(getExVat("podcast_extra_participant")).inline}. עד ${PODCAST_MAX_PARTICIPANTS} משתתפים בפרק. ${STUDIO_TURNS_NOTE}`;
+
 /*
  * "המספרים המלאים" מתחת לחבילות (11.10.2026, תשובות הבעלים לשאלות העובדה).
  * כל שורה מהקטלוג או מקבוע קיים, בלי סכום שנכתב ביד.
  */
 export const PODCAST_RECORDING_FACTS: readonly { label: string; value: string }[] = [
-  { label: "משתתפים", value: `${podcastParticipantPriceLine("page")}. ${STUDIO_TURNS_NOTE}` },
+  { label: "משתתפים", value: PODCAST_PARTICIPANTS_PROSE },
   { label: "זמן באולפן", value: "עד שעה, וגמישות של כמה דקות" },
   {
     label: "תיקונים",
     value: `סבב אחד כלול. כל סבב נוסף ${formatPagePrice(getExVat("podcast_extra_revision")).inline}`,
   },
-  { label: "עריכה נוספת", value: `${PODCAST_EXTRA_EDIT_TIME}. בתוספת בווידאו, כלולה בהפקה המלאה` },
+  /* באודיו ובווידאו בתוספת, בהפקה המלאה כלולה: lib/data/podcast-ladder.ts, שורה extra-edit */
+  {
+    label: "עריכה נוספת",
+    value: `${PODCAST_EXTRA_EDIT_TIME}. באודיו ובווידאו בתוספת, ${formatPagePrice(getExVat("podcast_editing_hour"), { from: true }).inline}. בהפקה המלאה כלולה`,
+  },
   { label: "ביקור לפני", value: "בלי עלות, למי שכבר סגר הקלטה" },
 ] as const;
 
@@ -255,7 +262,7 @@ export const PODCAST_RECORDING_WORKFLOW: readonly {
    בלי החזרות "באותה שנייה" ו"מגיעים, מדברים". המיקרופונים: PODCAST_RECORDING_INCLUDED,
    המפיק: כרטיס הווידאו */
 export const PODCAST_RECORDING_WHY_US: readonly string[] = [
-  "חוסכים זמן ואנרגיה, בלי ללמוד, לקנות ציוד או לערוך",
+  "חוסכים זמן ואנרגיה, בלי ללמוד או לערוך",
   "נשמע כמו אולפן, כי זה אולפן: Shure, Rode ו-Audio-Technica",
   "מפיק לידכם בזמן ההקלטה, לא רק עורך אחריה",
   "בלי לקנות מיקרופונים, מצלמות ותאורה",
@@ -279,7 +286,7 @@ export const PODCAST_RECORDING_FAQS: readonly {
     id: "guests",
     question: "אפשר להביא אורחים?",
     /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. מחיר משתתף נוסף מהקטלוג (הבעלים 11.10.2026) */
-    answer: `בהחלט. יש מיקרופון ייעודי ואוזניות לכל משתתף. ${podcastParticipantPriceLine("page")}. ${STUDIO_TURNS_NOTE}.`,
+    answer: `בהחלט. יש מיקרופון ייעודי ואוזניות לכל משתתף. ${PODCAST_PARTICIPANTS_PROSE}.`,
   },
   {
     id: "revisions",

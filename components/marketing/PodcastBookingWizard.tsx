@@ -122,7 +122,7 @@ import {
   mobileChannelPriceLine,
   type MobileGeoId,
 } from "@/lib/data/mobile-studio-booking";
-import { CATALOG_VAT_RATE, MOBILE_STUDIO_EPISODE_INCLUDED_COPY, PODCAST_VIDEO_CAMERAS_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
+import { CATALOG_VAT_RATE, getExVat, MOBILE_STUDIO_EPISODE_INCLUDED_COPY, PODCAST_VIDEO_CAMERAS_NOTE, STUDIO_TURNS_NOTE } from "@/lib/data/pricing-catalog";
 import { emotionalLabelToId } from "@/lib/yc-lead-tag";
 import { parsePodcastFormDraft, type PodcastFormDraft } from "@/lib/podcast-form-draft";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
@@ -1275,7 +1275,9 @@ export default function PodcastBookingWizard({
                   </li>
                 </ol>
                 <p className="text-xs text-muted-foreground">
-                  סבב תיקונים ראשון כלול. כל סבב נוסף מעבר לכך הוא עבודת מחשב נוספת ועולה בהתאם
+                  {/* הבעלים 11.10.2026: סבב נוסף 100 + מע״מ (podcast_extra_revision), היה "עולה בהתאם" */}
+                  סבב תיקונים ראשון כלול. כל סבב נוסף{" "}
+                  {formatPrice(getExVat("podcast_extra_revision"), { channel: "page" }).inline}.
                 </p>
               </div>
               {showLastMinuteHighlightsOffer ? (
