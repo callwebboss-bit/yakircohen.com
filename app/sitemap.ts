@@ -5,6 +5,7 @@ import { BLOG_POSTS } from "@/lib/data/blog";
 import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
 import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
+import { LEGACY_RECORDING_READY } from "@/lib/data/legacy-recording";
 import SITEMAP_DATES from "@/lib/data/sitemap-dates.generated.json";
 import {
   categoryLastModified,
@@ -45,6 +46,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("areas"), priority: 0.72, changeFrequency: "monthly" },
   { url: url("studio/recording-studio"), priority: 0.9, changeFrequency: "monthly" },
   { url: url("studio/virtual-tour"), priority: 0.74, changeFrequency: "monthly" },
+  /* ראיון מוקלט עם בן משפחה: נכנס רק כשהנתונים מלאים (lib/data/legacy-recording.ts).
+     עד אז העמוד חסום לאינדוקס, ו-noindex במפת האתר הוא "כתובת שנשלחה וחסומה". */
+  ...(LEGACY_RECORDING_READY
+    ? [{ url: url("studio/legacy-recording"), priority: 0.7, changeFrequency: "monthly" as const }]
+    : []),
   { url: url("studio/blessings"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("studio/blessings/bar-mitzvah"), priority: 0.7, changeFrequency: "monthly" },
   {

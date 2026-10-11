@@ -1,0 +1,218 @@
+import assert from "node:assert/strict";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { test } from "node:test";
+import { podcastDualPrice } from "@/lib/data/podcast-calculator";
+import { PODCAST_GRANDPA_EXAMPLE_VIDEO } from "@/lib/data/podcast-with-grandpa-page";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { youtubeEmbedUrl } from "@/lib/data/youtube-embeds";
+import {
+  LEGACY_CTA,
+  LEGACY_DELIVERABLES,
+  LEGACY_FAQS,
+  LEGACY_OWNER_FACTS,
+  LEGACY_PRACTICAL_DETAILS,
+  LEGACY_PREP_TIPS,
+  LEGACY_QUESTION_TOPICS,
+  LEGACY_QUESTIONS_COUNT,
+  LEGACY_QUESTIONS_NOTE,
+  LEGACY_QUESTIONS_PDF,
+  LEGACY_RECORDING_DESCRIPTION,
+  LEGACY_RECORDING_META_TITLE,
+  LEGACY_RECORDING_OPEN_FACT_KEYS,
+  LEGACY_RECORDING_READY,
+  LEGACY_RECORDING_SUBTITLE,
+  LEGACY_SAMPLE,
+  LEGACY_WHY_NOW,
+  openLegacyFactKeys,
+} from "@/lib/data/legacy-recording";
+import { buildLegacyRecordingSchema } from "@/lib/seo/legacy-recording-schema";
+
+const root = join(import.meta.dirname, "..", "..");
+const dataSource = readFileSync(join(import.meta.dirname, "legacy-recording.ts"), "utf8");
+
+/* כל הקופי הגלוי של הדף, למעט שדות מסוג עובדה חסרה שנבדקים בנפרד */
+function allCopy(): string[] {
+  return [
+    LEGACY_RECORDING_META_TITLE,
+    LEGACY_RECORDING_DESCRIPTION,
+    LEGACY_RECORDING_SUBTITLE,
+    LEGACY_QUESTIONS_NOTE,
+    LEGACY_CTA.heading,
+    LEGACY_CTA.body,
+    LEGACY_CTA.whatsappLabel,
+    LEGACY_CTA.whatsappText,
+    ...LEGACY_WHY_NOW,
+    ...LEGACY_PREP_TIPS,
+    ...LEGACY_QUESTION_TOPICS.flatMap((t) => [t.title, ...t.questions]),
+    ...LEGACY_DELIVERABLES.flatMap((d) => [d.title, d.body]),
+    ...LEGACY_PRACTICAL_DETAILS.flatMap((d) => [d.label, d.value]),
+    ...LEGACY_FAQS.flatMap((f) => [f.question, f.answer]),
+    ...Object.values(LEGACY_OWNER_FACTS),
+  ];
+}
+
+/* docs/HUMAN-COPY-GUIDELINES.md: בלי מקפים ארוכים, שלוש נקודות בתו אחד,
+   מרכאות מסולסלות וסימן קריאה */
+const FORBIDDEN_CHARS = /[—–…“”‘’!]/;
+
+test("יש בדיוק 15 שאלות, כולן ייחודיות וכולן שאלות", () => {
+  const questions = LEGACY_QUESTION_TOPICS.flatMap((t) => t.questions);
+  assert.equal(questions.length, 15);
+  assert.equal(LEGACY_QUESTIONS_COUNT, 15);
+  assert.equal(new Set(questions).size, 15);
+  for (const q of questions) {
+    assert.ok(q.endsWith("?"), `לא שאלה: ${q}`);
+  }
+});
+
+test("הקופי נקי מתווים אסורים", () => {
+  for (const text of allCopy()) {
+    assert.ok(!FORBIDDEN_CHARS.test(text), `תו אסור ב: ${text}`);
+  }
+});
+
+/* סבב הסינון מ-8.10.2026: אפס הבטחה שלא נאמרה. הרשימה היא מה שהוסר, ומה
+   שלא אמור לחזור בלי החלטה של הבעלים (איפה מחזירים: הערת "מה הוסר" ב-
+   legacy-recording.ts) */
+const REMOVED_PROMISES: readonly [RegExp, string][] = [
+  [/MP4|וידאו|יוטיוב/, "וידאו כחלק מהשירות (הדף מתאר שירות אודיו)"],
+  [/שרתים|מחיקה|למחוק|שומרים עותק|נשמר/, "שמירת עותק אצל העסק"],
+  [/תמלול|נוסח ערוך|מי מכין/, "פירוט על הנוסח הכתוב"],
+  [/גישה מלאה|האולפן נגיש/, "הבטחת נגישות"],
+  [/נבטיח|מבטיחים|בהחלט|תמיד|מובטח|התאמה אישית|מושלם/, "לשון הבטחה"],
+];
+
+test("אין הבטחות שלא נאמרו: וידאו, שמירה אצל העסק, פירוט הנוסח הכתוב, נגישות", () => {
+  /* הסרטון מתיק העבודות הוא דוגמה ולא חלק מהרשימה, ולכן אינו בקופי הנבדק */
+  for (const text of allCopy()) {
+    for (const [pattern, what] of REMOVED_PROMISES) {
+      assert.ok(!pattern.test(text), `${what}: ${text}`);
+    }
+  }
+});
+
+test("זמן האספקה כתוב עם 'בדרך כלל' בכל מקום שהוא מופיע", () => {
+  assert.ok(LEGACY_OWNER_FACTS.deliveryTime.startsWith("בדרך כלל"));
+  const faq = LEGACY_FAQS.find((f) => f.id === "length");
+  assert.ok(faq?.answer.includes(LEGACY_OWNER_FACTS.deliveryTime));
+  const row = LEGACY_PRACTICAL_DETAILS.find((r) => r.label === "זמן אספקה");
+  assert.equal(row?.value, LEGACY_OWNER_FACTS.deliveryTime);
+  /* "שלושה ימי עסקים" לא מופיע בלי "בדרך כלל" לפניו */
+  for (const text of allCopy()) {
+    if (text.includes("שלושה ימי עסקים")) assert.ok(text.includes("בדרך כלל עד שלושה ימי עסקים"), text);
+  }
+});
+
+test("הנוסח הכתוב מופיע רק בניסוח מהבקשה, בלי פרטים", () => {
+  const text = LEGACY_DELIVERABLES.find((d) => d.id === "text");
+  assert.equal(text?.body, "לצד האודיו מתקבל נוסח כתוב של הראיון.");
+  assert.equal(text?.details.length, 0);
+});
+
+test("נגישות: רק קומת קרקע, ובלי הבטחה להתאמה", () => {
+  assert.equal(
+    LEGACY_OWNER_FACTS.studioAccess,
+    "הכול בקומת קרקע. אם יש צורך בהתאמה מיוחדת, אפשר לכתוב לנו מראש",
+  );
+});
+
+test("המחיר נגזר מהקטלוג, אותו מחיר כמו פודקאסט עם סבא וסבתא, בלי סכום בקוד", () => {
+  const catalogPrice = podcastDualPrice(getExVat("podcast_audio"));
+  assert.ok(LEGACY_OWNER_FACTS.price.includes(catalogPrice));
+  /* אותו ביטוי שבו עמוד פודקאסט עם סבא מציג את מחיר האודיו (שאלת "מה המחיר") */
+  const priceFaq = LEGACY_FAQS.find((f) => f.id === "price");
+  assert.equal(priceFaq?.answer, LEGACY_OWNER_FACTS.price);
+  assert.ok(!/[\u20AA]|ש"ח|\d\s*שקל/.test(dataSource), "סכום כתוב בקובץ הנתונים");
+  /* כל מקום בקופי שיש בו סימן שקל חייב להכיל את מחיר הקטלוג, לא סכום אחר */
+  for (const text of allCopy().filter((t) => /\u20AA/.test(t))) {
+    assert.ok(text.includes(catalogPrice), `סכום שאינו מהקטלוג: ${text}`);
+  }
+});
+
+test("דוגמת הווידאו היא של פודקאסט עם סבא, ויש לה כתובת הטמעה", () => {
+  assert.equal(LEGACY_SAMPLE.video, PODCAST_GRANDPA_EXAMPLE_VIDEO);
+  const embed = youtubeEmbedUrl(LEGACY_SAMPLE.video.videoId);
+  assert.ok(embed?.startsWith("https://www.youtube.com/embed/"));
+});
+
+test("כותרת הדפדפן בטווח 50-60 עם סיומת המותג", () => {
+  const full = `${LEGACY_RECORDING_META_TITLE} | יקיר כהן הפקות`;
+  assert.ok(full.length >= 50 && full.length <= 60, `אורך ${full.length}: ${full}`);
+});
+
+test("openLegacyFactKeys מזהה רק ערכים שמתחילים בסימון חסר", () => {
+  const marker = "[[" + "TODO-OWNER: מה חסר]]";
+  assert.deepEqual(
+    openLegacyFactKeys({ a: "ערך אמיתי", b: marker, c: "שעה" }),
+    ["b"],
+  );
+  assert.deepEqual(openLegacyFactKeys({ a: "ערך" }), []);
+});
+
+test("מוכנות לפרסום נגזרת מהנתונים ולא מדגל ידני", () => {
+  assert.deepEqual(LEGACY_RECORDING_OPEN_FACT_KEYS, openLegacyFactKeys());
+  assert.equal(LEGACY_RECORDING_READY, LEGACY_RECORDING_OPEN_FACT_KEYS.length === 0);
+});
+
+test("אחרי סבב הסינון אין סימון חסר בנתונים, ולכן הדף מוכן לאינדוקס", () => {
+  assert.deepEqual(LEGACY_RECORDING_OPEN_FACT_KEYS, []);
+  assert.equal(LEGACY_RECORDING_READY, true);
+  /* אותו תנאי נשען על הקוד עצמו: אף מחרוזת בקובץ הנתונים לא מתחילה בסימון */
+  assert.ok(!/"\[\[TODO/.test(dataSource));
+});
+
+test("כל שדה ב-LEGACY_OWNER_FACTS משמש בעמוד או בשאלות", () => {
+  const used = JSON.stringify([
+    LEGACY_DELIVERABLES,
+    LEGACY_PRACTICAL_DETAILS,
+    LEGACY_FAQS,
+  ]);
+  /* אורך הראיון והקובץ הערוך מוצגים ישירות ברכיב */
+  const renderedDirectly = ["interviewLength", "editedFileLength"];
+  for (const [key, value] of Object.entries(LEGACY_OWNER_FACTS)) {
+    if (renderedDirectly.includes(key)) continue;
+    /* JSON מוסיף לוכסנים לפני מרכאות, לכן משווים מול הצורה המוברחת */
+    const needle = JSON.stringify(value).slice(1, -1).slice(0, 40);
+    assert.ok(used.includes(needle), `שדה שלא מוצג: ${key}`);
+  }
+});
+
+test("הסכמה: Service ו-FAQPage, בלי offers ובלי areaServed", () => {
+  const schema = buildLegacyRecordingSchema();
+  const graph = schema["@graph"] as Record<string, unknown>[];
+  const service = graph.find((n) => n["@type"] === "Service");
+  const faq = graph.find((n) => n["@type"] === "FAQPage");
+  assert.ok(service && faq);
+  assert.ok(!("offers" in service), "offers בלי מחיר הוא צומת שבור");
+  assert.ok(!("areaServed" in service), "אזור הגעה לבית עוד לא נמסר");
+  /* מאפיינים של CreativeWork/WebPage, לא של Service (קומיט 62c6ecf2) */
+  for (const key of ["inLanguage", "dateModified", "speakable"]) {
+    assert.ok(!(key in service), `${key} אינו מאפיין של Service`);
+  }
+  assert.equal(faq.inLanguage, "he-IL");
+  const entities = faq.mainEntity as { name: string }[];
+  assert.deepEqual(
+    entities.map((e) => e.name),
+    LEGACY_FAQS.map((f) => f.question),
+  );
+});
+
+test("קובץ ה-PDF קיים, תקין, וגודלו ומספר עמודיו תואמים לנתונים", () => {
+  const file = join(root, "public", LEGACY_QUESTIONS_PDF.path);
+  assert.ok(existsSync(file), `חסר ${file}`);
+  const bytes = readFileSync(file);
+  assert.equal(bytes.subarray(0, 5).toString("latin1"), "%PDF-");
+  assert.equal(
+    statSync(file).size,
+    LEGACY_QUESTIONS_PDF.sizeBytes,
+    "הקובץ השתנה. להריץ: npx tsx scripts/generate-legacy-questions-pdf.ts",
+  );
+  const pages = bytes.toString("latin1").match(/\/Type\s*\/Page(?![s\w])/g)?.length;
+  assert.equal(pages, LEGACY_QUESTIONS_PDF.pages);
+});
+
+test("שם ההורדה הוא PDF, והנתיב לא נקרא href", () => {
+  assert.ok(LEGACY_QUESTIONS_PDF.downloadName.endsWith(".pdf"));
+  assert.ok(LEGACY_QUESTIONS_PDF.path.startsWith("/downloads/"));
+});

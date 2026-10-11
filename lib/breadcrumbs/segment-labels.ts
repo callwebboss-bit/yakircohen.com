@@ -139,6 +139,7 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/matanot": "מתנות",
   "/areas": "אזורי שירות",
   "/studio/virtual-tour": "סיור וירטואלי",
+  "/studio/legacy-recording": "ראיון מוקלט עם בן משפחה",
   "/studio/blessings": "הקלטת ברכה",
   "/studio/blessings/bat-mitzvah-clip": "קליפ בת מצווה",
   "/studio/mobile-studio": "אולפן נייד",
