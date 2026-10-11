@@ -104,7 +104,10 @@ export default function ServiceCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col justify-between rounded-2xl border p-6 shadow-sm hover-lift card-chrome",
+        /* @container: הכרטיס מגיב לרוחב שלו ולא לרוחב המסך (תוכנית הבהירות, שלב 9).
+           ברשת של 4 עמודות במחשב נייד הכרטיס צר מ-18rem, ושם הריפוד והכותרת קטנים.
+           בכל שאר המקומות, כולל הטלפון, הוא נראה בדיוק כמו קודם. כל הקוראים הם רשתות. */
+        "@container group relative flex h-full flex-col rounded-2xl border shadow-sm hover-lift card-chrome",
         isFeatured && "card-chrome-shimmer",
         isAiService
           ? "border-brand-red ring-1 ring-brand-red/20 shadow-md"
@@ -121,129 +124,131 @@ export default function ServiceCard({
         />
       ) : null}
 
-      <div>
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <div
-            className={cn(
-              "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-colors duration-300",
-              isAiService
-                ? "border-brand-red/30 bg-brand-red text-white group-hover:bg-brand-red"
-                : "border-border bg-surface text-brand-red group-hover:border-brand-red/40 group-hover:bg-brand-red group-hover:text-white",
-            )}
-            aria-hidden="true"
-          >
-            {icon}
+      <div className="flex h-full flex-col justify-between p-4 @2xs:p-6">
+        <div>
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <div
+              className={cn(
+                "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-colors duration-300",
+                isAiService
+                  ? "border-brand-red/30 bg-brand-red text-white group-hover:bg-brand-red"
+                  : "border-border bg-surface text-brand-red group-hover:border-brand-red/40 group-hover:bg-brand-red group-hover:text-white",
+              )}
+              aria-hidden="true"
+            >
+              {icon}
+            </div>
+            {badgeLabel ? (
+              <ServiceBadge label={badgeLabel} variant={resolvedVariant} />
+            ) : null}
           </div>
-          {badgeLabel ? (
-            <ServiceBadge label={badgeLabel} variant={resolvedVariant} />
+
+          <h3
+            lang={lang}
+            dir={lang ? "ltr" : undefined}
+            className={cn(
+              "text-lg font-bold text-foreground transition-colors duration-200 @2xs:text-xl",
+              "group-hover:text-brand-red",
+            )}
+          >
+            {title}
+          </h3>
+
+          {descriptionFull ? (
+            <ReadMoreText
+              summary={description}
+              full={descriptionFull}
+              className="mt-2"
+            />
+          ) : (
+            <p
+              lang={lang}
+              dir={lang ? "ltr" : undefined}
+              className="mt-2 text-sm leading-relaxed text-muted-foreground"
+            >
+              {description}
+            </p>
+          )}
+
+          {bullets?.length ? (
+            <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground">
+              {bullets.slice(0, 4).map((bullet) => (
+                <li key={bullet} className="flex items-start gap-2">
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red"
+                    aria-hidden="true"
+                  />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {suitedFor ? (
+            <p className="mt-3 text-xs text-muted-foreground">
+              <span className="font-semibold text-foreground">מתאים ל: </span>
+              {suitedFor}
+            </p>
+          ) : null}
+
+          {fromPrice ? (
+            <div className="mt-2">
+              {fromPriceDigits ? (
+                <data value={fromPriceDigits} className="sr-only" aria-hidden="true">
+                  {fromPriceDigits}
+                </data>
+              ) : null}
+              <p className="text-sm font-semibold text-brand-red">{fromPrice}</p>
+              {fromPriceSubline ? (
+                <p className="mt-0.5 text-xs text-muted-foreground">{fromPriceSubline}</p>
+              ) : null}
+            </div>
           ) : null}
         </div>
 
-        <h3
-          lang={lang}
-          dir={lang ? "ltr" : undefined}
-          className={cn(
-            "text-xl font-bold text-foreground transition-colors duration-200",
-            "group-hover:text-brand-red",
-          )}
-        >
-          {title}
-        </h3>
-
-        {descriptionFull ? (
-          <ReadMoreText
-            summary={description}
-            full={descriptionFull}
-            className="mt-2"
+        {trustMicro ? (
+          <CheckoutTrustMicro
+            variant="inline"
+            className="mt-4"
+            showCancellation={false}
+            showLegalLinks={false}
           />
-        ) : (
-          <p
-            lang={lang}
-            dir={lang ? "ltr" : undefined}
-            className="mt-2 text-sm leading-relaxed text-muted-foreground"
-          >
-            {description}
-          </p>
-        )}
-
-        {bullets?.length ? (
-          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground">
-            {bullets.slice(0, 4).map((bullet) => (
-              <li key={bullet} className="flex items-start gap-2">
-                <span
-                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red"
-                  aria-hidden="true"
-                />
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
         ) : null}
 
-        {suitedFor ? (
-          <p className="mt-3 text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">מתאים ל: </span>
-            {suitedFor}
-          </p>
-        ) : null}
-
-        {fromPrice ? (
-          <div className="mt-2">
-            {fromPriceDigits ? (
-              <data value={fromPriceDigits} className="sr-only" aria-hidden="true">
-                {fromPriceDigits}
-              </data>
-            ) : null}
-            <p className="text-sm font-semibold text-brand-red">{fromPrice}</p>
-            {fromPriceSubline ? (
-              <p className="mt-0.5 text-xs text-muted-foreground">{fromPriceSubline}</p>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-
-      {trustMicro ? (
-        <CheckoutTrustMicro
-          variant="inline"
-          className="mt-4"
-          showCancellation={false}
-          showLegalLinks={false}
-        />
-      ) : null}
-
-      <div className="mt-6 pt-2">
-        {external ? (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${ctaLabel} - ${title}`}
-            className={cn(
-              "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-              isAiService
-                ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"
-                : "bg-surface text-brand-red hover:bg-brand-red hover:text-white",
-            )}
-          >
-            {ctaLabel}
-          </a>
-        ) : (
-          <Link
-            href={href}
-            prefetch
-            aria-label={`${ctaLabel} - ${title}`}
-            className={cn(
-              "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
-              isAiService
-                ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"
-                : "bg-surface text-brand-red hover:bg-brand-red hover:text-white",
-            )}
-          >
-            {ctaLabel}
-          </Link>
-        )}
+        <div className="mt-6 pt-2">
+          {external ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${ctaLabel} - ${title}`}
+              className={cn(
+                "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+                isAiService
+                  ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"
+                  : "bg-surface text-brand-red hover:bg-brand-red hover:text-white",
+              )}
+            >
+              {ctaLabel}
+            </a>
+          ) : (
+            <Link
+              href={href}
+              prefetch
+              aria-label={`${ctaLabel} - ${title}`}
+              className={cn(
+                "inline-flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl text-sm font-bold transition-all duration-200",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
+                isAiService
+                  ? "bg-brand-red text-white shadow-md shadow-brand-red/10 hover:opacity-95"
+                  : "bg-surface text-brand-red hover:bg-brand-red hover:text-white",
+              )}
+            >
+              {ctaLabel}
+            </Link>
+          )}
+        </div>
       </div>
     </article>
   );

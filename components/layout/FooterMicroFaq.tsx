@@ -13,8 +13,10 @@ export default function FooterMicroFaq() {
       <h2 className="text-sm font-semibold text-[var(--footer-fg)]">שאלות נפוצות</h2>
       <div className="mt-4 space-y-2">
         {items.map((item) => (
+          /* name: שאלה אחת פתוחה בכל פעם, בלי JS (תוכנית הבהירות, שלב 9) */
           <details
             key={item.id}
+            name="footer-faq"
             className="group rounded-lg border border-[var(--footer-border)] bg-white/[0.03] open:bg-white/[0.05]"
           >
             <summary className="cursor-pointer list-none px-3 py-3 text-xs font-medium text-[var(--footer-fg)] marker:content-none [&::-webkit-details-marker]:hidden">

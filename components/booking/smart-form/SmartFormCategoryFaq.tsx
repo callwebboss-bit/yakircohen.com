@@ -32,8 +32,9 @@ export default function SmartFormCategoryFaq({
       {open ? (
         <div className="mt-3 space-y-3 rounded-lg border border-border bg-white p-3">
           {faqs.map((faq) => (
-            <details key={faq.id} className="group border-b border-border pb-2 last:border-0">
-              <summary className="min-h-[44px] cursor-pointer list-none py-1 font-medium text-foreground touch-manipulation">
+            <details key={faq.id} name="smart-form-category-faq" className="group border-b border-border pb-2 last:border-0">
+              {/* summary-cue: בלי חץ לא נראה שהשאלה נפתחת (תוכנית הבהירות, שלב 9) */}
+              <summary className="summary-cue min-h-[44px] cursor-pointer list-none py-1 font-medium text-foreground touch-manipulation">
                 {faq.question}
               </summary>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">

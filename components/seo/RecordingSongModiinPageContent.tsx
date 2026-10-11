@@ -845,6 +845,7 @@ export default function RecordingSongModiinPageContent() {
               {service.faqs.map((faq) => (
                 <details
                   key={faq.id}
+                  name="song-faq"
                   className="group py-1"
                   open={faq.id === SONG_TO_VENUE_DJ_FAQ.id}
                 >

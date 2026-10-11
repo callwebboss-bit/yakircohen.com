@@ -29,6 +29,7 @@ export default function WizardContextFaqSnapshot({
         {items.slice(0, 3).map((item) => (
           <details
             key={item.id}
+            name="wizard-context-faq"
             className="group rounded-xl border border-border bg-background px-3 py-2"
           >
             <summary className="cursor-pointer list-none text-sm font-medium text-foreground marker:content-none [&::-webkit-details-marker]:hidden">

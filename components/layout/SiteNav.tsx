@@ -152,7 +152,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
       {open ? (
         <div
           id={panelId}
-          className="absolute start-0 top-full z-[60] mt-1.5 min-w-[20rem] max-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-border bg-background p-2 shadow-xl"
+          className="nav-enter-drop absolute start-0 top-full z-[60] mt-1.5 min-w-[20rem] max-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-border bg-background p-2 shadow-xl"
         >
           {category.featured && category.featured.length > 0 ? (
             <>
@@ -357,7 +357,7 @@ function DesktopSearchButton() {
         </svg>
       </button>
       {open ? (
-        <div className="absolute end-0 top-full z-[60] mt-1.5 w-80 rounded-xl border border-border bg-background p-3 shadow-xl">
+        <div className="nav-enter-drop absolute end-0 top-full z-[60] mt-1.5 w-80 rounded-xl border border-border bg-background p-3 shadow-xl">
           <SiteSearch
             autoFocus
             placeholder="חיפוש שירות, מאמר..."
@@ -508,7 +508,8 @@ export function SiteNavMobileDrawer({
       aria-hidden={!menuOpen}
       inert={!menuOpen}
       className={cn(
-        "fixed inset-0 z-[60] flex h-dvh max-h-dvh flex-col bg-background shadow-lg lg:hidden",
+        /* nav-enter-rise: המגירה נטענת כבר פתוחה, ולכן הכניסה ב-@starting-style (globals.css) */
+        "nav-enter-rise fixed inset-0 z-[60] flex h-dvh max-h-dvh flex-col bg-background shadow-lg lg:hidden",
         "transition-[opacity,transform,visibility] duration-normal ease-luxury",
         menuOpen
           ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
