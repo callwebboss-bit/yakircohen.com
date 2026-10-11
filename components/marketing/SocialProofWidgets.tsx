@@ -449,7 +449,15 @@ export function GoogleReviews({
       {HAS_SITE_TESTIMONIALS && preferLocal ? (
         <LocalReviewsStrip />
       ) : (
-        <div className="relative max-h-[min(720px,85vh)] min-h-[420px] overflow-y-auto overflow-x-hidden rounded-2xl border border-border sm:min-h-[560px]">
+        // העוטף תמיד גולל (iframe בגובה 720 ועוד השלד שמעליו, מול max-h של
+        // 720 לכל היותר), ולכן הוא מקבל פוקוס מקלדת ושם, כמו ScrollableTable.
+        // בלי זה axe מסמן scrollable-region-focusable (נמדד 11.10.2026)
+        <div
+          tabIndex={0}
+          role="region"
+          aria-label="ביקורות Google"
+          className="relative max-h-[min(720px,85vh)] min-h-[420px] overflow-y-auto overflow-x-hidden rounded-2xl border border-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:min-h-[560px]"
+        >
           <div
             aria-hidden={isReady}
             className={cn(
