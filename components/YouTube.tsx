@@ -17,6 +17,9 @@ export type YouTubeProps = {
   className?: string;
   /** טוען embed מיד בלי לחיצה על thumbnail */
   defaultActive?: boolean;
+  /** VideoObject לכל נגן. כבוי כשהסקשן כבר מסמן את הסרטונים. */
+  withSchema?: boolean;
+  showTitle?: boolean;
 };
 
 export default function YouTube({
@@ -25,6 +28,8 @@ export default function YouTube({
   fillParent = false,
   className,
   defaultActive = false,
+  withSchema = true,
+  showTitle = true,
 }: YouTubeProps) {
   const resolvedId = parseYouTubeVideoId(videoId);
   const isPlaceholder =
@@ -66,7 +71,8 @@ export default function YouTube({
       className={className}
       watchLabel={VIDEO_WATCH_LABEL}
       defaultActive={defaultActive}
-      withSchema
+      withSchema={withSchema}
+      showTitle={showTitle}
     />
   );
 }

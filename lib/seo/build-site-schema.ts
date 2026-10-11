@@ -203,7 +203,7 @@ export function buildSiteSchema() {
             url: `${BASE}/studio/pricing`,
           }),
           /* השיר מוצג לצרכן כולל מע״מ (2.10.2026), ולכן price כולל מע״מ
-             ו-priceSpecification נושא את המחיר לפני מע״מ, כמו ב-SeoPortfolioGalleryJsonLd */
+             ו-priceSpecification נושא את המחיר לפני מע״מ, כמו שהיה ב-SeoPortfolioGalleryJsonLd (הוסר 11.10.2026) */
           catalogOffer("song_recording", {
             name: "הקלטת שיר באולפן",
             description: "הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים בתוספת - מחיר כולל מע״מ",

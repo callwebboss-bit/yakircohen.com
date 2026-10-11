@@ -24,6 +24,8 @@ type ShowcaseVideoSectionProps = {
   kicker?: string;
   /** Max videos in VideoObject schema (performance) */
   schemaVideoLimit?: number;
+  /** כרטיסי תיק העבודות, ראו RecordingSongExampleVideos */
+  portfolioCards?: boolean;
 };
 
 export default function ShowcaseVideoSection({
@@ -38,6 +40,7 @@ export default function ShowcaseVideoSection({
   className,
   kicker: kickerProp,
   schemaVideoLimit = 12,
+  portfolioCards = false,
 }: ShowcaseVideoSectionProps) {
   const config = playlistId ? getPlaylistConfig(playlistId) : null;
   const videos =
@@ -91,6 +94,7 @@ export default function ShowcaseVideoSection({
           videos={videos}
           initialVisible={initialVisible}
           expandBatch={expandBatch}
+          portfolioCards={portfolioCards}
         />
       </div>
     </section>

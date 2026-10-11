@@ -34,6 +34,8 @@ export type LazyYouTubePlayerProps = {
   defaultActive?: boolean;
   /** מזריק VideoObject JSON-LD לפני הפלייסהולדר */
   withSchema?: boolean;
+  /** שם הסרטון בתחתית הפוסטר. כבוי כשהכרטיס מציג את השם מתחת לנגן. */
+  showTitle?: boolean;
 };
 
 export default function LazyYouTubePlayer({
@@ -44,6 +46,7 @@ export default function LazyYouTubePlayer({
   watchLabel = VIDEO_WATCH_LABEL,
   defaultActive = false,
   withSchema = false,
+  showTitle = true,
 }: LazyYouTubePlayerProps) {
   const [isActive, setIsActive] = useState(defaultActive);
   const [thumbnailSrc, setThumbnailSrc] = useState(
@@ -167,9 +170,11 @@ export default function LazyYouTubePlayer({
           </span>
 
           {/* ── Video title - bottom of frame ── */}
-          <span className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90">
-            {title}
-          </span>
+          {showTitle ? (
+            <span className="absolute inset-x-4 bottom-4 line-clamp-2 text-right text-sm font-medium leading-snug text-white/90">
+              {title}
+            </span>
+          ) : null}
         </button>
       )}
     </div>
