@@ -19,6 +19,7 @@ import SpeculationRules from "@/components/seo/SpeculationRules";
 import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { SITE_URL } from "@/lib/site-url";
 import { A11Y_PREFS_BOOT_SCRIPT } from "@/lib/a11y-prefs-boot";
+import { TRANSLATE_GUARD_BOOT_SCRIPT } from "@/lib/translate-guard-boot";
 import {
   DEFAULT_OPEN_GRAPH,
   DEFAULT_TWITTER,
@@ -132,6 +133,9 @@ export default function RootLayout({
             לפני כל תוכן, ולכן מחלקות ה-a11y-* על <html> קיימות לפני הציור.
             מקור והסבר ב-lib/a11y-prefs-boot.ts. */}
         <script dangerouslySetInnerHTML={{ __html: A11Y_PREFS_BOOT_SCRIPT }} />
+        {/* 11.10.2026: תרגום אוטומטי של כרום לא שובר את האשף והמחשבונים. פעיל
+            רק כשהעמוד מתורגם. מקור והסבר ב-lib/translate-guard-boot.ts */}
+        <script dangerouslySetInnerHTML={{ __html: TRANSLATE_GUARD_BOOT_SCRIPT }} />
         <SpeculationRules />
         <GoogleAnalytics />
         <Analytics />

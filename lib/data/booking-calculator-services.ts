@@ -121,14 +121,6 @@ export const SERVICES: Record<string, Service> = {
     desc: "פיצוץ קונפטי צבעוני ומרגש",
     upsells: [],
   },
-  event_drummer: {
-    name: "מתופף",
-    category: "events",
-    price: EVENT_ATTRACTION_FROM_NIS,
-    icon: "🥁",
-    desc: "מתופף מקצועי שמכניס אנרגיה לאירוע",
-    upsells: [],
-  },
   event_smoke_cannon: {
     name: "תותחי עשן צבעוני",
     category: "events",

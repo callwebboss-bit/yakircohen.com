@@ -7,7 +7,6 @@ export type EventBookingItemId =
   | "event_balloons"
   | "event_sparklers"
   | "event_confetti"
-  | "event_drummer"
   | "event_smoke_cannon"
   | "event_smoke_gun"
   | "event_slideshow"
@@ -119,13 +118,8 @@ export const EVENT_BOOKING_ITEMS: readonly EventBookingItem[] = [
     desc: "אלפי פיסות קונפטי באוויר - הרגע הכי מצולם",
     href: "/events/attractions/confetti-cannon",
   },
-  {
-    id: "event_drummer",
-    name: "מתופף",
-    svgPath: "M3 17c0-2.2 4.03-4 9-4s9 1.8 9 4v1H3v-1zm2-7h14M5 6h14M8 3v3m8-3v3",
-    svgViewBox: "0 0 24 24",
-    desc: "מתופף מקצועי שמוסיף קצב וחיות לאירוע",
-  },
+  /* event_drummer ירד (החלטת הבעלים 11.10.2026): נספר כאן כאטרקציה בחבילה, במחיר
+     אטרקציה, בזמן שהקטלוג מוכר מתופף אחד, electronic_drummer, כתוספת ל-DJ */
   {
     id: "event_smoke_cannon",
     name: "תותחי עשן צבעוני",
