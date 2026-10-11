@@ -44,11 +44,11 @@ export function renderGbpSheetMarkdown(rows: GbpSheetRow[], generatedAt: string)
     "",
     "המחיר להזנה הוא כולל מע״מ, כמו באתר. אחרי שמעדכנים את הכרטיס, מעדכנים את `gbpPriceNow` ב-`lib/data/gbp-products.ts`.",
     "",
-    "| מוצר בכרטיס | להזין בכרטיס (כולל מע״מ) | לפני מע״מ | בכרטיס היום | סטטוס | קישור | הערה |",
-    "|---|---|---|---|---|---|---|",
+    "| מוצר בכרטיס | להזין בכרטיס (כולל מע״מ) | לפני מע״מ | בכרטיס היום | סטטוס | קישור | הערה | תיאור לכרטיס |",
+    "|---|---|---|---|---|---|---|---|",
     ...rows.map(
       (r) =>
-        `| ${r.name} | ${fmt(r.priceToEnter)} | ${fmt(r.exVat)} | ${fmt(r.gbpPriceNow)} | ${STATUS_LABEL[r.status]} | ${r.url ?? "-"} | ${r.note ?? ""} |`,
+        `| ${r.name} | ${fmt(r.priceToEnter)} | ${fmt(r.exVat)} | ${fmt(r.gbpPriceNow)} | ${STATUS_LABEL[r.status]} | ${r.url ?? "-"} | ${r.note ?? ""} | ${r.description ?? ""} |`,
     ),
     "",
   ];
