@@ -3746,7 +3746,33 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
     "services": [
       "studio-hub-entertainment"
     ]
+  },
+  {
+    "videoId": "ocV3Dzs7dL4",
+    "title": "הקלטת שיר ועריכת קליפ לפי דרישה (חידוש - בא לך עלי) - שר הטבעות",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ocV3Dzs7dL4",
+    "tags": [
+      "studio-recording"
+    ],
+    "services": [
+      "recording-song-modiin",
+      "recording-studio",
+      "studio-hub"
+    ]
+  },
+  {
+    "videoId": "OzChhy0aX2g",
+    "title": "קריינות פרסומת יקיר כהן הפקות (קריינות לעסקים)",
+    "youtubeUrl": "https://www.youtube.com/watch?v=OzChhy0aX2g",
+    "tags": [
+      "voiceover"
+    ],
+    "services": [
+      "voiceover-course",
+      "voiceover-hub",
+      "voiceover-services"
+    ]
   }
 ] as const;
 
-export const PORTFOLIO_CATALOG_COUNT = 272 as const;
+export const PORTFOLIO_CATALOG_COUNT = 274 as const;
