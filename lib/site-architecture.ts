@@ -91,6 +91,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "הקלטת שיר במודיעין", href: "/studio/recording-song-modiin" },
       { label: "מתנות לפי אירוע", href: "/matanot" },
       { label: "מתנות ושוברים מהאולפן", href: "/studio/recording-song-modiin/gifts" },
+      { label: "יום הולדת לילדים", href: "/studio/kids-birthday" },
       { label: "סיור וירטואלי באולפן", href: "/studio/virtual-tour" },
       { label: "אולפן הקלטות", href: "/studio/recording-studio" },
       {
@@ -513,6 +514,11 @@ const HEADER_STUDIO_NAV: SiteNavCategory = {
   children: [
     { label: "ברכות מוקלטות", href: "/studio/blessings" },
     { label: "מתנות לפי אירוע", href: "/matanot" },
+    {
+      label: "יום הולדת לילדים",
+      href: "/studio/kids-birthday",
+      description: "שעתיים באולפן",
+    },
     { label: "סיור וירטואלי באולפן", href: "/studio/virtual-tour" },
     { label: "אולפן שוהם", href: "/studio/studio-shoham" },
     { label: "אולפן רחובות", href: "/studio/studio-rehovot" },

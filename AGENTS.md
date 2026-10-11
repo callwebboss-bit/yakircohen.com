@@ -30,8 +30,9 @@ This version has breaking changes - APIs, conventions, and file structure may al
 2. worktree וענף לכל סשן (`git worktree add ../wt-<נושא> -b <ענף>`). שני סשנים
    לא כותבים לאותו עץ.
 3. `npm run deploy:status` לפני בנייה, בדיקות או דחיפה.
-4. לפני דחיפה: `npm test`, `npx tsc --noEmit`, `npm run verify:seo`, ושינוי
-   שמשפיע על עמודים גם `npm run build:full` ו-`npm run audit:seo-diff`.
+4. לפני דחיפה: `npm test`, `npx tsc --noEmit`, `npm run verify:seo`,
+   `npm run audit:owner-todos` (נכשל כל עוד נשאר בקוד סימון "חסר מידע מהבעלים"),
+   ושינוי שמשפיע על עמודים גם `npm run build:full` ו-`npm run audit:seo-diff`.
 5. דחיפה ל-`main` רק כשהכול ירוק, ואחריה בדיקת CI ופריסת Vercel על הקומיט.
 
 **`local-tools`** (הכלי yakir-closer) נשאר ב-Dropbox, ומגיעים אליו דרך symlink:
