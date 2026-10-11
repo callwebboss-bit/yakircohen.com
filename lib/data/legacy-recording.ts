@@ -95,8 +95,10 @@ export const LEGACY_OWNER_FACTS = {
   editedFileLength: "בין 10 ל-40 דקות",
   /* B4: "המשפחה קובעת". "וזה משתנה" הוסר, כי הפירוש שלו לא ודאי */
   chapters: "המשפחה קובעת את חלוקת הנושאים",
-  /* B5, "בדרך כלל" בהנחיית הבעלים 8.10.2026: אין התחייבות למועד */
+  /* B5, "בדרך כלל" בהנחיית הבעלים 8.10.2026: אין התחייבות למועד. 11.10.2026
+     (D99): ההקלטה הגולמית מיד בסוף הסשן, כמו בכל הקלטת פודקאסט (S1003-01) */
   deliveryTime: "בדרך כלל עד שלושה ימי עסקים",
+  rawDelivery: "ההקלטה הגולמית אצלכם מיד בסוף הסשן",
   /* B6: אודיו בלבד. "דרופ" לא ברור (Dropbox או Drive), ולכן "קישור להורדה" */
   fileFormat: "קובץ אודיו ב-MP3 או ב-WAV, לפי הדרישה, שנשלח בקישור להורדה",
   /* B8 */
@@ -162,10 +164,10 @@ export const LEGACY_RECORDING_READY =
 /* ───────────────────────── למה עכשיו ───────────────────────── */
 
 /* ההנחיה לסעיף (הודעת המשימה): הסבר נעים ועובדתי, "שיחה שלא נעשתה נשארת בלי
-   תיעוד" ו"זיכרונות מתפרטים עם הזמן". בלי דחיפות, בלי הבטחה רגשית. */
+   תיעוד" ו"זיכרונות מתפוררים עם הזמן" (הבעלים 11.10.2026: "מתפוררים"). בלי דחיפות, בלי הבטחה רגשית. */
 export const LEGACY_WHY_NOW = [
   "בכל משפחה יש סיפורים שרק מי שחי אותם יודע לספר: איך הכירו, מאיפה הגיעו, איך נראו הבית והשכונה. סיפור שלא סופר בקול ובסדר נשאר בלי תיעוד.",
-  "זיכרונות מתפרטים עם הזמן. שמות, תאריכים וסדר האירועים מיטשטשים. שיחה מוקלטת שומרת את הסיפור כפי שסופר, עם הקול והקצב של מי שסיפר אותו.",
+  "זיכרונות מתפוררים עם הזמן. שמות, תאריכים וסדר האירועים מיטשטשים. שיחה מוקלטת שומרת את הסיפור כפי שסופר, עם הקול והקצב של מי שסיפר אותו.",
   "אין כאן לחץ. כדאי לבחור זמן שנוח לבן המשפחה, ולא למהר. הסיבה לשוחח עכשיו פשוטה: שיחה שלא התקיימה לא משאירה אחריה כלום, ושיחה שהוקלטה אפשר לשמוע שוב.",
 ] as const;
 
@@ -340,7 +342,8 @@ export const LEGACY_PRACTICAL_DETAILS: readonly LegacyPracticalRow[] = [
   { label: "נגישות האולפן", value: LEGACY_OWNER_FACTS.studioAccess },
   { label: "מי מראיין", value: LEGACY_OWNER_FACTS.interviewer },
   { label: "שפות", value: LEGACY_OWNER_FACTS.languages },
-  { label: "זמן אספקה", value: LEGACY_OWNER_FACTS.deliveryTime },
+  { label: "ההקלטה הגולמית", value: "מיד בסוף הסשן" },
+  { label: "הקובץ הערוך", value: LEGACY_OWNER_FACTS.deliveryTime },
   {
     label: "מחיר",
     value: LEGACY_OWNER_FACTS.price,
@@ -370,7 +373,7 @@ export const LEGACY_FAQS: readonly LegacyFaq[] = [
   {
     id: "length",
     question: "כמה זמן זה לוקח?",
-    answer: `אורך הראיון: ${LEGACY_OWNER_FACTS.interviewLength}. אורך טיפוסי של הקובץ הערוך: ${LEGACY_OWNER_FACTS.editedFileLength}. זמן האספקה לקובץ הערוך ולנוסח הכתוב: ${LEGACY_OWNER_FACTS.deliveryTime}.`,
+    answer: `אורך הראיון: ${LEGACY_OWNER_FACTS.interviewLength}. אורך טיפוסי של הקובץ הערוך: ${LEGACY_OWNER_FACTS.editedFileLength}. ${LEGACY_OWNER_FACTS.rawDelivery}. זמן האספקה לקובץ הערוך ולנוסח הכתוב: ${LEGACY_OWNER_FACTS.deliveryTime}.`,
   },
   {
     id: "price",

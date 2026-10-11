@@ -96,8 +96,11 @@ test("זמן האספקה כתוב עם 'בדרך כלל' בכל מקום שהו
   assert.ok(LEGACY_OWNER_FACTS.deliveryTime.startsWith("בדרך כלל"));
   const faq = LEGACY_FAQS.find((f) => f.id === "length");
   assert.ok(faq?.answer.includes(LEGACY_OWNER_FACTS.deliveryTime));
-  const row = LEGACY_PRACTICAL_DETAILS.find((r) => r.label === "זמן אספקה");
+  const row = LEGACY_PRACTICAL_DETAILS.find((r) => r.label === "הקובץ הערוך");
   assert.equal(row?.value, LEGACY_OWNER_FACTS.deliveryTime);
+  /* D99, 11.10.2026: ההקלטה הגולמית מיד בסוף הסשן */
+  assert.ok(faq?.answer.includes(LEGACY_OWNER_FACTS.rawDelivery));
+  assert.equal(LEGACY_PRACTICAL_DETAILS.find((r) => r.label === "ההקלטה הגולמית")?.value, "מיד בסוף הסשן");
   /* "שלושה ימי עסקים" לא מופיע בלי "בדרך כלל" לפניו */
   for (const text of allCopy()) {
     if (text.includes("שלושה ימי עסקים")) assert.ok(text.includes("בדרך כלל עד שלושה ימי עסקים"), text);
