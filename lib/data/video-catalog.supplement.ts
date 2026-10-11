@@ -114,4 +114,14 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
     description:
       "עריכה בסיסית, כמו בהקלטת שיר רגילה. מתאים למי שיודע לשיר ולא צריך תיקון זיופים.",
   },
+  /* 11.10.2026, הבעלים: "תוסיף לתיק עבודות". תגיות ורשימות לפי portfolio-tag-rules.mjs */
+  {
+    videoId: "8NO8nNnzXwI",
+    title: "איך לחדש שיר ישן בלי להקליט מחדש? (ללא צורך באולפן)",
+    youtubeUrl: "https://www.youtube.com/watch?v=8NO8nNnzXwI",
+    tags: ["studio-recording", "education"],
+    services: ["recording-song-modiin", "recording-studio", "studio-hub"],
+    description:
+      "שיר ישן שחודש מרחוק: מבודדים ומנקים את השירה מההקלטה הקיימת, ובונים סביבה עיבוד מוזיקלי חדש. בלי להקליט מחדש.",
+  },
 ] as const;
