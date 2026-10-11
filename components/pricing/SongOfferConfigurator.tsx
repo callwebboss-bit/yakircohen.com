@@ -343,9 +343,7 @@ export default function SongOfferConfigurator({
         </div>
         <p className="mt-3">
           <span className="text-3xl font-bold text-foreground">{nis(quote.lines[0].withVat)}</span>
-          <span className="ms-2 text-xs text-muted-foreground">
-            כולל מע״מ ({nis(quote.lines[0].exVat)} + מע״מ)
-          </span>
+          <span className="ms-2 text-xs text-muted-foreground">כולל מע״מ</span>
         </p>
         <p className="mt-2 text-xs text-muted-foreground">
           תיקון זיופים לא כלול. אפשר להוסיף למטה.
@@ -518,10 +516,7 @@ function ParticipantsStepper({
       <div id={helpId} className="mb-3 rounded-lg border border-brand-red/30 bg-brand-red/5 px-3 py-2">
         <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
         <p className="mt-1 text-sm font-medium text-foreground">
-          {explanation.withVat}{" "}
-          <span className="whitespace-nowrap text-xs font-normal text-muted-foreground">
-            {explanation.exVat}
-          </span>
+          {explanation.withVat}
           {" · "}
           {explanation.limit}
         </p>
@@ -573,7 +568,7 @@ function ParticipantsStepper({
       </p>
       {count > 1 ? (
         <p className="mt-0.5 text-xs text-muted-foreground" aria-hidden="true">
-          {breakdown.exVat} · תוספת המשתתפים {nis(surchargeWithVat)} כולל מע״מ
+          תוספת המשתתפים {nis(surchargeWithVat)} כולל מע״מ
         </p>
       ) : null}
     </div>

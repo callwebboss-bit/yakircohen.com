@@ -36,11 +36,12 @@ import {
 /** מחיר לצרכן כולל מע״מ, "590 ₪". הקלטת שיר ותוספותיה מוצגות כך (2.10.2026). */
 /** שאלת הקבוצות בעמוד השיר, מהקטלוג: זמר אחד כלול, כל משתתף נוסף 99, עד 12 */
 const SONG_GROUP_FAQ_ANSWER = (() => {
-  const { withVat, exVat, limit } = getSongParticipantsExplanation();
+  /* טקסט בעמוד: כולל מע״מ בלבד (D86, 11.10.2026) */
+  const { withVat, limit } = getSongParticipantsExplanation();
   /* החלטת הבעלים 3.10.2026, סבב שלישי: כל משתתף נוסף מוסיף לתשלום, עם דוגמה */
-  const example = getSongParticipantsBreakdown(4).line;
+  const example = getSongParticipantsBreakdown(4).pageLine;
   /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. היה "כל אחד בתורו", בסתירה ל-4 בבת אחת */
-  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat} ${exVat}, ${limit}. לדוגמה, ${example}. כולם מקליטים באותו סשן: ${STUDIO_TURNS_NOTE}. אחר כך אני מחבר הכול לשיר אחד, וזה החלק שלוקח זמן.`;
+  return `כן, וכל משתתף נוסף מוסיף לתשלום. ${EXTRA_PERSON_COST_NOTE}. זמר אחד כלול במחיר, ובטופס בוחרים כמה משתתפים בשיר: ${withVat}, ${limit}. לדוגמה, ${example}. כולם מקליטים באותו סשן: ${STUDIO_TURNS_NOTE}. אחר כך אני מחבר הכול לשיר אחד, וזה החלק שלוקח זמן.`;
 })();
 
 function nisWithVat(id: PriceItemId): string {

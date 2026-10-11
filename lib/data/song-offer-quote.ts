@@ -53,7 +53,8 @@ export type SongOfferTotals = {
 export type SongOfferQuote = SongOfferTotals & {
   addonIds: SongAddonId[];
   participants: number;
-  /** "1,829 ₪ כולל מע״מ (1,550 ₪ + מע״מ)" */
+  /** "1,829 ₪ כולל מע״מ". שורת הסה״כ בעמוד, בלי לפני מע״מ (D86, 11.10.2026).
+      ההודעה לבעלים משתמשת ב-formatSongTotalLine, ששם נשארים שני המחירים */
   totalLine: string;
   /** ההודעה ללקוח בלי התג */
   messageText: string;
@@ -421,7 +422,7 @@ export function composeSongOfferQuote(
     lines: calc.lines,
     totalExVat: calc.totalExVat,
     totalWithVat: calc.totalWithVat,
-    totalLine: formatSongTotalLine(calc),
+    totalLine: `${nis(calc.totalWithVat)} כולל מע״מ`,
     messageText: text,
     ycTag,
     waHref,

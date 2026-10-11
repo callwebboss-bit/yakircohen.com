@@ -52,10 +52,11 @@ const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
 const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
 const SONG_PARTICIPANTS_LINE = (() => {
-  const { withVat, exVat, limit } = getSongParticipantsExplanation();
-  return `${withVat} ${exVat}, ${limit}`;
+  /* טקסט בעמוד: כולל מע״מ בלבד (D86, 11.10.2026) */
+  const { withVat, limit } = getSongParticipantsExplanation();
+  return `${withVat}, ${limit}`;
 })();
-const SONG_FOUR_PEOPLE_EXAMPLE = getSongParticipantsBreakdown(4).line;
+const SONG_FOUR_PEOPLE_EXAMPLE = getSongParticipantsBreakdown(4).pageLine;
 const SONG_CTA_LABEL = `הקלטת שיר באולפן: ${SONG_PRICE.totalLabel}`;
 const PITCH_DEMO_ID = "pitch-before-after";
 

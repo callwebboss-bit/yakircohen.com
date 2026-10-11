@@ -12,6 +12,7 @@ import {
 import {
   buildSongCallbackPayload,
   composeSongOfferQuote,
+  formatSongTotalLine,
   normalizeSongSelection,
   songAddonKey,
 } from "@/lib/data/song-offer-quote";
@@ -58,7 +59,9 @@ describe("getSongOfferQuotes (the precomputed combinations the form receives)", 
   it("base-only is 590 including VAT (500 before VAT)", () => {
     assert.equal(quotes.base.totalWithVat, 590);
     assert.equal(quotes.base.totalExVat, 500);
-    assert.equal(quotes.base.totalLine, "590 ₪ כולל מע״מ (500 ₪ + מע״מ)");
+    /* D86: שורת הסה״כ בעמוד היא כולל מע״מ בלבד. ההודעה לבעלים נשארת כפולה */
+    assert.equal(quotes.base.totalLine, "590 ₪ כולל מע״מ");
+    assert.equal(formatSongTotalLine(quotes.base), "590 ₪ כולל מע״מ (500 ₪ + מע״מ)");
   });
 });
 
