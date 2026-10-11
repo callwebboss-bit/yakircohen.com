@@ -46,6 +46,7 @@
     "sync:llms": "tsx scripts/sync-llms.ts",
     "audit:a11y": "node scripts/audit-a11y.mjs",
     "audit:seo-diff": "node scripts/audit-seo-diff.mjs",
+    "audit:vat-display": "node scripts/audit-vat-display.mjs",
     "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
     "audit:visual": "node scripts/audit-visual.mjs",
     "audit:live-tour": "node scripts/audit-live-tour.mjs",

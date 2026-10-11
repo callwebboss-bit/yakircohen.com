@@ -39,7 +39,8 @@ function stripDualPrefix(formatted: string): string {
 
 /**
  * תשובת המחיר של הקלטת השיר נבנית מ-song-offer (הבסיס והתוספות מהקטלוג),
- * כולל מע״מ קודם, כדי שתתאים לטופס בעמוד ולא תתיישן כשמחיר משתנה.
+ * כולל מע״מ בלבד (D86, 11.10.2026: בעמוד צרכני מחיר אחד), כדי שתתאים לטופס בעמוד
+ * ולא תתיישן כשמחיר משתנה. התשובה מוצגת בפוטר של כל עמוד, באשף ובסכמה.
  */
 export function buildRecordingSongStudioPriceAnswer(): string {
   const { base, addons } = getSongOfferView();
@@ -47,7 +48,7 @@ export function buildRecordingSongStudioPriceAnswer(): string {
   const addonLines = addons
     .map((a) => `${a.label} ${a.withVat.toLocaleString("he-IL")} ₪`)
     .join(". ");
-  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ (${base.exVat.toLocaleString("he-IL")} ₪ + מע״מ), כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה, דרשה או אמירה ${blessing} ₪ כולל מע״מ, בלי הגבלת זמן ועם מוזיקת רקע.`;
+  return `הקלטת שיר באולפן: ${base.withVat.toLocaleString("he-IL")} ₪ כולל מע״מ, כולל הקלטה, מיקס ומאסטר בסשן של שעה. תיקון זיופים לא כלול. תוספות לפי בחירה, כולל מע״מ: ${addonLines}. זמר אחד כלול. ${songParticipantsLine()}. ברכה, דרשה או אמירה ${blessing} ₪ כולל מע״מ, בלי הגבלת זמן ועם מוזיקת רקע.`;
 }
 
 export const RECORDING_SONG_STUDIO_PRICE_FAQ: AeoFaqItem = {

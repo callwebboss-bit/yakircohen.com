@@ -4,6 +4,7 @@ import {
   formatConsumerPriceLine,
   formatDualPriceLines,
   formatHubPriceDual,
+  formatPagePrice,
   formatPrice,
   formatPriceScopeDisplay,
   getPriceAudience,
@@ -62,5 +63,33 @@ describe("pricing display audience", () => {
       formatFromPriceDual(1695, "business"),
       formatPrice(1695, { from: true, audience: "business" }).inline,
     );
+  });
+});
+
+/* D86 (11.10.2026): בעמוד צרכני מחיר אחד, כולל מע״מ. בהודעה לבעלים נשארים שניים.
+   ברירת המחדל היא "message", כדי שהודעה לעולם לא תאבד את המחיר לפני מע״מ. */
+describe("pricing display channel (D86)", () => {
+  it("page channel, consumer: only the VAT-inclusive price", () => {
+    const p = formatPrice(500, { channel: "page" });
+    assert.equal(p.headline, `${n(withVat(500))} ₪ כולל מע״מ`);
+    assert.equal(p.vatNote, "");
+    assert.equal(p.inline, p.headline);
+    assert.ok(!/\+ מע״מ|לפני מע״מ/.test(p.inline));
+  });
+
+  it("formatPagePrice keeps the from- prefix", () => {
+    assert.equal(formatPagePrice(500, { from: true }).inline, `מ-${n(withVat(500))} ₪ כולל מע״מ`);
+  });
+
+  it("page channel, business: unchanged, ex-VAT first with the total beside it", () => {
+    const page = formatPrice(500, { channel: "page", audience: "business" });
+    const message = formatPrice(500, { audience: "business" });
+    assert.deepEqual(page, message);
+  });
+
+  it("default channel is message and keeps both prices", () => {
+    const p = formatPrice(500);
+    assert.equal(p.vatNote, `${n(500)} ₪ + מע״מ`);
+    assert.equal(p.inline, `${n(withVat(500))} ₪ כולל מע״מ (${n(500)} ₪ + מע״מ)`);
   });
 });

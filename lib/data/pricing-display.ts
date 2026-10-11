@@ -36,17 +36,44 @@ function amountText(amount: number): string {
     : amount.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+/**
+ * לאן הולך הטקסט (החלטת הבעלים D86, 11.10.2026):
+ * - "page": טקסט שמוצג בעמוד. צרכן רואה מחיר אחד, כולל מע״מ ("המחיר הכולל בלבד",
+ *   סעיף 17ד), בלי השורה הקטנה של לפני מע״מ. עסק (/business, /pro) בלי שינוי.
+ * - "message": הודעת וואטסאפ, מייל, עמדת המכירות, closer, quote ו-llms.txt. שם
+ *   נשארים שני המחירים, כי זה מה שהבעלים צריך כדי לתמחר ולהוציא חשבונית.
+ * ברירת המחדל היא "message" בכוונה: מקום ששכחו להעביר ל-"page" נתפס בבדיקת
+ * audit:vat-display על ה-HTML, ואילו הודעה שאיבדה את המחיר לפני מע״מ לא הייתה
+ * נתפסת בשום מקום.
+ */
+export type PriceChannel = "page" | "message";
+
 export function formatPrice(
   exVat: number,
-  { from = false, audience = "consumer" }: { from?: boolean; audience?: PriceAudience } = {},
+  {
+    from = false,
+    audience = "consumer",
+    channel = "message",
+  }: { from?: boolean; audience?: PriceAudience; channel?: PriceChannel } = {},
 ): FormattedPrice {
   const prefix = from ? "מ-" : "";
   const totalWithVat = withVat(exVat);
   const ex = `${amountText(exVat)} ₪ + מע״מ`;
   const total = `${totalWithVat.toLocaleString("he-IL")} ₪ כולל מע״מ`;
   const headline = audience === "business" ? `${prefix}${ex}` : `${prefix}${total}`;
+  if (channel === "page" && audience !== "business") {
+    return { headline, vatNote: "", inline: headline, exVat, totalWithVat };
+  }
   const vatNote = audience === "business" ? total : ex;
   return { headline, vatNote, inline: `${headline} (${vatNote})`, exVat, totalWithVat };
+}
+
+/** קיצור לטקסט בעמוד: formatPrice עם channel "page" */
+export function formatPagePrice(
+  exVat: number,
+  options: { from?: boolean; audience?: PriceAudience } = {},
+): FormattedPrice {
+  return formatPrice(exVat, { ...options, channel: "page" });
 }
 
 export type PriceScopeDisplayLines = {
@@ -86,10 +113,11 @@ export function formatDualPriceLines(
   baseExVat: number,
   withEditing: PriceWithEditing,
   audience: PriceAudience = "consumer",
+  channel: PriceChannel = "message",
 ): DualPriceDisplayLines {
   return {
-    recordingOnly: `הקלטה בלבד - ${formatPrice(baseExVat, { audience }).inline}`,
-    withEditing: `${withEditing.label} - ${formatPrice(withEditing.exVat, { audience }).inline}`,
+    recordingOnly: `הקלטה בלבד - ${formatPrice(baseExVat, { audience, channel }).inline}`,
+    withEditing: `${withEditing.label} - ${formatPrice(withEditing.exVat, { audience, channel }).inline}`,
     socialProof: "רוב הלקוחות בוחרים באפשרות השנייה",
   };
 }
@@ -113,13 +141,15 @@ export function formatPriceScopeDisplay({
   scope,
   showFromPrefix = false,
   audience = "consumer",
+  channel = "message",
 }: {
   exVat: number;
   scope?: PriceScope;
   showFromPrefix?: boolean;
   audience?: PriceAudience;
+  channel?: PriceChannel;
 }): PriceScopeDisplayLines {
-  const price = formatPrice(exVat, { from: showFromPrefix, audience });
+  const price = formatPrice(exVat, { from: showFromPrefix, audience, channel });
   const primary = price.headline;
   const scopeLine = formatScopeLine(scope);
   const vatLine = price.vatNote;
@@ -148,13 +178,18 @@ export function formatHubPriceDual(
   exVat: number,
   priceFrom = false,
   audience: PriceAudience = "consumer",
+  channel: PriceChannel = "message",
 ): string {
-  return formatPrice(exVat, { from: priceFrom, audience }).inline;
+  return formatPrice(exVat, { from: priceFrom, audience, channel }).inline;
 }
 
 /** "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)", שורת מחיר לצרכן בטבלאות */
-export function formatConsumerPriceLine(exVat: number, priceFrom = false): string {
-  return formatPrice(exVat, { from: priceFrom }).inline;
+export function formatConsumerPriceLine(
+  exVat: number,
+  priceFrom = false,
+  channel: PriceChannel = "message",
+): string {
+  return formatPrice(exVat, { from: priceFrom, channel }).inline;
 }
 
 export type ConsumerPriceDisplay = {

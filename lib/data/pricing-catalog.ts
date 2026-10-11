@@ -1532,12 +1532,16 @@ export function formatFromPriceExVat(exVat: number): string {
 export function formatFromPriceDual(
   exVat: number,
   audience: PriceAudience = "consumer",
+  /* D86 (11.10.2026): "page" לצרכן מחזיר רק את המחיר הכולל מע״מ. ברירת המחדל
+     "message" שומרת את שני המחירים להודעות לבעלים (ראו PriceChannel ב-pricing-display). */
+  channel: "page" | "message" = "message",
 ): string {
   /* 41.5 (שמירה קבועה בענן) מוצג "41.50", כמו בטופס השיר */
   const ex = Number.isInteger(exVat)
     ? exVat.toLocaleString("he-IL")
     : exVat.toLocaleString("he-IL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const total = withVatLocal(exVat).toLocaleString("he-IL");
+  if (channel === "page" && audience !== "business") return `מ-${total} ₪ כולל מע״מ`;
   return audience === "business"
     ? `מ-${ex} ₪ + מע״מ (${total} ₪ כולל מע״מ)`
     : `מ-${total} ₪ כולל מע״מ (${ex} ₪ + מע״מ)`;
