@@ -1,5 +1,4 @@
 import Link from "next/link";
-import BlessingsSectionHeader from "@/components/blessings/BlessingsSectionHeader";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import RecordingSongExampleVideos from "@/components/seo/RecordingSongExampleVideos";
 import Button from "@/components/ui/Button";
@@ -99,7 +98,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
       {page.audience ? (
         <Section className="bg-surface" ariaLabelledby="offer-audience-title" padding="sm">
           <Container className="max-w-3xl">
-            <BlessingsSectionHeader id="offer-audience-title" eyebrow="למי זה מתאים" title={page.audience.title} />
+            <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">למי זה מתאים</p>
+              <h2 id="offer-audience-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {page.audience.title}
+              </h2>
+            </header>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {page.audience.items.map((item) => (
                 <li
@@ -116,7 +120,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
 
       <Section className="bg-background" ariaLabelledby="offer-how-title" padding="sm">
         <Container>
-          <BlessingsSectionHeader id="offer-how-title" eyebrow="איך זה עובד" title="צעד אחרי צעד" />
+          <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">איך זה עובד</p>
+              <h2 id="offer-how-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                צעד אחרי צעד
+              </h2>
+            </header>
           <ol role="list" className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {page.steps.map((step, index) => (
               <li key={step.title} className="rounded-2xl border border-border bg-background p-5 text-center">
@@ -133,7 +142,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
 
       <Section className="bg-background" ariaLabelledby="offer-includes-title" padding="sm">
         <Container className="max-w-3xl">
-          <BlessingsSectionHeader id="offer-includes-title" eyebrow="מה כלול" title={page.includesTitle} />
+          <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">מה כלול</p>
+              <h2 id="offer-includes-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {page.includesTitle}
+              </h2>
+            </header>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {page.includes.map((item) => (
               <li
@@ -149,7 +163,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
 
       <Section id="offer-price" className="border-t border-border bg-surface" ariaLabelledby="offer-price-title" padding="sm">
         <Container className="max-w-3xl">
-          <BlessingsSectionHeader id="offer-price-title" eyebrow="מחיר" title={page.priceTitle} />
+          <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">מחיר</p>
+              <h2 id="offer-price-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {page.priceTitle}
+              </h2>
+            </header>
           <ul className="mt-8 divide-y divide-border rounded-2xl border border-border bg-background">
             {rows.map((row) => {
               const price = formatConsumerPrice(row.exVat);
@@ -184,12 +203,15 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
       {page.extraSections?.map((section) => (
         <Section key={section.id} className="bg-background" ariaLabelledby={`${section.id}-title`} padding="sm">
           <Container className="max-w-3xl">
-            <BlessingsSectionHeader
-              id={`${section.id}-title`}
-              eyebrow={section.eyebrow}
-              title={section.title}
-              description={section.description}
-            />
+            <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">{section.eyebrow}</p>
+              <h2 id={`${section.id}-title`} className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {section.title}
+              </h2>
+              {section.description ? (
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{section.description}</p>
+              ) : null}
+            </header>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {section.items.map((item) => (
                 <li key={item.title} className="rounded-xl border border-border bg-surface px-4 py-4">
@@ -205,12 +227,15 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
       {page.videos?.items.length ? (
         <Section className="border-t border-border bg-surface" ariaLabelledby="offer-videos-title" padding="sm">
           <Container>
-            <BlessingsSectionHeader
-              id="offer-videos-title"
-              eyebrow="דוגמאות"
-              title={page.videos.title}
-              description={page.videos.description}
-            />
+            <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">דוגמאות</p>
+              <h2 id="offer-videos-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {page.videos.title}
+              </h2>
+              {page.videos.description ? (
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{page.videos.description}</p>
+              ) : null}
+            </header>
             <RecordingSongExampleVideos videos={page.videos.items} className="mt-8" />
           </Container>
         </Section>
@@ -219,7 +244,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
       {page.alternatives && alternatives.length ? (
         <Section className="bg-background" ariaLabelledby="offer-alternatives-title" padding="sm">
           <Container className="max-w-3xl">
-            <BlessingsSectionHeader id="offer-alternatives-title" eyebrow="מה מתאים לכם" title={page.alternatives.title} />
+            <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">מה מתאים לכם</p>
+              <h2 id="offer-alternatives-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                {page.alternatives.title}
+              </h2>
+            </header>
             <ul className="mt-8 grid gap-3">
               {alternatives.map((item) => (
                 <li key={item.href} className="rounded-xl border border-border bg-surface px-4 py-4">
@@ -236,7 +266,12 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
 
       <Section className="border-t border-border bg-surface" ariaLabelledby="offer-faq-title" padding="sm">
         <Container className="max-w-3xl">
-          <BlessingsSectionHeader id="offer-faq-title" eyebrow="שאלות" title="שאלות נפוצות" />
+          <header className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">שאלות</p>
+              <h2 id="offer-faq-title" className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                שאלות נפוצות
+              </h2>
+            </header>
           <div className="mt-8">
             <FAQWithCtaLinks items={faqItems} />
           </div>
