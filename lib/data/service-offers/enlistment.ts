@@ -100,6 +100,11 @@ export const ENLISTMENT_PAGE: ServiceOfferPage = {
       question: "אפשר להוסיף תמונות?",
       answer: "כן, אפשר להוסיף מצגת תמונות לשיר או לברכה.",
     },
+    {
+      id: "enlist-text",
+      question: "לא יודעים מה לכתוב בברכה?",
+      answer: "שולחים לנו מה שיש לכם. ליטוש קל של הטקסט כלול, ואפשר גם כתיבה מחדש של הטקסט, בתוספת.",
+    },
   ],
   whatsapp: {
     packageLabel: "שיר או ברכה לגיוס",

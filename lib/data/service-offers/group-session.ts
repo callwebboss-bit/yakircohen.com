@@ -177,6 +177,11 @@ export const GROUP_SESSION_PAGE: ServiceOfferPage = {
       question: "כל אחד מקליט שיר משלו?",
       answer: "לא. כל הקבוצה מקליטה שיר אחד משותף, וכל אחד נכנס ומקליט את הקטע שלו בשיר.",
     },
+    {
+      id: "group-cost",
+      question: "כמה עולה מסיבת רווקות באולפן?",
+      answer: `קבוצה של 10: ${perPersonLine(10)}. המחיר כולל את הקלטת השיר המשותף ועוד כל משתתף נוסף, עד 12.`,
+    },
   ],
   whatsapp: {
     packageLabel: "סשן קבוצתי באולפן",

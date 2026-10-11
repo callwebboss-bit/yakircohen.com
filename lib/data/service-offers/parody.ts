@@ -129,6 +129,17 @@ export const PARODY_PAGE: ServiceOfferPage = {
       question: "תוך כמה זמן השיר מוכן?",
       answer: "תוך 24 שעות.",
     },
+    {
+      id: "parody-what",
+      question: "מה זה פרודיה לאירוע?",
+      answer: "לוקחים שיר שהלחן שלו מוכר לכולם, וכותבים לו מילים חדשות על האדם ועל האירוע. הקהל מזהה את הלחן, והמילים מספרות עליכם.",
+    },
+    /* המסירה: הסקשן "מה מקבלים ביד" ב-components/seo/RecordingSongModiinPageContent.tsx */
+    {
+      id: "parody-delivery",
+      question: "מה מקבלים בסוף?",
+      answer: "את השיר בשני פורמטים, WAV ו-MP3, בוואטסאפ ובקישור להורדה.",
+    },
   ],
   whatsapp: {
     packageLabel: "פרודיה לאירוע",

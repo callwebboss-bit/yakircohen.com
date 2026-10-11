@@ -3,6 +3,8 @@
  * נטען רק בעמודי מאמר שמקושרים ל-NURTURE_BLOG_SLUGS.
  */
 
+import { publishedServiceLinks } from "@/lib/data/service-offers/status";
+
 export type BlogNurtureServiceLink = {
   href: string;
   label: string;
@@ -93,6 +95,9 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
       { href: "/podcast", label: "מרכז פודקאסט" },
       { href: "/podcast/podcast-recording", label: "הקלטת פודקאסט" },
       { href: "/podcast/podcast-editing", label: "עריכת פודקאסט" },
+      /* המדריך הזה מופיע גבוה על "איך פותחים פודקאסט" (Bing, 11.10.2026), ולכן
+         הוא מוביל לחבילת ההשקה ולאימון ההנחיה, אחרי שהם מתפרסמים */
+      ...publishedServiceLinks(["/podcast/launch-package", "/podcast/host-coaching"]),
     ],
     ctaHeading: "מוכנים להפיק פרק ראשון?",
     ctaBody: "תיאום קצר בוואטסאפ - מסלול הקלטה, עריכה או חבילה מלאה.",
@@ -107,6 +112,7 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
       { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
       { href: "/studio/blessings/bride-groom-blessing", label: "ברכת חתן וכלה" },
       { href: "/studio", label: "אולפן הקלטות במודיעין" },
+      ...publishedServiceLinks(["/studio/original-song", "/studio/professional-singer"]),
     ],
     ctaHeading: "רוצים להקליט שיר לחתונה?",
     ctaBody: "תיאום סשן באולפן במודיעין - ליווי גם בלי ניסיון שירה.",
@@ -121,6 +127,7 @@ export const BLOG_NURTURE_BY_SLUG: Record<NurtureBlogSlug, BlogNurtureConfig> = 
       { href: "/studio/recording-song-modiin", label: "הקלטת שיר באולפן" },
       { href: "/studio/blessings", label: "הקלטת ברכות" },
       { href: "/for-couples", label: "מסלול לזוגות" },
+      ...publishedServiceLinks(["/studio/original-song", "/studio/professional-singer"]),
     ],
     ctaHeading: "מתאמים שיר לחופה?",
     ctaBody: "שולחים רעיון או שיר - מתאמים הקלטה באולפן.",

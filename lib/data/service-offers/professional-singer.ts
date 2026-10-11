@@ -89,6 +89,17 @@ export const PROFESSIONAL_SINGER_PAGE: ServiceOfferPage = {
       question: "כמה זה עולה?",
       answer: "הזמר הוא תוספת על המחיר של השיר עצמו. בשיר קיים: הקלטת השיר, ועוד הזמר.",
     },
+    {
+      id: "singer-need-sing",
+      question: "צריך לדעת לשיר?",
+      answer: "לא. בשביל זה יש זמרים בצוות: אתם מביאים את הסיפור, והם שרים.",
+    },
+    /* המסירה: הסקשן "מה מקבלים ביד" ב-components/seo/RecordingSongModiinPageContent.tsx */
+    {
+      id: "singer-delivery",
+      question: "מה מקבלים בסוף?",
+      answer: "את השיר בשני פורמטים, WAV ו-MP3, בוואטסאפ ובקישור להורדה.",
+    },
   ],
   whatsapp: {
     packageLabel: "שיר בביצוע זמר מהצוות",

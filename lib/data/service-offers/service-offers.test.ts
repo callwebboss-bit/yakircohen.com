@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, it } from "node:test";
+import { BLOG_SLUGS } from "@/lib/data/blog-slugs";
 import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { SERVICE_OFFER_PAGES } from "@/lib/data/service-offers";
@@ -86,6 +87,10 @@ describe("publish state", () => {
   it("alternatives and related links point to real routes", () => {
     for (const page of SERVICE_OFFER_PAGES) {
       for (const link of [...page.related, ...(page.alternatives?.items ?? [])]) {
+        if (link.href.startsWith("/blog/")) {
+          assert.ok((BLOG_SLUGS as readonly string[]).includes(link.href.slice("/blog/".length)), `${page.path} -> ${link.href}`);
+          continue;
+        }
         const path = link.href.replace(/^\//, "");
         const candidates = [join("app", path, "page.tsx"), join("app/(services)", path, "page.tsx")];
         assert.ok(candidates.some((c) => existsSync(join(process.cwd(), c))), `${page.path} -> ${link.href}`);

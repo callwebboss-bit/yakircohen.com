@@ -95,6 +95,11 @@ export const PODCAST_LAUNCH_PAGE: ServiceOfferPage = {
       question: "ההעלאה לספוטיפיי כלולה?",
       answer: "ברוב חבילות הפרקים ההעלאה לספוטיפיי כבר כלולה. בפגישת האפיון בודקים יחד איזו חבילה מתאימה לכם.",
     },
+    {
+      id: "launch-equipment",
+      question: "צריך ציוד כדי להתחיל?",
+      answer: "לא. את הפרקים מקליטים באולפן במודיעין, עם הציוד שלנו.",
+    },
   ],
   whatsapp: {
     packageLabel: "חבילת השקה לפודקאסט חדש",
@@ -102,6 +107,7 @@ export const PODCAST_LAUNCH_PAGE: ServiceOfferPage = {
     utmCampaign: "podcast_launch",
   },
   related: [
+    { href: "/blog/podcast-production-guide-israel", label: "המדריך להפקת פודקאסט בישראל" },
     { href: "/podcast/podcast-production", label: "הפקת פודקאסט" },
     { href: "/podcast/podcast-recording", label: "הקלטת פודקאסט" },
     { href: "/podcast/subscription", label: "מנוי פודקאסט" },

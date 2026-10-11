@@ -118,6 +118,17 @@ export const ORIGINAL_SONG_PAGE: ServiceOfferPage = {
       answer:
         "כן. מלווים אתכם לאורך כל ההקלטה, ואפשר להוסיף תיקון זיופים. ואם לא רוצים לשיר בכלל, יש לנו זמרים וזמרות שיבצעו את השיר.",
     },
+    {
+      id: "original-human-or-ai",
+      question: "השיר נכתב על ידי אדם או על ידי AI?",
+      answer: "בשיר המקורי כותבים איתכם את המילים, עושים לחן ומקליטים באולפן. מחפשים שיר שנוצר ב-AI? יש לנו גם שיר AI במתנה.",
+    },
+    /* המסירה: הסקשן "מה מקבלים ביד" ב-components/seo/RecordingSongModiinPageContent.tsx */
+    {
+      id: "original-delivery",
+      question: "מה מקבלים בסוף?",
+      answer: "את השיר בשני פורמטים, WAV ו-MP3, בוואטסאפ ובקישור להורדה.",
+    },
   ],
   whatsapp: {
     packageLabel: "שיר מקורי לאירוע",
