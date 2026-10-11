@@ -26,6 +26,10 @@ import {
 import { STUDIO_ADDRESS_COORDINATION_NOTE, STUDIO_PARKING_NOTE } from "@/lib/constants";
 import { getSongParticipantsBreakdown, getSongParticipantsExplanation } from "./song-offer";
 import { EXTRA_PERSON_COST_NOTE } from "./participant-cost-copy";
+
+/* החלטות הבעלים 11.10.2026 (פער מול מתחרים): המתופף האלקטרוני כתוספת בדפי ה-DJ,
+   החתונה והבר מצווה. המחיר מהקטלוג */
+const DRUMMER_ADDON_LINE = `תוספת: מתופף אלקטרוני לרחבה, ${formatConsumerPriceLine(getExVat("electronic_drummer"))}`;
 import { servicePricingForAttractionService, servicePricingForEventBundles, ledBoothPriceFaqAnswer, ledBoothPurchaseCopy, LED_BOOTH_SUBTITLE_TRAIL } from "./attraction-book-pricing";
 import {
   youtubeEmbedUrl,
@@ -1638,6 +1642,7 @@ export const EVENTS_SERVICES = {
       "קריאת קהל בזמן אמת, לא תקועים מול המחשב",
       "תאורת LED, קריאות מקצועיות, אירועים דתיים ומעורבים",
       "חבילות עם אטרקציות, עשן, זיקוקים, קונפטי",
+      DRUMMER_ADDON_LINE,
     ],
     pricing: [
       /* WP2 (ED-04, החלטת הבעלים 7.9): הבסיס הוא dj_premium, תקליטן מהצוות,
@@ -1969,6 +1974,7 @@ export const EVENTS_SERVICES = {
       "כניסה עם אפקט מתוזמן: עשן כבד, זיקוקים קרים או קונפטי",
       "מצגת גדילה מתמונות הילדות, מעובדת ומסונכרנת למוזיקה",
       "הקלטת הדרשה באולפן מראש, לגיבוי או להשמעה באירוע",
+      DRUMMER_ADDON_LINE,
     ],
     pricing: [
       {
@@ -2100,6 +2106,7 @@ export const EVENTS_SERVICES = {
       `מ-2 אטרקציות: הנחת חבילה של ${attractionBundleDiscountPercent()}% ממחיר אטרקציה בודדת`,
       "תיאום מסונכרן, DJ מכיר את כל האפקטים",
       `מחשבון חבילות + הצעה בוואטסאפ ${TIME_CLAIMS.quoteHour}`,
+      DRUMMER_ADDON_LINE,
     ],
     pricing: [
       {

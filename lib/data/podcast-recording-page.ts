@@ -9,6 +9,7 @@ import {
   getExVat,
   getPriceById,
   PODCAST_EXTRA_EDIT_NOTE,
+  PODCAST_FULL_PRODUCTION_REELS_NOTE,
   PODCAST_EXTRA_EDIT_TIME,
   PODCAST_FULL_PRODUCTION_NOTE,
   PODCAST_VIDEO_CAMERAS_NOTE,
@@ -53,7 +54,7 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     points: [
       "מפיק מלווה בזמן אמת",
       `עריכה נוספת (ניקוי גמגומים, שיעולים ושתיקות): בתוספת, ${formatPrice(getExVat("podcast_editing_hour"), { from: true }).inline}, או כלולה בהפקה המלאה`,
-      "קטעי ריל: בתוספת",
+      `קטעי ריל: בתוספת, או ${PODCAST_FULL_PRODUCTION_REELS_NOTE} כלולים בהפקה המלאה`,
     ],
   },
   {
@@ -66,7 +67,8 @@ export const PODCAST_RECORDING_PACKAGES: readonly {
     points: [
       "ייעוץ ועריכה מהודקת וקפדנית יותר, כלולים",
       "מעברי תמונה, וכל מה שמעלה את הפרק לרמה פרימיום",
-      "קטעי ריל: בתוספת",
+      /* החלטת הבעלים 11.10.2026: היה "קטעי ריל: בתוספת" */
+      `${PODCAST_FULL_PRODUCTION_REELS_NOTE}, כלולים`,
     ],
   },
 ] as const;

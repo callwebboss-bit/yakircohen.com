@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 174,
-  "contentHash": "78acd182ff299e37",
+  "itemCount": 178,
+  "contentHash": "b28625a96382c511",
   "items": [
     {
       "id": "studio_half_hour",
@@ -30,6 +30,26 @@
       "suitedFor": "קריינות, שעת חדר בלי מיקס",
       "withEditingExVat": 2000,
       "withEditingInclVat": 2360
+    },
+    {
+      "id": "podcast_hours_pass_5",
+      "label": "כרטיסיית 5 שעות אולפן פודקאסט",
+      "category": "podcast",
+      "exVat": 7500,
+      "inclVat": 8850,
+      "priceFrom": false,
+      "context": "5 שעות אולפן עם הנדסת הקלטה, במחיר שעה רגיל. בתוקף שנה מיום הרכישה",
+      "suitedFor": "מי שמקליט פודקאסט לא באופן קבוע ולא רוצה מנוי"
+    },
+    {
+      "id": "podcast_hours_pass_10",
+      "label": "כרטיסיית 10 שעות אולפן פודקאסט",
+      "category": "podcast",
+      "exVat": 15000,
+      "inclVat": 17700,
+      "priceFrom": false,
+      "context": "10 שעות אולפן עם הנדסת הקלטה, במחיר שעה רגיל. בתוקף שנה מיום הרכישה",
+      "suitedFor": "מי שמקליט פודקאסט לא באופן קבוע ולא רוצה מנוי"
     },
     {
       "id": "blessing_recording",
@@ -276,7 +296,7 @@
       "exVat": 2500,
       "inclVat": 2950,
       "priceFrom": false,
-      "context": "צילום ב-3 עד 4 מצלמות לפי הפרק, באותו מחיר, ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה, ועוד עריכה נוספת תוך 24 עד 48 שעות",
+      "context": "צילום ב-3 עד 4 מצלמות לפי הפרק, באותו מחיר, ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה, ועוד עריכה נוספת תוך 24 עד 48 שעות ו-2 רילס עם כתוביות",
       "suitedFor": "מי שרוצה ראש שקט"
     },
     {
@@ -571,6 +591,24 @@
       "inclVat": 3056,
       "priceFrom": true,
       "context": "מחיר פתיחה, לפי משתתפים וצילומי חוץ"
+    },
+    {
+      "id": "bat_mitzvah_clip_makeup",
+      "label": "מאפרת ביום הצילומים",
+      "category": "addons",
+      "exVat": 300,
+      "inclVat": 354,
+      "priceFrom": false,
+      "context": "תוספת לקליפ בת מצווה"
+    },
+    {
+      "id": "bat_mitzvah_clip_green_screen",
+      "label": "צילום על מסך ירוק",
+      "category": "addons",
+      "exVat": 930,
+      "inclVat": 1097,
+      "priceFrom": false,
+      "context": "תוספת לקליפ בת מצווה: הרקע מוחלף בעריכה"
     },
     {
       "id": "academy_focused_training",

@@ -12,6 +12,12 @@ import {
   BAT_MITZVAH_STARTING_PRICE,
 } from "@/lib/data/bat-mitzvah-gifts-page";
 import { SITE_NAME } from "@/lib/constants";
+import { getAddonsForBaseId } from "@/lib/data/pricing-catalog";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
+
+const BAT_MITZVAH_CLIP_ADDON_LINES = getAddonsForBaseId("bat_mitzvah_clip").map(
+  (item) => `${item.label} ${formatConsumerPriceLine(item.exVat)}`,
+);
 import { ENTITY_IDS } from "@/lib/seo/entity-ids";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 
@@ -100,6 +106,10 @@ export default function BatMitzvahClipPageContent() {
           </p>
           <p className="mt-4 text-sm font-semibold text-foreground">
             החל מ-{BAT_MITZVAH_STARTING_PRICE} ₪ - ניתן גם כשובר מתנה
+          </p>
+          {/* החלטות הבעלים 11.10.2026: תוספות בתשלום. צילומי חוץ נשארים לפי היקף */}
+          <p className="mx-auto mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground">
+            תוספות: {BAT_MITZVAH_CLIP_ADDON_LINES.join(" · ")} · צילומי חוץ לפי היקף
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a

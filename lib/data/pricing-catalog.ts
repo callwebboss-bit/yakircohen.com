@@ -191,7 +191,9 @@ export const PODCAST_VIDEO_CAMERAS_NOTE = "3 עד 4 מצלמות לפי הפרק
 export const PODCAST_VIDEO_INCLUDES_NOTE = `צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}, ותאורה, והפרק המלא אצלכם מיד בסוף ההקלטה`;
 export const PODCAST_EXTRA_EDIT_TIME = "תוך 24 עד 48 שעות";
 export const PODCAST_EXTRA_EDIT_NOTE = `עריכה נוספת ${PODCAST_EXTRA_EDIT_TIME}`;
-export const PODCAST_FULL_PRODUCTION_NOTE = `${PODCAST_VIDEO_INCLUDES_NOTE}, ועוד ${PODCAST_EXTRA_EDIT_NOTE}`;
+/* החלטת הבעלים 11.10.2026 (פער מול מתחרים): 2 רילס עם כתוביות כלולים בהפקה המלאה */
+export const PODCAST_FULL_PRODUCTION_REELS_NOTE = "2 רילס עם כתוביות";
+export const PODCAST_FULL_PRODUCTION_NOTE = `${PODCAST_VIDEO_INCLUDES_NOTE}, ועוד ${PODCAST_EXTRA_EDIT_NOTE} ו-${PODCAST_FULL_PRODUCTION_REELS_NOTE}`;
 
 /**
  * קיבולת האולפן (החלטת הבעלים D64, 7.10.2026): 4 מקליטים בבת אחת. מעל 4
@@ -231,6 +233,25 @@ export const PRICING_CATALOG = [
     /* "דרשה ארוכה" ירד: דרשה באותו מחיר כמו ברכה (החלטות 5.10.2026 (ברכות)) */
     suitedFor: "קריינות, שעת חדר בלי מיקס",
     withEditing: { label: "שעת אולפן + עריכה", exVat: 2000 },
+  },
+  /* החלטות הבעלים 11.10.2026 (פער מול מתחרים): כרטיסיית שעות אולפן לפודקאסט,
+     במחיר שעה רגיל (בלי הנחה, ולכן לא ב-CATALOG_BUNDLES), בתוקף שנה. המחיר
+     נבדק מול studio_hour ב-pricing-catalog-passes.test.ts */
+  {
+    id: "podcast_hours_pass_5",
+    label: "כרטיסיית 5 שעות אולפן פודקאסט",
+    exVat: 7500,
+    category: "podcast",
+    context: "5 שעות אולפן עם הנדסת הקלטה, במחיר שעה רגיל. בתוקף שנה מיום הרכישה",
+    suitedFor: "מי שמקליט פודקאסט לא באופן קבוע ולא רוצה מנוי",
+  },
+  {
+    id: "podcast_hours_pass_10",
+    label: "כרטיסיית 10 שעות אולפן פודקאסט",
+    exVat: 15000,
+    category: "podcast",
+    context: "10 שעות אולפן עם הנדסת הקלטה, במחיר שעה רגיל. בתוקף שנה מיום הרכישה",
+    suitedFor: "מי שמקליט פודקאסט לא באופן קבוע ולא רוצה מנוי",
   },
   {
     id: "blessing_recording",
@@ -549,6 +570,11 @@ export const PRICING_CATALOG = [
   { id: "voiceover_funny_ringtone", label: "רינגטון מצחיק", exVat: 299, category: "online", context: "קריינות לכל דבר: הקלטה, עיבוד וקובץ מוכן" },
   { id: "singer_live_recording_promo", label: "הקלטת ההופעה מהמיקסר, מבצע", exVat: 399, category: "addons", context: "מבצע הרגע האחרון באשף ההגברה" },
   { id: "bat_mitzvah_clip", label: "קליפ בת מצווה", exVat: 2590, category: "studio", context: "מחיר פתיחה, לפי משתתפים וצילומי חוץ", priceFrom: true },
+  /* החלטות הבעלים 11.10.2026 (פער מול מתחרים): מאפרת 300 לפני מע״מ. מסך ירוק:
+     אותו הפרש כמו בקולות (kolot-studios.com, אולפן כ-2,590 מול מסך ירוק כ-3,690,
+     הפרש 1,100 כולל מע״מ), כלומר 930 לפני מע״מ. צילומי חוץ נשארים לפי היקף. */
+  { id: "bat_mitzvah_clip_makeup", label: "מאפרת ביום הצילומים", exVat: 300, category: "addons", context: "תוספת לקליפ בת מצווה" },
+  { id: "bat_mitzvah_clip_green_screen", label: "צילום על מסך ירוק", exVat: 930, category: "addons", context: "תוספת לקליפ בת מצווה: הרקע מוחלף בעריכה" },
   { id: "academy_focused_training", label: "הכשרה ממוקדת, 90 דקות", exVat: 1470, category: "academy", context: "DJ, הפקה או קריינות, אחד על אחד" },
   { id: "academy_master_monthly", label: "Master, מסלול חודשי", exVat: 3920, category: "academy", context: "ארבעה מפגשי שעה, קו ישיר ומשוב שבועי" },
   { id: "academy_pro_partnership", label: "Pro-Partnership, 6 חודשים", exVat: 21500, category: "academy", context: "24 מפגשים, ליווי רכש וזהות מוזיקלית" },
@@ -1018,6 +1044,10 @@ export const PRICING_ADDON_LINKS: Partial<
   /* D73: התוספות שבכרטיס המחיר בעמוד המיקס שיש להן פריט בקטלוג. "מעל 5 דקות"
      (150 בעמוד) וניקוי רעשים לא כאן: אין להם פריט תואם (שאלה פתוחה לבעלים) */
   online_home_mix: ["online_extra_channels", "online_extra_revision", "studio_pitch_correction"],
+  /* החלטות הבעלים 11.10.2026 */
+  bat_mitzvah_clip: ["bat_mitzvah_clip_makeup", "bat_mitzvah_clip_green_screen"],
+  dj_premium: ["electronic_drummer"],
+  dj_yakir_personal: ["electronic_drummer"],
 };
 
 type PriceTransparencyDraft = {
@@ -1272,8 +1302,8 @@ const PRICE_TRANSPARENCY_OVERRIDES: Partial<
     excluded: ["עריכה נוספת אחרי ההקלטה (בהפקה המלאה)", "רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
   },
   full_podcast_production: {
-    included: [`צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}`, "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה", PODCAST_EXTRA_EDIT_NOTE],
-    excluded: ["רילס נוספים", "תמלול/כתוביות מלאים", "נסיעה ללוקיישן"],
+    included: [`צילום ב-${PODCAST_VIDEO_CAMERAS_NOTE}`, "תאורה באולפן", "הפרק המלא אצלכם מיד בסוף ההקלטה", PODCAST_EXTRA_EDIT_NOTE, PODCAST_FULL_PRODUCTION_REELS_NOTE],
+    excluded: ["רילס מעבר ל-2", "תמלול/כתוביות מלאים לפרק", "נסיעה ללוקיישן"],
   },
   content_package: {
     included: ["וידאו", "3 רילס עם כתוביות", "העלאה לפלטפורמות"],

@@ -86,6 +86,19 @@ export const STUDIO_MODIIN_PRICE_CARDS: readonly StudioModiinPriceCard[] = [
       "הדרכה מקצועית וליווי של איש טכני",
     ],
   },
+  /* החלטות הבעלים 11.10.2026: כרטיסיות שעות, במחיר שעה רגיל ובתוקף שנה */
+  {
+    id: "podcast_hours_pass_5",
+    name: "כרטיסיית 5 שעות",
+    price: studioPrice("podcast_hours_pass_5"),
+    lines: ["5 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
+  },
+  {
+    id: "podcast_hours_pass_10",
+    name: "כרטיסיית 10 שעות",
+    price: studioPrice("podcast_hours_pass_10"),
+    lines: ["10 שעות אולפן עם הנדסת הקלטה", "במחיר שעה רגיל, בתוקף שנה מיום הרכישה"],
+  },
 ];
 
 /* מחיר השירות העצמי היה כתוב ביד ובלי מע״מ, בזמן ש-/pricing מציג אותו כולל

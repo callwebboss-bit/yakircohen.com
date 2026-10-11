@@ -143,6 +143,8 @@ const FAMILY_BY_ID: Partial<Record<PriceItemId, string>> = {
   podcast_audio: "podcast",
   podcast_audio_pack_4: "podcast",
   podcast_audio_pack_8: "podcast",
+  podcast_hours_pass_5: "podcast",
+  podcast_hours_pass_10: "podcast",
   mobile_podcast_at_home: "mobile",
   dj_premium: "dj",
   dj_yakir_personal: "dj",

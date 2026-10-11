@@ -328,6 +328,9 @@ export const PRICING_HUB_SECTIONS: readonly PricingHubSection[] = [
       /* החלטות 5.10.2026 (פודקאסט): חבילות פרקי אודיו, ומשתתף נוסף 99 */
       hubRow("podcast_audio_pack_4", { href: "/podcast#podcast-packs" }),
       hubRow("podcast_audio_pack_8", { href: "/podcast#podcast-packs" }),
+      /* החלטות הבעלים 11.10.2026: כרטיסיות שעות אולפן, בתוקף שנה */
+      hubRow("podcast_hours_pass_5", { href: "/podcast/podcast-studio-modiin" }),
+      hubRow("podcast_hours_pass_10", { href: "/podcast/podcast-studio-modiin" }),
       hubRow("podcast_extra_participant", {
         label: "משתתף נוסף (מהשלישי, עד 12)",
         note: "תוספת לכל פרק",
