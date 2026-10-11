@@ -79,6 +79,31 @@ for (const root of ROOTS) {
   if (fs.existsSync(root)) walk(root);
 }
 
+/*
+ * קבצי קופי שאינם ts/tsx (הבעלים 12.10.2026). רשימה סגורה ולא כל ה-JSON: קבצי
+ * רשומות (vouchers.json, blessing-albums.json, equipment-inventory-bookings.json)
+ * מכילים טקסט שלקוחות כתבו, והשער לא נכשל בגללו. נמצא כך: "אנחנו כאן כדי" חי
+ * באתר מתוך closer-brand-copy.json (crossSellOffers), שהשער לא ראה.
+ */
+const EXTRA_COPY_FILES = [
+  "lib/data/closer-brand-copy.json",
+  "lib/data/scenario-rules.json",
+  "lib/seo/site-schema.json",
+  "public/llms.txt",
+  "public/ai.txt",
+  "app/opengraph-image.alt.txt",
+  "app/twitter-image.alt.txt",
+];
+const FIT_MATRICES_DIR = "lib/book-wizard-cro/fit-matrices";
+for (const f of EXTRA_COPY_FILES) {
+  if (fs.existsSync(f)) files.push(f);
+}
+if (fs.existsSync(FIT_MATRICES_DIR)) {
+  for (const name of fs.readdirSync(FIT_MATRICES_DIR)) {
+    if (name.endsWith(".json")) files.push(path.join(FIT_MATRICES_DIR, name));
+  }
+}
+
 const hits = [];
 for (const file of files) {
   const lines = fs.readFileSync(file, "utf8").split("\n");
