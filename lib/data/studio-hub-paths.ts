@@ -2,7 +2,6 @@ import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { withVat } from "@/lib/data/pricing";
 import { MOBILE_STUDIO_BASE_EX_VAT } from "@/lib/data/mobile-studio-booking";
-import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
 
 /* מחירים לצרכן כולל מע״מ (החלטת הבעלים 2.10.2026). העמוד מציג גם את טופס
    השיר, שמוביל בכולל מע״מ, ושני סגנונות באותו עמוד נקראים כ"אותו מחיר". */
@@ -10,7 +9,9 @@ const nis = (exVat: number) => `${withVat(exVat).toLocaleString("he-IL")} ₪`;
 const song = nis(getExVat("song_recording"));
 const blessing = nis(getExVat("blessing_recording"));
 const mobile = nis(MOBILE_STUDIO_BASE_EX_VAT);
-const podcast = nis(PODCAST_STARTER_PRICE);
+/* פרק ערוך (podcast_audio), לא חצי שעה בחדר: 885 הוא קובץ גולמי בלי עריכה,
+   והכרטיס מבטיח עריכה וקובץ מוכן (החלטת הבעלים D98, 11.10.2026) */
+const podcast = nis(getExVat("podcast_audio"));
 
 /** ארבעה מסלולי המרה ראשיים ב-hub האולפן - עם מחיר עוגן */
 export const STUDIO_HUB_PRIMARY_PATHS: readonly HubLinkItem[] = [
@@ -36,8 +37,8 @@ export const STUDIO_HUB_PRIMARY_PATHS: readonly HubLinkItem[] = [
   {
     href: "/podcast",
     title: "פודקאסט",
-    description: `הקלטה באולפן במודיעין, עריכה וקובץ מוכן. מ-${podcast} כולל מע״מ.`,
-    ctaLabel: `פודקאסט מ-${podcast}`,
+    description: `הקלטה באולפן במודיעין, עריכה וקובץ מוכן. פרק ערוך מ-${podcast} כולל מע״מ.`,
+    ctaLabel: `פרק ערוך מ-${podcast}`,
   },
 ] as const;
 

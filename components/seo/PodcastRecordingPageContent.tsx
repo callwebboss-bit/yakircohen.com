@@ -30,7 +30,7 @@ import {
   PODCAST_RECORDING_WHY_US,
   PODCAST_RECORDING_WORKFLOW,
 } from "@/lib/data/podcast-recording-page";
-import { formatFromPriceDual } from "@/lib/data/pricing-catalog";
+import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import {
   CONTACT_PHONE_DISPLAY,
@@ -46,6 +46,12 @@ const PODCAST_RECORDING_META_DESCRIPTION =
   "רוצים פודקאסט מקצועי בלי להתעסק בציוד? מגיעים, מדברים, והפרק אצלכם באותה שנייה שמסיימים להקליט. צילום 4K וסאונד אולפני במודיעין.";
 
 const PODCAST_RECORDING_PRICE_LABEL = `החל ${formatFromPriceDual(PODCAST_RECORDING_PRICE, "consumer", "page")}`;
+
+/* תשובה ל"כמה עולה להקליט פודקאסט" במסך הראשון, שלושת המחירים מהקטלוג
+   (D63, D98, 11.10.2026). עד היום בראש העמוד הופיע רק 2,950 של ההפקה המלאה,
+   ו-1,121 של הפרק הערוך הופיע רק בטבלה למטה */
+const fromNis = (exVat: number) => `מ-${withVat(exVat).toLocaleString("he-IL")} ₪`;
+const PODCAST_PRICE_RANGE_LABEL = `פרק אודיו ערוך ${fromNis(getExVat("podcast_audio"))}, וידאו ${fromNis(getExVat("podcast_video"))}, הפקה מלאה ${fromNis(PODCAST_RECORDING_PRICE)}, כולל מע״מ`;
 
 const PODCAST_RECORDING_TITLE = "צילום והקלטת פודקאסט";
 
@@ -95,7 +101,7 @@ export default function PodcastRecordingPageContent() {
       utmCampaign="podcast_recording"
       corporateShareLabel="הקלטת פודקאסט באולפן"
       bookSlug="podcast/podcast-recording"
-      scarcityLabel={`${PODCAST_RECORDING_PRICE_LABEL} לפרק, ${TIME_CLAIMS.podcastSameSecond}`}
+      scarcityLabel={`${PODCAST_PRICE_RANGE_LABEL}. ${TIME_CLAIMS.podcastSameSecond}`}
       ctaLabel="הזמנת הפקה מלאה בוואטסאפ"
       pagePath="/podcast/podcast-recording"
       metaDescription={PODCAST_RECORDING_META_DESCRIPTION}

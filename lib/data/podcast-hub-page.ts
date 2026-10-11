@@ -4,7 +4,6 @@ import { formatFromPriceDual, getExVat, PODCAST_VIDEO_CAMERAS_NOTE, PODCAST_AUDI
 import { formatPrice } from "@/lib/data/pricing-display";
 import {
   PODCAST_AUDIO_PACKS,
-  PODCAST_PACKAGES,
   PODCAST_STARTER_PRICE,
   podcastAudioPackLine,
   podcastParticipantPriceLine,
@@ -378,76 +377,6 @@ export const PODCAST_HUB_STARTING_PRICE_NOTE =
 /** תווית CTA: תוצאה + מחיר התחלתי של אותה תוצאה */
 export const PODCAST_HUB_CTA_LABEL = `פרק ערוך מוכן להעלאה ${PODCAST_HUB_ANCHOR.headline}`;
 
-const _audioPrice = PODCAST_PACKAGES.find((p) => p.id === "audio")?.price ?? 950;
-const _videoPrice = PODCAST_PACKAGES.find((p) => p.id === "video")?.price ?? 1650;
-
-export const PODCAST_HUB_PRICING_PACKAGES: readonly {
-  id: string;
-  badge: string | null;
-  title: string;
-  subtitle: string;
-  priceFrom: number;
-  features: readonly string[];
-  ctaLabel: string;
-  whatsappText: string;
-  highlighted: boolean;
-}[] = [
-  {
-    id: "video-premium",
-    badge: null,
-    title: "פודקאסט וידאו / פרימיום",
-    subtitle: "מזכרת לדורות - צילום 4K וליווי אישי",
-    priceFrom: _videoPrice,
-    features: [
-      "הקלטת פודקאסט + צילום 4K רב-מצלמת",
-      "ליווי אישי לאורך כל ההפקה",
-      "שיפור קול, עריכה ותיקוני צבע מקצועיים",
-      "MP4 ליוטיוב + MP3 לספוטיפיי",
-      "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",
-      "✓ גיבוי מאובטח של חומרי הגלם למשך שנה",
-    ],
-    ctaLabel: "בדיקת זמינות לפרויקט פרימיום",
-    whatsappText:
-      "שלום, מעוניין/ת בפודקאסט וידאו / פרמיום - אשמח לפרטים ותיאום.",
-    highlighted: false,
-  },
-  {
-    id: "audio-production",
-    badge: "הכי פופולרי",
-    title: "הפקת פודקאסט אודיו",
-    subtitle: "ההקלטה, עריכת ההקלטה וחלל האולפן, או שיפור סאונד להקלטה שלכם",
-    priceFrom: _audioPrice,
-    features: [
-      "הקלטה מלאה של עד שעה - בלי לחץ",
-      "או: שיפור סאונד להקלטה קיימת שאתם מביאים",
-      "שיפור הקלטות וניקוי רעשים בבינה מלאכותית",
-      "עריכה, מיקס ונורמליזציה מלאים",
-      "MP3 מוכן לספוטיפיי, אפל פודקאסטס ועוד",
-      "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",
-      "✓ גיבוי מאובטח של חומרי הגלם למשך שנה",
-    ],
-    ctaLabel: "בדיקת זמינות לחבילת עריכה",
-    whatsappText:
-      "שלום, מעוניין/ת בחבילת הפקת פודקאסט אודיו - אשמח לשמוע על זמינות ומחיר.",
-    highlighted: true,
-  },
-  {
-    id: "recording-only",
-    badge: null,
-    title: "הקלטה בלבד",
-    subtitle: "ליוצרים שמעדיפים לערוך בעצמם",
-    priceFrom: PODCAST_STARTER_PRICE,
-    features: [
-      "זמן הקלטה של עד 30 דקות - בלי לחץ",
-      "ציוד הקלטה מקצועי - סאונד ברמת רדיו",
-      "רקע ועיצוב לפי בחירה",
-      "קובץ MP3 גולמי איכותי, מוכן לעריכה",
-      "✓ כולל מאגר מוזיקה מורשה לשימוש חופשי",
-      "✓ גיבוי חומרי גלם למשך שנה",
-    ],
-    ctaLabel: "בדיקת זמינות לחבילת הקלטה",
-    whatsappText:
-      "שלום, מעוניין/ת בחבילת הקלטה בלבד באולפן - אשמח לשמוע על זמינות.",
-    highlighted: false,
-  },
-] as const;
+/* PODCAST_HUB_PRICING_PACKAGES הוסר (תוכנית הבהירות, שלב 4, D103-D104, 11.10.2026).
+   /podcast מציג עכשיו את סולם החבילות מ-lib/data/podcast-ladder.ts, אותן חבילות
+   כמו בעמוד הקלטת הפודקאסט. "גיבוי חומרי גלם למשך שנה" ירד: הוא סתר את /whats-included. */

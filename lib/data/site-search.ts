@@ -6,7 +6,8 @@ import {
   VOICEOVER_SERVICES,
   type ServiceEntity,
 } from "@/lib/data/services";
-import { PODCAST_STARTER_PRICE } from "@/lib/data/podcast-calculator";
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { withVat } from "@/lib/data/pricing";
 
 export type SiteSearchItem = {
   title: string;
@@ -25,15 +26,16 @@ const CATEGORY_LABELS: Record<ServiceEntity["category"], string> = {
   photography: "צילום",
 };
 
-const PODCAST_STARTING_LABEL = `החל מ-${PODCAST_STARTER_PRICE} ₪`;
+/* פרק ערוך כולל מע״מ (D86, D98). עד 11.10 כאן היה 750, חצי שעה בחדר לפני מע״מ */
+const PODCAST_STARTING_LABEL = `פרק ערוך מ-${withVat(getExVat("podcast_audio")).toLocaleString("he-IL")} ₪`;
 
 const PODCAST_HUB_ITEMS: SiteSearchItem[] = [
   {
     title: "הפקת פודקאסט מלאה",
-    description: `צילום 4K, הקלטה אולפנית, והפרק אצלכם באותה שנייה שמסיימים להקליט. ${PODCAST_STARTING_LABEL} לפרק קצר.`,
+    description: `צילום 4K, הקלטה אולפנית, והפרק אצלכם באותה שנייה שמסיימים להקליט. ${PODCAST_STARTING_LABEL}.`,
     category: "פודקאסט",
     href: "/podcast",
-    keywords: ["פודקאסט", "הקלטה", "אולפן", "4K", "ספוטיפיי", "750"],
+    keywords: ["פודקאסט", "הקלטה", "אולפן", "4K", "ספוטיפיי"],
   },
   {
     title: "פודקאסט עם סבא וסבתא",
