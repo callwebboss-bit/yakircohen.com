@@ -7,15 +7,13 @@ export type GbpSheetRow = GbpProduct & {
   priceToEnter: number | null;
   exVat: number | null;
   url: string | null;
-  status: "ok" | "update" | "decide" | "free" | "service";
+  status: "ok" | "update" | "decide" | "free";
 };
 
 export function buildGbpSheet(): GbpSheetRow[] {
   return GBP_PRODUCTS.map((product) => {
-    if (product.listing === "service") {
-      const url = product.path ? absoluteUrl(product.path.replace(/^\/+/, "")) : null;
-      return { ...product, priceToEnter: null, exVat: null, url, status: "service" as const };
-    }
+    /* 12.10.2026: הבעלים שינה את ההחלטה מ-11.10, שירותים בעורך השירותים עם מחיר
+       מהקטלוג, כמו המוצרים. המחיר בשדה המחיר בלבד, לא בטקסט (support 7400114) */
     if (!product.catalogId) {
       const url = product.path ? absoluteUrl(product.path.replace(/^\/+/, "")) : null;
       return { ...product, priceToEnter: null, exVat: null, url, status: product.free ? ("free" as const) : ("decide" as const) };
@@ -37,7 +35,6 @@ const STATUS_LABEL: Record<GbpSheetRow["status"], string> = {
   update: "לעדכן בכרטיס",
   decide: "החלטת בעלים",
   free: "ללא עלות",
-  service: "עורך השירותים, בלי מחיר",
 };
 
 export function renderGbpSheetMarkdown(rows: GbpSheetRow[], generatedAt: string): string {
@@ -53,7 +50,7 @@ export function renderGbpSheetMarkdown(rows: GbpSheetRow[], generatedAt: string)
     "|---|---|---|---|---|---|---|---|",
     ...rows.map(
       (r) =>
-        `| ${r.name} | ${fmt(r.priceToEnter)} | ${fmt(r.exVat)} | ${fmt(r.gbpPriceNow)} | ${STATUS_LABEL[r.status]} | ${r.url ?? "-"} | ${r.note ?? ""} | ${r.description ?? ""} |`,
+        `| ${r.listing === "service" ? `${r.name} (שירות)` : r.name} | ${fmt(r.priceToEnter)} | ${fmt(r.exVat)} | ${fmt(r.gbpPriceNow)} | ${STATUS_LABEL[r.status]} | ${r.url ?? "-"} | ${r.note ?? ""} | ${r.description ?? ""} |`,
     ),
     "",
   ];

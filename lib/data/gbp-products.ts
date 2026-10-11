@@ -61,7 +61,18 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
      פתוח לכל אירוע). */
   { name: "שיר מקורי לכל אירוע", catalogId: "song_original_mitzvah", path: ORIGINAL_SONG_PAGE.path, gbpPriceNow: 1003, reportedAt: "2026-10-11", description: ORIGINAL_SONG_PAGE.metaDescription },
   { name: "מפגש אפיון", catalogId: null, path: "/contact", gbpPriceNow: null, reportedAt: "2026-10-04", free: true, note: "שיחת היכרות ללא עלות (יקיר 4.10). בכרטיס: מחיר 0 או \"ללא עלות\"" },
-  /* עורך השירותים, 11.10.2026, לפי דיווח הבעלים שהוזנו: שם ותיאור, בלי מחיר.
+  /* 12.10.2026, לפי דיווח הבעלים ("הכול נשמר"): שמונת השירותים החדשים נוספו גם
+     כמוצרים, עם תמונה בלי כיתוב (gbp-images/מוכן-לגוגל) והתיאור של העמוד. */
+  { name: "פרודיה לאירוע", catalogId: "song_parody", path: PARODY_PAGE.path, gbpPriceNow: 767, reportedAt: "2026-10-12", description: PARODY_PAGE.metaDescription },
+  { name: "מסיבת רווקות או יום הולדת באולפן", catalogId: "song_recording", path: GROUP_SESSION_PAGE.path, gbpPriceNow: 590, reportedAt: "2026-10-12", note: "מחיר התחלה, ועוד משתתף נוסף לכל אחד", description: GROUP_SESSION_PAGE.metaDescription },
+  { name: "שיר AI במתנה", catalogId: "ai_song_ai_voice", path: AI_SONG_PAGE.path, gbpPriceNow: 400, reportedAt: "2026-10-12", note: "בקול AI; בקול שלכם 590", description: AI_SONG_PAGE.metaDescription },
+  { name: "שיר סיום לגן או לכיתה", catalogId: "mobile_podcast_at_home", path: CLASS_SONG_PAGE.path, gbpPriceNow: 2950, reportedAt: "2026-10-12", note: "מחיר התחלה: הגעת האולפן הנייד", description: CLASS_SONG_PAGE.metaDescription },
+  { name: "שיר או ברכה לגיוס", catalogId: "song_recording", path: ENLISTMENT_PAGE.path, gbpPriceNow: 590, reportedAt: "2026-10-12", description: ENLISTMENT_PAGE.metaDescription },
+  { name: "פודקאסט חי מהבמה", catalogId: "live_podcast_with_sound", path: LIVE_PODCAST_PAGE.path, gbpPriceNow: 7080, reportedAt: "2026-10-12", note: "מחיר התחלה עם ההגברה שלנו", description: LIVE_PODCAST_PAGE.metaDescription },
+  { name: "חבילת השקה לפודקאסט", catalogId: "podcast_launch_package", path: PODCAST_LAUNCH_PAGE.path, gbpPriceNow: 1770, reportedAt: "2026-10-12", description: PODCAST_LAUNCH_PAGE.metaDescription },
+  { name: "אימון הנחיה לפודקאסט", catalogId: "host_coaching_hour", path: HOST_COACHING_PAGE.path, gbpPriceNow: 590, reportedAt: "2026-10-12", note: "לשעה", description: HOST_COACHING_PAGE.metaDescription },
+  /* עורך השירותים, 11.10.2026, לפי דיווח הבעלים שהוזנו: שם ותיאור. 12.10.2026: עם מחיר
+     מהקטלוג (החלטת הבעלים). gbpPriceNow נשאר null עד שהבעלים מאשר שהמחירים הוזנו.
      הטקסטים זהים למה שנמסר לבעלים להעתקה. בלי מחיר, טלפון או קריאה לפעולה
      (support 7400114, 9455399). catalogId והקישור לשיוך בלבד. */
   { name: "שיר מקורי לכל אירוע", listing: "service", catalogId: "song_original_mitzvah", path: ORIGINAL_SONG_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", description: "כותבים יחד איתכם מילים ולחן, עם עד שתי סקיצות לבחירה, ומקליטים באולפן במודיעין. לחתונה, להצעת נישואין, ליום נישואין, ליום הולדת ולבר ובת מצווה." },
@@ -74,4 +85,5 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
   { name: "פודקאסט חי מהבמה", listing: "service", catalogId: "live_podcast_with_sound", path: LIVE_PODCAST_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", description: "שיחה מול קהל שמוקלטת ומצולמת כפרק פודקאסט, בכנס, באירוע חברה או בערב קהילה. עד 4 משתתפים על הבמה, והפרק מוכן תוך 24 עד 48 שעות." },
   { name: "חבילת השקה לפודקאסט", listing: "service", catalogId: "podcast_launch_package", path: PODCAST_LAUNCH_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", description: "לפני הפרק הראשון: פגישת אפיון לפורמט, טריילר של עד דקה, ושתי סקיצות עטיפה ממעצב מקצועי." },
   { name: "אימון הנחיה לפודקאסט", listing: "service", catalogId: "host_coaching_hour", path: HOST_COACHING_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", description: "שעת אימון אישית במתחם ההפקה במודיעין: תרגול מול מיקרופון ומצלמה, ומשוב מיידי על הקול ועל ההגשה. בוחרים מאמן מתוך ארבעה." },
+  { name: "חידוש שיר ישן", listing: "service", catalogId: "old_song_renewal", path: RENEW_OLD_SONG_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-12", description: RENEW_OLD_SONG_PAGE.metaDescription },
 ];

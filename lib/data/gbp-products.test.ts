@@ -35,20 +35,20 @@ test("כל קישור במיפוי הוא עמוד קיים באתר", () => {
 
 test("המחיר להזנה בכרטיס הוא כולל מע״מ ונגזר מהקטלוג", () => {
   for (const row of buildGbpSheet()) {
-    if (!row.catalogId || row.listing === "service") continue;
+    if (!row.catalogId) continue;
     assert.equal(row.priceToEnter, Math.round(getExVat(row.catalogId) * (1 + CATALOG_VAT_RATE)), row.name);
   }
 });
 
-/* החלטת הבעלים 11.10.2026: שירותים בעורך השירותים בלי מחיר. מדיניות הכרטיס
-   (support 7400114) אוסרת מחיר וקריאה לפעולה בטקסט, ושם שירות מותאם לא יכול
-   לכלול מחיר או טלפון (support 9455399). */
-test("שירות בכרטיס: בלי מחיר, ובטקסט אין מחיר, טלפון או קריאה לפעולה", () => {
+/* שירותים בעורך השירותים: מ-12.10.2026 עם מחיר מהקטלוג (הבעלים, במקום "בלי מחיר"
+   מ-11.10). המחיר בשדה המחיר בלבד: מדיניות הכרטיס (support 7400114) אוסרת מחיר
+   וקריאה לפעולה בטקסט, ושם שירות מותאם לא יכול לכלול מחיר או טלפון (support 9455399). */
+test("שירות בכרטיס: מחיר מהקטלוג, ובטקסט אין מחיר, טלפון או קריאה לפעולה", () => {
   const services = buildGbpSheet().filter((row) => row.listing === "service");
   assert.ok(services.length > 0);
   for (const row of services) {
-    assert.equal(row.priceToEnter, null, row.name);
-    assert.equal(row.status, "service", row.name);
+    assert.ok(row.catalogId, row.name);
+    assert.equal(row.priceToEnter, Math.round(getExVat(row.catalogId!) * (1 + CATALOG_VAT_RATE)), row.name);
     for (const text of [row.name, row.description ?? ""]) {
       assert.ok(!/₪|ש"ח|ש״ח|\d{2,3}-?\d{7}|כתבו לנו|התקשרו|וואטסאפ/.test(text), `${row.name}: ${text}`);
     }
