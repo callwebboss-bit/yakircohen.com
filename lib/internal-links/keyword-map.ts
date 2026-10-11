@@ -134,6 +134,7 @@ export const KEYWORD_LINK_MAP: Readonly<Record<string, KeywordLink>> = {
   "מצגת תמונות לאירוע": { href: "/photo-slideshow", anchor: "מצגת תמונות לאירוע" },
   "תותחי עשן": { href: "/events/attractions/smoke-cannons-for-events", anchor: "תותחי עשן לאירועים" },
   "בלוני ענק": { href: "/events/attractions/giant-balloons", anchor: "בלוני ענק לאירועים" },
+  "תותח קצף": { href: "/events/attractions/inflatables", anchor: "השכרת תותח קצף" },
   "מכונת בועות": { href: "/events/attractions/bubble-machine", anchor: "מכונת בועות לאירוע" },
   "הסרת רעשים": { href: "/online/vocal-fix/noise-removal", anchor: "הסרת רעשים מהקלטה" },
   "מיקס ומאסטרינג": { href: "/online/vocal-fix/mixing", anchor: "מיקס ומאסטרינג" },

@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 189,
-  "contentHash": "091864e02d3b0934",
+  "itemCount": 195,
+  "contentHash": "e00aacc6857cd6a0",
   "items": [
     {
       "id": "studio_half_hour",
@@ -1266,6 +1266,65 @@
       "priceFrom": false,
       "context": "2 רמקולי RCF וסאב, הובלה, הקמה, כיוונון ופירוק. עד 250 אורחים",
       "suitedFor": "אירוע עד 250 אורחים"
+    },
+    {
+      "id": "inflatable_slide_pickup",
+      "label": "מגלשת מים מתנפחת, איסוף עצמי",
+      "category": "events",
+      "exVat": 585,
+      "inclVat": 690,
+      "priceFrom": false,
+      "context": "עד 6 שעות. איסוף והחזרה בנקודה במודיעין, עם מפוח ותותח מים",
+      "suitedFor": "יום הולדת בגינה או בחצר"
+    },
+    {
+      "id": "foam_cannon_pickup",
+      "label": "תותח קצף, איסוף עצמי",
+      "category": "events",
+      "exVat": 381,
+      "inclVat": 450,
+      "priceFrom": false,
+      "context": "עד 6 שעות. איסוף והחזרה בנקודה במודיעין",
+      "suitedFor": "מסיבת קצף ביום הולדת"
+    },
+    {
+      "id": "backyard_party_pickup",
+      "label": "מגלשת מים ותותח קצף, איסוף עצמי",
+      "category": "events",
+      "exVat": 839,
+      "inclVat": 990,
+      "priceFrom": false,
+      "context": "שתי האטרקציות יחד, עד 6 שעות. איסוף והחזרה במודיעין",
+      "suitedFor": "יום הולדת בגינה או בחצר"
+    },
+    {
+      "id": "inflatable_cleaning",
+      "label": "ניקוי המתקן אחרי השימוש",
+      "category": "addons",
+      "exVat": 424,
+      "inclVat": 500,
+      "priceFrom": false,
+      "context": "במקום להחזיר את המתקן נקי, אנחנו מנקים"
+    },
+    {
+      "id": "kids_party_dj",
+      "label": "DJ ליום הולדת לילדים",
+      "category": "events",
+      "exVat": 1093,
+      "inclVat": 1290,
+      "priceFrom": false,
+      "context": "עד 3 שעות, שירים שהילדים מכירים, רמקול קטן כלול",
+      "suitedFor": "יום הולדת לילדים בבית, בגינה או באולם קטן"
+    },
+    {
+      "id": "kids_party_bundle",
+      "label": "חבילת יום הולדת: DJ, מגלשת מים ותותח קצף",
+      "category": "events",
+      "exVat": 1686,
+      "inclVat": 1989,
+      "priceFrom": false,
+      "context": "DJ לילדים עד 3 שעות, ומגלשת המים ותותח הקצף מגיעים איתו ומוקמים במקום",
+      "suitedFor": "יום הולדת לילדים בגינה או בחצר"
     },
     {
       "id": "singer_amp_basic",

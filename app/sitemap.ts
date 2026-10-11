@@ -183,6 +183,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("events/attractions/cold-fireworks"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/confetti-cannon"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/giant-balloons"), priority: 0.7, changeFrequency: "monthly" },
+  { url: url("events/attractions/inflatables"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/stage-led-dj"), priority: 0.8, changeFrequency: "monthly" },
   { url: url("events/attractions/smoke-cannons-for-events"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("events/attractions/wedding-smoking-machine"), priority: 0.7, changeFrequency: "monthly" },

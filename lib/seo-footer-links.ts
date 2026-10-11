@@ -231,6 +231,11 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "בלונים ענק לחתונה ואירועים",
       },
       {
+        label: "השכרת מגלשת מים ותותח קצף",
+        href: "/events/attractions/inflatables",
+        title: "מגלשת מים מתנפחת ותותח קצף ליום הולדת",
+      },
+      {
         label: "DJ בירושלים",
         href: "/dj-events/cities/jerusalem",
         title: "DJ לאירועים בירושלים והסביבה",

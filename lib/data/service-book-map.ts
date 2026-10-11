@@ -106,6 +106,7 @@ const SERVICE_BOOK_MAP: Record<string, BookMapEntry> = {
       "events/attractions/cold-fireworks",
       "events/attractions/confetti-cannon",
       "events/attractions/giant-balloons",
+      "events/attractions/inflatables",
       "events/attractions/smoke-cannons-for-events",
       "events/attractions/wedding-smoking-machine",
       "events/attractions/wedding-smoking-machine/heavy-smoke-large-events",

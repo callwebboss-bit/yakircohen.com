@@ -130,6 +130,7 @@ export const BREADCRUMB_SERVICE_TITLES: Readonly<Record<string, string>> = {
   "events/attractions/wedding-smoking-machine": "עשן כבד לחתונה וסלואו",
   "events/attractions/confetti-cannon": "קונפטי לאירועים",
   "events/attractions/cold-fireworks": "זיקוקים קרים לאירועים",
+  "events/attractions/inflatables": "השכרת מגלשת מים מתנפחת ותותח קצף ליום הולדת",
   "events/attractions/giant-balloons": "בלוני ענק לרחבת הריקודים",
   "events/stage-led-dj": "השכרת עמדת LED לתקליטן ולאירועים",
   "events/attractions/smoke-cannons-for-events": "תותחי עשן לאירועים",
