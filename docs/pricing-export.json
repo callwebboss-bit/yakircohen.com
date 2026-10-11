@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 179,
-  "contentHash": "9dd7c033335a615b",
+  "itemCount": 180,
+  "contentHash": "bc06f2412251afff",
   "items": [
     {
       "id": "studio_half_hour",
@@ -327,6 +327,16 @@
       "priceFrom": false,
       "context": "כל אדם נוסף בהקלטה באולפן הנייד הוא ערוץ נוסף. עד 12 אנשים בהקלטה.",
       "suitedFor": "הקלטה בבית או במשרד עם יותר מאדם אחד"
+    },
+    {
+      "id": "podcast_launch_package",
+      "label": "חבילת השקה לפודקאסט חדש",
+      "category": "podcast",
+      "exVat": 1500,
+      "inclVat": 1770,
+      "priceFrom": false,
+      "context": "פגישת אפיון לפורמט, טריילר, ותמונת עטיפה ממעצב מקצועי. הקלטת הפרקים מתומחרת בנפרד.",
+      "suitedFor": "פודקאסט חדש, לפני הפרק הראשון"
     },
     {
       "id": "podcast_editing_hour",

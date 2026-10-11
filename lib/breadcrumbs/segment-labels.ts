@@ -129,6 +129,7 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/studio/group-session": "מסיבת רווקות וסשן קבוצתי",
   "/studio/class-song": "שיר סיום לגן או לכיתה",
   "/studio/blessings/enlistment": "שיר או ברכה לגיוס",
+  "/podcast/launch-package": "חבילת השקה לפודקאסט",
   "/matanot": "מתנות",
   "/areas": "אזורי שירות",
   "/studio/virtual-tour": "סיור וירטואלי",
