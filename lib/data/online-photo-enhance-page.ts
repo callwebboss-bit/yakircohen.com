@@ -107,7 +107,7 @@ function photoPackage(
   return {
     ...rest,
     price: price.total,
-    vatNote: `כולל מע״מ (${price.exVatNote})`,
+    vatNote: "כולל מע״מ",
     perImage: perImageText(exVat, images),
     whatsappMessage: whatsappMessage(price.totalLabel),
   };
@@ -166,7 +166,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
   {
     id: "manual-color",
     title: "תיקון צבע ידני (אם ה-AI לא מספיק)",
-    price: `תוספת של ${manualColor.totalLabel} (${manualColor.exVatNote})`,
+    price: `תוספת של ${manualColor.totalLabel}`,
     ctaLabel: "בקשו תיקון צבע",
     whatsappMessage:
       `היי יקיר, רוצה תיקון צבע ידני לתמונה (תוספת ${manualColor.totalLabel}). יש לי [כמה] תמונות.`,
@@ -175,7 +175,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
   {
     id: "scratch-removal",
     title: "הסרת שריטות או כתמים",
-    price: `תוספת של ${scratchRemoval.totalLabel} (${scratchRemoval.exVatNote})`,
+    price: `תוספת של ${scratchRemoval.totalLabel}`,
     ctaLabel: "בקשו הסרת פגמים",
     whatsappMessage:
       `היי יקיר, יש תמונה עם שריטות או כתמים - אפשר להסיר? (תוספת ${scratchRemoval.totalLabel})`,
@@ -193,7 +193,7 @@ export const PHOTO_ENHANCE_ADDONS: readonly PhotoEnhanceAddon[] = [
   {
     id: "colorization",
     title: "צביעת שחור-לבן (colorization)",
-    price: `${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה (${PHOTO_COLORIZATION_PRICE.exVatNote})`,
+    price: `${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה`,
     ctaLabel: "בקשו צביעה",
     whatsappMessage:
       `היי יקיר, רוצה לצבוע תמונת שחור-לבן (colorization, ${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה).`,

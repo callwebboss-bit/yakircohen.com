@@ -31,8 +31,10 @@ export function formatLeadFlowPrice(exVat: number | null): {
     };
   }
   const dual = formatExVatWithVat(exVat);
+  /* line מוצג במסלול איתור הצרכים בעמוד: מחיר אחד, כולל מע״מ (D86, 11.10.2026).
+     ההודעה בוואטסאפ נבנית ב-formatLeadFlowWhatsAppPrice, ושם נשארים שני המחירים. */
   return {
-    line: `${dual.exVat} + מע״מ (= ${dual.withVat} כולל)`,
+    line: `${dual.withVat} כולל מע״מ`,
     exVatLabel: `${dual.exVat} + מע״מ`,
     withVatLabel: dual.withVat,
     isFallback: false,

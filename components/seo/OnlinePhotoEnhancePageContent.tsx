@@ -36,7 +36,7 @@ const FAQ_ITEMS: FaqCtaItem[] = [
     id: "bw",
     question: "זה עובד על תמונות שחור-לבן?",
     answer:
-      `כן. צביעה (colorization) זה שירות נפרד - ${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה (${PHOTO_COLORIZATION_PRICE.exVatNote}).`,
+      `כן. צביעה (colorization) זה שירות נפרד - ${PHOTO_COLORIZATION_PRICE.totalLabel} לתמונה.`,
     ctaText: "שאלו על צביעה",
     whatsappMessage: "היי יקיר, יש לי תמונת שחור-לבן - גם אפשר לצבוע?",
     utm_campaign: "photo_enhance_faq_bw",

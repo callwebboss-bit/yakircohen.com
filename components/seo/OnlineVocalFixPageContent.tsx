@@ -25,7 +25,7 @@ import { formatConsumerPrice } from "@/lib/data/pricing-display";
 const VOCAL_FIX_PRICE = formatConsumerPrice(getExVat("vocal_fix_short"));
 
 const VOCAL_FIX_ANSWER =
-  `הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. ${VOCAL_FIX_PRICE.totalLabel} (${VOCAL_FIX_PRICE.exVatNote}) עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.`;
+  `הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. ${VOCAL_FIX_PRICE.totalLabel} עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.`;
 
 const FAQ_ITEMS: FaqCtaItem[] = [
   {

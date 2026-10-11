@@ -65,14 +65,10 @@ export default function PackageTierCards({
                 {def.title}
               </span>
               <span className="mt-2 text-sm text-muted-foreground">{def.summary}</span>
+              {/* D86 (11.10.2026): מחיר אחד, כולל מע״מ. עד היום לפני מע״מ הוביל כאן */}
               <span className="mt-4 text-base font-semibold text-foreground">
-                {display.exVatLabel}
+                {display.isFallback ? display.exVatLabel : display.line}
               </span>
-              {!display.isFallback ? (
-                <span className="mt-1 text-xs text-muted-foreground">
-                  כולל מע״מ: {display.withVatLabel}
-                </span>
-              ) : null}
               {tierId === "economy" ? (
                 <span className="mt-3 inline-flex rounded-md border border-amber-600/40 bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-900 dark:text-amber-100">
                   אזהרה: {ECONOMY_WARNING}

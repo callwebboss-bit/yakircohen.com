@@ -35,7 +35,7 @@ function track(
   return {
     ...t,
     price: price.total,
-    priceNote: `כולל מע״מ (${price.exVatNote})`,
+    priceNote: "כולל מע״מ",
     whatsappText: t.whatsappText(price.totalLabel),
   };
 }

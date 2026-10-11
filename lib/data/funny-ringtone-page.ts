@@ -6,6 +6,7 @@ export const RINGTONE_PRICE_NIS = 299;
 /** "353 ₪ כולל מע״מ" */
 export const RINGTONE_PRICE_LABEL = formatConsumerPrice(RINGTONE_PRICE_NIS).totalLabel;
 /** "353 ₪ כולל מע״מ (299 ₪ + מע״מ)" */
+/** כולל ולפני מע״מ: לשורת המחיר בהודעת ההזמנה (FunnyRingtoneOrderForm) */
 export const RINGTONE_PRICE_FULL = `${RINGTONE_PRICE_LABEL} (${formatConsumerPrice(RINGTONE_PRICE_NIS).exVatNote})`;
 
 export const RINGTONE_AUDIO = {
@@ -44,7 +45,7 @@ export const RINGTONE_INCLUDES: readonly {
   },
   {
     title: "מחיר ברור",
-    body: `${RINGTONE_PRICE_FULL} לרינגטון אישי, בלי הפתעות.`,
+    body: `${RINGTONE_PRICE_LABEL} לרינגטון אישי, בלי הפתעות.`,
   },
 ] as const;
 
@@ -126,7 +127,7 @@ export const RINGTONE_FAQ: readonly {
   {
     id: "price",
     question: "האם המחיר כולל הכל?",
-    answer: `כן. ${RINGTONE_PRICE_FULL} כולל הקלטה, עריכה וקובץ מוכן. בלי עלויות נסתרות.`,
+    answer: `כן. ${RINGTONE_PRICE_LABEL} כולל הקלטה, עריכה וקובץ מוכן. בלי עלויות נסתרות.`,
     whatsappText: "היי יקיר, מה כולל המחיר של הרינגטון?",
     utmCampaign: "ringtone_faq_price",
   },

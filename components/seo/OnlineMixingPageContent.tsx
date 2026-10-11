@@ -327,7 +327,7 @@ export default function OnlineMixingPageContent() {
           {/* D73: online_home_mix מהקטלוג. כולל מע״מ קודם (עמוד לצרכן), לפני מע״מ בקטן */}
           <p className="mt-4 text-4xl font-bold text-foreground">{MIX_PRICE.total}</p>
           <p className="text-sm text-muted-foreground">
-            לשיר, כולל מע״מ ({MIX_PRICE.exVatNote})
+            לשיר, כולל מע״מ
           </p>
           <ul className="mt-6 space-y-2 text-start text-sm text-muted-foreground">
             {MIXING_PRICE_INCLUDED.map((item) => (
