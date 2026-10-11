@@ -37,12 +37,13 @@ export const REVISION_POLICIES: readonly RevisionPolicy[] = [
     summary: "תיקונים כלולים במחיר",
   },
   {
-    /* מקור: lib/data/podcast-hub-page.ts, שאלה revisions */
+    /* מקור: lib/data/podcast-hub-page.ts, שאלה revisions. הבעלים 11.10.2026: סבב נוסף 100 + מע״מ */
     id: "podcast",
     service: "עריכת פודקאסט",
     href: "/podcast",
     rounds: 1,
-    summary: "סבב תיקונים אחד כלול בכל חבילה. תיקונים נוספים בתוספת סמלית",
+    summary: "סבב תיקונים אחד כלול בכל חבילה",
+    extraRoundId: "podcast_extra_revision",
   },
   {
     /* D73. מקור: PRICE_TRANSPARENCY_OVERRIDES.online_home_mix */

@@ -217,6 +217,8 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     "studio_hospitality_upgrade",
   ] as const satisfies readonly PriceItemId[];
   const writtenSong = ["song_house_singer"] as const satisfies readonly PriceItemId[];
+  /* הבעלים 11.10.2026: סבב תיקונים נוסף בפודקאסט 100 + מע״מ, שדרוג של כל פרק */
+  const podcast = ["podcast_extra_revision"] as const satisfies readonly PriceItemId[];
   return {
     singer_amp_basic: singer,
     singer_amp_premium: singer,
@@ -229,6 +231,9 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     ai_song_ai_voice: writtenSong,
     /* 11.10.2026: תיקון זיופים בתוספת, כמו באולפן (החלטת הבעלים) */
     old_song_renewal: ["studio_pitch_correction"],
+    podcast_audio: podcast,
+    podcast_video: podcast,
+    full_podcast_production: podcast,
   };
 })();
 

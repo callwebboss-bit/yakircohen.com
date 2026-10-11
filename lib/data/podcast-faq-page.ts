@@ -179,7 +179,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "hour-enough",
         question: "שעה באולפן מספיקה?",
         answer:
-          "ברוב המקרים שעה מייצרת 30-60 דקות תוכן ערוך, תלוי בקצב הדיבור והפסקות. אפשר להאריך בתיאום (תוספת לפי חצאי שעה).",
+          "ברוב המקרים שעה מייצרת 45-60 דקות תוכן ערוך, תלוי בקצב הדיבור וההפסקות. אם עוברים בכמה דקות, זה בסדר. הארכה ארוכה יותר בתיאום, בתוספת לפי חצאי שעה.",
       },
       {
         id: "guests",
@@ -235,7 +235,7 @@ export const PODCAST_FAQ_SECTIONS: readonly PodcastFaqSection[] = [
         id: "revisions",
         question: "כמה סבבי תיקונים כלולים?",
         answer:
-          "סבב תיקונים אחד כלול בעריכה. שינויים נוספים או שינויי כיוון גדולים - בתוספת סמלית ובתיאום.",
+          `סבב תיקונים אחד כלול בעריכה. כל סבב נוסף ${formatPagePrice(getExVat("podcast_extra_revision")).inline}. שינויי כיוון גדולים בתיאום.`,
       },
       {
         id: "reels",

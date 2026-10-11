@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 188,
-  "contentHash": "3c17b26e05f0a7e6",
+  "itemCount": 189,
+  "contentHash": "091864e02d3b0934",
   "items": [
     {
       "id": "studio_half_hour",
@@ -546,6 +546,15 @@
       "inclVat": 118,
       "priceFrom": false,
       "context": "מעבר לסבב הכלול"
+    },
+    {
+      "id": "podcast_extra_revision",
+      "label": "סבב תיקונים נוסף בפודקאסט",
+      "category": "addons",
+      "exVat": 100,
+      "inclVat": 118,
+      "priceFrom": false,
+      "context": "סבב תיקונים בפודקאסט, אחרי הסבב הכלול"
     },
     {
       "id": "photo_colorization",

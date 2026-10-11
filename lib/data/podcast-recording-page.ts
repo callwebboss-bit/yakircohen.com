@@ -5,6 +5,7 @@
 } from "./faq-aeo";
 import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { formatPagePrice } from "@/lib/data/pricing-display";
+import { podcastParticipantPriceLine } from "@/lib/data/podcast-calculator";
 import {
   getExVat,
   getPriceById,
@@ -249,24 +250,27 @@ export const PODCAST_RECORDING_FAQS: readonly {
   {
     id: "duration",
     question: "שעה מספיקה?",
+    /* הבעלים 11.10.2026: "יותר קרוב ל-45-60" (היה 30-60), וגמישות של כמה דקות בלי מספר */
     answer:
-      "בדרך כלל שעה מייצרת 30-60 דקות תוכן ערוך, תלוי בקצב הדיבור.",
+      "בדרך כלל שעה מייצרת 45-60 דקות תוכן ערוך, תלוי בקצב הדיבור. אם עוברים בכמה דקות, זה בסדר.",
   },
   {
     id: "guests",
     question: "אפשר להביא אורחים?",
-    /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026 */
-    answer: `בהחלט. יש מיקרופון ייעודי ואוזניות לכל משתתף. ${STUDIO_TURNS_NOTE}.`,
+    /* קיבולת האולפן, החלטת הבעלים D64, 7.10.2026. מחיר משתתף נוסף מהקטלוג (הבעלים 11.10.2026) */
+    answer: `בהחלט. יש מיקרופון ייעודי ואוזניות לכל משתתף. ${podcastParticipantPriceLine("page")}. ${STUDIO_TURNS_NOTE}.`,
   },
   {
     id: "revisions",
     question: "מה אם צריכים תיקונים?",
-    answer: "סבב תיקונים אחד כלול. תיקונים נוספים בתוספת סמלית.",
+    /* הבעלים 11.10.2026: סבב נוסף 100 + מע״מ (podcast_extra_revision), היה "בתוספת סמלית" */
+    answer: `סבב תיקונים אחד כלול. כל סבב נוסף ${formatPagePrice(getExVat("podcast_extra_revision")).inline}.`,
   },
   {
     id: "visit",
     question: "אפשר לראות את הסטודיו לפני?",
-    answer: "כן, ביקור מקדים ללא עלות.",
+    /* הבעלים 11.10.2026: הביקור בלי עלות, רק למי שכבר סגר */
+    answer: "כן, למי שכבר סגר הקלטה, ובלי עלות.",
   },
   {
     id: "camera-shy",

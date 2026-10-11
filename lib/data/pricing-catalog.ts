@@ -677,6 +677,8 @@ export const PRICING_CATALOG = [
   { id: "online_extra_minutes", label: "תיקון זיופים מעל 4 דקות", exVat: 100, category: "addons", context: "תוספת לשיר ארוך" },
   { id: "online_extra_channels", label: "מיקס מעל 16 ערוצים", exVat: 100, category: "addons", context: "תוספת לפרויקט רחב" },
   { id: "online_extra_revision", label: "סבב תיקונים נוסף באונליין", exVat: 100, category: "addons", context: "מעבר לסבב הכלול" },
+  /* החלטת הבעלים 11.10.2026: סבב תיקונים נוסף בפודקאסט 100 + מע״מ, כמו באונליין (היה "בתוספת סמלית" בלי מחיר) */
+  { id: "podcast_extra_revision", label: "סבב תיקונים נוסף בפודקאסט", exVat: 100, category: "addons", context: "סבב תיקונים בפודקאסט, אחרי הסבב הכלול" },
   { id: "photo_colorization", label: "צביעת תמונת שחור לבן", exVat: 100, category: "addons", context: "לתמונה, שירות נפרד משדרוג AI" },
   /* החלטת הבעלים D72, 7.10.2026: המחירים בעמוד שדרוג התמונות נכונים, לפני מע״מ.
      תמונה 50, 5 תמונות 200, 10 תמונות 350 (ai_photo_upgrade), 20 תמונות 600.

@@ -316,7 +316,8 @@ export const PODCAST_HUB_FAQS: readonly {
   {
     id: "revisions",
     question: "מה אם צריכים תיקונים אחרי העריכה?",
-    answer: "סבב תיקונים אחד כלול בכל חבילה. תיקונים נוספים בתוספת סמלית.",
+    /* הבעלים 11.10.2026: סבב נוסף 100 + מע״מ (podcast_extra_revision). מתחיל ב-summary של REVISION_POLICIES */
+    answer: `סבב תיקונים אחד כלול בכל חבילה. כל סבב נוסף ${formatPrice(getExVat("podcast_extra_revision"), { channel: "page" }).inline}.`,
   },
   {
     id: "camera-shy",
