@@ -318,7 +318,6 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
           const reply = buildAutoReplyText({
             name: lead.name,
             serviceType,
-            etaHours: score >= 80 ? 12 : 24,
           });
           await sendOrDryRun({
             from: defaultLeadFromAddress(),

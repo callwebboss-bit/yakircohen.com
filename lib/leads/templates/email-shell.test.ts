@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, it } from "node:test";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 import { buildAutoReplyText } from "@/lib/leads/templates/auto-reply";
 import {
   EMAIL_LOGO_HEIGHT,
@@ -36,6 +37,15 @@ describe("customer email shell", () => {
     assert.match(r.html, /<p>נועה,<\/p>/);
     /* הגרסה הטקסטואלית לא השתנתה */
     assert.match(r.text, /יקיר כהן הפקות\nhttps:\/\/yakircohen\.com$/);
+  });
+
+  /* D62/D76: אותה הבטחת מענה כמו באתר, ולא "24 שעות (ימי עסקים)". 11.10.2026 */
+  it("auto-reply promises the site's response time", () => {
+    const r = buildAutoReplyText({ name: "נועה", serviceType: "podcast" });
+    for (const part of [r.subject, r.text, r.html]) {
+      assert.ok(part.includes(TIME_CLAIMS.quoteHour), part);
+      assert.doesNotMatch(part, /24 שעות|ימי עסקים/);
+    }
   });
 
   it("auto-reply still escapes the lead name inside the shell", () => {

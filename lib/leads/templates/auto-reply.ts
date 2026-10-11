@@ -1,5 +1,6 @@
 import type { ServiceType } from "@/lib/leads/types";
 import { wrapCustomerEmail } from "@/lib/leads/templates/email-shell";
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 const PORTFOLIO: Record<string, { label: string; href: string }[]> = {
   studio: [
@@ -39,9 +40,10 @@ function esc(s: string): string {
 export function buildAutoReplyText(input: {
   name?: string;
   serviceType: ServiceType;
-  etaHours?: number;
 }): { subject: string; text: string; html: string } {
-  const eta = input.etaHours ?? 24;
+  /* אותה הבטחת מענה כמו באתר (D62/D76). עד 11.10.2026 המייל אמר "תוך 24 שעות
+     (ימי עסקים)", ובליד חם 12, בזמן שהאתר אומר "בדרך כלל תוך שעה" */
+  const eta = TIME_CLAIMS.quoteHour;
   const name = input.name?.trim() || "שלום";
   const links = PORTFOLIO[input.serviceType] || PORTFOLIO.default;
   const linkLines = links.map((l) => `• ${l.label}: ${l.href}`).join("\n");
@@ -49,7 +51,7 @@ export function buildAutoReplyText(input: {
   const text = [
     `${name},`,
     "",
-    `קיבלנו את הפנייה. נחזור אליך בדרך כלל תוך ${eta} שעות (ימי עסקים).`,
+    `קיבלנו את הפנייה. נחזור אליך ${eta}.`,
     "",
     "בינתיים - דוגמאות רלוונטיות:",
     linkLines,
@@ -62,12 +64,12 @@ export function buildAutoReplyText(input: {
      (בדיקת הלוגו 7.10.2026), ולכן החתימה לא כתובה כאן שוב */
   const html = wrapCustomerEmail(`
   <p>${esc(name)},</p>
-  <p>קיבלנו את הפנייה. נחזור אליך בדרך כלל תוך <strong>${eta} שעות</strong> (ימי עסקים).</p>
+  <p>קיבלנו את הפנייה. נחזור אליך <strong>${eta}</strong>.</p>
   <p>בינתיים - דוגמאות רלוונטיות:</p>
   <ul>${links.map((l) => `<li><a href="${l.href}">${l.label}</a></li>`).join("")}</ul>`);
 
   return {
-    subject: `קיבלנו את הפנייה - נחזור תוך ${eta} שעות`,
+    subject: `קיבלנו את הפנייה - נחזור ${eta}`,
     text,
     html,
   };

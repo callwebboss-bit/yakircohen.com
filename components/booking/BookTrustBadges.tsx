@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
 
+/* "סבב תיקונים אחד כלול" ירד מברירת המחדל (11.10.2026): היא מוצגת במחשבון
+   ה-DJ, שאין בו עריכה, ובשיר כלולים 2 סבבים. מסך שיש בו תיקונים מעביר badges
+   משלו, והמספרים לכל שירות ב-lib/data/revision-policy.ts */
 const DEFAULT_BADGES = [
   { icon: "☁️", label: "גיבוי ענן לכל החיים" },
   { icon: "🅿️", label: "חנייה חופשית בשפע" },
   { icon: "🌙", label: "תיאום גמיש בשעות הערב" },
-  { icon: "🔄", label: "סבב תיקונים אחד כלול" },
 ] as const;
 
 type BookTrustBadgesProps = {
