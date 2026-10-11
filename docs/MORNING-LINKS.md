@@ -71,7 +71,7 @@
 
 | # | קצה פתוח | מי | איפה | מה עושים |
 |---|---|---|---|---|
-| 1 | הענף `feature/morning-payment-links` (PR פתוח, לא ממוזג) | יקיר | GitHub | לקרוא את ה-PR, למזג ל-main. Vercel פורס לבד. אחרי הפריסה לפתוח `/admin/sales` ולראות את אזור "לינק לתשלום" בכרטיס |
+| 1 | הענף `feature/morning-payment-links` נדחף, PR עוד לא נפתח (gh לא מחובר במק) | יקיר | github.com/callwebboss-bit/yakircohen.com/pull/new/feature/morning-payment-links | לפתוח PR מהקישור, למזג ל-main. Vercel פורס לבד. אחרי הפריסה לפתוח `/admin/sales` ולראות את אזור "לינק לתשלום" בכרטיס |
 | 2 | גילוי ה-API (מסלול A/B/C) | Cursor | `docs/CURSOR-MORNING-BRIEF.md` + `docs/morning-items.json` | להדביק ב-Cursor. את הדיווח לשמור כ-D107 ב-DECISIONS.md (שורה אחת: המסלול ומה `POST /payments/form` החזיר) |
 | 3 | לינק ניסיון "הקלטת שיר" 590 ₪ מהטלפון, כלקוח | יקיר | מורנינג | לספור שדות חובה ולחיצות. אם יותר מ-4 שדות חובה, לכתוב בהודעה שבדלפק "לוקח דקה" (עריכה ב-`lib/sales/sales-copy.ts`, `PAY_AFTER`) |
 | 4 | לינק סכום פתוח עם 7 סכומים לבחירה | יקיר | מורנינג > תשלומים > לינקים לתשלום > לינק בסכום פתוח | הסכומים: `presetAmounts` ב-`docs/morning-items.json`. לשמור: `npm run morning:link -- --id open --url <לינק>` |
