@@ -8,6 +8,7 @@ import { LIVE_PODCAST_PAGE } from "@/lib/data/service-offers/live-podcast";
 import { ORIGINAL_SONG_PAGE } from "@/lib/data/service-offers/original-song";
 import { PARODY_PAGE } from "@/lib/data/service-offers/parody";
 import { PODCAST_LAUNCH_PAGE } from "@/lib/data/service-offers/podcast-launch";
+import { RENEW_OLD_SONG_PAGE } from "@/lib/data/service-offers/renew-old-song";
 
 /* המוצרים בכרטיס Google Business של העסק, ממופים לקטלוג.
    למה זה קיים: ב-4.10.2026 הוזנו בכרטיס מחירים לפי מחירון ישן (שיר 990, שלוש
@@ -61,5 +62,5 @@ export const GBP_PRODUCTS: readonly GbpProduct[] = [
   { name: "שיר או ברכה לגיוס", catalogId: "song_recording", path: ENLISTMENT_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום", description: ENLISTMENT_PAGE.metaDescription },
   { name: "פודקאסט חי מהבמה", catalogId: "live_podcast_with_sound", path: LIVE_PODCAST_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום. מחיר התחלה עם ההגברה שלנו", description: LIVE_PODCAST_PAGE.metaDescription },
   { name: "חבילת השקה לפודקאסט", catalogId: "podcast_launch_package", path: PODCAST_LAUNCH_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום", description: PODCAST_LAUNCH_PAGE.metaDescription },
-  { name: "אימון הנחיה לפודקאסט", catalogId: "host_coaching_hour", path: HOST_COACHING_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום. לשעה", description: HOST_COACHING_PAGE.metaDescription },
+  { name: "אימון הנחיה לפודקאסט", catalogId: "host_coaching_hour", path: HOST_COACHING_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום. לשעה", description: HOST_COACHING_PAGE.metaDescription },  { name: "חידוש שיר ישן", catalogId: "old_song_renewal", path: RENEW_OLD_SONG_PAGE.path, gbpPriceNow: null, reportedAt: "2026-10-11", note: "חדש, להוסיף אחרי הפרסום. מחיר התחלה", description: RENEW_OLD_SONG_PAGE.metaDescription },
 ];
