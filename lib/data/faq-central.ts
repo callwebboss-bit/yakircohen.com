@@ -3,6 +3,8 @@ import type { FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { DATE_HOLD_TERMS } from "@/lib/data/conversion-copy";
 import { CANCELLATION_ANSWER, DELIVERY_TIME_FAQ } from "@/lib/data/home-faq";
+import { REVISION_RULES } from "@/lib/data/legal-trust-copy";
+import { REVISION_POLICIES } from "@/lib/data/revision-policy";
 
 /* התשובה על "כמה עולה" נכנסת לסכמת FAQPage, ולכן מחיר מיושן כאן מתפרסם
    לגוגל כעובדה. היא הצהירה 1,750 ₪ לאטרקציה אחרי שהקטלוג כבר אמר 1,695.
@@ -162,6 +164,15 @@ export const CENTRAL_FAQ_ITEMS: readonly FaqCtaItem[] = [
     utm_campaign: "faq_cancellation",
   },
   {
+    /* החלטות הבעלים 11.10.2026: המספרים מ-revision-policy.ts, הכללים מ-REVISION_RULES */
+    id: "revisions",
+    question: "כמה סבבי תיקונים כלולים?",
+    answer: `${REVISION_POLICIES.map((p) => `${p.service}: ${p.summary}`).join(". ")}. ${REVISION_RULES[0]} הפירוט המלא בעמוד מה כלול במחיר.`,
+    ctaText: "יש לכם שאלה על תיקונים? שלחו בוואטסאפ",
+    whatsappMessage: "שלום, יש לי שאלה על סבבי התיקונים בשירות:",
+    utm_campaign: "faq_revisions",
+  },
+  {
     id: "service-area",
     question: "לאיזה אזורים אתם מגיעים?",
     answer:
@@ -268,8 +279,8 @@ export const CENTRAL_FAQ_SECTIONS: readonly CentralFaqSection[] = [
   {
     id: "faq-delivery",
     title: "זמני אספקה וביטולים",
-    subtitle: "מתי מקבלים קובץ מוכן, ומה קורה כשצריך לשנות או לבטל",
-    itemIds: ["delivery-time", "cancellation"],
+    subtitle: "מתי מקבלים קובץ מוכן, כמה תיקונים יש, ומה קורה כשצריך לשנות או לבטל",
+    itemIds: ["delivery-time", "cancellation", "revisions"],
   },
 ] as const;
 

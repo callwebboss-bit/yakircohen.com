@@ -260,6 +260,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("privacy"), priority: 0.3, changeFrequency: "yearly" },
   { url: url("accessibility"), priority: 0.3, changeFrequency: "yearly" },
   { url: url("terms"), priority: 0.3, changeFrequency: "yearly" },
+  { url: url("whats-included"), priority: 0.5, changeFrequency: "monthly" },
   { url: url("sustainability"), priority: 0.3, changeFrequency: "yearly" },
 
   // ── Academy ────────────────────────────────────────────────────────────────

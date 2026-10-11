@@ -208,6 +208,7 @@ export function collectFooterNavPaths(): string[] {
   paths.add("/pricing");
   paths.add("/privacy");
   paths.add("/terms");
+  paths.add("/whats-included");
   paths.add("/accessibility");
   paths.add("/sustainability");
 

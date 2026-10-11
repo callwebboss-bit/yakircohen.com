@@ -94,6 +94,7 @@ export const FOOTER_LEGAL_LINKS = [
   { href: "/privacy", label: "מדיניות פרטיות" },
   { href: "/accessibility", label: "הצהרת נגישות" },
   { href: "/terms", label: "תנאי שירות" },
+  { href: "/whats-included", label: "מה כלול במחיר" },
   { href: "/sustainability", label: "הצהרת מדיניות קיימות" },
 ] as const;
 

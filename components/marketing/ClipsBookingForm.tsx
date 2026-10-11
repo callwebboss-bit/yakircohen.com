@@ -399,7 +399,7 @@ export default function ClipsBookingForm({ routeId = null }: ClipsBookingFormPro
           </li>
           <li>
             <span className="font-medium text-foreground">לאחר האישור:</span>{" "}
-            קבצים מוגמרים + גיבוי ענן לכל החיים
+            קבצים מוגמרים
           </li>
         </ol>
         <p className="text-xs text-muted-foreground">

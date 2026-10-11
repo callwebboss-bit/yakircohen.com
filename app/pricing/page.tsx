@@ -203,7 +203,12 @@ export default function PricingHubPage() {
         <Section padding="sm">
           <Container className="max-w-3xl">
             <p className="mb-4 text-xs text-muted-foreground">
-              {PRICES_INCLUDE_VAT_NOTE}. הפירוט בלחיצה על כל שורה.
+              {PRICES_INCLUDE_VAT_NOTE}. הפירוט בלחיצה על כל שורה. סבבי תיקונים, קבצים
+              וביטול ב
+              <Link href="/whats-included" className="text-brand-red underline underline-offset-2">
+                מה כלול במחיר
+              </Link>
+              .
             </p>
             <PricingStandardsStrip />
             <PricingHubSectionsAccordion

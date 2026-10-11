@@ -115,7 +115,11 @@ export default function StudioPricingPage() {
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               {PRICES_INCLUDE_VAT_NOTE}. כל חבילה כוללת ליווי טכני, חדר שקט וציוד
-              מקצועי. לא בטוחים? נעזור לבחור בוואטסאפ.
+              מקצועי. לא בטוחים? נעזור לבחור בוואטסאפ. סבבי תיקונים וקבצים ב
+              <Link href="/whats-included" className="text-brand-red underline underline-offset-2">
+                מה כלול במחיר
+              </Link>
+              .
             </p>
             <ContextualIntroParagraph
               pathname="/studio/pricing"

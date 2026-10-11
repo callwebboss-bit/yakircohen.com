@@ -1247,7 +1247,6 @@ export default function PodcastBookingWizard({
               <BookTrustBadges
                 badges={[
                   { icon: "🔄", label: "סבב תיקונים אחד כלול בעריכה" },
-                  { icon: "☁️", label: "גיבוי ענן עד ההקלטה הבאה" },
                   ...(form.location !== "mobile"
                     ? [{ icon: "🅿️", label: "חנייה חופשית במודיעין" }]
                     : [{ icon: "🚗", label: "מגיעים אליכם עם כל הציוד" }]),

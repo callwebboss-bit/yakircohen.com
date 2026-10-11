@@ -25,6 +25,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   voucher: "שובר מתנה",
   privacy: "מדיניות פרטיות",
   terms: "תנאי שימוש",
+  "whats-included": "מה כלול במחיר",
   accessibility: "נגישות",
   sustainability: "קיימות",
   blessings: "הקלטת ברכה",

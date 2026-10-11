@@ -1,4 +1,5 @@
 import type { AudioDemoId } from "@/lib/data/audio-demos";
+import { ONLINE_SAMPLE_LINE } from "@/lib/data/legal-trust-copy";
 import {
   getPodcastZoomYoutubeVideoId,
   PODCAST_ZOOM_PROOF,
@@ -91,8 +92,8 @@ export const ONLINE_CATEGORY_ENRICHMENT: readonly OnlineCategoryEnrichment[] = [
       {
         id: "sample",
         question: "אפשר לשמוע סקיצה לפני תשלום מלא?",
-        answer:
-          "כן. לפרויקטים מורכבים מומלץ קטע 30 שניות לפני/אחרי חינם כדי ליישר ציפיות.",
+        /* החלטת הבעלים 11.10.2026: דוגמה לפני תשלום בכל האונליין, לא רק בפרויקט מורכב */
+        answer: `כן. ${ONLINE_SAMPLE_LINE}`,
       },
       {
         id: "revision",

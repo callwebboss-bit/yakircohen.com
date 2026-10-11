@@ -74,7 +74,7 @@ export function buildTrustFooter(bookCategory?: BookCategoryId, packageId?: stri
         : "📍 עמק איילון 34, מודיעין",
     `🕐 ${hours}`,
     buildDeliveryLine(bookCategory, packageId),
-    "☁️ גיבוי ענן מאובטח",
+    /* "גיבוי ענן מאובטח" ירד: אין התחייבות לשמירה בחינם (החלטת הבעלים 11.10.2026) */
   ].filter(Boolean).join("\n");
 }
 

@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import { LEGAL_PHONE_DISPLAY, legalWhatsAppHref } from "@/lib/legal-contact";
 import type { LegalSection } from "@/components/legal/LegalPageLayout";
+import { ONLINE_SAMPLE_RULES } from "@/lib/data/legal-trust-copy";
 
 export const TERMS_PAGE = {
   title: "תנאי שירות",
@@ -13,7 +14,7 @@ export const TERMS_PAGE = {
       title: "תנאי השירות",
       content: (
         <>
-          <p>עדכון אחרון: 29 באפריל 2026</p>
+          <p>עדכון אחרון: 11 באוקטובר 2026 (נוסף סעיף 4)</p>
           <p>
             האתר yakircohen.com (להלן: האתר) מופעל על ידי יקיר כהן הפקות (להלן: אנחנו).
             השימוש באתר והזמנת השירותים שלנו מהווים הסכמה לתנאים להלן.
@@ -182,6 +183,31 @@ export const TERMS_PAGE = {
           <p>
             אנחנו מחויבים לביצוע מקצועי ופועלים בטוב טעם ובשקיפות. יש גורמים שלא
             בשליטתנו המלאה.
+          </p>
+        </>
+      ),
+    },
+    {
+      /* החלטת הבעלים 11.10.2026: דוגמה לפני תשלום בשירותי האונליין. אותו נוסח
+         כמו בדף /whats-included (ONLINE_SAMPLE_RULES) */
+      id: "online-sample",
+      title: "4. שירותי אונליין: דוגמה לפני תשלום",
+      content: (
+        <>
+          <p>
+            בשירותי האונליין (שיפור קול, שחזור, ניקוי רעשים, מיקס, תמלול, שדרוג תמונות ועוד):
+          </p>
+          <ul>
+            {ONLINE_SAMPLE_RULES.map((rule) => (
+              <li key={rule}>{rule}</li>
+            ))}
+          </ul>
+          <p>
+            מה כלול בכל שירות וכמה סבבי תיקונים יש, ב
+            <Link href="/whats-included" className="text-brand-red hover:underline">
+              מה כלול במחיר
+            </Link>
+            .
           </p>
         </>
       ),

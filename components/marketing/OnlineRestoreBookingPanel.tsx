@@ -262,7 +262,7 @@ export default function OnlineRestoreBookingPanel({
           body: step.description,
         }))}
       />
-      <BookTrustBadges badges={[{ icon: "☁️", label: "גיבוי ענן לכל החיים" }, { icon: "🔄", label: "סבב תיקונים אחד" }]} />
+      <BookTrustBadges badges={[{ icon: "🔄", label: "סבב תיקונים אחד" }]} />
 
       <div>
         <label htmlFor="online-restore-issue" className="mb-2 block text-sm font-medium">
