@@ -165,6 +165,8 @@ describe("DJ travel fees are visible and come from the catalog", () => {
 
   it("the bar mitzvah area FAQ quotes the travel fees", () => {
     const faq = getEventsService("events-bar-mitzvah")?.faqs.find((f) => f.id === "bm-area");
-    assert.ok(faq?.answer.includes(djTravelFeesLine()));
+    /* D86 (11.10.2026): תשובה בעמוד, ולכן השורה בגרסת page, בלי לפני מע״מ */
+    assert.ok(faq?.answer.includes(djTravelFeesLine("page")));
+    assert.doesNotMatch(faq?.answer ?? "", /\+ מע״מ/);
   });
 });
