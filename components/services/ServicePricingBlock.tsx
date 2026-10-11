@@ -151,7 +151,7 @@ export default function ServicePricingBlock({
               חבילות ומחירון שקוף
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              המחיר הגדול כולל מע״מ, ובקטן לפני מע״מ - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
+              המחירים כוללים מע״מ - הצעה מדויקת לאחר פרטי האירוע בוואטסאפ.
             </p>
           </header>
         ) : null}

@@ -1552,7 +1552,7 @@ export default function StudioRecordingBooking({
                   <div className="mb-3 rounded-lg border border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-3 py-2">
                     <p className="text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
                     <p className="mt-1 text-sm text-foreground">
-                      {studioPerPersonPriceLine(form.packageId || null, VAT_RATE)}
+                      {studioPerPersonPriceLine(form.packageId || null, VAT_RATE, "page")}
                     </p>
                     {form.location === "mobile" ? (
                       <p className="mt-1 text-sm text-foreground">

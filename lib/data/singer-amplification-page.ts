@@ -471,4 +471,4 @@ export const SINGER_VALUE_POINTS: readonly string[] = [
 
 /* החלטת הבעלים D69, 7.10.2026: נסיעה להגברת זמר בלבד, מהקטלוג (singer_travel_north,
    singer_travel_south), כולל מע״מ קודם כמו בשאר העמוד לצרכן. היו מספרים קשיחים */
-export const SINGER_TRAVEL_NOTE = `נסיעה מבסיס מודיעין: מרכז בלי תוספת, צפון +${formatPrice(getExVat("singer_travel_north")).inline}, דרום +${formatPrice(getExVat("singer_travel_south")).inline}`;
+export const SINGER_TRAVEL_NOTE = `נסיעה מבסיס מודיעין: מרכז בלי תוספת, צפון +${formatPrice(getExVat("singer_travel_north"), { channel: "page" }).inline}, דרום +${formatPrice(getExVat("singer_travel_south"), { channel: "page" }).inline}`;

@@ -1701,7 +1701,7 @@ export const EVENTS_SERVICES = {
       {
         id: "dj-travel",
         question: "יש תוספת הגעה?",
-        answer: `${djTravelFeesLine()}.`,
+        answer: `${djTravelFeesLine("page")}.`,
       },
       {
         id: "songs",
@@ -2053,7 +2053,7 @@ export const EVENTS_SERVICES = {
         id: "bm-area",
         question: "לאיזה אזורים מגיעים?",
         answer:
-          `מודיעין, ירושלים, השרון והמרכז כשירות שוטף, ושאר הארץ בתיאום מראש. ${djTravelFeesLine()}.`,
+          `מודיעין, ירושלים, השרון והמרכז כשירות שוטף, ושאר הארץ בתיאום מראש. ${djTravelFeesLine("page")}.`,
       },
       /* אושר על ידי הבעלים 6.10.2026, כהערת מערכת: בלי ספי כאב ונזק. "אנחנו" למה שעושים
          במקצוע, "בעיניי" לדעה (docs/HUMAN-COPY-GUIDELINES.md, אנחנו או אני). */

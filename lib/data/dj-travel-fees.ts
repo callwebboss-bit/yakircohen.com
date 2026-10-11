@@ -30,9 +30,9 @@ const AREA_BY_ID: Record<DjTravelFeeRow["id"], string> = {
   travel_eilat_golan: "אילת או גולן",
 };
 
-export function getDjTravelFeeRows(): DjTravelFeeRow[] {
+export function getDjTravelFeeRows(channel: "page" | "message" = "message"): DjTravelFeeRow[] {
   return DJ_TRAVEL_FEE_IDS.map((id) => {
-    const price = formatPrice(getPriceById(id).exVat);
+    const price = formatPrice(getPriceById(id).exVat, { channel });
     return {
       id,
       area: AREA_BY_ID[id],
@@ -46,7 +46,8 @@ export function getDjTravelFeeRows(): DjTravelFeeRow[] {
 export const DJ_TRAVEL_HEADING = "תוספת הגעה";
 
 /** שורה אחת: "תוספת הגעה: צפון או דרום 944 ₪ כולל מע״מ (800 ₪ + מע״מ) · ... · אזור המרכז: בלי תוספת הגעה" */
-export function djTravelFeesLine(): string {
-  const rows = getDjTravelFeeRows().map((r) => `${r.area} ${r.inline}`);
+/* channel "page" לטקסט בעמוד (D86, 11.10.2026); ברירת המחדל ל-llms.txt */
+export function djTravelFeesLine(channel: "page" | "message" = "message"): string {
+  const rows = getDjTravelFeeRows(channel).map((r) => `${r.area} ${r.inline}`);
   return `${DJ_TRAVEL_HEADING}: ${rows.join(" · ")} · ${DJ_TRAVEL_CENTER_NOTE}`;
 }

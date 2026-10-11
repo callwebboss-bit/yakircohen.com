@@ -13,6 +13,7 @@ import {
   clampSongParticipants,
   songParticipantsBreakdown,
   songParticipantsExplanation,
+  songParticipantsExplanationParts,
   songParticipantsSurchargeExVat,
 } from "@/lib/data/song-offer-quote";
 import type { PersonBreakdown } from "@/lib/data/participant-cost-copy";
@@ -400,11 +401,20 @@ export { withVatAtSiteRate as withVatDefault };
  * בשיר: מחירי השיר מהקטלוג. בשאר (הקלטה מרחוק, ברכות): כל דובר נוסף
  * blessing_extra_participant (החלטות 5.10.2026 (ברכות)).
  */
-export function studioPerPersonPriceLine(packageId: string | null | undefined, vatRate: number = VAT_RATE): string {
+export function studioPerPersonPriceLine(
+  packageId: string | null | undefined,
+  vatRate: number = VAT_RATE,
+  /* "page": השורה מוצגת ליד הבורר באשף, ולכן כולל מע״מ בלבד (D86, 11.10.2026) */
+  channel: "page" | "message" = "message",
+): string {
   if (packageId === "song") {
+    if (channel === "page") {
+      const { withVat, limit } = songParticipantsExplanationParts(getSongParticipantRules(), vatRate);
+      return `${withVat} · ${limit}`;
+    }
     return songParticipantsExplanation(getSongParticipantRules(), vatRate);
   }
-  return blessingSpeakersPriceLine(vatRate);
+  return blessingSpeakersPriceLine(vatRate, channel);
 }
 
 /**

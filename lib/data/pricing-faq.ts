@@ -47,7 +47,7 @@ export const PRICING_FAQ_ITEMS: readonly PricingFaqItem[] = [
     id: "vat-included",
     question: "האם המחירים כוללים מע״מ?",
     answerPlain:
-      "כן. המחיר הגדול במחירון כולל מע״מ, ולידו בקטן המחיר לפני מע״מ. בטופס ההזמנה (/book) מוצג המחיר הסופי.",
+      "כן. המחירים במחירון כוללים מע״מ. בטופס ההזמנה (/book) מוצג המחיר הסופי.",
   },
   {
     id: "how-to-book",

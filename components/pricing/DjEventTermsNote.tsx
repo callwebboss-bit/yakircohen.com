@@ -18,7 +18,7 @@ export default function DjEventTermsNote({
   className?: string;
   showAttractionsDiscount?: boolean;
 }) {
-  const rows = getDjTravelFeeRows();
+  const rows = getDjTravelFeeRows("page");
   return (
     <div
       className={cn("rounded-lg border border-brand-red/30 bg-brand-red/5 px-4 py-3", className)}
@@ -31,8 +31,7 @@ export default function DjEventTermsNote({
           <li key={r.id} data-catalog-id={r.id}>
             <span className="font-medium text-foreground">
               {r.area}: {r.headline}
-            </span>{" "}
-            <span className="text-xs">({r.vatNote})</span>
+            </span>
           </li>
         ))}
         <li>{DJ_TRAVEL_CENTER_NOTE}</li>

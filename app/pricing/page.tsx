@@ -44,7 +44,7 @@ import { PRICING_HUB_DECISIONS } from "@/lib/data/hub-decision-matrix";
 import { formatNis, withVat } from "@/lib/data/pricing";
 
 /* המחירון המרכזי מוביל בכולל מע״מ, כמו טופס השיר (החלטת הבעלים 2.10.2026) */
-const PRICES_INCLUDE_VAT_NOTE = "המחירים כוללים מע״מ, ולפני מע״מ מופיע לידם בקטן";
+const PRICES_INCLUDE_VAT_NOTE = "המחירים כוללים מע״מ";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -129,7 +129,7 @@ export default function PricingHubPage() {
             </AnswerBlock>
             <p className="text-lead mx-auto mt-4 max-w-xl text-muted-foreground">
               {PRICING_FRAMING_LINE} מחירים קבועים. {PRICES_INCLUDE_VAT_NOTE}.
-              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;. המחיר כולל מע״מ, ובלחיצה על שורה מופיע גם הסכום לפני מע״מ.
+              שורות עם מחיר התחלה מסומנות ב&quot;מ-&quot;.
             </p>
             <ContextualIntroParagraph pathname="/pricing" className="mx-auto mt-4 max-w-xl text-center" />
             <p className="mt-2 text-xs text-muted-foreground">
