@@ -53,14 +53,17 @@ import {
 } from "@/lib/data/events-booking";
 import { PRICING_HUB_SECTIONS, resolveRowHref } from "@/lib/data/pricing-hub";
 import { absoluteUrl } from "@/lib/site-url";
-import { getDepositLink, getPaymentLink, type MorningLink } from "@/lib/sales/morning-links";
+import { getBankTransferLine, getDepositLink, getPaymentLink, type MorningLink } from "@/lib/sales/morning-links";
 import {
   buildCardAgreedLine,
   buildCardConfirmLine,
   buildCardMessage,
   buildDepositMessage,
   buildMorningLinkFields,
+  buildPaymentFailedMessage,
   buildPaymentMessage,
+  buildPaymentMessageFull,
+  buildPaymentWithBankMessage,
 } from "@/lib/sales/sales-copy";
 
 export type SalesAudience = "consumer" | "business";
@@ -120,8 +123,14 @@ export type SalesCard = {
   morningLines: SalesLine[];
   /** לינק תשלום במורנינג: קבוע לשירות, או סכום פתוח, או null עד שייווצר (morning-links.json) */
   payLink: MorningLink | null;
-  /** הודעת התשלום ללקוח עם הלינק, או null כשאין לינק */
+  /** הודעת התשלום הקצרה (ברירת מחדל): סכום ולינק, או null כשאין לינק */
   payMessage: string | null;
+  /** אותה הודעה עם "כולל / לא כולל" מהכרטיס, עד 350 תווים */
+  payMessageFull: string | null;
+  /** הקצרה + "או בהעברה: ...", או null כשאין שורת העברה או לינק */
+  payMessageBank: string | null;
+  /** "התשלום לא עבר?" */
+  payFailedMessage: string | null;
   /** השדות ליצירת לינק קבוע במורנינג, להעתקה. null כשכבר יש לינק קבוע או במחיר "החל מ" */
   morningLinkFields: string | null;
 };
@@ -138,7 +147,15 @@ export type SalesBook = {
 /** הכרטיס בלי ההודעות. ממנו sales-copy.ts בונה את ההודעה, את "רק לוודא" ואת "סיכמנו". */
 export type SalesCardDraft = Omit<
   SalesCard,
-  "message" | "confirmLine" | "agreedLine" | "payLink" | "payMessage" | "morningLinkFields"
+  | "message"
+  | "confirmLine"
+  | "agreedLine"
+  | "payLink"
+  | "payMessage"
+  | "payMessageFull"
+  | "payMessageBank"
+  | "payFailedMessage"
+  | "morningLinkFields"
 >;
 
 /* ─── איזה פריט מקבל כרטיס ─── */
@@ -795,6 +812,7 @@ function buildCard(item: PriceItem): SalesCard {
     morningLines: [line(id)],
   };
   const payLink = getPaymentLink(id, { priceFrom });
+  const bankLine = getBankTransferLine();
   return {
     ...draft,
     message: buildCardMessage(draft),
@@ -802,6 +820,9 @@ function buildCard(item: PriceItem): SalesCard {
     agreedLine: buildCardAgreedLine(draft),
     payLink,
     payMessage: payLink ? buildPaymentMessage(draft, payLink) : null,
+    payMessageFull: payLink ? buildPaymentMessageFull(draft, payLink) : null,
+    payMessageBank: payLink && bankLine ? buildPaymentWithBankMessage(draft, payLink, bankLine) : null,
+    payFailedMessage: payLink ? buildPaymentFailedMessage(payLink, bankLine) : null,
     morningLinkFields: priceFrom || payLink?.kind === "fixed" ? null : buildMorningLinkFields(draft),
   };
 }

@@ -11,7 +11,16 @@ import {
   type MorningLinksFile,
 } from "@/lib/sales/morning-links";
 import { buildSalesBook } from "@/lib/sales/sales-book";
-import { buildDepositMessage, buildMorningLinkFields, buildPaymentMessage, SALES_MESSAGE_MAX } from "@/lib/sales/sales-copy";
+import {
+  buildDepositMessage,
+  buildMorningLinkFields,
+  buildPaymentFailedMessage,
+  buildPaymentMessage,
+  buildPaymentMessageFull,
+  buildPaymentWithBankMessage,
+  includedLine,
+  SALES_MESSAGE_MAX,
+} from "@/lib/sales/sales-copy";
 
 const song = getPriceById("song_recording");
 assert.ok(song);
@@ -22,11 +31,18 @@ const DEPOSIT = "https://app.greeninvoice.co.il/payment/dep200";
 
 const full: MorningLinksFile = {
   updated: "2026-10-11",
+  bankTransferLine: "לבנק הפועלים, אישור בוואטסאפ",
   deposit: { url: DEPOSIT, inclVat: 200 },
   open: { url: OPEN },
   cards: { song_recording: { url: FIXED, inclVat: SONG_INCL } },
 };
-const empty: MorningLinksFile = { updated: "2026-10-11", deposit: { url: "", inclVat: 200 }, open: { url: "" }, cards: {} };
+const empty: MorningLinksFile = {
+  updated: "2026-10-11",
+  bankTransferLine: "",
+  deposit: { url: "", inclVat: 200 },
+  open: { url: "" },
+  cards: {},
+};
 
 describe("isMorningUrl", () => {
   it("מקבל רק https על דומיין של מורנינג", () => {
@@ -81,12 +97,36 @@ describe("הודעות התשלום", () => {
   const fromCard = buildSalesBook().cards.find((c) => c.priceFrom);
   assert.ok(fromCard);
 
-  it("לינק קבוע: הסכום כולל מע״מ מהכרטיס והלינק, עד המגבלה, בלי סימני קריאה", () => {
+  it("לינק קבוע: קצרה, שתי שורות, הסכום כולל מע״מ מהכרטיס והלינק, בלי סימני קריאה", () => {
     const text = buildPaymentMessage(card, { kind: "fixed", url: FIXED, inclVat: SONG_INCL });
     assert.ok(text.includes(`${SONG_INCL.toLocaleString("he-IL")} ₪ כולל מע״מ`));
     assert.ok(text.includes(FIXED));
+    assert.equal(text.split("\n").length, 2);
+    assert.ok(!text.includes("כולל הקלטה"), "הקצרה בלי פירוט");
     assert.ok(text.length <= SALES_MESSAGE_MAX);
     assert.ok(!/[!—…]/.test(text));
+  });
+  it("המלאה: כולל / לא כולל מהכרטיס, עד 350, והלינק תמיד נשאר", () => {
+    const link = { kind: "fixed" as const, url: FIXED, inclVat: SONG_INCL };
+    const full = buildPaymentMessageFull(card, link);
+    assert.ok(full.includes("כולל הקלטה, מיקס ומאסטר"));
+    assert.ok(full.includes("לא כולל תיקון זיופים"));
+    assert.ok(full.length <= SALES_MESSAGE_MAX);
+    const detail = includedLine(card);
+    assert.ok(detail && detail.startsWith("כולל ") && detail.includes(". לא כולל "));
+    /* לינק ארוך מאוד: הפירוט נופל, הלינק נשאר */
+    const longUrl = `${FIXED}/${"x".repeat(320)}`;
+    const squeezed = buildPaymentMessageFull(card, { ...link, url: longUrl });
+    assert.ok(squeezed.includes(longUrl));
+    assert.ok(!squeezed.includes("כולל הקלטה"));
+  });
+  it("או בהעברה, והתשלום לא עבר", () => {
+    const link = { kind: "fixed" as const, url: FIXED, inclVat: SONG_INCL };
+    const bank = buildPaymentWithBankMessage(card, link, " לבנק, אישור בוואטסאפ ");
+    assert.ok(bank.includes("או בהעברה: לבנק, אישור בוואטסאפ"));
+    assert.ok(buildPaymentFailedMessage(link, "בנק").includes("או בהעברה"));
+    assert.ok(!buildPaymentFailedMessage(link, null).includes("או בהעברה"));
+    assert.ok(buildPaymentFailedMessage(link, null).endsWith(FIXED));
   });
   it("סכום פתוח: אומר ללקוח לבחור את הסכום, וב'החל מ' בלי מספר", () => {
     const open = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null });
@@ -100,9 +140,11 @@ describe("הודעות התשלום", () => {
     assert.ok(text.startsWith("מקדמה של 200 ₪"));
     assert.ok(text.includes(DEPOSIT));
   });
-  it("השדות למורנינג: שם, שני המחירים, הקוד והפקודה", () => {
+  it("השדות למורנינג: שם, שני המחירים, תיאור קצר עם התנאים, הקוד והפקודה", () => {
     const fields = buildMorningLinkFields(card);
     assert.ok(fields.includes(card.title));
+    assert.ok(fields.includes("yakircohen.com/whats-included"));
+    assert.ok(!fields.includes("תיקון זיופים"), "הרשימה המלאה לא על החשבונית");
     assert.ok(fields.includes(`${SONG_INCL.toLocaleString("he-IL")} ₪ כולל מע״מ`));
     assert.ok(fields.includes(`${song.exVat.toLocaleString("he-IL")} ₪ לפני מע״מ`));
     assert.ok(fields.includes("--id song_recording --url"));

@@ -1,6 +1,12 @@
 {
   "updated": "2026-10-11",
-  "deposit": { "url": "", "inclVat": 200 },
-  "open": { "url": "" },
+  "bankTransferLine": "",
+  "deposit": {
+    "url": "",
+    "inclVat": 200
+  },
+  "open": {
+    "url": ""
+  },
   "cards": {}
 }

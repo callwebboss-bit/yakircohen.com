@@ -30,6 +30,8 @@ export type MorningLink = {
 };
 export type MorningLinksFile = {
   updated: string;
+  /** "או בהעברה: ..." בהודעה, בניסוח של יקיר. ריק = הכפתור לא מופיע בדלפק */
+  bankTransferLine: string;
   deposit: { url: string; inclVat: number };
   open: { url: string };
   cards: Record<string, { url: string; inclVat: number }>;
@@ -55,6 +57,12 @@ export function isMorningUrl(url: string): boolean {
 
 function present(url: string | undefined): url is string {
   return typeof url === "string" && url.trim().length > 0;
+}
+
+/** שורת ההעברה הבנקאית של יקיר, או null כשריקה */
+export function getBankTransferLine(file: MorningLinksFile = MORNING_LINKS): string | null {
+  const line = file.bankTransferLine?.trim();
+  return line ? line : null;
 }
 
 /** לינק המקדמה (200 ₪, D6), או null עד שייווצר במורנינג */

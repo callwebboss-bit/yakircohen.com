@@ -10,6 +10,7 @@
  *   npm run morning:link -- --id open --url https://...             לינק בסכום פתוח
  *   npm run morning:link -- --id song_recording --price 590         אחרי עדכון המחיר בלינק
  *   npm run morning:link -- --remove song_recording                 אחרי הקפאת הלינק במורנינג
+ *   npm run morning:link -- --bank "העברה לבנק ..., אישור בוואטסאפ"  שורת "או בהעברה" להודעה (ריק מסיר)
  *   npm run morning:link -- --list                                  מה שמור, ומה מצב כל לינק
  *   npm run morning:link -- --check                                 נכשל על מזהה לא קיים, URL זר, מחיר שזז
  */
@@ -41,7 +42,13 @@ const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jerusalem
 
 function save(next: MorningLinksFile): void {
   const cards = Object.fromEntries(Object.entries(next.cards).sort(([a], [b]) => a.localeCompare(b)));
-  const ordered: MorningLinksFile = { updated: today, deposit: next.deposit, open: next.open, cards };
+  const ordered: MorningLinksFile = {
+    updated: today,
+    bankTransferLine: next.bankTransferLine ?? "",
+    deposit: next.deposit,
+    open: next.open,
+    cards,
+  };
   writeFileSync(MORNING_LINKS_PATH, `${JSON.stringify(ordered, null, 2)}\n`);
   console.log(`  נכתב: ${MORNING_LINKS_PATH}`);
 }
@@ -73,6 +80,14 @@ if (has("check") || has("list")) {
     console.log(`  בעיה: ${issue.id}: ${issue.problem}\n    לתקן: ${issue.fix}`);
   }
   if (has("check") && issues.length > 0) process.exit(1);
+  process.exit(0);
+}
+
+const bank = arg("bank");
+if (argv.includes("--bank")) {
+  file.bankTransferLine = (bank ?? "").trim();
+  console.log(file.bankTransferLine ? "morning:link - נשמרה שורת ההעברה" : "morning:link - שורת ההעברה הוסרה");
+  save(file);
   process.exit(0);
 }
 

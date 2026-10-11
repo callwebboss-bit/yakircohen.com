@@ -18,7 +18,16 @@ import { cn } from "@/lib/utils";
  * formatPrice, כמו באתר: לצרכן כולל מע״מ קודם, לעסק לפני מע״מ קודם.
  */
 
-export type SalesCopyKind = "message" | "confirm" | "pay" | "pay-link" | "deposit" | "morning-fields";
+export type SalesCopyKind =
+  | "message"
+  | "confirm"
+  | "pay"
+  | "pay-full"
+  | "pay-bank"
+  | "pay-failed"
+  | "pay-link"
+  | "deposit"
+  | "morning-fields";
 
 type SalesCardProps = {
   card: SalesCardData;
@@ -185,22 +194,41 @@ const chipClass =
 const LINK_KIND_LABEL = { fixed: "לינק קבוע לשירות", open: "לינק בסכום פתוח", deposit: "מקדמה" } as const;
 
 /*
- * הלינקים נוצרים ידנית במורנינג ונשמרים ב-lib/data/morning-links.json. עד שיש
- * לינק קבוע לשירות, ההודעה הולכת עם לינק הסכום הפתוח, והכפתור "שדות ללינק
- * במורנינג" מעתיק מה להקליד שם כדי ליצור אחד (docs/MORNING-LINKS.md).
+ * הלינק הוא ההודעה השלישית (החלטת הבעלים 12.10): קודם ההודעה או "רק לוודא",
+ * ורק אז כפתורי הלינק נפתחים (unlocked). ברירת המחדל קצרה; "עם הפירוט" מוסיף
+ * כלול/לא כלול; "או בהעברה" מופיע רק כשיקיר כתב שורת העברה (morning:link --bank).
+ * המקדמה רק באישור יקיר, ולכן מאחורי כפתור משלה. הלינקים עצמם נשמרים ב-
+ * lib/data/morning-links.json (docs/MORNING-LINKS.md).
  */
 function PaymentSection({
   card,
   copied,
   copy,
   depositMessage,
+  unlocked,
 }: {
   card: SalesCardData;
   copied: SalesCopyKind | "failed" | null;
   copy: (what: SalesCopyKind) => Promise<void>;
   depositMessage: string | null;
+  unlocked: boolean;
 }) {
+  const [showDeposit, setShowDeposit] = useState(false);
   const link = card.payLink;
+  const lockTitle = unlocked ? undefined : "קודם ההודעה או רק לוודא, הלינק הוא ההודעה השלישית";
+  const payChip = cn(chipClass, !unlocked && "cursor-not-allowed opacity-50");
+  const chip = (what: SalesCopyKind, label: string, extra?: { ariaLabel?: string }) => (
+    <button
+      type="button"
+      onClick={() => void copy(what)}
+      disabled={!unlocked}
+      title={lockTitle}
+      aria-label={extra?.ariaLabel}
+      className={payChip}
+    >
+      {copied === what ? "הועתק" : label}
+    </button>
+  );
   return (
     <section aria-label="לינק לתשלום" className="grid gap-2 rounded-lg border border-border p-3">
       <h3 className="flex flex-wrap items-center gap-2 text-xs font-semibold text-foreground">
@@ -210,6 +238,7 @@ function PaymentSection({
             {LINK_KIND_LABEL[link.kind]}
           </span>
         ) : null}
+        {!unlocked && link ? <span className="text-[11px] font-normal text-muted-foreground">נפתח אחרי ההודעה</span> : null}
       </h3>
       {card.payMessage ? (
         <p className="rounded-lg bg-muted p-3 leading-relaxed whitespace-pre-wrap text-foreground select-text">
@@ -221,21 +250,11 @@ function PaymentSection({
         </p>
       )}
       <div className="flex flex-wrap gap-2">
-        {card.payMessage ? (
-          <button type="button" onClick={() => void copy("pay")} className={chipClass}>
-            {copied === "pay" ? "הועתק" : "העתק הודעה עם לינק"}
-          </button>
-        ) : null}
-        {link ? (
-          <button type="button" onClick={() => void copy("pay-link")} className={chipClass}>
-            {copied === "pay-link" ? "הועתק" : "העתק רק את הלינק"}
-          </button>
-        ) : null}
-        {depositMessage ? (
-          <button type="button" onClick={() => void copy("deposit")} className={chipClass}>
-            {copied === "deposit" ? "הועתק" : "העתק לינק מקדמה"}
-          </button>
-        ) : null}
+        {card.payMessage ? chip("pay", "העתק הודעה עם לינק") : null}
+        {card.payMessageFull && card.payMessageFull !== card.payMessage ? chip("pay-full", "עם הפירוט") : null}
+        {card.payMessageBank ? chip("pay-bank", "או בהעברה") : null}
+        {link ? chip("pay-link", "רק הלינק") : null}
+        {card.payFailedMessage ? chip("pay-failed", "התשלום לא עבר?") : null}
         {card.morningLinkFields ? (
           <button
             type="button"
@@ -247,6 +266,21 @@ function PaymentSection({
           </button>
         ) : null}
       </div>
+      {depositMessage ? (
+        <div className="flex flex-wrap items-center gap-2 border-t border-dashed border-border pt-2">
+          {showDeposit ? (
+            chip("deposit", "העתק לינק מקדמה 200 ₪")
+          ) : (
+            <button
+              type="button"
+              onClick={() => setShowDeposit(true)}
+              className="min-h-11 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+            >
+              מקדמה (רק באישור יקיר)
+            </button>
+          )}
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -261,6 +295,8 @@ export default function SalesCard({
   depositMessage,
 }: SalesCardProps) {
   const [copied, setCopied] = useState<SalesCopyKind | "failed" | null>(null);
+  /* הלינק נפתח רק אחרי שההודעה או "רק לוודא" הועתקו מהכרטיס הזה */
+  const [unlocked, setUnlocked] = useState(false);
   const timerRef = useRef<number | undefined>(undefined);
   const panelId = `sales-card-panel-${card.id}`;
   const fmt = (exVat: number, from = false) => formatPrice(exVat, { from, audience: card.audience });
@@ -271,6 +307,9 @@ export default function SalesCard({
     message: card.message,
     confirm: card.confirmLine,
     pay: card.payMessage,
+    "pay-full": card.payMessageFull,
+    "pay-bank": card.payMessageBank,
+    "pay-failed": card.payFailedMessage,
     "pay-link": card.payLink?.url ?? null,
     deposit: depositMessage,
     "morning-fields": card.morningLinkFields,
@@ -284,6 +323,7 @@ export default function SalesCard({
     setCopied(ok ? what : "failed");
     timerRef.current = window.setTimeout(() => setCopied(null), 2200);
     if (ok) onCopy(card.id, what);
+    if (ok && (what === "message" || what === "confirm")) setUnlocked(true);
     /* אם ההעתקה נכשלה, פותחים את הכרטיס כדי שאפשר יהיה לסמן את הטקסט ביד */
     else if (!open) onToggle(card.id);
   };
@@ -375,7 +415,7 @@ export default function SalesCard({
             </button>
           </div>
 
-          <PaymentSection card={card} copied={copied} copy={copy} depositMessage={depositMessage} />
+          <PaymentSection card={card} copied={copied} copy={copy} depositMessage={depositMessage} unlocked={unlocked} />
 
           <div className="grid gap-3 sm:grid-cols-2">
             <section>
