@@ -2849,12 +2849,12 @@ export const EVENTS_SERVICES = {
       {
         name: "תותח קצף, איסוף עצמי",
         ...consumerTier("foam_cannon_pickup"),
-        description: "עד 6 שעות. אוספים ומחזירים במודיעין.",
+        description: "עד 6 שעות, עם נוזל להפעלה אחת. אוספים ומחזירים במודיעין.",
       },
       {
         name: "מגלשה ותותח קצף, איסוף עצמי",
         ...consumerTier("backyard_party_pickup"),
-        description: "שתי האטרקציות יחד, עד 6 שעות.",
+        description: "שתי האטרקציות יחד, עד 6 שעות, עם נוזל קצף להפעלה אחת.",
         featured: true,
         badge: "הכי משתלם",
       },
@@ -2890,6 +2890,11 @@ export const EVENTS_SERVICES = {
         id: "price",
         question: "כמה עולה להשכיר?",
         answer: `באיסוף עצמי: המגלשה ${nisWithVat("inflatable_slide_pickup")}, תותח הקצף ${nisWithVat("foam_cannon_pickup")}, ושתיהן יחד ${nisWithVat("backyard_party_pickup")}. עם הגעה, התקנה ופירוק: ${nisWithVat("event_attraction_1")}, כמו כל אטרקציה. חבילת יום הולדת עם DJ, מגלשה ותותח קצף: ${nisWithVat("kids_party_bundle")}. כל המחירים כוללים מע״מ.`,
+      },
+      {
+        id: "foam",
+        question: "כמה קצף יש בתותח?",
+        answer: `נוזל להפעלה אחת כלול במחיר. רוצים עוד הפעלה? כל הפעלה נוספת ${nisWithVat("foam_extra_refill")}. כדאי להחליט מראש, כדי שנכין את הנוזל לאיסוף.`,
       },
       {
         id: "space",
