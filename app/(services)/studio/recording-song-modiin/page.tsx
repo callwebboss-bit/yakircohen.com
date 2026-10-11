@@ -22,7 +22,7 @@ export default function RecordingSongModiinPage() {
   return (
     <>
       <RecordingSongModiinPageContent />
-      <NewServicesLinks paths={["/studio/original-song", "/studio/parody", "/studio/professional-singer", "/studio/group-session", "/studio/ai-song-gift"]} />
+      <NewServicesLinks paths={["/studio/original-song", "/studio/parody", "/studio/professional-singer", "/studio/group-session", "/studio/ai-song-gift", "/studio/renew-old-song"]} />
     </>
   );
 

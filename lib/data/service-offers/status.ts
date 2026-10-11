@@ -12,6 +12,7 @@ export const SERVICE_OFFER_LABELS = {
   "/studio/original-song": "שיר מקורי לכל אירוע",
   "/studio/group-session": "מסיבת רווקות או יום הולדת באולפן",
   "/studio/ai-song-gift": "שיר AI במתנה",
+  "/studio/renew-old-song": "חידוש שיר ישן",
   "/studio/professional-singer": "שיר בביצוע זמר מהצוות",
   "/studio/class-song": "שיר סיום לגן או לכיתה",
   "/studio/blessings/enlistment": "שיר או ברכה לגיוס",
@@ -34,6 +35,8 @@ const PUBLISHED: ReadonlySet<ServiceOfferPath> = new Set<ServiceOfferPath>([
   "/podcast/live-podcast",
   "/podcast/launch-package",
   "/podcast/host-coaching",
+  /* "תוסיף לתיק עבודות ולשירות חדש ותדחוף", הבעלים 11.10.2026 */
+  "/studio/renew-old-song",
 ]);
 
 export function isServiceOfferPublished(path: ServiceOfferPath): boolean {

@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 187,
-  "contentHash": "dbfd18de7ebfec8e",
+  "itemCount": 188,
+  "contentHash": "3c17b26e05f0a7e6",
   "items": [
     {
       "id": "studio_half_hour",
@@ -169,6 +169,16 @@
       "priceFrom": false,
       "context": "כותבים יחד את המילים, המוזיקה ב-AI, ואתם מקליטים את הקול בטלפון ושולחים. אנחנו מנקים, מתקנים ומערבבים.",
       "suitedFor": "מתנה בקול שלכם, בלי להגיע לאולפן"
+    },
+    {
+      "id": "old_song_renewal",
+      "label": "חידוש שיר ישן",
+      "category": "studio",
+      "exVat": 850,
+      "inclVat": 1003,
+      "priceFrom": true,
+      "context": "שולחים הקלטה קיימת. מבודדים ומנקים את השירה, ובונים סביב הקול המקורי עיבוד מוזיקלי חדש. הכול מרחוק. תיקון זיופים לא כלול.",
+      "suitedFor": "שיר או קאבר שהוקלטו בעבר, שיר ישן מבר או בת מצווה או מחתונה, סקיצה או הקלטה ביתית"
     },
     {
       "id": "song_home_media_40",

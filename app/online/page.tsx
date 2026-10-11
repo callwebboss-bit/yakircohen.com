@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import OnlinePageContent from "@/components/seo/OnlinePageContent";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 import {
   hubSchemaPropsFromSeo,
   metadataForHubSeo,
@@ -14,6 +15,7 @@ export default function OnlinePage() {
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(ONLINE_HUB_SEO)} />
       <OnlinePageContent />
+      <NewServicesLinks paths={["/studio/renew-old-song"]} />
     </>
   );
 }

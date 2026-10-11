@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import OnlineVocalFixPageContent from "@/components/seo/OnlineVocalFixPageContent";
+import NewServicesLinks from "@/components/seo/NewServicesLinks";
 import { constructMetadata } from "@/lib/metadata";
 import { getExVat } from "@/lib/data/pricing-catalog";
 
@@ -19,5 +20,11 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function VocalFixPage() {
-  return <OnlineVocalFixPageContent />;
+  return (
+    <>
+      <OnlineVocalFixPageContent />
+      {/* 11.10.2026: הקלטה ישנה שרוצים עיבוד חדש סביבה, ולא רק ניקוי */}
+      <NewServicesLinks paths={["/studio/renew-old-song"]} label="רוצים גם עיבוד מוזיקלי חדש סביב הקול?" />
+    </>
+  );
 }

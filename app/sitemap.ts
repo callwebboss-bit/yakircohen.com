@@ -72,6 +72,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: url("studio/parody"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("studio/group-session"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("studio/ai-song-gift"), priority: 0.75, changeFrequency: "monthly" },
+  /* חידוש שיר ישן, פורסם 11.10.2026 ("תוסיף לתיק עבודות ולשירות חדש ותדחוף") */
+  { url: url("studio/renew-old-song"), priority: 0.75, changeFrequency: "monthly" },
   { url: url("studio/professional-singer"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/class-song"), priority: 0.7, changeFrequency: "monthly" },
   { url: url("studio/blessings/enlistment"), priority: 0.7, changeFrequency: "monthly" },

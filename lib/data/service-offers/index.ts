@@ -8,6 +8,7 @@ import { ORIGINAL_SONG_PAGE } from "@/lib/data/service-offers/original-song";
 import { PARODY_PAGE } from "@/lib/data/service-offers/parody";
 import { PODCAST_LAUNCH_PAGE } from "@/lib/data/service-offers/podcast-launch";
 import { PROFESSIONAL_SINGER_PAGE } from "@/lib/data/service-offers/professional-singer";
+import { RENEW_OLD_SONG_PAGE } from "@/lib/data/service-offers/renew-old-song";
 import type { ServiceOfferPage } from "@/lib/data/service-offers/types";
 
 /** כל עמודי השירותים החדשים (11.10.2026). הבדיקות עוברות על הרשימה הזו. */
@@ -22,4 +23,5 @@ export const SERVICE_OFFER_PAGES: readonly ServiceOfferPage[] = [
   LIVE_PODCAST_PAGE,
   PODCAST_LAUNCH_PAGE,
   HOST_COACHING_PAGE,
+  RENEW_OLD_SONG_PAGE,
 ];

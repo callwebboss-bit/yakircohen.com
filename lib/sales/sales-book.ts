@@ -227,6 +227,8 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     song_original_mitzvah: writtenSong,
     song_parody: writtenSong,
     ai_song_ai_voice: writtenSong,
+    /* 11.10.2026: תיקון זיופים בתוספת, כמו באולפן (החלטת הבעלים) */
+    old_song_renewal: ["studio_pitch_correction"],
   };
 })();
 

@@ -133,6 +133,7 @@ export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
   "/studio/parody": "פרודיה לאירוע",
   "/studio/professional-singer": "זמר שישיר בשבילכם",
   "/studio/ai-song-gift": "שיר AI במתנה",
+  "/studio/renew-old-song": "חידוש שיר ישן",
   "/podcast/live-podcast": "פודקאסט חי מהבמה",
   "/podcast/host-coaching": "אימון הנחיה",
   "/matanot": "מתנות",
