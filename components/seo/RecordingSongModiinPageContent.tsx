@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
 import StudioExperienceSection from "@/components/booking/StudioExperienceSection";
+import ServiceJourney from "@/components/marketing/ServiceJourney";
+import { getSongJourney } from "@/lib/data/service-journeys";
 import GoogleRatingBadge from "@/components/marketing/GoogleRatingBadge";
 import MobileStudioComesToYou from "@/components/marketing/MobileStudioComesToYou";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
@@ -50,6 +52,8 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 /* מחירים לצרכן: כולל מע״מ קודם (החלטת הבעלים 2.10.2026). הטופס עצמו
    מחשב הכול מ-song-offer, וכאן רק שורות הטקסט שמסביבו. */
 const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
+const SONG_JOURNEY = getSongJourney();
+const SONG_SCOPE_INCLUDES = getPriceById("song_recording").scope?.includes ?? "הקלטה, מיקס ומאסטר";
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
 /* שמירה קבועה בענן: השם והמחיר מהקטלוג (החלטת הבעלים 6.10.2026) */
 const CLOUD_STORAGE_LABEL = getPriceById("cloud_storage_permanent").label;
@@ -139,6 +143,21 @@ export default function RecordingSongModiinPageContent() {
               </Link>
             </p>
           </div>
+
+          {/* תוכנית הבהירות, שלב 3 (11.10.2026): ציר מהפנייה ועד הקובץ ביד, אחרי הטופס
+              (הטופס נשאר מוקדם בעמוד בכוונה). העובדות מ-lib/data/service-journeys.ts */}
+          <ServiceJourney
+            journey={SONG_JOURNEY}
+            headingId="song-journey-heading"
+            footer={
+              <p>
+                <strong>{SONG_PRICE.totalLabel}</strong>: {SONG_SCOPE_INCLUDES}.{" "}
+                <Link href={SONG_OFFER_ANCHOR} className="font-semibold text-brand-red underline underline-offset-2">
+                  לבחירת תוספות ומחיר סופי
+                </Link>
+              </p>
+            }
+          />
 
           <ContextualIntroParagraph
             pathname="/studio/recording-song-modiin"

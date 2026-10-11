@@ -1476,6 +1476,35 @@ progress.studio-meter-flash::-moz-progress-bar {
   }
 }
 
+/* ─── ציר "מה קורה מרגע שפונים" (ServiceJourney, בהירות שלב 3, 11.10.2026) ───
+   הקו בין השלבים מתמלא באדום תוך כדי גלילה. בלי תמיכה ב-view() (Firefox), או
+   כשביקשו פחות תנועה, הקו מלא מההתחלה. אין כאן מידע שמסתתר: רק קישוט. */
+.journey-fill {
+  transform-origin: top;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .journey-fill {
+      animation: journey-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 55%;
+    }
+  }
+}
+@keyframes journey-fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (forced-colors: active) {
+  .journey-fill {
+    background: CanvasText;
+  }
+}
+
 .collapse-grid {
   display: grid;
   grid-template-rows: 0fr;
