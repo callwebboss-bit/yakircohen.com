@@ -58,11 +58,19 @@ export function blessingTotalExVat(speakers: number, baseId: typeof BLESSING_BAS
   return getExVat(baseId) + blessingSpeakersSurchargeExVat(speakers);
 }
 
+/* D86 (11.10.2026): בכל שורה כאן channel "page" מחזיר רק את המחיר הכולל מע״מ.
+   ברירת המחדל "message" נשארת להודעות ול-llms.txt, שמשתמשים באותן שורות. */
+type Channel = "page" | "message";
+
 /** "כל דובר נוסף +117 ₪ כולל מע״מ (99 ₪ + מע״מ) · עד 12 בהקלטה" */
-export function blessingSpeakersPriceLine(vatRate: number = CATALOG_VAT_RATE): string {
+export function blessingSpeakersPriceLine(
+  vatRate: number = CATALOG_VAT_RATE,
+  channel: Channel = "message",
+): string {
   const rules = getBlessingParticipantRules();
   const withVat = Math.round(rules.extraExVat * (1 + vatRate));
-  return `כל דובר נוסף +${nis(withVat)} כולל מע״מ (${nis(rules.extraExVat)} + מע״מ) · עד ${rules.max} בהקלטה`;
+  const ex = channel === "page" ? "" : ` (${nis(rules.extraExVat)} + מע״מ)`;
+  return `כל דובר נוסף +${nis(withVat)} כולל מע״מ${ex} · עד ${rules.max} בהקלטה`;
 }
 
 /** "4 דוברים: 590 + 117 + 117 + 117 ₪ כולל מע״מ (500 + 99 + 99 + 99 ₪ + מע״מ)" */
@@ -83,30 +91,32 @@ export function blessingSpeakersBreakdown(
 }
 
 /** "משפחה של 4: 940 ₪ כולל מע״מ (797 ₪ + מע״מ)" */
-export function blessingFamilyExampleLine(speakers = 4): string {
-  return `משפחה של ${speakers}: ${formatPrice(blessingTotalExVat(speakers)).inline}`;
+export function blessingFamilyExampleLine(speakers = 4, channel: Channel = "message"): string {
+  return `משפחה של ${speakers}: ${formatPrice(blessingTotalExVat(speakers), { channel }).inline}`;
 }
 
 /** "כתיבה מחדש של הטקסט: +177 ₪ כולל מע״מ (150 ₪ + מע״מ)" */
-export function blessingTextRewriteLine(): string {
-  const p = formatPrice(getExVat(BLESSING_TEXT_REWRITE_ID));
-  return `כתיבה מחדש של הטקסט: +${p.headline} (${p.vatNote})`;
+export function blessingTextRewriteLine(channel: Channel = "message"): string {
+  const p = formatPrice(getExVat(BLESSING_TEXT_REWRITE_ID), { channel });
+  return p.vatNote
+    ? `כתיבה מחדש של הטקסט: +${p.headline} (${p.vatNote})`
+    : `כתיבה מחדש של הטקסט: +${p.headline}`;
 }
 
 /* ─── תשובות ושורות שחוזרות בעמודי הברכות ─── */
 
 /** "ברכה ודרשה לבר או בת מצווה באותו מחיר: 590 ₪ כולל מע״מ (500 ₪ + מע״מ)" */
-export function blessingPriceLine(): string {
-  return `${BLESSING_SAME_PRICE_NOTE}: ${formatPrice(getExVat(BLESSING_BASE_ID)).inline}`;
+export function blessingPriceLine(channel: Channel = "message"): string {
+  return `${BLESSING_SAME_PRICE_NOTE}: ${formatPrice(getExVat(BLESSING_BASE_ID), { channel }).inline}`;
 }
 
 /** תשובת "כמה עולה" בעמודי הברכות */
 export function buildBlessingPriceAnswer(): string {
   return [
-    `${blessingPriceLine()}.`,
+    `${blessingPriceLine("page")}.`,
     `${BLESSING_NO_TIME_LIMIT_NOTE}.`,
-    `דובר אחד כלול. ${blessingSpeakersPriceLine()}. ${blessingFamilyExampleLine()}.`,
-    `${BLESSING_TEXT_POLISH_NOTE}. ${blessingTextRewriteLine()}.`,
+    `דובר אחד כלול. ${blessingSpeakersPriceLine(undefined, "page")}. ${blessingFamilyExampleLine(undefined, "page")}.`,
+    `${BLESSING_TEXT_POLISH_NOTE}. ${blessingTextRewriteLine("page")}.`,
     "תיקון זיופים בתוספת.",
   ].join(" ");
 }
@@ -117,7 +127,7 @@ export const BLESSING_DURATION_ANSWER =
 
 /** תשובת "אפשר כמה אנשים" בעמודי הברכות */
 export function buildBlessingGroupAnswer(): string {
-  return `כן. דובר אחד כלול בבסיס, ${blessingSpeakersPriceLine()}. ${EXTRA_PERSON_COST_NOTE}. ${blessingFamilyExampleLine()}.`;
+  return `כן. דובר אחד כלול בבסיס, ${blessingSpeakersPriceLine(undefined, "page")}. ${EXTRA_PERSON_COST_NOTE}. ${blessingFamilyExampleLine(undefined, "page")}.`;
 }
 
 /** תשובת "אולפן או מהבית" */

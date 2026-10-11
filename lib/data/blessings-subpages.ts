@@ -24,7 +24,7 @@ export const BAR_MITZVAH_WHY: readonly BlessingsWhyCard[] = [
     emoji: "✏️",
     title: "עזרה בניסוח",
     /* החלטות 5.10.2026 (ברכות): ליטוש קל כלול, כתיבה מחדש בתוספת */
-    description: `${BLESSING_TEXT_POLISH_NOTE}. ${blessingTextRewriteLine()}.`,
+    description: `${BLESSING_TEXT_POLISH_NOTE}. ${blessingTextRewriteLine("page")}.`,
   },
   {
     emoji: "🎵",

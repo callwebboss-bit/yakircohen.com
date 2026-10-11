@@ -156,7 +156,7 @@ export const CHATBOT_DATA: ChatbotData = {
       id: "chatbot_blessings",
       label: "🎤 הקלטת ברכה לאירוע",
       answer: {
-        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}, בלי הגבלת זמן, כולל הנחיה, עריכה, מוזיקת רקע ותיקונים (אספקה תוך 24-48 שעות). דרשה באותו מחיר. דובר אחד כלול, ${blessingSpeakersPriceLine()}. תיקון זיופים בתוספת ${formatPagePrice(getExVat("studio_pitch_correction")).inline}. ספרו לי על האירוע.`,
+        text: `הקלטת ברכה לאירוע מתחילה ${formatFromPriceDual(getExVat("blessing_recording"), "consumer", "page")}, בלי הגבלת זמן, כולל הנחיה, עריכה, מוזיקת רקע ותיקונים (אספקה תוך 24-48 שעות). דרשה באותו מחיר. דובר אחד כלול, ${blessingSpeakersPriceLine(undefined, "page")}. תיקון זיופים בתוספת ${formatPagePrice(getExVat("studio_pitch_correction")).inline}. ספרו לי על האירוע.`,
         readMoreHref: "/studio/blessings",
         readMoreLabel: "פרטים על הקלטת ברכה",
         whatsappMessage: "שלום יקיר, אשמח לשמוע על הקלטת ברכה לאירוע שלנו.",

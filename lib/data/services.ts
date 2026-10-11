@@ -372,7 +372,7 @@ export const STUDIO_SERVICES = {
         ...consumerTier("blessing_recording"),
         name: "הקלטת ברכה / אמירה",
         /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע כלולה */
-        description: `ברכה, דרשה או אמירה. ${BLESSING_NO_TIME_LIMIT_NOTE}. ${blessingSpeakersPriceLine()}. תיקון זיופים לא כלול. המחיר כולל מע״מ.`,
+        description: `ברכה, דרשה או אמירה. ${BLESSING_NO_TIME_LIMIT_NOTE}. ${blessingSpeakersPriceLine(undefined, "page")}. תיקון זיופים לא כלול. המחיר כולל מע״מ.`,
       },
     ],
     assetsFolder: "studio/recording-song-modiin",
@@ -1214,11 +1214,11 @@ export const STUDIO_PRICING: StudioPricingConfig = {
       catalogId: "blessing_recording",
       /* החלטות 5.10.2026 (ברכות): בלי הגבלת זמן, מוזיקת רקע ותיקונים כלולים */
       scope: { duration: "בלי הגבלת זמן", includes: "הנחיה, עריכה, מוזיקת רקע, תיקונים" },
-      description: `${blessingPriceLine()}. הנחיה, עריכה ומוזיקת רקע, קובץ לאירוע.`,
+      description: `${blessingPriceLine("page")}. הנחיה, עריכה ומוזיקת רקע, קובץ לאירוע.`,
       highlights: [
         "בלי הגבלת זמן באולפן",
         "הנחיה, עריכה, מוזיקת רקע ותיקונים",
-        blessingSpeakersPriceLine(),
+        blessingSpeakersPriceLine(undefined, "page"),
       ],
       whatsappText: "שלום, מעוניין בהקלטת ברכה באולפן",
       utmCampaign: "studio_pricing_blessing",

@@ -30,15 +30,15 @@ export default function BlessingPriceNote({
       className={cn("rounded-lg border border-brand-red/30 bg-brand-red/5 px-4 py-3 text-start", className)}
       data-blessing-price
     >
-      <p className="text-sm font-semibold text-foreground">{blessingPriceLine()}.</p>
+      <p className="text-sm font-semibold text-foreground">{blessingPriceLine("page")}.</p>
       <p className="mt-1 text-sm text-foreground">{BLESSING_NO_TIME_LIMIT_NOTE}.</p>
       <p className="mt-2 text-sm font-semibold text-foreground">{EXTRA_PERSON_COST_NOTE}.</p>
       <p className="mt-1 text-sm text-foreground">
-        דובר אחד כלול. {blessingSpeakersPriceLine()}.
+        דובר אחד כלול. {blessingSpeakersPriceLine(undefined, "page")}.
       </p>
-      <p className="mt-1 text-xs text-muted-foreground">{blessingFamilyExampleLine()}.</p>
+      <p className="mt-1 text-xs text-muted-foreground">{blessingFamilyExampleLine(undefined, "page")}.</p>
       <p className="mt-2 text-sm text-foreground">
-        {BLESSING_TEXT_POLISH_NOTE}. {blessingTextRewriteLine()}.
+        {BLESSING_TEXT_POLISH_NOTE}. {blessingTextRewriteLine("page")}.
       </p>
       {showRemote ? (
         <p className="mt-2 text-xs text-muted-foreground">
