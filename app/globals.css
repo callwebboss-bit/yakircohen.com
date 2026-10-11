@@ -292,20 +292,18 @@
   align-items: center;
   gap: 0.5rem;
 }
+/* החץ צמוד לטקסט ולא בקצה השורה: בקצה (שמאל, ב-RTL) יושבים הצ'אט והנגישות
+   בנייד, ובצילום של 11.10 הצ'אט הסתיר את החץ של "למה לקוחות חוזרים אלינו". */
 .summary-cue::after {
   content: "";
   flex: none;
   inline-size: 0.5em;
   block-size: 0.5em;
-  margin-inline-start: auto;
   border-right: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
   opacity: 0.75;
   transform: translateY(-25%) rotate(45deg);
   transition: transform 200ms ease;
-}
-.summary-cue.justify-center::after {
-  margin-inline-start: 0;
 }
 details[open] > .summary-cue::after {
   transform: translateY(20%) rotate(225deg);

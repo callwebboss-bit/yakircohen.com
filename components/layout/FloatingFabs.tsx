@@ -29,10 +29,13 @@ const HIDE_CHAT_PREFIXES = [
   "/sustainability",
 ] as const;
 
-/** Calculator and contact flows need FABs lifted above sticky UI. */
+/** Calculator and contact flows need FABs lifted above sticky UI.
+ *  /pricing (11.10.2026): לעמוד יש סרגל תחתון משלו (PricingStickyBookCta), ובנייד
+ *  הנגישות והוואטסאפ כיסו את "הזמנה מקוונת" (נמדד באתר החי, בהירות שלב 1). */
 const ELEVATED_FLOATING_PREFIXES = [
   "/contact",
   "/book",
+  "/pricing",
   "/events/attractions",
   "/events/dj-events",
 ] as const;
