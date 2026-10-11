@@ -3762,7 +3762,7 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
   },
   {
     "videoId": "OzChhy0aX2g",
-    "title": "קריינות פרסומת יקיר כהן הפקות (קריינות לעסקים)",
+    "title": "קריינות פרסומת יקיר כהן הפקות (קריינות לעסקים) עם אורי גבריאל",
     "youtubeUrl": "https://www.youtube.com/watch?v=OzChhy0aX2g",
     "tags": [
       "voiceover"
