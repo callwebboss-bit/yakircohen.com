@@ -121,7 +121,7 @@ test("נגישות: רק קומת קרקע, ובלי הבטחה להתאמה", (
 });
 
 test("המחיר נגזר מהקטלוג, אותו מחיר כמו פודקאסט עם סבא וסבתא, בלי סכום בקוד", () => {
-  const catalogPrice = podcastDualPrice(getExVat("podcast_audio"));
+  const catalogPrice = podcastDualPrice(getExVat("podcast_audio"), "page");
   assert.ok(LEGACY_OWNER_FACTS.price.includes(catalogPrice));
   /* אותו ביטוי שבו עמוד פודקאסט עם סבא מציג את מחיר האודיו (שאלת "מה המחיר") */
   const priceFaq = LEGACY_FAQS.find((f) => f.id === "price");
