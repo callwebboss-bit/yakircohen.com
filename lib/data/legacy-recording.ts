@@ -79,7 +79,7 @@ export const LEGACY_RECORDING_KEYWORDS = [
  * עם סבא וסבתא (lib/data/podcast-with-grandpa-page.ts, שאלת "מה המחיר").
  * "עד שעה": scope של podcast_audio בקטלוג. הקלטה בבית במחירי האולפן הנייד (B8).
  */
-const LEGACY_PRICE_TEXT = `המחיר הוא מחיר של פודקאסט אודיו רגיל של עד שעה: ${podcastDualPrice(getExVat("podcast_audio"))}. מה שנוסף הוא הערך של השאלות המיוחדות לסבא ולהשארת זיכרון. הקלטה בבית: במחירי האולפן הנייד.`;
+const LEGACY_PRICE_TEXT = `המחיר הוא מחיר של פודקאסט אודיו רגיל של עד שעה: ${podcastDualPrice(getExVat("podcast_audio"), "page")}. מה שנוסף הוא הערך של השאלות המיוחדות לסבא ולהשארת זיכרון. הקלטה בבית: במחירי האולפן הנייד.`;
 
 /**
  * כל ערך הוא טקסט כמו שהוא צריך להיקרא בעמוד (הערכים נכנסים למשפטים ולטבלה
