@@ -489,7 +489,7 @@ export default function ContactPageContent() {
             )}
             aria-hidden="true"
           />
-          {openNow === true ? <span className="sr-only">פתוח עכשיו. </span> : null}
+          {openNow === true ? <span className="sr-only">עונים עכשיו. </span> : null}
           {availability}
         </p>
 

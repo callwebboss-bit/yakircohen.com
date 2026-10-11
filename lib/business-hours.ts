@@ -118,26 +118,26 @@ export function getBusinessOpenStatus(date: Date = new Date()): BusinessOpenStat
   const today = SCHEDULE[day];
 
   if (today && now >= today.open && now < today.close) {
-    return { isOpen: true, label: "פתוח עכשיו" };
+    return { isOpen: true, label: "עונים עכשיו" };
   }
 
   const next = getNextOpening(date);
-  if (!next) return { isOpen: false, label: "סגור" };
+  if (!next) return { isOpen: false, label: "מחוץ לשעות המענה" };
   const at = formatHour(next.open);
 
   if (next.daysAhead === 0) {
     return {
       isOpen: false,
-      label: day === 6 ? `סגור בשבת. חוזרים במוצאי שבת ב-${at}` : `סגור. נפתח היום ב-${at}`,
+      label: day === 6 ? `שבת. חוזרים לענות במוצאי שבת ב-${at}` : `חוזרים לענות היום ב-${at}`,
     };
   }
   if (next.day === 6) {
-    return { isOpen: false, label: `סגור לשבת. חוזרים במוצאי שבת ב-${at}` };
+    return { isOpen: false, label: `חוזרים לענות במוצאי שבת ב-${at}` };
   }
   if (next.daysAhead === 1) {
-    return { isOpen: false, label: `סגור להיום. חוזרים מחר ב-${at}` };
+    return { isOpen: false, label: `חוזרים לענות מחר ב-${at}` };
   }
-  return { isOpen: false, label: `סגור להיום. חוזרים ביום ${DAY_NAMES[next.day]} ב-${at}` };
+  return { isOpen: false, label: `חוזרים לענות ביום ${DAY_NAMES[next.day]} ב-${at}` };
 }
 
 export function isLikelyAvailableForWhatsApp(date: Date = new Date()): boolean {

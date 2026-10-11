@@ -48,7 +48,6 @@
 
 | קובץ | שימוש | סטטוס |
 |------|--------|--------|
-| `voiceover-yakir-cohen-warm.mp3` | גרסה חמה ואנרגטית של יקיר להשוואת הקריינות (מקור: `YES YAKIR 2.mp3` - להעתיק לשם הזה) | מוסתר עד ש-`VOICEOVER_YAKIR_WARM_READY=true` ב-`voiceover-narrator-compare.ts` |
 
 > **הערה מ-2.10.2026:** הדגמת כיוון ההגברה החיה (`singer-live-raw` / `singer-live-tuned`)
 > הוסרה מהקוד. שני הקבצים מעולם לא הועלו, ובינתיים העמוד

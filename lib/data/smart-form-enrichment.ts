@@ -52,6 +52,23 @@ export const SMART_FORM_ENRICHMENT: Record<
   Exclude<SmartFormCategoryId, "unsupported_rehearsal">,
   SmartFormEnrichment
 > = {
+  /* ק7 (11.10.2026): כרטיס השיר שיצא מ-family. העובדות מההקשר של song_recording
+     בקטלוג (סשן של שעה, הקלטה, מיקס ומאסטר, השיר אצלכם בסוף הסשן) */
+  song: {
+    prepHref: "/blog/studio-session-prep-checklist",
+    prepLabel: "איך להגיע לאולפן מוכנים",
+    faqIds: ["studio-prep", "studio-gift", "book-online"],
+    demoId: "proposal-gift-pitch",
+    youtubeKey: "recording-song-modiin",
+    returnPotential: "event_based",
+    processSteps: PROCESS_STUDIO,
+    standardsBullets: [
+      "חדר מבודד רעשים וציוד הקלטה מקצועי",
+      "הקלטה, מיקס ומאסטר בסשן של שעה",
+      "השיר אצלכם בסוף הסשן",
+    ],
+    blogRelatedHref: "/blog/studio-session-prep-checklist",
+  },
   family: {
     prepHref: "/blog/studio-session-prep-checklist",
     prepLabel: "איך להגיע לאולפן מוכנים",

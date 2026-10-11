@@ -1,8 +1,7 @@
 import Link from "@/components/ui/IntentLink";
 import HubPageSchema from "@/components/seo/HubPageSchema";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
-import SeoPortfolioFilterGallery from "@/components/seo/SeoPortfolioFilterGallery";
-import SeoPortfolioGalleryJsonLd from "@/components/seo/SeoPortfolioGalleryJsonLd";
+import PortfolioCategoryNav from "@/components/seo/PortfolioCategoryNav";
 import PortfolioPlaylistCta from "@/components/marketing/PortfolioPlaylistCta";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
@@ -13,11 +12,7 @@ import {
   type PlaylistId,
 } from "@/lib/data/video-playlists";
 import { getPortfolioPlaylistCta } from "@/lib/data/portfolio-playlist-cta";
-import {
-  getPlaylistVideoCount,
-  getPlaylistVideos,
-} from "@/lib/data/video-portfolio";
-import { buildItemListSchema } from "@/lib/video-schema";
+import { getPlaylistVideoCount } from "@/lib/data/video-portfolio";
 import { PORTFOLIO_CATALOG_COUNT } from "@/lib/data/video-catalog.generated";
 import {
   hubSchemaPropsFromSeo,
@@ -37,19 +32,9 @@ const NAV_ITEMS = PORTFOLIO_HUB_PLAYLIST_ORDER.filter((id) => {
 }));
 
 export default function PortfolioPageContent() {
-  const itemListGraphs = PORTFOLIO_HUB_PLAYLIST_ORDER.map((playlistId) => {
-    const config = VIDEO_PLAYLISTS[playlistId];
-    const videos = getPlaylistVideos(playlistId);
-    return buildItemListSchema(
-      config.heading,
-      videos.map((v) => ({ videoId: v.videoId, name: v.title })),
-    );
-  }).filter(Boolean);
-
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(PORTFOLIO_HUB_SEO)} />
-      <SeoPortfolioGalleryJsonLd />
       <div className="bg-background">
       <Section padding="sm" className="relative overflow-hidden border-b border-border">
         <div
@@ -82,32 +67,7 @@ export default function PortfolioPageContent() {
         </Container>
       </Section>
 
-      <nav
-        className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
-        aria-label="קטגוריות תיק עבודות"
-      >
-        <Container className="flex gap-1 overflow-x-auto py-3">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.id}
-              href={`#playlist-${item.id}`}
-              className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-border bg-surface px-3 text-xs font-semibold text-foreground transition-colors hover:border-brand-red/40 hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-            >
-              {item.label}
-            </a>
-          ))}
-        </Container>
-      </nav>
-
-      {itemListGraphs.map((graph, i) =>
-        graph ? (
-          <script
-            key={PORTFOLIO_HUB_PLAYLIST_ORDER[i]}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
-          />
-        ) : null,
-      )}
+      <PortfolioCategoryNav items={NAV_ITEMS} />
 
       <Section padding="sm">
         <Container className="space-y-20">
@@ -117,27 +77,6 @@ export default function PortfolioPageContent() {
         </Container>
       </Section>
 
-      <Section
-        id="seo-portfolio-filter"
-        padding="sm"
-        className="scroll-mt-24 border-t border-border"
-        ariaLabelledby="seo-portfolio-filter-heading"
-      >
-        <Container>
-          <h2
-            id="seo-portfolio-filter-heading"
-            className="font-serif text-section font-semibold text-foreground"
-          >
-            דוגמאות לפי שירות ואזור
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            סינון לפי סוג שירות ואזור. אם אין דוגמה לעיר שנבחרה, מוצגות דוגמאות כלליות של אותו שירות.
-          </p>
-          <div className="mt-8">
-            <SeoPortfolioFilterGallery />
-          </div>
-        </Container>
-      </Section>
     </div>
     </>
   );
@@ -161,7 +100,8 @@ function PortfolioPlaylistBlock({ playlistId }: { playlistId: PlaylistId }) {
         subheading={config.subheading}
         kicker={config.kicker}
         sectionId={`playlist-${playlistId}-videos`}
-        schemaVideoLimit={24}
+        schemaVideoLimit={config.initialVisible}
+        portfolioCards
       />
       {playlistCta ? (
         <PortfolioPlaylistCta cta={playlistCta} />

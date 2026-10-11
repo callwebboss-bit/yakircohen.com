@@ -18,6 +18,11 @@ export type RecordingSongExampleVideosProps = {
   className?: string;
   /** טוען את הסרטון הראשון מיד (ברירת מחדל: לא - רק בלחיצה). */
   autoPlayFeatured?: boolean;
+  /**
+   * כרטיס של תיק העבודות: השם מופיע פעם אחת, ככותרת h3 מתחת לנגן, וה-VideoObject
+   * מגיע מהסקשן ולא מכל נגן בנפרד (11.10.2026: 194 רשומות על 126 סרטונים).
+   */
+  portfolioCards?: boolean;
 };
 
 export default function RecordingSongExampleVideos({
@@ -26,7 +31,9 @@ export default function RecordingSongExampleVideos({
   expandBatch = 6,
   className,
   autoPlayFeatured: _autoPlayFeatured = false,
+  portfolioCards = false,
 }: RecordingSongExampleVideosProps) {
+  const TitleTag = portfolioCards ? "h3" : "p";
   const [visibleCount, setVisibleCount] = useState(initialVisible);
   const cap = Math.min(visibleCount, videos.length);
   const visible = videos.slice(0, cap);
@@ -52,11 +59,17 @@ export default function RecordingSongExampleVideos({
         {visible.map((video) => (
           <li key={video.videoId} className="flex flex-col">
             <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
-              <YouTube videoId={video.videoId} title={video.title} fillParent />
+              <YouTube
+                videoId={video.videoId}
+                title={video.title}
+                fillParent
+                withSchema={!portfolioCards}
+                showTitle={!portfolioCards}
+              />
             </div>
-            <p className="mt-3 text-sm font-semibold text-foreground">
+            <TitleTag className="mt-3 text-sm font-semibold text-foreground">
               {video.title}
-            </p>
+            </TitleTag>
             {video.description ? (
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                 {video.description}

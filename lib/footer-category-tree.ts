@@ -52,6 +52,8 @@ export const FOOTER_LEGAL_ROW_LINKS = [
   { href: "/data/industry-2026", label: "נתוני תעשייה 2026" },
   { href: "/data/recording-studio-costs-2026", label: "עלות אולפן הקלטות" },
   { href: "/pricing", label: "מחירון" },
+  /* 11.10.2026: לתיק העבודות לא היה קישור מה-header, מה-footer או מעמוד הבית */
+  { href: "/portfolio", label: "תיק עבודות" },
 ] as const;
 
 export const FOOTER_CTA_PATHS = [

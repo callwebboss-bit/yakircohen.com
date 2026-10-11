@@ -6,7 +6,7 @@ import type { SmartFormState } from "@/lib/smart-form-url";
 describe("smart-form-lead-email", () => {
   it("splits client / budget / social into readable blocks", () => {
     const state: SmartFormState = {
-      categoryId: "family",
+      categoryId: "song",
       selectedChipIds: ["cover", "song_pitch"],
       name: "נועה כהן",
       contactMethod: "0501234567",

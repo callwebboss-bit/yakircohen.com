@@ -89,6 +89,7 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
   "cold-fireworks": "זיקוקי קור",
   "confetti-cannon": "תותח קונפטי",
   "giant-balloons": "בלונים ענקיים",
+  inflatables: "מגלשת מים ותותח קצף",
   "wedding-smoking-machine": "עשן לחתונה",
   "heavy-smoke-large-events": "עשן לאירועים גדולים",
   "smoke-cannons-for-events": "תותחי עשן",

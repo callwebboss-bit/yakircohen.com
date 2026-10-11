@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "@/components/ui/IntentLink";
 import HomeHeroBadges from "@/components/marketing/HomeHeroBadges";
-import HomeIntentPaths from "@/components/marketing/HomeIntentPaths";
+import HomeDoors from "@/components/marketing/HomeDoors";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -13,28 +13,9 @@ import SongIncludedLine from "@/components/pricing/SongIncludedLine";
 import { BLUR_DATA_URL } from "@/lib/blur";
 import { CTA_LABELS, OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { SITE_NAME, SITE_STUDIO_IMAGE_SRC } from "@/lib/constants";
-import { getExVat, type PriceItemId } from "@/lib/data/pricing-catalog";
-import { formatPrice } from "@/lib/data/pricing-display";
 
-/*
- * עוגני המחיר בפסקת הפתיחה (תוכנית שלב 4, WP2-WP3). כל עוגן הוא המוצר שהשורה
- * מדברת עליו: "DJ" הציג עד עכשיו את event_attraction_1 (אטרקציה בודדת, 1,695),
- * ו"פודקאסט" הציג חצי שעה גלם בלי עריכה. DJ מהצוות הוא dj_premium (עד 300
- * מוזמנים, החלטת הבעלים ED-04; מחיר לאירוע ולא לפי שעות, החלטות 5.10.2026
- * (DJ)), ופרק פודקאסט ערוך הוא podcast_audio.
- * כולל מע״מ קודם ולפני מע״מ בקטן (החלטת הבעלים 2.10.2026).
- */
-const STUDIO_FROM_ID: PriceItemId = "blessing_recording";
-const DJ_FROM_ID: PriceItemId = "dj_premium";
-const ATTRACTION_FROM_ID: PriceItemId = "event_attraction_1";
-const PODCAST_FROM_ID: PriceItemId = "podcast_audio";
-
-function HeroPrice({ id }: { id: PriceItemId }) {
-  const exVat = getExVat(id);
-  /* D86 (11.10.2026): מחיר אחד, כולל מע״מ. קודם כל מחיר בפסקה הופיע פעמיים */
-  const price = formatPrice(exVat, { from: true, channel: "page" });
-  return <data value={String(price.totalWithVat)}>{price.headline}</data>;
-}
+/* פסקת הפתיחה (#home-answer) בלי מחירים מ-11.10.2026: המחיר מופיע על כל דלת
+   (HomeDoors), והבעלים ביקש לקצר. */
 
 export type HomeHeroProps = {
   heroWhatsAppHref: string;
@@ -53,17 +34,23 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
         aria-hidden="true"
       />
 
-      <Container className="relative grid gap-10 pt-16 pb-10 sm:pt-20 sm:pb-12 lg:grid-cols-2 lg:items-center lg:gap-16 lg:pt-24 lg:pb-14">
-        <div className="relative z-10">
+      {/*
+        ק7 (11.10.2026): סדר בטלפון - טקסט, דלתות, כפתורים, תמונה, כדי שהדלתות
+        ייכנסו לשני המסכים הראשונים. בדסקטופ - טקסט וכפתורים מימין לתמונה,
+        והדלתות ברוחב מלא מתחתם. המיקום בדסקטופ מפורש (col/row), ולכן סדר
+        ה-DOM נשאר סדר הקריאה בטלפון. התמונה לא ממוקדת, ולכן סדר הטאב לא משתנה.
+      */}
+      <Container className="relative grid gap-8 pt-16 pb-14 sm:pt-20 sm:pb-16 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 lg:pt-24">
+        <div className="relative z-10 lg:col-start-1 lg:row-start-1">
           <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-red-text uppercase">
             {SITE_NAME}
           </p>
-          {/* IMPROVED: fluid hero typography */}
+          {/* IMPROVED: fluid hero typography. ה-H1 לפי D93, ה-title לא משתנה */}
           <h1
             id="hero-heading"
             className="soundwave-h1 font-serif text-hero font-semibold text-foreground"
           >
-            אולפן הקלטות במודיעין - פודקאסט, שירים ואירועים
+            אולפן הקלטות במודיעין - שירים, מתנות ופודקאסט
           </h1>
           <HomeHeroBadges />
           <p
@@ -71,47 +58,49 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             data-speakable="true"
             className="text-lead mt-6 max-w-xl text-muted-foreground"
           >
-            <InlineServiceLink href="/studio">אולפן</InlineServiceLink>: שירים וברכות,{" "}
-            <HeroPrice id={STUDIO_FROM_ID} />.{" "}
-            <InlineServiceLink href="/events">אירועים</InlineServiceLink>: DJ מהצוות,{" "}
-            <HeroPrice id={DJ_FROM_ID} />, ואטרקציה לאירוע{" "}
-            <HeroPrice id={ATTRACTION_FROM_ID} />.{" "}
-            <InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink>: פרק ערוך,{" "}
-            <HeroPrice id={PODCAST_FROM_ID} />.{" "}
-            <InlineServiceLink href="/voiceover">קריינות</InlineServiceLink> בהצעה לפי היקף.{" "}
-            <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> ושחזור - מרחוק.
+            {/* קצר ובלי מחירים: המחיר כבר על כל דלת, ושורת "מה כלול" באה מיד אחרי
+                (הבעלים, 11.10.2026: "לקצר", עד אז 590 הופיע שלוש פעמים בראש הדף) */}
+            <InlineServiceLink href="/studio/recording-song-modiin">הקלטת שיר</InlineServiceLink>{" "}
+            או <InlineServiceLink href="/studio/blessings">ברכה מוקלטת</InlineServiceLink>, גם
+            כמתנה, ו<InlineServiceLink href="/podcast">פודקאסט</InlineServiceLink> באולפן או
+            אצלכם. גם DJ ל<InlineServiceLink href="/events">אירועים</InlineServiceLink>, שירותים{" "}
+            <InlineServiceLink href="/business">לעסקים</InlineServiceLink> ו
+            <InlineServiceLink href="/online">תיקון זיופים</InlineServiceLink> מרחוק.
           </p>
           {/* D102: שורה נפרדת ולא בתוך #home-answer, שהוא תשובת ה-AEO של העמוד */}
           <SongIncludedLine className="mt-3 max-w-xl" />
-          <div className="mt-8 flex flex-col gap-3">
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
-              <Button
-                as="a"
-                href={heroWhatsAppHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outline"
-                className="min-h-12"
-              >
-                {CTA_LABELS.whatsappQuote}
-              </Button>
-              <Button
-                as="link"
-                href="/online"
-                variant="outline"
-                className="min-h-12"
-              >
-                {OUTCOME_CTA.heroSendFileFixed}
-              </Button>
-            </div>
-            <CtaOutcomeSubline className="sm:text-start" />
-            <HeroScrollCue href="#home-quick-paths" className="sm:justify-start" />
+        </div>
+
+        <HomeDoors className="relative z-10 lg:col-span-2 lg:row-start-3" />
+
+        <div className="relative z-10 flex flex-col gap-3 lg:col-start-1 lg:row-start-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <HeroTrackedCta href="/book">{OUTCOME_CTA.heroBookPriceNow}</HeroTrackedCta>
+            <Button
+              as="a"
+              href={heroWhatsAppHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              className="min-h-12"
+            >
+              {CTA_LABELS.whatsappQuote}
+            </Button>
+            <Button
+              as="link"
+              href="/online"
+              variant="outline"
+              className="min-h-12"
+            >
+              {OUTCOME_CTA.heroSendFileFixed}
+            </Button>
           </div>
+          <CtaOutcomeSubline className="sm:text-start" />
+          <HeroScrollCue href="#home-quick-paths" className="sm:justify-start" />
         </div>
 
         {/* IMPROVED: unified aspect-ratio (no lg:aspect-square reflow) + blur placeholder for CLS */}
-        <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-catalog-gold/30 bg-surface shadow-lg ring-1 ring-black/5">
+        <div className="relative z-10 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-catalog-gold/30 bg-surface shadow-lg ring-1 ring-black/5 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
           <Image
             src={SITE_STUDIO_IMAGE_SRC}
             alt="אולפן הקלטות מקצועי במודיעין"
@@ -145,10 +134,6 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             </p>
           </div>
         </div>
-      </Container>
-
-      <Container className="relative pb-14 sm:pb-16 lg:hidden">
-        <HomeIntentPaths />
       </Container>
     </Section>
   );

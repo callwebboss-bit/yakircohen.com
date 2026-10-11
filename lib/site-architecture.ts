@@ -213,6 +213,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
       { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
       { label: "בלונים ענק", href: "/events/attractions/giant-balloons" },
+      { label: "מגלשת מים ותותח קצף", href: "/events/attractions/inflatables" },
       { label: "במה LED + DJ", href: "/events/stage-led-dj" },
     ],
   },
@@ -444,6 +445,7 @@ export const NAV_PRIMARY_DESKTOP: SiteNavCategory[] = [
       { label: "זיקוקים קרים", href: "/events/attractions/cold-fireworks" },
       { label: "תותח קונפטי", href: "/events/attractions/confetti-cannon" },
       { label: "בלונים ענק", href: "/events/attractions/giant-balloons" },
+      { label: "מגלשת מים ותותח קצף", href: "/events/attractions/inflatables" },
       { label: "מכונת בועות", href: "/events/attractions/bubble-machine" },
       { label: "חבילות אירועים", href: "/events/wedding-attractions-packages", description: "DJ + אטרקציות בחבילה" },
       { label: "במה LED + DJ", href: "/events/stage-led-dj" },
@@ -506,9 +508,10 @@ const HEADER_STUDIO_NAV: SiteNavCategory = {
   id: "studio",
   label: "אולפן",
   href: "/studio",
+  /* ק7 (11.10.2026, D93): הקישור המודגש הראשון הוא הקלטת שיר, לא תיקון זיופים */
   featured: [
-    { label: "תיקון זיופים ומיקס מרחוק", href: "/online/vocal-fix" },
     { label: "הקלטת שירים וברכות", href: "/studio/recording-song-modiin" },
+    { label: "תיקון זיופים ומיקס מרחוק", href: "/online/vocal-fix" },
     { label: "אולפן בירושלים / שוהם", href: "/studio/studio-jerusalem" },
   ],
   children: [
@@ -611,11 +614,16 @@ export type HeaderNavEntry =
   | { kind: "dropdown"; category: SiteNavCategory }
   | { kind: "link"; label: string; href: string };
 
+/**
+ * ק7 (11.10.2026): הסדר של הדלתות (D84, D93). דלת השיר והמתנה (אולפן, מתנות),
+ * אחריה פודקאסט, ואז אירועים, שלישי מבין הדלתות (החלטה 8.4). מחירון ו"עוד" בסוף.
+ * עד ק7: אולפן, אירועים, פודקאסט, מתנות, מחירון.
+ */
 export const HEADER_PRIMARY_NAV: readonly HeaderNavEntry[] = [
   { kind: "dropdown", category: HEADER_STUDIO_NAV },
-  { kind: "dropdown", category: HEADER_EVENTS_NAV },
-  { kind: "dropdown", category: HEADER_PODCAST_NAV },
   { kind: "link", label: "מתנות", href: "/matanot" },
+  { kind: "dropdown", category: HEADER_PODCAST_NAV },
+  { kind: "dropdown", category: HEADER_EVENTS_NAV },
   { kind: "link", label: "מחירון", href: "/pricing" },
 ];
 

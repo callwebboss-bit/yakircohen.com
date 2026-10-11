@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import Button from "@/components/ui/Button";
+import YouTube from "@/components/YouTube";
 import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import { trackConversion } from "@/lib/analytics/conversion-events";
@@ -12,8 +13,8 @@ import {
   VOICEOVER_COMPARE_HEADING,
   VOICEOVER_COMPARE_HUB_HREF,
   VOICEOVER_COMPARE_JSON_LD,
-  VOICEOVER_COMPARE_LEAD,
   VOICEOVER_COMPARE_LEAD_SINGLE,
+  VOICEOVER_FINAL_AD,
   VOICEOVER_COMPARE_ROWS,
   VOICEOVER_COMPARE_SECTION_ID,
   VOICEOVER_COMPARE_SERVICES_HREF,
@@ -26,11 +27,6 @@ import {
   VOICEOVER_YAKIR_LABEL,
   VOICEOVER_YAKIR_NOTE,
   VOICEOVER_YAKIR_SRC,
-  VOICEOVER_YAKIR_STYLE_LABEL,
-  VOICEOVER_YAKIR_STYLES_NOTE,
-  VOICEOVER_YAKIR_WARM_READY,
-  VOICEOVER_YAKIR_WARM_SRC,
-  VOICEOVER_YAKIR_WARM_STYLE_LABEL,
   type VoiceoverNarratorCompareContext,
 } from "@/lib/data/voiceover-narrator-compare";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
@@ -48,10 +44,8 @@ export default function VoiceoverNarratorCompare({
 }: Props) {
   const otherRef = useRef<HTMLAudioElement>(null);
   const yakirRef = useRef<HTMLAudioElement>(null);
-  const yakirWarmRef = useRef<HTMLAudioElement>(null);
   const isCompact = context === "compact";
-  const hasWarm = VOICEOVER_YAKIR_WARM_READY;
-  const lead = hasWarm ? VOICEOVER_COMPARE_LEAD : VOICEOVER_COMPARE_LEAD_SINGLE;
+  const lead = VOICEOVER_COMPARE_LEAD_SINGLE;
   const showJsonLd = context !== "compact";
   const bookCta = VOICEOVER_COMPARE_BOOK_CTA;
 
@@ -68,10 +62,9 @@ export default function VoiceoverNarratorCompare({
     });
   }, [context]);
 
-  function pauseOther(playing: "other" | "yakir" | "yakirWarm") {
+  function pauseOther(playing: "other" | "yakir") {
     if (playing !== "other") otherRef.current?.pause();
     if (playing !== "yakir") yakirRef.current?.pause();
-    if (playing !== "yakirWarm") yakirWarmRef.current?.pause();
   }
 
   const players = (
@@ -99,13 +92,8 @@ export default function VoiceoverNarratorCompare({
       <div className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-3 sm:p-4">
         <p className="text-xs font-semibold text-brand-red">{VOICEOVER_YAKIR_LABEL}</p>
         <p className="mt-0.5 text-[0.65rem] leading-relaxed text-muted-foreground">
-          {hasWarm ? VOICEOVER_YAKIR_STYLES_NOTE : VOICEOVER_YAKIR_NOTE}
+          {VOICEOVER_YAKIR_NOTE}
         </p>
-        {hasWarm ? (
-          <p className="mt-2 text-[0.65rem] font-semibold text-foreground">
-            {VOICEOVER_YAKIR_STYLE_LABEL}
-          </p>
-        ) : null}
         <audio
           ref={yakirRef}
           controls
@@ -120,29 +108,30 @@ export default function VoiceoverNarratorCompare({
         >
           <source src={VOICEOVER_YAKIR_SRC} type="audio/mpeg" />
         </audio>
-        {hasWarm ? (
-          <>
-            <p className="mt-3 text-[0.65rem] font-semibold text-foreground">
-              {VOICEOVER_YAKIR_WARM_STYLE_LABEL}
-            </p>
-            <audio
-              ref={yakirWarmRef}
-              controls
-              preload="metadata"
-              dir="ltr"
-              className="mt-2 w-full"
-              onPlay={() => {
-                pauseOther("yakirWarm");
-                handlePlayStart();
-              }}
-              aria-label="דוגמת קריינות של יקיר כהן בסגנון חם ואנרגטי, עם חיוך"
-            >
-              <source src={VOICEOVER_YAKIR_WARM_SRC} type="audio/mpeg" />
-            </audio>
-          </>
-        ) : null}
       </div>
     </div>
+  );
+
+  /* בתיק העבודות הסרטון כבר מסומן בבלוק הקריינות, ולכן בלי VideoObject נוסף */
+  const finalAd = (
+    <figure className={cn(isCompact ? "mt-3" : "mt-4")}>
+      <figcaption className="mb-2">
+        <span className="block text-xs font-semibold text-foreground">
+          {VOICEOVER_FINAL_AD.label}
+        </span>
+        <span className="mt-0.5 block text-[0.65rem] leading-relaxed text-muted-foreground">
+          {VOICEOVER_FINAL_AD.note}
+        </span>
+      </figcaption>
+      <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-200">
+        <YouTube
+          videoId={VOICEOVER_FINAL_AD.videoId}
+          title={VOICEOVER_FINAL_AD.title}
+          fillParent
+          withSchema={context !== "portfolio"}
+        />
+      </div>
+    </figure>
   );
 
   if (isCompact) {
@@ -165,6 +154,7 @@ export default function VoiceoverNarratorCompare({
           {lead} {VOICEOVER_COMPARE_DISCLAIMER}
         </p>
         {players}
+        {finalAd}
         <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
           להזמנת{" "}
           <InlineServiceLink href={VOICEOVER_COMPARE_HUB_HREF}>קריינות</InlineServiceLink>
@@ -215,6 +205,7 @@ export default function VoiceoverNarratorCompare({
         </header>
 
         {players}
+        {finalAd}
 
         <div className="mt-5 overflow-x-auto">
           <table className="w-full min-w-[18rem] text-start text-xs sm:text-sm">

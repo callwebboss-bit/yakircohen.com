@@ -270,6 +270,10 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     podcast_audio: podcast,
     podcast_video: podcast,
     full_podcast_production: podcast,
+    /* 12.10.2026: ניקוי המתקן אחרי השכרה באיסוף עצמי */
+    inflatable_slide_pickup: ["inflatable_cleaning"],
+    foam_cannon_pickup: ["foam_extra_refill"],
+    backyard_party_pickup: ["inflatable_cleaning", "foam_extra_refill"],
   };
 })();
 

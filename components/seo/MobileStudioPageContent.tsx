@@ -35,8 +35,10 @@ import {
 import { getStudioService } from "@/lib/data/services";
 import { MOBILE_STUDIO_HOME_FAQ } from "@/lib/data/faq-aeo";
 import {
+  BUSINESS_HOURS,
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_E164,
+  STUDIO_VISIT_NOTE,
 } from "@/lib/constants";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { formatPrice } from "@/lib/data/pricing-display";
@@ -389,20 +391,20 @@ export default function MobileStudioPageContent() {
           aria-labelledby="hours-heading"
         >
           <h2 id="hours-heading" className="font-semibold text-foreground">
-            שעות פעילות
+            שעות מענה
           </h2>
           <ul className="mt-3 space-y-2">
             <li>
-              מענה טלפוני במשרדים: א׳-ה׳ 09:00-22:00 -{" "}
+              בטלפון ובוואטסאפ:{" "}
+              {BUSINESS_HOURS.map((slot) => `${slot.days} ${slot.hours}`).join(", ")}.{" "}
               <a
                 href={`tel:${CONTACT_PHONE_E164}`}
                 className="font-medium text-brand-red hover:underline"
               >
                 {CONTACT_PHONE_DISPLAY}
-              </a>{" "}
-              (גם בוואטסאפ)
+              </a>
             </li>
-            <li>שעות האולפנים: א׳-ה׳ 10:00-22:00 | ו׳ 10:00-15:00</li>
+            <li>{STUDIO_VISIT_NOTE}</li>
           </ul>
         </section>
 

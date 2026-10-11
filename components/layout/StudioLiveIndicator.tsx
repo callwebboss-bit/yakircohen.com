@@ -18,8 +18,8 @@ export default function StudioLiveIndicator() {
     <span
       className="pointer-events-none absolute -end-1 -top-1 flex h-3 w-3"
       aria-hidden={!live}
-      aria-label={live ? "פתוח עכשיו לפי שעות הפעילות" : undefined}
-      title={live ? "פתוח עכשיו לפי שעות הפעילות" : undefined}
+      aria-label={live ? "עונים עכשיו לפי שעות המענה" : undefined}
+      title={live ? "עונים עכשיו לפי שעות המענה" : undefined}
     >
       {live ? (
         <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-red" />
