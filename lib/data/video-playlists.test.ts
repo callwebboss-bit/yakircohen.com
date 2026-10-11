@@ -22,6 +22,10 @@ describe("portfolio playlists: winery work", () => {
     assert.deepEqual(ids("voiceover-services").slice(0, 3), PASEK);
   });
 
+  it("the Bana TV ad (Channel 14) comes right after Pasek in the voiceover hub", () => {
+    assert.equal(ids("voiceover-hub")[3], "kMBtj7hLTHA");
+  });
+
   it("the existing DJ voiceover examples are still there, right after them", () => {
     assert.ok(ids("voiceover-hub").includes("7DEp-gnDTs4"));
     assert.equal(ids("voiceover-services")[3], "7DEp-gnDTs4");
