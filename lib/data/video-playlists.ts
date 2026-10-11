@@ -22,6 +22,7 @@ export type PlaylistId =
   | "mashup-fixer"
   | "studio-gifts"
   | "education-tips"
+  | "mix-mastering"
   | "video-editing";
 
 export type PlaylistConfig = {
@@ -284,6 +285,16 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
     excludeTags: ["entertainment"],
     pagePaths: ["/studio/recording-song-modiin/gifts"],
   },
+  "mix-mastering": {
+    id: "mix-mastering",
+    heading: "מיקס ומאסטרינג - עבודות שלנו",
+    subheading: "שירים שעשינו להם מיקס ומאסטרינג, ושני טיפים מהעבודה.",
+    kicker: "מיקס",
+    initialVisible: 4,
+    expandBatch: 4,
+    pagePaths: ["/portfolio", "/online/vocal-fix/mixing"],
+    serviceLink: { href: "/online/vocal-fix/mixing", label: "למיקס ומאסטרינג מרחוק" },
+  },
   "education-tips": {
     id: "education-tips",
     heading: "טיפים מקצועיים - אודיו ואולפן",
@@ -310,6 +321,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
 export const PORTFOLIO_HUB_PLAYLIST_ORDER: readonly PlaylistId[] = [
   "studio-hub",
   "recording-song-modiin",
+  "mix-mastering",
   "blessings-hub",
   "podcast-hub",
   "events-dj",

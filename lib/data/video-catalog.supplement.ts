@@ -33,6 +33,20 @@ export const PORTFOLIO_VIDEO_SUPPLEMENT: readonly PortfolioVideo[] = [
       "הפקה ועיבוד מוזיקלי: יקיר כהן הפקות ורועי מאנה · מילים: רועי מאנה, יקיר כהן ויקיר איזמירלי · שירה: עמית רבוח · כוריאוגרפיה: לירון אבדר · רקדניות: להקת בלרין · סטודיו לי דאנס בניהול לירון אבדר · מעל מיליון צפיות",
   },
   {
+    videoId: "VntWmw5Su6c",
+    title: "הפקת רוק כבד, שיר מקורי מתנה ליום נישואין",
+    youtubeUrl: "https://www.youtube.com/watch?v=VntWmw5Su6c",
+    tags: ["studio-recording"],
+    services: ["recording-song-modiin", "studio-gifts"],
+  },
+  {
+    videoId: "OSi6qMYAhbs",
+    title: "גל שואקה - For You · מיקס ומאסטרינג: יקיר כהן הפקות (הפקה: דור לוין)",
+    youtubeUrl: "https://www.youtube.com/watch?v=OSi6qMYAhbs",
+    tags: ["studio-recording"],
+    services: ["mix-mastering"],
+  },
+  {
     videoId: "591H4EX6miM",
     title: "קורס גמגום - לדבר נכון ולקבל את עצמך בביטחון אמיתי",
     youtubeUrl: "https://www.youtube.com/shorts/591H4EX6miM",

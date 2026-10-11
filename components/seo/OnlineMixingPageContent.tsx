@@ -6,6 +6,7 @@ import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLink
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import JourneyStepsLink from "@/components/marketing/JourneyStepsLink";
 import AudioShowcase from "@/components/seo/AudioShowcase";
+import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import TechBarrierReliefSection from "@/components/seo/TechBarrierReliefSection";
 import {
   MIXING_AUDIENCE,
@@ -303,6 +304,12 @@ export default function OnlineMixingPageContent() {
           </div>
         </div>
       </section>
+
+      <div className="border-t border-border bg-background py-12">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <ShowcaseVideoSection playlistId="mix-mastering" />
+        </div>
+      </div>
 
       <section className="border-t border-border bg-background py-12">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">

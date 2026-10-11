@@ -24,6 +24,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
     "wfTY8Bz2uE4",
     "sNZPrz-rasQ",
     "K8c9xAHWN-g",
+    /* מתנה ליום נישואין (בקשת המשרד 11.10.2026) */
+    "VntWmw5Su6c",
   ],
   "recording-studio": [
     "P425XNK7z5M",
@@ -124,6 +126,8 @@ export const PLAYLIST_FEATURED_IDS: Record<string, readonly string[]> = {
   ],
   // Short מקורס הגמגום - מוצמד ראשון בפלייליסט הטיפים בתיק העבודות
   "education-tips": ["591H4EX6miM"],
+  /* מיקס ומאסטרינג שלנו: גל שואקה, מג'יק קאס, ושני טיפים (אישור המשרד 11.10.2026) */
+  "mix-mastering": ["OSi6qMYAhbs", "1DUnuS_hv5Y", "TgwieFCKl2U", "SyF8hlGusDY"],
   /* מסך ירוק, ואז סושיאל. השורט אחרון: הוא 9:16 במסגרת 16:9 */
   "video-editing": ["8lfWwn0uJMg", "0--BIes-66Y", "APKGwP3CO50", "--_pBWzA5Hk"],
 };
@@ -151,6 +155,7 @@ export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
   // גריד /studio מוצג רק מהרשימה המובחרת - מונע מ-remainder אוטומטי (כולל פרקי אורחים
   // עם שמות) להופיע. שומר על עקביות עם הסרת השמות מכותרת תיק העבודות.
   "studio-hub": PLAYLIST_FEATURED_IDS["studio-hub"]!,
+  "mix-mastering": PLAYLIST_FEATURED_IDS["mix-mastering"]!,
 };
 
 /** Short descriptions for hero picks (optional) */
