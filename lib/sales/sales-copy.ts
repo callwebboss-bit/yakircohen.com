@@ -170,92 +170,134 @@ const SMALLEST_ATTRACTION_BUNDLE = [...CATALOG_BUNDLES]
   .sort((a, b) => a.count - b.count)[0];
 
 const attractionBundleMessage: Builder = (card) =>
-  sentences([
-    `היי, ${card.title} לאירוע: ${card.priceLine}.`,
-    "כל אטרקציה עם הפעלה אחת ותפעול במקום.",
-    "לאיזה תאריך האירוע?",
-  ]);
+  sentences([`היי, ${card.title} לאירוע: ${card.priceLine}.`, buildIncludedSentence(card), buildClosingQuestion(card)]);
+
+/*
+ * שורת "מה כלול" ושאלת הסיום של שמונת הנפוצים. ההודעה הראשונה בונה מהן את
+ * המשפט השני ואת הסוף, והמחשבון (selection-quote.ts) משתמש באותן שורות בדיוק,
+ * כדי שלא יהיו שני נוסחים לאותו שירות.
+ */
+type Line = (card: SalesCardDraft) => string | null;
+
+const MOBILE_PEOPLE_INCLUDED =
+  MOBILE_STUDIO_CHANNEL_RULES.included === 1 ? "לאדם אחד" : `ל-${MOBILE_STUDIO_CHANNEL_RULES.included} אנשים`;
+
+const ATTRACTION_INCLUDED = "כל אטרקציה עם הפעלה אחת ותפעול במקום.";
+
+const INCLUDED_BY_ID: Readonly<Record<string, Line>> = {
+  song_recording: () => "סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן.",
+  blessing_recording: () => "בלי הגבלת זמן, עם הנחיה, עריכה ומוזיקת רקע, עד שזה יוצא מדויק.",
+  studio_remote: () =>
+    "שולחים לי הקלטה מהטלפון בוואטסאפ, ואני מנקה רעשים, עורך, מוסיף מוזיקת רקע ומחזיר קובץ מוכן.",
+  podcast_audio: () =>
+    `הקלטה עד שעה, עריכת ההקלטה וחלל האולפן, ו-${PODCAST_PARTICIPANT_RULES.included} משתתפים כלולים.`,
+  mobile_podcast_at_home: () =>
+    `מגיעים עם כל הציוד, התאורה והצוות. בבית או במשרד, פרק אודיו מוגמר ${MOBILE_PEOPLE_INCLUDED} כבר כלול במחיר.`,
+  dj_premium: () => `${DJ_PER_EVENT_SHORT}, ומגיעים עד שהאירוע נגמר.`,
+  dj_yakir_personal: () => `${DJ_PER_EVENT_SHORT}, ואני נשאר עד שהאירוע נגמר.`,
+  event_attraction_1: () => ATTRACTION_INCLUDED,
+  event_sound_rental: (card) => {
+    /* הציוד והקהל מהקטלוג (scope.includes ו-suitedFor), כדי שלא יהיה כאן נוסח שני */
+    const item = getPriceById(card.id as PriceItemId);
+    const includes = item.scope?.includes;
+    const suited = item.suitedFor;
+    return includes ? `${plainLine(includes)}${suited ? `, ל${plainLine(suited)}` : ""}.` : null;
+  },
+};
+
+const QUESTION_BY_ID: Readonly<Record<string, string>> = {
+  song_recording: "לאיזה תאריך חשבתם?",
+  blessing_recording: "לאיזה תאריך?",
+  studio_remote: "עד איזה תאריך צריך את הקובץ?",
+  podcast_audio: "לאיזה תאריך חשבתם?",
+  mobile_podcast_at_home: "לאיזה תאריך, ובאיזו עיר?",
+  dj_premium: "מה התאריך, ובאיזה אזור האולם?",
+  dj_yakir_personal: "מה התאריך, ובאיזה אזור האולם?",
+  event_attraction_1: "לאיזה תאריך האירוע?",
+  event_sound_rental: "לאיזה תאריך?",
+};
+
+/** שורה אחת על מה שמקבלים: הנוסח של הנפוצים, או מה שכלול, או ה-context בקטלוג */
+export function buildIncludedSentence(card: SalesCardDraft): string | null {
+  const specific = INCLUDED_BY_ID[card.id] ?? (BUNDLE_IDS.has(card.id) ? () => ATTRACTION_INCLUDED : null);
+  return specific ? specific(card) : detailSentence(card);
+}
+
+/** שאלת הסיום של ההודעה: הנוסח של הנפוצים, או לפי השירות והקטגוריה */
+export function buildClosingQuestion(card: SalesCardDraft): string {
+  return QUESTION_BY_ID[card.id] ?? (BUNDLE_IDS.has(card.id) ? "לאיזה תאריך האירוע?" : dateQuestion(card));
+}
 
 const MESSAGE_BY_ID: Readonly<Record<string, Builder>> = {
   song_recording: (card) => {
     const clip = addonHeadline(card, "studio_session_clip_edited");
     return sentences([
       `היי, הקלטת שיר באולפן במודיעין: ${card.priceLine}.`,
-      "סשן של שעה עם הקלטה, מיקס ומאסטר, והשיר אצלכם בסוף הסשן.",
+      buildIncludedSentence(card),
       clip && `רוצים גם קליפ ערוך מהסשן? עוד ${clip}.`,
-      "לאיזה תאריך חשבתם?",
+      buildClosingQuestion(card),
     ]);
   },
   blessing_recording: (card) => {
     const rewrite = addonHeadline(card, "blessing_text_rewrite");
     return sentences([
       `היי, ברכה או דרשה באולפן: ${card.priceLine}.`,
-      "בלי הגבלת זמן, עם הנחיה, עריכה ומוזיקת רקע, עד שזה יוצא מדויק.",
+      buildIncludedSentence(card),
       rewrite && `אם צריך לכתוב את הטקסט מחדש, כותבים אותו יחד ב-${rewrite}.`,
-      "לאיזה תאריך?",
+      buildClosingQuestion(card),
     ]);
   },
   studio_remote: (card) => {
     const extra = addonHeadline(card, BLESSING_PARTICIPANT_RULES.extraId);
     return sentences([
       `היי, הקלטה מרחוק: ${card.priceLine}.`,
-      "שולחים לי הקלטה מהטלפון בוואטסאפ, ואני מנקה רעשים, עורך, מוסיף מוזיקת רקע ומחזיר קובץ מוכן.",
+      buildIncludedSentence(card),
       extra && `עוד דובר באותה הקלטה: ${extra}.`,
-      "עד איזה תאריך צריך את הקובץ?",
+      buildClosingQuestion(card),
     ]);
   },
   podcast_audio: (card) => {
     const extra = addonHeadline(card, PODCAST_PARTICIPANT_RULES.extraId);
     return sentences([
       `היי, פרק פודקאסט אודיו באולפן במודיעין: ${card.priceLine}.`,
-      `הקלטה עד שעה, עריכת ההקלטה וחלל האולפן, ו-${PODCAST_PARTICIPANT_RULES.included} משתתפים כלולים.`,
+      buildIncludedSentence(card),
       extra && `כל משתתף נוסף: ${extra}.`,
-      "לאיזה תאריך חשבתם?",
+      buildClosingQuestion(card),
     ]);
   },
   mobile_podcast_at_home: (card) => {
     const extra = addonHeadline(card, MOBILE_STUDIO_CHANNEL_RULES.channelId);
-    const people = MOBILE_STUDIO_CHANNEL_RULES.included === 1 ? "לאדם אחד" : `ל-${MOBILE_STUDIO_CHANNEL_RULES.included} אנשים`;
     return sentences([
       `היי, אולפן נייד אליכם: ${card.priceLine}.`,
-      `מגיעים עם כל הציוד, התאורה והצוות. בבית או במשרד, פרק אודיו מוגמר ${people} כבר כלול במחיר.`,
+      buildIncludedSentence(card),
       extra && `כל אדם נוסף: ${extra}.`,
-      "לאיזה תאריך, ובאיזו עיר?",
+      buildClosingQuestion(card),
     ]);
   },
   dj_premium: (card) =>
     sentences([
       `היי, DJ מנוסה מהצוות: ${card.priceLine}.`,
-      `${DJ_PER_EVENT_SHORT}, ומגיעים עד שהאירוע נגמר.`,
+      buildIncludedSentence(card),
       "אם מוסיפים אטרקציות, DJ עם אטרקציות מגיע בהנחה לפי האולם והאירוע.",
-      "מה התאריך, ובאיזה אזור האולם?",
+      buildClosingQuestion(card),
     ]),
   /* יקיר שולח מהטלפון שלו, ולכן בגוף ראשון, כמו ההקלטה מרחוק והתשובות המהירות */
   dj_yakir_personal: (card) =>
     sentences([
       `היי, אני אישית על הקונסולה: ${card.priceLine}.`,
-      `${DJ_PER_EVENT_SHORT}, ואני נשאר עד שהאירוע נגמר.`,
-      "מה התאריך, ובאיזה אזור האולם?",
+      buildIncludedSentence(card),
+      buildClosingQuestion(card),
     ]),
   event_attraction_1: (card) => {
     const pack = SMALLEST_ATTRACTION_BUNDLE && comboHeadline(card, SMALLEST_ATTRACTION_BUNDLE.bundleId);
     return sentences([
       `היי, אטרקציה לאירוע: ${card.priceLine}, עם הפעלה אחת ותפעול במקום.`,
       pack && `אם לוקחים ${SMALLEST_ATTRACTION_BUNDLE.count} אטרקציות, החבילה ${pack}.`,
-      "לאיזה תאריך האירוע?",
+      buildClosingQuestion(card),
     ]);
   },
-  event_sound_rental: (card) => {
-    /* הציוד והקהל מהקטלוג (scope.includes ו-suitedFor), כדי שלא יהיה כאן נוסח שני */
-    const item = getPriceById(card.id as PriceItemId);
-    const includes = item.scope?.includes;
-    const suited = item.suitedFor;
-    return sentences([
-      `היי, השכרת הגברה לאירוע: ${card.priceLine}.`,
-      includes && `${plainLine(includes)}${suited ? `, ל${plainLine(suited)}` : ""}.`,
-      "לאיזה תאריך?",
-    ]);
-  },
+  event_sound_rental: (card) =>
+    sentences([`היי, השכרת הגברה לאירוע: ${card.priceLine}.`, buildIncludedSentence(card), buildClosingQuestion(card)]),
 };
 
 /* שם, מחיר, שורה אחת על מה שמקבלים, ושאלה שמתאימה לשירות */

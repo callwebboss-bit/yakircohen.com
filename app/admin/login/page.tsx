@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import { isAdminAuthenticated, resolveAdminNextPath, safeAdminNextPath } from "@/lib/admin-auth";
+import {
+  isAdminAuthenticated,
+  isAdminTokenConfigured,
+  resolveAdminNextPath,
+  safeAdminNextPath,
+} from "@/lib/admin-auth";
 import { adminLoginAction } from "./actions";
 
 export const metadata: Metadata = {
@@ -33,6 +38,21 @@ export default async function AdminLoginPage({
   const errorMessage = isRateLimited
     ? "יותר מדי ניסיונות. נסו שוב בעוד רבע שעה."
     : "מפתח לא תקין.";
+  /*
+   * רק ב-next dev. כניסה מקומית שנכשלה בלי סיבה נראית (12.10.2026) לא נבעה
+   * מהקוקי: הוא Secure רק ב-production, בלי __Host- ובלי domain, ועובד על
+   * http://localhost. מה ששובר אותה הוא שרת שלא רואה את הסוד: שרת dev שרץ
+   * מתיקייה אחרת בלי .env.development.local, או סוד עם $ או #. Next טוען את
+   * קובצי ה-env עם dotenv-expand, ולכן "abc$def" נקרא "abc" (גם בתוך מרכאות
+   * בודדות), ו-# בלי מרכאות פותח הערה. ב-Vercel הערך נקרא כמו שהוא, ולכן שם
+   * הכניסה עובדת. בייצור לא מוצג כאן כלום.
+   */
+  const devHint =
+    process.env.NODE_ENV === "development"
+      ? isAdminTokenConfigured()
+        ? hasError && "פיתוח מקומי: אם מפתח נכון נדחה, בדקו שבסוד ב-.env.development.local אין $ או # (Next קורא אותו קטוע), ושהשרת רץ מהתיקייה שבה הקובץ."
+        : "פיתוח מקומי: לשרת הזה אין ADMIN_LEADS_TOKEN, ולכן כל מפתח נדחה. הוסיפו אותו ל-.env.development.local בתיקייה שממנה רץ next dev."
+      : null;
 
   return (
     <article className="bg-background">
@@ -71,6 +91,11 @@ export default async function AdminLoginPage({
               כניסה
             </button>
           </form>
+          {devHint ? (
+            <p className="mt-4 rounded-md bg-muted p-2 text-xs text-muted-foreground" data-testid="admin-dev-hint">
+              {devHint}
+            </p>
+          ) : null}
         </Container>
       </Section>
     </article>

@@ -2,7 +2,8 @@
 
 import nextDynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import SalesCard, { type SalesCopyKind } from "@/components/admin/SalesCard";
+import SalesCalculator, { type CalculatorVoucherForm, type SalesCopyKind } from "@/components/admin/SalesCalculator";
+import { shortTitle } from "@/components/admin/sales-ui";
 import type {
   VoucherDialogRequest,
   VoucherFormState,
@@ -10,18 +11,19 @@ import type {
 } from "@/components/admin/VoucherDialog";
 import { renewAdminSessionIfNeeded } from "@/app/admin/session-actions";
 import { formatPrice } from "@/lib/data/pricing-display";
+import { cn } from "@/lib/utils";
 import type { SalesBook, SalesCard as SalesCardData } from "@/lib/sales/sales-book";
 import { matchPaste, normalizeSearch, type PasteMatch, type PasteResult } from "@/lib/sales/paste-match";
+import type { SelectionInput } from "@/lib/sales/selection-quote";
 import type { VoucherKind } from "@/lib/sales/voucher";
 
 /**
- * עמדת המכירות לוואטסאפ (תוכנית עמדת המכירות, סעיפים 1 עד 5): חיפוש שירות,
- * הדבקת הודעה מהאתר שפותחת את הכרטיס הנכון, כרטיסים מהקטלוג, ואישור הזמנה
- * או שובר מתנה.
+ * עמדת המכירות לוואטסאפ (תוכנית עמדת המכירות, סעיפים 1 עד 5, והמחשבון מ-12.10.2026).
  *
- * העמוד נבנה בשביל רגע אחד: יקיר באמצע סשן, לקוח מחכה בוואטסאפ. לכן הכרטיס
- * נפתח מההודעה עצמה, כפתור ההעתקה זמין גם כשהכרטיס סגור, והדיאלוג של
- * האישור נטען ברקע מראש.
+ * העמוד נבנה בשביל רגע אחד: יקיר באמצע סשן, לקוח מחכה בוואטסאפ. מלמעלה:
+ * תיבת ההדבקה, שמונה אריחים גדולים לשירותים הנפוצים, חיפוש, וכל השירותים
+ * לפי קטגוריה. לחיצה על שירות פותחת ישר את המחשבון שלו (SalesCalculator),
+ * והדבקה של הודעה מהאתר פותחת אותו עם מה שהלקוח כבר בחר.
  */
 
 /* הדיאלוג מושך את ספר המכירות המלא ואת קוד הציור. נטען בחבילה נפרדת, אחרי
@@ -171,10 +173,11 @@ function formatIssued(iso: string): string {
 
 type GtagFn = (...args: unknown[]) => void;
 
-/* בלי פרטים אישיים: רק מזהה הכרטיס. ספירת שימוש שבועית מול הלידים (תוכנית, מעקב) */
-function trackCopy(cardId: string): void {
+/* בלי פרטים אישיים: רק מזהה הכרטיס, ואם ההודעה נבנתה מבחירה במחשבון. ספירת
+   שימוש שבועית מול הלידים (תוכנית, מעקב) */
+function trackCopy(cardId: string, withSelection: boolean): void {
   const w = window as Window & { gtag?: GtagFn };
-  w.gtag?.("event", "sales_desk_copy", { card_id: cardId });
+  w.gtag?.("event", "sales_desk_copy", { card_id: cardId, with_selection: withSelection });
 }
 
 /* ─── המחיר שהלקוח ראה ─── */
@@ -205,29 +208,43 @@ function SeenPriceNote({ match, seenExVat }: { match: PasteMatch; seenExVat: num
   );
 }
 
+
 /* ─── העמוד ─── */
 
-function scrollToCard(id: string): void {
-  /* שתי מסגרות: אחרי שהכרטיס נפתח ואחרי שהחיפוש התנקה */
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() =>
-      document.getElementById(`sales-card-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }),
-    ),
+type CalcRequest = { key: number; cardId: string; preset?: Partial<SelectionInput> };
+
+/* שורה של שירות ברשימה: שם ומחיר, ולחיצה פותחת את המחשבון */
+function ServiceRow({ card, highlighted, onOpen }: { card: SalesCardData; highlighted: boolean; onOpen: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className={cn(
+        "flex min-h-12 w-full flex-col items-start justify-center rounded-lg border border-border bg-surface px-3 py-2 text-start hover:bg-muted/50",
+        highlighted && "ring-2 ring-brand-red",
+      )}
+    >
+      <span className="text-sm font-semibold text-foreground">{card.title}</span>
+      <span className="text-xs text-muted-foreground">{card.priceLine}</span>
+    </button>
   );
 }
+
+const CALC_HISTORY_STATE = "ycSalesCalc";
 
 export default function SalesDesk({ book }: { book: SalesBook }) {
   const { cards } = book;
   const [query, setQuery] = useState("");
   const [pasteText, setPasteText] = useState("");
   const [paste, setPaste] = useState<PasteResult | null>(null);
-  const [openIds, setOpenIds] = useState<ReadonlySet<string>>(() => new Set());
+  const [calc, setCalc] = useState<CalcRequest | null>(null);
   const [openCategories, setOpenCategories] = useState<ReadonlySet<string>>(() => new Set());
   const [request, setRequest] = useState<VoucherDialogRequest | null>(null);
-  /* הודעה אחת לקורא מסך לכל העמוד, במקום אזור חי בכל אחד מ-133 הכרטיסים */
+  /* הודעה אחת לקורא מסך לכל העמוד */
   const [announcement, setAnnouncement] = useState("");
   const requestKey = useRef(0);
-  const lastScrolled = useRef<string | null>(null);
+  const calcKey = useRef(0);
+  const lastOpened = useRef<string | null>(null);
   const renewed = useRef(false);
   const history = useSyncExternalStore(subscribeHistory, readHistory, () => EMPTY_HISTORY);
 
@@ -236,6 +253,13 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
     if (renewed.current) return;
     renewed.current = true;
     renewAdminSessionIfNeeded().catch(() => undefined);
+  }, []);
+
+  /* כפתור "חזרה" של הטלפון סוגר את המחשבון ולא יוצא מהעמוד */
+  useEffect(() => {
+    const onPop = () => setCalc(null);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   const byId = useMemo(() => new Map(cards.map((c) => [c.id, c])), [cards]);
@@ -260,47 +284,60 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
     if (words.length === 0) return null;
     return cards.filter((card) => {
       const haystack = normalizeSearch(
-        [card.title, CATEGORY_LABEL[card.category] ?? card.category, ...card.searchTerms].join(" "),
+        [card.title, shortTitle(card), CATEGORY_LABEL[card.category] ?? card.category, ...card.searchTerms].join(" "),
       );
       return words.every((word) => haystack.includes(word));
     });
   }, [cards, query]);
 
-  const toggle = (id: string) =>
-    setOpenIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const openCalc = (cardId: string, preset?: Partial<SelectionInput>) => {
+    calcKey.current += 1;
+    if (!calc) {
+      try {
+        window.history.pushState({ ...(window.history.state ?? {}), [CALC_HISTORY_STATE]: true }, "");
+      } catch {
+        /* בלי היסטוריה: "חזרה" במחשבון עדיין סוגר */
+      }
+    }
+    setCalc({ key: calcKey.current, cardId, preset });
+  };
+
+  const closeCalc = () => {
+    const state = window.history.state as Record<string, unknown> | null;
+    if (state?.[CALC_HISTORY_STATE]) window.history.back();
+    else setCalc(null);
+  };
+
+  /* הבחירה מההודעה: שדרוגים ומשתתפים כפי שהלקוח בחר באתר */
+  const presetOf = (match: PasteMatch): Partial<SelectionInput> => ({
+    addonIds: match.addonIds,
+    ...(match.participants != null ? { participants: match.participants } : {}),
+  });
 
   const onPasteChange = (text: string) => {
     setPasteText(text);
     const result = text.trim() ? matchPaste(text, cards) : null;
     setPaste(result);
-    const id = result?.match?.card.id ?? null;
-    if (!id) {
-      lastScrolled.current = null;
+    const found = result?.match ?? null;
+    if (!found) {
+      lastOpened.current = null;
       return;
     }
     setQuery("");
-    setOpenIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
-    const category = result?.match?.card.featured ? null : result?.match?.card.category;
-    if (category) setOpenCategories((prev) => (prev.has(category) ? prev : new Set(prev).add(category)));
-    if (lastScrolled.current !== id) {
-      lastScrolled.current = id;
-      scrollToCard(id);
+    if (lastOpened.current !== found.card.id) {
+      lastOpened.current = found.card.id;
+      openCalc(found.card.id, presetOf(found));
     }
   };
 
   const clearPaste = () => {
     setPasteText("");
     setPaste(null);
-    lastScrolled.current = null;
+    lastOpened.current = null;
   };
 
-  const onCopy = (cardId: string, what: SalesCopyKind) => {
-    trackCopy(cardId);
+  const onCopy = (cardId: string, what: SalesCopyKind, withSelection: boolean) => {
+    trackCopy(cardId, withSelection);
     const title = byId.get(cardId)?.title ?? "";
     setAnnouncement(what === "message" ? `ההודעה הועתקה: ${title}` : `שורת רק לוודא הועתקה: ${title}`);
   };
@@ -314,16 +351,19 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
       return next;
     });
 
-  const openVoucher = (card: SalesCardData, kind: VoucherKind) => {
+  const openVoucher = (card: SalesCardData, kind: VoucherKind, form: CalculatorVoucherForm) => {
     requestKey.current += 1;
-    const match = paste?.match?.card.id === card.id ? paste.match : null;
     setRequest({
       key: requestKey.current,
       kind,
       card,
       code: paste?.code ?? null,
       codeSource: paste?.code ? "paste" : null,
-      form: match ? { addonIds: match.addonIds, participants: match.participants } : undefined,
+      form: {
+        addonIds: form.addonIds,
+        participants: form.participants,
+        ...(form.agreed ? { agreed: form.agreed } : {}),
+      },
     });
   };
 
@@ -344,16 +384,9 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
 
   const match = paste?.match ?? null;
   const highlightId = match?.card.id ?? null;
-  const renderCard = (card: SalesCardData) => (
-    <SalesCard
-      key={card.id}
-      card={card}
-      open={openIds.has(card.id)}
-      highlighted={card.id === highlightId}
-      onToggle={toggle}
-      onCopy={onCopy}
-      onVoucher={openVoucher}
-    />
+  const calcCard = calc ? byId.get(calc.cardId) : undefined;
+  const renderRow = (card: SalesCardData) => (
+    <ServiceRow key={card.id} card={card} highlighted={card.id === highlightId} onOpen={() => openCalc(card.id)} />
   );
 
   return (
@@ -380,7 +413,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
               זוהה:{" "}
               <button
                 type="button"
-                onClick={() => scrollToCard(match.card.id)}
+                onClick={() => openCalc(match.card.id, presetOf(match))}
                 className="inline-flex min-h-11 items-center font-semibold underline underline-offset-2"
               >
                 {match.card.title}
@@ -389,7 +422,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
             </p>
           ) : null}
           {paste && !match ? (
-            <p className="text-muted-foreground">לא זוהה שירות. חפשו בשורה למטה.</p>
+            <p className="text-muted-foreground">לא זוהה שירות. בחרו למטה או חפשו.</p>
           ) : null}
           {paste?.code ? (
             <p className="text-muted-foreground">
@@ -410,6 +443,31 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
         ) : null}
       </section>
 
+      <section aria-labelledby="sales-featured" className="grid gap-2">
+        <h2 id="sales-featured" className="text-base font-semibold text-foreground">
+          מחשבון מהיר
+        </h2>
+        <div className="grid grid-cols-2 gap-2">
+          {groups.featured.map((card) => (
+            <button
+              key={card.id}
+              type="button"
+              onClick={() => openCalc(card.id)}
+              aria-label={`מחשבון: ${card.title}`}
+              className={cn(
+                "flex min-h-20 flex-col items-start justify-center gap-0.5 rounded-xl border border-border bg-surface px-3 py-2 text-start shadow-sm hover:bg-muted/50",
+                card.id === highlightId && "ring-2 ring-brand-red",
+              )}
+            >
+              <span className="text-lg leading-tight font-semibold text-foreground">{shortTitle(card)}</span>
+              <span className="text-xs text-muted-foreground">
+                {formatPrice(card.exVat, { from: card.priceFrom, audience: card.audience }).headline}
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
+
       <div className="grid gap-1">
         <label htmlFor="sales-search" className="sr-only">
           חיפוש שירות
@@ -426,40 +484,32 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
       </div>
 
       {results ? (
-        <section aria-label="תוצאות חיפוש" className="grid gap-3">
+        <section aria-label="תוצאות חיפוש" className="grid gap-2">
           <p className="text-sm text-muted-foreground" role="status">
             {results.length ? `${results.length} שירותים` : "לא נמצא. נסו מילה אחת, למשל שיר או DJ."}
           </p>
-          {results.map(renderCard)}
+          {results.map(renderRow)}
         </section>
       ) : (
-        <>
-          <section aria-labelledby="sales-featured" className="grid gap-3">
-            <h2 id="sales-featured" className="text-base font-semibold text-foreground">
-              הנפוצים
-            </h2>
-            {groups.featured.map(renderCard)}
-          </section>
-          <section aria-labelledby="sales-all" className="grid gap-2">
-            <h2 id="sales-all" className="text-base font-semibold text-foreground">
-              כל השירותים
-            </h2>
-            {groups.categories.map(({ category, cards: list }) => (
-              <details
-                key={category}
-                open={openCategories.has(category)}
-                onToggle={(e) => setCategoryOpen(category, e.currentTarget.open)}
-                className="rounded-xl border border-border bg-background"
-              >
-                <summary className="flex min-h-12 cursor-pointer items-center justify-between px-3 text-sm font-semibold text-foreground">
-                  <span>{CATEGORY_LABEL[category] ?? category}</span>
-                  <span className="text-xs font-normal text-muted-foreground">{list.length}</span>
-                </summary>
-                <div className="grid gap-3 p-3 pt-0">{list.map(renderCard)}</div>
-              </details>
-            ))}
-          </section>
-        </>
+        <section aria-labelledby="sales-all" className="grid gap-2">
+          <h2 id="sales-all" className="text-base font-semibold text-foreground">
+            כל השירותים
+          </h2>
+          {groups.categories.map(({ category, cards: list }) => (
+            <details
+              key={category}
+              open={openCategories.has(category)}
+              onToggle={(e) => setCategoryOpen(category, e.currentTarget.open)}
+              className="rounded-xl border border-border bg-background"
+            >
+              <summary className="flex min-h-12 cursor-pointer items-center justify-between px-3 text-sm font-semibold text-foreground">
+                <span>{CATEGORY_LABEL[category] ?? category}</span>
+                <span className="text-xs font-normal text-muted-foreground">{list.length}</span>
+              </summary>
+              <div className="grid gap-2 p-3 pt-0">{list.map(renderRow)}</div>
+            </details>
+          ))}
+        </section>
       )}
 
       {history.length ? (
@@ -498,6 +548,18 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
             })}
           </ul>
         </section>
+      ) : null}
+
+      {calc && calcCard ? (
+        <SalesCalculator
+          key={calc.key}
+          card={calcCard}
+          preset={calc.preset}
+          cardById={(id) => byId.get(id)}
+          onClose={closeCalc}
+          onCopy={onCopy}
+          onVoucher={openVoucher}
+        />
       ) : null}
 
       <VoucherDialog request={request} onClose={() => setRequest(null)} onIssued={saveHistory} />
