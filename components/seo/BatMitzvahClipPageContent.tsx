@@ -105,7 +105,7 @@ export default function BatMitzvahClipPageContent() {
             צילום באולפן ועריכה מקצועית - מתנה שהאולם לא ישכח.
           </p>
           <p className="mt-4 text-sm font-semibold text-foreground">
-            החל מ-{BAT_MITZVAH_STARTING_PRICE} ₪ - ניתן גם כשובר מתנה
+            {BAT_MITZVAH_STARTING_PRICE} - ניתן גם כשובר מתנה
           </p>
           {/* החלטות הבעלים 11.10.2026: תוספות בתשלום. צילומי חוץ נשארים לפי היקף */}
           <p className="mx-auto mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground">

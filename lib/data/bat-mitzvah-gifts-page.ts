@@ -1,3 +1,5 @@
+import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatConsumerPriceLine } from "@/lib/data/pricing-display";
 import type { RecordingSongExampleVideo } from "@/lib/data/recording-song-modiin-page";
 import { YOUTUBE_BAT_MITZVAH_CLIP_IDS } from "@/lib/data/youtube-embeds";
 
@@ -80,7 +82,9 @@ export const BAT_MITZVAH_PRODUCTION_STYLES: readonly {
   },
 ] as const;
 
-export const BAT_MITZVAH_STARTING_PRICE = "2,590";
+/* החלטת הבעלים 11.10.2026 (ולפי 2.10.2026, מחיר לצרכן כולל מע״מ קודם): היה
+   "2,590" כתוב ביד ובלי מע״מ. עכשיו מהקטלוג: "מ-3,056 ₪ כולל מע״מ (2,590 ₪ + מע״מ)" */
+export const BAT_MITZVAH_STARTING_PRICE = formatConsumerPriceLine(getExVat("bat_mitzvah_clip"), true);
 
 export const BAT_MITZVAH_CLIP_FAQ: readonly {
   id: string;

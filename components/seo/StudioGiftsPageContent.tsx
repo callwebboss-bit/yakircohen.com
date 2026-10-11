@@ -386,7 +386,7 @@ export default function StudioGiftsPageContent() {
               לעמוד קליפ בת מצווה
             </Link>
             <span className="self-center text-sm text-muted-foreground">
-              החל מ-{BAT_MITZVAH_STARTING_PRICE} ₪ · גם כשובר מתנה
+              {BAT_MITZVAH_STARTING_PRICE} · גם כשובר מתנה
             </span>
           </div>
 
