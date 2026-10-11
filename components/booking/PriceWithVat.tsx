@@ -9,8 +9,9 @@ type PriceWithVatProps = {
   /** הצג רק שורה אחת */
   compact?: boolean;
   /**
-   * איזה מחיר מוביל. ברירת המחדל כולל מע״מ: הכולל בגדול ולפני מע״מ בקטן
-   * (החלטת הבעלים 2.10.2026, שלב 4 WP11). "exVat" לעמודי עסקים בלבד.
+   * איזה מחיר מוביל. ברירת המחדל כולל מע״מ, ורק הוא מוצג (D86, 11.10.2026:
+   * בעמוד צרכני מחיר אחד, במקום "ולפני מע״מ בקטן" של 2.10.2026). "exVat" לעמודי
+   * עסקים בלבד, ושם נשארים שני המחירים.
    */
   lead?: "exVat" | "withVat";
 };
@@ -38,7 +39,7 @@ export default function PriceWithVat({
         <span className={cn(s.main, "text-foreground", className)}>
           {consumer.total}
           <span className={cn(s.sub, "mr-1 font-normal text-muted-foreground")}>
-            כולל מע״מ ({consumer.exVatNote})
+            כולל מע״מ
           </span>
         </span>
       );
@@ -46,9 +47,7 @@ export default function PriceWithVat({
     return (
       <span className={cn("inline-flex flex-col gap-0.5", className)}>
         <span className={cn(s.main, "text-foreground")}>{consumer.total}</span>
-        <span className={cn(s.sub, "text-muted-foreground")}>
-          כולל מע״מ ({consumer.exVatNote})
-        </span>
+        <span className={cn(s.sub, "text-muted-foreground")}>כולל מע״מ</span>
       </span>
     );
   }

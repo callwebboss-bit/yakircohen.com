@@ -34,7 +34,7 @@ export default function HomeQuickPaths() {
 
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {HOME_QUICK_PATHS.map((path) => {
-            const price = formatPrice(getExVat(path.priceId), { from: true });
+            const price = formatPrice(getExVat(path.priceId), { from: true, channel: "page" });
 
             return (
               <li
@@ -54,7 +54,7 @@ export default function HomeQuickPaths() {
                   }
                   suitedFor={path.suitedFor}
                   fromPrice={`החל ${price.headline}`}
-                  fromPriceSubline={`${path.priceLabel} · ${price.vatNote}`}
+                  fromPriceSubline={path.priceLabel}
                   ctaLabel="לפרטים והרשמה"
                 />
               </li>

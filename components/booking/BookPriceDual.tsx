@@ -1,6 +1,5 @@
 import type { PriceItemId } from "@/lib/data/pricing-catalog";
 import PricingTransparencyBlock from "@/components/pricing/PricingTransparencyBlock";
-import { VAT_RATE } from "@/lib/data/pricing";
 import { formatPrice, type PriceAudience } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +21,9 @@ const SIZE_CLASS = {
 } as const;
 
 /**
- * מחיר התחלה בכרטיסי /book: כולל מע״מ בגדול, לפני מע״מ בקטן (החלטת הבעלים
- * 2.10.2026). בלי "סופי" ליד מחיר "מ-" (WP2): מחיר התחלה אינו מחיר סופי.
+ * מחיר התחלה בכרטיסי /book. צרכן: מחיר אחד, כולל מע״מ (D86, 11.10.2026, במקום
+ * "ולפני מע״מ בקטן" של 2.10.2026). עסק: לפני מע״מ קודם, והכולל מתחת.
+ * בלי "סופי" ליד מחיר "מ-" (WP2): מחיר התחלה אינו מחיר סופי.
  */
 export default function BookPriceDual({
   exVat,
@@ -32,19 +32,16 @@ export default function BookPriceDual({
   catalogId,
   audience = "consumer",
 }: BookPriceDualProps) {
-  const vat = Math.round(exVat * VAT_RATE);
-  const price = formatPrice(exVat, { from: true, audience });
+  const price = formatPrice(exVat, { from: true, audience, channel: "page" });
 
   return (
     <div className={cn("min-w-0 space-y-0.5", className)}>
       <p className={cn("break-words font-bold text-foreground", SIZE_CLASS[size])}>
         {price.headline}
       </p>
-      <p className="break-words text-xs text-muted-foreground">
-        {audience === "business"
-          ? price.vatNote
-          : `${exVat.toLocaleString("he-IL")} ₪ + מע״מ (18%) ${vat.toLocaleString("he-IL")} ₪`}
-      </p>
+      {price.vatNote ? (
+        <p className="break-words text-xs text-muted-foreground">{price.vatNote}</p>
+      ) : null}
       {catalogId ? <PricingTransparencyBlock catalogId={catalogId} compact /> : null}
     </div>
   );

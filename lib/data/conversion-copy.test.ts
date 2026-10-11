@@ -51,9 +51,28 @@ describe("conversion-copy price labels", () => {
     }
   });
 
-  it("show both the ex-VAT amount and the VAT-inclusive total", () => {
+  /* D86 (11.10.2026): כפתור הזמנה בעמוד צרכני מציג מחיר אחד, כולל מע״מ */
+  const consumerPageLabels = (ex: number) => [
+    hubBookCtaLabel(ex),
+    pricingRowBookCta(ex),
+    pricingRowBookCta(ex, true),
+  ];
+
+  it("consumer page labels show only the VAT-inclusive total (D86)", () => {
     for (const ex of SAMPLES) {
-      for (const out of outputs(ex).filter((o) => o !== formatFromPriceExVat(ex))) {
+      for (const out of consumerPageLabels(ex)) {
+        assert.ok(out.includes(nis(withVat(ex))), `${out} missing ${nis(withVat(ex))}`);
+        assert.doesNotMatch(out, /\+ מע״מ|לפני מע״מ/, out);
+      }
+    }
+  });
+
+  it("everything else shows both the ex-VAT amount and the VAT-inclusive total", () => {
+    for (const ex of SAMPLES) {
+      const pageOnly = new Set(consumerPageLabels(ex));
+      for (const out of outputs(ex).filter(
+        (o) => o !== formatFromPriceExVat(ex) && !pageOnly.has(o),
+      )) {
         assert.ok(out.includes(nis(ex)), `${out} missing ${nis(ex)}`);
         assert.ok(out.includes(nis(withVat(ex))), `${out} missing ${nis(withVat(ex))}`);
       }
@@ -66,7 +85,7 @@ describe("conversion-copy price labels", () => {
     const business = formatFromPriceDual(ex, "business");
     assert.equal(consumer, "מ-590 ₪ כולל מע״מ (500 ₪ + מע״מ)");
     assert.equal(business, "מ-500 ₪ + מע״מ (590 ₪ כולל מע״מ)");
-    assert.ok(hubBookCtaLabel(ex).startsWith("הזמנה מקוונת מ-590 ₪"));
+    assert.equal(hubBookCtaLabel(ex), "הזמנה מקוונת מ-590 ₪ כולל מע״מ");
     assert.ok(whatsappQuoteCta("שיר", ex).startsWith("אני רוצה הצעה לשיר מ-590 ₪"));
   });
 });

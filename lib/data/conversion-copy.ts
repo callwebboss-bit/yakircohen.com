@@ -141,7 +141,8 @@ export function hubBookCtaLabel(
   priceExVat: number,
   audience: PriceAudience = "consumer",
 ): string {
-  return `הזמנה מקוונת ${formatFromPriceDual(priceExVat, audience)}`;
+  /* תווית כפתור בעמוד: ערוץ "page" (D86, 11.10.2026) */
+  return `הזמנה מקוונת ${formatFromPriceDual(priceExVat, audience, "page")}`;
 }
 
 /** אותו כפתור לעמודי צרכן שמציגים כולל מע״מ (עמודים עם טופס הקלטת השיר) */
@@ -154,7 +155,7 @@ export function pricingRowBookCta(
   priceFrom = false,
   audience: PriceAudience = "consumer",
 ): string {
-  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom, audience)}`;
+  return `${CTA_LABELS.bookOnline} - ${formatHubPriceDual(priceExVat, priceFrom, audience, "page")}`;
 }
 
 export const VALUE_FRAME_BY_CATEGORY: Record<BookCategoryId, string> = {

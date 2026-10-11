@@ -29,9 +29,10 @@ describe("resolveServiceBookCta VAT display", () => {
     );
   });
 
-  it("עמוד צרכן אחר: כולל מע״מ קודם ולפני מע״מ בסוגריים", () => {
+  /* D86 (11.10.2026): בעמוד צרכני מחיר אחד, כולל מע״מ, בלי הסוגריים */
+  it("עמוד צרכן אחר: מחיר אחד, כולל מע״מ", () => {
     const cta = resolveServiceBookCta("events/dj-events");
-    assert.equal(cta?.bookLabel, "הזמנה מקוונת מ-5,900 ₪ כולל מע״מ (5,000 ₪ + מע״מ)");
+    assert.equal(cta?.bookLabel, "הזמנה מקוונת מ-5,900 ₪ כולל מע״מ");
   });
 
   it("עמוד עסקים: לפני מע״מ קודם", () => {

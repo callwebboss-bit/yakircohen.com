@@ -30,13 +30,9 @@ const PODCAST_FROM_ID: PriceItemId = "podcast_audio";
 
 function HeroPrice({ id }: { id: PriceItemId }) {
   const exVat = getExVat(id);
-  const price = formatPrice(exVat, { from: true });
-  return (
-    <>
-      <data value={String(price.totalWithVat)}>{price.headline}</data>{" "}
-      <span className="text-sm">({price.vatNote})</span>
-    </>
-  );
+  /* D86 (11.10.2026): מחיר אחד, כולל מע״מ. קודם כל מחיר בפסקה הופיע פעמיים */
+  const price = formatPrice(exVat, { from: true, channel: "page" });
+  return <data value={String(price.totalWithVat)}>{price.headline}</data>;
 }
 
 export type HomeHeroProps = {

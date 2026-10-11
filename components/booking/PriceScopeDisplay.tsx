@@ -60,7 +60,14 @@ export default function PriceScopeDisplay({
   lead = "withVat",
 }: PriceScopeDisplayProps) {
   const audience = lead === "exVat" ? "business" : "consumer";
-  const lines = formatPriceScopeDisplay({ exVat, scope, showFromPrefix, audience });
+  /* D86 (11.10.2026): רכיב תצוגה, ולכן תמיד ערוץ "page". צרכן רואה מחיר אחד */
+  const lines = formatPriceScopeDisplay({
+    exVat,
+    scope,
+    showFromPrefix,
+    audience,
+    channel: "page",
+  });
   const s = sizeClasses[size];
 
   if (compact) {
@@ -72,7 +79,7 @@ export default function PriceScopeDisplay({
   }
 
   if (withEditing) {
-    const dual = formatDualPriceLines(exVat, withEditing, audience);
+    const dual = formatDualPriceLines(exVat, withEditing, audience, "page");
     const editTotal = withVat(withEditing.exVat).toLocaleString("he-IL");
     return (
       <div className={cn("space-y-1", className)}>
@@ -115,7 +122,7 @@ export default function PriceScopeDisplay({
       {lines.scopeLine ? (
         <p className={cn(s.scope, "text-muted-foreground")}>{lines.scopeLine}</p>
       ) : null}
-      {!hideVatLine ? (
+      {!hideVatLine && lines.vatLine ? (
         <p className={cn(s.vat, "text-muted-foreground")}>{lines.vatLine}</p>
       ) : null}
       {lines.beforeVatLine ? (
