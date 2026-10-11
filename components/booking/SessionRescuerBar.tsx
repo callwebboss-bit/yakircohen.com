@@ -3,62 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  scanBookingDrafts,
-  sessionRescuerDismissKey,
-  type RescuableDraft,
-} from "@/lib/booking-draft-rescuer";
+import { scanBookingDrafts, type RescuableDraft } from "@/lib/booking-draft-rescuer";
+import { usePopupSlot } from "@/hooks/usePopupSlot";
 import { trackConversion } from "@/lib/analytics/conversion-events";
-import { claimBottomSlot, releaseBottomSlot } from "@/lib/bottom-overlay-slot";
 import { useEscapeLayer } from "@/hooks/useEscapeLayer";
 import { cn } from "@/lib/utils";
 
-function isDismissedForDraft(category: RescuableDraft["category"], savedAt: string): boolean {
-  try {
-    return sessionStorage.getItem(sessionRescuerDismissKey(category)) === savedAt;
-  } catch {
-    return false;
-  }
-}
+/* הרכיב סורק טיוטות ומחליט אם יש מה להציע. מתי להציג (25 שניות או 40 אחוז
+   גלילה, אחד לביקור, לא בזמן מילוי טופס במובייל) ואיך הסגירה נשמרת מנוהלים
+   ב-lib/popup-manager.ts. הסגירה היא לפי טיוטה (scope), כך שטיוטה חדשה מציעה
+   שוב גם בתוך 30 הימים של סגירת הקודמת. */
 
 export default function SessionRescuerBar() {
   const pathname = usePathname();
   const [draft, setDraft] = useState<RescuableDraft | null>(null);
-  const [visible, setVisible] = useState(false);
   const shownRef = useRef<string | null>(null);
 
+  const onBookPage = pathname?.startsWith("/book") ?? false;
+
   const refresh = useCallback(() => {
-    if (pathname?.startsWith("/book")) {
-      setVisible(false);
-      return;
-    }
-    const found = scanBookingDrafts();
-    if (!found) {
-      setDraft(null);
-      setVisible(false);
-      return;
-    }
-    if (isDismissedForDraft(found.category, found.savedAt)) {
-      setDraft(found);
-      setVisible(false);
-      return;
-    }
-    setDraft(found);
-    // מתאם שכבה תחתונה: לא להציג אם סרגל תחתון אחר כבר פתוח (מונע היערמות/ריצוד)
-    if (!claimBottomSlot("rescuer")) {
-      setVisible(false);
-      return;
-    }
-    setVisible(true);
-    const trackKey = `${found.category}:${found.step}:${found.savedAt}`;
-    if (shownRef.current !== trackKey) {
-      shownRef.current = trackKey;
-      trackConversion("session_rescuer_shown", {
-        category: found.category,
-        step: found.step,
-      });
-    }
-  }, [pathname]);
+    setDraft(scanBookingDrafts());
+  }, []);
 
   useEffect(() => {
     queueMicrotask(() => refresh());
@@ -78,34 +43,35 @@ export default function SessionRescuerBar() {
     };
   }, [refresh]);
 
+  const slot = usePopupSlot("rescuer", {
+    enabled: !!draft && !onBookPage,
+    priority: 40,
+    scope: draft ? `${draft.category}:${draft.savedAt}` : undefined,
+  });
+
   useEffect(() => {
-    if (!visible) {
-      releaseBottomSlot("rescuer");
-      return undefined;
-    }
-    // cleanup רשום רק כשגלוי - כדי שמעבר false->true לא ישחרר את ה-claim הטרי
-    return () => releaseBottomSlot("rescuer");
-  }, [visible]);
+    if (!slot.visible || !draft) return;
+    const trackKey = `${draft.category}:${draft.step}:${draft.savedAt}`;
+    if (shownRef.current === trackKey) return;
+    shownRef.current = trackKey;
+    trackConversion("session_rescuer_shown", {
+      category: draft.category,
+      step: draft.step,
+    });
+  }, [slot.visible, draft]);
 
-  // שחרור בטיחות ב-unmount (unmount נדיר בין claim ל-commit)
-  useEffect(() => () => releaseBottomSlot("rescuer"), []);
-
+  const { dismiss: dismissSlot } = slot;
   const dismiss = useCallback(() => {
     if (!draft) return;
-    try {
-      sessionStorage.setItem(sessionRescuerDismissKey(draft.category), draft.savedAt);
-    } catch {
-      /* ignore */
-    }
     trackConversion("session_rescuer_dismiss", { category: draft.category });
-    setVisible(false);
-  }, [draft]);
+    dismissSlot();
+  }, [draft, dismissSlot]);
 
   /* F-74: Escape סוגר את הסרגל מכל מקום, כמו "הסתירו". שכבת רקע: לא גוברת על
      תפריט, צ'אט או חלון מודאלי פתוחים, ולא פועלת כשהמיקוד בשדה טקסט. */
-  useEscapeLayer({ active: visible && !!draft, onEscape: dismiss, ambient: true });
+  useEscapeLayer({ active: slot.visible && !!draft, onEscape: dismiss, ambient: true });
 
-  if (!visible || !draft) return null;
+  if (!slot.visible || !draft) return null;
 
   return (
     <div

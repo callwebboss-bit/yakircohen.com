@@ -1,6 +1,7 @@
 "use client";
 
 import { useEscapeLayer } from "@/hooks/useEscapeLayer";
+import { usePopupSlot } from "@/hooks/usePopupSlot";
 import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
 import { cn } from "@/lib/utils";
 
@@ -23,18 +24,32 @@ export default function WizardIdleHelpBubble({
   cta = BOOK_WIZARD_COPY.idleHelpCta,
   dismiss = BOOK_WIZARD_COPY.idleHelpDismiss,
 }: WizardIdleHelpBubbleProps) {
+  /* "now": נבדק ברגע שהאשף מזהה חוסר פעילות. במובייל האשף הוא טופס, ולכן
+     מנהל הפופאפים לא יציג אותו שם בזמן מילוי. (feature/popup-manager, בהירות 1ג) */
+  const slot = usePopupSlot("wizard-idle", {
+    enabled: visible,
+    priority: 30,
+    mode: "now",
+  });
+  const shown = visible && slot.visible;
+
+  function handleDismiss() {
+    slot.dismiss();
+    onDismiss();
+  }
+
   /* F-74: הבועה כבר לא נעלמת בכל מקש או גלילה (useWizardUserIdle), ולכן יש לה
      סגירה מפורשת ב-Escape. שכבת רקע: לא גוברת על חלון מודאלי, תפריט או צ'אט
      פתוחים. allowInFields כי הבועה קופצת אחרי 45 שניות של חוסר פעילות, ובדרך
      כלל המיקוד אז נשאר בשדה של האשף. */
   useEscapeLayer({
-    active: visible,
-    onEscape: onDismiss,
+    active: shown,
+    onEscape: handleDismiss,
     ambient: true,
     allowInFields: true,
   });
 
-  if (!visible) return null;
+  if (!shown) return null;
 
   return (
     <div
@@ -62,7 +77,7 @@ export default function WizardIdleHelpBubble({
         </a>
         <button
           type="button"
-          onClick={onDismiss}
+          onClick={handleDismiss}
           className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground"
         >
           {dismiss}

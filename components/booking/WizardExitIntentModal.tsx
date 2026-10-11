@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback } from "react";
+import { usePopupSlot } from "@/hooks/usePopupSlot";
 import { BOOK_WIZARD_COPY } from "@/lib/data/book-wizard-copy";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { markBookExitIntentShown } from "@/lib/book-wizard-urgency";
@@ -29,25 +31,37 @@ export default function WizardExitIntentModal({
   continueCta = BOOK_WIZARD_COPY.exitIntentCta,
   dismissCta = BOOK_WIZARD_COPY.exitIntentDismiss,
 }: WizardExitIntentModalProps) {
+  /* "now": הרגע של יציאה חולף, לכן אם מנהל הפופאפים לא פנוי עכשיו (שער הזמן,
+     פופאפ אחר פעיל, כבר הוצג בביקור הזה) המודאל לא מחכה בתור.
+     (feature/popup-manager, בהירות 1ג) */
+  const slot = usePopupSlot("wizard-exit", {
+    enabled: open,
+    priority: 50,
+    mode: "now",
+  });
+  const { visible, dismiss } = slot;
+
+  const handleDismiss = useCallback(() => {
+    markBookExitIntentShown();
+    dismiss();
+    onClose();
+  }, [dismiss, onClose]);
+
   /* F-18, 7.10.2026. Escape ממשיך לקרוא ל-onClose ישירות ולא ל-handleDismiss
      (כמו שהיה): הוא לא מסמן markBookExitIntentShown, רק הכפתור מסמן.
      מיקוד ראשוני על החלון עצמו ולא על "המשך": החלון קופץ כשהעכבר יוצא מראש
      הדף, לפעמים באמצע הקלדה, ו-Space או Enter היו מפעילים את ה-CTA בטעות. */
   const dialogRef = useModalA11y({
-    active: open,
+    active: open && visible,
     onEscape: onClose,
     initialFocus: "container",
   });
 
-  if (!open) return null;
-
-  function handleDismiss() {
-    markBookExitIntentShown();
-    onClose();
-  }
+  if (!open || !visible) return null;
 
   function handleContinue() {
     markBookExitIntentShown();
+    dismiss();
     onContinue();
   }
 
