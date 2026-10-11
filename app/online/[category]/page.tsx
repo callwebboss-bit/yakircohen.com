@@ -14,14 +14,14 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   if (!item) {
     return constructMetadata({
       title: "שירותי אונליין",
-      description: "שירותי AI אונליין מקצה לקצה.",
+      description: "שירותי AI אונליין, עם תוצר מוכן.",
       slug: "online",
     });
   }
 
   return constructMetadata({
     title: `${item.title} | שירותי AI אונליין`,
-    description: `${item.description} שירות Done-for-You מלא כולל ליווי אישי, ביצוע מקצה לקצה ותוצר מוכן.`,
+    description: `${item.description} שירות Done-for-You מלא: ליווי אישי, ביצוע ותוצר מוכן.`,
     slug: `online/${item.slug}`,
     keywords: ["שירותי AI אונליין", item.title, "Done for you", "הפקה מרחוק", "שירותים דיגיטליים"],
   });

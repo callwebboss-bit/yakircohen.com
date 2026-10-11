@@ -47,7 +47,7 @@ export default function VoiceoverServicesPageContent() {
         />
         <BusinessCrossLink
           title="הפקת ספרי שמע"
-          text="הקלטה ועריכה מקצה לקצה. ACX, Spotify ואייקאסט."
+          text="הקלטה, עריכה ומאסטרינג. ACX, Spotify ואייקאסט."
           href="/business/audiobooks"
           linkLabel="ספרי שמע"
         />

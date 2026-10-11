@@ -45,7 +45,7 @@ function tier(
 
 export const AUDIOBOOKS_CONFIG: BusinessPageConfig = {
   brand: "הפקת ספרי שמע",
-  pageTitle: "הפקת ספר קולי מקצה לקצה",
+  pageTitle: "הפקת ספר קולי: הקלטה, עריכה ומאסטרינג",
   subtitle:
     "הקלטה, עריכה ומאסטרינג לספר קולי. לסופרים עצמאיים ומוציאים לאור.",
   pageFeatures: [

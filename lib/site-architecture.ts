@@ -265,7 +265,7 @@ const NAV_CATEGORIES: Record<NavCategoryId, SiteNavCategory> = {
       {
         label: "ספרי שמע",
         href: "/business/audiobooks",
-        description: "הפקת ספר קולי מקצה לקצה",
+        description: "הפקת ספר קולי: הקלטה, עריכה ומאסטרינג",
       },
       {
         label: "ניהול סושיאל לעסקים",

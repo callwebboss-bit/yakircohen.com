@@ -348,7 +348,7 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
       {
         label: "ספרי שמע",
         href: "/business/audiobooks",
-        title: "הפקת ספר קולי מקצה לקצה",
+        title: "הפקת ספר קולי: הקלטה, עריכה ומאסטרינג",
       },
       {
         label: "אולפן זמני בחברה",

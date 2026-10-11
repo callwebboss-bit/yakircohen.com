@@ -2224,7 +2224,7 @@ export const EVENTS_SERVICES = {
     ],
     hubCard: {
       title: "מנחה ומנהל אירוע",
-      description: "ניהול ערב חלק מקצה לקצה.",
+      description: "ניהול הערב לפי תסריט שבונים יחד.",
     },
     showInEventsHub: true,
     showInAttractionsHub: false,

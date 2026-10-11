@@ -149,7 +149,7 @@ export const BUSINESS_HUB_GROUPS: readonly BusinessHubGroup[] = [
         id: "audiobooks",
         icon: "📚",
         title: "ספרי שמע",
-        description: "הקלטה ועריכה מקצה לקצה. ACX, Spotify ואייקאסט.",
+        description: "הקלטה, עריכה ומאסטרינג. ACX, Spotify ואייקאסט.",
         href: "/business/audiobooks",
         priceHint: "החל מ-750 ₪/שעה",
       },

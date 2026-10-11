@@ -91,8 +91,8 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
             {category.title} - שירותי AI אונליין
           </h1>
           <p className="text-lead mx-auto mt-4 max-w-2xl text-muted-foreground">
-            {category.description} אנחנו מבצעים את כל העבודה מקצה לקצה ומחזירים תוצר
-            מוכן לפרסום או שימוש מיידי.
+            {category.description} אנחנו עושים את כל העבודה ומחזירים תוצר מוכן
+            לפרסום או לשימוש מיידי.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button

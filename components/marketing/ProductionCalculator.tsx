@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
    "Valid" state:  event ≥ 5 days away - render the full timeline.
 
    All text follows De-Robotized copy rules:
-   no long dashes, no robotic list markers, no "חשוב לציין" or boilerplate.
+   no long dashes, no robotic list markers, no "it is important to note" filler or boilerplate.
    ───────────────────────────────────────────────────────────────────────────── */
 
 /* ─── Helpers ────────────────────────────────────────────────────────────────*/
