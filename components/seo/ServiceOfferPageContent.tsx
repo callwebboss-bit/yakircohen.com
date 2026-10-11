@@ -183,7 +183,7 @@ export default function ServiceOfferPageContent({ page }: { page: ServiceOfferPa
                       {row.addon ? "+" : row.from ? "מ-" : ""}
                       {price.totalLabel}
                     </p>
-                    <p className="text-xs text-muted-foreground">{price.exVatNote}</p>
+                    {/* D86 (11.10.2026): בעמוד צרכני מחיר אחד, כולל מע״מ */}
                   </div>
                 </li>
               );

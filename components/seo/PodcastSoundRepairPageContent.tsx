@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withVat } from "@/lib/data/pricing";
 import FAQWithCtaLinks, { type FaqCtaItem } from "@/components/ui/FAQWithCtaLinks";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { SITE_NAME } from "@/lib/constants";
@@ -70,7 +71,7 @@ export const FAQ_ITEMS: FaqCtaItem[] = [
   {
     id: "price",
     question: "כמה עולה תיקון סאונד לפודקאסט?",
-    answer: `תיקון של קטע קצר מתחיל ב-${PRICE_EX_VAT.toLocaleString("he-IL")} ₪ לפני מע״מ. לפרק שלם המחיר נקבע לפי האורך ומה שההקלטה צריכה - שולחים קובץ, מקבלים הצעה אחרי הסקיצה החינמית.`,
+    answer: `תיקון של קטע קצר מתחיל ב-${withVat(PRICE_EX_VAT).toLocaleString("he-IL")} ₪ כולל מע״מ. לפרק שלם המחיר נקבע לפי האורך ומה שההקלטה צריכה - שולחים קובץ, מקבלים הצעה אחרי הסקיצה החינמית.`,
     ctaText: "קבלו הצעה",
     whatsappMessage: "שלום, אשמח להצעת מחיר לתיקון סאונד של פרק פודקאסט.",
     utm_campaign: "podcast_repair_faq_price",
