@@ -164,6 +164,8 @@ const ADDON_ONLY_IDS = new Set<PriceItemId>([
   "podcast_extra_participant",
   "event_extra_activation",
   "express_delivery",
+  /* 11.10.2026: זמר מהצוות הוא תוספת לשיר, לא שירות בפני עצמו */
+  "song_house_singer",
 ]);
 
 /* בקטגוריית addons, אבל שירות שעומד לבד: "שירות נפרד משדרוג AI" (context בקטלוג) */
@@ -207,7 +209,14 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     "singer_travel_south",
   ] as const satisfies readonly PriceItemId[];
   const roomTime = ["studio_extra_participant"] as const satisfies readonly PriceItemId[];
-  const song = ["studio_extra_revision", "studio_half_hour"] as const satisfies readonly PriceItemId[];
+  const song = [
+    "studio_extra_revision",
+    "studio_half_hour",
+    /* 11.10.2026: זמר מהצוות ושדרוג אירוח לסשן קבוצתי (lib/data/service-offers) */
+    "song_house_singer",
+    "studio_hospitality_upgrade",
+  ] as const satisfies readonly PriceItemId[];
+  const writtenSong = ["song_house_singer"] as const satisfies readonly PriceItemId[];
   return {
     singer_amp_basic: singer,
     singer_amp_premium: singer,
@@ -215,6 +224,9 @@ const SALES_EXTRA_ADDON_LINKS: Partial<Record<PriceItemId, readonly PriceItemId[
     studio_half_hour: roomTime,
     studio_hour: roomTime,
     song_recording: song,
+    song_original_mitzvah: writtenSong,
+    song_parody: writtenSong,
+    ai_song_ai_voice: writtenSong,
   };
 })();
 

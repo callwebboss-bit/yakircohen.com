@@ -4,8 +4,8 @@
   "currency": "ILS",
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
-  "itemCount": 180,
-  "contentHash": "bc06f2412251afff",
+  "itemCount": 187,
+  "contentHash": "aad6c9e422afce93",
   "items": [
     {
       "id": "studio_half_hour",
@@ -129,6 +129,46 @@
       "priceFrom": false,
       "context": "שתייה מתוקה קרה מהמיני בר בלי הגבלה, מארז מתוקים, וקפה או תה שמוכנים מראש. מים חופשי גם בלי השדרוג.",
       "suitedFor": "סשן קבוצתי, מסיבת רווקות, יום הולדת"
+    },
+    {
+      "id": "song_parody",
+      "label": "פרודיה: כתיבת מילים והקלטה",
+      "category": "studio",
+      "exVat": 650,
+      "inclVat": 767,
+      "priceFrom": false,
+      "context": "מילים חדשות ללחן מוכר, לפי הפרטים שאתם שולחים. בוחרים יחד לחן ומי שר, ומקליטים, מיקס ומאסטר.",
+      "suitedFor": "יום הולדת, חתונה, פרישה, מסיבת רווקות"
+    },
+    {
+      "id": "song_house_singer",
+      "label": "זמר או זמרת מהצוות שלנו",
+      "category": "studio",
+      "exVat": 350,
+      "inclVat": 413,
+      "priceFrom": false,
+      "context": "זמר או זמרת מהצוות שלנו מבצעים את השיר במקומכם. תוספת לשיר קיים, לשיר מקורי, לפרודיה או לשיר AI.",
+      "suitedFor": "מי שרוצה שיר מתנה בלי לשיר בעצמו"
+    },
+    {
+      "id": "ai_song_ai_voice",
+      "label": "שיר AI במתנה, בקול AI",
+      "category": "studio",
+      "exVat": 339,
+      "inclVat": 400,
+      "priceFrom": false,
+      "context": "כותבים יחד את המילים, המוזיקה והקול נוצרים ב-AI, ואנחנו מלטשים ומערבבים. הכול מרחוק.",
+      "suitedFor": "מתנה ליום הולדת, יום נישואין, הפתעה"
+    },
+    {
+      "id": "ai_song_your_voice",
+      "label": "שיר AI במתנה, בקול שלכם",
+      "category": "studio",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "כותבים יחד את המילים, המוזיקה ב-AI, ואתם מקליטים את הקול בטלפון ושולחים. אנחנו מנקים, מתקנים ומערבבים.",
+      "suitedFor": "מתנה בקול שלכם, בלי להגיע לאולפן"
     },
     {
       "id": "song_home_media_40",
@@ -337,6 +377,26 @@
       "priceFrom": false,
       "context": "פגישת אפיון לפורמט, טריילר, ותמונת עטיפה ממעצב מקצועי. הקלטת הפרקים מתומחרת בנפרד.",
       "suitedFor": "פודקאסט חדש, לפני הפרק הראשון"
+    },
+    {
+      "id": "live_podcast_with_sound",
+      "label": "פודקאסט חי מהבמה, עם ההגברה שלנו",
+      "category": "podcast",
+      "exVat": 6000,
+      "inclVat": 7080,
+      "priceFrom": true,
+      "context": "הגעה עם כל הציוד, התאורה והצוות, עד 4 על הבמה, צילום וידאו, והגברה לקהל עד 250 איש.",
+      "suitedFor": "כנס, אירוע חברה, ערב קהילה"
+    },
+    {
+      "id": "live_podcast_venue_sound",
+      "label": "פודקאסט חי מהבמה, עם ההגברה של המקום",
+      "category": "podcast",
+      "exVat": 3500,
+      "inclVat": 4130,
+      "priceFrom": true,
+      "context": "הגעה עם כל הציוד, התאורה והצוות, עד 4 על הבמה וצילום וידאו. מתחברים להגברה שכבר יש במקום.",
+      "suitedFor": "אולם או כנס שיש בו הגברה"
     },
     {
       "id": "podcast_editing_hour",
@@ -929,6 +989,16 @@
       "inclVat": 1168,
       "priceFrom": false,
       "context": "שיעור 1:1 באולפן או בזום"
+    },
+    {
+      "id": "host_coaching_hour",
+      "label": "אימון הנחיה, שעה",
+      "category": "academy",
+      "exVat": 500,
+      "inclVat": 590,
+      "priceFrom": false,
+      "context": "שעה עם מאמן שבוחרים, במתחם ההפקה שלנו, עם המיקרופונים והאולפן",
+      "suitedFor": "מנחי פודקאסט, מגישים, מי שעולה מול מיקרופון או מצלמה"
     },
     {
       "id": "vocal_coaching_hour",
