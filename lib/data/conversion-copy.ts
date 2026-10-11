@@ -119,7 +119,8 @@ export function whatsappQuoteCta(
   priceExVat: number,
   audience: PriceAudience = "consumer",
 ): string {
-  return `אני רוצה הצעה ל${serviceLabel} ${formatFromPriceDual(priceExVat, audience)}`;
+  /* תווית כפתור בעמוד: ערוץ "page" (D86, 11.10.2026) */
+  return `אני רוצה הצעה ל${serviceLabel} ${formatFromPriceDual(priceExVat, audience, "page")}`;
 }
 
 export function sendBookingWaCta(totalWithVat: number): string {
@@ -134,7 +135,7 @@ export function whatsappAriaLabel(
   priceExVat: number,
   audience: PriceAudience = "consumer",
 ): string {
-  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat, audience)}`;
+  return `סגרו ${serviceLabel} בוואטסאפ - ${formatFromPriceDual(priceExVat, audience, "page")}`;
 }
 
 export function hubBookCtaLabel(

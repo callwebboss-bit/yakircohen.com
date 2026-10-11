@@ -53,6 +53,8 @@ describe("conversion-copy price labels", () => {
 
   /* D86 (11.10.2026): כפתור הזמנה בעמוד צרכני מציג מחיר אחד, כולל מע״מ */
   const consumerPageLabels = (ex: number) => [
+    whatsappQuoteCta("הקלטת שיר", ex),
+    whatsappAriaLabel("הקלטת שיר", ex),
     hubBookCtaLabel(ex),
     pricingRowBookCta(ex),
     pricingRowBookCta(ex, true),

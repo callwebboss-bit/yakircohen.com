@@ -119,8 +119,10 @@ describe("podcast with grandpa costs the same as a regular podcast", () => {
 
   it("FAQ quotes the regular podcast prices, no 'depends on the package'", () => {
     const price = PODCAST_GRANDPA_FAQS.find((f) => f.id === "price")?.answer ?? "";
-    assert.match(price, /1,121 ₪ כולל מע״מ \(950 ₪ \+ מע״מ\)/);
-    assert.match(price, /1,947 ₪ כולל מע״מ \(1,650 ₪ \+ מע״מ\)/);
+    /* D86 (11.10.2026): תשובה בעמוד, ולכן מחיר אחד, כולל מע״מ */
+    assert.match(price, /1,121 ₪ כולל מע״מ/);
+    assert.match(price, /1,947 ₪ כולל מע״מ/);
+    assert.doesNotMatch(price, /\+ מע״מ|לפני מע״מ/);
     assert.doesNotMatch(price, /המחיר משתנה לפי החבילה/);
     const people = PODCAST_GRANDPA_FAQS.find((f) => f.id === "participants")?.answer ?? "";
     assert.match(people, /עד 12/);

@@ -273,8 +273,8 @@ export default function SingerAmplificationPageContent() {
                         {pkg.badge}
                       </span>
                     ) : null}
+                    {/* בכרטיס מחיר אחד, כולל מע״מ (D86). ההודעה למעלה נשארת עם שניהם */}
                     <span className="text-xl font-bold text-brand-red">{packagePrice.headline}</span>
-                    <span className="text-xs text-muted-foreground">{packagePrice.vatNote}</span>
                   </div>
                   <ul className="mt-4 flex-1 space-y-1.5 text-sm text-muted-foreground">
                     {pkg.includes.map((line) => (
