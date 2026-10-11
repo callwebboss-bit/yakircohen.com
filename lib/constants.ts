@@ -7,7 +7,7 @@ export const SITE_NAME = "יקיר כהן הפקות";
 export const FOUNDER_NAME = "יקיר כהן";
 
 /** Short label for page kickers (no first name) */
-export const SITE_KICKER = "הפקות מקצועית במודיעין";
+export const SITE_KICKER = "הפקות מקצועיות במודיעין";
 
 /** Brand logo - header and footer */
 export const SITE_LOGO_SRC = "/images/logo.svg";

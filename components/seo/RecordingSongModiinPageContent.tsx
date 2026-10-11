@@ -52,6 +52,11 @@ const heroProps = withServicePageHeroDefaults(pageHero);
 /* מחירים לצרכן: כולל מע״מ קודם (החלטת הבעלים 2.10.2026). הטופס עצמו
    מחשב הכול מ-song-offer, וכאן רק שורות הטקסט שמסביבו. */
 const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
+/* הדוגמה מתחת למחיר: מה שרוב הלקוחות לוקחים, בסיס ותיקון זיופים
+   (החלטת הבעלים D98, 11.10.2026). המחיר מהקטלוג, לא ביד */
+const SONG_WITH_PITCH_PRICE = formatConsumerPrice(
+  getExVat("song_recording") + getExVat("song_pitch_coaching"),
+);
 const SONG_JOURNEY = getSongJourney();
 const SONG_SCOPE_INCLUDES = getPriceById("song_recording").scope?.includes ?? "הקלטה, מיקס ומאסטר";
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
@@ -123,6 +128,21 @@ export default function RecordingSongModiinPageContent() {
               {SONG_PRICE.totalLabel}: הקלטה, מיקס ומאסטר בסשן של שעה. לכל
               תוספת יש מחיר גלוי, ובטופס כאן רואים את הסכום הסופי לפני ששולחים.
             </p>
+            {/* שלוש התשובות שבאות בטלפון אחרי המחיר (החלטות הבעלים D98, 11.10.2026) */}
+            <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <li>
+                <strong className="font-semibold text-foreground">מה רוב הלקוחות לוקחים:</strong>{" "}
+                הקלטה ותיקון זיופים, {SONG_WITH_PITCH_PRICE.totalLabel}.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">פלייבק:</strong> מוצאים
+                אותו יחד, והתאמת הסולם לקול שלכם כלולה במחיר.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">כמה זמן ומתי מקבלים:</strong>{" "}
+                שעה באולפן, והשיר אצלכם בסוף הסשן.
+              </li>
+            </ul>
           </section>
 
           <div>
@@ -794,7 +814,7 @@ export default function RecordingSongModiinPageContent() {
               ))}
             </ul>
             <p className="mt-6 text-center text-xs text-muted-foreground">
-              המחירים בעמוד כוללים מע״מ. ניתן לשלם בצ׳ק, אשראי, העברה בנקאית או
+              המחירים בעמוד כוללים מע״מ. ניתן לשלם באשראי, Bit, PayBox, Apple Pay, העברה בנקאית או
               PayPal.
             </p>
           </section>

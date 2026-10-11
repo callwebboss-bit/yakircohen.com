@@ -129,7 +129,8 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
   {
     id: "song-recording",
     kicker: "אולפן",
-    title: "כמה עולה להקליט שיר ב-2026?",
+    /* ניסוח של שוק: את "כמה עולה להקליט שיר" מחזיק עמוד השיר (4.10.2026) */
+    title: "מחירי הקלטת שיר בשוק, 2026",
     intro:
       `הקלטת שיר באולפן ב-2026 (הקלטה, מיקס ומאסטר) עולה ${nisEx("song_recording")}, ברכה ${nisEx("blessing_recording")} וסינגל מקורי ${nisEx("single_production")} - לפני מע"מ.`,
     note:
@@ -218,7 +219,7 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
   {
     id: "podcast-pricing",
     kicker: "פודקאסט",
-    title: "כמה עולה להקים, להקליט ולערוך פודקאסט ב-2026?",
+    title: "מחירי פודקאסט בשוק, 2026: הקמה, הקלטה ועריכה",
     intro:
       "פודקאסט אודיו עולה 950 ₪ לפרק, פודקאסט וידאו 1,650 ₪, הפקה מלאה 2,500 ₪, ועריכה נפרדת 750 ₪ לשעת חומר - לפני מע\"מ.",
     note:
@@ -254,7 +255,7 @@ export const INDUSTRY_2026_SECTIONS: readonly Industry2026Section[] = [
 export const INDUSTRY_2026_FAQS: readonly Industry2026FaqItem[] = [
   {
     id: "record-song-2026",
-    question: "כמה עולה להקליט שיר ב-2026?",
+    question: "מה טווח המחירים להקלטת שיר בשוק ב-2026?",
     answer: buildRecordingSongStudioPriceAnswer(),
   },
   {
