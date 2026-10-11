@@ -47,8 +47,14 @@ try {
 }
 
 let violations = 0;
+let errors = 0;
 const browser = await chromium.launch();
-const page = await browser.newPage();
+// context מפורש ולא browser.newPage(): analyze() פותח עמוד ריק נוסף באותו
+// context כדי לאחד את התוצאות (finishRun ב-@axe-core/playwright), ו-Playwright
+// חוסם עמוד שני ב-context שנוצר דרך browser.newPage(). עד 11.10.2026 כל עמוד
+// נכשל כך ב-"Please use browser.newContext()" והשגיאות נספרו כממצאים.
+const context = await browser.newContext();
+const page = await context.newPage();
 
 for (const path of PAGES_TO_CHECK) {
   const url = `${BASE_URL}${path}`;
@@ -78,15 +84,19 @@ for (const path of PAGES_TO_CHECK) {
     }
   } catch (err) {
     console.error(`\n  Error: ${err instanceof Error ? err.message : err}`);
-    if (force) violations += 1;
+    errors += 1;
   }
 }
 
 await browser.close();
 
-if (violations > 0) {
-  console.error(`\naudit:a11y FAILED — ${violations} critical/serious issue(s).`);
+// שגיאת טעינה או סריקה נספרת לחוד: עמוד שלא נבדק אינו ממצא נגישות
+if (violations > 0 || (force && errors > 0)) {
+  const parts = [];
+  if (violations > 0) parts.push(`${violations} critical/serious issue(s)`);
+  if (errors > 0) parts.push(`${errors} page(s) not checked (error)`);
+  console.error(`\naudit:a11y FAILED: ${parts.join(", ")}.`);
   process.exit(1);
 }
 
-console.log("\naudit:a11y OK");
+console.log(errors > 0 ? `\naudit:a11y OK (${errors} page(s) not checked)` : "\naudit:a11y OK");
