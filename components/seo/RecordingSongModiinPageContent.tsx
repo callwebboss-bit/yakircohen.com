@@ -23,7 +23,7 @@ import {
 } from "@/lib/data/recording-song-modiin-page";
 import { RECORDING_SONG_MODIIN_VIDEOS } from "@/lib/data/youtube-showcases";
 import { getStudioService } from "@/lib/data/services";
-import { getExVat } from "@/lib/data/pricing-catalog";
+import { getExVat, getPriceById } from "@/lib/data/pricing-catalog";
 import { formatConsumerPrice } from "@/lib/data/pricing-display";
 import {
   getSongParticipantsBreakdown,
@@ -51,6 +51,9 @@ const heroProps = withServicePageHeroDefaults(pageHero);
    מחשב הכול מ-song-offer, וכאן רק שורות הטקסט שמסביבו. */
 const SONG_PRICE = formatConsumerPrice(getExVat("song_recording"));
 const BLESSING_PRICE = formatConsumerPrice(getExVat("blessing_recording"));
+/* שמירה קבועה בענן: השם והמחיר מהקטלוג (החלטת הבעלים 6.10.2026) */
+const CLOUD_STORAGE_LABEL = getPriceById("cloud_storage_permanent").label;
+const CLOUD_STORAGE_PRICE = formatConsumerPrice(getExVat("cloud_storage_permanent"));
 const SONG_OFFER_ANCHOR = `#${SONG_OFFER_SECTION_ID}`;
 const SONG_PARTICIPANTS_LINE = (() => {
   /* טקסט בעמוד: כולל מע״מ בלבד (D86, 11.10.2026) */
@@ -225,7 +228,9 @@ export default function RecordingSongModiinPageContent() {
               id="why-original-song-heading"
               className="font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
             >
-              למה שיר מקורי באולפן לאירוע שלכם?
+              {/* אישור הבעלים 11.10.2026: "אישי" ולא "מקורי", כי שיר מקורי (מילים ולחן
+                  חדשים) יש לו עמוד משלו, /studio/original-song */}
+              למה שיר אישי באולפן לאירוע שלכם?
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               שיר DJ שכולם מכירים מסתיים עם האירוע. שיר שהקלטתם בעצמכם,
@@ -237,10 +242,13 @@ export default function RecordingSongModiinPageContent() {
               אישי. הקלטה שניתן לשמוע שוב שנים אחר כך.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              ובנוסף - השיר שלכם נשמר בשרתי האולפן המאובטחים שלנו.{" "}
+              {/* אישור הבעלים 11.10.2026: היה "נשמר בשרתי האולפן... זמין בלחיצת
+                  כפתור", בסתירה להחלטה מ-6.10 ששמירה קבועה היא תוספת בתשלום
+                  (cloud_storage_permanent) */}
+              רוצים שהשיר יחכה לכם גם בעוד שנים, כשתרצו לשמוע אותו שוב או
+              להשמיע אותו בחתונה של הילד?{" "}
               <strong className="text-foreground">
-                בעוד מספר שנים, כשתרצו להקשיב לו שוב או להשתמש בו בחתונה
-                של הילד - הקובץ צפוי להיות זמין בלחיצת כפתור.
+                יש {CLOUD_STORAGE_LABEL}, בתוספת של {CLOUD_STORAGE_PRICE.totalLabel}.
               </strong>
             </p>
             <ul className="mt-5 grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
