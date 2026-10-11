@@ -30,7 +30,7 @@ const SERVICES: readonly { id: PriceItemId; href: string }[] = [
   { id: "podcast_audio", href: "/podcast" },
   { id: "full_podcast_production", href: "/podcast/podcast-production" },
   { id: "online_home_mix", href: "/online/vocal-fix/mixing" },
-  { id: "dj_premium", href: "/dj-events" },
+  { id: "dj_premium", href: "/events/dj-events" },
 ];
 
 const linkClass = "text-brand-red hover:underline";
