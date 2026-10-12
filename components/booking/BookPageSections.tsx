@@ -7,7 +7,7 @@ import SmartFormClient from "@/components/booking/smart-form/SmartFormClient";
 import BookStudioInfoSection from "@/components/booking/BookStudioInfoSection";
 import { useBookPageLayout } from "@/components/booking/BookPageLayoutContext";
 import WizardErrorBoundary from "@/components/booking/WizardErrorBoundary";
-import { MAX_DISCOUNT_PERCENT } from "@/lib/data/pricing-catalog";
+import { MAX_DISCOUNT_PERCENT, catalogWithVat, getExVat } from "@/lib/data/pricing-catalog";
 import { useBookFlow } from "@/hooks/useBookFlow";
 import {
   DjEventsCalculatorLazy,
@@ -415,7 +415,10 @@ export default function BookPageSections({
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                 תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה.
               </p>
-              <p className="mt-2 text-xs font-semibold text-brand-red">2,200 ₪</p>
+              {/* D124: מהקטלוג (studio_vlog_day), כולל מע״מ. היה "2,200 ₪" כתוב ביד ובלי מע״מ */}
+              <p className="mt-2 text-xs font-semibold text-brand-red">
+                {catalogWithVat(getExVat("studio_vlog_day")).toLocaleString("he-IL")} ₪ כולל מע״מ
+              </p>
             </div>
           </div>
         </div>

@@ -72,7 +72,7 @@ export const SERVICES: Record<string, Service> = {
   vlog_day: {
     name: "וולוג יום בחיי - צלם צמוד",
     category: "clips",
-    price: getExVat("pre_wedding_photos"),
+    price: getExVat("studio_vlog_day"),
     icon: "🎥",
     badge: "new",
     desc: "תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה של פרק (עד 4 גרסאות עריכה)",

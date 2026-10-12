@@ -163,7 +163,8 @@ export const SMART_FORM_CATEGORIES: readonly SmartFormCategory[] = [
         id: "blessing",
         label: "ברכה",
         catalogId: "blessing_recording",
-        tooltip: "הקלטה קצרה לאירוע משפחתי - כולל עריכה בסיסית",
+        /* D124: כמו הקטלוג (blessing_recording), בלי "קצרה" ו"עריכה בסיסית" */
+        tooltip: "ברכה או דרשה, בלי הגבלת זמן: הנחיה, עריכה, מוזיקת רקע, תיקונים וליווי",
       },
       {
         id: "voice_enhance",

@@ -40,7 +40,8 @@ const HEADER_QUOTE_HIDE_PREFIXES = ["/contact", "/book"] as const;
  */
 const HEADER_STRIP_HEIGHT = "h-[calc(3.25rem+1px)]";
 
-const HEADER_TAGLINE = "אולפן, DJ, פודקאסט ואטרקציות";
+/* D125 (12.10.2026): כמו ה-H1 של דף הבית ו-D93 */
+const HEADER_TAGLINE = "אולפן הקלטות: שירים, מתנות ופודקאסט";
 
 /* ההודעה לא מבטיחה זמן בפי הלקוח, ההבטחה כתובה על הכפתור. היא נאמרת לפי
    השירות של העמוד (D94, 11.10.2026). שם הקמפיין נשאר, כדי לא לפצל את GA4. */

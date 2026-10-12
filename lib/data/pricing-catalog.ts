@@ -974,6 +974,9 @@ export const PRICING_CATALOG = [
   { id: "full_event_photo_8h", label: "צילום אירוע מלא 8 שעות", exVat: 12000, category: "photography", context: "מההכנות ועד שיא הלילה" },
   { id: "event_photo_hourly", label: "צילום אירוע לפי שעה", exVat: 1500, category: "photography", context: "כולל עריכה ומסירה דיגיטלית" },
   { id: "pre_wedding_photos", label: "צילומי זוגיות מקדימים", exVat: 2200, category: "photography", context: "סשן מקצועי לפני יום האירוע" },
+  /* D124 (12.10.2026): לוולוג מזהה משלו. עד עכשיו המחשבון לקח את המחיר מ-pre_wedding_photos,
+     והכרטיס ב-/book הציג "2,200 ₪" כתוב ביד ובלי מע״מ */
+  { id: "studio_vlog_day", label: "וולוג יום בחיי - צלם צמוד", exVat: 2200, category: "photography", context: "תיעוד מהכניסה לאולפן ועד שעתיים עם צלם צמוד, כולל עריכה מלאה" },
   { id: "artistic_photo", label: "צילום אומנותי מיוחד", exVat: 3800, category: "photography", context: "סשן מורכב ומעובד לזוגות" },
   { id: "live_reels", label: "רילס בזמן אמת מהאירוע", exVat: 2800, category: "photography", context: "צילום ועריכת סרטונים קצרים במהלך האירוע" },
 

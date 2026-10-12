@@ -430,7 +430,7 @@ export const PAGE_INTRO_SEGMENTS: Partial<Record<string, IntroSegment[]>> = {
     { type: "text", value: "." },
   ],
   "/book": [
-    { type: "text", value: "מחיר לפני מע״מ, וואטסאפ מהיר או הזמנה מפורטת. לחבילות - " },
+    { type: "text", value: "מחיר כולל מע״מ, וואטסאפ מהיר או הזמנה מפורטת. לחבילות - " },
     { type: "link", href: "/packages", label: "חבילות מוכנות" },
     { type: "text", value: ". לאולפן - " },
     { type: "link", href: "/studio/pricing", label: "מחירון אולפן" },

@@ -2,11 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { SmartFormEstimate } from "@/lib/smart-form-estimate";
-import {
-  CATALOG_VAT_RATE,
-  catalogWithVat,
-  formatFromPriceDual,
-} from "@/lib/data/pricing-catalog";
+import { catalogWithVat, formatFromPriceDual } from "@/lib/data/pricing-catalog";
 
 type VisualReceiptProps = {
   estimate: SmartFormEstimate;
@@ -15,10 +11,20 @@ type VisualReceiptProps = {
 };
 
 /**
- * קבלה ויזואלית - שורות הפירוט ב-exVat בלבד, והסה״כ מוצג כולל מע״מ קודם.
- * לצרכן מציגים כולל מע״מ קודם ובקטן לפני מע״מ (docs/PRICING.md:22), ולכן הכותרת
- * היא totalWithVat. מע״מ 18% מחושב פעם אחת דרך catalogWithVat - בלי כפל בחישוב.
+ * קבלה ויזואלית: כל השורות והסה״כ כולל מע״מ בלבד (D86, 11.10.2026, הועבר
+ * בהחלטה D124 ב-12.10). כלל העיגול של D102: הסה״כ הוא מע״מ על סכום השורות
+ * (catalogWithVat(totalExVat)), והפרש עיגול של שקל נבלע בשורה הגדולה, כך
+ * שהשורות תמיד מסתכמות בדיוק לסה״כ.
  */
+function withVatLines(exVats: readonly number[], totalWithVat: number): number[] {
+  const lines = exVats.map((x) => catalogWithVat(x));
+  const diff = totalWithVat - lines.reduce((a, b) => a + b, 0);
+  if (diff !== 0 && lines.length > 0) {
+    const biggest = lines.indexOf(Math.max(...lines));
+    lines[biggest] += diff;
+  }
+  return lines;
+}
 export default function VisualReceipt({
   estimate,
   isReturning = false,
@@ -47,7 +53,10 @@ export default function VisualReceipt({
   const baseLine = estimate.lines.find((l) => l.kind === "base");
   const upsellLines = estimate.lines.filter((l) => l.kind === "upsell");
   const totalWithVat = catalogWithVat(estimate.totalExVat);
-  const vatPct = Math.round(CATALOG_VAT_RATE * 100);
+  const [baseWithVat, ...upsellWithVat] = withVatLines(
+    [baseLine?.exVat ?? 0, ...upsellLines.map((l) => l.exVat)],
+    totalWithVat,
+  );
 
   return (
     <div className="rounded-lg border border-border bg-surface/40 p-4 text-sm">
@@ -59,13 +68,13 @@ export default function VisualReceipt({
         </p>
       ) : null}
 
-      <p className="mb-1 text-[11px] text-muted-foreground">פירוט לפני מע״מ</p>
+      <p className="mb-1 text-[11px] text-muted-foreground">פירוט, כולל מע״מ</p>
 
       {baseLine ? (
         <div className="flex items-baseline justify-between gap-3 text-muted-foreground">
           <span>בסיס: {baseLine.label}</span>
           <span className="shrink-0 tabular-nums text-foreground">
-            {baseLine.exVat.toLocaleString("he-IL")} ₪
+            {baseWithVat.toLocaleString("he-IL")} ₪
           </span>
         </div>
       ) : null}
@@ -74,14 +83,14 @@ export default function VisualReceipt({
         <div className="mt-3 space-y-2">
           <p className="text-xs font-medium text-foreground">תוספות</p>
           <ul className="space-y-2">
-            {upsellLines.map((line) => (
+            {upsellLines.map((line, i) => (
               <li
                 key={`upsell-${line.catalogId}`}
                 className="flex items-baseline justify-between gap-3 text-muted-foreground"
               >
                 <span>+ {line.label}</span>
                 <span className="shrink-0 tabular-nums text-foreground">
-                  {line.exVat.toLocaleString("he-IL")} ₪
+                  {upsellWithVat[i].toLocaleString("he-IL")} ₪
                 </span>
               </li>
             ))}
@@ -100,9 +109,6 @@ export default function VisualReceipt({
           {totalWithVat.toLocaleString("he-IL")} ₪
         </span>
       </div>
-      <p className="mt-1 text-xs text-muted-foreground">
-        לפני מע״מ ({vatPct}%): {estimate.totalExVat.toLocaleString("he-IL")} ₪
-      </p>
 
       <p className="mt-2 text-[11px] leading-snug text-muted-foreground">
         המחיר כולל עריכה יסודית ללא תוספות נסתרות
@@ -113,7 +119,7 @@ export default function VisualReceipt({
       ) : (
         <p className="mt-2 text-xs text-muted-foreground">
           הערכת תקציב בסיסית לפרויקט מתחילה{" "}
-          {formatFromPriceDual(estimate.baseExVat)}
+          {formatFromPriceDual(estimate.baseExVat, "consumer", "page")}
         </p>
       )}
 
