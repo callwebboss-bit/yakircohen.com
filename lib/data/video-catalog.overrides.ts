@@ -163,7 +163,8 @@ export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
 /** Short descriptions for hero picks (optional) */
 export const VIDEO_DESCRIPTION_OVERRIDES: Record<string, string> = {
   P425XNK7z5M:
-    "כותבים ראפ מאפס באולפן - Flow, Bars ובניית שיר עם דניאל עוז. לשיר המלא - חפשו דניאל עוז.",
+    /* בלי שם הלקוח באתר (החלטת הבעלים 12.10.2026) */
+    "כותבים ראפ מאפס באולפן: Flow, Bars ובניית שיר מההתחלה.",
   XUr2e5S4JSA:
     "תיק עבודות מהאולפן - הופק והוקלט ביקיר כהן הפקות",
   "8i4K2f5gQfM": "הקלטת שיר לחתונה - קאבר עם הפקה מותאמת אישית",

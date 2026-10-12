@@ -1479,7 +1479,7 @@ export const PORTFOLIO_VIDEO_CATALOG: readonly PortfolioVideo[] = [
   },
   {
     "videoId": "O2RHNRZCmZM",
-    "title": "יקיר כהן קריין פרסומות מקצועי - האחים ממן הגיעו להקליט שיר ובסוף שמעו הקלטת קריינות... (מצחיק)",
+    "title": "קריין פרסומות באולפן - באו להקליט שיר ושמעו הקלטת קריינות (מצחיק)",
     "youtubeUrl": "https://www.youtube.com/watch?v=O2RHNRZCmZM",
     "tags": [
       "entertainment",
