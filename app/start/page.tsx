@@ -105,7 +105,7 @@ const PROMISES = [
   {
     icon: CheckIcon,
     title: "תהליך ברור",
-    description: "כל שירות עובד באותם 3 שלבים: ניתוח, ביצוע ומסירה. תמיד יודעים איפה עומדים.",
+    description: "לכל שירות צעדים קבועים, מהפנייה ועד הקובץ. תמיד יודעים איפה עומדים.",
   },
   {
     icon: ClockIcon,
@@ -145,16 +145,15 @@ export default function StartPage() {
             </nav>
 
             <p className="inline-flex items-center gap-2 rounded-full border border-brand-red/20 bg-brand-red/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-brand-red">
-              <SparklesIcon size={14} />3 שלבים. אפס בלגן.
+              <SparklesIcon size={14} />מהפנייה ועד הקובץ
             </p>
 
             <h1 className="text-hero mt-6 font-serif font-semibold text-foreground">
               מה קורה מרגע הפנייה ועד הקובץ המוכן
             </h1>
             <p className="text-lead mx-auto mt-5 max-w-2xl text-muted-foreground">
-              כל שירות אצלנו עובד באותם שלושה שלבים פשוטים -{" "}
-              <span className="font-medium text-foreground">ניתוח, ביצוע ומסירה</span>
-              . בחרו את סוג השירות שלכם וראו בדיוק מה מצפה לכם.
+              כל שירות מתחיל באותה פנייה. בחרו את סוג השירות שלכם וראו בדיוק מה
+              מצפה לכם.
             </p>
 
             <nav
