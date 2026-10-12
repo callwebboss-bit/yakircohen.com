@@ -148,6 +148,66 @@ export const PLAYLIST_VIDEO_FALLBACKS: Record<
   },
 };
 
+/**
+ * עמוד הקלטת השיר: רק סרטוני הקלטה, לפי המיון שהבעלים אישר בתיק העבודות (12.10.2026).
+ * קודם הבלוק הציג 134 סרטונים, כולל פארודיות, סטים של DJ וטיפים. הסדר בראש
+ * הרשימה הוא PLAYLIST_FEATURED_IDS["recording-song-modiin"].
+ */
+const RECORDING_SONG_SERVICE_IDS: readonly string[] = [
+  "OLgVysdB6fA",
+  "QRMxKVUOOl0",
+  "8i4K2f5gQfM",
+  "LKg3pwdon_M",
+  "2apMsrmEsDs",
+  "Fsy4Eg00dCA",
+  "1ilgnokOS7Q",
+  "wfTY8Bz2uE4",
+  "sNZPrz-rasQ",
+  "K8c9xAHWN-g",
+  "VntWmw5Su6c",
+  "7y7IQPL8k9M",
+  "SgoAVkFSyDs",
+  "8NO8nNnzXwI",
+  "kLA-XVH3m4E",
+  "qY67kRGsRnY",
+  "RtAiHRFzx9U",
+  "hC2GgTt_cmo",
+  "BGORA8bST3A",
+  "PBmwYVdgWLw",
+  "OMEyJKQuOtk",
+  "y8w_BRwe_tg",
+  "6RnF9SB9n6w",
+  "63R17iIWrTM",
+  "KYAah8VSNg8",
+  "TGKBqHswS_I",
+  "T-otXbppZMA",
+  "X1IO30Jsfqg",
+  "Z5w1v5naEaY",
+  "grgkgxRuvX0",
+  "hg4u1GhrZ3Y",
+  "hzOHnLHN9lM",
+  "wVLVfYFAVys",
+  "02F0dsG2-V0",
+  "Djl7sxQjbXk",
+  "lCIoEuxBm7A",
+  "iPLLWvcvpR4",
+  "Jb4RYS0rGVA",
+  "ocV3Dzs7dL4",
+  "HXrv5XwSuTo",
+  "P425XNK7z5M",
+  "t3GQFHrd7wk",
+  "Z9LMW3nQJfw",
+  "OixEalmqjQk",
+  "7u6dviEF0ag",
+  "rBwtACnVHcU",
+  "M-lKFCzrz5Y",
+  "uY871OUAjMM",
+  "4uFnJgKF5ps",
+  "RScxQ_D9OQ0",
+  "no2r9mKhno0",
+  "vr8TVTmPsrI",
+];
+
 /** Curated playlists -only these IDs (order preserved), not auto-tagged remainder */
 export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
   "dj-voice-tags": PLAYLIST_FEATURED_IDS["dj-voice-tags"]!,
@@ -158,6 +218,7 @@ export const PLAYLIST_EXPLICIT_IDS: Record<string, readonly string[]> = {
   // עם שמות) להופיע. שומר על עקביות עם הסרת השמות מכותרת תיק העבודות.
   "studio-hub": PLAYLIST_FEATURED_IDS["studio-hub"]!,
   "mix-mastering": PLAYLIST_FEATURED_IDS["mix-mastering"]!,
+  "recording-song-modiin": RECORDING_SONG_SERVICE_IDS,
 };
 
 /** Short descriptions for hero picks (optional) */
