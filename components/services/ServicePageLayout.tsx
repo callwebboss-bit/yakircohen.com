@@ -113,6 +113,11 @@ export type ServicePageLayoutProps = {
    */
   showTrustStats?: boolean;
   /**
+   * הקריאה הקבועה "מוכנים לסגור תאריך?" בסוף העמוד. false בעמוד שיש לו קריאת
+   * סגירה משלו, כדי שלא יהיו שתיים (תוכנית הבהירות, שלב 8, /podcast).
+   */
+  showBottomCta?: boolean;
+  /**
    * שאלת ה-AEO הראשית של העמוד, גלויה מעל התוכן ולא רק באקורדיון. מוצגת במקום
    * בלוק ה-metaDescription, עם id משלה ו-SpeakableSchema שמצביע עליה. Speakable
    * בלבד: אותה שאלה כבר נכנסת ל-FAQPage דרך `faqs`, ופעמיים יהיה כפילות.
@@ -272,6 +277,7 @@ export default function ServicePageLayout({
   showHeroScrollLink,
   maxHeroFeatures,
   showTrustStats = true,
+  showBottomCta = true,
   category,
   pagePath,
   emitPageEntitySchema = true,
@@ -580,6 +586,7 @@ export default function ServicePageLayout({
         <section className="bg-background py-12 sm:py-16">{children}</section>
       ) : null}
 
+      {showBottomCta ? (
       <PageBottomCta
         layout="section"
         variant="whatsapp"
@@ -598,6 +605,7 @@ export default function ServicePageLayout({
           />
         ) : null}
       </PageBottomCta>
+      ) : null}
     </article>
     </HubAccentScope>
   );

@@ -20,6 +20,7 @@ import SoundImprovementShowcase from "@/components/seo/SoundImprovementShowcase"
 import PodcastLeadForm from "@/components/seo/PodcastLeadForm";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
+import HomeMoreLayer from "@/components/marketing/HomeMoreLayer";
 import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import { resolvePodcastFolderHero } from "@/lib/service-portfolio-hero";
 import { withServicePageHeroDefaults } from "@/lib/service-page-ui";
@@ -80,14 +81,16 @@ const RECORDING_ONLY_PRICE = formatPrice(getExVat(RECORDING_ONLY_ID), {
   channel: "page",
 }).headline;
 
+/* תוכנית הבהירות, שלב 8 (12.10.2026): התוכן מצביע רק על השכבה הראשית. מה
+   שעבר לשכבת "עוד" סגור, וקישור אליו היה מוביל לחלק שלא רואים. */
 const PODCAST_HUB_TOC = [
-  { id: "compare-heading", label: "השוואת מסלולים", level: 2 as const },
-  { id: "value-prop-heading", label: "למה לבחור בנו", level: 2 as const },
-  { id: "services-heading", label: "סוגי פודקאסט", level: 2 as const },
   { id: "pricing-heading", label: "מחירים וחבילות", level: 2 as const },
-  { id: "post-production-heading", label: "ניקוי הקלטות", level: 2 as const },
+  { id: "process-heading", label: "איך זה עובד", level: 2 as const },
+  { id: "podcast-hub-decision-heading", label: "מה מתאים לי", level: 2 as const },
+  { id: "playlist-podcast-hub-heading", label: "דוגמאות מהאולפן", level: 2 as const },
   { id: "testimonials-heading", label: "מה אומרים לקוחות", level: 2 as const },
   { id: "faq-heading", label: "שאלות נפוצות", level: 2 as const },
+  { id: "podcast-more-heading", label: "עוד על פודקאסט", level: 2 as const },
 ];
 
 const pageHero = resolvePodcastFolderHero(
@@ -183,342 +186,15 @@ export default function PodcastHubPageContent() {
         pagePath="/podcast"
         metaDescription={PODCAST_HUB_SEO.description}
         faqs={PODCAST_HUB_FAQS}
+        /* שלב 8: קריאת סגירה אחת, האזור הכהה של העמוד. בחירת הבעלים 12.10.2026 */
+        showBottomCta={false}
       >
         <Container className="space-y-16 py-12 sm:py-16">
           <ContextualIntroParagraph pathname="/podcast" className="max-w-3xl" />
 
-          <HubAudienceFitBlock hubPath="/podcast" />
-
-          <HubDecisionMatrix
-            rows={PODCAST_HUB_DECISIONS}
-            heading="מה מתאים לי?"
-            headingId="podcast-hub-decision-heading"
-          />
-
-          <TimeSavedMatrix hub="podcast" headingId="podcast-time-saved-heading" />
-
-          {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
-          <aside
-            className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-5 sm:p-6"
-            role="note"
-            aria-label="שירות אולפן פודקאסט נייד ארצי"
-          >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm font-semibold text-foreground">
-                  📍 האולפן במודיעין - אבל השירות ארצי
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  לא מגיעים למודיעין? אולפן הפודקאסט הנייד מגיע אליכם לכל
-                  מקום - בית, משרד, אירוע, בכל רחבי הארץ.
-                </p>
-              </div>
-              <Link
-                href="/podcast/mobile-podcast-at-home"
-                className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              >
-                אולפן פודקאסט נייד </Link>
-            </div>
-          </aside>
-
-          {/* ── TRUST: credibility numbers only - service numbers (price/duration) live in their own sections below ── */}
-          <ul
-            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
-            aria-label="נתוני אמינות"
-          >
-            {CREDIBILITY_STATS.map((stat) => (
-              <li
-                key={stat.label}
-                className="rounded-xl border border-border bg-surface px-4 py-5 text-center"
-              >
-                <span className="text-2xl" aria-hidden>
-                  {stat.emoji}
-                </span>
-                <p className="mt-2 text-2xl font-bold text-foreground">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {stat.label}
-                </p>
-              </li>
-            ))}
-          </ul>
-
           <TableOfContents entries={PODCAST_HUB_TOC} className="max-w-xs" />
 
-          {/* ── COMPARE: recording / video / editing ───────────── */}
-          <section aria-labelledby="compare-heading">
-            <header className="mx-auto max-w-2xl text-center">
-              <h2
-                id="compare-heading"
-                className="font-serif text-section-title font-semibold text-foreground"
-              >
-                הקלטה, וידאו או עריכה - מה מתאים?
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                שלושה מסלולים נפוצים. המחיר כולל מע״מ. בוחרים לפי מה שכבר יש
-                לכם ומה שרוצים לקבל בסוף.
-              </p>
-            </header>
-            <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-              {PODCAST_HUB_SERVICE_COMPARE.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex h-full flex-col rounded-xl border border-border bg-surface p-5"
-                >
-                  <h3 className="text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-2xl font-bold text-foreground">
-                    <span className="text-sm font-normal text-muted-foreground">
-                      מ-
-                    </span>
-                    <PriceWithVat amountExVat={item.priceFrom} size="lg" lead="withVat" />
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {item.outcome}
-                  </p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    מתאים ל: {item.bestFor}
-                  </p>
-                  <Link
-                    href={item.href}
-                    className="mt-auto pt-5 text-sm font-semibold text-brand-red hover:underline"
-                  >
-                    {item.linkLabel}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* ── PROCESS: how a recording session actually runs ─── */}
-          <section aria-labelledby="process-heading" className="border-y border-border bg-surface py-10">
-            <h2
-              id="process-heading"
-              className="text-center font-serif text-section-title font-semibold text-foreground"
-            >
-              מה קורה בפועל, שלב אחר שלב
-            </h2>
-            <ol className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-              {PODCAST_HUB_WORKFLOW.map((step) => (
-                <li key={step.step} className="text-center">
-                  <div
-                    className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white ring-1 ring-brand-red/40"
-                    aria-hidden="true"
-                  >
-                    {step.step}
-                  </div>
-                  <p className="mt-3 text-sm font-semibold text-foreground">
-                    {step.title}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    {step.body}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          {/* ── C: VALUE PROPOSITION ───────────────────────────── */}
-          <section aria-labelledby="value-prop-heading">
-            <header className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-                למה לבחור באולפן הפודקאסט שלנו
-              </p>
-              <h2
-                id="value-prop-heading"
-                className="mt-2 font-serif text-section-title font-semibold text-foreground"
-              >
-                שיפור הקלטות ברמה אולפנית - בלי מאמץ
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - והפרק אצלכם באותה
-                שנייה שמסיימים להקליט.
-              </p>
-              <p className="mt-4 text-sm font-semibold text-brand-red">
-                {SKEPTICISM_CTA}
-              </p>
-            </header>
-
-            {/* 3 Benefit Pillars */}
-            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-              {VALUE_PILLARS.map((p) => (
-                <li
-                  key={p.title}
-                  className="rounded-xl border border-border bg-surface p-6 text-center"
-                >
-                  <span className="text-3xl" aria-hidden>
-                    {p.emoji}
-                  </span>
-                  <h3 className="mt-4 font-semibold text-foreground">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {p.body}
-                  </p>
-                </li>
-              ))}
-            </ul>
-
-            {/* Package highlights */}
-            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {PODCAST_HUB_PACKAGE_HIGHLIGHTS.map((item) => (
-                <li
-                  key={item.title}
-                  className="rounded-xl border border-border bg-surface p-5"
-                >
-                  <span className="text-2xl" aria-hidden>
-                    {item.emoji}
-                  </span>
-                  <h3 className="mt-3 font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                </li>
-              ))}
-            </ul>
-
-            {/* Included checklist */}
-            <div className="mt-12">
-              <h3 className="text-center text-xl font-semibold text-foreground">
-                מה כלול בהקלטת פודקאסט מלאה?
-              </h3>
-              <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {PODCAST_HUB_INCLUDED.map((item) => (
-                  <li
-                    key={item.title}
-                    className="rounded-xl border border-border bg-background p-5"
-                  >
-                    <h4 className="font-semibold text-foreground">
-                      {item.title}
-                    </h4>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          {/* ── D: SERVICES DETAILED ───────────────────────────── */}
-          <section aria-labelledby="services-heading">
-            <header className="mx-auto max-w-2xl text-center">
-              <h2
-                id="services-heading"
-                className="font-serif text-section-title font-semibold text-foreground"
-              >
-                סוגי הקלטת פודקאסט
-              </h2>
-              <p className="mt-3 text-sm text-muted-foreground">
-                בוחרים את המסלול המתאים - ואנחנו מתאימים את ההפקה
-              </p>
-            </header>
-
-            {/* Pillar 1: Business / Creators */}
-            <article
-              aria-labelledby="business-podcast-heading"
-              className="mt-10 rounded-2xl border border-border bg-surface p-8"
-            >
-              <h3
-                id="business-podcast-heading"
-                className="text-xl font-semibold text-foreground"
-              >
-                🏢 פודקאסט עסקי וליוצרי תוכן
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                לחברות, מומחים, יועצים ויוצרי תוכן שרוצים לבנות נוכחות
-                דיגיטלית ברמה גבוהה - בלי צוות הפקה פנימי. הקלטת פודקאסט עם
-                צילום 4K, עריכה מקצועית ומסירה {TIME_CLAIMS.quoteHour}.
-              </p>
-              <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {PODCAST_HUB_AUDIENCES.map((item) => (
-                  <li
-                    key={item.title}
-                    className="flex gap-3 rounded-lg border border-border bg-background p-4"
-                  >
-                    <span className="text-xl" aria-hidden>
-                      {item.emoji}
-                    </span>
-                    <div>
-                      <h4 className="font-semibold text-foreground">
-                        {item.title}
-                      </h4>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {item.description}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </article>
-
-            {/* Pillar 2: Family / Emotional / Events */}
-            <article
-              aria-labelledby="family-podcast-heading"
-              className="mt-6 rounded-2xl border border-border bg-surface p-8"
-            >
-              <h3
-                id="family-podcast-heading"
-                className="text-xl font-semibold text-foreground"
-              >
-                ❤️ פודקאסט משפחתי ואירועים אישיים
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                פודקאסט משפחתי הוא מזכרת שמלווה לדורות. מקליטים שיחה עם סבא,
-                מראיינים קרובי משפחה, או מתעדים זיכרונות - ויוצאים עם תוצר
-                שלא יסולא בפז. מתאים גם לאירועים מיוחדים כמו חתונות ובני
-                מצווה.
-              </p>
-              <div className="mt-5">
-                <Link
-                  href="/podcast/podcast-with-grandpa"
-                  className="text-sm font-semibold text-brand-red hover:underline"
-                >
-                  פודקאסט עם סבא וסבתא - פרטים נוספים </Link>
-              </div>
-            </article>
-
-            {/* Studio Spaces */}
-            <div className="mt-10">
-              <header className="mx-auto max-w-2xl text-center">
-                <h3 className="text-xl font-semibold text-foreground">
-                  בחרו את חלל ההקלטה שלכם
-                </h3>
-              </header>
-              <ul className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
-                {PODCAST_HUB_STUDIO_SPACES.map((space) => (
-                  <li
-                    key={space.title}
-                    className="rounded-2xl border border-border bg-background p-6 text-center"
-                  >
-                    <span className="text-4xl" aria-hidden>
-                      {space.emoji}
-                    </span>
-                    <h4 className="mt-4 font-semibold text-foreground">
-                      {space.title}
-                    </h4>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {space.description}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-center text-sm text-muted-foreground">
-                <Link
-                  href="/podcast/podcast-studio-modiin"
-                  className="font-medium text-brand-red hover:underline"
-                >
-                  השכרת אולפן פודקאסט במודיעין </Link>
-              </p>
-            </div>
-          </section>
-
-          <ProfessionalStanceSection pathname="/podcast" />
-
+          {/* שלב 8: החבילות עלו ממסך 15.5 לראש העמוד */}
           {/* ── PRICING CARDS ──────────────────────────────────── */}
           <section aria-labelledby="pricing-heading">
             <header className="mx-auto max-w-2xl text-center">
@@ -597,42 +273,90 @@ export default function PodcastHubPageContent() {
             </div>
           </section>
 
-          {/* ── E: AUDIO POST-PRODUCTION ───────────────────────── */}
-          <section aria-labelledby="post-production-heading">
-            <header className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
-                שיפור הקלטת זום | ניקוי רעשים
-              </p>
-              <h2
-                id="post-production-heading"
-                className="mt-2 font-serif text-section-title font-semibold text-foreground"
-              >
-                הקלטה ביתית? אנחנו מנקים אותה
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                גם אם הקלטתם בזום, בחדר רועש, בטלפון - או שיש לכם פודקאסט ישן,
-                הרצאה או קלטת ארכיון שרוצים לשפר: שיפור ושחזור סאונד ב-AI + עריכה
-                ידנית. שולחים קובץ ומקבלים גרסה משופרת תוך 24-48 שעות.
-              </p>
-            </header>
-            <div className="mt-8">
-              <PodcastBeforeAfter />
-            </div>
-
-            {/* Related editing services */}
-            <p className="mt-6 text-center text-sm text-muted-foreground">
-              <Link
-                href="/podcast/podcast-editing"
-                className="font-medium text-brand-red hover:underline"
-              >
-                לשירות עריכת פודקאסט מלאה </Link>
-            </p>
+          {/* ── PROCESS: how a recording session actually runs ─── */}
+          <section aria-labelledby="process-heading" className="border-y border-border bg-surface py-10">
+            <h2
+              id="process-heading"
+              className="text-center font-serif text-section-title font-semibold text-foreground"
+            >
+              מה קורה בפועל, שלב אחר שלב
+            </h2>
+            <ol className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+              {PODCAST_HUB_WORKFLOW.map((step) => (
+                <li key={step.step} className="text-center">
+                  <div
+                    className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white ring-1 ring-brand-red/40"
+                    aria-hidden="true"
+                  >
+                    {step.step}
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-foreground">
+                    {step.title}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {step.body}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </section>
+
+          {/* שלב 8: בוחר אחד בשכבה הראשית. שלושת האחרים בשכבת "עוד" */}
+          <HubDecisionMatrix
+            rows={PODCAST_HUB_DECISIONS}
+            heading="מה מתאים לי?"
+            headingId="podcast-hub-decision-heading"
+          />
+
+          {/* ── B: MOBILE STUDIO BANNER ────────────────────────── */}
+          <aside
+            className="rounded-xl border border-brand-red/30 bg-brand-red/5 p-5 sm:p-6"
+            role="note"
+            aria-label="שירות אולפן פודקאסט נייד ארצי"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-foreground">
+                  📍 האולפן במודיעין - אבל השירות ארצי
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  לא מגיעים למודיעין? אולפן הפודקאסט הנייד מגיע אליכם לכל
+                  מקום - בית, משרד, אירוע, בכל רחבי הארץ.
+                </p>
+              </div>
+              <Link
+                href="/podcast/mobile-podcast-at-home"
+                className="inline-flex min-h-11 shrink-0 items-center text-sm font-semibold text-brand-red-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              >
+                אולפן פודקאסט נייד </Link>
+            </div>
+          </aside>
+
+          {/* ── TRUST: credibility numbers only - service numbers (price/duration) live in their own sections below ── */}
+          <ul
+            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+            aria-label="נתוני אמינות"
+          >
+            {CREDIBILITY_STATS.map((stat) => (
+              <li
+                key={stat.label}
+                className="rounded-xl border border-border bg-surface px-4 py-5 text-center"
+              >
+                <span className="text-2xl" aria-hidden>
+                  {stat.emoji}
+                </span>
+                <p className="mt-2 text-2xl font-bold text-foreground">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {stat.label}
+                </p>
+              </li>
+            ))}
+          </ul>
 
           {/* ── VIDEO & AUDIO SHOWCASE ─────────────────────────── */}
           <ShowcaseVideoSection playlistId="podcast-hub" />
-
-          <PodcastSpotifySample />
 
           <section aria-labelledby="samples-heading">
             <header className="mx-auto max-w-2xl text-center">
@@ -655,13 +379,6 @@ export default function PodcastHubPageContent() {
               />
             </div>
           </section>
-
-          <ServiceShowcaseSections
-            assetsFolder="podcast"
-            playlistEmbedUrl={null}
-            mediaType="gallery"
-            galleryLabel="תמונות מאולפן הפודקאסט במודיעין"
-          />
 
           {/* ── F: SOCIAL PROOF ────────────────────────────────── */}
           {/* החלטת הבעלים 8.10.2026, בדיקת ההמלצות: שלוש ההמלצות שהיו כאן הוסרו
@@ -697,6 +414,437 @@ export default function PodcastHubPageContent() {
           {/* ── H: MICRO-CONVERSION LEAD FORM ──────────────────── */}
           <PodcastLeadForm />
 
+          {/* תוכנית הבהירות, שלב 8 (12.10.2026): כל מה שלא בשכבה הראשית, סגור ונשאר ב-HTML */}
+          <HomeMoreLayer
+            variant="inset"
+            name="podcast-more"
+            headingId="podcast-more-heading"
+            heading="עוד על פודקאסט באולפן"
+            intro="השוואות, סוגי פודקאסט, דוגמאות נוספות, מסלולים ומדריכים. כל חלק נפתח בלחיצה."
+            items={[
+            {
+              id: "compare",
+              label: "עוד השוואות שיעזרו להחליט",
+              content: (
+                <>
+                <HubAudienceFitBlock hubPath="/podcast" />
+                <TimeSavedMatrix hub="podcast" headingId="podcast-time-saved-heading" />
+                {/* ── COMPARE: recording / video / editing ───────────── */}
+                <section aria-labelledby="compare-heading">
+                  <header className="mx-auto max-w-2xl text-center">
+                    <h2
+                      id="compare-heading"
+                      className="font-serif text-section-title font-semibold text-foreground"
+                    >
+                      הקלטה, וידאו או עריכה - מה מתאים?
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      שלושה מסלולים נפוצים. המחיר כולל מע״מ. בוחרים לפי מה שכבר יש
+                      לכם ומה שרוצים לקבל בסוף.
+                    </p>
+                  </header>
+                  <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+                    {PODCAST_HUB_SERVICE_COMPARE.map((item) => (
+                      <li
+                        key={item.id}
+                        className="flex h-full flex-col rounded-xl border border-border bg-surface p-5"
+                      >
+                        <h3 className="text-base font-semibold text-foreground">
+                          {item.title}
+                        </h3>
+                        <p className="mt-3 text-2xl font-bold text-foreground">
+                          <span className="text-sm font-normal text-muted-foreground">
+                            מ-
+                          </span>
+                          <PriceWithVat amountExVat={item.priceFrom} size="lg" lead="withVat" />
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                          {item.outcome}
+                        </p>
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          מתאים ל: {item.bestFor}
+                        </p>
+                        <Link
+                          href={item.href}
+                          className="mt-auto pt-5 text-sm font-semibold text-brand-red hover:underline"
+                        >
+                          {item.linkLabel}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+                </>
+              ),
+            },
+            {
+              id: "value",
+              label: "למה לבחור בנו",
+              content: (
+                <>
+                {/* ── C: VALUE PROPOSITION ───────────────────────────── */}
+                <section aria-labelledby="value-prop-heading">
+                  <header className="mx-auto max-w-2xl text-center">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+                      למה לבחור באולפן הפודקאסט שלנו
+                    </p>
+                    <h2
+                      id="value-prop-heading"
+                      className="mt-2 font-serif text-section-title font-semibold text-foreground"
+                    >
+                      שיפור הקלטות ברמה אולפנית - בלי מאמץ
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      בידוד אקוסטי מלא, שיפור סאונד בבינה מלאכותית, קובץ RSS מוכן - והפרק אצלכם באותה
+                      שנייה שמסיימים להקליט.
+                    </p>
+                    <p className="mt-4 text-sm font-semibold text-brand-red">
+                      {SKEPTICISM_CTA}
+                    </p>
+                  </header>
+
+                  {/* 3 Benefit Pillars */}
+                  <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
+                    {VALUE_PILLARS.map((p) => (
+                      <li
+                        key={p.title}
+                        className="rounded-xl border border-border bg-surface p-6 text-center"
+                      >
+                        <span className="text-3xl" aria-hidden>
+                          {p.emoji}
+                        </span>
+                        <h3 className="mt-4 font-semibold text-foreground">
+                          {p.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          {p.body}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Package highlights */}
+                  <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {PODCAST_HUB_PACKAGE_HIGHLIGHTS.map((item) => (
+                      <li
+                        key={item.title}
+                        className="rounded-xl border border-border bg-surface p-5"
+                      >
+                        <span className="text-2xl" aria-hidden>
+                          {item.emoji}
+                        </span>
+                        <h3 className="mt-3 font-semibold text-foreground">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {item.description}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Included checklist */}
+                  <div className="mt-12">
+                    <h3 className="text-center text-xl font-semibold text-foreground">
+                      מה כלול בהקלטת פודקאסט מלאה?
+                    </h3>
+                    <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {PODCAST_HUB_INCLUDED.map((item) => (
+                        <li
+                          key={item.title}
+                          className="rounded-xl border border-border bg-background p-5"
+                        >
+                          <h4 className="font-semibold text-foreground">
+                            {item.title}
+                          </h4>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            {item.description}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </section>
+                </>
+              ),
+            },
+            {
+              id: "types",
+              label: "סוגי הקלטת פודקאסט",
+              contentClassName: "[&_#services-heading]:sr-only",
+              content: (
+                <>
+                {/* ── D: SERVICES DETAILED ───────────────────────────── */}
+                <section aria-labelledby="services-heading">
+                  <header className="mx-auto max-w-2xl text-center">
+                    <h2
+                      id="services-heading"
+                      className="font-serif text-section-title font-semibold text-foreground"
+                    >
+                      סוגי הקלטת פודקאסט
+                    </h2>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      בוחרים את המסלול המתאים - ואנחנו מתאימים את ההפקה
+                    </p>
+                  </header>
+
+                  {/* Pillar 1: Business / Creators */}
+                  <article
+                    aria-labelledby="business-podcast-heading"
+                    className="mt-10 rounded-2xl border border-border bg-surface p-8"
+                  >
+                    <h3
+                      id="business-podcast-heading"
+                      className="text-xl font-semibold text-foreground"
+                    >
+                      🏢 פודקאסט עסקי וליוצרי תוכן
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      לחברות, מומחים, יועצים ויוצרי תוכן שרוצים לבנות נוכחות
+                      דיגיטלית ברמה גבוהה - בלי צוות הפקה פנימי. הקלטת פודקאסט עם
+                      צילום 4K, עריכה מקצועית ומסירה {TIME_CLAIMS.quoteHour}.
+                    </p>
+                    <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {PODCAST_HUB_AUDIENCES.map((item) => (
+                        <li
+                          key={item.title}
+                          className="flex gap-3 rounded-lg border border-border bg-background p-4"
+                        >
+                          <span className="text-xl" aria-hidden>
+                            {item.emoji}
+                          </span>
+                          <div>
+                            <h4 className="font-semibold text-foreground">
+                              {item.title}
+                            </h4>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                              {item.description}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+
+                  {/* Pillar 2: Family / Emotional / Events */}
+                  <article
+                    aria-labelledby="family-podcast-heading"
+                    className="mt-6 rounded-2xl border border-border bg-surface p-8"
+                  >
+                    <h3
+                      id="family-podcast-heading"
+                      className="text-xl font-semibold text-foreground"
+                    >
+                      ❤️ פודקאסט משפחתי ואירועים אישיים
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      פודקאסט משפחתי הוא מזכרת שמלווה לדורות. מקליטים שיחה עם סבא,
+                      מראיינים קרובי משפחה, או מתעדים זיכרונות - ויוצאים עם תוצר
+                      שלא יסולא בפז. מתאים גם לאירועים מיוחדים כמו חתונות ובני
+                      מצווה.
+                    </p>
+                    <div className="mt-5">
+                      <Link
+                        href="/podcast/podcast-with-grandpa"
+                        className="text-sm font-semibold text-brand-red hover:underline"
+                      >
+                        פודקאסט עם סבא וסבתא - פרטים נוספים </Link>
+                    </div>
+                  </article>
+
+                  {/* Studio Spaces */}
+                  <div className="mt-10">
+                    <header className="mx-auto max-w-2xl text-center">
+                      <h3 className="text-xl font-semibold text-foreground">
+                        בחרו את חלל ההקלטה שלכם
+                      </h3>
+                    </header>
+                    <ul className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
+                      {PODCAST_HUB_STUDIO_SPACES.map((space) => (
+                        <li
+                          key={space.title}
+                          className="rounded-2xl border border-border bg-background p-6 text-center"
+                        >
+                          <span className="text-4xl" aria-hidden>
+                            {space.emoji}
+                          </span>
+                          <h4 className="mt-4 font-semibold text-foreground">
+                            {space.title}
+                          </h4>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                            {space.description}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-6 text-center text-sm text-muted-foreground">
+                      <Link
+                        href="/podcast/podcast-studio-modiin"
+                        className="font-medium text-brand-red hover:underline"
+                      >
+                        השכרת אולפן פודקאסט במודיעין </Link>
+                    </p>
+                  </div>
+                </section>
+                </>
+              ),
+            },
+            {
+              id: "stance",
+              label: "העמדה המקצועית שלי",
+              contentClassName: "[&_#professional-stance-heading]:sr-only",
+              content: (
+                <>
+                <ProfessionalStanceSection pathname="/podcast" />
+                </>
+              ),
+            },
+            {
+              id: "cleanup",
+              label: "הקלטה ביתית? ניקוי ושחזור",
+              content: (
+                <>
+                {/* ── E: AUDIO POST-PRODUCTION ───────────────────────── */}
+                <section aria-labelledby="post-production-heading">
+                  <header className="mx-auto max-w-2xl text-center">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-red">
+                      שיפור הקלטת זום | ניקוי רעשים
+                    </p>
+                    <h2
+                      id="post-production-heading"
+                      className="mt-2 font-serif text-section-title font-semibold text-foreground"
+                    >
+                      הקלטה ביתית? אנחנו מנקים אותה
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      גם אם הקלטתם בזום, בחדר רועש, בטלפון - או שיש לכם פודקאסט ישן,
+                      הרצאה או קלטת ארכיון שרוצים לשפר: שיפור ושחזור סאונד ב-AI + עריכה
+                      ידנית. שולחים קובץ ומקבלים גרסה משופרת תוך 24-48 שעות.
+                    </p>
+                  </header>
+                  <div className="mt-8">
+                    <PodcastBeforeAfter />
+                  </div>
+
+                  {/* Related editing services */}
+                  <p className="mt-6 text-center text-sm text-muted-foreground">
+                    <Link
+                      href="/podcast/podcast-editing"
+                      className="font-medium text-brand-red hover:underline"
+                    >
+                      לשירות עריכת פודקאסט מלאה </Link>
+                  </p>
+                </section>
+                <div className="rounded-xl border border-border bg-surface p-5">
+                  <p className="font-semibold text-foreground">יש לכם פרק ישן או הקלטה פגומה?</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    שחזור סאונד בעזרת AI - מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
+                    <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
+                      שחזור סאונד ב-AI </Link>
+                  </p>
+                </div>
+                </>
+              ),
+            },
+            {
+              id: "listen",
+              label: "ספוטיפיי ותמונות מהאולפן",
+              content: (
+                <>
+                <PodcastSpotifySample />
+                <ServiceShowcaseSections
+                  assetsFolder="podcast"
+                  playlistEmbedUrl={null}
+                  mediaType="gallery"
+                  galleryLabel="תמונות מאולפן הפודקאסט במודיעין"
+                />
+                </>
+              ),
+            },
+            {
+              id: "roi",
+              label: "כמה זמן זה חוסך לכם בחודש",
+              content: (
+                <>
+                <TimeSaverRoiSliderLazy variant="podcast" />
+                </>
+              ),
+            },
+            {
+              id: "tracks",
+              label: "מסלולים לפי השלב שבו אתם",
+              content: (
+                <>
+                <div className="space-y-10" aria-label="מסלולים נוספים - לפי השלב שבו אתם">
+                  <ServiceHubLinks
+                    heading="הפקת תוכן מוכן"
+                    subheading="פרקים גמורים - מהקלטה ועד קובץ מוכן להעלאה."
+                    links={PODCAST_HUB_TRACKS_CONTENT}
+                    headingId="tracks-content-heading"
+                    columns={3}
+                  />
+
+                  <ServiceHubLinks
+                    heading="אולפן וחלל הקלטה"
+                    subheading="בוחרים איפה מקליטים - במודיעין או שהאולפן מגיע אליכם."
+                    links={PODCAST_HUB_TRACKS_STUDIO}
+                    headingId="tracks-studio-heading"
+                    columns={2}
+                  />
+
+                  <ServiceHubLinks
+                    heading="עריכה ותמיכה"
+                    subheading="כבר יש לכם הקלטה? כאן משפרים ועונים על שאלות."
+                    links={PODCAST_HUB_TRACKS_SUPPORT}
+                    headingId="tracks-support-heading"
+                    columns={2}
+                  />
+                </div>
+                <section
+                  className="flex flex-wrap justify-center gap-3"
+                  aria-label="עמודי פודקאסט"
+                >
+                  <Link
+                    href="/podcast/podcast-editing"
+                    className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    עריכת פודקאסט
+                  </Link>
+                  <Link
+                    href="/podcast/podcast-production"
+                    className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    ליווי מא׳ עד ת׳
+                  </Link>
+                  <Link
+                    href="/podcast/faq"
+                    className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    שאלות נפוצות
+                  </Link>
+                  <Link
+                    href="/blog/prepare-voice-podcast-studio"
+                    className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
+                  >
+                    מדריך: הכנת קול
+                  </Link>
+                </section>
+                </>
+              ),
+            },
+            {
+              id: "guides",
+              label: "מדריכים והתאמת הצעה",
+              content: (
+                <>
+                <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast")} />
+                <NeedsDiscoveryLeadFlowSection defaultServiceId="podcast" heading="התאמת הצעת פודקאסט" />
+                </>
+              ),
+            },
+            ]}
+          />
+
           {/* ── I: FINAL CTA - deliberately the only dark section on the page, so the button reads as "the" action ── */}
           <section
             className="rounded-2xl bg-foreground p-8 text-center text-background sm:p-10"
@@ -728,9 +876,6 @@ export default function PodcastHubPageContent() {
             <p className="mt-1 text-sm text-background/70">
               {PODCAST_HUB_STARTING_PRICE_NOTE}
             </p>
-            <div className="mt-8">
-              <TimeSaverRoiSliderLazy variant="podcast" />
-            </div>
             <a
               href={whatsappHref}
               target="_blank"
@@ -751,73 +896,6 @@ export default function PodcastHubPageContent() {
             ) : null}
           </section>
 
-          <div className="space-y-10" aria-label="מסלולים נוספים - לפי השלב שבו אתם">
-            <ServiceHubLinks
-              heading="הפקת תוכן מוכן"
-              subheading="פרקים גמורים - מהקלטה ועד קובץ מוכן להעלאה."
-              links={PODCAST_HUB_TRACKS_CONTENT}
-              headingId="tracks-content-heading"
-              columns={3}
-            />
-
-            <ServiceHubLinks
-              heading="אולפן וחלל הקלטה"
-              subheading="בוחרים איפה מקליטים - במודיעין או שהאולפן מגיע אליכם."
-              links={PODCAST_HUB_TRACKS_STUDIO}
-              headingId="tracks-studio-heading"
-              columns={2}
-            />
-
-            <ServiceHubLinks
-              heading="עריכה ותמיכה"
-              subheading="כבר יש לכם הקלטה? כאן משפרים ועונים על שאלות."
-              links={PODCAST_HUB_TRACKS_SUPPORT}
-              headingId="tracks-support-heading"
-              columns={2}
-            />
-          </div>
-
-          <section
-            className="flex flex-wrap justify-center gap-3"
-            aria-label="עמודי פודקאסט"
-          >
-            <Link
-              href="/podcast/podcast-editing"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              עריכת פודקאסט
-            </Link>
-            <Link
-              href="/podcast/podcast-production"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              ליווי מא׳ עד ת׳
-            </Link>
-            <Link
-              href="/podcast/faq"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              שאלות נפוצות
-            </Link>
-            <Link
-              href="/blog/prepare-voice-podcast-studio"
-              className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:border-brand-red/40 hover:text-brand-red"
-            >
-              מדריך: הכנת קול
-            </Link>
-          </section>
-
-          <div className="rounded-xl border border-border bg-surface p-5">
-            <p className="font-semibold text-foreground">יש לכם פרק ישן או הקלטה פגומה?</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              שחזור סאונד בעזרת AI - מנקה רעשים, מחזיר צלילות ומשמיד הד.{" "}
-              <Link href="/online/vocal-fix" className="font-semibold text-brand-red hover:underline">
-                שחזור סאונד ב-AI </Link>
-            </p>
-          </div>
-
-          <ServiceBlogStrip posts={getBlogPostsByServiceSlug("podcast")} />
-          <NeedsDiscoveryLeadFlowSection defaultServiceId="podcast" heading="התאמת הצעת פודקאסט" />
           <PageRelatedFooter pathname="/podcast" />
         </Container>
       </ServicePageLayout>
