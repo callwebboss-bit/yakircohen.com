@@ -83,15 +83,19 @@ export default async function AdminSalesPage() {
               <AdminLogoutForm action={adminLogoutAction} />
             </div>
           </header>
-          <WeeklyCountCard
-            weekStart={weekStart}
-            weekLabel={weekLabelOf(weekStart)}
-            forms={countWeeklyFormLeads(leads, weekStart)}
-            manual={manual}
-            previous={previous}
-            action={saveWeeklyCountsAction}
-          />
+          {/* 12.10.2026: המחשבון ותיבת ההדבקה ראשונים. בטלפון הספירה השבועית תפסה
+              מסך שלם לפניהם, והיא נפתחת פעם בשבוע ולא כשלקוח מחכה */}
           <SalesDesk book={book} />
+          <div className="mt-8">
+            <WeeklyCountCard
+              weekStart={weekStart}
+              weekLabel={weekLabelOf(weekStart)}
+              forms={countWeeklyFormLeads(leads, weekStart)}
+              manual={manual}
+              previous={previous}
+              action={saveWeeklyCountsAction}
+            />
+          </div>
         </Container>
       </Section>
     </article>

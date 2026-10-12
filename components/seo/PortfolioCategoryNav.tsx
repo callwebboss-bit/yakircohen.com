@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Container from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 
+/** id הוא ה-id של האלמנט בעמוד */
 export type PortfolioCategoryNavItem = { id: string; label: string };
 
 /**
@@ -19,7 +20,7 @@ export default function PortfolioCategoryNav({
 
   useEffect(() => {
     const sections = items
-      .map((item) => document.getElementById(`playlist-${item.id}`))
+      .map((item) => document.getElementById(item.id))
       .filter((el): el is HTMLElement => Boolean(el));
     if (sections.length === 0 || typeof IntersectionObserver === "undefined") {
       return;
@@ -30,7 +31,7 @@ export default function PortfolioCategoryNav({
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         const first = visible[0];
-        if (first) setActiveId(first.target.id.replace(/^playlist-/, ""));
+        if (first) setActiveId(first.target.id);
       },
       { rootMargin: "-20% 0px -70% 0px" },
     );
@@ -66,7 +67,7 @@ export default function PortfolioCategoryNav({
           return (
             <a
               key={item.id}
-              href={`#playlist-${item.id}`}
+              href={`#${item.id}`}
               data-portfolio-nav={item.id}
               aria-current={active ? "location" : undefined}
               className={cn(

@@ -303,7 +303,7 @@ export const VIDEO_PLAYLISTS: Record<PlaylistId, PlaylistConfig> = {
     initialVisible: 6,
     expandBatch: 6,
     requireAnyTag: ["education"],
-    pagePaths: ["/portfolio"],
+    pagePaths: ["/academy"],
   },
   "video-editing": {
     id: "video-editing",

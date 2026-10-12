@@ -93,7 +93,7 @@ export default function PageBottomCta({
           variant="secondary"
           className="w-full sm:w-auto"
         >
-          צור קשר
+          טלפון או טופס פנייה
         </Button>
       </div>
     ) : (
@@ -119,15 +119,17 @@ export default function PageBottomCta({
               <Button as="link" href={bookHref} variant="secondary" className="w-full sm:w-auto">
                 {bookLabel}
               </Button>
+              {/* הבעלים 12.10.2026: במקום "צור קשר", מה שיש בעמוד בפועל (אין שם מייל) */}
               <Button as="link" href="/contact" variant="outline" className="w-full sm:w-auto">
-                צור קשר
+                טלפון או טופס פנייה
               </Button>
             </div>
           ) : null}
         </div>
         {whatsappHref ? (
           <p className="text-xs text-muted-foreground">
-            מענה אנושי מהיר, {TIME_CLAIMS.waResponse30m}, בלי שום התחייבות.
+            {/* היה "מענה אנושי מהיר, מענה אנושי בוואטסאפ..." (כפילות, הבעלים 12.10.2026) */}
+            {TIME_CLAIMS.waResponse30m}, בלי שום התחייבות.
           </p>
         ) : null}
         {variant === "whatsapp" && whatsappHref ? (

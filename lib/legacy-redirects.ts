@@ -189,6 +189,13 @@ const WORDPRESS_PATTERNS: Array<{ source: string; destination: string }> = [
   { source: "/2019/11/05/רעיונות-למסיבת-רווקות", destination: "/studio/group-session" }, // 11.10.2026, כמו הכתובת בלי התאריך
   { source: "/2022/05/17/דרשה-לבר-מצווה-קצר-ולעניין", destination: "/blog/bar-mitzvah-speech" },
   { source: "/2021/08/25/שירי-סלואו", destination: "/blog/wedding-slow-songs" },
+  /* D57 (11.10.2026): ארבע גרסאות עם תאריך של מדריכי החופה הישנים, והדרשה.
+     בלי השורות האלה הן נפלו ל-"/2019/:path*" ונחתו על אינדקס הבלוג. */
+  { source: "/2019/11/05/שיר-כניסה-לחופה", destination: "/blog/wedding-songs-chuppah" },
+  { source: "/2019/11/05/שירים-חופה-ההמלצות-של-די-גיי-יקיר-כהן", destination: "/blog/wedding-songs-chuppah" },
+  { source: "/2019/11/05/בחירת-שיר-כניסה-לחופה-כל-מה-שרציתם-לדע", destination: "/blog/wedding-songs-chuppah" },
+  { source: "/2019/11/05/שירים-לחופה-איך-לבחור-זמר-איכותי", destination: "/blog/wedding-songs-chuppah" },
+  { source: "/2019/11/26/הקלטת-דרשה-לבר-מצווה", destination: "/blog/bar-mitzvah-speech" },
   { source: "/2019/:path*",              destination: "/blog" },
   { source: "/2020/:path*",              destination: "/blog" },
   /* שתי הכתובות עם התאריך של אותו מאמר (Wayback, 2021). לפני /2021/:path*,
@@ -594,6 +601,14 @@ const HEBREW_GSC_NOT_INDEXED: Record<string, string> = {
   /* היה 410 מ-4.10 (מדריך על סכום המתנה, לא קשור לשירות). הבעלים 5.10.2026:
      גם הוא לפי הכלל של כתובות עם מעט קליקים, ולכן הפניה לעמוד שעשוי לעניין. */
   "/כמה-לתת-לחתונה-כמה-להביא-לחתונה": "/blog/tips-for-perfect-wedding", // 17, 3,306
+  /* D57, תוכנית 11.10.2026 סעיף 4 צעד 2: שש כתובות ישנות שעדיין החזירו 404
+     (curl, 11.10.2026). הגרסאות שלהן עם התאריך יושבות ב-WORDPRESS_PATTERNS. */
+  "/שיר-כניסה-לחופה-הקלטת-ווקאלית-מקצועית": "/studio/recording-song-modiin",
+  "/הקלטת-שיר-בר-בת-מצווה": "/studio/recording-song-modiin",
+  "/שירים-לחופה": "/blog/wedding-songs-chuppah",
+  "/שירים-חופה": "/blog/wedding-songs-chuppah",
+  "/הקלטת-דרשה-לבר-בת-מצווה": "/blog/bar-mitzvah-speech",
+  "/שיר-כניסה-לחופה-איך-לבחור-זמר-איכותי": "/blog/wedding-songs-chuppah",
 };
 
 /** Old English slugs used before the current route structure */

@@ -112,12 +112,15 @@ export default function PodcastRecordingPageContent() {
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/podcast/podcast-recording" className="max-w-3xl" />
 
-        <p className="max-w-2xl border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
-          {/* הנוסח של הבעלים, ברבים ובעברית מתוקנת (אישור הבעלים 11.10.2026) */}
-          רוצים להוציא פודקאסט, אבל כל הקלטה בבית יוצאת עם רעשים והד, ולא נעים
-          לשתף אותה. הפרק נשאר ב&quot;בקרוב&quot;. אני מבין את זה. תבואו פעם אחת
-          לאולפן, ותבינו למה אנשים חוזרים.
-        </p>
+        {/* הנוסח של הבעלים, ברבים ובעברית מתוקנת (11.10.2026). שתי פסקאות כדי שאף אחת
+            לא תעבור 3 שורות בנייד (הבעלים 12.10.2026) */}
+        <div className="max-w-2xl space-y-2 border-r-[3px] border-brand-red/40 pr-4 text-sm italic leading-relaxed text-foreground/80 sm:text-base">
+          <p>
+            רוצים להוציא פודקאסט, אבל כל הקלטה בבית יוצאת עם רעשים והד, ולא נעים
+            לשתף אותה. הפרק נשאר ב&quot;בקרוב&quot;.
+          </p>
+          <p>אני מבין את זה. תבואו פעם אחת לאולפן, ותבינו למה אנשים חוזרים.</p>
+        </div>
 
         <ShowcaseVideoSection
           heading="דוגמאות מהאולפן"

@@ -45,6 +45,8 @@ export default function VoiceoverNarratorCompare({
   const otherRef = useRef<HTMLAudioElement>(null);
   const yakirRef = useRef<HTMLAudioElement>(null);
   const isCompact = context === "compact";
+  /* בתיק העבודות ההשוואה יושבת בתוך תת-קטגוריה עם h3, ולכן h4 */
+  const HeadingTag = context === "portfolio" ? "h4" : "h2";
   const lead = VOICEOVER_COMPARE_LEAD_SINGLE;
   const showJsonLd = context !== "compact";
   const bookCta = VOICEOVER_COMPARE_BOOK_CTA;
@@ -190,12 +192,12 @@ export default function VoiceoverNarratorCompare({
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             דוגמת האזנה
           </p>
-          <h2
+          <HeadingTag
             id={`${VOICEOVER_COMPARE_SECTION_ID}-heading`}
             className="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
           >
             {VOICEOVER_COMPARE_HEADING}
-          </h2>
+          </HeadingTag>
           <p className="mt-3 text-sm leading-relaxed text-foreground">
             {lead}
           </p>

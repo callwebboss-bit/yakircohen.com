@@ -37,6 +37,15 @@ function expectedToken(): string | null {
   return value ? value : null;
 }
 
+/**
+ * האם לשרת הזה יש ADMIN_LEADS_TOKEN בכלל. עמוד הכניסה מציג את זה רק בפיתוח
+ * מקומי: בלי הסוד כל מפתח נדחה וכל קוקי נפסל, והטופס נראה כאילו "לא קורה כלום"
+ * (12.10.2026, ראו ההערה ב-app/admin/login/page.tsx).
+ */
+export function isAdminTokenConfigured(): boolean {
+  return expectedToken() !== null;
+}
+
 /** Constant-time comparison against ADMIN_LEADS_TOKEN. False when env is unset. */
 export function verifyAdminToken(candidate: string | null | undefined): boolean {
   const expected = expectedToken();
