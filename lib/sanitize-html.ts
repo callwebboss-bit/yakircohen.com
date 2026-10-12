@@ -28,6 +28,9 @@ const BLOG_ALLOWED_TAGS = [
      ontoggle. scripts/security-smoke.ts מאמת את זה בכל הרצה. */
   "details",
   "summary",
+  /* 12.10.2026: מבודד כיוון של שם שיר או מבצע באנגלית בתוך שורה בעברית.
+     תגית אינרטית, בלי מאפיינים. */
+  "bdi",
 ] as const;
 
 const BLOG_GLOSSARY_PHRASES = GLOSSARY_TOOLTIP_PHRASES.filter(({ phrase }) => {

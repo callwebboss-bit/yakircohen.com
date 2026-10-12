@@ -197,12 +197,74 @@ export const BAT_MITZVAH_OVERPLAYED_SONGS: BatMitzvahSongList = {
   ],
 };
 
+/**
+ * שירים בלועזית, בשלושה רגעים. הבעלים אישר את כל 12 ב-12.10.2026 (D112),
+ * שמונה מהם מהרשימה שלו באתר הישן וארבעה חדשים.
+ */
+export const BAT_MITZVAH_FOREIGN_ENTRANCE_SONGS: BatMitzvahSongList = {
+  id: "foreign-entrance",
+  songs: [
+    { title: "Girl on Fire", artist: "Alicia Keys", source: "https://www.youtube.com/watch?v=J91ti_MpdHA" },
+    { title: "A Sky Full of Stars", artist: "Coldplay", source: "https://www.youtube.com/watch?v=VPRjCeoBqrI" },
+    {
+      title: "Golden",
+      artist: "HUNTR/X",
+      note: "מהסרט KPop Demon Hunters",
+      source: "https://www.youtube.com/watch?v=yebNIHKAC4A",
+    },
+    { title: "Firework", artist: "Katy Perry", source: "https://www.youtube.com/watch?v=QGJuMBdaqIw" },
+  ],
+};
+
+export const BAT_MITZVAH_FOREIGN_DANCE_SONGS: BatMitzvahSongList = {
+  id: "foreign-dance",
+  songs: [
+    { title: "I Gotta Feeling", artist: "The Black Eyed Peas", source: "https://www.youtube.com/watch?v=uSD4vsh1zDA" },
+    { title: "Uptown Funk", artist: "Mark Ronson & Bruno Mars", source: "https://www.youtube.com/watch?v=OPf0YbXqDm0" },
+    { title: "Happy", artist: "Pharrell Williams", source: "https://www.youtube.com/watch?v=ZbZSe6N_BXs" },
+    {
+      title: "Can't Stop the Feeling",
+      artist: "Justin Timberlake",
+      note: "מהסרט טרולים",
+      source: "https://www.youtube.com/watch?v=ru0K8uYEZWw",
+    },
+    { title: "Blinding Lights", artist: "The Weeknd", source: "https://www.youtube.com/watch?v=4NRXx6U8ABQ" },
+    {
+      title: "Dance The Night",
+      artist: "Dua Lipa",
+      note: "מהסרט ברבי",
+      source: "https://www.youtube.com/watch?v=OiC1rgCPmUQ",
+    },
+  ],
+};
+
+export const BAT_MITZVAH_FOREIGN_FAMILY_SONGS: BatMitzvahSongList = {
+  id: "foreign-family",
+  songs: [
+    {
+      title: "Memories",
+      artist: "Maroon 5",
+      note: "למצגת או לרגע עם המשפחה",
+      source: "https://www.youtube.com/watch?v=SlPhMPnQ58k",
+    },
+    {
+      title: "Count on Me",
+      artist: "Bruno Mars",
+      note: "לרגע עם החברות",
+      source: "https://www.youtube.com/watch?v=6k8cpUkKK4c",
+    },
+  ],
+};
+
 /** הרשימה של מה שנמאס נשארת אחרונה: הטסט בודק שאף שיר ממנה לא מומלץ ברשימות האחרות. */
 export const BAT_MITZVAH_SONG_LISTS = [
   BAT_MITZVAH_ENTRANCE_SONGS,
   BAT_MITZVAH_2026_SONGS,
   BAT_MITZVAH_RELIGIOUS_SONGS,
   BAT_MITZVAH_HAREDI_SONGS,
+  BAT_MITZVAH_FOREIGN_ENTRANCE_SONGS,
+  BAT_MITZVAH_FOREIGN_DANCE_SONGS,
+  BAT_MITZVAH_FOREIGN_FAMILY_SONGS,
   BAT_MITZVAH_OVERPLAYED_SONGS,
 ] as const;
 
@@ -219,7 +281,8 @@ export function batMitzvahSongListHtml(list: BatMitzvahSongList): string {
       const tip = song.intentTip
         ? `<details class="song-tip"><summary>איך לכוון אותו</summary><p>${escapeHtml(song.intentTip)}</p></details>`
         : "";
-      return `<li><strong>${escapeHtml(song.title)}</strong>, ${escapeHtml(song.artist)}${note}${tip}</li>`;
+      // <bdi> מבודד את הכיוון של כל שם, כדי ששם באנגלית לא יערבב את סדר הפסיק והנקודה בשורה בעברית
+      return `<li><strong><bdi>${escapeHtml(song.title)}</bdi></strong>, <bdi>${escapeHtml(song.artist)}</bdi>${note}${tip}</li>`;
     })
     .join("\n");
   return `<ul>\n${items}\n</ul>`;

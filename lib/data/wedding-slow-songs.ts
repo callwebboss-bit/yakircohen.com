@@ -167,11 +167,50 @@ export const WEDDING_SLOW_NOSTALGIC_SONGS: SongList = {
   ],
 };
 
+/** שירי סלואו בלועזית. הבעלים אישר 18 מתוך 19 מועמדים ב-12.10.2026 (D112), בלי Ordinary. */
+export const WEDDING_SLOW_FOREIGN_SONGS: SongList = {
+  id: "foreign",
+  songs: [
+    {
+      title: "Perfect",
+      artist: "Ed Sheeran",
+      note: "יש גם דואט עם ביונסה",
+      source: "https://www.youtube.com/watch?v=2Vv-BfVoq4g",
+    },
+    { title: "Thinking Out Loud", artist: "Ed Sheeran", source: "https://www.youtube.com/watch?v=lp-EO5I60KA" },
+    { title: "All of Me", artist: "John Legend", source: "https://www.youtube.com/watch?v=450p7goxZqg" },
+    { title: "A Thousand Years", artist: "Christina Perri", source: "https://www.youtube.com/watch?v=rtOvBOTyX00" },
+    { title: "Can't Help Falling in Love", artist: "Elvis Presley", source: "https://www.youtube.com/watch?v=vGJTaP6anOU" },
+    { title: "Die With A Smile", artist: "Lady Gaga & Bruno Mars", source: "https://www.youtube.com/watch?v=kPa7bsKwL-c" },
+    { title: "Until I Found You", artist: "Stephen Sanchez", source: "https://www.youtube.com/watch?v=GxldQ9eX2wo" },
+    {
+      title: "You Are The Reason (Duet Version)",
+      artist: "Calum Scott & Leona Lewis",
+      source: "https://www.youtube.com/watch?v=ByfFurjQDb0",
+    },
+    {
+      title: "I Think They Call This Love",
+      artist: "Elliot James Reay",
+      source: "https://www.youtube.com/watch?v=e1mOmdykmwI",
+    },
+    { title: "Wonderful Tonight", artist: "Eric Clapton", source: "https://www.youtube.com/watch?v=UprwkbzUX6g" },
+    { title: "In Case You Didn't Know", artist: "Brett Young", source: "https://www.youtube.com/watch?v=7qaHdHpSjX8" },
+    { title: "10,000 Hours", artist: "Dan + Shay & Justin Bieber", source: "https://www.youtube.com/watch?v=Y2E71oe0aSM" },
+    { title: "Your Song", artist: "Elton John", source: "https://www.youtube.com/watch?v=GlPlfCy1urI" },
+    { title: "Shallow", artist: "Lady Gaga & Bradley Cooper", source: "https://www.youtube.com/watch?v=bo_efYhYU2A" },
+    { title: "Heaven", artist: "Bryan Adams", source: "https://www.youtube.com/watch?v=3eT464L1YRA" },
+    { title: "Let's Stay Together", artist: "Al Green", source: "https://www.youtube.com/watch?v=XXx6RDzR6eM" },
+    { title: "Who We Love", artist: "Sam Smith & Ed Sheeran", source: "https://www.youtube.com/watch?v=ypF_84mBqI8" },
+    { title: "Today, Tomorrow", artist: "Dennis Lloyd", source: "https://www.youtube.com/watch?v=hbwyTQIWgMc" },
+  ],
+};
+
 export const WEDDING_SLOW_SONG_LISTS = [
   WEDDING_SLOW_CLASSIC_SONGS,
   WEDDING_SLOW_MORE_SONGS,
   WEDDING_SLOW_NEW_SONGS,
   WEDDING_SLOW_NOSTALGIC_SONGS,
+  WEDDING_SLOW_FOREIGN_SONGS,
 ] as const;
 
 /** שירים שהבעלים ביקש להוציא (4.10.2026). הבדיקה מוודאת שלא יחזרו בטעות. */

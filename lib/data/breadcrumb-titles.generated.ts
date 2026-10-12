@@ -5,7 +5,7 @@ export const BREADCRUMB_BLOG_TITLES: Readonly<Record<string, string>> = {
   "prepare-voice-podcast-studio": "איך להכין את הקול להקלטת פודקאסט באולפן",
   "sound-recovery-ai-podcast": "שחזור סאונד וניקוי קול ב-AI - מתי זה מציל פרק",
   "wedding-song-2026": "הפקה מוזיקלית לחתונה - רגעים של פעם בחיים",
-  "wedding-songs-chuppah": "שירים לחתונה ולחופה - המדריך המלא",
+  "wedding-songs-chuppah": "שיר כניסה לחופה: השירים שזוגות בוחרים אצלנו",
   "cheap-dj-for-a-wedding": "תקליטן זול לחתונה: האם אתם קונים כרטיס ללוטו או לאירוע שלכם?",
   "ready-for-records": "איך להתכונן ליום הקלטות באולפן",
   "tips-for-perfect-wedding": "5 טיפים לחתונה יהודית מושלמת",
