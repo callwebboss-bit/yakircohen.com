@@ -19,7 +19,7 @@ import { buildMorningLinkFields, nisText } from "../lib/sales/sales-copy";
 
 const OUT = "docs/morning-links-sheet.md";
 const ITEMS_OUT = "docs/morning-items.json";
-const PRESET_COUNT = 7;
+const PRESET_COUNT = 5; /* מורנינג מגביל ל-5 סכומים קבועים לבחירה (נבדק 12.10.2026) */
 
 const book = buildSalesBook();
 const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jerusalem" });
