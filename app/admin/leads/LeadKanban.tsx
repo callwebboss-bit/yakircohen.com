@@ -2,6 +2,8 @@
 
 import type { LeadRecord, LeadStatus } from "@/lib/leads/types";
 import { updateLeadStatusAction } from "@/app/admin/leads/actions";
+import LeadContactLinks from "@/components/admin/LeadContactLinks";
+import { leadWaitingLabel } from "@/lib/leads/lead-response";
 
 const COLUMNS: { status: LeadStatus; title: string }[] = [
   { status: "new", title: "חדש" },
@@ -12,7 +14,8 @@ const COLUMNS: { status: LeadStatus; title: string }[] = [
   { status: "spam", title: "ספאם" },
 ];
 
-export default function LeadKanban({ leads }: { leads: LeadRecord[] }) {
+/* now מגיע מהשרת: חישוב זמן בדפדפן בזמן הרינדור היה יוצא שונה מהשרת (hydration) */
+export default function LeadKanban({ leads, now }: { leads: LeadRecord[]; now: number }) {
   return (
     <div className="mt-8 grid gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {COLUMNS.map((col) => {
@@ -36,7 +39,9 @@ export default function LeadKanban({ leads }: { leads: LeadRecord[] }) {
                     {lead.name || lead.phone || lead.formId}
                   </p>
                   <p className="text-muted-foreground">ציון {lead.score}</p>
+                  <WaitingLine lead={lead} now={now} />
                   <p className="mt-1 line-clamp-2 text-muted-foreground">{lead.subject}</p>
+                  <LeadContactLinks phone={lead.phone} className="mt-2" />
                   <form action={updateLeadStatusAction} className="mt-2">
                     <input type="hidden" name="id" value={lead.id} />
                     <label className="sr-only" htmlFor={`status-${lead.id}`}>
@@ -63,5 +68,15 @@ export default function LeadKanban({ leads }: { leads: LeadRecord[] }) {
         );
       })}
     </div>
+  );
+}
+
+function WaitingLine({ lead, now }: { lead: LeadRecord; now: number }) {
+  const waiting = leadWaitingLabel(lead, now);
+  if (!waiting) return null;
+  return (
+    <p className={waiting.overdue ? "font-semibold text-brand-red-text" : "text-foreground"}>
+      מחכה, {waiting.text}
+    </p>
   );
 }

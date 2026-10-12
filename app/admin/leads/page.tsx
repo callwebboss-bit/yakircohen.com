@@ -5,10 +5,12 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { ADMIN_LOGIN_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
 import { listLeads } from "@/lib/leads/store";
-import type { LeadStatus, ServiceType } from "@/lib/leads/types";
+import type { LeadRecord, LeadStatus, ServiceType } from "@/lib/leads/types";
 import { leadMailStatusLabel } from "@/lib/leads/resend-events";
+import { leadWaitingLabel } from "@/lib/leads/lead-response";
 import { adminLogoutAction } from "@/app/admin/login/actions";
 import { AdminLogoutForm } from "@/components/admin/SalesDesk";
+import LeadContactLinks from "@/components/admin/LeadContactLinks";
 
 export const metadata: Metadata = {
   title: "לידים | ניהול",
@@ -40,6 +42,8 @@ export default async function AdminLeadsPage({
   const sp = await searchParams;
 
   let leads = await listLeads(150);
+  /* זמן אחד לטבלה וללוח, כדי שהשרת והדפדפן יציגו את אותה המתנה */
+  const now = new Date().getTime();
   if (sp.status) {
     leads = leads.filter((l) => l.status === (sp.status as LeadStatus));
   }
@@ -103,12 +107,14 @@ export default async function AdminLeadsPage({
                   <tr key={lead.id} className="border-t border-border">
                     <td className="px-3 py-2 whitespace-nowrap text-xs text-muted-foreground">
                       {new Date(lead.createdAt).toLocaleString("he-IL")}
+                      <WaitingBadge lead={lead} now={now} />
                     </td>
                     <td className="px-3 py-2 font-semibold">{lead.score}</td>
                     <td className="px-3 py-2">{lead.serviceType}</td>
                     <td className="px-3 py-2">{lead.name || " - "}</td>
-                    <td className="px-3 py-2" dir="ltr">
-                      {lead.phone || " - "}
+                    <td className="px-3 py-2">
+                      <span dir="ltr" className="block whitespace-nowrap">{lead.phone || " - "}</span>
+                      <LeadContactLinks phone={lead.phone} className="mt-1" />
                     </td>
                     <td className="px-3 py-2">{lead.status}</td>
                     <td className="px-3 py-2 whitespace-nowrap">{leadMailStatusLabel(lead)}</td>
@@ -120,9 +126,20 @@ export default async function AdminLeadsPage({
             </table>
           </div>
 
-          <LeadKanban leads={leads} />
+          <LeadKanban leads={leads} now={now} />
         </Container>
       </Section>
     </article>
+  );
+}
+
+/** כמה זמן פנייה חדשה מחכה. אדום אחרי שעה, כמו ההבטחה באתר */
+function WaitingBadge({ lead, now }: { lead: LeadRecord; now: number }) {
+  const waiting = leadWaitingLabel(lead, now);
+  if (!waiting) return null;
+  return (
+    <span className={`block font-semibold ${waiting.overdue ? "text-brand-red-text" : "text-foreground"}`}>
+      מחכה, {waiting.text}
+    </span>
   );
 }

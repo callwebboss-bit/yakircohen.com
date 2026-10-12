@@ -9,6 +9,7 @@ import { adminLogoutAction } from "@/app/admin/login/actions";
 import WeeklyCountCard from "@/components/admin/WeeklyCountCard";
 import { saveWeeklyCountsAction } from "@/app/admin/sales/actions";
 import { listLeads } from "@/lib/leads/store";
+import { summarizeWaitingLeads, waitingLabel } from "@/lib/leads/lead-response";
 import {
   addDays,
   countWeeklyFormLeads,
@@ -44,8 +45,11 @@ export default async function AdminSalesPage() {
 
   /* השבוע ושלושת השבועות שלפניו (D95). הלידים נשמרים 90 יום, ולכן 4 שבועות
      תמיד בתוך הטווח */
-  const weekStart = weekStartIsrael(new Date());
+  const now = new Date();
+  const weekStart = weekStartIsrael(now);
   const leads = await listLeads(200);
+  /* פניות מהטופס שעוד לא נענו (רעיון 5, 12.10.2026). כבר נטענות לספירה השבועית */
+  const waiting = summarizeWaitingLeads(leads, now.getTime());
   const weekLabelOf = (start: string) =>
     `${start.slice(8, 10)}.${start.slice(5, 7)} עד ${addDays(start, 6).slice(8, 10)}.${addDays(start, 6).slice(5, 7)}`;
   const previousStarts = [1, 2, 3].map((n) => addDays(weekStart, -7 * n));
@@ -73,12 +77,7 @@ export default async function AdminSalesPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <a
-                href="/admin/leads"
-                className="inline-flex min-h-11 items-center rounded-md border border-border px-3 text-sm text-foreground hover:bg-muted/50"
-              >
-                לידים
-              </a>
+              <WaitingLeadsLink {...waiting} />
               {/* היציאה מוחקת גם את 20 האישורים האחרונים מהדפדפן */}
               <AdminLogoutForm action={adminLogoutAction} />
             </div>
@@ -99,5 +98,47 @@ export default async function AdminSalesPage() {
         </Container>
       </Section>
     </article>
+  );
+}
+
+/*
+ * הכפתור ללידים, עם מה שמחכה. אדום כשפנייה מחכה יותר משעה (באתר: "בדרך כלל
+ * תוך שעה"). לחיצה פותחת את הלידים מסוננים ל"חדש". הפנייה יורדת מהמונה
+ * כשמעבירים אותה בלוח ל"נוצר קשר".
+ */
+function WaitingLeadsLink({
+  count,
+  overdue,
+  oldestMinutes,
+}: {
+  count: number;
+  overdue: number;
+  oldestMinutes: number | null;
+}) {
+  if (count === 0) {
+    return (
+      <a
+        href="/admin/leads"
+        className="inline-flex min-h-11 items-center rounded-md border border-border px-3 text-sm text-foreground hover:bg-muted/50"
+      >
+        לידים
+      </a>
+    );
+  }
+  const label = count === 1 ? "פנייה אחת מחכה" : `${count} פניות מחכות`;
+  return (
+    <a
+      href="/admin/leads?status=new"
+      className={
+        overdue > 0
+          ? "inline-flex min-h-11 flex-col items-start justify-center rounded-md bg-brand-red px-3 py-1 text-sm font-semibold text-white hover:bg-brand-red-light"
+          : "inline-flex min-h-11 flex-col items-start justify-center rounded-md border border-brand-red px-3 py-1 text-sm font-semibold text-foreground hover:bg-muted/50"
+      }
+    >
+      <span>{label}</span>
+      {oldestMinutes != null ? (
+        <span className="text-xs font-normal">הראשונה {waitingLabel(oldestMinutes)}</span>
+      ) : null}
+    </a>
   );
 }

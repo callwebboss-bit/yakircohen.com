@@ -174,11 +174,13 @@ function formatIssued(iso: string): string {
 
 type GtagFn = (...args: unknown[]) => void;
 
-/* בלי פרטים אישיים: רק מזהה הכרטיס, ואם ההודעה נבנתה מבחירה במחשבון. ספירת
-   שימוש שבועית מול הלידים (תוכנית, מעקב) */
-function trackCopy(cardId: string, withSelection: boolean): void {
+/* בלי פרטים אישיים: רק מזהה הכרטיס, מה הועתק (הודעה, רק לוודא, לינק לתשלום
+   וכו׳) ואם ההודעה נבנתה מבחירה במחשבון. ספירת שימוש שבועית מול הלידים
+   (תוכנית, מעקב). copy_kind הוא המימד ש-docs/MORNING-LINKS.md (סעיף 15) מבקש
+   להגדיר ב-GA4, כדי לספור כמה לינקים לתשלום נשלחו */
+function trackCopy(cardId: string, what: SalesCopyKind, withSelection: boolean): void {
   const w = window as Window & { gtag?: GtagFn };
-  w.gtag?.("event", "sales_desk_copy", { card_id: cardId, with_selection: withSelection });
+  w.gtag?.("event", "sales_desk_copy", { card_id: cardId, copy_kind: what, with_selection: withSelection });
 }
 
 /* ─── המחיר שהלקוח ראה ─── */
@@ -338,7 +340,7 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
   };
 
   const onCopy = (cardId: string, what: SalesCopyKind, withSelection: boolean) => {
-    trackCopy(cardId, withSelection);
+    trackCopy(cardId, what, withSelection);
     const title = byId.get(cardId)?.title ?? "";
     const label =
       what === "message" ? "ההודעה הועתקה" : what === "confirm" ? "שורת רק לוודא הועתקה" : PAYMENT_COPY_ANNOUNCEMENT[what];
