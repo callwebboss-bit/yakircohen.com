@@ -375,9 +375,10 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
 
             <details className="rounded-lg border border-border px-3 py-2">
               <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-foreground">
-                שורות למורנינג
+                שורות למורנינג (מחיר כולל מע״מ, כמות 1)
               </summary>
               <MorningTable
+                inclLines={quote.morningInclLines}
                 lines={quote.lines}
                 totalExVat={quote.totalExVat}
                 totalInclVat={quote.totalInclVat}

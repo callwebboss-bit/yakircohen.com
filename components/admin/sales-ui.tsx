@@ -1,7 +1,7 @@
 "use client";
 
-import { CATALOG_VAT_RATE } from "@/lib/data/pricing-catalog";
 import { buildFollowUpIcs } from "@/lib/sales/ics";
+import type { MorningInclLine } from "@/lib/sales/morning-incl";
 import type { SalesCard as SalesCardData, SalesLine } from "@/lib/sales/sales-book";
 
 /**
@@ -81,20 +81,21 @@ function round2(value: number): number {
 }
 
 export function MorningTable({
+  inclLines,
   lines,
   totalExVat,
   totalInclVat,
   priceFrom,
 }: {
+  inclLines: readonly MorningInclLine[];
   lines: readonly SalesLine[];
   totalExVat: number;
   totalInclVat: number;
   priceFrom: boolean;
 }) {
-  /* באתר המע״מ מעוגל לשקל על הסכום. מורנינג עלול לחשב באגורות, ואז הסך שונה
-     בכמה אגורות (תוכנית עמדת המכירות: 23 מתוך 47 צירופים) */
-  const exactTotal = round2(totalExVat * (1 + CATALOG_VAT_RATE));
-  const differs = Math.abs(exactTotal - totalInclVat) >= 0.005;
+  /* החלטת הבעלים 12.10.2026, שורות כולל מע״מ למורנינג: כל שורה כמות 1 בסכום
+     כולל מע״מ, והשורה האחרונה סופגת את העיגול, כך שהסך במורנינג שווה לוואטסאפ.
+     הפירוט לפני מע״מ נשאר מתחת, ליקיר */
   return (
     <div className="mt-2">
       {priceFrom ? <p className="text-xs text-muted-foreground">מחיר התחלה</p> : null}
@@ -104,40 +105,60 @@ export function MorningTable({
             <tr>
               <th className="py-1 pe-2 font-semibold">תיאור</th>
               <th className="py-1 pe-2 font-semibold">כמות</th>
-              <th className="py-1 font-semibold">ליחידה לפני מע״מ</th>
+              <th className="py-1 font-semibold">כולל מע״מ</th>
             </tr>
           </thead>
           <tbody>
-            {lines.map((l, i) => (
+            {inclLines.map((l, i) => (
               <tr key={`${l.id}-${i}`} className="border-t border-border">
                 <td className="py-1 pe-2">{l.label}</td>
                 <td className="py-1 pe-2 tabular-nums">{l.qty}</td>
-                <td className="py-1 whitespace-nowrap tabular-nums">{money(l.unitExVat)}</td>
+                <td className="py-1 whitespace-nowrap tabular-nums">{money(l.amountInclVat)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="border-t border-border">
-              <td colSpan={2} className="py-1 pe-2">סה״כ לפני מע״מ</td>
-              <td className="py-1 whitespace-nowrap tabular-nums">{money(totalExVat)}</td>
-            </tr>
-            <tr>
-              <td colSpan={2} className="py-1 pe-2">מע״מ</td>
-              <td className="py-1 whitespace-nowrap tabular-nums">{money(round2(totalInclVat - totalExVat))}</td>
-            </tr>
-            <tr className="font-semibold">
+            <tr className="border-t border-border font-semibold">
               <td colSpan={2} className="py-1 pe-2">סה״כ כולל מע״מ</td>
               <td className="py-1 whitespace-nowrap tabular-nums">{money(totalInclVat)}</td>
             </tr>
           </tfoot>
         </table>
       </div>
-      {differs ? (
-        <p className="mt-1 text-xs text-muted-foreground">
-          מורנינג עשוי לחשב {money(exactTotal)} (מע״מ באגורות). אם יוצא שם סכום אחר מ-{money(totalInclVat)},
-          עוצרים לפני ששולחים.
-        </p>
-      ) : null}
+      <p className="mt-1 text-xs text-muted-foreground">במורנינג: בשורה בוחרים &apos;כולל מע״מ&apos;</p>
+      <details className="mt-2">
+        <summary className="cursor-pointer text-xs text-muted-foreground">פירוט לפני מע״מ</summary>
+        <div className="mt-1 overflow-x-auto">
+          <table className="w-full min-w-[18rem] text-right text-xs">
+            <thead className="text-muted-foreground">
+              <tr>
+                <th className="py-1 pe-2 font-semibold">תיאור</th>
+                <th className="py-1 pe-2 font-semibold">כמות</th>
+                <th className="py-1 font-semibold">ליחידה לפני מע״מ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lines.map((l, i) => (
+                <tr key={`${l.id}-${i}`} className="border-t border-border">
+                  <td className="py-1 pe-2">{l.label}</td>
+                  <td className="py-1 pe-2 tabular-nums">{l.qty}</td>
+                  <td className="py-1 whitespace-nowrap tabular-nums">{money(l.unitExVat)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t border-border">
+                <td colSpan={2} className="py-1 pe-2">סה״כ לפני מע״מ</td>
+                <td className="py-1 whitespace-nowrap tabular-nums">{money(totalExVat)}</td>
+              </tr>
+              <tr>
+                <td colSpan={2} className="py-1 pe-2">מע״מ</td>
+                <td className="py-1 whitespace-nowrap tabular-nums">{money(round2(totalInclVat - totalExVat))}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </details>
     </div>
   );
 }

@@ -53,6 +53,7 @@ import {
 } from "@/lib/data/events-booking";
 import { PRICING_HUB_SECTIONS, resolveRowHref } from "@/lib/data/pricing-hub";
 import { absoluteUrl } from "@/lib/site-url";
+import { morningInclLines, type MorningInclLine } from "@/lib/sales/morning-incl";
 import { getBankTransferLine, getDepositLink, getPaymentLink, type MorningLink } from "@/lib/sales/morning-links";
 import {
   buildCardAgreedLine,
@@ -72,6 +73,8 @@ export type SalesCombo = {
   key: string;
   label: string;
   lines: SalesLine[];
+  /** החלטת הבעלים 12.10.2026, שורות כולל מע״מ למורנינג: כמות 1, מסתכמות בדיוק ל-totalInclVat */
+  morningInclLines: MorningInclLine[];
   totalExVat: number;
   totalInclVat: number;
   priceFrom: boolean;
@@ -121,6 +124,8 @@ export type SalesCard = {
   featured: boolean;
   /** שורת הבסיס למורנינג */
   morningLines: SalesLine[];
+  /** החלטת הבעלים 12.10.2026, שורות כולל מע״מ למורנינג: שורת הבסיס, כמות 1, inclVat */
+  morningInclLines: MorningInclLine[];
   /** לינק תשלום במורנינג: קבוע לשירות, או סכום פתוח, או null עד שייווצר (morning-links.json) */
   payLink: MorningLink | null;
   /** הודעת התשלום הקצרה (ברירת מחדל): סכום ולינק, או null כשאין לינק */
@@ -432,7 +437,8 @@ function isPriceFromId(id: string): boolean {
  */
 function comboFromLines(key: string, label: string, lines: SalesLine[], totalExVat = sumLines(lines)): SalesCombo {
   const priceFrom = lines.some((l) => isPriceFromId(l.id));
-  return { key, label, lines, totalExVat, totalInclVat: catalogWithVat(totalExVat), priceFrom };
+  const totalInclVat = catalogWithVat(totalExVat);
+  return { key, label, lines, morningInclLines: morningInclLines(lines, totalInclVat), totalExVat, totalInclVat, priceFrom };
 }
 
 function participantRow(count: number, totalExVat: number): SalesParticipantRow {
@@ -814,6 +820,7 @@ function buildCard(item: PriceItem): SalesCard {
     searchTerms: searchTermsFor(item, family),
     featured: (FEATURED_CARD_IDS as readonly string[]).includes(id),
     morningLines: [line(id)],
+    morningInclLines: morningInclLines([line(id)], catalogWithVat(item.exVat)),
   };
   const payLink = getPaymentLink(id, { priceFrom });
   const bankLine = getBankTransferLine();

@@ -34,6 +34,7 @@ import { podcastParticipantsCostExVat } from "@/lib/data/podcast-calculator";
 import { calcMobileStudioAtHomeExVat } from "@/lib/data/mobile-studio-booking";
 import { EVENT_GIFT_THRESHOLD, getEventBundlePrice, isEventQuoteOnly, RIGID_ACTIVATION_OPTIONS } from "@/lib/data/events-booking";
 import type { SalesAddon, SalesCard, SalesLine } from "@/lib/sales/sales-book";
+import { morningInclLines, type MorningInclLine } from "@/lib/sales/morning-incl";
 import { buildClosingQuestion, buildIncludedSentence, CONFIRM_PREFIX } from "@/lib/sales/sales-copy";
 
 /** עד כמה תווים הודעה עם בחירה. הודעה בלי בחירה היא ההודעה של הכרטיס (עד 350) */
@@ -193,6 +194,8 @@ export type SelectionInput = {
 export type SelectionQuote = {
   /** שורות למורנינג: תיאור, כמות, מחיר ליחידה לפני מע״מ */
   lines: SalesLine[];
+  /** החלטת הבעלים 12.10.2026, שורות כולל מע״מ למורנינג: כמות 1, מסתכמות בדיוק ל-totalInclVat */
+  morningInclLines: MorningInclLine[];
   totalExVat: number;
   totalInclVat: number;
   priceFrom: boolean;
@@ -489,6 +492,7 @@ export function buildSelectionQuote(card: SalesCard, input: SelectionInput): Sel
 
   return {
     lines,
+    morningInclLines: morningInclLines(lines, totalInclVat),
     totalExVat,
     totalInclVat,
     priceFrom,
