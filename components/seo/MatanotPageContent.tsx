@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "@/components/ui/IntentLink";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -154,7 +155,23 @@ export default function MatanotPageContent() {
 
           <div className="mt-10 rounded-2xl border border-brand-red/20 bg-background p-6 text-center">
             <h3 className="text-lg font-semibold text-foreground">מחפשים קודם שובר מתנה?</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            {/* דוגמה שצוירה בבונה השובר עצמו (lib/gift-voucher-canvas.ts) עם שמות לדוגמה.
+                קובץ סטטי ו-unoptimized, בלי לגעת במכסת התמונות. אם עיצוב השובר משתנה, לצייר מחדש. */}
+            <figure className="mx-auto mt-5 max-w-2xl">
+              <Image
+                src="/images/matanot/gift-voucher-sample.webp"
+                alt="דוגמה לשובר מתנה: חצי שעה באולפן, עבור נועה מאת סבא וסבתא, עם הודעה אישית, תוקף שנתיים מיום הרכישה וברקוד לקוד השובר"
+                width={1600}
+                height={900}
+                unoptimized
+                loading="lazy"
+                className="h-auto w-full rounded-lg border border-border shadow-sm"
+              />
+              <figcaption className="mt-2 text-xs text-muted-foreground">
+                ככה נראה השובר. השמות וההודעה כאן לדוגמה, ואת שלכם כותבים בבונה השובר.
+              </figcaption>
+            </figure>
+            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
               אם אתם רוצים להתחיל משובר פתוח למימוש, יש גם עמוד נפרד של{" "}
               <Link href="/studio/recording-song-modiin/gifts" className="font-semibold text-brand-red hover:underline">
                 שוברים ורעיונות מהאולפן
