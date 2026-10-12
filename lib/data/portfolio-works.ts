@@ -18,7 +18,7 @@ export type PortfolioWork = {
   title: string;
   /** תיאור למטא ול-VideoObject */
   summary: string;
-  /** פסקאות "מה עשינו" */
+  /** פרטים נוספים מתחת לתשובה, בלי לחזור על summary */
   story: readonly string[];
   credits?: readonly { role: string; name: string }[];
   cta: PortfolioPlaylistCtaConfig | null;
@@ -40,10 +40,7 @@ export const PORTFOLIO_WORKS: readonly PortfolioWork[] = [
     title: "מג'יק קאס - הקליפ הרשמי",
     summary:
       "הקליפ הרשמי של מג'יק קאס, עם מעל מיליון צפיות ביוטיוב. הפקה ועיבוד מוזיקלי יחד עם רועי מאנה, ומיקס ומאסטרינג ביקיר כהן הפקות.",
-    story: [
-      "הקליפ הרשמי של מג'יק קאס, עם מעל מיליון צפיות ביוטיוב.",
-      "ההפקה והעיבוד המוזיקלי נעשו אצלנו יחד עם רועי מאנה, וגם המיקס והמאסטרינג של השיר שלנו.",
-    ],
+    story: [],
     credits: splitCredits(MAGIC_KASS_CLIP_CREDITS),
     cta: getPortfolioPlaylistCta("studio-hub"),
   },
@@ -53,10 +50,7 @@ export const PORTFOLIO_WORKS: readonly PortfolioWork[] = [
     videoId: "kMBtj7hLTHA",
     title: "קריינות לפרסומת טלוויזיה: בנא משקאות, ערוץ 14",
     summary: "פרסומת חג לבנא משקאות ששודרה בערוץ 14. קריינות: יקיר כהן.",
-    story: [
-      "פרסומת חג לבנא משקאות ששודרה בערוץ 14.",
-      "בקריינות מקבלים 3 גרסאות של כל משפט, ועד 2 סבבי תיקונים אחרי בחירת גרסה.",
-    ],
+    story: ["בקריינות מקבלים 3 גרסאות של כל משפט, ועד 2 סבבי תיקונים אחרי בחירת גרסה."],
     credits: [{ role: "קריינות", name: "יקיר כהן" }],
     cta: getPortfolioPlaylistCta("voiceover-hub"),
   },
@@ -67,10 +61,7 @@ export const PORTFOLIO_WORKS: readonly PortfolioWork[] = [
     title: "ככה באמת נשמעת שירה באולפן: לפני ואחרי עריכה בסיסית",
     summary:
       "לפני ואחרי עריכה בסיסית, כמו בהקלטת שיר רגילה. מתאים למי שיודע לשיר ולא צריך תיקון זיופים.",
-    story: [
-      "ככה נשמעת שירה באולפן לפני העריכה ואחריה.",
-      "זו עריכה בסיסית, כמו בהקלטת שיר רגילה. היא מתאימה למי שיודע לשיר ולא צריך תיקון זיופים.",
-    ],
+    story: [],
     cta: getPortfolioPlaylistCta("recording-song-modiin"),
   },
   {
@@ -80,10 +71,7 @@ export const PORTFOLIO_WORKS: readonly PortfolioWork[] = [
     title: "חידוש שיר ישן בלי להקליט מחדש",
     summary:
       "שיר ישן שחודש מרחוק: מבודדים ומנקים את השירה מההקלטה הקיימת, ובונים סביבה עיבוד מוזיקלי חדש. בלי להקליט מחדש.",
-    story: [
-      "שיר ישן שחודש מרחוק, בלי להקליט מחדש.",
-      "מבודדים ומנקים את השירה מההקלטה הקיימת, ובונים סביב הקול המקורי עיבוד מוזיקלי חדש. תיקון זיופים לא כלול.",
-    ],
+    story: ["תיקון זיופים לא כלול."],
     cta: cta({
       prompt: "יש לכם שיר ישן שרוצים לחדש?",
       serviceHref: "/studio/renew-old-song",
@@ -101,10 +89,7 @@ export const PORTFOLIO_WORKS: readonly PortfolioWork[] = [
     videoId: "8lfWwn0uJMg",
     title: "עריכת קליפ ילדים ממסך ירוק: לפני ואחרי",
     summary: "כמה עולה לערוך קליפ ילדים ממסך ירוק, והתוצאה לפני ואחרי.",
-    story: [
-      "קליפ ילדים שצולם על מסך ירוק, לפני העריכה ואחריה.",
-      "בסרטון מוסבר גם כמה עולה עריכה כזו.",
-    ],
+    story: [],
     cta: null,
     serviceLink: { href: "/business/content-studio", label: "לחבילות רילז לעסקים" },
   },

@@ -1,6 +1,7 @@
 import Link from "@/components/ui/IntentLink";
 import YouTube from "@/components/YouTube";
 import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+import AnswerBlock from "@/components/seo/AnswerBlock";
 import PortfolioPlaylistCta from "@/components/marketing/PortfolioPlaylistCta";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -31,6 +32,9 @@ export default function PortfolioWorkPageContent({ work }: { work: PortfolioWork
             <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {work.title}
             </h1>
+            <div className="mt-4">
+              <AnswerBlock id="work-summary">{work.summary}</AnswerBlock>
+            </div>
             <div className="relative mt-8 aspect-video w-full overflow-hidden rounded-2xl bg-neutral-200">
               <YouTube videoId={work.videoId} title={work.title} fillParent withSchema={false} />
             </div>
@@ -39,16 +43,18 @@ export default function PortfolioWorkPageContent({ work }: { work: PortfolioWork
 
         <Section padding="sm">
           <Container className="max-w-3xl space-y-10">
-            <section aria-labelledby="work-story-heading">
-              <h2 id="work-story-heading" className="font-serif text-2xl font-semibold text-foreground">
-                מה עשינו
-              </h2>
-              <div className="mt-4 space-y-3 text-base leading-relaxed text-foreground">
-                {work.story.map((p) => (
-                  <p key={p.slice(0, 32)}>{p}</p>
-                ))}
-              </div>
-            </section>
+            {work.story.length ? (
+              <section aria-labelledby="work-story-heading">
+                <h2 id="work-story-heading" className="font-serif text-2xl font-semibold text-foreground">
+                  פרטים
+                </h2>
+                <div className="mt-4 space-y-3 text-base leading-relaxed text-foreground">
+                  {work.story.map((p) => (
+                    <p key={p.slice(0, 32)}>{p}</p>
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             {work.credits?.length ? (
               <section aria-labelledby="work-credits-heading">
