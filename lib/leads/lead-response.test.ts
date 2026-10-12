@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { LeadRecord } from "@/lib/leads/types";
 import {
+  isCallbackLead,
   leadTelUrl,
   leadWaitingLabel,
   leadWhatsAppUrl,
@@ -105,5 +106,14 @@ describe("leadWaitingLabel", () => {
     assert.deepEqual(leadWaitingLabel(lead(minutesAgo(25)), NOW), { text: "לפני 25 דק׳", overdue: false });
     assert.deepEqual(leadWaitingLabel(lead(minutesAgo(185)), NOW), { text: "לפני 3 שע׳", overdue: true });
     assert.equal(leadWaitingLabel(lead(minutesAgo(25), { status: "won" }), NOW), null);
+  });
+});
+
+describe("isCallbackLead", () => {
+  it("only a lead that asked for a call", () => {
+    assert.equal(isCallbackLead(lead(minutesAgo(5), { contactChannel: "callback" })), true);
+    assert.equal(isCallbackLead(lead(minutesAgo(5), { contactChannel: "whatsapp" })), false);
+    /* רשומה מלפני 12.10.2026, בלי השדה */
+    assert.equal(isCallbackLead(lead(minutesAgo(5))), false);
   });
 });

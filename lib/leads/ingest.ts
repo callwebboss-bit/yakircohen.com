@@ -206,6 +206,7 @@ export async function ingestLead(input: IngestLeadInput): Promise<IngestLeadResu
     budgetHint,
     duplicateOf: isUpdate ? repeat.existingLeadId : undefined,
     reviewFlags: flags.length ? flags : undefined,
+    contactChannel: input.contactChannel,
   };
 
   let stored = false;

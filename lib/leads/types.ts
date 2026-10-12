@@ -1,3 +1,5 @@
+import type { LeadContactChannel } from "@/lib/leads/contact-channel";
+
 export type ServiceType =
   | "studio"
   | "podcast"
@@ -64,6 +66,11 @@ export type LeadRecord = {
   duplicateOf?: string;
   /** סימונים רכים מבדיקת הגוף (מילות ספאם). הליד נשלח לבעלים עם "[לבדיקה]". */
   reviewFlags?: string[];
+  /**
+   * איך הלקוח ביקש שנחזור אליו (12.10.2026). "callback" = ביקש שיחה ולא קיבל
+   * הודעת וואטסאפ, ולכן בעמוד הלידים החיוג בא ראשון. רשומות מלפני התאריך בלי השדה.
+   */
+  contactChannel?: LeadContactChannel;
 };
 
 export type LeadIngestClientMeta = {

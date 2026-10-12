@@ -188,13 +188,16 @@ describe("ingestLead", () => {
 
   it("a callback lead says so in the footer and the subject, without a WhatsApp claim", async () => {
     mockFetch(() => ({ status: 200, json: { id: "email-id" } }));
-    await ingest.ingestLead(
+    const result = await ingest.ingestLead(
       input({ formId: "song_offer_callback", subject: "שיחה חוזרת", contactChannel: "callback" }),
     );
     const sent = resendCalls()[0].body;
     assert.match(String(sent.subject), /^\[שיחה חוזרת\] /);
     assert.match(String(sent.text), /הלקוח ביקש שיחה חוזרת\. לא נשלחה לו הודעת וואטסאפ\.$/);
     assert.doesNotMatch(String(sent.text), /קיבל קישור לוואטסאפ/);
+    /* נשמר גם על הרשומה, כדי שעמוד הלידים יציג "ביקש שיחה" */
+    const saved = await store.getLead(result.leadId);
+    assert.equal(saved?.contactChannel, "callback");
   });
 
   it("CallbackLeadForm: the owner email names the service the customer picked", async () => {

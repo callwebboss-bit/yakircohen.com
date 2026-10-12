@@ -3,7 +3,8 @@
 import type { LeadRecord, LeadStatus } from "@/lib/leads/types";
 import { updateLeadStatusAction } from "@/app/admin/leads/actions";
 import LeadContactLinks from "@/components/admin/LeadContactLinks";
-import { leadWaitingLabel } from "@/lib/leads/lead-response";
+import LeadRepliedButton from "@/components/admin/LeadRepliedButton";
+import { isCallbackLead, leadWaitingLabel } from "@/lib/leads/lead-response";
 
 const COLUMNS: { status: LeadStatus; title: string }[] = [
   { status: "new", title: "חדש" },
@@ -40,8 +41,12 @@ export default function LeadKanban({ leads, now }: { leads: LeadRecord[]; now: n
                   </p>
                   <p className="text-muted-foreground">ציון {lead.score}</p>
                   <WaitingLine lead={lead} now={now} />
+                  {isCallbackLead(lead) ? <p className="font-semibold text-foreground">ביקש שיחה</p> : null}
                   <p className="mt-1 line-clamp-2 text-muted-foreground">{lead.subject}</p>
-                  <LeadContactLinks phone={lead.phone} className="mt-2" />
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <LeadContactLinks phone={lead.phone} preferCall={isCallbackLead(lead)} />
+                    {lead.status === "new" ? <LeadRepliedButton leadId={lead.id} /> : null}
+                  </div>
                   <form action={updateLeadStatusAction} className="mt-2">
                     <input type="hidden" name="id" value={lead.id} />
                     <label className="sr-only" htmlFor={`status-${lead.id}`}>

@@ -58,6 +58,11 @@ export function waitingLabel(minutes: number): string {
   return `לפני ${days} ימים`;
 }
 
+/** הלקוח ביקש שיחה ולא קיבל הודעת וואטסאפ (נשמר מ-12.10.2026) */
+export function isCallbackLead(lead: Pick<LeadRecord, "contactChannel">): boolean {
+  return lead.contactChannel === "callback";
+}
+
 /** פנייה שמחכה לתשובה: חדשה, בלי ספאם, בלי פנייה חוזרת ובלי טיוטה נטושה (כמו weekly-count) */
 function isWaiting(lead: LeadRecord): boolean {
   return (

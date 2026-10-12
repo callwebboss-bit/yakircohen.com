@@ -7,10 +7,11 @@ import { ADMIN_LOGIN_PATH, isAdminAuthenticated } from "@/lib/admin-auth";
 import { listLeads } from "@/lib/leads/store";
 import type { LeadRecord, LeadStatus, ServiceType } from "@/lib/leads/types";
 import { leadMailStatusLabel } from "@/lib/leads/resend-events";
-import { leadWaitingLabel } from "@/lib/leads/lead-response";
+import { isCallbackLead, leadWaitingLabel } from "@/lib/leads/lead-response";
 import { adminLogoutAction } from "@/app/admin/login/actions";
 import { AdminLogoutForm } from "@/components/admin/SalesDesk";
 import LeadContactLinks from "@/components/admin/LeadContactLinks";
+import LeadRepliedButton from "@/components/admin/LeadRepliedButton";
 
 export const metadata: Metadata = {
   title: "לידים | ניהול",
@@ -111,12 +112,19 @@ export default async function AdminLeadsPage({
                     </td>
                     <td className="px-3 py-2 font-semibold">{lead.score}</td>
                     <td className="px-3 py-2">{lead.serviceType}</td>
-                    <td className="px-3 py-2">{lead.name || " - "}</td>
+                    <td className="px-3 py-2">
+                      {lead.name || " - "}
+                      {isCallbackLead(lead) ? (
+                        <span className="block text-xs font-semibold text-foreground">ביקש שיחה</span>
+                      ) : null}
+                    </td>
                     <td className="px-3 py-2">
                       <span dir="ltr" className="block whitespace-nowrap">{lead.phone || " - "}</span>
-                      <LeadContactLinks phone={lead.phone} className="mt-1" />
+                      <LeadContactLinks phone={lead.phone} preferCall={isCallbackLead(lead)} className="mt-1" />
                     </td>
-                    <td className="px-3 py-2">{lead.status}</td>
+                    <td className="px-3 py-2">
+                      {lead.status === "new" ? <LeadRepliedButton leadId={lead.id} /> : lead.status}
+                    </td>
                     <td className="px-3 py-2 whitespace-nowrap">{leadMailStatusLabel(lead)}</td>
                     <td className="px-3 py-2 text-xs text-muted-foreground" dir="ltr">{lead.formId}</td>
                     <td className="max-w-xs truncate px-3 py-2">{lead.subject}</td>
