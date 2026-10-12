@@ -5,7 +5,7 @@
   "vatRate": 0.18,
   "vatNote": "inclVat מחושב כ-Math.round(exVat * (1 + vatRate)), בדיוק כמו באתר. אין לחשב מחדש בצורה אחרת.",
   "itemCount": 196,
-  "contentHash": "b8961887c7ce02bf",
+  "contentHash": "b4234c059ef2d074",
   "items": [
     {
       "id": "studio_half_hour",
@@ -522,12 +522,12 @@
     },
     {
       "id": "online_extra_minutes",
-      "label": "תיקון זיופים מעל 4 דקות",
+      "label": "תוספת לשיר ארוך באונליין",
       "category": "addons",
       "exVat": 100,
       "inclVat": 118,
       "priceFrom": false,
-      "context": "תוספת לשיר ארוך"
+      "context": "תיקון זיופים מעל 4 דקות או מיקס מעל 5 דקות"
     },
     {
       "id": "online_extra_channels",

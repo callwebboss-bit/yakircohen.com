@@ -3,12 +3,14 @@ import OnlineVocalFixPageContent from "@/components/seo/OnlineVocalFixPageConten
 import NewServicesLinks from "@/components/seo/NewServicesLinks";
 import { constructMetadata } from "@/lib/metadata";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 
 export const metadata: Metadata = constructMetadata({
   title: "תיקון זיופים ושיפור קול מרחוק | יקיר כהן",
   /* D75: המספר מהקטלוג (vocal_fix_short). הטקסט עצמו לא השתנה, כי שינוי תיאור
      עובר באישור הבעלים ב-audit:seo-diff */
-  description: `הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. ${getExVat("vocal_fix_short")} ₪ עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.`,
+  /* החלטת הבעלים D110, 12.10.2026: בתיאור מחיר כולל מע״מ, מהקטלוג */
+  description: `הפכו הקלטה ביתית לאיכות אולפן: הסרת רעשים, חידוד והעשרת קול. ${formatPagePrice(getExVat("vocal_fix_short")).headline} עד 5 דקות. אספקה 1-3 ימים. סקיצה לפני/אחרי חינם.`,
   slug: "online/vocal-fix",
   keywords: [
     "שיפור קול",

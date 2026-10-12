@@ -674,7 +674,8 @@ export const PRICING_CATALOG = [
   { id: "ulpan_monthly", label: "אולפן עברית, מסלול חודשי", exVat: 3200, category: "academy", context: "שיעור שבועי אחד על אחד" },
   { id: "ulpan_annual", label: "אולפן עברית, מסלול שנתי", exVat: 11520, category: "academy", context: "36 שיעורים אחד על אחד" },
   { id: "academy_pro_session", label: "Pro Session, 90 דקות", exVat: 1280, category: "academy", context: "צלילה לעומק וניתוח ביצוע" },
-  { id: "online_extra_minutes", label: "תיקון זיופים מעל 4 דקות", exVat: 100, category: "addons", context: "תוספת לשיר ארוך" },
+  /* החלטת הבעלים D108, 12.10.2026: אותה תוספת גם למיקס מעל 5 דקות, ולכן התווית כללית */
+  { id: "online_extra_minutes", label: "תוספת לשיר ארוך באונליין", exVat: 100, category: "addons", context: "תיקון זיופים מעל 4 דקות או מיקס מעל 5 דקות" },
   { id: "online_extra_channels", label: "מיקס מעל 16 ערוצים", exVat: 100, category: "addons", context: "תוספת לפרויקט רחב" },
   { id: "online_extra_revision", label: "סבב תיקונים נוסף באונליין", exVat: 100, category: "addons", context: "מעבר לסבב הכלול" },
   /* החלטת הבעלים 11.10.2026: סבב תיקונים נוסף בפודקאסט 100 + מע״מ, כמו באונליין (היה "בתוספת סמלית" בלי מחיר) */
@@ -1249,8 +1250,9 @@ export const PRICING_ADDON_LINKS: Partial<
   photo_enhance_5: ["photo_manual_color_fix", "photo_scratch_removal"],
   ai_photo_upgrade: ["photo_manual_color_fix", "photo_scratch_removal"],
   photo_enhance_20: ["photo_manual_color_fix", "photo_scratch_removal"],
-  /* D73: התוספות שבכרטיס המחיר בעמוד המיקס שיש להן פריט בקטלוג. "מעל 5 דקות"
-     (150 בעמוד) וניקוי רעשים לא כאן: אין להם פריט תואם (שאלה פתוחה לבעלים) */
+  /* D73: התוספות שבכרטיס המחיר בעמוד המיקס שיש להן פריט בקטלוג. ניקוי רעשים
+     לא כאן: שירות נפרד בלי מחיר (D111). "מעל 5 דקות" נקרא מאז D108 מהפריט
+     online_extra_minutes, אבל לא נוסף לרשימה בסבב הזה, כדי לא לשנות את הסכמה */
   online_home_mix: ["online_extra_channels", "online_extra_revision", "studio_pitch_correction"],
   /* החלטות הבעלים 11.10.2026 */
   bat_mitzvah_clip: ["bat_mitzvah_clip_makeup", "bat_mitzvah_clip_green_screen"],

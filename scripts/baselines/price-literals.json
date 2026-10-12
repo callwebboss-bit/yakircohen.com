@@ -161,13 +161,6 @@
     "example": "\"הסאונד נשמע עמום, צורמני או \\\"ביתי\\\"? שירות מקצועי לתיקון תדרים ו-EQ לקטעים של עד 5 דקות. שלחו קובץ וקבלו סאונד ברור ומקצועי ב-500 ₪ (לפני מע\\\"מ).\","
   },
   {
-    "file": "app/online/vocal-fix/noise-removal/page.tsx",
-    "kind": "prose",
-    "value": 500,
-    "count": 1,
-    "example": "\"מזגן, רחש, רוח ברקע? שירות מקצועי להסרת רעשי רקע לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו נקי ומוכן לפרסום ב-500 ₪ (לפני מע\\\"מ).\","
-  },
-  {
     "file": "app/online/vocal-fix/volume-balance/page.tsx",
     "kind": "prose",
     "value": 500,
@@ -250,13 +243,6 @@
     "value": 650,
     "count": 2,
     "example": "text: \"שלום, מעוניין/ת באולפן שירות עצמי (650 ₪/שעה). אשמח לבדוק זמינות.\","
-  },
-  {
-    "file": "components/seo/VocalFixPricingBlock.tsx",
-    "kind": "prose",
-    "value": 200,
-    "count": 1,
-    "example": "לקטעים ארוכים: כל 5 דקות נוספות - 200 ₪"
   },
   {
     "file": "lib/chatbot-data.ts",
@@ -978,13 +964,6 @@
     "value": 399,
     "count": 1,
     "example": "startingPrice: \"+399 ש\\\"ח למחיר ההפקה\","
-  },
-  {
-    "file": "lib/data/online-mixing-page.ts",
-    "kind": "prose",
-    "value": 150,
-    "count": 1,
-    "example": "\"מעל 5 דקות - 150 ₪ נוספים\","
   },
   {
     "file": "lib/data/online-page.ts",

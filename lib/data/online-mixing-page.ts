@@ -146,14 +146,14 @@ export const MIXING_PRICE_INCLUDED: readonly string[] = [
 const extraPrice = (id: PriceItemId) => formatConsumerPriceLine(getExVat(id));
 
 /* החלטת הבעלים D73, 7.10.2026: התוספות שיש להן פריט בקטלוג נקראות ממנו
-   (PRICING_ADDON_LINKS של online_home_mix). "מעל 5 דקות" נשאר כמו שהוא: בעמוד
-   150 ובקטלוג אין פריט תואם (online_extra_minutes הוא 100 לתיקון זיופים), ולכן
-   זו שאלה פתוחה לבעלים ולא החלטה שלנו.
+   (PRICING_ADDON_LINKS של online_home_mix).
+   D108, 12.10.2026: "מעל 5 דקות" הוא online_extra_minutes מהקטלוג. עד אז נכתב
+   כאן 150 ביד.
    D68: "ניקוי רעשים - 200 ₪" ירד. אין שירות ב-200, ומהעמוד לא ברור אם הכוונה
    לרעש קבוע (ai_noise_basic) או לניקוי מלא (noise_removal_segment). */
 export const MIXING_EXTRAS: readonly string[] = [
   `מעל 16 ערוצים - ${extraPrice("online_extra_channels")} נוספים`,
-  "מעל 5 דקות - 150 ₪ נוספים",
+  `מעל 5 דקות - ${extraPrice("online_extra_minutes")} נוספים`,
   `תיקון זיופים מלא - ${extraPrice("studio_pitch_correction")}`,
   "ניקוי רעשים מעבר למה שכלול במיקס - שירות נפרד",
   `סבב תיקונים נוסף - ${extraPrice("online_extra_revision")}`,

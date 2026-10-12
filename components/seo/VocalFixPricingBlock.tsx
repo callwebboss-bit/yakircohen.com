@@ -162,12 +162,7 @@ export default function VocalFixPricingBlock() {
         </ul>
         {/* D75: הפירוט של המסלול שנבחר. עד 7.10 הוצג כאן damaged_recording_rescue, מוצר אחר */}
         <PricingTransparencyBlock catalogId={track.catalogId} className="text-start" />
-
-        {activeTrack === "standard" && (
-          <p className="mt-4 text-xs text-muted-foreground">
-            לקטעים ארוכים: כל 5 דקות נוספות - 200 ₪
-          </p>
-        )}
+        {/* החלטת הבעלים D109, 12.10.2026: השורה "כל 5 דקות נוספות - 200 ₪" ירדה */}
 
         <a
           href={ctaHref}

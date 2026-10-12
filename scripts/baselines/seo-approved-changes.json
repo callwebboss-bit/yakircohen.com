@@ -3480,6 +3480,34 @@
       "why": "D93 (11.10.2026): H1 בתוך העמוד 'אולפן הקלטות במודיעין - פודקאסט, שירים ואירועים' הפך ל'אולפן הקלטות במודיעין - שירים, מתנות ופודקאסט', בסדר הדלתות. ה-title לא השתנה.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-11"
+    },
+    {
+      "url": "/online/vocal-fix",
+      "field": "description",
+      "why": "תיאור בגוגל: המחיר של vocal_fix_short מוצג כולל מע״מ במקום לפני מע״מ. רק המספר וניסוח המע״מ השתנו, שאר הטקסט וה-title לא. החלטת הבעלים D110, 12.10.2026.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
+    },
+    {
+      "url": "/online/vocal-fix/mixing",
+      "field": "description",
+      "why": "תיאור בגוגל: המחיר של online_home_mix מוצג כולל מע״מ במקום לפני מע״מ. רק המספר וניסוח המע״מ השתנו, שאר הטקסט וה-title לא. החלטת הבעלים D110, 12.10.2026.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
+    },
+    {
+      "url": "/online/vocal-fix/photo-enhance",
+      "field": "description",
+      "why": "תיאור בגוגל: המחיר של photo_enhance_1 מוצג כולל מע״מ במקום לפני מע״מ. רק המספר וניסוח המע״מ השתנו, שאר הטקסט וה-title לא. החלטת הבעלים D110, 12.10.2026.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
+    },
+    {
+      "url": "/online/vocal-fix/noise-removal",
+      "field": "description",
+      "why": "תיאור בגוגל: '500 ₪ (לפני מע\"מ)' שנכתב ביד הפך למחיר כולל מע״מ של noise_removal_segment מהקטלוג. רק המספר וניסוח המע״מ השתנו, שאר הטקסט וה-title לא. החלטת הבעלים D110, 12.10.2026.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
     }
   ]
 }

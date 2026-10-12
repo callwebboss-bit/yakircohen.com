@@ -3,12 +3,13 @@ import OnlineNoiseRemovalPageContent from "@/components/seo/OnlineNoiseRemovalPa
 import { constructMetadata } from "@/lib/metadata";
 import { withVat } from "@/lib/data/pricing";
 import { getExVat } from "@/lib/data/pricing-catalog";
+import { formatPagePrice } from "@/lib/data/pricing-display";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
 
 export const metadata: Metadata = constructMetadata({
   title: "ניקוי רעשים מקצועי אונליין | יקיר כהן",
-  description:
-    "מזגן, רחש, רוח ברקע? שירות מקצועי להסרת רעשי רקע לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו נקי ומוכן לפרסום ב-500 ₪ (לפני מע\"מ).",
+  /* החלטת הבעלים D110, 12.10.2026: מחיר כולל מע״מ מהקטלוג, במקום "500 ₪ (לפני מע"מ)" שנכתב ביד */
+  description: `מזגן, רחש, רוח ברקע? שירות מקצועי להסרת רעשי רקע לקטעים של עד 5 דקות. שלחו קובץ וקבלו אודיו נקי ומוכן לפרסום ב-${formatPagePrice(getExVat("noise_removal_segment")).headline}.`,
   slug: "online/vocal-fix/noise-removal",
   keywords: [
     "ניקוי רעשים",
