@@ -5,7 +5,10 @@ import PortfolioSectionBlock from "@/components/seo/PortfolioSectionBlock";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import FAQAccordion from "@/components/ui/FAQAccordion";
+import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import {
+  PORTFOLIO_FAQS,
   PORTFOLIO_GROUPS,
   getPortfolioGroupElementId,
   getPortfolioSectionElementId,
@@ -30,6 +33,7 @@ export default function PortfolioPageContent() {
   return (
     <>
       <HubPageSchema {...hubSchemaPropsFromSeo(PORTFOLIO_HUB_SEO)} />
+      <FaqPageSchema items={PORTFOLIO_FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
       <div className="bg-background">
         <Section padding="sm" className="relative overflow-hidden border-b border-border">
           <div
@@ -127,6 +131,12 @@ export default function PortfolioPageContent() {
             </p>
           </Container>
         </Section>
+
+        <FAQAccordion
+          className="border-t border-border"
+          title="שאלות על תיק העבודות"
+          items={PORTFOLIO_FAQS.map((f) => ({ ...f }))}
+        />
       </div>
     </>
   );

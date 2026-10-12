@@ -55,7 +55,8 @@ export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = [
     id: "events-gifts",
     label: "אירוע ומתנה",
     heading: "לאירוע ולמתנה",
-    intro: "שירים, ברכות וקליפים שהוקלטו באולפן למתנה, לחתונה, לבר ובת מצווה ולמשפחה, ו-DJ באירועים.",
+    /* שלב ג (הבעלים 12.10.2026). "שעה" רק לשיר על פלייבק, services.ts:219 */
+    intro: "שיר מתנה על פלייבק מקליטים בסשן של שעה, ויוצאים עם השיר ביד. רוב מי שרואים כאן לא שרו אף פעם באולפן.",
     sections: [
       {
         id: "gift-song",
@@ -142,7 +143,7 @@ export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = [
     id: "musicians",
     label: "מוזיקאים",
     heading: "למוזיקאים ויוצרים",
-    intro: "הקלטה באולפן, מיקס ומאסטרינג, קליפים, קאברים ושירים מקוריים, ולפני ואחרי עריכה.",
+    intro: "תשמעו איך השירה נשמעת לפני העריכה ואחריה. אפשר להקליט אצלנו, ואפשר לשלוח ערוצים למיקס ומאסטרינג מרחוק.",
     sections: [
       {
         id: "studio",
@@ -199,7 +200,8 @@ export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = [
     id: "business-podcast",
     label: "עסקים ופודקאסט",
     heading: "לעסקים ולפודקאסט",
-    intro: "פרקי פודקאסט מהאולפן, קריינות לפרסומות ולטלוויזיה, ועריכת וידאו לרשתות.",
+    /* "3 גרסאות" לפי VOICEOVER_YAKIR_NOTE ב-voiceover-narrator-compare.ts */
+    intro: "פרסומת ששודרה בערוץ 14, קריינות ליקב, פרקי פודקאסט מהאולפן ועריכה לרשתות. בקריינות מקבלים 3 גרסאות של כל משפט.",
     sections: [
       {
         id: "podcast",
@@ -232,7 +234,7 @@ export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = [
     id: "behind-the-scenes",
     label: "מאחורי הקלעים",
     heading: "מאחורי הקלעים",
-    intro: "פארודיות, בידור, ראיונות ושיחות מהאולפן. לא חלק מחבילות השירות.",
+    intro: "מה קורה באולפן כשלא מקליטים ללקוח: פארודיות שהפקנו בשביל הכיף, וראיונות על מוזיקה ועל ההפקה.",
     sections: [
       {
         id: "entertainment",
@@ -291,3 +293,34 @@ export function getPortfolioSectionElementId(section: PortfolioSection): string 
 export function getPortfolioGroupElementId(group: PortfolioGroup): string {
   return `portfolio-group-${group.id}`;
 }
+
+/** שאלות נפוצות של תיק העבודות. התשובות שבחר הבעלים ב-12.10.2026, ולכל אחת מקור באתר. */
+export const PORTFOLIO_FAQS = [
+  {
+    id: "portfolio-real-work",
+    question: "האם הסרטונים בתיק הם עבודות אמיתיות?",
+    answer:
+      "כן. כל הסרטונים כאן הם עבודות שעשינו באולפן. חלקם בערוץ שלנו, וחלקם בערוצים של האמנים והלקוחות, כמו מג'יק קאס ובנא משקאות.",
+  },
+  {
+    id: "portfolio-demo",
+    question: "אפשר לשמוע דוגמה לפני שמזמינים?",
+    /* blog.ts:3917, דמו של 30 שניות */
+    answer:
+      "כן. בתיקון זיופים ובמיקס מרחוק שולחים לנו 30 שניות, ואנחנו מחזירים לפני ואחרי, לפני שמשלמים על כלום. באולפן, הסרטונים כאן הם הדוגמה.",
+  },
+  {
+    id: "portfolio-delivery",
+    question: "כמה זמן לוקח עד שהשיר אצלי?",
+    /* services.ts:219 */
+    answer:
+      "שיר על פלייבק: סשן של שעה, והשיר אצלכם בסוף הסשן. ברכה או דרשה: בלי הגבלת זמן. שיר מקורי עם עיבוד חדש: כמה מפגשים, לפי ההפקה.",
+  },
+  {
+    id: "portfolio-singing",
+    question: "צריך לדעת לשיר?",
+    /* services.ts:432 והחלטה D82 */
+    answer:
+      "לא. רוב הלקוחות מגיעים בלי ניסיון שירה. הטכנאי מסביר תוך כדי הקלטה איך עובדים מול המיקרופון, ומי שרוצה ביטחון נוסף מוסיף תיקון זיופים.",
+  },
+] as const;
