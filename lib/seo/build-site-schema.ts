@@ -22,6 +22,7 @@ import {
   type PriceItemId,
 } from "@/lib/data/pricing-catalog";
 import { SITE_PHOTO_URL } from "@/lib/seo-config";
+import { PRICES_VALID_UNTIL } from "@/lib/data/pricing-hub";
 import { FOUNDER_CAREER_START_YEAR, FOUNDER_NAME, STUDIO_GEO } from "@/lib/constants";
 
 const BASE = SITE_URL;
@@ -43,6 +44,7 @@ function catalogOffer(
     sku: id,
     price: String(withVat(exVat)),
     priceCurrency: "ILS",
+    priceValidUntil: PRICES_VALID_UNTIL,
     priceSpecification: {
       "@type": "UnitPriceSpecification",
       price: exVat,
@@ -133,8 +135,9 @@ export function buildSiteSchema() {
         "@type": [
           "LocalBusiness",
           "EntertainmentBusiness",
-          "MusicRecordingStudio",
         ],
+        /* 12.10.2026: הוסר "MusicRecordingStudio". זה לא סוג של schema.org,
+           ו-validator.schema.org סימן אותו כשגיאה בכל עמוד באתר. */
         "@id": ENTITY_IDS.localBusiness,
         name: "יקיר כהן הפקות",
         alternateName: ["Yakir Cohen Productions", "יקיר כהן הפקות מוזיקה"],
@@ -216,14 +219,12 @@ export function buildSiteSchema() {
             }),
           ),
           /* "מחירון מרכזי" ירד: זה לא מוצר, והמחיר שלו היה שעת אולפן (S28) */
-          {
-            "@type": "Offer",
+          /* 12.10.2026: היה "500" כתוב, כלומר המחיר לפני מע״מ בשדה שמחזיק מחיר כולל. */
+          catalogOffer("ulpan_trial", {
             name: "שיעור ניסיון עברית פרטי",
             description: "שיעור היכרות אחד על אחד - פרונטלי או בזום, מודיעין והמרכז",
-            price: "500",
-            priceCurrency: "ILS",
             url: `${BASE}/academy/ulpan`,
-          },
+          }),
           /* D75 (7.10.2026): היה "250" כתוב. עכשיו vocal_fix_short מהקטלוג */
           catalogOffer("vocal_fix_short", {
             name: "שיפור קול מהנייד",
@@ -266,20 +267,15 @@ export function buildSiteSchema() {
         areaServed: { "@type": "Country", name: "Israel" },
         url: `${BASE}/online`,
         offers: [
-          {
-            "@type": "Offer",
+          /* 12.10.2026: היו "250" ו-"500" כתובים, המחירים לפני מע״מ. עכשיו מהקטלוג. */
+          catalogOffer("vocal_fix_short", {
             name: "שיפור קול מהנייד",
-            price: "250",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix`,
-          },
-          {
-            "@type": "Offer",
+          }),
+          catalogOffer("online_home_mix", {
             name: "מיקס ומאסטרינג",
-            price: "500",
-            priceCurrency: "ILS",
             url: `${BASE}/online/vocal-fix/mixing`,
-          },
+          }),
           catalogOffer("studio_pitch_correction", {
             name: "תיקון זיופים",
             url: `${BASE}/online/vocal-fix/pitch-correction`,

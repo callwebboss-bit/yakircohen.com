@@ -1260,20 +1260,6 @@
     "example": "title: \"650 ₪ לשעה, קבצים גולמיים\","
   },
   {
-    "file": "lib/seo/build-site-schema.ts",
-    "kind": "field",
-    "value": 250,
-    "count": 1,
-    "example": "price: \"250\","
-  },
-  {
-    "file": "lib/seo/build-site-schema.ts",
-    "kind": "field",
-    "value": 500,
-    "count": 2,
-    "example": "price: \"500\","
-  },
-  {
     "file": "lib/seo/hub-pages.ts",
     "kind": "prose",
     "value": 250,

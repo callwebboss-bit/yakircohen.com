@@ -79,8 +79,7 @@
     {
       "@type": [
         "LocalBusiness",
-        "EntertainmentBusiness",
-        "MusicRecordingStudio"
+        "EntertainmentBusiness"
       ],
       "@id": "https://yakircohen.com/#localbusiness",
       "name": "יקיר כהן הפקות",
@@ -152,6 +151,7 @@
           "sku": "studio_half_hour",
           "price": "885",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 750,
@@ -167,6 +167,7 @@
           "sku": "studio_hour",
           "price": "1770",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 1500,
@@ -182,6 +183,7 @@
           "sku": "song_recording",
           "price": "590",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 500,
@@ -197,6 +199,7 @@
           "sku": "event_attraction_1",
           "price": "2000",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 1695,
@@ -212,6 +215,7 @@
           "sku": "dj_premium",
           "price": "5900",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 5000,
@@ -227,6 +231,7 @@
           "sku": "content_package",
           "price": "3304",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 2800,
@@ -242,6 +247,7 @@
           "sku": "podcast_video",
           "price": "1947",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 1650,
@@ -257,6 +263,7 @@
           "sku": "podcast_audio",
           "price": "1121",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 950,
@@ -272,6 +279,7 @@
           "sku": "podcast_audio_pack_4",
           "price": "4125",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 3496,
@@ -287,6 +295,7 @@
           "sku": "podcast_audio_pack_8",
           "price": "8251",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 6992,
@@ -299,8 +308,16 @@
           "@type": "Offer",
           "name": "שיעור ניסיון עברית פרטי",
           "description": "שיעור היכרות אחד על אחד - פרונטלי או בזום, מודיעין והמרכז",
-          "price": "500",
+          "sku": "ulpan_trial",
+          "price": "590",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 500,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/academy/ulpan"
         },
         {
@@ -310,6 +327,7 @@
           "sku": "vocal_fix_short",
           "price": "295",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 250,
@@ -325,6 +343,7 @@
           "sku": "damaged_recording_rescue",
           "price": "295",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 250,
@@ -340,6 +359,7 @@
           "sku": "online_home_mix",
           "price": "590",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 500,
@@ -355,6 +375,7 @@
           "sku": "studio_pitch_correction",
           "price": "354",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 300,
@@ -370,6 +391,7 @@
           "sku": "photo_enhance_1",
           "price": "59",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 50,
@@ -398,15 +420,31 @@
         {
           "@type": "Offer",
           "name": "שיפור קול מהנייד",
-          "price": "250",
+          "sku": "vocal_fix_short",
+          "price": "295",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 250,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/online/vocal-fix"
         },
         {
           "@type": "Offer",
           "name": "מיקס ומאסטרינג",
-          "price": "500",
+          "sku": "online_home_mix",
+          "price": "590",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": 500,
+            "priceCurrency": "ILS",
+            "valueAddedTaxIncluded": false
+          },
           "url": "https://yakircohen.com/online/vocal-fix/mixing"
         },
         {
@@ -415,6 +453,7 @@
           "sku": "studio_pitch_correction",
           "price": "354",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-12-31",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "price": 300,
