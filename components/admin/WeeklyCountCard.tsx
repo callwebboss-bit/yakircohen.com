@@ -74,6 +74,7 @@ export default function WeeklyCountCard({
               <th className="px-1.5 py-1 font-semibold">וואטסאפ</th>
               <th className="px-1.5 py-1 font-semibold">שיחות (מהאתר)</th>
               <th className="px-1.5 py-1 font-semibold">עסקאות (עם קוד)</th>
+              <th className="px-1.5 py-1 font-semibold">בלינק</th>
             </tr>
           </thead>
           <tbody>
@@ -88,6 +89,7 @@ export default function WeeklyCountCard({
                 <td className="px-1.5 py-1">
                   {row.manual.dealsPaid ?? " - "} ({row.manual.dealsWithCode ?? " - "})
                 </td>
+                <td className="px-1.5 py-1">{row.manual.dealsViaLink ?? " - "}</td>
               </tr>
             ))}
           </tbody>

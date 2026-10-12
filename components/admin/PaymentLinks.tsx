@@ -68,7 +68,9 @@ export function paymentTexts(
       "pay-failed": link ? buildPaymentFailedMessage(link, bank) : null,
       "pay-link": link?.url ?? null,
       deposit: deposit ? buildDepositMessage(deposit) : null,
-      "morning-fields": quote.priceFrom || link?.kind === "fixed" ? null : buildMorningLinkFields(draft),
+      /* לינק קבוע נבנה רק לשירות עצמו (בלי שדרוגים ומשתתפים), במחיר של הקטלוג */
+      "morning-fields":
+        quote.priceFrom || quote.hasSelection || link?.kind === "fixed" || card.priceFrom ? null : buildMorningLinkFields(card),
     },
   };
 }

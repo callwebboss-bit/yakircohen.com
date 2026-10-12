@@ -27,13 +27,16 @@ export type MorningLink = {
   url: string;
   /** הסכום שהלינק גובה, או null בסכום פתוח */
   inclVat: number | null;
+  /** בסכום פתוח: הסכומים שהלקוח רואה לבחירה בדף של מורנינג (עד 5, מגבלת מורנינג) */
+  presets?: readonly number[];
 };
 export type MorningLinksFile = {
   updated: string;
   /** "או בהעברה: ..." בהודעה, בניסוח של יקיר. ריק = הכפתור לא מופיע בדלפק */
   bankTransferLine: string;
   deposit: { url: string; inclVat: number };
-  open: { url: string };
+  /** presets: הסכומים הקבועים שהוגדרו בלינק במורנינג, כדי שההודעה תדע אם לכתוב "בוחרים" או "מקלידים" */
+  open: { url: string; presets?: number[] };
   cards: Record<string, { url: string; inclVat: number }>;
 };
 
@@ -79,9 +82,18 @@ export function getPaymentLink(
   { priceFrom = false, file = MORNING_LINKS }: { priceFrom?: boolean; file?: MorningLinksFile } = {},
 ): MorningLink | null {
   const fixed = file.cards[cardId];
-  if (!priceFrom && fixed && present(fixed.url)) return { kind: "fixed", url: fixed.url, inclVat: fixed.inclVat };
-  if (present(file.open.url)) return { kind: "open", url: file.open.url, inclVat: null };
+  /* לינק קבוע רק כשהוא גובה את המחיר של היום. מחיר שזז בקטלוג (והלינק במורנינג
+     עוד לא עודכן) נופל ללינק הסכום הפתוח עם הסכום הנכון, ולא שולח לקוח לשלם מחיר ישן */
+  if (!priceFrom && fixed && present(fixed.url) && isCurrentPrice(cardId, fixed.inclVat)) {
+    return { kind: "fixed", url: fixed.url, inclVat: fixed.inclVat };
+  }
+  if (present(file.open.url)) return { kind: "open", url: file.open.url, inclVat: null, presets: file.open.presets ?? [] };
   return null;
+}
+
+function isCurrentPrice(cardId: string, inclVat: number): boolean {
+  const item = findItem(cardId);
+  return Boolean(item) && catalogWithVat(item!.exVat) === inclVat;
 }
 
 export type MorningLinkIssue = { id: string; problem: string; fix: string };

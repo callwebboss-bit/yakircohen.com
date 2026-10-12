@@ -33,7 +33,7 @@ const full: MorningLinksFile = {
   updated: "2026-10-11",
   bankTransferLine: "לבנק הפועלים, אישור בוואטסאפ",
   deposit: { url: DEPOSIT, inclVat: 200 },
-  open: { url: OPEN },
+  open: { url: OPEN, presets: [590, 885] },
   cards: { song_recording: { url: FIXED, inclVat: SONG_INCL } },
 };
 const empty: MorningLinksFile = {
@@ -58,8 +58,18 @@ describe("isMorningUrl", () => {
 describe("getPaymentLink", () => {
   it("קבוע כשיש, אחרת סכום פתוח, אחרת null", () => {
     assert.deepEqual(getPaymentLink("song_recording", { file: full }), { kind: "fixed", url: FIXED, inclVat: SONG_INCL });
-    assert.deepEqual(getPaymentLink("studio_hour", { file: full }), { kind: "open", url: OPEN, inclVat: null });
+    assert.deepEqual(getPaymentLink("studio_hour", { file: full }), {
+      kind: "open",
+      url: OPEN,
+      inclVat: null,
+      presets: [590, 885],
+    });
     assert.equal(getPaymentLink("studio_hour", { file: empty }), null);
+  });
+  it("לינק קבוע שנשמר על מחיר ישן לא נשלח: נופל לסכום הפתוח", () => {
+    const stale: MorningLinksFile = { ...full, cards: { song_recording: { url: FIXED, inclVat: SONG_INCL - 1 } } };
+    assert.equal(getPaymentLink("song_recording", { file: stale })?.kind, "open");
+    assert.equal(getPaymentLink("no_such_item", { file: full })?.kind, "open");
   });
   it('ב"החל מ" אין לינק קבוע גם אם נשמר', () => {
     assert.equal(getPaymentLink("song_recording", { priceFrom: true, file: full })?.kind, "open");
@@ -129,8 +139,12 @@ describe("הודעות התשלום", () => {
     assert.ok(buildPaymentFailedMessage(link, null).endsWith(FIXED));
   });
   it("סכום פתוח: אומר ללקוח לבחור את הסכום, וב'החל מ' בלי מספר", () => {
-    const open = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null });
-    assert.ok(open.includes("בוחרים את הסכום"));
+    const inList = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null, presets: [SONG_INCL] });
+    assert.ok(inList.includes(`בלינק בוחרים ${SONG_INCL.toLocaleString("he-IL")} ₪`));
+    const notInList = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null, presets: [885] });
+    assert.ok(notInList.includes(`בלינק מקלידים ${SONG_INCL.toLocaleString("he-IL")} ₪`));
+    const noPresets = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null });
+    assert.ok(noPresets.includes("בלינק מקלידים"));
     const from = buildPaymentMessage(fromCard, { kind: "open", url: OPEN, inclVat: null });
     assert.ok(from.includes("בסכום שסיכמנו"));
     assert.ok(!/\d/.test(from.split(OPEN)[0]!), "בלי מספר לפני הלינק");
@@ -159,5 +173,26 @@ describe("הודעות התשלום", () => {
     }
     assert.ok(card.morningLinkFields == null || card.morningLinkFields.includes(card.id));
     assert.equal(fromCard.morningLinkFields, null);
+  });
+  it("מנוי חודשי: הסכום עם 'לחודש', כדי שלא ייקרא כתשלום חד פעמי", () => {
+    const monthly = buildSalesBook().cards.find((c) => c.id === "content_studio_retainer");
+    assert.ok(monthly);
+    const text = buildPaymentMessage(monthly, { kind: "open", url: OPEN, inclVat: null });
+    assert.ok(text.includes("כולל מע״מ לחודש"), text);
+  });
+});
+
+describe("paymentTexts במחשבון", () => {
+  const card = buildSalesBook().cards.find((c) => c.id === "studio_hour");
+  assert.ok(card);
+  it("שדות ללינק קבוע רק לשירות עצמו, במחיר הקטלוג; עם שדרוג אין שדות", async () => {
+    const { paymentTexts } = await import("@/components/admin/PaymentLinks");
+    const base = paymentTexts(card, { totalInclVat: card.inclVat, priceFrom: false, hasSelection: false });
+    const fields = base.byKind["morning-fields"];
+    if (base.link?.kind !== "fixed") {
+      assert.ok(fields?.includes(`${card.inclVat.toLocaleString("he-IL")} ₪ כולל מע״מ`));
+    }
+    const upsold = paymentTexts(card, { totalInclVat: card.inclVat + 500, priceFrom: false, hasSelection: true });
+    assert.equal(upsold.byKind["morning-fields"], null);
   });
 });

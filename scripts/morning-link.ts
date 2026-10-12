@@ -8,6 +8,7 @@
  *   npm run morning:link -- --id song_recording --url https://...   שומר לינק קבוע לשירות
  *   npm run morning:link -- --id deposit --url https://...          לינק המקדמה (200 ₪, D6)
  *   npm run morning:link -- --id open --url https://...             לינק בסכום פתוח
+ *   npm run morning:link -- --presets 590,885,1770,3304,5310        הסכומים לבחירה בלינק הפתוח (עד 5)
  *   npm run morning:link -- --id song_recording --price 590         אחרי עדכון המחיר בלינק
  *   npm run morning:link -- --remove song_recording                 אחרי הקפאת הלינק במורנינג
  *   npm run morning:link -- --bank "העברה לבנק ..., אישור בוואטסאפ"  שורת "או בהעברה" להודעה (ריק מסיר)
@@ -74,12 +75,25 @@ if (has("check") || has("list")) {
     }
   }
   for (const m of missing) {
-    console.log(`  חסר: ${m === "deposit" ? "לינק מקדמה (200 ₪)" : "לינק בסכום פתוח"}. עד שייווצר, לכרטיסים בלי לינק קבוע אין לינק בדלפק.`);
+    console.log(
+      m === "deposit"
+        ? "  אין לינק מקדמה. לא חובה: רק אם יקיר רוצה מקדמה (D6)."
+        : "  חסר: לינק בסכום פתוח. עד שייווצר, לכרטיסים בלי לינק קבוע אין לינק בדלפק.",
+    );
   }
   for (const issue of issues) {
     console.log(`  בעיה: ${issue.id}: ${issue.problem}\n    לתקן: ${issue.fix}`);
   }
   if (has("check") && issues.length > 0) process.exit(1);
+  process.exit(0);
+}
+
+if (argv.includes("--presets")) {
+  const list = (arg("presets") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0);
+  if (list.length > 5) fail("מורנינג מקבל עד 5 סכומים קבועים");
+  file.open = { ...file.open, presets: list };
+  console.log(`morning:link - נשמרו ${list.length} סכומים לבחירה: ${list.join(", ")}`);
+  save(file);
   process.exit(0);
 }
 
@@ -111,7 +125,7 @@ if (url !== undefined && !isMorningUrl(url)) {
 if (id === "deposit" || id === "open") {
   if (!url) fail(`ל-${id} נדרש --url`);
   if (id === "deposit") file.deposit = { ...file.deposit, url };
-  else file.open = { url };
+  else file.open = { ...file.open, url };
   console.log(`morning:link - נשמר ${id}`);
   save(file);
   process.exit(0);

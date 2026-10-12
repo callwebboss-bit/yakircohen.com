@@ -15,6 +15,9 @@ export const WEEKLY_MANUAL_FIELDS = [
   { key: "callsFromSite", label: "מהן אמרו 'מהאתר'" },
   { key: "dealsPaid", label: "עסקאות ששולמו (מקדמה או מלא)" },
   { key: "dealsWithCode", label: "מהן עם קוד פנייה" },
+  /* המדד של הלינקים לתשלום (D106): כמה מהעסקאות שולמו דרך לינק של מורנינג.
+     המספר במורנינג > תשלומים > לינקים לתשלום > צפייה בעסקאות */
+  { key: "dealsViaLink", label: "מהן שולמו בלינק" },
 ] as const;
 
 export type WeeklyManualKey = (typeof WEEKLY_MANUAL_FIELDS)[number]["key"];

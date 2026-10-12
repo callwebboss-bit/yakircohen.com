@@ -1,10 +1,6 @@
 /**
  * morning:sheet - מה להקליד במורנינג כדי ליצור את הלינקים לתשלום, מהקטלוג.
  *
- * כותב גם את docs/morning-items.json: כל כרטיסי הדלפק (מזהה, שם, מחירים, תיאור
- * קצר) לסוכן ה-API של יקיר (Cursor, docs/CURSOR-MORNING-BRIEF.md) שיוצר מהם
- * פריטים ולינקים במורנינג ומחזיר morning-links.json.
- *
  * כותב את docs/morning-links-sheet.md: לינק המקדמה, לינק הסכום הפתוח עם
  * הסכומים הקבועים לבחירה (נקודות המחיר הנפוצות בדלפק), ולינק קבוע לכל אחד
  * משמונת השירותים הנפוצים. כל מספר מהקטלוג, כולל מע״מ. אחרי כל יצירה שומרים
@@ -18,7 +14,6 @@ import { buildSalesBook, FEATURED_CARD_IDS } from "../lib/sales/sales-book";
 import { buildMorningLinkFields, nisText } from "../lib/sales/sales-copy";
 
 const OUT = "docs/morning-links-sheet.md";
-const ITEMS_OUT = "docs/morning-items.json";
 const PRESET_COUNT = 5; /* מורנינג מגביל ל-5 סכומים קבועים לבחירה (נבדק 12.10.2026) */
 
 const book = buildSalesBook();
@@ -80,31 +75,4 @@ for (const card of featured) {
 }
 writeFileSync(OUT, `${lines.join("\n")}\n`);
 
-/* הייצוא לסוכן ה-API: מה ליצור במורנינג. התיאור קצר ומפנה לתנאים (החלטת הבעלים 12.10) */
-const items = book.cards.map((card) => ({
-  id: card.id,
-  name: card.title,
-  inclVat: card.inclVat,
-  exVat: card.exVat,
-  priceFrom: card.priceFrom,
-  featured: card.featured,
-  description: `${card.title}. התנאים: yakircohen.com/whats-included`,
-  hasFixedLink: Boolean(MORNING_LINKS.cards[card.id]?.url),
-}));
-writeFileSync(
-  ITEMS_OUT,
-  `${JSON.stringify(
-    {
-      $comment: "נוצר על ידי npm run morning:sheet מהקטלוג. כל מחיר כולל מע״מ ב-inclVat. לסוכן ה-API: docs/CURSOR-MORNING-BRIEF.md",
-      generated: today,
-      contentHash: book.contentHash,
-      presetAmounts: presets.map(([price]) => price),
-      deposit: { id: "deposit", name: "מקדמה לשמירת תאריך", inclVat: MORNING_LINKS.deposit.inclVat },
-      items,
-    },
-    null,
-    2,
-  )}\n`,
-);
-console.log(`  נכתב: ${ITEMS_OUT} (${items.length} פריטים)`);
 console.log(`morning:sheet - ${featured.length} נפוצים, ${presets.length} סכומים קבועים לבחירה. נכתב: ${OUT}`);

@@ -451,15 +451,34 @@ export function nisText(amount: number): string {
   return `${text} ₪`;
 }
 
-function inclVatText(card: Pick<SalesCardDraft, "inclVat">): string {
-  return `${nisText(card.inclVat)} כולל מע״מ`;
+/* יחידת החיוב, כמו BILLING_UNIT_BY_LABEL ב-sales-book.ts: בלעדיה "3,776 ₪" על
+   מנוי חודשי נקרא כתשלום חד פעמי */
+const PAY_UNIT_BY_LABEL: Readonly<Record<string, string>> = { חודשי: "לחודש", ליום: "ליום", "לכל פרק": "לפרק" };
+
+function billingUnit(card: Pick<SalesCardDraft, "id">): string {
+  try {
+    const label = getPriceById(card.id as PriceItemId).scope?.billingLabel ?? "";
+    return PAY_UNIT_BY_LABEL[label] ? ` ${PAY_UNIT_BY_LABEL[label]}` : "";
+  } catch {
+    return "";
+  }
 }
 
+function inclVatText(card: Pick<SalesCardDraft, "inclVat" | "id">): string {
+  return `${nisText(card.inclVat)} כולל מע״מ${billingUnit(card)}`;
+}
+
+/*
+ * בלינק הסכום הפתוח מורנינג מציג עד 5 סכומים לבחירה ושדה להקלדה. "בוחרים"
+ * רק כשהסכום באמת ברשימה, אחרת "מקלידים", כדי שהלקוח לא יחפש סכום שאין ויבחר
+ * את הקרוב (ממצא הפרה-מורטם, 12.10.2026).
+ */
 function payFirstLine(card: SalesCardDraft, link: MorningLink): string {
   const title = messageTitle(card);
   if (link.kind === "fixed") return `לתשלום על ${title}, ${inclVatText(card)}: ${link.url}`;
   if (card.priceFrom) return `לתשלום על ${title}, בסכום שסיכמנו: ${link.url}`;
-  return `לתשלום על ${title}, ${inclVatText(card)}, בלינק בוחרים את הסכום הזה: ${link.url}`;
+  const verb = link.presets?.includes(card.inclVat) ? "בוחרים" : "מקלידים";
+  return `לתשלום על ${title}, ${inclVatText(card)}. בלינק ${verb} ${nisText(card.inclVat)}: ${link.url}`;
 }
 
 /** ההודעה הקצרה (ברירת מחדל): סכום ולינק, ושורת ביטחון */
