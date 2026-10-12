@@ -9,6 +9,7 @@
  *   npm run morning:link -- --id deposit --url https://...          לינק המקדמה (200 ₪, D6)
  *   npm run morning:link -- --id open --url https://...             לינק בסכום פתוח
  *   npm run morning:link -- --presets 590,885,1770,3304,5310        הסכומים לבחירה בלינק הפתוח (עד 5)
+ *   npm run morning:link -- --note-label "הערות"                     שם שדה ההערה בדף התשלום; ההודעה תבקש לכתוב בו את שם השירות (ריק מכבה)
  *   npm run morning:link -- --id song_recording --price 590         אחרי עדכון המחיר בלינק
  *   npm run morning:link -- --remove song_recording                 אחרי הקפאת הלינק במורנינג
  *   npm run morning:link -- --bank "העברה לבנק ..., אישור בוואטסאפ"  שורת "או בהעברה" להודעה (ריק מסיר)
@@ -85,6 +86,14 @@ if (has("check") || has("list")) {
     console.log(`  בעיה: ${issue.id}: ${issue.problem}\n    לתקן: ${issue.fix}`);
   }
   if (has("check") && issues.length > 0) process.exit(1);
+  process.exit(0);
+}
+
+if (argv.includes("--note-label")) {
+  const label = (arg("note-label") ?? "").trim();
+  file.open = { ...file.open, noteLabel: label };
+  console.log(label ? `morning:link - ההודעה תבקש לכתוב את שם השירות בשדה "${label}"` : "morning:link - שורת ההערה כובתה");
+  save(file);
   process.exit(0);
 }
 

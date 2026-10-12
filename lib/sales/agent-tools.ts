@@ -8,6 +8,7 @@
  *
  * מודול טהור בלי React ובלי ה-AI SDK, כדי שהבדיקות, ה-CLI והשרת ישתמשו בו.
  */
+import { paymentTexts } from "@/lib/sales/payment-texts";
 import { buildSalesBook, getSalesCard, type SalesCard } from "@/lib/sales/sales-book";
 import { matchPaste, normalizeSearch } from "@/lib/sales/paste-match";
 import {
@@ -213,6 +214,9 @@ export type QuoteToolResult = Pick<
   priceHash: string;
   /** הבחירה במבנה של המחשבון, לכפתור "פתח במחשבון" */
   selection: Required<SelectionInput>;
+  /** הודעת התשלום עם הלינק, מאותו מנוע של המחשבון (payment-texts.ts). מוצגת ליקיר בנפרד, המודל לא כותב לינקים */
+  payMessage: string | null;
+  payLinkKind: "fixed" | "open" | "deposit" | null;
 };
 
 export const PRICE_HASH_LENGTH = 8;
@@ -242,6 +246,7 @@ export function quoteService(input: QuoteToolInput): QuoteToolResult {
     attractionsCount: input.attractionsCount ?? null,
     activations: input.activations ?? null,
   });
+  const pay = paymentTexts(card, { totalInclVat: q.totalInclVat, priceFrom: q.priceFrom, hasSelection: q.hasSelection });
   return {
     id: card.id,
     title: card.title,
@@ -268,6 +273,8 @@ export function quoteService(input: QuoteToolInput): QuoteToolResult {
       attractionsCount: q.attractionsCount,
       activations: q.activations,
     },
+    payMessage: pay.byKind.pay,
+    payLinkKind: pay.link?.kind ?? null,
   };
 }
 
@@ -332,6 +339,7 @@ export function buildSalesAgentSystemPrompt(hash = priceHash()): string {
     "5. כותבים בקול של יקיר: חם, ישיר, ישראלי, משפטים קצרים, בלי חנופה ובלי שיווק מנופח.",
     "6. כללי כתיבה: בלי סימן קריאה, בלי מקף ארוך או בינוני (רק מקף רגיל), בלי תו שלוש נקודות, בלי מירכאות מסולסלות.",
     "7. לא כותבים טלפון, מייל או פרטים אישיים של לקוח.",
+    "8. לא כותבים לינק לתשלום ולא כתובת אתר. הלינק מוצג ליקיר מתחת לתשובה, מאותו מנוע, והוא שולח אותו כהודעה שלישית.",
     "",
     "מבנה התשובה כשיש מחיר, בדיוק עם שלוש הכותרות האלה בשורה משלהן:",
     "[הודעה]",

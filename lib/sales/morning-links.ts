@@ -29,6 +29,8 @@ export type MorningLink = {
   inclVat: number | null;
   /** בסכום פתוח: הסכומים שהלקוח רואה לבחירה בדף של מורנינג (עד 5, מגבלת מורנינג) */
   presets?: readonly number[];
+  /** בסכום פתוח: שם שדה ההערה בדף התשלום של מורנינג (למשל "הערות"). ריק = לא מבקשים הערה */
+  noteLabel?: string;
 };
 export type MorningLinksFile = {
   updated: string;
@@ -36,7 +38,7 @@ export type MorningLinksFile = {
   bankTransferLine: string;
   deposit: { url: string; inclVat: number };
   /** presets: הסכומים הקבועים שהוגדרו בלינק במורנינג, כדי שההודעה תדע אם לכתוב "בוחרים" או "מקלידים" */
-  open: { url: string; presets?: number[] };
+  open: { url: string; presets?: number[]; noteLabel?: string };
   cards: Record<string, { url: string; inclVat: number }>;
 };
 
@@ -87,7 +89,13 @@ export function getPaymentLink(
   if (!priceFrom && fixed && present(fixed.url) && isCurrentPrice(cardId, fixed.inclVat)) {
     return { kind: "fixed", url: fixed.url, inclVat: fixed.inclVat };
   }
-  if (present(file.open.url)) return { kind: "open", url: file.open.url, inclVat: null, presets: file.open.presets ?? [] };
+  if (present(file.open.url)) return {
+      kind: "open",
+      url: file.open.url,
+      inclVat: null,
+      presets: file.open.presets ?? [],
+      ...(file.open.noteLabel?.trim() ? { noteLabel: file.open.noteLabel.trim() } : {}),
+    };
   return null;
 }
 

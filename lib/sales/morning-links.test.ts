@@ -19,6 +19,7 @@ import {
   buildPaymentMessageFull,
   buildPaymentWithBankMessage,
   includedLine,
+  paymentNote,
   SALES_MESSAGE_MAX,
 } from "@/lib/sales/sales-copy";
 
@@ -227,3 +228,33 @@ describe("הלינק הפתוח האמיתי והסכום של ההצעה", () =
     }
   });
 });
+
+describe("שורת ההערה ללינק הפתוח", () => {
+  const card = buildSalesBook().cards.find((c) => c.id === "studio_hour");
+  assert.ok(card);
+  it("מופיעה רק כשיש שם שדה, עם שם השירות במילים ספורות", () => {
+    const off = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null });
+    assert.ok(!off.includes("כתבו"));
+    const on = buildPaymentMessage(card, { kind: "open", url: OPEN, inclVat: null, noteLabel: "הערות" });
+    assert.ok(on.includes(`בשדה "הערות" כתבו: ${paymentNote(card)}`), on);
+    assert.ok(paymentNote(card).split(" ").length <= 3);
+    assert.ok(!/[!—…]/.test(on));
+  });
+  it("בלינק קבוע אין שורת הערה: השירות כבר בלינק", () => {
+    const fixed = buildPaymentMessage(card, { kind: "fixed", url: FIXED, inclVat: card.inclVat, noteLabel: "הערות" });
+    assert.ok(!fixed.includes("כתבו"));
+  });
+});
+
+describe("סוכן המכירות נותן לינק מהמנוע", () => {
+  it("quote מחזיר הודעת תשלום זהה למחשבון", async () => {
+    const { quoteService } = await import("@/lib/sales/agent-tools");
+    const { paymentTexts } = await import("@/lib/sales/payment-texts");
+    const q = quoteService({ id: "song_recording" });
+    const card = buildSalesBook().cards.find((c) => c.id === "song_recording");
+    assert.ok(card);
+    const expected = paymentTexts(card, { totalInclVat: q.totalInclVat, priceFrom: q.priceFrom, hasSelection: false }).byKind.pay;
+    assert.equal(q.payMessage, expected);
+  });
+});
+

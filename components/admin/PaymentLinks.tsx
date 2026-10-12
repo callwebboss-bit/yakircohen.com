@@ -1,16 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { getBankTransferLine, getDepositLink, getPaymentLink, type MorningLink } from "@/lib/sales/morning-links";
-import type { SalesCard as SalesCardData, SalesCardDraft } from "@/lib/sales/sales-book";
-import {
-  buildDepositMessage,
-  buildMorningLinkFields,
-  buildPaymentFailedMessage,
-  buildPaymentMessage,
-  buildPaymentMessageFull,
-  buildPaymentWithBankMessage,
-} from "@/lib/sales/sales-copy";
 import { cn } from "@/lib/utils";
 
 /**
@@ -27,7 +17,8 @@ import { cn } from "@/lib/utils";
  * (docs/MORNING-LINKS.md).
  */
 
-export type PaymentCopyKind = "pay" | "pay-full" | "pay-bank" | "pay-failed" | "pay-link" | "deposit" | "morning-fields";
+export type { PaymentCopyKind } from "@/lib/sales/payment-texts";
+import type { PaymentCopyKind } from "@/lib/sales/payment-texts";
 
 export const PAYMENT_COPY_ANNOUNCEMENT: Readonly<Record<PaymentCopyKind, string>> = {
   pay: "הודעת התשלום הועתקה",
@@ -44,36 +35,8 @@ const LINK_KIND_LABEL = { fixed: "לינק קבוע לשירות", open: "לינ
 const chipClass =
   "inline-flex min-h-11 items-center justify-center rounded-md border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/50";
 
-export type PaymentTexts = {
-  link: MorningLink | null;
-  byKind: Readonly<Record<PaymentCopyKind, string | null>>;
-};
-
-/** הטקסטים לכל כפתור, מהכרטיס ומסכום הבחירה. null = הכפתור לא מופיע */
-export function paymentTexts(
-  card: SalesCardData,
-  quote: { totalInclVat: number; priceFrom: boolean; hasSelection: boolean },
-): PaymentTexts {
-  /* לינק קבוע רק כשהבחירה היא הבסיס עצמו, אחרת הסכום בלינק לא יתאים */
-  const link = getPaymentLink(card.id, { priceFrom: quote.priceFrom || quote.hasSelection });
-  const draft: SalesCardDraft = { ...card, inclVat: quote.totalInclVat, priceFrom: quote.priceFrom };
-  const bank = getBankTransferLine();
-  const deposit = getDepositLink();
-  return {
-    link,
-    byKind: {
-      pay: link ? buildPaymentMessage(draft, link) : null,
-      "pay-full": link ? buildPaymentMessageFull(draft, link) : null,
-      "pay-bank": link && bank ? buildPaymentWithBankMessage(draft, link, bank) : null,
-      "pay-failed": link ? buildPaymentFailedMessage(link, bank) : null,
-      "pay-link": link?.url ?? null,
-      deposit: deposit ? buildDepositMessage(deposit) : null,
-      /* לינק קבוע נבנה רק לשירות עצמו (בלי שדרוגים ומשתתפים), במחיר של הקטלוג */
-      "morning-fields":
-        quote.priceFrom || quote.hasSelection || link?.kind === "fixed" || card.priceFrom ? null : buildMorningLinkFields(card),
-    },
-  };
-}
+export { paymentTexts, type PaymentTexts } from "@/lib/sales/payment-texts";
+import type { PaymentTexts } from "@/lib/sales/payment-texts";
 
 export default function PaymentLinks({
   texts,

@@ -32,10 +32,10 @@ function AssistantBubble({
   entry: Extract<ChatEntry, { role: "assistant" }>;
   onOpenCalc: (cardId: string, preset: Partial<SelectionInput>) => void;
 }) {
-  const [copied, setCopied] = useState<"message" | "confirm" | "failed" | null>(null);
+  const [copied, setCopied] = useState<"message" | "confirm" | "pay" | "failed" | null>(null);
   const reply = entry.reply;
   const blocks = reply?.blocks;
-  const copy = async (what: "message" | "confirm", text: string) => {
+  const copy = async (what: "message" | "confirm" | "pay", text: string) => {
     const ok = await copyText(text);
     setCopied(ok ? what : "failed");
     window.setTimeout(() => setCopied(null), 2200);
@@ -66,6 +66,17 @@ function AssistantBubble({
           <p className="flex-1 text-foreground">{blocks.confirm}</p>
           <button type="button" onClick={() => copy("confirm", blocks.confirm ?? "")} className={buttonClass}>
             {copied === "confirm" ? "הועתק" : "העתק"}
+          </button>
+        </div>
+      ) : null}
+      {reply.quote?.payMessage ? (
+        <div className="grid gap-1.5 rounded-md border border-dashed border-border p-2">
+          <p className="text-xs font-semibold text-muted-foreground">
+            לינק לתשלום, הודעה שלישית{reply.quote.payLinkKind === "fixed" ? " (לינק קבוע לשירות)" : " (סכום פתוח)"}
+          </p>
+          <p className="whitespace-pre-line text-foreground [overflow-wrap:anywhere]">{reply.quote.payMessage}</p>
+          <button type="button" onClick={() => copy("pay", reply.quote?.payMessage ?? "")} className={cn(buttonClass, "justify-self-start")}>
+            {copied === "pay" ? "הועתק" : "העתק לינק לתשלום"}
           </button>
         </div>
       ) : null}

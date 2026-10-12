@@ -478,7 +478,24 @@ function payFirstLine(card: SalesCardDraft, link: MorningLink): string {
   if (link.kind === "fixed") return `לתשלום על ${title}, ${inclVatText(card)}: ${link.url}`;
   if (card.priceFrom) return `לתשלום על ${title}, בסכום שסיכמנו: ${link.url}`;
   const verb = link.presets?.includes(card.inclVat) ? "בוחרים" : "מקלידים";
-  return `לתשלום על ${title}, ${inclVatText(card)}. בלינק ${verb} ${nisText(card.inclVat)}: ${link.url}`;
+  return `לתשלום על ${title}, ${inclVatText(card)}. בלינק ${verb} ${nisText(card.inclVat)}: ${link.url}${noteLine(card, link)}`;
+}
+
+/*
+ * בלינק המשותף מורנינג לא יודע על מה שילמו. שורה אחת מבקשת מהלקוח לכתוב את
+ * שם השירות בשדה ההערה, כמו שכותבים "עבור" בהעברה בנקאית: נשמע רגיל, ובמורנינג
+ * רואים ליד הסכום על מה מדובר. מופיעה רק כשיקיר אישר שיש שדה כזה
+ * (morning:link --note-label).
+ */
+const NOTE_WORDS = 3;
+
+export function paymentNote(card: Pick<SalesCardDraft, "title">): string {
+  return card.title.split(/\s+/).slice(0, NOTE_WORDS).join(" ").replace(/[,.:]+$/, "");
+}
+
+function noteLine(card: SalesCardDraft, link: MorningLink): string {
+  if (link.kind !== "open" || !link.noteLabel) return "";
+  return `\nבשדה "${link.noteLabel}" כתבו: ${paymentNote(card)}`;
 }
 
 /** ההודעה הקצרה (ברירת מחדל): סכום ולינק, ושורת ביטחון */
