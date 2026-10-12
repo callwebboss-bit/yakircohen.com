@@ -430,8 +430,9 @@ function drawOrder(p: Painter, data: VoucherData, assets: VoucherAssets, options
   ctx.fillRect(0, 0, W, bar);
   ctx.fillRect(0, H - bar, W, bar);
 
-  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), מתחת לפס האדום */
-  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W / 2, 46, "center");
+  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), מתחת לפס האדום.
+     צמוד לימין ולא באמצע (החלטת הבעלים 12.10.2026) */
+  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W - SIDE, 46);
 
   /* כותרת העסק: לוגו מימין, שם ותיאור משמאלו */
   const logoH = 92;
@@ -598,8 +599,9 @@ function drawGift(p: Painter, data: VoucherData, assets: VoucherAssets): void {
   ctx.strokeRect(54, 54, W - 108, H - 108);
   drawSilverStripes(ctx, { width: W, top: 120, bottom: H - 120, inset: 70 });
 
-  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), בין המסגרת ללוגו */
-  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W / 2, 82, "center");
+  /* בס״ד בקטן בראש המסמך (החלטת הבעלים 8.10.2026), בתוך המסגרת.
+     צמוד לימין למעלה ולא באמצע (החלטת הבעלים 12.10.2026) */
+  p.single([{ text: DOCUMENT_BLESSING_LINE, style: { size: 22, weight: 500, color: t.soft } }], W - 76, 88);
 
   const logoH = 96;
   const logoW = logoH * assets.logoAspect;

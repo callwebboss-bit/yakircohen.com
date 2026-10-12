@@ -30,6 +30,17 @@ export default function GiftVoucherBuilder() {
   const [downloadError, setDownloadError] = useState(false);
   const [previewError, setPreviewError] = useState(false);
 
+  /* ?package=one-hour מהדוגמאות ב-/matanot בוחר את החבילה מראש. רק מזהה חבילה,
+     בלי פרטים אישיים בכתובת */
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("package");
+    if (wanted && GIFT_VOUCHER_CHOICES.some((c) => c.id === `package-${wanted}`)) {
+      // הכתובת זמינה רק בדפדפן, אחרי ההידרציה. בלי useSearchParams כדי שהעמוד יישאר סטטי
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setChoiceId(`package-${wanted}`);
+    }
+  }, []);
+
   const choice = useMemo(
     () => GIFT_VOUCHER_CHOICES.find((c) => c.id === choiceId),
     [choiceId],

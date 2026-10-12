@@ -264,12 +264,10 @@ export async function drawVoucherImage(
   ctx.font = `600 26px ${sans}`;
   ctx.fillText(input.validityLabel, right, height - pad - 76);
 
-  // בס״ד בקטן למעלה, ללקוחות דתיים
-  ctx.textAlign = "center";
+  /* בס״ד בקטן, צמוד לימין למעלה ולא באמצע (החלטת הבעלים 12.10.2026), מעל "יקיר כהן הפקות" */
   ctx.fillStyle = COLORS.muted;
   ctx.font = `400 22px ${sans}`;
-  ctx.fillText(DOCUMENT_BLESSING_LINE, width / 2, pad + 62);
-  ctx.textAlign = "right";
+  ctx.fillText(DOCUMENT_BLESSING_LINE, right, pad + 56);
 
   // מיקרופון באמבלמה במרכז העליון
   const emblemX = width / 2;

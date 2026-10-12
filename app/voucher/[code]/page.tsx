@@ -45,7 +45,8 @@ export default async function VoucherPage({ params }: Props) {
     <Section className="bg-background" ariaLabelledby="voucher-title" padding="sm">
       <Container className="max-w-2xl">
         <article className="rounded-2xl border-2 border-brand-red bg-surface p-8 text-center shadow-sm sm:p-12">
-          <p className="mb-3 text-xs text-muted-foreground">{DOCUMENT_BLESSING_LINE}</p>
+          {/* צמוד לימין ולא באמצע (החלטת הבעלים 12.10.2026) */}
+          <p className="mb-3 text-start text-xs text-muted-foreground">{DOCUMENT_BLESSING_LINE}</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-red">
             יקיר כהן הפקות
           </p>
