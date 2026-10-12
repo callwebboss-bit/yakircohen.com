@@ -1,3 +1,5 @@
+import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+
 export type JourneyVariant = "general" | "studio" | "events" | "online" | "podcast";
 
 export type JourneyStep = {
@@ -18,24 +20,27 @@ export const CLIENT_JOURNEY_VARIANTS: readonly JourneyVariantConfig[] = [
     id: "general",
     label: "כללי",
     anchor: "general",
+    /* תוכנית הבהירות, שלב 7 (בחירת הבעלים 12.10.2026): במקום "ניתוח, ביצוע, מסירה"
+       המופשט, שלושה צעדים מוחשיים. רק עובדות מאושרות: זמן התשובה מ-TIME_CLAIMS
+       (D62), "ביד בסוף ההקלטה" לשיר (S1002-01) ולפודקאסט, ודוגמה לפני תשלום
+       בשירותים מרחוק (/whats-included, החלטת הבעלים 11.10.2026). */
     steps: [
       {
         number: 1,
-        title: "ניתוח",
-        description:
-          "מגדירים מה צריך: סוג שירות, היקף, פורמט מסירה ותאריך יעד.",
+        title: "פונים",
+        description: `שולחים הודעה בוואטסאפ או מזמינים באתר. הצעה ${TIME_CLAIMS.quoteHour}.`,
       },
       {
         number: 2,
-        title: "ביצוע",
+        title: "קובעים",
         description:
-          "מקליטים, מערכים, עושים מיקס או מפעילים ציוד - לפי מה שנקבע בשלב הראשון.",
+          "סוגרים מה עושים, איפה ומתי: באולפן במודיעין, מרחוק או באירוע שלכם.",
       },
       {
         number: 3,
-        title: "מסירה",
+        title: "מקבלים",
         description:
-          "מקבלים קובץ או שירות מוכן לשימוש, עם גרסאות נוספות אם נדרש.",
+          "שיר או פרק פודקאסט מקבלים ביד בסוף ההקלטה. בשירות מרחוק רואים דוגמה לפני שמשלמים.",
       },
     ],
   },

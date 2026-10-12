@@ -19,6 +19,7 @@ import Testimonials from "@/components/marketing/Testimonials";
 import WhatsappLeadRouter from "@/components/marketing/WhatsappLeadRouter";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
 import HomeServicesDetailHub from "@/components/marketing/HomeServicesDetailHub";
+import HomeMoreLayer from "@/components/marketing/HomeMoreLayer";
 import {
   PRIMARY_HOME_HUB_CARDS,
   SECONDARY_HOME_HUB_CARDS,
@@ -143,129 +144,187 @@ export type HomePageSectionsProps = {
   bottomWhatsAppHref: string;
 };
 
+function HomeServicesGrid() {
+  return (
+    <Section padding="sm" className="bg-background" ariaLabelledby="services-heading">
+      <Container>
+        {/* שלב 7: החלק יושב בשכבת "עוד", שהשורה שלה כבר אומרת "כל השירותים". הכותרת
+            נשארת לקורא מסך ולגוגל, והמסגרת שלה (פס אדום וריווח) לא תופסת מקום. */}
+        <header className="sr-only">
+          <h2
+            id="services-heading"
+            className="font-serif text-section-title font-semibold text-foreground"
+          >
+            השירותים המקצועיים שלנו
+          </h2>
+          <div
+            className="mx-auto mt-3 h-1 w-12 rounded-full bg-brand-red"
+            aria-hidden="true"
+          />
+          <div className="mt-5 hidden flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
+            {([
+              { label: "מקליט שיר לאירוע", href: "/studio/recording-song-modiin" },
+              { label: "מחפש DJ לחתונה", href: "/events/dj-events" },
+              { label: "מפיק פודקאסט", href: "/podcast" },
+              { label: "עסק מחפש תוכן", href: "/business" },
+            ] as const).map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-foreground/80 transition-colors duration-fast hover:border-brand-red/40 hover:bg-brand-red/5 hover:text-brand-red"
+              >
+                {label}
+                <span aria-hidden="true">›</span>
+              </Link>
+            ))}
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {[...PRIMARY_HOME_HUB_CARDS, ...SECONDARY_HOME_HUB_CARDS].map(
+            (card) => {
+              const Icon = getHomeHubIcon(card.id);
+              return (
+                <ServiceCard
+                  key={card.id}
+                  title={card.title}
+                  description={card.description}
+                  href={card.href}
+                  icon={
+                    <ServiceHubIcon>
+                      <Icon size={22} />
+                    </ServiceHubIcon>
+                  }
+                  isAiService={card.isAiService}
+                  badge={card.badge}
+                  badgeVariant={card.badgeVariant}
+                />
+              );
+            },
+          )}
+          <PremiumBundleCallout />
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+function HomeWhyUs() {
+  return (
+    <Section padding="sm" className="bg-surface" ariaLabelledby="value-heading">
+      <Container>
+        <ServiceHubLinks
+          heading="למה לקוחות חוזרים אלינו"
+          subheading={
+            <>
+              <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
+              ,{" "}
+              <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
+              ו
+              <InlineServiceLink href="/podcast/podcast-editing">
+                עריכת פודקאסט
+              </InlineServiceLink>{" "}
+              תחת קורת גג אחת.
+            </>
+          }
+          links={VALUE_PROPS.map((item) => ({
+            href: item.href,
+            title: item.title,
+            description: item.description,
+          }))}
+          headingId="value-heading"
+          columns={3}
+        />
+      </Container>
+    </Section>
+  );
+}
+
+function HomeServiceAreas() {
+  return (
+    <section className="bg-background py-12 sm:py-16" aria-labelledby="geo-heading">
+      <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-surface px-6 py-10 text-center sm:px-10">
+          <h2
+            id="geo-heading"
+            className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
+          >
+            ממודיעין - לפתח תקווה, שוהם, ירושלים וכל הארץ
+          </h2>
+          <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <InlineServiceLink href="/studio">האולפן והצוות שלנו במודיעין</InlineServiceLink>
+            . מגיעים ל
+            <InlineServiceLink href="/events">אירועים</InlineServiceLink> בפתח תקווה,
+            <InlineServiceLink href="/dj-events/cities/shoham"> שוהם</InlineServiceLink>,
+            <InlineServiceLink href="/dj-events/cities/rehovot"> רחובות</InlineServiceLink>,
+            ירושלים ובכל מקום שצריך{" "}
+            <InlineServiceLink href="/video">הפקת וידאו</InlineServiceLink> או{" "}
+            <InlineServiceLink href="/photography">צילום</InlineServiceLink> ברמה
+            גבוהה.{" "}
+            <Link href="/contact" className="font-medium text-brand-red hover:underline">
+              דברו איתנו
+            </Link>{" "}
+            ונחזור אליכם מהר.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomePageSections({
   heroWhatsAppHref,
   bottomWhatsAppHref,
 }: HomePageSectionsProps) {
   return (
     <>
+      {/* תוכנית הבהירות, שלב 7 (D87, 12.10.2026): דף הבית בשכבות. השכבה הראשית:
+          פתיחה עם הדלתות, איך זה עובד, מי הקליט אצלנו, ביקורות, נחזור אליכם,
+          שאלות ופנייה. כל השאר בשכבת "עוד" (HomeMoreLayer), סגור ונשאר ב-HTML. */}
       <HomeHero heroWhatsAppHref={heroWhatsAppHref} />
-      <HomeQuickPaths />
+
+      {/* היה אחרי הביקורות, במסך ה-27 בטלפון */}
+      <ClientJourneySteps variant="general" display="compact" className="bg-surface" />
 
       {/* תיק העבודות והלקוחות גבוה בעמוד - הסרטון בולט, ונשאר facade (אפס עלות LCP) */}
       <StudioClientsStrip showFeaturedVideo />
 
-      <Section
-        className="bg-background"
-        ariaLabelledby="services-heading"
-      >
-        <Container>
-          <header className="mx-auto max-w-2xl text-center">
-            <h2
-              id="services-heading"
-              className="font-serif text-section-title font-semibold text-foreground"
-            >
-              השירותים המקצועיים שלנו
-            </h2>
-            <div
-              className="mx-auto mt-3 h-1 w-12 rounded-full bg-brand-red"
-              aria-hidden="true"
-            />
-            <div className="mt-5 hidden flex-wrap justify-center gap-2" role="group" aria-label="בחרו את המסלול שלכם">
-              {([
-                { label: "מקליט שיר לאירוע", href: "/studio/recording-song-modiin" },
-                { label: "מחפש DJ לחתונה", href: "/events/dj-events" },
-                { label: "מפיק פודקאסט", href: "/podcast" },
-                { label: "עסק מחפש תוכן", href: "/business" },
-              ] as const).map(({ label, href }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-foreground/80 transition-colors duration-fast hover:border-brand-red/40 hover:bg-brand-red/5 hover:text-brand-red"
-                >
-                  {label}
-                  <span aria-hidden="true">›</span>
-                </Link>
-              ))}
-            </div>
-          </header>
-
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[...PRIMARY_HOME_HUB_CARDS, ...SECONDARY_HOME_HUB_CARDS].map(
-              (card) => {
-                const Icon = getHomeHubIcon(card.id);
-                return (
-                  <ServiceCard
-                    key={card.id}
-                    title={card.title}
-                    description={card.description}
-                    href={card.href}
-                    icon={
-                      <ServiceHubIcon>
-                        <Icon size={22} />
-                      </ServiceHubIcon>
-                    }
-                    isAiService={card.isAiService}
-                    badge={card.badge}
-                    badgeVariant={card.badgeVariant}
-                  />
-                );
-              },
-            )}
-            <PremiumBundleCallout />
-          </div>
-        </Container>
-      </Section>
-
-      <HomeGiftsTeaser />
-
-      <HomeServicesDetailHub />
-
-      <WhatsappLeadRouter />
-
-      <Section
-        padding="sm"
-        className="border-y border-border bg-surface"
-        ariaLabelledby="value-heading"
-      >
-        <Container>
-          <details className="chrome-more max-md:[&_#value-heading]:sr-only">
-            <summary className="summary-cue chrome-more-summary flex min-h-12 cursor-pointer list-none items-center font-semibold text-foreground marker:content-none touch-manipulation [&::-webkit-details-marker]:hidden">
-              למה לקוחות חוזרים אלינו
-            </summary>
-            <div className="chrome-more-body">
-              <ServiceHubLinks
-                heading="למה לקוחות חוזרים אלינו"
-                subheading={
-                  <>
-                    <InlineServiceLink href="/studio">אולפן מקצועי</InlineServiceLink>
-                    ,{" "}
-                    <InlineServiceLink href="/events">הפקת אירועים</InlineServiceLink>{" "}
-                    ו
-                    <InlineServiceLink href="/podcast/podcast-editing">
-                      עריכת פודקאסט
-                    </InlineServiceLink>{" "}
-                    תחת קורת גג אחת.
-                  </>
-                }
-                links={VALUE_PROPS.map((item) => ({
-                  href: item.href,
-                  title: item.title,
-                  description: item.description,
-                }))}
-                headingId="value-heading"
-                columns={3}
-              />
-            </div>
-          </details>
-        </Container>
-      </Section>
-
       <Testimonials />
 
-      <HomeSocialProofSectionLazy />
+      {/* hideHeading: הכותרת של כל חלק זהה לשורה שנפתחת, ולכן היא מוסתרת רק
+          מהעין. קורא מסך וגוגל עדיין רואים אותה. מחרוזות מלאות, כדי ש-Tailwind ימצא אותן. */}
+      <HomeMoreLayer
+        items={[
+          {
+            id: "quick-paths",
+            label: "מסלולים ומחירים בקצרה",
+            contentClassName: "[&_#quick-paths-heading]:sr-only",
+            content: <HomeQuickPaths />,
+          },
+          {
+            id: "services",
+            label: "כל השירותים",
+            content: <HomeServicesGrid />,
+          },
+          { id: "gifts", label: "מתנות מהאולפן", content: <HomeGiftsTeaser /> },
+          { id: "services-detail", label: "מפרט מלא לכל שירות", content: <HomeServicesDetailHub /> },
+          { id: "social-proof", label: "סרטון, ביקורות Google ואינסטגרם", content: <HomeSocialProofSectionLazy /> },
+          {
+            id: "why-us",
+            label: "למה לקוחות חוזרים אלינו",
+            contentClassName: "[&_#value-heading]:sr-only",
+            content: <HomeWhyUs />,
+          },
+          {
+            id: "areas",
+            label: "אזורי שירות: מודיעין, פתח תקווה, שוהם, ירושלים",
+            contentClassName: "[&_#geo-heading]:sr-only",
+            content: <HomeServiceAreas />,
+          },
+        ]}
+      />
 
-      <ClientJourneySteps variant="general" display="compact" className="bg-surface" />
+      <WhatsappLeadRouter />
 
       <Section padding="sm" className="hidden border-b border-border bg-surface pt-2">
         <Container className="text-center">
@@ -277,34 +336,6 @@ export default function HomePageSections({
           </Button>
         </Container>
       </Section>
-
-      <section className="bg-background py-16 sm:py-20" aria-labelledby="geo-heading">
-        <div className="mx-auto max-w-[72rem] px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-surface px-6 py-10 text-center sm:px-10">
-            <h2
-              id="geo-heading"
-              className="font-serif text-xl font-semibold text-foreground sm:text-2xl"
-            >
-              ממודיעין - לפתח תקווה, שוהם, ירושלים וכל הארץ
-            </h2>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              <InlineServiceLink href="/studio">האולפן והצוות שלנו במודיעין</InlineServiceLink>
-              . מגיעים ל
-              <InlineServiceLink href="/events">אירועים</InlineServiceLink> בפתח תקווה,
-              <InlineServiceLink href="/dj-events/cities/shoham"> שוהם</InlineServiceLink>,
-              <InlineServiceLink href="/dj-events/cities/rehovot"> רחובות</InlineServiceLink>,
-              ירושלים ובכל מקום שצריך{" "}
-              <InlineServiceLink href="/video">הפקת וידאו</InlineServiceLink> או{" "}
-              <InlineServiceLink href="/photography">צילום</InlineServiceLink> ברמה
-              גבוהה.{" "}
-              <Link href="/contact" className="font-medium text-brand-red hover:underline">
-                דברו איתנו
-              </Link>{" "}
-              ונחזור אליכם מהר.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section className="bg-surface py-14 sm:py-16">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
@@ -360,6 +391,8 @@ export default function HomePageSections({
           <p className="mx-auto mt-3 max-w-xl text-xs text-muted-foreground">
             {TIME_PROMISE_DISCLAIMER}
           </p>
+          {/* סוף השכבה הראשית, למדידה ב-audit-live-tour --only=clarity */}
+          <div data-clarity-primary-end aria-hidden="true" />
         </Container>
       </Section>
     </>

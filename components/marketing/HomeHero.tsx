@@ -96,7 +96,8 @@ export default function HomeHero({ heroWhatsAppHref }: HomeHeroProps) {
             </Button>
           </div>
           <CtaOutcomeSubline className="sm:text-start" />
-          <HeroScrollCue href="#home-quick-paths" className="sm:justify-start" />
+          {/* שלב 7: המסלולים עברו לשכבת "עוד", והחלק הבא אחרי הפתיחה הוא "איך זה עובד" */}
+          <HeroScrollCue href="#journey-compact-general" className="sm:justify-start" />
         </div>
 
         {/* IMPROVED: unified aspect-ratio (no lg:aspect-square reflow) + blur placeholder for CLS */}

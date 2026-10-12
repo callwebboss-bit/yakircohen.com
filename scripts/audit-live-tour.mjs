@@ -424,7 +424,12 @@ async function tourClarity(browser) {
          הראשון בכל פריט מוביל לאזור שירות, ויש בה שלושה אזורים שונים לפחות.
          קישורים בתוך פסקה (אזורי שירות, שאלות נפוצות) לא נספרים. */
       const prefixOf = (href) => prefixes.find((p) => href === p || href.startsWith(`${p}/`));
+      /* תוכן בתוך <details> סגור לא גלוי, גם כשיש לו מידות: האנימציה של
+         ::details-content (globals.css) חותכת אותו בגובה 0 ולא מסתירה אותו.
+         בלי זה שכבת "עוד" בדף הבית (שלב 7) נספרה כחלוקות גלויות. */
       const visible = (el) => {
+        const closed = el.closest("details:not([open])");
+        if (closed && !el.closest("summary")) return false;
         const b = el.getBoundingClientRect();
         return b.width > 0 && b.height > 0;
       };
