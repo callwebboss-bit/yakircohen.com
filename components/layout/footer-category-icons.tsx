@@ -133,12 +133,41 @@ function ChevronUpIcon({ className }: IconProps) {
   );
 }
 
+/* שלב 6ב (12.10.2026): קבוצות "מתנות" ו"לעסקים" בפוטר */
+function GiftIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1zm0 0c1.5-3 5-3 5-1s-3 1-5 1z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function BriefcaseIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M3 8h18v11H3zM9 8V5h6v3M3 13h18"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const CATEGORY_ICONS: Record<
   FooterCategoryId,
   (props: IconProps) => JSX.Element
 > = {
   studio: Mic2Icon,
+  gifts: GiftIcon,
   podcast: PodcastIcon,
+  business: BriefcaseIcon,
   ai: SparklesIcon,
   events: Music2Icon,
   video: VideoIcon,

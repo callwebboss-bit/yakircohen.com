@@ -81,9 +81,10 @@ export const FOOTER_SEMANTIC_TREE: readonly FooterSemanticSection[] = [
         title: "העלאת קבצים לשחזור ומיקס",
       },
       {
-        label: "שוברי מתנה מהאולפן",
+        /* 12.10.2026 (שלב 6ב): כמו ה-H1 של העמוד, והביטוי שהעמוד מכוון אליו */
+        label: "שיר במתנה מהאולפן",
         href: "/studio/recording-song-modiin/gifts",
-        title: "מתנות והקלטות כשובר",
+        title: "שיר במתנה, ברכה או שובר מהאולפן",
       },
       {
         label: "מתנות לפי אירוע",

@@ -1,13 +1,20 @@
 /**
- * 6 קטגוריות פוטר, נגזרות מ-FOOTER_SEMANTIC_TREE (מקור אמת ל-crawl).
+ * 8 קטגוריות פוטר, נגזרות מ-FOOTER_SEMANTIC_TREE (מקור אמת ל-crawl).
  * Additive only: לא מוחקים קישורים, רק מארגנים מחדש.
+ *
+ * תוכנית הבהירות, שלב 6ב (12.10.2026): הסדר כמו בתפריט העליון (אולפן, מתנות,
+ * פודקאסט, אירועים), ושתי קבוצות חדשות: "מתנות" (/matanot לא היה מקושר מהפוטר
+ * בכלל) ו"לעסקים" (11 עמודי /business ישבו תחת "פודקאסט"). כל קישור נשאר, וכל
+ * כותרת קיימת נשארת בשמה.
  */
 import type { SeoFooterLink } from "@/lib/seo-footer-links";
 import { FOOTER_SEMANTIC_TREE } from "@/lib/seo-footer-links";
 
 export type FooterCategoryId =
   | "studio"
+  | "gifts"
   | "podcast"
+  | "business"
   | "ai"
   | "events"
   | "video"
@@ -51,6 +58,8 @@ export const FOOTER_LEGAL_ROW_LINKS = [
   { href: "/shop", label: "חנות שוברים וציוד" },
   { href: "/data/industry-2026", label: "נתוני תעשייה 2026" },
   { href: "/data/recording-studio-costs-2026", label: "עלות אולפן הקלטות" },
+  /* 12.10.2026 (שלב 6ב): המגזין ישב תחת "פודקאסט". הוא לכל האתר, ולכן כאן */
+  { href: "/blog", label: "מגזין הסאונד וההפקות" },
   { href: "/pricing", label: "מחירון" },
   /* 11.10.2026: לתיק העבודות לא היה קישור מה-header, מה-footer או מעמוד הבית */
   { href: "/portfolio", label: "תיק עבודות" },
@@ -85,14 +94,17 @@ function classifyCol4Href(href: string): FooterCategoryId {
     return "events";
   }
   if (href.startsWith("/online")) return "ai";
-  if (href.startsWith("/business") || href === "/blog") return "podcast";
+  if (href.startsWith("/business")) return "business";
+  if (href === "/blog") return "podcast";
   return "academy";
 }
 
 function buildCategoryLinks(): Record<FooterCategoryId, SeoFooterLink[]> {
   const buckets: Record<FooterCategoryId, SeoFooterLink[]> = {
     studio: [],
+    gifts: [],
     podcast: [],
+    business: [],
     ai: [],
     events: [],
     video: [],
@@ -101,7 +113,9 @@ function buildCategoryLinks(): Record<FooterCategoryId, SeoFooterLink[]> {
 
   const col1 = FOOTER_SEMANTIC_TREE[0]!.links;
   for (const link of col1) {
-    if (link.href.startsWith("/studio")) {
+    if (link.href === "/studio/recording-song-modiin/gifts") {
+      buckets.gifts.push(link);
+    } else if (link.href.startsWith("/studio")) {
       buckets.studio.push(link);
     } else if (link.href.startsWith("/online")) {
       buckets.ai.push(link);
@@ -109,7 +123,8 @@ function buildCategoryLinks(): Record<FooterCategoryId, SeoFooterLink[]> {
   }
 
   for (const link of FOOTER_SEMANTIC_TREE[1]!.links) {
-    buckets.podcast.push(link);
+    if (link.href.startsWith("/business")) buckets.business.push(link);
+    else if (link.href !== "/blog") buckets.podcast.push(link);
   }
 
   buckets.podcast.unshift({
@@ -126,6 +141,16 @@ function buildCategoryLinks(): Record<FooterCategoryId, SeoFooterLink[]> {
   for (const link of FOOTER_SEMANTIC_TREE[3]!.links) {
     buckets[classifyCol4Href(link.href)].push(link);
   }
+
+  /* שובר המתנה להורדה: עמוד המתנות היחיד שלא היה מקושר מהפוטר מלבד /matanot עצמו */
+  buckets.gifts.push({
+    label: "שובר מתנה להקלטה באולפן",
+    href: "/matanot/gift-voucher",
+    title: "שובר מתנה להקלטה באולפן: עיצוב והורדה",
+  });
+
+  /* /blog עבר לשורת המידע (FOOTER_LEGAL_ROW_LINKS), גם כשהוא מגיע מעמודה 4 */
+  buckets.podcast = buckets.podcast.filter((l) => l.href !== "/blog");
 
   buckets.video.unshift({
     label: "מרכז צילום",
@@ -151,11 +176,11 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
     links: categoryLinks.studio,
   },
   {
-    id: "events",
-    label: "DJ ואטרקציות",
-    hubHref: "/events",
-    hubTitle: "DJ, הגברה ואטרקציות לאירועים",
-    links: categoryLinks.events,
+    id: "gifts",
+    label: "מתנות",
+    hubHref: "/matanot",
+    hubTitle: "מתנה מוקלטת לפי אירוע",
+    links: categoryLinks.gifts,
   },
   {
     id: "podcast",
@@ -164,6 +189,20 @@ export const FOOTER_CATEGORY_TREE: readonly FooterCategoryGroup[] = [
     hubHref: "/podcast",
     hubTitle: "הפקת פודקאסט, הקלטה, עריכה והפצה",
     links: categoryLinks.podcast,
+  },
+  {
+    id: "events",
+    label: "DJ ואטרקציות",
+    hubHref: "/events",
+    hubTitle: "DJ, הגברה ואטרקציות לאירועים",
+    links: categoryLinks.events,
+  },
+  {
+    id: "business",
+    label: "לעסקים",
+    hubHref: "/business",
+    hubTitle: "הפקת תוכן לעסקים - קריינות ופודקאסט",
+    links: categoryLinks.business,
   },
   {
     id: "ai",
