@@ -13,6 +13,7 @@ import ProfessionalStanceSection from "@/components/seo/ProfessionalStanceSectio
 import StudioHubPathSections from "@/components/seo/StudioHubPathSections";
 import StudioHubValueSection from "@/components/seo/StudioHubValueSection";
 import HubAudienceFitBlock from "@/components/seo/HubAudienceFitBlock";
+import HomeMoreLayer from "@/components/marketing/HomeMoreLayer";
 import TimeSavedMatrix from "@/components/seo/TimeSavedMatrix";
 import ServiceHubLinks from "@/components/services/ServiceHubLinks";
 import type { HubLinkItem } from "@/components/services/ServiceHubLinks";
@@ -84,15 +85,44 @@ export default function StudioHubPage() {
         valueFrame="האולפן במודיעין - בוחרים מסלול ויוצאים עם קובץ מוכן"
       >
         <div className="space-y-16">
+          {/* תוכנית הבהירות, שלב 8 (12.10.2026): בוחר אחד בשכבה הראשית, "מה קורה
+              אחרי שפונים" עלה ממסך 12.5, וכל השאר בשכבת "עוד" בסוף. */}
           <StudioHubPathSections />
+
+          <ClientJourneySteps variant="studio" display="compact" />
 
           {/* הטופס בגרסה המקוצרת: התוספות בתוך "הוסיפו תוספות" סגור */}
           <SongOfferSection source="/studio" variant="compact" utmCampaign="studio_hub_song_offer" />
 
-          <HubAudienceFitBlock hubPath="/studio" priceLead="withVat" />
-          <TimeSavedMatrix hub="studio" headingId="studio-time-saved-heading" />
+          <StudioHubValueSection />
 
-          <MobileStudioComesToYou />
+          <p className="text-center">
+            <Link
+              href="/portfolio"
+              className="text-sm font-semibold text-brand-red hover:underline"
+            >
+              לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות){" "}
+            </Link>
+          </p>
+          <p className="text-center text-sm text-muted-foreground">
+            פרויקט נבחר:{" "}
+            <a
+              href="https://www.facebook.com/dj.yakir.cohen/videos/10155064719936418/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-brand-red hover:underline"
+            >
+              &quot;הגרסה המזרחית&quot; - מעל מיליון צפיות בפייסבוק
+              {/* השם הנגיש נגזר מהטקסט הגלוי; aria-label נפרד סתר אותו
+                  והפעלה קולית לפי המילים שעל המסך לא הייתה עובדת. הרמז על
+                  הכרטיסייה החדשה נשאר לקוראי מסך. */}
+              <span className="sr-only"> (נפתח בכרטיסייה חדשה)</span>
+            </a>
+          </p>
+
+          <TrustStatsBar className="rounded-2xl border" />
+
+          <StudioClientsStrip className="rounded-2xl border-x" />
 
           <section
             className="overflow-hidden rounded-2xl border border-border bg-surface"
@@ -166,52 +196,89 @@ export default function StudioHubPage() {
             </div>
           </section>
 
-          <StudioHubValueSection />
-
-          <ClientJourneySteps variant="studio" display="compact" />
-
-          <p className="text-center">
-            <Link
-              href="/portfolio"
-              className="text-sm font-semibold text-brand-red hover:underline"
-            >
-              לכל תיק הווידאו ({PORTFOLIO_CATALOG_COUNT} דוגמאות){" "}
-            </Link>
-          </p>
-          <p className="text-center text-sm text-muted-foreground">
-            פרויקט נבחר:{" "}
-            <a
-              href="https://www.facebook.com/dj.yakir.cohen/videos/10155064719936418/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-brand-red hover:underline"
-            >
-              &quot;הגרסה המזרחית&quot; - מעל מיליון צפיות בפייסבוק
-              {/* השם הנגיש נגזר מהטקסט הגלוי; aria-label נפרד סתר אותו
-                  והפעלה קולית לפי המילים שעל המסך לא הייתה עובדת. הרמז על
-                  הכרטיסייה החדשה נשאר לקוראי מסך. */}
-              <span className="sr-only"> (נפתח בכרטיסייה חדשה)</span>
-            </a>
-          </p>
-
-          <TrustStatsBar className="rounded-2xl border" />
-
-          <StudioClientsStrip className="rounded-2xl border-x" />
-
-          <ServiceHubLinks
-            heading="כל מסלולי האולפן"
-            subheading="מחירון, גיאו, אולפן נייד ועוד - אחרי שבחרתם כיוון."
-            links={trackItems}
-            headingId="studio-tracks-heading"
+          {/* תוכנית הבהירות, שלב 8 (12.10.2026): כל מה שלא בשכבה הראשית, סגור ונשאר ב-HTML */}
+          <HomeMoreLayer
+            variant="inset"
+            name="studio-more"
+            headingId="studio-more-heading"
+            heading="עוד על האולפן"
+            intro="השוואות, כל המסלולים, גורמי המחיר, מחשבון ומפרט הציוד. כל חלק נפתח בלחיצה."
+            items={[
+            {
+              id: "compare",
+              label: "עוד השוואות שיעזרו להחליט",
+              content: (
+                <>
+                <HubAudienceFitBlock hubPath="/studio" priceLead="withVat" />
+                <TimeSavedMatrix hub="studio" headingId="studio-time-saved-heading" />
+                </>
+              ),
+            },
+            {
+              id: "mobile",
+              label: "האולפן מגיע אליכם",
+              content: (
+                <>
+                <MobileStudioComesToYou />
+                </>
+              ),
+            },
+            {
+              id: "tracks",
+              label: "כל מסלולי האולפן",
+              contentClassName: "[&_#studio-tracks-heading]:sr-only",
+              content: (
+                <>
+                <ServiceHubLinks
+                  heading="כל מסלולי האולפן"
+                  subheading="מחירון, גיאו, אולפן נייד ועוד - אחרי שבחרתם כיוון."
+                  links={trackItems}
+                  headingId="studio-tracks-heading"
+                />
+                </>
+              ),
+            },
+            {
+              id: "stance",
+              label: "העמדה המקצועית שלי",
+              contentClassName: "[&_#professional-stance-heading]:sr-only",
+              content: (
+                <>
+                <ProfessionalStanceSection pathname="/studio" />
+                </>
+              ),
+            },
+            {
+              id: "price",
+              label: "מה מזיז את המחיר",
+              contentClassName: "[&_#price-factors-heading]:sr-only",
+              content: (
+                <>
+                <PriceFactorsSection />
+                </>
+              ),
+            },
+            {
+              id: "calc",
+              label: "מחשבון לפי תאריך האירוע",
+              content: (
+                <>
+                <ProductionCalculator className="py-0" />
+                </>
+              ),
+            },
+            {
+              id: "gear",
+              label: "מפרט חומרה וציוד",
+              contentClassName: "[&_#gear-room-heading]:sr-only",
+              content: (
+                <>
+                <StudioGearRoom />
+                </>
+              ),
+            },
+            ]}
           />
-
-          <ProfessionalStanceSection pathname="/studio" />
-
-          <PriceFactorsSection />
-
-          <ProductionCalculator className="py-0" />
-
-          <StudioGearRoom />
         </div>
       </ServicePageFromRegistry>
     </>

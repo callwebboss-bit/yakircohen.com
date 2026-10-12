@@ -1,4 +1,4 @@
-import { TIME_CLAIMS } from "@/lib/data/conversion-copy";
+import { DATE_HOLD_TERMS_BODY, TIME_CLAIMS } from "@/lib/data/conversion-copy";
 
 export type JourneyVariant = "general" | "studio" | "events" | "online" | "podcast";
 
@@ -48,30 +48,31 @@ export const CLIENT_JOURNEY_VARIANTS: readonly JourneyVariantConfig[] = [
     id: "studio",
     label: "אולפן",
     anchor: "studio",
+    /* תוכנית הבהירות, שלב 8 (בחירת הבעלים 12.10.2026): במקום "קליטת דרישות
+       טכניות, התאמת ציוד ואקוסטיקה" המקצועי, ארבעה צעדים מוחשיים שמתאימים לכל
+       שירות באולפן, כולל קריינות. רק עובדות מאושרות: זמן התשובה (D62), שריון
+       במקדמה (DATE_HOLD_TERMS_BODY), הטכנאי מקליט ומנחה (D82), ו"ביד בסוף
+       הסשן" רק לשיר ולפודקאסט (S1002-01, D107). */
     steps: [
       {
         number: 1,
-        title: "קליטת דרישות טכניות",
-        description:
-          "סוג הקלטה, אורך, פורמט מסירה (WAV/MP3) ולוח זמנים.",
+        title: "פונים",
+        description: `הודעה בוואטסאפ או הזמנה באתר. הצעה ${TIME_CLAIMS.quoteHour}.`,
       },
       {
         number: 2,
-        title: "התאמת ציוד ואקוסטיקה",
-        description:
-          "בחירת מיקרופון, שרשרת שמע וסביבת ההקלטה לפי צורך הפרויקט.",
+        title: "קובעים מועד",
+        description: `סוגרים מה מקליטים ומתי, ${DATE_HOLD_TERMS_BODY}.`,
       },
       {
         number: 3,
-        title: "ביצוע ההקלטה",
-        description:
-          "הקלטה באולפן, עריכה, מיקס ו-mastering לפי מה שנקבע.",
+        title: "באולפן",
+        description: "הטכנאי מקליט ומנחה בזמן אמת. לא צריך ניסיון.",
       },
       {
         number: 4,
-        title: "מסירת התוצר הסופי",
-        description:
-          "קובץ מוכן להורדה בפורמט שנקבע, כולל גרסאות נוספות אם נדרש.",
+        title: "מקבלים",
+        description: "קובץ מוכן, WAV או MP3. שיר ופודקאסט ביד בסוף הסשן.",
       },
     ],
   },
