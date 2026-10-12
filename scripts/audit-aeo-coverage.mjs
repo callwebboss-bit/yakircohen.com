@@ -106,7 +106,6 @@ const BACKLOG = {
   "/matanot": "עמוד המתנות",
   "/online/online-ai-pricing": "מחירון שירותי AI",
   "/packages": "עמוד חבילות",
-  "/portfolio": "תיק עבודות",
   "/pro": "hub מקצועי",
   "/pro/event-index": "מוצר הנתונים לספקי אירועים",
   "/start": "עמוד כניסה",
