@@ -2,6 +2,7 @@
 
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useMemo, useRef, useState } from "react";
+import PaymentLinks, { paymentTexts, type PaymentCopyKind } from "@/components/admin/PaymentLinks";
 import { copyText, downloadIcs, MorningTable, shortTitle } from "@/components/admin/sales-ui";
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
@@ -27,7 +28,7 @@ import { cn } from "@/lib/utils";
  * באותן פונקציות כמו האתר.
  */
 
-export type SalesCopyKind = "message" | "confirm";
+export type SalesCopyKind = "message" | "confirm" | PaymentCopyKind;
 
 export type CalculatorVoucherForm = {
   addonIds: string[];
@@ -107,8 +108,11 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
   const options = useMemo(() => selectionOptions(card), [card]);
   const [selection, setSelection] = useState<Required<SelectionInput>>(() => initialSelection(card, preset));
   const [copied, setCopied] = useState<SalesCopyKind | "failed" | null>(null);
+  /* כפתורי הלינק נפתחים רק אחרי שההודעה או "רק לוודא" הועתקו (הלינק הוא ההודעה השלישית) */
+  const [unlocked, setUnlocked] = useState(false);
   const timerRef = useRef<number | undefined>(undefined);
   const quote = useMemo(() => buildSelectionQuote(card, selection), [card, selection]);
+  const pay = useMemo(() => paymentTexts(card, quote), [card, quote]);
   const fmt = (exVat: number, from = false) => formatPrice(exVat, { from, audience: card.audience });
   const total = fmt(quote.totalExVat, quote.priceFrom);
 
@@ -132,13 +136,14 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
     });
 
   const copy = async (what: SalesCopyKind) => {
-    const text = what === "message" ? quote.message : quote.confirmLine;
+    const text = what === "message" ? quote.message : what === "confirm" ? quote.confirmLine : pay.byKind[what];
     if (!text) return;
     const ok = await copyText(text);
     window.clearTimeout(timerRef.current);
     setCopied(ok ? what : "failed");
     timerRef.current = window.setTimeout(() => setCopied(null), 2200);
     if (ok) onCopy(card.id, what, quote.hasSelection);
+    if (ok && (what === "message" || what === "confirm")) setUnlocked(true);
   };
 
   const regionLabel = options.regions?.find((r) => r.id === quote.region)?.label ?? null;
@@ -340,6 +345,8 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
                 </>
               ) : null}
             </section>
+
+            <PaymentLinks texts={pay} copied={copied} copy={copy} unlocked={unlocked} />
 
             <div className="flex flex-wrap gap-2">
               <button type="button" onClick={() => voucher("order")} className={chipClass}>

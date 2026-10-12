@@ -241,6 +241,11 @@ if (!skipEnv) {
     CRON_SECRET: "מאבטח את הקרונים ואת IndexNow.",
     ADMIN_LEADS_TOKEN: "כניסה ל-/admin/leads.",
   };
+  /* מקומי בלבד: המפתח של מורנינג לסקריפטים במחשב של יקיר (morning:api). לא ב-Vercel. */
+  const LOCAL_ONLY = {
+    MORNING_API_ID: "סקריפטי מורנינג (morning:api). רק ב-.env.local, אף פעם לא בפלטפורמה.",
+    MORNING_API_SECRET: "כנ״ל.",
+  };
   const envLocal = path.join(ROOT, ".env.local");
   const fileVars = fs.existsSync(envLocal)
     ? new Set(
@@ -255,6 +260,11 @@ if (!skipEnv) {
   for (const [name, why] of Object.entries(REQUIRED)) {
     if (!fileVars.has(name) && !process.env[name]) {
       warn(`${name} לא מוגדר`, why, "להגדיר ב-.env.local מקומית, ובמשתני הסביבה של הפלטפורמה לפרודקשן");
+    }
+  }
+  for (const [name, why] of Object.entries(LOCAL_ONLY)) {
+    if (process.env.VERCEL && process.env[name]) {
+      warn(`${name} מוגדר בפלטפורמה`, why, "להסיר ממשתני הסביבה של Vercel");
     }
   }
 }

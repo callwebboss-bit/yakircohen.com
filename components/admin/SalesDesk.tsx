@@ -2,6 +2,7 @@
 
 import nextDynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { PAYMENT_COPY_ANNOUNCEMENT } from "@/components/admin/PaymentLinks";
 import SalesCalculator, { type CalculatorVoucherForm, type SalesCopyKind } from "@/components/admin/SalesCalculator";
 import { shortTitle } from "@/components/admin/sales-ui";
 import type {
@@ -339,7 +340,9 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
   const onCopy = (cardId: string, what: SalesCopyKind, withSelection: boolean) => {
     trackCopy(cardId, withSelection);
     const title = byId.get(cardId)?.title ?? "";
-    setAnnouncement(what === "message" ? `ההודעה הועתקה: ${title}` : `שורת רק לוודא הועתקה: ${title}`);
+    const label =
+      what === "message" ? "ההודעה הועתקה" : what === "confirm" ? "שורת רק לוודא הועתקה" : PAYMENT_COPY_ANNOUNCEMENT[what];
+    setAnnouncement(`${label}: ${title}`);
   };
 
   const setCategoryOpen = (category: string, open: boolean) =>
