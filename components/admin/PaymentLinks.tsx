@@ -27,6 +27,7 @@ export const PAYMENT_COPY_ANNOUNCEMENT: Readonly<Record<PaymentCopyKind, string>
   "pay-failed": "הודעת התשלום לא עבר הועתקה",
   "pay-link": "הלינק לתשלום הועתק",
   deposit: "הודעת המקדמה הועתקה",
+  refund: "תשובה לבקשת החזר הועתקה",
   "morning-fields": "השדות ללינק במורנינג הועתקו",
 };
 
@@ -91,6 +92,16 @@ export default function PaymentLinks({
         {chip("pay-bank", "או בהעברה")}
         {chip("pay-link", "רק הלינק")}
         {chip("pay-failed", "התשלום לא עבר?")}
+        {byKind.refund ? (
+          <button
+            type="button"
+            onClick={() => void copy("refund")}
+            className={chipClass}
+            title="החזר רק דרך מורנינג, לאותו כרטיס. אף פעם לא בהעברה או ב-bit"
+          >
+            {copied === "refund" ? "הועתק" : "ביקשו החזר?"}
+          </button>
+        ) : null}
         {byKind["morning-fields"] ? (
           <button
             type="button"

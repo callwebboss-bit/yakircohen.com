@@ -13,9 +13,18 @@ import {
   buildPaymentMessage,
   buildPaymentMessageFull,
   buildPaymentWithBankMessage,
+  buildRefundReplyMessage,
 } from "@/lib/sales/sales-copy";
 
-export type PaymentCopyKind = "pay" | "pay-full" | "pay-bank" | "pay-failed" | "pay-link" | "deposit" | "morning-fields";
+export type PaymentCopyKind =
+  | "pay"
+  | "pay-full"
+  | "pay-bank"
+  | "pay-failed"
+  | "pay-link"
+  | "deposit"
+  | "refund"
+  | "morning-fields";
 
 export type PaymentTexts = {
   link: MorningLink | null;
@@ -41,6 +50,7 @@ export function paymentTexts(
       "pay-failed": link ? buildPaymentFailedMessage(link, bank) : null,
       "pay-link": link?.url ?? null,
       deposit: deposit ? buildDepositMessage(deposit) : null,
+      refund: link ? buildRefundReplyMessage() : null,
       /* לינק קבוע נבנה רק לשירות עצמו (בלי שדרוגים ומשתתפים), במחיר של הקטלוג */
       "morning-fields":
         quote.priceFrom || quote.hasSelection || link?.kind === "fixed" || card.priceFrom ? null : buildMorningLinkFields(card),

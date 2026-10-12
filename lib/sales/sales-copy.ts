@@ -498,10 +498,21 @@ function noteLine(card: SalesCardDraft, link: MorningLink): string {
   return `\nבשדה "${link.noteLabel}" כתבו: ${paymentNote(card)}`;
 }
 
+/*
+ * החלטת הבעלים 12.10.2026: מתחת ל-150 ₪ מבקשים תשלום אחד, כי בסכום קטן העמלה
+ * ופריסה לתשלומים אוכלות חלק גדול. הלינק הפתוח עדיין מאפשר עד 3 תשלומים,
+ * זו בקשה בהודעה ולא חסימה.
+ */
+export const SINGLE_PAYMENT_BELOW = 150;
+
+function singlePaymentNote(card: Pick<SalesCardDraft, "inclVat" | "priceFrom">): string {
+  return !card.priceFrom && card.inclVat < SINGLE_PAYMENT_BELOW ? " בתשלום אחד." : "";
+}
+
 /** ההודעה הקצרה (ברירת מחדל): סכום ולינק, ושורת ביטחון */
 export function buildPaymentMessage(card: SalesCardDraft, link: MorningLink): string {
   if (link.kind === "deposit") return buildDepositMessage(link);
-  return `${payFirstLine(card, link)}\n${PAY_AFTER}`;
+  return `${payFirstLine(card, link)}\n${PAY_AFTER}${singlePaymentNote(card)}`;
 }
 
 /** שורת "כולל a, b, c. לא כולל d, e." מהכרטיס, או null כשאין פירוט */
@@ -535,6 +546,15 @@ export function buildPaymentWithBankMessage(card: SalesCardDraft, link: MorningL
 export function buildPaymentFailedMessage(link: MorningLink, bankLine: string | null): string {
   const alt = bankLine?.trim() ? ", או בהעברה" : "";
   return `קורה לפעמים. נסו שוב בלינק הזה${alt}, ואני מאשר מיד: ${link.url}`;
+}
+
+/*
+ * החלטת הבעלים 12.10.2026: החזר יוצא רק דרך מורנינג, לאותו כרטיס שממנו שילמו.
+ * לעולם לא בהעברה, ב-bit או במזומן. זה סוגר את התרגיל של "שילמתי בטעות יותר,
+ * תחזיר לי את ההפרש בהעברה". ההודעה לא מבטיחה החזר: יקיר בודק לפי התקנון.
+ */
+export function buildRefundReplyMessage(): string {
+  return "החזרים יוצאים רק דרך מערכת החשבוניות, לאותו כרטיס שממנו שילמתם, לפי התקנון באתר. אני בודק את הבקשה וחוזר אליכם.";
 }
 
 /** הודעת מקדמה. רק באישור יקיר (D6: הגעה באותו יום דורשת מקדמה של 200 ש״ח; רוב הלקוחות משלמים את השירות המלא). */

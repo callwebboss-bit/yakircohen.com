@@ -19,8 +19,10 @@ import {
   buildPaymentMessageFull,
   buildPaymentWithBankMessage,
   includedLine,
+  buildRefundReplyMessage,
   paymentNote,
   SALES_MESSAGE_MAX,
+  SINGLE_PAYMENT_BELOW,
 } from "@/lib/sales/sales-copy";
 
 const song = getPriceById("song_recording");
@@ -258,3 +260,19 @@ describe("סוכן המכירות נותן לינק מהמנוע", () => {
   });
 });
 
+describe("החלטות 12.10: החזרים וסכום קטן", () => {
+  it("תשובה להחזר: רק דרך מערכת החשבוניות ולאותו כרטיס, בלי להבטיח החזר", () => {
+    const text = buildRefundReplyMessage();
+    assert.ok(text.includes("לאותו כרטיס"));
+    assert.ok(!/העברה|bit|מזומן/.test(text));
+    assert.ok(!/[!—…]/.test(text));
+  });
+  it(`מתחת ל-${SINGLE_PAYMENT_BELOW} ₪ ההודעה מבקשת תשלום אחד, ומעל לא`, () => {
+    const cards = buildSalesBook().cards;
+    const cheap = cards.find((c) => !c.priceFrom && c.inclVat < SINGLE_PAYMENT_BELOW);
+    const song = cards.find((c) => c.id === "song_recording");
+    assert.ok(cheap && song);
+    assert.ok(buildPaymentMessage(cheap, { kind: "open", url: OPEN, inclVat: null }).endsWith("בתשלום אחד."));
+    assert.ok(!buildPaymentMessage(song, { kind: "open", url: OPEN, inclVat: null }).includes("בתשלום אחד"));
+  });
+});
