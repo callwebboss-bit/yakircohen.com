@@ -5,6 +5,7 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import { adminLoginUrl, isAdminAuthenticated } from "@/lib/admin-auth";
 import { buildSalesBook } from "@/lib/sales/sales-book";
+import { salesAgentConfigured } from "@/lib/sales/agent-run";
 import { adminLogoutAction } from "@/app/admin/login/actions";
 import WeeklyCountCard from "@/components/admin/WeeklyCountCard";
 import { saveWeeklyCountsAction } from "@/app/admin/sales/actions";
@@ -84,7 +85,7 @@ export default async function AdminSalesPage() {
           </header>
           {/* 12.10.2026: המחשבון ותיבת ההדבקה ראשונים. בטלפון הספירה השבועית תפסה
               מסך שלם לפניהם, והיא נפתחת פעם בשבוע ולא כשלקוח מחכה */}
-          <SalesDesk book={book} />
+          <SalesDesk book={book} agentConfigured={salesAgentConfigured()} />
           <div className="mt-8">
             <WeeklyCountCard
               weekStart={weekStart}

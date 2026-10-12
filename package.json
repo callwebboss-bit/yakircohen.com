@@ -64,6 +64,7 @@
     "audit:prose-price-backing": "node scripts/audit-prose-price-backing.mjs",
     "audit:prose-prices": "node scripts/audit-prose-prices.mjs",
     "gbp:prices": "tsx scripts/gbp-price-sheet.ts",
+    "sales": "tsx scripts/sales-cli.ts",
     "morning:api": "tsx scripts/morning-api.ts",
     "morning:link": "tsx scripts/morning-link.ts",
     "morning:sheet": "tsx scripts/morning-link-sheet.ts",

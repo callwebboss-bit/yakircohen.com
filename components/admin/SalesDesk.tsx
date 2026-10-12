@@ -3,6 +3,7 @@
 import nextDynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAYMENT_COPY_ANNOUNCEMENT } from "@/components/admin/PaymentLinks";
+import SalesAgentPanel from "@/components/admin/SalesAgentPanel";
 import SalesCalculator, { type CalculatorVoucherForm, type SalesCopyKind } from "@/components/admin/SalesCalculator";
 import { shortTitle } from "@/components/admin/sales-ui";
 import type {
@@ -235,7 +236,7 @@ function ServiceRow({ card, highlighted, onOpen }: { card: SalesCardData; highli
 
 const CALC_HISTORY_STATE = "ycSalesCalc";
 
-export default function SalesDesk({ book }: { book: SalesBook }) {
+export default function SalesDesk({ book, agentConfigured = false }: { book: SalesBook; agentConfigured?: boolean }) {
   const { cards } = book;
   const [query, setQuery] = useState("");
   const [pasteText, setPasteText] = useState("");
@@ -447,6 +448,9 @@ export default function SalesDesk({ book }: { book: SalesBook }) {
           </button>
         ) : null}
       </section>
+
+      {/* החלטת הבעלים 12.10.2026, סוכן מכירות: שאלה חופשית, מחיר מאותו מנוע */}
+      <SalesAgentPanel configured={agentConfigured} onOpenCalc={openCalc} />
 
       <section aria-labelledby="sales-featured" className="grid gap-2">
         <h2 id="sales-featured" className="text-base font-semibold text-foreground">
