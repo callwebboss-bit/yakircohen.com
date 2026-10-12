@@ -57,6 +57,13 @@
       "why": "תיאור /start בלי 'ניתוח, ביצוע ומסירה', שכבר לא נכון אחרי שכל מסלול קיבל צעדים מוחשיים משלו (בחירת הבעלים 12.10.2026, שאלון: 'לתקן את השורות שלא נכונות', כולל ה-meta). אותן מילים שאושרו, בסדר שעובר את audit:share (מיקום במשפט הראשון).",
       "approvedBy": "owner",
       "approvedAt": "2026-10-12"
+    },
+    {
+      "url": "site",
+      "field": "robots",
+      "why": "עדכון שמות בוטי ה-AI ב-robots.txt (אישור הבעלים 12.10.2026): נוספו Claude-SearchBot, Claude-User, Perplexity-User ו-DuckAssistBot, וירד Claude-Web שכבר לא בשימוש. החסימות של /api/, /admin/ ו-/thank-you לא השתנו.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
     }
   ]
 }

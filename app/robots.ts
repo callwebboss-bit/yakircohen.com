@@ -28,13 +28,19 @@ const DISALLOW = ["/api/", "/admin/", "/thank-you"];
  * לכן רשימת החסימות חוזרת כאן במפורש. מי שיפשט את זה ל-allow בלבד
  * יפתח לסורקי ה-AI את /api, /admin ו-/thank-you.
  */
+/* 12.10.2026 (אישור הבעלים): נוספו Claude-SearchBot, Claude-User, Perplexity-User
+   ו-DuckAssistBot, וירד Claude-Web שכבר לא בשימוש. כולם מותרים גם דרך קבוצת ה-*,
+   כאן זה סימון מפורש בלבד. */
 const AI_CRAWLERS = [
   "GPTBot",
   "OAI-SearchBot",
   "ChatGPT-User",
   "PerplexityBot",
+  "Perplexity-User",
   "ClaudeBot",
-  "Claude-Web",
+  "Claude-SearchBot",
+  "Claude-User",
+  "DuckAssistBot",
   "Applebot-Extended",
   "Google-Extended",
 ];
