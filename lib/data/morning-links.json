@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11",
+  "updated": "2026-10-12",
   "bankTransferLine": "",
   "deposit": {
     "url": "",
@@ -8,5 +8,10 @@
   "open": {
     "url": ""
   },
-  "cards": {}
+  "cards": {
+    "song_recording": {
+      "url": "https://mrng.to/QCmBPN0A7u",
+      "inclVat": 590
+    }
+  }
 }

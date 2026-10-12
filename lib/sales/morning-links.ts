@@ -41,7 +41,7 @@ export const MORNING_LINKS_PATH = "lib/data/morning-links.json";
 export const MORNING_LINKS: MorningLinksFile = links;
 
 /** דומיינים שלינק תשלום של מורנינג יכול לשבת בהם. לינק אחר נדחה ב---check. */
-export const MORNING_LINK_HOSTS = ["greeninvoice.co.il", "morning.co", "grow.co.il", "meshulam.co.il"] as const;
+export const MORNING_LINK_HOSTS = ["greeninvoice.co.il", "morning.co", "mrng.to", "grow.co.il", "meshulam.co.il"] as const;
 
 export function isMorningUrl(url: string): boolean {
   let host: string;

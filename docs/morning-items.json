@@ -1,7 +1,7 @@
 {
   "$comment": "נוצר על ידי npm run morning:sheet מהקטלוג. כל מחיר כולל מע״מ ב-inclVat. לסוכן ה-API: docs/CURSOR-MORNING-BRIEF.md",
   "generated": "2026-10-12",
-  "contentHash": "091864e02d3b0934",
+  "contentHash": "b4234c059ef2d074",
   "presetAmounts": [
     590,
     767,
@@ -25,7 +25,7 @@
       "priceFrom": false,
       "featured": true,
       "description": "הקלטת שיר באולפן. התנאים: yakircohen.com/whats-included",
-      "hasFixedLink": false
+      "hasFixedLink": true
     },
     {
       "id": "blessing_recording",
@@ -1025,6 +1025,56 @@
       "priceFrom": true,
       "featured": false,
       "description": "4 אטרקציות ומעלה. התנאים: yakircohen.com/whats-included",
+      "hasFixedLink": false
+    },
+    {
+      "id": "inflatable_slide_pickup",
+      "name": "מגלשת מים מתנפחת, איסוף עצמי",
+      "inclVat": 690,
+      "exVat": 585,
+      "priceFrom": false,
+      "featured": false,
+      "description": "מגלשת מים מתנפחת, איסוף עצמי. התנאים: yakircohen.com/whats-included",
+      "hasFixedLink": false
+    },
+    {
+      "id": "foam_cannon_pickup",
+      "name": "תותח קצף, איסוף עצמי",
+      "inclVat": 550,
+      "exVat": 466,
+      "priceFrom": false,
+      "featured": false,
+      "description": "תותח קצף, איסוף עצמי. התנאים: yakircohen.com/whats-included",
+      "hasFixedLink": false
+    },
+    {
+      "id": "backyard_party_pickup",
+      "name": "מגלשת מים ותותח קצף, איסוף עצמי",
+      "inclVat": 1090,
+      "exVat": 924,
+      "priceFrom": false,
+      "featured": false,
+      "description": "מגלשת מים ותותח קצף, איסוף עצמי. התנאים: yakircohen.com/whats-included",
+      "hasFixedLink": false
+    },
+    {
+      "id": "kids_party_dj",
+      "name": "DJ ליום הולדת לילדים",
+      "inclVat": 1290,
+      "exVat": 1093,
+      "priceFrom": false,
+      "featured": false,
+      "description": "DJ ליום הולדת לילדים. התנאים: yakircohen.com/whats-included",
+      "hasFixedLink": false
+    },
+    {
+      "id": "kids_party_bundle",
+      "name": "חבילת יום הולדת: DJ, מגלשת מים ותותח קצף",
+      "inclVat": 1989,
+      "exVat": 1686,
+      "priceFrom": false,
+      "featured": false,
+      "description": "חבילת יום הולדת: DJ, מגלשת מים ותותח קצף. התנאים: yakircohen.com/whats-included",
       "hasFixedLink": false
     },
     {
