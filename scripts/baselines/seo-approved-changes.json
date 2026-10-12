@@ -1242,20 +1242,6 @@
       "approvedAt": "2026-10-03"
     },
     {
-      "url": "/studio/blessings/video-clip",
-      "field": "images",
-      "why": "הוסרה התמונה של אדם אחר ליד ההמלצה של משה ברק, שמוצגת בעמודי האולפן (שלב 5 WP9b, FIT-04). אין תמונה אחרת שירדה.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
-      "url": "/studio/blessings/video-clip",
-      "field": "imagesWithAlt",
-      "why": "אותן תמונות המלצה, שהיה להן alt. אף תמונה שנשארה לא איבדה alt.",
-      "approvedBy": "owner",
-      "approvedAt": "2026-10-03"
-    },
-    {
       "url": "/studio/pricing",
       "field": "description",
       "why": "\"ברכה, שיר מוכן, Pro וסינגל\" הפך ל\"הקלטת שיר ב-590 ₪ כולל מע״מ ותוספות לפי בחירה\".",
@@ -3506,6 +3492,13 @@
       "url": "/online/vocal-fix/noise-removal",
       "field": "description",
       "why": "תיאור בגוגל: '500 ₪ (לפני מע\"מ)' שנכתב ביד הפך למחיר כולל מע״מ של noise_removal_segment מהקטלוג. רק המספר וניסוח המע״מ השתנו, שאר הטקסט וה-title לא. החלטת הבעלים D110, 12.10.2026.",
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-12"
+    },
+    {
+      "url": "/academy/music-production",
+      "field": "outline",
+      "why": "נוספה גלריית תמונות מהאולפן עם כותרת משלה (החלטת הבעלים 12.10.2026). נוספה כותרת, שום כותרת לא נגרעה.",
       "approvedBy": "owner",
       "approvedAt": "2026-10-12"
     }
