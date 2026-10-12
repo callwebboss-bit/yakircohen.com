@@ -7,6 +7,7 @@ import BatMitzvahClipShowcase from "@/components/seo/BatMitzvahClipShowcase";
 import ProposalGiftPitchProofSection from "@/components/seo/ProposalGiftPitchProofSection";
 import ShowcaseVideoSection from "@/components/seo/ShowcaseVideoSection";
 import ServicePageFromRegistry from "@/components/services/ServicePageFromRegistry";
+import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import SongOfferSection from "@/components/pricing/SongOfferSection";
 import {
   VIDEO_CLIP_PROCESS,
@@ -102,6 +103,14 @@ export default function BlessingsVideoClipPageContent() {
       {/* בלי faqItems: שתי שאלות בת המצווה לא מוצגות בעמוד הזה, ונשלחו לגוגל
           כטקסט מוסתר. */}
       <BatMitzvahClipShowcase heading="קליפ בת מצווה - דוגמה מלאה" />
+
+      {/* החלטת הבעלים 12.10.2026: גלריית התמונות מהתיקייה. showPortfolio כבוי בגלל הווידאו, ולכן היא כאן בנפרד */}
+      <ServiceShowcaseSections
+        assetsFolder={service.assetsFolder}
+        mediaType="gallery"
+        galleryLabel="מהסשנים באולפן"
+        noPriority
+      />
 
       <ShowcaseVideoSection playlistId="blessings-video-clip" />
 

@@ -4,6 +4,7 @@ import AcademyCourseFitSections from "@/components/academy/AcademyCourseFitSecti
 import HubDualCta from "@/components/marketing/HubDualCta";
 import InlineServiceLink from "@/components/marketing/InlineServiceLink";
 import YouTubePlaylistSection from "@/components/marketing/YouTubePlaylistSection";
+import ServiceShowcaseSections from "@/components/services/ServiceShowcaseSections";
 import ContextualIntroParagraph from "@/components/seo/ContextualIntroParagraph";
 import FaqPageSchema from "@/components/seo/FaqPageSchema";
 import NextUpSuggestionBlock from "@/components/seo/NextUpSuggestionBlock";
@@ -233,6 +234,16 @@ export default function MusicProductionPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── גלריה מהאולפן (החלטת הבעלים 12.10.2026) ── */}
+      <section className="mx-auto max-w-[72rem] px-4 pb-14 sm:px-6 sm:pb-16 lg:px-8">
+        <ServiceShowcaseSections
+          assetsFolder="academy/music-production"
+          mediaType="gallery"
+          galleryLabel="הפקה מוזיקלית באולפן"
+          noPriority
+        />
       </section>
 
       {/* ── Production & sound solutions playlist ── */}
