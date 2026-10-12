@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import Link from "@/components/ui/IntentLink";
 import YouTube from "@/components/YouTube";
 import {
   VIDEO_EXAMPLES_INITIAL_VISIBLE,
@@ -94,7 +95,16 @@ export default function RecordingSongExampleVideos({
                 video.badge ? "mt-1" : "mt-3",
               )}
             >
-              {video.title}
+              {video.href ? (
+                <Link
+                  href={video.href}
+                  className="hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                >
+                  {video.title}
+                </Link>
+              ) : (
+                video.title
+              )}
             </TitleTag>
             {video.description ? (
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">

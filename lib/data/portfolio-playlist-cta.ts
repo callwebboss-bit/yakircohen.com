@@ -18,7 +18,7 @@ export type PortfolioPlaylistCtaConfig = {
   utmCampaign: string;
 };
 
-function cta(opts: {
+export function cta(opts: {
   prompt: string;
   serviceHref: string;
   serviceLabel: string;

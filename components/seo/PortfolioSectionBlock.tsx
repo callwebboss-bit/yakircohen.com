@@ -74,16 +74,25 @@ export default function PortfolioSectionBlock({ section }: { section: PortfolioS
           <ul className="grid gap-x-6 gap-y-1 border-t border-border px-4 py-3 sm:grid-cols-2">
             {rest.map((v) => (
               <li key={v.videoId} className="text-sm">
-                <a
-                  href={`https://www.youtube.com/watch?v=${v.videoId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center text-foreground hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-                >
-                  {v.badge ? <span className="me-2 text-xs font-semibold text-brand-red">{v.badge}</span> : null}
-                  {v.title}
-                  <span className="sr-only"> (נפתח ביוטיוב בלשונית חדשה)</span>
-                </a>
+                {v.href ? (
+                  <Link
+                    href={v.href}
+                    className="inline-flex min-h-11 items-center font-semibold text-foreground hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  >
+                    {v.title}
+                  </Link>
+                ) : (
+                  <a
+                    href={`https://www.youtube.com/watch?v=${v.videoId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center text-foreground hover:text-brand-red hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  >
+                    {v.badge ? <span className="me-2 text-xs font-semibold text-brand-red">{v.badge}</span> : null}
+                    {v.title}
+                    <span className="sr-only"> (נפתח ביוטיוב בלשונית חדשה)</span>
+                  </a>
+                )}
               </li>
             ))}
           </ul>

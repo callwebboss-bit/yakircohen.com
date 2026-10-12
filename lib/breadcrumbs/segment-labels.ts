@@ -113,6 +113,12 @@ export const BREADCRUMB_SEGMENT_LABELS: Record<string, string> = {
 
 /** Exact path label when segment fallbacks are not enough. */
 export const BREADCRUMB_PATH_OVERRIDES: Record<string, string> = {
+  /* עמודי עבודה בתיק העבודות (lib/data/portfolio-works.ts) */
+  "/portfolio/magic-kass-official-clip": "מג'יק קאס",
+  "/portfolio/bana-tv-ad-channel-14": "בנא משקאות, ערוץ 14",
+  "/portfolio/vocal-before-after-basic-edit": "לפני ואחרי עריכה",
+  "/portfolio/renew-old-song": "חידוש שיר ישן",
+  "/portfolio/green-screen-kids-clip-edit": "עריכה ממסך ירוק",
   "/about/faq": "שאלות נפוצות",
   "/glossary": "מונחון",
   "/podcast/faq": "שאלות נפוצות - פודקאסט",

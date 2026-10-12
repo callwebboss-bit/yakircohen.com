@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
 import { getAllBlogSlugs } from "@/lib/data/blog-slugs";
 import { BLOG_POSTS } from "@/lib/data/blog";
+import { PORTFOLIO_WORKS } from "@/lib/data/portfolio-works";
 import { getAllGlossarySlugs } from "@/lib/data/glossary";
 import { PRO_SERVICES } from "@/lib/data/pro-services";
 import { BLOG_FILTER_CATEGORIES } from "@/lib/data/blog-categories";
@@ -355,7 +356,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  const all = [...STATIC_ROUTES.map(withLastModified), ...blogRoutes, ...glossaryRoutes, ...categoryRoutes];
+  /* עמודי עבודה בתיק העבודות. התאריך של /portfolio, כמו בעמודי המילון */
+  const portfolioDate = routeDates["/portfolio"];
+  const portfolioWorkRoutes: MetadataRoute.Sitemap = PORTFOLIO_WORKS.map((work) => ({
+    url: url(`portfolio/${work.slug}`),
+    ...(portfolioDate ? { lastModified: new Date(portfolioDate) } : {}),
+    priority: 0.6,
+    changeFrequency: "monthly" as const,
+  }));
+
+  const all = [
+    ...STATIC_ROUTES.map(withLastModified),
+    ...blogRoutes,
+    ...glossaryRoutes,
+    ...categoryRoutes,
+    ...portfolioWorkRoutes,
+  ];
   const seen = new Set<string>();
   return all.filter((entry) => (seen.has(entry.url) ? false : (seen.add(entry.url), true)));
 }

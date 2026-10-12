@@ -27,4 +27,6 @@ export type ShowcaseVideoItem = {
   description?: string;
   /** תווית קטנה מעל השם בכרטיס, למשל "טיפ" */
   badge?: string;
+  /** עמוד עבודה באתר, כשיש (/portfolio/[slug]) */
+  href?: string;
 };

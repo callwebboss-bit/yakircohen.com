@@ -5,6 +5,7 @@ import {
   toShowcaseItem,
 } from "@/lib/data/video-portfolio";
 import type { PlaylistId } from "@/lib/data/video-playlists";
+import { getPortfolioWorkByVideoId, getPortfolioWorkHref } from "@/lib/data/portfolio-works";
 
 /**
  * המבנה של /portfolio לפי הלקוח (שלב ב, אישור הבעלים 12.10.2026).
@@ -272,7 +273,12 @@ export const PORTFOLIO_GROUPS: readonly PortfolioGroup[] = [
 /** טיפים (תגית education) מקבלים תווית, כדי שיהיה ברור שהם ידע ולא עבודה ללקוח. */
 function withTipBadge(item: ShowcaseVideoItem): ShowcaseVideoItem {
   const video = getVideoFromCatalog(item.videoId);
-  return video?.tags.includes("education") ? { ...item, badge: PORTFOLIO_TIP_BADGE } : item;
+  const work = getPortfolioWorkByVideoId(item.videoId);
+  return {
+    ...item,
+    ...(video?.tags.includes("education") ? { badge: PORTFOLIO_TIP_BADGE } : {}),
+    ...(work ? { href: getPortfolioWorkHref(work) } : {}),
+  };
 }
 
 export function getPortfolioSectionVideos(section: PortfolioSection): ShowcaseVideoItem[] {
