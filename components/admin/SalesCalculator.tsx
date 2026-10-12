@@ -7,6 +7,7 @@ import { copyText, downloadIcs, MorningTable, shortTitle } from "@/components/ad
 import { getExVat } from "@/lib/data/pricing-catalog";
 import { formatPrice } from "@/lib/data/pricing-display";
 import { formatNis } from "@/lib/data/pricing";
+import { buildFollowUpTitle } from "@/lib/sales/ics";
 import type { SalesCard as SalesCardData } from "@/lib/sales/sales-book";
 import {
   buildSelectionQuote,
@@ -36,13 +37,20 @@ export type CalculatorVoucherForm = {
   agreed?: string;
 };
 
+/** מה שנשמר ב"ההצעות האחרונות" כשההודעה הועתקה (החלטת הבעלים 12.10.2026) */
+export type CopiedQuote = { selection: Required<SelectionInput>; totalInclVat: number; hasSelection: boolean };
+
 type SalesCalculatorProps = {
   card: SalesCardData;
   preset?: Partial<SelectionInput>;
+  /** קוד הפנייה מההדבקה (YC-A7K2), לסוף כותרת התזכורת (החלטת הבעלים 12.10.2026) */
+  leadCode?: string | null;
+  /** נפתח מ"ההצעות האחרונות" והמחיר זז מאז: הסכום כולל מע״מ ששמור בהצעה. null = אין הערה */
+  previousInclVat?: number | null;
   /** כרטיס לפי מזהה, לאישור הזמנה של חבילת אטרקציות */
   cardById: (id: string) => SalesCardData | undefined;
   onClose: () => void;
-  onCopy: (cardId: string, what: SalesCopyKind, withSelection: boolean) => void;
+  onCopy: (cardId: string, what: SalesCopyKind, withSelection: boolean, copiedQuote: CopiedQuote) => void;
   onVoucher: (card: SalesCardData, kind: VoucherKind, form: CalculatorVoucherForm) => void;
 };
 
@@ -104,7 +112,16 @@ function Stepper({
   );
 }
 
-export default function SalesCalculator({ card, preset, cardById, onClose, onCopy, onVoucher }: SalesCalculatorProps) {
+export default function SalesCalculator({
+  card,
+  preset,
+  leadCode = null,
+  previousInclVat = null,
+  cardById,
+  onClose,
+  onCopy,
+  onVoucher,
+}: SalesCalculatorProps) {
   const options = useMemo(() => selectionOptions(card), [card]);
   const [selection, setSelection] = useState<Required<SelectionInput>>(() => initialSelection(card, preset));
   const [copied, setCopied] = useState<SalesCopyKind | "failed" | null>(null);
@@ -142,7 +159,7 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
     window.clearTimeout(timerRef.current);
     setCopied(ok ? what : "failed");
     timerRef.current = window.setTimeout(() => setCopied(null), 2200);
-    if (ok) onCopy(card.id, what, quote.hasSelection);
+    if (ok) onCopy(card.id, what, quote.hasSelection, { selection, totalInclVat: quote.totalInclVat, hasSelection: quote.hasSelection });
     if (ok && (what === "message" || what === "confirm")) setUnlocked(true);
   };
 
@@ -161,7 +178,11 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
     });
   };
 
-  const followUpTitle = `מעקב הצעה · ${shortTitle(card)} · ${quote.priceFrom ? "מ-" : ""}${formatNis(quote.totalInclVat, { withSymbol: false })}`;
+  const followUpTitle = buildFollowUpTitle({
+    service: shortTitle(card),
+    price: `${quote.priceFrom ? "מ-" : ""}${formatNis(quote.totalInclVat, { withSymbol: false })}`,
+    code: leadCode,
+  });
   const requiresLabel = (id: string) => options.addons.find((a) => a.id === id)?.label ?? id;
   const rule = options.participants;
 
@@ -189,6 +210,13 @@ export default function SalesCalculator({ card, preset, cardById, onClose, onCop
           </header>
 
           <div className="grid flex-1 content-start gap-5 overflow-y-auto overscroll-contain px-4 pt-4 pb-6 text-sm">
+            {previousInclVat != null ? (
+              <p role="status" className="rounded-md bg-accent p-2 text-sm font-semibold text-brand-red-text">
+                המחיר עודכן מאז. בהצעה ששלחתם: {formatNis(previousInclVat, { withSymbol: false })} ₪ כולל מע״מ. הסכום
+                כאן במחירי היום.
+              </p>
+            ) : null}
+
             {quote.warnings.length ? (
               <ul role="status" className="grid gap-1 rounded-md bg-accent p-2 text-xs text-brand-red-text">
                 {quote.warnings.map((w) => (

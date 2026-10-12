@@ -5,6 +5,8 @@
  *
  * בלי פרטים אישיים: בכותרת רק שירות ומחיר ("מעקב הצעה · שיר · <מחיר>"). הכותרת
  * מגיעה מהעמוד, ולכן מספר טלפון או מייל שהודבקו אליה בטעות נמחקים כאן.
+ * קוד הפנייה (YC-A7K2) נכנס בסוף הכותרת (החלטת הבעלים 12.10.2026): הוא לא פרט
+ * אישי, והניקוי לא נוגע בו (4 תווים, לא טלפון ולא מייל).
  * הפורמט לפי RFC 5545: שורות CRLF, זמנים ב-UTC, ושורה ארוכה מקופלת ב-75 בתים.
  */
 
@@ -19,6 +21,23 @@ const EMAIL_RE = /[^\s@]+@[^\s@]+\.[^\s@]+/g;
 
 function stripPersonalData(text: string): string {
   return text.replace(EMAIL_RE, " ").replace(PHONE_RE, " ").replace(/\s+/g, " ").trim();
+}
+
+/* קוד בצורת אישור ההזמנה, כמו findPasteCode ב-paste-match.ts */
+const LEAD_CODE_RE = /^YC-[A-Z0-9]{4}$/;
+
+/** "מעקב הצעה · שיר · 2,063 · YC-A7K2". קוד לא תקין לא נכנס. */
+export function buildFollowUpTitle({
+  service,
+  price,
+  code,
+}: {
+  service: string;
+  price: string;
+  code?: string | null;
+}): string {
+  const cleanCode = code?.trim().toUpperCase() ?? "";
+  return ["מעקב הצעה", service, price, LEAD_CODE_RE.test(cleanCode) ? cleanCode : null].filter(Boolean).join(" · ");
 }
 
 /** TEXT לפי RFC 5545 (סעיף 3.3.11): לוכסן הפוך, נקודה-פסיק, פסיק ושורה חדשה */

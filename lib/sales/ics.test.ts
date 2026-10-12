@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
-import { buildFollowUpIcs } from "@/lib/sales/ics";
+import { buildFollowUpIcs, buildFollowUpTitle } from "@/lib/sales/ics";
 
 const NOW = new Date(Date.UTC(2026, 9, 6, 9, 15, 30));
 
@@ -75,5 +75,21 @@ describe("follow-up reminder (.ics)", () => {
     assert.ok(!summary.includes("123 4567"));
     assert.ok(!summary.includes("@"));
     assert.ok(summary.includes("590"));
+  });
+
+  /* החלטת הבעלים 12.10.2026: קוד הפנייה בסוף כותרת התזכורת */
+  it("the lead code goes at the end of the title, and survives the cleaning", () => {
+    const title = buildFollowUpTitle({ service: "שיר", price: "2,063", code: "YC-A7K2" });
+    assert.equal(title, "מעקב הצעה · שיר · 2,063 · YC-A7K2");
+    const summary = field(buildFollowUpIcs({ title, now: NOW, hoursFromNow: 24 }), "SUMMARY") ?? "";
+    assert.ok(summary.endsWith("YC-A7K2"), summary);
+    assert.ok(summary.includes("2\\,063"));
+  });
+
+  it("no code, or an invalid one: the title stays service and price", () => {
+    assert.equal(buildFollowUpTitle({ service: "שיר", price: "590" }), "מעקב הצעה · שיר · 590");
+    assert.equal(buildFollowUpTitle({ service: "שיר", price: "590", code: null }), "מעקב הצעה · שיר · 590");
+    assert.equal(buildFollowUpTitle({ service: "שיר", price: "590", code: "0501234567" }), "מעקב הצעה · שיר · 590");
+    assert.equal(buildFollowUpTitle({ service: "שיר", price: "590", code: " yc-a7k2 " }), "מעקב הצעה · שיר · 590 · YC-A7K2");
   });
 });

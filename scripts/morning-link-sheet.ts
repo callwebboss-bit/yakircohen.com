@@ -25,10 +25,15 @@ for (const card of book.cards) {
   if (card.priceFrom) continue;
   byPrice.set(card.inclVat, (byPrice.get(card.inclVat) ?? 0) + 1);
 }
-const presets = [...byPrice.entries()]
-  .sort((a, b) => b[1] - a[1] || a[0] - b[0])
-  .slice(0, PRESET_COUNT)
-  .sort((a, b) => a[0] - b[0]);
+/* החלטת הבעלים 12.10.2026: אחרי שהלינק נוצר, הטבלה מראה את הסכומים שבאמת הוגדרו
+   במורנינג (open.presets), לא את ההצעה המחושבת */
+const saved = MORNING_LINKS.open.presets ?? [];
+const presets: [number, number][] = saved.length
+  ? [...saved].sort((a, b) => a - b).map((price) => [price, byPrice.get(price) ?? 0])
+  : [...byPrice.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0] - b[0])
+      .slice(0, PRESET_COUNT)
+      .sort((a, b) => a[0] - b[0]);
 
 const featured = FEATURED_CARD_IDS.map((id) => book.cards.find((c) => c.id === id)).filter((c) => c != null);
 const status = (id: string) => (MORNING_LINKS.cards[id]?.url ? "נשמר" : "ליצור");

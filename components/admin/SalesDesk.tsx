@@ -4,7 +4,11 @@ import nextDynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { PAYMENT_COPY_ANNOUNCEMENT } from "@/components/admin/PaymentLinks";
 import SalesAgentPanel from "@/components/admin/SalesAgentPanel";
-import SalesCalculator, { type CalculatorVoucherForm, type SalesCopyKind } from "@/components/admin/SalesCalculator";
+import SalesCalculator, {
+  type CalculatorVoucherForm,
+  type CopiedQuote,
+  type SalesCopyKind,
+} from "@/components/admin/SalesCalculator";
 import { shortTitle } from "@/components/admin/sales-ui";
 import type {
   VoucherDialogRequest,
@@ -16,6 +20,14 @@ import { formatPrice } from "@/lib/data/pricing-display";
 import { cn } from "@/lib/utils";
 import type { SalesBook, SalesCard as SalesCardData } from "@/lib/sales/sales-book";
 import { matchPaste, normalizeSearch, type PasteMatch, type PasteResult } from "@/lib/sales/paste-match";
+import {
+  addRecentQuote,
+  parseRecentQuotes,
+  RECENT_QUOTES_KEY,
+  repriceRecentQuote,
+  toRecentSelection,
+  type RecentQuote,
+} from "@/lib/sales/recent-quotes";
 import type { SelectionInput } from "@/lib/sales/selection-quote";
 import type { VoucherKind } from "@/lib/sales/voucher";
 
@@ -131,6 +143,59 @@ function saveHistory(entry: VoucherHistoryEntry): void {
   historyListeners.forEach((listener) => listener());
 }
 
+/* ─── ההצעות האחרונות: 20 בדפדפן (החלטת הבעלים 12.10.2026) ─── */
+
+/* כמו "שלח שוב": מטמון, מאזינים ו-localStorage עטוף ב-try. בלי שם ובלי טלפון,
+   רק כרטיס, בחירה, סכום, קוד וזמן (lib/sales/recent-quotes.ts) */
+const EMPTY_RECENT: RecentQuote[] = [];
+let recentCache: RecentQuote[] | null = null;
+const recentListeners = new Set<() => void>();
+
+function readRecent(): RecentQuote[] {
+  if (recentCache) return recentCache;
+  try {
+    recentCache = parseRecentQuotes(window.localStorage.getItem(RECENT_QUOTES_KEY));
+  } catch {
+    recentCache = [];
+  }
+  return recentCache;
+}
+
+function subscribeRecent(listener: () => void): () => void {
+  recentListeners.add(listener);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== RECENT_QUOTES_KEY) return;
+    recentCache = null;
+    listener();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    recentListeners.delete(listener);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function saveRecent(entry: RecentQuote): void {
+  const next = addRecentQuote(readRecent(), entry);
+  recentCache = next;
+  try {
+    window.localStorage.setItem(RECENT_QUOTES_KEY, JSON.stringify(next));
+  } catch {
+    /* מצב פרטי או אחסון מלא: הרשימה נשארת רק עד רענון */
+  }
+  recentListeners.forEach((listener) => listener());
+}
+
+function clearRecent(): void {
+  recentCache = [];
+  try {
+    window.localStorage.removeItem(RECENT_QUOTES_KEY);
+  } catch {
+    /* אחסון חסום: אין מה למחוק */
+  }
+  recentListeners.forEach((listener) => listener());
+}
+
 /* ביציאה: ברשימה יש שמות פרטיים, נמעני מתנה ו"סיכמנו", והיא יושבת ב-localStorage
    של האתר הציבורי, שכל סקריפט בו (גם GA) יכול לקרוא. יציאה מוחקת אותה. */
 function clearHistory(): void {
@@ -145,12 +210,18 @@ function clearHistory(): void {
 
 /**
  * כפתור היציאה של עמודי הניהול. היציאה עצמה בשרת (adminLogoutAction מוחק את
- * הקוקי), והטופס מוחק לפני כן את 20 האחרונים מהדפדפן. onSubmit רץ לפני פעולת
+ * הקוקי), והטופס מוחק לפני כן את 20 האחרונים ואת ההצעות האחרונות מהדפדפן. onSubmit רץ לפני פעולת
  * השרת של הטופס.
  */
 export function AdminLogoutForm({ action, className }: { action: () => Promise<void>; className?: string }) {
   return (
-    <form action={action} onSubmit={clearHistory}>
+    <form
+      action={action}
+      onSubmit={() => {
+        clearHistory();
+        clearRecent();
+      }}
+    >
       <button
         type="submit"
         className={
@@ -215,7 +286,15 @@ function SeenPriceNote({ match, seenExVat }: { match: PasteMatch; seenExVat: num
 
 /* ─── העמוד ─── */
 
-type CalcRequest = { key: number; cardId: string; preset?: Partial<SelectionInput> };
+type CalcRequest = {
+  key: number;
+  cardId: string;
+  preset?: Partial<SelectionInput>;
+  /** קוד הפנייה לכותרת התזכורת ולהצעות האחרונות */
+  leadCode: string | null;
+  /** נפתח מהצעה אחרונה שהמחיר שלה זז: הסכום ששמור בה */
+  previousInclVat: number | null;
+};
 
 /* שורה של שירות ברשימה: שם ומחיר, ולחיצה פותחת את המחשבון */
 function ServiceRow({ card, highlighted, onOpen }: { card: SalesCardData; highlighted: boolean; onOpen: () => void }) {
@@ -251,6 +330,7 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
   const lastOpened = useRef<string | null>(null);
   const renewed = useRef(false);
   const history = useSyncExternalStore(subscribeHistory, readHistory, () => EMPTY_HISTORY);
+  const recent = useSyncExternalStore(subscribeRecent, readRecent, () => EMPTY_RECENT);
 
   /* חידוש הכניסה פעם אחת בטעינה, כדי שהקוקי לא יפוג באמצע עבודה (סעיף 9) */
   useEffect(() => {
@@ -294,7 +374,11 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
     });
   }, [cards, query]);
 
-  const openCalc = (cardId: string, preset?: Partial<SelectionInput>) => {
+  const openCalc = (
+    cardId: string,
+    preset?: Partial<SelectionInput>,
+    from?: { leadCode: string | null; previousInclVat: number | null },
+  ) => {
     calcKey.current += 1;
     if (!calc) {
       try {
@@ -303,7 +387,13 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
         /* בלי היסטוריה: "חזרה" במחשבון עדיין סוגר */
       }
     }
-    setCalc({ key: calcKey.current, cardId, preset });
+    setCalc({
+      key: calcKey.current,
+      cardId,
+      preset,
+      leadCode: from ? from.leadCode : (paste?.code ?? null),
+      previousInclVat: from?.previousInclVat ?? null,
+    });
   };
 
   const closeCalc = () => {
@@ -330,7 +420,8 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
     setQuery("");
     if (lastOpened.current !== found.card.id) {
       lastOpened.current = found.card.id;
-      openCalc(found.card.id, presetOf(found));
+      /* paste עוד לא התעדכן ב-state, ולכן הקוד עובר ישר מהתוצאה */
+      openCalc(found.card.id, presetOf(found), { leadCode: result?.code ?? null, previousInclVat: null });
     }
   };
 
@@ -340,8 +431,18 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
     lastOpened.current = null;
   };
 
-  const onCopy = (cardId: string, what: SalesCopyKind, withSelection: boolean) => {
+  const onCopy = (cardId: string, what: SalesCopyKind, withSelection: boolean, copiedQuote: CopiedQuote) => {
     trackCopy(cardId, what, withSelection);
+    /* החלטת הבעלים 12.10.2026: הודעה עם בחירה נשמרת בהצעות האחרונות */
+    if (what === "message" && copiedQuote.hasSelection) {
+      saveRecent({
+        cardId,
+        selection: toRecentSelection(copiedQuote.selection),
+        totalInclVat: copiedQuote.totalInclVat,
+        leadCode: calc?.leadCode ?? null,
+        savedAt: new Date().toISOString(),
+      });
+    }
     const title = byId.get(cardId)?.title ?? "";
     const label =
       what === "message" ? "ההודעה הועתקה" : what === "confirm" ? "שורת רק לוודא הועתקה" : PAYMENT_COPY_ANNOUNCEMENT[what];
@@ -386,6 +487,23 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
       codeSource: "history",
       issuedAt: entry.issuedAt,
     });
+  };
+
+  /* כל הצעה מתומחרת מחדש במחירי היום, כדי לסמן "המחיר עודכן מאז" כבר ברשימה */
+  const recentRows = useMemo(
+    () =>
+      recent.map((entry) => {
+        const card = byId.get(entry.cardId);
+        return { entry, card, repriced: card ? repriceRecentQuote(entry, card) : null };
+      }),
+    [recent, byId],
+  );
+
+  const reopenRecent = (entry: RecentQuote) => {
+    const card = byId.get(entry.cardId);
+    if (!card) return;
+    const { preset, priceChanged } = repriceRecentQuote(entry, card);
+    openCalc(card.id, preset, { leadCode: entry.leadCode, previousInclVat: priceChanged ? entry.totalInclVat : null });
   };
 
   const match = paste?.match ?? null;
@@ -521,6 +639,42 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
         </section>
       )}
 
+      {recentRows.length ? (
+        <section aria-labelledby="sales-recent" className="grid gap-2">
+          <h2 id="sales-recent" className="text-base font-semibold text-foreground">
+            ההצעות האחרונות
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            20 האחרונות עם בחירה, שמורות רק בדפדפן הזה. לחיצה פותחת את אותה בחירה במחירי היום.
+          </p>
+          <ul className="grid gap-1.5">
+            {recentRows.map(({ entry, card, repriced }) => (
+              <li key={`${entry.cardId}-${entry.savedAt}`}>
+                <button
+                  type="button"
+                  disabled={!card}
+                  onClick={() => reopenRecent(entry)}
+                  className="flex min-h-11 w-full flex-wrap items-center gap-x-2 rounded-md border border-border bg-surface px-3 py-2 text-start text-sm hover:bg-muted/50 disabled:opacity-50"
+                >
+                  <span className="font-semibold text-foreground">{card ? shortTitle(card) : entry.cardId}</span>
+                  <span className="text-foreground tabular-nums">{entry.totalInclVat.toLocaleString("he-IL")} ₪</span>
+                  {entry.leadCode ? (
+                    <span dir="ltr" className="font-mono text-foreground">
+                      {entry.leadCode}
+                    </span>
+                  ) : null}
+                  <span className="text-muted-foreground">{formatIssued(entry.savedAt)}</span>
+                  {repriced?.priceChanged ? (
+                    <span className="text-xs font-semibold text-brand-red-text">המחיר עודכן מאז</span>
+                  ) : null}
+                  {card ? null : <span className="text-xs text-muted-foreground">(השירות כבר לא בקטלוג)</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {history.length ? (
         <section aria-labelledby="sales-resend" className="grid gap-2">
           <h2 id="sales-resend" className="text-base font-semibold text-foreground">
@@ -564,6 +718,8 @@ export default function SalesDesk({ book, agentConfigured = false }: { book: Sal
           key={calc.key}
           card={calcCard}
           preset={calc.preset}
+          leadCode={calc.leadCode}
+          previousInclVat={calc.previousInclVat}
           cardById={(id) => byId.get(id)}
           onClose={closeCalc}
           onCopy={onCopy}

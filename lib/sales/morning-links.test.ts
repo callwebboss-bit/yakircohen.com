@@ -196,3 +196,34 @@ describe("paymentTexts במחשבון", () => {
     assert.equal(upsold.byKind["morning-fields"], null);
   });
 });
+
+/* החלטת הבעלים 12.10.2026: הסכומים בלינק הפתוח כמו שהוגדרו במורנינג, וההודעה במחשבון
+   כותבת "בוחרים" רק כשסכום ההצעה ברשימה, אחרת "מקלידים" */
+describe("הלינק הפתוח האמיתי והסכום של ההצעה", () => {
+  const presets = MORNING_LINKS.open.presets ?? [];
+  const book = buildSalesBook();
+  const card = book.cards.find((c) => c.id === "studio_hour");
+  assert.ok(card);
+  it("כל סכום קבוע בלינק הוא מחיר כולל מע״מ של פריט בקטלוג", async () => {
+    const { PRICING_CATALOG } = await import("@/lib/data/pricing-catalog");
+    const inCatalog = new Set(PRICING_CATALOG.map((item) => catalogWithVat(item.exVat)));
+    assert.ok(presets.length > 0 && presets.length <= 5);
+    for (const p of presets) assert.ok(inCatalog.has(p), `${p} לא מחיר כולל מע״מ בקטלוג`);
+  });
+  it("סכום הצעה ברשימה: בוחרים. סכום אחר: מקלידים", async () => {
+    if (!MORNING_LINKS.open.url) return;
+    const { paymentTexts } = await import("@/components/admin/PaymentLinks");
+    for (const p of presets) {
+      const pay = paymentTexts(card, { totalInclVat: p, priceFrom: false, hasSelection: true }).byKind.pay ?? "";
+      assert.ok(pay.includes(`בלינק בוחרים ${p.toLocaleString("he-IL")} ₪`), pay);
+    }
+    let other = Math.max(...presets) + 1;
+    while (presets.includes(other)) other += 1;
+    const typed = paymentTexts(card, { totalInclVat: other, priceFrom: false, hasSelection: true });
+    for (const kind of ["pay", "pay-full"] as const) {
+      const text = typed.byKind[kind] ?? "";
+      assert.ok(text.includes(`בלינק מקלידים ${other.toLocaleString("he-IL")} ₪`), text);
+      assert.ok(!text.includes("בוחרים"), text);
+    }
+  });
+});
