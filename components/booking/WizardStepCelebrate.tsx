@@ -4,6 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { trackConversion } from "@/lib/analytics/conversion-events";
 import type { BookCategoryId } from "@/lib/book-url";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion, subscribeReducedMotion } from "@/lib/reduced-motion";
 
 type WizardStepCelebrateProps = {
   category: BookCategoryId;
@@ -12,18 +13,6 @@ type WizardStepCelebrateProps = {
   message?: string;
   className?: string;
 };
-
-function subscribeReducedMotion(onStoreChange: () => void) {
-  if (typeof window === "undefined") return () => {};
-  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  mq.addEventListener("change", onStoreChange);
-  return () => mq.removeEventListener("change", onStoreChange);
-}
-
-function getReducedMotionSnapshot() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 export default function WizardStepCelebrate({
   category,
@@ -34,7 +23,7 @@ export default function WizardStepCelebrate({
 }: WizardStepCelebrateProps) {
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
-    getReducedMotionSnapshot,
+    prefersReducedMotion,
     () => false,
   );
   const [visible, setVisible] = useState(() => !reducedMotion);

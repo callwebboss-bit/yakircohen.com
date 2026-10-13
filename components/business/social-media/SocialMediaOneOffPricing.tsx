@@ -3,7 +3,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 
 export default function SocialMediaOneOffPricing() {
   return (
-    <section aria-labelledby="social-oneoff-heading">
+    <section data-no-reveal aria-labelledby="social-oneoff-heading">
       <header className="mx-auto max-w-2xl">
         <h2
           id="social-oneoff-heading"

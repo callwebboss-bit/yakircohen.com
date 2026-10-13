@@ -14,6 +14,7 @@ import type { BusinessPageConfig } from "@/lib/data/business-tier-types";
 import { OUTCOME_CTA } from "@/lib/data/conversion-copy";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 function tierWhatsApp(config: BusinessPageConfig, tier: BusinessPageConfig["tiers"][number]) {
   return buildWhatsAppHref({
@@ -71,6 +72,7 @@ export default function BusinessTierPageContent({ config, pagePath }: Props) {
         pagePath={pagePath}
         metaDescription={config.subtitle}
       >
+      <NoRevealPage />
       {config.faqs.length > 0 ? (
         <FaqPageSchema
           items={config.faqs.map((f) => ({ question: f.question, answer: f.answer as string }))}

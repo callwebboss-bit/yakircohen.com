@@ -3,13 +3,22 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-type A11yOption = "largeText" | "highContrast" | "highlightLinks" | "noShortcuts";
+type A11yOption =
+  | "largeText"
+  | "highContrast"
+  | "highlightLinks"
+  | "reduceMotion"
+  | "noShortcuts";
 const STORAGE_KEY = "yc_a11y_prefs";
 
 const OPTIONS: Array<{ id: A11yOption; label: string }> = [
   { id: "largeText", label: "הגדלת טקסט" },
   { id: "highContrast", label: "ניגודיות גבוהה" },
   { id: "highlightLinks", label: "הדגשת קישורים" },
+  /* F-67 (WCAG 2.2.2, 13.10.2026): עוצר אנימציות שרצות בלולאה (pulse, shimmer) ואת
+     אנימציות הגלילה, גם למי שלא הגדיר הפחתת תנועה במערכת. ה-CSS ב-app/globals.css,
+     והאנימציות שרצות ב-JS קוראות את המחלקה דרך lib/reduced-motion.ts. */
+  { id: "reduceMotion", label: "עצירת אנימציות" },
   /* F-30 (WCAG 2.1.4, 8.10.2026): קיצור "/" לחיפוש הוא מקש בודד, ולכן חייב להיות ניתן
      לכיבוי. אין לו מחלקת html: SearchKeyboardShortcut קורא את ההעדפה מ-localStorage
      בזמן הלחיצה. */
@@ -20,6 +29,7 @@ const DEFAULT_ACTIVE: Record<A11yOption, boolean> = {
   largeText: false,
   highContrast: false,
   highlightLinks: false,
+  reduceMotion: false,
   noShortcuts: false,
 };
 
@@ -78,6 +88,7 @@ export default function AccessibilityToggle({
     root.classList.toggle("a11y-large-text", prefs.largeText);
     root.classList.toggle("a11y-high-contrast", prefs.highContrast);
     root.classList.toggle("a11y-highlight-links", prefs.highlightLinks);
+    root.classList.toggle("a11y-reduce-motion", prefs.reduceMotion);
   }, []);
 
   // Sync HTML classes and persist on every change
@@ -86,6 +97,7 @@ export default function AccessibilityToggle({
     root.classList.toggle("a11y-large-text", active.largeText);
     root.classList.toggle("a11y-high-contrast", active.highContrast);
     root.classList.toggle("a11y-highlight-links", active.highlightLinks);
+    root.classList.toggle("a11y-reduce-motion", active.reduceMotion);
     savePrefs(active);
   }, [active]);
 

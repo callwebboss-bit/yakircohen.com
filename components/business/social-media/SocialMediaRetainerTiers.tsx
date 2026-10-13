@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function SocialMediaRetainerTiers() {
   return (
-    <section aria-labelledby="social-retainer-heading">
+    <section data-no-reveal aria-labelledby="social-retainer-heading">
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id="social-retainer-heading"

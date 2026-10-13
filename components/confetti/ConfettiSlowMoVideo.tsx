@@ -1,11 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { prefersReducedMotion, subscribeReducedMotion } from "@/lib/reduced-motion";
 
 export default function ConfettiSlowMoVideo() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [status, setStatus] = useState<"pending" | "loaded" | "error">("pending");
+  /* F-67 (WCAG 2.2.2): מי שביקש פחות תנועה מקבל את הסרטון בלי ניגון אוטומטי ועם
+     פקדים, כדי שהוא יחליט אם להפעיל ומתי לעצור. */
+  const reducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    prefersReducedMotion,
+    () => false,
+  );
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -39,7 +47,9 @@ export default function ConfettiSlowMoVideo() {
       >
         {shouldLoad ? (
           <video
-            autoPlay
+            key={reducedMotion ? "still" : "auto"}
+            autoPlay={!reducedMotion}
+            controls={reducedMotion}
             muted
             loop
             playsInline

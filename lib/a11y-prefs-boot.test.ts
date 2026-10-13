@@ -6,8 +6,15 @@ import {
   A11Y_PREFS_BOOT_SCRIPT,
   A11Y_PREFS_STORAGE_KEY,
 } from "@/lib/a11y-prefs-boot";
+import { REDUCE_MOTION_CLASS } from "@/lib/reduced-motion";
 
-const CLASSES = ["a11y-large-text", "a11y-high-contrast", "a11y-highlight-links"];
+const CLASSES = [
+  "a11y-large-text",
+  "a11y-high-contrast",
+  "a11y-highlight-links",
+  REDUCE_MOTION_CLASS,
+];
+const FIELDS = ["largeText", "highContrast", "highlightLinks", "reduceMotion"];
 
 /** מריץ את הסקריפט מול document ו-localStorage מדומים ומחזיר את מחלקות ה-html. */
 function run(
@@ -44,13 +51,14 @@ describe("סקריפט העדפות נגישות לפני ציור (F-68)", () =
     assert.deepEqual(run(null), []);
   });
 
-  it("מחיל את שלוש האפשרויות השמורות", () => {
-    const all = JSON.stringify({ largeText: true, highContrast: true, highlightLinks: true });
+  it("מחיל את כל האפשרויות השמורות", () => {
+    const all = JSON.stringify(Object.fromEntries(FIELDS.map((f) => [f, true])));
     assert.deepEqual(run(all), [...CLASSES].sort());
   });
 
   it("מחיל רק את האפשרות שנבחרה", () => {
     assert.deepEqual(run(JSON.stringify({ highContrast: true })), ["a11y-high-contrast"]);
+    assert.deepEqual(run(JSON.stringify({ reduceMotion: true })), [REDUCE_MOTION_CLASS]);
     assert.deepEqual(run(JSON.stringify({ largeText: true, highContrast: false })), [
       "a11y-large-text",
     ]);
@@ -81,7 +89,7 @@ describe("סנכרון עם AccessibilityToggle", () => {
 
   it("אותן מחלקות ואותם שדות", () => {
     for (const cls of CLASSES) assert.ok(widget.includes(`"${cls}"`), cls);
-    for (const field of ["largeText", "highContrast", "highlightLinks"]) {
+    for (const field of FIELDS) {
       assert.ok(widget.includes(field), field);
       assert.ok(A11Y_PREFS_BOOT_SCRIPT.includes(field), field);
     }

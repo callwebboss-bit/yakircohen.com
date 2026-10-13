@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion, subscribeReducedMotion } from "@/lib/reduced-motion";
 
 type WizardProgressBarProps = {
   currentStep: number;
@@ -9,18 +10,6 @@ type WizardProgressBarProps = {
   celebrateKey?: number;
   className?: string;
 };
-
-function subscribeReducedMotion(onStoreChange: () => void) {
-  if (typeof window === "undefined") return () => {};
-  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  mq.addEventListener("change", onStoreChange);
-  return () => mq.removeEventListener("change", onStoreChange);
-}
-
-function getReducedMotionSnapshot() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 export default function WizardProgressBar({
   currentStep,
@@ -32,7 +21,7 @@ export default function WizardProgressBar({
   const prevCelebrate = useRef(celebrateKey);
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
-    getReducedMotionSnapshot,
+    prefersReducedMotion,
     () => false,
   );
 

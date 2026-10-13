@@ -18,6 +18,7 @@ import {
   metadataForHubSeo,
 } from "@/lib/seo/hub-pages";
 import { buildFaqSchema } from "@/lib/seo/page-schema";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 export const metadata: Metadata = metadataForHubSeo(CONTACT_HUB_SEO);
 
@@ -59,6 +60,7 @@ export default function ContactPage() {
       )}
       <HubPageSchema {...hubSchemaPropsFromSeo(CONTACT_HUB_SEO)} />
       <ContactPageContent />
+      <NoRevealPage />
 
       <Section padding="sm" className="pb-14">
         <Container className="max-w-3xl space-y-6">

@@ -120,6 +120,8 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       className={cn(heebo.variable, notoSerifHebrew.variable, "font-sans")}
+      /* מתג כניסת המקטעים בגלילה לכל האתר (site-reveal ב-globals.css). הסרה מכבה. */
+      data-site-reveal=""
       /* F-68: הסקריפט בראש ה-body מוסיף ל-<html> את מחלקות ה-a11y-* לפני ההידרציה,
          ולכן ה-className בדפדפן שונה מזה של השרת. ההתעלמות חלה על האלמנט הזה בלבד. */
       suppressHydrationWarning

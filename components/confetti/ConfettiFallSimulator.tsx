@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
 type TabId = "silk" | "metallic";
 
@@ -70,7 +71,7 @@ export default function ConfettiFallSimulator() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       drawStatic(ctx, canvas.width, tab);
       return;
     }

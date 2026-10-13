@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function ReelFactoryOneOffPricing() {
   return (
-    <section aria-labelledby="reel-oneoff-heading">
+    <section data-no-reveal aria-labelledby="reel-oneoff-heading">
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id="reel-oneoff-heading"

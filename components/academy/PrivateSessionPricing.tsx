@@ -17,7 +17,7 @@ export default function PrivateSessionPricing({
   showPrivateLessonsLink = true,
 }: PrivateSessionPricingProps) {
   return (
-    <section
+    <section data-no-reveal
       className={cn(
         "border-y border-border bg-linear-to-b from-brand-red/[0.04] to-background py-14 sm:py-16",
         className,

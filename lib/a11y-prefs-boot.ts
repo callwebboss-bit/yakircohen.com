@@ -5,7 +5,7 @@
  * ראה בינתיים את העמוד הרגיל מהבהב.
  *
  * הסקריפט הזה רץ בתוך ה-<head>, לפני הציור הראשון, וקורא את אותו מפתח ואותם
- * שלושה שדות שכותב AccessibilityToggle. ה-effect שם נשאר כמו שהוא: הוא מחיל
+ * שדות שכותב AccessibilityToggle (מ-13.10.2026 גם עצירת אנימציות, F-67). ה-effect שם נשאר כמו שהוא: הוא מחיל
  * שוב את אותן מחלקות (idempotent) וכותב חזרה כשהגולש משנה אפשרות.
  *
  * ב-try/catch כי localStorage יכול לזרוק (חלון פרטי, אחסון חסום) והעמוד חייב
@@ -19,4 +19,5 @@ export const A11Y_PREFS_BOOT_SCRIPT =
   `if(p&&typeof p==="object"){var c=document.documentElement.classList;` +
   `c.toggle("a11y-large-text",!!p.largeText);` +
   `c.toggle("a11y-high-contrast",!!p.highContrast);` +
-  `c.toggle("a11y-highlight-links",!!p.highlightLinks)}}catch(e){}`;
+  `c.toggle("a11y-highlight-links",!!p.highlightLinks);` +
+  `c.toggle("a11y-reduce-motion",!!p.reduceMotion)}}catch(e){}`;

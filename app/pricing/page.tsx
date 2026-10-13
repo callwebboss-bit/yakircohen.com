@@ -50,6 +50,7 @@ import { getExVat } from "@/lib/data/pricing-catalog";
 import { absoluteUrl } from "@/lib/site-url";
 import { safeJsonLdStringify } from "@/lib/safe-json-ld";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 export const metadata: Metadata = metadataForHubSeo(PRICING_HUB_SEO);
 
@@ -94,6 +95,7 @@ export default function PricingHubPage() {
   return (
     <>
       <HubPageSchema {...hubSchema} />
+      <NoRevealPage />
       <SpeakableSchema
         url={absoluteUrl("pricing")}
         cssSelector={["#pricing-answer"]}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
 const TRANSITION_MS = 1200;
 const MESSAGE_INTERVAL_MS = 400;
@@ -59,9 +60,7 @@ function WizardStepTransitionSkeletonActive({
   const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
-    const reducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = prefersReducedMotion();
 
     if (reducedMotion) {
       onComplete();

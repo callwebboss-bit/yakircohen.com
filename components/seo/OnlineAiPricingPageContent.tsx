@@ -10,6 +10,7 @@ import { formatFromPriceDual, getExVat } from "@/lib/data/pricing-catalog";
 import { buildPricingOffersSchema } from "@/lib/seo/page-schema";
 import { absoluteUrl } from "@/lib/site-url";
 import { buildWhatsAppHref } from "@/lib/whatsapp";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 function NoiseIcon() {
   return (
@@ -318,6 +319,7 @@ export default function OnlineAiPricingPageContent() {
 
   return (
     <>
+      <NoRevealPage />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingOffersSchema) }}

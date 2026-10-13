@@ -6,6 +6,7 @@ import { CheckIcon } from "@/components/ui/Icons";
 import { useTabs } from "@/hooks/useTabs";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Data
@@ -144,9 +145,7 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
       if (index < 0) return;
       setActiveIndex(index);
       setIsVisible(true);
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const reduceMotion = prefersReducedMotion();
       rootRef.current?.scrollIntoView({
         behavior: reduceMotion ? "auto" : "smooth",
         block: "start",

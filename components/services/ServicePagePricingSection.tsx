@@ -21,7 +21,7 @@ export default function ServicePagePricingSection({
   if (!service.pricing?.length) return null;
 
   return (
-    <section
+    <section data-no-reveal
       /* עוגן ל"מחירון" בסרגל הדביק במובייל (שלב 4 WP13) */
       id="pricing-section"
       className={cn(

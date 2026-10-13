@@ -26,6 +26,7 @@ import {
   BOOK_PAGE_TITLE,
   BOOK_NOSCRIPT_TEXT,
 } from "@/lib/seo/book-page";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 const BOOK_CANONICAL = `${SITE_URL}/book`;
 
@@ -119,6 +120,7 @@ export default async function BookPage({
   return (
     <>
       <BookPageSchema />
+      <NoRevealPage />
       <div className="overflow-x-clip bg-background">
         <Section
           padding="none"

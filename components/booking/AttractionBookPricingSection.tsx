@@ -83,7 +83,7 @@ export default function AttractionBookPricingSection({
   const anchorPrice = tiers[0]?.priceExVat ?? bundleRows[0]?.priceExVat ?? 0;
 
   return (
-    <section
+    <section data-no-reveal
       id="pricing-section"
       className={cn(
         "scroll-mt-24 rounded-2xl border border-border bg-surface px-4 py-10 sm:px-8",

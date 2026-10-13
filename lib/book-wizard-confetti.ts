@@ -1,9 +1,11 @@
 "use client";
 
+import { prefersReducedMotion } from "@/lib/reduced-motion";
+
 /** קונפטי קליל אחרי שליחה מוצלחת לוואטסאפ */
 export async function fireBookingConfetti(): Promise<void> {
   if (typeof window === "undefined") return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (prefersReducedMotion()) return;
 
   try {
     const confetti = (await import("canvas-confetti")).default;

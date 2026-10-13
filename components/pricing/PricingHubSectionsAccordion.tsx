@@ -69,7 +69,7 @@ function PricingSectionBlock({
   const panelId = `${baseId}-section-panel-${section.id}`;
 
   return (
-    <section id={section.id} aria-labelledby={`pricing-${section.id}`}>
+    <section data-no-reveal id={section.id} aria-labelledby={`pricing-${section.id}`}>
       <div
         className={cn(
           "px-4 py-4 transition-colors duration-normal ease-luxury sm:px-5",

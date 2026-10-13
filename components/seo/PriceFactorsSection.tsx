@@ -20,7 +20,7 @@ export default function PriceFactorsSection({
   const factors = buildStudioPriceFactors();
 
   return (
-    <section aria-labelledby={headingId} className={className}>
+    <section data-no-reveal aria-labelledby={headingId} className={className}>
       <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
         <h2
           id={headingId}

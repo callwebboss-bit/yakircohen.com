@@ -26,7 +26,7 @@ export default function SongOfferBookPanel({
   const data = useMemo(() => getSongOfferFormData(), []);
   const initial = useMemo(() => normalizeSongAddons(initialAddonIds), [initialAddonIds]);
   return (
-    <section id={SONG_OFFER_SECTION_ID} className="scroll-mt-24" data-song-offer="book">
+    <section data-no-reveal id={SONG_OFFER_SECTION_ID} className="scroll-mt-24" data-song-offer="book">
       <SongOfferConfigurator
         base={data.base}
         addons={data.addons}

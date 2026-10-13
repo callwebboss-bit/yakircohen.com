@@ -9,7 +9,6 @@ import AnswerBlock from "@/components/seo/AnswerBlock";
 import PageRelatedFooter from "@/components/seo/PageRelatedFooter";
 import SpeakableSchema from "@/components/seo/SpeakableSchema";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
-import FadeIn from "@/components/ui/FadeIn";
 import { CONTACT_PHONE_E164, STUDIO_GEO } from "@/lib/constants";
 import {
   getGeoCity,
@@ -177,7 +176,7 @@ export default function GeoCityDjPageContent({
       <SectionDwellTracker sectionId={`dj-${citySlug}-academy`} eventLabel="academy" />
 
       <header className="px-4 py-10 sm:px-6 sm:py-20">
-        <FadeIn className="mx-auto max-w-3xl text-center">
+        <div className="reveal mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             די ג&apos;יי לאירועים {city.nameHePrep}
           </h1>
@@ -202,14 +201,14 @@ export default function GeoCityDjPageContent({
               לשאלון התאמה קצר
             </Link>
           </p>
-        </FadeIn>
+        </div>
       </header>
 
       <section
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-audience-heading`}
       >
-        <FadeIn className="mx-auto max-w-3xl">
+        <div className="reveal mx-auto max-w-3xl">
           <h2
             id={`dj-${citySlug}-audience-heading`}
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
@@ -238,14 +237,14 @@ export default function GeoCityDjPageContent({
             אנחנו מנגנים הכל ויודעים לחבר בין העולמות. גם חילוני, גם דתי, גם
             מעורב - בלי שאף צד ירגיש ששכחו אותו.
           </p>
-        </FadeIn>
+        </div>
       </section>
 
       <section
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-method-heading`}
       >
-        <FadeIn className="mx-auto max-w-3xl">
+        <div className="reveal mx-auto max-w-3xl">
           <h2
             id={`dj-${citySlug}-method-heading`}
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
@@ -269,7 +268,7 @@ export default function GeoCityDjPageContent({
               </p>
             </div>
           </div>
-        </FadeIn>
+        </div>
       </section>
 
       <section
@@ -277,7 +276,7 @@ export default function GeoCityDjPageContent({
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-boutique-heading`}
       >
-        <FadeIn className="mx-auto max-w-3xl">
+        <div className="reveal mx-auto max-w-3xl">
           <h2
             id={`dj-${citySlug}-boutique-heading`}
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
@@ -302,7 +301,7 @@ export default function GeoCityDjPageContent({
             המחיר שלנו לא הכי זול בשוק, כי אנחנו מספקים שקט נפשי, גיבוי מלא
             ורמת הפקה בלי הפתעות רעות.
           </p>
-        </FadeIn>
+        </div>
       </section>
 
       <section
@@ -310,7 +309,7 @@ export default function GeoCityDjPageContent({
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-academy-heading`}
       >
-        <FadeIn className="mx-auto max-w-3xl">
+        <div className="reveal mx-auto max-w-3xl">
           <h2
             id={`dj-${citySlug}-academy-heading`}
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
@@ -343,14 +342,14 @@ export default function GeoCityDjPageContent({
               formLabel={`שאלון התאמה לדי ג'יי ${city.nameHePrep}`}
             />
           </div>
-        </FadeIn>
+        </div>
       </section>
 
       <section
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-production-heading`}
       >
-        <FadeIn className="mx-auto max-w-5xl">
+        <div className="reveal mx-auto max-w-5xl">
           <h2
             id={`dj-${citySlug}-production-heading`}
             className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
@@ -377,14 +376,14 @@ export default function GeoCityDjPageContent({
             רמקולים, אטרקציות, צילום ומפק - הכל באותה רמת גימור, עם תיאום אחד
             שמכיר את האירוע שלכם.
           </p>
-        </FadeIn>
+        </div>
       </section>
 
       <section
         className="border-t border-border px-4 py-10 sm:px-6 sm:py-20"
         aria-labelledby={`dj-${citySlug}-cta-heading`}
       >
-        <FadeIn className="mx-auto max-w-3xl text-center">
+        <div className="reveal mx-auto max-w-3xl text-center">
           <h2 id={`dj-${citySlug}-cta-heading`} className="sr-only">
             יצירת קשר
           </h2>
@@ -410,7 +409,7 @@ export default function GeoCityDjPageContent({
               לשאלון התאמה
             </Link>
           </div>
-        </FadeIn>
+        </div>
       </section>
 
       <div className="border-t border-border px-4 py-10 sm:px-6 sm:py-16 lg:px-8">

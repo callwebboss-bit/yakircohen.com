@@ -139,7 +139,7 @@ export default function ServicePricingBlock({
   }
 
   return (
-    <section
+    <section data-no-reveal
       className="border-b border-border bg-background py-12 sm:py-16"
       aria-labelledby={hideHeader ? undefined : "service-pricing-heading"}
     >

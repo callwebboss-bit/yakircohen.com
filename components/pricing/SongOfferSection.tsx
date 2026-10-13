@@ -62,7 +62,7 @@ export default function SongOfferSection({
     : [];
 
   return (
-    <section
+    <section data-no-reveal
       id={id}
       className={cn("scroll-mt-24", className)}
       data-song-offer={variant}

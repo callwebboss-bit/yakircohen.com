@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function ReelFactoryRetainerTiers() {
   return (
-    <section aria-labelledby="reel-retainer-heading">
+    <section data-no-reveal aria-labelledby="reel-retainer-heading">
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id="reel-retainer-heading"

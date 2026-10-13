@@ -27,6 +27,7 @@ import {
   YOUTUBE_SERVICE_EMBED_IDS,
 } from "@/lib/data/youtube-embeds";
 import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 const service = getEventsService("events-wedding-packages");
 
@@ -53,6 +54,7 @@ export default function WeddingPackagesPageContent() {
       faqs={WEDDING_PACKAGES_FAQ}
       {...heroProps}
     >
+      <NoRevealPage />
       <div className="mx-auto max-w-[72rem] space-y-16 px-4 sm:px-6 lg:px-8">
         <ContextualIntroParagraph pathname="/events/wedding-attractions-packages" className="max-w-3xl" />
         <section

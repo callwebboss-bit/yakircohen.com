@@ -59,7 +59,7 @@ export default function StudioPricingAccordion({
 } = {}) {
   const panels = STUDIO_PRICING_ACCORDION_PANELS.filter((p) => !excludeIds.includes(p.id));
   return (
-    <section aria-labelledby="studio-pricing-accordion-heading" className="space-y-4">
+    <section data-no-reveal aria-labelledby="studio-pricing-accordion-heading" className="space-y-4">
       <header className="mx-auto max-w-2xl text-center">
         <h2
           id="studio-pricing-accordion-heading"

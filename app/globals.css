@@ -470,6 +470,37 @@ details[open] > .summary-cue::after {
   }
 }
 
+/* ── כניסה עדינה בגלילה לכל מקטע בכל האתר (13.10.2026, אישור הבעלים) ──────────
+   מתג: data-site-reveal על <html> ב-app/layout.tsx. הסרת המאפיין מכבה את הכול.
+   שקיפות בלבד, בלי transform: transform על אב שובר position: fixed של צאצאים
+   (מגירות ודיאלוגים), ושקיפות לא משנה פריסה, ולכן אין CLS.
+   התוכן נשאר ב-HTML. בלי תמיכה ב-animation-timeline (Firefox) המקטעים מוצגים
+   כרגיל, וכך גם למי שביקש פחות תנועה במערכת או ב"עצירת אנימציות".
+   לא מקבלים את האפקט:
+   - מקטע בתוך מקטע (רק החיצוני, אחרת העמעום מוכפל)
+   - מקטע עם טופס, טבלה, רכיב fixed או .reveal משלו
+   - data-no-reveal על המקטע או על עוטף שלו (מקטעי מחירים)
+   - עמוד שלם עם NoRevealPage (הזמנה, צור קשר, מחירים, חבילות)
+   הטווח קצר: המקטע מלא כשחמישית ממנו בתוך המסך. */
+@keyframes site-reveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-site-reveal]:not(.a11y-reduce-motion)
+      main:not(:has([data-no-reveal-page]))
+      section:not(section section, [data-no-reveal] section, [data-no-reveal], .reveal):not(
+        :has(form, table, .fixed, .reveal, [data-no-reveal])
+      ) {
+      animation: site-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 20%;
+    }
+  }
+}
+
 /** Horizontal scroll regions - content-sized track, not full viewport stretch */
 @layer utilities {
   .scroll-area-x {
@@ -921,6 +952,44 @@ html.a11y-highlight-links a.absolute.inset-0:focus-visible {
    Tailwind, והוא מוגבל למסגרת overflow-hidden שהקישור-על יושב בה. */
 html.a11y-highlight-links .overflow-hidden:has(> a.absolute.inset-0:focus-visible) {
   outline: none;
+}
+
+/* F-67 (WCAG 2.2.2, 13.10.2026): "עצירת אנימציות" בתפריט הנגישות. אותם כללים כמו
+   prefers-reduced-motion: reduce בבלוק הבסיס, למי שלא הגדיר הפחתת תנועה במערכת.
+   לולאות (pulse, ping, shimmer) רצות פעם אחת ב-0.01ms ונעצרות. אנימציות הגלילה
+   מבוטלות במפורש, כי משך בזמן לא חל על ציר גלילה. גם מעבר העמוד (View Transition)
+   מבוטל. הסרטון בלולאה מטופל ב-ConfettiSlowMoVideo דרך lib/reduced-motion.ts. */
+html.a11y-reduce-motion {
+  scroll-behavior: auto;
+}
+
+html.a11y-reduce-motion *,
+html.a11y-reduce-motion *::before,
+html.a11y-reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+html.a11y-reduce-motion :is(
+    .reveal,
+    .process-signal-line,
+    .journey-fill,
+    .scroll-progress-fill,
+    .soundwave-h1
+  ) {
+  animation: none !important;
+}
+
+html.a11y-reduce-motion .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html.a11y-reduce-motion::view-transition-group(*),
+html.a11y-reduce-motion::view-transition-old(*),
+html.a11y-reduce-motion::view-transition-new(*) {
+  animation: none !important;
 }
 
 @media (forced-colors: active) {

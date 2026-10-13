@@ -26,6 +26,7 @@ import {
   BOOK_NOSCRIPT_TEXT,
 } from "@/lib/seo/book-page";
 import { parseBookCategoryFromPathname, type BookCategoryId } from "@/lib/book-url";
+import NoRevealPage from "@/components/ui/NoRevealPage";
 
 export const metadata: Metadata = constructMetadata({
   title: BOOK_PAGE_TITLE,
@@ -82,6 +83,7 @@ export default async function BookCategoryPage({
   return (
     <>
       <BookPageSchema />
+      <NoRevealPage />
       <BookCategorySchema category={category} />
       <div className="overflow-x-clip bg-background">
         <Section
