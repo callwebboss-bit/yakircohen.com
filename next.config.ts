@@ -70,8 +70,11 @@ const securityHeaders = [
       /* koalendar ו-spotify נוספו 30.9.2026: שניהם ב-iframe באתר
          (KoalendarModal ו-lib/embed-url), והמדיניות לא הכירה אותם. כל עוד
          היא Report-Only זה רק רעש בדוחות, אבל אכיפה כמו שהיא הייתה שוברת
-         את קביעת הפגישות ואת נגן הספוטיפיי. */
-      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com https://koalendar.com https://open.spotify.com",
+         את קביעת הפגישות ואת נגן הספוטיפיי.
+         elf.site נוסף 14.10.2026: וידג'ט הביקורות של Elfsight טוען iframe
+         מ-<מזהה>.elf.site, וכל טעינה של עמוד עם הווידג'ט רשמה הפרה בקונסול
+         (Lighthouse best-practices בעמוד הבית). */
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://www.google.com https://*.elfsight.com https://*.elf.site https://koalendar.com https://open.spotify.com",
       "media-src 'self' blob: https:",
       "worker-src 'self' blob:",
       /* שתי הצורות: report-uri היא הישנה ועדיין הנתמכת ביותר,

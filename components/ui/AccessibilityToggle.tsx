@@ -75,21 +75,16 @@ export default function AccessibilityToggle({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<Record<A11yOption, boolean>>(DEFAULT_ACTIVE);
+  /* 14.10.2026: ההעדפות נקראות כבר במצב ההתחלתי. קודם המצב התחיל מ-DEFAULT_ACTIVE
+     ו-effect טען אותן אחרי העלייה, אבל ה-effect של הסנכרון רץ באותו סבב עם
+     ברירות המחדל: הוא הסיר מ-html את מחלקות ה-a11y-* שהסקריפט שלפני הציור כבר הוסיף,
+     וכתב ברירות מחדל ל-localStorage. 3ms אחר כך הכול חזר (נמדד באתר החי).
+     בטוח לקרוא localStorage כאן: הרכיב נטען רק בדפדפן (FloatingFabs עם ssr: false
+     ב-DeferredFloatingFabs). */
+  const [active, setActive] = useState<Record<A11yOption, boolean>>(loadPrefs);
   const menuId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-
-  // Load persisted prefs on mount and apply classes immediately
-  useEffect(() => {
-    const prefs = loadPrefs();
-    setActive(prefs);
-    const root = document.documentElement;
-    root.classList.toggle("a11y-large-text", prefs.largeText);
-    root.classList.toggle("a11y-high-contrast", prefs.highContrast);
-    root.classList.toggle("a11y-highlight-links", prefs.highlightLinks);
-    root.classList.toggle("a11y-reduce-motion", prefs.reduceMotion);
-  }, []);
 
   // Sync HTML classes and persist on every change
   useEffect(() => {
