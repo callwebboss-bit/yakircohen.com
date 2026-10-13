@@ -33,7 +33,6 @@ export default function Breadcrumbs({ className }: BreadcrumbsProps) {
       <nav
         aria-label="מיקום בעמוד"
         className={cn(
-          // IMPROVED: theme tokens replace hardcoded hex colors
           "min-h-[2.5rem] border-b border-border bg-background/80 backdrop-blur-sm",
           className,
         )}

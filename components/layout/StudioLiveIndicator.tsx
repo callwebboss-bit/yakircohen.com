@@ -13,7 +13,9 @@ export default function StudioLiveIndicator() {
   /* נקודת "פתוח עכשיו" לפי שעות הפעילות בשעון ישראל (lib/business-hours).
      לא "מקליטים עכשיו": השעון לא יודע אם מישהו מקליט (FIT-12). בלי
      animate-ping, כדי לא לרמוז על פעילות חיה. */
-  // OPTIMIZED: reserved corner slot - client time (SSG-safe) without layout shift on reveal
+  /* המסגרת (h-3 w-3) תמיד ב-HTML, והנקודה נכנסת אליה רק בדפדפן: העמוד נבנה מראש,
+     ולכן השעה נבדקת אצל הגולש ולא בזמן הבנייה. המקום שמור, כך שהופעת הנקודה
+     לא מזיזה שום דבר. */
   return (
     <span
       className="pointer-events-none absolute -end-1 -top-1 flex h-3 w-3"

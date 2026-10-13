@@ -19,7 +19,6 @@ export type SectionProps = {
   as?: ElementType;
 };
 
-// IMPROVED: consistent vertical rhythm using spacing-section tokens
 export default function Section({
   children,
   id,

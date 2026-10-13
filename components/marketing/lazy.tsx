@@ -15,7 +15,7 @@ function SocialProofSkeleton() {
   );
 }
 
-// IMPROVED: defer Elfsight + YouTube social proof from initial home bundle
+// defer Elfsight + YouTube social proof from initial home bundle
 export const HomeSocialProofSectionLazy = dynamic(
   () => import("@/components/marketing/HomeSocialProofSection"),
   { loading: () => <SocialProofSkeleton /> },

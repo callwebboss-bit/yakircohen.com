@@ -9,7 +9,7 @@ function SearchSkeleton({ className }: { className?: string }) {
   );
 }
 
-// OPTIMIZED: code-split Pagefind search - loads only when chunk is requested
+// code-split Pagefind search - loads only when chunk is requested
 export const SiteSearchLazy = dynamic(
   () => import("@/components/ui/SiteSearch"),
   {
@@ -18,7 +18,7 @@ export const SiteSearchLazy = dynamic(
   },
 );
 
-// OPTIMIZED: mobile drawer + nav tree in separate chunk, mounted only when menu opens
+// mobile drawer + nav tree in separate chunk, mounted only when menu opens
 export const SiteNavMobileDrawerLazy = dynamic(
   () =>
     import("@/components/layout/SiteNav").then((m) => ({

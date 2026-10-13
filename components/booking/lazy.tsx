@@ -16,7 +16,7 @@ export const SongOfferBookPanelLazy = dynamic(
   { loading: () => wizardSkeleton() },
 );
 
-// IMPROVED: defer heavy booking wizards from /book initial bundle
+// defer heavy booking wizards from /book initial bundle
 export const PodcastBookingWizardLazy = dynamic(
   () => import("@/components/marketing/PodcastBookingWizard"),
   { loading: () => wizardSkeleton() },

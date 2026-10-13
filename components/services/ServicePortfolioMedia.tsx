@@ -86,7 +86,7 @@ export default function ServicePortfolioMedia({
       filename: image.filename,
       fallback: `${label} - תמונה ${index + 1}`,
     }),
-    // IMPROVED: pass intrinsic dimensions when probed at build time (CLS)
+    // pass intrinsic dimensions when probed at build time (CLS)
     ...(image.width && image.height
       ? { width: image.width, height: image.height }
       : {}),

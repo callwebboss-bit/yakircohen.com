@@ -15,7 +15,6 @@ export type ContainerProps = {
   as?: ElementType;
 };
 
-// IMPROVED: shared content width + horizontal padding - replaces repeated max-w-[72rem] mx-auto px-*
 export default function Container({
   children,
   variant = "default",

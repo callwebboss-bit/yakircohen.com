@@ -19,7 +19,6 @@ const variantStyles: Record<ButtonVariant, string> = {
     "font-medium text-foreground hover:bg-brand-red/5 hover:text-brand-red-text active:bg-brand-red/10 active:text-brand-red-text",
 };
 
-// IMPROVED: min-h-11 touch target, active micro-interaction, ghost variant, external link support
 const baseStyles = cn(
     "inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm",
   "touch-manipulation",
