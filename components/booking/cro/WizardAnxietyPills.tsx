@@ -30,8 +30,8 @@ export function WizardAnxietyPills({
               className={cn(
                 "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] font-semibold text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] font-semibold text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}

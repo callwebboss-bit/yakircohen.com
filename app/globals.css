@@ -33,6 +33,11 @@
   --color-brand-red-light: #c52525;
   --color-brand-red-dark: #9a2222;
   --color-brand-red-text: #9a2222;
+  /* D135 (14.10.2026): שגיאה ואימות טפסים, בנפרד מצבע המותג. המותג עובר לזהב
+     והשגיאה נשארת אדומה, כי גולש מזהה שגיאה לפי האדום. --destructive של shadcn
+     מופיע בקובץ אחד בלבד, ולכן השגיאות באתר נשענות על הטוקנים האלה. */
+  --color-danger: #d42b2b;
+  --color-danger-text: #9a2222;
   --color-catalog-gold: #8a6f2e;
   --color-catalog-silver: #9aa3ad;
   --grain-opacity: 0.028;
@@ -423,7 +428,7 @@ details[open] > .summary-cue::after {
 }
 
 .wizard-scroll-highlight {
-  outline: 2px solid color-mix(in srgb, var(--service-accent, #d42b2b) 55%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--service-accent, var(--color-brand-red)) 55%, transparent);
   outline-offset: 4px;
   border-radius: 1rem;
   transition: outline-color 0.2s ease;
@@ -786,7 +791,7 @@ details[open] > .summary-cue::after {
   }
 
   :where(input, textarea, select):user-invalid {
-    border-color: var(--color-brand-red);
+    border-color: var(--color-danger);
   }
 
   data,
@@ -899,6 +904,8 @@ html.a11y-high-contrast {
      בעמוד בלי hub אין ink, ואז נשאר אדום המותג הכהה. */
   --color-brand-red: #9a2222;
   --service-accent: var(--service-accent-ink, var(--color-brand-red));
+  /* D135: השגיאות עברו ל-danger, ובמצב הזה הן הוכהו יחד עם brand-red. אותו ערך. */
+  --color-danger: #9a2222;
 }
 
 /* HubAccentScope כותב --service-accent גם כ-inline style על div עוטף, וערך inline
@@ -1099,6 +1106,14 @@ html.a11y-reduce-motion::view-transition-new(*) {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* D135 (14.10.2026): ברירת מחדל לצבע ה-hub בעמוד בלי hub (הבית, עסקים ועוד).
+     עד עכשיו כל שימוש נפל ל-fallback קשיח (#d42b2b, 219 מופעים), ושינוי המותג לא
+     היה מגיע אליהם. HubAccentScope כותב :root משלו בהמשך המסמך ולכן גובר בעמודי
+     hub, וגם מצב ניגודיות גבוהה גובר (html.a11y-high-contrast, ספציפיות גבוהה יותר).
+     -ink בכוונה בלי ברירת מחדל: ה-fallbacks שלו לא אחידים (#8a1c1c מול brand-red),
+     ולכן ה-#8a1c1c עבר לטוקן משלו באותו ערך. */
+  --service-accent: var(--color-brand-red);
+  --accent-ink-default: #8a1c1c;
 }
 
 /* חייב לבוא אחרי בלוק :root שלמטה. לשניהם אותה ספציפיות (0,1,0), ואין

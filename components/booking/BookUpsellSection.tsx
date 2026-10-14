@@ -35,7 +35,7 @@ function UpsellThumb({
         />
         {active ? (
           <span
-            className="absolute inset-0 flex items-center justify-center bg-[var(--service-accent,#d42b2b)]/20 text-lg text-white"
+            className="absolute inset-0 flex items-center justify-center bg-[var(--service-accent,var(--color-brand-red))]/20 text-lg text-white"
             aria-hidden="true"
           >
             ✓
@@ -69,7 +69,7 @@ function UpsellThumb({
         className={cn(
           "flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border text-2xl",
           active
-            ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)]"
+            ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)]"
             : "border-border bg-muted/30",
         )}
         aria-hidden="true"
@@ -83,7 +83,7 @@ function UpsellThumb({
       className={cn(
         "flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border text-xl",
         active
-          ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)]"
+          ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)]"
           : "border-border bg-muted/30",
       )}
       aria-hidden="true"
@@ -120,8 +120,8 @@ function UpsellRow({
         className={cn(
           "group rounded-xl border transition-[border-color,background-color,box-shadow]",
           active
-            ? "border-[var(--service-accent,#d42b2b)]/50 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] shadow-sm"
-            : "border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-sm",
+            ? "border-[var(--service-accent,var(--color-brand-red))]/50 bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)] shadow-sm"
+            : "border-border bg-background hover:border-[var(--service-accent,var(--color-brand-red))]/30 hover:shadow-sm",
         )}
       >
         <button
@@ -134,8 +134,8 @@ function UpsellRow({
             className={cn(
               "mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border text-[0.65rem] font-bold",
               active
-                ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)] text-white"
-                : "border-border group-hover:border-[var(--service-accent,#d42b2b)]/40",
+                ? "border-[var(--service-accent,var(--color-brand-red))] bg-[var(--service-accent,var(--color-brand-red))] text-white"
+                : "border-border group-hover:border-[var(--service-accent,var(--color-brand-red))]/40",
             )}
             aria-hidden="true"
           >
@@ -148,7 +148,7 @@ function UpsellRow({
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-sm font-semibold text-foreground">{item.name}</span>
               {item.badge ? (
-                <span className="rounded bg-[var(--service-accent,#d42b2b)]/10 px-1.5 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent,#d42b2b)]">
+                <span className="rounded bg-[var(--service-accent,var(--color-brand-red))]/10 px-1.5 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent,var(--color-brand-red))]">
                   {item.badge}
                 </span>
               ) : null}
@@ -175,7 +175,7 @@ function UpsellRow({
             <span
               className={cn(
                 "text-sm font-bold tabular-nums",
-                active ? "text-[var(--service-accent,#d42b2b)]" : "text-foreground",
+                active ? "text-[var(--service-accent,var(--color-brand-red))]" : "text-foreground",
               )}
             >
               {item.price > 0 ? `+${item.price.toLocaleString("he-IL")} ₪` : "כלול"}
@@ -189,7 +189,7 @@ function UpsellRow({
             <button
               type="button"
               onClick={() => setVideoOpen(true)}
-              className="inline-flex min-h-9 items-center text-xs font-semibold text-[var(--service-accent,#d42b2b)] underline-offset-2 hover:underline"
+              className="inline-flex min-h-9 items-center text-xs font-semibold text-[var(--service-accent,var(--color-brand-red))] underline-offset-2 hover:underline"
             >
               צפו בדוגמה
             </button>

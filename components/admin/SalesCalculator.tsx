@@ -352,7 +352,7 @@ export default function SalesCalculator({
                 ההודעה ללקוח
               </h3>
               {copied === "failed" ? (
-                <p role="alert" className="text-xs text-brand-red-text">
+                <p role="alert" className="text-xs text-danger-text">
                   ההעתקה נחסמה. סמנו את ההודעה והעתיקו ביד.
                 </p>
               ) : null}

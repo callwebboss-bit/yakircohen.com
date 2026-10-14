@@ -302,7 +302,7 @@ export default function SongOfferConfigurator({
                   value={option.value}
                   checked={kind === option.value}
                   onChange={() => chooseKind(option.value)}
-                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,#d42b2b)]"
+                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,var(--color-brand-red))]"
                 />
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-semibold text-foreground">{option.title}</span>
@@ -417,7 +417,7 @@ export default function SongOfferConfigurator({
                 source,
               });
             }}
-            className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,#d42b2b)]"
+            className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,var(--color-brand-red))]"
             aria-describedby={`${uid}-special-desc`}
           />
           <span className="min-w-0 flex-1">
@@ -627,7 +627,7 @@ function AddonRows({
                   checked={checked}
                   disabled={blocked}
                   onChange={(e) => onToggle(addon.id, e.target.checked)}
-                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,#d42b2b)]"
+                  className="mt-1 h-5 w-5 shrink-0 accent-[var(--service-accent,var(--color-brand-red))]"
                   aria-describedby={`${inputId}-desc`}
                 />
                 <span className="min-w-0 flex-1">
@@ -810,7 +810,7 @@ function SongCallback({
           className={cn(inputClass, errors.name && "border-red-400")}
         />
         {errors.name ? (
-          <p id={`${nameId}-error`} className="mt-1 text-xs text-brand-red-text">
+          <p id={`${nameId}-error`} className="mt-1 text-xs text-danger-text">
             {errors.name}
           </p>
         ) : null}
@@ -835,7 +835,7 @@ function SongCallback({
           className={cn(inputClass, "text-left", errors.phone && "border-red-400")}
         />
         {errors.phone ? (
-          <p id={`${phoneId}-error`} className="mt-1 text-xs text-brand-red-text">
+          <p id={`${phoneId}-error`} className="mt-1 text-xs text-danger-text">
             {errors.phone}
           </p>
         ) : null}

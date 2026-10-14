@@ -44,8 +44,8 @@ export function StudioProjectModeToggle({
               className={cn(
                 "min-h-12 rounded-2xl border px-4 py-3 text-sm font-semibold transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}
@@ -121,8 +121,8 @@ export function StudioUpgradeQuickPills({
               className={cn(
                 "group flex min-h-[5.5rem] w-full flex-col overflow-hidden rounded-2xl border text-start transition-[border-color,box-shadow,transform] active:scale-[0.99]",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] shadow-[0_4px_16px_color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)]"
-                  : "border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/35 hover:shadow-sm",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)] shadow-[0_4px_16px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_10%,transparent)]"
+                  : "border-border bg-background hover:border-[var(--service-accent,var(--color-brand-red))]/35 hover:shadow-sm",
               )}
             >
               <div className="relative h-20 w-full overflow-hidden bg-muted/40">
@@ -143,7 +143,7 @@ export function StudioUpgradeQuickPills({
                   className={cn(
                     "absolute end-2 top-2 rounded-full px-2 py-0.5 text-[0.65rem] font-bold",
                     active
-                      ? "bg-[var(--service-accent,#d42b2b)] text-white"
+                      ? "bg-[var(--service-accent,var(--color-brand-red))] text-white"
                       : "bg-black/55 text-white",
                   )}
                 >
@@ -188,7 +188,7 @@ export function StudioCostSplitBlock({
           type="checkbox"
           checked={enabled}
           onChange={(e) => onEnabledChange(e.target.checked)}
-          className="mt-1 h-4 w-4 accent-[var(--service-accent,#d42b2b)]"
+          className="mt-1 h-4 w-4 accent-[var(--service-accent,var(--color-brand-red))]"
         />
         <span className="text-sm font-semibold text-foreground">{BOOK_WIZARD_COPY.splitCostLabel}</span>
       </label>
@@ -204,7 +204,7 @@ export function StudioCostSplitBlock({
             max={10}
             value={count}
             onChange={(e) => onCountChange(Number(e.target.value))}
-            className="w-full accent-[var(--service-accent,#d42b2b)]"
+            className="w-full accent-[var(--service-accent,var(--color-brand-red))]"
           />
           {perPerson != null ? (
             <p className="text-sm font-semibold text-emerald-700">
@@ -248,7 +248,7 @@ export function StudioBusinessFields({
           type="checkbox"
           checked={needsInvoice}
           onChange={(e) => onNeedsInvoiceChange(e.target.checked)}
-          className="h-4 w-4 accent-[var(--service-accent,#d42b2b)]"
+          className="h-4 w-4 accent-[var(--service-accent,var(--color-brand-red))]"
         />
         <span className="text-sm text-foreground">{BOOK_WIZARD_COPY.needsInvoiceLabel}</span>
       </label>
@@ -266,9 +266,9 @@ export function WizardInlinePriceBar({
   if (totalExVat <= 0) return null;
 
   return (
-    <div className="min-h-12 flex items-center justify-between gap-3 rounded-xl border border-[var(--service-accent,#d42b2b)]/25 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)] px-4 py-2.5">
+    <div className="min-h-12 flex items-center justify-between gap-3 rounded-xl border border-[var(--service-accent,var(--color-brand-red))]/25 bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)] px-4 py-2.5">
       <p className="truncate text-sm font-medium text-foreground">{title}</p>
-      <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--service-accent,#d42b2b)]">
+      <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--service-accent,var(--color-brand-red))]">
         {formatConsumerPrice(totalExVat).totalLabel}
       </p>
     </div>
@@ -309,8 +309,8 @@ export function StudioSessionPriorityPills({
               className={cn(
                 "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] font-semibold text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] font-semibold text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}
@@ -336,7 +336,7 @@ export function StudioWelcomePerkPills({
   onChange: (id: Exclude<WelcomePerkId, "">) => void;
 }) {
   return (
-    <div className="rounded-xl border border-dashed border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)] px-4 py-4">
+    <div className="rounded-xl border border-dashed border-[var(--service-accent,var(--color-brand-red))]/30 bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_4%,transparent)] px-4 py-4">
       <p className="mb-2 text-xs font-semibold text-foreground">
         {BOOK_WIZARD_COPY.welcomePerkQuestion}
       </p>
@@ -353,8 +353,8 @@ export function StudioWelcomePerkPills({
               className={cn(
                 "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-surface font-semibold text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 bg-surface/80 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-surface font-semibold text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 bg-surface/80 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}
@@ -394,8 +394,8 @@ export function StudioTravelModeToggle({
               className={cn(
                 "min-h-12 rounded-2xl border px-3 py-3 text-sm font-semibold transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}

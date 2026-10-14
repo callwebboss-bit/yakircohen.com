@@ -153,7 +153,7 @@ export default function PodcastCalculator({ className }: { className?: string })
     <div className={cn("pb-28", className)}>
       <HoneypotField value={honeypot} onChange={setHoneypot} />
       {globalError ? (
-        <p className="mx-auto mb-4 max-w-4xl text-center text-sm text-brand-red" role="alert">
+        <p className="mx-auto mb-4 max-w-4xl text-center text-sm text-danger" role="alert">
           {globalError}
         </p>
       ) : null}

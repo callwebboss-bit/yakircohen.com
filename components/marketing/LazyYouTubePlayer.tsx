@@ -135,12 +135,12 @@ export default function LazyYouTubePlayer({
             <span
               aria-hidden="true"
               className={cn(
-                "flex h-20 w-20 items-center justify-center rounded-full text-[var(--service-accent,#d42b2b)]",
-                "bg-black/80 ring-2 ring-[var(--service-accent,#d42b2b)]/70",
-                "shadow-[0_0_44px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)]",
+                "flex h-20 w-20 items-center justify-center rounded-full text-[var(--service-accent,var(--color-brand-red))]",
+                "bg-black/80 ring-2 ring-[var(--service-accent,var(--color-brand-red))]/70",
+                "shadow-[0_0_44px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_55%,transparent)]",
                 "transition-[transform,box-shadow,ring-color,background-color] duration-normal ease-luxury",
                 "group-hover:scale-[1.12] group-hover:bg-black/90",
-                "group-hover:ring-[var(--service-accent,#d42b2b)] group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,#d42b2b)_75%,transparent)]",
+                "group-hover:ring-[var(--service-accent,var(--color-brand-red))] group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_75%,transparent)]",
                 "group-focus-visible:scale-[1.12]",
               )}
             >

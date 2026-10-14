@@ -48,7 +48,7 @@ export default function VoucherImageButton({
         הורדת תמונת השובר
       </Button>
       {error ? (
-        <p className="mt-3 text-sm text-brand-red-text" role="alert">
+        <p className="mt-3 text-sm text-danger-text" role="alert">
           לא הצלחנו ליצור את התמונה בדפדפן הזה. נסו דפדפן אחר.
         </p>
       ) : null}

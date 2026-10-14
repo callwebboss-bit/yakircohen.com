@@ -92,8 +92,8 @@ export default function BookingPackageMediaStrip({
                 className={cn(
                   "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border px-2 text-xs font-semibold transition-colors",
                   playing === "before"
-                    ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] text-[var(--service-accent,#d42b2b)]"
-                    : "border-border text-foreground hover:border-[var(--service-accent,#d42b2b)]/35",
+                    ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] text-[var(--service-accent,var(--color-brand-red))]"
+                    : "border-border text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/35",
                 )}
               >
                 <span aria-hidden="true">{playing === "before" ? "■" : "▶"}</span>
@@ -106,8 +106,8 @@ export default function BookingPackageMediaStrip({
                 className={cn(
                   "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border px-2 text-xs font-semibold transition-colors",
                   playing === "after"
-                    ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)] text-[var(--service-accent,#d42b2b)]"
-                    : "border-border text-foreground hover:border-[var(--service-accent,#d42b2b)]/35",
+                    ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)] text-[var(--service-accent,var(--color-brand-red))]"
+                    : "border-border text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/35",
                 )}
               >
                 <span aria-hidden="true">{playing === "after" ? "■" : "▶"}</span>
@@ -122,7 +122,7 @@ export default function BookingPackageMediaStrip({
             type="button"
             onClick={openVideo}
             className={cn(
-              "flex w-full min-h-11 items-center gap-3 overflow-hidden rounded-lg border border-border text-start transition-colors hover:border-[var(--service-accent,#d42b2b)]/40",
+              "flex w-full min-h-11 items-center gap-3 overflow-hidden rounded-lg border border-border text-start transition-colors hover:border-[var(--service-accent,var(--color-brand-red))]/40",
               hasAudio && "mt-2",
             )}
           >

@@ -27,7 +27,7 @@ export function WizardLastMinuteUpsell({
       className={cn(
         "relative z-10 flex min-h-12 cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 transition-colors",
         checked
-          ? "border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+          ? "border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)]"
           : "border-border/60 bg-surface",
         disabled && "cursor-not-allowed opacity-60",
       )}
@@ -37,7 +37,7 @@ export function WizardLastMinuteUpsell({
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-1 h-4 w-4 accent-[var(--service-accent,#d42b2b)]"
+        className="mt-1 h-4 w-4 accent-[var(--service-accent,var(--color-brand-red))]"
       />
       <span className="text-sm font-medium text-foreground">
         {label}

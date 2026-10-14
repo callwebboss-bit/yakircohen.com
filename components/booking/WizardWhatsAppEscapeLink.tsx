@@ -37,7 +37,7 @@ export default function WizardWhatsAppEscapeLink({
           body,
         });
       }}
-      className="mx-auto block min-h-11 w-full max-w-md text-center text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-[var(--service-accent,#d42b2b)] hover:underline"
+      className="mx-auto block min-h-11 w-full max-w-md text-center text-xs font-medium text-muted-foreground underline-offset-2 transition-colors hover:text-[var(--service-accent,var(--color-brand-red))] hover:underline"
     >
       {BOOK_WIZARD_COPY.waEscape}
     </button>

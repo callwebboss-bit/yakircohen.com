@@ -484,9 +484,9 @@ export default function ChatWidget({
         className="absolute bottom-[calc(100%+0.75rem)] left-0 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl transition-all duration-200 ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 max-h-[calc(100dvh-14rem)] sm:max-h-[75vh] sm:w-96"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border bg-gradient-to-l from-[var(--service-accent,#d42b2b)]/5 to-background px-4 py-3">
+        <div className="flex items-center justify-between border-b border-border bg-gradient-to-l from-[var(--service-accent,var(--color-brand-red))]/5 to-background px-4 py-3">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)]/10 text-lg" aria-hidden>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,var(--color-brand-red))]/10 text-lg" aria-hidden>
               🎙️
             </span>
             <div>
@@ -567,7 +567,7 @@ export default function ChatWidget({
                         className={cn(
                           "flex w-full items-center justify-between rounded-xl border px-3 py-2.5 text-right text-sm transition-all focus-visible:bg-muted",
                           isPriority
-                            ? "border-[var(--service-accent,#d42b2b)]/30 hover:border-[var(--service-accent,#d42b2b)]/50 hover:bg-muted/50"
+                            ? "border-[var(--service-accent,var(--color-brand-red))]/30 hover:border-[var(--service-accent,var(--color-brand-red))]/50 hover:bg-muted/50"
                             : "border-border hover:border-muted-foreground/30 hover:bg-muted/50",
                           isVisited ? "text-muted-foreground" : "font-medium text-foreground",
                         )}
@@ -603,7 +603,7 @@ export default function ChatWidget({
                         key={opt.label}
                         ref={idx === 0 ? guidedFirstButtonRef : undefined}
                         onClick={() => handleGuidedOption(opt)}
-                        className="flex w-full items-center justify-between rounded-xl border border-border px-3 py-2.5 text-right text-sm font-medium text-foreground transition-all hover:border-[var(--service-accent,#d42b2b)]/40 hover:bg-muted/50 focus-visible:bg-muted"
+                        className="flex w-full items-center justify-between rounded-xl border border-border px-3 py-2.5 text-right text-sm font-medium text-foreground transition-all hover:border-[var(--service-accent,var(--color-brand-red))]/40 hover:bg-muted/50 focus-visible:bg-muted"
                       >
                         <span>{opt.label}</span>
                         <span className="shrink-0 text-[10px] font-normal text-muted-foreground">

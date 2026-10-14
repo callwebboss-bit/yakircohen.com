@@ -53,7 +53,7 @@ export default function ReadMoreText({
         aria-expanded={expanded}
         aria-controls={id}
         onClick={() => setExpanded((v) => !v)}
-        className="ms-1.5 inline text-xs font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+        className="ms-1.5 inline text-xs font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
       >
         {expanded ? collapseLabel : label}
       </button>

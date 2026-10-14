@@ -32,8 +32,8 @@ export default function SectionJumpChips({
             "inline-flex shrink-0 snap-start items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-muted-foreground",
             "transition-[transform,opacity,border-color,color] duration-[150ms] ease-[var(--ease-luxury)]",
             "active:scale-[0.96] active:opacity-80",
-            "hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)]",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
+            "hover:border-[var(--service-accent,var(--color-brand-red))]/40 hover:text-[var(--service-accent,var(--color-brand-red))]",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
           )}
         >
           {chip.label}

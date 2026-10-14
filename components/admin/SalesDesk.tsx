@@ -267,7 +267,7 @@ function SeenPriceNote({ match, seenExVat }: { match: PasteMatch; seenExVat: num
   const seen = formatPrice(seenExVat, { audience }).headline;
   if (match.mismatch) {
     return (
-      <p role="alert" className="rounded-md bg-accent p-2 text-sm font-semibold text-brand-red-text">
+      <p role="alert" className="rounded-md bg-accent p-2 text-sm font-semibold text-danger-text">
         הלקוח ראה מחיר אחר: {seen}. המחיר היום: {formatPrice(match.todayExVat, { audience, from: priceFrom }).headline}
       </p>
     );

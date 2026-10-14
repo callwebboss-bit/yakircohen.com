@@ -26,9 +26,9 @@ export default function BookingWizardNav({
               className={cn(
                 "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-fast ease-luxury sm:px-4 sm:text-sm",
                 isCurrent
-                  ? "bg-[var(--service-accent,#d42b2b)] text-white"
+                  ? "bg-[var(--service-accent,var(--color-brand-red))] text-white"
                   : isComplete
-                    ? "bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_15%,transparent)] text-[var(--service-accent,#d42b2b)]"
+                    ? "bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_15%,transparent)] text-[var(--service-accent,var(--color-brand-red))]"
                     : "bg-surface text-muted-foreground",
               )}
             >

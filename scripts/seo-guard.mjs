@@ -5,7 +5,7 @@
  * לאשר שינויי ניסוח. מעבר צבע לא אמור לשנות אף תו, ולכן כאן ההשוואה מלאה:
  * title, canonical, כל ה-meta, hreflang, כל הכותרות, כל קישור וטקסט העוגן שלו,
  * כל תמונה וה-alt שלה, כל id, טקסט הגוף המלא ו-JSON-LD מנורמל. בנוסף סטטוס
- * והפניה לכל כתובת, וסט הכתובות בשתי מפות האתר.
+ * והפניה לכל כתובת, סט הכתובות בשתי מפות האתר ותוכן robots.txt.
  *
  * למה שני שרתים ולא קבצי .next: שישה עמודים דינמיים (/book, /blog וארבעה תחת
  * /online) לא קיימים כ-HTML בבנייה. רק שרת מגיש את כל הכתובות.
@@ -211,6 +211,11 @@ if (FILES_MODE) {
   const setA = new Set(routesA);
   for (const r of routesA) if (!setB.has(r)) problems.push({ route: r, field: "sitemap", a: "present", b: "missing" });
   for (const r of routesB) if (!setA.has(r)) problems.push({ route: r, field: "sitemap", a: "missing", b: "present" });
+  /* robots.txt: אינו כתובת במפת האתר, ולכן נבדק בנפרד, כטקסט מלא */
+  const [robotsA, robotsB] = await Promise.all([get(A + "/robots.txt"), get(B + "/robots.txt")]);
+  if (robotsA.status !== robotsB.status || robotsA.html !== robotsB.html) {
+    problems.push({ route: "/robots.txt", field: "robots", ...firstDiff(robotsA.html, robotsB.html) });
+  }
   const routes = [...new Set([...routesA, ...routesB])];
   console.log(`routes: ${routes.length} (A ${routesA.length}, B ${routesB.length})`);
 

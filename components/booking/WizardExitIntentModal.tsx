@@ -90,7 +90,7 @@ export default function WizardExitIntentModal({
           <p className="mt-3 rounded-xl bg-surface px-4 py-3 text-sm text-foreground">
             <span className="font-semibold">{packageLabel}</span>
             <span className="mx-2 text-muted-foreground">·</span>
-            <span className="tabular-nums font-bold text-[var(--service-accent,#d42b2b)]">
+            <span className="tabular-nums font-bold text-[var(--service-accent,var(--color-brand-red))]">
               {formatPrice(totalExVat).headline}
             </span>
           </p>
@@ -100,7 +100,7 @@ export default function WizardExitIntentModal({
             type="button"
             onClick={handleContinue}
             className={cn(
-              "min-h-12 flex-1 rounded-xl bg-[var(--service-accent,#d42b2b)] px-4 py-3 text-sm font-semibold text-white hover:opacity-90",
+              "min-h-12 flex-1 rounded-xl bg-[var(--service-accent,var(--color-brand-red))] px-4 py-3 text-sm font-semibold text-white hover:opacity-90",
             )}
           >
             {continueCta}

@@ -19,7 +19,7 @@ type FieldErrorProps = {
 
 /**
  * הודעת שגיאה אחת לכל טפסי הלידים וההזמנות (F-10, F-11, 7.10.2026).
- * צבע text-brand-red-text (7.65:1) במקום text-red-500 (3.7:1), מזהה קבוע
+ * צבע text-danger-text (#9a2222, 7.65:1) במקום text-red-500 (3.7:1), מזהה קבוע
  * שהשדה מפנה אליו, ו-data-field-error ש-scrollAndHighlightFirstError מחפש.
  */
 export default function FieldError({ id, message, className, announce }: FieldErrorProps) {
@@ -29,7 +29,7 @@ export default function FieldError({ id, message, className, announce }: FieldEr
       id={id}
       data-field-error=""
       role={announce ? "alert" : undefined}
-      className={cn("mt-1 text-xs text-brand-red-text", className)}
+      className={cn("mt-1 text-xs text-danger-text", className)}
     >
       {message}
     </p>

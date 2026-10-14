@@ -240,7 +240,7 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
           "border border-white/20 bg-black/60 text-white/80",
           "transition-[background-color,color] duration-fast ease-luxury",
           "hover:bg-white/20 hover:text-white",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
         )}
         aria-label="סגור"
       >
@@ -255,8 +255,8 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
           "absolute left-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full",
           "border border-white/20 bg-black/60 text-white/70",
           "transition-[background-color,color,border-color] duration-fast ease-luxury",
-          "hover:border-[var(--service-accent,#d42b2b)]/60 hover:bg-black/80 hover:text-[var(--service-accent,#d42b2b)]",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
+          "hover:border-[var(--service-accent,var(--color-brand-red))]/60 hover:bg-black/80 hover:text-[var(--service-accent,var(--color-brand-red))]",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
           "sm:left-5",
         )}
         aria-label="תמונה קודמת"
@@ -272,8 +272,8 @@ function Lightbox({ items, index, onClose, onPrev, onNext }: LightboxProps) {
           "absolute right-3 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full",
           "border border-white/20 bg-black/60 text-white/70",
           "transition-[background-color,color,border-color] duration-fast ease-luxury",
-          "hover:border-[var(--service-accent,#d42b2b)]/60 hover:bg-black/80 hover:text-[var(--service-accent,#d42b2b)]",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
+          "hover:border-[var(--service-accent,var(--color-brand-red))]/60 hover:bg-black/80 hover:text-[var(--service-accent,var(--color-brand-red))]",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
           "sm:right-5",
         )}
         aria-label="תמונה הבאה"
@@ -409,7 +409,7 @@ export default function MediaGallery({
         {!embedded && (heading ?? subheading) ? (
           <header className="mb-8 text-center">
             {subheading ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--service-accent-ink,#8a1c1c)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--service-accent-ink,var(--accent-ink-default))]">
                 {subheading}
               </p>
             ) : null}
@@ -429,11 +429,11 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift flex flex-col overflow-hidden rounded-xl border border-border bg-neutral-100 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,#d42b2b)] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+                className="hover-lift flex flex-col overflow-hidden rounded-xl border border-border bg-neutral-100 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,var(--color-brand-red))] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,var(--color-brand-red))]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)]"
               >
                 <button
                   type="button"
-                  className="group relative block aspect-[4/3] w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
+                  className="group relative block aspect-[4/3] w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
                   aria-label={`פתח תמונה: ${item.alt}`}
                   onClick={(e) =>
                     openAtIndex(index, e.currentTarget as HTMLButtonElement)
@@ -474,11 +474,11 @@ export default function MediaGallery({
             {visibleItems.map((item, index) => (
               <li
                 key={item.src}
-                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,#d42b2b)] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_6%,transparent)]"
+                className="hover-lift mb-3 break-inside-avoid overflow-hidden rounded-xl border border-border has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--service-accent,var(--color-brand-red))] transition-[border-color,box-shadow] duration-normal ease-luxury hover:border-[var(--service-accent,var(--color-brand-red))]/20 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_6%,transparent)]"
               >
                 <button
                   type="button"
-                  className="group relative block w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
+                  className="group relative block w-full overflow-hidden bg-[#e8e6e1] transition-transform duration-fast ease-luxury focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))] active:scale-[0.98] motion-safe:bg-[linear-gradient(110deg,#e0ddd6_8%,#f0eeea_18%,#e0ddd6_33%)] motion-safe:bg-[length:200%_100%] motion-safe:animate-[gallery-shimmer_1.6s_linear_infinite]"
                   aria-label={`פתח תמונה: ${item.alt}`}
                   onClick={(e) =>
                     openAtIndex(index, e.currentTarget as HTMLButtonElement)
@@ -500,7 +500,7 @@ export default function MediaGallery({
                     className="absolute inset-0 flex items-start justify-end p-4 opacity-0 transition-opacity duration-normal ease-luxury group-hover:opacity-100"
                     aria-hidden="true"
                   >
-                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--service-accent,#d42b2b)]/60 bg-black/70 px-2.5 py-1 text-xs font-semibold text-[var(--service-accent,#d42b2b)] backdrop-blur-sm">
+                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--service-accent,var(--color-brand-red))]/60 bg-black/70 px-2.5 py-1 text-xs font-semibold text-[var(--service-accent,var(--color-brand-red))] backdrop-blur-sm">
                       <svg
                         width="12"
                         height="12"
@@ -531,7 +531,7 @@ export default function MediaGallery({
             <button
               type="button"
               onClick={() => setPrimaryExpanded(true)}
-              className="rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+              className="rounded-xl border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,var(--color-brand-red))]/40 hover:text-[var(--service-accent,var(--color-brand-red))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
             >
               הצג עוד {remainingPrimary} תמונות
             </button>
@@ -542,7 +542,7 @@ export default function MediaGallery({
             <button
               type="button"
               onClick={() => setArchiveVisible(true)}
-              className="rounded-xl border border-dashed border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent,#d42b2b)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+              className="rounded-xl border border-dashed border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-normal ease-luxury hover:border-[var(--service-accent,var(--color-brand-red))]/40 hover:text-[var(--service-accent,var(--color-brand-red))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
             >
               הצג עוד {archiveCount} תמונות מהארכיון
             </button>

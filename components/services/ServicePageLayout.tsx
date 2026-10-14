@@ -210,7 +210,7 @@ function ServiceHeroVisual({
           href={scrollHref}
           className="absolute inset-0 z-[3] flex flex-col items-center justify-center gap-2 p-6 text-center transition-colors hover:bg-black/15"
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[var(--service-accent,#d42b2b)] ring-2 ring-[var(--service-accent,#d42b2b)]/70 shadow-[0_0_40px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)] sm:h-[4.5rem] sm:w-[4.5rem]">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/80 text-[var(--service-accent,var(--color-brand-red))] ring-2 ring-[var(--service-accent,var(--color-brand-red))]/70 shadow-[0_0_40px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_55%,transparent)] sm:h-[4.5rem] sm:w-[4.5rem]">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden>
               <path
                 d="M12 8L26 16L12 24V8Z"
@@ -239,7 +239,7 @@ function ServiceHeroVisual({
   return (
     <Link
       href={scrollHref}
-      className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+      className="group block w-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
       /* F-32 (7.10.2026): השם הנגיש מתחיל במחרוזת הגלויה "דוגמאות מהשטח" ואחריה הפעולה.
          קודם הוא היה "גלילה לגלריית תמונות" בלבד, ודיבור של הטקסט הגלוי לא הפעיל את הקישור (2.5.3). */
       aria-label="דוגמאות מהשטח - גלילה לגלריית תמונות"
@@ -360,21 +360,21 @@ export default function ServicePageLayout({
         aria-labelledby="service-page-heading"
       >
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,color-mix(in_srgb,var(--service-accent,#d42b2b)_14%,transparent),transparent_62%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_-15%,color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_14%,transparent),transparent_62%)]"
           aria-hidden="true"
         />
         {/* Ambient accent glows - decorative, GPU-only (opacity/blur), zero INP impact. */}
         <div
-          className="pointer-events-none absolute -end-32 -top-32 h-[26rem] w-[26rem] select-none rounded-full bg-[var(--service-accent,#d42b2b)] opacity-[0.025] blur-[120px] will-change-transform"
+          className="pointer-events-none absolute -end-32 -top-32 h-[26rem] w-[26rem] select-none rounded-full bg-[var(--service-accent,var(--color-brand-red))] opacity-[0.025] blur-[120px] will-change-transform"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -start-40 top-1/3 h-[22rem] w-[22rem] select-none rounded-full bg-[var(--service-accent,#d42b2b)] opacity-[0.025] blur-[120px] will-change-transform"
+          className="pointer-events-none absolute -start-40 top-1/3 h-[22rem] w-[22rem] select-none rounded-full bg-[var(--service-accent,var(--color-brand-red))] opacity-[0.025] blur-[120px] will-change-transform"
           aria-hidden="true"
         />
         {!hasHeroGrid ? (
           <div
-            className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)_50%,transparent_100%)]"
+            className="pointer-events-none absolute inset-0 opacity-40 bg-[linear-gradient(135deg,transparent_0%,color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_4%,transparent)_50%,transparent_100%)]"
             aria-hidden
           />
         ) : null}
@@ -388,11 +388,11 @@ export default function ServicePageLayout({
           )}
         >
           <div className={cn(hasHeroGrid && "lg:max-w-2xl")}>
-            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--service-accent-ink,#8a1c1c)] uppercase">
+            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--service-accent-ink,var(--accent-ink-default))] uppercase">
               {SITE_KICKER}
             </p>
             {scarcityLabel ? (
-              <p className="mt-4 w-fit rounded-full border border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10 px-3 py-1 text-xs font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
+              <p className="mt-4 w-fit rounded-full border border-[var(--service-accent,var(--color-brand-red))]/40 bg-[var(--service-accent,var(--color-brand-red))]/10 px-3 py-1 text-xs font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))]">
                 {scarcityLabel}
               </p>
             ) : null}
@@ -410,7 +410,7 @@ export default function ServicePageLayout({
             {showTrustStats ? <SocialProofStrip className="mt-4" /> : null}
 
             {valueFrame ? (
-              <p className="mt-4 text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)]">
+              <p className="mt-4 text-sm font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))]">
                 {valueFrame}
               </p>
             ) : null}
@@ -436,7 +436,7 @@ export default function ServicePageLayout({
                   rel="noopener noreferrer"
                   variant="primary"
                   liquid
-                  className="gap-2 px-6 shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,#d42b2b)_22%,transparent)] hover:shadow-[0_0_28px_color-mix(in_srgb,var(--service-accent,#d42b2b)_35%,transparent)]"
+                  className="gap-2 px-6 shadow-[0_0_20px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_22%,transparent)] hover:shadow-[0_0_28px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_35%,transparent)]"
                   aria-label={`${ctaLabel} - ${title}`}
                 >
                   <WhatsAppIcon />
@@ -457,7 +457,7 @@ export default function ServicePageLayout({
                 {TIME_CLAIMS.waResponse1h}{" "}
                 <Link
                   href="/start"
-                  className="font-semibold text-[var(--service-accent-ink,#8a1c1c)] underline underline-offset-2"
+                  className="font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] underline underline-offset-2"
                 >
                   איך התהליך עובד
                 </Link>
@@ -471,7 +471,7 @@ export default function ServicePageLayout({
             {resolvedShowHeroScrollLink && scrollHref && scrollLinkLabel ? (
               <Link
                 href={scrollHref}
-                className="mt-5 inline-flex text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                className="mt-5 inline-flex text-sm font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
               >
                 {scrollLinkLabel}
               </Link>
@@ -522,7 +522,7 @@ export default function ServicePageLayout({
                   className="flex gap-3 rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-foreground"
                 >
                   <span
-                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--service-accent,#d42b2b)]/40 text-xs font-bold text-[var(--service-accent-ink,#8a1c1c)]"
+                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--service-accent,var(--color-brand-red))]/40 text-xs font-bold text-[var(--service-accent-ink,var(--accent-ink-default))]"
                     aria-hidden="true"
                   >
                     ✓

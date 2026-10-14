@@ -162,7 +162,7 @@ const DesktopDropdown = memo(function DesktopDropdown({
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,#d42b2b)]/8 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
+                    className="rounded-lg bg-surface px-2 py-2 text-center text-xs font-semibold text-foreground/90 transition-colors duration-fast hover:bg-[var(--service-accent,var(--color-brand-red))]/8 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
                   >
                     {item.label}
                   </Link>
@@ -595,7 +595,7 @@ export function SiteNavMobileDrawer({
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/book"
-            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,#d42b2b)]/40 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
+            className="flex min-h-[3.25rem] items-center justify-center rounded-xl border border-border bg-background text-sm font-bold transition-all duration-fast ease-luxury hover:border-[var(--service-accent,var(--color-brand-red))]/40 hover:text-[var(--service-accent-ink,var(--color-brand-red))] active:scale-[0.97]"
             onClick={onCloseMenu}
           >
             הזמנה

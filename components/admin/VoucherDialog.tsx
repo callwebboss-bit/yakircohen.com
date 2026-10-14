@@ -538,7 +538,7 @@ function VoucherForm({ request, onIssued }: { request: VoucherDialogRequest; onI
             </button>
           </div>
           {typedCode ? null : (
-            <p id={`${formId}-code-error`} className="text-xs text-brand-red-text" role="alert">
+            <p id={`${formId}-code-error`} className="text-xs text-danger-text" role="alert">
               קוד לא תקין. נשאר {lastValidCode}.
             </p>
           )}

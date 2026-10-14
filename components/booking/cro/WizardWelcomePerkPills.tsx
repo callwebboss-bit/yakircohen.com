@@ -15,7 +15,7 @@ export function WizardWelcomePerkPills({
   onChange: (id: string) => void;
 }) {
   return (
-    <div className="rounded-xl border border-dashed border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_4%,transparent)] px-4 py-4">
+    <div className="rounded-xl border border-dashed border-[var(--service-accent,var(--color-brand-red))]/30 bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_4%,transparent)] px-4 py-4">
       <p className="mb-2 text-xs font-semibold text-foreground">{question}</p>
       <div className="grid grid-cols-1 gap-3" role="radiogroup" aria-label={question}>
         {options.map((opt) => {
@@ -30,8 +30,8 @@ export function WizardWelcomePerkPills({
               className={cn(
                 "min-h-12 rounded-2xl border px-4 py-3 text-start text-sm transition-colors",
                 active
-                  ? "border-[var(--service-accent,#d42b2b)] bg-surface font-semibold text-[var(--service-accent,#d42b2b)]"
-                  : "border-border/60 bg-surface/80 text-foreground hover:border-[var(--service-accent,#d42b2b)]/30",
+                  ? "border-[var(--service-accent,var(--color-brand-red))] bg-surface font-semibold text-[var(--service-accent,var(--color-brand-red))]"
+                  : "border-border/60 bg-surface/80 text-foreground hover:border-[var(--service-accent,var(--color-brand-red))]/30",
               )}
             >
               {opt.label}

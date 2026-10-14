@@ -698,7 +698,7 @@ export default function ContactPageContent() {
                           className={cn(
                             "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
                             fieldErrors.name
-                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              ? "border-danger ring-2 ring-danger/30"
                               : "border-input focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
                           )}
                           aria-invalid={Boolean(fieldErrors.name)}
@@ -741,7 +741,7 @@ export default function ContactPageContent() {
                           className={cn(
                             "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
                             fieldErrors.phone
-                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              ? "border-danger ring-2 ring-danger/30"
                               : "border-input focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
                           )}
                           aria-describedby={describedBy(
@@ -788,7 +788,7 @@ export default function ContactPageContent() {
                           className={cn(
                             "w-full rounded-xl border bg-background px-4 py-3 text-sm outline-none transition-[border-color,box-shadow]",
                             fieldErrors.email
-                              ? "border-brand-red ring-2 ring-brand-red/30"
+                              ? "border-danger ring-2 ring-danger/30"
                               : "border-input focus:border-brand-red focus:ring-2 focus:ring-brand-red/30",
                           )}
                           aria-invalid={Boolean(fieldErrors.email)}

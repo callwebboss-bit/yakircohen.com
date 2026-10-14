@@ -262,7 +262,7 @@ export default function ProServiceWizard({ service }: ProServiceWizardProps) {
             </div>
           ))}
           {error ? (
-            <p className="text-sm text-brand-red" role="alert">
+            <p className="text-sm text-danger" role="alert">
               {error}
             </p>
           ) : null}

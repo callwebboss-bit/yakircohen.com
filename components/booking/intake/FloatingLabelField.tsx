@@ -76,7 +76,7 @@ export default function FloatingLabelField({
           className={cn(
             "peer w-full min-h-12 rounded-xl border bg-background px-4 pt-5 pb-2 text-sm text-foreground",
             "border-input focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/20",
-            error && "border-brand-red/60",
+            error && "border-danger/60",
           )}
         />
         <label

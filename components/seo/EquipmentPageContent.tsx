@@ -110,7 +110,7 @@ export default function EquipmentPageContent() {
                 key={item.step}
                 className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-5 sm:gap-5 sm:p-6"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)]/10 text-base font-bold text-[var(--service-accent-ink,#8a1c1c)] sm:h-12 sm:w-12 sm:text-lg">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--service-accent,var(--color-brand-red))]/10 text-base font-bold text-[var(--service-accent-ink,var(--accent-ink-default))] sm:h-12 sm:w-12 sm:text-lg">
                   {item.step}
                 </span>
                 <div>

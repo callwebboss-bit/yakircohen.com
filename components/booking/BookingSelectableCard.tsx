@@ -43,7 +43,7 @@ export function BookingSelectionCheck({ active }: { active: boolean }) {
       className={cn(
         "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[0.65rem] font-bold transition-colors duration-fast ease-luxury",
         active
-          ? "border-[var(--service-accent,#d42b2b)] bg-[var(--service-accent,#d42b2b)] text-white"
+          ? "border-[var(--service-accent,var(--color-brand-red))] bg-[var(--service-accent,var(--color-brand-red))] text-white"
           : "border-border bg-background text-transparent",
       )}
       aria-hidden="true"
@@ -65,7 +65,7 @@ export function BookingSelectionConfirm({
   return (
     <div
       className={cn(
-        "flex items-start gap-3 rounded-xl border border-[var(--service-accent,#d42b2b)]/30 bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_5%,transparent)] px-4 py-3",
+        "flex items-start gap-3 rounded-xl border border-[var(--service-accent,var(--color-brand-red))]/30 bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_5%,transparent)] px-4 py-3",
         className,
       )}
       role="status"
@@ -85,7 +85,7 @@ export function BookingStepGuide({ lines }: { lines: readonly string[] }) {
     <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
       {lines.slice(0, 3).map((line) => (
         <li key={line} className="flex items-start gap-2">
-          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--service-accent,#d42b2b)]/70" aria-hidden="true" />
+          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--service-accent,var(--color-brand-red))]/70" aria-hidden="true" />
           <span>{line}</span>
         </li>
       ))}
@@ -115,11 +115,11 @@ export default function BookingSelectableCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "relative flex min-h-11 w-full flex-col items-start gap-2 rounded-2xl border p-5 text-start transition-[border-color,box-shadow,background-color,transform] duration-normal ease-luxury active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]",
-        featured && !active && "ring-1 ring-[var(--service-accent,#d42b2b)]/20",
+        "relative flex min-h-11 w-full flex-col items-start gap-2 rounded-2xl border p-5 text-start transition-[border-color,box-shadow,background-color,transform] duration-normal ease-luxury active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
+        featured && !active && "ring-1 ring-[var(--service-accent,var(--color-brand-red))]/20",
         active
-          ? "hardware-bezel border-[var(--service-accent,#d42b2b)] bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_8%,transparent)]"
-          : "card-chrome border-border bg-background hover:border-[var(--service-accent,#d42b2b)]/30 hover:shadow-sm",
+          ? "hardware-bezel border-[var(--service-accent,var(--color-brand-red))] bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_8%,transparent)]"
+          : "card-chrome border-border bg-background hover:border-[var(--service-accent,var(--color-brand-red))]/30 hover:shadow-sm",
         compact && "items-center p-6 text-center",
         className,
       )}
@@ -127,12 +127,12 @@ export default function BookingSelectableCard({
     >
       <span className="absolute end-3 top-3 flex items-center gap-1.5">
         {badge ? (
-          <span className="rounded-full bg-[var(--service-accent,#d42b2b)] px-2 py-0.5 text-[0.6rem] font-bold text-white">
+          <span className="rounded-full bg-[var(--service-accent,var(--color-brand-red))] px-2 py-0.5 text-[0.6rem] font-bold text-white">
             {badge}
           </span>
         ) : null}
         {active ? (
-          <span className="rounded-full bg-[color-mix(in_srgb,var(--service-accent,#d42b2b)_10%,transparent)] px-2 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent-ink,#8a1c1c)]">
+          <span className="rounded-full bg-[color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_10%,transparent)] px-2 py-0.5 text-[0.6rem] font-bold text-[var(--service-accent-ink,var(--accent-ink-default))]">
             נבחר
           </span>
         ) : null}
@@ -140,7 +140,7 @@ export default function BookingSelectableCard({
       </span>
 
       {featured ? (
-        <span className="mb-1 w-full text-center text-xs font-bold text-[var(--service-accent-ink,#8a1c1c)]">{featuredLabel}</span>
+        <span className="mb-1 w-full text-center text-xs font-bold text-[var(--service-accent-ink,var(--accent-ink-default))]">{featuredLabel}</span>
       ) : null}
 
       {emoji ? (
@@ -175,7 +175,7 @@ export default function BookingSelectableCard({
               )}
             >
               {!compact ? (
-                <span className="mt-1 text-[var(--service-accent-ink,#8a1c1c)]/80" aria-hidden="true">
+                <span className="mt-1 text-[var(--service-accent-ink,var(--accent-ink-default))]/80" aria-hidden="true">
                   ✓
                 </span>
               ) : null}

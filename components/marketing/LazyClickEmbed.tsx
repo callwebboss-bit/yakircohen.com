@@ -61,8 +61,8 @@ export default function LazyClickEmbed({
           <span
             className={cn(
               "flex h-20 w-20 items-center justify-center rounded-full",
-              "bg-[var(--service-accent,#d42b2b)] shadow-[0_0_48px_color-mix(in_srgb,var(--service-accent,#d42b2b)_55%,transparent)]",
-              "transition-[transform,box-shadow] duration-normal ease-luxury group-hover:scale-110 group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,#d42b2b)_75%,transparent)]",
+              "bg-[var(--service-accent,var(--color-brand-red))] shadow-[0_0_48px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_55%,transparent)]",
+              "transition-[transform,box-shadow] duration-normal ease-luxury group-hover:scale-110 group-hover:shadow-[0_0_64px_color-mix(in_srgb,var(--service-accent,var(--color-brand-red))_75%,transparent)]",
             )}
             aria-hidden
           >

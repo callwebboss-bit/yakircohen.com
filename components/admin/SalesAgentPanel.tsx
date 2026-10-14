@@ -42,14 +42,14 @@ function AssistantBubble({
   };
 
   if (!reply || !blocks) {
-    return <p className={cn("whitespace-pre-line text-sm", entry.error ? "text-brand-red-text" : "text-foreground")}>{entry.content}</p>;
+    return <p className={cn("whitespace-pre-line text-sm", entry.error ? "text-danger-text" : "text-foreground")}>{entry.content}</p>;
   }
 
   return (
     <div className="grid gap-2 text-sm">
       {blocks.intro ? <p className="whitespace-pre-line text-foreground">{blocks.intro}</p> : null}
       {reply.unverified.length ? (
-        <p role="alert" className="rounded-md bg-accent p-2 text-xs font-semibold text-brand-red-text">
+        <p role="alert" className="rounded-md bg-accent p-2 text-xs font-semibold text-danger-text">
           בתשובה יש מספרים שלא הגיעו מהמחירון ({reply.unverified.join(", ")}). בודקים במחשבון לפני ששולחים.
         </p>
       ) : null}

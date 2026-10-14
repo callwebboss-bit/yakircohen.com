@@ -133,7 +133,7 @@ export default function FAQAccordion({
             <button
               type="button"
               onClick={allOpen ? collapseAll : expandAll}
-              className="text-xs font-semibold text-[var(--service-accent-ink,#8a1c1c)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+              className="text-xs font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
             >
               {allOpen ? "סגור הכל" : "פתח הכל"}
             </button>
@@ -151,7 +151,7 @@ export default function FAQAccordion({
                 key={item.id}
                 className={cn(
                   "rounded-lg px-4 transition-colors duration-normal ease-luxury sm:px-6",
-                  isOpen && "bg-[var(--service-accent,#d42b2b)]/[0.02]",
+                  isOpen && "bg-[var(--service-accent,var(--color-brand-red))]/[0.02]",
                 )}
               >
                 <h3>
@@ -159,8 +159,8 @@ export default function FAQAccordion({
                     id={triggerId}
                     type="button"
                     className={cn(
-                      "touch-target flex w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-all duration-fast ease-luxury active:scale-[0.995] hover:text-[var(--service-accent-ink,#8a1c1c)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)] sm:text-base",
-                      isOpen && "text-[var(--service-accent-ink,#8a1c1c)]",
+                      "touch-target flex w-full items-center justify-between gap-4 py-4 text-start text-sm font-semibold text-foreground transition-all duration-fast ease-luxury active:scale-[0.995] hover:text-[var(--service-accent-ink,var(--accent-ink-default))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))] sm:text-base",
+                      isOpen && "text-[var(--service-accent-ink,var(--accent-ink-default))]",
                     )}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
@@ -170,8 +170,8 @@ export default function FAQAccordion({
                     <span>{item.question}</span>
                     <span
                       className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-[var(--service-accent-ink,#8a1c1c)] transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
-                        isOpen && "rotate-180 border-[var(--service-accent,#d42b2b)]/40 bg-[var(--service-accent,#d42b2b)]/10",
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-[var(--service-accent-ink,var(--accent-ink-default))] transition-transform duration-normal ease-luxury motion-reduce:transition-none motion-reduce:rotate-0",
+                        isOpen && "rotate-180 border-[var(--service-accent,var(--color-brand-red))]/40 bg-[var(--service-accent,var(--color-brand-red))]/10",
                       )}
                       aria-hidden="true"
                     >

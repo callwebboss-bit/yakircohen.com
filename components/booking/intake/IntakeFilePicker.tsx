@@ -75,7 +75,7 @@ export default function IntakeFilePicker({
           isDragging
             ? "border-brand-red bg-brand-red/5"
             : "border-border bg-surface hover:border-brand-red/40",
-          fileError && "border-brand-red/50",
+          fileError && "border-danger/50",
         )}
       >
         <input
@@ -120,7 +120,7 @@ export default function IntakeFilePicker({
       </div>
 
       {fileError ? (
-        <p className="text-xs text-brand-red" role="alert">
+        <p className="text-xs text-danger" role="alert">
           {fileError}
         </p>
       ) : null}

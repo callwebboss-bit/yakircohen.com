@@ -242,12 +242,12 @@ export default function GiftVoucherBuilder() {
           עם קוד.
         </p>
         {previewError ? (
-          <p className="text-sm text-brand-red-text" role="alert">
+          <p className="text-sm text-danger-text" role="alert">
             לא הצלחנו לצייר את תצוגת השובר. רעננו את הדף ונסו שוב.
           </p>
         ) : null}
         {downloadError ? (
-          <p className="text-sm text-brand-red-text" role="alert">
+          <p className="text-sm text-danger-text" role="alert">
             לא הצלחנו ליצור את התמונה בדפדפן הזה. נסו דפדפן אחר.
           </p>
         ) : null}

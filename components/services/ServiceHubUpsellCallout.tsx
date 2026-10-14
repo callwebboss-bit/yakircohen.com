@@ -17,10 +17,10 @@ function UpsellBlock({ offer }: { offer: HubCrossSellOffer }) {
 
   return (
     <aside
-      className="rounded-2xl border border-[var(--service-accent,#d42b2b)]/30 bg-surface px-6 py-7 sm:px-8"
+      className="rounded-2xl border border-[var(--service-accent,var(--color-brand-red))]/30 bg-surface px-6 py-7 sm:px-8"
       aria-labelledby={`hub-upsell-${offer.id}`}
     >
-      <p className="text-xs font-semibold tracking-[0.15em] text-[var(--service-accent-ink,#8a1c1c)] uppercase">
+      <p className="text-xs font-semibold tracking-[0.15em] text-[var(--service-accent-ink,var(--accent-ink-default))] uppercase">
         {offer.eyebrow}
       </p>
       <h2
@@ -44,14 +44,14 @@ function UpsellBlock({ offer }: { offer: HubCrossSellOffer }) {
         </a>
         <Link
           href={offer.primaryHref}
-          className="text-sm font-medium text-[var(--service-accent-ink,#8a1c1c)] transition-colors hover:opacity-80"
+          className="text-sm font-medium text-[var(--service-accent-ink,var(--accent-ink-default))] transition-colors hover:opacity-80"
         >
           {offer.primaryLabel}
         </Link>
         {offer.secondaryHref && offer.secondaryLabel ? (
           <Link
             href={offer.secondaryHref}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-[var(--service-accent-ink,#8a1c1c)]"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-[var(--service-accent-ink,var(--accent-ink-default))]"
           >
             {offer.secondaryLabel}
           </Link>

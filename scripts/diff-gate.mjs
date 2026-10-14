@@ -120,11 +120,22 @@ for (const [file, { removed, added }] of files) {
   }
   for (const bucket of pool.values()) for (const line of bucket) unmatched.push("+" + line);
 
+  /* שורות פנימיות של הערת בלוק לא מתחילות ב-* ולכן isComment לא מזהה אותן.
+     מצב "בתוך הערה" נגזר מהשורות שנוספו (או הוסרו) לפי הסדר, בכל צד בנפרד. */
+  const inComment = new Set();
+  for (const [sign, list] of [["+", added], ["-", removed]]) {
+    let open = false;
+    for (const line of list) {
+      if (open) inComment.add(sign + line);
+      for (const m of line.matchAll(/\/\*|\*\//g)) open = m[0] === "/*";
+    }
+  }
+
   for (const entry of unmatched) {
     const body = entry.slice(1);
     if (!body.trim()) continue;
     const shipped = SHIPPED.test(file) && !TEST_FILE.test(file);
-    const harmless = isComment(body) || (entry[0] === "+" && isColorDeclaration(body));
+    const harmless = isComment(body) || inComment.has(entry) || (entry[0] === "+" && isColorDeclaration(body));
     (shipped && !harmless ? failing : info).push(`${file}: ${entry}`);
   }
 }

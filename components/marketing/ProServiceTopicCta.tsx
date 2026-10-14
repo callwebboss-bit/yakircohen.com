@@ -83,7 +83,7 @@ export default function ProServiceTopicCta({ service, config }: ProServiceTopicC
           <p className="mt-2 text-sm text-muted-foreground">{config.fieldLabel}</p>
         </div>
         {error ? (
-          <p className="text-sm text-brand-red" role="alert">
+          <p className="text-sm text-danger" role="alert">
             {error}
           </p>
         ) : null}

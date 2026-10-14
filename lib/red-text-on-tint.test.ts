@@ -108,11 +108,13 @@ function parseToken(raw: string): { variant: string; utility: string } | null {
   return { variant: parts.slice(0, -1).join(":"), utility };
 }
 
-const TINT = /^bg-brand-red\/(5|8|10|15)$/;
-const TEXT_RED = "text-brand-red";
-const TEXT_RED_ALPHA = /^text-brand-red\/\d+$/;
+/* D135 (14.10.2026): השגיאות עברו מ-brand-red ל-danger באותו ערך אדום, ולכן
+   הכלל חל על שניהם. בלי זה LeadFormAlert היה יוצא מהבדיקה בלי שתוקן. */
+const TINT = /^bg-(brand-red|danger)\/(5|8|10|15)$/;
+const TEXT_RED = /^text-(brand-red|danger)$/;
+const TEXT_RED_ALPHA = /^text-(brand-red|danger)\/\d+$/;
 /** צבעי טקסט שדורסים את האדום באותו מצב */
-const TEXT_OVERRIDE = /^text-(brand-red-text|brand-red-dark|white|foreground|\[#)/;
+const TEXT_OVERRIDE = /^text-(brand-red-text|brand-red-dark|danger-text|white|foreground|\[#)/;
 
 function lineViolations(line: string): string[] {
   const tokens = line
@@ -127,7 +129,7 @@ function lineViolations(line: string): string[] {
   }
 
   const tints = tokens.filter((t) => TINT.test(t.utility));
-  const reds = tokens.filter((t) => t.utility === TEXT_RED);
+  const reds = tokens.filter((t) => TEXT_RED.test(t.utility));
   if (tints.length === 0 || reds.length === 0) return found;
 
   for (const tint of tints) {
@@ -157,6 +159,7 @@ describe("בורר ההפרות של אדום מותג על גוון", () => {
     assert.ok(lineViolations('"hover:bg-brand-red/5 hover:text-brand-red"').length > 0);
     assert.ok(lineViolations('className="text-xs text-brand-red/80"').length > 0);
     assert.ok(lineViolations("border-brand-red text-brand-red hover:bg-brand-red/10").length > 0);
+    assert.ok(lineViolations('"border-danger/30 bg-danger/5 text-danger"').length > 0);
   });
 
   it("לא תופס את התיקונים ואת המקרים התקינים", () => {

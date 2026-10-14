@@ -30,7 +30,7 @@ export default function TrustBadges({
           className="flex items-center gap-1.5 text-xs text-muted-foreground"
         >
           <span
-            className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--service-accent,#d42b2b)]/10 text-[0.6rem] font-bold text-[var(--service-accent-ink,#8a1c1c)]"
+            className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--service-accent,var(--color-brand-red))]/10 text-[0.6rem] font-bold text-[var(--service-accent-ink,var(--accent-ink-default))]"
             aria-hidden="true"
           >
             ✓

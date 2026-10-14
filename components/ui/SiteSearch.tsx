@@ -330,7 +330,7 @@ export default function SiteSearch({
       </div>
 
       {voiceError && !isListening && (
-        <p className="mt-1 text-xs text-brand-red" role="alert">
+        <p className="mt-1 text-xs text-danger" role="alert">
           {voiceError}
         </p>
       )}

@@ -70,11 +70,11 @@ export default function PricingTierToggle({
             {...getTabProps(idx)}
             onClick={() => setActiveIdx(idx)}
             className={cn(
-              "hardware-toggle flex-1 px-3 py-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,#d42b2b)]",
+              "hardware-toggle flex-1 px-3 py-2.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--service-accent,var(--color-brand-red))]",
               idx === activeIdx
-                ? "bg-[var(--service-accent,#d42b2b)] text-white"
+                ? "bg-[var(--service-accent,var(--color-brand-red))] text-white"
                 : "bg-muted/40 text-muted-foreground hover:bg-muted",
-              idx === recommendedIndex && idx !== activeIdx && "ring-1 ring-inset ring-[var(--service-accent,#d42b2b)]/30",
+              idx === recommendedIndex && idx !== activeIdx && "ring-1 ring-inset ring-[var(--service-accent,var(--color-brand-red))]/30",
             )}
           >
             {tier.name}
@@ -124,7 +124,7 @@ export default function PricingTierToggle({
         <ul className="space-y-1.5" aria-label="מה כלול">
           {active.highlights.map((h) => (
             <li key={h} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <span className="mt-0.5 text-[var(--service-accent,#d42b2b)] shrink-0" aria-hidden>✓</span>
+              <span className="mt-0.5 text-[var(--service-accent,var(--color-brand-red))] shrink-0" aria-hidden>✓</span>
               {h}
             </li>
           ))}
@@ -134,7 +134,7 @@ export default function PricingTierToggle({
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl bg-[var(--service-accent,#d42b2b)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+          className="flex min-h-12 w-full touch-manipulation items-center justify-center rounded-xl bg-[var(--service-accent,var(--color-brand-red))] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
         >
           להזמנה בוואטסאפ
         </a>

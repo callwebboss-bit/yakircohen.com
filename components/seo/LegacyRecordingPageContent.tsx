@@ -36,7 +36,7 @@ import { buildServiceWhatsAppText, buildWhatsAppHref } from "@/lib/whatsapp";
 const H2 = "font-serif text-2xl font-semibold text-foreground sm:text-3xl";
 const PROSE = "text-base leading-8 text-muted-foreground sm:text-lg";
 const QUIET_LINK =
-  "text-base font-semibold text-[var(--service-accent-ink,#8a1c1c)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]";
+  "text-base font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]";
 
 /*
  * עובדה שחסרה מוצגת כמו שהיא כתובה בנתונים, אבל מודגשת כדי שהבעלים יראה
@@ -160,7 +160,7 @@ export default function LegacyRecordingPageContent() {
             <p className="mt-6">
               <a
                 href="#questions"
-                className="text-sm font-semibold text-[var(--service-accent-ink,#8a1c1c)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                className="text-sm font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
               >
                 לרשימת {LEGACY_QUESTIONS_COUNT} השאלות המוצעות
               </a>
@@ -187,7 +187,7 @@ export default function LegacyRecordingPageContent() {
           איך מתכוננים
         </h2>
         <p className={`mt-6 ${PROSE}`}>{LEGACY_PREP_INTRO}</p>
-        <ul className="mt-5 list-disc space-y-3 ps-6 marker:text-[var(--service-accent-ink,#8a1c1c)]">
+        <ul className="mt-5 list-disc space-y-3 ps-6 marker:text-[var(--service-accent-ink,var(--accent-ink-default))]">
           {LEGACY_PREP_TIPS.map((tip) => (
             <li key={tip} className={PROSE}>
               {tip}
@@ -213,7 +213,7 @@ export default function LegacyRecordingPageContent() {
               <h3 className="text-lg font-semibold text-foreground">{topic.title}</h3>
               <ol
                 start={topic.start}
-                className="mt-3 list-decimal space-y-3 ps-7 marker:font-semibold marker:text-[var(--service-accent-ink,#8a1c1c)]"
+                className="mt-3 list-decimal space-y-3 ps-7 marker:font-semibold marker:text-[var(--service-accent-ink,var(--accent-ink-default))]"
               >
                 {topic.questions.map((question) => (
                   <li key={question} className={PROSE}>
@@ -227,7 +227,7 @@ export default function LegacyRecordingPageContent() {
 
         <div className="mt-10 flex flex-col gap-5 rounded-2xl border border-border bg-surface p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div className="flex items-start gap-4">
-            <span className="mt-0.5 text-[var(--service-accent-ink,#8a1c1c)]">
+            <span className="mt-0.5 text-[var(--service-accent-ink,var(--accent-ink-default))]">
               <FileIcon />
             </span>
             <div>
@@ -400,7 +400,7 @@ export default function LegacyRecordingPageContent() {
               </Button>
               <a
                 href={`tel:${CONTACT_PHONE_E164}`}
-                className="text-base font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,#d42b2b)]"
+                className="text-base font-medium text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--service-accent,var(--color-brand-red))]"
               >
                 או להתקשר: <bdi>{CONTACT_PHONE_DISPLAY}</bdi>
               </a>

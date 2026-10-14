@@ -84,7 +84,7 @@ export default function PriceScopeDisplay({
     return (
       <div className={cn("space-y-1", className)}>
         <p className={cn(s.primary, "text-foreground")}>{dual.recordingOnly}</p>
-        <p className={cn(s.primary, "text-[var(--service-accent-ink,#8a1c1c)]")}>
+        <p className={cn(s.primary, "text-[var(--service-accent-ink,var(--accent-ink-default))]")}>
           {dual.withEditing}
         </p>
         <p className={cn(s.scope, "text-muted-foreground italic")}>{dual.socialProof}</p>

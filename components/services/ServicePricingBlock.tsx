@@ -70,7 +70,7 @@ export default function ServicePricingBlock({
                   className={cn(
                     "relative flex h-full flex-col rounded-xl border p-6 card-chrome",
                     tier.featured
-                      ? "border-[var(--service-accent,#d42b2b)]/50 bg-[var(--service-accent,#d42b2b)]/5"
+                      ? "border-[var(--service-accent,var(--color-brand-red))]/50 bg-[var(--service-accent,var(--color-brand-red))]/5"
                       : "border-border bg-surface",
                   )}
                 >
@@ -94,7 +94,7 @@ export default function ServicePricingBlock({
                       catalogId={tier.catalogId}
                     />
                   ) : (
-                    <p className="text-xl font-semibold text-[var(--service-accent-ink,#8a1c1c)]">{tier.price}</p>
+                    <p className="text-xl font-semibold text-[var(--service-accent-ink,var(--accent-ink-default))]">{tier.price}</p>
                   )}
                 </div>
                 {tier.priceExVat !== undefined ? (
