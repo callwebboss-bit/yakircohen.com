@@ -51,7 +51,7 @@ type StepBadgeProps = { number: number };
 function StepBadge({ number }: StepBadgeProps) {
   return (
     <div
-      className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-foreground text-lg font-bold text-brand-red ring-1 ring-brand-red/40 shadow-[0_0_22px_rgba(212,43,43,0.18)]"
+      className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-foreground text-lg font-bold text-brand-red ring-1 ring-brand-red/40 shadow-[0_0_22px_color-mix(in_srgb,var(--color-brand-red)_18%,transparent)]"
       aria-hidden="true"
     >
       {number}

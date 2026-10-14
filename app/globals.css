@@ -6,7 +6,9 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Yakir Cohen Productions - Tailwind v4 (Hebrew RTL)
-   Palette: light background, near-black text, red accents (#D42B2B)
+   Palette (D135, 14.10.2026): light background, charcoal text, gold accents.
+   זהב כהה (#7A5C12) על רקע בהיר, זהב בהיר (#C9A227, #E3C56B) על רקע כהה בלבד.
+   אדום (#D42B2B) נשאר רק לשגיאות (--color-danger) ולצבע השירות של אירועים.
    ───────────────────────────────────────────────────────────────────────────── */
 
 @theme {
@@ -19,7 +21,10 @@
   --color-border-subtle: color-mix(in srgb, black 4%, transparent);
   --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
-  --color-brand-red: #d42b2b;
+  /* D135 (14.10.2026): השם נשאר brand-red (3,239 מופעים ב-394 קבצים) והערך הוא זהב.
+     #7A5C12: 5.97:1 על הרקע, לבן עליו 6.24:1, ועל הגוונים של עצמו (/5 עד /15)
+     5.57 עד 4.82, כך שהחוב של F-06 (טקסט על גוון) נסגר גם בלי brand-red-text. */
+  --color-brand-red: #7a5c12;
   /* מצב הריחוף של הכפתור הראשי. נמדד 2.10.2026: הערך הקודם #e04a4a נתן
      4.00:1 לטקסט לבן מעליו ו-3.83:1 כטקסט אדום על הרקע, ושני השימושים
      נכשלו ב-WCAG AA שדורש 4.5:1. Lighthouse נתן נגישות 100 ולא תפס את זה,
@@ -29,10 +34,20 @@
      דורשים הכהיה. שינוי שם נוגע ב-132 קבצים ולכן נדחה בכוונה.
      F-37 (7.10.2026): אותה בעיה בכפתורי outline ו-ghost, שם הריחוף צובע גוון
      אדום מאחורי טקסט אדום (4.11:1 על /10, 3.82 על /15). ב-Button.tsx הטקסט עובר
-     ב-hover וב-active ל-brand-red-text. */
-  --color-brand-red-light: #c52525;
-  --color-brand-red-dark: #9a2222;
-  --color-brand-red-text: #9a2222;
+     ב-hover וב-active ל-brand-red-text.
+     D135: ריחוף, לחיצה וטקסט הם #5E460C: לבן עליו 8.91:1, על הרקע 8.52:1, ועל
+     גוון /15 של הזהב 6.89:1. הערכים הקודמים (האדומים) מתועדים למעלה. */
+  --color-brand-red-light: #5e460c;
+  --color-brand-red-dark: #5e460c;
+  --color-brand-red-text: #5e460c;
+  /* טוקני הזהב והפחם לפי שם, לאזורים כהים (שלב 4). זהב בהיר רק על כהה:
+     #C9A227 על #0F1419 = 7.65:1, ועל הרקע הבהיר רק 2.31:1. */
+  --color-ink: #0f1419;
+  --color-ink-soft: #1a1f26;
+  --color-gold-ink: #7a5c12;
+  --color-gold-deep: #5e460c;
+  --color-gold: #c9a227;
+  --color-gold-bright: #e3c56b;
   /* D135 (14.10.2026): שגיאה ואימות טפסים, בנפרד מצבע המותג. המותג עובר לזהב
      והשגיאה נשארת אדומה, כי גולש מזהה שגיאה לפי האדום. --destructive של shadcn
      מופיע בקובץ אחד בלבד, ולכן השגיאות באתר נשענות על הטוקנים האלה. */
@@ -43,8 +58,8 @@
   --grain-opacity: 0.028;
   --glow-inner: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 24px rgb(196 163 90 / 0.06);
   --elev-card: 0 10px 32px rgb(0 0 0 / 0.08), 0 0 0 1px rgb(196 163 90 / 0.18);
-  --hub-glow: rgba(212, 43, 43, 0.18);
-  --hub-mesh: radial-gradient(ellipse 80% 55% at 78% 0%, rgba(212,43,43,0.11), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.08), transparent 50%);
+  --hub-glow: rgba(122, 92, 18, 0.18);
+  --hub-mesh: radial-gradient(ellipse 80% 55% at 78% 0%, rgba(122,92,18,0.11), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.08), transparent 50%);
   --mesh-studio: radial-gradient(ellipse 80% 55% at 78% 0%, rgba(217,119,6,0.12), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.10), transparent 50%);
 
 
@@ -770,6 +785,16 @@ details[open] > .summary-cue::after {
     @apply outline-2 outline-offset-2 outline-brand-red;
   }
 
+  /* D135 (14.10.2026, החלטת הבעלים): קישור בתוך פסקה מקבל קו תחתון דק. זהב #7A5C12
+     מול טקסט הגוף #1a1a1a נותן 2.79:1, מתחת ל-3:1 ש-WCAG 1.4.1 דורש כדי שקישור
+     יובחן בצבע בלבד (האדום נתן 3.46). כפתור, כרטיס או קישור שמעוצב כבלוק לא
+     נתפסים. בתוך @layer base, ולכן no-underline או כל utility אחר גוברים. */
+  :where(main) :where(p, dd, blockquote, figcaption) a[href]:not(:where(.inline-flex, .flex, .grid, .block, .inline-block, [class*="rounded"])) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
   :where(a, button, [role="button"], input[type="submit"], input[type="button"]) {
     touch-action: manipulation;
   }
@@ -901,8 +926,10 @@ html.a11y-high-contrast {
      ה-utilities שלו, כולל bg-brand-red/10 ו-text-brand-red. #9a2222 נותן 7.65:1
      על הרקע ו-6.57:1 על גוון /10, ולבן על #9a2222 נותן 8.00:1.
      --service-accent מקבל את ערך ה-ink של אותו hub (5.07-8.14:1 על #fafaf8);
-     בעמוד בלי hub אין ink, ואז נשאר אדום המותג הכהה. */
-  --color-brand-red: #9a2222;
+     בעמוד בלי hub אין ink, ואז נשאר אדום המותג הכהה.
+     D135 (14.10.2026): המותג זהב, וכאן הזהב הכהה #5E460C (8.52:1 על הרקע, לבן
+     עליו 8.91:1). שווה ל-brand-red-text, כמו שהבדיקה דורשת. */
+  --color-brand-red: #5e460c;
   --service-accent: var(--service-accent-ink, var(--color-brand-red));
   /* D135: השגיאות עברו ל-danger, ובמצב הזה הן הוכהו יחד עם brand-red. אותו ערך. */
   --color-danger: #9a2222;
@@ -1069,7 +1096,8 @@ html.a11y-reduce-motion::view-transition-new(*) {
   --card-foreground: #1a1a1a;
   --popover: #ffffff;
   --popover-foreground: #1a1a1a;
-  --primary: #d42b2b;
+  /* D135: זהב המותג. --destructive למטה נשאר אדום, כי הוא שגיאה. */
+  --primary: #7a5c12;
   --primary-foreground: #ffffff;
   --secondary: #ffffff;
   --secondary-foreground: #1a1a1a;
@@ -1079,7 +1107,9 @@ html.a11y-reduce-motion::view-transition-new(*) {
      #737373 נתן 4.22:1 על משטח מוגוון ו-3.76:1 על גבול, שניהם מתחת ל-AA.
      #5c5c5c נותן 5.31:1 במקרה הגרוע שנמדד. משפיע על 1,917 מופעים. */
   --muted-foreground: #5c5c5c;
-  --accent: #fdf2f2;
+  /* D135: היה #fdf2f2 ורדרד. #F7F3E6 שמנת: טקסט #1a1a1a עליו 15.68:1, זהב 5.62:1,
+     danger-text 7.20:1 (הודעות השגיאה בעמדת המכירות יושבות על bg-accent). */
+  --accent: #f7f3e6;
   --accent-foreground: #1a1a1a;
   --destructive: #d42b2b;
   --border: #e5e5e5;
@@ -1091,7 +1121,7 @@ html.a11y-reduce-motion::view-transition-new(*) {
      לא נוסף בכוונה: בתוך @layer base הוא מפסיד ל-utilities, ומחוץ לשכבה הוא
      דורס גם border-brand-red של מיקוד ושל שגיאה (נבדק בביקורת). */
   --input: #858585;
-  --ring: #d42b2b;
+  --ring: #7a5c12;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -1111,9 +1141,9 @@ html.a11y-reduce-motion::view-transition-new(*) {
      היה מגיע אליהם. HubAccentScope כותב :root משלו בהמשך המסמך ולכן גובר בעמודי
      hub, וגם מצב ניגודיות גבוהה גובר (html.a11y-high-contrast, ספציפיות גבוהה יותר).
      -ink בכוונה בלי ברירת מחדל: ה-fallbacks שלו לא אחידים (#8a1c1c מול brand-red),
-     ולכן ה-#8a1c1c עבר לטוקן משלו באותו ערך. */
+     ולכן ה-#8a1c1c עבר לטוקן משלו (שלב 1), ועכשיו הוא הזהב הכהה (8.52:1). */
   --service-accent: var(--color-brand-red);
-  --accent-ink-default: #8a1c1c;
+  --accent-ink-default: #5e460c;
 }
 
 /* חייב לבוא אחרי בלוק :root שלמטה. לשניהם אותה ספציפיות (0,1,0), ואין
@@ -1482,7 +1512,7 @@ mark.kinetic-highlight {
   border-start-end-radius: 999px;
   border-end-end-radius: 999px;
   background: var(--color-brand-red);
-  box-shadow: 0 0 10px rgb(212 43 43 / 0.65);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-brand-red) 65%, transparent);
 }
 
 @supports (animation-timeline: scroll()) {
@@ -1737,7 +1767,15 @@ progress.studio-meter-flash::-moz-progress-bar {
   --footer-fg: #e8eaed;
   --footer-muted: #b0b6bc;
   --footer-border: color-mix(in srgb, white 12%, transparent);
-  --footer-link-hover: #ff6b6b; /* ≈4.9:1 on #0f1419 — passes WCAG AA */
+  /* D135 (14.10.2026): זהב בהיר על הפחם, 10.99:1. היה #ff6b6b. */
+  --footer-link-hover: #e3c56b;
+  /* D135: על רקע כהה זהב בהיר, לא הזהב הכהה של הרקע הבהיר (שנותן כאן 2.97:1 ונכשל
+     בטבעת המיקוד). #C9A227 נותן 7.65:1 לטבעות המיקוד ולטקסט, וטקסט הפחם על כפתור
+     בצבע הזה 7.65:1 (הכלל של ה-CTA למטה). מוגדר על הפוטר, ולכן גובר גם במצב
+     ניגודיות גבוהה, שבו הערכים האלה כבר בניגודיות גבוהה. */
+  --color-brand-red: #c9a227;
+  --color-brand-red-light: #e3c56b;
+  --color-brand-red-text: #e3c56b;
   background: var(--footer-bg);
   color: var(--footer-fg);
   content-visibility: auto;
@@ -1839,7 +1877,7 @@ progress.studio-meter-flash::-moz-progress-bar {
 
 /* ─── Footer hover contrast fix (WCAG AA) ─── */
 
-/* כל קישורי ה-footer - גוון אדום בהיר שעובר AA על הרקע הכהה */
+/* כל קישורי ה-footer - גוון זהב בהיר שעובר AA על הרקע הכהה */
 .footer-shell a:hover {
   color: var(--footer-link-hover);
 }
@@ -1851,9 +1889,12 @@ progress.studio-meter-flash::-moz-progress-bar {
   text-decoration-thickness: 1px;
 }
 
-/* CTA ראשי (bg-brand-red) - שמור על טקסט לבן, ללא underline */
-.footer-shell a[class*="bg-brand-red"]:hover {
-  color: #fff;
+/* CTA ראשי (bg-brand-red): בפוטר הרקע שלו זהב בהיר, ולכן הטקסט פחם (7.65:1) ולא
+   לבן (2.42:1), גם בריחוף. ~= ולא *=: רק המחלקה המדויקת, לא גוונים כמו bg-brand-red/8
+   של CompanyDetailsCard, שנשארים טקסט בהיר על רקע כהה. */
+.footer-shell a[class~="bg-brand-red"],
+.footer-shell a[class~="bg-brand-red"]:hover {
+  color: var(--footer-bg);
   text-decoration: none;
 }
 

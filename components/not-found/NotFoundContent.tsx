@@ -241,7 +241,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
               document.querySelector<HTMLInputElement>('input[type="search"]')?.focus();
               document.querySelector<HTMLInputElement>('input[type="search"]')?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="shadow-[0_4px_24px_rgba(212,43,43,0.25)]"
+            className="shadow-[0_4px_24px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)]"
           >
             מצאו שירות
           </Button>
@@ -380,7 +380,7 @@ export default function NotFoundContent({ quickPaths }: { quickPaths?: ReactNode
               </span>
               <h2 className="font-serif text-xl font-semibold">{cube.title}</h2>
               <p className="text-sm text-white/70">{cube.description}</p>
-              <span className="mt-auto text-xs font-bold text-[#ff6b6b] group-hover:underline">
+              <span className="mt-auto text-xs font-bold text-[#e3c56b] group-hover:underline">
                 לפרטים </span>
             </Link>
           ))}

@@ -230,7 +230,7 @@ export default function AcademyPage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden="true"
         />
 
@@ -386,7 +386,7 @@ export default function AcademyPage() {
             href={assessmentHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-3 text-base font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_24px_rgba(212,43,43,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="mt-4 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-3 text-base font-semibold text-white shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             שיחת היכרות - 15 דקות חינם
           </a>
@@ -516,7 +516,7 @@ export default function AcademyPage() {
                 key={track.id}
                 className={`relative flex flex-col rounded-2xl border p-6 shadow-sm ${
                   "featured" in track && track.featured
-                    ? "border-brand-red/50 bg-background shadow-[0_4px_24px_rgba(212,43,43,0.1)]"
+                    ? "border-brand-red/50 bg-background shadow-[0_4px_24px_color-mix(in_srgb,var(--color-brand-red)_10%,transparent)]"
                     : "border-border bg-background"
                 }`}
               >
@@ -631,7 +631,7 @@ export default function AcademyPage() {
                 key={plan.id}
                 className={`relative flex flex-col rounded-2xl border p-7 shadow-sm ${
                   plan.premium
-                    ? "border-brand-red/40 bg-background shadow-[0_4px_24px_rgba(212,43,43,0.08)]"
+                    ? "border-brand-red/40 bg-background shadow-[0_4px_24px_color-mix(in_srgb,var(--color-brand-red)_8%,transparent)]"
                     : "border-border bg-background"
                 }`}
               >
@@ -668,7 +668,7 @@ export default function AcademyPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_24px_rgba(212,43,43,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                 >
                   קבע שיחת היכרות
                 </a>

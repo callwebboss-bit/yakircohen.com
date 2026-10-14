@@ -465,7 +465,7 @@ export default function ChatWidget({
             ? "פתיחת מרכז מידע מהיר ושאלות נפוצות"
             : "סגירת מרכז מידע"
         }
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-red text-white shadow-[0_0_24px_rgb(212_43_43_/_0.25)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-luxury)] hover:scale-105 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-red text-white shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[transform,box-shadow] duration-300 ease-[var(--ease-luxury)] hover:scale-105 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
       >
         <ChatBubbleIcon />
       </button>

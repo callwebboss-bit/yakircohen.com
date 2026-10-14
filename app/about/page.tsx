@@ -128,7 +128,7 @@ export default function AboutPage() {
           className="relative overflow-hidden border-b border-border bg-background"
         >
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
             aria-hidden="true"
           />
 
@@ -173,7 +173,7 @@ export default function AboutPage() {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl px-7 shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
+                className="rounded-xl px-7 shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)]"
               >
                 קבלו הצעת מחיר בוואטסאפ </Button>
               <Link
@@ -394,7 +394,7 @@ export default function AboutPage() {
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 gap-2 rounded-xl px-7 shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:shadow-[0_0_32px_rgba(212,43,43,0.45)]"
+              className="mt-7 gap-2 rounded-xl px-7 shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)]"
             >
               <svg
                 viewBox="0 0 24 24"

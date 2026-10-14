@@ -115,7 +115,7 @@ function ExclusiveCard({
         "transition-[border-color,box-shadow,background-color] duration-fast ease-luxury",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
         selected
-          ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_rgba(212,43,43,0.12)]"
+          ? "border-brand-red bg-brand-red/5 shadow-[0_4px_16px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)]"
           : "border-border bg-background hover:border-brand-red/30",
       )}
       aria-pressed={selected}
@@ -424,7 +424,7 @@ export default function DjEventsCalculator({ className, routeId = null }: DjEven
               "relative w-full rounded-2xl border-2 p-6 text-start transition-[border-color,box-shadow,background-color] duration-fast ease-luxury",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
               festivalSelected
-                ? "border-brand-red bg-brand-red/5 shadow-[0_4px_20px_rgba(212,43,43,0.15)]"
+                ? "border-brand-red bg-brand-red/5 shadow-[0_4px_20px_color-mix(in_srgb,var(--color-brand-red)_15%,transparent)]"
                 : "border-border bg-background hover:border-brand-red/40",
             )}
             aria-pressed={festivalSelected}

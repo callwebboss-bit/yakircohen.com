@@ -61,7 +61,7 @@ export default function CalculatorDisclosure({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_28px_rgba(212,43,43,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
+          className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[background-color,box-shadow] duration-normal ease-luxury hover:bg-brand-red-light hover:shadow-[0_0_28px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:w-auto"
           aria-expanded={open}
           aria-controls={panelId}
         >

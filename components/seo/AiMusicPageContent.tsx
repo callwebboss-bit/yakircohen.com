@@ -32,7 +32,7 @@ export default function AiMusicPageContent() {
     <div className="bg-background">
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden
         />
         <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
@@ -69,7 +69,7 @@ export default function AiMusicPageContent() {
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href={courseHref}
-              className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
+              className="inline-flex min-h-11 items-center rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] hover:bg-brand-red-light"
             >
               קורס AI 1:1 </a>
             <a

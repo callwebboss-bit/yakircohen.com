@@ -125,8 +125,8 @@ export default function WhatsappLeadRouter({
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                   "motion-reduce:transform-none [@media(hover:hover)]:hover:-translate-y-2.5",
                   featured
-                    ? "border-2 border-brand-red bg-background shadow-xl shadow-brand-red/5 [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.25)]"
-                    : "border-border bg-background shadow-sm [@media(hover:hover)]:border-brand-red [@media(hover:hover)]:shadow-[0_20px_40px_-15px_rgba(212,43,43,0.12)]",
+                    ? "border-2 border-brand-red bg-background shadow-xl shadow-brand-red/5 [@media(hover:hover)]:shadow-[0_20px_40px_-15px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)]"
+                    : "border-border bg-background shadow-sm [@media(hover:hover)]:border-brand-red [@media(hover:hover)]:shadow-[0_20px_40px_-15px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)]",
                 )}
                 aria-label={accessibleName}
               >

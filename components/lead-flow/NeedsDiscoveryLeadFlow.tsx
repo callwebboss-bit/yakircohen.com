@@ -360,7 +360,7 @@ export default function NeedsDiscoveryLeadFlow({
                     <label className="flex min-h-12 cursor-pointer items-start gap-3 rounded-xl border border-border bg-surface px-4 py-3">
                       <input
                         type="checkbox"
-                        className="mt-1 h-5 w-5 accent-[var(--brand-red,#d42b2b)]"
+                        className="mt-1 h-5 w-5 accent-[var(--color-brand-red)]"
                         checked={checked}
                         onChange={() => toggleUpsell(u.id)}
                       />

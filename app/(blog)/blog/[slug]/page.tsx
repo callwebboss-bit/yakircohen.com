@@ -142,7 +142,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <article className="bg-background" aria-labelledby="article-heading">
         <header className="relative overflow-hidden border-b border-border bg-surface text-foreground">
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_50%_-15%,rgba(212,43,43,0.14),transparent_60%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_50%_-15%,rgba(122,92,18,0.14),transparent_60%)]"
             aria-hidden="true"
           />
           <div className="relative mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">

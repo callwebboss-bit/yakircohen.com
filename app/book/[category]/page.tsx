@@ -91,7 +91,7 @@ export default async function BookCategoryPage({
           className="relative overflow-hidden border-b border-border bg-background"
         >
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
             aria-hidden="true"
           />
 

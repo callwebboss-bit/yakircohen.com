@@ -84,9 +84,54 @@ describe("אדום מותג על הגוון שלו (F-06, F-37)", () => {
     }
   });
 
-  it("הסיבה לתיקון: brand-red עצמו נכשל על הגוונים החזקים", () => {
-    assert.ok(contrast(red, blend(red, PAGE_BG, 0.1)) < 4.5);
-    assert.ok(contrast(red, blend(red, PAGE_BG, 0.15)) < 4.5);
+  /* D135 (14.10.2026): עד המעבר לזהב כאן נבדק שהאדום #d42b2b עצמו נכשל על /10 ועל
+     /15 (4.13 ו-3.82), וזו הייתה הסיבה ל-brand-red-text. הזהב #7A5C12 עובר בעצמו. */
+  it("זהב המותג עובר 4.5:1 גם בעצמו על הגוונים שלו (D135)", () => {
+    for (const alpha of [0.05, 0.08, 0.1, 0.15]) {
+      const tint = blend(red, PAGE_BG, alpha);
+      assert.ok(contrast(red, tint) >= 4.5, `/${alpha * 100} => ${tint}`);
+    }
+  });
+
+  it("זהב המותג עובר על הרקע וטקסט לבן עליו עובר", () => {
+    assert.ok(contrast(red, PAGE_BG) >= 4.5);
+    assert.ok(contrast(WHITE, red) >= 4.5);
+  });
+});
+
+describe("שגיאה נשארת אדומה ונפרדת מהמותג (D135)", () => {
+  const danger = declared(css, "--color-danger")!;
+  const dangerText = declared(css, "--color-danger-text")!;
+
+  it("danger אדום ולא זהב המותג", () => {
+    assert.equal(danger.toLowerCase(), "#d42b2b");
+    assert.notEqual(danger.toLowerCase(), declared(css, "--color-brand-red")!.toLowerCase());
+  });
+
+  it("danger-text עובר 4.5:1 על הרקע ועל הגוון האדום של הודעת השגיאה", () => {
+    assert.ok(contrast(dangerText, PAGE_BG) >= 4.5);
+    assert.ok(contrast(dangerText, blend(danger, PAGE_BG, 0.05)) >= 4.5);
+  });
+
+  it("שדה לא תקין מקבל את צבע השגיאה ולא את צבע המותג", () => {
+    assert.match(css, /:user-invalid\s*\{\s*border-color:\s*var\(--color-danger\)/);
+  });
+});
+
+describe("הפוטר הכהה מקבל זהב בהיר (D135)", () => {
+  const footer = /\.footer-shell\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+  const bg = declared(footer, "--footer-bg")!;
+
+  it("צבע המותג בפוטר עובר 3:1 לטבעת מיקוד ו-4.5:1 לטקסט על הרקע הכהה", () => {
+    const brand = declared(footer, "--color-brand-red")!;
+    assert.ok(contrast(brand, bg) >= 4.5, `${brand} על ${bg}`);
+    assert.ok(contrast(declared(footer, "--footer-link-hover")!, bg) >= 4.5);
+  });
+
+  it("כפתור המותג בפוטר מקבל טקסט פחם, כי לבן על זהב בהיר נכשל", () => {
+    assert.ok(contrast(bg, declared(footer, "--color-brand-red")!) >= 4.5);
+    assert.ok(contrast(WHITE, declared(footer, "--color-brand-red")!) < 4.5);
+    assert.match(css, /\.footer-shell a\[class~="bg-brand-red"\][^{]*\{\s*color:\s*var\(--footer-bg\)/);
   });
 });
 
@@ -105,8 +150,9 @@ describe("מצב ניגודיות גבוהה (F-43)", () => {
 });
 
 describe("קישור 'לפרטים' בתבנית 404 (F-65)", () => {
-  it("#ff6b6b על #1a1a1a עובר 4.5:1", () => {
-    assert.ok(contrast("#ff6b6b", "#1a1a1a") >= 4.5);
+  /* D135: היה #ff6b6b (אדום בהיר). זהב בהיר על אותו רקע כהה. */
+  it("#e3c56b על #1a1a1a עובר 4.5:1", () => {
+    assert.ok(contrast("#e3c56b", "#1a1a1a") >= 4.5);
   });
 });
 

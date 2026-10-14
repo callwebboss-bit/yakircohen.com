@@ -339,9 +339,9 @@ export default function AudienceTabs({ className }: AudienceTabsProps) {
                 className={cn(
                   "inline-flex flex-1 items-center justify-center gap-2 rounded-xl",
                   "bg-brand-red px-5 py-3 text-sm font-semibold text-white",
-                  "shadow-[0_0_20px_rgba(212,43,43,0.3)]",
+                  "shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)]",
                   "transition-[background-color,box-shadow,transform] duration-normal ease-luxury",
-                  "hover:bg-brand-red-light hover:shadow-[0_0_30px_rgba(212,43,43,0.45)]",
+                  "hover:bg-brand-red-light hover:shadow-[0_0_30px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)]",
                   "active:scale-[0.97]",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                 )}

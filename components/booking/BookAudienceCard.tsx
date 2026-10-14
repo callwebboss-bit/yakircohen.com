@@ -52,7 +52,7 @@ const V_CARD: Record<BookAudienceRoute["variant"], string> = {
   gold: "bg-surface border-border hover:border-brand-red/50 hover:shadow-md",
   neutral: "bg-background border-border hover:border-foreground/20 hover:shadow-md",
   luxury:
-    "border-border bg-surface hover:border-brand-red/40 hover:shadow-[0_8px_32px_rgba(212,43,43,0.12)]",
+    "border-border bg-surface hover:border-brand-red/40 hover:shadow-[0_8px_32px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)]",
   academy: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
   online: "bg-background border-border hover:border-brand-red/40 hover:shadow-md",
 };

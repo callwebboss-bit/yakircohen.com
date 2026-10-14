@@ -880,7 +880,7 @@ export default function PodcastHubPageContent() {
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-[0_0_30px_rgba(212,43,43,0.4)] hover:bg-brand-red-light"
+              className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-4 text-base font-bold text-white shadow-[0_0_30px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] hover:bg-brand-red-light"
             >
               {PODCAST_HUB_CTA_LABEL}
             </a>

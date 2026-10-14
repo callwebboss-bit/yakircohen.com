@@ -107,7 +107,7 @@ export default function PageBottomCta({
               rel="noopener noreferrer"
               variant="primary"
               liquid
-              className="w-full gap-2 px-8 shadow-[0_0_20px_rgba(212,43,43,0.25)] hover:shadow-[0_0_32px_rgba(212,43,43,0.4)] sm:w-auto"
+              className="w-full gap-2 px-8 shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] sm:w-auto"
               aria-label={whatsappAriaLabel ?? resolvedWaLabel}
             >
               <WhatsAppIcon />

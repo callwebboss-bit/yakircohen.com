@@ -109,7 +109,7 @@ export default function OnlineMixingPageContent() {
       />
       <section className="relative overflow-hidden border-b border-border">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden
         />
         <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
@@ -156,7 +156,7 @@ export default function OnlineMixingPageContent() {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light"
+              className="inline-flex rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] hover:bg-brand-red-light"
             >
               שלחו קטעים לוואטסאפ </a>
             <a

@@ -47,7 +47,7 @@ export default function HubDualCta({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={whatsappAriaLabel ?? whatsappLabel}
-        className="gap-2 shadow-[0_0_20px_rgba(212,43,43,0.3)]"
+        className="gap-2 shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)]"
       >
         <WhatsAppIcon />
         {whatsappLabel}

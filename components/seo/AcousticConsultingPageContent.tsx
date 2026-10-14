@@ -44,7 +44,7 @@ export default function AcousticConsultingPageContent() {
       />
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden="true"
         />
 
@@ -96,7 +96,7 @@ export default function AcousticConsultingPageContent() {
             href={generalCtaHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             הזמינו ייעוץ בוואטסאפ </a>
         </div>
@@ -263,7 +263,7 @@ export default function AcousticConsultingPageContent() {
                   key={plan.id}
                   className={`relative flex flex-col rounded-2xl border p-7 shadow-sm ${
                     plan.premium
-                      ? "border-brand-red/40 bg-background shadow-[0_4px_24px_rgba(212,43,43,0.08)]"
+                      ? "border-brand-red/40 bg-background shadow-[0_4px_24px_color-mix(in_srgb,var(--color-brand-red)_8%,transparent)]"
                       : "border-border bg-background"
                   }`}
                 >
@@ -304,7 +304,7 @@ export default function AcousticConsultingPageContent() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_24px_rgba(212,43,43,0.4)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red py-3 text-sm font-semibold text-white shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   >
                     הזמינו בוואטסאפ </a>
                 </div>
@@ -401,7 +401,7 @@ export default function AcousticConsultingPageContent() {
               href={generalCtaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
             >
               הזמינו עכשיו </a>
             <ShareButton title="ייעוץ אקוסטיקה ובניית אולפן | יקיר כהן הפקות" />

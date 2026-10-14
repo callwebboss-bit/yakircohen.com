@@ -54,7 +54,7 @@ export default function PrivateSessionPricing({
                 className={cn(
                   "relative flex flex-col rounded-2xl border bg-background p-6 shadow-sm sm:p-7",
                   plan.featured
-                    ? "border-brand-red/50 shadow-[0_8px_40px_rgba(212,43,43,0.12)]"
+                    ? "border-brand-red/50 shadow-[0_8px_40px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)]"
                     : "border-border",
                 )}
               >
@@ -112,7 +112,7 @@ export default function PrivateSessionPricing({
                   className={cn(
                     "mt-6 flex min-h-12 w-full items-center justify-center rounded-xl text-sm font-semibold transition-[background-color,box-shadow,transform] duration-normal ease-luxury active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                     plan.featured
-                      ? "bg-brand-red text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] hover:bg-brand-red-light hover:shadow-[0_0_28px_rgba(212,43,43,0.45)]"
+                      ? "bg-brand-red text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)] hover:bg-brand-red-light hover:shadow-[0_0_28px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)]"
                       : "border border-brand-red/40 bg-brand-red/5 text-foreground hover:border-brand-red/60 hover:bg-brand-red/10",
                   )}
                 >

@@ -62,7 +62,7 @@ export default function Footer() {
             {/* F-01 (נגישות, 7.10.2026): קישור קבוע להצהרה מחוץ ל-details. שני
                 הקישורים הקיימים יושבים בתוך "מידע נוסף", שסגור במובייל, והקישור
                 כאן נשאר נגיש בכל רוחב גם אם הבלוק הזה לא מרונדר.
-                #b0b6bc על #0f1419 = 9.05:1; ב-hover #ff6b6b = 6.67:1. */}
+                #b0b6bc על #0f1419 = 9.05:1; ב-hover #e3c56b = 10.99:1 (D135). */}
             <Link
               href="/accessibility"
               className="inline-flex min-h-11 items-center text-xs text-[var(--footer-muted)] underline underline-offset-4 transition-colors hover:text-[var(--footer-link-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"

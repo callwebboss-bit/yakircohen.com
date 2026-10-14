@@ -353,7 +353,7 @@ export default function PhotographyCalculator({
                   className={cn(
                     "relative rounded-xl border p-3 text-right transition-colors",
                     isActive
-                      ? "border-brand-red bg-brand-red/5 shadow-[0_0_0_3px_rgba(212,43,43,0.08)]"
+                      ? "border-brand-red bg-brand-red/5 shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-brand-red)_8%,transparent)]"
                       : "border-border hover:border-brand-red/30",
                   )}
                 >

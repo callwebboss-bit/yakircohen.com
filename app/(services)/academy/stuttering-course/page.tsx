@@ -94,7 +94,7 @@ export default function StutteringCoursePage() {
       <div className="bg-background">
       <section className="relative overflow-hidden border-b border-border bg-background">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden="true"
         />
 
@@ -146,7 +146,7 @@ export default function StutteringCoursePage() {
             href={ctaHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             שיחת היכרות בוואטסאפ </a>
         </div>
@@ -419,7 +419,7 @@ export default function StutteringCoursePage() {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_rgba(212,43,43,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-7 py-3 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] transition-[background-color,box-shadow] hover:bg-brand-red-light hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_45%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               aria-label="שיחת היכרות בוואטסאפ - קורס גמגום"
             >
               שיחת היכרות בוואטסאפ </a>

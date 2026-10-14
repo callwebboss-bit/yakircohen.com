@@ -83,7 +83,7 @@ export default function StudioGiftsPageContent() {
       <VideoObjectSchema videos={schemaVideos} />
       <section className="relative overflow-hidden border-b border-border">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden
         />
         <div className="relative mx-auto max-w-3xl px-4 py-10 text-center sm:px-6 sm:py-12 lg:px-8">
@@ -127,7 +127,7 @@ export default function StudioGiftsPageContent() {
           <div className="mt-6 flex justify-center">
             <a
               href={SONG_OFFER_ANCHOR}
-              className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.3)] hover:bg-brand-red-light sm:w-auto"
+              className="inline-flex w-full max-w-xs items-center justify-center rounded-xl bg-brand-red px-7 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] hover:bg-brand-red-light sm:w-auto"
             >
               בחירת תוספות ומחיר סופי
             </a>

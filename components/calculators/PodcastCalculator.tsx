@@ -36,7 +36,7 @@ function PackageCard({
       className={cn(
         "touch-press relative flex w-full flex-col rounded-2xl border bg-surface p-5 text-right transition-[border-color,box-shadow,transform]",
         selected
-          ? "border-brand-red shadow-[0_0_0_3px_rgba(212,43,43,0.08)]"
+          ? "border-brand-red shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-brand-red)_8%,transparent)]"
           : "border-border hover:border-brand-red/30 hover:shadow-sm active:scale-[0.97]",
       )}
     >

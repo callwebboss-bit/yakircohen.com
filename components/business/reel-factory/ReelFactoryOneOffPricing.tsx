@@ -32,7 +32,7 @@ export default function ReelFactoryOneOffPricing() {
               className={cn(
                 "relative flex flex-col rounded-2xl border bg-background p-6 sm:p-7",
                 isRave
-                  ? "border-brand-red/50 shadow-[0_8px_32px_rgba(212,43,43,0.12)]"
+                  ? "border-brand-red/50 shadow-[0_8px_32px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)]"
                   : "border-border",
               )}
             >

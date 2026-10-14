@@ -15,7 +15,8 @@ import {
 
 const PAGE_BG = "#fafaf8";
 const WHITE = "#ffffff";
-const BRAND_RED = "#d42b2b";
+/* D135 (14.10.2026): צבע המותג הוא זהב. השם נשאר כמו הטוקן ב-globals.css. */
+const BRAND_RED = "#7a5c12";
 
 function channel(c: number): number {
   const s = c / 255;
@@ -56,9 +57,11 @@ describe("service accent ink colours", () => {
   });
 
   it("documents why the raw accent cannot carry nav text or white labels", () => {
-    // הגוונים הגולמיים שנכשלו בביקורת: ציאן וכתום מתחת ל-4.5 גם כטקסט על רקע בהיר.
+    // הגוונים הגולמיים שנכשלו בביקורת: ציאן וטורקיז מתחת ל-4.5 גם כטקסט על רקע בהיר.
+    // (עד D135 גם הכתום של האולפן נכשל כאן. האולפן עכשיו זהב המותג, 5.97:1.)
     assert.ok(contrast(SERVICE_ACCENT_COLORS.online, PAGE_BG) < 4.5);
-    assert.ok(contrast(SERVICE_ACCENT_COLORS.studio, PAGE_BG) < 4.5);
+    assert.ok(contrast(SERVICE_ACCENT_COLORS.voiceover, PAGE_BG) < 4.5);
+    assert.ok(contrast(SERVICE_ACCENT_COLORS.studio, PAGE_BG) >= 4.5);
     assert.ok(contrast(WHITE, SERVICE_ACCENT_COLORS.online) < 4.5);
   });
 });

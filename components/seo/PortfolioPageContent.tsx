@@ -37,7 +37,7 @@ export default function PortfolioPageContent() {
       <div className="bg-background">
         <Section padding="sm" className="relative overflow-hidden border-b border-border">
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
             aria-hidden
           />
           <Container className="relative max-w-3xl text-center">

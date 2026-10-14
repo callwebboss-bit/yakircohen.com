@@ -314,7 +314,7 @@ export default function StutteringPageContent() {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
+              className="shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)]"
             >
               שיחת היכרות בוואטסאפ </Button>
             <Button as="a" href={`tel:${CONTACT_PHONE_E164}`} variant="secondary">

@@ -289,7 +289,7 @@ export default async function BlogFeedPage({ searchParams }: BlogFeedPageProps) 
           ariaLabelledby="blog-hero-heading"
         >
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_80%_-10%,rgba(212,43,43,0.18),transparent_55%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_80%_-10%,rgba(122,92,18,0.18),transparent_55%)]"
             aria-hidden="true"
           />
           <div

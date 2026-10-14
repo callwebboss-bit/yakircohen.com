@@ -112,7 +112,7 @@ export default function CTABanner({
 
       {/* ── Subtle gold radial glow in the upper-center ── */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(212,43,43,0.12),transparent_60%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(122,92,18,0.12),transparent_60%)]"
         aria-hidden="true"
       />
 
@@ -146,9 +146,9 @@ export default function CTABanner({
             className={cn(
               "inline-flex min-h-12 items-center justify-center gap-2.5 rounded-xl",
               "bg-brand-red px-6 py-3 text-sm font-semibold text-white",
-              "shadow-[0_0_24px_rgba(212,43,43,0.35)]",
+              "shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)]",
               "transition-[background-color,box-shadow,transform] duration-normal ease-luxury",
-              "hover:bg-brand-red-light hover:shadow-[0_0_36px_rgba(212,43,43,0.5)]",
+              "hover:bg-brand-red-light hover:shadow-[0_0_36px_color-mix(in_srgb,var(--color-brand-red)_50%,transparent)]",
               "active:scale-[0.97]",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
             )}

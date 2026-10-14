@@ -13,14 +13,15 @@ export type ServiceAccentCategory =
 
 export const SERVICE_ACCENT_COLORS: Record<ServiceAccentCategory, string> = {
   events: "#d42b2b",
-  studio: "#d97706",
+  /* D135 (14.10.2026): האולפן הוא זהב המותג עצמו, ו-pro מתמזג בו */
+  studio: "#7a5c12",
   voiceover: "#0d9488",
   video: "#4f46e5",
   photography: "#059669",
   podcast: "#7c3aed",
   online: "#06b6d4",
   academy: "#1d4ed8",
-  pro: "#92703a",
+  pro: "#7a5c12",
 };
 
 /**
@@ -31,14 +32,14 @@ export const SERVICE_ACCENT_COLORS: Record<ServiceAccentCategory, string> = {
  */
 export const SERVICE_ACCENT_INK_COLORS: Record<ServiceAccentCategory, string> = {
   events: "#8a1c1c",
-  studio: "#8d4d04",
+  studio: "#5e460c",
   voiceover: "#086058",
   video: "#332e95",
   photography: "#036244",
   podcast: "#51269a",
   online: "#04768a",
   academy: "#13338c",
-  pro: "#5f4926",
+  pro: "#5e460c",
 };
 
 /** Precomputed page atmosphere - Turbopack cannot color-mix dynamic --service-accent. */
@@ -46,7 +47,7 @@ export const SERVICE_HUB_MESH: Record<ServiceAccentCategory, string> = {
   events:
     "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(212,43,43,0.11), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.08), transparent 50%)",
   studio:
-    "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(217,119,6,0.12), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.10), transparent 50%)",
+    "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(122,92,18,0.12), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.10), transparent 50%)",
   voiceover:
     "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(13,148,136,0.11), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(154,163,173,0.10), transparent 50%)",
   video:
@@ -60,25 +61,26 @@ export const SERVICE_HUB_MESH: Record<ServiceAccentCategory, string> = {
   academy:
     "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(29,78,216,0.10), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(154,163,173,0.08), transparent 50%)",
   pro:
-    "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(146,112,58,0.12), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.10), transparent 50%)",
+    "radial-gradient(ellipse 80% 55% at 78% 0%, rgba(122,92,18,0.12), transparent 55%), radial-gradient(ellipse 55% 45% at 12% 100%, rgba(196,163,90,0.10), transparent 50%)",
 };
 
 export const SERVICE_HUB_GLOW: Record<ServiceAccentCategory, string> = {
   events: "rgba(212, 43, 43, 0.18)",
-  studio: "rgba(217, 119, 6, 0.20)",
+  studio: "rgba(122, 92, 18, 0.20)",
   voiceover: "rgba(13, 148, 136, 0.18)",
   video: "rgba(79, 70, 229, 0.16)",
   photography: "rgba(5, 150, 105, 0.16)",
   podcast: "rgba(124, 58, 237, 0.18)",
   online: "rgba(6, 182, 212, 0.16)",
   academy: "rgba(29, 78, 216, 0.16)",
-  pro: "rgba(146, 112, 58, 0.20)",
+  pro: "rgba(122, 92, 18, 0.20)",
 };
 
-export const DEFAULT_SERVICE_ACCENT = SERVICE_ACCENT_COLORS.events;
-export const DEFAULT_SERVICE_ACCENT_INK = SERVICE_ACCENT_INK_COLORS.events;
-export const DEFAULT_HUB_MESH = SERVICE_HUB_MESH.events;
-export const DEFAULT_HUB_GLOW = SERVICE_HUB_GLOW.events;
+/* D135: קטגוריה לא מוכרת ("dj", "ai", "pro-audio") נופלת לזהב המותג, לא לאדום של אירועים */
+export const DEFAULT_SERVICE_ACCENT = SERVICE_ACCENT_COLORS.studio;
+export const DEFAULT_SERVICE_ACCENT_INK = SERVICE_ACCENT_INK_COLORS.studio;
+export const DEFAULT_HUB_MESH = SERVICE_HUB_MESH.studio;
+export const DEFAULT_HUB_GLOW = SERVICE_HUB_GLOW.studio;
 
 export function resolveServiceAccentColor(
   category?: string | null,

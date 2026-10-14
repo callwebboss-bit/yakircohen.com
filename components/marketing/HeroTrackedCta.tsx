@@ -24,7 +24,7 @@ export default function HeroTrackedCta({
       href={href}
       variant="primary"
       className={cn(
-        "min-h-14 w-full text-base shadow-[0_0_20px_rgba(212,43,43,0.3)] sm:w-auto sm:text-lg",
+        "min-h-14 w-full text-base shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)] sm:w-auto sm:text-lg",
         className,
       )}
       onClick={() => fireLeadTouch(source, "book")}

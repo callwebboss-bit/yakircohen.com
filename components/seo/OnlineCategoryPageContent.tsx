@@ -64,7 +64,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
       />
       <Section padding="none" className="relative overflow-hidden border-b border-border bg-background">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden
         />
         <Container className="relative max-w-4xl py-16 text-center sm:py-20">
@@ -100,7 +100,7 @@ export default function OnlineCategoryPageContent({ slug }: OnlineCategoryPageCo
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="shadow-[0_0_20px_rgba(212,43,43,0.3)]"
+              className="shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_30%,transparent)]"
             >
               {enrichment.ctaPrimaryLabel} </Button>
             <Button as="link" href="#quick-quote" variant="secondary">

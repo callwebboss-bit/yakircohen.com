@@ -49,7 +49,7 @@ const BADGE_VARIANT_CLASSES: Record<BadgeVariant, string> = {
   red:
     "border border-brand-red/20 bg-brand-red/10 text-brand-red",
   default:
-    "border border-brand-red/50 bg-foreground text-background shadow-[0_0_20px_rgba(212,43,43,0.25)]",
+    "border border-brand-red/50 bg-foreground text-background shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)]",
 };
 
 function ServiceBadge({ label, variant = "default" }: { label: string; variant?: BadgeVariant }) {
@@ -62,7 +62,7 @@ function ServiceBadge({ label, variant = "default" }: { label: string; variant?:
     >
       {variant === "default" && (
         <span
-          className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red shadow-[0_0_6px_rgba(212,43,43,0.9)]"
+          className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red shadow-[0_0_6px_color-mix(in_srgb,var(--color-brand-red)_90%,transparent)]"
           aria-hidden="true"
         />
       )}

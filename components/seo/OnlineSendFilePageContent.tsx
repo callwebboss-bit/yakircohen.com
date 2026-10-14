@@ -19,7 +19,7 @@ export default function OnlineSendFilePageContent() {
     <div className="bg-background">
       <section className="relative overflow-hidden border-b border-border">
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(212,43,43,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_-10%,rgba(122,92,18,0.12),transparent_55%)]"
           aria-hidden
         />
         <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
@@ -106,7 +106,7 @@ export default function OnlineSendFilePageContent() {
                 href={ONLINE_LIABILITY_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(212,43,43,0.25)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                className="inline-flex items-center justify-center rounded-xl bg-brand-red px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] hover:bg-brand-red-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
               >
                 פתיחת הטופס
               </a>

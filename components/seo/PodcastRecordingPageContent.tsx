@@ -132,7 +132,7 @@ export default function PodcastRecordingPageContent() {
         <PodcastSpotifySample />
 
         <section
-          className="rounded-2xl border-2 border-brand-red/40 bg-brand-red/8 p-6 text-center shadow-[0_0_32px_rgba(212,43,43,0.12)] sm:p-8"
+          className="rounded-2xl border-2 border-brand-red/40 bg-brand-red/8 p-6 text-center shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_12%,transparent)] sm:p-8"
           aria-label="הזמנה מהירה"
         >
           <p className="text-sm font-semibold text-foreground sm:text-base">
@@ -146,7 +146,7 @@ export default function PodcastRecordingPageContent() {
               href={`tel:${CONTACT_PHONE_E164}`}
               source="podcast_recording"
               ctaType="phone_top"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)] hover:bg-brand-red-light"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)] hover:bg-brand-red-light"
             >
               הזמינו הפקת פודקאסט: {CONTACT_PHONE_DISPLAY}
             </TrackedCtaLink>

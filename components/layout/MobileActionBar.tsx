@@ -114,8 +114,8 @@ export default function MobileActionBar() {
             href={bookHref}
             className={cn(
               cellClass,
-              /* bg-brand-red ולא גוון ה-hub. באולפן הגוון הוא כתום #d97706, ולבן
-                 עליו נמדד 3.19:1, מתחת ל-AA. צבע הפעולה נשאר אדום בכל hub. */
+              /* bg-brand-red ולא גוון ה-hub: לבן על הציאן של אונליין 2.43:1, מתחת ל-AA.
+                 צבע הפעולה הוא צבע המותג בכל hub, ומ-D135 זהב (לבן עליו 6.24:1). */
               "bg-brand-red text-white active:bg-brand-red-dark",
             )}
           >

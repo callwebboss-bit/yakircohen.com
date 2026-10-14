@@ -25,7 +25,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     <html lang="he" dir="rtl">
       <body className="bg-[#fafaf8] text-[#1a1a1a] antialiased">
         <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
-          <p className="text-xs font-semibold tracking-[0.22em] text-[#d42b2b] uppercase">
+          <p className="text-xs font-semibold tracking-[0.22em] text-[#7a5c12] uppercase">
             שגיאה בלתי צפויה
           </p>
           <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -38,13 +38,13 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex min-h-12 items-center rounded-xl bg-[#d42b2b] px-7 py-3 text-sm font-semibold text-white"
+              className="inline-flex min-h-12 items-center rounded-xl bg-[#7a5c12] px-7 py-3 text-sm font-semibold text-white"
             >
               נסו שוב
             </button>
             <Link
               href="/"
-              className="text-sm font-medium text-[#737373] underline-offset-4 hover:text-[#d42b2b] hover:underline"
+              className="text-sm font-medium text-[#737373] underline-offset-4 hover:text-[#7a5c12] hover:underline"
             >
               חזרה לדף הבית
             </Link>
@@ -53,7 +53,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             href={errorWhatsAppHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 text-xs text-[#737373] underline-offset-4 hover:text-[#d42b2b] hover:underline"
+            className="mt-4 text-xs text-[#737373] underline-offset-4 hover:text-[#7a5c12] hover:underline"
           >
             בעיה חוזרת? וואטסאפ
           </a>

@@ -42,7 +42,7 @@ export default function WhatsAppWidget({
       onClick={() =>
         trackConversion("whatsapp_fab_click", { campaign: utm_campaign })
       }
-      className={`fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full border border-brand-red/30 bg-brand-red pb-[env(safe-area-inset-bottom)] text-white shadow-[0_0_24px_rgb(212_43_43_/_0.25)] transition-[transform,box-shadow,background-color] duration-300 ease-[var(--ease-luxury)] hover:scale-105 hover:shadow-[0_0_32px_rgb(212_43_43_/_0.4)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:bottom-8 sm:right-8 ${className}`.trim()}
+      className={`fixed bottom-6 right-6 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full border border-brand-red/30 bg-brand-red pb-[env(safe-area-inset-bottom)] text-white shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_25%,transparent)] transition-[transform,box-shadow,background-color] duration-300 ease-[var(--ease-luxury)] hover:scale-105 hover:shadow-[0_0_32px_color-mix(in_srgb,var(--color-brand-red)_40%,transparent)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red sm:bottom-8 sm:right-8 ${className}`.trim()}
     >
       <WhatsAppIcon />
     </a>

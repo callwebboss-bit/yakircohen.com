@@ -144,7 +144,7 @@ type TimelineStepProps = {
 };
 
 const BADGE_STYLES: Record<StepDef["accent"], string> = {
-  gold: "bg-foreground text-brand-red ring-1 ring-brand-red/40 shadow-[0_0_16px_rgba(212,43,43,0.2)]",
+  gold: "bg-foreground text-brand-red ring-1 ring-brand-red/40 shadow-[0_0_16px_color-mix(in_srgb,var(--color-brand-red)_20%,transparent)]",
   neutral: "bg-surface border border-border text-foreground",
   delivery: "border-2 border-brand-red text-brand-red bg-background",
 };
@@ -179,7 +179,7 @@ function TimelineStep({ step, isLast }: TimelineStepProps) {
               height: "2rem",
               borderInlineStartWidth: "2px",
               borderInlineStartStyle: "dashed",
-              borderInlineStartColor: "rgba(212,43,43,0.3)",
+              borderInlineStartColor: "color-mix(in srgb, var(--color-brand-red) 30%, transparent)",
             }}
             aria-hidden="true"
           />
@@ -439,7 +439,7 @@ export default function ProductionCalculator({
                 <div className="flex shrink-0 flex-col items-center">
                   {/* Event marker */}
                   <div
-                    className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-brand-red text-lg font-bold text-white shadow-[0_0_20px_rgba(212,43,43,0.35)]"
+                    className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-brand-red text-lg font-bold text-white shadow-[0_0_20px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)]"
                     aria-hidden="true"
                   >
                     ✨
@@ -468,9 +468,9 @@ export default function ProductionCalculator({
                 className={cn(
                   "inline-flex items-center justify-center gap-2.5 rounded-xl",
                   "bg-brand-red px-7 py-3.5 text-sm font-semibold text-white",
-                  "shadow-[0_0_24px_rgba(212,43,43,0.35)]",
+                  "shadow-[0_0_24px_color-mix(in_srgb,var(--color-brand-red)_35%,transparent)]",
                   "transition-[background-color,box-shadow,transform] duration-normal ease-luxury",
-                  "hover:bg-brand-red-light hover:shadow-[0_0_36px_rgba(212,43,43,0.5)]",
+                  "hover:bg-brand-red-light hover:shadow-[0_0_36px_color-mix(in_srgb,var(--color-brand-red)_50%,transparent)]",
                   "active:scale-[0.97]",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
                 )}

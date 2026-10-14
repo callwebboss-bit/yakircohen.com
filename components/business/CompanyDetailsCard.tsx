@@ -245,7 +245,7 @@ function CompanyDetailsCompact({ className }: { className?: string }) {
                 text-brand-red ב-12px נותן 3.68:1 (נדרש 4.5:1), והקישורים נחשפו גם
                 ב-768px ומעלה אחרי F-01. צבע הטקסט של הפוטר עם קו תחתון, כמו שאר
                 קישורי הטקסט בפוטר. הריחוף נשאר: .footer-shell a:hover ב-globals.css
-                צובע ב---footer-link-hover (#ff6b6b), והמיקוד נשאר הטבעת הגלובלית. */}
+                צובע ב---footer-link-hover (#e3c56b), והמיקוד נשאר הטבעת הגלובלית. */}
             <Link
               href={link.href}
               className="inline-flex min-h-9 items-center font-semibold text-[var(--footer-fg)] underline decoration-1 underline-offset-4"

@@ -121,9 +121,9 @@ function HeaderQuoteCta() {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        /* bg-brand-red ולא גוון ה-hub. ב-hub האולפן הגוון הוא כתום #d97706, ולבן
-           עליו נמדד 3.19:1, מתחת ל-AA, בכל עמוד אולפן. צבע הפעולה נשאר אדום
-           בכל hub (הכרעת הבעלים 17: הגוון מפסיק לצבוע כפתורים). */
+        /* bg-brand-red ולא גוון ה-hub: גוון ה-hub לא צובע כפתורים (הכרעת הבעלים 17).
+           לבן על הציאן של אונליין נמדד 2.43:1, מתחת ל-AA. צבע הפעולה הוא צבע המותג
+           בכל hub, ומ-D135 (14.10.2026) הוא זהב #7A5C12, לבן עליו 6.24:1. */
         "inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-red font-semibold text-white shadow-sm",
         "transition-all duration-fast ease-luxury hover:shadow-md active:scale-95",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red",
