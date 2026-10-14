@@ -26,6 +26,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
+  GIT_LOG_ARGS,
   SHARED_FANOUT_LIMIT,
   closureOf,
   countFanout,
@@ -80,7 +81,7 @@ function readGitDates() {
     }
     return {
       available: true,
-      dates: parseGitLog(run(["log", "--format=__C__%cI", "--name-only", "--no-renames"])),
+      dates: parseGitLog(run(GIT_LOG_ARGS)),
     };
   } catch (err) {
     const why = err && err.code === "ENOENT" ? "git לא מותקן" : "זו לא תיקיית git או שהפקודה נכשלה";

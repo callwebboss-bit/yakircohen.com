@@ -142,6 +142,7 @@
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.12.1",
+    "cheerio": "1.2.0",
     "cross-env": "^10.1.0",
     "cypress": "^15.17.0",
     "esbuild": "^0.28.1",

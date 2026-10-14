@@ -121,6 +121,24 @@ export function routeSourceFiles(entry, closure, fanout, root, limit = SHARED_FA
 }
 
 /**
+ * קומיט שההודעה שלו מכילה את הסימן הזה משנה מראה בלבד (צבע, ריווח), לא תוכן,
+ * ולכן לא מקדם lastmod ו-dateModified. מעבר המיתוג (D135, 14.10.2026) נוגע בעשרות
+ * קבצי מקור של עמודים, ובלי הדילוג כל אחד מהם היה נראה לגוגל כעמוד שהתעדכן.
+ * fixed-strings, כי בביטוי רגולרי הסוגריים המרובעים הם קבוצת תווים.
+ */
+export const VISUAL_ONLY_MARKER = "[visual-only]";
+
+export const GIT_LOG_ARGS = [
+  "log",
+  "--format=__C__%cI",
+  "--name-only",
+  "--no-renames",
+  "--invert-grep",
+  "--fixed-strings",
+  `--grep=${VISUAL_ONLY_MARKER}`,
+];
+
+/**
  * git log --format=__C__%cI --name-only → מפה של קובץ לתאריך הקומיט האחרון שנגע בו.
  * git מחזיר מהחדש לישן, ולכן ההופעה הראשונה של קובץ היא האחרונה בזמן.
  */

@@ -20,10 +20,18 @@
  *   node scripts/audit-visual.mjs --base    לכידת בסיס
  *   node scripts/audit-visual.mjs           צילום והשוואה מול הבסיס
  *   --port=3210                             יציאת השרת
+ *
+ * משתנים למעבר המיתוג (D135, 14.10.2026). בלי אף אחד מהם ההתנהגות כמו קודם:
+ *   VISUAL_OUT=<dir>          תיקיית הצילומים. בסיס מ-worktree אחד ונוכחי משרת
+ *                             של worktree אחר חייבים לחלוק תיקייה אחת.
+ *   VISUAL_DELTA=0            סף הערוץ. 0 מוכיח "אפס שינוי פיקסל" גם בגוון של 5%,
+ *                             שזז בכ-3 לערוץ ועובר מתחת לסף 12.
+ *   VISUAL_A11Y=highContrast  מצב נגישות דרך המפתח של האתר עצמו (yc_a11y_prefs),
+ *                             כך שהאתר מחיל את המחלקה כמו לגולש. נשמר בתת-תיקייה.
  */
 
 import { existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { chromium } from "playwright";
@@ -32,7 +40,11 @@ import sharp from "sharp";
 import { TEMPLATE_PAGES, VIEWPORTS } from "./template-pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, ".visual-baseline");
+const A11Y_PREFS = (process.env.VISUAL_A11Y ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const OUT = join(
+  process.env.VISUAL_OUT ? resolve(process.env.VISUAL_OUT) : join(ROOT, ".visual-baseline"),
+  ...(A11Y_PREFS.length ? [`a11y-${A11Y_PREFS.join("-")}`] : []),
+);
 const BASE_DIR = join(OUT, "base");
 const CURRENT_DIR = join(OUT, "current");
 const DIFF_DIR = join(OUT, "diff");
@@ -66,7 +78,7 @@ const WIDTHS = (process.env.VISUAL_WIDTHS ?? "").split(",").map((s) => s.trim())
 const pickPages = (pages) => (ONLY.length ? pages.filter((p) => ONLY.some((o) => p.path.includes(o))) : pages);
 const pickViewports = (views) => (WIDTHS.length ? views.filter((v) => WIDTHS.includes(v.name)) : views);
 /** הפרש ערוץ שנחשב "פיקסל שונה". מתחתיו זה רעש קידוד. */
-const CHANNEL_DELTA = 12;
+const CHANNEL_DELTA = Number(process.env.VISUAL_DELTA ?? 12);
 
 const args = process.argv.slice(2);
 const isBase = args.includes("--base");
@@ -252,6 +264,18 @@ async function capture(targetDir) {
         window.setInterval = () => 0;
       });
 
+      /* מצב נגישות שמור, לפני שקוד העמוד רץ. lib/a11y-prefs-boot.ts קורא את
+         המפתח בתוך ה-head ומחיל את המחלקה לפני הציור, בדיוק כמו אצל גולש. */
+      if (A11Y_PREFS.length) {
+        await context.addInitScript((prefs) => {
+          try {
+            localStorage.setItem("yc_a11y_prefs", JSON.stringify(Object.fromEntries(prefs.map((p) => [p, true]))));
+          } catch {
+            /* about:blank לפני הניווט: אין localStorage, והסקריפט ירוץ שוב בעמוד עצמו */
+          }
+        }, A11Y_PREFS);
+      }
+
       for (const page of pickPages(TEMPLATE_PAGES)) {
         const tab = await context.newPage();
 
@@ -325,6 +349,18 @@ async function capture(targetDir) {
         const headings = await tab.locator("h1").count();
         if (headings === 0) {
           throw new Error(`${page.path} ברוחב ${viewport.name} רונדר בלי h1. הצילום לא נשמר.`);
+        }
+
+        /* מצב נגישות שלא הוחל היה מייצר צילום רגיל בתיקייה של המצב, ודיף נקי ושקרי */
+        if (A11Y_PREFS.length) {
+          const wanted = A11Y_PREFS.map((p) => "a11y-" + p.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase()));
+          const missing = await tab.evaluate(
+            (classes) => classes.filter((c) => !document.documentElement.classList.contains(c)),
+            wanted,
+          );
+          if (missing.length) {
+            throw new Error(`${page.path}: מצב הנגישות לא הוחל (${missing.join(", ")}). הצילום לא נשמר.`);
+          }
         }
 
         /* גלילה שנייה, ממש לפני הצילום.

@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, it } from "node:test";
 import {
+  GIT_LOG_ARGS,
+  VISUAL_ONLY_MARKER,
   closureOf,
   countFanout,
   createImportGraph,
@@ -34,6 +37,39 @@ describe("parseGitLog", () => {
     const map = parseGitLog(raw);
     assert.equal(map.get("lib/a.ts"), "2026-10-03T10:00:00+03:00");
     assert.equal(map.get("lib/c.ts"), "2026-09-01T10:00:00+03:00");
+  });
+});
+
+describe("visual-only commits (D135)", () => {
+  /* ריפו git זמני אמיתי: הדילוג נעשה בתוך git, ולכן רק הרצה אמיתית מוכיחה אותו.
+     משתני GIT_* מוסרים, כי בתוך hook של pre-push הם מצביעים על הריפו של האתר. */
+  it("a commit marked [visual-only] does not move the file date", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sitemap-visual-"));
+    const baseEnv: NodeJS.ProcessEnv = { ...process.env };
+    for (const key of Object.keys(baseEnv)) if (key.startsWith("GIT_")) delete baseEnv[key];
+    const git = (args: string[], date?: string) =>
+      execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", "-c", "commit.gpgsign=false", ...args], {
+        cwd: dir,
+        encoding: "utf8",
+        env: date ? { ...baseEnv, GIT_AUTHOR_DATE: date, GIT_COMMITTER_DATE: date } : baseEnv,
+      });
+    try {
+      git(["init", "-q"]);
+      fs.writeFileSync(path.join(dir, "page.tsx"), "a");
+      git(["add", "."]);
+      git(["commit", "-q", "-m", "תוכן"], "2026-10-01T10:00:00+03:00");
+      fs.writeFileSync(path.join(dir, "page.tsx"), "b");
+      git(["commit", "-q", "-am", `מיתוג ${VISUAL_ONLY_MARKER}`], "2026-10-14T10:00:00+03:00");
+      fs.writeFileSync(path.join(dir, "other.tsx"), "c");
+      git(["add", "."]);
+      git(["commit", "-q", "-m", "visual-only בלי סוגריים הוא קומיט רגיל"], "2026-10-15T10:00:00+03:00");
+
+      const map = parseGitLog(git(GIT_LOG_ARGS));
+      assert.equal(map.get("page.tsx"), "2026-10-01T10:00:00+03:00");
+      assert.equal(map.get("other.tsx"), "2026-10-15T10:00:00+03:00");
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
 
