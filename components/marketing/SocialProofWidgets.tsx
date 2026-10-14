@@ -3,8 +3,8 @@
 import Script from "next/script";
 import Link from "@/components/ui/IntentLink";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { scheduleIdle } from "@/lib/schedule-idle";
 import {
+  GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
   SOCIAL_LINKS,
   STUDIO_GOOGLE_MAPS_URL,
@@ -23,21 +23,16 @@ const INSTAGRAM_HREF = SOCIAL_LINKS.find((s) => s.label === "Instagram")?.href ?
    ─────────────────────────────────────────────────────────────────────────────
    Two independent export components:
 
-   <InstagramFeed />   - Elfsight Instagram widget (platform.js, lazyOnload)
+   <InstagramFeed />   - Elfsight Instagram widget (platform.js)
    <GoogleReviews />   - Elfsight-hosted Google Reviews in an <iframe>
 
-   Both share the same loading architecture:
-   1. The third-party content div/iframe is always in the DOM (opacity-0),
-      so the browser begins fetching/rendering immediately.
-   2. An absolutely-positioned pulse skeleton overlays the container while
-      content loads - reserving the same spatial footprint CLS ≈ 0.
-   3. When content is ready, the skeleton fades out (opacity-0) and the
-      widget fades in (opacity-100). Both are CSS `transition-opacity`, so
-      no layout recalculation occurs during the transition.
+   טעינה רק בלחיצה (החלטת הבעלים 14.10.2026): Elfsight שומר עוגיות צד שלישי
+   (_cfuvid, elfsight_viewed_recently מ-core.service.elfsight.com, נמדד ב-Lighthouse
+   בעמוד הבית). לכן שום דבר ממנו לא נטען עד שהגולש מבקש. לפני הלחיצה מוצגים
+   הדירוג, מספר הביקורות וקישור ל-Google Maps או לאינסטגרם, בלי שום בקשה חיצונית.
 
-   The outer container uses `min-h-*` rather than a fixed height so the
-   widget can grow beyond the reserved space without triggering a shift
-   (the skeleton has already absorbed the initial space budget).
+   אחרי הלחיצה: שלד מהבהב מעל המיכל עד שהתוכן מוכן, ואז מעבר שקיפות. השלד
+   שומר את המקום, כך שאין קפיצה כשהתוכן נכנס.
    ───────────────────────────────────────────────────────────────────────────── */
 
 /* ─── Shared prop type ───────────────────────────────────────────────────────*/
@@ -110,10 +105,52 @@ function ReviewsSkeleton() {
   );
 }
 
+/** מה שמוצג לפני הלחיצה: שורת מידע, כפתור טעינה וקישור למקור, בלי שום בקשה חיצונית. */
+function LoadOnClick({
+  lead,
+  buttonLabel,
+  onLoad,
+  sourceHref,
+  sourceLabel,
+}: {
+  lead: string;
+  buttonLabel: string;
+  onLoad: () => void;
+  sourceHref: string;
+  sourceLabel: string;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-surface p-8 text-center">
+      <p className="text-base font-semibold text-foreground">{lead}</p>
+      <p className="max-w-md text-sm text-muted-foreground">
+        התוכן מגיע משירות חיצוני ששומר עוגיות, ולכן הוא נטען רק אם מבקשים.
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={onLoad}
+          className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-brand-red px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+        >
+          {buttonLabel}
+        </button>
+        <a
+          href={sourceHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-12 items-center text-sm font-semibold text-brand-red underline-offset-2 hover:underline"
+        >
+          {sourceLabel}
+          <span className="sr-only"> (נפתח בלשונית חדשה)</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    InstagramFeed
    ─────────────────────────────────────────────────────────────────────────────
-   Loads the Elfsight platform via next/script (lazyOnload = browser-idle).
+   Loads the Elfsight platform via next/script after the visitor clicks.
    `onLoad` fires when platform.js has parsed and executed; a 400 ms buffer
    lets Elfsight initialise the widget DOM before the skeleton fades out.
    ───────────────────────────────────────────────────────────────────────────── */
@@ -125,12 +162,10 @@ export function InstagramFeed({
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
   const [shouldLoadScript, setShouldLoadScript] = useState(false);
-  const [pendingScript, setPendingScript] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
   const [preferStaticMobile, setPreferStaticMobile] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     return () => {
@@ -149,36 +184,6 @@ export function InstagramFeed({
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  // Only fetch the Elfsight platform script once this section is near the
-  // viewport - avoids loading ~450KB of third-party JS on pages where the
-  // widget sits below the fold and is never scrolled into view.
-  useEffect(() => {
-    if (preferStaticMobile) return;
-    const el = sectionRef.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setShouldLoadScript(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setPendingScript(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px 0px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [preferStaticMobile]);
-
-  useEffect(() => {
-    if (!pendingScript || preferStaticMobile) return;
-    return scheduleIdle(() => setShouldLoadScript(true), { timeout: 3500 });
-  }, [pendingScript, preferStaticMobile]);
-
   useEffect(() => {
     if (!shouldLoadScript) return;
     fallbackTimerRef.current = setTimeout(() => {
@@ -195,7 +200,6 @@ export function InstagramFeed({
 
   return (
     <section
-      ref={sectionRef}
       className={cn("", className)}
       aria-labelledby={heading ? "instagram-feed-heading" : undefined}
     >
@@ -231,6 +235,14 @@ export function InstagramFeed({
             לפרופיל האינסטגרם
           </a>
         </div>
+      ) : !shouldLoadScript ? (
+        <LoadOnClick
+          lead="התמונות והסרטונים האחרונים מהאולפן ומהאירועים"
+          buttonLabel="להצגת פיד האינסטגרם"
+          onLoad={() => setShouldLoadScript(true)}
+          sourceHref={INSTAGRAM_HREF}
+          sourceLabel="לפרופיל האינסטגרם"
+        />
       ) : (
       <div className="relative min-h-[380px] sm:min-h-[440px]">
         {/* ── Pulse skeleton - sits in front via z-10 ── */}
@@ -282,17 +294,12 @@ export function InstagramFeed({
       </div>
       )}
 
-      {/*
-       * strategy="lazyOnload" defers the script until browser idle - docs
-       * explicitly list "social media widgets" as the intended use case.
-       * onLoad/onReady require a Client Component boundary (already set above).
-       * Gated by the IntersectionObserver above so it's only fetched once
-       * this section is close to the viewport.
-       */}
+      {/* נטען רק אחרי הלחיצה. afterInteractive ולא lazyOnload: הגולש ביקש
+          עכשיו, ואין סיבה לחכות לזמן פנוי של הדפדפן. */}
       {shouldLoadScript && !preferStaticMobile && (
         <Script
           src="https://static.elfsight.com/platform/platform.js"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           onLoad={handleScriptLoad}
         />
       )}
@@ -303,9 +310,9 @@ export function InstagramFeed({
 /* ─────────────────────────────────────────────────────────────────────────────
    GoogleReviews
    ─────────────────────────────────────────────────────────────────────────────
-   Wraps the Elfsight-hosted Google Reviews page in a layout-safe iframe.
-   The native iframe `onLoad` event marks the widget as ready; the skeleton
-   overlays until then with the same opacity-swap technique as InstagramFeed.
+   Wraps the Elfsight-hosted Google Reviews page in a layout-safe iframe,
+   rendered only after the visitor clicks. The native iframe `onLoad` event
+   marks the widget as ready; the skeleton overlays until then.
    ───────────────────────────────────────────────────────────────────────────── */
 
 /*
@@ -389,6 +396,13 @@ export function GoogleReviews({
 }: SocialProofWidgetProps) {
   const [isReady, setIsReady] = useState(false);
   const [preferLocal, setPreferLocal] = useState(HAS_SITE_TESTIMONIALS);
+  const [requested, setRequested] = useState(false);
+  const regionRef = useRef<HTMLDivElement | null>(null);
+
+  /* אחרי הלחיצה הכפתור נעלם, ולכן הפוקוס עובר לאזור הביקורות ולא נופל ל-body. */
+  useEffect(() => {
+    if (requested) regionRef.current?.focus();
+  }, [requested]);
 
   return (
     <section
@@ -448,11 +462,20 @@ export function GoogleReviews({
 
       {HAS_SITE_TESTIMONIALS && preferLocal ? (
         <LocalReviewsStrip />
+      ) : !requested ? (
+        <LoadOnClick
+          lead={`${GOOGLE_RATING} ★ ב-Google, ${GOOGLE_REVIEW_COUNT}+ ביקורות`}
+          buttonLabel="להצגת ביקורות Google"
+          onLoad={() => setRequested(true)}
+          sourceHref={STUDIO_GOOGLE_MAPS_URL}
+          sourceLabel="לקריאה ב-Google Maps"
+        />
       ) : (
         // העוטף תמיד גולל (iframe בגובה 720 ועוד השלד שמעליו, מול max-h של
         // 720 לכל היותר), ולכן הוא מקבל פוקוס מקלדת ושם, כמו ScrollableTable.
         // בלי זה axe מסמן scrollable-region-focusable (נמדד 11.10.2026)
         <div
+          ref={regionRef}
           tabIndex={0}
           role="region"
           aria-label="ביקורות Google"
@@ -471,7 +494,6 @@ export function GoogleReviews({
           <iframe
             src="https://ff74d962794e489d84eaf017cae85dd5.elf.site/"
             title="ביקורות Google של יקיר כהן הפקות"
-            loading="lazy"
             className={cn(
               "min-h-[720px] w-full border-0",
               "transition-opacity duration-500 ease-luxury",

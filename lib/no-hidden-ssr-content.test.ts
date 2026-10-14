@@ -12,10 +12,8 @@ import { describe, it } from "node:test";
  * הטסט נופל על רכיב לקוח שמשלב IntersectionObserver עם opacity-0, אלא אם הוא ברשימה
  * למטה עם סיבה. הוא לא תופס כל דרך להסתיר תוכן, רק את הדפוס שכבר קרה.
  */
-const ALLOWED: Record<string, string> = {
-  "components/marketing/SocialProofWidgets.tsx":
-    "ה-opacity-0 על מיכל ווידג'ט צד שלישי (Elfsight) שריק ב-HTML מהשרת, ועל שלד הטעינה",
-};
+/* SocialProofWidgets יצא מהרשימה ב-14.10.2026: Elfsight נטען רק בלחיצה, בלי IntersectionObserver. */
+const ALLOWED: Record<string, string> = {};
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
