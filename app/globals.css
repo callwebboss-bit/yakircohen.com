@@ -901,6 +901,16 @@ details[open] > .summary-cue::after {
   scroll-margin-top: 0;
 }
 
+/* D135 (החלטת הבעלים 15.10.2026): שדה עם שגיאה מקבל מסגרת אדומה. עד עכשיו השגיאה
+   סומנה רק בטקסט שמתחת לשדה, והשדה עצמו נראה אדום רק כשהיה בפוקוס, כי טבעת הפוקוס
+   הייתה אדומה (נמדד בטופס של עמוד הבית: שדה השם #d42b2b, שדה הטלפון #858585).
+   מחוץ ל-@layer בכוונה: גובר על border-input ועל focus:border-brand-red של השדות,
+   כך שהשגיאה נשארת אדומה גם בפוקוס. #d42b2b מול לבן 5.02:1, מעל 3:1 של 1.4.11.
+   aria-invalid נכתב רק על ידי הוולידציה של הטפסים, ולכן שדה תקין לא מושפע. */
+:where(input, textarea, select)[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
 html.a11y-large-text {
   font-size: 112.5%;
 }

@@ -116,6 +116,11 @@ describe("שגיאה נשארת אדומה ונפרדת מהמותג (D135)", ()
   it("שדה לא תקין מקבל את צבע השגיאה ולא את צבע המותג", () => {
     assert.match(css, /:user-invalid\s*\{\s*border-color:\s*var\(--color-danger\)/);
   });
+
+  it("שדה עם aria-invalid מקבל מסגרת אדומה, מחוץ ל-@layer כדי לגבור על המיקוד (15.10.2026)", () => {
+    assert.match(css, /\n:where\(input, textarea, select\)\[aria-invalid="true"\]\s*\{\s*border-color:\s*var\(--color-danger\)/);
+    assert.ok(contrast(danger, WHITE) >= 3, "1.4.11: מסגרת של רכיב 3:1");
+  });
 });
 
 describe("הפוטר הכהה מקבל זהב בהיר (D135)", () => {
