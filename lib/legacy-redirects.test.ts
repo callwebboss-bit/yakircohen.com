@@ -331,6 +331,11 @@ describe("goneEquivalent (product URLs with a real page get 308, not 410)", () =
     assert.equal(goneEquivalent(`${encoded}/`), "/academy/dj-course");
   });
 
+  it("maps the lowercase-encoded DJ product link that reached the owner", () => {
+    const lower = "/product/%d7%aa%d7%a7%d7%9c%d7%99%d7%98%d7%9f-%d7%9c%d7%90%d7%99%d7%a8%d7%95%d7%a2%d7%99%d7%9d";
+    assert.equal(goneEquivalent(lower), "/events/dj-events");
+  });
+
   it("leaves every other product path to the 410", () => {
     assert.equal(goneEquivalent(encodeURI("/product/מוצר-שלא-קיים")), null);
     assert.equal(goneEquivalent("/product"), null);

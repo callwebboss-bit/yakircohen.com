@@ -152,6 +152,8 @@ const GONE_EQUIVALENT_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["/product/עמדת-דיגיי-לד-להשכרה", "/events/stage-led-dj"], // 6
   ["/product/חבילות-אטרקציות-לחתונה-חבילה-2", "/events/wedding-attractions-packages"], // 6
   ["/product/תקליטן-לאירוע-קטן", "/events/dj-events"], // 4
+  /* נוספה ידנית, בלי נתון קליקים: קישור חי אליה נחת על 410 (הבעלים, 14.10.2026). */
+  ["/product/תקליטן-לאירועים", "/events/dj-events"],
   ["/product/שיפור-איכות-הקלטה", "/online/vocal-fix"], // 4
   ["/product/הקלטת-שיר-באולפן-מסלול-חוויה", "/studio/recording-song-modiin"], // 3
   ["/product/2-רובי-עשן-לאירועים", "/events/attractions/smoke-cannons-for-events"], // 3
